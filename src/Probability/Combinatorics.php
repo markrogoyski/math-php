@@ -10,6 +10,7 @@ class Combinatorics {
    *
    * @param  int $n
    * @return int number of permutations of n
+   * @throws \Exception
    */
   public static function factorial( int $n ) {
     if ( $n < 0 ) {
@@ -29,6 +30,7 @@ class Combinatorics {
    *
    * @param  int $n
    * @return int number of permutations of n
+   * @throws \Exception
    */
   public static function permutations( int $n ) {
     if ( $n < 0 ) {
@@ -46,6 +48,7 @@ class Combinatorics {
    * @param  int $n
    * @param  int $r
    * @return int number of possible combinations of n objects taken r at a time
+   * @throws \Exception
    */
   public static function permutationsChooseR( int $n, int $r ) {
     if ( $n < 0 ) {
@@ -67,6 +70,7 @@ class Combinatorics {
    * @param  int $n
    * @param  int $r
    * @return int number of possible combinations of n objects taken r at a time
+   * @throws \Exception
    */
   public static function combinations( int $n, int $r ) {
     if ( $n < 0 ) {
@@ -88,6 +92,7 @@ class Combinatorics {
    * @param  int $n
    * @param  int $r
    * @return int number of possible combinations of n objects taken r at a time
+   * @throws \Exception
    */
   public static function combinationsWithRepetition( int $n, int $r ) {
     if ( $n < 0 ) {
