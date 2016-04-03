@@ -11,12 +11,22 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase {
     $this->assertEquals( $factorial, Combinatorics::factorial($n) );
   }
 
+  public function testFactorialBoundsException() {
+    $this->setExpectedException('\Exception');
+    Combinatorics::factorial(-1);
+  }
+
   /**
    * @dataProvider dataProviderForFactorialPermutations
    */
   public function testPermutations( $n, $permutations ) {
     $this->assertEquals( $permutations, Combinatorics::permutations($n) );
 
+  }
+
+  public function testPermutationsBoundsException() {
+    $this->setExpectedException('\Exception');
+    Combinatorics::permutations(-1);
   }
 
   /**
@@ -50,6 +60,16 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase {
 
   public function testPermutationsChooseR() {
     $this->assertEquals( 3360, Combinatorics::permutationsChooseR( 16, 3 ) );
+  }
+
+  public function testPermutationsChooseRBoundsException() {
+    $this->setExpectedException('\Exception');
+    Combinatorics::permutationsChooseR( -1, 3 );
+  }
+
+  public function testPermutationsChooseRRGreaterThanNException() {
+    $this->setExpectedException('\Exception');
+    Combinatorics::permutationsChooseR( 3, 4 );
   }
 
   /**
@@ -88,6 +108,16 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase {
    */
   public function testCombinationsWithRepetition( $n, $r, $combinations ) {
     $this->assertEquals( $combinations, Combinatorics::combinationsWithRepetition( $n, $r ) );
+  }
+
+  public function testCombinationsWithRepetitionBoundsException() {
+    $this->setExpectedException('\Exception');
+    Combinatorics::combinationsWithRepetition( -1, 3 );
+  }
+
+  public function testCombinationsWithRepetitionRGreaterThanNException() {
+    $this->setExpectedException('\Exception');
+    Combinatorics::combinationsWithRepetition( 3, 4 );
   }
 
   /**
