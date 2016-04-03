@@ -4,5 +4,8 @@
     <testsuite name="Probabilty">
       <directory suffix="Test.php">Probabilty</directory>
     </testsuite>
+    <testsuite name="Statistics">
+      <directory suffix="Test.php">Statistics</directory>
+    </testsuite>
   </testsuites>
 </phpunit>
