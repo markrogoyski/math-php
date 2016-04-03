@@ -33,12 +33,14 @@ class Average {
     // For odd number of numbers, take the middle indexed number
     if ( count($numbers) % 2 == 1 ) {
       $middle_index = intdiv( count($numbers), 2 );
+      sort($numbers);
       return $numbers[$middle_index];
     }
 
     // For even number of items, take the mean of the middle two indexed numbers
     $left_middle_index  = intdiv( count($numbers), 2 ) - 1;
     $right_middle_index = $left_middle_index + 1;
+    sort($numbers);
     return self::mean( [ $numbers[$left_middle_index], $numbers[$right_middle_index] ] );
   }
 
