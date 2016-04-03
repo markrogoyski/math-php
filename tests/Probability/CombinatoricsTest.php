@@ -58,8 +58,35 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase {
     ];
   }
 
+  /**
+   * @dataProvider dataProviderForPermutationsChooseR
+   */
   public function testPermutationsChooseR() {
     $this->assertEquals( 3360, Combinatorics::permutationsChooseR( 16, 3 ) );
+  }
+
+  /**
+   * Data provider for permutations choose r tests
+   * Data: [ n, r, permutations ]
+   */
+  public function dataProviderForPermutationsChooseR() {
+    return [
+      [ 10,  0,       1 ],
+      [ 10,  1,      10 ],
+      [ 10,  2,      90 ],
+      [ 10,  3,     720 ],
+      [ 10,  4,    5040 ],
+      [ 10,  5,   30240 ],
+      [ 10,  6,  151200 ],
+      [ 10,  7,  604800 ],
+      [ 10,  8, 1814400 ],
+      [ 10,  9, 3628800 ],
+      [ 10, 10, 3628800 ],
+      [  5,  3,      60 ],
+      [  6,  4,     360 ],
+      [ 16,  3,    3360 ],
+      [ 20,  3,    6840 ],
+    ];
   }
 
   public function testPermutationsChooseRBoundsException() {
