@@ -117,7 +117,6 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase {
    */
   public function testMultinomialTheorem( $n, array $groups, $divisions ) {
     $this->assertEquals( $divisions, Combinatorics::multinomialTheorem( $n, $groups ) );
-    $this->assertEquals( $divisions, Combinatorics::multinomialTheorem( $n, $groups ) );
   }
 
   /**
