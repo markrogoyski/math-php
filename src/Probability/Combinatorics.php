@@ -11,7 +11,7 @@ class Combinatorics {
    * @param  int $n
    * @return int number of permutations of n
    */
-  public static function factorial($n) {
+  public static function factorial( int $n ) {
     $factorial = 1;
     while ( $n > 0 ) {
       $factorial *= $n;
@@ -27,21 +27,21 @@ class Combinatorics {
    * @param  int $n
    * @return int number of permutations of n
    */
-  public static function permutations($n) {
+  public static function permutations( int $n ) {
     return self::factorial($n);
   }
 
   /**
    * Find number of permutations--ordered arrangements--of n things taking only r of them.
    *                    n!
-   * P(n,r) = nPr =  -------
-   *                 (n - r)
+   * P(n,r) = nPr =  --------
+   *                 (n - r)!
    *
    * @param  int $n
    * @param  int $r
    * @return int number of possible combinations of n objects taken r at a time
    */
-  public static function permutationsChooseR( $n, $r ) {
+  public static function permutationsChooseR( int $n, int $r ) {
     return self::factorial($n) / self::factorial( $n - $r );
   }
 
@@ -56,7 +56,7 @@ class Combinatorics {
    * @param  int $r
    * @return int number of possible combinations of n objects taken r at a time
    */
-  public static function combinations( $n, $r ) {
+  public static function combinations( int $n, int $r ) {
     return self::factorial($n) / ( self::factorial( $n - $r ) * self::factorial($r) );
   }
 
@@ -71,8 +71,8 @@ class Combinatorics {
    * @param  int $r
    * @return int number of possible combinations of n objects taken r at a time
    */
-  public static function combinationsWithRepetition( $n, $r ) {
-    return self::factorial( $n + $r - 1) / ( self::factorial( $n - 1 ) * self::factorial($r) );
+  public static function combinationsWithRepetition( int $n, int $r ) {
+    return self::factorial( $n + $r - 1 ) / ( self::factorial( $n - 1 ) * self::factorial($r) );
   }
 
   /**
@@ -86,7 +86,7 @@ class Combinatorics {
    * @param  array $groups Sizes of each subgroup
    * @return int Number of divisions of n items into r distinct nonoverlapping subgroups
    */
-  public static function multinomialTheorem( $n, array $groups ) {
+  public static function multinomialTheorem( int $n, array $groups ) {
     return self::factorial($n) / array_product( array_map( 'self::factorial', $groups ) );
   }
 }
