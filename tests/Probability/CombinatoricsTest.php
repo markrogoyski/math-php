@@ -65,6 +65,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase {
    */
   public function dataProviderForCombinations() {
     return [
+      [ 10,  0,    1 ],
       [ 10,  1,   10 ],
       [ 10,  2,   45 ],
       [ 10,  3,  120 ],
@@ -95,6 +96,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase {
    */
   public function dataProviderForCombinationsWithRepetition() {
     return [
+      [ 10,  0,     1 ],
       [ 10,  1,    10 ],
       [ 10,  2,    55 ],
       [ 10,  3,   220 ],

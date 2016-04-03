@@ -12,6 +12,9 @@ class Combinatorics {
    * @return int number of permutations of n
    */
   public static function factorial( int $n ) {
+    if ( $n < 0 ) {
+      throw new \Exception('Cannot compute factorial of a negative number.');
+    }
     $factorial = 1;
     while ( $n > 0 ) {
       $factorial *= $n;
@@ -28,6 +31,9 @@ class Combinatorics {
    * @return int number of permutations of n
    */
   public static function permutations( int $n ) {
+    if ( $n < 0 ) {
+      throw new \Exception('Cannot compute negative permutations.');
+    }
     return self::factorial($n);
   }
 
@@ -42,6 +48,12 @@ class Combinatorics {
    * @return int number of possible combinations of n objects taken r at a time
    */
   public static function permutationsChooseR( int $n, int $r ) {
+    if ( $n < 0 ) {
+      throw new \Exception('Cannot compute negative permutations.');
+    }
+    if ( $r > $n ) {
+      throw new \Exception('r cannot be larger than n.');
+    }
     return self::factorial($n) / self::factorial( $n - $r );
   }
 
@@ -57,6 +69,12 @@ class Combinatorics {
    * @return int number of possible combinations of n objects taken r at a time
    */
   public static function combinations( int $n, int $r ) {
+    if ( $n < 0 ) {
+      throw new \Exception('Cannot compute negative combinations.');
+    }
+    if ( $r > $n ) {
+      throw new \Exception('r cannot be larger than n.');
+    }
     return self::factorial($n) / ( self::factorial( $n - $r ) * self::factorial($r) );
   }
 
@@ -72,6 +90,12 @@ class Combinatorics {
    * @return int number of possible combinations of n objects taken r at a time
    */
   public static function combinationsWithRepetition( int $n, int $r ) {
+    if ( $n < 0 ) {
+      throw new \Exception('Cannot compute negative combinations.');
+    }
+    if ( $r > $n ) {
+      throw new \Exception('r cannot be larger than n.');
+    }
     return self::factorial( $n + $r - 1 ) / ( self::factorial( $n - 1 ) * self::factorial($r) );
   }
 
