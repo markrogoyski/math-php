@@ -63,9 +63,9 @@ class Combinatorics {
   /**
    * Find number of combinations with repetition--groups of r objects that could be formed form a total of n objects.
    * n choose r: number of possible combinations of n objects taken r at a time with repetition.
-   * (n)   (n + r - 1)!
-   * ( ) = ------------
-   * (r)    (n - 1)!r!
+   *        (n)   (n + r - 1)!
+   * nC'r = ( ) = ------------
+   *        (r)    (n - 1)!r!
    *
    * @param  int $n
    * @param  int $r
