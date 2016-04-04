@@ -17,9 +17,9 @@ class AverageTest extends \PHPUnit_Framework_TestCase {
    */
   public function dataProviderForMean() {
     return [
-      [ [ 1, 1, 1 ],    1 ],
-      [ [ 1, 2, 3 ],    2 ],
-      [ [ 2, 3, 4 ],    3 ],
+      [ [ 1, 1, 1 ], 1 ],
+      [ [ 1, 2, 3 ], 2 ],
+      [ [ 2, 3, 4 ], 3 ],
       [ [ 5, 5, 6 ], 5.33 ],
       [ [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], 15 ],
       [ [ 1, 2, 4, 7 ], 3.5 ],
