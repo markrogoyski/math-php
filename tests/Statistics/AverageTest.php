@@ -105,4 +105,32 @@ class AverageTest extends \PHPUnit_Framework_TestCase {
   public function testModeNullWhenEmptyArray() {
     $this->assertNull( Average::mode( array() ) );
   }
+
+  /**
+   * @dataProvider dataProviderForRange
+   */
+  public function testRange( array $numbers, $range ) {
+    $this->assertEquals( $range, Average::range($numbers), '', 0.01 );
+  }
+
+  /**
+   * Data provider for range test
+   * Data: [ [ numbers ], range ]
+   */
+  public function dataProviderForRange() {
+    return [
+      [ [ 1, 1, 1 ], 0 ],
+      [ [ 1, 1, 2 ], 1 ],
+      [ [ 1, 2, 1 ], 1 ],
+      [ [ 8, 4, 3 ], 5 ],
+      [ [ 9, 7, 8 ], 2 ],
+      [ [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], 8 ],
+      [ [ 1, 2, 4, 7 ], 6 ],
+      [ [ 8, 9, 10, 10, 10, 11, 11, 11, 12, 13 ], 5 ],
+    ];
+  }
+
+  public function testRangeNullWhenEmptyArray() {
+    $this->assertNull( Average::range( array() ) );
+  }
 }

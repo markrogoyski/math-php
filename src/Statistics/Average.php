@@ -70,4 +70,17 @@ class Average {
     // Find the mean of all numbers that occur max times = mode
     return self::mean($modes);
   }
+
+  /**
+   * Calculate the range--the difference between the largest and smallest values
+   *
+   * @param array $numbers
+   * @return number
+   */
+  public static function range( array $numbers ) {
+    if ( empty($numbers) ) {
+      return null;
+    }
+    return max($numbers) - min($numbers);
+  }
 }
