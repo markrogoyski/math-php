@@ -47,9 +47,9 @@ class AverageTest extends \PHPUnit_Framework_TestCase {
    */
   public function dataProviderForMedian() {
     return [
-      [ [ 1, 1, 1 ],    1 ],
-      [ [ 1, 2, 3 ],    2 ],
-      [ [ 2, 3, 4 ],    3 ],
+      [ [ 1, 1, 1 ], 1 ],
+      [ [ 1, 2, 3 ], 2 ],
+      [ [ 2, 3, 4 ], 3 ],
       [ [ 5, 5, 6 ], 5 ],
       [ [ 1, 2, 3, 4, 5 ], 3 ],
       [ [ 1, 2, 3, 4, 5, 6 ], 3.5 ],
