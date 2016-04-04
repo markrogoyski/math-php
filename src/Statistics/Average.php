@@ -83,4 +83,20 @@ class Average {
     }
     return max($numbers) - min($numbers);
   }
+
+  /**
+   * Get a report of all the averages over a list of numbers
+   * Includes mean, median, mode and range
+   *
+   * @param array $numbers
+   * @return array [ mean, median, mode, range ]
+   */
+  public static function getAverages( array $numbers ) {
+    return [
+      'mean'   => self::mean($numbers),
+      'median' => self::median($numbers),
+      'mode'   => self::mode($numbers),
+      'range'  => self::range($numbers),
+    ];
+  }
 }

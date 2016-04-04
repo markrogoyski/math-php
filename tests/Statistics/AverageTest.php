@@ -145,4 +145,17 @@ class AverageTest extends \PHPUnit_Framework_TestCase {
   public function testRangeNullWhenEmptyArray() {
     $this->assertNull( Average::range( array() ) );
   }
+
+  public function testGetAverages() {
+    $averages = Average::getAverages([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ]);
+    $this->assertTrue( is_array($averages) );
+    $this->assertArrayHasKey( 'mean',   $averages );
+    $this->assertArrayHasKey( 'median', $averages );
+    $this->assertArrayHasKey( 'mode',   $averages );
+    $this->assertArrayHasKey( 'range',  $averages );
+    $this->assertTrue( is_numeric( $averages['mean'] ) );
+    $this->assertTrue( is_numeric( $averages['median'] ) );
+    $this->assertTrue( is_numeric( $averages['mode'] ) );
+    $this->assertTrue( is_numeric( $averages['range'] ) );
+  }
 }
