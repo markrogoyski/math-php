@@ -69,8 +69,11 @@ class AverageTest extends \PHPUnit_Framework_TestCase {
   /**
    * @dataProvider dataProviderForMode
    */
-  public function testMode( array $numbers, $mode ) {
-    $this->assertEquals( $mode, Average::mode($numbers), '', 0.01 );
+  public function testMode( array $numbers, $modes ) {
+    $computed_modes = Average::mode($numbers);
+    sort($modes);
+    sort($computed_modes);
+    $this->assertEquals( $modes, $computed_modes );
   }
 
   /**
@@ -79,40 +82,40 @@ class AverageTest extends \PHPUnit_Framework_TestCase {
    */
   public function dataProviderForMode() {
     return [
-      [ [ 1, 1, 1 ], 1 ],
-      [ [ 1, 1, 2 ], 1 ],
-      [ [ 1, 2, 1 ], 1 ],
-      [ [ 2, 1, 1 ], 1 ],
-      [ [ 1, 2, 2 ], 2 ],
-      [ [ 1, 1, 1, 1 ], 1 ],
-      [ [ 1, 1, 1, 2 ], 1 ],
-      [ [ 1, 1, 2, 1 ], 1 ],
-      [ [ 1, 2, 1, 1 ], 1 ],
-      [ [ 2, 1, 1, 1 ], 1 ],
-      [ [ 1, 1, 2, 2 ], 1.5 ],
-      [ [ 1, 2, 2, 1 ], 1.5 ],
-      [ [ 2, 2, 1, 1 ], 1.5 ],
-      [ [ 2, 1, 2, 1 ], 1.5 ],
-      [ [ 2, 1, 1, 2 ], 1.5 ],
-      [ [ 1, 1, 2, 2, 3, 3 ], 2 ],
-      [ [ 1, 2, 1, 2, 3, 3 ], 2 ],
-      [ [ 1, 2, 3, 1, 2, 3 ], 2 ],
-      [ [ 3, 1, 2, 3, 2, 1 ], 2 ],
-      [ [ 3, 3, 2, 2, 1, 1 ], 2 ],
-      [ [ 1, 1, 1, 2, 2, 3 ], 1 ],
-      [ [ 1, 2, 2, 2, 2, 3 ], 2 ],
-      [ [ 1, 2, 2, 3, 3, 4 ], 2.5 ],
-      [ [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], 13 ],
-      [ [ 1, 2, 4, 7 ], 3.5 ],
-      [ [ 8, 9, 10, 10, 10, 11, 11, 11, 12, 13 ], 10.5 ],
-      [ [ 6, 7, 8, 10, 12, 14, 14, 15, 16, 20 ], 14 ],
-      [ [ 9, 10, 11, 13, 15, 17, 17, 18, 19, 23 ], 17 ],
-      [ [ 12, 14, 16, 20, 24, 28, 28, 30, 32, 40 ], 28 ],
+      [ [ 1, 1, 1 ], [1] ],
+      [ [ 1, 1, 2 ], [1] ],
+      [ [ 1, 2, 1 ], [1] ],
+      [ [ 2, 1, 1 ], [1] ],
+      [ [ 1, 2, 2 ], [2] ],
+      [ [ 1, 1, 1, 1 ], [1] ],
+      [ [ 1, 1, 1, 2 ], [1] ],
+      [ [ 1, 1, 2, 1 ], [1] ],
+      [ [ 1, 2, 1, 1 ], [1] ],
+      [ [ 2, 1, 1, 1 ], [1] ],
+      [ [ 1, 1, 2, 2 ], [ 1, 2 ] ],
+      [ [ 1, 2, 2, 1 ], [ 1, 2 ] ],
+      [ [ 2, 2, 1, 1 ], [ 1, 2 ] ],
+      [ [ 2, 1, 2, 1 ], [ 1, 2 ] ],
+      [ [ 2, 1, 1, 2 ], [ 1, 2 ] ],
+      [ [ 1, 1, 2, 2, 3, 3 ], [ 1, 2, 3 ] ],
+      [ [ 1, 2, 1, 2, 3, 3 ], [ 1, 2, 3 ] ],
+      [ [ 1, 2, 3, 1, 2, 3 ], [ 1, 2, 3 ] ],
+      [ [ 3, 1, 2, 3, 2, 1 ], [ 1, 2, 3 ] ],
+      [ [ 3, 3, 2, 2, 1, 1 ], [ 1, 2, 3 ] ],
+      [ [ 1, 1, 1, 2, 2, 3 ], [1] ],
+      [ [ 1, 2, 2, 2, 2, 3 ], [2] ],
+      [ [ 1, 2, 2, 3, 3, 4 ], [ 2, 3 ] ],
+      [ [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], [13] ],
+      [ [ 1, 2, 4, 7 ], [ 1, 2, 4, 7 ] ],
+      [ [ 8, 9, 10, 10, 10, 11, 11, 11, 12, 13 ], [ 10, 11 ] ],
+      [ [ 6, 7, 8, 10, 12, 14, 14, 15, 16, 20 ], [14] ],
+      [ [ 9, 10, 11, 13, 15, 17, 17, 18, 19, 23 ], [17] ],
+      [ [ 12, 14, 16, 20, 24, 28, 28, 30, 32, 40 ], [28] ],
     ];
   }
 
-  public function testModeNullWhenEmptyArray() {
-    $this->assertNull( Average::mode( array() ) );
+  public function testModeEmtyArrayWhenEmptyArray() {
+    $this->assertEmpty( Average::mode( array() ) );
   }
 
   /**
@@ -155,7 +158,7 @@ class AverageTest extends \PHPUnit_Framework_TestCase {
     $this->assertArrayHasKey( 'range',  $averages );
     $this->assertTrue( is_numeric( $averages['mean'] ) );
     $this->assertTrue( is_numeric( $averages['median'] ) );
-    $this->assertTrue( is_numeric( $averages['mode'] ) );
+    $this->assertTrue( is_array( $averages['mode'] ) );
     $this->assertTrue( is_numeric( $averages['range'] ) );
   }
 }
