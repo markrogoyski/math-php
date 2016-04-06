@@ -5,6 +5,32 @@ require_once('Average.php');
 class Descriptive {
 
   /**
+   * Calculate the range--the difference between the largest and smallest values
+   *
+   * @param array $numbers
+   * @return number
+   */
+  public static function range( array $numbers ) {
+    if ( empty($numbers) ) {
+      return null;
+    }
+    return max($numbers) - min($numbers);
+  }
+
+  /**
+   * Calculate the range--the mean of the largest and smallest values
+   *
+   * @param array $numbers
+   * @return number
+   */
+  public static function midrange( array $numbers ) {
+    if ( empty($numbers) ) {
+      return null;
+    }
+    return Average::mean([ min($numbers), max($numbers) ]);
+  }
+
+  /**
    * Variance measures how far a set of numbers are spread out.
    * A variance of zero indicates that all the values are identical.
    * Variance is always non-negative: a small variance indicates that the data points tend to be very close to the mean (expected value) and hence to each other.

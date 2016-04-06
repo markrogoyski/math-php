@@ -5,6 +5,68 @@ require_once( __DIR__ . '/../../src/Statistics/Descriptive.php' );
 class DescriptiveTest extends \PHPUnit_Framework_TestCase {
 
   /**
+   * @dataProvider dataProviderForRange
+   */
+  public function testRange( array $numbers, $range ) {
+    $this->assertEquals( $range, Descriptive::range($numbers), '', 0.01 );
+  }
+
+  /**
+   * Data provider for range test
+   * Data: [ [ numbers ], range ]
+   */
+  public function dataProviderForRange() {
+    return [
+      [ [ 1, 1, 1 ], 0 ],
+      [ [ 1, 1, 2 ], 1 ],
+      [ [ 1, 2, 1 ], 1 ],
+      [ [ 8, 4, 3 ], 5 ],
+      [ [ 9, 7, 8 ], 2 ],
+      [ [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], 8 ],
+      [ [ 1, 2, 4, 7 ], 6 ],
+      [ [ 8, 9, 10, 10, 10, 11, 11, 11, 12, 13 ], 5 ],
+      [ [ 6, 7, 8, 10, 12, 14, 14, 15, 16, 20 ], 14 ],
+      [ [ 9, 10, 11, 13, 15, 17, 17, 18, 19, 23 ], 14 ],
+      [ [ 12, 14, 16, 20, 24, 28, 28, 30, 32, 40 ], 28 ],
+    ];
+  }
+
+  public function testRangeNullWhenEmptyArray() {
+    $this->assertNull( Descriptive::range( array() ) );
+  }
+
+  /**
+   * @dataProvider dataProviderForMidrange
+   */
+  public function testMidrange( array $numbers, $midrange ) {
+    $this->assertEquals( $midrange, Descriptive::midrange($numbers), '', 0.01 );
+  }
+
+  /**
+   * Data provider for midrange test
+   * Data: [ [ numbers ], range ]
+   */
+  public function dataProviderForMidrange() {
+    return [
+      [ [ 1, 1, 1 ], 1 ],
+      [ [ 1, 1, 2 ], 1.5 ],
+      [ [ 1, 2, 1 ], 1.5 ],
+      [ [ 8, 4, 3 ], 5.5 ],
+      [ [ 9, 7, 8 ], 8 ],
+      [ [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], 17 ],
+      [ [ 1, 2, 4, 7 ], 4 ],
+      [ [ 8, 9, 10, 10, 10, 11, 11, 11, 12, 13 ], 10.5 ],
+      [ [ 6, 7, 8, 10, 12, 14, 14, 15, 16, 20 ], 13 ],
+      [ [ 9, 10, 11, 13, 15, 17, 17, 18, 19, 23 ], 16 ],
+      [ [ 12, 14, 16, 20, 24, 28, 28, 30, 32, 40 ], 26 ],
+    ];
+  }
+
+  public function testMidrangeNullWhenEmptyArray() {
+    $this->assertNull( Descriptive::midrange( array() ) );
+  }
+
+  /**
    * @dataProvider dataProviderForVariance
    */
   public function testVariance( array $numbers, $variance ) {
