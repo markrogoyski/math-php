@@ -80,9 +80,9 @@ class Average {
    */
   public static function getAverages( array $numbers ) {
     return [
-      'mean'     => self::mean($numbers),
-      'median'   => self::median($numbers),
-      'mode'     => self::mode($numbers),
+      'mean'   => self::mean($numbers),
+      'median' => self::median($numbers),
+      'mode'   => self::mode($numbers),
     ];
   }
 }
