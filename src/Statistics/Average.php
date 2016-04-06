@@ -84,6 +84,12 @@ class Average {
     return max($numbers) - min($numbers);
   }
 
+  /**
+   * Calculate the range--the mean of the largest and smallest values
+   *
+   * @param array $numbers
+   * @return number
+   */
   public static function midrange( array $numbers ) {
     if ( empty($numbers) ) {
       return null;
