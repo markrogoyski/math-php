@@ -51,10 +51,11 @@ class Descriptive {
       return null;
     }
 
-    $mean = Average::mean($numbers);
-    $numerator = array_sum( array_map( function($n) use ($mean) {
-      return pow( ($n - $mean), 2 );
-    }, $numbers ) );
+    $mean      = Average::mean($numbers);
+    $numerator = array_sum( array_map(
+      function($x) use ($mean) { return pow( ($x - $mean), 2 ); },
+      $numbers
+    ) );
     $denominator = count($numbers);
     
     return $numerator / $denominator;
