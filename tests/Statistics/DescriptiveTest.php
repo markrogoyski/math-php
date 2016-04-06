@@ -117,4 +117,23 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
   public function testStandardDeviationNullWhenEmptyArray() {
     $this->assertNull( Descriptive::standardDeviation( array() ) );
   }
+
+  public function testGetstats() {
+    $stats = Descriptive::getStats([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ]);
+    $this->assertTrue( is_array($stats) );
+    $this->assertArrayHasKey( 'mean',               $stats );
+    $this->assertArrayHasKey( 'median',             $stats );
+    $this->assertArrayHasKey( 'mode',               $stats );
+    $this->assertArrayHasKey( 'range',              $stats );
+    $this->assertArrayHasKey( 'midrange',           $stats );
+    $this->assertArrayHasKey( 'variance',           $stats );
+    $this->assertArrayHasKey( 'standard_deviation', $stats );
+    $this->assertTrue( is_numeric( $stats['mean'] ) );
+    $this->assertTrue( is_numeric( $stats['median'] ) );
+    $this->assertTrue( is_array( $stats['mode'] ) );
+    $this->assertTrue( is_numeric( $stats['range'] ) );
+    $this->assertTrue( is_numeric( $stats['midrange'] ) );
+    $this->assertTrue( is_numeric( $stats['variance'] ) );
+    $this->assertTrue( is_numeric( $stats['standard_deviation'] ) );
+  }
 }
