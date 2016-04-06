@@ -76,4 +76,23 @@ class Descriptive {
     }
     return sqrt( self::variance($numbers) );
   }
+
+  /**
+   * Get a report of all the descriptive statistics over a list of numbers
+   * Includes mean, median, mode, range, midrange, variance, and standard deviation
+   *
+   * @param array $numbers
+   * @return array [ mean, median, mode, range, midrange, variance, standard deviation ]
+   */
+  public static function getStats( array $numbers ) {
+    return [
+      'mean'               => Average::mean($numbers),
+      'median'             => Average::median($numbers),
+      'mode'               => Average::mode($numbers),
+      'range'              => self::range($numbers),
+      'midrange'           => self::midrange($numbers),
+      'variance'           => self::variance($numbers),
+      'standard_deviation' => self::standardDeviation($numbers),
+    ];
+  }
 }
