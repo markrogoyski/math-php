@@ -71,7 +71,7 @@ class Descriptive {
    *
    * σ² = Σ(X - μ)^2
    *      ----------
-   *           N
+   *         N - 1
    *
    * μ is the mean
    * N is the number of numbers in the set
