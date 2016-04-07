@@ -32,6 +32,8 @@ class Descriptive {
 
   /**
    * Population variance - Use when all possible observations of the system are present.
+   * If used with a subset of data (sample variance), it will be a biased variance.
+   *
    * Variance measures how far a set of numbers are spread out.
    * A variance of zero indicates that all the values are identical.
    * Variance is always non-negative: a small variance indicates that the data points tend to be very close to the mean (expected value) and hence to each other.
