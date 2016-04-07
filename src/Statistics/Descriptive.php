@@ -37,7 +37,7 @@ class Descriptive {
    * Variance is always non-negative: a small variance indicates that the data points tend to be very close to the mean (expected value) and hence to each other.
    * A high variance indicates that the data points are very spread out around the mean and from each other.
    *
-   * σ² = Σ(X - μ)^2
+   * σ² = Σ(xᵢ - μ)²
    *      ----------
    *           N
    *
@@ -63,17 +63,17 @@ class Descriptive {
   }
 
   /**
-   * Sample variance - Use when only a subset of all possible observations of the system are present.
+   * Unbiased sample variance - Use when only a subset of all possible observations of the system are present.
    * Variance measures how far a set of numbers are spread out.
    * A variance of zero indicates that all the values are identical.
    * Variance is always non-negative: a small variance indicates that the data points tend to be very close to the mean (expected value) and hence to each other.
    * A high variance indicates that the data points are very spread out around the mean and from each other.
    *
-   * σ² = Σ(X - μ)^2
+   * S² = Σ(xᵢ - x̄)²
    *      ----------
-   *         n - 1
+   *        n - 1
    *
-   * μ is the mean
+   * x̄ is the mean
    * n is the number of numbers in the sample set
    *
    * @param array $numbers
