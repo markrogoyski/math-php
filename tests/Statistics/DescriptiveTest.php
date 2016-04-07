@@ -67,36 +67,82 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @dataProvider dataProviderForVariance
+   * @dataProvider dataProviderForPopulationVariance
    */
-  public function testVariance( array $numbers, $variance ) {
-    $this->assertEquals( $variance, Descriptive::variance($numbers), '', 0.01 );
+  public function testPopulationVariance( array $numbers, $variance ) {
+    $this->assertEquals( $variance, Descriptive::populationVariance($numbers), '', 0.01 );
   }
 
   /**
-   * Data provider for variance test
-   * Data: [ [ numbers ], mean ]
+   * Data provider for population variance test
+   * Data: [ [ numbers ], variance ]
    */
-  public function dataProviderForVariance() {
+  public function dataProviderForPopulationVariance() {
     return [
       [ [ -10, 0, 10, 20, 30 ], 200 ],
       [ [ 8, 9, 10, 11, 12 ], 2 ],
-      [ [ 600, 470, 170, 430, 300], 21704 ],
+      [ [ 600, 470, 170, 430, 300 ], 21704 ],
       [ [ -5, 1, 8, 7, 2], 21.84 ],
-      [ [ 3, 7, 34, 25, 46, 7754, 3, 6], 6546331.937 ],
+      [ [ 3, 7, 34, 25, 46, 7754, 3, 6 ], 6546331.937 ],
       [ [ 4, 6, 2, 2, 2, 2, 3, 4, 1, 3 ], 1.89 ],
       [ [ -3432, 5, 23, 9948, -74 ], 20475035.6 ],
     ];
   }
 
-  public function testVarianceNullWhenEmptyArray() {
-    $this->assertNull( Descriptive::variance( array() ) );
+  public function testPopulationVarianceNullWhenEmptyArray() {
+    $this->assertNull( Descriptive::populationVariance( array() ) );
   }
 
   /**
-   * @dataProvider dataProviderForStandardDeviation
+   * @dataProvider dataProviderForSampleVariance
    */
-  public function testStandardDeviation( array $numbers, $standard_deviation ) {
+  public function testSampleVariance( array $numbers, $variance ) {
+    $this->assertEquals( $variance, Descriptive::sampleVariance($numbers), '', 0.01 );
+  }
+
+  /**
+   * Data provider for sample variance test
+   * Data: [ [ numbers ], variance ]
+   */
+  public function dataProviderForSampleVariance() {
+    return [
+      [ [ -10, 0, 10, 20, 30 ], 250 ],
+      [ [ 8, 9, 10, 11, 12 ], 2.5 ],
+      [ [ 600, 470, 170, 430, 300 ], 27130 ],
+      [ [ -5, 1, 8, 7, 2 ], 27.3 ],
+      [ [ 3, 7, 34, 25, 46, 7754, 3, 6 ], 7481522.21429 ],
+      [ [ 4, 6, 2, 2, 2, 2, 3, 4, 1, 3 ], 2.1 ],
+      [ [ -3432, 5, 23, 9948, -74 ], 25593794.5 ],
+      [ [ 3, 21, 98, 203, 17, 9 ],  6219.9 ],
+      [ [ 170, 300, 430, 470, 600 ], 27130 ],
+      [ [ 1550, 1700, 900, 850, 1000, 950 ], 135416.66668 ],
+      [ [ 1245, 1255, 1654, 1547, 1787, 1989, 1878, 2011, 2145, 2545, 2656 ], 210804.29090909063 ],
+    ];
+  }
+
+  public function testSampleVarianceNullWhenEmptyArray() {
+    $this->assertNull( Descriptive::sampleVariance( array() ) );
+  }
+
+  public function testSampleVarianceZeroWhenListContainsOnlyOneItem() {
+    $this->assertEquals( 0, Descriptive::sampleVariance([5]) );
+  }
+
+  public function testVariancePopulationAndSample() {
+    $numbers = [ -10, 0, 10, 20, 30 ];
+    $this->assertEquals( 200, Descriptive::variance( $numbers, true ) );
+    $this->assertEquals( 250, Descriptive::variance( $numbers, false ) );
+  }
+
+  public function testVarianceDefaultsToPopulationVariance() {
+    $numbers = [ -10, 0, 10, 20, 30 ];
+    $this->assertEquals( 200, Descriptive::variance( $numbers ) );
+  }
+
+  /**
+   * @dataProvider dataProviderForStandardDeviationUsingPopulationVariance
+   */
+  public function testStandardDeviationUsingPopulationVariance( array $numbers, $standard_deviation ) {
     $this->assertEquals( $standard_deviation, Descriptive::standardDeviation($numbers), '', 0.01 );
   }
 
@@ -104,7 +150,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
    * Data provider for standard deviation test
    * Data: [ [ numbers ], mean ]
    */
-  public function dataProviderForStandardDeviation() {
+  public function dataProviderForStandardDeviationUsingPopulationVariance() {
     return [
       [ [ -10, 0, 10, 20, 30 ], 10 * sqrt(2) ],
       [ [ 8, 9, 10, 11, 12 ], sqrt(2) ],
@@ -116,12 +162,51 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
     ];
   }
 
+  /**
+   * @dataProvider dataProviderForStandardDeviationUsingSampleVariance
+   */
+  public function testStandardDeviationUsingSampleVariance( array $numbers, $standard_deviation ) {
+    $this->assertEquals( $standard_deviation, Descriptive::standardDeviation( $numbers, false ), '', 0.01 );
+  }
+
+  /**
+   * Data provider for standard deviation using sample variance test
+   * Data: [ [ numbers ], mean ]
+   */
+  public function dataProviderForStandardDeviationUsingSampleVariance() {
+    return [
+      [ [ 3, 21, 98, 203, 17, 9 ],  78.86634 ],
+      [ [ 170, 300, 430, 470, 600 ], 164.7118696390761 ],
+      [ [ 1550, 1700, 900, 850, 1000, 950 ], 367.99 ],
+      [ [ 1245, 1255, 1654, 1547, 1787, 1989, 1878, 2011, 2145, 2545, 2656 ], 459.13 ],
+    ];
+  }
+
   public function testStandardDeviationNullWhenEmptyArray() {
     $this->assertNull( Descriptive::standardDeviation( array() ) );
   }
 
-  public function testGetstats() {
-    $stats = Descriptive::getStats([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ]);
+  public function testGetStatsPopulation() {
+    $stats = Descriptive::getStats( [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], true );
+    $this->assertTrue( is_array($stats) );
+    $this->assertArrayHasKey( 'mean',               $stats );
+    $this->assertArrayHasKey( 'median',             $stats );
+    $this->assertArrayHasKey( 'mode',               $stats );
+    $this->assertArrayHasKey( 'range',              $stats );
+    $this->assertArrayHasKey( 'midrange',           $stats );
+    $this->assertArrayHasKey( 'variance',           $stats );
+    $this->assertArrayHasKey( 'standard_deviation', $stats );
+    $this->assertTrue( is_numeric( $stats['mean'] ) );
+    $this->assertTrue( is_numeric( $stats['median'] ) );
+    $this->assertTrue( is_array( $stats['mode'] ) );
+    $this->assertTrue( is_numeric( $stats['range'] ) );
+    $this->assertTrue( is_numeric( $stats['midrange'] ) );
+    $this->assertTrue( is_numeric( $stats['variance'] ) );
+    $this->assertTrue( is_numeric( $stats['standard_deviation'] ) );
+  }
+
+  public function testGetStatsSample() {
+    $stats = Descriptive::getStats( [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], false );
     $this->assertTrue( is_array($stats) );
     $this->assertArrayHasKey( 'mean',               $stats );
     $this->assertArrayHasKey( 'median',             $stats );
