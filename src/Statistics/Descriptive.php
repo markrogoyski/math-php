@@ -36,9 +36,9 @@ class Descriptive {
    * Variance is always non-negative: a small variance indicates that the data points tend to be very close to the mean (expected value) and hence to each other.
    * A high variance indicates that the data points are very spread out around the mean and from each other.
    *
-   * σ^2 = Σ(X - μ)^2
-   *       ----------
-   *            N
+   * σ² = Σ(X - μ)^2
+   *      ----------
+   *           N
    *
    * μ is the mean
    * N is the number of numbers in the set
@@ -66,7 +66,7 @@ class Descriptive {
    * A low standard deviation indicates that the data points tend to be close to the mean (also called the expected value) of the set
    * A high standard deviation indicates that the data points are spread out over a wider range of values.
    *
-   * σ = √(variance)
+   * σ = √(σ²) = √(variance)
    *
    * @param array $numbers
    * @return numeric
