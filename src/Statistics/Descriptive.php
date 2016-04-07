@@ -42,7 +42,7 @@ class Descriptive {
    *           N
    *
    * μ is the mean
-   * N is the number of numbers in the set
+   * N is the number of numbers in the population set
    *
    * @param array $numbers
    * @return numeric
@@ -71,10 +71,10 @@ class Descriptive {
    *
    * σ² = Σ(X - μ)^2
    *      ----------
-   *         N - 1
+   *         n - 1
    *
    * μ is the mean
-   * N is the number of numbers in the set
+   * n is the number of numbers in the sample set
    *
    * @param array $numbers
    * @return numeric
