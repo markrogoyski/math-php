@@ -6,7 +6,7 @@ class Combinatorics {
   /**
    * Facatorial (iterative)
    * Represents the number of ways to arrange n things (permutations)
-   * n! = n(n - 1)(n - 2) ... 3 * 2 * 1
+   * n! = n(n - 1)(n - 2) ... (n - (n - 1))
    *
    * @param  int $n
    * @return int number of permutations of n
@@ -26,7 +26,7 @@ class Combinatorics {
 
   /**
    * Find number of permutations--ordered arrangements--of n things.
-   * n(n - 1)(n - 2) ... 3 * 2 * 1 = n!
+   * n(n - 1)(n - 2) ... (n - (n - 1)) = n!
    *
    * @param  int $n
    * @return int number of permutations of n
@@ -106,7 +106,7 @@ class Combinatorics {
 
   /**
    * Multinomial theorem
-   * Fines the number of divisions of n items into r distinct nonoverlapping subgroups of sizes n1, n2, n3, etc.
+   * Finds the number of divisions of n items into r distinct nonoverlapping subgroups of sizes n1, n2, n3, etc.
    *        n!
    *   ------------
    *   n1!n2!...nr!
