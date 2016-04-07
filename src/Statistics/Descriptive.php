@@ -43,7 +43,7 @@ class Descriptive {
    *      ----------
    *           N
    *
-   * μ is the mean
+   * μ is the population mean
    * N is the number of numbers in the population set
    *
    * @param array $numbers
@@ -66,6 +66,7 @@ class Descriptive {
 
   /**
    * Unbiased sample variance - Use when only a subset of all possible observations of the system are present.
+   *
    * Variance measures how far a set of numbers are spread out.
    * A variance of zero indicates that all the values are identical.
    * Variance is always non-negative: a small variance indicates that the data points tend to be very close to the mean (expected value) and hence to each other.
@@ -75,7 +76,7 @@ class Descriptive {
    *      ----------
    *        n - 1
    *
-   * x̄ is the mean
+   * x̄ is the sample mean
    * n is the number of numbers in the sample set
    *
    * @param array $numbers
