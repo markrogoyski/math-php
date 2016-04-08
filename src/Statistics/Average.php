@@ -6,6 +6,10 @@ class Average {
   /**
    * Calculate the mean average of a list of numbers
    *
+   *     Σ(xᵢ)
+   * x̄ = -----
+   *       n
+   *
    * @param array $numbers
    * @return number
    */

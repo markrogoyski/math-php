@@ -18,7 +18,7 @@ class Descriptive {
   }
 
   /**
-   * Calculate the range--the mean of the largest and smallest values
+   * Calculate the midrange--the mean of the largest and smallest values
    *
    * @param array $numbers
    * @return number
@@ -39,9 +39,9 @@ class Descriptive {
    * Variance is always non-negative: a small variance indicates that the data points tend to be very close to the mean (expected value) and hence to each other.
    * A high variance indicates that the data points are very spread out around the mean and from each other.
    *
-   * σ² = Σ(xᵢ - μ)²
-   *      ----------
-   *           N
+   *      Σ(xᵢ - μ)²
+   * σ² = ----------
+   *          N
    *
    * μ is the population mean
    * N is the number of numbers in the population set
@@ -72,8 +72,8 @@ class Descriptive {
    * Variance is always non-negative: a small variance indicates that the data points tend to be very close to the mean (expected value) and hence to each other.
    * A high variance indicates that the data points are very spread out around the mean and from each other.
    *
-   * S² = Σ(xᵢ - x̄)²
-   *      ----------
+   *      Σ(xᵢ - x̄)²
+   * S² = ----------
    *        n - 1
    *
    * x̄ is the sample mean
