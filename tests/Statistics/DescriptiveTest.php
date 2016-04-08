@@ -186,6 +186,51 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
     $this->assertNull( Descriptive::standardDeviation( array() ) );
   }
 
+  /**
+   * @dataProvider dataProviderForMeanAbsoluteDeviation
+   */
+  public function testMeanAbsoluteDeviation( array $numbers, $mad ) {
+    $this->assertEquals( $mad, Descriptive::meanAbsoluteDeviation($numbers), '', 0.01 );
+  }
+
+  /**
+   * Data provider for MAD (mean) test
+   * Data: [ [ numbers ], mad ]
+   */
+  public function dataProviderForMeanAbsoluteDeviation() {
+    return [
+      [ [ 92, 83, 88, 94, 91, 85, 89, 90 ], 2.75 ],
+      [ [ 2, 2, 3, 4, 14 ], 3.6 ],
+    ];
+  }
+
+  public function testMeanAbsoluteDeviationNullWhenEmptyArray() {
+    $this->assertNull( Descriptive::meanAbsoluteDeviation( array() ) );
+  }
+
+  /**
+   * @dataProvider dataProviderForMedianAbsoluteDeviation
+   */
+  public function testMedianAbsoluteDeviation( array $numbers, $mad ) {
+    $this->assertEquals( $mad, Descriptive::medianAbsoluteDeviation($numbers), '', 0.01 );
+  }
+
+  /**
+   * Data provider for MAD (median) test
+   * Data: [ [ numbers ], mad ]
+   */
+  public function dataProviderForMedianAbsoluteDeviation() {
+    return [
+      [ [ 1, 1, 2, 2, 4, 6, 9 ], 1 ],
+      [ [ 92, 83, 88, 94, 91, 85, 89, 90 ], 2 ],
+      [ [ 2, 2, 3, 4, 14 ], 1 ],
+    ];
+  }
+
+  public function testMedianAbsoluteDeviationNullWhenEmptyArray() {
+    $this->assertNull( Descriptive::medianAbsoluteDeviation( array() ) );
+  }
+
   public function testGetStatsPopulation() {
     $stats = Descriptive::getStats( [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], true );
     $this->assertTrue( is_array($stats) );

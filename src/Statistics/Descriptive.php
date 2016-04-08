@@ -133,6 +133,63 @@ class Descriptive {
   }
 
   /**
+   * MAD - mean absolute deviation
+   *
+   * The average of the absolute deviations from a central point.
+   * It is a summary statistic of statistical dispersion or variability.
+   *
+   *       Σ|xᵢ - x̄|
+   * MAD = ---------
+   *           N
+   *
+   * x̄ is the mean
+   * N is the number of numbers in the population set
+   *
+   * @param array $numbers
+   * @return numeric
+   */
+  public static function meanAbsoluteDeviation( array $numbers ) {
+    if ( empty($numbers) ) {
+      return null;
+    }
+
+    $mean      = Average::mean($numbers);
+    $numerator = array_sum( array_map(
+      function($x) use ($mean) { return abs( $x - $mean ); },
+      $numbers
+    ) );
+    $denominator = count($numbers);
+
+    return $numerator / $denominator;
+  }
+
+  /**
+   * MAD - median absolute deviation
+   *
+   * The average of the absolute deviations from a central point.
+   * It is a summary statistic of statistical dispersion or variability.
+   * It is a robust measure of the variability of a univariate sample of quantitative data.
+   *
+   * MAD = median(|xᵢ - x̄|)
+   *
+   * x̄ is the median
+   *
+   * @param array $numbers
+   * @return numeric
+   */
+  public static function medianAbsoluteDeviation( array $numbers ) {
+    if ( empty($numbers) ) {
+      return null;
+    }
+
+    $median = Average::median($numbers);
+    return Average::median( array_map(
+      function($x) use ($median) { return abs( $x - $median ); },
+      $numbers
+    ) );
+  }
+
+  /**
    * Get a report of all the descriptive statistics over a list of numbers
    * Includes mean, median, mode, range, midrange, variance, and standard deviation
    *
