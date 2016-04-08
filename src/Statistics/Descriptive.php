@@ -54,14 +54,14 @@ class Descriptive {
       return null;
     }
 
-    $mean      = Average::mean($numbers);
-    $numerator = array_sum( array_map(
-      function($x) use ($mean) { return pow( ($x - $mean), 2 ); },
+    $μ         = Average::mean($numbers);
+    $Σ⟮xᵢ − μ⟯² = array_sum( array_map(
+      function($xᵢ) use ($μ) { return pow( ($xᵢ - $μ), 2 ); },
       $numbers
     ) );
-    $denominator = count($numbers);
+    $N = count($numbers);
     
-    return $numerator / $denominator;
+    return $Σ⟮xᵢ − μ⟯² / $N;
   }
 
   /**
@@ -90,14 +90,14 @@ class Descriptive {
       return 0;
     }
 
-    $mean      = Average::mean($numbers);
-    $numerator = array_sum( array_map(
-      function($x) use ($mean) { return pow( ($x - $mean), 2 ); },
+    $x̄         = Average::mean($numbers);
+    $Σ⟮xᵢ − x̄⟯² = array_sum( array_map(
+      function($xᵢ) use ($x̄) { return pow( ($xᵢ - $x̄), 2 ); },
       $numbers
     ) );
-    $denominator = count($numbers) - 1;
+    $n = count($numbers);
     
-    return $numerator / $denominator;
+    return $Σ⟮xᵢ − x̄⟯² / ($n - 1);
   }
 
   /**
@@ -153,14 +153,14 @@ class Descriptive {
       return null;
     }
 
-    $mean      = Average::mean($numbers);
-    $numerator = array_sum( array_map(
-      function($x) use ($mean) { return abs( $x - $mean ); },
+    $x̄      = Average::mean($numbers);
+    $Σ│xᵢ − x̄│ = array_sum( array_map(
+      function($xᵢ) use ($x̄) { return abs( $xᵢ - $x̄ ); },
       $numbers
     ) );
-    $denominator = count($numbers);
+    $N = count($numbers);
 
-    return $numerator / $denominator;
+    return $Σ│xᵢ − x̄│ / $N;
   }
 
   /**
@@ -182,9 +182,9 @@ class Descriptive {
       return null;
     }
 
-    $median = Average::median($numbers);
+    $x̄ = Average::median($numbers);
     return Average::median( array_map(
-      function($x) use ($median) { return abs( $x - $median ); },
+      function($xᵢ) use ($x̄) { return abs( $xᵢ - $x̄ ); },
       $numbers
     ) );
   }
