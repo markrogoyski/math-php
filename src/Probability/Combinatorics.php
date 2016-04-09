@@ -57,7 +57,11 @@ class Combinatorics {
     if ( $r > $n ) {
       throw new \Exception('r cannot be larger than n.');
     }
-    return self::factorial($n) / self::factorial( $n - $r );
+
+    $n！      = self::factorial($n);
+    $⟮n − r⟯！ = self::factorial( $n - $r );
+
+    return $n！ / $⟮n − r⟯！;
   }
 
   /**
@@ -79,7 +83,11 @@ class Combinatorics {
     if ( $r > $n ) {
       throw new \Exception('r cannot be larger than n.');
     }
-    return self::factorial($n) / ( self::factorial( $n - $r ) * self::factorial($r) );
+
+    $n！        = self::factorial($n);
+    $⟮n − r⟯！r！ = self::factorial( $n - $r ) * self::factorial($r);
+
+    return $n！ / $⟮n − r⟯！r！;
   }
 
   /**
@@ -101,7 +109,11 @@ class Combinatorics {
     if ( $r > $n ) {
       throw new \Exception('r cannot be larger than n.');
     }
-    return self::factorial( $n + $r - 1 ) / ( self::factorial( $n - 1 ) * self::factorial($r) );
+
+    $⟮n ＋ r − 1⟯！ = self::factorial( $n + $r - 1 );
+    $⟮n − 1⟯！r！   = self::factorial( $n - 1 ) * self::factorial($r);
+
+    return $⟮n ＋ r − 1⟯！ / $⟮n − 1⟯！r！;
   }
 
   /**
