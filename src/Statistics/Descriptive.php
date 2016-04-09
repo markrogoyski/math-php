@@ -90,14 +90,14 @@ class Descriptive {
       return 0;
     }
 
-    $x̄         = Average::mean($numbers);
-    $Σ⟮xᵢ − x̄⟯² = array_sum( array_map(
-      function($xᵢ) use ($x̄) { return pow( ($xᵢ - $x̄), 2 ); },
+    $x         = Average::mean($numbers);
+    $Σ⟮xᵢ − x⟯² = array_sum( array_map(
+      function($xᵢ) use ($x) { return pow( ($xᵢ - $x), 2 ); },
       $numbers
     ) );
     $n = count($numbers);
     
-    return $Σ⟮xᵢ − x̄⟯² / ($n - 1);
+    return $Σ⟮xᵢ − x⟯² / ($n - 1);
   }
 
   /**
@@ -153,14 +153,14 @@ class Descriptive {
       return null;
     }
 
-    $x̄      = Average::mean($numbers);
-    $Σ│xᵢ − x̄│ = array_sum( array_map(
-      function($xᵢ) use ($x̄) { return abs( $xᵢ - $x̄ ); },
+    $x         = Average::mean($numbers);
+    $Σ│xᵢ − x│ = array_sum( array_map(
+      function($xᵢ) use ($x) { return abs( $xᵢ - $x ); },
       $numbers
     ) );
     $N = count($numbers);
 
-    return $Σ│xᵢ − x̄│ / $N;
+    return $Σ│xᵢ − x│ / $N;
   }
 
   /**
@@ -182,9 +182,9 @@ class Descriptive {
       return null;
     }
 
-    $x̄ = Average::median($numbers);
+    $x = Average::median($numbers);
     return Average::median( array_map(
-      function($xᵢ) use ($x̄) { return abs( $xᵢ - $x̄ ); },
+      function($xᵢ) use ($x) { return abs( $xᵢ - $x ); },
       $numbers
     ) );
   }
