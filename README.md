@@ -63,7 +63,7 @@ $numbers = [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ];
 $range    = Descriptive::range($numbers);
 $midrange = Descriptive::midrange($numbers);
 
-// Varaince (population and sample)
+// Variance (population and sample)
 $σ² = Descriptive::populationVariance($numbers);
 $S² = Descriptive::sampleVariance($numbers);
 
