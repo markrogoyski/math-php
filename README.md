@@ -67,8 +67,8 @@ $midrange = Descriptive::midrange($numbers);
 $variance = Descriptive::populationVariance($numbers);
 $variance = Descriptive::sampleVariance($numbers);
 
-$population_variance = true;
-$standard_deviation = Descriptive::standardDeviation( $numbers, $population_variance );
+// Standard deviation
+$standard_deviation = Descriptive::standardDeviation($numbers); // Has optional parameter to set population or sample variance
 
 // MAD - mean/median absolute deviations
 $mean_mad   = Descriptive::meanAbsoluteDeviation($numbers);
@@ -76,7 +76,7 @@ $median_mad = Descriptive::medianAbsoluteDeviation($numbers);
 
 // Descriptive stats report
 // Returns array with keys: mean, median, mode, range, midrange, variance, standard deviation
-$stats = Descriptive::getStats($numbers); // Has optional parameter to set population or sample varaince
+$stats = Descriptive::getStats($numbers); // Has optional parameter to set population or sample variance
 ```
 
 Unit Tests
