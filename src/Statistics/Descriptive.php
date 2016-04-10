@@ -5,7 +5,12 @@ require_once('Average.php');
 class Descriptive {
 
   /**
-   * Calculate the range--the difference between the largest and smallest values
+   * Range - the difference between the largest and smallest values
+   * It is the size of the smallest interval which contains all the data.
+   * It provides an indication of statistical dispersion.
+   * (https://en.wikipedia.org/wiki/Range_(statistics))
+   *
+   * R = max x - min x
    *
    * @param array $numbers
    * @return number
@@ -18,7 +23,13 @@ class Descriptive {
   }
 
   /**
-   * Calculate the midrange--the mean of the largest and smallest values
+   * Midrange - the mean of the largest and smallest values
+   * It is the midpoint of the range; as such, it is a measure of central tendency.
+   * (https://en.wikipedia.org/wiki/Mid-range)
+   *
+   *     max x + min x
+   * M = -------------
+   *           2
    *
    * @param array $numbers
    * @return number
@@ -38,6 +49,7 @@ class Descriptive {
    * A variance of zero indicates that all the values are identical.
    * Variance is always non-negative: a small variance indicates that the data points tend to be very close to the mean (expected value) and hence to each other.
    * A high variance indicates that the data points are very spread out around the mean and from each other.
+   * (https://en.wikipedia.org/wiki/Variance)
    *
    *      Σ(xᵢ - μ)²
    * σ² = ----------
@@ -71,6 +83,7 @@ class Descriptive {
    * A variance of zero indicates that all the values are identical.
    * Variance is always non-negative: a small variance indicates that the data points tend to be very close to the mean (expected value) and hence to each other.
    * A high variance indicates that the data points are very spread out around the mean and from each other.
+   * (https://en.wikipedia.org/wiki/Variance)
    *
    *      Σ(xᵢ - x̄)²
    * S² = ----------
@@ -113,9 +126,11 @@ class Descriptive {
   }
 
   /**
-   * Standard deviationis a measure that is used to quantify the amount of variation or dispersion of a set of data values.
+   * Standard deviation
+   * A measure that is used to quantify the amount of variation or dispersion of a set of data values.
    * A low standard deviation indicates that the data points tend to be close to the mean (also called the expected value) of the set
    * A high standard deviation indicates that the data points are spread out over a wider range of values.
+   * (https://en.wikipedia.org/wiki/Standard_deviation)
    *
    * σ = √(σ²) = √(variance)
    *
@@ -137,6 +152,7 @@ class Descriptive {
    *
    * The average of the absolute deviations from a central point.
    * It is a summary statistic of statistical dispersion or variability.
+   * (https://en.wikipedia.org/wiki/Average_absolute_deviation)
    *
    *       Σ|xᵢ - x̄|
    * MAD = ---------
@@ -169,6 +185,7 @@ class Descriptive {
    * The average of the absolute deviations from a central point.
    * It is a summary statistic of statistical dispersion or variability.
    * It is a robust measure of the variability of a univariate sample of quantitative data.
+   * (https://en.wikipedia.org/wiki/Median_absolute_deviation)
    *
    * MAD = median(|xᵢ - x̄|)
    *

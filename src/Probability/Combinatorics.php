@@ -67,6 +67,7 @@ class Combinatorics {
   /**
    * Find number of combinations--groups of r objects that could be formed form a total of n objects.
    * n choose r: number of possible combinations of n objects taken r at a time.
+   *
    *       (n)       n!
    * nCr = ( ) = ----------
    *       (r)   (n - r)!r!
@@ -93,6 +94,7 @@ class Combinatorics {
   /**
    * Find number of combinations with repetition--groups of r objects that could be formed form a total of n objects.
    * n choose r: number of possible combinations of n objects taken r at a time with repetition.
+   *
    *        (n)   (n + r - 1)!
    * nC'r = ( ) = ------------
    *        (r)    (n - 1)!r!
@@ -119,6 +121,7 @@ class Combinatorics {
   /**
    * Multinomial theorem
    * Finds the number of divisions of n items into r distinct nonoverlapping subgroups of sizes n1, n2, n3, etc.
+   *
    *        n!
    *   ------------
    *   n1!n2!...nr!
