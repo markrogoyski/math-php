@@ -1,0 +1,21 @@
+{
+  "name": "markrogoyski/math-php",
+  "type": "library",
+  "description": "Math Library for PHP",
+  "keywords": ["math", "mathematics", "probability", "combinatorics", "statistics"],
+  "homepage": "https://github.com/markrogoyski/math-php/",
+  "require": {
+    "php": ">=7.0.0"
+  },
+  "autoload": {
+    "psr-4": { "Math\\": "src/" }
+  },
+  "authors": [
+    {
+      "name": "Mark Rogoyski",
+      "email": "mark@rogoyski.com",
+      "homepage": "http://www.markrogoyski.com",
+      "role": "Developer"
+    }
+  ]
+}
