@@ -39,6 +39,9 @@ Composer will install Math PHP inside your vendor folder. Then you can add the f
 require_once( __DIR__ . '/vendor/autoload.php' );
 ```
 
+### Requirements
+ * PHP 7
+
 Usage
 -----
 
