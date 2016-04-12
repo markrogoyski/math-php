@@ -1,7 +1,9 @@
 Math PHP
 =====================
 
-A math library for PHP in pure PHP. A work in progress.
+A math library for PHP in pure PHP.
+
+Math PHP is actively under development and should be considered a work in progress.
 
 Features
 --------
