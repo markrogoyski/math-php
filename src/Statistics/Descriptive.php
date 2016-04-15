@@ -51,7 +51,7 @@ class Descriptive {
    * A high variance indicates that the data points are very spread out around the mean and from each other.
    * (https://en.wikipedia.org/wiki/Variance)
    *
-   *      Σ(xᵢ - μ)²
+   *      ∑⟮xᵢ - μ⟯²
    * σ² = ----------
    *          N
    *
@@ -67,13 +67,13 @@ class Descriptive {
     }
 
     $μ         = Average::mean($numbers);
-    $Σ⟮xᵢ − μ⟯² = array_sum( array_map(
+    $∑⟮xᵢ − μ⟯² = array_sum( array_map(
       function($xᵢ) use ($μ) { return pow( ($xᵢ - $μ), 2 ); },
       $numbers
     ) );
     $N = count($numbers);
     
-    return $Σ⟮xᵢ − μ⟯² / $N;
+    return $∑⟮xᵢ − μ⟯² / $N;
   }
 
   /**
@@ -85,7 +85,7 @@ class Descriptive {
    * A high variance indicates that the data points are very spread out around the mean and from each other.
    * (https://en.wikipedia.org/wiki/Variance)
    *
-   *      Σ(xᵢ - x̄)²
+   *      ∑⟮xᵢ - x̄⟯²
    * S² = ----------
    *        n - 1
    *
@@ -104,13 +104,13 @@ class Descriptive {
     }
 
     $x         = Average::mean($numbers);
-    $Σ⟮xᵢ − x⟯² = array_sum( array_map(
+    $∑⟮xᵢ − x⟯² = array_sum( array_map(
       function($xᵢ) use ($x) { return pow( ($xᵢ - $x), 2 ); },
       $numbers
     ) );
     $n = count($numbers);
     
-    return $Σ⟮xᵢ − x⟯² / ($n - 1);
+    return $∑⟮xᵢ − x⟯² / ($n - 1);
   }
 
   /**
@@ -132,7 +132,7 @@ class Descriptive {
    * A high standard deviation indicates that the data points are spread out over a wider range of values.
    * (https://en.wikipedia.org/wiki/Standard_deviation)
    *
-   * σ = √(σ²) = √(variance)
+   * σ = √⟮σ²⟯ = √⟮variance⟯
    *
    * @param array $numbers
    * @param bool  $population_variance: true uses population variance; false uses sample variance; Default is true (population variance)
@@ -154,7 +154,7 @@ class Descriptive {
    * It is a summary statistic of statistical dispersion or variability.
    * (https://en.wikipedia.org/wiki/Average_absolute_deviation)
    *
-   *       Σ|xᵢ - x̄|
+   *       ∑|xᵢ - x̄|
    * MAD = ---------
    *           N
    *
@@ -170,13 +170,13 @@ class Descriptive {
     }
 
     $x         = Average::mean($numbers);
-    $Σ│xᵢ − x│ = array_sum( array_map(
+    $∑│xᵢ − x│ = array_sum( array_map(
       function($xᵢ) use ($x) { return abs( $xᵢ - $x ); },
       $numbers
     ) );
     $N = count($numbers);
 
-    return $Σ│xᵢ − x│ / $N;
+    return $∑│xᵢ − x│ / $N;
   }
 
   /**

@@ -6,7 +6,7 @@ class Average {
   /**
    * Calculate the mean average of a list of numbers
    *
-   *     Σ(xᵢ)
+   *     ∑⟮xᵢ⟯
    * x̄ = -----
    *       n
    *
