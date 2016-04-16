@@ -33,7 +33,7 @@ class Distribution {
    * occurring in a fixed interval of time and/or space if these events occur with a known average rate and independently of the time since the last event.
    * https://en.wikipedia.org/wiki/Poisson_distribution
    *
-   *                              λᵏℯ^−λ
+   *                              𝜆ᵏℯ^⁻𝜆
    * P(k events in an interval) = ------
    *                                k!
    *
@@ -42,6 +42,10 @@ class Distribution {
    * @return number   The Poisson probability of observing k successful events in an interval
    */
   public static function poisson( $k, $λ ) {
+    if ( $k < 0 || $λ < 0 ) {
+      throw new \Exception('k and λ must be greater than 0.');
+    }
+
     $λᵏℯ＾−λ = pow( $λ, $k ) * pow( \M_E, -$λ );
     $k！     = Combinatorics::factorial($k);
 
@@ -53,7 +57,7 @@ class Distribution {
    * The probability that the Poisson random variable is greater than some specified lower limit,
    * and less than some specified upper limit.
    *
-   *           k  λˣℯ^−λ
+   *           k  𝜆ˣℯ^⁻𝜆
    * P(k,λ) =  ∑  ------
    *          x₌₀  xᵢ!
    *
