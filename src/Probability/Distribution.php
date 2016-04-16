@@ -33,7 +33,7 @@ class Distribution {
    * occurring in a fixed interval of time and/or space if these events occur with a known average rate and independently of the time since the last event.
    * https://en.wikipedia.org/wiki/Poisson_distribution
    *
-   *                              𝜆ᵏℯ^⁻𝜆
+   *                              λᵏℯ^⁻λ
    * P(k events in an interval) = ------
    *                                k!
    *
@@ -57,7 +57,7 @@ class Distribution {
    * The probability that the Poisson random variable is greater than some specified lower limit,
    * and less than some specified upper limit.
    *
-   *           k  𝜆ˣℯ^⁻𝜆
+   *           k  λˣℯ^⁻λ
    * P(k,λ) =  ∑  ------
    *          x₌₀  xᵢ!
    *
