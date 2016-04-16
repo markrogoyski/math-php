@@ -6,7 +6,7 @@ class Combinatorics {
   /**
    * Facatorial (iterative)
    * Represents the number of ways to arrange n things (permutations)
-   * n! = n(n - 1)(n - 2) ... (n - (n - 1))
+   * n! = n(n - 1)(n - 2) ・・・ (n - (n - 1))
    *
    * @param  int $n
    * @return int number of permutations of n
@@ -25,8 +25,8 @@ class Combinatorics {
   }
 
   /**
-   * Find number of permutations--ordered arrangements--of n things.
-   * n(n - 1)(n - 2) ... (n - (n - 1)) = n!
+   * Find number of permutations--ordered arrangements--of n things, taken n at a time.
+   * nPn = (N)n = n(n - 1)(n - 2) ・・・ (n - (n - 1)) = n!
    *
    * @param  int $n
    * @return int number of permutations of n
