@@ -12,7 +12,7 @@ class Distribution {
    *
    * @param  int   $n number of events
    * @param  int   $r number of successful events
-   * @param  float $p probability of success
+   * @param  float $P probability of success
    * @return number
    */
   public static function binomial( int $n, int $r, float $p ): float {
@@ -31,11 +31,11 @@ class Distribution {
    * Negative binomial distribution (Pascal distribution)
    * https://en.wikipedia.org/wiki/Negative_binomial_distribution
    *
-   * b(x; r, P) = ₓ₋₁Cᵣ₋₁ pʳ * (1 - P)ˣ⁻ʳ
+   * b(x; r, P) = ₓ₋₁Cᵣ₋₁ Pʳ * (1 - P)ˣ⁻ʳ
    *
    * @param  int   $x number of trials required to produce r successes
    * @param  int   $r number of successful events
-   * @param  float $_ probability of success on an individual trial
+   * @param  float $P probability of success on an individual trial
    * @return number
    */
   public static function negativeBinomial( int $x, int $r, float $P ): float {
