@@ -28,6 +28,44 @@ class Distribution {
   }
 
   /**
+   * Negative binomial distribution (Pascal distribution)
+   * https://en.wikipedia.org/wiki/Negative_binomial_distribution
+   *
+   * b(x; r, P) = ₓ₋₁Cᵣ₋₁ pʳ * (1 - P)ˣ⁻ʳ
+   *
+   * @param  int   $x number of trials required to produce r successes
+   * @param  int   $r number of successful events
+   * @param  float $_ probability of success on an individual trial
+   * @return number
+   */
+  public static function negativeBinomial( int $x, int $r, float $P ) {
+    if ( $P < 0 || $P > 1 ) {
+      throw new \Exception("Probability $P must be between 0 and 1.");
+    }
+
+    $ₓ₋₁Cᵣ₋₁   = Combinatorics::combinations( $x - 1, $r - 1 );
+    $Pʳ        = pow( $P, $r );
+    $⟮1 − P⟯ˣ⁻ʳ = pow( 1 - $P, $x - $r );
+
+    return $ₓ₋₁Cᵣ₋₁ * $Pʳ * $⟮1 − P⟯ˣ⁻ʳ;
+  }
+
+  /**
+   * Pascal distribution (convenience method for negative binomial distribution
+   * https://en.wikipedia.org/wiki/Negative_binomial_distribution
+   *
+   * b(x; r, P) = ₓ₋₁Cᵣ₋₁ pʳ * (1 - P)ˣ⁻ʳ
+   *
+   * @param  int   $x number of trials required to produce r successes
+   * @param  int   $r number of successful events
+   * @param  float $_ probability of success on an individual trial
+   * @return number
+   */
+  public static function pascal( int $x, int $r, float $P ) {
+    return self::negativeBinomial( $x, $r, $P );
+  }
+
+  /**
    * Poisson distribution
    * A discrete probability distribution that expresses the probability of a given number of events
    * occurring in a fixed interval of time and/or space if these events occur with a known average rate and independently of the time since the last event.
