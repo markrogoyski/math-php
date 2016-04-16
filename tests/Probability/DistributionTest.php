@@ -75,7 +75,7 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
   /**
    * @dataProvider dataProviderForPascal
    */
-  public function testNegativePAscal( int $x, int $r, float $P, float $neagative_binomial_distribution ) {
+  public function testPascal( int $x, int $r, float $P, float $neagative_binomial_distribution ) {
     $this->assertEquals( $neagative_binomial_distribution, Distribution::pascal( $x, $r, $P ), '', 0.001 );
   }
 
@@ -110,7 +110,7 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
   /**
    * @dataProvider dataProviderForPoisson
    */
-  public function testPoisson( $k, $λ, $probability ) {
+  public function testPoisson( int $k, float $λ, float $probability ) {
     $this->assertEquals( $probability, Distribution::poisson( $k, $λ ), '', 0.001 );
   }
 
@@ -130,7 +130,7 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
   /**
    * @dataProvider dataProviderForCulmulativePoisson
    */
-  public function testCulmulativePoisson( $k, $λ, $probability ) {
+  public function testCulmulativePoisson( int $k, float $λ, float $probability ) {
     $this->assertEquals( $probability, Distribution::culmulativePoisson( $k, $λ ), '', 0.001 );
   }
 

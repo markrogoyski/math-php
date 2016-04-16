@@ -214,7 +214,7 @@ class Descriptive {
    * @param bool  $population: true means all possible observations of the system are present; false means a sample is used.
    * @return array [ mean, median, mode, range, midrange, variance, standard deviation ]
    */
-  public static function getStats( array $numbers, bool $population = true ) {
+  public static function getStats( array $numbers, bool $population = true ): array {
     return [
       'mean'               => Average::mean($numbers),
       'median'             => Average::median($numbers),

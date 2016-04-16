@@ -15,7 +15,7 @@ class Distribution {
    * @param  float $p probability of success
    * @return number
    */
-  public static function binomial( int $n, int $r, float $p ) {
+  public static function binomial( int $n, int $r, float $p ): float {
     if ( $p < 0 || $p > 1 ) {
       throw new \Exception("Probability $p must be between 0 and 1.");
     }
@@ -38,7 +38,7 @@ class Distribution {
    * @param  float $_ probability of success on an individual trial
    * @return number
    */
-  public static function negativeBinomial( int $x, int $r, float $P ) {
+  public static function negativeBinomial( int $x, int $r, float $P ): float {
     if ( $P < 0 || $P > 1 ) {
       throw new \Exception("Probability $P must be between 0 and 1.");
     }
@@ -58,10 +58,10 @@ class Distribution {
    *
    * @param  int   $x number of trials required to produce r successes
    * @param  int   $r number of successful events
-   * @param  float $_ probability of success on an individual trial
+   * @param  float $P probability of success on an individual trial
    * @return number
    */
-  public static function pascal( int $x, int $r, float $P ) {
+  public static function pascal( int $x, int $r, float $P ): float {
     return self::negativeBinomial( $x, $r, $P );
   }
 
@@ -79,7 +79,7 @@ class Distribution {
    * @param  float $λ average number of successful events per interval
    * @return number   The Poisson probability of observing k successful events in an interval
    */
-  public static function poisson( $k, $λ ) {
+  public static function poisson( int $k, float $λ ): float {
     if ( $k < 0 || $λ < 0 ) {
       throw new \Exception('k and λ must be greater than 0.');
     }
@@ -103,7 +103,7 @@ class Distribution {
    * @param  float $λ average number of successful events per interval
    * @return number   The culmulative Poisson probability
    */
-  public static function culmulativePoisson( $k, $λ ) {
+  public static function culmulativePoisson( int $k, float $λ ): float {
     return array_sum( array_map(
       function($k) use ($λ) { return self::poisson( $k, $λ ); },
       range( 0, $k )

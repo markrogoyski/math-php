@@ -82,7 +82,7 @@ class Average {
    * @param array $numbers
    * @return array [ mean, median, mode ]
    */
-  public static function getAverages( array $numbers ) {
+  public static function getAverages( array $numbers ): array {
     return [
       'mean'   => self::mean($numbers),
       'median' => self::median($numbers),
