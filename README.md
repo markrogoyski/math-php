@@ -33,7 +33,7 @@ $ php composer.phar install
 ```
 
 Composer will install Math PHP inside your vendor folder. Then you can add the following to your
-.php files to use library with Autoloading.
+.php files to use the library with Autoloading.
 
 ```php
 require_once( __DIR__ . '/vendor/autoload.php' );
