@@ -38,6 +38,76 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
+   * @dataProvider dataProviderForNegativeBinomial
+   */
+  public function testNegativeBinomial( int $x, int $r, float $P, float $neagative_binomial_distribution ) {
+    $this->assertEquals( $neagative_binomial_distribution, Distribution::negativeBinomial( $x, $r, $P ), '', 0.001 );
+  }
+
+  /**
+   * Data provider for neagative binomial
+   * Data: [ x, r, P, negative binomial distribution ]
+   */
+  public function dataProviderForNegativeBinomial() {
+    return [
+      [ 2, 1, 0.5, 0.25 ],
+      [ 2, 1, 0.4, 0.24 ],
+      [ 6, 2, 0.7, 0.019845 ],
+      [ 8, 7, 0.83, 0.322919006776561 ],
+      [ 10, 5, 0.85, 0.00424542789316406 ],
+      [ 50, 48, 0.97, 0.245297473979909 ],
+      [ 5, 4, 1, 0.0 ],
+      [ 2, 2, 0.5, 0.25 ],
+
+    ];
+  }
+
+  public function testNegativeBinomialProbabilityLowerBoundException() {
+    $this->setExpectedException('\Exception');
+    Distribution::negativeBinomial( 6, 2, -0.1 );
+  }
+
+  public function testNegativeBinomialProbabilityUpperBoundException() {
+    $this->setExpectedException('\Exception');
+    Distribution::negativeBinomial( 6, 2, 1.1 );
+  }
+
+  /**
+   * @dataProvider dataProviderForPascal
+   */
+  public function testNegativePAscal( int $x, int $r, float $P, float $neagative_binomial_distribution ) {
+    $this->assertEquals( $neagative_binomial_distribution, Distribution::pascal( $x, $r, $P ), '', 0.001 );
+  }
+
+  /**
+   * Data provider for Pascal
+   * Data: [ x, r, P, negative binomial distribution ]
+   */
+  public function dataProviderForPascal() {
+    return [
+      [ 2, 1, 0.5, 0.25 ],
+      [ 2, 1, 0.4, 0.24 ],
+      [ 6, 2, 0.7, 0.019845 ],
+      [ 8, 7, 0.83, 0.322919006776561 ],
+      [ 10, 5, 0.85, 0.00424542789316406 ],
+      [ 50, 48, 0.97, 0.245297473979909 ],
+      [ 5, 4, 1, 0.0 ],
+      [ 2, 2, 0.5, 0.25 ],
+
+    ];
+  }
+
+  public function testPascalProbabilityLowerBoundException() {
+    $this->setExpectedException('\Exception');
+    Distribution::pascal( 6, 2, -0.1 );
+  }
+
+  public function testPascalProbabilityUpperBoundException() {
+    $this->setExpectedException('\Exception');
+    Distribution::pascal( 6, 2, 1.1 );
+  }
+
+  /**
    * @dataProvider dataProviderForPoisson
    */
   public function testPoisson( $k, $λ, $probability ) {
