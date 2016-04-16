@@ -36,4 +36,44 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
     $this->setExpectedException('\Exception');
     Distribution::binomial( 6, 2, 1.1 );
   }
+
+  /**
+   * @dataProvider dataProviderForPoisson
+   */
+  public function testPoisson( $k, $λ, $probability ) {
+    $this->assertEquals( $probability, Distribution::poisson( $k, $λ ), '', 0.001 );
+  }
+
+  /**
+   * Data provider for poisson
+   * Data: [ k, λ, poisson distribution ]
+   */
+  public function dataProviderForPoisson() {
+    return [
+      [ 3, 2, 0.180 ],
+      [ 3, 5, 0.140373895814280564513 ],
+      [ 8, 6, 0.103257733530844 ],
+      [ 2, 0.45, 0.065 ],
+    ];
+  }
+
+  /**
+   * @dataProvider dataProviderForCulmulativePoisson
+   */
+  public function testCulmulativePoisson( $k, $λ, $probability ) {
+    $this->assertEquals( $probability, Distribution::culmulativePoisson( $k, $λ ), '', 0.001 );
+  }
+
+  /**
+   * Data provider for culmulative poisson
+   * Data: [ k, λ, culmulative poisson distribution ]
+   */
+  public function dataProviderForCulmulativePoisson() {
+    return [
+      [ 3, 2, 0.857123460498547048662 ],
+      [ 3, 5, 0.2650 ],
+      [ 8, 6, 0.8472374939845613089968 ],
+      [ 2, 0.45, 0.99 ],
+    ];
+  }
 }
