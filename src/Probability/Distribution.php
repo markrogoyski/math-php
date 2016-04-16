@@ -51,7 +51,7 @@ class Distribution {
   }
 
   /**
-   * Pascal distribution (convenience method for negative binomial distribution
+   * Pascal distribution (convenience method for negative binomial distribution)
    * https://en.wikipedia.org/wiki/Negative_binomial_distribution
    *
    * b(x; r, P) = ₓ₋₁Cᵣ₋₁ pʳ * (1 - P)ˣ⁻ʳ
@@ -97,7 +97,7 @@ class Distribution {
    *
    *           k  λˣℯ^⁻λ
    * P(k,λ) =  ∑  ------
-   *          x₌₀  xᵢ!
+   *          ₓ₌₀  xᵢ!
    *
    * @param  int   $k events in the interval
    * @param  float $λ average number of successful events per interval
