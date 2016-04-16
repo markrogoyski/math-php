@@ -76,4 +76,14 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
       [ 2, 0.45, 0.99 ],
     ];
   }
+
+  public function testPoissonExceptionWhenKLessThanZero() {
+    $this->setExpectedException('\Exception');
+    Distribution::poisson( -1, 2 );
+  }
+
+  public function testPoissonExceptionWhenλLessThanZero() {
+    $this->setExpectedException('\Exception');
+    Distribution::poisson( 2, -1 );
+  }
 }
