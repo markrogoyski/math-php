@@ -131,7 +131,7 @@ $mean_mad   = Descriptive::meanAbsoluteDeviation($numbers);
 $median_mad = Descriptive::medianAbsoluteDeviation($numbers);
 
 // Descriptive stats report
-// Returns array with keys: mean, median, mode, range, midrange, variance, standard deviation
+// Returns array with keys: mean, median, mode, range, midrange, variance, standard deviation, mean_mad, median_mad
 $stats = Descriptive::getStats($numbers); // Has optional parameter to set population or sample variance
 ```
 
