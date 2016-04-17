@@ -51,8 +51,8 @@ Usage
 use Math\Probability\Combinatorics;
 
 // Factorial and permutations
-$factorial    = Combinatorics::factorial(5);
-$permutations = Combinatorics::permutations(5);
+$factorial    = Combinatorics::factorial(5);    // Same as permutations
+$permutations = Combinatorics::permutations(5); // Same as factorial
 
 // Permutations n choose r
 $n = 10;
