@@ -128,17 +128,17 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @dataProvider dataProviderForCulmulativePoisson
+   * @dataProvider dataProviderForCumulativePoisson
    */
-  public function testCulmulativePoisson( int $k, float $λ, float $probability ) {
-    $this->assertEquals( $probability, Distribution::culmulativePoisson( $k, $λ ), '', 0.001 );
+  public function testCumulativePoisson( int $k, float $λ, float $probability ) {
+    $this->assertEquals( $probability, Distribution::cumulativePoisson( $k, $λ ), '', 0.001 );
   }
 
   /**
-   * Data provider for culmulative poisson
+   * Data provider for cumulative poisson
    * Data: [ k, λ, culmulative poisson distribution ]
    */
-  public function dataProviderForCulmulativePoisson() {
+  public function dataProviderForCumulativePoisson() {
     return [
       [ 3, 2, 0.857123460498547048662 ],
       [ 3, 5, 0.2650 ],

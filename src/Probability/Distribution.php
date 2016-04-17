@@ -101,9 +101,9 @@ class Distribution {
    *
    * @param  int   $k events in the interval
    * @param  float $λ average number of successful events per interval
-   * @return number   The culmulative Poisson probability
+   * @return number   The cumulative Poisson probability
    */
-  public static function culmulativePoisson( int $k, float $λ ): float {
+  public static function cumulativePoisson( int $k, float $λ ): float {
     return array_sum( array_map(
       function($k) use ($λ) { return self::poisson( $k, $λ ); },
       range( 0, $k )
