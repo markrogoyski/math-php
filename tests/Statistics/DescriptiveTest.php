@@ -241,6 +241,8 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
     $this->assertArrayHasKey( 'midrange',           $stats );
     $this->assertArrayHasKey( 'variance',           $stats );
     $this->assertArrayHasKey( 'standard_deviation', $stats );
+    $this->assertArrayHasKey( 'mean_mad',           $stats );
+    $this->assertArrayHasKey( 'median_mad',         $stats );
     $this->assertTrue( is_numeric( $stats['mean'] ) );
     $this->assertTrue( is_numeric( $stats['median'] ) );
     $this->assertTrue( is_array( $stats['mode'] ) );
@@ -248,6 +250,8 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
     $this->assertTrue( is_numeric( $stats['midrange'] ) );
     $this->assertTrue( is_numeric( $stats['variance'] ) );
     $this->assertTrue( is_numeric( $stats['standard_deviation'] ) );
+    $this->assertTrue( is_numeric( $stats['mean_mad'] ) );
+    $this->assertTrue( is_numeric( $stats['median_mad'] ) );
   }
 
   public function testGetStatsSample() {
