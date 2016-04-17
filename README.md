@@ -9,6 +9,7 @@ Features
 --------
  * Probability
      * Combinatorics
+     * Distribution
  * Statistics
      * Averages
      * Descriptive
@@ -66,6 +67,30 @@ $combinations = Combinatorics::combinationsWithRepetition( $n, $r );
 $n      = 10;
 $groups = [ 5, 2, 3 ];
 $divisions = Combinatorics::multinomialTheorem( $n, $groups );
+```
+
+### Probability - Distributions
+```php
+use Math\Probability\Distribution;
+
+// Binomial distribution
+$n = 2;   // number of events
+$r = 1;   // number of successful events
+$P = 0.5; // probability of success
+$binomial = Distribution::binomial( $n, $r, $P );
+
+// Negative binomial distribution (Pascal)
+$x = 2;   // number of trials required to produce r successes
+$r = 1;   // number of successful events
+$P = 0.5; // probability of success on an individual trial
+$negative_binomial = Distribution::negativeBinomial( $x, $r, $P );  // Same as pascal
+$pascal            = Distribution::pascal( $x, $r, $P );            // Same as negative binomial
+
+// Poisson distribution
+$k = 3; // events in the interval
+$λ = 2; // average number of successful events per interval
+$poisson            = Distribution::poisson( $k, $λ );
+$cumulative_poisson = Distribution::cumulativePoisson( $k, $λ );
 ```
 
 ### Statistics - Averages
