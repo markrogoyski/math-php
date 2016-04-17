@@ -212,7 +212,7 @@ class Descriptive {
    *
    * @param array $numbers
    * @param bool  $population: true means all possible observations of the system are present; false means a sample is used.
-   * @return array [ mean, median, mode, range, midrange, variance, standard deviation ]
+   * @return array [ mean, median, mode, range, midrange, variance, standard deviation, mean_mad, median_mad ]
    */
   public static function getStats( array $numbers, bool $population = true ): array {
     return [
@@ -223,6 +223,8 @@ class Descriptive {
       'midrange'           => self::midrange($numbers),
       'variance'           => $population ? self::populationVariance($numbers) : self::sampleVariance($numbers),
       'standard_deviation' => self::standardDeviation( $numbers, $population ),
+      'mean_mad'           => self::meanAbsoluteDeviation($numbers),
+      'median_mad'         => self::medianAbsoluteDeviation($numbers),
     ];
   }
 }
