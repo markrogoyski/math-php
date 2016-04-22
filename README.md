@@ -9,11 +9,11 @@ Features
 --------
  * Probability
      * Combinatorics
-     * Distribution
+     * Distributions
  * Statistics
      * Averages
      * Descriptive
-     * RandomVariable
+     * Random Variables
 
 Setup
 -----
