@@ -41,10 +41,10 @@ class RandomVariable {
    * The population covariance is defined in terms of the sample means x, y
    * https://en.wikipedia.org/wiki/Covariance
    *
-   * cov(X, Y) = σxy = E[⟮X - x⟯⟮Y - y⟯]
+   * cov(X, Y) = Sxy = E[⟮X - x⟯⟮Y - y⟯]
    *
    *                   ∑⟮xᵢ - x⟯⟮yᵢ - y⟯
-   * cov(X, Y) = σxy = ---------------
+   * cov(X, Y) = Sxy = ---------------
    *                         n - 1
    *
    */
