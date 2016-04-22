@@ -17,6 +17,9 @@ class RandomVariable {
    * cov(X, Y) = σxy = -----------------
    *                           N
    *
+   * @param array $X values for random variable X
+   * @param array $Y values for random variable Y
+   * @return number
    */
   public static function populationCovariance( array $X, array $Y ) {
     if ( count($X) !== count($Y) ) {
@@ -47,6 +50,9 @@ class RandomVariable {
    * cov(X, Y) = Sxy = ---------------
    *                         n - 1
    *
+   * @param array $X values for random variable X
+   * @param array $Y values for random variabel Y
+   * @return number
    */
   public static function sampleCovariance( array $X, array $Y ) {
     if ( count($X) !== count($Y) ) {
