@@ -136,7 +136,7 @@ $median_mad = Descriptive::medianAbsoluteDeviation($numbers);
 $stats = Descriptive::getStats($numbers); // Has optional parameter to set population or sample variance
 ```
 
-### Statistics - RandomVariable
+### Statistics - Random Variables
 ```php
 use Math\Statistics\RandomVariable
 
