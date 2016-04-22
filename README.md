@@ -13,6 +13,7 @@ Features
  * Statistics
      * Averages
      * Descriptive
+     * RandomVariable
 
 Setup
 -----
@@ -133,6 +134,18 @@ $median_mad = Descriptive::medianAbsoluteDeviation($numbers);
 // Descriptive stats report
 // Returns array with keys: mean, median, mode, range, midrange, variance, standard deviation, mean_mad, median_mad
 $stats = Descriptive::getStats($numbers); // Has optional parameter to set population or sample variance
+```
+
+### Statistics - RandomVariable
+```php
+use Math\Statistics\RandomVariable
+
+$X = [ 1, 2, 3, 4 ];
+$Y = [ 2, 3, 4, 5 ];
+
+// Covariance (population and sample)
+$σxy = RandomVariable::populationCovariance( $X, $Y );
+$Sxy = RandomVariable::sampleCovariance( $X, $Y );
 ```
 
 Unit Tests
