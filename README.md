@@ -13,6 +13,7 @@ Features
  * Statistics
      * Averages
      * Descriptive
+     * Distributions
      * Random Variables
 
 Setup
@@ -134,6 +135,14 @@ $median_mad = Descriptive::medianAbsoluteDeviation($numbers);
 // Descriptive stats report
 // Returns array with keys: mean, median, mode, range, midrange, variance, standard deviation, mean_mad, median_mad
 $stats = Descriptive::getStats($numbers); // Has optional parameter to set population or sample variance
+```
+### Statistics - Distributions
+```php
+use Math\Statistics\Distribution
+
+// Frequency distribution 
+$grades                 = [ 'A', 'A', 'B', 'B', 'B', 'B', 'C', 'C', 'D', 'F' ];
+$frequency_distribution = Distribution::frequency($grades); // [ A => 2, B => 4, C => 2, D => 1, F => 1 ]
 ```
 
 ### Statistics - Random Variables
