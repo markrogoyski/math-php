@@ -27,4 +27,25 @@ class Distribution {
     }
     return $frequencies;
   }
+
+  /**
+   * Relative frequency distribution
+   * Frequency distribution relative to the sample size.
+   *
+   * Relative Frequency = Frequency / Sample Size
+   *
+   * The values of the input array will be the keys of the result array.
+   * The relative frequency of the values will be the value of the result array for that key.
+   *
+   * @param array $values Ex: ( A, A, A, A, A, A, B, B, B, C )
+   * @return array relative frequency distribution Ex: ( A => 0.6, B => 0.3, C => 0.1 )
+   */
+  public static function relativeFrequency( array $values ): array {
+    $sample_size          = count($values);
+    $relative_frequencies = array();
+    foreach ( self::frequency($values) as $subject => $frequency ) {
+      $relative_frequencies[$subject] = $frequency / $sample_size;
+    }
+    return $relative_frequencies;
+  }
 }
