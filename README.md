@@ -140,8 +140,9 @@ $stats = Descriptive::getStats($numbers); // Has optional parameter to set popul
 ```php
 use Math\Statistics\Distribution
 
+$grades = [ 'A', 'A', 'B', 'B', 'B', 'B', 'C', 'C', 'D', 'F' ];
+
 // Frequency distributions (frequency and relative frequency)
-$grades                 = [ 'A', 'A', 'B', 'B', 'B', 'B', 'C', 'C', 'D', 'F' ];
 $frequency_distribution = Distribution::frequency($grades);         // [ A => 2,   B => 4,   C => 2,   D => 1,   F => 1   ]
 $relative_frequencies   = Distribution::relativeFrequency($grades); // [ A => 0.2, B => 0.4, C => 0.2, D => 0.1, F => 0.1 ]
 ```
