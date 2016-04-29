@@ -1,6 +1,7 @@
 <?php
 namespace Math\Statistics;
 require_once('Average.php');
+require_once('Descriptive.php');
 
 class RandomVariable {
 
@@ -68,5 +69,65 @@ class RandomVariable {
     $n = count($X);
 
     return $∑⟮xᵢ − x⟯⟮yᵢ − y⟯ / ($n - 1);
+  }
+
+  /**
+   * Population correlation coefficient
+   * Pearson product-moment correlation coefficient (PPMCC or PCC or Pearson's r)
+   *
+   * A normalized measure of the linear correlation between two variables X and Y, giving a value between +1 and −1 inclusive, where 1 is total positive correlation, 0 is no correlation, and −1 is total negative correlation.
+   * It is widely used in the sciences as a measure of the degree of linear dependence between two variables.
+   * https://en.wikipedia.org/wiki/Pearson_product-moment_correlation_coefficient
+   *
+   * The correlation coefficient of two variables in a data sample is their covariance divided by the product of their individual standard deviations.
+   *
+   *        cov(X,Y)
+   * ρxy = ----------
+   *         σx σy
+   *
+   *  conv(X,Y) is the population covariance
+   *  σx is the population standard deviation of X
+   *  σy is the population standard deviation of Y
+   *
+   * @param array $x values for random variable X
+   * @param array $y values for random variabel Y
+   * @return number
+   */
+  public static function populationCorrelationCoefficient( array $x, array $y ) {
+    $cov⟮X，Y⟯ = self::populationCovariance( $x, $y );
+    $σx      = Descriptive::standardDeviation($x);
+    $σy      = Descriptive::standardDeviation($y);
+
+    return $cov⟮X，Y⟯ / ( $σx * $σy );
+  }
+
+  /**
+   * Sample correlation coefficient
+   * Pearson product-moment correlation coefficient (PPMCC or PCC or Pearson's r)
+   *
+   * A normalized measure of the linear correlation between two variables X and Y, giving a value between +1 and −1 inclusive, where 1 is total positive correlation, 0 is no correlation, and −1 is total negative correlation.
+   * It is widely used in the sciences as a measure of the degree of linear dependence between two variables.
+   * https://en.wikipedia.org/wiki/Pearson_product-moment_correlation_coefficient
+   *
+   * The correlation coefficient of two variables in a data sample is their covariance divided by the product of their individual standard deviations.
+   *
+   *          Sxy
+   * rxy = ----------
+   *         sx sy
+   *
+   *  Sxy is the sample covariance
+   *  σx is the sample standard deviation of X
+   *  σy is the sample standard deviation of Y
+   *
+   * @param array $x values for random variable X
+   * @param array $y values for random variabel Y
+   * @return number
+   */
+  public static function sampleCorrelationCoefficient( array $x, array $y ) {
+    $Sxy = self::sampleCovariance( $x, $y );
+    $sx  = Descriptive::standardDeviation( $x, Descriptive::SAMPLE );
+    $sy  = Descriptive::standardDeviation( $y, Descriptive::SAMPLE );
+
+    return $Sxy / ( $sx * $sy );
   }
 }
