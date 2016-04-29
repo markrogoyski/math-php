@@ -93,10 +93,10 @@ class RandomVariable {
    * @param array $y values for random variabel Y
    * @return number
    */
-  public static function populationCorrelationCoefficient( array $x, array $y ) {
-    $cov⟮X，Y⟯ = self::populationCovariance( $x, $y );
-    $σx      = Descriptive::standardDeviation($x);
-    $σy      = Descriptive::standardDeviation($y);
+  public static function populationCorrelationCoefficient( array $X, array $Y ) {
+    $cov⟮X，Y⟯ = self::populationCovariance( $X, $Y );
+    $σx      = Descriptive::standardDeviation($X);
+    $σy      = Descriptive::standardDeviation($Y);
 
     return $cov⟮X，Y⟯ / ( $σx * $σy );
   }
@@ -123,10 +123,10 @@ class RandomVariable {
    * @param array $y values for random variabel Y
    * @return number
    */
-  public static function sampleCorrelationCoefficient( array $x, array $y ) {
-    $Sxy = self::sampleCovariance( $x, $y );
-    $sx  = Descriptive::standardDeviation( $x, Descriptive::SAMPLE );
-    $sy  = Descriptive::standardDeviation( $y, Descriptive::SAMPLE );
+  public static function sampleCorrelationCoefficient( array $X, array $Y ) {
+    $Sxy = self::sampleCovariance( $X, $Y );
+    $sx  = Descriptive::standardDeviation( $X, Descriptive::SAMPLE );
+    $sy  = Descriptive::standardDeviation( $Y, Descriptive::SAMPLE );
 
     return $Sxy / ( $sx * $sy );
   }
