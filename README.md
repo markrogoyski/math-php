@@ -66,8 +66,8 @@ $combinations = Combinatorics::combinations( $n, $r );
 $combinations = Combinatorics::combinationsWithRepetition( $n, $r );
 
 // Multinomial Theorem
-$n      = 10;
-$groups = [ 5, 2, 3 ];
+$n         = 10;
+$groups    = [ 5, 2, 3 ];
 $divisions = Combinatorics::multinomialTheorem( $n, $groups );
 ```
 
