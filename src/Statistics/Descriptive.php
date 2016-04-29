@@ -4,6 +4,9 @@ require_once('Average.php');
 
 class Descriptive {
 
+  const POPULATION = true;
+  const SAMPLE     = false;
+
   /**
    * Range - the difference between the largest and smallest values
    * It is the size of the smallest interval which contains all the data.
