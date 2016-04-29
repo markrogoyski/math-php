@@ -157,6 +157,10 @@ $Y = [ 2, 3, 4, 5 ];
 // Covariance (population and sample)
 $σxy = RandomVariable::populationCovariance( $X, $Y );
 $Sxy = RandomVariable::sampleCovariance( $X, $Y );
+
+// Correlation coefficient (population and sample)
+$ρxy = RandomVariable::populationCorrelationCoefficient( $X, $Y );
+$rxy = RandomVariable::sampleCorrelationCoefficient( $X, $Y );
 ```
 
 Unit Tests
