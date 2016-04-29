@@ -51,4 +51,40 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase {
     $this->setExpectedException('\Exception');
     RandomVariable::sampleCovariance( [ 1, 2 ], [ 2, 3, 4 ] );
   }
+
+  /**
+   * @dataProvider dataProviderForPopulationCorrelationCoefficient
+   */
+  public function testPopulationCorrelationCoefficient( array $x, array $y, $pcc ) {
+    $this->assertEquals( $pcc, RandomVariable::populationCorrelationCoefficient( $x, $y ), '', 0.0001 );
+  }
+
+  /**
+   * Data provider for population correlation coefficient test
+   * Data: [ x, y, ppc ]
+   */
+  public function dataProviderForPopulationCorrelationCoefficient() {
+    return [
+      [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 40, 80, 100 ], 0.96841 ],
+      [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 30, 50, 120 ], 0.96359 ],
+    ];
+  }
+
+  /**
+   * @dataProvider dataProviderForSampleCorrelationCoefficient
+   */
+  public function testSampleCorrelationCoefficient( array $x, array $y, $scc ) {
+    $this->assertEquals( $scc, RandomVariable::sampleCorrelationCoefficient( $x, $y ), '', 0.0001 );
+  }
+
+  /**
+   * Data provider for sample correlation coefficient test
+   * Data: [ x, y, ppc ]
+   */
+  public function dataProviderForSampleCorrelationCoefficient() {
+    return [
+      [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 40, 80, 100 ], 0.9684 ],
+      [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 30, 50, 120 ], 0.9636 ],
+    ];
+  }
 }
