@@ -149,6 +149,25 @@ $relative_frequencies   = Distribution::relativeFrequency($grades); // [ A => 0.
 // Cumulative frequency distributions (cumulative and cumulative relative)
 $cumulative_frequency_distribution          = Distribution::cumulativeFrequency($grades);         // [ A => 2,   B => 6,   C => 8,   D => 9,   F => 10  ]
 $cumulative_relative_frequency_distribution = Distribution::cumulativeRelativeFrequency($grades); // [ A => 0.2, B => 0.6, C => 0.8, D => 0.9, F => 1   ]
+
+// Stem and leaf plot
+$values = [44, 46, 47, 49, 63, 64, 66, 68, 68, 72, 72, 75, 76, 81, 84, 88, 106, ];
+
+// Optional second parameter will print stem and leaf plot to STDOUT
+Distribution::stemAndLeafPlot( $values, Distribution::PRINT );
+/*
+ 4 | 4 6 7 9
+ 5 |
+ 6 | 3 4 6 8 8
+ 7 | 2 2 5 6
+ 8 | 1 4 8
+ 9 |
+10 | 6
+*/
+
+// Return value is array where keys are the stems, values are the leaves
+$stem_and_leaf_plot = Distribution::stemAndLeafPlot($values);
+// [ 4 => [4, 6, 7, 9], 5 => [], 6 => [3, 4, 6, 8, 8], 7 => [2, 2, 5, 6], 8 => [1, 4, 8], 9 => [], 10 => [6] ]
 ```
 
 ### Statistics - Random Variables
