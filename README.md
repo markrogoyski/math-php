@@ -132,8 +132,12 @@ $σ = Descriptive::standardDeviation($numbers); // Has optional parameter to set
 $mean_mad   = Descriptive::meanAbsoluteDeviation($numbers);
 $median_mad = Descriptive::medianAbsoluteDeviation($numbers);
 
+// Quartiles (percentiles)
+$quartiles = Descriptive::quartiles($numbers);
+// [ 0% => 13, 25% => 13, 50% => 14, 75% => 17, 100% => 21, interquartile_range => 4 ]
+
 // Descriptive stats report
-// Returns array with keys: mean, median, mode, range, midrange, variance, standard deviation, mean_mad, median_mad
+// Returns array with keys: mean, median, mode, range, midrange, variance, standard deviation, mean_mad, median_mad, quartiles
 $stats = Descriptive::getStats($numbers); // Has optional parameter to set population or sample variance
 ```
 ### Statistics - Distributions
