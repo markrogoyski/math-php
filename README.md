@@ -152,7 +152,7 @@ $cumulative_relative_frequency_distribution = Distribution::cumulativeRelativeFr
 
 // Stem and leaf plot
 // Return value is array where keys are the stems, values are the leaves
-$values             = [44, 46, 47, 49, 63, 64, 66, 68, 68, 72, 72, 75, 76, 81, 84, 88, 106, ];
+$values             = [ 44, 46, 47, 49, 63, 64, 66, 68, 68, 72, 72, 75, 76, 81, 84, 88, 106 ];
 $stem_and_leaf_plot = Distribution::stemAndLeafPlot($values);
 // [ 4 => [4, 6, 7, 9], 5 => [], 6 => [3, 4, 6, 8, 8], 7 => [2, 2, 5, 6], 8 => [1, 4, 8], 9 => [], 10 => [6] ]
 
