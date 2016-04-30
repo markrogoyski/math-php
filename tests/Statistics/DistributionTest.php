@@ -115,4 +115,20 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
       ],
     ];
   }
+
+  /**
+   * @dataProvider dataProviderForStemAndLeafPlot
+   */
+  public function testStemAndLeafPlot( array $values, array $plot ) {
+    $this->assertEquals( $plot, Distribution::stemAndLeafPlot($values) );
+  }
+
+  public function dataProviderForStemAndLeafPlot() {
+    return [
+      [
+        [44, 46, 47, 49, 63, 64, 66, 68, 68, 72, 72, 75, 76, 81, 84, 88, 106, ],
+        [ 4 => [4, 6, 7, 9], 5 => [], 6 => [3, 4, 6, 8, 8], 7 => [2, 2, 5, 6], 8 => [1, 4, 8], 9 => [], 10 => [6] ],
+      ],
+    ];
+  }
 }
