@@ -231,6 +231,26 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
     $this->assertNull( Descriptive::medianAbsoluteDeviation( array() ) );
   }
 
+  /**
+   * @dataProvider dataProviderForQuartiles
+   */
+  public function testQuartiles( array $numbers, array $quartiles ) {
+    $this->assertEquals( $quartiles, Descriptive::quartiles($numbers) );
+  }
+
+  public function dataProviderForQuartiles() {
+    return [
+      [
+        [ 6, 7, 15, 36, 39, 40, 41, 42, 43, 47, 49],
+        [ '0%' => 6, '25%' => 15, '50%' => 40, '75%' => 43, '100%' => 49, 'interquartile_range' => 28 ],
+      ],
+      [
+        [ 7, 15, 36, 39, 40, 41 ],
+        [ '0%' => 7, '25%' => 15, '50%' => 37.5, '75%' => 40, '100%' => 41, 'interquartile_range' => 25 ],
+      ],
+    ];
+  }
+
   public function testGetStatsPopulation() {
     $stats = Descriptive::getStats( [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], true );
     $this->assertTrue( is_array($stats) );
@@ -243,6 +263,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
     $this->assertArrayHasKey( 'standard_deviation', $stats );
     $this->assertArrayHasKey( 'mean_mad',           $stats );
     $this->assertArrayHasKey( 'median_mad',         $stats );
+    $this->assertArrayHasKey( 'quartiles',          $stats );
     $this->assertTrue( is_numeric( $stats['mean'] ) );
     $this->assertTrue( is_numeric( $stats['median'] ) );
     $this->assertTrue( is_array( $stats['mode'] ) );
@@ -252,6 +273,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
     $this->assertTrue( is_numeric( $stats['standard_deviation'] ) );
     $this->assertTrue( is_numeric( $stats['mean_mad'] ) );
     $this->assertTrue( is_numeric( $stats['median_mad'] ) );
+    $this->assertTrue( is_array( $stats['quartiles'] ) );
   }
 
   public function testGetStatsSample() {
@@ -264,6 +286,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
     $this->assertArrayHasKey( 'midrange',           $stats );
     $this->assertArrayHasKey( 'variance',           $stats );
     $this->assertArrayHasKey( 'standard_deviation', $stats );
+    $this->assertArrayHasKey( 'quartiles',          $stats );
     $this->assertTrue( is_numeric( $stats['mean'] ) );
     $this->assertTrue( is_numeric( $stats['median'] ) );
     $this->assertTrue( is_array( $stats['mode'] ) );
@@ -271,5 +294,6 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
     $this->assertTrue( is_numeric( $stats['midrange'] ) );
     $this->assertTrue( is_numeric( $stats['variance'] ) );
     $this->assertTrue( is_numeric( $stats['standard_deviation'] ) );
+    $this->assertTrue( is_array( $stats['quartiles'] ) );
   }
 }
