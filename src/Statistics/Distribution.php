@@ -3,6 +3,8 @@ namespace Math\Statistics;
 
 class Distribution {
 
+  const PRINT = true;
+
   /**
    * Frequency distribution
    * A table that displays the frequency of various outcomes in a sample.
@@ -87,5 +89,62 @@ class Distribution {
       function($frequency) use ($sample_size) { return $frequency / $sample_size; },
       $cumulative_frequencies
     );
+  }
+
+  /**
+   * Stem and leaf plot
+   * Device for presenting quantitative data in a graphical format, similar to a histogram,
+   * to assist in visualizing the shape of a distribution.
+   * https://en.wikipedia.org/wiki/Stem-and-leaf_display
+   *
+   * Returns an array with the keys as the stems, and the values are arrays containing the leaves.
+   *
+   * Optional parameter to print the stem and leaf plot.
+   * Given input array: [ 44 46 47 49 63 64 66 68 68 72 72 75 76 81 84 88 106 ]
+   * Prints:
+   *   4 | 4 6 7 9
+   *   5 |
+   *   6 | 3 4 6 8 8
+   *   7 | 2 2 5 6
+   *   8 | 1 4 8
+   *   9 | 
+   *  10 | 6
+   *
+   * @param array $values
+   * @param bool  $print  Optional setting to print the distribution
+   * @return array keys are the stems, values are the leaves
+   */
+  public static function stemAndLeafPlot( array $values, bool $print = false ): array {
+    // Split each value into stem and leaf
+    sort($values);
+    $plot = array();
+    foreach ( $values as $value ) {
+      $stem = $value / 10;
+      $leaf = $value % 10;
+      if ( !isset($plot[$stem]) ) {
+        $plot[$stem] = array();
+      }
+      $plot[$stem][] = $leaf;
+    }
+
+    // Fill in any empty keys in the distribution we had no stem/leaves for.
+    $min = min( array_keys($plot) );
+    $max = max( array_keys($plot) );
+    for ( $stem = $min; $stem <= $max; $stem++ ) {
+      if ( !isset($plot[$stem]) ) {
+        $plot[$stem] = array();
+      }
+    }
+    ksort($plot);
+
+    // Optionally print the stem and leaf plot
+    if ( $print === true ) {
+      $length = max( array_map( function($stem) { return strlen($stem); }, array_keys($plot) ) );
+      foreach ( $plot as $stem => $leaves ) {
+        printf( "%{$length}d | %s\n", $stem, implode( ' ', $leaves) );
+      }
+    }
+
+    return $plot;
   }
 }
