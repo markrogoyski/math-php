@@ -99,7 +99,7 @@ class Distribution {
    *
    * Returns an array with the keys as the stems, and the values are arrays containing the leaves.
    *
-   * Optional parameter to print the stem and leaf plot.
+   * Optional parameter to print the stem and leaf plot
    * Given input array: [ 44 46 47 49 63 64 66 68 68 72 72 75 76 81 84 88 106 ]
    * Prints:
    *   4 | 4 6 7 9
