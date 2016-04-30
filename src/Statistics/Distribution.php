@@ -72,6 +72,8 @@ class Distribution {
    * Cumulative relative frequency distribution
    * Cumulative frequency distribution relative to the sample size.
    *
+   * Cumulative relative frequency = cumulative frequency / sample size
+   *
    * The values of the input array will be the keys of the result array.
    * The cumulative frequency of the values will be the value of the result array for that key.
    *
