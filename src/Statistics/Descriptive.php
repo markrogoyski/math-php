@@ -210,12 +210,61 @@ class Descriptive {
   }
 
   /**
+   * Quartiles
+   * Three points that divide the data set into four equal groups, each group comprising a quarter of the data.
+   * https://en.wikipedia.org/wiki/Quartile
+   *
+   * 0% is smallest number
+   * 25% is first quartile (lower quartile, 25th percentile)
+   * 50% is second quartile (median, 50th percentile)
+   * 75% is third quartile (upper quartile, 75th percentile)
+   * 100% is largest number
+   * interquartile_range is the difference between the upper and lower quartiles. (IQR = Q₃ - Q₁)
+   *
+   * Method used
+   *  - Use the median to divide the ordered data set into two halves.
+   *   - If there are an odd number of data points in the original ordered data set, do not include the median (the central value in the ordered list) in either half.
+   *   - If there are an even number of data points in the original ordered data set, split this data set exactly in half.
+   *  - The lower quartile value is the median of the lower half of the data. The upper quartile value is the median of the upper half of the data.
+   *
+   * @param array $numbers
+   * @return array [ 0%, 25%, 50%, 75%, 100%, interquartile_range ]
+   */
+  public static function quartiles( array $numbers ): array {
+    if ( empty($numbers) ) {
+      return array();
+    }
+
+    sort($numbers);
+    $length = count($numbers);
+    if ( $length % 2 == 0 ) {
+      $lower_half = array_slice( $numbers, 0, $length / 2 );
+      $upper_half = array_slice( $numbers, $length / 2 );
+    } else {
+      $lower_half = array_slice( $numbers, 0, intdiv($length, 2) );
+      $upper_half = array_slice( $numbers, intdiv($length, 2) + 1 );
+    }
+
+    $lower_quartile = Average::median($lower_half);
+    $upper_quartile = Average::median($upper_half);
+
+    return [
+      '0%'                  => min($numbers),
+      '25%'                 => $lower_quartile,
+      '50%'                 => Average::median($numbers),
+      '75%'                 => $upper_quartile,
+      '100%'                => max($numbers),
+      'interquartile_range' => $upper_quartile - $lower_quartile,
+    ];
+  }
+
+  /**
    * Get a report of all the descriptive statistics over a list of numbers
-   * Includes mean, median, mode, range, midrange, variance, and standard deviation
+   * Includes mean, median, mode, range, midrange, variance, and standard deviation, quartiles
    *
    * @param array $numbers
    * @param bool  $population: true means all possible observations of the system are present; false means a sample is used.
-   * @return array [ mean, median, mode, range, midrange, variance, standard deviation, mean_mad, median_mad ]
+   * @return array [ mean, median, mode, range, midrange, variance, standard deviation, mean_mad, median_mad, quartiles ]
    */
   public static function getStats( array $numbers, bool $population = true ): array {
     return [
@@ -228,6 +277,7 @@ class Descriptive {
       'standard_deviation' => self::standardDeviation( $numbers, $population ),
       'mean_mad'           => self::meanAbsoluteDeviation($numbers),
       'median_mad'         => self::medianAbsoluteDeviation($numbers),
+      'quartiles'          => self::quartiles($numbers),
     ];
   }
 }
