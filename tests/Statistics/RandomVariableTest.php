@@ -87,4 +87,23 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase {
       [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 30, 50, 120 ], 0.9636 ],
     ];
   }
+
+  /**
+   * @dataProvider dataProviderForCentralMoment
+   */
+  public function testCentralMoment( array $X, $n, $moment ) {
+    $this->assertEQuals( $moment, RandomVariable::centralMoment( $X, $n ), '', 0.0001 );
+  }
+
+  public function dataProviderForCentralMoment() {
+    return [
+      [ [ 600, 470, 170, 430, 300 ], 1, 0 ],
+      [ [ 600, 470, 170, 430, 300 ], 2, 21704 ],
+      [ [ 600, 470, 170, 430, 300 ], 3, -568512 ],
+    ];
+  }
+
+  public function testCentralMomentNullIfXEmpty() {
+    $this->assertNull( RandomVariable::centralMoment( array(), 3 ) );
+  }
 }
