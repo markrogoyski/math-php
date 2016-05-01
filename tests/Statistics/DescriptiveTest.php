@@ -251,6 +251,40 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
     ];
   }
 
+  /**
+   * @dataProvider dataProviderForPercentile
+   */
+  public function testPercentile( array $numbers, int $percentile, $value ) {
+    $this->assertEquals( $value, Descriptive::percentile( $numbers, $percentile ) );
+  }
+
+  public function dataProviderForPercentile() {
+    return [
+      [ [ 15, 20, 35, 40, 50 ], 30, 20 ],
+      [ [ 15, 20, 35, 40, 50 ], 40, 20 ],
+      [ [ 15, 20, 35, 40, 50 ], 50, 35 ],
+      [ [ 15, 20, 35, 40, 50 ], 100, 50 ],
+      [ [ 3, 6, 7, 8, 8, 10, 13, 15, 16, 20 ], 25, 7 ],
+      [ [ 3, 6, 7, 8, 8, 10, 13, 15, 16, 20 ], 50, 8 ],
+      [ [ 3, 6, 7, 8, 8, 10, 13, 15, 16, 20 ], 75, 15 ],
+      [ [ 3, 6, 7, 8, 8, 10, 13, 15, 16, 20 ], 100, 20 ],
+      [ [ 3, 6, 7, 8, 8, 9, 10, 13, 15, 16, 20 ], 25, 7 ],
+      [ [ 3, 6, 7, 8, 8, 9, 10, 13, 15, 16, 20 ], 50, 9 ],
+      [ [ 3, 6, 7, 8, 8, 9, 10, 13, 15, 16, 20 ], 75, 15 ],
+      [ [ 3, 6, 7, 8, 8, 9, 10, 13, 15, 16, 20 ], 100, 20 ],
+    ];
+  }
+
+  public function testPercentileOutOfLowerBoundsP() {
+    $this->setExpectedException('\Exception');
+    Descriptive::percentile( [1, 2, 3], -4 );
+  }
+
+  public function testPercentileOutOfUpperBoundsP() {
+    $this->setExpectedException('\Exception');
+    Descriptive::percentile( [1, 2, 3], 101 );
+  }
+
   public function testGetStatsPopulation() {
     $stats = Descriptive::getStats( [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], true );
     $this->assertTrue( is_array($stats) );
