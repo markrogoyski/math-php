@@ -134,7 +134,11 @@ $median_mad = Descriptive::medianAbsoluteDeviation($numbers);
 
 // Quartiles
 $quartiles = Descriptive::quartiles($numbers);
-// [ 0% => 13, 25% => 13, 50% => 14, 75% => 17, 100% => 21, interquartile_range => 4 ]
+// [ 0% => 13, 25% => 13, 50% => 14, 75% => 17, 100% => 21, IQR => 4 ]
+
+// IQR - Interquartile range
+$IQR = Descriptive::interquartileRange($numbers); // Same as IQR
+$IQR = Descriptive::IQR($numbers);                // Same as interquartileRange
 
 // Percentiles
 $twentieth_percentile    = Descriptive::percentile( $numbers, 20 );
