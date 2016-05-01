@@ -259,6 +259,40 @@ class Descriptive {
   }
 
   /**
+   * Compute the P-th percentile of a list of numbers
+   *
+   * Nearest rank method
+   * P-th percentile (0 <= P <= 100) of a list of N ordered values (sorted from least to greatest)
+   * is the smallest value in the list such that P percent of the data is less than or equal to that value.
+   * This is obtained by first calculating the ordinal rank,
+   * and then taking the value from the ordered list that corresponds to that rank.
+   * https://en.wikipedia.org/wiki/Percentile
+   *
+   *     ⌈  P      ⌉
+   * n = | --- × N |
+   *     | 100     |
+   *
+   * n: ordinal rank
+   * P: percentile
+   * N: number of elements in list
+   *
+   * @param array $numbers
+   * @param int   $P percentile to calculate
+   * @return number in list corresponding to P percentile
+   */
+  public static function percentile( array $numbers, int $P ) {
+    if ( $P < 0 || $P > 100 ) {
+      throw new \Exception('Percentile P must be between 0 and 100.');
+    }
+    sort($numbers);
+
+    $N = count($numbers);
+    $n = ($P / 100) * $N;
+
+    return $numbers[ ceil($n) - 1 ];
+  }
+
+  /**
    * Get a report of all the descriptive statistics over a list of numbers
    * Includes mean, median, mode, range, midrange, variance, and standard deviation, quartiles
    *
