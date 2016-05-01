@@ -228,7 +228,7 @@ class Descriptive {
    *  - The lower quartile value is the median of the lower half of the data. The upper quartile value is the median of the upper half of the data.
    *
    * @param array $numbers
-   * @return array [ 0%, 25%, 50%, 75%, 100%, interquartile_range ]
+   * @return array [ 0%, 25%, 50%, 75%, 100%, IQR ]
    */
   public static function quartiles( array $numbers ): array {
     if ( empty($numbers) ) {
@@ -249,13 +249,39 @@ class Descriptive {
     $upper_quartile = Average::median($upper_half);
 
     return [
-      '0%'                  => min($numbers),
-      '25%'                 => $lower_quartile,
-      '50%'                 => Average::median($numbers),
-      '75%'                 => $upper_quartile,
-      '100%'                => max($numbers),
-      'interquartile_range' => $upper_quartile - $lower_quartile,
+      '0%'   => min($numbers),
+      '25%'  => $lower_quartile,
+      '50%'  => Average::median($numbers),
+      '75%'  => $upper_quartile,
+      '100%' => max($numbers),
+      'IQR'  => $upper_quartile - $lower_quartile,
     ];
+  }
+
+  /**
+   * IQR - Interquartile range (midspread, middle fifty)
+   * A measure of statistical dispersion.
+   * Difference between the upper and lower quartiles.
+   * https://en.wikipedia.org/wiki/Interquartile_range
+   *
+   * IQR = Q₃ - Q₁
+   *
+   * @param array $numbers
+   * @return number
+   */
+  public static function interquartileRange( array $numbers ) {
+    return self::quartiles($numbers)['IQR'];
+  }
+
+  /**
+   * IQR - Interquartile range (midspread, middle fifty)
+   * Convenience wrapper function for interquartileRange.
+   *
+   * @param array $numbers
+   * @return number
+   */
+  public static function IQR( array $numbers ) {
+    return self::quartiles($numbers)['IQR'];
   }
 
   /**
@@ -279,6 +305,7 @@ class Descriptive {
    * @param array $numbers
    * @param int   $P percentile to calculate
    * @return number in list corresponding to P percentile
+   * @throws \Exception if $P percentile is not between 0 and 100
    */
   public static function percentile( array $numbers, int $P ) {
     if ( $P < 0 || $P > 100 ) {
