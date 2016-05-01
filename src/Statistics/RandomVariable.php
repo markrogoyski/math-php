@@ -130,4 +130,33 @@ class RandomVariable {
 
     return $Sxy / ( $sx * $sy );
   }
+
+  /**
+   * n-th Central moment
+   * A moment of a probability distribution of a random variable about the random variable's mean.
+   * It is the expected value of a specified integer power of the deviation of the random variable from the mean.
+   * https://en.wikipedia.org/wiki/Central_moment
+   *
+   *      ∑⟮xᵢ - μ⟯ⁿ
+   * μn = ----------
+   *          N
+   *
+   * @param array $X list of numbers (random variable X)
+   * @param array $n n-th central moment to calculate
+   * @return number n-th central moment
+   */
+  public static function centralMoment( array $X, $n ) {
+    if ( empty($X) ) {
+      return null;
+    }
+
+    $μ         = Average::mean($X);
+    $∑⟮xᵢ − μ⟯ⁿ = array_sum( array_map(
+      function($xᵢ) use ( $μ, $n ) { return pow( ($xᵢ - $μ), $n ); },
+      $X
+    ) );
+    $N = count($X);
+    
+    return $∑⟮xᵢ − μ⟯ⁿ / $N;
+  }
 }
