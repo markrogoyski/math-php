@@ -195,6 +195,10 @@ $Sxy = RandomVariable::sampleCovariance( $X, $Y );
 // Correlation coefficient (population and sample)
 $ρxy = RandomVariable::populationCorrelationCoefficient( $X, $Y );
 $rxy = RandomVariable::sampleCorrelationCoefficient( $X, $Y );
+
+// Central moment (nth moment)
+$second_central_moment = RandomVariable::centralMoment( $X, 2 );
+$third_central_moment  = RandomVariable::centralMoment( $X, 3 );
 ```
 
 Unit Tests
