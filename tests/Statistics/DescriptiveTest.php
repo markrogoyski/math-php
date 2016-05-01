@@ -242,12 +242,33 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase {
     return [
       [
         [ 6, 7, 15, 36, 39, 40, 41, 42, 43, 47, 49],
-        [ '0%' => 6, '25%' => 15, '50%' => 40, '75%' => 43, '100%' => 49, 'interquartile_range' => 28 ],
+        [ '0%' => 6, '25%' => 15, '50%' => 40, '75%' => 43, '100%' => 49, 'IQR' => 28 ],
       ],
       [
         [ 7, 15, 36, 39, 40, 41 ],
-        [ '0%' => 7, '25%' => 15, '50%' => 37.5, '75%' => 40, '100%' => 41, 'interquartile_range' => 25 ],
+        [ '0%' => 7, '25%' => 15, '50%' => 37.5, '75%' => 40, '100%' => 41, 'IQR' => 25 ],
       ],
+    ];
+  }
+
+  /**
+   * @dataProvider dataProviderForIQR
+   */
+  public function testInterquartileRange( array $numbers, $IQR ) {
+    $this->assertEquals( $IQR, Descriptive::interquartileRange($numbers) );
+  }
+
+  /**
+   * @dataProvider dataProviderForIQR
+   */
+  public function testIQR( array $numbers, $IQR ) {
+    $this->assertEquals( $IQR, Descriptive::IQR($numbers) );
+  }
+
+  public function dataProviderForIQR() {
+    return [
+      [ [ 6, 7, 15, 36, 39, 40, 41, 42, 43, 47, 49], 28 ],
+      [ [ 7, 15, 36, 39, 40, 41 ], 25 ],
     ];
   }
 
