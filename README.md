@@ -155,12 +155,12 @@ use Math\Statistics\Distribution
 $grades = [ 'A', 'A', 'B', 'B', 'B', 'B', 'C', 'C', 'D', 'F' ];
 
 // Frequency distributions (frequency and relative frequency)
-$frequency_distribution = Distribution::frequency($grades);         // [ A => 2,   B => 4,   C => 2,   D => 1,   F => 1   ]
-$relative_frequencies   = Distribution::relativeFrequency($grades); // [ A => 0.2, B => 0.4, C => 0.2, D => 0.1, F => 0.1 ]
+$frequencies          = Distribution::frequency($grades);         // [ A => 2,   B => 4,   C => 2,   D => 1,   F => 1   ]
+$relative_frequencies = Distribution::relativeFrequency($grades); // [ A => 0.2, B => 0.4, C => 0.2, D => 0.1, F => 0.1 ]
 
 // Cumulative frequency distributions (cumulative and cumulative relative)
-$cumulative_frequency_distribution          = Distribution::cumulativeFrequency($grades);         // [ A => 2,   B => 6,   C => 8,   D => 9,   F => 10  ]
-$cumulative_relative_frequency_distribution = Distribution::cumulativeRelativeFrequency($grades); // [ A => 0.2, B => 0.6, C => 0.8, D => 0.9, F => 1   ]
+$cumulative_frequencies          = Distribution::cumulativeFrequency($grades);         // [ A => 2,   B => 6,   C => 8,   D => 9,   F => 10  ]
+$cumulative_relative_frequencies = Distribution::cumulativeRelativeFrequency($grades); // [ A => 0.2, B => 0.6, C => 0.8, D => 0.9, F => 1   ]
 
 // Stem and leaf plot
 // Return value is array where keys are the stems, values are the leaves
