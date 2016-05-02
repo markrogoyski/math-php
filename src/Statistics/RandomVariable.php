@@ -252,7 +252,7 @@ class RandomVariable {
       function($xᵢ) use ($μ) { return pow( ($xᵢ - $μ), 3 ); },
       $X
     ) );
-    $σ³ = pow( Descriptive::standardDeviation($X, false), 3 );
+    $σ³ = pow( Descriptive::standardDeviation($X, Descriptive::SAMPLE), 3 );
     $N  = count($X);
     
     return $∑⟮xᵢ − μ⟯³ / ($σ³ * ($N - 1));
