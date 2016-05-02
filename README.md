@@ -207,10 +207,10 @@ $skewness = RandomVariable::sampleSkewness($X);      // Similar to Excel's SKEW
 $skewness = RandomVariable::skewness($X);
 
 // Kurtosis (excess)
-$kurtosis   = RandomVariable::kurtosis($X);
-platykurtic = RandomVariable::isPlatykurtic($X); // true if kurtosis is less than zero
-platykurtic = RandomVariable::isLeptokurtic($X); // true if kurtosis is greater than zero
-mesokurtic  = RandomVariable::isMesokurtic($X);  // true of kurtosis is zero
+$kurtosis    = RandomVariable::kurtosis($X);
+$platykurtic = RandomVariable::isPlatykurtic($X); // true if kurtosis is less than zero
+$platykurtic = RandomVariable::isLeptokurtic($X); // true if kurtosis is greater than zero
+$mesokurtic  = RandomVariable::isMesokurtic($X);  // true of kurtosis is zero
 ```
 
 Unit Tests
