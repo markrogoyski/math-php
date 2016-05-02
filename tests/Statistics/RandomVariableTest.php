@@ -92,7 +92,7 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase {
    * @dataProvider dataProviderForCentralMoment
    */
   public function testCentralMoment( array $X, $n, $moment ) {
-    $this->assertEQuals( $moment, RandomVariable::centralMoment( $X, $n ), '', 0.0001 );
+    $this->assertEquals( $moment, RandomVariable::centralMoment( $X, $n ), '', 0.0001 );
   }
 
   public function dataProviderForCentralMoment() {
@@ -105,5 +105,61 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase {
 
   public function testCentralMomentNullIfXEmpty() {
     $this->assertNull( RandomVariable::centralMoment( array(), 3 ) );
+  }
+
+  /**
+   * @dataProvider dataProviderForPopulationSkewness
+   */
+  public function testPopulationSkewness( array $X, $skewness ) {
+    $this->assertEquals( $skewness, RandomVariable::populationSkewness($X), '', 0.0001 );
+  }
+
+  public function dataProviderForPopulationSkewness() {
+    return [
+      [ [61,61,61,61,61,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,73,73,73,73,73,73,73,73], -0.1082 ],
+      [ [2, 3, -1, 3, 4, 5, 0, 2], -0.3677 ],
+      [ [1, 2, 3, 4, 5, 6, 8, 8], 0.07925 ],
+      [ [1, 1, 3, 4, 5, 6, 7, 8], -0.07925 ],
+      [ [3, 4, 5, 2, 3, 4, 5, 6, 4, 7 ], 0.303193 ],
+      [ [1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5, 6, 7, 8 ], 0.774523929 ],
+      [ [1,2,3,4,5,6,7,8], 0 ],
+    ];
+  }
+
+  /**
+   * @dataProvider dataProviderForSampleSkewness
+   */
+  public function testSampleSkewness( array $X, $skewness ) {
+    $this->assertEquals( $skewness, RandomVariable::sampleSkewness($X), '', 0.01 );
+  }
+
+  public function dataProviderForSampleSkewness() {
+    return [
+      [ [61,61,61,61,61,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,73,73,73,73,73,73,73,73], -0.1098 ],
+      [ [1, 2, 3, 4, 5, 9, 23, 32, 69], 1.95 ],
+      [ [3, 4, 5, 2, 3, 4, 5, 6, 4, 7 ], 0.359543 ],
+      [ [1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5, 6, 7, 8 ], 0.863378312 ],
+      [ [2, 3, -1, 3, 4, 5, 0, 2], -0.4587 ],
+      [ [-2.83, -0.95, -0.88, 1.21, -1.67, 0.83, -0.27, 1.36, -0.34, 0.48, -2.83, -0.95, -0.88, 1.21, -1.67], -0.1740 ],
+      [ [1,2,3,4,5,6,7,8], 0 ],
+    ];
+  }
+
+  /**
+   * @dataProvider dataProviderForSkewness
+   */
+  public function testSkewness( array $X, $skewness ) {
+    $this->assertEquals( $skewness, RandomVariable::skewness($X), '', 0.01 );
+  }
+
+  public function dataProviderForSkewness() {
+    return [
+      [ [61,61,61,61,61,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,73,73,73,73,73,73,73,73], -0.1076 ],
+      [ [1, 2, 3, 4, 5, 9, 23, 32, 69], 1.514 ],
+      [ [5,20,40,80,100], 0.2027 ],
+      [ [3, 4, 5, 2, 3, 4, 5, 6, 4, 7], 0.2876 ],
+      [ [1, 1, 3, 4, 5, 6, 7, 8], -0.07924 ],
+      [ [1,2,3,4,5,6,7,8], 0 ],
+    ];
   }
 }
