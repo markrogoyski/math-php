@@ -199,6 +199,12 @@ $rxy = RandomVariable::sampleCorrelationCoefficient( $X, $Y );
 // Central moment (nth moment)
 $second_central_moment = RandomVariable::centralMoment( $X, 2 );
 $third_central_moment  = RandomVariable::centralMoment( $X, 3 );
+
+// Skewness (population and sample)
+$skewness = RandomVariable::populationSkewness($X);  // Similar to Excel's SKEW.P
+$skewness = RandomVariable::sampleSkewness($X);      // Similar to Excel's SKEW
+// Alernative method of calculating skewness
+$skewness = RandomVariable::skewness($X);
 ```
 
 Unit Tests
