@@ -210,7 +210,7 @@ $skewness = RandomVariable::skewness($X);
 $kurtosis    = RandomVariable::kurtosis($X);
 $platykurtic = RandomVariable::isPlatykurtic($X); // true if kurtosis is less than zero
 $platykurtic = RandomVariable::isLeptokurtic($X); // true if kurtosis is greater than zero
-$mesokurtic  = RandomVariable::isMesokurtic($X);  // true of kurtosis is zero
+$mesokurtic  = RandomVariable::isMesokurtic($X);  // true if kurtosis is zero
 ```
 
 Unit Tests
