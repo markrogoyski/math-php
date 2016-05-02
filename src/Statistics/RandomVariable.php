@@ -159,4 +159,92 @@ class RandomVariable {
     
     return $∑⟮xᵢ − μ⟯ⁿ / $N;
   }
+
+  /**
+   * Popluation skewness
+   * A measure of the asymmetry of the probability distribution of a real-valued random variable about its mean.
+   * https://en.wikipedia.org/wiki/Skewness
+   * http://brownmath.com/stat/shape.htm
+   *
+   * This method tends to match Excel's SKEW.P function.
+   *
+   *         μ₃
+   * γ₁ = -------
+   *       μ₂³′²
+   *
+   * μ₂ is the second central moment
+   * μ₃ is the third central moment
+   *
+   * @param array $X list of numbers (random variable X)
+   * @return number
+   */
+  public static function populationSkewness( array $X ) {
+    $μ₃ = self::centralMoment( $X, 3 );
+    $μ₂ = self::centralMoment( $X, 2 );
+    
+    $μ₂³′² = pow( $μ₂, 3/2 );
+
+    return ($μ₃ /  $μ₂³′²);
+  }
+
+  /**
+   * Sample skewness
+   * A measure of the asymmetry of the probability distribution of a real-valued random variable about its mean.
+   * https://en.wikipedia.org/wiki/Skewness
+   * http://brownmath.com/stat/shape.htm
+   *
+   * This method tends to match Excel's SKEW function.
+   *
+   *         μ₃     √(n(n - 1))
+   * γ₁ = ------- × -----------
+   *       μ₂³′²       n - 2
+   *
+   * μ₂ is the second central moment
+   * μ₃ is the third central moment
+   * n is the sample size
+   *
+   * @param array $X list of numbers (random variable X)
+   * @return number
+   */
+  public static function sampleSkewness( array $X ) {
+    $n = count($X);
+    $μ₃ = self::centralMoment( $X, 3 );
+    $μ₂ = self::centralMoment( $X, 2 );
+    $μ₂³′² = pow( $μ₂, 3/2 );
+    $√⟮n⟮n − 1⟯⟯ = sqrt( $n * ($n - 1) );
+
+    return ($μ₃ / $μ₂³′²) * ( $√⟮n⟮n − 1⟯⟯ / ($n - 2) );
+  }
+
+  /**
+   * Skewness (alternative method)
+   * This method tends to match most of the online skewness calculators and examples.
+   * https://en.wikipedia.org/wiki/Skewness
+   *
+   *         1     ∑⟮xᵢ - μ⟯³
+   * γ₁ =  ----- × ---------
+   *       N - 1       σ³
+   *
+   * μ is the mean
+   * σ³ is the standard deviation cubed, or, the variance raised to the 3/2 power.
+   * N is the sample size
+   *
+   * @param array $X list of numbers (random variable X)
+   * @return number
+   */
+  public static function skewness( array $X ) {
+    if ( empty($X) ) {
+      return null;
+    }
+
+    $μ         = Average::mean($X);
+    $∑⟮xᵢ − μ⟯³ = array_sum( array_map(
+      function($xᵢ) use ($μ) { return pow( ($xᵢ - $μ), 3 ); },
+      $X
+    ) );
+    $σ³ = pow( Descriptive::standardDeviation($X, false), 3 );
+    $N = count($X);
+    
+    return $∑⟮xᵢ − μ⟯³ / ($σ³ * ($N - 1));
+  }
 }
