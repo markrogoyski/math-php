@@ -179,6 +179,10 @@ class RandomVariable {
    * @return number
    */
   public static function populationSkewness( array $X ) {
+    if ( empty($X) ) {
+      return null;
+    }
+
     $μ₃ = self::centralMoment( $X, 3 );
     $μ₂ = self::centralMoment( $X, 2 );
     
@@ -207,12 +211,16 @@ class RandomVariable {
    * @return number
    */
   public static function sampleSkewness( array $X ) {
+    if ( empty($X) ) {
+      return null;
+    }
+
     $n     = count($X);
     $μ₃    = self::centralMoment( $X, 3 );
     $μ₂    = self::centralMoment( $X, 2 );
 
     $μ₂³′² = pow( $μ₂, 3/2 );
-    
+
     $√⟮n⟮n − 1⟯⟯ = sqrt( $n * ($n - 1) );
 
     return ($μ₃ / $μ₂³′²) * ( $√⟮n⟮n − 1⟯⟯ / ($n - 2) );
