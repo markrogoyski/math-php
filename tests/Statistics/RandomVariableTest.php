@@ -162,4 +162,35 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase {
       [ [1,2,3,4,5,6,7,8], 0 ],
     ];
   }
+
+  /**
+   * @dataProvider dataProviderForKurtosis
+   */
+  public function testKurtosis( array $X, $kurtosis ) {
+    $this->assertEquals( $kurtosis, RandomVariable::kurtosis($X), '', 0.001 );
+  }
+
+  public function dataProviderForKurtosis() {
+    return [
+      [ [ 1987, 1987, 1991, 1992, 1992, 1992, 1992, 1993, 1994, 1994, 1995 ], -0.2320107 ],
+      [ [ 0, 7, 7, 6, 6, 6, 5, 5, 4, 1 ], -0.27315697 ],
+      [ [ 2, 2, 4, 6, 8, 10, 10 ], -1.57407407 ],
+      [ [ 1242, 1353, 1142 ], -1.5 ],
+      [ [1, 2, 3, 4, 5, 9, 23, 32, 69], 1.389416 ],
+      [ [5,20,40,80,100], -1.525992 ],
+      [ [4, 5, 5, 5, 5, 6], 0 ],
+    ];
+  }
+
+  public function testIsPlatykurtic() {
+    $this->assertTrue( RandomVariable::isPlatykurtic([ 2, 2, 4, 6, 8, 10, 10 ]) );
+  }
+
+  public function testIsLeptokurtic() {
+    $this->assertTrue( RandomVariable::isLeptokurtic([ 1, 2, 3, 4, 5, 9, 23, 32, 69 ]) );
+  }
+
+  public function testIsMesokurtic() {
+    $this->assertTrue( RandomVariable::isMesokurtic([ 4, 5, 5, 5, 5, 6 ]) );
+  }
 }
