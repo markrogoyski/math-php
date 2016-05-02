@@ -207,10 +207,12 @@ class RandomVariable {
    * @return number
    */
   public static function sampleSkewness( array $X ) {
-    $n = count($X);
-    $μ₃ = self::centralMoment( $X, 3 );
-    $μ₂ = self::centralMoment( $X, 2 );
+    $n     = count($X);
+    $μ₃    = self::centralMoment( $X, 3 );
+    $μ₂    = self::centralMoment( $X, 2 );
+
     $μ₂³′² = pow( $μ₂, 3/2 );
+    
     $√⟮n⟮n − 1⟯⟯ = sqrt( $n * ($n - 1) );
 
     return ($μ₃ / $μ₂³′²) * ( $√⟮n⟮n − 1⟯⟯ / ($n - 2) );
@@ -243,7 +245,7 @@ class RandomVariable {
       $X
     ) );
     $σ³ = pow( Descriptive::standardDeviation($X, false), 3 );
-    $N = count($X);
+    $N  = count($X);
     
     return $∑⟮xᵢ − μ⟯³ / ($σ³ * ($N - 1));
   }
