@@ -257,4 +257,63 @@ class RandomVariable {
     
     return $∑⟮xᵢ − μ⟯³ / ($σ³ * ($N - 1));
   }
+
+  /**
+   * Excess Kurtosis
+   * A measure of the "tailedness" of the probability distribution of a real-valued random variable.
+   * https://en.wikipedia.org/wiki/Kurtosis
+   *
+   *       μ₄
+   * γ₂ = ---- − 3
+   *       μ₂²
+   *
+   * μ₂ is the second central moment
+   * μ₄ is the fourth central moment
+   *
+   * @param array $X list of numbers (random variable X)
+   * @return number
+   */
+  public static function kurtosis( array $X ) {
+    if ( empty($X) ) {
+      return null;
+    }
+
+    $μ₄  = self::centralMoment( $X, 4 );
+    $μ₂² = pow( self::centralMoment( $X, 2 ), 2 );
+
+    return ( $μ₄ / $μ₂² ) - 3;
+  }
+
+  /**
+   * Is the kurtosis negative? (Platykurtic)
+   * Indicates a flat distribution.
+   *
+   * @param array $X list of numbers (random variable X)
+   * @return bool true if platykurtic
+   */
+  public static function isPlatykurtic( array $X ): bool {
+    return self::kurtosis($X) < 0;
+  }
+
+  /**
+   * Is the kurtosis postive? (Leptokurtic)
+   * Indicates a peaked distribution.
+   *
+   * @param array $X list of numbers (random variable X)
+   * @return bool true if leptokurtic
+   */
+  public static function isLeptokurtic( array $X ): bool {
+    return self::kurtosis($X) > 0;
+  }
+
+  /**
+   * Is the kurtosis zero? (Mesokurtic)
+   * Indicates a normal distribution.
+   *
+   * @param array $X list of numbers (random variable X)
+   * @return bool true if mesokurtic
+   */
+  public static function isMesokurtic( array $X ): bool {
+    return self::kurtosis($X) == 0;
+  }
 }
