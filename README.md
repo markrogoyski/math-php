@@ -214,7 +214,7 @@ $platykurtic = RandomVariable::isLeptokurtic($X); // true if kurtosis is greater
 $mesokurtic  = RandomVariable::isMesokurtic($X);  // true if kurtosis is zero
 ```
 
-### Statistics - Random Variables
+### Statistics - Regressions
 ```php
 use Math\Statistics\Regression
 
@@ -223,7 +223,7 @@ $points = [ [1,2], [2,3], [4,5], [5,7], [6,8] ];
 // Simple linear regression (least squares method)
 $linear_regression = Regression::linear($points);
 print_r($linear_regression);
-/**
+/*
 Array (
     [regression equation]          => 0.6046511627907 + 1.2209302325581x
     [slope]                        => 1.2209302325581
