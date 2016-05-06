@@ -237,12 +237,12 @@ Array (
 */
 
 // R - correlation coefficient
-$r = Regression::r($points);                      // same as correlationCoefficient
-$r = Regression::correlationCoefficient($points); // same as r
+$R = Regression::r($points);                      // same as correlationCoefficient
+$R = Regression::correlationCoefficient($points); // same as r
 
 // R² - coefficient of determination
-$r2 = Regression::r2($points);                        // same as coefficientOfDetermination
-$r2 = Regression::coefficientOfDetermination($points) // same as r2
+$R² = Regression::r2($points);                        // same as coefficientOfDetermination
+$R² = Regression::coefficientOfDetermination($points) // same as r2
 ```
 
 Unit Tests
