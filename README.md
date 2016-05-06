@@ -15,6 +15,7 @@ Features
      * Descriptive
      * Distributions
      * Random Variables
+     * Regressions
 
 Setup
 -----
@@ -211,6 +212,37 @@ $kurtosis    = RandomVariable::kurtosis($X);
 $platykurtic = RandomVariable::isPlatykurtic($X); // true if kurtosis is less than zero
 $platykurtic = RandomVariable::isLeptokurtic($X); // true if kurtosis is greater than zero
 $mesokurtic  = RandomVariable::isMesokurtic($X);  // true if kurtosis is zero
+```
+
+### Statistics - Random Variables
+```php
+use Math\Statistics\Regression
+
+$points = [ [1,2], [2,3], [4,5], [5,7], [6,8] ];
+
+// Simple linear regression (least squares method)
+$linear_regression = Regression::linear($points);
+print_r($linear_regression);
+/**
+Array (
+    [regression equation]          => 0.6046511627907 + 1.2209302325581x
+    [slope]                        => 1.2209302325581
+    [y intercept]                  => 0.6046511627907
+    [correlation coefficient]      => 0.99304378406301
+    [coefficient of determination] => 0.98613595706619
+    [sample size]                  => 5
+    [mean x]                       => 3.6
+    [mean y]                       => 5
+)
+*/
+
+// R - correlation coefficient
+$r = Regression::r($points);                      // same as correlationCoefficient
+$r = Regression::correlationCoefficient($points); // same as r
+
+// R² - coefficient of determination
+$r2 = Regression::r2($points);                        // same as coefficientOfDetermination
+$r2 = Regression::coefficientOfDetermination($points) // same as r2
 ```
 
 Unit Tests
