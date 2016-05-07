@@ -126,4 +126,21 @@ class Distribution {
       range( 0, $k )
     ) );
   }
+
+  /**
+   * Continuous uniform distribution
+   * Computes the probability of a specific interval within the continuous uniform distribution.
+   *
+   * @param number $a lower boundary of the distribution
+   * @param number $b upper boundary of the distribution
+   * @param number $x₁ lower boundary of the probability interval
+   * @param number $x₂ upper boundary of the probability interval
+   * @return number probability of specific interval
+   */
+  public static function continuousUniform( $a, $b, $x₁, $x₂ ) {
+    if ( ( $x₁ < $a || $x₁ > $b ) || ( $x₂ < $a || $x₂ > $b ) ) {
+      throw new \Exception('x values are outside of the distribution.');
+    }
+    return ( $x₂ - $x₁ ) / ( $b - $a );
+  }
 }
