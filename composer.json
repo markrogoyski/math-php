@@ -2,7 +2,7 @@
   "name": "markrogoyski/math-php",
   "type": "library",
   "description": "Math Library for PHP",
-  "keywords": ["math", "mathematics", "probability", "combinatorics", "statistics"],
+  "keywords": ["math", "mathematics", "probability", "combinatorics", "statistics", "distributions", "regressions"],
   "homepage": "https://github.com/markrogoyski/math-php/",
   "require": {
     "php": ">=7.0.0"
