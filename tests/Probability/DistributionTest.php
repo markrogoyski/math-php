@@ -183,4 +183,24 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
     $this->setExpectedException('\Exception');
     Distribution::poisson( 2, -1 );
   }
+
+  /**
+   * @dataProvider dataProviderForContinuousUniform
+   */
+  public function testContinuousUniform( $a, $b, $x₁, $x₂, $probability ) {
+    $this->assertEquals( $probability, Distribution::continuousUniform( $a, $b, $x₁, $x₂ ), '', 0.001 );
+  }
+
+  public function dataProviderForContinuousUniform() {
+    return [
+      [ 1, 4, 2, 3, 0.3333 ],
+      [ 0.6, 12.2, 2.1, 3.4, 0.11206897 ],
+      [ 1.6, 14, 4, 9, 0.40322581 ],
+    ];
+  }
+
+  public function testContinuousUniformExceptionXOutOfBounds() {
+    $this->setExpectedException('\Exception');
+    Distribution::continuousUniform( 1, 2, 3, 4 );
+  }
 }
