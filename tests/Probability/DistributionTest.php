@@ -149,6 +149,7 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
       [ 3, 5, 0.140373895814280564513 ],
       [ 8, 6, 0.103257733530844 ],
       [ 2, 0.45, 0.065 ],
+      [ 16, 12, 0.0542933401099791 ],
     ];
   }
 
@@ -169,6 +170,7 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
       [ 3, 5, 0.2650 ],
       [ 8, 6, 0.8472374939845613089968 ],
       [ 2, 0.45, 0.99 ],
+      [ 16, 12, 0.898708992560164 ],
     ];
   }
 
