@@ -28,6 +28,23 @@ class Distribution {
   }
 
   /**
+   * Cumulative binomial distribution
+   * Computes and sums the binomial distribution at each of the values in r.
+   *
+   * @param  int   $n number of events
+   * @param  int   $r number of successful events
+   * @param  float $P probability of success
+   * @return number
+   */
+  public static function cumulativeBinomial( int $n, int $r, float $p ): float {
+    $cumulative_probability = 0;
+    for ( $i = $r; $i >= 0; $i-- ) {
+      $cumulative_probability += self::binomial( $n, $i, $p );
+    }
+    return $cumulative_probability;
+  }
+
+  /**
    * Negative binomial distribution (Pascal distribution)
    * https://en.wikipedia.org/wiki/Negative_binomial_distribution
    *
