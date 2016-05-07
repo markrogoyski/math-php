@@ -24,6 +24,7 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
       [ 10, 5, 0.85, 0.0084909 ],
       [ 50, 48, 0.97, 0.2555182 ],
       [ 5, 4, 1, 0.0 ],
+      [ 12, 4, 0.2, 0.1329 ]
     ];
   }
 
@@ -35,6 +36,30 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
   public function testBinomialProbabilityUpperBoundException() {
     $this->setExpectedException('\Exception');
     Distribution::binomial( 6, 2, 1.1 );
+  }
+
+  /**
+   * @dataProvider dataProviderForCumulativeBinomial
+   */
+  public function testCumulativeBinomial( int $n, int $r, float $p, float $cumulative_binomial_distribution ) {
+    $this->assertEquals( $cumulative_binomial_distribution, Distribution::cumulativeBinomial( $n, $r, $p ), '', 0.001 );
+  }
+
+  /**
+   * Data provider for cumulative binomial
+   * Data: [ n, r, p, cumulative binomial distribution ]
+   */
+  public function dataProviderForCumulativeBinomial() {
+    return [
+      [ 2, 1, 0.5, 0.75 ],
+      [ 2, 1, 0.4, 0.84 ],
+      [ 6, 2, 0.7, 0.07047 ],
+      [ 8, 7, 0.83, 0.7747708 ],
+      [ 10, 5, 0.85, 0.009874091 ],
+      [ 50, 48, 0.97, 0.4447201 ],
+      [ 5, 4, 1, 0.0 ],
+      [ 12, 4, 0.2, 0.92744 ],
+    ];
   }
 
   /**
