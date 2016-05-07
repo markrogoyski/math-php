@@ -95,6 +95,13 @@ $k = 3; // events in the interval
 $λ = 2; // average number of successful events per interval
 $poisson            = Distribution::poisson( $k, $λ );
 $cumulative_poisson = Distribution::cumulativePoisson( $k, $λ );
+
+// Continuous uniform distribution
+$a  = 2;  // lower boundary of distribution
+$b  = 10; // upper boundary of distribution
+$x₁ = 4;  // lower boundary of probability interval
+$x₂ = 6;  // upper boundary of probability interval
+$probability = Distribution::continuousUniform( $a, $b, $x₁, $x₂ );
 ```
 
 ### Statistics - Averages
