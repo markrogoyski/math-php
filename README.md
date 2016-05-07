@@ -251,5 +251,5 @@ Unit Tests
 
 ```bash
 $ cd tests
-$ phpunit .
+$ phpunit
 ```
