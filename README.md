@@ -80,7 +80,8 @@ use Math\Probability\Distribution;
 $n = 2;   // number of events
 $r = 1;   // number of successful events
 $P = 0.5; // probability of success
-$binomial = Distribution::binomial( $n, $r, $P );
+$binomial            = Distribution::binomial( $n, $r, $P );
+$cumulative_binomial = Distribution::cumulativeBinomial( $n, $r, $P );
 
 // Negative binomial distribution (Pascal)
 $x = 2;   // number of trials required to produce r successes
