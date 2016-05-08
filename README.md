@@ -102,6 +102,17 @@ $b  = 10; // upper boundary of distribution
 $x₁ = 4;  // lower boundary of probability interval
 $x₂ = 6;  // upper boundary of probability interval
 $probability = Distribution::continuousUniform( $a, $b, $x₁, $x₂ );
+
+// Exponential distribution
+$λ = 1; // rate parameter
+$x = 2; // random variable
+$pdf = Distribution::exponential( $λ, $x );           // probability density function
+$cdf = Distribution::cumulativeExponential( $λ, $x ); // cumulative distribution function
+
+// Probability that an exponentially distributed random variable X is between two numbers x₁ and x₂
+$x₁ = 2;
+$x₂ = 3;
+$probability = Distribution::cumulativeExponentialBetweenTwoNumbers( $λ, $x₁, $x₂ );
 ```
 
 ### Statistics - Averages
