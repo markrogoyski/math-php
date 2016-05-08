@@ -203,4 +203,56 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
     $this->setExpectedException('\Exception');
     Distribution::continuousUniform( 1, 2, 3, 4 );
   }
+
+  /**
+   * @dataProvider dataProviderForExponential
+   */
+  public function testExponential( $λ, $x, $probability ) {
+    $this->assertEquals( $probability, Distribution::exponential( $λ, $x ), '', 0.001 );
+  }
+
+  public function dataProviderForExponential() {
+    return [
+      [ 1, 0, 1 ],
+      [ 1, 1, 0.36787944117 ],
+      [ 1, 2, 0.13533528323 ],
+      [ 1, 3, 0.04978706836 ],
+    ];
+  }
+
+  /**
+   * @dataProvider dataProviderForCumulativeExponential
+   */
+  public function testCumulativeExponential( $λ, $x, $probability ) {
+    $this->assertEquals( $probability, Distribution::cumulativeExponential( $λ, $x ), '', 0.001 );
+  }
+
+  public function dataProviderForCumulativeExponential() {
+    return [
+      [ 1, 0, 0 ],
+      [ 1, 1, 0.6321206 ],
+      [ 1, 2, 0.8646647 ],
+      [ 1, 3, 0.9502129 ],
+      [ 1/3, 2, 0.4865829 ],
+      [ 1/3, 4, 0.7364029 ],
+      [ 1/5, 4, 0.550671 ],
+    ];
+  }
+
+  /**
+   * @dataProvider dataProviderForCumulativeExponentialBewteenTwoNumbers
+   */
+  public function testCumulativeExponentialBetweenTwoNumbers( $λ, $x₁, $x₂, $probability ) {
+    $this->assertEquals( $probability, Distribution::cumulativeExponentialBetweenTwoNumbers( $λ, $x₁, $x₂ ), '', 0.001 );
+  }
+
+  public function dataProviderForCumulativeExponentialBewteenTwoNumbers() {
+    return [
+      [ 1, 2, 3, 0.0855 ],
+      [ 1, 3, 2, -0.0855 ],
+      [ 0.5, 2, 4, 0.23254 ],
+      [ 1/3, 2, 4, 0.24982 ],
+      [ 0.125, 5.4, 5.6, 0.01257 ],
+    ];
+  }
 }
