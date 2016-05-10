@@ -255,4 +255,19 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
       [ 0.125, 5.4, 5.6, 0.01257 ],
     ];
   }
+
+  /**
+   * @dataProvider dataProviderForNormal
+   */
+  public function testNormal( $x, $μ, $σ, $pdf ) {
+    $this->assertEquals( $pdf, Distribution::normal( $x, $μ, $σ ), '', 0.001 );
+  }
+
+  public function dataProviderForNormal() {
+    return [
+      [ 84, 72, 15.2, 0.01921876 ],
+      [ 26, 25, 2, 0.17603266338 ],
+      [ 4, 0, 1, .000133830225 ],
+    ];
+  }
 }
