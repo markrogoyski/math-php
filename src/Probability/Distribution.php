@@ -202,4 +202,28 @@ class Distribution {
   public static function cumulativeExponentialBetweenTwoNumbers( float $λ, float $x₁, float $x₂ ): float {
     return self::cumulativeExponential( $λ, $x₂ ) - self::cumulativeExponential( $λ, $x₁ );
   }
+
+  /**
+   * Normal distribution - probability density function
+   *
+   * https://en.wikipedia.org/wiki/Normal_distribution
+   *
+   *              1
+   * f(x|μ,σ) = ----- ℯ^−⟮x − μ⟯²∕2σ²
+   *            σ√⟮2π⟯
+   *
+   * @param number $x random variable
+   * @param number $μ mean
+   * @param number $σ standard deviation
+   * @return float f(x|μ,σ)
+   */
+  public static function normal( $x, $μ, $σ ): float {
+    $σ√⟮2π⟯ = $σ * sqrt( 2 * \M_PI );
+
+    $⟮x − μ⟯²∕2σ² = pow( ($x - $μ), 2 ) / (2 * $σ**2);
+
+    $ℯ＾−⟮x − μ⟯²∕2σ² = pow( \M_E, -$⟮x − μ⟯²∕2σ² );
+
+    return ( 1 / $σ√⟮2π⟯ ) * $ℯ＾−⟮x − μ⟯²∕2σ²;
+  }
 }
