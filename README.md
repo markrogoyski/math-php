@@ -231,6 +231,10 @@ $kurtosis    = RandomVariable::kurtosis($X);
 $platykurtic = RandomVariable::isPlatykurtic($X); // true if kurtosis is less than zero
 $platykurtic = RandomVariable::isLeptokurtic($X); // true if kurtosis is greater than zero
 $mesokurtic  = RandomVariable::isMesokurtic($X);  // true if kurtosis is zero
+
+// Error function (Gauss error function)
+$error = RandomVariable::errorFunction($x); // same as erf
+$error = RandomVariable::erf($x);           // same as errorFunction
 ```
 
 ### Statistics - Regressions
