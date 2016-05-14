@@ -316,4 +316,52 @@ class RandomVariable {
   public static function isMesokurtic( array $X ): bool {
     return self::kurtosis($X) == 0;
   }
+
+  /**
+   * Error function (Gauss error function)
+   * https://en.wikipedia.org/wiki/Error_function
+   *
+   * This is an approximation of the error function (maximum error: 1.5×10−7)
+   *
+   * erf(x) ≈ 1 - (a₁t + a₂t² + a₃t³ + a₄t⁴ + a₅t⁵)ℯ^-x²
+   *
+   *       1
+   * t = ------
+   *     1 + px
+   *
+   * p = 0.3275911
+   * a₁ = 0.254829592, a₂ = −0.284496736, a₃ = 1.421413741, a₄ = −1.453152027, a₅ = 1.061405429
+   *
+   * @param  number $x
+   * @return number
+   */
+  public static function errorFunction($x) {
+    if ( $x == 0 ) {
+      return 0;
+    }
+
+    $p  = 0.3275911;
+    $t  = 1 / ( 1 + $p*abs($x) );
+
+    $a₁ = 0.254829592;
+    $a₂ = -0.284496736;
+    $a₃ = 1.421413741;
+    $a₄ = -1.453152027;
+    $a₅ = 1.061405429;
+
+    $error = 1 - ( $a₁*$t + $a₂*$t**2 + $a₃*$t**3 + $a₄*$t**4 + $a₅*$t**5 ) * exp( -abs($x)**2 );
+
+    return ( $x > 0 ) ? $error : -$error;
+  }
+
+  /**
+   * Error function (Gauss error function)
+   * Convenience method for errorFunction
+   *
+   * @param  number $x
+   * @return number
+   */
+  public static function erf($x) {
+    return self::errorFunction($x);
+  }
 }
