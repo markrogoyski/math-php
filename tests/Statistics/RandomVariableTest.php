@@ -193,4 +193,29 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase {
   public function testIsMesokurtic() {
     $this->assertTrue( RandomVariable::isMesokurtic([ 4, 5, 5, 5, 5, 6 ]) );
   }
+
+  /**
+   * @dataProvider dataProviderForErrorFunction
+   */
+  public function testErrorFunction( $x, $error ) {
+    $this->assertEquals( $error, RandomVariable::errorFunction($x), '', 0.0001 );
+  }
+
+  /**
+   * @dataProvider dataProviderForErrorFunction
+   */
+  public function testErf( $x, $error ) {
+    $this->assertEquals( $error, RandomVariable::erf($x), '', 0.0001 );
+  }
+
+  public function dataProviderForErrorFunction() {
+    return [
+      [ 0, 0 ],
+      [ 1, 0.8427007929497148693412 ],
+      [ -1, -0.8427007929497148693412 ],
+      [ 2, 0.9953222650189527341621 ],
+      [ 3.4, 0.9999984780066371377146 ],
+      [ 0.154, 0.1724063976196591819236 ],
+    ];
+  }
 }
