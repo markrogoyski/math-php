@@ -270,4 +270,68 @@ class DistributionTest extends \PHPUnit_Framework_TestCase {
       [ 4, 0, 1, .000133830225 ],
     ];
   }
+
+  /**
+   * @dataProvider dataProviderForCumulativeNormal
+   */
+  public function testCumulativeNormal( $x, $μ, $σ, $probability ) {
+    $this->assertEquals( $probability, Distribution::cumulativeNormal( $x, $μ, $σ ), '', 0.001 );
+  }
+
+  public function dataProviderForCumulativeNormal() {
+    return [
+      [ 84, 72, 15.2, 0.7851 ],
+      [ 26, 25, 2, 0.6915 ],
+      [ 6, 5, 1, 0.8413 ],
+      [ 39, 25, 14, 0.8413 ],
+      [ 1.96, 0, 1, 0.975 ],
+      [ 3.5, 4, 0.3, 0.0478 ],
+      [ 1.3, 1, 1.1, 0.6075 ],
+    ];
+  }
+
+  /**
+   * @dataProvider dataProviderForCulmulativeNormalAbove
+   */
+  public function testCumulativeNormalAbove( $x, $μ, $σ, $probability ) {
+    $this->assertEquals( $probability, Distribution::cumulativeNormalAbove( $x, $μ, $σ ), '', 0.001 );
+  }
+
+  public function dataProviderForCulmulativeNormalAbove() {
+    return [
+      [ 1.96, 0, 1, 0.025 ],
+      [ 3.5, 4, 0.3, 0.9522  ],
+      [ 1.3, 1, 1.1, 0.3925 ],
+    ];
+  }
+
+  /**
+   * @dataProvider dataProviderForCulmulativeNormalBetween
+   */
+  public function testCumulativeNormalBetween( $x₁, $x₂, $μ, $σ, $probability ) {
+    $this->assertEquals( $probability, Distribution::cumulativeNormalBetween( $x₁, $x₂, $μ, $σ ), '', 0.001 );
+  }
+
+  public function dataProviderForCulmulativeNormalBetween() {
+    return [
+      [ -1.96, 1.96, 0, 1, 0.95 ],
+      [ 3.5, 4.4, 4, 0.3, 0.861 ],
+      [ -1.3, 1.3, 1, 1.1, 0.5892 ],
+    ];
+  }
+
+  /**
+   * @dataProvider dataProviderForCulmulativeNormalOutside
+   */
+  public function testCumulativeNormalOutside( $x₁, $x₂, $μ, $σ, $probability ) {
+    $this->assertEquals( $probability, Distribution::cumulativeNormalOutside( $x₁, $x₂, $μ, $σ ), '', 0.001 );
+  }
+
+  public function dataProviderForCulmulativeNormalOutside() {
+    return [
+      [ -1.96, 1.96, 0, 1, 0.05 ],
+      [ 3.5, 4.4, 4, 0.3, 0.139 ],
+      [ -1.3, 1.3, 1, 1.1, 0.4108 ],
+    ];
+  }
 }
