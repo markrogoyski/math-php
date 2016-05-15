@@ -7,8 +7,8 @@ class StandardNormalTableTest extends \PHPUnit_Framework_TestCase {
   /**
    * @dataProvider dataProviderForZScores
    */
-  public function testGetZScore( $Z, $Φ ) {
-    $this->assertEquals( $Φ, StandardNormalTable::getZScore($Z), '', 0.0001 );
+  public function testGetZScoreProbability( $Z, $Φ ) {
+    $this->assertEquals( $Φ, StandardNormalTable::getZScoreProbability($Z), '', 0.0001 );
   }
 
   public function dataProviderForZScores() {

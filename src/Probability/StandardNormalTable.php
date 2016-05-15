@@ -98,12 +98,12 @@ class StandardNormalTable {
   ];
 
   /**
-   * Get Z score (Φ)
+   * Get Z score probability (Φ)
    *
    * @param float $Z
    * @return float probability
    */
-  static function getZScore( float $Z ): float {
+  static function getZScoreProbability( float $Z ): float {
     if ( !preg_match( '/^ (\-? \d [.] \d) (\d) $/x', sprintf( '%1.2f', $Z ), $matches) ) {
       throw new \Exception("Z does not match format X.XX: $Z");
     }
