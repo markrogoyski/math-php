@@ -1,6 +1,10 @@
 <?php
 namespace Math\Probability;
 require_once('Combinatorics.php');
+require_once( __DIR__ . '/../Statistics/RandomVariable.php' );
+require_once('StandardNormalTable.php');
+
+use Math\Statistics\RandomVariable;
 
 class Distribution {
 
@@ -225,5 +229,67 @@ class Distribution {
     $ℯ＾−⟮x − μ⟯²∕2σ² = pow( \M_E, -$⟮x − μ⟯²∕2σ² );
 
     return ( 1 / $σ√⟮2π⟯ ) * $ℯ＾−⟮x − μ⟯²∕2σ²;
+  }
+
+  /**
+   * Normal distribution - cumulative distribution function
+   * Probability of being below X.
+   * Area under the normal distribution from -∞ to X. 
+   *             _                  _
+   *          1 |         / x - μ \  |
+   * cdf(x) = - | 1 + erf|  ----- |  |
+   *          2 |_        \  σ√2  / _|
+   *
+   * @param number $x upper bound
+   * @param number $μ mean
+   * @param number $σ standard deviation
+   * @return float cdf(x) below
+   */
+  public static function cumulativeNormal( $x, $μ, $σ ): float {
+    return 1/2 * ( 1 + RandomVariable::erf( ($x - $μ) / ($σ * sqrt(2)) ) );
+  }
+
+  /**
+   * Normal distribution above - cumulative distribution function
+   * Probability of being above X.
+   * Area under the normal distribution from X to ∞
+   *
+   * @param number $x lower bound
+   * @param number $μ mean
+   * @param number $σ standard deviation
+   * @return float cdf(x) above
+   */
+  public static function cumulativeNormalAbove( $x, $μ, $σ ): float {
+    return 1 - self::cumulativeNormal( $x, $μ, $σ );
+  }
+
+  /**
+   * Normal distribution between two points - cumulative distribution function
+   * Probability of being bewteen x₁ and x₂.
+   * Area under the normal distribution from x₁ to x₂.
+   *
+   * @param number x₁ lower bound
+   * @param number x₂ upper bound
+   * @param number $μ mean
+   * @param number $σ standard deviation
+   * @return float cdf(x) between
+   */
+  public static function cumulativeNormalBetween( $x₁, $x₂, $μ, $σ ): float {
+    return self::cumulativeNormal( $x₂, $μ, $σ ) - self::cumulativeNormal( $x₁, $μ, $σ );
+  }
+
+  /**
+   * Normal distribution outside two points - cumulative distribution function
+   * Probability of being bewteen below x₁ and above x₂.
+   * Area under the normal distribution from -∞ to x₁ and x₂ to ∞.
+   *
+   * @param number x₁ lower bound
+   * @param number x₂ upper bound
+   * @param number $μ mean
+   * @param number $σ standard deviation
+   * @return float cdf(x) between
+   */
+  public static function cumulativeNormalOutside( $x₁, $x₂, $μ, $σ ): float {
+    return self::cumulativeNormal( $x₁, $μ, $σ ) + self::cumulativeNormalAbove( $x₂, $μ, $σ );
   }
 }
