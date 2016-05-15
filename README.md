@@ -235,6 +235,9 @@ $mesokurtic  = RandomVariable::isMesokurtic($X);  // true if kurtosis is zero
 // Error function (Gauss error function)
 $error = RandomVariable::errorFunction($x); // same as erf
 $error = RandomVariable::erf($x);           // same as errorFunction
+
+$error = RandomVariable::complementaryErrorFunction($x); // same as erfc
+$error = RandomVariable::erfc($x);                       // same as complementaryErrorFunction
 ```
 
 ### Statistics - Regressions
