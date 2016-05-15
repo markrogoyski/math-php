@@ -113,6 +113,24 @@ $cdf = Distribution::cumulativeExponential( $λ, $x ); // cumulative distributio
 $x₁ = 2;
 $x₂ = 3;
 $probability = Distribution::cumulativeExponentialBetweenTwoNumbers( $λ, $x₁, $x₂ );
+
+// Normal distribution - probability density function (pdf)
+$μ = 0;
+$σ = 1;
+$x = 2;
+$probability = Distribution::normal( $x, $μ, $σ );
+
+// Normal distrubution - cumulative distribution function (cdf)
+$μ = 0;
+$σ = 1;
+$x = 1.5;
+$probability = Distribition::cumulativeNormal( $x, $μ, $σ );      // from -∞ to X
+$probability = Distribution::cumulativeNormalAbove( $x, $μ, $σ ); // from X to ∞
+
+$x₁ = 1;
+$x₂ = 2;
+$probability = Distribution::cumulativeNormalBetween( $x₁, $x₂, $μ, $σ ); // from x₁ to x₂
+$probability = Distribution::cumulativeNormalOutside( $x₁, $x₂, $μ, $σ ); // from -∞ to x₁ and x₂ to ∞
 ```
 
 ### Statistics - Averages
