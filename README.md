@@ -10,6 +10,7 @@ Features
  * Probability
      * Combinatorics
      * Distributions
+     * Standard Normal Table (Z Table)
  * Statistics
      * Averages
      * Descriptive
@@ -131,6 +132,19 @@ $x₁ = 1;
 $x₂ = 2;
 $probability = Distribution::cumulativeNormalBetween( $x₁, $x₂, $μ, $σ ); // from x₁ to x₂
 $probability = Distribution::cumulativeNormalOutside( $x₁, $x₂, $μ, $σ ); // from -∞ to x₁ and x₂ to ∞
+```
+
+### Probability - Standard Normal Table (Z Table)
+```php
+use Math\Probability\StandardNormalTable;
+
+// Get probability from Z-score
+$Z           = 1.50;
+$probability = StandardNormalTable::getZScoreProbability($Z);
+
+// Access the entire Z table (positive and negative Z-scores)
+$z_table     = StandardNormalTable::Z_SCORES;
+$probability = $z_table[1.5][0];
 ```
 
 ### Statistics - Averages
