@@ -364,4 +364,26 @@ class RandomVariable {
   public static function erf($x) {
     return self::errorFunction($x);
   }
+
+  /**
+   * Complementary error function (erfc)
+   * erfc(x) ≡ 1 - erf(x)
+   *
+   * @param  number $x
+   * @return number
+   */
+  public static function complementaryErrorFunction($x) {
+    return 1 - self::erf($x);
+  }
+
+  /**
+   * Complementary error function (erfc)
+   * Convenience method for complementaryErrorFunction
+   *
+   * @param  number $x
+   * @return number
+   */
+  public static function erfc($x) {
+    return 1 - self::erf($x);
+  }
 }
