@@ -1,6 +1,5 @@
 <?php
 namespace Math\Arithmetic;
-require_once( __DIR__ . '/../../src/Arithmetic/Functions.php' );
 
 class FunctionsTest extends \PHPUnit_Framework_TestCase {
 

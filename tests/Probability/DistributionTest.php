@@ -1,6 +1,5 @@
 <?php
 namespace Math\Probability;
-require_once( __DIR__ . '/../../src/Probability/Distribution.php' );
 
 class DistributionTest extends \PHPUnit_Framework_TestCase {
 

@@ -1,9 +1,7 @@
 <?php
 namespace Math\Probability;
-require_once('Combinatorics.php');
-require_once( __DIR__ . '/../Statistics/RandomVariable.php' );
-require_once('StandardNormalTable.php');
 
+use Math\Probability\Combinatorics;
 use Math\Statistics\RandomVariable;
 
 class Distribution {

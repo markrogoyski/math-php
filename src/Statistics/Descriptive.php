@@ -1,6 +1,7 @@
 <?php
 namespace Math\Statistics;
-require_once('Average.php');
+
+use Math\Statistics\Average;
 
 class Descriptive {
 

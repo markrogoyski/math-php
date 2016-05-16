@@ -1,6 +1,5 @@
 <?php
 namespace Math\Statistics;
-require_once( __DIR__ . '/../../src/Statistics/RandomVariable.php' );
 
 class RandomVariableTest extends \PHPUnit_Framework_TestCase {
 

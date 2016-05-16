@@ -1,6 +1,5 @@
 <?php
 namespace Math\Statistics;
-require_once( __DIR__ . '/../../src/Statistics/Distribution.php' );
 
 class DistributionTest extends \PHPUnit_Framework_TestCase {
 

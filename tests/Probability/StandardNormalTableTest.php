@@ -1,6 +1,5 @@
 <?php
 namespace Math\Probability;
-require_once( __DIR__ . '/../../src/Probability/StandardNormalTable.php' );
 
 class StandardNormalTableTest extends \PHPUnit_Framework_TestCase {
 

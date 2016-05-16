@@ -1,7 +1,8 @@
 <?php
 namespace Math\Statistics;
-require_once('Average.php');
-require_once('Descriptive.php');
+
+use Math\Statistics\Average;
+use Math\Statistics\Descriptive;
 
 class RandomVariable {
 

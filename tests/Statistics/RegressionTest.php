@@ -1,6 +1,5 @@
 <?php
 namespace Math\Statistics;
-require_once( __DIR__ . '/../../src/Statistics/Regression.php' );
 
 class RegressionTest extends \PHPUnit_Framework_TestCase {
 
