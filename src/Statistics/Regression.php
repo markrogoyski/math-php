@@ -66,6 +66,21 @@ class Regression {
   }
 
   /**
+   * Evaluate the line equation from linear regression parameters for a value of x
+   * y = α + βx
+   * Where α = y intercept
+   * Where β = slope
+   *
+   * @param number $x
+   * @param number $β slope
+   * @param number $α y intercept
+   * @return number y evaluated
+   */
+  public static function linearEvaluate( $x, $β, $α ) {
+    return $β*$x + $α;
+  }
+
+  /**
    * R - correlation coefficient (Pearson's r)
    *
    * A measure of the strength and direction of the linear relationship between two variables
