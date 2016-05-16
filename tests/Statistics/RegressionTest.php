@@ -29,6 +29,23 @@ class RegressionTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
+   * @dataProvider dataProviderForLinearEvaluate
+   */
+  public function testsLinearEvaluate( $x, $β, $α, $y ) {
+    $this->assertEquals( $y, Regression::linearEvaluate( $x, $β, $α ) );
+  }
+
+  public function dataProviderForLinearEvaluate() {
+    return [
+      [ 0, 1, 0, 0 ],
+      [ 3, 1, 0, 3 ],
+      [ 4, 2, 0, 8 ],
+      [ 5, 2.5, 1, 13.5 ],
+      [ 3, -1, 5, 2 ],
+    ];
+  }
+
+  /**
    * @dataProvider dataProviderForR
    */
   public function testCorrelationCoefficient( array $points, $r ) {
