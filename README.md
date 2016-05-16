@@ -296,6 +296,12 @@ Array (
 )
 */
 
+// Evaluate for y for any x using linear regression slope and y intercept
+$x           = 5;
+$slope       = $linear_regression['slope'];
+$y_intercept = $linear_regression['y intercept'];
+$y =         = Regression::linearEvaluate( $x, $slope, $y_intercept );
+
 // R - correlation coefficient
 $R = Regression::r($points);                      // same as correlationCoefficient
 $R = Regression::correlationCoefficient($points); // same as r
