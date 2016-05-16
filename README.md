@@ -17,6 +17,8 @@ Features
      * Distributions
      * Random Variables
      * Regressions
+ * Arithmetic
+     * Functions
 
 Setup
 -----
@@ -301,6 +303,16 @@ $R = Regression::correlationCoefficient($points); // same as r
 // R² - coefficient of determination
 $R² = Regression::r2($points);                        // same as coefficientOfDetermination
 $R² = Regression::coefficientOfDetermination($points) // same as r2
+```
+
+### Arithmetic - Functions
+```php
+use Math\Arithmetic\Functions;
+
+// Sign function (also known as signum or sgn)
+$x = 4;
+$sign = Functions::signum($x); // same as sgn
+$sign = Functions::sgn($x);    // same as signum
 ```
 
 Unit Tests
