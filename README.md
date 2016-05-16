@@ -300,7 +300,7 @@ Array (
 $x           = 5;
 $slope       = $linear_regression['slope'];
 $y_intercept = $linear_regression['y intercept'];
-$y =         = Regression::linearEvaluate( $x, $slope, $y_intercept );
+$y           = Regression::linearEvaluate( $x, $slope, $y_intercept );
 
 // R - correlation coefficient
 $R = Regression::r($points);                      // same as correlationCoefficient
