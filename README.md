@@ -316,13 +316,13 @@ Array (
     [correlation coefficient]      => 0.78831908026071
     [coefficient of determination] => 0.62144697230309
 )
+*/
 
 // Evaluate for y for any x using power law regression a and b
 $x = 83;
 $a = $power_regression['a'];
 $b = $power_regression['b'];
 $y = Regression::powerLawEvaluate( $x, $a, $b );
-*/
 
 // R - correlation coefficient
 $R = Regression::r($points);                      // same as correlationCoefficient
