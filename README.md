@@ -285,7 +285,7 @@ $linear_regression = Regression::linear($points);
 print_r($linear_regression);
 /*
 Array (
-    [regression equation]          => 0.6046511627907 + 1.2209302325581x
+    [regression equation]          => y = 0.6046511627907 + 1.2209302325581x
     [slope]                        => 1.2209302325581
     [y intercept]                  => 0.6046511627907
     [correlation coefficient]      => 0.99304378406301
@@ -301,6 +301,28 @@ $x           = 5;
 $slope       = $linear_regression['slope'];
 $y_intercept = $linear_regression['y intercept'];
 $y           = Regression::linearEvaluate( $x, $slope, $y_intercept );
+
+// Power law regression - power curve (least squares fitting)
+$power_regression = Regression::powerLaw($points);
+print_r($power_regression);
+/*
+Array (
+    [regression equation]          => y = 56.483375436574 * x^0.26415375648621
+    [a]                            => 56.483375436574
+    [b]                            => 0.26415375648621
+    [mean x]                       => 68.642857142857
+    [mean y]                       => 172.35714285714
+    [sample size]                  => 14
+    [correlation coefficient]      => 0.78831908026071
+    [coefficient of determination] => 0.62144697230309
+)
+
+// Evaluate for y for any x using power law regression a and b
+$x = 83;
+$a = $power_regression['a'];
+$b = $power_regression['b'];
+$y = Regression::powerLawEvaluate( $x, $a, $b );
+*/
 
 // R - correlation coefficient
 $R = Regression::r($points);                      // same as correlationCoefficient
