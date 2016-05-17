@@ -54,7 +54,7 @@ class Regression {
     $r = self::correlationCoefficient($points);
 
     return [
-      'regression equation'          => sprintf( '%s + %sx', $α, $β ),
+      'regression equation'          => sprintf( 'y = %s + %sx', $α, $β ),
       'slope'                        => $β,
       'y intercept'                  => $α,
       'correlation coefficient'      => $r,
@@ -78,6 +78,92 @@ class Regression {
    */
   public static function linearEvaluate( $x, $β, $α ) {
     return $β*$x + $α;
+  }
+
+  /**
+   * Power law regression (power curve) - Least squares fitting
+   * http://mathworld.wolfram.com/LeastSquaresFittingPowerLaw.html
+   *
+   * A functional relationship between two quantities,
+   * where a relative change in one quantity results in a proportional relative change in the other quantity,
+   * independent of the initial size of those quantities: one quantity varies as a power of another.
+   * https://en.wikipedia.org/wiki/Power_law
+   *
+   * y = Axᴮ
+   *
+   * Using least squares fitting: y = axᵇ
+   *
+   *     n∑⟮ln xᵢ ln yᵢ⟯ − ∑⟮ln xᵢ⟯ ∑⟮ln yᵢ⟯
+   * b = --------------------------------
+   *           n∑⟮ln xᵢ⟯² − ⟮∑⟮ln xᵢ⟯⟯²
+   *         _                    _
+   *        |  ∑⟮ln yᵢ⟯ − b∑⟮ln xᵢ⟯  |
+   * a = exp|  ------------------  | 
+   *        |_          n         _|
+   *
+   * @param array $points [ [x, y], [x, y], ... ]
+   * @return array [ regression equation, a, b, correlation coefficient, coefficient of determiniation, sample size, mean x, mean y ]
+   */
+  public static function powerLaw( array $points ) {
+    // Get list of x points and y points.
+    $xs = array_map( function($point) { return $point[self::X]; }, $points );
+    $ys = array_map( function($point) { return $point[self::Y]; }, $points );
+
+    $n = count($points);
+
+    // Intermediate b calculations
+    $n∑⟮ln xᵢ ln yᵢ⟯ = $n * array_sum( array_map(
+      function( $x, $y ) { return log($x) * log($y); },
+      $xs, $ys
+    ) );
+
+    $∑⟮ln xᵢ⟯ = array_sum( array_map(
+      function($x) { return log($x); }, $xs
+    ) );
+    $∑⟮ln yᵢ⟯ = array_sum( array_map(
+      function($y) { return log($y); }, $ys
+    ) );
+    $∑⟮ln xᵢ⟯ ∑⟮ln yᵢ⟯ = $∑⟮ln xᵢ⟯ * $∑⟮ln yᵢ⟯;
+
+    $n∑⟮ln xᵢ⟯² = $n * array_sum( array_map(
+      function($x) { return pow( log($x), 2 ); }, $xs
+    ) );
+    $⟮∑⟮ln xᵢ⟯⟯² = pow(
+      array_sum( array_map( function($x) { return log($x); }, $xs ) ),
+      2
+    );
+
+    // Calculate a and b
+    $b = ( $n∑⟮ln xᵢ ln yᵢ⟯ - $∑⟮ln xᵢ⟯ ∑⟮ln yᵢ⟯ ) / ( $n∑⟮ln xᵢ⟯² - $⟮∑⟮ln xᵢ⟯⟯² );
+    $a = exp( ( $∑⟮ln yᵢ⟯ - $b * $∑⟮ln xᵢ⟯ ) / $n );
+
+    $x = Average::mean($xs);
+    $y = Average::mean($ys);
+    $r = self::correlationCoefficient($points);
+
+    return [
+      'regression equation'          => sprintf( 'y = %s * x^%s', $a, $b ),
+      'a'                            => $a,
+      'b'                            => $b,
+      'mean x'                       => $x,
+      'mean y'                       => $y,
+      'sample size'                  => $n,
+      'correlation coefficient'      => $r,
+      'coefficient of determination' => $r * $r,
+    ];
+  }
+
+  /**
+   * Evaluate the power curve equation from power law regression parameters for a value of x
+   * y = axᵇ
+   *
+   * @param number $x
+   * @param number $a
+   * @param number $b
+   * @return number y evaluated
+   */
+  public static function powerLawEvaluate( $x, $a, $b ) {
+    return $a * $x**$b;
   }
 
   /**
