@@ -98,4 +98,40 @@ class RegressionTest extends \PHPUnit_Framework_TestCase {
       ],
     ];
   }
+
+  /**
+   * @dataProvider dataProviderForPowerLaw
+   */
+  public function testPowerLaw( array $points, $a, $b ) {
+    $power = Regression::powerLaw($points);
+    $this->assertEquals( $a, $power['a'], '', 0.0001 );
+    $this->assertEquals( $b, $power['b'], '', 0.0001 );
+  }
+
+  public function dataProviderForPowerLaw() {
+    return [
+      [
+        [ [ 83, 183 ], [ 71, 168 ], [ 64, 171 ], [ 69, 178 ], [ 69, 176 ], [ 64, 172 ], [ 68, 165 ], [ 59, 158 ], [ 81, 183 ], [ 91, 182 ], [ 57, 163 ], [ 65, 175 ], [ 58, 164 ], [ 62, 175 ] ],
+        56.48338, 0.2641538,
+      ],
+    ];
+  }
+
+  /**
+   * @dataProvider dataProviderForPowerLawEvaulate
+   */
+  public function testPowerLawEvaluate( $x, $a, $b, $y ) {
+    $this->assertEquals( $y, Regression::powerLawEvaluate( $x, $a, $b ), '', 0.0001 );
+  }
+
+  public function dataProviderForPowerLawEvaulate() {
+    return [
+      [ 83, 56.48338, 0.2641538, 181.4898448 ],
+      [ 71, 56.48338, 0.2641538, 174.1556182 ],
+      [ 64, 56.48338, 0.2641538, 169.4454327 ],
+      [ 57, 56.48338, 0.2641538, 164.3393562 ],
+      [ 91, 56.48338, 0.2641538, 185.955396 ],
+
+    ];
+  }
 }
