@@ -341,6 +341,10 @@ use Math\Arithmetic\Functions;
 $x = 4;
 $sign = Functions::signum($x); // same as sgn
 $sign = Functions::sgn($x);    // same as signum
+
+// Gamma function Γ(n)
+$n = 4;
+$Γ = Functions::gamma($n);
 ```
 
 Unit Tests
