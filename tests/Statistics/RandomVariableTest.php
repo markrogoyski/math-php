@@ -246,4 +246,27 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase {
       [ -1.034, 1.856340111375020118952 ],
     ];
   }
+
+  /**
+   * @dataProvider dataProviderForStandardErrorOfTheMean
+   */
+  public function testStandardErrorOfTheMean( array $X, float $sem ) {
+    $this->assertEquals( $sem, RandomVariable::standardErrorOfTheMean($X), '', 0.0001 );
+  }
+
+  /**
+   * @dataProvider dataProviderForStandardErrorOfTheMean
+   */
+  public function testSem( array $X, float $sem ) {
+    $this->assertEquals( $sem, RandomVariable::sem($X), '', 0.0001 );
+  }
+
+  public function dataProviderForStandardErrorOfTheMean() {
+    return [
+      [ [1,2,3,4,5,5,6,7], 0.7180703308172536 ],
+      [ [34,6,23,12,25,64,32,75], 8.509317372319423 ],
+      [ [1.5,1.3,2.532,0.43,0.042,5.9,0.9942,1.549], 0.645903079859 ],
+      [ [453543,235235,656,342,2235,6436,234,9239,3535,8392,3492,5933,244], 37584.225394 ],
+    ];
+  }
 }
