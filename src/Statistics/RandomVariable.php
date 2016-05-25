@@ -387,4 +387,35 @@ class RandomVariable {
   public static function erfc($x) {
     return 1 - self::erf($x);
   }
+
+  /**
+   * Standard error of the mean (SEM)
+   * The standard deviation of the sample-mean's estimate of a population mean.
+   * https://en.wikipedia.org/wiki/Standard_error
+   *
+   *       s
+   * SEₓ = --
+   *       √n
+   *
+   * s = sample standard deviation
+   * n = size (number of observations) of the sample
+   * 
+   * @param array $X list of numbers (random variable X)
+   * @return float
+   */
+  public static function standardErrorOfTheMean( array $X ): float {
+    $s  = Descriptive::standardDeviation( $X, Descriptive::SAMPLE );
+    $√n = sqrt( count($X) );
+    return $s / $√n;
+  }
+
+  /**
+   * SEM - Convenience method for standard error of the mean
+   * 
+   * @param array $X list of numbers (random variable X)
+   * @return float
+   */
+  public static function sem( array $X ): float {
+    return self::standardErrorOfTheMean($X);
+  }
 }
