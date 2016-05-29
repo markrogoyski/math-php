@@ -263,7 +263,7 @@ $skewness = RandomVariable::skewness($X);
 // Kurtosis (excess)
 $kurtosis    = RandomVariable::kurtosis($X);
 $platykurtic = RandomVariable::isPlatykurtic($X); // true if kurtosis is less than zero
-$platykurtic = RandomVariable::isLeptokurtic($X); // true if kurtosis is greater than zero
+$leptokurtic = RandomVariable::isLeptokurtic($X); // true if kurtosis is greater than zero
 $mesokurtic  = RandomVariable::isMesokurtic($X);  // true if kurtosis is zero
 
 // Standard error of the mean (SEM)
