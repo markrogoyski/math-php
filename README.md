@@ -43,7 +43,7 @@ Composer will install Math PHP inside your vendor folder. Then you can add the f
 .php files to use the library with Autoloading.
 
 ```php
-require_once( __DIR__ . '/vendor/autoload.php' );
+require_once(__DIR__ . '/vendor/autoload.php');
 ```
 
 ### Minimum Requirements
@@ -63,16 +63,16 @@ $permutations = Combinatorics::permutations(5); // Same as factorial
 // Permutations n choose r
 $n = 10;
 $r = 4;
-$permutations = Combinatorics::permutationsChooseR( $n, $r );
+$permutations = Combinatorics::permutationsChooseR($n, $r);
 
 // Combinations
-$combinations = Combinatorics::combinations( $n, $r );
-$combinations = Combinatorics::combinationsWithRepetition( $n, $r );
+$combinations = Combinatorics::combinations($n, $r);
+$combinations = Combinatorics::combinationsWithRepetition($n, $r);
 
 // Multinomial Theorem
 $n         = 10;
-$groups    = [ 5, 2, 3 ];
-$divisions = Combinatorics::multinomialTheorem( $n, $groups );
+$groups    = [5, 2, 3];
+$divisions = Combinatorics::multinomialTheorem($n, $groups);
 ```
 
 ### Probability - Distributions
@@ -83,57 +83,57 @@ use Math\Probability\Distribution;
 $n = 2;   // number of events
 $r = 1;   // number of successful events
 $P = 0.5; // probability of success
-$binomial            = Distribution::binomial( $n, $r, $P );
-$cumulative_binomial = Distribution::cumulativeBinomial( $n, $r, $P );
+$binomial            = Distribution::binomial($n, $r, $P);
+$cumulative_binomial = Distribution::cumulativeBinomial($n, $r, $P);
 
 // Negative binomial distribution (Pascal)
 $x = 2;   // number of trials required to produce r successes
 $r = 1;   // number of successful events
 $P = 0.5; // probability of success on an individual trial
-$negative_binomial = Distribution::negativeBinomial( $x, $r, $P );  // Same as pascal
-$pascal            = Distribution::pascal( $x, $r, $P );            // Same as negative binomial
+$negative_binomial = Distribution::negativeBinomial($x, $r, $P);  // Same as pascal
+$pascal            = Distribution::pascal($x, $r, $P);            // Same as negative binomial
 
 // Poisson distribution
 $k = 3; // events in the interval
 $λ = 2; // average number of successful events per interval
-$poisson            = Distribution::poisson( $k, $λ );
-$cumulative_poisson = Distribution::cumulativePoisson( $k, $λ );
+$poisson            = Distribution::poisson($k, $λ);
+$cumulative_poisson = Distribution::cumulativePoisson($k, $λ);
 
 // Continuous uniform distribution
 $a  = 2;  // lower boundary of distribution
 $b  = 10; // upper boundary of distribution
 $x₁ = 4;  // lower boundary of probability interval
 $x₂ = 6;  // upper boundary of probability interval
-$probability = Distribution::continuousUniform( $a, $b, $x₁, $x₂ );
+$probability = Distribution::continuousUniform($a, $b, $x₁, $x₂);
 
 // Exponential distribution
 $λ = 1; // rate parameter
 $x = 2; // random variable
-$pdf = Distribution::exponential( $λ, $x );           // probability density function
-$cdf = Distribution::cumulativeExponential( $λ, $x ); // cumulative distribution function
+$pdf = Distribution::exponential($λ, $x);           // probability density function
+$cdf = Distribution::cumulativeExponential($λ, $x); // cumulative distribution function
 
 // Probability that an exponentially distributed random variable X is between two numbers x₁ and x₂
 $x₁ = 2;
 $x₂ = 3;
-$probability = Distribution::cumulativeExponentialBetweenTwoNumbers( $λ, $x₁, $x₂ );
+$probability = Distribution::cumulativeExponentialBetweenTwoNumbers($λ, $x₁, $x₂);
 
 // Normal distribution - probability density function (pdf)
 $μ = 0;
 $σ = 1;
 $x = 2;
-$probability = Distribution::normal( $x, $μ, $σ );
+$probability = Distribution::normal($x, $μ, $σ);
 
 // Normal distrubution - cumulative distribution function (cdf)
 $μ = 0;
 $σ = 1;
 $x = 1.5;
-$probability = Distribition::cumulativeNormal( $x, $μ, $σ );      // from -∞ to X
-$probability = Distribution::cumulativeNormalAbove( $x, $μ, $σ ); // from X to ∞
+$probability = Distribition::cumulativeNormal($x, $μ, $σ);      // from -∞ to X
+$probability = Distribution::cumulativeNormalAbove($x, $μ, $σ); // from X to ∞
 
 $x₁ = 1;
 $x₂ = 2;
-$probability = Distribution::cumulativeNormalBetween( $x₁, $x₂, $μ, $σ ); // from x₁ to x₂
-$probability = Distribution::cumulativeNormalOutside( $x₁, $x₂, $μ, $σ ); // from -∞ to x₁ and x₂ to ∞
+$probability = Distribution::cumulativeNormalBetween($x₁, $x₂, $μ, $σ); // from x₁ to x₂
+$probability = Distribution::cumulativeNormalOutside($x₁, $x₂, $μ, $σ); // from -∞ to x₁ and x₂ to ∞
 ```
 
 ### Probability - Standard Normal Table (Z Table)
@@ -153,7 +153,7 @@ $probability = $z_table[1.5][0];
 ```php
 use Math\Statistics\Average;
 
-$numbers = [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ];
+$numbers = [13, 18, 13, 14, 13, 16, 14, 21, 13];
 
 // Mean, median, mode
 $mean   = Average::mean($numbers);
@@ -169,7 +169,7 @@ $averages = Average::getAverages($numbers);
 ```php
 use Math\Statistics\Descriptive
 
-$numbers = [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ];
+$numbers = [13, 18, 13, 14, 13, 16, 14, 21, 13];
 
 // Range and midrange
 $range    = Descriptive::range($numbers);
@@ -188,15 +188,15 @@ $median_mad = Descriptive::medianAbsoluteDeviation($numbers);
 
 // Quartiles
 $quartiles = Descriptive::quartiles($numbers);
-// [ 0% => 13, 25% => 13, 50% => 14, 75% => 17, 100% => 21, IQR => 4 ]
+// [0% => 13, 25% => 13, 50% => 14, 75% => 17, 100% => 21, IQR => 4]
 
 // IQR - Interquartile range
 $IQR = Descriptive::interquartileRange($numbers); // Same as IQR
 $IQR = Descriptive::IQR($numbers);                // Same as interquartileRange
 
 // Percentiles
-$twentieth_percentile    = Descriptive::percentile( $numbers, 20 );
-$ninety_fifth_percentile = Descriptive::percentile( $numbers, 95 );
+$twentieth_percentile    = Descriptive::percentile($numbers, 20);
+$ninety_fifth_percentile = Descriptive::percentile($numbers, 95);
 
 // Descriptive stats report
 // Returns array with keys: mean, median, mode, range, midrange, variance, standard deviation, mean_mad, median_mad, quartiles
@@ -206,7 +206,7 @@ $stats = Descriptive::getStats($numbers); // Has optional parameter to set popul
 ```php
 use Math\Statistics\Distribution
 
-$grades = [ 'A', 'A', 'B', 'B', 'B', 'B', 'C', 'C', 'D', 'F' ];
+$grades = ['A', 'A', 'B', 'B', 'B', 'B', 'C', 'C', 'D', 'F'];
 
 // Frequency distributions (frequency and relative frequency)
 $frequencies          = Distribution::frequency($grades);         // [ A => 2,   B => 4,   C => 2,   D => 1,   F => 1   ]
@@ -218,12 +218,12 @@ $cumulative_relative_frequencies = Distribution::cumulativeRelativeFrequency($gr
 
 // Stem and leaf plot
 // Return value is array where keys are the stems, values are the leaves
-$values             = [ 44, 46, 47, 49, 63, 64, 66, 68, 68, 72, 72, 75, 76, 81, 84, 88, 106 ];
+$values             = [44, 46, 47, 49, 63, 64, 66, 68, 68, 72, 72, 75, 76, 81, 84, 88, 106];
 $stem_and_leaf_plot = Distribution::stemAndLeafPlot($values);
-// [ 4 => [4, 6, 7, 9], 5 => [], 6 => [3, 4, 6, 8, 8], 7 => [2, 2, 5, 6], 8 => [1, 4, 8], 9 => [], 10 => [6] ]
+// [4 => [4, 6, 7, 9], 5 => [], 6 => [3, 4, 6, 8, 8], 7 => [2, 2, 5, 6], 8 => [1, 4, 8], 9 => [], 10 => [6]]
 
 // Optional second parameter will print stem and leaf plot to STDOUT
-Distribution::stemAndLeafPlot( $values, Distribution::PRINT );
+Distribution::stemAndLeafPlot($values, Distribution::PRINT);
 /*
  4 | 4 6 7 9
  5 |
@@ -239,20 +239,20 @@ Distribution::stemAndLeafPlot( $values, Distribution::PRINT );
 ```php
 use Math\Statistics\RandomVariable
 
-$X = [ 1, 2, 3, 4 ];
-$Y = [ 2, 3, 4, 5 ];
+$X = [1, 2, 3, 4 ];
+$Y = [2, 3, 4, 5 ];
 
 // Covariance (population and sample)
-$σxy = RandomVariable::populationCovariance( $X, $Y );
-$Sxy = RandomVariable::sampleCovariance( $X, $Y );
+$σxy = RandomVariable::populationCovariance($X, $Y);
+$Sxy = RandomVariable::sampleCovariance($X, $Y);
 
 // Correlation coefficient (population and sample)
-$ρxy = RandomVariable::populationCorrelationCoefficient( $X, $Y );
-$rxy = RandomVariable::sampleCorrelationCoefficient( $X, $Y );
+$ρxy = RandomVariable::populationCorrelationCoefficient($X, $Y);
+$rxy = RandomVariable::sampleCorrelationCoefficient($X, $Y);
 
 // Central moment (nth moment)
-$second_central_moment = RandomVariable::centralMoment( $X, 2 );
-$third_central_moment  = RandomVariable::centralMoment( $X, 3 );
+$second_central_moment = RandomVariable::centralMoment($X, 2);
+$third_central_moment  = RandomVariable::centralMoment($X, 3);
 
 // Skewness (population and sample)
 $skewness = RandomVariable::populationSkewness($X);  // Similar to Excel's SKEW.P
@@ -282,7 +282,7 @@ $error = RandomVariable::erfc(2);                       // same as complementary
 ```php
 use Math\Statistics\Regression
 
-$points = [ [1,2], [2,3], [4,5], [5,7], [6,8] ];
+$points = [[1,2], [2,3], [4,5], [5,7], [6,8]];
 
 // Simple linear regression (least squares method)
 $linear_regression = Regression::linear($points);
@@ -304,7 +304,7 @@ Array (
 $x           = 5;
 $slope       = $linear_regression['slope'];
 $y_intercept = $linear_regression['y intercept'];
-$y           = Regression::linearEvaluate( $x, $slope, $y_intercept );
+$y           = Regression::linearEvaluate($x, $slope, $y_intercept);
 
 // Power law regression - power curve (least squares fitting)
 $power_regression = Regression::powerLaw($points);
@@ -326,7 +326,7 @@ Array (
 $x = 83;
 $a = $power_regression['a'];
 $b = $power_regression['b'];
-$y = Regression::powerLawEvaluate( $x, $a, $b );
+$y = Regression::powerLawEvaluate($x, $a, $b);
 
 // R - correlation coefficient
 $R = Regression::r($points);                      // same as correlationCoefficient
