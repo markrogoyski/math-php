@@ -19,16 +19,16 @@ namespace Math\Probability;
  *
  * https://en.wikipedia.org/wiki/Standard_normal_table
  */
-class StandardNormalTable {
-
-  /**
-   * Z scores table - cumulative from mean
-   * Contains positive and negative Z scores.
-   * Negative z-score - value is to the left of the mean.
-   * Positive z-score - value is to the right of the mean.
-   * @var array
-   */
-  const Z_SCORES = [
+class StandardNormalTable
+{
+    /**
+     * Z scores table - cumulative from mean
+     * Contains positive and negative Z scores.
+     * Negative z-score - value is to the left of the mean.
+     * Positive z-score - value is to the right of the mean.
+     * @var array
+     */
+    const Z_SCORES = [
     '-3.4' => [ 9 => 0.0002, 8 => 0.0003, 7 => 0.0003, 6 => 0.0003, 5 => 0.0003, 4 => 0.0003, 3 => 0.0003, 2 => 0.0003, 1 => 0.0003, 0 => 0.0003 ],
     '-3.3' => [ 9 => 0.0003, 8 => 0.0004, 7 => 0.0004, 6 => 0.0004, 5 => 0.0004, 4 => 0.0004, 3 => 0.0004, 2 => 0.0005, 1 => 0.0005, 0 => 0.0005 ],
     '-3.2' => [ 9 => 0.0005, 8 => 0.0005, 7 => 0.0005, 6 => 0.0006, 5 => 0.0006, 4 => 0.0006, 3 => 0.0006, 2 => 0.0006, 1 => 0.0007, 0 => 0.0007 ],
@@ -95,19 +95,21 @@ class StandardNormalTable {
      '2.8' => [ 0 => 0.99744, 1 => 0.99752, 2 => 0.99760, 3 => 0.99767, 4 => 0.99774, 5 => 0.99781, 6 => 0.99788, 7 => 0.99795, 8 => 0.99801, 9 => 0.99807 ],
      '2.9' => [ 0 => 0.99813, 1 => 0.99819, 2 => 0.99825, 3 => 0.99831, 4 => 0.99836, 5 => 0.99841, 6 => 0.99846, 7 => 0.99851, 8 => 0.99856, 9 => 0.99861 ],
      '3.0' => [ 0 => 0.99865, 1 => 0.99869, 2 => 0.99874, 3 => 0.99878, 4 => 0.99882, 5 => 0.99886, 6 => 0.99889, 7 => 0.99893, 8 => 0.99896, 9 => 0.99900 ],
-  ];
+    ];
 
-  /**
-   * Get Z score probability (Φ)
-   *
-   * @param float $Z
-   * @return float probability
-   */
-  static function getZScoreProbability( float $Z ): float {
-    if ( !preg_match( '/^ (\-? \d [.] \d) (\d) $/x', sprintf( '%1.2f', $Z ), $matches) ) {
-      throw new \Exception("Z does not match format X.XX: $Z");
+    /**
+     * Get Z score probability (Φ)
+     *
+     * @param float $Z
+     *
+     * @return float probability
+     */
+    public static function getZScoreProbability(float $Z): float
+    {
+        if (!preg_match('/^ (\-? \d [.] \d) (\d) $/x', sprintf('%1.2f', $Z), $matches)) {
+            throw new \Exception("Z does not match format X.XX: $Z");
+        }
+        list( $z, $＋0．0x ) = [ $matches[1], $matches[2] ];
+        return self::Z_SCORES[$z][$＋0．0x];
     }
-    list( $z, $＋0．0x ) = [ $matches[1], $matches[2] ];
-    return self::Z_SCORES[$z][$＋0．0x];
-  }
 }
