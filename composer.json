@@ -17,5 +17,6 @@
       "homepage": "https://github.com/markrogoyski",
       "role": "Developer"
     }
-  ]
+  ],
+  "license": "MIT"
 }
