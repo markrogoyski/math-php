@@ -17,7 +17,7 @@ Features
      * Distributions
      * Random Variables
      * Regressions
- * Alegebra
+ * Algebra
  * Arithmetic Functions
 
 Setup
