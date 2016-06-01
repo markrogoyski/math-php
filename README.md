@@ -346,9 +346,11 @@ $x = 4;
 $sign = Functions::signum($x); // same as sgn
 $sign = Functions::sgn($x);    // same as signum
 
-// Gamma function Γ(n)
-$n = 4;
-$Γ = Functions::gamma($n);
+// Gamma function Γ(z)
+$z = 4;
+$Γ = Functions::gamma($z);          // Lanczos approximation - same as gammaLanczos
+$Γ = Functions::gammaLanczos($z);   // Lanczos approximation - same as gamma
+$Γ = Functions::gammaStirling($z);  // Stirling approximation
 ```
 
 Unit Tests
