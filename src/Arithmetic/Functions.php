@@ -157,8 +157,6 @@ class Functions
      *  Γ(n)≈ √2π ℯ⁻ⁿ  /  - | n + ----------- |
      *                √   n  \    12n - 1/10n /
      *
-     *
-     *
      * @param number $n
      *
      * @return number
