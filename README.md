@@ -17,8 +17,8 @@ Features
      * Distributions
      * Random Variables
      * Regressions
- * Arithmetic
-     * Functions
+ * Alegebra
+ * Arithmetic Functions
 
 Setup
 -----
@@ -335,6 +335,17 @@ $R = Regression::correlationCoefficient($points); // same as r
 // R² - coefficient of determination
 $R² = Regression::r2($points);                        // same as coefficientOfDetermination
 $R² = Regression::coefficientOfDetermination($points) // same as r2
+```
+
+### Algebra
+```php
+use Math\Algebra;
+
+// Greatest common divisor (GCD)
+$gcd = Algebra::gcd(8, 12);
+
+// Least common multiple (LCM)
+$lcm = Algebra::lcm(5, 2);
 ```
 
 ### Arithmetic - Functions
