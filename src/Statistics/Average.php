@@ -107,6 +107,54 @@ class Average
     }
 
     /**
+     * Arithmetic-Geometric mean
+     *
+     * First, compute the arithmetic and geometric means of x and y, calling them a₁ and g₁ respectively.
+     * Then, use iteration, with a₁ taking the place of x and g₁ taking the place of y.
+     * Both a and g will converge to the same mean.
+     * https://en.wikipedia.org/wiki/Arithmetic%E2%80%93geometric_mean
+     *
+     * x and y ≥ 0
+     * If x or y = 0, then agm = 0
+     * If x or y < 0, then NaN
+     *
+     * @param  number $x
+     * @param  number $y
+     * @return float
+     */
+    public static function arithmeticGeometricMean($x, $y): float
+    {
+        // x or y < 0 = NaN
+        if ($x < 0 || $y < 0) {
+            return \NAN;
+        }
+
+        // x or y zero = 0
+        if ($x == 0 || $y == 0) {
+            return 0;
+        }
+
+        // Standard case x and y > 0
+        list($a, $g) = [$x, $y];
+        foreach (range(1, 10) as $_) {
+            list($a, $g) = [self::mean([$a, $g]), self::geometricMean([$a, $g])];
+        }
+        return $a;
+    }
+
+    /**
+     * Convenience method for arithmeticGeometricMean
+     *
+     * @param  number $x
+     * @param  number $y
+     * @return float
+     */
+    public static function agm($x, $y): float
+    {
+        return self::arithmeticGeometricMean($x, $y);
+    }
+
+    /**
      * Get a report of all the averages over a list of numbers
      * Includes mean, median and mode
      *
