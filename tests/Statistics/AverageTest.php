@@ -161,6 +161,40 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty(Average::mode(array()));
     }
 
+    /**
+     * @dataProvider dataProviderForArithmeticGeometricMean
+     */
+    public function testArithmeticGeometricMean($x, $y, $mean)
+    {
+        $this->assertEquals($mean, Average::arithmeticGeometricMean($x, $y), '', 0.00001);
+    }
+
+    /**
+     * @dataProvider dataProviderForArithmeticGeometricMean
+     */
+    public function testAGM($x, $y, $mean)
+    {
+        $this->assertEquals($mean, Average::agm($x, $y), '', 0.00001);
+    }
+
+    public function dataProviderForArithmeticGeometricMean() {
+        return [
+            [ 24, 6, 13.4581714817256154207668131569743992430538388544 ],
+            [ 2, 4, 2.913582062093814 ],
+            [ 1, 1, 1 ],
+            [ 43.6, 7765.332, 1856.949564100313 ],
+            [ 0, 3434, 0 ],
+            [ 3432, 0, 0 ],
+        ];
+    }
+
+    public function testArithmeticGeometricMeanNegativeNAN() {
+        $this->assertNan(Average::arithmeticGeometricMean(-32, 45));
+        $this->assertNan(Average::arithmeticGeometricMean(32, -45));
+        $this->assertNan(Average::agm(-32, 45));
+        $this->assertNan(Average::agm(32, -45));
+    }
+
     public function testGetAverages()
     {
         $averages = Average::getAverages([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ]);
