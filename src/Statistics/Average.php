@@ -86,6 +86,27 @@ class Average
     }
 
     /**
+     * Geometric mean
+     * A type of mean which indicates the central tendency or typical value of a set of numbers
+     * by using the product of their values (as opposed to the arithmetic mean which uses their sum).
+     * https://en.wikipedia.org/wiki/Geometric_mean
+     *                    __________
+     * Geometric mean = ⁿ√a₀a₁a₂ ⋯
+     *
+     * @param  array  $numbers
+     * @return number
+     */
+    public static function geometricMean(array $numbers)
+    {
+        if (empty($numbers)) {
+            return null;
+        }
+
+        $n = count($numbers);
+        return pow(array_reduce($numbers, function ($carry, $a) { return !empty($carry) ? $carry * $a : $a; }), 1/$n);
+    }
+
+    /**
      * Get a report of all the averages over a list of numbers
      * Includes mean, median and mode
      *
@@ -96,9 +117,10 @@ class Average
     public static function getAverages(array $numbers): array
     {
         return [
-            'mean'   => self::mean($numbers),
-            'median' => self::median($numbers),
-            'mode'   => self::mode($numbers),
+            'mean'           => self::mean($numbers),
+            'median'         => self::median($numbers),
+            'mode'           => self::mode($numbers),
+            'geometric_mean' => self::geometricMean($numbers),
         ];
     }
 }
