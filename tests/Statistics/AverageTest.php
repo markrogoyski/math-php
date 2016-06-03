@@ -122,6 +122,40 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @dataProvider dataProviderForGeometricMean
+     */
+    public function testGeometricMean(array $numbers, $mean)
+    {
+        $this->assertEquals($mean, Average::geometricMean($numbers), '', 0.01);
+    }
+
+    /**
+     * Data provider for geometric mean test
+     * Data: [ [ numbers ], mean ]
+     */
+    public function dataProviderForGeometricMean()
+    {
+        return [
+            [ [ 1, 1, 1 ], 1 ],
+            [ [ 1, 2, 3 ], 1.81712 ],
+            [ [ 2, 3, 4 ], 2.8845 ],
+            [ [ 5, 5, 6 ], 5.31329 ],
+            [ [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], 14.78973 ],
+            [ [ 1, 2, 4, 7 ], 2.73556 ],
+            [ [ 8, 9, 10, 10, 10, 11, 11, 11, 12, 13 ], 10.41031 ],
+            [ [ 6, 7, 8, 10, 12, 14, 14, 15, 16, 20 ], 11.4262 ],
+            [ [ 9, 10, 11, 13, 15, 17, 17, 18, 19, 23 ], 14.59594 ],
+            [ [ 12, 14, 16, 20, 24, 28, 28, 30, 32, 40 ], 22.8524 ],
+            [ [ 1, 3, 5, 7, 10 ], 4.02011 ],
+        ];
+    }
+
+    public function testGeomoetricMeanNullWhenEmptyArray()
+    {
+        $this->assertNull(Average::geometricMean(array()));
+    }
+
     public function testModeEmtyArrayWhenEmptyArray()
     {
         $this->assertEmpty(Average::mode(array()));
@@ -134,8 +168,10 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('mean', $averages);
         $this->assertArrayHasKey('median', $averages);
         $this->assertArrayHasKey('mode', $averages);
+        $this->assertArrayHasKey('geometric_mean', $averages);
         $this->assertTrue(is_numeric($averages['mean']));
         $this->assertTrue(is_numeric($averages['median']));
         $this->assertTrue(is_array($averages['mode']));
+        $this->assertTrue(is_numeric($averages['geometric_mean']));
     }
 }
