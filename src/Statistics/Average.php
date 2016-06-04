@@ -3,7 +3,8 @@ namespace Math\Statistics;
 
 /**
  * Statistical averages
- * Mean, median, and mode
+ * Mean, median, mode
+ * Geometric mean, harmonic mean, arithmetic-geometric mean
  */
 class Average
 {
