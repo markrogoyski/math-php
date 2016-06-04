@@ -193,6 +193,7 @@ class Average
             'median'         => self::median($numbers),
             'mode'           => self::mode($numbers),
             'geometric_mean' => self::geometricMean($numbers),
+            'harmonic_mean'  => self::harmonicMean($numbers),
         ];
     }
 }
