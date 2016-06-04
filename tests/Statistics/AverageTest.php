@@ -162,6 +162,47 @@ class AverageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForHarmonicMean
+     */
+    public function testHamonicMean(array $numbers, $mean)
+    {
+        $this->assertEquals($mean, Average::harmonicMean($numbers), '', 0.01);
+    }
+
+    /**
+     * Data provider for hamonic mean test
+     * Data: [ [ numbers ], mean ]
+     */
+    public function dataProviderForHarmonicMean()
+    {
+        return [
+            [ [ 1, 2, 4, ], 1.71429 ],
+            [ [ 1, 1, 1 ], 1 ],
+            [ [ 1, 2, 3 ], 1.63636 ],
+            [ [ 2, 3, 4 ], 2.76923 ],
+            [ [ 5, 5, 6 ], 5.29412 ],
+            [ [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], 14.60508 ],
+            [ [ 1, 2, 4, 7 ], 2.11321 ],
+            [ [ 8, 9, 10, 10, 10, 11, 11, 11, 12, 13 ], 10.31891 ],
+            [ [ 6, 7, 8, 10, 12, 14, 14, 15, 16, 20 ], 10.63965 ],
+            [ [ 9, 10, 11, 13, 15, 17, 17, 18, 19, 23 ], 13.98753 ],
+            [ [ 12, 14, 16, 20, 24, 28, 28, 30, 32, 40 ], 21.27929 ],
+            [ [ 1, 3, 5, 7, 10 ], 2.81501 ],
+        ];
+    }
+
+    public function testHarmonicMeanNullWhenEmptyArray()
+    {
+        $this->assertNull(Average::harmonicMean(array()));
+    }
+
+    public function testHarmonicMeanExceptionNegativeValues()
+    {
+        $this->setExpectedException('\Exception');
+        Average::harmonicMean([ 1, 2, 3, -4, 5, -6, 7 ]);
+    }
+
+    /**
      * @dataProvider dataProviderForArithmeticGeometricMean
      */
     public function testArithmeticGeometricMean($x, $y, $mean)
