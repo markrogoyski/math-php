@@ -164,10 +164,11 @@ $mode   = Average::mode($numbers); // Returns an array -- may be multimodal
 $geometric_mean = Average::geometricMean($numbers);
 $harmonic_mean  = Average::harmonicMean($numbers);
 
-// Other means - arithmetic-geometric
+// Other means - arithmetic-geometric, logarithmic
 list($x, $y) = [24, 6];
-$agm = Average::arithmeticGeometricMean($x, $y); // same as agm
-$agm = Average::agm($x, $y);                     // same as arithmeticGeometricMean
+$agm      = Average::arithmeticGeometricMean($x, $y); // same as agm
+$agm      = Average::agm($x, $y);                     // same as arithmeticGeometricMean
+$log_mean = Average::logarithmicMean($x, $y);
 
 // Averages report
 // Returns array with keys: mean, median, mode, geometric_mean, and harmonic_mean
