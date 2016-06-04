@@ -352,6 +352,25 @@ class Descriptive
     }
 
     /**
+     * Midhinge
+     * The average of the first and third quartiles and is thus a measure of location.
+     * Equivalently, it is the 25% trimmed mid-range or 25% midsummary; it is an L-estimator.
+     * https://en.wikipedia.org/wiki/Midhinge
+     *
+     * Midhinge = (first quartile, third quartile) / 2
+     *
+     * @param  array  $numbers
+     * @return number
+     */
+    public static function midhinge(array $numbers)
+    {
+        $quartiles = self::quartiles($numbers);
+        $first     = $quartiles['25%'];
+        $third     = $quartiles['75%'];
+        return Average::mean([$first, $third]);
+    }
+
+    /**
      * Get a report of all the descriptive statistics over a list of numbers
      * Includes mean, median, mode, range, midrange, variance, and standard deviation, quartiles
      *
@@ -364,16 +383,17 @@ class Descriptive
     public static function getStats(array $numbers, bool $population = true): array
     {
         return [
-        'mean'               => Average::mean($numbers),
-        'median'             => Average::median($numbers),
-        'mode'               => Average::mode($numbers),
-        'range'              => self::range($numbers),
-        'midrange'           => self::midrange($numbers),
-        'variance'           => $population ? self::populationVariance($numbers) : self::sampleVariance($numbers),
-        'standard_deviation' => self::standardDeviation($numbers, $population),
-        'mean_mad'           => self::meanAbsoluteDeviation($numbers),
-        'median_mad'         => self::medianAbsoluteDeviation($numbers),
-        'quartiles'          => self::quartiles($numbers),
+            'mean'               => Average::mean($numbers),
+            'median'             => Average::median($numbers),
+            'mode'               => Average::mode($numbers),
+            'range'              => self::range($numbers),
+            'midrange'           => self::midrange($numbers),
+            'variance'           => $population ? self::populationVariance($numbers) : self::sampleVariance($numbers),
+            'standard_deviation' => self::standardDeviation($numbers, $population),
+            'mean_mad'           => self::meanAbsoluteDeviation($numbers),
+            'median_mad'         => self::medianAbsoluteDeviation($numbers),
+            'quartiles'          => self::quartiles($numbers),
+            'midhinge'           => self::midhinge($numbers),
         ];
     }
 }
