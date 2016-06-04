@@ -107,6 +107,30 @@ class Average
     }
 
     /**
+     * Harmonic mean (subcontrary mean)
+     * The harmonic mean can be expressed as the reciprocal of the arithmetic mean of the reciprocals.
+     * Appropriate for situations when the average of rates is desired.
+     * https://en.wikipedia.org/wiki/Harmonic_mean
+     *
+     * @param  array  $numbers
+     * @return number
+     */
+    public static function harmonicMean(array $numbers)
+    {
+        if (empty($numbers)) {
+            return null;
+        }
+
+        // Can't be computed for negative values.
+        if ( !empty(array_filter( $numbers, function ($x) { return $x < 0; } ))) {
+            throw new \Exception('Harmonic mean cannot be computed for negative values.');
+        }
+
+        $n = count($numbers);
+        return $n / array_sum(array_map( function ($x) { return 1 / $x; }, $numbers ));
+    }
+
+    /**
      * Arithmetic-Geometric mean
      *
      * First, compute the arithmetic and geometric means of x and y, calling them a₁ and g₁ respectively.
