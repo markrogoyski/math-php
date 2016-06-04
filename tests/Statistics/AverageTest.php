@@ -236,6 +236,25 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertNan(Average::agm(32, -45));
     }
 
+    /**
+     * @dataProvider dataProviderForArithmeticLogarithmicMean
+     */
+    public function testLogarithmicMean($x, $y, $mean)
+    {
+        $this->assertEquals($mean, Average::logarithmicMean($x, $y), '', 0.01);
+    }
+
+    public function dataProviderForArithmeticLogarithmicMean() {
+        return [
+            [ 0, 0, 0 ],
+            [ 5, 5, 5 ],
+            [ 45, 55, 49.83 ],
+            [ 70, 30, 47.21 ],
+            [ 339.78, 41.03, 141.32 ],
+            [ 349.76, 31.05, 131.61 ],
+        ];
+    }
+
     public function testGetAverages()
     {
         $averages = Average::getAverages([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ]);
