@@ -180,6 +180,34 @@ class Average
     }
 
     /**
+     * Logarithmic mean
+     * A function of two non-negative numbers which is equal to their difference divided by the logarithm of their quotient.
+     * https://en.wikipedia.org/wiki/Logarithmic_mean
+     *
+     *  Mlm(x, y) = 0 if x = 0 or y = 0
+     *              x if x = y
+     *  otherwise:
+     *                y - x
+     *             -----------
+     *             ln y - ln x
+     *
+     * @param  number $x
+     * @param  number $y
+     * @return number
+     */
+    public static function logarithmicMean($x, $y)
+    {
+        if ($x == 0 || $y == 0) {
+            return 0;
+        }
+        if ($x == $y) {
+            return $x;
+        }
+
+        return ($y - $x) / (log($y) - log($x));
+    }
+
+    /**
      * Get a report of all the averages over a list of numbers
      * Includes mean, median and mode
      *
