@@ -208,6 +208,9 @@ $IQR = Descriptive::IQR($numbers);                // Same as interquartileRange
 $twentieth_percentile    = Descriptive::percentile($numbers, 20);
 $ninety_fifth_percentile = Descriptive::percentile($numbers, 95);
 
+// Midhinge
+$midhinge = Descriptive::midhinge($numbers);
+
 // Descriptive stats report
 // Returns array with keys: mean, median, mode, range, midrange, variance, standard deviation, mean_mad, median_mad, quartiles
 $stats = Descriptive::getStats($numbers); // Has optional parameter to set population or sample variance
