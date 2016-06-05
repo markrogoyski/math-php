@@ -132,6 +132,40 @@ class Average
     }
 
     /**
+     * Root mean square (quadratic mean)
+     * The square root of the arithmetic mean of the squares of a set of numbers.
+     * https://en.wikipedia.org/wiki/Root_mean_square
+     *           ___________
+     *          /x₁+²x₂²+ ⋯
+     * x rms = / -----------
+     *        √       n
+     *
+     * @param  array  $numbers
+     * @return number
+     */
+    public static function rootMeanSquare(array $numbers)
+    {
+        $x₁²＋x₂²＋⋯ = array_sum(array_map(
+            function ($x) { return $x**2; },
+            $numbers
+        ) );
+        $n = count($numbers);
+        return sqrt($x₁²＋x₂²＋⋯ / $n);
+    }
+
+    /**
+     * Quadradic mean (root mean square)
+     * Convenience function for rootMeanSquare
+     *
+     * @param  array  $numbers
+     * @return number
+     */
+    public static function quadraticMean(array $numbers)
+    {
+        return self::rootMeanSquare($numbers);
+    }
+
+    /**
      * Arithmetic-Geometric mean
      *
      * First, compute the arithmetic and geometric means of x and y, calling them a₁ and g₁ respectively.
