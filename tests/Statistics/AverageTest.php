@@ -306,10 +306,12 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('mode', $averages);
         $this->assertArrayHasKey('geometric_mean', $averages);
         $this->assertArrayHasKey('harmonic_mean', $averages);
+        $this->assertArrayHasKey('quadratic_mean', $averages);
         $this->assertTrue(is_numeric($averages['mean']));
         $this->assertTrue(is_numeric($averages['median']));
         $this->assertTrue(is_array($averages['mode']));
         $this->assertTrue(is_numeric($averages['geometric_mean']));
         $this->assertTrue(is_numeric($averages['harmonic_mean']));
+        $this->assertTrue(is_numeric($averages['quadratic_mean']));
     }
 }
