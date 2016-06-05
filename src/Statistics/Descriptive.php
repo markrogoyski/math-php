@@ -240,9 +240,9 @@ class Descriptive
      * https://en.wikipedia.org/wiki/Quartile
      *
      * 0% is smallest number
-     * 25% is first quartile (lower quartile, 25th percentile)
-     * 50% is second quartile (median, 50th percentile)
-     * 75% is third quartile (upper quartile, 75th percentile)
+     * Q1 (25%) is first quartile (lower quartile, 25th percentile)
+     * Q2 (50%) is second quartile (median, 50th percentile)
+     * Q3 (75%) is third quartile (upper quartile, 75th percentile)
      * 100% is largest number
      * interquartile_range is the difference between the upper and lower quartiles. (IQR = Q₃ - Q₁)
      *
@@ -256,7 +256,7 @@ class Descriptive
      *    The upper quartile value is the median of the upper half of the data.
      *
      * @param array $numbers
-     * @return array [ 0%, 25%, 50%, 75%, 100%, IQR ]
+     * @return array [ 0%, Q1, Q2, Q3, 100%, IQR ]
      */
     public static function quartiles(array $numbers): array
     {
@@ -279,9 +279,9 @@ class Descriptive
 
         return [
         '0%'   => min($numbers),
-        '25%'  => $lower_quartile,
-        '50%'  => Average::median($numbers),
-        '75%'  => $upper_quartile,
+        'Q1'   => $lower_quartile,
+        'Q2'   => Average::median($numbers),
+        'Q3'   => $upper_quartile,
         '100%' => max($numbers),
         'IQR'  => $upper_quartile - $lower_quartile,
         ];
@@ -365,9 +365,9 @@ class Descriptive
     public static function midhinge(array $numbers)
     {
         $quartiles = self::quartiles($numbers);
-        $first     = $quartiles['25%'];
-        $third     = $quartiles['75%'];
-        return Average::mean([$first, $third]);
+        $Q1        = $quartiles['Q1'];
+        $Q2        = $quartiles['Q3'];
+        return Average::mean([$Q1, $Q2]);
     }
 
     /**
