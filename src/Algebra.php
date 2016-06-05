@@ -55,4 +55,40 @@ class Algebra
 
         return abs($a * $b) / Algebra::gcd($a, $b);
     }
+
+    /**
+     * Get factors of an integer
+     * The decomposition of a composite number into a product of smaller integers.
+     * https://en.wikipedia.org/wiki/Integer_factorization
+     *
+     * Method:
+     *  Iterate from 1 to √x
+     *  If x mod i = 0, it is a factor
+     *  Furthermore, x/i is a factor
+     *
+     * @param  int $x
+     * @return array of factors
+     */
+    public static function factors(int $x): array
+    {
+        // 0 has infinite factors
+        if ($x === 0) {
+            return [\INF];
+        }
+
+        $x  = abs($x);
+        $√x = floor(sqrt($x));
+
+        $factors = [];
+        for ($i = 1; $i <= $√x; $i++) {
+            if ($x % $i === 0) {
+                $factors[] = $i;
+                if ($i !== $√x) {
+                    $factors[] = $x / $i;
+                }
+            }
+        }
+        sort($factors);
+        return $factors;
+    }
 }
