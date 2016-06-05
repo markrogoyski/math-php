@@ -258,11 +258,11 @@ class Average
 
     /**
      * Get a report of all the averages over a list of numbers
-     * Includes mean, median and mode
+     * Includes mean, median mode, geometric mean, harmonic mean, quardratic mean
      *
      * @param array $numbers
      *
-     * @return array [ mean, median, mode ]
+     * @return array [ mean, median, mode, geometric_mean, harmonic_mean, quadratic_mean ]
      */
     public static function getAverages(array $numbers): array
     {
@@ -272,6 +272,7 @@ class Average
             'mode'           => self::mode($numbers),
             'geometric_mean' => self::geometricMean($numbers),
             'harmonic_mean'  => self::harmonicMean($numbers),
+            'quadratic_mean' => self::quadraticMean($numbers),
         ];
     }
 }
