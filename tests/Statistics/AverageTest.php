@@ -281,6 +281,22 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @dataProvider dataProviderForHeronianMean
+     */
+    public function testHeronianMean($A, $B, $H)
+    {
+        $this->assertEquals($H, Average::heronianMean($A, $B));
+    }
+
+    public function dataProviderForHeronianMean()
+    {
+        return [
+            [ 4, 5, 4.490711985 ],
+            [ 12, 50, 28.8316324759 ],
+        ];
+    }
+
     public function testGetAverages()
     {
         $averages = Average::getAverages([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ]);
