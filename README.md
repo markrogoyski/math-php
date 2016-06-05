@@ -160,9 +160,11 @@ $mean   = Average::mean($numbers);
 $median = Average::median($numbers);
 $mode   = Average::mode($numbers); // Returns an array -- may be multimodal
 
-// Other means - geometric, harmonic
-$geometric_mean = Average::geometricMean($numbers);
-$harmonic_mean  = Average::harmonicMean($numbers);
+// Other means - geometric, harmonic, quadratic (root mean square)
+$geometric_mean   = Average::geometricMean($numbers);
+$harmonic_mean    = Average::harmonicMean($numbers);
+$quadratic_mean   = Average::quadraticMean($numbers);  // same as rootMeanSquare
+$root_mean_square = Average::rootMeanSquare($numbers); // same as quadraticMean
 
 // Other means - arithmetic-geometric, logarithmic
 list($x, $y) = [24, 6];
