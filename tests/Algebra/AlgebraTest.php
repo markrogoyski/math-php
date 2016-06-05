@@ -6,7 +6,7 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForGCD
      */
-    public function testGCD($a, $b, $gcd)
+    public function testGCD(int $a, int $b, int $gcd)
     {
         $this->assertEquals($gcd, Algebra::gcd($a, $b));
     }
@@ -33,7 +33,7 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForLCM
      */
-    public function testLCM($a, $b, $lcm)
+    public function testLCM(int $a, int $b, int $lcm)
     {
         $this->assertEquals($lcm, Algebra::lcm($a, $b));
     }
@@ -52,6 +52,26 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
             [6, 21, 42],
             [598, 352, 105248],
             [352, 598, 105248],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForFactors
+     */
+    public function testFactors(int $x, array $factors)
+    {
+        $this->assertEquals($factors, Algebra::factors($x));
+    }
+
+    public function dataProviderForFactors()
+    {
+        return [
+            [ 0, [\INF] ],
+            [ 12, [1, 2, 3, 4, 6, 12] ],
+            [ 14, [1, 2, 7, 14] ],
+            [ 30, [1, 2, 3, 5, 6, 10, 15, 30] ],
+            [ 2248, [1, 2, 4, 8, 281, 562, 1124, 2248] ],
+            [ 983928, [1, 2, 3, 4, 6, 8, 11, 12, 22, 24, 33, 44, 66, 88, 132, 264, 3727, 7454, 11181, 14908, 22362, 29816, 40997, 44724, 81994, 89448, 122991, 163988, 245982, 327976, 491964, 983928] ],
         ];
     }
 }
