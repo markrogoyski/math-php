@@ -242,6 +242,21 @@ class Average
     }
 
     /**
+     * Heronian mean
+     * https://en.wikipedia.org/wiki/Heronian_mean
+     *            __
+     * H = ⅓(A + √AB + B)
+     * 
+     * @param  number $A
+     * @param  number $B 
+     * @return number
+     */
+    public static function heronianMean($A, $B)
+    {
+        return 1/3 * ($A + sqrt($A*$B) + $B);
+    }
+
+    /**
      * Get a report of all the averages over a list of numbers
      * Includes mean, median and mode
      *
