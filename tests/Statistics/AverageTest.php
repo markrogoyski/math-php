@@ -203,6 +203,32 @@ class AverageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForRootMeanSquare
+     */
+    public function testRootMeanSquare(array $numbers, $rms)
+    {
+        $this->assertEquals($rms, Average::rootMeanSquare($numbers), '', 0.01);
+    }
+
+    /**
+     * @dataProvider dataProviderForRootMeanSquare
+     */
+    public function testquadradicMean(array $numbers, $rms)
+    {
+        $this->assertEquals($rms, Average::quadraticMean($numbers), '', 0.01);
+    }
+
+    public function dataProviderForRootMeanSquare()
+    {
+        return [
+            [ [0, 0, 0], 0 ],
+            [ [1, 2, 3, 4, 5, 6], 3.89444 ],
+            [ [0.001, 0.039, 0.133, 0.228, 0.374], 0.20546 ],
+            [ [3, 5, 6, 3, 3535, 234, 0, 643, 2], 1200.209 ],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForArithmeticGeometricMean
      */
     public function testArithmeticGeometricMean($x, $y, $mean)
