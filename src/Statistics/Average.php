@@ -166,6 +166,29 @@ class Average
     }
 
     /**
+     * Trimean (TM, or Tukey's trimean)
+     * A measure of a probability distribution's location defined as
+     * a weighted average of the distribution's median and its two quartiles.
+     * https://en.wikipedia.org/wiki/Trimean
+     *
+     *      Q₁ + 2Q₂ + Q₃
+     * TM = -------------
+     *            4
+     *
+     * @param  array  $numbers
+     * @return number
+     */
+    public static function trimean(array $numbers)
+    {
+        $quartiles = Descriptive::quartiles($numbers);
+        $Q₁        = $quartiles['Q1'];
+        $Q₂        = $quartiles['Q2'];
+        $Q₃        = $quartiles['Q3'];
+
+        return ($Q₁ + 2*$Q₂ + $Q₃) / 4;
+    }
+
+    /**
      * Arithmetic-Geometric mean
      *
      * First, compute the arithmetic and geometric means of x and y, calling them a₁ and g₁ respectively.
@@ -273,6 +296,7 @@ class Average
             'geometric_mean' => self::geometricMean($numbers),
             'harmonic_mean'  => self::harmonicMean($numbers),
             'quadratic_mean' => self::quadraticMean($numbers),
+            'trimean'        => self::trimean($numbers),
         ];
     }
 }
