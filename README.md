@@ -174,7 +174,7 @@ $log_mean      = Average::logarithmicMean($x, $y);
 $heronian_mean = Average::heronianMean($x, $y);
 
 // Averages report
-// Returns array with keys: mean, median, mode, geometric_mean, and harmonic_mean
+// Returns array with keys: mean, median, mode, geometric_mean, harmonic_mean, and quadratic_mean
 $averages = Average::getAverages($numbers);
 ```
 
