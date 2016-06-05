@@ -166,11 +166,12 @@ $harmonic_mean    = Average::harmonicMean($numbers);
 $quadratic_mean   = Average::quadraticMean($numbers);  // same as rootMeanSquare
 $root_mean_square = Average::rootMeanSquare($numbers); // same as quadraticMean
 
-// Other means - arithmetic-geometric, logarithmic
+// Other means - arithmetic-geometric, logarithmic, heronian
 list($x, $y) = [24, 6];
-$agm      = Average::arithmeticGeometricMean($x, $y); // same as agm
-$agm      = Average::agm($x, $y);                     // same as arithmeticGeometricMean
-$log_mean = Average::logarithmicMean($x, $y);
+$agm           = Average::arithmeticGeometricMean($x, $y); // same as agm
+$agm           = Average::agm($x, $y);                     // same as arithmeticGeometricMean
+$log_mean      = Average::logarithmicMean($x, $y);
+$heronian_mean = Average::heronianMean($x, $y);
 
 // Averages report
 // Returns array with keys: mean, median, mode, geometric_mean, and harmonic_mean
