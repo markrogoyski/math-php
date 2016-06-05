@@ -229,6 +229,24 @@ class AverageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForTrimean
+     */
+    public function testTrimean(array $numbers, $trimean)
+    {
+        $this->assertEquals($trimean, Average::trimean($numbers), '', 0.1);
+    }
+
+    public function dataProviderForTrimean()
+    {
+        return [
+            [ [ 155, 158, 161, 162, 166, 170, 171, 174, 179 ], 166 ],
+            [ [ 162, 162, 163, 165, 166, 175, 181, 186, 192 ], 169.5 ],
+            [ [ 1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13 ], 7.25 ],
+            [ [ 1, 3, 4, 4, 6, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10, 11, 12, 1000 ], 7.25 ],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForArithmeticGeometricMean
      */
     public function testArithmeticGeometricMean($x, $y, $mean)
@@ -307,11 +325,13 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('geometric_mean', $averages);
         $this->assertArrayHasKey('harmonic_mean', $averages);
         $this->assertArrayHasKey('quadratic_mean', $averages);
+        $this->assertArrayHasKey('trimean', $averages);
         $this->assertTrue(is_numeric($averages['mean']));
         $this->assertTrue(is_numeric($averages['median']));
         $this->assertTrue(is_array($averages['mode']));
         $this->assertTrue(is_numeric($averages['geometric_mean']));
         $this->assertTrue(is_numeric($averages['harmonic_mean']));
         $this->assertTrue(is_numeric($averages['quadratic_mean']));
+        $this->assertTrue(is_numeric($averages['trimean']));
     }
 }
