@@ -361,6 +361,9 @@ $gcd = Algebra::gcd(8, 12);
 
 // Least common multiple (LCM)
 $lcm = Algebra::lcm(5, 2);
+
+// Factors of an integer
+$factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
 ```
 
 ### Arithmetic - Functions
