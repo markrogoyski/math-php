@@ -160,7 +160,7 @@ $mean   = Average::mean($numbers);
 $median = Average::median($numbers);
 $mode   = Average::mode($numbers); // Returns an array -- may be multimodal
 
-// Other means - geometric, harmonic, quadratic (root mean square), trimean, contraharmonic mean
+// Other means of a list of numbers
 $geometric_mean      = Average::geometricMean($numbers);
 $harmonic_mean       = Average::harmonicMean($numbers);
 $contraharmonic_mean = Average::contraharmonicMean($numbers);
@@ -178,7 +178,7 @@ $truncated_mean = Average::truncatedMean($numbers, $trim_percent);
 $p           = 3;
 $lehmer_mean = Average::lehmerMean($numbers, $p);
 
-// Other means - arithmetic-geometric, logarithmic, heronian
+// Other means of two numbers
 list($x, $y) = [24, 6];
 $agm           = Average::arithmeticGeometricMean($x, $y); // same as agm
 $agm           = Average::agm($x, $y);                     // same as arithmeticGeometricMean
