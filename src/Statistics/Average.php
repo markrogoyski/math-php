@@ -235,7 +235,7 @@ class Average
      *
      * Special cases:
      *  L₀(x) is the harmonic mean
-     *  L½(x) is the geometric mean if computed against two numbers
+     *  L½(x₀, x₁) is the geometric mean if computed against two numbers
      *  L₁(x) is the arithmetic mean
      *  L₂(x) is the contraharmonic mean
      *
@@ -259,6 +259,21 @@ class Average
         ));
 
         return $∑xᵢᵖ / $∑xᵢᵖ⁻¹;
+    }
+
+    /**
+     * Contraharmonic mean
+     * A function complementary to the harmonic mean.
+     * A special case of the Lehmer mean, L₂(x), where p = 2.
+     * https://en.wikipedia.org/wiki/Contraharmonic_mean
+     *
+     * @param  array  $numbers
+     * @return number
+     */
+    public static function contraharmonicMean(array $numbers)
+    {
+        $p = 2;
+        return self::lehmerMean($numbers, $p);
     }
 
     /**
@@ -363,13 +378,14 @@ class Average
     public static function getAverages(array $numbers): array
     {
         return [
-            'mean'           => self::mean($numbers),
-            'median'         => self::median($numbers),
-            'mode'           => self::mode($numbers),
-            'geometric_mean' => self::geometricMean($numbers),
-            'harmonic_mean'  => self::harmonicMean($numbers),
-            'quadratic_mean' => self::quadraticMean($numbers),
-            'trimean'        => self::trimean($numbers),
+            'mean'                => self::mean($numbers),
+            'median'              => self::median($numbers),
+            'mode'                => self::mode($numbers),
+            'geometric_mean'      => self::geometricMean($numbers),
+            'harmonic_mean'       => self::harmonicMean($numbers),
+            'contraharmonic_mean' => self::contraharmonicMean($numbers),
+            'quadratic_mean'      => self::quadraticMean($numbers),
+            'trimean'             => self::trimean($numbers),
         ];
     }
 }
