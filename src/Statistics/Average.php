@@ -226,6 +226,33 @@ class Average
     }
 
     /**
+     * Interquartile mean (IQM)
+     * A measure of central tendency based on the truncated mean of the interquartile range.
+     * Only the data in the second and third quartiles is used (as in the interquartile range),
+     * and the lowest 25% and the highest 25% of the scores are discarded.
+     * https://en.wikipedia.org/wiki/Interquartile_mean
+     *
+     * @param  array  $numbers
+     * @return number
+     */
+    public static function interquartileMean(array $numbers)
+    {
+        return self::truncatedMean($numbers, 25);
+    }
+
+    /**
+     * IQM (Interquartile mean)
+     * Convenience function for interquartileMean
+     *
+     * @param  array  $numbers
+     * @return number
+     */
+    public static function iqm(array $numbers)
+    {
+        return self::truncatedMean($numbers, 25);
+    }
+
+    /**
      * Lehmer mean
      * https://en.wikipedia.org/wiki/Lehmer_mean
      *
@@ -373,7 +400,8 @@ class Average
      *
      * @param array $numbers
      *
-     * @return array [ mean, median, mode, geometric_mean, harmonic_mean, quadratic_mean ]
+     * @return array [ mean, median, mode, geometric_mean, harmonic_mean,
+     *                 contraharmonic_mean, quadratic_mean, trimean, iqm ]
      */
     public static function getAverages(array $numbers): array
     {
@@ -386,6 +414,7 @@ class Average
             'contraharmonic_mean' => self::contraharmonicMean($numbers),
             'quadratic_mean'      => self::quadraticMean($numbers),
             'trimean'             => self::trimean($numbers),
+            'iqm'                 => self::iqm($numbers),
         ];
     }
 }
