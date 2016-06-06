@@ -167,6 +167,10 @@ $quadratic_mean   = Average::quadraticMean($numbers);  // same as rootMeanSquare
 $root_mean_square = Average::rootMeanSquare($numbers); // same as quadraticMean
 $trimean          = Average::trimean($numbers);
 
+// Other means - truncated mean
+$trim_percent = 25;
+$truncated_mean = Average::truncatedMean($numbers, $trim_percent);
+
 // Other means - arithmetic-geometric, logarithmic, heronian
 list($x, $y) = [24, 6];
 $agm           = Average::arithmeticGeometricMean($x, $y); // same as agm
