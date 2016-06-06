@@ -277,6 +277,30 @@ class AverageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForInterquartileMean
+     */
+    public function testInterquartileMean(array $numbers, $iqm)
+    {
+        $this->assertEquals($iqm, Average::interquartileMean($numbers), '', 0.01);
+    }
+
+    /**
+     * @dataProvider dataProviderForInterquartileMean
+     */
+    public function testIQM(array $numbers, $iqm)
+    {
+        $this->assertEquals($iqm, Average::iqm($numbers), '', 0.01);
+    }
+
+    public function dataProviderForInterquartileMean()
+    {
+        return [
+            [ [5, 8, 4, 38, 8, 6, 9, 7, 7, 3, 1, 6], 6.5 ],
+            [ [1, 3, 5, 7, 9, 11, 13, 15, 17], 9 ]
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForLehmerMean
      */
     public function testLehmerMean(array $numbers, $p, $mean)
@@ -405,6 +429,7 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('contraharmonic_mean', $averages);
         $this->assertArrayHasKey('quadratic_mean', $averages);
         $this->assertArrayHasKey('trimean', $averages);
+        $this->assertArrayHasKey('iqm', $averages);
         $this->assertTrue(is_numeric($averages['mean']));
         $this->assertTrue(is_numeric($averages['median']));
         $this->assertTrue(is_array($averages['mode']));
@@ -413,5 +438,6 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_numeric($averages['contraharmonic_mean']));
         $this->assertTrue(is_numeric($averages['quadratic_mean']));
         $this->assertTrue(is_numeric($averages['trimean']));
+        $this->assertTrue(is_numeric($averages['iqm']));
     }
 }
