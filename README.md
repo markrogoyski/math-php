@@ -168,7 +168,7 @@ $root_mean_square = Average::rootMeanSquare($numbers); // same as quadraticMean
 $trimean          = Average::trimean($numbers);
 
 // Other means - truncated mean
-$trim_percent = 25;
+$trim_percent   = 25;
 $truncated_mean = Average::truncatedMean($numbers, $trim_percent);
 
 // Other means - arithmetic-geometric, logarithmic, heronian
