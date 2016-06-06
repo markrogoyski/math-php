@@ -212,6 +212,33 @@ class Average
     }
 
     /**
+     * Interquartile mean (IQM)
+     * A measure of central tendency based on the truncated mean of the interquartile range.
+     * Only the data in the second and third quartiles is used (as in the interquartile range),
+     * and the lowest 25% and the highest 25% of the scores are discarded.
+     * https://en.wikipedia.org/wiki/Interquartile_mean
+     *
+     * @param  array  $numbers
+     * @return number
+     */
+    public static function interquartileMean(array $numbers)
+    {
+        return self::truncatedMean($numbers, 25);
+    }
+
+    /**
+     * IQM (Interquartile mean)
+     * Convenience function for interquartileMean
+     *
+     * @param  array  $numbers
+     * @return number
+     */
+    public static function iqm(array $numbers)
+    {
+        return self::truncatedMean($numbers, 25);
+    }
+
+    /**
      * Truncated mean (trimmed mean)
      * The mean after discarding given parts of a probability distribution or sample
      * at the high and low end, and typically discarding an equal amount of both.
@@ -246,33 +273,6 @@ class Average
             array_pop($numbers);
         }
         return self::mean($numbers);
-    }
-
-    /**
-     * Interquartile mean (IQM)
-     * A measure of central tendency based on the truncated mean of the interquartile range.
-     * Only the data in the second and third quartiles is used (as in the interquartile range),
-     * and the lowest 25% and the highest 25% of the scores are discarded.
-     * https://en.wikipedia.org/wiki/Interquartile_mean
-     *
-     * @param  array  $numbers
-     * @return number
-     */
-    public static function interquartileMean(array $numbers)
-    {
-        return self::truncatedMean($numbers, 25);
-    }
-
-    /**
-     * IQM (Interquartile mean)
-     * Convenience function for interquartileMean
-     *
-     * @param  array  $numbers
-     * @return number
-     */
-    public static function iqm(array $numbers)
-    {
-        return self::truncatedMean($numbers, 25);
     }
 
     /**
