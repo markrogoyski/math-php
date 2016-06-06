@@ -277,6 +277,48 @@ class AverageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForLehmerMean
+     */
+    public function testLehmerMean(array $numbers, $p, $mean)
+    {
+        $this->assertEquals($mean, Average::lehmerMean($numbers, $p), '', 0.01);
+    }
+
+    public function dataProviderForLehmerMean()
+    {
+        return [
+            [ [ 3, 6, 2, 9, 1, 7, 2 ], -2, 1.290 ],
+            [ [ 3, 6, 2, 9, 1, 7, 2 ], -1, 1.647 ],
+            [ [ 3, 6, 2, 9, 1, 7, 2 ], -0.5, 1.997 ],
+            [ [ 3, 6, 2, 9, 1, 7, 2 ], 0.5, 3.322 ],
+            [ [ 3, 6, 2, 9, 1, 7, 2 ], 1, 4.286 ],
+            [ [ 3, 6, 2, 9, 1, 7, 2 ], 2, 6.133 ],
+            [ [ 3, 6, 2, 9, 1, 7, 2 ], 3, 7.239 ],
+        ];
+    }
+
+    public function testLehmerMeanPEqualsZeroIsHarmonicMean()
+    {
+        $numbers = [ 3, 6, 2, 9, 1, 7, 2];
+        $p       = 0;
+        $this->assertEquals(Average::harmonicMean($numbers), Average::lehmerMean($numbers, $p));
+    }
+
+    public function testLehmerMeanPEqualsOneHalfIsGeometricMean()
+    {
+        $numbers = [3, 6];
+        $p       = 1/2;
+        $this->assertEquals(Average::geometricMean($numbers), Average::lehmerMean($numbers, $p));
+    }
+
+    public function testLehmerMeanPEqualsOneIsArithmeticMean()
+    {
+        $numbers = [ 3, 6, 2, 9, 1, 7, 2];
+        $p       = 1;
+        $this->assertEquals(Average::mean($numbers), Average::lehmerMean($numbers, $p));
+    }
+
+    /**
      * @dataProvider dataProviderForArithmeticGeometricMean
      */
     public function testArithmeticGeometricMean($x, $y, $mean)
