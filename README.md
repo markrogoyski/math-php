@@ -167,6 +167,8 @@ $contraharmonic_mean = Average::contraharmonicMean($numbers);
 $quadratic_mean      = Average::quadraticMean($numbers);  // same as rootMeanSquare
 $root_mean_square    = Average::rootMeanSquare($numbers); // same as quadraticMean
 $trimean             = Average::trimean($numbers);
+$interquartile_mean  = Average::interquartileMean($numbers); // same as iqm
+$interquartile_mean  = Average::iqm($numbers);               // same as interquartileMean
 
 // Truncated mean (trimmed mean)
 $trim_percent   = 25;
@@ -184,7 +186,7 @@ $log_mean      = Average::logarithmicMean($x, $y);
 $heronian_mean = Average::heronianMean($x, $y);
 
 // Averages report
-// Returns array with keys: mean, median, mode, geometric_mean, harmonic_mean, contraharmonic_mean, quadratic_mean, and trimean
+// Returns array with keys: mean, median, mode, geometric_mean, harmonic_mean, contraharmonic_mean, quadratic_mean, trimean, iqm
 $averages = Average::getAverages($numbers);
 ```
 
