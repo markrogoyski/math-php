@@ -318,6 +318,12 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Average::mean($numbers), Average::lehmerMean($numbers, $p));
     }
 
+    public function testContraharmonicMean()
+    {
+        $numbers = [ 3, 6, 2, 9, 1, 7, 2 ];
+        $this->assertEquals(6.133, Average::contraharmonicMean($numbers), '', 0.01);
+    }
+
     /**
      * @dataProvider dataProviderForArithmeticGeometricMean
      */
@@ -396,6 +402,7 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('mode', $averages);
         $this->assertArrayHasKey('geometric_mean', $averages);
         $this->assertArrayHasKey('harmonic_mean', $averages);
+        $this->assertArrayHasKey('contraharmonic_mean', $averages);
         $this->assertArrayHasKey('quadratic_mean', $averages);
         $this->assertArrayHasKey('trimean', $averages);
         $this->assertTrue(is_numeric($averages['mean']));
@@ -403,6 +410,7 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_array($averages['mode']));
         $this->assertTrue(is_numeric($averages['geometric_mean']));
         $this->assertTrue(is_numeric($averages['harmonic_mean']));
+        $this->assertTrue(is_numeric($averages['contraharmonic_mean']));
         $this->assertTrue(is_numeric($averages['quadratic_mean']));
         $this->assertTrue(is_numeric($averages['trimean']));
     }
