@@ -160,12 +160,13 @@ $mean   = Average::mean($numbers);
 $median = Average::median($numbers);
 $mode   = Average::mode($numbers); // Returns an array -- may be multimodal
 
-// Other means - geometric, harmonic, quadratic (root mean square), trimean
-$geometric_mean   = Average::geometricMean($numbers);
-$harmonic_mean    = Average::harmonicMean($numbers);
-$quadratic_mean   = Average::quadraticMean($numbers);  // same as rootMeanSquare
-$root_mean_square = Average::rootMeanSquare($numbers); // same as quadraticMean
-$trimean          = Average::trimean($numbers);
+// Other means - geometric, harmonic, quadratic (root mean square), trimean, contraharmonic mean
+$geometric_mean      = Average::geometricMean($numbers);
+$harmonic_mean       = Average::harmonicMean($numbers);
+$contraharmonic_mean = Average::contraharmonicMean($numbers);
+$quadratic_mean      = Average::quadraticMean($numbers);  // same as rootMeanSquare
+$root_mean_square    = Average::rootMeanSquare($numbers); // same as quadraticMean
+$trimean             = Average::trimean($numbers);
 
 // Truncated mean (trimmed mean)
 $trim_percent   = 25;
