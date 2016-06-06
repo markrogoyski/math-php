@@ -158,7 +158,7 @@ $numbers = [13, 18, 13, 14, 13, 16, 14, 21, 13];
 // Mean, median, mode
 $mean   = Average::mean($numbers);
 $median = Average::median($numbers);
-$mode   = Average::mode($numbers); // Returns an array -- may be multimodal
+$mode   = Average::mode($numbers); // Returns an array — may be multimodal
 
 // Other means of a list of numbers
 $geometric_mean      = Average::geometricMean($numbers);
