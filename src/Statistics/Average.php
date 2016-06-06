@@ -104,7 +104,9 @@ class Average
         }
 
         $n = count($numbers);
-        return pow(array_reduce($numbers, function ($carry, $a) { return !empty($carry) ? $carry * $a : $a; }), 1/$n);
+        return pow(array_reduce($numbers, function ($carry, $a) {
+            return !empty($carry) ? $carry * $a : $a;
+        }), 1/$n);
     }
 
     /**
@@ -123,12 +125,16 @@ class Average
         }
 
         // Can't be computed for negative values.
-        if ( !empty(array_filter( $numbers, function ($x) { return $x < 0; } ))) {
+        if (!empty(array_filter($numbers, function ($x) {
+            return $x < 0;
+        }))) {
             throw new \Exception('Harmonic mean cannot be computed for negative values.');
         }
 
         $n = count($numbers);
-        return $n / array_sum(array_map( function ($x) { return 1 / $x; }, $numbers ));
+        return $n / array_sum(array_map(function ($x) {
+            return 1 / $x;
+        }, $numbers));
     }
 
     /**
@@ -146,9 +152,11 @@ class Average
     public static function rootMeanSquare(array $numbers)
     {
         $x₁²＋x₂²＋⋯ = array_sum(array_map(
-            function ($x) { return $x**2; },
+            function ($x) {
+                return $x**2;
+            },
             $numbers
-        ) );
+        ));
         $n = count($numbers);
         return sqrt($x₁²＋x₂²＋⋯ / $n);
     }
@@ -215,7 +223,7 @@ class Average
         }
 
         $n          = count($numbers);
-        $trim_count = floor( $n * ($trim_percent / 100) );
+        $trim_count = floor($n * ($trim_percent / 100));
 
         sort($numbers);
         for ($i = 1; $i <= $trim_count; $i++) {
@@ -384,9 +392,9 @@ class Average
      * https://en.wikipedia.org/wiki/Heronian_mean
      *            __
      * H = ⅓(A + √AB + B)
-     * 
+     *
      * @param  number $A
-     * @param  number $B 
+     * @param  number $B
      * @return number
      */
     public static function heronianMean($A, $B)
