@@ -247,6 +247,36 @@ class AverageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForTruncatedMean
+     */
+    public function testTruncatedMean(array $numbers, $trim_percent, $mean)
+    {
+        $this->assertEquals($mean, Average::truncatedMean($numbers, $trim_percent), '', 0.01);
+    }
+
+    public function dataProviderForTruncatedMean()
+    {
+        return [
+            [ [ 92, 19, 101, 58, 1053, 91, 26, 78, 10, 13, -40, 101, 86, 85, 15, 89, 89, 28, -5, 41 ], 5, 56.5 ],
+            [ [ 4,3,6,8,4,2,4,8,12,53,23,12,21 ], 5, 12.31 ],
+            [ [ 8, 3, 7, 1, 3, 9 ], 20, 5.25 ],
+            [ [ 8, 3, 7, 1, 3, 9 ], 0, 5.16666667 ],
+        ];
+    }
+
+    public function testTruncatedMeanExceptionLessThanZeroTrimPercent()
+    {
+        $this->setExpectedException('\Exception');
+        Average::TruncatedMean([1, 2, 3], -4);
+    }
+
+    public function testTruncatedMeanExceptionGreaterThan99TrimPercent()
+    {
+        $this->setExpectedException('\Exception');
+        Average::TruncatedMean([1, 2, 3], 100);
+    }
+
+    /**
      * @dataProvider dataProviderForArithmeticGeometricMean
      */
     public function testArithmeticGeometricMean($x, $y, $mean)
