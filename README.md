@@ -167,9 +167,13 @@ $quadratic_mean   = Average::quadraticMean($numbers);  // same as rootMeanSquare
 $root_mean_square = Average::rootMeanSquare($numbers); // same as quadraticMean
 $trimean          = Average::trimean($numbers);
 
-// Other means - truncated mean
+// Truncated mean (trimmed mean)
 $trim_percent   = 25;
 $truncated_mean = Average::truncatedMean($numbers, $trim_percent);
+
+// Lehmer mean
+$p           = 3;
+$lehmer_mean = Average::lehmerMean($numbers, $p);
 
 // Other means - arithmetic-geometric, logarithmic, heronian
 list($x, $y) = [24, 6];
