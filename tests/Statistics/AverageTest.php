@@ -505,6 +505,31 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @dataProvider dataProviderForIdentricMean
+     */
+    public function testIdentricMean($x, $y, $mean)
+    {
+        $this->assertEquals($mean, Average::identricMean($x, $y), '', 0.001);
+    }
+
+    public function dataProviderForIdentricMean()
+    {
+        return [
+            [ 5, 5, 5 ],
+            [ 5, 6, 5.49241062633 ],
+            [ 6, 5, 5.49241062633 ],
+            [ 12, 3, 7.00766654296 ],
+            [ 3, 12, 7.00766654296 ],
+        ];
+    }
+
+    public function testIdentricMeanExceptionNegativeValue()
+    {
+        $this->setExpectedException('\Exception');
+        Average::identricMean(-2, 5);
+    }
+
     public function testGetAverages()
     {
         $averages = Average::getAverages([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ]);
