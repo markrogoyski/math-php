@@ -169,6 +169,7 @@ $root_mean_square    = Average::rootMeanSquare($numbers); // same as quadraticMe
 $trimean             = Average::trimean($numbers);
 $interquartile_mean  = Average::interquartileMean($numbers); // same as iqm
 $interquartile_mean  = Average::iqm($numbers);               // same as interquartileMean
+$cubic_mean          = Average::cubicMean($numbers);
 
 // Truncated mean (trimmed mean)
 $trim_percent   = 25;
@@ -183,7 +184,7 @@ $power_mean       = Average::powerMean($numbers, $p);       // same as generaliz
 $p           = 3;
 $lehmer_mean = Average::lehmerMean($numbers, $p);
 
-// Other means of two numbers
+// Means of two numbers
 list($x, $y) = [24, 6];
 $agm           = Average::arithmeticGeometricMean($x, $y); // same as agm
 $agm           = Average::agm($x, $y);                     // same as arithmeticGeometricMean
@@ -191,7 +192,7 @@ $log_mean      = Average::logarithmicMean($x, $y);
 $heronian_mean = Average::heronianMean($x, $y);
 
 // Averages report
-// Returns array with keys: mean, median, mode, geometric_mean, harmonic_mean, contraharmonic_mean, quadratic_mean, trimean, iqm
+// Returns array with keys: mean, median, mode, geometric_mean, harmonic_mean, contraharmonic_mean, quadratic_mean, trimean, iqm, cubic_mean
 $averages = Average::getAverages($numbers);
 ```
 
