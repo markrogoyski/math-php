@@ -321,6 +321,18 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testLehmerMeanPEqualsNegativeInfinityIsMin()
+    {
+        $numbers = [ 3, 6, 2, 9, 1, 7, 2];
+        $this->assertEquals(min($numbers), Average::lehmerMean($numbers, -\INF));
+    }
+
+    public function testLehmerMeanPEqualsInfinityIsMax()
+    {
+        $numbers = [ 3, 6, 2, 9, 1, 7, 2];
+        $this->assertEquals(max($numbers), Average::lehmerMean($numbers, \INF));
+    }
+
     public function testLehmerMeanPEqualsZeroIsHarmonicMean()
     {
         $numbers = [ 3, 6, 2, 9, 1, 7, 2];
@@ -340,6 +352,75 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $numbers = [ 3, 6, 2, 9, 1, 7, 2];
         $p       = 1;
         $this->assertEquals(Average::mean($numbers), Average::lehmerMean($numbers, $p));
+    }
+
+    /**
+     * @dataProvider dataProviderForGeneralizedMean
+     */
+    public function testGeneralizedMean(array $numbers, $p, $mean)
+    {
+        $this->assertEquals($mean, Average::generalizedMean($numbers, $p), '', 0.001);
+    }
+
+    /**
+     * @dataProvider dataProviderForGeneralizedMean
+     */
+    public function testPowerMean(array $numbers, $p, $mean)
+    {
+        $this->assertEquals($mean, Average::powerMean($numbers, $p), '', 0.001);
+    }
+
+    public function dataProviderForGeneralizedMean()
+    {
+        return [
+            [ [1, 2, 3, 4, 5], -2, 1.84829867963 ],
+            [ [1, 2, 3, 4, 5], -1, 2.1897810219 ],
+            [ [1, 2, 3, 4, 5], -0.5, 2.3937887509 ],
+            [ [1, 2, 3, 4, 5], 0.5, 2.81053982332 ],
+            [ [1, 2, 3, 4, 5], 1, 3 ],
+            [ [1, 2, 3, 4, 5], 2, 3.31662479036 ],
+            [ [1, 2, 3, 4, 5], 3, 3.55689330449 ],
+        ];
+    }
+
+    public function testGeneralizedMeanPEqualsNegativeInfinityIsMin()
+    {
+        $numbers = [ 3, 6, 2, 9, 1, 7, 2];
+        $this->assertEquals(min($numbers), Average::generalizedMean($numbers, -\INF));
+    }
+
+    public function testGeneralizedMeanPEqualsInfinityIsMax()
+    {
+        $numbers = [ 3, 6, 2, 9, 1, 7, 2];
+        $this->assertEquals(max($numbers), Average::generalizedMean($numbers, \INF));
+    }
+
+    public function testGeneralizedMeanPEqualsNegativeOneIsHarmonicMean()
+    {
+        $numbers = [ 3, 6, 2, 9, 1, 7, 2];
+        $p       = -1;
+        $this->assertEquals(Average::harmonicMean($numbers), Average::generalizedMean($numbers, $p));
+    }
+
+    public function testGeneralizedMeanPEqualsZeroIsGeometricMean()
+    {
+        $numbers = [ 3, 6, 2, 9, 1, 7, 2];
+        $p       = 0;
+        $this->assertEquals(Average::geometricMean($numbers), Average::generalizedMean($numbers, $p));
+    }
+
+    public function testGeneralizedMeanPEqualsOneIsArithmeticMean()
+    {
+        $numbers = [ 3, 6, 2, 9, 1, 7, 2];
+        $p       = 1;
+        $this->assertEquals(Average::mean($numbers), Average::generalizedMean($numbers, $p));
+    }
+
+    public function testGeneralizedMeanPEqualsTwoIsQuadraticMean()
+    {
+        $numbers = [ 3, 6, 2, 9, 1, 7, 2];
+        $p       = 2;
+        $this->assertEquals(Average::quadraticMean($numbers), Average::generalizedMean($numbers, $p));
     }
 
     public function testContraharmonicMean()
