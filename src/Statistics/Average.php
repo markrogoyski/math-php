@@ -138,6 +138,21 @@ class Average
     }
 
     /**
+     * Contraharmonic mean
+     * A function complementary to the harmonic mean.
+     * A special case of the Lehmer mean, L₂(x), where p = 2.
+     * https://en.wikipedia.org/wiki/Contraharmonic_mean
+     *
+     * @param  array  $numbers
+     * @return number
+     */
+    public static function contraharmonicMean(array $numbers)
+    {
+        $p = 2;
+        return self::lehmerMean($numbers, $p);
+    }
+
+    /**
      * Root mean square (quadratic mean)
      * The square root of the arithmetic mean of the squares of a set of numbers.
      * https://en.wikipedia.org/wiki/Root_mean_square
@@ -294,21 +309,6 @@ class Average
         ));
 
         return $∑xᵢᵖ / $∑xᵢᵖ⁻¹;
-    }
-
-    /**
-     * Contraharmonic mean
-     * A function complementary to the harmonic mean.
-     * A special case of the Lehmer mean, L₂(x), where p = 2.
-     * https://en.wikipedia.org/wiki/Contraharmonic_mean
-     *
-     * @param  array  $numbers
-     * @return number
-     */
-    public static function contraharmonicMean(array $numbers)
-    {
-        $p = 2;
-        return self::lehmerMean($numbers, $p);
     }
 
     /**
