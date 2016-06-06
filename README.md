@@ -174,6 +174,11 @@ $interquartile_mean  = Average::iqm($numbers);               // same as interqua
 $trim_percent   = 25;
 $truncated_mean = Average::truncatedMean($numbers, $trim_percent);
 
+// Generalized mean (power mean)
+$p                = 2;
+$generalized_mean = Average::generalizedMean($numbers, $p); // same as powerMean
+$power_mean       = Average::powerMean($numbers, $p);       // same as generalizedMean
+
 // Lehmer mean
 $p           = 3;
 $lehmer_mean = Average::lehmerMean($numbers, $p);
