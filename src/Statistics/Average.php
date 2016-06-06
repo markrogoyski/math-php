@@ -239,6 +239,30 @@ class Average
     }
 
     /**
+     * Cubic mean
+     * https://en.wikipedia.org/wiki/Cubic_mean
+     *              _________
+     *             / 1  n
+     * x cubic = ³/  -  ∑ xᵢ³
+     *           √   n ⁱ⁼¹
+     *
+     * @param  array $numbers
+     * @return number
+     */
+    public static function cubicMean(array $numbers)
+    {
+        $n    = count($numbers);
+        $∑xᵢ³ = array_sum(array_map(
+            function ($x) {
+                return $x**3;
+            },
+            $numbers
+        ));
+
+        return pow( 1/$n * $∑xᵢ³, 1/3 );
+    }
+
+    /**
      * Truncated mean (trimmed mean)
      * The mean after discarding given parts of a probability distribution or sample
      * at the high and low end, and typically discarding an equal amount of both.
@@ -481,7 +505,7 @@ class Average
      * @param array $numbers
      *
      * @return array [ mean, median, mode, geometric_mean, harmonic_mean,
-     *                 contraharmonic_mean, quadratic_mean, trimean, iqm ]
+     *                 contraharmonic_mean, quadratic_mean, trimean, iqm, cubic_mean ]
      */
     public static function getAverages(array $numbers): array
     {
@@ -495,6 +519,7 @@ class Average
             'quadratic_mean'      => self::quadraticMean($numbers),
             'trimean'             => self::trimean($numbers),
             'iqm'                 => self::iqm($numbers),
+            'cubic_mean'          => self::cubicMean($numbers),
         ];
     }
 }
