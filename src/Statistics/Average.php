@@ -499,6 +499,38 @@ class Average
     }
 
     /**
+     * Identric mean
+     * https://en.wikipedia.org/wiki/Identric_mean
+     *                 ____
+     *          1     / xˣ
+     * I(x,y) = - ˣ⁻ʸ/  --
+     *          ℯ   √   yʸ
+     *
+     * @param  number $x
+     * @param  number $y
+     * @return number
+     */
+    public static function identricMean($x, $y)
+    {
+        // x and y must be positive
+        if ($x <= 0 || $y <= 0) {
+            throw new \Exception('x and y must be positive real numbers.');
+        }
+
+        // Special case: x if x = y
+        if ($x == $y) {
+            return $x;
+        }
+
+        // Standard case
+        $ℯ  = \M_E;
+        $xˣ = $x**$x;
+        $yʸ = $y**$y;
+
+        return 1/$ℯ * pow( $xˣ/$yʸ, 1/($x - $y) );
+    }
+
+    /**
      * Get a report of all the averages over a list of numbers
      * Includes mean, median mode, geometric mean, harmonic mean, quardratic mean
      *
