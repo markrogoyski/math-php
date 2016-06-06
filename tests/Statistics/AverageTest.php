@@ -423,6 +423,13 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Average::quadraticMean($numbers), Average::generalizedMean($numbers, $p));
     }
 
+    public function testGeneralizedMeanPEqualsThreeIsCubicMean()
+    {
+        $numbers = [ 3, 6, 2, 9, 1, 7, 2];
+        $p       = 3;
+        $this->assertEquals(Average::cubicMean($numbers), Average::generalizedMean($numbers, $p));
+    }
+
     public function testContraharmonicMean()
     {
         $numbers = [ 3, 6, 2, 9, 1, 7, 2 ];
@@ -511,6 +518,7 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('quadratic_mean', $averages);
         $this->assertArrayHasKey('trimean', $averages);
         $this->assertArrayHasKey('iqm', $averages);
+        $this->assertArrayHasKey('cubic_mean', $averages);
         $this->assertTrue(is_numeric($averages['mean']));
         $this->assertTrue(is_numeric($averages['median']));
         $this->assertTrue(is_array($averages['mode']));
@@ -520,5 +528,6 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_numeric($averages['quadratic_mean']));
         $this->assertTrue(is_numeric($averages['trimean']));
         $this->assertTrue(is_numeric($averages['iqm']));
+        $this->assertTrue(is_numeric($averages['cubic_mean']));
     }
 }
