@@ -226,6 +226,42 @@ class Average
     }
 
     /**
+     * Lehmer mean
+     * https://en.wikipedia.org/wiki/Lehmer_mean
+     *
+     *          ∑xᵢᵖ
+     * Lp(x) = ------
+     *         ∑xᵢᵖ⁻¹
+     *
+     * Special cases:
+     *  L₀(x) is the harmonic mean
+     *  L½(x) is the geometric mean if computed against two numbers
+     *  L₁(x) is the arithmetic mean
+     *  L₂(x) is the contraharmonic mean
+     *
+     * @param  array  $numbers
+     * @param  number $p
+     * @return number
+     */
+    public static function lehmerMean(array $numbers, $p)
+    {
+        $∑xᵢᵖ = array_sum(array_map(
+            function ($x) use ($p) {
+                return $x**$p;
+            },
+            $numbers
+        ));
+        $∑xᵢᵖ⁻¹ = array_sum(array_map(
+            function ($x) use ($p) {
+                return $x**($p - 1);
+            },
+            $numbers
+        ));
+
+        return $∑xᵢᵖ / $∑xᵢᵖ⁻¹;
+    }
+
+    /**
      * Arithmetic-Geometric mean
      *
      * First, compute the arithmetic and geometric means of x and y, calling them a₁ and g₁ respectively.
