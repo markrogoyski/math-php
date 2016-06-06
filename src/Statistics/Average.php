@@ -284,10 +284,12 @@ class Average
      *         ∑xᵢᵖ⁻¹
      *
      * Special cases:
+     *  L-∞(x) is the min(x)
      *  L₀(x) is the harmonic mean
      *  L½(x₀, x₁) is the geometric mean if computed against two numbers
      *  L₁(x) is the arithmetic mean
      *  L₂(x) is the contraharmonic mean
+     *  L∞(x) is the max(x)
      *
      * @param  array  $numbers
      * @param  number $p
@@ -295,6 +297,15 @@ class Average
      */
     public static function lehmerMean(array $numbers, $p)
     {
+        // Special cases for infinite p
+        if ($p == -\INF) {
+            return min($numbers);
+        }
+        if ($p == \INF) {
+            return max($numbers);
+        }
+
+        // Standard case for non-infinite p
         $∑xᵢᵖ = array_sum(array_map(
             function ($x) use ($p) {
                 return $x**$p;
@@ -309,6 +320,67 @@ class Average
         ));
 
         return $∑xᵢᵖ / $∑xᵢᵖ⁻¹;
+    }
+
+    /**
+     * Generalized mean (power mean, Hölder mean)
+     * https://en.wikipedia.org/wiki/Generalized_mean
+     *
+     *          / 1  n    \ 1/p
+     * Mp(x) = |  -  ∑ xᵢᵖ|
+     *          \ n ⁱ⁼¹   /
+     *
+     * Special cases:
+     *  M-∞(x) is min(x)
+     *  M₋₁(x) is the harmonic mean
+     *  M₀(x) is the geometric mean
+     *  M₁(x) is the arithmetic mean
+     *  M₂(x) is the quadratic mean
+     *  M₃(x) is the cubic mean
+     *  M∞(x) is max(X)
+     *
+     * @param  array  $numbers
+     * @param  number $p
+     * @return number
+     */
+    public static function generalizedMean(array $numbers, $p)
+    {
+        // Special cases for infinite p
+        if ($p == -\INF) {
+            return min($numbers);
+        }
+        if ($p == \INF) {
+            return max($numbers);
+        }
+
+        // Special case for p = 0 (geometric mean)
+        if ($p == 0) {
+            return self::geometricMean($numbers);
+        }
+
+        // Standard case for non-infinite p
+        $n    = count($numbers);
+        $∑xᵢᵖ = array_sum(array_map(
+            function ($x) use ($p) {
+                return $x**$p;
+            },
+            $numbers
+        ));
+
+        return pow( 1/$n * $∑xᵢᵖ, 1/$p );
+    }
+
+    /**
+     * Power mean (generalized mean)
+     * Convenience method for generalizedMean
+     *
+     * @param  array  $numbers
+     * @param  number $p
+     * @return number
+     */
+    public static function powerMean(array $numbers, $p)
+    {
+        return self::generalizedMean($numbers, $p);
     }
 
     /**
