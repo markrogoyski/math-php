@@ -1,9 +1,9 @@
 <?php
-namespace Math\Arithmetic;
+namespace Math\Functions;
 
 use Math\Probability\Combinatorics;
 
-class Functions
+class Special
 {
     /**
      * Sign function (signum function) - sgn
@@ -46,7 +46,7 @@ class Functions
      */
     public static function gamma($n)
     {
-        return Functions::gammaLanczos($n);
+        return self::gammaLanczos($n);
     }
 
     /**
@@ -115,7 +115,7 @@ class Functions
          *         sin πz * Γ(1 - z)
          */
         if ($z < 0.5) {
-            $Γ⟮1 − z⟯ = Functions::gammaLanczos(1 - $z);
+            $Γ⟮1 − z⟯ = self::gammaLanczos(1 - $z);
             return $π / (sin($π * $z) * $Γ⟮1 − z⟯);
         }
 

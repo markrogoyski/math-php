@@ -1,14 +1,14 @@
 <?php
-namespace Math\Arithmetic;
+namespace Math\Functions;
 
-class FunctionsTest extends \PHPUnit_Framework_TestCase
+class SpecialTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider dataProviderForSignum
      */
     public function testSignum($x, $sign)
     {
-        $this->assertEquals($sign, Functions::signum($x));
+        $this->assertEquals($sign, Special::signum($x));
     }
 
     /**
@@ -16,7 +16,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSgn($x, $sign)
     {
-        $this->assertEquals($sign, Functions::sgn($x));
+        $this->assertEquals($sign, Special::sgn($x));
     }
 
     public function dataProviderForSignum()
@@ -33,7 +33,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGamma($z, $Γ)
     {
-        $this->assertEquals($Γ, Functions::gamma($z), '', 0.001);
+        $this->assertEquals($Γ, Special::gamma($z), '', 0.001);
     }
 
     /**
@@ -41,7 +41,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGammaLanczos($z, $Γ)
     {
-        $this->assertEquals($Γ, Functions::gammaLanczos($z), '', 0.001);
+        $this->assertEquals($Γ, Special::gammaLanczos($z), '', 0.001);
     }
 
     public function dataProviderForGammaLanczos()
@@ -89,7 +89,7 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGammaStirling($n, $Γ)
     {
-        $this->assertEquals($Γ, Functions::gammaStirling($n), '', 0.01);
+        $this->assertEquals($Γ, Special::gammaStirling($n), '', 0.01);
     }
 
     public function dataProviderForGammaStirling()
