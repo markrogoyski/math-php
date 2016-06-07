@@ -18,7 +18,7 @@ Features
      * Random Variables
      * Regressions
  * Algebra
- * Arithmetic Functions
+ * Special Functions
 
 Setup
 -----
@@ -386,20 +386,20 @@ $lcm = Algebra::lcm(5, 2);
 $factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
 ```
 
-### Arithmetic - Functions
+### Special Functions
 ```php
-use Math\Arithmetic\Functions;
-
-// Sign function (also known as signum or sgn)
-$x = 4;
-$sign = Functions::signum($x); // same as sgn
-$sign = Functions::sgn($x);    // same as signum
+use Math\Functions\Special;
 
 // Gamma function Γ(z)
 $z = 4;
-$Γ = Functions::gamma($z);          // Lanczos approximation - same as gammaLanczos
-$Γ = Functions::gammaLanczos($z);   // Lanczos approximation - same as gamma
-$Γ = Functions::gammaStirling($z);  // Stirling approximation
+$Γ = Special::gamma($z);          // Lanczos approximation - same as gammaLanczos
+$Γ = Special::gammaLanczos($z);   // Lanczos approximation - same as gamma
+$Γ = Special::gammaStirling($z);  // Stirling approximation
+
+// Sign function (also known as signum or sgn)
+$x = 4;
+$sign = Special::signum($x); // same as sgn
+$sign = Special::sgn($x);    // same as signum
 ```
 
 Unit Tests
