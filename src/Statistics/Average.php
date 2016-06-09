@@ -259,7 +259,7 @@ class Average
             $numbers
         ));
 
-        return pow( 1/$n * $∑xᵢ³, 1/3 );
+        return pow(1/$n * $∑xᵢ³, 1/3);
     }
 
     /**
@@ -391,7 +391,7 @@ class Average
             $numbers
         ));
 
-        return pow( 1/$n * $∑xᵢᵖ, 1/$p );
+        return pow(1/$n * $∑xᵢᵖ, 1/$p);
     }
 
     /**
@@ -527,7 +527,7 @@ class Average
         $xˣ = $x**$x;
         $yʸ = $y**$y;
 
-        return 1/$ℯ * pow( $xˣ/$yʸ, 1/($x - $y) );
+        return 1/$ℯ * pow($xˣ/$yʸ, 1/($x - $y));
     }
 
     /**
