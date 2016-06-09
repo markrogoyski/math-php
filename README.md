@@ -11,6 +11,7 @@ Features
      * Combinatorics
      * Distributions
      * Standard Normal Table (Z Table)
+     * t Distribution Table
  * Statistics
      * Averages
      * Descriptive
@@ -147,6 +148,32 @@ $probability = StandardNormalTable::getZScoreProbability($Z);
 // Access the entire Z table (positive and negative Z-scores)
 $z_table     = StandardNormalTable::Z_SCORES;
 $probability = $z_table[1.5][0];
+```
+
+### Probability - t Distribution Table
+```php
+use Math\Probability\TDistributionTable;
+
+// Get t critical value from degrees of freedom (ν) and confidence level (cl)
+$ν       = 5;
+$cl      = 99;
+$t_value = TDistributionTable::getOneSidedTValueFromConfidenceLevel($ν, $cl);
+$t_value = TDistributionTable::getTwoSidedTValueFromConfidenceLevel($ν, $cl);
+
+// Get t critical value from degrees of freedom (ν) and alpha value (α)
+$ν       = 5;
+$α       = 0.001;
+$t_value = TDistributionTable::getOneSidedTValueFromAlpha($ν, $α);
+$t_value = TDistributionTable::getTwoSidedTValueFromAlpha($ν, $α);
+
+// Access the entire t table (one and two sided; confidence levels and alphas)
+$t_table = TDistributionTable::ONE_SIDED_CONFIDENCE_LEVEL;
+$t_table = TDistributionTable::TWO_SIDED_CONFIDENCE_LEVEL;
+$t_value = $t_table[$ν][$cl];
+
+$t_table = TDistributionTable::ONE_SIDED_ALPHA;
+$t_table = TDistributionTable::TWO_SIDED_ALPHA;
+$t_table = $t_table[$ν][$α];
 ```
 
 ### Statistics - Averages
