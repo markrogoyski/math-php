@@ -7,7 +7,7 @@ use Math\Statistics\RandomVariable;
 class Distribution
 {
     /**
-     * Binomial distribution
+     * Binomial distribution - probability mass function
      * https://en.wikipedia.org/wiki/Binomial_distribution
      *
      * P(X = r) = nCr pʳ (1 - p)ⁿ⁻ʳ
@@ -18,7 +18,7 @@ class Distribution
      *
      * @return float
      */
-    public static function binomial(int $n, int $r, float $p): float
+    public static function binomialPMF(int $n, int $r, float $p): float
     {
         if ($p < 0 || $p > 1) {
             throw new \Exception("Probability $p must be between 0 and 1.");
@@ -32,7 +32,7 @@ class Distribution
     }
 
     /**
-     * Cumulative binomial distribution
+     * Binomial distribution - cumulative distribution function
      * Computes and sums the binomial distribution at each of the values in r.
      *
      * @param  int   $n number of events
@@ -41,11 +41,11 @@ class Distribution
      *
      * @return float
      */
-    public static function cumulativeBinomial(int $n, int $r, float $p): float
+    public static function binomialCDF(int $n, int $r, float $p): float
     {
         $cumulative_probability = 0;
         for ($i = $r; $i >= 0; $i--) {
-            $cumulative_probability += self::binomial($n, $i, $p);
+            $cumulative_probability += self::binomialPMF($n, $i, $p);
         }
         return $cumulative_probability;
     }
@@ -93,7 +93,7 @@ class Distribution
     }
 
     /**
-     * Poisson distribution
+     * Poisson distribution - probability mass function
      * A discrete probability distribution that expresses the probability of a given number of events
      * occurring in a fixed interval of time and/or space if these events occur with a known average
      * rate and independently of the time since the last event.
@@ -108,20 +108,20 @@ class Distribution
      *
      * @return float The Poisson probability of observing k successful events in an interval
      */
-    public static function poisson(int $k, float $λ): float
+    public static function poissonPMF(int $k, float $λ): float
     {
         if ($k < 0 || $λ < 0) {
             throw new \Exception('k and λ must be greater than 0.');
         }
 
-        $λᵏℯ＾−λ = pow($λ, $k) * pow(\M_E, -$λ);
+        $λᵏℯ＾−λ = pow($λ, $k) * exp(-$λ);
         $k！     = Combinatorics::factorial($k);
 
         return $λᵏℯ＾−λ / $k！;
     }
 
     /**
-     * Cumulative Poisson Probability (lower culmulative distribution)
+     * Cumulative Poisson Probability (lower culmulative distribution) - CDF
      * The probability that the Poisson random variable is greater than some specified lower limit,
      * and less than some specified upper limit.
      *
@@ -134,11 +134,11 @@ class Distribution
      *
      * @return float The cumulative Poisson probability
      */
-    public static function cumulativePoisson(int $k, float $λ): float
+    public static function poissonCDF(int $k, float $λ): float
     {
         return array_sum(array_map(
             function ($k) use ($λ) {
-                return self::poisson($k, $λ);
+                return self::poissonPMF($k, $λ);
             },
             range(0, $k)
         ));
@@ -147,6 +147,7 @@ class Distribution
     /**
      * Continuous uniform distribution
      * Computes the probability of a specific interval within the continuous uniform distribution.
+     * https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
      *
      * x₂ − x₁
      * -------
@@ -179,13 +180,13 @@ class Distribution
      *
      * @return float
      */
-    public static function exponential(float $λ, float $x): float
+    public static function exponentialPDF(float $λ, float $x): float
     {
         if ($x < 0) {
             return 0;
         }
 
-        return $λ * pow(\M_E, -$λ * $x);
+        return $λ * exp(-$λ * $x);
     }
 
     /**
@@ -200,13 +201,13 @@ class Distribution
      *
      * @return float
      */
-    public static function cumulativeExponential(float $λ, float $x): float
+    public static function exponentialCDF(float $λ, float $x): float
     {
         if ($x < 0) {
             return 0;
         }
 
-        return 1 - pow(\M_E, -$λ * $x);
+        return 1 - exp(-$λ * $x);
     }
 
     /**
@@ -223,9 +224,9 @@ class Distribution
      *
      * @return float
      */
-    public static function cumulativeExponentialBetweenTwoNumbers(float $λ, float $x₁, float $x₂): float
+    public static function exponentialCDFBetweenTwoNumbers(float $λ, float $x₁, float $x₂): float
     {
-        return self::cumulativeExponential($λ, $x₂) - self::cumulativeExponential($λ, $x₁);
+        return self::exponentialCDF($λ, $x₂) - self::exponentialCDF($λ, $x₁);
     }
 
     /**
@@ -243,13 +244,13 @@ class Distribution
      *
      * @return float f(x|μ,σ)
      */
-    public static function normal($x, $μ, $σ): float
+    public static function normalPDF($x, $μ, $σ): float
     {
         $σ√⟮2π⟯ = $σ * sqrt(2 * \M_PI);
 
         $⟮x − μ⟯²∕2σ² = pow(($x - $μ), 2) / (2 * $σ**2);
 
-        $ℯ＾−⟮x − μ⟯²∕2σ² = pow(\M_E, -$⟮x − μ⟯²∕2σ²);
+        $ℯ＾−⟮x − μ⟯²∕2σ² = exp(-$⟮x − μ⟯²∕2σ²);
 
         return ( 1 / $σ√⟮2π⟯ ) * $ℯ＾−⟮x − μ⟯²∕2σ²;
     }
@@ -269,7 +270,7 @@ class Distribution
      *
      * @return float cdf(x) below
      */
-    public static function cumulativeNormal($x, $μ, $σ): float
+    public static function normalCDF($x, $μ, $σ): float
     {
         return 1/2 * ( 1 + RandomVariable::erf(($x - $μ) / ($σ * sqrt(2))) );
     }
@@ -285,9 +286,9 @@ class Distribution
      *
      * @return float cdf(x) above
      */
-    public static function cumulativeNormalAbove($x, $μ, $σ): float
+    public static function normalCDFAbove($x, $μ, $σ): float
     {
-        return 1 - self::cumulativeNormal($x, $μ, $σ);
+        return 1 - self::normalCDF($x, $μ, $σ);
     }
 
     /**
@@ -302,9 +303,9 @@ class Distribution
      *
      * @return float cdf(x) between
      */
-    public static function cumulativeNormalBetween($x₁, $x₂, $μ, $σ): float
+    public static function normalCDFBetween($x₁, $x₂, $μ, $σ): float
     {
-        return self::cumulativeNormal($x₂, $μ, $σ) - self::cumulativeNormal($x₁, $μ, $σ);
+        return self::normalCDF($x₂, $μ, $σ) - self::normalCDF($x₁, $μ, $σ);
     }
 
     /**
@@ -319,9 +320,9 @@ class Distribution
      *
      * @return float cdf(x) between
      */
-    public static function cumulativeNormalOutside($x₁, $x₂, $μ, $σ): float
+    public static function normalCDFOutside($x₁, $x₂, $μ, $σ): float
     {
-        return self::cumulativeNormal($x₁, $μ, $σ) + self::cumulativeNormalAbove($x₂, $μ, $σ);
+        return self::normalCDF($x₁, $μ, $σ) + self::normalCDFAbove($x₂, $μ, $σ);
     }
 
     /**

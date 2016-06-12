@@ -5,18 +5,18 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @dataProvider dataProviderForBinomial
+     * @dataProvider dataProviderForBinomialPMF
      */
-    public function testBinomial(int $n, int $r, float $p, float $binomial_distribution)
+    public function testBinomialPMF(int $n, int $r, float $p, float $binomial_distribution)
     {
-        $this->assertEquals($binomial_distribution, Distribution::binomial($n, $r, $p), '', 0.001);
+        $this->assertEquals($binomial_distribution, Distribution::binomialPMF($n, $r, $p), '', 0.001);
     }
 
     /**
      * Data provider for binomial
      * Data: [ n, r, p, binomial distribution ]
      */
-    public function dataProviderForBinomial()
+    public function dataProviderForBinomialPMF()
     {
         return [
         [ 2, 1, 0.5, 0.5 ],
@@ -30,31 +30,31 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testBinomialProbabilityLowerBoundException()
+    public function testBinomialPMFProbabilityLowerBoundException()
     {
         $this->setExpectedException('\Exception');
-        Distribution::binomial(6, 2, -0.1);
+        Distribution::binomialPMF(6, 2, -0.1);
     }
 
-    public function testBinomialProbabilityUpperBoundException()
+    public function testBinomialPMFProbabilityUpperBoundException()
     {
         $this->setExpectedException('\Exception');
-        Distribution::binomial(6, 2, 1.1);
+        Distribution::binomialPMF(6, 2, 1.1);
     }
 
     /**
-     * @dataProvider dataProviderForCumulativeBinomial
+     * @dataProvider dataProviderForBinomialCDF
      */
-    public function testCumulativeBinomial(int $n, int $r, float $p, float $cumulative_binomial_distribution)
+    public function testBinomialCDF(int $n, int $r, float $p, float $cumulative_binomial_distribution)
     {
-        $this->assertEquals($cumulative_binomial_distribution, Distribution::cumulativeBinomial($n, $r, $p), '', 0.001);
+        $this->assertEquals($cumulative_binomial_distribution, Distribution::binomialCDF($n, $r, $p), '', 0.001);
     }
 
     /**
      * Data provider for cumulative binomial
      * Data: [ n, r, p, cumulative binomial distribution ]
      */
-    public function dataProviderForCumulativeBinomial()
+    public function dataProviderForBinomialCDF()
     {
         return [
             [ 2, 1, 0.5, 0.75 ],
@@ -145,18 +145,18 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForPoisson
+     * @dataProvider dataProviderForPoissonPMF
      */
-    public function testPoisson(int $k, float $λ, float $probability)
+    public function testPoissonPMF(int $k, float $λ, float $probability)
     {
-        $this->assertEquals($probability, Distribution::poisson($k, $λ), '', 0.001);
+        $this->assertEquals($probability, Distribution::poissonPMF($k, $λ), '', 0.001);
     }
 
     /**
      * Data provider for poisson
      * Data: [ k, λ, poisson distribution ]
      */
-    public function dataProviderForPoisson()
+    public function dataProviderForPoissonPMF()
     {
         return [
             [ 3, 2, 0.180 ],
@@ -168,18 +168,18 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForCumulativePoisson
+     * @dataProvider dataProviderForPoissonCDF
      */
-    public function testCumulativePoisson(int $k, float $λ, float $probability)
+    public function testPoissonCDF(int $k, float $λ, float $probability)
     {
-        $this->assertEquals($probability, Distribution::cumulativePoisson($k, $λ), '', 0.001);
+        $this->assertEquals($probability, Distribution::poissonCDF($k, $λ), '', 0.001);
     }
 
     /**
      * Data provider for cumulative poisson
      * Data: [ k, λ, culmulative poisson distribution ]
      */
-    public function dataProviderForCumulativePoisson()
+    public function dataProviderForPoissonCDF()
     {
         return [
             [ 3, 2, 0.857123460498547048662 ],
@@ -193,13 +193,13 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     public function testPoissonExceptionWhenKLessThanZero()
     {
         $this->setExpectedException('\Exception');
-        Distribution::poisson(-1, 2);
+        Distribution::poissonPMF(-1, 2);
     }
 
     public function testPoissonExceptionWhenλLessThanZero()
     {
         $this->setExpectedException('\Exception');
-        Distribution::poisson(2, -1);
+        Distribution::poissonPMF(2, -1);
     }
 
     /**
@@ -226,14 +226,14 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForExponential
+     * @dataProvider dataProviderForExponentialPDF
      */
     public function testExponential($λ, $x, $probability)
     {
-        $this->assertEquals($probability, Distribution::exponential($λ, $x), '', 0.001);
+        $this->assertEquals($probability, Distribution::exponentialPDF($λ, $x), '', 0.001);
     }
 
-    public function dataProviderForExponential()
+    public function dataProviderForExponentialPDF()
     {
         return [
             [ 1, 0, 1 ],
@@ -244,14 +244,14 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForCumulativeExponential
+     * @dataProvider dataProviderForExponentialCDF
      */
-    public function testCumulativeExponential($λ, $x, $probability)
+    public function testExponentialCDF($λ, $x, $probability)
     {
-        $this->assertEquals($probability, Distribution::cumulativeExponential($λ, $x), '', 0.001);
+        $this->assertEquals($probability, Distribution::ExponentialCDF($λ, $x), '', 0.001);
     }
 
-    public function dataProviderForCumulativeExponential()
+    public function dataProviderForExponentialCDF()
     {
         return [
             [ 1, 0, 0 ],
@@ -265,14 +265,14 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForCumulativeExponentialBewteenTwoNumbers
+     * @dataProvider dataProviderForExponentialCDFBewteenTwoNumbers
      */
-    public function testCumulativeExponentialBetweenTwoNumbers($λ, $x₁, $x₂, $probability)
+    public function testExponentialCDFBetweenTwoNumbers($λ, $x₁, $x₂, $probability)
     {
-        $this->assertEquals($probability, Distribution::cumulativeExponentialBetweenTwoNumbers($λ, $x₁, $x₂), '', 0.001);
+        $this->assertEquals($probability, Distribution::ExponentialCDFBetweenTwoNumbers($λ, $x₁, $x₂), '', 0.001);
     }
 
-    public function dataProviderForCumulativeExponentialBewteenTwoNumbers()
+    public function dataProviderForExponentialCDFBewteenTwoNumbers()
     {
         return [
             [ 1, 2, 3, 0.0855 ],
@@ -284,14 +284,14 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForNormal
+     * @dataProvider dataProviderForNormalPDF
      */
-    public function testNormal($x, $μ, $σ, $pdf)
+    public function testNormalPDF($x, $μ, $σ, $pdf)
     {
-        $this->assertEquals($pdf, Distribution::normal($x, $μ, $σ), '', 0.001);
+        $this->assertEquals($pdf, Distribution::normalPDF($x, $μ, $σ), '', 0.001);
     }
 
-    public function dataProviderForNormal()
+    public function dataProviderForNormalPDF()
     {
         return [
             [ 84, 72, 15.2, 0.01921876 ],
@@ -301,14 +301,14 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForCumulativeNormal
+     * @dataProvider dataProviderForNormalCDF
      */
-    public function testCumulativeNormal($x, $μ, $σ, $probability)
+    public function testNormalCDF($x, $μ, $σ, $probability)
     {
-        $this->assertEquals($probability, Distribution::cumulativeNormal($x, $μ, $σ), '', 0.001);
+        $this->assertEquals($probability, Distribution::normalCDF($x, $μ, $σ), '', 0.001);
     }
 
-    public function dataProviderForCumulativeNormal()
+    public function dataProviderForNormalCDF()
     {
         return [
             [ 84, 72, 15.2, 0.7851 ],
@@ -322,14 +322,14 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForCulmulativeNormalAbove
+     * @dataProvider dataProviderForNormalCDFAbove
      */
-    public function testCumulativeNormalAbove($x, $μ, $σ, $probability)
+    public function testNormalCDFAbove($x, $μ, $σ, $probability)
     {
-        $this->assertEquals($probability, Distribution::cumulativeNormalAbove($x, $μ, $σ), '', 0.001);
+        $this->assertEquals($probability, Distribution::normalCDFAbove($x, $μ, $σ), '', 0.001);
     }
 
-    public function dataProviderForCulmulativeNormalAbove()
+    public function dataProviderForNormalCDFAbove()
     {
         return [
             [ 1.96, 0, 1, 0.025 ],
@@ -339,14 +339,14 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForCulmulativeNormalBetween
+     * @dataProvider dataProviderForNormalCDFBetween
      */
-    public function testCumulativeNormalBetween($x₁, $x₂, $μ, $σ, $probability)
+    public function testNormalCDFBetween($x₁, $x₂, $μ, $σ, $probability)
     {
-        $this->assertEquals($probability, Distribution::cumulativeNormalBetween($x₁, $x₂, $μ, $σ), '', 0.001);
+        $this->assertEquals($probability, Distribution::normalCDFBetween($x₁, $x₂, $μ, $σ), '', 0.001);
     }
 
-    public function dataProviderForCulmulativeNormalBetween()
+    public function dataProviderForNormalCDFBetween()
     {
         return [
             [ -1.96, 1.96, 0, 1, 0.95 ],
@@ -356,14 +356,14 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForCulmulativeNormalOutside
+     * @dataProvider dataProviderForNormalCDFOutside
      */
-    public function testCumulativeNormalOutside($x₁, $x₂, $μ, $σ, $probability)
+    public function testNormalCDFOutside($x₁, $x₂, $μ, $σ, $probability)
     {
-        $this->assertEquals($probability, Distribution::cumulativeNormalOutside($x₁, $x₂, $μ, $σ), '', 0.001);
+        $this->assertEquals($probability, Distribution::normalCDFOutside($x₁, $x₂, $μ, $σ), '', 0.001);
     }
 
-    public function dataProviderForCulmulativeNormalOutside()
+    public function dataProviderForNormalCDFOutside()
     {
         return [
             [ -1.96, 1.96, 0, 1, 0.05 ],
