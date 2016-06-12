@@ -116,7 +116,7 @@ $cdf = Distribution::exponentialCDF($λ, $x); // cumulative distribution functio
 // Probability that an exponentially distributed random variable X is between two numbers x₁ and x₂
 $x₁ = 2;
 $x₂ = 3;
-$probability = Distribution::exponentialCDFBetweenTwoNumbers($λ, $x₁, $x₂);
+$probability = Distribution::exponentialCDFBetween($λ, $x₁, $x₂);
 
 // Normal distribution - probability density function (pdf)
 $μ = 0;
