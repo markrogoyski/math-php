@@ -135,6 +135,13 @@ $x₁ = 1;
 $x₂ = 2;
 $probability = Distribution::cumulativeNormalBetween($x₁, $x₂, $μ, $σ); // from x₁ to x₂
 $probability = Distribution::cumulativeNormalOutside($x₁, $x₂, $μ, $σ); // from -∞ to x₁ and x₂ to ∞
+
+//Log-normal distribution
+$μ = 6;
+$σ = 2;
+$x = 4.3;
+$probability = Distribution::logNormalPDF($x, $μ, $σ);
+$probability = Distribution::logNormalCDF($x, $μ, $σ);
 ```
 
 ### Probability - Standard Normal Table (Z Table)
