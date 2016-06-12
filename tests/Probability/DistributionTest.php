@@ -371,4 +371,44 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
             [ -1.3, 1.3, 1, 1.1, 0.4108 ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForLogNormalPDF
+     */
+    public function testLogNormalPDF($x, $μ, $σ, $pdf)
+    {
+        $this->assertEquals($pdf, Distribution::logNormalPDF($x, $μ, $σ), '', 0.001);
+    }
+
+    public function dataProviderForLogNormalPDF()
+    {
+        return [
+            [ 4.3, 6, 2, 0.003522012 ],
+            [ 4.3, 6, 1, 0.000003083 ],
+            [ 4.3, 1, 1, 0.083515969 ],
+            [ 1, 6, 2, 0.002215924 ],
+            [ 2, 6, 2, 0.002951125 ],
+            [ 2, 3, 2, 0.051281299 ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForLogNormalCDF
+     */
+    public function testLogNormalCDF($x, $μ, $σ, $cdf)
+    {
+        $this->assertEquals($cdf, Distribution::logNormalCDF($x, $μ, $σ), '', 0.001);
+    }
+
+    public function dataProviderForLogNormalCDF()
+    {
+        return [
+            [ 4.3, 6, 2, 0.0115828 ],
+            [ 4.3, 6, 1, 0.000002794 ],
+            [ 4.3, 1, 1, 0.676744677 ],
+            [ 1, 6, 2, 0.001349898 ],
+            [ 2, 6, 2, 0.003983957 ],
+            [ 2, 3, 2, 0.124367703 ],
+        ];
+    }
 }
