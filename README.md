@@ -134,7 +134,7 @@ $probability = Distribution::normalCDFAbove($x₁, $μ, $σ);        // from X t
 $probability = Distribution::normalCDFBetween($x₁, $x₂, $μ, $σ); // from x₁ to x₂
 $probability = Distribution::normalCDFOutside($x₁, $x₂, $μ, $σ); // from -∞ to x₁ and x₂ to ∞
 
-//Log-normal distribution
+// Log-normal distribution
 $μ = 6;
 $σ = 2;
 $x = 4.3;
