@@ -80,12 +80,12 @@ $divisions = Combinatorics::multinomialTheorem($n, $groups);
 ```php
 use Math\Probability\Distribution;
 
-// Binomial distribution
+// Binomial distribution - PMF, CDF
 $n = 2;   // number of events
 $r = 1;   // number of successful events
 $P = 0.5; // probability of success
-$binomial            = Distribution::binomial($n, $r, $P);
-$cumulative_binomial = Distribution::cumulativeBinomial($n, $r, $P);
+$binomial            = Distribution::binomialPMF($n, $r, $P); // probability mass function
+$cumulative_binomial = Distribution::binomialCDF($n, $r, $P); // cumluative distribution function
 
 // Negative binomial distribution (Pascal)
 $x = 2;   // number of trials required to produce r successes
@@ -94,11 +94,11 @@ $P = 0.5; // probability of success on an individual trial
 $negative_binomial = Distribution::negativeBinomial($x, $r, $P);  // Same as pascal
 $pascal            = Distribution::pascal($x, $r, $P);            // Same as negative binomial
 
-// Poisson distribution
+// Poisson distribution - PMF, CDF
 $k = 3; // events in the interval
 $λ = 2; // average number of successful events per interval
-$poisson            = Distribution::poisson($k, $λ);
-$cumulative_poisson = Distribution::cumulativePoisson($k, $λ);
+$poisson            = Distribution::poissonPMF($k, $λ); // probability mass function
+$cumulative_poisson = Distribution::poissonCDF($k, $λ); // cumulative distribution function
 
 // Continuous uniform distribution
 $a  = 2;  // lower boundary of distribution
@@ -107,41 +107,39 @@ $x₁ = 4;  // lower boundary of probability interval
 $x₂ = 6;  // upper boundary of probability interval
 $probability = Distribution::continuousUniform($a, $b, $x₁, $x₂);
 
-// Exponential distribution
+// Exponential distribution - PDF, CDF
 $λ = 1; // rate parameter
 $x = 2; // random variable
-$pdf = Distribution::exponential($λ, $x);           // probability density function
-$cdf = Distribution::cumulativeExponential($λ, $x); // cumulative distribution function
+$pdf = Distribution::exponentialPDF($λ, $x); // probability density function
+$cdf = Distribution::exponentialCDF($λ, $x); // cumulative distribution function
 
 // Probability that an exponentially distributed random variable X is between two numbers x₁ and x₂
 $x₁ = 2;
 $x₂ = 3;
-$probability = Distribution::cumulativeExponentialBetweenTwoNumbers($λ, $x₁, $x₂);
+$probability = Distribution::exponentialCDFBetweenTwoNumbers($λ, $x₁, $x₂);
 
 // Normal distribution - probability density function (pdf)
 $μ = 0;
 $σ = 1;
 $x = 2;
-$probability = Distribution::normal($x, $μ, $σ);
+$probability = Distribution::normalPDF($x, $μ, $σ);
 
 // Normal distrubution - cumulative distribution function (cdf)
-$μ = 0;
-$σ = 1;
-$x = 1.5;
-$probability = Distribition::cumulativeNormal($x, $μ, $σ);      // from -∞ to X
-$probability = Distribution::cumulativeNormalAbove($x, $μ, $σ); // from X to ∞
-
+$μ  = 0;
+$σ  = 1;
 $x₁ = 1;
 $x₂ = 2;
-$probability = Distribution::cumulativeNormalBetween($x₁, $x₂, $μ, $σ); // from x₁ to x₂
-$probability = Distribution::cumulativeNormalOutside($x₁, $x₂, $μ, $σ); // from -∞ to x₁ and x₂ to ∞
+$probability = Distribition::normalCDF($x₁, $μ, $σ);             // from -∞ to X
+$probability = Distribution::normalCDFAbove($x₁, $μ, $σ);        // from X to ∞
+$probability = Distribution::normalCDFBetween($x₁, $x₂, $μ, $σ); // from x₁ to x₂
+$probability = Distribution::normalCDFOutside($x₁, $x₂, $μ, $σ); // from -∞ to x₁ and x₂ to ∞
 
 //Log-normal distribution
 $μ = 6;
 $σ = 2;
 $x = 4.3;
-$probability = Distribution::logNormalPDF($x, $μ, $σ);
-$probability = Distribution::logNormalCDF($x, $μ, $σ);
+$probability = Distribution::logNormalPDF($x, $μ, $σ); // probability density function
+$probability = Distribution::logNormalCDF($x, $μ, $σ); // cumulative distribution function
 ```
 
 ### Probability - Standard Normal Table (Z Table)
