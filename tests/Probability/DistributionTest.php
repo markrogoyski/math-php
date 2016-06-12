@@ -265,14 +265,14 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForExponentialCDFBewteenTwoNumbers
+     * @dataProvider dataProviderForExponentialCDFBetween
      */
-    public function testExponentialCDFBetweenTwoNumbers($λ, $x₁, $x₂, $probability)
+    public function testExponentialCDFBetween($λ, $x₁, $x₂, $probability)
     {
-        $this->assertEquals($probability, Distribution::ExponentialCDFBetweenTwoNumbers($λ, $x₁, $x₂), '', 0.001);
+        $this->assertEquals($probability, Distribution::ExponentialCDFBetween($λ, $x₁, $x₂), '', 0.001);
     }
 
-    public function dataProviderForExponentialCDFBewteenTwoNumbers()
+    public function dataProviderForExponentialCDFBetween()
     {
         return [
             [ 1, 2, 3, 0.0855 ],

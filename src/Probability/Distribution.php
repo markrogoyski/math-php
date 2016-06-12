@@ -224,7 +224,7 @@ class Distribution
      *
      * @return float
      */
-    public static function exponentialCDFBetweenTwoNumbers(float $λ, float $x₁, float $x₂): float
+    public static function exponentialCDFBetween(float $λ, float $x₁, float $x₂): float
     {
         return self::exponentialCDF($λ, $x₂) - self::exponentialCDF($λ, $x₁);
     }
