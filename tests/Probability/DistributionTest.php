@@ -411,4 +411,45 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
             [ 2, 3, 2, 0.124367703 ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForParetoPDF
+     */
+    public function testParetoPDF($a, $b, $x, $pdf)
+    {
+        $this->assertEquals($pdf, Distribution::paretoPDF($a, $b, $x), '', 0.01);
+    }
+
+    public function dataProviderForParetoPDF()
+    {
+        return [
+            [ 1, 2, 1, 0 ],
+            [ 1, 1, 1, 1 ],
+            [ 8, 2, 5, 0.001048576 ],
+            [ 8, 2, 4, 0.0078125 ],
+            [ 4, 5, 9, 0.0423377195 ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForParetoCDF
+     */
+    public function testParetoCDF($a, $b, $x, $cdf)
+    {
+        $this->assertEquals($cdf, Distribution::paretoCDF($a, $b, $x), '', 0.01);
+    }
+
+    public function dataProviderForParetoCDF()
+    {
+        return [
+            [ 1, 2, 1, 0 ],
+            [ 1, 1, 1, 0.001 ],
+            [ 1, 1, 2, 0.500 ],
+            [ 1, 1, 3.2, 0.688 ],
+            [ 5.1, 5.4, 5.4, 0.001 ],
+            [ 5.1, 5.4, 6.78, 0.687 ],
+            [ 5.1, 5.4, 9.2, 0.934 ],
+        ];
+    }
 }
