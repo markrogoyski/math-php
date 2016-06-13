@@ -134,12 +134,19 @@ $probability = Distribution::normalCDFAbove($x₁, $μ, $σ);        // from X t
 $probability = Distribution::normalCDFBetween($x₁, $x₂, $μ, $σ); // from x₁ to x₂
 $probability = Distribution::normalCDFOutside($x₁, $x₂, $μ, $σ); // from -∞ to x₁ and x₂ to ∞
 
-// Log-normal distribution
+// Log-normal distribution - PDF, CDF
 $μ = 6;
 $σ = 2;
 $x = 4.3;
 $probability = Distribution::logNormalPDF($x, $μ, $σ); // probability density function
 $probability = Distribution::logNormalCDF($x, $μ, $σ); // cumulative distribution function
+
+// Pareto distribution - PDF, CDF
+$a = 1; // shape parameter
+$b = 1; // scale parameter
+$x = 2;
+$probability = Distribution::paretoPDF($a, $b, $x); // probability denssity function
+$probability = Distribution::paretoCDF($a, $b, $x); // cumulative distribution function
 ```
 
 ### Probability - Standard Normal Table (Z Table)
