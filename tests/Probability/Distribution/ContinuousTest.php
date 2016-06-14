@@ -8,7 +8,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
      */
     public function testContinuousUniform($a, $b, $x₁, $x₂, $probability)
     {
-        $this->assertEquals($probability, Distribution::continuousUniform($a, $b, $x₁, $x₂), '', 0.001);
+        $this->assertEquals($probability, Continuous::continuousUniform($a, $b, $x₁, $x₂), '', 0.001);
     }
 
     public function dataProviderForContinuousUniform()
@@ -23,7 +23,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
     public function testContinuousUniformExceptionXOutOfBounds()
     {
         $this->setExpectedException('\Exception');
-        Distribution::continuousUniform(1, 2, 3, 4);
+        Continuous::continuousUniform(1, 2, 3, 4);
     }
 
     /**
@@ -31,7 +31,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
      */
     public function testExponential($λ, $x, $probability)
     {
-        $this->assertEquals($probability, Distribution::exponentialPDF($λ, $x), '', 0.001);
+        $this->assertEquals($probability, Continuous::exponentialPDF($λ, $x), '', 0.001);
     }
 
     public function dataProviderForExponentialPDF()
@@ -49,7 +49,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
      */
     public function testExponentialCDF($λ, $x, $probability)
     {
-        $this->assertEquals($probability, Distribution::ExponentialCDF($λ, $x), '', 0.001);
+        $this->assertEquals($probability, Continuous::ExponentialCDF($λ, $x), '', 0.001);
     }
 
     public function dataProviderForExponentialCDF()
@@ -70,7 +70,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
      */
     public function testExponentialCDFBetween($λ, $x₁, $x₂, $probability)
     {
-        $this->assertEquals($probability, Distribution::ExponentialCDFBetween($λ, $x₁, $x₂), '', 0.001);
+        $this->assertEquals($probability, Continuous::ExponentialCDFBetween($λ, $x₁, $x₂), '', 0.001);
     }
 
     public function dataProviderForExponentialCDFBetween()
@@ -89,7 +89,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
      */
     public function testNormalPDF($x, $μ, $σ, $pdf)
     {
-        $this->assertEquals($pdf, Distribution::normalPDF($x, $μ, $σ), '', 0.001);
+        $this->assertEquals($pdf, Continuous::normalPDF($x, $μ, $σ), '', 0.001);
     }
 
     public function dataProviderForNormalPDF()
@@ -106,7 +106,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
      */
     public function testNormalCDF($x, $μ, $σ, $probability)
     {
-        $this->assertEquals($probability, Distribution::normalCDF($x, $μ, $σ), '', 0.001);
+        $this->assertEquals($probability, Continuous::normalCDF($x, $μ, $σ), '', 0.001);
     }
 
     public function dataProviderForNormalCDF()
@@ -127,7 +127,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
      */
     public function testNormalCDFAbove($x, $μ, $σ, $probability)
     {
-        $this->assertEquals($probability, Distribution::normalCDFAbove($x, $μ, $σ), '', 0.001);
+        $this->assertEquals($probability, Continuous::normalCDFAbove($x, $μ, $σ), '', 0.001);
     }
 
     public function dataProviderForNormalCDFAbove()
@@ -144,7 +144,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
      */
     public function testNormalCDFBetween($x₁, $x₂, $μ, $σ, $probability)
     {
-        $this->assertEquals($probability, Distribution::normalCDFBetween($x₁, $x₂, $μ, $σ), '', 0.001);
+        $this->assertEquals($probability, Continuous::normalCDFBetween($x₁, $x₂, $μ, $σ), '', 0.001);
     }
 
     public function dataProviderForNormalCDFBetween()
@@ -161,7 +161,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
      */
     public function testNormalCDFOutside($x₁, $x₂, $μ, $σ, $probability)
     {
-        $this->assertEquals($probability, Distribution::normalCDFOutside($x₁, $x₂, $μ, $σ), '', 0.001);
+        $this->assertEquals($probability, Continuous::normalCDFOutside($x₁, $x₂, $μ, $σ), '', 0.001);
     }
 
     public function dataProviderForNormalCDFOutside()
@@ -178,7 +178,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
      */
     public function testLogNormalPDF($x, $μ, $σ, $pdf)
     {
-        $this->assertEquals($pdf, Distribution::logNormalPDF($x, $μ, $σ), '', 0.001);
+        $this->assertEquals($pdf, Continuous::logNormalPDF($x, $μ, $σ), '', 0.001);
     }
 
     public function dataProviderForLogNormalPDF()
@@ -198,7 +198,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
      */
     public function testLogNormalCDF($x, $μ, $σ, $cdf)
     {
-        $this->assertEquals($cdf, Distribution::logNormalCDF($x, $μ, $σ), '', 0.001);
+        $this->assertEquals($cdf, Continuous::logNormalCDF($x, $μ, $σ), '', 0.001);
     }
 
     public function dataProviderForLogNormalCDF()
@@ -218,7 +218,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
      */
     public function testParetoPDF($a, $b, $x, $pdf)
     {
-        $this->assertEquals($pdf, Distribution::paretoPDF($a, $b, $x), '', 0.01);
+        $this->assertEquals($pdf, Continuous::paretoPDF($a, $b, $x), '', 0.01);
     }
 
     public function dataProviderForParetoPDF()
@@ -238,7 +238,7 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
      */
     public function testParetoCDF($a, $b, $x, $cdf)
     {
-        $this->assertEquals($cdf, Distribution::paretoCDF($a, $b, $x), '', 0.01);
+        $this->assertEquals($cdf, Continuous::paretoCDF($a, $b, $x), '', 0.01);
     }
 
     public function dataProviderForParetoCDF()

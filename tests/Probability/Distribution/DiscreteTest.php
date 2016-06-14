@@ -9,7 +9,7 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
      */
     public function testBinomialPMF(int $n, int $r, float $p, float $binomial_distribution)
     {
-        $this->assertEquals($binomial_distribution, Distribution::binomialPMF($n, $r, $p), '', 0.001);
+        $this->assertEquals($binomial_distribution, Discrete::binomialPMF($n, $r, $p), '', 0.001);
     }
 
     /**
@@ -33,13 +33,13 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
     public function testBinomialPMFProbabilityLowerBoundException()
     {
         $this->setExpectedException('\Exception');
-        Distribution::binomialPMF(6, 2, -0.1);
+        Discrete::binomialPMF(6, 2, -0.1);
     }
 
     public function testBinomialPMFProbabilityUpperBoundException()
     {
         $this->setExpectedException('\Exception');
-        Distribution::binomialPMF(6, 2, 1.1);
+        Discrete::binomialPMF(6, 2, 1.1);
     }
 
     /**
@@ -47,7 +47,7 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
      */
     public function testBinomialCDF(int $n, int $r, float $p, float $cumulative_binomial_distribution)
     {
-        $this->assertEquals($cumulative_binomial_distribution, Distribution::binomialCDF($n, $r, $p), '', 0.001);
+        $this->assertEquals($cumulative_binomial_distribution, Discrete::binomialCDF($n, $r, $p), '', 0.001);
     }
 
     /**
@@ -73,7 +73,7 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
      */
     public function testNegativeBinomial(int $x, int $r, float $P, float $neagative_binomial_distribution)
     {
-        $this->assertEquals($neagative_binomial_distribution, Distribution::negativeBinomial($x, $r, $P), '', 0.001);
+        $this->assertEquals($neagative_binomial_distribution, Discrete::negativeBinomial($x, $r, $P), '', 0.001);
     }
 
     /**
@@ -97,13 +97,13 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
     public function testNegativeBinomialProbabilityLowerBoundException()
     {
         $this->setExpectedException('\Exception');
-        Distribution::negativeBinomial(6, 2, -0.1);
+        Discrete::negativeBinomial(6, 2, -0.1);
     }
 
     public function testNegativeBinomialProbabilityUpperBoundException()
     {
         $this->setExpectedException('\Exception');
-        Distribution::negativeBinomial(6, 2, 1.1);
+        Discrete::negativeBinomial(6, 2, 1.1);
     }
 
     /**
@@ -111,7 +111,7 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
      */
     public function testPascal(int $x, int $r, float $P, float $neagative_binomial_distribution)
     {
-        $this->assertEquals($neagative_binomial_distribution, Distribution::pascal($x, $r, $P), '', 0.001);
+        $this->assertEquals($neagative_binomial_distribution, Discrete::pascal($x, $r, $P), '', 0.001);
     }
 
     /**
@@ -135,13 +135,13 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
     public function testPascalProbabilityLowerBoundException()
     {
         $this->setExpectedException('\Exception');
-        Distribution::pascal(6, 2, -0.1);
+        Discrete::pascal(6, 2, -0.1);
     }
 
     public function testPascalProbabilityUpperBoundException()
     {
         $this->setExpectedException('\Exception');
-        Distribution::pascal(6, 2, 1.1);
+        Discrete::pascal(6, 2, 1.1);
     }
 
     /**
@@ -149,7 +149,7 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
      */
     public function testPoissonPMF(int $k, float $λ, float $probability)
     {
-        $this->assertEquals($probability, Distribution::poissonPMF($k, $λ), '', 0.001);
+        $this->assertEquals($probability, Discrete::poissonPMF($k, $λ), '', 0.001);
     }
 
     /**
@@ -172,7 +172,7 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
      */
     public function testPoissonCDF(int $k, float $λ, float $probability)
     {
-        $this->assertEquals($probability, Distribution::poissonCDF($k, $λ), '', 0.001);
+        $this->assertEquals($probability, Discrete::poissonCDF($k, $λ), '', 0.001);
     }
 
     /**
@@ -193,12 +193,12 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
     public function testPoissonExceptionWhenKLessThanZero()
     {
         $this->setExpectedException('\Exception');
-        Distribution::poissonPMF(-1, 2);
+        Discrete::poissonPMF(-1, 2);
     }
 
     public function testPoissonExceptionWhenλLessThanZero()
     {
         $this->setExpectedException('\Exception');
-        Distribution::poissonPMF(2, -1);
+        Discrete::poissonPMF(2, -1);
     }
 }
