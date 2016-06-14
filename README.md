@@ -10,6 +10,8 @@ Features
  * Probability
      * Combinatorics
      * Distributions
+         - Discrete
+         - Continuous
      * Standard Normal Table (Z Table)
      * t Distribution Table
  * Statistics
@@ -76,77 +78,82 @@ $groups    = [5, 2, 3];
 $divisions = Combinatorics::multinomialTheorem($n, $groups);
 ```
 
-### Probability - Distributions
+### Probability - Discrete Distributions
 ```php
-use Math\Probability\Distribution;
+use Math\Probability\Distribution\Discrete;
 
 // Binomial distribution - PMF, CDF
 $n = 2;   // number of events
 $r = 1;   // number of successful events
 $P = 0.5; // probability of success
-$binomial            = Distribution::binomialPMF($n, $r, $P); // probability mass function
-$cumulative_binomial = Distribution::binomialCDF($n, $r, $P); // cumluative distribution function
+$binomial            = Discrete::binomialPMF($n, $r, $P); // probability mass function
+$cumulative_binomial = Discrete::binomialCDF($n, $r, $P); // cumluative distribution function
 
 // Negative binomial distribution (Pascal)
 $x = 2;   // number of trials required to produce r successes
 $r = 1;   // number of successful events
 $P = 0.5; // probability of success on an individual trial
-$negative_binomial = Distribution::negativeBinomial($x, $r, $P);  // Same as pascal
-$pascal            = Distribution::pascal($x, $r, $P);            // Same as negative binomial
+$negative_binomial = Discrete::negativeBinomial($x, $r, $P);  // Same as pascal
+$pascal            = Discrete::pascal($x, $r, $P);            // Same as negative binomial
 
 // Poisson distribution - PMF, CDF
 $k = 3; // events in the interval
 $λ = 2; // average number of successful events per interval
-$poisson            = Distribution::poissonPMF($k, $λ); // probability mass function
-$cumulative_poisson = Distribution::poissonCDF($k, $λ); // cumulative distribution function
+$poisson            = Discrete::poissonPMF($k, $λ); // probability mass function
+$cumulative_poisson = Discrete::poissonCDF($k, $λ); // cumulative distribution function
+```
+
+### Probability - Continuous Distributions
+```php
+use Math\Probability\Distribution\Continuous;
 
 // Continuous uniform distribution
 $a  = 2;  // lower boundary of distribution
 $b  = 10; // upper boundary of distribution
 $x₁ = 4;  // lower boundary of probability interval
 $x₂ = 6;  // upper boundary of probability interval
-$probability = Distribution::continuousUniform($a, $b, $x₁, $x₂);
+$probability = Continuous::continuousUniform($a, $b, $x₁, $x₂);
 
 // Exponential distribution - PDF, CDF
 $λ = 1; // rate parameter
 $x = 2; // random variable
-$pdf = Distribution::exponentialPDF($λ, $x); // probability density function
-$cdf = Distribution::exponentialCDF($λ, $x); // cumulative distribution function
+$pdf = Continuous::exponentialPDF($λ, $x); // probability density function
+$cdf = Continuous::exponentialCDF($λ, $x); // cumulative distribution function
 
 // Probability that an exponentially distributed random variable X is between two numbers x₁ and x₂
 $x₁ = 2;
 $x₂ = 3;
-$probability = Distribution::exponentialCDFBetween($λ, $x₁, $x₂);
+$probability = Continuous::exponentialCDFBetween($λ, $x₁, $x₂);
 
 // Normal distribution - probability density function (pdf)
 $μ = 0;
 $σ = 1;
 $x = 2;
-$probability = Distribution::normalPDF($x, $μ, $σ);
+$probability = Continuous::normalPDF($x, $μ, $σ);
 
 // Normal distrubution - cumulative distribution function (cdf)
 $μ  = 0;
 $σ  = 1;
 $x₁ = 1;
 $x₂ = 2;
-$probability = Distribition::normalCDF($x₁, $μ, $σ);             // from -∞ to X
-$probability = Distribution::normalCDFAbove($x₁, $μ, $σ);        // from X to ∞
-$probability = Distribution::normalCDFBetween($x₁, $x₂, $μ, $σ); // from x₁ to x₂
-$probability = Distribution::normalCDFOutside($x₁, $x₂, $μ, $σ); // from -∞ to x₁ and x₂ to ∞
+$probability = Continuous::normalCDF($x₁, $μ, $σ);             // from -∞ to X
+$probability = Continuous::normalCDFAbove($x₁, $μ, $σ);        // from X to ∞
+$probability = Continuous::normalCDFBetween($x₁, $x₂, $μ, $σ); // from x₁ to x₂
+$probability = Continuous::normalCDFOutside($x₁, $x₂, $μ, $σ); // from -∞ to x₁ and x₂ to ∞
 
 // Log-normal distribution - PDF, CDF
 $μ = 6;
 $σ = 2;
 $x = 4.3;
-$probability = Distribution::logNormalPDF($x, $μ, $σ); // probability density function
-$probability = Distribution::logNormalCDF($x, $μ, $σ); // cumulative distribution function
+$probability = Continuous::logNormalPDF($x, $μ, $σ); // probability density function
+$probability = Continuous::logNormalCDF($x, $μ, $σ); // cumulative distribution function
 
 // Pareto distribution - PDF, CDF
 $a = 1; // shape parameter
 $b = 1; // scale parameter
 $x = 2;
-$probability = Distribution::paretoPDF($a, $b, $x); // probability denssity function
-$probability = Distribution::paretoCDF($a, $b, $x); // cumulative distribution function
+$probability = Continuous::paretoPDF($a, $b, $x); // probability denssity function
+$probability = Continuous::paretoCDF($a, $b, $x); // cumulative distribution function
 ```
 
 ### Probability - Standard Normal Table (Z Table)
