@@ -112,7 +112,7 @@ $a  = 2;  // lower boundary of distribution
 $b  = 10; // upper boundary of distribution
 $x₁ = 4;  // lower boundary of probability interval
 $x₂ = 6;  // upper boundary of probability interval
-$probability = Continuous::continuousUniform($a, $b, $x₁, $x₂);
+$probability = Continuous::uniform($a, $b, $x₁, $x₂);
 
 // Exponential distribution - PDF, CDF
 $λ = 1; // rate parameter
