@@ -101,6 +101,11 @@ $k = 3; // events in the interval
 $λ = 2; // average number of successful events per interval
 $poisson            = Discrete::poissonPMF($k, $λ); // probability mass function
 $cumulative_poisson = Discrete::poissonCDF($k, $λ); // cumulative distribution function
+
+// Multinomial distribution - PMF
+$frequencies   = [7, 2, 3];
+$probabilities = [0.40, 0.35, 0.25];
+$multinomial   = Discrete::multinomialPMF($frequencies, $probabilities); // probability mass function 
 ```
 
 ### Probability - Continuous Distributions
