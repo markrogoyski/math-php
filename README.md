@@ -120,15 +120,12 @@ $x₂ = 6;  // upper boundary of probability interval
 $probability = Continuous::uniform($a, $b, $x₁, $x₂);
 
 // Exponential distribution - PDF, CDF
-$λ = 1; // rate parameter
-$x = 2; // random variable
+$λ   = 1; // rate parameter
+$x   = 2; // random variable
 $pdf = Continuous::exponentialPDF($λ, $x); // probability density function
 $cdf = Continuous::exponentialCDF($λ, $x); // cumulative distribution function
-
-// Probability that an exponentially distributed random variable X is between two numbers x₁ and x₂
-$x₁ = 2;
-$x₂ = 3;
-$probability = Continuous::exponentialCDFBetween($λ, $x₁, $x₂);
+list($x₁, $x₂) = [2, 3];
+$probability   = Continuous::exponentialCDFBetween($λ, $x₁, $x₂); // probability that an exponentially distributed random variable X is between x₁ and x₂
 
 // Normal distribution - probability density function (pdf)
 $μ = 0;
