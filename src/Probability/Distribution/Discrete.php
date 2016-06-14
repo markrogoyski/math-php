@@ -153,6 +153,8 @@ class Discrete
      * pmf = ------- p₁ˣ¹⋯pkˣᵏ
      *       x₁!⋯xk! 
      *
+     * n = number of trials (sum of the frequencies) = x₁ + x₂ + ⋯ xk
+     * 
      * @param  array $frequencies
      * @param  array $probabilities
      *
