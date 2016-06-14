@@ -22,7 +22,7 @@ class Continuous
      *
      * @return number probability of specific interval
      */
-    public static function continuousUniform(float $a, float $b, float $x₁, float $x₂)
+    public static function uniform(float $a, float $b, float $x₁, float $x₂)
     {
         if (( $x₁ < $a || $x₁ > $b ) || ( $x₂ < $a || $x₂ > $b )) {
             throw new \Exception('x values are outside of the distribution.');

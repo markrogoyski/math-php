@@ -4,14 +4,14 @@ namespace Math\Probability\Distribution;
 class ContinuousTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider dataProviderForContinuousUniform
+     * @dataProvider dataProviderForUniform
      */
-    public function testContinuousUniform($a, $b, $x₁, $x₂, $probability)
+    public function testUniform($a, $b, $x₁, $x₂, $probability)
     {
-        $this->assertEquals($probability, Continuous::continuousUniform($a, $b, $x₁, $x₂), '', 0.001);
+        $this->assertEquals($probability, Continuous::uniform($a, $b, $x₁, $x₂), '', 0.001);
     }
 
-    public function dataProviderForContinuousUniform()
+    public function dataProviderForUniform()
     {
         return [
             [ 1, 4, 2, 3, 0.3333 ],
@@ -20,10 +20,10 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testContinuousUniformExceptionXOutOfBounds()
+    public function testUniformExceptionXOutOfBounds()
     {
         $this->setExpectedException('\Exception');
-        Continuous::continuousUniform(1, 2, 3, 4);
+        Continuous::uniform(1, 2, 3, 4);
     }
 
     /**
