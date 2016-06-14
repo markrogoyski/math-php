@@ -202,6 +202,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
         return [
             [ 10, [ 5, 2, 3 ], 2520 ],
             [ 10, [ 5, 5 ],     252 ],
+            [ 11, [ 1, 4, 4, 2 ], 34650 ],
         ];
     }
 }
