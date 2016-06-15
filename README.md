@@ -154,8 +154,16 @@ $probability = Continuous::logNormalCDF($x, $μ, $σ); // cumulative distributio
 $a = 1; // shape parameter
 $b = 1; // scale parameter
 $x = 2;
-$probability = Continuous::paretoPDF($a, $b, $x); // probability denssity function
+$probability = Continuous::paretoPDF($a, $b, $x); // probability density function
 $probability = Continuous::paretoCDF($a, $b, $x); // cumulative distribution function
+
+// Weibull distribution - PDF, CDF
+$k = 1; // shape parameter
+$λ = 2; // scale parameter
+$x = 2;
+$probability = Continuous::weibullPDF($k, $λ, $x);      // probability density function
+$probability = Continuous::weibullLowerCDF($k, $λ, $x); // from 0 to x cumulative distribution function
+$probability = Continuous::weibullUpperCDF($k, $λ, $x); // from x to ∞ cumulative distribution function
 ```
 
 ### Probability - Standard Normal Table (Z Table)
