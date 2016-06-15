@@ -301,7 +301,7 @@ class Continuous
      *
      * @param number $k shape parameter
      * @param number $λ scale parameter
-     * @param number $x percentile
+     * @param number $x percentile (value to evaluate)
      * @return float
      */
     public static function weibullPDF($k, $λ, $x)
@@ -315,5 +315,51 @@ class Continuous
         $ℯ⁻⁽x／λ⁾ᵏ = exp(-pow($x / $λ, $k));
 
         return $k／λ * $⟮x／λ⟯ᵏ⁻¹ * $ℯ⁻⁽x／λ⁾ᵏ;
+    }
+
+    /**
+     * Weibull distribution - lower cumulative distribution function
+     * From 0 to x
+     * https://en.wikipedia.org/wiki/Weibull_distribution
+     *
+     * f(x) = 1 -ℯ⁻⁽x/λ⁾ for x ≥ 0
+     * f(x) = 0          for x < 0
+     *
+     * @param number $k shape parameter
+     * @param number $λ scale parameter
+     * @param number $x percentile (value to evaluate)
+     * @return float
+     */
+    public static function weibullLowerCDF($k, $λ, $x)
+    {
+        if ($x < 0) {
+            return 0;
+        }
+
+        $ℯ⁻⁽x／λ⁾ᵏ = exp(-pow($x / $λ, $k));
+
+        return 1 - $ℯ⁻⁽x／λ⁾ᵏ;
+    }
+
+    /**
+     * Weibull distribution - upper cumulative distribution function
+     * From x to ∞
+     * https://en.wikipedia.org/wiki/Weibull_distribution
+     *
+     * f(x) = -ℯ⁻⁽x/λ⁾ for x ≥ 0
+     * f(x) = 0        for x < 0
+     *
+     * @param number $k shape parameter
+     * @param number $λ scale parameter
+     * @param number $x percentile (value to evaluate)
+     * @return float
+     */
+    public static function weibullUpperCDF($k, $λ, $x)
+    {
+        if ($x < 0) {
+            return 0;
+        }
+
+        return exp(-pow($x / $λ, $k));
     }
 }
