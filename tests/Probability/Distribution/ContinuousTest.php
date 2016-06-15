@@ -253,4 +253,28 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
             [ 5.1, 5.4, 9.2, 0.934 ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForWeibullPDF
+     */
+    public function testWeibullPDF($k, $λ, $x, $pdf)
+    {
+        $this->assertEquals($pdf, Continuous::weibullPDF($k, $λ, $x), '', 0.001);
+    }
+
+    public function dataProviderForWeibullPDF()
+    {
+        return [
+            [ 1, 1, 1, 0.3678794411714424 ],
+            [ 1, 2, 1, 0.3032653298563167 ],
+            [ 2, 1, 1, 0.735758882342884643191 ],
+            [ 4, 5, 3, 0.15179559655966815 ],
+            [ 5, 5, 3, 0.11990416322625333 ],
+            [ 34, 45, 33, 0.000027114527139041827 ],
+            [ 1, 1, 0, 1 ],
+            [ 2, 2, 0, 0 ],
+            [ 1, 1, -1, 0 ],
+            [ 2, 2, -0.1, 0 ],
+        ];
+    }
 }
