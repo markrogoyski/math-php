@@ -277,4 +277,52 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
             [ 2, 2, -0.1, 0 ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForWeibullLowerCDF
+     */
+    public function testWeibullLowerCDF($k, $λ, $x, $cdf)
+    {
+        $this->assertEquals($cdf, Continuous::weibullLowerCDF($k, $λ, $x), '', 0.001);
+    }
+
+    public function dataProviderForWeibullLowerCDF()
+    {
+        return [
+            [ 1, 1, 1, 0.6321205588285577 ],
+            [ 1, 2, 1, 0.3934693402873666 ],
+            [ 2, 1, 1, 0.6321205588285577 ],
+            [ 4, 5, 3, 0.12155326065006866 ],
+            [ 5, 5, 3, 0.07481355535298351 ],
+            [ 34, 45, 33, 0.00002631738735214828 ],
+            [ 1, 1, 0, 0 ],
+            [ 2, 2, 0, 0 ],
+            [ 1, 1, -1, 0 ],
+            [ 2, 2, -0.1, 0 ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForWeibullUpperCDF
+     */
+    public function testWeibullUpperCDF($k, $λ, $x, $cdf)
+    {
+        $this->assertEquals($cdf, Continuous::weibullUpperCDF($k, $λ, $x), '', 0.001);
+    }
+
+    public function dataProviderForWeibullUpperCDF()
+    {
+        return [
+            [ 1, 1, 1, 0.3678794411714423215955 ],
+            [ 1, 2, 1, 0.6065306597126334236038 ],
+            [ 2, 1, 1, 0.3678794411714423215955 ],
+            [ 4, 5, 3, 0.8784467393499313098807 ],
+            [ 5, 5, 3, 0.9251864446470164598675 ],
+            [ 34, 45, 33, 0.9999736826126478064432 ],
+            [ 1, 1, 0, 1 ],
+            [ 2, 2, 0, 1 ],
+            [ 1, 1, -1, 0 ],
+            [ 2, 2, -0.1, 0 ],
+        ];
+    }
 }
