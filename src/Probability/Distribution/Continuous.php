@@ -287,4 +287,33 @@ class Continuous
 
         return 1 - pow($b / $x, $a);
     }
+
+    /**
+     * Weibull distribution - probability density function
+     *
+     * https://en.wikipedia.org/wiki/Weibull_distribution
+     *
+     *        k  /x\ ᵏ⁻¹        ᵏ
+     * f(x) = - | - |    ℯ⁻⁽x/λ⁾   for x ≥ 0
+     *        λ  \λ/
+     *
+     * f(x) = 0                    for x < 0
+     *
+     * @param number $k shape parameter
+     * @param number $λ scale parameter
+     * @param number $x percentile
+     * @return float
+     */
+    public static function weibullPDF($k, $λ, $x)
+    {
+        if ($x < 0) {
+            return 0;
+        }
+
+        $k／λ      = $k / $λ;
+        $⟮x／λ⟯ᵏ⁻¹  = pow($x / $λ, $k - 1);
+        $ℯ⁻⁽x／λ⁾ᵏ = exp(-pow($x / $λ, $k));
+
+        return $k／λ * $⟮x／λ⟯ᵏ⁻¹ * $ℯ⁻⁽x／λ⁾ᵏ;
+    }
 }
