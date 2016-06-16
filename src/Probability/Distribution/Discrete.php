@@ -248,4 +248,33 @@ class Discrete
         $⟮1 − p⟯ᵏ = pow(1 - $p, $k);
         return 1 - $⟮1 − p⟯ᵏ;
     }
+
+    /**
+     * Geometric distribution - probability mass function
+     * 
+     * The probability distribution of the number Y = X − 1 of failures
+     * before the first success, supported on the set { 0, 1, 2, 3, ... }
+     * https://en.wikipedia.org/wiki/Geometric_distribution
+     * 
+     * k failures where k ∈ {0, 1, 2, 3, ...}
+     *
+     * pmf = (1 - p)ᵏp
+     *
+     * @param  int   $k number of trials     k ≥ 1
+     * @param  float $p success probability  0 < p ≤ 1
+     *
+     * @return float
+     */
+    public static function geometricKFailuresPMF(int $k, float $p): float
+    {
+        if ($k < 1) {
+            throw new \Exception('k must be an int ≥ 1');
+        }
+        if ($p <= 0 || $p > 1) {
+            throw new \Exception('p must be 0 < p ≤ 1');
+        }
+
+        $⟮1 − p⟯ᵏ = pow(1 - $p, $k);
+        return $⟮1 − p⟯ᵏ * $p;
+    }
 }
