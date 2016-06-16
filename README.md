@@ -185,7 +185,7 @@ $p = 0.5; // success probability
 $probability = Discrete::geometricShiftedPMF($k, $p); // probability mass function
 $probability = Discrete::geometricShiftedCDF($k, $p); // cumulative distribution function
 
-// Geometric distribution (failures before the first success) = PMF, CDF
+// Geometric distribution (failures before the first success) - PMF, CDF
 $probability = Discrete::geometricKFailuresPMF($k, $p); // probability mass function
 $probability = Discrete::geometricKFailuresCDF($k, $p); // lower cumulative distribution function
 ```
