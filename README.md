@@ -187,7 +187,7 @@ $probability = Discrete::geometricShiftedCDF($k, $p); // cumulative distribution
 
 // Geometric distribution (failures before the first success) = PMF, CDF
 $probability = Discrete::geometricKFailuresPMF($k, $p); // probability mass function
-$probability = Discrete::geometricKFailuresCDF($k, $p); // cumulative distribution function
+$probability = Discrete::geometricKFailuresCDF($k, $p); // lower cumulative distribution function
 ```
 
 ### Probability - Standard Normal Table (Z Table)
