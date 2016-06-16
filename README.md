@@ -7,11 +7,12 @@ Math PHP is a self-contained mathematics library in pure PHP with no external de
 
 Features
 --------
+ * Algebra
  * Probability
      * Combinatorics
      * Distributions
-         - Discrete
          - Continuous
+         - Discrete
      * Standard Normal Table (Z Table)
      * t Distribution Table
  * Statistics
@@ -20,7 +21,6 @@ Features
      * Distributions
      * Random Variables
      * Regressions
- * Algebra
  * Special Functions
 
 Setup
@@ -55,6 +55,20 @@ require_once(__DIR__ . '/vendor/autoload.php');
 Usage
 -----
 
+### Algebra
+```php
+use Math\Algebra;
+
+// Greatest common divisor (GCD)
+$gcd = Algebra::gcd(8, 12);
+
+// Least common multiple (LCM)
+$lcm = Algebra::lcm(5, 2);
+
+// Factors of an integer
+$factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
+```
+
 ### Probability - Combinatorics
 ```php
 use Math\Probability\Combinatorics;
@@ -76,46 +90,6 @@ $combinations = Combinatorics::combinationsWithRepetition($n, $r);
 $n         = 10;
 $groups    = [5, 2, 3];
 $divisions = Combinatorics::multinomialTheorem($n, $groups);
-```
-
-### Probability - Discrete Distributions
-```php
-use Math\Probability\Distribution\Discrete;
-
-// Binomial distribution - PMF, CDF
-$n = 2;   // number of events
-$r = 1;   // number of successful events
-$P = 0.5; // probability of success
-$binomial            = Discrete::binomialPMF($n, $r, $P); // probability mass function
-$cumulative_binomial = Discrete::binomialCDF($n, $r, $P); // cumluative distribution function
-
-// Negative binomial distribution (Pascal)
-$x = 2;   // number of trials required to produce r successes
-$r = 1;   // number of successful events
-$P = 0.5; // probability of success on an individual trial
-$negative_binomial = Discrete::negativeBinomial($x, $r, $P);  // Same as pascal
-$pascal            = Discrete::pascal($x, $r, $P);            // Same as negative binomial
-
-// Poisson distribution - PMF, CDF
-$k = 3; // events in the interval
-$λ = 2; // average number of successful events per interval
-$poisson            = Discrete::poissonPMF($k, $λ); // probability mass function
-$cumulative_poisson = Discrete::poissonCDF($k, $λ); // cumulative distribution function
-
-// Multinomial distribution - PMF
-$frequencies   = [7, 2, 3];
-$probabilities = [0.40, 0.35, 0.25];
-$multinomial   = Discrete::multinomialPMF($frequencies, $probabilities); // probability mass function 
-
-// Shifted geometric distribution (probability to get one success) - PMF, CDF
-$k = 2;   // number of trials
-$p = 0.5; // success probability
-$probability = Discrete::geometricShiftedPMF($k, $p); // probability mass function
-$probability = Discrete::geometricShiftedCDF($k, $p); // cumulative distribution function
-
-// Geometric distribution (failures before the first success) = PMF, CDF
-$probability = Discrete::geometricKFailuresPMF($k, $p); // probability mass function
-$probability = Discrete::geometricKFailuresCDF($k, $p); // cumulative distribution function
 ```
 
 ### Probability - Continuous Distributions
@@ -174,6 +148,46 @@ $x = 2;
 $probability = Continuous::weibullPDF($k, $λ, $x);      // probability density function
 $probability = Continuous::weibullLowerCDF($k, $λ, $x); // from 0 to x cumulative distribution function
 $probability = Continuous::weibullUpperCDF($k, $λ, $x); // from x to ∞ cumulative distribution function
+```
+
+### Probability - Discrete Distributions
+```php
+use Math\Probability\Distribution\Discrete;
+
+// Binomial distribution - PMF, CDF
+$n = 2;   // number of events
+$r = 1;   // number of successful events
+$P = 0.5; // probability of success
+$binomial            = Discrete::binomialPMF($n, $r, $P); // probability mass function
+$cumulative_binomial = Discrete::binomialCDF($n, $r, $P); // cumluative distribution function
+
+// Negative binomial distribution (Pascal)
+$x = 2;   // number of trials required to produce r successes
+$r = 1;   // number of successful events
+$P = 0.5; // probability of success on an individual trial
+$negative_binomial = Discrete::negativeBinomial($x, $r, $P);  // Same as pascal
+$pascal            = Discrete::pascal($x, $r, $P);            // Same as negative binomial
+
+// Poisson distribution - PMF, CDF
+$k = 3; // events in the interval
+$λ = 2; // average number of successful events per interval
+$poisson            = Discrete::poissonPMF($k, $λ); // probability mass function
+$cumulative_poisson = Discrete::poissonCDF($k, $λ); // cumulative distribution function
+
+// Multinomial distribution - PMF
+$frequencies   = [7, 2, 3];
+$probabilities = [0.40, 0.35, 0.25];
+$multinomial   = Discrete::multinomialPMF($frequencies, $probabilities); // probability mass function 
+
+// Shifted geometric distribution (probability to get one success) - PMF, CDF
+$k = 2;   // number of trials
+$p = 0.5; // success probability
+$probability = Discrete::geometricShiftedPMF($k, $p); // probability mass function
+$probability = Discrete::geometricShiftedCDF($k, $p); // cumulative distribution function
+
+// Geometric distribution (failures before the first success) = PMF, CDF
+$probability = Discrete::geometricKFailuresPMF($k, $p); // probability mass function
+$probability = Discrete::geometricKFailuresCDF($k, $p); // cumulative distribution function
 ```
 
 ### Probability - Standard Normal Table (Z Table)
@@ -436,20 +450,6 @@ $R = Regression::correlationCoefficient($points); // same as r
 // R² - coefficient of determination
 $R² = Regression::r2($points);                        // same as coefficientOfDetermination
 $R² = Regression::coefficientOfDetermination($points) // same as r2
-```
-
-### Algebra
-```php
-use Math\Algebra;
-
-// Greatest common divisor (GCD)
-$gcd = Algebra::gcd(8, 12);
-
-// Least common multiple (LCM)
-$lcm = Algebra::lcm(5, 2);
-
-// Factors of an integer
-$factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
 ```
 
 ### Special Functions
