@@ -190,4 +190,33 @@ class Discrete
 
         return ($n！ / $x₁！⋯xk！) * $p₁ˣ¹⋯pkˣᵏ;
     }
+
+    /**
+     * Shifted geometric distribution - probability mass function
+     * 
+     * The probability distribution of the number X of Bernoulli trials needed
+     * to get one success, supported on the set { 1, 2, 3, ...}
+     * https://en.wikipedia.org/wiki/Geometric_distribution
+     * 
+     * k trials where k ∈ {1, 2, 3, ...}
+     *
+     * pmf = (1 - p)ᵏ⁻¹p
+     *
+     * @param  int   $k number of trials     k ≥ 1
+     * @param  float $p success probability  0 < p ≤ 1
+     *
+     * @return float
+     */
+    public static function geometricShiftedPMF(int $k, float $p): float
+    {
+        if ($k < 1) {
+            throw new \Exception('k must be an int ≥ 1');
+        }
+        if ($p <= 0 || $p > 1) {
+            throw new \Exception('p must be 0 < p ≤ 1');
+        }
+
+        $⟮1 − p⟯ᵏ⁻¹ = pow(1 - $p, $k - 1);
+        return $⟮1 − p⟯ᵏ⁻¹ * $p;
+    }
 }
