@@ -106,6 +106,16 @@ $cumulative_poisson = Discrete::poissonCDF($k, $λ); // cumulative distribution 
 $frequencies   = [7, 2, 3];
 $probabilities = [0.40, 0.35, 0.25];
 $multinomial   = Discrete::multinomialPMF($frequencies, $probabilities); // probability mass function 
+
+// Shifted geometric distribution (probability to get one success) - PMF, CDF
+$k = 2;   // number of trials
+$p = 0.5; // success probability
+$probability = Discrete::geometricShiftedPMF($k, $p); // probability mass function
+$probability = Discrete::geometricShiftedCDF($k, $p); // cumulative distribution function
+
+// Geometric distribution (failures before the first success) = PMF, CDF
+$probability = Discrete::geometricKFailuresPMF($k, $p); // probability mass function
+$probability = Discrete::geometricKFailuresCDF($k, $p); // cumulative distribution function
 ```
 
 ### Probability - Continuous Distributions
