@@ -249,9 +249,11 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
             [ 5, 0.2, 0.081920 ],
             [ 1, 0.4, 0.400000 ],
             [ 2, 0.4, 0.240000 ],
+            [ 3, 0.4, 0.144 ],
             [ 5, 0.5, 0.031512 ],
             [ 5, 0.09, 0.061717 ],
             [ 1, 1, 1 ],
+            [ 2, 1, 0 ],
         ];
     }
 
@@ -271,5 +273,128 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\Exception');
         Discrete::geometricShiftedPMF(2, 1.2);  
+    }
+
+    /**
+     * @dataProvider dataProviderForGeometricShiftedCDF
+     */
+    public function testGeometricShiftedCDF(int $k, float $p, float $cdf)
+    {
+        $this->assertEquals($cdf, Discrete::geometricShiftedCDF($k, $p), '', 0.001);
+    }
+
+    public function dataProviderForGeometricShiftedCDF()
+    {
+        return [
+            [ 5, 0.1, 0.40951 ],
+            [ 5, 0.2, 0.67232 ],
+            [ 1, 0.4, 0.4  ],
+            [ 2, 0.4, 0.64 ],
+            [ 3, 0.4, 0.784 ],
+            [ 5, 0.5, 0.9688 ],
+            [ 5, 0.09, 0.3759678549 ],
+            [ 1, 1, 1 ],
+            [ 2, 1, 1 ],
+        ];
+    }
+
+    public function testGeometricShiftedCDFExceptionKLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::geometricShiftedCDF(-1, 0.4);
+    }
+
+    public function testGeometricShiftedCDFExceptionPLessThanEqualZero()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::geometricShiftedCDF(2, 0);  
+    }
+
+    public function testGeometricShiftedCDFExceptionPGreaterThanOne()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::geometricShiftedCDF(2, 1.2);  
+    }
+
+    /**
+     * @dataProvider dataProviderForGeometricKFailuresPMF
+     */
+    public function testGeometricKFailuresPMF(int $k, float $p, float $pmf)
+    {
+        $this->assertEquals($pmf, Discrete::geometricKFailuresPMF($k, $p), '', 0.001);
+    }
+
+    public function dataProviderForGeometricKFailuresPMF()
+    {
+        return [
+            [ 5, 0.1, 0.059049 ],
+            [ 5, 0.2, 0.065536 ],
+            [ 1, 0.4, 0.24 ],
+            [ 2, 0.4, 0.144 ],
+            [ 3, 0.4, 0.0864 ],
+            [ 5, 0.5, 0.015625 ],
+            [ 5, 0.09, 0.056162893059 ],
+            [ 1, 1, 0 ],
+            [ 2, 1, 0 ],
+        ];
+    }
+
+    public function testGeometricKFailuresPMFExceptionKLessThanOne()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::geometricKFailuresPMF(0, 0.4);
+    }
+
+    public function testGeometricKFailuresPMFExceptionPLessThanEqualZero()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::geometricKFailuresPMF(2, 0);  
+    }
+
+    public function testGeometricKFailuresPMFExceptionPGreaterThanOne()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::geometricKFailuresPMF(2, 1.2);  
+    }
+
+    /**
+     * @dataProvider dataProviderForGeometricKFailuresCDF
+     */
+    public function testGeometricKFailuresCDF(int $k, float $p, float $cdf)
+    {
+        $this->assertEquals($cdf, Discrete::geometricKFailuresCDF($k, $p), '', 0.001);
+    }
+
+    public function dataProviderForGeometricKFailuresCDF()
+    {
+        return [
+            [ 5, 0.1, 0.468559 ],
+            [ 5, 0.2, 0.737856 ],
+            [ 1, 0.4, 0.64  ],
+            [ 2, 0.4, 0.784 ],
+            [ 3, 0.4, 0.8704 ],
+            [ 5, 0.5, 0.984375 ],
+            [ 5, 0.09, 0.432130747959 ],
+            [ 1, 1, 1 ],
+            [ 2, 1, 1 ],
+        ];
+    }
+
+    public function testGeometricKFailuresCDFExceptionKLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::geometricKFailuresCDF(-1, 0.4);
+    }
+
+    public function testGeometricKFailuresCDFExceptionPLessThanEqualZero()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::geometricKFailuresCDF(2, 0);  
+    }
+
+    public function testGeometricKFailuresCDFExceptionPGreaterThanOne()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::geometricKFailuresCDF(2, 1.2);  
     }
 }
