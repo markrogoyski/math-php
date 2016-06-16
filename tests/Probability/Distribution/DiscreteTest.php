@@ -233,4 +233,43 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         Discrete::multinomialPMF([1, 2,3], [0.3, 0.2, 0.1]);
     }
+
+    /**
+     * @dataProvider dataProviderForGeometricShiftedPMF
+     */
+    public function testGeometricShiftedPMF(int $k, float $p, float $pmf)
+    {
+        $this->assertEquals($pmf, Discrete::geometricShiftedPMF($k, $p), '', 0.001);
+    }
+
+    public function dataProviderForGeometricShiftedPMF()
+    {
+        return [
+            [ 5, 0.1, 0.065610 ],
+            [ 5, 0.2, 0.081920 ],
+            [ 1, 0.4, 0.400000 ],
+            [ 2, 0.4, 0.240000 ],
+            [ 5, 0.5, 0.031512 ],
+            [ 5, 0.09, 0.061717 ],
+            [ 1, 1, 1 ],
+        ];
+    }
+
+    public function testGeometricShiftedPMFExceptionKLessThanOne()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::geometricShiftedPMF(0, 0.4);
+    }
+
+    public function testGeometricShiftedPMFExceptionPLessThanEqualZero()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::geometricShiftedPMF(2, 0);  
+    }
+
+    public function testGeometricShiftedPMFExceptionPGreaterThanOne()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::geometricShiftedPMF(2, 1.2);  
+    }
 }
