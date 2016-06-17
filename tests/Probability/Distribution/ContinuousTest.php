@@ -325,4 +325,86 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
             [ 2, 2, -0.1, 0 ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForLaplacePDF
+     */
+    public function testLaplacePDF($μ, $b, $x, $pdf)
+    {
+        $this->assertEquals($pdf, Continuous::laplacePDF($μ, $b, $x), '', 0.001);
+    }
+
+    public function dataProviderForLaplacePDF()
+    {
+        return [
+            [ 0, 1, 1, 0.1839397206 ],
+            [ 0, 1, 1.1, 0.1664355418 ],
+            [ 0, 1, 1.2, 0.150597106 ],
+            [ 0, 1, 5, 0.0033689735 ],
+            [ 2, 1.4, 1, 0.174836307 ],
+            [ 2, 1.4, 1.1, 0.1877814373 ],
+            [ 2, 1.4, 2.9, 0.1877814373 ],
+        ];
+    }
+
+    public function testLaplacePDFExceptionBLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        Continuous::laplacePDF(1, -3, 2);
+    }
+
+    /**
+     * @dataProvider dataProviderForLaplaceLowerCDF
+     */
+    public function testLaplaceLowerCDF($μ, $b, $x, $cdf)
+    {
+        $this->assertEquals($cdf, Continuous::laplaceLowerCDF($μ, $b, $x), '', 0.001);
+    }
+
+    public function dataProviderForLaplaceLowerCDF()
+    {
+        return [
+            [ 0, 1, 1, 0.8160602794 ],
+            [ 0, 1, 1.1, 0.8335644582 ],
+            [ 0, 1, 1.2, 0.849402894 ],
+            [ 0, 1, 5, 0.9966310265 ],
+            [ 2, 1.4, 1, 0.2447708298 ],
+            [ 2, 1.4, 1.1, 0.2628940122 ],
+            [ 2, 1.4, 2.9, 0.7371059878 ],
+        ];
+    }
+
+    public function testLaplaceLowerCDFExceptionBLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        Continuous::laplaceLowerCDF(1, -3, 2);
+    }
+
+    /**
+     * @dataProvider dataProviderForLaplaceUpperCDF
+     */
+    public function testLaplaceUpperCDF($μ, $b, $x, $cdf)
+    {
+        $this->assertEquals($cdf, Continuous::laplaceUpperCDF($μ, $b, $x), '', 0.001);
+    }
+
+    public function dataProviderForLaplaceUpperCDF()
+    {
+        return [
+            [ 0, 1, 1, 0.1839397206 ],
+            [ 0, 1, 1.1, 0.1664355418 ],
+            [ 0, 1, 1.2, 0.150597106 ],
+            [ 0, 1, 5, 0.0033689735 ],
+            [ 2, 1.4, 1, 0.7552291702 ],
+            [ 2, 1.4, 1.1, 0.7371059878 ],
+            [ 2, 1.4, 2.9, 0.2628940122 ],
+        ];
+    }
+
+    public function testLaplaceUpperCDFExceptionBLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        Continuous::laplaceUpperCDF(1, -3, 2);
+    }
 }
+
