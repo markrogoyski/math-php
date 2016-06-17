@@ -148,6 +148,14 @@ $x = 2;
 $probability = Continuous::weibullPDF($k, $λ, $x);      // probability density function
 $probability = Continuous::weibullLowerCDF($k, $λ, $x); // from 0 to x cumulative distribution function
 $probability = Continuous::weibullUpperCDF($k, $λ, $x); // from x to ∞ cumulative distribution function
+
+// Laplace distribution - PDF, CDF
+$μ = 1;   // location parameter
+$b = 1.5; // scale parameter (diversity)
+$x = 1;
+$probability = Continuous::laplacePDF($μ, $b, $x);      // probability density function
+$probability = Continuous::laplaceLowerCDF($μ, $b, $x); // from -∞ to x cumulative distribution function
+$probability = Continuous::laplaceUpperCDF($μ, $b, $x); // from x to ∞ cumulative distribution function
 ```
 
 ### Probability - Discrete Distributions
