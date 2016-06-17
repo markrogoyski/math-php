@@ -158,8 +158,12 @@ use Math\Probability\Distribution\Discrete;
 $n = 2;   // number of events
 $r = 1;   // number of successful events
 $P = 0.5; // probability of success
-$binomial            = Discrete::binomialPMF($n, $r, $P); // probability mass function
-$cumulative_binomial = Discrete::binomialCDF($n, $r, $P); // cumluative distribution function
+$pmf = Discrete::binomialPMF($n, $r, $P); // probability mass function
+$cdf = Discrete::binomialCDF($n, $r, $P); // cumluative distribution function
+
+// Bernoulli distribution (special case of binomial where n = 1) - PMF, CDF
+$pmf = Discrete::bernoulliPMF($r, $P); // probability mass function
+$cdf = Discrete::bernoulliCDF($r, $P); // cumulative distribution function
 
 // Negative binomial distribution (Pascal)
 $x = 2;   // number of trials required to produce r successes
@@ -171,23 +175,23 @@ $pascal            = Discrete::pascal($x, $r, $P);            // Same as negativ
 // Poisson distribution - PMF, CDF
 $k = 3; // events in the interval
 $λ = 2; // average number of successful events per interval
-$poisson            = Discrete::poissonPMF($k, $λ); // probability mass function
-$cumulative_poisson = Discrete::poissonCDF($k, $λ); // cumulative distribution function
+$pmf = Discrete::poissonPMF($k, $λ); // probability mass function
+$cdf = Discrete::poissonCDF($k, $λ); // cumulative distribution function
 
 // Multinomial distribution - PMF
 $frequencies   = [7, 2, 3];
 $probabilities = [0.40, 0.35, 0.25];
-$multinomial   = Discrete::multinomialPMF($frequencies, $probabilities); // probability mass function 
+$pmf = Discrete::multinomialPMF($frequencies, $probabilities); // probability mass function 
 
 // Shifted geometric distribution (probability to get one success) - PMF, CDF
 $k = 2;   // number of trials
 $p = 0.5; // success probability
-$probability = Discrete::geometricShiftedPMF($k, $p); // probability mass function
-$probability = Discrete::geometricShiftedCDF($k, $p); // cumulative distribution function
+$pmf = Discrete::geometricShiftedPMF($k, $p); // probability mass function
+$cdf = Discrete::geometricShiftedCDF($k, $p); // cumulative distribution function
 
 // Geometric distribution (failures before the first success) - PMF, CDF
-$probability = Discrete::geometricKFailuresPMF($k, $p); // probability mass function
-$probability = Discrete::geometricKFailuresCDF($k, $p); // lower cumulative distribution function
+$pmf = Discrete::geometricKFailuresPMF($k, $p); // probability mass function
+$cdf = Discrete::geometricKFailuresCDF($k, $p); // lower cumulative distribution function
 ```
 
 ### Probability - Standard Normal Table (Z Table)
