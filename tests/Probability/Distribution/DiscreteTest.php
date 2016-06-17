@@ -397,4 +397,65 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         Discrete::geometricKFailuresCDF(2, 1.2);  
     }
+
+    /**
+     * @dataProvider dataProviderForBernoulliPMF
+     */
+    public function testBernoulliPMF(int $k, float $p, $pmf)
+    {
+        $this->assertEquals($pmf, Discrete::bernoulliPMF($k, $p), '', 0.001);
+    }
+
+    public function dataProviderForBernoulliPMF()
+    {
+        return [
+            [ 0, 0.6, 0.4 ],
+            [ 1, 0.6, 0.6 ],
+            [ 0, 0.3, 0.7 ],
+            [ 1, 0.3, 0.3 ],
+        ];
+    }
+
+    public function testBernoulliPFMIsBinomialWithNEqualsOne()
+    {
+        $this->assertEquals(Discrete::binomialPMF(1, 0, 0.6), Discrete::bernoulliPMF(0, 0.6));
+        $this->assertEquals(Discrete::binomialPMF(1, 1, 0.6), Discrete::bernoulliPMF(1, 0.6));
+    }
+
+    public function testBernoulliPMFExceptionKNotZeroOrOne()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::bernoulliPMF(5, 0.5);
+    }
+
+    public function testBernoulliPMFExceptionPOutOfBounds()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::bernoulliPMF(1, 2.5);
+    }
+
+    /**
+     * @dataProvider dataProviderForBernoulliCDF
+     */
+    public function testBernoulliCDF(int $k, float $p, $cdf)
+    {
+        $this->assertEquals($cdf, Discrete::bernoulliCDF($k, $p), '', 0.001);
+    }
+
+    public function dataProviderForBernoulliCDF()
+    {
+        return [
+            [ 0, 0.6, 0.4 ],
+            [ 1, 0.6, 1 ],
+            [ 0, 0.3, 0.7 ],
+            [ 1, 0.3, 1 ],
+            [ -1, 0.5, 0 ],
+        ];
+    }
+
+    public function testBernoulliCDFExceptionPOutOfBounds()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::bernoulliCDF(1, 2.5);
+    }
 }
