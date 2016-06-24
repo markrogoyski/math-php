@@ -189,4 +189,29 @@ class Special
          */
         return $√2π * $ℯ⁻ⁿ * $√1／n * $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ;
     }
+
+    /**
+     * Beta function
+     *
+     * https://en.wikipedia.org/wiki/Beta_function
+     *
+     *           Γ(x)Γ(y)
+     * B(x, y) = --------
+     *           Γ(x + y)
+     *
+     * @param  int    $x
+     * @param  int    $y
+     * @return float
+     */
+    public static function beta($x, $y): float
+    {
+        if ($x == 0 || $y == 0) {
+            return \INF;
+        }
+
+        $Γ⟮x⟯Γ⟮y⟯   = self::gamma($x) * self::gamma($y);
+        $Γ⟮x ＋ y⟯ = self::gamma($x + $y);
+
+        return $Γ⟮x⟯Γ⟮y⟯ / $Γ⟮x ＋ y⟯;
+    }
 }
