@@ -474,6 +474,10 @@ $Γ = Special::gamma($z);          // Lanczos approximation - same as gammaLancz
 $Γ = Special::gammaLanczos($z);   // Lanczos approximation - same as gamma
 $Γ = Special::gammaStirling($z);  // Stirling approximation
 
+// Beta function
+list($x, $y) = [1, 2];
+$β = Special::beta($x, $y);
+
 // Sign function (also known as signum or sgn)
 $x = 4;
 $sign = Special::signum($x); // same as sgn
