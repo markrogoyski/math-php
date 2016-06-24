@@ -112,4 +112,32 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         [ -2, -\INF ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForBeta
+     */
+    public function testBeta($x, $y, float $beta)
+    {
+        $this->assertEquals($beta, Special::beta($x, $y), '', 0.001);
+    }
+
+    public function dataProviderForBeta()
+    {
+        return [
+            [ 1.5, 0, \INF ],
+            [ 0, 1.5, \INF ],
+            [ 0, 0, \INF ],
+            [ 1, 1, 1 ],
+            [ 1, 2, 0.5 ],
+            [ 2, 1, 0.5 ],
+            [ 1, 3, 0.33333 ],
+            [ 3, 1, 0.33333 ],
+            [ 1.5, 0.2, 4.4776093743471688104 ],
+            [ 0.2, 1.5, 4.4776093743471688104 ],
+            [ 0.1, 0.9, 10.16641 ],
+            [ 0.9, 0.1, 10.16641 ],
+            [ 3, 9, 0.002020202 ],
+            [ 9, 3, 0.002020202 ],
+        ];
+    }
 }
