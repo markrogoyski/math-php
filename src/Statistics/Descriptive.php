@@ -239,6 +239,32 @@ class Descriptive
      * Three points that divide the data set into four equal groups, each group comprising a quarter of the data.
      * https://en.wikipedia.org/wiki/Quartile
      *
+     * There are multiple methods for computing quartiles:
+     *  - Inclusive
+     *  - Exclusive
+     *
+     * @param array $numbers
+     * @param string $method What quartile method to use (optional - default: exclusive)
+     *
+     * @return array [ 0%, Q1, Q2, Q3, 100%, IQR ]
+     */
+    public static function quartiles(array $numbers, string $method = 'exclusive')
+    {
+        switch(strtolower($method)) {
+            case 'inclusive':
+                return self::quartilesInclusive($numbers);
+            case 'exclusive':
+                return self::quartilesExclusive($numbers);
+            default:
+                return self::quartilesExclusive($numbers);
+        }
+    }
+
+    /**
+     * Quartiles - Exclusive method
+     * Three points that divide the data set into four equal groups, each group comprising a quarter of the data.
+     * https://en.wikipedia.org/wiki/Quartile
+     *
      * 0% is smallest number
      * Q1 (25%) is first quartile (lower quartile, 25th percentile)
      * Q2 (50%) is second quartile (median, 50th percentile)
@@ -255,10 +281,13 @@ class Descriptive
      *  - The lower quartile value is the median of the lower half of the data.
      *    The upper quartile value is the median of the upper half of the data.
      *
+     * This rule is employed by the TI-83 calculator boxplot and "1-Var Stats" functions.
+     * This is the most basic method that is commonly taught in math textbooks.
+     *
      * @param array $numbers
      * @return array [ 0%, Q1, Q2, Q3, 100%, IQR ]
      */
-    public static function quartiles(array $numbers): array
+    public static function quartilesExclusive(array $numbers): array
     {
         if (empty($numbers)) {
             return array();
@@ -278,12 +307,73 @@ class Descriptive
         $upper_quartile = Average::median($upper_half);
 
         return [
-        '0%'   => min($numbers),
-        'Q1'   => $lower_quartile,
-        'Q2'   => Average::median($numbers),
-        'Q3'   => $upper_quartile,
-        '100%' => max($numbers),
-        'IQR'  => $upper_quartile - $lower_quartile,
+            '0%'   => min($numbers),
+            'Q1'   => $lower_quartile,
+            'Q2'   => Average::median($numbers),
+            'Q3'   => $upper_quartile,
+            '100%' => max($numbers),
+            'IQR'  => $upper_quartile - $lower_quartile,
+        ];
+    }
+
+    /**
+     * Quartiles - Inclusive method (R method)
+     * Three points that divide the data set into four equal groups, each group comprising a quarter of the data.
+     * https://en.wikipedia.org/wiki/Quartile
+     *
+     * 0% is smallest number
+     * Q1 (25%) is first quartile (lower quartile, 25th percentile)
+     * Q2 (50%) is second quartile (median, 50th percentile)
+     * Q3 (75%) is third quartile (upper quartile, 75th percentile)
+     * 100% is largest number
+     * interquartile_range is the difference between the upper and lower quartiles. (IQR = Q₃ - Q₁)
+     *
+     * Method used
+     *  - Use the median to divide the ordered data set into two halves.
+     *   - If there are an odd number of data points in the original ordered data set, 
+     *     include the median (the central value in the ordered list) in both halves.
+     *   - If there are an even number of data points in the original ordered data set,
+     *     split this data set exactly in half.
+     *  - The lower quartile value is the median of the lower half of the data.
+     *    The upper quartile value is the median of the upper half of the data.
+     *
+     * The values found by this method are also known as "Tukey's hinges".
+     * This is the method that the programming language R uses by default.
+     *
+     * @param array $numbers
+     * @return array [ 0%, Q1, Q2, Q3, 100%, IQR ]
+     */
+    public static function quartilesInclusive(array $numbers): array
+    {
+        if (empty($numbers)) {
+            return array();
+        }
+
+        sort($numbers);
+        $length = count($numbers);
+        if ($length % 2 == 0) {
+            $lower_half = array_slice($numbers, 0, $length / 2);
+            $upper_half = array_slice($numbers, $length / 2);
+        } else {
+            $lower_half = array_slice($numbers, 0, intdiv($length, 2));
+            $upper_half = array_slice($numbers, intdiv($length, 2) + 1);
+
+            // Add median to both halves
+            $median = Average::median($numbers);
+            array_push($lower_half, $median);
+            array_unshift($upper_half, $median);
+        }
+
+        $lower_quartile = Average::median($lower_half);
+        $upper_quartile = Average::median($upper_half);
+
+        return [
+            '0%'   => min($numbers),
+            'Q1'   => $lower_quartile,
+            'Q2'   => Average::median($numbers),
+            'Q3'   => $upper_quartile,
+            '100%' => max($numbers),
+            'IQR'  => $upper_quartile - $lower_quartile,
         ];
     }
 
