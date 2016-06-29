@@ -258,14 +258,14 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForQuartiles
+     * @dataProvider dataProviderForQuartilesExclusive
      */
-    public function testQuartiles(array $numbers, array $quartiles)
+    public function testQuartilesExclusive(array $numbers, array $quartiles)
     {
-        $this->assertEquals($quartiles, Descriptive::quartiles($numbers));
+        $this->assertEquals($quartiles, Descriptive::quartilesExclusive($numbers));
     }
 
-    public function dataProviderForQuartiles()
+    public function dataProviderForQuartilesExclusive()
     {
         return [
             [
@@ -280,6 +280,82 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
                 [ 0, 2, 2, 4, 5, 6, 7, 7, 8, 9, 34, 34, 43, 54, 54, 76, 234 ],
                 [ '0%' => 0, 'Q1' => 4.5, 'Q2' => 8, 'Q3' => 48.5, '100%' => 234, 'IQR' => 44 ],
             ]
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForQuartilesInclusive
+     */
+    public function testQuartilesInclusive(array $numbers, array $quartiles)
+    {
+        $this->assertEquals($quartiles, Descriptive::quartilesInclusive($numbers));
+    }
+
+    public function dataProviderForQuartilesInclusive()
+    {
+        return [
+            [
+                [ 6, 7, 15, 36, 39, 40, 41, 42, 43, 47, 49],
+                [ '0%' => 6, 'Q1' => 25.5, 'Q2' => 40, 'Q3' => 42.5, '100%' => 49, 'IQR' => 17 ],
+            ],
+            [
+                [ 7, 15, 36, 39, 40, 41 ],
+                [ '0%' => 7, 'Q1' => 15, 'Q2' => 37.5, 'Q3' => 40, '100%' => 41, 'IQR' => 25 ],
+            ],
+            [
+                [ 0, 2, 2, 4, 5, 6, 7, 7, 8, 9, 34, 34, 43, 54, 54, 76, 234 ],
+                [ '0%' => 0, 'Q1' => 5, 'Q2' => 8, 'Q3' => 43, '100%' => 234, 'IQR' => 38 ],
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForQuartiles
+     */
+    public function testQuartiles(array $numbers, string $method, array $quartiles)
+    {
+        $this->assertEquals($quartiles, Descriptive::quartiles($numbers, $method));
+    }
+
+    public function dataProviderForQuartiles()
+    {
+        return [
+            [
+                [ 6, 7, 15, 36, 39, 40, 41, 42, 43, 47, 49 ], 'Exclusive',
+                [ '0%' => 6, 'Q1' => 15, 'Q2' => 40, 'Q3' => 43, '100%' => 49, 'IQR' => 28 ],
+            ],
+            [
+                [ 7, 15, 36, 39, 40, 41 ], 'Exclusive',
+                [ '0%' => 7, 'Q1' => 15, 'Q2' => 37.5, 'Q3' => 40, '100%' => 41, 'IQR' => 25 ],
+            ],
+            [
+                [ 0, 2, 2, 4, 5, 6, 7, 7, 8, 9, 34, 34, 43, 54, 54, 76, 234 ], 'Exclusive',
+                [ '0%' => 0, 'Q1' => 4.5, 'Q2' => 8, 'Q3' => 48.5, '100%' => 234, 'IQR' => 44 ],
+            ],
+            [
+                [ 6, 7, 15, 36, 39, 40, 41, 42, 43, 47, 49 ], 'Inclusive',
+                [ '0%' => 6, 'Q1' => 25.5, 'Q2' => 40, 'Q3' => 42.5, '100%' => 49, 'IQR' => 17 ],
+            ],
+            [
+                [ 7, 15, 36, 39, 40, 41 ], 'Inclusive',
+                [ '0%' => 7, 'Q1' => 15, 'Q2' => 37.5, 'Q3' => 40, '100%' => 41, 'IQR' => 25 ],
+            ],
+            [
+                [ 0, 2, 2, 4, 5, 6, 7, 7, 8, 9, 34, 34, 43, 54, 54, 76, 234 ], 'Inclusive',
+                [ '0%' => 0, 'Q1' => 5, 'Q2' => 8, 'Q3' => 43, '100%' => 234, 'IQR' => 38 ],
+            ],
+            [
+                [ 6, 7, 15, 36, 39, 40, 41, 42, 43, 47, 49 ], 'Not_A_Real_Method_So_Default_Is_Used_Which_Is_Exclusive',
+                [ '0%' => 6, 'Q1' => 15, 'Q2' => 40, 'Q3' => 43, '100%' => 49, 'IQR' => 28 ],
+            ],
+            [
+                [ 7, 15, 36, 39, 40, 41 ], 'Not_A_Real_Method_So_Default_Is_Used_Which_Is_Exclusive',
+                [ '0%' => 7, 'Q1' => 15, 'Q2' => 37.5, 'Q3' => 40, '100%' => 41, 'IQR' => 25 ],
+            ],
+            [
+                [ 0, 2, 2, 4, 5, 6, 7, 7, 8, 9, 34, 34, 43, 54, 54, 76, 234 ], 'Not_A_Real_Method_So_Default_Is_Used_Which_Is_Exclusive',
+                [ '0%' => 0, 'Q1' => 4.5, 'Q2' => 8, 'Q3' => 48.5, '100%' => 234, 'IQR' => 44 ],
+            ],
         ];
     }
 
