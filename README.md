@@ -112,25 +112,18 @@ list($x₁, $x₂) = [2, 3];
 $probability   = Continuous::exponentialCDFBetween($λ, $x₁, $x₂); // probability that an exponentially distributed random variable X is between x₁ and x₂
 
 // Normal distribution - probability density function (pdf)
-$μ = 0;
-$σ = 1;
-$x = 2;
+list($μ, $σ, $x) = [0, 1, 2];
 $probability = Continuous::normalPDF($x, $μ, $σ);
 
 // Normal distrubution - cumulative distribution function (cdf)
-$μ  = 0;
-$σ  = 1;
-$x₁ = 1;
-$x₂ = 2;
+list($μ, $σ, $x₁, $x₂) = [0, 1, 1, 2];
 $probability = Continuous::normalCDF($x₁, $μ, $σ);             // from -∞ to X
 $probability = Continuous::normalCDFAbove($x₁, $μ, $σ);        // from X to ∞
 $probability = Continuous::normalCDFBetween($x₁, $x₂, $μ, $σ); // from x₁ to x₂
 $probability = Continuous::normalCDFOutside($x₁, $x₂, $μ, $σ); // from -∞ to x₁ and x₂ to ∞
 
 // Log-normal distribution - PDF, CDF
-$μ = 6;
-$σ = 2;
-$x = 4.3;
+list($μ, $σ, $x) = [6, 2, 4.3];
 $probability = Continuous::logNormalPDF($x, $μ, $σ); // probability density function
 $probability = Continuous::logNormalCDF($x, $μ, $σ); // cumulative distribution function
 
@@ -220,14 +213,14 @@ $probability = $z_table[1.5][0];
 use Math\Probability\TDistributionTable;
 
 // Get t critical value from degrees of freedom (ν) and confidence level (cl)
-$ν       = 5;
-$cl      = 99;
+$ν       = 5;  // degrees of freedom
+$cl      = 99; // confidence level
 $t_value = TDistributionTable::getOneSidedTValueFromConfidenceLevel($ν, $cl);
 $t_value = TDistributionTable::getTwoSidedTValueFromConfidenceLevel($ν, $cl);
 
 // Get t critical value from degrees of freedom (ν) and alpha value (α)
-$ν       = 5;
-$α       = 0.001;
+$ν       = 5;     // degrees of freedom
+$α       = 0.001; // alpha value
 $t_value = TDistributionTable::getOneSidedTValueFromAlpha($ν, $α);
 $t_value = TDistributionTable::getTwoSidedTValueFromAlpha($ν, $α);
 
@@ -368,8 +361,8 @@ Distribution::stemAndLeafPlot($values, Distribution::PRINT);
 ```php
 use Math\Statistics\RandomVariable
 
-$X = [1, 2, 3, 4 ];
-$Y = [2, 3, 4, 5 ];
+$X = [1, 2, 3, 4];
+$Y = [2, 3, 4, 5];
 
 // Covariance (population and sample)
 $σxy = RandomVariable::populationCovariance($X, $Y);
