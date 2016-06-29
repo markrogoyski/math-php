@@ -310,15 +310,15 @@ $σ = Descriptive::standardDeviation($numbers); // Has optional parameter to set
 $mean_mad   = Descriptive::meanAbsoluteDeviation($numbers);
 $median_mad = Descriptive::medianAbsoluteDeviation($numbers);
 
-// Quartiles (Inclusive and exclusive methods)
+// Quartiles (inclusive and exclusive methods)
 // [0% => 13, Q1 => 13, Q2 => 14, Q3 => 17, 100% => 21, IQR => 4]
 $quartiles = Descriptive::quartiles($numbers);          // Has optional parameter to specify method. Default is Exclusive
 $quartiles = Descriptive::quartilesExclusive($numbers);
 $quartiles = Descriptive::quartilesInclusive($numbers); 
 
 // IQR - Interquartile range
-$IQR = Descriptive::interquartileRange($numbers); // Same as IQR
-$IQR = Descriptive::IQR($numbers);                // Same as interquartileRange
+$IQR = Descriptive::interquartileRange($numbers); // Same as IQR; has optional parameter to specify quartile method.
+$IQR = Descriptive::IQR($numbers);                // Same as interquartileRange; has optional parameter to specify quartile method.
 
 // Percentiles
 $twentieth_percentile    = Descriptive::percentile($numbers, 20);
