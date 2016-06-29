@@ -385,24 +385,28 @@ class Descriptive
      *
      * IQR = Q₃ - Q₁
      *
-     * @param array $numbers
+     * @param array  $numbers
+     * @param string $method What quartile method to use (optional - default: exclusive)
+     *
      * @return number
      */
-    public static function interquartileRange(array $numbers)
+    public static function interquartileRange(array $numbers, string $method = 'exclusive')
     {
-        return self::quartiles($numbers)['IQR'];
+        return self::quartiles($numbers, $method)['IQR'];
     }
 
     /**
      * IQR - Interquartile range (midspread, middle fifty)
      * Convenience wrapper function for interquartileRange.
      *
-     * @param array $numbers
+     * @param array  $numbers
+     * @param string $method What quartile method to use (optional - default: exclusive)
+     *
      * @return number
      */
-    public static function IQR(array $numbers)
+    public static function IQR(array $numbers, string $method = 'exclusive')
     {
-        return self::quartiles($numbers)['IQR'];
+        return self::quartiles($numbers, $method)['IQR'];
     }
 
     /**
