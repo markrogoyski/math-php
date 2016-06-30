@@ -140,4 +140,38 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             [ 9, 3, 0.002020202 ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForLogistic
+     */
+    public function testLogistic($x₀, $L, $k, $x, $logistic)
+    {
+        $this->assertEquals($logistic, Special::logistic($x₀, $L, $k, $x), '', 0.001);
+    }
+
+    public function dataProviderForLogistic()
+    {
+        return [
+            [0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 0.5],
+            [2, 2, 2, 2, 1],
+            [3, 2, 2, 2, 0.238405844044],
+            [3, 4, 2, 2, 0.476811688088],
+            [3, 4, 5, 2, 0.0267714036971],
+            [3, 4, 5, 6, 3.99999877639],
+            [2.1, 3.2, 1.5, 0.6, 0.305118287677],
+        ];
+    }
+
+    /**
+     * Sigmoid is just a special case of the logistic function.
+     */
+    public function testSigmoid()
+    {
+        $this->assertEquals(Special::logistic(1, 1, 1, 2), Special::sigmoid(1));
+        $this->assertEquals(Special::logistic(1, 1, 2, 2), Special::sigmoid(2));
+        $this->assertEquals(Special::logistic(1, 1, 3, 2), Special::sigmoid(3));
+        $this->assertEquals(Special::logistic(1, 1, 4, 2), Special::sigmoid(4));
+        $this->assertEquals(Special::logistic(1, 1, 4.6, 2), Special::sigmoid(4.6));
+    }
 }
