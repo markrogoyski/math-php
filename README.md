@@ -138,25 +138,22 @@ $probability = Continuous::paretoCDF($a, $b, $x); // cumulative distribution fun
 $k = 1; // shape parameter
 $λ = 2; // scale parameter
 $x = 2;
-$probability = Continuous::weibullPDF($k, $λ, $x);      // probability density function
-$probability = Continuous::weibullLowerCDF($k, $λ, $x); // from 0 to x cumulative distribution function
-$probability = Continuous::weibullUpperCDF($k, $λ, $x); // from x to ∞ cumulative distribution function
+$probability = Continuous::weibullPDF($k, $λ, $x); // probability density function
+$probability = Continuous::weibullCDF($k, $λ, $x); // cumulative distribution function (from 0 to x)
 
 // Laplace distribution - PDF, CDF
 $μ = 1;   // location parameter
 $b = 1.5; // scale parameter (diversity)
 $x = 1;
-$probability = Continuous::laplacePDF($μ, $b, $x);      // probability density function
-$probability = Continuous::laplaceLowerCDF($μ, $b, $x); // from -∞ to x cumulative distribution function
-$probability = Continuous::laplaceUpperCDF($μ, $b, $x); // from x to ∞ cumulative distribution function
+$probability = Continuous::laplacePDF($μ, $b, $x); // probability density function
+$probability = Continuous::laplaceCDF($μ, $b, $x); // cumulative distribution function (from -∞ to x)
 
 // Logistic distribution - PDF, CDF
 $μ = 2;   // location parameter
 $s = 1.5; // scale parameter
 $x = 3;
-$probability = Continuous::logisticPDF($μ, $s, $x);      // probability density function
-$probability = Continuous::logisticLowerCDF($μ, $s, $x); // from -∞ to x cumulative distribution function
-$probability = Continuous::logisticUpperCDF($μ, $s, $x); // from x to ∞ cumulative distribution function
+$probability = Continuous::logisticPDF($μ, $s, $x); // probability density function
+$probability = Continuous::logisticCDF($μ, $s, $x); // cumulative distribution function (from -∞ to x)
 ```
 
 ### Probability - Discrete Distributions
