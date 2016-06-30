@@ -149,6 +149,14 @@ $x = 1;
 $probability = Continuous::laplacePDF($μ, $b, $x);      // probability density function
 $probability = Continuous::laplaceLowerCDF($μ, $b, $x); // from -∞ to x cumulative distribution function
 $probability = Continuous::laplaceUpperCDF($μ, $b, $x); // from x to ∞ cumulative distribution function
+
+// Logistic distribution - PDF, CDF
+$μ = 2;   // location parameter
+$s = 1.5; // scale parameter
+$x = 3;
+$probability = Continuous::logisticPDF($μ, $s, $x);      // probability density function
+$probability = Continuous::logisticLowerCDF($μ, $s, $x); // from -∞ to x cumulative distribution function
+$probability = Continuous::logisticUpperCDF($μ, $s, $x); // from x to ∞ cumulative distribution function
 ```
 
 ### Probability - Discrete Distributions
@@ -477,6 +485,17 @@ $β = Special::beta($x, $y);
 $x = 4;
 $sign = Special::signum($x); // same as sgn
 $sign = Special::sgn($x);    // same as signum
+
+// Logistic function (logistic sigmoid function)
+$x₀ = 2; // x-value of the sigmoid's midpoint
+$L  = 3; // the curve's maximum value
+$k  = 4; // the steepness of the curve
+$x  = 5;
+$logistic = Special::logistic($x₀, $L, $k, $x);
+
+// Sigmoid function
+$t = 2;
+$sigmoid = Special::sigmoid($t);
 ```
 
 Unit Tests
