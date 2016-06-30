@@ -96,12 +96,15 @@ $divisions = Combinatorics::multinomialTheorem($n, $groups);
 ```php
 use Math\Probability\Distribution\Continuous;
 
-// Continuous uniform distribution
-$a  = 2;  // lower boundary of distribution
-$b  = 10; // upper boundary of distribution
-$x₁ = 4;  // lower boundary of probability interval
-$x₂ = 6;  // upper boundary of probability interval
-$probability = Continuous::uniform($a, $b, $x₁, $x₂);
+// Continuous uniform distribution - PDF, CDF, Interval
+$a   = 2; // lower boundary of distribution
+$b   = 9; // upper boundary of distribution
+$x   = 4; // percentile
+$pdf = Continuous::uniformPDF($a, $b, $x); // probability density function
+$cdf = Continuous::uniformCDF($a, $b, $X); // cumulative distribution function
+$x₁  = 4;  // lower boundary of probability interval
+$x₂  = 6;  // upper boundary of probability interval
+$probability = Continuous::uniformInterval($a, $b, $x₁, $x₂); // probability of a specific interval within distribution
 
 // Exponential distribution - PDF, CDF
 $λ   = 1; // rate parameter
