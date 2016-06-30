@@ -406,5 +406,117 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         Continuous::laplaceUpperCDF(1, -3, 2);
     }
+
+    /**
+     * @dataProvider dataProviderForLogisticPDF
+     */
+    public function testLogisticPDF($μ, $s, $x, $pdf)
+    {
+        $this->assertEquals($pdf, Continuous::logisticPDF($μ, $s, $x), '', 0.001);
+    }
+
+    public function dataProviderForLogisticPDF()
+    {
+        return [
+            [0, 0.7, -5, 0.001127488648],
+            [0, 0.7, -4.2, 0.003523584702],
+            [0, 0.7, -3.5, 0.009497223815],
+            [0, 0.7, -3.0, 0.01913226324],
+            [0, 0.7, -2.0, 0.07337619322],
+            [0, 0.7, -0.1, 0.3553268797],
+            [0, 0.7, 0, 0.3571428571],
+            [0, 0.7, 0.1, 0.3553268797],
+            [0, 0.7, 3.5, 0.009497223815],
+            [0, 0.7, 4.2, 0.003523584702],
+            [0, 0.7, 5, 0.001127488648],
+
+            [2, 1.5, -5, 0.006152781498],
+            [2, 1.5, -3.7, 0.01426832061],
+            [2, 1.5, 0, 0.1100606731],
+            [2, 1.5, 3.7, 0.1228210582],
+            [2, 1.5, 5, 0.0699957236],
+        ];
+    }
+
+    public function testLogisticPDFScaleParameterException()
+    {
+        $this->setExpectedException('\Exception');
+        $s = 0;
+        Continuous::logisticPDF(2, $s, 2);
+    }
+
+    /**
+     * @dataProvider dataProviderForLogisticLowerCDF
+     */
+    public function testLogisticLowerPDF($μ, $s, $x, $cdf)
+    {
+        $this->assertEquals($cdf, Continuous::logisticLowerCDF($μ, $s, $x), '', 0.001);
+    }
+
+    public function dataProviderForLogisticLowerCDF()
+    {
+        return [
+            [0, 0.7, -4.8, 0.001050809752],
+            [0, 0.7, -3.5, 0.006692850924],
+            [0, 0.7, -3.0, 0.01357691694],
+            [0, 0.7, -2.0, 0.05431326613],
+            [0, 0.7, -0.1, 0.4643463292],
+            [0, 0.7, 0, 0.5],
+            [0, 0.7, 0.1, 0.5356536708],
+            [0, 0.7, 3.5, 0.9933071491],
+            [0, 0.7, 4.2, 0.9975273768],
+            [0, 0.7, 5, 0.9992101341],
+
+            [2, 1.5, -5, 0.009315959345],
+            [2, 1.5, -3.7, 0.02188127094],
+            [2, 1.5, 0, 0.2086085273],
+            [2, 1.5, 3.7, 0.7564535292],
+            [2, 1.5, 5, 0.880797078],
+        ];
+    }
+
+    public function testLogisticLowerCDFScaleParameterException()
+    {
+        $this->setExpectedException('\Exception');
+        $s = 0;
+        Continuous::logisticLowerCDF(2, $s, 2);
+    }
+
+    /**
+     * @dataProvider dataProviderForLogisticUpperCDF
+     */
+    public function testLogisticUpperPDF($μ, $s, $x, $cdf)
+    {
+        $this->assertEquals($cdf, Continuous::logisticUpperCDF($μ, $s, $x), '', 0.001);
+    }
+
+    public function dataProviderForLogisticUpperCDF()
+    {
+        return [
+            [0, 0.7, -4.8, 0.9989491902],
+            [0, 0.7, -3.5, 0.9933071491],
+            [0, 0.7, -3.0, 0.9864230831],
+            [0, 0.7, -2.0, 0.9456867339],
+            [0, 0.7, -0.1, 0.5356536708],
+            [0, 0.7, 0, 0.5],
+            [0, 0.7, 0.1, 0.4643463292],
+            [0, 0.7, 3.5, 0.006692850924],
+            [0, 0.7, 4.2, 0.002472623157],
+            [0, 0.7, 5, 7.898659417E-4],
+
+            [2, 1.5, -5, 0.9906840407],
+            [2, 1.5, -3.7, 0.9781187291],
+            [2, 1.5, 0, 0.7913914727],
+            [2, 1.5, 3.7, 0.2435464708],
+            [2, 1.5, 5, 0.119202922],
+        ];
+    }
+
+    public function testLogisticUpperCDFScaleParameterException()
+    {
+        $this->setExpectedException('\Exception');
+        $s = 0;
+        Continuous::logisticUpperCDF(2, $s, 2);
+    }
 }
 
