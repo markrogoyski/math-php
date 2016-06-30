@@ -4,14 +4,52 @@ namespace Math\Probability\Distribution;
 class ContinuousTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider dataProviderForUniform
+     * @dataProvider dataProviderForUniformPDF
      */
-    public function testUniform($a, $b, $x₁, $x₂, $probability)
+    public function testUniformPDF($a, $b, $x, $pdf)
     {
-        $this->assertEquals($probability, Continuous::uniform($a, $b, $x₁, $x₂), '', 0.001);
+        $this->assertEquals($pdf, Continuous::uniformPDF($a, $b, $x), '', 0.001);
     }
 
-    public function dataProviderForUniform()
+    public function dataProviderForUniformPDF()
+    {
+        return [
+            [1, 4, 2, 0.3333333333333333333333],
+            [1, 4, 3.4, 0.3333333333333333333333],
+            [1, 5.4, 3, 0.2272727272727272727273],
+            [1, 5.4, 0.3, 0],
+            [1, 5.4, 6, 0],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForUniformCDF
+     */
+    public function testUniformCDF($a, $b, $x, $cdf)
+    {
+        $this->assertEquals($cdf, Continuous::uniformCDF($a, $b, $x), '', 0.001);
+    }
+
+    public function dataProviderForUniformCDF()
+    {
+        return [
+            [1, 4, 2, 0.3333333333333333333333],
+            [1, 4, 3.4, 0.8],
+            [1, 5.4, 3, 0.4545454545454545454545],
+            [1, 5.4, 0.3, 0],
+            [1, 5.4, 6, 1],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForUniformInterval
+     */
+    public function testUniformInterval($a, $b, $x₁, $x₂, $probability)
+    {
+        $this->assertEquals($probability, Continuous::uniformInterval($a, $b, $x₁, $x₂), '', 0.001);
+    }
+
+    public function dataProviderForUniformInterval()
     {
         return [
             [ 1, 4, 2, 3, 0.3333 ],
@@ -20,10 +58,10 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testUniformExceptionXOutOfBounds()
+    public function testUniformIntervalExceptionXOutOfBounds()
     {
         $this->setExpectedException('\Exception');
-        Continuous::uniform(1, 2, 3, 4);
+        Continuous::uniformInterval(1, 2, 3, 4);
     }
 
     /**
