@@ -171,12 +171,12 @@ $cdf = Discrete::binomialCDF($n, $r, $P); // cumluative distribution function
 $pmf = Discrete::bernoulliPMF($r, $P); // probability mass function
 $cdf = Discrete::bernoulliCDF($r, $P); // cumulative distribution function
 
-// Negative binomial distribution (Pascal)
+// Negative binomial distribution (Pascal) - PMF
 $x = 2;   // number of trials required to produce r successes
 $r = 1;   // number of successful events
 $P = 0.5; // probability of success on an individual trial
-$negative_binomial = Discrete::negativeBinomial($x, $r, $P);  // Same as pascal
-$pascal            = Discrete::pascal($x, $r, $P);            // Same as negative binomial
+$pmf = Discrete::negativeBinomialPMF($x, $r, $P);  // Same as pascalPMF - probability mass function
+$pmf = Discrete::pascalPMF($x, $r, $P);            // Same as negativeBinomialPMF - probability mass function
 
 // Poisson distribution - PMF, CDF
 $k = 3; // events in the interval
