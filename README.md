@@ -157,6 +157,13 @@ $s = 1.5; // scale parameter
 $x = 3;
 $probability = Continuous::logisticPDF($μ, $s, $x); // probability density function
 $probability = Continuous::logisticCDF($μ, $s, $x); // cumulative distribution function (from -∞ to x)
+
+// Log-logistic distribution (Fisk distribution) - PDF, CDF
+$α = 1; // scale parameter
+$β = 1; // shape parameter
+$x = 2;
+$probability = Continuous::logLogisticPDF($α, $β, $x); // probability density function
+$probability = Continuous::logLogisticCDF($α, $β, $x); // cumulative distribution function
 ```
 
 ### Probability - Discrete Distributions
