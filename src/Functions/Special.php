@@ -176,7 +176,7 @@ class Special
 
         // Compute parts of equation
         $√2π                    = sqrt(2 * \M_PI);
-        $ℯ⁻ⁿ                    = pow(\M_E, -$n);
+        $ℯ⁻ⁿ                    = exp(-$n);
         $√1／n                  = sqrt(1 / $n);
         $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ = pow($n + 1 / (12*$n - 1/(10*$n)), $n);
 
@@ -213,5 +213,50 @@ class Special
         $Γ⟮x ＋ y⟯ = self::gamma($x + $y);
 
         return $Γ⟮x⟯Γ⟮y⟯ / $Γ⟮x ＋ y⟯;
+    }
+
+    /**
+     * Logistic function (logistic sigmoid function)
+     * A logistic function or logistic curve is a common "S" shape (sigmoid curve).
+     * https://en.wikipedia.org/wiki/Logistic_function
+     *
+     *             L
+     * f(x) = -----------
+     *        1 + ℯ⁻ᵏ⁽ˣ⁻ˣ⁰⁾
+     *
+     *
+     * @param number $x₀ x-value of the sigmoid's midpoint
+     * @param number $L  the curve's maximum value
+     * @param number $k  the steepness of the curve
+     * @param number $x
+     *
+     * @return float
+     */
+    public static function logistic($x₀, $L, $k, $x)
+    {
+        $ℯ⁻ᵏ⁽ˣ⁻ˣ⁰⁾ = exp(-$k * ($x - $x₀));
+
+        return $L / (1 + $ℯ⁻ᵏ⁽ˣ⁻ˣ⁰⁾);
+    }
+
+    /**
+     * Sigmoid function
+     * A sigmoid function is a mathematical function having an "S" shaped curve (sigmoid curve).
+     * Often, sigmoid function refers to the special case of the logistic function
+     * https://en.wikipedia.org/wiki/Sigmoid_function
+     *
+     *           1
+     * S(t) = -------
+     *        1 + ℯ⁻ᵗ
+     *
+     * @param  number $t
+     *
+     * @return float
+     */
+    public static function sigmoid($t)
+    {
+        $ℯ⁻ᵗ = exp(-$t);
+
+        return 1 / (1 + $ℯ⁻ᵗ);
     }
 }
