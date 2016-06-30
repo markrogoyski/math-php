@@ -279,14 +279,14 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForWeibullLowerCDF
+     * @dataProvider dataProviderForWeibullCDF
      */
-    public function testWeibullLowerCDF($k, $λ, $x, $cdf)
+    public function testWeibullCDF($k, $λ, $x, $cdf)
     {
-        $this->assertEquals($cdf, Continuous::weibullLowerCDF($k, $λ, $x), '', 0.001);
+        $this->assertEquals($cdf, Continuous::weibullCDF($k, $λ, $x), '', 0.001);
     }
 
-    public function dataProviderForWeibullLowerCDF()
+    public function dataProviderForWeibullCDF()
     {
         return [
             [ 1, 1, 1, 0.6321205588285577 ],
@@ -297,30 +297,6 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
             [ 34, 45, 33, 0.00002631738735214828 ],
             [ 1, 1, 0, 0 ],
             [ 2, 2, 0, 0 ],
-            [ 1, 1, -1, 0 ],
-            [ 2, 2, -0.1, 0 ],
-        ];
-    }
-
-    /**
-     * @dataProvider dataProviderForWeibullUpperCDF
-     */
-    public function testWeibullUpperCDF($k, $λ, $x, $cdf)
-    {
-        $this->assertEquals($cdf, Continuous::weibullUpperCDF($k, $λ, $x), '', 0.001);
-    }
-
-    public function dataProviderForWeibullUpperCDF()
-    {
-        return [
-            [ 1, 1, 1, 0.3678794411714423215955 ],
-            [ 1, 2, 1, 0.6065306597126334236038 ],
-            [ 2, 1, 1, 0.3678794411714423215955 ],
-            [ 4, 5, 3, 0.8784467393499313098807 ],
-            [ 5, 5, 3, 0.9251864446470164598675 ],
-            [ 34, 45, 33, 0.9999736826126478064432 ],
-            [ 1, 1, 0, 1 ],
-            [ 2, 2, 0, 1 ],
             [ 1, 1, -1, 0 ],
             [ 2, 2, -0.1, 0 ],
         ];
@@ -354,14 +330,14 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForLaplaceLowerCDF
+     * @dataProvider dataProviderForLaplaceCDF
      */
-    public function testLaplaceLowerCDF($μ, $b, $x, $cdf)
+    public function testLaplaceCDF($μ, $b, $x, $cdf)
     {
-        $this->assertEquals($cdf, Continuous::laplaceLowerCDF($μ, $b, $x), '', 0.001);
+        $this->assertEquals($cdf, Continuous::laplaceCDF($μ, $b, $x), '', 0.001);
     }
 
-    public function dataProviderForLaplaceLowerCDF()
+    public function dataProviderForLaplaceCDF()
     {
         return [
             [ 0, 1, 1, 0.8160602794 ],
@@ -374,37 +350,10 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testLaplaceLowerCDFExceptionBLessThanZero()
+    public function testLaplaceCDFExceptionBLessThanZero()
     {
         $this->setExpectedException('\Exception');
-        Continuous::laplaceLowerCDF(1, -3, 2);
-    }
-
-    /**
-     * @dataProvider dataProviderForLaplaceUpperCDF
-     */
-    public function testLaplaceUpperCDF($μ, $b, $x, $cdf)
-    {
-        $this->assertEquals($cdf, Continuous::laplaceUpperCDF($μ, $b, $x), '', 0.001);
-    }
-
-    public function dataProviderForLaplaceUpperCDF()
-    {
-        return [
-            [ 0, 1, 1, 0.1839397206 ],
-            [ 0, 1, 1.1, 0.1664355418 ],
-            [ 0, 1, 1.2, 0.150597106 ],
-            [ 0, 1, 5, 0.0033689735 ],
-            [ 2, 1.4, 1, 0.7552291702 ],
-            [ 2, 1.4, 1.1, 0.7371059878 ],
-            [ 2, 1.4, 2.9, 0.2628940122 ],
-        ];
-    }
-
-    public function testLaplaceUpperCDFExceptionBLessThanZero()
-    {
-        $this->setExpectedException('\Exception');
-        Continuous::laplaceUpperCDF(1, -3, 2);
+        Continuous::laplaceCDF(1, -3, 2);
     }
 
     /**
@@ -446,14 +395,14 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForLogisticLowerCDF
+     * @dataProvider dataProviderForLogisticCDF
      */
-    public function testLogisticLowerPDF($μ, $s, $x, $cdf)
+    public function testLogisticCDF($μ, $s, $x, $cdf)
     {
-        $this->assertEquals($cdf, Continuous::logisticLowerCDF($μ, $s, $x), '', 0.001);
+        $this->assertEquals($cdf, Continuous::logisticCDF($μ, $s, $x), '', 0.001);
     }
 
-    public function dataProviderForLogisticLowerCDF()
+    public function dataProviderForLogisticCDF()
     {
         return [
             [0, 0.7, -4.8, 0.001050809752],
@@ -475,48 +424,11 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testLogisticLowerCDFScaleParameterException()
+    public function testLogisticCDFScaleParameterException()
     {
         $this->setExpectedException('\Exception');
         $s = 0;
-        Continuous::logisticLowerCDF(2, $s, 2);
-    }
-
-    /**
-     * @dataProvider dataProviderForLogisticUpperCDF
-     */
-    public function testLogisticUpperPDF($μ, $s, $x, $cdf)
-    {
-        $this->assertEquals($cdf, Continuous::logisticUpperCDF($μ, $s, $x), '', 0.001);
-    }
-
-    public function dataProviderForLogisticUpperCDF()
-    {
-        return [
-            [0, 0.7, -4.8, 0.9989491902],
-            [0, 0.7, -3.5, 0.9933071491],
-            [0, 0.7, -3.0, 0.9864230831],
-            [0, 0.7, -2.0, 0.9456867339],
-            [0, 0.7, -0.1, 0.5356536708],
-            [0, 0.7, 0, 0.5],
-            [0, 0.7, 0.1, 0.4643463292],
-            [0, 0.7, 3.5, 0.006692850924],
-            [0, 0.7, 4.2, 0.002472623157],
-            [0, 0.7, 5, 7.898659417E-4],
-
-            [2, 1.5, -5, 0.9906840407],
-            [2, 1.5, -3.7, 0.9781187291],
-            [2, 1.5, 0, 0.7913914727],
-            [2, 1.5, 3.7, 0.2435464708],
-            [2, 1.5, 5, 0.119202922],
-        ];
-    }
-
-    public function testLogisticUpperCDFScaleParameterException()
-    {
-        $this->setExpectedException('\Exception');
-        $s = 0;
-        Continuous::logisticUpperCDF(2, $s, 2);
+        Continuous::logisticCDF(2, $s, 2);
     }
 }
 

@@ -318,19 +318,19 @@ class Continuous
     }
 
     /**
-     * Weibull distribution - lower cumulative distribution function
-     * From 0 to x
+     * Weibull distribution - cumulative distribution function
+     * From 0 to x (lower CDF)
      * https://en.wikipedia.org/wiki/Weibull_distribution
      *
-     * f(x) = 1 -ℯ⁻⁽x/λ⁾ for x ≥ 0
-     * f(x) = 0          for x < 0
+     * f(x) = 1 - ℯ⁻⁽x/λ⁾ for x ≥ 0
+     * f(x) = 0           for x < 0
      *
      * @param number $k shape parameter
      * @param number $λ scale parameter
      * @param number $x percentile (value to evaluate)
      * @return float
      */
-    public static function weibullLowerCDF($k, $λ, $x)
+    public static function weibullCDF($k, $λ, $x)
     {
         if ($x < 0) {
             return 0;
@@ -339,28 +339,6 @@ class Continuous
         $ℯ⁻⁽x／λ⁾ᵏ = exp(-pow($x / $λ, $k));
 
         return 1 - $ℯ⁻⁽x／λ⁾ᵏ;
-    }
-
-    /**
-     * Weibull distribution - upper cumulative distribution function
-     * From x to ∞
-     * https://en.wikipedia.org/wiki/Weibull_distribution
-     *
-     * f(x) = -ℯ⁻⁽x/λ⁾ for x ≥ 0
-     * f(x) = 0        for x < 0
-     *
-     * @param number $k shape parameter
-     * @param number $λ scale parameter
-     * @param number $x percentile (value to evaluate)
-     * @return float
-     */
-    public static function weibullUpperCDF($k, $λ, $x)
-    {
-        if ($x < 0) {
-            return 0;
-        }
-
-        return exp(-pow($x / $λ, $k));
     }
 
     /**
@@ -388,8 +366,8 @@ class Continuous
     }
 
     /**
-     * Laplace distribution - lower cumulative distribution function
-     *
+     * Laplace distribution - cumulative distribution function
+     * From -∞ to x (lower CDF)
      * https://en.wikipedia.org/wiki/Laplace_distribution
      *
      *        1     / x - μ \
@@ -406,7 +384,7 @@ class Continuous
      *
      * @return  float
      */
-    public static function laplaceLowerCDF($μ, $b, $x): float
+    public static function laplaceCDF($μ, $b, $x): float
     {
         if ($b <= 0) {
             throw new \Exception('b must be > 0');
@@ -417,38 +395,6 @@ class Continuous
         }
 
         return 1 - (1/2) * exp(-($x - $μ) / $b);
-    }
-
-    /**
-     * Laplace distribution - upper cumulative distribution function
-     *
-     * https://en.wikipedia.org/wiki/Laplace_distribution
-     *
-     *           /  1     / x - μ \ \
-     * F(x) = 1 | - - exp|  ------ | |       if x < μ
-     *           \  2     \   b   / /
-     *
-     *           /      1     /  x - μ \ \
-     * F(x) = 1 | - 1 - - exp| - ------ | |  if x ≥ μ
-     *           \      2     \    b   / /
-     *
-     * @param  number $μ location parameter
-     * @param  number $b scale parameter (diversity)  b > 0
-     * @param  number $x
-     *
-     * @return  float
-     */
-    public static function laplaceUpperCDF($μ, $b, $x): float
-    {
-        if ($b <= 0) {
-            throw new \Exception('b must be > 0');
-        }
-
-        if ($x < $μ) {
-            return 1 - ((1/2) * exp(($x - $μ) / $b));
-        }
-
-        return 1 - (1 - (1/2) * exp(-($x - $μ) / $b));
     }
 
     /**
@@ -482,8 +428,8 @@ class Continuous
     }
 
     /**
-     * Logistic distribution - lower cumulative distribution function
-     *
+     * Logistic distribution - cumulative distribution function
+     * From -∞ to x (lower CDF)
      * https://en.wikipedia.org/wiki/Logistic_distribution
      *
      *                      1
@@ -498,7 +444,7 @@ class Continuous
      *
      * @return float
      */
-    public static function logisticLowerCDF($μ, $s, $x)
+    public static function logisticCDF($μ, $s, $x)
     {
         if ($s <= 0) {
             throw new \Exception('Scale parameter s must be > 0');
@@ -507,33 +453,5 @@ class Continuous
         $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
 
         return 1 / (1 + $ℯ＾⁻⁽x⁻μ⁾／s);
-    }
-
-    /**
-     * Logistic distribution - upper cumulative distribution function
-     *
-     * https://en.wikipedia.org/wiki/Logistic_distribution
-     *
-     *                         1
-     * f(x; μ, s) = 1 - -------------------
-     *                         /  x - μ \ 
-     *                 1 + exp| - -----  |
-     *                         \    s   /
-     *
-     * @param number $μ location parameter
-     * @param number $s scale parameter
-     * @param number $x
-     *
-     * @return float
-     */
-    public static function logisticUpperCDF($μ, $s, $x)
-    {
-        if ($s <= 0) {
-            throw new \Exception('Scale parameter s must be > 0');
-        }
-
-        $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
-
-        return 1 - (1 / (1 + $ℯ＾⁻⁽x⁻μ⁾／s));
     }
 }
