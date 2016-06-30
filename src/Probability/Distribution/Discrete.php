@@ -51,7 +51,7 @@ class Discrete
     }
 
     /**
-     * Negative binomial distribution (Pascal distribution)
+     * Negative binomial distribution (Pascal distribution) - probability mass function
      * https://en.wikipedia.org/wiki/Negative_binomial_distribution
      *
      * b(x; r, P) = ₓ₋₁Cᵣ₋₁ Pʳ * (1 - P)ˣ⁻ʳ
@@ -62,7 +62,7 @@ class Discrete
      *
      * @return float
      */
-    public static function negativeBinomial(int $x, int $r, float $P): float
+    public static function negativeBinomialPMF(int $x, int $r, float $P): float
     {
         if ($P < 0 || $P > 1) {
             throw new \Exception("Probability $P must be between 0 and 1.");
@@ -77,6 +77,7 @@ class Discrete
 
     /**
      * Pascal distribution (convenience method for negative binomial distribution)
+     * Probability mass function
      * https://en.wikipedia.org/wiki/Negative_binomial_distribution
      *
      * b(x; r, P) = ₓ₋₁Cᵣ₋₁ pʳ * (1 - P)ˣ⁻ʳ
@@ -87,9 +88,9 @@ class Discrete
      *
      * @return float
      */
-    public static function pascal(int $x, int $r, float $P): float
+    public static function pascalPMF(int $x, int $r, float $P): float
     {
-        return self::negativeBinomial($x, $r, $P);
+        return self::negativeBinomialPMF($x, $r, $P);
     }
 
     /**

@@ -69,18 +69,58 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForNegativeBinomial
+     * @dataProvider dataProviderForNegativeBinomialPMF
      */
-    public function testNegativeBinomial(int $x, int $r, float $P, float $neagative_binomial_distribution)
+    public function testNegativeBinomialPMF(int $x, int $r, float $P, float $neagative_binomial_distribution)
     {
-        $this->assertEquals($neagative_binomial_distribution, Discrete::negativeBinomial($x, $r, $P), '', 0.001);
+        $this->assertEquals($neagative_binomial_distribution, Discrete::negativeBinomialPMF($x, $r, $P), '', 0.001);
     }
 
     /**
-     * Data provider for neagative binomial
+     * Data provider for negative binomial PMF
      * Data: [ x, r, P, negative binomial distribution ]
      */
-    public function dataProviderForNegativeBinomial()
+    public function dataProviderForNegativeBinomialPMF()
+    {
+        return [
+            [ 2, 1, 0.5, 0.25 ],
+            [ 2, 1, 0.4, 0.24 ],
+            [ 6, 2, 0.7, 0.019845 ],
+            [ 8, 7, 0.83, 0.322919006776561 ],
+            [ 10, 5, 0.85, 0.00424542789316406 ],
+            [ 50, 48, 0.97, 0.245297473979909 ],
+            [ 5, 4, 1, 0.0 ],
+            [ 2, 2, 0.5, 0.25 ],
+            [ 3, 1, 0.20, 0.128 ],
+            [ 7, 3, 0.20, 0.049152 ],
+        ];
+    }
+
+    public function testNegativeBinomialPMFProbabilityLowerBoundException()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::negativeBinomialPMF(6, 2, -0.1);
+    }
+
+    public function testNegativeBinomialPMFProbabilityUpperBoundException()
+    {
+        $this->setExpectedException('\Exception');
+        Discrete::negativeBinomialPMF(6, 2, 1.1);
+    }
+
+    /**
+     * @dataProvider dataProviderForPascalPMF
+     */
+    public function testPascalPMF(int $x, int $r, float $P, float $neagative_binomial_distribution)
+    {
+        $this->assertEquals($neagative_binomial_distribution, Discrete::pascalPMF($x, $r, $P), '', 0.001);
+    }
+
+    /**
+     * Data provider for Pascal PMF
+     * Data: [ x, r, P, negative binomial distribution ]
+     */
+    public function dataProviderForPascalPMF()
     {
         return [
             [ 2, 1, 0.5, 0.25 ],
@@ -94,54 +134,16 @@ class DiscreteTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testNegativeBinomialProbabilityLowerBoundException()
+    public function testPascalPMFProbabilityLowerBoundException()
     {
         $this->setExpectedException('\Exception');
-        Discrete::negativeBinomial(6, 2, -0.1);
+        Discrete::pascalPMF(6, 2, -0.1);
     }
 
-    public function testNegativeBinomialProbabilityUpperBoundException()
+    public function testPascalPMFProbabilityUpperBoundException()
     {
         $this->setExpectedException('\Exception');
-        Discrete::negativeBinomial(6, 2, 1.1);
-    }
-
-    /**
-     * @dataProvider dataProviderForPascal
-     */
-    public function testPascal(int $x, int $r, float $P, float $neagative_binomial_distribution)
-    {
-        $this->assertEquals($neagative_binomial_distribution, Discrete::pascal($x, $r, $P), '', 0.001);
-    }
-
-    /**
-     * Data provider for Pascal
-     * Data: [ x, r, P, negative binomial distribution ]
-     */
-    public function dataProviderForPascal()
-    {
-        return [
-            [ 2, 1, 0.5, 0.25 ],
-            [ 2, 1, 0.4, 0.24 ],
-            [ 6, 2, 0.7, 0.019845 ],
-            [ 8, 7, 0.83, 0.322919006776561 ],
-            [ 10, 5, 0.85, 0.00424542789316406 ],
-            [ 50, 48, 0.97, 0.245297473979909 ],
-            [ 5, 4, 1, 0.0 ],
-            [ 2, 2, 0.5, 0.25 ],
-        ];
-    }
-
-    public function testPascalProbabilityLowerBoundException()
-    {
-        $this->setExpectedException('\Exception');
-        Discrete::pascal(6, 2, -0.1);
-    }
-
-    public function testPascalProbabilityUpperBoundException()
-    {
-        $this->setExpectedException('\Exception');
-        Discrete::pascal(6, 2, 1.1);
+        Discrete::pascalPMF(6, 2, 1.1);
     }
 
     /**
