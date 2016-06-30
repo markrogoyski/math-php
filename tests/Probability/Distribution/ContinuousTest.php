@@ -468,5 +468,66 @@ class ContinuousTest extends \PHPUnit_Framework_TestCase
         $s = 0;
         Continuous::logisticCDF(2, $s, 2);
     }
+
+    /**
+     * @dataProvider dataProviderForLogLogisticPDF
+     */
+    public function testLogLogisticPDF($α, $β, $x, $pdf)
+    {
+        $this->assertEquals($pdf, Continuous::logLogisticPDF($α, $β, $x), '', 0.001);
+    }
+
+    public function dataProviderForLogLogisticPDF()
+    {
+        return [
+            [1, 1, 1, 0.25],
+            [1, 1, 2, 0.1111111],
+            [2, 3, 4, 0.07407407407],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForLogLogisticCDF
+     */
+    public function testLogLogisticCDF($α, $β, $x, $cdf)
+    {
+        $this->assertEquals($cdf, Continuous::logLogisticCDF($α, $β, $x), '', 0.001);
+    }
+
+    public function dataProviderForLogLogisticCDF()
+    {
+        return [
+            [1, 1, 1, 0.5],
+            [1, 1, 2, 0.667],
+            [2, 3, 4, 0.889],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForLogLogisticParameterException
+     */
+    public function testLogLogisticPDFDataParameterException($α, $β, $x)
+    {
+        $this->setExpectedException('\Exception');
+        Continuous::logLogisticPDF($α, $β, $x);
+    }
+
+    /**
+     * @dataProvider dataProviderForLogLogisticParameterException
+     */
+    public function testLogLogisticCDFDataParameterException($α, $β, $x)
+    {
+        $this->setExpectedException('\Exception');
+        Continuous::logLogisticCDF($α, $β, $x);
+    }
+
+    public function dataProviderForLogLogisticParameterException()
+    {
+        return [
+            [0, 1, 1],
+            [1, 0, 1],
+            [1, 1, 0],
+        ];
+    }
 }
 
