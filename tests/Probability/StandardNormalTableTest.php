@@ -23,4 +23,29 @@ class StandardNormalTableTest extends \PHPUnit_Framework_TestCase
             [ -2.90, 0.0019 ], [ -2.96, 0.0015 ], [ -3.09, 0.0010 ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForZScoresForConfidenceInterval
+     */
+    public function testGetZScoreForConfidenceInterval(string $cl, float $Z)
+    {
+        $this->assertEquals($Z, StandardNormalTable::getZScoreForConfidenceInterval($cl), '', 0.01);
+    }
+
+    public function dataProviderForZScoresForConfidenceInterval()
+    {
+        return [
+            [50, 0.67449],
+            [95, 1.95996],
+            [99, 2.57583],
+            ['99.5', 2.81],
+            ['99.9', 3.29053],
+        ];
+    }
+
+    public function testGetZScoreForConfidenceIntervalInvalidConfidenceLevel()
+    {
+        $this->setExpectedException('\Exception');
+        StandardNormalTable::getZScoreForConfidenceInterval(12);
+    }
 }
