@@ -112,4 +112,43 @@ class StandardNormalTable
         list( $z, $＋0．0x ) = [ $matches[1], $matches[2] ];
         return self::Z_SCORES[$z][$＋0．0x];
     }
+
+    /**
+     * Z scores for confidence intervals
+     * Key: confidence level %
+     * Value: Z score
+     * @var array
+     */
+    const Z_SCORES_FOR_CONFIDENCE_INTERVALS = [
+        50     => 0.67449,
+        70     => 1.04,
+        75     => 1.15035,
+        80     => 1.282,
+        85     => 1.44,
+        90     => 1.64485,
+        92     => 1.75,
+        95     => 1.95996,
+        96     => 2.05,
+        97     => 2.17009,
+        98     => 2.326,
+        99     => 2.57583,
+        '99.5' => 2.81,
+        '99.8' => 3.08,
+        '99.9' => 3.29053,
+    ];
+
+    /**
+     * Get Z score for confidence interval
+     *
+     * @param  int $cl confidence level
+     *
+     * @return float Z score
+     */
+    public static function getZScoreForConfidenceInterval(string $cl): float
+    {
+        if (!array_key_exists($cl, self::Z_SCORES_FOR_CONFIDENCE_INTERVALS)) {
+            throw new \Exception('Not a valid confidence level');
+        }
+        return self::Z_SCORES_FOR_CONFIDENCE_INTERVALS[$cl];
+    }
 }
