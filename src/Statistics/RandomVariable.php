@@ -3,6 +3,7 @@ namespace Math\Statistics;
 
 use Math\Statistics\Average;
 use Math\Statistics\Descriptive;
+use Math\Probability\StandardNormalTable;
 
 class RandomVariable
 {
@@ -471,5 +472,41 @@ class RandomVariable
     public static function sem(array $X): float
     {
         return self::standardErrorOfTheMean($X);
+    }
+
+    /**
+     * Confidence interval
+     * Finds CI given a sample mean, sample size, and standard deviation.
+     * Uses Z score.
+     * https://en.wikipedia.org/wiki/Confidence_interval
+     *          σ
+     * ci = z* --
+     *         √n
+     *
+     * interval = (μ - ci, μ + ci)
+     *
+     * Available confidence levels: See Probability\StandardNormalTable::Z_SCORES_FOR_CONFIDENCE_INTERVALS
+     *
+     * @param number $μ  sample mean
+     * @param number $n  sample size
+     * @param number $σ  standard deviation
+     * @param string $cl confidence level (Ex: 95, 99, 99.5, 99.9, etc.)
+     *
+     * @return array [ ci, lower_bound, upper_bound ]
+     */
+    public static function confidenceInterval($μ, $n, $σ, string $cl): array
+    {
+        $z = StandardNormalTable::getZScoreForConfidenceInterval($cl);
+
+        $ci = $z * ($σ / sqrt($n));
+
+        $lower_bound = $μ - $ci;
+        $upper_bound = $μ + $ci;
+
+        return [
+            'ci' => $ci,
+            'lower_bound' => $lower_bound,
+            'upper_bound' => $upper_bound,
+        ];
     }
 }
