@@ -303,4 +303,25 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
             [ [453543,235235,656,342,2235,6436,234,9239,3535,8392,3492,5933,244], 37584.225394 ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForConfidenceInterval
+     */
+    public function testConfidenceInterval($μ, $n, $σ, $cl, array $ci)
+    {
+        $this->assertEquals($ci, RandomVariable::confidenceInterval($μ, $n, $σ, $cl), '', 0.1);
+    }
+
+    public function dataProviderForConfidenceInterval()
+    {
+        return [
+            [90, 9, 36, 80, ['ci' => 15.38, 'lower_bound' => 74.62, 'upper_bound' => 105.38]],
+            [90, 9, 36, 85, ['ci' => 17.27, 'lower_bound' => 72.73, 'upper_bound' => 107.27]],
+            [90, 9, 36, 90, ['ci' => 19.74, 'lower_bound' => 70.26, 'upper_bound' => 109.74]],
+            [90, 9, 36, 95, ['ci' => 23.52, 'lower_bound' => 66.48, 'upper_bound' => 113.52]],
+            [90, 9, 36, 99, ['ci' => 30.91, 'lower_bound' => 59.09, 'upper_bound' => 120.91]],
+            [90, 9, 36, 99.5, ['ci' => 33.68, 'lower_bound' => 56.32, 'upper_bound' => 123.68]],
+            [90, 9, 36, 99.9, ['ci' => 39.49, 'lower_bound' => 50.51, 'upper_bound' => 129.49]],
+        ];
+    }
 }
