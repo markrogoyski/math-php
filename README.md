@@ -164,6 +164,12 @@ $β = 1; // shape parameter
 $x = 2;
 $probability = Continuous::logLogisticPDF($α, $β, $x); // probability density function
 $probability = Continuous::logLogisticCDF($α, $β, $x); // cumulative distribution function
+
+// Beta distribution - PDF
+$α = 1; // shape parameter
+$β = 1; // shape parameter
+$x = 2;
+$probability = Continuous::betaPDF($α, $β, $x); // probability density function
 ```
 
 ### Probability - Discrete Distributions
@@ -221,6 +227,10 @@ $probability = StandardNormalTable::getZScoreProbability($Z);
 // Access the entire Z table (positive and negative Z-scores)
 $z_table     = StandardNormalTable::Z_SCORES;
 $probability = $z_table[1.5][0];
+
+// Get Z-score for confidence interval
+$cl = 99; // confidence level
+$z  = StandardNormalTable::getZScoreForConfidenceInterval($cl);
 ```
 
 ### Probability - t Distribution Table
@@ -413,6 +423,13 @@ $error = RandomVariable::erf(2);           // same as errorFunction
 
 $error = RandomVariable::complementaryErrorFunction(2); // same as erfc
 $error = RandomVariable::erfc(2);                       // same as complementaryErrorFunction
+
+// Confidence interval
+$μ  = 90; // sample mean
+$n  = 9;  // sample size
+$σ  = 36; // standard deviation
+$cl = 99; // confidence level
+$ci = RandomVariable::confidenceInterval($μ, $n, $σ, $cl); // Array( [ci] => 30.91, [lower_bound] => 59.09, [upper_bound] => 120.91 )
 ```
 
 ### Statistics - Regressions
