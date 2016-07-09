@@ -509,4 +509,23 @@ class RandomVariable
             'upper_bound' => $upper_bound,
         ];
     }
+
+    /**
+     * Z score - standard score
+     * https://en.wikipedia.org/wiki/Standard_score
+     *
+     *     x - μ
+     * z = -----
+     *       σ
+     *
+     * @param number $μ mean
+     * @param number $σ standard deviation
+     * @param number $x
+     *
+     * @return float
+     */
+    public static function zScore($μ, $σ, $x): float
+    {
+        return round(($x - $μ) / $σ, 2);
+    }
 }
