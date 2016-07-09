@@ -430,6 +430,12 @@ $n  = 9;  // sample size
 $σ  = 36; // standard deviation
 $cl = 99; // confidence level
 $ci = RandomVariable::confidenceInterval($μ, $n, $σ, $cl); // Array( [ci] => 30.91, [lower_bound] => 59.09, [upper_bound] => 120.91 )
+
+// Z score
+$μ = 8; // mean
+$σ = 1; // standard deviation
+$x = 7;
+$z = RandomVariable::zScore($μ, $σ, $x); 
 ```
 
 ### Statistics - Regressions
