@@ -503,8 +503,8 @@ use Math\Functions\Special;
 
 // Gamma function Γ(z)
 $z = 4;
-$Γ = Special::gamma($z);          // Lanczos approximation - same as gammaLanczos
-$Γ = Special::gammaLanczos($z);   // Lanczos approximation - same as gamma
+$Γ = Special::gamma($z);          // Uses gamma definition for integers and half integers; uses Lanczos approximation for real numbers
+$Γ = Special::gammaLanczos($z);   // Lanczos approximation
 $Γ = Special::gammaStirling($z);  // Stirling approximation
 
 // Beta function
