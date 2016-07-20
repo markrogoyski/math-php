@@ -37,8 +37,19 @@ class Special
 
     /**
      * Gamma function
-     * Convenience wrapper for gammaLanczos
      * https://en.wikipedia.org/wiki/Gamma_function
+     * https://en.wikipedia.org/wiki/Particular_values_of_the_Gamma_function
+     *
+     * For postive integers:
+     *  Γ(n) = (n - 1)!
+     *
+     * For half integers:
+     *
+     *             _   (2n)!
+     * Γ(½ + n) = √π  -------
+     *                 4ⁿ n!
+     *
+     * For real numbers: use Lanczos approximation
      *
      * @param number $n
      *
@@ -46,6 +57,39 @@ class Special
      */
     public static function gamma($n)
     {
+        // Basic integer/factorial cases
+        if ($n == 0) {
+            return \INF;
+        }
+        // Negative integer, or negative int as a float (Ex: from beta(-0.1, -0.9) since it will call Γ(x + y))
+        if ((is_int($n) || is_numeric($n) && abs($n - round($n)) < 0.00001) && $n < 0) {
+            return -\INF;
+        }
+        // Positive integer, or postive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
+        if ((is_int($n) || is_numeric($n) && abs($n - round($n)) < 0.00001) && $n > 0) {
+            return Combinatorics::factorial(round($n) - 1);
+        }
+
+        // Half integer cases (determine if int + 0.5)
+        if ( (round($n * 2) / 2 / $n) == 1 ) {
+
+            // Compute parts of equation
+            $π     = \M_PI;
+            $x     = round($n - 0.5, 0);
+            $√π    = sqrt($π);
+            $⟮2n⟯！  = Combinatorics::factorial(2 * $x);
+            $⟮4ⁿn！⟯ = 4**$x * Combinatorics::factorial($x);
+
+            /**
+             * Put it all together
+             *  _  (2n)!
+             * √π -------
+             *     4ⁿ n!
+             */
+            return $√π * ($⟮2n⟯！ / $⟮4ⁿn！⟯);
+        }
+
+        // Generic real number case
         return self::gammaLanczos($n);
     }
 
@@ -86,11 +130,13 @@ class Special
         if ($z == 0) {
             return \INF;
         }
-        if (is_int($z) && $z < 0) {
+        // Negative integer, or negative int as a float
+        if ((is_int($z) || is_numeric($z) && abs($z - round($z)) < 0.00001) && $z < 0) {
             return -\INF;
         }
-        if (is_int($z) && $z > 0) {
-            return Combinatorics::factorial($z - 1);
+        // Positive integer, or postive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
+        if ((is_int($z) || is_numeric($z) && abs($z - round($z)) < 0.00001) && $z > 0) {
+            return Combinatorics::factorial(round($z) - 1);
         }
 
         // p coefficients: g = 7, n = 9
@@ -167,11 +213,13 @@ class Special
         if ($n == 0) {
             return \INF;
         }
-        if (is_int($n) && $n < 0) {
+        // Negative integer, or negative int as a float
+        if ((is_int($n) || is_numeric($n) && abs($n - round($n)) < 0.00001) && $n < 0) {
             return -\INF;
         }
-        if (is_int($n) && $n > 0) {
-            return Combinatorics::factorial($n - 1);
+        // Positive integer, or postive int as a float
+        if ((is_int($n) || is_numeric($n) && abs($n - round($n)) < 0.00001) && $n > 0) {
+            return Combinatorics::factorial(round($n) - 1);
         }
 
         // Compute parts of equation
