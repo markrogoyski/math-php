@@ -47,6 +47,12 @@ abstract class ContinuousNew extends Distribution {
   }
   
   /**
+   * The area under a continuous distribution, that lies above and below two points
+   */
+  static function outside($upper, $lower, ...$params){
+    return 1 - self::between($upper, $lower, ...$params);
+  }
+  /**
    * The area under a continuous distribution, that lies above a specified point
    *  returns 1-CDF(x)
    */
