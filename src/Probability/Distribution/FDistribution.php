@@ -2,7 +2,7 @@
 namespace Math\Probability\Distribution;
 use Math\Functions\Special;
 
-class FDistribution extends ContinuousNew {
+class FDistribution extends Continuous {
   public static function PDF($x, $d1, $d2) {
     return sqrt( ($d1 * $x) ** $d1 * $d2 ** $d2/ ($d1 * $x + $d2) ** ($d1 + $d2)) / $x / Special::beta($d1 / 2, $d2 / 2);
   }
