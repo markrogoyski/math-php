@@ -32,67 +32,6 @@ class Continuous
     }
 
     /**
-     * Exponential distribution - probability density function
-     * https://en.wikipedia.org/wiki/Exponential_distribution
-     *
-     * f(x;λ) = λℯ^⁻λx  x ≥ 0
-     *        = 0       x < 0
-     *
-     * @param float $λ often called the rate parameter
-     * @param float $x the random variable
-     *
-     * @return float
-     */
-    public static function exponentialPDF(float $λ, float $x): float
-    {
-        if ($x < 0) {
-            return 0;
-        }
-
-        return $λ * exp(-$λ * $x);
-    }
-
-    /**
-     * Cumulative exponential distribution - cumulative distribution function
-     * https://en.wikipedia.org/wiki/Exponential_distribution
-     *
-     * f(x;λ) = 1 − ℯ^⁻λx  x ≥ 0
-     *        = 0          x < 0
-     *
-     * @param float $λ often called the rate parameter
-     * @param float $x the random variable
-     *
-     * @return float
-     */
-    public static function exponentialCDF(float $λ, float $x): float
-    {
-        if ($x < 0) {
-            return 0;
-        }
-
-        return 1 - exp(-$λ * $x);
-    }
-
-    /**
-     * Cumulative exponential distribution between two numbers
-     * Probability that an exponentially distributed random variable X
-     * is between two numbers x₁ and x₂.
-     *
-     * P(x₁ ≤ X ≤ x₂) = P(X ≤ x₂) − P(X ≤ x₁)
-     *                = (1 − ℯ^⁻λx₂) − (1 − ℯ^⁻λx₁)
-     *
-     * @param float $λ often called the rate parameter
-     * @param float $x₁ random variable 1
-     * @param float $x₂ random variable 2
-     *
-     * @return float
-     */
-    public static function exponentialCDFBetween(float $λ, float $x₁, float $x₂): float
-    {
-        return self::exponentialCDF($λ, $x₂) - self::exponentialCDF($λ, $x₁);
-    }
-
-    /**
      * Normal distribution above - cumulative distribution function
      * Probability of being above X.
      * Area under the normal distribution from X to ∞
