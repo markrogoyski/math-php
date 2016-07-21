@@ -446,7 +446,7 @@ $points = [[1,2], [2,3], [4,5], [5,7], [6,8]];
 
 // Simple linear regression (least squares method)
 $regression = new Linear($points);
-$parameters = $regression->getParameters(); // [ m => 1.2209302325581, b => 0.6046511627907]
+$parameters = $regression->getParameters(); // [m => 1.2209302325581, b => 0.6046511627907]
 $equation   = $regression->getEquation();   // y = 1.2209302325581x + 0.6046511627907
 $y          = $regression->evaluate(5);     // Evaluate for y at x = 5 using regression equation
 $n          = $regression->getSampleSize(); // 5
@@ -456,7 +456,7 @@ $yx         = $regression->getYs();         // [2, 3, 5, 7, 8]
 
 // Power law regression - power curve (least squares fitting)
 $regression = new PowerLaw($points);
-$parameters = $regression->getParameters(); // [ a => 56.483375436574, b => 0.26415375648621]
+$parameters = $regression->getParameters(); // [a => 56.483375436574, b => 0.26415375648621]
 $equation   = $regression->getEquation();   // y = 56.483375436574x^0.26415375648621
 $y          = $regression->evaluate(5);     // Evaluate for y at x = 5 using regression equation
 $n          = $regression->getSampleSize(); // 5
