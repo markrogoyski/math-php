@@ -1,5 +1,5 @@
 <?php
-namespace Math\ProbabilityDistribution;
+namespace Math\Probability\Distribution;
 //use Math\Solver\Newton;
 abstract class Continuous extends Distribution {
   /**
