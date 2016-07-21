@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution
 
-class BetaDistribution extends ContinuousNew {
+class BetaDistribution extends Continuous {
 /**
      * Beta distribution - probability density function
      * https://en.wikipedia.org/wiki/Beta_distribution
