@@ -35,4 +35,14 @@ abstract class ContinuousNew extends Distribution {
     //$callback = [$classname, 'CDF'];
     //return Newton::solve($callback, $params, $target, .5, .00000000000001);
   }
+  
+  /**
+   * The area under a continuous distribution, that lies between two specified points
+   */
+  static function between($upper, $lower, ...$params){
+    $function = [get_class(self), 'CDF'];
+    $upper_area = call_user_func_array($function, array_merge([$upper], $params));
+    $lower_area = call_user_func_array($function, array_merge([$lower], $params));
+    return $upper_area - $lower_area;
+  }
 }
