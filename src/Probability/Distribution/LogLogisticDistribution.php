@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution;
 
-class LogLogisticDistribution extends ContinuousNew {
+class LogLogisticDistribution extends Continuous {
     /**
      * Log-logistic distribution - probability density function
      * Also known as the Fisk distribution.
