@@ -109,23 +109,6 @@ class Continuous
     }
 
     /**
-     * Normal distribution between two points - cumulative distribution function
-     * Probability of being bewteen x₁ and x₂.
-     * Area under the normal distribution from x₁ to x₂.
-     *
-     * @param number x₁ lower bound
-     * @param number x₂ upper bound
-     * @param number $μ mean
-     * @param number $σ standard deviation
-     *
-     * @return float cdf(x) between
-     */
-    public static function normalCDFBetween($x₁, $x₂, $μ, $σ): float
-    {
-        return self::normalCDF($x₂, $μ, $σ) - self::normalCDF($x₁, $μ, $σ);
-    }
-
-    /**
      * Normal distribution outside two points - cumulative distribution function
      * Probability of being bewteen below x₁ and above x₂.
      * Area under the normal distribution from -∞ to x₁ and x₂ to ∞.
