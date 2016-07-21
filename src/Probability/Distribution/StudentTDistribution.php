@@ -2,7 +2,7 @@
 namespace Math\Probability\Distribution;
 use Math\Functions\Special;
 
-class TDistribution extends Distribution {
+class TDistribution extends ContinuousNew {
   public static function PDF($t, $ν){
     if(!is_int($ν)) return false;
     $π = \M_PI;
