@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution;
 use Math\Functions\Special;
-class NormalDistribution extends ContinuousNew {
+class NormalDistribution extends Continuous {
   
   /**
      * Normal distribution - probability density function
