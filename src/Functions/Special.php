@@ -307,4 +307,42 @@ class Special
 
         return 1 / (1 + $ℯ⁻ᵗ);
     }
+    
+    /****************************************************************************
+   * Lower Incomplete Gamma Function
+   *
+   * https://en.wikipedia.org/wiki/Incomplete_gamma_function#Lower_incomplete_Gamma_function
+   *
+   * This function is exact for all integer multiples of .5 using the recurrance relation:
+   *                   γ⟮s+1,x⟯= s*γ⟮s,x⟯-xˢ*eˣ
+   *
+   * The function can be evaluated at other points using the series:
+   *              zˢ     /         x          x²             x³            \
+   * γ(s,x) =  -------- |    1 + ----- + ---------- + --------------- + ... |
+   *            s * eˣ   \        s+1    (s+1)(s+2)   (s+1)(s+2)(s+3)      /
+   */ 
+  public static function lower_incomplete_gamma($s, $x){
+    if ($s == 1) {
+      return 1 - exp(-1 * $x);
+    }
+    if ($s == .5){
+      $√π = sqrt(\M_PI);
+      $√x = sqrt($x);
+      return $√π * self::erf($√x);
+    }
+    if (round($s * 2, 0) == $s * 2){
+      return ($s - 1) * self::lower_incomplete_gamma($s - 1, $x) - $x ** ($s - 1) * exp(-1 * $x);
+    }
+    $tol = .000000000001;
+    $xˢ∕s∕eˣ = $x ** $s / exp($x) / $s;
+    $sum = 1;
+    $fractions = [];
+    $element = 1 + $tol;
+    while ($element > $tol){
+      $fractions[] = $x / ++$s;
+      $element = array_product($fractions);
+      $sum += $element;
+    }
+    return $xˢ∕s∕eˣ * $sum;
+  }
 }
