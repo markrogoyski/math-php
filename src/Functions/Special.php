@@ -387,7 +387,7 @@ class Special
       $sum = 0;
       $j = $b + .5;
       for($i=1;$i<=$j-1; $i++){
-        $sum += self::Γ($a + $i - .5) / self::Γ($a) / self::Γ($i + .5) * (1 - $x) ** ($i - 1);
+        $sum += self::gamma($a + $i - .5) / self::gamma($a) / self::gamma($i + .5) * (1 - $x) ** ($i - 1);
       }
       return self::regularized_incomplete_beta($x, $a, .5) + sqrt(1 - $x) * $x ** $a * $sum;
     }
