@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution
 
-class ExponentialDistribution extends ContinuousNew {
+class ExponentialDistribution extends Continuous {
     /**
      * Exponential distribution - probability density function
      * https://en.wikipedia.org/wiki/Exponential_distribution
