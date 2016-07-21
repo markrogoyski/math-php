@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution;
 //use Math\Solver\Newton;
-abstract class Continuous extends Distribution {
+abstract class ContinuousNew extends Distribution {
   /**
    * The Probability Density Function
    *
