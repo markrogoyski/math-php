@@ -2,7 +2,7 @@
 namespace Math\Probability\Distribution;
 use math\Functions\Special;
 
-class LogNormalDistribution extends ContinuousNew{
+class LogNormalDistribution extends Continuous{
     /**
      * Log normal distribution - probability density function
      *
