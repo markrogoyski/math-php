@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution;
 
-class UniformDistribution extends ContinuousNew{
+class UniformDistribution extends Continuous {
 /**
      * Continuous uniform distribution - probability desnsity function
      * https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
