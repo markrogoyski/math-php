@@ -32,22 +32,6 @@ class Continuous
     }
 
     /**
-     * Normal distribution above - cumulative distribution function
-     * Probability of being above X.
-     * Area under the normal distribution from X to ∞
-     *
-     * @param number $x lower bound
-     * @param number $μ mean
-     * @param number $σ standard deviation
-     *
-     * @return float cdf(x) above
-     */
-    public static function normalCDFAbove($x, $μ, $σ): float
-    {
-        return 1 - self::normalCDF($x, $μ, $σ);
-    }
-
-    /**
      * Normal distribution outside two points - cumulative distribution function
      * Probability of being bewteen below x₁ and above x₂.
      * Area under the normal distribution from -∞ to x₁ and x₂ to ∞.
