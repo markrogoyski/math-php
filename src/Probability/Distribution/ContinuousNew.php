@@ -45,4 +45,14 @@ abstract class ContinuousNew extends Distribution {
     $lower_area = call_user_func_array($function, array_merge([$lower], $params));
     return $upper_area - $lower_area;
   }
+  
+  /**
+   * The area under a continuous distribution, that lies above a specified point
+   *  returns 1-CDF(x)
+   */
+  static function above($x, ...$params){
+    $function = [get_called_class(), 'CDF'];
+    $area = call_user_func_array($function, array_merge([$x], $params));
+    return 1 - $area;
+  }
 }
