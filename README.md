@@ -445,48 +445,24 @@ use Math\Statistics\Regression
 $points = [[1,2], [2,3], [4,5], [5,7], [6,8]];
 
 // Simple linear regression (least squares method)
-$linear_regression = Regression::linear($points);
-print_r($linear_regression);
-/*
-Array (
-    [regression equation]          => y = 0.6046511627907 + 1.2209302325581x
-    [slope]                        => 1.2209302325581
-    [y intercept]                  => 0.6046511627907
-    [correlation coefficient]      => 0.99304378406301
-    [coefficient of determination] => 0.98613595706619
-    [sample size]                  => 5
-    [mean x]                       => 3.6
-    [mean y]                       => 5
-)
-*/
-
-// Evaluate for y for any x using linear regression slope and y intercept
-$x           = 5;
-$slope       = $linear_regression['slope'];
-$y_intercept = $linear_regression['y intercept'];
-$y           = Regression::linearEvaluate($x, $slope, $y_intercept);
+$regression = new Linear($points);
+$parameters = $regression->getParameters(); // [ m => 1.2209302325581, b => 0.6046511627907]
+$equation   = $regression->getEquation();   // y = 1.2209302325581x + 0.6046511627907
+$y          = $regression->evaluate(5);     // Evaluate for y at x = 5 using regression equation
+$n          = $regression->getSampleSize(); // 5
+$points     = $regression->getPoints();     // [[1,2], [2,3], [4,5], [5,7], [6,8]]
+$xs         = $regression->getXs();         // [1, 2, 4, 5, 6]
+$yx         = $regression->getYs();         // [2, 3, 5, 7, 8]
 
 // Power law regression - power curve (least squares fitting)
-$power_regression = Regression::powerLaw($points);
-print_r($power_regression);
-/*
-Array (
-    [regression equation]          => y = 56.483375436574 * x^0.26415375648621
-    [a]                            => 56.483375436574
-    [b]                            => 0.26415375648621
-    [mean x]                       => 68.642857142857
-    [mean y]                       => 172.35714285714
-    [sample size]                  => 14
-    [correlation coefficient]      => 0.78831908026071
-    [coefficient of determination] => 0.62144697230309
-)
-*/
-
-// Evaluate for y for any x using power law regression a and b
-$x = 83;
-$a = $power_regression['a'];
-$b = $power_regression['b'];
-$y = Regression::powerLawEvaluate($x, $a, $b);
+$regression = new PowerLaw($points);
+$parameters = $regression->getParameters(); // [ a => 56.483375436574, b => 0.26415375648621]
+$equation   = $regression->getEquation();   // y = 56.483375436574x^0.26415375648621
+$y          = $regression->evaluate(5);     // Evaluate for y at x = 5 using regression equation
+$n          = $regression->getSampleSize(); // 5
+$points     = $regression->getPoints();     // [[1,2], [2,3], [4,5], [5,7], [6,8]]
+$xs         = $regression->getXs();         // [1, 2, 4, 5, 6]
+$yx         = $regression->getYs();         // [2, 3, 5, 7, 8]
 
 // R - correlation coefficient
 $R = Regression::r($points);                      // same as correlationCoefficient
