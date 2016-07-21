@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution;
 use Math\Functions\Special;
-class ChiSquared extends ContinuousNew {
+class ChiSquared extends Continuous {
   public static function PDF($x, $k){
     if(!is_int($ν)) return false;
     $pdf = $x ** ($k / 2 - 1) * exp(-1 * $x / 2) / 2 ** ($k / 2) / Special::Γ($k / 2);
