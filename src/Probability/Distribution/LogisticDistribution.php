@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution;
 
-class LogisticDistribution extends ContinuousNew {
+class LogisticDistribution extends Continuous {
     /**
      * Logistic distribution - probability density function
      *
