@@ -1,9 +1,8 @@
 <?php
-namespace Math\Probability\Distribution;
+namespace Math\Probability\Distribution\Discrete;
 
 class DiscreteTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @dataProvider dataProviderForBinomialPMF
      */
