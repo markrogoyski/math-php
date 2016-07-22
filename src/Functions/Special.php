@@ -350,11 +350,15 @@ class Special
     /***************
    * Regularized Incomplete Beta Function
    *
-   * This function is valid for $a and $b values that are integer multiples
+   * This function is exact for $a and $b values that are integer multiples
    * of 1/2.
    *
    * https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function
    * See http://www.dtic.mil/dtic/tr/fulltext/u2/642495.pdf
+   *
+   * For other values, we use a continuous fraction
+   * www.boost.org/doc/libs/1_35_0/libs/math/doc/sf_and_dist/html/math_toolkit/special/sf_beta/ibeta_function.html
+   * The accuracy of the continuous fraction might be good enough to replace the 'exact' values, and simplify the code. 
    */
     public static function regularizedIncompleteBeta($x, $a, $b)
     {
@@ -362,33 +366,92 @@ class Special
             return self::beta($a, $b);
         }
         $π = \M_PI;
-        if (is_int($a)) {
-            //Equation 50 from paper
-            $sum = 0;
-            for ($i=1; $i<=$a; $i++) {
-                $sum += $x ** ($i-1) * self::gamma($b + $i - 1) / self::gamma($b) / self::gamma($i);
+        // If $a and $b are integer multiples of .5 we can caculate exact.
+        if (($a * 2) == round($a * 2) && ($b * 2) == round($b * 2)) {
+            if (is_int($a)) {
+                //Equation 50 from paper
+                $sum = 0;
+                for ($i=1; $i<=$a; $i++) {
+                    $sum += $x ** ($i-1) * self::gamma($b + $i - 1) / self::gamma($b) / self::gamma($i);
+                }
+                return 1 - (1 - $x) ** $b * $sum;
+            } elseif ($b == .5) {
+                if ($a == .5) {
+                    //Equation 61 from paper
+                    return 2 / $π * atan(sqrt($x / (1 - $x)));
+                }
+                //Equation 60a from paper
+                $k = $a + .5;
+                $sum = 0;
+                for ($i=1; $i<=$k-1; $i++) {
+                    $sum += $x ** ($i - 1) * self::gamma($i) / self::gamma($i + .5) / self::gamma(.5);
+                }
+                return self::regularizedIncompleteBeta($x, .5, .5) - sqrt($x - $x * $x) * $sum;
+            } else {
+                //Equation 59 from paper
+                $sum = 0;
+                $j = $b + .5;
+                for ($i=1; $i<=$j-1; $i++) {
+                    $sum += self::gamma($a + $i - .5) / self::gamma($a) / self::gamma($i + .5) * (1 - $x) ** ($i - 1);
+                }
+                return self::regularizedIncompleteBeta($x, $a, .5) + sqrt(1 - $x) * $x ** $a * $sum;
             }
-            return 1 - (1 - $x) ** $b * $sum;
-        } elseif ($b == .5) {
-            if ($a == .5) {
-                //Equation 61 from paper
-                return 2 / $π * atan(sqrt($x / (1 - $x)));
-            }
-            //Equation 60a from paper
-            $k = $a + .5;
-            $sum = 0;
-            for ($i=1; $i<=$k-1; $i++) {
-                $sum += $x ** ($i - 1) * self::gamma($i) / self::gamma($i + .5) / self::gamma(.5);
-            }
-            return self::regularizedIncompleteBeta($x, .5, .5) - sqrt($x - $x * $x) * $sum;
+        }
+        if ($a > 1 && $b > 1) {
+            // Tolerance on evaluating the continued fraction.
+            $tol = .0000000000000000001;
+            $dif = $tol + 1; // Initialize
+            $m = 0; // Counter
+            $constant = $x ** $a * (1 - $x) ** $b / self::beta($a, $b);
+            $α_array = [];
+            $β_array = [];
+            do {
+                if ($m == 0) {
+                    $α = 1;
+                } else {
+                    $α = ($a + $m - 1) * ($a + $b + $m - 1) * $m * ($b - $m) * $x ** 2 / ($a + 2 * $m - 1) ** 2;
+                }
+                $β₁ = $m + $m * ($b - $m) * $x / ($a + 2 * $m - 1);
+                $β₂ = ($a + $m) * ($a - ($a + $b) * $x + 1 + $m * (2 - $x)) / ($a + 2 * $m + 1);
+                $β = $β₁ + $β₂;
+                $α_array[] = $α;
+                $β_array[] = $β;
+                $fraction = 1;
+                $fraction_array = [];
+                $count = count($β_array);
+                // There's probably a more efficient algorithn to do a continuous fraction.
+                // I am calculating α and β at m=0, and then at m=1, and bulding the continuous
+                // fraction up in the $fraction_array, such that when the array hits element 0,
+                // it has included all the α and β in their respective arrays. Then I is evaluated.
+                // If I has changed less than the tolerance, return the value. Otherwise add another
+                // α and β, recaculate the fraction_array, and retest I.
+                for ($i=$count-1; $i>=0; $i--) {
+                    if ($i == $count - 1) {
+                        $fraction_array[$i] = $α_array[$i] / $β_array[$i];
+                    } else {
+                        $fraction_array[$i] = $α_array[$i] / ($β_array[$i]+ $fraction_array[$i+1]);
+                    }
+                }
+                $I_new = $constant * $fraction_array[0];
+                if ($m > 0) {
+                    $dif = abs($I - $I_new);
+                }
+                $I = $I_new;
+                $m++;
+            } while ($dif > $tol);
+            echo count($fraction_array) . "\n";
+            return $I;
         } else {
-            //Equation 59 from paper
-            $sum = 0;
-            $j = $b + .5;
-            for ($i=1; $i<=$j-1; $i++) {
-                $sum += self::gamma($a + $i - .5) / self::gamma($a) / self::gamma($i + .5) * (1 - $x) ** ($i - 1);
+            if ($a <= 1) {
+                // We shift a up by one, to the region that the continuous fraction works best.
+                $offset = $x ** $a * (1 - $x) ** $b / $a / self::beta($a, $b);
+                return self::regularizedIncompleteBeta($x, $a + 1, $b) + $offset;
+            } else { //$b <= 1
+                // We shift a up by one, to the region that the continuous fraction works best.
+                $offset = $x ** $a * (1 - $x) ** $b / $b / self::beta($a, $b);
+                return self::regularizedIncompleteBeta($x, $a, $b + 1) - $offset;
             }
-            return self::regularizedIncompleteBeta($x, $a, .5) + sqrt(1 - $x) * $x ** $a * $sum;
         }
     }
+
 }
