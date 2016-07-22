@@ -407,7 +407,7 @@ class Special
     if ($s == .5){
       $√π = sqrt(\M_PI);
       $√x = sqrt($x);
-      return $√π * RandomVariable::erf($√x);
+      return $√π * self::erf($√x);
     }
     if (round($s * 2, 0) == $s * 2){
       return ($s - 1) * self::lower_incomplete_gamma($s - 1, $x) - $x ** ($s - 1) * exp(-1 * $x);
