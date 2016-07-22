@@ -5,6 +5,35 @@ use Math\Statistics\Average;
 use Math\Statistics\Descriptive;
 use Math\Probability\StandardNormalTable;
 
+/**
+ * Functions dealing with random variables.
+ *
+ * - Covariance
+ * - Correlation coefficient
+ * - Central moment
+ * - Skewness
+ * - Kurtosis
+ * - Standard Error of the Mean (SEM)
+ * - Confidence interval
+ * - Z score
+ * 
+ * In probability and statistics, a random variable is a variable whose
+ * value is subject to variations due to chance.
+ * A random variable can take on a set of possible different values
+ * (similarly to other mathematical variables), each with an associated
+ * probability, in contrast to other mathematical variables.
+ *
+ * The mathematical function describing the possible values of a random
+ * variable and their associated probabilities is known as a probability
+ * distribution. Random variables can be discrete, that is, taking any of a
+ * specified finite or countable list of values, endowed with a probability
+ * mass function, characteristic of a probability distribution; or
+ * continuous, taking any numerical value in an interval or collection of
+ * intervals, via a probability density function that is characteristic of
+ * a probability distribution; or a mixture of both types.
+ * 
+ * https://en.wikipedia.org/wiki/Random_variable
+ */
 class RandomVariable
 {
     /**
