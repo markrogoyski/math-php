@@ -245,4 +245,23 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             [ -1.034, 1.856340111375020118952 ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForLowerIncompleteGamma
+     */
+    public function testLowerIncompleteGamma($s, $x, $lig)
+    {
+        $this->assertEquals($lig, Special::lower_incomplete_gamma($s, $x), '', 0.001);
+    }
+
+    public function dataProviderForLowerIncompleteGamma()
+    {
+        return [
+            [1, 2, 0.864664716763387308106],
+            [0.5, 4, 1.764162781524843359935],
+            [2, 3, 0.800851726528544228083],
+            [4.5, 2.3, 1.538974541742516805669],
+            [7, 9.55, 603.9624331483414852868],
+        ];
+    }
 }
