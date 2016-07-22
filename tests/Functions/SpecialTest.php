@@ -264,4 +264,27 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             [7, 9.55, 603.9624331483414852868],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForRegularizedIncompleteBeta
+     */
+    public function testRegularizedIncompleteBeta($x, $a, $b, $rib)
+    {
+        $this->assertEquals($rib, Special::regularized_incomplete_beta($x, $a, $b), '', 0.001);
+    }
+
+    public function dataProviderForRegularizedIncompleteBeta()
+    {
+        return [
+            [0.4, 1, 2, 0.64],
+            [0.4, 1, 4, 0.87040],
+            [0.4, 2, 4, 0.663040],
+            [0.4, 4, 4, 0.2897920],
+            [0.7, 6, 10, 0.99634748],
+            [0.7, 7, 10, 0.99287048],
+            [0.44, 3, 8.4, 0.90536083],
+            [0.44, 3.5, 8.5, 0.86907356],
+            [0.3, 2.5, 4.5, 0.40653902],
+        ];
+    }
 }
