@@ -432,51 +432,65 @@ class Special
 
         return $xˢ∕s∕eˣ * $sum;
     }
-  
-    /***************
-   * Regularized Incomplete Beta Function
-   *
-   * This function is valid for $a and $b values that are integer multiples
-   * of 1/2.
-   *
-   * https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function
-   * See http://www.dtic.mil/dtic/tr/fulltext/u2/642495.pdf
-   */
-  public static function regularized_incomplete_beta($x, $a, $b){
-    if ($x == 1){
-      return self::beta($a, $b);
+
+    /**
+     * Regularized incomplete beta function
+     *
+     * https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function
+     * See http://www.dtic.mil/dtic/tr/fulltext/u2/642495.pdf
+     *
+     * This function is valid for $a and $b values that are multiples of 1/2.
+     * In other words, for half integers.
+     *
+     * @param  $x 0 ≦ x ≦ 1
+     * @param  $a > 0
+     * @param  $b > 0
+     *
+     * @return number
+     */
+    public static function regularizedIncompleteBeta($x, $a, $b)
+    {
+        if ($a <= 0 || $b <= 0) {
+            throw new \Exception('a and b must be > 0');
+        }
+
+        if ($x == 1) {
+            return self::beta($a, $b);
+        }
+
+        $π = \M_PI;
+
+        // Equation 50 from paper
+        if (is_int($a)) {
+          $sum = 0;
+          for ($i=1;$i<=$a;$i++){
+            $sum += $x ** ($i-1) * self::gamma($b + $i - 1) / self::gamma($b) / self::gamma($i);
+          }
+          return 1 - (1 - $x) ** $b * $sum;
+        }
+        
+        if ($b == .5) {
+            // Equation 61 from paper
+            if ($a == .5){	
+                return 2 / $π * atan(sqrt($x / (1 - $x)));
+            }
+
+            //Equation 60a from paper
+            $k   = $a + .5;
+            $sum = 0;
+            for ($i = 1; $i <= $k - 1; $i++) {
+                $sum += $x**($i - 1) * self::gamma($i) / self::gamma($i + .5) / self::gamma(.5);
+            }
+            return self::regularizedIncompleteBeta($x, .5, .5) - sqrt($x - $x * $x) * $sum;
+        }
+        else {
+            // Equation 59 from paper
+            $sum = 0;
+            $j   = $b + .5;
+            for ($i = 1; $i <= $j - 1; $i++) {
+                $sum += self::gamma($a + $i - .5) / self::gamma($a) / self::gamma($i + .5) * (1 - $x)**($i - 1);
+            }
+            return self::regularizedIncompleteBeta($x, $a, .5) + sqrt(1 - $x) * $x**$a * $sum;
+        }
     }
-    $π = \M_PI;
-    if(is_int($a)){
-      //Equation 50 from paper
-      $sum = 0;
-      for ($i=1;$i<=$a;$i++){
-        $sum += $x ** ($i-1) * self::gamma($b + $i - 1) / self::gamma($b) / self::gamma($i);
-      }
-      return 1 - (1 - $x) ** $b * $sum;
-    }
-    else if ($b == .5){
-      if ($a == .5){	
-        //Equation 61 from paper
-        return 2 / $π * atan(sqrt($x / (1 - $x)));
-      }
-      //Equation 60a from paper
-      $k = $a + .5;
-      $sum = 0;
-      for ($i=1;$i<=$k-1; $i++){
-        $sum += $x ** ($i - 1) * self::gamma($i) / self::gamma($i + .5) / self::gamma(.5);
-      }
-      return self::regularized_incomplete_beta($x, .5, .5) - sqrt($x - $x * $x) * $sum;
-    }
-    else{
-      //Equation 59 from paper
-      $sum = 0;
-      $j = $b + .5;
-      for($i=1;$i<=$j-1; $i++){
-        $sum += self::gamma($a + $i - .5) / self::gamma($a) / self::gamma($i + .5) * (1 - $x) ** ($i - 1);
-      }
-      return self::regularized_incomplete_beta($x, $a, .5) + sqrt(1 - $x) * $x ** $a * $sum;
-    }
-  }
-  
 }
