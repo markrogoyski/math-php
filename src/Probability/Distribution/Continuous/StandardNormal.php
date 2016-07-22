@@ -1,14 +1,15 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
-class StandardNormal extends NormalDistribution
+class StandardNormal
 {
     public static function PDF($z)
     {
-        return parent::PDF($z, 0, 1);
+        return Normal::PDF($z, 0, 1);
     }
+
     public static function CDF($z)
     {
-        return parent::CDF($z, 0, 1);
+        return Normal::CDF($z, 0, 1);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
-use math\Functions\Special;
+use Math\Functions\Special;
 
 class LogNormal extends Continuous
 {
@@ -24,9 +24,9 @@ class LogNormal extends Continuous
     {
         $π          = \M_PI;
         $xσ√2π      = $x * $σ * sqrt(2 * $π);
-        $⟮ln x − μ⟯² = pow(log($x) - $μ, 2);
+        $⟮ln x − μ⟯² = pow(log($x) - $μ, 2);
         $σ²         = $σ**2;
-        return (1 / $xσ√2π) * exp(-($⟮ln x − μ⟯² / (2 *$σ²)));
+        return (1 / $xσ√2π) * exp(-($⟮ln x − μ⟯² / (2 *$σ²)));
     }
     /**
      * Log normal distribution - cumulative distribution function
@@ -45,8 +45,8 @@ class LogNormal extends Continuous
     public static function CDF($x, $μ, $σ)
     {
         $π          = \M_PI;
-        $⟮ln x − μ⟯ = log($x) - $μ;
+        $⟮ln x − μ⟯ = log($x) - $μ;
         $√2σ       = sqrt(2) * $σ;
-        return 1/2 + 1/2 * Special::erf($⟮ln x − μ⟯ / $√2σ);
+        return 1/2 + 1/2 * Special::erf($⟮ln x − μ⟯ / $√2σ);
     }
 }

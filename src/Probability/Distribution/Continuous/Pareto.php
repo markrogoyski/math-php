@@ -3,7 +3,6 @@ namespace Math\Probability\Distribution\Continuous;
 
 class Pareto extends Continuous
 {
-
     /**
      * Pareto distribution - probability density function
      *

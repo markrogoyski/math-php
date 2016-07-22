@@ -1,9 +1,11 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
+use Math\Functions\Special;
+
 class Beta extends Continuous
 {
-/**
+    /**
      * Beta distribution - probability density function
      * https://en.wikipedia.org/wiki/Beta_distribution
      *
@@ -17,7 +19,7 @@ class Beta extends Continuous
      *
      * @return float
      */
-    public static function PDF($α, $β, $x): float
+    public static function PDF($α, $β, $x)
     {
         if ($α <= 0 || $β <= 0) {
             throw new \Exception('α and β must be > 0');
@@ -26,8 +28,10 @@ class Beta extends Continuous
             throw new \Exception('x must be between 0 and 1');
         }
         $xᵃ⁻¹     = pow($x, $α - 1);
-        $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $β - 1);
+        $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $β - 1);
         $B⟮α、β⟯    = Special::beta($α, $β);
-        return ($xᵃ⁻¹ * $⟮1 − x⟯ᵝ⁻¹) / $B⟮α、β⟯;
+        return ($xᵃ⁻¹ * $⟮1 − x⟯ᵝ⁻¹) / $B⟮α、β⟯;
     }
+
+    public static function CDF() {}
 }

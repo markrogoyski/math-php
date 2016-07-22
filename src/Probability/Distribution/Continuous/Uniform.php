@@ -4,15 +4,15 @@ namespace Math\Probability\Distribution\Continuous;
 class Uniform extends Continuous
 {
 
-/**
+    /**
      * Continuous uniform distribution - probability desnsity function
      * https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
      *
      *         1
-     * pmf = -----  for a ≤ x ≤ b
+     * pdf = -----  for a ≤ x ≤ b
      *       b - a
      *
-     * pmf = 0      for x < a, x > b
+     * pdf = 0      for x < a, x > b
      *
      * @param number $a lower boundary of the distribution
      * @param number $b upper boundary of the distribution

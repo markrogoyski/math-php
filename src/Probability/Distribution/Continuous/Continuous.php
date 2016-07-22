@@ -1,17 +1,17 @@
 <?php
-namespace Math\Probability\Distribution;
+namespace Math\Probability\Distribution\Continuous;
 
 //use Math\Solver\Newton;
-abstract class ContinuousNew extends Distribution
+abstract class Continuous
 {
   /**
    * The Probability Density Function
    *
    * https://en.wikipedia.org/wiki/Probability_density_function
    */
-    public static function PDF()
-    {
-    }
+    //public static function PDF()
+    //{
+    //}
   /**
    * The Cumulative Distribution Function
    *
@@ -21,9 +21,9 @@ abstract class ContinuousNew extends Distribution
    *
    * https://en.wikipedia.org/wiki/Cumulative_distribution_function
    */
-    public static function CDF()
-    {
-    }
+    //public static function CDF()
+    //{
+    //}
   /**
    * The Inverse CDF of the distribution
    *
