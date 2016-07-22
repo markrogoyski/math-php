@@ -250,7 +250,7 @@ class Descriptive
      */
     public static function quartiles(array $numbers, string $method = 'exclusive')
     {
-        switch(strtolower($method)) {
+        switch (strtolower($method)) {
             case 'inclusive':
                 return self::quartilesInclusive($numbers);
             case 'exclusive':
@@ -330,7 +330,7 @@ class Descriptive
      *
      * Method used
      *  - Use the median to divide the ordered data set into two halves.
-     *   - If there are an odd number of data points in the original ordered data set, 
+     *   - If there are an odd number of data points in the original ordered data set,
      *     include the median (the central value in the ordered list) in both halves.
      *   - If there are an even number of data points in the original ordered data set,
      *     split this data set exactly in half.

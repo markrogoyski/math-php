@@ -1,9 +1,10 @@
 <?php
-namespace Math\Probability\Distribution
+namespace Math\Probability\Distribution;
 
 /**
  * A universal probability distribution
  */
-Class Distribution {
+class Distribution
+{
 
 }

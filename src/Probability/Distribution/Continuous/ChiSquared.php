@@ -22,6 +22,6 @@ class ChiSquared extends Continuous
         if (!is_int($k)) {
             return false;
         }
-        return Special::lower_incomplete_gamma($k / 2, $x / 2) / Special::Γ($k / 2);
+        return Special::lowerIncompleteGamma($k / 2, $x / 2) / Special::Γ($k / 2);
     }
 }

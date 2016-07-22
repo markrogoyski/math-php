@@ -72,8 +72,7 @@ class Special
         }
 
         // Half integer cases (determine if int + 0.5)
-        if ( (round($n * 2) / 2 / $n) == 1 ) {
-
+        if ((round($n * 2) / 2 / $n) == 1) {
             // Compute parts of equation
             $π     = \M_PI;
             $x     = round($n - 0.5, 0);
@@ -321,31 +320,32 @@ class Special
    *              zˢ     /         x          x²             x³            \
    * γ(s,x) =  -------- |    1 + ----- + ---------- + --------------- + ... |
    *            s * eˣ   \        s+1    (s+1)(s+2)   (s+1)(s+2)(s+3)      /
-   */ 
-  public static function lower_incomplete_gamma($s, $x){
-    if ($s == 1) {
-      return 1 - exp(-1 * $x);
+   */
+    public static function lowerIncompleteGamma($s, $x)
+    {
+        if ($s == 1) {
+            return 1 - exp(-1 * $x);
+        }
+        if ($s == .5) {
+            $√π = sqrt(\M_PI);
+            $√x = sqrt($x);
+            return $√π * RandomVariable::erf($√x);
+        }
+        if (round($s * 2, 0) == $s * 2) {
+            return ($s - 1) * self::lowerIncompleteGamma($s - 1, $x) - $x ** ($s - 1) * exp(-1 * $x);
+        }
+        $tol = .000000000001;
+        $xˢ∕s∕eˣ = $x ** $s / exp($x) / $s;
+        $sum = 1;
+        $fractions = [];
+        $element = 1 + $tol;
+        while ($element > $tol) {
+            $fractions[] = $x / ++$s;
+            $element = array_product($fractions);
+            $sum += $element;
+        }
+        return $xˢ∕s∕eˣ * $sum;
     }
-    if ($s == .5){
-      $√π = sqrt(\M_PI);
-      $√x = sqrt($x);
-      return $√π * RandomVariable::erf($√x);
-    }
-    if (round($s * 2, 0) == $s * 2){
-      return ($s - 1) * self::lower_incomplete_gamma($s - 1, $x) - $x ** ($s - 1) * exp(-1 * $x);
-    }
-    $tol = .000000000001;
-    $xˢ∕s∕eˣ = $x ** $s / exp($x) / $s;
-    $sum = 1;
-    $fractions = [];
-    $element = 1 + $tol;
-    while ($element > $tol){
-      $fractions[] = $x / ++$s;
-      $element = array_product($fractions);
-      $sum += $element;
-    }
-    return $xˢ∕s∕eˣ * $sum;
-  }
   
     /***************
    * Regularized Incomplete Beta Function
@@ -356,41 +356,39 @@ class Special
    * https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function
    * See http://www.dtic.mil/dtic/tr/fulltext/u2/642495.pdf
    */
-  public static function regularized_incomplete_beta($x, $a, $b){
-    if ($x == 1){
-      return self::beta($a, $b);
+    public static function regularizedIncompleteBeta($x, $a, $b)
+    {
+        if ($x == 1) {
+            return self::beta($a, $b);
+        }
+        $π = \M_PI;
+        if (is_int($a)) {
+            //Equation 50 from paper
+            $sum = 0;
+            for ($i=1; $i<=$a; $i++) {
+                $sum += $x ** ($i-1) * self::gamma($b + $i - 1) / self::gamma($b) / self::gamma($i);
+            }
+            return 1 - (1 - $x) ** $b * $sum;
+        } elseif ($b == .5) {
+            if ($a == .5) {
+                //Equation 61 from paper
+                return 2 / $π * atan(sqrt($x / (1 - $x)));
+            }
+            //Equation 60a from paper
+            $k = $a + .5;
+            $sum = 0;
+            for ($i=1; $i<=$k-1; $i++) {
+                $sum += $x ** ($i - 1) * self::gamma($i) / self::gamma($i + .5) / self::gamma(.5);
+            }
+            return self::regularizedIncompleteBeta($x, .5, .5) - sqrt($x - $x * $x) * $sum;
+        } else {
+            //Equation 59 from paper
+            $sum = 0;
+            $j = $b + .5;
+            for ($i=1; $i<=$j-1; $i++) {
+                $sum += self::gamma($a + $i - .5) / self::gamma($a) / self::gamma($i + .5) * (1 - $x) ** ($i - 1);
+            }
+            return self::regularizedIncompleteBeta($x, $a, .5) + sqrt(1 - $x) * $x ** $a * $sum;
+        }
     }
-    $π = \M_PI;
-    if(is_int($a)){
-      //Equation 50 from paper
-      $sum = 0;
-      for ($i=1;$i<=$a;$i++){
-        $sum += $x ** ($i-1) * self::gamma($b + $i - 1) / self::gamma($b) / self::gamma($i);
-      }
-      return 1 - (1 - $x) ** $b * $sum;
-    }
-    else if ($b == .5){
-      if ($a == .5){	
-        //Equation 61 from paper
-        return 2 / $π * atan(sqrt($x / (1 - $x)));
-      }
-      //Equation 60a from paper
-      $k = $a + .5;
-      $sum = 0;
-      for ($i=1;$i<=$k-1; $i++){
-        $sum += $x ** ($i - 1) * self::gamma($i) / self::gamma($i + .5) / self::gamma(.5);
-      }
-      return self::regularized_incomplete_beta($x, .5, .5) - sqrt($x - $x * $x) * $sum;
-    }
-    else{
-      //Equation 59 from paper
-      $sum = 0;
-      $j = $b + .5;
-      for($i=1;$i<=$j-1; $i++){
-        $sum += self::gamma($a + $i - .5) / self::gamma($a) / self::gamma($i + .5) * (1 - $x) ** ($i - 1);
-      }
-      return self::regularized_incomplete_beta($x, $a, .5) + sqrt(1 - $x) * $x ** $a * $sum;
-    }
-  }
-  
 }

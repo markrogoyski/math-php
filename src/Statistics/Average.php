@@ -457,7 +457,9 @@ class Average
 
     /**
      * Logarithmic mean
-     * A function of two non-negative numbers which is equal to their difference divided by the logarithm of their quotient.
+     * A function of two non-negative numbers which is equal to their
+     * difference divided by the logarithm of their quotient.
+     *
      * https://en.wikipedia.org/wiki/Logarithmic_mean
      *
      *  Mlm(x, y) = 0 if x = 0 or y = 0

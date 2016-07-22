@@ -35,7 +35,7 @@ class StudentT extends Continuous
         $x = $ν / ($t ** 2 + $ν);
         $a = $ν / 2;
         $b = .5;
-        return 1 - .5 * Special::regularized_incomplete_beta($x, $a, $b);
+        return 1 - .5 * Special::regularizedIncompleteBeta($x, $a, $b);
     }
   /****************************************************************************
    * Find t such that the area greater than t and the area beneath -t is $p

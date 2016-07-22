@@ -15,6 +15,6 @@ class F extends Continuous
     public static function CDF($x, $d1, $d2)
     {
         $beta_x = $d1 * $x / ($d1 * $x + $d2);
-        return Special::regularized_incomplete_beta($beta_x, $d1 / 2, $d2 / 2);
+        return Special::regularizedIncompleteBeta($beta_x, $d1 / 2, $d2 / 2);
     }
 }
