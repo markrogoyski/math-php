@@ -1,5 +1,5 @@
 <?php
-namespace Math\Probability\Distribution;
+namespace Math\Probability\Distribution\Discrete;
 
 use Math\Probability\Combinatorics;
 use Math\Statistics\RandomVariable;
