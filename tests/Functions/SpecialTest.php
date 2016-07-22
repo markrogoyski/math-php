@@ -251,7 +251,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
      */
     public function testLowerIncompleteGamma($s, $x, $lig)
     {
-        $this->assertEquals($lig, Special::lower_incomplete_gamma($s, $x), '', 0.001);
+        $this->assertEquals($lig, Special::lowerIncompleteGamma($s, $x), '', 0.001);
     }
 
     public function dataProviderForLowerIncompleteGamma()

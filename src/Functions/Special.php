@@ -404,7 +404,7 @@ class Special
      *
      * @return number
      */
-    public static function lower_incomplete_gamma($s, $x)
+    public static function lowerIncompleteGamma($s, $x)
     {
         if ($s == 1) {
             return 1 - exp(-1 * $x);
@@ -415,7 +415,7 @@ class Special
             return $√π * self::erf($√x);
         }
         if (round($s * 2, 0) == $s * 2) {
-            return ($s - 1) * self::lower_incomplete_gamma($s - 1, $x) - $x ** ($s - 1) * exp(-1 * $x);
+            return ($s - 1) * self::lowerIncompleteGamma($s - 1, $x) - $x ** ($s - 1) * exp(-1 * $x);
         }
 
         $tol       = .000000000001;
