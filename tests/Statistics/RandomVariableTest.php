@@ -219,66 +219,6 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForErrorFunction
-     */
-    public function testErrorFunction($x, $error)
-    {
-        $this->assertEquals($error, RandomVariable::errorFunction($x), '', 0.0001);
-    }
-
-    /**
-     * @dataProvider dataProviderForErrorFunction
-     */
-    public function testErf($x, $error)
-    {
-        $this->assertEquals($error, RandomVariable::erf($x), '', 0.0001);
-    }
-
-    public function dataProviderForErrorFunction()
-    {
-        return [
-            [ 0, 0 ],
-            [ 1, 0.8427007929497148693412 ],
-            [ -1, -0.8427007929497148693412 ],
-            [ 2, 0.9953222650189527341621 ],
-            [ 3.4, 0.9999984780066371377146 ],
-            [ 0.154, 0.1724063976196591819236 ],
-            [ -2.31, -0.9989124231037000500402 ],
-            [ -1.034, -0.856340111375020118952 ],
-        ];
-    }
-
-    /**
-     * @dataProvider dataProviderForComplementaryErrorFunction
-     */
-    public function testComplementaryErrorFunction($x, $error)
-    {
-        $this->assertEquals($error, RandomVariable::complementaryErrorFunction($x), '', 0.0001);
-    }
-
-    /**
-     * @dataProvider dataProviderForComplementaryErrorFunction
-     */
-    public function testErfc($x, $error)
-    {
-        $this->assertEquals($error, RandomVariable::complementaryErrorFunction($x), '', 0.0001);
-    }
-
-    public function dataProviderForComplementaryErrorFunction()
-    {
-        return [
-            [ 0, 1 ],
-            [ 1, 0.1572992070502851306588 ],
-            [ -1, 1.842700792949714869341 ],
-            [ 2, 0.004677734981047265837931 ],
-            [ 3.4, 1.521993362862285361757E-6 ],
-            [ 0.154, 0.8275936023803408180764 ],
-            [ -2.31, 1.99891242310370005004 ],
-            [ -1.034, 1.856340111375020118952 ],
-        ];
-    }
-
-    /**
      * @dataProvider dataProviderForStandardErrorOfTheMean
      */
     public function testStandardErrorOfTheMean(array $X, float $sem)
