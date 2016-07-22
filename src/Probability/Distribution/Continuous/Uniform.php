@@ -1,13 +1,15 @@
 <?php
-namespace Math\Probability\Distribution;
+namespace Math\Probability\Distribution\Continuous;
 
-class UniformDistribution extends Continuous {
+class Uniform extends Continuous
+{
+
 /**
      * Continuous uniform distribution - probability desnsity function
      * https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
      *
      *         1
-     * pmf = -----  for a ≤ x ≤ b 
+     * pmf = -----  for a ≤ x ≤ b
      *       b - a
      *
      * pmf = 0      for x < a, x > b
@@ -29,9 +31,9 @@ class UniformDistribution extends Continuous {
      * https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
      *
      * cdf = 0      for x < a
-     * 
+     *
      *       x - a
-     * cdf = -----  for a ≤ x < b 
+     * cdf = -----  for a ≤ x < b
      *       b - a
      *
      * cdf = 1      x ≥ b

@@ -1,7 +1,8 @@
 <?php
-namespace Math\Probability\Distribution
+namespace Math\Probability\Distribution\Continuous;
 
-class ParetoDistribution extends Continuous {
+class Pareto extends Continuous
+{
 
     /**
      * Pareto distribution - probability density function

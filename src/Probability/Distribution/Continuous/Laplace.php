@@ -1,7 +1,8 @@
 <?php
-namespace math\Probability\Distribution;
+namespace math\Probability\Distribution\Continuous;
 
-class LaplaceDistribution extends Continuous {
+class Laplace extends Continuous
+{
     /**
      * Laplace distribution - probability density function
      *

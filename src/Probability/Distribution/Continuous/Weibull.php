@@ -1,7 +1,8 @@
 <?php
-namespace math\Probability\Distribution
+namespace math\Probability\Distribution\Continuous;
 
-class WeibullDistribution extends Continuous {
+class Weibull extends Continuous
+{
     /**
      * Weibull distribution - probability density function
      *

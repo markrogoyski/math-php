@@ -1,7 +1,10 @@
 <?php
-namespace Math\Probability\Distribution;
+namespace Math\Probability\Distribution\Continuous;
+
 use Math\Functions\Special;
-class NormalDistribution extends Continuous {
+
+class Normal extends Continuous
+{
   
   /**
      * Normal distribution - probability density function
@@ -18,11 +21,12 @@ class NormalDistribution extends Continuous {
      *
      * @return float f(x|μ,σ)
      */
-  public static function PDF($x, $μ, $σ²) {
-    $π = \M_PI;
-    $pdf = exp(-1 * ($x - $μ) ** 2 / 2 / $σ²)/(sqrt(2 * $σ² * $π));
-    return $pdf;
-  }
+    public static function PDF($x, $μ, $σ²)
+    {
+        $π = \M_PI;
+        $pdf = exp(-1 * ($x - $μ) ** 2 / 2 / $σ²)/(sqrt(2 * $σ² * $π));
+        return $pdf;
+    }
   
   /**
      * Normal distribution - cumulative distribution function
@@ -39,8 +43,9 @@ class NormalDistribution extends Continuous {
      *
      * @return float cdf(x) below
      */
-  public static function CDF($x, $μ, $σ²) {
-    $cdf = (1 + Special::erf(($x - $μ) / sqrt(2 * $σ²))) / 2;
-    return $cdf;
-  }
+    public static function CDF($x, $μ, $σ²)
+    {
+        $cdf = (1 + Special::erf(($x - $μ) / sqrt(2 * $σ²))) / 2;
+        return $cdf;
+    }
 }

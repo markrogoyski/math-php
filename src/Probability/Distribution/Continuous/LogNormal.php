@@ -1,8 +1,10 @@
 <?php
-namespace Math\Probability\Distribution;
+namespace Math\Probability\Distribution\Continuous;
+
 use math\Functions\Special;
 
-class LogNormalDistribution extends Continuous{
+class LogNormal extends Continuous
+{
     /**
      * Log normal distribution - probability density function
      *
