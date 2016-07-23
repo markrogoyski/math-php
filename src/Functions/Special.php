@@ -95,6 +95,18 @@ class Special
     }
 
     /**
+     * Gamma function convenience method
+     *
+     * @param number $n
+     *
+     * @return number
+     */
+    public static function Γ($n)
+    {
+        return self::gamma($n);
+    }
+
+    /**
      * Gamma function - Lanczos' approximation
      * https://en.wikipedia.org/wiki/Gamma_function
      * https://en.wikipedia.org/wiki/Lanczos_approximation
@@ -388,7 +400,7 @@ class Special
     }
   
     /**
-     * Lower incomplete gamma function
+     * Lower incomplete gamma function - γ(s, t)
      * https://en.wikipedia.org/wiki/Incomplete_gamma_function#Lower_incomplete_Gamma_function
      *
      * This function is exact for all integer multiples of .5
@@ -431,6 +443,20 @@ class Special
         }
 
         return $xˢ∕s∕eˣ * $sum;
+    }
+
+    /**
+     * γ - Convenience method for lower incomplete gamma function
+     * https://en.wikipedia.org/wiki/Incomplete_gamma_function#Lower_incomplete_Gamma_function
+     *
+     * @param  $s
+     * @param  $x
+     *
+     * @return number
+     */
+    public static function γ($s, $x)
+    {
+        return self::lowerIncompleteGamma($s, $x);
     }
 
     /**
