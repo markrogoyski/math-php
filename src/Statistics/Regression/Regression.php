@@ -114,8 +114,9 @@ abstract class Regression
             $ys
         ));
         $⟮∑y⟯² = pow(array_sum($ys), 2);
-
-        return ( $n∑⟮xy⟯ - $∑⟮x⟯∑⟮y⟯ ) / sqrt(($n∑x² - $⟮∑x⟯²) * ($n∑y² - $⟮∑y⟯²));
+        $numerator = ($n∑⟮xy⟯ - $∑⟮x⟯∑⟮y⟯);
+        $denominator = sqrt(($n∑x² - $⟮∑x⟯²) * ($n∑y² - $⟮∑y⟯²));
+        return $numerator / $denominator;
     }
 
     /**

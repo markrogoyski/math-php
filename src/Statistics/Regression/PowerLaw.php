@@ -85,7 +85,9 @@ class PowerLaw extends Regression
         );
 
         // Calculate a and b
-        $this->b = ( $n∑⟮ln xᵢ ln yᵢ⟯ - $∑⟮ln xᵢ⟯ ∑⟮ln yᵢ⟯ ) / ( $n∑⟮ln xᵢ⟯² - $⟮∑⟮ln xᵢ⟯⟯² );
+        $numerator = $n∑⟮ln xᵢ ln yᵢ⟯ - $∑⟮ln xᵢ⟯ ∑⟮ln yᵢ⟯ ;
+        $denominator = $n∑⟮ln xᵢ⟯² - $⟮∑⟮ln xᵢ⟯⟯²;
+        $this->b = $numerator / $denominator;
         $this->a = exp(( $∑⟮ln yᵢ⟯ - $this->b * $∑⟮ln xᵢ⟯ ) / $n);
     }
 
