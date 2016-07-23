@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution\Discrete;
 
-class Binomial extends Discrete
+class Geometric extends Discrete
 {
     /**
      * Geometric distribution - probability mass function

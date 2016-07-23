@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution\Discrete;
 
-class BBernoulli extends Discrete
+class Bernoulli extends Discrete
 {
     /**
      * Bernoulli distribution - probability mass function

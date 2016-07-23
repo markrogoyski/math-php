@@ -1,6 +1,8 @@
 <?php
 namespace Math\Probability\Distribution\Discrete;
 
+use Math\Probability\Combinatorics;
+
 class Poisson extends Discrete
 {
     /**
@@ -49,7 +51,7 @@ class Poisson extends Discrete
     {
         return array_sum(array_map(
             function ($k) use ($λ) {
-                return self::poissonPMF($k, $λ);
+                return self::PMF($k, $λ);
             },
             range(0, $k)
         ));

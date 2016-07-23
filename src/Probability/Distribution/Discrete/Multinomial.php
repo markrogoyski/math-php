@@ -1,6 +1,8 @@
 <?php
 namespace Math\Probability\Distribution\Discrete;
 
+use Math\Probability\Combinatorics;
+
 class Multinomial extends Discrete
 {
     /**

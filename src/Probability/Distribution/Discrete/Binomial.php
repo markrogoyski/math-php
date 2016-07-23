@@ -1,6 +1,8 @@
 <?php
 namespace Math\Probability\Distribution\Discrete;
 
+use Math\Probability\Combinatorics;
+
 class Binomial extends Discrete
 {
     /**
@@ -42,7 +44,7 @@ class Binomial extends Discrete
     {
         $cumulative_probability = 0;
         for ($i = $r; $i >= 0; $i--) {
-            $cumulative_probability += self::binomialPMF($n, $i, $p);
+            $cumulative_probability += self::PMF($n, $i, $p);
         }
         return $cumulative_probability;
     }

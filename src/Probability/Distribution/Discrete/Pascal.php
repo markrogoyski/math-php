@@ -18,6 +18,6 @@ class Pascal extends Discrete
      */
     public static function PMF(int $x, int $r, float $P): float
     {
-        return self::negativeBinomialPMF($x, $r, $P);
+        return NegativeBinomial::PMF($x, $r, $P);
     }
 }
