@@ -291,6 +291,22 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             [0.45, 12.45, 3.49, 0.00283809],
             [0.294, 0.23, 2.11, 0.88503883],
             [0.993, 0.23, 2.11, 0.99999612],
+            [0.55, 2, 2.5, 0.67737732],
+            //[0.55, 2.5, 2, 0.47672251],
         ];
+    }
+
+    public function testRegularizedIncompleteBetaExceptionALessThanZero()
+    {
+        $a = -1;
+        $this->setExpectedException('\Exception');
+        Special::regularizedIncompleteBeta(0.4, $a, 4);
+    }
+
+    public function testRegularizedIncompleteBetaExceptionXOutOfBounds()
+    {
+        $x = -1;
+        $this->setExpectedException('\Exception');
+        Special::regularizedIncompleteBeta($x, 4, 4);
     }
 }
