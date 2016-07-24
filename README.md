@@ -146,8 +146,8 @@ $cdf = Logistic::CDF($μ, $s, $x);
 $α = 1; // scale parameter
 $β = 1; // shape parameter
 $x = 2;
-$pdf = Continuous::PDF($α, $β, $x);
-$cdf = Continuous::CDF($α, $β, $x);
+$pdf = LogLogistic::PDF($α, $β, $x);
+$cdf = LogLogistic::CDF($α, $β, $x);
 
 // Log-normal distribution
 list($μ, $σ, $x) = [6, 2, 4.3];
