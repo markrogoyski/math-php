@@ -138,9 +138,9 @@ $n     = $A->getN();      // number of elements
 $item = $A->get(2);
 
 // Vector operations
-$dot   = $A->dotProduct($B);   // same as innerProduct
-$dot   = $A->innerProduct($B); // same as dotProduct
-$outer = $A->outerProduct(new Vector([1, 2]));
+$dot    = $A->dotProduct($B);   // same as innerProduct
+$dot    = $A->innerProduct($B); // same as dotProduct
+$matrix = $A->outerProduct(new Vector([1, 2]));
 ```
 
 ### Probability - Combinatorics
