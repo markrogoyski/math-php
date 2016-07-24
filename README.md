@@ -110,7 +110,7 @@ $bool = $A->isSquare();
 // Map a function over each element of the Matrix
 $func = function($x) {
   return $x * 2;
-}
+};
 $R = $A->map($func);
 
 // Static Matrix operations
