@@ -8,6 +8,9 @@ Math PHP is a self-contained mathematics library in pure PHP with no external de
 Features
 --------
  * Algebra
+ * LinearAlgebra
+   - Matrix
+   - Vector
  * Probability
      * Combinatorics
      * Distributions
@@ -67,6 +70,77 @@ $lcm = Algebra::lcm(5, 2);
 
 // Factors of an integer
 $factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
+```
+
+### Linear Algebra - Matrix
+```php
+use Math\LinearAlgebra\Matrix;
+
+$matrix = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+];
+
+// Matrix
+$A = new Matrix($matrix);
+$B = new Matrix($matrix);
+
+// Basic matrix data
+$array = $A->getMatrix();
+$rows  = $A->getM();      // number of rows
+$cols  = $A->getN();      // number of columns
+
+// Basic matrix elements
+$row  = $A->getRow(2);
+$col  = $A->getColumn(2);
+$item = $A->get(2, 2);
+
+// Matrix operations - all operations that return a Matrix return a new Matrix
+$R = $A->add($B);
+$R = $A->directSum($B);
+$R = $A->subtract($B);
+$R = $A->multiply($B);
+$R = $A->scalarMultiply(5);
+$R = $A->transpose();
+
+$tr⟮A⟯ = $A->trace();
+$bool = $A->isSquare();
+
+// Map a function over each element of the Matrix
+$func = function($x) {
+  return $x * 2;
+}
+$R = $A->map($func);
+
+// Static Matrix operations
+list($m, $n) = [4, 4];
+$identity_matrix = Matrix::identity($n);
+$zero_matrix     = Matrix::zero($m, $n);
+$ones_matrix     = Matrix::one($m, $n);
+```
+
+### Linear Algebra - Vector
+```php
+use Math\LinearAlgebra\Vector;
+
+$vector1 = [1, 2, 3];
+
+// Vector
+$A = new Vector($vector);
+$B = new Vector($vector);
+
+// Basic vector data
+$array = $A->getVector();
+$n     = $A->getN();      // number of elements
+
+// Basic vector elements
+$item = $A->get(2);
+
+// Vector operations
+$dot   = $A->dotProduct($B);   // same as innerProduct
+$dot   = $A->innerProduct($B); // same as dotProduct
+$outer = $A->outerProduct(new Vector([1, 2]));
 ```
 
 ### Probability - Combinatorics
