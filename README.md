@@ -121,13 +121,6 @@ $d₂ = 4; // degree of freedom v2
 $pdf = F::PDF($x, $d₁, $d₂);
 $cdf = F::CDF($x, $d₁, $d₂);
 
-// Continuous uniform distribution 
-$a   = 2; // lower boundary of distribution
-$b   = 9; // upper boundary of distribution
-$x   = 4; // percentile
-$pdf = Uniform::PDF($a, $b, $x);
-$cdf = Uniform::CDF($a, $b, $X);
-
 // Laplace distribution
 $μ = 1;   // location parameter
 $b = 1.5; // scale parameter (diversity)
