@@ -472,9 +472,9 @@ class Special
      * The accuracy of the continuous fraction might be good enough to replace
      * the 'exact' values, and simplify the code.
      * 
-     * @param  $x 0 ≦ x ≦ 1
-     * @param  $a > 0
-     * @param  $b > 0
+     * @param  $x Upper limit of the integration 0 ≦ x ≦ 1
+     * @param  $a Shape parameter a > 0
+     * @param  $b Shape parameter b > 0
      *
      * @return number
      */
