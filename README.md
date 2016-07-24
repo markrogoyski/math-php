@@ -96,124 +96,144 @@ $divisions = Combinatorics::multinomialTheorem($n, $groups);
 ```php
 use Math\Probability\Distribution\Continuous;
 
-// Continuous uniform distribution - PDF, CDF, Interval
-$a   = 2; // lower boundary of distribution
-$b   = 9; // upper boundary of distribution
-$x   = 4; // percentile
-$pdf = Continuous::uniformPDF($a, $b, $x); // probability density function
-$cdf = Continuous::uniformCDF($a, $b, $X); // cumulative distribution function
-$x₁  = 4;  // lower boundary of probability interval
-$x₂  = 6;  // upper boundary of probability interval
-$probability = Continuous::uniformInterval($a, $b, $x₁, $x₂); // probability of a specific interval within distribution
-
-// Exponential distribution - PDF, CDF
-$λ   = 1; // rate parameter
-$x   = 2; // random variable
-$pdf = Continuous::exponentialPDF($λ, $x); // probability density function
-$cdf = Continuous::exponentialCDF($λ, $x); // cumulative distribution function
-list($x₁, $x₂) = [2, 3];
-$probability   = Continuous::exponentialCDFBetween($λ, $x₁, $x₂); // probability that an exponentially distributed random variable X is between x₁ and x₂
-
-// Normal distribution - probability density function (pdf)
-list($μ, $σ, $x) = [0, 1, 2];
-$probability = Continuous::normalPDF($x, $μ, $σ);
-
-// Normal distrubution - cumulative distribution function (cdf)
-list($μ, $σ, $x₁, $x₂) = [0, 1, 1, 2];
-$probability = Continuous::normalCDF($x₁, $μ, $σ);             // from -∞ to X
-$probability = Continuous::normalCDFAbove($x₁, $μ, $σ);        // from X to ∞
-$probability = Continuous::normalCDFBetween($x₁, $x₂, $μ, $σ); // from x₁ to x₂
-$probability = Continuous::normalCDFOutside($x₁, $x₂, $μ, $σ); // from -∞ to x₁ and x₂ to ∞
-
-// Log-normal distribution - PDF, CDF
-list($μ, $σ, $x) = [6, 2, 4.3];
-$probability = Continuous::logNormalPDF($x, $μ, $σ); // probability density function
-$probability = Continuous::logNormalCDF($x, $μ, $σ); // cumulative distribution function
-
-// Pareto distribution - PDF, CDF
-$a = 1; // shape parameter
-$b = 1; // scale parameter
-$x = 2;
-$probability = Continuous::paretoPDF($a, $b, $x); // probability density function
-$probability = Continuous::paretoCDF($a, $b, $x); // cumulative distribution function
-
-// Weibull distribution - PDF, CDF
-$k = 1; // shape parameter
-$λ = 2; // scale parameter
-$x = 2;
-$probability = Continuous::weibullPDF($k, $λ, $x); // probability density function
-$probability = Continuous::weibullCDF($k, $λ, $x); // cumulative distribution function (from 0 to x)
-
-// Laplace distribution - PDF, CDF
-$μ = 1;   // location parameter
-$b = 1.5; // scale parameter (diversity)
-$x = 1;
-$probability = Continuous::laplacePDF($μ, $b, $x); // probability density function
-$probability = Continuous::laplaceCDF($μ, $b, $x); // cumulative distribution function (from -∞ to x)
-
-// Logistic distribution - PDF, CDF
-$μ = 2;   // location parameter
-$s = 1.5; // scale parameter
-$x = 3;
-$probability = Continuous::logisticPDF($μ, $s, $x); // probability density function
-$probability = Continuous::logisticCDF($μ, $s, $x); // cumulative distribution function (from -∞ to x)
-
-// Log-logistic distribution (Fisk distribution) - PDF, CDF
-$α = 1; // scale parameter
-$β = 1; // shape parameter
-$x = 2;
-$probability = Continuous::logLogisticPDF($α, $β, $x); // probability density function
-$probability = Continuous::logLogisticCDF($α, $β, $x); // cumulative distribution function
-
-// Beta distribution - PDF
+// Beta distribution
 $α = 1; // shape parameter
 $β = 1; // shape parameter
 $x = 2;
-$probability = Continuous::betaPDF($α, $β, $x); // probability density function
+$pdf = Beta::PDF($α, $β, $x);
+
+// χ²-distribution (Chi-Squared)
+$x = 1;
+$k = 2; // degrees of freedom
+$pdf = ChiSquared::PDF($x, $k);
+$cdf = ChiSquared::CDF($x, $k);
+
+// Exponential distribution 
+$λ   = 1; // rate parameter
+$x   = 2; // random variable
+$pdf = Exponential::PDF($λ, $x);
+$cdf = Exponential::CDF($λ, $x);
+
+// F-distribution
+$x  = 2;
+$d₁ = 3; // degree of freedom v1
+$d₂ = 4; // degree of freedom v2
+$pdf = F::PDF($x, $d₁, $d₂);
+$cdf = F::CDF($x, $d₁, $d₂);
+
+// Continuous uniform distribution 
+$a   = 2; // lower boundary of distribution
+$b   = 9; // upper boundary of distribution
+$x   = 4; // percentile
+$pdf = Uniform::PDF($a, $b, $x);
+$cdf = Uniform::CDF($a, $b, $X);
+
+// Laplace distribution
+$μ = 1;   // location parameter
+$b = 1.5; // scale parameter (diversity)
+$x = 1;
+$pdf = Laplace::PDF($μ, $b, $x);
+$cdf = Laplace::CDF($μ, $b, $x);
+
+// Logistic distribution
+$μ = 2;   // location parameter
+$s = 1.5; // scale parameter
+$x = 3;
+$pdf = Logistic::PDF($μ, $s, $x);
+$cdf = Logistic::CDF($μ, $s, $x);
+
+// Log-logistic distribution (Fisk distribution)
+$α = 1; // scale parameter
+$β = 1; // shape parameter
+$x = 2;
+$pdf = Continuous::PDF($α, $β, $x);
+$cdf = Continuous::CDF($α, $β, $x);
+
+// Log-normal distribution
+list($μ, $σ, $x) = [6, 2, 4.3];
+$pdf = LogNormal::PDF($x, $μ, $σ);
+$cdf = LogNormal::CDF($x, $μ, $σ);
+
+// Normal distribution
+list($μ, $σ, $x) = [0, 1, 2];
+$pdf = Normal::PDF($x, $μ, $σ);
+$cdf = Normal::CDF($x₁, $μ, $σ);
+
+// Pareto distribution
+$a = 1; // shape parameter
+$b = 1; // scale parameter
+$x = 2;
+$pdf = Pareto::PDF($a, $b, $x);
+$cdf = Pareto::CDF($a, $b, $x);
+
+// Standard normal distribution
+$z = 2;
+$pdf = StandardNormal::PDF($z);
+$cdf = StandardNormal::CDF($z);
+
+// Student's t-distribution
+$x = 2;
+$ν = 3; // degrees of freedom
+$pdf = StudentT::PDF($x, $ν);
+$cdf = StudentT::CDF($x, $ν);
+
+// Uniform distribution
+$a = 1; // lower boundary of the distribution
+$b = 4; // upper boundary of the distribution
+$x = 2;
+$pdf = Uniform::PDF($a, $b, $x);
+$cdf = Uniform::CDF($a, $b, $x);
+
+// Weibull distribution
+$k = 1; // shape parameter
+$λ = 2; // scale parameter
+$x = 2;
+$pdf = Weibull::PDF($k, $λ, $x);
+$cdf = Weibull::CDF($k, $λ, $x);
 ```
 
 ### Probability - Discrete Distributions
 ```php
 use Math\Probability\Distribution\Discrete;
 
-// Binomial distribution - PMF, CDF
+// Binomial distribution
 $n = 2;   // number of events
 $r = 1;   // number of successful events
 $P = 0.5; // probability of success
-$pmf = Discrete::binomialPMF($n, $r, $P); // probability mass function
-$cdf = Discrete::binomialCDF($n, $r, $P); // cumluative distribution function
+$pmf = Binomial::PMF($n, $r, $P);
+$cdf = Binomial::CDF($n, $r, $P);
 
-// Bernoulli distribution (special case of binomial where n = 1) - PMF, CDF
-$pmf = Discrete::bernoulliPMF($r, $P); // probability mass function
-$cdf = Discrete::bernoulliCDF($r, $P); // cumulative distribution function
+// Bernoulli distribution (special case of binomial where n = 1)
+$pmf = Bernoulli::PMF($r, $P);
+$cdf = Bernoulli::CDF($r, $P);
 
-// Negative binomial distribution (Pascal) - PMF
+// Geometric distribution (failures before the first success)
+$k = 2;   // number of trials
+$p = 0.5; // success probability
+$pmf = Geometric::PMF($k, $p);
+$cdf = Geometric::CDF($k, $p);
+
+// Multinomial distribution
+$frequencies   = [7, 2, 3];
+$probabilities = [0.40, 0.35, 0.25];
+$pmf = Multinomial::PMF($frequencies, $probabilities);
+
+// Negative binomial distribution (Pascal)
 $x = 2;   // number of trials required to produce r successes
 $r = 1;   // number of successful events
 $P = 0.5; // probability of success on an individual trial
-$pmf = Discrete::negativeBinomialPMF($x, $r, $P);  // probability mass function - same as pascalPMF
-$pmf = Discrete::pascalPMF($x, $r, $P);            // probability mass function - same as negativeBinomialPMF
+$pmf = NegativeBinomial::PMF($x, $r, $P);  // same as Pascal::PMF
+$pmf = Pascal::PMF($x, $r, $P);            // same as NegativeBinomial::PMF
 
-// Poisson distribution - PMF, CDF
+// Poisson distribution
 $k = 3; // events in the interval
 $λ = 2; // average number of successful events per interval
-$pmf = Discrete::poissonPMF($k, $λ); // probability mass function
-$cdf = Discrete::poissonCDF($k, $λ); // cumulative distribution function
+$pmf = Poisson::PMF($k, $λ);
+$cdf = Poisson::CDF($k, $λ);
 
-// Multinomial distribution - PMF
-$frequencies   = [7, 2, 3];
-$probabilities = [0.40, 0.35, 0.25];
-$pmf = Discrete::multinomialPMF($frequencies, $probabilities); // probability mass function 
-
-// Shifted geometric distribution (probability to get one success) - PMF, CDF
-$k = 2;   // number of trials
-$p = 0.5; // success probability
-$pmf = Discrete::geometricShiftedPMF($k, $p); // probability mass function
-$cdf = Discrete::geometricShiftedCDF($k, $p); // cumulative distribution function
-
-// Geometric distribution (failures before the first success) - PMF, CDF
-$pmf = Discrete::geometricKFailuresPMF($k, $p); // probability mass function
-$cdf = Discrete::geometricKFailuresCDF($k, $p); // lower cumulative distribution function
+// Shifted geometric distribution (probability to get one success)
+$pmf = ShiftedGeometric::PMF($k, $p);
+$cdf = ShiftedGeometric::CDF($k, $p);
 ```
 
 ### Probability - Standard Normal Table (Z Table)
@@ -417,13 +437,6 @@ $mesokurtic  = RandomVariable::isMesokurtic($X);  // true if kurtosis is zero
 $sem = RandomVariable::standardErrorOfTheMean($X); // same as sem
 $sem = RandomVariable::sem($X);                    // same as standardErrorOfTheMean
 
-// Error function (Gauss error function)
-$error = RandomVariable::errorFunction(2); // same as erf
-$error = RandomVariable::erf(2);           // same as errorFunction
-
-$error = RandomVariable::complementaryErrorFunction(2); // same as erfc
-$error = RandomVariable::erfc(2);                       // same as complementaryErrorFunction
-
 // Confidence interval
 $μ  = 90; // sample mean
 $n  = 9;  // sample size
@@ -487,6 +500,13 @@ $Γ = Special::gammaStirling($z);  // Stirling approximation
 list($x, $y) = [1, 2];
 $β = Special::beta($x, $y);
 
+// Error function (Gauss error function)
+$error = Special::errorFunction(2); // same as erf
+$error = Special::erf(2);           // same as errorFunction
+
+$error = Special::complementaryErrorFunction(2); // same as erfc
+$error = Special::erfc(2);                       // same as complementaryErrorFunction
+
 // Sign function (also known as signum or sgn)
 $x = 4;
 $sign = Special::signum($x); // same as sgn
@@ -498,6 +518,15 @@ $L  = 3; // the curve's maximum value
 $k  = 4; // the steepness of the curve
 $x  = 5;
 $logistic = Special::logistic($x₀, $L, $k, $x);
+
+// Lower incomplete gamma function - γ(s, t)
+list($x, $s) = [1, 2];
+$γ = Special::lowerIncompleteGamma($x, $s); // same as γ
+$γ = Special::γ($x, $s);                    // same as lowerIncompleteGamma
+
+// Regularized incomplete beta function
+list($x, $a, $b) = [0.4, 2, 3];
+$Iₓ = Special::regularizedIncompleteBeta($x, $a, $b);
 
 // Sigmoid function
 $t = 2;
