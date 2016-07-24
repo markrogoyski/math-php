@@ -114,7 +114,7 @@ $func = function($x) {
 $R = $A->map($func);
 
 // Static Matrix operations
-list($m, $n) = [4, 4];
+list($m, $n)     = [4, 4];
 $identity_matrix = Matrix::identity($n);
 $zero_matrix     = Matrix::zero($m, $n);
 $ones_matrix     = Matrix::one($m, $n);
