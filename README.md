@@ -124,7 +124,7 @@ $ones_matrix     = Matrix::one($m, $n);
 ```php
 use Math\LinearAlgebra\Vector;
 
-$vector1 = [1, 2, 3];
+$vector = [1, 2, 3];
 
 // Vector
 $A = new Vector($vector);
