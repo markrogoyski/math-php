@@ -13,5 +13,8 @@
     <testsuite name="Algebra">
       <directory suffix="Test.php">Algebra</directory>
     </testsuite>
+    <testsuite name="LinearAlgebra">
+      <directory suffix="Test.php">LinearAlgebra</directory>
+    </testsuite>
   </testsuites>
 </phpunit>
