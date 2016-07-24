@@ -459,7 +459,7 @@ class Special
     }
 
     /**
-     * Regularized incomplete beta function
+     * Regularized incomplete beta function - Iₓ(a, b)
      *
      * https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function
      * See http://www.dtic.mil/dtic/tr/fulltext/u2/642495.pdf
