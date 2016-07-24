@@ -561,7 +561,7 @@ class Special
                 $I = $I_new;
                 $m++;
             } while ($dif > $tol);
-            echo count($fraction_array) . "\n";
+            //echo count($fraction_array) . "\n";
             return $I;
         } else {
             if ($a <= 1) {
