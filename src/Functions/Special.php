@@ -488,21 +488,39 @@ class Special
             throw new \Exception('x must be 0 ≦ x ≦ 1');
         }
 
-        if ($x == 1) {
-            return self::beta($a, $b);
+        if ($x == 1 || $x == 0) {
+            return $x;
+        }
+
+        if ($a == 1) {
+            return 1 - (1 - $x) ** $b;
+        }
+
+        if ($b == 1) {
+            return $x ** $a;
         }
 
         $π = \M_PI;
 
         // If $a and $b are integer multiples of .5 (half integers) we can caculate exact.
         if (($a * 2) == round($a * 2) && ($b * 2) == round($b * 2)) {
-            if (is_int($a)) {
-                //Equation 50 from paper
-                $sum = 0;
-                for ($i = 1; $i <= $a; $i++) {
-                    $sum += $x**($i-1) * self::gamma($b + $i - 1) / self::gamma($b) / self::gamma($i);
+            if (is_int($a) || is_int($b)) {
+                if (is_int($a) || is_int($a) && is_int($b) && $b > $a){
+                    //Equation 50 from paper
+                    $sum = 0;
+                    for ($i = 1; $i <= $a; $i++) {
+                        $sum += $x ** ($i-1) * self::gamma($b + $i - 1) / self::gamma($b) / self::gamma($i);
+                    }
+                    return 1 - (1 - $x)**$b * $sum;
+                } else {   // is_int($b)
+                    //Equation 48 from paper
+                    $sum = 0;
+                    for ($i = 1; $i <= $b; $i++) {
+                        $sum += (1 - $x) ** ($i - 1) * self::gamma($a + $i - 1) / self::gamma($a) / self::gamma($i);
+                    }
+                    return $x ** $a * $sum;
+
                 }
-                return 1 - (1 - $x)**$b * $sum;
             } elseif ($b == .5) {
                 if ($a == .5) {
                     //Equation 61 from paper
