@@ -2,6 +2,7 @@
 namespace Math\Statistics;
 
 use Math\Statistics\Average;
+use Math\Statistics\RandomVariable;
 
 class Descriptive
 {
@@ -466,28 +467,38 @@ class Descriptive
 
     /**
      * Get a report of all the descriptive statistics over a list of numbers
-     * Includes mean, median, mode, range, midrange, variance, and standard deviation, quartiles
+     * Includes mean, median, mode, range, midrange, variance, standard deviation, quartiles, etc.
      *
      * @param array $numbers
      * @param bool  $population: true means all possible observations of the system are present;
      *              false means a sample is used.
-     * @return array [ mean, median, mode, range, midrange, variance, standard deviation, mean_mad,
-     *                 median_mad, quartiles ]
+     * @return array [ n, mean, median, mode, range, midrange, variance, sd, mean_mad,
+     *                 median_mad, quartiles, skewness, kurtosis, sem, ci_95, ci_99 ]
      */
-    public static function getStats(array $numbers, bool $population = true): array
+    public static function describe(array $numbers, bool $population = false): array
     {
+        $n = count($numbers);
+        $μ = Average::mean($numbers);
+        $σ = self::standardDeviation($numbers, $population);
+
         return [
-            'mean'               => Average::mean($numbers),
+            'n'                  => $n,
+            'mean'               => $μ,
             'median'             => Average::median($numbers),
             'mode'               => Average::mode($numbers),
             'range'              => self::range($numbers),
             'midrange'           => self::midrange($numbers),
             'variance'           => $population ? self::populationVariance($numbers) : self::sampleVariance($numbers),
-            'standard_deviation' => self::standardDeviation($numbers, $population),
+            'sd'                 => $σ,
             'mean_mad'           => self::meanAbsoluteDeviation($numbers),
             'median_mad'         => self::medianAbsoluteDeviation($numbers),
             'quartiles'          => self::quartiles($numbers),
             'midhinge'           => self::midhinge($numbers),
+            'skewness'           => $population ? RandomVariable::populationSkewness($numbers) : RandomVariable::sampleSkewness($numbers),
+            'kurtosis'           => RandomVariable::kurtosis($numbers),
+            'sem'                => RandomVariable::standardErrorOfTheMean($numbers),
+            'ci_95'              => RandomVariable::confidenceInterval($μ, $n, $σ, 95),
+            'ci_99'              => RandomVariable::confidenceInterval($μ, $n, $σ, 99),
         ];
     }
 }
