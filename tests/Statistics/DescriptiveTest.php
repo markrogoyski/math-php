@@ -439,55 +439,79 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testGetStatsPopulation()
+    public function testDescribePopulation()
     {
-        $stats = Descriptive::getStats([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], true);
+        $stats = Descriptive::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], true);
         $this->assertTrue(is_array($stats));
+        $this->assertArrayHasKey('n',                  $stats);
         $this->assertArrayHasKey('mean',               $stats);
         $this->assertArrayHasKey('median',             $stats);
         $this->assertArrayHasKey('mode',               $stats);
         $this->assertArrayHasKey('range',              $stats);
         $this->assertArrayHasKey('midrange',           $stats);
         $this->assertArrayHasKey('variance',           $stats);
-        $this->assertArrayHasKey('standard_deviation', $stats);
+        $this->assertArrayHasKey('sd',                 $stats);
         $this->assertArrayHasKey('mean_mad',           $stats);
         $this->assertArrayHasKey('median_mad',         $stats);
         $this->assertArrayHasKey('quartiles',          $stats);
         $this->assertArrayHasKey('midhinge',           $stats);
+        $this->assertArrayHasKey('skewness',           $stats);
+        $this->assertArrayHasKey('kurtosis',           $stats);
+        $this->assertArrayHasKey('sem',                $stats);
+        $this->assertArrayHasKey('ci_95',              $stats);
+        $this->assertArrayHasKey('ci_99',              $stats);
+        $this->assertTrue(is_int($stats['n']));
         $this->assertTrue(is_numeric($stats['mean']));
         $this->assertTrue(is_numeric($stats['median']));
         $this->assertTrue(is_array($stats['mode']));
         $this->assertTrue(is_numeric($stats['range']));
         $this->assertTrue(is_numeric($stats['midrange']));
         $this->assertTrue(is_numeric($stats['variance']));
-        $this->assertTrue(is_numeric($stats['standard_deviation']));
+        $this->assertTrue(is_numeric($stats['sd']));
         $this->assertTrue(is_numeric($stats['mean_mad']));
         $this->assertTrue(is_numeric($stats['median_mad']));
         $this->assertTrue(is_array($stats['quartiles']));
         $this->assertTrue(is_numeric($stats['midhinge']));
+        $this->assertTrue(is_numeric($stats['skewness']));
+        $this->assertTrue(is_numeric($stats['kurtosis']));
+        $this->assertTrue(is_numeric($stats['sem']));
+        $this->assertTrue(is_array($stats['ci_95']));
+        $this->assertTrue(is_array($stats['ci_99']));
     }
 
-    public function testGetStatsSample()
+    public function testDescribeSample()
     {
-        $stats = Descriptive::getStats([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], false);
+        $stats = Descriptive::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], false);
         $this->assertTrue(is_array($stats));
+        $this->assertArrayHasKey('n',                  $stats);
         $this->assertArrayHasKey('mean',               $stats);
         $this->assertArrayHasKey('median',             $stats);
         $this->assertArrayHasKey('mode',               $stats);
         $this->assertArrayHasKey('range',              $stats);
         $this->assertArrayHasKey('midrange',           $stats);
         $this->assertArrayHasKey('variance',           $stats);
-        $this->assertArrayHasKey('standard_deviation', $stats);
+        $this->assertArrayHasKey('sd',                 $stats);
         $this->assertArrayHasKey('quartiles',          $stats);
         $this->assertArrayHasKey('midhinge',           $stats);
+        $this->assertArrayHasKey('skewness',           $stats);
+        $this->assertArrayHasKey('kurtosis',           $stats);
+        $this->assertArrayHasKey('sem',                $stats);
+        $this->assertArrayHasKey('ci_95',              $stats);
+        $this->assertArrayHasKey('ci_99',              $stats);
+        $this->assertTrue(is_int($stats['n']));
         $this->assertTrue(is_numeric($stats['mean']));
         $this->assertTrue(is_numeric($stats['median']));
         $this->assertTrue(is_array($stats['mode']));
         $this->assertTrue(is_numeric($stats['range']));
         $this->assertTrue(is_numeric($stats['midrange']));
         $this->assertTrue(is_numeric($stats['variance']));
-        $this->assertTrue(is_numeric($stats['standard_deviation']));
+        $this->assertTrue(is_numeric($stats['sd']));
         $this->assertTrue(is_array($stats['quartiles']));
         $this->assertTrue(is_numeric($stats['midhinge']));
+        $this->assertTrue(is_numeric($stats['skewness']));
+        $this->assertTrue(is_numeric($stats['kurtosis']));
+        $this->assertTrue(is_numeric($stats['sem']));
+        $this->assertTrue(is_array($stats['ci_95']));
+        $this->assertTrue(is_array($stats['ci_99']));
     }
 }
