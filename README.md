@@ -637,8 +637,9 @@ list($x, $s) = [1, 2];
 $γ = Special::lowerIncompleteGamma($x, $s); // same as γ
 $γ = Special::γ($x, $s);                    // same as lowerIncompleteGamma
 
-// Regularized incomplete beta function
+// Incomplete and regularized incomplete beta functions
 list($x, $a, $b) = [0.4, 2, 3];
+$B  = Special::incompleteBeta($x, $a, $b);
 $Iₓ = Special::regularizedIncompleteBeta($x, $a, $b);
 
 // Sigmoid function
