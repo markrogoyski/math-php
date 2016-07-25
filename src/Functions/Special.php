@@ -457,7 +457,24 @@ class Special
     {
         return self::lowerIncompleteGamma($s, $x);
     }
-
+    
+    /**
+     * Incomplete Beta Function - B(x;a,b)
+     * 
+     * Generalized form of the beta function
+     * https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function
+     * 
+     * @param $x
+     * @param $a
+     * @param $b
+     * 
+     * @return number
+     */
+    public static function incompleteBeta($x, $a, $b){
+        
+        return self::regularizedIncompleteBeta($x, $a, $b) * self::beta($a, $b)
+    }
+    
     /**
      * Regularized incomplete beta function - Iₓ(a, b)
      *
