@@ -397,7 +397,16 @@ class Special
     {
         return 1 - self::erf($x);
     }
-  
+
+    /**
+     * Upper Incomplete Gamma Function - Γ(s,x)
+     * https://en.wikipedia.org/wiki/Incomplete_gamma_function
+     */
+     public static function upperIncompleteGamma($s,$x)
+     {
+         return self::gamma($s) - self::lowerIncompleteGamma($s, $x);
+     }
+     
     /**
      * Lower incomplete gamma function - γ(s, t)
      * https://en.wikipedia.org/wiki/Incomplete_gamma_function#Lower_incomplete_Gamma_function
