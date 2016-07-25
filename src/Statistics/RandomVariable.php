@@ -462,6 +462,32 @@ class RandomVariable
     }
 
     /**
+     * Sum of squares deviations
+     *
+     * ∑⟮xᵢ - μ⟯²
+     * 
+     * @param  array  $numbers
+     *
+     * @return number
+     */
+    public function sumOfSquaresDeviations(array $numbers)
+    {
+         if (empty($numbers)) {
+            return null;
+        }
+
+        $μ         = Average::mean($numbers);
+        $∑⟮xᵢ − μ⟯² = array_sum(array_map(
+            function ($xᵢ) use ($μ) {
+                return pow(($xᵢ - $μ), 2);
+            },
+            $numbers
+        ));
+
+        return $∑⟮xᵢ − μ⟯²;
+    }
+
+    /**
      * Z score - standard score
      * https://en.wikipedia.org/wiki/Standard_score
      *

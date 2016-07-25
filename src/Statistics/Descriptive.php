@@ -49,8 +49,7 @@ class Descriptive
     }
 
     /**
-     * Population variance - Use when all possible observations of the system are present.
-     * If used with a subset of data (sample variance), it will be a biased variance.
+     * Variance
      *
      * Variance measures how far a set of numbers are spread out.
      * A variance of zero indicates that all the values are identical.
@@ -59,6 +58,41 @@ class Descriptive
      * A high variance indicates that the data points are very spread out around the mean
      * and from each other.
      * (https://en.wikipedia.org/wiki/Variance)
+     *
+     *      ∑⟮xᵢ - μ⟯²
+     * σ² = ----------
+     *          ν
+     *
+     * Generalized method that allows setting the degrees of freedom.
+     * For population variance, set d.f. (ν) to n
+     * For sample variance, set d.f (ν) to n - 1
+     * Or use popluationVariance or sampleVaraince covenience methods.
+     * 
+     * μ is the population mean
+     * ν is the degrees of freedom, which usually is
+     *   the number of numbers in the population set or n - 1 for sample set.
+     *
+     * @param array $numbers
+     * @param int   $ν degrees of freedom
+     * @return numeric
+     */
+    public static function variance(array $numbers, int $ν)
+    {
+        if (empty($numbers)) {
+            return null;
+        }
+        if ($ν <= 0) {
+            throw new \Exception('Degrees of freedom must be > 0');
+        }
+
+        $∑⟮xᵢ − μ⟯² = RandomVariable::sumOfSquaresDeviations($numbers);
+    
+        return $∑⟮xᵢ − μ⟯² / $ν;
+    }
+
+    /**
+     * Population variance - Use when all possible observations of the system are present.
+     * If used with a subset of data (sample variance), it will be a biased variance.
      *
      *      ∑⟮xᵢ - μ⟯²
      * σ² = ----------
@@ -72,33 +106,13 @@ class Descriptive
      */
     public static function populationVariance(array $numbers)
     {
-        if (empty($numbers)) {
-            return null;
-        }
-
-        $μ         = Average::mean($numbers);
-        $∑⟮xᵢ − μ⟯² = array_sum(array_map(
-            function ($xᵢ) use ($μ) {
-                return pow(($xᵢ - $μ), 2);
-            },
-            $numbers
-        ));
         $N = count($numbers);
-    
-        return $∑⟮xᵢ − μ⟯² / $N;
+        return self::variance($numbers, $N);
     }
 
     /**
      * Unbiased sample variance
      * Use when only a subset of all possible observations of the system are present.
-     *
-     * Variance measures how far a set of numbers are spread out.
-     * A variance of zero indicates that all the values are identical.
-     * Variance is always non-negative: a small variance indicates that the data points tend
-     * to be very close to the mean (expected value) and hence to each other.
-     * A high variance indicates that the data points are very spread out around the mean
-     * and from each other.
-     * (https://en.wikipedia.org/wiki/Variance)
      *
      *      ∑⟮xᵢ - x̄⟯²
      * S² = ----------
@@ -112,23 +126,12 @@ class Descriptive
      */
     public static function sampleVariance(array $numbers)
     {
-        if (empty($numbers)) {
-            return null;
-        }
         if (count($numbers) == 1) {
             return 0;
         }
 
-        $x         = Average::mean($numbers);
-        $∑⟮xᵢ − x⟯² = array_sum(array_map(
-            function ($xᵢ) use ($x) {
-                return pow(($xᵢ - $x), 2);
-            },
-            $numbers
-        ));
         $n = count($numbers);
-    
-        return $∑⟮xᵢ − x⟯² / ($n - 1);
+        return self::variance($numbers, $n - 1);
     }
 
     /**
@@ -138,7 +141,7 @@ class Descriptive
      *                            Default is true (population variance)
      * @return numeric
      */
-    public static function variance(array $numbers, bool $population = true)
+    public static function variance2(array $numbers, bool $population = true)
     {
         return $population
         ? self::populationVariance($numbers)
@@ -165,9 +168,12 @@ class Descriptive
         if (empty($numbers)) {
             return null;
         }
+
+        $n = count($numbers);
+
         return $population_variance
-        ? sqrt(self::populationVariance($numbers))
-        : sqrt(self::sampleVariance($numbers));
+            ? sqrt(self::populationVariance($numbers))
+            : sqrt(self::sampleVariance($numbers));
     }
 
     /**
