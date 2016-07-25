@@ -472,7 +472,7 @@ class Special
      */
     public static function incompleteBeta($x, $a, $b){
         
-        return self::regularizedIncompleteBeta($x, $a, $b) * self::beta($a, $b)
+        return self::regularizedIncompleteBeta($x, $a, $b) * self::beta($a, $b);
     }
     
     /**
