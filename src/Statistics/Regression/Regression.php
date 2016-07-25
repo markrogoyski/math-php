@@ -161,4 +161,14 @@ abstract class Regression
     {
         return pow(self::correlationCoefficient($points), 2);
     }
+    
+    /**
+     * return the Ŷ array, a list of the predicted values of Y given the regression.
+     * 
+     */
+      public function getYHat()
+     {
+         $function = [get_class($this),'evaluate'];
+         return array_map (function($x) use ($function){return call_user_func($function, $x);}, $this->xs);
+     }
 }
