@@ -464,9 +464,9 @@ class Special
      * Generalized form of the beta function
      * https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function
      * 
-     * @param $x
-     * @param $a
-     * @param $b
+     * @param  $x Upper limit of the integration 0 ≦ x ≦ 1
+     * @param  $a Shape parameter a > 0
+     * @param  $b Shape parameter b > 0
      * 
      * @return number
      */
