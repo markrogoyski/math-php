@@ -390,8 +390,20 @@ $heronian_mean = Average::heronianMean($x, $y);
 $identric_mean = Average::identricMean($x, $y);
 
 // Averages report
-// Returns array with keys: mean, median, mode, geometric_mean, harmonic_mean, contraharmonic_mean, quadratic_mean, trimean, iqm, cubic_mean
 $averages = Average::getAverages($numbers);
+print_r($averages);
+/* Array (
+    [mean]                => 15
+    [median]              => 14
+    [mode]                => Array ( [0] => 13 )
+    [geometric_mean]      => 14.789726414533
+    [harmonic_mean]       => 14.605077399381
+    [contraharmonic_mean] => 15.474074074074
+    [quadratic_mean]      => 15.235193176035
+    [trimean]             => 14.5
+    [iqm]                 => 14
+    [cubic_mean]          => 15.492307432707
+) */
 ```
 
 ### Statistics - Descriptive
@@ -436,35 +448,35 @@ $midhinge = Descriptive::midhinge($numbers);
 $stats = Descriptive::describe($numbers); // Has optional parameter to set population or sample calculations
 print_r($stats);
 /* Array (
-    [n] => 9
-    [mean] => 15
-    [median] => 14
-    [mode] => Array ( [0] => 13 )
-    [range] => 8
-    [midrange] => 17
-    [variance] => 8
-    [sd] => 2.8284271247462
-    [mean_mad] => 2.2222222222222
+    [n]          => 9
+    [mean]       => 15
+    [median]     => 14
+    [mode]       => Array ( [0] => 13 )
+    [range]      => 8
+    [midrange]   => 17
+    [variance]   => 8
+    [sd]         => 2.8284271247462
+    [mean_mad]   => 2.2222222222222
     [median_mad] => 1
-    [quartiles] => Array (
-            [0%] => 13
-            [Q1] => 13
-            [Q2] => 14
-            [Q3] => 17
+    [quartiles]  => Array (
+            [0%]   => 13
+            [Q1]   => 13
+            [Q2]   => 14
+            [Q3]   => 17
             [100%] => 21
-            [IQR] => 4
+            [IQR]  => 4
         )
-    [midhinge] => 15
-    [skewness] => 1.4915533665654
-    [kurtosis] => 0.1728515625
-    [sem] => 0.94280904158206
-    [ci_95] => Array (
-            [ci] => 1.8478680091392
+    [midhinge]   => 15
+    [skewness]   => 1.4915533665654
+    [kurtosis]   => 0.1728515625
+    [sem]        => 0.94280904158206
+    [ci_95]      => Array (
+            [ci]          => 1.8478680091392
             [lower_bound] => 13.152131990861
             [upper_bound] => 16.847868009139
         )
-    [ci_99] => Array (
-            [ci] => 2.4285158135783
+    [ci_99]      => Array (
+            [ci]          => 2.4285158135783
             [lower_bound] => 12.571484186422
             [upper_bound] => 17.428515813578
         )
