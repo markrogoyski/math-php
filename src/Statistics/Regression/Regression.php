@@ -1,6 +1,6 @@
 <?php
 namespace Math\Statistics\Regression;
-
+use Math\Statistics\Average;
 /**
  * Base class for regressions.
  */
@@ -171,4 +171,30 @@ abstract class Regression
          $function = [get_class($this),'evaluate'];
          return array_map (function($x) use ($function){return call_user_func($function, $x);}, $this->xs);
      }
+     
+     /**
+      * The Sum Squares of the regression
+      * 
+      * SSreg = ∑(ŷᵢ - ȳ)²
+      * 
+      * @return number
+      */
+       public function SumOfSquaresRegression()
+      {
+          $ȳ = Average::mean($this->ys);
+          return array_sum(array_map(function($y) use ($ȳ){return ($y - $ȳ) ** 2;}, $this->getYHat()));
+      }
+      
+     /**
+      * The Sum Squares of the residuals
+      * 
+      * SSreg = ∑(yᵢ - ŷᵢ)²
+      * 
+      * @return number
+      */
+       public function SumOfSquaresResidual()
+      {
+          $Ŷ = $this->getYHat();
+          return array_sum(array_map(function($yᵢ, $ŷᵢ){return ($yᵢ - $ŷᵢ) ** 2;}, $this->ys, $Ŷ));
+      }
 }
