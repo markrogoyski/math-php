@@ -1,6 +1,6 @@
 <?php
 namespace Math\Statistics\Regression;
-
+use Math\Statistics\Average;
 /**
  * Base class for regressions.
  */
@@ -77,46 +77,9 @@ abstract class Regression
      *
      * @return number
      */
-    public static function correlationCoefficient(array $points)
+    public function correlationCoefficient()
     {
-        // Get list of x points and y points.
-        $xs = array_map(function ($point) {
-            return $point[self::X];
-        }, $points);
-        $ys = array_map(function ($point) {
-            return $point[self::Y];
-        }, $points);
-        $n  = count($points);
-
-        // Numerator calculations
-        $n∑⟮xy⟯ = $n * array_sum(array_map(
-            function ($x, $y) {
-                return $x * $y;
-            },
-            $xs,
-            $ys
-        ));
-        $∑⟮x⟯∑⟮y⟯ = array_sum($xs) * array_sum($ys);
-
-        // Denominator calculations
-        $n∑x² = $n * array_sum(array_map(
-            function ($x) {
-                return $x**2;
-            },
-            $xs
-        ));
-        $⟮∑x⟯² = pow(array_sum($xs), 2);
-
-        $n∑y² = $n * array_sum(array_map(
-            function ($y) {
-                return $y**2;
-            },
-            $ys
-        ));
-        $⟮∑y⟯² = pow(array_sum($ys), 2);
-        $numerator = ($n∑⟮xy⟯ - $∑⟮x⟯∑⟮y⟯);
-        $denominator = sqrt(($n∑x² - $⟮∑x⟯²) * ($n∑y² - $⟮∑y⟯²));
-        return $numerator / $denominator;
+        return sqrt($this->CoefficientOfDetermination());
     }
 
     /**
@@ -127,7 +90,7 @@ abstract class Regression
      *
      * @return number
      */
-    public static function r(array $points)
+    public function r(array $points)
     {
         return self::correlationCoefficient($points);
     }
@@ -144,9 +107,9 @@ abstract class Regression
      *
      * @return number
      */
-    public static function coefficientOfDetermination(array $points)
+    public function coefficientOfDetermination(array $points)
     {
-        return pow(self::correlationCoefficient($points), 2);
+        return $this->SumOfSquaresRegression() / ($this->SumOfSquaresRegression() + $this->SumOfSquaresResidual());
     }
 
     /**
@@ -157,9 +120,9 @@ abstract class Regression
      *
      * @return number
      */
-    public static function r2(array $points)
+    public function r2(array $points)
     {
-        return pow(self::correlationCoefficient($points), 2);
+        return this->coefficientOfDetermination(array $points)
     }
     
     /**
@@ -171,4 +134,30 @@ abstract class Regression
          $function = [get_class($this),'evaluate'];
          return array_map (function($x) use ($function){return call_user_func($function, $x);}, $this->xs);
      }
+     
+     /**
+      * The Sum Squares of the regression
+      * 
+      * SSreg = ∑(ŷᵢ - ȳ)²
+      * 
+      * @return number
+      */
+       public function SumOfSquaresRegression()
+      {
+          $ȳ = Average::mean($this->ys);
+          return array_sum(array_map(function($y) use ($ȳ){return ($y - $ȳ) ** 2;}, $this->getYHat()));
+      }
+      
+     /**
+      * The Sum Squares of the residuals
+      * 
+      * SSreg = ∑(yᵢ - ŷᵢ)²
+      * 
+      * @return number
+      */
+       public function SumOfSquaresResidual()
+      {
+          $Ŷ = $this->getYHat();
+          return array_sum(array_map(function($yᵢ, $ŷᵢ){return ($yᵢ - $ŷᵢ) ** 2;}, $this->ys, $Ŷ));
+      }
 }
