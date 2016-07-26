@@ -96,6 +96,16 @@ $row  = $A->getRow(2);
 $col  = $A->getColumn(2);
 $item = $A->get(2, 2);
 
+// Row operations
+$R = $A->rowInterchange(1, 2);
+$R = $A->rowMultiply(1, 5);    // Multiply row mᵢ by k
+$R = $A->rowAdd(1, 2, 5);      // Add k * row mᵢ to row mⱼ; rowAdd(mᵢ, mⱼ, k)
+
+// Column operations
+$R = $A->columnInterchange(1, 2);
+$R = $A->columnMultiply(1, 5);    // Multiply column nᵢ by k
+$R = $A->columnAdd(1, 2, 5);      // Add k * column nᵢ to column nⱼ; columnAdd(nᵢ, nⱼ, k)
+
 // Matrix operations - all operations that return a Matrix return a new Matrix
 $R = $A->add($B);
 $R = $A->directSum($B);
@@ -609,14 +619,24 @@ $Γ = Special::gamma($z);          // Uses gamma definition for integers and hal
 $Γ = Special::gammaLanczos($z);   // Lanczos approximation
 $Γ = Special::gammaStirling($z);  // Stirling approximation
 
+// Incomplete gamma functions - γ(s, t), Γ(s,x)
+list($x, $s) = [1, 2];
+$γ = Special::lowerIncompleteGamma($x, $s); // same as γ
+$γ = Special::γ($x, $s);                    // same as lowerIncompleteGamma
+$Γ = Special::upperIncompleteGamma($x, $s);
+
 // Beta function
 list($x, $y) = [1, 2];
 $β = Special::beta($x, $y);
 
-// Error function (Gauss error function)
-$error = Special::errorFunction(2); // same as erf
-$error = Special::erf(2);           // same as errorFunction
+// Incomplete beta functions
+list($x, $a, $b) = [0.4, 2, 3];
+$B  = Special::incompleteBeta($x, $a, $b);
+$Iₓ = Special::regularizedIncompleteBeta($x, $a, $b);
 
+// Error function (Gauss error function)
+$error = Special::errorFunction(2);              // same as erf
+$error = Special::erf(2);                        // same as errorFunction
 $error = Special::complementaryErrorFunction(2); // same as erfc
 $error = Special::erfc(2);                       // same as complementaryErrorFunction
 
@@ -631,16 +651,6 @@ $L  = 3; // the curve's maximum value
 $k  = 4; // the steepness of the curve
 $x  = 5;
 $logistic = Special::logistic($x₀, $L, $k, $x);
-
-// Lower incomplete gamma function - γ(s, t)
-list($x, $s) = [1, 2];
-$γ = Special::lowerIncompleteGamma($x, $s); // same as γ
-$γ = Special::γ($x, $s);                    // same as lowerIncompleteGamma
-
-// Incomplete and regularized incomplete beta functions
-list($x, $a, $b) = [0.4, 2, 3];
-$B  = Special::incompleteBeta($x, $a, $b);
-$Iₓ = Special::regularizedIncompleteBeta($x, $a, $b);
 
 // Sigmoid function
 $t = 2;
