@@ -91,10 +91,22 @@ $array = $A->getMatrix();
 $rows  = $A->getM();      // number of rows
 $cols  = $A->getN();      // number of columns
 
-// Basic matrix elements
+// Basic matrix elements (zero-based indexing)
 $row  = $A->getRow(2);
 $col  = $A->getColumn(2);
 $item = $A->get(2, 2);
+
+// Row operations
+list($mᵢ, $mⱼ, $k) = [1, 2, 5];
+$R = $A->rowInterchange($mᵢ, $mⱼ);
+$R = $A->rowMultiply($mᵢ, $k);     // Multiply row mᵢ by k
+$R = $A->rowAdd($mᵢ, $mⱼ, $k);     // Add k * row mᵢ to row mⱼ;
+
+// Column operations
+list($nᵢ, $nⱼ, $k) = [1, 2, 5];
+$R = $A->columnInterchange($nᵢ, $nⱼ);
+$R = $A->columnMultiply($nᵢ, $k);     // Multiply column nᵢ by k
+$R = $A->columnAdd($nᵢ, $nⱼ, $k);     // Add k * column nᵢ to column nⱼ;
 
 // Matrix operations - all operations that return a Matrix return a new Matrix
 $R = $A->add($B);
@@ -103,6 +115,7 @@ $R = $A->subtract($B);
 $R = $A->multiply($B);
 $R = $A->scalarMultiply(5);
 $R = $A->transpose();
+$R = $A->diagonal();
 
 $tr⟮A⟯ = $A->trace();
 $bool = $A->isSquare();
@@ -134,7 +147,7 @@ $B = new Vector($vector);
 $array = $A->getVector();
 $n     = $A->getN();      // number of elements
 
-// Basic vector elements
+// Basic vector elements (zero-based indexing)
 $item = $A->get(2);
 
 // Vector operations
@@ -419,9 +432,12 @@ $midrange = Descriptive::midrange($numbers);
 // Variance (population and sample)
 $σ² = Descriptive::populationVariance($numbers);
 $S² = Descriptive::sampleVariance($numbers);
+$df = 5;                                         // degrees of freedom
+$S² = Descriptive::variance($numbers, $df);      // can specify custom degrees of freedom
 
 // Standard deviation
-$σ = Descriptive::standardDeviation($numbers); // Has optional parameter to set population or sample variance
+$σ = Descriptive::sd($numbers);                // same as standardDeviation; has optional parameter to set population or sample variance
+$σ = Descriptive::standardDeviation($numbers); // same as sd; has optional parameter to set population or sample variance
 
 // MAD - mean/median absolute deviations
 $mean_mad   = Descriptive::meanAbsoluteDeviation($numbers);
@@ -482,6 +498,7 @@ print_r($stats);
         )
 ) */
 ```
+
 ### Statistics - Distributions
 ```php
 use Math\Statistics\Distribution
@@ -572,31 +589,33 @@ $points = [[1,2], [2,3], [4,5], [5,7], [6,8]];
 
 // Simple linear regression (least squares method)
 $regression = new Linear($points);
-$parameters = $regression->getParameters(); // [m => 1.2209302325581, b => 0.6046511627907]
-$equation   = $regression->getEquation();   // y = 1.2209302325581x + 0.6046511627907
-$y          = $regression->evaluate(5);     // Evaluate for y at x = 5 using regression equation
-$n          = $regression->getSampleSize(); // 5
-$points     = $regression->getPoints();     // [[1,2], [2,3], [4,5], [5,7], [6,8]]
-$xs         = $regression->getXs();         // [1, 2, 4, 5, 6]
-$yx         = $regression->getYs();         // [2, 3, 5, 7, 8]
+$parameters = $regression->getParameters();          // [m => 1.2209302325581, b => 0.6046511627907]
+$equation   = $regression->getEquation();            // y = 1.2209302325581x + 0.6046511627907
+$y          = $regression->evaluate(5);              // Evaluate for y at x = 5 using regression equation
+$Ŷ          = $regression->yHat();
+$SSreg      = $regression->sumOfSquaresRegression();
+$SSres      = $regression->sumOfSquaresResidual();
+$r          = $regression->r();                      // same as correlationCoefficient
+$r²         = $regression->r2();                     // same as coefficientOfDetermination
+$n          = $regression->getSampleSize();          // 5
+$points     = $regression->getPoints();              // [[1,2], [2,3], [4,5], [5,7], [6,8]]
+$xs         = $regression->getXs();                  // [1, 2, 4, 5, 6]
+$yx         = $regression->getYs();                  // [2, 3, 5, 7, 8]
 
 // Power law regression - power curve (least squares fitting)
 $regression = new PowerLaw($points);
-$parameters = $regression->getParameters(); // [a => 56.483375436574, b => 0.26415375648621]
-$equation   = $regression->getEquation();   // y = 56.483375436574x^0.26415375648621
-$y          = $regression->evaluate(5);     // Evaluate for y at x = 5 using regression equation
-$n          = $regression->getSampleSize(); // 5
-$points     = $regression->getPoints();     // [[1,2], [2,3], [4,5], [5,7], [6,8]]
-$xs         = $regression->getXs();         // [1, 2, 4, 5, 6]
-$yx         = $regression->getYs();         // [2, 3, 5, 7, 8]
-
-// R - correlation coefficient
-$R = Regression::r($points);                      // same as correlationCoefficient
-$R = Regression::correlationCoefficient($points); // same as r
-
-// R² - coefficient of determination
-$R² = Regression::r2($points);                        // same as coefficientOfDetermination
-$R² = Regression::coefficientOfDetermination($points) // same as r2
+$parameters = $regression->getParameters();          // [a => 56.483375436574, b => 0.26415375648621]
+$equation   = $regression->getEquation();            // y = 56.483375436574x^0.26415375648621
+$y          = $regression->evaluate(5);              // Evaluate for y at x = 5 using regression equation
+$Ŷ          = $regression->yHat();
+$SSreg      = $regression->sumOfSquaresRegression();
+$SSres      = $regression->sumOfSquaresResidual();
+$R          = $regression->r();                      // same as correlationCoefficient
+$R²         = $regression->r2();                     // same as coefficientOfDetermination
+$n          = $regression->getSampleSize();          // 5
+$points     = $regression->getPoints();              // [[1,2], [2,3], [4,5], [5,7], [6,8]]
+$xs         = $regression->getXs();                  // [1, 2, 4, 5, 6]
+$yx         = $regression->getYs();                  // [2, 3, 5, 7, 8]
 ```
 
 ### Special Functions
@@ -609,14 +628,24 @@ $Γ = Special::gamma($z);          // Uses gamma definition for integers and hal
 $Γ = Special::gammaLanczos($z);   // Lanczos approximation
 $Γ = Special::gammaStirling($z);  // Stirling approximation
 
+// Incomplete gamma functions - γ(s,t), Γ(s,x)
+list($x, $s) = [1, 2];
+$γ = Special::lowerIncompleteGamma($x, $s); // same as γ
+$γ = Special::γ($x, $s);                    // same as lowerIncompleteGamma
+$Γ = Special::upperIncompleteGamma($x, $s);
+
 // Beta function
 list($x, $y) = [1, 2];
 $β = Special::beta($x, $y);
 
-// Error function (Gauss error function)
-$error = Special::errorFunction(2); // same as erf
-$error = Special::erf(2);           // same as errorFunction
+// Incomplete beta functions
+list($x, $a, $b) = [0.4, 2, 3];
+$B  = Special::incompleteBeta($x, $a, $b);
+$Iₓ = Special::regularizedIncompleteBeta($x, $a, $b);
 
+// Error function (Gauss error function)
+$error = Special::errorFunction(2);              // same as erf
+$error = Special::erf(2);                        // same as errorFunction
 $error = Special::complementaryErrorFunction(2); // same as erfc
 $error = Special::erfc(2);                       // same as complementaryErrorFunction
 
@@ -631,16 +660,6 @@ $L  = 3; // the curve's maximum value
 $k  = 4; // the steepness of the curve
 $x  = 5;
 $logistic = Special::logistic($x₀, $L, $k, $x);
-
-// Lower incomplete gamma function - γ(s, t)
-list($x, $s) = [1, 2];
-$γ = Special::lowerIncompleteGamma($x, $s); // same as γ
-$γ = Special::γ($x, $s);                    // same as lowerIncompleteGamma
-
-// Incomplete and regularized incomplete beta functions
-list($x, $a, $b) = [0.4, 2, 3];
-$B  = Special::incompleteBeta($x, $a, $b);
-$Iₓ = Special::regularizedIncompleteBeta($x, $a, $b);
 
 // Sigmoid function
 $t = 2;

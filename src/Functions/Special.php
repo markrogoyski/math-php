@@ -401,11 +401,19 @@ class Special
     /**
      * Upper Incomplete Gamma Function - Γ(s,x)
      * https://en.wikipedia.org/wiki/Incomplete_gamma_function
+     *
+     * @param number $s shape parameter > 0
+     * @param number $x lower limit of integration
+     *
+     * @return number
      */
-     public static function upperIncompleteGamma($s,$x)
-     {
-         return self::gamma($s) - self::lowerIncompleteGamma($s, $x);
-     }
+    public static function upperIncompleteGamma($s, $x)
+    {
+        if ($s <= 0) {
+            throw new \Exception('S must be > 0');
+        }
+        return self::gamma($s) - self::lowerIncompleteGamma($s, $x);
+    }
      
     /**
      * Lower incomplete gamma function - γ(s, t)

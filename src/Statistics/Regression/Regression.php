@@ -1,6 +1,6 @@
 <?php
 namespace Math\Statistics\Regression;
-
+use Math\Statistics\Average;
 /**
  * Base class for regressions.
  */
@@ -77,46 +77,9 @@ abstract class Regression
      *
      * @return number
      */
-    public static function correlationCoefficient(array $points)
+    public function correlationCoefficient()
     {
-        // Get list of x points and y points.
-        $xs = array_map(function ($point) {
-            return $point[self::X];
-        }, $points);
-        $ys = array_map(function ($point) {
-            return $point[self::Y];
-        }, $points);
-        $n  = count($points);
-
-        // Numerator calculations
-        $n∑⟮xy⟯ = $n * array_sum(array_map(
-            function ($x, $y) {
-                return $x * $y;
-            },
-            $xs,
-            $ys
-        ));
-        $∑⟮x⟯∑⟮y⟯ = array_sum($xs) * array_sum($ys);
-
-        // Denominator calculations
-        $n∑x² = $n * array_sum(array_map(
-            function ($x) {
-                return $x**2;
-            },
-            $xs
-        ));
-        $⟮∑x⟯² = pow(array_sum($xs), 2);
-
-        $n∑y² = $n * array_sum(array_map(
-            function ($y) {
-                return $y**2;
-            },
-            $ys
-        ));
-        $⟮∑y⟯² = pow(array_sum($ys), 2);
-        $numerator = ($n∑⟮xy⟯ - $∑⟮x⟯∑⟮y⟯);
-        $denominator = sqrt(($n∑x² - $⟮∑x⟯²) * ($n∑y² - $⟮∑y⟯²));
-        return $numerator / $denominator;
+        return sqrt($this->coefficientOfDetermination());
     }
 
     /**
@@ -127,9 +90,9 @@ abstract class Regression
      *
      * @return number
      */
-    public static function r(array $points)
+    public function r()
     {
-        return self::correlationCoefficient($points);
+        return self::correlationCoefficient();
     }
 
     /**
@@ -144,9 +107,9 @@ abstract class Regression
      *
      * @return number
      */
-    public static function coefficientOfDetermination(array $points)
+    public function coefficientOfDetermination()
     {
-        return pow(self::correlationCoefficient($points), 2);
+        return $this->sumOfSquaresRegression() / ($this->sumOfSquaresRegression() + $this->sumOfSquaresResidual());
     }
 
     /**
@@ -157,8 +120,63 @@ abstract class Regression
      *
      * @return number
      */
-    public static function r2(array $points)
+    public function r2()
     {
-        return pow(self::correlationCoefficient($points), 2);
+        return $this->coefficientOfDetermination();
+    }
+    
+    /**
+     * Ŷ (yhat)
+     * A list of the predicted values of Y given the regression.
+     *
+     * @return array
+     */
+    public function yHat()
+    {
+        return array_map([$this, 'evaluate'], $this->xs);
+    }
+     
+    /**
+     * SSreg - The Sum Squares of the regression (Explained sum of squares)
+     *
+     * The sum of the squares of the deviations of the predicted values from
+     * the mean value of a response variable, in a standard regression model. 
+     * https://en.wikipedia.org/wiki/Explained_sum_of_squares
+     * 
+     * SSreg = ∑(ŷᵢ - ȳ)²
+     * 
+     * @return number
+     */
+    public function sumOfSquaresRegression()
+       {
+            $ȳ = Average::mean($this->ys);
+
+            return array_sum(array_map(
+                function($y) use ($ȳ) {
+                    return ($y - $ȳ)**2;
+                }, $this->yHat()
+            ));
+      }
+      
+     /**
+      * SSres - The Sum Squares of the residuals (RSS - Residual sum of squares)
+      *
+      * The sum of the squares of residuals (deviations predicted from actual
+      * empirical values of data). It is a measure of the discrepancy between
+      * the data and an estimation model.
+      * https://en.wikipedia.org/wiki/Residual_sum_of_squares
+      * 
+      * SSres = ∑(yᵢ - ŷᵢ)²
+      * 
+      * @return number
+      */
+    public function sumOfSquaresResidual()
+    {
+        $Ŷ = $this->yHat();
+        return array_sum(array_map(
+            function ($yᵢ, $ŷᵢ) {
+                return ($yᵢ - $ŷᵢ)**2;
+            }, $this->ys, $Ŷ
+        ));
     }
 }
