@@ -497,6 +497,7 @@ print_r($stats);
         )
 ) */
 ```
+
 ### Statistics - Distributions
 ```php
 use Math\Statistics\Distribution
@@ -587,31 +588,33 @@ $points = [[1,2], [2,3], [4,5], [5,7], [6,8]];
 
 // Simple linear regression (least squares method)
 $regression = new Linear($points);
-$parameters = $regression->getParameters(); // [m => 1.2209302325581, b => 0.6046511627907]
-$equation   = $regression->getEquation();   // y = 1.2209302325581x + 0.6046511627907
-$y          = $regression->evaluate(5);     // Evaluate for y at x = 5 using regression equation
-$n          = $regression->getSampleSize(); // 5
-$points     = $regression->getPoints();     // [[1,2], [2,3], [4,5], [5,7], [6,8]]
-$xs         = $regression->getXs();         // [1, 2, 4, 5, 6]
-$yx         = $regression->getYs();         // [2, 3, 5, 7, 8]
+$parameters = $regression->getParameters();          // [m => 1.2209302325581, b => 0.6046511627907]
+$equation   = $regression->getEquation();            // y = 1.2209302325581x + 0.6046511627907
+$y          = $regression->evaluate(5);              // Evaluate for y at x = 5 using regression equation
+$Ŷ          = $regression->yHat();
+$SSreg      = $regression->sumOfSquaresRegression();
+$SSres      = $regression->sumOfSquaresResidual();
+$r          = $regression->r();                      // same as correlationCoefficient
+$r²         = $regression->r2();                     // same as coefficientOfDetermination
+$n          = $regression->getSampleSize();          // 5
+$points     = $regression->getPoints();              // [[1,2], [2,3], [4,5], [5,7], [6,8]]
+$xs         = $regression->getXs();                  // [1, 2, 4, 5, 6]
+$yx         = $regression->getYs();                  // [2, 3, 5, 7, 8]
 
 // Power law regression - power curve (least squares fitting)
 $regression = new PowerLaw($points);
-$parameters = $regression->getParameters(); // [a => 56.483375436574, b => 0.26415375648621]
-$equation   = $regression->getEquation();   // y = 56.483375436574x^0.26415375648621
-$y          = $regression->evaluate(5);     // Evaluate for y at x = 5 using regression equation
-$n          = $regression->getSampleSize(); // 5
-$points     = $regression->getPoints();     // [[1,2], [2,3], [4,5], [5,7], [6,8]]
-$xs         = $regression->getXs();         // [1, 2, 4, 5, 6]
-$yx         = $regression->getYs();         // [2, 3, 5, 7, 8]
-
-// R - correlation coefficient
-$R = Regression::r($points);                      // same as correlationCoefficient
-$R = Regression::correlationCoefficient($points); // same as r
-
-// R² - coefficient of determination
-$R² = Regression::r2($points);                        // same as coefficientOfDetermination
-$R² = Regression::coefficientOfDetermination($points) // same as r2
+$parameters = $regression->getParameters();          // [a => 56.483375436574, b => 0.26415375648621]
+$equation   = $regression->getEquation();            // y = 56.483375436574x^0.26415375648621
+$y          = $regression->evaluate(5);              // Evaluate for y at x = 5 using regression equation
+$Ŷ          = $regression->yHat();
+$SSreg      = $regression->sumOfSquaresRegression();
+$SSres      = $regression->sumOfSquaresResidual();
+$R          = $regression->r();                      // same as correlationCoefficient
+$R²         = $regression->r2();                     // same as coefficientOfDetermination
+$n          = $regression->getSampleSize();          // 5
+$points     = $regression->getPoints();              // [[1,2], [2,3], [4,5], [5,7], [6,8]]
+$xs         = $regression->getXs();                  // [1, 2, 4, 5, 6]
+$yx         = $regression->getYs();                  // [2, 3, 5, 7, 8]
 ```
 
 ### Special Functions
