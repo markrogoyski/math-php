@@ -28,25 +28,11 @@ class Linear extends Regression
 {
 
     /**
-     * Constructor - performs the regression over the points
+     * Calculates the regression parameters.
      *
-     * @param array $points [ [x, y], [x, y], ... ]
      */
-    public function __construct(array $points)
+    public function calculate()
     {
-        $this->points = $points;
-        $this->n      = count($points);
-
-        // Get list of x points and y points.
-        $this->xs = array_map(function ($point) {
-            return $point[self::X];
-
-        }, $points);
-        $this->ys = array_map(function ($point) {
-            return $point[self::Y];
-
-        }, $points);
-
         // Averages used in m (slope) calculation
         $x   = Average::mean($this->xs);
         $y   = Average::mean($this->ys);
