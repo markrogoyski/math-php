@@ -349,4 +349,29 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             [0.73, 3.5, 5, 0.00553077297647439276549],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForUpperIncompleteGamma
+     */
+    public function testUpperIncompleteGamma($s, $x, $uig)
+    {
+        $this->assertEquals($uig, Special::upperIncompleteGamma($s, $x), '', 0.0001);
+    }
+
+    public function dataProviderForUpperIncompleteGamma()
+    {
+        return [
+            [0.0001, 1, 0.21939372],
+            [1, 1, 0.3678794411714423215955],
+            [1, 2, 0.135335283236612691894],
+            [2, 2, 0.40600585],
+            [3, 2.5, 1.08762623],
+            [3.5, 2, 2.59147401],
+            [4.6, 2, 12.30949802],
+            [4, 2.6, 4.41600987],
+            [2.7, 2.6, 0.68432904],
+            [1.5, 2.5, 0.15225125],
+        ];
+    }
+
 }
