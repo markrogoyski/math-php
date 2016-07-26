@@ -79,7 +79,7 @@ abstract class Regression
      */
     public function correlationCoefficient()
     {
-        return sqrt($this->CoefficientOfDetermination());
+        return sqrt($this->coefficientOfDetermination());
     }
 
     /**
@@ -90,9 +90,9 @@ abstract class Regression
      *
      * @return number
      */
-    public function r(array $points)
+    public function r()
     {
-        return self::correlationCoefficient($points);
+        return self::correlationCoefficient();
     }
 
     /**
@@ -107,7 +107,7 @@ abstract class Regression
      *
      * @return number
      */
-    public function coefficientOfDetermination(array $points)
+    public function coefficientOfDetermination()
     {
         return $this->SumOfSquaresRegression() / ($this->SumOfSquaresRegression() + $this->SumOfSquaresResidual());
     }
@@ -120,19 +120,20 @@ abstract class Regression
      *
      * @return number
      */
-    public function r2(array $points)
+    public function r2()
     {
-        return this->coefficientOfDetermination(array $points)
+        return $this->coefficientOfDetermination();
     }
     
     /**
-     * return the Ŷ array, a list of the predicted values of Y given the regression.
-     * 
+     * Ŷ (yhat)
+     * A list of the predicted values of Y given the regression.
+     *
+     * @return array
      */
       public function getYHat()
      {
-         $function = [get_class($this),'evaluate'];
-         return array_map (function($x) use ($function){return call_user_func($function, $x);}, $this->xs);
+         return array_map([$this, 'evaluate'], $this->xs);
      }
      
      /**
