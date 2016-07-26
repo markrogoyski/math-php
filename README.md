@@ -115,6 +115,7 @@ $R = $A->subtract($B);
 $R = $A->multiply($B);
 $R = $A->scalarMultiply(5);
 $R = $A->transpose();
+$R = $A->diagonal();
 
 $tr⟮A⟯ = $A->trace();
 $bool = $A->isSquare();
