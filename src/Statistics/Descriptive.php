@@ -177,6 +177,27 @@ class Descriptive
     }
 
     /**
+     * sd - Standard deviation - convenience method
+     *
+     * @param array $numbers
+     * @param bool  $population_variance: true uses population variance; false uses sample variance;
+     *              Default is true (population variance)
+     * @return numeric
+     */
+    public static function sd(array $numbers, bool $population_variance = true)
+    {
+        if (empty($numbers)) {
+            return null;
+        }
+
+        $n = count($numbers);
+
+        return $population_variance
+            ? sqrt(self::populationVariance($numbers))
+            : sqrt(self::sampleVariance($numbers));
+    }
+
+    /**
      * MAD - mean absolute deviation
      *
      * The average of the absolute deviations from a central point.
