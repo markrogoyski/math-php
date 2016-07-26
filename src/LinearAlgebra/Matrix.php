@@ -353,6 +353,28 @@ class Matrix implements \ArrayAccess
     }
 
     /**
+     * Diagonal matrix
+     * Retains the elements along the main diagonal.
+     * All other off-diagonal elements are zeros.
+     * 
+     * @return Matrix
+     */
+    public function diagonal(): Matrix
+    {
+        $m = $this->m;
+        $n = $this->n;
+        $R = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $R[$i][$j] = ($i == $j) ? $this->A[$i][$j] : 0;
+            }
+        }
+
+        return new Matrix($R);
+    }
+
+    /**
      * ROW OPERATIONS
      */
 
