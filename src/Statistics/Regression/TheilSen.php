@@ -3,11 +3,20 @@ namespace Math\Statistics\Regression;
 
 use Math\Statistics\Average;
 
+/**
+ * Theil–Sen estimator
+ * Also known as Sen's slope estimator, slope selection, the single median method,
+ * the Kendall robust line-fit method, and the Kendall–Theil robust line.
+ *
+ * A method for robustly fitting a line to a set of points (simple linear regression) that
+ * chooses the median slope among all lines through pairs of two-dimensional sample points.
+ *
+ * https://en.wikipedia.org/wiki/Theil%E2%80%93Sen_estimator
+ */
 class TheilSen extends Regression
 {
     /**
      * Calculate the regression parameters using the Theil-Sen method
-     * https://en.wikipedia.org/wiki/Theil%E2%80%93Sen_estimator
      *
      * Procedure:
      * Calculate the slopes of all pairs of points and select the median value
@@ -15,15 +24,16 @@ class TheilSen extends Regression
      */
     public function calculate()
     {
-        //The slopes array will be a list of slopes between all pairs of points
+        // The slopes array will be a list of slopes between all pairs of points
         $slopes = [];
-        $n = count($this->points);
-        for($i=0;$i<$n;$i++)
+        $n      = count($this->points);
+
+        for ($i = 0; $i < $n; $i++)
         {
-            for($j=$i+1;$j<$n;$j++)
+            for ($j = $i + 1; $j < $n; $j++)
             {
-                $pointi = $this->points[$i];
-                $pointj = $this->points[$j];
+                $pointi   = $this->points[$i];
+                $pointj   = $this->points[$j];
                 $slopes[] = ($pointj[self::Y] - $pointi[self::Y]) / ($pointj[self::X] - $pointi[self::X]);
             }
         }
@@ -39,7 +49,7 @@ class TheilSen extends Regression
      *
      * @return array [ m => number, b => number ]
      */
-    public function getParameters()
+    public function getParameters(): array
     {
         return [
             'm' => $this->m,

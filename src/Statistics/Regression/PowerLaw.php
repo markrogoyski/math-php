@@ -84,7 +84,7 @@ class PowerLaw extends Regression
      *
      * @return array [ a => number, b => number ]
      */
-    public function getParameters()
+    public function getParameters(): array
     {
         return [
             'a' => $this->a,

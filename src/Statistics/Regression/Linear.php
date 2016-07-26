@@ -59,7 +59,7 @@ class Linear extends Regression
      *
      * @return array [ m => number, b => number ]
      */
-    public function getParameters()
+    public function getParameters(): array
     {
         return [
             'm' => $this->m,
