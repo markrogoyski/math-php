@@ -125,10 +125,13 @@ class Linear extends Regression
      * If $p = .05, then we can say we are 95% confidence the actual regression line
      * will be within an interval of evaluate($x) ± getCI($x, .05).
      *
+     * Consider saving the parameters of this equation in $this to speed up case where this is
+     * called many times.
+     * 
      * @param number $x
      * @param number $p:  0 < p < 1 The P value to use
      *
-     * return number
+     * @return number
      */
     public function getCI($x, $p){
 
@@ -176,11 +179,14 @@ class Linear extends Regression
      * If $p = .05, then we can say we are 95% confidence that the future averages of $q trials at $x
      * will be within an interval of evaluate($x) ± getPI($x, .05, $q).
      *
+     * Consider saving the parameters of this equation in $this to speed up case where this method is
+     * called many times.
+     * 
      * @param number $x
      * @param number $p:  0 < p < 1 The P value to use
      * @param int $q
      *
-     * return number
+     * @return number
      */
     public function getPI($x, $p, $q = 1){
 
