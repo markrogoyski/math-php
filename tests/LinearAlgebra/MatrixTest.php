@@ -1196,4 +1196,59 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         $A->columnAdd(1, 2, 0);
     }
+
+    /**
+     * @dataProvider dataProviderForDiagonal
+     */
+    public function testDiagonal(array $A, array $R)
+    {
+        $A = new Matrix($A);
+        $R = new Matrix($R);
+
+        $this->assertEquals($R, $A->diagonal());
+    }
+
+    public function dataProviderForDiagonal()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [
+                    [1, 0, 0],
+                    [0, 3, 0],
+                    [0, 0, 5],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                    [4, 5, 6],
+                ],
+                [
+                    [1, 0, 0],
+                    [0, 3, 0],
+                    [0, 0, 5],
+                    [0, 0, 0],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3, 4],
+                    [2, 3, 4, 5],
+                    [3, 4, 5, 6],
+                ],
+                [
+                    [1, 0, 0, 0],
+                    [0, 3, 0, 0],
+                    [0, 0, 5, 0],
+                ]
+            ],
+        ];
+    }
 }
