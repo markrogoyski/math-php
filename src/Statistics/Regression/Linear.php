@@ -26,7 +26,6 @@ use Math\Statistics\Average;
  */
 class Linear extends Regression
 {
-
     /**
      * Calculates the regression parameters.
      *
@@ -36,15 +35,17 @@ class Linear extends Regression
         // Averages used in m (slope) calculation
         $x   = Average::mean($this->xs);
         $y   = Average::mean($this->ys);
-        $xy  = Average::mean(array_map(function ($point) {
-            return $point[self::X] * $point[self::Y];
-
-        }, $points));
+        $xy  = Average::mean(array_map(
+            function ($point) {
+                return $point[self::X] * $point[self::Y];
+            }, $this->points
+        ));
         $⟮x⟯² = pow($x, 2);
-        $x²  = Average::mean(array_map(function ($i) {
-            return $i**2;
-
-        }, $this->xs));
+        $x²  = Average::mean(array_map(
+            function ($i) {
+                return $i**2;
+            }, $this->xs
+        ));
 
         // Calculate slope (m) and y intercept (b)
         $this->m = (( $x * $y ) - $xy) / ($⟮x⟯² - $x²);

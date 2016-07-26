@@ -39,15 +39,16 @@ abstract class Regression
             return $point[self::Y];
 
         }, $points);
+
         $this->calculate();
     }
 
     /**
      * Return the model as a string
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this::getEquation();
+        return $this->getEquation();
     }
     
     abstract public function getEquation();
