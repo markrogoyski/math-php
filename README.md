@@ -97,14 +97,16 @@ $col  = $A->getColumn(2);
 $item = $A->get(2, 2);
 
 // Row operations
-$R = $A->rowInterchange(1, 2);
-$R = $A->rowMultiply(1, 5);    // Multiply row mᵢ by k
-$R = $A->rowAdd(1, 2, 5);      // Add k * row mᵢ to row mⱼ; rowAdd(mᵢ, mⱼ, k)
+list($mᵢ, $mⱼ, $k) = [1, 2, 5];
+$R = $A->rowInterchange($mᵢ, $mⱼ);
+$R = $A->rowMultiply($mᵢ, $k);     // Multiply row mᵢ by k
+$R = $A->rowAdd($mᵢ, $mⱼ, $k);     // Add k * row mᵢ to row mⱼ;
 
 // Column operations
-$R = $A->columnInterchange(1, 2);
-$R = $A->columnMultiply(1, 5);    // Multiply column nᵢ by k
-$R = $A->columnAdd(1, 2, 5);      // Add k * column nᵢ to column nⱼ; columnAdd(nᵢ, nⱼ, k)
+list($nᵢ, $nⱼ, $k) = [1, 2, 5];
+$R = $A->columnInterchange($nᵢ, $nⱼ);
+$R = $A->columnMultiply($nᵢ, $k);     // Multiply column nᵢ by k
+$R = $A->columnAdd($nᵢ, $nⱼ, $k);     // Add k * column nᵢ to column nⱼ;
 
 // Matrix operations - all operations that return a Matrix return a new Matrix
 $R = $A->add($B);
