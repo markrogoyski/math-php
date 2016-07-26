@@ -1,6 +1,9 @@
 <?php
 namespace Math\Statistics\Regression;
+
 use Math\Statistics\Average;
+use Math\Statistics\RandomVariable;
+
 /**
  * Base class for regressions.
  */
@@ -178,5 +181,20 @@ abstract class Regression
                 return ($yᵢ - $ŷᵢ)**2;
             }, $this->ys, $Ŷ
         ));
+    }
+    
+    /**
+      * SStot - The total Sum Squares
+      *
+      * The sum of the squares of the dependent data array
+      * https://en.wikipedia.org/wiki/Total_sum_of_squares
+      * 
+      * SStot = ∑(yᵢ - ȳ)²
+      * 
+      * @return number
+      */
+    public function sumOfSquaresTotal()
+    {
+        return RandomVariable::sumOfSquaresDeviations($this->ys);
     }
 }
