@@ -109,7 +109,7 @@ abstract class Regression
      */
     public function coefficientOfDetermination()
     {
-        return $this->SumOfSquaresRegression() / ($this->SumOfSquaresRegression() + $this->SumOfSquaresResidual());
+        return $this->sumOfSquaresRegression() / ($this->sumOfSquaresRegression() + $this->sumOfSquaresResidual());
     }
 
     /**
@@ -131,34 +131,52 @@ abstract class Regression
      *
      * @return array
      */
-      public function getYHat()
-     {
-         return array_map([$this, 'evaluate'], $this->xs);
-     }
+    public function getYHat()
+    {
+        return array_map([$this, 'evaluate'], $this->xs);
+    }
      
-     /**
-      * The Sum Squares of the regression
-      * 
-      * SSreg = ∑(ŷᵢ - ȳ)²
-      * 
-      * @return number
-      */
-       public function SumOfSquaresRegression()
-      {
-          $ȳ = Average::mean($this->ys);
-          return array_sum(array_map(function($y) use ($ȳ){return ($y - $ȳ) ** 2;}, $this->getYHat()));
+    /**
+     * SSreg - The Sum Squares of the regression (Explained sum of squares)
+     *
+     * The sum of the squares of the deviations of the predicted values from
+     * the mean value of a response variable, in a standard regression model. 
+     * https://en.wikipedia.org/wiki/Explained_sum_of_squares
+     * 
+     * SSreg = ∑(ŷᵢ - ȳ)²
+     * 
+     * @return number
+     */
+    public function sumOfSquaresRegression()
+       {
+            $ȳ = Average::mean($this->ys);
+
+            return array_sum(array_map(
+                function($y) use ($ȳ) {
+                    return ($y - $ȳ)**2;
+                }, $this->getYHat()
+            ));
       }
       
      /**
-      * The Sum Squares of the residuals
+      * SSres - The Sum Squares of the residuals (RSS - Residual sum of squares)
+      *
+      * The sum of the squares of residuals (deviations predicted from actual
+      * empirical values of data). It is a measure of the discrepancy between
+      * the data and an estimation model.
+      * https://en.wikipedia.org/wiki/Residual_sum_of_squares
       * 
-      * SSreg = ∑(yᵢ - ŷᵢ)²
+      * SSres = ∑(yᵢ - ŷᵢ)²
       * 
       * @return number
       */
-       public function SumOfSquaresResidual()
-      {
-          $Ŷ = $this->getYHat();
-          return array_sum(array_map(function($yᵢ, $ŷᵢ){return ($yᵢ - $ŷᵢ) ** 2;}, $this->ys, $Ŷ));
-      }
+    public function sumOfSquaresResidual()
+    {
+        $Ŷ = $this->getYHat();
+        return array_sum(array_map(
+            function ($yᵢ, $ŷᵢ) {
+                return ($yᵢ - $ŷᵢ)**2;
+            }, $this->ys, $Ŷ
+        ));
+    }
 }
