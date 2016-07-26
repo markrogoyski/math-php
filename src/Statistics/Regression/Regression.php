@@ -39,6 +39,14 @@ abstract class Regression
         $this->calculate();
     }
 
+    /**
+     * Return the model as a string
+     */
+    public function __toString()
+    {
+        return $this::getEquation();
+    }
+    
     abstract public function getEquation();
 
     abstract public function getParameters();
