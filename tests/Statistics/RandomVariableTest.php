@@ -285,4 +285,21 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
             [943, 36.8, 803.2, -3.80],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForSumOfSquaresDeviations
+     */
+    public function testSumOfSquaresDeviations(array $numbers, $sos)
+    {
+        $this->assertEquals($sos, RandomVariable::sumOfSquaresDeviations($numbers), '', 0.1);
+    }
+
+    public function dataProviderForSumOfSquaresDeviations()
+    {
+        return [
+            [ [3, 6, 7, 11, 12, 13, 17], 136.8],
+            [ [6, 11, 12, 14, 15, 20, 21], 162.8],
+            [ [1, 2, 3, 6, 7, 11, 12], 112],
+        ];
+    }
 }

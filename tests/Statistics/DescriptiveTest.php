@@ -141,19 +141,6 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, Descriptive::sampleVariance([5]));
     }
 
-    public function testVariancePopulationAndSample()
-    {
-        $numbers = [ -10, 0, 10, 20, 30 ];
-        $this->assertEquals(200, Descriptive::variance($numbers, true));
-        $this->assertEquals(250, Descriptive::variance($numbers, false));
-    }
-
-    public function testVarianceDefaultsToPopulationVariance()
-    {
-        $numbers = [ -10, 0, 10, 20, 30 ];
-        $this->assertEquals(200, Descriptive::variance($numbers));
-    }
-
     /**
      * @dataProvider dataProviderForStandardDeviationUsingPopulationVariance
      */
