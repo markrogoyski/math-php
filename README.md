@@ -431,9 +431,12 @@ $midrange = Descriptive::midrange($numbers);
 // Variance (population and sample)
 $σ² = Descriptive::populationVariance($numbers);
 $S² = Descriptive::sampleVariance($numbers);
+$df = 5;                                         // degrees of freedom
+$S² = Descriptive::variance($numbers, $df);      // can specify custom degrees of freedom
 
 // Standard deviation
-$σ = Descriptive::standardDeviation($numbers); // Has optional parameter to set population or sample variance
+$σ = Descriptive::sd($numbers);                // same as standardDeviation; has optional parameter to set population or sample variance
+$σ = Descriptive::standardDeviation($numbers); // same as sd; has optional parameter to set population or sample variance
 
 // MAD - mean/median absolute deviations
 $mean_mad   = Descriptive::meanAbsoluteDeviation($numbers);
