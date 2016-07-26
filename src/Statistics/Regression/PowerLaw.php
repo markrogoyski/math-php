@@ -29,24 +29,12 @@ use Math\Statistics\Average;
 class PowerLaw extends Regression
 {
     /**
-     * Constructor - performs the regression over the points
-     *
-     * @param array $points [ [x, y], [x, y], ... ]
+     * Calculate the regression parameters by least squares on linearized data
+     * ln(y) = ln(A) + B*ln(x)
      */
-    public function __construct(array $points)
+    public function calculate()
     {
-        $this->points = $points;
-        $this->n      = count($points);
-
-        // Get list of x points and y points.
-        $this->xs = array_map(function ($point) {
-            return $point[self::X];
-        }, $points);
-        $this->ys = array_map(function ($point) {
-            return $point[self::Y];
-        }, $points);
-
-        $n = count($points);
+        $n = $this->n;
 
         // Intermediate b calculations
         $n∑⟮ln xᵢ ln yᵢ⟯ = $n * array_sum(array_map(
@@ -85,7 +73,7 @@ class PowerLaw extends Regression
         );
 
         // Calculate a and b
-        $numerator = $n∑⟮ln xᵢ ln yᵢ⟯ - $∑⟮ln xᵢ⟯ ∑⟮ln yᵢ⟯ ;
+        $numerator   = $n∑⟮ln xᵢ ln yᵢ⟯ - $∑⟮ln xᵢ⟯ ∑⟮ln yᵢ⟯ ;
         $denominator = $n∑⟮ln xᵢ⟯² - $⟮∑⟮ln xᵢ⟯⟯²;
         $this->b = $numerator / $denominator;
         $this->a = exp(( $∑⟮ln yᵢ⟯ - $this->b * $∑⟮ln xᵢ⟯ ) / $n);
@@ -96,7 +84,7 @@ class PowerLaw extends Regression
      *
      * @return array [ a => number, b => number ]
      */
-    public function getParameters()
+    public function getParameters(): array
     {
         return [
             'a' => $this->a,

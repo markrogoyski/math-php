@@ -1,6 +1,9 @@
 <?php
 namespace Math\Statistics\Regression;
+
 use Math\Statistics\Average;
+use Math\Statistics\RandomVariable;
+
 /**
  * Base class for regressions.
  */
@@ -16,7 +19,38 @@ abstract class Regression
     protected $points;
     protected $xs;
     protected $ys;
+    
+    /**
+     * Constructor - Prepares the data arrays for regression analysis
+     *
+     * @param array $points [ [x, y], [x, y], ... ]
+     */
+    public function __construct(array $points)
+    {
+        $this->points = $points;
+        $this->n      = count($points);
 
+        // Get list of x points and y points.
+        $this->xs = array_map(function ($point) {
+            return $point[self::X];
+
+        }, $points);
+        $this->ys = array_map(function ($point) {
+            return $point[self::Y];
+
+        }, $points);
+
+        $this->calculate();
+    }
+
+    /**
+     * Return the model as a string
+     */
+    public function __toString(): string
+    {
+        return $this->getEquation();
+    }
+    
     abstract public function getEquation();
 
     abstract public function getParameters();
@@ -178,5 +212,20 @@ abstract class Regression
                 return ($yᵢ - $ŷᵢ)**2;
             }, $this->ys, $Ŷ
         ));
+    }
+    
+    /**
+      * SStot - The total Sum Squares
+      *
+      * The sum of the squares of the dependent data array
+      * https://en.wikipedia.org/wiki/Total_sum_of_squares
+      * 
+      * SStot = ∑(yᵢ - ȳ)²
+      * 
+      * @return number
+      */
+    public function sumOfSquaresTotal()
+    {
+        return RandomVariable::sumOfSquaresDeviations($this->ys);
     }
 }
