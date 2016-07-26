@@ -189,7 +189,7 @@ abstract class Regression
       * The sum of the squares of the dependent data array
       * https://en.wikipedia.org/wiki/Total_sum_of_squares
       * 
-      * SSres = ∑(yᵢ - ȳ)²
+      * SStot = ∑(yᵢ - ȳ)²
       * 
       * @return number
       */
