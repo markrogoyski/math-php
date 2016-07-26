@@ -8,7 +8,8 @@ class RegressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testCorrelationCoefficient(array $points, $r)
     {
-        $this->assertEquals($r, Regression::correlationCoefficient($points), '', 0.001);
+        $regression = new Linear($points);
+        $this->assertEquals($r, $regression->correlationCoefficient(), '', 0.001);
     }
 
     /**
@@ -16,7 +17,8 @@ class RegressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testR(array $points, $r)
     {
-        $this->assertEquals($r, Regression::r($points), '', 0.001);
+        $regression = new Linear($points);
+        $this->assertEquals($r, $regression->r($points), '', 0.001);
     }
 
     public function dataProviderForR()
@@ -38,7 +40,8 @@ class RegressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testCoefficientOfDetermination(array $points, $r2)
     {
-        $this->assertEquals($r2, Regression::coefficientOfDetermination($points), '', 0.001);
+        $regression = new Linear($points);
+        $this->assertEquals($r2, $regression->coefficientOfDetermination($points), '', 0.001);
     }
 
   /**
@@ -46,7 +49,8 @@ class RegressionTest extends \PHPUnit_Framework_TestCase
    */
     public function testR2(array $points, $r2)
     {
-        $this->assertEquals($r2, Regression::r2($points), '', 0.001);
+        $regression = new Linear($points);
+        $this->assertEquals($r2, $regression->r2($points), '', 0.001);
     }
 
     public function dataProviderForR2()
