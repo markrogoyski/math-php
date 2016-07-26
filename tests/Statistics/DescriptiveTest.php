@@ -150,6 +150,14 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForStandardDeviationUsingPopulationVariance
+     */
+    public function testSDeviationUsingPopulationVariance(array $numbers, $standard_deviation)
+    {
+        $this->assertEquals($standard_deviation, Descriptive::sd($numbers), '', 0.01);
+    }
+
+    /**
      * Data provider for standard deviation test
      * Data: [ [ numbers ], mean ]
      */
@@ -172,6 +180,14 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
     public function testStandardDeviationUsingSampleVariance(array $numbers, $standard_deviation)
     {
         $this->assertEquals($standard_deviation, Descriptive::standardDeviation($numbers, false), '', 0.01);
+    }
+
+    /**
+     * @dataProvider dataProviderForStandardDeviationUsingSampleVariance
+     */
+    public function testSDeviationUsingSampleVariance(array $numbers, $standard_deviation)
+    {
+        $this->assertEquals($standard_deviation, Descriptive::sd($numbers, false), '', 0.01);
     }
 
     /**
