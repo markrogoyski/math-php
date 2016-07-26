@@ -619,7 +619,7 @@ $Γ = Special::gamma($z);          // Uses gamma definition for integers and hal
 $Γ = Special::gammaLanczos($z);   // Lanczos approximation
 $Γ = Special::gammaStirling($z);  // Stirling approximation
 
-// Incomplete gamma functions - γ(s, t), Γ(s,x)
+// Incomplete gamma functions - γ(s,t), Γ(s,x)
 list($x, $s) = [1, 2];
 $γ = Special::lowerIncompleteGamma($x, $s); // same as γ
 $γ = Special::γ($x, $s);                    // same as lowerIncompleteGamma
