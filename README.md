@@ -91,7 +91,7 @@ $array = $A->getMatrix();
 $rows  = $A->getM();      // number of rows
 $cols  = $A->getN();      // number of columns
 
-// Basic matrix elements
+// Basic matrix elements (zero-based indexing)
 $row  = $A->getRow(2);
 $col  = $A->getColumn(2);
 $item = $A->get(2, 2);
@@ -144,7 +144,7 @@ $B = new Vector($vector);
 $array = $A->getVector();
 $n     = $A->getN();      // number of elements
 
-// Basic vector elements
+// Basic vector elements (zero-based indexing)
 $item = $A->get(2);
 
 // Vector operations
