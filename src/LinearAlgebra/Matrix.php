@@ -352,7 +352,206 @@ class Matrix implements \ArrayAccess
         return new Matrix($R);
     }
 
-    // Static methods
+    /**
+     * ROW OPERATIONS
+     */
+
+    /**
+     * Interchange two rows
+     *
+     * Row mᵢ changes to position mⱼ
+     * Row mⱼ changes to position mᵢ
+     *
+     * @param int $mᵢ Row to swap into row position mⱼ
+     * @param int $mⱼ Row to swap into row position mᵢ
+     *
+     * @return Matrix with rows mᵢ and mⱼ interchanged
+     */
+    public function rowInterchange(int $mᵢ, int $mⱼ): Matrix
+    {
+        if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
+            throw new \Exception('Row to interchange does not exist');
+        }
+
+        $m = $this->m;
+        $R = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            switch ($i) {
+                case $mᵢ:
+                    $R[$i] = $this->A[$mⱼ];
+                    break;
+                case $mⱼ:
+                    $R[$i] = $this->A[$mᵢ];
+                    break;
+                default:
+                    $R[$i] = $this->A[$i];
+            }
+        }
+
+        return new Matrix($R);
+    }
+
+    /**
+     * Multiply a row by a factor k
+     *
+     * Each element of Row mᵢ will be multiplied by k
+     *
+     * @param int  $mᵢ Row to multiply
+     * @param int  $k  Multiplier
+     *
+     * @return Matrix
+     */
+    public function rowMultiply(int $mᵢ, int $k): Matrix
+    {
+        if ($mᵢ >= $this->m) {
+            throw new \Exception('Row to multiply does not exist');
+        }
+        if ($k == 0) {
+            throw new \Exception('Multiplication factor k must not be 0');
+        }
+
+        $n = $this->n;
+        $R = $this->A;
+
+        for ($j = 0; $j < $n; $j++) {
+            $R[$mᵢ][$j] *= $k;
+        }
+
+        return new Matrix($R);
+    }
+
+    /**
+     * Add k times row mᵢ to row mⱼ
+     *
+     * @param int $mᵢ Row to multiply * k to be added to row mⱼ
+     * @param int $mⱼ Row that will have row mⱼ * k added to it
+     * @param int $k  Multiplier
+     *
+     * @return Matrix
+     */
+    public function rowAdd(int $mᵢ, int $mⱼ, int $k): Matrix
+    {
+        if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
+            throw new \Exception('Row to interchange does not exist');
+        }
+        if ($k == 0) {
+            throw new \Exception('Multiplication factor k must not be 0');
+        }
+
+        $n = $this->n;
+        $R = $this->A;
+
+        for ($j = 0; $j < $n; $j++) {
+            $R[$mⱼ][$j] += $R[$mᵢ][$j] * $k;
+        }
+
+        return new Matrix($R);
+    }
+
+    /**
+     * COLUMN OPERATIONS
+     */
+
+    /**
+     * Interchange two columns
+     *
+     * Column nᵢ changes to position nⱼ
+     * Column nⱼ changes to position nᵢ
+     *
+     * @param int $nᵢ Column to swap into column position nⱼ
+     * @param int $nⱼ Column to swap into column position nᵢ
+     *
+     * @return Matrix with columns nᵢ and nⱼ interchanged
+     */
+    public function columnInterchange(int $nᵢ, int $nⱼ): Matrix
+    {
+        if ($nᵢ >= $this->n || $nⱼ >= $this->n) {
+            throw new \Exception('Column to interchange does not exist');
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+        $R = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                switch ($j) {
+                    case $nᵢ:
+                        $R[$i][$j] = $this->A[$i][$nⱼ];
+                        break;
+                    case $nⱼ:
+                        $R[$i][$j] = $this->A[$i][$nᵢ];
+                        break;
+                    default:
+                        $R[$i][$j] = $this->A[$i][$j];
+                }
+            }
+        }
+
+        return new Matrix($R);
+    }
+
+    /**
+     * Multiply a column by a factor k
+     *
+     * Each element of column nᵢ will be multiplied by k
+     *
+     * @param int  $nᵢ Column to multiply
+     * @param int  $k  Multiplier
+     *
+     * @return Matrix
+     */
+    public function columnMultiply(int $nᵢ, int $k): Matrix
+    {
+        if ($nᵢ >= $this->n) {
+            throw new \Exception('Column to multiply does not exist');
+        }
+        if ($k == 0) {
+            throw new \Exception('Multiplication factor k must not be 0');
+        }
+
+        $m = $this->m;
+        $R = $this->A;
+
+        for ($i = 0; $i < $m; $i++) {
+            $R[$i][$nᵢ] *= $k;
+        }
+
+        return new Matrix($R);
+    }
+
+    /**
+     * Add k times column nᵢ to column nⱼ
+     *
+     * @param int $nᵢ Column to multiply * k to be added to column nⱼ
+     * @param int $nⱼ Column that will have column nⱼ * k added to it
+     * @param int $k  Multiplier
+     *
+     * @return Matrix
+     */
+    public function columnAdd(int $nᵢ, int $nⱼ, int $k): Matrix
+    {
+        if ($nᵢ >= $this->n || $nⱼ >= $this->n) {
+            throw new \Exception('Column to interchange does not exist');
+        }
+        if ($k == 0) {
+            throw new \Exception('Multiplication factor k must not be 0');
+        }
+
+        $m = $this->m;
+        $R = $this->A;
+
+        for ($i = 0; $i < $m; $i++) {
+            $R[$i][$nⱼ] += $R[$i][$nᵢ] * $k;
+        }
+
+        return new Matrix($R);
+    }
+
+    /**
+     * STATIC METHODS
+     */
     
     /**
      * Identity matrix - n x n matrix with ones in the diaganol
@@ -429,7 +628,9 @@ class Matrix implements \ArrayAccess
         return new Matrix($R);
     }
 
-    // ArrayAccess Interface
+    /**
+     * ArrayAccess INTERFACE
+     */
 
     public function offsetExists($i): boolean
     {
