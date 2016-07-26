@@ -131,7 +131,7 @@ abstract class Regression
      *
      * @return array
      */
-    public function getYHat()
+    public function yHat()
     {
         return array_map([$this, 'evaluate'], $this->xs);
     }
@@ -154,7 +154,7 @@ abstract class Regression
             return array_sum(array_map(
                 function($y) use ($ȳ) {
                     return ($y - $ȳ)**2;
-                }, $this->getYHat()
+                }, $this->yHat()
             ));
       }
       
@@ -172,7 +172,7 @@ abstract class Regression
       */
     public function sumOfSquaresResidual()
     {
-        $Ŷ = $this->getYHat();
+        $Ŷ = $this->yHat();
         return array_sum(array_map(
             function ($yᵢ, $ŷᵢ) {
                 return ($yᵢ - $ŷᵢ)**2;
