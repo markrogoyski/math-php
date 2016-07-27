@@ -142,8 +142,8 @@ class RandomVariable
     public static function populationCorrelationCoefficient(array $X, array $Y)
     {
         $cov⟮X，Y⟯ = self::populationCovariance($X, $Y);
-        $σx      = Descriptive::standardDeviation($X);
-        $σy      = Descriptive::standardDeviation($Y);
+        $σx      = Descriptive::standardDeviation($X, true);
+        $σy      = Descriptive::standardDeviation($Y, true);
 
         return $cov⟮X，Y⟯ / ( $σx * $σy );
     }
@@ -324,6 +324,26 @@ class RandomVariable
     }
 
     /**
+     * Standard Error of Skewness (SES)
+     *
+     *         _____________________
+     *        /      6n(n - 1)
+     * SES = / --------------------
+     *      √  (n - 2)(n + 1)(n + 3)
+     *
+     * @param int $n Sample size
+     *
+     * @return number
+     */
+    public static function SES(int $n)
+    {
+        $６n⟮n − 1⟯           = 6 * $n * ($n - 1);
+        $⟮n − 2⟯⟮n ＋ 1⟯⟮n ＋ 2⟯ = ($n - 2) * ($n + 1) * ($n + 3);
+
+        return sqrt($６n⟮n − 1⟯ / $⟮n − 2⟯⟮n ＋ 1⟯⟮n ＋ 2⟯);
+    }
+
+    /**
      * Excess Kurtosis
      * A measure of the "tailedness" of the probability distribution of a real-valued random variable.
      * https://en.wikipedia.org/wiki/Kurtosis
@@ -388,6 +408,27 @@ class RandomVariable
     public static function isMesokurtic(array $X): bool
     {
         return self::kurtosis($X) == 0;
+    }
+
+    /**
+     * Standard Error of Kurtosis (SEK)
+     *
+     *                ______________
+     *               /    (n² - 1)
+     * SEK = 2(SES) / --------------
+     *             √  (n - 3)(n + 5)
+     *
+     * @param int $n Sample size
+     *
+     * @return number
+     */
+    public static function SEK(int $n)
+    {
+        $２⟮SES⟯        = 2 * self::SES($n);
+        $⟮n² − 1⟯       = $n**2 - 1;
+        $⟮n − 3⟯⟮n ＋ 5⟯ = ($n - 3) * ($n + 5);
+
+        return $２⟮SES⟯ * sqrt($⟮n² − 1⟯ / (($n - 3) * ($n + 5)));
     }
 
     /**
