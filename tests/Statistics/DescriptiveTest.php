@@ -146,7 +146,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
      */
     public function testStandardDeviationUsingPopulationVariance(array $numbers, $standard_deviation)
     {
-        $this->assertEquals($standard_deviation, Descriptive::standardDeviation($numbers), '', 0.01);
+        $this->assertEquals($standard_deviation, Descriptive::standardDeviation($numbers, true), '', 0.01);
     }
 
     /**
@@ -154,7 +154,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
      */
     public function testSDeviationUsingPopulationVariance(array $numbers, $standard_deviation)
     {
-        $this->assertEquals($standard_deviation, Descriptive::sd($numbers), '', 0.01);
+        $this->assertEquals($standard_deviation, Descriptive::sd($numbers, true), '', 0.01);
     }
 
     /**
@@ -179,7 +179,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
      */
     public function testStandardDeviationUsingSampleVariance(array $numbers, $standard_deviation)
     {
-        $this->assertEquals($standard_deviation, Descriptive::standardDeviation($numbers, false), '', 0.01);
+        $this->assertEquals($standard_deviation, Descriptive::standardDeviation($numbers), '', 0.01);
     }
 
     /**
@@ -187,7 +187,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
      */
     public function testSDeviationUsingSampleVariance(array $numbers, $standard_deviation)
     {
-        $this->assertEquals($standard_deviation, Descriptive::sd($numbers, false), '', 0.01);
+        $this->assertEquals($standard_deviation, Descriptive::sd($numbers), '', 0.01);
     }
 
     /**
