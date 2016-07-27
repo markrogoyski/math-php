@@ -374,4 +374,38 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @dataProvider dataProviderForDoubleFactorial
+     */
+    public function testDoubleFactorial(int $n, $factorial)
+    {
+        $this->assertEquals($factorial, Special::doubleFactorial($n));
+    }
+
+    public function dataProviderForDoubleFactorial()
+    {
+        return [
+            [0, 1],
+            [1, 1],
+            [2, 2],
+            [3, 3],
+            [4, 8],
+            [5, 15],
+            [6, 48],
+            [7, 105],
+            [8, 384],
+            [9, 945],
+            [10, 3840],
+            [11, 10395],
+            [12, 46080],
+            [13, 135135],
+            [14, 645120],
+        ];
+    }
+
+    public function testDoubleFactorialExceptionNLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        Special::doubleFactorial(-1);
+    }
 }
