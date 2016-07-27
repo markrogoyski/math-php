@@ -16,5 +16,8 @@
     <testsuite name="LinearAlgebra">
       <directory suffix="Test.php">LinearAlgebra</directory>
     </testsuite>
+    <testsuite name="NumericalAnalysis">
+      <directory suffix="Test.php">NumericalAnalysis</directory>
+    </testsuite>
   </testsuites>
 </phpunit>
