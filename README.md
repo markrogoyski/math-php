@@ -8,9 +8,13 @@ Math PHP is a self-contained mathematics library in pure PHP with no external de
 Features
 --------
  * Algebra
- * LinearAlgebra
+ * Functions
+   - Map
+   - Special Functions
+ * Linear Algebra
    - Matrix
    - Vector
+ * Numerical Analysis
  * Probability
      * Combinatorics
      * Distributions
@@ -24,7 +28,6 @@ Features
      * Distributions
      * Random Variables
      * Regressions
- * Special Functions
 
 Setup
 -----
@@ -71,6 +74,93 @@ $lcm = Algebra::lcm(5, 2);
 // Factors of an integer
 $factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
 ```
+
+### Functions - Map - Single Array
+```php
+use Math\Functions\Map\Single
+
+$x = [1, 2, 3, 4];
+
+$x² = Single::square($x); // [1, 4, 9, 16]
+$x³ = Single::cube($x);   // [1, 8, 27, 64]
+$x⁴ = Single::pow($x, 4); // [1, 16, 81, 256]
+$√x = Single::sqrt($x);   // [1, 1.414, 1.732, 2]
+```
+
+### Functions - Map - Multiple Arrays
+```php
+use Math\Functions\Map\Multi
+
+$x = [10, 10, 10, 10];
+$y = [1,   2,  5, 10];
+
+// Map function against elements of two or more arrays, item by item (by item ...)
+$sums        = Multi::add($x, $y);      // [11, 12, 15, 20]
+$differences = Multi::subtract($x, $y); // [9, 8, 5, 0]
+$products    = Multi::multiply($x, $y); // [10, 20, 50, 100]
+$quotients   = Multi::divide($x, $y);   // [10, 5, 2, 1]
+$maxes       = Multi::max($x, $y);      // [10, 10, 10, 10]
+$mins        = Multi::mins($x, $y);     // [1, 2, 5, 10]
+
+// All functions work on multiple arrays; not limited to just two
+$x    = [10, 10, 10, 10];
+$y    = [1,   2,  5, 10];
+$z    = [4,   5,  6,  7];
+$sums = Multi::add($x, $y, $z); // [15, 17, 21, 27]
+```
+
+### Functions - Special Functions
+```php
+use Math\Functions\Special;
+
+// Gamma function Γ(z)
+$z = 4;
+$Γ = Special::gamma($z);          // Uses gamma definition for integers and half integers; uses Lanczos approximation for real numbers
+$Γ = Special::gammaLanczos($z);   // Lanczos approximation
+$Γ = Special::gammaStirling($z);  // Stirling approximation
+
+// Incomplete gamma functions - γ(s,t), Γ(s,x)
+list($x, $s) = [1, 2];
+$γ = Special::lowerIncompleteGamma($x, $s); // same as γ
+$γ = Special::γ($x, $s);                    // same as lowerIncompleteGamma
+$Γ = Special::upperIncompleteGamma($x, $s);
+
+// Beta function
+list($x, $y) = [1, 2];
+$β = Special::beta($x, $y);
+
+// Incomplete beta functions
+list($x, $a, $b) = [0.4, 2, 3];
+$B  = Special::incompleteBeta($x, $a, $b);
+$Iₓ = Special::regularizedIncompleteBeta($x, $a, $b);
+
+// Error function (Gauss error function)
+$error = Special::errorFunction(2);              // same as erf
+$error = Special::erf(2);                        // same as errorFunction
+$error = Special::complementaryErrorFunction(2); // same as erfc
+$error = Special::erfc(2);                       // same as complementaryErrorFunction
+
+// Sign function (also known as signum or sgn)
+$x    = 4;
+$sign = Special::signum($x); // same as sgn
+$sign = Special::sgn($x);    // same as signum
+
+// Logistic function (logistic sigmoid function)
+$x₀ = 2; // x-value of the sigmoid's midpoint
+$L  = 3; // the curve's maximum value
+$k  = 4; // the steepness of the curve
+$x  = 5;
+$logistic = Special::logistic($x₀, $L, $k, $x);
+
+// Double factorial
+$n  = 6;
+$n‼︎ = Special::doubleFactorial($n);
+
+// Sigmoid function
+$t = 2;
+$sigmoid = Special::sigmoid($t);
+```
+
 
 ### Linear Algebra - Matrix
 ```php
@@ -154,6 +244,23 @@ $item = $A->get(2);
 $dot    = $A->dotProduct($B);   // same as innerProduct
 $dot    = $A->innerProduct($B); // same as dotProduct
 $matrix = $A->outerProduct(new Vector([1, 2]));
+```
+
+### Numerical Analysis
+```php
+use Math\NumericalAnalysis
+
+// Use Newton's Method to solve for a root of a polynomial
+// f(x) = x⁴ + 8x³ -13x² -92x + 96
+$f⟮x⟯ = function($x) {
+    return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+};
+$args   = ['x'];   // Parameters to pass to callback function
+$target = 0;       // Value of f(x) we a trying to solve for
+$guess  = -4.1;    // Starting point
+$tol    = 0.00001; // Tolerance; how close to the actual solution we would like
+$x      = NewtonsMethod::solve($f⟮x⟯, $args, $target, $guess, $tol); // Solve for x where f(x) = $target
+
 ```
 
 ### Probability - Combinatorics
@@ -552,16 +659,17 @@ $second_central_moment = RandomVariable::centralMoment($X, 2);
 $third_central_moment  = RandomVariable::centralMoment($X, 3);
 
 // Skewness (population and sample)
-$skewness = RandomVariable::populationSkewness($X);  // Similar to Excel's SKEW.P
-$skewness = RandomVariable::sampleSkewness($X);      // Similar to Excel's SKEW
-// Alernative method of calculating skewness
-$skewness = RandomVariable::skewness($X);
+$skewness = RandomVariable::skewness($X);            // general method of calculating skewness
+$skewness = RandomVariable::populationSkewness($X);  // similar to Excel's SKEW.P
+$skewness = RandomVariable::sampleSkewness($X);      // similar to Excel's SKEW
+$SES      = RandomVariable::SES(count($X));          // standard error of skewness
 
 // Kurtosis (excess)
 $kurtosis    = RandomVariable::kurtosis($X);
 $platykurtic = RandomVariable::isPlatykurtic($X); // true if kurtosis is less than zero
 $leptokurtic = RandomVariable::isLeptokurtic($X); // true if kurtosis is greater than zero
 $mesokurtic  = RandomVariable::isMesokurtic($X);  // true if kurtosis is zero
+$SEK         = RandomVariable::SEK(count($X));    // standard error of kurtosis
 
 // Standard error of the mean (SEM)
 $sem = RandomVariable::standardErrorOfTheMean($X); // same as sem
@@ -616,54 +724,6 @@ $n          = $regression->getSampleSize();          // 5
 $points     = $regression->getPoints();              // [[1,2], [2,3], [4,5], [5,7], [6,8]]
 $xs         = $regression->getXs();                  // [1, 2, 4, 5, 6]
 $yx         = $regression->getYs();                  // [2, 3, 5, 7, 8]
-```
-
-### Special Functions
-```php
-use Math\Functions\Special;
-
-// Gamma function Γ(z)
-$z = 4;
-$Γ = Special::gamma($z);          // Uses gamma definition for integers and half integers; uses Lanczos approximation for real numbers
-$Γ = Special::gammaLanczos($z);   // Lanczos approximation
-$Γ = Special::gammaStirling($z);  // Stirling approximation
-
-// Incomplete gamma functions - γ(s,t), Γ(s,x)
-list($x, $s) = [1, 2];
-$γ = Special::lowerIncompleteGamma($x, $s); // same as γ
-$γ = Special::γ($x, $s);                    // same as lowerIncompleteGamma
-$Γ = Special::upperIncompleteGamma($x, $s);
-
-// Beta function
-list($x, $y) = [1, 2];
-$β = Special::beta($x, $y);
-
-// Incomplete beta functions
-list($x, $a, $b) = [0.4, 2, 3];
-$B  = Special::incompleteBeta($x, $a, $b);
-$Iₓ = Special::regularizedIncompleteBeta($x, $a, $b);
-
-// Error function (Gauss error function)
-$error = Special::errorFunction(2);              // same as erf
-$error = Special::erf(2);                        // same as errorFunction
-$error = Special::complementaryErrorFunction(2); // same as erfc
-$error = Special::erfc(2);                       // same as complementaryErrorFunction
-
-// Sign function (also known as signum or sgn)
-$x = 4;
-$sign = Special::signum($x); // same as sgn
-$sign = Special::sgn($x);    // same as signum
-
-// Logistic function (logistic sigmoid function)
-$x₀ = 2; // x-value of the sigmoid's midpoint
-$L  = 3; // the curve's maximum value
-$k  = 4; // the steepness of the curve
-$x  = 5;
-$logistic = Special::logistic($x₀, $L, $k, $x);
-
-// Sigmoid function
-$t = 2;
-$sigmoid = Special::sigmoid($t);
 ```
 
 Unit Tests
