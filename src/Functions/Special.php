@@ -634,4 +634,57 @@ class Special
             }
         }
     }
+
+    /**
+     * Double facatorial (iterative)
+     * Also known as semifactorial
+     *
+     * The product of all the integers from 1 up to some non-negative integer n
+     * that have the same parity as n. Denoted by n!!
+     *
+     * n‼︎ = n(n - 2)(n - 4) ・・・ 
+     *
+     * For even n:
+     *       n/2
+     * n‼︎ =  ∏ (2k) = n(n - 2) ・・・ 2
+     *       k=1 
+     *
+     * For odd n:
+     *     (n+1)/2
+     * n‼︎ =  ∏ (2k - 1) = n(n - 2) ・・・ 1
+     *       k=1 
+     *
+     * 0‼︎ = 1
+     *
+     * @param  int $n
+     *
+     * @return int
+     *
+     * @throws \Exception
+     */
+    public static function doubleFactorial(int $n)
+    {
+        if ($n < 0) {
+            throw new \Exception('Cannot compute double factorial of a negative number.');
+        }
+
+        // Zero base case
+        if ($n === 0) {
+            return 1;
+        }
+
+        // Even and odd initialization base cases: odd = 1, even = 2
+        if ($n % 2 == 0) {
+            $n‼︎ = 2;
+        } else {
+            $n‼︎ = 1;
+        }
+
+        while ($n > 2) {
+            $n‼︎ *= $n;
+            $n  -= 2;
+        }
+
+        return $n‼︎;
+    }
 }
