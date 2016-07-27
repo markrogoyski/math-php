@@ -135,20 +135,6 @@ class Descriptive
     }
 
     /**
-     * Wrapper for computing the variance
-     * @param array $numbers
-     * @param bool  $population: true uses population variance; false uses sample variance;
-     *                            Default is true (population variance)
-     * @return numeric
-     */
-    public static function variance2(array $numbers, bool $population = true)
-    {
-        return $population
-        ? self::populationVariance($numbers)
-        : self::sampleVariance($numbers);
-    }
-
-    /**
      * Standard deviation
      * A measure that is used to quantify the amount of variation or dispersion of a set of data values.
      * A low standard deviation indicates that the data points tend to be close to the mean
@@ -160,10 +146,10 @@ class Descriptive
      *
      * @param array $numbers
      * @param bool  $population_variance: true uses population variance; false uses sample variance;
-     *              Default is true (population variance)
+     *              Default is false (sample variance)
      * @return numeric
      */
-    public static function standardDeviation(array $numbers, bool $population_variance = true)
+    public static function standardDeviation(array $numbers, bool $population_variance = false)
     {
         if (empty($numbers)) {
             return null;
@@ -181,10 +167,10 @@ class Descriptive
      *
      * @param array $numbers
      * @param bool  $population_variance: true uses population variance; false uses sample variance;
-     *              Default is true (population variance)
+     *              Default is false (population variance)
      * @return numeric
      */
-    public static function sd(array $numbers, bool $population_variance = true)
+    public static function sd(array $numbers, bool $population_variance = false)
     {
         if (empty($numbers)) {
             return null;
@@ -521,7 +507,7 @@ class Descriptive
             'median_mad'         => self::medianAbsoluteDeviation($numbers),
             'quartiles'          => self::quartiles($numbers),
             'midhinge'           => self::midhinge($numbers),
-            'skewness'           => $population ? RandomVariable::populationSkewness($numbers) : RandomVariable::sampleSkewness($numbers),
+            'skewness'           => $population ? RandomVariable::populationSkewness($numbers) : RandomVariable::skewness($numbers),
             'kurtosis'           => RandomVariable::kurtosis($numbers),
             'sem'                => RandomVariable::standardErrorOfTheMean($numbers),
             'ci_95'              => RandomVariable::confidenceInterval($μ, $n, $σ, 95),
