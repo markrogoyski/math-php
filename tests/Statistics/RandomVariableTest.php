@@ -183,6 +183,26 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForSES
+     */
+    public function testSES(int $n, $ses)
+    {
+        $this->assertEquals($ses, RandomVariable::SES($n), '', 0.001);
+    }
+
+    public function dataProviderForSES()
+    {
+        return [
+            [5, 0.913],
+            [10, 0.687],
+            [20, 0.512],
+            [100, 0.241],
+            [1000, 0.077],
+            [10000, 0.024],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForKurtosis
      */
     public function testKurtosis(array $X, $kurtosis)
@@ -216,6 +236,26 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
     public function testIsMesokurtic()
     {
         $this->assertTrue(RandomVariable::isMesokurtic([ 4, 5, 5, 5, 5, 6 ]));
+    }
+
+    /**
+     * @dataProvider dataProviderForSEK
+     */
+    public function testSEK(int $n, $sek)
+    {
+        $this->assertEquals($sek, RandomVariable::SEK($n), '', 0.001);
+    }
+
+    public function dataProviderForSEK()
+    {
+        return [
+            [5, 2],
+            [10, 1.334],
+            [20, 0.992],
+            [100, 0.478],
+            [1000, 0.154],
+            [10000, 0.048],
+        ];
     }
 
     /**
