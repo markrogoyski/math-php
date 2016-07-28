@@ -1,6 +1,8 @@
 <?php
 namespace Math\LinearAlgebra;
 
+use Math\Functions\Map;
+
 /**
  * m x n Matrix
  */
@@ -40,6 +42,10 @@ class Matrix implements \ArrayAccess
             }
         }
     }
+
+    /**
+     * BASIC MATRIX GETTERS
+     */
 
     /**
      * Get matrix
@@ -116,6 +122,10 @@ class Matrix implements \ArrayAccess
 
         return $this->A[$i][$j];
     }
+
+    /**
+     * MATRIX OPERATIONS
+     */
 
     /**
      * Add two matrices - Entrywise sum
@@ -270,6 +280,42 @@ class Matrix implements \ArrayAccess
     }
 
     /**
+     * Hadamard product (A∘B)
+     * Also known as the Schur product, or the entrywise product
+     *
+     * A binary operation that takes two matrices of the same dimensions,
+     * and produces another matrix where each element ij is the product of
+     * elements ij of the original two matrices.
+     * https://en.wikipedia.org/wiki/Hadamard_product_(matrices)
+     *
+     * (A∘B)ᵢⱼ = (A)ᵢⱼ(B)ᵢⱼ
+     *
+     * @param Matrix $B
+     *
+     * @return Matrix
+     */
+    public function hadamardProduct(Matrix $B): Matrix
+    {
+        if ($B->getM() !== $this->m || $B->getN() !== $this->n) {
+            throw new \Exception('Matrices are not the same dimensions');
+        }
+
+        $m   = $this->m;
+        $n   = $this->n;
+        $A   = $this->A;
+        $B   = $B->getMatrix();
+        $A∘B = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $A∘B[$i][$j] = $A[$i][$j] * $B[$i][$j];
+            }
+        }
+
+        return new Matrix($A∘B);
+    }
+
+    /**
      * Transpose matrix
      *
      * The transpose of a matrix A is another matrix Aᵀ:
@@ -375,6 +421,127 @@ class Matrix implements \ArrayAccess
     }
 
     /**
+     * Augment a matrix
+     * An augmented matrix is a matrix obtained by appending the columns of two given matrices
+     *
+     *     [1, 2, 3]
+     * A = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     *     [4]
+     * B = [5]
+     *     [6]
+     *
+     *         [1, 2, 3 | 4]
+     * (A|B) = [2, 3, 4 | 5]
+     *         [3, 4, 5 | 6]
+     *
+     * @param  Matrix $B Matrix columns to add to matrix A
+     *
+     * @return Matrix
+     */
+    public function augment(Matrix $B): Matrix
+    {
+        if ($B->getM() !== $this->m) {
+            throw new \Exception('Matrices to augment do not have the same number of rows');
+        }
+
+        $m    = $this->m;
+        $A    = $this->A;
+        $B    = $B->getMatrix();
+        $⟮A∣B⟯ = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            $⟮A∣B⟯[$i] = array_merge($A[$i], $B[$i]);
+        }
+
+        return new Matrix($⟮A∣B⟯);
+    }
+
+    /**
+     * Augment a matrix with its identity matrix
+     *
+     *     [1, 2, 3]
+     * C = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     *         [1, 2, 3 | 1, 0, 0]
+     * (C|I) = [2, 3, 4 | 0, 1, 0]
+     *         [3, 4, 5 | 0, 0, 1]
+     *
+     * C must be a square matrix
+     *
+     * @param  Matrix $B Matrix columns to add to matrix A
+     *
+     * @return Matrix
+     */
+    public function augmentIdentity(): Matrix
+    {
+        if (!$this->isSquare()) {
+            throw new \Exception('Matrix is not square; cannot augment with the identity matrix');
+        }
+
+        return $this->augment(self::identity($this->getM()));
+    }
+
+    /**
+     * 1-norm (‖A‖₁)
+     * Maximum absolute column sum of the matrix
+     *
+     * @return number
+     */
+    public function oneNorm()
+    {
+        $n = $this->n;
+        $‖A‖₁ = array_sum( Map\Single::abs(array_column($this->A, 0)) );
+
+        for ($j = 1; $j < $n; $j++) {
+            $‖A‖₁ = max($‖A‖₁, array_sum( Map\Single::abs(array_column($this->A, $j)) ));
+        }
+
+        return $‖A‖₁;
+    }
+
+    /**
+     * Infinity norm (‖A‖∞)
+     * Maximum absolute row sum of the matrix
+     *
+     * @return number
+     */
+    public function infinityNorm()
+    {
+        $m = $this->m;
+        $‖A‖∞ = array_sum( Map\Single::abs($this->A[0]) );
+
+        for ($i = 1; $i < $m; $i++) {
+            $‖A‖∞ = max($‖A‖∞, array_sum( Map\Single::abs($this->A[$i]) ));
+        }
+
+        return $‖A‖∞;
+    }
+
+    /**
+     * Max norm (‖A‖max)
+     * Elementwise max
+     *
+     * @return number
+     */
+    public function maxNorm()
+    {
+        $m   = $this->m;
+        $n   = $this->n;
+        $max = abs($this->A[0][0]);
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $max = max($max, abs($this->A[$i][$j]));
+            }
+        }
+
+        return $max;
+    }
+
+    /**
      * ROW OPERATIONS
      */
 
@@ -469,6 +636,32 @@ class Matrix implements \ArrayAccess
         }
 
         return new Matrix($R);
+    }
+
+    /**
+     * Exclude a row from the result matrix
+     *
+     * @param int $mᵢ Row to exclude
+     *
+     * @return Matrix with row mᵢ excluded
+     */
+    public function rowExclude(int $mᵢ): Matrix
+    {
+        if ($mᵢ >= $this->m || $mᵢ < 0) {
+            throw new \Exception('Row to exclude does not exist');
+        }
+
+        $m = $this->m;
+        $R = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            if ($i === $mᵢ) {
+                continue;
+            }
+            $R[$i] = $this->A[$i];
+        }
+
+        return new Matrix(array_values($R));
     }
 
     /**
@@ -569,6 +762,62 @@ class Matrix implements \ArrayAccess
         }
 
         return new Matrix($R);
+    }
+
+    /**
+     * Exclude a column from the result matrix
+     *
+     * @param int $nᵢ Column to exclude
+     *
+     * @return Matrix with column nᵢ excluded
+     */
+    public function columnExclude(int $nᵢ): Matrix
+    {
+        if ($nᵢ >= $this->n || $nᵢ < 0) {
+            throw new \Exception('Column to exclude does not exist');
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+        $R = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                if ($j === $nᵢ) {
+                    continue;
+                }
+                $R[$i][$j] = $this->A[$i][$j];
+            }
+        }
+
+        // Reset column indexes
+        for ($i = 0; $i < $m; $i++) {
+            $R[$i] = array_values($R[$i]);
+        }
+
+        return new Matrix($R);
+    }
+
+    /**
+     * Print the matrix as a string
+     * Format is as a matrix, not as the underlying array structure.
+     * Ex:
+     *  [1, 2, 3]
+     *  [2, 3, 4]
+     *  [3, 4, 5]
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return trim(array_reduce(array_map(
+            function ($mᵢ) {
+                return '[' . implode(', ', $mᵢ) . ']';
+            },
+            $this->A
+        ), function($A, $mᵢ) {
+            return $A . \PHP_EOL . $mᵢ;
+        }));
     }
 
     /**
