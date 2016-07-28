@@ -190,31 +190,48 @@ $item = $A->get(2, 2);
 list($mᵢ, $mⱼ, $k) = [1, 2, 5];
 $R = $A->rowInterchange($mᵢ, $mⱼ);
 $R = $A->rowMultiply($mᵢ, $k);     // Multiply row mᵢ by k
-$R = $A->rowAdd($mᵢ, $mⱼ, $k);     // Add k * row mᵢ to row mⱼ;
+$R = $A->rowAdd($mᵢ, $mⱼ, $k);     // Add k * row mᵢ to row mⱼ
+$R = $A->rowExclude($mᵢ);          // Exclude row $mᵢ
 
 // Column operations
 list($nᵢ, $nⱼ, $k) = [1, 2, 5];
 $R = $A->columnInterchange($nᵢ, $nⱼ);
 $R = $A->columnMultiply($nᵢ, $k);     // Multiply column nᵢ by k
 $R = $A->columnAdd($nᵢ, $nⱼ, $k);     // Add k * column nᵢ to column nⱼ;
+$R = $A->columnExclude($nᵢ);          // Exclude column $nᵢ
 
-// Matrix operations - all operations that return a Matrix return a new Matrix
-$R = $A->add($B);
-$R = $A->directSum($B);
-$R = $A->subtract($B);
-$R = $A->multiply($B);
-$R = $A->scalarMultiply(5);
-$R = $A->transpose();
-$R = $A->diagonal();
+// Matrix operations - return a new Matrix
+$A＋B = $A->add($B);
+$A⊕B  = $A->directSum($B);
+$A−B  = $A->subtract($B);
+$AB   = $A->multiply($B);
+$２A  = $A->scalarMultiply(2);
+$A∘B  = $A->hadamardProduct($B);
+$Aᵀ 　= $A->transpose();
+$D  　= $A->diagonal();
+$⟮A∣B⟯ = $A->augment($B);
+$⟮A∣I⟯ = $A->augmentIdentity();  // Augment with the identity matrix
 
+// Matrix operations - return a value
 $tr⟮A⟯ = $A->trace();
 $bool = $A->isSquare();
+$‖A‖₁ = $A->oneNorm();
+$‖A‖∞ = $A->infinityNorm();
+$max  = $A->maxNorm();
 
 // Map a function over each element of the Matrix
 $func = function($x) {
-  return $x * 2;
+    return $x * 2;
 };
 $R = $A->map($func);
+
+// Print a matrix
+print($A);
+/*
+ [1, 2, 3]
+ [2, 3, 4]
+ [3, 4, 5]
+ */
 
 // Static Matrix operations
 list($m, $n)     = [4, 4];
@@ -241,9 +258,14 @@ $n     = $A->getN();      // number of elements
 $item = $A->get(2);
 
 // Vector operations
-$dot    = $A->dotProduct($B);   // same as innerProduct
-$dot    = $A->innerProduct($B); // same as dotProduct
+$sum    = $A->sum();
+$A⋅B    = $A->dotProduct($B);                    // same as innerProduct
+$A⋅B    = $A->innerProduct($B);                  // same as dotProduct
 $matrix = $A->outerProduct(new Vector([1, 2]));
+$l₁norm = $A->l1Norm();
+$l²norm = $A->l2Norm();
+$pnorm  = $A->pNorm();
+$max    = $A->maxNorm();
 ```
 
 ### Numerical Analysis
