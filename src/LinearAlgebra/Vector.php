@@ -1,6 +1,8 @@
 <?php
 namespace Math\LinearAlgebra;
 
+use Math\Functions\Map;
+
 /**
  * 1 x n Vector
  */
@@ -64,7 +66,17 @@ class Vector implements \ArrayAccess
     }
 
     /**
-     * Dot product (inner product)
+     * Sum of all elements
+     *
+     * @return number
+     */
+    public function sum()
+    {
+        return array_sum($this->A);
+    }
+
+    /**
+     * Dot product (inner product) (A⋅B)
      * https://en.wikipedia.org/wiki/Dot_product
      *
      * @param Vector $B
@@ -86,7 +98,7 @@ class Vector implements \ArrayAccess
     }
 
     /**
-     * Inner product (convience method for dot product)
+     * Inner product (convience method for dot product) (A⋅B)
      *
      * @param Vector $B
      *
@@ -120,7 +132,67 @@ class Vector implements \ArrayAccess
         return new Matrix($R);
     }
 
-    // ArrayAccess Interface
+    /**
+     * l₁-norm (|x|₁)
+     * Also known as Taxicab norm or Manhattan norm
+     *
+     * https://en.wikipedia.org/wiki/Norm_(mathematics)#Taxicab_norm_or_Manhattan_norm
+     *
+     * |x|₁ ∑|xᵢ|
+     *
+     * @return number
+     */
+    public function l1Norm()
+    {
+        return array_sum(Map\Single::abs($this->A));
+    }
+
+    /**
+     * l²-norm (|x|₂)
+     * Also known as Euclidean norm, Euclidean length, L² distance, ℓ² distance
+     *
+     * http://mathworld.wolfram.com/L2-Norm.html
+     * https://en.wikipedia.org/wiki/Norm_(mathematics)#Euclidean_norm
+     *         ______
+     * |x|₂ = √∑|xᵢ|²
+     *
+     * @return number
+     */
+    public function l2Norm()
+    {
+        return sqrt(array_sum(Map\Single::square($this->A)));
+    }
+
+    /**
+     * p-norm (|x|p)
+     * Also known as lp norm
+     *
+     * https://en.wikipedia.org/wiki/Norm_(mathematics)#p-norm
+     *
+     * |x|p = (∑|xᵢ|ᵖ)¹/ᵖ
+     *
+     * @return number
+     */
+    public function pNorm($p)
+    {
+        return array_sum(Map\Single::pow($this->A, $p))**(1/$p);
+    }
+
+    /**
+     * Max norm (infinity norm) (|x|∞)
+     *
+     * |x|∞ = max |x|
+     *
+     * @return number
+     */
+    public function maxNorm()
+    {
+        return max(Map\Single::abs($this->A));
+    }
+
+    /**
+     * ArrayAccess INTERFACE
+     */
 
     public function offsetExists($i): boolean
     {
