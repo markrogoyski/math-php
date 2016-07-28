@@ -90,4 +90,30 @@ class SingleTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForAbs
+     */
+    public function testAbs(array $xs, array $abs)
+    {
+        $this->assertEquals($abs, Single::abs($xs));
+    }
+
+    public function dataProviderForAbs()
+    {
+        return [
+            [
+                [1, 2, 3, 4],
+                [1, 2, 3, 4],
+            ],
+            [
+                [1, -2, 3, -4],
+                [1, 2, 3, 4],
+            ],
+            [
+                [-1, -2, -3, -4],
+                [1, 2, 3, 4],
+            ],
+        ];
+    }
 }
