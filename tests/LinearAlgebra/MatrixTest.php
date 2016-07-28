@@ -981,6 +981,62 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForRowExclude
+     */
+    public function testRowExclude(array $A, int $mᵢ, array $R)
+    {
+        $A = new Matrix($A);
+        $R = new Matrix($R);
+
+        $this->assertEquals($R, $A->rowExclude($mᵢ));
+    }
+
+    public function dataProviderForRowExclude()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0,
+                [
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 1,
+                [
+                    [1, 2, 3],
+                    [3, 4, 5],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 2,
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                ]
+            ],
+        ];
+    }
+
+    public function testRowExcludeExceptionRowDoesNotExist()
+    {
+        $this->setExpectedException('\Exception');
+        $this->matrix->rowExclude(-5);
+    }
+
+    /**
      * @dataProvider dataProviderForColulmnInterchange
      */
     public function testColulmnInterchange(array $A, int $nᵢ, int $nⱼ, array $R)
@@ -1198,6 +1254,65 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForColumnExclude
+     */
+    public function testColumnExclude(array $A, int $nᵢ, array $R)
+    {
+        $A = new Matrix($A);
+        $R = new Matrix($R);
+
+        $this->assertEquals($R, $A->columnExclude($nᵢ));
+    }
+
+    public function dataProviderForColumnExclude()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0,
+                [
+                    [2, 3],
+                    [3, 4],
+                    [4, 5],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 1,
+                [
+                    [1, 3],
+                    [2, 4],
+                    [3, 5],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 2,
+                [
+                    [1, 2],
+                    [2, 3],
+                    [3, 4],
+                ]
+            ],
+        ];
+    }
+
+    public function testColumnExcludeExceptionColumnDoesNotExist()
+    {
+        $this->setExpectedException('\Exception');
+        $this->matrix->columnExclude(-5);
+    }
+
+    /**
      * @dataProvider dataProviderForDiagonal
      */
     public function testDiagonal(array $A, array $R)
@@ -1247,6 +1362,438 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
                     [1, 0, 0, 0],
                     [0, 3, 0, 0],
                     [0, 0, 5, 0],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForAugment
+     */
+    public function testAugment(array $A, array $B, array $⟮A∣B⟯)
+    {
+        $A    = new Matrix($A);
+        $B    = new Matrix($B);
+        $⟮A∣B⟯ = new Matrix($⟮A∣B⟯);
+
+        $this->assertEquals($⟮A∣B⟯, $A->augment($B));
+    }
+
+    public function dataProviderForAugment()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [
+                    [4],
+                    [5],
+                    [6],
+                ],
+                [
+                    [1, 2, 3, 4],
+                    [2, 3, 4, 5],
+                    [3, 4, 5, 6],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [
+                    [4, 7, 8],
+                    [5, 7, 8],
+                    [6, 7, 8],
+                ],
+                [
+                    [1, 2, 3, 4, 7, 8],
+                    [2, 3, 4, 5, 7, 8],
+                    [3, 4, 5, 6, 7, 8],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+
+                ],
+                [
+                    [4],
+
+                ],
+                [
+                    [1, 2, 3, 4],
+                ]
+            ],
+            [
+                [
+                    [1],
+
+                ],
+                [
+                    [4],
+                ],
+                [
+                    [1, 4],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [
+                    [4, 7, 8, 9],
+                    [5, 7, 8, 9],
+                    [6, 7, 8, 9],
+                ],
+                [
+                    [1, 2, 3, 4, 7, 8, 9],
+                    [2, 3, 4, 5, 7, 8, 9],
+                    [3, 4, 5, 6, 7, 8, 9],
+                ]
+            ],
+        ];
+    }
+
+    public function testAugmentExceptionRowsDoNotMatch()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $B = new Matrix([
+            [4, 5],
+            [5, 6],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->augment($B);
+    }
+
+    /**
+     * @dataProvider dataProviderForAugmentIdentity
+     */
+    public function testAugmentIdentity(array $C, array $⟮C∣I⟯)
+    {
+        $C    = new Matrix($C);
+        $⟮C∣I⟯ = new Matrix($⟮C∣I⟯);
+
+        $this->assertEquals($⟮C∣I⟯, $C->augmentIdentity());
+    }
+
+    public function dataProviderForAugmentIdentity()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [
+                    [1, 2, 3, 1, 0, 0],
+                    [2, 3, 4, 0, 1, 0],
+                    [3, 4, 5, 0, 0, 1],
+                ]
+            ],
+            [
+                [
+                    [1, 2],
+                    [2, 3],
+                ],
+                [
+                    [1, 2, 1, 0],
+                    [2, 3, 0, 1],
+                ]
+            ],
+            [
+                [
+                    [1]
+                ],
+                [
+                    [1, 1],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForOneNorm
+     */
+    public function testOneNorm(array $A, $norm)
+    {
+        $A = new Matrix($A);
+
+        $this->assertEquals($norm, $A->oneNorm(), '', 0.0001);
+    }
+
+    public function dataProviderForOneNorm()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 12
+            ],
+            [
+                [
+                    [1, 8, 3],
+                    [2, 8, 4],
+                    [3, 8, 5],
+                ], 24
+            ],
+            [
+                [
+                    [20, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 25
+            ],
+            [
+                [
+                    [-20, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 25
+            ],
+            [
+                [
+                    [20, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                    [0, 2, 55],
+                ], 67
+            ],
+            [
+                [
+                    [20, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                    [0, 2, -55],
+                ], 67
+            ],
+            [
+                [
+                    [1],
+                    [2],
+                    [3],
+                ], 6
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForInfinityNorm
+     */
+    public function testInfinityNorm(array $A, $norm)
+    {
+        $A = new Matrix($A);
+
+        $this->assertEquals($norm, $A->infinityNorm(), '', 0.0001);
+    }
+
+    public function dataProviderForInfinityNorm()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 12
+            ],
+            [
+                [
+                    [1, 8, 3],
+                    [2, 8, 4],
+                    [3, 8, 5],
+                ], 16
+            ],
+            [
+                [
+                    [20, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 25
+            ],
+            [
+                [
+                    [-20, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 25
+            ],
+            [
+                [
+                    [20, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                    [0, 2, 55],
+                ], 57
+            ],
+            [
+                [
+                    [20, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                    [0, 2, -55],
+                ], 57
+            ],
+            [
+                [
+                    [1],
+                    [2],
+                    [3],
+                ], 3
+            ],
+            [
+                [
+                    [1, 2, 3],
+                ], 6
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForMaxNorm
+     */
+    public function testMaxNorm(array $A, $norm)
+    {
+        $A = new Matrix($A);
+
+        $this->assertEquals($norm, $A->maxNorm(), '', 0.0001);
+    }
+
+    public function dataProviderForMAxNorm()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 5
+            ],
+            [
+                [
+                    [1, 8, 3],
+                    [2, 8, 4],
+                    [3, 8, 5],
+                ], 8
+            ],
+            [
+                [
+                    [20, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 20
+            ],
+            [
+                [
+                    [-20, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 20
+            ],
+            [
+                [
+                    [20, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                    [0, 2, 55],
+                ], 55
+            ],
+            [
+                [
+                    [20, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                    [0, 2, -55],
+                ], 55
+            ],
+            [
+                [
+                    [1],
+                    [2],
+                    [3],
+                ], 3
+            ],
+            [
+                [
+                    [1, 2, 3],
+                ], 3
+            ],
+        ];
+    }
+
+    public function testAugmentIdentityExceptionNotSquare()
+    {
+        $A = new Matrix([
+            [1, 2],
+            [2, 3],
+            [3, 4],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $this->assertEquals($A->augmentIdentity());
+    }
+
+    /**
+     * @dataProvider dataProviderForHadamardProduct
+     */
+    public function testHadamardProduct(array $A, array $B, array $A∘B)
+    {
+        $A   = new Matrix($A);
+        $B   = new Matrix($B);
+        $A∘B = new Matrix($A∘B);
+
+        $this->assertEquals($A∘B, $A->hadamardProduct($B));
+    }
+
+    public function dataProviderForHadamardProduct()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [
+                    [1, 4, 9],
+                    [4, 9, 16],
+                    [9, 16, 25],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [
+                    [6, 6, 4],
+                    [8, 7, 8],
+                    [3, 1, 7],
+                ],
+                [
+                    [6, 12, 12],
+                    [16, 21, 32],
+                    [9, 4, 35],
                 ]
             ],
         ];
