@@ -65,4 +65,19 @@ class Single
             }, $xs
         );
     }
+
+    /**
+     * Map absolute value
+     *
+     * @param  array $xs
+     * @return array
+     */
+    public static function abs(array $xs): array
+    {
+        return array_map(
+            function($x) {
+                return abs($x);
+            }, $xs
+        );
+    }
 }
