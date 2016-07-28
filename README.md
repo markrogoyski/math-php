@@ -258,15 +258,17 @@ $n     = $A->getN();      // number of elements
 // Basic vector elements (zero-based indexing)
 $item = $A->get(2);
 
-// Vector operations
+// Vector operations - return a value
 $sum    = $A->sum();
-$A⋅B    = $A->dotProduct($B);                    // same as innerProduct
-$A⋅B    = $A->innerProduct($B);                  // same as dotProduct
-$matrix = $A->outerProduct(new Vector([1, 2]));
+$A⋅B    = $A->dotProduct($B);    // same as innerProduct
+$A⋅B    = $A->innerProduct($B);  // same as dotProduct
 $l₁norm = $A->l1Norm();
 $l²norm = $A->l2Norm();
 $pnorm  = $A->pNorm();
 $max    = $A->maxNorm();
+
+// Vector operations - return a Matrix
+$matrix = $A->outerProduct(new Vector([1, 2]));
 ```
 
 ### Numerical Analysis
