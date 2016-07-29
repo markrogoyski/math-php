@@ -191,6 +191,18 @@ class Vector implements \ArrayAccess
     }
 
     /**
+     * Print the vector as a string
+     * Ex:
+     *  [1, 2, 3]
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return '[' . implode(', ', $this->A) . ']';
+    }
+
+    /**
      * ArrayAccess INTERFACE
      */
 
