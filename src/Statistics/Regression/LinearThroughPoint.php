@@ -2,6 +2,8 @@
 namespace Math\Statistics\Regression;
 
 use Math\Statistics\Average;
+use Math\Functions\Map\Multi;
+use Math\Functions\Map\Single;
 /**
  * Regression Through a Fixed Point - least squares method
  *
@@ -59,17 +61,10 @@ class LinearThroughPoint extends Regression
                 return $y - $w;
             },$this->ys);
         
-        $numerator = array_sum(
-            array_map(
-                function($x,$y){
-                    return $x - $y;
-                }, $this->xs, $this->ys));
+        $numerator = array_sum(Multi::multiply($translated_x,$translated_y));
         
-        $denominator = array_sum(
-            array_map(
-                function($x){
-                    return $x ** 2;
-                }, $this->xs));
+        $denominator = array_sum(Single::square($translated_x));
+        
         // Calculate slope (m) and y intercept (b)
         $this->m = $numerator / $denominator;
         if ($this->v == 0 && $this->w == 0)
