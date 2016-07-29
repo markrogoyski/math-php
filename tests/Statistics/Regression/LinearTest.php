@@ -127,7 +127,7 @@ class LinearTest extends \PHPUnit_Framework_TestCase
                 5, 13.5
             ],
             [
-                [ [0,2], [1,1], [2,0], [3,-1] ], // y = -x - 2
+                [ [0,2], [1,1], [2,0], [3,-1] ], // y = -x + 2
                 4, -2
             ],
         ];
