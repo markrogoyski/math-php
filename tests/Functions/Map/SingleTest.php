@@ -116,4 +116,68 @@ class SingleTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForAdd
+     */
+    public function testAdd(array $xs, $k, array $sums)
+    {
+        $this->assertEquals($sums, Single::add($xs, $k));
+    }
+
+    public function dataProviderForAdd()
+    {
+        return [
+            [ [1, 2, 3, 4, 5], 4, [5, 6, 7, 8, 9] ],
+            [ [5, 7, 23, 5, 2], 9.1, [14.1, 16.1, 32.1, 14.1, 11.1] ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForSubtract
+     */
+    public function testSubtract(array $xs, $k, array $differences)
+    {
+        $this->assertEquals($differences, Single::subtract($xs, $k));
+    }
+
+    public function dataProviderForSubtract()
+    {
+        return [
+            [ [1, 2, 3, 4, 5], 1, [0, 1, 2, 3, 4] ],
+            [ [5, 7, 23, 5, 2], 3, [2, 4, 20, 2, -1] ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForMultiply
+     */
+    public function testMultiply(array $xs, $k, array $products)
+    {
+        $this->assertEquals($products, Single::multiply($xs, $k));
+    }
+
+    public function dataProviderForMultiply()
+    {
+        return [
+            [ [1, 2, 3, 4, 5], 4, [4, 8, 12, 16, 20] ],
+            [ [5, 7, 23, 5, 2], 3, [15, 21, 69, 15, 6] ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForDivide
+     */
+    public function testDivide(array $xs, $k, array $quotients)
+    {
+        $this->assertEquals($quotients, Single::divide($xs, $k));
+    }
+
+    public function dataProviderForDivide()
+    {
+        return [
+            [ [1, 2, 3, 4, 5], 2, [0.5, 1, 1.5, 2, 2.5] ],
+            [ [5, 10, 15, 20, 25], 5, [1, 2, 3, 4, 5] ],
+        ];
+    }
 }
