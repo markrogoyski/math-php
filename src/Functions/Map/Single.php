@@ -80,4 +80,36 @@ class Single
             }, $xs
         );
     }
+    
+    /**
+     * Map addition
+     *
+     * @param  array $xs
+     * @param  number $number
+     * @return array
+     */
+    public static function add(array $xs, $number): array
+    {
+        return array_map(
+            function($x) use ($number){
+                return $x + $number;
+            }, $xs
+        );
+    }
+    
+    /**
+     * Map multiply
+     *
+     * @param  array $xs
+     * @param  number $number
+     * @return array
+     */
+    public static function multiply(array $xs, $number): array
+    {
+        return array_map(
+            function($x) use ($number){
+                return $x * $number;
+            }, $xs
+        );
+    }
 }
