@@ -4,8 +4,9 @@ namespace Math\Statistics\Regression;
 use Math\Statistics\Average;
 use Math\Functions\Map\Multi;
 use Math\Functions\Map\Single;
+
 /**
- * Regression Through a Fixed Point - least squares method
+ * Linear Regression Through a Fixed Point - least squares method
  *
  * A model with a single explanatory variable.
  * Fits a straight line through the set of n points in such a way that makes
@@ -16,7 +17,6 @@ use Math\Functions\Map\Single;
  * Having data points {(xᵢ, yᵢ), i = 1 ..., n }
  * Find the equation y = mx + b
  * such that the line passes through the point (v,w)
- *
  *
  *      ∑((x-v)(y-w))
  * m =  _____________
@@ -35,7 +35,7 @@ class LinearThroughPoint extends Regression
      * This procedure is most frequently used with $force = [0,0], the origin.
      *
      */
-    public function __construct($points, $force = [0,0])
+    public function __construct(array $points, array $force = [0,0])
     {
         $this->v = $force[self::X];
         $this->w = $force[self::Y];
@@ -44,36 +44,36 @@ class LinearThroughPoint extends Regression
     
     /**
      * Calculates the regression parameters.
-     *
      */
     public function calculate()
     {
         $v = $this->v;
         $w = $this->w;
         
-        $translated_x = array_map(
-            function($x) use ($v){
+        $x’ = array_map(
+            function($x) use ($v) {
                 return $x - $v;
-            },$this->xs);
+            }, $this->xs
+        );
        
-        $translated_y = array_map(
-            function($y) use ($w){
+        $y’ = array_map(
+            function($y) use ($w) {
                 return $y - $w;
-            },$this->ys);
+            }, $this->ys
+        );
         
-        $numerator = array_sum(Multi::multiply($translated_x,$translated_y));
-        
-        $denominator = array_sum(Single::square($translated_x));
+        $numerator   = array_sum(Multi::multiply($x’, $y’));
+        $denominator = array_sum(Single::square($x’));
         
         // Calculate slope (m) and y intercept (b)
         $this->m = $numerator / $denominator;
-        if ($this->v == 0 && $this->w == 0)
-        {
+        if ($this->v == 0 && $this->w == 0) {
             $this->b = 0;
         } else {
             $this->b = $this->w - $this->m * $this->v;
         }
     }
+
     /**
      * Get regression parameters
      * m = slope
@@ -88,6 +88,7 @@ class LinearThroughPoint extends Regression
             'b' => $this->b,
         ];
     }
+
     /**
      * Get regression equation (y = mx + b)
      *
@@ -97,6 +98,7 @@ class LinearThroughPoint extends Regression
     {
         return sprintf('y = %fx + %f', $this->m, $this->b);
     }
+
     /**
      * Evaluate the line equation from linear regression parameters for a value of x
      * y = mx + b
@@ -126,9 +128,10 @@ class LinearThroughPoint extends Regression
     public function sumOfSquaresRegression()
        {
            return array_map(
-                function ($y){
+                function ($y) {
                     return $y ** 2;
-                }, $this->getYHat());
+                }, $this->getYHat()
+            );
       }
     
     /**
@@ -144,9 +147,9 @@ class LinearThroughPoint extends Regression
     public function sumOfSquaresTotal()
     {
         return array_map(
-            function ($y){
+            function ($y) {
                 return $y ** 2;
-            }, $this->ys);
+            }, $this->ys
+        );
     }
-
 }
