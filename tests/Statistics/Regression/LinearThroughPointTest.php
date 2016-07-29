@@ -39,7 +39,7 @@ class LinearThroughPointTest extends \PHPUnit_Framework_TestCase
     {
         $force = [0,0];
         $regression = new LinearThroughPoint($points, $force);
-        $this->assertRegExp('/^y = \d+[.]\d+x [+] \d+[.]\d+$/', $regression->getEquation());
+        $this->assertRegExp('/^y = [-]?\d+[.]\d+x [+\-] \d+[.]\d+$/', $regression->getEquation());
     }
     public function dataProviderForEquation()
     {
@@ -54,7 +54,7 @@ class LinearThroughPointTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetParameters(array $points, $m, $b)
     {
-        $regression = new LinearThroughPoint($points, $force = [0,0];);
+        $regression = new LinearThroughPoint($points, $force = [0,0]);
         $parameters = $regression->getParameters();
         $this->assertEquals($m, $parameters['m'], '', 0.0001);
         $this->assertEquals($b, $parameters['b'], '', 0.0001);

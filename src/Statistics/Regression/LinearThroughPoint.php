@@ -62,7 +62,7 @@ class LinearThroughPoint extends Regression
         $numerator = array_sum(
             array_map(
                 function($x,$y){
-                    return $x - y;
+                    return $x - $y;
                 }, $this->xs, $this->ys));
         
         $denominator = array_sum(
