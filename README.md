@@ -81,11 +81,15 @@ use Math\Functions\Map\Single
 
 $x = [1, 2, 3, 4];
 
-$x²  = Single::square($x); // [1, 4, 9, 16]
-$x³  = Single::cube($x);   // [1, 8, 27, 64]
-$x⁴  = Single::pow($x, 4); // [1, 16, 81, 256]
-$√x  = Single::sqrt($x);   // [1, 1.414, 1.732, 2]
-$∣x∣ = Single::abs($x);
+$sums        = Single::add($x, 2);      // [3, 4, 5, 6]
+$differences = Single::subtract($x, 1); // [0, 1, 2, 3]
+$products    = Single::multiply($x, 5); // [5, 10, 15, 20]
+$quotients   = Single::divide($x, 2);   // [0.5, 1, 1.5, 2]
+$x²          = Single::square($x);      // [1, 4, 9, 16]
+$x³          = Single::cube($x);        // [1, 8, 27, 64]
+$x⁴          = Single::pow($x, 4);      // [1, 16, 81, 256]
+$√x          = Single::sqrt($x);        // [1, 1.414, 1.732, 2]
+$∣x∣         = Single::abs($x);
 ```
 
 ### Functions - Map - Multiple Arrays
@@ -269,6 +273,9 @@ $max    = $A->maxNorm();
 
 // Vector operations - return a Matrix
 $matrix = $A->outerProduct(new Vector([1, 2]));
+
+// Print a vector
+print($A); // [1, 2, 3]
 ```
 
 ### Numerical Analysis
@@ -735,20 +742,36 @@ $points     = $regression->getPoints();              // [[1,2], [2,3], [4,5], [5
 $xs         = $regression->getXs();                  // [1, 2, 4, 5, 6]
 $yx         = $regression->getYs();                  // [2, 3, 5, 7, 8]
 
+// Linear regression through a fixed point (least squares method)
+$force_point = [0,0];
+$regression  = new LinearThroughPoint($points, $force_point);
+$parameters  = $regression->getParameters();
+$equation    = $regression->getEquation();
+$y           = $regression->evaluate(5);
+$Ŷ           = $regression->yHat();
+$SSreg       = $regression->sumOfSquaresRegression();
+$SSres       = $regression->sumOfSquaresResidual();
+$r           = $regression->r();
+$r²          = $regression->r2();
+$n           = $regression->getSampleSize();
+$points      = $regression->getPoints();
+$xs          = $regression->getXs();
+$yx          = $regression->getYs();
+
 // Power law regression - power curve (least squares fitting)
 $regression = new PowerLaw($points);
 $parameters = $regression->getParameters();          // [a => 56.483375436574, b => 0.26415375648621]
 $equation   = $regression->getEquation();            // y = 56.483375436574x^0.26415375648621
-$y          = $regression->evaluate(5);              // Evaluate for y at x = 5 using regression equation
+$y          = $regression->evaluate(5);
 $Ŷ          = $regression->yHat();
 $SSreg      = $regression->sumOfSquaresRegression();
 $SSres      = $regression->sumOfSquaresResidual();
-$R          = $regression->r();                      // same as correlationCoefficient
-$R²         = $regression->r2();                     // same as coefficientOfDetermination
-$n          = $regression->getSampleSize();          // 5
-$points     = $regression->getPoints();              // [[1,2], [2,3], [4,5], [5,7], [6,8]]
-$xs         = $regression->getXs();                  // [1, 2, 4, 5, 6]
-$yx         = $regression->getYs();                  // [2, 3, 5, 7, 8]
+$R          = $regression->r();
+$R²         = $regression->r2();
+$n          = $regression->getSampleSize();
+$points     = $regression->getPoints();
+$xs         = $regression->getXs();
+$yx         = $regression->getYs();
 ```
 
 Unit Tests
