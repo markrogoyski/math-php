@@ -7,6 +7,70 @@ namespace Math\Functions\Map;
 class Single
 {
     /**
+     * Map addition
+     *
+     * @param  array $xs
+     * @param  number $k Number to add to each element
+     * @return array
+     */
+    public static function add(array $xs, $k): array
+    {
+        return array_map(
+            function($x) use ($k) {
+                return $x + $k;
+            }, $xs
+        );
+    }
+
+    /**
+     * Map subtract
+     *
+     * @param  array $xs
+     * @param  number $k Number to subtract from each element
+     * @return array
+     */
+    public static function subtract(array $xs, $k): array
+    {
+        return array_map(
+            function($x) use ($k) {
+                return $x - $k;
+            }, $xs
+        );
+    }
+
+    /**
+     * Map multiply
+     *
+     * @param  array $xs
+     * @param  number $k Number to multiply to each element
+     * @return array
+     */
+    public static function multiply(array $xs, $k): array
+    {
+        return array_map(
+            function($x) use ($k) {
+                return $x * $k;
+            }, $xs
+        );
+    }
+
+    /**
+     * Map Divide
+     *
+     * @param  array $xs
+     * @param  number $k Number to divide each element by
+     * @return array
+     */
+    public static function divide(array $xs, $k): array
+    {
+        return array_map(
+            function($x) use ($k) {
+                return $x / $k;
+            }, $xs
+        );
+    }
+
+    /**
      * Map square
      *
      * @param  array  $xs
@@ -77,38 +141,6 @@ class Single
         return array_map(
             function($x) {
                 return abs($x);
-            }, $xs
-        );
-    }
-    
-    /**
-     * Map addition
-     *
-     * @param  array $xs
-     * @param  number $number
-     * @return array
-     */
-    public static function add(array $xs, $number): array
-    {
-        return array_map(
-            function($x) use ($number){
-                return $x + $number;
-            }, $xs
-        );
-    }
-    
-    /**
-     * Map multiply
-     *
-     * @param  array $xs
-     * @param  number $number
-     * @return array
-     */
-    public static function multiply(array $xs, $number): array
-    {
-        return array_map(
-            function($x) use ($number){
-                return $x * $number;
             }, $xs
         );
     }
