@@ -488,7 +488,7 @@ class Descriptive
      * https://en.wikipedia.org/wiki/Coefficient_of_variation
      *
      *      σ
-     * CV = -
+     * cᵥ = -
      *      μ
      *
      * @param array $numbers
@@ -510,7 +510,7 @@ class Descriptive
      * @param array $numbers
      * @param bool  $population: true means all possible observations of the system are present;
      *              false means a sample is used.
-     * @return array [ n, mean, median, mode, range, midrange, variance, sd, mean_mad,
+     * @return array [ n, mean, median, mode, range, midrange, variance, sd, CV, mean_mad,
      *                 median_mad, quartiles, skewness, kurtosis, sem, ci_95, ci_99 ]
      */
     public static function describe(array $numbers, bool $population = false): array
@@ -528,6 +528,7 @@ class Descriptive
             'midrange'           => self::midrange($numbers),
             'variance'           => $population ? self::populationVariance($numbers) : self::sampleVariance($numbers),
             'sd'                 => $σ,
+            'cv'                 => $σ / $μ,
             'mean_mad'           => self::meanAbsoluteDeviation($numbers),
             'median_mad'         => self::medianAbsoluteDeviation($numbers),
             'quartiles'          => self::quartiles($numbers),
