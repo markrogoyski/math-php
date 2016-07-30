@@ -503,6 +503,34 @@ class Matrix implements \ArrayAccess
     }
 
     /**
+     * Frobenius norm (Hilbert–Schmidt norm) (‖A‖F)
+     * Square root of the sum of the square of all elements.
+     *
+     * https://en.wikipedia.org/wiki/Matrix_norm#Frobenius_norm
+     *
+     *          _____________
+     *         /ᵐ   ⁿ
+     * ‖A‖F = √ Σ   Σ  |aᵢⱼ|²
+     *         ᵢ₌₁ ᵢ₌₁
+     *
+     * @return number
+     */
+    public function frobeniusNorm()
+    {
+        $m      = $this->m;
+        $n      = $this->n;
+        $ΣΣaᵢⱼ² = 0;
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $ΣΣaᵢⱼ² += ($this->A[$i][$j])**2;
+            }
+        }
+
+        return sqrt($ΣΣaᵢⱼ²);
+    }
+
+    /**
      * Infinity norm (‖A‖∞)
      * Maximum absolute row sum of the matrix
      *
