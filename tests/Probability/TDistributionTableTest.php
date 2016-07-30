@@ -3,7 +3,6 @@ namespace Math\Probability;
 
 class TDistributionTableTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @dataProvider dataProviderForOneSidedCL
      */
@@ -127,48 +126,48 @@ class TDistributionTableTest extends \PHPUnit_Framework_TestCase
     public function testGetOneSidedTValueFromConfidenceLevelExceptionBadDF()
     {
         $this->setExpectedException('\Exception');
-        TDistributionTable::getOneSidedTValueFromConfidenceLevel( 1234, 99 );
+        TDistributionTable::getOneSidedTValueFromConfidenceLevel(1234, 99);
     }
 
     public function testGetTwoSidedTValueFromConfidenceLevelExceptionBadDF()
     {
         $this->setExpectedException('\Exception');
-        TDistributionTable::getTwoSidedTValueFromConfidenceLevel( 1234, 99 );
+        TDistributionTable::getTwoSidedTValueFromConfidenceLevel(1234, 99);
     }
 
     public function testGetOneSidedTValueFromAlphaExceptionBadDF()
     {
         $this->setExpectedException('\Exception');
-        TDistributionTable::getOneSidedTValueFromAlpha( 1234, 0.05 );
+        TDistributionTable::getOneSidedTValueFromAlpha(1234, 0.05);
     }
 
     public function testGetTwoSidedTValueFromAlphaExceptionBadDF()
     {
         $this->setExpectedException('\Exception');
-        TDistributionTable::getTwoSidedTValueFromAlpha( 1234, 0.05 );
+        TDistributionTable::getTwoSidedTValueFromAlpha(1234, 0.05);
     }
 
     public function testGetOneSidedTValueFromConfidenceLevelExceptionBadCL()
     {
         $this->setExpectedException('\Exception');
-        TDistributionTable::getOneSidedTValueFromConfidenceLevel( 1, 155 );
+        TDistributionTable::getOneSidedTValueFromConfidenceLevel(1, 155);
     }
 
     public function testGetTwoSidedTValueFromConfidenceLevelExceptionBadCL()
     {
         $this->setExpectedException('\Exception');
-        TDistributionTable::getTwoSidedTValueFromConfidenceLevel( 1, 155 );
+        TDistributionTable::getTwoSidedTValueFromConfidenceLevel(1, 155);
     }
 
     public function testGetOneSidedTValueFromAlphaExceptionBadAlpha()
     {
         $this->setExpectedException('\Exception');
-        TDistributionTable::getOneSidedTValueFromAlpha( 1, 999 );
+        TDistributionTable::getOneSidedTValueFromAlpha(1, 999);
     }
 
     public function testGetTwoSidedTValueFromAlphaExceptionBadAlpha()
     {
         $this->setExpectedException('\Exception');
-        TDistributionTable::getTwoSidedTValueFromAlpha( 1, 999 );
+        TDistributionTable::getTwoSidedTValueFromAlpha(1, 999);
     }
 }

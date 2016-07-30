@@ -50,7 +50,7 @@ class BinomialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider for cdf 
+     * Data provider for cdf
      * Data: [ n, r, p, cdf ]
      */
     public function dataProviderForCDF()

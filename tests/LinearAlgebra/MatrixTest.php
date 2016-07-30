@@ -11,7 +11,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [4, 5, 6],
         ];
-        $this->matrix = new Matrix($this->A);  
+        $this->matrix = new Matrix($this->A);
     }
 
     public function testConstructor()
@@ -49,7 +49,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [[1]], 1
-            ], 
+            ],
             [
                 [
                     [1, 2],
@@ -96,7 +96,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [[1]], 1
-            ], 
+            ],
             [
                 [
                     [1, 2],
@@ -216,14 +216,15 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
     }
 
-    public function dataProviderForAdd() {
+    public function dataProviderForAdd()
+    {
         return [
             [
                 [
                     [1, 2, 3],
                     [2, 3, 4],
                     [3, 4, 5],
-                ],  
+                ],
                 [
                     [1, 1, 1],
                     [1, 1, 1],
@@ -247,7 +248,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
                 [
                     [ 6,  6,  6],
                     [12, 12, 12],
-                ],  
+                ],
             ],
         ];
     }
@@ -262,16 +263,17 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $R  = new Matrix($R);
         $R2 = $A->directSum($B);
         $this->assertEquals($R, $R2);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);  
+        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
     }
 
-    public function dataProviderForDirectSum() {
+    public function dataProviderForDirectSum()
+    {
         return [
             [
                 [
                     [1, 3, 2],
                     [2, 3, 1],
-                ],  
+                ],
                 [
                     [1, 6],
                     [0, 1],
@@ -299,14 +301,15 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
     }
 
-    public function dataProviderForSubtract() {
+    public function dataProviderForSubtract()
+    {
         return [
             [
                 [
                     [1, 2, 3],
                     [2, 3, 4],
                     [3, 4, 5],
-                ],  
+                ],
                 [
                     [1, 1, 1],
                     [1, 1, 1],
@@ -330,7 +333,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
                 [
                     [ -6, -4, -2 ],
                     [  6,  4,  2 ],
-                ],  
+                ],
             ],
         ];
     }
@@ -348,7 +351,8 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($R, $R2);
     }
 
-    public function dataProviderForMultiply() {
+    public function dataProviderForMultiply()
+    {
         return [
             [
                 [
@@ -604,7 +608,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [7, 8, 9],
         ]);
 
-        $doubler = function($x) {
+        $doubler = function ($x) {
             return $x * 2;
         };
         $R = $A->map($doubler);

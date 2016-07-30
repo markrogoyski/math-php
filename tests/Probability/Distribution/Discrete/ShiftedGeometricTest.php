@@ -35,13 +35,13 @@ class ShiftedGeometricTest extends \PHPUnit_Framework_TestCase
     public function testPMFExceptionPLessThanEqualZero()
     {
         $this->setExpectedException('\Exception');
-        ShiftedGeometric::PMF(2, 0);  
+        ShiftedGeometric::PMF(2, 0);
     }
 
     public function testPMFExceptionPGreaterThanOne()
     {
         $this->setExpectedException('\Exception');
-        ShiftedGeometric::PMF(2, 1.2);  
+        ShiftedGeometric::PMF(2, 1.2);
     }
 
     /**
@@ -76,12 +76,12 @@ class ShiftedGeometricTest extends \PHPUnit_Framework_TestCase
     public function testCDFExceptionPLessThanEqualZero()
     {
         $this->setExpectedException('\Exception');
-        ShiftedGeometric::CDF(2, 0);  
+        ShiftedGeometric::CDF(2, 0);
     }
 
     public function testCDFExceptionPGreaterThanOne()
     {
         $this->setExpectedException('\Exception');
-        ShiftedGeometric::CDF(2, 1.2);  
+        ShiftedGeometric::CDF(2, 1.2);
     }
 }

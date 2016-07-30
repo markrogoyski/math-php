@@ -452,7 +452,8 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($mean, Average::agm($x, $y), '', 0.00001);
     }
 
-    public function dataProviderForArithmeticGeometricMean() {
+    public function dataProviderForArithmeticGeometricMean()
+    {
         return [
             [ 24, 6, 13.4581714817256154207668131569743992430538388544 ],
             [ 2, 4, 2.913582062093814 ],
@@ -463,7 +464,8 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testArithmeticGeometricMeanNegativeNAN() {
+    public function testArithmeticGeometricMeanNegativeNAN()
+    {
         $this->assertNan(Average::arithmeticGeometricMean(-32, 45));
         $this->assertNan(Average::arithmeticGeometricMean(32, -45));
         $this->assertNan(Average::agm(-32, 45));
@@ -478,7 +480,8 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($mean, Average::logarithmicMean($x, $y), '', 0.01);
     }
 
-    public function dataProviderForArithmeticLogarithmicMean() {
+    public function dataProviderForArithmeticLogarithmicMean()
+    {
         return [
             [ 0, 0, 0 ],
             [ 5, 5, 5 ],

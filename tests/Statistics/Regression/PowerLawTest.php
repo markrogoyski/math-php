@@ -58,7 +58,7 @@ class PowerLawTest extends \PHPUnit_Framework_TestCase
     public function testEvaluate(array $points, $x, $y)
     {
         $regression = new PowerLaw($points);
-        $this->assertEquals($y, $regression->evaluate($x), '', 0.0001);   
+        $this->assertEquals($y, $regression->evaluate($x), '', 0.0001);
     }
 
     public function dataProviderForEvaluate()

@@ -8,7 +8,7 @@ class NewtonsMethodTest extends \PHPUnit_Framework_TestCase
     {
         // f(x) = x⁴ + 8x³ -13x² -92x + 96
         // This polynomial has 4 roots: 3,1,-8 and -4
-        $func = function($x) {
+        $func = function ($x) {
             return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
         };
 
