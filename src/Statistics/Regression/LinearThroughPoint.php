@@ -50,27 +50,18 @@ class LinearThroughPoint extends Regression
         $v = $this->v;
         $w = $this->w;
         
-        $x’ = array_map(
-            function($x) use ($v) {
-                return $x - $v;
-            }, $this->xs
-        );
-       
-        $y’ = array_map(
-            function($y) use ($w) {
-                return $y - $w;
-            }, $this->ys
-        );
+        $x’ = Single::add($this->xs, -1 * $v);
+        $y’ = Single::add($this->ys, -1 * $w);
         
         $numerator   = array_sum(Multi::multiply($x’, $y’));
         $denominator = array_sum(Single::square($x’));
         
         // Calculate slope (m) and y intercept (b)
         $this->m = $numerator / $denominator;
-        if ($this->v == 0 && $this->w == 0) {
+        if ($v == 0 && $w == 0) {
             $this->b = 0;
         } else {
-            $this->b = $this->w - $this->m * $this->v;
+            $this->b = $w - $this->m * $v;
         }
     }
 
@@ -127,11 +118,7 @@ class LinearThroughPoint extends Regression
      */
     public function sumOfSquaresRegression()
        {
-           return array_map(
-                function ($y) {
-                    return $y ** 2;
-                }, $this->getYHat()
-            );
+           return array_sum(Single::square($this->getYHat()));
       }
     
     /**
@@ -146,10 +133,6 @@ class LinearThroughPoint extends Regression
       */
     public function sumOfSquaresTotal()
     {
-        return array_map(
-            function ($y) {
-                return $y ** 2;
-            }, $this->ys
-        );
+        return array_sum(Single::square($this->ys));
     }
 }
