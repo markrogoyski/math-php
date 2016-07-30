@@ -474,6 +474,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('midrange',           $stats);
         $this->assertArrayHasKey('variance',           $stats);
         $this->assertArrayHasKey('sd',                 $stats);
+        $this->assertArrayHasKey('cv',                 $stats);
         $this->assertArrayHasKey('mean_mad',           $stats);
         $this->assertArrayHasKey('median_mad',         $stats);
         $this->assertArrayHasKey('quartiles',          $stats);
@@ -491,6 +492,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_numeric($stats['midrange']));
         $this->assertTrue(is_numeric($stats['variance']));
         $this->assertTrue(is_numeric($stats['sd']));
+        $this->assertTrue(is_numeric($stats['cv']));
         $this->assertTrue(is_numeric($stats['mean_mad']));
         $this->assertTrue(is_numeric($stats['median_mad']));
         $this->assertTrue(is_array($stats['quartiles']));
@@ -514,6 +516,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('midrange',           $stats);
         $this->assertArrayHasKey('variance',           $stats);
         $this->assertArrayHasKey('sd',                 $stats);
+        $this->assertArrayHasKey('cv',                 $stats);
         $this->assertArrayHasKey('quartiles',          $stats);
         $this->assertArrayHasKey('midhinge',           $stats);
         $this->assertArrayHasKey('skewness',           $stats);
@@ -529,6 +532,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_numeric($stats['midrange']));
         $this->assertTrue(is_numeric($stats['variance']));
         $this->assertTrue(is_numeric($stats['sd']));
+        $this->assertTrue(is_numeric($stats['cv']));
         $this->assertTrue(is_array($stats['quartiles']));
         $this->assertTrue(is_numeric($stats['midhinge']));
         $this->assertTrue(is_numeric($stats['skewness']));
