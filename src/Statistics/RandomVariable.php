@@ -511,7 +511,7 @@ class RandomVariable
      *
      * @return number
      */
-    public function sumOfSquaresDeviations(array $numbers)
+    public static function sumOfSquaresDeviations(array $numbers)
     {
          if (empty($numbers)) {
             return null;
