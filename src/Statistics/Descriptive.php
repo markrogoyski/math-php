@@ -67,7 +67,7 @@ class Descriptive
      * For population variance, set d.f. (ν) to n
      * For sample variance, set d.f (ν) to n - 1
      * Or use popluationVariance or sampleVaraince covenience methods.
-     * 
+     *
      * μ is the population mean
      * ν is the degrees of freedom, which usually is
      *   the number of numbers in the population set or n - 1 for sample set.

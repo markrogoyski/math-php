@@ -12,7 +12,7 @@ class StudentT extends Continuous
     /**
      * Probability density function
      *
-     *     / ν + 1 \ 
+     *     / ν + 1 \
      *  Γ |  -----  |
      *     \   2   /    /    x² \ ⁻⁽ᵛ⁺¹⁾/²
      *  -------------  | 1 + --  |

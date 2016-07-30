@@ -477,17 +477,18 @@ class Special
     
     /**
      * Incomplete Beta Function - B(x;a,b)
-     * 
+     *
      * Generalized form of the beta function
      * https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function
-     * 
+     *
      * @param  $x Upper limit of the integration 0 ≦ x ≦ 1
      * @param  $a Shape parameter a > 0
      * @param  $b Shape parameter b > 0
-     * 
+     *
      * @return number
      */
-    public static function incompleteBeta($x, $a, $b){
+    public static function incompleteBeta($x, $a, $b)
+    {
         
         return self::regularizedIncompleteBeta($x, $a, $b) * self::beta($a, $b);
     }
@@ -505,7 +506,7 @@ class Special
      * http://www.boost.org/doc/libs/1_35_0/libs/math/doc/sf_and_dist/html/math_toolkit/special/sf_beta/ibeta_function.html
      * The accuracy of the continuous fraction might be good enough to replace
      * the 'exact' values, and simplify the code.
-     * 
+     *
      * @param  $x Upper limit of the integration 0 ≦ x ≦ 1
      * @param  $a Shape parameter a > 0
      * @param  $b Shape parameter b > 0
@@ -514,7 +515,7 @@ class Special
      */
     public static function regularizedIncompleteBeta($x, $a, $b)
     {
-       if ($a <= 0 || $b <= 0) {
+        if ($a <= 0 || $b <= 0) {
             throw new \Exception('a and b must be > 0');
         }
 
@@ -539,7 +540,7 @@ class Special
         // If $a and $b are integer multiples of .5 (half integers) we can caculate exact.
         if (($a * 2) == round($a * 2) && ($b * 2) == round($b * 2)) {
             if (is_int($a) || is_int($b)) {
-                if (is_int($a) || is_int($a) && is_int($b) && $b > $a){
+                if (is_int($a) || is_int($a) && is_int($b) && $b > $a) {
                     //Equation 50 from paper
                     $sum = 0;
                     for ($i = 1; $i <= $a; $i++) {
@@ -553,7 +554,6 @@ class Special
                         $sum += (1 - $x) ** ($i - 1) * self::gamma($a + $i - 1) / self::gamma($a) / self::gamma($i);
                     }
                     return $x ** $a * $sum;
-
                 }
             } elseif ($b == .5) {
                 if ($a == .5) {
@@ -642,17 +642,17 @@ class Special
      * The product of all the integers from 1 up to some non-negative integer n
      * that have the same parity as n. Denoted by n!!
      *
-     * n‼︎ = n(n - 2)(n - 4) ・・・ 
+     * n‼︎ = n(n - 2)(n - 4) ・・・
      *
      * For even n:
      *       n/2
      * n‼︎ =  ∏ (2k) = n(n - 2) ・・・ 2
-     *       k=1 
+     *       k=1
      *
      * For odd n:
      *     (n+1)/2
      * n‼︎ =  ∏ (2k - 1) = n(n - 2) ・・・ 1
-     *       k=1 
+     *       k=1
      *
      * 0‼︎ = 1
      *

@@ -60,7 +60,7 @@ class Vector implements \ArrayAccess
     {
         if ($i >= $this->n) {
             throw new \Exception("Element $i does not exist");
-        } 
+        }
 
         return $this->A[$i];
     }
@@ -90,10 +90,11 @@ class Vector implements \ArrayAccess
         }
 
         return array_sum(array_map(
-            function($a, $b) {
+            function ($a, $b) {
                 return $a * $b;
             },
-            $this->A, $B->getVector()
+            $this->A,
+            $B->getVector()
         ));
     }
 

@@ -10,7 +10,7 @@ class Multi
      * Map add against multiple arrays
      *
      * [x₁ + y₁, x₂ + y₂, ... ]
-     * 
+     *
      * @param array ...$arrays Two or more arrays of numbers
      *
      * @return array
@@ -25,7 +25,7 @@ class Multi
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 0; $j < $number_of_arrays; $j++) {
-                $sums[$i] += $arrays[$j][$i]; 
+                $sums[$i] += $arrays[$j][$i];
             }
         }
 
@@ -36,7 +36,7 @@ class Multi
      * Map subtract against multiple arrays
      *
      * [x₁ - y₁, x₂ - y₂, ... ]
-     * 
+     *
      * @param array ...$arrays Two or more arrays of numbers
      *
      * @return array
@@ -48,14 +48,15 @@ class Multi
         $number_of_arrays = count($arrays);
         $length_of_arrays = count($arrays[0]);
         $differences      = array_map(
-            function($x) {
+            function ($x) {
                 return $x;
-            }, $arrays[0]
+            },
+            $arrays[0]
         );
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 1; $j < $number_of_arrays; $j++) {
-                $differences[$i] -= $arrays[$j][$i]; 
+                $differences[$i] -= $arrays[$j][$i];
             }
         }
 
@@ -66,7 +67,7 @@ class Multi
      * Map multiply against multiple arrays
      *
      * [x₁ * y₁, x₂ * y₂, ... ]
-     * 
+     *
      * @param array ...$arrays Two or more arrays of numbers
      *
      * @return array
@@ -81,7 +82,7 @@ class Multi
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 0; $j < $number_of_arrays; $j++) {
-                $products[$i] *= $arrays[$j][$i]; 
+                $products[$i] *= $arrays[$j][$i];
             }
         }
 
@@ -92,7 +93,7 @@ class Multi
      * Map divide against multiple arrays
      *
      * [x₁ / y₁, x₂ / y₂, ... ]
-     * 
+     *
      * @param array ...$arrays Two or more arrays of numbers
      *
      * @return array
@@ -104,14 +105,15 @@ class Multi
         $number_of_arrays = count($arrays);
         $length_of_arrays = count($arrays[0]);
         $quotients        = array_map(
-            function($x) {
+            function ($x) {
                 return $x;
-            }, $arrays[0]
+            },
+            $arrays[0]
         );
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 1; $j < $number_of_arrays; $j++) {
-                $quotients[$i] /= $arrays[$j][$i]; 
+                $quotients[$i] /= $arrays[$j][$i];
             }
         }
 
@@ -122,7 +124,7 @@ class Multi
      * Map max against multiple arrays
      *
      * [max(x₁, y₁), max(x₂, y₂), ... ]
-     * 
+     *
      * @param array ...$arrays Two or more arrays of numbers
      *
      * @return array
@@ -134,14 +136,15 @@ class Multi
         $number_of_arrays = count($arrays);
         $length_of_arrays = count($arrays[0]);
         $maxes            = array_map(
-            function($x) {
+            function ($x) {
                 return $x;
-            }, $arrays[0]
+            },
+            $arrays[0]
         );
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 1; $j < $number_of_arrays; $j++) {
-                $maxes[$i] = max($maxes[$i], $arrays[$j][$i]); 
+                $maxes[$i] = max($maxes[$i], $arrays[$j][$i]);
             }
         }
 
@@ -152,7 +155,7 @@ class Multi
      * Map min against multiple arrays
      *
      * [max(x₁, y₁), max(x₂, y₂), ... ]
-     * 
+     *
      * @param array ...$arrays Two or more arrays of numbers
      *
      * @return array
@@ -164,14 +167,15 @@ class Multi
         $number_of_arrays = count($arrays);
         $length_of_arrays = count($arrays[0]);
         $mins             = array_map(
-            function($x) {
+            function ($x) {
                 return $x;
-            }, $arrays[0]
+            },
+            $arrays[0]
         );
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 1; $j < $number_of_arrays; $j++) {
-                $mins[$i] = min($mins[$i], $arrays[$j][$i]); 
+                $mins[$i] = min($mins[$i], $arrays[$j][$i]);
             }
         }
 
@@ -186,7 +190,7 @@ class Multi
      * Check that two or more arrays are all the same length
      *
      * @param  array $arrays
-     * 
+     *
      * @return bool
      * @throws Exception if arrays are not equal lengths
      */

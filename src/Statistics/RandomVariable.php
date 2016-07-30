@@ -16,7 +16,7 @@ use Math\Probability\StandardNormalTable;
  * - Standard Error of the Mean (SEM)
  * - Confidence interval
  * - Z score
- * 
+ *
  * In probability and statistics, a random variable is a variable whose
  * value is subject to variations due to chance.
  * A random variable can take on a set of possible different values
@@ -31,7 +31,7 @@ use Math\Probability\StandardNormalTable;
  * continuous, taking any numerical value in an interval or collection of
  * intervals, via a probability density function that is characteristic of
  * a probability distribution; or a mixture of both types.
- * 
+ *
  * https://en.wikipedia.org/wiki/Random_variable
  */
 class RandomVariable
@@ -506,14 +506,14 @@ class RandomVariable
      * Sum of squares deviations
      *
      * ∑⟮xᵢ - μ⟯²
-     * 
+     *
      * @param  array  $numbers
      *
      * @return number
      */
     public static function sumOfSquaresDeviations(array $numbers)
     {
-         if (empty($numbers)) {
+        if (empty($numbers)) {
             return null;
         }
 

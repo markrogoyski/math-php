@@ -16,9 +16,10 @@ class Single
     public static function add(array $xs, $k): array
     {
         return array_map(
-            function($x) use ($k) {
+            function ($x) use ($k) {
                 return $x + $k;
-            }, $xs
+            },
+            $xs
         );
     }
 
@@ -32,9 +33,10 @@ class Single
     public static function subtract(array $xs, $k): array
     {
         return array_map(
-            function($x) use ($k) {
+            function ($x) use ($k) {
                 return $x - $k;
-            }, $xs
+            },
+            $xs
         );
     }
 
@@ -48,9 +50,10 @@ class Single
     public static function multiply(array $xs, $k): array
     {
         return array_map(
-            function($x) use ($k) {
+            function ($x) use ($k) {
                 return $x * $k;
-            }, $xs
+            },
+            $xs
         );
     }
 
@@ -64,9 +67,10 @@ class Single
     public static function divide(array $xs, $k): array
     {
         return array_map(
-            function($x) use ($k) {
+            function ($x) use ($k) {
                 return $x / $k;
-            }, $xs
+            },
+            $xs
         );
     }
 
@@ -79,9 +83,10 @@ class Single
     public static function square(array $xs): array
     {
         return array_map(
-            function($x) {
-                return $x**2; 
-            }, $xs
+            function ($x) {
+                return $x**2;
+            },
+            $xs
         );
     }
 
@@ -94,9 +99,10 @@ class Single
     public static function cube(array $xs): array
     {
         return array_map(
-            function($x) {
-                return $x**3; 
-            }, $xs
+            function ($x) {
+                return $x**3;
+            },
+            $xs
         );
     }
 
@@ -109,9 +115,10 @@ class Single
     public static function pow(array $xs, $n): array
     {
         return array_map(
-            function($x) use ($n) {
-                return $x**$n; 
-            }, $xs
+            function ($x) use ($n) {
+                return $x**$n;
+            },
+            $xs
         );
     }
 
@@ -124,9 +131,10 @@ class Single
     public static function sqrt(array $xs): array
     {
         return array_map(
-            function($x) {
-                return sqrt($x); 
-            }, $xs
+            function ($x) {
+                return sqrt($x);
+            },
+            $xs
         );
     }
 
@@ -139,9 +147,10 @@ class Single
     public static function abs(array $xs): array
     {
         return array_map(
-            function($x) {
+            function ($x) {
                 return abs($x);
-            }, $xs
+            },
+            $xs
         );
     }
 }

@@ -33,5 +33,8 @@ class Beta extends Continuous
         return ($xᵃ⁻¹ * $⟮1 − x⟯ᵝ⁻¹) / $B⟮α、β⟯;
     }
 
-    public static function CDF() {}
+    public static function CDF()
+    {
+        // Not yet implemented
+    }
 }
