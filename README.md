@@ -580,6 +580,9 @@ $S² = Descriptive::variance($numbers, $df);      // can specify custom degrees 
 $σ = Descriptive::sd($numbers);                // same as standardDeviation; has optional parameter to set population or sample variance
 $σ = Descriptive::standardDeviation($numbers); // same as sd; has optional parameter to set population or sample variance
 
+// Coefficient of variation (cᵥ)
+$cᵥ = Descriptive::coefficientOfVariation($numbers);
+
 // MAD - mean/median absolute deviations
 $mean_mad   = Descriptive::meanAbsoluteDeviation($numbers);
 $median_mad = Descriptive::medianAbsoluteDeviation($numbers);
@@ -613,6 +616,7 @@ print_r($stats);
     [midrange]   => 17
     [variance]   => 8
     [sd]         => 2.8284271247462
+    [cv]         => 0.18856180831641
     [mean_mad]   => 2.2222222222222
     [median_mad] => 1
     [quartiles]  => Array (
@@ -625,7 +629,9 @@ print_r($stats);
         )
     [midhinge]   => 15
     [skewness]   => 1.4915533665654
+    [ses]        => 0.71713716560064
     [kurtosis]   => 0.1728515625
+    [sek]        => 1.3997084244475
     [sem]        => 0.94280904158206
     [ci_95]      => Array (
             [ci]          => 1.8478680091392
