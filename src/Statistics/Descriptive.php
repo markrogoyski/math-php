@@ -479,6 +479,31 @@ class Descriptive
     }
 
     /**
+     * Coefficient of variation (CV)
+     * Also known as relative standard deviation (RSD)
+     *
+     * A standardized measure of dispersion of a probability distribution or
+     * frequency distribution. It is often expressed as a percentage.
+     * The ratio of the standard deviation to the mean.
+     * https://en.wikipedia.org/wiki/Coefficient_of_variation
+     *
+     *      σ
+     * CV = -
+     *      μ
+     *
+     * @param array $numbers
+     *
+     * @return number
+     */
+    public static function coefficientOfVariation(array $numbers)
+    {
+        $σ = self::standardDeviation($numbers);
+        $μ = Average::mean($numbers);
+
+        return $σ / $μ;
+    }
+
+    /**
      * Get a report of all the descriptive statistics over a list of numbers
      * Includes mean, median, mode, range, midrange, variance, standard deviation, quartiles, etc.
      *
