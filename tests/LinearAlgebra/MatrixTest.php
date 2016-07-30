@@ -1673,7 +1673,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($norm, $A->maxNorm(), '', 0.0001);
     }
 
-    public function dataProviderForMAxNorm()
+    public function dataProviderForMaxNorm()
     {
         return [
             [
@@ -1731,6 +1731,44 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
                 [
                     [1, 2, 3],
                 ], 3
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForFrobeniusNorm
+     */
+    public function testFrobeniusNorm(array $A, $norm)
+    {
+        $A = new Matrix($A);
+
+        $this->assertEquals($norm, $A->frobeniusNorm(), '', 0.0001);
+    }
+
+    public function dataProviderForFrobeniusNorm()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 9.643651
+            ],
+            [
+                [
+                    [1, 5, 3, 9],
+                    [2, 3, 4, 12],
+                    [4, 2, 5, 11],
+                ], 21.330729
+            ],
+            [
+                [
+                    [1, 5, 3],
+                    [2, 3, 4],
+                    [4, 2, 5],
+                    [6, 6, 3],
+                ], 13.784049
             ],
         ];
     }
