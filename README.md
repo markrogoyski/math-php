@@ -221,8 +221,10 @@ $⟮A∣I⟯ = $A->augmentIdentity();  // Augment with the identity matrix
 $tr⟮A⟯ = $A->trace();
 $bool = $A->isSquare();
 $‖A‖₁ = $A->oneNorm();
+$‖A‖F = $A->frobeniusNorm();  // Hilbert–Schmidt norm
 $‖A‖∞ = $A->infinityNorm();
 $max  = $A->maxNorm();
+
 
 // Map a function over each element of the Matrix
 $func = function($x) {
