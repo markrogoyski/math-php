@@ -480,7 +480,9 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('quartiles',          $stats);
         $this->assertArrayHasKey('midhinge',           $stats);
         $this->assertArrayHasKey('skewness',           $stats);
+        $this->assertArrayHasKey('ses',                $stats);
         $this->assertArrayHasKey('kurtosis',           $stats);
+        $this->assertArrayHasKey('sek',                $stats);
         $this->assertArrayHasKey('sem',                $stats);
         $this->assertArrayHasKey('ci_95',              $stats);
         $this->assertArrayHasKey('ci_99',              $stats);
@@ -498,7 +500,9 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_array($stats['quartiles']));
         $this->assertTrue(is_numeric($stats['midhinge']));
         $this->assertTrue(is_numeric($stats['skewness']));
+        $this->assertTrue(is_numeric($stats['ses']));
         $this->assertTrue(is_numeric($stats['kurtosis']));
+        $this->assertTrue(is_numeric($stats['sek']));
         $this->assertTrue(is_numeric($stats['sem']));
         $this->assertTrue(is_array($stats['ci_95']));
         $this->assertTrue(is_array($stats['ci_99']));
@@ -520,7 +524,9 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('quartiles',          $stats);
         $this->assertArrayHasKey('midhinge',           $stats);
         $this->assertArrayHasKey('skewness',           $stats);
+        $this->assertArrayHasKey('ses',                $stats);
         $this->assertArrayHasKey('kurtosis',           $stats);
+        $this->assertArrayHasKey('sek',                $stats);
         $this->assertArrayHasKey('sem',                $stats);
         $this->assertArrayHasKey('ci_95',              $stats);
         $this->assertArrayHasKey('ci_99',              $stats);
@@ -536,7 +542,9 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_array($stats['quartiles']));
         $this->assertTrue(is_numeric($stats['midhinge']));
         $this->assertTrue(is_numeric($stats['skewness']));
+        $this->assertTrue(is_numeric($stats['ses']));
         $this->assertTrue(is_numeric($stats['kurtosis']));
+        $this->assertTrue(is_numeric($stats['sek']));
         $this->assertTrue(is_numeric($stats['sem']));
         $this->assertTrue(is_array($stats['ci_95']));
         $this->assertTrue(is_array($stats['ci_99']));
