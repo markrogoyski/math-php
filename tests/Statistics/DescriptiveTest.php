@@ -442,6 +442,23 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @dataProvider dataProviderForCoefficientOfVariation
+     */
+    public function testsCoefficientOfVariation(array $numbers, $cv)
+    {
+        $this->assertEquals($cv, Descriptive::coefficientOfVariation($numbers), '', 0.0001);
+    }
+
+    public function dataProviderForCoefficientOfVariation()
+    {
+        return [
+            [ [1, 2, 3, 4, 5, 6 ,7, 8], 0.54433 ],
+            [ [4, 7, 43, 12, 23, 76, 45, 3, 62, 23, 34, 44, 41], 0.70673 ],
+            [ [3, 3, 3, 6, 6, 5, 9], 0.44721 ],
+        ];
+    }
+
     public function testDescribePopulation()
     {
         $stats = Descriptive::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], true);
