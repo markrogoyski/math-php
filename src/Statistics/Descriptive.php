@@ -479,7 +479,7 @@ class Descriptive
     }
 
     /**
-     * Coefficient of variation (CV)
+     * Coefficient of variation (cᵥ)
      * Also known as relative standard deviation (RSD)
      *
      * A standardized measure of dispersion of a probability distribution or
