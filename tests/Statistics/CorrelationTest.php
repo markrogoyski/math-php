@@ -7,6 +7,14 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForPopulationCovariance
      */
+    public function testCovariancePopluation($X, $Y, $covariance)
+    {
+        $this->assertEquals($covariance, Correlation::covariance($X, $Y, true), '', 0.01);
+    }
+
+    /**
+     * @dataProvider dataProviderForPopulationCovariance
+     */
     public function testPopulationCovariance($X, $Y, $covariance)
     {
         $this->assertEquals($covariance, Correlation::populationCovariance($X, $Y), '', 0.01);
@@ -29,6 +37,14 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\Exception');
         Correlation::populationCovariance([ 1, 2 ], [ 2, 3, 4 ]);
+    }
+
+    /**
+     * @dataProvider dataProviderForSampleCovariance
+     */
+    public function testCovarianceSample($X, $Y, $covariance)
+    {
+        $this->assertEquals($covariance, Correlation::covariance($X, $Y), '', 0.01);
     }
 
     /**
@@ -61,6 +77,14 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForPopulationCorrelationCoefficient
      */
+    public function testRPopulation(array $x, array $y, $pcc)
+    {
+        $this->assertEquals($pcc, Correlation::r($x, $y, true), '', 0.0001);
+    }
+
+    /**
+     * @dataProvider dataProviderForPopulationCorrelationCoefficient
+     */
     public function testPopulationCorrelationCoefficient(array $x, array $y, $pcc)
     {
         $this->assertEquals($pcc, Correlation::populationCorrelationCoefficient($x, $y), '', 0.0001);
@@ -76,6 +100,14 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
             [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 40, 80, 100 ], 0.96841 ],
             [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 30, 50, 120 ], 0.96359 ],
         ];
+    }
+
+    /**
+     * @dataProvider dataProviderForSampleCorrelationCoefficient
+     */
+    public function testRSample(array $x, array $y, $scc)
+    {
+        $this->assertEquals($scc, Correlation::r($x, $y), '', 0.0001);
     }
 
     /**
