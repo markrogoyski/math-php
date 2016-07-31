@@ -790,6 +790,8 @@ $ cd tests
 $ phpunit
 ```
 
+[![Coverage Status](https://coveralls.io/repos/github/markrogoyski/math-php/badge.svg?branch=master)](https://coveralls.io/github/markrogoyski/math-php?branch=master)
+
 Standards
 ---------
 
