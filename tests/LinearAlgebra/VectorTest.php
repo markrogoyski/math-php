@@ -49,6 +49,12 @@ class VectorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(5, $this->vector->get(4));
     }
 
+    public function testGetException()
+    {
+        $this->setExpectedException('\Exception');
+        $this->vector->get(100);
+    }
+
     /**
      * @dataProvider dataProviderForDotProduct
      */
