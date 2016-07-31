@@ -453,6 +453,8 @@ $pmf = Poisson::PMF($k, $λ);
 $cdf = Poisson::CDF($k, $λ);
 
 // Shifted geometric distribution (probability to get one success)
+$k = 2;   // number of trials
+$p = 0.5; // success probability
 $pmf = ShiftedGeometric::PMF($k, $p);
 $cdf = ShiftedGeometric::CDF($k, $p);
 ```
