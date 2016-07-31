@@ -271,7 +271,7 @@ class Matrix implements \ArrayAccess
         $R = [];
 
         for ($i = 0; $i < $this->m; $i++) {
-            for ($j = 0; $j < $this->n; $i++) {
+            for ($j = 0; $j < $this->n; $j++) {
                 $R[$i][$j] = $this->A[$i][$j] * $λ;
             }
         }
@@ -342,7 +342,7 @@ class Matrix implements \ArrayAccess
      * Is the matrix a square matrix?
      * Do rows m = columns n?
      *
-     * @return boolean
+     * @return bool
      */
     public function isSquare(): bool
     {
@@ -931,7 +931,7 @@ class Matrix implements \ArrayAccess
      * ArrayAccess INTERFACE
      */
 
-    public function offsetExists($i): boolean
+    public function offsetExists($i): bool
     {
         return isset($this->A[$i]);
     }
