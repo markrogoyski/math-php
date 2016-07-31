@@ -568,13 +568,13 @@ use Math\Statistics\Correlation
 $X = [1, 2, 3, 4];
 $Y = [2, 3, 4, 5];
 
-// Covariance (population and sample)
+// Covariance
 $σxy = Correlation::covariance($X, $Y);  // Has optional parameter to set population (defaults to sample covariance)
 
 // r - Pearson product-moment correlation coefficient
 $r = Correlation::r($X, $Y);  // Has optional parameter to set population (defaults to sample correlation coefficient)
 
-// R² - coefficient of determination
+// R² - Coefficient of determination
 $R² = Correlation::R2($X, $Y);  // Has optional parameter to set population (defaults to sample coefficient of determination)
 ```
 
