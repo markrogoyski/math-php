@@ -207,7 +207,7 @@ class Vector implements \ArrayAccess
      * ArrayAccess INTERFACE
      */
 
-    public function offsetExists($i): boolean
+    public function offsetExists($i): bool
     {
         return isset($this->A[$i]);
     }
