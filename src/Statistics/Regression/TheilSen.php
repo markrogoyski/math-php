@@ -28,10 +28,8 @@ class TheilSen extends Regression
         $slopes = [];
         $n      = count($this->points);
 
-        for ($i = 0; $i < $n; $i++)
-        {
-            for ($j = $i + 1; $j < $n; $j++)
-            {
+        for ($i = 0; $i < $n; $i++) {
+            for ($j = $i + 1; $j < $n; $j++) {
                 $pointi   = $this->points[$i];
                 $pointj   = $this->points[$j];
                 $slopes[] = ($pointj[self::Y] - $pointi[self::Y]) / ($pointj[self::X] - $pointi[self::X]);

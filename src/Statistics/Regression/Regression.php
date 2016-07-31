@@ -174,23 +174,24 @@ abstract class Regression
      * SSreg - The Sum Squares of the regression (Explained sum of squares)
      *
      * The sum of the squares of the deviations of the predicted values from
-     * the mean value of a response variable, in a standard regression model. 
+     * the mean value of a response variable, in a standard regression model.
      * https://en.wikipedia.org/wiki/Explained_sum_of_squares
-     * 
+     *
      * SSreg = ∑(ŷᵢ - ȳ)²
-     * 
+     *
      * @return number
      */
     public function sumOfSquaresRegression()
-       {
-            $ȳ = Average::mean($this->ys);
+    {
+        $ȳ = Average::mean($this->ys);
 
-            return array_sum(array_map(
-                function($y) use ($ȳ) {
-                    return ($y - $ȳ)**2;
-                }, $this->yHat()
-            ));
-      }
+        return array_sum(array_map(
+            function ($y) use ($ȳ) {
+                return ($y - $ȳ)**2;
+            },
+            $this->yHat()
+        ));
+    }
       
      /**
       * SSres - The Sum Squares of the residuals (RSS - Residual sum of squares)
@@ -199,9 +200,9 @@ abstract class Regression
       * empirical values of data). It is a measure of the discrepancy between
       * the data and an estimation model.
       * https://en.wikipedia.org/wiki/Residual_sum_of_squares
-      * 
+      *
       * SSres = ∑(yᵢ - ŷᵢ)²
-      * 
+      *
       * @return number
       */
     public function sumOfSquaresResidual()
@@ -210,7 +211,9 @@ abstract class Regression
         return array_sum(array_map(
             function ($yᵢ, $ŷᵢ) {
                 return ($yᵢ - $ŷᵢ)**2;
-            }, $this->ys, $Ŷ
+            },
+            $this->ys,
+            $Ŷ
         ));
     }
     
@@ -219,9 +222,9 @@ abstract class Regression
       *
       * The sum of the squares of the dependent data array
       * https://en.wikipedia.org/wiki/Total_sum_of_squares
-      * 
+      *
       * SStot = ∑(yᵢ - ȳ)²
-      * 
+      *
       * @return number
       */
     public function sumOfSquaresTotal()

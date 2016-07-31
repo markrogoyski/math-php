@@ -5,11 +5,11 @@ class ShiftedGeometric extends Discrete
 {
     /**
      * Shifted geometric distribution - probability mass function
-     * 
+     *
      * The probability distribution of the number X of Bernoulli trials needed
      * to get one success, supported on the set { 1, 2, 3, ...}
      * https://en.wikipedia.org/wiki/Geometric_distribution
-     * 
+     *
      * k trials where k ∈ {1, 2, 3, ...}
      *
      * pmf = (1 - p)ᵏ⁻¹p

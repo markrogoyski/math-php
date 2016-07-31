@@ -76,7 +76,7 @@ class Matrix implements \ArrayAccess
 
     /**
      * Get single row from the matrix
-     * 
+     *
      * @param  int    $i row index (from 0 to m - 1)
      * @return array
      */
@@ -91,7 +91,7 @@ class Matrix implements \ArrayAccess
 
     /**
      * Get single column from the matrix
-     * 
+     *
      * @param  int   $j column index (from 0 to n - 1)
      * @return array
      */
@@ -115,7 +115,7 @@ class Matrix implements \ArrayAccess
     {
         if ($i >= $this->m) {
             throw new \Exception("Row $i does not exist");
-        } 
+        }
         if ($j >= $this->n) {
             throw new \Exception("Column $j does not exist");
         }
@@ -132,7 +132,7 @@ class Matrix implements \ArrayAccess
      * Adds each element of one matrix to the same element in the other matrix.
      * Returns a new matrix.
      * https://en.wikipedia.org/wiki/Matrix_addition#Entrywise_sum
-     * 
+     *
      * @param Matrix $B Matrix to add to this matrix
      *
      * @return Matrix
@@ -149,7 +149,7 @@ class Matrix implements \ArrayAccess
         $R = [];
 
         for ($i = 0; $i < $this->m; $i++) {
-            for($j = 0; $j < $this->n; $j++) {
+            for ($j = 0; $j < $this->n; $j++) {
                 $R[$i][$j] = $this->A[$i][$j] + $B[$i][$j];
             }
         }
@@ -201,7 +201,7 @@ class Matrix implements \ArrayAccess
      * Adds each element of one matrix to the same element in the other matrix.
      * Returns a new matrix.
      * https://en.wikipedia.org/wiki/Matrix_addition#Entrywise_sum
-     * 
+     *
      * @param Matrix $B Matrix to subtract from this matrix
      *
      * @return Matrix
@@ -218,7 +218,7 @@ class Matrix implements \ArrayAccess
         $R = [];
 
         for ($i = 0; $i < $this->m; $i++) {
-            for($j = 0; $j < $this->n; $j++) {
+            for ($j = 0; $j < $this->n; $j++) {
                 $R[$i][$j] = $this->A[$i][$j] - $B[$i][$j];
             }
         }
@@ -271,7 +271,7 @@ class Matrix implements \ArrayAccess
         $R = [];
 
         for ($i = 0; $i < $this->m; $i++) {
-            for ($j = 0; $j < $this->n; $i++) {
+            for ($j = 0; $j < $this->n; $j++) {
                 $R[$i][$j] = $this->A[$i][$j] * $λ;
             }
         }
@@ -342,7 +342,7 @@ class Matrix implements \ArrayAccess
      * Is the matrix a square matrix?
      * Do rows m = columns n?
      *
-     * @return boolean
+     * @return bool
      */
     public function isSquare(): bool
     {
@@ -383,7 +383,7 @@ class Matrix implements \ArrayAccess
      *
      * @return Matrix
      */
-    public function map(Callable $func): Matrix
+    public function map(callable $func): Matrix
     {
         $m = $this->m;
         $n = $this->n;
@@ -402,7 +402,7 @@ class Matrix implements \ArrayAccess
      * Diagonal matrix
      * Retains the elements along the main diagonal.
      * All other off-diagonal elements are zeros.
-     * 
+     *
      * @return Matrix
      */
     public function diagonal(): Matrix
@@ -493,10 +493,10 @@ class Matrix implements \ArrayAccess
     public function oneNorm()
     {
         $n = $this->n;
-        $‖A‖₁ = array_sum( Map\Single::abs(array_column($this->A, 0)) );
+        $‖A‖₁ = array_sum(Map\Single::abs(array_column($this->A, 0)));
 
         for ($j = 1; $j < $n; $j++) {
-            $‖A‖₁ = max($‖A‖₁, array_sum( Map\Single::abs(array_column($this->A, $j)) ));
+            $‖A‖₁ = max($‖A‖₁, array_sum(Map\Single::abs(array_column($this->A, $j))));
         }
 
         return $‖A‖₁;
@@ -539,10 +539,10 @@ class Matrix implements \ArrayAccess
     public function infinityNorm()
     {
         $m = $this->m;
-        $‖A‖∞ = array_sum( Map\Single::abs($this->A[0]) );
+        $‖A‖∞ = array_sum(Map\Single::abs($this->A[0]));
 
         for ($i = 1; $i < $m; $i++) {
-            $‖A‖∞ = max($‖A‖∞, array_sum( Map\Single::abs($this->A[$i]) ));
+            $‖A‖∞ = max($‖A‖∞, array_sum(Map\Single::abs($this->A[$i])));
         }
 
         return $‖A‖∞;
@@ -843,7 +843,7 @@ class Matrix implements \ArrayAccess
                 return '[' . implode(', ', $mᵢ) . ']';
             },
             $this->A
-        ), function($A, $mᵢ) {
+        ), function ($A, $mᵢ) {
             return $A . \PHP_EOL . $mᵢ;
         }));
     }
@@ -931,7 +931,7 @@ class Matrix implements \ArrayAccess
      * ArrayAccess INTERFACE
      */
 
-    public function offsetExists($i): boolean
+    public function offsetExists($i): bool
     {
         return isset($this->A[$i]);
     }

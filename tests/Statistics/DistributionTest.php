@@ -141,4 +141,13 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    public function testStemAndLeafPlotPrint()
+    {
+        $print = true;
+        Distribution::stemAndLeafPlot([1, 2, 3], $print);
+
+        // OK if it made it here without error
+        $this->assertTrue(true);
+    }
 }

@@ -22,7 +22,7 @@ class NewtonsMethod
      *                           The starting point will determine which solution we will receive.
      * @param number   $tol      Tolerance; How close to the actual solution we would like
      */
-    public static function solve(Callable $function, array $args, $target, $guess, $tol)
+    public static function solve(callable $function, array $args, $target, $guess, $tol)
     {
         $dif      = $tol + 1;  // initialize
         $position = array_search('x', $args); // find the position of 'x' in the arguments

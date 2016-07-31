@@ -1,8 +1,15 @@
 language: php
+
 php:
   - '7.0'
   - nightly
+
 install:
   - composer install
+
 script: 
-  - phpunit --configuration tests/phpunit.xml
+  - mkdir -p build/logs
+  - phpunit --configuration tests/phpunit.xml --coverage-clover build/logs/clover.xml
+
+after_success:
+  - travis_retry php vendor/bin/coveralls

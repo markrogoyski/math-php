@@ -11,7 +11,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [4, 5, 6],
         ];
-        $this->matrix = new Matrix($this->A);  
+        $this->matrix = new Matrix($this->A);
     }
 
     public function testConstructor()
@@ -49,7 +49,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [[1]], 1
-            ], 
+            ],
             [
                 [
                     [1, 2],
@@ -96,7 +96,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [[1]], 1
-            ], 
+            ],
             [
                 [
                     [1, 2],
@@ -216,14 +216,15 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
     }
 
-    public function dataProviderForAdd() {
+    public function dataProviderForAdd()
+    {
         return [
             [
                 [
                     [1, 2, 3],
                     [2, 3, 4],
                     [3, 4, 5],
-                ],  
+                ],
                 [
                     [1, 1, 1],
                     [1, 1, 1],
@@ -247,9 +248,38 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
                 [
                     [ 6,  6,  6],
                     [12, 12, 12],
-                ],  
+                ],
             ],
         ];
+    }
+
+    public function testAddExceptionRows()
+    {
+        $A = new Matrix([
+            [1, 2],
+            [2, 3],
+        ]);
+        $B = new Matrix([
+            [1, 2]
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->add($B);
+    }
+
+    public function testAddExceptionColumns()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+        $B = new Matrix([
+            [1, 2],
+            [2, 3],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->add($B);
     }
 
     /**
@@ -262,16 +292,17 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $R  = new Matrix($R);
         $R2 = $A->directSum($B);
         $this->assertEquals($R, $R2);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);  
+        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
     }
 
-    public function dataProviderForDirectSum() {
+    public function dataProviderForDirectSum()
+    {
         return [
             [
                 [
                     [1, 3, 2],
                     [2, 3, 1],
-                ],  
+                ],
                 [
                     [1, 6],
                     [0, 1],
@@ -299,14 +330,15 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
     }
 
-    public function dataProviderForSubtract() {
+    public function dataProviderForSubtract()
+    {
         return [
             [
                 [
                     [1, 2, 3],
                     [2, 3, 4],
                     [3, 4, 5],
-                ],  
+                ],
                 [
                     [1, 1, 1],
                     [1, 1, 1],
@@ -330,9 +362,38 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
                 [
                     [ -6, -4, -2 ],
                     [  6,  4,  2 ],
-                ],  
+                ],
             ],
         ];
+    }
+
+    public function testSubtractExceptionRows()
+    {
+        $A = new Matrix([
+            [1, 2],
+            [2, 3],
+        ]);
+        $B = new Matrix([
+            [1, 2]
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->subtract($B);
+    }
+
+    public function testSubtractExceptionColumns()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+        $B = new Matrix([
+            [1, 2],
+            [2, 3],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->subtract($B);
     }
 
     /**
@@ -348,7 +409,8 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($R, $R2);
     }
 
-    public function dataProviderForMultiply() {
+    public function dataProviderForMultiply()
+    {
         return [
             [
                 [
@@ -380,6 +442,89 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
               ],
             ],
         ];
+    }
+
+    public function testMultiplyExceptionDimensionsDoNotMatch()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+        $B = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->multiply($B);
+    }
+
+    /**
+     * @dataProvider dataProviderForScalarMultiply
+     */
+    public function testScalarMultiply(array $A, $k, array $R)
+    {
+        $A = new Matrix($A);
+        $R = new Matrix($R);
+
+        $this->assertEquals($R, $A->scalarMultiply($k));
+    }
+
+    public function dataProviderForScalarMultiply()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 3,
+                [
+                    [3, 6, 9],
+                    [6, 9, 12],
+                    [9, 12, 15],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                ], 3,
+                [
+                    [3, 6, 9],
+                ],
+            ],
+            [
+                [
+                    [1],
+                    [2],
+                    [3],
+                ], 3,
+                [
+                    [3],
+                    [6],
+                    [9],
+                ],
+            ],
+            [
+                [
+                    [1],
+                ], 3,
+                [
+                    [3],
+                ],
+            ],
+        ];
+    }
+
+    public function testScalarMultiplyExceptionKNotNumber()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->scalarMultiply('k');
     }
 
     public function testArrayAccessInterfaceOffsetGet()
@@ -414,6 +559,18 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\Exception');
         $this->matrix[0] = [4, 3, 5];
+        $this->assertTrue($this->matrix->offsetExists(0));
+    }
+
+    public function testArrayAccessInterfaceOffExists()
+    {
+        $this->assertTrue($this->matrix->offsetExists(0));
+    }
+
+    public function testArrayAccessOffsetUnsetException()
+    {
+        $this->setExpectedException('\Exception');
+        unset($this->matrix[0]);
     }
 
     /**
@@ -523,6 +680,12 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testIdentityExceptionNLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        $this->matrix->identity(-1);
+    }
+
     /**
      * @dataProvider dataProviderForIsSquare
      */
@@ -604,7 +767,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [7, 8, 9],
         ]);
 
-        $doubler = function($x) {
+        $doubler = function ($x) {
             return $x * 2;
         };
         $R = $A->map($doubler);
@@ -902,7 +1065,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5],
         ]);
         $this->setExpectedException('\Exception');
-        $A->rowMultiply(4, 0);
+        $A->rowMultiply(2, 0);
     }
 
     /**
@@ -1835,5 +1998,30 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
         ];
+    }
+
+    public function testHadamardProductDimensionsDoNotMatch()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+        $B = new Matrix([
+            [1, 2, 3, 4],
+            [2, 3, 4, 5],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->hadamardProduct($B);
+    }
+
+    public function testToString()
+    {
+        $string = $this->matrix->__toString();
+        $this->assertTrue(is_string($string));
+        $this->assertEquals(
+            "[1, 2, 3]\n[2, 3, 4]\n[4, 5, 6]",
+            $string
+        );
     }
 }

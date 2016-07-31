@@ -12,7 +12,7 @@ class PoissonTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider for 
+     * Data provider for
      * Data: [ k, λ,  distribution ]
      */
     public function dataProviderForPMF()
@@ -35,7 +35,7 @@ class PoissonTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider for cumulative 
+     * Data provider for cumulative
      * Data: [ k, λ, culmulative  distribution ]
      */
     public function dataProviderForCDF()
@@ -55,7 +55,7 @@ class PoissonTest extends \PHPUnit_Framework_TestCase
         Poisson::PMF(-1, 2);
     }
 
-    public function testExceptionWhenλLessThanZero()
+    public function testExceptionWhenLambdaLessThanZero()
     {
         $this->setExpectedException('\Exception');
         Poisson::PMF(2, -1);

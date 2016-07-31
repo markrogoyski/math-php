@@ -24,6 +24,7 @@ Features
      * t Distribution Table
  * Statistics
      * Averages
+     * Correlation
      * Descriptive
      * Distributions
      * Random Variables
@@ -560,6 +561,23 @@ print_r($averages);
 ) */
 ```
 
+### Statistics - Correlation
+```php
+use Math\Statistics\Correlation
+
+$X = [1, 2, 3, 4];
+$Y = [2, 3, 4, 5];
+
+// Covariance
+$σxy = Correlation::covariance($X, $Y);  // Has optional parameter to set population (defaults to sample covariance)
+
+// r - Pearson product-moment correlation coefficient
+$r = Correlation::r($X, $Y);  // Has optional parameter to set population (defaults to sample correlation coefficient)
+
+// R² - Coefficient of determination
+$R² = Correlation::R2($X, $Y);  // Has optional parameter to set population (defaults to sample coefficient of determination)
+```
+
 ### Statistics - Descriptive
 ```php
 use Math\Statistics\Descriptive
@@ -686,14 +704,6 @@ use Math\Statistics\RandomVariable
 $X = [1, 2, 3, 4];
 $Y = [2, 3, 4, 5];
 
-// Covariance (population and sample)
-$σxy = RandomVariable::populationCovariance($X, $Y);
-$Sxy = RandomVariable::sampleCovariance($X, $Y);
-
-// Correlation coefficient (population and sample)
-$ρxy = RandomVariable::populationCorrelationCoefficient($X, $Y);
-$rxy = RandomVariable::sampleCorrelationCoefficient($X, $Y);
-
 // Central moment (nth moment)
 $second_central_moment = RandomVariable::centralMoment($X, 2);
 $third_central_moment  = RandomVariable::centralMoment($X, 3);
@@ -789,6 +799,9 @@ Unit Tests
 $ cd tests
 $ phpunit
 ```
+
+[![Coverage Status](https://coveralls.io/repos/github/markrogoyski/math-php/badge.svg?branch=master)](https://coveralls.io/github/markrogoyski/math-php?branch=master)
+[![Build Status](https://travis-ci.org/markrogoyski/math-php.svg?branch=master)](https://travis-ci.org/markrogoyski/math-php)
 
 Standards
 ---------

@@ -41,5 +41,4 @@ class ExponentialTest extends \PHPUnit_Framework_TestCase
             [ 1/5, 4, 0.550671 ],
         ];
     }
-
 }

@@ -140,6 +140,18 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testCombinationsExceptionNLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        Combinatorics::combinations(-1, 2);
+    }
+
+    public function testCombinationsExceptionRLargerThanN()
+    {
+        $this->setExpectedException('\Exception');
+        Combinatorics::combinations(1, 2);
+    }
+
     /**
      * @dataProvider dataProviderForCombinationsWithRepetition
      */

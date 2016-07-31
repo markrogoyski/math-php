@@ -1,5 +1,6 @@
 <?php
 namespace Math\Statistics\Regression;
+
 class LinearThroughPointTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()

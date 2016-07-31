@@ -20,7 +20,7 @@ class F extends Continuous
      *           / d₁  d₂ \
      *      x B |  --, --  |
      *           \ 2   2  /
-     * 
+     *
      * @param number $x  percentile ≥ 0
      * @param int    $d₁ degree of freedom v1 > 0
      * @param int    $d₂ degree of freedom v2 > 0
@@ -52,7 +52,7 @@ class F extends Continuous
      *   ᵈ¹ˣ⁺ᵈ²
      *
      * Where I is the regularized incomplete beta function.
-     * 
+     *
      * @param number $x  percentile ≥ 0
      * @param int    $d₁ degree of freedom v1 > 0
      * @param int    $d₂ degree of freedom v2 > 0

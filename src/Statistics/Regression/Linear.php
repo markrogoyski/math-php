@@ -38,13 +38,15 @@ class Linear extends Regression
         $xy  = Average::mean(array_map(
             function ($point) {
                 return $point[self::X] * $point[self::Y];
-            }, $this->points
+            },
+            $this->points
         ));
         $⟮x⟯² = pow($x, 2);
         $x²  = Average::mean(array_map(
             function ($i) {
                 return $i**2;
-            }, $this->xs
+            },
+            $this->xs
         ));
 
         // Calculate slope (m) and y intercept (b)
@@ -114,20 +116,20 @@ class Linear extends Regression
      *
      * Consider saving the parameters of this equation in $this to speed up case where this is
      * called many times.
-     * 
+     *
      * @param number $x
      * @param number $p:  0 < p < 1 The P value to use
      *
      * @return number
      */
-    public function getCI($x, $p){
-
+    public function getCI($x, $p)
+    {
         // Averages.
         $xbar = Average::mean($this->xs);
         $ybar =  Average::mean($this->ys);
 
         // The number of data points.
-        $n = count ($this->points);
+        $n = count($this->points);
 
         // Degrees of freedom.
         $ν = $n - 2;
@@ -168,21 +170,21 @@ class Linear extends Regression
      *
      * Consider saving the parameters of this equation in $this to speed up case where this method is
      * called many times.
-     * 
+     *
      * @param number $x
      * @param number $p:  0 < p < 1 The P value to use
      * @param int $q
      *
      * @return number
      */
-    public function getPI($x, $p, $q = 1){
-
+    public function getPI($x, $p, $q = 1)
+    {
         // Averages.
         $xbar = Average::mean($this->xs);
         $ybar = Average::mean($this->ys);
 
         // The number of data points.
-        $n = count ($this->points);
+        $n = count($this->points);
 
         // Degrees of freedom.
         $ν = $n - 2;
@@ -203,5 +205,4 @@ class Linear extends Regression
         // Put it together.
         return $t * $sy * sqrt(1 / $q + 1/$n + ($x - $xbar) ** 2 / $SSx);
     }
-
 }

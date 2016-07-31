@@ -7,7 +7,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->A = [1, 2, 3, 4, 5];
-        $this->vector = new Vector($this->A);  
+        $this->vector = new Vector($this->A);
     }
 
     public function testConstructor()
@@ -49,6 +49,12 @@ class VectorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(5, $this->vector->get(4));
     }
 
+    public function testGetException()
+    {
+        $this->setExpectedException('\Exception');
+        $this->vector->get(100);
+    }
+
     /**
      * @dataProvider dataProviderForDotProduct
      */
@@ -76,6 +82,15 @@ class VectorTest extends \PHPUnit_Framework_TestCase
             [ [ -4, -9],    [ -1, 2],     -14 ],
             [ [ 6, -1, 3 ], [ 4, 18, -2 ],  0 ],
         ];
+    }
+
+    public function testDotProductExceptionSizeDifference()
+    {
+        $A = new Vector([1, 2]);
+        $B = new Vector([1, 2, 3]);
+
+        $this->setExpectedException('\Exception');
+        $A->dotProduct($B);
     }
 
     /**
@@ -216,5 +231,24 @@ class VectorTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\Exception');
         $this->vector[0] = 1;
+    }
+
+    public function testArrayAccessOffsetExists()
+    {
+        $this->assertTrue($this->vector->offsetExists(0));
+    }
+
+    public function testArrayAccessOffsetUnsetException()
+    {
+        $this->setExpectedException('\Exception');
+        unset($this->vector[0]);
+    }
+
+    public function testToString()
+    {
+        $A      = new Vector([1, 2, 3]);
+        $string = $A->__toString();
+        $this->assertTrue(is_string($string));
+        $this->assertEquals('[1, 2, 3]', $string);
     }
 }

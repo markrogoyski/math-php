@@ -20,7 +20,7 @@ use Math\Functions\Map\Single;
  *
  *      ∑((x-v)(y-w))
  * m =  _____________
- *      
+ *
  *         ∑(x-v)²
  *
  * b = w - m * v
@@ -29,9 +29,9 @@ class LinearThroughPoint extends Regression
 {
     /**
      * Given a set of data ($points) and a point($force), perform a least squares
-     * regression of the data, such that the regression is forced to pass through 
+     * regression of the data, such that the regression is forced to pass through
      * the specified point.
-     * 
+     *
      * This procedure is most frequently used with $force = [0,0], the origin.
      *
      */
@@ -109,26 +109,26 @@ class LinearThroughPoint extends Regression
      * SSreg - The Sum Squares of the regression (Explained sum of squares)
      *
      * The sum of the squares of the deviations of the predicted values from
-     * the mean value of a response variable, in a standard regression model. 
+     * the mean value of a response variable, in a standard regression model.
      * https://en.wikipedia.org/wiki/Explained_sum_of_squares
-     * 
+     *
      * SSreg = ∑ŷᵢ²
-     * 
+     *
      * @return number
      */
     public function sumOfSquaresRegression()
-       {
-           return array_sum(Single::square($this->getYHat()));
-      }
+    {
+        return array_sum(Single::square($this->getYHat()));
+    }
     
     /**
       * SStot - The total Sum Squares
       *
       * The sum of the squares of the dependent data array
       * https://en.wikipedia.org/wiki/Total_sum_of_squares
-      * 
+      *
       * SStot = ∑yᵢ²
-      * 
+      *
       * @return number
       */
     public function sumOfSquaresTotal()

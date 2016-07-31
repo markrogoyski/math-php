@@ -7,6 +7,9 @@
   "require": {
     "php": ">=7.0.0"
   },
+  "require-dev": {
+      "satooshi/php-coveralls": "dev-master"
+  },
   "autoload": {
     "psr-4": { "Math\\": "src/" }
   },
