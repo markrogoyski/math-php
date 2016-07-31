@@ -32,9 +32,4 @@ class Beta extends Continuous
         $B⟮α、β⟯    = Special::beta($α, $β);
         return ($xᵃ⁻¹ * $⟮1 − x⟯ᵝ⁻¹) / $B⟮α、β⟯;
     }
-
-    public static function CDF()
-    {
-        // Not yet implemented
-    }
 }
