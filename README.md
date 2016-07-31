@@ -226,7 +226,6 @@ $‖A‖F = $A->frobeniusNorm();  // Hilbert–Schmidt norm
 $‖A‖∞ = $A->infinityNorm();
 $max  = $A->maxNorm();
 
-
 // Map a function over each element of the Matrix
 $func = function($x) {
     return $x * 2;
