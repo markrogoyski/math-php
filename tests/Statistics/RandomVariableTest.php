@@ -141,6 +141,11 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testPopulationSkewnessNullWhenEmptyArray()
+    {
+        $this->assertNull(RandomVariable::populationSkewness(array()));
+    }
+
     /**
      * @dataProvider dataProviderForSampleSkewness
      */
@@ -162,6 +167,11 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testSampleSkewnessNullWhenEmptyArray()
+    {
+        $this->assertNull(RandomVariable::sampleSkewness(array()));
+    }
+
     /**
      * @dataProvider dataProviderForSkewness
      */
@@ -180,6 +190,11 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
             [ [1, 1, 3, 4, 5, 6, 7, 8], -0.07924 ],
             [ [1,2,3,4,5,6,7,8], 0 ],
         ];
+    }
+
+    public function testSkewnessNullWhenEmptyArray()
+    {
+        $this->assertNull(RandomVariable::skewness(array()));
     }
 
     /**
@@ -221,6 +236,11 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
             [ [5,20,40,80,100], -1.525992 ],
             [ [4, 5, 5, 5, 5, 6], 0 ],
         ];
+    }
+
+    public function testKurtosisNullWhenEmptyArray()
+    {
+        $this->assertNull(RandomVariable::kurtosis(array()));
     }
 
     public function testIsPlatykurtic()
@@ -343,5 +363,10 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
             [ [1, 2, 3, 4, 5, 6, 7, 8, 9, 0], 82.5],
             [ [34, 253, 754, 2342, 75, 23, 876, 4, 1, -34, -345, 754, -377, 3, 0], 6453975.7333],
         ];
+    }
+
+    public function testSumOfSquaresDeviationsNullWhenEmptyArray()
+    {
+        $this->assertNull(RandomVariable::sumOfSquaresDeviations(array()));
     }
 }

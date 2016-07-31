@@ -141,6 +141,12 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, Descriptive::sampleVariance([5]));
     }
 
+    public function testVarianceExceptionDFLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        Descriptive::variance([1, 2, 3], -1);
+    }
+
     /**
      * @dataProvider dataProviderForStandardDeviationUsingPopulationVariance
      */
@@ -207,6 +213,11 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
     public function testStandardDeviationNullWhenEmptyArray()
     {
         $this->assertNull(Descriptive::standardDeviation(array()));
+    }
+
+    public function testSDNullWhenEmptyArray()
+    {
+        $this->assertNull(Descriptive::sd(array()));
     }
 
     /**
@@ -286,6 +297,11 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testQuartilesExclusiveEmptyWhenEmptyArray()
+    {
+        $this->assertEmpty(Descriptive::quartilesExclusive(array()));
+    }
+
     /**
      * @dataProvider dataProviderForQuartilesInclusive
      */
@@ -310,6 +326,11 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
                 [ '0%' => 0, 'Q1' => 5, 'Q2' => 8, 'Q3' => 43, '100%' => 234, 'IQR' => 38 ],
             ]
         ];
+    }
+
+    public function testQuartilesInclusiveEmptyWhenEmptyArray()
+    {
+        $this->assertEmpty(Descriptive::quartilesInclusive(array()));
     }
 
     /**

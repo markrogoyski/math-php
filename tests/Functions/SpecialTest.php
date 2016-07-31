@@ -229,7 +229,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
      */
     public function testErfc($x, $error)
     {
-        $this->assertEquals($error, Special::complementaryErrorFunction($x), '', 0.0001);
+        $this->assertEquals($error, Special::erfc($x), '', 0.0001);
     }
 
     public function dataProviderForComplementaryErrorFunction()
@@ -372,6 +372,12 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             [2.7, 2.6, 0.68432904],
             [1.5, 2.5, 0.15225125],
         ];
+    }
+
+    public function testUppderIncompleteGammaExceptionSLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        Special::upperIncompleteGamma(-1, 1);
     }
 
     /**

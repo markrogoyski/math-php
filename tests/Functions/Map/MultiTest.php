@@ -342,4 +342,10 @@ class MultiTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         Multi::add($xs, $ys);
     }
+
+    public function testCheckArrayLengthsExceptionOnlyOneArray()
+    {
+        $this->setExpectedException('\Exception');
+        Multi::add([1,2]);
+    }
 }
