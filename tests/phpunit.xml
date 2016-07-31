@@ -20,4 +20,12 @@
       <directory suffix="Test.php">NumericalAnalysis</directory>
     </testsuite>
   </testsuites>
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">../src/</directory>
+      <exclude>
+        <directory suffix=".php">../vendor/</directory>
+      </exclude>
+    </whitelist>
+  </filter>
 </phpunit>
