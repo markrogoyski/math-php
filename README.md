@@ -704,14 +704,6 @@ use Math\Statistics\RandomVariable
 $X = [1, 2, 3, 4];
 $Y = [2, 3, 4, 5];
 
-// Covariance (population and sample)
-$σxy = RandomVariable::populationCovariance($X, $Y);
-$Sxy = RandomVariable::sampleCovariance($X, $Y);
-
-// Correlation coefficient (population and sample)
-$ρxy = RandomVariable::populationCorrelationCoefficient($X, $Y);
-$rxy = RandomVariable::sampleCorrelationCoefficient($X, $Y);
-
 // Central moment (nth moment)
 $second_central_moment = RandomVariable::centralMoment($X, 2);
 $third_central_moment  = RandomVariable::centralMoment($X, 3);
