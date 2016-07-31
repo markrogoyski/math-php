@@ -24,6 +24,12 @@ class StandardNormalTableTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testGetZScoreProbabilityExceptionZBadFormat()
+    {
+        $this->setExpectedException('\Exception');
+        StandardNormalTable::getZScoreProbability('12.34');
+    }
+
     /**
      * @dataProvider dataProviderForZScoresForConfidenceInterval
      */
