@@ -24,6 +24,7 @@ Features
      * t Distribution Table
  * Statistics
      * Averages
+     * Correlation
      * Descriptive
      * Distributions
      * Random Variables
@@ -558,6 +559,23 @@ print_r($averages);
     [iqm]                 => 14
     [cubic_mean]          => 15.492307432707
 ) */
+```
+
+### Statistics - Correlation
+```php
+use Math\Statistics\Correlation
+
+$X = [1, 2, 3, 4];
+$Y = [2, 3, 4, 5];
+
+// Covariance (population and sample)
+$σxy = Correlation::covariance($X, $Y);  // Has optional parameter to set population (defaults to sample covariance)
+
+// r - Pearson product-moment correlation coefficient
+$r = Correlation::r($X, $Y);  // Has optional parameter to set population (defaults to sample correlation coefficient)
+
+// R² - coefficient of determination
+$R² = Correlation::R2($X, $Y);  // Has optional parameter to set population (defaults to sample coefficient of determination)
 ```
 
 ### Statistics - Descriptive
