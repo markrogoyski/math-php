@@ -2,9 +2,13 @@
 namespace Math\Statistics;
 
 use Math\Statistics\Average;
+use Math\Functions\Special;
 
 class Correlation
 {
+    const X = 0;
+    const Y = 1;
+
     /**
      * Covariance
      * Convenience method to access population and sample covariance.
@@ -224,5 +228,116 @@ class Correlation
     public static function coefficientOfDetermination(array $X, array $Y, bool $popluation = false)
     {
         return pow(self::r($X, $Y, $popluation), 2);
+    }
+
+    /**
+     * τ - Kendall rank correlation coefficient (Kendall's tau)
+     *
+     * A statistic used to measure the ordinal association between two
+     * measured quantities. It is a measure of rank correlation:
+     * the similarity of the orderings of the data when ranked by each
+     * of the quantities.
+     * https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient
+     * https://onlinecourses.science.psu.edu/stat509/node/158
+     *
+     * tau-a (no rank ties):
+     *
+     *        nc - nd
+     *   τ = ----------
+     *       n(n - 1)/2
+     *
+     *   Where
+     *     nc: number of concordant pairs
+     *     nd: number of discordant pairs
+     *
+     * tau-b (rank ties exist):
+     *
+     *                 nc - nd
+     *   τ = -----------------------------
+     *       √(nc + nd + X₀)(nc + nd + Y₀)
+     *
+     *   Where
+     *     X₀: number of pairs tied only on the X variable
+     *     Y₀: number of pairs tied only on the Y variable
+     *
+     * @param array $x values for random variable X
+     * @param array $y values for random variabel Y
+     *
+     * @todo Implement with algorithm faster than O(n²)
+     *
+     * @return number
+     */
+    public static function kendallsTau(array $X, array $Y)
+    {
+        if (count($X) !== count($Y)) {
+            throw new \Exception('Both random variables must have the same number of elements');
+        }
+
+        $n = count($X);
+
+        // Match X and Y pairs and sort by X rank
+        $xy = array_map(
+            function ($x, $y) {
+                return [$x, $y];
+            },
+            $X,
+            $Y
+        );
+        usort($xy, function ($a, $b) {
+            return $a[0] <=> $b[0];
+        });
+
+        // Initialize counters
+        $nc      = 0;  // concordant pairs
+        $nd      = 0;  // discordant pairs
+        $ties_x  = 0;  // ties xᵢ = xⱼ
+        $ties_y  = 0;  // ties yᵢ = yⱼ
+        $ties_xy = 0;  // ties xᵢ = xⱼ and yᵢ = yⱼ
+
+        // Tally concordant, discordant, and tied pairs
+        for ($i = 0; $i < $n; $i++) {
+            for ($j = $i + 1; $j < $n; $j++) {
+                // xᵢ = xⱼ and yᵢ = yⱼ -- neither concordant or discordant
+                if ($xy[$i][self::X] == $xy[$j][self::X] && $xy[$i][self::Y] == $xy[$j][self::Y]) {
+                    $ties_xy++;
+                // xᵢ = xⱼ -- neither concordant or discordant
+                } elseif ($xy[$i][self::X] == $xy[$j][self::X]) {
+                    $ties_x++;
+                // yᵢ = yⱼ -- neither concordant or discordant
+                } elseif ($xy[$i][self::Y] == $xy[$j][self::Y]) {
+                    $ties_y++;
+                // xᵢ > xⱼ and yᵢ > yⱼ -- concordant
+                } elseif ($xy[$i][self::X] > $xy[$j][self::X] && $xy[$i][self::Y] > $xy[$j][self::Y]) {
+                    $nc++;
+                // xᵢ < xⱼ and yᵢ < yⱼ -- concordant
+                } elseif ($xy[$i][self::X] < $xy[$j][self::X] && $xy[$i][self::Y] < $xy[$j][self::Y]) {
+                    $nc++;
+                // xᵢ > xⱼ and yᵢ < yⱼ or  xᵢ < xⱼ and yᵢ > yⱼ -- discordant
+                } else {
+                    $nd++;
+                }
+            }
+        }
+
+        // Numerator: (number of concordant pairs) - (number of discordant pairs)
+        $⟮nc − nd⟯ = $nc - $nd;
+       
+        /* tau-a (no rank ties):
+         *   
+         *        nc - nd
+         *   τ = ----------
+         *       n(n - 1)/2
+         */
+        if ($ties_x == 0 && $ties_y == 0) {
+            return $⟮nc − nd⟯ / (($n * ($n - 1)) / 2);
+        }
+
+        /* tau-b (rank ties exist):
+         *
+         *                 nc - nd
+         *   τ = -----------------------------
+         *       √(nc + nd + X₀)(nc + nd + Y₀)
+         */
+        return $⟮nc − nd⟯ / sqrt(($nc + $nd + $ties_x) * ($nc + $nd + $ties_y));
     }
 }
