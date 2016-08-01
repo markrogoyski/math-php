@@ -306,9 +306,6 @@ class Correlation
                 // yᵢ = yⱼ -- neither concordant or discordant
                 } elseif ($xy[$i][self::Y] == $xy[$j][self::Y]) {
                     $ties_y++;
-                // xᵢ > xⱼ and yᵢ > yⱼ -- concordant
-                } elseif ($xy[$i][self::X] > $xy[$j][self::X] && $xy[$i][self::Y] > $xy[$j][self::Y]) {
-                    $nc++;
                 // xᵢ < xⱼ and yᵢ < yⱼ -- concordant
                 } elseif ($xy[$i][self::X] < $xy[$j][self::X] && $xy[$i][self::Y] < $xy[$j][self::Y]) {
                     $nc++;
