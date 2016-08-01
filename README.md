@@ -577,6 +577,9 @@ $r = Correlation::r($X, $Y);  // Has optional parameter to set population (defau
 
 // R² - Coefficient of determination
 $R² = Correlation::R2($X, $Y);  // Has optional parameter to set population (defaults to sample coefficient of determination)
+
+// τ - Kendall's tau (Kendall rank correlation coefficient)
+$τ = Correlation::kendallsTau($X, $Y);
 ```
 
 ### Statistics - Descriptive
