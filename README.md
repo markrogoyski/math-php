@@ -226,7 +226,6 @@ $‖A‖F = $A->frobeniusNorm();  // Hilbert–Schmidt norm
 $‖A‖∞ = $A->infinityNorm();
 $max  = $A->maxNorm();
 
-
 // Map a function over each element of the Matrix
 $func = function($x) {
     return $x * 2;
@@ -454,6 +453,8 @@ $pmf = Poisson::PMF($k, $λ);
 $cdf = Poisson::CDF($k, $λ);
 
 // Shifted geometric distribution (probability to get one success)
+$k = 2;   // number of trials
+$p = 0.5; // success probability
 $pmf = ShiftedGeometric::PMF($k, $p);
 $cdf = ShiftedGeometric::CDF($k, $p);
 ```
@@ -576,6 +577,9 @@ $r = Correlation::r($X, $Y);  // Has optional parameter to set population (defau
 
 // R² - Coefficient of determination
 $R² = Correlation::R2($X, $Y);  // Has optional parameter to set population (defaults to sample coefficient of determination)
+
+// τ - Kendall's tau (Kendall rank correlation coefficient)
+$τ = Correlation::kendallsTau($X, $Y);
 ```
 
 ### Statistics - Descriptive
