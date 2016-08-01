@@ -161,4 +161,66 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForKendallsTau
+     */
+    public function testKendallsTau(array $X, array $Y, $τ)
+    {
+        $this->assertEquals($τ, Correlation::kendallsTau($X, $Y), '', 0.001);
+    }
+
+    public function dataProviderForKendallsTau()
+    {
+        return [
+            // No ties for tau-a
+            [
+                [1, 2, 5, 3, 4],
+                [1, 4, 2, 3, 5],
+                0.2,
+            ],
+
+            [
+                [2, 4, 7, 9],
+                [4, 8, 7, 9],
+                0.666667,
+            ],
+            [
+                [5, 4, 3, 2],
+                [4, 5, 6, 7],
+                -1,
+            ],
+            [
+                [85, 98, 90, 83, 57, 63, 77, 99, 80, 96, 69],
+                [85, 95, 80, 75, 70, 65, 73, 93, 79, 88, 74],
+                0.818,
+            ],
+
+            // Ties for tau-b
+            [
+                [4, 5, 5, 6, 5, 8],
+                [4, 6, 7, 8, 7, 8],
+                0.880705,
+            ],
+            [
+                [12, 14, 14, 17, 19, 19, 19, 19, 19, 20, 21, 21, 21, 21, 21, 22, 23, 24, 24, 24, 26, 26, 27],
+                [11, 4, 4, 2, 0, 0, 0, 0, 0, 0, 4, 0, 4, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0],
+                -0.376201540231705,
+            ],
+            [
+                [0.7, 0.8, 0.8, 0.8, 1.2, 1.3, 1.6, 1.8, 1.9, 2.4, 2.5, 2.7, 2.9, 2.9, 3.9, 5.8, 6.5, 7.9, 9.1],
+                [300, 211, 227, 297, 199, 285, 207, 167, 266, 191, 211, 172, 131, 220, 167, 115, 86, 107, 71],
+                -0.696
+            ],
+        ];
+    }
+
+    public function testKendallsTauExceptionDifferentLengthArrays()
+    {
+        $X = [1, 2, 3];
+        $Y = [2, 3, 4, 5];
+
+        $this->setExpectedException('\Exception');
+        Correlation::kendallsTau($X, $Y);
+    }
 }
