@@ -580,6 +580,9 @@ $R² = Correlation::R2($X, $Y);  // Has optional parameter to set population (de
 
 // τ - Kendall's tau (Kendall rank correlation coefficient)
 $τ = Correlation::kendallsTau($X, $Y);
+
+// ρ - Spearman's rank correlation coefficient (Spearman's rho)
+$ρ = Correlation::spearmansRho($X, $Y);
 ```
 
 ### Statistics - Descriptive
