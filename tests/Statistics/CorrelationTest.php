@@ -223,4 +223,52 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         Correlation::kendallsTau($X, $Y);
     }
+
+    /**
+     * @dataProvider dataProviderForSpearmansRho
+     */
+    public function testSpearmansRho(array $X, array $Y, $ρ)
+    {
+        $this->assertEquals($ρ, Correlation::spearmansRho($X, $Y), '', 0.001);
+    }
+
+    public function dataProviderForSpearmansRho()
+    {
+        return [
+            [
+                [56, 75, 45, 71, 62, 64, 58, 80, 76, 61],
+                [66, 70, 40, 60, 65, 56, 59, 77, 67, 63],
+                0.6727
+            ],
+            [
+                [1, 2, 3, 4, 5],
+                [2, 3, 4, 4, 6],
+                0.975
+            ],
+            [
+                [4, 10, 3, 1, 9, 2, 6, 7, 8, 5],
+                [5, 8, 6, 2, 10, 3, 9, 4, 7, 1],
+                0.6848
+            ],
+            [
+                [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
+                [26, 25, 18, 33, 70, 55, 50, 49, 70, 80, 76, 74, 73],
+                0.8583
+            ],
+            [
+                [1, 5, 2, 5, 2],
+                [2, 2, 3, 1, 3],
+                -0.325
+            ]
+        ];
+    }
+
+    public function testSpearmansRhoExceptionDifferentLengthArrays()
+    {
+        $X = [1, 2, 3];
+        $Y = [2, 3, 4, 5];
+
+        $this->setExpectedException('\Exception');
+        Correlation::spearmansRho($X, $Y);
+    }
 }
