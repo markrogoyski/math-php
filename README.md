@@ -572,13 +572,13 @@ $Y = [2, 3, 4, 4, 6];
 // Covariance
 $σxy = Correlation::covariance($X, $Y);  // Has optional parameter to set population (defaults to sample covariance)
 
-// r - Pearson product-moment correlation coefficient
+// r - Pearson product-moment correlation coefficient (Pearson's r)
 $r = Correlation::r($X, $Y);  // Has optional parameter to set population (defaults to sample correlation coefficient)
 
 // R² - Coefficient of determination
 $R² = Correlation::R2($X, $Y);  // Has optional parameter to set population (defaults to sample coefficient of determination)
 
-// τ - Kendall's tau (Kendall rank correlation coefficient)
+// τ - Kendall rank correlation coefficient (Kendall's tau)
 $τ = Correlation::kendallsTau($X, $Y);
 
 // ρ - Spearman's rank correlation coefficient (Spearman's rho)
