@@ -541,7 +541,7 @@ class Average
      * @return array [ mean, median, mode, geometric_mean, harmonic_mean,
      *                 contraharmonic_mean, quadratic_mean, trimean, iqm, cubic_mean ]
      */
-    public static function getAverages(array $numbers): array
+    public static function describe(array $numbers): array
     {
         return [
             'mean'                => self::mean($numbers),

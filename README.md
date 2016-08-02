@@ -546,7 +546,7 @@ $heronian_mean = Average::heronianMean($x, $y);
 $identric_mean = Average::identricMean($x, $y);
 
 // Averages report
-$averages = Average::getAverages($numbers);
+$averages = Average::describe($numbers);
 print_r($averages);
 /* Array (
     [mean]                => 15
@@ -566,20 +566,34 @@ print_r($averages);
 ```php
 use Math\Statistics\Correlation
 
-$X = [1, 2, 3, 4];
-$Y = [2, 3, 4, 5];
+$X = [1, 2, 3, 4, 5];
+$Y = [2, 3, 4, 4, 6];
 
 // Covariance
 $σxy = Correlation::covariance($X, $Y);  // Has optional parameter to set population (defaults to sample covariance)
 
-// r - Pearson product-moment correlation coefficient
+// r - Pearson product-moment correlation coefficient (Pearson's r)
 $r = Correlation::r($X, $Y);  // Has optional parameter to set population (defaults to sample correlation coefficient)
 
 // R² - Coefficient of determination
 $R² = Correlation::R2($X, $Y);  // Has optional parameter to set population (defaults to sample coefficient of determination)
 
-// τ - Kendall's tau (Kendall rank correlation coefficient)
+// τ - Kendall rank correlation coefficient (Kendall's tau)
 $τ = Correlation::kendallsTau($X, $Y);
+
+// ρ - Spearman's rank correlation coefficient (Spearman's rho)
+$ρ = Correlation::spearmansRho($X, $Y);
+
+// Descritive correlation report
+$stats = Correlation::describe($X, $Y);
+print_r($stats);
+/* Array (
+    [cov] => 2.25
+    [r]   => 0.95940322360025
+    [R2]  => 0.92045454545455
+    [tau] => 0.94868329805051
+    [rho] => 0.975
+) */
 ```
 
 ### Statistics - Descriptive

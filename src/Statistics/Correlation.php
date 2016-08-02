@@ -2,7 +2,9 @@
 namespace Math\Statistics;
 
 use Math\Statistics\Average;
+use Math\Statistics\RandomVariable;
 use Math\Functions\Special;
+use Math\Functions\Map;
 
 class Correlation
 {
@@ -83,7 +85,7 @@ class Correlation
      *                         n - 1
      *
      * @param array $X values for random variable X
-     * @param array $Y values for random variabel Y
+     * @param array $Y values for random variable Y
      *
      * @return number
      */
@@ -113,8 +115,8 @@ class Correlation
      *
      * Convenience method for population and sample correlationCoefficient
      *
-     * @param array $x values for random variable X
-     * @param array $y values for random variabel Y
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
      * @param bool  $popluation Optional flag for population or sample covariance
      *
      * @return number
@@ -148,8 +150,8 @@ class Correlation
      *  σx is the population standard deviation of X
      *  σy is the population standard deviation of Y
      *
-     * @param array $x values for random variable X
-     * @param array $y values for random variabel Y
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
      *
      * @return number
      */
@@ -184,8 +186,8 @@ class Correlation
      *  σx is the sample standard deviation of X
      *  σy is the sample standard deviation of Y
      *
-     * @param array $x values for random variable X
-     * @param array $y values for random variabel Y
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
      *
      * @return number
      */
@@ -202,8 +204,8 @@ class Correlation
      * R² - coefficient of determination
      * Convenience wrapper for coefficientOfDetermination
      *
-     * @param array $x values for random variable X
-     * @param array $y values for random variabel Y
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
      *
      * @return number
      */
@@ -220,8 +222,8 @@ class Correlation
      * Range of 0 - 1. Close to 1 means the regression line is a good fit
      * https://en.wikipedia.org/wiki/Coefficient_of_determination
      *
-     * @param array $x values for random variable X
-     * @param array $y values for random variabel Y
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
      *
      * @return number
      */
@@ -260,8 +262,8 @@ class Correlation
      *     X₀: number of pairs tied only on the X variable
      *     Y₀: number of pairs tied only on the Y variable
      *
-     * @param array $x values for random variable X
-     * @param array $y values for random variabel Y
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
      *
      * @todo Implement with algorithm faster than O(n²)
      *
@@ -336,5 +338,113 @@ class Correlation
          *       √(nc + nd + X₀)(nc + nd + Y₀)
          */
         return $⟮nc − nd⟯ / sqrt(($nc + $nd + $ties_x) * ($nc + $nd + $ties_y));
+    }
+
+    /**
+     * ρ - Spearman's rank correlation coefficient (Spearman's rho)
+     *
+     * https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient
+     *
+     *          6 ∑ dᵢ²
+     * ρ = 1 - ---------
+     *         n(n² − 1)
+     *
+     *  Where
+     *   dᵢ: the difference between the two ranks of each observation
+     *
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
+     *
+     * @return number
+     */
+    public static function spearmansRho(array $X, array $Y)
+    {
+        if (count($X) !== count($Y)) {
+            throw new \Exception('Both random variables must have the same number of elements');
+        }
+
+        $n = count($X);
+
+        // Sorted Xs and Ys
+        $Xs = $X;
+        $Ys = $Y;
+        rsort($Xs);
+        rsort($Ys);
+
+        // Determine ranks of each X and Y
+        // Some items might show up multiple times, so record each successive rank.
+        $rg⟮X⟯ = [];
+        $rg⟮Y⟯ = [];
+        foreach ($Xs as $rank => $xᵢ) {
+            if (!isset($rg⟮X⟯[$xᵢ])) {
+                $rg⟮X⟯[$xᵢ] = [];
+            }
+            $rg⟮X⟯[$xᵢ][] = $rank;
+        }
+        foreach ($Ys as $rank => $yᵢ) {
+            if (!isset($rg⟮Y⟯[$yᵢ])) {
+                $rg⟮Y⟯[$yᵢ] = [];
+            }
+            $rg⟮Y⟯[$yᵢ][] = $rank;
+        }
+
+        // Determine average rank of each X and Y
+        // Rank will not change if value only shows up once.
+        // Average is for when values show up multiple times.
+        $rg⟮X⟯ = array_map(
+            function ($x) {
+                return array_sum($x) / count($x);
+            },
+            $rg⟮X⟯
+        );
+        $rg⟮Y⟯ = array_map(
+            function ($y) {
+                return array_sum($y) / count($y);
+            },
+            $rg⟮Y⟯
+        );
+
+        // Difference between the two ranks of each observation
+        $d = array_map(
+            function ($x, $y) use ($rg⟮X⟯, $rg⟮Y⟯) {
+                return abs($rg⟮X⟯[$x] - $rg⟮Y⟯[$y]);
+            },
+            $X,
+            $Y
+        );
+
+        // Numerator: 6 ∑ dᵢ²
+        $d²  = Map\Single::square($d);
+        $∑d² = array_sum($d²);
+
+        // Denominator: n(n² − 1)
+        $n⟮n² − 1⟯ = $n * ($n**2 - 1);
+
+        /*
+         *          6 ∑ dᵢ²
+         * ρ = 1 - ---------
+         *         n(n² − 1)
+         */
+        return 1 - ((6 * $∑d²) / $n⟮n² − 1⟯);
+    }
+
+    /**
+     * Descriptive correlation report about two random variables
+     * 
+     * @param  array $X          values for random variable X
+     * @param  array $Y          values for random variable Y
+     * @param  bool  $population Optional flag if all samples of a population are present
+     *
+     * @return array [cov, r, R2, tau, rho]
+     */
+    public static function describe(array $X, array $Y, bool $population = false)
+    {
+        return [
+            'cov' => self::covariance($X, $Y, $population),
+            'r'   => self::r($X, $Y, $population),
+            'R2'  => self::R2($X, $Y, $population),
+            'tau' => self::kendallsTau($X, $Y),
+            'rho' => self::spearmansRho($X, $Y),
+        ];
     }
 }
