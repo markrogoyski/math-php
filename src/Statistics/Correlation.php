@@ -357,7 +357,7 @@ class Correlation
      *
      * @return number
      */
-    public function spearmansRho(array $X, array $Y)
+    public static function spearmansRho(array $X, array $Y)
     {
         if (count($X) !== count($Y)) {
             throw new \Exception('Both random variables must have the same number of elements');
