@@ -277,7 +277,7 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
         $X = [1, 2, 3, 4, 5];
         $Y = [2, 3, 4, 4, 6];
         $stats = Correlation::describe($X, $Y);
-print_r($stats);
+
         $this->assertTrue(is_array($stats));
         $this->assertArrayHasKey('cov', $stats);
         $this->assertArrayHasKey('r', $stats);
