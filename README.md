@@ -566,8 +566,8 @@ print_r($averages);
 ```php
 use Math\Statistics\Correlation
 
-$X = [1, 2, 3, 4];
-$Y = [2, 3, 4, 5];
+$X = [1, 2, 3, 4, 5];
+$Y = [2, 3, 4, 4, 6];
 
 // Covariance
 $σxy = Correlation::covariance($X, $Y);  // Has optional parameter to set population (defaults to sample covariance)
@@ -583,6 +583,17 @@ $τ = Correlation::kendallsTau($X, $Y);
 
 // ρ - Spearman's rank correlation coefficient (Spearman's rho)
 $ρ = Correlation::spearmansRho($X, $Y);
+
+// Descritive correlation report
+$stats = Correlation::describe($X, $Y);
+print_r($stats);
+/* Array (
+    [cov] => 2.25
+    [r]   => 0.95940322360025
+    [R2]  => 0.92045454545455
+    [tau] => 0.94868329805051
+    [rho] => 0.975
+) */
 ```
 
 ### Statistics - Descriptive
