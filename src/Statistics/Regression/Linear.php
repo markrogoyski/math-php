@@ -26,32 +26,16 @@ use Math\Statistics\Average;
  */
 class Linear extends Regression
 {
+    use LeastSquaresRegression;
     /**
      * Calculates the regression parameters.
      *
      */
     public function calculate()
     {
-        // Averages used in m (slope) calculation
-        $x   = Average::mean($this->xs);
-        $y   = Average::mean($this->ys);
-        $xy  = Average::mean(array_map(
-            function ($point) {
-                return $point[self::X] * $point[self::Y];
-            },
-            $this->points
-        ));
-        $⟮x⟯² = pow($x, 2);
-        $x²  = Average::mean(array_map(
-            function ($i) {
-                return $i**2;
-            },
-            $this->xs
-        ));
-
-        // Calculate slope (m) and y intercept (b)
-        $this->m = (( $x * $y ) - $xy) / ($⟮x⟯² - $x²);
-        $this->b = $y - ($this->m * $x);
+        $parameters = $this->leastSquares($this->ys, $this->xs);
+        $this->m = $parameters['m'];
+        $this->b = $parameters['b'];
     }
 
     /**
