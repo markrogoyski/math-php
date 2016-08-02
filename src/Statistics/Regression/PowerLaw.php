@@ -28,55 +28,23 @@ use Math\Statistics\Average;
  */
 class PowerLaw extends Regression
 {
+    use LeastSquaresRegression;
     /**
      * Calculate the regression parameters by least squares on linearized data
      * ln(y) = ln(A) + B*ln(x)
      */
     public function calculate()
     {
-        $n = $this->n;
-
-        // Intermediate b calculations
-        $n∑⟮ln xᵢ ln yᵢ⟯ = $n * array_sum(array_map(
-            function ($x, $y) {
-                return log($x) * log($y);
-            },
-            $this->xs,
-            $this->ys
-        ));
-
-        $∑⟮ln xᵢ⟯ = array_sum(array_map(
-            function ($x) {
-                return log($x);
-            },
-            $this->xs
-        ));
-        $∑⟮ln yᵢ⟯ = array_sum(array_map(
-            function ($y) {
-                return log($y);
-            },
-            $this->ys
-        ));
-        $∑⟮ln xᵢ⟯ ∑⟮ln yᵢ⟯ = $∑⟮ln xᵢ⟯ * $∑⟮ln yᵢ⟯;
-
-        $n∑⟮ln xᵢ⟯² = $n * array_sum(array_map(
-            function ($x) {
-                return pow(log($x), 2);
-            },
-            $this->xs
-        ));
-        $⟮∑⟮ln xᵢ⟯⟯² = pow(
-            array_sum(array_map(function ($x) {
-                return log($x);
-            }, $this->xs)),
-            2
-        );
-
-        // Calculate a and b
-        $numerator   = $n∑⟮ln xᵢ ln yᵢ⟯ - $∑⟮ln xᵢ⟯ ∑⟮ln yᵢ⟯ ;
-        $denominator = $n∑⟮ln xᵢ⟯² - $⟮∑⟮ln xᵢ⟯⟯²;
-        $this->b = $numerator / $denominator;
-        $this->a = exp(( $∑⟮ln yᵢ⟯ - $this->b * $∑⟮ln xᵢ⟯ ) / $n);
+        // Linearize the relationship by taking the log of both sides.
+        $xprime = array_map('log', $this->xs);
+        $yprime = array_map('log', $this->ys);
+        
+        // Perform Least Squares Fit
+        $parameters = $this->leastSquares($yprime, $xprime);
+        
+        // Translate the linearized parameters back.
+        $this->a = exp($parameters['b']);
+        $this->b = $parameters['m'];
     }
 
     /**
