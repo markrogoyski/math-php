@@ -271,4 +271,23 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         Correlation::spearmansRho($X, $Y);
     }
+
+    public function testDescribe()
+    {
+        $X = [1, 2, 3, 4, 5];
+        $Y = [2, 3, 4, 4, 6];
+        $stats = Correlation::describe($X, $Y);
+print_r($stats);
+        $this->assertTrue(is_array($stats));
+        $this->assertArrayHasKey('cov', $stats);
+        $this->assertArrayHasKey('r', $stats);
+        $this->assertArrayHasKey('R2', $stats);
+        $this->assertArrayHasKey('tau', $stats);
+        $this->assertArrayHasKey('rho', $stats);
+        $this->assertTrue(is_numeric($stats['cov']));
+        $this->assertTrue(is_numeric($stats['r']));
+        $this->assertTrue(is_numeric($stats['R2']));
+        $this->assertTrue(is_numeric($stats['tau']));
+        $this->assertTrue(is_numeric($stats['rho']));
+    }
 }
