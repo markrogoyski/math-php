@@ -115,8 +115,8 @@ class Correlation
      *
      * Convenience method for population and sample correlationCoefficient
      *
-     * @param array $x values for random variable X
-     * @param array $y values for random variable Y
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
      * @param bool  $popluation Optional flag for population or sample covariance
      *
      * @return number
@@ -150,8 +150,8 @@ class Correlation
      *  σx is the population standard deviation of X
      *  σy is the population standard deviation of Y
      *
-     * @param array $x values for random variable X
-     * @param array $y values for random variable Y
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
      *
      * @return number
      */
@@ -186,8 +186,8 @@ class Correlation
      *  σx is the sample standard deviation of X
      *  σy is the sample standard deviation of Y
      *
-     * @param array $x values for random variable X
-     * @param array $y values for random variable Y
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
      *
      * @return number
      */
@@ -204,8 +204,8 @@ class Correlation
      * R² - coefficient of determination
      * Convenience wrapper for coefficientOfDetermination
      *
-     * @param array $x values for random variable X
-     * @param array $y values for random variable Y
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
      *
      * @return number
      */
@@ -222,8 +222,8 @@ class Correlation
      * Range of 0 - 1. Close to 1 means the regression line is a good fit
      * https://en.wikipedia.org/wiki/Coefficient_of_determination
      *
-     * @param array $x values for random variable X
-     * @param array $y values for random variable Y
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
      *
      * @return number
      */
@@ -262,8 +262,8 @@ class Correlation
      *     X₀: number of pairs tied only on the X variable
      *     Y₀: number of pairs tied only on the Y variable
      *
-     * @param array $x values for random variable X
-     * @param array $y values for random variable Y
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
      *
      * @todo Implement with algorithm faster than O(n²)
      *
@@ -352,8 +352,8 @@ class Correlation
      *  Where
      *   dᵢ: the difference between the two ranks of each observation
      *
-     * @param array $x values for random variable X
-     * @param array $y values for random variable Y
+     * @param array $X values for random variable X
+     * @param array $Y values for random variable Y
      *
      * @return number
      */
@@ -426,5 +426,25 @@ class Correlation
          *         n(n² − 1)
          */
         return 1 - ((6 * $∑d²) / $n⟮n² − 1⟯);
+    }
+
+    /**
+     * Descriptive correlation report about two random variables
+     * 
+     * @param  array $X          values for random variable X
+     * @param  array $Y          values for random variable Y
+     * @param  bool  $population Optional flag if all samples of a population are present
+     *
+     * @return array [cov, r, R2, tau, rho]
+     */
+    public static function describe(array $X, array $Y, bool $population = false)
+    {
+        return [
+            'cov' => self::covariance($X, $Y, $population),
+            'r'   => self::r($X, $Y, $population),
+            'R2'  => self::R2($X, $Y, $population),
+            'tau' => self::kendallsTau($X, $Y),
+            'rho' => self::spearmansRho($X, $Y),
+        ];
     }
 }
