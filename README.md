@@ -546,7 +546,7 @@ $heronian_mean = Average::heronianMean($x, $y);
 $identric_mean = Average::identricMean($x, $y);
 
 // Averages report
-$averages = Average::getAverages($numbers);
+$averages = Average::describe($numbers);
 print_r($averages);
 /* Array (
     [mean]                => 15

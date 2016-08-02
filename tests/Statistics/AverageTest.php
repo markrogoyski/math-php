@@ -533,9 +533,10 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         Average::identricMean(-2, 5);
     }
 
-    public function testGetAverages()
+    public function testDescribe()
     {
-        $averages = Average::getAverages([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ]);
+        $averages = Average::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ]);
+
         $this->assertTrue(is_array($averages));
         $this->assertArrayHasKey('mean', $averages);
         $this->assertArrayHasKey('median', $averages);
