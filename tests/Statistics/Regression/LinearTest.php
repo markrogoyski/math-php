@@ -159,4 +159,31 @@ class LinearTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    
+        /**
+     * @dataProvider dataProviderForPI
+     */
+    public function testGetPI(array $points, $x, $p, $q, $pi)
+    {
+        $regression = new Linear($points);
+        $this->assertEquals($pi, $regression->getPI($x, $p, $q), '', .0000001);
+    }
+    
+    public function dataProviderForPI()
+    {
+        return [
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                2, .05, 1, 1.281185007,
+            ],
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                3, .05, 1, 1.218926455,
+            ],
+            [
+               [ [1,2], [2,3], [4,5], [5,7], [6,8] ],  // when q gets large, pi approaches ci.
+                3, .1, 10000000, 0.383431394
+            ],
+        ];
+    }
 }
