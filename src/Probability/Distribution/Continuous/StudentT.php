@@ -71,7 +71,7 @@ class StudentT extends Continuous
   /****************************************************************************
    * Find t such that the area greater than t and the area beneath -t is $p
    */
-    public function inverse2Tails($p, $ν)
+    public static function inverse2Tails($p, $ν)
     {
         return self::inverse(1 - $p / 2, $ν);
     }
