@@ -2,6 +2,8 @@
 namespace Math\Statistics\Regression;
 
 use Math\Statistics\Average;
+use Math\Statistics\RandomVariable;
+use Math\Probability\Distribution\Continuous\StudentT;
 
 /**
  * Simple linear regression - least squares method
@@ -141,7 +143,7 @@ class Linear extends Regression
         $SSy = RandomVariable::sumOfSquaresDeviations($this->ys);
 
         // The t-value
-        $t = StudentsT::inverse2Tails($p, $ν);
+        $t = StudentT::inverse2Tails($p, $ν);
 
         // Standard error of y
         $SSres = $this->sumOfSquaresResidual();
@@ -196,7 +198,7 @@ class Linear extends Regression
         $SSy = RandomVariable::sumOfSquaresDeviations($this->ys);
 
         // The t-value
-        $t = StudentsT::inverse2Tails($p, $ν);
+        $t = StudentT::inverse2Tails($p, $ν);
 
         // Standard error of y
         $SSres = $this->sumOfSquaresResidual();
