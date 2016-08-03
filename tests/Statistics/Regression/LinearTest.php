@@ -132,4 +132,31 @@ class LinearTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    
+    /**
+     * @dataProvider dataProviderForCI
+     */
+    public function testGetCI(array $points, $x, $p, $ci)
+    {
+        $regression = new Linear($points);
+        $this->assertEquals($ci, $regression->getCI($x, $p), '', .0000001);
+    }
+    
+    public function dataProviderForCI()
+    {
+        return [
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                2, .05, 0.651543596,
+            ],
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                3, .05, 0.518513005,
+            ],
+            [
+               [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                3, .1, 0.383431307,
+            ],
+        ];
+    }
 }
