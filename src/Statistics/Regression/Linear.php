@@ -31,6 +31,30 @@ class Linear extends Regression
     use LeastSquares;
 
     /**
+     * Average of x
+     * @var number
+     */
+    private $xbar;
+
+    /**
+     * Average of y
+     * @var number
+     */
+    private $ybar;
+
+    /**
+     * Sum of squared deviations of x
+     * @var number
+     */
+    private $SSx;
+
+    /**
+     * Sum of squares residuals
+     * @var number
+     */
+    private $SSres;
+
+    /**
      * Calculates the regression parameters.
      *
      */
@@ -100,9 +124,6 @@ class Linear extends Regression
      * If $p = .05, then we can say we are 95% confidence the actual regression line
      * will be within an interval of evaluate($x) ± getCI($x, .05).
      *
-     * Consider saving the parameters of this equation in $this to speed up case where this is
-     * called many times.
-     *
      * @param number $x
      * @param number $p:  0 < p < 1 The P value to use
      *
@@ -111,8 +132,8 @@ class Linear extends Regression
     public function getCI($x, $p)
     {
         // Averages.
-        $xbar = Average::mean($this->xs);
-        $ybar = Average::mean($this->ys);
+        $xbar = $this->xbar ?? Average::mean($this->xs);
+        $ybar = $this->ybar ?? Average::mean($this->ys);
 
         // The number of data points.
         $n = $this->n;
@@ -121,16 +142,13 @@ class Linear extends Regression
         $ν = $n - 2;
 
         // Sum X sum of squares.
-        $SSx = RandomVariable::sumOfSquaresDeviations($this->xs);
-
-        // The Y sum of squares.
-        $SSy = RandomVariable::sumOfSquaresDeviations($this->ys);
+        $SSx = $this->SSx ?? RandomVariable::sumOfSquaresDeviations($this->xs);
 
         // The t-value
         $t = StudentT::inverse2Tails($p, $ν);
 
         // Standard error of y
-        $SSres = $this->sumOfSquaresResidual();
+        $SSres = $this->SSres ?? $this->sumOfSquaresResidual();
         $sy    = sqrt($SSres / $ν);
         
         // Put it together.
@@ -155,9 +173,6 @@ class Linear extends Regression
      * If $p = .05, then we can say we are 95% confidence that the future averages of $q trials at $x
      * will be within an interval of evaluate($x) ± getPI($x, .05, $q).
      *
-     * Consider saving the parameters of this equation in $this to speed up case where this method is
-     * called many times.
-     *
      * @param number $x
      * @param number $p  0 < p < 1 The P value to use
      * @param int    $q  Number of trials
@@ -167,26 +182,23 @@ class Linear extends Regression
     public function getPI($x, $p, $q = 1)
     {
         // Averages.
-        $xbar = Average::mean($this->xs);
-        $ybar = Average::mean($this->ys);
+        $xbar = $this->xbar ?? Average::mean($this->xs);
+        $ybar = $this->ybar ?? Average::mean($this->ys);
 
         // The number of data points.
-        $n = count($this->points);
+        $n = $this->n;
 
         // Degrees of freedom.
         $ν = $n - 2;
 
         // Sum X sum of squares.
-        $SSx = RandomVariable::sumOfSquaresDeviations($this->xs);
-
-        // The Y sum of squares.
-        $SSy = RandomVariable::sumOfSquaresDeviations($this->ys);
+        $SSx = $this->SSx ?? RandomVariable::sumOfSquaresDeviations($this->xs);
 
         // The t-value
         $t = StudentT::inverse2Tails($p, $ν);
 
         // Standard error of y
-        $SSres = $this->sumOfSquaresResidual();
+        $SSres = $this->SSres ?? $this->sumOfSquaresResidual();
         $sy    = sqrt($SSres / $ν);
         
         // Put it together.
