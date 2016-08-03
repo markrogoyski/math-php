@@ -47,4 +47,22 @@ trait LeastSquares
             'b' => $b,
         ];
     }
+    
+    function standardErrors()
+    {
+        $n = $this->n;
+        $SSe = $this->sumOfSquaresResidual();
+        $df = $n - 2;    // Degrees of freedom
+        $sigma_squared = $SSe / $df;
+        $SSx = RandomVariable::sumOfSquaresDeviations($this->xs);
+        $sm = sqrt($sigma_squared / $SSx);
+        
+        $sum_x_squared = array_sum(Single::squared($this->xs));
+        $sb = $sm * sqrt($sum_x_squared / $n);
+        
+        return [
+            'm' => $sm,
+            'b' => $sb,
+        ];
+    }
 }
