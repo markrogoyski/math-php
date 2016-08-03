@@ -768,6 +768,8 @@ $regression = new Linear($points);
 $parameters = $regression->getParameters();          // [m => 1.2209302325581, b => 0.6046511627907]
 $equation   = $regression->getEquation();            // y = 1.2209302325581x + 0.6046511627907
 $y          = $regression->evaluate(5);              // Evaluate for y at x = 5 using regression equation
+$ci         = $regression->getCI(5, 0.5);            // Confidence interval for x = 5 with p-value of 0.5
+$pi         = $regression->getPI(5, 0.5);            // Prediction interval for x = 5 with p-value of 0.5; Optional number of trials parameter.
 $Ŷ          = $regression->yHat();
 $SSreg      = $regression->sumOfSquaresRegression();
 $SSres      = $regression->sumOfSquaresResidual();
