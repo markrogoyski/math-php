@@ -160,7 +160,7 @@ class Linear extends Regression
      *
      * @param number $x
      * @param number $p  0 < p < 1 The P value to use
-     * @param int    $q  Number of replications
+     * @param int    $q  Number of trials
      *
      * @return number
      */
