@@ -115,7 +115,7 @@ class Linear extends Regression
         $ybar = Average::mean($this->ys);
 
         // The number of data points.
-        $n = count($this->points);
+        $n = $this->n;
 
         // Degrees of freedom.
         $ν = $n - 2;

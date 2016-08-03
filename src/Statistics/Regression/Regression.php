@@ -16,9 +16,29 @@ abstract class Regression
     const X = 0;
     const Y = 1;
 
+    /**
+     * Array of x and y points: [ [x, y], [x, y], ... ]
+     * @var array
+     */
     protected $points;
+
+    /**
+     * X values of the original points
+     * @var array
+     */
     protected $xs;
+
+    /**
+     * Y values of the original points
+     * @var [type]
+     */
     protected $ys;
+
+    /**
+     * Number of points
+     * @var int
+     */
+    protected $n;
     
     /**
      * Constructor - Prepares the data arrays for regression analysis
