@@ -28,7 +28,7 @@ use Math\Probability\Distribution\Continuous\StudentT;
  */
 class Linear extends Regression
 {
-    use LeastSquaresRegression;
+    use LeastSquares;
     /**
      * Calculates the regression parameters.
      *

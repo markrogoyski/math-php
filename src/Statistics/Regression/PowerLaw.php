@@ -28,7 +28,7 @@ use Math\Statistics\Average;
  */
 class PowerLaw extends Regression
 {
-    use LeastSquaresRegression;
+    use LeastSquares;
     /**
      * Calculate the regression parameters by least squares on linearized data
      * ln(y) = ln(A) + B*ln(x)
