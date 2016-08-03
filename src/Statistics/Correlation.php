@@ -430,7 +430,7 @@ class Correlation
 
     /**
      * Descriptive correlation report about two random variables
-     * 
+     *
      * @param  array $X          values for random variable X
      * @param  array $Y          values for random variable Y
      * @param  bool  $population Optional flag if all samples of a population are present
