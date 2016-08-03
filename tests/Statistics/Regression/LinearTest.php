@@ -160,7 +160,7 @@ class LinearTest extends \PHPUnit_Framework_TestCase
         ];
     }
     
-        /**
+    /**
      * @dataProvider dataProviderForPI
      */
     public function testGetPI(array $points, $x, $p, $q, $pi)
