@@ -29,6 +29,7 @@ use Math\Probability\Distribution\Continuous\StudentT;
 class Linear extends Regression
 {
     use LeastSquares;
+
     /**
      * Calculates the regression parameters.
      *
@@ -82,7 +83,6 @@ class Linear extends Regression
         return $mx + $b;
     }
     
-    
     /**
      * The confidence interval of the regression
      *                      ______________
@@ -112,7 +112,7 @@ class Linear extends Regression
     {
         // Averages.
         $xbar = Average::mean($this->xs);
-        $ybar =  Average::mean($this->ys);
+        $ybar = Average::mean($this->ys);
 
         // The number of data points.
         $n = count($this->points);
@@ -131,11 +131,12 @@ class Linear extends Regression
 
         // Standard error of y
         $SSres = $this->sumOfSquaresResidual();
-        $sy = sqrt($SSres / $ν);
+        $sy    = sqrt($SSres / $ν);
         
         // Put it together.
-        return $t * $sy * sqrt(1/$n + ($x - $xbar) ** 2 / $SSx);
+        return $t * $sy * sqrt(1/$n + ($x - $xbar)**2 / $SSx);
     }
+
     /**
      * The prediction interval of the regression
      *                        _________________
@@ -158,8 +159,8 @@ class Linear extends Regression
      * called many times.
      *
      * @param number $x
-     * @param number $p:  0 < p < 1 The P value to use
-     * @param int $q
+     * @param number $p  0 < p < 1 The P value to use
+     * @param int    $q  Number of replications
      *
      * @return number
      */
@@ -186,9 +187,9 @@ class Linear extends Regression
 
         // Standard error of y
         $SSres = $this->sumOfSquaresResidual();
-        $sy = sqrt($SSres / $ν);
+        $sy    = sqrt($SSres / $ν);
         
         // Put it together.
-        return $t * $sy * sqrt(1 / $q + 1/$n + ($x - $xbar) ** 2 / $SSx);
+        return $t * $sy * sqrt(1 / $q + 1/$n + ($x - $xbar)**2 / $SSx);
     }
 }

@@ -29,6 +29,7 @@ use Math\Statistics\Average;
 class PowerLaw extends Regression
 {
     use LeastSquares;
+
     /**
      * Calculate the regression parameters by least squares on linearized data
      * ln(y) = ln(A) + B*ln(x)
@@ -36,11 +37,11 @@ class PowerLaw extends Regression
     public function calculate()
     {
         // Linearize the relationship by taking the log of both sides.
-        $xprime = array_map('log', $this->xs);
-        $yprime = array_map('log', $this->ys);
+        $x’ = array_map('log', $this->xs);
+        $y’ = array_map('log', $this->ys);
         
         // Perform Least Squares Fit
-        $parameters = $this->leastSquares($yprime, $xprime);
+        $parameters = $this->leastSquares($y’, $x’);
         
         // Translate the linearized parameters back.
         $this->a = exp($parameters['b']);
