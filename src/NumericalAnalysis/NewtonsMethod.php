@@ -21,6 +21,8 @@ class NewtonsMethod
      *                           For a polynomial this is very important because there may be many solutions.
      *                           The starting point will determine which solution we will receive.
      * @param number   $tol      Tolerance; How close to the actual solution we would like
+     *
+     * @return number
      */
     public static function solve(callable $function, array $args, $target, $guess, $tol)
     {
