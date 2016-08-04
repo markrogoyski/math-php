@@ -73,4 +73,22 @@ class ChiSquaredTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Exception');
         ChiSquared::CDF(3, -1);
     }
+    
+    /**
+     * @dataProvider dataProviderForRandom
+     */
+    public function testRandom($k)
+    {
+        $this->assertGreaterThan(0, ChiSquared::random($k))
+    }
+    
+    public function dataProviderForRandom()
+    {
+        return [
+            [1],
+            [2],
+            [4],
+            [10],
+            ];
+    }
 }
