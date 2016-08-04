@@ -29,9 +29,8 @@ abstract class Continuous
      */
     public static function between($upper, $lower, ...$params)
     {
-        $function   = [get_called_class(), 'CDF'];
-        $upper_area = call_user_func_array($function, array_merge([$upper], $params));
-        $lower_area = call_user_func_array($function, array_merge([$lower], $params));
+        $upper_area = static::CDF($upper, ...$params);
+        $lower_area = static::CDF($lower, ...$params);
         return $upper_area - $lower_area;
     }
   
@@ -49,8 +48,7 @@ abstract class Continuous
      */
     public static function above($x, ...$params)
     {
-        $function = [get_called_class(), 'CDF'];
-        $area     = call_user_func_array($function, array_merge([$x], $params));
+        $area = static::CDF($x, ...$params);
         return 1 - $area;
     }
 }
