@@ -3,7 +3,6 @@ namespace Math\Probability\Distribution\Continuous;
 
 class Uniform extends Continuous
 {
-
     /**
      * Continuous uniform distribution - probability desnsity function
      * https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
