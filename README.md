@@ -395,9 +395,11 @@ $cdf = StandardNormal::CDF($z);
 
 // Student's t-distribution
 $x = 2;
-$ν = 3; // degrees of freedom
+$ν = 3;    // degrees of freedom
+$p = 0.4;  // proportion of area
 $pdf = StudentT::PDF($x, $ν);
 $cdf = StudentT::CDF($x, $ν);
+$t   = StudentT::inverse2Tails($p, $ν);  // t such that the area greater than t and the aread beneath -t is p
 
 // Uniform distribution
 $a = 1; // lower boundary of the distribution
@@ -412,6 +414,13 @@ $λ = 2; // scale parameter
 $x = 2;
 $pdf = Weibull::PDF($k, $λ, $x);
 $cdf = Weibull::CDF($k, $λ, $x);
+
+// Other CDFs - All continuous distributions (...params will be distribution-specific)
+// Replace 'DistributionName' with desired distribution.
+$inv_cdf = DistributionName::inverse($target, ...$params);   // Inverse CDF of the distribution
+$between = DistributionName::between($x₁, $x₂, ...$params);  // Probability of being bewteen two points, x₁ and x₂
+$outside = DistributionName::outside($x₁, $x₂, ...$params);  // Probability of being bewteen below x₁ and above x₂
+$above   = DistributionName::above($x, ...$params);          // Probability of being above x to ∞
 ```
 
 ### Probability - Discrete Distributions
