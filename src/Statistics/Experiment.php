@@ -1,8 +1,6 @@
 <?php
 namespace Math\Statistics;
 
-use Math\Probability\Combinatorics;
-
 /**
  * Statistical experiments (Epidemiology methods, etc.)
  *  - Risk ratio
