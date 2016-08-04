@@ -79,7 +79,7 @@ class ChiSquaredTest extends \PHPUnit_Framework_TestCase
      */
     public function testRandom($k)
     {
-        $this->assertGreaterThan(0, ChiSquared::random($k))
+        $this->assertGreaterThan(0, ChiSquared::random($k));
     }
     
     public function dataProviderForRandom()
