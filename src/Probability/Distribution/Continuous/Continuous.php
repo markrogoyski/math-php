@@ -76,4 +76,14 @@ abstract class Continuous
     {
         return 1 - static::CDF($x, ...$params);
     }
+    
+    /**
+     * Generate a random number following one of the defined distributions
+     * 
+     */
+    public static function rand(...$params)
+    {
+        $random_float = mt_rand() / mt_getrandmax();
+        return self::inverse($random_float, ...$params);
+    }
 }
