@@ -76,4 +76,24 @@ abstract class Continuous
     {
         return 1 - static::CDF($x, ...$params);
     }
+    
+    /**
+     * Generate a random number following one of the defined distributions
+     * 
+     */
+    public static function rand(...$params)
+    {
+        return self::inverse(self::random_float(), ...$params);
+    }
+    
+    /**
+     * Return a random float between 0 and 1 inclusive.
+     * 
+     * This is a method in order to allow unit tests to override it.
+     */
+    private random_float()
+    {
+        return mt_rand() / mt_getrandmax();
+    }
+    
 }
