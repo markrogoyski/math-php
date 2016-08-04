@@ -83,7 +83,17 @@ abstract class Continuous
      */
     public static function rand(...$params)
     {
-        $random_float = mt_rand() / mt_getrandmax();
-        return self::inverse($random_float, ...$params);
+        return self::inverse(self::random_float(), ...$params);
     }
+    
+    /**
+     * Return a random float between 0 and 1 inclusive.
+     * 
+     * This is a method in order to allow unit tests to override it.
+     */
+    private random_float()
+    {
+        return mt_rand() / mt_getrandmax();
+    }
+    
 }
