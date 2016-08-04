@@ -395,8 +395,8 @@ $cdf = StandardNormal::CDF($z);
 
 // Student's t-distribution
 $x = 2;
-$ν = 3;    // degrees of freedom
-$p = 0.4;  // proportion of area
+$ν = 3;   // degrees of freedom
+$p = 0.4; // proportion of area
 $pdf = StudentT::PDF($x, $ν);
 $cdf = StudentT::CDF($x, $ν);
 $t   = StudentT::inverse2Tails($p, $ν);  // t such that the area greater than t and the area beneath -t is p
