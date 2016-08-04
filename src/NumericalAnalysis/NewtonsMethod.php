@@ -34,6 +34,10 @@ class NewtonsMethod
             $y                = call_user_func_array($function, $args);
             $y_at_xplusdelx   = call_user_func_array($function, $args1);
             $slope            = ($y_at_xplusdelx - $y)/ $tol;
+            if ($slope == 0){
+                echo $y . ", " . $y_at_xplusdelx . "\n";
+                echo $guess . "\n";
+            }
             $del_y            = $target - $y;
             $guess            = $del_y / $slope + $guess;
             $dif              = abs($del_y);
