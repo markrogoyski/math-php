@@ -69,7 +69,7 @@ class StudentT extends Continuous
 
     /**
      * Inverse 2 tails
-     * Find t such that the area greater than t and the aread beneath -t is p.
+     * Find t such that the area greater than t and the area beneath -t is p.
      *
      * @param number $p Proportion of area
      * @param number $ν Degrees of freedom

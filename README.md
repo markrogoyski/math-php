@@ -399,7 +399,7 @@ $ν = 3;    // degrees of freedom
 $p = 0.4;  // proportion of area
 $pdf = StudentT::PDF($x, $ν);
 $cdf = StudentT::CDF($x, $ν);
-$t   = StudentT::inverse2Tails($p, $ν);  // t such that the area greater than t and the aread beneath -t is p
+$t   = StudentT::inverse2Tails($p, $ν);  // t such that the area greater than t and the area beneath -t is p
 
 // Uniform distribution
 $a = 1; // lower boundary of the distribution
