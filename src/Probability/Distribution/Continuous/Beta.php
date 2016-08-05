@@ -32,4 +32,12 @@ class Beta extends Continuous
         $B⟮α、β⟯    = Special::beta($α, $β);
         return ($xᵃ⁻¹ * $⟮1 − x⟯ᵝ⁻¹) / $B⟮α、β⟯;
     }
+    
+     /**
+     * Returns the mean of the distribution
+     */
+    public static function getMean($α, $β)
+    {
+        return $α / ($α + $β);
+    }
 }
