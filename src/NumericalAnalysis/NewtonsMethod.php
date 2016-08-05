@@ -11,25 +11,26 @@ class NewtonsMethod
 {
     /**
      * Use Newton's Method to find the x which produces $target = $function(x) value
-     * $args is an array of parameters to pass to $function, but having the string
-     * 'x' in the position of interest.
+     * $args is an array of parameters to pass to $function, but having the element that
+     * will be changed and serve as the initial guess in position $position.
      *
      * @param Callable $function f(x) callback function
      * @param array    $args     Parameters to pass to callback function. The initial value for the
      *                               parameter of interest must be in this array.
      * @param number   $target   Value of f(x) we a trying to solve for
-     * @param number   $position Which element in the $args array will be changed
      * @param number   $tol      Tolerance; How close to the actual solution we would like.
-     * 
+     * @param number   $position Which element in the $args array will be changed; also serves as initial guess
+
      * @return number
      */
-    public static function solve(callable $function, array $args, $target, $position, $tol)
+    public static function solve(callable $function, array $args, $target, $tol, $position = 0)
     {
-        if ($tol < 0){
-            throw new Exception('Tolerance must be greater than zero.');
+        if ($tol < 0) {
+            throw new \Exception('Tolerance must be greater than zero.');
         }
 
-        $dif      = $tol + 1;  // initialize
+        // Initialize
+        $dif      = $tol + 1;
         $args1    = $args;
         $guess    = $args[$position];
 
