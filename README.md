@@ -290,12 +290,11 @@ use Math\NumericalAnalysis;
 $f⟮x⟯ = function($x) {
     return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
 };
-$args   = ['x'];   // Parameters to pass to callback function
-$target = 0;       // Value of f(x) we a trying to solve for
-$guess  = -4.1;    // Starting point
-$tol    = 0.00001; // Tolerance; how close to the actual solution we would like
-$x      = NewtonsMethod::solve($f⟮x⟯, $args, $target, $guess, $tol); // Solve for x where f(x) = $target
-
+$args     = [-4.1];  // Parameters to pass to callback function (initial guess, other parameters)
+$target   = 0;       // Value of f(x) we a trying to solve for
+$tol      = 0.00001; // Tolerance; how close to the actual solution we would like
+$position = 0;       // Which element in the $args array will be changed; also serves as initial guess. Defaults to 0.
+$x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
 ```
 
 ### Probability - Combinatorics
