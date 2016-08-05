@@ -86,6 +86,7 @@ class StudentT extends Continuous
      */
     public static function getMean($p, $ν)
     {
-        return 0;
+        if ($ν > 1) return 0;
+        else return NULL;
     }
 }
