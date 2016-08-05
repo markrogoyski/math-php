@@ -67,10 +67,15 @@ class StudentT extends Continuous
         return 1 - .5 * Special::regularizedIncompleteBeta($x, $a, $b);
     }
 
-
-  /****************************************************************************
-   * Find t such that the area greater than t and the area beneath -t is $p
-   */
+    /**
+     * Inverse 2 tails
+     * Find t such that the area greater than t and the area beneath -t is p.
+     *
+     * @param number $p Proportion of area
+     * @param number $ν Degrees of freedom
+     *
+     * @return number t-score
+     */
     public static function inverse2Tails($p, $ν)
     {
         return self::inverse(1 - $p / 2, $ν);

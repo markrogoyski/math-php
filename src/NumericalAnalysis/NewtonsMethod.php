@@ -11,22 +11,28 @@ class NewtonsMethod
 {
     /**
      * Use Newton's Method to find the x which produces $target = $function(x) value
-     * $args is an array of parameters to pass to $function, but having the string
-     * 'x' in the position of interest.
+     * $args is an array of parameters to pass to $function, but having the element that
+     * will be changed and serve as the initial guess in position $position.
      *
      * @param Callable $function f(x) callback function
-     * @param array    $args     Parameters to pass to callback function
+     * @param array    $args     Parameters to pass to callback function. The initial value for the
+     *                               parameter of interest must be in this array.
      * @param number   $target   Value of f(x) we a trying to solve for
-     * @param number   $guess    Starting point
-     *                           For a polynomial this is very important because there may be many solutions.
-     *                           The starting point will determine which solution we will receive.
-     * @param number   $tol      Tolerance; How close to the actual solution we would like
+     * @param number   $tol      Tolerance; How close to the actual solution we would like.
+     * @param number   $position Which element in the $args array will be changed; also serves as initial guess
+
+     * @return number
      */
-    public static function solve(callable $function, array $args, $target, $guess, $tol)
+    public static function solve(callable $function, array $args, $target, $tol, $position = 0)
     {
-        $dif      = $tol + 1;  // initialize
-        $position = array_search('x', $args); // find the position of 'x' in the arguments
+        if ($tol < 0) {
+            throw new \Exception('Tolerance must be greater than zero.');
+        }
+
+        // Initialize
+        $dif      = $tol + 1;
         $args1    = $args;
+        $guess    = $args[$position];
 
         while ($dif > $tol) {
             $args1[$position] = $guess + $tol; // load the initial guess into the arguments
@@ -34,10 +40,6 @@ class NewtonsMethod
             $y                = call_user_func_array($function, $args);
             $y_at_xplusdelx   = call_user_func_array($function, $args1);
             $slope            = ($y_at_xplusdelx - $y)/ $tol;
-            if ($slope == 0){
-                echo $y . ", " . $y_at_xplusdelx . "\n";
-                echo $guess . "\n";
-            }
             $del_y            = $target - $y;
             $guess            = $del_y / $slope + $guess;
             $dif              = abs($del_y);

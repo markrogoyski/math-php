@@ -27,6 +27,7 @@ Features
      * Correlation
      * Descriptive
      * Distributions
+     * Experiments
      * Random Variables
      * Regressions
 
@@ -78,7 +79,7 @@ $factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
 
 ### Functions - Map - Single Array
 ```php
-use Math\Functions\Map\Single
+use Math\Functions\Map\Single;
 
 $x = [1, 2, 3, 4];
 
@@ -95,7 +96,7 @@ $∣x∣         = Single::abs($x);
 
 ### Functions - Map - Multiple Arrays
 ```php
-use Math\Functions\Map\Multi
+use Math\Functions\Map\Multi;
 
 $x = [10, 10, 10, 10];
 $y = [1,   2,  5, 10];
@@ -282,19 +283,18 @@ print($A); // [1, 2, 3]
 
 ### Numerical Analysis
 ```php
-use Math\NumericalAnalysis
+use Math\NumericalAnalysis;
 
 // Use Newton's Method to solve for a root of a polynomial
 // f(x) = x⁴ + 8x³ -13x² -92x + 96
 $f⟮x⟯ = function($x) {
     return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
 };
-$args   = ['x'];   // Parameters to pass to callback function
-$target = 0;       // Value of f(x) we a trying to solve for
-$guess  = -4.1;    // Starting point
-$tol    = 0.00001; // Tolerance; how close to the actual solution we would like
-$x      = NewtonsMethod::solve($f⟮x⟯, $args, $target, $guess, $tol); // Solve for x where f(x) = $target
-
+$args     = [-4.1];  // Parameters to pass to callback function (initial guess, other parameters)
+$target   = 0;       // Value of f(x) we a trying to solve for
+$tol      = 0.00001; // Tolerance; how close to the actual solution we would like
+$position = 0;       // Which element in the $args array will be changed; also serves as initial guess. Defaults to 0.
+$x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
 ```
 
 ### Probability - Combinatorics
@@ -394,9 +394,11 @@ $cdf = StandardNormal::CDF($z);
 
 // Student's t-distribution
 $x = 2;
-$ν = 3; // degrees of freedom
+$ν = 3;   // degrees of freedom
+$p = 0.4; // proportion of area
 $pdf = StudentT::PDF($x, $ν);
 $cdf = StudentT::CDF($x, $ν);
+$t   = StudentT::inverse2Tails($p, $ν);  // t such that the area greater than t and the area beneath -t is p
 
 // Uniform distribution
 $a = 1; // lower boundary of the distribution
@@ -411,6 +413,13 @@ $λ = 2; // scale parameter
 $x = 2;
 $pdf = Weibull::PDF($k, $λ, $x);
 $cdf = Weibull::CDF($k, $λ, $x);
+
+// Other CDFs - All continuous distributions (...params will be distribution-specific)
+// Replace 'DistributionName' with desired distribution.
+$inv_cdf = DistributionName::inverse($target, ...$params);   // Inverse CDF of the distribution
+$between = DistributionName::between($x₁, $x₂, ...$params);  // Probability of being bewteen two points, x₁ and x₂
+$outside = DistributionName::outside($x₁, $x₂, ...$params);  // Probability of being bewteen below x₁ and above x₂
+$above   = DistributionName::above($x, ...$params);          // Probability of being above x to ∞
 ```
 
 ### Probability - Discrete Distributions
@@ -564,7 +573,7 @@ print_r($averages);
 
 ### Statistics - Correlation
 ```php
-use Math\Statistics\Correlation
+use Math\Statistics\Correlation;
 
 $X = [1, 2, 3, 4, 5];
 $Y = [2, 3, 4, 4, 6];
@@ -598,7 +607,7 @@ print_r($stats);
 
 ### Statistics - Descriptive
 ```php
-use Math\Statistics\Descriptive
+use Math\Statistics\Descriptive;
 
 $numbers = [13, 18, 13, 14, 13, 16, 14, 21, 13];
 
@@ -684,7 +693,7 @@ print_r($stats);
 
 ### Statistics - Distributions
 ```php
-use Math\Statistics\Distribution
+use Math\Statistics\Distribution;
 
 $grades = ['A', 'A', 'B', 'B', 'B', 'B', 'C', 'C', 'D', 'F'];
 
@@ -715,9 +724,36 @@ Distribution::stemAndLeafPlot($values, Distribution::PRINT);
 */
 ```
 
+### Statistics - Experiments
+```php
+use Math\Statistics\Experiment;
+
+$a = 28;   // Exposed and event present
+$b = 129;  // Exposed and event absent
+$c = 4;    // Non-exposed and event present
+$d = 133;  // Non-exposed and event absent
+
+// Risk ratio (relative risk) - RR
+$RR = Experiment::riskRatio($a, $b, $c, $d);
+// ['RR' => 6.1083, 'ci_lower_bound' => 2.1976, 'ci_upper_bound' => 16.9784, 'p' => 0.0005]
+
+// Odds ratio (OR)
+$OR = Experiment::oddsRatio($a, $b, $c, $d);
+// ['OR' => 7.2171, 'ci_lower_bound' => 2.4624, 'ci_upper_bound' => 21.1522, 'p' => 0.0003]
+
+// Likelihood ratios (positive and negative)
+$LL = Experiment::likelihoodRatio($a, $b, $c, $d);
+// ['LL+' => 7.4444, 'LL-' => 0.3626]
+
+$sensitivity = 0.67;
+$specificity = 0.91;
+$LL          = Experiment::likelihoodRatioSS($sensitivity, $specificity);
+
+```
+
 ### Statistics - Random Variables
 ```php
-use Math\Statistics\RandomVariable
+use Math\Statistics\RandomVariable;
 
 $X = [1, 2, 3, 4];
 $Y = [2, 3, 4, 5];
@@ -759,7 +795,7 @@ $z = RandomVariable::zScore($μ, $σ, $x);
 
 ### Statistics - Regressions
 ```php
-use Math\Statistics\Regression
+use Math\Statistics\Regression;
 
 $points = [[1,2], [2,3], [4,5], [5,7], [6,8]];
 
