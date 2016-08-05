@@ -22,7 +22,9 @@ abstract class Continuous
         array_unshift($params, 0.5);
         $classname = get_called_class();
         $callback  = [$classname, 'CDF'];
-        return NewtonsMethod::solve($callback, $params, $target, .00000000000001, 0);
+        $tolerance = .00000000000001;
+        $position  = 0;
+        return NewtonsMethod::solve($callback, $params, $target, $tolerance, $position);
     }
   
     /**
