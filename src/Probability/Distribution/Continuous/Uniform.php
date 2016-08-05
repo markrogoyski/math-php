@@ -55,7 +55,7 @@ class Uniform extends Continuous
     /**
      * Returns the mean of the distribution
      */
-    public static function getMean($a, $b, $x)
+    public static function getMean($a, $b)
     {
         return ($a + $b) / 2;
     }
