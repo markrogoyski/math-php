@@ -54,7 +54,7 @@ class Weibull extends Continuous
     /**
      * Return the mean of the distribution
      */
-    public static function getMean($k, $λ, $x)
+    public static function getMean($k, $λ)
     {
         return $λ * Special::gamma(1 + 1 / $k);
     }
