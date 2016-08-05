@@ -19,10 +19,10 @@ abstract class Continuous
      */
     public static function inverse($target, ...$params)
     {
-        array_unshift($params, 'x');
+        array_unshift($params, 0.5);
         $classname = get_called_class();
         $callback  = [$classname, 'CDF'];
-        return NewtonsMethod::solve($callback, $params, $target, .5, .00000000000001);
+        return NewtonsMethod::solve($callback, $params, $target, 0, .00000000000001);
     }
   
     /**
