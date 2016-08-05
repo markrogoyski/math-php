@@ -33,11 +33,26 @@ class Beta extends Continuous
         return ($xᵃ⁻¹ * $⟮1 − x⟯ᵝ⁻¹) / $B⟮α、β⟯;
     }
     
+    public static function CDF($α, $β, $x)
+    {
+        if ($α <= 0 || $β <= 0) {
+            throw new \Exception('α and β must be > 0');
+        }
+        if ($x < 0 || $x > 1) {
+            throw new \Exception('x must be between 0 and 1');
+        }
+        Special::regularizedIncompleteBeta($x, $α, $β);
+        
+    }
+    
      /**
      * Returns the mean of the distribution
      */
     public static function getMean($α, $β)
     {
+        if ($α <= 0 || $β <= 0) {
+            throw new \Exception('α and β must be > 0');
+        }
         return $α / ($α + $β);
     }
 }
