@@ -48,11 +48,25 @@ class LogLogistic extends Continuous
     }
     
     /**
-     * Returns the mean of the distribution
+     * Mean of the distribution
+     *
+     *      απ / β
+     * μ = ---------  if β > 1, else undefined
+     *     sign(π/β)
+     *
+     * @param number $α scale parameter (α > 0)
+     * @param number $β shape parameter (β > 0)
+     *
+     * @return number
      */
     public static function getMean($α, $β)
     {
         $π = \M_PI;
-        return $α * $π / $β / sin ($π / $β);
+
+        if ($β > 1) {
+            return $α * $π / $β / sin ($π / $β);
+        }
+
+        return null;
     }
 }
