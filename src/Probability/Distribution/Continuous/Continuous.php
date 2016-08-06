@@ -79,6 +79,10 @@ abstract class Continuous
         return 1 - static::CDF($x, ...$params);
     }
     
+    /**
+     * Checks that the values of the distributions fall within the defined bounds.
+     * 
+     */
     public static function check_limits(...$params)
     {
         foreach ($params as $key=>$value)
