@@ -80,4 +80,13 @@ class StudentT extends Continuous
     {
         return self::inverse(1 - $p / 2, $ν);
     }
+    
+    /**
+     * Returns the mean of the distribution
+     */
+    public static function getMean($p, $ν)
+    {
+        if ($ν > 1) return 0;
+        else return NULL;
+    }
 }

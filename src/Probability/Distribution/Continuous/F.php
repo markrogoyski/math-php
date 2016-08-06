@@ -65,4 +65,13 @@ class F extends Continuous
 
         return Special::regularizedIncompleteBeta($ᵈ¹ˣ／d₁x＋d₂, $d₁/2, $d₂/2);
     }
+    
+     /**
+     * Returns the mean of the distribution
+     */
+    public static function getMean(int $d₁, int $d₂)
+    {
+        if ($d₂ > 2) return $d₂ / ($d₂ - 2);
+        else return NULL;
+    }
 }

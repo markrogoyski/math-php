@@ -41,4 +41,12 @@ class Exponential extends Continuous
         }
         return 1 - exp(-$λ * $x);
     }
+    
+     /**
+     * Returns the mean of the distribution
+     */
+    public static function getMean(float $λ)
+    {
+        return 1 / $λ;
+    }
 }

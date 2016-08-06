@@ -49,4 +49,12 @@ class LogNormal extends Continuous
         $√2σ       = sqrt(2) * $σ;
         return 1/2 + 1/2 * Special::erf($⟮ln x − μ⟯ / $√2σ);
     }
+    
+    /**
+     * Returns the mean of the distribution
+     */
+    public static function getMean($μ, $σ)
+    {
+        return exp($μ + $σ ** 2 / 2);
+    }
 }

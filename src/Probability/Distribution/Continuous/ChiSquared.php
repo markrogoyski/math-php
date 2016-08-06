@@ -73,4 +73,12 @@ class ChiSquared extends Continuous
 
         return $γ⟮k／2、x／2⟯ / $Γ⟮k／2⟯;
     }
+    
+     /**
+     * Returns the mean of the distribution
+     */
+    public static function getMean(int $k)
+    {
+        return $k;
+    }
 }

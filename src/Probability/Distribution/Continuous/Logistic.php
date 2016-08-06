@@ -55,4 +55,12 @@ class Logistic extends Continuous
         $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
         return 1 / (1 + $ℯ＾⁻⁽x⁻μ⁾／s);
     }
+    
+    /**
+     * Returns the mean of the distribution
+     */
+    public static function getMean($μ, $s)
+    {
+        return $μ;
+    }
 }
