@@ -83,7 +83,7 @@ abstract class Continuous
     {
         foreach ($params as $key=>$value)
         {
-            switch (self::distribution_limits[$key]['lower_endpoint'] {
+            switch (self::distribution_limits[$key]['lower_endpoint']) {
                 case '(':
                     $lower_limit = self::distribution_limits[$key]['lower_value'];
                     if ($value <= $lower_limit) {
@@ -99,7 +99,7 @@ abstract class Continuous
                     }
                     break;
             }
-            switch (self::distribution_limits[$key]['upper_endpoint'] {
+            switch (self::distribution_limits[$key]['upper_endpoint']) {
                 case ')':
                     $upper_limit = self::distribution_limits[$key]['upper_value'];
                     if ($value >= $upper_limit) {
