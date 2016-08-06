@@ -17,6 +17,8 @@ class Pareto extends Continuous
      * @param  number $a shape parameter
      * @param  number $b scale parameter
      * @param  number $x
+     *
+     * @return number
      */
     public static function PDF($a, $b, $x)
     {
@@ -41,6 +43,8 @@ class Pareto extends Continuous
      * @param  number $a shape parameter
      * @param  number $b scale parameter
      * @param  number $x
+     *
+     * @return number
      */
     public static function CDF($a, $b, $x)
     {
@@ -49,12 +53,27 @@ class Pareto extends Continuous
         }
         return 1 - pow($b / $x, $a);
     }
-        /**
-     * Returns the mean of the distribution
+
+    /**
+     * Mean of the distribution
+     *
+     * μ = ∞ for a < 1
+     *
+     *      ab
+     * μ = -----
+     *     a - 1
+     *
+     * @param  number $a shape parameter
+     * @param  number $b scale parameter
+     *
+     * @return number
      */
-    public static function getMean($a, $b)
+    public static function mean($a, $b)
     {
-        if ($a <= 0) return INF;
-        else return $a * $b / ($a - 1);
+        if ($a <= 0) {
+            return INF;
+        }
+
+        return $a * $b / ($a - 1);
     }
 }
