@@ -59,7 +59,7 @@ class LogLogistic extends Continuous
      *
      * @return number
      */
-    public static function getMean($α, $β)
+    public static function mean($α, $β)
     {
         $π = \M_PI;
 
