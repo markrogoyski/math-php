@@ -66,12 +66,24 @@ class F extends Continuous
         return Special::regularizedIncompleteBeta($ᵈ¹ˣ／d₁x＋d₂, $d₁/2, $d₂/2);
     }
     
-     /**
-     * Returns the mean of the distribution
+    /**
+     * Mean of the distribution
+     *
+     *    d₂
+     *  ------  for d₂ > 2
+     *  d₂ - 2
+     *
+     * @param int $d₁ degree of freedom v1 > 0
+     * @param int $d₂ degree of freedom v2 > 0
+     *
+     * @return number
      */
-    public static function getMean(int $d₁, int $d₂)
+    public static function mean(int $d₁, int $d₂)
     {
-        if ($d₂ > 2) return $d₂ / ($d₂ - 2);
-        else return NULL;
+        if ($d₂ > 2) {
+            return $d₂ / ($d₂ - 2);
+        }
+
+        return null;
     }
 }
