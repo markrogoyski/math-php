@@ -18,9 +18,9 @@ class Beta extends Continuous
     protected static $distribution_limits = [
         [ // x ∈ (0,1)
             'parameter' => 'x',
-            'lower_endpoint' => '(',
+            'lower_endpoint' => '[',
             'lower_value' => 0,
-            'upper_endpoint' => ')',
+            'upper_endpoint' => ']',
             'upper_value' => 1,
         ],
         [ // α > 0
