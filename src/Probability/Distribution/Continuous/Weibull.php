@@ -52,9 +52,16 @@ class Weibull extends Continuous
     }
     
     /**
-     * Return the mean of the distribution
+     * Mean of the distribution
+     *
+     * μ = λΓ(1 + 1/k)
+     *
+     * @param number $k shape parameter
+     * @param number $λ scale parameter
+     *
+     * @return number
      */
-    public static function getMean($k, $λ)
+    public static function mean($k, $λ)
     {
         return $λ * Special::gamma(1 + 1 / $k);
     }
