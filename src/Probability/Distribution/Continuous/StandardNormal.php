@@ -46,9 +46,13 @@ class StandardNormal extends Continuous
     }
     
     /**
-     * Returns the mean of the distribution
+     * Mean of the distribution
+     *
+     * μ = 0
+     *
+     * @return int 0
      */
-    public static function getMean()
+    public static function mean()
     {
         return 0;
     }
