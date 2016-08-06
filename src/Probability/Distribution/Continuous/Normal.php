@@ -53,9 +53,16 @@ class Normal extends Continuous
     }
     
     /**
-     * Returns the mean of the distribution
+     * Mean of the distribution
+     *
+     * μ = μ
+     *
+     * @param number $μ mean
+     * @param number $σ standard deviation
+     *
+     * @return number
      */
-    public static function getMean($μ, $σ)
+    public static function mean($μ, $σ)
     {
         return $μ;
     }
