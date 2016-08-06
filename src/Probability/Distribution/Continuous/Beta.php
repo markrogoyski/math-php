@@ -7,7 +7,7 @@ class Beta extends Continuous
 {
     
     /**
-     * The limits of each of the distribution's parameters unsing ISO 31-11 notation. 
+     * The limits of each of the distribution's parameters using ISO 31-11 notation. 
      * 
      * 
      * (a,b) = a <  x <  b
@@ -16,21 +16,21 @@ class Beta extends Continuous
      * [a,b] = a <= x <= b
      */ 
     public $distribution_limits = [
-        [
+        [ // x ∈ (0,1)
             'parameter' => 'x',
             'lower_endpoint' => '(',
             'lower_value' => 0,
             'upper_endpoint' => ')',
             'upper_value' => 1,
         ],
-        [
+        [ // α > 0
             'parameter' => 'α',
             'lower_endpoint' => '(',
             'lower_value' => 0,
             'upper_endpoint' => ')',
             'upper_value' => INF,
         ],
-        [
+        [ // β > 0
             'parameter' => 'β',
             'lower_endpoint' => '(',
             'lower_value' => 0,
