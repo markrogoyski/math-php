@@ -113,7 +113,7 @@ abstract class Continuous
                     break;
                 case ']':
                     $upper_limit = static::$distribution_limits[$key]['upper_value'];
-                    if ($value > $lupper_limit) {
+                    if ($value > $upper_limit) {
                         $parameter = static::$distribution_limits[$key]['parameter'];
                         throw new \Exception($parameter . ' must be <= ' . $upper_limit);
                     }
