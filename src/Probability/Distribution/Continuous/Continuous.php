@@ -103,7 +103,7 @@ abstract class Continuous
                     }
                     break;
             }
-            switch (static::distribution_limits[$key]['upper_endpoint']) {
+            switch (static::$distribution_limits[$key]['upper_endpoint']) {
                 case ')':
                     $upper_limit = static::$distribution_limits[$key]['upper_value'];
                     if ($value >= $upper_limit) {
