@@ -15,7 +15,7 @@ class Beta extends Continuous
      * (a,b] = a <  x <= b
      * [a,b] = a <= x <= b
      */ 
-    protected $distribution_limits = [
+    protected static $distribution_limits = [
         [ // x ∈ (0,1)
             'parameter' => 'x',
             'lower_endpoint' => '(',
