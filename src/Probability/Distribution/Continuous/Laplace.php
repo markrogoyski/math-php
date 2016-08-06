@@ -55,10 +55,17 @@ class Laplace extends Continuous
         return 1 - (1/2) * exp(-($x - $μ) / $b);
     }
     
-     /**
-     * Returns the mean of the distribution
+    /**
+     * Mean of the distribution
+     *
+     * μ = μ
+     *
+     * @param  number $μ location parameter
+     * @param  number $b scale parameter (diversity)  b > 0
+     *
+     * @return μ
      */
-    public static function getMean($μ, $b)
+    public static function mean($μ, $b)
     {
         return $μ;
     }
