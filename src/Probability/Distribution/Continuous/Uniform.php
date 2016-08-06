@@ -53,9 +53,18 @@ class Uniform extends Continuous
     }
     
     /**
-     * Returns the mean of the distribution
+     * Mean of the distribution
+     *
+     *     a + b
+     * μ = -----
+     *       2
+     *
+     * @param number $a lower boundary of the distribution
+     * @param number $b upper boundary of the distribution
+     *
+     * @return number
      */
-    public static function getMean($a, $b)
+    public static function mean($a, $b)
     {
         return ($a + $b) / 2;
     }
