@@ -51,10 +51,17 @@ class LogNormal extends Continuous
     }
     
     /**
-     * Returns the mean of the distribution
+     * Mean of the distribution
+     *
+     * μ = exp(μ + σ²/2)
+     *
+     * @param  number $μ
+     * @param  number $σ
+     *
+     * @return number
      */
-    public static function getMean($μ, $σ)
+    public static function mean($μ, $σ)
     {
-        return exp($μ + $σ ** 2 / 2);
+        return exp($μ + ($σ**2 / 2));
     }
 }
