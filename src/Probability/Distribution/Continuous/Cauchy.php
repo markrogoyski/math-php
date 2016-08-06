@@ -1,6 +1,8 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
+
 use Math\Functions\Special;
+
 /**
  * Cauchy distribution
  * https://en.wikipedia.org/wiki/Cauchy_distribution
@@ -12,23 +14,23 @@ class Cauchy extends Continuous
      *
      *                1
      *    --------------------------
-     *       ┌        / x - x0 \ ² ┐
+     *       ┌        / x - x₀ \ ² ┐
      *    πγ | 1  +  | ---------|  |
      *       └        \    γ   /   ┘
      *
      * @param number $x
-     * @param number $x0 location
+     * @param number $x₀ location
      * @param int    $γ  scale
      *
      * @return number
      */
-    public static function PDF($x, $x0, $γ)
+    public static function PDF($x, $x₀, $γ)
     {
         if ($ν <= 0) {
             throw new \Exception('Scale must be > 0');
         }
         $π = \M_PI;
-        return 1 / ($π * $γ * (1 + (($x - $x0) / $γ) ** 2));
+        return 1 / ($π * $γ * (1 + (($x - $x₀) / $γ) ** 2));
     }
     
     /**
@@ -36,42 +38,56 @@ class Cauchy extends Continuous
      * Calculate the cumulative value value up to a point, left tail.
      *
      * @param number $x  
-     * @param number $x0 location
+     * @param number $x₀ location
      * @param int    $γ  scale
      *
      * @return number
      */
-    public static function CDF($x, $x0, $γ)
+    public static function CDF($x, $x₀, $γ)
     {
         if ($γ <= 0) {
             throw new \Exception('Scale must be > 0');
         }
         $π = \M_PI;
-        return 1 / $π * atan(($x - $x0) / $γ) + .5;
+        return 1 / $π * atan(($x - $x₀) / $γ) + .5;
     }
     
     /**
-     * Returns the mean of the distribution
+     * Mean of the distribution (undefined)
+     *
+     * @param number $x₀ location
+     * @param int    $γ  scale
+     *
+     * @return null
      */
-    public static function getMean($x0, $γ)
+    public static function mean($x₀, $γ)
     {
         return NULL;
     }
         
     /**
-     * Returns the meadian of the distribution
+     * Meadian of the distribution
+     *
+     * @param number $x₀ location
+     * @param int    $γ  scale
+     *
+     * @return x₀
      */
-    public static function getMedian($x0, $γ)
+    public static function median($x₀, $γ)
     {
-        return $x0;
+        return $x₀;
     }
     
     /**
-     * Returns the mode of the distribution
+     * Mode of the distribution
+     *
+     * @param number $x₀ location
+     * @param int    $γ  scale
+     *
+     * @return x₀
      */
-    public static function getMode($x0, $γ)
+    public static function mode($x₀, $γ)
     {
-        return $x0;
+        return $x₀;
     }    
-    
 }
