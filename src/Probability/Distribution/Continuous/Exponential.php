@@ -42,10 +42,14 @@ class Exponential extends Continuous
         return 1 - exp(-$λ * $x);
     }
     
-     /**
-     * Returns the mean of the distribution
+    /**
+     * Mean of the distribution
+     *
+     * @param float $λ often called the rate parameter
+     *
+     * @return number
      */
-    public static function getMean(float $λ)
+    public static function mean(float $λ)
     {
         return 1 / $λ;
     }
