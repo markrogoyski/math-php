@@ -87,14 +87,14 @@ abstract class Continuous
                 case '(':
                     $lower_limit = self::distribution_limits[$key]['lower_value'];
                     if ($value <= $lower_limit) {
-                        $parameter = self::distribution_limits[$key]['parameter']
+                        $parameter = self::distribution_limits[$key]['parameter'];
                         throw new \Exception($parameter . ' must be > ' . $lower_limit);
                     }
                     break;
                 case '[':
                     $lower_limit = self::distribution_limits[$key]['lower_value'];
                     if ($value < $lower_limit) {
-                        $parameter = self::distribution_limits[$key]['parameter']
+                        $parameter = self::distribution_limits[$key]['parameter'];
                         throw new \Exception($parameter . ' must be >= ' . $lower_limit);
                     }
                     break;
@@ -103,14 +103,14 @@ abstract class Continuous
                 case ')':
                     $upper_limit = self::distribution_limits[$key]['upper_value'];
                     if ($value >= $upper_limit) {
-                        $parameter = self::distribution_limits[$key]['parameter']
+                        $parameter = self::distribution_limits[$key]['parameter'];
                         throw new \Exception($parameter . ' must be < ' . $upper_limit);
                     }
                     break;
                 case ']':
                     $upper_limit = self::distribution_limits[$key]['lupper_value'];
                     if ($value > $lupper_limit) {
-                        $parameter = self::distribution_limits[$key]['parameter']
+                        $parameter = self::distribution_limits[$key]['parameter'];
                         throw new \Exception($parameter . ' must be <= ' . $upper_limit);
                     }
                     break;
