@@ -37,7 +37,7 @@ class Beta extends Continuous
             'upper_endpoint' => ')',
             'upper_value' => INF,
         ],
-        
+    ];   
     
     /**
      * Beta distribution - probability density function
