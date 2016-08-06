@@ -41,4 +41,18 @@ class Exponential extends Continuous
         }
         return 1 - exp(-$λ * $x);
     }
+    
+    /**
+     * Mean of the distribution
+     *
+     * μ = λ⁻¹
+     * 
+     * @param float $λ often called the rate parameter
+     *
+     * @return number
+     */
+    public static function mean(float $λ)
+    {
+        return 1 / $λ;
+    }
 }

@@ -49,4 +49,12 @@ class Pareto extends Continuous
         }
         return 1 - pow($b / $x, $a);
     }
+        /**
+     * Returns the mean of the distribution
+     */
+    public static function getMean($a, $b)
+    {
+        if ($a <= 0) return INF;
+        else return $a * $b / ($a - 1);
+    }
 }

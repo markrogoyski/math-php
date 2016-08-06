@@ -46,4 +46,13 @@ class LogLogistic extends Continuous
         $⟮x／α⟯⁻ᵝ = pow($x / $α, -$β);
         return 1 / (1 + $⟮x／α⟯⁻ᵝ);
     }
+    
+    /**
+     * Returns the mean of the distribution
+     */
+    public static function getMean($α, $β)
+    {
+        $π = \M_PI;
+        return $α * $π / $β / sin ($π / $β);
+    }
 }

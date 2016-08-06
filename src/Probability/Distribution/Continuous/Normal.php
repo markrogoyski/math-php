@@ -51,4 +51,12 @@ class Normal extends Continuous
     {
         return 1/2 * ( 1 + Special::erf(($x - $μ) / ($σ * sqrt(2))) );
     }
+    
+    /**
+     * Returns the mean of the distribution
+     */
+    public static function getMean($μ, $σ)
+    {
+        return $μ;
+    }
 }

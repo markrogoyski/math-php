@@ -50,4 +50,12 @@ class Weibull extends Continuous
         $ℯ⁻⁽x／λ⁾ᵏ = exp(-pow($x / $λ, $k));
         return 1 - $ℯ⁻⁽x／λ⁾ᵏ;
     }
+    
+    /**
+     * Return the mean of the distribution
+     */
+    public static function getMean($k, $λ)
+    {
+        return $λ * Special::gamma(1 + 1 / $k);
+    }
 }

@@ -44,4 +44,12 @@ class StandardNormal extends Continuous
     {
         return Normal::CDF($z, self::μ, self::σ);
     }
+    
+    /**
+     * Returns the mean of the distribution
+     */
+    public static function getMean()
+    {
+        return 0;
+    }
 }
