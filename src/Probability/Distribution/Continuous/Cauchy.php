@@ -55,6 +55,8 @@ class Cauchy extends Continuous
     /**
      * Mean of the distribution (undefined)
      *
+     * μ is undefined
+     *
      * @param number $x₀ location
      * @param int    $γ  scale
      *

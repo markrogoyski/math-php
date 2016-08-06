@@ -69,9 +69,9 @@ class F extends Continuous
     /**
      * Mean of the distribution
      *
-     *    d₂
-     *  ------  for d₂ > 2
-     *  d₂ - 2
+     *       d₂
+     * μ = ------  for d₂ > 2
+     *     d₂ - 2
      *
      * @param int $d₁ degree of freedom v1 > 0
      * @param int $d₂ degree of freedom v2 > 0

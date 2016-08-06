@@ -77,6 +77,8 @@ class ChiSquared extends Continuous
     /**
      * Mean of the distribution
      *
+     * μ = k
+     *
      * @param int $k degrees of freedom > 0
      *
      * @return int k
