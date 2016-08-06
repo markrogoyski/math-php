@@ -33,6 +33,17 @@ class Beta extends Continuous
         return ($xᵃ⁻¹ * $⟮1 − x⟯ᵝ⁻¹) / $B⟮α、β⟯;
     }
     
+    /**
+     * Cumulative distribution function
+     *
+     * cdf = Iₓ(α,β)
+     *
+     * @param number $α shape parameter α > 0
+     * @param number $β shape parameter β > 0
+     * @param number $x x ∈ (0,1)
+     *
+     * @return float
+     */
     public static function CDF($α, $β, $x)
     {
         if ($α <= 0 || $β <= 0) {
@@ -41,18 +52,24 @@ class Beta extends Continuous
         if ($x < 0 || $x > 1) {
             throw new \Exception('x must be between 0 and 1');
         }
-        Special::regularizedIncompleteBeta($x, $α, $β);
-        
+
+        return Special::regularizedIncompleteBeta($x, $α, $β);
     }
     
-     /**
-     * Returns the mean of the distribution
+    /**
+     * Mean of the distribution
+     *
+     * @param number $α shape parameter α > 0
+     * @param number $β shape parameter β > 0
+     *
+     * @return number
      */
-    public static function getMean($α, $β)
+    public static function mean($α, $β)
     {
         if ($α <= 0 || $β <= 0) {
             throw new \Exception('α and β must be > 0');
         }
+
         return $α / ($α + $β);
     }
 }
