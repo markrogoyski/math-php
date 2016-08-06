@@ -82,11 +82,22 @@ class StudentT extends Continuous
     }
     
     /**
-     * Returns the mean of the distribution
+     * Mean of the distribution
+     *
+     * μ = 0 if ν > 1
+     * otherwise undefined
+     *
+     * @param number $p Proportion of area
+     * @param number $ν Degrees of freedom
+     *
+     * @return number
      */
-    public static function getMean($p, $ν)
+    public static function mean($p, $ν)
     {
-        if ($ν > 1) return 0;
-        else return NULL;
+        if ($ν > 1) {
+            return 0;
+        }
+
+        return NULL;
     }
 }
