@@ -57,9 +57,16 @@ class Logistic extends Continuous
     }
     
     /**
-     * Returns the mean of the distribution
+     * Mean of the distribution
+     *
+     * μ = μ
+     *
+     * @param number $μ location parameter
+     * @param number $s scale parameter
+     *
+     * @return μ
      */
-    public static function getMean($μ, $s)
+    public static function mean($μ, $s)
     {
         return $μ;
     }
