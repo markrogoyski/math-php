@@ -43,4 +43,24 @@ class ParetoTest extends \PHPUnit_Framework_TestCase
             [ 5.1, 5.4, 9.2, 0.934 ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForMean
+     */
+    public function testMean($a, $b, $μ)
+    {
+        $this->assertEquals($μ, Pareto::mean($a, $b), '', 0.0001);
+    }
+
+    public function dataProviderForMean()
+    {
+        return [
+            [1, 2, \INF],
+            [0, 2, \INF],
+            [-1, 2, \INF],
+            [2, 1, 2],
+            [3, 1, 1.5],
+            [3, 2, 3],
+        ];
+    }
 }
