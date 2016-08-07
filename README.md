@@ -325,14 +325,23 @@ $divisions = Combinatorics::multinomialTheorem($n, $groups);
 use Math\Probability\Distribution\Continuous;
 
 // Beta distribution
-$α = 1; // shape parameter
-$β = 1; // shape parameter
-$x = 2;
+$α   = 1; // shape parameter
+$β   = 1; // shape parameter
+$x   = 2;
 $pdf = Beta::PDF($α, $β, $x);
+$cdf = Beta::CDF($α, $β, $x);
+$μ   = Beta::mean($α, $β);
+
+// Cauchy distribution
+$x   = 1;
+$x₀  = 2; // location parameter
+$γ   = 3; // scale parameter
+$pdf = Cauchy::PDF(x, x₀, γ);
+$cdf = Cauchy::CDF(x, x₀, γ);
 
 // χ²-distribution (Chi-Squared)
-$x = 1;
-$k = 2; // degrees of freedom
+$x   = 1;
+$k   = 2; // degrees of freedom
 $pdf = ChiSquared::PDF($x, $k);
 $cdf = ChiSquared::CDF($x, $k);
 
@@ -341,39 +350,43 @@ $λ   = 1; // rate parameter
 $x   = 2; // random variable
 $pdf = Exponential::PDF($λ, $x);
 $cdf = Exponential::CDF($λ, $x);
+$μ   = Exponential::mean($λ);
 
 // F-distribution
-$x  = 2;
-$d₁ = 3; // degree of freedom v1
-$d₂ = 4; // degree of freedom v2
+$x   = 2;
+$d₁  = 3; // degree of freedom v1
+$d₂  = 4; // degree of freedom v2
 $pdf = F::PDF($x, $d₁, $d₂);
 $cdf = F::CDF($x, $d₁, $d₂);
+$μ   = F::mean($d₁, $d₂);
 
 // Laplace distribution
-$μ = 1;   // location parameter
-$b = 1.5; // scale parameter (diversity)
-$x = 1;
+$μ   = 1;   // location parameter
+$b   = 1.5; // scale parameter (diversity)
+$x   = 1;
 $pdf = Laplace::PDF($μ, $b, $x);
 $cdf = Laplace::CDF($μ, $b, $x);
 
 // Logistic distribution
-$μ = 2;   // location parameter
-$s = 1.5; // scale parameter
-$x = 3;
+$μ   = 2;   // location parameter
+$s   = 1.5; // scale parameter
+$x   = 3;
 $pdf = Logistic::PDF($μ, $s, $x);
 $cdf = Logistic::CDF($μ, $s, $x);
 
 // Log-logistic distribution (Fisk distribution)
-$α = 1; // scale parameter
-$β = 1; // shape parameter
-$x = 2;
+$α   = 1; // scale parameter
+$β   = 1; // shape parameter
+$x   = 2;
 $pdf = LogLogistic::PDF($α, $β, $x);
 $cdf = LogLogistic::CDF($α, $β, $x);
+$μ   = LogLogistic::mean($α, $β);
 
 // Log-normal distribution
 list($μ, $σ, $x) = [6, 2, 4.3];
-$pdf = LogNormal::PDF($x, $μ, $σ);
-$cdf = LogNormal::CDF($x, $μ, $σ);
+$pdf  = LogNormal::PDF($x, $μ, $σ);
+$cdf  = LogNormal::CDF($x, $μ, $σ);
+$mean = LogNormal::mean($μ, $σ);
 
 // Normal distribution
 list($μ, $σ, $x) = [0, 1, 2];
@@ -381,38 +394,41 @@ $pdf = Normal::PDF($x, $μ, $σ);
 $cdf = Normal::CDF($x₁, $μ, $σ);
 
 // Pareto distribution
-$a = 1; // shape parameter
-$b = 1; // scale parameter
-$x = 2;
+$a   = 1; // shape parameter
+$b   = 1; // scale parameter
+$x   = 2;
 $pdf = Pareto::PDF($a, $b, $x);
 $cdf = Pareto::CDF($a, $b, $x);
+$μ   = Pareto::mean($a, $b);
 
 // Standard normal distribution
-$z = 2;
+$z   = 2;
 $pdf = StandardNormal::PDF($z);
 $cdf = StandardNormal::CDF($z);
 
 // Student's t-distribution
-$x = 2;
-$ν = 3;   // degrees of freedom
-$p = 0.4; // proportion of area
+$x   = 2;
+$ν   = 3;   // degrees of freedom
+$p   = 0.4; // proportion of area
 $pdf = StudentT::PDF($x, $ν);
 $cdf = StudentT::CDF($x, $ν);
 $t   = StudentT::inverse2Tails($p, $ν);  // t such that the area greater than t and the area beneath -t is p
 
 // Uniform distribution
-$a = 1; // lower boundary of the distribution
-$b = 4; // upper boundary of the distribution
-$x = 2;
+$a   = 1; // lower boundary of the distribution
+$b   = 4; // upper boundary of the distribution
+$x   = 2;
 $pdf = Uniform::PDF($a, $b, $x);
 $cdf = Uniform::CDF($a, $b, $x);
+$μ   = Uniform::mean($a, $b);
 
 // Weibull distribution
-$k = 1; // shape parameter
-$λ = 2; // scale parameter
-$x = 2;
+$k   = 1; // shape parameter
+$λ   = 2; // scale parameter
+$x   = 2;
 $pdf = Weibull::PDF($k, $λ, $x);
 $cdf = Weibull::CDF($k, $λ, $x);
+$μ   = Weibull::mean($k, $λ);
 
 // Other CDFs - All continuous distributions (...params will be distribution-specific)
 // Replace 'DistributionName' with desired distribution.
