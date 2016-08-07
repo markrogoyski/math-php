@@ -41,4 +41,22 @@ class ExponentialTest extends \PHPUnit_Framework_TestCase
             [ 1/5, 4, 0.550671 ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForMean
+     */
+    public function testMean($λ, $μ)
+    {
+        $this->assertEquals($μ, Exponential::mean($λ), '', 0.0001);
+    }
+
+    public function dataProviderForMean()
+    {
+        return [
+            [1, 1],
+            [2, 0.5],
+            [3, 0.33333],
+            [4, 0.25],
+        ];
+    }
 }
