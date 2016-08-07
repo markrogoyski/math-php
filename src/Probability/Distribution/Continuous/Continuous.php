@@ -78,4 +78,55 @@ abstract class Continuous
     {
         return 1 - static::CDF($x, ...$params);
     }
+    
+    /**
+     * Checks that the values of the distributions fall within the defined bounds.
+     * 
+     */
+    public static function check_limits(array $limits, array $params)
+    {
+        foreach ($params as $key=>$value)
+        {
+            // Remove the first character.
+            $lower_endpoint = substr($limits[$key], 1);
+            
+            // Remove the last character.
+            $upper_endpoint = substr($limits[$key], -1);
+            
+            // Set the lower and upper limits.
+            list($lower_limit, $upper_limit) = explode(',', substr($limits[$key], 1, -1));
+            
+            // If the lower limit is -∞, we are always in bounds.
+            if ($lower_limit != "-∞") {
+                switch ($lower_endpoint) {
+                    case '(':
+                        if ($value <= $lower_limit) {
+                            throw new \Exception($key . ' must be > ' . $lower_limit);
+                        }
+                        break;
+                    case '[':
+                        if ($value < $lower_limit) {
+                            throw new \Exception($key . ' must be >= ' . $lower_limit);
+                        }
+                        break;
+                }
+            }
+            
+            // If the upper limit is ∞, we are always in bounds.
+            if ($upper_limit != "∞") {           
+                switch ($upper_endpoint) {
+                    case ')':
+                        if ($value >= $upper_limit) {
+                            throw new \Exception($key . ' must be < ' . $upper_limit);
+                        }
+                        break;
+                    case ']':
+                        if ($value > $upper_limit) {
+                            throw new \Exception($key . ' must be <= ' . $upper_limit);
+                        }
+                        break;
+                }
+            }
+        }
+    }
 }
