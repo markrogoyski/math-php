@@ -1,6 +1,8 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
+use Math\Functions\Special;
+
 class Weibull extends Continuous
 {
     /**
