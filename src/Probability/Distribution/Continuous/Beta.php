@@ -3,27 +3,27 @@ namespace Math\Probability\Distribution\Continuous;
 
 use Math\Functions\Special;
 
+/**
+ * Beta distribution
+ * https://en.wikipedia.org/wiki/Beta_distribution
+ */
 class Beta extends Continuous
 {
-    
     /**
-     * The limits of each of the distribution's parameters using ISO 31-11 notation. 
-     * 
-     * 
-     * (a,b) = a <  x <  b
-     * [a,b) = a <= x <  b
-     * (a,b] = a <  x <= b
-     * [a,b] = a <= x <= b
+     * Distribution parameter bounds limits
+     * x ∈ [0,1]
+     * α ∈ (0,∞)
+     * β ∈ (0,∞)
+     * @var array
      */ 
-    protected static $distribution_limits = [
+    const LIMITS = [
         'x' => '[0,1]',
         'α' => '(0,∞)',
         'β' => '(0,∞)',
     ];   
     
     /**
-     * Beta distribution - probability density function
-     * https://en.wikipedia.org/wiki/Beta_distribution
+     * Probability density function
      *
      *       xᵃ⁻¹(1 - x)ᵝ⁻¹
      * pdf = --------------
@@ -37,7 +37,8 @@ class Beta extends Continuous
      */
     public static function PDF($x, $α, $β)
     {
-        self::check_limits(self::$distribution_limits, [ 'x' => $x, 'α' => $α, 'β' => $β]);
+        self::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
+
         $xᵃ⁻¹     = pow($x, $α - 1);
         $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $β - 1);
         $B⟮α、β⟯    = Special::beta($α, $β);
@@ -57,7 +58,7 @@ class Beta extends Continuous
      */
     public static function CDF($x, $α, $β)
     {
-        self::check_limits(self::$distribution_limits, [ 'x' => $x, 'α' => $α, 'β' => $β]);
+        self::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
 
         return Special::regularizedIncompleteBeta($x, $α, $β);
     }
@@ -76,7 +77,7 @@ class Beta extends Continuous
      */
     public static function mean($α, $β)
     {
-        self::check_limits(self::$distribution_limits, [ 'α' => $α, 'β' => $β]);
+        self::checkLimits(self::LIMITS, ['α' => $α, 'β' => $β]);
 
         return $α / ($α + $β);
     }
