@@ -57,10 +57,10 @@ class Pareto extends Continuous
     /**
      * Mean of the distribution
      *
-     * μ = ∞ for a < 1
+     * μ = ∞ for a ≤ 1
      *
      *      ab
-     * μ = -----
+     * μ = ----- for a > 1
      *     a - 1
      *
      * @param  number $a shape parameter
@@ -70,7 +70,7 @@ class Pareto extends Continuous
      */
     public static function mean($a, $b)
     {
-        if ($a <= 0) {
+        if ($a <= 1) {
             return INF;
         }
 
