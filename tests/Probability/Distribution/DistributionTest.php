@@ -185,4 +185,22 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    public function testCheckLimitsLowerLimitEndpointException()
+    {
+        $this->setExpectedException('\Exception');
+
+        $limits = ['x' => '{0,1)'];
+        $params = ['x' => 0.5];
+        Distribution::checkLimits($limits, $params);
+    }
+
+    public function testCheckLimitsUpperLimitEndpointException()
+    {
+        $this->setExpectedException('\Exception');
+
+        $limits = ['x' => '(0,1}'];
+        $params = ['x' => 0.5];
+        Distribution::checkLimits($limits, $params);
+    }
 }
