@@ -56,4 +56,11 @@ class LaplaceTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         Laplace::CDF(1, -3, 2);
     }
+
+    public function testMean()
+    {
+        $μ = 5;
+        $b = 1;
+        $this->assertEquals($μ, Laplace::mean($μ, $b));
+    }
 }
