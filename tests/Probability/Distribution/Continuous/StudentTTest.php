@@ -69,4 +69,23 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         StudentT::CDF(5, -1);
     }
+
+    /**
+     * @dataProvider dataProviderForMean
+     */
+    public function testMean($p, $ν, $μ)
+    {
+        $this->assertEquals($μ, StudentT::mean($p, $ν));
+    }
+
+    public function dataProviderForMean()
+    {
+        return [
+            [2, -1, null],
+            [2, 0, null],
+            [2, 1, null],
+            [2, 2, 0],
+            [2, 3, 0],
+        ];
+    }
 }
