@@ -88,13 +88,13 @@ abstract class Continuous
         foreach ($params as $key=>$value)
         {
             // Remove the first character.
-            $lower_endpoint = substring($limits[$key], 1);
+            $lower_endpoint = substr($limits[$key], 1);
             
             // Remove the last character.
-            $upper_endpoint = substring($limits[$key], -1);
+            $upper_endpoint = substr($limits[$key], -1);
             
             // Set the lower and upper limits.
-            list($lower_limit, $upper_limit) = explode(',', substring($limits[$key], 1, -1));
+            list($lower_limit, $upper_limit) = explode(',', substr($limits[$key], 1, -1));
             
             // If the lower limit is -∞, we are always in bounds.
             if ($lower_limit != "-∞") {
