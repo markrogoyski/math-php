@@ -63,4 +63,24 @@ class LogLogisticTest extends \PHPUnit_Framework_TestCase
             [1, 1, 0],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForMean
+     */
+    public function testMean($α, $β, $μ)
+    {
+        $this->assertEquals($μ, LogLogistic::mean($α, $β), '', 0.00001);
+    }
+
+    public function dataProviderForMean()
+    {
+        return [
+            [1, 0, null],
+            [1, 1, null],
+            [1, 2, 1.570795],
+            [2, 2, 3.14159],
+            [3, 3, 3.62759751692],
+            [5, 4, 5.55360266602],
+        ];
+    }
 }
