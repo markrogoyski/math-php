@@ -26,7 +26,7 @@ class Cauchy extends Continuous
      */
     public static function PDF($x, $x₀, $γ)
     {
-        if ($ν <= 0) {
+        if ($γ <= 0) {
             throw new \Exception('Scale must be > 0');
         }
         $π = \M_PI;
