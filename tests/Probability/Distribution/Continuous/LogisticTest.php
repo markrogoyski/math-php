@@ -77,4 +77,11 @@ class LogisticTest extends \PHPUnit_Framework_TestCase
         $s = 0;
         Logistic::CDF(2, $s, 2);
     }
+
+    public function testMean()
+    {
+        $μ = 5;
+        $s = 1;
+        $this->assertEquals($μ, Logistic::mean($μ, $s));
+    }
 }
