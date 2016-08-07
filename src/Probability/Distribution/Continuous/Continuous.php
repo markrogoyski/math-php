@@ -83,41 +83,49 @@ abstract class Continuous
      * Checks that the values of the distributions fall within the defined bounds.
      * 
      */
-    public static function check_limits(...$params)
+    public static function check_limits(array $limits, array $params)
     {
         foreach ($params as $key=>$value)
         {
-            switch (static::$distribution_limits[$key]['lower_endpoint']) {
-                case '(':
-                    $lower_limit = static::$distribution_limits[$key]['lower_value'];
-                    if ($value <= $lower_limit) {
-                        $parameter = static::$distribution_limits[$key]['parameter'];
-                        throw new \Exception($parameter . ' must be > ' . $lower_limit);
-                    }
-                    break;
-                case '[':
-                    $lower_limit = static::$distribution_limits[$key]['lower_value'];
-                    if ($value < $lower_limit) {
-                        $parameter = static::$distribution_limits[$key]['parameter'];
-                        throw new \Exception($parameter . ' must be >= ' . $lower_limit);
-                    }
-                    break;
+            // Remove the first character.
+            $lower_endpoint = substring($limits[$key], 1);
+            
+            // Remove the last character.
+            $upper_endpoint = substring($limits[$key], -1);
+            
+            // Set the lower and upper limits.
+            list($lower_limit, $upper_limit) = explode(',', substring($limits[$key], 1, -1));
+            
+            // If the lower limit is -∞, we are always in bounds.
+            if ($lower_limit != "-∞") {
+                switch ($lower_endpoint) {
+                    case '(':
+                        if ($value <= $lower_limit) {
+                            throw new \Exception($key . ' must be > ' . $lower_limit);
+                        }
+                        break;
+                    case '[':
+                        if ($value < $lower_limit) {
+                            throw new \Exception($key . ' must be >= ' . $lower_limit);
+                        }
+                        break;
+                }
             }
-            switch (static::$distribution_limits[$key]['upper_endpoint']) {
-                case ')':
-                    $upper_limit = static::$distribution_limits[$key]['upper_value'];
-                    if ($value >= $upper_limit) {
-                        $parameter = static::$distribution_limits[$key]['parameter'];
-                        throw new \Exception($parameter . ' must be < ' . $upper_limit);
-                    }
-                    break;
-                case ']':
-                    $upper_limit = static::$distribution_limits[$key]['upper_value'];
-                    if ($value > $upper_limit) {
-                        $parameter = static::$distribution_limits[$key]['parameter'];
-                        throw new \Exception($parameter . ' must be <= ' . $upper_limit);
-                    }
-                    break;
+            
+            // If the upper limit is ∞, we are always in bounds.
+            if ($upper_limit != "∞") {           
+                switch ($upper_endpoint) {
+                    case ')':
+                        if ($value >= $upper_limit) {
+                            throw new \Exception($key . ' must be < ' . $upper_limit);
+                        }
+                        break;
+                    case ']':
+                        if ($value > $upper_limit) {
+                            throw new \Exception($key . ' must be <= ' . $upper_limit);
+                        }
+                        break;
+                }
             }
         }
     }
