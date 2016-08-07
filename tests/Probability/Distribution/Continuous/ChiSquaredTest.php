@@ -73,4 +73,10 @@ class ChiSquaredTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Exception');
         ChiSquared::CDF(3, -1);
     }
+
+    public function testMean()
+    {
+        $k = 5;
+        $this->assertEquals($k, ChiSquared::mean($k));
+    }
 }
