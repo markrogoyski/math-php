@@ -16,27 +16,9 @@ class Beta extends Continuous
      * [a,b] = a <= x <= b
      */ 
     protected static $distribution_limits = [
-        [ // x ∈ (0,1)
-            'parameter' => 'x',
-            'lower_endpoint' => '[',
-            'lower_value' => 0,
-            'upper_endpoint' => ']',
-            'upper_value' => 1,
-        ],
-        [ // α > 0
-            'parameter' => 'α',
-            'lower_endpoint' => '(',
-            'lower_value' => 0,
-            'upper_endpoint' => ')',
-            'upper_value' => INF,
-        ],
-        [ // β > 0
-            'parameter' => 'β',
-            'lower_endpoint' => '(',
-            'lower_value' => 0,
-            'upper_endpoint' => ')',
-            'upper_value' => INF,
-        ],
+        'x' => '[0,1]',
+        'α' => '(0,∞)',
+        'β' => '(0,∞)',
     ];   
     
     /**
@@ -55,7 +37,7 @@ class Beta extends Continuous
      */
     public static function PDF($x, $α, $β)
     {
-        self::check_limits($x, $α, $β);
+        self::check_limits($distribution_limits, [ 'x' => $x, 'α' => $α, β => $β]);
         $xᵃ⁻¹     = pow($x, $α - 1);
         $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $β - 1);
         $B⟮α、β⟯    = Special::beta($α, $β);
@@ -75,7 +57,7 @@ class Beta extends Continuous
      */
     public static function CDF($x, $α, $β)
     {
-        self::check_limits($x, $α, $β);
+        self::check_limits($distribution_limits, [ 'x' => $x, 'α' => $α, β => $β]);
 
         return Special::regularizedIncompleteBeta($x, $α, $β);
     }
@@ -94,8 +76,7 @@ class Beta extends Continuous
      */
     public static function mean($α, $β)
     {
-        // How do we use this for functions which do not use x.
-        self::check_limits(.5, $α, $β);
+        self::check_limits($distribution_limits, [ 'α' => $α, β => $β]);
 
         return $α / ($α + $β);
     }
