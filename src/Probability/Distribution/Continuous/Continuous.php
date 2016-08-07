@@ -80,35 +80,52 @@ abstract class Continuous
     }
     
     /**
-     * Checks that the values of the distributions fall within the defined bounds.
-     * 
+     * Checks that the values of the distribution parameters fall within the defined bounds.
+     * The parameter limits are defined using ISO 31-11 notation.
+     * https://en.wikipedia.org/wiki/ISO_31-11
+     *
+     *  (a,b) = a <  x <  b
+     *  [a,b) = a <= x <  b
+     *  (a,b] = a <  x <= b
+     *  [a,b] = a <= x <= b
+     *
+     * @param array $limits Boundary limit definitions for each parameter
+     *                      ['var1' => limit, 'var2' => limit, ...]
+     * @param array $params Parameters and their value to check against the defined limits
+     *                      ['var1' => value, 'var2' => value, ...]
+     *
+     * @return bool True if all parameters are within defined limits
+     *
+     * @throws \Exception if any parameter is outside the defined limits
      */
-    public static function check_limits(array $limits, array $params)
+    public static function checkLimits(array $limits, array $params)
     {
-        foreach ($params as $key=>$value)
+        foreach ($params as $variable => $value)
         {
-            // Remove the first character.
-            $lower_endpoint = substr($limits[$key], 1);
+            // Remove the first character: ( or [
+            $lower_endpoint = substr($limits[$variable], 0, 1);
             
-            // Remove the last character.
-            $upper_endpoint = substr($limits[$key], -1);
+            // Remove the last character: ) or ]
+            $upper_endpoint = substr($limits[$variable], -1, 1);
             
-            // Set the lower and upper limits.
-            list($lower_limit, $upper_limit) = explode(',', substr($limits[$key], 1, -1));
+            // Set the lower and upper limits: #,#
+            list($lower_limit, $upper_limit) = explode(',', substr($limits[$variable], 1, -1));
             
             // If the lower limit is -∞, we are always in bounds.
             if ($lower_limit != "-∞") {
                 switch ($lower_endpoint) {
                     case '(':
                         if ($value <= $lower_limit) {
-                            throw new \Exception($key . ' must be > ' . $lower_limit);
+                            throw new \Exception("{$variable} must be > {$lower_limit}");
                         }
                         break;
                     case '[':
                         if ($value < $lower_limit) {
-                            throw new \Exception($key . ' must be >= ' . $lower_limit);
+                            throw new \Exception("{$variable} must be >= {$lower_limit}");
                         }
                         break;
+                    default:
+                        throw new \Exception("Unknown lower endpoint character: {$lower_limit}");
                 }
             }
             
@@ -117,16 +134,20 @@ abstract class Continuous
                 switch ($upper_endpoint) {
                     case ')':
                         if ($value >= $upper_limit) {
-                            throw new \Exception($key . ' must be < ' . $upper_limit);
+                            throw new \Exception("{$variable} must be < {$upper_limit}");
                         }
                         break;
                     case ']':
                         if ($value > $upper_limit) {
-                            throw new \Exception($key . ' must be <= ' . $upper_limit);
+                            throw new \Exception("{$variable} must be <= {$upper_limit}");
                         }
                         break;
+                    default:
+                        throw new \Exception("Unknown upper endpoint character: {$upper_endpoint}");
                 }
             }
         }
+
+        return true;
     }
 }
