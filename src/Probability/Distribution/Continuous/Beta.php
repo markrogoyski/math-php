@@ -37,7 +37,7 @@ class Beta extends Continuous
      */
     public static function PDF($x, $α, $β)
     {
-        self::check_limits($distribution_limits, [ 'x' => $x, 'α' => $α, β => $β]);
+        self::check_limits(self::$distribution_limits, [ 'x' => $x, 'α' => $α, β => $β]);
         $xᵃ⁻¹     = pow($x, $α - 1);
         $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $β - 1);
         $B⟮α、β⟯    = Special::beta($α, $β);
@@ -57,7 +57,7 @@ class Beta extends Continuous
      */
     public static function CDF($x, $α, $β)
     {
-        self::check_limits($distribution_limits, [ 'x' => $x, 'α' => $α, β => $β]);
+        self::check_limits(self::$distribution_limits, [ 'x' => $x, 'α' => $α, β => $β]);
 
         return Special::regularizedIncompleteBeta($x, $α, $β);
     }
@@ -76,7 +76,7 @@ class Beta extends Continuous
      */
     public static function mean($α, $β)
     {
-        self::check_limits($distribution_limits, [ 'α' => $α, β => $β]);
+        self::check_limits(self::$distribution_limits, [ 'α' => $α, β => $β]);
 
         return $α / ($α + $β);
     }
