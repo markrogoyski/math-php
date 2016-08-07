@@ -51,8 +51,8 @@ class LogLogistic extends Continuous
      * Mean of the distribution
      *
      *      απ / β
-     * μ = ---------  if β > 1, else undefined
-     *     sign(π/β)
+     * μ = --------  if β > 1, else undefined
+     *     sin(π/β)
      *
      * @param number $α scale parameter (α > 0)
      * @param number $β shape parameter (β > 0)
@@ -64,7 +64,7 @@ class LogLogistic extends Continuous
         $π = \M_PI;
 
         if ($β > 1) {
-            return $α * $π / $β / sin ($π / $β);
+            return (($α * $π) / $β) / sin($π / $β);
         }
 
         return null;
