@@ -389,16 +389,16 @@ $cdf  = LogNormal::CDF($x, $μ, $σ);
 $mean = LogNormal::mean($μ, $σ);
 
 // Normal distribution
-list($μ, $σ, $x) = [0, 1, 2];
+list($x, $σ, $μ) = [2, 1, 0];
 $pdf = Normal::PDF($x, $μ, $σ);
-$cdf = Normal::CDF($x₁, $μ, $σ);
+$cdf = Normal::CDF($x, $μ, $σ);
 
 // Pareto distribution
+$x   = 2;
 $a   = 1; // shape parameter
 $b   = 1; // scale parameter
-$x   = 2;
-$pdf = Pareto::PDF($a, $b, $x);
-$cdf = Pareto::CDF($a, $b, $x);
+$pdf = Pareto::PDF($x, $a, $b);
+$cdf = Pareto::CDF($x, $a, $b);
 $μ   = Pareto::mean($a, $b);
 
 // Standard normal distribution

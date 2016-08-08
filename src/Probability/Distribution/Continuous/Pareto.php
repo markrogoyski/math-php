@@ -29,19 +29,20 @@ class Pareto extends Continuous
      *
      * P(x) = 0      for x < b
      *
+     * @param  number $x
      * @param  number $a shape parameter
      * @param  number $b scale parameter
-     * @param  number $x
      *
      * @return number
      */
-    public static function PDF($a, $b, $x)
+    public static function PDF($x, $a, $b)
     {
         self::checkLimits(self::LIMITS, ['x' => $x, 'a' => $a, 'b' => $b]);
 
         if ($x < $b) {
             return 0;
         }
+
         $abᵃ  = $a * $b**$a;
         $xᵃ⁺¹ = pow($x, $a + 1);
         return $abᵃ / $xᵃ⁺¹;
@@ -61,7 +62,7 @@ class Pareto extends Continuous
      *
      * @return number
      */
-    public static function CDF($a, $b, $x)
+    public static function CDF($x, $a, $b)
     {
         self::checkLimits(self::LIMITS, ['x' => $x, 'a' => $a, 'b' => $b]);
 
