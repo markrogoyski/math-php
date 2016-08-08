@@ -110,7 +110,7 @@ trait LeastSquares
         $SSe = $this->sumOfSquaresResidual();
         
         // Mean of Squares for model.
-        $msm = $SSR / ($p - 1);
+        $msm = $SSr / ($p - 1);
         
         // Mean of Squares for Error
         $mse = $SSe / ($n - $p);
