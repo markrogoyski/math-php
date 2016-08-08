@@ -91,7 +91,7 @@ trait LeastSquares
             function ($t) use ($df){
                 return StudentT::CDF($t, $df);
             },
-            $this->TValues();
+            $this->TValues()
         );
         return $ts;
     }
