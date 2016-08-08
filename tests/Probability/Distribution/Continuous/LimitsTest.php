@@ -37,4 +37,9 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     {
         $this->limitTest(Exponential::LIMITS);
     }
+
+    public function testFParameterLimits()
+    {
+        $this->limitTest(F::LIMITS);
+    }
 }
