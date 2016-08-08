@@ -215,7 +215,7 @@ class LinearTest extends \PHPUnit_Framework_TestCase
         $regression = new Linear($points);
         $Tprob = $regression->TProbability();
         $this->assertEquals($beta0, $Tprob['m'], '', .0000001);
-        $this->assertEquals($beta0, $Tprob['b'], '', .0000001);
+        $this->assertEquals($beta1, $Tprob['b'], '', .0000001);
     }
     
     public function dataProviderForTProbability()
