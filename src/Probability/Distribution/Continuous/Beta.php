@@ -20,7 +20,7 @@ class Beta extends Continuous
         'x' => '[0,1]',
         'α' => '(0,∞)',
         'β' => '(0,∞)',
-    ];   
+    ];
     
     /**
      * Probability density function
