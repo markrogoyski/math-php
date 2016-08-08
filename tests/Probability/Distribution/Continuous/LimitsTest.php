@@ -27,4 +27,9 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     {
         $this->limitTest(Cauchy::LIMITS);
     }
+
+    public function testChiSquaredParameterLimits()
+    {
+        $this->limitTest(ChiSquared::LIMITS);
+    }
 }
