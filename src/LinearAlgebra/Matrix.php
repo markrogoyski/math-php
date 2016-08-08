@@ -849,6 +849,103 @@ class Matrix implements \ArrayAccess
     }
 
     /**
+     * LU Decomposition (Crout matrix decomposition) with permutation matrix
+     *
+     * A matrix has an LU-factorization if it can be expressed as the product of
+     * a lower-triangular matrix L and an upper triangular matrix U:
+     *   PA = LU
+     *
+     * Crout matrix decomposition is an LU decomposition which decomposes a matrix
+     * into a lower triangular matrix (L), an upper triangular matrix (U) and,
+     * although not always needed, a permutation matrix (P)
+     *
+     * https://en.wikipedia.org/wiki/LU_decomposition
+     * https://en.wikipedia.org/wiki/Crout_matrix_decomposition
+     *
+     * L: Lower triangular matrix--all entries above the main diagonal are zero.
+     *    The main diagonal will be all ones.
+     * U: Upper tirangular matrix--all entries below the main diagonal are zero.
+     * P: Permutation matrix--Identity matrix with possible rows interchanged.
+     * 
+     * @return array [
+     *   L: Lower triangular matrix
+     *   U: Upper triangular matrix
+     *   P: Permutation matrix
+     *   A: Original square matrix
+     * ]
+     */
+    public function LUDecomposition()
+    {
+        if (!$this->isSquare()) {
+            throw new \Exception('LU decomposition only works on square matrices');
+        }
+
+        $n = $this->n;
+
+        // Initialize L and U with all zeros
+        $L = Matrix::zero($n, $n)->getMatrix();
+        $U = Matrix::zero($n, $n)->getMatrix();
+
+        // Create permutation matrix P and augmented A
+        $P = $this->pivotize();
+        $A = $P->multiply($this);
+
+        for ($i = 0; $i < $n; $i++) {
+            $L[$i][$i] = 1;
+            for ($j = 0; $j <= $i; $j++) {
+                $sum = 0;
+                for ($k = 0; $k < $j; $k++) {
+                    $sum += $U[$k][$i] * $L[$j][$k];
+                }
+                $U[$j][$i] = $A[$j][$i] - $sum;
+            }
+            for ($j = $i; $j < $n; $j++) {
+                $sum = 0;
+                for ($k = 0; $k < $i; $k++) {
+                    $sum += $U[$k][$i] * $L[$j][$k];
+                }
+                $L[$j][$i] = ($U[$i][$i]) == 0 ? \NAN : ($A[$j][$i] - $sum) / $U[$i][$i];
+            }
+        }
+
+        $this->L = new Matrix($L);
+        $this->U = new Matrix($U);
+        $this->P = $P;
+
+        return [
+            'L' => $this->L,
+            'U' => $this->U,
+            'P' => $this->P,
+            'A' => new Matrix($this->A),
+        ];
+    }
+
+    private function pivotize()
+    {
+        $n = $this->n;
+        $P = Matrix::identity($n);
+        $A = $this->A;
+
+        for ($i = 0; $i < $n; $i++) {
+            $max = $A[$i][$i];
+            $row = $i;
+
+            for ($j = $i; $j < $n; $j++) {
+                if ($A[$j][$i] > $max) {
+                    $max = $A[$j][$i];
+                    $row = $j;
+                }
+            }
+
+            if ($i != $row) {
+                $P = $P->rowInterchange($i, $row);
+            }
+        }
+
+        return $P;
+    }
+
+    /**
      * STATIC METHODS
      */
     
