@@ -62,4 +62,9 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     {
         $this->limitTest(Normal::LIMITS);
     }
+
+    public function testParetoParameterLimits()
+    {
+        $this->limitTest(Pareto::LIMITS);
+    }
 }

@@ -1,12 +1,27 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
+/**
+ * Pareto distribution
+ * https://en.wikipedia.org/wiki/Pareto_distribution
+ */
 class Pareto extends Continuous
 {
     /**
-     * Pareto distribution - probability density function
-     *
-     * https://en.wikipedia.org/wiki/Pareto_distribution
+     * Distribution parameter bounds limits
+     * x ∈ (0,∞)
+     * a ∈ (0,∞)
+     * b ∈ (0,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'x' => '(0,∞)',
+        'a' => '(0,∞)',
+        'b' => '(0,∞)',
+    ];
+
+    /**
+     * Probability density function
      *
      *          abᵃ
      * P(x) =  ----  for x ≥ b
@@ -22,6 +37,8 @@ class Pareto extends Continuous
      */
     public static function PDF($a, $b, $x)
     {
+        self::checkLimits(self::LIMITS, ['x' => $x, 'a' => $a, 'b' => $b]);
+
         if ($x < $b) {
             return 0;
         }
@@ -30,9 +47,7 @@ class Pareto extends Continuous
         return $abᵃ / $xᵃ⁺¹;
     }
     /**
-     * Pareto distribution - cumulative distribution function
-     *
-     * https://en.wikipedia.org/wiki/Pareto_distribution
+     * Cumulative distribution function
      *
      *             / b \ᵃ
      * D(x) = 1 - |  -  | for x ≥ b
@@ -48,6 +63,8 @@ class Pareto extends Continuous
      */
     public static function CDF($a, $b, $x)
     {
+        self::checkLimits(self::LIMITS, ['x' => $x, 'a' => $a, 'b' => $b]);
+
         if ($x < $b) {
             return 0;
         }
@@ -70,6 +87,8 @@ class Pareto extends Continuous
      */
     public static function mean($a, $b)
     {
+        self::checkLimits(self::LIMITS, ['a' => $a, 'b' => $b]);
+
         if ($a <= 1) {
             return INF;
         }

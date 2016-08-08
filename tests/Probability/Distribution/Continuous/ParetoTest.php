@@ -56,8 +56,8 @@ class ParetoTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [1, 2, \INF],
-            [0, 2, \INF],
-            [-1, 2, \INF],
+            [0.4, 2, \INF],
+            [0.001, 2, \INF],
             [2, 1, 2],
             [3, 1, 1.5],
             [3, 2, 3],
