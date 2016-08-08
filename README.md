@@ -361,11 +361,11 @@ $cdf = F::CDF($x, $d₁, $d₂);
 $μ   = F::mean($d₁, $d₂);
 
 // Laplace distribution
+$x   = 1;
 $μ   = 1;   // location parameter
 $b   = 1.5; // scale parameter (diversity)
-$x   = 1;
-$pdf = Laplace::PDF($μ, $b, $x);
-$cdf = Laplace::CDF($μ, $b, $x);
+$pdf = Laplace::PDF($x, $μ, $b);
+$cdf = Laplace::CDF($x, $μ, $b);
 
 // Logistic distribution
 $μ   = 2;   // location parameter

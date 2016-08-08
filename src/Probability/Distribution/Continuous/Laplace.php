@@ -25,13 +25,13 @@ class Laplace extends Continuous
      * f(x|μ,b) = -- exp| - -------  |
      *            2b     \     b    /
      *
+     * @param  number $x
      * @param  number $μ location parameter
      * @param  number $b scale parameter (diversity)  b > 0
-     * @param  number $x
      *
      * @return  float
      */
-    public static function PDF($μ, $b, $x): float
+    public static function PDF($x, $μ, $b): float
     {
         self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'b' => $b]);
 
@@ -50,13 +50,13 @@ class Laplace extends Continuous
      * F(x) = 1 - - exp| - ------ |  if x ≥ μ
      *            2     \    b   /
      *
+     * @param  number $x
      * @param  number $μ location parameter
      * @param  number $b scale parameter (diversity)  b > 0
-     * @param  number $x
      *
      * @return  float
      */
-    public static function CDF($μ, $b, $x): float
+    public static function CDF($x, $μ, $b): float
     {
         self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'b' => $b]);
 
