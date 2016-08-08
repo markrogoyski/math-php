@@ -22,4 +22,9 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     {
         $this->limitTest(Beta::LIMITS);
     }
+
+    public function testCauchyParameterLimits()
+    {
+        $this->limitTest(Cauchy::LIMITS);
+    }
 }

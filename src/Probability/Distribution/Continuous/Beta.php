@@ -15,7 +15,7 @@ class Beta extends Continuous
      * α ∈ (0,∞)
      * β ∈ (0,∞)
      * @var array
-     */ 
+     */
     const LIMITS = [
         'x' => '[0,1]',
         'α' => '(0,∞)',
