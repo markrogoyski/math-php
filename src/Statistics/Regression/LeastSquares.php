@@ -77,7 +77,10 @@ trait LeastSquares
     function TValues()
     {
         $se = $this->standardErrors();
-        return [$this->m / $se['m'], $this->b / $se['b']];
+        return [
+            'm' => $this->m / $se['m'],
+            'b' => $this->b / $se['b'],
+        ];
     }
     
     /**
@@ -87,13 +90,11 @@ trait LeastSquares
     {
         // Degrees of Freedom.
         $df = $this->n - 2;
-        
-        $ts = array_map(
-            function ($t) use ($df){
-                return StudentT::CDF($t, $df);
-            },
-            $this->TValues()
-        );
+        $T = $this->TValues();
+        $ts = [
+            'm' => StudentT::CDF($T['m'], $df),
+            'b' => StudentT::CDF($T['b'], $df),
+        ];
         return $ts;
     }
     
