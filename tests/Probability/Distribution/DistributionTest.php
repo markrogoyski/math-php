@@ -58,6 +58,14 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
                 ['x' => '(-∞,10]'],
                 ['x' => -95893223452],
             ],
+            [
+                ['x' => '[0,∞]', 'y' => '[0,∞]'],
+                ['x' => 0, 'y' => 5],
+            ],
+            [
+                ['x' => '[0,∞]', 'y' => '[0,∞]', 'z' => '[0,1]'],
+                ['x' => 0, 'y' => 5],
+            ],
         ];
     }
 
@@ -143,7 +151,18 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
                 ['x' => '[0,∞)'],
                 ['x' => 9489859893],
             ],
-
+            [
+                ['x' => '[0,5]', 'y' => '[0,5]'],
+                ['x' => 0],
+            ],
+            [
+                ['x' => '[0,5]', 'y' => '[0,5]'],
+                ['x' => 0, 'y' => 3],
+            ],
+            [
+                ['x' => '[0,5]', 'y' => '[0,5]', 'z' => '[0,5]'],
+                ['x' => 0, 'y' => 3],
+            ],
         ];
     }
 
@@ -202,5 +221,36 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
         $limits = ['x' => '(0,1}'];
         $params = ['x' => 0.5];
         Distribution::checkLimits($limits, $params);
+    }
+
+    /**
+     * @dataProvider dataProviderForCheckLimitsUndefinedParameterException
+     */
+    public function testCheckLimitsUndefinedParameterException(array $limits, array $params)
+    {
+        $this->setExpectedException('\Exception');
+        Distribution::checkLimits($limits, $params);
+    }
+
+    public function dataProviderForCheckLimitsUndefinedParameterException()
+    {
+        return [
+            [
+                ['x' => '[0,1]'],
+                ['y' => 0.5],
+            ],
+            [
+                ['x' => '[0,1]', 'a' => '[0,10]'],
+                ['y' => 0.5],
+            ],
+            [
+                ['x' => '[0,1]', 'a' => '[0,10]'],
+                ['x' => 0.5, 'b' => 4],
+            ],
+            [
+                ['x' => '[0,1]', 'a' => '[0,10]'],
+                ['x' => 0.5, 'a' => 4, 'z' => 9],
+            ],
+        ];
     }
 }
