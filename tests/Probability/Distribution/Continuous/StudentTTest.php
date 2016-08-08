@@ -14,6 +14,9 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForPDF()
     {
         return [
+            [1, 2, 0.192450089729875254836],
+            [-1, 2, 0.192450089729875254836],
+
             [-5, 2, 0.007127781101],
             [-3.9, 2, 0.01400646997],
             [-1.1, 2, 0.1738771253],
@@ -29,15 +32,7 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
             [1, 6, 0.223142291],
             [2.9, 6, 0.0178279372],
             [5, 6, 0.001220840981],
-
-
         ];
-    }
-
-    public function testPDFExceptionDegreesOfFreedomLessThanZero()
-    {
-        $this->setExpectedException('\Exception');
-        StudentT::PDF(5, -1);
     }
 
     /**
@@ -51,6 +46,8 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForCDF()
     {
         return [
+            [1, 2, 0.788675134594812882255],
+
             [0, 2, 0.5],
             [0.1, 2, 0.5352672808],
             [2.9, 2, 0.9494099023],
@@ -62,12 +59,6 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
             [5, 6, 0.9987738291],
 
         ];
-    }
-
-    public function testCDFExceptionDegreesOfFreedomLessThanZero()
-    {
-        $this->setExpectedException('\Exception');
-        StudentT::CDF(5, -1);
     }
 
     /**
