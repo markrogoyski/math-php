@@ -60,7 +60,7 @@ trait LeastSquares
         $SSx = RandomVariable::sumOfSquaresDeviations($this->xs);
         $sm = sqrt($sigma_squared / $SSx);
         
-        $sum_x_squared = array_sum(Single::squared($this->xs));
+        $sum_x_squared = array_sum(Single::square($this->xs));
         $sb = $sm * sqrt($sum_x_squared / $n);
         
         return [
