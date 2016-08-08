@@ -6,34 +6,34 @@ class LogLogisticTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForPDF
      */
-    public function testPDF($α, $β, $x, $pdf)
+    public function testPDF($x, $α, $β, $pdf)
     {
-        $this->assertEquals($pdf, LogLogistic::PDF($α, $β, $x), '', 0.001);
+        $this->assertEquals($pdf, LogLogistic::PDF($x, $α, $β), '', 0.001);
     }
 
     public function dataProviderForPDF()
     {
         return [
             [1, 1, 1, 0.25],
-            [1, 1, 2, 0.1111111],
-            [2, 3, 4, 0.07407407407],
+            [2, 1, 1, 0.1111111],
+            [4, 2, 3, 0.07407407407],
         ];
     }
 
     /**
      * @dataProvider dataProviderForCDF
      */
-    public function testCDF($α, $β, $x, $cdf)
+    public function testCDF($x, $α, $β, $cdf)
     {
-        $this->assertEquals($cdf, LogLogistic::CDF($α, $β, $x), '', 0.001);
+        $this->assertEquals($cdf, LogLogistic::CDF($x, $α, $β), '', 0.001);
     }
 
     public function dataProviderForCDF()
     {
         return [
             [1, 1, 1, 0.5],
-            [1, 1, 2, 0.667],
-            [2, 3, 4, 0.889],
+            [2, 1, 1, 0.667],
+            [4, 2, 3, 0.889],
         ];
     }
 

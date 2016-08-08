@@ -375,11 +375,11 @@ $pdf = Logistic::PDF($x, $μ, $s);
 $cdf = Logistic::CDF($x, $μ, $s);
 
 // Log-logistic distribution (Fisk distribution)
+$x   = 2;
 $α   = 1; // scale parameter
 $β   = 1; // shape parameter
-$x   = 2;
-$pdf = LogLogistic::PDF($α, $β, $x);
-$cdf = LogLogistic::CDF($α, $β, $x);
+$pdf = LogLogistic::PDF($x, $α, $β);
+$cdf = LogLogistic::CDF($x, $α, $β);
 $μ   = LogLogistic::mean($α, $β);
 
 // Log-normal distribution
