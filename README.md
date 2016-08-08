@@ -368,11 +368,11 @@ $pdf = Laplace::PDF($x, $μ, $b);
 $cdf = Laplace::CDF($x, $μ, $b);
 
 // Logistic distribution
+$x   = 3;
 $μ   = 2;   // location parameter
 $s   = 1.5; // scale parameter
-$x   = 3;
-$pdf = Logistic::PDF($μ, $s, $x);
-$cdf = Logistic::CDF($μ, $s, $x);
+$pdf = Logistic::PDF($x, $μ, $s);
+$cdf = Logistic::CDF($x, $μ, $s);
 
 // Log-logistic distribution (Fisk distribution)
 $α   = 1; // scale parameter

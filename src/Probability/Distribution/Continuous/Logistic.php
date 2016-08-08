@@ -31,13 +31,13 @@ class Logistic extends Continuous
      *              s| 1 + exp| - -----  | |
      *                \        \    s   / /
      *
+     * @param number $x
      * @param number $μ location parameter
      * @param number $s scale parameter > 0
-     * @param number $x
      *
      * @return float
      */
-    public static function PDF($μ, $s, $x)
+    public static function PDF($x, $μ, $s)
     {
         self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
 
@@ -60,7 +60,7 @@ class Logistic extends Continuous
      *
      * @return float
      */
-    public static function CDF($μ, $s, $x)
+    public static function CDF($x, $μ, $s)
     {
         self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
 
