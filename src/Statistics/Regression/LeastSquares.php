@@ -1,6 +1,7 @@
 <?php
 namespace Math\Statistics\Regression;
 
+use Math\Statistics\RandomVariable;
 use Math\Statistics\Average;
 use Math\Functions\Map\Single;
 use Math\Functions\Map\Multi;
