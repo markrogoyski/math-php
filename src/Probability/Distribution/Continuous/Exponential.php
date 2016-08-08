@@ -24,12 +24,12 @@ class Exponential extends Continuous
      * f(x;λ) = λℯ^⁻λx  x ≥ 0
      *        = 0       x < 0
      *
-     * @param float $λ often called the rate parameter
      * @param float $x the random variable
+     * @param float $λ often called the rate parameter
      *
      * @return float
      */
-    public static function PDF(float $λ, float $x): float
+    public static function PDF(float $x, float $λ): float
     {
         if ($x < 0) {
             return 0;
@@ -49,7 +49,7 @@ class Exponential extends Continuous
      *
      * @return float
      */
-    public static function CDF(float $λ, float $x): float
+    public static function CDF(float $x, float $λ): float
     {
         if ($x < 0) {
             return 0;

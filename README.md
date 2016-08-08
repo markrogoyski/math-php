@@ -345,11 +345,11 @@ $k   = 2; // degrees of freedom
 $pdf = ChiSquared::PDF($x, $k);
 $cdf = ChiSquared::CDF($x, $k);
 
-// Exponential distribution 
-$λ   = 1; // rate parameter
+// Exponential distribution
 $x   = 2; // random variable
-$pdf = Exponential::PDF($λ, $x);
-$cdf = Exponential::CDF($λ, $x);
+$λ   = 1; // rate parameter
+$pdf = Exponential::PDF($x, $λ);
+$cdf = Exponential::CDF($x, $λ);
 $μ   = Exponential::mean($λ);
 
 // F-distribution
