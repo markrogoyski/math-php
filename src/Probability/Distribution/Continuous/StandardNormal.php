@@ -21,14 +21,25 @@ class StandardNormal extends Continuous
     const σ = 1;
 
     /**
+     * Distribution parameter bounds limits
+     * z ∈ (-∞,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'z' => '(-∞,∞)',
+    ];
+
+    /**
      * Probability density function
      *
-     * @param number $x random variable
+     * @param number $z random variable
      *
-     * @return float f(x|μ,σ)
+     * @return float f(z|μ,σ)
      */
     public static function PDF($z)
     {
+        self::checkLimits(self::LIMITS, ['z' => $z]);
+
         return Normal::PDF($z, self::μ, self::σ);
     }
 
@@ -36,12 +47,14 @@ class StandardNormal extends Continuous
      * Cumulative distribution function
      * P value for a z score.
      *
-     * @param number $x random variable
+     * @param number $z random variable
      *
-     * @return float f(x|μ,σ)
+     * @return float f(z|μ,σ)
      */
     public static function CDF($z)
     {
+        self::checkLimits(self::LIMITS, ['z' => $z]);
+
         return Normal::CDF($z, self::μ, self::σ);
     }
     
