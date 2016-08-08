@@ -3,12 +3,27 @@ namespace Math\Probability\Distribution\Continuous;
 
 use Math\Functions\Special;
 
+/**
+ * Normal distribution
+ * https://en.wikipedia.org/wiki/Normal_distribution
+ */
 class Normal extends Continuous
 {
     /**
-     * Normal distribution - probability density function
-     *
-     * https://en.wikipedia.org/wiki/Normal_distribution
+     * Distribution parameter bounds limits
+     * x ∈ (-∞,∞)
+     * μ ∈ (-∞,∞)
+     * σ ∈ (0,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'x' => '(-∞,∞)',
+        'μ' => '(-∞,∞)',
+        'σ' => '(0,∞)',
+    ];
+
+    /**
+     * Probability density function
      *
      *              1
      * f(x|μ,σ) = ----- ℯ^−⟮x − μ⟯²∕2σ²
@@ -22,6 +37,8 @@ class Normal extends Continuous
      */
     public static function PDF($x, $μ, $σ): float
     {
+        self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
+
         $π     = \M_PI;
         $σ√⟮2π⟯ = $σ * sqrt(2 * $π);
 
@@ -33,7 +50,7 @@ class Normal extends Continuous
     }
   
     /**
-     * Normal distribution - cumulative distribution function
+     * Cumulative distribution function
      * Probability of being below X.
      * Area under the normal distribution from -∞ to X.
      *             _                  _
@@ -49,6 +66,8 @@ class Normal extends Continuous
      */
     public static function CDF($x, $μ, $σ): float
     {
+        self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
+
         return 1/2 * ( 1 + Special::erf(($x - $μ) / ($σ * sqrt(2))) );
     }
     
@@ -64,6 +83,8 @@ class Normal extends Continuous
      */
     public static function mean($μ, $σ)
     {
+        self::checkLimits(self::LIMITS, ['μ' => $μ, 'σ' => $σ]);
+
         return $μ;
     }
 }

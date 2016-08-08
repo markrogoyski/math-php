@@ -57,4 +57,9 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     {
         $this->limitTest(LogLogistic::LIMITS);
     }
+
+    public function testNormalParameterLimits()
+    {
+        $this->limitTest(Normal::LIMITS);
+    }
 }
