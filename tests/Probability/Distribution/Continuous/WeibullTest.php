@@ -50,4 +50,24 @@ class WeibullTest extends \PHPUnit_Framework_TestCase
             [ 2, 2, -0.1, 0 ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForMean
+     */
+    public function testMean($k, $λ, $μ)
+    {
+        $this->assertEquals($μ, Weibull::mean($k, $λ), '', 0.0001);
+    }
+
+    public function dataProviderForMean()
+    {
+        return [
+            [1, 0, 0],
+            [2, 0, 0],
+            [1, 1, 1],
+            [1, 2, 2],
+            [2, 1, 0.88622692545275801365],
+            [2, 2, 1.77245386],
+        ];
+    }
 }

@@ -10,6 +10,19 @@ use Math\Functions\Special;
 class F extends Continuous
 {
     /**
+     * Distribution parameter bounds limits
+     * x  ∈ [0,∞)
+     * d₁ ∈ (0,∞)
+     * d₂ ∈ (0,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'x'  => '[0,∞)',
+        'd₁' => '(0,∞)',
+        'd₂' => '(0,∞)',
+    ];
+
+    /**
      * Probability density function
      *
      *      __________________
@@ -31,6 +44,8 @@ class F extends Continuous
      */
     public static function PDF($x, int $d₁, int $d₂)
     {
+        self::checkLimits(self::LIMITS, ['x' => $x, 'd₁' => $d₁, 'd₂' => $d₂]);
+
         // Numerator
         $⟮d₁x⟯ᵈ¹d₂ᵈ²                = ($d₁ * $x)**$d₁ * $d₂**$d₂;
         $⟮d₁x＋d₂⟯ᵈ¹⁺ᵈ²             = ($d₁ * $x + $d₂)**($d₁ + $d₂);
@@ -61,6 +76,8 @@ class F extends Continuous
      */
     public static function CDF($x, int $d₁, int $d₂)
     {
+        self::checkLimits(self::LIMITS, ['x' => $x, 'd₁' => $d₁, 'd₂' => $d₂]);
+
         $ᵈ¹ˣ／d₁x＋d₂ = ($d₁ * $x) / ($d₁ * $x + $d₂);
 
         return Special::regularizedIncompleteBeta($ᵈ¹ˣ／d₁x＋d₂, $d₁/2, $d₂/2);

@@ -48,6 +48,7 @@ class NormalTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($probability, Normal::between($lower, $upper, $μ, $σ), '', 0.00001);
     }
+
     public function dataProviderForBetween()
     {
         return [
@@ -63,6 +64,7 @@ class NormalTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($probability, Normal::outside($lower, $upper, $μ, $σ), '', 0.00001);
     }
+
     public function dataProviderForOutside()
     {
         return [
@@ -78,11 +80,19 @@ class NormalTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($probability, Normal::above($x, $μ, $σ), '', 0.00001);
     }
+
     public function dataProviderForAbove()
     {
         return [
             [ 1.64485362695147, 0, 1, 0.05 ],
             [ 1.95996398454005, 6, 2, 0.97830924 ],
         ];
+    }
+
+    public function testMean()
+    {
+        $μ = 5;
+        $σ = 1.5;
+        $this->assertEquals($μ, Normal::mean($μ, $σ));
     }
 }

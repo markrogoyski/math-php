@@ -47,4 +47,25 @@ class FTest extends \PHPUnit_Framework_TestCase
             [0, 2, 3, 0],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForMean
+     */
+    public function testMean(int $d₁, int $d₂, $μ)
+    {
+        $this->assertEquals($μ, F::mean($d₁, $d₂), '', 0.0001);
+    }
+
+    public function dataProviderForMean()
+    {
+        return [
+            [1, 0, null],
+            [1, 1, null],
+            [1, 2, null],
+            [1, 3, 3,],
+            [1, 4, 2],
+            [1, 5, 1.66666667],
+            [1, 6, 1.5],
+        ];
+    }
 }

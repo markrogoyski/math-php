@@ -40,4 +40,25 @@ class UniformTest extends \PHPUnit_Framework_TestCase
             [1, 5.4, 6, 1],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForMean
+     */
+    public function testMean($a, $b, $μ)
+    {
+        $this->assertEquals($μ, Uniform::mean($a, $b), '', 0.00001);
+    }
+
+    public function dataProviderForMean()
+    {
+        return [
+            [0, 0, 0],
+            [0, 1, 0.5],
+            [1, 0, 0.5],
+            [1, 1, 1],
+            [2, 1, 1.5],
+            [2, 2, 2],
+            [5, 4, 4.5],
+        ];
+    }
 }

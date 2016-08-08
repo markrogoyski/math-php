@@ -3,7 +3,7 @@ namespace Math\Probability\Distribution\Continuous;
 
 use Math\NumericalAnalysis\NewtonsMethod;
 
-abstract class Continuous
+abstract class Continuous extends \Math\Probability\Distribution\Distribution
 {
     /**
      * The Inverse CDF of the distribution

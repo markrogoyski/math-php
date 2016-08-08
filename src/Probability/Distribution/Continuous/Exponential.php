@@ -1,30 +1,45 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
+/**
+ * Exponental distribution
+ * https://en.wikipedia.org/wiki/Exponential_distribution
+ */
 class Exponential extends Continuous
 {
     /**
-     * Exponential distribution - probability density function
-     * https://en.wikipedia.org/wiki/Exponential_distribution
+     * Distribution parameter bounds limits
+     * x ∈ [0,∞)
+     * λ ∈ (0,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'x' => '[0,∞)',
+        'λ' => '(0,∞)',
+    ];
+
+    /**
+     * Probability density function
      *
      * f(x;λ) = λℯ^⁻λx  x ≥ 0
      *        = 0       x < 0
      *
-     * @param float $λ often called the rate parameter
      * @param float $x the random variable
+     * @param float $λ often called the rate parameter
      *
      * @return float
      */
-    public static function PDF(float $λ, float $x): float
+    public static function PDF(float $x, float $λ): float
     {
         if ($x < 0) {
             return 0;
         }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'λ' => $λ]);
+
         return $λ * exp(-$λ * $x);
     }
     /**
-     * Cumulative exponential distribution - cumulative distribution function
-     * https://en.wikipedia.org/wiki/Exponential_distribution
+     * Cumulative distribution function
      *
      * f(x;λ) = 1 − ℯ^⁻λx  x ≥ 0
      *        = 0          x < 0
@@ -34,11 +49,13 @@ class Exponential extends Continuous
      *
      * @return float
      */
-    public static function CDF(float $λ, float $x): float
+    public static function CDF(float $x, float $λ): float
     {
         if ($x < 0) {
             return 0;
         }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'λ' => $λ]);
+
         return 1 - exp(-$λ * $x);
     }
     
@@ -53,6 +70,8 @@ class Exponential extends Continuous
      */
     public static function mean(float $λ)
     {
+        self::checkLimits(self::LIMITS, ['λ' => $λ]);
+
         return 1 / $λ;
     }
 }

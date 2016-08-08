@@ -34,4 +34,9 @@ class StandardNormalTest extends \PHPUnit_Framework_TestCase
             [ -2.90, 0.0019 ], [ -2.96, 0.0015 ], [ -3.09, 0.0010 ],
         ];
     }
+
+    public function testMean()
+    {
+        $this->assertEquals(0, StandardNormal::mean());
+    }
 }

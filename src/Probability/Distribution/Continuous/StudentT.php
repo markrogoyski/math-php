@@ -10,6 +10,19 @@ use Math\Functions\Special;
 class StudentT extends Continuous
 {
     /**
+     * Distribution parameter bounds limits
+     * x ∈ (-∞,∞)
+     * ν ∈ (0,∞)
+     * t ∈ (-∞,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'x' => '(-∞,∞)',
+        'ν' => '(0,∞)',
+        't' => '(-∞,∞)',
+    ];
+
+    /**
      * Probability density function
      *
      *     / ν + 1 \
@@ -26,9 +39,7 @@ class StudentT extends Continuous
      */
     public static function PDF($x, int $ν)
     {
-        if ($ν <= 0) {
-            throw new \Exception('Degrees of freedom must be > 0');
-        }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν]);
 
         $π = \M_PI;
 
@@ -53,9 +64,7 @@ class StudentT extends Continuous
      */
     public static function CDF($t, int $ν)
     {
-        if ($ν <= 0) {
-            throw new \Exception('Degrees of freedom must be > 0');
-        }
+        self::checkLimits(self::LIMITS, ['t' => $t, 'ν' => $ν]);
 
         if ($t == 0) {
             return .5;
@@ -82,11 +91,22 @@ class StudentT extends Continuous
     }
     
     /**
-     * Returns the mean of the distribution
+     * Mean of the distribution
+     *
+     * μ = 0 if ν > 1
+     * otherwise undefined
+     *
+     * @param number $p Proportion of area
+     * @param number $ν Degrees of freedom
+     *
+     * @return number
      */
-    public static function getMean($p, $ν)
+    public static function mean($p, $ν)
     {
-        if ($ν > 1) return 0;
-        else return NULL;
+        if ($ν > 1) {
+            return 0;
+        }
+
+        return NULL;
     }
 }

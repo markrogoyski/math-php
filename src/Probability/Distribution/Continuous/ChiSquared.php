@@ -10,6 +10,17 @@ use Math\Functions\Special;
 class ChiSquared extends Continuous
 {
     /**
+     * Distribution parameter bounds limits
+     * x ∈ [0,∞)
+     * k ∈ [1,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'x' => '[0,∞)',
+        'k' => '[1,∞)',
+    ];
+
+    /**
      * Probability density function
      *
      *                 1
@@ -25,9 +36,7 @@ class ChiSquared extends Continuous
      */
     public static function PDF($x, int $k)
     {
-        if ($x <= 0 || $k <= 0) {
-            throw new \Exception('x and k must be > 0');
-        }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'k' => $k]);
 
         // Numerator
         $x⁽ᵏ／²⁾⁻¹ = $x**(($k / 2) - 1);
@@ -61,9 +70,7 @@ class ChiSquared extends Continuous
      */
     public static function CDF($x, int $k)
     {
-        if ($x <= 0 || $k <= 0) {
-            throw new \Exception('x and k must be > 0');
-        }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'k' => $k]);
 
         // Numerator
         $γ⟮k／2、x／2⟯ = Special::γ($k / 2, $x / 2);
@@ -85,6 +92,8 @@ class ChiSquared extends Continuous
      */
     public static function mean(int $k)
     {
+        self::checkLimits(self::LIMITS, ['k' => $k]);
+
         return $k;
     }
 }

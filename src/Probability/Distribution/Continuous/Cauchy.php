@@ -10,6 +10,19 @@ use Math\Functions\Special;
 class Cauchy extends Continuous
 {
     /**
+     * Distribution parameter bounds limits
+     * x  ∈ (-∞,∞)
+     * x₀ ∈ (-∞,∞)
+     * γ  ∈ (0,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'x'  => '(-∞,∞)',
+        'x₀' => '(-∞,∞)',
+        'γ'  => '(0,∞)',
+    ];
+
+    /**
      * Probability density function
      *
      *                1
@@ -26,9 +39,8 @@ class Cauchy extends Continuous
      */
     public static function PDF($x, $x₀, $γ)
     {
-        if ($ν <= 0) {
-            throw new \Exception('Scale must be > 0');
-        }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'x₀' => $x₀, 'γ' => $γ]);
+
         $π = \M_PI;
         return 1 / ($π * $γ * (1 + (($x - $x₀) / $γ) ** 2));
     }
@@ -45,9 +57,8 @@ class Cauchy extends Continuous
      */
     public static function CDF($x, $x₀, $γ)
     {
-        if ($γ <= 0) {
-            throw new \Exception('Scale must be > 0');
-        }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'x₀' => $x₀, 'γ' => $γ]);
+
         $π = \M_PI;
         return 1 / $π * atan(($x - $x₀) / $γ) + .5;
     }

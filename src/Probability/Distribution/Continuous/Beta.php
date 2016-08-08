@@ -3,11 +3,27 @@ namespace Math\Probability\Distribution\Continuous;
 
 use Math\Functions\Special;
 
+/**
+ * Beta distribution
+ * https://en.wikipedia.org/wiki/Beta_distribution
+ */
 class Beta extends Continuous
 {
     /**
-     * Beta distribution - probability density function
-     * https://en.wikipedia.org/wiki/Beta_distribution
+     * Distribution parameter bounds limits
+     * x ∈ [0,1]
+     * α ∈ (0,∞)
+     * β ∈ (0,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'x' => '[0,1]',
+        'α' => '(0,∞)',
+        'β' => '(0,∞)',
+    ];
+    
+    /**
+     * Probability density function
      *
      *       xᵃ⁻¹(1 - x)ᵝ⁻¹
      * pdf = --------------
@@ -19,14 +35,10 @@ class Beta extends Continuous
      *
      * @return float
      */
-    public static function PDF($α, $β, $x)
+    public static function PDF($x, $α, $β)
     {
-        if ($α <= 0 || $β <= 0) {
-            throw new \Exception('α and β must be > 0');
-        }
-        if ($x < 0 || $x > 1) {
-            throw new \Exception('x must be between 0 and 1');
-        }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
+
         $xᵃ⁻¹     = pow($x, $α - 1);
         $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $β - 1);
         $B⟮α、β⟯    = Special::beta($α, $β);
@@ -44,14 +56,9 @@ class Beta extends Continuous
      *
      * @return float
      */
-    public static function CDF($α, $β, $x)
+    public static function CDF($x, $α, $β)
     {
-        if ($α <= 0 || $β <= 0) {
-            throw new \Exception('α and β must be > 0');
-        }
-        if ($x < 0 || $x > 1) {
-            throw new \Exception('x must be between 0 and 1');
-        }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
 
         return Special::regularizedIncompleteBeta($x, $α, $β);
     }
@@ -70,9 +77,7 @@ class Beta extends Continuous
      */
     public static function mean($α, $β)
     {
-        if ($α <= 0 || $β <= 0) {
-            throw new \Exception('α and β must be > 0');
-        }
+        self::checkLimits(self::LIMITS, ['α' => $α, 'β' => $β]);
 
         return $α / ($α + $β);
     }

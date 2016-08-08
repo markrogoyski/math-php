@@ -25,18 +25,6 @@ class ChiSquaredTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testPDFExceptionXLessThanZero()
-    {
-        $this->setExpectedException('Exception');
-        ChiSquared::PDF(-1, 5);
-    }
-
-    public function testPDFExceptionKLessThanZero()
-    {
-        $this->setExpectedException('Exception');
-        ChiSquared::PDF(3, -1);
-    }
-
     /**
      * @dataProvider dataProviderForCDF
      */
@@ -62,15 +50,9 @@ class ChiSquaredTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testCDFExceptionXLessThanZero()
+    public function testMean()
     {
-        $this->setExpectedException('Exception');
-        ChiSquared::CDF(-1, 5);
-    }
-
-    public function testCDFExceptionKLessThanZero()
-    {
-        $this->setExpectedException('Exception');
-        ChiSquared::CDF(3, -1);
+        $k = 5;
+        $this->assertEquals($k, ChiSquared::mean($k));
     }
 }

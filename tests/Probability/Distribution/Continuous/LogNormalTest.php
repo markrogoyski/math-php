@@ -42,4 +42,22 @@ class LogNormalTest extends \PHPUnit_Framework_TestCase
             [ 2, 3, 2, 0.124367703 ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForMean
+     */
+    public function testMean($μ, $σ, $mean)
+    {
+        $this->assertEquals($mean, LogNormal::mean($μ, $σ), '', 0.000001);
+    }
+
+    public function dataProviderForMean()
+    {
+        return [
+            [1, 1, 4.48168907034],
+            [2, 2, 54.5981500331],
+            [1.3, 1.6, 13.1971381597],
+            [2.6, 3.16, 1983.86055382],
+        ];
+    }
 }

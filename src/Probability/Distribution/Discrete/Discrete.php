@@ -1,6 +1,6 @@
 <?php
 namespace Math\Probability\Distribution\Discrete;
 
-class Discrete
+abstract class Discrete extends \Math\Probability\Distribution\Distribution
 {
 }
