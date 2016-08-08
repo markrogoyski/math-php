@@ -24,12 +24,6 @@ class LaplaceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testPDFExceptionBLessThanZero()
-    {
-        $this->setExpectedException('\Exception');
-        Laplace::PDF(1, -3, 2);
-    }
-
     /**
      * @dataProvider dataProviderForCDF
      */
@@ -49,12 +43,6 @@ class LaplaceTest extends \PHPUnit_Framework_TestCase
             [ 2, 1.4, 1.1, 0.2628940122 ],
             [ 2, 1.4, 2.9, 0.7371059878 ],
         ];
-    }
-
-    public function testCDFExceptionBLessThanZero()
-    {
-        $this->setExpectedException('\Exception');
-        Laplace::CDF(1, -3, 2);
     }
 
     public function testMean()

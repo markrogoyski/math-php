@@ -4,6 +4,19 @@ namespace Math\Probability\Distribution\Continuous;
 class Laplace extends Continuous
 {
     /**
+     * Distribution parameter bounds limits
+     * x ∈ (-∞,∞)
+     * μ ∈ (-∞,∞)
+     * b ∈ (0,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'x' => '(-∞,∞)',
+        'μ' => '(-∞,∞)',
+        'b' => '(0,∞)',
+    ];
+
+    /**
      * Laplace distribution - probability density function
      *
      * https://en.wikipedia.org/wiki/Laplace_distribution
@@ -20,9 +33,8 @@ class Laplace extends Continuous
      */
     public static function PDF($μ, $b, $x): float
     {
-        if ($b <= 0) {
-            throw new \Exception('b must be > 0');
-        }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'b' => $b]);
+
         return (1 / (2 * $b)) * exp(-( abs($x - $μ)/$b ));
     }
     /**
@@ -46,9 +58,8 @@ class Laplace extends Continuous
      */
     public static function CDF($μ, $b, $x): float
     {
-        if ($b <= 0) {
-            throw new \Exception('b must be > 0');
-        }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'b' => $b]);
+
         if ($x < $μ) {
             return (1/2) * exp(($x - $μ) / $b);
         }
@@ -67,6 +78,8 @@ class Laplace extends Continuous
      */
     public static function mean($μ, $b)
     {
+        self::checkLimits(self::LIMITS, ['μ' => $μ, 'b' => $b]);
+
         return $μ;
     }
 }
