@@ -1,12 +1,27 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
+/**
+ * Logistic distribution
+ * https://en.wikipedia.org/wiki/Logistic_distribution
+ */
 class Logistic extends Continuous
 {
     /**
-     * Logistic distribution - probability density function
-     *
-     * https://en.wikipedia.org/wiki/Logistic_distribution
+     * Distribution parameter bounds limits
+     * x ∈ (-∞,∞)
+     * μ ∈ (-∞,∞)
+     * s ∈ (0,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'x' => '(-∞,∞)',
+        'μ' => '(-∞,∞)',
+        's' => '(0,∞)',
+    ];
+
+    /**
+     * Probability density function
      *
      *                     /  x - μ \
      *                 exp| - -----  |
@@ -24,16 +39,14 @@ class Logistic extends Continuous
      */
     public static function PDF($μ, $s, $x)
     {
-        if ($s <= 0) {
-            throw new \Exception('Scale parameter s must be > 0');
-        }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
+
         $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
         return $ℯ＾⁻⁽x⁻μ⁾／s / ($s * pow(1 + $ℯ＾⁻⁽x⁻μ⁾／s, 2));
     }
     /**
-     * Logistic distribution - cumulative distribution function
+     * Cumulative distribution function
      * From -∞ to x (lower CDF)
-     * https://en.wikipedia.org/wiki/Logistic_distribution
      *
      *                      1
      * f(x; μ, s) = -------------------
@@ -49,9 +62,8 @@ class Logistic extends Continuous
      */
     public static function CDF($μ, $s, $x)
     {
-        if ($s <= 0) {
-            throw new \Exception('Scale parameter s must be > 0');
-        }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
+
         $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
         return 1 / (1 + $ℯ＾⁻⁽x⁻μ⁾／s);
     }
@@ -68,6 +80,8 @@ class Logistic extends Continuous
      */
     public static function mean($μ, $s)
     {
+        self::checkLimits(self::LIMITS, ['μ' => $μ, 's' => $s]);
+
         return $μ;
     }
 }

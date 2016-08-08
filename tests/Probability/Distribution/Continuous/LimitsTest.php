@@ -47,4 +47,9 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     {
         $this->limitTest(Laplace::LIMITS);
     }
+
+    public function testLogisticParameterLimits()
+    {
+        $this->limitTest(Logistic::LIMITS);
+    }
 }

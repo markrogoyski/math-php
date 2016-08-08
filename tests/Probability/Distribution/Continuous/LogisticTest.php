@@ -34,13 +34,6 @@ class LogisticTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testPDFScaleParameterException()
-    {
-        $this->setExpectedException('\Exception');
-        $s = 0;
-        Logistic::PDF(2, $s, 2);
-    }
-
     /**
      * @dataProvider dataProviderForCDF
      */
@@ -69,13 +62,6 @@ class LogisticTest extends \PHPUnit_Framework_TestCase
             [2, 1.5, 3.7, 0.7564535292],
             [2, 1.5, 5, 0.880797078],
         ];
-    }
-
-    public function testCDFScaleParameterException()
-    {
-        $this->setExpectedException('\Exception');
-        $s = 0;
-        Logistic::CDF(2, $s, 2);
     }
 
     public function testMean()
