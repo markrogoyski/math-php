@@ -38,33 +38,6 @@ class LogLogisticTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForParameterException
-     */
-    public function testPDFDataParameterException($α, $β, $x)
-    {
-        $this->setExpectedException('\Exception');
-        LogLogistic::PDF($α, $β, $x);
-    }
-
-    /**
-     * @dataProvider dataProviderForParameterException
-     */
-    public function testCDFDataParameterException($α, $β, $x)
-    {
-        $this->setExpectedException('\Exception');
-        LogLogistic::CDF($α, $β, $x);
-    }
-
-    public function dataProviderForParameterException()
-    {
-        return [
-            [0, 1, 1],
-            [1, 0, 1],
-            [1, 1, 0],
-        ];
-    }
-
-    /**
      * @dataProvider dataProviderForMean
      */
     public function testMean($α, $β, $μ)
@@ -75,7 +48,6 @@ class LogLogisticTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForMean()
     {
         return [
-            [1, 0, null],
             [1, 1, null],
             [1, 2, 1.570795],
             [2, 2, 3.14159],

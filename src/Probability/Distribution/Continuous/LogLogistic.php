@@ -1,12 +1,28 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
+/**
+ * Log-logistic distribution
+ * Also known as the Fisk distribution.
+ * https://en.wikipedia.org/wiki/Log-logistic_distribution
+ */
 class LogLogistic extends Continuous
 {
     /**
-     * Log-logistic distribution - probability density function
-     * Also known as the Fisk distribution.
-     * https://en.wikipedia.org/wiki/Log-logistic_distribution
+     * Distribution parameter bounds limits
+     * x ∈ [0,∞)
+     * α ∈ (0,∞)
+     * β ∈ (0,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'x' => '[0,∞)',
+        'α' => '(0,∞)',
+        'β' => '(0,∞)',
+    ];
+
+    /**
+     * Probability density function
      *
      *              (β/α)(x/α)ᵝ⁻¹
      * f(x; α, β) = -------------
@@ -18,9 +34,8 @@ class LogLogistic extends Continuous
      */
     public static function PDF($α, $β, $x)
     {
-        if ($α <= 0 || $β <= 0 || $x <= 0) {
-            throw new \Exception('All parameters must be > 0');
-        }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
+
         $⟮β／α⟯⟮x／α⟯ᵝ⁻¹  = ($β / $α) * pow($x / $α, $β - 1);
         $⟮1 ＋ ⟮x／α⟯ᵝ⟯² = pow(1 + ($x / $α)**$β, 2);
         return $⟮β／α⟯⟮x／α⟯ᵝ⁻¹ / $⟮1 ＋ ⟮x／α⟯ᵝ⟯²;
@@ -40,9 +55,8 @@ class LogLogistic extends Continuous
      */
     public static function CDF($α, $β, $x)
     {
-        if ($α <= 0 || $β <= 0 || $x <= 0) {
-            throw new \Exception('All parameters must be > 0');
-        }
+        self::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
+
         $⟮x／α⟯⁻ᵝ = pow($x / $α, -$β);
         return 1 / (1 + $⟮x／α⟯⁻ᵝ);
     }
@@ -61,6 +75,8 @@ class LogLogistic extends Continuous
      */
     public static function mean($α, $β)
     {
+        self::checkLimits(self::LIMITS, ['α' => $α, 'β' => $β]);
+
         $π = \M_PI;
 
         if ($β > 1) {
