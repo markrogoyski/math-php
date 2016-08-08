@@ -75,7 +75,7 @@ trait LeastSquares
      */
     function TValues()
     {
-        $se = this->standardErrors();
+        $se = $this->standardErrors();
         return [$this->m / $se['m'], $this->b / $se['b']];
     }
     
