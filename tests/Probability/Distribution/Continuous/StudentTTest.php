@@ -64,19 +64,17 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForMean
      */
-    public function testMean($p, $ν, $μ)
+    public function testMean($ν, $μ)
     {
-        $this->assertEquals($μ, StudentT::mean($p, $ν));
+        $this->assertEquals($μ, StudentT::mean($ν));
     }
 
     public function dataProviderForMean()
     {
         return [
-            [2, -1, null],
-            [2, 0, null],
-            [2, 1, null],
-            [2, 2, 0],
-            [2, 3, 0],
+            [1, null],
+            [2, 0],
+            [3, 0],
         ];
     }
 }
