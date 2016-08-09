@@ -81,7 +81,12 @@ class StudentT extends Continuous
         $x⟮t⟯  = $ν / ($t**2 + $ν);
         $ν／2 = $ν / 2;
         $½    = .5;
-        return 1 - $½ * Special::regularizedIncompleteBeta($x⟮t⟯, $ν／2, $½);
+        $I = $½ * Special::regularizedIncompleteBeta($x⟮t⟯, $ν／2, $½);
+        if($t < 0) {
+            return $I;
+        }
+        // $t > 0
+        return 1 - $I;
     }
 
     /**
@@ -95,6 +100,7 @@ class StudentT extends Continuous
      */
     public static function inverse2Tails($p, $ν)
     {
+        self::checkLimits(self::LIMITS, ['ν' => $ν]);
         return self::inverse(1 - $p / 2, $ν);
     }
     
@@ -104,13 +110,13 @@ class StudentT extends Continuous
      * μ = 0 if ν > 1
      * otherwise undefined
      *
-     * @param number $p Proportion of area
      * @param number $ν Degrees of freedom
      *
      * @return number
      */
-    public static function mean($p, $ν)
+    public static function mean($ν)
     {
+        self::checkLimits(self::LIMITS, ['ν' => $ν]);
         if ($ν > 1) {
             return 0;
         }
