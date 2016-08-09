@@ -423,11 +423,11 @@ $cdf = Uniform::CDF($a, $b, $x);
 $μ   = Uniform::mean($a, $b);
 
 // Weibull distribution
+$x   = 2;
 $k   = 1; // shape parameter
 $λ   = 2; // scale parameter
-$x   = 2;
-$pdf = Weibull::PDF($k, $λ, $x);
-$cdf = Weibull::CDF($k, $λ, $x);
+$pdf = Weibull::PDF($x, $k, $λ);
+$cdf = Weibull::CDF($x, $k, $λ);
 $μ   = Weibull::mean($k, $λ);
 
 // Other CDFs - All continuous distributions (...params will be distribution-specific)
