@@ -4,6 +4,19 @@ namespace Math\Probability\Distribution\Continuous;
 class Uniform extends Continuous
 {
     /**
+     * Distribution parameter bounds limits
+     * x ∈ (-∞,∞)
+     * a ∈ (-∞,∞)
+     * b ∈ (-∞,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'x' => '(-∞,∞)',
+        'a' => '(-∞,∞)',
+        'b' => '(-∞,∞)',
+    ];
+
+    /**
      * Continuous uniform distribution - probability desnsity function
      * https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
      *
