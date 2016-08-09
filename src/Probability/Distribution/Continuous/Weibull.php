@@ -6,6 +6,19 @@ use Math\Functions\Special;
 class Weibull extends Continuous
 {
     /**
+     * Distribution parameter bounds limits
+     * x ∈ [0,∞)
+     * λ ∈ (0,∞)
+     * k ∈ (0,∞)
+     * @var array
+     */
+    const LIMITS = [
+        'x' => '[0,∞)',
+        'λ' => '(0,∞)',
+        'k' => '(0,∞)',
+    ];
+
+    /**
      * Weibull distribution - probability density function
      *
      * https://en.wikipedia.org/wiki/Weibull_distribution
@@ -21,8 +34,10 @@ class Weibull extends Continuous
      * @param number $x percentile (value to evaluate)
      * @return float
      */
-    public static function PDF($k, $λ, $x)
+    public static function PDF($x, $k, $λ)
     {
+        self::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
+
         if ($x < 0) {
             return 0;
         }
@@ -44,8 +59,10 @@ class Weibull extends Continuous
      * @param number $x percentile (value to evaluate)
      * @return float
      */
-    public static function CDF($k, $λ, $x)
+    public static function CDF($x, $k, $λ)
     {
+        self::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
+
         if ($x < 0) {
             return 0;
         }
@@ -65,6 +82,8 @@ class Weibull extends Continuous
      */
     public static function mean($k, $λ)
     {
+        self::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
+
         return $λ * Special::gamma(1 + 1 / $k);
     }
 }
