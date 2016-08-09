@@ -77,4 +77,14 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     {
         $this->limitTest(StudentT::LIMITS);
     }
+
+    public function testUniformParameterLimits()
+    {
+        $this->limitTest(Uniform::LIMITS);
+    }
+
+    public function testWeibullParameterLimits()
+    {
+        $this->limitTest(Weibull::LIMITS);
+    }
 }

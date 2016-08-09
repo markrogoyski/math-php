@@ -186,4 +186,46 @@ class LinearTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    
+    /**
+     * @dataProvider dataProviderForFProbability
+     */
+    public function testFProbability(array $points, $probability)
+    {
+        $regression = new Linear($points);
+        $Fprob = $regression->FProbability();
+        $this->assertEquals($probability, $Fprob, '', .0000001);
+    }
+    
+    public function dataProviderForFProbability()
+    {
+        return [
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                .999304272,
+            ],
+        ];
+    }
+    
+    /**
+     * @dataProvider dataProviderForTProbability
+     */
+    public function testTProbability(array $points, $beta0, $beta1)
+    {
+        $regression = new Linear($points);
+        $Tprob = $regression->TProbability();
+        $this->assertEquals($beta0, $Tprob['m'], '', .0000001);
+        $this->assertEquals($beta1, $Tprob['b'], '', .0000001);
+    }
+    
+    public function dataProviderForTProbability()
+    {
+        return [
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                0.999652136, 0.913994632,
+            ],
+        ];
+    }
+    
 }

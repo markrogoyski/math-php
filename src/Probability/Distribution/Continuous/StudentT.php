@@ -59,6 +59,14 @@ class StudentT extends Continuous
      * Cumulative distribution function
      * Calculate the cumulative t value up to a point, left tail.
      *
+     * cdf = 1 - ½Iₓ₍t₎(ν/2, ½)
+     *
+     *                 ν
+     *  where x(t) = ------
+     *               t² + ν
+     *
+     *        Iₓ₍t₎(ν/2, ½) is the regularized incomplete beta function
+     *
      * @param number $t t score
      * @param int    $ν degrees of freedom > 0
      */
@@ -70,10 +78,10 @@ class StudentT extends Continuous
             return .5;
         }
 
-        $x = $ν / ($t**2 + $ν);
-        $a = $ν / 2;
-        $b = .5;
-        return 1 - .5 * Special::regularizedIncompleteBeta($x, $a, $b);
+        $x⟮t⟯  = $ν / ($t**2 + $ν);
+        $ν／2 = $ν / 2;
+        $½    = .5;
+        return 1 - $½ * Special::regularizedIncompleteBeta($x⟮t⟯, $ν／2, $½);
     }
 
     /**

@@ -904,7 +904,7 @@ class Matrix implements \ArrayAccess
                 for ($k = 0; $k < $i; $k++) {
                     $sum += $U[$k][$i] * $L[$j][$k];
                 }
-                $L[$j][$i] = ($U[$i][$i]) == 0 ? \NAN : ($A[$j][$i] - $sum) / $U[$i][$i];
+                $L[$j][$i] = ($U[$i][$i] == 0) ? \NAN : ($A[$j][$i] - $sum) / $U[$i][$i];
             }
         }
 
