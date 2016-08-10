@@ -488,6 +488,8 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $stats = Descriptive::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], true);
         $this->assertTrue(is_array($stats));
         $this->assertArrayHasKey('n', $stats);
+        $this->assertArrayHasKey('min', $stats);
+        $this->assertArrayHasKey('max', $stats);
         $this->assertArrayHasKey('mean', $stats);
         $this->assertArrayHasKey('median', $stats);
         $this->assertArrayHasKey('mode', $stats);
@@ -508,6 +510,8 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('ci_95', $stats);
         $this->assertArrayHasKey('ci_99', $stats);
         $this->assertTrue(is_int($stats['n']));
+        $this->assertTrue(is_numeric($stats['min']));
+        $this->assertTrue(is_numeric($stats['max']));
         $this->assertTrue(is_numeric($stats['mean']));
         $this->assertTrue(is_numeric($stats['median']));
         $this->assertTrue(is_array($stats['mode']));
@@ -534,6 +538,8 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $stats = Descriptive::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], false);
         $this->assertTrue(is_array($stats));
         $this->assertArrayHasKey('n', $stats);
+        $this->assertArrayHasKey('min', $stats);
+        $this->assertArrayHasKey('max', $stats);
         $this->assertArrayHasKey('mean', $stats);
         $this->assertArrayHasKey('median', $stats);
         $this->assertArrayHasKey('mode', $stats);
@@ -552,6 +558,8 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('ci_95', $stats);
         $this->assertArrayHasKey('ci_99', $stats);
         $this->assertTrue(is_int($stats['n']));
+        $this->assertTrue(is_numeric($stats['min']));
+        $this->assertTrue(is_numeric($stats['max']));
         $this->assertTrue(is_numeric($stats['mean']));
         $this->assertTrue(is_numeric($stats['median']));
         $this->assertTrue(is_array($stats['mode']));

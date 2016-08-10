@@ -521,6 +521,8 @@ class Descriptive
 
         return [
             'n'                  => $n,
+            'min'                => min($numbers),
+            'max'                => max($numbers),
             'mean'               => $μ,
             'median'             => Average::median($numbers),
             'mode'               => Average::mode($numbers),
