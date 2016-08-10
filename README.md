@@ -670,6 +670,8 @@ $stats = Descriptive::describe($numbers); // Has optional parameter to set popul
 print_r($stats);
 /* Array (
     [n]          => 9
+    [min]        => 13
+    [max]        => 21
     [mean]       => 15
     [median]     => 14
     [mode]       => Array ( [0] => 13 )
