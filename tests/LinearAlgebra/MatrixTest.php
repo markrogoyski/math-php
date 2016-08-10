@@ -2189,4 +2189,14 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    public function testLUDecompositionExceptionNotSquare()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+        $this->setExpectedException('\Exception');
+        $A->LUDecomposition();
+    }
 }

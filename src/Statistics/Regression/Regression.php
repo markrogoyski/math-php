@@ -206,8 +206,8 @@ abstract class Regression
         $ȳ = Average::mean($this->ys);
 
         return array_sum(array_map(
-            function ($y) use ($ȳ) {
-                return ($y - $ȳ)**2;
+            function ($ŷᵢ) use ($ȳ) {
+                return ($ŷᵢ - $ȳ)**2;
             },
             $this->yHat()
         ));
@@ -221,7 +221,8 @@ abstract class Regression
       * the data and an estimation model.
       * https://en.wikipedia.org/wiki/Residual_sum_of_squares
       *
-      * SSres = ∑(yᵢ - ŷᵢ)²
+      * SSres = ∑(yᵢ - f(xᵢ))²
+      *       = ∑(yᵢ - ŷᵢ)²
       *
       * @return number
       */

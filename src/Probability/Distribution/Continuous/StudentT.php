@@ -81,12 +81,14 @@ class StudentT extends Continuous
         $x⟮t⟯  = $ν / ($t**2 + $ν);
         $ν／2 = $ν / 2;
         $½    = .5;
-        $I = $½ * Special::regularizedIncompleteBeta($x⟮t⟯, $ν／2, $½);
-        if($t < 0) {
-            return $I;
+        $Iₓ   = Special::regularizedIncompleteBeta($x⟮t⟯, $ν／2, $½);
+
+        if ($t < 0) {
+            return $½ * $Iₓ;
         }
-        // $t > 0
-        return 1 - $I;
+
+        // $t ≥ 0
+        return 1 - $½ * $Iₓ;
     }
 
     /**
