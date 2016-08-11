@@ -40,4 +40,22 @@ class LineweaverBurkTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    
+        /**
+     * @dataProvider dataProviderForEvaluate
+     */
+    public function testEvaluate(array $points, $x, $y)
+    {
+        $regression = new LineweaverBurk($points);
+        $this->assertEquals($y, $regression->evaluate($x), '', 0.0001);
+    }
+    public function dataProviderForEvaluate()
+    {
+        return [
+            [
+                [ [.038, .05], [.194, .127], [.425, .094], [.626, .2122], [1.253, .2729], [2.5, .2665], [3.740, .3317] ],
+                0.038, 0.049111286,
+            ],
+        ];
+    }
 }
