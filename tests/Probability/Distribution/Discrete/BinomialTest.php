@@ -29,18 +29,6 @@ class BinomialTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testPMFProbabilityLowerBoundException()
-    {
-        $this->setExpectedException('\Exception');
-        Binomial::PMF(6, 2, -0.1);
-    }
-
-    public function testPMFProbabilityUpperBoundException()
-    {
-        $this->setExpectedException('\Exception');
-        Binomial::PMF(6, 2, 1.1);
-    }
-
     /**
      * @dataProvider dataProviderForCDF
      */

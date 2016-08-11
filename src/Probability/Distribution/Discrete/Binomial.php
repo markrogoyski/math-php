@@ -2,9 +2,23 @@
 namespace Math\Probability\Distribution\Discrete;
 
 use Math\Probability\Combinatorics;
+use Math\Functions\Support;
 
 class Binomial extends Discrete
 {
+    /**
+     * Distribution parameter bounds limits
+     * n ∈ [0,∞)
+     * r ∈ [0,∞)
+     * p ∈ [0,1]
+     * @var array
+     */
+    const LIMITS = [
+        'n' => '[0,∞)',
+        'r' => '[0,∞)',
+        'p' => '[0,1]',
+    ];
+
     /**
      * Binomial distribution - probability mass function
      * https://en.wikipedia.org/wiki/Binomial_distribution
@@ -13,15 +27,13 @@ class Binomial extends Discrete
      *
      * @param  int   $n number of events
      * @param  int   $r number of successful events
-     * @param  float $P probability of success
+     * @param  float $p probability of success
      *
      * @return float
      */
     public static function PMF(int $n, int $r, float $p): float
     {
-        if ($p < 0 || $p > 1) {
-            throw new \Exception("Probability $p must be between 0 and 1.");
-        }
+        Support::checkLimits(self::LIMITS, ['n' => $n, 'r' => $r, 'p' => $p]);
 
         $nCr       = Combinatorics::combinations($n, $r);
         $pʳ        = pow($p, $r);
@@ -42,6 +54,8 @@ class Binomial extends Discrete
      */
     public static function CDF(int $n, int $r, float $p): float
     {
+        Support::checkLimits(self::LIMITS, ['n' => $n, 'r' => $r, 'p' => $p]);
+
         $cumulative_probability = 0;
         for ($i = $r; $i >= 0; $i--) {
             $cumulative_probability += self::PMF($n, $i, $p);

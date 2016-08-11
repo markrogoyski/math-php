@@ -244,7 +244,8 @@ abstract class Regression
     /**
       * SStot - The total Sum Squares
       *
-      * The sum of the squares of the dependent data array
+      * the sum, over all observations, of the squared differences of
+      * each observation from the overall mean.
       * https://en.wikipedia.org/wiki/Total_sum_of_squares
       *
       * SStot = ∑(yᵢ - ȳ)²

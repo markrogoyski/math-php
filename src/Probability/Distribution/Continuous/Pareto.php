@@ -1,6 +1,8 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
+use Math\Functions\Support;
+
 /**
  * Pareto distribution
  * https://en.wikipedia.org/wiki/Pareto_distribution
@@ -37,7 +39,7 @@ class Pareto extends Continuous
      */
     public static function PDF($x, $a, $b)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'a' => $a, 'b' => $b]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'a' => $a, 'b' => $b]);
 
         if ($x < $b) {
             return 0;
@@ -64,7 +66,7 @@ class Pareto extends Continuous
      */
     public static function CDF($x, $a, $b)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'a' => $a, 'b' => $b]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'a' => $a, 'b' => $b]);
 
         if ($x < $b) {
             return 0;
@@ -88,7 +90,7 @@ class Pareto extends Continuous
      */
     public static function mean($a, $b)
     {
-        self::checkLimits(self::LIMITS, ['a' => $a, 'b' => $b]);
+        Support::checkLimits(self::LIMITS, ['a' => $a, 'b' => $b]);
 
         if ($a <= 1) {
             return INF;

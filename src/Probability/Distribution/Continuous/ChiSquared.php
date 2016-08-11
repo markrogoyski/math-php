@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
-use Math\Functions\Special;
+use Math\Functions\{Special, Support};
 
 /**
  * χ²-distribution (Chi-squared)
@@ -36,7 +36,7 @@ class ChiSquared extends Continuous
      */
     public static function PDF($x, int $k)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'k' => $k]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'k' => $k]);
 
         // Numerator
         $x⁽ᵏ／²⁾⁻¹ = $x**(($k / 2) - 1);
@@ -70,7 +70,7 @@ class ChiSquared extends Continuous
      */
     public static function CDF($x, int $k)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'k' => $k]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'k' => $k]);
 
         // Numerator
         $γ⟮k／2、x／2⟯ = Special::γ($k / 2, $x / 2);
@@ -92,7 +92,7 @@ class ChiSquared extends Continuous
      */
     public static function mean(int $k)
     {
-        self::checkLimits(self::LIMITS, ['k' => $k]);
+        Support::checkLimits(self::LIMITS, ['k' => $k]);
 
         return $k;
     }

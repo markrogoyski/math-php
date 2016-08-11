@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
-use Math\Functions\Special;
+use Math\Functions\{Special, Support};
 
 /**
  * F-distribution
@@ -44,7 +44,7 @@ class F extends Continuous
      */
     public static function PDF($x, int $d₁, int $d₂)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'd₁' => $d₁, 'd₂' => $d₂]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'd₁' => $d₁, 'd₂' => $d₂]);
 
         // Numerator
         $⟮d₁x⟯ᵈ¹d₂ᵈ²                = ($d₁ * $x)**$d₁ * $d₂**$d₂;
@@ -76,7 +76,7 @@ class F extends Continuous
      */
     public static function CDF($x, int $d₁, int $d₂)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'd₁' => $d₁, 'd₂' => $d₂]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'd₁' => $d₁, 'd₂' => $d₂]);
 
         $ᵈ¹ˣ／d₁x＋d₂ = ($d₁ * $x) / ($d₁ * $x + $d₂);
 

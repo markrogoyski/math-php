@@ -383,7 +383,9 @@ $cdf = LogLogistic::CDF($x, $α, $β);
 $μ   = LogLogistic::mean($α, $β);
 
 // Log-normal distribution
-list($μ, $σ, $x) = [6, 2, 4.3];
+$x = 4.3;
+$μ = 6;   // scale parameter
+$σ = 2;   // location parameter
 $pdf  = LogNormal::PDF($x, $μ, $σ);
 $cdf  = LogNormal::CDF($x, $μ, $σ);
 $mean = LogNormal::mean($μ, $σ);
@@ -829,6 +831,11 @@ $SSreg      = $regression->sumOfSquaresRegression();
 $SSres      = $regression->sumOfSquaresResidual();
 $r          = $regression->r();                      // same as correlationCoefficient
 $r²         = $regression->r2();                     // same as coefficientOfDetermination
+$se         = $regression->standardErrors();         // [m => se(m), b => se(b)]
+$t          = $regression->tValues();                // [m => t, b => t]
+$p          = $regression->tProbability();           // [m => p, b => p]
+$F          = $regression->FStatistic();
+$p          = $regression->FProbability();
 $n          = $regression->getSampleSize();          // 5
 $points     = $regression->getPoints();              // [[1,2], [2,3], [4,5], [5,7], [6,8]]
 $xs         = $regression->getXs();                  // [1, 2, 4, 5, 6]

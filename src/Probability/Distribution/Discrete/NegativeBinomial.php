@@ -2,9 +2,23 @@
 namespace Math\Probability\Distribution\Discrete;
 
 use Math\Probability\Combinatorics;
+use Math\Functions\Support;
 
 class NegativeBinomial extends Discrete
 {
+    /**
+     * Distribution parameter bounds limits
+     * x ∈ [0,∞)
+     * r ∈ [0,∞)
+     * P ∈ [0,1]
+     * @var array
+     */
+    const LIMITS = [
+        'x' => '[0,∞)',
+        'r' => '[0,∞)',
+        'P' => '[0,1]',
+    ];
+
     /**
      * Negative binomial distribution (Pascal distribution) - probability mass function
      * https://en.wikipedia.org/wiki/Negative_binomial_distribution
@@ -19,9 +33,7 @@ class NegativeBinomial extends Discrete
      */
     public static function PMF(int $x, int $r, float $P): float
     {
-        if ($P < 0 || $P > 1) {
-            throw new \Exception("Probability $P must be between 0 and 1.");
-        }
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'r' => $r, 'P' => $P]);
      
         $ₓ₋₁Cᵣ₋₁   = Combinatorics::combinations($x - 1, $r - 1);
         $Pʳ        = pow($P, $r);

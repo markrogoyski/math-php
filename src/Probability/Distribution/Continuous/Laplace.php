@@ -1,6 +1,8 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
+use Math\Functions\Support;
+
 class Laplace extends Continuous
 {
     /**
@@ -33,7 +35,7 @@ class Laplace extends Continuous
      */
     public static function PDF($x, $μ, $b): float
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'b' => $b]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'b' => $b]);
 
         return (1 / (2 * $b)) * exp(-( abs($x - $μ)/$b ));
     }
@@ -58,7 +60,7 @@ class Laplace extends Continuous
      */
     public static function CDF($x, $μ, $b): float
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'b' => $b]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'b' => $b]);
 
         if ($x < $μ) {
             return (1/2) * exp(($x - $μ) / $b);
@@ -78,7 +80,7 @@ class Laplace extends Continuous
      */
     public static function mean($μ, $b)
     {
-        self::checkLimits(self::LIMITS, ['μ' => $μ, 'b' => $b]);
+        Support::checkLimits(self::LIMITS, ['μ' => $μ, 'b' => $b]);
 
         return $μ;
     }

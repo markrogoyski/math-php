@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
-use Math\Functions\Special;
+use Math\Functions\{Special, Support};
 
 class Weibull extends Continuous
 {
@@ -36,7 +36,7 @@ class Weibull extends Continuous
      */
     public static function PDF($x, $k, $λ)
     {
-        self::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
+        Support::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
 
         if ($x < 0) {
             return 0;
@@ -61,7 +61,7 @@ class Weibull extends Continuous
      */
     public static function CDF($x, $k, $λ)
     {
-        self::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
+        Support::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
 
         if ($x < 0) {
             return 0;
@@ -82,7 +82,7 @@ class Weibull extends Continuous
      */
     public static function mean($k, $λ)
     {
-        self::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
+        Support::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
 
         return $λ * Special::gamma(1 + 1 / $k);
     }

@@ -1,14 +1,14 @@
 <?php
-namespace Math\Probability\Distribution;
+namespace Math\Functions;
 
-class DistributionTest extends \PHPUnit_Framework_TestCase
+class SupportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider dataProviderForCheckLimitsLowerLimit
      */
     public function testCheckLimitsLowerLimit(array $limits, array $params)
     {
-        $this->assertTrue(Distribution::checkLimits($limits, $params));
+        $this->assertTrue(Support::checkLimits($limits, $params));
     }
 
     public function dataProviderForCheckLimitsLowerLimit()
@@ -75,7 +75,7 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     public function testCheckLimitsLowerLimitException(array $limits, array $params)
     {
         $this->setExpectedException('\Exception');
-        Distribution::checkLimits($limits, $params);
+        Support::checkLimits($limits, $params);
     }
 
     public function dataProviderForCheckLimitsLowerLimitException()
@@ -113,7 +113,7 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckLimitsUpperLimit(array $limits, array $params)
     {
-        $this->assertTrue(Distribution::checkLimits($limits, $params));
+        $this->assertTrue(Support::checkLimits($limits, $params));
     }
 
     public function dataProviderForCheckLimitsUpperLimit()
@@ -172,7 +172,7 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     public function testCheckLimitsUpperLimitException(array $limits, array $params)
     {
         $this->setExpectedException('\Exception');
-        Distribution::checkLimits($limits, $params);
+        Support::checkLimits($limits, $params);
     }
 
     public function dataProviderForCheckLimitsUpperLimitException()
@@ -211,7 +211,7 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
 
         $limits = ['x' => '{0,1)'];
         $params = ['x' => 0.5];
-        Distribution::checkLimits($limits, $params);
+        Support::checkLimits($limits, $params);
     }
 
     public function testCheckLimitsUpperLimitEndpointException()
@@ -220,7 +220,7 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
 
         $limits = ['x' => '(0,1}'];
         $params = ['x' => 0.5];
-        Distribution::checkLimits($limits, $params);
+        Support::checkLimits($limits, $params);
     }
 
     /**
@@ -229,7 +229,7 @@ class DistributionTest extends \PHPUnit_Framework_TestCase
     public function testCheckLimitsUndefinedParameterException(array $limits, array $params)
     {
         $this->setExpectedException('\Exception');
-        Distribution::checkLimits($limits, $params);
+        Support::checkLimits($limits, $params);
     }
 
     public function dataProviderForCheckLimitsUndefinedParameterException()

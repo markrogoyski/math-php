@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
-use Math\Functions\Special;
+use Math\Functions\{Special, Support};
 
 /**
  * Cauchy distribution
@@ -39,7 +39,7 @@ class Cauchy extends Continuous
      */
     public static function PDF($x, $x₀, $γ)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'x₀' => $x₀, 'γ' => $γ]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'x₀' => $x₀, 'γ' => $γ]);
 
         $π = \M_PI;
         return 1 / ($π * $γ * (1 + (($x - $x₀) / $γ) ** 2));
@@ -57,7 +57,7 @@ class Cauchy extends Continuous
      */
     public static function CDF($x, $x₀, $γ)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'x₀' => $x₀, 'γ' => $γ]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'x₀' => $x₀, 'γ' => $γ]);
 
         $π = \M_PI;
         return 1 / $π * atan(($x - $x₀) / $γ) + .5;

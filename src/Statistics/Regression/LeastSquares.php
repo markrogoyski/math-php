@@ -1,12 +1,9 @@
 <?php
 namespace Math\Statistics\Regression;
 
-use Math\Statistics\RandomVariable;
-use Math\Statistics\Average;
-use Math\Functions\Map\Single;
-use Math\Functions\Map\Multi;
-use Math\Probability\Distribution\Continuous\F;
-use Math\Probability\Distribution\Continuous\StudentT;
+use Math\Statistics\{Average, RandomVariable};
+use Math\Functions\Map\{Single, Multi};
+use Math\Probability\Distribution\Continuous\{F, StudentT};
 
 trait LeastSquares
 {
@@ -124,7 +121,7 @@ trait LeastSquares
      *    t = t value
      *    ν = n - 2  degrees of freedom
      *
-     * @return array [m => tProbability, b => tProbability]
+     * @return array [m => p, b => p]
      */
     public function tProbability()
     {
@@ -138,41 +135,67 @@ trait LeastSquares
     }
     
     /**
-     * The F statistic of the regression
+     * The F statistic of the regression (F test)
+     *
+     *      MSm      SSᵣ/1
+     * F₀ = --- = -----------
+     *      MSₑ   SSₑ/(n - 2)
+     *
+     *  where:
+     *    MSm = mean square model (regression mean square) = SSᵣ / df(SSᵣ) = SSᵣ/1
+     *    MSₑ = mean square error (estimate of variance σ² of the random error)
+     *        = SSₑ/(n - 2)
+     *
+     *    SSᵣ = sum of squares of the regression
+     *    SSₑ = sum of squares of residuals
+     *
+     * @return number
      */
     public function FStatistic()
     {
         // The number of regression parameters.
         $p = 2;
         $n = $this->n;
+
+        $SSᵣ = $this->sumOfSquaresRegression();
+        $SSₑ = $this->sumOfSquaresResidual();
         
-        $SSr = $this->sumOfSquaresRegression();
-        $SSe = $this->sumOfSquaresResidual();
-        
-        // Mean of Squares for model.
-        $msm = $SSr / ($p - 1);
+        // Mean of Squares for model (regression mean square)
+        $MSm = $SSᵣ / ($p - 1);
         
         // Mean of Squares for Error
-        $mse = $SSe / ($n - $p);
+        $MSₑ = $SSₑ / ($n - $p);
         
-        $F = $msm / $mse;
+        $F = $MSm / $MSₑ;
         
         return $F;
     }
     
     /**
      * The probabilty associated with the regression F Statistic
+     *
+     * F probability = F distribution CDF(F,d₁,d₂)
+     *
+     *  where:
+     *    F  = F statistic
+     *    d₁ = degrees of freedom 1
+     *    d₂ = degrees of freedom 2
+     *
+     *    ν  = degrees of freedom
+     *
+     * @return number
      */
     public function FProbability()
     {
         $F = $this->FStatistic();
         $n = $this->n;
-        // Degrees of Freedom.
-        $df = $this->n - 2;
-        
-        $v1 = $n - $df - 1;
-        $v2 = $df;
-        return (F::CDF($F, $v1, $v2));
+
+        // Degrees of freedom
+        $ν  = $n - 2;
+        $d₁ = $n - $ν - 1;
+        $d₂ = $ν;
+
+        return (F::CDF($F, $d₁, $d₂));
     }
     
 }

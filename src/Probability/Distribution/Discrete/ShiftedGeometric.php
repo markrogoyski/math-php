@@ -1,8 +1,21 @@
 <?php
 namespace Math\Probability\Distribution\Discrete;
 
+use Math\Functions\Support;
+
 class ShiftedGeometric extends Discrete
 {
+    /**
+     * Distribution parameter bounds limits
+     * k ∈ [1,∞)
+     * p ∈ (0,1]
+     * @var array
+     */
+    const LIMITS = [
+        'k' => '[1,∞)',
+        'p' => '(0,1]',
+    ];
+
     /**
      * Shifted geometric distribution - probability mass function
      *
@@ -21,12 +34,7 @@ class ShiftedGeometric extends Discrete
      */
     public static function PMF(int $k, float $p): float
     {
-        if ($k < 1) {
-            throw new \Exception('k must be an int ≥ 1');
-        }
-        if ($p <= 0 || $p > 1) {
-            throw new \Exception('p must be 0 < p ≤ 1');
-        }
+        Support::checkLimits(self::LIMITS, ['k' => $k, 'p' => $p]);
 
         $⟮1 − p⟯ᵏ⁻¹ = pow(1 - $p, $k - 1);
         return $⟮1 − p⟯ᵏ⁻¹ * $p;
@@ -50,12 +58,7 @@ class ShiftedGeometric extends Discrete
      */
     public static function CDF(int $k, float $p): float
     {
-        if ($k < 0) {
-            throw new \Exception('k must be an int ≥ 0');
-        }
-        if ($p <= 0 || $p > 1) {
-            throw new \Exception('p must be 0 < p ≤ 1');
-        }
+        Support::checkLimits(self::LIMITS, ['k' => $k, 'p' => $p]);
 
         $⟮1 − p⟯ᵏ = pow(1 - $p, $k);
         return 1 - $⟮1 − p⟯ᵏ;

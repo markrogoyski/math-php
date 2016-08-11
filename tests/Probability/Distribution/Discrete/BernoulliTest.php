@@ -27,18 +27,6 @@ class BernoulliTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Binomial::PMF(1, 1, 0.6), Bernoulli::PMF(1, 0.6));
     }
 
-    public function testPMFExceptionKNotZeroOrOne()
-    {
-        $this->setExpectedException('\Exception');
-        Bernoulli::PMF(5, 0.5);
-    }
-
-    public function testPMFExceptionPOutOfBounds()
-    {
-        $this->setExpectedException('\Exception');
-        Bernoulli::PMF(1, 2.5);
-    }
-
     /**
      * @dataProvider dataProviderForCDF
      */
@@ -56,11 +44,5 @@ class BernoulliTest extends \PHPUnit_Framework_TestCase
             [ 1, 0.3, 1 ],
             [ -1, 0.5, 0 ],
         ];
-    }
-
-    public function testCDFExceptionPOutOfBounds()
-    {
-        $this->setExpectedException('\Exception');
-        Bernoulli::CDF(1, 2.5);
     }
 }
