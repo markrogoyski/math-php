@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
-use Math\Functions\Special;
+use Math\Functions\{Special, Support};
 
 /**
  * Normal distribution
@@ -37,7 +37,7 @@ class Normal extends Continuous
      */
     public static function PDF($x, $μ, $σ): float
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
 
         $π     = \M_PI;
         $σ√⟮2π⟯ = $σ * sqrt(2 * $π);
@@ -66,7 +66,7 @@ class Normal extends Continuous
      */
     public static function CDF($x, $μ, $σ): float
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
 
         return 1/2 * ( 1 + Special::erf(($x - $μ) / ($σ * sqrt(2))) );
     }
@@ -83,7 +83,7 @@ class Normal extends Continuous
      */
     public static function mean($μ, $σ)
     {
-        self::checkLimits(self::LIMITS, ['μ' => $μ, 'σ' => $σ]);
+        Support::checkLimits(self::LIMITS, ['μ' => $μ, 'σ' => $σ]);
 
         return $μ;
     }

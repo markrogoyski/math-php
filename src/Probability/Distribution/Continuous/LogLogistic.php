@@ -1,6 +1,8 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
+use Math\Functions\Support;
+
 /**
  * Log-logistic distribution
  * Also known as the Fisk distribution.
@@ -36,7 +38,7 @@ class LogLogistic extends Continuous
      */
     public static function PDF($x, $α, $β)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
 
         $⟮β／α⟯⟮x／α⟯ᵝ⁻¹  = ($β / $α) * pow($x / $α, $β - 1);
         $⟮1 ＋ ⟮x／α⟯ᵝ⟯² = pow(1 + ($x / $α)**$β, 2);
@@ -57,7 +59,7 @@ class LogLogistic extends Continuous
      */
     public static function CDF($x, $α, $β)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
 
         $⟮x／α⟯⁻ᵝ = pow($x / $α, -$β);
         return 1 / (1 + $⟮x／α⟯⁻ᵝ);
@@ -77,7 +79,7 @@ class LogLogistic extends Continuous
      */
     public static function mean($α, $β)
     {
-        self::checkLimits(self::LIMITS, ['α' => $α, 'β' => $β]);
+        Support::checkLimits(self::LIMITS, ['α' => $α, 'β' => $β]);
 
         $π = \M_PI;
 

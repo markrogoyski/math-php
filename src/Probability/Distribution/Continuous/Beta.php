@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
-use Math\Functions\Special;
+use Math\Functions\{Special, Support};
 
 /**
  * Beta distribution
@@ -37,7 +37,7 @@ class Beta extends Continuous
      */
     public static function PDF($x, $α, $β)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
 
         $xᵃ⁻¹     = pow($x, $α - 1);
         $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $β - 1);
@@ -58,7 +58,7 @@ class Beta extends Continuous
      */
     public static function CDF($x, $α, $β)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
 
         return Special::regularizedIncompleteBeta($x, $α, $β);
     }
@@ -77,7 +77,7 @@ class Beta extends Continuous
      */
     public static function mean($α, $β)
     {
-        self::checkLimits(self::LIMITS, ['α' => $α, 'β' => $β]);
+        Support::checkLimits(self::LIMITS, ['α' => $α, 'β' => $β]);
 
         return $α / ($α + $β);
     }

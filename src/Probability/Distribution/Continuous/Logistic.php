@@ -1,6 +1,8 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
+use Math\Functions\Support;
+
 /**
  * Logistic distribution
  * https://en.wikipedia.org/wiki/Logistic_distribution
@@ -39,7 +41,7 @@ class Logistic extends Continuous
      */
     public static function PDF($x, $μ, $s)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
 
         $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
         return $ℯ＾⁻⁽x⁻μ⁾／s / ($s * pow(1 + $ℯ＾⁻⁽x⁻μ⁾／s, 2));
@@ -62,7 +64,7 @@ class Logistic extends Continuous
      */
     public static function CDF($x, $μ, $s)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
 
         $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
         return 1 / (1 + $ℯ＾⁻⁽x⁻μ⁾／s);
@@ -80,7 +82,7 @@ class Logistic extends Continuous
      */
     public static function mean($μ, $s)
     {
-        self::checkLimits(self::LIMITS, ['μ' => $μ, 's' => $s]);
+        Support::checkLimits(self::LIMITS, ['μ' => $μ, 's' => $s]);
 
         return $μ;
     }

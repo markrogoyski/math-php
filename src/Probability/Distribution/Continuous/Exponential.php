@@ -1,6 +1,8 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
+use Math\Functions\Support;
+
 /**
  * Exponental distribution
  * https://en.wikipedia.org/wiki/Exponential_distribution
@@ -34,7 +36,7 @@ class Exponential extends Continuous
         if ($x < 0) {
             return 0;
         }
-        self::checkLimits(self::LIMITS, ['x' => $x, 'λ' => $λ]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'λ' => $λ]);
 
         return $λ * exp(-$λ * $x);
     }
@@ -54,7 +56,7 @@ class Exponential extends Continuous
         if ($x < 0) {
             return 0;
         }
-        self::checkLimits(self::LIMITS, ['x' => $x, 'λ' => $λ]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'λ' => $λ]);
 
         return 1 - exp(-$λ * $x);
     }
@@ -70,7 +72,7 @@ class Exponential extends Continuous
      */
     public static function mean(float $λ)
     {
-        self::checkLimits(self::LIMITS, ['λ' => $λ]);
+        Support::checkLimits(self::LIMITS, ['λ' => $λ]);
 
         return 1 / $λ;
     }

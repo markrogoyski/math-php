@@ -1,7 +1,7 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
-use Math\Functions\Special;
+use Math\Functions\{Special, Support};
 
 /**
  * Student's t-distribution
@@ -39,7 +39,7 @@ class StudentT extends Continuous
      */
     public static function PDF($x, int $ν)
     {
-        self::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν]);
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν]);
 
         $π = \M_PI;
 
@@ -72,7 +72,7 @@ class StudentT extends Continuous
      */
     public static function CDF($t, int $ν)
     {
-        self::checkLimits(self::LIMITS, ['t' => $t, 'ν' => $ν]);
+        Support::checkLimits(self::LIMITS, ['t' => $t, 'ν' => $ν]);
 
         if ($t == 0) {
             return .5;
@@ -102,7 +102,7 @@ class StudentT extends Continuous
      */
     public static function inverse2Tails($p, $ν)
     {
-        self::checkLimits(self::LIMITS, ['ν' => $ν]);
+        Support::checkLimits(self::LIMITS, ['ν' => $ν]);
         return self::inverse(1 - $p / 2, $ν);
     }
     
@@ -118,7 +118,7 @@ class StudentT extends Continuous
      */
     public static function mean($ν)
     {
-        self::checkLimits(self::LIMITS, ['ν' => $ν]);
+        Support::checkLimits(self::LIMITS, ['ν' => $ν]);
         if ($ν > 1) {
             return 0;
         }

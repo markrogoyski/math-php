@@ -1,6 +1,8 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
+use Math\Functions\Support;
+
 /**
  * Standard normal distribution
  * The simplest case of a normal distribution.
@@ -38,7 +40,7 @@ class StandardNormal extends Continuous
      */
     public static function PDF($z)
     {
-        self::checkLimits(self::LIMITS, ['z' => $z]);
+        Support::checkLimits(self::LIMITS, ['z' => $z]);
 
         return Normal::PDF($z, self::μ, self::σ);
     }
@@ -53,7 +55,7 @@ class StandardNormal extends Continuous
      */
     public static function CDF($z)
     {
-        self::checkLimits(self::LIMITS, ['z' => $z]);
+        Support::checkLimits(self::LIMITS, ['z' => $z]);
 
         return Normal::CDF($z, self::μ, self::σ);
     }
