@@ -32,7 +32,7 @@ trait LeastSquares
      *
      * @return array [m, b]
      */
-    function leastSquares($ys, $xs)
+    public function leastSquares($ys, $xs)
     {
         // Averages used in m (slope) calculation
         $x   = Average::mean($xs);
@@ -50,31 +50,63 @@ trait LeastSquares
             'b' => $b,
         ];
     }
-    
-    function standardErrors()
+
+    /**
+     * Standard error of the regression parameters (coefficients)
+     *
+     *              _________
+     *             /  ∑eᵢ²
+     *            /  -----
+     * se(m) =   /     ν
+     *          /  ---------
+     *         √   ∑⟮xᵢ - μ⟯²
+     *
+     *  where
+     *    eᵢ = residual (difference between observed value and value predicted by the model)
+     *    ν  = n - 2  degrees of freedom
+     *
+     *           ______
+     *          / ∑xᵢ²
+     * se(b) = /  ----
+     *        √    n
+     *
+     * @return array [m => se(m), b => se(b)]
+     */
+    public function standardErrors()
     {
         $n = $this->n;
-        $SSe = $this->sumOfSquaresResidual();
-        $df = $n - 2;    // Degrees of freedom
-        $sigma_squared = $SSe / $df;
-        $SSx = RandomVariable::sumOfSquaresDeviations($this->xs);
-        $sm = sqrt($sigma_squared / $SSx);
-        
-        $sum_x_squared = array_sum(Single::square($this->xs));
-        $sb = $sm * sqrt($sum_x_squared / $n);
+
+        // se(m): standard error of m
+        $SSres     = $this->sumOfSquaresResidual();
+        $ν         = $n - 2;
+        $∑eᵢ²／ν   = $SSres / $ν;
+        $∑⟮xᵢ − μ⟯² = RandomVariable::sumOfSquaresDeviations($this->xs);
+        $se⟮m⟯      = sqrt($∑eᵢ²／ν / $∑⟮xᵢ − μ⟯²);
+
+        // se(b): standard error of b
+        $∑xᵢ² = array_sum(Single::square($this->xs));
+        $se⟮b⟯ = $se⟮m⟯ * sqrt($∑xᵢ² / $n);
         
         return [
-            'm' => $sm,
-            'b' => $sb,
+            'm' => $se⟮m⟯,
+            'b' => $se⟮b⟯,
         ];
     }
     
     /**
-     * The t values associated with each of the regression parameters
-     * 
-     * t = β / se
+     * The t values associated with each of the regression parameters (coefficients)
+     *
+     *       β
+     * t = -----
+     *     se(β)
+     *
+     *  where:
+     *    β     = regression parameter (coefficient)
+     *    se(β) = standard error of the regression parameter (coefficient)
+     *
+     * @return  array [m => t, b => t]
      */
-    function TValues()
+    public function tValues()
     {
         $se = $this->standardErrors();
         return [
@@ -85,23 +117,30 @@ trait LeastSquares
     
     /**
      * The probabilty associated with each parameter's t value
+     *
+     * t probability = Student's T CDF(t,ν)
+     *
+     *  where:
+     *    t = t value
+     *    ν = n - 2  degrees of freedom
+     *
+     * @return array [m => tProbability, b => tProbability]
      */
-    function TProbability()
+    public function tProbability()
     {
-        // Degrees of Freedom.
-        $df = $this->n - 2;
-        $T = $this->TValues();
-        $ts = [
-            'm' => StudentT::CDF($T['m'], $df),
-            'b' => StudentT::CDF($T['b'], $df),
+        $ν  = $this->n - 2;
+        $t  = $this->tValues();
+
+        return [
+            'm' => StudentT::CDF($t['m'], $ν),
+            'b' => StudentT::CDF($t['b'], $ν),
         ];
-        return $ts;
     }
     
     /**
      * The F statistic of the regression
      */
-    function FStatistic()
+    public function FStatistic()
     {
         // The number of regression parameters.
         $p = 2;
@@ -124,7 +163,7 @@ trait LeastSquares
     /**
      * The probabilty associated with the regression F Statistic
      */
-    function FProbability()
+    public function FProbability()
     {
         $F = $this->FStatistic();
         $n = $this->n;

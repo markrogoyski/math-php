@@ -66,7 +66,7 @@ class Linear extends Regression
     }
 
     /**
-     * Get regression parameters
+     * Get regression parameters (coefficients)
      * m = slope
      * b = y intercept
      *
