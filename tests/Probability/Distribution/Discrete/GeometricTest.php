@@ -26,24 +26,6 @@ class GeometricTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testPMFExceptionKLessThanOne()
-    {
-        $this->setExpectedException('\Exception');
-        Geometric::PMF(0, 0.4);
-    }
-
-    public function testPMFExceptionPLessThanEqualZero()
-    {
-        $this->setExpectedException('\Exception');
-        Geometric::PMF(2, 0);
-    }
-
-    public function testPMFExceptionPGreaterThanOne()
-    {
-        $this->setExpectedException('\Exception');
-        Geometric::PMF(2, 1.2);
-    }
-
     /**
      * @dataProvider dataProviderForCDF
      */
@@ -65,23 +47,5 @@ class GeometricTest extends \PHPUnit_Framework_TestCase
             [ 1, 1, 1 ],
             [ 2, 1, 1 ],
         ];
-    }
-
-    public function testCDFExceptionKLessThanZero()
-    {
-        $this->setExpectedException('\Exception');
-        Geometric::CDF(-1, 0.4);
-    }
-
-    public function testCDFExceptionPLessThanEqualZero()
-    {
-        $this->setExpectedException('\Exception');
-        Geometric::CDF(2, 0);
-    }
-
-    public function testCDFExceptionPGreaterThanOne()
-    {
-        $this->setExpectedException('\Exception');
-        Geometric::CDF(2, 1.2);
     }
 }

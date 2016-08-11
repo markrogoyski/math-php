@@ -28,16 +28,4 @@ class PascalTest extends \PHPUnit_Framework_TestCase
             [ 2, 2, 0.5, 0.25 ],
         ];
     }
-
-    public function testPMFProbabilityLowerBoundException()
-    {
-        $this->setExpectedException('\Exception');
-        Pascal::PMF(6, 2, -0.1);
-    }
-
-    public function testPMFProbabilityUpperBoundException()
-    {
-        $this->setExpectedException('\Exception');
-        Pascal::PMF(6, 2, 1.1);
-    }
 }

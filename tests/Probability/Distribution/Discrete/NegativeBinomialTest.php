@@ -30,16 +30,4 @@ class NegativeBinomialTest extends \PHPUnit_Framework_TestCase
             [ 7, 3, 0.20, 0.049152 ],
         ];
     }
-
-    public function testPMFProbabilityLowerBoundException()
-    {
-        $this->setExpectedException('\Exception');
-        NegativeBinomial::PMF(6, 2, -0.1);
-    }
-
-    public function testPMFProbabilityUpperBoundException()
-    {
-        $this->setExpectedException('\Exception');
-        NegativeBinomial::PMF(6, 2, 1.1);
-    }
 }

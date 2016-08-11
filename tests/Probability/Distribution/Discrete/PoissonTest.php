@@ -48,16 +48,4 @@ class PoissonTest extends \PHPUnit_Framework_TestCase
             [ 16, 12, 0.898708992560164 ],
         ];
     }
-
-    public function testExceptionWhenKLessThanZero()
-    {
-        $this->setExpectedException('\Exception');
-        Poisson::PMF(-1, 2);
-    }
-
-    public function testExceptionWhenLambdaLessThanZero()
-    {
-        $this->setExpectedException('\Exception');
-        Poisson::PMF(2, -1);
-    }
 }
