@@ -24,7 +24,7 @@ class Bernoulli extends Discrete
      * q = (1 - p)  for k = 0
      * q = p        for k = 1
      *
-     * @param  int   $k number of successes  k ∈ {0, 1}
+     * @param  int   $k number of successes  k ∈ {0, 1} (int type hint with checkLimit enforces this)
      * @param  float $p success probability  0 < p < 1
      *
      * @return  float
@@ -32,9 +32,6 @@ class Bernoulli extends Discrete
     public static function PMF(int $k, float $p): float
     {
         Support::checkLimits(self::LIMITS, ['k' => $k, 'p' => $p]);
-        if (!in_array($k, [0, 1])) {
-            throw new \Exception('k must be 0 or 1');
-        }
 
         if ($k === 0) {
             return 1 - $p;
