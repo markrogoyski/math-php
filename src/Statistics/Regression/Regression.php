@@ -224,6 +224,9 @@ abstract class Regression
       * SSres = ∑(yᵢ - f(xᵢ))²
       *       = ∑(yᵢ - ŷᵢ)²
       *
+      *  where yᵢ is an observed value
+      *        ŷᵢ is a value predicted by the regression model
+      *
       * @return number
       */
     public function sumOfSquaresResidual()
