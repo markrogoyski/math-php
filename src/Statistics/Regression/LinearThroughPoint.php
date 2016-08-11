@@ -27,6 +27,8 @@ use Math\Functions\Map\Single;
  */
 class LinearThroughPoint extends Regression
 {
+    use LeastSquares;
+
     /**
      * Given a set of data ($points) and a point($force), perform a least squares
      * regression of the data, such that the regression is forced to pass through
