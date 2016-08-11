@@ -2,9 +2,21 @@
 namespace Math\Probability\Distribution\Discrete;
 
 use Math\Probability\Combinatorics;
+use Math\Functions\Support;
 
 class Poisson extends Discrete
 {
+    /**
+     * Distribution parameter bounds limits
+     * k ∈ [0,∞)
+     * λ ∈ [0,1]
+     * @var array
+     */
+    const LIMITS = [
+        'k' => '[0,∞)',
+        'λ' => '(0,∞)',
+    ];
+
     /**
      * Poisson distribution - probability mass function
      * A discrete probability distribution that expresses the probability of a given number of events
@@ -23,9 +35,7 @@ class Poisson extends Discrete
      */
     public static function PMF(int $k, float $λ): float
     {
-        if ($k < 0 || $λ < 0) {
-            throw new \Exception('k and λ must be greater than 0.');
-        }
+        Support::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
 
         $λᵏℯ＾−λ = pow($λ, $k) * exp(-$λ);
         $k！     = Combinatorics::factorial($k);
@@ -49,6 +59,8 @@ class Poisson extends Discrete
      */
     public static function CDF(int $k, float $λ): float
     {
+        Support::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
+
         return array_sum(array_map(
             function ($k) use ($λ) {
                 return self::PMF($k, $λ);

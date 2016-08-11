@@ -1,8 +1,21 @@
 <?php
 namespace Math\Probability\Distribution\Discrete;
 
+use Math\Functions\Support;
+
 class Bernoulli extends Discrete
 {
+    /**
+     * Distribution parameter bounds limits
+     * k ∈ [0,1]
+     * p ∈ (0,1)
+     * @var array
+     */
+    const LIMITS = [
+        'k' => '[0,1]',
+        'p' => '(0,1)',
+    ];
+
     /**
      * Bernoulli distribution - probability mass function
      *
@@ -18,11 +31,9 @@ class Bernoulli extends Discrete
      */
     public static function PMF(int $k, float $p): float
     {
+        Support::checkLimits(self::LIMITS, ['k' => $k, 'p' => $p]);
         if (!in_array($k, [0, 1])) {
             throw new \Exception('k must be 0 or 1');
-        }
-        if ($p <= 0 || $p >= 1) {
-            throw new \Exception('p must be 0 < p < 1');
         }
 
         if ($k === 0) {
@@ -47,9 +58,7 @@ class Bernoulli extends Discrete
      */
     public static function CDF(int $k, float $p): float
     {
-        if ($p <= 0 || $p > 1) {
-            throw new \Exception('p must be 0 < p ≤ 1');
-        }
+        Support::checkLimits(self::LIMITS, ['p' => $p]);
 
         if ($k < 0) {
             return 0;
