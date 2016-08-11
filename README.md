@@ -383,7 +383,9 @@ $cdf = LogLogistic::CDF($x, $α, $β);
 $μ   = LogLogistic::mean($α, $β);
 
 // Log-normal distribution
-list($μ, $σ, $x) = [6, 2, 4.3];
+$x = 4.3;
+$μ = 6;   // scale parameter
+$σ = 2;   // location parameter
 $pdf  = LogNormal::PDF($x, $μ, $σ);
 $cdf  = LogNormal::CDF($x, $μ, $σ);
 $mean = LogNormal::mean($μ, $σ);
