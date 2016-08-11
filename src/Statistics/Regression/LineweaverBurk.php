@@ -28,7 +28,7 @@ class LineweaverBurk extends Regression
         $parameters = $this->leastSquares($y’, $x’);
         
         // Translate the linearized parameters back.
-        $this->V = 1 / parameters['b'];
+        $this->V = 1 / $parameters['b'];
         $this->K = $parameters['m'] * $this->V;
     }
     /**
