@@ -15,7 +15,7 @@ class Matrix implements \ArrayAccess
     protected $m;
 
     /**
-     * Number of rows
+     * Number of columns
      * @var int
      */
     protected $n;
