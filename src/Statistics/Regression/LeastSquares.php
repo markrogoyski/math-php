@@ -121,7 +121,7 @@ trait LeastSquares
      *    t = t value
      *    ν = n - 2  degrees of freedom
      *
-     * @return array [m => tProbability, b => tProbability]
+     * @return array [m => p, b => p]
      */
     public function tProbability()
     {
