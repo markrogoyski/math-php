@@ -28,15 +28,15 @@ class LineweaverBurkTest extends \PHPUnit_Framework_TestCase
     {
         $regression = new LineweaverBurk($points);
         $parameters = $regression->getParameters();
-        $this->assertEquals($a, $parameters['V'], '', 0.0001);
-        $this->assertEquals($b, $parameters['K'], '', 0.0001);
+        $this->assertEquals($V, $parameters['V'], '', 0.0001);
+        $this->assertEquals($K, $parameters['K'], '', 0.0001);
     }
     public function dataProviderForParameters()
     {
         return [
             [
                 [ [.038, .05], [.194, .127], [.425, .094], [.626, .2122], [1.253, .2729], [2.5, .2665], [3.740, .3317] ],
-                .0.222903511, 0.13447224,
+                0.222903511, 0.13447224,
             ],
         ];
     }
