@@ -52,8 +52,9 @@ class LineweaverBurk extends Regression
     {
         return sprintf('y = %fx/(%f+x)', $this->V, $this->K);
     }
+
    /**
-    * Evaluate the power curve equation from power law regression parameters for a value of x
+    * Evaluate the equation using the regression parameters
     * y = V * X / (K + X)
     *
     * @param number $x
