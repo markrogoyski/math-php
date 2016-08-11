@@ -12,19 +12,19 @@ class Matrix implements \ArrayAccess
      * Number of rows
      * @var int
      */
-    private $m;
+    protected $m;
 
     /**
      * Number of rows
      * @var int
      */
-    private $n;
+    protected $n;
 
     /**
      * Matrix
      * @var array of arrays
      */
-    private $A;
+    protected $A;
 
     /**
      * Constructor
