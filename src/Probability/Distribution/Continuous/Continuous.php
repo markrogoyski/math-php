@@ -19,12 +19,27 @@ abstract class Continuous extends \Math\Probability\Distribution\Distribution
      */
     public static function inverse($target, ...$params)
     {
-        array_unshift($params, 0.5);
+        $initial = static::mean(...$params);
+        if ($initial === null) $initial == static::median(...$params);
+        array_unshift($params, $initial);
         $classname = get_called_class();
-        $callback  = [$classname, 'CDF'];
-        $tolerance = .00000000000001;
-        $position  = 0;
-        return NewtonsMethod::solve($callback, $params, $target, $tolerance, $position);
+        $CDF_callback  = [$classname, 'CDF'];
+        $PDF_callback  = [$classname, 'PDF'];
+        $tolerance = .0000000001;
+        $dif      = $tolerance + 1;
+        $guess    = $params[0];
+        while ($dif > $tolerance) {
+            // load the guess into the arguments
+            $params[0]  = $guess;
+            $y                = call_user_func_array($CDF_callback, $params);
+            
+            // Since the CDF is the integral of the PDF, the PDF is the derivative of the CDF
+            $slope            = call_user_func_array($PDF_callback, $params);
+            $del_y            = $target - $y;
+            $guess            = $del_y / $slope + $guess;
+            $dif              = abs($del_y);
+        }
+        return $guess;
     }
   
     /**
