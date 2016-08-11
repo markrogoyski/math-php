@@ -19,7 +19,7 @@ class FunctionMatrixTest extends \PHPUnit_Framework_TestCase
         
         $M = new FunctionMatrix($A);
         $ME = $M->evaluate(['x'=>1, 'y'=>2]);
-        $this->assertEquals(3, $ME->get(0,0), '', 0.000001);
+        $this->assertEquals(2, $ME->get(0,0), '', 0.000001);
         $this->assertEquals(5.90929742683, $ME->get(1,0), '', 0.000001);
     }
     
