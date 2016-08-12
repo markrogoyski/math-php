@@ -1,8 +1,6 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
 
-use Math\NumericalAnalysis\NewtonsMethod;
-
 abstract class Continuous extends \Math\Probability\Distribution\Distribution
 {
     /**
