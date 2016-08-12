@@ -14,6 +14,17 @@ use Math\Functions\Map\Single;
 class LineweaverBurk extends Regression
 {
     use LeastSquares;
+
+    /**
+     * @var number V regression parameter
+     */
+    private $V;
+
+    /**
+     * @var number K regression parameter
+     */
+    private $K;
+
     /**
      * Calculate the regression parameters by least squares on linearized data
      * y⁻¹ = K * V⁻¹ * x⁻¹ + V⁻¹
@@ -31,6 +42,7 @@ class LineweaverBurk extends Regression
         $this->V = 1 / $parameters['b'];
         $this->K = $parameters['m'] * $this->V;
     }
+
     /**
      * Get regression parameters (V and K)
      *
@@ -63,6 +75,6 @@ class LineweaverBurk extends Regression
     */
     public function evaluate($x)
     {
-        return $this->V * $x / ($this->K + $x);
+        return ($this->V * $x) / ($this->K + $x);
     }
 }
