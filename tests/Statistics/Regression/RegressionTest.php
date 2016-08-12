@@ -159,4 +159,27 @@ class RegressionTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * The sum of squares of Y equals the sum of squares regression plus the sum of squares of error (residual)
+     * SStotal = SSreg + SSres
+     * @dataProvider dataProviderForSumOfSquaresEqualsSumOfSQuaresRegressionPlusSumOfSquaresResidual
+     */
+    public function testSumOfSquaresEqualsSumOfSQuaresRegressionPlusSumOfSquaresResidual(array $points)
+    {
+        $regression = new Linear($points);
+        $SStot      = $regression->sumOfSquaresTotal();
+        $SSreg      = $regression->sumOfSquaresRegression();
+        $SSres      = $regression->sumOfSquaresResidual();
+        $this->assertEquals($SStot, $SSreg + $SSres, '', 0.001);
+    }
+
+    public function dataProviderForSumOfSquaresEqualsSumOfSQuaresRegressionPlusSumOfSquaresResidual()
+    {
+        return [
+            [ [[1,2], [2,3], [4,5], [5,7], [6,8]] ],
+            [ [[1,3], [2,6], [3,7], [4,11], [5,12], [6,13], [7,17]] ],
+            [ [[61,105], [62,120], [63,120], [65,160], [65,120], [68,145], [69,175], [70,160], [72,185], [75,210]] ],
+        ];
+    }
 }
