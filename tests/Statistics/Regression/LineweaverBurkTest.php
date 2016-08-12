@@ -1,5 +1,6 @@
 <?php
 namespace Math\Statistics\Regression;
+
 class LineweaverBurkTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -11,7 +12,7 @@ class LineweaverBurkTest extends \PHPUnit_Framework_TestCase
         $regression = new LineweaverBurk($points);
         $this->assertRegExp('/^y = \d+[.]\d+x\/\(\d+[.]\d+\+x\)$/', $regression->getEquation());
     }
-    
+
     public function dataProviderForEquation()
     {
         return [
@@ -20,7 +21,7 @@ class LineweaverBurkTest extends \PHPUnit_Framework_TestCase
             ]
         ];
     }
-    
+
     /**
      * @dataProvider dataProviderForParameters
      */
@@ -31,6 +32,7 @@ class LineweaverBurkTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($V, $parameters['V'], '', 0.0001);
         $this->assertEquals($K, $parameters['K'], '', 0.0001);
     }
+
     public function dataProviderForParameters()
     {
         return [
@@ -40,8 +42,8 @@ class LineweaverBurkTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
-    
-        /**
+
+    /**
      * @dataProvider dataProviderForEvaluate
      */
     public function testEvaluate(array $points, $x, $y)
@@ -49,6 +51,7 @@ class LineweaverBurkTest extends \PHPUnit_Framework_TestCase
         $regression = new LineweaverBurk($points);
         $this->assertEquals($y, $regression->evaluate($x), '', 0.0001);
     }
+
     public function dataProviderForEvaluate()
     {
         return [

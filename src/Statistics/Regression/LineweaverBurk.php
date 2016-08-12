@@ -34,10 +34,10 @@ class LineweaverBurk extends Regression
         // Linearize the relationship by taking the inverse of both x and y
         $x’ = Single::pow($this->xs, -1);
         $y’ = Single::pow($this->ys, -1);
-        
+
         // Perform Least Squares Fit
         $parameters = $this->leastSquares($y’, $x’);
-        
+
         // Translate the linearized parameters back.
         $this->V = 1 / $parameters['b'];
         $this->K = $parameters['m'] * $this->V;
