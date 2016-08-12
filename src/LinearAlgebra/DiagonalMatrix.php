@@ -1,5 +1,5 @@
 <?php
-namespace math\LinearAlgebra;
+namespace Math\LinearAlgebra;
 
 class DiagonalMatrix extends Matrix
 {
