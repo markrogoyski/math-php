@@ -8,7 +8,7 @@ class HanesWoolfTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetParameters(array $points, $V, $K)
     {
-        $regression = new LineweaverBurk($points);
+        $regression = new HanesWoolf($points);
         $parameters = $regression->getParameters();
         $this->assertEquals($V, $parameters['V'], '', 0.0001);
         $this->assertEquals($K, $parameters['K'], '', 0.0001);
