@@ -146,4 +146,58 @@ class LinearThroughPointTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    
+        /**
+     * @dataProvider dataProviderForCI
+     */
+    public function testGetCI(array $points, $x, $p, $ci)
+    {
+        $regression = new LinearThroughPoint($points);
+        $this->assertEquals($ci, $regression->getCI($x, $p), '', .0000001);
+    }
+    
+    public function dataProviderForCI()
+    {
+        return [
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                2, .05, 0.21256079,
+            ],
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                3, .05, 0.318841184,
+            ],
+            [
+               [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                3, .1, 0.244816853,
+            ],
+        ];
+    }
+    
+    /**
+     * @dataProvider dataProviderForPI
+     */
+    public function testGetPI(array $points, $x, $p, $q, $pi)
+    {
+        $regression = new LinearThroughPoint($points);
+        $this->assertEquals($pi, $regression->getPI($x, $p, $q), '', .0000001);
+    }
+    
+    public function dataProviderForPI()
+    {
+        return [
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                2, .05, 1, 0.985603835,
+            ],
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                3, .05, 1, 1.013850349,
+            ],
+            [
+               [ [1,2], [2,3], [4,5], [5,7], [6,8] ],  // when q gets large, pi approaches ci.
+                3, .1, 10000000, 0.244816965
+            ],
+        ];
+    }
 }
