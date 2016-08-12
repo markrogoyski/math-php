@@ -135,4 +135,74 @@ class LinearThroughPoint extends Regression
     {
         return array_sum(Single::square($this->ys));
     }
+    
+    /**
+     * The confidence interval of the regression
+     *                          ______
+     *                         /  1
+     * CI(x,p) = x * t * sy * / ------
+     *                       √   ∑xᵢ²
+     *
+     * Where:
+     *   t is the critical t for the p value
+     *   sy is the estimated standard deviation of y
+     *
+     * If $p = .05, then we can say we are 95% confidence the actual regression line
+     * will be within an interval of evaluate($x) ± getCI($x, .05).
+     *
+     * @param number $x
+     * @param number $p:  0 < p < 1 The P value to use
+     *
+     * @return number
+     */
+    public function getCI($x, $p)
+    {
+        
+        $∑x = sum(Single::square($this->xs));
+       
+        // The t-value
+        $t = StudentT::inverse2Tails($p, $ν);
+        // Standard error of y
+        $SSres = $this->SSres ?? $this->sumOfSquaresResidual();
+        $sy    = sqrt($SSres / $ν);
+        
+        // Put it together.
+        return $x * $t * $sy / sqrt($∑x);
+    }
+    /**
+     * The prediction interval of the regression
+     *                        ___________
+     *                       /1     x²
+     * PI(x,p,q) = t * sy * / - + ------
+     *                     √  q    ∑xᵢ²
+     *
+     * Where:
+     *   t is the critical t for the p value
+     *   sy is the estimated standard deviation of y
+     *   q is the number of replications
+     *
+     * If $p = .05, then we can say we are 95% confidence that the future averages of $q trials at $x
+     * will be within an interval of evaluate($x) ± getPI($x, .05, $q).
+     *
+     * @param number $x
+     * @param number $p  0 < p < 1 The P value to use
+     * @param int    $q  Number of trials
+     *
+     * @return number
+     */
+    public function getPI($x, $p, $q = 1)
+    {
+        $∑x = sum(Single::square($this->xs));
+        // Degrees of freedom.
+        $ν = $n - 1;
+        
+        // The t-value
+        $t = StudentT::inverse2Tails($p, $ν);
+        // Standard error of y
+        $SSres = $this->SSres ?? $this->sumOfSquaresResidual();
+        $sy    = sqrt($SSres / $ν);
+        
+        // Put it together.
+        return $t * $sy * sqrt(1 / $q + $x ** 2 / $∑x);
+    }
 }
