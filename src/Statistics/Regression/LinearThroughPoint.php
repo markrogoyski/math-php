@@ -27,8 +27,6 @@ use Math\Functions\Map\Single;
  */
 class LinearThroughPoint extends Regression
 {
-    use LeastSquares;
-
     /**
      * Given a set of data ($points) and a point($force), perform a least squares
      * regression of the data, such that the regression is forced to pass through
@@ -105,5 +103,36 @@ class LinearThroughPoint extends Regression
         $m  = $this->m;
         $b  = $this->b;
         return $m * $x + $b;
+    }
+
+    /**
+     * SSreg - The Sum Squares of the regression (Explained sum of squares)
+     *
+     * The sum of the squares of the deviations of the predicted values from
+     * the mean value of a response variable, in a standard regression model.
+     * https://en.wikipedia.org/wiki/Explained_sum_of_squares
+     *
+     * SSreg = ∑ŷᵢ²
+     *
+     * @return number
+     */
+    public function sumOfSquaresRegression()
+    {
+        return array_sum(Single::square($this->getYHat()));
+    }
+    
+    /**
+      * SStot - The total Sum Squares
+      *
+      * The sum of the squares of the dependent data array
+      * https://en.wikipedia.org/wiki/Total_sum_of_squares
+      *
+      * SStot = ∑yᵢ²
+      *
+      * @return number
+      */
+    public function sumOfSquaresTotal()
+    {
+        return array_sum(Single::square($this->ys));
     }
 }

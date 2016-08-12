@@ -6,9 +6,9 @@ class NegativeBinomialTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForPMF
      */
-    public function testPMF(int $x, int $r, float $P, float $neagative_binomial_distribution)
+    public function testPMF(int $x, int $r, float $P, float $pmf)
     {
-        $this->assertEquals($neagative_binomial_distribution, NegativeBinomial::PMF($x, $r, $P), '', 0.001);
+        $this->assertEquals($pmf, NegativeBinomial::PMF($x, $r, $P), '', 0.001);
     }
 
     /**
