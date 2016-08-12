@@ -1,5 +1,5 @@
 <?php
-
+namespace Math\Statistics\Regression;
 /**
  * The Michaelis-Menten equation is used to model enzyme kinetics.
  *       V * x
