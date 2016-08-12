@@ -74,6 +74,11 @@ class LinearTest extends \PHPUnit_Framework_TestCase
                 [ [4,390], [9,580], [10,650], [14,730], [4,410], [7,530], [12,600], [22,790], [1,350], [3,400], [8,590], [11,640], [5,450], [6,520], [10,690], [11,690], [16,770], [13,700], [13,730], [10,640] ],
                 25.326467777896, 353.16487949889
             ],
+            // Example data from http://reliawiki.org/index.php/Simple_Linear_Regression_Analysis
+            [
+                [ [50,122], [53,118], [54,128], [55,121], [56,125], [59,136], [62,144], [65,142], [67,149], [71,161], [72,167], [74,168], [75,162], [76,171], [79,175], [80,182], [82,180], [85,183], [87,188], [90,200], [93,194], [94,206], [95,207], [97,210], [100,219] ],
+                1.9952, 17.0016
+            ],
         ];
     }
 
@@ -104,7 +109,7 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     public function testEvaluate(array $points, $x, $y)
     {
         $regression = new Linear($points);
-        $this->assertEquals($y, $regression->evaluate($x));
+        $this->assertEquals($y, $regression->evaluate($x), '', 0.01);
     }
 
     public function dataProviderForEvaluate()
@@ -129,6 +134,11 @@ class LinearTest extends \PHPUnit_Framework_TestCase
             [
                 [ [0,2], [1,1], [2,0], [3,-1] ], // y = -x + 2
                 4, -2
+            ],
+            // Example data from http://reliawiki.org/index.php/Simple_Linear_Regression_Analysis
+            [
+                [ [50,122], [53,118], [54,128], [55,121], [56,125], [59,136], [62,144], [65,142], [67,149], [71,161], [72,167], [74,168], [75,162], [76,171], [79,175], [80,182], [82,180], [85,183], [87,188], [90,200], [93,194], [94,206], [95,207], [97,210], [100,219] ],
+                93, 202.5552
             ],
         ];
     }
