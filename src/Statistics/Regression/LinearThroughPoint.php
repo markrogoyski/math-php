@@ -159,7 +159,9 @@ class LinearThroughPoint extends Regression
     {
         
         $∑x = array_sum(Single::square($this->xs));
-       
+        
+        // Degrees of freedom.
+        $ν = $this->n - 1;
         // The t-value
         $t = StudentT::inverse2Tails($p, $ν);
         // Standard error of y
@@ -194,7 +196,7 @@ class LinearThroughPoint extends Regression
     {
         $∑x = array_sum(Single::square($this->xs));
         // Degrees of freedom.
-        $ν = $n - 1;
+        $ν = $this->n - 1;
         
         // The t-value
         $t = StudentT::inverse2Tails($p, $ν);
