@@ -864,13 +864,14 @@ $parameters  = $regression->getParameters();
 $equation    = $regression->getEquation();
 $y           = $regression->evaluate(5);
 
-// Fit data to the Michaelis–Menten model: y = (V * x) / (K + x)
-// Using Lineweaver-Burk linearization
+// Use Lineweaver-Burk linearization to fit data to the Michaelis–Menten model: y = (V * x) / (K + x)
 $regression  = new LineweaverBurk($points);
+$parameters  = $regression->getParameters();  // [V, K]
+$equation    = $regression->getEquation();    // y = Vx / (K + x)
+$y           = $regression->evaluate(5);
 
-//Or Hanes-Woolf linearization
+// Use Hanes-Woolf linearization to fit data to the Michaelis–Menten model: y = (V * x) / (K + x)
 $regression  = new HanesWoolf($points);
-//Parameter access and evaluation proceeds the same for each
 $parameters  = $regression->getParameters();  // [V, K]
 $equation    = $regression->getEquation();    // y = Vx / (K + x)
 $y           = $regression->evaluate(5);
