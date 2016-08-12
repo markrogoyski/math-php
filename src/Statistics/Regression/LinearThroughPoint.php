@@ -158,7 +158,7 @@ class LinearThroughPoint extends Regression
     public function getCI($x, $p)
     {
         
-        $∑x = sum(Single::square($this->xs));
+        $∑x = array_sum(Single::square($this->xs));
        
         // The t-value
         $t = StudentT::inverse2Tails($p, $ν);
@@ -192,7 +192,7 @@ class LinearThroughPoint extends Regression
      */
     public function getPI($x, $p, $q = 1)
     {
-        $∑x = sum(Single::square($this->xs));
+        $∑x = array_sum(Single::square($this->xs));
         // Degrees of freedom.
         $ν = $n - 1;
         
