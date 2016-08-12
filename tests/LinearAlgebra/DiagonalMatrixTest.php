@@ -10,7 +10,7 @@ class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
             [0, 0, 3],
         ];
         $this->D = [1,2,3];
-        $this->matrix = new Matrix($this->D);
+        $this->matrix = new DiagonalMatrix($this->D);
     }
    
     public function testGetMatrix()
