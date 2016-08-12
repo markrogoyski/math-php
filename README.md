@@ -827,6 +827,7 @@ $y          = $regression->evaluate(5);              // Evaluate for y at x = 5 
 $ci         = $regression->getCI(5, 0.5);            // Confidence interval for x = 5 with p-value of 0.5
 $pi         = $regression->getPI(5, 0.5);            // Prediction interval for x = 5 with p-value of 0.5; Optional number of trials parameter.
 $Ŷ          = $regression->yHat();
+$SStot      = $regression->sumOfSquaresTotal();
 $SSreg      = $regression->sumOfSquaresRegression();
 $SSres      = $regression->sumOfSquaresResidual();
 $r          = $regression->r();                      // same as correlationCoefficient
@@ -856,6 +857,18 @@ $n           = $regression->getSampleSize();
 $points      = $regression->getPoints();
 $xs          = $regression->getXs();
 $yx          = $regression->getYs();
+
+// Theil–Sen estimator (Sen's slope estimator, Kendall–Theil robust line)
+$regression  = new TheilSen($points);
+$parameters  = $regression->getParameters();
+$equation    = $regression->getEquation();
+$y           = $regression->evaluate(5);
+
+// Lineweaver-Burk method to fit an equation of the form: y = (V * x) / (K + x)
+$regression  = new LineweaverBurk($points);
+$parameters  = $regression->getParameters();  // [V, K]
+$equation    = $regression->getEquation();    // y = Vx / (K + x)
+$y           = $regression->evaluate(5);
 
 // Power law regression - power curve (least squares fitting)
 $regression = new PowerLaw($points);
