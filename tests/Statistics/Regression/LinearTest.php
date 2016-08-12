@@ -3,7 +3,6 @@ namespace Math\Statistics\Regression;
 
 class LinearTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructor()
     {
         $points = [ [1,2], [2,3], [4,5], [5,7], [6,8] ];
@@ -78,6 +77,11 @@ class LinearTest extends \PHPUnit_Framework_TestCase
             [
                 [ [50,122], [53,118], [54,128], [55,121], [56,125], [59,136], [62,144], [65,142], [67,149], [71,161], [72,167], [74,168], [75,162], [76,171], [79,175], [80,182], [82,180], [85,183], [87,188], [90,200], [93,194], [94,206], [95,207], [97,210], [100,219] ],
                 1.9952, 17.0016
+            ],
+            // Example data from http://faculty.cas.usf.edu/mbrannick/regression/regbas.html, http://www.alcula.com/calculators/statistics/linear-regression/
+            [
+                [ [61,105], [62,120], [63,120], [65,160], [65,120], [68,145], [69,175], [70,160], [72,185], [75,210] ],
+                6.968085106383, -316.86170212766
             ],
         ];
     }
