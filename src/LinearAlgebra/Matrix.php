@@ -1218,7 +1218,7 @@ class Matrix implements \ArrayAccess
         $ⁿ      = $this->rref_swaps;
         $∏1／k  = $this->rref_∏scaling_factor;
 
-        // Aet(A)
+        // Det(rref(A))
         $│rref⟮A⟯│ = 1;
         for ($i = 0; $i < $m; $i++) {
             $│rref⟮A⟯│ *= $rref⟮A⟯[$i][$i];
