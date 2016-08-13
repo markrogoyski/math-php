@@ -2776,7 +2776,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
      */
     public function testInverseExceptionDetIsZero(array $A)
     {
-        $A = new Matrix($A);print_r($A);
+        $A = new Matrix($A);
 
         $this->setExpectedException('\Exception');
         $A->inverse();
