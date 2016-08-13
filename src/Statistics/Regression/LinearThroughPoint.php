@@ -157,8 +157,9 @@ class LinearThroughPoint extends Regression
      */
     public function getCI($x, $p)
     {
-        
-        $∑x = array_sum(Single::square($this->xs));
+        $v  = $this->v;
+        $x  = Single::subtract($this->xs, $v);
+        $∑x = array_sum(Single::square($x));
         
         // Degrees of freedom.
         $ν = $this->n - 1;
@@ -169,7 +170,7 @@ class LinearThroughPoint extends Regression
         $sy    = sqrt($SSres / $ν);
         
         // Put it together.
-        return $x * $t * $sy / sqrt($∑x);
+        return ($x- $v) * $t * $sy / sqrt($∑x);
     }
     /**
      * The prediction interval of the regression
@@ -194,7 +195,9 @@ class LinearThroughPoint extends Regression
      */
     public function getPI($x, $p, $q = 1)
     {
-        $∑x = array_sum(Single::square($this->xs));
+        $v  = $this->v;
+        $x  = Single::subtract($this->xs, $v);
+        $∑x = array_sum(Single::square($x));
         // Degrees of freedom.
         $ν = $this->n - 1;
         
@@ -205,6 +208,6 @@ class LinearThroughPoint extends Regression
         $sy    = sqrt($SSres / $ν);
         
         // Put it together.
-        return $t * $sy * sqrt(1 / $q + $x ** 2 / $∑x);
+        return $t * $sy * sqrt(1 / $q + ($x - $v) ** 2 / $∑x);
     }
 }
