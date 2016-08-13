@@ -1143,6 +1143,59 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $A->rowAdd(1, 2, 0);
     }
 
+   /**
+     * @dataProvider dataProviderForRowSubtract
+     */
+    public function testRowSubtract(array $A, int $mᵢ, $mⱼ, int $k, array $R)
+    {
+        $A = new Matrix($A);
+        $R = new Matrix($R);
+
+        $this->assertEquals($R, $A->rowSubtract($mᵢ, $mⱼ, $k));
+    }
+
+    public function dataProviderForRowSubtract()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 1, 2,
+                [
+                    [1, 2, 3],
+                    [0, -1, -2],
+                    [3, 4, 5],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 1, 2, 3,
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [-3, -5, -7],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 2, 4,
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [-1, -4, -7],
+                ]
+            ],
+        ];
+    }
+
     /**
      * @dataProvider dataProviderForRowExclude
      */
@@ -2198,5 +2251,381 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         ]);
         $this->setExpectedException('\Exception');
         $A->LUDecomposition();
+    }
+
+    /**
+     * @dataProvider dataProviderForRREF
+     */
+    public function testRREF(array $A, array $R)
+    {
+        $A = new Matrix($A);
+        $R = new Matrix($R);
+
+        $this->assertEquals($R, $A->rref());
+    }
+
+    public function dataProviderForRREF()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [
+                    [1, 0, -1],
+                    [0, 1, 2],
+                    [0, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 3, -1],
+                    [0, 1, 7],
+                ],
+                [
+                    [1, 0, -22],
+                    [0, 1, 7],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 1],
+                    [-2, -3, 1],
+                    [3, 5, 0],
+                ],
+                [
+                    [1, 0, -5],
+                    [0, 1, 3],
+                    [0, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [0, 3, -6, 6, 4, -5],
+                    [3, -7, 8, -5, 8, 9],
+                    [3, -9, 12, -9, 6, 15],
+                ],
+                [
+                    [1, 0, -2, 3, 0, -24],
+                    [0, 1, -2, 2, 0, -7],
+                    [0, 0, 0, 0, 1, 4],
+                ],
+            ],
+            [
+                [
+                    [0, 2, 8, -7],
+                    [2, -2, 4, 0],
+                    [-3, 4, -2, -5],
+                ],
+                [
+                    [1, 0, 6, 0],
+                    [0, 1, 4, 0],
+                    [0, 0, 0, 1],
+                ],
+            ],
+            [
+                [
+                    [1, -2, 3, 9],
+                    [-1, 3, 0, -4],
+                    [2, -5, 5, 17],
+                ],
+                [
+                    [1, 0, 0, 1],
+                    [0, 1, 0, -1],
+                    [0, 0, 1, 2],
+                ],
+            ],
+            [
+                [
+                    [1, 0, -2, 1, 0],
+                    [0, -1, -3, 1, 3],
+                    [-2, -1, 1, -1, 3],
+                    [0, 3, 9, 0, -12],
+                ],
+                [
+                    [1, 0, -2, 0, 1],
+                    [0, 1, 3, 0, -4],
+                    [0, 0, 0, 1, -1],
+                    [0, 0, 0, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 1, 4, 1, 2],
+                    [0, 1, 2, 1, 1],
+                    [0, 0, 0, 1, 2],
+                    [1, -1, 0, 0, 2],
+                    [2, 1, 6, 0, 1],
+                ],
+                [
+                    [1, 0, 2, 0, 1],
+                    [0, 1, 2, 0, -1],
+                    [0, 0, 0, 1, 2],
+                    [0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 0, -1, 1, -10],
+                    [1, 3, 1, 1, -1, -9],
+                    [2, 5, 1, 0, 0, -19],
+                    [3, 6, 0, 0, -6, -27],
+                    [1, 5, 3, 5, -5, -7],
+                ],
+                [
+                    [1, 0, -2, 0, -10, -7],
+                    [0, 1, 1, 0, 4, -1],
+                    [0, 0, 0, 1, -3, 1],
+                    [0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForDet
+     */
+    public function testDet(array $A, $det)
+    {
+        $A = new Matrix($A);
+
+        $this->assertEquals($det, round($A->det(), 0.1) ); // Test calculation
+        $this->assertEquals($det, round($A->det(), 0.1) ); // Test class attribute
+    }
+
+    public function dataProviderForDet()
+    {
+        return [
+            [
+                [
+                    [3, 8],
+                    [4, 6],
+                ], -14
+            ],
+            [
+                [
+                    [4, 3],
+                    [3, 2],
+                ], -1
+            ],
+            [
+                [
+                    [6, 1, 1],
+                    [4, -2, 5],
+                    [2, 8, 7],
+                ], -306
+            ],
+            [
+                [
+                    [1, 2, 0],
+                    [-1, 1, 1],
+                    [1, 2, 3],
+                ], 9
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0
+            ],
+            [
+                [
+                    [1, 2, 1],
+                    [-2, -3, 1],
+                    [3, 5, 0],
+                ], 0
+            ],
+            [
+                [
+                    [1, 1, 4, 1, 2],
+                    [0, 1, 2, 1, 1],
+                    [0, 0, 0, 1, 2],
+                    [1, -1, 0, 0, 2],
+                    [2, 1, 6, 0, 1],
+                ], 0
+            ],
+            [
+                [
+                    [4, 6, 3, 2],
+                    [3, 6, 5, 3],
+                    [5, 7, 8, 6],
+                    [5, 4, 3, 2],
+                ], -43
+            ],
+            [
+                [
+                    [3, 2, 0, 1],
+                    [4, 0, 1, 2],
+                    [3, 0, 2, 1],
+                    [9, 2, 3, 1],
+                ], 24
+            ],
+            [
+                [
+                    [1, 2, 3, 4],
+                    [5, 6, 7, 8],
+                    [2, 6, 4, 8],
+                    [3, 1, 1, 2],
+                ], 72
+            ],
+        ];
+    }
+
+    public function testDetExceptionNotSquareMatrix()
+    {
+        $A = new Matrix([1, 2, 3]);
+
+        $this->setExpectedException('\Exception');
+        $A->det();
+    }
+
+    /**
+     * @dataProvider dataProviderForInverse
+     */
+    public function testInverse(array $A, array $A⁻¹)
+    {
+        $A   = new Matrix($A);
+        $A⁻¹ = new Matrix($A⁻¹);
+
+        $this->assertEquals($A⁻¹, $A->inverse(), '', 0.001); // Test calculation
+        $this->assertEquals($A⁻¹, $A->inverse(), '', 0.001); // Test class attribute
+    }
+
+    /**
+     * @dataProvider dataProviderForInverse
+     */
+    public function testMatrixTimesInverseIsIdentity(array $A, array $A⁻¹)
+    {
+        $A   = new Matrix($A);
+        $A⁻¹ = $A->inverse();
+        $I   = $A->multiply($A⁻¹);
+
+        $this->assertEquals(Matrix::identity($A->getN()), $I);
+    }
+
+    public function dataProviderForInverse()
+    {
+        return [
+            [
+                [
+                    [4, 7],
+                    [2, 6],
+                ],
+                [
+                    [0.6, -0.7],
+                    [-0.2, 0.4],
+                ],
+            ],
+            [
+                [
+                    [4, 3],
+                    [3, 2],
+                ],
+                [
+                    [-2, 3],
+                    [3, -4],
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [3, 4],
+                ],
+                [
+                    [-2, 1],
+                    [3/2, -1/2],
+                ],
+            ],
+            [
+                [
+                    [3, 3.5],
+                    [3.2, 3.6],
+                ],
+                [
+                    [-9, 8.75],
+                    [8, -7.5],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [0, 4, 5],
+                    [1, 0, 6],
+                ],
+                [
+                    [12/11, -6/11, -1/11],
+                    [5/22, 3/22, -5/22],
+                    [-2/11, 1/11, 2/11],
+                ],
+            ],
+            [
+                [
+                    [7, 2, 1],
+                    [0, 3, -1],
+                    [-3, 4, -2],
+                ],
+                [
+                    [-2, 8, -5],
+                    [3, -11, 7],
+                    [9, -34, 21],
+                ],
+            ],
+            [
+                [
+                    [3, 6, 6, 8],
+                    [4, 5, 3, 2],
+                    [2, 2, 2, 3],
+                    [6, 8, 4, 2],
+                ],
+                [
+                    [-0.333, 0.667, 0.667, -0.333],
+                    [0.167, -2.333, 0.167, 1.417],
+                    [0.167, 4.667, -1.833, -2.583],
+                    [0.000, -2.000, 1.000, 1.000],
+                ],
+            ],
+            [
+                [
+                    [4, 23, 6, 4, 7],
+                    [3, 64, 23, 52, 2],
+                    [65, 45, 3, 23, 1],
+                    [2, 3, 4, 3, 9],
+                    [53, 99, 54, 32, 105],
+                ],
+                [
+                    [-0.142, 0.006, 0.003, -0.338, 0.038],
+                    [0.172, -0.012, 0.010, 0.275, -0.035],
+                    [-0.856, 0.082, -0.089, -2.344, 0.257],
+                    [0.164, -0.001, 0.026, 0.683, -0.070],
+                    [0.300, -0.033, 0.027, 0.909, -0.088],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForInverseExceptionDetIsZero
+     */
+    public function testInverseExceptionDetIsZero(array $A)
+    {
+        $A = new Matrix($A);
+
+        $this->setExpectedException('\Exception');
+        $A->inverse();
+    }
+
+    public function dataProviderForInverseExceptionDetIsZero()
+    {
+        return [
+            [
+                [3, 4],
+                [6, 8],
+            ],
+        ];
     }
 }
