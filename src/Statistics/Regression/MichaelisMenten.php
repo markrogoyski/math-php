@@ -1,5 +1,6 @@
 <?php
 namespace Math\Statistics\Regression;
+
 /**
  * The Michaelis-Menten equation is used to model enzyme kinetics.
  *       V * x
@@ -15,6 +16,7 @@ abstract class MichaelisMenten extends Regression
      * @var number V regression parameter
      */
     protected $V;
+
     /**
      * @var number K regression parameter
      */
@@ -32,6 +34,7 @@ abstract class MichaelisMenten extends Regression
             'K' => $this->K,
         ];
     }
+
     /**
      * Get regression equation (y = V * X / (K + X))
      *
@@ -41,14 +44,15 @@ abstract class MichaelisMenten extends Regression
     {
         return sprintf('y = %fx/(%f+x)', $this->V, $this->K);
     }
-   /**
-    * Evaluate the equation using the regression parameters
-    * y = V * X / (K + X)
-    *
-    * @param number $x
-    *
-    * @return number y evaluated
-    */
+
+    /**
+     * Evaluate the equation using the regression parameters
+     * y = V * X / (K + X)
+     *
+     * @param number $x
+     *
+     * @return number y evaluated
+     */
     public function evaluate($x)
     {
         return ($this->V * $x) / ($this->K + $x);
