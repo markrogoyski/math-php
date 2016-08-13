@@ -1240,7 +1240,7 @@ class Matrix implements \ArrayAccess
      *  A⁻¹ = --- [d -b]
      *        │A│ [-c a]
      *
-     * For a 3x3 matrix:
+     * For a 3x3 matrix or larger:
      * Augment with identity matrix and calculate reduced row echelon form.
      *
      * @return Matrix
@@ -1257,7 +1257,7 @@ class Matrix implements \ArrayAccess
 
         $│A│ = $this->det ?? $this->det();
         if ($│A│ == 0) {
-          throw new \Exception('Singular matrix (determinant = 0); not inverible');
+          throw new \Exception('Singular matrix (determinant = 0); not invertible');
         }
 
         $m = $this->m;
