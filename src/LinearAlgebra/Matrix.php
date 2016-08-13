@@ -710,9 +710,6 @@ class Matrix implements \ArrayAccess
         if ($mᵢ >= $this->m) {
             throw new \Exception('Row to multiply does not exist');
         }
-        if ($k == 0) {
-            throw new \Exception('Multiplication factor k must not be 0');
-        }
 
         $n = $this->n;
         $R = $this->A;

@@ -1069,6 +1069,57 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForRowDivide
+     */
+    public function testRowDivide(array $A, int $mᵢ, $k, array $R)
+    {
+        $A = new Matrix($A);
+        $R = new Matrix($R);
+
+        $this->assertEquals($R, $A->rowDivide($mᵢ, $k));
+    }
+
+    public function dataProviderForRowDivide()
+    {
+        return [
+            [
+                [
+                    [2, 4, 8],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 2,
+                [
+                    [1, 2, 4],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ]
+            ],
+        ];
+    }
+
+    public function testRowDivideExceptionRowGreaterThanM()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $this->setExpectedException('\Exception');
+        $A->rowDivide(4, 5);
+    }
+
+    public function testRowDivideExceptionKIsZero()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $this->setExpectedException('\Exception');
+        $A->rowDivide(2, 0);
+    }
+
+    /**
      * @dataProvider dataProviderForRowAdd
      */
     public function testRowAdd(array $A, int $mᵢ, $mⱼ, int $k, array $R)
@@ -1143,7 +1194,47 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $A->rowAdd(1, 2, 0);
     }
 
-   /**
+    /**
+     * @dataProvider dataProviderForRowAddScalar
+     */
+    public function testRowAddScalar(array $A, int $mᵢ, int $k, array $R)
+    {
+        $A = new Matrix($A);
+        $R = new Matrix($R);
+
+        $this->assertEquals($R, $A->rowAddScalar($mᵢ, $k));
+    }
+
+    public function dataProviderForRowAddScalar()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 5,
+                [
+                    [6, 7, 8],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+            ],
+        ];
+    }
+
+    public function testRowAddScalarExceptionRowGreaterThanM()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $this->setExpectedException('\Exception');
+        $A->rowAddScalar(4, 5, 2);
+    }
+
+    /**
      * @dataProvider dataProviderForRowSubtract
      */
     public function testRowSubtract(array $A, int $mᵢ, $mⱼ, int $k, array $R)
@@ -1194,6 +1285,57 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
         ];
+    }
+
+    public function testRowSubtractExceptionRowGreaterThanM()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $this->setExpectedException('\Exception');
+        $A->rowSubtract(4, 5, 2);
+    }
+
+    /**
+     * @dataProvider dataProviderForRowSubtractScalar
+     */
+    public function testRowSubtractScalar(array $A, int $mᵢ, int $k, array $R)
+    {
+        $A = new Matrix($A);
+        $R = new Matrix($R);
+
+        $this->assertEquals($R, $A->rowSubtractScalar($mᵢ, $k));
+    }
+
+    public function dataProviderForRowSubtractScalar()
+    {
+        return [
+            [
+                [
+                    [6, 7, 8],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 5,
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+            ],
+        ];
+    }
+
+    public function testRowSubtractScalarExceptionRowGreaterThanM()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $this->setExpectedException('\Exception');
+        $A->rowSubtractScalar(4, 5, 2);
     }
 
     /**
@@ -2609,11 +2751,32 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForInverseExceptionNotSquare
+     */
+    public function testInverseExceptionNotSquare(array $A)
+    {
+        $A = new Matrix($A);
+
+        $this->setExpectedException('\Exception');
+        $A->inverse();
+    }
+
+    public function dataProviderForInverseExceptionNotSquare()
+    {
+        return [
+            [
+                [3, 4, 4],
+                [6, 8, 5],
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForInverseExceptionDetIsZero
      */
     public function testInverseExceptionDetIsZero(array $A)
     {
-        $A = new Matrix($A);
+        $A = new Matrix($A);print_r($A);
 
         $this->setExpectedException('\Exception');
         $A->inverse();
@@ -2623,8 +2786,11 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                [3, 4],
-                [6, 8],
+                [
+                    [3, 4],
+                    [6, 8],
+                ]
+
             ],
         ];
     }
