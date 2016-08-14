@@ -13,7 +13,7 @@ class Vandermonde extends Matrix
     public function __construct(array $M, int $n)
     {
         $this->n = $n;
-        $this->m = count($M)
+        $this->m = count($M);
         
         $A = [];
         foreach($M as $row=>$value){
