@@ -230,6 +230,9 @@ $‖A‖F = $A->frobeniusNorm();  // Hilbert–Schmidt norm
 $‖A‖∞ = $A->infinityNorm();
 $max  = $A->maxNorm();
 
+// Matrix decompositions
+$PLU = $A->LUDecomposition(); // returns array of Matrices [L, U, P, A]; P is permutation matrix
+
 // Map a function over each element of the Matrix
 $func = function($x) {
     return $x * 2;
