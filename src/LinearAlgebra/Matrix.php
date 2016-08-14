@@ -1027,6 +1027,10 @@ class Matrix implements \ArrayAccess
         ];
     }
 
+    /**
+     * Helper function for LU decomposition
+     * @return Matrix
+     */
     private function pivotize()
     {
         $n = $this->n;
