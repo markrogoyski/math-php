@@ -125,4 +125,19 @@ class StudentT extends Continuous
 
         return NULL;
     }
+    
+    /**
+     * Median of the distribution
+     *
+     * μ = 0
+     *
+     * @param number $ν Degrees of freedom
+     *
+     * @return number
+     */
+    public static function median($ν)
+    {
+        Support::checkLimits(self::LIMITS, ['ν' => $ν]);
+        return 0;
+    }
 }
