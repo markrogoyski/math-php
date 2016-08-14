@@ -158,19 +158,21 @@ class LinearThroughPoint extends Regression
     public function getCI($x, $p)
     {
         $v  = $this->v;
-        $x’  = Single::subtract($this->xs, $v);
+        $x’ = Single::subtract($this->xs, $v);
         $∑x = array_sum(Single::square($x’));
-        
-        // Degrees of freedom.
+
+        // Degrees of freedom
         $ν = $this->n - 1;
+
         // The t-value
         $t = StudentT::inverse2Tails($p, $ν);
+
         // Standard error of y
         $SSres = $this->SSres ?? $this->sumOfSquaresResidual();
         $sy    = sqrt($SSres / $ν);
-        
+
         // Put it together.
-        return ($x- $v) * $t * $sy / sqrt($∑x);
+        return ($x - $v) * $t * $sy / sqrt($∑x);
     }
     /**
      * The prediction interval of the regression
@@ -196,17 +198,19 @@ class LinearThroughPoint extends Regression
     public function getPI($x, $p, $q = 1)
     {
         $v  = $this->v;
-        $x’  = Single::subtract($this->xs, $v);
+        $x’ = Single::subtract($this->xs, $v);
         $∑x = array_sum(Single::square($x’));
-        // Degrees of freedom.
+
+        // Degrees of freedom
         $ν = $this->n - 1;
         
         // The t-values
         $t = StudentT::inverse2Tails($p, $ν);
+
         // Standard error of y
         $SSres = $this->SSres ?? $this->sumOfSquaresResidual();
         $sy    = sqrt($SSres / $ν);
-        
+
         // Put it together.
         return $t * $sy * sqrt(1 / $q + ($x - $v) ** 2 / $∑x);
     }

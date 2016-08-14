@@ -147,7 +147,7 @@ class LinearThroughPointTest extends \PHPUnit_Framework_TestCase
         ];
     }
     
-        /**
+    /**
      * @dataProvider dataProviderForCI
      */
     public function testGetCI(array $points, $x, $p, $ci)
