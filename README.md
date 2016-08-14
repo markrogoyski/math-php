@@ -218,14 +218,20 @@ $Aᵀ 　= $A->transpose();
 $D  　= $A->diagonal();
 $⟮A∣B⟯ = $A->augment($B);
 $⟮A∣I⟯ = $A->augmentIdentity();  // Augment with the identity matrix
+$rref = $A->rref();             // Reduced row echelon form
+$A⁻¹  = $A->inverse();
 
 // Matrix operations - return a value
 $tr⟮A⟯ = $A->trace();
+$|A|  = $a->det();            // Determinant
 $bool = $A->isSquare();
 $‖A‖₁ = $A->oneNorm();
 $‖A‖F = $A->frobeniusNorm();  // Hilbert–Schmidt norm
 $‖A‖∞ = $A->infinityNorm();
 $max  = $A->maxNorm();
+
+// Matrix decompositions
+$PLU = $A->LUDecomposition(); // returns array of Matrices [L, U, P, A]; P is permutation matrix
 
 // Map a function over each element of the Matrix
 $func = function($x) {

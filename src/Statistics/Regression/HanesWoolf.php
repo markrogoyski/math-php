@@ -1,5 +1,6 @@
 <?php
 namespace Math\Statistics\Regression;
+
 use Math\Functions\Map\Multi;
 
 /**

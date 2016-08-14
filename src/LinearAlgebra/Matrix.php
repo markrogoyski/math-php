@@ -639,6 +639,35 @@ class Matrix implements \ArrayAccess
     }
 
     /**
+     * Divide a row by a divisor k
+     *
+     * Each element of Row mᵢ will be divided by k
+     *
+     * @param int  $mᵢ Row to multiply
+     * @param int  $k  divisor
+     *
+     * @return Matrix
+     */
+    public function rowDivide(int $mᵢ, $k): Matrix
+    {
+        if ($mᵢ >= $this->m) {
+            throw new \Exception('Row to multiply does not exist');
+        }
+        if ($k == 0) {
+            throw new \Exception('Divisor k must not be 0');
+        }
+
+        $n = $this->n;
+        $R = $this->A;
+
+        for ($j = 0; $j < $n; $j++) {
+            $R[$mᵢ][$j] /= $k;
+        }
+
+        return new Matrix($R);
+    }
+
+    /**
      * Add k times row mᵢ to row mⱼ
      *
      * @param int $mᵢ Row to multiply * k to be added to row mⱼ
@@ -661,6 +690,84 @@ class Matrix implements \ArrayAccess
 
         for ($j = 0; $j < $n; $j++) {
             $R[$mⱼ][$j] += $R[$mᵢ][$j] * $k;
+        }
+
+        return new Matrix($R);
+    }
+
+    /**
+     * Add a scalar k to each item of a row
+     *
+     * Each element of Row mᵢ will have k added to it
+     *
+     * @param int  $mᵢ Row to add k to
+     * @param int  $k  scalar
+     *
+     * @return Matrix
+     */
+    public function rowAddScalar(int $mᵢ, $k): Matrix
+    {
+        if ($mᵢ >= $this->m) {
+            throw new \Exception('Row to multiply does not exist');
+        }
+
+        $n = $this->n;
+        $R = $this->A;
+
+        for ($j = 0; $j < $n; $j++) {
+            $R[$mᵢ][$j] += $k;
+        }
+
+        return new Matrix($R);
+    }
+
+    /**
+     * Subtract k times row mᵢ to row mⱼ
+     *
+     * @param int $mᵢ Row to multiply * k to be subtracted to row mⱼ
+     * @param int $mⱼ Row that will have row mⱼ * k subtracted to it
+     * @param number $k  Multiplier
+     *
+     * @return Matrix
+     */
+    public function rowSubtract(int $mᵢ, int $mⱼ, $k): Matrix
+    {
+        if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
+            throw new \Exception('Row to interchange does not exist');
+        }
+
+
+        $n = $this->n;
+        $R = $this->A;
+
+        for ($j = 0; $j < $n; $j++) {
+            $R[$mⱼ][$j] -= $R[$mᵢ][$j] * $k;
+        }
+
+        return new Matrix($R);
+    }
+
+    /**
+     * Subtract a scalar k to each item of a row
+     *
+     * Each element of Row mᵢ will have k subtracted from it
+     *
+     * @param int  $mᵢ Row to add k to
+     * @param int  $k  scalar
+     *
+     * @return Matrix
+     */
+    public function rowSubtractScalar(int $mᵢ, int $k): Matrix
+    {
+        if ($mᵢ >= $this->m) {
+            throw new \Exception('Row to multiply does not exist');
+        }
+
+        $n = $this->n;
+        $R = $this->A;
+
+        for ($j = 0; $j < $n; $j++) {
+            $R[$mᵢ][$j] -= $k;
         }
 
         return new Matrix($R);
@@ -920,6 +1027,10 @@ class Matrix implements \ArrayAccess
         ];
     }
 
+    /**
+     * Helper function for LU decomposition
+     * @return Matrix
+     */
     private function pivotize()
     {
         $n = $this->n;
@@ -943,6 +1054,259 @@ class Matrix implements \ArrayAccess
         }
 
         return $P;
+    }
+
+    /**
+     * Ruduced row echelon form (row canonical form)
+     *
+     * Adapted from reference algorithm: https://rosettacode.org/wiki/Reduced_row_echelon_form
+     *
+     * Also computes number of swaps and product of scaling factor.
+     * These are used for computing the determinant.
+     *
+     * @return Matrix in reduced row echelon form
+     */
+    public  function rref()
+    {
+        $m = $this->m;
+        $n = $this->n;
+        $R = new Matrix($this->A);
+
+        $swaps           = 0;
+        $∏scaling_factor = 1;
+
+        $lead = 0;
+
+        for ($r = 0; $r < $m; $r++) {
+            if ($lead >= $n) {
+                break;
+            }
+
+            $i = $r;
+            while ($R[$i][$lead] == 0) {
+                $i++;
+                if ($i == $m) {
+                    $i = $r;
+                    $lead++;
+                    if ($lead == $n) {
+                        break 2; // done; break out of outer loop and return.
+                    }
+                }
+            }
+
+            // Swap rows i and r
+            $R = $R->rowInterchange($i, $r);
+            $swaps++;
+
+            // Divide row $r by R[r][lead]
+            $lv = $R[$r][$lead];
+            $R  = $R->rowDivide($r, $lv);
+            if ($lv != 0) {
+                $∏scaling_factor *= 1 / $lv;
+            }
+
+            // Subtract row r * R[r][lead] from row i
+            for ($i = 0; $i < $m; $i++) {
+                if ($i != $r) {
+                    $R  = $R->rowSubtract($r, $i, $R[$i][$lead]);
+                }
+            }
+            $lead++;
+        }
+
+        $this->rref                 = $R;
+        $this->rref_swaps           = $swaps;
+        $this->rref_∏scaling_factor = $∏scaling_factor;
+
+        return $R;
+    }
+
+    /**
+     * Determinant
+     *
+     * For a 2x2 matrix:
+     *      [a b]
+     *  A = [c d]
+     *
+     * │A│ = ad - bc
+     *
+     * For a 3x3 matrix:
+     *      [a b c]
+     *  A = [d e f]
+     *      [g h i]
+     *
+     * │A│ = a(ei - fh) - b(di - fg) + c(dh - eg)
+     *
+     * For 4x4 and larger matrices:
+     *
+     * │A│ = (-1)ⁿ │rref(A)│ ∏1/k
+     *
+     *  where:
+     *   │rref(A)│ = determinant of the reduced row echelon form of A
+     *   ⁿ         = number of row swaps when computing RREF
+     *   ∏1/k      = product of 1/k where k is the scaling factor divisor
+     *
+     * @return number
+     */
+    public function det()
+    {
+        if (isset($this->det)) {
+            return $this->det;
+        }
+
+        if (!$this->isSquare()) {
+            throw new \Exception('Not a sqaure matrix (required for determinant)');
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+        $R = new Matrix($this->A);
+
+        /*
+         * 2x2 matrix
+         *      [a b]
+         *  A = [c d]
+         *
+         * |A| = ad - bc
+         */
+        if ($m === 2) {
+            $a = $R[0][0];
+            $b = $R[0][1];
+            $c = $R[1][0];
+            $d = $R[1][1];
+
+            $ad = $a * $d;
+            $bc = $b * $c;
+
+            $this->det = $ad - $bc;
+            return $this->det;
+        }
+
+        /*
+         * 3x3 matrix
+         *      [a b c]
+         *  A = [d e f]
+         *      [g h i]
+         *
+         * |A| = a(ei - fh) - b(di - fg) + c(dh - eg)
+         */
+        if ($m === 3) {
+            $a = $R[0][0];
+            $b = $R[0][1];
+            $c = $R[0][2];
+            $d = $R[1][0];
+            $e = $R[1][1];
+            $f = $R[1][2];
+            $g = $R[2][0];
+            $h = $R[2][1];
+            $i = $R[2][2];
+
+            $ei = $e * $i;
+            $fh = $f * $h;
+            $di = $d * $i;
+            $fg = $f * $g;
+            $dh = $d * $h;
+            $eg = $e * $g;
+
+            $this->det = $a * ($ei - $fh) - $b * ($di - $fg) + $c * ($dh - $eg);
+            return $this->det;
+        }
+
+        /*
+         * nxn matrix 4x4 or larger
+         * Get row reduced echelon form, then compute determinant of rref.
+         * Then plug into formula with swaps and product of scaling factor.
+         * │A│ = (-1)ⁿ │rref(A)│ ∏1/k
+         */
+        $rref⟮A⟯ = $this->rref ?? $this->rref();
+        $ⁿ      = $this->rref_swaps;
+        $∏1／k  = $this->rref_∏scaling_factor;
+
+        // Det(rref(A))
+        $│rref⟮A⟯│ = 1;
+        for ($i = 0; $i < $m; $i++) {
+            $│rref⟮A⟯│ *= $rref⟮A⟯[$i][$i];
+        }
+
+        // │A│ = (-1)ⁿ │rref(A)│ ∏1/k
+        $this->det = (-1)**$ⁿ * ($│rref⟮A⟯│ / $∏1／k);
+        return $this->det;
+    }
+
+    /**
+     * Inverse
+     *
+     * For a 2x2 matrix:
+     *      [a b]
+     *  A = [c d]
+     *
+     *         1
+     *  A⁻¹ = --- [d -b]
+     *        │A│ [-c a]
+     *
+     * For a 3x3 matrix or larger:
+     * Augment with identity matrix and calculate reduced row echelon form.
+     *
+     * @return Matrix
+     */
+    public function inverse()
+    {
+        if (isset($this->A⁻¹)) {
+            return $this->A⁻¹;
+        }
+
+        if (!$this->isSquare()) {
+            throw new \Exception('Not a sqaure matrix (required for determinant)');
+        }
+
+        $│A│ = $this->det ?? $this->det();
+        if ($│A│ == 0) {
+          throw new \Exception('Singular matrix (determinant = 0); not invertible');
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+        $A = $this->A;
+
+        /*
+         * 2x2 matrix:
+         *      [a b]
+         *  A = [c d]
+         *
+         *        1
+         * A⁻¹ = --- [d -b]
+         *       │A│ [-c a]
+         */
+        if ($m === 2) {
+            $a = $A[0][0];
+            $b = $A[0][1];
+            $c = $A[1][0];
+            $d = $A[1][1];
+
+            $R = new Matrix([
+                [$d, -$b],
+                [-$c, $a],
+            ]);
+            $A⁻¹ = $R->scalarMultiply(1/$│A│);
+
+            $this->A⁻¹ = $A⁻¹;
+            return $A⁻¹;
+        }
+
+        /*
+         * nxn matrix 3x3 or larger
+         */
+        $R   = $this->augmentIdentity()->rref();
+        $A⁻¹ = [];
+
+        for ($i = 0; $i < $n; $i++) {
+          $A⁻¹[$i] = array_slice($R[$i], $n);
+        }
+
+        $A⁻¹ = new Matrix($A⁻¹);
+
+        $this->A⁻¹ = $A⁻¹;
+        return $A⁻¹;
     }
 
     /**
