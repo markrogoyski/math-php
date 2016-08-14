@@ -3,7 +3,7 @@ namespace Math\Statistics\Regression;
 use Math\Statistics\{Average, RandomVariable};
 use Math\Functions\Map\{Single, Multi};
 use Math\Probability\Distribution\Continuous\{F, StudentT};
-use Math\LinearAlgebra\{Matrix, ColumnVector};
+use Math\LinearAlgebra\{Matrix, ColumnVector, Vandermonde};
 trait LeastSquares
 {
     /**
@@ -14,10 +14,8 @@ trait LeastSquares
      */
     public function leastSquares($ys, $xs)
     {
-        $temp = new ColumnVector($xs);
+        $X = new Vandermonde($xs, 2);
         $Y = new ColumnVector($ys);
-        $Ones = Matrix::one($temp->getM(), 1);
-        $X = $Ones->augment($temp);
         $Xᵀ = $X->transpose();
         $⟮XᵀX⟯⁻¹Xᵀy = $Xᵀ->multiply($X)->inverse()->multiply($Xᵀ)->multiply($Y);
         // Calculate slope (m) and y intercept (b)
