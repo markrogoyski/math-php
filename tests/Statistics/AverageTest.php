@@ -66,6 +66,35 @@ class AverageTest extends \PHPUnit_Framework_TestCase
             [ [ 12, 14, 16, 20, 24, 28, 28, 30, 32, 40 ], 26 ],
         ];
     }
+    
+    /**
+     * @dataProvider dataProviderForKthSmallest
+     */
+    public function testMode(array $numbers, $k, $smallest)
+    {
+        $this->assertEquals($smallest, Average::kthSmallest($numbers, $k););
+    }
+    /**
+     * Data provider for mode test
+     * Data: [ [ numbers ], mode ]
+     */
+    public function dataProviderForKthSmallest()
+    {
+        return [
+            [ [ 1, 1, 1 ], 2, 1 ],
+            [ [ 1, 2, 3 ], 1, 2 ],
+            [ [ 2, 3, 4 ], 1, 3 ],
+            [ [ 5, 5, 6 ], 0, 5 ],
+            [ [ 1, 2, 3, 4, 5 ], 3, 4 ],
+            [ [ 1, 2, 3, 4, 5, 6 ], 2, 3 ],
+            [ [ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], 7, 18 ],
+            [ [ 1, 2, 4, 7 ], 2, 4 ],
+            [ [ 8, 9, 10, 10, 10, 11, 11, 11, 12, 13 ], 5, 11 ],
+            [ [ 6, 7, 8, 10, 12, 14, 14, 15, 16, 20 ], 7, 15 ],
+            [ [ 9, 10, 11, 13, 15, 17, 17, 18, 19, 23 ], 9, 23 ],
+            [ [ 12, 14, 16, 20, 24, 28, 28, 30, 32, 40 ], 1, 14 ],
+        ];
+    }
 
     public function testMedianNullWhenEmptyArray()
     {
