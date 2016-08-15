@@ -1,26 +1,68 @@
 <?php
 namespace Math\Statistics\Regression;
+
 use Math\Statistics\{Average, RandomVariable};
 use Math\Functions\Map\{Single, Multi};
 use Math\Probability\Distribution\Continuous\{F, StudentT};
 use Math\LinearAlgebra\{Matrix, ColumnVector, Vandermonde};
+
 trait LeastSquares
 {
     /**
-     * Linear least squares using Matrix algebra.
-     * 
+     * Linear least squares fitting using Matrix algebra (Polynomial).
+     *
+     * Generalizing from a straight line (first degree polynomial) to a kᵗʰ degree polynomial:
+     *  y = a₀ + a₁x + ⋯ + akxᵏ
+     *
+     * Leads to equations in matrix form:
+     *  [n    Σxᵢ   ⋯  Σxᵢᵏ  ] [a₀]   [Σyᵢ   ]
+     *  [Σxᵢ  Σxᵢ²  ⋯  Σxᵢᵏ⁺¹] [a₁]   [Σxᵢyᵢ ]
+     *  [ ⋮     ⋮    ⋱  ⋮    ] [ ⋮ ] = [ ⋮    ]
+     *  [Σxᵢᵏ Σxᵢᵏ⁺¹ ⋯ Σxᵢ²ᵏ ] [ak]   [Σxᵢᵏyᵢ]
+     *
+     * This is a Vandermonde matrix:
+     *  [1 x₁ ⋯ x₁ᵏ] [a₀]   [y₁]
+     *  [1 x₂ ⋯ x₂ᵏ] [a₁]   [y₂]
+     *  [⋮  ⋮  ⋱ ⋮ ] [ ⋮ ] = [ ⋮]
+     *  [1 xn ⋯ xnᵏ] [ak]   [yn]
+     *
+     * Can write as equation:
+     *  y = Xa
+     *
+     * Solve by premultiplying by transpose Xᵀ:
+     *  Xᵀy = XᵀXa
+     *
+     * Invert to yield vector solution:
+     *  a = (XᵀX)⁻¹Xᵀy
+     *
+     * (http://mathworld.wolfram.com/LeastSquaresFittingPolynomial.html)
+     *
+     * For reference, the traditional way to do least squares:
+     *        _ _   __
+     *        x y - xy        _    _
+     *   m = _________    b = y - mx
+     *        _     __
+     *       (x)² - x²
+     *
+     * @param  array $ys y values
+     * @param  array $xs x values
      *
      * @return array [m, b]
      */
     public function leastSquares($ys, $xs)
     {
-        $X = new Vandermonde($xs, 2);
-        $Y = new ColumnVector($ys);
-        $Xᵀ = $X->transpose();
-        $⟮XᵀX⟯⁻¹Xᵀy = $Xᵀ->multiply($X)->inverse()->multiply($Xᵀ)->multiply($Y);
-        // Calculate slope (m) and y intercept (b)
+        // y = Xa
+        $X  = new Vandermonde($xs, 2);
+        $y  = new ColumnVector($ys);
+
+        // a = (XᵀX)⁻¹Xᵀy
+        $Xᵀ        = $X->transpose();
+        $⟮XᵀX⟯⁻¹Xᵀy = $Xᵀ->multiply($X)->inverse()->multiply($Xᵀ)->multiply($y);
+
+        // Get slope (m) and y intercept (b) from vector solution a (⟮XᵀX⟯⁻¹Xᵀy)
         $m = $⟮XᵀX⟯⁻¹Xᵀy[1][0];
         $b = $⟮XᵀX⟯⁻¹Xᵀy[0][0];
+
         return [
             'm' => $m,
             'b' => $b,
@@ -62,13 +104,13 @@ trait LeastSquares
         // se(b): standard error of b
         $∑xᵢ² = array_sum(Single::square($this->xs));
         $se⟮b⟯ = $se⟮m⟯ * sqrt($∑xᵢ² / $n);
-        
+
         return [
             'm' => $se⟮m⟯,
             'b' => $se⟮b⟯,
         ];
     }
-    
+
     /**
      * The t values associated with each of the regression parameters (coefficients)
      *
@@ -90,7 +132,7 @@ trait LeastSquares
             'b' => $this->b / $se['b'],
         ];
     }
-    
+
     /**
      * The probabilty associated with each parameter's t value
      *
@@ -112,7 +154,7 @@ trait LeastSquares
             'b' => StudentT::CDF($t['b'], $ν),
         ];
     }
-    
+
     /**
      * The F statistic of the regression (F test)
      *
@@ -138,18 +180,18 @@ trait LeastSquares
 
         $SSᵣ = $this->sumOfSquaresRegression();
         $SSₑ = $this->sumOfSquaresResidual();
-        
+
         // Mean of Squares for model (regression mean square)
         $MSm = $SSᵣ / ($p - 1);
-        
+
         // Mean of Squares for Error
         $MSₑ = $SSₑ / ($n - $p);
-        
+
         $F = $MSm / $MSₑ;
-        
+
         return $F;
     }
-    
+
     /**
      * The probabilty associated with the regression F Statistic
      *
@@ -176,5 +218,4 @@ trait LeastSquares
 
         return (F::CDF($F, $d₁, $d₂));
     }
-    
 }
