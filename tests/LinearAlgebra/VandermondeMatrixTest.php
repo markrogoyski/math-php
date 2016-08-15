@@ -1,17 +1,18 @@
 <?php
 namespace Math\LinearAlgebra;
 
-class VandermondeTest extends \PHPUnit_Framework_TestCase
+class VandermondeMatrixTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider dataProviderForTestConstructor
      */
     public function testConstructor($M, int $n, $V)
     {
-        $M = new Vandermonde($M, $n);
+        $M = new VandermondeMatrix($M, $n);
         $V = new Matrix($V);
 
-        $this->assertInstanceOf('Math\LinearAlgebra\Vandermonde', $M);
+        $this->assertInstanceOf('Math\LinearAlgebra\VandermondeMatrix', $M);
+        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $M);
         
         $m = $V->getM();
         for ($i = 0; $i < $m; $i++) {

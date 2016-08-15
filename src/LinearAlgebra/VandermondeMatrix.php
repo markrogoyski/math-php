@@ -20,7 +20,7 @@ namespace Math\LinearAlgebra;
  *
  * https://en.wikipedia.org/wiki/Vandermonde_matrix
  */
-class Vandermonde extends Matrix
+class VandermondeMatrix extends Matrix
 {
     /**
      * Create the Vandermonde Matrix from a simple array.

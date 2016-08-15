@@ -4,7 +4,7 @@ namespace Math\Statistics\Regression;
 use Math\Statistics\{Average, RandomVariable};
 use Math\Functions\Map\{Single, Multi};
 use Math\Probability\Distribution\Continuous\{F, StudentT};
-use Math\LinearAlgebra\{Matrix, ColumnVector, Vandermonde};
+use Math\LinearAlgebra\{Matrix, ColumnVector, VandermondeMatrix};
 
 trait LeastSquares
 {
@@ -52,7 +52,7 @@ trait LeastSquares
     public function leastSquares($ys, $xs)
     {
         // y = Xa
-        $X  = new Vandermonde($xs, 2);
+        $X  = new VandermondeMatrix($xs, 2);
         $y  = new ColumnVector($ys);
 
         // a = (XᵀX)⁻¹Xᵀy
