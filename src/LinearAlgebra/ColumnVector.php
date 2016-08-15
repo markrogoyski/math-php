@@ -29,4 +29,20 @@ class ColumnVector extends Matrix
         }
         $this->A = $A;
     }
+
+    /**
+     * Transpose
+     * The transpose of a column vector is a rpw vector
+     *
+     * [x₁]ᵀ
+     * [x₂]  = [x₁ x₂ ⋯ xm]
+     * [⋮ ]
+     * [xm]
+     *
+     * @return RowVector
+     */
+    public function transpose(): RowVector
+    {
+        return new RowVector($this->getColumn(0));
+    }
 }
