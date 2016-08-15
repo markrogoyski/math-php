@@ -72,7 +72,7 @@ class AverageTest extends \PHPUnit_Framework_TestCase
      */
     public function testKthSmallest(array $numbers, $k, $smallest)
     {
-        $this->assertEquals($smallest, Average::kthSmallest($numbers, $k););
+        $this->assertEquals($smallest, Average::kthSmallest($numbers, $k));
     }
     /**
      * Data provider for mode test
