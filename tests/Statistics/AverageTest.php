@@ -76,7 +76,7 @@ class AverageTest extends \PHPUnit_Framework_TestCase
     }
     /**
      * Data provider for mode test
-     * Data: [ [ numbers ], mode ]
+     * Data: [ [ numbers ], k, kth smallest ]
      */
     public function dataProviderForKthSmallest()
     {
