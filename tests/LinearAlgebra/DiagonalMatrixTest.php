@@ -1,20 +1,56 @@
 <?php
 namespace Math\LinearAlgebra;
+
 class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    /**
+     * @dataProvider dataProviderMulti
+     */
+    public function testConstructor(array $A, array $R)
     {
-        $this->A = [
-            [1, 0, 0],
-            [0, 2, 0],
-            [0, 0, 3],
-        ];
-        $this->D = [1,2,3];
-        $this->matrix = new DiagonalMatrix($this->D);
+        $D = new DiagonalMatrix($A);
+        $R = new Matrix($R);
+
+        $this->assertInstanceOf('Math\LinearAlgebra\DiagonalMatrix', $D);
+        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $D);
+
+        $m = $D->getM();
+        for ($i = 0; $i < $m; $i++) {
+            $this->assertEquals($R[$i], $D[$i]);
+        }
+        $m = $R->getM();
+        for ($i = 0; $i < $m; $i++) {
+            $this->assertEquals($R[$i], $D[$i]);
+        }
     }
-   
-    public function testGetMatrix()
+
+    /**
+     * @dataProvider dataProviderMulti
+     */
+    public function testGetMatrix(array $A, array $R)
     {
-        $this->assertEquals($this->A, $this->matrix->getMatrix());
+        $D = new DiagonalMatrix($A);
+
+        $this->assertEquals($R, $D->getMatrix());
+    }
+
+    public function dataProviderMulti()
+    {
+        return [
+            [
+                [1, 2, 3],
+                [
+                    [1, 0, 0],
+                    [0, 2, 0],
+                    [0, 0, 3],
+                ],
+            ],
+            [
+                [1],
+                [
+                    [1]
+                ]
+            ],
+        ];
     }
 }

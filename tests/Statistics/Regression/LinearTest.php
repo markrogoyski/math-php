@@ -39,7 +39,7 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     public function testGetEquation(array $points)
     {
         $regression = new Linear($points);
-        $this->assertRegExp('/^y = \d+[.]\d+x [+] \d+[.]\d+$/', $regression->getEquation());
+        $this->assertRegExp('/^y = -?\d+[.]\d+x [+] -?\d+[.]\d+$/', $regression->getEquation());
     }
 
     public function dataProviderForEquation()

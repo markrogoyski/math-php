@@ -252,6 +252,13 @@ list($m, $n)     = [4, 4];
 $identity_matrix = Matrix::identity($n);
 $zero_matrix     = Matrix::zero($m, $n);
 $ones_matrix     = Matrix::one($m, $n);
+
+// Specialized matrices
+// Vandermonde matrix
+$V = new VandermondeMatrix([1, 2, 3], 4); // 4 x 3 Vandermonde matrix
+
+// Diagonal matrix
+$D = new DiagonalMatrix([1, 2, 3]); // 3 x 3 diagonal matrix with zeros above and below the diagonal
 ```
 
 ### Linear Algebra - Vector

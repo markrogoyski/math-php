@@ -79,4 +79,20 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
             [3, 0],
         ];
     }
+    
+    /**
+     * @dataProvider dataProviderForInverse
+     */
+    public function testInverse($p, $ν, $x)
+    {
+        $this->assertEquals($x, StudentT::inverse($p, $ν));
+    }
+
+    public function dataProviderForInverse()
+    {
+        return [
+            [.6, 1, 0.3249196962],
+            [.6, 2, 0.2886751346],
+        ];
+    }
 }
