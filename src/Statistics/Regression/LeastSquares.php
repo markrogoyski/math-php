@@ -1,47 +1,26 @@
 <?php
 namespace Math\Statistics\Regression;
-
 use Math\Statistics\{Average, RandomVariable};
 use Math\Functions\Map\{Single, Multi};
 use Math\Probability\Distribution\Continuous\{F, StudentT};
-
+use Math\LinearAlgebra\{Matrix, ColumnVector, Vandermonde};
 trait LeastSquares
 {
     /**
-     * Linear least squares
-     *        _ _   __
-     *        x y - xy
-     *   m = _________
-     *        _     __
-     *       (x)² - x²
-     *
-     *       _    _
-     *   b = y - mx
-     *
-     * @param  array $ys y values
-     * @param  array $xs x values
-     *
-     * @todo Use matrix operations once Matrix class is completed
-     *       $X = new Matrix($xs);
-     *       $Y = new Matrix($ys);
-     *       $(XᵀX)⁻¹Xᵀy = $X->transpose->mult($X)->inverse()->(mult($X)->transpose())->mult($y);
-     *       return $(XᵀX)⁻¹Xᵀy;
+     * Linear least squares using Matrix algebra.
+     * 
      *
      * @return array [m, b]
      */
     public function leastSquares($ys, $xs)
     {
-        // Averages used in m (slope) calculation
-        $x   = Average::mean($xs);
-        $y   = Average::mean($ys);
-        $xy  = Average::mean(Multi::multiply($ys, $xs));
-        $⟮x⟯² = $x**2;
-        $x²  = Average::mean(Single::square($xs));
-
+        $X = new Vandermonde($xs, 2);
+        $Y = new ColumnVector($ys);
+        $Xᵀ = $X->transpose();
+        $⟮XᵀX⟯⁻¹Xᵀy = $Xᵀ->multiply($X)->inverse()->multiply($Xᵀ)->multiply($Y);
         // Calculate slope (m) and y intercept (b)
-        $m = (($x * $y) - $xy) / ($⟮x⟯² - $x²);
-        $b = $y - ($m * $x);
-
+        $m = $⟮XᵀX⟯⁻¹Xᵀy[1][0];
+        $b = $⟮XᵀX⟯⁻¹Xᵀy[0][0];
         return [
             'm' => $m,
             'b' => $b,
