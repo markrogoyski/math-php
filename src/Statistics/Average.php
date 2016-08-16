@@ -1,6 +1,8 @@
 <?php
 namespace Math\Statistics;
 
+use Math\Functions\Map;
+
 /**
  * Statistical averages
  * Mean, median, mode
@@ -429,6 +431,144 @@ class Average
     public static function powerMean(array $numbers, $p)
     {
         return self::generalizedMean($numbers, $p);
+    }
+
+    /**
+     * Simple n-point moving average SMA
+     * The unweighted mean of the previous n data.
+     *
+     * First calculate initial average:
+     *  ⁿ⁻¹
+     *   ∑ xᵢ
+     *  ᵢ₌₀
+     *
+     * To calculating successive values, a new value comes into the sum and an old value drops out:
+     *  SMAtoday = SMAyesterday + NewNumber/N - DropNumber/N
+     *
+     * @param  array  $numbers
+     * @param  int    $n       n-point moving average
+     *
+     * @return array of averages for each n-point time period
+     */
+    public static function simpleMovingAverage(array $numbers, int $n): array
+    {
+        $m   = count($numbers);
+        $SMA = [];
+
+        // Counters
+        $new       = $n; // New value comes into the sum
+        $drop      = 0;  // Old value drops out
+        $yesterday = 0;  // Yesterday's SMA
+
+        // Base case: initial average
+        $SMA[] = array_sum(array_slice($numbers, 0, $n)) / $n;
+
+        // Calculating successive values: New value comes in; old value drops out
+        while ($new < $m) {
+            $SMA[] = $SMA[$yesterday] + ($numbers[$new] / $n) - ($numbers[$drop] / $n);
+            $drop++;
+            $yesterday++;
+            $new++;
+        }
+
+        return $SMA;
+    }
+
+    /**
+     * Cumulative moving average (CMA)
+     *
+     * Base case for initial average:
+     *         x₀
+     *  CMA₀ = --
+     *         1
+     *
+     * Standard case:
+     *         xᵢ + (i * CMAᵢ₋₁)
+     *  CMAᵢ = -----------------
+     *              i + 1
+     *
+     * @param  array  $numbers
+     *
+     * @return array of cumulative averages
+     */
+    public static function cumulativeMovingAverage(array $numbers): array
+    {
+        $m        = count($numbers);
+        $CMA      = [];
+
+        // Base case: first average is just itself
+        $CMA[] = $numbers[0];
+
+        for ($i = 1; $i < $m; $i++) {
+            $CMA[] = (($numbers[$i]) + ($CMA[$i - 1] * $i)) / ($i + 1);
+        }
+
+        return $CMA;
+    }
+
+    /**
+     * Weighted n-point moving average (WMA)
+     *
+     * Similar to simple n-point moving average,
+     * however, each n-point has a weight associated with it,
+     * and instead of dividing by n, we divide by the sum of the weights.
+     *
+     * Each weighted average = ∑(weighted values) / ∑(weights)
+     *
+     * @param  array  $numbers
+     * @param  int    $n       n-point moving average
+     * @param  array  $weights Weights for each n points
+     *
+     * @return array of averages
+     */
+    public static function weightedMovingAverage(array $numbers, int $n, array $weights): array
+    {
+        if (count($weights) !== $n) {
+            throw new \Exception("Number of weights must equal number of n-points");
+        }
+
+        $m   = count($numbers);
+        $∑w  = array_sum($weights);
+        $WMA = [];
+
+        for ($i = 0; $i <= $m - $n; $i++) {
+            $∑wp   = array_sum(Map\Multi::multiply(array_slice($numbers, $i, $n), $weights));
+            $WMA[] = $∑wp / $∑w;
+        }
+
+        return $WMA;
+    }
+
+    /**
+     * Exponential moving average (EMA)
+     *
+     * The start of the EPA is seeded with the first data point.
+     * Then each day after that:
+     *  EMAtoday = α⋅xtoday + (1-α)EMAyesterday
+     *
+     *   where
+     *    α: coefficient that represents the degree of weighting decrease, a constant smoothing factor between 0 and 1. 
+     *
+     * @param array  $numbers
+     * @param int    $n       Length of the EPA
+     *
+     * @return array of exponential moving averages
+     */
+    public static function exponentialMovingAverage(array $numbers, int $n): array
+    {
+        $m   = count($numbers);
+        $α   = 2 / ($n + 1);
+        $EMA = [];
+
+        // Start off by seeding with the first data point
+        $EMA[] = $numbers[0];
+
+        // Each day after: EMAtoday = α⋅xtoday + (1-α)EMAyesterday
+        for ($i = 1; $i < $m; $i++) {
+            $EMA[] = ($α * $numbers[$i]) + ((1 - $α) * $EMA[$i - 1]);
+        }
+
+        return $EMA;
     }
 
     /**
