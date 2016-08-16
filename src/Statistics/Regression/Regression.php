@@ -53,11 +53,9 @@ abstract class Regression
         // Get list of x points and y points.
         $this->xs = array_map(function ($point) {
             return $point[self::X];
-
         }, $points);
         $this->ys = array_map(function ($point) {
             return $point[self::Y];
-
         }, $points);
 
         $this->calculate();

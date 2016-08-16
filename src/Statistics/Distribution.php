@@ -149,7 +149,6 @@ class Distribution
         if ($print === true) {
             $length = max(array_map(function ($stem) {
                 return strlen($stem);
-
             }, array_keys($plot)));
             foreach ($plot as $stem => $leaves) {
                 printf("%{$length}d | %s\n", $stem, implode(' ', $leaves));

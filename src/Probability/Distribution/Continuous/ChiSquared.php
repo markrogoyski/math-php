@@ -47,7 +47,6 @@ class ChiSquared extends Continuous
         $Γ⟮k／2⟯ = Special::Γ($k / 2);
 
         return ($x⁽ᵏ／²⁾⁻¹ * $ℯ⁻⁽ˣ／²⁾) / ($２ᵏ／² * $Γ⟮k／2⟯);
-
     }
 
     /**

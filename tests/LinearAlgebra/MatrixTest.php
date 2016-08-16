@@ -2236,7 +2236,6 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($L, $LU['L'], '', 0.004);
         $this->assertEquals($U, $LU['U'], '', 0.004);
         $this->assertEquals($P, $LU['P'], '', 0.004);
-
     }
 
     public function dataProviderForLUDecomposition()
