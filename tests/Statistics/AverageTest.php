@@ -437,6 +437,150 @@ class AverageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForSimpleMovingAverage
+     */
+    public function testSimpleMovingAverage(array $numbers, int $n, array $SMA)
+    {
+        $this->assertEquals($SMA, Average::simpleMovingAverage($numbers, $n), '', 0.0001);
+    }
+
+    public function dataProviderForSimpleMovingAverage()
+    {
+        return [
+            [
+                [1, 1, 2, 2, 3, 3], 2,
+                [1, 1.5, 2, 2.5, 3],
+            ],
+            [
+                [10, 11, 11, 15, 13, 14, 12, 10, 11], 4,
+                [11.75, 12.5, 13.25, 13.5, 12.25, 11.75],
+            ],
+            [
+                [11, 12, 13, 14, 15, 16, 17], 5,
+                [13, 14, 15],
+            ],
+            [
+                [4, 6, 5, 8, 9, 5, 4, 3, 7, 8], 5,
+                [6.4, 6.6, 6.2, 5.8, 5.6, 5.4],
+            ],
+            [
+                [43, 67, 57, 67, 4, 32, 34, 54, 93, 94, 38, 45], 6,
+                [45, 43.5, 41.3333, 47.3333, 51.8333, 57.5, 59.6667],
+            ],
+            [
+                [5, 6, 7, 8, 9], 3,
+                [6, 7, 8]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForCumulativeMovingAverage
+     */
+    public function testCumulativeMovingAverage(array $numbers, array $CMA)
+    {
+        $this->assertEquals($CMA, Average::cumulativeMovingAverage($numbers), '', 0.001);
+    }
+
+    public function dataProviderForCumulativeMovingAverage()
+    {
+        return [
+            [
+                [1, 2, 3, 4, 5],
+                [1, 1.5, 2, 2.5, 3],
+            ],
+            [
+                [1, 1, 2, 2, 3, 3],
+                [1, 1, 1.333, 1.5, 1.8, 2],
+            ],
+            [
+                [1, 3, 8, 12, 10, 8, 7, 15],
+                [1, 2, 4, 6, 6.8, 7, 7, 8],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForWeightedMovingAverage
+     */
+    public function testWeightedMovingAverage(array $numbers, int $n, array $weights, $WMA)
+    {
+        $this->assertEquals($WMA, Average::weightedMovingAverage($numbers, $n, $weights), '', 0.001);
+    }
+
+    public function dataProviderForWeightedMovingAverage()
+    {
+        return [
+            [
+                [10, 11, 15, 16, 14, 12, 10, 11],
+                3,
+                [1, 2, 5],
+                [13.375, 15.125, 14.625, 13, 11, 10.875],
+            ],
+            [
+                [5, 4, 8],
+                3,
+                [1, 2, 3],
+                [6.16666667]
+            ],
+            [
+                [5, 6, 7, 8, 9],
+                5,
+                [1, 2, 3, 4, 5],
+                [7.6667],
+            ],
+        ];
+    }
+
+    public function testWeightedMovingAverageExceptionWeightsDiffereFromN()
+    {
+        $numbers = [1, 2, 3, 4, 5, 6];
+        $n       = 3;
+        $weights = [1, 2];
+
+        $this->setExpectedException('\Exception');
+        Average::weightedMovingAverage($numbers, $n, $weights);
+    }
+
+    /**
+     * @dataProvider dataProviderForExponentialMovingAverage
+     */
+    public function testExponentialMovingAverage(array $numbers, int $n, array $EMA)
+    {
+        $this->assertEquals($EMA, Average::exponentialMovingAverage($numbers, $n), '', 0.01);
+    }
+
+    public function dataProviderForExponentialMovingAverage()
+    {
+        return [
+            [
+                [1, 1, 2, 2, 3, 3], 2,
+                [1, 1, 1.667, 1.889, 2.63, 2.877],
+            ],
+            [
+                [5, 6, 7, 8, 7, 8, 9, 8, 7], 2,
+                [5, 5.667, 6.556, 7.519, 7.173, 7.724, 8.575, 8.192, 7.397],
+            ],
+            [
+                [5, 6, 7, 8, 7, 8, 9, 8, 7], 3,
+                [5, 5.5, 6.25, 7.125, 7.063, 7.531, 8.266, 8.133, 7.566],
+            ],
+            [
+                [22, 25, 27, 29, 34, 46, 43, 39, 37, 36, 36, 35, 34, 40, 43, 44, 49, 50, 52, 47, 35, 32, 29, 15, 17, 18, 19], 3,
+                [22, 23.5, 25.25, 27.125, 30.563, 38.281, 40.641, 39.82, 38.41, 37.205, 36.603, 35.801, 34.901, 37.45, 40.225, 42.113, 45.556, 47.778, 49.889, 48.445, 41.722, 36.861, 32.931, 23.965, 20.483, 19.241, 19.121]
+            ],
+            [
+                [22.81, 23.09, 22.91, 23.23, 22.83, 23.05, 23.02, 23.29, 23.41, 23.49, 24.60, 24.63, 24.51, 23.73, 23.31, 23.53, 23.06, 23.25, 23.12, 22.80, 22.84], 9,
+                [22.81, 22.87, 22.87, 22.95, 22.92, 22.95, 22.96, 23.03, 23.10, 23.18, 23.47, 23.70, 23.86, 23.83, 23.73, 23.69, 23.56, 23.50, 23.42, 23.30, 23.21]
+            ],
+            [
+                [10, 15, 17, 20, 22, 20, 25, 27, 30, 35, 37, 40], 3,
+                [10, 12.5, 14.75, 17.375, 19.688, 19.844, 22.422, 24.711, 27.355, 31.178, 34.089, 37.044]
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForArithmeticGeometricMean
      */
     public function testArithmeticGeometricMean($x, $y, $mean)
