@@ -1,5 +1,6 @@
 <?php
 namespace Math\Statistics\Regression;
+
 class WeightedLinearTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -12,6 +13,7 @@ class WeightedLinearTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($m, $parameters['m'], '', 0.0001);
         $this->assertEquals($b, $parameters['b'], '', 0.0001);
     }
+
     public function dataProviderForParameters()
     {
         return [
