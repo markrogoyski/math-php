@@ -123,7 +123,7 @@ class StudentT extends Continuous
             return 0;
         }
 
-        return NULL;
+        return null;
     }
     
     /**

@@ -61,7 +61,7 @@ class Average
 
     /**
      * Return the kth smallest value in an array
-     * 
+     *
      * if $a = [1,2,3,4,6,7]
      * kthSmallest($a, 4) = 6
      *
@@ -548,7 +548,7 @@ class Average
      *  EMAtoday = α⋅xtoday + (1-α)EMAyesterday
      *
      *   where
-     *    α: coefficient that represents the degree of weighting decrease, a constant smoothing factor between 0 and 1. 
+     *    α: coefficient that represents the degree of weighting decrease, a constant smoothing factor between 0 and 1.
      *
      * @param array  $numbers
      * @param int    $n       Length of the EPA

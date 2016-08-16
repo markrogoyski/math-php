@@ -31,8 +31,7 @@ class Support
             throw new \Exception('Parameter without bounds limit defined: ' . print_r($undefined_limits, true));
         }
 
-        foreach ($params as $variable => $value)
-        {
+        foreach ($params as $variable => $value) {
             // Remove the first character: ( or [
             $lower_endpoint = substr($limits[$variable], 0, 1);
             
@@ -61,7 +60,7 @@ class Support
             }
             
             // If the upper limit is ∞, we are always in bounds.
-            if ($upper_limit != "∞") {           
+            if ($upper_limit != "∞") {
                 switch ($upper_endpoint) {
                     case ')':
                         if ($value >= $upper_limit) {

@@ -32,5 +32,4 @@ class LineweaverBurk extends MichaelisMenten
         $this->V = 1 / $parameters['b'];
         $this->K = $parameters['m'] * $this->V;
     }
-
 }

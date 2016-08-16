@@ -973,7 +973,7 @@ class Matrix implements \ArrayAccess
      *    The main diagonal will be all ones.
      * U: Upper tirangular matrix--all entries below the main diagonal are zero.
      * P: Permutation matrix--Identity matrix with possible rows interchanged.
-     * 
+     *
      * @return array [
      *   L: Lower triangular matrix
      *   U: Upper triangular matrix
@@ -1066,7 +1066,7 @@ class Matrix implements \ArrayAccess
      *
      * @return Matrix in reduced row echelon form
      */
-    public  function rref()
+    public function rref()
     {
         $m = $this->m;
         $n = $this->n;
@@ -1261,7 +1261,7 @@ class Matrix implements \ArrayAccess
 
         $│A│ = $this->det ?? $this->det();
         if ($│A│ == 0) {
-          throw new \Exception('Singular matrix (determinant = 0); not invertible');
+            throw new \Exception('Singular matrix (determinant = 0); not invertible');
         }
 
         $m = $this->m;
@@ -1300,7 +1300,7 @@ class Matrix implements \ArrayAccess
         $A⁻¹ = [];
 
         for ($i = 0; $i < $n; $i++) {
-          $A⁻¹[$i] = array_slice($R[$i], $n);
+            $A⁻¹[$i] = array_slice($R[$i], $n);
         }
 
         $A⁻¹ = new Matrix($A⁻¹);

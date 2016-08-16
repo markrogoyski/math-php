@@ -2535,8 +2535,8 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
     {
         $A = new Matrix($A);
 
-        $this->assertEquals($det, round($A->det(), 0.1) ); // Test calculation
-        $this->assertEquals($det, round($A->det(), 0.1) ); // Test class attribute
+        $this->assertEquals($det, round($A->det(), 0.1)); // Test calculation
+        $this->assertEquals($det, round($A->det(), 0.1)); // Test class attribute
     }
 
     public function dataProviderForDet()
