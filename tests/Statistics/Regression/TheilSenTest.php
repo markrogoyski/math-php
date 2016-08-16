@@ -3,7 +3,6 @@ namespace Math\Statistics\Regression;
 
 class TheilSenTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testConstructor()
     {
         $points = [ [1,2], [2,3], [4,5], [5,7], [6,8] ];
@@ -40,7 +39,7 @@ class TheilSenTest extends \PHPUnit_Framework_TestCase
     public function testGetEquation(array $points)
     {
         $regression = new TheilSen($points);
-        //$this->assertRegExp('/^y = \d+[.]\d+x [+] \d+[.]\d+$/', $regression->getEquation());
+        $this->assertRegExp('/^y = \d+[.]\d+x [+] \d+[.]\d+$/', $regression->getEquation());
     }
 
     public function dataProviderForEquation()
@@ -57,8 +56,8 @@ class TheilSenTest extends \PHPUnit_Framework_TestCase
     {
         $regression = new TheilSen($points);
         $parameters = $regression->getParameters();
-        //$this->assertEquals($m, $parameters['m'], '', 0.0001);
-        //$this->assertEquals($b, $parameters['b'], '', 0.0001);
+        $this->assertEquals($m, $parameters['m'], '', 0.0001);
+        $this->assertEquals($b, $parameters['b'], '', 0.0001);
     }
 
     public function dataProviderForParameters()
@@ -66,7 +65,7 @@ class TheilSenTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
-                1.2209302325581, 0.60465116279069
+                1.225, 0.1
             ],
         ];
     }
@@ -77,7 +76,7 @@ class TheilSenTest extends \PHPUnit_Framework_TestCase
     public function testGetSampleSize(array $points, $n)
     {
         $regression = new TheilSen($points);
-        //$this->assertEquals($n, $regression->getSampleSize());
+        $this->assertEquals($n, $regression->getSampleSize());
     }
 
     public function dataProviderForSampleSize()
@@ -95,7 +94,7 @@ class TheilSenTest extends \PHPUnit_Framework_TestCase
     public function testEvaluate(array $points, $x, $y)
     {
         $regression = new TheilSen($points);
-        //$this->assertEquals($y, $regression->evaluate($x));   
+        $this->assertEquals($y, $regression->evaluate($x));
     }
 
     public function dataProviderForEvaluate()

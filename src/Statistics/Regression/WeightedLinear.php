@@ -1,8 +1,10 @@
 <?php
 namespace Math\Statistics\Regression;
+
 use Math\Statistics\Average;
 use Math\Statistics\RandomVariable;
 use Math\Probability\Distribution\Continuous\StudentT;
+
 /**
  * Weighted linear regression - least squares method
  *
@@ -15,19 +17,11 @@ use Math\Probability\Distribution\Continuous\StudentT;
  * Having data points {(xᵢ, yᵢ), i = 1 ..., n }
  * Find the equation y = mx + b
  *
- *      _ _   __
- *      x y - xy
- * m = _________
- *      _     __
- *     (x)² - x²
- *
- *     _    _
- * b = y - mx
  */
 class WeightedLinear extends Regression
 {
     use WeightedLeastSquares;
-    
+
     // An array of weights
     private $ws;
     
@@ -36,10 +30,9 @@ class WeightedLinear extends Regression
         $this->ws = $ws;
         parent::__construct($points);
     }
-    
+
     /**
      * Calculates the regression parameters.
-     *
      */
     public function calculate()
     {
@@ -47,6 +40,7 @@ class WeightedLinear extends Regression
         $this->m = $parameters['m'];
         $this->b = $parameters['b'];
     }
+
     /**
      * Get regression parameters (coefficients)
      * m = slope
@@ -61,6 +55,7 @@ class WeightedLinear extends Regression
             'b' => $this->b,
         ];
     }
+
     /**
      * Get regression equation (y = mx + b)
      *
@@ -70,6 +65,7 @@ class WeightedLinear extends Regression
     {
         return sprintf('y = %fx + %f', $this->m, $this->b);
     }
+
     /**
      * Evaluate the line equation from linear regression parameters for a value of x
      * y = mx + b

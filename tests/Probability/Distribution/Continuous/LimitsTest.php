@@ -15,7 +15,6 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
         foreach ($limits as $parameter => $limit) {
             $this->assertRegExp('/^ ([[(]) (.+) , (.+?) ([])]) $/x', $limit);
         }
-        
     }
 
     public function testBetaParameterLimits()

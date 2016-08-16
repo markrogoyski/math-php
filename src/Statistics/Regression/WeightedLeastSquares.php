@@ -1,10 +1,12 @@
 <?php
 namespace Math\Statistics\Regression;
+
 use Math\LinearAlgebra\{Matrix, ColumnVector, VandermondeMatrix, DiagonalMatrix};
+
 trait WeightedLeastSquares
 {
     /**
-     * Linear least squares fitting using Matrix algebra (Polynomial).
+     * Weighted linear least squares fitting using Matrix algebra (Polynomial).
      *
      * Generalizing from a straight line (first degree polynomial) to a kᵗʰ degree polynomial:
      *  y = a₀ + a₁x + ⋯ + akxᵏ
@@ -51,12 +53,15 @@ trait WeightedLeastSquares
         $X  = new VandermondeMatrix($xs, 2);
         $y  = new ColumnVector($ys);
         $W  = new DiagonalMatrix($ws);
-        // a = (XᵀX)⁻¹Xᵀy
+
+        // a = (XᵀWX)⁻¹XᵀWy
         $Xᵀ        = $X->transpose();
         $⟮XᵀWX⟯⁻¹XᵀWy = $Xᵀ->multiply($W)->multiply($X)->inverse()->multiply($Xᵀ)->multiply($W)->multiply($y);
-        // Get slope (m) and y intercept (b) from vector solution a (⟮XᵀX⟯⁻¹Xᵀy)
+
+        // Get slope (m) and y intercept (b) from vector solution a (⟮XᵀWX⟯⁻¹XᵀWy)
         $m = $⟮XᵀWX⟯⁻¹XᵀWy[1][0];
         $b = $⟮XᵀWX⟯⁻¹XᵀWy[0][0];
+
         return [
             'm' => $m,
             'b' => $b,

@@ -23,7 +23,6 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
     public function testPermutations($n, $permutations)
     {
         $this->assertEquals($permutations, Combinatorics::permutations($n));
-
     }
 
     public function testPermutationsBoundsException()

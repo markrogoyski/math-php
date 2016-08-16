@@ -45,11 +45,11 @@ class Experiment
      *               / 1   1     1       1
      * SS{ln(RR)} = /  - + - - ----- - -----
      *             √   a   c   a + b   c + d
-     * 
+     *
      * CI Range(95%) = exp( ln(RR) - z × SS{ln(RR)} ) to exp( ln(RR) + z × SS{ln(RR)} )
      *
      * P = exp((-0.717 * z) - (0.416 * z²))
-     * 
+     *
      * @param  int   $a Exposed and event present
      * @param  int   $b Exposed and event absent
      * @param  int   $c Non-exposed and event present
@@ -111,7 +111,7 @@ class Experiment
      * CI Range(95%) = exp( ln(OR) - z × SS{ln(OR)} ) to exp( ln(OR) + z × SS{ln(OR)} )
      *
      * P = exp((-0.717 * z) - (0.416 * z²))
-     * 
+     *
      * @param  int   $a Exposed and event present
      * @param  int   $b Exposed and event absent
      * @param  int   $c Non-exposed and event present
@@ -162,7 +162,7 @@ class Experiment
      *       c / (a + c)
      * LL- = -----------
      *       d / (b + d)
-     * 
+     *
      * @param  int   $a Exposed and event present
      * @param  int   $b Exposed and event absent
      * @param  int   $c Non-exposed and event present
@@ -198,7 +198,7 @@ class Experiment
      *       1 - sensitivity
      * LL- = ---------------
      *         specificity
-     * 
+     *
      * @param  float $sensitivity
      * @param  float $specificity
      *

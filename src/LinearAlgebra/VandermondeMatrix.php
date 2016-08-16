@@ -24,7 +24,7 @@ class VandermondeMatrix extends Matrix
 {
     /**
      * Create the Vandermonde Matrix from a simple array.
-     * 
+     *
      * @param $M array (α₁, α₂, α₃ ⋯ αm)
      * @param $n int
      */
@@ -34,7 +34,7 @@ class VandermondeMatrix extends Matrix
         $this->m = count($M);
         
         $A = [];
-        foreach($M as $row => $α) {
+        foreach ($M as $row => $α) {
             for ($i = 0; $i < $n; $i++) {
                 $A[$row][$i] = $α**$i;
             }

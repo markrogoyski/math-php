@@ -65,7 +65,7 @@ class Exponential extends Continuous
      * Mean of the distribution
      *
      * μ = λ⁻¹
-     * 
+     *
      * @param float $λ often called the rate parameter
      *
      * @return number

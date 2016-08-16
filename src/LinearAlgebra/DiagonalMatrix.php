@@ -19,12 +19,11 @@ class DiagonalMatrix extends Matrix
         $this->n = $this->m;
 
         $A = [];
-        for($i = 0; $i < $this->m; $i++) {
-            for($j = 0; $j < $this->m; $j++) {
+        for ($i = 0; $i < $this->m; $i++) {
+            for ($j = 0; $j < $this->m; $j++) {
                 if ($i == $j) {
                     $A[$i][$j] = $D[$i];
-                }
-                else {
+                } else {
                     $A[$i][$j] = 0;
                 }
             }

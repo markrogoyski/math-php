@@ -49,7 +49,7 @@ class Cauchy extends Continuous
      * Cumulative distribution function
      * Calculate the cumulative value value up to a point, left tail.
      *
-     * @param number $x  
+     * @param number $x
      * @param number $x₀ location
      * @param int    $γ  scale
      *
@@ -75,7 +75,7 @@ class Cauchy extends Continuous
      */
     public static function mean($x₀, $γ)
     {
-        return NULL;
+        return null;
     }
         
     /**
@@ -102,5 +102,5 @@ class Cauchy extends Continuous
     public static function mode($x₀, $γ)
     {
         return $x₀;
-    }    
+    }
 }

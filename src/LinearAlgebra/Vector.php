@@ -29,7 +29,6 @@ class Vector implements \ArrayAccess
     {
         $this->A = $A;
         $this->n = count($A);
-
     }
 
     /**
