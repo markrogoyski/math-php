@@ -58,6 +58,30 @@ class Average
     }
 
     /**
+     * return the kth smallest value in an array
+     * 
+     * if $a = [1,2,3,4,6,7]
+     * 
+     * kthSmallest($a, 4) = 6
+     * @param array $numbers
+     * @param int $k zero indexed
+     *
+     * @return number
+     */
+    public static function kthSmallest(array $numbers, int $k)
+    {
+        $n = count($numbers);
+        if (empty($numbers) || $k >= $n) {
+            return null;
+        }
+
+        // Reset the array key indexes because we don't know what might be passed in
+        $numbers = array_values($numbers);
+        sort($numbers);
+        return $numbers[$k];
+    }
+    
+    /**
      * Calculate the mode average of a list of numbers
      * If multiple modes (bimodal, trimodal, etc.), all modes will be returned.
      * Always returns an array, even if only one mode.
