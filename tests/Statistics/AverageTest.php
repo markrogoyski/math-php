@@ -74,13 +74,15 @@ class AverageTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($smallest, Average::kthSmallest($numbers, $k));
     }
+
     /**
-     * Data provider for mode test
+     * Data provider for kth smallest test
      * Data: [ [ numbers ], k, kth smallest ]
      */
     public function dataProviderForKthSmallest()
     {
         return [
+            [ [], 1, null ],
             [ [ 1, 1, 1 ], 2, 1 ],
             [ [ 1, 2, 3 ], 1, 2 ],
             [ [ 2, 3, 4 ], 1, 3 ],
