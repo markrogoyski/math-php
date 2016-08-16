@@ -21,6 +21,7 @@ class TheilSen extends Regression
      * Procedure:
      * Calculate the slopes of all pairs of points and select the median value
      * Calculate the intercept using the slope, and the medians of the X and Y values.
+     *   b = Ymedian - (m * Xmedian)
      */
     public function calculate()
     {
@@ -37,7 +38,7 @@ class TheilSen extends Regression
         }
 
         $this->m = Average::median($slopes);
-        $this->b = Average::median($this->ys) - $this->m * Average::median($this->xs);
+        $this->b = Average::median($this->ys) - ($this->m * Average::median($this->xs));
     }
     
     /**
