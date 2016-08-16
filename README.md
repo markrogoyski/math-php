@@ -577,6 +577,14 @@ $power_mean       = Average::powerMean($numbers, $p);       // same as generaliz
 $p           = 3;
 $lehmer_mean = Average::lehmerMean($numbers, $p);
 
+// Moving averages
+$n       = 3;
+$weights = [3, 2, 1];
+$SMA     = Average::simpleMovingAverage($numbers, $n);             // 3 n-point moving average
+$CMA     = Average::cumulativeMovingAverage($numbers);
+$WMA     = Average::weightedMovingAverage($numbers, $n, $weights);
+$EPA     = Average::exponentialMovingAverage($numbers, $n);
+
 // Means of two numbers
 list($x, $y) = [24, 6];
 $agm           = Average::arithmeticGeometricMean($x, $y); // same as agm
