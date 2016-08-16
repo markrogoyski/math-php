@@ -29,7 +29,7 @@ class Average
         return array_sum($numbers) / count($numbers);
     }
 
-    /**
+        /**
      * Calculate the median average of a list of numbers
      *
      * @param array $numbers
@@ -41,30 +41,27 @@ class Average
         if (empty($numbers)) {
             return null;
         }
-
         // Reset the array key indexes because we don't know what might be passed in
         $numbers = array_values($numbers);
-
         // For odd number of numbers, take the middle indexed number
         if (count($numbers) % 2 == 1) {
             $middle_index = intdiv(count($numbers), 2);
-            sort($numbers);
-            return $numbers[$middle_index];
+            return self::kthSmallest($numbers, $middle_index);
         }
-
         // For even number of items, take the mean of the middle two indexed numbers
         $left_middle_index  = intdiv(count($numbers), 2) - 1;
+        $left_median = self::kthSmallest($numbers, $left_middle_index);
         $right_middle_index = $left_middle_index + 1;
-        sort($numbers);
-        return self::mean([ $numbers[$left_middle_index], $numbers[$right_middle_index] ]);
+        $right_median = self::kthSmallest($numbers, $right_middle_index);
+        return self::mean([ $left_median, $right_median ]);
     }
-
     /**
-     * Return the kth smallest value in an array
-     *
+     * return the kth smallest value in an array
+     * using a linear-time algorithm.
+     * 
      * if $a = [1,2,3,4,6,7]
+     * 
      * kthSmallest($a, 4) = 6
-     *
      * @param array $numbers
      * @param int $k zero indexed
      *
@@ -72,16 +69,79 @@ class Average
      */
     public static function kthSmallest(array $numbers, int $k)
     {
+        // If the numbers array is empty, or if k is out of bounds
+        // return null. Should it be an exception instead?
         $n = count($numbers);
         if (empty($numbers) || $k >= $n) {
             return null;
         }
-
         // Reset the array key indexes because we don't know what might be passed in
         $numbers = array_values($numbers);
-        sort($numbers);
-
-        return $numbers[$k];
+        
+        // If the array is 5 elements or smaller, use quicksort and return the element of interest.
+        if($n <= 5){
+            sort($numbers);
+            return $numbers[$k];
+        }
+        
+        // Otherwise, we are going to slice $numbers into 5-element slices
+        // and find the median of each.
+        $num_slices = ceil($n / 5);
+        for ($i=0;$i<$num_slices;$i++)
+        {
+            $median_array[] = self::median(array_slice($numbers, 5 * $i, 5));
+        }
+        
+        // Then we find the median of the medians.
+        $median_of_medians = self::median($median_array);
+        
+        // Next we walk the array and seperate it into values that are greater than or less than 
+        // this "median of medians".
+        $lowerUpper = self::splitAtValue($numbers, $median_of_medians);
+        $lower_number = count($lowerUpper['lower']);
+        $upper_number = count($lowerUpper['upper']);
+        $equal_number = $lowerUpper['equal'];
+        
+        // Lastly, we find which group of values our value of interest is in, and find it in the
+        // smaller array.
+        if ($k < $lower_number){
+            return self::kthSmallest($lowerUpper['lower'], $k);
+        } else if ($k < ($lower_number + $equal_number)){
+            return $median_of_medians;
+        } else {
+            return self::kthSmallest($lowerUpper['upper'], $k - $lower_number - $equal_number);
+        }
+    }
+    
+    /**
+     * Given an array and a value, separate the array into two groups,
+     * those values which are greater than the value, and those that are less 
+     * than the value. Also, tell how many times the value appears in the array.
+     * 
+     * @params array $numbers
+     * @params int   $value
+     * 
+     * @return array
+     */
+    public static function splitAtValue(array $numbers, $value): array
+    {
+        $lower = [];
+        $upper = [];
+        $number_equal = 0;
+        foreach($numbers as $number){
+            if ($number < $value){
+                $lower[] = $number;
+            } elseif ($number > $value){
+                $upper[] = $number;
+            } else{
+                $number_equal++;
+            }
+        }
+        return [
+            'lower' => $lower, 
+            'upper' => $upper, 
+            'equal' => $number_equal,
+        ];
     }
     
     /**
