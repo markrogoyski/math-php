@@ -60,11 +60,11 @@ class Average
     }
 
     /**
-     * return the kth smallest value in an array
+     * Return the kth smallest value in an array
      * 
      * if $a = [1,2,3,4,6,7]
-     * 
      * kthSmallest($a, 4) = 6
+     *
      * @param array $numbers
      * @param int $k zero indexed
      *
@@ -80,6 +80,7 @@ class Average
         // Reset the array key indexes because we don't know what might be passed in
         $numbers = array_values($numbers);
         sort($numbers);
+
         return $numbers[$k];
     }
     
