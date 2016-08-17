@@ -60,12 +60,24 @@ class Average
     }
 
     /**
-     * return the kth smallest value in an array
-     * using a linear-time algorithm.
+     * Return the kth smallest value in an array
+     * Uses a linear-time algorithm: O(n) time in worst case.
      *
      * if $a = [1,2,3,4,6,7]
      *
      * kthSmallest($a, 4) = 6
+     *
+     * Algorithm:
+     *  1) If n is small, just sort and return
+     *  2) Otherwise, group into 5-element subsets and mind the median
+     *  3) Find the median of the medians
+     *  4) Find L and U sets
+     *     - L is numbers lower than the median of medians
+     *     - U is numbers higher than the median of medians
+     *  5) Recursive step
+     *     - if k is the median of medians, return that
+     *     - Otherwise, recusively search in smaller group.
+     *
      * @param array $numbers
      * @param int $k zero indexed
      *
