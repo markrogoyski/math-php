@@ -1,6 +1,8 @@
 <?php
 namespace Math\Statistics\Regression;
+
 use Math\Functions\Map\Single;
+
 /**
  * Use the Lineweaver-Burk method to fit an equation of the form
  *       V * x
