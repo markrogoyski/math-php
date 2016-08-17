@@ -143,10 +143,10 @@ trait LeastSquares
 
     /**
      * Mean Square Errors
-     * 
-     * The mean square errors are the sum of squares divided by their 
+     *
+     * The mean square errors are the sum of squares divided by their
      * individual degrees of freedom.
-     * 
+     *
      * Source    |     df
      * ----------|--------------
      * SSTO      |    n - 1
@@ -180,9 +180,9 @@ trait LeastSquares
     
     /**
      * Error Standard Deviation
-     * 
+     *
      * Also called the standard error of the residuals
-     * 
+     *
      */
     public function errorSD()
     {
@@ -324,7 +324,7 @@ trait LeastSquares
      *  where:
      *    t = t value
      *    ν = n - p - alpha  degrees of freedom
-     * 
+     *
      *  alpha = 1 if the regression includes a constant term
      *
      * @return array [m => p, b => p]
