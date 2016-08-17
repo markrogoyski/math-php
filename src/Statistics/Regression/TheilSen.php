@@ -1,8 +1,6 @@
 <?php
 namespace Math\Statistics\Regression;
-
 use Math\Statistics\Average;
-
 /**
  * Theil–Sen estimator
  * Also known as Sen's slope estimator, slope selection, the single median method,
@@ -15,6 +13,7 @@ use Math\Statistics\Average;
  */
 class TheilSen extends Regression
 {
+    use Models\LinearModel;
     /**
      * Calculate the regression parameters using the Theil-Sen method
      *
@@ -28,55 +27,16 @@ class TheilSen extends Regression
         // The slopes array will be a list of slopes between all pairs of points
         $slopes = [];
         $n      = count($this->points);
-
         for ($i = 0; $i < $n; $i++) {
             for ($j = $i + 1; $j < $n; $j++) {
                 $pointi   = $this->points[$i];
                 $pointj   = $this->points[$j];
-                $slopes[] = ($pointj[self::Y] - $pointi[self::Y]) / ($pointj[self::X] - $pointi[self::X]);
+                $slopes[] = ($pointj[1] - $pointi[1]) / ($pointj[0] - $pointi[0]);
             }
         }
-
         $this->m = Average::median($slopes);
         $this->b = Average::median($this->ys) - ($this->m * Average::median($this->xs));
+        $this->parameters = [$this->b, $this->m];
     }
     
-    /**
-     * Get regression parameters
-     * m = slope
-     * b = y intercept
-     *
-     * @return array [ m => number, b => number ]
-     */
-    public function getParameters(): array
-    {
-        return [
-            'm' => $this->m,
-            'b' => $this->b,
-        ];
-    }
-    /**
-     * Get regression equation (y = mx + b)
-     *
-     * @return string
-     */
-    public function getEquation(): string
-    {
-        return sprintf('y = %fx + %f', $this->m, $this->b);
-    }
-    /**
-     * Evaluate the line equation from linear regression parameters for a value of x
-     * y = mx + b
-     *
-     * @param number $x
-     *
-     * @return number y evaluated
-     */
-    public function evaluate($x)
-    {
-        $m  = $this->m;
-        $b  = $this->b;
-        $mx = $m * $x;
-        return $mx + $b;
-    }
 }
