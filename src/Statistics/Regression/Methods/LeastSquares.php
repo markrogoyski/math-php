@@ -78,7 +78,7 @@ trait LeastSquares
      */
     public function createDesignMatrix($xs)
     {
-        if (gettype($xs) == 'int' || gettype($xs) == 'double') {
+        if (gettype($xs) == 'integer' || gettype($xs) == 'double') {
             $xs = [$xs];
         }
         $X  = new VandermondeMatrix($xs, $this->p + 1);
