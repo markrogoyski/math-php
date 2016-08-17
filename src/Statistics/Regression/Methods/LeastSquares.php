@@ -248,7 +248,7 @@ trait LeastSquares
         ];
     }
     
-    public function regressionVariance(array $x)
+    public function regressionVariance($x)
     {
         $X = $this->createDesignMatrix($x);
         $⟮XᵀX⟯⁻¹ = $this->⟮XᵀX⟯⁻¹;
