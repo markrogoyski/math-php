@@ -283,7 +283,7 @@ trait LeastSquares
      */
     public function r()
     {
-        return self::correlationCoefficient();
+        return $this->correlationCoefficient();
     }
     /**
      * R² - coefficient of determination
@@ -432,7 +432,7 @@ trait LeastSquares
      */
     public function getCI($x, $p)
     {
-        $V = regressionVariance($x);
+        $V = $this->regressionVariance($x);
         $σ² = $this->meanSquareResidual();
      
         // The t-value
@@ -466,7 +466,7 @@ trait LeastSquares
      */
     public function getPI($x, $p, $q = 1)
     {
-        $V = regressionVariance(array $x) + 1 / $q;
+        $V = $this->regressionVariance($x) + 1 / $q;
         $σ² = $this->meanSquareResidual();
      
         // The t-value
