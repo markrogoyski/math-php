@@ -1,6 +1,8 @@
 <?php
 namespace Math\Statistics\Regression;
+
 use Math\Functions\Map\Multi;
+
 /**
  * Use the Hanes-Woolf method to fit an equation of the form
  *       V * x
