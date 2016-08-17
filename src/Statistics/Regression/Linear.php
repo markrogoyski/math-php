@@ -28,32 +28,27 @@ use Math\Probability\Distribution\Continuous\StudentT;
  */
 class Linear extends Regression
 {
-    use LeastSquares;
-
+    use Methods\LeastSquares, Models\LinearModel;
     /**
      * Average of x
      * @var number
      */
     private $xbar;
-
     /**
      * Average of y
      * @var number
      */
     private $ybar;
-
     /**
      * Sum of squared deviations of x
      * @var number
      */
     private $SSx;
-
     /**
      * Sum of squares residuals
      * @var number
      */
     private $SSres;
-
     /**
      * Calculates the regression parameters.
      *
@@ -61,50 +56,7 @@ class Linear extends Regression
     public function calculate()
     {
         $parameters = $this->leastSquares($this->ys, $this->xs);
-        $this->m = $parameters['m'];
-        $this->b = $parameters['b'];
-    }
-
-    /**
-     * Get regression parameters (coefficients)
-     * m = slope
-     * b = y intercept
-     *
-     * @return array [ m => number, b => number ]
-     */
-    public function getParameters(): array
-    {
-        return [
-            'm' => $this->m,
-            'b' => $this->b,
-        ];
-    }
-
-    /**
-     * Get regression equation (y = mx + b)
-     *
-     * @return string
-     */
-    public function getEquation(): string
-    {
-        return sprintf('y = %fx + %f', $this->m, $this->b);
-    }
-
-    /**
-     * Evaluate the line equation from linear regression parameters for a value of x
-     * y = mx + b
-     *
-     * @param number $x
-     *
-     * @return number y evaluated
-     */
-    public function evaluate($x)
-    {
-        $m  = $this->m;
-        $b  = $this->b;
-        $mx = $m * $x;
-
-        return $mx + $b;
+        $this->parameters = $parameters->transpose()[0];
     }
     
     /**
@@ -134,19 +86,14 @@ class Linear extends Regression
         // Averages.
         $xbar = $this->xbar ?? Average::mean($this->xs);
         $ybar = $this->ybar ?? Average::mean($this->ys);
-
         // The number of data points.
         $n = $this->n;
-
         // Degrees of freedom.
         $ν = $n - 2;
-
         // Sum X sum of squares.
         $SSx = $this->SSx ?? RandomVariable::sumOfSquaresDeviations($this->xs);
-
         // The t-value
         $t = StudentT::inverse2Tails($p, $ν);
-
         // Standard error of y
         $SSres = $this->SSres ?? $this->sumOfSquaresResidual();
         $sy    = sqrt($SSres / $ν);
@@ -154,7 +101,6 @@ class Linear extends Regression
         // Put it together.
         return $t * $sy * sqrt(1/$n + ($x - $xbar)**2 / $SSx);
     }
-
     /**
      * The prediction interval of the regression
      *                        _________________
@@ -184,19 +130,14 @@ class Linear extends Regression
         // Averages.
         $xbar = $this->xbar ?? Average::mean($this->xs);
         $ybar = $this->ybar ?? Average::mean($this->ys);
-
         // The number of data points.
         $n = $this->n;
-
         // Degrees of freedom.
         $ν = $n - 2;
-
         // Sum X sum of squares.
         $SSx = $this->SSx ?? RandomVariable::sumOfSquaresDeviations($this->xs);
-
         // The t-value
         $t = StudentT::inverse2Tails($p, $ν);
-
         // Standard error of y
         $SSres = $this->SSres ?? $this->sumOfSquaresResidual();
         $sy    = sqrt($SSres / $ν);

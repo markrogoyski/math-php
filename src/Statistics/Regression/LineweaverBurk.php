@@ -11,10 +11,9 @@ use Math\Functions\Map\Single;
  *
  * The equation is linearized and fit using Least Squares
  */
-class LineweaverBurk extends MichaelisMenten
+class LineweaverBurk extends Regression
 {
-    use LeastSquares;
-
+    use Models\MichaelisMenten, Methods\LeastSquares;
     /**
      * Calculate the regression parameters by least squares on linearized data
      * y⁻¹ = K * V⁻¹ * x⁻¹ + V⁻¹
@@ -24,12 +23,11 @@ class LineweaverBurk extends MichaelisMenten
         // Linearize the relationship by taking the inverse of both x and y
         $x’ = Single::pow($this->xs, -1);
         $y’ = Single::pow($this->ys, -1);
-
         // Perform Least Squares Fit
-        $parameters = $this->leastSquares($y’, $x’);
-
+        $linearized_parameters = $this->leastSquares($y’, $x’)->transpose()[0];
         // Translate the linearized parameters back.
-        $this->V = 1 / $parameters['b'];
-        $this->K = $parameters['m'] * $this->V;
+        $V = 1 / $linearized_parameters[0];
+        $K = $linearized_parameters[1] * $V;
+        $this->parameters = [$V, $K];
     }
 }
