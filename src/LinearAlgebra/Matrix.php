@@ -128,20 +128,20 @@ class Matrix implements \ArrayAccess
      *     [[1,2,3]
      * A =  [4,5,6]
      *      [7,8,9]]
-     * 
+     *
      * getDiagonalElements($A) = [1,5,9]
      */
-     public function getDiagonalElements(): array
-     {
-         if ($this->isSquare()){
-             $array = [];
-             for($i = 0; $i < $this->m; $i++) {
-                 $array[] = $this->A[$i][$i];
-             }
-             return $array;
-         }
-         return null;
-     }
+    public function getDiagonalElements(): array
+    {
+        if ($this->isSquare()){
+            $array = [];
+            for($i = 0; $i < $this->m; $i++) {
+                $array[] = $this->A[$i][$i];
+            }
+            return $array;
+        }
+        return null;
+    }
      
     /**
      * MATRIX OPERATIONS
