@@ -1,9 +1,10 @@
 <?php
 namespace Math\Statistics\Regression\Models;
+
 trait PowerModel
 {
-    static $B = 1; // b parameter index
-    static $A = 0; // m parameter index
+    public static $B = 1; // b parameter index
+    public static $A = 0; // m parameter index
     
    /**
     * Evaluate the power curve equation from power law regression parameters for a value of x
@@ -33,6 +34,7 @@ trait PowerModel
             'b' => $params[self::$B],
         ];
     }
+
     /**
      * Get regression equation (y = axᵇ) in format y = ax^b
      *
@@ -42,4 +44,4 @@ trait PowerModel
     {
         return sprintf('y = %fx^%f', $params[self::$A], $params[self::$B]);
     }
- }
+}
