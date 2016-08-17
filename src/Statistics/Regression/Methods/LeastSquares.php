@@ -1,9 +1,16 @@
 <?php
 namespace Math\Statistics\Regression\Methods;
-use Math\Statistics\{Average, RandomVariable};
-use Math\Functions\Map\{Single, Multi};
-use Math\Probability\Distribution\Continuous\{F, StudentT};
-use Math\LinearAlgebra\{Matrix, ColumnVector, VandermondeMatrix};
+
+use Math\Statistics\Average;
+use Math\Statistics\RandomVariable;
+use Math\Functions\Map\Single;
+use Math\Functions\Map\Multi;
+use Math\Probability\Distribution\Continuous\F;
+use Math\Probability\Distribution\Continuous\StudentT;
+use Math\LinearAlgebra\Matrix;
+use Math\LinearAlgebra\ColumnVector;
+use Math\LinearAlgebra\VandermondeMatrix;
+
 trait LeastSquares
 {
     /**
@@ -54,7 +61,7 @@ trait LeastSquares
         $this->ν = $this->n - $this->p - $this->fit_constant;
         // y = Xa
         $X  = new VandermondeMatrix($xs, $this->p + 1);
-        if ($this->fit_constant == 0){
+        if ($this->fit_constant == 0) {
             $X = $X->columnExclude(0);
         }
         $y  = new ColumnVector($ys);
@@ -63,6 +70,7 @@ trait LeastSquares
         $⟮XᵀX⟯⁻¹Xᵀy = $Xᵀ->multiply($X)->inverse()->multiply($Xᵀ)->multiply($y);
         return $⟮XᵀX⟯⁻¹Xᵀy;
     }
+
     /**
      * Sum Of Squares
      */
@@ -88,7 +96,7 @@ trait LeastSquares
             $this->yHat()
         ));
     }
-      
+
      /**
       * SSres - The Sum Squares of the residuals (RSS - Residual sum of squares)
       *
@@ -116,7 +124,7 @@ trait LeastSquares
             $Ŷ
         ));
     }
-    
+
     /**
       * SStot - The total Sum Squares
       *
@@ -132,7 +140,7 @@ trait LeastSquares
     {
         return RandomVariable::sumOfSquaresDeviations($this->ys);
     }
-    
+
     /**
      * Mean Square Errors
      * 
@@ -176,18 +184,18 @@ trait LeastSquares
      * Also called the standard error of the residuals
      * 
      */
-     public function errorSD()
-     {
-         return sqrt($this->meanSquareResidual());
-     }
+    public function errorSD()
+    {
+        return sqrt($this->meanSquareResidual());
+    }
      
-     /**
-      * The degrees of freedom of the regression
-      */
-     public function degreesOfFreedom()
-     {
-         return $this->ν;
-     }
+    /**
+     * The degrees of freedom of the regression
+     */
+    public function degreesOfFreedom()
+    {
+        return $this->ν;
+    }
      
     /**
      * Standard error of the regression parameters (coefficients)
