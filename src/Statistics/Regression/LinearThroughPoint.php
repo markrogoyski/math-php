@@ -2,7 +2,8 @@
 namespace Math\Statistics\Regression;
 
 use Math\Statistics\Average;
-use Math\Functions\Map\{Multi, Single};
+use Math\Functions\Map\Multi;
+use Math\Functions\Map\Single;
 use Math\Probability\Distribution\Continuous\StudentT;
 
 /**
@@ -57,7 +58,6 @@ class LinearThroughPoint extends Regression
         $this->m = $parameters[0];
         $this->b = $this->w - $this->m * $this->v;
         $this->parameters = [$this->b, $this->m];
-
     }
 
     public function getCI($x, $p)
