@@ -41,4 +41,34 @@ class ColumnVectorTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForTranspose
+     */
+    public function testTranspose(array $M)
+    {
+        $C  = new ColumnVector($M);
+        $Cᵀ = $C->transpose();
+
+        $this->assertInstanceOf('Math\LinearAlgebra\RowVector', $Cᵀ);
+        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $Cᵀ);
+
+        $this->assertEquals(1, $Cᵀ->getM());
+        $this->assertEquals(count($M), $Cᵀ->getN());
+
+        $this->assertEquals($M, $Cᵀ->getRow(0));
+    }
+
+    public function dataProviderForTranspose()
+    {
+        return [
+            [
+                [1, 2, 3, 4],
+
+            ],
+            [
+                [1],
+            ],
+        ];
+    }
 }
