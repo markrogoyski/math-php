@@ -1,6 +1,8 @@
 <?php
 namespace Math\Statistics\Regression;
+
 use Math\Statistics\Average;
+
 /**
  * Power law regression (power curve) - Least squares fitting
  * http://mathworld.wolfram.com/LeastSquaresFittingPowerLaw.html
