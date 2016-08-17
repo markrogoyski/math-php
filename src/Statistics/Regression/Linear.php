@@ -1,8 +1,10 @@
 <?php
 namespace Math\Statistics\Regression;
+
 use Math\Statistics\Average;
 use Math\Statistics\RandomVariable;
 use Math\Probability\Distribution\Continuous\StudentT;
+
 /**
  * Simple linear regression - least squares method
  *
