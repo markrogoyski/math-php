@@ -1,5 +1,6 @@
 <?php
 namespace Math\Statistics\Regression\Models;
+
 trait LinearModel
 {
     static $B = 0; // b parameter index
