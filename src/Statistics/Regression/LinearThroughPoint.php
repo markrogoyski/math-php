@@ -54,7 +54,7 @@ class LinearThroughPoint extends Regression
         
         $x’ = Single::subtract($this->xs, $v);
         $y’ = Single::subtract($this->ys, $w);
-        $parameters = $this->leastSquares($y’, $x’, 1, 0)->transpose()[0];
+        $parameters = $this->leastSquares($y’, $x’, 1, 0)->getColumn(0);
         $this->m = $parameters[0];
         $this->b = $this->w - $this->m * $this->v;
         $this->parameters = [$this->b, $this->m];
