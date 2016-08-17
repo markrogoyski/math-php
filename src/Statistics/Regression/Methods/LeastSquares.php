@@ -432,7 +432,7 @@ trait LeastSquares
      */
     public function getCI($x, $p)
     {
-        $V = regressionVariance(array $x);
+        $V = regressionVariance($x);
         $σ² = $this->meanSquareResidual();
      
         // The t-value
