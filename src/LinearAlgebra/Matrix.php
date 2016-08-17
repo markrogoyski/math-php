@@ -133,9 +133,9 @@ class Matrix implements \ArrayAccess
      */
     public function getDiagonalElements(): array
     {
-        if ($this->isSquare()){
+        if ($this->isSquare()) {
             $array = [];
-            for($i = 0; $i < $this->m; $i++) {
+            for ($i = 0; $i < $this->m; $i++) {
                 $array[] = $this->A[$i][$i];
             }
             return $array;
