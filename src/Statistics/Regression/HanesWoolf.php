@@ -23,7 +23,7 @@ class HanesWoolf extends Regression
         // Linearize the relationship by dividing x by y
         $y’ = Multi::divide($this->xs, $this->ys);
         // Perform Least Squares Fit
-        $linear_parameters = $this->leastSquares($y’, $this->xs)->transpose()[0];
+        $linear_parameters = $this->leastSquares($y’, $this->xs)->getColumn(0);
         
         $V = 1 / $linear_parameters[1];
         $K = $linear_parameters[0] * $V;
