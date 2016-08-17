@@ -29,7 +29,7 @@ class Average
         return array_sum($numbers) / count($numbers);
     }
 
-        /**
+    /**
      * Calculate the median average of a list of numbers
      *
      * @param array $numbers
@@ -41,27 +41,43 @@ class Average
         if (empty($numbers)) {
             return null;
         }
+
         // Reset the array key indexes because we don't know what might be passed in
         $numbers = array_values($numbers);
+
         // For odd number of numbers, take the middle indexed number
         if (count($numbers) % 2 == 1) {
             $middle_index = intdiv(count($numbers), 2);
             return self::kthSmallest($numbers, $middle_index);
         }
+
         // For even number of items, take the mean of the middle two indexed numbers
         $left_middle_index  = intdiv(count($numbers), 2) - 1;
-        $left_median = self::kthSmallest($numbers, $left_middle_index);
+        $left_median        = self::kthSmallest($numbers, $left_middle_index);
         $right_middle_index = $left_middle_index + 1;
-        $right_median = self::kthSmallest($numbers, $right_middle_index);
+        $right_median       = self::kthSmallest($numbers, $right_middle_index);
         return self::mean([ $left_median, $right_median ]);
     }
+
     /**
-     * return the kth smallest value in an array
-     * using a linear-time algorithm.
-     * 
+     * Return the kth smallest value in an array
+     * Uses a linear-time algorithm: O(n) time in worst case.
+     *
      * if $a = [1,2,3,4,6,7]
-     * 
+     *
      * kthSmallest($a, 4) = 6
+     *
+     * Algorithm:
+     *  1) If n is small, just sort and return
+     *  2) Otherwise, group into 5-element subsets and mind the median
+     *  3) Find the median of the medians
+     *  4) Find L and U sets
+     *     - L is numbers lower than the median of medians
+     *     - U is numbers higher than the median of medians
+     *  5) Recursive step
+     *     - if k is the median of medians, return that
+     *     - Otherwise, recusively search in smaller group.
+     *
      * @param array $numbers
      * @param int $k zero indexed
      *
@@ -75,11 +91,12 @@ class Average
         if (empty($numbers) || $k >= $n) {
             return null;
         }
+
         // Reset the array key indexes because we don't know what might be passed in
         $numbers = array_values($numbers);
         
         // If the array is 5 elements or smaller, use quicksort and return the element of interest.
-        if($n <= 5){
+        if ($n <= 5) {
             sort($numbers);
             return $numbers[$k];
         }
@@ -87,59 +104,58 @@ class Average
         // Otherwise, we are going to slice $numbers into 5-element slices
         // and find the median of each.
         $num_slices = ceil($n / 5);
-        for ($i=0;$i<$num_slices;$i++)
-        {
+        for ($i = 0; $i < $num_slices; $i++) {
             $median_array[] = self::median(array_slice($numbers, 5 * $i, 5));
         }
         
         // Then we find the median of the medians.
         $median_of_medians = self::median($median_array);
         
-        // Next we walk the array and seperate it into values that are greater than or less than 
+        // Next we walk the array and seperate it into values that are greater than or less than
         // this "median of medians".
-        $lowerUpper = self::splitAtValue($numbers, $median_of_medians);
-        $lower_number = count($lowerUpper['lower']);
-        $upper_number = count($lowerUpper['upper']);
-        $equal_number = $lowerUpper['equal'];
+        $lower_upper   = self::splitAtValue($numbers, $median_of_medians);
+        $lower_number = count($lower_upper['lower']);
+        $upper_number = count($lower_upper['upper']);
+        $equal_number = $lower_upper['equal'];
         
         // Lastly, we find which group of values our value of interest is in, and find it in the
         // smaller array.
-        if ($k < $lower_number){
-            return self::kthSmallest($lowerUpper['lower'], $k);
-        } else if ($k < ($lower_number + $equal_number)){
+        if ($k < $lower_number) {
+            return self::kthSmallest($lower_upper['lower'], $k);
+        } elseif ($k < ($lower_number + $equal_number)) {
             return $median_of_medians;
         } else {
-            return self::kthSmallest($lowerUpper['upper'], $k - $lower_number - $equal_number);
+            return self::kthSmallest($lower_upper['upper'], $k - $lower_number - $equal_number);
         }
     }
     
     /**
      * Given an array and a value, separate the array into two groups,
-     * those values which are greater than the value, and those that are less 
+     * those values which are greater than the value, and those that are less
      * than the value. Also, tell how many times the value appears in the array.
-     * 
-     * @params array $numbers
-     * @params int   $value
-     * 
+     *
+     * @param array $numbers
+     * @param int   $value
+     *
      * @return array
      */
-    public static function splitAtValue(array $numbers, $value): array
+    private static function splitAtValue(array $numbers, $value): array
     {
         $lower = [];
         $upper = [];
         $number_equal = 0;
-        foreach($numbers as $number){
-            if ($number < $value){
+        foreach ($numbers as $number) {
+            if ($number < $value) {
                 $lower[] = $number;
-            } elseif ($number > $value){
+            } elseif ($number > $value) {
                 $upper[] = $number;
-            } else{
+            } else {
                 $number_equal++;
             }
         }
         return [
-            'lower' => $lower, 
-            'upper' => $upper, 
+            'lower' => $lower,
+            'upper' => $upper,
             'equal' => $number_equal,
         ];
     }

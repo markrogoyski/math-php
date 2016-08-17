@@ -2,7 +2,8 @@
 namespace Math\Statistics\Regression;
 
 use Math\Statistics\Average;
-use Math\Functions\Map\{Multi, Single};
+use Math\Functions\Map\Multi;
+use Math\Functions\Map\Single;
 use Math\Probability\Distribution\Continuous\StudentT;
 
 /**

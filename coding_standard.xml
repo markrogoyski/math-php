@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ruleset name="MathPHP">
+ <description>The coding standard for Math PHP.</description>
+
+ <rule ref="PSR2">
+  <!-- Math functions may start with Greek letters which wont be CamelCase -->
+  <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps"/>
+
+  <!-- Welcome to the future where we have HD wide-screen monitors -->
+  <exclude name="Generic.Files.LineLength.TooLong"/>
+ </rule>
+
+</ruleset>

@@ -2,7 +2,8 @@
 namespace Math\Probability\Distribution\Discrete;
 
 use Math\Probability\Combinatorics;
-use Math\Functions\{Special, Support};
+use Math\Functions\Special;
+use Math\Functions\Support;
 
 /**
  * Negative binomial distribution (Pascal distribution)
