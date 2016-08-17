@@ -252,7 +252,7 @@ trait LeastSquares
     {
         $X = $this->createDesignMatrix($x);
         $⟮XᵀX⟯⁻¹ = $this->⟮XᵀX⟯⁻¹;
-        $M = $X->multiply()->$⟮XᵀX⟯⁻¹->multiply($X->transpose());
+        $M = $X->multiply($⟮XᵀX⟯⁻¹)->multiply($X->transpose());
         return $M[0][0];
     }
     
