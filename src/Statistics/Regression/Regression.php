@@ -1,7 +1,9 @@
 <?php
 namespace Math\Statistics\Regression;
+
 use Math\Statistics\Average;
 use Math\Statistics\RandomVariable;
+
 /**
  * Base class for regressions.
  */
@@ -71,7 +73,7 @@ abstract class Regression
     }
     public function getParameters()
     {
-        return call_user_func([get_class($this), 'getModelParameters'],$this->parameters);
+        return call_user_func([get_class($this), 'getModelParameters'], $this->parameters);
     }
     /**
      * Get points
@@ -120,5 +122,4 @@ abstract class Regression
     {
         return array_map([$this, 'evaluate'], $this->xs);
     }
-     
 }
