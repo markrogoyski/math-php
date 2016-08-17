@@ -1,7 +1,10 @@
 <?php
 namespace Math\Statistics\Regression;
 
-use Math\LinearAlgebra\{Matrix, ColumnVector, VandermondeMatrix, DiagonalMatrix};
+use Math\LinearAlgebra\Matrix;
+use Math\LinearAlgebra\ColumnVector;
+use Math\LinearAlgebra\VandermondeMatrix;
+use Math\LinearAlgebra\DiagonalMatrix;
 
 trait WeightedLeastSquares
 {

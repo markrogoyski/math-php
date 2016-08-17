@@ -1,10 +1,15 @@
 <?php
 namespace Math\Statistics\Regression;
 
-use Math\Statistics\{Average, RandomVariable};
-use Math\Functions\Map\{Single, Multi};
-use Math\Probability\Distribution\Continuous\{F, StudentT};
-use Math\LinearAlgebra\{Matrix, ColumnVector, VandermondeMatrix};
+use Math\Statistics\Average;
+use Math\Statistics\RandomVariable;
+use Math\Functions\Map\Single;
+use Math\Functions\Map\Multi;
+use Math\Probability\Distribution\Continuous\F;
+use Math\Probability\Distribution\Continuous\StudentT;
+use Math\LinearAlgebra\Matrix;
+use Math\LinearAlgebra\ColumnVector;
+use Math\LinearAlgebra\VandermondeMatrix;
 
 trait LeastSquares
 {
