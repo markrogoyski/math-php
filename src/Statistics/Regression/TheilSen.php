@@ -1,6 +1,8 @@
 <?php
 namespace Math\Statistics\Regression;
+
 use Math\Statistics\Average;
+
 /**
  * Theil–Sen estimator
  * Also known as Sen's slope estimator, slope selection, the single median method,
@@ -38,5 +40,4 @@ class TheilSen extends Regression
         $this->b = Average::median($this->ys) - ($this->m * Average::median($this->xs));
         $this->parameters = [$this->b, $this->m];
     }
-    
 }
