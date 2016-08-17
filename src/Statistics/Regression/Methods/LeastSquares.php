@@ -437,9 +437,9 @@ trait LeastSquares
     {
         $V = $this->regressionVariance($x);
         $σ² = $this->meanSquareResidual();
-     
+        
         // The t-value
-        $t = StudentT::inverse2Tails($p, $ν);
+        $t = StudentT::inverse2Tails($p, $this->ν);
         
         return $t * sqrt($σ² * $V);
     }
@@ -473,7 +473,7 @@ trait LeastSquares
         $σ² = $this->meanSquareResidual();
      
         // The t-value
-        $t = StudentT::inverse2Tails($p, $ν);
+        $t = StudentT::inverse2Tails($p, $this->ν);
         
         return $t * sqrt($σ² * $V);
     }
