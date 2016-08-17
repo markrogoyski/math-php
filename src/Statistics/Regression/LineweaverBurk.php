@@ -24,7 +24,7 @@ class LineweaverBurk extends Regression
         $x’ = Single::pow($this->xs, -1);
         $y’ = Single::pow($this->ys, -1);
         // Perform Least Squares Fit
-        $linearized_parameters = $this->leastSquares($y’, $x’)->transpose()[0];
+        $linearized_parameters = $this->leastSquares($y’, $x’)->getColumn(0);
         // Translate the linearized parameters back.
         $V = 1 / $linearized_parameters[0];
         $K = $linearized_parameters[1] * $V;

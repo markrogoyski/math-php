@@ -56,7 +56,7 @@ class Linear extends Regression
     public function calculate()
     {
         $parameters = $this->leastSquares($this->ys, $this->xs);
-        $this->parameters = $parameters->transpose()[0];
+        $this->parameters = $parameters->getColumn(0);
     }
     
     /**

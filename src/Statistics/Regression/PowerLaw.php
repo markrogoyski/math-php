@@ -40,7 +40,7 @@ class PowerLaw extends Regression
         $y’ = array_map('log', $this->ys);
         
         // Perform Least Squares Fit
-        $linearized_parameters = $this->leastSquares($y’, $x’)->transpose()[0];
+        $linearized_parameters = $this->leastSquares($y’, $x’)->getColumn(0);
         
         // Translate the linearized parameters back.
         $this->a = exp($linearized_parameters[0]);
