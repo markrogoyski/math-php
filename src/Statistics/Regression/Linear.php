@@ -58,5 +58,4 @@ class Linear extends Regression
         $parameters = $this->leastSquares($this->ys, $this->xs);
         $this->parameters = $parameters->getColumn(0);
     }
- 
 }
