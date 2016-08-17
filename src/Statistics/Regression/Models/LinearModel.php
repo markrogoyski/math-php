@@ -3,8 +3,8 @@ namespace Math\Statistics\Regression\Models;
 
 trait LinearModel
 {
-    static $B = 0; // b parameter index
-    static $M = 1; // m parameter index
+    public static $B = 0; // b parameter index
+    public static $M = 1; // m parameter index
     
     /**
      * Evaluate the model given all the model parameters
