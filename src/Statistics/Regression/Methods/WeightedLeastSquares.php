@@ -59,12 +59,6 @@ trait WeightedLeastSquares
         // a = (XᵀWX)⁻¹XᵀWy
         $Xᵀ        = $X->transpose();
         $⟮XᵀWX⟯⁻¹XᵀWy = $Xᵀ->multiply($W)->multiply($X)->inverse()->multiply($Xᵀ)->multiply($W)->multiply($y);
-        // Get slope (m) and y intercept (b) from vector solution a (⟮XᵀWX⟯⁻¹XᵀWy)
-        $m = $⟮XᵀWX⟯⁻¹XᵀWy[1][0];
-        $b = $⟮XᵀWX⟯⁻¹XᵀWy[0][0];
-        return [
-            'm' => $m,
-            'b' => $b,
-        ];
+        return $⟮XᵀWX⟯⁻¹XᵀWy;
     }
 }

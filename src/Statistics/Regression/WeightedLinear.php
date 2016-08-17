@@ -20,7 +20,7 @@ use Math\Probability\Distribution\Continuous\StudentT;
  */
 class WeightedLinear extends Regression
 {
-    use Methods\WeightedLeastSquares;
+    use Models\LinearModel, Methods\WeightedLeastSquares;
     // An array of weights
     private $ws;
     
@@ -34,46 +34,6 @@ class WeightedLinear extends Regression
      */
     public function calculate()
     {
-        $parameters = $this->leastSquares($this->ys, $this->xs, $this->ws);
-        $this->m = $parameters['m'];
-        $this->b = $parameters['b'];
-    }
-    /**
-     * Get regression parameters (coefficients)
-     * m = slope
-     * b = y intercept
-     *
-     * @return array [ m => number, b => number ]
-     */
-    public function getParameters(): array
-    {
-        return [
-            'm' => $this->m,
-            'b' => $this->b,
-        ];
-    }
-    /**
-     * Get regression equation (y = mx + b)
-     *
-     * @return string
-     */
-    public function getEquation(): string
-    {
-        return sprintf('y = %fx + %f', $this->m, $this->b);
-    }
-    /**
-     * Evaluate the line equation from linear regression parameters for a value of x
-     * y = mx + b
-     *
-     * @param number $x
-     *
-     * @return number y evaluated
-     */
-    public function evaluate($x)
-    {
-        $m  = $this->m;
-        $b  = $this->b;
-        $mx = $m * $x;
-        return $mx + $b;
+        $this->parameters = $this->leastSquares($this->ys, $this->xs, $this->ws)->getColumn(0);
     }
 }
