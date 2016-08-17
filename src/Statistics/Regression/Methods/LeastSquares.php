@@ -51,26 +51,39 @@ trait LeastSquares
      *
      * @param  array $ys y values
      * @param  array $xs x values
+     * @param  int $order The order of the polynomial. 1 = linear, 2 = x², etc
+     * @param  int $fit_constant '1' if we are fitting a constant to the regression.
      *
      * @return array [m, b]
      */
-    public function leastSquares($ys, $xs, $order = 1, $fit_constant = 1)
+    public function leastSquares(array $ys, array $xs, $order = 1, $fit_constant = 1)
     {
         $this->fit_constant = $fit_constant;
         $this->p = $order;
         $this->ν = $this->n - $this->p - $this->fit_constant;
         // y = Xa
+        $X  = $this->createDesignMatrix($xs);
+        $y  = new ColumnVector($ys);
+        // a = (XᵀX)⁻¹Xᵀy
+        $Xᵀ        = $X->transpose();
+        $this->⟮XᵀX⟯⁻¹ = $X->transpose()->multiply($X)->inverse();
+        $⟮XᵀX⟯⁻¹Xᵀy = $this->⟮XᵀX⟯⁻¹->multiply($Xᵀ)->multiply($y);
+        return $⟮XᵀX⟯⁻¹Xᵀy;
+    }
+
+    /**
+     * The Design Matrix contains all the indipendant variables needed for the least squares regression
+     *
+     * https://en.wikipedia.org/wiki/Design_matrix
+     */
+    public function createDesignMatrix(array $xs)
+    {
         $X  = new VandermondeMatrix($xs, $this->p + 1);
         if ($this->fit_constant == 0) {
             $X = $X->columnExclude(0);
         }
-        $y  = new ColumnVector($ys);
-        // a = (XᵀX)⁻¹Xᵀy
-        $Xᵀ        = $X->transpose();
-        $⟮XᵀX⟯⁻¹Xᵀy = $Xᵀ->multiply($X)->inverse()->multiply($Xᵀ)->multiply($y);
-        return $⟮XᵀX⟯⁻¹Xᵀy;
+        return $X;
     }
-
     /**
      * Sum Of Squares
      */
@@ -221,8 +234,8 @@ trait LeastSquares
     public function standardErrors()
     {
         $X = new VandermondeMatrix($this->xs, 2);
-        $⟮XᵀX⟯⁻¹ = $X->transpose()->multiply($X)->inverse();
-        $σ² = ($this->errorSD()) ** 2;
+        $⟮XᵀX⟯⁻¹ = $this->⟮XᵀX⟯⁻¹;
+        $σ² = $this->meanSquareResidual();
         $standard_error_matrix = $⟮XᵀX⟯⁻¹->scalarMultiply($σ²);
         $standard_error_array = Single::sqrt($standard_error_matrix->getDiagonalElements());
         
@@ -230,6 +243,14 @@ trait LeastSquares
             'm' => $standard_error_array[1],
             'b' => $standard_error_array[0],
         ];
+    }
+    
+    public function regressionVariance(array $x)
+    {
+        $X = $this->createDesignMatrix($x);
+        $⟮XᵀX⟯⁻¹ = $this->⟮XᵀX⟯⁻¹;
+        $M = $X->multiply()->$⟮XᵀX⟯⁻¹->multiply($X->transpose());
+        return $M[0][0];
     }
     
     /**
@@ -385,5 +406,72 @@ trait LeastSquares
         $d₁ = $n - $ν - 1;
         $d₂ = $ν;
         return (F::CDF($F, $d₁, $d₂));
+    }
+    
+    /**
+     * The confidence interval of the regression for Simple Linear Regression
+     *                      ______________
+     *                     /1   (x - x̄)²
+     * CI(x,p) = t * sy * / - + --------
+     *                   √  n     SSx
+     *
+     * Where:
+     *   t is the critical t for the p value
+     *   sy is the estimated standard deviation of y
+     *   n is the number of data points
+     *   x̄ is the average of the x values
+     *   SSx = ∑(x - x̄)²
+     *
+     * If $p = .05, then we can say we are 95% confidence the actual regression line
+     * will be within an interval of evaluate($x) ± getCI($x, .05).
+     *
+     * @param number $x
+     * @param number $p:  0 < p < 1 The P value to use
+     *
+     * @return number
+     */
+    public function getCI($x, $p)
+    {
+        $V = regressionVariance(array $x);
+        $σ² = $this->meanSquareResidual();
+     
+        // The t-value
+        $t = StudentT::inverse2Tails($p, $ν);
+        
+        return $t * sqrt($σ² * $V);
+    }
+    /**
+     * The prediction interval of the regression
+     *                        _________________
+     *                       /1    1   (x - x̄)²
+     * PI(x,p,q) = t * sy * / - +  - + --------
+     *                     √  q    n     SSx
+     *
+     * Where:
+     *   t is the critical t for the p value
+     *   sy is the estimated standard deviation of y
+     *   q is the number of replications
+     *   n is the number of data points
+     *   x̄ is the average of the x values
+     *   SSx = ∑(x - x̄)²
+     *
+     * If $p = .05, then we can say we are 95% confidence that the future averages of $q trials at $x
+     * will be within an interval of evaluate($x) ± getPI($x, .05, $q).
+     *
+     * @param number $x
+     * @param number $p  0 < p < 1 The P value to use
+     * @param int    $q  Number of trials
+     *
+     * @return number
+     */
+    public function getPI($x, $p, $q = 1)
+    {
+        $V = regressionVariance(array $x) + 1 / $q;
+        $σ² = $this->meanSquareResidual();
+     
+        // The t-value
+        $t = StudentT::inverse2Tails($p, $ν);
+        
+        return $t * sqrt($σ² * $V);
     }
 }
