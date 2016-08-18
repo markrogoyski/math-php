@@ -1,8 +1,8 @@
 {
   "name": "markrogoyski/math-php",
   "type": "library",
-  "description": "Math Library for PHP",
-  "keywords": ["math", "mathematics", "probability", "combinatorics", "statistics", "distributions", "regressions", "linear algebra", "matrix", "algebra"],
+  "description": "Math Library for PHP. Features descriptive statistics and regressions; Continuous and discrete probability distributions; Linear algebra with matrices and vectors, Numerical analysis; special mathematical functions; Algebra",
+  "keywords": ["math", "mathematics", "probability", "combinatorics", "statistics", "distributions", "regressions", "linear algebra", "matrix", "algebra", "numerical analysis"],
   "homepage": "https://github.com/markrogoyski/math-php/",
   "require": {
     "php": ">=7.0.0"
