@@ -30,4 +30,9 @@ class DiagonalMatrix extends Matrix
         }
         $this->A = $A;
     }
+
+    public function isSquare(): bool
+    {
+        return true;
+    }
 }

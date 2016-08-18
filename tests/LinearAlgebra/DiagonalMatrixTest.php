@@ -34,6 +34,16 @@ class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($R, $D->getMatrix());
     }
 
+    /**
+     * @dataProvider dataProviderMulti
+     */
+    public function testIsSquare(array $A, array $R)
+    {
+        $D = new DiagonalMatrix($A);
+
+        $this->assertTrue($D->isSquare());
+    }
+
     public function dataProviderMulti()
     {
         return [
