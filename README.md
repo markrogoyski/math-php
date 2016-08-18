@@ -224,11 +224,14 @@ $A⁻¹  = $A->inverse();
 // Matrix operations - return a value
 $tr⟮A⟯ = $A->trace();
 $|A|  = $a->det();            // Determinant
-$bool = $A->isSquare();
 $‖A‖₁ = $A->oneNorm();
 $‖A‖F = $A->frobeniusNorm();  // Hilbert–Schmidt norm
 $‖A‖∞ = $A->infinityNorm();
 $max  = $A->maxNorm();
+
+// Matrix properties - return a bool
+$bool = $A->isSquare();
+$bool = $A->isSymmetric();
 
 // Matrix decompositions
 $PLU = $A->LUDecomposition(); // returns array of Matrices [L, U, P, A]; P is permutation matrix
