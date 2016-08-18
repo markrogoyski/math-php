@@ -31,7 +31,22 @@ class DiagonalMatrix extends Matrix
         $this->A = $A;
     }
 
+    /**
+     * Diagonal matrix must be square
+     *
+     * @return bool
+     */
     public function isSquare(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Diagonal matri must be symmetric
+     *
+     * @return bool
+     */
+    public function isSymmetric(): bool
     {
         return true;
     }
