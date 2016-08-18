@@ -96,4 +96,12 @@ abstract class Continuous extends \Math\Probability\Distribution\Distribution
     {
         return 1 - static::CDF($x, ...$params);
     }
+    
+    /**
+     * Produce a random number with a particular distribution
+     */
+    public static function rand(...$params)
+    {
+        return self::inverse(mt_rand() / mt_getrandmax(), ...$params);
+    }
 }
