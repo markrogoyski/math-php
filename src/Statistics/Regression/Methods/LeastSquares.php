@@ -62,20 +62,20 @@ trait LeastSquares
      * Since the actual xs may be translated for regression, we need to keep these
      * handy for regression statistics
      */
-     private $reg_ys;
+    private $reg_ys;
      
     /**
      * Regression xs
      * Since the actual xs may be translated for regression, we need to keep these
      * handy for regression statistics
      */
-     private $reg_xs;
+    private $reg_xs;
      
     /**
      * Regression Yhat
      * The Yhat for the regression xs.
      */
-     private $reg_Yhat;
+    private $reg_Yhat;
      
     public function leastSquares(array $ys, array $xs, $order = 1, $fit_constant = 1)
     {
