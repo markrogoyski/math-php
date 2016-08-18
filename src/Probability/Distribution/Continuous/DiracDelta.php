@@ -13,7 +13,7 @@ class DiracDelta extends Continuous
     /**
      * Distribution parameter bounds limits
      * x  ∈ (-∞,∞)
-     * 
+     *
      * @var array
      */
     const LIMITS = [
@@ -22,18 +22,16 @@ class DiracDelta extends Continuous
     /**
      * Probability density function
      *
-     *      
-     *     
-     *          /‾ 
+     *
+     *
+     *          /‾
      *         |  +∞,   x = 0
-     * δ(x) = <  
+     * δ(x) = <
      *         |  0,    x ≠ 0
      *          \_
-     *           
+     *
      *
      * @param number $x
-     *
-     * 
      *
      * @return number probability
      */
@@ -51,7 +49,7 @@ class DiracDelta extends Continuous
      *
      *  |\+∞
      *  |   δ(x) dx = 1
-     * \|-∞ 
+     * \|-∞
      *
      * @param number $x
      * @todo how to handle x = 0, depending on context, some say CDF=.5 @ x=0
