@@ -388,6 +388,20 @@ class Matrix implements \ArrayAccess
     }
 
     /**
+     * Is the matrix symmetric?
+     * Does A = Aᵀ
+     *
+     * @return bool
+     */
+    public function isSymmetric(): bool
+    {
+        $A  = $this->A;
+        $Aᵀ = $this->transpose()->getMatrix();
+
+        return $A == $Aᵀ;
+    }
+
+    /**
      * Trace
      * the trace of an n-by-n square matrix A is defined to be
      * the sum of the elements on the main diagonal
