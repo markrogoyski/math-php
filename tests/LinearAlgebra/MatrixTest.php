@@ -2793,4 +2793,52 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForGetDiagonalElements
+     */
+    public function testGetDiagonalElements(array $A, $R)
+    {
+        $A = new Matrix($A);
+
+        $this->assertEquals($R, $A->getDiagonalElements());
+    }
+
+    public function dataProviderForGetDiagonalElements()
+    {
+        return [
+            [
+                [
+                    [1, 2]
+                ],
+                [],
+            ],
+            [
+                [
+                    [1],
+                    [2],
+                ],
+                [],
+            ],
+            [
+                [[1]],
+                [1],
+            ],
+            [
+                [
+                    [1, 2],
+                    [2, 3],
+                ],
+                [1, 3],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [1, 3, 5],
+            ],
+        ];
+    }
 }
