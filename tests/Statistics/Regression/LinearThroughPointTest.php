@@ -200,4 +200,39 @@ class LinearThroughPointTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    
+    /**
+     * @dataProvider dataProviderForSumSquares
+     */
+    public function testSumSquares(array $points, $force, $sums)
+    {
+        $regression = new LinearThroughPoint($points, $force);
+        $this->assertEquals($sums['sse'], $regression->sumOfSquaresResidual(), '', .0000001);
+        $this->assertEquals($sums['ssr'], $regression->sumOfSquaresRegression(), '', .0000001);
+        $this->assertEquals($sums['sst'], $regression->sumOfSquaresTotal(), '', .0000001);
+    }
+    
+    public function dataProviderForSumSquares()
+    {
+        return [
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                [0,0],
+                [
+                    'sse' => 0.743902439,
+                    'ssr' => 150.2560976,
+                    'sst' => 151,
+                ],
+            ],
+            [
+                [ [2,3], [3,4], [5,6], [6,8], [7,9] ],
+                [1,1],
+                [
+                    'sse' => 0.743902439,
+                    'ssr' => 150.2560976,
+                    'sst' => 151,
+                ],
+            ],
+        ];
+    }
 }
