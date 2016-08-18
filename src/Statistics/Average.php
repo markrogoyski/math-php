@@ -5,11 +5,16 @@ use Math\Functions\Map;
 
 /**
  * Statistical averages
- * Mean, median, mode
- * Geometric mean, harmonic mean, arithmetic-geometric mean
+ *  - Averages of a list of numbers
+ *  - Averages
+
  */
 class Average
 {
+    /**************************************************************************
+     * Averages of a list of numbers
+     **************************************************************************/
+
     /**
      * Calculate the mean average of a list of numbers
      *
@@ -510,6 +515,10 @@ class Average
         return self::generalizedMean($numbers, $p);
     }
 
+    /**************************************************************************
+     * Moving averages (list of numbers)
+     **************************************************************************/
+
     /**
      * Simple n-point moving average SMA
      * The unweighted mean of the previous n data.
@@ -647,6 +656,10 @@ class Average
 
         return $EMA;
     }
+
+    /**************************************************************************
+     * Averages of two numbers
+     **************************************************************************/
 
     /**
      * Arithmetic-Geometric mean
