@@ -78,10 +78,10 @@ trait LeastSquares
      */
     public function createDesignMatrix($xs)
     {
-        if (gettype($xs) == 'integer' || gettype($xs) == 'double') {
+        if (is_int($xs) || is_float($xs)) {
             $xs = [$xs];
         }
-        $X  = new VandermondeMatrix($xs, $this->p + 1);
+        $X = new VandermondeMatrix($xs, $this->p + 1);
         if ($this->fit_constant == 0) {
             $X = $X->columnExclude(0);
         }
