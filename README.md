@@ -451,6 +451,9 @@ $inv_cdf = DistributionName::inverse($target, ...$params);   // Inverse CDF of t
 $between = DistributionName::between($x₁, $x₂, ...$params);  // Probability of being bewteen two points, x₁ and x₂
 $outside = DistributionName::outside($x₁, $x₂, ...$params);  // Probability of being bewteen below x₁ and above x₂
 $above   = DistributionName::above($x, ...$params);          // Probability of being above x to ∞
+
+// Random Number Generator
+$random  = DistributionName::rand(...$params);               // A random number with a given distribution
 ```
 
 ### Probability - Discrete Distributions
