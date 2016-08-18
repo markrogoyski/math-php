@@ -3,8 +3,8 @@ namespace Math\Statistics\Regression\Models;
 
 trait PowerModel
 {
-    public static $B = 1; // b parameter index
-    public static $A = 0; // m parameter index
+    protected static $B = 1; // b parameter index
+    protected static $A = 0; // m parameter index
     
    /**
     * Evaluate the power curve equation from power law regression parameters for a value of x
@@ -19,7 +19,8 @@ trait PowerModel
     {
         $a = $params[self::$A];
         $b = $params[self::$B];
-        return $a * $x ** $b;
+
+        return $a * $x**$b;
     }
     
         /**
