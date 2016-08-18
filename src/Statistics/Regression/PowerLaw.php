@@ -44,8 +44,9 @@ class PowerLaw extends Regression
         $linearized_parameters = $this->leastSquares($y’, $x’)->getColumn(0);
 
         // Translate the linearized parameters back.
-        $this->a          = exp($linearized_parameters[0]);
-        $this->b          = $linearized_parameters[1];
+        $this->a = exp($linearized_parameters[0]);
+        $this->b = $linearized_parameters[1];
+
         $this->parameters = [$this->a, $this->b];
     }
 }

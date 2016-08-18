@@ -16,6 +16,7 @@ use Math\Statistics\Average;
 class TheilSen extends Regression
 {
     use Models\LinearModel;
+
     /**
      * Calculate the regression parameters using the Theil-Sen method
      *
@@ -36,8 +37,10 @@ class TheilSen extends Regression
                 $slopes[] = ($pointj[1] - $pointi[1]) / ($pointj[0] - $pointi[0]);
             }
         }
+
         $this->m = Average::median($slopes);
         $this->b = Average::median($this->ys) - ($this->m * Average::median($this->xs));
+
         $this->parameters = [$this->b, $this->m];
     }
 }

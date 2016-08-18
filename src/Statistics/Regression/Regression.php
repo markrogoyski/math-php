@@ -57,6 +57,7 @@ abstract class Regression
         $this->ys = array_map(function ($point) {
             return $point[1];
         }, $points);
+
         $this->calculate();
     }
 

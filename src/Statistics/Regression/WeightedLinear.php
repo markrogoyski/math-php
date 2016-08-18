@@ -21,14 +21,23 @@ use Math\Probability\Distribution\Continuous\StudentT;
 class WeightedLinear extends Regression
 {
     use Models\LinearModel, Methods\WeightedLeastSquares;
-    // An array of weights
+
+    /**
+     * Array of weights
+     * @var array
+     */
     private $ws;
-    
+
+    /**
+     * @param array $points
+     * @param array $ws     Weights
+     */
     public function __construct(array $points, array $ws)
     {
         $this->ws = $ws;
         parent::__construct($points);
     }
+
     /**
      * Calculates the regression parameters.
      */
