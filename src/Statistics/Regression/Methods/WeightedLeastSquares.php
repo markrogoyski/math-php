@@ -48,17 +48,19 @@ trait WeightedLeastSquares
      * @param  array $xs x values
      * @param  array $ws weight values
      *
-     * @return array [m, b]
+     * @return Matrix [[m], [b]]
      */
     public function leastSquares($ys, $xs, $ws)
     {
         // y = Xa
-        $X  = new VandermondeMatrix($xs, 2);
-        $y  = new ColumnVector($ys);
-        $W  = new DiagonalMatrix($ws);
+        $X = new VandermondeMatrix($xs, 2);
+        $y = new ColumnVector($ys);
+        $W = new DiagonalMatrix($ws);
+
         // a = (XᵀWX)⁻¹XᵀWy
-        $Xᵀ        = $X->transpose();
+        $Xᵀ          = $X->transpose();
         $⟮XᵀWX⟯⁻¹XᵀWy = $Xᵀ->multiply($W)->multiply($X)->inverse()->multiply($Xᵀ)->multiply($W)->multiply($y);
+
         return $⟮XᵀWX⟯⁻¹XᵀWy;
     }
 }

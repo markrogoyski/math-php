@@ -54,7 +54,7 @@ trait LeastSquares
      * @param  int $order The order of the polynomial. 1 = linear, 2 = x², etc
      * @param  int $fit_constant '1' if we are fitting a constant to the regression.
      *
-     * @return array [m, b]
+     * @return Matrix [[m], [b]]
      */
     public function leastSquares(array $ys, array $xs, $order = 1, $fit_constant = 1)
     {
