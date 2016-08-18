@@ -36,20 +36,11 @@ class DiracDeltaTest extends \PHPUnit_Framework_TestCase
         ];
     }
     
-    /**
-     * @dataProvider dataProviderForInverse
-     */
-    public function testInverse($p)
+    public function testInverse()
     {
-        $this->assertEquals($μ, DiracDelta::inverse($p), '', 0.0001);
-    }
-    public function dataProviderForInverse()
-    {
-        return [
-            [.5, 0],
-            [.1, 0],
-            [.7, 0],
-        ];
+        $this->assertEquals(0, DiracDelta::inverse(.5), '', 0.0001);
+        $this->assertEquals(0, DiracDelta::inverse(.1), '', 0.0001);
+        $this->assertEquals(0, DiracDelta::inverse(.7), '', 0.0001);
     }
     
     public function testRand()
