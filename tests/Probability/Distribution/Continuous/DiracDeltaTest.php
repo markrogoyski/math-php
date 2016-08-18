@@ -1,5 +1,6 @@
 <?php
 namespace Math\Probability\Distribution\Continuous;
+
 class DiracDeltaTest extends \PHPUnit_Framework_TestCase
 {
     /**
