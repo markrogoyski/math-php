@@ -16,31 +16,6 @@ trait MichaelisMenten
     protected static $K = 1; // K parameter index
 
     /**
-     * Get regression parameters (V and K)
-     *
-     * @param array $params
-     *
-     * @return array [ V => number, K => number ]
-     */
-    public static function getModelParameters(array $params): array
-    {
-        return [
-            'V' => $params[self::$V],
-            'K' => $params[self::$K],
-        ];
-    }
-    /**
-     * Get regression equation (y = V * X / (K + X))
-     *
-     * @param array $params
-     *
-     * @return string
-     */
-    public static function getModelEquation(array $params): string
-    {
-        return sprintf('y = %fx/(%f+x)', $params[self::$V], $params[self::$K]);
-    }
-    /**
      * Evaluate the equation using the regression parameters
      * y = (V * X) / (K + X)
      *
@@ -55,5 +30,32 @@ trait MichaelisMenten
         $K = $params[self::$K];
 
         return ($V * $x) / ($K + $x);
+    }
+
+    /**
+     * Get regression parameters (V and K)
+     *
+     * @param array $params
+     *
+     * @return array [ V => number, K => number ]
+     */
+    public static function getModelParameters(array $params): array
+    {
+        return [
+            'V' => $params[self::$V],
+            'K' => $params[self::$K],
+        ];
+    }
+
+    /**
+     * Get regression equation (y = V * X / (K + X))
+     *
+     * @param array $params
+     *
+     * @return string
+     */
+    public static function getModelEquation(array $params): string
+    {
+        return sprintf('y = %fx/(%f+x)', $params[self::$V], $params[self::$K]);
     }
 }
