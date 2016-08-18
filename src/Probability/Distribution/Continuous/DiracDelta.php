@@ -8,7 +8,7 @@ use Math\Functions\Support;
  * Dirac Delta Function
  * https://en.wikipedia.org/wiki/Dirac_delta_function
  */
-class F extends Continuous
+class DiracDelta extends Continuous
 {
     /**
      * Distribution parameter bounds limits
