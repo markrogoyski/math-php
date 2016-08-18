@@ -178,7 +178,13 @@ trait LeastSquares
      * SSE       |    n - p - 1
      * SSR       |    p
      */
-     
+
+    /**
+     * Mean square regression
+     * MSR = SSᵣ / p
+     *
+     * @return number
+     */
     public function meanSquareRegression()
     {
         $p   = $this->p;
@@ -187,18 +193,28 @@ trait LeastSquares
 
         return $MSR;
     }
-    
+
+    /**
+     * Mean of squares for error
+     * MSE = SSₑ / ν
+     *
+     * @return number
+     */
     public function meanSquareResidual()
     {
         $ν   = $this->ν;
         $SSₑ = $this->sumOfSquaresResidual();
-
-        // Mean of Squares for Error
         $MSE = $SSₑ / $ν;
 
         return $MSE;
     }
-    
+
+    /**
+     * Mean of squares total
+     * MSTO = SSOT / (n - 1)
+     *
+     * @return number
+     */
     public function meanSquareTotal()
     {
         // Need to make sure the 1 is not $this->fit_parameters;
@@ -212,6 +228,7 @@ trait LeastSquares
      *
      * Also called the standard error of the residuals
      *
+     * @return number
      */
     public function errorSD()
     {
@@ -220,6 +237,8 @@ trait LeastSquares
      
     /**
      * The degrees of freedom of the regression
+     *
+     * @return number
      */
     public function degreesOfFreedom()
     {
@@ -261,7 +280,14 @@ trait LeastSquares
             'b' => $standard_error_array[0],
         ];
     }
-    
+
+    /**
+     * Regression varaince
+     *
+     * @param  number $x
+     *
+     * @return number
+     */
     public function regressionVariance($x)
     {
         $X      = $this->createDesignMatrix($x);
