@@ -75,7 +75,7 @@ trait LeastSquares
     }
 
     /**
-     * The Design Matrix contains all the indipendant variables needed for the least squares regression
+     * The Design Matrix contains all the independent variables needed for the least squares regression
      *
      * https://en.wikipedia.org/wiki/Design_matrix
      *
