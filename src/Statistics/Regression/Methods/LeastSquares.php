@@ -61,13 +61,16 @@ trait LeastSquares
         $this->fit_constant = $fit_constant;
         $this->p = $order;
         $this->ν = $this->n - $this->p - $this->fit_constant;
+
         // y = Xa
-        $X  = $this->createDesignMatrix($xs);
-        $y  = new ColumnVector($ys);
+        $X = $this->createDesignMatrix($xs);
+        $y = new ColumnVector($ys);
+
         // a = (XᵀX)⁻¹Xᵀy
-        $Xᵀ        = $X->transpose();
+        $Xᵀ           = $X->transpose();
         $this->⟮XᵀX⟯⁻¹ = $X->transpose()->multiply($X)->inverse();
-        $⟮XᵀX⟯⁻¹Xᵀy = $this->⟮XᵀX⟯⁻¹->multiply($Xᵀ)->multiply($y);
+        $⟮XᵀX⟯⁻¹Xᵀy    = $this->⟮XᵀX⟯⁻¹->multiply($Xᵀ)->multiply($y);
+
         return $⟮XᵀX⟯⁻¹Xᵀy;
     }
 
@@ -75,18 +78,24 @@ trait LeastSquares
      * The Design Matrix contains all the indipendant variables needed for the least squares regression
      *
      * https://en.wikipedia.org/wiki/Design_matrix
+     *
+     * @param mixed $xs
+     *
+     * @return VandermondeMatrix
      */
     public function createDesignMatrix($xs)
     {
         if (is_int($xs) || is_float($xs)) {
             $xs = [$xs];
         }
+
         $X = new VandermondeMatrix($xs, $this->p + 1);
         if ($this->fit_constant == 0) {
             $X = $X->columnExclude(0);
         }
         return $X;
     }
+
     /**
      * Sum Of Squares
      */
@@ -113,22 +122,22 @@ trait LeastSquares
         ));
     }
 
-     /**
-      * SSres - The Sum Squares of the residuals (RSS - Residual sum of squares)
-      *
-      * The sum of the squares of residuals (deviations predicted from actual
-      * empirical values of data). It is a measure of the discrepancy between
-      * the data and an estimation model.
-      * https://en.wikipedia.org/wiki/Residual_sum_of_squares
-      *
-      * SSres = ∑(yᵢ - f(xᵢ))²
-      *       = ∑(yᵢ - ŷᵢ)²
-      *
-      *  where yᵢ is an observed value
-      *        ŷᵢ is a value predicted by the regression model
-      *
-      * @return number
-      */
+    /**
+     * SSres - The Sum Squares of the residuals (RSS - Residual sum of squares)
+     *
+     * The sum of the squares of residuals (deviations predicted from actual
+     * empirical values of data). It is a measure of the discrepancy between
+     * the data and an estimation model.
+     * https://en.wikipedia.org/wiki/Residual_sum_of_squares
+     *
+     * SSres = ∑(yᵢ - f(xᵢ))²
+     *       = ∑(yᵢ - ŷᵢ)²
+     *
+     *  where yᵢ is an observed value
+     *        ŷᵢ is a value predicted by the regression model
+     *
+     * @return number
+     */
     public function sumOfSquaresResidual()
     {
         $Ŷ = $this->yHat();
@@ -142,16 +151,16 @@ trait LeastSquares
     }
 
     /**
-      * SStot - The total Sum Squares
-      *
-      * the sum, over all observations, of the squared differences of
-      * each observation from the overall mean.
-      * https://en.wikipedia.org/wiki/Total_sum_of_squares
-      *
-      * SStot = ∑(yᵢ - ȳ)²
-      *
-      * @return number
-      */
+     * SStot - The total Sum Squares
+     *
+     * the sum, over all observations, of the squared differences of
+     * each observation from the overall mean.
+     * https://en.wikipedia.org/wiki/Total_sum_of_squares
+     *
+     * SStot = ∑(yᵢ - ȳ)²
+     *
+     * @return number
+     */
     public function sumOfSquaresTotal()
     {
         return RandomVariable::sumOfSquaresDeviations($this->ys);
@@ -172,18 +181,21 @@ trait LeastSquares
      
     public function meanSquareRegression()
     {
-        $p = $this->p;
+        $p   = $this->p;
         $SSᵣ = $this->sumOfSquaresRegression();
         $MSR = $SSᵣ / $p;
+
         return $MSR;
     }
     
     public function meanSquareResidual()
     {
-        $ν = $this->ν;
+        $ν   = $this->ν;
         $SSₑ = $this->sumOfSquaresResidual();
+
         // Mean of Squares for Error
         $MSE = $SSₑ / $ν;
+
         return $MSE;
     }
     
@@ -191,6 +203,7 @@ trait LeastSquares
     {
         // Need to make sure the 1 is not $this->fit_parameters;
         $MSTO = $this->sumOfSquaresTotal() / ($this->n - 1);
+
         return $MSTO;
     }
     
@@ -236,11 +249,12 @@ trait LeastSquares
      */
     public function standardErrors()
     {
-        $X = new VandermondeMatrix($this->xs, 2);
+        $X      = new VandermondeMatrix($this->xs, 2);
         $⟮XᵀX⟯⁻¹ = $this->⟮XᵀX⟯⁻¹;
-        $σ² = $this->meanSquareResidual();
+        $σ²     = $this->meanSquareResidual();
+
         $standard_error_matrix = $⟮XᵀX⟯⁻¹->scalarMultiply($σ²);
-        $standard_error_array = Single::sqrt($standard_error_matrix->getDiagonalElements());
+        $standard_error_array  = Single::sqrt($standard_error_matrix->getDiagonalElements());
         
         return [
             'm' => $standard_error_array[1],
@@ -250,9 +264,10 @@ trait LeastSquares
     
     public function regressionVariance($x)
     {
-        $X = $this->createDesignMatrix($x);
+        $X      = $this->createDesignMatrix($x);
         $⟮XᵀX⟯⁻¹ = $this->⟮XᵀX⟯⁻¹;
-        $M = $X->multiply($⟮XᵀX⟯⁻¹)->multiply($X->transpose());
+        $M      = $X->multiply($⟮XᵀX⟯⁻¹)->multiply($X->transpose());
+
         return $M[0][0];
     }
     
@@ -276,6 +291,7 @@ trait LeastSquares
     {
         return sqrt($this->coefficientOfDetermination());
     }
+
     /**
      * R - correlation coefficient
      * Convenience wrapper for correlationCoefficient
@@ -288,6 +304,7 @@ trait LeastSquares
     {
         return $this->correlationCoefficient();
     }
+
     /**
      * R² - coefficient of determination
      *
@@ -304,6 +321,7 @@ trait LeastSquares
     {
         return $this->sumOfSquaresRegression() / ($this->sumOfSquaresRegression() + $this->sumOfSquaresResidual());
     }
+
     /**
      * R² - coefficient of determination
      * Convenience wrapper for coefficientOfDetermination
@@ -340,6 +358,7 @@ trait LeastSquares
             'b' => $b / $se['b'],
         ];
     }
+
     /**
      * The probabilty associated with each parameter's t value
      *
@@ -362,6 +381,7 @@ trait LeastSquares
             'b' => StudentT::CDF($t['b'], $ν),
         ];
     }
+
     /**
      * The F statistic of the regression (F test)
      *
@@ -385,6 +405,7 @@ trait LeastSquares
         $F = $this->meanSquareRegression() / $this->meanSquareResidual();
         return $F;
     }
+
     /**
      * The probabilty associated with the regression F Statistic
      *
@@ -410,7 +431,7 @@ trait LeastSquares
         $d₂ = $ν;
         return (F::CDF($F, $d₁, $d₂));
     }
-    
+
     /**
      * The confidence interval of the regression for Simple Linear Regression
      *                      ______________
@@ -443,6 +464,7 @@ trait LeastSquares
         
         return $t * sqrt($σ² * $V);
     }
+
     /**
      * The prediction interval of the regression
      *                        _________________
