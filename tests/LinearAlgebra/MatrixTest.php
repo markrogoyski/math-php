@@ -759,6 +759,76 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @dataProvider dataProviderForIsSymmetric
+     */
+    public function testIsSymmetric(array $A)
+    {
+        $A = new Matrix($A);
+
+        $this->assertTrue($A->isSymmetric());
+    }
+
+    public function dataProviderForIsSymmetric()
+    {
+        return [
+            [
+                [[1]],
+            ],
+            [
+                [
+                    [1, 2],
+                    [2, 3],
+                ]
+            ],
+            [
+                [
+                    [1, 7, 3],
+                    [7, 4, -5],
+                    [3, -5, 6],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForIsNotSymmetric
+     */
+    public function testIsNotSymmetric(array $A)
+    {
+        $A = new Matrix($A);
+
+        $this->assertFalse($A->isSymmetric());
+    }
+
+    public function dataProviderForIsNotSymmetric()
+    {
+        return [
+            [
+                [[1, 1]],
+            ],
+            [
+                [
+                    [1, 2],
+                    [5, 3],
+                ]
+            ],
+            [
+                [
+                    [1, 7, 3],
+                    [7, 4, 5],
+                    [-3, -5, 6],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3, 4],
+                    [1, 2, 3, 4],
+                ],
+            ],
+        ];
+    }
+
     public function testMap()
     {
         $A = new Matrix([
