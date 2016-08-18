@@ -56,8 +56,32 @@ trait LeastSquares
      *
      * @return Matrix [[m], [b]]
      */
+     
+    /**
+     * Regression ys
+     * Since the actual xs may be translated for regression, we need to keep these
+     * handy for regression statistics
+     */
+    private $reg_ys;
+     
+    /**
+     * Regression xs
+     * Since the actual xs may be translated for regression, we need to keep these
+     * handy for regression statistics
+     */
+    private $reg_xs;
+     
+    /**
+     * Regression Yhat
+     * The Yhat for the regression xs.
+     */
+    private $reg_Yhat;
+     
     public function leastSquares(array $ys, array $xs, $order = 1, $fit_constant = 1)
     {
+        $this->reg_ys = $ys;
+        $this->reg_xs = $xs;
+        
         $this->fit_constant = $fit_constant;
         $this->p = $order;
         $this->ν = $this->n - $this->p - $this->fit_constant;
@@ -71,6 +95,7 @@ trait LeastSquares
         $this->⟮XᵀX⟯⁻¹ = $X->transpose()->multiply($X)->inverse();
         $⟮XᵀX⟯⁻¹Xᵀy    = $this->⟮XᵀX⟯⁻¹->multiply($Xᵀ)->multiply($y);
 
+        $this->reg_Yhat = $X->multiply($⟮XᵀX⟯⁻¹Xᵀy)->getColumn(0);
         return $⟮XᵀX⟯⁻¹Xᵀy;
     }
 
@@ -108,18 +133,19 @@ trait LeastSquares
      * https://en.wikipedia.org/wiki/Explained_sum_of_squares
      *
      * SSreg = ∑(ŷᵢ - ȳ)²
+     * When a constant is fit to the regression, the average of y = average of ŷ.
+     *
+     * In the case where the constant is not fit, we use the sum of squares of the predicted value
+     * SSreg = ∑ŷᵢ²
      *
      * @return number
      */
     public function sumOfSquaresRegression()
     {
-        $ȳ = Average::mean($this->ys);
-        return array_sum(array_map(
-            function ($ŷᵢ) use ($ȳ) {
-                return ($ŷᵢ - $ȳ)**2;
-            },
-            $this->yHat()
-        ));
+        if ($this->fit_constant == 1) {
+            return RandomVariable::sumOfSquaresDeviations($this->Yhat());
+        }
+        return array_sum(Single::square($this->reg_Yhat));
     }
 
     /**
@@ -140,12 +166,12 @@ trait LeastSquares
      */
     public function sumOfSquaresResidual()
     {
-        $Ŷ = $this->yHat();
+        $Ŷ = $this->reg_Yhat;
         return array_sum(array_map(
             function ($yᵢ, $ŷᵢ) {
-                return ($yᵢ - $ŷᵢ)**2;
+                return ($yᵢ - $ŷᵢ) ** 2;
             },
-            $this->ys,
+            $this->reg_ys,
             $Ŷ
         ));
     }
@@ -157,13 +183,17 @@ trait LeastSquares
      * each observation from the overall mean.
      * https://en.wikipedia.org/wiki/Total_sum_of_squares
      *
+     * For Simple Linear Regression
      * SStot = ∑(yᵢ - ȳ)²
+     *
+     * For Regression through a point
+     * SStot = ∑yᵢ²
      *
      * @return number
      */
     public function sumOfSquaresTotal()
     {
-        return RandomVariable::sumOfSquaresDeviations($this->ys);
+        return $this->sumOfSquaresResidual() + $this->sumOfSquaresRegression();
     }
 
     /**
@@ -217,8 +247,7 @@ trait LeastSquares
      */
     public function meanSquareTotal()
     {
-        // Need to make sure the 1 is not $this->fit_parameters;
-        $MSTO = $this->sumOfSquaresTotal() / ($this->n - 1);
+        $MSTO = $this->sumOfSquaresTotal() / ($this->n - $this->fit_parameters);
 
         return $MSTO;
     }
