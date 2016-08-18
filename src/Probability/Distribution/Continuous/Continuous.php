@@ -102,6 +102,6 @@ abstract class Continuous extends \Math\Probability\Distribution\Distribution
      */
     public static function rand(...$params)
     {
-        return self::inverse(mt_rand() / mt_getrandmax(), ...$params);
+        return static::inverse(mt_rand() / mt_getrandmax(), ...$params);
     }
 }
