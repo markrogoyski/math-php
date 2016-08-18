@@ -247,8 +247,7 @@ trait LeastSquares
      */
     public function meanSquareTotal()
     {
-        // Need to make sure the 1 is not $this->fit_parameters;
-        $MSTO = $this->sumOfSquaresTotal() / ($this->n - 1);
+        $MSTO = $this->sumOfSquaresTotal() / ($this->n - $this->fit_parameters);
 
         return $MSTO;
     }
