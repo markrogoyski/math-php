@@ -168,7 +168,7 @@ trait LeastSquares
      */
     public function sumOfSquaresTotal()
     {
-        return $this->sumOfSquaresResidual() + $this->sumOfSquaresRegression()
+        return $this->sumOfSquaresResidual() + $this->sumOfSquaresRegression();
     }
 
     /**
