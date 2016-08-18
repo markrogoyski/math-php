@@ -27,6 +27,23 @@ class Matrix implements \ArrayAccess
     protected $A;
 
     /**
+     * Reduced row echelon form
+     * @var Matrix
+     */
+    protected $rref;
+
+    /**
+     * Determinant
+     * @var number
+     */
+    protected $det;
+
+    /**
+     * Inverse
+     */
+    protected $A⁻¹;
+
+    /**
      * Constructor
      * @param array of arrays $A m x n matrix
      */
