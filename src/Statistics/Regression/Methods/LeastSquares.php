@@ -54,39 +54,73 @@ trait LeastSquares
      * @param  int $order The order of the polynomial. 1 = linear, 2 = x², etc
      * @param  int $fit_constant '1' if we are fitting a constant to the regression.
      *
-     * @return array [m, b]
+     * @return Matrix [[m], [b]]
      */
+     
+    /**
+     * Regression ys
+     * Since the actual xs may be translated for regression, we need to keep these
+     * handy for regression statistics
+     */
+    private $reg_ys;
+     
+    /**
+     * Regression xs
+     * Since the actual xs may be translated for regression, we need to keep these
+     * handy for regression statistics
+     */
+    private $reg_xs;
+     
+    /**
+     * Regression Yhat
+     * The Yhat for the regression xs.
+     */
+    private $reg_Yhat;
+     
     public function leastSquares(array $ys, array $xs, $order = 1, $fit_constant = 1)
     {
+        $this->reg_ys = $ys;
+        $this->reg_xs = $xs;
+        
         $this->fit_constant = $fit_constant;
         $this->p = $order;
         $this->ν = $this->n - $this->p - $this->fit_constant;
+
         // y = Xa
-        $X  = $this->createDesignMatrix($xs);
-        $y  = new ColumnVector($ys);
+        $X = $this->createDesignMatrix($xs);
+        $y = new ColumnVector($ys);
+
         // a = (XᵀX)⁻¹Xᵀy
-        $Xᵀ        = $X->transpose();
+        $Xᵀ           = $X->transpose();
         $this->⟮XᵀX⟯⁻¹ = $X->transpose()->multiply($X)->inverse();
-        $⟮XᵀX⟯⁻¹Xᵀy = $this->⟮XᵀX⟯⁻¹->multiply($Xᵀ)->multiply($y);
+        $⟮XᵀX⟯⁻¹Xᵀy    = $this->⟮XᵀX⟯⁻¹->multiply($Xᵀ)->multiply($y);
+
+        $this->reg_Yhat = $X->multiply($⟮XᵀX⟯⁻¹Xᵀy)->getColumn(0);
         return $⟮XᵀX⟯⁻¹Xᵀy;
     }
 
     /**
-     * The Design Matrix contains all the indipendant variables needed for the least squares regression
+     * The Design Matrix contains all the independent variables needed for the least squares regression
      *
      * https://en.wikipedia.org/wiki/Design_matrix
+     *
+     * @param mixed $xs
+     *
+     * @return VandermondeMatrix
      */
     public function createDesignMatrix($xs)
     {
-        if (gettype($xs) == 'integer' || gettype($xs) == 'double') {
+        if (is_int($xs) || is_float($xs)) {
             $xs = [$xs];
         }
-        $X  = new VandermondeMatrix($xs, $this->p + 1);
+
+        $X = new VandermondeMatrix($xs, $this->p + 1);
         if ($this->fit_constant == 0) {
             $X = $X->columnExclude(0);
         }
         return $X;
     }
+
     /**
      * Sum Of Squares
      */
@@ -99,62 +133,67 @@ trait LeastSquares
      * https://en.wikipedia.org/wiki/Explained_sum_of_squares
      *
      * SSreg = ∑(ŷᵢ - ȳ)²
+     * When a constant is fit to the regression, the average of y = average of ŷ.
+     *
+     * In the case where the constant is not fit, we use the sum of squares of the predicted value
+     * SSreg = ∑ŷᵢ²
      *
      * @return number
      */
     public function sumOfSquaresRegression()
     {
-        $ȳ = Average::mean($this->ys);
-        return array_sum(array_map(
-            function ($ŷᵢ) use ($ȳ) {
-                return ($ŷᵢ - $ȳ)**2;
-            },
-            $this->yHat()
-        ));
+        if ($this->fit_constant == 1) {
+            return RandomVariable::sumOfSquaresDeviations($this->Yhat());
+        }
+        return array_sum(Single::square($this->reg_Yhat));
     }
 
-     /**
-      * SSres - The Sum Squares of the residuals (RSS - Residual sum of squares)
-      *
-      * The sum of the squares of residuals (deviations predicted from actual
-      * empirical values of data). It is a measure of the discrepancy between
-      * the data and an estimation model.
-      * https://en.wikipedia.org/wiki/Residual_sum_of_squares
-      *
-      * SSres = ∑(yᵢ - f(xᵢ))²
-      *       = ∑(yᵢ - ŷᵢ)²
-      *
-      *  where yᵢ is an observed value
-      *        ŷᵢ is a value predicted by the regression model
-      *
-      * @return number
-      */
+    /**
+     * SSres - The Sum Squares of the residuals (RSS - Residual sum of squares)
+     *
+     * The sum of the squares of residuals (deviations predicted from actual
+     * empirical values of data). It is a measure of the discrepancy between
+     * the data and an estimation model.
+     * https://en.wikipedia.org/wiki/Residual_sum_of_squares
+     *
+     * SSres = ∑(yᵢ - f(xᵢ))²
+     *       = ∑(yᵢ - ŷᵢ)²
+     *
+     *  where yᵢ is an observed value
+     *        ŷᵢ is a value predicted by the regression model
+     *
+     * @return number
+     */
     public function sumOfSquaresResidual()
     {
-        $Ŷ = $this->yHat();
+        $Ŷ = $this->reg_Yhat;
         return array_sum(array_map(
             function ($yᵢ, $ŷᵢ) {
-                return ($yᵢ - $ŷᵢ)**2;
+                return ($yᵢ - $ŷᵢ) ** 2;
             },
-            $this->ys,
+            $this->reg_ys,
             $Ŷ
         ));
     }
 
     /**
-      * SStot - The total Sum Squares
-      *
-      * the sum, over all observations, of the squared differences of
-      * each observation from the overall mean.
-      * https://en.wikipedia.org/wiki/Total_sum_of_squares
-      *
-      * SStot = ∑(yᵢ - ȳ)²
-      *
-      * @return number
-      */
+     * SStot - The total Sum Squares
+     *
+     * the sum, over all observations, of the squared differences of
+     * each observation from the overall mean.
+     * https://en.wikipedia.org/wiki/Total_sum_of_squares
+     *
+     * For Simple Linear Regression
+     * SStot = ∑(yᵢ - ȳ)²
+     *
+     * For Regression through a point
+     * SStot = ∑yᵢ²
+     *
+     * @return number
+     */
     public function sumOfSquaresTotal()
     {
-        return RandomVariable::sumOfSquaresDeviations($this->ys);
+        return $this->sumOfSquaresResidual() + $this->sumOfSquaresRegression();
     }
 
     /**
@@ -169,28 +208,47 @@ trait LeastSquares
      * SSE       |    n - p - 1
      * SSR       |    p
      */
-     
+
+    /**
+     * Mean square regression
+     * MSR = SSᵣ / p
+     *
+     * @return number
+     */
     public function meanSquareRegression()
     {
-        $p = $this->p;
+        $p   = $this->p;
         $SSᵣ = $this->sumOfSquaresRegression();
         $MSR = $SSᵣ / $p;
+
         return $MSR;
     }
-    
+
+    /**
+     * Mean of squares for error
+     * MSE = SSₑ / ν
+     *
+     * @return number
+     */
     public function meanSquareResidual()
     {
-        $ν = $this->ν;
+        $ν   = $this->ν;
         $SSₑ = $this->sumOfSquaresResidual();
-        // Mean of Squares for Error
         $MSE = $SSₑ / $ν;
+
         return $MSE;
     }
-    
+
+    /**
+     * Mean of squares total
+     * MSTO = SSOT / (n - 1)
+     *
+     * @return number
+     */
     public function meanSquareTotal()
     {
-        // Need to make sure the 1 is not $this->fit_parameters;
-        $MSTO = $this->sumOfSquaresTotal() / ($this->n - 1);
+        $MSTO = $this->sumOfSquaresTotal() / ($this->n - $this->fit_parameters);
+
         return $MSTO;
     }
     
@@ -199,6 +257,7 @@ trait LeastSquares
      *
      * Also called the standard error of the residuals
      *
+     * @return number
      */
     public function errorSD()
     {
@@ -207,6 +266,8 @@ trait LeastSquares
      
     /**
      * The degrees of freedom of the regression
+     *
+     * @return number
      */
     public function degreesOfFreedom()
     {
@@ -236,23 +297,32 @@ trait LeastSquares
      */
     public function standardErrors()
     {
-        $X = new VandermondeMatrix($this->xs, 2);
+        $X      = new VandermondeMatrix($this->xs, 2);
         $⟮XᵀX⟯⁻¹ = $this->⟮XᵀX⟯⁻¹;
-        $σ² = $this->meanSquareResidual();
+        $σ²     = $this->meanSquareResidual();
+
         $standard_error_matrix = $⟮XᵀX⟯⁻¹->scalarMultiply($σ²);
-        $standard_error_array = Single::sqrt($standard_error_matrix->getDiagonalElements());
+        $standard_error_array  = Single::sqrt($standard_error_matrix->getDiagonalElements());
         
         return [
             'm' => $standard_error_array[1],
             'b' => $standard_error_array[0],
         ];
     }
-    
+
+    /**
+     * Regression varaince
+     *
+     * @param  number $x
+     *
+     * @return number
+     */
     public function regressionVariance($x)
     {
-        $X = $this->createDesignMatrix($x);
+        $X      = $this->createDesignMatrix($x);
         $⟮XᵀX⟯⁻¹ = $this->⟮XᵀX⟯⁻¹;
-        $M = $X->multiply($⟮XᵀX⟯⁻¹)->multiply($X->transpose());
+        $M      = $X->multiply($⟮XᵀX⟯⁻¹)->multiply($X->transpose());
+
         return $M[0][0];
     }
     
@@ -276,6 +346,7 @@ trait LeastSquares
     {
         return sqrt($this->coefficientOfDetermination());
     }
+
     /**
      * R - correlation coefficient
      * Convenience wrapper for correlationCoefficient
@@ -288,6 +359,7 @@ trait LeastSquares
     {
         return $this->correlationCoefficient();
     }
+
     /**
      * R² - coefficient of determination
      *
@@ -304,6 +376,7 @@ trait LeastSquares
     {
         return $this->sumOfSquaresRegression() / ($this->sumOfSquaresRegression() + $this->sumOfSquaresResidual());
     }
+
     /**
      * R² - coefficient of determination
      * Convenience wrapper for coefficientOfDetermination
@@ -340,6 +413,7 @@ trait LeastSquares
             'b' => $b / $se['b'],
         ];
     }
+
     /**
      * The probabilty associated with each parameter's t value
      *
@@ -362,6 +436,7 @@ trait LeastSquares
             'b' => StudentT::CDF($t['b'], $ν),
         ];
     }
+
     /**
      * The F statistic of the regression (F test)
      *
@@ -385,6 +460,7 @@ trait LeastSquares
         $F = $this->meanSquareRegression() / $this->meanSquareResidual();
         return $F;
     }
+
     /**
      * The probabilty associated with the regression F Statistic
      *
@@ -410,7 +486,7 @@ trait LeastSquares
         $d₂ = $ν;
         return (F::CDF($F, $d₁, $d₂));
     }
-    
+
     /**
      * The confidence interval of the regression for Simple Linear Regression
      *                      ______________
@@ -443,6 +519,7 @@ trait LeastSquares
         
         return $t * sqrt($σ² * $V);
     }
+
     /**
      * The prediction interval of the regression
      *                        _________________

@@ -27,6 +27,23 @@ class Matrix implements \ArrayAccess
     protected $A;
 
     /**
+     * Reduced row echelon form
+     * @var Matrix
+     */
+    protected $rref;
+
+    /**
+     * Determinant
+     * @var number
+     */
+    protected $det;
+
+    /**
+     * Inverse
+     */
+    protected $A⁻¹;
+
+    /**
      * Constructor
      * @param array of arrays $A m x n matrix
      */
@@ -125,22 +142,23 @@ class Matrix implements \ArrayAccess
 
     /**
      * Returns the elements on the diagonal of a square matrix as an array
-     *     [[1,2,3]
-     * A =  [4,5,6]
-     *      [7,8,9]]
+     *     [1 2 3]
+     * A = [4 5 6]
+     *     [7 8 9]
      *
-     * getDiagonalElements($A) = [1,5,9]
+     * getDiagonalElements($A) = [1, 5, 9]
+     *
+     * @return array
      */
     public function getDiagonalElements(): array
     {
+        $diagonal = [];
         if ($this->isSquare()) {
-            $array = [];
             for ($i = 0; $i < $this->m; $i++) {
-                $array[] = $this->A[$i][$i];
+                $diagonal[] = $this->A[$i][$i];
             }
-            return $array;
         }
-        return null;
+        return $diagonal;
     }
      
     /**
@@ -367,6 +385,20 @@ class Matrix implements \ArrayAccess
     public function isSquare(): bool
     {
         return $this->m == $this->n;
+    }
+
+    /**
+     * Is the matrix symmetric?
+     * Does A = Aᵀ
+     *
+     * @return bool
+     */
+    public function isSymmetric(): bool
+    {
+        $A  = $this->A;
+        $Aᵀ = $this->transpose()->getMatrix();
+
+        return $A == $Aᵀ;
     }
 
     /**

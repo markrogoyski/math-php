@@ -224,11 +224,14 @@ $A⁻¹  = $A->inverse();
 // Matrix operations - return a value
 $tr⟮A⟯ = $A->trace();
 $|A|  = $a->det();            // Determinant
-$bool = $A->isSquare();
 $‖A‖₁ = $A->oneNorm();
 $‖A‖F = $A->frobeniusNorm();  // Hilbert–Schmidt norm
 $‖A‖∞ = $A->infinityNorm();
 $max  = $A->maxNorm();
+
+// Matrix properties - return a bool
+$bool = $A->isSquare();
+$bool = $A->isSymmetric();
 
 // Matrix decompositions
 $PLU = $A->LUDecomposition(); // returns array of Matrices [L, U, P, A]; P is permutation matrix
@@ -451,6 +454,9 @@ $inv_cdf = DistributionName::inverse($target, ...$params);   // Inverse CDF of t
 $between = DistributionName::between($x₁, $x₂, ...$params);  // Probability of being bewteen two points, x₁ and x₂
 $outside = DistributionName::outside($x₁, $x₂, ...$params);  // Probability of being bewteen below x₁ and above x₂
 $above   = DistributionName::above($x, ...$params);          // Probability of being above x to ∞
+
+// Random Number Generator
+$random  = DistributionName::rand(...$params);               // A random number with a given distribution
 ```
 
 ### Probability - Discrete Distributions

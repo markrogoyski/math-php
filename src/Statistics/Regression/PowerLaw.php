@@ -29,6 +29,7 @@ use Math\Statistics\Average;
 class PowerLaw extends Regression
 {
     use Models\PowerModel, Methods\LeastSquares;
+
     /**
      * Calculate the regression parameters by least squares on linearized data
      * ln(y) = ln(A) + B*ln(x)
@@ -41,10 +42,11 @@ class PowerLaw extends Regression
         
         // Perform Least Squares Fit
         $linearized_parameters = $this->leastSquares($y’, $x’)->getColumn(0);
-        
+
         // Translate the linearized parameters back.
         $this->a = exp($linearized_parameters[0]);
         $this->b = $linearized_parameters[1];
-        $this->parameters = [exp($linearized_parameters[0]), $linearized_parameters[1]];
+
+        $this->parameters = [$this->a, $this->b];
     }
 }

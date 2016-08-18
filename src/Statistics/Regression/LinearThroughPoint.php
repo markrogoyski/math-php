@@ -29,6 +29,7 @@ use Math\Probability\Distribution\Continuous\StudentT;
 class LinearThroughPoint extends Regression
 {
     use Methods\LeastSquares, Models\LinearModel;
+
     /**
      * Given a set of data ($points) and a point($force), perform a least squares
      * regression of the data, such that the regression is forced to pass through
@@ -36,11 +37,14 @@ class LinearThroughPoint extends Regression
      *
      * This procedure is most frequently used with $force = [0,0], the origin.
      *
+     * @param array $points
+     * @param array $force Point to force regression line through (default: origin)
      */
     public function __construct(array $points, array $force = [0,0])
     {
         $this->v = $force[0];
         $this->w = $force[1];
+
         parent::__construct($points);
     }
     
@@ -54,9 +58,12 @@ class LinearThroughPoint extends Regression
         
         $x’ = Single::subtract($this->xs, $v);
         $y’ = Single::subtract($this->ys, $w);
+
         $parameters = $this->leastSquares($y’, $x’, 1, 0)->getColumn(0);
+
         $this->m = $parameters[0];
         $this->b = $this->w - $this->m * $this->v;
+
         $this->parameters = [$this->b, $this->m];
     }
 }

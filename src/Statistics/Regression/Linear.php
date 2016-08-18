@@ -29,33 +29,36 @@ use Math\Probability\Distribution\Continuous\StudentT;
 class Linear extends Regression
 {
     use Methods\LeastSquares, Models\LinearModel;
+
     /**
      * Average of x
      * @var number
      */
     private $xbar;
+
     /**
      * Average of y
      * @var number
      */
     private $ybar;
+
     /**
      * Sum of squared deviations of x
      * @var number
      */
     private $SSx;
+
     /**
      * Sum of squares residuals
      * @var number
      */
     private $SSres;
+
     /**
      * Calculates the regression parameters.
-     *
      */
     public function calculate()
     {
-        $parameters = $this->leastSquares($this->ys, $this->xs);
-        $this->parameters = $parameters->getColumn(0);
+        $this->parameters = $this->leastSquares($this->ys, $this->xs)->getColumn(0);
     }
 }
