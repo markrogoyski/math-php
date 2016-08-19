@@ -561,7 +561,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             throw new \Exception('Matrix is not square; cannot augment with the identity matrix');
         }
 
-        return $this->augment(self::identity($this->getM()));
+        return $this->augment(MatrixFactory::identity($this->getM()));
     }
 
     /**
@@ -1465,8 +1465,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $n = $this->n;
 
         // Initialize L and U with all zeros
-        $L = Matrix::zero($n, $n)->getMatrix();
-        $U = Matrix::zero($n, $n)->getMatrix();
+        $L = MatrixFactory::zero($n, $n)->getMatrix();
+        $U = MatrixFactory::zero($n, $n)->getMatrix();
 
         // Create permutation matrix P and augmented A
         $P = $this->pivotize();
@@ -1510,7 +1510,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     private function pivotize(): Matrix
     {
         $n = $this->n;
-        $P = Matrix::identity($n);
+        $P = MatrixFactory::identity($n);
         $A = $this->A;
 
         for ($i = 0; $i < $n; $i++) {
@@ -1530,88 +1530,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return $P;
-    }
-
-    /**************************************************************************
-     * STATIC METHODS - Return a Matrix
-     *  - identity
-     *  - zero
-     *  - one
-     **************************************************************************/
-
-    /**
-     * Identity matrix - n x n matrix with ones in the diaganol
-     * Option to set the diaganol to any number.
-     *
-     * @param int    $n size of matrix
-     * @param number $x (optional; default 1)
-     *
-     * @return Matrix
-     */
-    public static function identity(int $n, $x = 1): SquareMatrix
-    {
-        if ($n < 0) {
-            throw new \Exception('n must be ≥ 0');
-        }
-        $R = [];
-
-        for ($i = 0; $i < $n; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = $i == $j ? $x : 0;
-            }
-        }
-
-        return MatrixFactory::create($R);
-    }
-
-    /**
-     * Zero matrix - m x n matrix with all elements being zeros
-     *
-     * @param int $m rows
-     * @param int $n columns
-     *
-     * @return Matrix
-     */
-    public static function zero(int $m, int $n): Matrix
-    {
-        if ($m < 1 || $n < 1) {
-            throw new \Exception('m and n must be > 0');
-        }
-
-        $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = 0;
-            }
-        }
-
-        return MatrixFactory::create($R);
-    }
-
-    /**
-     * Ones matrix - m x n matrix with all elements being ones
-     *
-     * @param int $m rows
-     * @param int $n columns
-     *
-     * @return Matrix
-     */
-    public static function one(int $m, int $n): Matrix
-    {
-        if ($m < 1 || $n < 1) {
-            throw new \Exception('m and n must be > 0');
-        }
-
-        $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = 1;
-            }
-        }
-
-        return MatrixFactory::create($R);
     }
 
     /**************************************************************************

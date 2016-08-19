@@ -41,6 +41,88 @@ class MatrixFactory
         }
     }
 
+    /**************************************************************************
+     * SPECIAL MATRICES - Not created from an Array
+     *  - identity
+     *  - zero
+     *  - one
+     **************************************************************************/
+
+    /**
+     * Identity matrix - n x n matrix with ones in the diaganol
+     * Option to set the diaganol to any number.
+     *
+     * @param int    $n size of matrix
+     * @param number $x (optional; default 1)
+     *
+     * @return Matrix
+     */
+    public static function identity(int $n, $x = 1): SquareMatrix
+    {
+        if ($n < 0) {
+            throw new \Exception('n must be ≥ 0');
+        }
+        $R = [];
+
+        for ($i = 0; $i < $n; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $R[$i][$j] = $i == $j ? $x : 0;
+            }
+        }
+
+        return self::create($R);
+    }
+
+    /**
+     * Zero matrix - m x n matrix with all elements being zeros
+     *
+     * @param int $m rows
+     * @param int $n columns
+     *
+     * @return Matrix
+     */
+    public static function zero(int $m, int $n): Matrix
+    {
+        if ($m < 1 || $n < 1) {
+            throw new \Exception('m and n must be > 0');
+        }
+
+        $R = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $R[$i][$j] = 0;
+            }
+        }
+
+        return self::create($R);
+    }
+
+    /**
+     * Ones matrix - m x n matrix with all elements being ones
+     *
+     * @param int $m rows
+     * @param int $n columns
+     *
+     * @return Matrix
+     */
+    public static function one(int $m, int $n): Matrix
+    {
+        if ($m < 1 || $n < 1) {
+            throw new \Exception('m and n must be > 0');
+        }
+
+        $R = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $R[$i][$j] = 1;
+            }
+        }
+
+        return self::create($R);
+    }
+
     /* ************************************************************************
      * PRIVATE HELPER METHODS
      * ***********************************************************************/
