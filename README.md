@@ -220,7 +220,8 @@ $⟮A∣B⟯ = $A->augment($B);
 $⟮A∣I⟯ = $A->augmentIdentity();  // Augment with the identity matrix
 $rref = $A->rref();             // Reduced row echelon form
 $A⁻¹  = $A->inverse();
-$Mᵢⱼ  - $A->minorMatrix($mᵢ, $nⱼ); // Square matrix with row mᵢ and column nⱼ removed
+$Mᵢⱼ  = $A->minorMatrix($mᵢ, $nⱼ); // Square matrix with row mᵢ and column nⱼ removed
+$CM   = $A->cofactorMatrix();
 
 // Matrix operations - return a value
 $tr⟮A⟯ = $A->trace();
