@@ -6,7 +6,7 @@ use Math\Functions\Map;
 /**
  * m x n Matrix
  */
-class Matrix implements \ArrayAccess
+class Matrix implements \ArrayAccess, \JsonSerializable
 {
     /**
      * Number of rows
@@ -60,9 +60,16 @@ class Matrix implements \ArrayAccess
         }
     }
 
-    /**
+    /**************************************************************************
      * BASIC MATRIX GETTERS
-     */
+     *  - getMatrix
+     *  - getM
+     *  - getN
+     *  - getRow
+     *  - getColumn
+     *  - get
+     *  - getDiagonalElements
+     **************************************************************************/
 
     /**
      * Get matrix
@@ -160,10 +167,56 @@ class Matrix implements \ArrayAccess
         }
         return $diagonal;
     }
-     
+
+    /**************************************************************************
+     * MATRIX PROPERTIES
+     *  - isSquare
+     *  - isSymmetric
+     **************************************************************************/
+
     /**
-     * MATRIX OPERATIONS
+     * Is the matrix a square matrix?
+     * Do rows m = columns n?
+     *
+     * @return bool
      */
+    public function isSquare(): bool
+    {
+        return $this->m == $this->n;
+    }
+
+    /**
+     * Is the matrix symmetric?
+     * Does A = Aᵀ
+     *
+     * @return bool
+     */
+    public function isSymmetric(): bool
+    {
+        $A  = $this->A;
+        $Aᵀ = $this->transpose()->getMatrix();
+
+        return $A == $Aᵀ;
+    }
+
+    /**************************************************************************
+     * MATRIX OPERATIONS - Return a Matrix
+     *  - add
+     *  - directSum
+     *  - subtract
+     *  - multiply
+     *  - scalarMultiply
+     *  - hadamardProduct
+     *  - transpose
+     *  - trace
+     *  - map
+     *  - diagonal
+     *  - augment
+     *  - augmentIdentity
+     *  - inverse
+     *  - minorMatrix
+     *  - cofactorMatrix
+     **************************************************************************/
 
     /**
      * Add two matrices - Entrywise sum
@@ -377,31 +430,6 @@ class Matrix implements \ArrayAccess
     }
 
     /**
-     * Is the matrix a square matrix?
-     * Do rows m = columns n?
-     *
-     * @return bool
-     */
-    public function isSquare(): bool
-    {
-        return $this->m == $this->n;
-    }
-
-    /**
-     * Is the matrix symmetric?
-     * Does A = Aᵀ
-     *
-     * @return bool
-     */
-    public function isSymmetric(): bool
-    {
-        $A  = $this->A;
-        $Aᵀ = $this->transpose()->getMatrix();
-
-        return $A == $Aᵀ;
-    }
-
-    /**
      * Trace
      * the trace of an n-by-n square matrix A is defined to be
      * the sum of the elements on the main diagonal
@@ -537,6 +565,152 @@ class Matrix implements \ArrayAccess
     }
 
     /**
+     * Inverse
+     *
+     * For a 2x2 matrix:
+     *      [a b]
+     *  A = [c d]
+     *
+     *         1
+     *  A⁻¹ = --- [d -b]
+     *        │A│ [-c a]
+     *
+     * For a 3x3 matrix or larger:
+     * Augment with identity matrix and calculate reduced row echelon form.
+     *
+     * @return Matrix
+     */
+    public function inverse(): Matrix
+    {
+        if (isset($this->A⁻¹)) {
+            return $this->A⁻¹;
+        }
+
+        if (!$this->isSquare()) {
+            throw new \Exception('Not a sqaure matrix (required for determinant)');
+        }
+
+        $│A│ = $this->det ?? $this->det();
+        if ($│A│ == 0) {
+            throw new \Exception('Singular matrix (determinant = 0); not invertible');
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+        $A = $this->A;
+
+        /*
+         * 2x2 matrix:
+         *      [a b]
+         *  A = [c d]
+         *
+         *        1
+         * A⁻¹ = --- [d -b]
+         *       │A│ [-c a]
+         */
+        if ($m === 2) {
+            $a = $A[0][0];
+            $b = $A[0][1];
+            $c = $A[1][0];
+            $d = $A[1][1];
+
+            $R = new Matrix([
+                [$d, -$b],
+                [-$c, $a],
+            ]);
+            $A⁻¹ = $R->scalarMultiply(1/$│A│);
+
+            $this->A⁻¹ = $A⁻¹;
+            return $A⁻¹;
+        }
+
+        /*
+         * nxn matrix 3x3 or larger
+         */
+        $R   = $this->augmentIdentity()->rref();
+        $A⁻¹ = [];
+
+        for ($i = 0; $i < $n; $i++) {
+            $A⁻¹[$i] = array_slice($R[$i], $n);
+        }
+
+        $A⁻¹ = new Matrix($A⁻¹);
+
+        $this->A⁻¹ = $A⁻¹;
+        return $A⁻¹;
+    }
+
+
+    /**
+     * Minor matrix
+     * Submatrix formed by deleting the iᵗʰ row and jᵗʰ column.
+     * Used in computing the minor Mᵢⱼ.
+     *
+     * @param int $mᵢ Row to exclude
+     * @param int $nⱼ Column to exclude
+     *
+     * @return Matrix with row mᵢ and column nⱼ removed
+     */
+    public function minorMatrix(int $mᵢ, int $nⱼ): Matrix
+    {
+        if (!$this->isSquare()) {
+            throw new \Exception('Matrix is not square; cannot get minor Matrix of a non-square matrix');
+        }
+        if ($mᵢ >= $this->m || $mᵢ < 0) {
+            throw new \Exception('Row to exclude for minor Matrix does not exist');
+        }
+        if ($nⱼ >= $this->n || $nⱼ < 0) {
+            throw new \Exception('Column to exclude for minor Matrix does not exist');
+        }
+
+        return $this->rowExclude($mᵢ)->columnExclude($nⱼ);
+    }
+
+    /**
+     * Cofactor matrix
+     * A matrix where each element is a cofactor.
+     *
+     *     [A₀₀ A₀₁ A₀₂]
+     * A = [A₁₀ A₁₁ A₁₂]
+     *     [A₂₀ A₂₁ A₂₂]
+     *
+     *      [C₀₀ C₀₁ C₀₂]
+     * CM = [C₁₀ C₁₁ C₁₂]
+     *      [C₂₀ C₂₁ C₂₂]
+     *
+     * @return Matrix
+     */
+    public function cofactorMatrix(): Matrix
+    {
+        if (!$this->isSquare()) {
+            throw new \Exception('Matrix is not square; cannot get cofactor Matrix of a non-square matrix');
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+        $R = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $R[$i][$j] = $this->cofactor($i, $j);
+            }
+        }
+
+        return new SquareMatrix($R);
+    }
+
+    /**************************************************************************
+     * MATRIX OPERATIONS - Return a value
+     *  - oneNorm
+     *  - frobeniusNorm
+     *  - infinityNorm
+     *  - maxNorm
+     *  - det
+     *  - minor
+     *  - cofactor
+     **************************************************************************/
+
+    /**
      * 1-norm (‖A‖₁)
      * Maximum absolute column sum of the matrix
      *
@@ -622,8 +796,204 @@ class Matrix implements \ArrayAccess
     }
 
     /**
-     * ROW OPERATIONS
+     * Determinant
+     *
+     * For a 2x2 matrix:
+     *      [a b]
+     *  A = [c d]
+     *
+     * │A│ = ad - bc
+     *
+     * For a 3x3 matrix:
+     *      [a b c]
+     *  A = [d e f]
+     *      [g h i]
+     *
+     * │A│ = a(ei - fh) - b(di - fg) + c(dh - eg)
+     *
+     * For 4x4 and larger matrices:
+     *
+     * │A│ = (-1)ⁿ │rref(A)│ ∏1/k
+     *
+     *  where:
+     *   │rref(A)│ = determinant of the reduced row echelon form of A
+     *   ⁿ         = number of row swaps when computing RREF
+     *   ∏1/k      = product of 1/k where k is the scaling factor divisor
+     *
+     * @return number
      */
+    public function det()
+    {
+        if (isset($this->det)) {
+            return $this->det;
+        }
+
+        if (!$this->isSquare()) {
+            throw new \Exception('Not a sqaure matrix (required for determinant)');
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+        $R = new Matrix($this->A);
+
+        /*
+         * 2x2 matrix
+         *      [a b]
+         *  A = [c d]
+         *
+         * |A| = ad - bc
+         */
+        if ($m === 2) {
+            $a = $R[0][0];
+            $b = $R[0][1];
+            $c = $R[1][0];
+            $d = $R[1][1];
+
+            $ad = $a * $d;
+            $bc = $b * $c;
+
+            $this->det = $ad - $bc;
+            return $this->det;
+        }
+
+        /*
+         * 3x3 matrix
+         *      [a b c]
+         *  A = [d e f]
+         *      [g h i]
+         *
+         * |A| = a(ei - fh) - b(di - fg) + c(dh - eg)
+         */
+        if ($m === 3) {
+            $a = $R[0][0];
+            $b = $R[0][1];
+            $c = $R[0][2];
+            $d = $R[1][0];
+            $e = $R[1][1];
+            $f = $R[1][2];
+            $g = $R[2][0];
+            $h = $R[2][1];
+            $i = $R[2][2];
+
+            $ei = $e * $i;
+            $fh = $f * $h;
+            $di = $d * $i;
+            $fg = $f * $g;
+            $dh = $d * $h;
+            $eg = $e * $g;
+
+            $this->det = $a * ($ei - $fh) - $b * ($di - $fg) + $c * ($dh - $eg);
+            return $this->det;
+        }
+
+        /*
+         * nxn matrix 4x4 or larger
+         * Get row reduced echelon form, then compute determinant of rref.
+         * Then plug into formula with swaps and product of scaling factor.
+         * │A│ = (-1)ⁿ │rref(A)│ ∏1/k
+         */
+        $rref⟮A⟯ = $this->rref ?? $this->rref();
+        $ⁿ      = $this->rref_swaps;
+        $∏1／k  = $this->rref_∏scaling_factor;
+
+        // Det(rref(A))
+        $│rref⟮A⟯│ = 1;
+        for ($i = 0; $i < $m; $i++) {
+            $│rref⟮A⟯│ *= $rref⟮A⟯[$i][$i];
+        }
+
+        // │A│ = (-1)ⁿ │rref(A)│ ∏1/k
+        $this->det = (-1)**$ⁿ * ($│rref⟮A⟯│ / $∏1／k);
+        return $this->det;
+    }
+
+    /**
+     * Minor (first minor)
+     * The determinant of some smaller square matrix, cut down from A by removing one of its rows and columns.
+     *
+     *        [1 4  7]
+     * If A = [3 0  5]
+     *        [1 9 11]
+     *
+     *                [1 4 -]       [1 4]
+     * Then M₁₂ = det [- - -] = det [1 9] = 13
+     *                [1 9 -]
+     *
+     * https://en.wikipedia.org/wiki/Minor_(linear_algebra)
+     *
+     * @param int $mᵢ Row to exclude
+     * @param int $nⱼ Column to exclude
+     *
+     * @return number
+     */
+    public function minor(int $mᵢ, int $nⱼ)
+    {
+        if (!$this->isSquare()) {
+            throw new \Exception('Matrix is not square; cannot get minor of a non-square matrix');
+        }
+        if ($mᵢ >= $this->m || $mᵢ < 0) {
+            throw new \Exception('Row to exclude for minor does not exist');
+        }
+        if ($nⱼ >= $this->n || $nⱼ < 0) {
+            throw new \Exception('Column to exclude for minor does not exist');
+        }
+
+        return $this->minorMatrix($mᵢ, $nⱼ)->det();
+    }
+
+    /**
+     * Cofactor
+     * Multiply the minor by (-1)ⁱ⁺ʲ.
+     *
+     * Cᵢⱼ = (-1)ⁱ⁺ʲMᵢⱼ
+     *
+     * Example:
+     *        [1 4  7]
+     * If A = [3 0  5]
+     *        [1 9 11]
+     *
+     *                [1 4 -]       [1 4]
+     * Then M₁₂ = det [- - -] = det [1 9] = 13
+     *                [1 9 -]
+     *
+     * Therefore C₁₂ = (-1)¹⁺²(13) = -13
+     *
+     * https://en.wikipedia.org/wiki/Minor_(linear_algebra)
+     *
+     * @param int $mᵢ Row to exclude
+     * @param int $nⱼ Column to exclude
+     *
+     * @return number
+     */
+    public function cofactor(int $mᵢ, int $nⱼ)
+    {
+        if (!$this->isSquare()) {
+            throw new \Exception('Matrix is not square; cannot get cofactor of a non-square matrix');
+        }
+        if ($mᵢ >= $this->m || $mᵢ < 0) {
+            throw new \Exception('Row to exclude for cofactor does not exist');
+        }
+        if ($nⱼ >= $this->n || $nⱼ < 0) {
+            throw new \Exception('Column to exclude for cofactor does not exist');
+        }
+
+        $Mᵢⱼ    = $this->minor($mᵢ, $nⱼ);
+        $⟮−1⟯ⁱ⁺ʲ = (-1)**($mᵢ + $nⱼ);
+
+        return $⟮−1⟯ⁱ⁺ʲ * $Mᵢⱼ;
+    }
+
+    /**************************************************************************
+     * ROW OPERATIONS - Return a Matrix
+     *  - rowInterchange
+     *  - rowMultiply
+     *  - rowDivide
+     *  - rowAdd
+     *  - rowAddScalar
+     *  - rowSubtract
+     *  - rowSubtractScalar
+     *  - rowExclude
+     **************************************************************************/
 
     /**
      * Interchange two rows
@@ -851,9 +1221,13 @@ class Matrix implements \ArrayAccess
         return new Matrix(array_values($R));
     }
 
-    /**
-     * COLUMN OPERATIONS
-     */
+    /**************************************************************************
+     * COLUMN OPERATIONS - Return a Matrix
+     *  - columnInterchange
+     *  - columnMultiply
+     *  - columnAdd
+     *  - columnExclude
+     **************************************************************************/
 
     /**
      * Interchange two columns
@@ -985,128 +1359,11 @@ class Matrix implements \ArrayAccess
         return new Matrix($R);
     }
 
-    /**
-     * Print the matrix as a string
-     * Format is as a matrix, not as the underlying array structure.
-     * Ex:
-     *  [1, 2, 3]
-     *  [2, 3, 4]
-     *  [3, 4, 5]
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return trim(array_reduce(array_map(
-            function ($mᵢ) {
-                return '[' . implode(', ', $mᵢ) . ']';
-            },
-            $this->A
-        ), function ($A, $mᵢ) {
-            return $A . \PHP_EOL . $mᵢ;
-        }));
-    }
-
-    /**
-     * LU Decomposition (Crout matrix decomposition) with permutation matrix
-     *
-     * A matrix has an LU-factorization if it can be expressed as the product of
-     * a lower-triangular matrix L and an upper triangular matrix U:
-     *   PA = LU
-     *
-     * Crout matrix decomposition is an LU decomposition which decomposes a matrix
-     * into a lower triangular matrix (L), an upper triangular matrix (U) and,
-     * although not always needed, a permutation matrix (P)
-     *
-     * https://en.wikipedia.org/wiki/LU_decomposition
-     * https://en.wikipedia.org/wiki/Crout_matrix_decomposition
-     *
-     * L: Lower triangular matrix--all entries above the main diagonal are zero.
-     *    The main diagonal will be all ones.
-     * U: Upper tirangular matrix--all entries below the main diagonal are zero.
-     * P: Permutation matrix--Identity matrix with possible rows interchanged.
-     *
-     * @return array [
-     *   L: Lower triangular matrix
-     *   U: Upper triangular matrix
-     *   P: Permutation matrix
-     *   A: Original square matrix
-     * ]
-     */
-    public function LUDecomposition()
-    {
-        if (!$this->isSquare()) {
-            throw new \Exception('LU decomposition only works on square matrices');
-        }
-
-        $n = $this->n;
-
-        // Initialize L and U with all zeros
-        $L = Matrix::zero($n, $n)->getMatrix();
-        $U = Matrix::zero($n, $n)->getMatrix();
-
-        // Create permutation matrix P and augmented A
-        $P = $this->pivotize();
-        $A = $P->multiply($this);
-
-        for ($i = 0; $i < $n; $i++) {
-            $L[$i][$i] = 1;
-            for ($j = 0; $j <= $i; $j++) {
-                $sum = 0;
-                for ($k = 0; $k < $j; $k++) {
-                    $sum += $U[$k][$i] * $L[$j][$k];
-                }
-                $U[$j][$i] = $A[$j][$i] - $sum;
-            }
-            for ($j = $i; $j < $n; $j++) {
-                $sum = 0;
-                for ($k = 0; $k < $i; $k++) {
-                    $sum += $U[$k][$i] * $L[$j][$k];
-                }
-                $L[$j][$i] = ($U[$i][$i] == 0) ? \NAN : ($A[$j][$i] - $sum) / $U[$i][$i];
-            }
-        }
-
-        $this->L = new Matrix($L);
-        $this->U = new Matrix($U);
-        $this->P = $P;
-
-        return [
-            'L' => $this->L,
-            'U' => $this->U,
-            'P' => $this->P,
-            'A' => new Matrix($this->A),
-        ];
-    }
-
-    /**
-     * Helper function for LU decomposition
-     * @return Matrix
-     */
-    private function pivotize()
-    {
-        $n = $this->n;
-        $P = Matrix::identity($n);
-        $A = $this->A;
-
-        for ($i = 0; $i < $n; $i++) {
-            $max = $A[$i][$i];
-            $row = $i;
-
-            for ($j = $i; $j < $n; $j++) {
-                if ($A[$j][$i] > $max) {
-                    $max = $A[$j][$i];
-                    $row = $j;
-                }
-            }
-
-            if ($i != $row) {
-                $P = $P->rowInterchange($i, $row);
-            }
-        }
-
-        return $P;
-    }
+    /**************************************************************************
+     * MATRIX DECOMPOSITIONS - Return a Matrix (or array of Matrices)
+     *  - rref
+     *  - LUDecomposition
+     **************************************************************************/
 
     /**
      * Ruduced row echelon form (row canonical form)
@@ -1118,7 +1375,7 @@ class Matrix implements \ArrayAccess
      *
      * @return Matrix in reduced row echelon form
      */
-    public function rref()
+    public function rref(): Matrix
     {
         $m = $this->m;
         $n = $this->n;
@@ -1174,197 +1431,114 @@ class Matrix implements \ArrayAccess
     }
 
     /**
-     * Determinant
+     * LU Decomposition (Crout matrix decomposition) with permutation matrix
      *
-     * For a 2x2 matrix:
-     *      [a b]
-     *  A = [c d]
+     * A matrix has an LU-factorization if it can be expressed as the product of
+     * a lower-triangular matrix L and an upper triangular matrix U:
+     *   PA = LU
      *
-     * │A│ = ad - bc
+     * Crout matrix decomposition is an LU decomposition which decomposes a matrix
+     * into a lower triangular matrix (L), an upper triangular matrix (U) and,
+     * although not always needed, a permutation matrix (P)
      *
-     * For a 3x3 matrix:
-     *      [a b c]
-     *  A = [d e f]
-     *      [g h i]
+     * https://en.wikipedia.org/wiki/LU_decomposition
+     * https://en.wikipedia.org/wiki/Crout_matrix_decomposition
      *
-     * │A│ = a(ei - fh) - b(di - fg) + c(dh - eg)
+     * L: Lower triangular matrix--all entries above the main diagonal are zero.
+     *    The main diagonal will be all ones.
+     * U: Upper tirangular matrix--all entries below the main diagonal are zero.
+     * P: Permutation matrix--Identity matrix with possible rows interchanged.
      *
-     * For 4x4 and larger matrices:
-     *
-     * │A│ = (-1)ⁿ │rref(A)│ ∏1/k
-     *
-     *  where:
-     *   │rref(A)│ = determinant of the reduced row echelon form of A
-     *   ⁿ         = number of row swaps when computing RREF
-     *   ∏1/k      = product of 1/k where k is the scaling factor divisor
-     *
-     * @return number
+     * @return array [
+     *   L: Lower triangular matrix
+     *   U: Upper triangular matrix
+     *   P: Permutation matrix
+     *   A: Original square matrix
+     * ]
      */
-    public function det()
+    public function LUDecomposition(): array
     {
-        if (isset($this->det)) {
-            return $this->det;
-        }
-
         if (!$this->isSquare()) {
-            throw new \Exception('Not a sqaure matrix (required for determinant)');
+            throw new \Exception('LU decomposition only works on square matrices');
         }
 
-        $m = $this->m;
         $n = $this->n;
-        $R = new Matrix($this->A);
 
-        /*
-         * 2x2 matrix
-         *      [a b]
-         *  A = [c d]
-         *
-         * |A| = ad - bc
-         */
-        if ($m === 2) {
-            $a = $R[0][0];
-            $b = $R[0][1];
-            $c = $R[1][0];
-            $d = $R[1][1];
+        // Initialize L and U with all zeros
+        $L = Matrix::zero($n, $n)->getMatrix();
+        $U = Matrix::zero($n, $n)->getMatrix();
 
-            $ad = $a * $d;
-            $bc = $b * $c;
+        // Create permutation matrix P and augmented A
+        $P = $this->pivotize();
+        $A = $P->multiply($this);
 
-            $this->det = $ad - $bc;
-            return $this->det;
+        for ($i = 0; $i < $n; $i++) {
+            $L[$i][$i] = 1;
+            for ($j = 0; $j <= $i; $j++) {
+                $sum = 0;
+                for ($k = 0; $k < $j; $k++) {
+                    $sum += $U[$k][$i] * $L[$j][$k];
+                }
+                $U[$j][$i] = $A[$j][$i] - $sum;
+            }
+            for ($j = $i; $j < $n; $j++) {
+                $sum = 0;
+                for ($k = 0; $k < $i; $k++) {
+                    $sum += $U[$k][$i] * $L[$j][$k];
+                }
+                $L[$j][$i] = ($U[$i][$i] == 0) ? \NAN : ($A[$j][$i] - $sum) / $U[$i][$i];
+            }
         }
 
-        /*
-         * 3x3 matrix
-         *      [a b c]
-         *  A = [d e f]
-         *      [g h i]
-         *
-         * |A| = a(ei - fh) - b(di - fg) + c(dh - eg)
-         */
-        if ($m === 3) {
-            $a = $R[0][0];
-            $b = $R[0][1];
-            $c = $R[0][2];
-            $d = $R[1][0];
-            $e = $R[1][1];
-            $f = $R[1][2];
-            $g = $R[2][0];
-            $h = $R[2][1];
-            $i = $R[2][2];
+        $this->L = new Matrix($L);
+        $this->U = new Matrix($U);
+        $this->P = $P;
 
-            $ei = $e * $i;
-            $fh = $f * $h;
-            $di = $d * $i;
-            $fg = $f * $g;
-            $dh = $d * $h;
-            $eg = $e * $g;
-
-            $this->det = $a * ($ei - $fh) - $b * ($di - $fg) + $c * ($dh - $eg);
-            return $this->det;
-        }
-
-        /*
-         * nxn matrix 4x4 or larger
-         * Get row reduced echelon form, then compute determinant of rref.
-         * Then plug into formula with swaps and product of scaling factor.
-         * │A│ = (-1)ⁿ │rref(A)│ ∏1/k
-         */
-        $rref⟮A⟯ = $this->rref ?? $this->rref();
-        $ⁿ      = $this->rref_swaps;
-        $∏1／k  = $this->rref_∏scaling_factor;
-
-        // Det(rref(A))
-        $│rref⟮A⟯│ = 1;
-        for ($i = 0; $i < $m; $i++) {
-            $│rref⟮A⟯│ *= $rref⟮A⟯[$i][$i];
-        }
-
-        // │A│ = (-1)ⁿ │rref(A)│ ∏1/k
-        $this->det = (-1)**$ⁿ * ($│rref⟮A⟯│ / $∏1／k);
-        return $this->det;
+        return [
+            'L' => $this->L,
+            'U' => $this->U,
+            'P' => $this->P,
+            'A' => new Matrix($this->A),
+        ];
     }
 
     /**
-     * Inverse
-     *
-     * For a 2x2 matrix:
-     *      [a b]
-     *  A = [c d]
-     *
-     *         1
-     *  A⁻¹ = --- [d -b]
-     *        │A│ [-c a]
-     *
-     * For a 3x3 matrix or larger:
-     * Augment with identity matrix and calculate reduced row echelon form.
+     * Helper function for LU decomposition
      *
      * @return Matrix
      */
-    public function inverse()
+    private function pivotize(): Matrix
     {
-        if (isset($this->A⁻¹)) {
-            return $this->A⁻¹;
-        }
-
-        if (!$this->isSquare()) {
-            throw new \Exception('Not a sqaure matrix (required for determinant)');
-        }
-
-        $│A│ = $this->det ?? $this->det();
-        if ($│A│ == 0) {
-            throw new \Exception('Singular matrix (determinant = 0); not invertible');
-        }
-
-        $m = $this->m;
         $n = $this->n;
+        $P = Matrix::identity($n);
         $A = $this->A;
 
-        /*
-         * 2x2 matrix:
-         *      [a b]
-         *  A = [c d]
-         *
-         *        1
-         * A⁻¹ = --- [d -b]
-         *       │A│ [-c a]
-         */
-        if ($m === 2) {
-            $a = $A[0][0];
-            $b = $A[0][1];
-            $c = $A[1][0];
-            $d = $A[1][1];
-
-            $R = new Matrix([
-                [$d, -$b],
-                [-$c, $a],
-            ]);
-            $A⁻¹ = $R->scalarMultiply(1/$│A│);
-
-            $this->A⁻¹ = $A⁻¹;
-            return $A⁻¹;
-        }
-
-        /*
-         * nxn matrix 3x3 or larger
-         */
-        $R   = $this->augmentIdentity()->rref();
-        $A⁻¹ = [];
-
         for ($i = 0; $i < $n; $i++) {
-            $A⁻¹[$i] = array_slice($R[$i], $n);
+            $max = $A[$i][$i];
+            $row = $i;
+
+            for ($j = $i; $j < $n; $j++) {
+                if ($A[$j][$i] > $max) {
+                    $max = $A[$j][$i];
+                    $row = $j;
+                }
+            }
+
+            if ($i != $row) {
+                $P = $P->rowInterchange($i, $row);
+            }
         }
 
-        $A⁻¹ = new Matrix($A⁻¹);
-
-        $this->A⁻¹ = $A⁻¹;
-        return $A⁻¹;
+        return $P;
     }
 
-    /**
-     * STATIC METHODS
-     */
-    
+    /**************************************************************************
+     * STATIC METHODS - Return a Matrix
+     *  - identity
+     *  - zero
+     *  - one
+     **************************************************************************/
+
     /**
      * Identity matrix - n x n matrix with ones in the diaganol
      * Option to set the diaganol to any number.
@@ -1374,7 +1548,7 @@ class Matrix implements \ArrayAccess
      *
      * @return Matrix
      */
-    public static function identity(int $n, $x = 1)
+    public static function identity(int $n, $x = 1): Matrix
     {
         if ($n < 0) {
             throw new \Exception('n must be ≥ 0');
@@ -1387,7 +1561,7 @@ class Matrix implements \ArrayAccess
             }
         }
 
-        return new Matrix($R);
+        return new SquareMatrix($R);
     }
 
     /**
@@ -1440,9 +1614,36 @@ class Matrix implements \ArrayAccess
         return new Matrix($R);
     }
 
+    /**************************************************************************
+     * PHP MAGIC METHODS
+     *  - __toString
+     **************************************************************************/
+
     /**
-     * ArrayAccess INTERFACE
+     * Print the matrix as a string
+     * Format is as a matrix, not as the underlying array structure.
+     * Ex:
+     *  [1, 2, 3]
+     *  [2, 3, 4]
+     *  [3, 4, 5]
+     *
+     * @return string
      */
+    public function __toString()
+    {
+        return trim(array_reduce(array_map(
+            function ($mᵢ) {
+                return '[' . implode(', ', $mᵢ) . ']';
+            },
+            $this->A
+        ), function ($A, $mᵢ) {
+            return $A . \PHP_EOL . $mᵢ;
+        }));
+    }
+
+    /**************************************************************************
+     * ArrayAccess INTERFACE
+     **************************************************************************/
 
     public function offsetExists($i): bool
     {
@@ -1462,5 +1663,14 @@ class Matrix implements \ArrayAccess
     public function offsetUnset($i)
     {
         throw new \Exception('Matrix class does not allow unsetting values');
+    }
+
+    /**************************************************************************
+     * JsonSerializable INTERFACE
+     **************************************************************************/
+
+    public function jsonSerialize()
+    {
+        return $this->A;
     }
 }
