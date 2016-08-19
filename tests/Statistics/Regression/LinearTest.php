@@ -253,4 +253,26 @@ class LinearTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    
+    /**
+     * @dataProvider dataProviderForGetLeverages
+     */
+    public function testGetLeverages($points, $leverages)
+    {
+        $regression = new Linear($points);
+        $test_leverages = $regression->getLeverages();
+        foreach ($leverages as $key => $value) {
+            $this->assertEquals($value, $test_leverages[$key], '', .0000001);
+        }
+    }
+    
+    public function dataProviderForTProbability()
+    {
+        return [
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                [0.012195122, 0.048780488, 0.195121951, 0.304878049, 0.43902439],
+            ],
+        ];
+    }
 }
