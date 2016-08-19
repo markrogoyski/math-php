@@ -1440,4 +1440,317 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForMinorMatrix
+     */
+    public function testMinorMatrix(array $A, int $mᵢ, int $nⱼ, array $Mᵢⱼ)
+    {
+        $A   = new Matrix($A);
+        $Mᵢⱼ = new Matrix($Mᵢⱼ);
+
+        $this->assertEquals($Mᵢⱼ, $A->minorMatrix($mᵢ, $nⱼ));
+    }
+
+    public function dataProviderForMinorMatrix()
+    {
+        return [
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                0, 0,
+                [
+                    [0, 5],
+                    [9, 11],
+                ],
+            ],
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                0, 1,
+                [
+                    [3, 5],
+                    [-1, 11],
+                ],
+            ],
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                0, 2,
+                [
+                    [3, 0],
+                    [-1, 9],
+                ],
+            ],
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                1, 0,
+                [
+                    [4, 7],
+                    [9, 11],
+                ],
+            ],
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                1, 1,
+                [
+                    [1, 7],
+                    [-1, 11],
+                ],
+            ],
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                1, 2,
+                [
+                    [1, 4],
+                    [-1, 9],
+                ],
+            ],
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                2, 0,
+                [
+                    [4, 7],
+                    [0, 5],
+                ],
+            ],
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                2, 1,
+                [
+                    [1, 7],
+                    [3, 5],
+                ],
+            ],
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                2, 2,
+                [
+                    [1, 4],
+                    [3, 0],
+                ],
+            ],
+        ];
+    }
+
+    public function testMinorMatrixExceptionBadRow()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->minorMatrix(4, 1);
+    }
+
+    public function testMinorMatrixExceptionBadColumn()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->minorMatrix(1, 4);
+    }
+
+    public function testMinorMatrixExceptionNotSquare()
+    {
+        $A = new Matrix([
+            [1, 2, 3, 4],
+            [2, 3, 4, 4],
+            [3, 4, 5, 4],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->minorMatrix(1, 1);
+    }
+
+    /**
+     * @dataProvider dataProviderForMinor
+     */
+    public function testMinor(array $A, int $mᵢ, int $nⱼ, $Mᵢⱼ)
+    {
+        $A = new Matrix($A);
+
+        $this->assertEquals($Mᵢⱼ, $A->minor($mᵢ, $nⱼ));
+    }
+
+    public function dataProviderForMinor()
+    {
+        return [
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                0, 0, -45
+            ],
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                0, 1, 38
+            ],
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                1, 2, 13
+            ],
+        ];
+    }
+
+    public function testMinorExceptionBadRow()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->minor(4, 1);
+    }
+
+    public function testMinorExceptionBadColumn()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->minor(1, 4);
+    }
+
+    public function testMinorExceptionNotSquare()
+    {
+        $A = new Matrix([
+            [1, 2, 3, 4],
+            [2, 3, 4, 4],
+            [3, 4, 5, 4],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->minor(1, 1);
+    }
+
+    /**
+     * @dataProvider dataProviderForCofactor
+     */
+    public function testCofactor(array $A, int $mᵢ, int $nⱼ, $Cᵢⱼ)
+    {
+        $A = new Matrix($A);
+
+        $this->assertEquals($Cᵢⱼ, $A->cofactor($mᵢ, $nⱼ));
+    }
+
+    public function dataProviderForCofactor()
+    {
+        return [
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                0, 0, -45
+            ],
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                0, 1, -38
+            ],
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                1, 2, -13
+            ],
+        ];
+    }
+
+    public function testCofactorExceptionBadRow()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->cofactor(4, 1);
+    }
+
+    public function testCofactorExceptionBadColumn()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->cofactor(1, 4);
+    }
+
+    public function testCofactorExceptionNotSquare()
+    {
+        $A = new Matrix([
+            [1, 2, 3, 4],
+            [2, 3, 4, 4],
+            [3, 4, 5, 4],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->cofactor(1, 1);
+    }
 }

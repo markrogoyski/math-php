@@ -606,4 +606,34 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForJsonSerialize
+     */
+    public function testJsonSerialize(array $A, string $json)
+    {
+        $A = new Matrix($A);
+
+        $this->assertEquals($json, json_encode($A));
+    }
+
+    public function dataProviderForJsonSerialize()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ],
+                '[[1,2,3],[4,5,6],[7,8,9]]',
+            ],
+            [
+                [
+                    [1],
+                ],
+                '[[1]]',
+            ],
+        ];
+    }
 }
