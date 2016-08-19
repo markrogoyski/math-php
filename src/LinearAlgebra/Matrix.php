@@ -924,7 +924,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *                [1 9 -]
      *
      * Therefore C₁₂ = (-1)¹⁺²(13) = -13
-     * 
+     *
      * https://en.wikipedia.org/wiki/Minor_(linear_algebra)
      *
      * @param int $mᵢ Row to exclude
