@@ -14,6 +14,6 @@ class FunctionMatrix extends Matrix
                 $R[$i][$j] = $func($params);
             }
         }
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 }

@@ -26,6 +26,6 @@ class FunctionSquareMatrix extends SquareMatrix
                 $R[$i][$j] = $func($params);
             }
         }
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 }
