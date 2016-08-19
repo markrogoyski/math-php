@@ -42,7 +42,7 @@ class DiagonalMatrix extends Matrix
     }
 
     /**
-     * Diagonal matri must be symmetric
+     * Diagonal matrix must be symmetric
      *
      * @return bool
      */
