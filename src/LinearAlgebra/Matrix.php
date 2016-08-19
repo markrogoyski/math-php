@@ -215,6 +215,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - augmentIdentity
      *  - inverse
      *  - minorMatrix
+     *  - cofactorMatrix
      **************************************************************************/
 
     /**
@@ -663,6 +664,39 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return $this->rowExclude($mᵢ)->columnExclude($nⱼ);
+    }
+
+    /**
+     * Cofactor matrix
+     * A matrix where each element is a cofactor.
+     *
+     *     [A₀₀ A₀₁ A₀₂]
+     * A = [A₁₀ A₁₁ A₁₂]
+     *     [A₂₀ A₂₁ A₂₂]
+     *
+     *      [C₀₀ C₀₁ C₀₂]
+     * CM = [C₁₀ C₁₁ C₁₂]
+     *      [C₂₀ C₂₁ C₂₂]
+     *
+     * @return Matrix
+     */
+    public function cofactorMatrix(): Matrix
+    {
+        if (!$this->isSquare()) {
+            throw new \Exception('Matrix is not square; cannot get cofactor Matrix of a non-square matrix');
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+        $R = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $R[$i][$j] = $this->cofactor($i, $j);
+            }
+        }
+
+        return new Matrix($R);
     }
 
     /**************************************************************************
