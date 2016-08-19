@@ -11,7 +11,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [4, 5, 6],
         ];
-        $this->matrix = new Matrix($this->A);
+        $this->matrix = MatrixFactory::create($this->A);
     }
 
     public function testConstructor()
@@ -27,7 +27,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5],
         ];
         $this->setExpectedException('\Exception');
-        $matrix = new Matrix($A);
+        $matrix = MatrixFactory::create($A);
     }
 
     public function testGetMatrix()
@@ -40,7 +40,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetM(array $A, int $m)
     {
-        $matrix = new Matrix($A);
+        $matrix = MatrixFactory::create($A);
         $this->assertEquals($m, $matrix->getM());
     }
 
@@ -87,7 +87,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetN(array $A, int $n)
     {
-        $matrix = new Matrix($A);
+        $matrix = MatrixFactory::create($A);
         $this->assertEquals($n, $matrix->getN());
     }
 
@@ -136,7 +136,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [4, 5, 6],
         ];
-        $matrix = new Matrix($A);
+        $matrix = MatrixFactory::create($A);
 
         $this->assertEquals([1, 2, 3], $matrix->getRow(0));
         $this->assertEquals([2, 3, 4], $matrix->getRow(1));
@@ -156,7 +156,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [4, 5, 6],
         ];
-        $matrix = new Matrix($A);
+        $matrix = MatrixFactory::create($A);
 
         $this->assertEquals([1, 2, 4], $matrix->getColumn(0));
         $this->assertEquals([2, 3, 5], $matrix->getColumn(1));
@@ -176,7 +176,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [4, 5, 6],
         ];
-        $matrix = new Matrix($A);
+        $matrix = MatrixFactory::create($A);
 
         $this->assertEquals(1, $matrix->get(0, 0));
         $this->assertEquals(2, $matrix->get(0, 1));
@@ -210,7 +210,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [4, 5, 6],
         ];
-        $matrix = new Matrix($A);
+        $matrix = MatrixFactory::create($A);
 
         $this->assertInstanceOf('ArrayAccess', $matrix);
 
@@ -262,9 +262,6 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                0, 1, [],
-            ],
-            [
                 1, 1, [[1]],
             ],
             [
@@ -311,16 +308,13 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsSquare(array $A)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
         $this->assertTrue($A->isSquare());
     }
 
     public function dataProviderForIsSquare()
     {
         return [
-            [
-                [],
-            ],
             [
                 [[1]]
             ],
@@ -345,7 +339,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsNotSquare(array $A)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
         $this->assertFalse($A->isSquare());
     }
 
@@ -384,7 +378,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsSymmetric(array $A)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
 
         $this->assertTrue($A->isSymmetric());
     }
@@ -416,7 +410,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsNotSymmetric(array $A)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
 
         $this->assertFalse($A->isSymmetric());
     }
@@ -454,7 +448,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
      */
     public function testZero($m, $n, array $R)
     {
-        $R = new Matrix($R);
+        $R = MatrixFactory::create($R);
         $this->assertEquals($R, Matrix::zero($m, $n));
     }
 
@@ -504,7 +498,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
      */
     public function testOne($m, $n, array $R)
     {
-        $R = new Matrix($R);
+        $R = MatrixFactory::create($R);
         $this->assertEquals($R, Matrix::one($m, $n));
     }
 
@@ -564,7 +558,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDiagonalElements(array $A, $R)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
 
         $this->assertEquals($R, $A->getDiagonalElements());
     }
@@ -612,7 +606,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
      */
     public function testJsonSerialize(array $A, string $json)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
 
         $this->assertEquals($json, json_encode($A));
     }

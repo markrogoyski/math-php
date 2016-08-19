@@ -11,7 +11,7 @@ class MatrixColumnOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [4, 5, 6],
         ];
-        $this->matrix = new Matrix($this->A);
+        $this->matrix = MatrixFactory::create($this->A);
     }
 
     /**
@@ -19,8 +19,8 @@ class MatrixColumnOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testColulmnInterchange(array $A, int $nᵢ, int $nⱼ, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->columnInterchange($nᵢ, $nⱼ));
     }
@@ -71,7 +71,7 @@ class MatrixColumnOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testColumnInterchangeExceptionColumnGreaterThanN()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -85,8 +85,8 @@ class MatrixColumnOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testColumnMultiply(array $A, int $nᵢ, $k, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->columnMultiply($nᵢ, $k));
     }
@@ -135,7 +135,7 @@ class MatrixColumnOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testColumnMultiplyExceptionColumnGreaterThanN()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -146,7 +146,7 @@ class MatrixColumnOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testColumnMultiplyExceptionKIsZero()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -160,8 +160,8 @@ class MatrixColumnOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testColumnAdd(array $A, int $nᵢ, $nⱼ, int $k, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->columnAdd($nᵢ, $nⱼ, $k));
     }
@@ -211,7 +211,7 @@ class MatrixColumnOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testColumnAddExceptionRowGreaterThanN()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -222,7 +222,7 @@ class MatrixColumnOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testColumnAddExceptionKIsZero()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -236,8 +236,8 @@ class MatrixColumnOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testColumnExclude(array $A, int $nᵢ, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->columnExclude($nᵢ));
     }

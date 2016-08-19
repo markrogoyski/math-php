@@ -11,7 +11,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [4, 5, 6],
         ];
-        $this->matrix = new Matrix($this->A);
+        $this->matrix = MatrixFactory::create($this->A);
     }
 
     /**
@@ -19,8 +19,8 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRowInterchange(array $A, int $mᵢ, int $mⱼ, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->rowInterchange($mᵢ, $mⱼ));
     }
@@ -73,7 +73,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testRowInterchangeExceptionRowGreaterThanM()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -87,8 +87,8 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRowMultiply(array $A, int $mᵢ, $k, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->rowMultiply($mᵢ, $k));
     }
@@ -137,7 +137,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testRowMultiplyExceptionRowGreaterThanM()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -148,7 +148,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testRowMultiplyExceptionKIsZero()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -162,8 +162,8 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRowDivide(array $A, int $mᵢ, $k, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->rowDivide($mᵢ, $k));
     }
@@ -188,7 +188,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testRowDivideExceptionRowGreaterThanM()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -199,7 +199,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testRowDivideExceptionKIsZero()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -213,8 +213,8 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRowAdd(array $A, int $mᵢ, $mⱼ, int $k, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->rowAdd($mᵢ, $mⱼ, $k));
     }
@@ -263,7 +263,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testRowAddExceptionRowGreaterThanM()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -274,7 +274,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testRowAddExceptionKIsZero()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -288,8 +288,8 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRowAddScalar(array $A, int $mᵢ, int $k, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->rowAddScalar($mᵢ, $k));
     }
@@ -314,7 +314,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testRowAddScalarExceptionRowGreaterThanM()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -328,8 +328,8 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRowSubtract(array $A, int $mᵢ, $mⱼ, int $k, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->rowSubtract($mᵢ, $mⱼ, $k));
     }
@@ -378,7 +378,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testRowSubtractExceptionRowGreaterThanM()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -392,8 +392,8 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRowSubtractScalar(array $A, int $mᵢ, int $k, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->rowSubtractScalar($mᵢ, $k));
     }
@@ -418,7 +418,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testRowSubtractScalarExceptionRowGreaterThanM()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -432,8 +432,8 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRowExclude(array $A, int $mᵢ, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->rowExclude($mᵢ));
     }
