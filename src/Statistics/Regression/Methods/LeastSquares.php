@@ -110,7 +110,7 @@ trait LeastSquares
         $β_hat    = $temp_matrix->multiply($y);
 
         $this->reg_Yhat = $X->multiply($β_hat)->getColumn(0);
-        $this->leverage = $this->reg_P->getDiagonalElements();
+        $this->reg_leverage = $this->reg_P->getDiagonalElements();
         return $β_hat;
     }
 
