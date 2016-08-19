@@ -303,7 +303,7 @@ class LinearTest extends \PHPUnit_Framework_TestCase
         $regression = new Linear($points);
         $test_P = $regression->getProjectionMatrix();
         foreach ($P as $row_num => $row) {
-            foreach ($value as $column_num => $value )
+            foreach ($value as $column_num => $value ) {
                 $this->assertEquals($value, $test_P[$row_num][$column_num], '', .0000001);
             }
         }
