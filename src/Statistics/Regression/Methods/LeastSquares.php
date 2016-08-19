@@ -135,7 +135,17 @@ trait LeastSquares
         }
         return $X;
     }
-
+    
+    public function getProjectionMatrix(): Matrix
+    {
+        return $this->reg_P;
+    }
+    
+    public function getLeverages(): array
+    {
+        return $this->reg_leverage;    
+    }
+    
     /**
      * Sum Of Squares
      */
