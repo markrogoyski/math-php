@@ -83,12 +83,6 @@ trait LeastSquares
      */
     private $reg_P;
      
-     /**
-      * Regression Leverages
-      * https://en.wikipedia.org/wiki/Leverage_(statistics)
-      */
-    private $reg_leverage;
-     
     public function leastSquares(array $ys, array $xs, $order = 1, $fit_constant = 1)
     {
         $this->reg_ys = $ys;
@@ -110,7 +104,6 @@ trait LeastSquares
         $β_hat    = $temp_matrix->multiply($y);
 
         $this->reg_Yhat = $X->multiply($β_hat)->getColumn(0);
-        $this->reg_leverage = $this->reg_P->getDiagonalElements();
         return $β_hat;
     }
 
@@ -141,9 +134,13 @@ trait LeastSquares
         return $this->reg_P;
     }
     
+    /**
+     * Regression Leverages
+     * https://en.wikipedia.org/wiki/Leverage_(statistics)
+     */
     public function getLeverages(): array
     {
-        return $this->reg_leverage;
+        return $this->reg_P->getDiagonalElements();
     }
     
     /**
