@@ -254,7 +254,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
      */
     public function testIdentity(int $n, $x, array $R)
     {
-        $R = new Matrix($R);
+        $R = new SquareMatrix($R);
         $this->assertEquals($R, Matrix::identity($n, $x));
     }
 

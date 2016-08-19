@@ -696,7 +696,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return new Matrix($R);
+        return new SquareMatrix($R);
     }
 
     /**************************************************************************
@@ -906,7 +906,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $this->det = (-1)**$ⁿ * ($│rref⟮A⟯│ / $∏1／k);
         return $this->det;
     }
-
 
     /**
      * Minor (first minor)
@@ -1562,7 +1561,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return new Matrix($R);
+        return new SquareMatrix($R);
     }
 
     /**

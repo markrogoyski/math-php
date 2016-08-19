@@ -1293,7 +1293,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         $A⁻¹ = $A->inverse();
         $I   = $A->multiply($A⁻¹);
 
-        $this->assertEquals(Matrix::identity($A->getN()), $I);
+        $this->assertEquals(Matrix::identity($A->getN())->getMatrix(), $I->getMatrix());
     }
 
     public function dataProviderForInverse()
@@ -1760,7 +1760,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     public function testCofactorMatrix(array $A, array $R)
     {
         $A = new Matrix($A);
-        $R = new Matrix($R);
+        $R = new SquareMatrix($R);
 
         $this->assertEquals($R, $A->cofactorMatrix());
     }
