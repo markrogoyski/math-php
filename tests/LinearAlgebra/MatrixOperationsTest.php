@@ -1753,4 +1753,71 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         $A->cofactor(1, 1);
     }
+
+    /**
+     * @dataProvider dataProviderForCofactorMatrix
+     */
+    public function testCofactorMatrix(array $A, array $R)
+    {
+        $A = new Matrix($A);
+        $R = new Matrix($R);
+
+        $this->assertEquals($R, $A->cofactorMatrix());
+    }
+
+    public function dataProviderForCofactorMatrix()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [0, 4, 5],
+                    [1, 0, 6],
+                ],
+                [
+                    [24, 5, -4],
+                    [-12, 3, 2],
+                    [-2, -5, 4],
+                ],
+            ],
+            [
+                [
+                    [-1, 2, 3],
+                    [1, 5, 6],
+                    [0, 4, 3],
+                ],
+                [
+                    [-9, -3, 4],
+                    [6, -3, 4],
+                    [-3, 9, -7],
+                ],
+            ],
+            [
+                [
+                    [3, 65, 23],
+                    [98, 35, 86],
+                    [5, 2, 10],
+                ],
+                [
+                    [178, -550, 21],
+                    [-604, -85, 319],
+                    [4785, 1996, -6265],
+                ],
+            ],
+        ];
+    }
+
+    public function testCofactorMatrixExceptionNotSquare()
+    {
+        $A = new Matrix([
+            [1, 2, 3, 4],
+            [2, 3, 4, 4],
+            [3, 4, 5, 4],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->cofactorMatrix();
+    }
+
+
 }
