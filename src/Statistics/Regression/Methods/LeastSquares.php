@@ -143,7 +143,7 @@ trait LeastSquares
     
     public function getLeverages(): array
     {
-        return $this->reg_leverage;    
+        return $this->reg_leverage;
     }
     
     /**
