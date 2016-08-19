@@ -235,4 +235,159 @@ class MatrixFactorTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         $M = MatrixFactory::create($A);
     }
+
+    /**
+     * @dataProvider dataProviderForIdentity
+     */
+    public function testIdentity(int $n, $x, array $R)
+    {
+        $R = new SquareMatrix($R);
+        $this->assertEquals($R, MatrixFactory::identity($n, $x));
+    }
+
+    public function dataProviderForIdentity()
+    {
+        return [
+            [
+                1, 1, [[1]],
+            ],
+            [
+                2, 1, [
+                    [1, 0],
+                    [0, 1],
+                ]
+            ],
+            [
+                3, 1, [
+                    [1, 0, 0],
+                    [0, 1, 0],
+                    [0, 0, 1]
+                ]
+            ],
+            [
+                4, 1, [
+                    [1, 0, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 0, 1, 0],
+                    [0, 0, 0, 1],
+                ]
+            ],
+            [
+                4, 5, [
+                    [5, 0, 0, 0],
+                    [0, 5, 0, 0],
+                    [0, 0, 5, 0],
+                    [0, 0, 0, 5],
+                ]
+            ],
+
+        ];
+    }
+
+    public function testIdentityExceptionNLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        MatrixFactory::identity(-1);
+    }
+
+
+    /**
+     * @dataProvider dataProviderForZero
+     */
+    public function testZero($m, $n, array $R)
+    {
+        $R = MatrixFactory::create($R);
+        $this->assertEquals($R, MatrixFactory::zero($m, $n));
+    }
+
+    public function dataProviderForZero()
+    {
+        return [
+            [
+                1, 1, [[0]]
+            ],
+            [
+                2, 2, [
+                    [0, 0],
+                    [0, 0],
+                ]
+            ],
+            [
+                3, 3, [
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 0],
+                ]
+            ],
+            [
+                2, 3, [
+                    [0, 0, 0],
+                    [0, 0, 0],
+                ]
+            ],
+            [
+                3, 2, [
+                    [0, 0],
+                    [0, 0],
+                    [0, 0],
+                ]
+            ]
+        ];
+    }
+
+    public function testZeroExceptionRowsLessThanOne()
+    {
+        $this->setExpectedException('\Exception');
+        MatrixFactory::zero(0, 2);
+    }
+
+    /**
+     * @dataProvider dataProviderForOne
+     */
+    public function testOne($m, $n, array $R)
+    {
+        $R = MatrixFactory::create($R);
+        $this->assertEquals($R, MatrixFactory::one($m, $n));
+    }
+
+    public function dataProviderForOne()
+    {
+        return [
+            [
+                1, 1, [[1]]
+            ],
+            [
+                2, 2, [
+                    [1, 1],
+                    [1, 1],
+                ]
+            ],
+            [
+                3, 3, [
+                    [1, 1, 1],
+                    [1, 1, 1],
+                    [1, 1, 1],
+                ]
+            ],
+            [
+                2, 3, [
+                    [1, 1, 1],
+                    [1, 1, 1],
+                ]
+            ],
+            [
+                3, 2, [
+                    [1, 1],
+                    [1, 1],
+                    [1, 1],
+                ]
+            ]
+        ];
+    }
+
+    public function testOneExceptionRowsLessThanOne()
+    {
+        $this->setExpectedException('\Exception');
+        MatrixFactory::one(0, 2);
+    }
 }
