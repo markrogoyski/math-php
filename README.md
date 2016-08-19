@@ -204,7 +204,7 @@ $R = $A->rowExclude($mᵢ);          // Exclude row $mᵢ
 list($nᵢ, $nⱼ, $k) = [1, 2, 5];
 $R = $A->columnInterchange($nᵢ, $nⱼ);
 $R = $A->columnMultiply($nᵢ, $k);     // Multiply column nᵢ by k
-$R = $A->columnAdd($nᵢ, $nⱼ, $k);     // Add k * column nᵢ to column nⱼ;
+$R = $A->columnAdd($nᵢ, $nⱼ, $k);     // Add k * column nᵢ to column nⱼ
 $R = $A->columnExclude($nᵢ);          // Exclude column $nᵢ
 
 // Matrix operations - return a new Matrix
@@ -220,14 +220,17 @@ $⟮A∣B⟯ = $A->augment($B);
 $⟮A∣I⟯ = $A->augmentIdentity();  // Augment with the identity matrix
 $rref = $A->rref();             // Reduced row echelon form
 $A⁻¹  = $A->inverse();
+$Mᵢⱼ  - $A->minorMatrix($mᵢ, $nⱼ); // Square matrix with row mᵢ and column nⱼ removed
 
 // Matrix operations - return a value
 $tr⟮A⟯ = $A->trace();
-$|A|  = $a->det();            // Determinant
+$|A|  = $a->det();              // Determinant
 $‖A‖₁ = $A->oneNorm();
-$‖A‖F = $A->frobeniusNorm();  // Hilbert–Schmidt norm
+$‖A‖F = $A->frobeniusNorm();    // Hilbert–Schmidt norm
 $‖A‖∞ = $A->infinityNorm();
 $max  = $A->maxNorm();
+$Mᵢⱼ  = $A->minor($mᵢ, $nⱼ);    // First minor
+$Cᵢⱼ  = $A->cofactor($mᵢ, $nⱼ);
 
 // Matrix properties - return a bool
 $bool = $A->isSquare();
@@ -262,6 +265,10 @@ $V = new VandermondeMatrix([1, 2, 3], 4); // 4 x 3 Vandermonde matrix
 
 // Diagonal matrix
 $D = new DiagonalMatrix([1, 2, 3]); // 3 x 3 diagonal matrix with zeros above and below the diagonal
+
+// PHP Predefined Interfaces
+$json = json_encode($A); // JsonSerializable
+$Aᵢⱼ  = $A[$mᵢ][$nⱼ];    // ArrayAccess
 ```
 
 ### Linear Algebra - Vector
