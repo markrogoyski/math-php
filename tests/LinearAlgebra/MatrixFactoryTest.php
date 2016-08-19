@@ -134,23 +134,27 @@ class MatrixFactorTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderForFunctionSquareMatrix()
     {
+        $function = function ($x) {
+            return $x * 2;
+        };
+
         return [
             [
                 [
-                    [function ($x) { return $x * 2; }]
+                    [$function]
                 ]
             ],
             [
                 [
-                    [function ($x) { return $x * 2; }, function ($x) { return $x * 2; }],
-                    [function ($x) { return $x * 2; }, function ($x) { return $x * 2; }],
+                    [$function, $function],
+                    [$function, $function],
                 ],
             ],
             [
                 [
-                    [function ($x) { return $x * 2; }, function ($x) { return $x * 2; }, function ($x) { return $x * 2; }],
-                    [function ($x) { return $x * 2; }, function ($x) { return $x * 2; }, function ($x) { return $x * 2; }],
-                    [function ($x) { return $x * 2; }, function ($x) { return $x * 2; }, function ($x) { return $x * 2; }],
+                    [$function, $function, $function],
+                    [$function, $function, $function],
+                    [$function, $function, $function],
                 ],
             ],
         ];
