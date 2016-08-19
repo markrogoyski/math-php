@@ -76,6 +76,12 @@ trait LeastSquares
      * The Yhat for the regression xs.
      */
     private $reg_Yhat;
+    
+    /**
+     * Projection Matrix
+     * https://en.wikipedia.org/wiki/Projection_matrix
+     */
+    private $reg_P;
      
     public function leastSquares(array $ys, array $xs, $order = 1, $fit_constant = 1)
     {
@@ -92,11 +98,13 @@ trait LeastSquares
 
         // a = (XᵀX)⁻¹Xᵀy
         $Xᵀ           = $X->transpose();
-        $this->⟮XᵀX⟯⁻¹ = $X->transpose()->multiply($X)->inverse();
-        $⟮XᵀX⟯⁻¹Xᵀy    = $this->⟮XᵀX⟯⁻¹->multiply($Xᵀ)->multiply($y);
+        $this->⟮XᵀX⟯⁻¹ = $Xᵀ->multiply($X)->inverse();
+        $temp_matrix = $this->⟮XᵀX⟯⁻¹->multiply($Xᵀ);
+        $this->reg_P = $X->multiply($temp_matrix);
+        $β_hat    = $temp_matrix->multiply($y);
 
-        $this->reg_Yhat = $X->multiply($⟮XᵀX⟯⁻¹Xᵀy)->getColumn(0);
-        return $⟮XᵀX⟯⁻¹Xᵀy;
+        $this->reg_Yhat = $X->multiply($β_hat)->getColumn(0);
+        return $β_hat;
     }
 
     /**
@@ -120,7 +128,21 @@ trait LeastSquares
         }
         return $X;
     }
-
+    
+    public function getProjectionMatrix(): Matrix
+    {
+        return $this->reg_P;
+    }
+    
+    /**
+     * Regression Leverages
+     * https://en.wikipedia.org/wiki/Leverage_(statistics)
+     */
+    public function getLeverages(): array
+    {
+        return $this->reg_P->getDiagonalElements();
+    }
+    
     /**
      * Sum Of Squares
      */
@@ -143,7 +165,7 @@ trait LeastSquares
     public function sumOfSquaresRegression()
     {
         if ($this->fit_constant == 1) {
-            return RandomVariable::sumOfSquaresDeviations($this->reg_Yhat);
+            return RandomVariable::sumOfSquaresDeviations($this->Yhat());
         }
         return array_sum(Single::square($this->reg_Yhat));
     }
