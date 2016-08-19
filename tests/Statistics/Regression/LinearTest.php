@@ -275,4 +275,23 @@ class LinearTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForDF
+     */
+    public function testDF(array $points, $df)
+    {
+        $regression = new Linear($points);
+        $this->assertEquals($df, $regression->degreesOfFreedom(), '', .0000001);
+    }
+    
+    public function dataProviderForDF()
+    {
+        return [
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                3,
+            ],
+        ];
+    }
 }
