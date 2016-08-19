@@ -266,7 +266,7 @@ class LinearTest extends \PHPUnit_Framework_TestCase
         }
     }
     
-    public function dataProviderForTProbability()
+    public function dataProviderForGetLeverages()
     {
         return [
             [
