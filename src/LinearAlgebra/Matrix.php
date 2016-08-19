@@ -6,7 +6,7 @@ use Math\Functions\Map;
 /**
  * m x n Matrix
  */
-class Matrix implements \ArrayAccess
+class Matrix implements \ArrayAccess, \JsonSerializable
 {
     /**
      * Number of rows
@@ -62,6 +62,13 @@ class Matrix implements \ArrayAccess
 
     /**************************************************************************
      * BASIC MATRIX GETTERS
+     *  - getMatrix
+     *  - getM
+     *  - getN
+     *  - getRow
+     *  - getColumn
+     *  - get
+     *  - getDiagonalElements
      **************************************************************************/
 
     /**
@@ -163,6 +170,8 @@ class Matrix implements \ArrayAccess
 
     /**************************************************************************
      * MATRIX PROPERTIES
+     *  - isSquare
+     *  - isSymmetric
      **************************************************************************/
 
     /**
@@ -192,6 +201,20 @@ class Matrix implements \ArrayAccess
 
     /**************************************************************************
      * MATRIX OPERATIONS - Return a Matrix
+     *  - add
+     *  - directSum
+     *  - subtract
+     *  - multiply
+     *  - scalarMultiply
+     *  - hadamardProduct
+     *  - transpose
+     *  - trace
+     *  - map
+     *  - diagonal
+     *  - augment
+     *  - augmentIdentity
+     *  - inverse
+     *  - minorMatrix
      **************************************************************************/
 
     /**
@@ -616,8 +639,41 @@ class Matrix implements \ArrayAccess
         return $A⁻¹;
     }
 
+
+    /**
+     * Minor matrix
+     * Submatrix formed by deleting the iᵗʰ row and jᵗʰ column.
+     * Used in computing the minor Mᵢⱼ.
+     *
+     * @param int $mᵢ Row to exclude
+     * @param int $nⱼ Column to exclude
+     *
+     * @return Matrix with row mᵢ and column nⱼ removed
+     */
+    public function minorMatrix(int $mᵢ, int $nⱼ): Matrix
+    {
+        if (!$this->isSquare()) {
+            throw new \Exception('Matrix is not square; cannot get minor Matrix of a non-square matrix');
+        }
+        if ($mᵢ >= $this->m || $mᵢ < 0) {
+            throw new \Exception('Row to exclude for minor Matrix does not exist');
+        }
+        if ($nⱼ >= $this->n || $nⱼ < 0) {
+            throw new \Exception('Column to exclude for minor Matrix does not exist');
+        }
+
+        return $this->rowExclude($mᵢ)->columnExclude($nⱼ);
+    }
+
     /**************************************************************************
      * MATRIX OPERATIONS - Return a value
+     *  - oneNorm
+     *  - frobeniusNorm
+     *  - infinityNorm
+     *  - maxNorm
+     *  - det
+     *  - minor
+     *  - cofactor
      **************************************************************************/
 
     /**
@@ -817,8 +873,93 @@ class Matrix implements \ArrayAccess
         return $this->det;
     }
 
+
+    /**
+     * Minor (first minor)
+     * The determinant of some smaller square matrix, cut down from A by removing one of its rows and columns.
+     *
+     *        [1 4  7]
+     * If A = [3 0  5]
+     *        [1 9 11]
+     *
+     *                [1 4 -]       [1 4]
+     * Then M₁₂ = det [- - -] = det [1 9] = 13
+     *                [1 9 -]
+     *
+     * https://en.wikipedia.org/wiki/Minor_(linear_algebra)
+     *
+     * @param int $mᵢ Row to exclude
+     * @param int $nⱼ Column to exclude
+     *
+     * @return number
+     */
+    public function minor(int $mᵢ, int $nⱼ)
+    {
+        if (!$this->isSquare()) {
+            throw new \Exception('Matrix is not square; cannot get minor of a non-square matrix');
+        }
+        if ($mᵢ >= $this->m || $mᵢ < 0) {
+            throw new \Exception('Row to exclude for minor does not exist');
+        }
+        if ($nⱼ >= $this->n || $nⱼ < 0) {
+            throw new \Exception('Column to exclude for minor does not exist');
+        }
+
+        return $this->minorMatrix($mᵢ, $nⱼ)->det();
+    }
+
+    /**
+     * Cofactor
+     * Multiply the minor by (-1)ⁱ⁺ʲ.
+     *
+     * Cᵢⱼ = (-1)ⁱ⁺ʲMᵢⱼ
+     *
+     * Example:
+     *        [1 4  7]
+     * If A = [3 0  5]
+     *        [1 9 11]
+     *
+     *                [1 4 -]       [1 4]
+     * Then M₁₂ = det [- - -] = det [1 9] = 13
+     *                [1 9 -]
+     *
+     * Therefore C₁₂ = (-1)¹⁺²(13) = -13
+     * 
+     * https://en.wikipedia.org/wiki/Minor_(linear_algebra)
+     *
+     * @param int $mᵢ Row to exclude
+     * @param int $nⱼ Column to exclude
+     *
+     * @return number
+     */
+    public function cofactor(int $mᵢ, int $nⱼ)
+    {
+        if (!$this->isSquare()) {
+            throw new \Exception('Matrix is not square; cannot get cofactor of a non-square matrix');
+        }
+        if ($mᵢ >= $this->m || $mᵢ < 0) {
+            throw new \Exception('Row to exclude for cofactor does not exist');
+        }
+        if ($nⱼ >= $this->n || $nⱼ < 0) {
+            throw new \Exception('Column to exclude for cofactor does not exist');
+        }
+
+        $Mᵢⱼ    = $this->minor($mᵢ, $nⱼ);
+        $⟮−1⟯ⁱ⁺ʲ = (-1)**($mᵢ + $nⱼ);
+
+        return $⟮−1⟯ⁱ⁺ʲ * $Mᵢⱼ;
+    }
+
     /**************************************************************************
      * ROW OPERATIONS - Return a Matrix
+     *  - rowInterchange
+     *  - rowMultiply
+     *  - rowDivide
+     *  - rowAdd
+     *  - rowAddScalar
+     *  - rowSubtract
+     *  - rowSubtractScalar
+     *  - rowExclude
      **************************************************************************/
 
     /**
@@ -1049,6 +1190,10 @@ class Matrix implements \ArrayAccess
 
     /**************************************************************************
      * COLUMN OPERATIONS - Return a Matrix
+     *  - columnInterchange
+     *  - columnMultiply
+     *  - columnAdd
+     *  - columnExclude
      **************************************************************************/
 
     /**
@@ -1183,6 +1328,8 @@ class Matrix implements \ArrayAccess
 
     /**************************************************************************
      * MATRIX DECOMPOSITIONS - Return a Matrix (or array of Matrices)
+     *  - rref
+     *  - LUDecomposition
      **************************************************************************/
 
     /**
@@ -1354,6 +1501,9 @@ class Matrix implements \ArrayAccess
 
     /**************************************************************************
      * STATIC METHODS - Return a Matrix
+     *  - identity
+     *  - zero
+     *  - one
      **************************************************************************/
 
     /**
@@ -1433,6 +1583,7 @@ class Matrix implements \ArrayAccess
 
     /**************************************************************************
      * PHP MAGIC METHODS
+     *  - __toString
      **************************************************************************/
 
     /**
@@ -1479,5 +1630,14 @@ class Matrix implements \ArrayAccess
     public function offsetUnset($i)
     {
         throw new \Exception('Matrix class does not allow unsetting values');
+    }
+
+    /**************************************************************************
+     * JsonSerializable INTERFACE
+     **************************************************************************/
+
+    public function jsonSerialize()
+    {
+        return $this->A;
     }
 }
