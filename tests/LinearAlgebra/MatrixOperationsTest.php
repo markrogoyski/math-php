@@ -1818,6 +1818,4 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         $A->cofactorMatrix();
     }
-
-
 }
