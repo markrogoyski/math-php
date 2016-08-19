@@ -129,7 +129,7 @@ class Vector implements \ArrayAccess
             }
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**

@@ -14,6 +14,36 @@ use Math\LinearAlgebra\VandermondeMatrix;
 trait LeastSquares
 {
     /**
+     * Regression ys
+     * Since the actual xs may be translated for regression, we need to keep these
+     * handy for regression statistics.
+     * @var array
+     */
+    private $reg_ys;
+
+    /**
+     * Regression xs
+     * Since the actual xs may be translated for regression, we need to keep these
+     * handy for regression statistics.
+     * @var array
+     */
+    private $reg_xs;
+
+    /**
+     * Regression Yhat
+     * The Yhat for the regression xs.
+     * @var array
+     */
+    private $reg_Yhat;
+
+    /**
+     * Projection Matrix
+     * https://en.wikipedia.org/wiki/Projection_matrix
+     * @var Matrix
+     */
+    private $reg_P;
+
+    /**
      * Linear least squares fitting using Matrix algebra (Polynomial).
      *
      * Generalizing from a straight line (first degree polynomial) to a kᵗʰ degree polynomial:
@@ -56,28 +86,7 @@ trait LeastSquares
      *
      * @return Matrix [[m], [b]]
      */
-     
-    /**
-     * Regression ys
-     * Since the actual xs may be translated for regression, we need to keep these
-     * handy for regression statistics
-     */
-    private $reg_ys;
-     
-    /**
-     * Regression xs
-     * Since the actual xs may be translated for regression, we need to keep these
-     * handy for regression statistics
-     */
-    private $reg_xs;
-     
-    /**
-     * Regression Yhat
-     * The Yhat for the regression xs.
-     */
-    private $reg_Yhat;
-     
-    public function leastSquares(array $ys, array $xs, $order = 1, $fit_constant = 1)
+    public function leastSquares(array $ys, array $xs, $order = 1, $fit_constant = 1): Matrix
     {
         $this->reg_ys = $ys;
         $this->reg_xs = $xs;
@@ -92,11 +101,14 @@ trait LeastSquares
 
         // a = (XᵀX)⁻¹Xᵀy
         $Xᵀ           = $X->transpose();
-        $this->⟮XᵀX⟯⁻¹ = $X->transpose()->multiply($X)->inverse();
-        $⟮XᵀX⟯⁻¹Xᵀy    = $this->⟮XᵀX⟯⁻¹->multiply($Xᵀ)->multiply($y);
+        $this->⟮XᵀX⟯⁻¹ = $Xᵀ->multiply($X)->inverse();
+        $temp_matrix  = $this->⟮XᵀX⟯⁻¹->multiply($Xᵀ);
+        $this->reg_P  = $X->multiply($temp_matrix);
+        $β_hat        = $temp_matrix->multiply($y);
 
-        $this->reg_Yhat = $X->multiply($⟮XᵀX⟯⁻¹Xᵀy)->getColumn(0);
-        return $⟮XᵀX⟯⁻¹Xᵀy;
+        $this->reg_Yhat = $X->multiply($β_hat)->getColumn(0);
+
+        return $β_hat;
     }
 
     /**
@@ -106,9 +118,9 @@ trait LeastSquares
      *
      * @param mixed $xs
      *
-     * @return VandermondeMatrix
+     * @return (Vandermonde)Matrix
      */
-    public function createDesignMatrix($xs)
+    public function createDesignMatrix($xs): Matrix
     {
         if (is_int($xs) || is_float($xs)) {
             $xs = [$xs];
@@ -118,12 +130,27 @@ trait LeastSquares
         if ($this->fit_constant == 0) {
             $X = $X->columnExclude(0);
         }
+
         return $X;
     }
-
+    
+    public function getProjectionMatrix(): Matrix
+    {
+        return $this->reg_P;
+    }
+    
     /**
-     * Sum Of Squares
+     * Regression Leverages
+     * https://en.wikipedia.org/wiki/Leverage_(statistics)
      */
+    public function getLeverages(): array
+    {
+        return $this->reg_P->getDiagonalElements();
+    }
+    
+    /**************************************************************************
+     * Sum Of Squares
+     *************************************************************************/
      
     /**
      * SSreg - The Sum Squares of the regression (Explained sum of squares)
@@ -143,7 +170,7 @@ trait LeastSquares
     public function sumOfSquaresRegression()
     {
         if ($this->fit_constant == 1) {
-            return RandomVariable::sumOfSquaresDeviations($this->reg_Yhat);
+            return RandomVariable::sumOfSquaresDeviations($this->Yhat());
         }
         return array_sum(Single::square($this->reg_Yhat));
     }
@@ -196,7 +223,7 @@ trait LeastSquares
         return $this->sumOfSquaresResidual() + $this->sumOfSquaresRegression();
     }
 
-    /**
+    /***************************************************************************
      * Mean Square Errors
      *
      * The mean square errors are the sum of squares divided by their
@@ -207,7 +234,7 @@ trait LeastSquares
      * SSTO      |    n - 1
      * SSE       |    n - p - 1
      * SSR       |    p
-     */
+     **************************************************************************/
 
     /**
      * Mean square regression
@@ -403,11 +430,12 @@ trait LeastSquares
      *
      * @return  array [m => t, b => t]
      */
-    public function tValues()
+    public function tValues(): array
     {
         $se = $this->standardErrors();
-        $m = $this->parameters[1];
-        $b = $this->parameters[0];
+        $m  = $this->parameters[1];
+        $b  = $this->parameters[0];
+
         return [
             'm' => $m / $se['m'],
             'b' => $b / $se['b'],
@@ -427,10 +455,11 @@ trait LeastSquares
      *
      * @return array [m => p, b => p]
      */
-    public function tProbability()
+    public function tProbability(): array
     {
         $ν  = $this->ν;
         $t  = $this->tValues();
+
         return [
             'm' => StudentT::CDF($t['m'], $ν),
             'b' => StudentT::CDF($t['b'], $ν),
@@ -479,11 +508,13 @@ trait LeastSquares
     {
         $F = $this->FStatistic();
         $n = $this->n;
+
         // Degrees of freedom
         // Need to make sure the 1 in $d₁ should not be $this->fit_parameters;
         $ν  = $this->ν;
         $d₁ = $n - $ν - 1;
         $d₂ = $ν;
+
         return (F::CDF($F, $d₁, $d₂));
     }
 

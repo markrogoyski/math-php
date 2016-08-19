@@ -253,4 +253,73 @@ class LinearTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    
+    /**
+     * @dataProvider dataProviderForGetLeverages
+     */
+    public function testGetLeverages($points, $leverages)
+    {
+        $regression = new Linear($points);
+        $test_leverages = $regression->getLeverages();
+        foreach ($leverages as $key => $value) {
+            $this->assertEquals($value, $test_leverages[$key], '', .0000001);
+        }
+    }
+    
+    public function dataProviderForGetLeverages()
+    {
+        return [
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                [0.593023255813953, 0.348837209302325, 0.209302325581395, 0.313953488372093, 0.534883720930232],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForDF
+     */
+    public function testDF(array $points, $df)
+    {
+        $regression = new Linear($points);
+        $this->assertEquals($df, $regression->degreesOfFreedom(), '', .0000001);
+    }
+    
+    public function dataProviderForDF()
+    {
+        return [
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                3,
+            ],
+        ];
+    }
+    
+    /**
+     * @dataProvider dataProviderForGetProjection
+     */
+    public function testGetProjection($points, $P)
+    {
+        $regression = new Linear($points);
+        $test_P = $regression->getProjectionMatrix();
+        foreach ($P as $row_num => $row) {
+            foreach ($row as $column_num => $value) {
+                $this->assertEquals($value, $test_P[$row_num][$column_num], '', .0000001);
+            }
+        }
+    }
+    
+    public function dataProviderForGetProjection()
+    {
+        return [
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                [ [0.593023255813953, 0.441860465116279, 0.13953488372093, -0.0116279069767443, -0.162790697674419],
+                  [0.441860465116279, 0.348837209302325, 0.162790697674418, 0.069767441860465, -0.0232558139534887],
+                  [0.13953488372093, 0.162790697674418, 0.209302325581395, 0.232558139534884, 0.255813953488372],
+                  [-0.0116279069767442, 0.069767441860465, 0.232558139534884, 0.313953488372093, 0.395348837209302],
+                  [-0.162790697674419, -0.0232558139534885, 0.255813953488372, 0.395348837209302, 0.534883720930232] ],
+            ],
+        ];
+    }
 }

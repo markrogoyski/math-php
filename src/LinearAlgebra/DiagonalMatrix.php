@@ -6,7 +6,7 @@ namespace Math\LinearAlgebra;
  * Elements along the main diagonal are the only non-zero elements (may also be zero).
  * The off-diagonal elements are all zero
  */
-class DiagonalMatrix extends Matrix
+class DiagonalMatrix extends SquareMatrix
 {
     /**
      * A Diagonal Matrix is constucted from a single-row array.
@@ -29,16 +29,6 @@ class DiagonalMatrix extends Matrix
             }
         }
         $this->A = $A;
-    }
-
-    /**
-     * Diagonal matrix must be square
-     *
-     * @return bool
-     */
-    public function isSquare(): bool
-    {
-        return true;
     }
 
     /**

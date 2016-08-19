@@ -1,8 +1,20 @@
 <?php
 namespace Math\LinearAlgebra;
 
-class FunctionMatrix extends Matrix
+class FunctionSquareMatrix extends SquareMatrix
 {
+    public function __construct(array $A)
+    {
+        $n = count($A);
+        $m = count($A[0]);
+
+        if ($m !== $n) {
+            throw new \Exception('n must equal m for square Function Matrix');
+        }
+
+        parent::__construct($A);
+    }
+
     public function evaluate(array $params)
     {
         $m = $this->m;

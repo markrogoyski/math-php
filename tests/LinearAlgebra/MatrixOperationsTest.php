@@ -11,7 +11,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [4, 5, 6],
         ];
-        $this->matrix = new Matrix($this->A);
+        $this->matrix = MatrixFactory::create($this->A);
     }
 
     /**
@@ -19,9 +19,9 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd(array $A, array $B, array $R)
     {
-        $A  = new Matrix($A);
-        $B  = new Matrix($B);
-        $R  = new Matrix($R);
+        $A  = MatrixFactory::create($A);
+        $B  = MatrixFactory::create($B);
+        $R  = MatrixFactory::create($R);
         $R2 = $A->add($B);
         $this->assertEquals($R, $R2);
         $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
@@ -66,11 +66,11 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testAddExceptionRows()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2],
             [2, 3],
         ]);
-        $B = new Matrix([
+        $B = MatrixFactory::create([
             [1, 2]
         ]);
 
@@ -80,11 +80,11 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testAddExceptionColumns()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
         ]);
-        $B = new Matrix([
+        $B = MatrixFactory::create([
             [1, 2],
             [2, 3],
         ]);
@@ -98,9 +98,9 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDirectSum(array $A, array $B, array $R)
     {
-        $A  = new Matrix($A);
-        $B  = new Matrix($B);
-        $R  = new Matrix($R);
+        $A  = MatrixFactory::create($A);
+        $B  = MatrixFactory::create($B);
+        $R  = MatrixFactory::create($R);
         $R2 = $A->directSum($B);
         $this->assertEquals($R, $R2);
         $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
@@ -133,9 +133,9 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSubtract(array $A, array $B, array $R)
     {
-        $A  = new Matrix($A);
-        $B  = new Matrix($B);
-        $R  = new Matrix($R);
+        $A  = MatrixFactory::create($A);
+        $B  = MatrixFactory::create($B);
+        $R  = MatrixFactory::create($R);
         $R2 = $A->subtract($B);
         $this->assertEquals($R, $R2);
         $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
@@ -180,11 +180,11 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testSubtractExceptionRows()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2],
             [2, 3],
         ]);
-        $B = new Matrix([
+        $B = MatrixFactory::create([
             [1, 2]
         ]);
 
@@ -194,11 +194,11 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testSubtractExceptionColumns()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
         ]);
-        $B = new Matrix([
+        $B = MatrixFactory::create([
             [1, 2],
             [2, 3],
         ]);
@@ -212,9 +212,9 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testMultiply(array $A, array $B, array $R)
     {
-        $A  = new Matrix($A);
-        $B  = new Matrix($B);
-        $R  = new Matrix($R);
+        $A  = MatrixFactory::create($A);
+        $B  = MatrixFactory::create($B);
+        $R  = MatrixFactory::create($R);
         $R2 = $A->multiply($B);
         $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
         $this->assertEquals($R, $R2);
@@ -257,11 +257,11 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testMultiplyExceptionDimensionsDoNotMatch()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
         ]);
-        $B = new Matrix([
+        $B = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
         ]);
@@ -275,8 +275,8 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testScalarMultiply(array $A, $k, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->scalarMultiply($k));
     }
@@ -329,7 +329,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testScalarMultiplyExceptionKNotNumber()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
         ]);
@@ -343,8 +343,8 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testTranspose(array $A, array $R)
     {
-        $A  = new Matrix($A);
-        $R  = new Matrix($R);
+        $A  = MatrixFactory::create($A);
+        $R  = MatrixFactory::create($R);
         $Aᵀ = $A->transpose();
         $this->assertEquals($R, $Aᵀ);
 
@@ -396,7 +396,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testMap()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [4, 5, 6],
             [7, 8, 9],
@@ -407,7 +407,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         };
         $R = $A->map($doubler);
 
-        $E = new Matrix([
+        $E = MatrixFactory::create([
             [2, 4, 6],
             [8, 10, 12],
             [14, 16, 18],
@@ -420,16 +420,13 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testTrace(array $A, $tr)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
         $this->assertEquals($tr, $A->trace());
     }
 
     public function dataProviderForTrace()
     {
         return [
-            [
-                [], 0
-            ],
             [
                 [[1]], 1
             ],
@@ -451,7 +448,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testTraceExceptionNotSquareMatrix()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2],
             [2, 3],
             [3, 4],
@@ -465,8 +462,8 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDiagonal(array $A, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->diagonal());
     }
@@ -520,9 +517,9 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testAugment(array $A, array $B, array $⟮A∣B⟯)
     {
-        $A    = new Matrix($A);
-        $B    = new Matrix($B);
-        $⟮A∣B⟯ = new Matrix($⟮A∣B⟯);
+        $A    = MatrixFactory::create($A);
+        $B    = MatrixFactory::create($B);
+        $⟮A∣B⟯ = MatrixFactory::create($⟮A∣B⟯);
 
         $this->assertEquals($⟮A∣B⟯, $A->augment($B));
     }
@@ -611,12 +608,12 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testAugmentExceptionRowsDoNotMatch()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
         ]);
-        $B = new Matrix([
+        $B = MatrixFactory::create([
             [4, 5],
             [5, 6],
         ]);
@@ -630,8 +627,8 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testAugmentIdentity(array $C, array $⟮C∣I⟯)
     {
-        $C    = new Matrix($C);
-        $⟮C∣I⟯ = new Matrix($⟮C∣I⟯);
+        $C    = MatrixFactory::create($C);
+        $⟮C∣I⟯ = MatrixFactory::create($⟮C∣I⟯);
 
         $this->assertEquals($⟮C∣I⟯, $C->augmentIdentity());
     }
@@ -677,7 +674,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testOneNorm(array $A, $norm)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
 
         $this->assertEquals($norm, $A->oneNorm(), '', 0.0001);
     }
@@ -744,7 +741,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testInfinityNorm(array $A, $norm)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
 
         $this->assertEquals($norm, $A->infinityNorm(), '', 0.0001);
     }
@@ -816,7 +813,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testMaxNorm(array $A, $norm)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
 
         $this->assertEquals($norm, $A->maxNorm(), '', 0.0001);
     }
@@ -888,7 +885,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testFrobeniusNorm(array $A, $norm)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
 
         $this->assertEquals($norm, $A->frobeniusNorm(), '', 0.0001);
     }
@@ -923,7 +920,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testAugmentIdentityExceptionNotSquare()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2],
             [2, 3],
             [3, 4],
@@ -938,9 +935,9 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testHadamardProduct(array $A, array $B, array $A∘B)
     {
-        $A   = new Matrix($A);
-        $B   = new Matrix($B);
-        $A∘B = new Matrix($A∘B);
+        $A   = MatrixFactory::create($A);
+        $B   = MatrixFactory::create($B);
+        $A∘B = MatrixFactory::create($A∘B);
 
         $this->assertEquals($A∘B, $A->hadamardProduct($B));
     }
@@ -987,11 +984,11 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testHadamardProductDimensionsDoNotMatch()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
         ]);
-        $B = new Matrix([
+        $B = MatrixFactory::create([
             [1, 2, 3, 4],
             [2, 3, 4, 5],
         ]);
@@ -1016,10 +1013,10 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testLUDecomposition(array $A, array $L, array $U, array $P)
     {
-        $A = new Matrix($A);
-        $L = new Matrix($L);
-        $U = new Matrix($U);
-        $P = new Matrix($P);
+        $A = MatrixFactory::create($A);
+        $L = MatrixFactory::create($L);
+        $U = MatrixFactory::create($U);
+        $P = MatrixFactory::create($P);
 
         $LU = $A->LUDecomposition();
 
@@ -1179,7 +1176,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDet(array $A, $det)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
 
         $this->assertEquals($det, round($A->det(), 0.1)); // Test calculation
         $this->assertEquals($det, round($A->det(), 0.1)); // Test class attribute
@@ -1266,7 +1263,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testDetExceptionNotSquareMatrix()
     {
-        $A = new Matrix([1, 2, 3]);
+        $A = MatrixFactory::create([[1, 2, 3]]);
 
         $this->setExpectedException('\Exception');
         $A->det();
@@ -1277,8 +1274,8 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testInverse(array $A, array $A⁻¹)
     {
-        $A   = new Matrix($A);
-        $A⁻¹ = new Matrix($A⁻¹);
+        $A   = MatrixFactory::create($A);
+        $A⁻¹ = MatrixFactory::create($A⁻¹);
 
         $this->assertEquals($A⁻¹, $A->inverse(), '', 0.001); // Test calculation
         $this->assertEquals($A⁻¹, $A->inverse(), '', 0.001); // Test class attribute
@@ -1289,11 +1286,11 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testMatrixTimesInverseIsIdentity(array $A, array $A⁻¹)
     {
-        $A   = new Matrix($A);
+        $A   = MatrixFactory::create($A);
         $A⁻¹ = $A->inverse();
         $I   = $A->multiply($A⁻¹);
 
-        $this->assertEquals(Matrix::identity($A->getN())->getMatrix(), $I->getMatrix());
+        $this->assertEquals(MatrixFactory::identity($A->getN())->getMatrix(), $I->getMatrix());
     }
 
     public function dataProviderForInverse()
@@ -1401,7 +1398,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testInverseExceptionNotSquare(array $A)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
 
         $this->setExpectedException('\Exception');
         $A->inverse();
@@ -1411,8 +1408,11 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                [3, 4, 4],
-                [6, 8, 5],
+                [
+                    [3, 4, 4],
+                    [6, 8, 5],
+                ]
+    
             ],
         ];
     }
@@ -1422,7 +1422,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testInverseExceptionDetIsZero(array $A)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
 
         $this->setExpectedException('\Exception');
         $A->inverse();
@@ -1446,8 +1446,8 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testMinorMatrix(array $A, int $mᵢ, int $nⱼ, array $Mᵢⱼ)
     {
-        $A   = new Matrix($A);
-        $Mᵢⱼ = new Matrix($Mᵢⱼ);
+        $A   = MatrixFactory::create($A);
+        $Mᵢⱼ = MatrixFactory::create($Mᵢⱼ);
 
         $this->assertEquals($Mᵢⱼ, $A->minorMatrix($mᵢ, $nⱼ));
     }
@@ -1568,7 +1568,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testMinorMatrixExceptionBadRow()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -1580,7 +1580,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testMinorMatrixExceptionBadColumn()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -1592,7 +1592,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testMinorMatrixExceptionNotSquare()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3, 4],
             [2, 3, 4, 4],
             [3, 4, 5, 4],
@@ -1607,7 +1607,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testMinor(array $A, int $mᵢ, int $nⱼ, $Mᵢⱼ)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
 
         $this->assertEquals($Mᵢⱼ, $A->minor($mᵢ, $nⱼ));
     }
@@ -1644,7 +1644,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testMinorExceptionBadRow()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -1656,7 +1656,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testMinorExceptionBadColumn()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -1668,7 +1668,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testMinorExceptionNotSquare()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3, 4],
             [2, 3, 4, 4],
             [3, 4, 5, 4],
@@ -1683,7 +1683,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCofactor(array $A, int $mᵢ, int $nⱼ, $Cᵢⱼ)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
 
         $this->assertEquals($Cᵢⱼ, $A->cofactor($mᵢ, $nⱼ));
     }
@@ -1720,7 +1720,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testCofactorExceptionBadRow()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -1732,7 +1732,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testCofactorExceptionBadColumn()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -1744,7 +1744,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testCofactorExceptionNotSquare()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3, 4],
             [2, 3, 4, 4],
             [3, 4, 5, 4],
@@ -1759,7 +1759,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCofactorMatrix(array $A, array $R)
     {
-        $A = new Matrix($A);
+        $A = MatrixFactory::create($A);
         $R = new SquareMatrix($R);
 
         $this->assertEquals($R, $A->cofactorMatrix());
@@ -1809,7 +1809,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testCofactorMatrixExceptionNotSquare()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3, 4],
             [2, 3, 4, 4],
             [3, 4, 5, 4],

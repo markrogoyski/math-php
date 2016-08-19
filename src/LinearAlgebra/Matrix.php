@@ -245,7 +245,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -284,7 +284,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -313,7 +313,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 $R[$i][$j] = $this->A[$i][$j] - $B[$i][$j];
             }
         }
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -342,7 +342,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -367,7 +367,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -403,7 +403,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return new Matrix($A∘B);
+        return MatrixFactory::create($A∘B);
     }
 
     /**
@@ -426,7 +426,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $Aᵀ[$i] = $this->getColumn($i);
         }
 
-        return new Matrix($Aᵀ);
+        return MatrixFactory::create($Aᵀ);
     }
 
     /**
@@ -475,7 +475,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -497,7 +497,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -535,7 +535,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $⟮A∣B⟯[$i] = array_merge($A[$i], $B[$i]);
         }
 
-        return new Matrix($⟮A∣B⟯);
+        return MatrixFactory::create($⟮A∣B⟯);
     }
 
     /**
@@ -561,7 +561,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             throw new \Exception('Matrix is not square; cannot augment with the identity matrix');
         }
 
-        return $this->augment(self::identity($this->getM()));
+        return $this->augment(MatrixFactory::identity($this->getM()));
     }
 
     /**
@@ -614,7 +614,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $c = $A[1][0];
             $d = $A[1][1];
 
-            $R = new Matrix([
+            $R = MatrixFactory::create([
                 [$d, -$b],
                 [-$c, $a],
             ]);
@@ -634,7 +634,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $A⁻¹[$i] = array_slice($R[$i], $n);
         }
 
-        $A⁻¹ = new Matrix($A⁻¹);
+        $A⁻¹ = MatrixFactory::create($A⁻¹);
 
         $this->A⁻¹ = $A⁻¹;
         return $A⁻¹;
@@ -651,7 +651,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix with row mᵢ and column nⱼ removed
      */
-    public function minorMatrix(int $mᵢ, int $nⱼ): Matrix
+    public function minorMatrix(int $mᵢ, int $nⱼ): SquareMatrix
     {
         if (!$this->isSquare()) {
             throw new \Exception('Matrix is not square; cannot get minor Matrix of a non-square matrix');
@@ -680,7 +680,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      */
-    public function cofactorMatrix(): Matrix
+    public function cofactorMatrix(): SquareMatrix
     {
         if (!$this->isSquare()) {
             throw new \Exception('Matrix is not square; cannot get cofactor Matrix of a non-square matrix');
@@ -696,7 +696,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return new SquareMatrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**************************************************************************
@@ -834,7 +834,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         $m = $this->m;
         $n = $this->n;
-        $R = new Matrix($this->A);
+        $R = MatrixFactory::create($this->A);
 
         /*
          * 2x2 matrix
@@ -1028,7 +1028,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -1057,7 +1057,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$mᵢ][$j] *= $k;
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -1086,7 +1086,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$mᵢ][$j] /= $k;
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -1114,7 +1114,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$mⱼ][$j] += $R[$mᵢ][$j] * $k;
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -1140,7 +1140,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$mᵢ][$j] += $k;
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -1166,7 +1166,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$mⱼ][$j] -= $R[$mᵢ][$j] * $k;
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -1192,7 +1192,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$mᵢ][$j] -= $k;
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -1218,7 +1218,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$i] = $this->A[$i];
         }
 
-        return new Matrix(array_values($R));
+        return MatrixFactory::create(array_values($R));
     }
 
     /**************************************************************************
@@ -1265,7 +1265,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -1294,7 +1294,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$i][$nᵢ] *= $k;
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -1322,7 +1322,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$i][$nⱼ] += $R[$i][$nᵢ] * $k;
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**
@@ -1356,7 +1356,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$i] = array_values($R[$i]);
         }
 
-        return new Matrix($R);
+        return MatrixFactory::create($R);
     }
 
     /**************************************************************************
@@ -1379,7 +1379,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     {
         $m = $this->m;
         $n = $this->n;
-        $R = new Matrix($this->A);
+        $R = MatrixFactory::create($this->A);
 
         $swaps           = 0;
         $∏scaling_factor = 1;
@@ -1465,8 +1465,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $n = $this->n;
 
         // Initialize L and U with all zeros
-        $L = Matrix::zero($n, $n)->getMatrix();
-        $U = Matrix::zero($n, $n)->getMatrix();
+        $L = MatrixFactory::zero($n, $n)->getMatrix();
+        $U = MatrixFactory::zero($n, $n)->getMatrix();
 
         // Create permutation matrix P and augmented A
         $P = $this->pivotize();
@@ -1490,15 +1490,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        $this->L = new Matrix($L);
-        $this->U = new Matrix($U);
+        $this->L = MatrixFactory::create($L);
+        $this->U = MatrixFactory::create($U);
         $this->P = $P;
 
         return [
             'L' => $this->L,
             'U' => $this->U,
             'P' => $this->P,
-            'A' => new Matrix($this->A),
+            'A' => MatrixFactory::create($this->A),
         ];
     }
 
@@ -1510,7 +1510,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     private function pivotize(): Matrix
     {
         $n = $this->n;
-        $P = Matrix::identity($n);
+        $P = MatrixFactory::identity($n);
         $A = $this->A;
 
         for ($i = 0; $i < $n; $i++) {
@@ -1530,88 +1530,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return $P;
-    }
-
-    /**************************************************************************
-     * STATIC METHODS - Return a Matrix
-     *  - identity
-     *  - zero
-     *  - one
-     **************************************************************************/
-
-    /**
-     * Identity matrix - n x n matrix with ones in the diaganol
-     * Option to set the diaganol to any number.
-     *
-     * @param int    $n size of matrix
-     * @param number $x (optional; default 1)
-     *
-     * @return Matrix
-     */
-    public static function identity(int $n, $x = 1): Matrix
-    {
-        if ($n < 0) {
-            throw new \Exception('n must be ≥ 0');
-        }
-        $R = [];
-
-        for ($i = 0; $i < $n; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = $i == $j ? $x : 0;
-            }
-        }
-
-        return new SquareMatrix($R);
-    }
-
-    /**
-     * Zero matrix - m x n matrix with all elements being zeros
-     *
-     * @param int $m rows
-     * @param int $n columns
-     *
-     * @return Matrix
-     */
-    public static function zero(int $m, int $n): Matrix
-    {
-        if ($m < 1 || $n < 1) {
-            throw new \Exception('m and n must be > 0');
-        }
-
-        $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = 0;
-            }
-        }
-
-        return new Matrix($R);
-    }
-
-    /**
-     * Ones matrix - m x n matrix with all elements being ones
-     *
-     * @param int $m rows
-     * @param int $n columns
-     *
-     * @return Matrix
-     */
-    public static function one(int $m, int $n): Matrix
-    {
-        if ($m < 1 || $n < 1) {
-            throw new \Exception('m and n must be > 0');
-        }
-
-        $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = 1;
-            }
-        }
-
-        return new Matrix($R);
     }
 
     /**************************************************************************

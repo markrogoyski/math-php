@@ -9,10 +9,10 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testLUDecomposition(array $A, array $L, array $U, array $P)
     {
-        $A = new Matrix($A);
-        $L = new Matrix($L);
-        $U = new Matrix($U);
-        $P = new Matrix($P);
+        $A = MatrixFactory::create($A);
+        $L = MatrixFactory::create($L);
+        $U = MatrixFactory::create($U);
+        $P = MatrixFactory::create($P);
 
         $LU = $A->LUDecomposition();
 
@@ -169,7 +169,7 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
 
     public function testLUDecompositionExceptionNotSquare()
     {
-        $A = new Matrix([
+        $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
         ]);
@@ -182,8 +182,8 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRREF(array $A, array $R)
     {
-        $A = new Matrix($A);
-        $R = new Matrix($R);
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
         $this->assertEquals($R, $A->rref());
     }

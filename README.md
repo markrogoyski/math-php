@@ -180,8 +180,8 @@ $matrix = [
 ];
 
 // Matrix
-$A = new Matrix($matrix);
-$B = new Matrix($matrix);
+$A = MatrixFactory::create($matrix);
+$B = MatrixFactory::create($matrix);
 
 // Basic matrix data
 $array = $A->getMatrix();
@@ -254,18 +254,17 @@ print($A);
  [3, 4, 5]
  */
 
-// Static Matrix operations
-list($m, $n)     = [4, 4];
-$identity_matrix = Matrix::identity($n);
-$zero_matrix     = Matrix::zero($m, $n);
-$ones_matrix     = Matrix::one($m, $n);
-
 // Specialized matrices
+list($m, $n)     = [4, 4];
+$identity_matrix = MatrixFactory::identity($n);
+$zero_matrix     = MatrixFactory::zero($m, $n);
+$ones_matrix     = MatrixFactory::one($m, $n);
+
 // Vandermonde matrix
-$V = new VandermondeMatrix([1, 2, 3], 4); // 4 x 3 Vandermonde matrix
+$V = MatrixFactory::create([1, 2, 3], 4); // 4 x 3 Vandermonde matrix
 
 // Diagonal matrix
-$D = new DiagonalMatrix([1, 2, 3]); // 3 x 3 diagonal matrix with zeros above and below the diagonal
+$D = MatrixFactory::create([1, 2, 3]); // 3 x 3 diagonal matrix with zeros above and below the diagonal
 
 // PHP Predefined Interfaces
 $json = json_encode($A); // JsonSerializable
