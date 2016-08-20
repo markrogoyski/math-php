@@ -18,6 +18,7 @@ namespace Math\LinearAlgebra;
  *  - (AB)⁻¹ = B⁻¹A⁻¹
  *  - (Aᵀ)ᵀ = A
  *  - (A⁻¹)ᵀ = (Aᵀ)⁻¹
+ *  - (rA)ᵀ = rAᵀ
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -615,6 +616,23 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($⟮A⁻¹⟯ᵀ->getMatrix(), $⟮Aᵀ⟯⁻¹->getMatrix());
     }
 
+    /**
+     * (rA)ᵀ = rAᵀ
+     * Scalar multiplication order does not matter for transpose
+     *
+     * @dataProvider dataProviderForTransposeMulti
+     */
+    public function testScalarMultiplicationOfTransposeOrder(array $A)
+    {
+        $A     = MatrixFactory::create($A);
+        $r     = 4;
+
+        $⟮rA⟯ᵀ = $A->scalarMultiply($r)->transpose();
+        $rAᵀ  = $A->transpose()->scalarMultiply($r);
+
+        $this->assertEquals($⟮rA⟯ᵀ->getMatrix(), $rAᵀ->getMatrix());
+    }
+
     public function dataProviderForTransposeMulti()
     {
         return [
@@ -667,6 +685,82 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             [
+                [
+                    [3, 2, 6, 7],
+                    [4, 3, -6, 2],
+                    [12, 14, 14, -6],
+                    [4, 6, 4, -42],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * (AB)ᵀ = BᵀAᵀ
+     * Transpose of a product of matrices equals the product of their transposes in reverse order.
+     *
+     * @dataProvider dataProviderForTransposeProductIsProductOfTranposesInReverseOrder
+     */
+    public function testTransposeProductIsProductOfTranposesInReverseOrder(array $A, array $B)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        // (AB)ᵀ
+        $⟮AB⟯ᵀ = $A->multiply($B)->transpose();
+
+        // BᵀAᵀ
+        $Bᵀ   = $B->transpose();
+        $Aᵀ   = $A->transpose();
+        $BᵀAᵀ = $Bᵀ->multiply($Aᵀ);
+
+        $this->assertEquals($⟮AB⟯ᵀ->getMatrix(), $BᵀAᵀ->getMatrix());
+    }
+
+    public function dataProviderForTransposeProductIsProductOfTranposesInReverseOrder()
+    {
+        return [
+            [
+                [
+                    [1, 5],
+                    [4, 3],
+                ],
+                [
+                    [5, 6],
+                    [2, 1],
+                ],
+            ],
+            [
+                [
+                    [3, 8, 5],
+                    [3, 6, 1],
+                    [9, 5, 8],
+                ],
+                [
+                    [5, 3, 8],
+                    [6, 4, 5],
+                    [1, 8, 9],
+                ],
+            ],
+            [
+                [
+                    [-4, -2, 9],
+                    [3, 14, -6],
+                    [3, 9, 9],
+                ],
+                [
+                    [8, 7, 8],
+                    [-5, 4, 1],
+                    [3, 5, 1],
+                ],
+            ],
+            [
+                [
+                    [4, 7, 7, 8],
+                    [3, 6, 4, 1],
+                    [-3, 6, 8, -3],
+                    [3, 2, 1, -54],
+                ],
                 [
                     [3, 2, 6, 7],
                     [4, 3, -6, 2],
