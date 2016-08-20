@@ -11,6 +11,7 @@ namespace Math\LinearAlgebra;
  * Axioms tested:
  *  - (AB)C = A(BC)
  *  - A(B + C) = AB + BC
+ *  - r(AB) = (rA)B = A(rB)
  *  - AA⁻¹ = I
  *  - (AB)⁻¹ = B⁻¹A⁻¹
  *  - (A⁻¹)ᵀ = (Aᵀ)⁻¹
@@ -151,6 +152,88 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                     [1, -1, -5],
                     [6, 5, 19],
                     [3, 6, -2],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Axiom: r(AB) = (rA)B = A(rB)
+     * Order of scalar multiplication does not matter.
+     *
+     * @dataProvider dataProviderForScalarMultiplicationOrder
+     */
+    public function dataProviderForScalarMultiplcationOrder(array $A, array $B, int $r)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        // r(AB)
+        $AB = $A->multiply($B);
+        $r⟮AB⟯ = $AB->scalarMultiply($r);
+
+        // (rA)B
+        $rA = $A->scalarMultiply($r);
+        $⟮rA⟯B = $ra->multiply($B);
+
+        // A(rB)
+        $rB = $B->scalarMultiply($r);
+        $A⟮rB⟯ = $A->multply($rB);
+
+        $this->assertEquals($r⟮AB⟯->getMatrix(), $⟮rA⟯B->getMatrix());
+        $this->assertEquals($⟮rA⟯B->getMatrix(), $A⟮rB⟯->getMatrix());
+        $this->assertEquals($r⟮AB⟯->getMatrix(), $A⟮rB⟯->getMatrix());
+    }
+
+    public function dataProviderForScalarMultiplicationOrder()
+    {
+        return [
+            [
+                [
+                    [1, 5],
+                    [4, 3],
+                ],
+                [
+                    [5, 6],
+                    [2, 1],
+                ],
+            ],
+            [
+                [
+                    [3, 8, 5],
+                    [3, 6, 1],
+                    [9, 5, 8],
+                ],
+                [
+                    [5, 3, 8],
+                    [6, 4, 5],
+                    [1, 8, 9],
+                ],
+            ],
+            [
+                [
+                    [-4, -2, 9],
+                    [3, 14, -6],
+                    [3, 9, 9],
+                ],
+                [
+                    [8, 7, 8],
+                    [-5, 4, 1],
+                    [3, 5, 1],
+                ],
+            ],
+            [
+                [
+                    [4, 7, 7, 8],
+                    [3, 6, 4, 1],
+                    [-3, 6, 8, -3],
+                    [3, 2, 1, -54],
+                ],
+                [
+                    [3, 2, 6, 7],
+                    [4, 3, -6, 2],
+                    [12, 14, 14, -6],
+                    [4, 6, 4, -42],
                 ],
             ],
         ];
