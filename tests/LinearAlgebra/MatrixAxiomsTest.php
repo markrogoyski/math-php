@@ -11,7 +11,7 @@ namespace Math\LinearAlgebra;
  * Axioms tested:
  *  - AA⁻¹ = I
  *  - (AB)⁻¹ = B⁻¹A⁻¹
- *  - (A⁻¹)ᵀ = (Aᵀ)⁻¹ 
+ *  - (A⁻¹)ᵀ = (Aᵀ)⁻¹
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -206,7 +206,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * (A⁻¹)ᵀ = (Aᵀ)⁻¹ 
+     * (A⁻¹)ᵀ = (Aᵀ)⁻¹
      * The transpose of the inverse is the inverse of the transpose.
      *
      * @dataProvider dataProviderForTransposeOfInverseIsInverseOfTranspose
