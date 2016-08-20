@@ -9,12 +9,153 @@ namespace Math\LinearAlgebra;
  * all work out according to the axioms.
  *
  * Axioms tested:
+ *  - (AB)C = A(BC)
+ *  - A(B + C) = AB + BC
  *  - AA⁻¹ = I
  *  - (AB)⁻¹ = B⁻¹A⁻¹
  *  - (A⁻¹)ᵀ = (Aᵀ)⁻¹
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Axiom: (AB)C = A(BC)
+     * Matrix multiplication is associative
+     *
+     * @dataProvider dataProviderForMultiplicationIsAssociative
+     */
+    public function testMultiplicationIsAssociative(array $A, array $B, array $C)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+        $C = MatrixFactory::create($C);
+
+        $⟮AB⟯  = $A->multiply($B);
+        $⟮AB⟯C = $⟮AB⟯->multiply($C);
+
+        $⟮BC⟯  = $B->multiply($C);
+        $A⟮BC⟯ = $A->multiply($⟮BC⟯);
+
+        $this->assertEquals($⟮AB⟯C->getMatrix(), $A⟮BC⟯->getMatrix());
+    }
+
+    public function dataProviderForMultiplicationIsAssociative()
+    {
+        return [
+            [
+                [
+                    [1, 5, 3],
+                    [3, 6, 3],
+                    [6, 7, 8],
+                ],
+                [
+                    [6, 9, 9],
+                    [3, 5, 1],
+                    [3, 5, 12],
+                ],
+                [
+                    [7, 4, 6],
+                    [2, 3, 1],
+                    [10, 12, 5],
+                ],
+            ],
+            [
+                [
+                    [12, 21, 6],
+                    [-3, 11, -6],
+                    [3, 6, -3],
+                ],
+                [
+                    [3, 7, 8],
+                    [4, 4, 2],
+                    [6, -4, 1],
+                ],
+                [
+                    [1, -1, -5],
+                    [6, 5, 19],
+                    [3, 6, -2],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Axiom: A(B + C) = AB + AC
+     * Matrix multiplication is distributive
+     *
+     * @dataProvider dataProviderForMultiplicationIsDistributive
+     */
+    public function testMultiplicationIsDistributive(array $A, array $B, array $C)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+        $C = MatrixFactory::create($C);
+
+        // A(B + C)
+        $⟮B＋C⟯  = $B->add($C);
+        $A⟮B＋C⟯ = $A->multiply($⟮B＋C⟯);
+
+        // AB + AC
+        $AB     = $A->multiply($B);
+        $AC     = $A->multiply($C);
+        $AB＋AC = $AB->add($AC);
+
+        $this->assertEquals($A⟮B＋C⟯->getMatrix(), $AB＋AC->getMatrix());
+    }
+
+    public function dataProviderForMultiplicationIsDistributive()
+    {
+        return [
+            [
+                [
+                    [1, 2],
+                    [0, -1],
+                ],
+                [
+                    [0, -1],
+                    [1, 1],
+                ],
+                [
+                    [-2, 0],
+                    [0, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 5, 3],
+                    [3, 6, 3],
+                    [6, 7, 8],
+                ],
+                [
+                    [6, 9, 9],
+                    [3, 5, 1],
+                    [3, 5, 12],
+                ],
+                [
+                    [7, 4, 6],
+                    [2, 3, 1],
+                    [10, 12, 5],
+                ],
+            ],
+            [
+                [
+                    [12, 21, 6],
+                    [-3, 11, -6],
+                    [3, 6, -3],
+                ],
+                [
+                    [3, 7, 8],
+                    [4, 4, 2],
+                    [6, -4, 1],
+                ],
+                [
+                    [1, -1, -5],
+                    [6, 5, 19],
+                    [3, 6, -2],
+                ],
+            ],
+        ];
+    }
+
     /**
      * Axiom: AA⁻¹ = I
      * Matrix multiplied with its inverse is the identity matrix.
