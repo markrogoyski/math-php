@@ -14,13 +14,17 @@ namespace Math\LinearAlgebra;
  *  - A(B + C) = AB + BC
  *  - r(AB) = (rA)B = A(rB)
  *  - AI = A = IA
- *  - AA⁻¹ = I
+ *  - AA⁻¹ = I = A⁻¹A
+ *  - (A⁻¹)⁻¹ = A
  *  - (AB)⁻¹ = B⁻¹A⁻¹
  *  - (Aᵀ)ᵀ = A
  *  - (A⁻¹)ᵀ = (Aᵀ)⁻¹
  *  - (rA)ᵀ = rAᵀ
  *  - (AB)ᵀ = BᵀAᵀ
  *  - (A + B)ᵀ = Aᵀ + Bᵀ
+ *  - tr(A) = tr(Aᵀ)
+ *  - tr(AB) = tr(BA)
+ *  - det(A) = det(Aᵀ)
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -402,7 +406,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Axiom: AA⁻¹ = I
+     * Axiom: AA⁻¹ = I = A⁻¹A
      * Matrix multiplied with its inverse is the identity matrix.
      *
      * @dataProvider dataProviderForInverse
@@ -412,9 +416,26 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $A    = MatrixFactory::create($A);
         $A⁻¹  = $A->inverse();
         $AA⁻¹ = $A->multiply($A⁻¹);
+        $A⁻¹A = $A⁻¹->multiply($A);
         $I    = MatrixFactory::identity($A->getN());
 
         $this->assertEquals($I->getMatrix(), $AA⁻¹->getMatrix());
+        $this->assertEquals($I->getMatrix(), $A⁻¹A->getMatrix());
+        $this->assertEquals($AA⁻¹->getMatrix(), $A⁻¹A->getMatrix());
+    }
+
+    /**
+     * Axiom: (A⁻¹)⁻¹ = A
+     * Inverse of inverse is the original matrix.
+     *
+     * @dataProvider dataProviderForOneSquareMatrix
+     */
+    public function testInverseOfInverseIsOriginalMatrix(array $A)
+    {
+        $A       = MatrixFactory::create($A);
+        $⟮A⁻¹⟯⁻¹  = $A->inverse()->inverse();
+
+        $this->assertEquals($A->getMatrix(), $⟮A⁻¹⟯⁻¹->getMatrix());
     }
 
     public function dataProviderForInverse()
@@ -595,7 +616,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
      * (Aᵀ)ᵀ = A
      * The transpose of the transpose is the original matrix.
      *
-     * @dataProvider dataProviderForTransposeMulti
+     * @dataProvider dataProviderForOneSquareMatrix
      */
     public function testTransposeOfTransposeIsOriginalMatrix(array $A)
     {
@@ -609,7 +630,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
      * (A⁻¹)ᵀ = (Aᵀ)⁻¹
      * The transpose of the inverse is the inverse of the transpose.
      *
-     * @dataProvider dataProviderForTransposeMulti
+     * @dataProvider dataProviderForOneSquareMatrix
      */
     public function testTransposeOfInverseIsInverseOfTranspose(array $A)
     {
@@ -624,7 +645,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
      * (rA)ᵀ = rAᵀ
      * Scalar multiplication order does not matter for transpose
      *
-     * @dataProvider dataProviderForTransposeMulti
+     * @dataProvider dataProviderForOneSquareMatrix
      */
     public function testScalarMultiplicationOfTransposeOrder(array $A)
     {
@@ -637,7 +658,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($⟮rA⟯ᵀ->getMatrix(), $rAᵀ->getMatrix());
     }
 
-    public function dataProviderForTransposeMulti()
+    public function dataProviderForOneSquareMatrix()
     {
         return [
             [
@@ -703,7 +724,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
      * (AB)ᵀ = BᵀAᵀ
      * Transpose of a product of matrices equals the product of their transposes in reverse order.
      *
-     * @dataProvider dataProviderForTransposeTwoMatricesMulti
+     * @dataProvider dataProviderForTwoSquareMatrices
      */
     public function testTransposeProductIsProductOfTranposesInReverseOrder(array $A, array $B)
     {
@@ -725,7 +746,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
      * (A + B)ᵀ = Aᵀ + Bᵀ
      * Transpose of sum is the same as sum of transposes
      *
-     * @dataProvider dataProviderForTransposeTwoMatricesMulti
+     * @dataProvider dataProviderForTwoSquareMatrices
      */
     public function testTransposeSumIsSameAsSumOfTransposes(array $A, array $B)
     {
@@ -743,7 +764,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($⟮A＋B⟯ᵀ->getMatrix(), $Aᵀ＋Bᵀ->getMatrix());
     }
 
-    public function dataProviderForTransposeTwoMatricesMulti()
+    public function dataProviderForTwoSquareMatrices()
     {
         return [
             [
@@ -795,5 +816,55 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
         ];
+    }
+
+    /**
+     * tr(A) = tr(Aᵀ)
+     * Trace is the same as the trace of the transpose
+     *
+     * @dataProvider dataProviderForOneSquareMatrix
+     */
+    public function testTraceIsSameAsTraceOfTranspose(array $A)
+    {
+        $A  = MatrixFactory::create($A);
+        $Aᵀ = $A->transpose();
+
+        $tr⟮A⟯  = $A->trace();
+        $tr⟮Aᵀ⟯ = $Aᵀ->trace();
+
+        $this->assertEquals($tr⟮A⟯, $tr⟮Aᵀ⟯);
+    }
+
+    /**
+     * tr(AB) = tr(BA)
+     * Trace of product does not matter the order they were multiplied
+     *
+     * @dataProvider dataProviderForTwoSquareMatrices
+     */
+    public function testTraceOfProductIsSameRegardlessOfOrderMultiplied(array $A, array $B)
+    {
+        $A  = MatrixFactory::create($A);
+        $B  = MatrixFactory::create($B);
+
+        $tr⟮AB⟯ = $A->multiply($B)->trace();
+        $tr⟮BA⟯ = $B->multiply($A)->trace();
+
+        $this->assertEquals($tr⟮AB⟯, $tr⟮BA⟯);
+    }
+
+    /**
+     * det(A) = det(Aᵀ)
+     * Determinant of matrix is the same as determinant of transpose.
+     *
+     * @dataProvider dataProviderForOneSquareMatrix
+     */
+    public function testDeterminantSameAsDeterminantOfTranspose(array $A)
+    {
+        $A  = MatrixFactory::create($A);
+
+        $det⟮A⟯  = $A->det();
+        $det⟮Aᵀ⟯ = $A->transpose()->det();
+
+        $this->assertEquals($det⟮A⟯, $det⟮Aᵀ⟯);
     }
 }
