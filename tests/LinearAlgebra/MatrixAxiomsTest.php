@@ -16,10 +16,88 @@ namespace Math\LinearAlgebra;
  *  - AI = A
  *  - AA⁻¹ = I
  *  - (AB)⁻¹ = B⁻¹A⁻¹
+ *  - (Aᵀ)ᵀ = A
  *  - (A⁻¹)ᵀ = (Aᵀ)⁻¹
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Axiom: r(A + B) = rA + rB
+     * Order of scalar multiplication does not matter.
+     *
+     * @dataProvider dataProviderForScalarMultiplicationOrderAddition
+     */
+    public function dataProviderForScalarMultiplcationOrderAddition(array $A, array $B, int $r)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        // r(A + B)
+        $A＋B = $A->add($B);
+        $r⟮A＋B⟯ = $A＋B->scalarMultiply($r);
+
+        // rA + rB
+        $rA     = $A->scalarMultiply($r);
+        $rB     = $B->scalarMultiply($r);
+        $rA＋rB = $rA->add($rB);
+
+        $this->assertEquals($r⟮A＋B⟯->getMatrix(), $rA＋rB->getMatrix());
+    }
+
+    public function dataProviderForScalarMultiplicationOrderAddition()
+    {
+        return [
+            [
+                [
+                    [1, 5],
+                    [4, 3],
+                ],
+                [
+                    [5, 6],
+                    [2, 1],
+                ], 5
+            ],
+            [
+                [
+                    [3, 8, 5],
+                    [3, 6, 1],
+                    [9, 5, 8],
+                ],
+                [
+                    [5, 3, 8],
+                    [6, 4, 5],
+                    [1, 8, 9],
+                ], 4
+            ],
+            [
+                [
+                    [-4, -2, 9],
+                    [3, 14, -6],
+                    [3, 9, 9],
+                ],
+                [
+                    [8, 7, 8],
+                    [-5, 4, 1],
+                    [3, 5, 1],
+                ], 7
+            ],
+            [
+                [
+                    [4, 7, 7, 8],
+                    [3, 6, 4, 1],
+                    [-3, 6, 8, -3],
+                    [3, 2, 1, -54],
+                ],
+                [
+                    [3, 2, 6, 7],
+                    [4, 3, -6, 2],
+                    [12, 14, 14, -6],
+                    [4, 6, 4, -42],
+                ], -8
+            ],
+        ];
+    }
+
     /**
      * Axiom: (AB)C = A(BC)
      * Matrix multiplication is associative
@@ -509,21 +587,35 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * (Aᵀ)ᵀ = A
+     * The transpose of the transpose is the original matrix.
+     *
+     * @dataProvider dataProviderForTransposeMulti
+     */
+    public function testTransposeOfTransposeIsOriginalMatrix(array $A)
+    {
+        $A     = MatrixFactory::create($A);
+        $⟮A⁻ᵀ⟯ᵀ = $A->transpose()->transpose();
+
+        $this->assertEquals($⟮A⁻ᵀ⟯ᵀ->getMatrix(), $A->getMatrix());
+    }
+
+    /**
      * (A⁻¹)ᵀ = (Aᵀ)⁻¹
      * The transpose of the inverse is the inverse of the transpose.
      *
-     * @dataProvider dataProviderForTransposeOfInverseIsInverseOfTranspose
+     * @dataProvider dataProviderForTransposeMulti
      */
     public function testTransposeOfInverseIsInverseOfTranspose(array $A)
     {
-        $A = MatrixFactory::create($A);
+        $A     = MatrixFactory::create($A);
         $⟮A⁻¹⟯ᵀ = $A->inverse()->transpose();
         $⟮Aᵀ⟯⁻¹ = $A->transpose()->inverse();
 
         $this->assertEquals($⟮A⁻¹⟯ᵀ->getMatrix(), $⟮Aᵀ⟯⁻¹->getMatrix());
     }
 
-    public function dataProviderForTransposeOfInverseIsInverseOfTranspose()
+    public function dataProviderForTransposeMulti()
     {
         return [
             [
