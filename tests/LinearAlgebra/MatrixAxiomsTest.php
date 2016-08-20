@@ -13,7 +13,7 @@ namespace Math\LinearAlgebra;
  *  - (AB)C = A(BC)
  *  - A(B + C) = AB + BC
  *  - r(AB) = (rA)B = A(rB)
- *  - AI = A
+ *  - AI = A = IA
  *  - AA⁻¹ = I
  *  - (AB)⁻¹ = B⁻¹A⁻¹
  *  - (Aᵀ)ᵀ = A
@@ -322,7 +322,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Axiom: AI = A
+     * Axiom: AI = A = IA
      * Matrix multiplied with the identity matrix is the original matrix.
      *
      * @dataProvider dataProviderForMatrixTimesIdentityIsOriginalMatrix
@@ -332,8 +332,10 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $A  = MatrixFactory::create($A);
         $I  = MatrixFactory::identity($A->getN());
         $AI = $A->multiply($I);
+        $IA = $I->multiply($A);
 
         $this->assertEquals($A->getMatrix(), $AI->getMatrix());
+        $this->assertEquals($A->getMatrix(), $IA->getMatrix());
     }
 
     public function dataProviderForMatrixTimesIdentityIsOriginalMatrix()
