@@ -32,6 +32,7 @@ namespace Math\LinearAlgebra;
  *    - tr(AB) = tr(BA)
  *  - Determinant
  *    - det(A) = det(Aᵀ)
+ *    - det(AB) = det(A)det(B)
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -867,11 +868,33 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeterminantSameAsDeterminantOfTranspose(array $A)
     {
-        $A  = MatrixFactory::create($A);
+        $A = MatrixFactory::create($A);
 
         $det⟮A⟯  = $A->det();
         $det⟮Aᵀ⟯ = $A->transpose()->det();
 
         $this->assertEquals($det⟮A⟯, $det⟮Aᵀ⟯);
+    }
+
+    /**
+     * det(AB) = det(A)det(B)
+     * Determinant of product of matrices is the same as the product of determinants.
+     *
+     * @dataProvider dataProviderForTwoSquareMatrices
+     */
+    public function testDeterminantProductSameAsProductOfDeterminants(array $A, array $B)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        // det(AB)
+        $det⟮AB⟯  = $A->multiply($B)->det();
+
+        // det(A)det(B)
+        $det⟮A⟯ = $A->det();
+        $det⟮B⟯ = $B->det();
+        $det⟮A⟯det⟮B⟯ = $det⟮A⟯ * $det⟮B⟯;
+
+        $this->assertEquals($det⟮AB⟯, $det⟮A⟯det⟮B⟯, '', 0.000001);
     }
 }
