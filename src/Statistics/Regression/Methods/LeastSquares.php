@@ -274,7 +274,7 @@ trait LeastSquares
      */
     public function meanSquareTotal()
     {
-        $MSTO = $this->sumOfSquaresTotal() / ($this->n - $this->fit_parameters);
+        $MSTO = $this->sumOfSquaresTotal() / ($this->n - $this->fit_constant);
 
         return $MSTO;
     }
