@@ -138,7 +138,7 @@ class Vector implements \ArrayAccess
      *
      * https://en.wikipedia.org/wiki/Norm_(mathematics)#Taxicab_norm_or_Manhattan_norm
      *
-     * |x|₁ ∑|xᵢ|
+     * |x|₁ = ∑|xᵢ|
      *
      * @return number
      */

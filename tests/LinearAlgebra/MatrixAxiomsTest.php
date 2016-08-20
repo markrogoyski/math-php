@@ -42,7 +42,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider dataProviderForScalarMultiplicationOrderAddition
      */
-    public function dataProviderForScalarMultiplcationOrderAddition(array $A, array $B, int $r)
+    public function testScalarMultiplicationOrderAddition(array $A, array $B, int $r)
     {
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
@@ -258,7 +258,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider dataProviderForScalarMultiplicationOrder
      */
-    public function dataProviderForScalarMultiplcationOrder(array $A, array $B, int $r)
+    public function testScalarMultiplcationOrder(array $A, array $B, int $r)
     {
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
@@ -269,11 +269,11 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 
         // (rA)B
         $rA = $A->scalarMultiply($r);
-        $⟮rA⟯B = $ra->multiply($B);
+        $⟮rA⟯B = $rA->multiply($B);
 
         // A(rB)
         $rB = $B->scalarMultiply($r);
-        $A⟮rB⟯ = $A->multply($rB);
+        $A⟮rB⟯ = $A->multiply($rB);
 
         $this->assertEquals($r⟮AB⟯->getMatrix(), $⟮rA⟯B->getMatrix());
         $this->assertEquals($⟮rA⟯B->getMatrix(), $A⟮rB⟯->getMatrix());
