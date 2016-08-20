@@ -19,6 +19,7 @@ namespace Math\LinearAlgebra;
  *  - (Aᵀ)ᵀ = A
  *  - (A⁻¹)ᵀ = (Aᵀ)⁻¹
  *  - (rA)ᵀ = rAᵀ
+ *  - (AB)ᵀ = BᵀAᵀ
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
