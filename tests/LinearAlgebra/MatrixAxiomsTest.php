@@ -12,6 +12,7 @@ namespace Math\LinearAlgebra;
  *  - (AB)C = A(BC)
  *  - A(B + C) = AB + BC
  *  - r(AB) = (rA)B = A(rB)
+ *  - AI = A
  *  - AA⁻¹ = I
  *  - (AB)⁻¹ = B⁻¹A⁻¹
  *  - (A⁻¹)ᵀ = (Aᵀ)⁻¹
@@ -240,6 +241,83 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Axiom: AI = A
+     * Matrix multiplied with the identity matrix is the original matrix.
+     *
+     * @dataProvider dataProviderForMatrixTimesIdentityIsOriginalMatrix
+     */
+    public function testMatrixTimesIdentityIsOriginalMatrix(array $A)
+    {
+        $A  = MatrixFactory::create($A);
+        $I  = MatrixFactory::identity($A->getN());
+        $AI = $A->multiply($I);
+
+        $this->assertEquals($A->getMatrix(), $AI->getMatrix());
+    }
+
+    public function dataProviderForMatrixTimesIdentityIsOriginalMatrix()
+    {
+        return [
+            [
+                [
+                    [1, 5],
+                    [4, 3],
+                ],
+            ],
+            [
+                [
+                    [5, 6],
+                    [2, 1],
+                ],
+            ],
+            [
+                [
+                    [3, 8, 5],
+                    [3, 6, 1],
+                    [9, 5, 8],
+                ],
+            ],
+            [
+                [
+                    [5, 3, 8],
+                    [6, 4, 5],
+                    [1, 8, 9],
+                ],
+            ],
+            [
+                [
+                    [-4, -2, 9],
+                    [3, 14, -6],
+                    [3, 9, 9],
+                ],
+            ],
+            [
+                [
+                    [8, 7, 8],
+                    [-5, 4, 1],
+                    [3, 5, 1],
+                ],
+            ],
+            [
+                [
+                    [4, 7, 7, 8],
+                    [3, 6, 4, 1],
+                    [-3, 6, 8, -3],
+                    [3, 2, 1, -54],
+                ],
+            ],
+            [
+                [
+                    [3, 2, 6, 7],
+                    [4, 3, -6, 2],
+                    [12, 14, 14, -6],
+                    [4, 6, 4, -42],
+                ],
+            ],
+        ];
+    }
+
+    /**
      * Axiom: AA⁻¹ = I
      * Matrix multiplied with its inverse is the identity matrix.
      *
@@ -250,7 +328,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $A    = MatrixFactory::create($A);
         $A⁻¹  = $A->inverse();
         $AA⁻¹ = $A->multiply($A⁻¹);
-        $I    = MatrixFactory::identity($A->getN()) ;
+        $I    = MatrixFactory::identity($A->getN());
 
         $this->assertEquals($I->getMatrix(), $AA⁻¹->getMatrix());
     }
