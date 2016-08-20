@@ -20,6 +20,7 @@ namespace Math\LinearAlgebra;
  *  - (A⁻¹)ᵀ = (Aᵀ)⁻¹
  *  - (rA)ᵀ = rAᵀ
  *  - (AB)ᵀ = BᵀAᵀ
+ *  - (A + B)ᵀ = Aᵀ + Bᵀ
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -702,7 +703,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
      * (AB)ᵀ = BᵀAᵀ
      * Transpose of a product of matrices equals the product of their transposes in reverse order.
      *
-     * @dataProvider dataProviderForTransposeProductIsProductOfTranposesInReverseOrder
+     * @dataProvider dataProviderForTransposeTwoMatricesMulti
      */
     public function testTransposeProductIsProductOfTranposesInReverseOrder(array $A, array $B)
     {
@@ -720,7 +721,29 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($⟮AB⟯ᵀ->getMatrix(), $BᵀAᵀ->getMatrix());
     }
 
-    public function dataProviderForTransposeProductIsProductOfTranposesInReverseOrder()
+    /**
+     * (A + B)ᵀ = Aᵀ + Bᵀ
+     * Transpose of sum is the same as sum of transposes
+     *
+     * @dataProvider dataProviderForTransposeTwoMatricesMulti
+     */
+    public function testTransposeSumIsSameAsSumOfTransposes(array $A, array $B)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        // (A + B)ᵀ
+        $⟮A＋B⟯ᵀ = $A->add($B)->transpose();
+
+        // Aᵀ + Bᵀ
+        $Aᵀ     = $A->transpose();
+        $Bᵀ     = $B->transpose();
+        $Aᵀ＋Bᵀ = $Aᵀ->add($Bᵀ);
+
+        $this->assertEquals($⟮A＋B⟯ᵀ->getMatrix(), $Aᵀ＋Bᵀ->getMatrix());
+    }
+
+    public function dataProviderForTransposeTwoMatricesMulti()
     {
         return [
             [
