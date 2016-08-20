@@ -9,6 +9,7 @@ namespace Math\LinearAlgebra;
  * all work out according to the axioms.
  *
  * Axioms tested:
+ *  - r(A + B) = rA + rB
  *  - (AB)C = A(BC)
  *  - A(B + C) = AB + BC
  *  - r(AB) = (rA)B = A(rB)
@@ -197,7 +198,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                 [
                     [5, 6],
                     [2, 1],
-                ],
+                ], 5
             ],
             [
                 [
@@ -209,7 +210,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                     [5, 3, 8],
                     [6, 4, 5],
                     [1, 8, 9],
-                ],
+                ], 4
             ],
             [
                 [
@@ -221,7 +222,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                     [8, 7, 8],
                     [-5, 4, 1],
                     [3, 5, 1],
-                ],
+                ], 7
             ],
             [
                 [
@@ -235,7 +236,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                     [4, 3, -6, 2],
                     [12, 14, 14, -6],
                     [4, 6, 4, -42],
-                ],
+                ], -8
             ],
         ];
     }
