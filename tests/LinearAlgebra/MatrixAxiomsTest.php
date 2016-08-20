@@ -9,22 +9,29 @@ namespace Math\LinearAlgebra;
  * all work out according to the axioms.
  *
  * Axioms tested:
- *  - r(A + B) = rA + rB
- *  - (AB)C = A(BC)
- *  - A(B + C) = AB + BC
- *  - r(AB) = (rA)B = A(rB)
- *  - AI = A = IA
- *  - AA⁻¹ = I = A⁻¹A
- *  - (A⁻¹)⁻¹ = A
- *  - (AB)⁻¹ = B⁻¹A⁻¹
- *  - (Aᵀ)ᵀ = A
- *  - (A⁻¹)ᵀ = (Aᵀ)⁻¹
- *  - (rA)ᵀ = rAᵀ
- *  - (AB)ᵀ = BᵀAᵀ
- *  - (A + B)ᵀ = Aᵀ + Bᵀ
- *  - tr(A) = tr(Aᵀ)
- *  - tr(AB) = tr(BA)
- *  - det(A) = det(Aᵀ)
+ *  - Addition
+ *    - r(A + B) = rA + rB
+ *  - Multiplication
+ *    - (AB)C = A(BC)
+ *    - A(B + C) = AB + BC
+ *    - r(AB) = (rA)B = A(rB)
+ *  - Identity
+ *    - AI = A = IA
+ *  - Inverse
+ *    - AA⁻¹ = I = A⁻¹A
+ *    - (A⁻¹)⁻¹ = A
+ *    - (AB)⁻¹ = B⁻¹A⁻¹
+ *  - Transpose
+ *    - (Aᵀ)ᵀ = A
+ *    - (A⁻¹)ᵀ = (Aᵀ)⁻¹
+ *    - (rA)ᵀ = rAᵀ
+ *    - (AB)ᵀ = BᵀAᵀ
+ *    - (A + B)ᵀ = Aᵀ + Bᵀ
+ *  - Trace
+ *    - tr(A) = tr(Aᵀ)
+ *    - tr(AB) = tr(BA)
+ *  - Determinant
+ *    - det(A) = det(Aᵀ)
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
