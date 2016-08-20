@@ -322,4 +322,32 @@ class LinearTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    
+    /**
+     * @dataProvider dataProviderForMeanSquares
+     */
+    public function testMeanSquares(array $points, $force, $sums)
+    {
+        $regression = new Linear($points, $force);
+        $this->assertEquals($sums['mse'], $regression->meanSquareResidual(), '', .0000001);
+        $this->assertEquals($sums['msr'], $regression->meanSquareRegression(), '', .0000001);
+        $this->assertEquals($sums['mst'], $regression->meanSquareTotal(), '', .0000001);
+        $this->assertEquals($sums['sd'], $regression->errorSD(), '', .0000001);
+    }
+    
+    public function dataProviderForMeanSquares()
+    {
+        return [
+            [
+                [ [1,2], [2,3], [4,5], [5,7], [6,8] ],
+                [0,0],
+                [
+                    'mse' => 0.1201550388,
+                    'msr' => 25.6395348837,
+                    'mst' => 6.5,
+                    'sd' => 0.3466338685,
+                ],
+            ],
+        ];
+    }
 }
