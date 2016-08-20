@@ -1281,18 +1281,6 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($A⁻¹, $A->inverse(), '', 0.001); // Test class attribute
     }
 
-    /**
-     * @dataProvider dataProviderForInverse
-     */
-    public function testMatrixTimesInverseIsIdentity(array $A, array $A⁻¹)
-    {
-        $A   = MatrixFactory::create($A);
-        $A⁻¹ = $A->inverse();
-        $I   = $A->multiply($A⁻¹);
-
-        $this->assertEquals(MatrixFactory::identity($A->getN())->getMatrix(), $I->getMatrix());
-    }
-
     public function dataProviderForInverse()
     {
         return [
