@@ -354,6 +354,80 @@ trait LeastSquares
     }
     
     /**
+     * Get the regression residuals
+     * eᵢ = yᵢ - ŷᵢ
+     * or in matrix form
+     * e = (I - H)y
+     */
+    public function getResiduals()
+    {
+        return Multi::subtract($this->reg_ys, $this->reg_Yhat);
+    }
+    
+    /**
+     * Cook's Distance is a measures the influence of each data point on the regression.
+     * Points with excessive influence may be outliers, or may warrent a closer look.
+     *
+     * https://en.wikipedia.org/wiki/Cook%27s_distance
+     */
+    public function cooksD()
+    {
+        $e = $this->getResiduals();
+        $h = $this->getLeverages();
+        $ν = $this->ν;
+        $mse = $this->meanSquareResidual();
+        $p = $this->p + $this->fit_constant;
+        return array_map(
+            function ($eᵢ, $hᵢ) use ($ν, $mse, $p) {
+                return $eᵢ ** 2 / $mse / $p * ($hᵢ / (1 - $hᵢ) ** 2);
+            },
+            $e,
+            $h
+        );
+    }
+    
+    /**
+     * DFFITS measures the effect on the regression if each data point is excluded.
+     *
+     * https://en.wikipedia.org/wiki/DFFITS
+     */
+    public function DFFITS()
+    {
+        $DFFITS = [];
+        $ys = $this->reg_ys;
+        $xs = $this->reg_xs;
+        $n = $this->n;
+        $yhat = $this->reg_Yhat;
+        $h = $this->getLeverages();
+        $e = $this->getResiduals();
+        $mse = $this->meanSquareResidual();
+        $ν = $this->ν;
+        $mod_mse = array_map(
+            function ($eᵢ, $hᵢ) use ($mse, $ν) {
+                return ($mse - $eᵢ ** 2 / ((1 - $hᵢ) * $ν)) * $ν / ($ν - 1);
+            },
+            $e,
+            $h
+        );
+        $r = array_map(
+            function ($eᵢ, $mseᵢ, $hᵢ) {
+                return $eᵢ / sqrt($mseᵢ * (1 - $hᵢ));
+            },
+            $e,
+            $mod_mse,
+            $h
+        );
+        $DFFITS = array_map(
+            function ($rᵢ, $hᵢ) {
+                return $rᵢ * sqrt($hᵢ / (1 - $hᵢ));
+            },
+            $r,
+            $h
+        );
+        return $DFFITS;
+    }
+    
+    /**
      * R - correlation coefficient (Pearson's r)
      *
      * A measure of the strength and direction of the linear relationship
