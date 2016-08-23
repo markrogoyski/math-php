@@ -3,17 +3,6 @@ namespace Math\LinearAlgebra;
 
 class MatrixNormsTest extends \PHPUnit_Framework_TestCase
 {
-
-    public function setUp()
-    {
-        $this->A = [
-            [1, 2, 3],
-            [2, 3, 4],
-            [4, 5, 6],
-        ];
-        $this->matrix = MatrixFactory::create($this->A);
-    }
-
     /**
      * @dataProvider dataProviderForOneNorm
      */
@@ -240,6 +229,12 @@ class MatrixNormsTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [
+                    [1, -7],
+                    [2, 3],
+                ], 7.93725
+            ],
+            [
+                [
                     [1, 2, 3],
                     [2, 3, 4],
                     [3, 4, 5],
@@ -260,8 +255,13 @@ class MatrixNormsTest extends \PHPUnit_Framework_TestCase
                     [6, 6, 3],
                 ], 13.784049
             ],
+            [
+                [
+                    [5, -4, 2],
+                    [-1, 2, 3],
+                    [-2, 1, 0],
+                ], 8
+            ],
         ];
     }
-
-
 }
