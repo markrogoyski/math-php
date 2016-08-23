@@ -179,9 +179,13 @@ $matrix = [
     [7, 8, 9],
 ];
 
-// Matrix
+// Matrix factory creates most appropriate matrix
 $A = MatrixFactory::create($matrix);
 $B = MatrixFactory::create($matrix);
+
+// Can also directly instantiate desired matrix class
+$A = new Matrix($matrix);
+$B = new SquareMatrix($matrix);
 
 // Basic matrix data
 $array = $A->getMatrix();
@@ -226,12 +230,14 @@ $CM   = $A->cofactorMatrix();
 // Matrix operations - return a value
 $tr⟮A⟯ = $A->trace();
 $|A|  = $a->det();              // Determinant
-$‖A‖₁ = $A->oneNorm();
-$‖A‖F = $A->frobeniusNorm();    // Hilbert–Schmidt norm
-$‖A‖∞ = $A->infinityNorm();
-$max  = $A->maxNorm();
 $Mᵢⱼ  = $A->minor($mᵢ, $nⱼ);    // First minor
 $Cᵢⱼ  = $A->cofactor($mᵢ, $nⱼ);
+
+// Matrix norms - return a value
+$‖A‖₁ = $A->oneNorm();
+$‖A‖F = $A->frobeniusNorm(); // Hilbert–Schmidt norm
+$‖A‖∞ = $A->infinityNorm();
+$max  = $A->maxNorm();
 
 // Matrix properties - return a bool
 $bool = $A->isSquare();
@@ -262,9 +268,11 @@ $ones_matrix     = MatrixFactory::one($m, $n);
 
 // Vandermonde matrix
 $V = MatrixFactory::create([1, 2, 3], 4); // 4 x 3 Vandermonde matrix
+$V = new VandermondeMatrix([1, 2, 3], 4); // Same as using MatrixFactory
 
 // Diagonal matrix
 $D = MatrixFactory::create([1, 2, 3]); // 3 x 3 diagonal matrix with zeros above and below the diagonal
+$D = new DiagonalMatrix([1, 2, 3]);    // Same as using MatrixFactory
 
 // PHP Predefined Interfaces
 $json = json_encode($A); // JsonSerializable
