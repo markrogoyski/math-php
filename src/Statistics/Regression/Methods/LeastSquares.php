@@ -133,7 +133,18 @@ trait LeastSquares
 
         return $X;
     }
-    
+
+    /**
+     * Project matrix (influence matrix, hat matrix H)
+     * Maps the vector of response values (dependent variable values) to the vector of fitted values (or predicted values).
+     * The diagonal elements of the projection matrix are the leverages.
+     * https://en.wikipedia.org/wiki/Projection_matrix
+     *
+     * H = X⟮XᵀX⟯⁻¹Xᵀ
+     *   where X is the design matrix
+     *
+     * @return Matrix
+     */
     public function getProjectionMatrix(): Matrix
     {
         return $this->reg_P;
@@ -141,7 +152,15 @@ trait LeastSquares
     
     /**
      * Regression Leverages
+     * A measure of how far away the independent variable values of an observation are from those of the other observations.
      * https://en.wikipedia.org/wiki/Leverage_(statistics)
+     *
+     * Leverage score for the i-th data unit is defined as:
+     * hᵢᵢ = [H]ᵢᵢ
+     * which is the i-th diagonal element of the project matrix H,
+     * where H = X⟮XᵀX⟯⁻¹Xᵀ where X is the design matrix.
+     *
+     * @return array
      */
     public function getLeverages(): array
     {
@@ -358,28 +377,41 @@ trait LeastSquares
      * eᵢ = yᵢ - ŷᵢ
      * or in matrix form
      * e = (I - H)y
+     *
+     * @return array
      */
-    public function getResiduals()
+    public function getResiduals(): array
     {
         return Multi::subtract($this->reg_ys, $this->reg_Yhat);
     }
     
     /**
-     * Cook's Distance is a measures the influence of each data point on the regression.
+     * Cook's Distance
+     * A measures of the influence of each data point on the regression.
      * Points with excessive influence may be outliers, or may warrent a closer look.
      *
      * https://en.wikipedia.org/wiki/Cook%27s_distance
+     *
+     *           _         _
+     *      eᵢ² |     hᵢ    |
+     * Dᵢ = --- | --------- |
+     *      s²p |_(1 - hᵢ)²_|
+     *
+     *   where s ≡ (n - p)⁻¹eᵀ  (mean square residuals)
+     *         e is the mean square error of the residual model
+     *
+     * @return array
      */
-    public function cooksD()
+    public function cooksD(): array
     {
-        $e = $this->getResiduals();
-        $h = $this->getLeverages();
-        $ν = $this->ν;
+        $e   = $this->getResiduals();
+        $h   = $this->getLeverages();
         $mse = $this->meanSquareResidual();
-        $p = $this->p + $this->fit_constant;
+        $p   = $this->p + $this->fit_constant;
+
         return array_map(
-            function ($eᵢ, $hᵢ) use ($ν, $mse, $p) {
-                return $eᵢ ** 2 / $mse / $p * ($hᵢ / (1 - $hᵢ) ** 2);
+            function ($eᵢ, $hᵢ) use ($mse, $p) {
+                return ($eᵢ**2 / $mse / $p) * ($hᵢ / (1 - $hᵢ)**2);
             },
             $e,
             $h
@@ -387,43 +419,87 @@ trait LeastSquares
     }
     
     /**
-     * DFFITS measures the effect on the regression if each data point is excluded.
-     *
+     * DFFITS
+     * Measures the effect on the regression if each data point is excluded.
      * https://en.wikipedia.org/wiki/DFFITS
+     *
+     *          ŷᵢ - ŷᵢ₍ᵢ₎
+     * DFFITS = ----------
+     *          s₍ᵢ₎ √hᵢᵢ
+     *
+     *   where ŷᵢ    is the prediction for point i with i included in the regression
+     *         ŷᵢ₍ᵢ₎ is the prediction for point i without i included in the regression
+     *         s₍ᵢ₎  is the standard error estimated without the point in question
+     *         hᵢᵢ   is the leverage for the point
+     *
+     * Putting it another way:
+     *
+     * sᵢ is the studentized residual
+     *
+     *             eᵢ
+     * sᵢ = --------------
+     *        √(MSₑ(1 - hᵢ))
+     *
+     *   where eᵢ  is the residual
+     *         MSₑ is the mean squares residual
+     *
+     * Then, s₍ᵢ₎ is the studentized residual with the i-th observation removed:
+     *
+     *               eᵢ
+     * s₍ᵢ₎ = -----------------
+     *        √(MSₑ₍ᵢ₎(1 - hᵢ))
+     *
+     * where
+     *          _                _
+     *         |           eᵢ²    |   ν
+     * MSₑ₍ᵢ₎ =|  MSₑ - --------  | -----
+     *         |_       (1 - h)ν _| ν - 1
+     *
+     * Then,
+     *                  ______
+     *                 /  hᵢ
+     * DFFITS = s₍ᵢ₎  / ------
+     *               √  1 - hᵢ
+     *
+     * @return array
      */
-    public function DFFITS()
+    public function DFFITS(): array
     {
-        $DFFITS = [];
-        $ys = $this->reg_ys;
-        $xs = $this->reg_xs;
-        $n = $this->n;
-        $yhat = $this->reg_Yhat;
-        $h = $this->getLeverages();
-        $e = $this->getResiduals();
-        $mse = $this->meanSquareResidual();
-        $ν = $this->ν;
-        $mod_mse = array_map(
-            function ($eᵢ, $hᵢ) use ($mse, $ν) {
-                return ($mse - $eᵢ ** 2 / ((1 - $hᵢ) * $ν)) * $ν / ($ν - 1);
+        $ys   = $this->reg_ys;
+        $xs   = $this->reg_xs;
+        $ν    = $this->ν;
+
+        $h   = $this->getLeverages();
+        $e   = $this->getResiduals();
+        $MSₑ = $this->meanSquareResidual();
+
+        // Mean square residuals with the the i-th observation removed
+        $MSₑ₍ᵢ₎ = array_map(
+            function ($eᵢ, $hᵢ) use ($MSₑ, $ν) {
+                return ($MSₑ - ($eᵢ**2 / ((1 - $hᵢ) * $ν))) * ($ν / ($ν - 1));
             },
             $e,
             $h
         );
-        $r = array_map(
+
+        // Studentized residual with the i-th observation removed
+        $s = array_map(
             function ($eᵢ, $mseᵢ, $hᵢ) {
                 return $eᵢ / sqrt($mseᵢ * (1 - $hᵢ));
             },
             $e,
-            $mod_mse,
+            $MSₑ₍ᵢ₎,
             $h
         );
+
         $DFFITS = array_map(
-            function ($rᵢ, $hᵢ) {
-                return $rᵢ * sqrt($hᵢ / (1 - $hᵢ));
+            function ($s₍ᵢ₎, $hᵢ) {
+                return $s₍ᵢ₎ * sqrt($hᵢ / (1 - $hᵢ));
             },
-            $r,
+            $s,
             $h
         );
+
         return $DFFITS;
     }
     
