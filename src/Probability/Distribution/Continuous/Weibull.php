@@ -87,4 +87,15 @@ class Weibull extends Continuous
 
         return $λ * Special::gamma(1 + 1 / $k);
     }
+    
+    /**
+     * Inverse CDF
+     */
+    public function inverse($p, ...$params)
+    {
+        $k = $params[0];
+        $λ = $params[1];
+        Support::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
+        return $λ * (-1 * log(1 - $p))**(1/$k);
+    }
 }
