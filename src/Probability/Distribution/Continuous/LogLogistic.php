@@ -89,4 +89,16 @@ class LogLogistic extends Continuous
 
         return null;
     }
+    
+    /**
+     * Inverse CDF
+     */
+    public static function inverse($p, ...$params)
+    {
+        $α = $params[0];
+        $β = $params[1];
+        Support::checkLimits(self::LIMITS, ['α' => $α, 'β' => $β]);
+        
+        return $α * ($p / (1 - $p))**(1/$β);
+    }
 }
