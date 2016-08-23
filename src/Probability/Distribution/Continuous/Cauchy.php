@@ -110,7 +110,7 @@ class Cauchy extends Continuous
      */
     public static function inverse($p, ...$params)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'x₀' => $x₀, 'γ' => $γ]);
+        Support::checkLimits(self::LIMITS, ['x₀' => $x₀, 'γ' => $γ]);
         $x₀ = $params[0];
         $γ = $params[1];
         $π = \M_PI;
