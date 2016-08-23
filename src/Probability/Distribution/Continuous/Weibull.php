@@ -91,7 +91,7 @@ class Weibull extends Continuous
     /**
      * Inverse CDF
      */
-    public function inverse($p, ...$params)
+    public static function inverse($p, ...$params)
     {
         $k = $params[0];
         $λ = $params[1];
