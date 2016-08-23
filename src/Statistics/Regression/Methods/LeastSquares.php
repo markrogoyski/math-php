@@ -357,7 +357,7 @@ trait LeastSquares
     }
 
     /**
-     * Regression varaince
+     * Regression variance
      *
      * @param  number $x
      *
@@ -692,7 +692,7 @@ trait LeastSquares
      */
     public function CI($x, $p)
     {
-        $V = $this->regressionVariance($x);
+        $V  = $this->regressionVariance($x);
         $σ² = $this->meanSquareResidual();
         
         // The t-value
@@ -727,7 +727,7 @@ trait LeastSquares
      */
     public function PI($x, $p, $q = 1)
     {
-        $V = $this->regressionVariance($x) + 1 / $q;
+        $V  = $this->regressionVariance($x) + 1 / $q;
         $σ² = $this->meanSquareResidual();
      
         // The t-value
