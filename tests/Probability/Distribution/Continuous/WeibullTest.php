@@ -34,7 +34,9 @@ class WeibullTest extends \PHPUnit_Framework_TestCase
     {
         $p = Weibull::CDF($x, $k, $λ);
         $this->assertEquals($cdf, $p, '', 0.001);
-        $this->assertEquals($x, Weibull::inverse($p, $k, $λ), '', 0.001);
+        if ($x >= 0) {
+            $this->assertEquals($x, Weibull::inverse($p, $k, $λ), '', 0.001);
+        }
     }
 
     public function dataProviderForCDF()
