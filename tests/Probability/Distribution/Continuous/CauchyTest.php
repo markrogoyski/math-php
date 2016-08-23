@@ -28,7 +28,9 @@ class CauchyTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $x₀, $γ, $cdf)
     {
-        $this->assertEquals($cdf, Cauchy::CDF($x, $x₀, $γ), '', 0.0001);
+        $p = Cauchy::CDF($x, $x₀, $γ);
+        $this->assertEquals($cdf, $p, '', 0.0001);
+        $this->assertEquals($cdf, Cauchy::inverse($p, $x₀, $γ), '', 0.0001);
     }
 
     public function dataProviderForCDF()
