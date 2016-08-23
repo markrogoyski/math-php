@@ -162,10 +162,10 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForCI
      */
-    public function testGetCI(array $points, $x, $p, $ci)
+    public function testCI(array $points, $x, $p, $ci)
     {
         $regression = new Linear($points);
-        $this->assertEquals($ci, $regression->getCI($x, $p), '', .0000001);
+        $this->assertEquals($ci, $regression->CI($x, $p), '', .0000001);
     }
     
     public function dataProviderForCI()
@@ -189,10 +189,10 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForPI
      */
-    public function testGetPI(array $points, $x, $p, $q, $pi)
+    public function testPI(array $points, $x, $p, $q, $pi)
     {
         $regression = new Linear($points);
-        $this->assertEquals($pi, $regression->getPI($x, $p, $q), '', .0000001);
+        $this->assertEquals($pi, $regression->PI($x, $p, $q), '', .0000001);
     }
     
     public function dataProviderForPI()
@@ -255,18 +255,18 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @dataProvider dataProviderForGetLeverages
+     * @dataProvider dataProviderForLeverages
      */
-    public function testGetLeverages($points, $leverages)
+    public function testLeverages($points, $leverages)
     {
         $regression = new Linear($points);
-        $test_leverages = $regression->getLeverages();
+        $test_leverages = $regression->leverages();
         foreach ($leverages as $key => $value) {
             $this->assertEquals($value, $test_leverages[$key], '', .0000001);
         }
     }
     
-    public function dataProviderForGetLeverages()
+    public function dataProviderForLeverages()
     {
         return [
             [

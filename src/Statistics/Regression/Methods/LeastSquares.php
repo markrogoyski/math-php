@@ -162,7 +162,7 @@ trait LeastSquares
      *
      * @return array
      */
-    public function getLeverages(): array
+    public function leverages(): array
     {
         return $this->reg_P->getDiagonalElements();
     }
@@ -380,7 +380,7 @@ trait LeastSquares
      *
      * @return array
      */
-    public function getResiduals(): array
+    public function residuals(): array
     {
         return Multi::subtract($this->reg_ys, $this->reg_Yhat);
     }
@@ -404,8 +404,8 @@ trait LeastSquares
      */
     public function cooksD(): array
     {
-        $e   = $this->getResiduals();
-        $h   = $this->getLeverages();
+        $e   = $this->residuals();
+        $h   = $this->leverages();
         $mse = $this->meanSquareResidual();
         $p   = $this->p + $this->fit_constant;
 
@@ -469,8 +469,8 @@ trait LeastSquares
         $xs   = $this->reg_xs;
         $ν    = $this->ν;
 
-        $h   = $this->getLeverages();
-        $e   = $this->getResiduals();
+        $h   = $this->leverages();
+        $e   = $this->residuals();
         $MSₑ = $this->meanSquareResidual();
 
         // Mean square residuals with the the i-th observation removed
@@ -683,14 +683,14 @@ trait LeastSquares
      *   SSx = ∑(x - x̄)²
      *
      * If $p = .05, then we can say we are 95% confidence the actual regression line
-     * will be within an interval of evaluate($x) ± getCI($x, .05).
+     * will be within an interval of evaluate($x) ± CI($x, .05).
      *
      * @param number $x
      * @param number $p:  0 < p < 1 The P value to use
      *
      * @return number
      */
-    public function getCI($x, $p)
+    public function CI($x, $p)
     {
         $V = $this->regressionVariance($x);
         $σ² = $this->meanSquareResidual();
@@ -717,7 +717,7 @@ trait LeastSquares
      *   SSx = ∑(x - x̄)²
      *
      * If $p = .05, then we can say we are 95% confidence that the future averages of $q trials at $x
-     * will be within an interval of evaluate($x) ± getPI($x, .05, $q).
+     * will be within an interval of evaluate($x) ± PI($x, .05, $q).
      *
      * @param number $x
      * @param number $p  0 < p < 1 The P value to use
@@ -725,7 +725,7 @@ trait LeastSquares
      *
      * @return number
      */
-    public function getPI($x, $p, $q = 1)
+    public function PI($x, $p, $q = 1)
     {
         $V = $this->regressionVariance($x) + 1 / $q;
         $σ² = $this->meanSquareResidual();
