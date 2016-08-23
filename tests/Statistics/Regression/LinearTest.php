@@ -162,10 +162,10 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForCI
      */
-    public function testGetCI(array $points, $x, $p, $ci)
+    public function testCI(array $points, $x, $p, $ci)
     {
         $regression = new Linear($points);
-        $this->assertEquals($ci, $regression->getCI($x, $p), '', .0000001);
+        $this->assertEquals($ci, $regression->CI($x, $p), '', .0000001);
     }
     
     public function dataProviderForCI()
@@ -189,10 +189,10 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForPI
      */
-    public function testGetPI(array $points, $x, $p, $q, $pi)
+    public function testPI(array $points, $x, $p, $q, $pi)
     {
         $regression = new Linear($points);
-        $this->assertEquals($pi, $regression->getPI($x, $p, $q), '', .0000001);
+        $this->assertEquals($pi, $regression->PI($x, $p, $q), '', .0000001);
     }
     
     public function dataProviderForPI()
@@ -255,18 +255,18 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @dataProvider dataProviderForGetLeverages
+     * @dataProvider dataProviderForLeverages
      */
-    public function testGetLeverages($points, $leverages)
+    public function testLeverages($points, $leverages)
     {
         $regression = new Linear($points);
-        $test_leverages = $regression->getLeverages();
+        $test_leverages = $regression->leverages();
         foreach ($leverages as $key => $value) {
             $this->assertEquals($value, $test_leverages[$key], '', .0000001);
         }
     }
     
-    public function dataProviderForGetLeverages()
+    public function dataProviderForLeverages()
     {
         return [
             [
@@ -370,6 +370,7 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForOutliers()
     {
         return [
+            // Example data from http://www.real-statistics.com/multiple-regression/outliers-and-influencers/
             [
                 [ [5, 80], [23, 78], [25, 60], [48, 53], [17, 85], [8, 84], [4, 73], [26, 79], [11, 81], [19, 75], [14, 68], [35, 72], [29, 58], [4, 92], [23, 65] ],
                 [0.012083306344603, 0.0300594698005975, 0.0757553251307135, 0.0741065959898502, 0.0624057528075083, 0.0142413619931789, 0.212136415565691, 0.0755417128075708, 0.00460659919090967, 0.00088992920763197, 0.0592838137660013, 0.142372813997539, 0.0975938916424623, 0.157390753959856, 0.0261198759356697],

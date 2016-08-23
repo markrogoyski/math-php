@@ -729,7 +729,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Frobenius norm (Hilbert–Schmidt norm) (‖A‖F)
+     * Frobenius norm (Hilbert–Schmidt norm, Euclidean norm) (‖A‖F)
      * Square root of the sum of the square of all elements.
      *
      * https://en.wikipedia.org/wiki/Matrix_norm#Frobenius_norm
