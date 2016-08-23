@@ -858,12 +858,9 @@ $regression = new Linear($points);
 $parameters = $regression->getParameters();          // [m => 1.2209302325581, b => 0.6046511627907]
 $equation   = $regression->getEquation();            // y = 1.2209302325581x + 0.6046511627907
 $y          = $regression->evaluate(5);              // Evaluate for y at x = 5 using regression equation
-$ci         = $regression->getCI(5, 0.5);            // Confidence interval for x = 5 with p-value of 0.5
-$pi         = $regression->getPI(5, 0.5);            // Prediction interval for x = 5 with p-value of 0.5; Optional number of trials parameter.
+$ci         = $regression->CI(5, 0.5);               // Confidence interval for x = 5 with p-value of 0.5
+$pi         = $regression->PI(5, 0.5);               // Prediction interval for x = 5 with p-value of 0.5; Optional number of trials parameter.
 $Ŷ          = $regression->yHat();
-$SStot      = $regression->sumOfSquaresTotal();
-$SSreg      = $regression->sumOfSquaresRegression();
-$SSres      = $regression->sumOfSquaresResidual();
 $r          = $regression->r();                      // same as correlationCoefficient
 $r²         = $regression->r2();                     // same as coefficientOfDetermination
 $se         = $regression->standardErrors();         // [m => se(m), b => se(b)]
@@ -871,10 +868,23 @@ $t          = $regression->tValues();                // [m => t, b => t]
 $p          = $regression->tProbability();           // [m => p, b => p]
 $F          = $regression->FStatistic();
 $p          = $regression->FProbability();
+$h          = $regression->leverages();
+$e          = $regression->residuals();
+$D          = $regression->cooksD();
+$DFFITS     = $regression->DFFITS();
+$SStot      = $regression->sumOfSquaresTotal();
+$SSreg      = $regression->sumOfSquaresRegression();
+$SSres      = $regression->sumOfSquaresResidual();
+$MSR        = $regression->meanSquareRegression();
+$MSE        = $regression->meanSquareResidual();
+$MSTO       = $regression->meanSquareTotal();
+$error      = $regression->errorSD();                // Standard error of the residuals
+$V          = $regression->regressionVariance();
 $n          = $regression->getSampleSize();          // 5
 $points     = $regression->getPoints();              // [[1,2], [2,3], [4,5], [5,7], [6,8]]
 $xs         = $regression->getXs();                  // [1, 2, 4, 5, 6]
-$yx         = $regression->getYs();                  // [2, 3, 5, 7, 8]
+$ys         = $regression->getYs();                  // [2, 3, 5, 7, 8]
+$ν          = $regression->degreesOfFreedom();
 
 // Linear regression through a fixed point (least squares method)
 $force_point = [0,0];
@@ -883,47 +893,37 @@ $parameters  = $regression->getParameters();
 $equation    = $regression->getEquation();
 $y           = $regression->evaluate(5);
 $Ŷ           = $regression->yHat();
-$SSreg       = $regression->sumOfSquaresRegression();
-$SSres       = $regression->sumOfSquaresResidual();
 $r           = $regression->r();
 $r²          = $regression->r2();
-$n           = $regression->getSampleSize();
-$points      = $regression->getPoints();
-$xs          = $regression->getXs();
-$yx          = $regression->getYs();
+ ⋮                     ⋮
 
 // Theil–Sen estimator (Sen's slope estimator, Kendall–Theil robust line)
 $regression  = new TheilSen($points);
 $parameters  = $regression->getParameters();
 $equation    = $regression->getEquation();
 $y           = $regression->evaluate(5);
+ ⋮                     ⋮
 
 // Use Lineweaver-Burk linearization to fit data to the Michaelis–Menten model: y = (V * x) / (K + x)
 $regression  = new LineweaverBurk($points);
 $parameters  = $regression->getParameters();  // [V, K]
 $equation    = $regression->getEquation();    // y = Vx / (K + x)
 $y           = $regression->evaluate(5);
+ ⋮                     ⋮
 
 // Use Hanes-Woolf linearization to fit data to the Michaelis–Menten model: y = (V * x) / (K + x)
 $regression  = new HanesWoolf($points);
 $parameters  = $regression->getParameters();  // [V, K]
 $equation    = $regression->getEquation();    // y = Vx / (K + x)
 $y           = $regression->evaluate(5);
+ ⋮                     ⋮
 
 // Power law regression - power curve (least squares fitting)
 $regression = new PowerLaw($points);
 $parameters = $regression->getParameters();          // [a => 56.483375436574, b => 0.26415375648621]
 $equation   = $regression->getEquation();            // y = 56.483375436574x^0.26415375648621
 $y          = $regression->evaluate(5);
-$Ŷ          = $regression->yHat();
-$SSreg      = $regression->sumOfSquaresRegression();
-$SSres      = $regression->sumOfSquaresResidual();
-$R          = $regression->r();
-$R²         = $regression->r2();
-$n          = $regression->getSampleSize();
-$points     = $regression->getPoints();
-$xs         = $regression->getXs();
-$yx         = $regression->getYs();
+ ⋮                     ⋮
 ```
 
 Unit Tests
