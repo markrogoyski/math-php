@@ -97,6 +97,5 @@ class Logistic extends Continuous
         Support::checkLimits(self::LIMITS, ['μ' => $μ, 's' => $s]);
         
         return $μ + $s * log($p / (1 - $p));
-        
     }
 }
