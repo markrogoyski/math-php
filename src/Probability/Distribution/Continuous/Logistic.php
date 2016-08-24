@@ -86,4 +86,26 @@ class Logistic extends Continuous
 
         return $μ;
     }
+    
+    /**
+     * Inverse CDF (quantile function)
+     *
+     *                     /   p   \
+     * Q(p;μ,s) = μ + s ln|  -----  |
+     *                     \ 1 - p /
+     *
+     * @param number $p
+     * @param number $μ
+     * @param number $s
+     *
+     * @return number
+     */
+    public static function inverse($p, ...$params)
+    {
+        $μ = $params[0];
+        $s = $params[1];
+        Support::checkLimits(self::LIMITS, ['μ' => $μ, 's' => $s]);
+
+        return $μ + $s * log($p / (1 - $p));
+    }
 }
