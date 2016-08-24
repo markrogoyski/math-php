@@ -89,13 +89,22 @@ class Weibull extends Continuous
     }
     
     /**
-     * Inverse CDF
+     * Inverse CDF (Quantile function)
+     *
+     * Q(p;k,λ) = λ(-ln(1 - p))¹/ᵏ
+     *
+     * @param number $p
+     * @param number $k
+     * @param number $λ
+     *
+     * @return number
      */
     public static function inverse($p, ...$params)
     {
         $k = $params[0];
         $λ = $params[1];
         Support::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
+
         return $λ * (-1 * log(1 - $p))**(1/$k);
     }
 }

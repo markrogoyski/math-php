@@ -91,7 +91,17 @@ class LogLogistic extends Continuous
     }
     
     /**
-     * Inverse CDF
+     * Inverse CDF (Quantile function)
+     *
+     *                 /   p   \ 1/β
+     * F⁻¹(p;α,β) = α |  -----  |
+     *                 \ 1 - p /
+     *
+     * @param number $p
+     * @param number $α
+     * @param number $β
+     *
+     * @return number
      */
     public static function inverse($p, ...$params)
     {
