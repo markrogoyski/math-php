@@ -13,6 +13,7 @@ abstract class Continuous extends \Math\Probability\Distribution\Distribution
      * @param array ...$params List of all the parameters that are needed for the CDF of the
      *   calling class. This list must be absent the $x parameter.
      *
+     * @todo check the parameter ranges.
      * @return $number
      */
     public static function inverse($target, ...$params)
