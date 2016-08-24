@@ -104,4 +104,16 @@ class Cauchy extends Continuous
     {
         return $x₀;
     }
+    
+    /**
+     * Inverse CDF
+     */
+    public static function inverse($p, ...$params)
+    {
+        $x₀ = $params[0];
+        $γ = $params[1];
+        Support::checkLimits(self::LIMITS, ['x₀' => $x₀, 'γ' => $γ]);
+        $π = \M_PI;
+        return $x₀ + $γ * tan($π * ($p - .5));
+    }
 }

@@ -25,7 +25,9 @@ class LogLogisticTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $α, $β, $cdf)
     {
-        $this->assertEquals($cdf, LogLogistic::CDF($x, $α, $β), '', 0.001);
+        $p = LogLogistic::CDF($x, $α, $β);
+        $this->assertEquals($cdf, $p, '', 0.001);
+        $this->assertEquals($x, LogLogistic::inverse($p, $α, $β), '', 0.001);
     }
 
     public function dataProviderForCDF()
