@@ -14,12 +14,14 @@ class Logistic extends Continuous
      * x ∈ (-∞,∞)
      * μ ∈ (-∞,∞)
      * s ∈ (0,∞)
+     * p ∈ [0,1]
      * @var array
      */
     const LIMITS = [
         'x' => '(-∞,∞)',
         'μ' => '(-∞,∞)',
         's' => '(0,∞)',
+        'p' => '[0,1]',
     ];
 
     /**
@@ -104,7 +106,7 @@ class Logistic extends Continuous
     {
         $μ = $params[0];
         $s = $params[1];
-        Support::checkLimits(self::LIMITS, ['μ' => $μ, 's' => $s]);
+        Support::checkLimits(self::LIMITS, ['μ' => $μ, 's' => $s, 'p' => $p]);
 
         return $μ + $s * log($p / (1 - $p));
     }
