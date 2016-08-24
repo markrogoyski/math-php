@@ -33,6 +33,11 @@ namespace Math\LinearAlgebra;
  *  - Determinant
  *    - det(A) = det(Aᵀ)
  *    - det(AB) = det(A)det(B)
+ *  - LU Decomposition (PA = LU)
+ *    - PA = LU
+ *    - A = P⁻¹LU
+ *    - PPᵀ = I = PᵀP
+ *    - (PA)⁻¹ = (LU)⁻¹ = U⁻¹L⁻¹
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -896,5 +901,96 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $det⟮A⟯det⟮B⟯ = $det⟮A⟯ * $det⟮B⟯;
 
         $this->assertEquals($det⟮AB⟯, $det⟮A⟯det⟮B⟯, '', 0.000001);
+    }
+
+    /**
+     * PA = LU
+     * Basic LU decomposition property that permutation matrix times the matrix is the product of the lower and upper decomposition matrices.
+     * @dataProvider dataProviderForOneSquareMatrix
+     */
+    public function testLUDecompositionPAEqualsLU(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $LUP = $A->LUDecomposition();
+
+        $L   = $LUP['L'];
+        $U   = $LUP['U'];
+        $P   = $LUP['P'];
+
+        $PA = $P->multiply($A);
+        $LU = $L->multiply($U);
+        $UL = $U->multiply($L);
+
+        $this->assertEquals($PA->getMatrix(), $LU->getMatrix());
+    }
+
+    /**
+     * A = P⁻¹LU
+     * @dataProvider dataProviderForOneSquareMatrix
+     */
+    public function testLUDecompositionAEqualsPInverseLU(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $LUP = $A->LUDecomposition();
+
+        $L   = $LUP['L'];
+        $U   = $LUP['U'];
+        $P   = $LUP['P'];
+
+        $P⁻¹LU = $P->inverse()->multiply($L)->multiply($U);
+
+        $this->assertEquals($A->getMatrix(), $P⁻¹LU->getMatrix());
+    }
+
+    /**
+     * PPᵀ = I = PᵀP
+     * Permutation matrix of the LU decomposition times the transpose of the permutation matrix is the identity matrix.
+     * @dataProvider dataProviderForOneSquareMatrix
+     */
+    public function testLUDecompositionPPTransposeEqualsIdentity(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $LUP = $A->LUDecomposition();
+
+        $P  = $LUP['P'];
+        $Pᵀ = $P->transpose();
+
+        $PPᵀ = $P->multiply($Pᵀ);
+        $PᵀP = $Pᵀ->multiply($P);
+
+        $I = MatrixFactory::identity($A->getM());
+
+        $this->assertEquals($PPᵀ->getMatrix(), $I->getMatrix());
+        $this->assertEquals($I->getMatrix(), $PᵀP->getMatrix());
+        $this->assertEquals($PPᵀ->getMatrix(), $PᵀP->getMatrix());
+    }
+
+    /**
+     * (PA)⁻¹ = (LU)⁻¹ = U⁻¹L⁻¹
+     * Inverse of the LU decomposition equation is the inverse of the other side.
+     * @dataProvider dataProviderForOneSquareMatrix
+     */
+    public function testInverseWithLUDecompositionInverse(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $LUP = $A->LUDecomposition();
+        $L   = $LUP['L'];
+        $U   = $LUP['U'];
+        $P   = $LUP['P'];
+
+        $⟮PA⟯⁻¹    = $P->multiply($A)->inverse();
+        $⟮LU⟯⁻¹ = $L->multiply($U)->inverse();
+
+        $U⁻¹      = $U->inverse();
+        $L⁻¹      = $L->inverse();
+        $U⁻¹L⁻¹   = $U⁻¹->multiply($L⁻¹);
+
+        $this->assertEquals($⟮PA⟯⁻¹->getMatrix(), $⟮LU⟯⁻¹->getMatrix());
+        $this->assertEquals($⟮LU⟯⁻¹->getMatrix(), $U⁻¹L⁻¹->getMatrix());
+        $this->assertEquals($⟮PA⟯⁻¹->getMatrix(), $U⁻¹L⁻¹->getMatrix());
     }
 }
