@@ -12,6 +12,7 @@ class Cauchy extends Continuous
 {
     /**
      * Distribution parameter bounds limits
+     * p  ∈ [0,1]
      * x  ∈ (-∞,∞)
      * x₀ ∈ (-∞,∞)
      * γ  ∈ (0,∞)
@@ -21,6 +22,7 @@ class Cauchy extends Continuous
         'x'  => '(-∞,∞)',
         'x₀' => '(-∞,∞)',
         'γ'  => '(0,∞)',
+        'p'  => '[0,1]',
     ];
 
     /**
@@ -120,7 +122,7 @@ class Cauchy extends Continuous
     {
         $x₀ = $params[0];
         $γ  = $params[1];
-        Support::checkLimits(self::LIMITS, ['x₀' => $x₀, 'γ' => $γ]);
+        Support::checkLimits(self::LIMITS, ['x₀' => $x₀, 'γ' => $γ, 'p' => $p]);
 
         $π = \M_PI;
 

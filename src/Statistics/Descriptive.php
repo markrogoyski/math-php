@@ -142,14 +142,16 @@ class Descriptive
      * A high standard deviation indicates that the data points are spread out over a wider range of values.
      * (https://en.wikipedia.org/wiki/Standard_deviation)
      *
-     * σ = √⟮σ²⟯ = √⟮variance⟯
+     * σ   = √⟮σ²⟯ = √⟮variance⟯
+     * SD+ = √⟮σ²⟯ = √⟮sample variance⟯
      *
      * @param array $numbers
-     * @param bool  $population_variance: true uses population variance; false uses sample variance;
-     *              Default is false (sample variance)
+     * @param bool  $SD＋: true returns SD+ (uses population variance);
+     *              false returns SD (uses sample variance);
+     *              Default is false (SD (sample variance))
      * @return numeric
      */
-    public static function standardDeviation(array $numbers, bool $population_variance = false)
+    public static function standardDeviation(array $numbers, bool $SD＋ = false)
     {
         if (empty($numbers)) {
             return null;
@@ -157,7 +159,7 @@ class Descriptive
 
         $n = count($numbers);
 
-        return $population_variance
+        return $SD＋
             ? sqrt(self::populationVariance($numbers))
             : sqrt(self::sampleVariance($numbers));
     }
@@ -166,11 +168,12 @@ class Descriptive
      * sd - Standard deviation - convenience method
      *
      * @param array $numbers
-     * @param bool  $population_variance: true uses population variance; false uses sample variance;
-     *              Default is false (population variance)
+     * @param bool  $SD＋: true returns SD+ (uses population variance);
+     *              false returns SD (uses sample variance);
+     *              Default is false (SD (sample variance))
      * @return numeric
      */
-    public static function sd(array $numbers, bool $population_variance = false)
+    public static function sd(array $numbers, bool $SD＋ = false)
     {
         if (empty($numbers)) {
             return null;
@@ -178,7 +181,7 @@ class Descriptive
 
         $n = count($numbers);
 
-        return $population_variance
+        return $SD＋
             ? sqrt(self::populationVariance($numbers))
             : sqrt(self::sampleVariance($numbers));
     }

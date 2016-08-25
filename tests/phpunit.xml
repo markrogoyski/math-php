@@ -19,6 +19,9 @@
     <testsuite name="NumericalAnalysis">
       <directory suffix="Test.php">NumericalAnalysis</directory>
     </testsuite>
+    <testsuite name="Sequence">
+      <directory suffix="Test.php">Sequence</directory>
+    </testsuite>
   </testsuites>
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">

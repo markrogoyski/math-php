@@ -22,6 +22,9 @@ Features
          - Discrete
      * Standard Normal Table (Z Table)
      * t Distribution Table
+ * Sequences
+     * Basic
+     * Advanced
  * Statistics
      * Averages
      * Correlation
@@ -563,6 +566,80 @@ $t_table = TDistributionTable::TWO_SIDED_ALPHA;
 $t_table = $t_table[$ν][$α];
 ```
 
+### Sequences - Basic
+```php
+use Math\Sequence\Basic;
+
+$n = 5; // Number of elements in the sequence
+
+// Arithmetic progression
+$d           = 2;  // Difference between the elements of the sequence
+$a₁          = 1;  // Starting number for the sequence
+$progression = Basic::arithmeticProgression($n, $d, $a₁);
+// [1, 3, 5, 7, 9] - Indexed from 1
+
+// Geometric progression (arⁿ⁻¹)
+$a           = 2; // Scalar value
+$r           = 3; // Common ratio
+$progression = Basic::geometricProgression($n, $a, $r);
+// [2(3)⁰, 2(3)¹, 2(3)², 2(3)³] = [2, 6, 18, 54] - Indexed from 1
+
+// Square numbers (n²)
+$squares = Basic::squareNumber($n);
+// [0², 1², 2², 3², 4²] = [0, 1, 4, 9, 16] - Indexed from 0
+
+// Cubic numbers (n³)
+$cubes = Basic::cubicNumber($n);
+// [0³, 1³, 2³, 3³, 4³] = [0, 1, 8, 27, 64] - Indexed from 0
+
+// Powers of 2 (2ⁿ)
+$po2 = Basic::powersOfTwo($n);
+// [2⁰, 2¹, 2², 2³, 2⁴] = [1,  2,  4,  8,  16] - Indexed from 0
+
+// Powers of 10 (10ⁿ)
+$po10 = Basic::powersOfTen($n);
+// [10⁰, 10¹, 10², 10³,  10⁴] = [1, 10, 100, 1000, 10000] - Indexed from 0
+
+// Factorial (n!)
+$fact = Basic::factorial($n);
+// [0!, 1!, 2!, 3!, 4!] = [1,  1,  2,  6,  24] - Indexed from 0
+```
+
+### Sequences - Advanced
+```php
+use Math\Sequence\Advanced;
+
+$n = 6; // Number of elements in the sequence
+
+// Fibonacci (Fᵢ = Fᵢ₋₁ + Fᵢ₋₂)
+$fib = Advanced::fibonacci($n);
+// [0, 1, 1, 2, 3, 5] - Indexed from 0
+
+// Lucas numbers
+$lucas = Advanced::lucasNumber($n);
+// [2, 1, 3, 4, 7, 11] - Indexed from 0
+
+// Pell numbers
+$pell = Advanced::pellNumber($n);
+// [0, 1, 2, 5, 12, 29] - Indexed from 0
+
+// Triangular numbers (figurate number)
+$triangles = Advanced::triangularNumber($n);
+// [1, 3, 6, 10, 15, 21] - Indexed from 1
+
+// Pentagonal numbers (figurate number)
+$pentagons = Advanced::pentagonalNumber($n);
+// [1, 5, 12, 22, 35, 51] - Indexed from 1
+
+// Hexagonal numbers (figurate number)
+$hexagons = Advanced::hexagonalNumber($n);
+// [1, 6, 15, 28, 45, 66] - Indexed from 1
+
+// Heptagonal numbers (figurate number)
+$hexagons = Advanced::heptagonalNumber($n)
+// [1, 4, 7, 13, 18, 27] - Indexed from 1
+```
+
 ### Statistics - Averages
 ```php
 use Math\Statistics\Average;
@@ -676,14 +753,20 @@ $range    = Descriptive::range($numbers);
 $midrange = Descriptive::midrange($numbers);
 
 // Variance (population and sample)
-$σ² = Descriptive::populationVariance($numbers);
-$S² = Descriptive::sampleVariance($numbers);
-$df = 5;                                         // degrees of freedom
-$S² = Descriptive::variance($numbers, $df);      // can specify custom degrees of freedom
+$σ² = Descriptive::populationVariance($numbers); // n degrees of freedom
+$S² = Descriptive::sampleVariance($numbers);     // n - 1 degrees of freedom
 
-// Standard deviation
-$σ = Descriptive::sd($numbers);                // same as standardDeviation; has optional parameter to set population or sample variance
-$σ = Descriptive::standardDeviation($numbers); // same as sd; has optional parameter to set population or sample variance
+// Variance (Custom degrees of freedom)
+$df = 5;                                    // degrees of freedom
+$S² = Descriptive::variance($numbers, $df); // can specify custom degrees of freedom
+
+// Standard deviation (Uses population variance)
+$σ = Descriptive::sd($numbers);                // same as standardDeviation;
+$σ = Descriptive::standardDeviation($numbers); // same as sd;
+
+// SD+ (Standard deviation for a sample; uses sample variance)
+$SD＋ = Descriptive::sd($numbers, Descriptive::SAMPLE); // SAMPLE constant = true
+$SD＋ = Descriptive::standardDeviation($numbers, true); // same as sd with SAMPLE constant
 
 // Coefficient of variation (cᵥ)
 $cᵥ = Descriptive::coefficientOfVariation($numbers);

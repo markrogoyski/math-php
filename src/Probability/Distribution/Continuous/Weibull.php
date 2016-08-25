@@ -11,12 +11,14 @@ class Weibull extends Continuous
      * x ∈ [0,∞)
      * λ ∈ (0,∞)
      * k ∈ (0,∞)
+     * p ∈ [0,1]
      * @var array
      */
     const LIMITS = [
         'x' => '[0,∞)',
         'λ' => '(0,∞)',
         'k' => '(0,∞)',
+        'p' => '[0,1]',
     ];
 
     /**
@@ -103,7 +105,7 @@ class Weibull extends Continuous
     {
         $k = $params[0];
         $λ = $params[1];
-        Support::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
+        Support::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ, 'p' => $p]);
 
         return $λ * (-1 * log(1 - $p))**(1/$k);
     }
