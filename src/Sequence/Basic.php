@@ -93,7 +93,7 @@ class Basic
      * https://en.wikipedia.org/wiki/Square_number
      *
      * n²
-     * 
+     *
      * Example:
      *  n = 5
      *  Sequence:    0², 1², 2², 3², 4²
