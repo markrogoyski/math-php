@@ -56,7 +56,6 @@ class LOESS extends NonParametricRegression
         $this->number_of_points = min(ceil($this->α * $this->n), $this->n);
     }
 
-
     /**
      * Evaluate for x
      * Use the smoothness parameter α to determine the subset of data to consider for
