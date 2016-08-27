@@ -153,4 +153,38 @@ class Single
             $xs
         );
     }
+    
+        /**
+     * Map min value
+     *
+     * @param  array $xs
+     * @param  $value
+     * @return array
+     */
+    public static function min(array $xs, $value): array
+    {
+        return array_map(
+            function ($x) use ($value) {
+                return min($x, $value);
+            },
+            $xs
+        );
+    }
+    
+    /**
+     * Map max value
+     *
+     * @param  array $xs
+     * @param  $value
+     * @return array
+     */
+    public static function max(array $xs, $value): array
+    {
+        return array_map(
+            function ($x) use ($value) {
+                return max($x, $value);
+            },
+            $xs
+        );
+    }
 }
