@@ -6,7 +6,7 @@ use Math\Statistics\Average;
 use Math\LinearAlgebra\VandermondeMatrix;
 
 /**
- * LOESS - Locally Weighted Scatterplot Smoothing
+ * LOESS - Locally Weighted Scatterplot Smoothing (Local regression)
  *
  * https://en.wikipedia.org/wiki/Local_regression
  */
@@ -43,6 +43,10 @@ class LOESS extends NonParametricRegression
     /**
      * Use the smoothness parameter $q to determine the subset of data to consider for
      * local regression. Perform a weighted least squares regression and evaluate $x.
+     *
+     * @param  number $x
+     *
+     * @return number
      */
     public function evaluate($x)
     {
@@ -52,16 +56,18 @@ class LOESS extends NonParametricRegression
         
         // The number of points considered in the local regression
         $number_of_points = min(ceil($q * $n), $n);
-        $delta_x = Single::abs(Single::subtract($this->xs, $x));
-        $qth_deltax = Average::kthSmallest($delta_x, $number_of_points - 1);
-        $arg = Single::min(Single::divide($delta_x, $qth_deltax * max($q, 1)), 1);
+        $delta_x          = Single::abs(Single::subtract($this->xs, $x));
+        $qth_deltax       = Average::kthSmallest($delta_x, $number_of_points - 1);
+        $arg              = Single::min(Single::divide($delta_x, $qth_deltax * max($q, 1)), 1);
         
         // tricube = (1-arg³)³
         $tricube = Single::cube(Single::multiply(Single::subtract(Single::cube($arg), 1), -1));
         $weights = $tricube;
+
         // Local Regression Parameters
         $parameters = $this->leastSquares($this->ys, $this->xs, $weights, $d);
-        $X = new VandermondeMatrix([$x], $d + 1);
+        $X          = new VandermondeMatrix([$x], $d + 1);
+
         return $X->multiply($parameters)[0][0];
     }
 }
