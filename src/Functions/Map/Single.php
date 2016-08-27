@@ -154,11 +154,14 @@ class Single
         );
     }
     
-        /**
+    /**
      * Map min value
+     * Each element in array is compared against the value,
+     * and the min of each is returned.
      *
-     * @param  array $xs
-     * @param  $value
+     * @param  array  $xs
+     * @param  number $value
+     *
      * @return array
      */
     public static function min(array $xs, $value): array
@@ -173,9 +176,12 @@ class Single
     
     /**
      * Map max value
+     * Each element in the array is compared against the value,
+     * and the max of each is returned.
      *
-     * @param  array $xs
-     * @param  $value
+     * @param  array  $xs
+     * @param  number $value
+     *
      * @return array
      */
     public static function max(array $xs, $value): array
