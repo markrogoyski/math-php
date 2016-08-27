@@ -14,16 +14,19 @@ abstract class Regression
      * @var array
      */
     protected $points;
+
     /**
      * X values of the original points
      * @var array
      */
     protected $xs;
+
     /**
      * Y values of the original points
      * @var [type]
      */
     protected $ys;
+
     /**
      * Number of points
      * @var int
@@ -39,6 +42,7 @@ abstract class Regression
     {
         $this->points = $points;
         $this->n      = count($points);
+
         // Get list of x points and y points.
         // This will be fine for linear or polynomial regression, where there is only one x,
         // but if expanding to multiple linear, the format will have to change.
@@ -49,6 +53,7 @@ abstract class Regression
             return $point[1];
         }, $points);
     }
+
     /**
      * Evaluate the regression equation at x
      * Uses the instance model's evaluateModel method.
@@ -61,6 +66,7 @@ abstract class Regression
     {
         return call_user_func([get_class($this), 'evaluateModel'], $x, $this->parameters);
     }
+
     /**
      * Get points
      *
@@ -70,6 +76,7 @@ abstract class Regression
     {
         return $this->points;
     }
+
     /**
      * Get Xs (x values of each point)
      *
@@ -79,6 +86,7 @@ abstract class Regression
     {
         return $this->xs;
     }
+
     /**
      * Get Ys (y values of each point)
      *
@@ -88,6 +96,7 @@ abstract class Regression
     {
         return $this->ys;
     }
+
     /**
      * Get sample size (number of points)
      *

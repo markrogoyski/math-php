@@ -5,26 +5,32 @@ use Math\Functions\Map\Single;
 use Math\Statistics\Average;
 use Math\LinearAlgebra\VandermondeMatrix;
 
+/**
+ * LOESS - Locally Weighted Scatterplot Smoothing
+ *
+ * https://en.wikipedia.org/wiki/Local_regression
+ */
 class LOESS extends NonParametricRegression
 {
+    use Methods\WeightedLeastSquares;
+
+    /**
+     * Smoothness parameter
+     * @var number
+     */
     protected $q;
-    
+
+    /**
+     * Order of the polynomial fit
+     * @var int
+     */
     protected $d;
     
-    use Methods\WeightedLeastSquares;
     /**
-     * LOESS - Locally Weighted Scatterplot Smoothing
-     *
-     * https://en.wikipedia.org/wiki/Local_regression
+     * @param array  $points [ [x, y], [x, y], ... ]
+     * @param number $q      Smoothness parameter
+     * @param int    $d      Order of the polynomial to fit
      */
-    
-    /**
-     * @param $ys - array of dependant variables
-     * @param $xs - array of independant variables
-     * @param $q - smoothness parameter
-     * @param $d - Order of the polynomial to fit
-     */
-     
     public function __construct($points, $q, int $d)
     {
         // If q <= (d + 1) / 2 or q > 1 throw exception

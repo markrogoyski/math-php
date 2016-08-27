@@ -56,9 +56,16 @@ trait WeightedLeastSquares
         $X = new VandermondeMatrix($xs, $order + 1);
         $y = new ColumnVector($ys);
         $W = new DiagonalMatrix($ws);
+
         // a = (XᵀWX)⁻¹XᵀWy
-        $Xᵀ          = $X->transpose();
-        $beta_hat = $Xᵀ->multiply($W)->multiply($X)->inverse()->multiply($Xᵀ)->multiply($W)->multiply($y);
+        $Xᵀ       = $X->transpose();
+        $beta_hat = $Xᵀ->multiply($W)
+                       ->multiply($X)
+                       ->inverse()
+                       ->multiply($Xᵀ)
+                       ->multiply($W)
+                       ->multiply($y);
+
         return $beta_hat;
     }
 }
