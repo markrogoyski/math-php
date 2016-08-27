@@ -66,7 +66,7 @@ abstract class Continuous extends \Math\Probability\Distribution\Distribution
     }
   
     /**
-     * CDF outside - Probability of being bewteen below x₁ and above x₂.
+     * CDF outside - Probability of being below x₁ and above x₂.
      * The area under a continuous distribution, that lies above and below two points.
      *
      * P(outside) = 1 - P(between) = 1 - (CDF($x₂) - CDF($x₁))
