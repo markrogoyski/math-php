@@ -26,7 +26,7 @@ use Math\Statistics\Average;
  * a = exp|  ------------------  |
  *        |_          n         _|
  */
-class PowerLaw extends Regression
+class PowerLaw extends ParametricRegression
 {
     use Models\PowerModel, Methods\LeastSquares;
 

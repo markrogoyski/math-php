@@ -14,29 +14,21 @@ abstract class Regression
      * @var array
      */
     protected $points;
-
     /**
      * X values of the original points
      * @var array
      */
     protected $xs;
-
     /**
      * Y values of the original points
      * @var [type]
      */
     protected $ys;
-
     /**
      * Number of points
      * @var int
      */
     protected $n;
-    
-    /**
-     * An array of model parameters
-     */
-    protected $parameters;
     
     /**
      * Constructor - Prepares the data arrays for regression analysis
@@ -47,7 +39,6 @@ abstract class Regression
     {
         $this->points = $points;
         $this->n      = count($points);
-
         // Get list of x points and y points.
         // This will be fine for linear or polynomial regression, where there is only one x,
         // but if expanding to multiple linear, the format will have to change.
@@ -57,10 +48,7 @@ abstract class Regression
         $this->ys = array_map(function ($point) {
             return $point[1];
         }, $points);
-
-        $this->calculate();
     }
-
     /**
      * Evaluate the regression equation at x
      * Uses the instance model's evaluateModel method.
@@ -73,37 +61,6 @@ abstract class Regression
     {
         return call_user_func([get_class($this), 'evaluateModel'], $x, $this->parameters);
     }
-
-    /**
-     * Return the model as a string
-     */
-    public function __toString(): string
-    {
-        return $this->getEquation();
-    }
-
-    /**
-     * Get the equation
-     * Uses the model's getModelEquation method.
-     *
-     * @return string
-     */
-    public function getEquation()
-    {
-        return call_user_func([get_class($this), 'getModelEquation'], $this->parameters);
-    }
-
-    /**
-     * Get the parameters
-     * Uses the model's getModelParameters method.
-     *
-     * @return array
-     */
-    public function getParameters()
-    {
-        return call_user_func([get_class($this), 'getModelParameters'], $this->parameters);
-    }
-
     /**
      * Get points
      *
@@ -113,7 +70,6 @@ abstract class Regression
     {
         return $this->points;
     }
-
     /**
      * Get Xs (x values of each point)
      *
@@ -123,7 +79,6 @@ abstract class Regression
     {
         return $this->xs;
     }
-
     /**
      * Get Ys (y values of each point)
      *
@@ -133,7 +88,6 @@ abstract class Regression
     {
         return $this->ys;
     }
-
     /**
      * Get sample size (number of points)
      *

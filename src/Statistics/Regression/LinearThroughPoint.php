@@ -26,7 +26,7 @@ use Math\Probability\Distribution\Continuous\StudentT;
  *
  * b = w - m * v
  */
-class LinearThroughPoint extends Regression
+class LinearThroughPoint extends ParametricRegression
 {
     use Methods\LeastSquares, Models\LinearModel;
 
