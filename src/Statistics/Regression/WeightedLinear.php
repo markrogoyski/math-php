@@ -18,7 +18,7 @@ use Math\Probability\Distribution\Continuous\StudentT;
  * Find the equation y = mx + b
  *
  */
-class WeightedLinear extends Regression
+class WeightedLinear extends ParametricRegression
 {
     use Models\LinearModel, Methods\WeightedLeastSquares;
 
