@@ -94,7 +94,9 @@ $x²          = Single::square($x);      // [1, 4, 9, 16]
 $x³          = Single::cube($x);        // [1, 8, 27, 64]
 $x⁴          = Single::pow($x, 4);      // [1, 16, 81, 256]
 $√x          = Single::sqrt($x);        // [1, 1.414, 1.732, 2]
-$∣x∣         = Single::abs($x);
+$∣x∣         = Single::abs($x);         // [1, 2, 3, 4]
+$maxes       = Single::max($x, 3);      // [3, 3, 3, 4]
+$mins        = Single::min($x, 3);      // [1, 2, 3, 3]
 ```
 
 ### Functions - Map - Multiple Arrays
