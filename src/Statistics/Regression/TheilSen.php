@@ -13,7 +13,7 @@ use Math\Statistics\Average;
  *
  * https://en.wikipedia.org/wiki/Theil%E2%80%93Sen_estimator
  */
-class TheilSen extends Regression
+class TheilSen extends ParametricRegression
 {
     use Models\LinearModel;
 
