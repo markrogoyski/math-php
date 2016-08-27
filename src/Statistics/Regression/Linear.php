@@ -26,7 +26,7 @@ use Math\Probability\Distribution\Continuous\StudentT;
  *     _    _
  * b = y - mx
  */
-class Linear extends Regression
+class Linear extends ParametricRegression
 {
     use Methods\LeastSquares, Models\LinearModel;
 
