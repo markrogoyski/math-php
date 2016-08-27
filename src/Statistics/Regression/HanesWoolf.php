@@ -11,7 +11,7 @@ use Math\Functions\Map\Multi;
  *
  * The equation is linearized and fit using Least Squares
  */
-class HanesWoolf extends Regression
+class HanesWoolf extends ParametricRegression
 {
     use Methods\LeastSquares, Models\MichaelisMenten;
 

@@ -50,17 +50,22 @@ trait WeightedLeastSquares
      *
      * @return Matrix [[m], [b]]
      */
-    public function leastSquares($ys, $xs, $ws)
+    public function leastSquares(array $ys, array $xs, array $ws, int $order = 1): Matrix
     {
         // y = Xa
-        $X = new VandermondeMatrix($xs, 2);
+        $X = new VandermondeMatrix($xs, $order + 1);
         $y = new ColumnVector($ys);
         $W = new DiagonalMatrix($ws);
 
         // a = (XᵀWX)⁻¹XᵀWy
-        $Xᵀ          = $X->transpose();
-        $⟮XᵀWX⟯⁻¹XᵀWy = $Xᵀ->multiply($W)->multiply($X)->inverse()->multiply($Xᵀ)->multiply($W)->multiply($y);
+        $Xᵀ       = $X->transpose();
+        $beta_hat = $Xᵀ->multiply($W)
+                       ->multiply($X)
+                       ->inverse()
+                       ->multiply($Xᵀ)
+                       ->multiply($W)
+                       ->multiply($y);
 
-        return $⟮XᵀWX⟯⁻¹XᵀWy;
+        return $beta_hat;
     }
 }

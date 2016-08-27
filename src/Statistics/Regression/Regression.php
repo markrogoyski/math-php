@@ -34,11 +34,6 @@ abstract class Regression
     protected $n;
     
     /**
-     * An array of model parameters
-     */
-    protected $parameters;
-    
-    /**
      * Constructor - Prepares the data arrays for regression analysis
      *
      * @param array $points [ [x, y], [x, y], ... ]
@@ -57,8 +52,6 @@ abstract class Regression
         $this->ys = array_map(function ($point) {
             return $point[1];
         }, $points);
-
-        $this->calculate();
     }
 
     /**
@@ -72,36 +65,6 @@ abstract class Regression
     public function evaluate($x)
     {
         return call_user_func([get_class($this), 'evaluateModel'], $x, $this->parameters);
-    }
-
-    /**
-     * Return the model as a string
-     */
-    public function __toString(): string
-    {
-        return $this->getEquation();
-    }
-
-    /**
-     * Get the equation
-     * Uses the model's getModelEquation method.
-     *
-     * @return string
-     */
-    public function getEquation()
-    {
-        return call_user_func([get_class($this), 'getModelEquation'], $this->parameters);
-    }
-
-    /**
-     * Get the parameters
-     * Uses the model's getModelParameters method.
-     *
-     * @return array
-     */
-    public function getParameters()
-    {
-        return call_user_func([get_class($this), 'getModelParameters'], $this->parameters);
     }
 
     /**

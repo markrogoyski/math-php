@@ -180,4 +180,46 @@ class SingleTest extends \PHPUnit_Framework_TestCase
             [ [5, 10, 15, 20, 25], 5, [1, 2, 3, 4, 5] ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForMax
+     */
+    public function testMax(array $xs, $value, array $maxes)
+    {
+        $this->assertEquals($maxes, Single::max($xs, $value));
+    }
+
+    public function dataProviderForMax()
+    {
+        return [
+            [[1, 2, 3, 4, 5], 0, [1, 2, 3, 4, 5]],
+            [[1, 2, 3, 4, 5], 1, [1, 2, 3, 4, 5]],
+            [[1, 2, 3, 4, 5], 3, [3, 3, 3, 4, 5]],
+            [[1, 2, 3, 4, 5], 6, [6, 6, 6, 6, 6]],
+            [[1, 2, 3, 4, 5], 9, [9, 9, 9, 9, 9]],
+            [[1, 2, 3, 4, 5], 3.4, [3.4, 3.4, 3.4, 4, 5]],
+            [[1, 2, 3, 4, 5], 6.7, [6.7, 6.7, 6.7, 6.7, 6.7]],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForMin
+     */
+    public function testMin(array $xs, $value, array $mins)
+    {
+        $this->assertEquals($mins, Single::min($xs, $value));
+    }
+
+    public function dataProviderForMin()
+    {
+        return [
+            [[1, 2, 3, 4, 5], 0, [0, 0, 0, 0, 0]],
+            [[1, 2, 3, 4, 5], 1, [1, 1, 1, 1, 1]],
+            [[1, 2, 3, 4, 5], 3, [1, 2, 3, 3, 3]],
+            [[1, 2, 3, 4, 5], 6, [1, 2, 3, 4, 5]],
+            [[1, 2, 3, 4, 5], 9, [1, 2, 3, 4, 5]],
+            [[1, 2, 3, 4, 5], 3.4, [1, 2, 3, 3.4, 3.4]],
+            [[1, 2, 3, 4, 5], 6.7, [1, 2, 3, 4, 5]],
+        ];
+    }
 }

@@ -11,7 +11,7 @@ use Math\Functions\Map\Single;
  *
  * The equation is linearized and fit using Least Squares
  */
-class LineweaverBurk extends Regression
+class LineweaverBurk extends ParametricRegression
 {
     use Models\MichaelisMenten, Methods\LeastSquares;
 

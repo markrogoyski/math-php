@@ -6,9 +6,10 @@ namespace Math\Sequence;
  *  - Fibonacci
  *  - Lucas numbers
  *  - Pell numbers
- *  - Heptagonal numbers
- *  - Hexagonal numbers
+ *  - Triangular numbers
  *  - Pentagonal numbers
+ *  - Hexagonal numbers
+ *  - Heptagonal numbers
  *
  * All sequences return an array of numbers in the sequence.
  * The array index starting point depends on the sequence type.
