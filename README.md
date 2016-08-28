@@ -1013,9 +1013,17 @@ $y           = $regression->evaluate(5);
 
 // Power law regression - power curve (least squares fitting)
 $regression = new PowerLaw($points);
-$parameters = $regression->getParameters();          // [a => 56.483375436574, b => 0.26415375648621]
-$equation   = $regression->getEquation();            // y = 56.483375436574x^0.26415375648621
+$parameters = $regression->getParameters();   // [a => 56.483375436574, b => 0.26415375648621]
+$equation   = $regression->getEquation();     // y = 56.483375436574x^0.26415375648621
 $y          = $regression->evaluate(5);
+ ⋮                     ⋮
+
+// LOESS - Locally Weighted Scatterplot Smoothing (Local regression)
+$α          = 1/3;                         // Smoothness parameter
+$λ          = 1;                           // Order of the polynomial fit
+$regression = new LOESS($points, $α, $λ);
+$y          = $regression->evaluate(5);
+$Ŷ          = $regression->yHat();
  ⋮                     ⋮
 ```
 
