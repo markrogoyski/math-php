@@ -48,7 +48,7 @@ class LOESS extends NonParametricRegression
         parent::__construct($points);
 
         // α ∈ ((λ + 1) / n, 1]
-        if (($α <= ($λ + 1) / $this->n) || $α > 1 ) {
+        if (($α <= ($λ + 1) / $this->n) || $α > 1) {
             throw new \Exception('Smoothness parameter α must be between ' . ($λ + 1) / $this->n . " and 1; given $α");
         }
 
