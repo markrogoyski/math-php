@@ -127,7 +127,7 @@ class TrapezoidalRule
                                       two numbers, an x- and y-component');
             }
 
-            $x_component = $point[0];
+            $x_component = $point[self::X];
             if (in_array($x_component, $x_coordinates)) {
                 throw new \Exception('Not a function. Your input array contains
                                       more than one coordinate with the same
