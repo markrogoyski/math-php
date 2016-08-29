@@ -19,9 +19,21 @@ namespace Math\NumericalAnalysis;
  * The trapezoidal rule is produced by integrating the first Lagrange polynomial.
  *
  * https://en.wikipedia.org/wiki/Trapezoidal_rule
+ * http://mathworld.wolfram.com/TrapezoidalRule.html
+ * http://www.efunda.com/math/num_integration/num_int_newton.cfm
  */
 class TrapezoidalRule
 {
+    /**
+     * @var int Index of x
+     */
+    const X = 0;
+
+    /**
+     * @var int Index of y
+     */
+    const Y = 1;
+
     /**
      * Use the Trapezoidal Rule to aproximate the definite integral of a
      * function f(x). Each array in our input contains two numbers which
@@ -36,31 +48,52 @@ class TrapezoidalRule
      * integral of the function that produces these coordinates with a lower
      * bound of 0, and an upper bound of 10.
      *
+     * Trapezoidal Rule:
+     *
+     * xn        ⁿ⁻¹ xᵢ₊₁
+     * ∫ f(x)dx = ∑   ∫ f(x)dx
+     * x₁        ⁱ⁼¹  xᵢ
+     *
+     *           ⁿ⁻¹  h
+     *          = ∑   - [f(xᵢ₊₁) + f(xᵢ)] + O(h³f″(x))
+     *           ⁱ⁼¹  2
+     *
+     *  where h = xᵢ₊₁ - xᵢ
+     *
      * @param  array ... $arrays Two or more arrays, each containing precisely
      *                           two numbers
      *
      * @return number            The approximation to the integral of f(x)
      */
-    public static function solve(array ... $arrays)
+    public static function solve(array ...$arrays)
     {
         // Validate and sort arrays
         self::validate($arrays);
         $sorted = self::sort($arrays);
+
+        // Descriptive constants
+        $x = self::X;
+        $y = self::Y;
 
         // Initialize
         $number_of_arrays = (count($sorted));
         $steps            = $number_of_arrays - 1;
         $approximation    = 0;
 
-        // Summation
+        /*
+         * Summation
+         * ⁿ⁻¹  h
+         *  ∑   - [f(xᵢ₊₁) + f(xᵢ)] + O(h³f″(x))
+         * ⁱ⁼¹  2
+         *  where h = xᵢ₊₁ - xᵢ
+         */
         for ($i = 0; $i < $steps; $i++) {
-            $x0             = $sorted[$i][0];
-            $x1             = $sorted[$i+1][0];
-            $y0             = $sorted[$i][1];
-            $y1             = $sorted[$i+1][1];
-            $average_y      = ($y1 + $y0)/2;
-            $delta_x        = $x1 - $x0;
-            $approximation += $delta_x*$average_y;
+            $xᵢ             = $sorted[$i][$x];
+            $xᵢ₊₁           = $sorted[$i+1][$x];
+            $f⟮xᵢ⟯           = $sorted[$i][$y];    // yᵢ
+            $f⟮xᵢ₊₁⟯         = $sorted[$i+1][$y];  // yᵢ₊₁
+            $h              = $xᵢ₊₁ - $xᵢ;
+            $approximation += ($h * ($f⟮xᵢ₊₁⟯ + $f⟮xᵢ⟯)) / 2;
         }
 
         return $approximation;
@@ -114,7 +147,7 @@ class TrapezoidalRule
     {
         $pairs = [];
         foreach ($arrays as $array) {
-            $pairs[$array[0]] = [$array[0], $array[1]];
+            $pairs[$array[self::X]] = [$array[self::X], $array[self::Y]];
         }
         ksort($pairs);
 
