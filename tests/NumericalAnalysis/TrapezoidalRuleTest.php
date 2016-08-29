@@ -40,7 +40,7 @@ class TrapezoidalRuleTest extends \PHPUnit_Framework_TestCase
         $x = TrapezoidalRule::solve([[0, 1], [1, 4], [2, 9], [3, 16]]);
         $this->assertEquals($expected, $x, '', $tol);
 
-        // Same test but with points not sorted to test sorting works
+        // Same test as above but with points not sorted to test sorting works
         $tol = 6;
         $x = TrapezoidalRule::solve([[1, 4], [3, 16], [0, 1], [2, 9], ]);
         $this->assertEquals($expected, $x, '', $tol);
