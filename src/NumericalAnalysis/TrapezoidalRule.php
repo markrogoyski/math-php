@@ -60,25 +60,27 @@ class TrapezoidalRule
      *
      *  where h = xᵢ₊₁ - xᵢ
      *
-     * @param  array ... $arrays Two or more arrays, each containing precisely
-     *                           two numbers
+     * @param  array $points Array of arrays (array of points).
+     *                       Each array (point) contains precisely two numbers,
+     *                       an x and y value.
+     *                       Example: [[1,2], [2,3], [3,4], [4,5]]
      *
-     * @return number            The approximation to the integral of f(x)
+     * @return number        The approximation to the integral of f(x)
      */
-    public static function solve(array ...$arrays)
+    public static function solve(array $points)
     {
-        // Validate and sort arrays
-        self::validate($arrays);
-        $sorted = self::sort($arrays);
+        // Validate and sort points
+        self::validate($points);
+        $sorted = self::sort($points);
 
         // Descriptive constants
         $x = self::X;
         $y = self::Y;
 
         // Initialize
-        $number_of_arrays = (count($sorted));
-        $steps            = $number_of_arrays - 1;
-        $approximation    = 0;
+        $n             = (count($sorted));
+        $steps         = $n - 1;
+        $approximation = 0;
 
         /*
          * Summation
@@ -100,32 +102,32 @@ class TrapezoidalRule
     }
 
     /**
-     * Validate that there are two or more arrays, that each array has precisely
-     * two numbers, and that no two arrays share the same first number
+     * Validate that there are two or more arrays (points), that each point array
+     * has precisely two numbers, and that no two points share the same first number
      * (x-component)
      *
-     * @param  array $arrays
+     * @param  array $points Array of arrays (points)
      *
      * @return bool
-     * @throws Exception if there are less than two arrays
-     * @throws Exception if any array does not contain two numbers
-     * @throws Exception if two arrays share the same first number (x-component)
+     * @throws Exception if there are less than two points
+     * @throws Exception if any point does not contain two numbers
+     * @throws Exception if two points share the same first number (x-component)
      */
-    public static function validate(array $arrays)
+    private static function validate(array $points)
     {
-        if (count($arrays) < 2) {
+        if (count($points) < 2) {
             throw new \Exception('You need to have at least two sets of
                                   coordinates (arrays)');
         }
 
         $x_coordinates = [];
-        foreach ($arrays as $array) {
-            if (count($array) !== 2) {
+        foreach ($points as $point) {
+            if (count($point) !== 2) {
                 throw new \Exception('Each array needs to have have precisely
                                       two numbers, an x- and y-component');
             }
 
-            $x_component = $array[0];
+            $x_component = $point[0];
             if (in_array($x_component, $x_coordinates)) {
                 throw new \Exception('Not a function. Your input array contains
                                       more than one coordinate with the same
@@ -139,24 +141,17 @@ class TrapezoidalRule
      * Sorts our coordinates (arrays) by their x-component (first number) such
      * that consecutive coordinates have an increasing x-component.
      *
-     * @param  array $arrays
+     * @param  array $points
      *
      * @return array
      */
-    public static function sort(array $arrays)
+    private static function sort(array $points)
     {
-        $pairs = [];
-        foreach ($arrays as $array) {
-            $pairs[$array[self::X]] = [$array[self::X], $array[self::Y]];
-        }
-        ksort($pairs);
+        $x = self::X;
+        usort($points, function($a, $b) use ($x) {
+            return $a[$x] <=> $b[$x];
+        });
 
-        $sorted = [];
-        while ($pair = current($pairs)) {
-            array_push($sorted, $pair);
-            next($pairs);
-        }
-
-        return $sorted;
+        return $points;
     }
 }
