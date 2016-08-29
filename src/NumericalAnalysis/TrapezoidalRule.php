@@ -148,7 +148,7 @@ class TrapezoidalRule
     private static function sort(array $points)
     {
         $x = self::X;
-        usort($points, function($a, $b) use ($x) {
+        usort($points, function ($a, $b) use ($x) {
             return $a[$x] <=> $b[$x];
         });
 
