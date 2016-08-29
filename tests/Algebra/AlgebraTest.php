@@ -6,27 +6,39 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForGCD
      */
-    public function testGCD(int $a, int $b, int $gcd)
+    public function testGCD(int $a, int $b, int $gcd, int $_, int $__)
     {
         $this->assertEquals($gcd, Algebra::gcd($a, $b));
+    }
+
+    /**
+     * @dataProvider dataProviderForGCD
+     */
+    public function testExtendedGCD(int $a, int $b, int $gcd, int $alpha, int $beta)
+    {
+        $this->assertEquals([$gcd, $alpha, $beta], Algebra::extended_gcd($a, $b));
     }
 
     public function dataProviderForGCD()
     {
         return [
-            [0, 0, 0],
-            [8, 0, 8],
-            [0, 8, 8],
-            [8, 12, 4],
-            [12, 8, 4],
-            [54, 24, 6],
-            [24, 54, 6],
-            [18, 84, 6],
-            [84, 18, 6],
-            [244, 343, 1],
-            [343, 244, 1],
-            [97, 577, 1],
-            [577, 97, 1],
+            [0, 0, 0, 0, 1],
+            [8, 0, 8, 1, 0],
+            [0, 8, 8, 0, 1],
+            [8, 12, 4, -1, 1],
+            [12, 8, 4, 1, -1],
+            [54, 24, 6, 1, -2],
+            [24, 54, 6, -2, 1],
+            [18, 84, 6, 5, -1],
+            [84, 18, 6, -1, 5],
+            [244, 343, 1, 97, -69],
+            [343, 244, 1, -69, 97],
+            [97, 577, 1, 232, -39],
+            [577, 97, 1, -39, 232],
+            [40902, 24140, 34, 337, -571],
+            [24140, 40902, 34, -571, 337],
+            [1234, 54, 2, -7, 160],
+            [54, 1234, 2, 160, -7],
         ];
     }
 

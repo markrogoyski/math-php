@@ -32,6 +32,46 @@ class Algebra
     }
 
     /**
+     * Extended Greatest common divisor
+     * Compute the gcd as a multiple of the inputs:
+     * gcd(a, b) = a*a' + b*b'
+     * https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
+     * Knuth, The Art of Computer Programming, Volume 2, 4.5.2 Algorithm X.
+     *
+     * @param  int $a
+     * @param  int $b
+     *
+     * @return array of gcd, a', b'
+     */
+    public static function extended_gcd(int $a, int $b): array
+    {
+        // Base cases
+        if ($a == 0) {
+            return [$b, 0, 1];
+        }
+        if ($b == 0) {
+            return [$a, 1, 0];
+        }
+        $x₂ = 1;
+        $x₁ = 0;
+        $y₂ = 0;
+        $y₁ = 1;
+        while ($b > 0) {
+            $q = intdiv($a, $b);
+            $r = $a % $b;
+            $x = $x₂ - $q*$x₁;
+            $y = $y₂ - $q*$y₁;
+            $x₂ = $x₁;
+            $x₁ = $x;
+            $y₂ = $y₁;
+            $y₁ = $y;
+            $a = $b;
+            $b = $r;
+        }
+        return [$a, $x₂, $y₂];
+    }
+
+    /**
      * Least common multiple
      * The smallest positive integer that is divisible by both a and b.
      * For example, the LCM of 5 and 2 is 10.
