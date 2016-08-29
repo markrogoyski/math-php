@@ -52,14 +52,14 @@ class TrapezoidalRuleTest extends \PHPUnit_Framework_TestCase
 
     public function testNotEnoughArraysException()
     {
-        // An array doesn't have precisely two numbers (coordinates)
+        // There are not enough arrays in the input
         $this->setExpectedException('\Exception');
         TrapezoidalRule::solve([0,0]);
     }
 
     public function testNotAFunctionException()
     {
-        // An array doesn't have precisely two numbers (coordinates)
+        // Two arrays share the same first number (x-component)
         $this->setExpectedException('\Exception');
         TrapezoidalRule::solve([0,0], [0,5], [1,1]);
     }
