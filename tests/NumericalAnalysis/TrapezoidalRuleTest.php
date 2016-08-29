@@ -2,8 +2,6 @@
 
 namespace Math\NumericalAnalysis;
 
-include('src/NumericalAnalysis/TrapezoidalRule.php');
-
 class TrapezoidalRuleTest extends \PHPUnit_Framework_TestCase
 {
     public function testSolvePolynomial()
@@ -47,7 +45,7 @@ class TrapezoidalRuleTest extends \PHPUnit_Framework_TestCase
     {
         // An array doesn't have precisely two numbers (coordinates)
         $this->setExpectedException('\Exception');
-        TrapezoidalRule::solve([0,0],[1,2,3]);
+        TrapezoidalRule::solve([0,0], [1,2,3]);
     }
 
     public function testNotEnoughArraysException()
