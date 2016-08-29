@@ -321,7 +321,8 @@ print($A); // [1, 2, 3]
 ```php
 use Math\NumericalAnalysis;
 
-// Use Newton's Method to solve for a root of a polynomial
+// Newton's Method
+// Solve for a root of a polynomial using Newton's Method.
 // f(x) = x⁴ + 8x³ -13x² -92x + 96
 $f⟮x⟯ = function($x) {
     return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
@@ -332,8 +333,9 @@ $tol      = 0.00001; // Tolerance; how close to the actual solution we would lik
 $position = 0;       // Which element in the $args array will be changed; also serves as initial guess. Defaults to 0.
 $x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
 
-// Use Trapezoidal Rule (Newton-Cotes formula) to approximate the definite integral
-// of a function given only inputs and the values of the function evaluated at those inputs.
+// Trapezoidal Rule (Newton-Cotes formula)
+// Approximate the definite integral of a function given only inputs and
+// the values of the function evaluated at those inputs.
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
 $∫f⟮x⟯dx = TrapezoidalRule::solve($points);
 ```
