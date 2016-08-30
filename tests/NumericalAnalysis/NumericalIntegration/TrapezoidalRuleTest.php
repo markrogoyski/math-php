@@ -1,6 +1,6 @@
 <?php
 
-namespace Math\NumericalAnalysis;
+namespace Math\NumericalAnalysis\NumericalIntegration;
 
 class TrapezoidalRuleTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,26 +23,26 @@ class TrapezoidalRuleTest extends \PHPUnit_Framework_TestCase
         // Approximate with endpoints: (0, 1) and (3, 16)
         // Error = 2 * ((3 - 0)²) = 18
         $tol = 18;
-        $x = TrapezoidalRule::solve([[0, 1], [3, 16]]);
+        $x = TrapezoidalRule::approximate([[0, 1], [3, 16]]);
         $this->assertEquals($expected, $x, '', $tol);
 
         // Approximate with endpoints and one interior point: (0, 1), (1, 4),
         // and (3, 16)
         // Error = 2 * ((1 - 0)² + (3 - 1)²) = 10
         $tol = 10;
-        $x = TrapezoidalRule::solve([[0, 1], [1, 4], [3, 16]]);
+        $x = TrapezoidalRule::approximate([[0, 1], [1, 4], [3, 16]]);
         $this->assertEquals($expected, $x, '', $tol);
 
         // Approximate with endpoints and two interior points: (0, 1), (1, 4),
         // (2, 9), and (3, 16)
         // Error = 2 * ((1 - 0)² + (2 - 1)² + (3 - 2)²) = 6
         $tol = 6;
-        $x = TrapezoidalRule::solve([[0, 1], [1, 4], [2, 9], [3, 16]]);
+        $x = TrapezoidalRule::approximate([[0, 1], [1, 4], [2, 9], [3, 16]]);
         $this->assertEquals($expected, $x, '', $tol);
 
         // Same test as above but with points not sorted to test sorting works
         $tol = 6;
-        $x = TrapezoidalRule::solve([[1, 4], [3, 16], [0, 1], [2, 9], ]);
+        $x = TrapezoidalRule::approximate([[1, 4], [3, 16], [0, 1], [2, 9], ]);
         $this->assertEquals($expected, $x, '', $tol);
     }
 
@@ -50,20 +50,20 @@ class TrapezoidalRuleTest extends \PHPUnit_Framework_TestCase
     {
         // An array doesn't have precisely two numbers (coordinates)
         $this->setExpectedException('\Exception');
-        TrapezoidalRule::solve([[0,0], [1,2,3]]);
+        TrapezoidalRule::approximate([[0,0], [1,2,3]]);
     }
 
     public function testNotEnoughArraysException()
     {
         // There are not enough arrays in the input
         $this->setExpectedException('\Exception');
-        TrapezoidalRule::solve([[0,0]]);
+        TrapezoidalRule::approximate([[0,0]]);
     }
 
     public function testNotAFunctionException()
     {
         // Two arrays share the same first number (x-component)
         $this->setExpectedException('\Exception');
-        TrapezoidalRule::solve([[0,0], [0,5], [1,1]]);
+        TrapezoidalRule::approximate([[0,0], [0,5], [1,1]]);
     }
 }

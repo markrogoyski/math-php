@@ -341,7 +341,13 @@ $x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); //
 // Approximate the definite integral of a function given only inputs and
 // the values of the function evaluated at those inputs.
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = TrapezoidalRule::solve($points);
+$∫f⟮x⟯dx = TrapezoidalRule::approximate($points);
+
+// Simpsons Rule (Newton-Cotes formula)
+// Approximate the definite integral of a function given only inputs and
+// the values of the function evaluated at those inputs.
+$points = [[0, 1], [1, 4], [2, 9], [3, 16], [4,3]];
+$∫f⟮x⟯dx = SimpsonsRule::approximate($points);
 ```
 
 ### Probability - Combinatorics
@@ -792,7 +798,7 @@ $median_mad = Descriptive::medianAbsoluteDeviation($numbers);
 // [0% => 13, Q1 => 13, Q2 => 14, Q3 => 17, 100% => 21, IQR => 4]
 $quartiles = Descriptive::quartiles($numbers);          // Has optional parameter to specify method. Default is Exclusive
 $quartiles = Descriptive::quartilesExclusive($numbers);
-$quartiles = Descriptive::quartilesInclusive($numbers); 
+$quartiles = Descriptive::quartilesInclusive($numbers);
 
 // IQR - Interquartile range
 $IQR = Descriptive::interquartileRange($numbers); // Same as IQR; has optional parameter to specify quartile method.
