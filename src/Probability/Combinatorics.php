@@ -96,6 +96,7 @@ class Combinatorics
         if ($n < 0) {
             throw new \Exception('Cannot compute rising factorial of a negative number.');
         }
+
         $fact = 1;
         while ($n > 0) {
             $fact *= $x + $n - 1;
