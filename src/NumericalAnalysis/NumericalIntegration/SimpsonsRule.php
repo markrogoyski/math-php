@@ -65,15 +65,15 @@ class SimpsonsRule extends NumericalIntegration
      */
     public static function approximate(array $points)
     {
-        // Descriptive constants
-        $x = self::X;
-        $y = self::Y;
-
         // Validate input and sort points
         self::validate($points, $degree = 3);
         self::isSubintervalsEven($points);
         $sorted = self::sort($points);
         self::isSpacingConstant($sorted);
+
+        // Descriptive constants
+        $x = self::X;
+        $y = self::Y;
 
         // Initialize
         $n             = count($sorted);
