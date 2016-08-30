@@ -108,7 +108,7 @@ abstract class NumericalIntegration
             $end      = $args[1];
             $n        = $args[2];
             $points   = self::functionToPoints($function, $start, $end, $n);
-        } elseif(is_array($source))  {
+        } elseif (is_array($source)) {
             $points   = $source;
         } else {
             throw new \Exception("Input source is incorrect. You need to input
