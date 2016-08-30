@@ -74,6 +74,9 @@ use Math\Algebra;
 // Greatest common divisor (GCD)
 $gcd = Algebra::gcd(8, 12);
 
+// Extended greatest common divisor - gcd(a, b) = a*a' + b*b'
+$gcd = Algebra::extendedGCD(12, 8); // returns array [gcd, a', b']
+
 // Least common multiple (LCM)
 $lcm = Algebra::lcm(5, 2);
 
