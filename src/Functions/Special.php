@@ -3,6 +3,7 @@ namespace Math\Functions;
 
 use Math\Probability\Combinatorics;
 use Math\Statistics\RandomVariable;
+use Math\Functions\Map\Single;
 
 class Special
 {
@@ -634,57 +635,94 @@ class Special
             }
         }
     }
-
     /**
-     * Double facatorial (iterative)
-     * Also known as semifactorial
+     * Generalized Hypergeometric Function
      *
-     * The product of all the integers from 1 up to some non-negative integer n
-     * that have the same parity as n. Denoted by n!!
+     * https://en.wikipedia.org/wiki/Generalized_hypergeometric_function
      *
-     * n‼︎ = n(n - 2)(n - 4) ・・・
+     *                                       ∞
+     *                                      ____
+     *                                      \     ∏aₚ⁽ⁿ⁾ * zⁿ
+     *  ₚFq(a₁,a₂,...,aₚ;b₁,b₂,...,bq;z)=  >    ------------
+     *                                      /      ∏bq⁽ⁿ⁾ * n!
+     *                                      ‾‾‾‾
+     *                                       n=0
      *
-     * For even n:
-     *       n/2
-     * n‼︎ =  ∏ (2k) = n(n - 2) ・・・ 2
-     *       k=1
+     * Where a⁽ⁿ⁾ is the Pochhammer Function or Rising Factorial
      *
-     * For odd n:
-     *     (n+1)/2
-     * n‼︎ =  ∏ (2k - 1) = n(n - 2) ・・・ 1
-     *       k=1
+     * We are evaluating this as a series:
      *
-     * 0‼︎ = 1
+     *                   (a + n - 1) * z
+     * ∏ₙ =   ∏ₙ₋₁  * -----------------
+     *                   (b + n - 1) * n
      *
-     * @param  int $n
-     *
-     * @return int
-     *
-     * @throws \Exception
+     *                       n   (a + n - 1) * z
+     *   ₁F₁ ₙ = ₁F₁ ₙ₋₁ + ∏  -----------------  = ₁F₁ ₙ₋₁ + ∏ₙ
+     *                       1   (b + n - 1) * n
      */
-    public static function doubleFactorial(int $n)
+    public static function generalizedHypergeometric(int $p, int $q, ...$params)
     {
-        if ($n < 0) {
-            throw new \Exception('Cannot compute double factorial of a negative number.');
+        $n = count($params);
+        if ($n !== $p + $q + 1) {
+            throw new \Exception('Number of parameters is incorrect');
         }
 
-        // Zero base case
-        if ($n === 0) {
-            return 1;
+        $a = array_slice($params, 0, $p);
+        $b = array_slice($params, $p, $q);
+        $z = $params[$n - 1];
+        if (abs($z) >= 1) {
+            throw new \Exception('|z| must be < 1');
         }
 
-        // Even and odd initialization base cases: odd = 1, even = 2
-        if ($n % 2 == 0) {
-            $n‼︎ = 2;
-        } else {
-            $n‼︎ = 1;
-        }
+        $tol     = .00000001;
+        $n       = 1;
+        $sum     = 0;
+        $product = 1;
 
-        while ($n > 2) {
-            $n‼︎ *= $n;
-            $n  -= 2;
-        }
+        do {
+            $sum     += $product;
+            $a_sum    = array_product(Single::add($a, $n - 1));
+            $b_sum    = array_product(Single::add($b, $n - 1));
+            $product *= $a_sum * $z / $b_sum / $n;
+            $n++;
+        } while ($product / $sum > $tol);
 
-        return $n‼︎;
+        return $sum;
+    }
+    
+    /**
+     * Confluent Hypergeometric Function
+     *
+     * https://en.wikipedia.org/wiki/Confluent_hypergeometric_function
+     *         ∞
+     *        ____
+     *        \     a⁽ⁿ⁾ * zⁿ
+     *  ₁F₁ =  >    ---------
+     *        /     b⁽ⁿ⁾ * n!
+     *        ‾‾‾‾
+     *        n=0
+     *
+     */
+    public static function confluentHypergeometric($a, $b, $z)
+    {
+        return self::generalizedHypergeometric(1, 1, $a, $b, $z);
+    }
+    
+    /**
+     * Hypergeometric Function
+     *
+     * https://en.wikipedia.org/wiki/Hypergeometric_function
+     *         ∞
+     *        ____
+     *        \     a⁽ⁿ⁾ * b⁽ⁿ⁾ * zⁿ
+     *  ₂F₁ =  >    ----------------
+     *        /         c⁽ⁿ⁾ * n!
+     *        ‾‾‾‾
+     *        n=0
+     *
+     */
+    public static function hypergeometric($a, $b, $c, $z)
+    {
+        return self::generalizedHypergeometric(2, 1, $a, $b, $c, $z);
     }
 }

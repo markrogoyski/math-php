@@ -1,6 +1,6 @@
 <?php
 
-namespace Math\NumericalAnalysis;
+namespace Math\NumericalAnalysis\NumericalIntegration;
 
 /**
  * Trapezoidal Rule
@@ -22,18 +22,8 @@ namespace Math\NumericalAnalysis;
  * http://mathworld.wolfram.com/TrapezoidalRule.html
  * http://www.efunda.com/math/num_integration/num_int_newton.cfm
  */
-class TrapezoidalRule
+class TrapezoidalRule extends NumericalIntegration
 {
-    /**
-     * @var int Index of x
-     */
-    const X = 0;
-
-    /**
-     * @var int Index of y
-     */
-    const Y = 1;
-
     /**
      * Use the Trapezoidal Rule to aproximate the definite integral of a
      * function f(x). Each array in our input contains two numbers which
@@ -59,6 +49,7 @@ class TrapezoidalRule
      *           ⁱ⁼¹  2
      *
      *  where h = xᵢ₊₁ - xᵢ
+     *  note: this implementation does not compute the error term.
      *
      * @param  array $points Array of arrays (array of points).
      *                       Each array (point) contains precisely two numbers,
@@ -67,10 +58,10 @@ class TrapezoidalRule
      *
      * @return number        The approximation to the integral of f(x)
      */
-    public static function solve(array $points)
+    public static function approximate(array $points)
     {
-        // Validate and sort points
-        self::validate($points);
+        // Validate input and sort points
+        self::validate($points, $degree = 2);
         $sorted = self::sort($points);
 
         // Descriptive constants
@@ -78,14 +69,14 @@ class TrapezoidalRule
         $y = self::Y;
 
         // Initialize
-        $n             = (count($sorted));
+        $n             = count($sorted);
         $steps         = $n - 1;
         $approximation = 0;
 
         /*
          * Summation
          * ⁿ⁻¹  h
-         *  ∑   - [f(xᵢ₊₁) + f(xᵢ)] + O(h³f″(x))
+         *  ∑   - [f(xᵢ₊₁) + f(xᵢ)]
          * ⁱ⁼¹  2
          *  where h = xᵢ₊₁ - xᵢ
          */
@@ -99,59 +90,5 @@ class TrapezoidalRule
         }
 
         return $approximation;
-    }
-
-    /**
-     * Validate that there are two or more arrays (points), that each point array
-     * has precisely two numbers, and that no two points share the same first number
-     * (x-component)
-     *
-     * @param  array $points Array of arrays (points)
-     *
-     * @return bool
-     * @throws Exception if there are less than two points
-     * @throws Exception if any point does not contain two numbers
-     * @throws Exception if two points share the same first number (x-component)
-     */
-    private static function validate(array $points)
-    {
-        if (count($points) < 2) {
-            throw new \Exception('You need to have at least two sets of
-                                  coordinates (arrays)');
-        }
-
-        $x_coordinates = [];
-        foreach ($points as $point) {
-            if (count($point) !== 2) {
-                throw new \Exception('Each array needs to have have precisely
-                                      two numbers, an x- and y-component');
-            }
-
-            $x_component = $point[self::X];
-            if (in_array($x_component, $x_coordinates)) {
-                throw new \Exception('Not a function. Your input array contains
-                                      more than one coordinate with the same
-                                      x-component.');
-            }
-            array_push($x_coordinates, $x_component);
-        }
-    }
-
-    /**
-     * Sorts our coordinates (arrays) by their x-component (first number) such
-     * that consecutive coordinates have an increasing x-component.
-     *
-     * @param  array $points
-     *
-     * @return array
-     */
-    private static function sort(array $points)
-    {
-        $x = self::X;
-        usort($points, function ($a, $b) use ($x) {
-            return $a[$x] <=> $b[$x];
-        });
-
-        return $points;
     }
 }
