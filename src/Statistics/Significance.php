@@ -77,7 +77,7 @@ class Significance
      *
      * @return float
      */
-    public static function zScore($M, $μ, $σ, bool $table_value = true): float
+    public static function zScore($M, $μ, $σ, bool $table_value = false): float
     {
         $z = ($M - $μ) / $σ;
 
