@@ -379,39 +379,60 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         Special::upperIncompleteGamma(-1, 1);
     }
-
-    /**
-     * @dataProvider dataProviderForDoubleFactorial
-     */
-    public function testDoubleFactorial(int $n, $factorial)
-    {
-        $this->assertEquals($factorial, Special::doubleFactorial($n));
-    }
-
-    public function dataProviderForDoubleFactorial()
-    {
-        return [
-            [0, 1],
-            [1, 1],
-            [2, 2],
-            [3, 3],
-            [4, 8],
-            [5, 15],
-            [6, 48],
-            [7, 105],
-            [8, 384],
-            [9, 945],
-            [10, 3840],
-            [11, 10395],
-            [12, 46080],
-            [13, 135135],
-            [14, 645120],
-        ];
-    }
-
-    public function testDoubleFactorialExceptionNLessThanZero()
+    
+    public function testGeneralizedHypergeometricExceptionParameterCount()
     {
         $this->setExpectedException('\Exception');
-        Special::doubleFactorial(-1);
+        Special::generalizedHypergeometric(2, 1, [6.464756838, 0.509199496, 0.241379523]);
+    }
+    
+    /**
+     * @dataProvider dataProviderForConfluentHypergeometric
+     */
+    public function testConfluentHypergeometric($a, $b, $z, $expected)
+    {
+        $actual = Special::confluentHypergeometric($a, $b, $z);
+        $tol = .000001 * $expected;
+        $this->assertEquals($expected, $actual, '', $tol);
+    }
+    public function dataProviderForConfluentHypergeometric()
+    {
+        return [
+            [6.464756838, 0.509199496, 0.241379523, 6.48114845060471],
+            [5.12297443791641, 5.26188297019653, 0.757399855727661, 2.09281409280936],
+            [9.89309990528122, 6.92782493869175, 0.71686043176351, 2.73366255092188],
+            [8.59824618495037, 6.66955518297157, 0.0293511981644408, 1.03854226944163],
+        ];
+    }
+    
+    public function testConfluentHypergeometricExceptionNGreaterThanOne()
+    {
+        $this->setExpectedException('\Exception');
+        Special::confluentHypergeometric(1, 1, 1);
+    }
+    
+    /**
+     * @dataProvider dataProviderForHypergeometric
+     */
+    public function testHypergeometric($a, $b, $c, $z, $expected)
+    {
+        $actual = Special::hypergeometric($a, $b, $c, $z);
+        $tol = .000001 * $expected;
+        $this->assertEquals($expected, $actual, '', $tol);
+    }
+    public function dataProviderForHypergeometric()
+    {
+        return [
+            [1, 1, 1, .9, 10],
+            [1, 1, 1, .8, 5],
+            [1, 1, 1, .7, 3.3333333],
+            [3, 1.4, 1.5, .926, 1746.206366],
+        ];
+    }
+    
+    public function testHypergeometricExceptionNGreaterThanOne()
+    {
+        $this->setExpectedException('\Exception');
+        Special::hypergeometric(1, 1, 1, 1);
     }
 }
