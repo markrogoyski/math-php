@@ -54,6 +54,8 @@ abstract class NumericalIntegration
             }
             array_push($x_coordinates, $x_component);
         }
+
+        return true;
     }
 
     /**
