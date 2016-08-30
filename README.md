@@ -1029,7 +1029,7 @@ $Ŷ          = $regression->yHat();
  ⋮                     ⋮
 ```
 
-# Significance Testing
+### Significance Testing
 ```php
 
 // Z test (z and p values)
