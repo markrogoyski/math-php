@@ -70,7 +70,7 @@ class SimpsonsRule extends NumericalIntegration
         $y = self::Y;
 
         // Validate input and sort points
-        self::validate($points, $min = 3);
+        self::validate($points, $degree = 3);
         self::isSubintervalsEven($points);
         $sorted = self::sort($points);
         self::isSpacingConstant($sorted);
@@ -113,7 +113,7 @@ class SimpsonsRule extends NumericalIntegration
      */
     private static function isSubintervalsEven(array $points)
     {
-        if (count($sorted) % 2 !== 1) {
+        if (count($points) % 2 !== 1) {
             throw new \Exception("There must be an even number of subintervals.
                                   Provide an input with an odd number of points");
         }
