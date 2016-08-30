@@ -60,7 +60,7 @@ class SignificanceTest extends \PHPUnit_Framework_TestCase
             [6, 200, 0.4242640687119],
             [5, 35, 0.8451542547285],
         ];
-    }    
+    }
 
     /**
      * @dataProvider dataProviderForZTestOneSample
