@@ -82,21 +82,4 @@ abstract class NumericalIntegration
 
         return $points;
     }
-
-    /**
-     * Evaluate our input function at n evenly spaced points between
-     * start and end
-     *
-     * @param  callable $function
-     * @param  number   $start
-     * @param  number   $end
-     * @param  number   $evalutations
-     *
-     * @return array
-     */
-    protected static function toCoordinates(callable $function, $start, $end,
-                                            $evalutions)
-    {
-        // Still in development
-    }
 }
