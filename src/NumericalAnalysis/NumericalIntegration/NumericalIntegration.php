@@ -35,22 +35,22 @@ abstract class NumericalIntegration
     protected static function validate(array $points, $degree)
     {
         if (count($points) < $degree) {
-            throw new \Exception('You need to have at least two sets of
-                                  coordinates (arrays)');
+            throw new \Exception("You need to have at least $degree sets of
+                                  coordinates (arrays)");
         }
 
         $x_coordinates = [];
         foreach ($points as $point) {
             if (count($point) !== 2) {
-                throw new \Exception('Each array needs to have have precisely
-                                      two numbers, an x- and y-component');
+                throw new \Exception("Each array needs to have have precisely
+                                      two numbers, an x- and y-component");
             }
 
             $x_component = $point[self::X];
             if (in_array($x_component, $x_coordinates)) {
-                throw new \Exception('Not a function. Your input array contains
+                throw new \Exception("Not a function. Your input array contains
                                       more than one coordinate with the same
-                                      x-component.');
+                                      x-component.");
             }
             array_push($x_coordinates, $x_component);
         }
