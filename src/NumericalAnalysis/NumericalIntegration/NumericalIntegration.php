@@ -24,7 +24,7 @@ abstract class NumericalIntegration
      */
     const Y = 1;
 
-    abstract public static function approximate(array $points);
+    abstract public static function approximate($source, array $args);
 
     /**
      * Validate that there are enough input arrays (points), that each point array
@@ -91,10 +91,10 @@ abstract class NumericalIntegration
      * $source. If $source is neither, throw an Exception.
      *
      * @param          $source The source of our approximation. Should be either
-     *                             a callback function or a set of arrays
+     *                         a callback function or a set of arrays.
      * @param  array   $args   The arguments of our callback function: start,
-     *                             end, and n. Example: [0, 8, 5]. If $source is
-     *                             a set of arrays, $args will default to []
+     *                         end, and n. Example: [0, 8, 5]. If $source is a
+     *                         set of arrays, $args will default to [].
      *
      * @return array
      * @throws Exception if $source is not callable or a set of arrays
@@ -112,7 +112,7 @@ abstract class NumericalIntegration
             $points   = $source;
         } else {
             throw new \Exception("Input source is incorrect. You need to input
-                                  either a callback function or a set of arrays")
+                                  either a callback function or a set of arrays");
         }
         return $points;
     }
