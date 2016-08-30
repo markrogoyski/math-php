@@ -9,9 +9,11 @@ namespace Math\NumericalAnalysis\NumericalIntegration;
  * the definite integral of a function.
  *
  * The trapezoidal rule belongs to the Newton-Cotes formulas, a group of methods
- * for numerical integration which approximate the integral of a function.
- * Instead, we use the Newton-Cotes formulas when we are given a set of inputs
- * and their corresponding outputs for our function. We then use these values to
+ * for numerical integration which approximate the integral of a function. We
+ * can either directly supply a set of inputs and their corresponding outputs for
+ * said function, or if we explicitly know the function, we can define it as a
+ * callback function and then generate a set of points by evaluating that function
+ * at n points between a start and end point. We then use these values to
  * interpolate a Lagrange polynomial. Finally, we integrate the Lagrange
  * polynomial to approximate the integral of our original function.
  *
