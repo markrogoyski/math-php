@@ -61,8 +61,8 @@ class Algebra
         while ($b > 0) {
             $q  = intdiv($a, $b);
             $r  = $a % $b;
-            $x  = $x₂ - ($q *$x₁);
-            $y  = $y₂ - ($q *$y₁);
+            $x  = $x₂ - ($q * $x₁);
+            $y  = $y₂ - ($q * $y₁);
             $x₂ = $x₁;
             $x₁ = $x;
             $y₂ = $y₁;
