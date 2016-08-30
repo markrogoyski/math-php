@@ -1031,6 +1031,7 @@ $Ŷ          = $regression->yHat();
 
 ### Significance Testing
 ```php
+use Math\Statistics\Significance;
 
 // Z test (z and p values)
 $Hₐ = 20;   // Alternate hypothesis (M Sample mean)
