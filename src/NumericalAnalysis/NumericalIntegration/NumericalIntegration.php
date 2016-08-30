@@ -83,6 +83,20 @@ abstract class NumericalIntegration
         return $points;
     }
 
+    public static function getArray($source, array $args)
+    {
+        $callable = is_callable($source);
+        if ($callable) {
+            $function = $source;
+            $start = $args[0];
+            $end = $args[1];
+            $n = $args[2];
+            $points = self::callbackToArray($function, $min, $max, $n);
+        } else {
+            $points = $source;
+        }
+    }
+
     /**
      * Evaluate our callback function at n evenly spaced points on the interval
      * between start and end
