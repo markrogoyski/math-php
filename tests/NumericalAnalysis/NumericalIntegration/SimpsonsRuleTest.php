@@ -32,6 +32,15 @@ class SimpsonsRuleTest extends \PHPUnit_Framework_TestCase
         // Same test as above but with points not sorted to test sorting works
         $x = SimpsonsRule::approximate([[1.5, 6.25], [3, 16], [0, 1]]);
         $this->assertEquals($expected, $x, '', $tol);
+
+        // Similar test to above (same function, number of points, tolerance) but
+        // with a callback function to make sure this type of input is compatible
+        $func = function ($x) {
+            return $x**2 + 2 * $x + 1;
+        };
+        $args = [0, 3, 3];
+        $x = SimpsonsRule::approximate($func, $args);
+        $this->assertEquals($expected, $x, '', $tol);
     }
 
     public function testNotCoordinatesException()
