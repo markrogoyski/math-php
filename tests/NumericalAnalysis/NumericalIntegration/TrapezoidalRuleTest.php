@@ -42,7 +42,17 @@ class TrapezoidalRuleTest extends \PHPUnit_Framework_TestCase
 
         // Same test as above but with points not sorted to test sorting works
         $tol = 6;
-        $x = TrapezoidalRule::approximate([[1, 4], [3, 16], [0, 1], [2, 9], ]);
+        $x = TrapezoidalRule::approximate([[1, 4], [3, 16], [0, 1], [2, 9]]);
+        $this->assertEquals($expected, $x, '', $tol);
+
+        // Similar test to above (same function, number of points, tolerance) but
+        // with a callback function to make sure this type of input is compatible
+        $func = function ($x) {
+            return $x**2 + 2 * $x + 1;
+        };
+        $args = [0, 3, 4];
+        $tol = 6;
+        $x = TrapezoidalRule::approximate($func, $args);
         $this->assertEquals($expected, $x, '', $tol);
     }
 
