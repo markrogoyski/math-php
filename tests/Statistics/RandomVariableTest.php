@@ -231,27 +231,6 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForZScore
-     */
-    public function testZScore($μ, $σ, $x, $z)
-    {
-        $this->assertEquals($z, RandomVariable::zScore($μ, $σ, $x), '', 0.001);
-    }
-
-    public function dataProviderForZScore()
-    {
-        return [
-            [1, 1, 1, 0],
-            [1, 1, 2, 1],
-            [4, 0.5, 5.5, 3.0],
-            [4, 0.5, 3, -2.0],
-            [3.6, 0.4, 3.3, -0.75],
-            [943, 36.8, 1032.44, 2.43],
-            [943, 36.8, 803.2, -3.80],
-        ];
-    }
-
-    /**
      * @dataProvider dataProviderForSumOfSquaresDeviations
      */
     public function testSumOfSquaresDeviations(array $numbers, $sos)

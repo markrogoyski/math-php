@@ -13,7 +13,6 @@ use Math\Probability\StandardNormalTable;
  * - Kurtosis
  * - Standard Error of the Mean (SEM)
  * - Confidence interval
- * - Z score
  *
  * In probability and statistics, a random variable is a variable whose
  * value is subject to variations due to chance.
@@ -376,24 +375,5 @@ class RandomVariable
         ));
 
         return $∑⟮xᵢ − μ⟯²;
-    }
-
-    /**
-     * Z score - standard score
-     * https://en.wikipedia.org/wiki/Standard_score
-     *
-     *     x - μ
-     * z = -----
-     *       σ
-     *
-     * @param number $μ mean
-     * @param number $σ standard deviation
-     * @param number $x
-     *
-     * @return float
-     */
-    public static function zScore($μ, $σ, $x): float
-    {
-        return round(($x - $μ) / $σ, 2);
     }
 }

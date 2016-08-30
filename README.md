@@ -33,6 +33,7 @@ Features
      * Experiments
      * Random Variables
      * Regressions
+     * Significance Testing
 
 Setup
 -----
@@ -72,6 +73,9 @@ use Math\Algebra;
 
 // Greatest common divisor (GCD)
 $gcd = Algebra::gcd(8, 12);
+
+// Extended greatest common divisor - gcd(a, b) = a*a' + b*b'
+$gcd = Algebra::extendedGCD(12, 8); // returns array [gcd, a', b']
 
 // Least common multiple (LCM)
 $lcm = Algebra::lcm(5, 2);
@@ -939,12 +943,6 @@ $n  = 9;  // sample size
 $σ  = 36; // standard deviation
 $cl = 99; // confidence level
 $ci = RandomVariable::confidenceInterval($μ, $n, $σ, $cl); // Array( [ci] => 30.91, [lower_bound] => 59.09, [upper_bound] => 120.91 )
-
-// Z score
-$μ = 8; // mean
-$σ = 1; // standard deviation
-$x = 7;
-$z = RandomVariable::zScore($μ, $σ, $x); 
 ```
 
 ### Statistics - Regressions
@@ -1032,6 +1030,62 @@ $regression = new LOESS($points, $α, $λ);
 $y          = $regression->evaluate(5);
 $Ŷ          = $regression->yHat();
  ⋮                     ⋮
+```
+
+### Significance Testing
+```php
+use Math\Statistics\Significance;
+
+// Z test (z and p values)
+$Hₐ = 20;   // Alternate hypothesis (M Sample mean)
+$n  = 200;  // Sample size
+$H₀ = 19.2; // Null hypothesis (μ Population mean)
+$σ  = 6;    // SD of population (Standard error of the mean)
+$z  = Significance:zTest($Hₐ, $n, $H₀, $σ);
+/* [
+  'z'  => 1.88562, // Z score
+  'p1' => 0.02938, // one-tailed p value
+  'p2' => 0.0593,  // two-tailed p value
+] */
+
+// Z score
+$M = 8; // Sample mean
+$μ = 7; // Population mean
+$σ = 1; // Population SD
+$z = Significance::zScore($μ, $σ, $x);
+
+// T test - One sample (t and p values)
+$Hₐ = 280; //Alternate hypothesis (M Sample mean)
+$s  = 50;  // SD of sample
+$n  = 15;  // Sample size
+$H₀ = 300; // Null hypothesis (μ₀ Population mean)
+$t  = Significance::tTestOneSample($Hₐ, $s, $n, $H);
+/* [
+  't'  => -1.549, // t score
+  'p1' => 0.0718, // one-tailed p value
+  'p2' => 0.1437, // two-tailed p value
+] */
+
+// T test - Two samples (t and p values)
+$μ₁ = 42.14; // Sample mean of population 1
+$μ₂ = 43.23; // Sample mean of population 2
+$n₁ = 10;    // Sample size of population 1
+$n₂ = 10;    // Sample size of population 2
+$σ₁ = 0.683; // Standard deviation of sample mean 1
+$σ₂ = 0.750; // Standard deviation of sample mean 2
+$t  = Significance::tTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂);
+/* [
+  't'  => -3.3978,  // t score
+  'p1' => 0.001604, // one-tailed p value
+  'p2' => 0.181947, // two-tailed p value
+] */
+
+// T score
+$Hₐ = 280; //Alternate hypothesis (M Sample mean)
+$s  = 50;  // SD of sample
+$n  = 15;  // Sample size
+$H₀ = 300; // Null hypothesis (μ₀ Population mean)
+$t  = Significance::tScore($Hₐ, $s, $n, $H);
 ```
 
 Unit Tests
