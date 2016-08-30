@@ -99,7 +99,7 @@ abstract class NumericalIntegration
      * @return array
      * @throws Exception if $source is not callable or a set of arrays
      */
-    public static function getPoints($source, array $args = [])
+    protected static function getPoints($source, array $args = [])
     {
         if (is_callable($source)) {
             // To do: add method to verify function is continuous on our interval
@@ -128,7 +128,7 @@ abstract class NumericalIntegration
      *
      * @return array
      */
-    public static function functionToPoints(
+    protected static function functionToPoints(
         callable $function,
         $start,
         $end,
