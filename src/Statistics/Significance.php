@@ -29,7 +29,7 @@ class Significance
      * p1 = CDF below if left tailed
      *    = CDF above if right tailed
      * p2 = CDF outside
-     * 
+     *
      * @param number $Hₐ Alternate hypothesis (M Sample mean)
      * @param int    $n  Sample size
      * @param number $H₀ Null hypothesis (μ Population mean)
@@ -49,7 +49,7 @@ class Significance
 
         // One- and two-tailed P values
         if ($Hₐ < $H₀) {
-            $p1 = StandardNormal::CDF($z); 
+            $p1 = StandardNormal::CDF($z);
         } else {
             $p1 = StandardNormal::above($z);
         }
@@ -98,7 +98,7 @@ class Significance
      * p1 = CDF below if left tailed
      *    = CDF above if right tailed
      * p2 = CDF outside
-     * 
+     *
      * @param number $Hₐ Alternate hypothesis (M Sample mean)
      * @param number $s  SD of sample
      * @param int    $n  Sample size
@@ -120,7 +120,7 @@ class Significance
 
         // One- and two-tailed P values
         if ($Hₐ < $H₀) {
-            $p1 = StudentT::CDF($t, $ν); 
+            $p1 = StudentT::CDF($t, $ν);
         } else {
             $p1 = StudentT::above($t, $ν);
         }
@@ -221,7 +221,7 @@ class Significance
      *       σ
      * SEM = --
      *       √n
-     * 
+     *
      * @param number $σ Population standard deviation
      * @param int    $n Sample size (number of observations of the sample)
      *
