@@ -82,4 +82,31 @@ abstract class NumericalIntegration
 
         return $points;
     }
+
+    /**
+     * Evaluate our callback function at n evenly spaced points on the interval
+     * between start and end
+     *
+     * @param  callable $function f(x) callback function
+     * @param  number   $start    the start of the interval
+     * @param  number   $end      the end of the interval
+     * @param  number   $n        the number of function evaluations
+     *
+     * @return array
+     */
+    public static function callbackToArray(
+        callable $function,
+        $start,
+        $end,
+        $n
+    ) {
+        $array  = [];
+        $h      = ($end-$start)/($n-1);
+        for ($i = 0; $i < $n; $i++) {
+            $xᵢ        = $start + $i*$h;
+            $f⟮xᵢ⟯      = call_user_func_array($function, [$xᵢ]);
+            $array[$i] = [$xᵢ, $f⟮xᵢ⟯];
+        }
+        return $array;
+    }
 }
