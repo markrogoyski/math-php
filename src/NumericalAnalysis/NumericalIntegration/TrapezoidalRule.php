@@ -59,7 +59,7 @@ class TrapezoidalRule extends NumericalIntegration
      */
     public static function approximate(array $points)
     {
-        // Validate and sort points
+        // Validate input and sort points
         self::validate($points, $degree = 2);
         $sorted = self::sort($points);
 
@@ -68,7 +68,7 @@ class TrapezoidalRule extends NumericalIntegration
         $y = self::Y;
 
         // Initialize
-        $n             = (count($sorted));
+        $n             = count($sorted);
         $steps         = $n - 1;
         $approximation = 0;
 
@@ -79,6 +79,7 @@ class TrapezoidalRule extends NumericalIntegration
          * ⁱ⁼¹  2
          *  where h = xᵢ₊₁ - xᵢ
          */
+
         for ($i = 0; $i < $steps; $i++) {
             $xᵢ             = $sorted[$i][$x];
             $xᵢ₊₁           = $sorted[$i+1][$x];
