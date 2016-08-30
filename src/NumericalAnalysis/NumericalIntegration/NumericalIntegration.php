@@ -3,7 +3,14 @@
 namespace Math\NumericalAnalysis\NumericalIntegration;
 
 /**
+ * Base class for numerical integration techniques.
  *
+ * Numerical integration techniques are used to approximate the value of
+ * an indefinite intergal.
+ *
+ * This calss gives each technique a set of common tools, and requires each
+ * technique to define an approximate() method to approximate an indefinite
+ * integral.
  */
 abstract class NumericalIntegration
 {
@@ -20,7 +27,7 @@ abstract class NumericalIntegration
     abstract public static function approximate(array $points);
 
     /**
-     * Validate that there are two or more arrays (points), that each point array
+     * Validate that there are enough input arrays (points), that each point array
      * has precisely two numbers, and that no two points share the same first number
      * (x-component)
      *
@@ -36,7 +43,7 @@ abstract class NumericalIntegration
     {
         if (count($points) < $degree) {
             throw new \Exception("You need to have at least $degree sets of
-                                  coordinates (arrays)");
+                                  coordinates (arrays) for this technique");
         }
 
         $x_coordinates = [];
@@ -74,22 +81,5 @@ abstract class NumericalIntegration
         });
 
         return $points;
-    }
-
-    /**
-     * Evaluate our input function at n evenly spaced points between
-     * start and end
-     *
-     * @param  callable $function
-     * @param  number   $start
-     * @param  number   $end
-     * @param  number   $evalutations
-     *
-     * @return array
-     */
-    protected static function toCoordinates(callable $function, $start, $end,
-                                            $evalutions)
-    {
-
     }
 }
