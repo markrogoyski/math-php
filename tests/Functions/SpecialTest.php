@@ -383,9 +383,9 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForConfluentHypergeometric
      */
-    public function testConfluentHypergeometric($a, $b, $c, $z, $expected)
+    public function testConfluentHypergeometric($a, $b, $z, $expected)
     {
-        $actual = Special::confluentHypergeometric($a, $b, $c, $z);
+        $actual = Special::confluentHypergeometric($a, $b, $z);
         $tol = .000001 * $expected;
         $this->assertEquals($expected, $actual, '', $tol);
     }
