@@ -41,7 +41,7 @@ class Significance
      *   p2 => two-tailed p value
      * ]
      */
-    public static function zTest($Hₐ, $n, $H₀, $σ)
+    public static function zTest($Hₐ, $n, $H₀, $σ): array
     {
         // Calculate z score (test statistic)
         $sem = self::sem($σ, $n);
@@ -111,7 +111,7 @@ class Significance
      *   p2 => two-tailed p value
      * ]
      */
-    public static function tTestOneSample($Hₐ, $s, $n, $H₀)
+    public static function tTestOneSample($Hₐ, $s, $n, $H₀): array
     {
         // Calculate test statistic t
         $t = self::tScore($Hₐ, $s, $n, $H₀);
@@ -175,7 +175,7 @@ class Significance
      *   p2 => two-tailed p value
      * ]
      */
-    public static function tTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂, $Δ = 0)
+    public static function tTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂, $Δ = 0): array
     {
         // Calculate t score (test statistic)
         $t = ($μ₁ - $μ₂ - $Δ) / sqrt((($σ₁**2) / $n₁) + (($σ₂**2) / $n₂));
