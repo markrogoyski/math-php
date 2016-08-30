@@ -338,7 +338,7 @@ $position = 0;       // Which element in the $args array will be changed; also s
 $x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
 ```
 
-### Numerican Analysis - Numerical Integration
+### Numerical Analysis - Numerical Integration
 ```php
 use Math\NumericalAnalysis\NumericalIntegration;
 
