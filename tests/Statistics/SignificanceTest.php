@@ -63,9 +63,9 @@ class SignificanceTest extends \PHPUnit_Framework_TestCase
     }    
 
     /**
-     * @dataProvider dataProviderForZTest
+     * @dataProvider dataProviderForZTestOneSample
      */
-    public function testZTest($Hₐ, $n, $H₀, $σ, array $ztest)
+    public function testZTestOneSample($Hₐ, $n, $H₀, $σ, array $ztest)
     {
         $this->assertEquals($ztest, Significance::zTest($Hₐ, $n, $H₀, $σ), '', 0.001);
     }
@@ -73,7 +73,7 @@ class SignificanceTest extends \PHPUnit_Framework_TestCase
     // Test data created from these sites:
     //  - http://www.socscistatistics.com/tests/ztest_sample_mean/Default2.aspx
     //  - https://www.easycalculation.com/statistics/p-value-for-z-score.php
-    public function dataProviderForZTest()
+    public function dataProviderForZTestOneSample()
     {
         return [
             [96, 55, 100, 12, ['z' => -2.4720661623652, 'p1' => 0.00676, 'p2' => 0.013436]],
@@ -84,6 +84,29 @@ class SignificanceTest extends \PHPUnit_Framework_TestCase
             [18.9, 200, 21, 5, ['z' => -5.9397, 'p1' => 0.0000, 'p2' => 0.0000]],
             [6.7, 29, 5, 7.1, ['z' => 1.28941, 'p1' => 0.0986, 'p2' => 0.1973]],
             [80.94, 25, 85, 11.6, ['z' => -1.75, 'p1' => 0.0401, 'p2' => 0.080118]],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderFortTestTwoSample
+     */
+    public function testtTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂, $Δ, array $ztest)
+    {
+        $this->assertEquals($ztest, Significance::tTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂, $Δ), '', 0.001);
+    }
+
+    /**
+     * Used for calculating t and p values for test data:
+     * http://www.usablestats.com/calcs/2samplet&summary=1
+     * http://www.socscistatistics.com/pvalues/tdistribution.aspx
+     */
+    public function dataProviderForTTestTwoSample()
+    {
+        return [
+            [3100, 2750, 75, 75, 420, 425, 0, ['t' => 5.0728, 'p1' => 0.0000, 'p2' => 0.0000]],
+            [20.23, 18.68, 7, 5, 2.74, 1.64, 0, ['t' => 1.2214, 'p1' => 0.124974, 'p2' => 0.249948]], // example data: https://www.isixsigma.com/tools-templates/hypothesis-testing/making-sense-two-sample-t-test/
+            [42.14, 43.23, 10, 10, 0.683, 0.750, 0, ['t' => -3.3978, 'p1' => 0.001604, 'p2' => 0.003207]], // example data: https://onlinecourses.science.psu.edu/stat500/node/50
+            [2.840, 2.9808, 17, 13, 0.520, 0.3093, 0, ['t' => -0.9233, 'p1' => 0.181947, 'p2' => 0.363893]], // example data: https://onlinecourses.science.psu.edu/stat500/node/50
         ];
     }
 
@@ -104,14 +127,14 @@ class SignificanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForTTest
+     * @dataProvider dataProviderForTTestOneSample
      */
     public function testTTest($Hₐ, $s, $n, $H₀, array $ttest)
     {
-        $this->assertEquals($ttest, Significance::tTest($Hₐ, $s, $n, $H₀), '', 0.001);
+        $this->assertEquals($ttest, Significance::tTestOneSample($Hₐ, $s, $n, $H₀), '', 0.001);
     }
 
-    public function dataProviderForTTest()
+    public function dataProviderForTTestOneSample()
     {
         return [
             [130.1, 21.21, 100, 120, ['t' => 4.762, 'p1' => 0, 'p2' => 0]],
