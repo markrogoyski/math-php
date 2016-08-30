@@ -32,7 +32,7 @@ class Algebra
     }
 
     /**
-     * Extended Greatest common divisor
+     * Extended greatest common divisor
      * Compute the gcd as a multiple of the inputs:
      * gcd(a, b) = a*a' + b*b'
      * https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
@@ -41,9 +41,9 @@ class Algebra
      * @param  int $a
      * @param  int $b
      *
-     * @return array of gcd, a', b'
+     * @return array [gcd, a', b']
      */
-    public static function extended_gcd(int $a, int $b): array
+    public static function extendedGCD(int $a, int $b): array
     {
         // Base cases
         if ($a == 0) {
@@ -52,22 +52,25 @@ class Algebra
         if ($b == 0) {
             return [$a, 1, 0];
         }
+
         $x₂ = 1;
         $x₁ = 0;
         $y₂ = 0;
         $y₁ = 1;
+
         while ($b > 0) {
-            $q = intdiv($a, $b);
-            $r = $a % $b;
-            $x = $x₂ - $q*$x₁;
-            $y = $y₂ - $q*$y₁;
+            $q  = intdiv($a, $b);
+            $r  = $a % $b;
+            $x  = $x₂ - ($q *$x₁);
+            $y  = $y₂ - ($q *$y₁);
             $x₂ = $x₁;
             $x₁ = $x;
             $y₂ = $y₁;
             $y₁ = $y;
-            $a = $b;
-            $b = $r;
+            $a  = $b;
+            $b  = $r;
         }
+
         return [$a, $x₂, $y₂];
     }
 

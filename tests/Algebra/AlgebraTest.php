@@ -16,7 +16,7 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
      */
     public function testExtendedGCD(int $a, int $b, int $gcd, int $alpha, int $beta)
     {
-        $this->assertEquals([$gcd, $alpha, $beta], Algebra::extended_gcd($a, $b));
+        $this->assertEquals([$gcd, $alpha, $beta], Algebra::extendedGCD($a, $b));
     }
 
     public function dataProviderForGCD()
