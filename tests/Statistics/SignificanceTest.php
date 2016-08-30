@@ -8,7 +8,7 @@ class SignificanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testZScore($μ, $σ, $M, $z)
     {
-        $this->assertEquals($z, Significance::zScore($M, $μ, $σ), '', 0.001);
+        $this->assertEquals($z, Significance::zScore($M, $μ, $σ, Significance::Z_TABLE_VALUE), '', 0.001);
     }
 
     public function dataProviderForZScore()
@@ -29,7 +29,7 @@ class SignificanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testZScoreRaw($μ, $σ, $M, $z)
     {
-        $this->assertEquals($z, Significance::zScore($M, $μ, $σ, false), '', 0.01);
+        $this->assertEquals($z, Significance::zScore($M, $μ, $σ, Significance::Z_RAW_VALUE), '', 0.01);
     }
 
     public function dataProviderForZScoreRaw()
