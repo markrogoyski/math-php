@@ -74,7 +74,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
     public function testRisingFactorialExceptionNLessThanZero()
     {
         $this->setExpectedException('\Exception');
-        Combinatorics::doubleFactorial(-1);
+        Combinatorics::risingFactorial(5, -1);
     }
 
     /**
