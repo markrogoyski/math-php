@@ -42,14 +42,14 @@ class SimpsonsRule extends NumericalIntegration
      * definite integral of the function that produces these coordinates with a
      * lower bound of 3, and an upper bound of 9.
      *
-     * Simpson's Rule: // UPDATE FORMULA
+     * Simpson's Rule:
      *
      * xn        ⁿ⁻¹ xᵢ₊₁
      * ∫ f(x)dx = ∑   ∫ f(x)dx
      * x₁        ⁱ⁼¹  xᵢ
      *
      *           ⁿ/²  h
-     *          = ∑   - [$f⟮x₂ᵢ⟯ + 4$f⟮x₂ᵢ₊₁⟯ + $f⟮x₂ᵢ₊₂⟯] + O(h^5f″″(x))
+     *          = ∑   - [f⟮x₂ᵢ⟯ + 4f⟮x₂ᵢ₊₁⟯ + f⟮x₂ᵢ₊₂⟯] + O(h⁵f⁗(x))
      *           ⁱ⁼¹  3
      *
      *  where h = xᵢ₊₁ - xᵢ
@@ -77,7 +77,7 @@ class SimpsonsRule extends NumericalIntegration
 
         // Initialize
         $n             = count($sorted);
-        $subintervals  = $n-1;
+        $subintervals  = $n - 1;
         $a             = $sorted[0][$x];
         $b             = $sorted[$n-1][$x];
         $h             = ($b - $a)/$subintervals;
@@ -86,11 +86,10 @@ class SimpsonsRule extends NumericalIntegration
         /*
          * Summation
          * ⁿ/²  h
-         *  ∑   - [$f⟮x₂ᵢ⟯ + 4$f⟮x₂ᵢ₊₁⟯ + $f⟮x₂ᵢ₊₂⟯] + O(h^5f″″(x))
+         *  ∑   - [f⟮x₂ᵢ⟯ + 4f⟮x₂ᵢ₊₁⟯ + f⟮x₂ᵢ₊₂⟯] + O(h⁵f⁗(x))
          * ⁱ⁼¹  3
          *  where h = xᵢ₊₁ - xᵢ
          */
-
         for ($i = 0; $i < ($subintervals/2); $i++) {
             $f⟮x₂ᵢ⟯          = $sorted[(2*$i)][$y];   // y₂ᵢ
             $f⟮x₂ᵢ₊₁⟯        = $sorted[(2*$i)+1][$y]; // y₂ᵢ₊₁
