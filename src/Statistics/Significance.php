@@ -1,17 +1,16 @@
 <?php
 namespace Math\Statistics;
 
-use Math\Statistics\Average;
-use Math\Statistics\RandomVariable;
 use Math\Probability\Distribution\Continuous\StandardNormal;
 use Math\Probability\Distribution\Continuous\StudentT;
 
 /**
  * Tests of statistical significance
- *  - Z-test
+ *  - Z-test (one sample)
  *  - Z-score
- *  - T-test
+ *  - T-test (one and two samples)
  *  - T-score
+ *  - SEM (Standard Error of the Mean)
  */
 class Significance
 {
@@ -19,7 +18,7 @@ class Significance
     const Z_RAW_VALUE   = false;
 
     /**
-     * Z-test
+     * One-sample Z-test
      * When the population mean and standard deviation are known.
      * https://en.wikipedia.org/wiki/Z-test
      *
@@ -126,6 +125,66 @@ class Significance
         } else {
             $p1 = StudentT::above($t, $ν);
         }
+        $p2 = StudentT::outside(-abs($t), abs($t), $ν);
+
+        return [
+            't'  => $t,
+            'p1' => $p1,
+            'p2' => $p2,
+        ];
+    }
+
+    /**
+     * Two-sample t-test
+     * Test the means of two samples.
+     * https://en.wikipedia.org/wiki/Student%27s_t-test
+     *
+     *      μ₁ - μ₂ - Δ
+     * z = --------------
+     *        _________
+     *       /σ₁²   σ₂²
+     *      / --- + ---
+     *     √   n₁    n₂
+     *
+     * where
+     *  μ₁ is sample mean 1
+     *  μ₂ is sample mean 2
+     *  Δ  is the hypothesized difference between the population means (0 if testing for equal means)
+     *  σ₁ is standard deviation of sample mean 1
+     *  σ₂ is standard deviation of sample mean 2
+     *  n₁ is sample size of mean 1
+     *  n₂ is sample size of mean 2
+     *
+     * For Student's t distribution CDF, degrees of freedom:
+     *  ν = (n₁ - 1) + (n₂ - 1)
+     *
+     * p1 = CDF above
+     * p2 = CDF outside
+     *
+     * @param number $μ₁ Sample mean of population 1
+     * @param number $μ₂ Sample mean of population 2
+     * @param number $n₁ Sample size of population 1
+     * @param number $n₂ Sample size of population 1
+     * @param number $σ₁ Standard deviation of sample mean 1
+     * @param number $σ₂ Standard deviation of sample mean 2
+     * @param number $Δ  (Optional) hypothesized difference between the population means (0 if testing for equal means)
+     *
+     * @return array [
+     *   t  => t score
+     *   p1 => one-tailed p value
+     *   p2 => two-tailed p value
+     * ]
+     */
+    public static function tTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂, $Δ = 0)
+    {
+        // Calculate t score (test statistic)
+        $t = ($μ₁ - $μ₂ - $Δ) / sqrt((($σ₁**2) / $n₁) + (($σ₂**2) / $n₂));
+
+        // Degrees of freedom
+        $ν = ($n₁ - 1) + ($n₂ - 1);
+
+        // One- and two-tailed P values
+        $p1 = StudentT::above(abs($t), $ν);
         $p2 = StudentT::outside(-abs($t), abs($t), $ν);
 
         return [
