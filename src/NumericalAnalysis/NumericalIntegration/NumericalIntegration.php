@@ -17,23 +17,24 @@ abstract class NumericalIntegration
      */
     const Y = 1;
 
-    abstract public static function solve(array $points);
+    abstract public static function approximate(array $points);
 
     /**
      * Validate that there are two or more arrays (points), that each point array
      * has precisely two numbers, and that no two points share the same first number
      * (x-component)
      *
-     * @param  array $points Array of arrays (points)
+     * @param  array  $points Array of arrays (points)
+     * @param  number $degree The miminum number of input arrays
      *
      * @return bool
      * @throws Exception if there are less than two points
      * @throws Exception if any point does not contain two numbers
      * @throws Exception if two points share the same first number (x-component)
      */
-    protected static function validate(array $points)
+    protected static function validate(array $points, $degree)
     {
-        if (count($points) < 2) {
+        if (count($points) < $degree) {
             throw new \Exception('You need to have at least two sets of
                                   coordinates (arrays)');
         }
@@ -62,7 +63,7 @@ abstract class NumericalIntegration
      * @param  array $points
      *
      * @return array
-     */s
+     */
     protected static function sort(array $points)
     {
         $x = self::X;

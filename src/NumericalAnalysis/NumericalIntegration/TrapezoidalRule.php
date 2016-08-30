@@ -57,10 +57,10 @@ class TrapezoidalRule extends NumericalIntegration
      *
      * @return number        The approximation to the integral of f(x)
      */
-    public static function solve(array $points)
+    public static function approximate(array $points)
     {
         // Validate and sort points
-        self::validate($points);
+        self::validate($points, $degree = 2);
         $sorted = self::sort($points);
 
         // Descriptive constants
