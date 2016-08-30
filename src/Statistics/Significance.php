@@ -103,7 +103,6 @@ class Significance
      * @param number $s  SD of sample
      * @param int    $n  Sample size
      * @param number $H₀ Null hypothesis (μ₀ Population mean)
-     * 
      *
      * @return array [
      *   z  => z score
@@ -200,6 +199,13 @@ class Significance
      *     Hₐ - H₀   X - μ
      * t = ------- = -----
      *      s/√n      s/√n
+     *
+     * @param number $Hₐ Alternate hypothesis (M Sample mean)
+     * @param number $s  SD of sample
+     * @param int    $n  Sample size
+     * @param number $H₀ Null hypothesis (μ₀ Population mean)
+     *
+     * @return number
      */
     public static function tScore($Hₐ, $s, $n, $H₀)
     {
