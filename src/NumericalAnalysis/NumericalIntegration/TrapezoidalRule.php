@@ -49,6 +49,7 @@ class TrapezoidalRule extends NumericalIntegration
      *           ⁱ⁼¹  2
      *
      *  where h = xᵢ₊₁ - xᵢ
+     *  note: this implementation does not compute the error term.
      *
      * @param  array $points Array of arrays (array of points).
      *                       Each array (point) contains precisely two numbers,
@@ -75,11 +76,10 @@ class TrapezoidalRule extends NumericalIntegration
         /*
          * Summation
          * ⁿ⁻¹  h
-         *  ∑   - [f(xᵢ₊₁) + f(xᵢ)] + O(h³f″(x))
+         *  ∑   - [f(xᵢ₊₁) + f(xᵢ)]
          * ⁱ⁼¹  2
          *  where h = xᵢ₊₁ - xᵢ
          */
-
         for ($i = 0; $i < $steps; $i++) {
             $xᵢ             = $sorted[$i][$x];
             $xᵢ₊₁           = $sorted[$i+1][$x];

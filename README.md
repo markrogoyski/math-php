@@ -336,6 +336,11 @@ $target   = 0;       // Value of f(x) we a trying to solve for
 $tol      = 0.00001; // Tolerance; how close to the actual solution we would like
 $position = 0;       // Which element in the $args array will be changed; also serves as initial guess. Defaults to 0.
 $x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
+```
+
+### Numerical Analysis - Numerical Integration
+```php
+use Math\NumericalAnalysis\NumericalIntegration;
 
 // Trapezoidal Rule (Newton-Cotes formula)
 // Approximate the definite integral of a function given only inputs and
