@@ -83,18 +83,19 @@ abstract class NumericalIntegration
         return $points;
     }
 
-    public static function getArray($source, array $args)
+    public static function getPoints($source, array $args = [])
     {
         $callable = is_callable($source);
         if ($callable) {
             $function = $source;
-            $start = $args[0];
-            $end = $args[1];
-            $n = $args[2];
-            $points = self::callbackToArray($function, $min, $max, $n);
+            $start    = $args[0];
+            $end      = $args[1];
+            $n        = $args[2];
+            $points   = self::functionToPoints($function, $start, $end, $n);
         } else {
             $points = $source;
         }
+        return $points;
     }
 
     /**
@@ -108,7 +109,7 @@ abstract class NumericalIntegration
      *
      * @return array
      */
-    public static function callbackToArray(
+    public static function functionToPoints(
         callable $function,
         $start,
         $end,
