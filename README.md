@@ -1070,7 +1070,7 @@ $n₁ = 10;    // Sample size of population 1
 $n₂ = 10;    // Sample size of population 2
 $σ₁ = 0.683; // Standard deviation of sample mean 1
 $σ₂ = 0.750; // Standard deviation of sample mean 2
-$t  = Significance::tTestTwoSample($Hₐ, $s, $n, $H);
+$t  = Significance::tTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂);
 /* [
   't'  => -3.3978,  // t score
   'p1' => 0.001604, // one-tailed p value
