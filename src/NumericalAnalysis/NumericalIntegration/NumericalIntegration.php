@@ -1,0 +1,92 @@
+<?php
+
+namespace Math\NumericalAnalysis\NumericalIntegration;
+
+/**
+ *
+ */
+abstract class NumericalIntegration
+{
+    /**
+     * @var int Index of x
+     */
+    const X = 0;
+
+    /**
+     * @var int Index of y
+     */
+    const Y = 1;
+
+    abstract public static function solve(array $points);
+
+    /**
+     * Validate that there are two or more arrays (points), that each point array
+     * has precisely two numbers, and that no two points share the same first number
+     * (x-component)
+     *
+     * @param  array $points Array of arrays (points)
+     *
+     * @return bool
+     * @throws Exception if there are less than two points
+     * @throws Exception if any point does not contain two numbers
+     * @throws Exception if two points share the same first number (x-component)
+     */
+    protected static function validate(array $points)
+    {
+        if (count($points) < 2) {
+            throw new \Exception('You need to have at least two sets of
+                                  coordinates (arrays)');
+        }
+
+        $x_coordinates = [];
+        foreach ($points as $point) {
+            if (count($point) !== 2) {
+                throw new \Exception('Each array needs to have have precisely
+                                      two numbers, an x- and y-component');
+            }
+
+            $x_component = $point[self::X];
+            if (in_array($x_component, $x_coordinates)) {
+                throw new \Exception('Not a function. Your input array contains
+                                      more than one coordinate with the same
+                                      x-component.');
+            }
+            array_push($x_coordinates, $x_component);
+        }
+    }
+
+    /**
+     * Sorts our coordinates (arrays) by their x-component (first number) such
+     * that consecutive coordinates have an increasing x-component.
+     *
+     * @param  array $points
+     *
+     * @return array
+     */s
+    protected static function sort(array $points)
+    {
+        $x = self::X;
+        usort($points, function ($a, $b) use ($x) {
+            return $a[$x] <=> $b[$x];
+        });
+
+        return $points;
+    }
+
+    /**
+     * Evaluate our input function at n evenly spaced points between
+     * start and end
+     *
+     * @param  callable $function
+     * @param  number   $start
+     * @param  number   $end
+     * @param  number   $evalutations
+     *
+     * @return array
+     */
+    protected static function toCoordinates(callable $function, $start, $end,
+                                            $evalutions)
+    {
+
+    }
+}
