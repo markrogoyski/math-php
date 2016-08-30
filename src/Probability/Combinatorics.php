@@ -28,6 +28,84 @@ class Combinatorics
     }
 
     /**
+     * Double facatorial (iterative)
+     * Also known as semifactorial
+     *
+     * The product of all the integers from 1 up to some non-negative integer n
+     * that have the same parity as n. Denoted by n!!
+     *
+     * n‼︎ = n(n - 2)(n - 4) ・・・
+     *
+     * For even n:
+     *       n/2
+     * n‼︎ =  ∏ (2k) = n(n - 2) ・・・ 2
+     *       k=1
+     *
+     * For odd n:
+     *     (n+1)/2
+     * n‼︎ =  ∏ (2k - 1) = n(n - 2) ・・・ 1
+     *       k=1
+     *
+     * 0‼︎ = 1
+     *
+     * @param  int $n
+     *
+     * @return int
+     *
+     * @throws \Exception
+     */
+    public static function doubleFactorial(int $n)
+    {
+        if ($n < 0) {
+            throw new \Exception('Cannot compute double factorial of a negative number.');
+        }
+
+        // Zero base case
+        if ($n === 0) {
+            return 1;
+        }
+
+        // Even and odd initialization base cases: odd = 1, even = 2
+        if ($n % 2 == 0) {
+            $n‼︎ = 2;
+        } else {
+            $n‼︎ = 1;
+        }
+
+        while ($n > 2) {
+            $n‼︎ *= $n;
+            $n  -= 2;
+        }
+
+        return $n‼︎;
+    }
+
+    /**
+     * Rising Factorial
+     *
+     * https://en.wikipedia.org/wiki/Falling_and_rising_factorials
+     *
+     * x⁽ⁿ⁾ = x * (x+1) * (x+2) ... (x+n-1)
+     *
+     * @param  number $x
+     * @param  int    $n
+     * @return number
+     */
+    public static function risingFactorial($x, int $n)
+    {
+        if ($n < 0) {
+            throw new \Exception('Cannot compute rising factorial of a negative number.');
+        }
+        $fact = 1;
+        while ($n > 0) {
+            $fact *= $x + $n - 1;
+            $n--;
+        }
+
+        return $fact;
+    }
+    
+    /**
      * Find number of permutations--ordered arrangements--of n things, taken n at a time.
      * nPn = (N)n = n(n - 1)(n - 2) ・・・ (n - (n - 1)) = n!
      *
