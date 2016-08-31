@@ -15,25 +15,27 @@ Features
    - Matrix
    - Vector
  * Numerical Analysis
+   - Root Approximation
+   - Numerical Integration
  * Probability
-     * Combinatorics
-     * Distributions
-         - Continuous
-         - Discrete
-     * Standard Normal Table (Z Table)
-     * t Distribution Table
+     - Combinatorics
+     - Distributions
+         * Continuous
+         * Discrete
+     - Standard Normal Table (Z Table)
+     - t Distribution Table
  * Sequences
-     * Basic
-     * Advanced
+     - Basic
+     - Advanced
  * Statistics
-     * Averages
-     * Correlation
-     * Descriptive
-     * Distributions
-     * Experiments
-     * Random Variables
-     * Regressions
-     * Significance Testing
+     - Averages
+     - Correlation
+     - Descriptive
+     - Distributions
+     - Experiments
+     - Random Variables
+     - Regressions
+     - Significance Testing
 
 Setup
 -----
@@ -167,10 +169,6 @@ $L  = 3; // the curve's maximum value
 $k  = 4; // the steepness of the curve
 $x  = 5;
 $logistic = Special::logistic($x₀, $L, $k, $x);
-
-// Double factorial
-$n  = 6;
-$n‼︎ = Special::doubleFactorial($n);
 
 // Sigmoid function
 $t = 2;
@@ -321,7 +319,7 @@ $matrix = $A->outerProduct(new Vector([1, 2]));
 print($A); // [1, 2, 3]
 ```
 
-### Numerical Analysis
+### Numerical Analysis - Root Approximation
 ```php
 use Math\NumericalAnalysis;
 
@@ -342,74 +340,72 @@ $x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); //
 ```php
 use Math\NumericalAnalysis\NumericalIntegration;
 
-// Trapezoidal Rule (closed Newton-Cotes formula)
-// Approximate the definite integral of a function. Input can be either a set
-// of points (inputs and outputs of a function) or a callback function with an
-// array argument, containing the number of function evaluations to perform on
-// an interval between a start and end point.
+// Trapezoidal Rule (Newton-Cotes formula)
+// Approximate the definite integral of a function.
+
+// Input as a set of points (inputs and outputs of a function)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
 $∫f⟮x⟯dx = TrapezoidalRule::approximate($points);
 
+// Input as a callback function, and the number of function evaluations to
+// perform on an interval between a start and end point.
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-$start = 0;
-$end = 3;
-$n = 4;
+$start  = 0;
+$end    = 3;
+$n      = 4;
 $∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n);
 
-// Simpsons Rule (closed Newton-Cotes formula)
-// Approximate the definite integral of a function. Input can be either a set
-// of points (inputs and outputs of a function) or a callback function with an
-// array argument, containing the number of function evaluations to perform on
-// an interval between a start and end point.
-$points = [[0, 1], [1, 4], [2, 9], [3, 16], [4, 3]];
+// Simpsons Rule (Newton-Cotes formula)
+// Approximate the definite integral of a function.
+
+// Input as a set of points (inputs and outputs of a function)
+$points = [[0, 1], [1, 4], [2, 9], [3, 16], [4,3]];
 $∫f⟮x⟯dx = SimpsonsRule::approximate($points);
 
+// Input as a callback function, and the number of function evaluations to
+// perform on an interval between a start and end point.
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-$start = 0;
-$end = 3;
-$n = 5;
-$∫f⟮x⟯dx = SimpsonsRule::approximate($f⟮x⟯, $start, $end, $n);
-```
-
-// Simpsons 3/8 Rule (closed Newton-Cotes formula)
-// Approximate the definite integral of a function. Input can be either a set
-// of points (inputs and outputs of a function) or a callback function with an
-// array argument, containing the number of functi
-$points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($points);
-
-$f⟮x⟯ = function ($x) {
-    return $x**2 + 2 * $x + 1;
-};
-$start = 0;
-$end = 3;
-$n = 5;
-$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n);
+$start  = 0;
+$end    = 3;
+$n      = 5;
+$∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n);
 ```
 
 ### Probability - Combinatorics
 ```php
 use Math\Probability\Combinatorics;
 
-// Factorial and permutations
-$factorial    = Combinatorics::factorial(5);    // Same as permutations
-$permutations = Combinatorics::permutations(5); // Same as factorial
+list($n, $x, $r, $k) = [10, 3, 4, 4];
 
-// Permutations n choose r
-$n = 10;
-$r = 4;
-$permutations = Combinatorics::permutationsChooseR($n, $r);
+// Factorials
+$n！  = Combinatorics::factorial($n);             // Same as permutations
+$n‼︎   = Combinatorics::doubleFactorial($n);
+$x⁽ⁿ⁾ = Combinatorics::risingFactorial($x, $n);
+$x₍ᵢ₎ = Combinatorics::fallingFactorial($x, $n);
+$！n  = Combinatorics::subfactorial($n);
+
+// Permutations
+$nPn = Combinatorics::permutations($n);            // Same as factorial
+$nPr = Combinatorics::permutationsChooseR($n, $r); // n choose r
 
 // Combinations
-$combinations = Combinatorics::combinations($n, $r);
-$combinations = Combinatorics::combinationsWithRepetition($n, $r);
+$nCr  = Combinatorics::combinations($n, $r);
+$nC′r = Combinatorics::combinationsWithRepetition($n, $r);
+
+// Central binomial coefficient
+$cbc = Combinatorics::centralBinomialCoefficient($n);
+
+// Catalan number
+$Cn = Combinatorics::catalanNumber($n);
+
+// Lah number
+$L⟮n、k⟯ = Combinatorics::lahNumber($n, $k)
 
 // Multinomial Theorem
-$n         = 10;
 $groups    = [5, 2, 3];
 $divisions = Combinatorics::multinomialTheorem($n, $groups);
 ```
@@ -999,7 +995,7 @@ use Math\Statistics\Regression;
 $points = [[1,2], [2,3], [4,5], [5,7], [6,8]];
 
 // Simple linear regression (least squares method)
-$regression = new Linear($points);
+$regression = new Regresion\Linear($points);
 $parameters = $regression->getParameters();          // [m => 1.2209302325581, b => 0.6046511627907]
 $equation   = $regression->getEquation();            // y = 1.2209302325581x + 0.6046511627907
 $y          = $regression->evaluate(5);              // Evaluate for y at x = 5 using regression equation
@@ -1033,7 +1029,7 @@ $ν          = $regression->degreesOfFreedom();
 
 // Linear regression through a fixed point (least squares method)
 $force_point = [0,0];
-$regression  = new LinearThroughPoint($points, $force_point);
+$regression  = new Regresion\LinearThroughPoint($points, $force_point);
 $parameters  = $regression->getParameters();
 $equation    = $regression->getEquation();
 $y           = $regression->evaluate(5);
@@ -1043,28 +1039,28 @@ $r²          = $regression->r2();
  ⋮                     ⋮
 
 // Theil–Sen estimator (Sen's slope estimator, Kendall–Theil robust line)
-$regression  = new TheilSen($points);
+$regression  = new Regresion\TheilSen($points);
 $parameters  = $regression->getParameters();
 $equation    = $regression->getEquation();
 $y           = $regression->evaluate(5);
  ⋮                     ⋮
 
 // Use Lineweaver-Burk linearization to fit data to the Michaelis–Menten model: y = (V * x) / (K + x)
-$regression  = new LineweaverBurk($points);
+$regression  = new Regresion\LineweaverBurk($points);
 $parameters  = $regression->getParameters();  // [V, K]
 $equation    = $regression->getEquation();    // y = Vx / (K + x)
 $y           = $regression->evaluate(5);
  ⋮                     ⋮
 
 // Use Hanes-Woolf linearization to fit data to the Michaelis–Menten model: y = (V * x) / (K + x)
-$regression  = new HanesWoolf($points);
+$regression  = new Regresion\HanesWoolf($points);
 $parameters  = $regression->getParameters();  // [V, K]
 $equation    = $regression->getEquation();    // y = Vx / (K + x)
 $y           = $regression->evaluate(5);
  ⋮                     ⋮
 
 // Power law regression - power curve (least squares fitting)
-$regression = new PowerLaw($points);
+$regression = new Regresion\PowerLaw($points);
 $parameters = $regression->getParameters();   // [a => 56.483375436574, b => 0.26415375648621]
 $equation   = $regression->getEquation();     // y = 56.483375436574x^0.26415375648621
 $y          = $regression->evaluate(5);
@@ -1073,7 +1069,7 @@ $y          = $regression->evaluate(5);
 // LOESS - Locally Weighted Scatterplot Smoothing (Local regression)
 $α          = 1/3;                         // Smoothness parameter
 $λ          = 1;                           // Order of the polynomial fit
-$regression = new LOESS($points, $α, $λ);
+$regression = new Regresion\LOESS($points, $α, $λ);
 $y          = $regression->evaluate(5);
 $Ŷ          = $regression->yHat();
  ⋮                     ⋮
