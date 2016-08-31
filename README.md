@@ -386,12 +386,12 @@ $x₍ᵢ₎ = Combinatorics::fallingFactorial($x, $n);
 $！n  = Combinatorics::subfactorial($n);
 
 // Permutations
-$permutations = Combinatorics::permutations($n);             // Same as factorial
-$permutations = Combinatorics::permutationsChooseR($n, $r); // n choose r
+$nPn = Combinatorics::permutations($n);            // Same as factorial
+$nPr = Combinatorics::permutationsChooseR($n, $r); // n choose r
 
 // Combinations
-$combinations = Combinatorics::combinations($n, $r);
-$combinations = Combinatorics::combinationsWithRepetition($n, $r);
+$nCr  = Combinatorics::combinations($n, $r);
+$nC′r = Combinatorics::combinationsWithRepetition($n, $r);
 
 // Central binomial coefficient
 $cbc = Combinatorics::centralBinomialCoefficient($n);
