@@ -15,25 +15,27 @@ Features
    - Matrix
    - Vector
  * Numerical Analysis
+   - Root Approximation
+   - Numerical Integration
  * Probability
-     * Combinatorics
-     * Distributions
-         - Continuous
-         - Discrete
-     * Standard Normal Table (Z Table)
-     * t Distribution Table
+     - Combinatorics
+     - Distributions
+         * Continuous
+         * Discrete
+     - Standard Normal Table (Z Table)
+     - t Distribution Table
  * Sequences
-     * Basic
-     * Advanced
+     - Basic
+     - Advanced
  * Statistics
-     * Averages
-     * Correlation
-     * Descriptive
-     * Distributions
-     * Experiments
-     * Random Variables
-     * Regressions
-     * Significance Testing
+     - Averages
+     - Correlation
+     - Descriptive
+     - Distributions
+     - Experiments
+     - Random Variables
+     - Regressions
+     - Significance Testing
 
 Setup
 -----
@@ -321,7 +323,7 @@ $matrix = $A->outerProduct(new Vector([1, 2]));
 print($A); // [1, 2, 3]
 ```
 
-### Numerical Analysis
+### Numerical Analysis - Root Approximation
 ```php
 use Math\NumericalAnalysis;
 
@@ -982,7 +984,7 @@ use Math\Statistics\Regression;
 $points = [[1,2], [2,3], [4,5], [5,7], [6,8]];
 
 // Simple linear regression (least squares method)
-$regression = new Linear($points);
+$regression = new Regresion\Linear($points);
 $parameters = $regression->getParameters();          // [m => 1.2209302325581, b => 0.6046511627907]
 $equation   = $regression->getEquation();            // y = 1.2209302325581x + 0.6046511627907
 $y          = $regression->evaluate(5);              // Evaluate for y at x = 5 using regression equation
@@ -1016,7 +1018,7 @@ $ν          = $regression->degreesOfFreedom();
 
 // Linear regression through a fixed point (least squares method)
 $force_point = [0,0];
-$regression  = new LinearThroughPoint($points, $force_point);
+$regression  = new Regresion\LinearThroughPoint($points, $force_point);
 $parameters  = $regression->getParameters();
 $equation    = $regression->getEquation();
 $y           = $regression->evaluate(5);
@@ -1026,28 +1028,28 @@ $r²          = $regression->r2();
  ⋮                     ⋮
 
 // Theil–Sen estimator (Sen's slope estimator, Kendall–Theil robust line)
-$regression  = new TheilSen($points);
+$regression  = new Regresion\TheilSen($points);
 $parameters  = $regression->getParameters();
 $equation    = $regression->getEquation();
 $y           = $regression->evaluate(5);
  ⋮                     ⋮
 
 // Use Lineweaver-Burk linearization to fit data to the Michaelis–Menten model: y = (V * x) / (K + x)
-$regression  = new LineweaverBurk($points);
+$regression  = new Regresion\LineweaverBurk($points);
 $parameters  = $regression->getParameters();  // [V, K]
 $equation    = $regression->getEquation();    // y = Vx / (K + x)
 $y           = $regression->evaluate(5);
  ⋮                     ⋮
 
 // Use Hanes-Woolf linearization to fit data to the Michaelis–Menten model: y = (V * x) / (K + x)
-$regression  = new HanesWoolf($points);
+$regression  = new Regresion\HanesWoolf($points);
 $parameters  = $regression->getParameters();  // [V, K]
 $equation    = $regression->getEquation();    // y = Vx / (K + x)
 $y           = $regression->evaluate(5);
  ⋮                     ⋮
 
 // Power law regression - power curve (least squares fitting)
-$regression = new PowerLaw($points);
+$regression = new Regresion\PowerLaw($points);
 $parameters = $regression->getParameters();   // [a => 56.483375436574, b => 0.26415375648621]
 $equation   = $regression->getEquation();     // y = 56.483375436574x^0.26415375648621
 $y          = $regression->evaluate(5);
@@ -1056,7 +1058,7 @@ $y          = $regression->evaluate(5);
 // LOESS - Locally Weighted Scatterplot Smoothing (Local regression)
 $α          = 1/3;                         // Smoothness parameter
 $λ          = 1;                           // Order of the polynomial fit
-$regression = new LOESS($points, $α, $λ);
+$regression = new Regresion\LOESS($points, $α, $λ);
 $y          = $regression->evaluate(5);
 $Ŷ          = $regression->yHat();
  ⋮                     ⋮
