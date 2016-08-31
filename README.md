@@ -386,9 +386,7 @@ $x₍ᵢ₎ = Combinatorics::fallingFactorial($x, $n);
 $！n  = Combinatorics::subfactorial($n);
 
 // Permutations
-$n = 10;
-$r = 4;
-$permutations = Combinatorics::permutations(5);             // Same as factorial
+$permutations = Combinatorics::permutations($n);             // Same as factorial
 $permutations = Combinatorics::permutationsChooseR($n, $r); // n choose r
 
 // Combinations
