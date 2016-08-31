@@ -43,27 +43,6 @@ class SimpsonsRuleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $x, '', $tol);
     }
 
-    public function testNotCoordinatesException()
-    {
-        // An array doesn't have precisely two numbers (coordinates)
-        $this->setExpectedException('\Exception');
-        SimpsonsRule::approximate([[0,0], [1,2,3], [2,2]]);
-    }
-
-    public function testNotEnoughArraysException()
-    {
-        // There are not enough arrays in the input
-        $this->setExpectedException('\Exception');
-        SimpsonsRule::approximate([[0,0]]);
-    }
-
-    public function testNotAFunctionException()
-    {
-        // Two arrays share the same first number (x-component)
-        $this->setExpectedException('\Exception');
-        SimpsonsRule::approximate([[0,0], [0,5], [1,1]]);
-    }
-
     public function testSubintervalsNotEvenException()
     {
         // There are not even even number of subintervals, or

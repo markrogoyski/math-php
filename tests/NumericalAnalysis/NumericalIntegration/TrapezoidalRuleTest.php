@@ -55,25 +55,4 @@ class TrapezoidalRuleTest extends \PHPUnit_Framework_TestCase
         $x = TrapezoidalRule::approximate($func, $args);
         $this->assertEquals($expected, $x, '', $tol);
     }
-
-    public function testNotCoordinatesException()
-    {
-        // An array doesn't have precisely two numbers (coordinates)
-        $this->setExpectedException('\Exception');
-        TrapezoidalRule::approximate([[0,0], [1,2,3]]);
-    }
-
-    public function testNotEnoughArraysException()
-    {
-        // There are not enough arrays in the input
-        $this->setExpectedException('\Exception');
-        TrapezoidalRule::approximate([[0,0]]);
-    }
-
-    public function testNotAFunctionException()
-    {
-        // Two arrays share the same first number (x-component)
-        $this->setExpectedException('\Exception');
-        TrapezoidalRule::approximate([[0,0], [0,5], [1,1]]);
-    }
 }
