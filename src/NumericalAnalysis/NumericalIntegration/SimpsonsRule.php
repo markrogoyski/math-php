@@ -54,11 +54,10 @@ class SimpsonsRule extends NumericalIntegration
      * ∫ f(x)dx = ∑   ∫ f(x)dx
      * x₁        ⁱ⁼¹  xᵢ
      *
-     *           ⁿ/²  h
-     *          = ∑   - [f⟮x₂ᵢ⟯ + 4f⟮x₂ᵢ₊₁⟯ + f⟮x₂ᵢ₊₂⟯] + O(h⁵f⁗(x))
-     *           ⁱ⁼¹  3
-     *
-     *  where h = xᵢ₊₁ - xᵢ
+     *         ⁽ⁿ⁻¹⁾/² h
+     *          = ∑    - [f⟮x₂ᵢ₋₁⟯ + 4f⟮x₂ᵢ⟯ + f⟮x₂ᵢ₊₁⟯] + O(h⁵f⁗(x))
+     *           ⁱ⁼¹   3
+     * where h = (xₙ - x₁) / (n - 1)
      *
      * @param          $source   The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
@@ -97,16 +96,16 @@ class SimpsonsRule extends NumericalIntegration
 
         /*
          * Summation
-         * ⁿ/²  h
-         *  ∑   - [f⟮x₂ᵢ⟯ + 4f⟮x₂ᵢ₊₁⟯ + f⟮x₂ᵢ₊₂⟯] + O(h⁵f⁗(x))
-         * ⁱ⁼¹  3
-         *  where h = xᵢ₊₁ - xᵢ
+         * ⁽ⁿ⁻¹⁾/² h
+        *     ∑    - [f⟮x₂ᵢ₋₁⟯ + 4f⟮x₂ᵢ⟯ + f⟮x₂ᵢ₊₁⟯] + O(h⁵f⁗(x))
+         *   ⁱ⁼¹   3
+         *  where h = (xₙ - x₁) / (n - 1)
          */
-        for ($i = 0; $i < ($subintervals/2); $i++) {
-            $f⟮x₂ᵢ⟯          = $sorted[(2*$i)][$y];   // y₂ᵢ
-            $f⟮x₂ᵢ₊₁⟯        = $sorted[(2*$i)+1][$y]; // y₂ᵢ₊₁
-            $f⟮x₂ᵢ₊₂⟯        = $sorted[(2*$i)+2][$y]; // y₂ᵢ₊₂
-            $approximation += ($h * ($f⟮x₂ᵢ⟯ + 4*$f⟮x₂ᵢ₊₁⟯ + $f⟮x₂ᵢ₊₂⟯)) / 3;
+        for ($i = 1; $i < ($subintervals/2) + 1; $i++) {
+            $f⟮x₂ᵢ₋₁⟯        = $sorted[(2*$i)-2][$y];   // y₂ᵢ₋₁
+            $f⟮x₂ᵢ⟯          = $sorted[(2*$i)-1][$y]; // y₂ᵢ
+            $f⟮x₂ᵢ₊₁⟯        = $sorted[(2*$i)][$y]; // y₂ᵢ₊₁
+            $approximation += ($h * ($f⟮x₂ᵢ₋₁⟯ + 4*$f⟮x₂ᵢ⟯ + $f⟮x₂ᵢ₊₁⟯)) / 3;
         }
 
         return $approximation;
