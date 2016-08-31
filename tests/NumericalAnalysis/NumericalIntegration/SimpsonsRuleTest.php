@@ -38,8 +38,10 @@ class SimpsonsRuleTest extends \PHPUnit_Framework_TestCase
         $func = function ($x) {
             return $x**2 + 2 * $x + 1;
         };
-        $args = [0, 3, 3];
-        $x = SimpsonsRule::approximate($func, $args);
+        $start = 0;
+        $end   = 3;
+        $n     = 3;
+        $x     = SimpsonsRule::approximate($func, $start, $end, $n);
         $this->assertEquals($expected, $x, '', $tol);
     }
 
