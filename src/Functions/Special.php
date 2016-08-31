@@ -642,8 +642,8 @@ class Special
      *
      *                                       ∞
      *                                      ____
-     *                                      \     ∏aₚ⁽ⁿ⁾ * zⁿ
-     *  ₚFq(a₁,a₂,...,aₚ;b₁,b₂,...,bq;z)=  >    ------------
+     *                                      \     ∏ap⁽ⁿ⁾ * zⁿ
+     * pₚFq(a₁,a₂,...ap;b₁,b₂,...,bq;z)=      >    ------------
      *                                      /      ∏bq⁽ⁿ⁾ * n!
      *                                      ‾‾‾‾
      *                                       n=0
@@ -653,12 +653,12 @@ class Special
      * We are evaluating this as a series:
      *
      *                   (a + n - 1) * z
-     * ∏ₙ =   ∏ₙ₋₁  * -----------------
+     * ∏n =   ∏n₋₁  * -----------------
      *                   (b + n - 1) * n
      *
-     *                       n   (a + n - 1) * z
-     *   ₁F₁ ₙ = ₁F₁ ₙ₋₁ + ∏  -----------------  = ₁F₁ ₙ₋₁ + ∏ₙ
-     *                       1   (b + n - 1) * n
+     *                   n   (a + n - 1) * z
+     *   ₁F₁ ₙ = ₁F₁ ₙ₋₁ + ∏  -----------------  = ₁F₁n₋₁ + ∏n
+     *                   1   (b + n - 1) * n
      */
     public static function generalizedHypergeometric(int $p, int $q, ...$params)
     {
