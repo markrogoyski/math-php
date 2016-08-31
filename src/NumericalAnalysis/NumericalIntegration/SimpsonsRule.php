@@ -8,7 +8,7 @@ namespace Math\NumericalAnalysis\NumericalIntegration;
  * In numerical analysis, Simpson's rule is a technique for approximating
  * the definite integral of a function.
  *
- * Simpson's rule belongs to the Newton-Cotes formulas, a group of methods
+ * Simpson's rule belongs to the closed Newton-Cotes formulas, a group of methods
  * for numerical integration which approximate the integral of a function. We
  * can either directly supply a set of inputs and their corresponding outputs for
  * said function, or if we explicitly know the function, we can define it as a
@@ -40,7 +40,7 @@ class SimpsonsRule extends NumericalIntegration
      * The bounds of the definite integral to which we are approximating is
      * determined by the our inputs.
      *
-     * Example: approximate([0, 10], [3, 5], [10, 7]) will approximate the definite
+     * Example: approximate([0, 10], [5, 5], [10, 7]) will approximate the definite
      * integral of the function that produces these coordinates with a lower
      * bound of 0, and an upper bound of 10.
      *
