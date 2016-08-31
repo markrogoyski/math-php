@@ -170,10 +170,6 @@ $k  = 4; // the steepness of the curve
 $x  = 5;
 $logistic = Special::logistic($x₀, $L, $k, $x);
 
-// Double factorial
-$n  = 6;
-$n‼︎ = Special::doubleFactorial($n);
-
 // Sigmoid function
 $t = 2;
 $sigmoid = Special::sigmoid($t);
@@ -380,21 +376,35 @@ $∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, [$start, $end, $n]);
 ```php
 use Math\Probability\Combinatorics;
 
-// Factorial and permutations
-$factorial    = Combinatorics::factorial(5);    // Same as permutations
-$permutations = Combinatorics::permutations(5); // Same as factorial
+list($n, $x, $r, $k) = [10, 3, 4, 4];
 
-// Permutations n choose r
+// Factorials
+$n！  = Combinatorics::factorial($n);             // Same as permutations
+$n‼︎   = Combinatorics::doubleFactorial($n);
+$x⁽ⁿ⁾ = Combinatorics::risingFactorial($x, $n);
+$x₍ᵢ₎ = Combinatorics::fallingFactorial($x, $n);
+$！n  = Combinatorics::subfactorial($n);
+
+// Permutations
 $n = 10;
 $r = 4;
-$permutations = Combinatorics::permutationsChooseR($n, $r);
+$permutations = Combinatorics::permutations(5);             // Same as factorial
+$permutations = Combinatorics::permutationsChooseR($n, $r); // n choose r
 
 // Combinations
 $combinations = Combinatorics::combinations($n, $r);
 $combinations = Combinatorics::combinationsWithRepetition($n, $r);
 
+// Central binomial coefficient
+$cbc = Combinatorics::centralBinomialCoefficient($n);
+
+// Catalan number
+$Cn = Combinatorics::catalanNumber($n);
+
+// Lah number
+$L⟮n、k⟯ = Combinatorics::lahNumber($n, $k)
+
 // Multinomial Theorem
-$n         = 10;
 $groups    = [5, 2, 3];
 $divisions = Combinatorics::multinomialTheorem($n, $groups);
 ```
