@@ -78,6 +78,70 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForFallingFactorial
+     */
+    public function testFallingFactorial($x, int $n, $factorial)
+    {
+        $this->assertEquals($factorial, Combinatorics::fallingFactorial($x, $n));
+    }
+
+    public function dataProviderForFallingFactorial()
+    {
+        return [
+            [5, 0, 1],
+            [5, 1, 5],
+            [5, 2, 20],
+            [5, 3, 60],
+            [5, 4, 120],
+            [5, 5, 120],
+            [5, 6, 0],
+            [4, 3, 24],
+            [4, 4, 24],
+            [4, 5, 0],
+            [8, 5, 6720],
+            [3, 5, 0],
+            [2, 6, 0],
+        ];
+    }
+
+    public function testFallingFactorialExceptionNLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        Combinatorics::fallingFactorial(5, -1);
+    }
+
+    /**
+     * @dataProvider dataProviderForSubfactorial
+     */
+    public function testSubfactorial($n, $！n)
+    {
+        $this->assertEquals($！n, Combinatorics::subfactorial($n), '', 0.000000001);
+    }
+
+    public function dataProviderForSubfactorial()
+    {
+        return [
+            [0, 1],
+            [1, 0],
+            [2, 1],
+            [3, 2],
+            [4, 9],
+            [5, 44],
+            [6, 265],
+            [7, 1854],
+            [8, 14833],
+            [9, 133496],
+            [10, 1334961],
+        ];
+    }
+
+    public function testSubactorialExceptionNLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        Combinatorics::subfactorial(-1);
+    }
+
+    /**
      * @dataProvider dataProviderForFactorialPermutations
      */
     public function testPermutations($n, $permutations)
@@ -257,6 +321,69 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForCentralBinomialCoefficient
+     */
+    public function testCentralBinomialCoefficient($n, $！n)
+    {
+        $this->assertEquals($！n, Combinatorics::centralBinomialCoefficient($n), '', 0.000000001);
+    }
+
+    public function dataProviderForCentralBinomialCoefficient()
+    {
+        return [
+            [0, 1],
+            [1, 2],
+            [2, 6],
+            [3, 20],
+            [4, 70],
+            [5, 252],
+            [6, 924],
+            [7, 3432],
+            [8, 12870],
+            [9, 48620],
+            [10, 184756],
+        ];
+    }
+
+    public function testCentralBinomialCoefficientExceptionNLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        Combinatorics::centralBinomialCoefficient(-1);
+    }
+
+    /**
+     * @dataProvider dataProviderForCatalanNumber
+     */
+    public function testCatalanNumber($n, $！n)
+    {
+        $this->assertEquals($！n, Combinatorics::catalanNumber($n), '', 0.000000001);
+    }
+
+    public function dataProviderForCatalanNumber()
+    {
+        return [
+            [0, 1],
+            [1, 1],
+            [2, 2],
+            [3, 5],
+            [4, 14],
+            [5, 42],
+            [6, 132],
+            [7, 429],
+            [8, 1430],
+            [9, 4862],
+            [10, 16796],
+            [11, 58786],
+        ];
+    }
+
+    public function testCatalanNumberExceptionNLessThanZero()
+    {
+        $this->setExpectedException('\Exception');
+        Combinatorics::catalanNumber(-1);
+    }
+
+    /**
      * @dataProvider dataProviderForMultinomialTheorem
      */
     public function testMultinomialTheorem($n, array $groups, $divisions)
@@ -275,5 +402,80 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
             [ 10, [ 5, 5 ],     252 ],
             [ 11, [ 1, 4, 4, 2 ], 34650 ],
         ];
+    }
+
+    /**
+     * @dataProvider dataProviderForLahNumber
+     */
+    public function testLahNumber($k, int $n, $lah)
+    {
+        $this->assertEquals($lah, Combinatorics::lahNumber($k, $n));
+    }
+
+    public function dataProviderForLahNumber()
+    {
+        return [
+            [1, 1, 1],
+            [2, 1, 2],
+            [2, 2, 1],
+            [3, 1, 6],
+            [3, 2, 6],
+            [3, 3, 1],
+            [4, 1, 24],
+            [4, 2, 36],
+            [4, 3, 12],
+            [4, 4, 1],
+            [5, 1, 120],
+            [5, 2, 240],
+            [5, 3, 120],
+            [5, 4, 20],
+            [5, 5, 1],
+            [6, 1, 720],
+            [6, 2, 1800],
+            [6, 3, 1200],
+            [6, 4, 300],
+            [6, 5, 30],
+            [6, 6, 1],
+            [12, 1, 479001600],
+            [12, 2, 2634508800],
+            [12, 3, 4390848000],
+            [12, 4, 3293136000],
+            [12, 5, 1317254400],
+            [12, 6, 307359360],
+            [12, 7, 43908480],
+            [12, 8, 3920400],
+            [12, 9, 217800],
+            [12, 10, 7260],
+            [12, 11, 132],
+            [12, 12, 1],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForLahNumberExceptionNOrKLessThanOne
+     * @return [type] [description]
+     */
+    public function testLahNumberExceptionNOrKLessThanOne(int $n, int $k)
+    {
+        $this->setExpectedException('\Exception');
+        Combinatorics::lahNumber($n, $k);
+    }
+
+    public function dataProviderForLahNumberExceptionNOrKLessThanOne()
+    {
+        return [
+            [-1, 2],
+            [2, -2],
+            [-3, -3],
+        ];
+    }
+
+    public function testLahNumberExceptionNLessThanK()
+    {
+        $this->setExpectedException('\Exception');
+
+        $k = 4;
+        $n = 2;
+        Combinatorics::lahNumber($n, $k);
     }
 }

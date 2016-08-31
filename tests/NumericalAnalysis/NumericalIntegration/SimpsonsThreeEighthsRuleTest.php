@@ -2,7 +2,7 @@
 
 namespace Math\NumericalAnalysis\NumericalIntegration;
 
-class SimpsonsRuleTest extends \PHPUnit_Framework_TestCase
+class SimpsonsRuleThreeEighthsTest extends \PHPUnit_Framework_TestCase
 {
     public function testapproximatePolynomial()
     {
@@ -26,11 +26,11 @@ class SimpsonsRuleTest extends \PHPUnit_Framework_TestCase
         $tol = 0;
 
         // Approximate with: (0, 1), (1.5, 6.25) and (3, 16)
-        $x = SimpsonsRule::approximate([[0, 1], [1.5, 6.25], [3, 16]]);
+        $x = SimpsonsThreeEighthsRule::approximate([[0, 1], [1, 4], [2, 9], [3, 16]]);
         $this->assertEquals($expected, $x, '', $tol);
 
         // Same test as above but with points not sorted to test sorting works
-        $x = SimpsonsRule::approximate([[1.5, 6.25], [3, 16], [0, 1]]);
+        $x = SimpsonsThreeEighthsRule::approximate([[2, 9], [3, 16], [0, 1], [1, 4]]);
         $this->assertEquals($expected, $x, '', $tol);
 
         // Similar test to above (same function, number of points, tolerance) but
@@ -40,23 +40,23 @@ class SimpsonsRuleTest extends \PHPUnit_Framework_TestCase
         };
         $start = 0;
         $end   = 3;
-        $n     = 3;
-        $x     = SimpsonsRule::approximate($func, $start, $end, $n);
+        $n     = 4;
+        $x     = SimpsonsThreeEighthsRule::approximate($func, $start, $end, $n);
         $this->assertEquals($expected, $x, '', $tol);
     }
 
-    public function testSubintervalsNotEvenException()
+    public function testSubintervalsNotFactorThree()
     {
         // There are not even even number of subintervals, or
         // equivalently, there are not an add number of points
         $this->setExpectedException('\Exception');
-        SimpsonsRule::approximate([[0,0], [4,4], [2,2], [6,6]]);
+        SimpsonsThreeEighthsRule::approximate([[0,0], [4,4], [2,2], [6,6], [8,8]]);
     }
 
     public function testNonConstantSpacingException()
     {
         // There is not constant spacing between points
         $this->setExpectedException('\Exception');
-        SimpsonsRule::approximate([[0,0], [3,3], [2,2]]);
+        SimpsonsThreeEighthsRule::approximate([[0,0], [3,3], [2,2], [4,4]]);
     }
 }
