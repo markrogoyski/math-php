@@ -31,7 +31,7 @@ class CombinatoricsAxiomsTest extends \PHPUnit_Framework_TestCase
         $∑L⟮n、k⟯x₍k₎ = 0;
         for ($k = 1; $k <= $n; $k++) {
             $x₍k₎        = Combinatorics::fallingFactorial($x, $k);
-            $L⟮n、k⟯       = Combinatorics::lahNumber($n, $k); 
+            $L⟮n、k⟯       = Combinatorics::lahNumber($n, $k);
             $∑L⟮n、k⟯x₍k₎ += $L⟮n、k⟯ * $x₍k₎;
         }
     
@@ -51,7 +51,7 @@ class CombinatoricsAxiomsTest extends \PHPUnit_Framework_TestCase
         $∑⟮−1⟯ⁿ⁻ᵏL⟮n、k⟯x₍k₎ = 0;
         for ($k = 1; $k <= $n; $k++) {
             $⟮−1⟯ⁿ⁻ᵏ            = (-1)**($n - $k);
-            $L⟮n、k⟯             = Combinatorics::lahNumber($n, $k); 
+            $L⟮n、k⟯             = Combinatorics::lahNumber($n, $k);
             $x⁽ᵏ⁾              = Combinatorics::risingFactorial($x, $k);
             $∑⟮−1⟯ⁿ⁻ᵏL⟮n、k⟯x₍k₎ += $⟮−1⟯ⁿ⁻ᵏ * $L⟮n、k⟯ * $x⁽ᵏ⁾;
         }
@@ -67,7 +67,7 @@ class CombinatoricsAxiomsTest extends \PHPUnit_Framework_TestCase
      */
     public function testLahNumberIdentityKEqualsOne(int $n)
     {
-        $L⟮n、1⟯ = Combinatorics::lahNumber($n, 1); 
+        $L⟮n、1⟯ = Combinatorics::lahNumber($n, 1);
         $n！    = Combinatorics::factorial($n);
 
         $this->assertEquals($L⟮n、1⟯, $n！);
@@ -86,7 +86,7 @@ class CombinatoricsAxiomsTest extends \PHPUnit_Framework_TestCase
             return;
         }
 
-        $L⟮n、1⟯     = Combinatorics::lahNumber($n, 2); 
+        $L⟮n、1⟯     = Combinatorics::lahNumber($n, 2);
         $⟮n−1⟯n！／2 = (($n - 1) * Combinatorics::factorial($n)) / 2;
 
         $this->assertEquals($L⟮n、1⟯, $⟮n−1⟯n！／2);
@@ -100,7 +100,7 @@ class CombinatoricsAxiomsTest extends \PHPUnit_Framework_TestCase
      */
     public function testLahNumberIdentityNNEqualsOne(int $n)
     {
-        $L⟮n、n⟯ = Combinatorics::lahNumber($n, $n); 
+        $L⟮n、n⟯ = Combinatorics::lahNumber($n, $n);
 
         $this->assertEquals(1, $L⟮n、n⟯);
     }
@@ -136,15 +136,15 @@ class CombinatoricsAxiomsTest extends \PHPUnit_Framework_TestCase
             [6, 4],
             [6, 5],
             [6, 6],
-            [12, 1], 
-            [12, 2], 
-            [12, 3], 
-            [12, 4], 
-            [12, 5], 
-            [12, 6], 
-            [12, 7], 
-            [12, 8], 
-            [12, 9], 
+            [12, 1],
+            [12, 2],
+            [12, 3],
+            [12, 4],
+            [12, 5],
+            [12, 6],
+            [12, 7],
+            [12, 8],
+            [12, 9],
             [12, 10],
             [12, 11],
             [12, 12],
