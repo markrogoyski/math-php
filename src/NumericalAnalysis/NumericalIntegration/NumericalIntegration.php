@@ -24,7 +24,7 @@ abstract class NumericalIntegration
      */
     const Y = 1;
 
-    abstract public static function approximate($source, array $args);
+    abstract public static function approximate($source, ...$args);
 
     /**
      * Determine where the input $source argument is a callback function, a set
@@ -45,7 +45,10 @@ abstract class NumericalIntegration
     public static function getPoints($source, array $args = [])
     {
         if (is_callable($source)) {
-            // To do: add method to verify function is continuous on our interval
+            // To do: Add method to verify function is continuous on our interval
+            // To do: Add method to verify input arguments are valid. Verify
+            //        $start and $end are numbers, $end > $start, and $points is
+            //        an integer > 1
             $function = $source;
             $start    = $args[0];
             $end      = $args[1];
