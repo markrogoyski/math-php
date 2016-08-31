@@ -8,10 +8,10 @@ namespace Math\NumericalAnalysis\NumericalIntegration;
  * In numerical analysis, the trapezoidal rule is a technique for approximating
  * the definite integral of a function.
  *
- * The trapezoidal rule belongs to the Newton-Cotes formulas, a group of methods
- * for numerical integration which approximate the integral of a function. We
- * can either directly supply a set of inputs and their corresponding outputs for
- * said function, or if we explicitly know the function, we can define it as a
+ * The trapezoidal rule belongs to the closed Newton-Cotes formulas, a group of
+ * methods for numerical integration which approximate the integral of a function.
+ * We can either directly supply a set of inputs and their corresponding outputs
+ * for said function, or if we explicitly know the function, we can define it as a
  * callback function and then generate a set of points by evaluating that function
  * at n points between a start and end point. We then use these values to
  * interpolate a Lagrange polynomial. Finally, we integrate the Lagrange
@@ -40,7 +40,7 @@ class TrapezoidalRule extends NumericalIntegration
      * integral of the function that produces these coordinates with a lower
      * bound of 0, and an upper bound of 10.
      *
-     * Example: approximate(function($x) {return $x**2;}, [0, 4 ,5]) will produce
+     * Example: approximate(function($x) {return $x**2;}, 0, 4 ,5) will produce
      * a set of arrays by evaluating the callback at 5 evenly spaced points
      * between 0 and 4. Then, this array will be used in our approximation.
      *
