@@ -106,7 +106,7 @@ class Combinatorics
 
         return $fact;
     }
-    
+
     /**
      * Falling Factorial
      * Also known as descending factorial, falling sequential product, lower factorial.
