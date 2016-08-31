@@ -356,7 +356,7 @@ $f⟮x⟯ = function ($x) {
 $start = 0;
 $end = 3;
 $n = 4;
-$∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, [$start, $end, $n]);
+$∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n);
 
 // Simpsons Rule (Newton-Cotes formula)
 // Approximate the definite integral of a function. Input can be either a set
@@ -371,7 +371,7 @@ $f⟮x⟯ = function ($x) {
 $start = 0;
 $end = 3;
 $n = 5;
-$∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, [$start, $end, $n]);
+$∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n);
 ```
 
 ### Probability - Combinatorics
