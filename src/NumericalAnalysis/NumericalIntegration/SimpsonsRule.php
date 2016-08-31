@@ -44,7 +44,7 @@ class SimpsonsRule extends NumericalIntegration
      * integral of the function that produces these coordinates with a lower
      * bound of 0, and an upper bound of 10.
      *
-     * Example: approximate(function($x) {return $x**2;}, [0, 4 ,5]) will produce
+     * Example: approximate(function($x) {return $x**2;}, 0, 4 ,5) will produce
      * a set of arrays by evaluating the callback at 5 evenly spaced points
      * between 0 and 4. Then, this array will be used in our approximation.
      *
