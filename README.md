@@ -340,39 +340,52 @@ $x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); //
 ```php
 use Math\NumericalAnalysis\NumericalIntegration;
 
-// Trapezoidal Rule (Newton-Cotes formula)
-// Approximate the definite integral of a function.
-
-// Input as a set of points (inputs and outputs of a function)
+// Trapezoidal Rule (closed Newton-Cotes formula)
+// Approximate the definite integral of a function. Input can be either a set
+// of points (inputs and outputs of a function) or a callback function with an
+// array argument, containing the number of function evaluations to perform on
+// an interval between a start and end point.
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
 $∫f⟮x⟯dx = TrapezoidalRule::approximate($points);
 
-// Input as a callback function, and the number of function evaluations to
-// perform on an interval between a start and end point.
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-$start  = 0;
-$end    = 3;
-$n      = 4;
+$start = 0;
+$end = 3;
+$n = 4;
 $∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n);
 
-// Simpsons Rule (Newton-Cotes formula)
-// Approximate the definite integral of a function.
-
-// Input as a set of points (inputs and outputs of a function)
-$points = [[0, 1], [1, 4], [2, 9], [3, 16], [4,3]];
+// Simpsons Rule (closed Newton-Cotes formula)
+// Approximate the definite integral of a function. Input can be either a set
+// of points (inputs and outputs of a function) or a callback function with an
+// array argument, containing the number of function evaluations to perform on
+// an interval between a start and end point.
+$points = [[0, 1], [1, 4], [2, 9], [3, 16], [4, 3]];
 $∫f⟮x⟯dx = SimpsonsRule::approximate($points);
 
-// Input as a callback function, and the number of function evaluations to
-// perform on an interval between a start and end point.
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-$start  = 0;
-$end    = 3;
-$n      = 5;
-$∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n);
+$start = 0;
+$end = 3;
+$n = 5;
+$∫f⟮x⟯dx = SimpsonsRule::approximate($f⟮x⟯, $start, $end, $n);
+
+// Simpsons 3/8 Rule (closed Newton-Cotes formula)
+// Approximate the definite integral of a function. Input can be either a set
+// of points (inputs and outputs of a function) or a callback function with an
+// array argument, containing the number of functi
+$points = [[0, 1], [1, 4], [2, 9], [3, 16]];
+$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($points);
+
+$f⟮x⟯ = function ($x) {
+    return $x**2 + 2 * $x + 1;
+};
+$start = 0;
+$end = 3;
+$n = 5;
+$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n);
 ```
 
 ### Probability - Combinatorics
