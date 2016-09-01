@@ -405,12 +405,6 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         ];
     }
     
-    public function testConfluentHypergeometricExceptionNGreaterThanOne()
-    {
-        $this->setExpectedException('\Exception');
-        Special::confluentHypergeometric(1, 1, 1);
-    }
-    
     /**
      * @dataProvider dataProviderForHypergeometric
      */
