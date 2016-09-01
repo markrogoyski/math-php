@@ -422,7 +422,6 @@ $x   = BisectionMethod::solve($f⟮x⟯, $a, $b, $tol); // Solve for x where f(x
 // f(x) = x⁴ + 8x³ -13x² -92x + 96
 // Rewrite f(x) = 0 as (x⁴ + 8x³ -13x² + 96)/92 = x
 // Thus, g(x) = (x⁴ + 8x³ -13x² + 96)/92
-
 $g⟮x⟯ = function($x) {
     return ($x**4 + 8 * $x**3 - 13 * $x**2 + 96)/92;
 };
