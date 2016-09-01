@@ -396,22 +396,22 @@ $∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, 
 ```php
 use Math\Probability\Combinatorics;
 
-list($n, $x, $r, $k) = [10, 3, 4, 4];
+list($n, $x, $k) = [10, 3, 4];
 
 // Factorials
-$n！  = Combinatorics::factorial($n);             // Same as permutations
+$n！  = Combinatorics::factorial($n);
 $n‼︎   = Combinatorics::doubleFactorial($n);
 $x⁽ⁿ⁾ = Combinatorics::risingFactorial($x, $n);
 $x₍ᵢ₎ = Combinatorics::fallingFactorial($x, $n);
 $！n  = Combinatorics::subfactorial($n);
 
 // Permutations
-$nPn = Combinatorics::permutations($n);            // Same as factorial
-$nPr = Combinatorics::permutationsChooseR($n, $r); // n choose r
+$nPn = Combinatorics::permutations($n);     // Permutations of n things, taken n at a time (same as factorial)
+$nPk = Combinatorics::permutations($n, $k); // Permutations of n things, taking only k of them
 
 // Combinations
-$nCr  = Combinatorics::combinations($n, $r);
-$nC′r = Combinatorics::combinationsWithRepetition($n, $r);
+$nCk  = Combinatorics::combinations($n, $k);                            // n choose k without repetition
+$nC′k = Combinatorics::combinations($n, $k, Combinatorics::REPETITION); // n choose k with repetition (REPETITION const = true)
 
 // Central binomial coefficient
 $cbc = Combinatorics::centralBinomialCoefficient($n);
@@ -422,9 +422,9 @@ $Cn = Combinatorics::catalanNumber($n);
 // Lah number
 $L⟮n、k⟯ = Combinatorics::lahNumber($n, $k)
 
-// Multinomial Theorem
+// Multinomial coefficient
 $groups    = [5, 2, 3];
-$divisions = Combinatorics::multinomialTheorem($n, $groups);
+$divisions = Combinatorics::multinomial($groups);
 ```
 
 ### Probability - Continuous Distributions
