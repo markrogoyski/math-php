@@ -31,8 +31,7 @@ trait RootFindingValidation
     public static function interval($a, $b)
     {
         if ($a === $b) {
-            throw new \Exception('Start point and end point of interval
-                                    cannot be the same.');
+            throw new \Exception('Start point and end point of interval cannot be the same.');
         }
     }
 }
