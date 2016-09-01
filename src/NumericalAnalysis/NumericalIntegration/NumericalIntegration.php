@@ -42,7 +42,7 @@ abstract class NumericalIntegration
      * @return array
      * @throws Exception if $source is not callable or a set of arrays
      */
-    public static function getPoints($source, array $args = [])
+    public static function getPoints($source, array $args = []): array
     {
         if (is_callable($source)) {
             // To do: Add method to verify function is continuous on our interval
@@ -60,6 +60,7 @@ abstract class NumericalIntegration
             throw new \Exception("Input source is incorrect. You need to input
                                   either a callback function or a set of arrays");
         }
+
         return $points;
     }
 
@@ -74,17 +75,14 @@ abstract class NumericalIntegration
      *
      * @return array
      */
-    protected static function functionToPoints(
-        callable $function,
-        $start,
-        $end,
-        $n
-    ) {
+    protected static function functionToPoints(callable $function, $start, $end, $n): array
+    {
         $points = [];
         $h      = ($end-$start)/($n-1);
+
         for ($i = 0; $i < $n; $i++) {
             $xᵢ         = $start + $i*$h;
-            $f⟮xᵢ⟯       = call_user_func_array($function, [$xᵢ]);
+            $f⟮xᵢ⟯       = $function($xᵢ);
             $points[$i] = [$xᵢ, $f⟮xᵢ⟯];
         }
         return $points;
@@ -103,7 +101,7 @@ abstract class NumericalIntegration
      * @throws Exception if any point does not contain two numbers
      * @throws Exception if two points share the same first number (x-component)
      */
-    public static function validate(array $points, $degree = 2)
+    public static function validate(array $points, $degree = 2): bool
     {
         if (count($points) < $degree) {
             throw new \Exception("You need to have at least $degree sets of
@@ -137,7 +135,7 @@ abstract class NumericalIntegration
      *
      * @return array
      */
-    protected static function sort(array $points)
+    protected static function sort(array $points): array
     {
         $x = self::X;
         usort($points, function ($a, $b) use ($x) {

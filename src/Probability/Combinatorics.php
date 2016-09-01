@@ -1,8 +1,36 @@
 <?php
 namespace Math\Probability;
 
+/**
+ * Combinatorics
+ *  - Factorials
+ *    - Factorial
+ *    - Double factorial
+ *    - Rising factorial
+ *    - Falling factorial
+ *    - Subfactorial
+ *  - Permutations and Combinations
+ *    - Permutations nPn
+ *    - Permutations nPk
+ *    - Combinations without repetition nCk
+ *    - Combinations with repetition nC′k
+ *    - Central binomial coefficient
+ *  - Other Combinatorics
+ *    - Catalan number
+ *    - Lah number
+ *    - Multinomial coefficient
+ */
 class Combinatorics
 {
+    /**
+     * @var bool Combinations with repetition
+     */
+    const REPETITION = true;
+
+    /**************************************************************************
+     * Factorials
+     *************************************************************************/
+
     /**
      * Factorial (iterative)
      * Represents the number of ways to arrange n things (permutations)
@@ -169,114 +197,97 @@ class Combinatorics
         return $n！ * $∑;
     }
 
+    /**************************************************************************
+     * Permutations and combinations
+     *************************************************************************/
+
     /**
-     * Find number of permutations--ordered arrangements--of n things, taken n at a time.
-     * nPn = (N)n = n(n - 1)(n - 2) ・・・ (n - (n - 1)) = n!
+     * Permutations (ordered arrangements)
      *
-     * @param  int $n
+     * nPn - number of permutations of n things, taken n at a time.
+     * P(n) = nPn = (N)n = n(n - 1)(n - 2) ・・・ (n - (n - 1)) = n!
+     *
+     *
+     * nPk: number of permutations of n things, taking only k of them.
+     *                    n!
+     * P(n,k) = nPk =  --------
+     *                 (n - k)!
+     *
+     * @param int $n
+     * @param int $k (Optional) for nPk permutations
      *
      * @return int number of permutations of n
      *
-     * @throws \Exception
+     * @throws \Exception if n is negative or k is larger than n
      */
-    public static function permutations(int $n)
+    public static function permutations(int $n, int $k = null)
     {
         if ($n < 0) {
             throw new \Exception('Cannot compute negative permutations.');
         }
-        return self::factorial($n);
-    }
-
-    /**
-     * Find number of permutations--ordered arrangements--of n things taking only r of them.
-     *                    n!
-     * P(n,r) = nPr =  --------
-     *                 (n - r)!
-     *
-     * @param  int $n
-     * @param  int $r
-     *
-     * @return int number of possible combinations of n objects taken r at a time
-     *
-     * @throws \Exception
-     */
-    public static function permutationsChooseR(int $n, int $r)
-    {
-        if ($n < 0) {
-            throw new \Exception('Cannot compute negative permutations.');
-        }
-        if ($r > $n) {
-            throw new \Exception('r cannot be larger than n.');
+        if (!is_null($k) && $k > $n) {
+            throw new \Exception('k cannot be larger than n.');
         }
 
-        $n！      = self::factorial($n);
-        $⟮n − r⟯！ = self::factorial($n - $r);
+        $n！ = self::factorial($n);
 
-        return $n！ / $⟮n − r⟯！;
+        // nPn: permutations of n things, taken n at a time
+        if (is_null($k)) {
+            return $n！;
+        }
+
+        // nPk: Permutations of n things taking only k of them
+        $⟮n − k⟯！ = self::factorial($n - $k);
+        return $n！ / $⟮n − k⟯！;
     }
 
     /**
      * Combinations - Binomial Coefficient
-     * Number of ways of picking r unordered outcomes from n possibilities
+     * Number of ways of picking k unordered outcomes from n possibilities
+     * n choose k: number of possible combinations of n objects taken k at a time.
      *
-     * n choose r: number of possible combinations of n objects taken r at a time.
+     * Without repetition:
+     *        (n)       n!
+     *  nCk = ( ) = ----------
+     *        (k)   (n - k)!k!
      *
-     *       (n)       n!
-     * nCr = ( ) = ----------
-     *       (r)   (n - r)!r!
+     * With repetition:
+     *         (n)   (n + k - 1)!
+     *  nC'k = ( ) = ------------
+     *         (k)    (n - 1)!k!
      *
      * http://mathworld.wolfram.com/BinomialCoefficient.html
      *
-     * @param  int $n
-     * @param  int $r
+     * @param  int  $n
+     * @param  int  $k
+     * @param  bool $repetition Whether to do n choose k with or without repetitions
      *
-     * @return int number of possible combinations of n objects taken r at a time
+     * @return int number of possible combinations of n objects taken k at a time
      *
-     * @throws \Exception if n is negative; if r is larger than n
+     * @throws \Exception if n is negative; if k is larger than n
      */
-    public static function combinations(int $n, int $r)
+    public static function combinations(int $n, int $k, bool $repetition = false)
     {
         if ($n < 0) {
             throw new \Exception('Cannot compute negative combinations.');
         }
-        if ($r > $n) {
-            throw new \Exception('r cannot be larger than n.');
+        if ($k > $n) {
+            throw new \Exception('k cannot be larger than n.');
         }
 
+        // nC'k with repetition
+        if ($repetition) {
+            $⟮n ＋ k − 1⟯！ = self::factorial($n + $k - 1);
+            $⟮n − 1⟯！k！   = self::factorial($n - 1) * self::factorial($k);
+
+            return $⟮n ＋ k − 1⟯！ / $⟮n − 1⟯！k！;
+        }
+
+        // nCk without repetition
         $n！        = self::factorial($n);
-        $⟮n − r⟯！r！ = self::factorial($n - $r) * self::factorial($r);
+        $⟮n − k⟯！k！ = self::factorial($n - $k) * self::factorial($k);
 
-        return $n！ / $⟮n − r⟯！r！;
-    }
-
-    /**
-     * Find number of combinations with repetition--groups of r objects that could be formed form a total of n objects.
-     * n choose r: number of possible combinations of n objects taken r at a time with repetition.
-     *
-     *        (n)   (n + r - 1)!
-     * nC'r = ( ) = ------------
-     *        (r)    (n - 1)!r!
-     *
-     * @param  int $n
-     * @param  int $r
-     *
-     * @return int number of possible combinations of n objects taken r at a time
-     *
-     * @throws \Exception
-     */
-    public static function combinationsWithRepetition(int $n, int $r)
-    {
-        if ($n < 0) {
-            throw new \Exception('Cannot compute negative combinations.');
-        }
-        if ($r > $n) {
-            throw new \Exception('r cannot be larger than n.');
-        }
-
-        $⟮n ＋ r − 1⟯！ = self::factorial($n + $r - 1);
-        $⟮n − 1⟯！r！   = self::factorial($n - 1) * self::factorial($r);
-
-        return $⟮n ＋ r − 1⟯！ / $⟮n − 1⟯！r！;
+        return $n！ / $⟮n − k⟯！k！;
     }
 
     /**
@@ -306,6 +317,10 @@ class Combinatorics
         return $⟮2n⟯！ / $⟮n！⟯²;
     }
 
+    /**************************************************************************
+     * Other Combinatorics
+     *************************************************************************/
+
     /**
      * Catalan number
      *
@@ -331,24 +346,6 @@ class Combinatorics
     }
 
     /**
-     * Multinomial theorem
-     * Finds the number of divisions of n items into r distinct nonoverlapping subgroups of sizes n1, n2, n3, etc.
-     *
-     *        n!
-     *   ------------
-     *   n1!n2!...nr!
-     *
-     * @param  int   $n      Number of items
-     * @param  array $groups Sizes of each subgroup
-     *
-     * @return int Number of divisions of n items into r distinct nonoverlapping subgroups
-     */
-    public static function multinomialTheorem(int $n, array $groups)
-    {
-        return self::factorial($n) / array_product(array_map('self::factorial', $groups));
-    }
-
-    /**
      * Lah number
      * Coefficients expressing rising factorials in terms of falling factorials.
      * https://en.wikipedia.org/wiki/Lah_number
@@ -371,5 +368,29 @@ class Combinatorics
         $k！ = self::factorial($k);
 
         return $nCk * ($n！ / $k！);
+    }
+
+    /**
+     * Multinomial coefficient (Multinomial Theorem)
+     * Finds the number of divisions of n items into r distinct nonoverlapping subgroups of sizes k₁, k₂, etc.
+     *
+     *       n!       (n₁ + n₂ + ⋯ + nk)!
+     *   ---------- = -------------------
+     *   k₁!k₂!⋯km!       k₁!k₂!⋯km!
+     *
+     * http://mathworld.wolfram.com/MultinomialCoefficient.html
+     * https://en.wikipedia.org/wiki/Multinomial_theorem
+     *
+     * @param  array $groups Sizes of each subgroup
+     *
+     * @return int Number of divisions of n items into r distinct nonoverlapping subgroups
+     */
+    public static function multinomial(array $groups)
+    {
+        $n            = array_sum($groups);
+        $n！          = self::factorial($n);
+        $k₁！k₂！⋯km！ = array_product(array_map('self::factorial', $groups));
+
+        return $n！ / $k₁！k₂！⋯km！;
     }
 }

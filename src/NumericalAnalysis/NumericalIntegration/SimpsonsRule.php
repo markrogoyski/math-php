@@ -57,7 +57,7 @@ class SimpsonsRule extends NumericalIntegration
      *         ⁽ⁿ⁻¹⁾/² h
      *          = ∑    - [f⟮x₂ᵢ₋₁⟯ + 4f⟮x₂ᵢ⟯ + f⟮x₂ᵢ₊₁⟯] + O(h⁵f⁗(x))
      *           ⁱ⁼¹   3
-     * where h = (xₙ - x₁) / (n - 1)
+     * where h = (xn - x₁) / (n - 1)
      *
      * @param          $source   The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
@@ -91,20 +91,20 @@ class SimpsonsRule extends NumericalIntegration
         $subintervals  = $n - 1;
         $a             = $sorted[0][$x];
         $b             = $sorted[$n-1][$x];
-        $h             = ($b - $a)/$subintervals;
+        $h             = ($b - $a) / $subintervals;
         $approximation = 0;
 
         /*
          * Summation
          * ⁽ⁿ⁻¹⁾/² h
-        *     ∑    - [f⟮x₂ᵢ₋₁⟯ + 4f⟮x₂ᵢ⟯ + f⟮x₂ᵢ₊₁⟯] + O(h⁵f⁗(x))
+         *    ∑    - [f⟮x₂ᵢ₋₁⟯ + 4f⟮x₂ᵢ⟯ + f⟮x₂ᵢ₊₁⟯] + O(h⁵f⁗(x))
          *   ⁱ⁼¹   3
-         *  where h = (xₙ - x₁) / (n - 1)
+         *  where h = (xn - x₁) / (n - 1)
          */
         for ($i = 1; $i < ($subintervals/2) + 1; $i++) {
-            $f⟮x₂ᵢ₋₁⟯        = $sorted[(2*$i)-2][$y];   // y₂ᵢ₋₁
-            $f⟮x₂ᵢ⟯          = $sorted[(2*$i)-1][$y]; // y₂ᵢ
-            $f⟮x₂ᵢ₊₁⟯        = $sorted[(2*$i)][$y]; // y₂ᵢ₊₁
+            $f⟮x₂ᵢ₋₁⟯        = $sorted[(2*$i)-2][$y];  // y₂ᵢ₋₁
+            $f⟮x₂ᵢ⟯          = $sorted[(2*$i)-1][$y];  // y₂ᵢ
+            $f⟮x₂ᵢ₊₁⟯        = $sorted[(2*$i)][$y];    // y₂ᵢ₊₁
             $approximation += ($h * ($f⟮x₂ᵢ₋₁⟯ + 4*$f⟮x₂ᵢ⟯ + $f⟮x₂ᵢ₊₁⟯)) / 3;
         }
 
@@ -121,7 +121,7 @@ class SimpsonsRule extends NumericalIntegration
      *
      * @throws Exception if there is not an odd number of points in our array
      */
-    private static function isSubintervalsEven(array $points)
+    private static function isSubintervalsEven(array $points): bool
     {
         if (count($points) % 2 !== 1) {
             throw new \Exception("There must be an even number of subintervals.
@@ -144,13 +144,14 @@ class SimpsonsRule extends NumericalIntegration
      * @throws Exception if the spacing between any two points is not equal
      *         to the average spacing between every point
      */
-    private static function isSpacingConstant(array $sorted)
+    private static function isSpacingConstant(array $sorted): bool
     {
-        $x = self::X;
-        $length = count($sorted);
+        $x       = self::X;
+        $length  = count($sorted);
         $spacing = ($sorted[$length-1][$x]-$sorted[0][$x])/($length-1);
-        for ($i = 1; $i < $length-1; $i++) {
-            if ($sorted[$i+1][$x]-$sorted[$i][$x] !== $spacing) {
+
+        for ($i = 1; $i < $length - 1; $i++) {
+            if ($sorted[$i+1][$x] - $sorted[$i][$x] !== $spacing) {
                 throw new \Exception("The size of each subinterval must be the
                                       same. Provide points with constant
                                       spacing.");

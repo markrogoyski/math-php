@@ -642,8 +642,8 @@ class Special
      *
      *                                       ∞
      *                                      ____
-     *                                      \     ∏aₚ⁽ⁿ⁾ * zⁿ
-     *  ₚFq(a₁,a₂,...,aₚ;b₁,b₂,...,bq;z)=  >    ------------
+     *                                      \     ∏ap⁽ⁿ⁾ * zⁿ
+     * pFq(a₁,a₂,...ap;b₁,b₂,...,bq;z)=      >    ------------
      *                                      /      ∏bq⁽ⁿ⁾ * n!
      *                                      ‾‾‾‾
      *                                       n=0
@@ -652,13 +652,19 @@ class Special
      *
      * We are evaluating this as a series:
      *
-     *                   (a + n - 1) * z
-     * ∏ₙ =   ∏ₙ₋₁  * -----------------
-     *                   (b + n - 1) * n
+     *               (a + n - 1) * z
+     * ∏n = ∏n₋₁  * -----------------
+     *               (b + n - 1) * n
      *
-     *                       n   (a + n - 1) * z
-     *   ₁F₁ ₙ = ₁F₁ ₙ₋₁ + ∏  -----------------  = ₁F₁ ₙ₋₁ + ∏ₙ
-     *                       1   (b + n - 1) * n
+     *                   n   (a + n - 1) * z
+     *   ₁F₁ ₙ = ₁F₁ ₙ₋₁ + ∏  -----------------  = ₁F₁n₋₁ + ∏n
+     *                   1   (b + n - 1) * n
+     *
+     * @param int   $p      the number of parameters in the numerator
+     * @param int   $q      the number of parameters in the denominator
+     * @param array $params a collection of the a, b, and z parameters
+     *
+     * @return number
      */
     public static function generalizedHypergeometric(int $p, int $q, ...$params)
     {
@@ -667,13 +673,9 @@ class Special
             throw new \Exception('Number of parameters is incorrect');
         }
 
-        $a = array_slice($params, 0, $p);
-        $b = array_slice($params, $p, $q);
-        $z = $params[$n - 1];
-        if (abs($z) >= 1) {
-            throw new \Exception('|z| must be < 1');
-        }
-
+        $a       = array_slice($params, 0, $p);
+        $b       = array_slice($params, $p, $q);
+        $z       = $params[$n - 1];
         $tol     = .00000001;
         $n       = 1;
         $sum     = 0;
@@ -702,6 +704,11 @@ class Special
      *        ‾‾‾‾
      *        n=0
      *
+     * @param number $a the numerator value
+     * @param number $b the denominator value
+     * @param number $z
+     *
+     * @return number
      */
     public static function confluentHypergeometric($a, $b, $z)
     {
@@ -720,9 +727,19 @@ class Special
      *        ‾‾‾‾
      *        n=0
      *
+     * @param number $a the first numerator value
+     * @param number $b the second numerator value
+     * @param number $c the denominator value
+     * @param number $z |z| < 1
+     *
+     * @return number
      */
     public static function hypergeometric($a, $b, $c, $z)
     {
+        if (abs($z) >= 1) {
+             throw new \Exception('|z| must be < 1. |z| = ' . abs($z));
+        }
+
         return self::generalizedHypergeometric(2, 1, $a, $b, $c, $z);
     }
 }

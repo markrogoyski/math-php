@@ -1,5 +1,5 @@
 <?php
-namespace Math\NumericalAnalysis;
+namespace Math\NumericalAnalysis\RootFinding;
 
 /**
  * Newton's Method (also known as the Newton–Raphson method)
