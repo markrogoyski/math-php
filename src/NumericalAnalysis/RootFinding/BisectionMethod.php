@@ -38,9 +38,9 @@ class BisectionMethod
         $dif = $tol + 1;
 
         while ($dif > $tol) {
-            $f⟮a⟯ = call_user_func_array($function, [$a]);
+            $f⟮a⟯ = $function($a);
             $p   = ($a + $b)/2; // construct the midpoint
-            $f⟮p⟯ = call_user_func_array($function, [$p]);
+            $f⟮p⟯ = $function($p);
             $dif = abs($f⟮p⟯);   // the magnitude of our function at the midpoint
             if (Special::sgn($f⟮p⟯) !== Special::sgn($f⟮a⟯)) {
                 $b = $p; // the new endpoint is our original midpoint
@@ -78,8 +78,8 @@ class BisectionMethod
             throw new \Exception('Tolerance must be greater than zero.');
         }
 
-        $f⟮a⟯ = call_user_func_array($function, [$a]);
-        $f⟮b⟯ = call_user_func_array($function, [$b]);
+        $f⟮a⟯ = $function($a);
+        $f⟮b⟯ = $function($b);
         if (Special::sgn($f⟮a⟯) === Special::sgn($f⟮b⟯)) {
             throw new \Exception('Input function has the same sign at the
                                   start and end of the interval. Choose start
