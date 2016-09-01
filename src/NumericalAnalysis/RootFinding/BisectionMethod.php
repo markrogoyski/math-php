@@ -72,7 +72,8 @@ class BisectionMethod
      * @throws Exception if f($a) and f($b) share the same sign
      * @throws Exception if $a = $b
      */
-    private static function validate(callable $function, $a, $b, $tol) {
+    private static function validate(callable $function, $a, $b, $tol)
+    {
         if ($tol < 0) {
             throw new \Exception('Tolerance must be greater than zero.');
         }
