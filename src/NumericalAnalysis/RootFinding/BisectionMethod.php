@@ -34,10 +34,7 @@ class BisectionMethod
         // Validate input arguments
         self::validate($function, $a, $b, $tol);
 
-        // Initialize
-        $dif = $tol + 1;
-
-        while ($dif > $tol) {
+        do {
             $f⟮a⟯ = $function($a);
             $p   = ($a + $b)/2; // construct the midpoint
             $f⟮p⟯ = $function($p);
@@ -47,7 +44,7 @@ class BisectionMethod
             } else {
                 $a = $p; // the new startpoint is our original endpoint
             }
-        }
+        } while ($dif > $tol);
 
         return $p;
     }
