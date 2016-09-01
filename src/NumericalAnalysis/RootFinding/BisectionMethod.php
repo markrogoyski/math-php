@@ -8,14 +8,16 @@ use Math\Functions\Special;
  *
  * In numerical analysis, the Bisection method is a method for finding successively
  * better approximations to the roots (or zeroes) of a continuous, real-valued
- * function f(x). It starts with two points $a and $b, such that $a < $b and
- * f($a) and f($b) have different signs (one is positive, one is negative). This
- * lets us use the intermediate value theorem to prove that there is a root $p
- * such that $a < $p < $b. We initially set $p to be the average of $a and $b
- * and analyze the result of f($p). Based on the sign, we construct a new $p
- * that is either the average of $a and the original $p, or the average of the
- * original $p and $b. We continue doing this until our function evaluation
- * f($p) is within the tolerance set on our input.
+ * function f(x). It starts with two points $a and $b, such that f($a) and f($b)
+ * have different signs (one is positive, one is negative). This lets us use
+ * the intermediate value theorem to prove that there is a root $p such that
+ * p is between $a and $b. We initially set $p to be the average of $a and $b
+ * and analyze the result of f($p). Based on the sign, we construct a new $p that
+ * is either the average of $a and the original $p, or the average of the
+ * original $p and $b. We continue doing this until our function evaluation f($p)
+ * is within the tolerance set on our input.
+ *
+ * https://en.wikipedia.org/wiki/Bisection_method
  */
 class BisectionMethod
 {
@@ -56,24 +58,21 @@ class BisectionMethod
      * value theorem to guarantee a root is between $a and $b. This exposes the
      * risk of an endless loop, so we throw an Exception. If $a = $b, then clearly
      * we cannot run our loop as $a and $b will themselves be the midpoint, so we
-     * throw an Exception.Finally, if $a > $b, we simply reserve them as if the
-     * user input $b = $a and $a = $b so the new $a < $b.
+     * throw an Exception.
      *
      * @param Callable $function f(x) callback function
      * @param number   $a        The start of the interval which contains a root
      * @param number   $b        The end of the interval which contains a root
      * @param number   $tol      Tolerance; How close to the actual solution we would like.
      *
-     * @return bool
      * @throws Exception if $tol (the tolerance) is negative
-     * @throws Exception if f($a) and f($b) share the same sign
      * @throws Exception if $a = $b
+     * @throws Exception if f($a) and f($b) share the same sign
      */
     private static function validate(callable $function, $a, $b, $tol)
     {
-        if ($tol < 0) {
-            throw new \Exception('Tolerance must be greater than zero.');
-        }
+        RootFindingValidation::tolerance($tol);
+        RootFindingValidation::interval($a, $b);
 
         $f⟮a⟯ = $function($a);
         $f⟮b⟯ = $function($b);
@@ -84,11 +83,5 @@ class BisectionMethod
                                   evaluated at those points has a different
                                   sign (one positive, one negative).');
         }
-
-        if ($a > $b) {
-            list($a, $b) = [$b, $a];
-        }
-
-        return true;
     }
 }
