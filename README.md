@@ -15,8 +15,8 @@ Features
    - Matrix
    - Vector
  * Numerical Analysis
-   - Root Approximation
    - Numerical Integration
+   - Root Finding
  * Probability
      - Combinatorics
      - Distributions
@@ -158,6 +158,11 @@ $error = Special::erf(2);                        // same as errorFunction
 $error = Special::complementaryErrorFunction(2); // same as erfc
 $error = Special::erfc(2);                       // same as complementaryErrorFunction
 
+// Hypergeometric functions
+$pFq = Special::generalizedHypergeometric($p, $q, $a, $b, $c, $z);
+$₁F₁ = Special::confluentHypergeometric($a, $b, $z);
+$₂F₁ = Special::hypergeometric($a, $b, $c, $z);
+
 // Sign function (also known as signum or sgn)
 $x    = 4;
 $sign = Special::signum($x); // same as sgn
@@ -174,7 +179,6 @@ $logistic = Special::logistic($x₀, $L, $k, $x);
 $t = 2;
 $sigmoid = Special::sigmoid($t);
 ```
-
 
 ### Linear Algebra - Matrix
 ```php
@@ -319,23 +323,6 @@ $matrix = $A->outerProduct(new Vector([1, 2]));
 print($A); // [1, 2, 3]
 ```
 
-### Numerical Analysis - Root Approximation
-```php
-use Math\NumericalAnalysis;
-
-// Newton's Method
-// Solve for a root of a polynomial using Newton's Method.
-// f(x) = x⁴ + 8x³ -13x² -92x + 96
-$f⟮x⟯ = function($x) {
-    return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
-};
-$args     = [-4.1];  // Parameters to pass to callback function (initial guess, other parameters)
-$target   = 0;       // Value of f(x) we a trying to solve for
-$tol      = 0.00001; // Tolerance; how close to the actual solution we would like
-$position = 0;       // Which element in the $args array will be changed; also serves as initial guess. Defaults to 0.
-$x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
-```
-
 ### Numerical Analysis - Numerical Integration
 ```php
 use Math\NumericalAnalysis\NumericalIntegration;
@@ -392,26 +379,43 @@ $n      = 5;
 $∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n);
 ```
 
+### Numerical Analysis - Root Finding
+```php
+use Math\NumericalAnalysis\RootFinding;
+
+// Newton's Method
+// Solve for a root of a polynomial using Newton's Method.
+// f(x) = x⁴ + 8x³ -13x² -92x + 96
+$f⟮x⟯ = function($x) {
+    return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+};
+$args     = [-4.1];  // Parameters to pass to callback function (initial guess, other parameters)
+$target   = 0;       // Value of f(x) we a trying to solve for
+$tol      = 0.00001; // Tolerance; how close to the actual solution we would like
+$position = 0;       // Which element in the $args array will be changed; also serves as initial guess. Defaults to 0.
+$x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
+```
+
 ### Probability - Combinatorics
 ```php
 use Math\Probability\Combinatorics;
 
-list($n, $x, $r, $k) = [10, 3, 4, 4];
+list($n, $x, $k) = [10, 3, 4];
 
 // Factorials
-$n！  = Combinatorics::factorial($n);             // Same as permutations
+$n！  = Combinatorics::factorial($n);
 $n‼︎   = Combinatorics::doubleFactorial($n);
 $x⁽ⁿ⁾ = Combinatorics::risingFactorial($x, $n);
 $x₍ᵢ₎ = Combinatorics::fallingFactorial($x, $n);
 $！n  = Combinatorics::subfactorial($n);
 
 // Permutations
-$nPn = Combinatorics::permutations($n);            // Same as factorial
-$nPr = Combinatorics::permutationsChooseR($n, $r); // n choose r
+$nPn = Combinatorics::permutations($n);     // Permutations of n things, taken n at a time (same as factorial)
+$nPk = Combinatorics::permutations($n, $k); // Permutations of n things, taking only k of them
 
 // Combinations
-$nCr  = Combinatorics::combinations($n, $r);
-$nC′r = Combinatorics::combinationsWithRepetition($n, $r);
+$nCk  = Combinatorics::combinations($n, $k);                            // n choose k without repetition
+$nC′k = Combinatorics::combinations($n, $k, Combinatorics::REPETITION); // n choose k with repetition (REPETITION const = true)
 
 // Central binomial coefficient
 $cbc = Combinatorics::centralBinomialCoefficient($n);
@@ -422,9 +426,9 @@ $Cn = Combinatorics::catalanNumber($n);
 // Lah number
 $L⟮n、k⟯ = Combinatorics::lahNumber($n, $k)
 
-// Multinomial Theorem
+// Multinomial coefficient
 $groups    = [5, 2, 3];
-$divisions = Combinatorics::multinomialTheorem($n, $groups);
+$divisions = Combinatorics::multinomial($groups);
 ```
 
 ### Probability - Continuous Distributions

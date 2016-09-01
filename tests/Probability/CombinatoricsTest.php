@@ -186,18 +186,18 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForPermutationsChooseR
+     * @dataProvider dataProviderForPermutationsChooseK
      */
-    public function testPermutationsChooseR()
+    public function testPermutationsChooseK($n, $k, $nPk)
     {
-        $this->assertEquals(3360, Combinatorics::permutationsChooseR(16, 3));
+        $this->assertEquals($nPk, Combinatorics::permutations($n, $k));
     }
 
     /**
-     * Data provider for permutations choose r tests
-     * Data: [ n, r, permutations ]
+     * Data provider for permutations choose k tests
+     * Data: [ n, k, permutations ]
      */
-    public function dataProviderForPermutationsChooseR()
+    public function dataProviderForPermutationsChooseK()
     {
         return [
             [ 10,  0,       1 ],
@@ -218,16 +218,16 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testPermutationsChooseRBoundsException()
+    public function testPermutationsChooseKBoundsException()
     {
         $this->setExpectedException('\Exception');
-        Combinatorics::permutationsChooseR(-1, 3);
+        Combinatorics::permutations(-1, 3);
     }
 
-    public function testPermutationsChooseRRGreaterThanNException()
+    public function testPermutationsChooseKKGreaterThanNException()
     {
         $this->setExpectedException('\Exception');
-        Combinatorics::permutationsChooseR(3, 4);
+        Combinatorics::permutations(3, 4);
     }
 
     /**
@@ -280,19 +280,19 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCombinationsWithRepetition($n, $r, $combinations)
     {
-        $this->assertEquals($combinations, Combinatorics::combinationsWithRepetition($n, $r));
+        $this->assertEquals($combinations, Combinatorics::combinations($n, $r, Combinatorics::REPETITION));
     }
 
     public function testCombinationsWithRepetitionBoundsException()
     {
         $this->setExpectedException('\Exception');
-        Combinatorics::combinationsWithRepetition(-1, 3);
+        Combinatorics::combinations(-1, 3, Combinatorics::REPETITION);
     }
 
-    public function testCombinationsWithRepetitionRGreaterThanNException()
+    public function testCombinationsRGreaterThanNException()
     {
         $this->setExpectedException('\Exception');
-        Combinatorics::combinationsWithRepetition(3, 4);
+        Combinatorics::combinations(3, 4, Combinatorics::REPETITION);
     }
 
     /**
@@ -386,9 +386,9 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForMultinomialTheorem
      */
-    public function testMultinomialTheorem($n, array $groups, $divisions)
+    public function testMultinomialTheorem(array $groups, $divisions)
     {
-        $this->assertEquals($divisions, Combinatorics::multinomialTheorem($n, $groups));
+        $this->assertEquals($divisions, Combinatorics::multinomial($groups));
     }
 
     /**
@@ -398,9 +398,12 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForMultinomialTheorem()
     {
         return [
-            [ 10, [ 5, 2, 3 ], 2520 ],
-            [ 10, [ 5, 5 ],     252 ],
-            [ 11, [ 1, 4, 4, 2 ], 34650 ],
+            [ [2, 0, 1], 3],
+            [ [1, 1, 1], 6],
+            [ [ 5, 2, 3 ], 2520 ],
+            [ [ 5, 5 ],     252 ],
+            [ [ 1, 4, 4, 2 ], 34650 ],
+            [ [3, 4, 5, 8], 3491888400],
         ];
     }
 
