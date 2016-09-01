@@ -1,5 +1,5 @@
 <?php
-namespace Math\NumericalAnalysis;
+namespace Math\NumericalAnalysis\RootFinding;
 
 class NewtonsMethodTest extends \PHPUnit_Framework_TestCase
 {
