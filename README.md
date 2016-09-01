@@ -158,6 +158,11 @@ $error = Special::erf(2);                        // same as errorFunction
 $error = Special::complementaryErrorFunction(2); // same as erfc
 $error = Special::erfc(2);                       // same as complementaryErrorFunction
 
+// Hypergeometric functions
+$pFq = Special::generalizedHypergeometric($p, $q, $a, $b, $c, $z);
+$₁F₁ = Special::confluentHypergeometric($a, $b, $z);
+$₂F₁ = Special::hypergeometric($a, $b, $c, $z);
+
 // Sign function (also known as signum or sgn)
 $x    = 4;
 $sign = Special::signum($x); // same as sgn
