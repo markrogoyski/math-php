@@ -38,7 +38,7 @@ class FixedPointIteration
         self::validate($function, $a, $b, $p, $tol);
 
         do {
-            $g⟮p⟯ = call_user_func_array($function, [$p]);
+            $g⟮p⟯ = $function($p);
             $dif = abs($g⟮p⟯-$p);
             $p   = $g⟮p⟯;
         } while ($dif > $tol);
