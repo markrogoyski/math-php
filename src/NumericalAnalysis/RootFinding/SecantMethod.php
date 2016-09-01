@@ -27,7 +27,7 @@ class SecantMethod
     public static function solve(callable $function, $p₀, $p₁, $tol)
     {
         // Validate input arguments
-        self::validate($function, $p₀, $p₁, $tol);
+        self::validate($p₀, $p₁, $tol);
 
         do {
             $q₀    = $function($p₀);
