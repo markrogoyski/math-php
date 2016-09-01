@@ -67,7 +67,7 @@ class FixedPointIteration
         Validation::tolerance($tol);
         Validation::interval($a, $b);
 
-        if (($a > $b)) {
+        if ($a > $b) {
             list($a, $b) = [$b, $a];
         }
 
