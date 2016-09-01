@@ -659,6 +659,11 @@ class Special
      *                   n   (a + n - 1) * z
      *   ₁F₁ ₙ = ₁F₁ ₙ₋₁ + ∏  -----------------  = ₁F₁n₋₁ + ∏n
      *                   1   (b + n - 1) * n
+     *
+     * @param int   $p      the number of parameters in the numerator
+     * @param int   $q      the number of parameters in the denominator
+     * @param array $params a collection of the a, b, and z parameters
+     * @return number
      */
     public static function generalizedHypergeometric(int $p, int $q, ...$params)
     {
@@ -695,6 +700,10 @@ class Special
      *        ‾‾‾‾
      *        n=0
      *
+     * @param number $a the numerator value
+     * @param number $b the denominator value
+     * @param number $z
+     * @return number
      */
     public static function confluentHypergeometric($a, $b, $z)
     {
@@ -713,6 +722,11 @@ class Special
      *        ‾‾‾‾
      *        n=0
      *
+     * @param number $a the first numerator value
+     * @param number $b the second numerator value
+     * @param number $c the denominator value
+     * @param number $z |z| < 1
+     * @return number
      */
     public static function hypergeometric($a, $b, $c, $z)
     {
