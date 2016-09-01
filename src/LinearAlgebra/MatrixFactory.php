@@ -39,6 +39,8 @@ class MatrixFactory
             case 'function_square':
                 return new FunctionSquareMatrix($A);
         }
+
+        throw new \Exception('Unknown matrix type');
     }
 
     /**************************************************************************
@@ -189,6 +191,11 @@ class MatrixFactory
         }
 
         // Non square Matrices
+        // First check to make sure it isn't something strange
+        if (is_array($A[0][0])) {
+            return 'unknown';
+        }
+        // Then check remaining matrix types
         if (is_callable($A[0][0])) {
             return 'function';
         }

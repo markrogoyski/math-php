@@ -244,6 +244,17 @@ class MatrixFactorTest extends \PHPUnit_Framework_TestCase
         $M = MatrixFactory::create($A);
     }
 
+    public function testMatrixUnknownTypeException()
+    {
+        $A = [
+            [[1], [2], [3]],
+            [[2], [3], [4]],
+        ];
+
+        $this->setExpectedException('\Exception');
+        MatrixFactory::create($A);
+    }
+
     /**
      * @dataProvider dataProviderForIdentity
      */
