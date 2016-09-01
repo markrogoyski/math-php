@@ -15,8 +15,8 @@ Features
    - Matrix
    - Vector
  * Numerical Analysis
-   - Root Approximation
    - Numerical Integration
+   - Root Finding
  * Probability
      - Combinatorics
      - Distributions
@@ -180,7 +180,6 @@ $t = 2;
 $sigmoid = Special::sigmoid($t);
 ```
 
-
 ### Linear Algebra - Matrix
 ```php
 use Math\LinearAlgebra\Matrix;
@@ -324,23 +323,6 @@ $matrix = $A->outerProduct(new Vector([1, 2]));
 print($A); // [1, 2, 3]
 ```
 
-### Numerical Analysis - Root Approximation
-```php
-use Math\NumericalAnalysis;
-
-// Newton's Method
-// Solve for a root of a polynomial using Newton's Method.
-// f(x) = x⁴ + 8x³ -13x² -92x + 96
-$f⟮x⟯ = function($x) {
-    return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
-};
-$args     = [-4.1];  // Parameters to pass to callback function (initial guess, other parameters)
-$target   = 0;       // Value of f(x) we a trying to solve for
-$tol      = 0.00001; // Tolerance; how close to the actual solution we would like
-$position = 0;       // Which element in the $args array will be changed; also serves as initial guess. Defaults to 0.
-$x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
-```
-
 ### Numerical Analysis - Numerical Integration
 ```php
 use Math\NumericalAnalysis\NumericalIntegration;
@@ -395,6 +377,23 @@ $start  = 0;
 $end    = 3;
 $n      = 5;
 $∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n);
+```
+
+### Numerical Analysis - Root Finding
+```php
+use Math\NumericalAnalysis\RootFinding;
+
+// Newton's Method
+// Solve for a root of a polynomial using Newton's Method.
+// f(x) = x⁴ + 8x³ -13x² -92x + 96
+$f⟮x⟯ = function($x) {
+    return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+};
+$args     = [-4.1];  // Parameters to pass to callback function (initial guess, other parameters)
+$target   = 0;       // Value of f(x) we a trying to solve for
+$tol      = 0.00001; // Tolerance; how close to the actual solution we would like
+$position = 0;       // Which element in the $args array will be changed; also serves as initial guess. Defaults to 0.
+$x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
 ```
 
 ### Probability - Combinatorics
