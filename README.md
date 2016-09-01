@@ -395,6 +395,17 @@ $tol      = 0.00001; // Tolerance; how close to the actual solution we would lik
 $position = 0;       // Which element in the $args array will be changed; also serves as initial guess. Defaults to 0.
 $x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
 
+// Secant Method
+// Solve for a root of a polynomial using the Secant Method.
+// f(x) = x⁴ + 8x³ -13x² -92x + 96
+$f⟮x⟯ = function($x) {
+    return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+};
+$p₀  = -1;
+$p₁  = 2;
+$tol = 0.00001; // Tolerance; how close to the actual solution we would like
+$x   = SecantMethod::solve($f⟮x⟯, $p₀, $p₁, $tol); // Solve for x where f(x) = 0
+
 // Bisection Method
 // Solve for a root of a polynomial using the Bisection Method.
 // f(x) = x⁴ + 8x³ -13x² -92x + 96
