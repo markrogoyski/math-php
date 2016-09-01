@@ -233,7 +233,7 @@ class Combinatorics
 
         // nPn: permutations of n things, taken n at a time
         if (is_null($k)) {
-           return $n！;
+            return $n！;
         }
 
         // nPk: Permutations of n things taking only k of them
@@ -277,10 +277,10 @@ class Combinatorics
 
         // nC'k with repetition
         if ($repetition) {
-          $⟮n ＋ k − 1⟯！ = self::factorial($n + $k - 1);
-          $⟮n − 1⟯！k！   = self::factorial($n - 1) * self::factorial($k);
+           $⟮n ＋ k − 1⟯！ = self::factorial($n + $k - 1);
+           $⟮n − 1⟯！k！   = self::factorial($n - 1) * self::factorial($k);
 
-          return $⟮n ＋ k − 1⟯！ / $⟮n − 1⟯！k！;
+           return $⟮n ＋ k − 1⟯！ / $⟮n − 1⟯！k！;
         }
 
         // nCk without repetition
