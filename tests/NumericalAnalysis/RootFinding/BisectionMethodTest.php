@@ -43,8 +43,8 @@ class BisectionMethodTest extends \PHPUnit_Framework_TestCase
 
         // Solve for f(x) = 0 where x is 1
         // Switch a and b and test that they get reversed properly
-        $a        = 0;
-        $b        = 2;
+        $b        = 0;
+        $a        = 2;
         $expected = 1;
         $x = BisectionMethod::solve($func, $a, $b, $tol);
         $this->assertEquals($expected, $x, '', $tol);
