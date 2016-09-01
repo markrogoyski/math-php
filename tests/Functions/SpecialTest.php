@@ -380,7 +380,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         Special::upperIncompleteGamma(-1, 1);
     }
     
-    public function testGeneralizedHypergeometricExceptionParameterCount()
+        public function testGeneralizedHypergeometricExceptionParameterCount()
     {
         $this->setExpectedException('\Exception');
         Special::generalizedHypergeometric(2, 1, [6.464756838, 0.509199496, 0.241379523]);
@@ -403,12 +403,6 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             [9.89309990528122, 6.92782493869175, 0.71686043176351, 2.73366255092188],
             [8.59824618495037, 6.66955518297157, 0.0293511981644408, 1.03854226944163],
         ];
-    }
-    
-    public function testConfluentHypergeometricExceptionNGreaterThanOne()
-    {
-        $this->setExpectedException('\Exception');
-        Special::confluentHypergeometric(1, 1, 1);
     }
     
     /**
