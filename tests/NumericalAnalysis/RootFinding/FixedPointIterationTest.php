@@ -29,6 +29,15 @@ class FixedPointIterationTest extends \PHPUnit_Framework_TestCase
         $expected = 1;
         $x = FixedPointIteration::solve($func, $a, $b, $p, $tol);
         $this->assertEquals($expected, $x, '', $tol);
+
+        // Switch a and b and test that they get reversed properly
+        $tol      = 0.00001;
+        $b        = 0;
+        $a        = 2;
+        $p        = 0;
+        $expected = 1;
+        $x = FixedPointIteration::solve($func, $a, $b, $p, $tol);
+        $this->assertEquals($expected, $x, '', $tol);
     }
 
     public function testFixedPointIterationExceptionNegativeTolerance()
