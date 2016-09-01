@@ -671,7 +671,7 @@ class Special
         $b = array_slice($params, $p, $q);
         $z = $params[$n - 1];
         if (abs($z) >= 1) {
-            throw new \Exception('|z| must be < 1');
+            throw new \Exception('|z| must be < 1. z = ' . $z);
         }
 
         $tol     = .00000001;
