@@ -7,7 +7,7 @@ class FixedPointIterationTest extends \PHPUnit_Framework_TestCase
     {
         // f(x) = x⁴ + 8x³ -13x² -92x + 96 = 0
         // Note that f(x) has a root at 1
-        // Rewrite as (x⁴ + 8x³ -13x² + 96)/92 = x
+        // Rewrite f(x) = 0 as (x⁴ + 8x³ -13x² + 96)/92 = x
         // Thus, g(x) = (x⁴ + 8x³ -13x² + 96)/92
         $func = function ($x) {
             return ($x**4 + 8 * $x**3 - 13 * $x**2 + 96)/92;
