@@ -666,19 +666,13 @@ class Special
         if ($n !== $p + $q + 1) {
             throw new \Exception('Number of parameters is incorrect');
         }
-
         $a = array_slice($params, 0, $p);
         $b = array_slice($params, $p, $q);
         $z = $params[$n - 1];
-        if (abs($z) >= 1) {
-            throw new \Exception('|z| must be < 1. z = ' . $z);
-        }
-
         $tol     = .00000001;
         $n       = 1;
         $sum     = 0;
         $product = 1;
-
         do {
             $sum     += $product;
             $a_sum    = array_product(Single::add($a, $n - 1));
@@ -686,7 +680,6 @@ class Special
             $product *= $a_sum * $z / $b_sum / $n;
             $n++;
         } while ($product / $sum > $tol);
-
         return $sum;
     }
     
@@ -723,6 +716,9 @@ class Special
      */
     public static function hypergeometric($a, $b, $c, $z)
     {
+        if (abs($z) >= 1) {
+             throw new \Exception('|z| must be < 1. |z| = ' . abs($z));
+        }
         return self::generalizedHypergeometric(2, 1, $a, $b, $c, $z);
     }
 }
