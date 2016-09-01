@@ -64,15 +64,12 @@ class SecantMethod
             throw new \Exception('Tolerance must be greater than zero.');
         }
 
-        if (!($p₀ < $p₁)) {
-            if ($p₀ === $p₁) {
-                throw new \Exception('Start point and end point of interval
-                                        cannot be the same.');
-            } else {
-                $temp_p₀ = $p₁;
-                $p₁      = $p₀;
-                $p₀      = $temp_p₀;
-            }
+        if ($p₀ === $p₁) {
+            throw new \Exception('Start point and end point of interval cannot be the same.');
+        }
+
+        if (($p₀ > $p₁)) {
+            list($p₀, $p₁) = [$p₁, $p₀];
         }
 
         return true;

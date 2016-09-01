@@ -72,18 +72,15 @@ class FixedPointIteration
             throw new \Exception('Tolerance must be greater than zero.');
         }
 
-        if (!($a < $b)) {
-            if ($a === $b) {
-                throw new \Exception('Start point and end point of interval
-                                        cannot be the same.');
-            } else {
-                $temp_a = $b;
-                $b      = $a;
-                $a      = $temp_a;
-            }
+        if ($a === $b) {
+            throw new \Exception('Start point and end point of interval cannot be the same.');
         }
 
-        if (!($p >= $a and $p <= $b)) {
+        if (($a > $b)) {
+            list($a, $b) = [$b, $a];
+        }
+
+        if ($p < $a || $p > $b) {
             throw new \Exception('Initial guess $p must be in [$a, $b].');
         }
 
