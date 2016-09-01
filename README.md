@@ -394,6 +394,17 @@ $target   = 0;       // Value of f(x) we a trying to solve for
 $tol      = 0.00001; // Tolerance; how close to the actual solution we would like
 $position = 0;       // Which element in the $args array will be changed; also serves as initial guess. Defaults to 0.
 $x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
+
+// Bisection Method
+// Solve for a root of a polynomial using the Bisection Method.
+// f(x) = x⁴ + 8x³ -13x² -92x + 96
+$f⟮x⟯ = function($x) {
+    return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+};
+$a   = 2        // The start of the interval which contains a root
+$b   = 5        // The end of the interval which contains a root
+$tol = 0.00001; // Tolerance; how close to the actual solution we would like
+$x   = BisectionMethod::solve($f⟮x⟯, $a, $b, $tol); // Solve for x where f(x) = 0
 ```
 
 ### Probability - Combinatorics
