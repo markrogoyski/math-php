@@ -40,6 +40,14 @@ class BisectionMethodTest extends \PHPUnit_Framework_TestCase
         $expected = 1;
         $x = BisectionMethod::solve($func, $a, $b, $tol);
         $this->assertEquals($expected, $x, '', $tol);
+
+        // Solve for f(x) = 0 where x is 1
+        // Switch a and b and test that they get reversed properly
+        $a        = 0;
+        $b        = 2;
+        $expected = 1;
+        $x = BisectionMethod::solve($func, $a, $b, $tol);
+        $this->assertEquals($expected, $x, '', $tol);
     }
 
     public function testBisectionMethodExceptionNegativeTolerance()
@@ -63,7 +71,7 @@ class BisectionMethodTest extends \PHPUnit_Framework_TestCase
             return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
         };
 
-        $tol      = -0.00001;
+        $tol      = 0.00001;
         $a        = 2;
         $b        = 2;
         $expected = 1;
@@ -75,10 +83,10 @@ class BisectionMethodTest extends \PHPUnit_Framework_TestCase
     public function testBisectionMethodExceptionSameSigns()
     {
         $func = function ($x) {
-            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return $x + 96;
         };
 
-        $tol      = -0.00001;
+        $tol      = 0.00001;
         $a        = 0;
         $b        = 1;
         $expected = 1;
