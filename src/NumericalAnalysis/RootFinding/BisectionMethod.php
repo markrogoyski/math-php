@@ -71,8 +71,8 @@ class BisectionMethod
      */
     private static function validate(callable $function, $a, $b, $tol)
     {
-        RootFindingValidation::tolerance($tol);
-        RootFindingValidation::interval($a, $b);
+        Validation::tolerance($tol);
+        Validation::interval($a, $b);
 
         $f⟮a⟯ = $function($a);
         $f⟮b⟯ = $function($b);
