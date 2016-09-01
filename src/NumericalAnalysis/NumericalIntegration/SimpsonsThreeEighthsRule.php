@@ -3,7 +3,7 @@
 namespace Math\NumericalAnalysis\NumericalIntegration;
 
 /**
- * Simpsons Rule
+ * Simpsons 3/8 Rule
  *
  * In numerical analysis, Simpson's 3/8 rule is a technique for approximating
  * the definite integral of a function.
@@ -113,14 +113,14 @@ class SimpsonsThreeEighthsRule extends NumericalIntegration
     }
 
     /**
-     * Ensures that the number of subintervals is a factor of three or equivalently,
-     * if there are n points, that n-1 is a factor of 3
+     * Ensures that the number of subintervals is a factor of three, or
+     * equivalently, if there are n points, that n-1 is a factor of 3
      *
      * @param  array $points
      *
      * @return bool
      *
-     * @throws Exception if there is not an odd number of points in our array
+     * @throws Exception if the number of points minus 1 is not a factor of 3
      */
     private static function isSubintervalsFactorThree(array $points)
     {
