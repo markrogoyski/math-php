@@ -656,9 +656,9 @@ class Special
      * ∏n = ∏n₋₁  * -----------------
      *               (b + n - 1) * n
      *
-     *                   n   (a + n - 1) * z
-     *   ₁F₁ ₙ = ₁F₁ ₙ₋₁ + ∏  -----------------  = ₁F₁n₋₁ + ∏n
-     *                   1   (b + n - 1) * n
+     *                  n   (a + n - 1) * z
+     *   ₁F₁ = ₁F₁n₋₁ + ∏  -----------------  = ₁F₁n₋₁ + ∏n
+     *                  1   (b + n - 1) * n
      *
      * @param int   $p      the number of parameters in the numerator
      * @param int   $q      the number of parameters in the denominator
