@@ -13,7 +13,8 @@ trait RootFindingValidation
      *
      * @throws Exception if $tol (the tolerance) is negative
      */
-    public static function tolerance($tol) {
+    public static function tolerance($tol)
+    {
         if ($tol < 0) {
             throw new \Exception('Tolerance must be greater than zero.');
         }
