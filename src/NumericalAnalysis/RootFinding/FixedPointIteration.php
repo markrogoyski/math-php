@@ -50,7 +50,8 @@ class FixedPointIteration
      * Verify the input arguments are valid for correct use of fixed point
      * iteration. If the tolerance is less than zero, an Exception will be thrown.
      * If $a = $b, then clearly we cannot run our loop as [$a, $b] will not be
-     * an interval, so we throw an Exception.
+     * an interval, so we throw an Exception. If $a > $b, we simply reverse them
+     * as if the user input $b = $a and $a = $b so the new $a < $b.
      *
      * @param number   $a        The start of the interval which contains a root
      * @param number   $b        The end of the interval which contains a root
@@ -65,6 +66,10 @@ class FixedPointIteration
     {
         RootFindingValidation::tolerance($tol);
         RootFindingValidation::interval($a, $b);
+
+        if (($a > $b)) {
+            list($a, $b) = [$b, $a];
+        }
 
         if ($p < $a || $p > $b) {
             throw new \Exception('Initial guess $p must be in [$a, $b].');
