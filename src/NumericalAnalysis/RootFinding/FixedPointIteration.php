@@ -66,6 +66,17 @@ class FixedPointIteration
         RootFindingValidation::tolerance($tol);
         RootFindingValidation::interval($a, $b);
 
+<<<<<<< HEAD
+=======
+        if ($a === $b) {
+            throw new \Exception('Start point and end point of interval cannot be the same.');
+        }
+
+        if (($a > $b)) {
+            list($a, $b) = [$b, $a];
+        }
+
+>>>>>>> 741c207272c63b2a5151e9685e571f9fd8b20315
         if ($p < $a || $p > $b) {
             throw new \Exception('Initial guess $p must be in [$a, $b].');
         }

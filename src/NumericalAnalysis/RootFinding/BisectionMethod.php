@@ -83,5 +83,14 @@ class BisectionMethod
                                   evaluated at those points has a different
                                   sign (one positive, one negative).');
         }
+<<<<<<< HEAD
+=======
+
+        if ($a > $b) {
+            list($a, $b) = [$b, $a];
+        }
+
+        return true;
+>>>>>>> 741c207272c63b2a5151e9685e571f9fd8b20315
     }
 }

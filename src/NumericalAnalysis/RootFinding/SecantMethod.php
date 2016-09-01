@@ -57,7 +57,23 @@ class SecantMethod
      */
     private static function validate($p₀, $p₁, $tol)
     {
+<<<<<<< HEAD
         RootFindingValidation::tolerance($tol);
         RootFindingValidation::interval($p₀, $p₁);
+=======
+        if ($tol < 0) {
+            throw new \Exception('Tolerance must be greater than zero.');
+        }
+
+        if ($p₀ === $p₁) {
+            throw new \Exception('Start point and end point of interval cannot be the same.');
+        }
+
+        if (($p₀ > $p₁)) {
+            list($p₀, $p₁) = [$p₁, $p₀];
+        }
+
+        return true;
+>>>>>>> 741c207272c63b2a5151e9685e571f9fd8b20315
     }
 }
