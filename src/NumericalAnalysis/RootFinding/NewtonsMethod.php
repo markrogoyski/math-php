@@ -25,9 +25,7 @@ class NewtonsMethod
      */
     public static function solve(callable $function, array $args, $target, $tol, $position = 0)
     {
-        if ($tol < 0) {
-            throw new \Exception('Tolerance must be greater than zero.');
-        }
+        RootFindingValidation::tolerance($tol);
 
         // Initialize
         $dif      = $tol + 1;
