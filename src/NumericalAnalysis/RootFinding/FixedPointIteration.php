@@ -66,7 +66,7 @@ class FixedPointIteration
         RootFindingValidation::tolerance($tol);
         RootFindingValidation::interval($a, $b);
 
-        if (!($p >= $a and $p <= $b)) {
+        if ($p < $a || $p > $b) {
             throw new \Exception('Initial guess $p must be in [$a, $b].');
         }
     }
