@@ -326,8 +326,8 @@ print($A); // [1, 2, 3]
 ### Numerical Analysis - Numerical Integration
  Numerical integration approximates the definite integral of a function.
  Each integration method can take input in two ways:
-  1) As a set of points (inputs and outputs of a function)
-  2) As a callback function, and the number of function evaluations to
+  1. As a set of points (inputs and outputs of a function)
+  2. As a callback function, and the number of function evaluations to
      perform on an interval between a start and end point.
 
 ```php
