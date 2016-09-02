@@ -3,6 +3,7 @@ namespace Math\Statistics;
 
 use Math\Probability\Distribution\Continuous\StandardNormal;
 use Math\Probability\Distribution\Continuous\StudentT;
+use Math\Probability\Distribution\Continuous\ChiSquared;
 
 /**
  * Tests of statistical significance
@@ -230,5 +231,54 @@ class Significance
     public static function sem($σ, $n)
     {
         return $σ / sqrt($n);
+    }
+
+    /**
+     * χ² test (chi-squared test)
+     * Tests the hypothesis that data were generated according to a
+     * particular chance model (Statistics [Freedman, Pisani, Purves]).
+     * https://en.wikipedia.org/wiki/Chi-squared_test#Example_chi-squared_test_for_categorical_data
+     *
+     *        (observed - expected)²
+     * χ² = ∑ ----------------------
+     *               expected
+     *
+     * p = χ² distribution CDF
+     *
+     * @param  array  $observed
+     * @param  array  $expected
+     *
+     * @return array [chi-square, p]
+     * @throws Exception if count of observed does not equal count of expected
+     */
+    public static function chiSquaredTest(array $observed, array $expected)
+    {
+        // Arrays must have the same number of elements
+        if (count($observed) !== count($expected)) {
+            throw new \Exception('Observed and expected must have the same number of elements');
+        }
+
+        // Reset array indexes and initialize
+        $observed = array_values($observed);
+        $expected = array_values($expected);
+        $n        = count($observed);
+        $k        = $n - 1;
+        $χ²       = 0;
+
+        /*
+         *        (observed - expected)²
+         * χ² = ∑ ----------------------
+         *               expected
+         */
+        for ($i = 0; $i < $n; $i++) {
+            $χ² += (($observed[$i] - $expected[$i])**2) / $expected[$i];
+        }
+
+        $p = ChiSquared::above($χ², $k);
+
+        return [
+            'chi-square' => $χ²,
+            'p'          => $p,
+        ];
     }
 }
