@@ -79,9 +79,9 @@ class SimpsonsThreeEighthsRule extends NumericalIntegration
 
         // Validate input and sort points
         self::validate($points, $degree = 4);
-        self::isSubintervalsFactorThree($points);
+        Validation::isSubintervalsMultiple($points, $m = 3);
         $sorted = self::sort($points);
-        self::isSpacingConstant($sorted);
+        Validation::isSpacingConstant($sorted);
 
         // Descriptive constants
         $x = self::X;
@@ -110,56 +110,5 @@ class SimpsonsThreeEighthsRule extends NumericalIntegration
         }
 
         return $approximation;
-    }
-
-    /**
-     * Ensures that the number of subintervals is a factor of three, or
-     * equivalently, if there are n points, that n-1 is a factor of 3
-     *
-     * @param  array $points
-     *
-     * @return bool
-     *
-     * @throws Exception if the number of points minus 1 is not a factor of 3
-     */
-    private static function isSubintervalsFactorThree(array $points): bool
-    {
-        if ((count($points)-1) % 3 !== 0) {
-            throw new \Exception("The number subintervals must be a factor of
-                                  three. Your input must either be a set of n
-                                  points, where n-1 is a factor of three, or a
-                                  callback function evaluated at an n points,
-                                  where n-1 is a factor of three");
-        }
-
-        return true;
-    }
-
-    /**
-     * Ensures that the length of each subinterval is equal, or equivalently,
-     * that the spacing between each point is equal
-     *
-     * @param  array $sorted
-     *
-     * @return bool
-     *
-     * @throws Exception if the spacing between any two points is not equal
-     *         to the average spacing between every point
-     */
-    private static function isSpacingConstant(array $sorted): bool
-    {
-        $x       = self::X;
-        $length  = count($sorted);
-        $spacing = ($sorted[$length-1][$x]-$sorted[0][$x])/($length-1);
-
-        for ($i = 1; $i < $length - 1; $i++) {
-            if ($sorted[$i+1][$x] - $sorted[$i][$x] !== $spacing) {
-                throw new \Exception("The size of each subinterval must be the
-                                      same. Provide points with constant
-                                      spacing.");
-            }
-        }
-
-        return true;
     }
 }
