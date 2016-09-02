@@ -45,7 +45,7 @@ Setup
 ```javascript
 {
   "require": {
-      "markrogoyski/math-php": "0.0.*"
+      "markrogoyski/math-php": "0.1.*"
   }
 }
 ```
