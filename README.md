@@ -394,6 +394,42 @@ $target   = 0;       // Value of f(x) we a trying to solve for
 $tol      = 0.00001; // Tolerance; how close to the actual solution we would like
 $position = 0;       // Which element in the $args array will be changed; also serves as initial guess. Defaults to 0.
 $x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
+
+// Secant Method
+// Solve for a root of a polynomial using the Secant Method.
+// f(x) = x⁴ + 8x³ -13x² -92x + 96
+$f⟮x⟯ = function($x) {
+    return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+};
+$p₀  = -1;
+$p₁  = 2;
+$tol = 0.00001; // Tolerance; how close to the actual solution we would like
+$x   = SecantMethod::solve($f⟮x⟯, $p₀, $p₁, $tol); // Solve for x where f(x) = 0
+
+// Bisection Method
+// Solve for a root of a polynomial using the Bisection Method.
+// f(x) = x⁴ + 8x³ -13x² -92x + 96
+$f⟮x⟯ = function($x) {
+    return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+};
+$a   = 2;       // The start of the interval which contains a root
+$b   = 5;       // The end of the interval which contains a root
+$tol = 0.00001; // Tolerance; how close to the actual solution we would like
+$x   = BisectionMethod::solve($f⟮x⟯, $a, $b, $tol); // Solve for x where f(x) = 0
+
+// Fixed-Point Iteration
+// Solve for a root of a polynomial using the fixed-point iteration method.
+// f(x) = x⁴ + 8x³ -13x² -92x + 96
+// Rewrite f(x) = 0 as (x⁴ + 8x³ -13x² + 96)/92 = x
+// Thus, g(x) = (x⁴ + 8x³ -13x² + 96)/92
+$g⟮x⟯ = function($x) {
+    return ($x**4 + 8 * $x**3 - 13 * $x**2 + 96)/92;
+};
+$a   = 0;       // The start of the interval which contains a root
+$b   = 2;       // The end of the interval which contains a root
+$p   = 0;       // The initial guess for our root
+$tol = 0.00001; // Tolerance; how close to the actual solution we would like
+$x   = FixedPointIteration::solve($g⟮x⟯, $a, $b, $p, $tol); // Solve for x where f(x) = 0
 ```
 
 ### Probability - Combinatorics

@@ -25,16 +25,13 @@ class NewtonsMethod
      */
     public static function solve(callable $function, array $args, $target, $tol, $position = 0)
     {
-        if ($tol < 0) {
-            throw new \Exception('Tolerance must be greater than zero.');
-        }
+        Validation::tolerance($tol);
 
         // Initialize
-        $dif      = $tol + 1;
         $args1    = $args;
         $guess    = $args[$position];
 
-        while ($dif > $tol) {
+        do {
             $args1[$position] = $guess + $tol; // load the initial guess into the arguments
             $args[$position]  = $guess;        // load the initial guess into the arguments
             $y                = call_user_func_array($function, $args);
@@ -43,7 +40,7 @@ class NewtonsMethod
             $del_y            = $target - $y;
             $guess            = $del_y / $slope + $guess;
             $dif              = abs($del_y);
-        }
+        } while ($dif > $tol);
 
         return $guess;
     }
