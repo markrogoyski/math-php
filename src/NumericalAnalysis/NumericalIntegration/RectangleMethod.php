@@ -3,12 +3,12 @@
 namespace Math\NumericalAnalysis\NumericalIntegration;
 
 /**
- * Rectangle Method (also know as the Midpoint Rule)
+ * Rectangle Method
  *
  * In numerical analysis, the rectangle method is a technique for approximating
  * the definite integral of a function.
  *
- * The rectangle belongs to the closed Newton-Cotes formulas, a group of
+ * The rectangle method belongs to the closed Newton-Cotes formulas, a group of
  * methods for numerical integration which approximate the integral of a function.
  * We can either directly supply a set of inputs and their corresponding outputs
  * for said function, or if we explicitly know the function, we can define it as a
@@ -23,7 +23,7 @@ namespace Math\NumericalAnalysis\NumericalIntegration;
 class RectangleMethod extends NumericalIntegration
 {
     /**
-     * Use the Rectange Method to aproximate the definite integral of a
+     * Use the Rectangle Method to aproximate the definite integral of a
      * function f(x). Our input can support either a set of arrays, or a callback
      * function with arguments (to produce a set of arrays). Each array in our
      * input contains two numbers which correspond to coordinates (x, y) or
