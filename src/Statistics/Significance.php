@@ -11,6 +11,7 @@ use Math\Probability\Distribution\Continuous\ChiSquared;
  *  - Z-score
  *  - T-test (one and two samples)
  *  - T-score
+ *  - χ² test
  *  - SEM (Standard Error of the Mean)
  */
 class Significance
@@ -214,26 +215,6 @@ class Significance
     }
 
     /**
-     * Standard error of the mean (SEM)
-     * Can be considered true standard deviation of the sample mean.
-     * Used in the Z test.
-     * https://en.wikipedia.org/wiki/Standard_error
-     *
-     *       σ
-     * SEM = --
-     *       √n
-     *
-     * @param number $σ Population standard deviation
-     * @param int    $n Sample size (number of observations of the sample)
-     *
-     * @return float
-     */
-    public static function sem($σ, $n)
-    {
-        return $σ / sqrt($n);
-    }
-
-    /**
      * χ² test (chi-squared test)
      * Tests the hypothesis that data were generated according to a
      * particular chance model (Statistics [Freedman, Pisani, Purves]).
@@ -282,5 +263,25 @@ class Significance
             'chi-square' => $χ²,
             'p'          => $p,
         ];
+    }
+
+    /**
+     * Standard error of the mean (SEM)
+     * Can be considered true standard deviation of the sample mean.
+     * Used in the Z test.
+     * https://en.wikipedia.org/wiki/Standard_error
+     *
+     *       σ
+     * SEM = --
+     *       √n
+     *
+     * @param number $σ Population standard deviation
+     * @param int    $n Sample size (number of observations of the sample)
+     *
+     * @return float
+     */
+    public static function sem($σ, $n)
+    {
+        return $σ / sqrt($n);
     }
 }
