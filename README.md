@@ -324,111 +324,74 @@ print($A); // [1, 2, 3]
 ```
 
 ### Numerical Analysis - Numerical Integration
+ Numerical integration approximates the definite integral of a function.
+ Each integration method can take input in two ways:
+  1) As a set of points (inputs and outputs of a function)
+  2) As a callback function, and the number of function evaluations to
+     perform on an interval between a start and end point.
+
 ```php
 use Math\NumericalAnalysis\NumericalIntegration;
 
 // Trapezoidal Rule (closed Newton-Cotes formula)
-// Approximate the definite integral of a function.
-
-// Input as a set of points (inputs and outputs of a function)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = TrapezoidalRule::approximate($points);
+$∫f⟮x⟯dx = TrapezoidalRule::approximate($points); // input as a set of points
 
-// Input as a callback function, and the number of function evaluations to
-// perform on an interval between a start and end point.
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-$start  = 0;
-$end    = 3;
-$n      = 4;
-$∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n);
+list($start, $end, $n) = [0, 3, 4];
+$∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Simpsons Rule (closed Newton-Cotes formula)
-// Approximate the definite integral of a function.
-
-// Input as a set of points (inputs and outputs of a function)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16], [4,3]];
-$∫f⟮x⟯dx = SimpsonsRule::approximate($points);
+$∫f⟮x⟯dx = SimpsonsRule::approximate($points); // input as a set of points
 
-// Input as a callback function, and the number of function evaluations to
-// perform on an interval between a start and end point.
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-$start  = 0;
-$end    = 3;
-$n      = 5;
-$∫f⟮x⟯dx = SimpsonsRule::approximate($f⟮x⟯, $start, $end, $n);
+list($start, $end, $n) = [0, 3, 5];
+$∫f⟮x⟯dx = SimpsonsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Simpsons 3/8 Rule (closed Newton-Cotes formula)
-// Approximate the definite integral of a function.
-
-// Input as a set of points (inputs and outputs of a function)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($points);
+$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($points); // input as a set of points
 
-// Input as a callback function, and the number of function evaluations to
-// perform on an interval between a start and end point.
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-$start  = 0;
-$end    = 3;
-$n      = 5;
-$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n);
+list($start, $end, $n) = [0, 3, 5];
+$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Booles Rule (closed Newton-Cotes formula)
-// Approximate the definite integral of a function.
-
-// Input as a set of points (inputs and outputs of a function)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16], [4, 25]];
-$∫f⟮x⟯dx = BoolesRule::approximate($points);
+$∫f⟮x⟯dx = BoolesRule::approximate($points); // input as a set of points
 
-// Input as a callback function, and the number of function evaluations to
-// perform on an interval between a start and end point.
 $f⟮x⟯ = function ($x) {
     return $x**3 + 2 * $x + 1;
 };
-$start  = 0;
-$end    = 4;
-$n      = 5;
-$∫f⟮x⟯dx = BoolesRuleRule::approximate($f⟮x⟯, $start, $end, $n);
+list($start, $end, $n) = [0, 4, 5];
+$∫f⟮x⟯dx = BoolesRuleRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Rectangle Method (open Newton-Cotes formula)
-// Approximate the definite integral of a function.
-
-// Input as a set of points (inputs and outputs of a function)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = RectangleMethod::approximate($points);
+$∫f⟮x⟯dx = RectangleMethod::approximate($points); // input as a set of points
 
-// Input as a callback function, and the number of function evaluations to
-// perform on an interval between a start and end point.
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-$start  = 0;
-$end    = 3;
-$n      = 4;
-$∫f⟮x⟯dx = RectangleMethod::approximate($f⟮x⟯, $start, $end, $n);
+list($start, $end, $n) = [0, 3, 4];
+$∫f⟮x⟯dx = RectangleMethod::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Midpoint Rule (open Newton-Cotes formula)
-// Approximate the definite integral of a function.
-
-// Input as a set of points (inputs and outputs of a function)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = MidpointRule::approximate($points);
+$∫f⟮x⟯dx = MidpointRule::approximate($points); // input as a set of points
 
-// Input as a callback function, and the number of function evaluations to
-// perform on an interval between a start and end point.
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-$start  = 0;
-$end    = 3;
-$n      = 4;
-$∫f⟮x⟯dx = MidpointRule::approximate($f⟮x⟯, $start, $end, $n);
-
+list($start, $end, $n) = [0, 3, 4];
+$∫f⟮x⟯dx = MidpointRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 ```
 
 ### Numerical Analysis - Root Finding
