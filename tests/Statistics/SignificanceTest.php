@@ -186,4 +186,13 @@ class SignificanceTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    public function testChiSquaredTestExceptionCountsDiffer()
+    {
+        $observed = [1, 2, 3, 4];
+        $expected = [1, 2, 3];
+
+        $this->setExpectedException('\Exception');
+        Significance::chiSquaredTest($observed, $expected);
+    }
 }
