@@ -78,9 +78,9 @@ class SimpsonsRule extends NumericalIntegration
 
         // Validate input and sort points
         self::validate($points, $degree = 3);
-        self::isSubintervalsEven($points);
+        Validation::isSubintervalsMultiple($points, $m = 2);
         $sorted = self::sort($points);
-        self::isSpacingConstant($sorted);
+        Validation::isSpacingConstant($sorted);
 
         // Descriptive constants
         $x = self::X;
@@ -109,55 +109,5 @@ class SimpsonsRule extends NumericalIntegration
         }
 
         return $approximation;
-    }
-
-    /**
-     * Ensures that there are an even number of subintervals, or equivalently,
-     * an odd number of points
-     *
-     * @param  array $points
-     *
-     * @return bool
-     *
-     * @throws Exception if there is not an odd number of points in our array
-     */
-    private static function isSubintervalsEven(array $points): bool
-    {
-        if (count($points) % 2 !== 1) {
-            throw new \Exception("There must be an even number of subintervals.
-                                  Your input must either be a set of an odd
-                                  number of points, or a callback function
-                                  evaluated at an odd number of points (odd n)");
-        }
-
-        return true;
-    }
-
-    /**
-     * Ensures that the length of each subinterval is equal, or equivalently,
-     * that the spacing between each point is equal
-     *
-     * @param  array $sorted
-     *
-     * @return bool
-     *
-     * @throws Exception if the spacing between any two points is not equal
-     *         to the average spacing between every point
-     */
-    private static function isSpacingConstant(array $sorted): bool
-    {
-        $x       = self::X;
-        $length  = count($sorted);
-        $spacing = ($sorted[$length-1][$x]-$sorted[0][$x])/($length-1);
-
-        for ($i = 1; $i < $length - 1; $i++) {
-            if ($sorted[$i+1][$x] - $sorted[$i][$x] !== $spacing) {
-                throw new \Exception("The size of each subinterval must be the
-                                      same. Provide points with constant
-                                      spacing.");
-            }
-        }
-
-        return true;
     }
 }
