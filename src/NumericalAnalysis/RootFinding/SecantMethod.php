@@ -57,7 +57,7 @@ class SecantMethod
      */
     private static function validate($p₀, $p₁, $tol)
     {
-        RootFindingValidation::tolerance($tol);
-        RootFindingValidation::interval($p₀, $p₁);
+        Validation::tolerance($tol);
+        Validation::interval($p₀, $p₁);
     }
 }

@@ -25,7 +25,7 @@ class NewtonsMethod
      */
     public static function solve(callable $function, array $args, $target, $tol, $position = 0)
     {
-        RootFindingValidation::tolerance($tol);
+        Validation::tolerance($tol);
 
         // Initialize
         $args1    = $args;

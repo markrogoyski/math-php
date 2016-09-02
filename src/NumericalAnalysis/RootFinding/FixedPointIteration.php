@@ -64,10 +64,10 @@ class FixedPointIteration
      */
     private static function validate($a, $b, $p, $tol)
     {
-        RootFindingValidation::tolerance($tol);
-        RootFindingValidation::interval($a, $b);
+        Validation::tolerance($tol);
+        Validation::interval($a, $b);
 
-        if (($a > $b)) {
+        if ($a > $b) {
             list($a, $b) = [$b, $a];
         }
 

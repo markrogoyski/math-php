@@ -4,7 +4,7 @@ namespace Math\NumericalAnalysis\RootFinding;
 /**
  * Common validation methods for root finding techniques
  */
-trait RootFindingValidation
+trait Validation
 {
     /**
      * Throw an exception if the tolerance is negative.
