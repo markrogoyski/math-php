@@ -1238,6 +1238,12 @@ $s  = 50;  // SD of sample
 $n  = 15;  // Sample size
 $H₀ = 300; // Null hypothesis (μ₀ Population mean)
 $t  = Significance::tScore($Hₐ, $s, $n, $H);
+
+// χ² test (chi-squared test)
+$observed = [4, 6, 17, 16, 8, 9];
+$expected = [10, 10, 10, 10, 10, 10];
+$χ²       = Significance::chiSquaredTest($observed, $expected);
+// ['chi-square' => 14.2, 'p' => 0.014388]
 ```
 
 Unit Tests
