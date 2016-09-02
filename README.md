@@ -378,6 +378,23 @@ $end    = 3;
 $n      = 5;
 $∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n);
 
+// Booles Rule (closed Newton-Cotes formula)
+// Approximate the definite integral of a function.
+
+// Input as a set of points (inputs and outputs of a function)
+$points = [[0, 1], [1, 4], [2, 9], [3, 16], [4, 25]];
+$∫f⟮x⟯dx = BoolesRule::approximate($points);
+
+// Input as a callback function, and the number of function evaluations to
+// perform on an interval between a start and end point.
+$f⟮x⟯ = function ($x) {
+    return $x**3 + 2 * $x + 1;
+};
+$start  = 0;
+$end    = 4;
+$n      = 5;
+$∫f⟮x⟯dx = BoolesRuleRule::approximate($f⟮x⟯, $start, $end, $n);
+
 // Rectangle Method (open Newton-Cotes formula)
 // Approximate the definite integral of a function.
 
