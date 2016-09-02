@@ -45,8 +45,8 @@ class BoolesRule extends NumericalIntegration
      * definite integral of the function that produces these coordinates with a
      * lower bound of 0, and an upper bound of 6.
      *
-     * Example: approximate(function($x) {return $x**2;}, [0, 3 ,4]) will produce
-     * a set of arrays by evaluating the callback at 4 evenly spaced points
+     * Example: approximate(function($x) {return $x**2;}, [0, 3 ,5]) will produce
+     * a set of arrays by evaluating the callback at 5 evenly spaced points
      * between 0 and 3. Then, this array will be used in our approximation.
      *
      * Boole's Rule:
@@ -79,9 +79,9 @@ class BoolesRule extends NumericalIntegration
 
         // Validate input and sort points
         self::validate($points, $degree = 5);
-        self::isSubintervalsFactorFour($points);
+        Validation::isSubintervalsMultiple($points, $m = 4);
         $sorted = self::sort($points);
-        self::isSpacingConstant($sorted);
+        Validation::isSpacingConstant($sorted);
 
         // Descriptive constants
         $x = self::X;
@@ -110,56 +110,5 @@ class BoolesRule extends NumericalIntegration
         }
 
         return $approximation;
-    }
-
-    /**
-     * Ensures that the number of subintervals is a factor of four, or
-     * equivalently, if there are n points, that n-1 is a factor of 4
-     *
-     * @param  array $points
-     *
-     * @return bool
-     *
-     * @throws Exception if the number of points minus 1 is not a factor of 4
-     */
-    private static function isSubintervalsFactorFour(array $points): bool
-    {
-        if ((count($points)-1) % 4 !== 0) {
-            throw new \Exception("The number subintervals must be a factor of
-                                  four. Your input must either be a set of n
-                                  points, where n-1 is a factor of four, or a
-                                  callback function evaluated at an n points,
-                                  where n-1 is a factor of four");
-        }
-
-        return true;
-    }
-
-    /**
-     * Ensures that the length of each subinterval is equal, or equivalently,
-     * that the spacing between each point is equal
-     *
-     * @param  array $sorted
-     *
-     * @return bool
-     *
-     * @throws Exception if the spacing between any two points is not equal
-     *         to the average spacing between every point
-     */
-    private static function isSpacingConstant(array $sorted): bool
-    {
-        $x       = self::X;
-        $length  = count($sorted);
-        $spacing = ($sorted[$length-1][$x]-$sorted[0][$x])/($length-1);
-
-        for ($i = 1; $i < $length - 1; $i++) {
-            if ($sorted[$i+1][$x] - $sorted[$i][$x] !== $spacing) {
-                throw new \Exception("The size of each subinterval must be the
-                                      same. Provide points with constant
-                                      spacing.");
-            }
-        }
-
-        return true;
     }
 }
