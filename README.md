@@ -3,7 +3,7 @@ Math PHP
 
 A modern math library for PHP.
 
-Math PHP is a self-contained mathematics library in pure PHP with no external dependencies. It is actively under development with development (v0.\*.\*) releases.
+Math PHP is a self-contained mathematics library in pure PHP with no external dependencies. It is actively under development with development (0.y.z) releases.
 
 Features
 --------
