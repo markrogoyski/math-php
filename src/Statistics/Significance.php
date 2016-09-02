@@ -243,7 +243,9 @@ class Significance
      * χ² = ∑ ----------------------
      *               expected
      *
-     * p = χ² distribution CDF
+     * k (degrees of freedom) = number of terms - 1
+     *
+     * p = χ² distribution CDF(χ², k)
      *
      * @param  array  $observed
      * @param  array  $expected
@@ -261,8 +263,8 @@ class Significance
         // Reset array indexes and initialize
         $observed = array_values($observed);
         $expected = array_values($expected);
-        $n        = count($observed);
-        $k        = $n - 1;
+        $n        = count($observed);        // number of terms
+        $k        = $n - 1;                  // degrees of freedom
         $χ²       = 0;
 
         /*
