@@ -24,8 +24,7 @@ Features
      - Distributions
          * Continuous
          * Discrete
-     - Standard Normal Table (Z Table)
-     - t Distribution Table
+         * Tables
  * Sequences
      - Basic
      - Advanced
@@ -644,47 +643,37 @@ $pmf = ShiftedGeometric::PMF($k, $p);
 $cdf = ShiftedGeometric::CDF($k, $p);
 ```
 
-### Probability - Standard Normal Table (Z Table)
+### Probability - Distribution Tables
 ```php
-use Math\Probability\StandardNormalTable;
+use Math\Probability\Distribution\Table;
 
-// Get probability from Z-score
-$Z           = 1.50;
-$probability = StandardNormalTable::getZScoreProbability($Z);
+// Provided solely for completeness' sake.
+// It is statistics tradition to provide these tables.
+// Math PHP has dynamic distribution CDF functions you can use instead.
 
-// Access the entire Z table (positive and negative Z-scores)
-$z_table     = StandardNormalTable::Z_SCORES;
-$probability = $z_table[1.5][0];
+// Standard Normal Table (Z Table)
+$table       = Table\StandardNormal::Z_SCORES;
+$probability = $table[1.5][0];                 // Value for Z of 1.50
 
-// Get Z-score for confidence interval
-$cl = 99; // confidence level
-$z  = StandardNormalTable::getZScoreForConfidenceInterval($cl);
-```
-
-### Probability - t Distribution Table
-```php
-use Math\Probability\TDistributionTable;
-
-// Get t critical value from degrees of freedom (ν) and confidence level (cl)
+// t Distribution Tables
+$table   = Table\TDistribution::ONE_SIDED_CONFIDENCE_LEVEL;
+$table   = Table\TDistribution::TWO_SIDED_CONFIDENCE_LEVEL;
 $ν       = 5;  // degrees of freedom
 $cl      = 99; // confidence level
-$t_value = TDistributionTable::getOneSidedTValueFromConfidenceLevel($ν, $cl);
-$t_value = TDistributionTable::getTwoSidedTValueFromConfidenceLevel($ν, $cl);
+$t       = $table[$ν][$cl];
 
-// Get t critical value from degrees of freedom (ν) and alpha value (α)
-$ν       = 5;     // degrees of freedom
-$α       = 0.001; // alpha value
-$t_value = TDistributionTable::getOneSidedTValueFromAlpha($ν, $α);
-$t_value = TDistributionTable::getTwoSidedTValueFromAlpha($ν, $α);
+// t Distribution Tables
+$table = Table\TDistribution::ONE_SIDED_ALPHA;
+$table = Table\TDistribution::TWO_SIDED_ALPHA;
+$ν     = 5;     // degrees of freedom
+$α     = 0.001; // alpha value
+$t     = $table[$ν][$α];
 
-// Access the entire t table (one and two sided; confidence levels and alphas)
-$t_table = TDistributionTable::ONE_SIDED_CONFIDENCE_LEVEL;
-$t_table = TDistributionTable::TWO_SIDED_CONFIDENCE_LEVEL;
-$t_value = $t_table[$ν][$cl];
-
-$t_table = TDistributionTable::ONE_SIDED_ALPHA;
-$t_table = TDistributionTable::TWO_SIDED_ALPHA;
-$t_table = $t_table[$ν][$α];
+// χ² Distribution Table
+$table = Table\ChiSquared::CHI_SQUARED_SCORES;
+$df    = 2;
+$p     = 0.05;
+$χ²    = $table[$df][$p];
 ```
 
 ### Sequences - Basic
