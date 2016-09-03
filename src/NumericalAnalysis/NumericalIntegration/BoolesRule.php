@@ -3,12 +3,12 @@
 namespace Math\NumericalAnalysis\NumericalIntegration;
 
 /**
- * Simpsons 3/8 Rule
+ * Boole's Rule
  *
- * In numerical analysis, Simpson's 3/8 rule is a technique for approximating
+ * In numerical analysis, Boole's rule is a technique for approximating
  * the definite integral of a function.
  *
- * Simpson's 3/8 rule belongs to the closed Newton-Cotes formulas, a group of methods
+ * Boole's rule belongs to the closed Newton-Cotes formulas, a group of methods
  * for numerical integration which approximate the integral of a function. We
  * can either directly supply a set of inputs and their corresponding outputs for
  * said function, or if we explicitly know the function, we can define it as a
@@ -17,24 +17,24 @@ namespace Math\NumericalAnalysis\NumericalIntegration;
  * interpolate a Lagrange polynomial. Finally, we integrate the Lagrange
  * polynomial to approximate the integral of our original function.
  *
- * Simpson's 3/8 rule is produced by integrating the third Lagrange polynomial.
+ * Boole's rule is produced by integrating the fourth Lagrange polynomial.
  *
- * https://en.wikipedia.org/wiki/Simpson%27s_rule#Simpson.27s_3.2F8_rule
- * http://mathworld.wolfram.com/Simpsons38Rule.html
+ * https://en.wikipedia.org/wiki/Boole%27s_rule
+ * http://mathworld.wolfram.com/BoolesRule.html
  * http://www.efunda.com/math/num_integration/num_int_newton.cfm
  */
-class SimpsonsThreeEighthsRule extends NumericalIntegration
+class BoolesRule extends NumericalIntegration
 {
     /**
-     * Use Simpson's 3/8 Rule to aproximate the definite integral of a
+     * Use Boole's Rule to aproximate the definite integral of a
      * function f(x). Our input can support either a set of arrays, or a callback
      * function with arguments (to produce a set of arrays). Each array in our
      * input contains two numbers which correspond to coordinates (x, y) or
      * equivalently, (x, f(x)), of the function f(x) whose definite integral we
      * are approximating.
      *
-     * Note: Simpson's 3/8 rule requires that our number of subintervals is a factor
-     * of three (we must supply an n points such that n-1 is a multiple of three)
+     * Note: Boole's rule requires that our number of subintervals is a factor
+     * of four (we must supply an n points such that n-1 is a multiple of four)
      * and also that the size of each subinterval is equal (spacing between each
      * point is equal).
      *
@@ -45,25 +45,25 @@ class SimpsonsThreeEighthsRule extends NumericalIntegration
      * definite integral of the function that produces these coordinates with a
      * lower bound of 0, and an upper bound of 6.
      *
-     * Example: approximate(function($x) {return $x**2;}, [0, 3 ,4]) will produce
-     * a set of arrays by evaluating the callback at 4 evenly spaced points
+     * Example: approximate(function($x) {return $x**2;}, [0, 3 ,5]) will produce
+     * a set of arrays by evaluating the callback at 5 evenly spaced points
      * between 0 and 3. Then, this array will be used in our approximation.
      *
-     * Simpson's 3/8 Rule:
+     * Boole's Rule:
      *
      * xn        ⁿ⁻¹ xᵢ₊₁
      * ∫ f(x)dx = ∑   ∫ f(x)dx
      * x₁        ⁱ⁼¹  xᵢ
      *
-     *         ⁽ⁿ⁻¹⁾/³ 3h
-     *          = ∑    - [f⟮x₂ᵢ₋₁⟯ + 3f⟮x₂ᵢ⟯ + 3f⟮x₂ᵢ₊₁⟯ + f⟮x₂ᵢ₊₂⟯] + O(h⁵f⁗(x))
-     *           ⁱ⁼¹   8
+     *         ⁽ⁿ⁻¹⁾/⁴ 2h
+     *          = ∑    -- [7f⟮x₄ᵢ₋₃⟯ + 32f⟮x₄ᵢ₋₂⟯ + 12f⟮x₄ᵢ₋₁⟯ + 32f⟮x₄ᵢ⟯ + 7f⟮x₄ᵢ₊₁⟯] + O(h⁷f⁽⁶⁾(x))
+     *           ⁱ⁼¹   45
      * where h = (xn - x₁) / (n - 1)
      *
      * @param          $source   The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
      *                           (point) contains precisely two numbers, an x and y.
-     *                           Example array: [[1,2], [2,3], [3,4], [4,5]].
+     *                           Example array: [[1,2], [2,3], [3,4], [4,5], [5,6]].
      *                           Example callback: function($x) {return $x**2;}
      * @param numbers  ... $args The arguments of our callback function: start,
      *                           end, and n. Example: approximate($source, 0, 8, 4).
@@ -78,8 +78,8 @@ class SimpsonsThreeEighthsRule extends NumericalIntegration
         $points = self::getPoints($source, $args);
 
         // Validate input and sort points
-        self::validate($points, $degree = 4);
-        Validation::isSubintervalsMultiple($points, $m = 3);
+        self::validate($points, $degree = 5);
+        Validation::isSubintervalsMultiple($points, $m = 4);
         $sorted = self::sort($points);
         Validation::isSpacingConstant($sorted);
 
@@ -96,17 +96,17 @@ class SimpsonsThreeEighthsRule extends NumericalIntegration
         $approximation = 0;
 
         /*
-         * ⁽ⁿ⁻¹⁾/³ 3h
-         *    ∑    -- [f⟮x₂ᵢ₋₁⟯ + 3f⟮x₂ᵢ⟯ + 3f⟮x₂ᵢ₊₁⟯ + f⟮x₂ᵢ₊₂⟯] + O(h⁵f⁗(x))
-         *   ⁱ⁼¹   8
-         *  where h = (xn - x₁) / (n - 1)
+        * ⁽ⁿ⁻¹⁾/⁴ 2h
+        *  = ∑    -- [7f⟮x₄ᵢ₋₃⟯ + 32f⟮x₄ᵢ₋₂⟯ + 12f⟮x₄ᵢ₋₁⟯ + 32f⟮x₄ᵢ⟯ + 7f⟮x₄ᵢ₊₁⟯] + O(h⁷f⁽⁶⁾(x))
+        *   ⁱ⁼¹   45
          */
-        for ($i = 1; $i < ($subintervals/3) + 1; $i++) {
-            $f⟮x₂ᵢ₋₁⟯        = $sorted[(2*$i)-2][$y]; // y₂₋₁
-            $f⟮x₂ᵢ⟯          = $sorted[(2*$i)-1][$y]; // y₂ᵢ
-            $f⟮x₂ᵢ₊₁⟯        = $sorted[(2*$i)][$y];   // y₂ᵢ₊₁
-            $f⟮x₂ᵢ₊₂⟯        = $sorted[(2*$i)+1][$y]; // y₂ᵢ₊₂
-            $approximation += ($h * ($f⟮x₂ᵢ₋₁⟯ + 3*$f⟮x₂ᵢ⟯ + 3*$f⟮x₂ᵢ₊₁⟯ + $f⟮x₂ᵢ₊₂⟯)) * (3/8);
+        for ($i = 1; $i < ($subintervals/4) + 1; $i++) {
+            $f⟮x₄ᵢ₋₃⟯        = $sorted[(4*$i)-4][$y]; // y₄ᵢ₋₃
+            $f⟮x₄ᵢ₋₂⟯        = $sorted[(4*$i)-3][$y]; // y₄ᵢ₋₂
+            $f⟮x₄ᵢ₋₁⟯        = $sorted[(4*$i)-2][$y]; // y₄ᵢ₋₁
+            $f⟮x₄ᵢ⟯          = $sorted[(4*$i)-1][$y]; // y₄ᵢ
+            $f⟮x₄ᵢ₊₁⟯        = $sorted[(4*$i)][$y];   // y₄ᵢ₊₁
+            $approximation += (2*$h/45) * (7*$f⟮x₄ᵢ₋₃⟯ + 32*$f⟮x₄ᵢ₋₂⟯ + 12*$f⟮x₄ᵢ₋₁⟯ + 32*$f⟮x₄ᵢ⟯ + 7*$f⟮x₄ᵢ₊₁⟯);
         }
 
         return $approximation;

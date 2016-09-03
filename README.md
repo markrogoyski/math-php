@@ -1,9 +1,11 @@
 Math PHP
 =====================
 
-A modern math library for PHP.
+### Modern Math Library for PHP
 
-Math PHP is a self-contained mathematics library in pure PHP with no external dependencies. It is actively under development and should be considered a work in progress.
+Math PHP is the only library you need to integrate mathematical functions into your applications. It is a self-contained library in pure PHP with no external dependencies.
+
+It is actively under development with development (0.y.z) releases.
 
 Features
 --------
@@ -45,7 +47,7 @@ Setup
 ```javascript
 {
   "require": {
-      "markrogoyski/math-php": "0.0.*"
+      "markrogoyski/math-php": "0.1.*"
   }
 }
 ```
@@ -327,68 +329,85 @@ print($A); // [1, 2, 3]
 ```php
 use Math\NumericalAnalysis\NumericalIntegration;
 
+// Numerical integration approximates the definite integral of a function.
+// Each integration method can take input in two ways:
+//  1) As a set of points (inputs and outputs of a function)
+//  2) As a callback function, and the number of function evaluations to
+//     perform on an interval between a start and end point.
+
 // Trapezoidal Rule (closed Newton-Cotes formula)
-// Approximate the definite integral of a function.
-
-// Input as a set of points (inputs and outputs of a function)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = TrapezoidalRule::approximate($points);
+$∫f⟮x⟯dx = TrapezoidalRule::approximate($points); // input as a set of points
 
-// Input as a callback function, and the number of function evaluations to
-// perform on an interval between a start and end point.
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-$start  = 0;
-$end    = 3;
-$n      = 4;
-$∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n);
+list($start, $end, $n) = [0, 3, 4];
+$∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Simpsons Rule (closed Newton-Cotes formula)
-// Approximate the definite integral of a function.
-
-// Input as a set of points (inputs and outputs of a function)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16], [4,3]];
-$∫f⟮x⟯dx = SimpsonsRule::approximate($points);
+$∫f⟮x⟯dx = SimpsonsRule::approximate($points); // input as a set of points
 
-// Input as a callback function, and the number of function evaluations to
-// perform on an interval between a start and end point.
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-$start  = 0;
-$end    = 3;
-$n      = 5;
-$∫f⟮x⟯dx = SimpsonsRule::approximate($f⟮x⟯, $start, $end, $n);
+list($start, $end, $n) = [0, 3, 5];
+$∫f⟮x⟯dx = SimpsonsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Simpsons 3/8 Rule (closed Newton-Cotes formula)
-// Approximate the definite integral of a function.
-
-// Input as a set of points (inputs and outputs of a function)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($points);
+$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($points); // input as a set of points
 
-// Input as a callback function, and the number of function evaluations to
-// perform on an interval between a start and end point.
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-$start  = 0;
-$end    = 3;
-$n      = 5;
-$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n);
+list($start, $end, $n) = [0, 3, 5];
+$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+
+// Booles Rule (closed Newton-Cotes formula)
+$points = [[0, 1], [1, 4], [2, 9], [3, 16], [4, 25]];
+$∫f⟮x⟯dx = BoolesRule::approximate($points); // input as a set of points
+
+$f⟮x⟯ = function ($x) {
+    return $x**3 + 2 * $x + 1;
+};
+list($start, $end, $n) = [0, 4, 5];
+$∫f⟮x⟯dx = BoolesRuleRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+
+// Rectangle Method (open Newton-Cotes formula)
+$points = [[0, 1], [1, 4], [2, 9], [3, 16]];
+$∫f⟮x⟯dx = RectangleMethod::approximate($points); // input as a set of points
+
+$f⟮x⟯ = function ($x) {
+    return $x**2 + 2 * $x + 1;
+};
+list($start, $end, $n) = [0, 3, 4];
+$∫f⟮x⟯dx = RectangleMethod::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+
+// Midpoint Rule (open Newton-Cotes formula)
+$points = [[0, 1], [1, 4], [2, 9], [3, 16]];
+$∫f⟮x⟯dx = MidpointRule::approximate($points); // input as a set of points
+
+$f⟮x⟯ = function ($x) {
+    return $x**2 + 2 * $x + 1;
+};
+list($start, $end, $n) = [0, 3, 4];
+$∫f⟮x⟯dx = MidpointRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 ```
 
 ### Numerical Analysis - Root Finding
 ```php
 use Math\NumericalAnalysis\RootFinding;
 
-// Newton's Method
-// Solve for a root of a polynomial using Newton's Method.
+// Root-finding methods solve for a root of a polynomial.
+
 // f(x) = x⁴ + 8x³ -13x² -92x + 96
 $f⟮x⟯ = function($x) {
     return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
 };
+
+// Newton's Method
 $args     = [-4.1];  // Parameters to pass to callback function (initial guess, other parameters)
 $target   = 0;       // Value of f(x) we a trying to solve for
 $tol      = 0.00001; // Tolerance; how close to the actual solution we would like
@@ -396,29 +415,18 @@ $position = 0;       // Which element in the $args array will be changed; also s
 $x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
 
 // Secant Method
-// Solve for a root of a polynomial using the Secant Method.
-// f(x) = x⁴ + 8x³ -13x² -92x + 96
-$f⟮x⟯ = function($x) {
-    return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
-};
-$p₀  = -1;
-$p₁  = 2;
+$p₀  = -1;      // First initial approximation
+$p₁  = 2;       // Second initial approximation
 $tol = 0.00001; // Tolerance; how close to the actual solution we would like
 $x   = SecantMethod::solve($f⟮x⟯, $p₀, $p₁, $tol); // Solve for x where f(x) = 0
 
 // Bisection Method
-// Solve for a root of a polynomial using the Bisection Method.
-// f(x) = x⁴ + 8x³ -13x² -92x + 96
-$f⟮x⟯ = function($x) {
-    return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
-};
 $a   = 2;       // The start of the interval which contains a root
 $b   = 5;       // The end of the interval which contains a root
 $tol = 0.00001; // Tolerance; how close to the actual solution we would like
 $x   = BisectionMethod::solve($f⟮x⟯, $a, $b, $tol); // Solve for x where f(x) = 0
 
 // Fixed-Point Iteration
-// Solve for a root of a polynomial using the fixed-point iteration method.
 // f(x) = x⁴ + 8x³ -13x² -92x + 96
 // Rewrite f(x) = 0 as (x⁴ + 8x³ -13x² + 96)/92 = x
 // Thus, g(x) = (x⁴ + 8x³ -13x² + 96)/92
@@ -1186,6 +1194,12 @@ $s  = 50;  // SD of sample
 $n  = 15;  // Sample size
 $H₀ = 300; // Null hypothesis (μ₀ Population mean)
 $t  = Significance::tScore($Hₐ, $s, $n, $H);
+
+// χ² test (chi-squared test)
+$observed = [4, 6, 17, 16, 8, 9];
+$expected = [10, 10, 10, 10, 10, 10];
+$χ²       = Significance::chiSquaredTest($observed, $expected);
+// ['chi-square' => 14.2, 'p' => 0.014388]
 ```
 
 Unit Tests

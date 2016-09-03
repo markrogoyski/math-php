@@ -143,4 +143,56 @@ class SignificanceTest extends \PHPUnit_Framework_TestCase
             [25.12, 2.91, 18, 24.64, ['t' => 0.69981702, 'p1' => 0.24675380, 'p2' => 0.4935]]
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForChiSquaredTest
+     */
+    public function testChiSquaredTest(array $observed, array $expected, $χ², $p)
+    {
+        $chi = Significance::chiSquaredTest($observed, $expected);
+
+        $this->assertEquals($χ², $chi['chi-square'], '', 0.0001);
+        $this->assertEquals($p, $chi['p'], '', 0.0001);
+    }
+
+    public function dataProviderForChiSquaredTest()
+    {
+        return [
+            // Example data from Statistics (Freedman, Pisani, Purves)
+            [
+                [4, 6, 17, 16, 8, 9],
+                [10, 10, 10, 10, 10, 10],
+                14.2, 0.014388,
+            ],
+            [
+                [5, 7, 17, 16, 8, 7],
+                [10, 10, 10, 10, 10, 10],
+                13.2, 0.0216,
+            ],
+            [
+                [9, 11, 10, 8, 12, 10],
+                [10, 10, 10, 10, 10, 10],
+                1.0, 0.962566,
+            ],
+            [
+                [90, 110, 100, 80, 120, 100],
+                [100, 100, 100, 100, 100, 100],
+                10.0, 0.075235,
+            ],
+            [
+                [10287, 10056, 9708, 10080, 9935, 9934],
+                [10000, 10000, 10000, 10000, 10000, 10000],
+                18.575, 0.0023,
+            ],
+        ];
+    }
+
+    public function testChiSquaredTestExceptionCountsDiffer()
+    {
+        $observed = [1, 2, 3, 4];
+        $expected = [1, 2, 3];
+
+        $this->setExpectedException('\Exception');
+        Significance::chiSquaredTest($observed, $expected);
+    }
 }

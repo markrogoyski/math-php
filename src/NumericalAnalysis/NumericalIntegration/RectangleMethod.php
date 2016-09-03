@@ -3,44 +3,37 @@
 namespace Math\NumericalAnalysis\NumericalIntegration;
 
 /**
- * Simpsons Rule
+ * Rectangle Method
  *
- * In numerical analysis, Simpson's rule is a technique for approximating
+ * In numerical analysis, the rectangle method is a technique for approximating
  * the definite integral of a function.
  *
- * Simpson's rule belongs to the closed Newton-Cotes formulas, a group of methods
- * for numerical integration which approximate the integral of a function. We
- * can either directly supply a set of inputs and their corresponding outputs for
- * said function, or if we explicitly know the function, we can define it as a
+ * The rectangle method belongs to the closed Newton-Cotes formulas, a group of
+ * methods for numerical integration which approximate the integral of a function.
+ * We can either directly supply a set of inputs and their corresponding outputs
+ * for said function, or if we explicitly know the function, we can define it as a
  * callback function and then generate a set of points by evaluating that function
  * at n points between a start and end point. We then use these values to
  * interpolate a Lagrange polynomial. Finally, we integrate the Lagrange
  * polynomial to approximate the integral of our original function.
  *
- * Simpson's rule is produced by integrating the second Lagrange polynomial.
- *
- * https://en.wikipedia.org/wiki/Simpson%27s_rule
- * http://mathworld.wolfram.com/SimpsonsRule.html
+ * https://en.wikipedia.org/wiki/Rectangle_method
  * http://www.efunda.com/math/num_integration/num_int_newton.cfm
  */
-class SimpsonsRule extends NumericalIntegration
+class RectangleMethod extends NumericalIntegration
 {
     /**
-     * Use Simpson's Rule to aproximate the definite integral of a
+     * Use the Rectangle Method to aproximate the definite integral of a
      * function f(x). Our input can support either a set of arrays, or a callback
      * function with arguments (to produce a set of arrays). Each array in our
      * input contains two numbers which correspond to coordinates (x, y) or
      * equivalently, (x, f(x)), of the function f(x) whose definite integral we
      * are approximating.
      *
-     * Note: Simpson's method requires that we have an even number of
-     * subintervals (we must supply an odd number of points) and also that the
-     * size of each subinterval is equal (spacing between each point is equal).
-     *
      * The bounds of the definite integral to which we are approximating is
      * determined by the our inputs.
      *
-     * Example: approximate([0, 10], [5, 5], [10, 7]) will approximate the definite
+     * Example: approximate([0, 10], [3, 5], [10, 7]) will approximate the definite
      * integral of the function that produces these coordinates with a lower
      * bound of 0, and an upper bound of 10.
      *
@@ -48,17 +41,18 @@ class SimpsonsRule extends NumericalIntegration
      * a set of arrays by evaluating the callback at 5 evenly spaced points
      * between 0 and 4. Then, this array will be used in our approximation.
      *
-     * Simpson's Rule:
+     * Rectangle Rule:
      *
      * xn        ⁿ⁻¹ xᵢ₊₁
      * ∫ f(x)dx = ∑   ∫ f(x)dx
      * x₁        ⁱ⁼¹  xᵢ
      *
-     *         ⁽ⁿ⁻¹⁾/² h
-     *          = ∑    - [f⟮x₂ᵢ₋₁⟯ + 4f⟮x₂ᵢ⟯ + f⟮x₂ᵢ₊₁⟯] + O(h⁵f⁗(x))
-     *           ⁱ⁼¹   3
-     * where h = (xn - x₁) / (n - 1)
+     *            ⁿ
+     *          = ∑   h [f(xᵢ)] + O(h³f″(x))
+     *           ⁱ⁼¹
      *
+     *  where h = xᵢ₊₁ - xᵢ
+     *  note: this implementation does not compute the error term.
      * @param          $source   The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
      *                           (point) contains precisely two numbers, an x and y.
@@ -77,10 +71,8 @@ class SimpsonsRule extends NumericalIntegration
         $points = self::getPoints($source, $args);
 
         // Validate input and sort points
-        self::validate($points, $degree = 3);
-        Validation::isSubintervalsMultiple($points, $m = 2);
+        self::validate($points, $degree = 2);
         $sorted = self::sort($points);
-        Validation::isSpacingConstant($sorted);
 
         // Descriptive constants
         $x = self::X;
@@ -88,24 +80,22 @@ class SimpsonsRule extends NumericalIntegration
 
         // Initialize
         $n             = count($sorted);
-        $subintervals  = $n - 1;
-        $a             = $sorted[0][$x];
-        $b             = $sorted[$n-1][$x];
-        $h             = ($b - $a) / $subintervals;
+        $steps         = $n - 1;
         $approximation = 0;
 
         /*
          * Summation
-         * ⁽ⁿ⁻¹⁾/² h
-         *    ∑    - [f⟮x₂ᵢ₋₁⟯ + 4f⟮x₂ᵢ⟯ + f⟮x₂ᵢ₊₁⟯] + O(h⁵f⁗(x))
-         *   ⁱ⁼¹   3
-         *  where h = (xn - x₁) / (n - 1)
+         *   ⁿ
+         * = ∑   h [f(xᵢ)] + O(h³f″(x))
+         *  ⁱ⁼¹
+         * where h = xᵢ₊₁ - xᵢ
          */
-        for ($i = 1; $i < ($subintervals/2) + 1; $i++) {
-            $f⟮x₂ᵢ₋₁⟯        = $sorted[(2*$i)-2][$y];  // y₂ᵢ₋₁
-            $f⟮x₂ᵢ⟯          = $sorted[(2*$i)-1][$y];  // y₂ᵢ
-            $f⟮x₂ᵢ₊₁⟯        = $sorted[(2*$i)][$y];    // y₂ᵢ₊₁
-            $approximation += ($h * ($f⟮x₂ᵢ₋₁⟯ + 4*$f⟮x₂ᵢ⟯ + $f⟮x₂ᵢ₊₁⟯)) / 3;
+        for ($i = 0; $i < $steps; $i++) {
+            $xᵢ             = $sorted[$i][$x];
+            $xᵢ₊₁           = $sorted[$i+1][$x];
+            $f⟮xᵢ⟯           = $sorted[$i][$y];   // yᵢ
+            $h              = $xᵢ₊₁ - $xᵢ;
+            $approximation += $h * $f⟮xᵢ⟯;
         }
 
         return $approximation;
