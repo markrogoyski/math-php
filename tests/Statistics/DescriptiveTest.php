@@ -578,4 +578,22 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_array($stats['ci_95']));
         $this->assertTrue(is_array($stats['ci_99']));
     }
+
+    /**
+     * @dataProvider dataProviderForFiveNumberSummary
+     */
+    public function testFiveNumberSummary(array $numbers, array $summary)
+    {
+        $this->assertEquals($summary, Descriptive::fiveNumberSummary($numbers), '', 0.0001);
+    }
+
+    public function dataProviderForFiveNumberSummary()
+    {
+        return [
+            [
+                [0, 0, 1, 2, 63, 61, 27, 13],
+                ['min' => 0, 'Q1' => 0.5, 'median' => 7.5, 'Q3' => 44.0, 'max' => 63],
+            ],
+        ];
+    }
 }
