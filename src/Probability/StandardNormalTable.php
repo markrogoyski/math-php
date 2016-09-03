@@ -18,6 +18,10 @@ namespace Math\Probability;
  * and then use the standard normal table to find probabilities.
  *
  * https://en.wikipedia.org/wiki/Standard_normal_table
+ *
+ * This table is provided only for completeness. It is common for statistics
+ * textbooks to include this table, so this library does as well. It is better
+ * to use the standard normal distribution CDF function when a Z score is required.
  */
 class StandardNormalTable
 {
