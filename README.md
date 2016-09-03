@@ -902,7 +902,7 @@ $ninety_fifth_percentile = Descriptive::percentile($numbers, 95);
 // Midhinge
 $midhinge = Descriptive::midhinge($numbers);
 
-// Descriptive stats report
+// Describe a list of numbers - descriptive stats report
 $stats = Descriptive::describe($numbers); // Has optional parameter to set population or sample calculations
 print_r($stats);
 /* Array (
@@ -944,6 +944,10 @@ print_r($stats);
             [upper_bound] => 17.428515813578
         )
 ) */
+
+// Five number summary - five most important sample percentiles
+$summary = Descriptive::fiveNumberSummary($numbers);
+// [min, Q1, median, Q3, max]
 ```
 
 ### Statistics - Distributions
