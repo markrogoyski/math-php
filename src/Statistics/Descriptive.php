@@ -564,7 +564,7 @@ class Descriptive
      *
      * @return array [min, Q1, median, Q3, max]
      */
-    public function fiveNumberSummary(array $numbers)
+    public static function fiveNumberSummary(array $numbers)
     {
         $quartiles = self::quartiles($numbers);
 
