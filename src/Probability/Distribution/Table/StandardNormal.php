@@ -1,5 +1,5 @@
 <?php
-namespace Math\Probability;
+namespace Math\Probability\Distribution\Table;
 
 /**
  * Standard normal tables for Z and related methods
