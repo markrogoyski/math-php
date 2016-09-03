@@ -547,4 +547,33 @@ class Descriptive
             'ci_99'              => RandomVariable::confidenceInterval($μ, $n, $σ, 99),
         ];
     }
+
+    /**
+     * Five number summary
+     * A descriptive statistic that provides information about a set of observations.
+     * It consists of the five most important sample percentiles:
+     *  1) the sample minimum (smallest observation)
+     *  2) the lower quartile or first quartile
+     *  3) the median (middle value)
+     *  4) the upper quartile or third quartile
+     *  5) the sample maximum (largest observation)
+     *
+     * https://en.wikipedia.org/wiki/Five-number_summary
+     *
+     * @param  array  $numbers
+     *
+     * @return array [min, Q1, median, Q3, max]
+     */
+    public function fiveNumberSummary(array $numbers)
+    {
+        $quartiles = self::quartiles($numbers);
+
+        return [
+            'min'    => min($numbers),
+            'Q1'     => $quartiles['Q1'],
+            'median' => Average::median($numbers),
+            'Q3'     => $quartiles['Q3'],
+            'max'    => max($numbers),
+        ];
+    }
 }
