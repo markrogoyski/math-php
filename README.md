@@ -671,8 +671,8 @@ $t     = $table[$ν][$α];
 
 // χ² Distribution Table
 $table = Table\ChiSquared::CHI_SQUARED_SCORES;
-$df    = 2;
-$p     = 0.05;
+$df    = 2;    // degrees of freedom
+$p     = 0.05; // P value
 $χ²    = $table[$df][$p];
 ```
 
