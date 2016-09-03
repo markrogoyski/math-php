@@ -14,7 +14,7 @@ namespace Math\Probability\Distribution\Table;
  *
  * Table values referenced from: https://www.medcalc.org/manual/chi-square-table.php
  */
-class ChiSquaredTable
+class ChiSquared
 {
     /**
      * χ² value vs P value table

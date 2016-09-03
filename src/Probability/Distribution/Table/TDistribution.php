@@ -14,7 +14,7 @@ namespace Math\Probability\Distribution\Table;
  * textbooks to include this table, so this library does as well. It is better
  * to use the StudentT distribution functions when a t value is required.
  */
-class TDistributionTable
+class TDistribution
 {
     /**
      * One-sided t distribution table

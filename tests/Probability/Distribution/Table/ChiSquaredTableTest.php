@@ -1,7 +1,7 @@
 <?php
-namespace Math\Probability;
+namespace Math\Probability\Distribution\Table;
 
-class ChiSquaredlTableTest extends \PHPUnit_Framework_TestCase
+class ChiSquaredlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider dataProviderForTable
@@ -9,7 +9,7 @@ class ChiSquaredlTableTest extends \PHPUnit_Framework_TestCase
     public function testChiSquaredValuesFromConstant(int $df, float $p, float $χ²)
     {
         $p = sprintf('%1.3f', $p);
-        $this->assertEquals($χ², ChiSquaredTable::CHI_SQUARED_SCORES[$df][$p]);
+        $this->assertEquals($χ², ChiSquared::CHI_SQUARED_SCORES[$df][$p]);
     }
 
     /**
@@ -17,7 +17,7 @@ class ChiSquaredlTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testChiSquaredValuesFromFunction(int $df, float $p, float $χ²)
     {
-        $this->assertEquals($χ², ChiSquaredTable::getChiSquareValue($df, $p));
+        $this->assertEquals($χ², ChiSquared::getChiSquareValue($df, $p));
     }
 
     public function dataProviderForTable()
@@ -32,12 +32,12 @@ class ChiSquaredlTableTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testChiSquaredTableException()
+    public function testChiSquaredException()
     {
         $this->setExpectedException('\Exception');
 
         $df = 88474;
         $p  = 0.44;
-        ChiSquaredTable::getChiSquareValue($df, $p);
+        ChiSquared::getChiSquareValue($df, $p);
     }
 }

@@ -23,7 +23,7 @@ namespace Math\Probability\Distribution\Table;
  * textbooks to include this table, so this library does as well. It is better
  * to use the standard normal distribution CDF function when a Z score is required.
  */
-class StandardNormalTable
+class StandardNormal
 {
     /**
      * Z scores table - cumulative from mean

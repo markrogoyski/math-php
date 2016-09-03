@@ -3,7 +3,7 @@ namespace Math\Statistics;
 
 use Math\Statistics\Average;
 use Math\Statistics\Descriptive;
-use Math\Probability\StandardNormalTable;
+use Math\Probability\Distribution\Table;
 
 /**
  * Functions dealing with random variables.
@@ -337,7 +337,7 @@ class RandomVariable
      */
     public static function confidenceInterval($μ, $n, $σ, string $cl): array
     {
-        $z = StandardNormalTable::getZScoreForConfidenceInterval($cl);
+        $z = Table\StandardNormal::getZScoreForConfidenceInterval($cl);
 
         $ci = $z * ($σ / sqrt($n));
 
