@@ -44,6 +44,8 @@ class ANOVA
      * Total |   |     |      |    |          |    |     |
      *
      *  where:
+     *   Each row is the summary for a sample, numbered from 0 to m - 1
+     *   m   = Number of samples
      *   N   = Sample size
      *   SS  = Sum of squares
      *   SD  = Standard deviation
@@ -144,7 +146,7 @@ class ANOVA
         // Totals summary
         $all_elements = array_reduce(
             $samples,
-            function($merged, $sample) {
+            function ($merged, $sample) {
                 return array_merge($merged, $sample);
             },
             array()
