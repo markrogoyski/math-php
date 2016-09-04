@@ -762,13 +762,14 @@ $sample3 = [5, 6, 7];
 
 // One-way ANOVA
 $anova = ANOVA::oneWay($sample1, $sample2, $sample3);
+print_r($anova);
 /* Array (
     [ANOVA] => Array (             // ANOVA hypothesis test summary data
             [treatment] => Array (
                     [SS] => 24     // Sum of squares (between)
                     [df] => 2      // Degrees of freedom
                     [MS] => 12     // Mean squares
-                    [F] => 12      // Test statistic F
+                    [F] => 12      // Test statistic
                     [P] => 0.008   // P value
                 )
             [error] => Array (
