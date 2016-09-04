@@ -29,6 +29,7 @@ Features
      - Basic
      - Advanced
  * Statistics
+     - ANOVA
      - Averages
      - Correlation
      - Descriptive
@@ -748,6 +749,77 @@ $hexagons = Advanced::hexagonalNumber($n);
 // Heptagonal numbers (figurate number)
 $hexagons = Advanced::heptagonalNumber($n)
 // [1, 4, 7, 13, 18, 27] - Indexed from 1
+```
+
+### Statistics - ANOVA
+```php
+use Math\Statistics\ANOVA;
+
+$sample1 = [1, 2, 3];
+$sample2 = [3, 4, 5];
+$sample3 = [5, 6, 7];
+   ⋮            ⋮
+
+// One-way ANOVA
+$anova = ANOVA::oneWay($sample1, $sample2, $sample3);
+/* Array (
+    [ANOVA] => Array (             // ANOVA hypothesis test summary data
+            [treatment] => Array (
+                    [SS] => 24     // Sum of squares (between)
+                    [df] => 2      // Degrees of freedom
+                    [MS] => 12     // Mean squares
+                    [F] => 12      // Test statistic F
+                    [P] => 0.008   // P value
+                )
+            [error] => Array (
+                    [SS] => 6      // Sum of squares (within)
+                    [df] => 6      // Degrees of freedom
+                    [MS] => 1      // Mean squares
+                )
+            [total] => Array (
+                    [SS] => 30     // Sum of squares (total)
+                    [df] => 8      // Degrees of freedom
+                )
+        )
+    [total_summary] => Array (     // Total summary data
+            [n] => 9
+            [sum] => 36
+            [mean] => 4
+            [SS] => 174
+            [variance] => 3.75
+            [sd] => 1.9364916731037
+            [sem] => 0.6454972243679
+        )
+    [data_summary] => Array (      // Data summary (each input sample)
+            [0] => Array (
+                    [n] => 3
+                    [sum] => 6
+                    [mean] => 2
+                    [SS] => 14
+                    [variance] => 1
+                    [sd] => 1
+                    [sem] => 0.57735026918963
+                )
+            [1] => Array (
+                    [n] => 3
+                    [sum] => 12
+                    [mean] => 4
+                    [SS] => 50
+                    [variance] => 1
+                    [sd] => 1
+                    [sem] => 0.57735026918963
+                )
+            [2] => Array (
+                    [n] => 3
+                    [sum] => 18
+                    [mean] => 6
+                    [SS] => 110
+                    [variance] => 1
+                    [sd] => 1
+                    [sem] => 0.57735026918963
+                )
+        )
+) */
 ```
 
 ### Statistics - Averages
