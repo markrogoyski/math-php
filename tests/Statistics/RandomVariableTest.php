@@ -231,6 +231,30 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForSumOfSquares
+     */
+    public function testSumOfSquares(array $numbers, $sos)
+    {
+        $this->assertEquals($sos, RandomVariable::sumOfSquares($numbers), '', 0.001);
+    }
+
+    public function dataProviderForSumOfSquares()
+    {
+        return [
+            [ [3, 6, 7, 11, 12, 13, 17], 817],
+            [ [6, 11, 12, 14, 15, 20, 21], 1563],
+            [ [1, 2, 3, 6, 7, 11, 12], 364],
+            [ [1, 2, 3, 4, 5, 6, 7, 8, 9, 0], 285],
+            [ [34, 253, 754, 2342, 75, 23, 876, 4, 1, -34, -345, 754, -377, 3, 0], 7723027],
+        ];
+    }
+
+    public function testSumOfSquaresNullWhenEmptyArray()
+    {
+        $this->assertNull(RandomVariable::sumOfSquares(array()));
+    }
+
+    /**
      * @dataProvider dataProviderForSumOfSquaresDeviations
      */
     public function testSumOfSquaresDeviations(array $numbers, $sos)
