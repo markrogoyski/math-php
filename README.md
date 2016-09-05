@@ -29,14 +29,14 @@ Features
      - [Basic](#sequences---basic)
      - [Advanced](#sequences---advanced)
  * Statistics
-     - [ANOVA](statistics---anova)
-     - [Averages](statistics---averages)
-     - [Correlation](statistics---correlation)
-     - [Descriptive](statistics---descriptive)
-     - [Distributions](statistics---distributions)
-     - [Experiments](statistics---experiments)
-     - [Random Variables](statistics---random-variables)
-     - [Regressions](statistics---regressions)
+     - [ANOVA](#statistics---anova)
+     - [Averages](#statistics---averages)
+     - [Correlation](#statistics---correlation)
+     - [Descriptive](#statistics---descriptive)
+     - [Distributions](#statistics---distributions)
+     - [Experiments](#statistics---experiments)
+     - [Random Variables](#statistics---random-variables)
+     - [Regressions](#statistics---regressions)
      - [Significance Testing](#statistics---significance-testing)
 
 Setup
