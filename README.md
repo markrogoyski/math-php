@@ -769,8 +769,8 @@ print_r($anova);
                     [SS] => 24     // Sum of squares (between)
                     [df] => 2      // Degrees of freedom
                     [MS] => 12     // Mean squares
-                    [F] => 12      // Test statistic
-                    [P] => 0.008   // P value
+                    [F]  => 12     // Test statistic
+                    [P]  => 0.008  // P value
                 )
             [error] => Array (
                     [SS] => 6      // Sum of squares (within)
@@ -783,41 +783,41 @@ print_r($anova);
                 )
         )
     [total_summary] => Array (     // Total summary data
-            [n] => 9
-            [sum] => 36
-            [mean] => 4
-            [SS] => 174
+            [n]        => 9
+            [sum]      => 36
+            [mean]     => 4
+            [SS]       => 174
             [variance] => 3.75
-            [sd] => 1.9364916731037
-            [sem] => 0.6454972243679
+            [sd]       => 1.9364916731037
+            [sem]      => 0.6454972243679
         )
     [data_summary] => Array (      // Data summary (each input sample)
             [0] => Array (
-                    [n] => 3
-                    [sum] => 6
-                    [mean] => 2
-                    [SS] => 14
+                    [n]        => 3
+                    [sum]      => 6
+                    [mean]     => 2
+                    [SS]       => 14
                     [variance] => 1
-                    [sd] => 1
-                    [sem] => 0.57735026918963
+                    [sd]       => 1
+                    [sem]      => 0.57735026918963
                 )
             [1] => Array (
-                    [n] => 3
-                    [sum] => 12
-                    [mean] => 4
-                    [SS] => 50
+                    [n]        => 3
+                    [sum]      => 12
+                    [mean]     => 4
+                    [SS]       => 50
                     [variance] => 1
-                    [sd] => 1
-                    [sem] => 0.57735026918963
+                    [sd]       => 1
+                    [sem]      => 0.57735026918963
                 )
             [2] => Array (
-                    [n] => 3
-                    [sum] => 18
-                    [mean] => 6
-                    [SS] => 110
+                    [n]        => 3
+                    [sum]      => 18
+                    [mean]     => 6
+                    [SS]       => 110
                     [variance] => 1
-                    [sd] => 1
-                    [sem] => 0.57735026918963
+                    [sd]       => 1
+                    [sem]      => 0.57735026918963
                 )
         )
 ) */
