@@ -9,35 +9,35 @@ It is actively under development with development (0.y.z) releases.
 
 Features
 --------
- * [Algebra](### Algebra)
+ * [Algebra](#algebra)
  * Functions
-   - [Map](### Functions - Map - Single Array)
-   - [Special Functions](### Functions - Special Functions)
+   - [Map](#functions---map---single-array)
+   - [Special Functions](#functions---special-functions)
  * Linear Algebra
-   - [Matrix](### Linear Algebra - Matrix)
-   - [Vector](### Linear Algebra - Vector)
+   - [Matrix](#linear-algebra---matrix)
+   - [Vector](#linear-algebra---vector)
  * Numerical Analysis
-   - [Numerical Integration](### Numerical Analysis - Numerical Integration)
-   - [Root Finding](### Numerical Analysis - Root Finding)
+   - [Numerical Integration](#numerical-analysis---numerical-integration)
+   - [Root Finding](#numerical-analysis---root-finding)
  * Probability
-     - [Combinatorics](### Probability - Combinatorics)
+     - [Combinatorics](#probability---combinatorics)
      - Distributions
-         * [Continuous](### Probability - Continuous Distributions)
-         * [Discrete](### Probability - Discrete Distributions)
-         * [Tables](### Probability - Distribution Tables)
+         * [Continuous](#probability---continuous-distributions)
+         * [Discrete](#probability---discrete-distributions)
+         * [Tables](#probability---distribution-tables)
  * Sequences
-     - [Basic](### Sequences - Basic)
-     - [Advanced](### Sequences - Advanced)
+     - [Basic](#sequences---basic)
+     - [Advanced](#sequences---advanced)
  * Statistics
-     - [ANOVA](### Statistics - ANOVA)
-     - [Averages](### Statistics - Averages)
-     - [Correlation](### Statistics - Correlation)
-     - [Descriptive](### Statistics - Descriptive)
-     - [Distributions](### Statistics - Distributions)
-     - [Experiments](### Statistics - Experiments)
-     - [Random Variables](### Statistics - Random Variables)
-     - [Regressions](### Statistics - Regressions)
-     - [Significance Testing](### Significance Testing)
+     - [ANOVA](statistics---anova)
+     - [Averages](statistics---averages)
+     - [Correlation](statistics---correlation)
+     - [Descriptive](statistics---descriptive)
+     - [Distributions](statistics---distributions)
+     - [Experiments](statistics---experiments)
+     - [Random Variables](statistics---random-variables)
+     - [Regressions](statistics---regressions)
+     - [Significance Testing](#statistics---significance-testing)
 
 Setup
 -----
@@ -1206,7 +1206,7 @@ $Ŷ          = $regression->yHat();
  ⋮                     ⋮
 ```
 
-### Significance Testing
+### Statistics - Significance Testing
 ```php
 use Math\Statistics\Significance;
 
