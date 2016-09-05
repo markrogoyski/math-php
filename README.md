@@ -9,35 +9,35 @@ It is actively under development with development (0.y.z) releases.
 
 Features
 --------
- * Algebra
+ * [Algebra](### Algebra)
  * Functions
-   - Map
-   - Special Functions
+   - [Map](### Functions - Map - Single Array)
+   - [Special Functions](### Functions - Special Functions)
  * Linear Algebra
-   - Matrix
-   - Vector
+   - [Matrix](### Linear Algebra - Matrix)
+   - [Vector](### Linear Algebra - Vector)
  * Numerical Analysis
-   - Numerical Integration
-   - Root Finding
+   - [Numerical Integration](### Numerical Analysis - Numerical Integration)
+   - [Root Finding](### Numerical Analysis - Root Finding)
  * Probability
-     - Combinatorics
+     - [Combinatorics](### Probability - Combinatorics)
      - Distributions
-         * Continuous
-         * Discrete
-         * Tables
+         * [Continuous](### Probability - Continuous Distributions)
+         * [Discrete](### Probability - Discrete Distributions)
+         * [Tables](### Probability - Distribution Tables)
  * Sequences
-     - Basic
-     - Advanced
+     - [Basic](### Sequences - Basic)
+     - [Advanced](### Sequences - Advanced)
  * Statistics
-     - ANOVA
-     - Averages
-     - Correlation
-     - Descriptive
-     - Distributions
-     - Experiments
-     - Random Variables
-     - Regressions
-     - Significance Testing
+     - [ANOVA](### Statistics - ANOVA)
+     - [Averages](### Statistics - Averages)
+     - [Correlation](### Statistics - Correlation)
+     - [Descriptive](### Statistics - Descriptive)
+     - [Distributions](### Statistics - Distributions)
+     - [Experiments](### Statistics - Experiments)
+     - [Random Variables](### Statistics - Random Variables)
+     - [Regressions](### Statistics - Regressions)
+     - [Significance Testing](### Significance Testing)
 
 Setup
 -----
