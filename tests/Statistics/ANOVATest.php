@@ -252,4 +252,92 @@ class ANOVATest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         ANOVA::oneWay($sample1, $sample2, $sample3);
     }
+
+    /**
+     * @dataProvider dataProviderForOneWayAxiomsThreeSamples
+     */
+    public function testOneWayAxiomsThreeSamples(array $sample1, array $sample2, array $sample3)
+    {
+        $anova = ANOVA::oneWay($sample1, $sample2, $sample3);
+
+        // SST = SSB + SSW
+        $SST = $anova['ANOVA']['total']['SS'];
+        $SSB = $anova['ANOVA']['treatment']['SS'];
+        $SSW = $anova['ANOVA']['error']['SS'];
+        $this->assertEquals($SST, $SSB + $SSW);
+
+        // dfT = dfB + dfW
+        $dfT = $anova['ANOVA']['total']['df'];
+        $dfB = $anova['ANOVA']['treatment']['df'];
+        $dfW = $anova['ANOVA']['error']['df'];
+        $this->assertEquals($dfT, $dfB + $dfW);
+    }
+
+    public function dataProviderForOneWayAxiomsThreeSamples()
+    {
+        return [
+            [
+                [1, 2, 3],
+                [3, 4, 5],
+                [5, 6, 7],
+            ],
+            [
+                [4, 5, 3, 6, 5],
+                [5, 4, 3, 4, 4],
+                [7, 6, 6, 5, 6],
+            ],
+            [
+                [-4, 4, 5, 6, 7],
+                [-5, 4, 6, 6, 7],
+                [0, 1, 2, 3, 4],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForOneWayAxiomsFiveSamples
+     */
+    public function testOneWayAxiomsFiveSamples(array $sample1, array $sample2, array $sample3, array $sample4, array $sample5)
+    {
+        $anova = ANOVA::oneWay($sample1, $sample2, $sample3, $sample4, $sample5);
+
+        // SST = SSB + SSW
+        $SST = $anova['ANOVA']['total']['SS'];
+        $SSB = $anova['ANOVA']['treatment']['SS'];
+        $SSW = $anova['ANOVA']['error']['SS'];
+        $this->assertEquals($SST, $SSB + $SSW);
+
+        // dfT = dfB + dfW
+        $dfT = $anova['ANOVA']['total']['df'];
+        $dfB = $anova['ANOVA']['treatment']['df'];
+        $dfW = $anova['ANOVA']['error']['df'];
+        $this->assertEquals($dfT, $dfB + $dfW);
+    }
+
+    public function dataProviderForOneWayAxiomsFiveSamples()
+    {
+        return [
+            [
+                [1, 2, 3],
+                [3, 4, 5],
+                [5, 6, 7],
+                [7, 8, 9],
+                [9, 10, 11],
+            ],
+            [
+                [4, 5, 3, 6, 5],
+                [5, 4, 3, 4, 4],
+                [7, 6, 6, 5, 6],
+                [5, 6, 6, 5, 4],
+                [8, 7, 7, 6, 7],
+            ],
+            [
+                [-4, 4, 5, 6, 7],
+                [-5, 4, 6, 6, 7],
+                [0, 1, 2, 3, 4],
+                [-2, -1, -1, 4, 5],
+                [5, 5, 5, 5, 5],
+            ],
+        ];
+    }
 }
