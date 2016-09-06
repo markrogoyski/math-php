@@ -1,5 +1,4 @@
 <?php
-
 namespace Math\NumericalAnalysis\Interpolation;
 
 /**
@@ -26,6 +25,10 @@ abstract class Interpolation
      * output array. If $source is a set of arrays, simply set $points to
      * $source. If $source is neither, throw an Exception.
      *
+     * @todo  Add method to verify function is continuous on our interval
+     * @todo  Add method to verify input arguments are valid.
+     *        Verify $start and $end are numbers, $end > $start, and $points is an integer > 1
+     *
      * @param          $source The source of our approximation. Should be either
      *                         a callback function or a set of arrays.
      * @param  array   $args   The arguments of our callback function: start,
@@ -38,10 +41,6 @@ abstract class Interpolation
     public static function getPoints($source, array $args = []): array
     {
         if (is_callable($source)) {
-            // To do: Add method to verify function is continuous on our interval
-            // To do: Add method to verify input arguments are valid. Verify
-            //        $start and $end are numbers, $end > $start, and $points is
-            //        an integer > 1
             $function = $source;
             $start    = $args[0];
             $end      = $args[1];

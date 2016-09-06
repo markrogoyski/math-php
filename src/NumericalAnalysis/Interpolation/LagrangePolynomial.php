@@ -28,6 +28,8 @@ use Math\Functions\Arithmetic;
 class LagrangePolynomial extends Interpolation
 {
     /**
+     * Interpolate
+     *
      * @param          $source   The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
      *                           (point) contains precisely two numbers, an x and y.
@@ -59,7 +61,7 @@ class LagrangePolynomial extends Interpolation
             return 0; // $p⟮t⟯ = 0
         };
 
-        /*         ₙ      ₙ
+        /*         n      n
          *   p⟮t⟯ = ∑ f⟮xᵢ⟯ Π (x - xᵢ) / (xⱼ - xᵢ)
          *        ⁱ⁼⁰    ʲ⁼⁰
          *              ʲꜝ⁼ⁱ
