@@ -36,9 +36,9 @@ class Arithmetic
         $keys = array_keys($functionKeys);
         $expression = implode($keys, ', ');
 
-        eval('$result = function($x) use (' . $expression . ', $sum) {
-            return $sum($x, ' . $expression . ');
-        };');
+        $result = function($x) use ($args, $sum) {
+            return call_user_func_array($sum, array_merge([$x], $args));
+        };
 
         return $result;
     }
@@ -72,9 +72,9 @@ class Arithmetic
         $keys = array_keys($functionKeys);
         $expression = implode($keys, ', ');
 
-        eval('$result = function($x) use (' . $expression . ', $product) {
-            return $product($x, ' . $expression . ');
-        };');
+        $result = function($x) use ($args, $product) {
+            return call_user_func_array($product, array_merge([$x], $args));
+        };
 
         return $result;
     }
