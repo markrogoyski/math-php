@@ -55,7 +55,9 @@ class LagrangePolynomial extends Interpolation
 
         // Initialize
         $n   = count($sorted);
-        $p⟮t⟯ = function ($t) { return 0; }; // $p⟮t⟯ = 0
+        $p⟮t⟯ = function ($t) {
+            return 0; // $p⟮t⟯ = 0
+        };
 
         /*         ₙ      ₙ
          *   p⟮t⟯ = ∑ f⟮xᵢ⟯ Π (x - xᵢ) / (xⱼ - xᵢ)
