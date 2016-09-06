@@ -36,7 +36,7 @@ class Arithmetic
         $keys = array_keys($functionKeys);
         $expression = implode($keys, ', ');
 
-        $result = function($x) use ($args, $sum) {
+        $result = function ($x) use ($args, $sum) {
             return call_user_func_array($sum, array_merge([$x], $args));
         };
 
@@ -72,7 +72,7 @@ class Arithmetic
         $keys = array_keys($functionKeys);
         $expression = implode($keys, ', ');
 
-        $result = function($x) use ($args, $product) {
+        $result = function ($x) use ($args, $product) {
             return call_user_func_array($product, array_merge([$x], $args));
         };
 
