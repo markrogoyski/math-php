@@ -15,7 +15,7 @@ class Arithmetic
      *
      * @return callable          Sum of the input functions
      */
-    public static function add(Callable ...$args)
+    public static function add(callable ...$args)
     {
         $sum = function ($x, ... $args) {
             $function = 0;
@@ -38,7 +38,7 @@ class Arithmetic
      *
      * @return callable          Product of the input functions
      */
-    public static function multiply(Callable ...$args)
+    public static function multiply(callable ...$args)
     {
         $product = function ($x, ... $args) {
             $function = 1;
