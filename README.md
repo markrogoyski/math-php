@@ -18,7 +18,7 @@ Features
    - [Vector](#linear-algebra---vector)
  * Numerical Analysis
    - [Interpolation](#numerical-analysis---interpolation)
-   - [Numerical Integratio](#numerical-analysis---numerical-integration)
+   - [Numerical Integration](#numerical-analysis---numerical-integration)
    - [Root Finding](#numerical-analysis---root-finding)
  * Probability
      - [Combinatorics](#probability---combinatorics)
@@ -340,7 +340,7 @@ use Math\NumericalAnalysis\Interpolation;
 // Lagrange Polynomial
 // Returns a function p(x) of x
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$p = LagrangePolynomial::interpolate($points); // input as a set of points
+$p      = LagrangePolynomial::interpolate($points); // input as a set of points
 
 $p(0) // 1
 $p(3) // 16
@@ -353,7 +353,6 @@ $p = LagrangePolynomial::interpolate($f⟮x⟯, $start, $end, $n); // input as a
 
 $p(0) // 1
 $p(3) // 16
-
 ```
 
 ### Numerical Analysis - Numerical Integration
