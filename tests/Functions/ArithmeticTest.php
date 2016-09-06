@@ -187,23 +187,4 @@ class ArithmeticTest extends \PHPUnit_Framework_TestCase
         $x = $product(-5);
         $this->assertEquals($expected, $x);
     }
-
-    public function testIncorrectInput()
-    {
-        // f(x) = x - 9
-        $f = function ($x) {
-            return $x - 9;
-        };
-
-        // g(x) = x + 2
-        $g = function ($x) {
-            return $x + 2;
-        };
-
-        // h = 2
-        $h = 2;
-
-        $this->setExpectedException('\Exception');
-        $x = Arithmetic::add($f, $g, $h);
-    }
 }

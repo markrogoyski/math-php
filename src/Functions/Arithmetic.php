@@ -15,11 +15,8 @@ class Arithmetic
      *
      * @return callable          Sum of the input functions
      */
-    public static function add(... $args)
+    public static function add(Callable ...$args)
     {
-        // Validate input arguments
-        self::validate($args);
-
         $sum = function ($x, ... $args) {
             $function = 0;
             foreach ($args as $arg) {
@@ -28,19 +25,9 @@ class Arithmetic
             return $function;
         };
 
-        $functionKeys = [];
-        for ($i = 0; $i < count($args); $i++) {
-            ${'function' . $i} = $args[$i];
-            $functionKeys['$function' . $i] = null;
-        }
-        $keys = array_keys($functionKeys);
-        $expression = implode($keys, ', ');
-
-        $result = function ($x) use ($args, $sum) {
+        return function ($x) use ($args, $sum) {
             return call_user_func_array($sum, array_merge([$x], $args));
         };
-
-        return $result;
     }
 
     /**
@@ -51,11 +38,8 @@ class Arithmetic
      *
      * @return callable          Product of the input functions
      */
-    public static function multiply(... $args)
+    public static function multiply(Callable ...$args)
     {
-        // Validate input arguments
-        self::validate($args);
-
         $product = function ($x, ... $args) {
             $function = 1;
             foreach ($args as $arg) {
@@ -64,35 +48,8 @@ class Arithmetic
             return $function;
         };
 
-        $functionKeys = [];
-        for ($i = 0; $i < count($args); $i++) {
-            ${'function' . $i} = $args[$i];
-            $functionKeys['$function' . $i] = null;
-        }
-        $keys = array_keys($functionKeys);
-        $expression = implode($keys, ', ');
-
-        $result = function ($x) use ($args, $product) {
+        return function ($x) use ($args, $product) {
             return call_user_func_array($product, array_merge([$x], $args));
         };
-
-        return $result;
-    }
-
-    /**
-     * Verifies that each input is a callback functions.
-     *
-     * @param callable ... $args Two or more single-variable callback functions
-     *
-     * @throws Exception if any of our inputs are not callback functions
-     */
-    public static function validate($args)
-    {
-        foreach ($args as $arg) {
-            if (!is_callable($arg)) {
-                throw new \Exception("Every argument in your input needs to be
-                                      a (callback) function.");
-            }
-        }
     }
 }
