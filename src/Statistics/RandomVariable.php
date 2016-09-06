@@ -3,7 +3,8 @@ namespace Math\Statistics;
 
 use Math\Statistics\Average;
 use Math\Statistics\Descriptive;
-use Math\Probability\StandardNormalTable;
+use Math\Probability\Distribution\Table;
+use Math\Functions\Map;
 
 /**
  * Functions dealing with random variables.
@@ -337,7 +338,7 @@ class RandomVariable
      */
     public static function confidenceInterval($μ, $n, $σ, string $cl): array
     {
-        $z = StandardNormalTable::getZScoreForConfidenceInterval($cl);
+        $z = Table\StandardNormal::getZScoreForConfidenceInterval($cl);
 
         $ci = $z * ($σ / sqrt($n));
 
@@ -349,6 +350,26 @@ class RandomVariable
             'lower_bound' => $lower_bound,
             'upper_bound' => $upper_bound,
         ];
+    }
+
+    /**
+     * Sum of squares
+     *
+     * ∑⟮xᵢ⟯²
+     *
+     * @param array $numbers
+     *
+     * @return number
+     */
+    public static function sumOfSquares(array $numbers)
+    {
+        if (empty($numbers)) {
+            return null;
+        }
+
+         $∑⟮xᵢ⟯² = array_sum(Map\Single::square($numbers));
+
+         return $∑⟮xᵢ⟯²;
     }
 
     /**

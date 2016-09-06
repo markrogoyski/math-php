@@ -1,5 +1,5 @@
 <?php
-namespace Math\Probability;
+namespace Math\Probability\Distribution\Table;
 
 /**
  * Student's t distribution table of selected values
@@ -9,8 +9,12 @@ namespace Math\Probability;
  * Second index is confidence level precentage, or alpha value (α).
  *
  * https://en.wikipedia.org/wiki/Student%27s_t-distribution#Table_of_selected_values
+ *
+ * This table is provided only for completeness. It is common for statistics
+ * textbooks to include this table, so this library does as well. It is better
+ * to use the StudentT distribution functions when a t value is required.
  */
-class TDistributionTable
+class TDistribution
 {
     /**
      * One-sided t distribution table

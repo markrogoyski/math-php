@@ -9,35 +9,35 @@ It is actively under development with development (0.y.z) releases.
 
 Features
 --------
- * Algebra
+ * [Algebra](#algebra)
  * Functions
-   - Map
-   - Special Functions
+   - [Map](#functions---map---single-array)
+   - [Special Functions](#functions---special-functions)
  * Linear Algebra
-   - Matrix
-   - Vector
+   - [Matrix](#linear-algebra---matrix)
+   - [Vector](#linear-algebra---vector)
  * Numerical Analysis
-   - Numerical Integration
-   - Root Finding
+   - [Numerical Integration](#numerical-analysis---numerical-integration)
+   - [Root Finding](#numerical-analysis---root-finding)
  * Probability
-     - Combinatorics
+     - [Combinatorics](#probability---combinatorics)
      - Distributions
-         * Continuous
-         * Discrete
-     - Standard Normal Table (Z Table)
-     - t Distribution Table
+         * [Continuous](#probability---continuous-distributions)
+         * [Discrete](#probability---discrete-distributions)
+         * [Tables](#probability---distribution-tables)
  * Sequences
-     - Basic
-     - Advanced
+     - [Basic](#sequences---basic)
+     - [Advanced](#sequences---advanced)
  * Statistics
-     - Averages
-     - Correlation
-     - Descriptive
-     - Distributions
-     - Experiments
-     - Random Variables
-     - Regressions
-     - Significance Testing
+     - [ANOVA](#statistics---anova)
+     - [Averages](#statistics---averages)
+     - [Correlation](#statistics---correlation)
+     - [Descriptive](#statistics---descriptive)
+     - [Distributions](#statistics---distributions)
+     - [Experiments](#statistics---experiments)
+     - [Random Variables](#statistics---random-variables)
+     - [Regressions](#statistics---regressions)
+     - [Significance Testing](#statistics---significance-testing)
 
 Setup
 -----
@@ -47,7 +47,7 @@ Setup
 ```javascript
 {
   "require": {
-      "markrogoyski/math-php": "0.1.*"
+      "markrogoyski/math-php": "0.*"
   }
 }
 ```
@@ -644,47 +644,37 @@ $pmf = ShiftedGeometric::PMF($k, $p);
 $cdf = ShiftedGeometric::CDF($k, $p);
 ```
 
-### Probability - Standard Normal Table (Z Table)
+### Probability - Distribution Tables
 ```php
-use Math\Probability\StandardNormalTable;
+use Math\Probability\Distribution\Table;
 
-// Get probability from Z-score
-$Z           = 1.50;
-$probability = StandardNormalTable::getZScoreProbability($Z);
+// Provided solely for completeness' sake.
+// It is statistics tradition to provide these tables.
+// Math PHP has dynamic distribution CDF functions you can use instead.
 
-// Access the entire Z table (positive and negative Z-scores)
-$z_table     = StandardNormalTable::Z_SCORES;
-$probability = $z_table[1.5][0];
+// Standard Normal Table (Z Table)
+$table       = Table\StandardNormal::Z_SCORES;
+$probability = $table[1.5][0];                 // Value for Z of 1.50
 
-// Get Z-score for confidence interval
-$cl = 99; // confidence level
-$z  = StandardNormalTable::getZScoreForConfidenceInterval($cl);
-```
-
-### Probability - t Distribution Table
-```php
-use Math\Probability\TDistributionTable;
-
-// Get t critical value from degrees of freedom (ν) and confidence level (cl)
+// t Distribution Tables
+$table   = Table\TDistribution::ONE_SIDED_CONFIDENCE_LEVEL;
+$table   = Table\TDistribution::TWO_SIDED_CONFIDENCE_LEVEL;
 $ν       = 5;  // degrees of freedom
 $cl      = 99; // confidence level
-$t_value = TDistributionTable::getOneSidedTValueFromConfidenceLevel($ν, $cl);
-$t_value = TDistributionTable::getTwoSidedTValueFromConfidenceLevel($ν, $cl);
+$t       = $table[$ν][$cl];
 
-// Get t critical value from degrees of freedom (ν) and alpha value (α)
-$ν       = 5;     // degrees of freedom
-$α       = 0.001; // alpha value
-$t_value = TDistributionTable::getOneSidedTValueFromAlpha($ν, $α);
-$t_value = TDistributionTable::getTwoSidedTValueFromAlpha($ν, $α);
+// t Distribution Tables
+$table = Table\TDistribution::ONE_SIDED_ALPHA;
+$table = Table\TDistribution::TWO_SIDED_ALPHA;
+$ν     = 5;     // degrees of freedom
+$α     = 0.001; // alpha value
+$t     = $table[$ν][$α];
 
-// Access the entire t table (one and two sided; confidence levels and alphas)
-$t_table = TDistributionTable::ONE_SIDED_CONFIDENCE_LEVEL;
-$t_table = TDistributionTable::TWO_SIDED_CONFIDENCE_LEVEL;
-$t_value = $t_table[$ν][$cl];
-
-$t_table = TDistributionTable::ONE_SIDED_ALPHA;
-$t_table = TDistributionTable::TWO_SIDED_ALPHA;
-$t_table = $t_table[$ν][$α];
+// χ² Distribution Table
+$table = Table\ChiSquared::CHI_SQUARED_SCORES;
+$df    = 2;    // degrees of freedom
+$p     = 0.05; // P value
+$χ²    = $table[$df][$p];
 ```
 
 ### Sequences - Basic
@@ -759,6 +749,78 @@ $hexagons = Advanced::hexagonalNumber($n);
 // Heptagonal numbers (figurate number)
 $hexagons = Advanced::heptagonalNumber($n)
 // [1, 4, 7, 13, 18, 27] - Indexed from 1
+```
+
+### Statistics - ANOVA
+```php
+use Math\Statistics\ANOVA;
+
+$sample1 = [1, 2, 3];
+$sample2 = [3, 4, 5];
+$sample3 = [5, 6, 7];
+   ⋮            ⋮
+
+// One-way ANOVA
+$anova = ANOVA::oneWay($sample1, $sample2, $sample3);
+print_r($anova);
+/* Array (
+    [ANOVA] => Array (             // ANOVA hypothesis test summary data
+            [treatment] => Array (
+                    [SS] => 24     // Sum of squares (between)
+                    [df] => 2      // Degrees of freedom
+                    [MS] => 12     // Mean squares
+                    [F]  => 12     // Test statistic
+                    [P]  => 0.008  // P value
+                )
+            [error] => Array (
+                    [SS] => 6      // Sum of squares (within)
+                    [df] => 6      // Degrees of freedom
+                    [MS] => 1      // Mean squares
+                )
+            [total] => Array (
+                    [SS] => 30     // Sum of squares (total)
+                    [df] => 8      // Degrees of freedom
+                )
+        )
+    [total_summary] => Array (     // Total summary data
+            [n]        => 9
+            [sum]      => 36
+            [mean]     => 4
+            [SS]       => 174
+            [variance] => 3.75
+            [sd]       => 1.9364916731037
+            [sem]      => 0.6454972243679
+        )
+    [data_summary] => Array (      // Data summary (each input sample)
+            [0] => Array (
+                    [n]        => 3
+                    [sum]      => 6
+                    [mean]     => 2
+                    [SS]       => 14
+                    [variance] => 1
+                    [sd]       => 1
+                    [sem]      => 0.57735026918963
+                )
+            [1] => Array (
+                    [n]        => 3
+                    [sum]      => 12
+                    [mean]     => 4
+                    [SS]       => 50
+                    [variance] => 1
+                    [sd]       => 1
+                    [sem]      => 0.57735026918963
+                )
+            [2] => Array (
+                    [n]        => 3
+                    [sum]      => 18
+                    [mean]     => 6
+                    [SS]       => 110
+                    [variance] => 1
+                    [sd]       => 1
+                    [sem]      => 0.57735026918963
+                )
+        )
+) */
 ```
 
 ### Statistics - Averages
@@ -913,7 +975,7 @@ $ninety_fifth_percentile = Descriptive::percentile($numbers, 95);
 // Midhinge
 $midhinge = Descriptive::midhinge($numbers);
 
-// Descriptive stats report
+// Describe a list of numbers - descriptive stats report
 $stats = Descriptive::describe($numbers); // Has optional parameter to set population or sample calculations
 print_r($stats);
 /* Array (
@@ -955,6 +1017,10 @@ print_r($stats);
             [upper_bound] => 17.428515813578
         )
 ) */
+
+// Five number summary - five most important sample percentiles
+$summary = Descriptive::fiveNumberSummary($numbers);
+// [min, Q1, median, Q3, max]
 ```
 
 ### Statistics - Distributions
@@ -1140,7 +1206,7 @@ $Ŷ          = $regression->yHat();
  ⋮                     ⋮
 ```
 
-### Significance Testing
+### Statistics - Significance Testing
 ```php
 use Math\Statistics\Significance;
 
@@ -1195,7 +1261,7 @@ $n  = 15;  // Sample size
 $H₀ = 300; // Null hypothesis (μ₀ Population mean)
 $t  = Significance::tScore($Hₐ, $s, $n, $H);
 
-// χ² test (chi-squared test)
+// χ² test (chi-squared goodness of fit test)
 $observed = [4, 6, 17, 16, 8, 9];
 $expected = [10, 10, 10, 10, 10, 10];
 $χ²       = Significance::chiSquaredTest($observed, $expected);

@@ -215,14 +215,17 @@ class Significance
     }
 
     /**
-     * χ² test (chi-squared test)
+     * χ² test (chi-squared goodness of fit test)
      * Tests the hypothesis that data were generated according to a
      * particular chance model (Statistics [Freedman, Pisani, Purves]).
      * https://en.wikipedia.org/wiki/Chi-squared_test#Example_chi-squared_test_for_categorical_data
      *
-     *        (observed - expected)²
-     * χ² = ∑ ----------------------
-     *               expected
+     *        (Oᵢ - Eᵢ)²
+     * χ² = ∑ ----------
+     *            Eᵢ
+     *  where:
+     *   O = observed value
+     *   E = expected value
      *
      * k (degrees of freedom) = number of terms - 1
      *
@@ -242,19 +245,19 @@ class Significance
         }
 
         // Reset array indexes and initialize
-        $observed = array_values($observed);
-        $expected = array_values($expected);
-        $n        = count($observed);        // number of terms
-        $k        = $n - 1;                  // degrees of freedom
-        $χ²       = 0;
+        $O  = array_values($observed);
+        $E  = array_values($expected);
+        $n  = count($observed);        // number of terms
+        $k  = $n - 1;                  // degrees of freedom
+        $χ² = 0;
 
         /*
-         *        (observed - expected)²
-         * χ² = ∑ ----------------------
-         *               expected
+         *        (Oᵢ - Eᵢ)²
+         * χ² = ∑ ----------
+         *            Eᵢ
          */
         for ($i = 0; $i < $n; $i++) {
-            $χ² += (($observed[$i] - $expected[$i])**2) / $expected[$i];
+            $χ² += (($O[$i] - $E[$i])**2) / $E[$i];
         }
 
         $p = ChiSquared::above($χ², $k);

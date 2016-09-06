@@ -1,7 +1,7 @@
 <?php
-namespace Math\Probability;
+namespace Math\Probability\Distribution\Table;
 
-class StandardNormalTableTest extends \PHPUnit_Framework_TestCase
+class StandardNormalTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -9,7 +9,7 @@ class StandardNormalTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetZScoreProbability($Z, $Φ)
     {
-        $this->assertEquals($Φ, StandardNormalTable::getZScoreProbability($Z), '', 0.0001);
+        $this->assertEquals($Φ, StandardNormal::getZScoreProbability($Z), '', 0.0001);
     }
 
     public function dataProviderForZScores()
@@ -27,7 +27,7 @@ class StandardNormalTableTest extends \PHPUnit_Framework_TestCase
     public function testGetZScoreProbabilityExceptionZBadFormat()
     {
         $this->setExpectedException('\Exception');
-        StandardNormalTable::getZScoreProbability('12.34');
+        StandardNormal::getZScoreProbability('12.34');
     }
 
     /**
@@ -35,7 +35,7 @@ class StandardNormalTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetZScoreForConfidenceInterval(string $cl, float $Z)
     {
-        $this->assertEquals($Z, StandardNormalTable::getZScoreForConfidenceInterval($cl), '', 0.01);
+        $this->assertEquals($Z, StandardNormal::getZScoreForConfidenceInterval($cl), '', 0.01);
     }
 
     public function dataProviderForZScoresForConfidenceInterval()
@@ -52,6 +52,6 @@ class StandardNormalTableTest extends \PHPUnit_Framework_TestCase
     public function testGetZScoreForConfidenceIntervalInvalidConfidenceLevel()
     {
         $this->setExpectedException('\Exception');
-        StandardNormalTable::getZScoreForConfidenceInterval(12);
+        StandardNormal::getZScoreForConfidenceInterval(12);
     }
 }
