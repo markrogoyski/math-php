@@ -17,7 +17,8 @@ Features
    - [Matrix](#linear-algebra---matrix)
    - [Vector](#linear-algebra---vector)
  * Numerical Analysis
-   - [Numerical Integration](#numerical-analysis---numerical-integration)
+   - [Interpolation](#numerical-analysis---interpolation)
+   - [Numerical Integratio](#numerical-analysis---numerical-integration)
    - [Root Finding](#numerical-analysis---root-finding)
  * Probability
      - [Combinatorics](#probability---combinatorics)
@@ -323,6 +324,36 @@ $matrix = $A->outerProduct(new Vector([1, 2]));
 
 // Print a vector
 print($A); // [1, 2, 3]
+```
+
+### Numerical Analysis - Interpolation
+```php
+use Math\NumericalAnalysis\Interpolation;
+
+// Interpolation is a method of constructing new data points with the range
+// of a discrete set of known data points.
+// Each integration method can take input in two ways:
+//  1) As a set of points (inputs and outputs of a function)
+//  2) As a callback function, and the number of function evaluations to
+//     perform on an interval between a start and end point.
+
+// Lagrange Polynomial
+// Returns a function p(x) of x
+$points = [[0, 1], [1, 4], [2, 9], [3, 16]];
+$p = LagrangePolynomial::interpolate($points); // input as a set of points
+
+$p(0) // 1
+$p(3) // 16
+
+$f⟮x⟯ = function ($x) {
+    return $x**2 + 2 * $x + 1;
+};
+list($start, $end, $n) = [0, 3, 4];
+$p = LagrangePolynomial::interpolate($f⟮x⟯, $start, $end, $n); // input as a callback function
+
+$p(0) // 1
+$p(3) // 16
+
 ```
 
 ### Numerical Analysis - Numerical Integration
