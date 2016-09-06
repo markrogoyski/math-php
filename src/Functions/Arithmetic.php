@@ -20,8 +20,7 @@ class Arithmetic
         // Validate input arguments
         self::validate($args);
 
-        $sum = function ($x, ... $args)
-        {
+        $sum = function ($x, ... $args) {
             $function = 0;
             foreach ($args as $arg) {
                 $function += $arg($x);
@@ -57,8 +56,7 @@ class Arithmetic
         // Validate input arguments
         self::validate($args);
 
-        $product = function ($x, ... $args)
-        {
+        $product = function ($x, ... $args) {
             $function = 1;
             foreach ($args as $arg) {
                 $function *= $arg($x);
@@ -94,7 +92,7 @@ class Arithmetic
             if (!is_callable($arg)) {
                 throw new \Exception("Every argument in your input needs to be
                                       a (callback) function.");
-              }
+            }
         }
     }
 }
