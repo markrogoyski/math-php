@@ -367,6 +367,23 @@ $f⟮x⟯ = function ($x) {
 list($start, $end, $n) = [0, 3, 4];
 $target = 2;
 $result = Interpolation\NevillesMethod::interpolate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
+
+// Newton Polynomial (Forward)
+// Returns a function p(x) of x
+$points = [[0, 1], [1, 4], [2, 9], [3, 16]];
+$p      = Interpolation\NewtonPolynomialForward::interpolate($points); // input as a set of points
+
+$p(0) // 1
+$p(3) // 16
+
+$f⟮x⟯ = function ($x) {
+    return $x**2 + 2 * $x + 1;
+};
+list($start, $end, $n) = [0, 3, 4];
+$p = Interpolation\NewtonPolynomialForward::interpolate($f⟮x⟯, $start, $end, $n); // input as a callback function
+
+$p(0) // 1
+$p(3) // 16
 ```
 
 ### Numerical Analysis - Numerical Integration
