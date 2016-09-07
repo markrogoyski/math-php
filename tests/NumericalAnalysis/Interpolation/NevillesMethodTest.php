@@ -1,37 +1,40 @@
 <?php
 namespace Math\NumericalAnalysis\Interpolation;
 
-class LagrangePolynomialTest extends \PHPUnit_Framework_TestCase
+class NevillesMethodTest extends \PHPUnit_Framework_TestCase
 {
     public function testPolynomialAgrees()
     {
         $points = [[0, 0], [1, 5], [3, 2], [7, 10], [10, -4]];
 
-        $p = LagrangePolynomial::interpolate($points);
-
         // Assure p(0) = 0 agrees with input [0, 0]
         $expected = 0;
-        $actual = $p(0);
+        $target = 0;
+        $actual = NevillesMethod::interpolate($target, $points);
         $this->assertEquals($expected, $actual);
 
         // Assure p(1) = 5 agrees with input [1, 5]
         $expected = 5;
-        $actual = $p(1);
+        $target = 1;
+        $actual = NevillesMethod::interpolate($target, $points);
         $this->assertEquals($expected, $actual);
 
         // Assure p(3) = 2 agrees with input [3, 2]
         $expected = 2;
-        $actual = $p(3);
+        $target = 3;
+        $actual = NevillesMethod::interpolate($target, $points);
         $this->assertEquals($expected, $actual);
 
         // Assure p(7) = 10 agrees with input [7, 10]
         $expected = 10;
-        $actual = $p(7);
+        $target = 7;
+        $actual = NevillesMethod::interpolate($target, $points);
         $this->assertEquals($expected, $actual);
 
         // Assure p(10) = -4 agrees with input [10, -4]
         $expected = -4;
-        $actual = $p(10);
+        $target = 10;
+        $actual = NevillesMethod::interpolate($target, $points);
         $this->assertEquals($expected, $actual);
     }
 
@@ -42,7 +45,7 @@ class LagrangePolynomialTest extends \PHPUnit_Framework_TestCase
             return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
         };
 
-        // Given n points, the error in the Lagrange Polynomials is proportional
+        // Given n points, the error in Nevilles Method (Lagrange polynomials) is proportional
         // to the max value of the nth derivative. Thus, if we if interpolate n at
         // 6 points, the 5th derivative of our original function f(x) = 0, and so
         // our resulting polynomial will have no error.
@@ -51,41 +54,46 @@ class LagrangePolynomialTest extends \PHPUnit_Framework_TestCase
         $b = 10;
         $n = 5;
 
-        $p = LagrangePolynomial::interpolate($f, $a, $b, $n);
-
         // Check that p(x) agrees with f(x) at x = 0
-        $expected = $f(0);
-        $actual = $p(0);
+        $target = 0;
+        $expected = $f($target);
+        $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $actual);
 
         // Check that p(x) agrees with f(x) at x = 2
-        $expected = $f(2);
-        $actual = $p(2);
+        $target = 2;
+        $expected = $f($target);
+        $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $actual);
 
         // Check that p(x) agrees with f(x) at x = 4
-        $expected = $f(4);
-        $actual = $p(4);
+        $target = 4;
+        $expected = $f($target);
+        $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $actual);
 
         // Check that p(x) agrees with f(x) at x = 6
-        $expected = $f(6);
-        $actual = $p(6);
+        $target = 6;
+        $expected = $f($target);
+        $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $actual);
 
         // Check that p(x) agrees with f(x) at x = 8
-        $expected = $f(8);
-        $actual = $p(8);
+        $target = 8;
+        $expected = $f($target);
+        $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $actual);
 
         // Check that p(x) agrees with f(x) at x = 10
-        $expected = $f(10);
-        $actual = $p(10);
+        $target = 10;
+        $expected = $f($target);
+        $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $actual);
 
-        // Check that p(x) agrees with f(x) at x = -99
-        $expected = $f(-99);
-        $actual = $p(-99);
+        // Check that p(x) agrees with f(x) at x = -90
+        $target = -90;
+        $expected = $f($target);
+        $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $actual);
     }
 
@@ -115,56 +123,54 @@ class LagrangePolynomialTest extends \PHPUnit_Framework_TestCase
         $x₂ = 6;
         $x₃ = 9;
 
-        $p = LagrangePolynomial::interpolate($f, $a, $b, $n);
-
         // Check that p(x) agrees with f(x) at x = 0
 
         $target = 0;
         $tol = ($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃);
         $expected = $f($target);
-        $x = $p($target);
+        $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $x, '', $tol);
 
         // Check that p(x) agrees with f(x) at x = 2
         $target = 2;
         $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
         $expected = $f($target);
-        $x = $p($target);
+        $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $x, '', $tol);
 
         // Check that p(x) agrees with f(x) at x = 4
         $target = 4;
         $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
         $expected = $f($target);
-        $x = $p($target);
+        $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $x, '', $tol);
 
         // Check that p(x) agrees with f(x) at x = 6
         $target = 6;
         $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
         $expected = $f($target);
-        $x = $p($target);
+        $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $x, '', $tol);
 
         // Check that p(x) agrees with f(x) at x = 8
         $target = 8;
         $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
         $expected = $f($target);
-        $x = $p($target);
+        $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $x, '', $tol);
 
         // Check that p(x) agrees with f(x) at x = 10
         $target = 10;
         $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
         $expected = $f($target);
-        $x = $p($target);
+        $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $x, '', $tol);
 
         // Check that p(x) agrees with f(x) at x = -99
         $target = -99;
         $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
         $expected = $f($target);
-        $x = $p($target);
+        $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $x, '', $tol);
     }
 }
