@@ -337,18 +337,18 @@ use Math\NumericalAnalysis\Interpolation;
 //  2) As a callback function, and the number of function evaluations to
 //     perform on an interval between a start and end point.
 
-// Lagrange Polynomial
-// Returns a function p(x) of x
+// Input as a set of points
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$p      = Interpolation\LagrangePolynomial::interpolate($points); // input as a set of points
 
-$p(0) // 1
-$p(3) // 16
-
+// Input as a callback function
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 3, 4];
+
+// Lagrange Polynomial
+// Returns a function p(x) of x
+$p = Interpolation\LagrangePolynomial::interpolate($points);                // input as a set of points
 $p = Interpolation\LagrangePolynomial::interpolate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 $p(0) // 1
@@ -357,29 +357,13 @@ $p(3) // 16
 // Nevilles Method
 // More accurate than Lagrange Polynomial Interpolation given the same input
 // Returns the evaluation of the interpolating polynomial at the $target point
-$points = [[0, 1], [1, 4], [2, 9], [3, 16]];
 $target = 2;
-$result      = Interpolation\NevillesMethod::interpolate($target, $points); // input as a set of points
-
-$f⟮x⟯ = function ($x) {
-    return $x**2 + 2 * $x + 1;
-};
-list($start, $end, $n) = [0, 3, 4];
-$target = 2;
+$result = Interpolation\NevillesMethod::interpolate($target, $points);                // input as a set of points
 $result = Interpolation\NevillesMethod::interpolate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Newton Polynomial (Forward)
 // Returns a function p(x) of x
-$points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$p      = Interpolation\NewtonPolynomialForward::interpolate($points); // input as a set of points
-
-$p(0) // 1
-$p(3) // 16
-
-$f⟮x⟯ = function ($x) {
-    return $x**2 + 2 * $x + 1;
-};
-list($start, $end, $n) = [0, 3, 4];
+$p = Interpolation\NewtonPolynomialForward::interpolate($points);                // input as a set of points
 $p = Interpolation\NewtonPolynomialForward::interpolate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 $p(0) // 1
