@@ -314,6 +314,7 @@ $item = $A->get(2);
 $sum    = $A->sum();
 $A⋅B    = $A->dotProduct($B);    // same as innerProduct
 $A⋅B    = $A->innerProduct($B);  // same as dotProduct
+$AxB    = $A->crossProduct($B);
 $l₁norm = $A->l1Norm();
 $l²norm = $A->l2Norm();
 $pnorm  = $A->pNorm();
