@@ -56,7 +56,7 @@ class ThreePointFormula extends NumericalDifferentiation
      *                           Example array: [[1,2], [2,3], [3,4]].
      *                           Example callback: function($x) {return $x**2;}
      * @param numbers  ... $args The arguments of our callback function: start,
-     *                           end, and n. Example: approximate($source, 0, 8, 3).
+     *                           end, and n. Example: differentiate($target, $source, 0, 8, 3).
      *                           If $source is a set of points, do not input any
      *                           $args. Example: approximate($source).
      *
