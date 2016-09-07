@@ -144,4 +144,28 @@ abstract class NumericalDifferentiation
 
         return $points;
     }
+
+    /**
+     * Ensures that the length of each subinterval is equal, or equivalently,
+     * that the spacing between each point is equal
+     *
+     * @param  array $sorted Points sorted by (increasing) x-component
+     *
+     * @throws Exception if the spacing between any two points is not equal
+     *         to the average spacing between every point
+     */
+    public static function isSpacingConstant(array $sorted)
+    {
+        $x       = 0;
+        $length  = count($sorted);
+        $spacing = ($sorted[$length-1][$x]-$sorted[0][$x])/($length-1);
+
+        for ($i = 1; $i < $length - 1; $i++) {
+            if ($sorted[$i+1][$x] - $sorted[$i][$x] !== $spacing) {
+                throw new \Exception("The size of each subinterval must be the
+                                      same. Provide points with constant
+                                      spacing.");
+            }
+        }
+    }
 }
