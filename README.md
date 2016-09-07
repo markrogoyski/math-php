@@ -340,7 +340,7 @@ use Math\NumericalAnalysis\Interpolation;
 // Lagrange Polynomial
 // Returns a function p(x) of x
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$p      = LagrangePolynomial::interpolate($points); // input as a set of points
+$p      = Interpolation\LagrangePolynomial::interpolate($points); // input as a set of points
 
 $p(0) // 1
 $p(3) // 16
@@ -349,7 +349,7 @@ $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 3, 4];
-$p = LagrangePolynomial::interpolate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$p = Interpolation\LagrangePolynomial::interpolate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 $p(0) // 1
 $p(3) // 16
@@ -367,63 +367,63 @@ use Math\NumericalAnalysis\NumericalIntegration;
 
 // Trapezoidal Rule (closed Newton-Cotes formula)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = TrapezoidalRule::approximate($points); // input as a set of points
+$∫f⟮x⟯dx = NumericalIntegration\TrapezoidalRule::approximate($points); // input as a set of points
 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 3, 4];
-$∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$∫f⟮x⟯dx = NumericalIntegration\TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Simpsons Rule (closed Newton-Cotes formula)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16], [4,3]];
-$∫f⟮x⟯dx = SimpsonsRule::approximate($points); // input as a set of points
+$∫f⟮x⟯dx = NumericalIntegration\SimpsonsRule::approximate($points); // input as a set of points
 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 3, 5];
-$∫f⟮x⟯dx = SimpsonsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$∫f⟮x⟯dx = NumericalIntegration\SimpsonsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Simpsons 3/8 Rule (closed Newton-Cotes formula)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($points); // input as a set of points
+$∫f⟮x⟯dx = NumericalIntegration\SimpsonsThreeEighthsRule::approximate($points); // input as a set of points
 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 3, 5];
-$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$∫f⟮x⟯dx = NumericalIntegration\SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Booles Rule (closed Newton-Cotes formula)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16], [4, 25]];
-$∫f⟮x⟯dx = BoolesRule::approximate($points); // input as a set of points
+$∫f⟮x⟯dx = NumericalIntegration\BoolesRule::approximate($points); // input as a set of points
 
 $f⟮x⟯ = function ($x) {
     return $x**3 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 4, 5];
-$∫f⟮x⟯dx = BoolesRuleRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$∫f⟮x⟯dx = NumericalIntegration\BoolesRuleRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Rectangle Method (open Newton-Cotes formula)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = RectangleMethod::approximate($points); // input as a set of points
+$∫f⟮x⟯dx = NumericalIntegration\RectangleMethod::approximate($points); // input as a set of points
 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 3, 4];
-$∫f⟮x⟯dx = RectangleMethod::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$∫f⟮x⟯dx = NumericalIntegration\RectangleMethod::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Midpoint Rule (open Newton-Cotes formula)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = MidpointRule::approximate($points); // input as a set of points
+$∫f⟮x⟯dx = NumericalIntegration\MidpointRule::approximate($points); // input as a set of points
 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 3, 4];
-$∫f⟮x⟯dx = MidpointRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$∫f⟮x⟯dx = NumericalIntegration\MidpointRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 ```
 
 ### Numerical Analysis - Root Finding
@@ -442,19 +442,19 @@ $args     = [-4.1];  // Parameters to pass to callback function (initial guess, 
 $target   = 0;       // Value of f(x) we a trying to solve for
 $tol      = 0.00001; // Tolerance; how close to the actual solution we would like
 $position = 0;       // Which element in the $args array will be changed; also serves as initial guess. Defaults to 0.
-$x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
+$x        = RootFinding\NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
 
 // Secant Method
 $p₀  = -1;      // First initial approximation
 $p₁  = 2;       // Second initial approximation
 $tol = 0.00001; // Tolerance; how close to the actual solution we would like
-$x   = SecantMethod::solve($f⟮x⟯, $p₀, $p₁, $tol); // Solve for x where f(x) = 0
+$x   = RootFinding\SecantMethod::solve($f⟮x⟯, $p₀, $p₁, $tol); // Solve for x where f(x) = 0
 
 // Bisection Method
 $a   = 2;       // The start of the interval which contains a root
 $b   = 5;       // The end of the interval which contains a root
 $tol = 0.00001; // Tolerance; how close to the actual solution we would like
-$x   = BisectionMethod::solve($f⟮x⟯, $a, $b, $tol); // Solve for x where f(x) = 0
+$x   = RootFinding\BisectionMethod::solve($f⟮x⟯, $a, $b, $tol); // Solve for x where f(x) = 0
 
 // Fixed-Point Iteration
 // f(x) = x⁴ + 8x³ -13x² -92x + 96
@@ -467,7 +467,7 @@ $a   = 0;       // The start of the interval which contains a root
 $b   = 2;       // The end of the interval which contains a root
 $p   = 0;       // The initial guess for our root
 $tol = 0.00001; // Tolerance; how close to the actual solution we would like
-$x   = FixedPointIteration::solve($g⟮x⟯, $a, $b, $p, $tol); // Solve for x where f(x) = 0
+$x   = RootFinding\FixedPointIteration::solve($g⟮x⟯, $a, $b, $p, $tol); // Solve for x where f(x) = 0
 ```
 
 ### Probability - Combinatorics
