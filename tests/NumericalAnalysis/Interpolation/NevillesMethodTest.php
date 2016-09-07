@@ -105,7 +105,7 @@ class NevillesMethodTest extends \PHPUnit_Framework_TestCase
         };
 
         // The error is bounded by:
-        // |f(x)-p(x)| = tol <= (max f⁽ⁿ⁺¹⁾(x))*(x-x₀)*...*(x-xₙ)/(n+1)!
+        // |f(x)-p(x)| = tol <= (max f⁽ⁿ⁺¹⁾(x))*(x-x₀)*...*(x-xn)/(n+1)!
 
         // f'(x)  = 4x³ +24x² -26x - 92
         // f''(x) = 12x² - 48x - 26
@@ -116,7 +116,7 @@ class NevillesMethodTest extends \PHPUnit_Framework_TestCase
         $b = 9;
         $n = 4;
 
-        // So, tol <= 24*(x-x₀)*...*(x-xₙ)/(4!) = (x-x₀)*...*(x-xₙ) where
+        // So, tol <= 24*(x-x₀)*...*(x-xn)/(4!) = (x-x₀)*...*(x-xn) where
 
         $x₀ = 0;
         $x₁ = 3;
