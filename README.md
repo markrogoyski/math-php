@@ -620,8 +620,8 @@ $μ   = Weibull::mean($k, $λ);
 // Other CDFs - All continuous distributions (...params will be distribution-specific)
 // Replace 'DistributionName' with desired distribution.
 $inv_cdf = DistributionName::inverse($target, ...$params);   // Inverse CDF of the distribution
-$between = DistributionName::between($x₁, $x₂, ...$params);  // Probability of being bewteen two points, x₁ and x₂
-$outside = DistributionName::outside($x₁, $x₂, ...$params);  // Probability of being bewteen below x₁ and above x₂
+$between = DistributionName::between($x₁, $x₂, ...$params);  // Probability of being between two points, x₁ and x₂
+$outside = DistributionName::outside($x₁, $x₂, ...$params);  // Probability of being between below x₁ and above x₂
 $above   = DistributionName::above($x, ...$params);          // Probability of being above x to ∞
 
 // Random Number Generator
@@ -943,7 +943,7 @@ $τ = Correlation::kendallsTau($X, $Y);
 // ρ - Spearman's rank correlation coefficient (Spearman's rho)
 $ρ = Correlation::spearmansRho($X, $Y);
 
-// Descritive correlation report
+// Descriptive correlation report
 $stats = Correlation::describe($X, $Y);
 print_r($stats);
 /* Array (
