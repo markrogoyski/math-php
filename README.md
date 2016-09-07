@@ -18,6 +18,7 @@ Features
    - [Vector](#linear-algebra---vector)
  * Numerical Analysis
    - [Interpolation](#numerical-analysis---interpolation)
+   - [Numerical Differentiation](#numerical-analysis---numerical-differentiation)
    - [Numerical Integration](#numerical-analysis---numerical-integration)
    - [Root Finding](#numerical-analysis---root-finding)
  * Probability
@@ -368,6 +369,32 @@ $p = Interpolation\NewtonPolynomialForward::interpolate($f⟮x⟯, $start, $end,
 
 $p(0) // 1
 $p(3) // 16
+```
+
+### Numerical Analysis - Numerical Differentiation
+```php
+use Math\NumericalAnalysis\NumericalDifferentiation;
+
+// Numerical Differentiation approximates the derivative of a function.
+// Each Differentiation method can take input in two ways:
+//  1) As a set of points (inputs and outputs of a function)
+//  2) As a callback function, and the number of function evaluations to
+//     perform on an interval between a start and end point.
+
+// Input as a set of points
+$points = [[0, 1], [1, 4], [2, 9]];
+
+// Input as a callback function
+$f⟮x⟯ = function ($x) {
+    return $x**2 + 2 * $x + 1;
+};
+list($start, $end, $n) = [0, 2, 3];
+
+// Three Point Formula
+// Returns an approximation for the derivative of our input at our target
+$target = 0;
+$derivative = NumericalDifferentiation\ThreePointFormula::differentiate($target, $points);                // input as a set of points
+$derivative = NumericalDifferentiation\ThreePointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
 ```
 
 ### Numerical Analysis - Numerical Integration
