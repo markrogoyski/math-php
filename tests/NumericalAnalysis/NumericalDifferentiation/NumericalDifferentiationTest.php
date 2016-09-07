@@ -39,4 +39,11 @@ class NumericalDifferentiationTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         NumericalDifferentiation::validate([[0,0], [0,5], [1,1]], $degree = 3);
     }
+
+    public function testSpacingNonConstant()
+    {
+        // There is not constant spacing between points
+        $this->setExpectedException('\Exception');
+        NumericalDifferentiation::isSpacingConstant([[0,0], [3,3], [2,2]]);
+    }
 }
