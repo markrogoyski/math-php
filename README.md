@@ -353,6 +353,20 @@ $p = Interpolation\LagrangePolynomial::interpolate($f⟮x⟯, $start, $end, $n);
 
 $p(0) // 1
 $p(3) // 16
+
+// Nevilles Method
+// More accurate than Lagrange Polynomial Interpolation given the same input
+// Returns the evaluation of the interpolating polynomial at the $target point
+$points = [[0, 1], [1, 4], [2, 9], [3, 16]];
+$target = 2;
+$result      = Interpolation\NevillesMethod::interpolate($target, $points); // input as a set of points
+
+$f⟮x⟯ = function ($x) {
+    return $x**2 + 2 * $x + 1;
+};
+list($start, $end, $n) = [0, 3, 4];
+$target = 2;
+$result = Interpolation\NevillesMethod::interpolate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
 ```
 
 ### Numerical Analysis - Numerical Integration
