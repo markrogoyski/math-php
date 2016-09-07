@@ -88,4 +88,83 @@ class LagrangePolynomialTest extends \PHPUnit_Framework_TestCase
         $actual = $p(-99);
         $this->assertEquals($expected, $actual);
     }
+
+    public function testSolveNonzeroError()
+    {
+        // f(x) = x⁴ + 8x³ -13x² -92x + 96
+        $f = function ($x) {
+            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+        };
+
+        // The error is bounded by:
+        // |f(x)-p(x)| = tol <= (max f⁽ⁿ⁺¹⁾(x))*(x-x₀)*...*(x-xₙ)/(n+1)!
+
+        // f'(x)  = 4x³ +24x² -26x - 92
+        // f''(x) = 12x² - 48x - 26
+        // f'''(x) = 24x - 48
+        // f⁽⁴⁾(x) = 24
+
+        $a = 0;
+        $b = 9;
+        $n = 4;
+
+        // So, tol <= 24*(x-x₀)*...*(x-xₙ)/(4!) = (x-x₀)*...*(x-xₙ) where
+
+        $x₀ = 0;
+        $x₁ = 3;
+        $x₂ = 6;
+        $x₃ = 9;
+
+        $p = LagrangePolynomial::interpolate($f, $a, $b, $n);
+
+        // Check that p(x) agrees with f(x) at x = 0
+
+        $target = 0;
+        $tol = ($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃);
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol);
+
+        // Check that p(x) agrees with f(x) at x = 2
+        $target = 2;
+        $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol);
+
+        // Check that p(x) agrees with f(x) at x = 4
+        $target = 4;
+        $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol);
+
+        // Check that p(x) agrees with f(x) at x = 6
+        $target = 6;
+        $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol);
+
+        // Check that p(x) agrees with f(x) at x = 8
+        $target = 8;
+        $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol);
+
+        // Check that p(x) agrees with f(x) at x = 10
+        $target = 10;
+        $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol);
+
+        // Check that p(x) agrees with f(x) at x = -99
+        $target = -99;
+        $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol);
+    }
 }
