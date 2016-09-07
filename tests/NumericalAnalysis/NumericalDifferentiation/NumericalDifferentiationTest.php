@@ -46,4 +46,11 @@ class NumericalDifferentiationTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         NumericalDifferentiation::isSpacingConstant([[0,0], [3,3], [2,2]]);
     }
+
+    public function testTargetNotInPoints()
+    {
+        // Our target is not the x-component of one of our points
+        $this->setExpectedException('\Exception');
+        NumericalDifferentiation::isTargetInPoints(1, [[0,0], [3,3], [2,2]]);
+    }
 }
