@@ -57,16 +57,18 @@ class ThreePointFormula extends NumericalDifferentiation
      *                           If $source is a set of points, do not input any
      *                           $args. Example: approximate($source).
      *
-     * @return number            The approximation to the integral of f(x)
+     * @return number            The approximation of f'($target), i.e. the derivative
+     *                           of our input at our target point
      */
     public static function differentiate($target, $source, ... $args)
     {
         // get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
-        // Validate input and sort points
+        // Validate input, sort points, and make sure spacing is constant
         self::validate($points, $degree = 3);
         $sorted = self::sort($points);
+        self::isSpacingConstant($sorted);
 
         // Descriptive constants
         $x = self::X;
