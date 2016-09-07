@@ -18,6 +18,7 @@ Features
    - [Vector](#linear-algebra---vector)
  * Numerical Analysis
    - [Interpolation](#numerical-analysis---interpolation)
+   - [Numerical Differentiation](#numerical-analysis---numerical-differentiation)
    - [Numerical Integration](#numerical-analysis---numerical-integration)
    - [Root Finding](#numerical-analysis---root-finding)
  * Probability
