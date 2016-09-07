@@ -16,8 +16,6 @@ abstract class Interpolation
      */
     const Y = 1;
 
-    abstract public static function interpolate($source, ...$args);
-
     /**
      * Determine where the input $source argument is a callback function, a set
      * of arrays, or neither. If $source is a callback function, run it through
