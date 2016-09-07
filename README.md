@@ -864,17 +864,17 @@ print_r($anova);
             [sem]      => 0.6454972243679
         )
     [data_summary] => Array (      // Data summary (each input sample)
-            [0] => Array ([n] => 3 [sum] => 6 [mean] => 2 [SS] => 14 [variance] => 1 [sd] => 1 [sem] => 0.57735026918963)
-            [1] => Array ( [n] => 3 [sum => 12 [mean] => 4 [SS] => 50 [variance] => 1 [sd] => 1 [sem] => 0.57735026918963)
+            [0] => Array ([n] => 3 [sum] => 6  [mean] => 2 [SS] => 14  [variance] => 1 [sd] => 1 [sem] => 0.57735026918963)
+            [1] => Array ([n] => 3 [sum] => 12 [mean] => 4 [SS] => 50  [variance] => 1 [sd] => 1 [sem] => 0.57735026918963)
             [2] => Array ([n] => 3 [sum] => 18 [mean] => 6 [SS] => 110 [variance] => 1 [sd] => 1 [sem] => 0.57735026918963)
         )
 ) */
 
 // Two-way ANOVA
 $factorA₁ = [
-  [4, 6, 8],  // Factor B₁
-  [6, 6, 9],  // Factor B₂
-  [8, 9, 13], // Factor B₃
+  [4, 6, 8],    // Factor B₁
+  [6, 6, 9],    // Factor B₂
+  [8, 9, 13],   // Factor B₃
 ];
 $factorA₂ = [
   [4, 8, 9],    // Factor B₁
@@ -918,7 +918,7 @@ print_r($anova);
                     [df] => 17                 // Degrees of freedom
                 )
         )
-    [total_summary] => Array (
+    [total_summary] => Array (    // Total summary data
             [n]        => 18
             [sum]      => 162
             [mean]     => 9
@@ -927,9 +927,9 @@ print_r($anova);
             [sd]       => 3.4299717028502
             [sem]      => 0.80845208345444
         )
-    [summary_factorA]     => Array ( ... )
-    [summary_factorB]     => Array ( ... )
-    [summary_interaction] => Array ( ... )
+    [summary_factorA]     => Array ( ... )   // Summary data of factor A
+    [summary_factorB]     => Array ( ... )   // Summary data of factor B
+    [summary_interaction] => Array ( ... )   // Summary data of interactions of factors A and B
 ) */
 ```
 
