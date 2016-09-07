@@ -168,4 +168,27 @@ abstract class NumericalDifferentiation
             }
         }
     }
+
+    /**
+     * Ensures that our target is contained within the interval of points we
+     * are supplying.
+     *
+     * @param  number $target The value at which we are approximating the derivative
+     * @param  array  $sorted Points sorted by (increasing) x-component
+     *
+     * @throws Exception if $target is less than the x-component of our first
+     *                   or greater than the x-component of our last point
+     */
+    public static function isTargetInInterval($target, array $sorted)
+    {
+        $x       = 0;
+        $length  = count($sorted);
+        $first   = $sorted[0][$x];
+        $last   = $sorted[$length-1][$x];
+
+        if ($target < $first or $target > $last) {
+            throw new \Exception("Your target point must be between the interval
+                                  of points you supplied.");
+        }
+    }
 }
