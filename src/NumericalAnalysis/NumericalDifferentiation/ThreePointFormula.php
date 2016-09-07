@@ -23,7 +23,10 @@ class ThreePointFormula extends NumericalDifferentiation
      * equivalently, (x, f(x)), of the function f(x) whose derivative we are
      * approximating.
      *
-     * Example: approximate(function($x) {return $x**2;}, 0, 4 ,3) will produce
+     * The Three Point Formula requires we supply 3 points that are evenly spaced
+     * apart, and that our target equals the x-components of one of our 3 points.
+     *
+     * Example: differentiation(2, function($x) {return $x**2;}, 0, 4 ,3) will produce
      * a set of arrays by evaluating the callback at 3 evenly spaced points
      * between 0 and 4. Then, this array will be used in our approximation.
      *
@@ -65,10 +68,12 @@ class ThreePointFormula extends NumericalDifferentiation
         // get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
-        // Validate input, sort points, and make sure spacing is constant
+        // Validate input, sort points, make sure spacing is constant, and make
+        // sure our target is contained in an interval supplied by our $source
         self::validate($points, $degree = 3);
         $sorted = self::sort($points);
         self::isSpacingConstant($sorted);
+        self::isTargetInPoints($target, $sorted);
 
         // Descriptive constants
         $x = self::X;

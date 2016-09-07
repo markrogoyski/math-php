@@ -177,7 +177,7 @@ abstract class NumericalDifferentiation
      *
      * @throws Exception if $target is not contained in the array of our x-components
      */
-    public static function isTargetInInterval($target, array $sorted)
+    public static function isTargetInPoints($target, array $sorted)
     {
         $x       = 0;
         $length  = count($sorted);
