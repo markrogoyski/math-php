@@ -47,7 +47,7 @@ abstract class Continuous extends \Math\Probability\Distribution\Distribution
     }
   
     /**
-     * CDF between - probability of being bewteen two points, x₁ and x₂
+     * CDF between - probability of being between two points, x₁ and x₂
      * The area under a continuous distribution, that lies between two specified points.
      *
      * P(between) = CDF($x₂) - CDF($x₁)
