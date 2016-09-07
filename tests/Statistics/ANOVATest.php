@@ -340,4 +340,182 @@ class ANOVATest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForTwoWayTwoAs
+     */
+    public function testTwoWayTwoAs(array $A₁, array $A₂, array $expected)
+    {
+        $anova = ANOVA::twoWay($A₁, $A₂);
+
+        $this->assertEquals($expected, $anova['ANOVA'], '', 0.001);
+    }
+
+    public function dataProviderForTwoWayTwoAs()
+    {
+        return [
+            [
+                // Factor A₁
+                [
+                    [4, 6, 8],  // Factor B₁
+                    [6, 6, 9],  // Factor B₂
+                    [8, 9, 13], // Factor B₃
+                ],
+                // Factor A₂
+                [
+                    [4, 8, 9],    // Factor B₁
+                    [7, 10, 13],  // Factor B₂
+                    [12, 14, 16], // Factor B₃
+                ],
+                // ANOVA result
+                [
+                    'factorA' => [
+                        'SS' => 32,
+                        'df' => 1,
+                        'MS' => 32,
+                        'F'  => 5.647059,
+                        'P'  => 0.03499435
+                    ],
+                    'factorB' => [
+                        'SS' => 93,
+                        'df' => 2,
+                        'MS' => 46.5,
+                        'F'  => 8.205882,
+                        'P'  => 0.005676730,
+                    ],
+                    'interaction' => [
+                        'SS' => 7,
+                        'df' => 2,
+                        'MS' => 3.5,
+                        'F'  => 0.617647,
+                        'P'  => 0.5555023,
+                    ],
+                    'error' => [
+                        'SS' => 68,
+                        'df' => 12,
+                        'MS' => 5.6667,
+                    ],
+                    'total' => [
+                        'SS' => 200,
+                        'df' => 17,
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForTwoWayThreeAs
+     */
+    public function testTwoWayThreeAs(array $A₁, array $A₂, array $A₃, array $expected)
+    {
+        $anova = ANOVA::twoWay($A₁, $A₂, $A₃);
+
+        $this->assertEquals($expected, $anova['ANOVA'], '', 0.001);
+    }
+
+    public function dataProviderForTwoWayThreeAs()
+    {
+        return [
+            // Example data from: https://people.richland.edu/james/lecture/m170/ch13-2wy.html
+            [
+                // Factor A₁
+                [
+                    [106, 110], // Factor B₁
+                    [95, 100],  // Factor B₂
+                    [94, 107],  // Factor B₃
+                    [103, 104], // Factor B₄
+                    [100, 102], // Factor B₅
+                ],
+                // Factor A₂
+                [
+                    [110, 112], // Factor B₁
+                    [98, 99],   // Factor B₂
+                    [100, 101], // Factor B₃
+                    [108, 112], // Factor B₄
+                    [105, 107], // Factor B₅
+                ],
+                // Factor A₃
+                [
+                    [94, 97],  // Factor B₁
+                    [86, 87],  // Factor B₂
+                    [98, 99],  // Factor B₃
+                    [99, 101], // Factor B₄
+                    [94, 98],  // Factor B₅
+                ],
+                // ANOVA result
+                [
+                    'factorA' => [
+                        'SS' => 512.8667,
+                        'df' => 2,
+                        'MS' => 256.4333,
+                        'F'  => 28.283,
+                        'P'  => 0.000008
+                    ],
+                    'factorB' => [
+                        'SS' => 449.4667,
+                        'df' => 4,
+                        'MS' => 112.3667,
+                        'F'  => 12.393,
+                        'P'  => 0.000119,
+                    ],
+                    'interaction' => [
+                        'SS' => 143.1333,
+                        'df' => 8,
+                        'MS' => 17.8917,
+                        'F'  => 1.973,
+                        'P'  => 0.122090,
+                    ],
+                    'error' => [
+                        'SS' => 136.0000,
+                        'df' => 15,
+                        'MS' => 9.0667,
+                    ],
+                    'total' => [
+                        'SS' => 1241.4667,
+                        'df' => 29,
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    public function testTwoWayExceptionLessThanTwoAs()
+    {
+        $A₁ = [1, 2, 3];
+
+        $this->setExpectedException('\Exception');
+        ANOVA::twoWay($A₁);
+    }
+
+    public function testTwoWAyExceptionDifferentNumbersOfFactorBs()
+    {
+        $A₁ = [
+            [106, 110], // Factor B₁
+            [95, 100],  // Factor B₂
+        ];
+        $A₂ = [
+            [106, 110], // Factor B₁
+            [95, 100],  // Factor B₂
+            [95, 100],  // Factor B₃!
+        ];
+
+        $this->setExpectedException('\Exception');
+        ANOVA::twoWay($A₁, $A₂);
+    }
+
+    public function testTwoWAyExceptionDifferentNumbersOfFactorElements()
+    {
+        $A₁ = [
+            [106, 110], // Factor B₁
+            [95, 100],  // Factor B₂
+        ];
+        $A₂ = [
+            [106, 110, 200], // Factor B₁ has 3 elements!
+            [95, 100],       // Factor B₂
+        ];
+
+        $this->setExpectedException('\Exception');
+        ANOVA::twoWay($A₁, $A₂);
+    }
 }
