@@ -3,34 +3,34 @@
 namespace Math\NumericalAnalysis\NumericalDifferentiation;
 
 /**
- * Three Point Formula
+ * Five Point Formula
  *
- * In numerical analysis, the three point formula is used for approximating
+ * In numerical analysis, the five point formula is used for approximating
  * the derivative of a function at a point in its domain.
  *
  * We can either directly supply a set of inputs and their corresponding outputs
  * for said function, or if we explicitly know the function, we can define it as a
  * callback function and then generate a set of points by evaluating that function
- * at 3 points between a start and end point.
+ * at 5 points between a start and end point.
  */
-class ThreePointFormula extends NumericalDifferentiation
+class FivePointFormula extends NumericalDifferentiation
 {
     /**
-     * Use the Three Point Formula to aproximate the derivative of a function at
+     * Use the Five Point Formula to aproximate the derivative of a function at
      * our $target. Our input can support either a set of arrays, or a callback
      * function with arguments (to produce a set of arrays). Each array in our
      * input contains two numbers which correspond to coordinates (x, y) or
      * equivalently, (x, f(x)), of the function f(x) whose derivative we are
      * approximating.
      *
-     * The Three Point Formula requires we supply 3 points that are evenly spaced
-     * apart, and that our target equals the x-components of one of our 3 points.
+     * The Five Point Formula requires we supply 5 points that are evenly spaced
+     * apart, and that our target equals the x-components of one of our 5 points.
      *
-     * Example: differentiation(2, function($x) {return $x**2;}, 0, 4 ,3) will produce
-     * a set of arrays by evaluating the callback at 3 evenly spaced points
+     * Example: differentiation(2, function($x) {return $x**2;}, 0, 4 ,5) will produce
+     * a set of arrays by evaluating the callback at 5 evenly spaced points
      * between 0 and 4. Then, this array will be used in our approximation.
      *
-     * Three Point Formula:
+     * Five Point Formula:
 
      *   - If the 2nd point is our $target, use the Midpoint Formula:
      *
@@ -70,7 +70,7 @@ class ThreePointFormula extends NumericalDifferentiation
 
         // Validate input, sort points, make sure spacing is constant, and make
         // sure our target is contained in an interval supplied by our $source
-        self::validate($points, $degree = 3);
+        self::validate($points, $degree = 5);
         $sorted = self::sort($points);
         self::isSpacingConstant($sorted);
         self::isTargetInPoints($target, $sorted);
