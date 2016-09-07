@@ -414,7 +414,6 @@ class ANOVA
         foreach ($data as $A => $Bs) {
             $A_elements[$A] = [];
             foreach ($Bs as $B => $values) {
-
                 // Aggregates
                 $all_elements   = array_merge($all_elements, $values);
                 $A_elements[$A] = array_merge($A_elements[$A], $values);
