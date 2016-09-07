@@ -800,12 +800,12 @@ $hexagons = Advanced::heptagonalNumber($n)
 ```php
 use Math\Statistics\ANOVA;
 
+// One-way ANOVA
 $sample1 = [1, 2, 3];
 $sample2 = [3, 4, 5];
 $sample3 = [5, 6, 7];
    ⋮            ⋮
 
-// One-way ANOVA
 $anova = ANOVA::oneWay($sample1, $sample2, $sample3);
 print_r($anova);
 /* Array (
@@ -837,34 +837,72 @@ print_r($anova);
             [sem]      => 0.6454972243679
         )
     [data_summary] => Array (      // Data summary (each input sample)
-            [0] => Array (
-                    [n]        => 3
-                    [sum]      => 6
-                    [mean]     => 2
-                    [SS]       => 14
-                    [variance] => 1
-                    [sd]       => 1
-                    [sem]      => 0.57735026918963
+            [0] => Array ([n] => 3 [sum] => 6 [mean] => 2 [SS] => 14 [variance] => 1 [sd] => 1 [sem] => 0.57735026918963)
+            [1] => Array ( [n] => 3 [sum => 12 [mean] => 4 [SS] => 50 [variance] => 1 [sd] => 1 [sem] => 0.57735026918963)
+            [2] => Array ([n] => 3 [sum] => 18 [mean] => 6 [SS] => 110 [variance] => 1 [sd] => 1 [sem] => 0.57735026918963)
+        )
+) */
+
+// Two-way ANOVA
+$factorA₁ = [
+  [4, 6, 8],  // Factor B₁
+  [6, 6, 9],  // Factor B₂
+  [8, 9, 13], // Factor B₃
+];
+$factorA₂ = [
+  [4, 8, 9],    // Factor B₁
+  [7, 10, 13],  // Factor B₂
+  [12, 14, 16], // Factor B₃
+];
+       ⋮
+
+$anova = ANOVA::twoWay($factorA₁, $factorA₂);
+print_r($anova);
+/* Array (
+    [ANOVA] => Array (          // ANOVA hypothesis test summary data
+            [factorA] => Array (
+                    [SS] => 32                 // Sum of squares
+                    [df] => 1                  // Degrees of freedom
+                    [MS] => 32                 // Mean squares
+                    [F]  => 5.6470588235294    // Test statistic
+                    [P]  => 0.034994350619895  // P value
                 )
-            [1] => Array (
-                    [n]        => 3
-                    [sum]      => 12
-                    [mean]     => 4
-                    [SS]       => 50
-                    [variance] => 1
-                    [sd]       => 1
-                    [sem]      => 0.57735026918963
+            [factorB] => Array (
+                    [SS] => 93                 // Sum of squares
+                    [df] => 2                  // Degrees of freedom
+                    [MS] => 46.5               // Mean squares
+                    [F]  => 8.2058823529412    // Test statistic
+                    [P]  => 0.0056767297582031 // P value
                 )
-            [2] => Array (
-                    [n]        => 3
-                    [sum]      => 18
-                    [mean]     => 6
-                    [SS]       => 110
-                    [variance] => 1
-                    [sd]       => 1
-                    [sem]      => 0.57735026918963
+            [interaction] => Array (
+                    [SS] => 7                  // Sum of squares
+                    [df] => 2                  // Degrees of freedom
+                    [MS] => 3.5                // Mean squares
+                    [F]  => 0.61764705882353   // Test statistic
+                    [P]  => 0.5555023440712    // P value
+                )
+            [error] => Array (
+                    [SS] => 68                 // Sum of squares (within)
+                    [df] => 12                 // Degrees of freedom
+                    [MS] => 5.6666666666667    // Mean squares
+                )
+            [total] => Array (
+                    [SS] => 200                // Sum of squares (total)
+                    [df] => 17                 // Degrees of freedom
                 )
         )
+    [total_summary] => Array (
+            [n]        => 18
+            [sum]      => 162
+            [mean]     => 9
+            [SS]       => 1658
+            [variance] => 11.764705882353
+            [sd]       => 3.4299717028502
+            [sem]      => 0.80845208345444
+        )
+    [summary_factorA]     => Array ( ... )
+    [summary_factorB]     => Array ( ... )
+    [summary_interaction] => Array ( ... )
 ) */
 ```
 
