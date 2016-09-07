@@ -45,7 +45,7 @@ class NevillesMethodTest extends \PHPUnit_Framework_TestCase
             return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
         };
 
-        // Given n points, the error in the Lagrange Polynomials is proportional
+        // Given n points, the error in Nevilles Method (Lagrange polynomials) is proportional
         // to the max value of the nth derivative. Thus, if we if interpolate n at
         // 6 points, the 5th derivative of our original function f(x) = 0, and so
         // our resulting polynomial will have no error.
@@ -53,8 +53,6 @@ class NevillesMethodTest extends \PHPUnit_Framework_TestCase
         $a = 0;
         $b = 10;
         $n = 5;
-
-        $p = LagrangePolynomial::interpolate($f, $a, $b, $n);
 
         // Check that p(x) agrees with f(x) at x = 0
         $target = 0;
@@ -124,8 +122,6 @@ class NevillesMethodTest extends \PHPUnit_Framework_TestCase
         $x₁ = 3;
         $x₂ = 6;
         $x₃ = 9;
-
-        $p = LagrangePolynomial::interpolate($f, $a, $b, $n);
 
         // Check that p(x) agrees with f(x) at x = 0
 
