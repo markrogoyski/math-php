@@ -110,7 +110,6 @@ class ThreePointFormula extends NumericalDifferentiation
 
         // If the 1st or 3rd point is our $target, use the Endpoint Formula
         } else {
-
             // The 1st point is our $target
             if ($sorted[0][$x] == $target) {
                 $f⟮x₀⟯    = $sorted[0][$y];
