@@ -135,26 +135,70 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testDifferentiation()
+    /**
+     * @dataProvider dataProviderForDifferentiate
+     */
+    public function testDifferentiation(array $polynomial, array $expected)
     {
-        // p(x)  = x² + 2x + 3
-        // p'(x) = 2x + 2
-
-        $polynomial = new Polynomial([1, 2, 3]);
-        $expected   = new Polynomial([2, 2]);
-        $actual     = $polynomial->differentiate();
-        $this->assertEquals($expected, $actual);
+        $polynomial = new Polynomial($polynomial);
+        $expected   = new Polynomial($expected);
+        $derivative = $polynomial->differentiate();
+        $this->assertEquals($expected, $derivative);
     }
 
-    public function testIntegration()
+    public function dataProviderForDifferentiate()
     {
-        // p(x)  = x² + 2x + 3
-        // p'(x) = (1/3)x³ + x² + 3x
+        return [
+            [
+                [1, 2, 3], // p(x)  = x² + 2x + 3
+                [2, 2]     // p'(x) = 2x + 2
+            ],
+            [
+                [2, 3, 4], // p(x)  = 2x² + 3x + 4
+                [4, 3]     // p'(x) = 4x + 3
+            ],
+            [
+                [1, 0], // p(x)  = x
+                [1]     // p'(x) = 1
+            ],
+            [
+                [5, 0], // p(x)  = 5x
+                [5]     // p'(x) = 5
+            ],
+            [
+                [1, 0, 0], // p(x)  = x²
+                [2, 0]     // p'(x) = 2x
+            ],
+        ];
+    }
 
-        $polynomial = new Polynomial([1, 2, 3]);
-        $expected = new Polynomial([1/3, 1, 3, 0]);
-        $actual = $polynomial->integrate();
-        $this->assertEquals($expected, $actual);
+    /**
+     * @dataProvider dataProviderForIntegrate
+     */
+    public function testIntegration(array $polynomial, array $expected_integral)
+    {
+        $polynomial = new Polynomial($polynomial);
+        $expected   = new Polynomial($expected_integral);
+        $integral   = $polynomial->integrate();
+        $this->assertEquals($expected, $integral);
+    }
+
+    public function dataProviderForIntegrate()
+    {
+        return [
+            [
+                [1, 2, 3],      // f(x)  = x² + 2x + 3
+                [1/3, 1, 3, 0], // ∫f(x) = (1/3)x³ + x² + 3x
+            ],
+            [
+                [5],    // f(x)  = 5
+                [5, 0], // ∫f(x) = 5x
+            ],
+            [
+                [1, 0],      // f(x)  = x
+                [1/2, 0, 0], // ∫f(x) = (1/2)²
+            ],
+        ];
     }
 
     public function testFundamentalTheoremOfCalculus()

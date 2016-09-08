@@ -94,6 +94,104 @@ class VectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForCrossProduct
+     */
+    public function testCrossProduct(array $A, array $B, array $R)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+        $R = new Vector($R);
+        $this->assertEquals($R, $A->crossProduct($B));
+    }
+
+    public function dataProviderForCrossProduct()
+    {
+        return [
+            [
+                [1, 2, 3],
+                [4, -5, 6],
+                [27,6,-13],
+            ],
+            [
+                [-1, 2, -3],
+                [4,-5,6],
+                [-3,-6,-3],
+            ],
+            [
+                [0,0,0],
+                [0,0,0],
+                [0,0,0],
+            ],
+            [
+                [4, 5, 6],
+                [7, 8, 9],
+                [-3, 6, -3],
+            ],
+            [
+                [4, 9, 3],
+                [12, 11, 4],
+                [3, 20, -64],
+            ],
+            [
+                [-4, 9, 3],
+                [12, 11, 4],
+                [3, 52, -152],
+            ],
+            [
+                [4, -9, 3],
+                [12, 11, 4],
+                [-69, 20, 152],
+            ],
+            [
+                [4, 9, -3],
+                [12, 11, 4],
+                [69, -52, -64],
+            ],
+            [
+                [4, 9, 3],
+                [-12, 11, 4],
+                [3, -52, 152],
+            ],
+            [
+                [4, 9, 3],
+                [12, -11, 4],
+                [69, 20, -152],
+            ],
+            [
+                [4, 9, 3],
+                [12, 11, -4],
+                [-69, 52, -64],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForCrossProductExceptionWrongSize
+     */
+    public function testCrossProductExceptionWrongSize(array $A, array $B)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+
+        $this->setExpectedException('\Exception');
+        $A->crossProduct($B);
+    }
+
+    public function dataProviderForCrossProductExceptionWrongSize()
+    {
+        return [
+            [
+                [1, 2],
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3],
+                [],
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForOuterProduct
      */
     public function testOuterProduct(array $A, array $B, array $R)
