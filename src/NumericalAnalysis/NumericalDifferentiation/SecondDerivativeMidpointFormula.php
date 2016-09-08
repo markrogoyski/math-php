@@ -23,7 +23,7 @@ class SecondDerivativeMidpointFormula extends NumericalDifferentiation
      * approximating.
      *
      * The Second Derivative Midpoint Formula requires we supply 3 points that are evenly
-     * spaced apart, and that our target equals the x-components of one of our 3 points.
+     * spaced apart, and that our target equals the x-components of the midpoint.
      *
      * Example: differentiate(2, function($x) {return $x**2;}, 0, 4 ,3) will produce
      * a set of arrays by evaluating the callback at 3 evenly spaced points
@@ -61,7 +61,6 @@ class SecondDerivativeMidpointFormula extends NumericalDifferentiation
         self::validate($points, $degree = 3);
         $sorted = self::sort($points);
         self::isSpacingConstant($sorted);
-        self::isTargetInPoints($target, $sorted);
 
         // Descriptive constants
         $x = self::X;
