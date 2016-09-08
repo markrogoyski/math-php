@@ -147,22 +147,29 @@ class Polynomial
         return $polynomial($x₀);
     }
 
+    /**
+     * Calculate the derivative of a polynomial and return it as a new polynomial
+     * Example: $polynomial = new Polynomial([1, -8, 12, 3]); // x³ - 8x² + 12x + 3
+     *          $derivative = $polynomial->differentiate();   // 3x² - 16x + 12
+     *
+     * @return object The derivative of our polynomial object, also a polynomial object
+     */
     public function differentiate()
     {
-        $newCoefficients = [];
+        $derivativeCoefficients = [];
         for ($i = 0; $i < $this->degree; $i++) {
-            $newCoefficients[] = $this->coefficient[$i] * ($this->degree - $i);
+            $derivativeCoefficients[] = $this->coefficient[$i] * ($this->degree - $i);
         }
-        return new Polynomial($newCoefficients);
+        return new Polynomial($derivativeCoefficients);
     }
 
     public function integrate()
     {
-        $newCoefficients = [];
+        $integralCoefficients = [];
         for ($i = 0; $i < $this->degree + 1; $i++) {
-            $newCoefficients[] = $this->coefficient[$i] / ($this->degree - $i + 1);
+            $integralCoefficients[] = $this->coefficient[$i] / ($this->degree - $i + 1);
         }
-        $newCoefficients[] = 0;
-        return new Polynomial($newCoefficients);
+        $integralCoefficients[] = 0;
+        return new Polynomial($integralCoefficients);
     }
 }
