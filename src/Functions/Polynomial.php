@@ -16,11 +16,15 @@ namespace Math\Functions;
  * Current features:
  *     o Print a human readable representation of a polynomial
  *     o Evaluate a polynomial at any real number
+ *     o Polynomial differentiation (exact)
+ *     o Polynomial integration (indefinite integral)
  *
  * Example:
- *     $polynomial = new Polynomial([1, -8, 12, 3])
- *     echo $polynomial;    // prints 'x³ - 8x² + 12x + 3'
- *     echo $polynomial(4); // prints -31
+ *     $polynomial = new Polynomial([1, -8, 12, 3]);
+ *     echo $polynomial;                  // prints 'x³ - 8x² + 12x + 3'
+ *     echo $polynomial(4);               // prints -31
+ *     echo $polynomial->$differentiate() // prints '3x² - 16x + 12'
+ *     echo $polynomial->$integrate()     // prints '0.25x⁴ - 2.6666666666667x³ + 6x² + 3x'
  *
  * https://en.wikipedia.org/wiki/Polynomial
  */
@@ -140,5 +144,46 @@ class Polynomial
         }
 
         return $polynomial($x₀);
+    }
+
+    /**
+     * Calculate the derivative of a polynomial and return it as a new polynomial
+     * Example: $polynomial = new Polynomial([1, -8, 12, 3]); // x³ - 8x² + 12x + 3
+     *          $derivative = $polynomial->differentiate();   // 3x² - 16x + 12
+     *
+     * @return object The derivative of our polynomial object, also a polynomial object
+     */
+    public function differentiate()
+    {
+        $derivativeCoefficients = []; // Start with empty set of coefficients
+
+        // Iterate over each coefficient (except the last), differentiating term-by-term
+        for ($i = 0; $i < $this->degree; $i++) {
+            $derivativeCoefficients[] = $this->coefficients[$i] * ($this->degree - $i);
+        }
+
+        return new Polynomial($derivativeCoefficients);
+    }
+
+    /**
+     * Calculate the indefinite integral of a polynomial and return it as a new polynomial
+     * Example: $polynomial = new Polynomial([3, -16, 12]); // 3x² - 16x + 12
+     *          $integral = $polynomial->integrate();       // x³ - 8x² + 12x
+     *
+     * Note that this method assumes the constant of integration to be 0.
+     *
+     * @return object The integral of our polynomial object, also a polynomial object
+     */
+    public function integrate()
+    {
+        $integralCoefficients = []; // Start with empty set of coefficients
+
+        // Iterate over each coefficient, integrating term-by-term
+        for ($i = 0; $i < $this->degree + 1; $i++) {
+            $integralCoefficients[] = $this->coefficients[$i] / ($this->degree - $i + 1);
+        }
+        $integralCoefficients[] = 0; // Make the constant of integration 0
+
+        return new Polynomial($integralCoefficients);
     }
 }
