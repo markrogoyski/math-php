@@ -1,5 +1,4 @@
 <?php
-
 namespace Math\NumericalAnalysis\NumericalIntegration;
 
 /**
@@ -92,7 +91,7 @@ class BoolesRule extends NumericalIntegration
         $subintervals  = $n - 1;
         $a             = $sorted[0][$x];
         $b             = $sorted[$n-1][$x];
-        $h             = ($b - $a)/$subintervals;
+        $h             = ($b - $a) / $subintervals;
         $approximation = 0;
 
         /*

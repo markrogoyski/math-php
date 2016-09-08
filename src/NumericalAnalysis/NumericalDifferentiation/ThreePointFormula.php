@@ -1,5 +1,4 @@
 <?php
-
 namespace Math\NumericalAnalysis\NumericalDifferentiation;
 
 /**
@@ -31,7 +30,7 @@ class ThreePointFormula extends NumericalDifferentiation
      * between 0 and 4. Then, this array will be used in our approximation.
      *
      * Three Point Formula:
-
+     *
      *   - If the 2nd point is our $target, use the Midpoint Formula:
      *
      *              1                     h²
@@ -65,7 +64,7 @@ class ThreePointFormula extends NumericalDifferentiation
      */
     public static function differentiate($target, $source, ... $args)
     {
-        // get an array of points from our $source argument
+        // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
         // Validate input, sort points, make sure spacing is constant, and make
@@ -81,7 +80,7 @@ class ThreePointFormula extends NumericalDifferentiation
 
         // Initialize
         $n = count($sorted);
-        $h = ($sorted[2][$x] - $sorted[0][$x])/2;
+        $h = ($sorted[2][$x] - $sorted[0][$x]) / 2;
 
         /*
          * If the 2nd point is our $target, use the Midpoint Formula:
@@ -104,9 +103,9 @@ class ThreePointFormula extends NumericalDifferentiation
 
         // If the 2nd point is our $target, use the Midpoint Formula
         if ($sorted[1][$x] == $target) {
-            $f⟮x₀⧿h⟯  = $sorted[0][$y];
-            $f⟮x₀⧾h⟯  = $sorted[2][$y];
-            $derivative = ($f⟮x₀⧾h⟯ - $f⟮x₀⧿h⟯)/(2*$h);
+            $f⟮x₀⧿h⟯     = $sorted[0][$y];
+            $f⟮x₀⧾h⟯     = $sorted[2][$y];
+            $derivative = ($f⟮x₀⧾h⟯ - $f⟮x₀⧿h⟯) / (2*$h);
 
         // If the 1st or 3rd point is our $target, use the Endpoint Formula
         } else {
@@ -118,12 +117,12 @@ class ThreePointFormula extends NumericalDifferentiation
 
             // If the 3rd point is our $target, use negative h
             } else {
-                $h = -$h;
+                $h       = -$h;
                 $f⟮x₀⟯    = $sorted[2][$y];
                 $f⟮x₀⧾h⟯  = $sorted[1][$y];
                 $f⟮x₀⧾2h⟯ = $sorted[0][$y];
             }
-            $derivative = (-3*$f⟮x₀⟯ + 4*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯)/(2*$h);
+            $derivative = (-3*$f⟮x₀⟯ + 4*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯) / (2*$h);
         }
 
         return $derivative;
