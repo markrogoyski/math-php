@@ -35,4 +35,15 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
         $actual     = $polynomial->differentiate();
         $this->assertEquals($expected, $actual);
     }
+
+    public function testIntegration()
+    {
+        // p(x)  = x² + 2x + 3
+        // p'(x) = (1/3)x³ + x² + 3x
+
+        $polynomial = new Polynomial([1, 2, 3]);
+        $expected = new Polynomial([1/3, 1, 3, 0]);
+        $actual = $polynomial->integrate();
+        $this->assertEquals($expected, $actual);
+    }
 }
