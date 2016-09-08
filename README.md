@@ -381,20 +381,32 @@ use Math\NumericalAnalysis\NumericalDifferentiation;
 //  2) As a callback function, and the number of function evaluations to
 //     perform on an interval between a start and end point.
 
-// Input as a set of points
-$points = [[0, 1], [1, 4], [2, 9]];
-
 // Input as a callback function
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 2, 3];
 
 // Three Point Formula
 // Returns an approximation for the derivative of our input at our target
+
+// Input as a set of points
+$points = [[0, 1], [1, 4], [2, 9]];
+
 $target = 0;
+list($start, $end, $n) = [0, 2, 3];
 $derivative = NumericalDifferentiation\ThreePointFormula::differentiate($target, $points);                // input as a set of points
 $derivative = NumericalDifferentiation\ThreePointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
+
+// Five Point Formula
+// Returns an approximation for the derivative of our input at our target
+
+// Input as a set of points
+$points = [[0, 1], [1, 4], [2, 9], [3, 16], [4, 25]];
+
+$target = 0;
+list($start, $end, $n) = [0, 4, 5];
+$derivative = NumericalDifferentiation\FivePointFormula::differentiate($target, $points);                // input as a set of points
+$derivative = NumericalDifferentiation\FivePointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
 ```
 
 ### Numerical Analysis - Numerical Integration
