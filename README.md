@@ -407,6 +407,17 @@ $target = 0;
 list($start, $end, $n) = [0, 4, 5];
 $derivative = NumericalDifferentiation\FivePointFormula::differentiate($target, $points);                // input as a set of points
 $derivative = NumericalDifferentiation\FivePointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
+
+// Second Derivative Midpoint Formula
+// Returns an approximation for the second derivative of our input at our target
+
+// Input as a set of points
+$points = [[0, 1], [1, 4], [2, 9];
+
+$target = 1;
+list($start, $end, $n) = [0, 2, 3];
+$derivative = NumericalDifferentiation\SecondDerivativeMidpointFormula::differentiate($target, $points);                // input as a set of points
+$derivative = NumericalDifferentiation\SecondDerivativeMidpointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
 ```
 
 ### Numerical Analysis - Numerical Integration
