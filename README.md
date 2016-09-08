@@ -873,7 +873,8 @@ print_r($anova);
 // Two-way ANOVA
 /*        | Factor B₁ | Factor B₂ | Factor B₃ |
 Factor A₁ |  4, 6, 8  |  6, 6, 9  |  8, 9, 13 |
-Factor A₂ |  4, 8, 9  | 7, 10, 13 | 12, 14, 16| */
+Factor A₂ |  4, 8, 9  | 7, 10, 13 | 12, 14, 16|
+    ⋮           ⋮           ⋮           ⋮         */
 $factorA₁ = [
   [4, 6, 8],    // Factor B₁
   [6, 6, 9],    // Factor B₂
