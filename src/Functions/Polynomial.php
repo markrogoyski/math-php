@@ -195,19 +195,23 @@ class Polynomial
         $coefficientsA = array_reverse($this->coefficients);
         $coefficientsB = array_reverse($polynomial->coefficients);
 
-        $sumcoefficients = []; // Start with an empty set of coefficients
+        // Start with an array of coefficients that all equal 0
+        $sumCoefficients = array_fill(0, $sumDegree+1, 0);
 
         // Iterate through each degree. Get coefficients by summing component-wise.
         for ($i = 0; $i < $sumDegree + 1; $i++) {
+            // Calculate the degree of the current sum
+            $degree = $sumDegree - $i;
+
             // Get the coefficient of the i-th degree term from each polynomial if it exists, otherwise use 0
             $a = $coefficientsA[$i] ?? 0;
             $b = $coefficientsB[$i] ?? 0;
 
             // The new coefficient is the sum of the original coefficients
-            $sumcoefficients[$sumDegree - $i] = $a + $b;
+            $sumCoefficients[$degree] = $sumCoefficients[$degree] + $a + $b;
         }
 
-        return new Polynomial($sumcoefficients);
+        return new Polynomial($sumCoefficients);
     }
 
     public function multiply(Polynomial $polynomial)
@@ -220,21 +224,22 @@ class Polynomial
         $coefficientsB = array_reverse($polynomial->coefficients);
 
         // Start with an array of coefficients that all equal 0
-        $productcoefficients = array_fill(0, $productDegree+1, 0);
+        $productCoefficients = array_fill(0, $productDegree+1, 0);
 
         // Iterate through the product of terms component-wise
         for ($i = 0; $i < $this->degree + 1; $i++) {
             for ($j = 0; $j < $polynomial->degree + 1; $j++ ) {
-                $degree = $productDegree-($i+$j); // The degree of the current product
+                // Calculate the degree of the current product
+                $degree = $productDegree-($i+$j);
 
                 // Calculate the product of the coefficients
                 $product = $coefficientsA[$i] * $coefficientsB[$j];
 
                 // Add the product to the existing coefficient of the current degree
-                $productcoefficients[$degree] = $productcoefficients[$degree] + $product;
+                $productCoefficients[$degree] = $productCoefficients[$degree] + $product;
             }
         }
 
-        return new Polynomial($productcoefficients);
+        return new Polynomial($productCoefficients);
     }
 }
