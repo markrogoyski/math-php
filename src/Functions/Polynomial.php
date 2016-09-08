@@ -188,15 +188,22 @@ class Polynomial
 
     public function add(Polynomial $polynomial)
     {
+        // Calculate the degree of the sum of the polynomials
         $sumDegree       = max($this->degree, $polynomial->degree);
+
+        // Reverse the coefficients arrays so you can sum component-wise
         $coefficientsA = array_reverse($this->coefficients);
         $coefficientsB = array_reverse($polynomial->coefficients);
 
-        $sumcoefficients = [];
+        $sumcoefficients = []; // Start with an empty set of coefficients
 
+        // Iterate through each degree. Get coefficients by summing component-wise.
         for ($i = 0; $i < $sumDegree + 1; $i++) {
+            // Get the coefficient of the i-th degree term from each polynomial if it exists, otherwise use 0
             $a = $coefficientsA[$i] ?? 0;
             $b = $coefficientsB[$i] ?? 0;
+
+            // The new coefficient is the sum of the original coefficients
             $sumcoefficients[$sumDegree - $i] = $a + $b;
         }
 
