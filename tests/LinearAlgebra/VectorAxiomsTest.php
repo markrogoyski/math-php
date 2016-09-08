@@ -13,6 +13,8 @@ namespace Math\LinearAlgebra;
  *    - |x|₂ ≤ |x|₁ ≤ √n |x|₂
  *    - |x|∞ ≤ |x|₂ ≤ √n |x|∞
  *    - |x|∞ ≤ |x|₁ ≤ √n |x|∞
+ *  - Dot product
+ *    - A⋅B = B⋅A
  *  - Cross product / dot product
  *    - (A x B) ⋅ A = 0
  *    - (A x B) ⋅ B = 0
@@ -90,6 +92,48 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
             [ [-4, 6, 3, 7, -4, 5, -8, -11, 5, 0, 5, -2] ],
             [ [1, 0, 3, 5, 3, 0, 0, 9, 0] ],
             [ [34, 100, 4, 532, 6, 43, 78, 32, 853, 23, 532, 327 ] ],
+        ];
+    }
+
+    /**
+     * Axiom: A⋅B = B⋅A
+     * Dot product is commutative
+     * @dataProvider dataProviderForTwoVectors
+     */
+    public function testDotProductCommutative(array $A, array $B)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+
+        $A⋅B = $A->dotProduct($B);
+        $B⋅A = $B->dotProduct($A);
+
+        $this->assertEquals($A⋅B, $B⋅A);
+    }
+
+    public function dataProviderForTwoVectors()
+    {
+        return [
+            [
+                [1],
+                [1],
+            ],
+            [
+                [1, 2],
+                [2, 3],
+            ],
+            [
+                [1, 2, 3, 4, 5],
+                [4, 5, 6, 7, 8],
+            ],
+            [
+                [3, -5, 2, -12, 4, 9, -4],
+                [-9, 4, 5, 6, -11, 2, -4],
+            ],
+            [
+                [1, 0, 3],
+                [0, 1 ,9],
+            ],
         ];
     }
 
