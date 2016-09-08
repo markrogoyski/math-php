@@ -42,9 +42,9 @@ class Polynomial
      * When a polynomial is instantiated, set the coefficients and degree of
      * that polynomial as its object parameters.
      *
-     * @param array $coefficient An array of coefficients in decreasing powers.
-     *                           Example: new Polynomial([1, 2, 3]) will create
-     *                           a polynomial that looks like x² + 2x + 3.
+     * @param array $coefficients An array of coefficients in decreasing powers.
+     *                            Example: new Polynomial([1, 2, 3]) will create
+     *                            a polynomial that looks like x² + 2x + 3.
      */
     public function __construct(array $coefficients)
     {
@@ -182,44 +182,24 @@ class Polynomial
             $integralCoefficients[] = $this->coefficients[$i] / ($this->degree - $i + 1);
         }
         $integralCoefficients[] = 0; // Make the constant of integration 0
-        
+
         return new Polynomial($integralCoefficients);
     }
 
     public function add(Polynomial $polynomial)
     {
         $sumDegree       = max($this->degree, $polynomial->degree);
-        $coefficientA = array_reverse($this->coefficient);
-        $coefficientB = array_reverse($polynomial->coefficient);
+        $coefficientsA = array_reverse($this->coefficients);
+        $coefficientsB = array_reverse($polynomial->coefficients);
 
-        $sumCoefficient = [];
+        $sumcoefficients = [];
 
         for ($i = 0; $i < $sumDegree + 1; $i++) {
-            $a = $coefficientA[$i] ?? 0;
-            $b = $coefficientB[$i] ?? 0;
-            $sumCoefficient[$sumDegree - $i] = $a + $b;
+            $a = $coefficientsA[$i] ?? 0;
+            $b = $coefficientsB[$i] ?? 0;
+            $sumcoefficients[$sumDegree - $i] = $a + $b;
         }
 
-        return new Polynomial($sumCoefficient);
-    }
-
-    public function multiply(Polynomial $polynomial)
-    {
-        $productDegree       = $this->degree * $polynomial->degree;
-        $coefficientA = array_reverse($this->coefficient);
-        $coefficientB = array_reverse($polynomial->coefficient);
-
-        $productCoefficient = array_fill(0, $productDegree - 1, 0);
-
-        for ($i = 0; $i < $this->degree + 1; $i++) {
-            for ($j = 0; $j < $polynomial->degree + 1; $j++ ) {
-                echo $index . ' | ';
-                $index = $productDegree-($i+$j+1);
-                $product = $coefficientA[$i] * $coefficientB[$j];
-                $productCoefficient[$index] = $productCoefficient[$index] + $product;
-            }
-        }
-
-        return new Polynomial($productCoefficient);
+        return new Polynomial($sumcoefficients);
     }
 }
