@@ -31,7 +31,7 @@ class ThreePointFormula extends NumericalDifferentiation
      * between 0 and 4. Then, this array will be used in our approximation.
      *
      * Three Point Formula:
-
+     *
      *   - If the 2nd point is our $target, use the Midpoint Formula:
      *
      *              1                     h²
