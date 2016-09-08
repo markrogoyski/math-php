@@ -43,6 +43,7 @@ class Polynomial
      */
     public function __construct(array $coefficient)
     {
+        $coefficient = array_map('floatval', $coefficient);
         $this->degree = count($coefficient) - 1;
         $this->coefficient = $coefficient;
     }
@@ -68,7 +69,7 @@ class Polynomial
 
             // Otherwise, use the coefficient as is
             } else {
-                $coefficient = floatval($this->coefficient[$i]);
+                $coefficient = $this->coefficient[$i];
             }
 
             // Build the exponent of our string as a unicode character
@@ -190,5 +191,21 @@ class Polynomial
         $integralCoefficients[] = 0; // Make the constant of integration 0
 
         return new Polynomial($integralCoefficients);
+    }
+
+    public function add(Polynomial $polynomial) {
+        $sumDegree       = max($this->degree, $polynomial->degree);
+        $sumCoefficients = [];
+
+        $coefficientA = array_reverse($this->coefficient);
+        $coefficientB = array_reverse($polynomial->coefficient);
+
+        for ($i = 0; $i < $sumDegree + 1; $i++) {
+            $a = $coefficientA[$i] ?? 0;
+            $b = $coefficientB[$i] ?? 0;
+            $sumCoefficients[$sumDegree - $i] = $a + $b;
+        }
+
+        return new Polynomial($sumCoefficients);
     }
 }
