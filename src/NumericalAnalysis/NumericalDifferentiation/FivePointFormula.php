@@ -31,23 +31,23 @@ class FivePointFormula extends NumericalDifferentiation
      * between 0 and 4. Then, this array will be used in our approximation.
      *
      * Five Point Formula:
-
-     *   - If the 2nd point is our $target, use the Midpoint Formula:
      *
-     *              1                     h²
-     *     f'(x₀) = - [f(x₀+h)-f(x₀-h)] - - f⁽³⁾(ζ₁)
-     *              2h                    6
+     *   - If the 3rd point is our $target, use the Midpoint Formula:
      *
-     *         where ζ₁ lies between x₀ - h and x₀ + h
+     *              1                                         h⁴
+     *     f'(x₀) = - [f(x₀-2h)-8f(x₀-h)+8f(x₀+h)-f(x₀+2h)] - - f⁽⁵⁾(ζ₁)
+     *             12h                                        30
      *
-     *   - If the 1st or 3rd point is our $target, use the Endpoint Formula:
+     *         where ζ₁ lies between x₀ - 2h and x₀ + 2h
+     *
+     *   - If the 1st or 5th point is our $target, use the Endpoint Formula:
      *   - Note that when the 3rd point is our $target, we use a negative h.
      *
-     *              1                               h²
-     *     f'(x₀) = - [-3f(x₀)+4f(x₀+h)-f(x₀+2h)] + - f⁽³⁾(ζ₀)
-     *              2h                              3
+     *              1                                                        h⁴
+     *     f'(x₀) = - [-25f(x₀)+48f(x₀+h)-36f(x₀+2h)+16f(x₀+3h)-3f(x₀+4h)] + - f⁽⁵⁾(ζ₀)
+     *             12h                                                       5
      *
-     *         where ζ₀ lies between x₀ and x₀ + 2h
+     *         where ζ₀ lies between x₀ and x₀ + 4h
      *
      * @param numbers  $target   The value at which we are approximating the derivative
      * @param          $source   The source of our approximation. Should be either
@@ -84,22 +84,24 @@ class FivePointFormula extends NumericalDifferentiation
         $h = ($sorted[2][$x] - $sorted[0][$x])/2;
 
         /*
-         * If the 2nd point is our $target, use the Midpoint Formula:
-         *
-         *          1                     h²
-         * f'(x₀) = - [f(x₀+h)-f(x₀-h)] - - f⁽³⁾(ζ₁)
-         *          2h                    6
-         *
-         *     where ζ₁ lies between x₀ - h and x₀ + h
-         *
-         * If the 1st or 3rd point is our $target, use the Endpoint Formula:
-         * Note that when the 3rd point is our $target, we use a negative h.
-         *
-         *          1                               h²
-         * f'(x₀) = - [-3f(x₀)+4f(x₀+h)-f(x₀+2h)] + - f⁽³⁾(ζ₀)
-         *          2h                              3
-         *
-         *     where ζ₀ lies between x₀ and x₀ + 2h
+        * Five Point Formula:
+        *
+        *   - If the 3rd point is our $target, use the Midpoint Formula:
+        *
+        *              1                                         h⁴
+        *     f'(x₀) = - [f(x₀-2h)-8f(x₀-h)+8f(x₀+h)-f(x₀+2h)] - - f⁽⁵⁾(ζ₁)
+        *             12h                                        30
+        *
+        *         where ζ₁ lies between x₀ - 2h and x₀ + 2h
+        *
+        *   - If the 1st or 5th point is our $target, use the Endpoint Formula:
+        *   - Note that when the 3rd point is our $target, we use a negative h.
+        *
+        *              1                                                        h⁴
+        *     f'(x₀) = - [-25f(x₀)+48f(x₀+h)-36f(x₀+2h)+16f(x₀+3h)-3f(x₀+4h)] + - f⁽⁵⁾(ζ₀)
+        *             12h                                                       5
+        *
+        *         where ζ₀ lies between x₀ and x₀ + 4h
          */
 
         // If the 2nd point is our $target, use the Midpoint Formula
