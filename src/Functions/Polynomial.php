@@ -202,4 +202,23 @@ class Polynomial
 
         return new Polynomial($sumcoefficients);
     }
+
+    public function multiply(Polynomial $polynomial)
+    {
+        $productDegree       = $this->degree + $polynomial->degree;
+        $coefficientsA = array_reverse($this->coefficients);
+        $coefficientsB = array_reverse($polynomial->coefficients);
+
+        $productcoefficients = array_fill(0, $productDegree+1, 0);
+
+        for ($i = 0; $i < $this->degree + 1; $i++) {
+            for ($j = 0; $j < $polynomial->degree + 1; $j++ ) {
+                $index = $productDegree-($i+$j);
+                $product = $coefficientsA[$i] * $coefficientsB[$j];
+                $productcoefficients[$index] = $productcoefficients[$index] + $product;
+            }
+        }
+
+        return new Polynomial($productcoefficients);
+    }
 }
