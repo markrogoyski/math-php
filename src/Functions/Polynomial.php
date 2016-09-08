@@ -167,6 +167,9 @@ class Polynomial
             $derivativeCoefficients[] = $this->coefficients[$i] * ($this->degree - $i);
         }
 
+        // If the array of coefficients is empty, we are differentiating a constant. Return [0].
+        $derivativeCoefficients = ($derivativeCoefficients !== []) ? $derivativeCoefficients : [0];
+
         return new Polynomial($derivativeCoefficients);
     }
 
