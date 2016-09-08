@@ -163,6 +163,13 @@ class Polynomial
         return new Polynomial($derivativeCoefficients);
     }
 
+    /**
+     * Calculate the indefinite integral of a polynomial and return it as a new polynomial
+     * Example: $polynomial = new Polynomial([3, -16, 12]); // 3x² - 16x + 12
+     *          $integral = $polynomial->integrate();       // x³ - 8x² + 12x
+     *
+     * @return object The integral of our polynomial object, also a polynomial object
+     */
     public function integrate()
     {
         $integralCoefficients = [];
