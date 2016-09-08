@@ -16,11 +16,15 @@ namespace Math\Functions;
  * Current features:
  *     o Print a human readable representation of a polynomial
  *     o Evaluate a polynomial at any real number
+ *     o Polynomial differentiation (exact)
+ *     o Polynomial integration (indefinite integral)
  *
  * Example:
- *     $polynomial = new Polynomial([1, -8, 12, 3])
- *     echo $polynomial;    // prints "x³ - 8x² + 12x + 3"
- *     echo $polynomial(4); // prints -31
+ *     $polynomial = new Polynomial([1, -8, 12, 3]);
+ *     echo $polynomial;                  // prints "x³ - 8x² + 12x + 3"
+ *     echo $polynomial(4);               // prints -31
+ *     echo $polynomial->$differentiate() // prints "3x² - 16x + 12"
+ *     echo $polynomial->$integrate()     // prints "0.25x⁴ - 2.6666666666667x³ + 6x² + 3x"
  *
  * https://en.wikipedia.org/wiki/Polynomial
  */
@@ -167,6 +171,8 @@ class Polynomial
      * Calculate the indefinite integral of a polynomial and return it as a new polynomial
      * Example: $polynomial = new Polynomial([3, -16, 12]); // 3x² - 16x + 12
      *          $integral = $polynomial->integrate();       // x³ - 8x² + 12x
+     *
+     * Note that this method assumes the constant of integration to be 0.
      *
      * @return object The integral of our polynomial object, also a polynomial object
      */
