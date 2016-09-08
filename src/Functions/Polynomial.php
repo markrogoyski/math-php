@@ -225,6 +225,17 @@ class Polynomial
         return new Polynomial($sumCoefficients);
     }
 
+    /**
+     * Return a new polynomial that is the product of the current polynomial and an
+     * input polynomial
+     * Example: $polynomial = new Polynomial([2, -16]);          // 2x - 16
+     *          $integral   = $polynomial->integrate();          // x² - 16x
+     *          $product    = $polynomial->multiply($integral);  // 2x³ - 48x² + 256x
+     *
+     * @param object $polynomial The polynomial we are multiplying with our current polynomial
+     *
+     * @return object The product of our polynomial objects, also a polynomial object
+     */
     public function multiply(Polynomial $polynomial)
     {
         // Calculate the degree of the product of the polynomials
