@@ -113,7 +113,7 @@ class ThreePointFormulaTest extends \PHPUnit_Framework_TestCase
         $actual = ThreePointFormula::differentiate($target, $f, $a, $b, $n);
         $this->assertEquals($expected, $actual, '', $tol);
     }
-    
+
     public function testPointsZeroError()
     {
         // f(x) = 13x² -92x + 96
