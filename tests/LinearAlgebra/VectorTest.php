@@ -94,6 +94,40 @@ class VectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForCrossProduct
+     */
+    public function testCrossProduct(array $A, array $B, $cross_product)
+    {
+        $A  = new Vector($A);
+        $B  = new Vector($B);
+        $this->assertEquals($cross_product, $A->crossProduct($B));
+    }
+
+    public function dataProviderForCrossProduct()
+    {
+        return [
+            [ [ 1, 2, 3 ],  [ 4, -5, 6 ],  new Vector([27,6,-13]) ],
+            [ [ -1, 2, -3],    [4,-5,6],     new Vector([-3,-6,-3])],
+            [ [ 0,0,0], [ 0,0,0],  new Vector([0,0,0]) ],
+        ];
+    }
+
+    public function testCrossProductExceptionWrongSize()
+    {
+        $A = new Vector([1, 2]);
+        $B = new Vector([1, 2, 3]);
+
+        $this->setExpectedException('\Exception');
+        $A->crossProduct($B);
+
+        $A = new Vector([1, 2, 3]);
+        $B = new Vector([]);
+
+        $this->setExpectedException('\Exception');
+        $A->crossProduct($B);
+    }
+
+    /**
      * @dataProvider dataProviderForOuterProduct
      */
     public function testOuterProduct(array $A, array $B, array $R)
