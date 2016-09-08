@@ -1,5 +1,7 @@
 <?php
+
 namespace Math\Functions;
+
 /**
  * A convenience class for one-dimension polynomials.
  *
@@ -30,10 +32,12 @@ class Polynomial
 {
     private $degree;
     private $coefficients;
+
     /**
      * @var array Unicode characters for exponents
      */
     const SYMBOLS = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
+
     /**
      * When a polynomial is instantiated, set the coefficients and degree of
      * that polynomial as its object parameters.
@@ -47,6 +51,7 @@ class Polynomial
         $this->degree       = count($coefficients) - 1;
         $this->coefficients = $coefficients;
     }
+
     /**
      * When a polynomial is to be treated as a string, return it in a readable format.
      * Example: $polynomial = new Polynomial([1, -8, 12, 3]);
@@ -59,42 +64,52 @@ class Polynomial
     {
         // Start with an empty polynomial
         $polynomial = '';
+
         // Iterate over each coefficient to generate the string for each term and add to the polynomial
         foreach ($this->coefficients as $i => $coefficient) {
             if ($coefficient == 0) {
                 continue;
             }
+
             // Power of the current term
             $power = $this->degree - $i;
+
             // Build the exponent of our string as a unicode character
             $exponent = '';
             for ($j = 0; $j < strlen($power); $j++) {
                 $digit     = intval(strval($power)[$j]); // The j-th digit of $power
                 $exponent .= self::SYMBOLS[$digit];      // The corresponding unicode character
             };
+
             // Get the sign for the term
             $sign = ($coefficient > 0) ? '+' : '-';
+
             // Drop the sign from the coefficient, as it is handled by $sign
             $coefficient = abs($coefficient);
+
             // Drop coefficients that equal 1 (and -1)
             if ($coefficient == 1) {
                 $coefficient = '';
             }
-            // Generate the $term string
-            // No x term is power = 0;
+
+            // Generate the $term string. No x term if power = 0.
             if ($power == 0) {
                 $term = "{$sign} {$coefficient}";
             } else {
                 $term = "{$sign} {$coefficient}x{$exponent} ";
             }
+
             // Add the current term to the polynomial
             $polynomial .= $term;
         }
+
         // Cleanup front and back; drop redundant ¹ and ⁰ terms from monomials
         $polynomial = trim(str_replace(['x¹ ','x⁰ '], 'x ', $polynomial), '+ ');
         $polynomial = preg_replace('/^\-\s/', '-', $polynomial);
+
         return $polynomial;
     }
+
     /**
      * When a polynomial is being evaluated at a point x₀, build a callback
      * function and return the value of the callback function at x₀
@@ -111,10 +126,12 @@ class Polynomial
         // Set object parameters as local variables so they can be used with the use function
         $degree       = $this->degree;
         $coefficients = $this->coefficients;
+
         // Start with the zero polynomial
         $polynomial = function ($x) {
             return 0;
         };
+
         // Iterate over each coefficient to create a callback function for each term
         for ($i = 0; $i < $degree + 1; $i++) {
             // Create a callback function for the current term
@@ -124,8 +141,10 @@ class Polynomial
             // Add the new term to the polynomial
             $polynomial = Arithmetic::add($polynomial, $term);
         }
+
         return $polynomial($x₀);
     }
+
     /**
      * Calculate the derivative of a polynomial and return it as a new polynomial
      * Example: $polynomial = new Polynomial([1, -8, 12, 3]); // x³ - 8x² + 12x + 3
@@ -136,12 +155,15 @@ class Polynomial
     public function differentiate()
     {
         $derivativeCoefficients = []; // Start with empty set of coefficients
+
         // Iterate over each coefficient (except the last), differentiating term-by-term
         for ($i = 0; $i < $this->degree; $i++) {
             $derivativeCoefficients[] = $this->coefficients[$i] * ($this->degree - $i);
         }
+
         return new Polynomial($derivativeCoefficients);
     }
+
     /**
      * Calculate the indefinite integral of a polynomial and return it as a new polynomial
      * Example: $polynomial = new Polynomial([3, -16, 12]); // 3x² - 16x + 12
@@ -154,11 +176,13 @@ class Polynomial
     public function integrate()
     {
         $integralCoefficients = []; // Start with empty set of coefficients
+
         // Iterate over each coefficient, integrating term-by-term
         for ($i = 0; $i < $this->degree + 1; $i++) {
             $integralCoefficients[] = $this->coefficients[$i] / ($this->degree - $i + 1);
         }
         $integralCoefficients[] = 0; // Make the constant of integration 0
+        
         return new Polynomial($integralCoefficients);
     }
 
