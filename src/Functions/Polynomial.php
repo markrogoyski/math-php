@@ -212,17 +212,26 @@ class Polynomial
 
     public function multiply(Polynomial $polynomial)
     {
+        // Calculate the degree of the product of the polynomials
         $productDegree       = $this->degree + $polynomial->degree;
+
+        // Reverse the coefficients arrays so you can multiply component-wise
         $coefficientsA = array_reverse($this->coefficients);
         $coefficientsB = array_reverse($polynomial->coefficients);
 
+        // Start with an array of coefficients that all equal 0
         $productcoefficients = array_fill(0, $productDegree+1, 0);
 
+        // Iterate through the product of terms component-wise
         for ($i = 0; $i < $this->degree + 1; $i++) {
             for ($j = 0; $j < $polynomial->degree + 1; $j++ ) {
-                $index = $productDegree-($i+$j);
+                $degree = $productDegree-($i+$j); // The degree of the current product
+
+                // Calculate the product of the coefficients
                 $product = $coefficientsA[$i] * $coefficientsB[$j];
-                $productcoefficients[$index] = $productcoefficients[$index] + $product;
+
+                // Add the product to the existing coefficient of the current degree
+                $productcoefficients[$degree] = $productcoefficients[$degree] + $product;
             }
         }
 
