@@ -15,6 +15,7 @@ namespace Math\LinearAlgebra;
  *    - |x|∞ ≤ |x|₁ ≤ √n |x|∞
  *  - Dot product
  *    - A⋅B = B⋅A
+ *    - 0⋅A = A⋅0 = 0
  *  - Cross product / dot product
  *    - (A x B) ⋅ A = 0
  *    - (A x B) ⋅ B = 0
@@ -133,6 +134,46 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
             [
                 [1, 0, 3],
                 [0, 1 ,9],
+            ],
+        ];
+    }
+
+    /**
+     * Axiom: 0⋅A = A⋅0 = 0
+     * Dot product of a vector and zero is zero.
+     * @dataProvider dataProviderForDotProductZero
+     */
+    public function testDotProductZero(array $A, array $zero)
+    {
+        $A    = new Vector($A);
+        $zero = new Vector($zero);
+
+        $A⋅zero = $A->dotProduct($zero);
+        $zero⋅A = $zero->dotProduct($A);
+
+        $this->assertEquals(0, $A⋅zero);
+        $this->assertEquals(0, $zero⋅A);
+        $this->assertEquals($A⋅zero, $zero⋅A);
+    }
+
+    public function dataProviderForDotProductZero()
+    {
+        return [
+            [
+                [1],
+                [0],
+            ],
+            [
+                [1, 2],
+                [0, 0],
+            ],
+            [
+                [1, 2, 3],
+                [0, 0, 0],
+            ],
+            [
+                [5, 6, 7, 3, 4, 5, 6, 7, 8, 6, 5],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
         ];
     }
