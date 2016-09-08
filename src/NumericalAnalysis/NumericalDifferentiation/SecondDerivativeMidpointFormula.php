@@ -12,7 +12,7 @@ namespace Math\NumericalAnalysis\NumericalDifferentiation;
  * callback function and then generate a set of points by evaluating that function
  * at 3 points between a start and end point.
  */
-class ThreePointFormula extends NumericalDifferentiation
+class SecondDerivativeMidpointFormula extends NumericalDifferentiation
 {
     /**
      * Use the Second Derivative Midpoint Formula to aproximate the second derivative of a
@@ -31,22 +31,11 @@ class ThreePointFormula extends NumericalDifferentiation
      *
      * Second Derivative Midpoint Formula:
      *
-     *   - If the 2nd point is our $target, use the Midpoint Formula:
+     *           1                                h²
+     * f''(x₀) = - [f(x₀-h) - 2f(x₀) + f(x₀+h)] - - f⁽⁴⁾(ζ)
+     *           h²                               12
      *
-     *              1                     h²
-     *     f'(x₀) = - [f(x₀+h)-f(x₀-h)] - - f⁽³⁾(ζ₁)
-     *              2h                    6
-     *
-     *         where ζ₁ lies between x₀ - h and x₀ + h
-     *
-     *   - If the 1st or 3rd point is our $target, use the Endpoint Formula:
-     *   - Note that when the 3rd point is our $target, we use a negative h.
-     *
-     *              1                               h²
-     *     f'(x₀) = - [-3f(x₀)+4f(x₀+h)-f(x₀+2h)] + - f⁽³⁾(ζ₀)
-     *              2h                              3
-     *
-     *         where ζ₀ lies between x₀ and x₀ + 2h
+     *     where ζ lies between x₀ - h and x₀ + h
      *
      * @param numbers  $target   The value at which we are approximating the derivative
      * @param          $source   The source of our approximation. Should be either
@@ -83,22 +72,11 @@ class ThreePointFormula extends NumericalDifferentiation
         $h = ($sorted[2][$x] - $sorted[0][$x]) / 2;
 
         /*
-         * If the 2nd point is our $target, use the Midpoint Formula:
-         *
-         *          1                     h²
-         * f'(x₀) = - [f(x₀+h)-f(x₀-h)] - - f⁽³⁾(ζ₁)
-         *          2h                    6
-         *
-         *     where ζ₁ lies between x₀ - h and x₀ + h
-         *
-         * If the 1st or 3rd point is our $target, use the Endpoint Formula:
-         * Note that when the 3rd point is our $target, we use a negative h.
-         *
-         *          1                               h²
-         * f'(x₀) = - [-3f(x₀)+4f(x₀+h)-f(x₀+2h)] + - f⁽³⁾(ζ₀)
-         *          2h                              3
-         *
-         *     where ζ₀ lies between x₀ and x₀ + 2h
+        *           1                                h²
+        * f''(x₀) = - [f(x₀-h) - 2f(x₀) + f(x₀+h)] - - f⁽⁴⁾(ζ)
+        *           h²                               12
+        *
+        *     where ζ lies between x₀ - h and x₀ + h
          */
 
         // If the 2nd point is our $target, use the Midpoint Formula
