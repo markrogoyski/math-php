@@ -79,28 +79,13 @@ class SecondDerivativeMidpointFormula extends NumericalDifferentiation
         *     where ζ lies between x₀ - h and x₀ + h
          */
 
-        // If the 2nd point is our $target, use the Midpoint Formula
         if ($sorted[1][$x] == $target) {
             $f⟮x₀⧿h⟯     = $sorted[0][$y];
+            $f⟮x₀⟯       = $sorted[1][$y];
             $f⟮x₀⧾h⟯     = $sorted[2][$y];
-            $derivative = ($f⟮x₀⧾h⟯ - $f⟮x₀⧿h⟯) / (2*$h);
-
-        // If the 1st or 3rd point is our $target, use the Endpoint Formula
+            $derivative = ($f⟮x₀⧿h⟯ - 2*$f⟮x₀⟯ + $f⟮x₀⧾h⟯) / ($h**2);
         } else {
-            // The 1st point is our $target
-            if ($sorted[0][$x] == $target) {
-                $f⟮x₀⟯    = $sorted[0][$y];
-                $f⟮x₀⧾h⟯  = $sorted[1][$y];
-                $f⟮x₀⧾2h⟯ = $sorted[2][$y];
-
-            // If the 3rd point is our $target, use negative h
-            } else {
-                $h       = -$h;
-                $f⟮x₀⟯    = $sorted[2][$y];
-                $f⟮x₀⧾h⟯  = $sorted[1][$y];
-                $f⟮x₀⧾2h⟯ = $sorted[0][$y];
-            }
-            $derivative = (-3*$f⟮x₀⟯ + 4*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯) / (2*$h);
+            throw new \Exception("Your target must be the midpoint of your input");
         }
 
         return $derivative;
