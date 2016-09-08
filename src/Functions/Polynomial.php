@@ -193,19 +193,40 @@ class Polynomial
         return new Polynomial($integralCoefficients);
     }
 
-    public function add(Polynomial $polynomial) {
+    public function add(Polynomial $polynomial)
+    {
         $sumDegree       = max($this->degree, $polynomial->degree);
-        $sumCoefficients = [];
-
         $coefficientA = array_reverse($this->coefficient);
         $coefficientB = array_reverse($polynomial->coefficient);
+
+        $sumCoefficient = [];
 
         for ($i = 0; $i < $sumDegree + 1; $i++) {
             $a = $coefficientA[$i] ?? 0;
             $b = $coefficientB[$i] ?? 0;
-            $sumCoefficients[$sumDegree - $i] = $a + $b;
+            $sumCoefficient[$sumDegree - $i] = $a + $b;
         }
 
-        return new Polynomial($sumCoefficients);
+        return new Polynomial($sumCoefficient);
+    }
+
+    public function multiply(Polynomial $polynomial)
+    {
+        $productDegree       = $this->degree * $polynomial->degree;
+        $coefficientA = array_reverse($this->coefficient);
+        $coefficientB = array_reverse($polynomial->coefficient);
+
+        $productCoefficient = array_fill(0, $productDegree - 1, 0);
+
+        for ($i = 0; $i < $this->degree + 1; $i++) {
+            for ($j = 0; $j < $polynomial->degree + 1; $j++ ) {
+                echo $index . ' | ';
+                $index = $productDegree-($i+$j+1);
+                $product = $coefficientA[$i] * $coefficientB[$j];
+                $productCoefficient[$index] = $productCoefficient[$index] + $product;
+            }
+        }
+
+        return new Polynomial($productCoefficient);
     }
 }
