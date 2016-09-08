@@ -80,7 +80,7 @@ class FivePointFormula extends NumericalDifferentiation
 
         // Initialize
         $n = count($sorted);
-        $h = ($sorted[2][$x] - $sorted[0][$x]) / 2;
+        $h = ($sorted[4][$x] - $sorted[0][$x]) / 4;
 
         /*
         * Five Point Formula:
