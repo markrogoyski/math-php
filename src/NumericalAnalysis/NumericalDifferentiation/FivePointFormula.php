@@ -119,8 +119,8 @@ class FivePointFormula extends NumericalDifferentiation
                 $f⟮x₀⟯    = $sorted[0][$y];
                 $f⟮x₀⧾h⟯  = $sorted[1][$y];
                 $f⟮x₀⧾2h⟯ = $sorted[2][$y];
-                $f⟮x₀⧾3h⟯ = $sorted[2][$y];
-                $f⟮x₀⧾4h⟯ = $sorted[2][$y];
+                $f⟮x₀⧾3h⟯ = $sorted[3][$y];
+                $f⟮x₀⧾4h⟯ = $sorted[4][$y];
 
             // If the 5th point is our $target, use negative h
             } else {
