@@ -74,4 +74,28 @@ class Polynomial
 
         return $polynomial;
     }
+
+    public function __invoke($x₀)
+    {
+        // Set object parameters as local variables so they can be used with the use function
+        $degree = $this->degree;
+        $coefficient = $this->coefficient;
+
+        // Start with the zero polynomial
+        $polynomial = function($x) {
+            return 0;
+        };
+
+        // Iterate over each coefficient to create a callback function for each term
+        for ($i = 0; $i < $degree + 1; $i++) {
+            // Create a callback function for the current term
+            $term = function ($x) use ($degree, $coefficient, $i) {
+                return $coefficient[$i] * $x**($degree - $i);
+            };
+            // Add the new term to the polynomial
+            $polynomial = Arithmetic::add($polynomial, $term);
+        }
+
+        return $polynomial($x₀);
+    }
 }
