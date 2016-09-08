@@ -2,6 +2,28 @@
 
 namespace Math\Functions;
 
+/**
+ * A convenience class for one-dimension polynomials.
+ *
+ * This class is used to encompass typical methods and features that you can extend
+ * to polynomials. For example, polynomial differentiation follows a specific rule,
+ * and thus we can build a differentiation method that returns the exact derivative
+ * for polynomials.
+ *
+ * Input arguments: simply pass in an array of coefficients in decreasing powers.
+ * Make sure to put a 0 coefficient in place of powers that are not used.
+ *
+ * Current features:
+ *     o Print a human readable representation of a polynomial
+ *     o Evaluate a polynomial at any real number
+ *
+ * Example:
+ *     $polynomial = new Polynomial([1, -8, 12, 3])
+ *     echo $polynomial;    // prints "x³ - 8x² + 12x + 3"
+ *     echo $polynomial(4); // prints -31
+ *
+ * https://en.wikipedia.org/wiki/Polynomial
+ */
 class Polynomial
 {
     private $degree;
