@@ -166,7 +166,7 @@ class Polynomial
         for ($i = 0; $i < $this->degree; $i++) {
             $derivativeCoefficients[] = $this->coefficient[$i] * ($this->degree - $i);
         }
-        
+
         return new Polynomial($derivativeCoefficients);
     }
 
@@ -181,11 +181,14 @@ class Polynomial
      */
     public function integrate()
     {
-        $integralCoefficients = [];
+        $integralCoefficients = []; // Start with empty set of coefficients
+
+        // Iterate over each coefficient, integrating term-by-term
         for ($i = 0; $i < $this->degree + 1; $i++) {
             $integralCoefficients[] = $this->coefficient[$i] / ($this->degree - $i + 1);
         }
-        $integralCoefficients[] = 0;
+        $integralCoefficients[] = 0; // Make the constant of integration 0
+
         return new Polynomial($integralCoefficients);
     }
 }
