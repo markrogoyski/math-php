@@ -97,7 +97,6 @@ class Vector implements \ArrayAccess
         ));
     }
 
-
     /**
      * Cross product (AxB)
      * https://en.wikipedia.org/wiki/Cross_product
@@ -112,9 +111,9 @@ class Vector implements \ArrayAccess
             throw new \Exception('Vectors must have 3 items');
         }
 
-        $s1 = $this->A[1]*$B[2] - $this->A[2]*$B[1];
-        $s2 = $this->A[2]*$B[0] - $this->A[0]*$B[2];
-        $s3 = $this->A[0]*$B[1] - $this->A[1]*$B[0];
+        $s1 = ($this->A[1] * $B[2]) - ($this->A[2] * $B[1]);
+        $s2 = ($this->A[2] * $B[0]) - ($this->A[0] * $B[2]);
+        $s3 = ($this->A[0] * $B[1]) - ($this->A[1] * $B[0]);
 
         return new Vector([$s1, $s2, $s3]);
     }
