@@ -1,7 +1,7 @@
 <?php
 namespace Math\NumericalAnalysis\NumericalDifferentiation;
 
-class ThreePointFormulaTest extends \PHPUnit_Framework_TestCase
+class SecondDerivativeMidpointFormulaTest extends \PHPUnit_Framework_TestCase
 {
     public function testZeroError()
     {
