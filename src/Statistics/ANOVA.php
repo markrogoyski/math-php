@@ -330,18 +330,23 @@ class ANOVA
      * PB  = F distribution CDF above FB with degrees of freedom dfA and dfW
      * PAB = F distribution CDF above FAB with degrees of freedom dfAB and dfW
      *
+     * Example input data for ...$data parameter:
+     *             | Factor B₁ | Factor B₂ | ⋯
+     *   Factor A₁ |  4, 6, 8  |  6, 6, 9  | ⋯
+     *   Factor A₂ |  4, 8, 9  | 7, 10, 13 | ⋯
+     *      ⋮           ⋮           ⋮         ⋮
      * @param  array ...$data Samples to analyze [
      *               // Factor A₁
      *               [
-     *                   [1, 2, 3] // Factor B₁
-     *                   [2, 3, 4] // Factor B₂
-     *                      ...
+     *                   [4, 6, 8] // Factor B₁
+     *                   [6, 6, 9] // Factor B₂
+     *                       ⋮
      *               ],
      *               // Factor A₂
      *               [
-     *                   [1, 2, 3] // Factor B₁
-     *                   [2, 3, 4] // Factor B₂
-     *                      ...
+     *                   [4, 8, 9]   // Factor B₁
+     *                   [7, 10, 13] // Factor B₂
+     *                       ⋮
      *               ],
      *               ...
      *         ]
@@ -371,6 +376,7 @@ class ANOVA
      *                   ...
      *                 ]
      *               ]
+     * @throws \Exception if less than two A factors, or if B factors or values have different number elements
      */
     public static function twoWay(array ...$data)
     {
