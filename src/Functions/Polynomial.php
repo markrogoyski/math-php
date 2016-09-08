@@ -13,6 +13,14 @@ class Polynomial
         $this->coefficient = $coefficient;
     }
 
+    /**
+     * When a polynomial is to be treated as a string, return it in a readable format.
+     * Example: $polynomial = new Polynomial([1, -8, 12, 3]);
+     *          echo $polynomial;
+     *          // prints "x³ - 8x² + 12x + 3"
+     *
+     * @return string A human readable representation of the polynomial
+     */
     public function __toString()
     {
         $polynomial = ""; // Start with an empty polynomial
