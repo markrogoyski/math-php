@@ -7,6 +7,14 @@ class Polynomial
     private $degree;
     private $coefficient;
 
+    /**
+     * When a polynomial is instantiated, set the coefficients and degree of
+     * that polynomial as its object parameters.
+     *
+     * @param array $coefficient An array of coefficients in decreasing powers.
+     *                           Example: new Polynomial([1, 2, 3]) will create
+     *                           a polynomial that looks like x² + 2x + 3.
+     */
     public function __construct(array $coefficient)
     {
         $this->degree = count($coefficient) - 1;
