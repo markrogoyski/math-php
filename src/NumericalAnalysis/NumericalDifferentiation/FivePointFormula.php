@@ -83,24 +83,24 @@ class FivePointFormula extends NumericalDifferentiation
         $h = ($sorted[4][$x] - $sorted[0][$x]) / 4;
 
         /*
-        * Five Point Formula:
-        *
-        *   - If the 3rd point is our $target, use the Midpoint Formula:
-        *
-        *              1                                         h⁴
-        *     f'(x₀) = - [f(x₀-2h)-8f(x₀-h)+8f(x₀+h)-f(x₀+2h)] - - f⁽⁵⁾(ζ₁)
-        *             12h                                        30
-        *
-        *         where ζ₁ lies between x₀ - 2h and x₀ + 2h
-        *
-        *   - If the 1st or 5th point is our $target, use the Endpoint Formula:
-        *   - Note that when the 3rd point is our $target, we use a negative h.
-        *
-        *              1                                                        h⁴
-        *     f'(x₀) = - [-25f(x₀)+48f(x₀+h)-36f(x₀+2h)+16f(x₀+3h)-3f(x₀+4h)] + - f⁽⁵⁾(ζ₀)
-        *             12h                                                       5
-        *
-        *         where ζ₀ lies between x₀ and x₀ + 4h
+         * Five Point Formula:
+         *
+         *   - If the 3rd point is our $target, use the Midpoint Formula:
+         *
+         *              1                                         h⁴
+         *     f'(x₀) = - [f(x₀-2h)-8f(x₀-h)+8f(x₀+h)-f(x₀+2h)] - - f⁽⁵⁾(ζ₁)
+         *             12h                                        30
+         *
+         *         where ζ₁ lies between x₀ - 2h and x₀ + 2h
+         *
+         *   - If the 1st or 5th point is our $target, use the Endpoint Formula:
+         *   - Note that when the 3rd point is our $target, we use a negative h.
+         *
+         *              1                                                        h⁴
+         *     f'(x₀) = - [-25f(x₀)+48f(x₀+h)-36f(x₀+2h)+16f(x₀+3h)-3f(x₀+4h)] + - f⁽⁵⁾(ζ₀)
+         *             12h                                                       5
+         *
+         *         where ζ₀ lies between x₀ and x₀ + 4h
          */
 
         // If the 3nd point is our $target, use the Midpoint Formula
