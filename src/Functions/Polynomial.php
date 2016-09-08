@@ -87,8 +87,8 @@ class Polynomial
             // Drop the sign from the coefficient, as it is handled by $sign
             $coefficient = abs($coefficient);
 
-            // Drop coefficients that equal 1 (and -1)
-            if ($coefficient == 1) {
+            // Drop coefficients that equal 1 (and -1) if they are not the 0th-degree term
+            if ($coefficient == 1 and $this->degree - $i != 0) {
                 $coefficient = '';
             }
 
@@ -106,6 +106,8 @@ class Polynomial
         // Cleanup front and back; drop redundant ¹ and ⁰ terms from monomials
         $polynomial = trim(str_replace(['x¹ ','x⁰ '], 'x ', $polynomial), '+ ');
         $polynomial = preg_replace('/^\-\s/', '-', $polynomial);
+
+        $polynomial = ($polynomial !== '') ? $polynomial : '0';
 
         return $polynomial;
     }
