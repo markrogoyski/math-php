@@ -173,6 +173,10 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
                 [1, 0, 0], // p(x)  = x²
                 [2, 0]     // p'(x) = 2x
             ],
+            [
+                [5],    // p(x)  = 5
+                [0]     // p'(x) = 0
+            ]
         ];
     }
 
