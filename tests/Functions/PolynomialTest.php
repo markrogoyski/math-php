@@ -85,8 +85,8 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
                 '-2x',
             ],
             [
-                [0, 0, 0],       // p(x) = ''
-                '',
+                [0, 0, 0],       // p(x) = 0
+                '0',
             ],
             [
                 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],       // p(x) = x¹¹ + 2x¹⁰ + 3x⁹ + 4x⁸ + 5x⁷ + 6x⁶ + 7x⁵ + 8x⁴ + 9x³ + 10x² + 11x + 12
@@ -130,7 +130,11 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [1, 2, 3], // p(x) = x² + 2x + 3
-                -1, 2     // p(-1) = 2
+                -1, 2      // p(-1) = 2
+            ],
+            [
+                [0, 0, 0], // p(x) = 0
+                5, 0       // p(5) = 0
             ],
         ];
     }
