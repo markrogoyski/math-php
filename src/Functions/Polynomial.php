@@ -186,6 +186,17 @@ class Polynomial
         return new Polynomial($integralCoefficients);
     }
 
+    /**
+     * Return a new polynomial that is the sum of the current polynomial and an
+     * input polynomial
+     * Example: $polynomial = new Polynomial([3, -16, 12]); // 3x² - 16x + 12
+     *          $integral   = $polynomial->integrate();     // x³ - 8x² + 12x
+     *          $sum        = $polynomial->add($integral);  // x³ - 5x² - 4x + 12
+     *
+     * @param object $polynomial The polynomial we are adding to our current polynomial
+     *
+     * @return object The sum of our polynomial objects, also a polynomial object
+     */
     public function add(Polynomial $polynomial)
     {
         // Calculate the degree of the sum of the polynomials
