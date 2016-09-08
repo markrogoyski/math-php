@@ -64,7 +64,7 @@ class Polynomial
 
             // Otherwise, use the coefficient as is
             } else {
-                $coefficient = intval($this->coefficient[$i]);
+                $coefficient = floatval($this->coefficient[$i]);
             }
 
             // Build the exponent of our string as a unicode character
@@ -153,6 +153,16 @@ class Polynomial
         for ($i = 0; $i < $this->degree; $i++) {
             $newCoefficients[] = $this->coefficient[$i] * ($this->degree - $i);
         }
+        return new Polynomial($newCoefficients);
+    }
+
+    public function integrate()
+    {
+        $newCoefficients = [];
+        for ($i = 0; $i < $this->degree + 1; $i++) {
+            $newCoefficients[] = $this->coefficient[$i] / ($this->degree - $i + 1);
+        }
+        $newCoefficients[] = 0;
         return new Polynomial($newCoefficients);
     }
 }
