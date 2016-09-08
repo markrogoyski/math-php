@@ -146,4 +146,13 @@ class Polynomial
 
         return $polynomial($x₀);
     }
+
+    public function differentiate()
+    {
+        $newCoefficients = [];
+        for ($i = 0; $i < $this->degree; $i++) {
+            $newCoefficients[] = $this->coefficient[$i] * ($this->degree - $i);
+        }
+        return new Polynomial($newCoefficients);
+    }
 }
