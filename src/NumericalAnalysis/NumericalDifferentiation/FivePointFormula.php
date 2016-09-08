@@ -104,28 +104,34 @@ class FivePointFormula extends NumericalDifferentiation
         *         where ζ₀ lies between x₀ and x₀ + 4h
          */
 
-        // If the 2nd point is our $target, use the Midpoint Formula
-        if ($sorted[1][$x] == $target) {
-            $f⟮x₀⧿h⟯  = $sorted[0][$y];
-            $f⟮x₀⧾h⟯  = $sorted[2][$y];
-            $derivative = ($f⟮x₀⧾h⟯ - $f⟮x₀⧿h⟯)/(2*$h);
+        // If the 3nd point is our $target, use the Midpoint Formula
+        if ($sorted[2][$x] == $target) {
+            $f⟮x₀⧿2h⟯ = $sorted[0][$y];
+            $f⟮x₀⧿h⟯  = $sorted[1][$y];
+            $f⟮x₀⧾h⟯  = $sorted[3][$y];
+            $f⟮x₀⧾2h⟯ = $sorted[4][$y];
+            $derivative = ($f⟮x₀⧿2h⟯ - 8*$f⟮x₀⧿h⟯ + 8*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯)/(12*$h);
 
-        // If the 1st or 3rd point is our $target, use the Endpoint Formula
+        // If the 1st or 5th point is our $target, use the Endpoint Formula
         } else {
             // The 1st point is our $target
             if ($sorted[0][$x] == $target) {
                 $f⟮x₀⟯    = $sorted[0][$y];
                 $f⟮x₀⧾h⟯  = $sorted[1][$y];
                 $f⟮x₀⧾2h⟯ = $sorted[2][$y];
+                $f⟮x₀⧾3h⟯ = $sorted[2][$y];
+                $f⟮x₀⧾4h⟯ = $sorted[2][$y];
 
-            // If the 3rd point is our $target, use negative h
+            // If the 5th point is our $target, use negative h
             } else {
                 $h = -$h;
-                $f⟮x₀⟯    = $sorted[2][$y];
-                $f⟮x₀⧾h⟯  = $sorted[1][$y];
-                $f⟮x₀⧾2h⟯ = $sorted[0][$y];
+                $f⟮x₀⟯    = $sorted[4][$y];
+                $f⟮x₀⧾h⟯  = $sorted[3][$y];
+                $f⟮x₀⧾2h⟯ = $sorted[2][$y];
+                $f⟮x₀⧾3h⟯ = $sorted[1][$y];
+                $f⟮x₀⧾4h⟯ = $sorted[0][$y];
             }
-            $derivative = (-3*$f⟮x₀⟯ + 4*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯)/(2*$h);
+            $derivative = (-25*$f⟮x₀⟯ + 48*$f⟮x₀⧾h⟯ - 36*$f⟮x₀⧾2h⟯ + 16*$f⟮x₀⧾3h⟯ - 3*$f⟮x₀⧾4h⟯)/(12*$h);
         }
 
         return $derivative;
