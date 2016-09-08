@@ -75,6 +75,17 @@ class Polynomial
         return $polynomial;
     }
 
+    /**
+     * When a polynomial is being evaluated at a point x₀, build a callback
+     * function and return the value of the callback function at x₀
+     * Example: $polynomial = new Polynomial([1, -8, 12, 3]);
+     *          echo $polynomial(4);
+     *          // prints -13
+     *
+     * @param number $x₀ The value at which we are evaluting our polynomial
+     *
+     * @return number The result of our polynomial evaluated at $x₀
+     */
     public function __invoke($x₀)
     {
         // Set object parameters as local variables so they can be used with the use function
