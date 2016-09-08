@@ -34,7 +34,7 @@ class ThreePointFormula extends NumericalDifferentiation
      *   - If the 2nd point is our $target, use the Midpoint Formula:
      *
      *              1                     h²
-     *     f'(x₀) = - [f(x₀+h)-f(x₀-h)] - - f⁽³⁾(ζ₁)
+     *     f′(x₀) = - [f(x₀+h)-f(x₀-h)] - - f⁽³⁾(ζ₁)
      *              2h                    6
      *
      *         where ζ₁ lies between x₀ - h and x₀ + h
@@ -43,7 +43,7 @@ class ThreePointFormula extends NumericalDifferentiation
      *   - Note that when the 3rd point is our $target, we use a negative h.
      *
      *              1                               h²
-     *     f'(x₀) = - [-3f(x₀)+4f(x₀+h)-f(x₀+2h)] + - f⁽³⁾(ζ₀)
+     *     f′(x₀) = - [-3f(x₀)+4f(x₀+h)-f(x₀+2h)] + - f⁽³⁾(ζ₀)
      *              2h                              3
      *
      *         where ζ₀ lies between x₀ and x₀ + 2h
@@ -86,7 +86,7 @@ class ThreePointFormula extends NumericalDifferentiation
          * If the 2nd point is our $target, use the Midpoint Formula:
          *
          *          1                     h²
-         * f'(x₀) = - [f(x₀+h)-f(x₀-h)] - - f⁽³⁾(ζ₁)
+         * f′(x₀) = - [f(x₀+h)-f(x₀-h)] - - f⁽³⁾(ζ₁)
          *          2h                    6
          *
          *     where ζ₁ lies between x₀ - h and x₀ + h
@@ -95,7 +95,7 @@ class ThreePointFormula extends NumericalDifferentiation
          * Note that when the 3rd point is our $target, we use a negative h.
          *
          *          1                               h²
-         * f'(x₀) = - [-3f(x₀)+4f(x₀+h)-f(x₀+2h)] + - f⁽³⁾(ζ₀)
+         * f′(x₀) = - [-3f(x₀)+4f(x₀+h)-f(x₀+2h)] + - f⁽³⁾(ζ₀)
          *          2h                              3
          *
          *     where ζ₀ lies between x₀ and x₀ + 2h

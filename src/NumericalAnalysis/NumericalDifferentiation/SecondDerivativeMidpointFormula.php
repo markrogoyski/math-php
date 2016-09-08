@@ -31,9 +31,9 @@ class SecondDerivativeMidpointFormula extends NumericalDifferentiation
      *
      * Second Derivative Midpoint Formula:
      *
-     *           1                                h²
-     * f''(x₀) = - [f(x₀-h) - 2f(x₀) + f(x₀+h)] - - f⁽⁴⁾(ζ)
-     *           h²                               12
+     *          1                                h²
+     * f″(x₀) = - [f(x₀-h) - 2f(x₀) + f(x₀+h)] - - f⁽⁴⁾(ζ)
+     *          h²                               12
      *
      *     where ζ lies between x₀ - h and x₀ + h
      *
@@ -71,11 +71,11 @@ class SecondDerivativeMidpointFormula extends NumericalDifferentiation
         $h = ($sorted[2][$x] - $sorted[0][$x]) / 2;
 
         /*
-        *           1                                h²
-        * f''(x₀) = - [f(x₀-h) - 2f(x₀) + f(x₀+h)] - - f⁽⁴⁾(ζ)
-        *           h²                               12
-        *
-        *     where ζ lies between x₀ - h and x₀ + h
+         *          1                                h²
+         * f″(x₀) = - [f(x₀-h) - 2f(x₀) + f(x₀+h)] - - f⁽⁴⁾(ζ)
+         *          h²                               12
+         *
+         *     where ζ lies between x₀ - h and x₀ + h
          */
 
         if ($sorted[1][$x] == $target) {
