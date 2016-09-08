@@ -1,5 +1,4 @@
 <?php
-
 namespace Math\NumericalAnalysis\NumericalDifferentiation;
 
 /**
@@ -81,7 +80,7 @@ class FivePointFormula extends NumericalDifferentiation
 
         // Initialize
         $n = count($sorted);
-        $h = ($sorted[2][$x] - $sorted[0][$x])/2;
+        $h = ($sorted[2][$x] - $sorted[0][$x]) / 2;
 
         /*
         * Five Point Formula:
@@ -106,11 +105,11 @@ class FivePointFormula extends NumericalDifferentiation
 
         // If the 3nd point is our $target, use the Midpoint Formula
         if ($sorted[2][$x] == $target) {
-            $f⟮x₀⧿2h⟯ = $sorted[0][$y];
-            $f⟮x₀⧿h⟯  = $sorted[1][$y];
-            $f⟮x₀⧾h⟯  = $sorted[3][$y];
-            $f⟮x₀⧾2h⟯ = $sorted[4][$y];
-            $derivative = ($f⟮x₀⧿2h⟯ - 8*$f⟮x₀⧿h⟯ + 8*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯)/(12*$h);
+            $f⟮x₀⧿2h⟯    = $sorted[0][$y];
+            $f⟮x₀⧿h⟯     = $sorted[1][$y];
+            $f⟮x₀⧾h⟯     = $sorted[3][$y];
+            $f⟮x₀⧾2h⟯    = $sorted[4][$y];
+            $derivative = ($f⟮x₀⧿2h⟯ - 8*$f⟮x₀⧿h⟯ + 8*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯) / (12*$h);
 
         // If the 1st or 5th point is our $target, use the Endpoint Formula
         } else {
@@ -131,7 +130,7 @@ class FivePointFormula extends NumericalDifferentiation
                 $f⟮x₀⧾3h⟯ = $sorted[1][$y];
                 $f⟮x₀⧾4h⟯ = $sorted[0][$y];
             }
-            $derivative = (-25*$f⟮x₀⟯ + 48*$f⟮x₀⧾h⟯ - 36*$f⟮x₀⧾2h⟯ + 16*$f⟮x₀⧾3h⟯ - 3*$f⟮x₀⧾4h⟯)/(12*$h);
+            $derivative = (-25*$f⟮x₀⟯ + 48*$f⟮x₀⧾h⟯ - 36*$f⟮x₀⧾2h⟯ + 16*$f⟮x₀⧾3h⟯ - 3*$f⟮x₀⧾4h⟯) / (12*$h);
         }
 
         return $derivative;
