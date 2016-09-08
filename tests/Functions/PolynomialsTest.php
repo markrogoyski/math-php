@@ -13,4 +13,15 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
         $actual = strval($polynomial);
         $this->assertEquals($expected, $actual);
     }
+
+    public function testEval()
+    {
+        // p(x) = x² + 2x + 3
+        // p(0) = 3
+
+        $polynomial = new Polynomial([1, 2, 3]);
+        $expected = 3;
+        $actual = $polynomial(0);
+        $this->assertEquals($expected, $actual);
+    }
 }
