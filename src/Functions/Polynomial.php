@@ -58,7 +58,6 @@ class Polynomial
 
         // Iterate over each coefficient to generate the string for each term
         for ($i = 0; $i < $this->degree + 1; $i++) {
-
             // If coefficient is 0, skip to the next term
             if ($this->coefficient[$i] == 0) {
                 continue;
@@ -86,7 +85,7 @@ class Polynomial
                 if ($power == $this->degree) {
                     $sign = ""; // If the first term is positive, drop the redundant + sign
                 } else {
-                $sign = "+";
+                    $sign = "+";
                 }
             } else {
                 $sign = "-";
@@ -131,7 +130,7 @@ class Polynomial
         $coefficient = $this->coefficient;
 
         // Start with the zero polynomial
-        $polynomial = function($x) {
+        $polynomial = function ($x) {
             return 0;
         };
 
