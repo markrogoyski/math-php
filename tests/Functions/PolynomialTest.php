@@ -75,4 +75,15 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
         $actual = $polynomial->integrate();
         $this->assertEquals($expected, $actual);
     }
+
+    public function testFundamentalTheoremOfCalculus()
+    {
+        // p(x)  = x² + 2x + 3
+
+        $polynomial = new Polynomial([1, 2, 3]);
+        $integral   = $polynomial->integrate();
+        $actual     = $integral->differentiate();
+        $expected   = $polynomial;
+        $this->assertEquals($expected, $actual);
+    }
 }
