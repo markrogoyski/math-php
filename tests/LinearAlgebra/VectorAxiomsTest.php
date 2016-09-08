@@ -13,6 +13,9 @@ namespace Math\LinearAlgebra;
  *    - |x|₂ ≤ |x|₁ ≤ √n |x|₂
  *    - |x|∞ ≤ |x|₂ ≤ √n |x|∞
  *    - |x|∞ ≤ |x|₁ ≤ √n |x|∞
+ *  - Cross product / dot product
+ *    - (A x B) ⋅ A = 0
+ *    - (A x B) ⋅ B = 0
  */
 class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -62,7 +65,7 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider dataProviderForSingleVector
      */
-    public function testMaxNormLessThtanEQualL1NormLessThanEqualSqrtNMaxNorm(array $V)
+    public function testMaxNormLessThanEqualL1NormLessThanEqualSqrtNMaxNorm(array $V)
     {
         $V = new Vector($V);
         $n = $V->getN();
@@ -87,6 +90,77 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
             [ [-4, 6, 3, 7, -4, 5, -8, -11, 5, 0, 5, -2] ],
             [ [1, 0, 3, 5, 3, 0, 0, 9, 0] ],
             [ [34, 100, 4, 532, 6, 43, 78, 32, 853, 23, 532, 327 ] ],
+        ];
+    }
+
+    /**
+     * Axiom: (A x B) ⋅ A = 0
+     * Axiom: (A x B) ⋅ B = 0
+     * Dot product of either vector with the cross product is always zero.
+     * @dataProvider dataProviderForCrossProdcutMultiplyZero
+     */
+    public function testCrossProductInnerProductWithEitherVectorIsZero(array $A, array $B)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+
+        $AxB = $A->crossProduct($B);
+
+        $this->assertEquals(0, $AxB->innerProduct($A));
+        $this->assertEquals(0, $AxB->innerProduct($B));
+    }
+
+    public function dataProviderForCrossProdcutMultiplyZero()
+    {
+        return [
+            [
+                [1, 2, 3],
+                [4, 5, 6],
+            ],
+            [
+                [1, 2, 3],
+                [4, -5, 6],
+            ],
+            [
+                [-1, 2, -3],
+                [4,-5,6],
+            ],
+            [
+                [0,0,0],
+                [0,0,0],
+            ],
+            [
+                [4, 5, 6],
+                [7, 8, 9],
+            ],
+            [
+                [4, 9, 3],
+                [12, 11, 4],
+            ],
+            [
+                [-4, 9, 3],
+                [12, 11, 4],
+            ],
+            [
+                [4, -9, 3],
+                [12, 11, 4],
+            ],
+            [
+                [4, 9, -3],
+                [12, 11, 4],
+            ],
+            [
+                [4, 9, 3],
+                [-12, 11, 4],
+            ],
+            [
+                [4, 9, 3],
+                [12, -11, 4],
+            ],
+            [
+                [4, 9, 3],
+                [12, 11, -4],
+            ],
         ];
     }
 }
