@@ -259,7 +259,7 @@ class Polynomial
 
         // Iterate through the product of terms component-wise
         for ($i = 0; $i < $this->degree + 1; $i++) {
-            for ($j = 0; $j < $polynomial->degree + 1; $j++ ) {
+            for ($j = 0; $j < $polynomial->degree + 1; $j++) {
                 // Calculate the degree of the current product
                 $degree = $productDegree-($i+$j);
 
