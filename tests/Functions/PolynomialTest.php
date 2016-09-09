@@ -252,4 +252,37 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForMultiplication
+     */
+    public function testMultiplication(array $polynomialA, array $polynomialB, array $expected_product)
+    {
+        $polynomialA    = new Polynomial($polynomialA);
+        $polynomialB    = new Polynomial($polynomialB);
+        $expected       = new Polynomial($expected_product);
+        $product        = $polynomialA->multiply($polynomialB);
+        $this->assertEquals($expected, $product);
+    }
+
+    public function dataProviderForMultiplication()
+    {
+        return [
+            [
+                [1, 2, 3],         // f(x)      = x² + 2x + 3
+                [2, 3, 1],         // g(x)      = 2x² + 3x + 1
+                [2, 7, 13, 11, 3], // f(x)*g(x) = 2x⁴ + 7x³ + 13x² + 11x + 3
+            ],
+            [
+                [1, 2, 3, 4, 4],           // f(x)      = x⁴ + 2x³ + 3x² + 4x + 4
+                [2, 3, 1],                 // g(x)      = 2x² + 3x + 1
+                [2, 7, 13, 19, 23, 16, 4], // f(x)*g(x) = 2x⁶ + 7x⁵ + 13x⁴ + 19x³ + 23x² + 16x + 4
+            ],
+            [
+                [1, -8, 12, 3],                // f(x)      = x³ - 8x² + 12x + 3
+                [1, -8, 12, 3],                // g(x)      = f(x)
+                [1, -16, 88, -186, 96, 72, 9], // f(x)+g(x) = x⁶ - 16x⁵ + 88x⁴ - 186x³ + 96x² + 72x + 9
+            ],
+        ];
+    }
 }
