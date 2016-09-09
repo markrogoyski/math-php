@@ -7,35 +7,37 @@ class NevillesMethodTest extends \PHPUnit_Framework_TestCase
     {
         $points = [[0, 0], [1, 5], [3, 2], [7, 10], [10, -4]];
 
+        $roundoff = 0.0000001; // round off error
+
         // Assure p(0) = 0 agrees with input [0, 0]
         $expected = 0;
         $target = 0;
         $actual = NevillesMethod::interpolate($target, $points);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', + $roundoff);
 
         // Assure p(1) = 5 agrees with input [1, 5]
         $expected = 5;
         $target = 1;
         $actual = NevillesMethod::interpolate($target, $points);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', + $roundoff);
 
         // Assure p(3) = 2 agrees with input [3, 2]
         $expected = 2;
         $target = 3;
         $actual = NevillesMethod::interpolate($target, $points);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', + $roundoff);
 
         // Assure p(7) = 10 agrees with input [7, 10]
         $expected = 10;
         $target = 7;
         $actual = NevillesMethod::interpolate($target, $points);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', + $roundoff);
 
         // Assure p(10) = -4 agrees with input [10, -4]
         $expected = -4;
         $target = 10;
         $actual = NevillesMethod::interpolate($target, $points);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', + $roundoff);
     }
 
     public function testSolve()
@@ -54,47 +56,49 @@ class NevillesMethodTest extends \PHPUnit_Framework_TestCase
         $b = 10;
         $n = 5;
 
+        $roundoff = 0.0000001; // round off error
+
         // Check that p(x) agrees with f(x) at x = 0
         $target = 0;
         $expected = $f($target);
         $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 2
         $target = 2;
         $expected = $f($target);
         $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 4
         $target = 4;
         $expected = $f($target);
         $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 6
         $target = 6;
         $expected = $f($target);
         $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 8
         $target = 8;
         $expected = $f($target);
         $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 10
         $target = 10;
         $expected = $f($target);
         $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = -90
         $target = -90;
         $expected = $f($target);
         $actual = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', + $roundoff);
     }
 
     public function testSolveNonzeroError()
@@ -123,54 +127,56 @@ class NevillesMethodTest extends \PHPUnit_Framework_TestCase
         $x₂ = 6;
         $x₃ = 9;
 
+        $roundoff = 0.0000001; // round off error
+
         // Check that p(x) agrees with f(x) at x = 0
 
         $target = 0;
         $tol = ($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃);
         $expected = $f($target);
         $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 2
         $target = 2;
         $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
         $expected = $f($target);
         $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 4
         $target = 4;
         $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
         $expected = $f($target);
         $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 6
         $target = 6;
         $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
         $expected = $f($target);
         $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 8
         $target = 8;
         $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
         $expected = $f($target);
         $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 10
         $target = 10;
         $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
         $expected = $f($target);
         $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = -99
         $target = -99;
         $tol = abs(($target - $x₀)*($target - $x₁)*($target - $x₂)*($target - $x₃));
         $expected = $f($target);
         $x = NevillesMethod::interpolate($target, $f, $a, $b, $n);
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
     }
 }
