@@ -89,6 +89,14 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
                 '0',
             ],
             [
+                [0, 0, 1],       // p(x) = 1
+                '1',
+            ],
+            [
+                [0, 0, 5],       // p(x) = 5
+                '5',
+            ],
+            [
                 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],       // p(x) = x¹¹ + 2x¹⁰ + 3x⁹ + 4x⁸ + 5x⁷ + 6x⁶ + 7x⁵ + 8x⁴ + 9x³ + 10x² + 11x + 12
                 'x¹¹ + 2x¹⁰ + 3x⁹ + 4x⁸ + 5x⁷ + 6x⁶ + 7x⁵ + 8x⁴ + 9x³ + 10x² + 11x + 12',
             ],
@@ -176,7 +184,15 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
             [
                 [5],    // p(x)  = 5
                 [0]     // p'(x) = 0
-            ]
+            ],
+            [
+                [1],    // p(x)  = 1
+                [0]     // p'(x) = 0
+            ],
+            [
+                [0],    // p(x)  = 0
+                [0]     // p'(x) = 0
+            ],
         ];
     }
 
@@ -201,6 +217,10 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
             [
                 [5],    // f(x)  = 5
                 [5, 0], // ∫f(x) = 5x
+            ],
+            [
+                [0],    // f(x)  = 0
+                [0, 0], // ∫f(x) = 0x
             ],
             [
                 [1, 0],      // f(x)  = x
