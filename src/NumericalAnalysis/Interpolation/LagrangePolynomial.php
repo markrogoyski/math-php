@@ -1,5 +1,4 @@
 <?php
-
 namespace Math\NumericalAnalysis\Interpolation;
 
 use Math\Functions\Arithmetic;
@@ -71,8 +70,8 @@ class LagrangePolynomial extends Interpolation
                 if ($j == $i) {
                     continue;
                 }
-                $xᵢ = $sorted[$i][$x];
-                $xⱼ = $sorted[$j][$x];
+                $xᵢ   = $sorted[$i][$x];
+                $xⱼ   = $sorted[$j][$x];
                 $Lᵢ⟮t⟯ = new Polynomial([1/($xᵢ - $xⱼ), -$xⱼ/($xᵢ - $xⱼ)]);
                 $pᵢ⟮t⟯ = $pᵢ⟮t⟯->multiply($Lᵢ⟮t⟯);
             }
