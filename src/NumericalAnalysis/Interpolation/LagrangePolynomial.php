@@ -3,6 +3,7 @@
 namespace Math\NumericalAnalysis\Interpolation;
 
 use Math\Functions\Arithmetic;
+use Math\Functions\Polynomial;
 
 /**
  * Lagrange Interpolating Polynomial
@@ -57,9 +58,7 @@ class LagrangePolynomial extends Interpolation
 
         // Initialize
         $n   = count($sorted);
-        $p⟮t⟯ = function ($t) {
-            return 0; // $p⟮t⟯ = 0
-        };
+        $p⟮t⟯ = new Polynomial([0]);
 
         /*         n      n
          *   p⟮t⟯ = ∑ f⟮xᵢ⟯ Π (x - xᵢ) / (xⱼ - xᵢ)
@@ -67,22 +66,17 @@ class LagrangePolynomial extends Interpolation
          *              ʲꜝ⁼ⁱ
          */
         for ($i = 0; $i < $n; $i++) {
-            $pᵢ⟮t⟯ = function ($t) use ($sorted, $y, $i) {
-                $fᵢ⟮xᵢ⟯ = $sorted[$i][$y]; // yᵢ
-                return $fᵢ⟮xᵢ⟯;
-            };
+            $pᵢ⟮t⟯ = new Polynomial([$sorted[$i][$y]]); // yᵢ
             for ($j = 0; $j < $n; $j++) {
                 if ($j == $i) {
                     continue;
                 }
-                $Lᵢ⟮t⟯ = function ($t) use ($sorted, $x, $i, $j) {
-                    $xᵢ = $sorted[$i][$x];
-                    $xⱼ = $sorted[$j][$x];
-                    return ($t - $xⱼ)/($xᵢ - $xⱼ);
-                };
-                $pᵢ⟮t⟯ = Arithmetic::multiply($pᵢ⟮t⟯, $Lᵢ⟮t⟯);
+                $xᵢ = $sorted[$i][$x];
+                $xⱼ = $sorted[$j][$x];
+                $Lᵢ⟮t⟯ = new Polynomial([1/($xᵢ - $xⱼ), -$xⱼ/($xᵢ - $xⱼ)]);
+                $pᵢ⟮t⟯ = $pᵢ⟮t⟯->multiply($Lᵢ⟮t⟯);
             }
-            $p⟮t⟯ = Arithmetic::add($p⟮t⟯, $pᵢ⟮t⟯);
+            $p⟮t⟯ = $p⟮t⟯->add($pᵢ⟮t⟯);
         }
 
         return $p⟮t⟯;
