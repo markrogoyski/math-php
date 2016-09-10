@@ -1,6 +1,9 @@
 <?php
 namespace Math\NumericalAnalysis\NumericalIntegration;
 
+use Math\NumericalAnalysis\Interpolation\LagrangePolynomial;
+use Math\Functions\Polynomial;
+
 /**
  * Simpsons 3/8 Rule
  *
@@ -101,11 +104,17 @@ class SimpsonsThreeEighthsRule extends NumericalIntegration
          *  where h = (xn - x₁) / (n - 1)
          */
         for ($i = 1; $i < ($subintervals/3) + 1; $i++) {
+            $x₂ᵢ₋₁          = $sorted[(2*$i)-2][$x];
+            $x₂ᵢ            = $sorted[(2*$i)-1][$x];
+            $x₂ᵢ₊₁          = $sorted[(2*$i)][$x];
+            $x₂ᵢ₊₂          = $sorted[(2*$i)+1][$x];
             $f⟮x₂ᵢ₋₁⟯        = $sorted[(2*$i)-2][$y]; // y₂₋₁
             $f⟮x₂ᵢ⟯          = $sorted[(2*$i)-1][$y]; // y₂ᵢ
             $f⟮x₂ᵢ₊₁⟯        = $sorted[(2*$i)][$y];   // y₂ᵢ₊₁
             $f⟮x₂ᵢ₊₂⟯        = $sorted[(2*$i)+1][$y]; // y₂ᵢ₊₂
-            $approximation += ($h * ($f⟮x₂ᵢ₋₁⟯ + 3*$f⟮x₂ᵢ⟯ + 3*$f⟮x₂ᵢ₊₁⟯ + $f⟮x₂ᵢ₊₂⟯)) * (3/8);
+            $lagrange       = LagrangePolynomial::interpolate([[$x₂ᵢ₋₁, $f⟮x₂ᵢ₋₁⟯], [$x₂ᵢ, $f⟮x₂ᵢ⟯], [$x₂ᵢ₊₁, $f⟮x₂ᵢ₊₁⟯], [$x₂ᵢ₊₂, $f⟮x₂ᵢ₊₂⟯]]);
+            $integral       = $lagrange->integrate();
+            $approximation += $integral($x₂ᵢ₊₂) - $integral($x₂ᵢ₋₁); // definite integral of lagrange polynomial
         }
 
         return $approximation;
