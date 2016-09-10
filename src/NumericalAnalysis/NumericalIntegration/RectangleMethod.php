@@ -2,6 +2,8 @@
 
 namespace Math\NumericalAnalysis\NumericalIntegration;
 
+use Math\Functions\Polynomial;
+
 /**
  * Rectangle Method
  *
@@ -94,8 +96,9 @@ class RectangleMethod extends NumericalIntegration
             $xᵢ             = $sorted[$i][$x];
             $xᵢ₊₁           = $sorted[$i+1][$x];
             $f⟮xᵢ⟯           = $sorted[$i][$y];   // yᵢ
-            $h              = $xᵢ₊₁ - $xᵢ;
-            $approximation += $h * $f⟮xᵢ⟯;
+            $interpolation  = new Polynomial([$f⟮xᵢ⟯]); // zeroth degree interpolating polynomial
+            $integral       = $interpolation->integrate();
+            $approximation += $integral($xᵢ₊₁) - $integral($xᵢ); // definite integral of interpolating polynomial
         }
 
         return $approximation;
