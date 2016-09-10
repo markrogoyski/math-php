@@ -2,6 +2,7 @@
 
 namespace Math\NumericalAnalysis\NumericalIntegration;
 
+use Math\NumericalAnalysis\Interpolation\LagrangePolynomial;
 use Math\Functions\Polynomial;
 
 /**
@@ -96,9 +97,9 @@ class RectangleMethod extends NumericalIntegration
             $xᵢ             = $sorted[$i][$x];
             $xᵢ₊₁           = $sorted[$i+1][$x];
             $f⟮xᵢ⟯           = $sorted[$i][$y];   // yᵢ
-            $interpolation  = new Polynomial([$f⟮xᵢ⟯]); // zeroth degree interpolating polynomial
-            $integral       = $interpolation->integrate();
-            $approximation += $integral($xᵢ₊₁) - $integral($xᵢ); // definite integral of interpolating polynomial
+            $lagrange       = LagrangePolynomial::interpolate([[$xᵢ, $f⟮xᵢ⟯]]);
+            $integral       = $lagrange->integrate();
+            $approximation += $integral($xᵢ₊₁) - $integral($xᵢ); // definite integral of lagrange polynomial
         }
 
         return $approximation;
