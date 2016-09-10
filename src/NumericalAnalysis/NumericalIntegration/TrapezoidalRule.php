@@ -100,10 +100,9 @@ class TrapezoidalRule extends NumericalIntegration
             $xᵢ₊₁           = $sorted[$i+1][$x];
             $f⟮xᵢ⟯           = $sorted[$i][$y];    // yᵢ
             $f⟮xᵢ₊₁⟯         = $sorted[$i+1][$y];  // yᵢ₊₁
-            $h              = $xᵢ₊₁ - $xᵢ;
-            $p              = LagrangePolynomial::interpolate([[$xᵢ, $f⟮xᵢ⟯], [$xᵢ₊₁, $f⟮xᵢ₊₁⟯]]);
-            $integral       = $p->integrate();
-            $approximation += $integral($xᵢ₊₁) - $integral($xᵢ);
+            $lagrange       = LagrangePolynomial::interpolate([[$xᵢ, $f⟮xᵢ⟯], [$xᵢ₊₁, $f⟮xᵢ₊₁⟯]]);
+            $integral       = $lagrange->integrate();
+            $approximation += $integral($xᵢ₊₁) - $integral($xᵢ); // definite integral of lagrange polynomial
         }
 
         return $approximation;
