@@ -48,7 +48,7 @@ class LagrangePolynomial extends Interpolation
         $points = self::getPoints($source, $args);
 
         // Validate input and sort points
-        self::validate($points, $degree = 2);
+        self::validate($points, $degree = 1);
         $sorted = self::sort($points);
 
         // Descriptive constants
