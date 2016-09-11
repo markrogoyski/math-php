@@ -1,6 +1,8 @@
 <?php
-
 namespace Math\NumericalAnalysis\NumericalIntegration;
+
+use Math\NumericalAnalysis\Interpolation\LagrangePolynomial;
+use Math\Functions\Polynomial;
 
 /**
  * Trapezoidal Rule
@@ -98,8 +100,9 @@ class TrapezoidalRule extends NumericalIntegration
             $xᵢ₊₁           = $sorted[$i+1][$x];
             $f⟮xᵢ⟯           = $sorted[$i][$y];    // yᵢ
             $f⟮xᵢ₊₁⟯         = $sorted[$i+1][$y];  // yᵢ₊₁
-            $h              = $xᵢ₊₁ - $xᵢ;
-            $approximation += ($h * ($f⟮xᵢ₊₁⟯ + $f⟮xᵢ⟯)) / 2;
+            $lagrange       = LagrangePolynomial::interpolate([[$xᵢ, $f⟮xᵢ⟯], [$xᵢ₊₁, $f⟮xᵢ₊₁⟯]]);
+            $integral       = $lagrange->integrate();
+            $approximation += $integral($xᵢ₊₁) - $integral($xᵢ); // definite integral of lagrange polynomial
         }
 
         return $approximation;

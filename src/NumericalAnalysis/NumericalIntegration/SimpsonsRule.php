@@ -1,6 +1,8 @@
 <?php
-
 namespace Math\NumericalAnalysis\NumericalIntegration;
+
+use Math\NumericalAnalysis\Interpolation\LagrangePolynomial;
+use Math\Functions\Polynomial;
 
 /**
  * Simpsons Rule
@@ -102,10 +104,15 @@ class SimpsonsRule extends NumericalIntegration
          *  where h = (xn - x₁) / (n - 1)
          */
         for ($i = 1; $i < ($subintervals/2) + 1; $i++) {
+            $x₂ᵢ₋₁          = $sorted[(2*$i)-2][$x];
+            $x₂ᵢ            = $sorted[(2*$i)-1][$x];
+            $x₂ᵢ₊₁          = $sorted[(2*$i)][$x];
             $f⟮x₂ᵢ₋₁⟯        = $sorted[(2*$i)-2][$y];  // y₂ᵢ₋₁
             $f⟮x₂ᵢ⟯          = $sorted[(2*$i)-1][$y];  // y₂ᵢ
             $f⟮x₂ᵢ₊₁⟯        = $sorted[(2*$i)][$y];    // y₂ᵢ₊₁
-            $approximation += ($h * ($f⟮x₂ᵢ₋₁⟯ + 4*$f⟮x₂ᵢ⟯ + $f⟮x₂ᵢ₊₁⟯)) / 3;
+            $lagrange       = LagrangePolynomial::interpolate([[$x₂ᵢ₋₁, $f⟮x₂ᵢ₋₁⟯], [$x₂ᵢ, $f⟮x₂ᵢ⟯], [$x₂ᵢ₊₁, $f⟮x₂ᵢ₊₁⟯]]);
+            $integral       = $lagrange->integrate();
+            $approximation += $integral($x₂ᵢ₊₁) - $integral($x₂ᵢ₋₁); // definite integral of lagrange polynomial
         }
 
         return $approximation;

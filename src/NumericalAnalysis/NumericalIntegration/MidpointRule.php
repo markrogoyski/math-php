@@ -1,5 +1,4 @@
 <?php
-
 namespace Math\NumericalAnalysis\NumericalIntegration;
 
 /**
@@ -95,7 +94,7 @@ class MidpointRule extends NumericalIntegration
             $xᵢ₊₁           = $sorted[$i+1][$x];
             $f⟮xᵢ⟯           = $sorted[$i][$y];     // yᵢ
             $f⟮xᵢ₊₁⟯         = $sorted[$i+1][$y];   // yᵢ₊₁
-            $midpoint       = ($f⟮xᵢ⟯+$f⟮xᵢ₊₁⟯)/2;
+            $midpoint       = ($f⟮xᵢ⟯+$f⟮xᵢ₊₁⟯) / 2;
             $h              = $xᵢ₊₁ - $xᵢ;
             $approximation += $h * $midpoint;
         }

@@ -8,9 +8,8 @@ use Math\Functions\Map;
  */
 class Vector implements \ArrayAccess
 {
-
     /**
-     * Number of elecments
+     * Number of elements
      * @var int
      */
     private $n;
@@ -95,6 +94,33 @@ class Vector implements \ArrayAccess
             $this->A,
             $B->getVector()
         ));
+    }
+
+    /**
+     * Cross product (AxB)
+     * https://en.wikipedia.org/wiki/Cross_product
+     *
+     *         | i  j  k  |
+     * A x B = | a₀ a₁ a₂ | = |a₁ a₂|  - |a₀ a₂|  + |a₀ a₁|
+     *         | b₀ b₁ b₂ |   |b₁ b₂|i   |b₀ b₂|j   |b₀ b₁|k
+     *
+     *       = (a₁b₂ - b₁a₂) - (a₀b₂ - b₀a₂) + (a₀b₁ - b₀a₁)
+     *
+     * @param Vector $B
+     *
+     * @return Vector
+     */
+    public function crossProduct(Vector $B)
+    {
+        if ($B->getN() !== 3 || $this->n !== 3) {
+            throw new \Exception('Vectors must have 3 items');
+        }
+
+        $s1 =   ($this->A[1] * $B[2]) - ($this->A[2] * $B[1]);
+        $s2 = -(($this->A[0] * $B[2]) - ($this->A[2] * $B[0]));
+        $s3 =   ($this->A[0] * $B[1]) - ($this->A[1] * $B[0]);
+
+        return new Vector([$s1, $s2, $s3]);
     }
 
     /**

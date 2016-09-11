@@ -17,6 +17,8 @@ Features
    - [Matrix](#linear-algebra---matrix)
    - [Vector](#linear-algebra---vector)
  * Numerical Analysis
+   - [Interpolation](#numerical-analysis---interpolation)
+   - [Numerical Differentiation](#numerical-analysis---numerical-differentiation)
    - [Numerical Integration](#numerical-analysis---numerical-integration)
    - [Root Finding](#numerical-analysis---root-finding)
  * Probability
@@ -313,6 +315,7 @@ $item = $A->get(2);
 $sum    = $A->sum();
 $A⋅B    = $A->dotProduct($B);    // same as innerProduct
 $A⋅B    = $A->innerProduct($B);  // same as dotProduct
+$AxB    = $A->crossProduct($B);
 $l₁norm = $A->l1Norm();
 $l²norm = $A->l2Norm();
 $pnorm  = $A->pNorm();
@@ -323,6 +326,99 @@ $matrix = $A->outerProduct(new Vector([1, 2]));
 
 // Print a vector
 print($A); // [1, 2, 3]
+```
+
+### Numerical Analysis - Interpolation
+```php
+use Math\NumericalAnalysis\Interpolation;
+
+// Interpolation is a method of constructing new data points with the range
+// of a discrete set of known data points.
+// Each integration method can take input in two ways:
+//  1) As a set of points (inputs and outputs of a function)
+//  2) As a callback function, and the number of function evaluations to
+//     perform on an interval between a start and end point.
+
+// Input as a set of points
+$points = [[0, 1], [1, 4], [2, 9], [3, 16]];
+
+// Input as a callback function
+$f⟮x⟯ = function ($x) {
+    return $x**2 + 2 * $x + 1;
+};
+list($start, $end, $n) = [0, 3, 4];
+
+// Lagrange Polynomial
+// Returns a function p(x) of x
+$p = Interpolation\LagrangePolynomial::interpolate($points);                // input as a set of points
+$p = Interpolation\LagrangePolynomial::interpolate($f⟮x⟯, $start, $end, $n); // input as a callback function
+
+$p(0) // 1
+$p(3) // 16
+
+// Nevilles Method
+// More accurate than Lagrange Polynomial Interpolation given the same input
+// Returns the evaluation of the interpolating polynomial at the $target point
+$target = 2;
+$result = Interpolation\NevillesMethod::interpolate($target, $points);                // input as a set of points
+$result = Interpolation\NevillesMethod::interpolate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
+
+// Newton Polynomial (Forward)
+// Returns a function p(x) of x
+$p = Interpolation\NewtonPolynomialForward::interpolate($points);                // input as a set of points
+$p = Interpolation\NewtonPolynomialForward::interpolate($f⟮x⟯, $start, $end, $n); // input as a callback function
+
+$p(0) // 1
+$p(3) // 16
+```
+
+### Numerical Analysis - Numerical Differentiation
+```php
+use Math\NumericalAnalysis\NumericalDifferentiation;
+
+// Numerical Differentiation approximates the derivative of a function.
+// Each Differentiation method can take input in two ways:
+//  1) As a set of points (inputs and outputs of a function)
+//  2) As a callback function, and the number of function evaluations to
+//     perform on an interval between a start and end point.
+
+// Input as a callback function
+$f⟮x⟯ = function ($x) {
+    return $x**2 + 2 * $x + 1;
+};
+
+// Three Point Formula
+// Returns an approximation for the derivative of our input at our target
+
+// Input as a set of points
+$points = [[0, 1], [1, 4], [2, 9]];
+
+$target = 0;
+list($start, $end, $n) = [0, 2, 3];
+$derivative = NumericalDifferentiation\ThreePointFormula::differentiate($target, $points);                // input as a set of points
+$derivative = NumericalDifferentiation\ThreePointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
+
+// Five Point Formula
+// Returns an approximation for the derivative of our input at our target
+
+// Input as a set of points
+$points = [[0, 1], [1, 4], [2, 9], [3, 16], [4, 25]];
+
+$target = 0;
+list($start, $end, $n) = [0, 4, 5];
+$derivative = NumericalDifferentiation\FivePointFormula::differentiate($target, $points);                // input as a set of points
+$derivative = NumericalDifferentiation\FivePointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
+
+// Second Derivative Midpoint Formula
+// Returns an approximation for the second derivative of our input at our target
+
+// Input as a set of points
+$points = [[0, 1], [1, 4], [2, 9];
+
+$target = 1;
+list($start, $end, $n) = [0, 2, 3];
+$derivative = NumericalDifferentiation\SecondDerivativeMidpointFormula::differentiate($target, $points);                // input as a set of points
+$derivative = NumericalDifferentiation\SecondDerivativeMidpointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
 ```
 
 ### Numerical Analysis - Numerical Integration
@@ -337,63 +433,63 @@ use Math\NumericalAnalysis\NumericalIntegration;
 
 // Trapezoidal Rule (closed Newton-Cotes formula)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = TrapezoidalRule::approximate($points); // input as a set of points
+$∫f⟮x⟯dx = NumericalIntegration\TrapezoidalRule::approximate($points); // input as a set of points
 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 3, 4];
-$∫f⟮x⟯dx = TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$∫f⟮x⟯dx = NumericalIntegration\TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Simpsons Rule (closed Newton-Cotes formula)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16], [4,3]];
-$∫f⟮x⟯dx = SimpsonsRule::approximate($points); // input as a set of points
+$∫f⟮x⟯dx = NumericalIntegration\SimpsonsRule::approximate($points); // input as a set of points
 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 3, 5];
-$∫f⟮x⟯dx = SimpsonsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$∫f⟮x⟯dx = NumericalIntegration\SimpsonsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Simpsons 3/8 Rule (closed Newton-Cotes formula)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($points); // input as a set of points
+$∫f⟮x⟯dx = NumericalIntegration\SimpsonsThreeEighthsRule::approximate($points); // input as a set of points
 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 3, 5];
-$∫f⟮x⟯dx = SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$∫f⟮x⟯dx = NumericalIntegration\SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Booles Rule (closed Newton-Cotes formula)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16], [4, 25]];
-$∫f⟮x⟯dx = BoolesRule::approximate($points); // input as a set of points
+$∫f⟮x⟯dx = NumericalIntegration\BoolesRule::approximate($points); // input as a set of points
 
 $f⟮x⟯ = function ($x) {
     return $x**3 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 4, 5];
-$∫f⟮x⟯dx = BoolesRuleRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$∫f⟮x⟯dx = NumericalIntegration\BoolesRuleRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Rectangle Method (open Newton-Cotes formula)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = RectangleMethod::approximate($points); // input as a set of points
+$∫f⟮x⟯dx = NumericalIntegration\RectangleMethod::approximate($points); // input as a set of points
 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 3, 4];
-$∫f⟮x⟯dx = RectangleMethod::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$∫f⟮x⟯dx = NumericalIntegration\RectangleMethod::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Midpoint Rule (open Newton-Cotes formula)
 $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
-$∫f⟮x⟯dx = MidpointRule::approximate($points); // input as a set of points
+$∫f⟮x⟯dx = NumericalIntegration\MidpointRule::approximate($points); // input as a set of points
 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
 list($start, $end, $n) = [0, 3, 4];
-$∫f⟮x⟯dx = MidpointRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$∫f⟮x⟯dx = NumericalIntegration\MidpointRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 ```
 
 ### Numerical Analysis - Root Finding
@@ -412,19 +508,19 @@ $args     = [-4.1];  // Parameters to pass to callback function (initial guess, 
 $target   = 0;       // Value of f(x) we a trying to solve for
 $tol      = 0.00001; // Tolerance; how close to the actual solution we would like
 $position = 0;       // Which element in the $args array will be changed; also serves as initial guess. Defaults to 0.
-$x        = NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
+$x        = RootFinding\NewtonsMethod::solve($f⟮x⟯, $args, $target, $tol, $position); // Solve for x where f(x) = $target
 
 // Secant Method
 $p₀  = -1;      // First initial approximation
 $p₁  = 2;       // Second initial approximation
 $tol = 0.00001; // Tolerance; how close to the actual solution we would like
-$x   = SecantMethod::solve($f⟮x⟯, $p₀, $p₁, $tol); // Solve for x where f(x) = 0
+$x   = RootFinding\SecantMethod::solve($f⟮x⟯, $p₀, $p₁, $tol); // Solve for x where f(x) = 0
 
 // Bisection Method
 $a   = 2;       // The start of the interval which contains a root
 $b   = 5;       // The end of the interval which contains a root
 $tol = 0.00001; // Tolerance; how close to the actual solution we would like
-$x   = BisectionMethod::solve($f⟮x⟯, $a, $b, $tol); // Solve for x where f(x) = 0
+$x   = RootFinding\BisectionMethod::solve($f⟮x⟯, $a, $b, $tol); // Solve for x where f(x) = 0
 
 // Fixed-Point Iteration
 // f(x) = x⁴ + 8x³ -13x² -92x + 96
@@ -437,7 +533,7 @@ $a   = 0;       // The start of the interval which contains a root
 $b   = 2;       // The end of the interval which contains a root
 $p   = 0;       // The initial guess for our root
 $tol = 0.00001; // Tolerance; how close to the actual solution we would like
-$x   = FixedPointIteration::solve($g⟮x⟯, $a, $b, $p, $tol); // Solve for x where f(x) = 0
+$x   = RootFinding\FixedPointIteration::solve($g⟮x⟯, $a, $b, $p, $tol); // Solve for x where f(x) = 0
 ```
 
 ### Probability - Combinatorics
@@ -590,8 +686,8 @@ $μ   = Weibull::mean($k, $λ);
 // Other CDFs - All continuous distributions (...params will be distribution-specific)
 // Replace 'DistributionName' with desired distribution.
 $inv_cdf = DistributionName::inverse($target, ...$params);   // Inverse CDF of the distribution
-$between = DistributionName::between($x₁, $x₂, ...$params);  // Probability of being bewteen two points, x₁ and x₂
-$outside = DistributionName::outside($x₁, $x₂, ...$params);  // Probability of being bewteen below x₁ and above x₂
+$between = DistributionName::between($x₁, $x₂, ...$params);  // Probability of being between two points, x₁ and x₂
+$outside = DistributionName::outside($x₁, $x₂, ...$params);  // Probability of being between below x₁ and above x₂
 $above   = DistributionName::above($x, ...$params);          // Probability of being above x to ∞
 
 // Random Number Generator
@@ -755,12 +851,12 @@ $hexagons = Advanced::heptagonalNumber($n)
 ```php
 use Math\Statistics\ANOVA;
 
+// One-way ANOVA
 $sample1 = [1, 2, 3];
 $sample2 = [3, 4, 5];
 $sample3 = [5, 6, 7];
    ⋮            ⋮
 
-// One-way ANOVA
 $anova = ANOVA::oneWay($sample1, $sample2, $sample3);
 print_r($anova);
 /* Array (
@@ -792,34 +888,76 @@ print_r($anova);
             [sem]      => 0.6454972243679
         )
     [data_summary] => Array (      // Data summary (each input sample)
-            [0] => Array (
-                    [n]        => 3
-                    [sum]      => 6
-                    [mean]     => 2
-                    [SS]       => 14
-                    [variance] => 1
-                    [sd]       => 1
-                    [sem]      => 0.57735026918963
+            [0] => Array ([n] => 3 [sum] => 6  [mean] => 2 [SS] => 14  [variance] => 1 [sd] => 1 [sem] => 0.57735026918963)
+            [1] => Array ([n] => 3 [sum] => 12 [mean] => 4 [SS] => 50  [variance] => 1 [sd] => 1 [sem] => 0.57735026918963)
+            [2] => Array ([n] => 3 [sum] => 18 [mean] => 6 [SS] => 110 [variance] => 1 [sd] => 1 [sem] => 0.57735026918963)
+        )
+) */
+
+// Two-way ANOVA
+/*        | Factor B₁ | Factor B₂ | Factor B₃ | ⋯
+Factor A₁ |  4, 6, 8  |  6, 6, 9  |  8, 9, 13 | ⋯
+Factor A₂ |  4, 8, 9  | 7, 10, 13 | 12, 14, 16| ⋯
+    ⋮           ⋮           ⋮           ⋮         */
+$factorA₁ = [
+  [4, 6, 8],    // Factor B₁
+  [6, 6, 9],    // Factor B₂
+  [8, 9, 13],   // Factor B₃
+];
+$factorA₂ = [
+  [4, 8, 9],    // Factor B₁
+  [7, 10, 13],  // Factor B₂
+  [12, 14, 16], // Factor B₃
+];
+       ⋮
+
+$anova = ANOVA::twoWay($factorA₁, $factorA₂);
+print_r($anova);
+/* Array (
+    [ANOVA] => Array (          // ANOVA hypothesis test summary data
+            [factorA] => Array (
+                    [SS] => 32                 // Sum of squares
+                    [df] => 1                  // Degrees of freedom
+                    [MS] => 32                 // Mean squares
+                    [F]  => 5.6470588235294    // Test statistic
+                    [P]  => 0.034994350619895  // P value
                 )
-            [1] => Array (
-                    [n]        => 3
-                    [sum]      => 12
-                    [mean]     => 4
-                    [SS]       => 50
-                    [variance] => 1
-                    [sd]       => 1
-                    [sem]      => 0.57735026918963
+            [factorB] => Array (
+                    [SS] => 93                 // Sum of squares
+                    [df] => 2                  // Degrees of freedom
+                    [MS] => 46.5               // Mean squares
+                    [F]  => 8.2058823529412    // Test statistic
+                    [P]  => 0.0056767297582031 // P value
                 )
-            [2] => Array (
-                    [n]        => 3
-                    [sum]      => 18
-                    [mean]     => 6
-                    [SS]       => 110
-                    [variance] => 1
-                    [sd]       => 1
-                    [sem]      => 0.57735026918963
+            [interaction] => Array (
+                    [SS] => 7                  // Sum of squares
+                    [df] => 2                  // Degrees of freedom
+                    [MS] => 3.5                // Mean squares
+                    [F]  => 0.61764705882353   // Test statistic
+                    [P]  => 0.5555023440712    // P value
+                )
+            [error] => Array (
+                    [SS] => 68                 // Sum of squares (within)
+                    [df] => 12                 // Degrees of freedom
+                    [MS] => 5.6666666666667    // Mean squares
+                )
+            [total] => Array (
+                    [SS] => 200                // Sum of squares (total)
+                    [df] => 17                 // Degrees of freedom
                 )
         )
+    [total_summary] => Array (    // Total summary data
+            [n]        => 18
+            [sum]      => 162
+            [mean]     => 9
+            [SS]       => 1658
+            [variance] => 11.764705882353
+            [sd]       => 3.4299717028502
+            [sem]      => 0.80845208345444
+        )
+    [summary_factorA]     => Array ( ... )   // Summary data of factor A
+    [summary_factorB]     => Array ( ... )   // Summary data of factor B
+    [summary_interaction] => Array ( ... )   // Summary data of interactions of factors A and B
 ) */
 ```
 
@@ -913,7 +1051,7 @@ $τ = Correlation::kendallsTau($X, $Y);
 // ρ - Spearman's rank correlation coefficient (Spearman's rho)
 $ρ = Correlation::spearmansRho($X, $Y);
 
-// Descritive correlation report
+// Descriptive correlation report
 $stats = Correlation::describe($X, $Y);
 print_r($stats);
 /* Array (

@@ -1,17 +1,17 @@
 <?php
-namespace Math\NumericalAnalysis\NumericalIntegration;
+namespace Math\NumericalAnalysis\NumericalDifferentiation;
 
 /**
- * Base class for numerical integration techniques.
+ * Base class for numerical differentiation techniques.
  *
- * Numerical integration techniques are used to approximate the value of
- * an indefinite intergal.
+ * Numerical differentiation techniques are used to approximate the derivative
+ * of a function at an input value.
  *
- * This calss gives each technique a set of common tools, and requires each
- * technique to define an approximate() method to approximate an indefinite
- * integral.
+ * This class gives each technique a set of common tools, and requires each
+ * technique to define a differentiate() method to approximate the derivative
+ * of a function at an input value.
  */
-abstract class NumericalIntegration
+abstract class NumericalDifferentiation
 {
     /**
      * @var int Index of x
@@ -23,7 +23,7 @@ abstract class NumericalIntegration
      */
     const Y = 1;
 
-    abstract public static function approximate($source, ...$args);
+    abstract public static function differentiate($target, $source, ...$args);
 
     /**
      * Determine where the input $source argument is a callback function, a set
@@ -32,7 +32,7 @@ abstract class NumericalIntegration
      * output array. If $source is a set of arrays, simply set $points to
      * $source. If $source is neither, throw an Exception.
      *
-     * @todo  Add method to verify function is continuous on our interval
+     * @todo  Add method to verify function is continuous on our interval.
      * @todo  Add method to verify input arguments are valid.
      *        Verify $start and $end are numbers, $end > $start, and $points is an integer > 1
      *
@@ -88,22 +88,22 @@ abstract class NumericalIntegration
     }
 
     /**
-     * Validate that there are enough input arrays (points), that each point array
+     * Validate that there are a set number of input arrays (points), that each point array
      * has precisely two numbers, and that no two points share the same first number
      * (x-component)
      *
      * @param  array  $points Array of arrays (points)
-     * @param  number $degree The miminum number of input arrays
+     * @param  number $degree The number of input arrays
      *
      * @return bool
-     * @throws Exception if there are less than two points
+     * @throws Exception if there are not enough input arrays
      * @throws Exception if any point does not contain two numbers
      * @throws Exception if two points share the same first number (x-component)
      */
-    public static function validate(array $points, $degree = 2): bool
+    public static function validate(array $points, $degree): bool
     {
-        if (count($points) < $degree) {
-            throw new \Exception("You need to have at least $degree sets of
+        if (count($points) != $degree) {
+            throw new \Exception("You need to have $degree sets of
                                   coordinates (arrays) for this technique");
         }
 
@@ -142,5 +142,53 @@ abstract class NumericalIntegration
         });
 
         return $points;
+    }
+
+    /**
+     * Ensures that the length of each subinterval is equal, or equivalently,
+     * that the spacing between each point is equal
+     *
+     * @param  array $sorted Points sorted by (increasing) x-component
+     *
+     * @throws Exception if the spacing between any two points is not equal
+     *         to the average spacing between every point
+     */
+    public static function isSpacingConstant(array $sorted)
+    {
+        $x       = 0;
+        $length  = count($sorted);
+        $spacing = ($sorted[$length-1][$x]-$sorted[0][$x])/($length-1);
+
+        for ($i = 1; $i < $length - 1; $i++) {
+            if ($sorted[$i+1][$x] - $sorted[$i][$x] !== $spacing) {
+                throw new \Exception("The size of each subinterval must be the
+                                      same. Provide points with constant
+                                      spacing.");
+            }
+        }
+    }
+
+    /**
+     * Ensures that our target is the x-component of one of the points we supply
+     *
+     * @param  number $target The value at which we are approximating the derivative
+     * @param  array  $sorted Points sorted by (increasing) x-component
+     *
+     * @throws Exception if $target is not contained in the array of our x-components
+     */
+    public static function isTargetInPoints($target, array $sorted)
+    {
+        $x       = 0;
+        $length  = count($sorted);
+
+        // construct array of x-components
+        for ($i = 0; $i < $length; $i++) {
+            $xcomponents[] = $sorted[$i][$x];
+        }
+
+        if (!in_array($target, $xcomponents)) {
+            throw new \Exception("Your target point must be the x-component of one
+                                  of the points you supplied.");
+        }
     }
 }

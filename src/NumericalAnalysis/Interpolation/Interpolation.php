@@ -1,17 +1,10 @@
 <?php
-namespace Math\NumericalAnalysis\NumericalIntegration;
+namespace Math\NumericalAnalysis\Interpolation;
 
 /**
- * Base class for numerical integration techniques.
- *
- * Numerical integration techniques are used to approximate the value of
- * an indefinite intergal.
- *
- * This calss gives each technique a set of common tools, and requires each
- * technique to define an approximate() method to approximate an indefinite
- * integral.
+ * Base class for interpolation techniques.
  */
-abstract class NumericalIntegration
+abstract class Interpolation
 {
     /**
      * @var int Index of x
@@ -22,8 +15,6 @@ abstract class NumericalIntegration
      * @var int Index of y
      */
     const Y = 1;
-
-    abstract public static function approximate($source, ...$args);
 
     /**
      * Determine where the input $source argument is a callback function, a set
