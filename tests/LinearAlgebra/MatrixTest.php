@@ -494,6 +494,13 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
                 [[1]],
                 1
             ],
+            [
+                [
+                  [1, 2],
+                  [2, 3],
+                ],
+                -1
+            ],
         ];
     }
 }
