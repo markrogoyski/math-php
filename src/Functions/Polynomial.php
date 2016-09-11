@@ -16,7 +16,8 @@ namespace Math\Functions;
  * Current features:
  *     o Print a human readable representation of a polynomial
  *     o Evaluate a polynomial at any real number
- *     o Return the degree of the current polynomial
+ *     o Return the degree of a polynomial
+ *     o Return the coefficients of a polynomial
  *     o Polynomial differentiation (exact)
  *     o Polynomial integration (indefinite integral)
  *     o Polynomial addition
@@ -27,6 +28,7 @@ namespace Math\Functions;
  *     echo $polynomial;                        // prints 'x³ - 8x² + 12x + 3'
  *     echo $polynomial(4);                     // prints -31
  *     echo $polynomial->getDegree();           // prints 3
+ *     print_r($polynomial->getCoefficients()); // prints [1, -8, 12, 3]
  *     echo $polynomial->differentiate();       // prints '3x² - 16x + 12'
  *     echo $polynomial->integrate();           // prints '0.25x⁴ - 2.6666666666667x³ + 6x² + 3x'
  *     echo $polynomial->add($polynomial);      // prints '2x³ - 16x² + 24x + 6'
@@ -165,9 +167,9 @@ class Polynomial
     }
 
     /**
-     * Getter method for the degree of our polynomial
+     * Getter method for the degree of a polynomial
      *
-     * @return int The degree of our polynomial object
+     * @return int The degree of a polynomial object
      */
     public function getDegree(): int
     {
@@ -175,9 +177,9 @@ class Polynomial
     }
 
     /**
-     * Getter method for the coefficients of our polynomial
+     * Getter method for the coefficients of a polynomial
      *
-     * @return array The coefficients array of our polynomial object
+     * @return array The coefficients array of a polynomial object
      */
     public function getCoefficients(): array
     {
