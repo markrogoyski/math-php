@@ -17,11 +17,6 @@ abstract class Interpolation
     const Y = 1;
 
     /**
-     * @var int Index of y′
-     */
-    const Y′ = 2;
-
-    /**
      * Determine where the input $source argument is a callback function, a set
      * of arrays, or neither. If $source is a callback function, run it through
      * the functionToPoints() method with the input $args, and set $points to
@@ -85,19 +80,18 @@ abstract class Interpolation
 
     /**
      * Validate that there are enough input arrays (points), that each point array
-     * has correct number of values, and that no two points share the same first number
+     * has precisely two numbers, and that no two points share the same first number
      * (x-component)
      *
      * @param  array  $points Array of arrays (points)
      * @param  number $degree The miminum number of input arrays
-     * @param  number $dim    The number of points contained in each array
      *
      * @return bool
      * @throws Exception if there are less than two points
-     * @throws Exception if any point does not contain $dim numbers
+     * @throws Exception if any point does not contain two numbers
      * @throws Exception if two points share the same first number (x-component)
      */
-    public static function validate(array $points, $degree = 2, $dim = 2): bool
+    public static function validate(array $points, $degree = 2): bool
     {
         if (count($points) < $degree) {
             throw new \Exception("You need to have at least $degree sets of
@@ -106,16 +100,9 @@ abstract class Interpolation
 
         $x_coordinates = [];
         foreach ($points as $point) {
-            if (count($point) !== $dim) {
-                if ($dim == 2) {
-                    $coordinates = "representing x and f(x)";
-                } elseif ($dim == 3) {
-                    $coordinates = "representing x, f(x), and f'x()";
-                } else {
-                    $coordinates = "";
-                }
+            if (count($point) !== 2) {
                 throw new \Exception("Each array needs to have have precisely
-                                      {$dim} numbers {$coordinates}.");
+                                      two numbers, an x- and y-component");
             }
 
             $x_component = $point[self::X];
