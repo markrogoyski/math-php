@@ -17,6 +17,11 @@ abstract class Interpolation
     const Y = 1;
 
     /**
+     * @var int Index of y′
+     */
+    const Y′ = 2;
+
+    /**
      * Determine where the input $source argument is a callback function, a set
      * of arrays, or neither. If $source is a callback function, run it through
      * the functionToPoints() method with the input $args, and set $points to
