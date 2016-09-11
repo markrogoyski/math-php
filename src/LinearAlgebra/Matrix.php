@@ -1404,8 +1404,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
 
             // Swap rows i and r
-            $R = $R->rowInterchange($i, $r);
-            $swaps++;
+            if ($i !== $r) {
+                $R = $R->rowInterchange($i, $r);
+                $swaps++;
+            }
 
             // Divide row $r by R[r][lead]
             $lv = $R[$r][$lead];
