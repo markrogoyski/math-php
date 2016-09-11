@@ -780,10 +780,6 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                [[1]],
-                1
-            ],
-            [
                 [
                     [4, 3],
                     [6, 3],
@@ -940,6 +936,9 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForDet()
     {
         return [
+            [
+                [[1]], 1
+            ],
             [
                 [
                     [3, 8],
