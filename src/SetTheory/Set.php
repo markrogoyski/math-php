@@ -7,14 +7,59 @@ namespace Math\SetTheory;
  * its own right.
  * https://en.wikipedia.org/wiki/Set_(mathematics)
  *
- * Sets can contain numbers, strings, and other sets.
+ * Sets can contain numbers, strings, arrays, objects, and other sets.
  *
  * Implementation:
  * For performance reasons, PHP arrays are used as a hash for quick access
- * via hash keys. However, when storing a Set object as a set member, in
- * order to get the original Set object back, such as when iterating through
- * a set or getting the set as an Array, the values of the array are used to
- * store the original object.
+ * via hash keys.
+ *
+ * The hash keys are as follows:
+ *  - Numbers and strings: value itself
+ *  - Sets: Set as a string.
+ *  - Arrays: Array(array_serialization)
+ *  - Objects: Object\Name(object_hash)
+ *
+ * The values of the associative array (hash) are the actual values or
+ * objects themselves. If the set is iterated in a foreach loop you will
+ * get back the original value, set, array, or object.
+ *
+ * An object cannot be in the set multiple times. For a regular value, like
+ * a number or string, this is straight forward. For arrays and objects, the
+ * behavior is based on whether they are the same thing. What that means depends
+ * on whether it is an array or object.
+ *
+ * Example (arrays):
+ * $array1 = [1, 2, 3];
+ * $array2 = [1, 2, 3];
+ * $set = new Set([$array1, $array2]);
+ *
+ * The set will have only one element, because the arrays are equal.
+ * $array2 === $array2 evaluates to true.
+ *
+ * Example (different objects):
+ * $object1 = new \StdClass();
+ * $object2 = new \StdClass();
+ * $set = new Set([$object1, $object2]);
+ *
+ * The set will have two elements, because they are different objects.
+ * $object1 === $object2 evaluates to false.
+ *
+ * Example (same objects):
+ * $object1 = new \StdClass();
+ * $object2 = $object1;
+ * $set = new Set([$object1, $object2]);
+ *
+ * The set will have only one element, because the objects are the same.
+ * $object1 === $object2 evaluates to true.
+ *
+ * Example (Sets, a special case of object)
+ * $set1 = new Set([1, 2, 3]);
+ * $set2 = new Set([1, 2, 3]);
+ * $set3 = new Set([$set1, $set2]);
+ *
+ * Set3 will have only one element, because sets 1 and 2 are the same. Sets are
+ * not based on whether the object is the same, but whether the content of
+ * the set are the same. Sets and arrays act similarly.
  *
  * When storing a Set object as a member of a set, its key will be a string
  * that uses mathematical set notation, for example: '{1, 2, 3}'.
@@ -41,7 +86,7 @@ class Set implements \Countable, \Iterator
     public function __construct(array $members = [])
     {
         foreach ($members as $member) {
-            $this->A["$member"] = $member;
+            $this->addMember($member);
         }
     }
 
@@ -121,39 +166,56 @@ class Set implements \Countable, \Iterator
      **************************************************************************/
 
     /**
-     * Add an element to the set
+     * Add an element or array of elements to the set
      * Does nothing if element already exists in the set.
      *
-     * @param mixed $x
+     * @param mixed $x Can be scalar or array
      *
      * @return Set (this set)
      */
     public function add($x): Set
     {
-        if (is_int($x) || is_float($x) || is_string($x) || $x instanceof Set) {
-            $this->A["$x"] = $x;
-            return $this;
+        if (!is_array($x)) {
+            return $this->addMember($x);
         }
 
         if (is_array($x)) {
-            $members = [];
             foreach ($x as $member) {
-                $members["$member"] = $member;
+                $this->addMember($member);
             }
-            $new_members = array_diff_key($members, $this->A);
-            foreach ($new_members as $member => $_) {
-                if (is_int($member) || is_float($member) || is_string($member) || $member instanceof Set) {
-                    $this->A["$member"] = $member;
-                }
-            }
-            return $this;
         }
 
         return $this;
     }
 
     /**
-     * Remove an elment from the set
+     * Actually add a new member to the set
+     *
+     * Based on the type of member to be added, the key differs:
+     *  - Number: value as is
+     *  - String: value as is
+     *  - Set: String representation of set. Example: {1, 2}
+     *  - Array: Array(array_serialization)
+     *  - Object: Class\Name(object_hash)
+     *
+     * @param mixed $x
+     */
+    protected function addMember($x) {
+        if (is_int($x) || is_float($x) || is_string($x) || $x instanceof Set) {
+            $this->A["$x"] = $x;
+        } elseif (is_object($x)) {
+            $key = get_class($x) . '(' . spl_object_hash($x) . ')';
+            $this->A[$key] = $x;
+        } elseif (is_array($x)) {
+            $key = 'Array(' . serialize($x) . ')';
+            $this->A[$key] = $x;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove an element or elements from the set
      * Does nothing if the element does not exist in the set.
      *
      * @param  mixed $x
@@ -162,20 +224,35 @@ class Set implements \Countable, \Iterator
      */
     public function remove($x): Set
     {
-        if (is_int($x) || is_float($x) || is_string($x) || $x instanceof Set) {
-            unset($this->A["$x"]);
-            return $this;
+        if (!is_array($x)) {
+            return $this->removeMember($x);
         }
 
         if (is_array($x)) {
-            $members = [];
             foreach ($x as $member) {
-                $members["$member"] = true;
+                $this->removeMember($member);
             }
-            $actual_members = array_intersect_key($members, $this->A);
-            foreach ($actual_members as $member => $_) {
-                unset($this->A["$member"]);
-            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Actually remove an element from the set
+     *
+     * @param  mixed $x
+     *
+     * @return Set
+     */
+    protected function removeMember($x) {
+        if (is_int($x) || is_float($x) || is_string($x) || $x instanceof Set) {
+            unset($this->A["$x"] );
+        } elseif (is_object($x)) {
+            $key = get_class($x) . '(' . spl_object_hash($x) . ')';
+            unset($this->A[$key]);
+        } elseif (is_array($x)) {
+            $key = 'Array(' . serialize($x) . ')';
+            unset($this->A[$key]);
         }
 
         return $this;
