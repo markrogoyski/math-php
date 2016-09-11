@@ -162,6 +162,11 @@ class Polynomial
         return $polynomial($x₀);
     }
 
+    /**
+     * Getter method for the degree of our polynomial
+     *
+     * @return int The degree of our polynomial object
+     */
     public function getDegree(): int
     {
         return $this->degree;
