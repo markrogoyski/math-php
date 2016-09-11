@@ -72,8 +72,9 @@ namespace Math\SetTheory;
 class Set implements \Countable, \Iterator
 {
     /**
-     * Set as a hash. Keys are the members of the set.
-     * Values are just set to true as they are not used.
+     * Set as a hash.
+     * Keys are a representation of the members of the set.
+     * Values are the values/objects themselves.
      * @var array
      */
     protected $A = [];
