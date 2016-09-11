@@ -476,4 +476,24 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForDeterminant
+     */
+    public function testDeterminant(array $A, $expected)
+    {
+        $A = MatrixFactory::create($A);
+        $determinant = $A->det();
+        $this->assertEquals($expected, $determinant);
+    }
+
+    public function dataProviderForDeterminant()
+    {
+        return [
+            [
+                [[1]],
+                1
+            ],
+        ];
+    }
 }
