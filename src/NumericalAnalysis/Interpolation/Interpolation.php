@@ -80,18 +80,19 @@ abstract class Interpolation
 
     /**
      * Validate that there are enough input arrays (points), that each point array
-     * has precisely two numbers, and that no two points share the same first number
+     * has correct number of values, and that no two points share the same first number
      * (x-component)
      *
      * @param  array  $points Array of arrays (points)
      * @param  number $degree The miminum number of input arrays
+     * @param  number $dim    The number of points contained in each array
      *
      * @return bool
      * @throws Exception if there are less than two points
-     * @throws Exception if any point does not contain two numbers
+     * @throws Exception if any point does not contain $dim numbers
      * @throws Exception if two points share the same first number (x-component)
      */
-    public static function validate(array $points, $degree = 2): bool
+    public static function validate(array $points, $degree = 2, $dim = 2): bool
     {
         if (count($points) < $degree) {
             throw new \Exception("You need to have at least $degree sets of
@@ -100,9 +101,16 @@ abstract class Interpolation
 
         $x_coordinates = [];
         foreach ($points as $point) {
-            if (count($point) !== 2) {
+            if (count($point) !== $dim) {
+                if ($dim == 2) {
+                    $coordinates = "representing x and f(x)";
+                } elseif ($dim == 3) {
+                    $coordinates = "representing x, f(x), and f'x()";
+                } else {
+                    $coordinates = "";
+                }
                 throw new \Exception("Each array needs to have have precisely
-                                      two numbers, an x- and y-component");
+                                      {$dim} numbers {$coordinates}.");
             }
 
             $x_component = $point[self::X];
