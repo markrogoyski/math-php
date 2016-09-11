@@ -200,7 +200,8 @@ class Set implements \Countable, \Iterator
      *
      * @param mixed $x
      */
-    protected function addMember($x) {
+    protected function addMember($x)
+    {
         if (is_int($x) || is_float($x) || is_string($x) || $x instanceof Set) {
             $this->A["$x"] = $x;
         } elseif (is_object($x)) {
@@ -244,9 +245,10 @@ class Set implements \Countable, \Iterator
      *
      * @return Set
      */
-    protected function removeMember($x) {
+    protected function removeMember($x)
+    {
         if (is_int($x) || is_float($x) || is_string($x) || $x instanceof Set) {
-            unset($this->A["$x"] );
+            unset($this->A["$x"]);
         } elseif (is_object($x)) {
             $key = get_class($x) . '(' . spl_object_hash($x) . ')';
             unset($this->A[$key]);
