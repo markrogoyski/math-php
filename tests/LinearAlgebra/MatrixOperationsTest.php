@@ -1039,8 +1039,6 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                     [3, 1, 1, 2],
                 ], 72
             ],
-
-
             [
                 [
                     [7, 4, 2, 0],
