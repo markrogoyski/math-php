@@ -52,6 +52,17 @@ class Polynomial
      */
     public function __construct(array $coefficients)
     {
+        // Remove coefficients that are leading zeros
+        for ($i = 0; $i < count($coefficients); $i++) {
+            if ($coefficients[$i] != 0) {
+                break;
+            }
+            unset($coefficients[$i]);
+        }
+
+        // If coefficients remain, re-index them. Otherwise return [0] for p(x) = 0
+        $coefficients       = ($coefficients != []) ? array_values($coefficients) : [0];
+
         $this->degree       = count($coefficients) - 1;
         $this->coefficients = $coefficients;
     }
