@@ -355,7 +355,7 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
                     [0, 0, 0, 0, 0, 0],
                 ],
             ],
-           [
+            [
                 [
                   [-4, 3, 1, 5, -8],
                   [6, 0, 9, 2, 6],

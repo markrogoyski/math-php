@@ -1049,7 +1049,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                     [8, 2, -7, 1],
                 ], -279
             ],
-           [
+            [
                 [
                   [-4, 3, 1, 5, -8],
                   [6, 0, 9, 2, 6],
@@ -1059,7 +1059,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                 ],
                 -5763
             ],
-           [
+            [
                 [
                   [4, 3, 1, 5, -8],
                   [6, 0, 9, 2, 6],
@@ -1069,7 +1069,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                 ],
                 -10035
             ],
-           [
+            [
                 [
                   [4, 3, 1, 5, 8],
                   [6, 0, 9, 2, 6],
@@ -1079,7 +1079,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                 ],
                 32157
             ],
-           [
+            [
                 [
                   [4, 3, 1, 5, 8],
                   [6, 0, 9, 2, 6],
@@ -1089,7 +1089,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                 ],
                 28287
             ],
-           [
+            [
                 [
                   [4, 3, 1, 5, 8],
                   [6, 0, 9, 2, 6],
@@ -1099,7 +1099,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                 ],
                 30357
             ],
-           [
+            [
                 [
                   [4, 3, 1, 5, 8],
                   [6, 0, 9, 2, 6],
@@ -1109,7 +1109,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                 ],
                 17953
             ],
-           [
+            [
                 [
                   [4, 3, 1, 5, 8],
                   [6, 0, 9, 2, 6],
