@@ -1,6 +1,9 @@
 <?php
 namespace Math\SetTheory;
 
+use Math\LinearAlgebra\Vector;
+use Math\LinearAlgebra\Matrix;
+
 class SetTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -192,6 +195,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
         $setA->add($x);
 
         $this->assertEquals($setR, $setA);
+        $this->assertEquals($setR->asArray(), $setA->asArray());
     }
 
     /**
@@ -210,6 +214,8 @@ class SetTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderForAdd()
     {
+        $vector = new Vector([1, 2, 3]);
+
         return [
             [
                 [],
@@ -311,17 +317,180 @@ class SetTest extends \PHPUnit_Framework_TestCase
                 [-3],
                 [1, 2, 3, -3],
             ],
+            [
+                [1, 2, 3],
+                $vector,
+                [1, 2, 3, $vector],
+            ],
+            [
+                [1, 2, 3],
+                [4, $vector],
+                [1, 2, 3, 4, $vector],
+            ],
         ];
     }
 
-    public function testAddDoesNothingWithUnknownType()
+    /**
+     * When adding objects to a set, the key becomes to the objects hash.
+     * The object is stored as is as the value.
+     */
+    public function testAddWithObjects()
     {
         $set    = new Set([1, 2, 3]);
-        $vector = new \Math\LinearAlgebra\Vector([1, 2, 3]);
+        $vector = new Vector([1, 2, 3]);
+        $matrix = new Matrix([[1,2,3],[2,3,4]]);
 
         $set->add($vector);
+        $set->add($matrix);
 
-        $this->assertEquals(new Set([1, 2, 3]), $set);
+        $this->assertEquals(5, count($set));
+        $this->assertEquals(5, count($set->asArray()));
+
+        $objects = 0;
+        foreach ($set as $key => $value) {
+            if ($value instanceof \Math\LinearAlgebra\Vector) {
+                $objects++;
+                $vector_key = get_class($value) . '(' . spl_object_hash($vector) . ')';
+                $this->assertEquals($vector_key, $key);
+                $this->assertEquals($vector, $value);
+            }
+            if ($value instanceof \Math\LinearAlgebra\Matrix) {
+                $objects++;
+                $matrix_key = get_class($value) . '(' . spl_object_hash($matrix) . ')';
+                $this->assertEquals($matrix_key, $key);
+                $this->assertEquals($matrix, $value);
+            }
+        }
+
+        // There should have been two objects (vector and matrix)
+        $this->assertEquals(2, $objects);
+    }
+
+    public function testAddWithMultipleObjects()
+    {
+        $set     = new Set([1, 2, 3]);
+        $vector1 = new Vector([1, 2, 3]);
+        $vector2 = new Vector([1, 2, 3]);
+        $vector3 = new Vector([4, 5, 6]);
+        $matrix  = new Matrix([[1,2,3],[2,3,4]]);
+        $std1    = new \StdClass();
+        $std2    = new \StdClass();
+        $std3    = $std2; // Same object so this wont get added
+
+        $set->add($vector1);
+        $set->add($vector2);
+        $set->add($vector3);
+        $set->add($matrix);
+        $set->add($std1);
+        $set->add($std2);
+        $set->add($std3);
+
+        $this->assertEquals(9, count($set));
+        $this->assertEquals(9, count($set->asArray()));
+
+        $objects = 0;
+        foreach ($set as $key => $value) {
+            if ($value instanceof \Math\LinearAlgebra\Vector) {
+                $objects++;
+                $this->assertInstanceOf('Math\LinearAlgebra\Vector', $value);
+            }
+            if ($value instanceof \Math\LinearAlgebra\Matrix) {
+                $objects++;
+                $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $value);
+            }
+            if ($value instanceof \StdClass) {
+                $objects++;
+                $this->assertInstanceOf('StdClass', $value);
+            }
+        }
+
+        // There should have been four objects (3 vectors and 1 matrix)
+        $this->assertEquals(6, $objects);
+    }
+
+    public function testAddWithDuplicateObjects()
+    {
+        $set    = new Set([1, 2, 3]);
+        $vector = new Vector([1, 2, 3]);
+
+        // Add the same object twice.
+        $set->add($vector);
+        $set->add($vector);
+
+        $this->assertEquals(4, count($set));
+        $this->assertEquals(4, count($set->asArray()));
+
+        $objects = 0;
+        foreach ($set as $key => $value) {
+            if ($value instanceof \Math\LinearAlgebra\Vector) {
+                $objects++;
+                $vector_key = get_class($value) . '(' . spl_object_hash($vector) . ')';
+                $this->assertEquals($vector_key, $key);
+                $this->assertEquals($vector, $value);
+            }
+        }
+
+        // There should have only been one vector object.
+        $this->assertEquals(1, $objects);
+    }
+
+    /**
+     * In this case, we add an array that contains arrays.
+     * So each array element will be added, but with the implementation
+     * detail that they will be converted into ArrayObjects.
+     */
+    public function testAddWithArrayOfArrays()
+    {
+        $set   = new Set([1, 2, 3]);
+        $array = [4, 5, [1, 2, 3]];
+
+        $set->add($array);
+
+        $this->assertEquals(6, count($set));
+        $this->assertEquals(6, count($set->asArray()));
+
+        $arrays = 0;
+        foreach ($set as $key => $value) {
+            if (is_array($value)) {
+                $arrays++;
+                $this->assertEquals([1, 2, 3], $value);
+                $this->assertEquals(3, count($value));
+                $this->assertEquals(1, $value[0]);
+                $this->assertEquals(1, $value[0]);
+                $this->assertEquals(1, $value[0]);
+            }
+        }
+
+        // There should have only been one array.
+        $this->assertEquals(1, $arrays);
+    }
+
+    /**
+     * In this case, we add an array that contains arrays.
+     * So each array element will be added, but with the implementation
+     * detail that they will be converted into ArrayObjects.
+     */
+    public function testAddWithArrayOfArraysMultipleArraysAndDuplicates()
+    {
+        $set   = new Set([1, 2, 3]);
+        $array = [4, 5, [1, 2, 3], [1, 2, 3], [5, 5, 5]];
+
+        $set->add($array);
+
+        // Only 7, because [1, 2, 3] was in there twice.
+        $this->assertEquals(7, count($set));
+        $this->assertEquals(7, count($set->asArray()));
+
+        $arrays = 0;
+        foreach ($set as $key => $value) {
+            if (is_array($value)) {
+                $arrays++;
+                $this->assertEquals(3, count($value));
+            }
+        }
+
+        // There should have been 2 arrays.
+        $this->assertEquals(2, $arrays);
     }
 
     /**
@@ -339,6 +508,8 @@ class SetTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderForRemove()
     {
+        $vector = new Vector([1, 2, 3]);
+
         return [
             [
                 [],
@@ -449,6 +620,61 @@ class SetTest extends \PHPUnit_Framework_TestCase
                 [1, 2, 3, new Set([1, 2])],
                 '{1, 2}',
                 [1, 2, 3],
+            ],
+            [
+                [1, 2, 3, [1, 2, 3]],
+                [1, 2, 3],
+                [[1, 2, 3]],
+            ],
+            [
+                [1, 2, 3, [1, 2, 3], [2, 3], [4, 5, 6]],
+                [2, 3],
+                [1, [1, 2, 3], [2, 3], [4, 5, 6]],
+            ],
+            [
+                [1, 2, 3, [1, 2, 3], [2, 3], [4, 5, 6]],
+                [4, 5, 6],
+                [1, 2, 3, [1, 2, 3], [2, 3], [4, 5, 6]],
+            ],
+            [
+                [1, 2, 3, [1, 2, 3]],
+                [[1, 2, 3]],
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3, [1, 2, 3], [2, 3], [4, 5, 6]],
+                [[2, 3]],
+                [1, 2, 3, [1, 2, 3], [4, 5, 6]],
+            ],
+            [
+                [1, 2, 3, [1, 2, 3], [2, 3], [4, 5, 6]],
+                [[4, 5, 6]],
+                [1, 2, 3, [1, 2, 3], [2, 3]],
+            ],
+            [
+                [1, 2, 3, [1, 2, 3], [2, 3], [4, 5, 6]],
+                [[1, 2, 3], [4, 5, 6]],
+                [1, 2, 3, [2, 3]],
+            ],
+            [
+                [1, 2, 3, [1, 2, 3], [2, 3], [4, 5, 6]],
+                [1, [4, 5, 6], 3],
+                [2, [1, 2, 3], [2, 3]],
+            ],
+            [
+                [1, 2, 3, $vector],
+                $vector,
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3, $vector],
+                [$vector],
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3, $vector],
+                [1, $vector],
+                [2, 3],
             ],
         ];
     }
@@ -864,6 +1090,47 @@ class SetTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testUnionWithArrays()
+    {
+        $A        = new Set([1, 2, [1, 2, 3]]);
+        $B        = new Set([2, 3, [2, 3, 4]]);
+        $A∪B      = $A->union($B);
+        $expected = new Set([1, 2, [1, 2, 3], 3, [2, 3, 4]]);
+
+        $this->assertEquals($expected, $A∪B);
+        $this->assertEquals($expected->asArray(), $A∪B->asArray());
+
+        $A        = new Set([1, 2, [1, 2, 3]]);
+        $B        = new Set([2, 3, [2, 3, 4], [1, 2, 3]]);
+        $A∪B      = $A->union($B);
+        $expected = new Set([1, 2, [1, 2, 3], 3, [2, 3, 4]]);
+
+        $this->assertEquals($expected, $A∪B);
+        $this->assertEquals($expected->asArray(), $A∪B->asArray());
+    }
+
+    public function testUnionWithObjects()
+    {
+        $vector1 = new Vector([1, 2, 3]);
+        $vector2 = new Vector([1, 2, 3]);
+
+        $A        = new Set([1, 2, $vector1]);
+        $B        = new Set([2, 3, $vector2]);
+        $A∪B      = $A->union($B);
+        $expected = new Set([1, 2, $vector1, 3, $vector2]);
+
+        $this->assertEquals($expected, $A∪B);
+        $this->assertEquals($expected->asArray(), $A∪B->asArray());
+
+        $A        = new Set([1, 2, $vector1]);
+        $B        = new Set([2, 3, $vector2, $vector1]);
+        $A∪B      = $A->union($B);
+        $expected = new Set([1, 2, $vector1, 3, $vector2]);
+
+        $this->assertEquals($expected, $A∪B);
+        $this->assertEquals($expected->asArray(), $A∪B->asArray());
+    }
+
     /**
      * @dataProvider dataProviderForIntersect
      */
@@ -1041,6 +1308,47 @@ class SetTest extends \PHPUnit_Framework_TestCase
                 new Set([3, 4, new Set([1, 2])]),
             ],
         ];
+    }
+
+    public function testIntersectWithArrays()
+    {
+        $A        = new Set([1, 2, [1, 2, 3]]);
+        $B        = new Set([2, 3, [2, 3, 4]]);
+        $A∩B      = $A->intersect($B);
+        $expected = new Set([2]);
+
+        $this->assertEquals($expected, $A∩B);
+        $this->assertEquals($expected->asArray(), $A∩B->asArray());
+
+        $A        = new Set([1, 2, [1, 2, 3]]);
+        $B        = new Set([2, 3, [2, 3, 4], [1, 2, 3]]);
+        $A∩B      = $A->intersect($B);
+        $expected = new Set([2, [1, 2, 3]]);
+
+        $this->assertEquals($expected, $A∩B);
+        $this->assertEquals($expected->asArray(), $A∩B->asArray());
+    }
+
+    public function testIntersectWithObjects()
+    {
+        $vector1 = new Vector([1, 2, 3]);
+        $vector2 = new Vector([1, 2, 3]);
+
+        $A        = new Set([1, 2, $vector1]);
+        $B        = new Set([2, 3, $vector2]);
+        $A∩B      = $A->intersect($B);
+        $expected = new Set([2]);
+
+        $this->assertEquals($expected, $A∩B);
+        $this->assertEquals($expected->asArray(), $A∩B->asArray());
+
+        $A        = new Set([1, 2, $vector1]);
+        $B        = new Set([2, 3, $vector2, $vector1]);
+        $A∩B      = $A->intersect($B);
+        $expected = new Set([2, $vector1]);
+
+        $this->assertEquals($expected, $A∩B);
+        $this->assertEquals($expected->asArray(), $A∩B->asArray());
     }
 
     /**
@@ -1225,6 +1533,47 @@ class SetTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testDifferenceWithArrays()
+    {
+        $A        = new Set([1, 2, [1, 2, 3]]);
+        $B        = new Set([2, 3, [2, 3, 4]]);
+        $A∖B      = $A->difference($B);
+        $expected = new Set([1, [1, 2, 3]]);
+
+        $this->assertEquals($expected, $A∖B);
+        $this->assertEquals($expected->asArray(), $A∖B->asArray());
+
+        $A        = new Set([1, 2, [1, 2, 3]]);
+        $B        = new Set([2, 3, [2, 3, 4], [1, 2, 3]]);
+        $A∖B      = $A->difference($B);
+        $expected = new Set([1]);
+
+        $this->assertEquals($expected, $A∖B);
+        $this->assertEquals($expected->asArray(), $A∖B->asArray());
+    }
+
+    public function testDifferenceWithObjects()
+    {
+        $vector1 = new Vector([1, 2, 3]);
+        $vector2 = new Vector([1, 2, 3]);
+
+        $A        = new Set([1, 2, $vector1]);
+        $B        = new Set([2, 3, $vector2]);
+        $A∖B      = $A->difference($B);
+        $expected = new Set([1, $vector1]);
+
+        $this->assertEquals($expected, $A∖B);
+        $this->assertEquals($expected->asArray(), $A∖B->asArray());
+
+        $A        = new Set([1, 2, $vector1]);
+        $B        = new Set([2, 3, $vector2, $vector1]);
+        $A∖B      = $A->difference($B);
+        $expected = new Set([1]);
+
+        $this->assertEquals($expected, $A∖B);
+        $this->assertEquals($expected->asArray(), $A∖B->asArray());
+    }
+
     /**
      * @dataProvider dataProviderForSymmetricDifference
      */
@@ -1287,6 +1636,47 @@ class SetTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testSymmetricDifferenceWithArrays()
+    {
+        $A        = new Set([1, 2, [1, 2, 3]]);
+        $B        = new Set([2, 3, [2, 3, 4]]);
+        $AΔB      = $A->symmetricDifference($B);
+        $expected = new Set([1, 3, [1, 2, 3], [2, 3, 4]]);
+
+        $this->assertEquals($expected, $AΔB);
+        $this->assertEquals($expected->asArray(), $AΔB->asArray());
+
+        $A        = new Set([1, 2, [1, 2, 3]]);
+        $B        = new Set([2, 3, [2, 3, 4], [1, 2, 3]]);
+        $AΔB      = $A->symmetricDifference($B);
+        $expected = new Set([1, 3, [2, 3, 4]]);
+
+        $this->assertEquals($expected, $AΔB);
+        $this->assertEquals($expected->asArray(), $AΔB->asArray());
+    }
+
+    public function testSymmetricDifferenceWithObjects()
+    {
+        $vector1 = new Vector([1, 2, 3]);
+        $vector2 = new Vector([1, 2, 3]);
+
+        $A        = new Set([1, 2, $vector1]);
+        $B        = new Set([2, 3, $vector2]);
+        $AΔB      = $A->symmetricDifference($B);
+        $expected = new Set([1, 3, $vector1, $vector2]);
+
+        $this->assertEquals($expected, $AΔB);
+        $this->assertEquals($expected->asArray(), $AΔB->asArray());
+
+        $A        = new Set([1, 2, $vector1]);
+        $B        = new Set([2, 3, $vector2, $vector1]);
+        $AΔB      = $A->symmetricDifference($B);
+        $expected = new Set([1, 3, $vector2]);
+
+        $this->assertEquals($expected, $AΔB);
+        $this->assertEquals($expected->asArray(), $AΔB->asArray());
+    }
+
     /**
      * @dataProvider dataProviderForSingleSet
      */
@@ -1340,6 +1730,9 @@ class SetTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderForToString()
     {
+        $vector      = new Vector([1, 2, 3]);
+        $vector_hash = spl_object_hash($vector);
+
         return [
             [
                 [],
@@ -1420,6 +1813,22 @@ class SetTest extends \PHPUnit_Framework_TestCase
             [
                 [1, 2, new Set([1, 2, new Set([1, 2])])],
                 '{1, 2, {1, 2, {1, 2}}}',
+            ],
+            [
+                [1, 2, [1, 2, 3]],
+                '{1, 2, Array(a:3:{i:0;i:1;i:1;i:2;i:2;i:3;})}',
+            ],
+            [
+                [1, 2, [1, 2, 3], [1, 2, 3]],
+                '{1, 2, Array(a:3:{i:0;i:1;i:1;i:2;i:2;i:3;})}',
+            ],
+            [
+                [1, 2, $vector],
+                "{1, 2, Math\LinearAlgebra\Vector($vector_hash)}",
+            ],
+            [
+                [1, 2, $vector, $vector],
+                "{1, 2, Math\LinearAlgebra\Vector($vector_hash)}",
             ],
         ];
     }
