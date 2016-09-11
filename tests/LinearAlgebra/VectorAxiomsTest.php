@@ -15,6 +15,9 @@ namespace Math\LinearAlgebra;
  *    - |x|∞ ≤ |x|₁ ≤ √n |x|∞
  *  - Dot product
  *    - A⋅B = B⋅A
+ *    - 0⋅A = A⋅0 = 0
+ *  - Cross product
+ *    - A x B = -(B x A)
  *  - Cross product / dot product
  *    - (A x B) ⋅ A = 0
  *    - (A x B) ⋅ B = 0
@@ -138,10 +141,68 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Axiom: 0⋅A = A⋅0 = 0
+     * Dot product of a vector and zero is zero.
+     * @dataProvider dataProviderForDotProductZero
+     */
+    public function testDotProductZero(array $A, array $zero)
+    {
+        $A    = new Vector($A);
+        $zero = new Vector($zero);
+
+        $A⋅zero = $A->dotProduct($zero);
+        $zero⋅A = $zero->dotProduct($A);
+
+        $this->assertEquals(0, $A⋅zero);
+        $this->assertEquals(0, $zero⋅A);
+        $this->assertEquals($A⋅zero, $zero⋅A);
+    }
+
+    public function dataProviderForDotProductZero()
+    {
+        return [
+            [
+                [1],
+                [0],
+            ],
+            [
+                [1, 2],
+                [0, 0],
+            ],
+            [
+                [1, 2, 3],
+                [0, 0, 0],
+            ],
+            [
+                [5, 6, 7, 3, 4, 5, 6, 7, 8, 6, 5],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
+        ];
+    }
+
+    /**
+     * Axiom: A x B = -(B x A)
+     * Reverse order cross product results in a negative cross product
+     * @dataProvider dataProviderForCrossProduct
+     */
+    public function testReverseCrossProduct(array $A, array $B)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+
+        $AxB = $A->crossProduct($B);
+        $BxA = $B->crossProduct($A);
+
+        $this->assertEquals($AxB[0], -$BxA[0]);
+        $this->assertEquals($AxB[1], -$BxA[1]);
+        $this->assertEquals($AxB[2], -$BxA[2]);
+    }
+
+    /**
      * Axiom: (A x B) ⋅ A = 0
      * Axiom: (A x B) ⋅ B = 0
      * Dot product of either vector with the cross product is always zero.
-     * @dataProvider dataProviderForCrossProdcutMultiplyZero
+     * @dataProvider dataProviderForCrossProduct
      */
     public function testCrossProductInnerProductWithEitherVectorIsZero(array $A, array $B)
     {
@@ -154,7 +215,7 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $AxB->innerProduct($B));
     }
 
-    public function dataProviderForCrossProdcutMultiplyZero()
+    public function dataProviderForCrossProduct()
     {
         return [
             [
