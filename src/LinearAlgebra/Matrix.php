@@ -837,6 +837,19 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $R = MatrixFactory::create($this->A);
 
         /*
+         * 1x1 matrix
+         *
+         *  A = [a]
+         *
+         * |A| = a
+         */
+        if ($m === 1) {
+            $a = $R[0][0];
+            $this->det = $a;
+            return $this->det;
+        }
+
+        /*
          * 2x2 matrix
          *      [a b]
          *  A = [c d]
