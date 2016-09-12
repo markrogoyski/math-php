@@ -89,11 +89,11 @@ class SetTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [1, 2, 3, new Set([1, 2]), 'a', 'b'],
-                [1 => 1, 2 => 2, 3 => 3, '{1, 2}' => new Set([1, 2]), 'a' => 'a', 'b' => 'b'],
+                [1 => 1, 2 => 2, 3 => 3, 'Set{1, 2}' => new Set([1, 2]), 'a' => 'a', 'b' => 'b'],
             ],
             [
                 ['a', 1, 'b', new Set([1, 'b']), new Set([3, 4, 5,]), '4', 5],
-                ['a' => 'a', 1 => 1, 'b' => 'b', '{1, b}' => new Set([1, 'b']), '{3, 4, 5}' => new Set([3, 4, 5,]), '4' => '4', 5 => 5],
+                ['a' => 'a', 1 => 1, 'b' => 'b', 'Set{1, b}' => new Set([1, 'b']), 'Set{3, 4, 5}' => new Set([3, 4, 5,]), '4' => '4', 5 => 5],
             ],
         ];
     }
@@ -300,17 +300,17 @@ class SetTest extends \PHPUnit_Framework_TestCase
             [
                 [1, 2, 3],
                 new Set([4, 5]),
-                [1, 2, 3, '{4, 5}'],
+                [1, 2, 3, 'Set{4, 5}'],
             ],
             [
                 [1, 2, 3],
                 new Set([1, 2]),
-                [1, 2, 3, '{1, 2}'],
+                [1, 2, 3, 'Set{1, 2}'],
             ],
             [
                 [1, 2, 3],
                 [new Set([1, 2]), 6, 7, new Set([1, 2]), new Set([3, 4])],
-                [1, 2, 3, '{1, 2}', 6, 7, '{3, 4}'],
+                [1, 2, 3, 'Set{1, 2}', 6, 7, 'Set{3, 4}'],
             ],
             [
                 [1, 2, 3],
@@ -643,7 +643,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
             [
                 [1, 2, 3, new Set([1, 2])],
                 1,
-                [2, 3, '{1, 2}'],
+                [2, 3, 'Set{1, 2}'],
             ],
             [
                 [1, 2, 3, new Set([1, 2])],
@@ -652,7 +652,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [1, 2, 3, new Set([1, 2])],
-                '{1, 2}',
+                'Set{1, 2}',
                 [1, 2, 3],
             ],
             [
@@ -1779,95 +1779,95 @@ class SetTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [new Set()],
-                '{Ø}',
+                'Set{Ø}',
             ],
             [
                 [0],
-                '{0}',
+                'Set{0}',
             ],
             [
                 [1],
-                '{1}',
+                'Set{1}',
             ],
             [
                 [5],
-                '{5}',
+                'Set{5}',
             ],
             [
                 [-5],
-                '{-5}',
+                'Set{-5}',
             ],
             [
                 [1, 2],
-                '{1, 2}',
+                'Set{1, 2}',
             ],
             [
                 [1, 2, 3],
-                '{1, 2, 3}',
+                'Set{1, 2, 3}',
             ],
             [
                 [1, 2, 3, new Set()],
-                '{1, 2, 3, Ø}',
+                'Set{1, 2, 3, Ø}',
             ],
             [
                 [1, -2, 3],
-                '{1, -2, 3}',
+                'Set{1, -2, 3}',
             ],
             [
                 [1, 2, 3, 4, 5, 6],
-                '{1, 2, 3, 4, 5, 6}',
+                'Set{1, 2, 3, 4, 5, 6}',
             ],
             [
                 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                '{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}',
+                'Set{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}',
             ],
             [
                 [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2, 2.01, 2.001, 2.15],
-                '{1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2, 2.01, 2.001, 2.15}',
+                'Set{1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2, 2.01, 2.001, 2.15}',
             ],
             [
                 ['a'],
-                '{a}',
+                'Set{a}',
             ],
             [
                 ['a', 'b'],
-                '{a, b}',
+                'Set{a, b}',
             ],
             [
                 ['a', 'b', 'c', 'd', 'e'],
-                '{a, b, c, d, e}',
+                'Set{a, b, c, d, e}',
             ],
             [
                 [1, 2, 'a', 'b', 3.14, 'hello', 'goodbye'],
-                '{1, 2, a, b, 3.14, hello, goodbye}',
+                'Set{1, 2, a, b, 3.14, hello, goodbye}',
             ],
             [
                 [1, 2, 3, new Set([1, 2]), 'a', 'b'],
-                '{1, 2, 3, {1, 2}, a, b}',
+                'Set{1, 2, 3, Set{1, 2}, a, b}',
             ],
             [
                 ['a', 1, 'b', new Set([1, 'b']), new Set([3, 4, 5]), '4', 5],
-                '{a, 1, b, {1, b}, {3, 4, 5}, 4, 5}',
+                'Set{a, 1, b, Set{1, b}, Set{3, 4, 5}, 4, 5}',
             ],
             [
                 [1, 2, new Set([1, 2, new Set([1, 2])])],
-                '{1, 2, {1, 2, {1, 2}}}',
+                'Set{1, 2, Set{1, 2, Set{1, 2}}}',
             ],
             [
                 [1, 2, [1, 2, 3]],
-                '{1, 2, Array(a:3:{i:0;i:1;i:1;i:2;i:2;i:3;})}',
+                'Set{1, 2, Array(a:3:{i:0;i:1;i:1;i:2;i:2;i:3;})}',
             ],
             [
                 [1, 2, [1, 2, 3], [1, 2, 3]],
-                '{1, 2, Array(a:3:{i:0;i:1;i:1;i:2;i:2;i:3;})}',
+                'Set{1, 2, Array(a:3:{i:0;i:1;i:1;i:2;i:2;i:3;})}',
             ],
             [
                 [1, 2, $vector],
-                "{1, 2, Math\LinearAlgebra\Vector($vector_hash)}",
+                "Set{1, 2, Math\LinearAlgebra\Vector($vector_hash)}",
             ],
             [
                 [1, 2, $vector, $vector],
-                "{1, 2, Math\LinearAlgebra\Vector($vector_hash)}",
+                "Set{1, 2, Math\LinearAlgebra\Vector($vector_hash)}",
             ],
         ];
     }
@@ -1888,11 +1888,11 @@ class SetTest extends \PHPUnit_Framework_TestCase
         $i = 1;
         foreach ($set as $key => $value) {
             if ($i === 1) {
-                $this->assertEquals(('{1, 2}'), $key);
+                $this->assertEquals(('Set{1, 2}'), $key);
                 $this->assertEquals(new Set([1, 2]), $value);
             }
             if ($i === 2) {
-                $this->assertEquals(('{3, 4}'), $key);
+                $this->assertEquals(('Set{3, 4}'), $key);
                 $this->assertEquals(new Set([3, 4]), $value);
             }
             $i++;
@@ -1929,13 +1929,13 @@ class SetTest extends \PHPUnit_Framework_TestCase
             [
                 [1, 2],
                 [3, 4],
-                ['{1, 3}' => new Set([1, 3]), '{1, 4}' => new Set([1, 4]), '{2, 3}' => new Set([2, 3]), '{2, 4}' => new Set([2, 4])],
+                ['Set{1, 3}' => new Set([1, 3]), 'Set{1, 4}' => new Set([1, 4]), 'Set{2, 3}' => new Set([2, 3]), 'Set{2, 4}' => new Set([2, 4])],
                 new Set([new Set([1, 3]), new Set([1, 4]), new Set([2, 3]), new Set([2, 4])]),
             ],
             [
                 [1, 2],
                 ['red', 'white'],
-                ['{1, red}' => new Set([1, 'red']), '{1, white}' => new Set([1, 'white']), '{2, red}' => new Set([2, 'red']), '{2, white}' => new Set([2, 'white'])],
+                ['Set{1, red}' => new Set([1, 'red']), 'Set{1, white}' => new Set([1, 'white']), 'Set{2, red}' => new Set([2, 'red']), 'Set{2, white}' => new Set([2, 'white'])],
                 new Set([new Set([1, 'red']), new Set([1, 'white']), new Set([2, 'red']), new Set([2, 'white'])]),
             ],
             [

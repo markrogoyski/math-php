@@ -64,9 +64,10 @@ namespace Math\SetTheory;
  * the set are the same. Sets and arrays act similarly.
  *
  * When storing a Set object as a member of a set, its key will be a string
- * that uses mathematical set notation, for example: '{1, 2, 3}'.
+ * that uses mathematical set notation with the addtion of the word 'Set'.
+ * For example: Set{1, 2, 3}
  * The one edge case of this, is that the Set object {1, 2, 3} and the string
- * '{1, 2, 3}' would appear identical in the case of adding one when the other
+ * 'Set{1, 2, 3}' would appear identical in the case of adding one when the other
  * already is a member of the set. When accessing the actual set member, you
  * will always get back the original one added, whether it was a Set object or
  * a string.
@@ -544,7 +545,7 @@ class Set implements \Countable, \Iterator
 
     /**
      * Return the set as a string
-     * (a, b, c, ...)
+     * Set{a, b, c, ...}
      *
      * @return string
      */
@@ -553,7 +554,7 @@ class Set implements \Countable, \Iterator
         if ($this->isEmpty()) {
             return 'Ø';
         }
-        return '{' . implode(', ', array_keys($this->A)) . '}';
+        return 'Set{' . implode(', ', array_keys($this->A)) . '}';
     }
 
     /**************************************************************************
