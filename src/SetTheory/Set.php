@@ -217,7 +217,7 @@ class Set implements \Countable, \Iterator
             case is_int($x):
             case is_float($x):
             case is_string($x):
-            case $x instanceof Set:
+            case $x instanceof \Math\SetTheory\Set:
                 $this->A["$x"] = $x;
                 break;
 
@@ -297,7 +297,7 @@ class Set implements \Countable, \Iterator
             case is_int($x):
             case is_float($x):
             case is_string($x):
-            case $x instanceof Set:
+            case $x instanceof \Math\SetTheory\Set:
                 unset($this->A["$x"]);
                 break;
 
