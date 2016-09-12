@@ -28,8 +28,8 @@ class NewtonsMethod
         Validation::tolerance($tol);
 
         // Initialize
-        $args1    = $args;
-        $guess    = $args[$position];
+        $args1 = $args;
+        $guess = $args[$position];
 
         do {
             $args1[$position] = $guess + $tol; // load the initial guess into the arguments
