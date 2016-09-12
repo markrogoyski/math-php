@@ -498,15 +498,10 @@ class Special
      * Regularized incomplete beta function - Iₓ(a, b)
      *
      * https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function
-     * See http://www.dtic.mil/dtic/tr/fulltext/u2/642495.pdf
      *
-     * This function is exact for $a and $b values that are multiples of 1/2.
-     * In other words, for half integers.
-     *
-     * For other values, we use a continuous fraction.
+     * We calculate the function with a continuous fraction.
      * http://www.boost.org/doc/libs/1_35_0/libs/math/doc/sf_and_dist/html/math_toolkit/special/sf_beta/ibeta_function.html
-     * The accuracy of the continuous fraction might be good enough to replace
-     * the 'exact' values, and simplify the code.
+     * https://github.com/boostorg/math/blob/develop/include/boost/math/special_functions/beta.hpp
      *
      * @param  $x Upper limit of the integration 0 ≦ x ≦ 1
      * @param  $a Shape parameter a > 0
@@ -516,13 +511,13 @@ class Special
      */
     public static function regularizedIncompleteBeta($x, $a, $b)
     {
-        if ($a <= 0 || $b <= 0) {
-            throw new \Exception('a and b must be > 0');
-        }
-
-        if ($x < 0 || $x > 1) {
-            throw new \Exception('x must be 0 ≦ x ≦ 1');
-        }
+        $limits = [
+        'x'  => '[0, 1]',
+        'a'  => '(0,∞)',
+        'b'  => '(0,∞)',
+        ];
+        
+        Support::checkLimits($limits, ['x' => $x, 'a' => $a, 'b' => $b]);
 
         if ($x == 1 || $x == 0) {
             return $x;
@@ -537,51 +532,13 @@ class Special
         }
 
         $π = \M_PI;
-
-        // If $a and $b are integer multiples of .5 (half integers) we can caculate exact.
-        if (($a * 2) == round($a * 2) && ($b * 2) == round($b * 2)) {
-            if (is_int($a) || is_int($b)) {
-                if (is_int($a) || is_int($a) && is_int($b) && $b > $a) {
-                    //Equation 50 from paper
-                    $sum = 0;
-                    for ($i = 1; $i <= $a; $i++) {
-                        $sum += $x ** ($i-1) * self::gamma($b + $i - 1) / self::gamma($b) / self::gamma($i);
-                    }
-                    return 1 - (1 - $x)**$b * $sum;
-                } else {   // is_int($b)
-                    //Equation 48 from paper
-                    $sum = 0;
-                    for ($i = 1; $i <= $b; $i++) {
-                        $sum += (1 - $x) ** ($i - 1) * self::gamma($a + $i - 1) / self::gamma($a) / self::gamma($i);
-                    }
-                    return $x ** $a * $sum;
-                }
-            } elseif ($b == .5) {
-                if ($a == .5) {
-                    //Equation 61 from paper
-                    return 2 / $π * atan(sqrt($x / (1 - $x)));
-                }
-                //Equation 60a from paper
-                $k   = $a + .5;
-                $sum = 0;
-                for ($i = 1; $i <= $k - 1; $i++) {
-                    $sum += $x**($i - 1) * self::gamma($i) / self::gamma($i + .5) / self::gamma(.5);
-                }
-                return self::regularizedIncompleteBeta($x, .5, .5) - sqrt($x - $x * $x) * $sum;
-            } else {
-                //Equation 59 from paper
-                $sum = 0;
-                $j   = $b + .5;
-                for ($i = 1; $i <= $j - 1; $i++) {
-                    $sum += self::gamma($a + $i - .5) / self::gamma($a) / self::gamma($i + .5) * (1 - $x)**($i - 1);
-                }
-                return self::regularizedIncompleteBeta($x, $a, .5) + sqrt(1 - $x) * $x**$a * $sum;
-            }
+        if ($x > .9 || $b > $a && $x > .5) {
+            $y = 1 - $x;
+            return 1 - self::regularizedIncompleteBeta($y, $b, $a);
         }
-
         if ($a > 1 && $b > 1) {
             // Tolerance on evaluating the continued fraction.
-            $tol      = .0000000000000000001;
+            $tol      = .00000000000001;
             $dif      = $tol + 1; // Initialize
             $m        = 0;        // Counter
             $constant = $x**$a * (1 - $x)**$b / self::beta($a, $b);
@@ -617,11 +574,11 @@ class Special
                 }
                 $I_new = $constant * $fraction_array[0];
                 if ($m > 0) {
-                    $dif = abs($I - $I_new);
+                    $dif = abs(($I - $I_new) / $I_new);
                 }
                 $I = $I_new;
                 $m++;
-            } while ($dif > $tol);
+            } while ($dif > $tol || $m < 10);
             return $I;
         } else {
             if ($a <= 1) {
@@ -635,6 +592,7 @@ class Special
             }
         }
     }
+    
     /**
      * Generalized Hypergeometric Function
      *
