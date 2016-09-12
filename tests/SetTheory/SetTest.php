@@ -220,7 +220,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
             [
                 [],
                 null,
-                [],
+                [null],
             ],
             [
                 [],
@@ -491,6 +491,34 @@ class SetTest extends \PHPUnit_Framework_TestCase
 
         // There should have been 2 arrays.
         $this->assertEquals(2, $arrays);
+    }
+
+    /**
+     * When adding resources to a set, the key becomes to the resource ID.
+     * The resource is stored as is as the value.
+     */
+    public function testAddWithResources()
+    {
+        $set = new Set();
+        $fh  = fopen(__FILE__, 'r');
+        $set->add($fh);
+        $set->add($fh); // Should only get added once
+
+        $this->assertEquals(1, count($set));
+        $this->assertEquals(1, count($set->asArray()));
+
+        $resources = 0;
+        foreach ($set as $key => $value) {
+            if (is_resource($value)) {
+                $resources++;
+                $vector_key = 'Resource(' . strval($value) . ')';
+                $this->assertEquals($vector_key, $key);
+                $this->assertEquals($fh, $value);
+            }
+        }
+
+        // There should have been one resource
+        $this->assertEquals(1, $resources);
     }
 
     /**

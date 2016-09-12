@@ -18,6 +18,8 @@ namespace Math\SetTheory;
  *  - Sets: Set as a string.
  *  - Arrays: Array(array_serialization)
  *  - Objects: Object\Name(object_hash)
+ *  - Resource: Resource(Resource id: #)
+ *  - Null: ''
  *
  * The values of the associative array (hash) are the actual values or
  * objects themselves. If the set is iterated in a foreach loop you will
@@ -198,6 +200,8 @@ class Set implements \Countable, \Iterator
      *  - Set: String representation of set. Example: {1, 2}
      *  - Array: Array(array_serialization)
      *  - Object: Class\Name(object_hash)
+     *  - Resource: Resource(Resource id #)
+     *  - Null: ''
      *
      * @param mixed $x
      */
@@ -211,6 +215,11 @@ class Set implements \Countable, \Iterator
         } elseif (is_array($x)) {
             $key = 'Array(' . serialize($x) . ')';
             $this->A[$key] = $x;
+        } elseif (is_resource($x)) {
+            $key = 'Resource(' . strval($x) . ')';
+            $this->A[$key] = $x;
+        } elseif (is_null($x)) {
+            $this->A[null] = null;
         }
 
         return $this;
