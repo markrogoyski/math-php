@@ -166,7 +166,9 @@ class Set implements \Countable, \Iterator
     /**************************************************************************
      * SINGLE MEMBER OPERATIONS
      *  - Add
+     *  - Add multi
      *  - Remove
+     *  - Remove multi
      **************************************************************************/
 
     /**
@@ -256,7 +258,7 @@ class Set implements \Countable, \Iterator
      *
      * @return Set (this set)
      */
-    public function removeMulti($x): Set
+    public function removeMulti(array $x): Set
     {
         foreach ($x as $member) {
             $this->removeMember($member);
