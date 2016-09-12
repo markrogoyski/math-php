@@ -200,7 +200,6 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
                 [0, 2, 0],       // p(x) = 2x
                 1
             ],
-
             [
                 [0, -2, 3],       // p(x) = -2x + 3
                 1
@@ -297,7 +296,6 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
                 [0, 2, 0],       // p(x) = 2x
                 [2, 0]
             ],
-
             [
                 [0, -2, 3],       // p(x) = -2x + 3
                 [-2, 3]
