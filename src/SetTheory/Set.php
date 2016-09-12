@@ -170,23 +170,30 @@ class Set implements \Countable, \Iterator
      **************************************************************************/
 
     /**
-     * Add an element or array of elements to the set
+     * Add an element to the set
      * Does nothing if element already exists in the set.
      *
-     * @param mixed $x Can be scalar or array
+     * @param mixed $x
      *
      * @return Set (this set)
      */
     public function add($x): Set
     {
-        if (!is_array($x)) {
-            return $this->addMember($x);
-        }
+        return $this->addMember($x);
+    }
 
-        if (is_array($x)) {
-            foreach ($x as $member) {
-                $this->addMember($member);
-            }
+    /**
+     * Add an array of elements to the set
+     * Does nothing if element already exists in the set.
+     *
+     * @param array $x
+     *
+     * @return Set (this set)
+     */
+    public function addMulti(array $members): Set
+    {
+        foreach ($members as $member) {
+            $this->addMember($member);
         }
 
         return $this;
@@ -229,7 +236,7 @@ class Set implements \Countable, \Iterator
     }
 
     /**
-     * Remove an element or elements from the set
+     * Remove an element from the set
      * Does nothing if the element does not exist in the set.
      *
      * @param  mixed $x
@@ -238,14 +245,21 @@ class Set implements \Countable, \Iterator
      */
     public function remove($x): Set
     {
-        if (!is_array($x)) {
-            return $this->removeMember($x);
-        }
+        return $this->removeMember($x);
+    }
 
-        if (is_array($x)) {
-            foreach ($x as $member) {
-                $this->removeMember($member);
-            }
+    /**
+     * Remove elements from the set
+     * Does nothing if the element does not exist in the set.
+     *
+     * @param  array $x
+     *
+     * @return Set (this set)
+     */
+    public function removeMulti($x): Set
+    {
+        foreach ($x as $member) {
+            $this->removeMember($member);
         }
 
         return $this;

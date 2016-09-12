@@ -224,11 +224,6 @@ class SetTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [],
-                [],
-                [],
-            ],
-            [
-                [],
                 new Set(),
                 ['Ø' => new Set()],
             ],
@@ -238,49 +233,14 @@ class SetTest extends \PHPUnit_Framework_TestCase
                 [1 => 1],
             ],
             [
-                [],
-                [1],
-                [1],
-            ],
-            [
-                [],
-                [1, 2],
-                [1, 2],
-            ],
-            [
-                [1, 2, 3],
-                [],
-                [1, 2, 3],
-            ],
-            [
                 [1, 2, 3],
                 4,
                 [1, 2, 3, 4],
             ],
             [
                 [1, 2, 3],
-                [4],
-                [1, 2, 3, 4],
-            ],
-            [
-                [1, 2, 3],
-                [4, 5, 6],
-                [1, 2, 3, 4, 5, 6],
-            ],
-            [
-                [1, 2, 3],
                 1,
                 [1, 2, 3],
-            ],
-            [
-                [1, 2, 3],
-                [1, 2, 3],
-                [1, 2, 3],
-            ],
-            [
-                [1, 2, 3],
-                [1, 2, 3, 4],
-                [1, 2, 3, 4],
             ],
             [
                 [1, 2, 3],
@@ -309,23 +269,13 @@ class SetTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [1, 2, 3],
-                [new Set([1, 2]), 6, 7, new Set([1, 2]), new Set([3, 4])],
-                [1, 2, 3, 'Set{1, 2}', 6, 7, 'Set{3, 4}'],
-            ],
-            [
-                [1, 2, 3],
-                [-3],
+                -3,
                 [1, 2, 3, -3],
             ],
             [
                 [1, 2, 3],
                 $vector,
                 [1, 2, 3, $vector],
-            ],
-            [
-                [1, 2, 3],
-                [4, $vector],
-                [1, 2, 3, 4, $vector],
             ],
         ];
     }
@@ -439,12 +389,12 @@ class SetTest extends \PHPUnit_Framework_TestCase
      * So each array element will be added, but with the implementation
      * detail that they will be converted into ArrayObjects.
      */
-    public function testAddWithArrayOfArrays()
+    public function testAddMultiWithArrayOfArrays()
     {
         $set   = new Set([1, 2, 3]);
         $array = [4, 5, [1, 2, 3]];
 
-        $set->add($array);
+        $set->addMulti($array);
 
         $this->assertEquals(6, count($set));
         $this->assertEquals(6, count($set->asArray()));
@@ -470,12 +420,12 @@ class SetTest extends \PHPUnit_Framework_TestCase
      * So each array element will be added, but with the implementation
      * detail that they will be converted into ArrayObjects.
      */
-    public function testAddWithArrayOfArraysMultipleArraysAndDuplicates()
+    public function testAddMultiWithArrayOfArraysMultipleArraysAndDuplicates()
     {
         $set   = new Set([1, 2, 3]);
         $array = [4, 5, [1, 2, 3], [1, 2, 3], [5, 5, 5]];
 
-        $set->add($array);
+        $set->addMulti($array);
 
         // Only 7, because [1, 2, 3] was in there twice.
         $this->assertEquals(7, count($set));
@@ -522,6 +472,108 @@ class SetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForAddMulti
+     */
+    public function testAddMulti(array $A, array $x, array $R)
+    {
+        $setA = new Set($A);
+        $setR = new Set($R);
+
+        $setA->addMulti($x);
+
+        $this->assertEquals($setR, $setA);
+        $this->assertEquals($setR->asArray(), $setA->asArray());
+    }
+
+    public function dataProviderForAddMulti()
+    {
+        $vector = new Vector([1, 2, 3]);
+
+        return [
+            [
+                [],
+                [1],
+                [1],
+            ],
+            [
+                [],
+                [1, 2],
+                [1, 2],
+            ],
+            [
+                [1, 2, 3],
+                [],
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3],
+                [4],
+                [1, 2, 3, 4],
+            ],
+            [
+                [1, 2, 3],
+                [4, 5],
+                [1, 2, 3, 4, 5],
+            ],
+            [
+                [1, 2, 3],
+                [4, 5, 6],
+                [1, 2, 3, 4, 5, 6],
+            ],
+            [
+                [1, 2, 3],
+                [1, 2, 3],
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3],
+                [1, 2, 3, 4],
+                [1, 2, 3, 4],
+            ],
+            [
+                [1, 2, 3],
+                ['new', 4],
+                [1, 2, 3, 'new', 4],
+            ],
+            [
+                [1, 2, 3],
+                [3.1, 4],
+                [1, 2, 3, 3.1, 4],
+            ],
+            [
+                [1, 2, 3],
+                [new Set()],
+                [1, 2, 3, 'Ø'],
+            ],
+            [
+                [1, 2, 3],
+                [new Set([4, 5])],
+                [1, 2, 3, 'Set{4, 5}'],
+            ],
+            [
+                [1, 2, 3],
+                [new Set([1, 2]), 4],
+                [1, 2, 3, 'Set{1, 2}', 4],
+            ],
+            [
+                [1, 2, 3],
+                [new Set([1, 2]), 6, 7, new Set([1, 2]), new Set([3, 4])],
+                [1, 2, 3, 'Set{1, 2}', 6, 7, 'Set{3, 4}'],
+            ],
+            [
+                [1, 2, 3],
+                [-3],
+                [1, 2, 3, -3],
+            ],
+            [
+                [1, 2, 3],
+                [4, $vector],
+                [1, 2, 3, 4, $vector],
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForRemove
      */
     public function testRemove(array $A, $x, array $R)
@@ -542,11 +594,6 @@ class SetTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [],
-                [],
-                [],
-            ],
-            [
-                [],
                 null,
                 [],
             ],
@@ -558,11 +605,6 @@ class SetTest extends \PHPUnit_Framework_TestCase
             [
                 [1],
                 1,
-                [],
-            ],
-            [
-                [1],
-                [1],
                 [],
             ],
             [
@@ -579,36 +621,6 @@ class SetTest extends \PHPUnit_Framework_TestCase
                 [1, 2, 3],
                 3,
                 [1, 2],
-            ],
-            [
-                [1, 2, 3],
-                [1],
-                [2, 3],
-            ],
-            [
-                [1, 2, 3],
-                [2],
-                [1, 3],
-            ],
-            [
-                [1, 2, 3],
-                [3],
-                [1, 2],
-            ],
-            [
-                [1, 2, 3],
-                [1, 2],
-                [3],
-            ],
-            [
-                [1, 2, 3],
-                [2, 3],
-                [1],
-            ],
-            [
-                [1, 2, 3],
-                [1, 3],
-                [2],
             ],
             [
                 [1, 2, 3],
@@ -636,11 +648,6 @@ class SetTest extends \PHPUnit_Framework_TestCase
                 [1, 2, 3, 'a', 'see'],
             ],
             [
-                [1, 2, 3, 'a', 'b', 'see'],
-                ['b', 1, 'see', 5555],
-                [ 2, 3, 'a'],
-            ],
-            [
                 [1, 2, 3, new Set([1, 2])],
                 1,
                 [2, 3, 'Set{1, 2}'],
@@ -653,6 +660,188 @@ class SetTest extends \PHPUnit_Framework_TestCase
             [
                 [1, 2, 3, new Set([1, 2])],
                 'Set{1, 2}',
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3, [1, 2, 3]],
+                [1, 2, 3],
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3, [1, 2, 3], [2, 3], [4, 5, 6]],
+                [2, 3],
+                [1, 2, 3, [1, 2, 3], [4, 5, 6]],
+            ],
+            [
+                [1, 2, 3, [1, 2, 3], [2, 3], [4, 5, 6]],
+                [4, 5, 6],
+                [1, 2, 3, [1, 2, 3], [2, 3]],
+            ],
+            [
+                [1, 2, 3, [1, 2, 3]],
+                [6, 7, 3],
+                [1, 2, 3, [1, 2, 3]],
+            ],
+            [
+                [1, 2, 3, $vector],
+                $vector,
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3, $vector],
+                [$vector], // Array containing vector
+                [1, 2, 3, $vector],
+            ],
+            [
+                [1, 2, 3, $vector],
+                [1, $vector], // array containing 1 and vector
+                [1, 2, 3, $vector],
+            ],
+            [
+                [1, 2, 3, $fh],
+                $fh,
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3, $fh],
+                [1, $fh], // array containing 1 and f1
+                [1, 2, 3, $fh],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForRemoveMulti
+     */
+    public function testRemoveMulti(array $A, array $x, array $R)
+    {
+        $setA = new Set($A);
+        $setR = new Set($R);
+
+        $setA->removeMulti($x);
+
+        $this->assertEquals($setR, $setA);
+    }
+
+    public function dataProviderForRemoveMulti()
+    {
+        $vector = new Vector([1, 2, 3]);
+        $fh     = fopen(__FILE__, 'r');
+
+        return [
+            [
+                [],
+                [],
+                [],
+            ],
+            [
+                [],
+                [null],
+                [],
+            ],
+            [
+                [null],
+                [null],
+                [],
+            ],
+            [
+                [1],
+                [1],
+                [],
+            ],
+            [
+                [1],
+                [1],
+                [],
+            ],
+            [
+                [1, 2, 3],
+                [1],
+                [2, 3],
+            ],
+            [
+                [1, 2, 3],
+                [2],
+                [1, 3],
+            ],
+            [
+                [1, 2, 3],
+                [3],
+                [1, 2],
+            ],
+            [
+                [1, 2, 3],
+                [4],
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3],
+                [5, 6],
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3],
+                [3, 4, 5],
+                [1, 2],
+            ],
+            [
+                [1, 2, 3],
+                [1, 2],
+                [3],
+            ],
+            [
+                [1, 2, 3],
+                [2, 3],
+                [1],
+            ],
+            [
+                [1, 2, 3],
+                [1, 3],
+                [2],
+            ],
+            [
+                [1, 2, 3],
+                [5, 'a'],
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3],
+                [-1],
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3, -3],
+                [-3],
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3, 4.5, 6.7],
+                [4.5, 10],
+                [1, 2, 3, 6.7],
+            ],
+            [
+                [1, 2, 3, 'a', 'b', 'see'],
+                ['b', 'z'],
+                [1, 2, 3, 'a', 'see'],
+            ],
+            [
+                [1, 2, 3, 'a', 'b', 'see'],
+                ['b', 1, 'see', 5555],
+                [ 2, 3, 'a'],
+            ],
+            [
+                [1, 2, 3, new Set([1, 2])],
+                [1],
+                [2, 3, 'Set{1, 2}'],
+            ],
+            [
+                [1, 2, 3, new Set([1, 2])],
+                [new Set([1, 2])],
+                [1, 2, 3],
+            ],
+            [
+                [1, 2, 3, new Set([1, 2])],
+                ['Set{1, 2}'],
                 [1, 2, 3],
             ],
             [
@@ -697,7 +886,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [1, 2, 3, $vector],
-                $vector,
+                [$vector, 9],
                 [1, 2, 3],
             ],
             [
@@ -1957,9 +2146,9 @@ class SetTest extends \PHPUnit_Framework_TestCase
           ->remove(2)
           ->add(4)
           ->remove(1)
-          ->add([5, 6, 7])
+          ->addMulti([5, 6, 7])
           ->add(new Set([1, 2, 3]))
-          ->remove([5, 6]);
+          ->removeMulti([5, 6]);
 
         $B = new Set([3, 4, 7, new Set([1, 2, 3])]);
 
