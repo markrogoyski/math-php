@@ -17,6 +17,20 @@ class ImmutableSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($B->asArray(), $A->asArray());
     }
 
+    public function testAddMultiDoesNothing()
+    {
+        $A = new ImmutableSet([1, 2, 3, 4]);
+        $B = $A->copy();
+
+        $A->addMulti([5]);
+        $A->addMulti([6, 7, 8]);
+        $A->addMulti([7, 8, 9]);
+        $A->addMulti([new Set(['a', 'b'])]);
+
+        $this->assertEquals($B, $A);
+        $this->assertEquals($B->asArray(), $A->asArray());
+    }
+
     public function testRemoveDoesNothing()
     {
         $A = new ImmutableSet([1, 2, 3, 4]);
@@ -24,6 +38,18 @@ class ImmutableSetTest extends \PHPUnit_Framework_TestCase
 
         $A->remove(1);
         $A->remove([2, 3]);
+
+        $this->assertEquals($B, $A);
+        $this->assertEquals($B->asArray(), $A->asArray());
+    }
+
+    public function testRemoveMultiDoesNothing()
+    {
+        $A = new ImmutableSet([1, 2, 3, 4]);
+        $B = $A->copy();
+
+        $A->removeMulti([1]);
+        $A->removeMulti([2, 3]);
 
         $this->assertEquals($B, $A);
         $this->assertEquals($B->asArray(), $A->asArray());

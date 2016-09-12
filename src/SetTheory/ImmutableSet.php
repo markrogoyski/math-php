@@ -15,7 +15,9 @@ class ImmutableSet extends Set
     /**************************************************************************
      * SINGLE MEMBER OPERATIONS - OVERIDDEN FROM SET
      *  - Add (cannot add members)
+     *  - Add multi (cannot add members)
      *  - Remove (cannot remove members)
+     *  - Remove multi (cannot remove members)
      *  - Clear (cannot clear set)
      **************************************************************************/
 
@@ -32,6 +34,18 @@ class ImmutableSet extends Set
     }
 
     /**
+     * Cannot add members to an immutable set
+     *
+     * @param array $x
+     *
+     * @return Set (this set unchanged)
+     */
+    public function addMulti(array $x): Set
+    {
+        return $this;
+    }
+
+    /**
      * Cannot remove members of an immutable set
      *
      * @param  mixed $x
@@ -39,6 +53,18 @@ class ImmutableSet extends Set
      * @return Set (this set unchanged)
      */
     public function remove($x): Set
+    {
+        return $this;
+    }
+
+    /**
+     * Cannot remove members of an immutable set
+     *
+     * @param  array $x
+     *
+     * @return Set (this set unchanged)
+     */
+    public function removeMulti(array $x): Set
     {
         return $this;
     }
