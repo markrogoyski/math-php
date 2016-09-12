@@ -798,6 +798,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Determinant
      *
+     * For a 1x1 matrix:
+     *  A = [a]
+     *
+     * |A| = a
+     *
      * For a 2x2 matrix:
      *      [a b]
      *  A = [c d]
@@ -838,14 +843,21 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         /*
          * 1x1 matrix
+<<<<<<< HEAD
          *
+=======
+>>>>>>> ddc61b6f10a585c82e71dd349a5b57522020084e
          *  A = [a]
          *
          * |A| = a
          */
         if ($m === 1) {
+<<<<<<< HEAD
             $a = $R[0][0];
             $this->det = $a;
+=======
+            $this->det = $R[0][0];
+>>>>>>> ddc61b6f10a585c82e71dd349a5b57522020084e
             return $this->det;
         }
 
@@ -1417,8 +1429,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
 
             // Swap rows i and r
-            $R = $R->rowInterchange($i, $r);
-            $swaps++;
+            if ($i !== $r) {
+                $R = $R->rowInterchange($i, $r);
+                $swaps++;
+            }
 
             // Divide row $r by R[r][lead]
             $lv = $R[$r][$lead];
