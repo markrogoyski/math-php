@@ -203,23 +203,46 @@ class Set implements \Countable, \Iterator
      *  - Resource: Resource(Resource id #)
      *  - Null: ''
      *
+     * Implemented with a hacked switch statement. It is cleaner and easier
+     * to see the flow than a long list of if/elseif blocks.
+     *
      * @param mixed $x
+     *
+     * @return Set
      */
     protected function addMember($x)
     {
-        if (is_int($x) || is_float($x) || is_string($x) || $x instanceof Set) {
-            $this->A["$x"] = $x;
-        } elseif (is_object($x)) {
-            $key = get_class($x) . '(' . spl_object_hash($x) . ')';
-            $this->A[$key] = $x;
-        } elseif (is_array($x)) {
-            $key = 'Array(' . serialize($x) . ')';
-            $this->A[$key] = $x;
-        } elseif (is_resource($x)) {
-            $key = 'Resource(' . strval($x) . ')';
-            $this->A[$key] = $x;
-        } elseif (is_null($x)) {
-            $this->A[null] = null;
+        switch (true) {
+            // Int, float, string, Set key: use string value
+            case is_int($x):
+            case is_float($x):
+            case is_string($x):
+            case $x instanceof Set:
+                $this->A["$x"] = $x;
+                break;
+
+            // Object key: Class\Name(object_hash)
+            case is_object($x):
+                $key = get_class($x) . '(' . spl_object_hash($x) . ')';
+                $this->A[$key] = $x;
+                break;
+
+            // Array key: Array(array_serialization)
+            case is_array($x):
+                $key = 'Array(' . serialize($x) . ')';
+                $this->A[$key] = $x;
+                break;
+
+            // Resource key: Resource(Resource id #)
+            case is_resource($x):
+                $key = 'Resource(' . strval($x) . ')';
+                $this->A[$key] = $x;
+                break;
+
+            // Null key: ''
+            case is_null($x):
+                $this->A[null] = null;
+                break;
         }
 
         return $this;
@@ -251,20 +274,55 @@ class Set implements \Countable, \Iterator
     /**
      * Actually remove an element from the set
      *
+     * Based on the type of member to be removed, the key differs:
+     *  - Number: value as is
+     *  - String: value as is
+     *  - Set: String representation of set. Example: {1, 2}
+     *  - Array: Array(array_serialization)
+     *  - Object: Class\Name(object_hash)
+     *  - Resource: Resource(Resource id #)
+     *  - Null: ''
+     *
+     * Implemented with a hacked switch statement. It is cleaner and easier
+     * to see the flow than a long list of if/elseif blocks.
+
      * @param  mixed $x
      *
      * @return Set
      */
     protected function removeMember($x)
     {
-        if (is_int($x) || is_float($x) || is_string($x) || $x instanceof Set) {
-            unset($this->A["$x"]);
-        } elseif (is_object($x)) {
-            $key = get_class($x) . '(' . spl_object_hash($x) . ')';
-            unset($this->A[$key]);
-        } elseif (is_array($x)) {
-            $key = 'Array(' . serialize($x) . ')';
-            unset($this->A[$key]);
+        switch (true) {
+            // Int, float, string, Set key: use string value
+            case is_int($x):
+            case is_float($x):
+            case is_string($x):
+            case $x instanceof Set:
+                unset($this->A["$x"]);
+                break;
+
+            // Object key: Class\Name(object_hash)
+            case is_object($x):
+                $key = get_class($x) . '(' . spl_object_hash($x) . ')';
+                unset($this->A[$key]);
+                break;
+
+            // Array key: Array(array_serialization)
+            case is_array($x):
+                $key = 'Array(' . serialize($x) . ')';
+                unset($this->A[$key]);
+                break;
+
+            // Resource key: Resource(Resource id #)
+            case is_resource($x):
+                $key = 'Resource(' . strval($x) . ')';
+                unset($this->A[$key]);
+                break;
+
+            // Null key: ''
+            case is_null($x):
+                unset($this->A[null]);
+                break;
         }
 
         return $this;
