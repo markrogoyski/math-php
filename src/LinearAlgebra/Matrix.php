@@ -843,21 +843,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         /*
          * 1x1 matrix
-<<<<<<< HEAD
-         *
-=======
->>>>>>> ddc61b6f10a585c82e71dd349a5b57522020084e
          *  A = [a]
          *
          * |A| = a
          */
         if ($m === 1) {
-<<<<<<< HEAD
-            $a = $R[0][0];
-            $this->det = $a;
-=======
             $this->det = $R[0][0];
->>>>>>> ddc61b6f10a585c82e71dd349a5b57522020084e
             return $this->det;
         }
 
