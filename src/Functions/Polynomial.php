@@ -172,6 +172,11 @@ class Polynomial
         return $this->degree;
     }
 
+    /**
+     * Getter method for the coefficients of a polynomial
+     *
+     * @return array The coefficients array of a polynomial object
+     */
     public function getCoefficients(): array
     {
         return $this->coefficients;
