@@ -537,6 +537,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForRemove()
     {
         $vector = new Vector([1, 2, 3]);
+        $fh     = fopen(__FILE__, 'r');
 
         return [
             [
@@ -546,6 +547,11 @@ class SetTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [],
+                null,
+                [],
+            ],
+            [
+                [null],
                 null,
                 [],
             ],
@@ -702,6 +708,11 @@ class SetTest extends \PHPUnit_Framework_TestCase
             [
                 [1, 2, 3, $vector],
                 [1, $vector],
+                [2, 3],
+            ],
+            [
+                [1, 2, 3, $fh],
+                [1, $fh],
                 [2, 3],
             ],
         ];
