@@ -17,6 +17,16 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForEval()
     {
         return [
+            // Test evaluation given a single interval, function
+            [
+                [
+                  [-100, 100],                  // f interval: [-100, 100]
+                ], [
+                  new Polynomial([1, 0])        // f(x) = x
+                ],
+                25, 25       // p(25) = f(25) = 25
+            ],
+            // Test eveluation in 1st piece given 3 intervals, functions
             [
                 [
                   [-100, -2],                   // f interval: [-100, -2]
@@ -29,6 +39,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                 ],
                 -27, 27       // p(-27) = f(-27) = -(-27) = 27
             ],
+            // Test eveluation in 2nd piece given 3 intervals, functions
             [
                 [
                   [-100, -2],                   // f interval: [-100, -2]
@@ -41,6 +52,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                 ],
                 1, 2       // p(1) = g(1) = 2
             ],
+            // Test eveluation in 3rd piece given 3 intervals, functions
             [
                 [
                   [-100, -2],                   // f interval: [-100, -2]
