@@ -112,4 +112,15 @@ class Piecewise
 
         return $polynomial($x₀);
     }
+
+    public function inPiece ($x, $intervals)
+    {
+        foreach ($intervals as $i => $interval) {
+            $a = $interval[0];
+            $b = $interval[1];
+            if ($x >= $a and $x <= $b) {
+                return $i;
+            }
+        }
+    }
 }
