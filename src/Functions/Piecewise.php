@@ -81,18 +81,35 @@ class Piecewise
 
     public function __invoke($x₀)
     {
-        $range = inPiece ($x₀, $this->intervals);
+        $range = self::inPiece($x₀, $this->intervals);
         $function = $this->functions[$range];
-        echo $function($x₀);
+
+        return $function($x₀);
     }
 
-    public function inPiece ($x, $intervals)
+    public static function inPiece ($x, $intervals)
     {
         foreach ($intervals as $i => $interval) {
             $a = $interval[0];
             $b = $interval[1];
-            if ($x >= $a and $x <= $b) {
-                return $i;
+            $aOpen = $interval[2] ?? false;
+            $bOpen = $interval[3] ?? false;
+            if ($aOpen and $bOpen) {
+                if ($x > $a and $x < $b) {
+                    return $i;
+                }
+            } elseif ($aOpen and !$bOpen) {
+                if ($x > $a and $x <= $b) {
+                    return $i;
+                }
+            } elseif (!$aOpen and $bOpen) {
+                if ($x >= $a and $x < $b) {
+                    return $i;
+                }
+            } elseif (!$aOpen and !$bOpen) {
+                if ($x >= $a and $x <= $b) {
+                    return $i;
+                }
             }
         }
     }
