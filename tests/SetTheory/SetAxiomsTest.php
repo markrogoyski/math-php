@@ -16,12 +16,17 @@ namespace Math\SetTheory;
  *  - Union
  *    - A ∪ B = B ∪ A
  *    - A ∪ (B ∪ C) = (A ∪ B) ∪ C
+ *    - A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C)
+ *    - A ∪ (A ∩ B) = A
  *    - A ⊆ (A ∪ B)
  *    - A ∪ A = A
  *    - A ∪ Ø = A
+ *    - |A ∪ B| = |A| + |B| - |A ∩ B|
  *  - Intersection
  *    - A ∩ B = B ∩ A
  *    - A ∩ (B ∩ C) = (A ∩ B) ∩ C
+ *    - A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)
+ *    - A ∩ (A ∪ B) = A
  *    - (A ∩ B) ⊆ A
  *    - A ∩ A = A
  *    - A ∩ Ø = Ø
@@ -34,6 +39,9 @@ namespace Math\SetTheory;
  *    - A × Ø = Ø
  *    - A × (B ∪ C) = (A × B) ∪ (A × C)
  *    - (A ∪ B) × C = (A × C) ∪ (B × C)
+ *    - |A × B| = |A| * |B|
+ *  - Power set
+ *    - |S| = n, then |P(S)| = 2ⁿ
  */
 class SetAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -69,7 +77,7 @@ class SetAxiomsTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($A, $A);
         $this->assertTrue($A->isSubset($A));
-        $this->assertTRue($A->isSubset($A));
+        $this->assertTrue($A->isSubset($A));
     }
 
     public function dataProviderForSingleSet()
@@ -98,10 +106,10 @@ class SetAxiomsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Axiom: A ∪ B = B ∪ A
-     * Union of A and B is equal to union of B and A
+     * Union is commutative
      * @dataProvider dataProviderForTwoSets
      */
-    public function testUnionAAndBEqualToUnionBAndA(Set $A, Set $B)
+    public function testUnionCommutative(Set $A, Set $B)
     {
         $A∪B = $A->union($B);
         $B∪A = $B->union($A);
@@ -170,16 +178,43 @@ class SetAxiomsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Axiom: A ∪ (B ∪ C) = (A ∪ B) ∪ C
-     * A union B and C equals A and B union C
+     * Unsion is associative
      * @dataProvider dataProviderForThreeSets
      */
-    public function testAUnionBCEqualsABUnionC(Set $A, Set $B, Set $C)
+    public function testUnsionAssociative(Set $A, Set $B, Set $C)
     {
         $A∪⟮B∪C⟯ = $A->union($B->union($C));
         $⟮A∪B⟯∪C = $A->union($B)->union($C);
 
         $this->assertEquals($A∪⟮B∪C⟯, $⟮A∪B⟯∪C);
         $this->assertEquals($A∪⟮B∪C⟯->asArray(), $⟮A∪B⟯∪C->asArray());
+    }
+
+    /**
+     * Axiom: A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C)
+     * Union is distributive
+     * @dataProvider dataProviderForThreeSets
+     */
+    public function testUnionDistributive(Set $A, Set $B, Set $C)
+    {
+        $A∪⟮B∩C⟯    = $A->union($B->intersect($C));
+        $⟮A∪B⟯∩⟮A∪C⟯ = $A->union($B)->intersect($A->union($C));
+
+        $this->assertEquals($A∪⟮B∩C⟯, $⟮A∪B⟯∩⟮A∪C⟯);
+        $this->assertEquals($A∪⟮B∩C⟯->asArray(), $⟮A∪B⟯∩⟮A∪C⟯->asArray());
+    }
+
+    /**
+     * Axiom: A ∪ (A ∩ B) = A
+     * Union absorbtion law
+     * @dataProvider dataProviderForTwoSets
+     */
+    public function testUnionAbsorbtion(Set $A, Set $B)
+    {
+        $A∪⟮B∩C⟯ = $A->union($A->intersect($B));
+
+        $this->assertEquals($A, $A∪⟮B∩C⟯);
+        $this->assertEquals($A->asArray(), $A∪⟮B∩C⟯->asArray());
     }
 
     /**
@@ -220,6 +255,20 @@ class SetAxiomsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($A, $A∪Ø);
         $this->assertEquals($A->asArray(), $A∪Ø->asArray());
+    }
+
+    /**
+     * Axiom: |A ∪ B| = |A| + |B| - |A ∩ B|
+     * The cardinality (count) of unsion of A and B is equal to the cardinality of A + B minus the cardinality of A intersection B
+     * @dataProvider dataProviderForTwoSets
+     */
+    public function testCardinalityOfUnion(Set $A, Set $B)
+    {
+        $A∪B = $A->union($B);
+        $A∩B = $A->intersect($B);
+
+        $this->assertEquals(count($A) + count($B) - count($A∩B), count($A∪B));
+        $this->assertEquals(count($A->asArray()) + count($B->asArray()) - count($A∩B->asArray()), count($A∪B->asArray()));
     }
 
     public function dataProviderForThreeSets()
@@ -295,10 +344,10 @@ class SetAxiomsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Axiom: A ∩ B = B ∩ A
-     * Inersection of A and B is equal to intersection of B and A
+     * Intersection is commutative
      * @dataProvider dataProviderForTwoSets
      */
-    public function testIntersectionAAndBEqualToIntersectionBAndA(Set $A, Set $B)
+    public function testIntersectionCommutative(Set $A, Set $B)
     {
         $A∩B = $A->intersect($B);
         $B∩A = $B->intersect($A);
@@ -309,16 +358,43 @@ class SetAxiomsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Axiom: A ∩ (B ∩ C) = (A ∩ B) ∩ C
-     * A intersection B and C equals A and B intersection C
+     * Intersection is associative
      * @dataProvider dataProviderForThreeSets
      */
-    public function testAIntersectionBCEqualsABIntersectionC(Set $A, Set $B, Set $C)
+    public function testIntersectionAssociative(Set $A, Set $B, Set $C)
     {
         $A∩⟮B∩C⟯ = $A->intersect($B->intersect($C));
         $⟮A∩B⟯∩C = $A->intersect($B)->intersect($C);
 
         $this->assertEquals($A∩⟮B∩C⟯, $⟮A∩B⟯∩C);
         $this->assertEquals($A∩⟮B∩C⟯->asArray(), $⟮A∩B⟯∩C->asArray());
+    }
+
+    /**
+     * Axiom: A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)
+     * Intersection is distributive
+     * @dataProvider dataProviderForThreeSets
+     */
+    public function testIntersectionDistributive(Set $A, Set $B, Set $C)
+    {
+        $A∩⟮B∪C⟯    = $A->intersect($B->union($C));
+        $⟮A∩B⟯∪⟮A∩C⟯ = $A->intersect($B)->union($A->intersect($C));
+
+        $this->assertEquals($A∩⟮B∪C⟯, $⟮A∩B⟯∪⟮A∩C⟯);
+        $this->assertEquals($A∩⟮B∪C⟯->asArray(), $⟮A∩B⟯∪⟮A∩C⟯->asArray());
+    }
+
+    /**
+     * Axiom: A ∩ (A ∪ B) = A
+     * Intersection absorbtion law
+     * @dataProvider dataProviderForTwoSets
+     */
+    public function testIntersectionAbsorbtion(Set $A, Set $B)
+    {
+        $A∩⟮B∪C⟯ = $A->intersect($A->union($B));
+
+        $this->assertEquals($A, $A∩⟮B∪C⟯);
+        $this->assertEquals($A->asArray(), $A∩⟮B∪C⟯->asArray());
     }
 
     /**
@@ -494,5 +570,32 @@ class SetAxiomsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($⟮A∪B⟯×C, $⟮A×C⟯∪⟮B×C⟯);
         $this->assertEquals($⟮A∪B⟯×C->asArray(), $⟮A×C⟯∪⟮B×C⟯->asArray());
+    }
+
+    /**
+     * Axiom: |A × B| - |A| * |B|
+     * The cardinality (count) of the cartesian product is the product of the cardinality of A and B
+     * @dataProvider dataProviderForTwoSets
+     */
+    public function testCardinalityOfCartesianProduct(Set $A, Set $B)
+    {
+        $A×B = $A->cartesianProduct($B);
+
+        $this->assertEquals(count($A) * count($B), count($A×B));
+        $this->assertEquals(count($A->asArray()) * count($B->asArray()), count($A×B->asArray()));
+    }
+
+    /**
+     * Axiom: |S| = n, then |P(S)| = 2ⁿ
+     * The cardinality (count) of a power set of S is 2ⁿ if the cardinality of S is n.
+     * @dataProvider dataProviderForSingleSet
+     */
+    public function testCardinalityOfPowerSet(Set $A)
+    {
+        $P⟮S⟯ = $A->powerSet();
+        $n   = count($A);
+
+        $this->assertEquals(pow(2, $n), count($P⟮S⟯));
+        $this->assertEquals(pow(2, $n), count($P⟮S⟯->asArray()));
     }
 }
