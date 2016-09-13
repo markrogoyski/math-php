@@ -556,7 +556,6 @@ class Set implements \Countable, \Iterator
         return $P⟮S⟯;
     }
 
-
     /**
      * Copy
      * Produces a new set with the same elements as the set.
