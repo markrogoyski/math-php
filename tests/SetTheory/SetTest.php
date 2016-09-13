@@ -106,11 +106,6 @@ class SetTest extends \PHPUnit_Framework_TestCase
         $set   = new Set($members);
         $array = $set->asArray();
 
-        $this->assertEquals(count($members), count($array));
-        foreach ($members as $member) {
-            $this->assertArrayHasKey("$member", $array);
-        }
-
         $new_set = new Set($array);
         $this->assertEquals($new_set, $set);
     }
@@ -161,6 +156,12 @@ class SetTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderForSingleSet()
     {
+        $fh     = fopen(__FILE__, 'r');
+        $vector = new Vector([1, 2, 3]);
+        $func   = function ($x) {
+            return $x * 2;
+        };
+
         return [
             [[]],
             [[0]],
@@ -181,6 +182,8 @@ class SetTest extends \PHPUnit_Framework_TestCase
             [['a', 1, 'b', new Set([1, 'b'])]],
             [['a', 1, 'b', new Set([1, 'b']), '4', 5]],
             [['a', 1, 'b', new Set([1, 'b']), new Set([3, 4, 5]), '4', 5]],
+            [[1, 2, 3, [1, 2], [2, 3, 4]]],
+            [[1, 2, $fh, $vector, [4, 5], 6, 'a', $func, 12, new Set([4, 6, 7]), new Set(), 'sets']],
         ];
     }
 
@@ -1918,19 +1921,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($set, $copy);
         $this->assertEquals($set_array, $copy_array);
-        foreach ($members as $member) {
-            $this->assertArrayHasKey("$member", $set_array);
-            $this->assertArrayHasKey("$member", $copy_array);
-        }
-        foreach ($members as $_ => $value) {
-            if ($value instanceof Set) {
-                $this->assertEquals($value, $set_array["$value"]);
-                $this->assertEquals($value, $copy_array["$value"]);
-            } else {
-                $this->assertContains("$value", $set_array);
-                $this->assertContains("$value", $copy_array);
-            }
-        }
+        $this->assertEquals(count($set), count($copy));
     }
 
     /**
@@ -2153,5 +2144,76 @@ class SetTest extends \PHPUnit_Framework_TestCase
         $B = new Set([3, 4, 7, new Set([1, 2, 3])]);
 
         $this->assertEquals($B, $A);
+    }
+
+    /**
+     * @dataProvider dataProviderForPowerSet
+     */
+    public function testPowerSet(Set $A, Set $expected)
+    {
+        $P⟮S⟯ = $A->powerSet();
+
+        $this->assertEquals($expected, $P⟮S⟯);
+        $this->assertEquals($expected->asArray(), $P⟮S⟯->asArray());
+        $this->assertEquals(count($expected), count($P⟮S⟯));
+    }
+
+    public function dataProviderForPowerSet()
+    {
+        return [
+            // P({}) = {Ø}
+            [
+                new Set(),
+                new Set([
+                    new Set(),
+                ]),
+            ],
+            // P({1}) = {{Ø}, {1}}
+            [
+                new Set([1]),
+                new Set([
+                    new Set(),
+                    new Set([1]),
+                ]),
+            ],
+            // P({1, 2, 3}) = {Ø, {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}}
+            [
+                new Set([1, 2, 3]),
+                new Set([
+                    new Set(),
+                    new Set([1]),
+                    new Set([2]),
+                    new Set([3]),
+                    new Set([1, 2]),
+                    new Set([1, 3]),
+                    new Set([2, 3]),
+                    new Set([1, 2, 3]),
+                ]),
+            ],
+            // P({x, y, z}) = {Ø, {x}, {y}, {z}, {x,y}, {x,z}, {y,z}, {x,y,z}}
+            [
+                new Set(['x', 'y', 'z']),
+                new Set([
+                    new Set(),
+                    new Set(['x']),
+                    new Set(['y']),
+                    new Set(['z']),
+                    new Set(['x', 'y']),
+                    new Set(['x', 'z']),
+                    new Set(['y', 'z']),
+                    new Set(['x', 'y', 'z']),
+                ]),
+            ],
+            // P({1, [1, 2]}) = {Ø, {1}, {[1, 2]}, {1, [1, 2]}}
+            [
+                new Set([1, [1, 2]]),
+                new Set([
+                    new Set(),
+                    new Set([1]),
+                    new Set([[1, 2]]),
+                    new Set([1, [1, 2]]),
+                ]),
+            ],
+        ];
     }
 }
