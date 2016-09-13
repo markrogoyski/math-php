@@ -148,6 +148,198 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForGetDegree
+     */
+    public function testGetDegree(array $coefficients, int $expected)
+    {
+        $polynomial = new Polynomial($coefficients);
+        $degree     = $polynomial->getDegree();
+        $this->assertEquals($expected, $degree);
+    }
+
+    public function dataProviderForGetDegree()
+    {
+        return [
+            [
+                [1, 2, 3],       // p(x) = x² + 2x + 3
+                2,
+            ],
+            [
+                [2, 3, 4],       // p(x) = 2x² + 3x + 4
+                2
+            ],
+            [
+                [-1, -2, -3],       // p(x) = -x² - 2x - 3
+                2
+            ],
+            [
+                [-2, -3, -4],       // p(x) = -2x² - 3x - 4
+                2
+            ],
+            [
+                [0, 2, 3],       // p(x) = 2x + 3
+                1
+            ],
+            [
+                [1, 0, 3],       // p(x) = x² + 3
+                2
+            ],
+            [
+                [1, 2, 0],       // p(x) = x² + 2x
+                2
+            ],
+            [
+                [0, 0, 3],       // p(x) = 3
+                0
+            ],
+            [
+                [1, 0, 0],       // p(x) = x²
+                2
+            ],
+            [
+                [0, 2, 0],       // p(x) = 2x
+                1
+            ],
+            [
+                [0, -2, 3],       // p(x) = -2x + 3
+                1
+            ],
+            [
+                [-1, 0, 3],       // p(x) = -x² + 3
+                2
+            ],
+            [
+                [1, -2, 0],       // p(x) = x² - 2x
+                2
+            ],
+            [
+                [0, 0, -3],       // p(x) = -3
+                0
+            ],
+            [
+                [-1, 0, 0],       // p(x) = -x²
+                2
+            ],
+            [
+                [0, -2, 0],       // p(x) = -2x
+                1
+            ],
+            [
+                [0, 0, 0],       // p(x) = 0
+                0
+            ],
+            [
+                [0, 0, 1],       // p(x) = 1
+                0
+            ],
+            [
+                [0, 0, 5],       // p(x) = 5
+                0
+            ],
+            [
+                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],       // p(x) = x¹¹ + 2x¹⁰ + 3x⁹ + 4x⁸ + 5x⁷ + 6x⁶ + 7x⁵ + 8x⁴ + 9x³ + 10x² + 11x + 12
+                11
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForGetCoefficients
+     */
+    public function testGetCoefficients(array $coefficients, array $expected)
+    {
+        $polynomial   = new Polynomial($coefficients);
+        $coefficients = $polynomial->getCoefficients();
+        $this->assertEquals($expected, $coefficients);
+    }
+    
+    public function dataProviderForGetCoefficients()
+    {
+        return [
+            [
+                [1, 2, 3],       // p(x) = x² + 2x + 3
+                [1, 2, 3]
+            ],
+            [
+                [2, 3, 4],       // p(x) = 2x² + 3x + 4
+                [2, 3, 4]
+            ],
+            [
+                [-1, -2, -3],       // p(x) = -x² - 2x - 3
+                [-1, -2, -3]
+            ],
+            [
+                [-2, -3, -4],       // p(x) = -2x² - 3x - 4
+                [-2, -3, -4]
+            ],
+            [
+                [0, 2, 3],       // p(x) = 2x + 3
+                [2, 3]
+            ],
+            [
+                [1, 0, 3],       // p(x) = x² + 3
+                [1, 0, 3]
+            ],
+            [
+                [1, 2, 0],       // p(x) = x² + 2x
+                [1, 2, 0]
+            ],
+            [
+                [0, 0, 3],       // p(x) = 3
+                [3]
+            ],
+            [
+                [1, 0, 0],       // p(x) = x²
+                [1, 0, 0]
+            ],
+            [
+                [0, 2, 0],       // p(x) = 2x
+                [2, 0]
+            ],
+            [
+                [0, -2, 3],       // p(x) = -2x + 3
+                [-2, 3]
+            ],
+            [
+                [-1, 0, 3],       // p(x) = -x² + 3
+                [-1, 0, 3]
+            ],
+            [
+                [1, -2, 0],       // p(x) = x² - 2x
+                [1, -2, 0]
+            ],
+            [
+                [0, 0, -3],       // p(x) = -3
+                [-3]
+            ],
+            [
+                [-1, 0, 0],       // p(x) = -x²
+                [-1, 0, 0]
+            ],
+            [
+                [0, -2, 0],       // p(x) = -2x
+                [-2, 0]
+            ],
+            [
+                [0, 0, 0],       // p(x) = 0
+                [0]
+            ],
+            [
+                [0, 0, 1],       // p(x) = 1
+                [1]
+            ],
+            [
+                [0, 0, 5],       // p(x) = 5
+                [5]
+            ],
+            [
+                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],       // p(x) = x¹¹ + 2x¹⁰ + 3x⁹ + 4x⁸ + 5x⁷ + 6x⁶ + 7x⁵ + 8x⁴ + 9x³ + 10x² + 11x + 12
+                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForDifferentiate
      */
     public function testDifferentiation(array $polynomial, array $expected)
