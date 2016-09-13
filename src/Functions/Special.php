@@ -86,7 +86,7 @@ class Special
              * √π ---------
              *       2ⁿ
              */
-            return $√π * ($⟮2n−1⟯！ / 2**$x);
+            return $√π * ($⟮2n−1⟯！！ / 2**$x);
         }
 
         // Generic real number case
