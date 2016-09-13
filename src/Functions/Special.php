@@ -78,16 +78,15 @@ class Special
             $π     = \M_PI;
             $x     = round($n - 0.5, 0);
             $√π    = sqrt($π);
-            $⟮2n⟯！  = Combinatorics::factorial(2 * $x);
-            $⟮4ⁿn！⟯ = 4**$x * Combinatorics::factorial($x);
+            $⟮2n−1⟯！！  = Combinatorics::doubleFactorial(2 * $x - 1);
 
             /**
              * Put it all together
-             *  _  (2n)!
-             * √π -------
-             *     4ⁿ n!
+             *  _  (2n-1)!!
+             * √π ---------
+             *       2ⁿ
              */
-            return $√π * ($⟮2n⟯！ / $⟮4ⁿn！⟯);
+            return $√π * ($⟮2n⟯！ / 2**$x);
         }
 
         // Generic real number case
