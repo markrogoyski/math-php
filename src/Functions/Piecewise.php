@@ -7,39 +7,15 @@ namespace Math\Functions;
  *
  * https://en.wikipedia.org/wiki/Piecewise
  */
-class Polynomial
+class Piecewise
 {
-    private $degree;
-    private $coefficients;
+    private $intervals;
+    private $functions;
 
-    /**
-     * @var array Unicode characters for exponents
-     */
-    const SYMBOLS = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
-
-    /**
-     * When a polynomial is instantiated, set the coefficients and degree of
-     * that polynomial as its object parameters.
-     *
-     * @param array $coefficients An array of coefficients in decreasing powers.
-     *                            Example: new Polynomial([1, 2, 3]) will create
-     *                            a polynomial that looks like x² + 2x + 3.
-     */
-    public function __construct(array $coefficients)
+    public function __construct(array $intervals, array $functions)
     {
-        // Remove coefficients that are leading zeros
-        for ($i = 0; $i < count($coefficients); $i++) {
-            if ($coefficients[$i] != 0) {
-                break;
-            }
-            unset($coefficients[$i]);
-        }
-
-        // If coefficients remain, re-index them. Otherwise return [0] for p(x) = 0
-        $coefficients       = ($coefficients != []) ? array_values($coefficients) : [0];
-
-        $this->degree       = count($coefficients) - 1;
-        $this->coefficients = $coefficients;
+        $this->intervals = $intervals;
+        $this->functions = $functions;
     }
 
     /**
@@ -135,148 +111,5 @@ class Polynomial
         }
 
         return $polynomial($x₀);
-    }
-
-    /**
-     * Getter method for the degree of a polynomial
-     *
-     * @return int The degree of a polynomial object
-     */
-    public function getDegree(): int
-    {
-        return $this->degree;
-    }
-
-    /**
-     * Getter method for the coefficients of a polynomial
-     *
-     * @return array The coefficients array of a polynomial object
-     */
-    public function getCoefficients(): array
-    {
-        return $this->coefficients;
-    }
-
-    /**
-     * Calculate the derivative of a polynomial and return it as a new polynomial
-     * Example: $polynomial = new Polynomial([1, -8, 12, 3]); // x³ - 8x² + 12x + 3
-     *          $derivative = $polynomial->differentiate();   // 3x² - 16x + 12
-     *
-     * @return object The derivative of our polynomial object, also a polynomial object
-     */
-    public function differentiate()
-    {
-        $derivativeCoefficients = []; // Start with empty set of coefficients
-
-        // Iterate over each coefficient (except the last), differentiating term-by-term
-        for ($i = 0; $i < $this->degree; $i++) {
-            $derivativeCoefficients[] = $this->coefficients[$i] * ($this->degree - $i);
-        }
-
-        // If the array of coefficients is empty, we are differentiating a constant. Return [0].
-        $derivativeCoefficients = ($derivativeCoefficients !== []) ? $derivativeCoefficients : [0];
-
-        return new Polynomial($derivativeCoefficients);
-    }
-
-    /**
-     * Calculate the indefinite integral of a polynomial and return it as a new polynomial
-     * Example: $polynomial = new Polynomial([3, -16, 12]); // 3x² - 16x + 12
-     *          $integral = $polynomial->integrate();       // x³ - 8x² + 12x
-     *
-     * Note that this method assumes the constant of integration to be 0.
-     *
-     * @return object The integral of our polynomial object, also a polynomial object
-     */
-    public function integrate()
-    {
-        $integralCoefficients = []; // Start with empty set of coefficients
-
-        // Iterate over each coefficient, integrating term-by-term
-        for ($i = 0; $i < $this->degree + 1; $i++) {
-            $integralCoefficients[] = $this->coefficients[$i] / ($this->degree - $i + 1);
-        }
-        $integralCoefficients[] = 0; // Make the constant of integration 0
-
-        return new Polynomial($integralCoefficients);
-    }
-
-    /**
-     * Return a new polynomial that is the sum of the current polynomial and an
-     * input polynomial
-     * Example: $polynomial = new Polynomial([3, -16, 12]); // 3x² - 16x + 12
-     *          $integral   = $polynomial->integrate();     // x³ - 8x² + 12x
-     *          $sum        = $polynomial->add($integral);  // x³ - 5x² - 4x + 12
-     *
-     * @param object $polynomial The polynomial we are adding to our current polynomial
-     *
-     * @return object The sum of our polynomial objects, also a polynomial object
-     */
-    public function add(Polynomial $polynomial)
-    {
-        // Calculate the degree of the sum of the polynomials
-        $sumDegree       = max($this->degree, $polynomial->degree);
-
-        // Reverse the coefficients arrays so you can sum component-wise
-        $coefficientsA = array_reverse($this->coefficients);
-        $coefficientsB = array_reverse($polynomial->coefficients);
-
-        // Start with an array of coefficients that all equal 0
-        $sumCoefficients = array_fill(0, $sumDegree+1, 0);
-
-        // Iterate through each degree. Get coefficients by summing component-wise.
-        for ($i = 0; $i < $sumDegree + 1; $i++) {
-            // Calculate the degree of the current sum
-            $degree = $sumDegree - $i;
-
-            // Get the coefficient of the i-th degree term from each polynomial if it exists, otherwise use 0
-            $a = $coefficientsA[$i] ?? 0;
-            $b = $coefficientsB[$i] ?? 0;
-
-            // The new coefficient is the sum of the original coefficients
-            $sumCoefficients[$degree] = $sumCoefficients[$degree] + $a + $b;
-        }
-
-        return new Polynomial($sumCoefficients);
-    }
-
-    /**
-     * Return a new polynomial that is the product of the current polynomial and an
-     * input polynomial
-     * Example: $polynomial = new Polynomial([2, -16]);          // 2x - 16
-     *          $integral   = $polynomial->integrate();          // x² - 16x
-     *          $product    = $polynomial->multiply($integral);  // 2x³ - 48x² + 256x
-     *
-     * @param object $polynomial The polynomial we are multiplying with our current polynomial
-     *
-     * @return object The product of our polynomial objects, also a polynomial object
-     */
-    public function multiply(Polynomial $polynomial)
-    {
-        // Calculate the degree of the product of the polynomials
-        $productDegree       = $this->degree + $polynomial->degree;
-
-        // Reverse the coefficients arrays so you can multiply component-wise
-        $coefficientsA = array_reverse($this->coefficients);
-        $coefficientsB = array_reverse($polynomial->coefficients);
-
-        // Start with an array of coefficients that all equal 0
-        $productCoefficients = array_fill(0, $productDegree+1, 0);
-
-        // Iterate through the product of terms component-wise
-        for ($i = 0; $i < $this->degree + 1; $i++) {
-            for ($j = 0; $j < $polynomial->degree + 1; $j++) {
-                // Calculate the degree of the current product
-                $degree = $productDegree-($i+$j);
-
-                // Calculate the product of the coefficients
-                $product = $coefficientsA[$i] * $coefficientsB[$j];
-
-                // Add the product to the existing coefficient of the current degree
-                $productCoefficients[$degree] = $productCoefficients[$degree] + $product;
-            }
-        }
-
-        return new Polynomial($productCoefficients);
     }
 }
