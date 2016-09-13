@@ -81,7 +81,7 @@ class Special
             if ($x == 0) {
                 return $√π;
             }
-            $⟮2n−1⟯！！  = Combinatorics::doubleFactorial(2 * $x - 1);
+            $⟮2n−1⟯‼︎ = Combinatorics::doubleFactorial(2 * $x - 1);
 
             /**
              * Put it all together
@@ -89,7 +89,7 @@ class Special
              * √π ---------
              *       2ⁿ
              */
-            return $√π * ($⟮2n−1⟯！！ / 2**$x);
+            return $√π * ($⟮2n−1⟯‼︎ / 2**$x);
         }
 
         // Generic real number case
