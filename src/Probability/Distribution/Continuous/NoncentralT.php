@@ -89,7 +89,7 @@ class NoncentralT extends Continuous
      */
     public static function mean(int $ν, $μ)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν, 'μ' => $μ]);
+        Support::checkLimits(self::LIMITS, ['ν' => $ν, 'μ' => $μ]);
         return $μ * sqrt($ν / 2) * Special::gamma(($ν - 1) / 2) / Special::gamma($ν / 2);
     }
 }
