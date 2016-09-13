@@ -10,7 +10,7 @@ class NoncentralTTest extends \PHPUnit_Framework_TestCase
     public function testPDF($t, $ν, $μ, $expected)
     {
         $actual = NoncentralT::PDF($t, $ν, $μ);
-        $tol = self::ε * $expected;
+        $tol = abs(self::ε * $expected);
         $this->assertEquals($expected, $actual, '', $tol);
     }
 
@@ -30,7 +30,7 @@ class NoncentralTTest extends \PHPUnit_Framework_TestCase
     public function testCDF($t, $ν, $μ, $expected)
     {
         $actual = NoncentralT::CDF($t, $ν, $μ);
-        $tol = self::ε * $expected;
+        $tol = abs(self::ε * $expected);
         $this->assertEquals($expected, $actual, '', $tol);
     }
     public function dataProviderForCDF()
@@ -49,7 +49,7 @@ class NoncentralTTest extends \PHPUnit_Framework_TestCase
     public function testMean($ν, $μ, $expected)
     {
         $actual = NoncentralT::mean($ν, $μ);
-        $tol = self::ε * $expected;
+        $tol = abs(self::ε * $expected);
         $this->assertEquals($expected, $actual, '', $tol);
     }
 
