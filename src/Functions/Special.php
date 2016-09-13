@@ -78,6 +78,9 @@ class Special
             $π     = \M_PI;
             $x     = round($n - 0.5, 0);
             $√π    = sqrt($π);
+            if ($x == 0) {
+                return $√π;
+            }
             $⟮2n−1⟯！！  = Combinatorics::doubleFactorial(2 * $x - 1);
 
             /**
