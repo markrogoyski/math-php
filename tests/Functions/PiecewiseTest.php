@@ -7,10 +7,10 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForEval
      */
-    public function testEval(array $coefficients, $x, $expected)
+    public function testEval(array $intervals, array $functions, $input, $expected)
     {
-        $polynomial = new Polynomial($coefficients);
-        $evaluated  = $polynomial($x);
+        $piecewise = new Piecewise($intervals, $functions);
+        $evaluated  = $piecewise($input);
         $this->assertEquals($expected, $evaluated);
     }
 
