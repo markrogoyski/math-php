@@ -65,6 +65,21 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                 ],
                 20, 20       // p(20) = h(20) = 20
             ],
+            // Test eveluation at "jump" located at a single point
+            [
+                [
+                  [-100, -2],                   // f interval: [-100, -2]
+                  [-2, 2, false, true],         // g interval: [-2, 2)
+                  [2, 2],                       // z interval: [2, 2]
+                  [2, 100, true, false]         // h interval: (2, 100]
+                ], [
+                  function ($x) { return -$x }, // f(x) = -x
+                  function ($x) { return 2 },   // g(x) = 2
+                  function ($x) { return 0 },   // z(x) = 0
+                  function ($x) { return $x }   // h(x) = x
+                ],
+                2, 0       // p(2) = z(2) = 0
+            ],
         ];
     }
 }
