@@ -93,7 +93,7 @@ class Pareto extends Continuous
         Support::checkLimits(self::LIMITS, ['a' => $a, 'b' => $b]);
 
         if ($a <= 1) {
-            return INF;
+            return \INF;
         }
 
         return $a * $b / ($a - 1);
