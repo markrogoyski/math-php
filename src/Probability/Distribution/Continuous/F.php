@@ -102,6 +102,26 @@ class F extends Continuous
             return $d₂ / ($d₂ - 2);
         }
 
-        return null;
+        return \NAN;
+    }
+    
+    /**
+     * Mode of the distribution
+     *
+     *      (d₁ - 2) * d₂
+     * μ = ---------------  for d₁ > 2
+     *      (d₂ + 2) * d₁ 
+     *
+     * @param int $d₁ degree of freedom v1 > 0
+     * @param int $d₂ degree of freedom v2 > 0
+     *
+     * @return number
+     */
+    public static function mode(int $d₁, int $d₂)
+    {
+        if ($d₁ > 2) {
+            return ($d₁ - 2) * $d₂ / ($d₂ + 2) / $d₁;
+        }
+        return \NAN;
     }
 }
