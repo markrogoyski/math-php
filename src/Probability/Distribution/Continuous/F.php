@@ -106,6 +106,36 @@ class F extends Continuous
     }
     
     /**
+     * Median of the distribution
+     *
+     * Since the median does not have a closed-form solution we will use Newton's Method to find it.
+     * We can not only use a simple self::inverse because if $d₂ <= 2, the inverse function uses the 
+     * median as a starting point to find the inverse.
+     */
+    public static function median(int $d₁, int $d₂)
+    {
+        if ($d₂ > 2) {
+            return self::inverse(.5, $d₁, $d₂);
+        }
+        
+        $tolerance = .0000000001;
+        $dif       = $tolerance + 1;
+        $guess     = 1;
+        while ($dif > $tolerance) {
+            // load the guess into the arguments
+            $params[0] = $guess;
+            $y         = self::CDF($guess, $d₁, $d₂);
+            
+            // Since the CDF is the integral of the PDF, the PDF is the derivative of the CDF
+            $slope = self::PDF($guess, $d₁, $d₂);
+            $del_y = $target - $y;
+            $guess = $del_y / $slope + $guess;
+            $dif   = abs($del_y);
+        }
+        return $guess;
+    }
+    
+    /**
      * Mode of the distribution
      *
      *      (d₁ - 2) * d₂
