@@ -74,7 +74,7 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForMean()
     {
         return [
-            [1, null],
+            [1, \NAN],
             [2, 0],
             [3, 0],
         ];
