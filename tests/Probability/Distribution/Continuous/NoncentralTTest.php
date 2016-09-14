@@ -126,7 +126,7 @@ class NoncentralTTest extends \PHPUnit_Framework_TestCase
             [2, -2, -3.54490770181103],
             [50, 10, 10.1531919459648],
             [10, 10, 10.8372230793914],
-            [1, 10, null],
+            [1, 10, \NAN],
         ];
     }
 }
