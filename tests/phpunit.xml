@@ -22,6 +22,9 @@
     <testsuite name="Sequence">
       <directory suffix="Test.php">Sequence</directory>
     </testsuite>
+    <testsuite name="Finance">
+      <directory suffix="Test.php">Finance</directory>
+    </testsuite>
   </testsuites>
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
