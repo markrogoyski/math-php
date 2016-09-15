@@ -65,7 +65,19 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                 ],
                 20, 20       // p(20) = h(20) = 20
             ],
-            
+            // Test eveluation at discountinuous, intermediate point
+            [
+                [
+                  [-100, -2, false, true],      // f interval: [-100, -2)
+                  [-2, 2],                      // g interval: [-2, 2]
+                  [2, 100, true, false]         // h interval: (2, 100]
+                ], [
+                  new Polynomial([-1, 0]),      // f(x) = -x
+                  new Polynomial([100]),        // g(x) = 100
+                  new Polynomial([1, 0])        // h(x) = x
+                ],
+                2, 100       // p(2) = h(2) = 100
+            ],
             // Test eveluation when intervals are given out of order
             [
                 [
