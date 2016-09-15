@@ -38,6 +38,7 @@ namespace Math\LinearAlgebra;
  *    - A = P⁻¹LU
  *    - PPᵀ = I = PᵀP
  *    - (PA)⁻¹ = (LU)⁻¹ = U⁻¹L⁻¹
+ *    - P⁻¹ = Pᵀ
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -992,5 +993,22 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($⟮PA⟯⁻¹->getMatrix(), $⟮LU⟯⁻¹->getMatrix());
         $this->assertEquals($⟮LU⟯⁻¹->getMatrix(), $U⁻¹L⁻¹->getMatrix());
         $this->assertEquals($⟮PA⟯⁻¹->getMatrix(), $U⁻¹L⁻¹->getMatrix());
+    }
+
+    /**
+     * P⁻¹ = Pᵀ
+     * Inverse of the permutation matrix equals the transpose of the permutation matrix
+     * @dataProvider dataProviderForOneSquareMatrix
+     */
+    public function testPInverseEqualsPTranspose(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $LUP = $A->LUDecomposition();
+        $P   = $LUP['P'];
+        $P⁻¹ = $P->inverse();
+        $Pᵀ  = $P->transpose();
+
+        $this->assertEquals($P⁻¹, $Pᵀ);
     }
 }
