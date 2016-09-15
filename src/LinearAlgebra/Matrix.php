@@ -1521,20 +1521,23 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Helper function for LU decomposition
+     * Pivotize creates the permutation matrix for the LU decomposition.
+     * The permutation matrix is an identity matrix with rows possibly interchanged.
      *
      * @return Matrix
      */
-    private function pivotize(): Matrix
+    protected function pivotize(): Matrix
     {
         $n = $this->n;
         $P = MatrixFactory::identity($n);
         $A = $this->A;
 
+        // Set initial column max to diagonal element Aᵢᵢ
         for ($i = 0; $i < $n; $i++) {
             $max = $A[$i][$i];
             $row = $i;
 
+            // Check for column element below Aᵢᵢ that is bigger
             for ($j = $i; $j < $n; $j++) {
                 if ($A[$j][$i] > $max) {
                     $max = $A[$j][$i];
@@ -1542,7 +1545,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 }
             }
 
-            if ($i != $row) {
+            // Swap rows if a larger column element below Aᵢᵢ was found
+            if ($i != $row) {;
                 $P = $P->rowInterchange($i, $row);
             }
         }
