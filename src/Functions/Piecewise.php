@@ -118,20 +118,32 @@ class Piecewise
 
     public function __invoke($x₀)
     {
-        $index = self::callbackIndex($x₀, $this->intervals);
+        $index = $this->findInterval($x₀);
+
         if ($index === false) {
             throw new \Exception("The input {$x₀} is not in the domain of this
                                   piecewise function, thus it is undefined at
                                   that point.");
         }
+
         $function = $this->functions[$index];
 
         return $function($x₀);
     }
 
-    public static function callbackIndex($x, $intervals)
+    /**
+    * Find which subinterval our input value is contained within, and then return
+    * the index of that subinterval such that we can use the corresponding function
+    * for that subinterval. If no subinterval is found such that our input is
+    * contained within it, a false is returned.
+    *
+    * @return mixed Returns the index of the found subinterval, or false
+    *
+    * @param number $x The value we are using to search for a subinterval.
+    */
+    public function findInterval($x)
     {
-        foreach ($intervals as $i => $interval) {
+        foreach ($this->intervals as $i => $interval) {
             $a = $interval[0];
             $b = $interval[1];
             $aOpen = $interval[2] ?? false;
