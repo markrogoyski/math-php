@@ -12,6 +12,42 @@ class Piecewise
     private $intervals;
     private $functions;
 
+    /**
+     * Validate that our inputs satisfy the conditions of a piecewise function,
+     * and then assign our inputs as the object parameters.
+     *
+     * In our $intervals array, each interval should contain two numbers [a, b].
+     * We can optionally add two booleans to an interval, signifying the openness
+     * of a and b, respectfully (true means open, false means closed). If boolean
+     * arguments are not supplied, the interval will be assumed to be closed.
+     *
+     * Examples:
+     *     1. [0, 2, true, false] means an interval from 0 to 2, where 0 is open
+     *        (exclusive) and 2 is closed (inclusive).
+     *     2. [-10, 10] means an closed (inclusive) interval from -10 to 10
+     *
+     * A number of conditions need to be met for a piecewise function:
+     *     o We must provide the same number of intervals as callback functions
+     *     o Each function in our $functions array needs to be callable
+     *     o Each interval must contain precisely 2 numbers, optionally 2
+     *     o An interval defined as a point (e.g. [2, 2]) must be closed at both ends
+     *     o The numbers in an interval must be increasing. Given [a, b] then b >= a.
+     *     o Two intervals cannot overlap. This means that if two intervals share
+     *       a start and end-point, the point must be closed on both sides. Also,
+     *       we cannot start or end an interval in the middle of another interval.
+     *
+     * @param  array $intervals Array of intervals
+     *                          Example: [[-10, 0, false, true], [0, 2], [3, 10]]
+     * @param  array $functions Array of callback functions
+     *
+     * @throws Exception if the number of intervals and functions are not the same
+     * @throws Exception if any function in $functions is not callable
+     * @throws Exception if any interval in $intervals does not contain 2 numbers
+     * @throws Exception if any interval [a, b] is decreasing, or b < a
+     * @throws Exception if an interval is a point that is not closed
+     * @throws Exception if two intervals share a point that is closed at both ends
+     * @throws Exception if one interval starts or ends inside another interval
+     */
     public function __construct(array $intervals, array $functions)
     {
         if (count($intervals) !== count($functions)) {
@@ -24,12 +60,15 @@ class Piecewise
                                   that each function is callable.");
         }
 
+        $unsortedIntervals = $intervals;
+
         // Sort intervals such that start of intervals is increasing
         usort($intervals, function ($a, $b) {
             return $a[0] <=> $b[0];
         });
 
         foreach ($intervals as $interval) {
+            // Store values from previous interval
             $lastA = $a ?? -INF;
             $lastB = $b ?? -INF;
             $lastBOpen = $bOpen ?? false;
@@ -38,6 +77,7 @@ class Piecewise
                 throw new \Exception("Each interval must contain two numbers.");
             }
 
+            // Fetch values from current interval
             $a = $interval[0];
             $b = $interval[1];
             $aOpen = $interval[2] ?? false;
@@ -67,7 +107,7 @@ class Piecewise
             }
         }
 
-        $this->intervals = $intervals;
+        $this->intervals = $unsortedIntervals;
         $this->functions = $functions;
     }
 
@@ -78,18 +118,18 @@ class Piecewise
 
     public function __invoke($x₀)
     {
-        $range = self::inPiece($x₀, $this->intervals);
-        if ($range === false) {
+        $index = self::callbackIndex($x₀, $this->intervals);
+        if ($index === false) {
             throw new \Exception("The input {$x₀} is not in the domain of this
                                   piecewise function, thus it is undefined at
                                   that point.");
         }
-        $function = $this->functions[$range];
+        $function = $this->functions[$index];
 
         return $function($x₀);
     }
 
-    public static function inPiece ($x, $intervals)
+    public static function callbackIndex($x, $intervals)
     {
         foreach ($intervals as $i => $interval) {
             $a = $interval[0];
