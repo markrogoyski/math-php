@@ -59,6 +59,12 @@ class Piecewise
                                       at that point. For intervals to share a point, one
                                       or both sides of that point must be open.");
             }
+
+            if ($a < $lastB) {
+                throw new \Exception("The intervals [{$a}, {$b}] and [{$lastA}, {$lastB}]
+                                      overlap. The subintervals of a piecewise functions
+                                      cannot overlap.");
+            }
         }
 
         $this->intervals = $intervals;
