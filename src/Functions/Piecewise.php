@@ -24,14 +24,31 @@ class Piecewise
                                   of intervals as functions.");
         }
 
+        usort($intervals, function ($a, $b) {
+            return $a[0] <=> $b[0];
+        });
+
+        /*
+        $domain = []
         foreach ($intervals as $interval) {
+            $last = $b ?? -INF;
             $a = $interval[0];
             $b = $interval[1];
+            $aOpen = $interval[2] ?? false;
+            $bOpen = $interval[3] ?? false;
+
             if ($a > $b) {
                 throw new \Exception("Interval must be increasing. Try again
                                       using [{$b}, {$a}] instead of [{$a}, {$b}]");
             }
+
+            if ($a ) {
+                throw new \Exception("")
+            }
+
         }
+        */
+        print_r($intervals);
 
         $this->intervals = $intervals;
         $this->functions = $functions;
