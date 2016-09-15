@@ -111,11 +111,17 @@ class Piecewise
         $this->functions = $functions;
     }
 
-    public function __toString()
-    {
-
-    }
-
+    /**
+    * When a callback function is being evaluated at a specific point, find the
+    * the corresponding function for that point in the domain, and then return
+    * the function evaluated at that point. If no function is found, throw an Exception.
+    *
+    * @param number $x₀ The value at which we are evaluating our piecewise function
+    *
+    * @return number The specific function evaluated at $x₀
+    *
+    * @throws Exception if an interval cannot be found which contains our $x₀
+    */
     public function __invoke($x₀)
     {
         $index = $this->findInterval($x₀);
@@ -148,6 +154,8 @@ class Piecewise
             $b = $interval[1];
             $aOpen = $interval[2] ?? false;
             $bOpen = $interval[3] ?? false;
+
+            // Four permutations: closed-closed, closed-open, open-closed, open-open
             if ($aOpen and $bOpen) {
                 if ($x > $a and $x < $b) {
                     return $i;
