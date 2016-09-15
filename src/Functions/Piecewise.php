@@ -14,6 +14,16 @@ class Piecewise
 
     public function __construct(array $intervals, array $functions)
     {
+        $numIntervals = count($intervals);
+        $numFunctions = count($functions);
+
+        if ($numIntervals !== $numFunctions) {
+            throw new \Exception("You provided {$numIntervals} intervals and
+                                  {$numFunctions} functions. For a piecewise
+                                  function you must provide the same number
+                                  of intervals as functions.");
+        }
+        
         $this->intervals = $intervals;
         $this->functions = $functions;
     }
