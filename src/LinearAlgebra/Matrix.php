@@ -1546,7 +1546,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
 
             // Swap rows if a larger column element below Aᵢᵢ was found
-            if ($i != $row) {;
+            if ($i != $row) {
                 $P = $P->rowInterchange($i, $row);
             }
         }
