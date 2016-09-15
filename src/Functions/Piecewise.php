@@ -14,18 +14,12 @@ class Piecewise
 
     public function __construct(array $intervals, array $functions)
     {
-
-        $numIntervals = count($intervals);
-        $numFunctions = count($functions);
-
-        if ($numIntervals !== $numFunctions) {
-            throw new \Exception("You provided {$numIntervals} intervals and
-                                  {$numFunctions} functions. For a piecewise
-                                  function you must provide the same number
-                                  of intervals as functions.");
+        if (count($intervals) !== count($functions)) {
+            throw new \Exception("For a piecewise function you must provide the
+                                  same number of intervals as functions.");
         }
 
-        if (count(array_filter($functions, "is_callable")) !== $numIntervals) {
+        if (count(array_filter($functions, "is_callable")) !== count($intervals)) {
             throw new \Exception("Not every function provided is valid. Ensure
                                   that each function is callable.");
         }
@@ -36,23 +30,27 @@ class Piecewise
         });
 
         foreach ($intervals as $interval) {
-            $last = [$a ?? -INF, $b ?? -INF];
-            $a = $interval[0];
-            $b = $interval[1];
-            $aOpen = $interval[2] ?? false;
-            $bOpen = $interval[3] ?? false;
+            $lastA = $a ?? -INF;
+            $lastB = $b ?? -INF;
+            $lastBOpen = $bOpen ?? false;
 
             if (count(array_filter($interval, "is_numeric")) !== 2) {
                 throw new \Exception("Each interval must contain two numbers.");
             }
 
-            if ($a >= $b) {
-                throw new \Exception("Interval must be increasing. Try again
-                                      using [{$b}, {$a}] instead of [{$a}, {$b}]");
+            $a = $interval[0];
+            $b = $interval[1];
+            $aOpen = $interval[2] ?? false;
+            $bOpen = $interval[3] ?? false;
+
+            if ($a === $b and ($aOpen or $bOpen)) {
+                throw new \Exception("Your interval [{$a}, {$b}] is a point and
+                                      thus needs to be closed at both ends");
             }
 
-            if ($a) {
-                //throw new \Exception("");
+            if ($a > $b) {
+                throw new \Exception("Interval must be increasing. Try again
+                                      using [{$b}, {$a}] instead of [{$a}, {$b}]");
             }
         }
 
