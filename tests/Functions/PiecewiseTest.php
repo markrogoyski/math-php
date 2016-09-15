@@ -29,9 +29,9 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
             // Test eveluation in 1st piece given 3 intervals, functions
             [
                 [
-                  [-100, -2],                   // f interval: [-100, -2]
+                  [-100, -2, false, true],      // f interval: [-100, -2)
                   [-2, 2],                      // g interval: [-2, 2]
-                  [2, 100]                      // h interval: [2, 100]
+                  [2, 100, true, false]         // h interval: (2, 100]
                 ], [
                   new Polynomial([-1, 0]),      // f(x) = -x
                   new Polynomial([2]),          // g(x) = 2
@@ -42,9 +42,9 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
             // Test eveluation in 2nd piece given 3 intervals, functions
             [
                 [
-                  [-100, -2],                   // f interval: [-100, -2]
+                  [-100, -2, false, true],      // f interval: [-100, -2)
                   [-2, 2],                      // g interval: [-2, 2]
-                  [2, 100]                      // h interval: [2, 100]
+                  [2, 100, true, false]         // h interval: (2, 100]
                 ], [
                   new Polynomial([-1, 0]),      // f(x) = -x
                   new Polynomial([2]),          // g(x) = 2
@@ -65,11 +65,24 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                 ],
                 20, 20       // p(20) = h(20) = 20
             ],
+            // Test eveluation when intervals are given out of order
+            [
+                [
+                  [-2, 2],                      // g interval: [-2, 2]
+                  [-100, -2, false, true],      // f interval: [-100, -2]
+                  [2, 100, true, false]         // h interval: (2, 100]
+                ], [
+                  new Polynomial([2]),          // g(x) = 2
+                  new Polynomial([-1, 0]),      // f(x) = -x
+                  new Polynomial([1, 0])        // h(x) = x
+                ],
+                0, 2       // p(0) = g(0) = 2
+            ],
             // Test eveluation at "jump" located at a single point
             [
                 [
                   [-100, -2],                   // f interval: [-100, -2]
-                  [-2, 2, false, true],         // g interval: [-2, 2)
+                  [-2, 2, true, true],          // g interval: (-2, 2)
                   [2, 2],                       // z interval: [2, 2]
                   [2, 100, true, false]         // h interval: (2, 100]
                 ], [
