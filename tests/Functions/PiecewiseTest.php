@@ -102,7 +102,24 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     {
         $intervals = [
           [-100, -2],                    // f interval: [-100, -2]
-          [-2, 2],                       // g interval: [2, 2]
+          [-2, 2],                       // g interval: [-2, 2]
+          [2, 100]                       // h interval: [2, 100]
+        ];
+        $functions = [
+          new Polynomial([-1, 0]),      // f(x) = -x
+          new Polynomial([2]),          // g(x) = 2
+          new Polynomial([1, 0])        // h(x) = x
+        ];
+
+        $this->setExpectedException('\Exception');
+        $piecewise = new Piecewise($intervals, $functions);
+    }
+
+    public function testSubintervalDecreasingException()
+    {
+        $intervals = [
+          [-100, -2],                    // f interval: [-100, -2]
+          [2, -2],                       // g interval: [2, 2]
           [2, 100]                       // h interval: [2, 100]
         ];
         $functions = [
