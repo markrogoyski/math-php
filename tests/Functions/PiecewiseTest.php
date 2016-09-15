@@ -65,11 +65,12 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                 ],
                 20, 20       // p(20) = h(20) = 20
             ],
+            
             // Test eveluation when intervals are given out of order
             [
                 [
                   [-2, 2],                      // g interval: [-2, 2]
-                  [-100, -2, false, true],      // f interval: [-100, -2]
+                  [-100, -2, false, true],      // f interval: [-100, -2)
                   [2, 100, true, false]         // h interval: (2, 100]
                 ], [
                   new Polynomial([2]),          // g(x) = 2
@@ -117,7 +118,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     {
         $intervals = [
           [-100, -2],                    // f interval: [-100, -2]
-          [-5, 1],                       // g interval: [-2, 2]
+          [-5, 1],                       // g interval: [-2, 1]
           [2, 100]                       // h interval: [2, 100]
         ];
         $functions = [
@@ -134,7 +135,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     {
         $intervals = [
           [-100, -2],                    // f interval: [-100, -2]
-          [2, -2],                       // g interval: [2, 2]
+          [2, -2, true, true],           // g interval: (-2, 2)
           [2, 100]                       // h interval: [2, 100]
         ];
         $functions = [
@@ -150,7 +151,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     public function testSubintervalContainsMoreThanTwoPoints()
     {
         $intervals = [
-          [-100, -2, false, true],      // f interval: [-100, -2]
+          [-100, -2, false, true],      // f interval: [-100, -2)
           [0, 2, 3],                    // g interval: [0, 3]
           [3, 100, true, false]         // h interval: (3, 100]
         ];
@@ -168,7 +169,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     {
         $intervals = [
           [-100, -2, false, true],      // f interval: [-100, -2)
-          [-2],                         // g interval: [-2, 2]
+          [-2],                         // g interval: [-2, -2]
           [3, 100, true, false]         // h interval: (3, 100]
         ];
         $functions = [
@@ -218,7 +219,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     public function testNumberOfIntervalsAndFunctionsUnequalException()
     {
         $intervals = [
-          [-100, -2, false, true],      // f interval: [-100, -2]
+          [-100, -2, false, true],      // f interval: [-100, -2)
           [0, 2],                       // g interval: [0, 2]
           [2, 100, true, false]         // h interval: (2, 100]
         ];
@@ -234,7 +235,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     public function testEvaluationNotInDomainException()
     {
         $intervals = [
-          [-100, -2, false, true],      // f interval: [-100, -2]
+          [-100, -2, false, true],      // f interval: [-100, -2)
           [0, 2],                       // g interval: [0, 2]
           [2, 100, true, false]         // h interval: (2, 100]
         ];
@@ -252,9 +253,9 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     public function testEvaluatedAtOpenPointException()
     {
         $intervals = [
-          [-100, -2, true, true],      // f interval: [-100, -2]
-          [-2, 2, true, true],         // g interval: [0, 2]
-          [2, 100, true, false]        // h interval: (2, 100]
+          [-100, -2, true, true],      // f interval: (-100, -2)
+          [-2, 2, true, true],         // g interval: (0, 2)
+          [2, 100, true, true]         // h interval: (2, 100)
         ];
         $functions = [
           new Polynomial([-1, 0]),      // f(x) = -x
@@ -265,5 +266,22 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         $piecewise = new Piecewise($intervals, $functions);
         $evaluation = $piecewise(2);
+    }
+
+    public function testDuplicatedIntervalException()
+    {
+        $intervals = [
+          [-100, -2, true, true],      // f interval: (-100, -2)
+          [-100, -2, true, true],      // g interval: [-100, -2)
+          [2, 100]        // h interval: [2, 100]
+        ];
+        $functions = [
+          new Polynomial([-1, 0]),      // f(x) = -x
+          new Polynomial([2]),          // g(x) = 2
+          new Polynomial([1, 0])        // h(x) = x
+        ];
+
+        $this->setExpectedException('\Exception');
+        $piecewise = new Piecewise($intervals, $functions);
     }
 }
