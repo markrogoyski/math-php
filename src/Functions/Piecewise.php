@@ -23,7 +23,16 @@ class Piecewise
                                   function you must provide the same number
                                   of intervals as functions.");
         }
-        
+
+        foreach ($intervals as $interval) {
+            $a = $interval[0];
+            $b = $interval[1];
+            if ($a > $b) {
+                throw new \Exception("Interval must be increasing. Try again
+                                      using [{$b}, {$a}] instead of [{$a}, {$b}]");
+            }
+        }
+
         $this->intervals = $intervals;
         $this->functions = $functions;
     }
