@@ -252,11 +252,7 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
         $coefficients = $polynomial->getCoefficients();
         $this->assertEquals($expected, $coefficients);
     }
-<<<<<<< HEAD
-
-=======
     
->>>>>>> 210e15e20406723587f95a76a45992868f07416e
     public function dataProviderForGetCoefficients()
     {
         return [
