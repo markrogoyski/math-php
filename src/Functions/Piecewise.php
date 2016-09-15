@@ -52,6 +52,13 @@ class Piecewise
                 throw new \Exception("Interval must be increasing. Try again
                                       using [{$b}, {$a}] instead of [{$a}, {$b}]");
             }
+
+            if ($a === $lastB and !$aOpen and !$lastBOpen) {
+                throw new \Exception("The intervals [{$a}, {$b}] and [{$lastA}, {$lastB}]
+                                      share a point, but both intervals are also closed
+                                      at that point. For intervals to share a point, one
+                                      or both sides of that point must be open.");
+            }
         }
 
         $this->intervals = $intervals;
