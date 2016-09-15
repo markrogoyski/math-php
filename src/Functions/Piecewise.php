@@ -25,6 +25,11 @@ class Piecewise
                                   of intervals as functions.");
         }
 
+        if (count(array_filter($functions, "is_callable")) !== $numIntervals) {
+            throw new \Exception("Not every function provided is valid. Ensure
+                                  that each function is callable.");
+        }
+
         // Sort intervals such that start of intervals is increasing
         usort($intervals, function ($a, $b) {
             return $a[0] <=> $b[0];
@@ -42,14 +47,13 @@ class Piecewise
             }
 
             if ($a >= $b) {
-            //    throw new \Exception("Interval must be increasing. Try again
-            //                          using [{$b}, {$a}] instead of [{$a}, {$b}]");
+                throw new \Exception("Interval must be increasing. Try again
+                                      using [{$b}, {$a}] instead of [{$a}, {$b}]");
             }
 
             if ($a) {
                 //throw new \Exception("");
             }
-
         }
 
         $this->intervals = $intervals;
