@@ -83,11 +83,28 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testSubintervalsOverlapException()
+    public function testSubintervalsShareClosedPointException()
     {
         $intervals = [
           [-100, -2],                    // f interval: [-100, -2]
           [-2, 2],                       // g interval: [-2, 2]
+          [2, 100]                       // h interval: [2, 100]
+        ];
+        $functions = [
+          new Polynomial([-1, 0]),      // f(x) = -x
+          new Polynomial([2]),          // g(x) = 2
+          new Polynomial([1, 0])        // h(x) = x
+        ];
+
+        $this->setExpectedException('\Exception');
+        $piecewise = new Piecewise($intervals, $functions);
+    }
+
+    public function testSubintervalsOverlapException()
+    {
+        $intervals = [
+          [-100, -2],                    // f interval: [-100, -2]
+          [-5, 1],                       // g interval: [-2, 2]
           [2, 100]                       // h interval: [2, 100]
         ];
         $functions = [
@@ -137,8 +154,25 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     public function testSubintervalContainsOnePoints()
     {
         $intervals = [
-          [-100, -2, false, true],      // f interval: [-100, -2]
+          [-100, -2, false, true],      // f interval: [-100, -2)
           [-2],                         // g interval: [-2, 2]
+          [3, 100, true, false]         // h interval: (3, 100]
+        ];
+        $functions = [
+          new Polynomial([-1, 0]),      // f(x) = -x
+          new Polynomial([2]),          // g(x) = 2
+          new Polynomial([1, 0])        // h(x) = x
+        ];
+
+        $this->setExpectedException('\Exception');
+        $piecewise = new Piecewise($intervals, $functions);
+    }
+
+    public function testSubintervalContainsOpenPoint()
+    {
+        $intervals = [
+          [-100, -2, false, true],      // f interval: [-100, -2)
+          [-2, -2, true, true],         // g interval: (-2, 2)
           [3, 100, true, false]         // h interval: (3, 100]
         ];
         $functions = [
