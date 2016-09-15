@@ -215,6 +215,142 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @dataProvider dataProviderForLUDecompositionPivotize
+     * Unit test data created from online calculator: https://www.easycalculation.com/matrix/lu-decomposition-matrix.php
+     */
+    public function testLUDecompositionPivotize(array $A, array $P)
+    {
+        $A = MatrixFactory::create($A);
+        $P = MatrixFactory::create($P);
+
+        $LU = $A->LUDecomposition();
+
+        $this->assertEquals($P, $LU['P'], '', 0.004);
+    }
+
+    public function dataProviderForLUDecompositionPivotize()
+    {
+        return [
+            [
+                [
+                    [4, 3],
+                    [6, 3],
+                ],
+                [
+                    [0, 1],
+                    [1, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 3, 5],
+                    [2, 4, 7],
+                    [1, 1, 0],
+                ],
+                [
+                    [0, 1, 0],
+                    [1, 0, 0],
+                    [0, 0, 1],
+                ]
+            ],
+            [
+                [
+                    [1, -2, 3],
+                    [2, -5, 12],
+                    [0, 2, -10],
+                ],
+                [
+                    [0, 1, 0],
+                    [0, 0, 1],
+                    [1, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [5, 4, 8, 9],
+                    [9, 9, 9, 9],
+                    [4, 5, 5, 7],
+                    [1, 9, 8, 7],
+                ],
+                [
+                    [0, 1, 0, 0],
+                    [1, 0, 0, 0],
+                    [0, 0, 0, 1],
+                    [0, 0, 1, 0],
+                ],
+            ],
+            [
+                [
+                    [2, 1, 1, 0],
+                    [4, 3, 3, 1],
+                    [8, 7, 9, 5],
+                    [6, 7, 9, 8],
+                ],
+                [
+                    [0, 0, 1, 0],
+                    [1, 0, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 0, 0, 1],
+                ],
+            ],
+            [
+                [
+                    [11, 9, 24, 2],
+                    [1, 5, 2, 6],
+                    [3, 17, 18, 1],
+                    [2, 5, 7, 1],
+                ],
+                [
+                    [1, 0, 0, 0],
+                    [0, 0, 1, 0],
+                    [0, 1, 0, 0],
+                    [0, 0, 0, 1],
+                ],
+            ],
+            [
+                [
+                    [5, 3, 8],
+                    [6, 4, 5],
+                    [1, 8, 9],
+                ],
+                [
+                    [0, 1, 0],
+                    [0, 0, 1],
+                    [1, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [3, 2, 6, 7],
+                    [4, 3, -6, 2],
+                    [12, 14, 14, -6],
+                    [4, 6, 4, -42],
+                ],
+                [
+                    [0, 0, 1, 0],
+                    [1, 0, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 0, 0, 1],
+                ],
+            ],
+            [
+                [
+                    [5, 3, 4, 1],
+                    [5, 6, 4, 3],
+                    [7, 6, 5, 3],
+                    [2, 7, 4, 7],
+                ],
+                [
+                    [0, 0, 1, 0],
+                    [0, 0, 0, 1],
+                    [1, 0, 0, 0],
+                    [0, 1, 0, 0],
+                ],
+            ],
+        ];
+    }
+
     public function testLUDecompositionExceptionNotSquare()
     {
         $A = MatrixFactory::create([
