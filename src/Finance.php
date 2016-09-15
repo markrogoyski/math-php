@@ -24,10 +24,10 @@ class Finance
     {
         $when = 0;
         if ($beginning) {
-          $when = 1;
+            $when = 1;
         }
         if ($rate == 0) {
-          return - ($future_value + $present_value) / $periods;
+            return - ($future_value + $present_value) / $periods;
         }
         return - ($future_value + ($present_value * pow(1 + $rate, $periods)))
             /
