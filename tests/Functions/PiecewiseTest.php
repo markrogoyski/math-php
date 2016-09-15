@@ -149,4 +149,20 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         $piecewise = new Piecewise($intervals, $functions);
     }
+
+    public function testNumberOfIntervalsAndFunctionsUnequalException()
+    {
+        $intervals = [
+          [-100, -2, false, true],      // f interval: [-100, -2]
+          [0, 2],                       // g interval: [0, 2]
+          [2, 100, true, false]         // h interval: (2, 100]
+        ];
+        $functions = [
+          new Polynomial([-1, 0]),      // f(x) = -x
+          new Polynomial([2]),          // g(x) = 2
+        ];
+
+        $this->setExpectedException('\Exception');
+        $piecewise = new Piecewise($intervals, $functions);
+    }
 }
