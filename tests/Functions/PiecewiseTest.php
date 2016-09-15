@@ -115,6 +115,23 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
         $piecewise = new Piecewise($intervals, $functions);
     }
 
+    public function testSubintervalContainsMoreThanTwoPoints()
+    {
+        $intervals = [
+          [-100, -2, false, true],      // f interval: [-100, -2]
+          [0, 2, 3],                    // g interval: [0, 3]
+          [3, 100, true, false]         // h interval: (3, 100]
+        ];
+        $functions = [
+          new Polynomial([-1, 0]),      // f(x) = -x
+          new Polynomial([2]),          // g(x) = 2
+          new Polynomial([1, 0])        // h(x) = x
+        ];
+
+        $this->setExpectedException('\Exception');
+        $piecewise = new Piecewise($intervals, $functions);
+    }
+
     public function testEvaluationNotInDomainException()
     {
         $intervals = [
