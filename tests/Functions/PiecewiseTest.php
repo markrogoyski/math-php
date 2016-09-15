@@ -55,9 +55,9 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
             // Test eveluation in 3rd piece given 3 intervals, functions
             [
                 [
-                  [-100, -2],                   // f interval: [-100, -2]
+                  [-100, -2, false, true],      // f interval: [-100, -2)
                   [-2, 2],                      // g interval: [-2, 2]
-                  [2, 100]                      // h interval: [2, 100]
+                  [2, 100, true, false]         // h interval: (2, 100]
                 ], [
                   new Polynomial([-1, 0]),      // f(x) = -x
                   new Polynomial([2]),          // g(x) = 2
@@ -86,9 +86,9 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     public function testSubintervalsOverlapException()
     {
         $intervals = [
-          [-100, -2],                   // f interval: [-100, -2]
-          [-2, 2],                      // g interval: [-2, 2]
-          [2, 100]                      // h interval: [2, 100]
+          [-100, -2],                    // f interval: [-100, -2]
+          [-2, 2],                       // g interval: [2, 2]
+          [2, 100]                       // h interval: [2, 100]
         ];
         $functions = [
           new Polynomial([-1, 0]),      // f(x) = -x
@@ -103,9 +103,9 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     public function testEvaluationNotInDomainException()
     {
         $intervals = [
-          [-100, -2],                   // f interval: [-100, -2]
+          [-100, -2, false, true],      // f interval: [-100, -2]
           [0, 2],                       // g interval: [0, 2]
-          [2, 100]                      // h interval: [2, 100]
+          [2, 100, true, false]         // h interval: (2, 100]
         ];
         $functions = [
           new Polynomial([-1, 0]),      // f(x) = -x
@@ -116,5 +116,22 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         $piecewise = new Piecewise($intervals, $functions);
         $evaluation = $piecewise(-1);
+    }
+
+    public function testInputFunctionsAreNotCallableException()
+    {
+        $intervals = [
+          [-100, -2, false, true],          // f interval: [-100, -2)
+          [-2, 2],                          // g interval: [-2, 2]
+          [2, 100, true, false]             // h interval: (2, 100]
+        ];
+        $functions = [
+          new Polynomial([-1, 0]),      // f(x) = -x
+          2,                            // g(x) = 2
+          new Polynomial([1, 0])        // h(x) = x
+        ];
+
+        $this->setExpectedException('\Exception');
+        $piecewise = new Piecewise($intervals, $functions);
     }
 }
