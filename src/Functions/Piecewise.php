@@ -54,14 +54,14 @@ class Piecewise
             }
 
             if ($a === $lastB and !$aOpen and !$lastBOpen) {
-                throw new \Exception("The intervals [{$a}, {$b}] and [{$lastA}, {$lastB}]
+                throw new \Exception("The intervals [{$lastA}, {$lastB}] and [{$a}, {$b}]
                                       share a point, but both intervals are also closed
                                       at that point. For intervals to share a point, one
                                       or both sides of that point must be open.");
             }
 
             if ($a < $lastB) {
-                throw new \Exception("The intervals [{$a}, {$b}] and [{$lastA}, {$lastB}]
+                throw new \Exception("The intervals [{$lastA}, {$lastB}] and [{$a}, {$b}]
                                       overlap. The subintervals of a piecewise functions
                                       cannot overlap.");
             }
@@ -79,6 +79,11 @@ class Piecewise
     public function __invoke($x₀)
     {
         $range = self::inPiece($x₀, $this->intervals);
+        if ($range === false) {
+            throw new \Exception("The input {$x₀} is not in the domain of this
+                                  piecewise function, thus it is undefined at
+                                  that point.");
+        }
         $function = $this->functions[$range];
 
         return $function($x₀);
@@ -109,5 +114,7 @@ class Piecewise
                 }
             }
         }
+
+        return false;
     }
 }
