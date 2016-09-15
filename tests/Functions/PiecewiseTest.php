@@ -80,6 +80,21 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                 ],
                 2, 0       // p(2) = z(2) = 0
             ],
+            // Test an interval input as a single point
+            [
+                [
+                  [-100, -2],                   // f interval: [-100, -2]
+                  [-2, 2, false, true],         // g interval: [-2, 2)
+                  [2],                          // z interval: [2, 2]
+                  [2, 100, true, false]         // h interval: (2, 100]
+                ], [
+                  new Polynomial([-1, 0]),      // f(x) = -x
+                  new Polynomial([2]),          // g(x) = 2
+                  new Polynomial([0]),          // z(x) = 0
+                  new Polynomial([1, 0])        // h(x) = x
+                ],
+                2, 0       // p(2) = z(2) = 0
+            ],
         ];
     }
 
