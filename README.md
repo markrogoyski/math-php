@@ -258,8 +258,12 @@ $max  = $A->maxNorm();
 $bool = $A->isSquare();
 $bool = $A->isSymmetric();
 
-// Matrix decompositions
+// Matrix decomposition
 $PLU = $A->LUDecomposition(); // returns array of Matrices [L, U, P, A]; P is permutation matrix
+
+// Solve a linear system of equations: Ax = b
+$b = new Vector(1, 2, 3);
+$x = $A->solve($b);
 
 // Map a function over each element of the Matrix
 $func = function($x) {
@@ -276,10 +280,11 @@ print($A);
  */
 
 // Specialized matrices
-list($m, $n)     = [4, 4];
-$identity_matrix = MatrixFactory::identity($n);
-$zero_matrix     = MatrixFactory::zero($m, $n);
-$ones_matrix     = MatrixFactory::one($m, $n);
+list($m, $n, $k)     = [4, 4, 2];
+$identity_matrix = MatrixFactory::identity($n);    // Ones on the main diagonal
+$zero_matrix     = MatrixFactory::zero($m, $n);    // All zeros
+$ones_matrix     = MatrixFactory::one($m, $n);     // All ones
+$eye_matrix      = MatrixFactory::eye($m, $n, $k); // Ones (or other value) on the k-th diagonal
 
 // Vandermonde matrix
 $V = MatrixFactory::create([1, 2, 3], 4); // 4 x 3 Vandermonde matrix
@@ -306,7 +311,8 @@ $B = new Vector($vector);
 
 // Basic vector data
 $array = $A->getVector();
-$n     = $A->getN();      // number of elements
+$n     = $A->getN();           // number of elements
+$M     = $A->asColumnMatrix(); // Vector as an nx1 matrix
 
 // Basic vector elements (zero-based indexing)
 $item = $A->get(2);
