@@ -42,6 +42,9 @@ namespace Math\LinearAlgebra;
  *  - System of linear equations (Ax = b)
  *    - Ax - b = 0
  *    - x = A⁻¹b
+ *  - Symmetric matrix
+ *    - A = Aᵀ
+ *    - A⁻¹Aᵀ = I
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -1240,6 +1243,111 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                 [4, 20, -15, -3, 16, -27],
                 [1, -2, 3, 4, 2, -1],
                 [0, 0, 0, 0, 0, 0],
+            ],
+        ];
+    }
+
+    /**
+     * Axiom: A = Aᵀ
+     * Symmetric matrix is the same as its transpose
+     * @dataProvider dataProviderForSymmetric
+     */
+    public function testSymmetricEqualsTranspose(array $A)
+    {
+        $A  = MatrixFactory::create($A);
+        $Aᵀ = $A->transpose();
+
+        $this->assertEquals($A, $Aᵀ);
+        $this->assertEquals($A->getMatrix(), $Aᵀ->getMatrix());
+    }
+
+    /**
+     * Axiom: A⁻¹Aᵀ = I
+     * Symmetric matrix inverse times tranpose equals identity matrix
+     * @dataProvider dataProviderForSymmetric
+     */
+    public function testSymmetricInverseTranposeEqualsIdentity(array $A)
+    {
+        $A   = MatrixFactory::create($A);
+        $A⁻¹ = $A->inverse();
+        $Aᵀ  = $A->transpose();
+
+        $A⁻¹Aᵀ = $A⁻¹->multiply($Aᵀ);
+        $I     = MatrixFactory::identity($A->getM());
+
+        $this->assertEquals($I, $A⁻¹Aᵀ);
+        $this->assertEquals($I->getMatrix(), $A⁻¹Aᵀ->getMatrix());
+    }
+
+    public function dataProviderForSymmetric()
+    {
+        return [
+            [
+                [
+                    [1],
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [2, 1],
+                ],
+            ],
+            [
+                [
+                    [4, 1],
+                    [1, -2],
+                ],
+            ],
+            [
+                [
+                    [4, -1],
+                    [-1, 9],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 6, 4],
+                    [3, 4, 5],
+                ],
+            ],
+            [
+                [
+                    [1, 7, 3],
+                    [7, 4, -5],
+                    [3, -5, 6],
+                ],
+            ],
+            [
+                [
+                    [5, 6, 7],
+                    [6, 3, 2],
+                    [7, 2, 1],
+                ],
+            ],
+            [
+                [
+                    [2, 7, 3],
+                    [7, 9, 4],
+                    [3, 4, 7],
+                ],
+            ],
+            [
+                [
+                    [4, -1, -1, -1],
+                    [-1, 4, -1, -1],
+                    [-1, -1, 4, -1],
+                    [-1, -1, -1, 4],
+                ],
+            ],
+            [
+                [
+                    [1, 5, 6, 8],
+                    [5, 2, 7, 9],
+                    [6, 7, 3, 10],
+                    [8, 9, 10, 4],
+                ],
             ],
         ];
     }
