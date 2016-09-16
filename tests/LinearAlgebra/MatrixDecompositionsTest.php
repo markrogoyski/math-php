@@ -688,4 +688,17 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
             [25],
         ];
     }
+
+    public function testRREFAlreadyComputed()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $rref1 = $A->rref(); // computes rref
+        $rref2 = $A->rref(); // simply gets already-computed rref
+
+        $this->assertEquals($rref1, $rref2);
+    }
 }
