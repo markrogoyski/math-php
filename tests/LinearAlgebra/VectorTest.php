@@ -349,4 +349,56 @@ class VectorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_string($string));
         $this->assertEquals('[1, 2, 3]', $string);
     }
+
+    /**
+     * @dataProvider dataProviderForAsColumnMatrix
+     */
+    public function testAsColumnMatrix(array $A, array $R)
+    {
+        $A = new Vector($A);
+        $R = new Matrix($R);
+        $M = $A->asColumnMatrix();
+
+        $this->assertEquals($R, $M);
+    }
+
+    public function dataProviderForAsColumnMatrix()
+    {
+        return [
+            [
+                [],
+                [],
+            ],
+            [
+                [1],
+                [
+                    [1],
+                ],
+            ],
+            [
+                [1, 2],
+                [
+                    [1],
+                    [2],
+                ],
+            ],
+            [
+                [1, 2, 3],
+                [
+                    [1],
+                    [2],
+                    [3],
+                ],
+            ],
+            [
+                [1, 2, 3, 4],
+                [
+                    [1],
+                    [2],
+                    [3],
+                    [4],
+                ],
+            ],
+        ];
+    }
 }

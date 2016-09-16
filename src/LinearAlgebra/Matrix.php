@@ -320,12 +320,19 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * Matrix multiplication
      * https://en.wikipedia.org/wiki/Matrix_multiplication#Matrix_product_.28two_matrices.29
      *
-     * @param  Matrix $B Matrix to multiply
+     * @param  Matrix/Vector $B Matrix or Vector to multiply
      *
      * @return Matrix
      */
-    public function multiply(Matrix $B): Matrix
+    public function multiply($B): Matrix
     {
+        if ((!$B instanceof Matrix) && (!$B instanceof Vector)) {
+            throw new \Exception('Can only do matrix multiplication with a Matrix or Vector');
+        }
+        if ($B instanceof Vector) {
+            $B = $B->asColumnMatrix();
+        }
+
         if ($B->getM() !== $this->n) {
             throw new \Exception("Matrix dimensions do not match");
         }
@@ -1378,7 +1385,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**************************************************************************
      * MATRIX DECOMPOSITIONS - Return a Matrix (or array of Matrices)
      *  - rref
-     *  - LUDecomposition
+     *  - LU Decomposition
      **************************************************************************/
 
     /**
@@ -1393,6 +1400,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function rref(): Matrix
     {
+        if (isset($this->rref)) {
+            return $this->rref;
+        }
+
         $m = $this->m;
         $n = $this->n;
         $R = MatrixFactory::create($this->A);
@@ -1449,23 +1460,41 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * LU Decomposition (Crout matrix decomposition) with permutation matrix
+     * LU Decomposition (Doolittle decomposition) with pivoting via permutation matrix
      *
-     * A matrix has an LU-factorization if it can be expressed as the product of
-     * a lower-triangular matrix L and an upper triangular matrix U:
+     * A matrix has an LU-factorization if it can be expressed as the product of a
+     * lower-triangular matrix L and an upper-triangular matrix U. If A is a nonsingular
+     * matrix, then we can find a permutation matrix P so that PA will have an LU decomposition:
      *   PA = LU
      *
-     * Crout matrix decomposition is an LU decomposition which decomposes a matrix
-     * into a lower triangular matrix (L), an upper triangular matrix (U) and,
-     * although not always needed, a permutation matrix (P)
-     *
      * https://en.wikipedia.org/wiki/LU_decomposition
-     * https://en.wikipedia.org/wiki/Crout_matrix_decomposition
+     * https://en.wikipedia.org/wiki/LU_decomposition#Doolittle_algorithm
      *
      * L: Lower triangular matrix--all entries above the main diagonal are zero.
      *    The main diagonal will be all ones.
      * U: Upper tirangular matrix--all entries below the main diagonal are zero.
      * P: Permutation matrix--Identity matrix with possible rows interchanged.
+     *
+     * Example:
+     *      [1 3 5]
+     *  A = [2 4 7]
+     *      [1 1 0]
+     *
+     * Create permutation matrix P:
+     *      [0 1 0]
+     *  P = [1 0 1]
+     *      [0 0 1]
+     *
+     * Pivot A to be PA:
+     *       [0 1 0][1 3 5]   [2 4 7]
+     *  PA = [1 0 1][2 4 7] = [1 3 5]
+     *       [0 0 1][1 1 0]   [1 1 0]
+     *
+     * Calculate L and U
+     *
+     *     [1    0 0]      [2 4   7]
+     * L = [0.5  1 0]  U = [0 1 1.5]
+     *     [0.5 -1 1]      [0 0  -2]
      *
      * @return array [
      *   L: Lower triangular matrix
@@ -1482,32 +1511,36 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         $n = $this->n;
 
-        // Initialize L and U with all zeros
-        $L = MatrixFactory::zero($n, $n)->getMatrix();
+        // Initialize L as diagonal ones matrix, and U as zero matrix
+        $L = (new DiagonalMatrix(array_fill(0, $n, 1)))->getMatrix();
         $U = MatrixFactory::zero($n, $n)->getMatrix();
 
-        // Create permutation matrix P and augmented A
-        $P = $this->pivotize();
-        $A = $P->multiply($this);
+        // Create permutation matrix P and pivoted PA
+        $P  = $this->pivotize();
+        $PA = $P->multiply($this);
 
+        // Fill out L and U
         for ($i = 0; $i < $n; $i++) {
-            $L[$i][$i] = 1;
+            // Calculate Uⱼᵢ
             for ($j = 0; $j <= $i; $j++) {
                 $sum = 0;
                 for ($k = 0; $k < $j; $k++) {
                     $sum += $U[$k][$i] * $L[$j][$k];
                 }
-                $U[$j][$i] = $A[$j][$i] - $sum;
+                $U[$j][$i] = $PA[$j][$i] - $sum;
             }
+
+            // Calculate Lⱼᵢ
             for ($j = $i; $j < $n; $j++) {
                 $sum = 0;
                 for ($k = 0; $k < $i; $k++) {
                     $sum += $U[$k][$i] * $L[$j][$k];
                 }
-                $L[$j][$i] = ($U[$i][$i] == 0) ? \NAN : ($A[$j][$i] - $sum) / $U[$i][$i];
+                $L[$j][$i] = ($U[$i][$i] == 0) ? \NAN : ($PA[$j][$i] - $sum) / $U[$i][$i];
             }
         }
 
+        // Assemble return array items: [L, U, P, A]
         $this->L = MatrixFactory::create($L);
         $this->U = MatrixFactory::create($U);
         $this->P = $P;
@@ -1521,8 +1554,25 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Pivotize creates the permutation matrix for the LU decomposition.
+     * Pivotize creates the permutation matrix P for the LU decomposition.
      * The permutation matrix is an identity matrix with rows possibly interchanged.
+     *
+     * The product PA results in a new matrix whose rows consist of the rows of A
+     * but no rearranged in the order specified by the permutation matrix P.
+     *
+     * Example:
+     *
+     *     [α₁₁ α₁₂ α₁₃]
+     * A = [α₂₁ α₂₂ α₂₃]
+     *     [α₃₁ α₃₂ α₃₃]
+     *
+     *     [0 1 0]
+     * P = [1 0 0]
+     *     [0 0 1]
+     *
+     *      [α₂₁ α₂₂ α₂₃] \ rows
+     * PA = [α₁₁ α₁₂ α₁₃] / interchanged
+     *      [α₃₁ α₃₂ α₃₃]
      *
      * @return Matrix
      */
@@ -1552,6 +1602,133 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return $P;
+    }
+
+    /**************************************************************************
+     * SOLVE LINEAR SYSTEM OF EQUATIONS
+     * - solve
+     **************************************************************************/
+
+    /**
+     * Solve linear system of equations
+     * Ax = b
+     *  where:
+     *   A: Matrix
+     *   x: unknown to solve for
+     *   b: solution to linear system of equations (input to function)
+     *
+     * If A is nxn invertible matrix,
+     * and the inverse is already computed:
+     *  x = A⁻¹b
+     *
+     * If 2x2, just take the inverse and solve:
+     *  x = A⁻¹b
+     *
+     * If 3x3 or higher, check if the RREF is already computed,
+     * and if so, then just take the inverse and solve:
+     *   x = A⁻¹b
+     *
+     * Otherwise, it is more efficient to decompose and then solve.
+     * Use LU Decomposition and solve Ax = b.
+     *
+     * LU Decomposition:
+     *  - Equation to solve: Ax = b
+     *  - LU Decomposition produces: PA = LU
+     *  - Substitute: LUx = Pb, or Pb = LUx
+     *  - Can rewrite as Pb = L(Ux)
+     *  - Can say y = Ux
+     *  - Then can rewrite as Pb = Ly
+     *  - Solve for y (we know Pb and L)
+     *  - Solve for x in y = Ux once we know y
+     *
+     * Solving triangular systems Ly = Pb and Ux = y
+     *  - Solve for Ly = Pb using forward substitution
+     *
+     *         1   /    ᵢ₋₁      \
+     *   yᵢ = --- | bᵢ - ∑ Lᵢⱼyⱼ |
+     *        Lᵢᵢ  \    ʲ⁼¹      /
+     *
+     *  - Solve for Ux = y using back substitution
+     *
+     *         1   /     m       \
+     *   xᵢ = --- | yᵢ - ∑ Uᵢⱼxⱼ |
+     *        Uᵢᵢ  \   ʲ⁼ⁱ⁺¹     /
+     *
+     * @param Vector/array $b solution to Ax = b
+     *
+     * @return Vector x
+     */
+    public function solve($b)
+    {
+        // Input must be a Vector or array.
+        if (!($b instanceof Vector || is_array($b))) {
+            throw new \Exception('b in Ax = b must be a Vector or array');
+        }
+        if (is_array($b)) {
+            $b = new Vector($b);
+        }
+
+        // If inverse is already calculated, solve: x = A⁻¹b
+        if (isset($this->A⁻¹)) {
+            return new Vector($this->A⁻¹->multiply($b)->getColumn(0));
+        }
+
+        // If 2x2, just compute the inverse and solve: x = A⁻¹b
+        if ($this->m === 2 && $this->n === 2) {
+            $this->inverse();
+            return new Vector($this->A⁻¹->multiply($b)->getColumn(0));
+        }
+
+        // For 3x3 or higher, check if the RREF is already computed.
+        // If so, just compute the inverse and solve: x = A⁻¹b
+        if (isset($this->rref)) {
+            $this->inverse();
+            return new Vector($this->A⁻¹->multiply($b)->getColumn(0));
+        }
+
+        // No inverse or RREF pre-computed.
+        // Use LU Decomposition.
+        $this->LUDecomposition();
+        $L = $this->L;
+        $U = $this->U;
+        $P = $this->P;
+        $m = $this->m;
+
+        // Pivot solution vector b with permutation matrix: Pb
+        $Pb = $P->multiply($b);
+
+        /* Solve for Ly = Pb using forward substitution
+         *         1   /    ᵢ₋₁      \
+         *   yᵢ = --- | bᵢ - ∑ Lᵢⱼyⱼ |
+         *        Lᵢᵢ  \    ʲ⁼¹      /
+         */
+        $y    = [];
+        $y[0] = $Pb[0][0] / $L[0][0];
+        for ($i = 1; $i < $m; $i++) {
+            $sum = 0;
+            for ($j = 0; $j <= $i - 1; $j++) {
+                $sum += $L[$i][$j] * $y[$j];
+            }
+            $y[$i] = ($Pb[$i][0] - $sum) / $L[$i][$i];
+        }
+
+        /* Solve for Ux = y using back substitution
+         *         1   /     m       \
+         *   xᵢ = --- | yᵢ - ∑ Uᵢⱼxⱼ |
+         *        Uᵢᵢ  \   ʲ⁼ⁱ⁺¹     /
+         */
+        $x         = [];
+        $x[$m - 1] = $y[$m - 1] / $U[$m - 1][$m - 1];
+        for ($i = $m - 2; $i >= 0; $i--) {
+            $sum = 0;
+            for ($j = $i + 1; $j < $m; $j++) {
+                $sum += $U[$i][$j] * $x[$j];
+            }
+            $x[$i] = ($y[$i] - $sum) / $U[$i][$i];
+        }
+
+        // Return unknown xs as Vector
+        return new Vector(array_reverse($x));
     }
 
     /**************************************************************************

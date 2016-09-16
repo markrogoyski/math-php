@@ -64,6 +64,28 @@ class Vector implements \ArrayAccess
     }
 
     /**
+     * Get the vector as an nx1 column matrix
+     *
+     * Example:
+     *  V = [1, 2, 3]
+     *
+     *      [1]
+     *  R = [2]
+     *      [3]
+     *
+     * @return Matrix
+     */
+    public function asColumnMatrix()
+    {
+        $matrix = [];
+        foreach ($this->A as $element) {
+            $matrix[] = [$element];
+        }
+
+        return new Matrix($matrix);
+    }
+
+    /**
      * Sum of all elements
      *
      * @return number

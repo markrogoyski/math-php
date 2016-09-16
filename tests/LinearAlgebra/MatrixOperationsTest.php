@@ -255,6 +255,80 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @dataProvider dataProviderForMultiplyVector
+     */
+    public function testMultiplyVector(array $A, array $B, array $R)
+    {
+        $A  = MatrixFactory::create($A);
+        $B  = new Vector($B);
+        $R  = MatrixFactory::create($R);
+        $R2 = $A->multiply($B);
+        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
+        $this->assertEquals($R, $R2);
+    }
+
+    public function dataProviderForMultiplyVector()
+    {
+        return [
+            [
+                [
+                    [1],
+                ],
+                [1],
+                [
+                    [1],
+                ],
+            ],
+            [
+                [
+                    [2],
+                ],
+                [3],
+                [
+                    [6],
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [2, 3],
+                ],
+                [4, 5],
+                [
+                    [14],
+                    [23],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [1, 2, 3],
+                [
+                    [14],
+                    [20],
+                    [26],
+                ],
+            ],
+            [
+                [
+                    [3, 6, 5],
+                    [1, 7, 5],
+                    [2, 3, 2],
+                ],
+                [1, 5, 4],
+                [
+                    [53],
+                    [56],
+                    [25],
+                ],
+            ],
+        ];
+    }
+
     public function testMultiplyExceptionDimensionsDoNotMatch()
     {
         $A = MatrixFactory::create([
@@ -265,6 +339,23 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [1, 2, 3],
             [2, 3, 4],
         ]);
+
+        $this->setExpectedException('\Exception');
+        $A->multiply($B);
+    }
+
+    public function testMultiplyExceptionNotMatrixOrVector()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $B = [
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ];
 
         $this->setExpectedException('\Exception');
         $A->multiply($B);
