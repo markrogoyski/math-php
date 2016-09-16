@@ -409,4 +409,186 @@ class MatrixFactorTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         MatrixFactory::one(0, 2);
     }
+
+    /**
+     * @dataProvider dataProviderForEye
+     */
+    public function testEye(int $m, int $n, int $k, int $x, array $R)
+    {
+        $A = MatrixFactory::eye($m, $n, $k, $x);
+        $R = MatrixFactory::create($R);
+
+        $this->assertEquals($R, $A);
+        $this->assertEquals($R->getMatrix(), $A->getMatrix());
+
+        $this->assertEquals($m, $R->getM());
+        $this->assertEquals($n, $R->getN());
+    }
+
+    public function dataProviderForEye()
+    {
+        return [
+            [
+                1, 1, 0, 1,
+                [
+                    [1]
+                ],
+            ],
+            [
+                1, 1, 0, 9,
+                [
+                    [9]
+                ],
+            ],
+            [
+                2, 2, 0, 1,
+                [
+                    [1, 0],
+                    [0, 1],
+                ],
+            ],
+            [
+                2, 2, 1, 1,
+                [
+                    [0, 1],
+                    [0, 0],
+                ],
+            ],
+            [
+                3, 3, 0, 1,
+                [
+                    [1, 0, 0],
+                    [0, 1, 0],
+                    [0, 0, 1],
+                ],
+            ],
+            [
+                3, 3, 1, 1,
+                [
+                    [0, 1, 0],
+                    [0, 0, 1],
+                    [0, 0, 0],
+                ],
+            ],
+            [
+                3, 3, 2, 1,
+                [
+                    [0, 0, 1],
+                    [0, 0, 0],
+                    [0, 0, 0],
+                ],
+            ],
+            [
+                3, 3, 0, 9,
+                [
+                    [9, 0, 0],
+                    [0, 9, 0],
+                    [0, 0, 9],
+                ],
+            ],
+            [
+                3, 3, 1, 9,
+                [
+                    [0, 9, 0],
+                    [0, 0, 9],
+                    [0, 0, 0],
+                ],
+            ],
+            [
+                3, 3, 0, -9,
+                [
+                    [-9, 0, 0],
+                    [0, -9, 0],
+                    [0, 0, -9],
+                ],
+            ],
+            [
+                3, 4, 0, 1,
+                [
+                    [1, 0, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 0, 1, 0],
+                ],
+            ],
+            [
+                3, 4, 1, 1,
+                [
+                    [0, 1, 0, 0],
+                    [0, 0, 1, 0],
+                    [0, 0, 0, 1],
+                ],
+            ],
+            [
+                3, 4, 2, 1,
+                [
+                    [0, 0, 1, 0],
+                    [0, 0, 0, 1],
+                    [0, 0, 0, 0],
+                ],
+            ],
+            [
+                3, 4, 3, 1,
+                [
+                    [0, 0, 0, 1],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                ],
+            ],
+            [
+                3, 4, 1, 9,
+                [
+                    [0, 9, 0, 0],
+                    [0, 0, 9, 0],
+                    [0, 0, 0, 9],
+                ],
+            ],
+            [
+                4, 3, 0, 1,
+                [
+                    [1, 0, 0],
+                    [0, 1, 0],
+                    [0, 0, 1],
+                    [0, 0, 0],
+                ],
+            ],
+            [
+                4, 3, 1, 1,
+                [
+                    [0, 1, 0],
+                    [0, 0, 1],
+                    [0, 0, 0],
+                    [0, 0, 0],
+                ],
+            ],
+            [
+                4, 3, 2, 1,
+                [
+                    [0, 0, 1],
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 0],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForEyeExceptions
+     */
+    public function testEyeExceptions(int $m, int $n, int $k, int $x)
+    {
+        $this->setExpectedException('\Exception');
+        $A = MatrixFactory::eye($m, $n, $k, $x);
+    }
+
+    public function dataProviderForEyeExceptions()
+    {
+        return [
+            [-1, 2, 1, 1],
+            [2, -1, 1, 1],
+            [2, 2, -1, 1],
+            [2, 2, 2, 1],
+            [2, 2, 3, 1],
+        ];
+    }
 }
