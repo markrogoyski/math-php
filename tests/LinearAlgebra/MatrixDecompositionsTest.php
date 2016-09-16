@@ -665,4 +665,27 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForSolveExceptionNotVectorOrArray
+     */
+    public function testSolveExceptionNotVectorOrArray($b)
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->solve($b);
+    }
+
+    public function dataProviderForSolveExceptionNotVectorOrArray()
+    {
+        return [
+            [new Matrix([[1], [2], [3]])],
+            [25],
+        ];
+    }
 }
