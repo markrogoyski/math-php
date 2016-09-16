@@ -274,7 +274,7 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
 
         $LU = $A->LUDecomposition();
 
-        $this->assertEquals($P, $LU['P'], '', 0.004);
+        $this->assertEquals($P, $LU['P'], '', 0.000001);
     }
 
     public function testLUDecompositionExceptionNotSquare()
