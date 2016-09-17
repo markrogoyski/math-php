@@ -54,15 +54,15 @@ class Finance
      */
     public static function pmt(float $rate, int $periods, float $present_value, float $future_value = 0, bool $beginning = false): float
     {
-      $when = 0;
-      if ($beginning) {
-        $when = 1;
-      }
-      if ($rate == 0) {
-        return - ($future_value + $present_value) / $periods;
-      }
-      return - $rate * ($future_value + ($present_value * (1 + $rate)**$periods))
-                 /
-               ((1 + $rate*$when) * ((1 + $rate)**$periods - 1));
+        $when = 0;
+        if ($beginning) {
+          $when = 1;
+        }
+        if ($rate == 0) {
+          return - ($future_value + $present_value) / $periods;
+        }
+        return - $rate * ($future_value + ($present_value * (1 + $rate)**$periods))
+                   /
+                 ((1 + $rate*$when) * ((1 + $rate)**$periods - 1));
     }
 }
