@@ -56,13 +56,13 @@ class Finance
     {
         $when = 0;
         if ($beginning) {
-          $when = 1;
+            $when = 1;
         }
         if ($rate == 0) {
-          return - ($future_value + $present_value) / $periods;
+            return - ($future_value + $present_value) / $periods;
         }
-        return - $rate * ($future_value + ($present_value * (1 + $rate)**$periods))
-                   /
-                 ((1 + $rate*$when) * ((1 + $rate)**$periods - 1));
+        return - ($future_value + ($present_value * pow(1 + $rate, $periods)))
+            /
+            ((1 + $rate*$when) / $rate * (pow(1 + $rate, $periods) - 1));
     }
 }
