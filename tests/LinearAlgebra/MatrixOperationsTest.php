@@ -1028,6 +1028,9 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
+                [[1]], 1
+            ],
+            [
                 [
                     [0]
                 ],
@@ -1806,7 +1809,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                     [3, 4, 4],
                     [6, 8, 5],
                 ]
-    
+
             ],
         ];
     }

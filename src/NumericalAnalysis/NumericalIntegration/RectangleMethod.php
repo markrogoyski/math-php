@@ -20,6 +20,8 @@ use Math\Functions\Polynomial;
  * interpolate a Lagrange polynomial. Finally, we integrate the Lagrange
  * polynomial to approximate the integral of our original function.
  *
+ * The rectangle method is produced by integrating the zero-th degree Lagrange Polynomial
+ *
  * https://en.wikipedia.org/wiki/Rectangle_method
  * http://www.efunda.com/math/num_integration/num_int_newton.cfm
  */
