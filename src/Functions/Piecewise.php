@@ -152,7 +152,7 @@ class Piecewise
             $aOpen = $interval[2] ?? false;
             $bOpen = $interval[3] ?? false;
 
-            // Four permutations: closed-closed, closed-open, open-closed, open-open
+            // Four permutations: open-open, open-closed, closed-open, closed-closed
             if ($aOpen && $bOpen) {
                 if ($x > $a && $x < $b) {
                     return $this->functions[$i];
