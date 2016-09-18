@@ -21,6 +21,8 @@ namespace Math\LinearAlgebra;
  *  - Cross product / dot product
  *    - (A x B) ⋅ A = 0
  *    - (A x B) ⋅ B = 0
+ *  - Outer product
+ *    - A⨂B = ABᵀ
  */
 class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -265,6 +267,46 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
             [
                 [4, 9, 3],
                 [12, 11, -4],
+            ],
+        ];
+    }
+
+    /**
+     * Axiom: A⨂B = ABᵀ
+     * Outer product is the same as matrix multiplication of A and transpose of B
+     * @dataProvider dataProviderForOuterProduct
+     */
+    public function testOuterProductIsMatrixMultiplicationOfAAndBTranspose(array $A, array $B)
+    {
+        // Vector A⨂B
+        $Av   = new Vector($A);
+        $Bv   = new Vector($B);
+        $A⨂B = $Av->outerProduct($Bv);
+
+        // Matrix multiplication ABᵀ
+        $Am = $Av->asColumnMatrix();
+        $Bᵀ  = new Matrix([
+            $Bv->getVector()
+        ]);
+        $ABᵀ = $Am->multiply($Bᵀ);
+
+        $this->assertEquals($A⨂B, $ABᵀ);
+    }
+
+    public function dataProviderForOuterProduct()
+    {
+        return [
+            [
+                [2],
+                [6],
+            ],
+            [
+                [2, 5, 8],
+                [6, 4, 9],
+            ],
+            [
+                [3, 6, 3, 5, 8, 21],
+                [12, 4, 5, 3, 21, 4],
             ],
         ];
     }
