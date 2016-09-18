@@ -347,4 +347,13 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    public function testAddExceptionSizeMisMatch()
+    {
+        $A = new Vector([1, 2, 3]);
+        $B = new Vector([1, 2]);
+
+        $this->setExpectedException('\Exception');
+        $A->add($B);
+    }
 }
