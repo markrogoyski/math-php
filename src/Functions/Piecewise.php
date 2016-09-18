@@ -1,5 +1,4 @@
 <?php
-
 namespace Math\Functions;
 
 /**
@@ -69,8 +68,8 @@ class Piecewise
 
         foreach ($intervals as $interval) {
             // Store values from previous interval
-            $lastA = $a ?? -INF;
-            $lastB = $b ?? -INF;
+            $lastA     = $a ?? -INF;
+            $lastB     = $b ?? -INF;
             $lastBOpen = $bOpen ?? false;
 
             if (count(array_filter($interval, "is_numeric")) !== 2) {
@@ -78,8 +77,8 @@ class Piecewise
             }
 
             // Fetch values from current interval
-            $a = $interval[0];
-            $b = $interval[1];
+            $a     = $interval[0];
+            $b     = $interval[1];
             $aOpen = $interval[2] ?? false;
             $bOpen = $interval[3] ?? false;
 
@@ -150,26 +149,26 @@ class Piecewise
     public function findInterval($x)
     {
         foreach ($this->intervals as $i => $interval) {
-            $a = $interval[0];
-            $b = $interval[1];
+            $a     = $interval[0];
+            $b     = $interval[1];
             $aOpen = $interval[2] ?? false;
             $bOpen = $interval[3] ?? false;
 
             // Four permutations: closed-closed, closed-open, open-closed, open-open
-            if ($aOpen and $bOpen) {
-                if ($x > $a and $x < $b) {
+            if ($aOpen && $bOpen) {
+                if ($x > $a && $x < $b) {
                     return $i;
                 }
-            } elseif ($aOpen and !$bOpen) {
-                if ($x > $a and $x <= $b) {
+            } elseif ($aOpen && !$bOpen) {
+                if ($x > $a && $x <= $b) {
                     return $i;
                 }
-            } elseif (!$aOpen and $bOpen) {
-                if ($x >= $a and $x < $b) {
+            } elseif (!$aOpen && $bOpen) {
+                if ($x >= $a && $x < $b) {
                     return $i;
                 }
-            } elseif (!$aOpen and !$bOpen) {
-                if ($x >= $a and $x <= $b) {
+            } elseif (!$aOpen && !$bOpen) {
+                if ($x >= $a && $x <= $b) {
                     return $i;
                 }
             }
