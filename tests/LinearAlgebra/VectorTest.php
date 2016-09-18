@@ -401,4 +401,68 @@ class VectorTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForCountable
+     */
+    public function testCountableInterface(array $A, $n)
+    {
+        $A = new Vector($A);
+
+        $this->assertEquals($n, count($A));
+    }
+
+    public function dataProviderForCountable()
+    {
+        return [
+            [[], 0],
+            [[1], 1],
+            [[1, 1], 2],
+            [[1, 1, 1], 3],
+            [[1, 1, 1, 1], 4],
+            [[1, 1, 1, 1, 1], 5],
+            [[1, 1, 1, 1, 1, 1], 6],
+            [[1, 1, 1, 1, 1, 1, 1], 7],
+            [[1, 1, 1, 1, 1, 1, 1, 1], 8],
+            [[1, 1, 1, 1, 1, 1, 1, 1, 1], 9],
+            [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 10],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForJsonSerializable
+     */
+    public function testJsonSerializable(array $A, string $json)
+    {
+        $A    = new Vector($A);
+
+        $this->assertEquals($json, json_encode($A));
+    }
+
+    public function dataProviderForJsonSerializable()
+    {
+        return [
+            [
+                [],
+                '[]',
+            ],
+            [
+                [1],
+                '[1]',
+            ],
+            [
+                [1, 2, 3],
+                '[1,2,3]',
+            ],
+        ];
+    }
+
+    public function testInterfaces()
+    {
+        $interfaces = class_implements('\Math\LinearAlgebra\Vector');
+
+        $this->assertContains('Countable', $interfaces);
+        $this->assertContains('ArrayAccess', $interfaces);
+        $this->assertContains('JsonSerializable', $interfaces);
+    }
 }

@@ -6,7 +6,7 @@ use Math\Functions\Map;
 /**
  * 1 x n Vector
  */
-class Vector implements \ArrayAccess
+class Vector implements \Countable, \ArrayAccess, \JsonSerializable
 {
     /**
      * Number of elements
@@ -151,7 +151,7 @@ class Vector implements \ArrayAccess
      **************************************************************************/
 
     /**
-     * Outer product
+     * Outer product (A⨂B)
      * https://en.wikipedia.org/wiki/Outer_product
      *
      * @param Vector $B
@@ -284,6 +284,15 @@ class Vector implements \ArrayAccess
     }
 
     /**************************************************************************
+     * Countable INTERFACE
+     **************************************************************************/
+
+    public function count(): int
+    {
+        return count($this->A);
+    }
+
+    /**************************************************************************
      * ArrayAccess INTERFACE
      **************************************************************************/
 
@@ -305,5 +314,14 @@ class Vector implements \ArrayAccess
     public function offsetUnset($i)
     {
         throw new \Exception('Vector class does not allow unsetting values');
+    }
+
+    /**************************************************************************
+     * JsonSerializable INTERFACE
+     **************************************************************************/
+
+    public function jsonSerialize()
+    {
+        return $this->A;
     }
 }

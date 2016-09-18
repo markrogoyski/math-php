@@ -321,17 +321,24 @@ $item = $A->get(2);
 $sum    = $A->sum();
 $A⋅B    = $A->dotProduct($B);    // same as innerProduct
 $A⋅B    = $A->innerProduct($B);  // same as dotProduct
-$AxB    = $A->crossProduct($B);
+
+// Vector operations - return a Vector or Matrix
+$A⨂B = $A->outerProduct(new Vector([1, 2]));
+$AxB  = $A->crossProduct($B);
+
+// Vector norms - return a vale
 $l₁norm = $A->l1Norm();
 $l²norm = $A->l2Norm();
 $pnorm  = $A->pNorm();
 $max    = $A->maxNorm();
 
-// Vector operations - return a Matrix
-$matrix = $A->outerProduct(new Vector([1, 2]));
-
 // Print a vector
 print($A); // [1, 2, 3]
+
+// PHP Predefined Interfaces
+$n    = count($A);       // Countable
+$json = json_encode($A); // JsonSerializable
+$Aᵢ  = $A[$i];           // ArrayAccess
 ```
 
 ### Numerical Analysis - Interpolation
