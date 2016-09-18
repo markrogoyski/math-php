@@ -174,6 +174,27 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Subtract (A - B)
+     *
+     * A = [a₁, a₂, a₃]
+     * B = [b₁, b₂, b₃]
+     * A - B = [a₁ - b₁, a₂ - b₂, a₃ - b₃]
+     *
+     * @param Vector $B
+     *
+     * @return Vector
+     */
+    public function subtract(Vector $B): Vector
+    {
+        if ($B->getN() !== $this->n) {
+            throw new \Exception('Vectors must be the same length for subtraction');
+        }
+
+        $R = Map\Multi::subtract($this->A, $B->getVector());
+        return new Vector($R);
+    }
+
+    /**
      * Scalar multiplication (scale)
      * kA = [k * a₁, k * a₂, k * a₃ ...]
      *
