@@ -268,9 +268,24 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
+                [],
+                [],
+                [],
+            ],
+            [
+                [1],
+                [2],
+                [3],
+            ],
+            [
                 [1, 2, 3],
                 [1, 2, 3],
                 [2, 4, 6],
+            ],
+            [
+                [1, 2, 3],
+                [-2, -2, -4],
+                [-1, 0, -1],
             ],
         ];
     }
@@ -282,5 +297,54 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('\Exception');
         $A->add($B);
+    }
+
+    /**
+     * @dataProvider dataProviderForSubtract
+     */
+    public function testSubtract(array $A, array $B, array $R)
+    {
+        $A    = new Vector($A);
+        $B    = new Vector($B);
+        $A−B = $A->subtract($B);
+        $R    = new Vector($R);
+
+        $this->assertEquals($R, $A−B);
+        $this->assertEquals($R->getVector(), $A−B->getVector());
+    }
+
+    public function dataProviderForSubtract()
+    {
+        return [
+            [
+                [],
+                [],
+                [],
+            ],
+            [
+                [3],
+                [2],
+                [1],
+            ],
+            [
+                [2, 2, 2],
+                [1, 2, 3],
+                [1, 0, -1],
+            ],
+            [
+                [2, 2, 2],
+                [-1, -2, -3],
+                [3, 4, 5],
+            ],
+        ];
+    }
+
+    public function testSubtractExceptionSizeMisMatch()
+    {
+        $A = new Vector([1, 2, 3]);
+        $B = new Vector([1, 2]);
+
+        $this->setExpectedException('\Exception');
+        $A->subtract($B);
     }
 }
