@@ -30,6 +30,14 @@ class Vector implements \ArrayAccess
         $this->n = count($A);
     }
 
+    /**************************************************************************
+     * BASIC VECTOR GETTERS
+     *  - getVector
+     *  - getN
+     *  - get
+     *  - asColumnMatrix
+     **************************************************************************/
+
     /**
      * Get matrix
      * @return array of arrays
@@ -85,6 +93,12 @@ class Vector implements \ArrayAccess
         return new Matrix($matrix);
     }
 
+    /**************************************************************************
+     * VECTOR OPERATIONS - Return a number
+     *  - sum
+     *  - dotProduct (innerProduct)
+     **************************************************************************/
+
     /**
      * Sum of all elements
      *
@@ -119,6 +133,47 @@ class Vector implements \ArrayAccess
     }
 
     /**
+     * Inner product (convience method for dot product) (A⋅B)
+     *
+     * @param Vector $B
+     *
+     * @return number
+     */
+    public function innerProduct(Vector $B)
+    {
+        return $this->dotProduct($B);
+    }
+
+    /**************************************************************************
+     * VECTOR OPERATIONS - Return a Vector or Matrix
+     *  - outerProduct
+     *  - crossProduct
+     **************************************************************************/
+
+    /**
+     * Outer product
+     * https://en.wikipedia.org/wiki/Outer_product
+     *
+     * @param Vector $B
+     *
+     * @return Matrix
+     */
+    public function outerProduct(Vector $B): Matrix
+    {
+        $m = $this->n;
+        $n = $B->getN();
+        $R = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $R[$i][$j] = $this->A[$i] * $B[$j];
+            }
+        }
+
+        return MatrixFactory::create($R);
+    }
+
+    /**
      * Cross product (AxB)
      * https://en.wikipedia.org/wiki/Cross_product
      *
@@ -145,40 +200,13 @@ class Vector implements \ArrayAccess
         return new Vector([$s1, $s2, $s3]);
     }
 
-    /**
-     * Inner product (convience method for dot product) (A⋅B)
-     *
-     * @param Vector $B
-     *
-     * @return number
-     */
-    public function innerProduct(Vector $B)
-    {
-        return $this->dotProduct($B);
-    }
-
-    /**
-     * Outer product
-     * https://en.wikipedia.org/wiki/Outer_product
-     *
-     * @param Vector $B
-     *
-     * @return Matrix
-     */
-    public function outerProduct(Vector $B): Matrix
-    {
-        $m = $this->n;
-        $n = $B->getN();
-        $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = $this->A[$i] * $B[$j];
-            }
-        }
-
-        return MatrixFactory::create($R);
-    }
+    /**************************************************************************
+     * VECTOR NORMS
+     *  - l1Norm
+     *  - l2Norm
+     *  - pNorm
+     *  - maxNorm
+     **************************************************************************/
 
     /**
      * l₁-norm (|x|₁)
@@ -238,6 +266,11 @@ class Vector implements \ArrayAccess
         return max(Map\Single::abs($this->A));
     }
 
+    /**************************************************************************
+     * PHP MAGIC METHODS
+     *  - __toString
+     **************************************************************************/
+
     /**
      * Print the vector as a string
      * Ex:
@@ -250,9 +283,9 @@ class Vector implements \ArrayAccess
         return '[' . implode(', ', $this->A) . ']';
     }
 
-    /**
+    /**************************************************************************
      * ArrayAccess INTERFACE
-     */
+     **************************************************************************/
 
     public function offsetExists($i): bool
     {
