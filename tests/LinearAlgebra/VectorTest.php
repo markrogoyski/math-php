@@ -465,4 +465,63 @@ class VectorTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('ArrayAccess', $interfaces);
         $this->assertContains('JsonSerializable', $interfaces);
     }
+
+    /**
+     * @dataProvider dataProviderForScalarMultiply
+     */
+    public function testScalarMultiply(array $A, $k, array $R)
+    {
+        $A  = new Vector($A);
+        $kA = $A->scalarMultiply($k);
+        $R  = new Vector($R);
+
+        $this->assertEquals($R, $kA);
+        $this->assertEquals($R->getVector(), $kA->getVector());
+    }
+
+    public function dataProviderForScalarMultiply()
+    {
+        return [
+            [
+                [],
+                2,
+                [],
+            ],
+            [
+                [1],
+                2,
+                [2],
+            ],
+            [
+                [2, 3],
+                2,
+                [4, 6],
+            ],
+            [
+                [1, 2, 3],
+                2,
+                [2, 4, 6],
+            ],
+            [
+                [1, 2, 3, 4, 5],
+                5,
+                [5, 10, 15, 20, 25],
+            ],
+            [
+                [1, 2, 3, 4, 5],
+                0,
+                [0, 0, 0, 0, 0],
+            ],
+            [
+                [1, 2, 3, 4, 5],
+                -2,
+                [-2, -4, -6, -8, -10],
+            ],
+            [
+                [1, 2, 3, 4, 5],
+                0.2,
+                [0.2, 0.4, 0.6, 0.8, 1],
+            ],
+        ];
+    }
 }

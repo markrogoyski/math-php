@@ -146,9 +146,23 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
 
     /**************************************************************************
      * VECTOR OPERATIONS - Return a Vector or Matrix
+     *  - scalarMultiply
      *  - outerProduct
      *  - crossProduct
      **************************************************************************/
+
+    /**
+     * Scalar multiplication (scale)
+     * kA = [k * A₀, k * A₁, k * A₂ ...]
+     *
+     * @param number $k Scale factor
+     *
+     * @return Vector
+     */
+    public function scalarMultiply($k)
+    {
+        return new Vector(Map\Single::multiply($this->A, $k));
+    }
 
     /**
      * Outer product (A⨂B)
