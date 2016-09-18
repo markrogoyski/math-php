@@ -377,7 +377,7 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
     {
         $A    = new Vector($A);
         $０A  = $A->scalarMultiply(0);
-        $zero = new Vector(array_fill(0, $A->getN(), 0)); 
+        $zero = new Vector(array_fill(0, $A->getN(), 0));
 
         $this->assertEquals($zero, $０A);
         $this->assertEquals($zero->getVector(), $０A->getVector());
