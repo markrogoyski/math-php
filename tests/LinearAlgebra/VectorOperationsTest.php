@@ -322,4 +322,29 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForAdd
+     */
+    public function testAdd(array $A, array $B, array $R)
+    {
+        $A    = new Vector($A);
+        $B    = new Vector($B);
+        $A＋B = $A->add($B);
+        $R    = new Vector($R);
+
+        $this->assertEquals($R, $A＋B);
+        $this->assertEquals($R->getVector(), $A＋B->getVector());
+    }
+
+    public function dataProviderForAdd()
+    {
+        return [
+            [
+                [1, 2, 3],
+                [1, 2, 3],
+                [2, 4, 6],
+            ],
+        ];
+    }
 }
