@@ -1,5 +1,4 @@
 <?php
-
 namespace Math\Functions;
 
 /**
@@ -124,30 +123,28 @@ class Piecewise
     */
     public function __invoke($x₀)
     {
-        $index = $this->findInterval($x₀);
+        $function = $this->getFunction($x₀);
 
-        if ($index === false) {
+        if ($function === false) {
             throw new \Exception("The input {$x₀} is not in the domain of this
                                   piecewise function, thus it is undefined at
                                   that point.");
         }
-
-        $function = $this->functions[$index];
 
         return $function($x₀);
     }
 
     /**
     * Find which subinterval our input value is contained within, and then return
-    * the index of that subinterval such that we can use the corresponding function
-    * for that subinterval. If no subinterval is found such that our input is
-    * contained within it, a false is returned.
+    * the function that corresponds to that subinterval. If no subinterval is found
+    * such that our input is contained within it, a false is returned.
     *
-    * @return mixed Returns the index of the found subinterval, or false
+    * @param number $x The value at which we are searching for a subinterval that
+    *                  contains it, and thus has a corresponding function.
     *
-    * @param number $x The value we are using to search for a subinterval.
+    * @return mixed Returns the function that contains $x in its domain, or false
     */
-    public function findInterval($x)
+    public function getFunction($x)
     {
         foreach ($this->intervals as $i => $interval) {
             $a     = $interval[0];
@@ -158,19 +155,19 @@ class Piecewise
             // Four permutations: closed-closed, closed-open, open-closed, open-open
             if ($aOpen && $bOpen) {
                 if ($x > $a && $x < $b) {
-                    return $i;
+                    return $this->functions[$i];
                 }
             } elseif ($aOpen && !$bOpen) {
                 if ($x > $a && $x <= $b) {
-                    return $i;
+                    return $this->functions[$i];
                 }
             } elseif (!$aOpen && $bOpen) {
                 if ($x >= $a && $x < $b) {
-                    return $i;
+                    return $this->functions[$i];
                 }
             } elseif (!$aOpen && !$bOpen) {
                 if ($x >= $a && $x <= $b) {
-                    return $i;
+                    return $this->functions[$i];
                 }
             }
         }
