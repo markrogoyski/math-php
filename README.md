@@ -325,6 +325,7 @@ $A⋅B    = $A->innerProduct($B);  // same as dotProduct
 // Vector operations - return a Vector or Matrix
 $kA   = $A->scalarMultiply(5);
 $A＋B = $A->add($B);
+$A−B  = $A->subtract($B);
 $A⨂B = $A->outerProduct(new Vector([1, 2]));
 $AxB  = $A->crossProduct($B);
 
