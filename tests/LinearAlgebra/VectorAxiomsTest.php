@@ -23,6 +23,12 @@ namespace Math\LinearAlgebra;
  *    - (A x B) ⋅ B = 0
  *  - Outer product
  *    - A⨂B = ABᵀ
+ *  - Scalar multiplication
+ *    - (c + d)A = cA + dA
+ *    - c(A + B) = cA + cB
+ *    - 1A = A
+ *    - 0A = 0
+ *    - -1A = -A
  */
 class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -307,6 +313,105 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
             [
                 [3, 6, 3, 5, 8, 21],
                 [12, 4, 5, 3, 21, 4],
+            ],
+        ];
+    }
+
+    /**
+     * Axiom: (c + d)A = cA + dA
+     * Additivity in the scalar
+     * @dataProvider dataProviderForSingleVector
+     */
+    public function testAdditivityInTheScalarForScalarMultiplication(array $A)
+    {
+        $A = new Vector($A);
+        $c = 2;
+        $d = 9;
+
+        $⟮c＋d⟯A  = $A->scalarMultiply($c + $d);
+        $⟮cA＋dA⟯ = $A->scalarMultiply($c)->add($A->scalarMultiply($d));
+
+        $this->assertEquals($⟮c＋d⟯A, $⟮cA＋dA⟯);
+        $this->assertEquals($⟮c＋d⟯A->getVector(), $⟮cA＋dA⟯->getVector());
+    }
+
+    /**
+     * Axiom: c(A + B) = cA + cB
+     * Additivity in the vector
+     * @dataProvider dataProviderForTwoVectors
+     */
+    public function testAdditivityInTheVectorForScalarMultiplication(array $A, array $B)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+
+        $c = 4;
+
+        $c⟮A＋B⟯ = $A->add($B)->scalarMultiply($c);
+        $⟮cA＋cB⟯ = $A->scalarMultiply($c)->add($B->scalarMultiply($c));
+
+        $this->assertEquals($c⟮A＋B⟯, $⟮cA＋cB⟯);
+        $this->assertEquals($c⟮A＋B⟯->getVector(), $⟮cA＋cB⟯->getVector());
+    }
+
+    /**
+     * Axiom: 1A = A
+     * Multiplying (scaling) by 1 does not change the vector
+     * @dataProvider dataProviderForSingleVector
+     */
+    public function testScalarMultiplyOneIdentity(array $A)
+    {
+        $A = new Vector($A);
+        $１A = $A->scalarMultiply(1);
+
+        $this->assertEquals($A, $１A);
+        $this->assertEquals($A->getVector(), $１A->getVector());
+    }
+
+    /**
+     * Axiom: 0A = 0
+     * Multiplying (scaling) by 0 gives the zero vector
+     * @dataProvider dataProviderForSingleVector
+     */
+    public function testScalarMultiplyZeroIdentity(array $A)
+    {
+        $A    = new Vector($A);
+        $０A  = $A->scalarMultiply(0);
+        $zero = new Vector(array_fill(0, $A->getN(), 0)); 
+
+        $this->assertEquals($zero, $０A);
+        $this->assertEquals($zero->getVector(), $０A->getVector());
+    }
+
+    /**
+     * Axiom: -1A = -A
+     * Additive inverse
+     * @dataProvider dataProviderForAdditiveInverse
+     */
+    public function testScalarMultiplyNegativeOneIdentity(array $A, array $R)
+    {
+        $A    = new Vector($A);
+        $ーA  = $A->scalarMultiply(-1);
+        $R    = new Vector($R);
+
+        $this->assertEquals($R, $ーA);
+        $this->assertEquals($R->getVector(), $ーA->getVector());
+    }
+
+    public function dataProviderForAdditiveInverse()
+    {
+        return [
+            [
+                [],
+                [],
+            ],
+            [
+                [2],
+                [-2],
+            ],
+            [
+                [0, 1, 2, 3, 4, 5, -6, -7, 8],
+                [0, -1, -2, -3, -4, -5, 6, 7, -8],
             ],
         ];
     }
