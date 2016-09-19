@@ -76,6 +76,10 @@ class NoncentralT extends Continuous
      */
     public static function CDF($x, int $ν, $μ)
     {
+        Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν, 'μ' => $μ]);
+        if ($μ == 0) {
+            return StudentT::CDF($x, $ν);
+        }
         if ($x >= 0) {
             return self::F($x, $ν, $μ);
         }
@@ -154,7 +158,9 @@ class NoncentralT extends Continuous
     public static function mean(int $ν, $μ)
     {
         Support::checkLimits(self::LIMITS, ['ν' => $ν, 'μ' => $μ]);
-
+        if ($ν == 1) {
+            return \NAN;
+        }
         return $μ * sqrt($ν / 2) * Special::gamma(($ν - 1) / 2) / Special::gamma($ν / 2);
     }
 }

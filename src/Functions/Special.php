@@ -499,9 +499,71 @@ class Special
     /**
      * Regularized incomplete beta function - Iₓ(a, b)
      *
+     * A continuous fraction is used to evaluate I
+     *
+     *                      /      α₁       \
+     *              xᵃyᵇ   |  -------------- |
+     * Iₓ(a, b) = -------- |    β₁ +   α₂    |
+     *             B(a,b)  |         ------  |
+     *                      \        β₂ + … /
+     *
+     *                 (a + m - 1) * (a + b + m -1) * m * (b - m) * x²
+     * α₁ = 1, αm+1 = -------------------------------------------------
+     *                                (a + 2m - 1)²
+     *
+     *             m * (b - m) * x      (a + m) * (a - (a + b) * x + 1 + m * (2 - x))
+     * βm+1 = m + ------------------ + -----------------------------------------------
+     *              a + 2 * m - 1                      a + 2 * m + 1
+     *
+     * This algorithm is valid when both a and b are greater than 1
+     *
+     * @param int $m the number of α and β parameters to calculate
+     * @param  $x Upper limit of the integration 0 ≦ x ≦ 1
+     * @param  $a Shape parameter a > 1
+     * @param  $b Shape parameter b > 1
+     *
+     * @return number
+     */
+    private static function iBetaCF(int $m, $x, $a, $b)
+    {
+        $limits = [
+        'x'  => '[0, 1]',
+        'a'  => '(1,∞)',
+        'b'  => '(1,∞)',
+        ];
+        Support::checkLimits($limits, ['x' => $x, 'a' => $a, 'b' => $b]);
+        $beta     = self::beta($a, $b);
+        $constant = $x**$a * (1 - $x)**$b / $beta;
+        for ($i = 0; $i < $m; $i++) {
+            if ($i == 0) {
+                $α = 1;
+            } else {
+                $α = ($a + $i - 1) * ($a + $b + $i - 1) * $i * ($b - $i) * $x**2 / ($a + 2 * $i - 1)**2;
+            }
+            $β₁             = $i + $i * ($b - $i) * $x / ($a + 2 * $i - 1);
+            $β₂             = ($a + $i) * ($a - ($a + $b) * $x + 1 + $i * (2 - $x)) / ($a + 2 * $i + 1);
+            $β              = $β₁ + $β₂;
+            $α_array[]      = $α;
+            $β_array[]      = $β;
+        }
+        for ($i = $m - 1; $i >= 0; $i--) {
+            if ($i == $m - 1) {
+                $fraction_array[$i] = $α_array[$i] / $β_array[$i];
+            } else {
+                $fraction_array[$i] = $α_array[$i] / ($β_array[$i]+ $fraction_array[$i+1]);
+            }
+        }
+        return $constant * $fraction_array[0];
+    }
+    
+    /**
+     * Regularized incomplete beta function - Iₓ(a, b)
+     *
      * https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function
      *
-     * We calculate the function with a continuous fraction.
+     * This function looks at the values of x, a, and b, and determines which algorithm is best to calculate
+     * the value of Iₓ(a, b)
+     *
      * http://www.boost.org/doc/libs/1_35_0/libs/math/doc/sf_and_dist/html/math_toolkit/special/sf_beta/ibeta_function.html
      * https://github.com/boostorg/math/blob/develop/include/boost/math/special_functions/beta.hpp
      *
@@ -533,54 +595,25 @@ class Special
             return $x ** $a;
         }
 
-        $π = \M_PI;
         if ($x > .9 || $b > $a && $x > .5) {
             $y = 1 - $x;
             return 1 - self::regularizedIncompleteBeta($y, $b, $a);
         }
         if ($a > 1 && $b > 1) {
             // Tolerance on evaluating the continued fraction.
-            $tol      = .00000000000001;
+            $tol      = .000000000000001;
             $dif      = $tol + 1; // Initialize
-            $m        = 0;        // Counter
-            $constant = $x**$a * (1 - $x)**$b / self::beta($a, $b);
-            $α_array  = [];
-            $β_array  = [];
+            
+            // We will calculate the continuous fraction with a minimum depth of 10.
+            $m        = 10;        // Counter
             do {
-                if ($m == 0) {
-                    $α = 1;
-                } else {
-                    $α = ($a + $m - 1) * ($a + $b + $m - 1) * $m * ($b - $m) * $x**2 / ($a + 2 * $m - 1)**2;
-                }
-                $β₁             = $m + $m * ($b - $m) * $x / ($a + 2 * $m - 1);
-                $β₂             = ($a + $m) * ($a - ($a + $b) * $x + 1 + $m * (2 - $x)) / ($a + 2 * $m + 1);
-                $β              = $β₁ + $β₂;
-                $α_array[]      = $α;
-                $β_array[]      = $β;
-                $fraction       = 1;
-                $fraction_array = [];
-                $count          = count($β_array);
-
-                // There's probably a more efficient algorithn to do a continuous fraction.
-                // I am calculating α and β at m=0, and then at m=1, and bulding the continuous
-                // fraction up in the $fraction_array, such that when the array hits element 0,
-                // it has included all the α and β in their respective arrays. Then I is evaluated.
-                // If I has changed less than the tolerance, return the value. Otherwise add another
-                // α and β, recaculate the fraction_array, and retest I.
-                for ($i = $count - 1; $i >= 0; $i--) {
-                    if ($i == $count - 1) {
-                        $fraction_array[$i] = $α_array[$i] / $β_array[$i];
-                    } else {
-                        $fraction_array[$i] = $α_array[$i] / ($β_array[$i]+ $fraction_array[$i+1]);
-                    }
-                }
-                $I_new = $constant * $fraction_array[0];
-                if ($m > 0) {
+                $I_new = self::iBetaCF($m, $x, $a, $b);
+                if ($m > 10) {
                     $dif = abs(($I - $I_new) / $I_new);
                 }
                 $I = $I_new;
                 $m++;
-            } while ($dif > $tol || $m < 10);
+            } while ($dif > $tol);
             return $I;
         } else {
             if ($a <= 1) {
