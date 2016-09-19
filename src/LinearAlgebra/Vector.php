@@ -96,6 +96,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     /**************************************************************************
      * VECTOR OPERATIONS - Return a number
      *  - sum
+     *  - length (magnitude)
      *  - dotProduct (innerProduct)
      **************************************************************************/
 
@@ -162,6 +163,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *  - scalarMultiply
      *  - outerProduct
      *  - crossProduct
+     *  - normalize
      **************************************************************************/
 
     /**
@@ -329,6 +331,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     /**
      * l²-norm (|x|₂)
      * Also known as Euclidean norm, Euclidean length, L² distance, ℓ² distance
+     * Used to normalize a vector.
      *
      * http://mathworld.wolfram.com/L2-Norm.html
      * https://en.wikipedia.org/wiki/Norm_(mathematics)#Euclidean_norm
