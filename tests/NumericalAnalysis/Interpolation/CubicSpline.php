@@ -94,9 +94,7 @@ class CubicSplineTest extends \PHPUnit_Framework_TestCase
     public function testSolveNonzeroError()
     {
         // f(x) = x⁴ + 8x³ -13x² -92x + 96
-        $f = function ($x) {
-            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
-        };
+        $f = new Polynomail(1, 8, -13, -92, 96);
 
         // The error is bounded by:
         // |f(x)-p(x)| = tol <= (5/384) * h⁴ * max f⁽⁴⁾(x)
