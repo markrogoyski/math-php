@@ -303,11 +303,9 @@ $Aᵢⱼ  = $A[$mᵢ][$nⱼ];    // ArrayAccess
 ```php
 use Math\LinearAlgebra\Vector;
 
-$vector = [1, 2];
-
 // Vector
-$A = new Vector($vector);
-$B = new Vector($vector);
+$A = new Vector([1, 2]);
+$B = new Vector([2, 4]);
 
 // Basic vector data
 $array = $A->getVector();
@@ -315,20 +313,20 @@ $n     = $A->getN();           // number of elements
 $M     = $A->asColumnMatrix(); // Vector as an nx1 matrix
 
 // Basic vector elements (zero-based indexing)
-$item = $A->get(2);
+$item = $A->get(1);
 
 // Vector operations - return a value
-$sum    = $A->sum();
-$│A│    = $A->length();          // same as l2Norm
-$A⋅B    = $A->dotProduct($B);    // same as innerProduct
-$A⋅B    = $A->innerProduct($B);  // same as dotProduct
+$sum = $A->sum();
+$│A│ = $A->length();          // same as l2Norm
+$A⋅B = $A->dotProduct($B);    // same as innerProduct
+$A⋅B = $A->innerProduct($B);  // same as dotProduct
 
 // Vector operations - return a Vector or Matrix
-$kA   = $A->scalarMultiply(5);
+$kA   = $A->scalarMultiply($k);
 $A＋B = $A->add($B);
 $A−B  = $A->subtract($B);
-$A／k = $A->scalarDivide(5);
-$A⨂B = $A->outerProduct(new Vector([1, 2]));
+$A／k = $A->scalarDivide($k);
+$A⨂B = $A->outerProduct($B);
 $AxB  = $A->crossProduct($B);
 $Â    = $A->normalize();
 $A⊥   = $A->perpendicular();
@@ -340,12 +338,12 @@ $pnorm  = $A->pNorm();
 $max    = $A->maxNorm();
 
 // Print a vector
-print($A); // [1, 2, 3]
+print($A); // [1, 2]
 
 // PHP Predefined Interfaces
 $n    = count($A);       // Countable
 $json = json_encode($A); // JsonSerializable
-$Aᵢ  = $A[$i];           // ArrayAccess
+$Aᵢ   = $A[$i];          // ArrayAccess
 ```
 
 ### Numerical Analysis - Interpolation
