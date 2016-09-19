@@ -29,8 +29,10 @@ namespace Math\LinearAlgebra;
  *    - 1A = A
  *    - 0A = 0
  *    - -1A = -A
- *  - Perpendicular
+ *  - Perpendicular / Perp dot product
  *    - A⋅A⊥ = 0
+ *    - A⊥⋅A = 0
+ *    - A⋅A⊥ = -A⊥⋅A
  */
 class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -432,6 +434,19 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $A⋅A⊥);
     }
 
+    /**
+     * Axiom: A⊥⋅A = 0
+     * Perp dot product with itself will be zero.
+     * @dataProvider dataProviderForPerpendicularIdentity
+     */
+    public function testPerpDotProductZero(array $A)
+    {
+        $A    = new Vector($A);
+        $A⊥⋅A = $A->perpDotProduct($A);
+
+        $this->assertEquals(0, $A⊥⋅A);
+    }
+
     public function dataProviderForPerpendicularIdentity()
     {
         return [
@@ -458,11 +473,21 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testPerpendicularExceptionNGreaterThanTwo()
+    /**
+     * Axiom: A⋅A⊥ = -A⊥⋅A
+     * Swapping operands changes the sign of the perp dot product
+     * @dataProvider dataProviderForPerpendicularIdentity
+     */
+    public function testPerpDotProdcutSwapOperandsChangeSign(array $A)
     {
-        $A = new Vector([1, 2, 3]);
+        $A = new Vector($A);
+        $A⊥ = $A->perpendicular();
 
-        $this->setExpectedException('\Exception');
-        $A->perpendicular();
+        $A⋅A⊥ = $A->dotProduct($A⊥);
+        $A⊥⋅A = $A⊥->dotProduct($A);
+
+        $this->assertEquals($A⋅A⊥, -$A⊥⋅A);
     }
+
+
 }
