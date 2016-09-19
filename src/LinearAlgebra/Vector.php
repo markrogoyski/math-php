@@ -98,6 +98,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *  - sum
      *  - length (magnitude)
      *  - dotProduct (innerProduct)
+     *  - perpDotProduct
      **************************************************************************/
 
     /**
@@ -154,6 +155,27 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function innerProduct(Vector $B)
     {
         return $this->dotProduct($B);
+    }
+
+    /**
+     * Perp dot product (A⊥⋅B)
+     * A modification of the two-dimensional dot product in which A is
+     * replaced by the perpendicular vector rotated 90º degrees.
+     * http://mathworld.wolfram.com/PerpDotProduct.html
+     *
+     * @param Vector $B
+     *
+     * @return number
+     */
+    public function perpDotProduct(Vector $B)
+    {
+        if ($this->n !== 2 || $B->getN() !== 2) {
+            throw new \Exception('Cannot do perp dot product unless both vectors are two-dimensional');
+        }
+
+        $A⊥ = $this->perpendicular();
+
+        return $A⊥->dotProduct($B);
     }
 
     /**************************************************************************
