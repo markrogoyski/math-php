@@ -102,6 +102,6 @@ class F extends Continuous
             return $d₂ / ($d₂ - 2);
         }
 
-        return null;
+        return \NAN;
     }
 }
