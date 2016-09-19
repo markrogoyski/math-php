@@ -29,6 +29,8 @@ namespace Math\LinearAlgebra;
  *    - 1A = A
  *    - 0A = 0
  *    - -1A = -A
+ *  - Perpendicular
+ *    - A⋅A⊥ = 0
  */
 class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -414,5 +416,53 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
                 [0, -1, -2, -3, -4, -5, 6, 7, -8],
             ],
         ];
+    }
+
+    /**
+     * Axiom: A⋅A⊥ = 0
+     * Vector dot product with a vector perpendicular to it will be zero.
+     * @dataProvider dataProviderForPerpendicularIdentity
+     */
+    public function testPerpendicularDotProduct(array $A)
+    {
+        $A    = new Vector($A);
+        $A⊥   = $A->perpendicular();
+        $A⋅A⊥ = $A->dotProduct($A⊥);
+
+        $this->assertEquals(0, $A⋅A⊥);
+    }
+
+    public function dataProviderForPerpendicularIdentity()
+    {
+        return [
+            [[0, 0]],
+            [[0, 1]],
+            [[1, 0]],
+            [[1, 1]],
+            [[1, 2]],
+            [[1, 2]],
+            [[1, 3]],
+            [[1, 4]],
+            [[2, 0]],
+            [[2, 1]],
+            [[2, 2]],
+            [[2, 3]],
+            [[2, 4]],
+            [[4, 7]],
+            [[5, 3]],
+            [[-2, 1]],
+            [[2, -1]],
+            [[-2, -1]],
+            [[6, 9]],
+            [[-9, 12]],
+        ];
+    }
+
+    public function testPerpendicularExceptionNGreaterThanTwo()
+    {
+        $A = new Vector([1, 2, 3]);
+
+        $this->setExpectedException('\Exception');
+        $A->perpendicular();
     }
 }
