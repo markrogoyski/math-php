@@ -441,7 +441,7 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
         $Â        = $A->normalize();
         $expected = new Vector($expected);
 
-        $this->assertEquals($expected, $Â);
+        $this->assertEquals($expected, $Â, '', 0.00000001);
         $this->assertEquals($expected->getVector(), $Â->getVector(), '', 0.00000001);
     }
 
@@ -455,6 +455,33 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
             [
                 [3, 1, 2],
                 [0.80178372573727, 0.26726124191242, 0.53452248382485],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForPerpendicular
+     */
+    public function testPerpendicular(array $A, array $expected)
+    {
+        $A        = new Vector($A);
+        $A⊥       = $A->perpendicular();
+        $expected = new Vector($expected);
+
+        $this->assertEquals($expected, $A⊥);
+        $this->assertEquals($expected->getVector(), $A⊥->getVector());
+    }
+
+    public function dataProviderForPerpendicular()
+    {
+        return [
+            [
+                [3, 5],
+                [-5, 3],
+            ],
+            [
+                [2, 3],
+                [-3, 2],
             ],
         ];
     }
