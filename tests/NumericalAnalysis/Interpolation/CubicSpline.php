@@ -1,6 +1,8 @@
 <?php
 namespace Math\NumericalAnalysis\Interpolation;
 
+use Math\Functions\Polynomial;
+
 class CubicSplineTest extends \PHPUnit_Framework_TestCase
 {
     public function testPolynomialAgrees()
@@ -38,9 +40,7 @@ class CubicSplineTest extends \PHPUnit_Framework_TestCase
     public function testSolveZeroError()
     {
         // f(x) = 8x³ -13x² -92x + 96
-        $f = function ($x) {
-            return 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
-        };
+        $f = new Polynomial(8, -13, -92, 96);
 
         // The error in the Cubic Spline Interpolating Polynomial is proportional
         // to the max value of the 4th derivative. Thus, if our input Function
