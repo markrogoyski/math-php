@@ -128,4 +128,11 @@ class NoncentralTTest extends \PHPUnit_Framework_TestCase
             [10, 10, 10.8372230793914],
         ];
     }
+    
+    public function testMeanNAN($ν, $μ, $expected)
+    {
+        $this->assertNan(NoncentralT::mean(1, 1));
+        $this->assertNan(NoncentralT::mean(1, 2));
+        $this->assertNan(NoncentralT::mean(1, -1));
+    }
 }
