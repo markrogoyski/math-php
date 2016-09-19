@@ -187,6 +187,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *  - crossProduct
      *  - normalize
      *  - perpendicular
+     *  - projection
      **************************************************************************/
 
     /**
@@ -347,6 +348,47 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
         $A⊥ = [-$this->A[1], $this->A[0]];
 
         return new Vector($A⊥);
+    }
+
+    /**
+     * Projection of A onto B
+     * https://en.wikipedia.org/wiki/Vector_projection#Vector_projection
+     *
+     *          A⋅B
+     * projᵇA = --- B
+     *          |B|²
+     *
+     * @param Vector $B
+     *
+     * @return Vector
+     */
+    public function projection(Vector $B): Vector
+    {
+        $A⋅B  = $this->dotProduct($B);
+        $│B│² = ($B->l2norm())**2;
+
+        return $B->scalarMultiply($A⋅B / $│B│²);
+    }
+
+    /**
+     * Perpendicular of A on B
+     * https://en.wikipedia.org/wiki/Vector_projection#Vector_projection
+     *
+     *          A⋅B⊥
+     * perpᵇA = ---- B⊥
+     *          |B|²
+     *
+     * @param Vector $B
+     *
+     * @return Vector
+     */
+    public function perp(Vector $B): Vector
+    {
+        $A⋅B⊥ = $B->perpDotProduct($this);
+        $│B│² = ($B->l2norm())**2;
+        $B⊥   = $B->perpendicular();
+
+        return $B⊥->scalarMultiply($A⋅B⊥ / $│B│²);
     }
 
     /**************************************************************************
