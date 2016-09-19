@@ -334,7 +334,7 @@ $A⊥    = $A->perpendicular();
 $projᵇA = $A->projection($B);   // projection of A onto B
 $perpᵇA = $A->perp($B);         // perpendicular of A on B
 
-// Vector norms - return a vale
+// Vector norms - return a value
 $l₁norm = $A->l1Norm();
 $l²norm = $A->l2Norm();
 $pnorm  = $A->pNorm();
