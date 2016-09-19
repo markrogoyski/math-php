@@ -510,13 +510,13 @@ class Special
      *                 (a + m - 1) * (a + b + m -1) * m * (b - m) * x²
      * α₁ = 1, αm+1 = -------------------------------------------------
      *                                (a + 2m - 1)²
-     * 
-     *             m * (b - m) * x      (a + m) * (a - (a + b) * x + 1 + m * (2 - x))   
+     *
+     *             m * (b - m) * x      (a + m) * (a - (a + b) * x + 1 + m * (2 - x))
      * βm+1 = m + ------------------ + -----------------------------------------------
      *              a + 2 * m - 1                      a + 2 * m + 1
      *
      * This algorithm is valid when both a and b are greater than 1
-     * 
+     *
      * @param int $m the number of α and β parameters to calculate
      * @param  $x Upper limit of the integration 0 ≦ x ≦ 1
      * @param  $a Shape parameter a > 1
