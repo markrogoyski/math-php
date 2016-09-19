@@ -59,13 +59,17 @@ class FTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForMean()
     {
         return [
-            [1, 0, null],
-            [1, 1, null],
-            [1, 2, null],
             [1, 3, 3,],
             [1, 4, 2],
             [1, 5, 1.66666667],
             [1, 6, 1.5],
         ];
+    }
+    
+    public function testMeanNAN()
+    {
+        $this->assertNan(F::mean(1, 0));
+        $this->assertNan(F::mean(1, 1));
+        $this->assertNan(F::mean(1, 2));
     }
 }

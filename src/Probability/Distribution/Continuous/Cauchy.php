@@ -78,7 +78,7 @@ class Cauchy extends Continuous
      */
     public static function mean($x₀, $γ)
     {
-        return null;
+        return \NAN;
     }
         
     /**

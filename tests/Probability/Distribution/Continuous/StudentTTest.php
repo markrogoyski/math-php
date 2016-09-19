@@ -74,10 +74,14 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForMean()
     {
         return [
-            [1, null],
             [2, 0],
             [3, 0],
         ];
+    }
+    
+    public function testMeanNAN()
+    {
+        $this->assertNan(StudentT::mean(1));
     }
     
     /**

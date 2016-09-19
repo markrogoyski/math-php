@@ -89,7 +89,7 @@ class LogLogistic extends Continuous
             return (($α * $π) / $β) / sin($π / $β);
         }
 
-        return null;
+        return \NAN;
     }
     
     /**
