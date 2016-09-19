@@ -33,6 +33,11 @@ namespace Math\LinearAlgebra;
  *    - A⋅A⊥ = 0
  *    - A⊥⋅A = 0
  *    - A⋅A⊥ = -A⊥⋅A
+ *  - Projections / Perps
+ *    - projᵇA + perpᵇA = A
+ *    - |projᵇA|² + |perpᵇA|² = |A|²
+ *    - projᵇA ⋅ perpᵇA = 0
+ *    - |projᵇA⊥ ⋅ perpᵇA| = |projᵇA| |perpᵇA|
  */
 class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -487,5 +492,110 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
         $A⊥⋅A = $A⊥->dotProduct($A);
 
         $this->assertEquals($A⋅A⊥, -$A⊥⋅A);
+    }
+
+    /**
+     * Axiom: projᵇA + perpᵇA = A
+     * Sum of the proj and perp of A on B equals A
+     * @dataProvider dataProviderForProjPerp
+     */
+    public function testProjPerpSumEqualsA(array $A, array $B)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+
+        $projᵇA = $A->projection($B);
+        $perpᵇA = $A->perp($B);
+
+        $projᵇA＋perpᵇA = $projᵇA->add($perpᵇA);
+
+        $this->assertEquals($A, $projᵇA＋perpᵇA);
+        $this->assertEquals($A->getVector(), $projᵇA＋perpᵇA->getVector());
+    }
+
+    /**
+     * Axiom: |projᵇA|² + |perpᵇA|² = |A|²
+     * Sum of squared lengths of proj and perp equals squared length of A
+     * @dataProvider dataProviderForProjPerp
+     */
+    public function testProjPerpSumOfSquares(array $A, array $B)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+
+        $│A│²      = ($A->length())**2;
+        $│projᵇA│² = ($A->projection($B)->length())**2;
+        $│perpᵇA│² = ($A->perp($B)->length())**2;
+
+        $this->assertEquals($│A│², $│projᵇA│² + $│perpᵇA│²);
+    }
+
+    /**
+     * Axiom: projᵇA ⋅ perpᵇA = 0
+     * Dot product of proj and perp of A on B is 0
+     * @dataProvider dataProviderForProjPerp
+     */
+    public function testProjPerpDotProductEqualsZero(array $A, array $B)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+
+        $projᵇA = $A->projection($B);
+        $perpᵇA = $A->perp($B);
+
+        $projᵇA⋅perpᵇA = $projᵇA->dotProduct($perpᵇA);
+
+        $this->assertEquals(0, $projᵇA⋅perpᵇA);
+    }
+
+    /**
+     * Axiom: |projᵇA⊥ ⋅ perpᵇA| = |projᵇA| |perpᵇA|
+     * Absolute value of proj and perp dot product equals product of their lengths.
+     * @dataProvider dataProviderForProjPerp
+     */
+    public function testProjPerpPerpDotProductEqualsProductOfLengths(array $A, array $B)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+
+        $projᵇA  = $A->projection($B);
+        $projᵇA⊥ = $A->projection($B)->perpendicular();
+        $perpᵇA  = $A->perp($B);
+
+        $projᵇA⊥⋅perpᵇA = abs($projᵇA⊥->dotProduct($perpᵇA));
+        $│projᵇA│       = $projᵇA->length();
+        $│perpᵇA│       = $perpᵇA->length();
+
+        $this->assertEquals($projᵇA⊥⋅perpᵇA, $│projᵇA│ * $│perpᵇA│);
+    }
+
+    public function dataProviderForProjPerp()
+    {
+        return [
+            [
+                [1, 2],
+                [2, 3],
+            ],
+            [
+                [2, 2],
+                [2, 7],
+            ],
+            [
+                [1, 1],
+                [2, 2],
+            ],
+            [
+                [2, 2],
+                [1, 1],
+            ],
+            [
+                [5, 9],
+                [12, 8],
+            ],
+            [
+                [5, 2],
+                [3, 3],
+            ],
+        ];
     }
 }
