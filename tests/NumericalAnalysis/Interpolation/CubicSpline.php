@@ -90,4 +90,75 @@ class CubicSplineTest extends \PHPUnit_Framework_TestCase
         $actual = $p(-99);
         $this->assertEquals($expected, $actual, '', $roundoff);
     }
+
+    public function testSolveNonzeroError()
+    {
+        // f(x) = x⁴ + 8x³ -13x² -92x + 96
+        $f = function ($x) {
+            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+        };
+
+        // The error is bounded by:
+        // |f(x)-p(x)| = tol <= (5/384) * h⁴ * max f⁽⁴⁾(x)
+        // where h = max hᵢ
+
+        // f'(x)  = 4x³ +24x² -26x - 92
+        // f''(x) = 12x² - 48x - 26
+        // f'''(x) = 24x - 48
+        // f⁽⁴⁾(x) = 24
+
+        $a = 0;
+        $b = 9;
+        $n = 4;
+
+        // So, tol <= (5/384) * 3⁴ * 24 = 9720 / 384
+
+        $tol = 9720 / 384;
+        $roundoff = 0.000001; // round off error
+
+        $p = CubicSpline::interpolate($f, $a, $b, $n);
+
+        // Check that p(x) agrees with f(x) at x = 0
+
+        $target = 0;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+
+        // Check that p(x) agrees with f(x) at x = 2
+        $target = 2;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+
+        // Check that p(x) agrees with f(x) at x = 4
+        $target = 4;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+
+        // Check that p(x) agrees with f(x) at x = 6
+        $target = 6;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+
+        // Check that p(x) agrees with f(x) at x = 8
+        $target = 8;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+
+        // Check that p(x) agrees with f(x) at x = 10
+        $target = 10;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+
+        // Check that p(x) agrees with f(x) at x = -99
+        $target = -99;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+    }
 }
