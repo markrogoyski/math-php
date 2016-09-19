@@ -319,6 +319,7 @@ $item = $A->get(2);
 
 // Vector operations - return a value
 $sum    = $A->sum();
+$│A│    = $A->length();          // same as l2Norm
 $A⋅B    = $A->dotProduct($B);    // same as innerProduct
 $A⋅B    = $A->innerProduct($B);  // same as dotProduct
 
@@ -326,8 +327,10 @@ $A⋅B    = $A->innerProduct($B);  // same as dotProduct
 $kA   = $A->scalarMultiply(5);
 $A＋B = $A->add($B);
 $A−B  = $A->subtract($B);
+$A／k = $A->scalarDivide(5);
 $A⨂B = $A->outerProduct(new Vector([1, 2]));
 $AxB  = $A->crossProduct($B);
+$Â    = $A->normalize();
 
 // Vector norms - return a vale
 $l₁norm = $A->l1Norm();

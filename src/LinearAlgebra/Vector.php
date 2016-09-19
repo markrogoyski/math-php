@@ -110,6 +110,17 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Vector length (magnitude)
+     * Same as l2-norm
+     *
+     * @return number
+     */
+    public function length()
+    {
+        return $this->l2norm();
+    }
+
+    /**
      * Dot product (inner product) (A⋅B)
      * https://en.wikipedia.org/wiki/Dot_product
      *
@@ -209,6 +220,19 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Scalar divide
+     * kA = [k / a₁, k / a₂, k / a₃ ...]
+     *
+     * @param number $k Scale factor
+     *
+     * @return Vector
+     */
+    public function scalarDivide($k)
+    {
+        return new Vector(Map\Single::divide($this->A, $k));
+    }
+
+    /**
      * Outer product (A⨂B)
      * https://en.wikipedia.org/wiki/Outer_product
      *
@@ -256,6 +280,27 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
         $s3 =   ($this->A[0] * $B[1]) - ($this->A[1] * $B[0]);
 
         return new Vector([$s1, $s2, $s3]);
+    }
+
+    /**
+     * Normalize (Â)
+     * The normalized vector Â is a vector in the same direction of A
+     * but with a norm (length) of 1. It is a unit vector.
+     * http://mathworld.wolfram.com/NormalizedVector.html
+     *
+     *      A
+     * Â ≡ ---
+     *     |A|
+     *
+     *  where |A| is the l²-norm (|A|₂)
+     *
+     * @return Vector
+     */
+    public function normalize(): Vector
+    {
+        $│A│ = $this->l2norm();
+
+        return $this->scalarDivide($│A│);
     }
 
     /**************************************************************************

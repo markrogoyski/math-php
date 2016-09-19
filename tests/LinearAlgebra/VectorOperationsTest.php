@@ -251,6 +251,65 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForScalarDivide
+     */
+    public function testScalarDivide(array $A, $k, array $R)
+    {
+        $A    = new Vector($A);
+        $A／k = $A->scalarDivide($k);
+        $R    = new Vector($R);
+
+        $this->assertEquals($R, $A／k);
+        $this->assertEquals($R->getVector(), $A／k->getVector());
+    }
+
+    public function dataProviderForScalarDivide()
+    {
+        return [
+            [
+                [],
+                2,
+                [],
+            ],
+            [
+                [1],
+                2,
+                [1/2],
+            ],
+            [
+                [2, 4],
+                2,
+                [1, 2],
+            ],
+            [
+                [1, 2, 3],
+                2,
+                [1/2, 1, 3/2],
+            ],
+            [
+                [5, 10, 15, 20, 25],
+                5,
+                [1, 2, 3, 4, 5],
+            ],
+            [
+                [0, 0, 0, 0, 0],
+                47,
+                [0, 0, 0, 0, 0],
+            ],
+            [
+                [-2, -4, -6, -8, -10],
+                -2,
+                [1, 2, 3, 4, 5],
+            ],
+            [
+                [1, 2, 3, 4, 5],
+                0.2,
+                [5, 10, 15, 20, 25],
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForAdd
      */
     public function testAdd(array $A, array $B, array $R)
@@ -346,5 +405,57 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('\Exception');
         $A->subtract($B);
+    }
+
+    /**
+     * @dataProvider dataProviderForLength
+     */
+    public function testLength(array $A, $l²norm)
+    {
+        $A = new Vector($A);
+
+        $this->assertEquals($l²norm, $A->length(), '', 0.0001);
+    }
+
+    public function dataProviderForLength()
+    {
+        return [
+            [ [1, 2, 3], 3.7416573867739413 ],
+            [ [7, 5, 5], 9.9498743710662 ],
+            [ [3, 3, 3], 5.196152422706632 ],
+            [ [2, 2, 2], 3.4641016151377544 ],
+            [ [1, 1, 1], 1.7320508075688772 ],
+            [ [0, 0, 0], 0 ],
+            [ [1, 0, 0], 1 ],
+            [ [1, 1, 0], 1.4142135623730951 ],
+            [ [-1, 1, 0], 1.4142135623730951 ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForNormalize
+     */
+    public function testNormalize(array $A, array $expected)
+    {
+        $A        = new Vector($A);
+        $Â        = $A->normalize();
+        $expected = new Vector($expected);
+
+        $this->assertEquals($expected, $Â);
+        $this->assertEquals($expected->getVector(), $Â->getVector(), '', 0.00000001);
+    }
+
+    public function dataProviderForNormalize()
+    {
+        return [
+            [
+                [3, 5],
+                [0.51449575542753, 0.85749292571254],
+            ],
+            [
+                [3, 1, 2],
+                [0.80178372573727, 0.26726124191242, 0.53452248382485],
+            ],
+        ];
     }
 }
