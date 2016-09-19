@@ -667,6 +667,12 @@ list($x, $σ, $μ) = [2, 1, 0];
 $pdf = Normal::PDF($x, $μ, $σ);
 $cdf = Normal::CDF($x, $μ, $σ);
 
+// Noncentral T distribution
+list($x, $ν, $μ) = [8, 50, 10];
+$pdf  = NoncentralT::PDF($x, $ν, $μ);
+$cdf  = NoncentralT::CDF($x, $ν, $μ);
+$mean = NoncentralT::mean($ν, $μ);
+
 // Pareto distribution
 $x   = 2;
 $a   = 1; // shape parameter
