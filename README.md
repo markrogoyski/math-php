@@ -303,7 +303,7 @@ $Aᵢⱼ  = $A[$mᵢ][$nⱼ];    // ArrayAccess
 ```php
 use Math\LinearAlgebra\Vector;
 
-$vector = [1, 2, 3];
+$vector = [1, 2];
 
 // Vector
 $A = new Vector($vector);
@@ -331,6 +331,7 @@ $A／k = $A->scalarDivide(5);
 $A⨂B = $A->outerProduct(new Vector([1, 2]));
 $AxB  = $A->crossProduct($B);
 $Â    = $A->normalize();
+$A⊥   = $A->perpendicular();
 
 // Vector norms - return a vale
 $l₁norm = $A->l1Norm();
