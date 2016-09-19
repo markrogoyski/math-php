@@ -485,4 +485,49 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    public function testPerpendicularExceptionNGreaterThanTwo()
+    {
+        $A = new Vector([1, 2, 3]);
+
+        $this->setExpectedException('\Exception');
+        $A->perpendicular();
+    }
+
+    /**
+     * @dataProvider dataProviderForPerpDotProduct
+     */
+    public function testPerpDotProduct(array $A, array $B, $expected)
+    {
+        $A        = new Vector($A);
+        $B        = new Vector($B);
+        $A⊥⋅B     = $A->perpDotProduct($B);
+
+        $this->assertEquals($expected, $A⊥⋅B);
+    }
+
+    public function dataProviderForPerpDotProduct()
+    {
+        return [
+            [
+                [3, -2],
+                [1, 2],
+                8,
+            ],
+            [
+                [2, 0],
+                [-1, 3],
+                6
+            ],
+        ];
+    }
+
+    public function testPerpDotProductExceptionNNotBothTwo()
+    {
+        $A = new Vector([1, 2, 3]);
+        $B = new Vector([1, 2, 3]);
+
+        $this->setExpectedException('\Exception');
+        $A->perpDotProduct($B);
+    }
 }
