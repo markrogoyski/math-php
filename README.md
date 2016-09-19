@@ -323,14 +323,16 @@ $A⋅B  = $A->innerProduct($B);   // same as dotProduct
 $A⊥⋅B = $A->perpDotProduct($B);
 
 // Vector operations - return a Vector or Matrix
-$kA   = $A->scalarMultiply($k);
-$A＋B = $A->add($B);
-$A−B  = $A->subtract($B);
-$A／k = $A->scalarDivide($k);
-$A⨂B = $A->outerProduct($B);
-$AxB  = $A->crossProduct($B);
-$Â    = $A->normalize();
-$A⊥   = $A->perpendicular();
+$kA    = $A->scalarMultiply($k);
+$A＋B  = $A->add($B);
+$A−B   = $A->subtract($B);
+$A／k  = $A->scalarDivide($k);
+$A⨂B  = $A->outerProduct($B);
+$AxB   = $A->crossProduct($B);
+$Â     = $A->normalize();
+$A⊥    = $A->perpendicular();
+$projᵇA = $A->projection($B);   // projection of A onto B
+$perpᵇA = $A->perp($B);         // perpendicular of A on B
 
 // Vector norms - return a vale
 $l₁norm = $A->l1Norm();
