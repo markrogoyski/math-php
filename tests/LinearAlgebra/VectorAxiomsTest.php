@@ -488,6 +488,4 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($A⋅A⊥, -$A⊥⋅A);
     }
-
-
 }
