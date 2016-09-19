@@ -164,6 +164,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *  - outerProduct
      *  - crossProduct
      *  - normalize
+     *  - perpendicular
      **************************************************************************/
 
     /**
@@ -303,6 +304,27 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
         $│A│ = $this->l2norm();
 
         return $this->scalarDivide($│A│);
+    }
+
+    /**
+     * Perpendicular (A⊥)
+     * A vector perpendicular to A (A-perp) with the length that is rotated 90º
+     * counter clockwise.
+     *
+     *     [a]       [-b]
+     * A = [b]  A⊥ = [a]
+     *
+     * @return Vector
+     */
+    public function perpendicular(): Vector
+    {
+        if ($this->n !== 2) {
+            throw new \Exception('Perpendicular operation only makes sense for 2D vector. 3D and higher vectors have infinite perpendular vectors.');
+        }
+
+        $A⊥ = [-$this->A[1], $this->A[0]];
+
+        return new Vector($A⊥);
     }
 
     /**************************************************************************
