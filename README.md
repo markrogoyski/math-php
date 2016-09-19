@@ -316,10 +316,11 @@ $M     = $A->asColumnMatrix(); // Vector as an nx1 matrix
 $item = $A->get(1);
 
 // Vector operations - return a value
-$sum = $A->sum();
-$│A│ = $A->length();          // same as l2Norm
-$A⋅B = $A->dotProduct($B);    // same as innerProduct
-$A⋅B = $A->innerProduct($B);  // same as dotProduct
+$sum  = $A->sum();
+$│A│  = $A->length();           // same as l2Norm
+$A⋅B  = $A->dotProduct($B);     // same as innerProduct
+$A⋅B  = $A->innerProduct($B);   // same as dotProduct
+$A⊥⋅B = $A->perpDotProduct($B);
 
 // Vector operations - return a Vector or Matrix
 $kA   = $A->scalarMultiply($k);
