@@ -147,6 +147,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     /**************************************************************************
      * VECTOR OPERATIONS - Return a Vector or Matrix
      *  - add
+     *  - subtract
      *  - scalarMultiply
      *  - outerProduct
      *  - crossProduct
