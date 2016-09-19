@@ -77,7 +77,9 @@ class NoncentralT extends Continuous
     public static function CDF($x, int $ν, $μ)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν, 'μ' => $μ]);
-        if ($μ == 0) return StudentT::CDF($x, $ν);
+        if ($μ == 0) {
+            return StudentT::CDF($x, $ν);
+        }
         if ($x >= 0) {
             return self::F($x, $ν, $μ);
         }
