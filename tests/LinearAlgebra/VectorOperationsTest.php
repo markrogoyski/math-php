@@ -530,4 +530,89 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         $A->perpDotProduct($B);
     }
+
+    /**
+     * @dataProvider dataProviderForProjection
+     */
+    public function testProjection(array $A, array $B, array $expected)
+    {
+        $A        = new Vector($A);
+        $B        = new Vector($B);
+        $projₐb   = $A->projection($B);
+        $expected = new Vector($expected);
+
+        $this->assertEquals($expected, $projₐb);
+        $this->assertEquals($expected->getVector(), $projₐb->getVector());
+    }
+
+    public function dataProviderForProjection()
+    {
+        return [
+            [
+                [2, 4],
+                [5, 3],
+                [3.2352941176468, 1.94117647058808],
+            ],
+            [
+                [1, 2, 3],
+                [4, 5, 6],
+                [128/77, 160/77, 192/77],
+            ],
+            [
+                [4, 5, 6],
+                [1, 2, 3],
+                [16/7, 32/7, 48/7],
+            ],
+            [
+                [2, 9, -4],
+                [-1, 5, 5],
+                [-23/51, 115/51, 115/51],
+            ],
+            [
+                [1, 1, 1],
+                [1, 1, 1],
+                [1, 1, 1],
+            ],
+            [
+                [1, 1, 1],
+                [2, 2, 2],
+                [1, 1, 1],
+            ],
+            [
+                [2, 2, 2],
+                [1, 1, 1],
+                [2, 2, 2],
+            ],
+            [
+                [1, 2, 1],
+                [2, 1, 2],
+                [4/3, 2/3, 4/3],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForPerp
+     */
+    public function testPerp(array $A, array $B, array $expected)
+    {
+        $A        = new Vector($A);
+        $B        = new Vector($B);
+        $perpₐb   = $A->perp($B);
+        $expected = new Vector($expected);
+
+        $this->assertEquals($expected, $perpₐb);
+        $this->assertEquals($expected->getVector(), $perpₐb->getVector());
+    }
+
+    public function dataProviderForPerp()
+    {
+        return [
+            [
+                [2, 4],
+                [5, 3],
+                [-1.23529411764, 2.0588235294],
+            ],
+        ];
+    }
 }
