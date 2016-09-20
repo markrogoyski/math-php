@@ -18,9 +18,13 @@ namespace Math\LinearAlgebra;
  *    - 0⋅A = A⋅0 = 0
  *  - Cross product
  *    - A x B = -(B x A)
+ *    - A x 0 = 0
+ *    - A x (B + C) = (A x B) + (A x C)
  *  - Cross product / dot product
  *    - (A x B) ⋅ A = 0
  *    - (A x B) ⋅ B = 0
+ *    - A ⋅ (B x C) = (A x B) ⋅ C
+ *    - A x (B x C) = (A ⋅ C)B - (A ⋅ B)C
  *  - Outer product
  *    - A⨂B = ABᵀ
  *  - Scalar multiplication
@@ -199,7 +203,7 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Axiom: A x B = -(B x A)
-     * Reverse order cross product results in a negative cross product
+     * Anticommutivity: Reverse order cross product results in a negative cross product
      * @dataProvider dataProviderForCrossProduct
      */
     public function testReverseCrossProduct(array $A, array $B)
@@ -213,6 +217,106 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($AxB[0], -$BxA[0]);
         $this->assertEquals($AxB[1], -$BxA[1]);
         $this->assertEquals($AxB[2], -$BxA[2]);
+    }
+
+    /**
+     * Axiom: A x 0 = 0
+     * Cross product property of 0
+     * @dataProvider dataProviderForCrossProduct
+     */
+    public function testCrossProductPropertyOfZero(array $A, array $_)
+    {
+        $A    = new Vector($A);
+        $zero = new Vector(array_fill(0, $A->getN(), 0));
+
+        $Ax0 = $A->crossProduct($zero);
+
+        $this->assertEquals($zero, $Ax0);
+        $this->assertEquals($zero->getVector(), $Ax0->getVector());
+    }
+
+    /**
+     * Axiom: A x (B + C) = (A x B) + (A x C)
+     * Cross product distributivity
+     * @dataProvider dataProviderForCrossProductThreeVectors
+     */
+    public function testCrossProductDistributivity(array $A, array $B, array $C)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+        $C = new Vector($C);
+
+        $Ax⟮B＋C⟯    = $A->crossProduct($B->add($C));
+        $⟮AxB⟯＋⟮AxC⟯ = $A->crossProduct($B)->add($A->crossProduct($C));
+
+        $this->assertEquals($Ax⟮B＋C⟯, $⟮AxB⟯＋⟮AxC⟯);
+        $this->assertEquals($Ax⟮B＋C⟯->getVector(), $⟮AxB⟯＋⟮AxC⟯->getVector());
+    }
+
+    public function dataProviderForCrossProductThreeVectors()
+    {
+        return [
+            [
+                [1, 2, 3],
+                [4, 5, 6],
+                [5, 6, 7],
+            ],
+            [
+                [1, 2, 3],
+                [4, -5, 6],
+                [5, 6, 7],
+            ],
+            [
+                [-1, 2, -3],
+                [4,-5,6],
+                [5, 6, 7],
+            ],
+            [
+                [0,0,0],
+                [0,0,0],
+                [0, 0, 0],
+            ],
+            [
+                [4, 5, 6],
+                [7, 8, 9],
+                [5, 6, 7],
+            ],
+            [
+                [4, 9, 3],
+                [12, 11, 4],
+                [9, 6, 5],
+            ],
+            [
+                [-4, 9, 3],
+                [12, 11, 4],
+                [2, 6, 7],
+            ],
+            [
+                [4, -9, 3],
+                [12, 11, 4],
+                [5, 3, 7],
+            ],
+            [
+                [4, 9, -3],
+                [12, 11, 4],
+                [1, 6, 7],
+            ],
+            [
+                [4, 9, 3],
+                [-12, 11, 4],
+                [6, 6, 0],
+            ],
+            [
+                [4, 9, 3],
+                [12, -11, 4],
+                [5, 6, 7],
+            ],
+            [
+                [4, 9, 3],
+                [12, 11, -4],
+                [1, 2, -7],
+            ],
+        ];
     }
 
     /**
@@ -284,6 +388,42 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
                 [12, 11, -4],
             ],
         ];
+    }
+
+    /**
+     * Axiom: A ⋅ (B x C) = (A x B) ⋅ C
+     * Cross product volumn property
+     * @dataProvider dataProviderForCrossProductThreeVectors
+     */
+    public function testCrossProductVolumeProperty(array $A, array $B, array $C)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+        $C = new Vector($C);
+
+        $A⋅⟮BxC⟯ = $A->dotProduct($B->crossProduct($C));
+        $⟮AxB⟯⋅C = $A->crossProduct($B)->dotProduct($C);
+
+        $this->assertEquals($A⋅⟮BxC⟯, $⟮AxB⟯⋅C);
+    }
+
+    /**
+     * Axiom: A x (B x C) = (A ⋅ C)B - (A ⋅ B)C
+     * Lagrange's formula
+     * @dataProvider dataProviderForCrossProductThreeVectors
+     */
+    public function testCrossProductLagrangeFormula(array $A, array $B, array $C)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+        $C = new Vector($C);
+
+        $Ax⟮BxC⟯ = $A->crossProduct($B->crossProduct($C));
+        $⟮A⋅C⟯B = $B->scalarMultiply($A->dotProduct($C));
+        $⟮A⋅B⟯C = $C->scalarMultiply($A->dotProduct($B));
+        $⟮A⋅B⟯B−⟮A⋅B⟯C = $⟮A⋅C⟯B->subtract($⟮A⋅B⟯C);
+
+        $this->assertEquals($Ax⟮BxC⟯, $⟮A⋅B⟯B−⟮A⋅B⟯C);
     }
 
     /**
