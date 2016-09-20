@@ -30,7 +30,7 @@ Features
  * Sequences
      - [Basic](#sequences---basic)
      - [Advanced](#sequences---advanced)
- * [Set Theory](#set---theory)
+ * [Set Theory](#set-theory)
  * Statistics
      - [ANOVA](#statistics---anova)
      - [Averages](#statistics---averages)
