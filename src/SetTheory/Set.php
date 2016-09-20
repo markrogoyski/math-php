@@ -97,7 +97,6 @@ class Set implements \Countable, \Iterator
     /**************************************************************************
      * GET SET CONTENTS
      *  - Array
-     *  - Hash
      *  - Length
      **************************************************************************/
 
@@ -164,7 +163,7 @@ class Set implements \Countable, \Iterator
     }
 
     /**************************************************************************
-     * SINGLE MEMBER OPERATIONS
+     * MEMBER OPERATIONS
      *  - Add
      *  - Add multi
      *  - Remove
