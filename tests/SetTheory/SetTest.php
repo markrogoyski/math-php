@@ -15,6 +15,14 @@ class SetTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Math\SetTheory\Set', $set);
     }
 
+    public function testInterfaces()
+    {
+        $interfaces = class_implements('\Math\SetTheory\Set');
+
+        $this->assertContains('Countable', $interfaces);
+        $this->assertContains('Iterator', $interfaces);
+    }
+
     /**
      * @dataProvider dataProviderForAsArray
      */
