@@ -421,9 +421,10 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
         $Ax⟮BxC⟯ = $A->crossProduct($B->crossProduct($C));
         $⟮A⋅C⟯B = $B->scalarMultiply($A->dotProduct($C));
         $⟮A⋅B⟯C = $C->scalarMultiply($A->dotProduct($B));
-        $⟮A⋅B⟯B−⟮A⋅B⟯C = $⟮A⋅C⟯B->subtract($⟮A⋅B⟯C);
+        $⟮A⋅C⟯B−⟮A⋅B⟯C = $⟮A⋅C⟯B->subtract($⟮A⋅B⟯C);
 
-        $this->assertEquals($Ax⟮BxC⟯, $⟮A⋅B⟯B−⟮A⋅B⟯C);
+        $this->assertEquals($Ax⟮BxC⟯, $⟮A⋅C⟯B−⟮A⋅B⟯C);
+        $this->assertEquals($Ax⟮BxC⟯->getVector(), $⟮A⋅C⟯B−⟮A⋅B⟯C->getVector());
     }
 
     /**
