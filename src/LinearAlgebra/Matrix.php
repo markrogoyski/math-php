@@ -458,7 +458,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $matrices = [];
         foreach ($arrays as $row) {
             $initial_matrix = array_shift($row);
-            $matrices[] = array_reduce($row,
+            $matrices[] = array_reduce(
+                $row,
                 function ($augmented_matrix, $matrix) {
                     return $augmented_matrix->augment($matrix);
                 },
@@ -468,7 +469,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         // Augment below each row block a₁ to am
         $initial_matrix = array_shift($matrices);
-        $A⊗B            = array_reduce($matrices,
+        $A⊗B            = array_reduce(
+            $matrices,
             function ($augmented_matrix, $matrix) {
                 return $augmented_matrix->augmentBelow($matrix);
             },
