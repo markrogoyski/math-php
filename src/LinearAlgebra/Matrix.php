@@ -640,7 +640,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
     /**
      * Augment a matrix from below
-     * An augmented matrix is a matrix obtained by appending the columns of two given matrices
+     * An augmented matrix is a matrix obtained by appending the rows of two given matrices
      *
      *     [1, 2, 3]
      * A = [2, 3, 4]
