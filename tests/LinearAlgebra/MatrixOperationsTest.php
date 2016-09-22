@@ -773,6 +773,110 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForAugmentBelow
+     */
+    public function testAugmentBelow(array $A, array $B, array $⟮A∣B⟯)
+    {
+        $A    = MatrixFactory::create($A);
+        $B    = MatrixFactory::create($B);
+        $⟮A∣B⟯ = MatrixFactory::create($⟮A∣B⟯);
+
+        $this->assertEquals($⟮A∣B⟯, $A->augmentBelow($B));
+    }
+
+    public function dataProviderForAugmentBelow()
+    {
+        return [
+            [
+                [
+                    [1],
+                ],
+                [
+                    [2],
+                ],
+                [
+                    [1],
+                    [2],
+                ],
+            ],
+            [
+                [
+                    [1],
+                    [2],
+                ],
+                [
+                    [3],
+                ],
+                [
+                    [1],
+                    [2],
+                    [3],
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [2, 3],
+                ],
+                [
+                    [3, 4],
+                ],
+                [
+                    [1, 2],
+                    [2, 3],
+                    [3, 4],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                ],
+                [
+                    [3, 4, 5],
+                ],
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                ],
+                [
+                    [3, 4, 5],
+                    [4, 5, 6]
+                ],
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                    [4, 5, 6],
+                ],
+            ],
+        ];
+    }
+
+    public function testAugmentBelowExceptionColumnssDoNotMatch()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $B = MatrixFactory::create([
+            [4, 5],
+            [5, 6],
+        ]);
+
+        $this->setExpectedException('\Exception');
+        $A->augmentBelow($B);
+    }
+
+    /**
      * @dataProvider dataProviderForHadamardProduct
      */
     public function testHadamardProduct(array $A, array $B, array $A∘B)
@@ -839,175 +943,103 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         $A->hadamardProduct($B);
     }
 
-    public function testToString()
-    {
-        $string = $this->matrix->__toString();
-        $this->assertTrue(is_string($string));
-        $this->assertEquals(
-            "[1, 2, 3]\n[2, 3, 4]\n[4, 5, 6]",
-            $string
-        );
-    }
-
     /**
-     * @dataProvider dataProviderForLUDecomposition
-     * Unit test data created from online calculator: https://www.easycalculation.com/matrix/lu-decomposition-matrix.php
+     * @dataProvider dataProviderForKroneckerProduct
      */
-    public function testLUDecomposition(array $A, array $L, array $U, array $P)
+    public function testKroneckerProduct(array $A, array $B, array $expected)
     {
-        $A = MatrixFactory::create($A);
-        $L = MatrixFactory::create($L);
-        $U = MatrixFactory::create($U);
-        $P = MatrixFactory::create($P);
+        $A        = new Matrix($A);
+        $B        = new Matrix($B);
+        $A⊗B      = $A->kroneckerProduct($B);
+        $expected = new Matrix($expected);
 
-        $LU = $A->LUDecomposition();
-
-        $this->assertEquals($L, $LU['L'], '', 0.004);
-        $this->assertEquals($U, $LU['U'], '', 0.004);
-        $this->assertEquals($P, $LU['P'], '', 0.004);
+        $this->assertEquals($expected->getMatrix(), $A⊗B->getMatrix());
     }
 
-    public function dataProviderForLUDecomposition()
+    public function dataProviderForKroneckerProduct()
     {
         return [
             [
                 [
-                    [4, 3],
-                    [6, 3],
+                    [1, 2],
+                    [3, 4],
                 ],
                 [
-                    [1, 0],
-                    [0.667, 1],
+                    [0, 5],
+                    [6, 7],
                 ],
                 [
-                    [6, 3],
-                    [0, 1],
-                ],
-                [
-                    [0, 1],
-                    [1, 0],
+                    [0, 5, 0, 10],
+                    [6, 7, 12, 14],
+                    [0, 15, 0, 20],
+                    [18, 21, 24, 28],
                 ],
             ],
             [
                 [
-                    [1, 3, 5],
-                    [2, 4, 7],
-                    [1, 1, 0],
+                    [1, 1],
+                    [1, -1],
                 ],
                 [
-                    [1, 0, 0],
-                    [.5, 1, 0],
-                    [.5, -1, 1],
+                    [1, 1],
+                    [1, -1],
                 ],
                 [
-                    [2, 4, 7],
-                    [0, 1, 1.5],
-                    [0, 0, -2],
-                ],
-                [
-                    [0, 1, 0],
-                    [1, 0, 0],
-                    [0, 0, 1],
-                ]
-            ],
-            [
-                [
-                    [1, -2, 3],
-                    [2, -5, 12],
-                    [0, 2, -10],
-                ],
-                [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [0.5, 0.25, 1],
-                ],
-                [
-                    [2, -5, 12],
-                    [0, 2, -10],
-                    [0, 0, -0.5],
-                ],
-                [
-                    [0, 1, 0],
-                    [0, 0, 1],
-                    [1, 0, 0],
+                    [1, 1, 1, 1],
+                    [1, -1, 1, -1],
+                    [1, 1, -1, -1],
+                    [1, -1, -1, 1],
                 ],
             ],
             [
                 [
-                    [5, 4, 8, 9],
-                    [9, 9, 9, 9],
-                    [4, 5, 5, 7],
-                    [1, 9, 8, 7],
+                    [1, 2, 3],
+                    [4, 5, 6],
                 ],
                 [
-                    [1, 0, 0, 0],
-                    [.556, 1, 0, 0],
-                    [.111, -8, 1, 0],
-                    [.444, -1, .129, 1],
+                    [7, 8],
+                    [9, 10],
                 ],
                 [
-                    [9, 9, 9, 9],
-                    [0, -1, 3, 4],
-                    [0, 0, 31, 38],
-                    [0, 0, 0, 2.097],
-                ],
-                [
-                    [0, 1, 0, 0],
-                    [1, 0, 0, 0],
-                    [0, 0, 0, 1],
-                    [0, 0, 1, 0],
+                    [7, 8, 14, 16, 21, 24],
+                    [9, 10, 18, 20, 27, 30],
+                    [28, 32, 35, 40, 42, 48],
+                    [36, 40, 45, 50, 54, 60],
                 ],
             ],
             [
                 [
-                    [2, 1, 1, 0],
-                    [4, 3, 3, 1],
-                    [8, 7, 9, 5],
-                    [6, 7, 9, 8],
+                    [2, 3],
+                    [5, 4],
                 ],
                 [
-                    [1, 0, 0, 0],
-                    [0.25, 1, 0, 0],
-                    [0.5, 0.667, 1, 0],
-                    [0.75, -2.333, 1, 1],
+                    [5, 5],
+                    [4, 4],
+                    [2, 9]
                 ],
                 [
-                    [8, 7, 9, 5],
-                    [0, -0.75, -1.25, -1.25],
-                    [0, 0, -0.667, -0.667],
-                    [0, 0, 0, 2],
-                ],
-                [
-                    [0, 0, 1, 0],
-                    [1, 0, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 0, 0, 1],
+                    [10, 10, 15, 15],
+                    [8, 8, 12, 12],
+                    [4, 18, 6, 27],
+                    [25, 25, 20, 20],
+                    [20, 20, 16, 16],
+                    [10, 45, 8, 36],
                 ],
             ],
             [
                 [
-                    [11, 9, 24, 2],
-                    [1, 5, 2, 6],
-                    [3, 17, 18, 1],
-                    [2, 5, 7, 1],
+                    [2, 3],
+                    [5, 4],
                 ],
                 [
-                    [1, 0, 0, 0],
-                    [.27273, 1, 0, 0],
-                    [.09091, .28750, 1, 0],
-                    [.18182, .23125, .00360, 1],
+                    [5, 4, 2],
+                    [5, 4, 9],
                 ],
                 [
-                    [11, 9, 24, 2],
-                    [0, 14.54545, 11.45455, 0.45455],
-                    [0, 0, -3.47500, 5.68750],
-                    [0, 0, 0, 0.51079],
-                ],
-                [
-                    [1, 0, 0, 0],
-                    [0, 0, 1, 0],
-                    [0, 1, 0, 0],
-                    [0, 0, 0, 1],
+                    [10, 8, 4, 15, 12, 6],
+                    [10, 8, 18, 15, 12, 27],
+                    [25, 20, 10, 20, 16, 8],
+                    [25, 20, 45, 20, 16, 36],
                 ],
             ],
         ];
