@@ -314,6 +314,7 @@ $B = new Vector([2, 4]);
 $array = $A->getVector();
 $n     = $A->getN();           // number of elements
 $M     = $A->asColumnMatrix(); // Vector as an nx1 matrix
+$M     = $A->asRowMatrix();    // Vector as a 1xn matrix
 
 // Basic vector elements (zero-based indexing)
 $item = $A->get(1);
@@ -332,6 +333,7 @@ $A−B   = $A->subtract($B);
 $A／k  = $A->scalarDivide($k);
 $A⨂B  = $A->outerProduct($B);
 $AxB   = $A->crossProduct($B);
+$AB    = $A->directProduct($B);
 $Â     = $A->normalize();
 $A⊥    = $A->perpendicular();
 $projᵇA = $A->projection($B);   // projection of A onto B
