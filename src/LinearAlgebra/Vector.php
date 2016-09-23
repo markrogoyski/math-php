@@ -36,6 +36,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *  - getN
      *  - get
      *  - asColumnMatrix
+     *  - as RowMatrix
      **************************************************************************/
 
     /**
@@ -93,12 +94,29 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
         return new Matrix($matrix);
     }
 
+    /**
+     * Get the vector as a 1xn row matrix
+     *
+     * Example:
+     *  V = [1, 2, 3]
+     *  R = [
+     *   [1, 2, 3]
+     *  ]
+     *
+     * @return Matrix
+     */
+    public function asRowMatrix()
+    {
+        return new Matrix([$this->A]);
+    }
+
     /**************************************************************************
      * VECTOR OPERATIONS - Return a number
      *  - sum
      *  - length (magnitude)
      *  - dotProduct (innerProduct)
      *  - perpDotProduct
+     *  - directProduct (dyadic)
      **************************************************************************/
 
     /**
@@ -176,6 +194,25 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
         $A⊥ = $this->perpendicular();
 
         return $A⊥->dotProduct($B);
+    }
+
+    /**
+     * Direct product (dyadic)
+     *
+     *            [A₁]              [A₁B₁ A₁B₂ A₁B₃]
+     * AB = ABᵀ = [A₂] [B₁ B₂ B₃] = [A₂B₁ A₂B₂ A₂B₃]
+     *            [A₃]              [A₃B₁ A₃B₂ A₃B₃]
+     *
+     * @param Vector $B
+     *
+     * @return Matrix
+     */
+    public function directProduct(Vector $B): Matrix
+    {
+        $A  = $this->asColumnMatrix();
+        $Bᵀ = $B->asRowMatrix();
+
+        return $A->kroneckerProduct($Bᵀ);
     }
 
     /**************************************************************************
