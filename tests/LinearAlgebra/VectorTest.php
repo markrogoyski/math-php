@@ -142,6 +142,54 @@ class VectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForAsRowMatrix
+     */
+    public function testAsRowMatrix(array $A, array $R)
+    {
+        $A = new Vector($A);
+        $R = new Matrix($R);
+        $M = $A->asRowMatrix();
+
+        $this->assertEquals($R, $M);
+    }
+
+    public function dataProviderForAsRowMatrix()
+    {
+        return [
+            [
+                [],
+                [
+                    [],
+                ],
+            ],
+            [
+                [1],
+                [
+                    [1],
+                ],
+            ],
+            [
+                [1, 2],
+                [
+                    [1, 2],
+                ],
+            ],
+            [
+                [1, 2, 3],
+                [
+                    [1, 2, 3],
+                ],
+            ],
+            [
+                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                [
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                ],
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForCountable
      */
     public function testCountableInterface(array $A, $n)
