@@ -5,7 +5,7 @@ use Math\Functions\Polynomial;
 use Math\Functions\Piecewise;
 
 /**
- * Cubic Spline Interpolating Polyonomial
+ * Natural Cubic Spline Interpolating Polyonomial
  *
  * In numerical analysis, cubic splines are used for polynomial
  * interpolation.
@@ -22,7 +22,7 @@ use Math\Functions\Piecewise;
  * https://en.wikipedia.org/wiki/Spline_interpolation
  * http://mathworld.wolfram.com/CubicSpline.html
  */
-class CubicSpline extends Interpolation
+class NaturalCubicSpline extends Interpolation
 {
     /**
      * Interpolate
