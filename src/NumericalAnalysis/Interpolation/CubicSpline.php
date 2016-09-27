@@ -9,6 +9,15 @@ use Math\Functions\Piecewise;
  *
  * In numerical analysis, cubic splines are used for polynomial
  * interpolation.
+ *
+ * Cubic spline interpolation belongs to a collection of techniques that
+ * interpolate a function or a set of values, producing a continuous polynomial.
+ * In the case of the cubic spline, a piecewise function (polynomial) is produced.
+ * We can either directly supply a set of inputs and their corresponding outputs
+ * for said function, or if we explicitly know the function, we can define it as
+ * a callback function and then generate a set of points by evaluating that
+ * function at n points between a start and end point. We then use these values
+ * to interpolate our piecewise polynomial.
  */
 class CubicSpline extends Interpolation
 {
