@@ -49,46 +49,46 @@ class CubicSplineTest extends \PHPUnit_Framework_TestCase
 
         $a = 0;
         $b = 10;
-        $n = 5;
+        $n = 50;
+        $tol = 0;
+        $roundoff = 0.0001; // round off error
 
         $p = CubicSpline::interpolate($f, $a, $b, $n);
 
         // Check that p(x) agrees with f(x) at x = 0
         $expected = $f(0);
         $actual = $p(0);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', $tol + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 2
         $expected = $f(2);
         $actual = $p(2);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', $tol + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 4
         $expected = $f(4);
         $actual = $p(4);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', $tol + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 6
         $expected = $f(6);
         $actual = $p(6);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', $tol + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 8
         $expected = $f(8);
         $actual = $p(8);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', $tol + $roundoff);
 
         // Check that p(x) agrees with f(x) at x = 10
         $expected = $f(10);
         $actual = $p(10);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, '', $tol + $roundoff);
 
-        // Check that p(x) agrees with f(x) at x = -99
-        // Allow a tolerance of 0.0000001
-        $roundoff = 0.000001; // round off error
-        $expected = $f(-99);
-        $actual = $p(-99);
-        $this->assertEquals($expected, $actual, '', $roundoff);
+        // Check that p(x) agrees with f(x) at x = 7.32 (not a node)
+        $expected = $f(10);
+        $actual = $p(10);
+        $this->assertEquals($expected, $actual, '', $tol + $roundoff);
     }
 
     public function testSolveNonzeroError()
@@ -97,7 +97,7 @@ class CubicSplineTest extends \PHPUnit_Framework_TestCase
         $f = new Polynomial([1, 8, -13, -92, 96]);
 
         // The error is bounded by:
-        // |f(x)-p(x)| = tol <= (5/384) * h⁴ * max f⁽⁴⁾(x)
+        // |f(x)-p(x)| = tol <= (1/4!) * h⁴ * max f⁽⁴⁾(x)
         // where h = max hᵢ
 
         // f'(x)  = 4x³ +24x² -26x - 92
@@ -106,18 +106,17 @@ class CubicSplineTest extends \PHPUnit_Framework_TestCase
         // f⁽⁴⁾(x) = 24
 
         $a = 0;
-        $b = 9;
-        $n = 4;
+        $b = 10;
+        $n = 51;
 
-        // So, tol <= (5/384) * 3⁴ * 24 = 9720 / 384
+        // So, tol <= (1/24) * (1/5)⁴ * 24 = (1/5)⁴
 
-        $tol = 9720 / 384;
+        $tol = 0.2**4;
         $roundoff = 0.000001; // round off error
 
         $p = CubicSpline::interpolate($f, $a, $b, $n);
 
         // Check that p(x) agrees with f(x) at x = 0
-
         $target = 0;
         $expected = $f($target);
         $x = $p($target);
@@ -153,8 +152,8 @@ class CubicSplineTest extends \PHPUnit_Framework_TestCase
         $x = $p($target);
         $this->assertEquals($expected, $x, '', $tol + $roundoff);
 
-        // Check that p(x) agrees with f(x) at x = -99
-        $target = -99;
+        // Check that p(x) agrees with f(x) at x = 7.32 (not a node)
+        $target = 7.32;
         $expected = $f($target);
         $x = $p($target);
         $this->assertEquals($expected, $x, '', $tol + $roundoff);
