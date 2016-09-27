@@ -3,13 +3,13 @@ namespace Math\NumericalAnalysis\Interpolation;
 
 use Math\Functions\Polynomial;
 
-class CubicSplineTest extends \PHPUnit_Framework_TestCase
+class NaturalCubicSplineTest extends \PHPUnit_Framework_TestCase
 {
     public function testPolynomialAgrees()
     {
         $points = [[0, 0], [1, 5], [3, 2], [7, 10], [10, -4]];
 
-        $p = CubicSpline::interpolate($points);
+        $p = NaturalCubicSpline::interpolate($points);
 
         // Assure p(0) = 0 agrees with input [0, 0]
         $expected = 0;
@@ -53,7 +53,7 @@ class CubicSplineTest extends \PHPUnit_Framework_TestCase
         $tol = 0;
         $roundoff = 0.0001; // round off error
 
-        $p = CubicSpline::interpolate($f, $a, $b, $n);
+        $p = NaturalCubicSpline::interpolate($f, $a, $b, $n);
 
         // Check that p(x) agrees with f(x) at x = 0
         $expected = $f(0);
@@ -114,7 +114,7 @@ class CubicSplineTest extends \PHPUnit_Framework_TestCase
         $tol = 0.2**4;
         $roundoff = 0.000001; // round off error
 
-        $p = CubicSpline::interpolate($f, $a, $b, $n);
+        $p = NaturalCubicSpline::interpolate($f, $a, $b, $n);
 
         // Check that p(x) agrees with f(x) at x = 0
         $target = 0;
