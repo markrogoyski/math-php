@@ -18,6 +18,9 @@ use Math\Functions\Piecewise;
  * a callback function and then generate a set of points by evaluating that
  * function at n points between a start and end point. We then use these values
  * to interpolate our piecewise polynomial.
+ *
+ * https://en.wikipedia.org/wiki/Spline_interpolation
+ * http://mathworld.wolfram.com/CubicSpline.html
  */
 class CubicSpline extends Interpolation
 {
