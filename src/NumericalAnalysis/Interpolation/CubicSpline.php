@@ -41,18 +41,17 @@ class CubicSpline extends Interpolation
         $y = self::Y;
 
         // Initialize
-        $n   = count($sorted);
-        $p⟮t⟯ = new Polynomial([0]);
+        $n     = count($sorted);
+        $k     = $n - 1;
+        $h     = [];
+        $a     = [];
+        $μ     = [0];
+        $z     = [0];
+        $z[$k] = 0;
+        $c     = [];
+        $c[$k] = 0;
+        $poly  = [];
 
-        // Unique algorithm
-        $k = $n - 1;
-
-        $h = [];
-        $a = [];
-        $alpha = [];
-        $l = [1];
-        $u = [0];
-        $z = [0];
         for ($i = 0; $i < $k; $i++) {
             $xᵢ     = $sorted[$i][$x];
             $xᵢ₊₁   = $sorted[$i+1][$x];
@@ -68,37 +67,33 @@ class CubicSpline extends Interpolation
             $f⟮xᵢ₊₁⟯ = $sorted[$i+1][$y];  // yᵢ₊₁
             $f⟮xᵢ₋₁⟯ = $sorted[$i-1][$y];  // yᵢ₋₁
 
-            $alpha[$i] = (3/$h[$i])*($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯) - (3/$h[$i-1])*($f⟮xᵢ⟯ - $f⟮xᵢ₋₁⟯);
-
-            $l[$i] = 2*($xᵢ₊₁ - $xᵢ₋₁) - $h[$i-1]*$u[$i-1];
-            $u[$i] = $h[$i]/$l[$i];
-            $z[$i] = ($alpha[$i] - $h[$i-1]*$z[$i-1])/$l[$i];
+            $α      = (3/$h[$i])*($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯) - (3/$h[$i-1])*($f⟮xᵢ⟯ - $f⟮xᵢ₋₁⟯);
+            $l      = 2*($xᵢ₊₁ - $xᵢ₋₁) - $h[$i-1]*$μ[$i-1];
+            $μ[$i]  = $h[$i]/$l;
+            $z[$i]  = ($α - $h[$i-1]*$z[$i-1])/$l;
         }
 
-        $l[$k] = 1;
-        $z[$k] = 0;
-        $c = [];
-        $c[$k] = 0;
-        $poly = [];
-
         for ($i = $k-1; $i >= 0; $i--) {
-            $xᵢ     = $sorted[$i][$x];
-            $xᵢ₊₁   = $sorted[$i+1][$x];
-            $f⟮xᵢ⟯   = $sorted[$i][$y];    // yᵢ
-            $f⟮xᵢ₊₁⟯ = $sorted[$i+1][$y];  // yᵢ₊₁
-            $c[$i] = $z[$i] - $u[$i]*$c[$i+1];
-            $b[$i] = ($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯)/$h[$i] - $h[$i]*($c[$i+1] + 2*$c[$i])/3;
-            $d[$i] = ($c[$i+1] - $c[$i])/(3*$h[$i]);
-            $poly[$i] = new Polynomial([$d[$i], $c[$i] - 3*$d[$i]*$xᵢ, $b[$i] - 2*$c[$i]*$xᵢ + 3*$d[$i]*($xᵢ**2), $a[$i] - $b[$i]*$xᵢ + $c[$i]*($xᵢ**2) - $d[$i]*($xᵢ**3)]);
+            $xᵢ       = $sorted[$i][$x];
+            $xᵢ₊₁     = $sorted[$i+1][$x];
+            $f⟮xᵢ⟯     = $sorted[$i][$y];    // yᵢ
+            $f⟮xᵢ₊₁⟯   = $sorted[$i+1][$y];  // yᵢ₊₁
+
+            $c[$i]    = $z[$i] - $μ[$i]*$c[$i+1];
+            $b[$i]    = ($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯)/$h[$i] - $h[$i]*($c[$i+1] + 2*$c[$i])/3;
+            $d[$i]    = ($c[$i+1] - $c[$i])/(3*$h[$i]);
+
+            $poly[$i] = new Polynomial([$d[$i],
+                                        $c[$i] - 3*$d[$i]*$xᵢ,
+                                        $b[$i] - 2*$c[$i]*$xᵢ + 3*$d[$i]*($xᵢ**2),
+                                        $a[$i] - $b[$i]*$xᵢ + $c[$i]*($xᵢ**2) - $d[$i]*($xᵢ**3)]);
+
             if ($i == 0) {
                 $int[$i] = [$xᵢ, $xᵢ₊₁];
             } else {
                 $int[$i] = [$xᵢ, $xᵢ₊₁, true, false];
             }
         }
-
-        //$p = $poly[2];
-        //echo $p(3);
 
         $piecewise = new Piecewise($int, $poly);
 
