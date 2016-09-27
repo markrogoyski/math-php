@@ -10,7 +10,7 @@ use Math\Functions\Piecewise;
  * In numerical analysis, cubic splines are used for polynomial
  * interpolation.
  *
- * "A cubic spline is a spline constructed of piecewise third-order polynomials
+ * A cubic spline is a spline constructed of piecewise third-order polynomials
  * which pass through a set of m control points." In the case of the natural
  * cubic spline, the second derivative of each polynomial is set to zero at the
  * endpoints of each interval of the piecewise function.
@@ -47,7 +47,7 @@ class NaturalCubicSpline extends Interpolation
      */
     public static function interpolate($source, ... $args)
     {
-        // get an array of points from our $source argument
+        // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
         // Validate input and sort points
@@ -101,10 +101,12 @@ class NaturalCubicSpline extends Interpolation
             $b[$i]    = ($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯)/$h[$i] - $h[$i]*($c[$i+1] + 2*$c[$i])/3;
             $d[$i]    = ($c[$i+1] - $c[$i])/(3*$h[$i]);
 
-            $poly[$i] = new Polynomial([$d[$i],
-                                        $c[$i] - 3*$d[$i]*$xᵢ,
-                                        $b[$i] - 2*$c[$i]*$xᵢ + 3*$d[$i]*($xᵢ**2),
-                                        $a[$i] - $b[$i]*$xᵢ + $c[$i]*($xᵢ**2) - $d[$i]*($xᵢ**3)]);
+            $poly[$i] = new Polynomial([
+                $d[$i],
+                $c[$i] - 3*$d[$i]*$xᵢ,
+                $b[$i] - 2*$c[$i]*$xᵢ + 3*$d[$i]*($xᵢ**2),
+                $a[$i] - $b[$i]*$xᵢ + $c[$i]*($xᵢ**2) - $d[$i]*($xᵢ**3)
+            ]);
 
             if ($i == 0) {
                 $int[$i] = [$xᵢ, $xᵢ₊₁];
