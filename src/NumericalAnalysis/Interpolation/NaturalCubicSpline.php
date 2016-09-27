@@ -10,6 +10,11 @@ use Math\Functions\Piecewise;
  * In numerical analysis, cubic splines are used for polynomial
  * interpolation.
  *
+ * "A cubic spline is a spline constructed of piecewise third-order polynomials
+ * which pass through a set of m control points." In the case of the natural
+ * cubic spline, the second derivative of each polynomial is set to zero at the
+ * endpoints of each interval of the piecewise function.
+ *
  * Cubic spline interpolation belongs to a collection of techniques that
  * interpolate a function or a set of values, producing a continuous polynomial.
  * In the case of the cubic spline, a piecewise function (polynomial) is produced.
