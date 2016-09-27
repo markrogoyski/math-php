@@ -391,6 +391,14 @@ $result = Interpolation\NevillesMethod::interpolate($target, $f⟮x⟯, $start, 
 
 // Newton Polynomial (Forward)
 // Returns a function p(x) of x
+$p = Interpolation\NaturalCubicSpline::interpolate($points);                // input as a set of points
+$p = Interpolation\NaturalCubicSpline::interpolate($f⟮x⟯, $start, $end, $n); // input as a callback function
+
+$p(0) // 1
+$p(3) // 16
+
+// Natural Cubic Spline
+// Returns a piecewise polynomial p(x)
 $p = Interpolation\NewtonPolynomialForward::interpolate($points);                // input as a set of points
 $p = Interpolation\NewtonPolynomialForward::interpolate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
