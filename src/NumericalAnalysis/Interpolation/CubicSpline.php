@@ -25,7 +25,8 @@ class CubicSpline extends Interpolation
      *                           If $source is a set of points, do not input any
      *                           $args. Example: approximate($source).
      *
-     * @return callable          The lagrange polynomial p(x)
+     * @return Piecewise         The interpolting (piecewise) polynomial, as an
+     *                           instance of Piecewise.
      */
     public static function interpolate($source, ... $args)
     {
