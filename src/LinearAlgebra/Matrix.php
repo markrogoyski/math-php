@@ -414,6 +414,73 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Kronecker product (A⊗B)
+     *
+     * If A is an m × n matrix and B is a p × q matrix,
+     * then the Kronecker product A ⊗ B is the mp × nq block matrix:
+     *
+     *       [a₁₁b₁₁ a₁₁b₁₂ ⋯ a₁₁b₁q ⋯ ⋯ a₁nb₁₁ a₁nb₁₂ ⋯ a₁nb₁q]
+     *       [a₁₁b₂₁ a₁₁b₂₂ ⋯ a₁₁b₂q ⋯ ⋯ a₁nb₂₁ a₁nb₂₂ ⋯ a₁nb₂q]
+     *       [  ⋮       ⋮    ⋱  ⋮           ⋮      ⋮    ⋱   ⋮   ]
+     *       [a₁₁bp₁ a₁₁bp₂ ⋯ a₁₁bpq ⋯ ⋯ a₁nbp₁ a₁nbp₂ ⋯ a₁nbpq]
+     * A⊗B = [  ⋮       ⋮       ⋮     ⋱     ⋮      ⋮        ⋮   ]
+     *       [  ⋮       ⋮       ⋮       ⋱   ⋮      ⋮        ⋮   ]
+     *       [am₁b₁₁ am₁b₁₂ ⋯ am₁b₁q ⋯ ⋯ amnb₁₁ amnb₁₂ ⋯ amnb₁q]
+     *       [am₁b₂₁ am₁b₂₂ ⋯ am₁b₂q ⋯ ⋯ amnb₂₁ amnb₂₂ ⋯ amnb₂q]
+     *       [  ⋮       ⋮    ⋱  ⋮           ⋮      ⋮    ⋱   ⋮   ]
+     *       [am₁bp₁ am₁bp₂ ⋯ am₁bpq ⋯ ⋯ amnbp₁ amnbp₂ ⋯ amnbpq]
+     *
+     * https://en.wikipedia.org/wiki/Kronecker_product
+     *
+     * @param Matrix $B
+     *
+     * @return Matrix
+     */
+    public function kroneckerProduct(Matrix $B): Matrix
+    {
+        // Compute each element of the block matrix
+        $arrays = [];
+        for ($m = 0; $m < $this->m; $m++) {
+            $row = [];
+            for ($n = 0; $n < $this->n; $n++) {
+                $R = [];
+                for ($p = 0; $p < $B->getM(); $p++) {
+                    for ($q = 0; $q < $B->getN(); $q++) {
+                        $R[$p][$q] = $this->A[$m][$n] * $B[$p][$q];
+                    }
+                }
+                $row[] = new Matrix($R);
+            }
+            $arrays[] = $row;
+        }
+
+        // Augment each aᵢ₁ to aᵢn block
+        $matrices = [];
+        foreach ($arrays as $row) {
+            $initial_matrix = array_shift($row);
+            $matrices[] = array_reduce(
+                $row,
+                function ($augmented_matrix, $matrix) {
+                    return $augmented_matrix->augment($matrix);
+                },
+                $initial_matrix
+            );
+        }
+
+        // Augment below each row block a₁ to am
+        $initial_matrix = array_shift($matrices);
+        $A⊗B            = array_reduce(
+            $matrices,
+            function ($augmented_matrix, $matrix) {
+                return $augmented_matrix->augmentBelow($matrix);
+            },
+            $initial_matrix
+        );
+
+        return $A⊗B;
+    }
+
+    /**
      * Transpose matrix
      *
      * The transpose of a matrix A is another matrix Aᵀ:
@@ -569,6 +636,36 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return $this->augment(MatrixFactory::identity($this->getM()));
+    }
+
+    /**
+     * Augment a matrix from below
+     * An augmented matrix is a matrix obtained by appending the rows of two given matrices
+     *
+     *     [1, 2, 3]
+     * A = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     * B = [4, 5, 6]
+     *
+     *         [1, 2, 3]
+     * (A_B) = [2, 3, 4]
+     *         [3, 4, 5]
+     *         [4, 5, 6]
+     *
+     * @param  Matrix $B Matrix rows to add to matrix A
+     *
+     * @return Matrix
+     */
+    public function augmentBelow(Matrix $B): Matrix
+    {
+        if ($B->getN() !== $this->n) {
+            throw new \Exception('Matrices to augment do not have the same number of columns');
+        }
+
+        $⟮A∣B⟯ = array_merge($this->A, $B->getMatrix());
+
+        return MatrixFactory::create($⟮A∣B⟯);
     }
 
     /**

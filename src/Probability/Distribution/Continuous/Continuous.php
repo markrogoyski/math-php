@@ -19,7 +19,7 @@ abstract class Continuous extends \Math\Probability\Distribution\Distribution
     public static function inverse($target, ...$params)
     {
         $initial = static::mean(...$params);
-        if ($initial === null) {
+        if (is_nan($initial)) {
             $initial = static::median(...$params);
         }
         array_unshift($params, $initial);

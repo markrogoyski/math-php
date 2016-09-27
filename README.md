@@ -30,6 +30,7 @@ Features
  * Sequences
      - [Basic](#sequences---basic)
      - [Advanced](#sequences---advanced)
+ * [Set Theory](#set-theory)
  * Statistics
      - [ANOVA](#statistics---anova)
      - [Averages](#statistics---averages)
@@ -233,10 +234,12 @@ $A−B  = $A->subtract($B);
 $AB   = $A->multiply($B);
 $２A  = $A->scalarMultiply(2);
 $A∘B  = $A->hadamardProduct($B);
+$A⊗B  = $A->kroneckerProduct($B);
 $Aᵀ 　= $A->transpose();
 $D  　= $A->diagonal();
 $⟮A∣B⟯ = $A->augment($B);
 $⟮A∣I⟯ = $A->augmentIdentity();  // Augment with the identity matrix
+$⟮A∣B⟯ = $A->augmentBelow($B);
 $rref = $A->rref();             // Reduced row echelon form
 $A⁻¹  = $A->inverse();
 $Mᵢⱼ  = $A->minorMatrix($mᵢ, $nⱼ); // Square matrix with row mᵢ and column nⱼ removed
@@ -311,6 +314,7 @@ $B = new Vector([2, 4]);
 $array = $A->getVector();
 $n     = $A->getN();           // number of elements
 $M     = $A->asColumnMatrix(); // Vector as an nx1 matrix
+$M     = $A->asRowMatrix();    // Vector as a 1xn matrix
 
 // Basic vector elements (zero-based indexing)
 $item = $A->get(1);
@@ -329,6 +333,7 @@ $A−B   = $A->subtract($B);
 $A／k  = $A->scalarDivide($k);
 $A⨂B  = $A->outerProduct($B);
 $AxB   = $A->crossProduct($B);
+$AB    = $A->directProduct($B);
 $Â     = $A->normalize();
 $A⊥    = $A->perpendicular();
 $projᵇA = $A->projection($B);   // projection of A onto B
@@ -872,6 +877,61 @@ $hexagons = Advanced::hexagonalNumber($n);
 // Heptagonal numbers (figurate number)
 $hexagons = Advanced::heptagonalNumber($n)
 // [1, 4, 7, 13, 18, 27] - Indexed from 1
+```
+
+### Set Theory
+```php
+use Math\SetTheory\Set;
+use Math\SetTheory\ImmutableSet;
+
+// Sets and immutable sets
+$A = new Set([1, 2, 3]);          // Can add and remove members
+$B = new ImmutableSet([3, 4, 5]); // Cannot modify set once created
+
+// Basic set data
+$set         = $A->asArray();
+$cardinality = $A->length();
+$bool        = $A->isEmpty();
+
+// Set membership
+$true = $A->isMember(2);
+$true = $A->isNotMember(8);
+
+// Add and remove members
+$A->add(4);
+$A->add(new Set(['a', 'b']));
+$A->addMulti([5, 6, 7]);
+$A->remove(7);
+$A->removeMulti([5, 6]);
+$A->clear();
+
+// Set properties against other sets - return boolean
+$bool = $A->isDisjoint($B);
+$bool = $A->isSubset($B);         // A ⊆ B
+$bool = $A->isProperSubset($B);   // A ⊆ B & A ≠ B
+$bool = $A->isSuperset($B);       // A ⊇ B
+$bool = $A->isProperSuperset($B); // A ⊇ B & A ≠ B
+
+// Set operations with other sets - return a new Set
+$A∪B  = $A->union($B);
+$A∩B  = $A->intersect($B);
+$A＼B = $A->difference($B);          // relative complement
+$AΔB  = $A->symmetricDifference($B);
+$A×B  = $A->cartesianProduct($B);
+
+// Other set operations
+$P⟮A⟯ = $A->powerSet();
+$C   = $A->copy();
+
+// Print a set
+print($A); // Set{1, 2, 3, 4, Set{a, b}}
+
+// PHP Interfaces
+$n = count($A);                 // Countable
+foreach ($A as $member) { ... } // Iterator
+
+// Fluent interface
+$A->add(5)->add(6)->remove(4)->addMulti([7, 8, 9]);
 ```
 
 ### Statistics - ANOVA

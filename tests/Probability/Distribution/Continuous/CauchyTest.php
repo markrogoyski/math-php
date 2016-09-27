@@ -47,8 +47,8 @@ class CauchyTest extends \PHPUnit_Framework_TestCase
 
     public function testMean()
     {
-        $this->assertNull(Cauchy::mean(1, 1));
-        $this->assertNull(Cauchy::mean(2, 3));
+        $this->assertNan(Cauchy::mean(1, 1));
+        $this->assertNan(Cauchy::mean(2, 3));
     }
 
     public function testMedian()

@@ -124,7 +124,7 @@ class StudentT extends Continuous
             return 0;
         }
 
-        return null;
+        return \NAN;
     }
     
     /**

@@ -45,6 +45,14 @@ namespace Math\LinearAlgebra;
  *  - Symmetric matrix
  *    - A = Aᵀ
  *    - A⁻¹Aᵀ = I
+ *  - Kronecker product
+ *    - A ⊗ (B + C) = A ⊗ B + A ⊗ C
+ *    - (A + B) ⊗ C = A ⊗ C + B ⊗ C
+ *    - (A ⊗ B) ⊗ C = A ⊗ (B ⊗ C)
+ *    - (kA) ⊗ B = A ⊗ (kB) = k(A ⊗ B)
+ *    - (A ⊗ B)⁻¹ = A⁻¹ ⊗ B⁻¹
+ *    - (A ⊗ B)ᵀ = Aᵀ ⊗ Bᵀ
+ *    - det(A ⊗ B) = det(A)ᵐ det(B)ⁿ
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -1347,6 +1355,351 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                     [5, 2, 7, 9],
                     [6, 7, 3, 10],
                     [8, 9, 10, 4],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Axiom: A ⊗ (B + C) = A ⊗ B + A ⊗ C
+     * Kronecker product bilinearity
+     * @dataProvider dataProviderForThreeMatrices
+     */
+    public function testKroneckerProductBilinearity1(array $A, array $B, array $C)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+        $C = MatrixFactory::create($C);
+
+        $A⊗⟮B＋C⟯  = $A->kroneckerProduct($B->add($C));
+        $A⊗B＋A⊗C = $A->kroneckerProduct($B)->add($A->kroneckerProduct($C));
+
+        $this->assertEquals($A⊗⟮B＋C⟯->getMatrix(), $A⊗B＋A⊗C->getMatrix());
+    }
+
+    /**
+     * Axiom: (A + B) ⊗ C = A ⊗ C + B ⊗ C
+     * Kronecker product bilinearity
+     * @dataProvider dataProviderForThreeMatrices
+     */
+    public function testKroneckerProductBilinearity2(array $A, array $B, array $C)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+        $C = MatrixFactory::create($C);
+
+        $⟮A＋B⟯⊗C  = $A->add($B)->kroneckerProduct($C);
+        $A⊗C＋B⊗C = $A->kroneckerProduct($C)->add($B->kroneckerProduct($C));
+
+        $this->assertEquals($⟮A＋B⟯⊗C->getMatrix(), $A⊗C＋B⊗C->getMatrix());
+    }
+
+    /**
+     * Axiom: (A ⊗ B) ⊗ C = A ⊗ (B ⊗ C)
+     * Kronecker product associative
+     * @dataProvider dataProviderForThreeMatrices
+     */
+    public function testKroneckerProductAssociativity(array $A, array $B, array $C)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+        $C = MatrixFactory::create($C);
+
+        $⟮A⊗B⟯⊗C = $A->kroneckerProduct($B)->kroneckerProduct($C);
+        $A⊗⟮B⊗C⟯ = $A->kroneckerProduct($B->kroneckerProduct($C));
+
+        $this->assertEquals($⟮A⊗B⟯⊗C->getMatrix(), $A⊗⟮B⊗C⟯->getMatrix());
+    }
+
+    public function dataProviderForThreeMatrices()
+    {
+        return [
+            [
+                [
+                    [1],
+                ],
+                [
+                    [2],
+                ],
+                [
+                    [3],
+                ],
+            ],
+            [
+                [
+                    [1, 5, 3],
+                    [3, 6, 3],
+                    [6, 7, 8],
+                ],
+                [
+                    [6, 9, 9],
+                    [3, 5, 1],
+                    [3, 5, 12],
+                ],
+                [
+                    [7, 9, 6],
+                    [1, 9, 1],
+                    [10, 12, 4],
+                ],
+            ],
+            [
+                [
+                    [12, 21, 6],
+                    [-3, 11, -6],
+                    [3, 6, -3],
+                ],
+                [
+                    [3, 7, 8],
+                    [4, 4, 2],
+                    [6, -4, 1],
+                ],
+                [
+                    [-1, -1, -5],
+                    [8, 15, 15],
+                    [8, 6, -12],
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [0, -1],
+                ],
+                [
+                    [0, -1],
+                    [1, 1],
+                ],
+                [
+                    [2, 8],
+                    [2, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 5, 3],
+                    [3, 6, 3],
+                    [6, 7, 8],
+                ],
+                [
+                    [6, 9, 9],
+                    [3, 5, 1],
+                    [3, 5, 12],
+                ],
+                [
+                    [6, 4, 9],
+                    [12, 3, -1],
+                    [10, 2, 15],
+                ],
+            ],
+            [
+                [
+                    [12, 21, 6],
+                    [-3, 11, -6],
+                    [3, 6, -3],
+                ],
+                [
+                    [3, 7, 8],
+                    [4, 4, 2],
+                    [6, -4, 1],
+                ],
+                [
+                    [1, 1, 5],
+                    [3, 4, 9],
+                    [3, 16, -2],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3, 4, 5],
+                    [2, 3, 4, 5, 6],
+                    [4, 5, 6, 7, 8],
+                    [6, 5, 4, 5, 7],
+                ],
+                [
+                    [1, 2, 5, 5, 6],
+                    [2, 3, 5, 5, 6],
+                    [5, 4, 5, 5, 6],
+                    [3, 2, 5, 5, 6],
+                ],
+                [
+                    [5, 5, 7, 8, 9],
+                    [4, 4, 7, 8, 9],
+                    [7, 6, 7, 6, 7],
+                    [9, 9, 9, 0, 0],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * Axiom: (kA) ⊗ B = A ⊗ (kB) = k(A ⊗ B)
+     * Kronecker product scalar multiplication
+     * @dataProvider dataProviderForTwoSquareMatrices
+     */
+    public function testKroneckerProductScalarMultiplication(array $A, array $B)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+        $k = 5;
+
+        $⟮kA⟯⊗B = $A->scalarMultiply($k)->kroneckerProduct($B);
+        $A⊗⟮kB⟯ = $A->kroneckerProduct($B->scalarMultiply($k));
+        $k⟮A⊗B⟯ = $A->kroneckerProduct($B)->scalarMultiply($k);
+
+        $this->assertEquals($⟮kA⟯⊗B->getMatrix(), $A⊗⟮kB⟯->getMatrix());
+        $this->assertEquals($⟮kA⟯⊗B->getMatrix(), $k⟮A⊗B⟯->getMatrix());
+        $this->assertEquals($k⟮A⊗B⟯->getMatrix(), $A⊗⟮kB⟯->getMatrix());
+    }
+
+    /**
+     * Axiom: (A ⊗ B)⁻¹ = A⁻¹ ⊗ B⁻¹
+     * Inverse of Kronecker product
+     * @dataProvider dataProviderForTwoSquareMatrices
+     */
+    public function testKroneckerProductInverse(array $A, array $B)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        $A⁻¹     = $A->inverse();
+        $B⁻¹     = $B->inverse();
+        $A⁻¹⊗B⁻¹ = $A⁻¹->kroneckerProduct($B⁻¹);
+        $⟮A⊗B⟯⁻¹  = $A->kroneckerProduct($B)->inverse();
+
+        $this->assertEquals($A⁻¹⊗B⁻¹->getMatrix(), $⟮A⊗B⟯⁻¹->getMatrix());
+    }
+
+    /**
+     * Axiom: (A ⊗ B)ᵀ = Aᵀ ⊗ Bᵀ
+     * Transpose of Kronecker product
+     * @dataProvider dataProviderForTwoSquareMatrices
+     */
+    public function testKroneckerProductTranspose(array $A, array $B)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        $Aᵀ    = $A->transpose();
+        $Bᵀ    = $B->transpose();
+        $Aᵀ⊗Bᵀ = $Aᵀ->kroneckerProduct($Bᵀ);
+        $⟮A⊗B⟯ᵀ = $A->kroneckerProduct($B)->transpose();
+
+        $this->assertEquals($Aᵀ⊗Bᵀ->getMatrix(), $⟮A⊗B⟯ᵀ->getMatrix());
+    }
+
+    /**
+     * Axiom: det(A ⊗ B) = det(A)ᵐ det(B)ⁿ
+     * Determinant of Kronecker product - where A is nxn matrix, and b is nxn matrix
+     * @dataProvider dataProviderForKroneckerProductDeterminant
+     */
+    public function testKroneckerProductDeterminant(array $A, array $B)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        $det⟮A⟯ᵐ  = ($A->det())**$B->getM();
+        $det⟮B⟯ⁿ  = ($B->det())**$A->getN();
+        $det⟮A⊗B⟯ = $A->kroneckerProduct($B)->det();
+
+        $this->assertEquals($det⟮A⊗B⟯, $det⟮A⟯ᵐ  * $det⟮B⟯ⁿ, '', 0.0001);
+    }
+
+    public function dataProviderForKroneckerProductDeterminant()
+    {
+        return [
+            [
+                [
+                    [5],
+                ],
+                [
+                    [4],
+                ],
+            ],
+            [
+                [
+                    [5, 6],
+                    [2, 4],
+                ],
+                [
+                    [4, 9],
+                    [3, 1],
+                ],
+            ],
+            [
+                [
+                    [5, 6],
+                    [-2, 4],
+                ],
+                [
+                    [4, -9],
+                    [3, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 4, 6],
+                    [7, 6, 5],
+                ],
+                [
+                    [2, 3, 4],
+                    [3, 1, 6],
+                    [4, 3, 3],
+                ],
+            ],
+            [
+                [
+                    [1, -2, 3],
+                    [2, -4, 6],
+                    [7, -6, 5],
+                ],
+                [
+                    [2, 3, 4],
+                    [3, 1, 6],
+                    [4, 3, 3],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3, 4],
+                    [2, 4, 6, 8],
+                    [7, 6, 5, 4],
+                    [1, 3, 5, 7],
+                ],
+                [
+                    [2, 3, 4, 5],
+                    [3, 1, 6, 3],
+                    [4, 3, 3, 4],
+                    [3, 3, 4, 1],
+                ],
+            ],
+            [
+                [
+                    [-1, 2, 3, 4],
+                    [2, 4, 6, 8],
+                    [7, 6, 5, 4],
+                    [1, 3, 5, 7],
+                ],
+                [
+                    [2, 3, 4, 5],
+                    [3, 1, 6, 3],
+                    [4, 3, 3, -4],
+                    [3, 3, 4, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3, 4, 5],
+                    [2, 4, 6, 8, 10],
+                    [7, 6, 5, 4, 5],
+                    [1, 3, 5, 7, 9],
+                    [1, 2, 3, 4, 5],
+                ],
+                [
+                    [2, 3, 4, 5, 2],
+                    [3, 1, 6, 3, 2],
+                    [4, 3, 3, 4, 2],
+                    [3, 3, 4, 1, 2],
+                    [1, 1, 2, 2, 1],
                 ],
             ],
         ];

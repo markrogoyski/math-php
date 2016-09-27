@@ -615,4 +615,57 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForDirectProduct
+     */
+    public function testDirectProduct(array $A, array $B, array $expected)
+    {
+        $A        = new Vector($A);
+        $B        = new Vector($B);
+        $AB       = $A->directProduct($B);
+        $expected = new Matrix($expected);
+
+        $this->assertEquals($expected->getMatrix(), $AB->getMatrix());
+    }
+
+    public function dataProviderForDirectProduct()
+    {
+        return [
+            [
+                [1],
+                [2],
+                [
+                    [2],
+                ],
+            ],
+            [
+                [1, 2],
+                [2, 3],
+                [
+                    [2, 3],
+                    [4, 6],
+                ],
+            ],
+            [
+                [1, 2, 3],
+                [2, 3, 4],
+                [
+                    [2, 3, 4],
+                    [4, 6, 8],
+                    [6, 9, 12],
+                ],
+            ],
+            [
+                [1, 2, 3, 4],
+                [2, 3, 4, 5],
+                [
+                    [2, 3, 4, 5],
+                    [4, 6, 8, 10],
+                    [6, 9, 12, 15],
+                    [8, 12, 16, 20],
+                ],
+            ],
+        ];
+    }
 }
