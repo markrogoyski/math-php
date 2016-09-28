@@ -435,6 +435,72 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForGetVariable
+     */
+    public function testGetVariable(array $args, string $expected)
+    {
+        $coefficients = $args[0];
+        $variable     = $args[1] ?? "x";
+        $polynomial   = new Polynomial($coefficients, $variable);
+        $result       = $polynomial->getVariable();
+        $this->assertEquals($expected, $result);
+    }
+
+    public function dataProviderForGetVariable()
+    {
+        return [
+            [
+                [[1, 2, 3]],       // p(x) = x² + 2x + 3
+                'x',
+            ],
+            [
+                [[2, 3, 4], "p"],       // p(p) = 2p² + 3p + 4
+                'p',
+            ],
+            [
+                [[-1, -2, -3], "m"],       // p(m) = -m² - 2m - 3
+                'm',
+            ],
+            [
+                [[-2, -3, -4], "a"],       // p(a) = -2a² - 3a - 4
+                'a',
+            ],
+            [
+                [[0, 2, 3], "Δ"],       // p(Δ) = 2Δ + 3
+                'Δ',
+            ],
+            [
+                [[1, 0, 3], "Γ"],       // p(Γ) = Γ² + 3
+                'Γ',
+            ],
+            [
+                [[1, 2, 0], "Ψ"],       // p(a) = Ψ² + 2Ψ
+                'Ψ',
+            ],
+            [
+                [[0, 0, 3], "μ"],       // p(μ) = 3
+                'μ',
+            ],
+            [
+                [[1, 0, 0], "ξ"],       // p(ξ) = ξ²
+                'ξ',
+            ],
+            [
+                [[0, 2, 0], "aₙ"],       // p(aₙ) = 2aₙ
+                'aₙ',
+            ],
+            [
+                [[0, -2, 3], "aⁿ"],       // p(aⁿ) = -2aⁿ + 3
+                'aⁿ',
+            ],
+            [
+                [[-1, 0, 3], "a₍ₘ₎₍ₙ₎"],       // p(a) = -a₍ₘ₎₍ₙ₎² + 3
+                'a₍ₘ₎₍ₙ₎',
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForDifferentiate
      */
     public function testDifferentiation(array $polynomial, array $expected)
