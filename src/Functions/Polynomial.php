@@ -190,6 +190,11 @@ class Polynomial
         return $this->coefficients;
     }
 
+    public function getVariable(): string
+    {
+        return $this->variable();
+    }
+
     /**
      * Calculate the derivative of a polynomial and return it as a new polynomial
      * Example: $polynomial = new Polynomial([1, -8, 12, 3]); // x³ - 8x² + 12x + 3
