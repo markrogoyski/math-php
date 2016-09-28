@@ -1,7 +1,6 @@
 <?php
 namespace Math\NumericalAnalysis\Interpolation;
 
-use Math\Functions\Arithmetic;
 use Math\Functions\Polynomial;
 
 /**
@@ -11,7 +10,7 @@ use Math\Functions\Polynomial;
  * interpolation.
  *
  * "Given a set of distinct points {xⱼ,yⱼ}, the Lagrange Polynomial is the
- * [unique] polynomial of least degree that at each point xⱼ assumes the
+ * [unique] polynomial of least degree such that at each point xⱼ assumes the
  * corresponding value yⱼ (i.e. the functions coincide at each point)."
  *
  * The lagrange polynomials belong to a collection of techniques that

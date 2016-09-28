@@ -1,7 +1,7 @@
 <?php
 namespace Math\NumericalAnalysis\Interpolation;
 
-use Math\Functions\Arithmetic;
+use Math\Functions\Polynomial;
 
 /**
  * Nevilles Method
@@ -57,9 +57,7 @@ class NevillesMethod extends Interpolation
 
         // Build our 0th-degree Lagrange polynomials: Q₍ᵢ₎₍₀₎ = yᵢ for all i < n
         for ($i = 0; $i < $n; $i++) {
-            $Q[$i][0] = function ($x) use ($sorted, $i, $y) {
-                return $sorted[$i][$y]; // yᵢ
-            };
+            $Q[$i][0] = new Polynomial([$sorted[$i][$y]]); // yᵢ
         }
 
         // Recursively generate our (n-1)th-degree Lagrange polynomial at $target

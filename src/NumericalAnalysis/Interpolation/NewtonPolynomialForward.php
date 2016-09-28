@@ -1,7 +1,7 @@
 <?php
 namespace Math\NumericalAnalysis\Interpolation;
 
-use Math\Functions\Arithmetic;
+use Math\Functions\Polynomial;
 
 /**
  * Newton (Forward) Interpolting Polynomials
@@ -70,25 +70,23 @@ class NewtonPolynomialForward extends Interpolation
         }
 
         // initialize empty polynomial
-        $polynomial = function ($t) {
-            return 0;
-        };
+        $polynomial = new Polynomial([0]);
 
         for ($i = 0; $i < $n; $i++) {
             // start each product with the upper diagonal from our divideded differences table
-            $product = function ($t) use ($Q, $i) {
-                return $Q[$i][$i];
-            };
+            $product = new Polynomial([$Q[$i][$i]]);
+
             for ($j = 1; $j <= $i; $j++) {
                 // generate the (x - xⱼ₋₁) term for each j
-                $term = function ($t) use ($sorted, $x, $i, $j) {
-                    return ($t - $sorted[$j-1][$x]);
-                };
+                //$term = function ($t) use ($sorted, $x, $i, $j) {
+                //    return ($t - $sorted[$j-1][$x]);
+                //};
+                $term = new Polynomial([1, -$sorted[$j-1][$x]]);
                 // multiply the term and our cumulative product
-                $product = Arithmetic::multiply($product, $term);
+                $product = $product->multiply($term);
             }
             // add the whole product to our polynomial for each i
-            $polynomial = Arithmetic::add($polynomial, $product);
+            $polynomial = $polynomial->add($product);
         }
 
         return $polynomial;
