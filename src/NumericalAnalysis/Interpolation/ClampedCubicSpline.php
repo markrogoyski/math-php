@@ -162,8 +162,8 @@ class ClampedCubicSpline extends Interpolation
     }
 
     /**
-     * Evaluate our callback function at n evenly spaced points on the interval
-     * between start and end
+     * Evaluate our callback function and derivative at n evenly spaced points
+     * on the interval between start and end
      *
      * @param  callable $function   f(x) callback function
      * @param  callable $derivative f'(x) callback function
@@ -189,7 +189,7 @@ class ClampedCubicSpline extends Interpolation
 
     /**
      * Validate that there are enough input arrays (points), that each point array
-     * has precisely two numbers, and that no two points share the same first number
+     * has precisely three numbers, and that no two points share the same first number
      * (x-component)
      *
      * @param  array  $points Array of arrays (points)
@@ -197,7 +197,7 @@ class ClampedCubicSpline extends Interpolation
      *
      * @return bool
      * @throws Exception if there are less than two points
-     * @throws Exception if any point does not contain two numbers
+     * @throws Exception if any point does not contain three numbers
      * @throws Exception if two points share the same first number (x-component)
      */
     public static function validate(array $points, $degree = 2): bool
@@ -209,9 +209,9 @@ class ClampedCubicSpline extends Interpolation
 
         $x_coordinates = [];
         foreach ($points as $point) {
-            if (count($point) !== 2) {
+            if (count($point) !== 3) {
                 throw new \Exception("Each array needs to have have precisely
-                                      two numbers, an x- and y-component");
+                                      three numbers, representing x, y, and y-prime");
             }
 
             $x_component = $point[self::X];
