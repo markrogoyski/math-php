@@ -30,6 +30,11 @@ use Math\Functions\Piecewise;
 class ClampedCubicSpline extends Interpolation
 {
     /**
+     * @var int Index of z (y-prime)
+     */
+    const Z = 2;
+
+    /**
      * Interpolate
      *
      * @param          $source   The source of our approximation. Should be either
