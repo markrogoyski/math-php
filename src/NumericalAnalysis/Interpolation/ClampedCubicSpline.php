@@ -73,7 +73,7 @@ class ClampedCubicSpline extends Interpolation
         $x₁    = $sorted[1][$x];
         $f⟮x₀⟯  = $sorted[0][$y];  // y₀
         $f⟮x₁⟯  = $sorted[1][$y];  // y₁
-        $y’₀   = $sorted[0][$y’];  // y₀-prime
+        $y’₀   = $sorted[0][$y’]; // y₀-prime
         $h     = [$x₁-$x₀];
         $a     = [(3/$h[0])*($f⟮x₁⟯-$f⟮x₀⟯) - 3*$y’₀];
         $μ     = [0.5];
@@ -82,10 +82,10 @@ class ClampedCubicSpline extends Interpolation
         $poly  = [];
 
         for ($i = 0; $i < $k; $i++) {
-            $xᵢ     = $sorted[$i][$x];
-            $xᵢ₊₁   = $sorted[$i+1][$x];
-            $a[$i]  = $sorted[$i][$y];
-            $h[$i]  = $xᵢ₊₁ - $xᵢ;
+            $xᵢ    = $sorted[$i][$x];
+            $xᵢ₊₁  = $sorted[$i+1][$x];
+            $a[$i] = $sorted[$i][$y];
+            $h[$i] = $xᵢ₊₁ - $xᵢ;
 
             if ($i == 0) {
                 continue;
@@ -111,14 +111,14 @@ class ClampedCubicSpline extends Interpolation
         $c[$n]  = $z[$k];
 
         for ($i = $k-1; $i >= 0; $i--) {
-            $xᵢ       = $sorted[$i][$x];
-            $xᵢ₊₁     = $sorted[$i+1][$x];
-            $f⟮xᵢ⟯     = $sorted[$i][$y];    // yᵢ
-            $f⟮xᵢ₊₁⟯   = $sorted[$i+1][$y];  // yᵢ₊₁
+            $xᵢ     = $sorted[$i][$x];
+            $xᵢ₊₁   = $sorted[$i+1][$x];
+            $f⟮xᵢ⟯   = $sorted[$i][$y];    // yᵢ
+            $f⟮xᵢ₊₁⟯ = $sorted[$i+1][$y];  // yᵢ₊₁
 
-            $c[$i]    = $z[$i] - $μ[$i]*$c[$i+1];
-            $b[$i]    = ($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯)/$h[$i] - $h[$i]*($c[$i+1] + 2*$c[$i])/3;
-            $d[$i]    = ($c[$i+1] - $c[$i])/(3*$h[$i]);
+            $c[$i]  = $z[$i] - $μ[$i]*$c[$i+1];
+            $b[$i]  = ($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯)/$h[$i] - $h[$i]*($c[$i+1] + 2*$c[$i])/3;
+            $d[$i]  = ($c[$i+1] - $c[$i])/(3*$h[$i]);
 
             $poly[$i] = new Polynomial([
                 $d[$i],
