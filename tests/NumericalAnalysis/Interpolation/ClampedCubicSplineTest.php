@@ -182,4 +182,11 @@ class ClampedCubicSplineTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         ClampedCubicSpline::validateSpline([[0,0,1]]);
     }
+
+    public function testNotAFunctionException()
+    {
+        // Two arrays share the same first number (x-component)
+        $this->setExpectedException('\Exception');
+        ClampedCubicSpline::validateSpline([[0,0,1], [0,5,0], [1,1,3]]);
+    }
 }
