@@ -168,4 +168,11 @@ class ClampedCubicSplineTest extends \PHPUnit_Framework_TestCase
         $incorrectFunction = $x**2 + 2 * $x + 1;
         ClampedCubicSpline::getSplinePoints($incorrectFunction, [0,4,5]);
     }
+
+    public function testNotCoordinatesException()
+    {
+        // An array doesn't have precisely three numbers (coordinates)
+        $this->setExpectedException('\Exception');
+        ClampedCubicSpline::validateSpline([[0,0,1], [1,2,3], [2,2]]);
+    }
 }
