@@ -12,8 +12,8 @@ use Math\Functions\Piecewise;
  *
  * A cubic spline is a spline constructed of piecewise third-order polynomials
  * which pass through a set of m control points." In the case of the Clamped
- * cubic spline, the second derivative of each polynomial is set to zero at the
- * endpoints of each interval of the piecewise function.
+ * cubic spline, the first derivative of piecewise polynomial is set to equal the
+ * first derivative of our input at the endpoints.
  *
  * Cubic spline interpolation belongs to a collection of techniques that
  * interpolate a function or a set of values, producing a continuous polynomial.
