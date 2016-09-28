@@ -91,4 +91,72 @@ class ClampedCubicSplineTest extends \PHPUnit_Framework_TestCase
         $actual = $p(10);
         $this->assertEquals($expected, $actual, '', $tol + $roundoff);
     }
+
+    public function testSolveNonzeroError()
+    {
+        // f(x) = x⁴ + 8x³ -13x² -92x + 96
+        $f = new Polynomial([1, 8, -13, -92, 96]);
+        $f’ = $f->differentiate();
+        $f⁽⁴⁾ = $f’->differentiate()->differentiate()->differentiate();
+
+        // The error is bounded by:
+        // |f(x)-p(x)| = tol <= (5/384) * h⁴ * max f⁽⁴⁾(x)
+        // where h = max hᵢ
+        // and max f⁽⁴⁾(x) = f⁽⁴⁾(x) for all x given a 4th-degree polynomial f(x)
+
+        $a = 0;
+        $b = 10;
+        $n = 51;
+
+        // So, tol <= (1/24) * (1/5)⁴ * 24 = (1/5)⁴
+
+        $h = ($b-$a)/($n-1);
+        $tol = (5/384) * ($h**4) * $f⁽⁴⁾(0);
+
+        $roundoff = 0.000001; // round off error
+
+        $p = ClampedCubicSpline::interpolate($f, $f’, $a, $b, $n);
+
+        // Check that p(x) agrees with f(x) at x = 0
+        $target = 0;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+
+        // Check that p(x) agrees with f(x) at x = 2
+        $target = 2;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+
+        // Check that p(x) agrees with f(x) at x = 4
+        $target = 4;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+
+        // Check that p(x) agrees with f(x) at x = 6
+        $target = 6;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+
+        // Check that p(x) agrees with f(x) at x = 8
+        $target = 8;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+
+        // Check that p(x) agrees with f(x) at x = 10
+        $target = 10;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+
+        // Check that p(x) agrees with f(x) at x = 7.32 (not a node)
+        $target = 7.32;
+        $expected = $f($target);
+        $x = $p($target);
+        $this->assertEquals($expected, $x, '', $tol + $roundoff);
+    }
 }
