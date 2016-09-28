@@ -415,13 +415,13 @@ $points = [[0, 1, 0], [1, 4, -1], [2, 9, 4], [3, 16, 0]];
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-$derivative = function ($x) {
+$f’⟮x⟯ = function ($x) {
     return 2*$x + 2;
 };
 list($start, $end, $n) = [0, 3, 4];
 
 $p = Interpolation\ClampedCubicSpline::interpolate($points);                // input as a set of points
-$p = Interpolation\ClampedCubicSpline::interpolate($f⟮x⟯, $start, $end, $n); // input as a callback function
+$p = Interpolation\ClampedCubicSpline::interpolate($f⟮x⟯, $f’⟮x⟯, $start, $end, $n); // input as a callback function
 
 $p(0) // 1
 $p(3) // 16
