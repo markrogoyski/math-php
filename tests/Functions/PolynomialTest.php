@@ -502,10 +502,35 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
 
     public function testSetVariable()
     {
+        // Start with default variable: x
         $polynomial = new Polynomial([1, 1, 1, 1]);
 
         $expected = "x";
         $result   = $polynomial->getVariable();
+        $this->assertEquals($expected, $result);
+
+        $expected = "x³ + x² + x + 1";
+        $result   = strval($polynomial);
+        $this->assertEquals($expected, $result);
+
+        // Switch variable to Φ
+        $polynomial->setVariable("Φ");
+        $expected = "Φ";
+        $result   = $polynomial->getVariable();
+        $this->assertEquals($expected, $result);
+
+        $expected = "Φ³ + Φ² + Φ + 1";
+        $result   = strval($polynomial);
+        $this->assertEquals($expected, $result);
+
+        // Switch variable back to x
+        $polynomial->setVariable("x");
+        $expected = "x";
+        $result   = $polynomial->getVariable();
+        $this->assertEquals($expected, $result);
+
+        $expected = "x³ + x² + x + 1";
+        $result   = strval($polynomial);
         $this->assertEquals($expected, $result);
     }
 
