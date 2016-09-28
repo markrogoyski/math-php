@@ -81,7 +81,7 @@ class Polynomial
      *
      * @return string A human readable representation of the polynomial
      */
-    public function __toString()
+    public function __toString(): string
     {
         $variable = $this->variable;
 
@@ -115,7 +115,7 @@ class Polynomial
                 $coefficient = '';
             }
 
-            // Generate the $term string. No x term if power = 0.
+            // Generate the $term string. No $variable term if power = 0.
             if ($power == 0) {
                 $term = "{$sign} {$coefficient}";
             } else {
@@ -146,7 +146,7 @@ class Polynomial
      *
      * @return number The result of our polynomial evaluated at $x₀
      */
-    public function __invoke($x₀)
+    public function __invoke($x₀): float
     {
         // Set object parameters as local variables so they can be used with the use function
         $degree       = $this->degree;
@@ -197,7 +197,7 @@ class Polynomial
      *
      * @return object The derivative of our polynomial object, also a polynomial object
      */
-    public function differentiate()
+    public function differentiate(): Polynomial
     {
         $derivativeCoefficients = []; // Start with empty set of coefficients
 
@@ -221,7 +221,7 @@ class Polynomial
      *
      * @return object The integral of our polynomial object, also a polynomial object
      */
-    public function integrate()
+    public function integrate(): Polynomial
     {
         $integralCoefficients = []; // Start with empty set of coefficients
 
@@ -245,7 +245,7 @@ class Polynomial
      *
      * @return object The sum of our polynomial objects, also a polynomial object
      */
-    public function add(Polynomial $polynomial)
+    public function add(Polynomial $polynomial): Polynomial
     {
         // Calculate the degree of the sum of the polynomials
         $sumDegree       = max($this->degree, $polynomial->degree);
@@ -284,7 +284,7 @@ class Polynomial
      *
      * @return object The product of our polynomial objects, also a polynomial object
      */
-    public function multiply(Polynomial $polynomial)
+    public function multiply(Polynomial $polynomial): Polynomial
     {
         // Calculate the degree of the product of the polynomials
         $productDegree       = $this->degree + $polynomial->degree;
