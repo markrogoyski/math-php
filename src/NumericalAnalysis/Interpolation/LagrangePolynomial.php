@@ -1,7 +1,6 @@
 <?php
 namespace Math\NumericalAnalysis\Interpolation;
 
-use Math\Functions\Arithmetic;
 use Math\Functions\Polynomial;
 
 /**
