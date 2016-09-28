@@ -106,8 +106,8 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
     public function testVariable(array $args, string $expected)
     {
         $coefficients = $args[0];
-        $variable     = $args[1] ?? "";
-        $polynomial   = new Polynomial($coefficients);
+        $variable     = $args[1] ?? "x";
+        $polynomial   = new Polynomial($coefficients, $variable);
         $string       = strval($polynomial);
         $this->assertEquals($expected, $string);
     }
@@ -121,11 +121,11 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [[2, 3, 4], "p"],       // p(p) = 2p² + 3p + 4
-                '2p² + 3p + p',
+                '2p² + 3p + 4',
             ],
             [
                 [[-1, -2, -3], "q"],       // p(q) = -q² - 2q - 3
-                '-q² - qx - q',
+                '-q² - 2q - 3',
             ],
             [
                 [[-2, -3, -4], "a"],       // p(a) = -2a² - 3a - 4
