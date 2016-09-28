@@ -202,7 +202,7 @@ class Polynomial
      */
     public function getVariable(): string
     {
-        return $this->variable();
+        return $this->variable;
     }
 
     /**
