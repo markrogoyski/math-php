@@ -190,6 +190,11 @@ class Polynomial
         return $this->coefficients;
     }
 
+    /**
+     * Getter method for the dependent variable of a polynomial
+     *
+     * @return string The dependent variable of a polynomial object
+     */
     public function getVariable(): string
     {
         return $this->variable();
