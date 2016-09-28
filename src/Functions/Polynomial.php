@@ -14,16 +14,18 @@ namespace Math\Functions;
  * Make sure to put a 0 coefficient in place of powers that are not used.
  *
  * Current features:
- *     o Print a human readable representation of a polynomial
+ *     o Print a human readable string of a polynomial of any variable (default of x)
  *     o Evaluate a polynomial at any real number
  *     o Return the degree of a polynomial
  *     o Return the coefficients of a polynomial
+ *     o Return the variable of a polynomial
+ *     o Set the variable of an instantiated polynomial
  *     o Polynomial differentiation (exact)
  *     o Polynomial integration (indefinite integral)
  *     o Polynomial addition
  *     o Polynomial multiplication
  *
- * Example:
+ * Examples:
  *     $polynomial = new Polynomial([1, -8, 12, 3]);
  *     echo $polynomial;                        // prints 'x³ - 8x² + 12x + 3'
  *     echo $polynomial(4);                     // prints -31
@@ -33,6 +35,9 @@ namespace Math\Functions;
  *     echo $polynomial->integrate();           // prints '0.25x⁴ - 2.6666666666667x³ + 6x² + 3x'
  *     echo $polynomial->add($polynomial);      // prints '2x³ - 16x² + 24x + 6'
  *     echo $polynomial->multiply($polynomial); // prints 'x⁶ - 16x⁵ + 88x⁴ - 186x³ + 96x² + 72x + 9'
+ *     echo $polynomial->getVariable();         // prints 'x'
+ *     $polynomial->setVariable("r");
+ *     echo $polynomial;                        // prints 'r³ - 8r² + 12r + 3'
  *
  * https://en.wikipedia.org/wiki/Polynomial
  */
