@@ -2,6 +2,7 @@
 namespace Math\NumericalAnalysis\Interpolation;
 
 use Math\Functions\Arithmetic;
+use Math\Functions\Polynomial;
 
 /**
  * Newton (Forward) Interpolting Polynomials
