@@ -145,11 +145,12 @@ class ClampedCubicSpline extends Interpolation
     public static function getPoints($source, array $args = []): array
     {
         if (is_callable($source)) {
-            $function = $source;
-            $start    = $args[0];
-            $end      = $args[1];
-            $n        = $args[2];
-            $points   = self::functionToPoints($function, $start, $end, $n);
+            $function   = $source;
+            $derivative = $args[0];
+            $start      = $args[1];
+            $end        = $args[2];
+            $n          = $args[3];
+            $points     = self::functionToPoints($function, $derivative, $start, $end, $n);
         } elseif (is_array($source)) {
             $points   = $source;
         } else {
@@ -164,14 +165,15 @@ class ClampedCubicSpline extends Interpolation
      * Evaluate our callback function at n evenly spaced points on the interval
      * between start and end
      *
-     * @param  callable $function f(x) callback function
-     * @param  number   $start    the start of the interval
-     * @param  number   $end      the end of the interval
-     * @param  number   $n        the number of function evaluations
+     * @param  callable $function   f(x) callback function
+     * @param  callable $derivative f'(x) callback function
+     * @param  number   $start      the start of the interval
+     * @param  number   $end        the end of the interval
+     * @param  number   $n          the number of function evaluations
      *
      * @return array
      */
-    protected static function functionToPoints(callable $function, $start, $end, $n): array
+    protected static function functionToPoints(callable $function, callable $derivative, $start, $end, $n): array
     {
         $points = [];
         $h      = ($end-$start)/($n-1);
@@ -179,7 +181,8 @@ class ClampedCubicSpline extends Interpolation
         for ($i = 0; $i < $n; $i++) {
             $xᵢ         = $start + $i*$h;
             $f⟮xᵢ⟯       = $function($xᵢ);
-            $points[$i] = [$xᵢ, $f⟮xᵢ⟯];
+            $f’⟮xᵢ⟯      = $derivative($xᵢ);
+            $points[$i] = [$xᵢ, $f⟮xᵢ⟯, $f’⟮xᵢ⟯];
         }
         return $points;
     }
