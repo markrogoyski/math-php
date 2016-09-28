@@ -159,4 +159,13 @@ class ClampedCubicSplineTest extends \PHPUnit_Framework_TestCase
         $x = $p($target);
         $this->assertEquals($expected, $x, '', $tol + $roundoff);
     }
+
+    public function testIncorrectInput()
+    {
+        // The input $source is neither a callback or a set of arrays
+        $this->setExpectedException('\Exception');
+        $x                 = 10;
+        $incorrectFunction = $x**2 + 2 * $x + 1;
+        ClampedCubicSpline::getSplinePoints($incorrectFunction, [0,4,5]);
+    }
 }
