@@ -78,7 +78,6 @@ class ClampedCubicSpline extends Interpolation
         $a     = [(3/$h[0])*($f⟮x₁⟯-$f⟮x₀⟯) - 3*$y’₀];
         $μ     = [0.5];
         $z     = [$a[0]/(2*$h[0])];
-        $c     = [];
         $c[$k] = 0;
         $poly  = [];
 
