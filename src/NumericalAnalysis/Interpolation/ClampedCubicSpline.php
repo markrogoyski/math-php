@@ -50,10 +50,10 @@ class ClampedCubicSpline extends Interpolation
     public static function interpolate($source, ... $args)
     {
         // Get an array of points from our $source argument
-        $points = self::getPoints($source, $args);
+        $points = self::getSplinePoints($source, $args);
 
         // Validate input and sort points
-        self::validate($points, $degree = 1);
+        self::validateSpline($points, $degree = 1);
         $sorted = self::sort($points);
 
         // Descriptive constants
@@ -142,7 +142,7 @@ class ClampedCubicSpline extends Interpolation
      * @return array
      * @throws Exception if $source is not callable or a set of arrays
      */
-    public static function getPoints($source, array $args = []): array
+    public static function getSplinePoints($source, array $args = []): array
     {
         if (is_callable($source)) {
             $function   = $source;
@@ -150,7 +150,7 @@ class ClampedCubicSpline extends Interpolation
             $start      = $args[1];
             $end        = $args[2];
             $n          = $args[3];
-            $points     = self::functionToPoints($function, $derivative, $start, $end, $n);
+            $points     = self::functionToSplinePoints($function, $derivative, $start, $end, $n);
         } elseif (is_array($source)) {
             $points   = $source;
         } else {
@@ -173,7 +173,7 @@ class ClampedCubicSpline extends Interpolation
      *
      * @return array
      */
-    protected static function functionToPoints(callable $function, callable $derivative, $start, $end, $n): array
+    protected static function functionToSplinePoints(callable $function, callable $derivative, $start, $end, $n): array
     {
         $points = [];
         $h      = ($end-$start)/($n-1);
@@ -200,7 +200,7 @@ class ClampedCubicSpline extends Interpolation
      * @throws Exception if any point does not contain three numbers
      * @throws Exception if two points share the same first number (x-component)
      */
-    public static function validate(array $points, $degree = 2): bool
+    public static function validateSpline(array $points, $degree = 2): bool
     {
         if (count($points) < $degree) {
             throw new \Exception("You need to have at least $degree sets of
