@@ -40,6 +40,7 @@ class Polynomial
 {
     private $degree;
     private $coefficients;
+    private $variable;
 
     /**
      * @var array Unicode characters for exponents
@@ -82,6 +83,8 @@ class Polynomial
      */
     public function __toString()
     {
+        $variable = $this->variable;
+
         // Start with an empty polynomial
         $polynomial = '';
 
@@ -116,7 +119,7 @@ class Polynomial
             if ($power == 0) {
                 $term = "{$sign} {$coefficient}";
             } else {
-                $term = "{$sign} {$coefficient}x{$exponent} ";
+                $term = "{$sign} {$coefficient}{$variable}{$exponent} ";
             }
 
             // Add the current term to the polynomial
@@ -124,7 +127,7 @@ class Polynomial
         }
 
         // Cleanup front and back; drop redundant ¹ and ⁰ terms from monomials
-        $polynomial = trim(str_replace(['x¹ ','x⁰ '], 'x ', $polynomial), '+ ');
+        $polynomial = trim(str_replace([$variable . '¹ ', $variable . '⁰ '], $variable . ' ', $polynomial), '+ ');
         $polynomial = preg_replace('/^\-\s/', '-', $polynomial);
 
         $polynomial = ($polynomial !== '') ? $polynomial : '0';
