@@ -500,6 +500,15 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testSetVariable()
+    {
+        $polynomial = new Polynomial([1, 1, 1, 1]);
+
+        $expected = "x";
+        $result   = $polynomial->getVariable();
+        $this->assertEquals($expected, $result);
+    }
+
     /**
      * @dataProvider dataProviderForDifferentiate
      */
