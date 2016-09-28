@@ -30,9 +30,9 @@ use Math\Functions\Piecewise;
 class ClampedCubicSpline extends Interpolation
 {
     /**
-     * @var int Index of z (y-prime)
+     * @var int Index of y’ (y-prime)
      */
-    const Z = 2;
+    const Y’ = 2;
 
     /**
      * Interpolate
@@ -62,17 +62,22 @@ class ClampedCubicSpline extends Interpolation
         $sorted = self::sort($points);
 
         // Descriptive constants
-        $x = self::X;
-        $y = self::Y;
+        $x  = self::X;
+        $y  = self::Y;
+        $y’ = self::Y’;
 
         // Initialize
         $n     = count($sorted);
         $k     = $n - 1;
-        $h     = [];
-        $a     = [];
-        $μ     = [0];
-        $z     = [0];
-        $z[$k] = 0;
+        $x₀    = $sorted[0][$x];
+        $x₁    = $sorted[1][$x];
+        $f⟮x₀⟯  = $sorted[0][$y];  // y₀
+        $f⟮x₁⟯  = $sorted[1][$y];  // y₁
+        $y’₀   = $sorted[0][$z];  // y₀-prime
+        $h     = [$x₁-$x₀];
+        $a     = [(3/$h[0])*($f⟮x₁⟯-$f⟮x₀⟯) - 3*$y’₀];
+        $μ     = [0.5];
+        $z     = [$a[0]/(2*$h[0])];
         $c     = [];
         $c[$k] = 0;
         $poly  = [];
@@ -97,6 +102,13 @@ class ClampedCubicSpline extends Interpolation
             $μ[$i]  = $h[$i]/$l;
             $z[$i]  = ($α - $h[$i-1]*$z[$i-1])/$l;
         }
+
+        $f⟮xₙ⟯   = $sorted[$k][$y];   // yₙ
+        $f⟮xₙ₋₁⟯ = $sorted[$k-1][$y]; // yₙ₋₁
+        $y’ₙ    = $sorted[$k][$z];   // yₙ-prime
+        $l      = $h[$k-1]*(2 - $μ[$k - 1]);
+        $a[$k]  = 3*$y’ₙ - 3*($f⟮xₙ⟯ - $f⟮xₙ₋₁⟯)/$h[$k-1];
+        $z[$k]  = 1;
 
         for ($i = $k-1; $i >= 0; $i--) {
             $xᵢ       = $sorted[$i][$x];
