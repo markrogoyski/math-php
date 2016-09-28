@@ -175,4 +175,11 @@ class ClampedCubicSplineTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         ClampedCubicSpline::validateSpline([[0,0,1], [1,2,3], [2,2]]);
     }
+
+    public function testNotEnoughArraysException()
+    {
+        // There are not enough arrays in the input
+        $this->setExpectedException('\Exception');
+        ClampedCubicSpline::validateSpline([[0,0,1]]);
+    }
 }
