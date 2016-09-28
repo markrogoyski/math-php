@@ -183,4 +183,43 @@ class ClampedCubicSpline extends Interpolation
         }
         return $points;
     }
+
+    /**
+     * Validate that there are enough input arrays (points), that each point array
+     * has precisely two numbers, and that no two points share the same first number
+     * (x-component)
+     *
+     * @param  array  $points Array of arrays (points)
+     * @param  number $degree The miminum number of input arrays
+     *
+     * @return bool
+     * @throws Exception if there are less than two points
+     * @throws Exception if any point does not contain two numbers
+     * @throws Exception if two points share the same first number (x-component)
+     */
+    public static function validate(array $points, $degree = 2): bool
+    {
+        if (count($points) < $degree) {
+            throw new \Exception("You need to have at least $degree sets of
+                                  coordinates (arrays) for this technique");
+        }
+
+        $x_coordinates = [];
+        foreach ($points as $point) {
+            if (count($point) !== 2) {
+                throw new \Exception("Each array needs to have have precisely
+                                      two numbers, an x- and y-component");
+            }
+
+            $x_component = $point[self::X];
+            if (in_array($x_component, $x_coordinates)) {
+                throw new \Exception("Not a function. Your input array contains
+                                      more than one coordinate with the same
+                                      x-component.");
+            }
+            array_push($x_coordinates, $x_component);
+        }
+
+        return true;
+    }
 }
