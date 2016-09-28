@@ -200,6 +200,11 @@ class Polynomial
         return $this->variable();
     }
 
+    /**
+     * Setter method for the dependent variable of a polynomial
+     *
+     * @param string The new dependent variable of a polynomial object
+     */
     public function setVariable(string $variable)
     {
         $this->variable = $variable;
