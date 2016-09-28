@@ -9,8 +9,6 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
      */
     public function testString(array $coefficients, string $expected)
     {
-        // p(x) = x² + 2x + 3
-
         $polynomial = new Polynomial($coefficients);
         $string     = strval($polynomial);
         $this->assertEquals($expected, $string);
@@ -59,7 +57,6 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
                 [0, 2, 0],       // p(x) = 2x
                 '2x',
             ],
-
             [
                 [0, -2, 3],       // p(x) = -2x + 3
                 '-2x + 3',
@@ -99,6 +96,104 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
             [
                 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],       // p(x) = x¹¹ + 2x¹⁰ + 3x⁹ + 4x⁸ + 5x⁷ + 6x⁶ + 7x⁵ + 8x⁴ + 9x³ + 10x² + 11x + 12
                 'x¹¹ + 2x¹⁰ + 3x⁹ + 4x⁸ + 5x⁷ + 6x⁶ + 7x⁵ + 8x⁴ + 9x³ + 10x² + 11x + 12',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForVariable
+     */
+    public function testVariable(array $args, string $expected)
+    {
+        $coefficients = $args[0];
+        $variable     = $args[1] ?? "x";
+        $polynomial   = new Polynomial($coefficients, $variable);
+        $string       = strval($polynomial);
+        $this->assertEquals($expected, $string);
+    }
+
+    public function dataProviderForVariable()
+    {
+        return [
+            [
+                [[1, 2, 3]],       // p(x) = x² + 2x + 3
+                'x² + 2x + 3',
+            ],
+            [
+                [[2, 3, 4], "p"],       // p(p) = 2p² + 3p + 4
+                '2p² + 3p + 4',
+            ],
+            [
+                [[-1, -2, -3], "q"],       // p(q) = -q² - 2q - 3
+                '-q² - 2q - 3',
+            ],
+            [
+                [[-2, -3, -4], "a"],       // p(a) = -2a² - 3a - 4
+                '-2a² - 3a - 4',
+            ],
+            [
+                [[0, 2, 3], "a"],       // p(a) = 2a + 3
+                '2a + 3',
+            ],
+            [
+                [[1, 0, 3], "a"],       // p(a) = a² + 3
+                'a² + 3',
+            ],
+            [
+                [[1, 2, 0], "a"],       // p(a) = a² + 2a
+                'a² + 2a',
+            ],
+            [
+                [[0, 0, 3], "a"],       // p(a) = 3
+                '3',
+            ],
+            [
+                [[1, 0, 0], "a"],       // p(a) = a²
+                'a²',
+            ],
+            [
+                [[0, 2, 0], "a"],       // p(a) = 2a
+                '2a',
+            ],
+            [
+                [[0, -2, 3], "a"],       // p(a) = -2a + 3
+                '-2a + 3',
+            ],
+            [
+                [[-1, 0, 3], "a"],       // p(a) = -a² + 3
+                '-a² + 3',
+            ],
+            [
+                [[1, -2, 0], "a"],       // p(a) = a² - 2a
+                'a² - 2a',
+            ],
+            [
+                [[0, 0, -3], "a"],       // p(a) = -3
+                '-3',
+            ],
+            [
+                [[-1, 0, 0], "a"],       // p(a) = -a²
+                '-a²',
+            ],
+            [
+                [[0, -2, 0], "a"],       // p(a) = -2a
+                '-2a',
+            ],
+            [
+                [[0, 0, 0], "a"],       // p(a) = 0
+                '0',
+            ],
+            [
+                [[0, 0, 1], "a"],       // p(a) = 1
+                '1',
+            ],
+            [
+                [[0, 0, 5], "a"],       // p(a) = 5
+                '5',
+            ],
+            [
+                [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "a"],       // p(a) = a¹¹ + 2a¹⁰ + 3a⁹ + 4a⁸ + 5a⁷ + 6a⁶ + 7a⁵ + 8a⁴ + 9a³ + 10a² + 11a + 12
+                'a¹¹ + 2a¹⁰ + 3a⁹ + 4a⁸ + 5a⁷ + 6a⁶ + 7a⁵ + 8a⁴ + 9a³ + 10a² + 11a + 12',
             ],
         ];
     }
@@ -252,7 +347,7 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
         $coefficients = $polynomial->getCoefficients();
         $this->assertEquals($expected, $coefficients);
     }
-    
+
     public function dataProviderForGetCoefficients()
     {
         return [
@@ -337,6 +432,106 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
                 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
             ],
         ];
+    }
+
+    /**
+     * @dataProvider dataProviderForGetVariable
+     */
+    public function testGetVariable(array $args, string $expected)
+    {
+        $coefficients = $args[0];
+        $variable     = $args[1] ?? "x";
+        $polynomial   = new Polynomial($coefficients, $variable);
+        $result       = $polynomial->getVariable();
+        $this->assertEquals($expected, $result);
+    }
+
+    public function dataProviderForGetVariable()
+    {
+        return [
+            [
+                [[1, 2, 3]],       // p(x) = x² + 2x + 3
+                'x',
+            ],
+            [
+                [[2, 3, 4], "p"],       // p(p) = 2p² + 3p + 4
+                'p',
+            ],
+            [
+                [[-1, -2, -3], "m"],       // p(m) = -m² - 2m - 3
+                'm',
+            ],
+            [
+                [[-2, -3, -4], "a"],       // p(a) = -2a² - 3a - 4
+                'a',
+            ],
+            [
+                [[0, 2, 3], "Δ"],       // p(Δ) = 2Δ + 3
+                'Δ',
+            ],
+            [
+                [[1, 0, 3], "Γ"],       // p(Γ) = Γ² + 3
+                'Γ',
+            ],
+            [
+                [[1, 2, 0], "Ψ"],       // p(a) = Ψ² + 2Ψ
+                'Ψ',
+            ],
+            [
+                [[0, 0, 3], "μ"],       // p(μ) = 3
+                'μ',
+            ],
+            [
+                [[1, 0, 0], "ξ"],       // p(ξ) = ξ²
+                'ξ',
+            ],
+            [
+                [[0, 2, 0], "aₙ"],       // p(aₙ) = 2aₙ
+                'aₙ',
+            ],
+            [
+                [[0, -2, 3], "aⁿ"],       // p(aⁿ) = -2aⁿ + 3
+                'aⁿ',
+            ],
+            [
+                [[-1, 0, 3], "a₍ₘ₎₍ₙ₎"],       // p(a) = -a₍ₘ₎₍ₙ₎² + 3
+                'a₍ₘ₎₍ₙ₎',
+            ],
+        ];
+    }
+
+    public function testSetVariable()
+    {
+        // Start with default variable: x
+        $polynomial = new Polynomial([1, 1, 1, 1]);
+
+        $expected = "x";
+        $result   = $polynomial->getVariable();
+        $this->assertEquals($expected, $result);
+
+        $expected = "x³ + x² + x + 1";
+        $result   = strval($polynomial);
+        $this->assertEquals($expected, $result);
+
+        // Switch variable to Φ
+        $polynomial->setVariable("Φ");
+        $expected = "Φ";
+        $result   = $polynomial->getVariable();
+        $this->assertEquals($expected, $result);
+
+        $expected = "Φ³ + Φ² + Φ + 1";
+        $result   = strval($polynomial);
+        $this->assertEquals($expected, $result);
+
+        // Switch variable back to x
+        $polynomial->setVariable("x");
+        $expected = "x";
+        $result   = $polynomial->getVariable();
+        $this->assertEquals($expected, $result);
+
+        $expected = "x³ + x² + x + 1";
+        $result   = strval($polynomial);
+        $this->assertEquals($expected, $result);
     }
 
     /**

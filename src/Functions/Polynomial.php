@@ -14,16 +14,18 @@ namespace Math\Functions;
  * Make sure to put a 0 coefficient in place of powers that are not used.
  *
  * Current features:
- *     o Print a human readable representation of a polynomial
+ *     o Print a human readable string of a polynomial of any variable (default of x)
  *     o Evaluate a polynomial at any real number
  *     o Return the degree of a polynomial
  *     o Return the coefficients of a polynomial
+ *     o Return the variable of a polynomial
+ *     o Set the variable of an instantiated polynomial
  *     o Polynomial differentiation (exact)
  *     o Polynomial integration (indefinite integral)
  *     o Polynomial addition
  *     o Polynomial multiplication
  *
- * Example:
+ * Examples:
  *     $polynomial = new Polynomial([1, -8, 12, 3]);
  *     echo $polynomial;                        // prints 'x³ - 8x² + 12x + 3'
  *     echo $polynomial(4);                     // prints -31
@@ -33,6 +35,9 @@ namespace Math\Functions;
  *     echo $polynomial->integrate();           // prints '0.25x⁴ - 2.6666666666667x³ + 6x² + 3x'
  *     echo $polynomial->add($polynomial);      // prints '2x³ - 16x² + 24x + 6'
  *     echo $polynomial->multiply($polynomial); // prints 'x⁶ - 16x⁵ + 88x⁴ - 186x³ + 96x² + 72x + 9'
+ *     echo $polynomial->getVariable();         // prints 'x'
+ *     $polynomial->setVariable("r");
+ *     echo $polynomial;                        // prints 'r³ - 8r² + 12r + 3'
  *
  * https://en.wikipedia.org/wiki/Polynomial
  */
@@ -40,6 +45,7 @@ class Polynomial
 {
     private $degree;
     private $coefficients;
+    private $variable;
 
     /**
      * @var array Unicode characters for exponents
@@ -54,7 +60,7 @@ class Polynomial
      *                            Example: new Polynomial([1, 2, 3]) will create
      *                            a polynomial that looks like x² + 2x + 3.
      */
-    public function __construct(array $coefficients)
+    public function __construct(array $coefficients, $variable = "x")
     {
         // Remove coefficients that are leading zeros
         for ($i = 0; $i < count($coefficients); $i++) {
@@ -69,6 +75,7 @@ class Polynomial
 
         $this->degree       = count($coefficients) - 1;
         $this->coefficients = $coefficients;
+        $this->variable     = $variable;
     }
 
     /**
@@ -79,8 +86,10 @@ class Polynomial
      *
      * @return string A human readable representation of the polynomial
      */
-    public function __toString()
+    public function __toString(): string
     {
+        $variable = $this->variable;
+
         // Start with an empty polynomial
         $polynomial = '';
 
@@ -111,11 +120,11 @@ class Polynomial
                 $coefficient = '';
             }
 
-            // Generate the $term string. No x term if power = 0.
+            // Generate the $term string. No $variable term if power = 0.
             if ($power == 0) {
                 $term = "{$sign} {$coefficient}";
             } else {
-                $term = "{$sign} {$coefficient}x{$exponent} ";
+                $term = "{$sign} {$coefficient}{$variable}{$exponent} ";
             }
 
             // Add the current term to the polynomial
@@ -123,7 +132,7 @@ class Polynomial
         }
 
         // Cleanup front and back; drop redundant ¹ and ⁰ terms from monomials
-        $polynomial = trim(str_replace(['x¹ ','x⁰ '], 'x ', $polynomial), '+ ');
+        $polynomial = trim(str_replace([$variable . '¹ ', $variable . '⁰ '], $variable . ' ', $polynomial), '+ ');
         $polynomial = preg_replace('/^\-\s/', '-', $polynomial);
 
         $polynomial = ($polynomial !== '') ? $polynomial : '0';
@@ -142,7 +151,7 @@ class Polynomial
      *
      * @return number The result of our polynomial evaluated at $x₀
      */
-    public function __invoke($x₀)
+    public function __invoke($x₀): float
     {
         // Set object parameters as local variables so they can be used with the use function
         $degree       = $this->degree;
@@ -187,13 +196,33 @@ class Polynomial
     }
 
     /**
+     * Getter method for the dependent variable of a polynomial
+     *
+     * @return string The dependent variable of a polynomial object
+     */
+    public function getVariable(): string
+    {
+        return $this->variable;
+    }
+
+    /**
+     * Setter method for the dependent variable of a polynomial
+     *
+     * @param string The new dependent variable of a polynomial object
+     */
+    public function setVariable(string $variable)
+    {
+        $this->variable = $variable;
+    }
+
+    /**
      * Calculate the derivative of a polynomial and return it as a new polynomial
      * Example: $polynomial = new Polynomial([1, -8, 12, 3]); // x³ - 8x² + 12x + 3
      *          $derivative = $polynomial->differentiate();   // 3x² - 16x + 12
      *
      * @return object The derivative of our polynomial object, also a polynomial object
      */
-    public function differentiate()
+    public function differentiate(): Polynomial
     {
         $derivativeCoefficients = []; // Start with empty set of coefficients
 
@@ -217,7 +246,7 @@ class Polynomial
      *
      * @return object The integral of our polynomial object, also a polynomial object
      */
-    public function integrate()
+    public function integrate(): Polynomial
     {
         $integralCoefficients = []; // Start with empty set of coefficients
 
@@ -241,7 +270,7 @@ class Polynomial
      *
      * @return object The sum of our polynomial objects, also a polynomial object
      */
-    public function add(Polynomial $polynomial)
+    public function add(Polynomial $polynomial): Polynomial
     {
         // Calculate the degree of the sum of the polynomials
         $sumDegree       = max($this->degree, $polynomial->degree);
@@ -280,7 +309,7 @@ class Polynomial
      *
      * @return object The product of our polynomial objects, also a polynomial object
      */
-    public function multiply(Polynomial $polynomial)
+    public function multiply(Polynomial $polynomial): Polynomial
     {
         // Calculate the degree of the product of the polynomials
         $productDegree       = $this->degree + $polynomial->degree;
