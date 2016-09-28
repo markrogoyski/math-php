@@ -54,7 +54,7 @@ class Polynomial
      *                            Example: new Polynomial([1, 2, 3]) will create
      *                            a polynomial that looks like x² + 2x + 3.
      */
-    public function __construct(array $coefficients)
+    public function __construct(array $coefficients, $variable = "x")
     {
         // Remove coefficients that are leading zeros
         for ($i = 0; $i < count($coefficients); $i++) {
@@ -69,6 +69,7 @@ class Polynomial
 
         $this->degree       = count($coefficients) - 1;
         $this->coefficients = $coefficients;
+        $this->variable     = $variable;
     }
 
     /**
