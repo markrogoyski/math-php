@@ -34,11 +34,13 @@ class ClampedCubicSpline extends Interpolation
      *
      * @param          $source   The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
-     *                           (point) contains precisely two numbers, an x and y.
-     *                           Example array: [[1,2], [2,3], [3,4]].
+     *                           (point) contains precisely three numbers: x, y, and y'
+     *                           Example array: [[1,2,1], [2,3,0], [3,4,2]].
      *                           Example callback: function($x) {return $x**2;}
-     * @param numbers  ... $args The arguments of our callback function: start,
-     *                           end, and n. Example: approximate($source, 0, 8, 5).
+     * @param numbers  ... $args (Optional) An additonal callback: our first derivative,
+     *                           and arguments of our callback functions: start,
+     *                           end, and n.
+     *                           Example: approximate($source, $derivative, 0, 8, 5).
      *                           If $source is a set of points, do not input any
      *                           $args. Example: approximate($source).
      *
@@ -118,5 +120,43 @@ class ClampedCubicSpline extends Interpolation
         $piecewise = new Piecewise($int, $poly);
 
         return $piecewise;
+    }
+
+    /**
+     * Determine where the input $source argument is a callback function, a set
+     * of arrays, or neither. If $source is a callback function, run it through
+     * the functionToPoints() method with the input $args, and set $points to
+     * output array. If $source is a set of arrays, simply set $points to
+     * $source. If $source is neither, throw an Exception.
+     *
+     * @todo  Add method to verify function is continuous on our interval
+     * @todo  Add method to verify input arguments are valid.
+     *        Verify $start and $end are numbers, $end > $start, and $points is an integer > 1
+     *
+     * @param          $source The source of our approximation. Should be either
+     *                         a callback function or a set of arrays.
+     * @param  array   $args   The arguments of our callback function: start,
+     *                         end, and n. Example: [0, 8, 5]. If $source is a
+     *                         set of arrays, $args will default to [].
+     *
+     * @return array
+     * @throws Exception if $source is not callable or a set of arrays
+     */
+    public static function getPoints($source, array $args = []): array
+    {
+        if (is_callable($source)) {
+            $function = $source;
+            $start    = $args[0];
+            $end      = $args[1];
+            $n        = $args[2];
+            $points   = self::functionToPoints($function, $start, $end, $n);
+        } elseif (is_array($source)) {
+            $points   = $source;
+        } else {
+            throw new \Exception("Input source is incorrect. You need to input
+                                  either a callback function or a set of arrays");
+        }
+
+        return $points;
     }
 }
