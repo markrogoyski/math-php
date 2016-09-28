@@ -159,4 +159,28 @@ class ClampedCubicSpline extends Interpolation
 
         return $points;
     }
+
+    /**
+     * Evaluate our callback function at n evenly spaced points on the interval
+     * between start and end
+     *
+     * @param  callable $function f(x) callback function
+     * @param  number   $start    the start of the interval
+     * @param  number   $end      the end of the interval
+     * @param  number   $n        the number of function evaluations
+     *
+     * @return array
+     */
+    protected static function functionToPoints(callable $function, $start, $end, $n): array
+    {
+        $points = [];
+        $h      = ($end-$start)/($n-1);
+
+        for ($i = 0; $i < $n; $i++) {
+            $xᵢ         = $start + $i*$h;
+            $f⟮xᵢ⟯       = $function($xᵢ);
+            $points[$i] = [$xᵢ, $f⟮xᵢ⟯];
+        }
+        return $points;
+    }
 }
