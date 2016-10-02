@@ -103,6 +103,9 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      */
     public static function rand(...$params)
     {
+        if (function_exists('random_int')) {
+            return static::inverse(random_int(0, PHP_INT_MAX) / PHP_INT_MAX, ...$params);
+        }
         return static::inverse(mt_rand() / mt_getrandmax(), ...$params);
     }
 }
