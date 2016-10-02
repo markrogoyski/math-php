@@ -1,9 +1,9 @@
 <?php
-namespace Math\Probability\Distribution\Discrete;
+namespace MathPHP\Probability\Distribution\Discrete;
 
-use Math\Probability\Combinatorics;
-use Math\Functions\Special;
-use Math\Functions\Support;
+use MathPHP\Probability\Combinatorics;
+use MathPHP\Functions\Special;
+use MathPHP\Functions\Support;
 
 /**
  * Negative binomial distribution (Pascal distribution)

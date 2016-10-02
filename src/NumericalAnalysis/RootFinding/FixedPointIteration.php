@@ -1,5 +1,5 @@
 <?php
-namespace Math\NumericalAnalysis\RootFinding;
+namespace MathPHP\NumericalAnalysis\RootFinding;
 
 /**
  * Fixed Point Iteration

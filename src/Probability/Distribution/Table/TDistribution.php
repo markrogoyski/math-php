@@ -1,5 +1,5 @@
 <?php
-namespace Math\Probability\Distribution\Table;
+namespace MathPHP\Probability\Distribution\Table;
 
 /**
  * Student's t distribution table of selected values

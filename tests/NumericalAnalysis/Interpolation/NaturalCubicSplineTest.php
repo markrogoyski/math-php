@@ -1,7 +1,7 @@
 <?php
-namespace Math\NumericalAnalysis\Interpolation;
+namespace MathPHP\NumericalAnalysis\Interpolation;
 
-use Math\Functions\Polynomial;
+use MathPHP\Functions\Polynomial;
 
 class NaturalCubicSplineTest extends \PHPUnit_Framework_TestCase
 {

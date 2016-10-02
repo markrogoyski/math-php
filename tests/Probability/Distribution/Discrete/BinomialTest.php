@@ -1,5 +1,5 @@
 <?php
-namespace Math\Probability\Distribution\Discrete;
+namespace MathPHP\Probability\Distribution\Discrete;
 
 class BinomialTest extends \PHPUnit_Framework_TestCase
 {

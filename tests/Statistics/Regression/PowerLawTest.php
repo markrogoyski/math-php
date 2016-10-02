@@ -1,5 +1,5 @@
 <?php
-namespace Math\Statistics\Regression;
+namespace MathPHP\Statistics\Regression;
 
 class PowerLawTest extends \PHPUnit_Framework_TestCase
 {
@@ -8,8 +8,8 @@ class PowerLawTest extends \PHPUnit_Framework_TestCase
     {
         $points = [ [ 83, 183 ], [ 71, 168 ], [ 64, 171 ], [ 69, 178 ], [ 69, 176 ], [ 64, 172 ], [ 68, 165 ], [ 59, 158 ], [ 81, 183 ], [ 91, 182 ], [ 57, 163 ], [ 65, 175 ], [ 58, 164 ], [ 62, 175 ] ];
         $regression = new PowerLaw($points);
-        $this->assertInstanceOf('Math\Statistics\Regression\Regression', $regression);
-        $this->assertInstanceOf('Math\Statistics\Regression\PowerLaw', $regression);
+        $this->assertInstanceOf('MathPHP\Statistics\Regression\Regression', $regression);
+        $this->assertInstanceOf('MathPHP\Statistics\Regression\PowerLaw', $regression);
     }
 
     /**

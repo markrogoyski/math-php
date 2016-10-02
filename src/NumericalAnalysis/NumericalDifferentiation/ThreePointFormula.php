@@ -1,5 +1,5 @@
 <?php
-namespace Math\NumericalAnalysis\NumericalDifferentiation;
+namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 
 /**
  * Three Point Formula

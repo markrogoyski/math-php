@@ -1,7 +1,7 @@
 <?php
-namespace Math\Probability\Distribution\Discrete;
+namespace MathPHP\Probability\Distribution\Discrete;
 
-use Math\Probability\Combinatorics;
+use MathPHP\Probability\Combinatorics;
 
 class Multinomial extends Discrete
 {
@@ -37,7 +37,7 @@ class Multinomial extends Discrete
         $n！ = Combinatorics::factorial($n);
 
         $x₁！⋯xk！ = array_product(array_map(
-            'Math\Probability\Combinatorics::factorial',
+            'MathPHP\Probability\Combinatorics::factorial',
             $frequencies
         ));
 

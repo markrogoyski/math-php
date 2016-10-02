@@ -1,10 +1,10 @@
 <?php
-namespace Math\Statistics\Regression\Methods;
+namespace MathPHP\Statistics\Regression\Methods;
 
-use Math\LinearAlgebra\Matrix;
-use Math\LinearAlgebra\ColumnVector;
-use Math\LinearAlgebra\VandermondeMatrix;
-use Math\LinearAlgebra\DiagonalMatrix;
+use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\ColumnVector;
+use MathPHP\LinearAlgebra\VandermondeMatrix;
+use MathPHP\LinearAlgebra\DiagonalMatrix;
 
 trait WeightedLeastSquares
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Math\LinearAlgebra;
+namespace MathPHP\LinearAlgebra;
 
 /**
  * Row vector (row matrix)

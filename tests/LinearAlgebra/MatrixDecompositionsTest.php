@@ -1,5 +1,5 @@
 <?php
-namespace Math\LinearAlgebra;
+namespace MathPHP\LinearAlgebra;
 
 class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
 {

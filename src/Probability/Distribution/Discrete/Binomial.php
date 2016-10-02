@@ -1,8 +1,8 @@
 <?php
-namespace Math\Probability\Distribution\Discrete;
+namespace MathPHP\Probability\Distribution\Discrete;
 
-use Math\Probability\Combinatorics;
-use Math\Functions\Support;
+use MathPHP\Probability\Combinatorics;
+use MathPHP\Functions\Support;
 
 class Binomial extends Discrete
 {

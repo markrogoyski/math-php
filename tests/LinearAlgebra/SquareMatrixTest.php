@@ -1,5 +1,5 @@
 <?php
-namespace Math\LinearAlgebra;
+namespace MathPHP\LinearAlgebra;
 
 class SquareMatrixTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,8 +11,8 @@ class SquareMatrixTest extends \PHPUnit_Framework_TestCase
         $S = new SquareMatrix($A);
         $M = new Matrix($A);
 
-        $this->assertInstanceOf('Math\LinearAlgebra\SquareMatrix', $S);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $S);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\SquareMatrix', $S);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $S);
 
         $m = $S->getM();
         for ($i = 0; $i < $m; $i++) {

@@ -1,5 +1,5 @@
 <?php
-namespace Math\Probability;
+namespace MathPHP\Probability;
 
 /**
  * Combinatorics

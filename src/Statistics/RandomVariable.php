@@ -1,10 +1,10 @@
 <?php
-namespace Math\Statistics;
+namespace MathPHP\Statistics;
 
-use Math\Statistics\Average;
-use Math\Statistics\Descriptive;
-use Math\Probability\Distribution\Table;
-use Math\Functions\Map;
+use MathPHP\Statistics\Average;
+use MathPHP\Statistics\Descriptive;
+use MathPHP\Probability\Distribution\Table;
+use MathPHP\Functions\Map;
 
 /**
  * Functions dealing with random variables.

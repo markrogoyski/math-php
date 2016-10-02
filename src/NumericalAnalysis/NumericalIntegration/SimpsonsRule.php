@@ -1,8 +1,8 @@
 <?php
-namespace Math\NumericalAnalysis\NumericalIntegration;
+namespace MathPHP\NumericalAnalysis\NumericalIntegration;
 
-use Math\NumericalAnalysis\Interpolation\LagrangePolynomial;
-use Math\Functions\Polynomial;
+use MathPHP\NumericalAnalysis\Interpolation\LagrangePolynomial;
+use MathPHP\Functions\Polynomial;
 
 /**
  * Simpsons Rule

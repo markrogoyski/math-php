@@ -1,5 +1,5 @@
 <?php
-namespace Math\Functions;
+namespace MathPHP\Functions;
 
 class Support
 {

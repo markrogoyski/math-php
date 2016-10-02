@@ -1,7 +1,7 @@
 <?php
-namespace Math\Statistics\Regression;
+namespace MathPHP\Statistics\Regression;
 
-use Math\Statistics\Average;
+use MathPHP\Statistics\Average;
 
 /**
  * Power law regression (power curve) - Least squares fitting

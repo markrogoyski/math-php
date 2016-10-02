@@ -1,5 +1,5 @@
 <?php
-namespace Math\NumericalAnalysis\NumericalDifferentiation;
+namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 
 /**
  * Second Derivative Midpoint Formula

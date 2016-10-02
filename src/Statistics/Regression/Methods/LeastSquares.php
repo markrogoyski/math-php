@@ -1,15 +1,15 @@
 <?php
-namespace Math\Statistics\Regression\Methods;
+namespace MathPHP\Statistics\Regression\Methods;
 
-use Math\Statistics\Average;
-use Math\Statistics\RandomVariable;
-use Math\Functions\Map\Single;
-use Math\Functions\Map\Multi;
-use Math\Probability\Distribution\Continuous\F;
-use Math\Probability\Distribution\Continuous\StudentT;
-use Math\LinearAlgebra\Matrix;
-use Math\LinearAlgebra\ColumnVector;
-use Math\LinearAlgebra\VandermondeMatrix;
+use MathPHP\Statistics\Average;
+use MathPHP\Statistics\RandomVariable;
+use MathPHP\Functions\Map\Single;
+use MathPHP\Functions\Map\Multi;
+use MathPHP\Probability\Distribution\Continuous\F;
+use MathPHP\Probability\Distribution\Continuous\StudentT;
+use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\ColumnVector;
+use MathPHP\LinearAlgebra\VandermondeMatrix;
 
 trait LeastSquares
 {

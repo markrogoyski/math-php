@@ -1,5 +1,5 @@
 <?php
-namespace Math\Probability\Distribution;
+namespace MathPHP\Probability\Distribution;
 
 abstract class Distribution
 {

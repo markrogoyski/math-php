@@ -1,8 +1,8 @@
 <?php
-namespace Math\Probability\Distribution\Continuous;
+namespace MathPHP\Probability\Distribution\Continuous;
 
-use Math\Functions\Special;
-use Math\Functions\Support;
+use MathPHP\Functions\Special;
+use MathPHP\Functions\Support;
 
 /**
  * Beta distribution

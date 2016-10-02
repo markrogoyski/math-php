@@ -1,8 +1,8 @@
 <?php
-namespace Math\SetTheory;
+namespace MathPHP\SetTheory;
 
-use Math\LinearAlgebra\Vector;
-use Math\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\Vector;
+use MathPHP\LinearAlgebra\Matrix;
 
 class SetOperationsTest extends \PHPUnit_Framework_TestCase
 {
@@ -120,13 +120,13 @@ class SetOperationsTest extends \PHPUnit_Framework_TestCase
 
         $objects = 0;
         foreach ($set as $key => $value) {
-            if ($value instanceof \Math\LinearAlgebra\Vector) {
+            if ($value instanceof \MathPHP\LinearAlgebra\Vector) {
                 $objects++;
                 $vector_key = get_class($value) . '(' . spl_object_hash($vector) . ')';
                 $this->assertEquals($vector_key, $key);
                 $this->assertEquals($vector, $value);
             }
-            if ($value instanceof \Math\LinearAlgebra\Matrix) {
+            if ($value instanceof \MathPHP\LinearAlgebra\Matrix) {
                 $objects++;
                 $matrix_key = get_class($value) . '(' . spl_object_hash($matrix) . ')';
                 $this->assertEquals($matrix_key, $key);
@@ -162,13 +162,13 @@ class SetOperationsTest extends \PHPUnit_Framework_TestCase
 
         $objects = 0;
         foreach ($set as $key => $value) {
-            if ($value instanceof \Math\LinearAlgebra\Vector) {
+            if ($value instanceof \MathPHP\LinearAlgebra\Vector) {
                 $objects++;
-                $this->assertInstanceOf('Math\LinearAlgebra\Vector', $value);
+                $this->assertInstanceOf('MathPHP\LinearAlgebra\Vector', $value);
             }
-            if ($value instanceof \Math\LinearAlgebra\Matrix) {
+            if ($value instanceof \MathPHP\LinearAlgebra\Matrix) {
                 $objects++;
-                $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $value);
+                $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $value);
             }
             if ($value instanceof \StdClass) {
                 $objects++;
@@ -194,7 +194,7 @@ class SetOperationsTest extends \PHPUnit_Framework_TestCase
 
         $objects = 0;
         foreach ($set as $key => $value) {
-            if ($value instanceof \Math\LinearAlgebra\Vector) {
+            if ($value instanceof \MathPHP\LinearAlgebra\Vector) {
                 $objects++;
                 $vector_key = get_class($value) . '(' . spl_object_hash($vector) . ')';
                 $this->assertEquals($vector_key, $key);
@@ -1760,11 +1760,11 @@ class SetOperationsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($setA×B), count($A×B));
 
         foreach ($setA×B as $key => $value) {
-            $this->assertInstanceOf('Math\SetTheory\Set', $value);
+            $this->assertInstanceOf('MathPHP\SetTheory\Set', $value);
             $this->assertEquals(2, count($value));
         }
         foreach ($A×B_array as $key => $value) {
-            $this->assertInstanceOf('Math\SetTheory\Set', $value);
+            $this->assertInstanceOf('MathPHP\SetTheory\Set', $value);
             $this->assertEquals(2, count($value));
         }
     }

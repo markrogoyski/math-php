@@ -1,10 +1,10 @@
 <?php
-namespace Math\Statistics;
+namespace MathPHP\Statistics;
 
-use Math\Statistics\Average;
-use Math\Statistics\RandomVariable;
-use Math\Functions\Special;
-use Math\Functions\Map;
+use MathPHP\Statistics\Average;
+use MathPHP\Statistics\RandomVariable;
+use MathPHP\Functions\Special;
+use MathPHP\Functions\Map;
 
 class Correlation
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Math\LinearAlgebra;
+namespace MathPHP\LinearAlgebra;
 
 class MatrixFactorTest extends \PHPUnit_Framework_TestCase
 {
@@ -10,8 +10,8 @@ class MatrixFactorTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $this->assertInstanceOf('Math\LinearAlgebra\DiagonalMatrix', $A);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\DiagonalMatrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $A);
     }
 
     public function dataProviderForDiagonalMatrix()
@@ -31,8 +31,8 @@ class MatrixFactorTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $this->assertInstanceOf('Math\LinearAlgebra\SquareMatrix', $A);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\SquareMatrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $A);
     }
 
     public function dataProviderForSquareMatrix()
@@ -64,9 +64,9 @@ class MatrixFactorTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A, $n);
 
-        $this->assertInstanceOf('Math\LinearAlgebra\VandermondeSquareMatrix', $A);
-        $this->assertInstanceOf('Math\LinearAlgebra\SquareMatrix', $A);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\VandermondeSquareMatrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\SquareMatrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $A);
     }
 
     public function dataProviderForVandermondeSquareMatrix()
@@ -94,8 +94,8 @@ class MatrixFactorTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A, $n);
 
-        $this->assertInstanceOf('Math\LinearAlgebra\VandermondeMatrix', $A);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\VandermondeMatrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $A);
     }
 
     public function dataProviderForVandermondeMatrix()
@@ -127,9 +127,9 @@ class MatrixFactorTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $this->assertInstanceOf('Math\LinearAlgebra\FunctionSquareMatrix', $A);
-        $this->assertInstanceOf('Math\LinearAlgebra\SquareMatrix', $A);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\FunctionSquareMatrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\SquareMatrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $A);
     }
 
     public function dataProviderForFunctionSquareMatrix()
@@ -167,8 +167,8 @@ class MatrixFactorTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $this->assertInstanceOf('Math\LinearAlgebra\FunctionMatrix', $A);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\FunctionMatrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $A);
     }
 
     public function dataProviderForFunctionMatrix()
@@ -208,12 +208,12 @@ class MatrixFactorTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $A);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $A);
 
-        $this->assertNotInstanceOf('Math\LinearAlgebra\SquareMatrix', $A);
-        $this->assertNotInstanceOf('Math\LinearAlgebra\FunctionMatrix', $A);
-        $this->assertNotInstanceOf('Math\LinearAlgebra\VandermondeMatrix', $A);
-        $this->assertNotInstanceOf('Math\LinearAlgebra\DiagonalMatrix', $A);
+        $this->assertNotInstanceOf('MathPHP\LinearAlgebra\SquareMatrix', $A);
+        $this->assertNotInstanceOf('MathPHP\LinearAlgebra\FunctionMatrix', $A);
+        $this->assertNotInstanceOf('MathPHP\LinearAlgebra\VandermondeMatrix', $A);
+        $this->assertNotInstanceOf('MathPHP\LinearAlgebra\DiagonalMatrix', $A);
     }
 
     public function dataProviderForMatrix()

@@ -1,5 +1,5 @@
 <?php
-namespace Math\Probability\Distribution\Continuous;
+namespace MathPHP\Probability\Distribution\Continuous;
 
 class Uniform extends Continuous
 {

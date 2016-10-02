@@ -1,9 +1,9 @@
 <?php
-namespace Math\Functions;
+namespace MathPHP\Functions;
 
-use Math\Probability\Combinatorics;
-use Math\Statistics\RandomVariable;
-use Math\Functions\Map\Single;
+use MathPHP\Probability\Combinatorics;
+use MathPHP\Statistics\RandomVariable;
+use MathPHP\Functions\Map\Single;
 
 class Special
 {

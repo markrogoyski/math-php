@@ -1,7 +1,7 @@
 <?php
-namespace Math\Statistics\Regression;
+namespace MathPHP\Statistics\Regression;
 
-use Math\Functions\Map\Multi;
+use MathPHP\Functions\Map\Multi;
 
 /**
  * Use the Hanes-Woolf method to fit an equation of the form

@@ -1,5 +1,5 @@
 <?php
-namespace Math\Statistics\Regression;
+namespace MathPHP\Statistics\Regression;
 
 class LinearTest extends \PHPUnit_Framework_TestCase
 {
@@ -7,8 +7,8 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     {
         $points = [ [1,2], [2,3], [4,5], [5,7], [6,8] ];
         $regression = new Linear($points);
-        $this->assertInstanceOf('Math\Statistics\Regression\Regression', $regression);
-        $this->assertInstanceOf('Math\Statistics\Regression\Linear', $regression);
+        $this->assertInstanceOf('MathPHP\Statistics\Regression\Regression', $regression);
+        $this->assertInstanceOf('MathPHP\Statistics\Regression\Linear', $regression);
     }
 
     public function testGetPoints()

@@ -1,5 +1,5 @@
 <?php
-namespace Math;
+namespace MathPHP;
 
 class AlgebraTest extends \PHPUnit_Framework_TestCase
 {

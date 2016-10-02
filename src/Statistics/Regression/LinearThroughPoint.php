@@ -1,10 +1,10 @@
 <?php
-namespace Math\Statistics\Regression;
+namespace MathPHP\Statistics\Regression;
 
-use Math\Statistics\Average;
-use Math\Functions\Map\Multi;
-use Math\Functions\Map\Single;
-use Math\Probability\Distribution\Continuous\StudentT;
+use MathPHP\Statistics\Average;
+use MathPHP\Functions\Map\Multi;
+use MathPHP\Functions\Map\Single;
+use MathPHP\Probability\Distribution\Continuous\StudentT;
 
 /**
  * Linear Regression Through a Fixed Point - least squares method

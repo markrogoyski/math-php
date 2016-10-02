@@ -1,5 +1,5 @@
 <?php
-namespace Math;
+namespace MathPHP;
 
 class FinanceTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,8 +1,8 @@
 <?php
-namespace Math\Statistics\Regression;
+namespace MathPHP\Statistics\Regression;
 
-use Math\Statistics\Average;
-use Math\Statistics\RandomVariable;
+use MathPHP\Statistics\Average;
+use MathPHP\Statistics\RandomVariable;
 
 /**
  * Base class for regressions.

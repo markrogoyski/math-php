@@ -1,7 +1,7 @@
 <?php
-namespace Math\Probability\Distribution\Continuous;
+namespace MathPHP\Probability\Distribution\Continuous;
 
-abstract class Continuous extends \Math\Probability\Distribution\Distribution
+abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
 {
     /**
      * The Inverse CDF of the distribution

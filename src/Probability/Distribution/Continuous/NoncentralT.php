@@ -1,10 +1,10 @@
 <?php
-namespace Math\Probability\Distribution\Continuous;
+namespace MathPHP\Probability\Distribution\Continuous;
 
-use Math\Functions\Special;
-use Math\Functions\Support;
-use Math\Probability\Combinatorics;
-use Math\Probability\Distribution\Continuous\StandardNormal;
+use MathPHP\Functions\Special;
+use MathPHP\Functions\Support;
+use MathPHP\Probability\Combinatorics;
+use MathPHP\Probability\Distribution\Continuous\StandardNormal;
 
 /**
  * Noncentral t-distribution

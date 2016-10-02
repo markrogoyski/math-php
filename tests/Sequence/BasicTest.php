@@ -1,5 +1,5 @@
 <?php
-namespace Math\Sequence;
+namespace MathPHP\Sequence;
 
 class BasicTest extends \PHPUnit_Framework_TestCase
 {

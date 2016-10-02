@@ -1,9 +1,9 @@
 <?php
-namespace Math\Statistics\Regression;
+namespace MathPHP\Statistics\Regression;
 
-use Math\Functions\Map\Single;
-use Math\Statistics\Average;
-use Math\LinearAlgebra\VandermondeMatrix;
+use MathPHP\Functions\Map\Single;
+use MathPHP\Statistics\Average;
+use MathPHP\LinearAlgebra\VandermondeMatrix;
 
 /**
  * LOESS - Locally Weighted Scatterplot Smoothing (Local regression)

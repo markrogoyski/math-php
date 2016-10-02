@@ -1,7 +1,7 @@
 <?php
-namespace Math\Statistics;
+namespace MathPHP\Statistics;
 
-use Math\Functions\Map;
+use MathPHP\Functions\Map;
 
 /**
  * Statistical averages

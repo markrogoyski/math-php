@@ -1,6 +1,6 @@
 <?php
 
-namespace Math\NumericalAnalysis\NumericalIntegration;
+namespace MathPHP\NumericalAnalysis\NumericalIntegration;
 
 class SimpsonsRuleTest extends \PHPUnit_Framework_TestCase
 {

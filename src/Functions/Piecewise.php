@@ -1,5 +1,5 @@
 <?php
-namespace Math\Functions;
+namespace MathPHP\Functions;
 
 /**
  * A convenience class for piecewise functions.

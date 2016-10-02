@@ -1,8 +1,8 @@
 <?php
-namespace Math\SetTheory;
+namespace MathPHP\SetTheory;
 
-use Math\LinearAlgebra\Vector;
-use Math\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\Vector;
+use MathPHP\LinearAlgebra\Matrix;
 
 class SetTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,12 +12,12 @@ class SetTest extends \PHPUnit_Framework_TestCase
     public function testContstructor(array $members)
     {
         $set = new Set($members);
-        $this->assertInstanceOf('Math\SetTheory\Set', $set);
+        $this->assertInstanceOf('MathPHP\SetTheory\Set', $set);
     }
 
     public function testInterfaces()
     {
-        $interfaces = class_implements('\Math\SetTheory\Set');
+        $interfaces = class_implements('\MathPHP\SetTheory\Set');
 
         $this->assertContains('Countable', $interfaces);
         $this->assertContains('Iterator', $interfaces);
@@ -312,11 +312,11 @@ class SetTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [1, 2, $vector],
-                "Set{1, 2, Math\LinearAlgebra\Vector($vector_hash)}",
+                "Set{1, 2, MathPHP\LinearAlgebra\Vector($vector_hash)}",
             ],
             [
                 [1, 2, $vector, $vector],
-                "Set{1, 2, Math\LinearAlgebra\Vector($vector_hash)}",
+                "Set{1, 2, MathPHP\LinearAlgebra\Vector($vector_hash)}",
             ],
         ];
     }

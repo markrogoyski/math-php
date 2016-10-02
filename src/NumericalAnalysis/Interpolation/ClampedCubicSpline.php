@@ -1,8 +1,8 @@
 <?php
-namespace Math\NumericalAnalysis\Interpolation;
+namespace MathPHP\NumericalAnalysis\Interpolation;
 
-use Math\Functions\Polynomial;
-use Math\Functions\Piecewise;
+use MathPHP\Functions\Polynomial;
+use MathPHP\Functions\Piecewise;
 
 /**
  * Clamped Cubic Spline Interpolating Polyonomial

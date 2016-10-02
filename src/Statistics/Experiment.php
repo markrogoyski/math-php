@@ -1,5 +1,5 @@
 <?php
-namespace Math\Statistics;
+namespace MathPHP\Statistics;
 
 /**
  * Statistical experiments (Epidemiology methods, etc.)

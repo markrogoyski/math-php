@@ -12,7 +12,7 @@
       "squizlabs/php_codesniffer": "2.*"
   },
   "autoload": {
-    "psr-4": { "Math\\": "src/" }
+    "psr-4": { "MathPHP\\": "src/" }
   },
   "authors": [
     {

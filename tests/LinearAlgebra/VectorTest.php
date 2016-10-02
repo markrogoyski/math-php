@@ -1,5 +1,5 @@
 <?php
-namespace Math\LinearAlgebra;
+namespace MathPHP\LinearAlgebra;
 
 class VectorTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +12,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $this->assertInstanceOf('Math\LinearAlgebra\Vector', $this->vector);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Vector', $this->vector);
     }
 
     public function testGetVector()
@@ -246,7 +246,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase
 
     public function testInterfaces()
     {
-        $interfaces = class_implements('\Math\LinearAlgebra\Vector');
+        $interfaces = class_implements('\MathPHP\LinearAlgebra\Vector');
 
         $this->assertContains('Countable', $interfaces);
         $this->assertContains('ArrayAccess', $interfaces);

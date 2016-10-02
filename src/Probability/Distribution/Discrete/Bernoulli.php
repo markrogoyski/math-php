@@ -1,7 +1,7 @@
 <?php
-namespace Math\Probability\Distribution\Discrete;
+namespace MathPHP\Probability\Distribution\Discrete;
 
-use Math\Functions\Support;
+use MathPHP\Functions\Support;
 
 class Bernoulli extends Discrete
 {

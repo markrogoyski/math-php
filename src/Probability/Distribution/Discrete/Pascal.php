@@ -1,5 +1,5 @@
 <?php
-namespace Math\Probability\Distribution\Discrete;
+namespace MathPHP\Probability\Distribution\Discrete;
 
 class Pascal extends Discrete
 {

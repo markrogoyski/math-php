@@ -1,6 +1,6 @@
 <?php
 
-namespace Math\Functions;
+namespace MathPHP\Functions;
 
 class PiecewiseTest extends \PHPUnit_Framework_TestCase
 {

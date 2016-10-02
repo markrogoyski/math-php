@@ -1,5 +1,5 @@
 <?php
-namespace Math\LinearAlgebra;
+namespace MathPHP\LinearAlgebra;
 
 class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +24,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         $R  = MatrixFactory::create($R);
         $R2 = $A->add($B);
         $this->assertEquals($R, $R2);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $R2);
     }
 
     public function dataProviderForAdd()
@@ -103,7 +103,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         $R  = MatrixFactory::create($R);
         $R2 = $A->directSum($B);
         $this->assertEquals($R, $R2);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $R2);
     }
 
     public function dataProviderForDirectSum()
@@ -138,7 +138,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         $R  = MatrixFactory::create($R);
         $R2 = $A->subtract($B);
         $this->assertEquals($R, $R2);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $R2);
     }
 
     public function dataProviderForSubtract()
@@ -216,7 +216,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         $B  = MatrixFactory::create($B);
         $R  = MatrixFactory::create($R);
         $R2 = $A->multiply($B);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $R2);
         $this->assertEquals($R, $R2);
     }
 
@@ -264,7 +264,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         $B  = new Vector($B);
         $R  = MatrixFactory::create($R);
         $R2 = $A->multiply($B);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R2);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $R2);
         $this->assertEquals($R, $R2);
     }
 

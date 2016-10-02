@@ -1,5 +1,5 @@
 <?php
-namespace Math;
+namespace MathPHP;
 
 class Algebra
 {

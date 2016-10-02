@@ -1,5 +1,5 @@
 <?php
-namespace Math\NumericalAnalysis\Interpolation;
+namespace MathPHP\NumericalAnalysis\Interpolation;
 
 /**
  * Base class for interpolation techniques.

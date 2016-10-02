@@ -1,7 +1,7 @@
 <?php
-namespace Math\LinearAlgebra;
+namespace MathPHP\LinearAlgebra;
 
-use Math\Functions\Map;
+use MathPHP\Functions\Map;
 
 /**
  * 1 x n Vector

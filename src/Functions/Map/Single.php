@@ -1,5 +1,5 @@
 <?php
-namespace Math\Functions\Map;
+namespace MathPHP\Functions\Map;
 
 /**
  * Map functions against a single array

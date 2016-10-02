@@ -1,5 +1,5 @@
 <?php
-namespace Math\LinearAlgebra;
+namespace MathPHP\LinearAlgebra;
 
 class RowVectorTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,8 +11,8 @@ class RowVectorTest extends \PHPUnit_Framework_TestCase
         $R = new RowVector($M);
         $V = new Matrix($V);
 
-        $this->assertInstanceOf('Math\LinearAlgebra\RowVector', $R);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $R);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\RowVector', $R);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $R);
 
         $this->assertEquals($V[0], $R[0]);
 
@@ -42,8 +42,8 @@ class RowVectorTest extends \PHPUnit_Framework_TestCase
         $R  = new RowVector($M);
         $Rᵀ = $R->transpose();
 
-        $this->assertInstanceOf('Math\LinearAlgebra\ColumnVector', $Rᵀ);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $Rᵀ);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\ColumnVector', $Rᵀ);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $Rᵀ);
 
         $this->assertEquals(count($M), $Rᵀ->getM());
         $this->assertEquals(1, $Rᵀ->getN());

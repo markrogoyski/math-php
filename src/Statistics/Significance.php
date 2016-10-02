@@ -1,9 +1,9 @@
 <?php
-namespace Math\Statistics;
+namespace MathPHP\Statistics;
 
-use Math\Probability\Distribution\Continuous\StandardNormal;
-use Math\Probability\Distribution\Continuous\StudentT;
-use Math\Probability\Distribution\Continuous\ChiSquared;
+use MathPHP\Probability\Distribution\Continuous\StandardNormal;
+use MathPHP\Probability\Distribution\Continuous\StudentT;
+use MathPHP\Probability\Distribution\Continuous\ChiSquared;
 
 /**
  * Tests of statistical significance

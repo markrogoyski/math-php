@@ -1,5 +1,5 @@
 <?php
-namespace Math\Statistics\Regression\Models;
+namespace MathPHP\Statistics\Regression\Models;
 
 trait PowerModel
 {

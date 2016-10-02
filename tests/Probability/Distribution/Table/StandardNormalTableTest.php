@@ -1,5 +1,5 @@
 <?php
-namespace Math\Probability\Distribution\Table;
+namespace MathPHP\Probability\Distribution\Table;
 
 class StandardNormalTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Math\Statistics\Regression;
+namespace MathPHP\Statistics\Regression;
 
 class ParametricRegression extends Regression
 {

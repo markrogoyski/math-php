@@ -1,10 +1,10 @@
 <?php
-namespace Math\Statistics;
+namespace MathPHP\Statistics;
 
-use Math\Statistics\Average;
-use Math\Statistics\Descriptive;
-use Math\Statistics\RandomVariable;
-use Math\Probability\Distribution\Continuous\F;
+use MathPHP\Statistics\Average;
+use MathPHP\Statistics\Descriptive;
+use MathPHP\Statistics\RandomVariable;
+use MathPHP\Probability\Distribution\Continuous\F;
 
 /**
  * ANOVA (Analysis of Variance)
@@ -171,7 +171,7 @@ class ANOVA
             $samples
         ));
         $SSW = array_sum(array_map(
-            'Math\Statistics\RandomVariable::sumOfSquaresDeviations',
+            'MathPHP\Statistics\RandomVariable::sumOfSquaresDeviations',
             $samples
         ));
 

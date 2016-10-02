@@ -1,5 +1,5 @@
 <?php
-namespace Math\NumericalAnalysis\RootFinding;
+namespace MathPHP\NumericalAnalysis\RootFinding;
 
 /**
  * Secant Method (also known as the Newton–Raphson method)

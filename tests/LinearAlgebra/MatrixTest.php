@@ -1,5 +1,5 @@
 <?php
-namespace Math\LinearAlgebra;
+namespace MathPHP\LinearAlgebra;
 
 class MatrixTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +16,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $this->matrix);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $this->matrix);
     }
 
     public function testConstructorExceptionNCountDiffers()

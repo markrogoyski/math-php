@@ -1,5 +1,5 @@
 <?php
-namespace Math\NumericalAnalysis\RootFinding;
+namespace MathPHP\NumericalAnalysis\RootFinding;
 
 /**
  * Common validation methods for root finding techniques

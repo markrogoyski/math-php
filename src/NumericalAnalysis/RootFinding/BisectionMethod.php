@@ -1,7 +1,7 @@
 <?php
-namespace Math\NumericalAnalysis\RootFinding;
+namespace MathPHP\NumericalAnalysis\RootFinding;
 
-use Math\Functions\Special;
+use MathPHP\Functions\Special;
 
 /**
  * Bisection's Method (also known as the Binary-search method)

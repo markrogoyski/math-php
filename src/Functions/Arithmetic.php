@@ -1,6 +1,6 @@
 <?php
 
-namespace Math\Functions;
+namespace MathPHP\Functions;
 
 /**
  * Arithmetic of functions. These functions return functions themselves.

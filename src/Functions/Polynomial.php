@@ -1,6 +1,6 @@
 <?php
 
-namespace Math\Functions;
+namespace MathPHP\Functions;
 
 /**
  * A convenience class for one-dimension polynomials.

@@ -1,5 +1,5 @@
 <?php
-namespace Math\Statistics\Regression;
+namespace MathPHP\Statistics\Regression;
 
 class LinearThroughPointTest extends \PHPUnit_Framework_TestCase
 {
@@ -8,8 +8,8 @@ class LinearThroughPointTest extends \PHPUnit_Framework_TestCase
         $points = [ [1,2], [2,3], [4,5], [5,7], [6,8] ];
         $force = [0,0];
         $regression = new LinearThroughPoint($points, $force);
-        $this->assertInstanceOf('Math\Statistics\Regression\Regression', $regression);
-        $this->assertInstanceOf('Math\Statistics\Regression\LinearThroughPoint', $regression);
+        $this->assertInstanceOf('MathPHP\Statistics\Regression\Regression', $regression);
+        $this->assertInstanceOf('MathPHP\Statistics\Regression\LinearThroughPoint', $regression);
     }
 
     public function testGetPoints()

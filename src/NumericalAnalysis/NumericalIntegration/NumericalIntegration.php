@@ -1,5 +1,5 @@
 <?php
-namespace Math\NumericalAnalysis\NumericalIntegration;
+namespace MathPHP\NumericalAnalysis\NumericalIntegration;
 
 /**
  * Base class for numerical integration techniques.

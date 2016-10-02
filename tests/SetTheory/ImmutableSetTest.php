@@ -1,5 +1,5 @@
 <?php
-namespace Math\SetTheory;
+namespace MathPHP\SetTheory;
 
 class ImmutableSetTest extends \PHPUnit_Framework_TestCase
 {
@@ -70,7 +70,7 @@ class ImmutableSetTest extends \PHPUnit_Framework_TestCase
     {
         $A = new ImmutableSet([1, 2, 3, 4]);
 
-        $this->assertInstanceOf('\Math\SetTheory\Set', $A);
+        $this->assertInstanceOf('\MathPHP\SetTheory\Set', $A);
     }
 
     public function testActsLikeASet()

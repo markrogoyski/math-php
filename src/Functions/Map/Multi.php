@@ -1,5 +1,5 @@
 <?php
-namespace Math\Functions\Map;
+namespace MathPHP\Functions\Map;
 
 /**
  * Map against elements of two or more arrays, item by item (by item ...).

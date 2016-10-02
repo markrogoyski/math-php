@@ -1,8 +1,8 @@
 <?php
-namespace Math\Statistics;
+namespace MathPHP\Statistics;
 
-use Math\Statistics\Average;
-use Math\Statistics\RandomVariable;
+use MathPHP\Statistics\Average;
+use MathPHP\Statistics\RandomVariable;
 
 class Descriptive
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Math\Probability\Distribution\Table;
+namespace MathPHP\Probability\Distribution\Table;
 
 /**
  * Table of χ² value vs P value

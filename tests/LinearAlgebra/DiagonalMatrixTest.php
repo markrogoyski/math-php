@@ -1,5 +1,5 @@
 <?php
-namespace Math\LinearAlgebra;
+namespace MathPHP\LinearAlgebra;
 
 class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,8 +11,8 @@ class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
         $D = new DiagonalMatrix($A);
         $R = new Matrix($R);
 
-        $this->assertInstanceOf('Math\LinearAlgebra\DiagonalMatrix', $D);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $D);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\DiagonalMatrix', $D);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $D);
 
         $m = $D->getM();
         for ($i = 0; $i < $m; $i++) {

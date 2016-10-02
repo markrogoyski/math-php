@@ -1,5 +1,5 @@
 <?php
-namespace Math\LinearAlgebra;
+namespace MathPHP\LinearAlgebra;
 
 class ColumnVectorTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,8 +11,8 @@ class ColumnVectorTest extends \PHPUnit_Framework_TestCase
         $C = new ColumnVector($M);
         $V = new Matrix($V);
 
-        $this->assertInstanceOf('Math\LinearAlgebra\ColumnVector', $C);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $C);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\ColumnVector', $C);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $C);
 
         foreach ($M as $row => $value) {
             $this->assertEquals($value, $V[$row][0]);
@@ -50,8 +50,8 @@ class ColumnVectorTest extends \PHPUnit_Framework_TestCase
         $C  = new ColumnVector($M);
         $Cᵀ = $C->transpose();
 
-        $this->assertInstanceOf('Math\LinearAlgebra\RowVector', $Cᵀ);
-        $this->assertInstanceOf('Math\LinearAlgebra\Matrix', $Cᵀ);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\RowVector', $Cᵀ);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $Cᵀ);
 
         $this->assertEquals(1, $Cᵀ->getM());
         $this->assertEquals(count($M), $Cᵀ->getN());

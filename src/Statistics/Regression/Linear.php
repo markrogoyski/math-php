@@ -1,9 +1,9 @@
 <?php
-namespace Math\Statistics\Regression;
+namespace MathPHP\Statistics\Regression;
 
-use Math\Statistics\Average;
-use Math\Statistics\RandomVariable;
-use Math\Probability\Distribution\Continuous\StudentT;
+use MathPHP\Statistics\Average;
+use MathPHP\Statistics\RandomVariable;
+use MathPHP\Probability\Distribution\Continuous\StudentT;
 
 /**
  * Simple linear regression - least squares method

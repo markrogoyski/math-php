@@ -1,5 +1,5 @@
 <?php
-namespace Math\Sequence;
+namespace MathPHP\Sequence;
 
 /**
  * Advanced integer sequences

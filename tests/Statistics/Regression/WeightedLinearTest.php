@@ -1,5 +1,5 @@
 <?php
-namespace Math\Statistics\Regression;
+namespace MathPHP\Statistics\Regression;
 
 class WeightedLinearTest extends \PHPUnit_Framework_TestCase
 {

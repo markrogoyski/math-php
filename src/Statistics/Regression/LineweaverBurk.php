@@ -1,7 +1,7 @@
 <?php
-namespace Math\Statistics\Regression;
+namespace MathPHP\Statistics\Regression;
 
-use Math\Functions\Map\Single;
+use MathPHP\Functions\Map\Single;
 
 /**
  * Use the Lineweaver-Burk method to fit an equation of the form

@@ -1,5 +1,5 @@
 <?php
-namespace Math\NumericalAnalysis\Interpolation;
+namespace MathPHP\NumericalAnalysis\Interpolation;
 
 class NevillesMethodTest extends \PHPUnit_Framework_TestCase
 {
