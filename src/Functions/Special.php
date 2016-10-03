@@ -735,4 +735,42 @@ class Special
 
         return self::generalizedHypergeometric(2, 1, $a, $b, $c, $z);
     }
+
+    /**
+     * Softmax (normalized exponential)
+     * A generalization of the logistic function that "squashes" a K-dimensional
+     * vector z of arbitrary real values to a K-dimensional vector σ(z) of real values
+     * in the range (0, 1) that add up to 1.
+     * https://en.wikipedia.org/wiki/Softmax_function
+     *
+     *           ℯᶻⱼ
+     * σ(𝐳)ⱼ = ------  for j = 1 to K
+     *          ᴷ
+     *          ∑ ℯᶻᵢ
+     *         ⁱ⁼¹
+     *
+     * @param  array  $𝐳
+     *
+     * @return array
+     */
+    public static function softmax(array $𝐳): array
+    {
+        $ℯ = \M_E;
+
+        $∑ᴷℯᶻᵢ = array_sum(array_map(
+            function ($z) use ($ℯ) {
+                return $ℯ**$z;
+            },
+            $𝐳
+        ));
+
+        $σ⟮𝐳⟯ⱼ = array_map(
+            function ($z) use ($ℯ, $∑ᴷℯᶻᵢ) {
+                return ($ℯ**$z) / $∑ᴷℯᶻᵢ;
+            },
+            $𝐳
+        );
+
+        return $σ⟮𝐳⟯ⱼ;
+    }
 }
