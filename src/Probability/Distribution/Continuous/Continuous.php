@@ -103,6 +103,6 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      */
     public static function rand(...$params)
     {
-        return static::inverse(random_int(0, PHP_INT_MAX) / PHP_INT_MAX, ...$params);
+        return static::inverse(random_int(0, \PHP_INT_MAX) / \PHP_INT_MAX, ...$params);
     }
 }
