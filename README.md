@@ -183,6 +183,10 @@ $logistic = Special::logistic($x₀, $L, $k, $x);
 // Sigmoid function
 $t = 2;
 $sigmoid = Special::sigmoid($t);
+
+// Softmax function
+$𝐳    = [1, 2, 3, 4, 1, 2, 3];
+$σ⟮𝐳⟯ⱼ = Special::softmax($𝐳);
 ```
 
 ### Linear Algebra - Matrix
