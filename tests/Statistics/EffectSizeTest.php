@@ -93,6 +93,40 @@ class EffectSizeTest extends \PHPUnit_Framework_TestCase
             [0.01462379847531, 0.01484082774953],
             [0.18360655737705, 0.22489959839358],
             [0.00901910292791, 0.00910118747451],
+            [0.25, 0.33333333],
+            [0.00001, 0.000010],
+            [0.99999, 99999.00000046],
         ];
+    }
+
+    /**
+     * @dataProvider dataProviderForCohensQ
+     */
+    public function testCohensQ($r₁, $r₂, $expected)
+    {
+        $q = EffectSize::cohensQ($r₁, $r₂);
+
+        $this->assertEquals($expected, $q, '', 0.001);
+    }
+
+    public function dataProviderForCohensQ()
+    {
+        return [
+            [0.1, 0.1, 0],
+            [0.5, 0.5, 0],
+            [0.1, 0.2, 0.102],
+            [0.2, 0.1, 0.102],
+            [0.1, 0.5, 0.449],
+            [0.1, 0.9, 1.372],
+            [0.1, 0, 0.1],
+            [0.1, -0.1, 0.201],
+        ];
+    }
+
+    public function testCohensQExceptionROutOfBounds()
+    {
+        $this->setExpectedException('\Exception');
+
+        EffectSize::cohensQ(0.1, 2);
     }
 }
