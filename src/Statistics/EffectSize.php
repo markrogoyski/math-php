@@ -84,4 +84,34 @@ class EffectSize
     {
         return ($SSt - $dft * $MSE) / ($SST + $MSE);
     }
+
+    /**
+     * Cohen's ƒ²
+     *
+     * One of several effect size measures to use in the context of an F-test
+     * for ANOVA or multiple regression. Its amount of bias (overestimation of
+     * the effect size for the ANOVA) depends on the bias of its underlying
+     * measurement of variance explained (R², η², ω²)
+     * https://en.wikipedia.org/wiki/Effect_size
+     *
+     *        R²
+     * ƒ² = ------
+     *      1 - R²
+     *
+     *        η²
+     * ƒ² = ------
+     *      1 - η²
+     *
+     *        ω²
+     * ƒ² = ------
+     *      1 - ω²
+     *
+     * @param number $measure_of_variance_explained (R², η², ω²)
+     *
+     * @return number
+     */
+    public static function cohensF($measure_of_variance_explained)
+    {
+        return $measure_of_variance_explained / (1 - $measure_of_variance_explained);
+    }
 }
