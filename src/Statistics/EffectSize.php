@@ -13,6 +13,7 @@ class EffectSize
      * Eta-squared describes the ratio of variance explained in the dependent
      * variable by a predictor while controlling for other predictors, making
      * it analogous to the r².
+     * https://en.wikipedia.org/wiki/Effect_size
      *
      *      SSt
      * η² = ---
@@ -35,6 +36,8 @@ class EffectSize
     /**
      * η²p (Partial eta-squared)
      *
+     * https://en.wikipedia.org/wiki/Effect_size
+     *
      *          SSt
      * η²p = ---------
      *       SSt + SSE
@@ -51,5 +54,34 @@ class EffectSize
     public static function partialEtaSquared($SSt, $SSE)
     {
         return $SSt / ($SSt + $SSE);
+    }
+
+
+    /**
+     * ω² (omega-squared)
+     *
+     * A less biased estimator of the variance explained in the population.
+     * https://en.wikipedia.org/wiki/Effect_size
+     *
+     *      SSt - dft * MSE
+     * ω² = ---------------
+     *         SST + MSE
+     *
+     * where:
+     *  SSt = sum of squares treatment
+     *  SST = sum of squares total
+     *  dft = degrees of freedom treatment
+     *  MSE = Mean squares error
+     *
+     * @param number $SSt Sum of squares treatment
+     * @param number $dft Degrees of freedom treatment
+     * @param number $SST Sum of squares total
+     * @param number $MSE Mean squares error
+     *
+     * @return number
+     */
+    public static function omegaSquared($SSt, $dft, $SST, $MSE)
+    {
+        return ($SSt - $dft * $MSE) / ($SST + $MSE);
     }
 }
