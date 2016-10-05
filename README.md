@@ -1336,6 +1336,10 @@ $ω² = EffectSize::omegaSquared($SSt, $dft, $SST, $MSE);
 $ƒ² = EffectSize::cohensF($η²);
 $ƒ² = EffectSize::cohensF($ω²);
 $ƒ² = EffectSize::cohensF($R²);
+
+// Cohen's q
+list($r₁, $r₂) = [0.1, 0.2];
+$q = EffectSize::cohensQ($r₁, $r₂);
 ```
 
 ### Statistics - Experiments
