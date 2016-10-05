@@ -1319,13 +1319,18 @@ Distribution::stemAndLeafPlot($values, Distribution::PRINT);
 ```php
 use MathPHP\Statistics\EffectSize;
 
-$SSB = 24;  // sum of squares between (treatment)
-$SSE = 300; // sum of squares error
-$SST = 600; // sum of squares total
+$SSt = 24;  // Sum of squares treatment
+$SSE = 300; // Sum of squares error
+$SST = 600; // Sum of squares total
+$dft = 1;   // Degrees of freedom treatment
+$MSE = 18;  // Mean squares error
 
 // η² - Eta-squared
-$η²  = EffectSize::etaSquared($SSB, $SST);
-$η²p = EffectSize::partialEtaSquared($SSB, $SSE);
+$η²  = EffectSize::etaSquared($SSt, $SST);
+$η²p = EffectSize::partialEtaSquared($SSt, $SSE);
+
+// ω² - Omega-squared
+ω² = EffectSize::omegaSquared($SSt, $dft, $SST, $MSE);
 ```
 
 ### Statistics - Experiments
