@@ -75,4 +75,24 @@ class EffectSizeTest extends \PHPUnit_Framework_TestCase
             [144, 2, 610, 18.333, 0.17082343279758],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForCohensF
+     */
+    public function testCohensF($measure_of_variance_explained, $expected)
+    {
+        $ƒ² = EffectSize::cohensF($measure_of_variance_explained);
+
+        $this->assertEquals($expected, $ƒ², '', 0.0000001);
+    }
+
+    public function dataProviderForCohensF()
+    {
+        return [
+            [0.06550008026971, 0.07009104964783],
+            [0.01462379847531, 0.01484082774953],
+            [0.18360655737705, 0.22489959839358],
+            [0.00901910292791, 0.00910118747451],
+        ];
+    }
 }
