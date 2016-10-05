@@ -37,6 +37,7 @@ Features
      - [Correlation](#statistics---correlation)
      - [Descriptive](#statistics---descriptive)
      - [Distributions](#statistics---distributions)
+     - [Effect Size](#statistics---effect-size)
      - [Experiments](#statistics---experiments)
      - [Random Variables](#statistics---random-variables)
      - [Regressions](#statistics---regressions)
@@ -1312,6 +1313,19 @@ Distribution::stemAndLeafPlot($values, Distribution::PRINT);
  9 |
 10 | 6
 */
+```
+
+### Statistics - Effect Size
+```php
+use MathPHP\Statistics\EffectSize;
+
+$SSB = 24;  // sum of squares between (treatment)
+$SSE = 300; // sum of squares error
+$SST = 600; // sum of squares total
+
+// η² - Eta-squared
+$η²  = EffectSize::etaSquared($SSB, $SST);
+$η²p = EffectSize::partialEtaSquared($SSB, $SSE);
 ```
 
 ### Statistics - Experiments
