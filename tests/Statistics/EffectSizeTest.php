@@ -6,9 +6,9 @@ class EffectSizeTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForEtaSquared
      */
-    public function testEtaSquared($SSB, $SST, $expected)
+    public function testEtaSquared($SSt, $SST, $expected)
     {
-        $η² = EffectSize::etaSquared($SSB, $SST);
+        $η² = EffectSize::etaSquared($SSt, $SST);
 
         $this->assertEquals($expected, $η², '', 0.0000000001);
     }
@@ -35,9 +35,9 @@ class EffectSizeTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForPartialEtaSquared
      */
-    public function testPartialEtaSquared($SSB, $SSE, $expected)
+    public function testPartialEtaSquared($SSt, $SSE, $expected)
     {
-        $η²p = EffectSize::partialEtaSquared($SSB, $SSE);
+        $η²p = EffectSize::partialEtaSquared($SSt, $SSE);
 
         $this->assertEquals($expected, $η²p, '', 0.000000001);
     }

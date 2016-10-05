@@ -14,42 +14,42 @@ class EffectSize
      * variable by a predictor while controlling for other predictors, making
      * it analogous to the r².
      *
-     *      SSB
+     *      SSt
      * η² = ---
      *      SST
      *
      * where:
-     *  SSB = sum of squares between (treatment)
+     *  SSt = sum of squares treatment
      *  SST = sum of squares total
      *
-     * @param  number $SSB Sum of squares between (treatment)
+     * @param  number $SSt Sum of squares treatment
      * @param  number $SST Sum of squares total
      *
      * @return number
      */
-    public static function etaSquared($SSB, $SST)
+    public static function etaSquared($SSt, $SST)
     {
-        return $SSB / $SST;
+        return $SSt / $SST;
     }
 
     /**
      * η²p (Partial eta-squared)
      *
-     *          SSB
+     *          SSt
      * η²p = ---------
-     *       SSB + SSE
+     *       SSt + SSE
      *
      * where:
-     *  SSB = sum of squares between (treatment)
+     *  SSt = sum of squares treatment
      *  SSE = sum of squares error
      *
-     * @param  number $SSB Sum of squares between (treatment)
+     * @param  number $SSB Sum of squares treatment
      * @param  number $SSE Sum of squares error
      *
      * @return number
      */
-    public static function partialEtaSquared($SSB, $SSE)
+    public static function partialEtaSquared($SSt, $SSE)
     {
-        return $SSB / ($SSB + $SSE);
+        return $SSt / ($SSt + $SSE);
     }
 }
