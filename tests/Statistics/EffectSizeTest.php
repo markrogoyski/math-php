@@ -55,4 +55,24 @@ class EffectSizeTest extends \PHPUnit_Framework_TestCase
             [144, 330, 0.30379746835443],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForOmegaSquared
+     */
+    public function testOmegaSquared($SSt, $dft, $SST, $MSE, $expected)
+    {
+        $ω² = EffectSize::omegaSquared($SSt, $dft, $SST, $MSE);
+
+        $this->assertEquals($expected, $ω², '', 0.000001);
+    }
+
+    public function dataProviderForOmegaSquared()
+    {
+        return [
+            // Test data: http://www.uccs.edu/lbecker/glm_effectsize.html
+            [24, 1, 610, 18.333, 0.00901910292791],
+            [112, 2, 610, 18.333, 0.11989502381699],
+            [144, 2, 610, 18.333, 0.17082343279758],
+        ];
+    }
 }
