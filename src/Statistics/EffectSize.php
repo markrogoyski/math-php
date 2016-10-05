@@ -8,12 +8,12 @@ namespace MathPHP\Statistics;
 class EffectSize
 {
     /**
-     * η² (Eta squared)
+     * η² (Eta-squared)
      *
      * Eta-squared describes the ratio of variance explained in the dependent
      * variable by a predictor while controlling for other predictors, making
      * it analogous to the r².
-     * 
+     *
      *      SSB
      * η² = ---
      *      SST
