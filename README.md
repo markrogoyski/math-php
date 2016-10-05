@@ -1331,6 +1331,11 @@ $η²p = EffectSize::partialEtaSquared($SSt, $SSE);
 
 // ω² - Omega-squared
 ω² = EffectSize::omegaSquared($SSt, $dft, $SST, $MSE);
+
+// Cohen's ƒ²
+ƒ² = EffectSize::cohensF($η²);
+ƒ² = EffectSize::cohensF($ω²);
+ƒ² = EffectSize::cohensF($R²);
 ```
 
 ### Statistics - Experiments
