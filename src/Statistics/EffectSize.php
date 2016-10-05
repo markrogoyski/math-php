@@ -31,4 +31,25 @@ class EffectSize
     {
         return $SSB / $SST;
     }
+
+    /**
+     * η²p (Partial eta-squared)
+     *
+     *          SSB
+     * η²p = ---------
+     *       SSB + SSE
+     *
+     * where:
+     *  SSB = sum of squares between (treatment)
+     *  SSE = sum of squares error
+     *
+     * @param  number $SSB Sum of squares between (treatment)
+     * @param  number $SSE Sum of squares error
+     *
+     * @return number
+     */
+    public static function partialEtaSquared($SSB, $SSE)
+    {
+        return $SSB / ($SSB + $SSE);
+    }
 }
