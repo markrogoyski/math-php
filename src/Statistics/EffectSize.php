@@ -4,6 +4,15 @@ namespace MathPHP\Statistics;
 /**
  * Effect size is a quantitative measure of the strength of a phenomenon.
  * https://en.wikipedia.org/wiki/Effect_size
+ *
+ * - η² (Eta-squared)
+ * - η²p (Partial eta-squared)
+ * - ω² (omega-squared)
+ * - Cohen's ƒ²
+ * - Cohen's q
+ * - Cohen's d
+ * - Hedges' g
+ * - Glass' Δ (glass' delta)
  */
 class EffectSize
 {
@@ -165,8 +174,7 @@ class EffectSize
      *  s₂² = variance of sample population 1
      *  s   = pooled standard deviation
      *
-     * This formula uses the common simplified version of the pooled standard
-     * deviation.
+     * This formula uses the common simplified version of the pooled standard deviation.
      *
      * @param number $μ₁ Mean of sample population 1
      * @param number $μ₂ Mean of sample population 2
@@ -266,6 +274,8 @@ class EffectSize
      * @param number $μ₁ Mean of sample population 1
      * @param number $μ₂ Mean of sample population 2
      * @param number $s₂ Standard deviation of sample population 2
+     *
+     * @return number
      */
     public static function glassDelta($μ₁, $μ₂, $s₂)
     {
