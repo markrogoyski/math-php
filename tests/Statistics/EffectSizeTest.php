@@ -153,4 +153,23 @@ class EffectSizeTest extends \PHPUnit_Framework_TestCase
             [9, 3.5, 1.2, 1.5, 13, 15, 4.0153968],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForGlassDelta
+     */
+    public function testGlassDelta($μ₁, $μ₂, $s₂, $expected)
+    {
+        $Δ = EffectSize::glassDelta($μ₁, $μ₂, $s₂);
+
+        $this->assertEquals($expected, $Δ, '', 0.00001);
+    }
+
+    public function dataProviderForGlassDelta()
+    {
+        return [
+            [40, 57.727272727273, 30.763910379179, -0.57623600],
+            [3, 4, 1.5811388300842, -0.63245553],
+            [3, 3, 1.5, 0],
+        ];
+    }
 }
