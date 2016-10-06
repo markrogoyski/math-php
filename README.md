@@ -1342,9 +1342,14 @@ list($r₁, $r₂) = [0.1, 0.2];
 $q = EffectSize::cohensQ($r₁, $r₂);
 
 // Cohen's d
+list($μ₁, $σ₁) = [6.7, 1.2];
+list($μ₂, $σ₂) = [6, 1];
+$d = EffectSize::cohensD($μ₁, $μ₂, $σ₁, $σ₂);
+
+// Hedges' g
 list($μ₁, $σ₁, $n₁) = [6.7, 1.2, 15];
 list($μ₂, $σ₂, $n₂) = [6, 1, 15];
-$d = EffectSize::cohensD($μ₁, $μ₂, $σ₁, $σ₂, $n₁, $n₂);
+$g = EffectSize::cohensD($μ₁, $μ₂, $σ₁, $σ₂, $n₁, $n₂);
 
 // Glass' Δ
 $Δ = EffectSize::glassDelta($μ₁, $μ₂, $σ₂);
