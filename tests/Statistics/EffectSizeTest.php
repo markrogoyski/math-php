@@ -129,4 +129,28 @@ class EffectSizeTest extends \PHPUnit_Framework_TestCase
 
         EffectSize::cohensQ(0.1, 2);
     }
+
+    /**
+     * @dataProvider dataProviderForCohensD
+     */
+    public function testCohensD($μ₁, $μ₂, $s₁, $s₂, $n₁, $n₂, $expected)
+    {
+        $d = EffectSize::cohensD($μ₁, $μ₂, $s₁, $s₂, $n₁, $n₂);
+
+        $this->assertEquals($expected, $d, '', 0.00001);
+    }
+
+    public function dataProviderForCohensD()
+    {
+        return [
+            [3, 3, 1.5811388300842, 1.5811388300842, 5, 5, 0],
+            [3, 4, 1.5811388300842, 1.5811388300842, 5, 5, -0.6324555320336718],
+            [6, 4.9166666666667, 1.5954480704349, 2.5030284687058, 12, 12, 0.5161479565960618],
+            [40, 57.727272727273, 21.275964529644, 30.763910379179, 7, 11, -0.6425028108],
+            [6.7, 6, 1.2, 1, 15, 15, 0.6337502],
+            [6.7, 6, 1.2, 1, 16, 15, 0.6317890],
+            [6.7, 6, 1.2, 1, 45, 15, 0.6061133],
+            [9, 3.5, 1.2, 1.5, 13, 15, 4.0153968],
+        ];
+    }
 }
