@@ -153,10 +153,63 @@ class EffectSize
      * d = -------
      *        s
      *
-     *        _________________________
-     *       /(n₁ - 1)s₁² + (n₂ - 1)s₂²
-     * s =  / -------------------------
-     *     √         n₁ + n₂ - 2
+     *        _________
+     *       /s₁² + s₂²
+     * s =  / ---------
+     *     √      2
+     *
+     * where
+     *  μ₁  = mean of sample population 1
+     *  μ₂  = mean of sample population 2
+     *  s₁² = variance of sample population 1
+     *  s₂² = variance of sample population 1
+     *  s   = pooled standard deviation
+     *
+     * This formula uses the common simplified version of the pooled standard
+     * deviation.
+     *
+     * @param number $μ₁ Mean of sample population 1
+     * @param number $μ₂ Mean of sample population 2
+     * @param number $s₁ Standard deviation of sample population 1
+     * @param number $s₂ Standard deviation of sample population 2
+     *
+     * @return number
+     */
+    public static function cohensD($μ₁, $μ₂, $s₁, $s₂)
+    {
+        // Variance of each data set
+        $s₁² = $s₁ * $s₁;
+        $s₂² = $s₂ * $s₂;
+
+        // Pooled standard deviation
+        $s = sqrt(($s₁² + $s₂²) / 2);
+
+        // d
+        return ($μ₁ - $μ₂) / $s;
+    }
+
+    /**
+     * Hedges' g
+     *
+     * The difference between two means divided by a standard deviation for the data.
+     * https://en.wikipedia.org/wiki/Effect_size#Hedges.27_g
+     * http://www.polyu.edu.hk/mm/effectsizefaqs/effect_size_equations2.html
+     *
+     *     μ₁ - μ₂
+     * g = -------
+     *        s*
+     *
+     *         _________________________
+     *        /(n₁ - 1)s₁² + (n₂ - 1)s₂²
+     * s* =  / -------------------------
+     *      √         n₁ + n₂ - 2
+     *
+     *
+     * Then, to remove bias
+     *
+     *       /          3        \
+     * g* ≈ | 1 - --------------  | g
+     *       \    4(n₁ + n₂) - 9 /
      *
      * where
      *  μ₁  = mean of sample population 1
@@ -165,11 +218,7 @@ class EffectSize
      *  s₂² = variance of sample population 1
      *  n₁  = sample size of sample population 1
      *  n₂  = sample size of sample population 2
-     *  s   = pooled standard deviation
-     *
-     * This is the proper formula for cohen's d.
-     * Other libraries may used a simplified pooled standard deviation which
-     * will give a slightly different result.
+     *  s*  = pooled standard deviation
      *
      * @param number $μ₁ Mean of sample population 1
      * @param number $μ₂ Mean of sample population 2
@@ -180,7 +229,7 @@ class EffectSize
      *
      * @return number
      */
-    public static function cohensD($μ₁, $μ₂, $s₁, $s₂, $n₁, $n₂)
+    public static function hedgesG($μ₁, $μ₂, $s₁, $s₂, $n₁, $n₂)
     {
         // Variance of each data set
         $s₁² = $s₁ * $s₁;
@@ -189,10 +238,13 @@ class EffectSize
         // Pooled standard deviation
         $⟮n₁ − 1⟯s₁² ＋ ⟮n₂ − 1⟯s₂²   = (($n₁ - 1) * $s₁²) + (($n₂ - 1) * $s₂²);
         $⟮n₁ ＋ n₂ − 2⟯              = $n₁ + $n₂ - 2;
-        $s                         = sqrt($⟮n₁ − 1⟯s₁² ＋ ⟮n₂ − 1⟯s₂² / $⟮n₁ ＋ n₂ − 2⟯);
+        $s＊                        = sqrt($⟮n₁ − 1⟯s₁² ＋ ⟮n₂ − 1⟯s₂² / $⟮n₁ ＋ n₂ − 2⟯);
 
-        // d
-        return ($μ₁ - $μ₂) / $s;
+        // g
+        $g = ($μ₁ - $μ₂) / $s＊;
+
+        // Unbiased g
+        return (1 - (3 / (4 * ($n₁ + $n₂) - 9))) * $g;
     }
 
     /**
