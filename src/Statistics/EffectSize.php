@@ -13,7 +13,7 @@ class EffectSize
      * Eta-squared describes the ratio of variance explained in the dependent
      * variable by a predictor while controlling for other predictors, making
      * it analogous to the r².
-     * https://en.wikipedia.org/wiki/Effect_size
+     * https://en.wikipedia.org/wiki/Effect_size#Eta-squared_.28.CE.B72.29
      *
      *      SSt
      * η² = ---
@@ -36,7 +36,7 @@ class EffectSize
     /**
      * η²p (Partial eta-squared)
      *
-     * https://en.wikipedia.org/wiki/Effect_size
+     * https://en.wikipedia.org/wiki/Effect_size#Eta-squared_.28.CE.B72.29
      *
      *          SSt
      * η²p = ---------
@@ -61,7 +61,7 @@ class EffectSize
      * ω² (omega-squared)
      *
      * A less biased estimator of the variance explained in the population.
-     * https://en.wikipedia.org/wiki/Effect_size
+     * https://en.wikipedia.org/wiki/Effect_size#Omega-squared_.28.CF.892.29
      *
      *      SSt - dft * MSE
      * ω² = ---------------
@@ -92,7 +92,7 @@ class EffectSize
      * for ANOVA or multiple regression. Its amount of bias (overestimation of
      * the effect size for the ANOVA) depends on the bias of its underlying
      * measurement of variance explained (R², η², ω²)
-     * https://en.wikipedia.org/wiki/Effect_size
+     * https://en.wikipedia.org/wiki/Effect_size#Cohen.27s_.C6.922
      *
      *        R²
      * ƒ² = ------
@@ -119,7 +119,7 @@ class EffectSize
      * Cohen's q
      *
      * The difference between two Fisher transformed Pearson regression coefficients.
-     * https://en.wikipedia.org/wiki/Effect_size
+     * hhttps://en.wikipedia.org/wiki/Effect_size#Cohen.27s_q
      *
      *     1     1 + r₁   1     1 + r₂
      * q = - log ------ - - log ------
@@ -147,7 +147,7 @@ class EffectSize
      * Cohen's d
      *
      * The difference between two means divided by a standard deviation for the data.
-     * https://en.wikipedia.org/wiki/Effect_size
+     * https://en.wikipedia.org/wiki/Effect_size#Cohen.27s_d
      *
      *     μ₁ - μ₂
      * d = -------
@@ -166,6 +166,10 @@ class EffectSize
      *  n₁  = sample size of sample population 1
      *  n₂  = sample size of sample population 2
      *  s   = pooled standard deviation
+     *
+     * This is the proper formula for cohen's d.
+     * Other libraries may used a simplified pooled standard deviation which
+     * will give a slightly different result.
      *
      * @param number $μ₁ Mean of sample population 1
      * @param number $μ₂ Mean of sample population 2
@@ -189,5 +193,30 @@ class EffectSize
 
         // d
         return ($μ₁ - $μ₂) / $s;
+    }
+
+    /**
+     * Glass' Δ (glass' delta)
+     *
+     * An estimator of the effect size that uses only the standard deviation of
+     * the second group.
+     * https://en.wikipedia.org/wiki/Effect_size#Glass.27_.CE.94
+     *
+     *     μ₁ - μ₂
+     * Δ = -------
+     *        s₂
+     *
+     * where
+     *  μ₁ = mean of sample population 1
+     *  μ₂ = mean of sample population 2
+     *  s₂ = standard deviation of sample population 2
+     *
+     * @param number $μ₁ Mean of sample population 1
+     * @param number $μ₂ Mean of sample population 2
+     * @param number $s₂ Standard deviation of sample population 2
+     */
+    public static function glassDelta($μ₁, $μ₂, $s₂)
+    {
+        return ($μ₁ - $μ₂) / $s₂;
     }
 }
