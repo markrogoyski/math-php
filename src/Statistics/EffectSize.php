@@ -142,4 +142,52 @@ class EffectSize
 
         return abs(($½ * log((1 + $r₁) / (1 - $r₁))) - ($½ * log((1 + $r₂) / (1 - $r₂))));
     }
+
+    /**
+     * Cohen's d
+     *
+     * The difference between two means divided by a standard deviation for the data.
+     * https://en.wikipedia.org/wiki/Effect_size
+     *
+     *     μ₁ - μ₂
+     * d = -------
+     *        s
+     *
+     *        _________________________
+     *       /(n₁ - 1)s₁² + (n₂ - 1)s₂²
+     * s =  / -------------------------
+     *     √         n₁ + n₂ - 2
+     *
+     * where
+     *  μ₁  = mean of sample population 1
+     *  μ₂  = mean of sample population 2
+     *  s₁² = variance of sample population 1
+     *  s₂² = variance of sample population 1
+     *  n₁  = sample size of sample population 1
+     *  n₂  = sample size of sample population 2
+     *  s   = pooled standard deviation
+     *
+     * @param number $μ₁ Mean of sample population 1
+     * @param number $μ₂ Mean of sample population 2
+     * @param number $s₁ Standard deviation of sample population 1
+     * @param number $s₂ Standard deviation of sample population 2
+     * @param number $n₁ Sample size of sample popluation 1
+     * @param number $n₂ Sample size of sample popluation 2
+     *
+     * @return number
+     */
+    public static function cohensD($μ₁, $μ₂, $s₁, $s₂, $n₁, $n₂)
+    {
+        // Variance of each data set
+        $s₁² = $s₁ * $s₁;
+        $s₂² = $s₂ * $s₂;
+
+        // Pooled standard deviation
+        $⟮n₁ − 1⟯s₁² ＋ ⟮n₂ − 1⟯s₂²   = (($n₁ - 1) * $s₁²) + (($n₂ - 1) * $s₂²);
+        $⟮n₁ ＋ n₂ − 2⟯              = $n₁ + $n₂ - 2;
+        $s                         = sqrt($⟮n₁ − 1⟯s₁² ＋ ⟮n₂ − 1⟯s₂² / $⟮n₁ ＋ n₂ − 2⟯);
+
+        // d
+        return ($μ₁ - $μ₂) / $s;
+    }
 }
