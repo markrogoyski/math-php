@@ -9,6 +9,7 @@ class Plot extends Canvas
         parent::__construct();
         $this->x_label = "x-label";
         $this->y_label = "y-label";
+        $this->title = "Working!";
         $this->function = function ($x) { return $x; };
         $this->start = 0;
         $this->end = 10;
@@ -16,13 +17,18 @@ class Plot extends Canvas
 
     public function draw($canvas)
     {
-        // Build convenience variables for graph measures
-        $width = $this->width;
-        $height = $this->height;
+        // Grab parameters
+        $width   = $this->width;
+        $height  = $this->height;
         $padding = 50;
+        $title = $this->title;
+        $x_label = $this->x_label;
+        $y_label = $this->y_label;
+
+        // Build convenience variables for graph measures
         list($x_shift, $y_shift) = [
-            isset($this->y_label) ? 1 : 0,
-            isset($this->x_label) ? 1 : 0,
+            isset($y_label) ? 1 : 0,
+            isset($x_label) ? 1 : 0,
         ];
         list($graph_start_x, $graph_start_y, $graph_end_x, $graph_end_y) = [
             (1 + $x_shift)*$padding,
@@ -96,12 +102,12 @@ class Plot extends Canvas
             imagettftext($canvas, $sizeTitle, $angle, $title_x, 35, $black, $font, $title);
         }
         if (isset($x_label)) {
-            $q = imagettfbbox($sizeAxis, 0, $font, $x_label_text);
+            $q = imagettfbbox($sizeAxis, 0, $font, $x_label);
             $x_label_width = ($width - ($q[2] - $q[0]))/2;
             imagettftext($canvas, $sizeAxis, $angle, $x_label_width, $height - 35, $black, $font, $x_label);
         }
-        if (isset($x_label)) {
-            $r = imagettfbbox($sizeAxis, 90, $font, $y_label_text);
+        if (isset($y_label)) {
+            $r = imagettfbbox($sizeAxis, 90, $font, $y_label);
             $y_label_height = ($height - ($r[3] - $r[1]))/2;
             imagettftext($canvas, $sizeAxis, 90, 40, $y_label_height, $black, $font, $y_label);
         }
