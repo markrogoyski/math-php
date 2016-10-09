@@ -34,7 +34,7 @@ class Plot extends Canvas
 
         // Create axes
         $black = imagecolorallocate($canvas, 0, 0, 0);
-        imagerectangle($canvas, $padding, $padding, $width - $padding, $height - $padding, $black);
+        imagerectangle($canvas, $graph_start_x, $graph_end_y, $graph_end_x, $graph_start_y, $black);
 
         // Define input function
 
