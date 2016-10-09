@@ -50,7 +50,7 @@ class Plot extends Canvas
         $graph_step_y  = $graph_height/$n;
         $function_step = ($end - $start)/$n;
 
-        // Calculate function values, min, and max
+        // Calculate function values, min, max, and function scale
         $image = [];
         for ($i = 0; $i <= $n; $i++) {
             $image[] = $function($start + $i*$function_step);
@@ -60,6 +60,23 @@ class Plot extends Canvas
         $function_scale = $graph_height/($max - $min);
 
         // Draw y-axis values, dashes
+        $fontpath = realpath('.'); //replace . with a different directory if needed
+        putenv('GDFONTPATH='.$fontpath);
+        $count = 9;
+        $font = 'arial.ttf';
+        $size = 10;
+        $angle = 0;
+        $length1 = 1;
+        $length2 = 5;
+        $white = imagecolorallocate($canvas, 255, 255, 255);
+        $style = array_merge(array_fill(0, $length1, $black), array_fill(0, $length2, $white));
+        imagesetstyle($canvas, $style);
+        for ($i = 0; $i <= $count; $i++) {
+            imagettftext($canvas, $size, $angle, $graph_start_x - $padding*0.75, $size*0.5 + $graph_start_y - $i*($graph_height/$count), $black, $font, round(($min + $i*($max - $min)/$count), 1));
+            if ($i !== 0 and $i !== $count) {
+                imageline($canvas, $graph_start_x, $graph_start_y - $i*($graph_height/$count), $graph_end_x, $graph_start_y - $i*($graph_height/$count), IMG_COLOR_STYLED);
+            }
+        }
 
         // Draw x-axis values, dashes
 
