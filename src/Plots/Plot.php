@@ -9,6 +9,9 @@ class Plot extends Canvas
         parent::__construct();
         $this->x_label = "x-label";
         $this->y_label = "y-label";
+        $this->function = function ($x) { return $x; };
+        $this->start = 0;
+        $this->end = 10;
     }
 
     public function draw($canvas)
@@ -37,6 +40,9 @@ class Plot extends Canvas
         imagerectangle($canvas, $graph_start_x, $graph_end_y, $graph_end_x, $graph_start_y, $black);
 
         // Define input function
+        $function = $this->function;
+        $function_start = $this->start;
+        $function_end = $this->end;
 
         // calculate canvas step size and function step size
 
