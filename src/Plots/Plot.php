@@ -44,7 +44,11 @@ class Plot extends Canvas
         $function_start = $this->start;
         $function_end = $this->end;
 
-        // calculate canvas step size and function step size
+        // Calculate canvas step size and function step size
+        $n             = 1000;
+        $graph_step_x  = $graph_width/$n;
+        $graph_step_y  = $graph_height/$n;
+        $function_step = ($b - $a)/$n;
 
         // Calculate function values, min, and max
 
