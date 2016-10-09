@@ -16,7 +16,7 @@ class Plot extends Canvas
 
     public function draw($canvas)
     {
-        // Build convenience variables for canvas/plot measures
+        // Build convenience variables for graph measures
         $width = $this->width;
         $height = $this->height;
         $padding = 50;
@@ -39,18 +39,25 @@ class Plot extends Canvas
         $black = imagecolorallocate($canvas, 0, 0, 0);
         imagerectangle($canvas, $graph_start_x, $graph_end_y, $graph_end_x, $graph_start_y, $black);
 
-        // Define input function
+        // Define input function and function domain
         $function = $this->function;
-        $function_start = $this->start;
-        $function_end = $this->end;
+        $start    = $this->start;
+        $end      = $this->end;
 
-        // Calculate canvas step size and function step size
+        // Calculate graph step size and function step size
         $n             = 1000;
         $graph_step_x  = $graph_width/$n;
         $graph_step_y  = $graph_height/$n;
-        $function_step = ($b - $a)/$n;
+        $function_step = ($end - $start)/$n;
 
         // Calculate function values, min, and max
+        $image = [];
+        for ($i = 0; $i <= $n; $i++) {
+            $image[] = $function($start + $i*$function_step);
+        }
+        $min = min($image);
+        $max = max($image);
+        $function_scale = $graph_height/($max - $min);
 
         // Draw y-axis values, dashes
 
