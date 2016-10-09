@@ -21,4 +21,14 @@ class Canvas
         $this->plot = new Plot($padding);
         return $this->plot;
     }
+
+    public function save()
+    {
+        $width  = $this->width;
+        $height = $this->height;
+        $canvas = imagecreate($width, $height);
+        imagecolorallocate($canvas, 255, 255, 255);
+        $canvas = $this->plot->draw($canvas, $width, $height);
+        imagejpeg($canvas, 'image-' . rand() . '.jpg');
+    }
 }
