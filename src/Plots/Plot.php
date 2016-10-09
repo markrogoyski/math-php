@@ -59,7 +59,7 @@ class Plot extends Canvas
         $max = max($image);
         $function_scale = $graph_height/($max - $min);
 
-        // Draw y-axis values, dashes
+        // Draw y-axis values and grid
         $fontpath = realpath('.'); //replace . with a different directory if needed
         putenv('GDFONTPATH='.$fontpath);
         $count = 9;
@@ -78,7 +78,14 @@ class Plot extends Canvas
             }
         }
 
-        // Draw x-axis values, dashes
+        // Draw x-axis values and grid
+        $newcount = 9;
+        for ($i = 0; $i <= $newcount; $i++) {
+            imagettftext($canvas, $size, $angle, $graph_start_x + $i*($graph_width/$newcount), $graph_start_y + $padding/2, $black, $font, round(($start + $i*($end - $start)/$newcount), 1));
+            if ($i !== 0 and $i !== $newcount) {
+                imageline($canvas, $graph_start_x + $i*($graph_width/$newcount), $graph_start_y, $graph_start_x + $i*($graph_width/$newcount), $graph_end_y, IMG_COLOR_STYLED);
+            }
+        }
 
         // Draw title, x-axis title, y-axis title
 
