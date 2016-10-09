@@ -88,6 +88,23 @@ class Plot extends Canvas
         }
 
         // Draw title, x-axis title, y-axis title
+        $sizeTitle = 20;
+        $sizeAxis = 16;
+        if (isset($title)) {
+            $p = imagettfbbox($sizeTitle, 0, $font, $title);
+            $title_x = ($width - ($p[2] - $p[0]))/2;
+            imagettftext($canvas, $sizeTitle, $angle, $title_x, 35, $black, $font, $title);
+        }
+        if (isset($x_label)) {
+            $q = imagettfbbox($sizeAxis, 0, $font, $x_label_text);
+            $x_label_width = ($width - ($q[2] - $q[0]))/2;
+            imagettftext($canvas, $sizeAxis, $angle, $x_label_width, $height - 35, $black, $font, $x_label);
+        }
+        if (isset($x_label)) {
+            $r = imagettfbbox($sizeAxis, 90, $font, $y_label_text);
+            $y_label_height = ($height - ($r[3] - $r[1]))/2;
+            imagettftext($canvas, $sizeAxis, 90, 40, $y_label_height, $black, $font, $y_label);
+        }
 
         // Draw graph
 
