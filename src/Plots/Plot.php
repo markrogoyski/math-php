@@ -10,9 +10,10 @@ class Plot extends Canvas
         $this->x_label = "x-label";
         $this->y_label = "y-label";
         $this->title = "Working!";
-        $this->function = function ($x) { return $x; };
+        $this->function = function ($x) { return sin($x); };
         $this->start = 0;
         $this->end = 10;
+        $this->weight = 3;
     }
 
     public function draw($canvas)
@@ -24,6 +25,7 @@ class Plot extends Canvas
         $title = $this->title;
         $x_label = $this->x_label;
         $y_label = $this->y_label;
+        $weight  = $this->weight;
 
         // Build convenience variables for graph measures
         list($x_shift, $y_shift) = [
@@ -113,6 +115,10 @@ class Plot extends Canvas
         }
 
         // Draw graph
+        imagesetthickness($canvas, $weight);
+        for ($i = 0; $i < $n; $i++) {
+            imageline($canvas, $graph_start_x + $i*$graph_step_x, $graph_start_y - ($image[$i]-$min)*$function_scale, $graph_start_x + ($i+1)*$graph_step_x, $graph_start_y - ($image[$i+1]-$min)*$function_scale, $black);
+        }
 
         return $canvas;
     }
