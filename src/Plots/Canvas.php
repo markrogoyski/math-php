@@ -16,19 +16,18 @@ class Canvas
         $this->canvas = imagecreate($width, $height);
     }
 
-    public function addPlot($padding = 0)
+    public function addPlot()
     {
-        $this->plot = new Plot($padding);
+        $this->plot = new Plot();
         return $this->plot;
     }
 
     public function save()
     {
-        $width  = $this->width;
-        $height = $this->height;
-        $canvas = imagecreate($width, $height);
+        header('Content-type: image/png');
+        $canvas = imagecreate($this->width, $this->height);
         imagecolorallocate($canvas, 255, 255, 255);
-        $canvas = $this->plot->draw($canvas, $width, $height);
+        $canvas = $this->plot->draw($canvas);
         imagejpeg($canvas, 'image-' . rand() . '.jpg');
     }
 }
