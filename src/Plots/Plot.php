@@ -11,6 +11,11 @@ class Plot extends Canvas
         $this->padding = $padding;
     }
 
+    public function setPadding($padding)
+    {
+        $this->padding = $padding;
+    }
+
     public function draw($canvas, $width, $height)
     {
         $padding = $this->padding;
