@@ -13,7 +13,7 @@ class Canvas
     protected $height;
     private   $plot;
 
-    public function __construct($width = 600, $height = 600)
+    public function __construct($width = 700, $height = 500)
     {
         $this->width  = $width;
         $this->height = $height;
@@ -27,7 +27,7 @@ class Canvas
         return $this->plot;
     }
 
-    public function size($width = 600, $height = 600)
+    public function size($width, $height)
     {
         $this->width  = $width;
         $this->height = $height;
