@@ -4,12 +4,22 @@ namespace MathPHP\Plots;
 
 class Plot extends Canvas
 {
-    public function __construct(callable $function, $start, $end)
+    private $function;
+    private $start;
+    private $end;
+
+    public function __construct(callable $function, $start, $end, $width, $height)
     {
-        parent::__construct();
+        parent::__construct($width, $height);
         $this->function = $function;
         $this->start    = $start;
         $this->end      = $end;
+    }
+
+    public function size($width = 600, $height = 600)
+    {
+        $this->width  = $width;
+        $this->height = $height;
     }
 
     public function grid(bool $switch)
