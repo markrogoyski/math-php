@@ -2,6 +2,11 @@
 
 namespace MathPHP\Plots;
 
+/**
+ * Plotting Canvas
+ *
+ * The base class for the plotting utility.
+ */
 class Canvas
 {
     protected $width;
@@ -16,9 +21,9 @@ class Canvas
         $this->canvas = imagecreate($width, $height);
     }
 
-    public function addPlot()
+    public function addPlot(callable $function, $start = 0, $end = 10)
     {
-        $this->plot = new Plot();
+        $this->plot = new Plot($function, $start, $end);
         return $this->plot;
     }
 
