@@ -132,13 +132,13 @@ class Plot extends Canvas
 
         // Draw title, x-axis title, y-axis title
         if (isset($title)) {
-            imagestring($canvas, 5, ($width - strlen($title)*9)/2, 18, $title, $black);
+            imagestring($canvas, 5, ($width + $x_shift - strlen($title)*9)/2, 18, $title, $black);
         }
         if (isset($xLabel)) {
-            imagestring($canvas, 4, ($width - strlen($xLabel)*8)/2, $height - 30, $xLabel, $black);
+            imagestring($canvas, 4, ($width + $x_shift - strlen($xLabel)*8)/2, $height - 30, $xLabel, $black);
         }
         if (isset($yLabel)) {
-            imagestringup($canvas, 4, 10, ($height + strlen($yLabel)*8)/2, $yLabel, $black);
+            imagestringup($canvas, 4, 10, ($height - $y_shift + strlen($yLabel)*8)/2, $yLabel, $black);
         }
 
         // Draw graph
