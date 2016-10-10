@@ -27,6 +27,12 @@ class Canvas
         return $this->plot;
     }
 
+    public function size($width = 600, $height = 600)
+    {
+        $this->width  = $width;
+        $this->height = $height;
+    }
+
     public function save()
     {
         header('Content-type: image/png');
