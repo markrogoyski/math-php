@@ -50,25 +50,29 @@ class Plot extends Canvas
         $this->color = $color;
     }
 
+    public function thickness(int $thickness)
+    {
+        $this->thickness = $thickness;
+    }
+
     public function draw($canvas)
     {
-        // Set defaults
         $black   = imagecolorallocate($canvas, 0, 0, 0);
         $white   = imagecolorallocate($canvas, 255, 255, 255);
         $padding = 50;
 
         // Grab parameters
-        $width    = $this->width;
-        $height   = $this->height;
-        $title    = $this->title ?? null;
-        $xLabel   = $this->xLabel ?? null;
-        $yLabel   = $this->yLabel ?? null;
-        $weight   = $this->weight ?? 3;
-        $grid     = $this->grid ?? false;
-        $color    = isset($this->color) ? imagecolorallocate($canvas, ... $this->color) : $black;
-        $function = $this->function;
-        $start    = $this->start;
-        $end      = $this->end;
+        $width     = $this->width;
+        $height    = $this->height;
+        $title     = $this->title ?? null;
+        $xLabel    = $this->xLabel ?? null;
+        $yLabel    = $this->yLabel ?? null;
+        $thickness = $this->thickness ?? 3;
+        $grid      = $this->grid ?? false;
+        $color     = isset($this->color) ? imagecolorallocate($canvas, ... $this->color) : $black;
+        $function  = $this->function;
+        $start     = $this->start;
+        $end       = $this->end;
 
         // Determine if we need to add padding to make room for axis labels
         $x_shift = isset($yLabel) ? 40 : 0;
@@ -142,7 +146,7 @@ class Plot extends Canvas
         }
 
         // Draw graph
-        imagesetthickness($canvas, $weight);
+        imagesetthickness($canvas, $thickness);
         for ($i = 0; $i < $n; $i++) {
             $xᵢ     = $graph_start_x + $i*$graph_step_x;
             $xᵢ₊₁   = $graph_start_x + ($i+1)*$graph_step_x;
