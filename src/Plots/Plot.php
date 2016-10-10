@@ -16,6 +16,10 @@ class Plot extends Canvas
         $this->grid = $switch;
     }
 
+    public function title(string $title) {
+        $this->title = $title;
+    }
+
     public function yLabel(string $label) {
         $this->y_label = $label;
     }
@@ -105,8 +109,8 @@ class Plot extends Canvas
         }
 
         // Draw title, x-axis title, y-axis title
-        $sizeTitle = 20;
-        $sizeAxis = 16;
+        $sizeTitle = 16;
+        $sizeAxis = 14;
         if (isset($title)) {
             $p = imagettfbbox($sizeTitle, 0, $font, $title);
             $title_x = ($width - ($p[2] - $p[0]))/2;
