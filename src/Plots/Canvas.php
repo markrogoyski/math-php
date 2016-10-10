@@ -11,19 +11,19 @@ class Canvas
 {
     protected $width;
     protected $height;
-    protected $canvas;
-    protected $plot;
+    private   $plot;
 
     public function __construct($width = 600, $height = 600)
     {
         $this->width  = $width;
         $this->height = $height;
-        $this->canvas = imagecreate($width, $height);
     }
 
     public function addPlot(callable $function, $start = 0, $end = 10)
     {
-        $this->plot = new Plot($function, $start, $end);
+        $width      = $this->width;
+        $height     = $this->height;
+        $this->plot = new Plot($function, $start, $end, $width, $height);
         return $this->plot;
     }
 
@@ -31,6 +31,9 @@ class Canvas
     {
         $this->width  = $width;
         $this->height = $height;
+        if(isset($this->plot)) {
+            $this->plot->size($width, $height);
+        }
     }
 
     public function save()
