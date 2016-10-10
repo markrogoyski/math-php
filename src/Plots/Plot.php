@@ -4,16 +4,19 @@ namespace MathPHP\Plots;
 
 class Plot extends Canvas
 {
-    public function __construct()
+    public function __construct(callable $function, $start, $end)
     {
         parent::__construct();
         $this->x_label = "x-label";
-        $this->y_label = "y-label";
-        $this->title = "Working!";
-        $this->function = function ($x) { return sin($x); };
-        $this->start = 0;
-        $this->end = 10;
-        $this->weight = 3;
+        //$this->y_label = "y-label";
+        //$this->title = "Working!";
+        $this->function = $function;
+        $this->start = $start;
+        $this->end = $end;
+    }
+
+    public function grid(bool $switch) {
+        $this->grid = $switch;
     }
 
     public function draw($canvas)
@@ -22,10 +25,11 @@ class Plot extends Canvas
         $width   = $this->width;
         $height  = $this->height;
         $padding = 50;
-        $title = $this->title;
-        $x_label = $this->x_label;
-        $y_label = $this->y_label;
-        $weight  = $this->weight;
+        $title   = $this->title ?? null;
+        $x_label = $this->x_label ?? null;
+        $y_label = $this->y_label ?? null;
+        $weight  = $this->weight ?? 3;
+        $grid    = $this->grid ?? false;
 
         // Build convenience variables for graph measures
         list($x_shift, $y_shift) = [
@@ -81,7 +85,7 @@ class Plot extends Canvas
         imagesetstyle($canvas, $style);
         for ($i = 0; $i <= $count; $i++) {
             imagettftext($canvas, $size, $angle, $graph_start_x - $padding*0.75, $size*0.5 + $graph_start_y - $i*($graph_height/$count), $black, $font, round(($min + $i*($max - $min)/$count), 1));
-            if ($i !== 0 and $i !== $count) {
+            if ($i !== 0 and $i !== $count and $grid) {
                 imageline($canvas, $graph_start_x, $graph_start_y - $i*($graph_height/$count), $graph_end_x, $graph_start_y - $i*($graph_height/$count), IMG_COLOR_STYLED);
             }
         }
@@ -90,7 +94,7 @@ class Plot extends Canvas
         $newcount = 9;
         for ($i = 0; $i <= $newcount; $i++) {
             imagettftext($canvas, $size, $angle, $graph_start_x + $i*($graph_width/$newcount), $graph_start_y + $padding/2, $black, $font, round(($start + $i*($end - $start)/$newcount), 1));
-            if ($i !== 0 and $i !== $newcount) {
+            if ($i !== 0 and $i !== $newcount and $grid) {
                 imageline($canvas, $graph_start_x + $i*($graph_width/$newcount), $graph_start_y, $graph_start_x + $i*($graph_width/$newcount), $graph_end_y, IMG_COLOR_STYLED);
             }
         }
