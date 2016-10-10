@@ -12,33 +12,60 @@ class Plot extends Canvas
         $this->end = $end;
     }
 
-    public function grid(bool $switch) {
+    public function grid(bool $switch)
+    {
         $this->grid = $switch;
     }
 
-    public function title(string $title) {
+    public function title(string $title)
+    {
         $this->title = $title;
     }
 
-    public function yLabel(string $label) {
+    public function yLabel(string $label)
+    {
         $this->y_label = $label;
     }
 
-    public function xLabel(string $label) {
+    public function xLabel(string $label)
+    {
         $this->x_label = $label;
+    }
+
+    public function color(string $color)
+    {
+        //$this->color = $color;
+        switch($color) {
+            case 'red':
+                $color = [255, 0, 0];
+                break;
+            case 'green':
+                $color = [0, 255, 0];
+                break;
+            case 'blue':
+                $color = [0, 0, 255];
+                break;
+            default:
+                $color = [0, 0, 0];
+        }
+        $this->color = $color;
     }
 
     public function draw($canvas)
     {
+        // Set defaults
+        $black   = imagecolorallocate($canvas, 0, 0, 0);
+        $padding = 50;
+
         // Grab parameters
         $width   = $this->width;
         $height  = $this->height;
-        $padding = 50;
         $title   = $this->title ?? null;
         $x_label = $this->x_label ?? null;
         $y_label = $this->y_label ?? null;
         $weight  = $this->weight ?? 3;
         $grid    = $this->grid ?? false;
+        $color   = isset($this->color) ? imagecolorallocate($canvas, ... $this->color) : $black;
 
         // Build convenience variables for graph measures
         list($x_shift, $y_shift) = [
@@ -57,7 +84,6 @@ class Plot extends Canvas
         ];
 
         // Create axes
-        $black = imagecolorallocate($canvas, 0, 0, 0);
         imagerectangle($canvas, $graph_start_x, $graph_end_y, $graph_end_x, $graph_start_y, $black);
 
         // Define input function and function domain
@@ -130,7 +156,7 @@ class Plot extends Canvas
         // Draw graph
         imagesetthickness($canvas, $weight);
         for ($i = 0; $i < $n; $i++) {
-            imageline($canvas, $graph_start_x + $i*$graph_step_x, $graph_start_y - ($image[$i]-$min)*$function_scale, $graph_start_x + ($i+1)*$graph_step_x, $graph_start_y - ($image[$i+1]-$min)*$function_scale, $black);
+            imageline($canvas, $graph_start_x + $i*$graph_step_x, $graph_start_y - ($image[$i]-$min)*$function_scale, $graph_start_x + ($i+1)*$graph_step_x, $graph_start_y - ($image[$i+1]-$min)*$function_scale, $color);
         }
 
         return $canvas;
