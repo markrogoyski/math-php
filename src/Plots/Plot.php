@@ -7,7 +7,7 @@ class Plot extends Canvas
     public function __construct(callable $function, $start, $end)
     {
         parent::__construct();
-        $this->x_label = "x-label";
+        //$this->x_label = "x-label";
         //$this->y_label = "y-label";
         //$this->title = "Working!";
         $this->function = $function;
@@ -17,6 +17,10 @@ class Plot extends Canvas
 
     public function grid(bool $switch) {
         $this->grid = $switch;
+    }
+
+    public function yLabel(string $label) {
+        $this->y_label = $label;
     }
 
     public function draw($canvas)
