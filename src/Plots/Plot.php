@@ -87,16 +87,16 @@ class Plot extends Canvas
         // Create axes
         imagerectangle($canvas, $graph_start_x, $graph_end_y, $graph_end_x, $graph_start_y, $black);
 
-        // Calculate graph step size and function step size
+        // Calculate function step size (h) and graph step size
         $n             = 1000;
+        $h             = ($end - $start)/$n;
         $graph_step_x  = $graph_width/$n;
         $graph_step_y  = $graph_height/$n;
-        $function_step = ($end - $start)/$n;
 
         // Calculate function values, min, max, and function scale
         $image = [];
         for ($i = 0; $i <= $n; $i++) {
-            $image[] = $function($start + $i*$function_step);
+            $image[] = $function($start + $i*$h);
         }
         $min            = min($image);
         $max            = max($image);
@@ -107,18 +107,26 @@ class Plot extends Canvas
         $style = array_merge(array_fill(0, 1, $black), array_fill(0, 5, $white));
         imagesetstyle($canvas, $style);
         for ($i = 0; $i <= $gridCountY; $i++) {
-            imagestring($canvas, 2, $graph_start_x - 50, $graph_start_y - 8 - $i*($graph_height/$gridCountY), round(($min + $i*($max - $min)/$gridCountY), 1), $black);
-            if ($i !== 0 and $i !== $gridCountY and $grid) {
-                imageline($canvas, $graph_start_x, $graph_start_y - $i*($graph_height/$gridCountY), $graph_end_x, $graph_start_y - $i*($graph_height/$gridCountY), IMG_COLOR_STYLED);
+            $value = round(($min + $i*($max - $min)/$gridCountY), 1);
+            $X₀    = $graph_start_x;
+            $Xₙ    = $graph_end_x;
+            $Y₀    = $graph_start_y - $i*($graph_height/$gridCountY);
+            imagestring($canvas, 2, $X₀ - 10 - 6*strlen($value), $Y₀ - 8, $value, $black);
+            if ($i !== 0 && $i !== $gridCountY && $grid) {
+                imageline($canvas, $X₀, $Y₀, $Xₙ, $Y₀, IMG_COLOR_STYLED);
             }
         }
 
         // Draw x-axis values and grid
         $gridCountX = 10;
         for ($i = 0; $i <= $gridCountX; $i++) {
-            imagestring($canvas, 2, $graph_start_x + $i*($graph_width/$gridCountX), $graph_start_y + 8, round(($start + $i*($end - $start)/$gridCountX), 1), $black);
-            if ($i !== 0 and $i !== $gridCountX and $grid) {
-                imageline($canvas, $graph_start_x + $i*($graph_width/$gridCountX), $graph_start_y, $graph_start_x + $i*($graph_width/$gridCountX), $graph_end_y, IMG_COLOR_STYLED);
+            $value = round(($start + $i*($end - $start)/$gridCountX), 1);
+            $X₀    = $graph_start_x + $i*($graph_width/$gridCountX);
+            $Y₀    = $graph_start_y;
+            $Yₙ    = $graph_end_y;
+            imagestring($canvas, 2, $X₀ + 2 - strlen($value)*3, $Y₀ + 8, $value, $black);
+            if ($i !== 0 && $i !== $gridCountX && $grid) {
+                imageline($canvas, $X₀, $Y₀, $X₀, $Yₙ, IMG_COLOR_STYLED);
             }
         }
 
@@ -136,7 +144,11 @@ class Plot extends Canvas
         // Draw graph
         imagesetthickness($canvas, $weight);
         for ($i = 0; $i < $n; $i++) {
-            imageline($canvas, $graph_start_x + $i*$graph_step_x, $graph_start_y - ($image[$i]-$min)*$function_scale, $graph_start_x + ($i+1)*$graph_step_x, $graph_start_y - ($image[$i+1]-$min)*$function_scale, $color);
+            $xᵢ     = $graph_start_x + $i*$graph_step_x;
+            $xᵢ₊₁   = $graph_start_x + ($i+1)*$graph_step_x;
+            $f⟮xᵢ⟯   = $graph_start_y - ($image[$i]-$min)*$function_scale;
+            $f⟮xᵢ₊₁⟯ = $graph_start_y - ($image[$i+1]-$min)*$function_scale;
+            imageline($canvas, $xᵢ, $f⟮xᵢ⟯, $xᵢ₊₁, $f⟮xᵢ₊₁⟯, $color);
         }
 
         return $canvas;
