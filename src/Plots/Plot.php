@@ -16,7 +16,7 @@ class Plot extends Canvas
         $this->end      = $end;
     }
 
-    public function size($width = 600, $height = 600)
+    public function size($width, $height)
     {
         $this->width  = $width;
         $this->height = $height;
