@@ -43,6 +43,14 @@ class Canvas
     */
     public function __construct(int $width = 700, int $height = 500)
     {
+        if (!extension_loaded('gd')) {
+            if (!dl('gd.so')) {
+                echo "GD extension is not installed/loaded. Ensure it is setup
+                      property and then try again";
+                exit;
+            }
+        }
+
         $this->validateSize($width, $height);
 
         $this->width  = $width;
