@@ -48,7 +48,8 @@ class Plot extends Canvas
     private $start;
     private $end;
 
-    public function __construct(callable $function, $start, $end, $width, $height)
+
+    public function __construct(callable $function, float $start, float $end, int $width, int $height)
     {
         parent::__construct($width, $height);
         $this->function = $function;
@@ -103,6 +104,10 @@ class Plot extends Canvas
 
     public function draw($canvas)
     {
+        if (get_resource_type($canvas) !== "gd") {
+            throw new \Exception("The was an error constructing the canvas")
+        }
+
         $black   = imagecolorallocate($canvas, 0, 0, 0);
         $white   = imagecolorallocate($canvas, 255, 255, 255);
         $padding = 50;
