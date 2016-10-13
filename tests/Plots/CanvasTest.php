@@ -10,6 +10,12 @@ class CanvasTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         new Canvas(-100, 500);
 
+        $this->setExpectedException('\Exception');
+        new Canvas(100, -500);
+
+        $this->setExpectedException('\Exception');
+        new Canvas(-100, -500);
+
         // Adjust to a negative size for canvas dimensions
         $this->setExpectedException('\Exception');
         $canvas = new Canvas();
