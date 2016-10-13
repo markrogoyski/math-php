@@ -43,6 +43,8 @@ class Canvas
     */
     public function __construct(int $width = 700, int $height = 500)
     {
+        $this->validateSize($width, $height);
+
         $this->width  = $width;
         $this->height = $height;
     }
@@ -67,7 +69,9 @@ class Canvas
     {
         $width      = $this->width;
         $height     = $this->height;
-        $this->plot = new Plot($function, $start, $end, $width, $height);
+
+        list($start, $end) = $this->validateInterval($start, $end);
+        $this->plot        = new Plot($function, $start, $end, $width, $height);
 
         return $this->plot;
     }
@@ -83,8 +87,12 @@ class Canvas
     */
     public function size(int $width, int $height)
     {
+        $this->validateSize($width, $height);
+
         $this->width  = $width;
         $this->height = $height;
+
+        // If we've already added a plot to the canvas, adjust it's size as well
         if(isset($this->plot)) {
             $this->plot->size($width, $height);
         }
@@ -112,6 +120,18 @@ class Canvas
         }
 
         imagejpeg($canvas, 'image-' . rand() . '.jpg');
+    }
+
+    /**
+    * Validate the input size of our canvus
+    *
+    * @throws Exception if $width or $height is negative
+    */
+    public function validateSize(int $width, int $height)
+    {
+        if ($width < 0 || $height < 0) {
+            throw new \Exception("Canvas dimensions cannot be negative");
+        }
     }
 
     /**
