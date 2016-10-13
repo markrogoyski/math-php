@@ -178,9 +178,15 @@ class Plot extends Canvas
     * Modify the thickness of our plot line/curve.
     *
     * @param int $thickness The thickness of our plot line/curve
+    *
+    * @throws Exception if $thickness is negative
     */
     public function thickness(int $thickness)
     {
+        if ($thickness < 0) {
+            throw new \Exception("Thickness cannot be negative");
+        }
+
         $this->thickness = $thickness;
     }
 
