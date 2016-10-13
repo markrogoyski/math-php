@@ -61,6 +61,10 @@ class Plot extends Canvas
     * class, as it needs to correspond to an instance of Canvas. This is
     * because the save() method draws our plot onto a specific instance of
     * a GD image, and this image is initially built in the parent Canvas class.
+    *
+    * @param callable $function The callback function we are plotting
+    * @param number   $start    The start of our plotting interval
+    * @param number   $end      The end of the plotting interval
     */
     public function __construct(callable $function, float $start, float $end)
     {
@@ -68,6 +72,19 @@ class Plot extends Canvas
         $this->function = $function;
         $this->start    = $start;
         $this->end      = $end;
+    }
+
+    /**
+    * Ajust the start and endpoint of the interval to which we are plotting
+    * a function.
+    *
+    * @param number $start    The start of our plotting interval
+    * @param number $end      The end of the plotting interval
+    */
+    public function xRange(float $start, float $end)
+    {
+        $this->start = $start;
+        $this->end   = $end;
     }
 
     /**
