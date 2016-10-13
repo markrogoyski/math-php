@@ -157,7 +157,7 @@ class Plot extends Canvas
     */
     public function color(string $color)
     {
-        switch($color) {
+        switch ($color) {
             case 'red':
                 $color = [255, 0, 0];
                 break;

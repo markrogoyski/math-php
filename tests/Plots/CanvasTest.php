@@ -24,7 +24,10 @@ class CanvasTest extends \PHPUnit_Framework_TestCase
         // The input interval is set to single point (start = end)
         $this->setExpectedException('\Exception');
         $canvas = new Canvas();
-        $canvas->addPlot(function ($x) { return 1; }, 0, 0);
+        $function = function ($x) {
+            return 1;
+        };
+        $canvas->addPlot($function, 0, 0);
     }
 
     public function testValidateIntervalUpdate()
@@ -32,7 +35,10 @@ class CanvasTest extends \PHPUnit_Framework_TestCase
         // The plot interval is adjusted to single point (start = end)
         $this->setExpectedException('\Exception');
         $canvas = new Canvas();
-        $plot = $canvas->addPlot(function ($x) { return 1; }, 0, 10);
+        $function = function ($x) {
+            return 1;
+        };
+        $canvas->addPlot($function, 0, 10);
         $plot->xRange(10, 10);
     }
 }

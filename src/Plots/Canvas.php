@@ -27,7 +27,7 @@ class Canvas
 {
     protected $width;
     protected $height;
-    private   $plot;
+    private $plot;
 
     /**
     * Construct a new plotting canvas.
@@ -93,7 +93,7 @@ class Canvas
         $this->height = $height;
 
         // If we've already added a plot to the canvas, adjust it's size as well
-        if(isset($this->plot)) {
+        if (isset($this->plot)) {
             $this->plot->size($width, $height);
         }
     }
