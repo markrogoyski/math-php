@@ -65,11 +65,28 @@ class Plot extends Canvas
     * @param callable $function The callback function we are plotting
     * @param number   $start    The start of our plotting interval
     * @param number   $end      The end of the plotting interval
+    *
+    * @throws Exception if $start = $end (not an interval, just a point)
     */
     public function __construct(callable $function, float $start, float $end)
     {
         parent::__construct();
+
         $this->function = $function;
+
+        if ($start === $end) {
+            throw new \Exception("Start and end points the interval of our
+                                  graph cannot be the same. Your current input
+                                  would produce a graph over the interval
+                                  [{$start}, {$end}], which is just a single
+                                  point");
+        }
+
+        // Swap variables if start point is greater than end point
+        if ($start > $end) {
+            list($start, $end) = [$end, $start];
+        }
+
         $this->start    = $start;
         $this->end      = $end;
     }
