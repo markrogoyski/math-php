@@ -68,11 +68,11 @@ class Plot extends Canvas
     */
     public function __construct(callable $function, float $start, float $end)
     {
+        list($start, $end) = $this->validateInterval($start, $end);
+
         parent::__construct();
 
-        $this->function = $function;
-
-        list($start, $end) = $this->validateInterval($start, $end);
+        $this->function    = $function;
         $this->start       = $start;
         $this->end         = $end;
     }
@@ -86,6 +86,8 @@ class Plot extends Canvas
     */
     public function xRange(float $start, float $end)
     {
+        list($start, $end) = $this->validateInterval($start, $end);
+
         $this->start = $start;
         $this->end   = $end;
     }
@@ -97,9 +99,15 @@ class Plot extends Canvas
     * @param bool $switch     A boolean for if the grid is shown or not
     * @param int  $gridCountX The number of grid lines on the x-axis
     * @param int  $gridCountY The number of grid lines on the y-axis
+    *
+    * @throws Exception if $gridCountX or $gridCountY is negative
     */
     public function grid(bool $switch = true, int $gridCountX = 10, int $gridCountY = 10)
     {
+        if ($gridCountX < 0 || $gridCountY < 0) {
+            throw new \Exception("Number of grid lines cannot be negative");
+        }
+
         $this->grid       = $switch;
         $this->gridCountX = 10;
         $this->gridCountY = 10;
@@ -162,6 +170,7 @@ class Plot extends Canvas
             default:
                 $color = [0, 0, 0];
         }
+
         $this->color = $color;
     }
 
