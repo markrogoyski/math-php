@@ -2,6 +2,46 @@
 
 namespace MathPHP\Plots;
 
+/*
+* Single Plot
+*
+* Contains paramters for a single plot to draw on a parent Canvas object.
+*
+* To create a plot, first start with a canvas object. Then, construct a child
+* Plot object by using the addPlot() method in the Canvas class. This will
+* ensure that our resulting Plot object is tied to the canvas object to which
+* it corresponds. Then, we explicitly use Plot methods() for the resulting
+* plot object.
+*
+* This class currently supports the following methods:
+*   - grid(): Turn on or off the grid lines for our plot, and specify the
+*             number of grid lines for each axis
+*   - title(): Assign a title to our plot
+*   - yLabel(): Assign a label to our y-axis
+*   - xLabel(): Assign a label to our x-axis
+*   - color(): Set the color of our plot line/curve
+*   - thickness(): Set the thickness of our plot line/curve
+*
+* Example: Graph the function f(x) = x*sin(x) on [0, 20] with a grid, title,
+*          y-axis label, x-axis label, a color of red, and thickness of 5
+*     $canvas = new Canvas();
+*     $plot = $canvas->addPlot(function ($x) { return $x*sin($x); }, 0, 20);
+*     $plot->grid(true);
+*     $plot->yLabel("This is a working y-label");
+*     $plot->xLabel("Time (seconds)");
+*     $plot->title("Sample Title");
+*     $plot->color("red");
+*     $plot->thickness(5);
+*     $canvas->save();
+*
+* There are plans to add support for the following:
+*   - A method to change the font for all text
+*   - A method to change the font size for all text
+*   - A method to change the font color for all text
+*   - A method to add more graphs (functions) to the same plot
+*   - A child class for each text field (title and axis labels) which contains
+*     methods to adjust the color, size, and font of that specific text field
+*/
 class Plot extends Canvas
 {
     private $function;
@@ -16,15 +56,11 @@ class Plot extends Canvas
         $this->end      = $end;
     }
 
-    public function size($width, $height)
+    public function grid(bool $switch = true, int $gridCountX = 10, int $gridCountY = 10)
     {
-        $this->width  = $width;
-        $this->height = $height;
-    }
-
-    public function grid(bool $switch)
-    {
-        $this->grid = $switch;
+        $this->grid       = $switch;
+        $this->gridCountX = 10;
+        $this->gridCountY = 10;
     }
 
     public function title(string $title)
@@ -71,18 +107,20 @@ class Plot extends Canvas
         $white   = imagecolorallocate($canvas, 255, 255, 255);
         $padding = 50;
 
-        // Grab parameters
-        $width     = $this->width;
-        $height    = $this->height;
-        $title     = $this->title ?? null;
-        $xLabel    = $this->xLabel ?? null;
-        $yLabel    = $this->yLabel ?? null;
-        $thickness = $this->thickness ?? 3;
-        $grid      = $this->grid ?? false;
-        $color     = isset($this->color) ? imagecolorallocate($canvas, ... $this->color) : $black;
-        $function  = $this->function;
-        $start     = $this->start;
-        $end       = $this->end;
+        // Grab parameters or assign defaults
+        $width      = $this->width;
+        $height     = $this->height;
+        $title      = $this->title ?? null;
+        $xLabel     = $this->xLabel ?? null;
+        $yLabel     = $this->yLabel ?? null;
+        $color      = isset($this->color) ? imagecolorallocate($canvas, ... $this->color) : $black;
+        $thickness  = $this->thickness ?? 3;
+        $grid       = $this->grid ?? false;
+        $gridCountY = $this->gridCountY ?? 10;
+        $gridCountX = $this->gridCountX ?? 10;
+        $function   = $this->function;
+        $start      = $this->start;
+        $end        = $this->end;
 
         // Determine if we need to add padding to make room for axis labels
         $x_shift = isset($yLabel) ? 40 : 0;
@@ -117,7 +155,6 @@ class Plot extends Canvas
         $function_scale = $graph_height/($max - $min);
 
         // Draw y-axis values and grid
-        $gridCountY = 10;
         $style = array_merge(array_fill(0, 1, $black), array_fill(0, 5, $white));
         imagesetstyle($canvas, $style);
         for ($i = 0; $i <= $gridCountY; $i++) {
@@ -132,7 +169,6 @@ class Plot extends Canvas
         }
 
         // Draw x-axis values and grid
-        $gridCountX = 10;
         for ($i = 0; $i <= $gridCountX; $i++) {
             $value = round(($start + $i*($end - $start)/$gridCountX), 1);
             $X₀    = $graph_start_x + $i*($graph_width/$gridCountX);
