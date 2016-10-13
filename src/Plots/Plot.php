@@ -210,7 +210,7 @@ class Plot extends Canvas
     public function draw($canvas)
     {
         // Verify the input is a GD resource
-        if (get_resource_type($canvas) !== "gd") {
+        if (!(is_resource($canvas) && get_resource_type($canvas) === "gd")) {
             throw new \Exception("The was an error constructing the canvas");
         }
 
