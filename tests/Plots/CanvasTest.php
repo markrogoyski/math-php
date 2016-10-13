@@ -15,4 +15,18 @@ class CanvasTest extends \PHPUnit_Framework_TestCase
         $canvas = new Canvas();
         $canvas->size(-100, 500);
     }
+
+    public function testValidateInterval()
+    {
+        // The input interval is set to single point (start = end)
+        $this->setExpectedException('\Exception');
+        $canvas = new Canvas();
+        $canvas->addPlot(function ($x) { return 1; }, 0, 0);
+
+        // The plot interval is adjusted to single point (start = end)
+        $this->setExpectedException('\Exception');
+        $canvas = new Canvas();
+        $plot = $canvas->addPlot(function ($x) { return 1; }, 0, 10);
+        $plot->xRange(10, 10);
+    }
 }
