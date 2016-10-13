@@ -6,6 +6,22 @@ namespace MathPHP\Plots;
  * Plotting Canvas
  *
  * The base class for the plotting utility.
+ *
+ * This is the parent class for our plotting utility. To create a plot image,
+ * you first start with this class to build the foundation for our plot. This
+ * will create an environment for which you can add a single plot or, in the
+ * future, multiple plots.
+ *
+ * This class currently supports the following methods:
+ *   - addPlot(): add a single plot objects (graphs) to our canvas
+ *   - size():    adjust the size of our canvas
+ *   - save():    draw the current
+ *
+ * Example: Plot the graph f(x) = x over [0, 100]
+ *     $canvas = new Canvas(1000, 500);
+ *     $canvas->addPlot(function ($x) { return $x; }, 0, 100);
+ *     $canvas->save();
+ *
  */
 class Canvas
 {
@@ -37,6 +53,8 @@ class Canvas
     * This method is used when we are including a single plot in a canvas
     * object. To add multiple plots to a single canvas, use the addSubplot()
     * method (to be added in a future release).
+    *
+    * The default interval of our plot is [0, 10].
     *
     * @param callable $function The callback function we are plotting
     * @param number   $start    The start of our plotting interval
@@ -85,9 +103,14 @@ class Canvas
     public function save()
     {
         header('Content-type: image/png');
+
         $canvas = imagecreate($this->width, $this->height);
         imagecolorallocate($canvas, 255, 255, 255);
-        $canvas = $this->plot->draw($canvas);
+
+        if (isset($this->plot)) {
+            $canvas = $this->plot->draw($canvas);
+        }
+
         imagejpeg($canvas, 'image-' . rand() . '.jpg');
     }
 }
