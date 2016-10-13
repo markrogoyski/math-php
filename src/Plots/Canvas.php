@@ -63,7 +63,7 @@ class Canvas
     * @return object The resulting Plot object constructed from our inputs
     *                and the parameters of the parent canvas object
     */
-    public function addPlot(callable $function, $start = 0, $end = 10)
+    public function addPlot(callable $function, $start = 0, $end = 10): Plot
     {
         $width      = $this->width;
         $height     = $this->height;
