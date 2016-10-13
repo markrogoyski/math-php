@@ -113,4 +113,29 @@ class Canvas
 
         imagejpeg($canvas, 'image-' . rand() . '.jpg');
     }
+
+    /**
+    * Valide that our input is a proper interval (not just a point).
+    *
+    * If the start point is greater than the input, swap the variables.
+    *
+    * @throws Exception if $start = $end (not an interval, just a point)
+    */
+    public function validateInterval(int $start, int $end)
+    {
+        if ($start === $end) {
+            throw new \Exception("Start and end points the interval of our
+                                  graph cannot be the same. Your current input
+                                  would produce a graph over the interval
+                                  [{$start}, {$end}], which is just a single
+                                  point");
+        }
+
+        // Swap variables if start point is greater than end point
+        if ($start > $end) {
+            list($start, $end) = [$end, $start];
+        }
+
+        return [$start, $end];
+    }
 }
