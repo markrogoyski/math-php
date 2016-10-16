@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 
+use MathPHP\Exception;
+
 /**
  * Base class for numerical differentiation techniques.
  *
@@ -56,8 +58,7 @@ abstract class NumericalDifferentiation
         } elseif (is_array($source)) {
             $points   = $source;
         } else {
-            throw new \Exception("Input source is incorrect. You need to input
-                                  either a callback function or a set of arrays");
+            throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
 
         return $points;
@@ -103,22 +104,18 @@ abstract class NumericalDifferentiation
     public static function validate(array $points, $degree): bool
     {
         if (count($points) != $degree) {
-            throw new \Exception("You need to have $degree sets of
-                                  coordinates (arrays) for this technique");
+            throw new Exception\BadDataException("You need to have $degree sets of coordinates (arrays) for this technique");
         }
 
         $x_coordinates = [];
         foreach ($points as $point) {
             if (count($point) !== 2) {
-                throw new \Exception("Each array needs to have have precisely
-                                      two numbers, an x- and y-component");
+                throw new Exception\BadDataException('Each array needs to have have precisely two numbers, an x- and y-component');
             }
 
             $x_component = $point[self::X];
             if (in_array($x_component, $x_coordinates)) {
-                throw new \Exception("Not a function. Your input array contains
-                                      more than one coordinate with the same
-                                      x-component.");
+                throw new Exception\BadDataException('Not a function. Your input array contains more than one coordinate with the same x-component.');
             }
             array_push($x_coordinates, $x_component);
         }
@@ -161,9 +158,7 @@ abstract class NumericalDifferentiation
 
         for ($i = 1; $i < $length - 1; $i++) {
             if ($sorted[$i+1][$x] - $sorted[$i][$x] !== $spacing) {
-                throw new \Exception("The size of each subinterval must be the
-                                      same. Provide points with constant
-                                      spacing.");
+                throw new Exception\BadDataException('The size of each subinterval must be the same. Provide points with constant spacing.');
             }
         }
     }
@@ -187,8 +182,7 @@ abstract class NumericalDifferentiation
         }
 
         if (!in_array($target, $xcomponents)) {
-            throw new \Exception("Your target point must be the x-component of one
-                                  of the points you supplied.");
+            throw new Exception\BadDataException('Your target point must be the x-component of one of the points you supplied.');
         }
     }
 }

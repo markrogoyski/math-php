@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\Functions;
 
+use MathPHP\Exception;
+
 class Support
 {
     /**
@@ -21,14 +23,16 @@ class Support
      *
      * @return bool True if all parameters are within defined limits
      *
-     * @throws \Exception if any parameter is outside the defined limits
+     * @throws BadParameterException if a parameter without bounds limits is defined
+     * @throws OutOfBoundsException if any parameter is outside the defined limits
+     * @throws BadDataException if an unknown bounds character is used
      */
     public static function checkLimits(array $limits, array $params)
     {
         // All parameters should have limit bounds defined
         $undefined_limits = array_diff_key($params, $limits);
         if (!empty($undefined_limits)) {
-            throw new \Exception('Parameter without bounds limit defined: ' . print_r($undefined_limits, true));
+            throw new Exception\BadParameterException('Parameter without bounds limit defined: ' . print_r($undefined_limits, true));
         }
 
         foreach ($params as $variable => $value) {
@@ -46,16 +50,16 @@ class Support
                 switch ($lower_endpoint) {
                     case '(':
                         if ($value <= $lower_limit) {
-                            throw new \Exception("{$variable} must be > {$lower_limit}");
+                            throw new Exception\OutOfBoundsException("{$variable} must be > {$lower_limit}");
                         }
                         break;
                     case '[':
                         if ($value < $lower_limit) {
-                            throw new \Exception("{$variable} must be >= {$lower_limit}");
+                            throw new Exception\OutOfBoundsException("{$variable} must be >= {$lower_limit}");
                         }
                         break;
                     default:
-                        throw new \Exception("Unknown lower endpoint character: {$lower_limit}");
+                        throw new Exception\BadDataException("Unknown lower endpoint character: {$lower_limit}");
                 }
             }
             
@@ -64,16 +68,16 @@ class Support
                 switch ($upper_endpoint) {
                     case ')':
                         if ($value >= $upper_limit) {
-                            throw new \Exception("{$variable} must be < {$upper_limit}");
+                            throw new Exception\OutOfBoundsException("{$variable} must be < {$upper_limit}");
                         }
                         break;
                     case ']':
                         if ($value > $upper_limit) {
-                            throw new \Exception("{$variable} must be <= {$upper_limit}");
+                            throw new Exception\OutOfBoundsException("{$variable} must be <= {$upper_limit}");
                         }
                         break;
                     default:
-                        throw new \Exception("Unknown upper endpoint character: {$upper_endpoint}");
+                        throw new Exception\BadDataException("Unknown upper endpoint character: {$upper_endpoint}");
                 }
             }
         }

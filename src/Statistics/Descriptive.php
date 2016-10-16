@@ -3,6 +3,7 @@ namespace MathPHP\Statistics;
 
 use MathPHP\Statistics\Average;
 use MathPHP\Statistics\RandomVariable;
+use MathPHP\Exception;
 
 class Descriptive
 {
@@ -75,6 +76,8 @@ class Descriptive
      * @param array $numbers
      * @param int   $ν degrees of freedom
      * @return numeric
+     *
+     * @throws OutOfBoundsException if degrees of freedom is ≤ 0
      */
     public static function variance(array $numbers, int $ν)
     {
@@ -82,7 +85,7 @@ class Descriptive
             return null;
         }
         if ($ν <= 0) {
-            throw new \Exception('Degrees of freedom must be > 0');
+            throw new Exception\OutOfBoundsException('Degrees of freedom must be > 0');
         }
 
         $∑⟮xᵢ − μ⟯² = RandomVariable::sumOfSquaresDeviations($numbers);
@@ -447,12 +450,13 @@ class Descriptive
      * @param array $numbers
      * @param int   $P percentile to calculate
      * @return number in list corresponding to P percentile
-     * @throws \Exception if $P percentile is not between 0 and 100
+     *
+     * @throws OutOfBoundsException if $P percentile is not between 0 and 100
      */
     public static function percentile(array $numbers, int $P)
     {
         if ($P < 0 || $P > 100) {
-            throw new \Exception('Percentile P must be between 0 and 100.');
+            throw new Exception\OutOfBoundsException('Percentile P must be between 0 and 100.');
         }
         sort($numbers);
 

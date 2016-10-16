@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\Statistics;
 
+use MathPHP\Exception;
+
 /**
  * Statistical experiments (Epidemiology methods, etc.)
  *  - Risk ratio
@@ -203,11 +205,13 @@ class Experiment
      * @param  float $specificity
      *
      * @return array [ LL+, LL- ]
+     *
+     * @throws OutOfBoundsException if sensitivity or specificity are > 1.0
      */
     public static function likelihoodRatioSS(float $sensitivity, float $specificity): array
     {
         if ($sensitivity > 1.0 || $specificity > 1.0) {
-            throw new \Exception('Sensitivity and specificity must be <= 1.0');
+            throw new Exception\OutOfBoundsException('Sensitivity and specificity must be <= 1.0');
         }
 
         // LL+ Positive likelihood ratio

@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\Probability\Distribution\Table;
 
+use MathPHP\Exception;
+
 /**
  * Standard normal tables for Z and related methods
  *
@@ -111,7 +113,7 @@ class StandardNormal
     public static function getZScoreProbability(float $Z): float
     {
         if (!preg_match('/^ (\-? \d [.] \d) (\d) $/x', sprintf('%1.2f', $Z), $matches)) {
-            throw new \Exception("Z does not match format X.XX: $Z");
+            throw new Exception\BadParameterException("Z does not match format X.XX: $Z");
         }
         list( $z, $＋0．0x ) = [ $matches[1], $matches[2] ];
         return self::Z_SCORES[$z][$＋0．0x];
@@ -151,7 +153,7 @@ class StandardNormal
     public static function getZScoreForConfidenceInterval(string $cl): float
     {
         if (!array_key_exists($cl, self::Z_SCORES_FOR_CONFIDENCE_INTERVALS)) {
-            throw new \Exception('Not a valid confidence level');
+            throw new Exception\BadDataException('Not a valid confidence level');
         }
         return self::Z_SCORES_FOR_CONFIDENCE_INTERVALS[$cl];
     }

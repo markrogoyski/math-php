@@ -4,6 +4,7 @@ namespace MathPHP\Functions;
 use MathPHP\Probability\Combinatorics;
 use MathPHP\Statistics\RandomVariable;
 use MathPHP\Functions\Map\Single;
+use MathPHP\Exception;
 
 class Special
 {
@@ -409,11 +410,13 @@ class Special
      * @param number $x lower limit of integration
      *
      * @return number
+     *
+     * @throws OutOfBoundsException if s is <= 0
      */
     public static function upperIncompleteGamma($s, $x)
     {
         if ($s <= 0) {
-            throw new \Exception('S must be > 0');
+            throw new Exception\OutOfBoundsException("S must be > 0. S = $s");
         }
         return self::gamma($s) - self::lowerIncompleteGamma($s, $x);
     }
@@ -658,12 +661,15 @@ class Special
      * @param array $params a collection of the a, b, and z parameters
      *
      * @return number
+     *
+     * @throws BadParameterException if the number of parameters is incorrect
      */
     public static function generalizedHypergeometric(int $p, int $q, ...$params)
     {
         $n = count($params);
         if ($n !== $p + $q + 1) {
-            throw new \Exception('Number of parameters is incorrect');
+            $expected_num_params = $p + $q + 1;
+            throw new Exception\BadParameterException("Number of parameters is incorrect. Expected $expected_num_params; got $n");
         }
 
         $a       = array_slice($params, 0, $p);
@@ -726,11 +732,13 @@ class Special
      * @param number $z |z| < 1
      *
      * @return number
+     *
+     * @throws OutOfBoundsExpcetion if |z| >= 1
      */
     public static function hypergeometric($a, $b, $c, $z)
     {
         if (abs($z) >= 1) {
-             throw new \Exception('|z| must be < 1. |z| = ' . abs($z));
+             throw new Exception\OutOfBoundsException('|z| must be < 1. |z| = ' . abs($z));
         }
 
         return self::generalizedHypergeometric(2, 1, $a, $b, $c, $z);

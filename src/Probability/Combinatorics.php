@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\Probability;
 
+use MathPHP\Exception;
+
 /**
  * Combinatorics
  *  - Factorials
@@ -40,12 +42,12 @@ class Combinatorics
      *
      * @return int number of permutations of n
      *
-     * @throws \Exception
+     * @throws OutOfBoundsException if n < 0
      */
     public static function factorial(int $n)
     {
         if ($n < 0) {
-            throw new \Exception('Cannot compute factorial of a negative number.');
+            throw new Exception\OutOfBoundsException('Cannot compute factorial of a negative number.');
         }
         $factorial = 1;
         while ($n > 0) {
@@ -80,12 +82,12 @@ class Combinatorics
      *
      * @return int
      *
-     * @throws \Exception
+     * @throws OutOfBoundsException if n < 0
      */
     public static function doubleFactorial(int $n)
     {
         if ($n < 0) {
-            throw new \Exception('Cannot compute double factorial of a negative number.');
+            throw new Exception\OutOfBoundsException('Cannot compute double factorial of a negative number.');
         }
 
         // Zero base case
@@ -119,11 +121,13 @@ class Combinatorics
      * @param  number $x
      * @param  int    $n
      * @return number
+     *
+     * @throws OutOfBoundsException if n < 0
      */
     public static function risingFactorial($x, int $n)
     {
         if ($n < 0) {
-            throw new \Exception('Cannot compute rising factorial of a negative number.');
+            throw new Exception\OutOfBoundsException('Cannot compute rising factorial of a negative number.');
         }
 
         $fact = 1;
@@ -145,11 +149,13 @@ class Combinatorics
      * @param  number $x
      * @param  int    $n
      * @return number
+     *
+     * @throws OutOfBoundsException if n < 0
      */
     public static function fallingFactorial($x, int $n)
     {
         if ($n < 0) {
-            throw new \Exception('Cannot compute rising factorial of a negative number.');
+            throw new Exception\OutOfBoundsException('Cannot compute rising factorial of a negative number.');
         }
 
         if ($n > $x) {
@@ -179,12 +185,12 @@ class Combinatorics
      * @param  int $n
      *
      * @return int number of permutations of n
-     * @throws \Exception if n is negative
+     * @throws OutOfBoundsException if n < 0
      */
     public static function subfactorial(int $n)
     {
         if ($n < 0) {
-            throw new \Exception('Cannot compute subfactorial of a negative number.');
+            throw new Exception\OutOfBoundsException('Cannot compute subfactorial of a negative number.');
         }
 
         $n！= self::factorial($n);
@@ -218,15 +224,15 @@ class Combinatorics
      *
      * @return int number of permutations of n
      *
-     * @throws \Exception if n is negative or k is larger than n
+     * @throws OutOfBoundsException if n is negative or k is larger than n
      */
     public static function permutations(int $n, int $k = null)
     {
         if ($n < 0) {
-            throw new \Exception('Cannot compute negative permutations.');
+            throw new Exception\OutOfBoundsException('Cannot compute negative permutations.');
         }
         if (!is_null($k) && $k > $n) {
-            throw new \Exception('k cannot be larger than n.');
+            throw new Exception\OutOfBoundsException('k cannot be larger than n.');
         }
 
         $n！ = self::factorial($n);
@@ -264,15 +270,15 @@ class Combinatorics
      *
      * @return int number of possible combinations of n objects taken k at a time
      *
-     * @throws \Exception if n is negative; if k is larger than n
+     * @throws OutOfBoundsException if n is negative; if k is larger than n
      */
     public static function combinations(int $n, int $k, bool $repetition = false)
     {
         if ($n < 0) {
-            throw new \Exception('Cannot compute negative combinations.');
+            throw new Exception\OutOfBoundsException('Cannot compute negative combinations.');
         }
         if ($k > $n) {
-            throw new \Exception('k cannot be larger than n.');
+            throw new Exception\OutOfBoundsException('k cannot be larger than n.');
         }
 
         // nC'k with repetition
@@ -303,12 +309,12 @@ class Combinatorics
      *
      * @return int number
      *
-     * @throws \Exception if n is negative
+     * @throws OutOfBoundsException if n < 0
      */
     public static function centralBinomialCoefficient(int $n)
     {
         if ($n < 0) {
-            throw new \Exception('Cannot compute negative central binomial coefficient.');
+            throw new Exception\OutOfBoundsException('Cannot compute negative central binomial coefficient.');
         }
 
         $⟮2n⟯！ = self::factorial(2 * $n);
@@ -334,12 +340,12 @@ class Combinatorics
      *
      * @return int number
      *
-     * @throws \Exception if n is negative
+     * @throws OutOfBoundsException if n < 0
      */
     public static function catalanNumber(int $n)
     {
         if ($n < 0) {
-            throw new \Exception('Cannot compute negative catalan number.');
+            throw new Exception\OutOfBoundsException('Cannot compute negative catalan number.');
         }
 
         return (1 / ($n + 1)) * self::centralBinomialCoefficient($n);
@@ -353,14 +359,21 @@ class Combinatorics
      *           / n - 1 \  n!
      * L(n,k) = |         | --
      *           \ k - 1 /  k!
+     *
+     * @param int $n
+     * @param int $k
+     *
+     * @return number
+     *
+     * @throws OutOfBoundsException if n or k < 1 or n < k
      */
     public static function lahNumber(int $n, int $k)
     {
         if ($n < 1 || $k < 1) {
-            throw new \Exception("n and k must be < 1 for Lah Numbers");
+            throw new Exception\OutOfBoundsException("n and k must be < 1 for Lah Numbers");
         }
         if ($n < $k) {
-            throw new \Exception("n must be >= k for Lah Numbers");
+            throw new Exception\OutOfBoundsException("n must be >= k for Lah Numbers");
         }
 
         $nCk = self::combinations($n - 1, $k - 1);

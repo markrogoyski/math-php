@@ -2,6 +2,7 @@
 namespace MathPHP\NumericalAnalysis\RootFinding;
 
 use MathPHP\Functions\Special;
+use MathPHP\Exception;
 
 /**
  * Bisection's Method (also known as the Binary-search method)
@@ -77,11 +78,7 @@ class BisectionMethod
         $f⟮a⟯ = $function($a);
         $f⟮b⟯ = $function($b);
         if (Special::sgn($f⟮a⟯) === Special::sgn($f⟮b⟯)) {
-            throw new \Exception('Input function has the same sign at the
-                                  start and end of the interval. Choose start
-                                  and end points such that the function
-                                  evaluated at those points has a different
-                                  sign (one positive, one negative).');
+            throw new Exception\BadDataException('Input function has the same sign at the start and end of the interval. Choose start and end points such that the function evaluated at those points has a different sign (one positive, one negative).');
         }
     }
 }

@@ -2,6 +2,7 @@
 namespace MathPHP\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Combinatorics;
+use MathPHP\Exception;
 
 class Multinomial extends Discrete
 {
@@ -25,12 +26,12 @@ class Multinomial extends Discrete
     {
         // Must have a probability for each frequency
         if (count($frequencies) !== count($probabilities)) {
-            throw new \Exception('Number of frequencies does not match number of probabilities.');
+            throw new Exception\BadDataException('Number of frequencies does not match number of probabilities.');
         }
 
         // Probabilities must add up to 1
         if (round(array_sum($probabilities), 1) != 1) {
-            throw new \Exception('Probabilities do not add up to 1.');
+            throw new Exception\BadDataException('Probabilities do not add up to 1.');
         }
 
         $n   = array_sum($frequencies);

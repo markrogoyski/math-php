@@ -4,6 +4,7 @@ namespace MathPHP\Statistics;
 use MathPHP\Probability\Distribution\Continuous\StandardNormal;
 use MathPHP\Probability\Distribution\Continuous\StudentT;
 use MathPHP\Probability\Distribution\Continuous\ChiSquared;
+use MathPHP\Exception;
 
 /**
  * Tests of statistical significance
@@ -235,13 +236,13 @@ class Significance
      * @param  array  $expected
      *
      * @return array [chi-square, p]
-     * @throws Exception if count of observed does not equal count of expected
+     * @throws BadDataException if count of observed does not equal count of expected
      */
     public static function chiSquaredTest(array $observed, array $expected)
     {
         // Arrays must have the same number of elements
         if (count($observed) !== count($expected)) {
-            throw new \Exception('Observed and expected must have the same number of elements');
+            throw new Exception\BadDataException('Observed and expected must have the same number of elements');
         }
 
         // Reset array indexes and initialize

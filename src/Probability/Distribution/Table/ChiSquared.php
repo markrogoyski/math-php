@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\Probability\Distribution\Table;
 
+use MathPHP\Exception;
+
 /**
  * Table of χ² value vs P value
  *
@@ -311,6 +313,6 @@ class ChiSquared
             return self::CHI_SQUARED_SCORES[$df][sprintf('%1.3f', $p)];
         }
 
-        throw new \Exception("No chi-squared value for degrees of freedom $df and p value " . sprintf('%1.3f', $p));
+        throw new Exception\BadDataException("No chi-squared value for degrees of freedom $df and p value " . sprintf('%1.3f', $p));
     }
 }

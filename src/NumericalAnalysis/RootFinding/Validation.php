@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\NumericalAnalysis\RootFinding;
 
+use MathPHP\Exception;
+
 /**
  * Common validation methods for root finding techniques
  */
@@ -16,7 +18,7 @@ trait Validation
     public static function tolerance($tol)
     {
         if ($tol < 0) {
-            throw new \Exception('Tolerance must be greater than zero.');
+            throw new Exception\OutOfBoundsException('Tolerance must be greater than zero.');
         }
     }
 
@@ -31,7 +33,7 @@ trait Validation
     public static function interval($a, $b)
     {
         if ($a === $b) {
-            throw new \Exception('Start point and end point of interval cannot be the same.');
+            throw new Exception\BadDataException('Start point and end point of interval cannot be the same.');
         }
     }
 }

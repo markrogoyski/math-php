@@ -2,6 +2,7 @@
 namespace MathPHP\Statistics;
 
 use MathPHP\Functions\Map;
+use MathPHP\Exception;
 
 /**
  * Statistical averages
@@ -225,6 +226,8 @@ class Average
      *
      * @param  array  $numbers
      * @return number
+     *
+     * @throws BadDataException if there are negative numbers
      */
     public static function harmonicMean(array $numbers)
     {
@@ -236,7 +239,7 @@ class Average
         if (!empty(array_filter($numbers, function ($x) {
             return $x < 0;
         }))) {
-            throw new \Exception('Harmonic mean cannot be computed for negative values.');
+            throw new Exception\BadDataException('Harmonic mean cannot be computed for negative values.');
         }
 
         $n = count($numbers);
@@ -389,11 +392,13 @@ class Average
      * @param  array  $numbers
      * @param  int    $trim_percent Percent between 0-99
      * @return number
+     *
+     * @throws OutOfBoundsException if trim percent is not between 0 and 99
      */
     public static function truncatedMean(array $numbers, int $trim_percent)
     {
         if ($trim_percent < 0 || $trim_percent > 99) {
-            throw new \Exception('Trim percent must be between 0 and 99.');
+            throw new Exception\OutOfBoundsException('Trim percent must be between 0 and 99.');
         }
 
         $n          = count($numbers);
@@ -606,11 +611,13 @@ class Average
      * @param  array  $weights Weights for each n points
      *
      * @return array of averages
+     *
+     * @throws BadDataException if number of weights is not equal to number of n-points
      */
     public static function weightedMovingAverage(array $numbers, int $n, array $weights): array
     {
         if (count($weights) !== $n) {
-            throw new \Exception("Number of weights must equal number of n-points");
+            throw new Exception\BadDataException('Number of weights must equal number of n-points');
         }
 
         $m   = count($numbers);
@@ -765,12 +772,14 @@ class Average
      * @param  number $x
      * @param  number $y
      * @return number
+     *
+     * @throws OutOfBoundsException if x or y is ≤ 0
      */
     public static function identricMean($x, $y)
     {
         // x and y must be positive
         if ($x <= 0 || $y <= 0) {
-            throw new \Exception('x and y must be positive real numbers.');
+            throw new Exception\OutOfBoundsException('x and y must be positive real numbers.');
         }
 
         // Special case: x if x = y

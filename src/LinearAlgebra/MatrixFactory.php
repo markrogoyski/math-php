@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Exception;
+
 /**
  * Matrix factory to create matrices of all types.
  * Use factory instead of instantiating individual Matrix classes.
@@ -40,7 +42,7 @@ class MatrixFactory
                 return new FunctionSquareMatrix($A);
         }
 
-        throw new \Exception('Unknown matrix type');
+        throw new Exception\IncorrectTypeException('Unknown matrix type');
     }
 
     /**************************************************************************
@@ -66,11 +68,13 @@ class MatrixFactory
      * @param number $x (optional; default 1)
      *
      * @return Matrix
+     *
+     * @throws OutOfBoundsException if n < 0
      */
     public static function identity(int $n, $x = 1): SquareMatrix
     {
         if ($n < 0) {
-            throw new \Exception('n must be ≥ 0');
+            throw new Exception\OutOfBoundsException("n must be ≥ 0. n = $n");
         }
         $R = [];
 
@@ -97,11 +101,13 @@ class MatrixFactory
      * @param int $n columns
      *
      * @return Matrix
+     *
+     * @throws OutOfBoundsException if m < 1 or n < 1
      */
     public static function zero(int $m, int $n): Matrix
     {
         if ($m < 1 || $n < 1) {
-            throw new \Exception('m and n must be > 0');
+            throw new Exception\OutOfBoundsException("m and n must be > 0. m = $m, n = $n");
         }
 
         $R = [];
@@ -129,11 +135,13 @@ class MatrixFactory
      * @param int $n columns
      *
      * @return Matrix
+     *
+     * @throws OutOfBoundsException if m or n < 1
      */
     public static function one(int $m, int $n): Matrix
     {
         if ($m < 1 || $n < 1) {
-            throw new \Exception('m and n must be > 0');
+            throw new Exception\OutOfBoundsException("m and n must be > 0. m = $m, n = $n");
         }
 
         $R = [];
@@ -165,14 +173,17 @@ class MatrixFactory
      * @param number $x (optional; default 1)
      *
      * @return Matrix
+     *
+     * @throws OutOfBoundsException if m, n, or k are < 0
+     * @throws OutOfBoundsException if k >= n
      */
     public static function eye(int $m, int $n, int $k, $x = 1): Matrix
     {
         if ($n < 0 || $m < 0 || $k < 0) {
-            throw new \Exception('m, n and k must be ≥ 0');
+            throw new Exception\OutOfBoundsException("m, n and k must be ≥ 0. m = $m, n = $n, k = $k");
         }
         if ($k >= $n) {
-            throw new \Exception('k must be < n');
+            throw new Exception\OutOfBoundsException("k must be < n. k = $k, n = $n");
         }
 
         $R = (self::zero($m, $n))->getMatrix();
@@ -197,18 +208,21 @@ class MatrixFactory
      * @param  int|null $n
      *
      * @return bool
+     *
+     * @throws BadDataException if array data not provided for matrix creation
+     * @throws MatrixException if any row has a different column count
      */
     private static function checkParams(array $A, int $n = null): bool
     {
         if (empty($A)) {
-            throw new \Exception('Array data not provided for Matrix creation');
+            throw new Exception\BadDataException('Array data not provided for Matrix creation');
         }
 
         if (isset($A[0]) && is_array($A[0])) {
             $column_count = count($A[0]);
             foreach ($A as $i => $row) {
                 if (count($row) !== $column_count) {
-                    throw new \Exception("Row $i has a different column count: " . count($row) . "; was expecting $column_count.");
+                    throw new Exception\MatrixException("Row $i has a different column count: " . count($row) . "; was expecting $column_count.");
                 }
             }
         }

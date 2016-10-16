@@ -4,6 +4,7 @@ namespace MathPHP\Statistics\Regression;
 use MathPHP\Functions\Map\Single;
 use MathPHP\Statistics\Average;
 use MathPHP\LinearAlgebra\VandermondeMatrix;
+use MathPHP\Exception;
 
 /**
  * LOESS - Locally Weighted Scatterplot Smoothing (Local regression)
@@ -39,6 +40,8 @@ class LOESS extends NonParametricRegression
      *                       Determines how much of the data is used to fit each local polynomial
      *                       ((λ + 1) / n, 1]
      * @param int    $λ      Order of the polynomial to fit
+     *
+     * @throws OutOfBoundsException if α is ≤ λ + 1 or > 1
      */
     public function __construct($points, $α, int $λ)
     {
@@ -49,7 +52,7 @@ class LOESS extends NonParametricRegression
 
         // α ∈ ((λ + 1) / n, 1]
         if (($α <= ($λ + 1) / $this->n) || $α > 1) {
-            throw new \Exception('Smoothness parameter α must be between ' . ($λ + 1) / $this->n . " and 1; given $α");
+            throw new Exception\OutOfBoundsException('Smoothness parameter α must be between ' . ($λ + 1) / $this->n . " and 1; given $α");
         }
 
         // Number of points considered in the local regression

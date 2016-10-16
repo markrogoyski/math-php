@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
+use MathPHP\Exception;
+
 /**
  * Base class for interpolation techniques.
  */
@@ -47,8 +49,7 @@ abstract class Interpolation
         } elseif (is_array($source)) {
             $points   = $source;
         } else {
-            throw new \Exception("Input source is incorrect. You need to input
-                                  either a callback function or a set of arrays");
+            throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
 
         return $points;
@@ -94,22 +95,18 @@ abstract class Interpolation
     public static function validate(array $points, $degree = 2): bool
     {
         if (count($points) < $degree) {
-            throw new \Exception("You need to have at least $degree sets of
-                                  coordinates (arrays) for this technique");
+            throw new Exception\BadDataException('You need to have at least $degree sets of coordinates (arrays) for this technique');
         }
 
         $x_coordinates = [];
         foreach ($points as $point) {
             if (count($point) !== 2) {
-                throw new \Exception("Each array needs to have have precisely
-                                      two numbers, an x- and y-component");
+                throw new Exception\BadDataException('Each array needs to have have precisely two numbers, an x- and y-component');
             }
 
             $x_component = $point[self::X];
             if (in_array($x_component, $x_coordinates)) {
-                throw new \Exception("Not a function. Your input array contains
-                                      more than one coordinate with the same
-                                      x-component.");
+                throw new Exception\BadDataException('Not a function. Your input array contains more than one coordinate with the same x-component.');
             }
             array_push($x_coordinates, $x_component);
         }

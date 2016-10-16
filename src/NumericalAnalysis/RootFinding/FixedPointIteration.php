@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\NumericalAnalysis\RootFinding;
 
+use MathPHP\Exception;
+
 /**
  * Fixed Point Iteration
  *
@@ -72,7 +74,7 @@ class FixedPointIteration
         }
 
         if ($p < $a || $p > $b) {
-            throw new \Exception('Initial guess $p must be in [$a, $b].');
+            throw new Exception\OutOfBoundsException("Initial guess $p must be in [$a, $b].");
         }
     }
 }

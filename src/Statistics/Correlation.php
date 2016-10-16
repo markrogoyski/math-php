@@ -5,6 +5,7 @@ use MathPHP\Statistics\Average;
 use MathPHP\Statistics\RandomVariable;
 use MathPHP\Functions\Special;
 use MathPHP\Functions\Map;
+use MathPHP\Exception;
 
 class Correlation
 {
@@ -48,13 +49,15 @@ class Correlation
      *
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
-     *`
+     *
      * @return number
+     *
+     * @throws BadDataException if X and Y do not have the same number of elements
      */
     public static function populationCovariance(array $X, array $Y)
     {
         if (count($X) !== count($Y)) {
-            throw new \Exception("X and Y must have the same number of elements.");
+            throw new Exception\BadDataException('X and Y must have the same number of elements.');
         }
         $μₓ = Average::mean($X);
         $μy = Average::mean($Y);
@@ -88,11 +91,13 @@ class Correlation
      * @param array $Y values for random variable Y
      *
      * @return number
+     *
+     * @throws BadDataException if X and Y do not have the same number of elements
      */
     public static function sampleCovariance(array $X, array $Y)
     {
         if (count($X) !== count($Y)) {
-            throw new \Exception("X and Y must have the same number of elements.");
+            throw new Exception\BadDataException('X and Y must have the same number of elements.');
         }
         $x = Average::mean($X);
         $y = Average::mean($Y);
@@ -268,11 +273,13 @@ class Correlation
      * @todo Implement with algorithm faster than O(n²)
      *
      * @return number
+     *
+     * @throws BadDataException if both random variables do not have the same number of elements
      */
     public static function kendallsTau(array $X, array $Y)
     {
         if (count($X) !== count($Y)) {
-            throw new \Exception('Both random variables must have the same number of elements');
+            throw new Exception\BadDataException('Both random variables must have the same number of elements');
         }
 
         $n = count($X);
@@ -356,11 +363,13 @@ class Correlation
      * @param array $Y values for random variable Y
      *
      * @return number
+     *
+     * @throws BadDataException if both random variables do not have the same number of elements
      */
     public static function spearmansRho(array $X, array $Y)
     {
         if (count($X) !== count($Y)) {
-            throw new \Exception('Both random variables must have the same number of elements');
+            throw new Exception\BadDataException('Both random variables must have the same number of elements');
         }
 
         $n = count($X);

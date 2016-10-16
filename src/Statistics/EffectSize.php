@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\Statistics;
 
+use MathPHP\Exception;
+
 /**
  * Effect size is a quantitative measure of the strength of a phenomenon.
  * https://en.wikipedia.org/wiki/Effect_size
@@ -140,11 +142,13 @@ class EffectSize
      * @param number $r₂
      *
      * @return number
+     *
+     * @throws OutOfBoundsException if an r is ≤ 0
      */
     public static function cohensQ($r₁, $r₂)
     {
         if ($r₁ >= 1 || $r₂ >= 1) {
-            throw new \Exception('r must be less than 0');
+            throw new Exception\OutOfBoundsException('r must be greater than or equal to 1');
         }
 
         $½ = 0.5;

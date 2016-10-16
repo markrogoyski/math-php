@@ -5,6 +5,7 @@ use MathPHP\Statistics\Average;
 use MathPHP\Statistics\Descriptive;
 use MathPHP\Statistics\RandomVariable;
 use MathPHP\Probability\Distribution\Continuous\F;
+use MathPHP\Exception;
 
 /**
  * ANOVA (Analysis of Variance)
@@ -113,20 +114,22 @@ class ANOVA
      *                   ...
      *                 ]
      *               ]
+     *
+     * @throws BadDataException if less than three samples, or if all samples don't have the same number of values
      */
     public static function oneWay(array ...$samples)
     {
         // Must have at least three samples
         $m = count($samples);
         if ($m < 3) {
-            throw new \Exception('Must have at least three samples');
+            throw new Exception\BadDataException('Must have at least three samples');
         }
 
         // All samples must have the same number of items
         $n = count($samples[0]);
         for ($i = 1; $i < $m; $i++) {
             if (count($samples[$i]) !== $n) {
-                throw new \Exception('All samples must have the same number of values');
+                throw new Exception\BadDataException('All samples must have the same number of values');
             }
         }
 
@@ -376,21 +379,21 @@ class ANOVA
      *                   ...
      *                 ]
      *               ]
-     * @throws \Exception if less than two A factors, or if B factors or values have different number elements
+     * @throws BadDataException if less than two A factors, or if B factors or values have different number elements
      */
     public static function twoWay(array ...$data)
     {
         // Must have at least two rows (two types of factor A)
         $r = count($data);
         if ($r < 2) {
-            throw new \Exception('Must have at least two rows (two types of factor A)');
+            throw new Exception\BadDataException('Must have at least two rows (two types of factor A)');
         }
 
         // All samples must have the same number the second factor B
         $c = count($data[0]);
         for ($i = 1; $i < $r; $i++) {
             if (count($data[$i]) !== $c) {
-                throw new \Exception('All samples must have the same number of the second factor B');
+                throw new Exception\BadDataException('All samples must have the same number of the second factor B');
             }
         }
 
@@ -399,7 +402,7 @@ class ANOVA
         for ($i = 0; $i < $r; $i++) {
             for ($j = 0; $j < $c; $j++) {
                 if (count($data[$i][$j]) !== $v) {
-                    throw new \Exception('Each AB factor interaction must have the same number of values');
+                    throw new Exception\BadDataException('Each AB factor interaction must have the same number of values');
                 }
             }
         }

@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\NumericalAnalysis\NumericalIntegration;
 
+use MathPHP\Exception;
+
 /**
  * Common validation methods for numerical integration techniques
  */
@@ -23,9 +25,7 @@ trait Validation
 
         for ($i = 1; $i < $length - 1; $i++) {
             if ($sorted[$i+1][$x] - $sorted[$i][$x] !== $spacing) {
-                throw new \Exception("The size of each subinterval must be the
-                                      same. Provide points with constant
-                                      spacing.");
+                throw new Exception\BadDataException('The size of each subinterval must be the same. Provide points with constant spacing.');
             }
         }
     }
@@ -42,11 +42,7 @@ trait Validation
     public static function isSubintervalsMultiple($points, $m)
     {
         if ((count($points)-1) % $m !== 0) {
-            throw new \Exception("The number of subintervals must be a multiple
-                                  of m. Your input must either be a set of n
-                                  points, where n-1 is a multiple of m, or a
-                                  callback function evaluated at an n points,
-                                  where n-1 is a multiple of m");
+            throw new Exception\BadDataException('The number of subintervals must be a multiple of m. Your input must either be a set of n points, where n-1 is a multiple of m, or a callback function evaluated at an n points, where n-1 is a multiple of m');
         }
     }
 }

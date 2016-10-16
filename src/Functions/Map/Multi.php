@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\Functions\Map;
 
+use MathPHP\Exception;
+
 /**
  * Map against elements of two or more arrays, item by item (by item ...).
  */
@@ -192,18 +194,19 @@ class Multi
      * @param  array $arrays
      *
      * @return bool
-     * @throws Exception if arrays are not equal lengths
+     * @throws BadDataException if there are not at least two arrays
+     * @throws BadDataException if arrays are not equal lengths
      */
     private static function checkArrayLengths(array $arrays): bool
     {
         if (count($arrays) < 2) {
-            throw new \Exception('Need at least two arrays to map over');
+            throw new Exception\BadDataException('Need at least two arrays to map over');
         }
 
         $n = count($arrays[0]);
         foreach ($arrays as $array) {
             if (count($array) !== $n) {
-                throw new \Exception('Lengths of arrays are not equal');
+                throw new Exception\BadDataException('Lengths of arrays are not equal');
             }
         }
 

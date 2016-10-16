@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\Sequence;
 
+use MathPHP\Exception;
+
 /**
  * Basic integer sequences
  *  - Arithmetic progression
@@ -73,7 +75,7 @@ class Basic
     public static function geometricProgression(int $n, $a, $r): array
     {
         if ($r === 0) {
-            throw new \Exception('Common ratio r cannot be 0');
+            throw new Exception\BadParameterException('Common ratio r cannot be 0');
         }
 
         $progression = [];

@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 
+use MathPHP\Exception;
+
 /**
  * Second Derivative Midpoint Formula
  *
@@ -84,7 +86,7 @@ class SecondDerivativeMidpointFormula extends NumericalDifferentiation
             $f⟮x₀⧾h⟯     = $sorted[2][$y];
             $derivative = ($f⟮x₀⧿h⟯ - 2*$f⟮x₀⟯ + $f⟮x₀⧾h⟯) / ($h**2);
         } else {
-            throw new \Exception("Your target must be the midpoint of your input");
+            throw new Exception\BadDataException('Your target must be the midpoint of your input');
         }
 
         return $derivative;

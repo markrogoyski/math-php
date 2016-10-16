@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Exception;
+
 /**
  * Square matrix
  * Number of rows = number of columns
@@ -19,7 +21,7 @@ class SquareMatrix extends Matrix
         $this->n = $this->m > 0 ? count($A[0]) : 0;
 
         if ($this->m !== $this->n) {
-            throw new \Exception('Not a square matrix; row count and column count differ');
+            throw new Exception\MatrixException('Not a square matrix; row count and column count differ');
         }
     }
 

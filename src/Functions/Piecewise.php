@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\Functions;
 
+use MathPHP\Exception;
+
 /**
  * A convenience class for piecewise functions.
  *
@@ -39,24 +41,22 @@ class Piecewise
      *                          Example: [[-10, 0, false, true], [0, 2], [3, 10]]
      * @param  array $functions Array of callback functions
      *
-     * @throws Exception if the number of intervals and functions are not the same
-     * @throws Exception if any function in $functions is not callable
-     * @throws Exception if any interval in $intervals does not contain 2 numbers
-     * @throws Exception if any interval [a, b] is decreasing, or b < a
-     * @throws Exception if an interval is a point that is not closed
-     * @throws Exception if two intervals share a point that is closed at both ends
-     * @throws Exception if one interval starts or ends inside another interval
+     * @throws BadDataException if the number of intervals and functions are not the same
+     * @throws BadDataException if any function in $functions is not callable
+     * @throws BadDataException if any interval in $intervals does not contain 2 numbers
+     * @throws BadDataException if any interval [a, b] is decreasing, or b < a
+     * @throws BadDataException if an interval is a point that is not closed
+     * @throws BadDataException if two intervals share a point that is closed at both ends
+     * @throws BadDataException if one interval starts or ends inside another interval
      */
     public function __construct(array $intervals, array $functions)
     {
         if (count($intervals) !== count($functions)) {
-            throw new \Exception("For a piecewise function you must provide the
-                                  same number of intervals as functions.");
+            throw new Exception\BadDataException("For a piecewise function you must provide the same number of intervals as functions.");
         }
 
         if (count(array_filter($functions, "is_callable")) !== count($intervals)) {
-            throw new \Exception("Not every function provided is valid. Ensure
-                                  that each function is callable.");
+            throw new Exception\BadDataException("Not every function provided is valid. Ensure that each function is callable.");
         }
 
         $unsortedIntervals = $intervals;
@@ -73,7 +73,7 @@ class Piecewise
             $lastBOpen = $bOpen ?? false;
 
             if (count(array_filter($interval, "is_numeric")) !== 2) {
-                throw new \Exception("Each interval must contain two numbers.");
+                throw new Exception\BadDataException("Each interval must contain two numbers.");
             }
 
             // Fetch values from current interval
@@ -83,26 +83,19 @@ class Piecewise
             $bOpen = $interval[3] ?? false;
 
             if ($a === $b and ($aOpen or $bOpen)) {
-                throw new \Exception("Your interval [{$a}, {$b}] is a point and
-                                      thus needs to be closed at both ends");
+                throw new Exception\BadDataException("Your interval [{$a}, {$b}] is a point and thus needs to be closed at both ends");
             }
 
             if ($a > $b) {
-                throw new \Exception("Interval must be increasing. Try again
-                                      using [{$b}, {$a}] instead of [{$a}, {$b}]");
+                throw new Exception\BadDataException("Interval must be increasing. Try again using [{$b}, {$a}] instead of [{$a}, {$b}]");
             }
 
             if ($a === $lastB and !$aOpen and !$lastBOpen) {
-                throw new \Exception("The intervals [{$lastA}, {$lastB}] and [{$a}, {$b}]
-                                      share a point, but both intervals are also closed
-                                      at that point. For intervals to share a point, one
-                                      or both sides of that point must be open.");
+                throw new Exception\BadDataException("The intervals [{$lastA}, {$lastB}] and [{$a}, {$b}] share a point, but both intervals are also closed at that point. For intervals to share a point, one or both sides of that point must be open.");
             }
 
             if ($a < $lastB) {
-                throw new \Exception("The intervals [{$lastA}, {$lastB}] and [{$a}, {$b}]
-                                      overlap. The subintervals of a piecewise functions
-                                      cannot overlap.");
+                throw new Exception\BadDataException("The intervals [{$lastA}, {$lastB}] and [{$a}, {$b}] overlap. The subintervals of a piecewise functions cannot overlap.");
             }
         }
 
@@ -119,16 +112,14 @@ class Piecewise
     *
     * @return number The specific function evaluated at $x₀
     *
-    * @throws Exception if an interval cannot be found which contains our $x₀
+    * @throws BadDataException if an interval cannot be found which contains our $x₀
     */
     public function __invoke($x₀)
     {
         $function = $this->getFunction($x₀);
 
         if ($function === false) {
-            throw new \Exception("The input {$x₀} is not in the domain of this
-                                  piecewise function, thus it is undefined at
-                                  that point.");
+            throw new Exception\BadDataException("The input {$x₀} is not in the domain of this piecewise function, thus it is undefined at that point.");
         }
 
         return $function($x₀);

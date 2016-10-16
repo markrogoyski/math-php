@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Exception;
+
 /**
  * Vandermonde matrix
  * A matrix with the terms of a geometric progression in each row.
@@ -34,7 +36,7 @@ class VandermondeSquareMatrix extends SquareMatrix
         $this->m = count($M);
 
         if ($this->m !== $this->n) {
-            throw new \Exception('n must equal m for square Vandermonde Matrix');
+            throw new Exception\MatrixException('n must equal m for square Vandermonde Matrix');
         }
         
         $A = [];

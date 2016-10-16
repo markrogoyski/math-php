@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Exception;
+
 class FunctionSquareMatrix extends SquareMatrix
 {
     public function __construct(array $A)
@@ -9,7 +11,7 @@ class FunctionSquareMatrix extends SquareMatrix
         $m = count($A[0]);
 
         if ($m !== $n) {
-            throw new \Exception('n must equal m for square Function Matrix');
+            throw new Exception\BadDataException("n must equal m for square Function Matrix. n = $n, m = $m");
         }
 
         parent::__construct($A);

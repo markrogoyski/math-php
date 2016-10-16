@@ -2,6 +2,7 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Functions\Map;
+use MathPHP\Exception;
 
 /**
  * 1 x n Vector
@@ -66,7 +67,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function get(int $i)
     {
         if ($i >= $this->n) {
-            throw new \Exception("Element $i does not exist");
+            throw new Exception\VectorException("Element $i does not exist");
         }
 
         return $this->A[$i];
@@ -151,7 +152,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function dotProduct(Vector $B)
     {
         if ($B->getN() !== $this->n) {
-            throw new \Exception('Vectors have different number of items');
+            throw new Exception\VectorException('Vectors have different number of items');
         }
 
         return array_sum(array_map(
@@ -188,7 +189,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function perpDotProduct(Vector $B)
     {
         if ($this->n !== 2 || $B->getN() !== 2) {
-            throw new \Exception('Cannot do perp dot product unless both vectors are two-dimensional');
+            throw new Exception\VectorException('Cannot do perp dot product unless both vectors are two-dimensional');
         }
 
         $A⊥ = $this->perpendicular();
@@ -241,7 +242,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function add(Vector $B): Vector
     {
         if ($B->getN() !== $this->n) {
-            throw new \Exception('Vectors must be the same length for addition');
+            throw new Exception\VectorException('Vectors must be the same length for addition');
         }
 
         $R = Map\Multi::add($this->A, $B->getVector());
@@ -262,7 +263,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function subtract(Vector $B): Vector
     {
         if ($B->getN() !== $this->n) {
-            throw new \Exception('Vectors must be the same length for subtraction');
+            throw new Exception\VectorException('Vectors must be the same length for subtraction');
         }
 
         $R = Map\Multi::subtract($this->A, $B->getVector());
@@ -335,7 +336,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function crossProduct(Vector $B)
     {
         if ($B->getN() !== 3 || $this->n !== 3) {
-            throw new \Exception('Vectors must have 3 items');
+            throw new Exception\VectorException('Vectors must have 3 items');
         }
 
         $s1 =   ($this->A[1] * $B[2]) - ($this->A[2] * $B[1]);
@@ -379,7 +380,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function perpendicular(): Vector
     {
         if ($this->n !== 2) {
-            throw new \Exception('Perpendicular operation only makes sense for 2D vector. 3D and higher vectors have infinite perpendular vectors.');
+            throw new Exception\VectorException('Perpendicular operation only makes sense for 2D vector. 3D and higher vectors have infinite perpendular vectors.');
         }
 
         $A⊥ = [-$this->A[1], $this->A[0]];
@@ -537,12 +538,12 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
 
     public function offsetSet($i, $value)
     {
-        throw new \Exception('Vector class does not allow setting values');
+        throw new Exception\VectorException('Vector class does not allow setting values');
     }
 
     public function offsetUnset($i)
     {
-        throw new \Exception('Vector class does not allow unsetting values');
+        throw new Exception\VectorException('Vector class does not allow unsetting values');
     }
 
     /**************************************************************************
