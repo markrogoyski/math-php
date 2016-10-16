@@ -97,7 +97,7 @@ class ExperimentTest extends \PHPUnit_Framework_TestCase
 
     public function testLikelihoodRatioSSException()
     {
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
         Experiment::likelihoodRatioSS(1.2, 1.5);
     }
 }

@@ -26,7 +26,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4, 5],
             [3, 4, 5],
         ];
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $matrix = MatrixFactory::create($A);
     }
 
@@ -145,7 +145,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRowException()
     {
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $this->matrix->getRow(8);
     }
 
@@ -165,7 +165,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     public function testGetColumnException()
     {
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $this->matrix->getColumn(8);
     }
 
@@ -193,13 +193,13 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     public function testGetExceptionRow()
     {
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $this->matrix->get(8, 1);
     }
 
     public function testGetExceptionColumn()
     {
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $this->matrix->get(1, 8);
     }
 
@@ -233,7 +233,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayAccessInterfaceOffsetSet()
     {
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $this->matrix[0] = [4, 3, 5];
         $this->assertTrue($this->matrix->offsetExists(0));
     }
@@ -245,7 +245,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayAccessOffsetUnsetException()
     {
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         unset($this->matrix[0]);
     }
 

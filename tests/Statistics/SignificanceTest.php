@@ -192,7 +192,7 @@ class SignificanceTest extends \PHPUnit_Framework_TestCase
         $observed = [1, 2, 3, 4];
         $expected = [1, 2, 3];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         Significance::chiSquaredTest($observed, $expected);
     }
 }

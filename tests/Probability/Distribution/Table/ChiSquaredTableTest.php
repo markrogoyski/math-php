@@ -34,7 +34,7 @@ class ChiSquaredlTest extends \PHPUnit_Framework_TestCase
 
     public function testChiSquaredException()
     {
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
 
         $df = 88474;
         $p  = 0.44;

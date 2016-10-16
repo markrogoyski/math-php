@@ -143,7 +143,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
 
     public function testVarianceExceptionDFLessThanZero()
     {
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
         Descriptive::variance([1, 2, 3], -1);
     }
 
@@ -435,13 +435,13 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
 
     public function testPercentileOutOfLowerBoundsP()
     {
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
         Descriptive::percentile([1, 2, 3], -4);
     }
 
     public function testPercentileOutOfUpperBoundsP()
     {
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
         Descriptive::percentile([1, 2, 3], 101);
     }
 

@@ -74,7 +74,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [1, 2]
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->add($B);
     }
 
@@ -89,7 +89,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->add($B);
     }
 
@@ -188,7 +188,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [1, 2]
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->subtract($B);
     }
 
@@ -203,7 +203,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->subtract($B);
     }
 
@@ -340,7 +340,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->multiply($B);
     }
 
@@ -357,7 +357,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5],
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\IncorrectTypeException');
         $A->multiply($B);
     }
 
@@ -425,7 +425,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadParameterException');
         $A->scalarMultiply('k');
     }
 
@@ -544,7 +544,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3],
             [3, 4],
         ]);
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->trace();
     }
 
@@ -709,7 +709,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [5, 6],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->augment($B);
     }
 
@@ -768,7 +768,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [3, 4],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $this->assertEquals($A->augmentIdentity());
     }
 
@@ -872,7 +872,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [5, 6],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->augmentBelow($B);
     }
 
@@ -939,7 +939,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4, 5],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->hadamardProduct($B);
     }
 
@@ -1706,7 +1706,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create([[1, 2, 3]]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->det();
     }
 
@@ -1829,7 +1829,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->inverse();
     }
 
@@ -1852,7 +1852,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->inverse();
     }
 
@@ -2002,7 +2002,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->minorMatrix(4, 1);
     }
 
@@ -2014,7 +2014,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->minorMatrix(1, 4);
     }
 
@@ -2026,7 +2026,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5, 4],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->minorMatrix(1, 1);
     }
 
@@ -2078,7 +2078,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->minor(4, 1);
     }
 
@@ -2090,7 +2090,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->minor(1, 4);
     }
 
@@ -2102,7 +2102,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5, 4],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->minor(1, 1);
     }
 
@@ -2154,7 +2154,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->cofactor(4, 1);
     }
 
@@ -2166,7 +2166,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->cofactor(1, 4);
     }
 
@@ -2178,7 +2178,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5, 4],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->cofactor(1, 1);
     }
 
@@ -2243,7 +2243,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5, 4],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->cofactorMatrix();
     }
 }

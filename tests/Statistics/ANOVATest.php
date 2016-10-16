@@ -239,7 +239,7 @@ class ANOVATest extends \PHPUnit_Framework_TestCase
         $sample1 = [1, 2, 3];
         $sample2 = [3, 4, 5];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         ANOVA::oneWay($sample1, $sample2);
     }
 
@@ -249,7 +249,7 @@ class ANOVATest extends \PHPUnit_Framework_TestCase
         $sample2 = [3, 4, 5, 6];
         $sample3 = [5, 6, 7, 8, 9];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         ANOVA::oneWay($sample1, $sample2, $sample3);
     }
 
@@ -584,7 +584,7 @@ class ANOVATest extends \PHPUnit_Framework_TestCase
     {
         $A₁ = [1, 2, 3];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         ANOVA::twoWay($A₁);
     }
 
@@ -600,7 +600,7 @@ class ANOVATest extends \PHPUnit_Framework_TestCase
             [95, 100],  // Factor B₃!
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         ANOVA::twoWay($A₁, $A₂);
     }
 
@@ -615,7 +615,7 @@ class ANOVATest extends \PHPUnit_Framework_TestCase
             [95, 100],       // Factor B₂
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         ANOVA::twoWay($A₁, $A₂);
     }
 }

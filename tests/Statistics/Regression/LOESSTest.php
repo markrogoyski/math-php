@@ -33,7 +33,7 @@ class LOESSTest extends \PHPUnit_Framework_TestCase
      */
     public function testSmoothnessParameterOutOfBoundsException(array $points, $α, $λ)
     {
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
         $loess = new LOESS($points, $α, $λ);
     }
 

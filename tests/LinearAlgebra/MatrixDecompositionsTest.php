@@ -283,7 +283,7 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
             [1, 2, 3],
             [2, 3, 4],
         ]);
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->LUDecomposition();
     }
 
@@ -677,7 +677,7 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5],
         ]);
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\IncorrectTypeException');
         $A->solve($b);
     }
 

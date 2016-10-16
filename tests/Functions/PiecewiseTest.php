@@ -122,7 +122,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -139,7 +139,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -156,7 +156,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -173,7 +173,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -190,7 +190,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -207,7 +207,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -224,7 +224,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -240,7 +240,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([2]),          // g(x) = 2
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -257,7 +257,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         $piecewise = new Piecewise($intervals, $functions);
         $evaluation = $piecewise(-1);
     }
@@ -275,7 +275,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         $piecewise = new Piecewise($intervals, $functions);
         $evaluation = $piecewise(2);
     }
@@ -293,7 +293,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
         $piecewise = new Piecewise($intervals, $functions);
     }
 }

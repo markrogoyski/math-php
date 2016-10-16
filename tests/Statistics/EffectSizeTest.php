@@ -125,7 +125,7 @@ class EffectSizeTest extends \PHPUnit_Framework_TestCase
 
     public function testCohensQExceptionROutOfBounds()
     {
-        $this->setExpectedException('\Exception');
+        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
 
         EffectSize::cohensQ(0.1, 2);
     }
