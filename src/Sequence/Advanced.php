@@ -295,4 +295,64 @@ class Advanced
 
         return $heptagonal;
     }
+
+    /**
+     * Look and say sequence (describe the previous term!)
+     * (Sequence A005150 in the OEIS)
+     *
+     * 1, 11, 21, 1211, 111221, 312211, 13112221, 1113213211, ...
+     *
+     * To generate a member of the sequence from the previous member,
+     * read off the digits of the previous member, counting the number of
+     * digits in groups of the same digit.
+     *
+     * 1 is read off as "one 1" or 11.
+     * 11 is read off as "two 1s" or 21.
+     * 21 is read off as "one 2, then one 1" or 1211.
+     * 1211 is read off as "one 1, one 2, then two 1s" or 111221.
+     * 111221 is read off as "three 1s, two 2s, then one 1" or 312211.
+     *
+     * https://en.wikipedia.org/wiki/Look-and-say_sequence
+     * https://oeis.org/A005150
+     *
+     * @param  int $n How many numbers in the sequence
+     *
+     * @return array of strings indexed from 1
+     */
+    public static function lookAndSay(int $n): array
+    {
+        if ($n <= 0) {
+            return [];
+        }
+
+        // Initialize
+        $list     = ['1'];
+        $previous = '1';
+
+        // Base case
+        if ($n === 1) {
+            return $list;
+        }
+
+        for ($i = 2; $i <= $n; $i++) {
+            $sequence = "";
+            $count    = 1;
+            $len      = strlen($previous);
+
+            for ($j = 1; $j < $len; $j++) {
+                if (substr($previous, $j, 1) === substr($previous, $j - 1, 1)) {
+                    $count++;
+                } else {
+                    $sequence .= $count . substr($previous, $j - 1, 1);
+                    $count = 1;
+                }
+            }
+
+            $sequence .= $count . substr($previous, $j - 1, 1);
+            $previous = $sequence;
+            $list[]   = $sequence;
+        }
+
+        return $list;
+    }
 }
