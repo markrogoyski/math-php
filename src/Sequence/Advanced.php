@@ -297,7 +297,7 @@ class Advanced
     }
 
     /**
-     * Look and say sequence (describe the previous term!)
+     * Look-and-say sequence (describe the previous term!)
      * (Sequence A005150 in the OEIS)
      *
      * 1, 11, 21, 1211, 111221, 312211, 13112221, 1113213211, ...
