@@ -909,8 +909,12 @@ $hexagons = Advanced::hexagonalNumber($n);
 // [1, 6, 15, 28, 45, 66] - Indexed from 1
 
 // Heptagonal numbers (figurate number)
-$hexagons = Advanced::heptagonalNumber($n)
+$hexagons = Advanced::heptagonalNumber($n);
 // [1, 4, 7, 13, 18, 27] - Indexed from 1
+
+// Look-and-say sequence (describe the previous term!)
+#look_and_say = Advanced::lookAndSay($n);
+// ['1', '11', '21', '1211', '111221', '312211'] - Index from 1
 ```
 
 ### Set Theory
