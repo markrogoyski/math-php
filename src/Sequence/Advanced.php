@@ -326,7 +326,7 @@ class Advanced
         }
 
         // Initialize
-        $list     = ['1'];
+        $list     = [1 => '1'];
         $previous = '1';
 
         // Base case
@@ -350,7 +350,7 @@ class Advanced
 
             $sequence .= $count . substr($previous, $j - 1, 1);
             $previous = $sequence;
-            $list[]   = $sequence;
+            $list[$i] = $sequence;
         }
 
         return $list;
