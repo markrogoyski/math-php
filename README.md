@@ -918,7 +918,7 @@ $look_and_say = Advanced::lookAndSay($n);
 
 // Lazy caterer's sequence (central polygonal numbers)
 $lazy_caterer = Advanced:lazyCaterers($n);
-// [1, 2, 4, 7, 11, 16, 22] - Indexed from 0
+// [1, 2, 4, 7, 11, 16] - Indexed from 0
 ```
 
 ### Set Theory

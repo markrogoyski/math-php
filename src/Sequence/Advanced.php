@@ -386,11 +386,11 @@ class Advanced
      *  Sequence:    1, 2, 4, 7, 11, 16, 22
      *  Array index: 0, 1, 2, 3, 4,  5,  6
      *
-     * @param int $n number of cuts (n ≥ 0)
+     * @param int $n How many numbers in the sequence
      *
      * @return array
      */
-    public function lazyCaterers(int $n): array
+    public static function lazyCaterers(int $n): array
     {
         if ($n < 0) {
             return [];
@@ -398,7 +398,7 @@ class Advanced
 
         $p = [];
 
-        for ($i = 0; $i <= $n; $i++) {
+        for ($i = 0; $i < $n; $i++) {
             $p[] = ($i**2 + $i + 2) / 2;
         }
 
