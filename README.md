@@ -915,6 +915,10 @@ $hexagons = Advanced::heptagonalNumber($n);
 // Look-and-say sequence (describe the previous term!)
 $look_and_say = Advanced::lookAndSay($n);
 // ['1', '11', '21', '1211', '111221', '312211'] - Indexed from 1
+
+// Lazy caterer's sequence (central polygonal numbers)
+$lazy_caterer = Advanced:lazyCaterers($n);
+// [1, 2, 4, 7, 11, 16, 22] - Indexed from 0
 ```
 
 ### Set Theory
