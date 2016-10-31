@@ -10,6 +10,8 @@ namespace MathPHP\Sequence;
  *  - Pentagonal numbers
  *  - Hexagonal numbers
  *  - Heptagonal numbers
+ *  - Look-and-say sequence
+ *  - Lazy caterer's sequence
  *
  * All sequences return an array of numbers in the sequence.
  * The array index starting point depends on the sequence type.
@@ -315,6 +317,11 @@ class Advanced
      * https://en.wikipedia.org/wiki/Look-and-say_sequence
      * https://oeis.org/A005150
      *
+     * Example:
+     *  n = 6
+     *  Sequence:    1, 11, 21, 1211, 111221, 312211
+     *  Array index: 1, 2,  3,  4,    5,      6
+     *
      * @param  int $n How many numbers in the sequence
      *
      * @return array of strings indexed from 1
@@ -354,5 +361,47 @@ class Advanced
         }
 
         return $list;
+    }
+
+    /**
+     * Lazy caterer's sequence (central polygonal numbers)
+     * Describes the maximum number of pieces of a circle that can be made with
+     * a given number of straight cuts.
+     *
+     * https://en.wikipedia.org/wiki/Lazy_caterer%27s_sequence
+     * https://oeis.org/A000124
+     *
+     *     n² + n + 2
+     * p = ----------
+     *          2
+     *
+     * Using binomial coefficients:
+     *
+     *         (n + 1)   (n)   (n)   (n)
+     * p = 1 + (     ) = ( ) + ( ) + ( )
+     *         (  2 )    (0)   (1)   (2)
+     *
+     * Example:
+     *  n = 6
+     *  Sequence:    1, 2, 4, 7, 11, 16, 22
+     *  Array index: 0, 1, 2, 3, 4,  5,  6
+     *
+     * @param int $n number of cuts (n ≥ 0)
+     *
+     * @return array
+     */
+    public function lazyCaterers(int $n): array
+    {
+        if ($n < 0) {
+            return [];
+        }
+
+        $p = [];
+
+        for ($i = 0; $i <= $n; $i++) {
+            $p[] = ($i**2 + $i + 2) / 2;
+        }
+
+        return $p;
     }
 }
