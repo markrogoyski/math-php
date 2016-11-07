@@ -420,8 +420,8 @@ class Advanced
      *
      * Example:
      *  n = 6
-     *  Sequence:    1  0, 1, 5, 15, 34, 65
-     *  Array index: 0, 1, 2, 3, 4,  5,  6
+     *  Sequence:    0, 1, 5, 15, 34, 65
+     *  Array index: 0, 1, 2, 3,  4,  5,
      *
      * @param int $n How many numbers in the sequence
      *
