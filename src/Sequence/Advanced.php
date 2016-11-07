@@ -12,6 +12,7 @@ namespace MathPHP\Sequence;
  *  - Heptagonal numbers
  *  - Look-and-say sequence
  *  - Lazy caterer's sequence
+ *  - Magic squares sequence
  *
  * All sequences return an array of numbers in the sequence.
  * The array index starting point depends on the sequence type.
@@ -403,5 +404,41 @@ class Advanced
         }
 
         return $p;
+    }
+
+    /**
+     * Magic squares series
+     * The constant sum in every row, column and diagonal of a magic square is
+     * called the magic constant or magic sum, M.
+     *
+     * https://oeis.org/A006003
+     * https://edublognss.wordpress.com/2013/04/16/famous-mathematical-sequences-and-series/
+     *
+     *     n(n² + 1)
+     * M = ---------
+     *         2
+     *
+     * Example:
+     *  n = 6
+     *  Sequence:    1  0, 1, 5, 15, 34, 65
+     *  Array index: 0, 1, 2, 3, 4,  5,  6
+     *
+     * @param int $n How many numbers in the sequence
+     *
+     * @return array
+     */
+    public static function magicSquares(int $n): array
+    {
+        if ($n < 0) {
+            return [];
+        }
+
+        $M = [];
+
+        for ($i = 0; $i < $n; $i++) {
+            $M[] = ($i * ($i**2 + 1)) / 2;
+        }
+
+        return $M;
     }
 }
