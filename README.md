@@ -917,8 +917,12 @@ $look_and_say = Advanced::lookAndSay($n);
 // ['1', '11', '21', '1211', '111221', '312211'] - Indexed from 1
 
 // Lazy caterer's sequence (central polygonal numbers)
-$lazy_caterer = Advanced:lazyCaterers($n);
+$lazy_caterer = Advanced::lazyCaterers($n);
 // [1, 2, 4, 7, 11, 16] - Indexed from 0
+
+// Magic squares series (magic constants; magic sums)
+$magic_squares = Advanced::magicSquares($n);
+// [0, 1, 5, 15, 34, 65] - Indexed from 0
 ```
 
 ### Set Theory
