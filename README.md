@@ -1540,11 +1540,11 @@ $σ = 1; // Population SD
 $z = Significance::zScore($μ, $σ, $x);
 
 // T test - One sample (t and p values)
-$Hₐ = 280; //Alternate hypothesis (M Sample mean)
+$Hₐ = 280; // Alternate hypothesis (M Sample mean)
 $s  = 50;  // SD of sample
 $n  = 15;  // Sample size
 $H₀ = 300; // Null hypothesis (μ₀ Population mean)
-$t  = Significance::tTestOneSample($Hₐ, $s, $n, $H);
+$t  = Significance::tTestOneSample($Hₐ, $s, $n, $H₀);
 /* [
   't'  => -1.549, // t score
   'p1' => 0.0718, // one-tailed p value
