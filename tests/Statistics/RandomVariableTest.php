@@ -277,4 +277,53 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNull(RandomVariable::sumOfSquaresDeviations(array()));
     }
+
+    /**
+     * @dataProvider dataProviderForBhattacharyyaDistance
+     */
+    public function testBhattacharyyaDistance(array $p, array $q, $expected)
+    {
+        $BD = RandomVariable::bhattacharyyaDistance($p, $q);
+
+        $this->assertEquals($expected, $BD, '', 0.0001);
+    }
+
+    public function dataProviderForBhattacharyyaDistance()
+    {
+        return [
+            [
+                [0.2, 0.5, 0.3],
+                [0.1, 0.4, 0.5],
+                0.024361049046679,
+            ],
+            [
+                [0.4, 0.6],
+                [0.3, 0.7],
+                0.005531036666445
+            ],
+            [
+                [0.9, 0.1],
+                [0.1, 0.9],
+                0.510825623765991
+            ],
+        ];
+    }
+
+    public function testBhattacharyyaDistanceExceptionArraysDifferentLength()
+    {
+        $p = [0.4, 0.5, 0.1];
+        $q = [0.2, 0.8];
+
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        RandomVariable::bhattacharyyaDistance($p, $q);
+    }
+
+    public function testBhattacharyyaDistanceExceptionNotProbabilityDistributionThatAddsUpToOne()
+    {
+        $p = [0.2, 0.2, 0.1];
+        $q = [0.2, 0.4, 0.6];
+
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        RandomVariable::bhattacharyyaDistance($p, $q);
+    }
 }
