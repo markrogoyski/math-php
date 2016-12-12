@@ -5,6 +5,7 @@ use MathPHP\Statistics\Average;
 use MathPHP\Statistics\Descriptive;
 use MathPHP\Probability\Distribution\Table;
 use MathPHP\Functions\Map;
+use MathPHP\Exception;
 
 /**
  * Functions dealing with random variables.
@@ -14,6 +15,7 @@ use MathPHP\Functions\Map;
  * - Kurtosis
  * - Standard Error of the Mean (SEM)
  * - Confidence interval
+ * - Bhattacharyya distance
  *
  * In probability and statistics, a random variable is a variable whose
  * value is subject to variations due to chance.
@@ -396,5 +398,45 @@ class RandomVariable
         ));
 
         return $∑⟮xᵢ − μ⟯²;
+    }
+
+    /**
+     * Bhattacharyya distance
+     * Measures the similarity of two discrete or continuous probability distributions.
+     * https://en.wikipedia.org/wiki/Bhattacharyya_distance
+     *
+     * For probability distributions p and q over the same domain X,
+     * the Bhattacharyya distance is defined as:
+     *
+     * DB(p,q) = -ln(BC(p,q))
+     *
+     * where BC is the Bhattacharyya coefficient:
+     *
+     * BC(p,q) = ∑ √(p(x) q(x))
+     *          x∈X
+     *
+     * @param array $p distribution p
+     * @param array $q distribution q
+     *
+     * @return float distance between distributions
+     *
+     * @throws BadDataException if p and q do not have the same number of elements
+     * @throws BadDataException if p and q are not probability distributions that add up to 1
+     */
+    public static function bhattacharyyaDistance(array $p, array $q)
+    {
+        // Arrays must have the same number of elements
+        if (count($p) !== count($q)) {
+            throw new Exception\BadDataException('p and q must have the same number of elements');
+        }
+
+        // Probability distributions must add up to 1.0
+        if ((array_sum($p) != 1) || (array_sum($q) != 1)) {
+            throw new Exception\BadDataException('Distributions p anad q must add up to 1');
+        }
+
+        $BC⟮p、q⟯ = array_sum(Map\Single::sqrt(Map\Multi::multiply($p, $q)));
+
+        return -log($BC⟮p、q⟯);
     }
 }
