@@ -326,4 +326,64 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('MathPHP\Exception\BadDataException');
         RandomVariable::bhattacharyyaDistance($p, $q);
     }
+
+    /**
+     * @dataProvider dataProviderForKullbackLeiblerDivergence
+     */
+    public function testKullbackLeiblerDivergence(array $p, array $q, $expected)
+    {
+        $BD = RandomVariable::kullbackLeiblerDivergence($p, $q);
+
+        $this->assertEquals($expected, $BD, '', 0.0001);
+    }
+
+    public function dataProviderForKullbackLeiblerDivergence()
+    {
+        // Test data created using Python's scipi.stats.entropy
+        return [
+            [
+                [0.5, 0.5],
+                [0.75, 0.25],
+                0.14384103622589045,
+            ],
+            [
+                [0.75, 0.25],
+                [0.5, 0.5],
+                0.13081203594113694,
+            ],
+            [
+                [0.2, 0.5, 0.3],
+                [0.1, 0.4, 0.5],
+                0.096953524639296684,
+            ],
+            [
+                [0.4, 0.6],
+                [0.3, 0.7],
+                0.022582421084357374
+            ],
+            [
+                [0.9, 0.1],
+                [0.1, 0.9],
+                1.7577796618689758
+            ],
+        ];
+    }
+
+    public function testKullbackLeiblerDivergenceExceptionArraysDifferentLength()
+    {
+        $p = [0.4, 0.5, 0.1];
+        $q = [0.2, 0.8];
+
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        RandomVariable::kullbackLeiblerDivergence($p, $q);
+    }
+
+    public function testKullbackLeiblerDivergenceExceptionNotProbabilityDistributionThatAddsUpToOne()
+    {
+        $p = [0.2, 0.2, 0.1];
+        $q = [0.2, 0.4, 0.6];
+
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        RandomVariable::kullbackLeiblerDivergence($p, $q);
+    }
 }
