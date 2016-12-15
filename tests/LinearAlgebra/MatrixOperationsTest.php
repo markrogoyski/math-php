@@ -326,6 +326,32 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                     [25],
                 ],
             ],
+            [
+                [
+                    [1, 1, 1],
+                    [2, 2, 2],
+                ],
+                [1, 2, 3],
+                [
+                    [6],
+                    [12],
+                ],
+            ],
+            [
+                [
+                    [1, 1, 1],
+                    [2, 2, 2],
+                    [3, 3, 3],
+                    [4, 4, 4]
+                ],
+                [1, 2, 3],
+                [
+                    [6],
+                    [12],
+                    [18],
+                    [24],
+                ],
+            ],
         ];
     }
 
@@ -359,6 +385,95 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('MathPHP\Exception\IncorrectTypeException');
         $A->multiply($B);
+    }
+
+    /**
+     * @dataProvider dataProviderForVectorMultiply
+     */
+    public function testVectorMultiply(array $A, array $B, array $R)
+    {
+        $A  = MatrixFactory::create($A);
+        $B  = new Vector($B);
+        $R  = new Vector($R);
+        $R2 = $A->vectorMultiply($B);
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Vector', $R2);
+        $this->assertEquals($R, $R2);
+    }
+
+    public function dataProviderForVectorMultiply()
+    {
+        return [
+            [
+                [
+                    [1],
+                ],
+                [1],
+                [1],
+            ],
+            [
+                [
+                    [2],
+                ],
+                [3],
+                [6],
+            ],
+            [
+                [
+                    [1, 2],
+                    [2, 3],
+                ],
+                [4, 5],
+                [14, 23]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [1, 2, 3],
+                [14, 20, 26],
+            ],
+            [
+                [
+                    [3, 6, 5],
+                    [1, 7, 5],
+                    [2, 3, 2],
+                ],
+                [1, 5, 4],
+                [53, 56, 25],
+            ],
+            [
+                [
+                    [1, 1, 1],
+                    [2, 2, 2],
+                ],
+                [1, 2, 3],
+                [6, 12],
+            ],
+            [
+                [
+                    [1, 1, 1],
+                    [2, 2, 2],
+                    [3, 3, 3],
+                    [4, 4, 4]
+                ],
+                [1, 2, 3],
+                [6, 12, 18, 24],
+            ],
+        ];
+    }
+
+    public function testVectorMultiplyExceptionDimensionsDoNotMatch()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+        $B = new Vector([1, 2, 3, 4, 5]);
+
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
+        $A->vectorMultiply($B);
     }
 
     /**
