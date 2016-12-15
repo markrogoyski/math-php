@@ -1428,6 +1428,14 @@ $n  = 9;  // sample size
 $σ  = 36; // standard deviation
 $cl = 99; // confidence level
 $ci = RandomVariable::confidenceInterval($μ, $n, $σ, $cl); // Array( [ci] => 30.91, [lower_bound] => 59.09, [upper_bound] => 120.91 )
+
+// Bhattacharyya distance
+$p = [0.2, 0.5, 0.3];
+$q = [0.1, 0.4, 0.5];
+$DB⟮p、q⟯ = bhattacharyyaDistance($p, $q);
+
+// Kullback-Leibler divergence
+$Dkl⟮P‖Q⟯ = kullbackLeiblerDivergence($p, $q);
 ```
 
 ### Statistics - Regressions
