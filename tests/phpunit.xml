@@ -28,6 +28,9 @@
     <testsuite name="SetTheory">
       <directory suffix="Test.php">SetTheory</directory>
     </testsuite>
+    <testsuite name="InformationTheory">
+      <directory suffix="Test.php">InformationTheory</directory>
+    </testsuite>
   </testsuites>
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
