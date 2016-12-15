@@ -214,6 +214,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - directSum
      *  - subtract
      *  - multiply
+     *  - vectorMultiply (returns a Vector)
      *  - scalarMultiply
      *  - hadamardProduct
      *  - transpose
@@ -366,6 +367,35 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return MatrixFactory::create($R);
+    }
+
+    /**
+     * Matrix multiplication by a vector
+     * m x n matrix multiplied by a 1 x n vector resulting in a new vector.
+     * https://en.wikipedia.org/wiki/Matrix_multiplication#Square_matrix_and_column_vector
+     *
+     * @param  Vector $B Vector to multiply
+     *
+     * @return Vector
+     *
+     * @throws MatrixException if dimensions do not match
+     */
+    public function vectorMultiply(Vector $B): Vector
+    {
+        $B = $B->getVector();
+        $n = count($B);
+        $m = $this->m;
+
+        if ($n !== $this->n) {
+            throw new Exception\MatrixException("Matrix and vector dimensions do not match");
+        }
+
+        $R = [];
+        for ($i = 0; $i < $m; $i++) {
+            $R[$i] = array_sum(Map\Multi::multiply($this->getRow($i), $B));
+        }
+
+        return new Vector($R);
     }
 
     /**
