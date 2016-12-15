@@ -4,6 +4,38 @@ namespace MathPHP\InformationTheory;
 class EntropyTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @dataProvider dataProviderForShannonEntropy
+     */
+    public function testShannonEntropy(array $p, $expected)
+    {
+        $H = Entropy::shannonEntropy($p);
+
+        $this->assertEquals($expected, $H, '', 0.001);
+    }
+
+    public function dataProviderForShannonEntropy()
+    {
+        return [
+            [
+                [1],
+                0
+            ],
+            [
+                [0.6, 0.4],
+                0.97095,
+            ],
+            [
+                [0.514, 0.486],
+                0.99941,
+            ],
+            [
+                [0.231, 0.385, 0.308, 0.077],
+                1.82625,
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForBhattacharyyaDistance
      */
     public function testBhattacharyyaDistance(array $p, array $q, $expected)
