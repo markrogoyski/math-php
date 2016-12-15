@@ -21,8 +21,11 @@ class Entropy
     /**
      * Shannon entropy (bit entropy)
      * The average minimum number of bits needed to encode a string of symbols, based on the probability of the symbols.
+     * https://en.wikipedia.org/wiki/Entropy_(information_theory)
      *
      * H = -∑ pᵢlog₂(pᵢ)
+     *
+     * H is in shannons, or bits.
      *
      * @param  array $p probability distribution
      *
@@ -33,7 +36,7 @@ class Entropy
     public static function shannonEntropy(array $p)
     {
         // Probability distribution must add up to 1.0
-        if (array_sum($p) - 1 > self::ONE_TOLERANCE) {
+        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
             throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
         }
 
@@ -45,6 +48,40 @@ class Entropy
         ));
 
         return -$∑pᵢlog₂⟮pᵢ⟯;
+    }
+
+    /**
+     * Shannon nat entropy (nat entropy)
+     * The average minimum number of nats needed to encode a string of symbols, based on the probability of the symbols.
+     * https://en.wikipedia.org/wiki/Entropy_(information_theory)
+     *
+     * H = -∑ pᵢln(pᵢ)
+     *
+     * H is in units of nats.
+     * 1 nat = 1/ln(2) shannons or bits.
+     * https://en.wikipedia.org/wiki/Nat_(unit)
+     *
+     * @param  array $p probability distribution
+     *
+     * @return float average minimum number of nats
+     *
+     * @throws BadDataException if probability distribution p does not add up to 1
+     */
+    public static function shannonNatEntropy(array $p)
+    {
+        // Probability distribution must add up to 1.0
+        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        }
+
+        $∑pᵢln⟮pᵢ⟯ = array_sum(array_map(
+            function ($pᵢ) {
+                return $pᵢ * log($pᵢ);
+            },
+            $p
+        ));
+
+        return -$∑pᵢln⟮pᵢ⟯;
     }
 
     /**
@@ -78,7 +115,7 @@ class Entropy
         }
 
         // Probability distributions must add up to 1.0
-        if ((array_sum($p) - 1 > self::ONE_TOLERANCE) || (array_sum($q) - 1 > self::ONE_TOLERANCE)) {
+        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
@@ -115,7 +152,7 @@ class Entropy
         }
 
         // Probability distributions must add up to 1.0
-        if ((array_sum($p) - 1 > self::ONE_TOLERANCE) || (array_sum($q) - 1 > self::ONE_TOLERANCE)) {
+        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
