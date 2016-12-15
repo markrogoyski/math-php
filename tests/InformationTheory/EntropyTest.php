@@ -16,6 +16,7 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForShannonEntropy()
     {
         return [
+            // Test data created from: http://www.shannonentropy.netmark.pl/
             [
                 [1],
                 0
@@ -32,7 +33,64 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
                 [0.231, 0.385, 0.308, 0.077],
                 1.82625,
             ],
+            // Test data from http://www.csun.edu/~twang/595DM/Slides/Information%20&%20Entropy.pdf
+            [
+                [4/9, 3/9, 2/9],
+                1.5304755,
+            ],
         ];
+    }
+
+    public function testShannonEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
+    {
+        $p = [0.2, 0.2, 0.1];
+
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        Entropy::shannonEntropy($p);
+    }
+
+    /**
+     * @dataProvider dataProviderForShannonNatEntropy
+     */
+    public function testShannonNatEntropy(array $p, $expected)
+    {
+        $H = Entropy::shannonNatEntropy($p);
+
+        $this->assertEquals($expected, $H, '', 0.001);
+    }
+
+    public function dataProviderForShannonNatEntropy()
+    {
+        return [
+            [
+                [1],
+                0
+            ],
+            [
+                [0.6, 0.4],
+                0.67301166700925,
+            ],
+            [
+                [0.514, 0.486],
+                0.69275512932254,
+            ],
+            [
+                [0.231, 0.385, 0.308, 0.077],
+                1.2661221087912,
+            ],
+            [
+                [4/9, 3/9, 2/9],
+                1.06085694715802,
+            ],
+        ];
+    }
+
+    public function testShannonNatEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
+    {
+        $p = [0.2, 0.2, 0.1];
+
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        Entropy::shannonNatEntropy($p);
     }
 
     /**
