@@ -16,6 +16,37 @@ use MathPHP\Exception;
  */
 class Entropy
 {
+    const ONE_TOLERANCE = 0.001;
+
+    /**
+     * Shannon entropy (bit entropy)
+     * The average minimum number of bits needed to encode a string of symbols, based on the probability of the symbols.
+     *
+     * H = -∑ pᵢlog₂(pᵢ)
+     *
+     * @param  array $p probability distribution
+     *
+     * @return float average minimum number of bits
+     *
+     * @throws BadDataException if probability distribution p does not add up to 1
+     */
+    public static function shannonEntropy(array $p)
+    {
+        // Probability distribution must add up to 1.0
+        if (array_sum($p) - 1 > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        }
+
+        $∑pᵢlog₂⟮pᵢ⟯ = array_sum(array_map(
+            function ($pᵢ) {
+                return $pᵢ * log($pᵢ, 2);
+            },
+            $p
+        ));
+
+        return -$∑pᵢlog₂⟮pᵢ⟯;
+    }
+
     /**
      * Bhattacharyya distance
      * Measures the similarity of two discrete or continuous probability distributions.
@@ -47,8 +78,8 @@ class Entropy
         }
 
         // Probability distributions must add up to 1.0
-        if ((array_sum($p) != 1) || (array_sum($q) != 1)) {
-            throw new Exception\BadDataException('Distributions p anad q must add up to 1');
+        if ((array_sum($p) - 1 > self::ONE_TOLERANCE) || (array_sum($q) - 1 > self::ONE_TOLERANCE)) {
+            throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
         $BC⟮p、q⟯ = array_sum(Map\Single::sqrt(Map\Multi::multiply($p, $q)));
@@ -84,8 +115,8 @@ class Entropy
         }
 
         // Probability distributions must add up to 1.0
-        if ((array_sum($p) != 1) || (array_sum($q) != 1)) {
-            throw new Exception\BadDataException('Distributions p anad q must add up to 1');
+        if ((array_sum($p) - 1 > self::ONE_TOLERANCE) || (array_sum($q) - 1 > self::ONE_TOLERANCE)) {
+            throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
         $Dkl⟮P‖Q⟯ = array_sum(array_map(
