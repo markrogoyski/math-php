@@ -85,6 +85,40 @@ class Entropy
     }
 
     /**
+     * Shannon hartley entropy (hartley entropy)
+     * The average minimum number of hartleys needed to encode a string of symbols, based on the probability of the symbols.
+     * https://en.wikipedia.org/wiki/Entropy_(information_theory)
+     *
+     * H = -∑ pᵢlog₁₀(pᵢ)
+     *
+     * H is in units of hartleys, or harts.
+     * 1 hartley = log₂(10) bit = ln(10) nat, or approximately 3.322 Sh, or 2.303 nat.
+     * https://en.wikipedia.org/wiki/Hartley_(unit)
+     *
+     * @param  array $p probability distribution
+     *
+     * @return float average minimum number of hartleys
+     *
+     * @throws BadDataException if probability distribution p does not add up to 1
+     */
+    public static function shannonHartleyEntropy(array $p)
+    {
+        // Probability distribution must add up to 1.0
+        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        }
+
+        $∑pᵢlog₁₀⟮pᵢ⟯ = array_sum(array_map(
+            function ($pᵢ) {
+                return $pᵢ * log10($pᵢ);
+            },
+            $p
+        ));
+
+        return -$∑pᵢlog₁₀⟮pᵢ⟯;
+    }
+
+    /**
      * Bhattacharyya distance
      * Measures the similarity of two discrete or continuous probability distributions.
      * https://en.wikipedia.org/wiki/Bhattacharyya_distance
