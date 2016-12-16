@@ -40,6 +40,15 @@ class Entropy
             throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
         }
 
+        // Defensive measure against taking the log of 0 which would be -∞
+        $p = array_map(
+            function ($pᵢ) {
+                return $pᵢ == 0 ? 1e-15 : $pᵢ;
+            },
+            $p
+        );
+
+        // ∑ pᵢlog₂(pᵢ)
         $∑pᵢlog₂⟮pᵢ⟯ = array_sum(array_map(
             function ($pᵢ) {
                 return $pᵢ * log($pᵢ, 2);
@@ -74,6 +83,15 @@ class Entropy
             throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
         }
 
+        // Defensive measure against taking the log of 0 which would be -∞
+        $p = array_map(
+            function ($pᵢ) {
+                return $pᵢ == 0 ? 1e-15 : $pᵢ;
+            },
+            $p
+        );
+
+        // ∑ pᵢln(pᵢ)
         $∑pᵢln⟮pᵢ⟯ = array_sum(array_map(
             function ($pᵢ) {
                 return $pᵢ * log($pᵢ);
@@ -108,6 +126,15 @@ class Entropy
             throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
         }
 
+        // Defensive measure against taking the log of 0 which would be -∞
+        $p = array_map(
+            function ($pᵢ) {
+                return $pᵢ == 0 ? 1e-15 : $pᵢ;
+            },
+            $p
+        );
+
+        // ∑ pᵢlog₁₀(pᵢ)
         $∑pᵢlog₁₀⟮pᵢ⟯ = array_sum(array_map(
             function ($pᵢ) {
                 return $pᵢ * log10($pᵢ);
@@ -116,6 +143,55 @@ class Entropy
         ));
 
         return -$∑pᵢlog₁₀⟮pᵢ⟯;
+    }
+
+    /**
+     * Cross entropy
+     * The cross entropy between two probability distributions p and q over the same underlying set of events
+     * measures the average number of bits needed to identify an event drawn from the set, if a coding scheme
+     * is used that is optimized for an "unnatural" probability distribution q, rather than the "true" distribution p.
+     * https://en.wikipedia.org/wiki/Cross_entropy
+     *
+     * H(p,q) = -∑ p(x) log₂ q(x)
+     *
+     * @param array $p distribution p
+     * @param array $q distribution q
+     *
+     * @return float entropy between distributions
+     *
+     * @throws BadDataException if p and q do not have the same number of elements
+     * @throws BadDataException if p and q are not probability distributions that add up to 1
+     */
+    public static function crossEntropy(array $p, array $q)
+    {
+        // Arrays must have the same number of elements
+        if (count($p) !== count($q)) {
+            throw new Exception\BadDataException('p and q must have the same number of elements');
+        }
+
+        // Probability distributions must add up to 1.0
+        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+            throw new Exception\BadDataException('Distributions p and q must add up to 1');
+        }
+
+        // Defensive measure against taking the log of 0 which would be -∞
+        $q = array_map(
+            function ($qᵢ) {
+                return $qᵢ == 0 ? 1e-15 : $qᵢ;
+            },
+            $q
+        );
+
+        // ∑ p(x) log₂ q(x)
+        $∑plog₂⟮q⟯ = array_sum(array_map(
+            function ($pᵢ, $qᵢ) {
+                return $pᵢ * log($qᵢ, 2);
+            },
+            $p,
+            $q
+        ));
+
+        return -$∑plog₂⟮q⟯;
     }
 
     /**
@@ -153,6 +229,7 @@ class Entropy
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
+        // ∑ √(p(x) q(x))
         $BC⟮p、q⟯ = array_sum(Map\Single::sqrt(Map\Multi::multiply($p, $q)));
 
         return -log($BC⟮p、q⟯);
@@ -190,6 +267,21 @@ class Entropy
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
+        // Defensive measures against taking the log of 0 which would be -∞ or dividing by 0
+        $p = array_map(
+            function ($pᵢ) {
+                return $pᵢ == 0 ? 1e-15 : $pᵢ;
+            },
+            $p
+        );
+        $q = array_map(
+            function ($qᵢ) {
+                return $qᵢ == 0 ? 1e-15 : $qᵢ;
+            },
+            $q
+        );
+
+        // ∑ P(i) log(P(i)/Q(i))
         $Dkl⟮P‖Q⟯ = array_sum(array_map(
             function ($P, $Q) use ($p, $q) {
                 return $P * log($P / $Q);
