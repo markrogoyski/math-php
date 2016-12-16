@@ -33,10 +33,15 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
                 [0.231, 0.385, 0.308, 0.077],
                 1.82625,
             ],
-            // Test data from http://www.csun.edu/~twang/595DM/Slides/Information%20&%20Entropy.pdf
+            // Test data from: http://www.csun.edu/~twang/595DM/Slides/Information%20&%20Entropy.pdf
             [
                 [4/9, 3/9, 2/9],
                 1.5304755,
+            ],
+            // Test data from: http://www.cs.rochester.edu/u/james/CSC248/Lec6.pdf
+            [
+                [0.4, 0.1, 0.25, 0.25],
+                1.86,
             ],
         ];
     }
@@ -135,6 +140,51 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('MathPHP\Exception\BadDataException');
         Entropy::shannonHartleyEntropy($p);
+    }
+
+    /**
+     * @dataProvider dataProviderForCrossEntropy
+     */
+    public function testCrossEntropy(array $p, array $q, $expected)
+    {
+        $BD = Entropy::crossEntropy($p, $q);
+
+        $this->assertEquals($expected, $BD, '', 0.01);
+    }
+
+    public function dataProviderForCrossEntropy()
+    {
+        return [
+            // Test data from: http://www.cs.rochester.edu/u/james/CSC248/Lec6.pdf
+            [
+                [0.4, 0.1, 0.25, 0.25],
+                [0.25, 0.25, 0.25, 0.25],
+                2,
+            ],
+            [
+                [0.4, 0.1, 0.25, 0.25],
+                [0.4, 0.1, 0.1, 0.4],
+                2.02,
+            ],
+        ];
+    }
+
+    public function testCrossEntropyExceptionArraysDifferentLength()
+    {
+        $p = [0.4, 0.5, 0.1];
+        $q = [0.2, 0.8];
+
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        Entropy::crossEntropy($p, $q);
+    }
+
+    public function testCrossEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
+    {
+        $p = [0.2, 0.2, 0.1];
+        $q = [0.2, 0.4, 0.6];
+
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        Entropy::crossEntropy($p, $q);
     }
 
     /**
