@@ -14,7 +14,7 @@ Features
    - [Map](#functions---map---single-array)
    - [Special Functions](#functions---special-functions)
  * Information Theory
-   - [Entropy]($information-theory---entropy)
+   - [Entropy](#information-theory---entropy)
  * Linear Algebra
    - [Matrix](#linear-algebra---matrix)
    - [Vector](#linear-algebra---vector)
