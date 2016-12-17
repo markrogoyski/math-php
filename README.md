@@ -13,6 +13,8 @@ Features
  * Functions
    - [Map](#functions---map---single-array)
    - [Special Functions](#functions---special-functions)
+ * Information Theory
+   - [Entropy]($information-theory---entropy)
  * Linear Algebra
    - [Matrix](#linear-algebra---matrix)
    - [Vector](#linear-algebra---vector)
@@ -188,6 +190,26 @@ $sigmoid = Special::sigmoid($t);
 // Softmax function
 $𝐳    = [1, 2, 3, 4, 1, 2, 3];
 $σ⟮𝐳⟯ⱼ = Special::softmax($𝐳);
+```
+
+### Information Theory - Entropy
+```php
+use MathPHP\InformationTheory\Entropy;
+
+// Probability distributions
+$p = [0.2, 0.5, 0.3];
+$q = [0.1, 0.4, 0.5];
+
+// Entropy
+$bits  = Entropy::shannonEntropy($p);         // log₂
+$nats  = Entropy::shannonNatEntropy($p);      // ln
+$harts = Entropy::shannonHartleyEntropy($p);  // log₁₀
+$H⟮p、q⟯ = Entropy::crossEntropy($p, $q);       // log₂
+
+// Entropy distances and divergences
+$DB⟮p、q⟯ = Entropy::bhattacharyyaDistance($p, $q);
+$Dkl⟮P‖Q⟯ = Entropy::kullbackLeiblerDivergence($p, $q);
+$H⟮p、q⟯  = Entropy::hellingerDistance($p, $q)
 ```
 
 ### Linear Algebra - Matrix
@@ -1428,14 +1450,6 @@ $n  = 9;  // sample size
 $σ  = 36; // standard deviation
 $cl = 99; // confidence level
 $ci = RandomVariable::confidenceInterval($μ, $n, $σ, $cl); // Array( [ci] => 30.91, [lower_bound] => 59.09, [upper_bound] => 120.91 )
-
-// Bhattacharyya distance
-$p = [0.2, 0.5, 0.3];
-$q = [0.1, 0.4, 0.5];
-$DB⟮p、q⟯ = bhattacharyyaDistance($p, $q);
-
-// Kullback-Leibler divergence
-$Dkl⟮P‖Q⟯ = kullbackLeiblerDivergence($p, $q);
 ```
 
 ### Statistics - Regressions
