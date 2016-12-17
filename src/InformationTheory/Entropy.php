@@ -16,7 +16,7 @@ use MathPHP\Exception;
  */
 class Entropy
 {
-    const ONE_TOLERANCE = 0.001;
+    const ONE_TOLERANCE = 0.010001;
 
     /**
      * Shannon entropy (bit entropy)
@@ -291,5 +291,60 @@ class Entropy
         ));
 
         return $Dkl⟮P‖Q⟯;
+    }
+
+    /**
+     * Hellinger distance
+     * Used to quantify the similarity between two probability distributions. It is a type of f-divergence.
+     * https://en.wikipedia.org/wiki/Hellinger_distance
+     *
+     *          1   _______________
+     * H(P,Q) = -- √ ∑ (√pᵢ - √qᵢ)²
+     *          √2
+     *
+     * @param array $p distribution p
+     * @param array $q distribution q
+     *
+     * @return float difference between distributions
+     *
+     * @throws BadDataException if p and q do not have the same number of elements
+     * @throws BadDataException if p and q are not probability distributions that add up to 1
+     */
+    public static function hellingerDistance(array $p, array $q)
+    {
+        // Arrays must have the same number of elements
+        if (count($p) !== count($q)) {
+            throw new Exception\BadDataException('p and q must have the same number of elements');
+        }
+
+        // Probability distributions must add up to 1.0
+        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+            throw new Exception\BadDataException('Distributions p and q must add up to 1');
+        }
+
+        // Defensive measures against taking the log of 0 which would be -∞ or dividing by 0
+        $p = array_map(
+            function ($pᵢ) {
+                return $pᵢ == 0 ? 1e-15 : $pᵢ;
+            },
+            $p
+        );
+        $q = array_map(
+            function ($qᵢ) {
+                return $qᵢ == 0 ? 1e-15 : $qᵢ;
+            },
+            $q
+        );
+
+        // √ ∑ (√pᵢ - √qᵢ)²
+        $√∑⟮√pᵢ − √qᵢ⟯² = sqrt(array_sum(array_map(
+            function ($pᵢ, $qᵢ) {
+                return (sqrt($pᵢ) - sqrt($qᵢ))**2;
+            },
+            $p,
+            $q
+        )));
+
+        return (1 / sqrt(2)) * $√∑⟮√pᵢ − √qᵢ⟯²;
     }
 }
