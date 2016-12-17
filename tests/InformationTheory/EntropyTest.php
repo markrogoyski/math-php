@@ -295,4 +295,64 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('MathPHP\Exception\BadDataException');
         Entropy::kullbackLeiblerDivergence($p, $q);
     }
+
+    /**
+     * @dataProvider dataProviderForHellingerDistance
+     */
+    public function testHellingerDistance(array $p, array $q, $expected)
+    {
+        $BD = Entropy::hellingerDistance($p, $q);
+
+        $this->assertEquals($expected, $BD, '', 0.0001);
+    }
+
+    public function dataProviderForHellingerDistance()
+    {
+        // Test data created with Python's numpy/scipy: norm(np.sqrt(p) - np.sqrt(q)) / np.sqrt(2)
+        return [
+            [
+                [0.2905, 0.4861, 0.2234],
+                [0.2704, 0.5259, 0.2137],
+                0.025008343695279284,
+            ],
+            [
+                [0.5, 0.5],
+                [0.75, 0.25],
+                0.18459191128251448,
+            ],
+            [
+                [0.2, 0.5, 0.3],
+                [0.1, 0.4, 0.5],
+                0.15513450177826621,
+            ],
+            [
+                [0.4, 0.6],
+                [0.3, 0.7],
+                0.074268220965891737
+            ],
+            [
+                [0.9, 0.1],
+                [0.1, 0.9],
+                0.63245553203367577
+            ],
+        ];
+    }
+
+    public function testHellingerDistanceExceptionArraysDifferentLength()
+    {
+        $p = [0.4, 0.5, 0.1];
+        $q = [0.2, 0.8];
+
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        Entropy::hellingerDistance($p, $q);
+    }
+
+    public function testHellingerDistanceExceptionNotProbabilityDistributionThatAddsUpToOne()
+    {
+        $p = [0.2, 0.2, 0.1];
+        $q = [0.2, 0.4, 0.6];
+
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        Entropy::hellingerDistance($p, $q);
+    }
 }
