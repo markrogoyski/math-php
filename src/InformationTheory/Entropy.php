@@ -7,8 +7,16 @@ use MathPHP\Exception;
 /**
  * Functions dealing with information entropy in the field of statistical field of information thoery.
  *
- * - Bhattacharyya distance
- * - Kullback-Leibler divergence
+ * - Entropy:
+ *   - Shannon entropy (bits)
+ *   - Shannon entropy (nats)
+ *   - Shannon entropy (harts)
+ *   - Cross entropy
+ * - Distances and divergences
+ *   - Bhattacharyya distance
+ *   - Kullback-Leibler divergence
+ *   - Hellinger distance
+ *   - Jensen-Shannon divergence
  *
  * In information theory, entropy is the expected value (average) of the information contained in each message.
  *
