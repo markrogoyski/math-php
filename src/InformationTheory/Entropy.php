@@ -347,4 +347,56 @@ class Entropy
 
         return (1 / sqrt(2)) * $√∑⟮√pᵢ − √qᵢ⟯²;
     }
+
+    /**
+     * Jensen-Shannon divergence
+     * Also known as: information radius (IRad) or total divergence to the average.
+     * A method of measuring the similarity between two probability distributions.
+     * It is based on the Kullback–Leibler divergence, with some notable (and useful) differences,
+     * including that it is symmetric and it is always a finite value.
+     * https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence
+     *
+     *            1          1
+     * JSD(P‖Q) = - D(P‖M) + - D(Q‖M)
+     *            2          2
+     *
+     *           1
+     * where M = - (P + Q)
+     *           2
+     *
+     *       D(P‖Q) = Kullback-Leibler divergence
+     *
+     * @param array $p distribution p
+     * @param array $q distribution q
+     *
+     * @return float difference between distributions
+     *
+     * @throws BadDataException if p and q do not have the same number of elements
+     * @throws BadDataException if p and q are not probability distributions that add up to 1
+     */
+    public static function jensenShannonDivergence(array $p, array $q)
+    {
+        // Arrays must have the same number of elements
+        if (count($p) !== count($q)) {
+            throw new Exception\BadDataException('p and q must have the same number of elements');
+        }
+
+        // Probability distributions must add up to 1.0
+        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+            throw new Exception\BadDataException('Distributions p and q must add up to 1');
+        }
+
+        $M = array_map(
+            function ($pᵢ, $qᵢ) {
+                return ($pᵢ + $qᵢ) / 2;
+            },
+            $p,
+            $q
+        );
+
+        $½D⟮P‖M⟯ = self::kullbackLeiblerDivergence($p, $M) / 2;
+        $½D⟮Q‖M⟯ = self::kullbackLeiblerDivergence($q, $M) / 2;
+
+        return $½D⟮P‖M⟯ + $½D⟮Q‖M⟯;
+    }
 }
