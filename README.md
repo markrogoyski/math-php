@@ -208,8 +208,9 @@ $H⟮p、q⟯ = Entropy::crossEntropy($p, $q);       // log₂
 
 // Entropy distances and divergences
 $DB⟮p、q⟯ = Entropy::bhattacharyyaDistance($p, $q);
-$Dkl⟮P‖Q⟯ = Entropy::kullbackLeiblerDivergence($p, $q);
 $H⟮p、q⟯  = Entropy::hellingerDistance($p, $q)
+$Dkl⟮P‖Q⟯ = Entropy::kullbackLeiblerDivergence($p, $q);
+$JSD⟮P‖Q⟯ = Entropy::jensenShannonDivergence($p, $q);
 ```
 
 ### Linear Algebra - Matrix
