@@ -22,6 +22,26 @@ class Significance
 
     /**
      * One-sample Z-test
+     * Convenience method for zTestOneSample()
+     *
+     * @param number $Hₐ Alternate hypothesis (M Sample mean)
+     * @param int    $n  Sample size
+     * @param number $H₀ Null hypothesis (μ Population mean)
+     * @param number $σ  SD of population (Standard error of the mean)
+     *
+     * @return array [
+     *   z  => z score
+     *   p1 => one-tailed p value (left or right tail depends on how Hₐ differs from H₀)
+     *   p2 => two-tailed p value
+     * ]
+     */
+    public static function zTest($Hₐ, $n, $H₀, $σ): array
+    {
+        return self::zTestOneSample($Hₐ, $n, $H₀, $σ);
+    }
+
+    /**
+     * One-sample Z-test
      * When the population mean and standard deviation are known.
      * https://en.wikipedia.org/wiki/Z-test
      *
@@ -44,7 +64,7 @@ class Significance
      *   p2 => two-tailed p value
      * ]
      */
-    public static function zTest($Hₐ, $n, $H₀, $σ): array
+    public static function zTestOneSample($Hₐ, $n, $H₀, $σ): array
     {
         // Calculate z score (test statistic)
         $sem = self::sem($σ, $n);
@@ -56,6 +76,64 @@ class Significance
         } else {
             $p1 = StandardNormal::above($z);
         }
+        $p2 = StandardNormal::outside(-abs($z), abs($z));
+
+        return [
+            'z'  => $z,
+            'p1' => $p1,
+            'p2' => $p2,
+        ];
+    }
+
+    /**
+     * Two-sample z-test
+     * Test the means of two samples.
+     * https://en.wikipedia.org/wiki/Z-test
+     * http://www.stat.ucla.edu/~cochran/stat10/winter/lectures/lect21.html
+     *
+     * The sample is from two independent treatment groups.
+     * Conducts a z test for two means where the standard deviations are known.
+     *
+     *      μ₁ - μ₂ - Δ
+     * z = --------------
+     *        _________
+     *       /σ₁²   σ₂²
+     *      / --- + ---
+     *     √   n₁    n₂
+     *
+     * where
+     *  μ₁ is sample mean 1
+     *  μ₂ is sample mean 2
+     *  Δ  is the hypothesized difference between the population means (0 if testing for equal means)
+     *  σ₁ is standard deviation of sample mean 1
+     *  σ₂ is standard deviation of sample mean 2
+     *  n₁ is sample size of mean 1
+     *  n₂ is sample size of mean 2
+     *
+     * p1 = CDF above
+     * p2 = CDF outside
+     *
+     * @param number $μ₁ Sample mean of population 1
+     * @param number $μ₂ Sample mean of population 2
+     * @param number $n₁ Sample size of population 1
+     * @param number $n₂ Sample size of population 1
+     * @param number $σ₁ Standard deviation of sample mean 1
+     * @param number $σ₂ Standard deviation of sample mean 2
+     * @param number $Δ  (Optional) hypothesized difference between the population means (0 if testing for equal means)
+     *
+     * @return array [
+     *   z  => z score
+     *   p1 => one-tailed p value
+     *   p2 => two-tailed p value
+     * ]
+     */
+    public static function zTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂, $Δ = 0): array
+    {
+        // Calculate z score (test statistic)
+        $z = ($μ₁ - $μ₂ - $Δ) / sqrt((($σ₁**2) / $n₁) + (($σ₂**2) / $n₂));
+
+        // One- and two-tailed P values
+        $p1 = StandardNormal::above(abs($z));
         $p2 = StandardNormal::outside(-abs($z), abs($z));
 
         return [
@@ -95,7 +173,7 @@ class Significance
      * https://en.wikipedia.org/wiki/Student%27s_t-test
      *
      *     Hₐ - H₀   M - μ   M - μ   M - μ
-     * z = ------- = ----- = ----- = -----
+     * t = ------- = ----- = ----- = -----
      *        σ        σ      SEM     σ/√n
      *
      * p1 = CDF below if left tailed
@@ -142,7 +220,7 @@ class Significance
      * https://en.wikipedia.org/wiki/Student%27s_t-test
      *
      *      μ₁ - μ₂ - Δ
-     * z = --------------
+     * t = --------------
      *        _________
      *       /σ₁²   σ₂²
      *      / --- + ---
