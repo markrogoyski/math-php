@@ -38,6 +38,7 @@ Features
      - [Averages](#statistics---averages)
      - [Correlation](#statistics---correlation)
      - [Descriptive](#statistics---descriptive)
+     - [Distance and Divergence](#statistics---distance-and-divergence)
      - [Distributions](#statistics---distributions)
      - [Effect Size](#statistics---effect-size)
      - [Experiments](#statistics---experiments)
@@ -211,13 +212,6 @@ $H⟮p、q⟯ = Entropy::crossEntropy($p, $q);       // log₂
 // Joint entropy
 $P⟮x、y⟯ = [1/2, 1/4, 1/4, 0];
 H⟮x、y⟯ = Entropy::jointEntropy($P⟮x、y⟯);        // log₂
-
-
-// Entropy distances and divergences
-$DB⟮p、q⟯ = Entropy::bhattacharyyaDistance($p, $q);
-$H⟮p、q⟯  = Entropy::hellingerDistance($p, $q)
-$Dkl⟮P‖Q⟯ = Entropy::kullbackLeiblerDivergence($p, $q);
-$JSD⟮P‖Q⟯ = Entropy::jensenShannonDivergence($p, $q);
 ```
 
 ### Linear Algebra - Matrix
@@ -1322,6 +1316,23 @@ print_r($stats);
 // Five number summary - five most important sample percentiles
 $summary = Descriptive::fiveNumberSummary($numbers);
 // [min, Q1, median, Q3, max]
+```
+
+### Statistics - Distance and Divergence
+```php
+use MathPHP\Statistics\Distance;
+
+// Probability distributions
+$p = [0.2, 0.5, 0.3];
+$q = [0.1, 0.4, 0.5];
+
+// Distances
+$DB⟮p、q⟯ = Distance::bhattacharyyaDistance($p, $q);
+$H⟮p、q⟯  = Distance::hellingerDistance($p, $q)
+
+// Divergences
+$Dkl⟮P‖Q⟯ = Distance::kullbackLeiblerDivergence($p, $q);
+$JSD⟮P‖Q⟯ = Distance::jensenShannonDivergence($p, $q);
 ```
 
 ### Statistics - Distributions
