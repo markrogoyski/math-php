@@ -203,6 +203,32 @@ class Entropy
     }
 
     /**
+     * Joint entropy (bits)
+     * A measure of the uncertainty associated with a set of variables.
+     * https://en.wikipedia.org/wiki/Joint_entropy
+     *
+     * H(X,Y) = -∑ ∑ P(x,y)log₂[P(x,y)]
+     *           x y
+     *
+     * Where x and y are particular values of random variables X and Y, respectively,
+     * and P(x,y) is the joint probability of these values occurring together.
+     * H is in shannons, or bits.
+     *
+     * Joint entropy is basically just shannonEntropy but the probability distribution input
+     * represents the probability of two variables happening at the same time.
+     *
+     * @param  array $P⟮x、y⟯ probability distribution of x and y occuring together
+     *
+     * @return float uncertainty
+     *
+     * @throws BadDataException if probability distribution $P⟮x、y⟯ does not add up to 1
+     */
+    public static function jointEntropy(array $P⟮x、y⟯)
+    {
+        return self::shannonEntropy($P⟮x、y⟯);
+    }
+
+    /**
      * Bhattacharyya distance
      * Measures the similarity of two discrete or continuous probability distributions.
      * https://en.wikipedia.org/wiki/Bhattacharyya_distance
