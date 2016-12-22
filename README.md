@@ -200,11 +200,18 @@ use MathPHP\InformationTheory\Entropy;
 $p = [0.2, 0.5, 0.3];
 $q = [0.1, 0.4, 0.5];
 
-// Entropy
+// Shannon entropy
 $bits  = Entropy::shannonEntropy($p);         // log₂
 $nats  = Entropy::shannonNatEntropy($p);      // ln
 $harts = Entropy::shannonHartleyEntropy($p);  // log₁₀
+
+// Cross entropy
 $H⟮p、q⟯ = Entropy::crossEntropy($p, $q);       // log₂
+
+// Joint entropy
+$P⟮x、y⟯ = [1/2, 1/4, 1/4, 0];
+H⟮x、y⟯ = Entropy::jointEntropy($P⟮x、y⟯);        // log₂
+
 
 // Entropy distances and divergences
 $DB⟮p、q⟯ = Entropy::bhattacharyyaDistance($p, $q);
