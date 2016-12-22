@@ -1544,16 +1544,31 @@ $Ŷ          = $regression->yHat();
 ```php
 use MathPHP\Statistics\Significance;
 
-// Z test (z and p values)
+// Z test - One sample (z and p values)
 $Hₐ = 20;   // Alternate hypothesis (M Sample mean)
 $n  = 200;  // Sample size
 $H₀ = 19.2; // Null hypothesis (μ Population mean)
 $σ  = 6;    // SD of population (Standard error of the mean)
-$z  = Significance:zTest($Hₐ, $n, $H₀, $σ);
+$z  = Significance:zTest($Hₐ, $n, $H₀, $σ);           // Same as zTestOneSample
+$z  = Significance:zTestOneSample($Hₐ, $n, $H₀, $σ);  // Same as zTest
 /* [
   'z'  => 1.88562, // Z score
   'p1' => 0.02938, // one-tailed p value
   'p2' => 0.0593,  // two-tailed p value
+] */
+
+// Z test - Two samples (z and p values)
+$μ₁ = 27;   // Sample mean of population 1
+$μ₂ = 33;   // Sample mean of population 2
+$n₁ = 75;   // Sample size of population 1
+$n₂ = 50;   // Sample size of population 2
+$σ₁ = 14.1; // Standard deviation of sample mean 1
+$σ₂ = 9.5;  // Standard deviation of sample mean 2
+$z  = Significance::zTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂);
+/* [
+  'z'  => -2.36868418147285,  // z score
+  'p1' => 0.00893,            // one-tailed p value
+  'p2' => 0.0179,             // two-tailed p value
 ] */
 
 // Z score
