@@ -43,6 +43,11 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
                 [0.4, 0.1, 0.25, 0.25],
                 1.86,
             ],
+            // Other
+            [
+                [1/2, 1/4, 1/4, 0],
+                3/2,
+            ],
         ];
     }
 
@@ -185,6 +190,24 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('MathPHP\Exception\BadDataException');
         Entropy::crossEntropy($p, $q);
+    }
+
+    /**
+     * @dataProvider dataProviderForShannonEntropy
+     */
+    public function testJointEntropy(array $p, $expected)
+    {
+        $H = Entropy::jointEntropy($p);
+
+        $this->assertEquals($expected, $H, '', 0.001);
+    }
+
+    public function testJointEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
+    {
+        $p = [0.2, 0.2, 0.1];
+
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        Entropy::jointEntropy($p);
     }
 
     /**
