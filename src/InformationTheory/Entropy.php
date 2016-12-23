@@ -226,7 +226,7 @@ class Entropy
     /**
      * Rényi entropy
      * Rényi entropy generalizes the Hartley entropy, the Shannon entropy, the collision entropy and the min entropy
-     * https://en.wikipedia.org/wiki/Entropy_(information_theory)
+     * https://en.wikipedia.org/wiki/R%C3%A9nyi_entropy
      *           1
      * Hₐ(X) = ----- log₂(∑ pᵢᵃ)
      *         1 - α
