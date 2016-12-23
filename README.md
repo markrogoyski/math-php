@@ -212,6 +212,10 @@ $H⟮p、q⟯ = Entropy::crossEntropy($p, $q);       // log₂
 // Joint entropy
 $P⟮x、y⟯ = [1/2, 1/4, 1/4, 0];
 H⟮x、y⟯ = Entropy::jointEntropy($P⟮x、y⟯);        // log₂
+
+// Rényi entropy
+$α    = 0.5;
+$Hₐ⟮X⟯ = Entropy::renyiEntropy($p, $α);         // log₂
 ```
 
 ### Linear Algebra - Matrix
