@@ -222,4 +222,42 @@ class Entropy
     {
         return self::shannonEntropy($P⟮x、y⟯);
     }
+
+    /**
+     * Rényi entropy
+     * Rényi entropy generalizes the Hartley entropy, the Shannon entropy, the collision entropy and the min entropy
+     * https://en.wikipedia.org/wiki/Entropy_(information_theory)
+     *           1
+     * Hₐ(X) = ----- log₂(∑ pᵢᵃ)
+     *         1 - α
+     *
+     * α ≥ 0; α ≠ 1
+     *
+     * H is in shannons, or bits.
+     *
+     * @param  array  $p probability distribution
+     * @param  number $α order α
+     *
+     * @return float
+     *
+     * @throws BadDataException if probability distribution p does not add up to 1
+     * @throws OutOfBoundsException if α < 0 or α = 1
+     */
+    public static function renyiEntropy(array $p, $α)
+    {
+        // Probability distribution must add up to 1.0
+        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        }
+
+        // α ≥ 0; α ≠ 1
+        if ($α < 0 || $α == 1) {
+            throw new Exception\OutOfBoundsException("α must be ≥ 0 and ≠ 1 ");
+        }
+
+        // (1 / 1 - α) log (∑ pᵢᵃ)
+        $Hₐ⟮X⟯ = (1 / (1 - $α)) * log(array_sum(Map\Single::pow($p, $α))  , 2);
+
+        return $Hₐ⟮X⟯;
+    }
 }
