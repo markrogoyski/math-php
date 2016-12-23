@@ -209,4 +209,52 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('MathPHP\Exception\BadDataException');
         Entropy::jointEntropy($p);
     }
+
+    /**
+     * @dataProvider dataProviderForRenyiEntropy
+     */
+    public function testRenyiEntropy(array $p, $α, $expected)
+    {
+        $H = Entropy::renyiEntropy($p, $α);
+
+        $this->assertEquals($expected, $H, '', 0.001);
+    }
+
+    public function dataProviderForRenyiEntropy()
+    {
+        return [
+            [
+                [0.4, 0.6], 0.5, 0.985352,
+                [0.2, 0.3, 0.5], 0.8, 1.504855,
+            ],
+        ];
+    }
+
+    public function testRenyiEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
+    {
+        $p = [0.2, 0.2, 0.1];
+        $α = 0.5;
+
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        Entropy::renyiEntropy($p, $α);
+    }
+
+
+    public function testRenyiEntropyExceptionAlphaOutOfBounds()
+    {
+        $p = [0.4, 0.4, 0.2];
+        $α = -3;
+
+        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        Entropy::renyiEntropy($p, $α);
+    }
+
+    public function testRenyiEntropyExceptionAlphaEqualsOne()
+    {
+        $p = [0.4, 0.4, 0.2];
+        $α = 1;
+
+        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        Entropy::renyiEntropy($p, $α);
+    }
 }
