@@ -256,7 +256,7 @@ class Entropy
         }
 
         // (1 / 1 - α) log (∑ pᵢᵃ)
-        $Hₐ⟮X⟯ = (1 / (1 - $α)) * log(array_sum(Map\Single::pow($p, $α))  , 2);
+        $Hₐ⟮X⟯ = (1 / (1 - $α)) * log(array_sum(Map\Single::pow($p, $α)), 2);
 
         return $Hₐ⟮X⟯;
     }
