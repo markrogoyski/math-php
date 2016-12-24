@@ -260,4 +260,35 @@ class Entropy
 
         return $Hₐ⟮X⟯;
     }
+
+    /**
+     * Perplexity
+     * a measurement of how well a probability distribution or probability model predicts a sample.
+     * It may be used to compare probability models.
+     * A low perplexity indicates the probability distribution is good at predicting the sample.
+     * https://en.wikipedia.org/wiki/Perplexity
+     *
+     * perplexity = 2ᴴ⁽ᵖ⁾ = 2^(-∑ pᵢlog₂(pᵢ))
+     * where H(p) = entropy
+     *
+     * Perplexity is in shannons, or bits.
+     *
+     * @param  array $p probability distribution
+     *
+     * @return float perplexity
+     *
+     * @throws BadDataException if probability distribution p does not add up to 1
+     */
+    public static function perplexity(array $p)
+    {
+        // Probability distribution must add up to 1.0
+        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        }
+
+        // ∑ pᵢlog₂(pᵢ)
+        $H⟮p⟯ = self::shannonEntropy($p);
+
+        return 2**$H⟮p⟯;
+    }
 }
