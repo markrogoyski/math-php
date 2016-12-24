@@ -257,4 +257,56 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
         Entropy::renyiEntropy($p, $α);
     }
+
+    /**
+     * @dataProvider dataProviderForPerplexity
+     */
+    public function testPerplexity(array $p, $expected)
+    {
+        $H = Entropy::perplexity($p);
+
+        $this->assertEquals($expected, $H, '', 0.001);
+    }
+
+    public function dataProviderForPerplexity()
+    {
+        return [
+            [
+                [1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10],
+                10
+            ],
+            [
+                [1],
+                1
+            ],
+            [
+                [0.6, 0.4],
+                1.960130896546316,
+            ],
+            [
+                [0.514, 0.486],
+                1.999182253549837,
+            ],
+            [
+                [0.231, 0.385, 0.308, 0.077],
+                3.546141242991336,
+            ],
+            [
+                [4/9, 3/9, 2/9],
+                2.888810361450759,
+            ],
+            [
+                [1/2, 1/4, 1/4, 0],
+                2.82842712474619,
+            ],
+        ];
+    }
+
+    public function testPerplexityExceptionNotProbabilityDistributionThatAddsUpToOne()
+    {
+        $p = [0.2, 0.2, 0.1];
+
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        Entropy::perplexity($p);
+    }
 }
