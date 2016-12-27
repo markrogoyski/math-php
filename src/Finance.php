@@ -85,11 +85,11 @@ class Finance
      * @param  int $periods
      *
      * @return float
-    */
+     */
     public static function aer(float $nominal, int $periods): float
     {
         if ($periods == 1) {
-          return $nominal;
+            return $nominal;
         }
         return pow(1 + ($nominal / $periods), $periods) - 1;
     }
