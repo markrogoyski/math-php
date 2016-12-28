@@ -64,4 +64,33 @@ class Finance
             /
             ((1 + $rate*$when) / $rate * (pow(1 + $rate, $periods) - 1));
     }
+
+    /**
+     * Annual Equivalent Rate (AER) of an annual percentage rate (APR).
+     * The effective yearly rate of an annual percentage rate when the
+     * annual percentage rate is compounded periodically within the year.
+     *
+     * The formula:
+     * https://en.wikipedia.org/wiki/Effective_interest_rate
+     *
+     *        /     i \ n
+     * AER = | 1 +  -  |  - 1
+     *        \     n /
+     *
+     * Examples:
+     * The AER of APR 3.5% interest compounded monthly.
+     *   aer(0.035, 12)
+     *
+     * @param  float $nominal
+     * @param  int $periods
+     *
+     * @return float
+     */
+    public static function aer(float $nominal, int $periods): float
+    {
+        if ($periods == 1) {
+            return $nominal;
+        }
+        return pow(1 + ($nominal / $periods), $periods) - 1;
+    }
 }
