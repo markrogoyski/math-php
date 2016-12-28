@@ -269,6 +269,7 @@ $A⊕B  = $A->directSum($B);
 $A−B  = $A->subtract($B);
 $AB   = $A->multiply($B);
 $２A  = $A->scalarMultiply(2);
+$A／2 = $A->scalarDivide(2);
 $A∘B  = $A->hadamardProduct($B);
 $A⊗B  = $A->kroneckerProduct($B);
 $Aᵀ 　= $A->transpose();
