@@ -216,6 +216,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - multiply
      *  - vectorMultiply (returns a Vector)
      *  - scalarMultiply
+     *  - scalarDivide
      *  - hadamardProduct
      *  - transpose
      *  - trace
