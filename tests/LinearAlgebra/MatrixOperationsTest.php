@@ -545,6 +545,85 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForScalarDivide
+     */
+    public function testScalarDivide(array $A, $k, array $R)
+    {
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
+
+        $this->assertEquals($R, $A->scalarDivide($k));
+    }
+
+    public function dataProviderForScalarDivide()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 3,
+                [
+                    [1/3, 2/3, 1],
+                    [2/3, 1, 4/3],
+                    [1, 4/3, 5/3],
+                ],
+            ],
+            [
+                [
+                    [3, 6, 9],
+                ], 3,
+                [
+                    [1, 2, 3],
+                ],
+            ],
+            [
+                [
+                    [1],
+                    [2],
+                    [3],
+                ], 3,
+                [
+                    [1/3],
+                    [2/3],
+                    [1],
+                ],
+            ],
+            [
+                [
+                    [1],
+                ], 3,
+                [
+                    [1/3],
+                ],
+            ],
+        ];
+    }
+
+    public function testScalarDivideExceptionKNotNumber()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+
+        $this->setExpectedException('MathPHP\Exception\BadParameterException');
+        $A->scalarDivide('k');
+    }
+
+    public function testScalarDivideByZero()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+
+        $this->setExpectedException('MathPHP\Exception\BadParameterException');
+        $A->scalarDivide(0);
+    }
+
+    /**
      * @dataProvider dataProviderForTranspose
      */
     public function testTranspose(array $A, array $R)
