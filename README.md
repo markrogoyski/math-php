@@ -10,6 +10,7 @@ It is actively under development with development (0.y.z) releases.
 Features
 --------
  * [Algebra](#algebra)
+ * [Finance]($finance)
  * Functions
    - [Map](#functions---map---single-array)
    - [Special Functions](#functions---special-functions)
@@ -93,6 +94,24 @@ $lcm = Algebra::lcm(5, 2);
 
 // Factors of an integer
 $factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
+```
+
+### Finance
+```php
+use MathPHP\Finance;
+
+// Financial payment for a loan or anuity with compound interest
+$rate          = 0.035 / 12; // 3.5% interest paid at the end of every month
+$periods       = 30 * 12;    // 30-year mortgage
+$present_value = 265000;     // Mortgage note of $265,000.00
+$future_value  = 0;
+$beginning     = false;      // Adjust the payment to the beginning or end of the period
+$pmt           = Finance::pmt($rate, $periods, $present_value, $future_value, $beginning);
+
+// Annual Equivalent Rate (AER) of an annual percentage rate (APR)
+$nominal = 0.035; // APR 3.5% interest
+$periods = 12;    // Compounded monthly
+$aer     = aer(float $nominal, int $periods)
 ```
 
 ### Functions - Map - Single Array
