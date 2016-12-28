@@ -426,6 +426,36 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Scalar matrix division
+     *
+     * @param  number $λ
+     *
+     * @return Matrix
+     *
+     * @throws BadParameterException if λ is not a number
+     * @throws BadParameterException if λ is 0
+     */
+    public function scalarDivide($λ): Matrix
+    {
+        if (!is_numeric($λ)) {
+            throw new Exception\BadParameterException('Parameter λ is not a number');
+        }
+        if ($λ == 0) {
+            throw new Exception\BadParameterException('Parameter λ cannot equal 0');
+        }
+
+        $R = [];
+
+        for ($i = 0; $i < $this->m; $i++) {
+            for ($j = 0; $j < $this->n; $j++) {
+                $R[$i][$j] = $this->A[$i][$j] / $λ;
+            }
+        }
+
+        return MatrixFactory::create($R);
+    }
+
+    /**
      * Hadamard product (A∘B)
      * Also known as the Schur product, or the entrywise product
      *
