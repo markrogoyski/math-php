@@ -10,7 +10,7 @@ It is actively under development with development (0.y.z) releases.
 Features
 --------
  * [Algebra](#algebra)
- * [Finance]($finance)
+ * [Finance](#finance)
  * Functions
    - [Map](#functions---map---single-array)
    - [Special Functions](#functions---special-functions)
