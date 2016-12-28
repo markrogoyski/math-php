@@ -111,7 +111,7 @@ $pmt           = Finance::pmt($rate, $periods, $present_value, $future_value, $b
 // Annual Equivalent Rate (AER) of an annual percentage rate (APR)
 $nominal = 0.035; // APR 3.5% interest
 $periods = 12;    // Compounded monthly
-$aer     = aer(float $nominal, int $periods)
+$aer     = Finance::aer($nominal, $periods);
 ```
 
 ### Functions - Map - Single Array
