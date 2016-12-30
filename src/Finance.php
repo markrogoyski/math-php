@@ -4,10 +4,16 @@ namespace MathPHP;
 class Finance
 {
     /**
-     * Consider any floating-point value less than epsilon from zero as zero.
+     * Floating-point range near zero to consider insignificant.
+     */
+    const EPSILON = 1e-9;
+
+    /**
+     * Consider any floating-point value less than epsilon from zero as zero,
+     * ie any value in the range [-epsilon < 0 < epsilon] is considered zero.
      * Also used to convert -0.0 to 0.0.
      */
-    private static function checkZero(float $value, float $epsilon = 1e-9)
+    private static function checkZero(float $value, float $epsilon = self::EPSILON)
     {
         return abs($value) < $epsilon ? 0.0 : $value;
     }

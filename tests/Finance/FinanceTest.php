@@ -4,6 +4,40 @@ namespace MathPHP;
 class FinanceTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @dataProvider dataProviderForcheckZero
+     */
+    public function testcheckZero(float $value, float $result)
+    {
+        $reflection = new \ReflectionClass('MathPHP\Finance');
+        $method = $reflection->getMethod('checkZero');
+        $method->setAccessible(true);
+        $this->assertEquals($result, $method->invokeArgs(null, [$value]));
+    }
+
+    public function dataProviderForcheckZero()
+    {
+        return [
+            [0.0, 0.0],
+            [0.1, 0.1],
+            [0.01, 0.01],
+            [0.001, 0.001],
+            [0.0001, 0.0001],
+            [0.00001, 0.00001],
+            [0.000001, 0.000001],
+            [0.0000001, 0.0000001],
+            [0.00000001, 0.00000001],
+            [0.000000001, 0.000000001],
+            [0.0000000001, 0.0],
+            [Finance::EPSILON, Finance::EPSILON],
+            [Finance::EPSILON / 2, 0.0],
+            [1.0, 1.0],
+            [10.0, 10.0],
+            [1e8, 1e8],
+            [1e9, 1e9],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForPMT
      */
     public function testPMT(float $rate, int $periods, float $pv, float $fv, bool $beginning, float $pmt)
