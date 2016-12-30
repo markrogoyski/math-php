@@ -88,7 +88,7 @@ class Finance
      * The formula:
      * https://en.wikipedia.org/wiki/Effective_interest_rate
      *
-     *        /     i \ n
+     *        /     i \ ᴺ
      * AER = | 1 +  -  |  - 1
      *        \     n /
      *
@@ -117,12 +117,11 @@ class Finance
      * The basic future-value formula derivation:
      * https://en.wikipedia.org/wiki/Future_value
      *
-     *                             n
-     *               n   PMT*((1+r) - 1)
-     * FV = -PV*(1+r)  - ---------------
+     *                   PMT*((1+r)ᴺ - 1)
+     * FV = -PV*(1+r)ᴺ - ----------------
      *                          r
      *
-     * The 1/(1+r*when) factor adjusts the payment to the beginning or end
+     * The (1+r*when) factor adjusts the payment to the beginning or end
      * of the period. In the common case of a payment at the end of a period,
      * the factor is 1 and reduces to the formula above.
      *
@@ -157,5 +156,57 @@ class Finance
         $compound = pow(1 + $rate, $periods);
         $fv = - (($present_value * $compound) + (($payment * $initial * ($compound - 1)) / $rate));
         return self::checkZero($fv);
+    }
+
+    /**
+     * Present value for a loan or anuity with compound interest.
+     *
+     * Same as the =PV() function in most spreadsheet software.
+     *
+     * The basic present-value formula derivation:
+     * https://en.wikipedia.org/wiki/Present_value
+     *
+     *            PMT*((1+r)ᴺ - 1)
+     * PV = -FV - ----------------
+     *                   r
+     *      ---------------------
+     *             (1 + r)ᴺ
+     *
+     * The (1+r*when) factor adjusts the payment to the beginning or end
+     * of the period. In the common case of a payment at the end of a period,
+     * the factor is 1 and reduces to the formula above.
+     *
+     * Examples:
+     * The present value of a band's $1000 face value paid in 5 year's time
+     * with a constant discount rate of 3.5% compounded monthly:
+     *   pv(0.035/12, 5*12, 0, -1000, false)
+     *
+     * The present value of a $1000 5-year bond that pays a fixed 7% ($70)
+     * coupon at the end of each year with a discount rate of 5%:
+     *   pv(0.5, 5, -70, -1000, false)
+     *
+     * The payment and future_value is negative indicating money paid out.
+     *
+     * @param  float $rate
+     * @param  int   $periods
+     * @param  float $payment
+     * @param  float $future_value
+     * @param  bool  $beginning adjust the payment to the beginning or end of the period
+     *
+     * @return float
+     */
+    public static function pv(float $rate, int $periods, float $payment, float $future_value, bool $beginning = false): float
+    {
+        $when = $beginning ? 1 : 0;
+
+        if ($rate == 0) {
+            $pv = -$future_value - ($payment * $periods);
+            return self::checkZero($pv);
+        }
+
+        $initial = 1 + ($rate * $when);
+        $compound = pow(1 + $rate, $periods);
+        $pv = (-$future_value - (($payment * $initial * ($compound - 1)) / $rate)) / $compound;
+        return self::checkZero($pv);
     }
 }
