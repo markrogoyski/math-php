@@ -177,6 +177,32 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return $diagonal;
     }
 
+    /**
+     * Returns an array of vectors from the columns of the matrix.
+     * Each column of the matrix becomes a vector.
+     *
+     *     [1 2 3]
+     * A = [4 5 6]
+     *     [7 8 9]
+     *
+     *           [1] [2] [3]
+     * Vectors = [4] [5] [6]
+     *           [7] [8] [9]
+     *
+     * @return array of Vectors
+     */
+    public function asVectors(): array
+    {
+        $n       = $this->n;
+        $vectors = [];
+
+        for ($j = 0; $j < $n; $j++) {
+            $vectors[] = new Vector(array_column($this->A, $j));
+        }
+
+        return $vectors;
+    }
+
     /**************************************************************************
      * MATRIX PROPERTIES
      *  - isSquare
