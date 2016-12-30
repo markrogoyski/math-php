@@ -836,7 +836,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return $A⁻¹;
     }
 
-
     /**
      * Minor matrix
      * Submatrix formed by deleting the iᵗʰ row and jᵗʰ column.
@@ -899,6 +898,43 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return MatrixFactory::create($R);
+    }
+
+    /**
+     * Sample mean of multivariate matrix
+     * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
+     *
+     *     1
+     * M = - (X₁ + X₂ + ⋯ + Xn)
+     *     N
+     *
+     * Example:
+     *      [1  4 7 8]
+     *  A = [2  2 8 4]
+     *      [1 13 1 5]
+     *
+     *  Consider each column of observations as a column vector:
+     *        [1]       [4]        [7]       [8]
+     *   X₁ = [2]  X₂ = [2]   X₃ = [8]  X₄ = [4]
+     *        [1]       [13]       [1]       [5]
+     *
+     *    1  /[1]   [4]    [7]   [8]\     1 [20]   [5]
+     *    - | [2] + [2]  + [8] + [4] |  = - [16] = [4]
+     *    4  \[1]   [13]   [1]   [5]/     4 [20]   [5]
+     *
+     * @return Vector
+     */
+    public function sampleMean(): Vector
+    {
+        $n = $this->n;
+        $M = new Vector(array_column($this->A, 0));
+
+        for ($j = 1; $j < $n; $j++) {
+            $T = new Vector(array_column($this->A, $j));
+            $M = $M->add($T);
+        }
+
+        return $M->scalarDivide($n);
     }
 
     /**************************************************************************
