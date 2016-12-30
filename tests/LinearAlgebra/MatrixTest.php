@@ -203,6 +203,23 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $this->matrix->get(1, 8);
     }
 
+    public function testAsVectors()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9],
+        ]);
+
+        $expected = [
+            new Vector([1, 4, 7]),
+            new Vector([2, 5, 8]),
+            new Vector([3, 6, 9]),
+        ];
+
+        $this->assertEquals($expected, $A->asVectors());
+    }
+
     public function testArrayAccessInterfaceOffsetGet()
     {
         $A = [
