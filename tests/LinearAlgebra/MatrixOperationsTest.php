@@ -2455,6 +2455,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForSampleMean()
     {
         return [
+            // Test data from: http://www.maths.manchester.ac.uk/~mkt/MT3732%20(MVA)/Intro.pdf
             [
                 [
                     [4, -1, 3],
@@ -2477,6 +2478,57 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                     [12, 6, 9, 15, 13, 5],
                 ],
                 [12, 10],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForMeanDeviation
+     */
+    public function testMeanDeviation(array $A, array $B)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        $this->assertEquals($B, $A->meanDeviation());
+    }
+
+    public function dataProviderForMeanDeviation()
+    {
+        return [
+            // Test data from: http://www.maths.manchester.ac.uk/~mkt/MT3732%20(MVA)/Intro.pdf
+            [
+                [
+                    [4, -1, 3],
+                    [1, 3, 5],
+                ],
+                [
+                    [2, -3, 1],
+                    [-2, 0, 2],
+                ],
+            ],
+            // Test data from Linear Algebra and Its Aplications (Lay)
+            [
+                [
+                    [1, 4, 7, 8],
+                    [2, 2, 8, 4],
+                    [1, 13, 1, 5],
+                ],
+                [
+                    [-4, -1, 2, 3],
+                    [-2, -2, 4, 0],
+                    [-4, 8, -4, 0],
+                ],
+            ],
+            [
+                [
+                    [19, 22, 6, 3, 2, 20],
+                    [12, 6, 9, 15, 13, 5],
+                ],
+                [
+                    [7, 10, -6, -9, -10, 8],
+                    [2, -4, -1, 5, 3, -5],
+                ],
             ],
         ];
     }
