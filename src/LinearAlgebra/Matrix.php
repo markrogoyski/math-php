@@ -952,13 +952,16 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function sampleMean(): Vector
     {
+        $m = $this->m;
         $n = $this->n;
-        $M = new Vector(array_column($this->A, 0));
 
-        for ($j = 1; $j < $n; $j++) {
-            $T = new Vector(array_column($this->A, $j));
-            $M = $M->add($T);
-        }
+        $M = array_reduce(
+            $this->asVectors(),
+            function(Vector $carryV, Vector $V) {
+                return $carryV->add($V);
+            },
+            new Vector(array_fill(0, $m, 0))
+        );
 
         return $M->scalarDivide($n);
     }
