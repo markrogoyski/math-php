@@ -2440,4 +2440,44 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->cofactorMatrix();
     }
+
+    /**
+     * @dataProvider dataProviderForSampleMean
+     */
+    public function testSampleMean(array $A, array $M)
+    {
+        $A = MatrixFactory::create($A);
+        $M = new Vector($M);
+
+        $this->assertEquals($M, $A->sampleMean());
+    }
+
+    public function dataProviderForSampleMean()
+    {
+        return [
+            [
+                [
+                    [4, -1, 3],
+                    [1, 3, 5],
+                ],
+                [2, 3],
+            ],
+            // Test data from Linear Algebra and Its Aplications (Lay)
+            [
+                [
+                    [1, 4, 7, 8],
+                    [2, 2, 8, 4],
+                    [1, 13, 1, 5],
+                ],
+                [5, 4, 5],
+            ],
+            [
+                [
+                    [19, 22, 6, 3, 2, 20],
+                    [12, 6, 9, 15, 13, 5],
+                ],
+                [12, 10],
+            ],
+        ];
+    }
 }
