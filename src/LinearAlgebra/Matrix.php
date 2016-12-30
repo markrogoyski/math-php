@@ -966,6 +966,40 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return $M->scalarDivide($n);
     }
 
+    /**
+     * Mean deviation matrix
+     * Matrix as an array of column vectors, each subtracted by the sample mean.
+     *
+     * Example:
+     *      [1  4 7 8]      [5]
+     *  A = [2  2 8 4]  M = [4]
+     *      [1 13 1 5]      [5]
+     *
+     *      |[1] - [5]   [4]  - [5]   [7] - [5]   [8] - [5]|
+     *  B = |[2] - [4]   [2]  - [4]   [8] - [4]   [4] - [4]|
+     *      |[1] - [5]   [13] - [5]   [1] - [5]   [5] - [5]|
+     *
+     *      [-4 -1  2 3]
+     *  B = [-2 -2  4 0]
+     *      [-2  8 -4 0]
+     *
+     * @return Matrix
+     */
+    public function meanDeviation(): Matrix
+    {
+        $X = $this->asVectors();
+        $M = $this->sampleMean();
+
+        $B = array_map(
+            function ($Xᵢ) use ($M) {
+                return $Xᵢ->subtract($M);
+            },
+            $X
+        );
+
+        return MatrixFactory::create($B);
+    }
+
     /**************************************************************************
      * MATRIX OPERATIONS - Return a value
      *  - oneNorm
