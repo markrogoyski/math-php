@@ -254,6 +254,13 @@ $matrix = [
 $A = MatrixFactory::create($matrix);
 $B = MatrixFactory::create($matrix);
 
+// Matrix factory can create a matrix from an array of column vectors
+use MathPHP\LinearAlgebra\Vector;
+$X₁ = new Vector([1, 4, 7]);
+$X₂ = new Vector([2, 5, 8]);
+$X₃ = new Vector([3, 6, 9]);
+$C  = MatrixFactory::create([$X₁, $X₂, $X₃]);
+
 // Can also directly instantiate desired matrix class
 $A = new Matrix($matrix);
 $B = new SquareMatrix($matrix);
@@ -267,6 +274,10 @@ $cols  = $A->getN();      // number of columns
 $row  = $A->getRow(2);
 $col  = $A->getColumn(2);
 $item = $A->get(2, 2);
+
+// Other representations of matrix data
+$vectors = $A->asVectors();           // array of column vectors
+$D       = $A->getDiagonalElements(); // array of the diagonal elements
 
 // Row operations
 list($mᵢ, $mⱼ, $k) = [1, 2, 5];
@@ -300,6 +311,12 @@ $rref = $A->rref();             // Reduced row echelon form
 $A⁻¹  = $A->inverse();
 $Mᵢⱼ  = $A->minorMatrix($mᵢ, $nⱼ); // Square matrix with row mᵢ and column nⱼ removed
 $CM   = $A->cofactorMatrix();
+$B    = $A->meanDeviation();
+$S    = $A->covarianceMatrix();
+
+// Matrix operations - return a new Vector
+$AB = $A->vectorMultiply($X₁);
+$M  = $A->sampleMean();
 
 // Matrix operations - return a value
 $tr⟮A⟯ = $A->trace();
