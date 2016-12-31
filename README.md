@@ -112,6 +112,13 @@ $pmt           = Finance::pmt($rate, $periods, $present_value, $future_value, $b
 $nominal = 0.035; // APR 3.5% interest
 $periods = 12;    // Compounded monthly
 $aer     = Finance::aer($nominal, $periods);
+
+// Future value for a loan or anuity with compound interest
+$payment = 1189.97;
+$fv      = Finance::fv($rate, $periods, $payment, $present_value, $beginning)
+
+// Present value for a loan or anuity with compound interest
+$pv = Finance::pv($rate, $periods, $payment, $future_value, $beginning)
 ```
 
 ### Functions - Map - Single Array
