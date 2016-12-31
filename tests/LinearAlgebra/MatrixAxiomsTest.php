@@ -53,6 +53,8 @@ namespace MathPHP\LinearAlgebra;
  *    - (A ⊗ B)⁻¹ = A⁻¹ ⊗ B⁻¹
  *    - (A ⊗ B)ᵀ = Aᵀ ⊗ Bᵀ
  *    - det(A ⊗ B) = det(A)ᵐ det(B)ⁿ
+ *  - Covariance matrix
+ *    - S = Sᵀ
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -1700,6 +1702,53 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                     [4, 3, 3, 4, 2],
                     [3, 3, 4, 1, 2],
                     [1, 1, 2, 2, 1],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Axiom: Covariance matrix S = Sᵀ
+     * Covariance matrix is symmetric so it is the same as its transpose
+     * @dataProvider dataProviderForCovarianceSymmetric
+     */
+    public function testCovarianceMatrixIsSymmetric(array $A)
+    {
+        $A  = MatrixFactory::create($A);
+        $S  = $A->covarianceMatrix();
+        $Sᵀ = $S->transpose();
+
+        $this->assertEquals($S, $Sᵀ);
+        $this->assertEquals($S->getMatrix(), $Sᵀ->getMatrix());
+    }
+
+    public function dataProviderForCovarianceSymmetric()
+    {
+        return [
+            [
+                [
+                    [1, 4, 7, 8],
+                    [2, 2, 8, 4],
+                    [1, 13, 1, 5],
+                ],
+            ],
+            [
+                [
+                    [19, 22, 6, 3, 2, 20],
+                    [12, 6, 9, 15, 13, 5],
+                ],
+            ],
+            [
+                [
+                    [4, 4.2, 3.9, 4.3, 4.1],
+                    [2, 2.1, 2, 2.1, 2.2],
+                    [.6, .59, .58, .62, .63]
+                ],
+            ],
+            [
+                [
+                    [2.5, 0.5, 2.2, 1.9, 3.1, 2.3, 2, 1, 1.5, 1.1],
+                    [2.4, 0.7, 2.9, 2.2, 3.0, 2.7, 1.6, 1.1, 1.6, 0.9],
                 ],
             ],
         ];
