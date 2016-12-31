@@ -2479,6 +2479,17 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                 ],
                 [12, 10],
             ],
+            // Test data from: http://www.itl.nist.gov/div898/handbook/pmc/section5/pmc541.htm
+            [
+                [
+                    [4, 4.2, 3.9, 4.3, 4.1],
+                    [2, 2.1, 2, 2.1, 2.2],
+                    [.6, .59, .58, .62, .63]
+                ],
+                [
+                    4.10, 2.08, 0.604
+                ],
+            ],
         ];
     }
 
@@ -2528,6 +2539,68 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                 [
                     [7, 10, -6, -9, -10, 8],
                     [2, -4, -1, 5, 3, -5],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForCovarianceMatrix
+     */
+    public function testCovarianceMatrix(array $A, array $S)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertEquals($S, $A->covarianceMatrix()->getMatrix(), '', 0.0001);
+    }
+
+    public function dataProviderForCovarianceMatrix()
+    {
+        return [
+            // Test data from Linear Algebra and Its Aplications (Lay)
+            [
+                [
+                    [1, 4, 7, 8],
+                    [2, 2, 8, 4],
+                    [1, 13, 1, 5],
+                ],
+                [
+                    [10, 6, 0],
+                    [6, 8, -8],
+                    [0, -8, 32],
+                ],
+            ],
+            [
+                [
+                    [19, 22, 6, 3, 2, 20],
+                    [12, 6, 9, 15, 13, 5],
+                ],
+                [
+                    [86, -27],
+                    [-27, 16],
+                ],
+            ],
+            // Test data from: http://www.itl.nist.gov/div898/handbook/pmc/section5/pmc541.htm
+            [
+                [
+                    [4, 4.2, 3.9, 4.3, 4.1],
+                    [2, 2.1, 2, 2.1, 2.2],
+                    [.6, .59, .58, .62, .63]
+                ],
+                [
+                    [0.025, 0.0075, 0.00175],
+                    [0.0075, 0.007, 0.00135],
+                    [0.00175, 0.00135, 0.00043],
+                ],
+            ],
+            [
+                [
+                    [2.5, 0.5, 2.2, 1.9, 3.1, 2.3, 2, 1, 1.5, 1.1],
+                    [2.4, 0.7, 2.9, 2.2, 3.0, 2.7, 1.6, 1.1, 1.6, 0.9],
+                ],
+                [
+                    [0.616555556, 0.615444444],
+                    [0.615444444, 0.716555556],
                 ],
             ],
         ];
