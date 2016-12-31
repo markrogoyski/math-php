@@ -1000,6 +1000,30 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return MatrixFactory::create($B);
     }
 
+    /**
+     * Covariance matrix (variance-covariance matrix, sample covariance matrix)
+     * https://en.wikipedia.org/wiki/Covariance_matrix
+     * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
+     *
+     *       1
+     * S = ----- BBᵀ
+     *     N - 1
+     *
+     *  where B is the mean-deviation form
+     *
+     * @return Matrix
+     */
+    public function covarianceMatrix(): Matrix
+    {
+        $n  = $this->n;
+        $B  = $this->meanDeviation();
+        $Bᵀ = $B->transpose();
+
+        $S = $B->multiply($Bᵀ)->scalarMultiply((1 / ($n - 1)));
+
+        return $S;
+    }
+
     /**************************************************************************
      * MATRIX OPERATIONS - Return a value
      *  - oneNorm
