@@ -1028,7 +1028,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         $M = array_reduce(
             $this->asVectors(),
-            function(Vector $carryV, Vector $V) {
+            function (Vector $carryV, Vector $V) {
                 return $carryV->add($V);
             },
             new Vector(array_fill(0, $m, 0))

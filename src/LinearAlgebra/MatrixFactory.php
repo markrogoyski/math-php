@@ -252,7 +252,7 @@ class MatrixFactory
         if ($one_dimensional) {
             $is_array_of_vectors = array_reduce(
                 $A,
-                function($carry, $item) {
+                function ($carry, $item) {
                     return $carry && ($item instanceof Vector);
                 },
                 true
