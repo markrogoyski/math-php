@@ -4,11 +4,45 @@ namespace MathPHP;
 class FinanceTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @dataProvider dataProviderForcheckZero
+     */
+    public function testcheckZero(float $value, float $result)
+    {
+        $reflection = new \ReflectionClass('MathPHP\Finance');
+        $method = $reflection->getMethod('checkZero');
+        $method->setAccessible(true);
+        $this->assertEquals($result, $method->invokeArgs(null, [$value]));
+    }
+
+    public function dataProviderForcheckZero()
+    {
+        return [
+            [0.0, 0.0],
+            [0.1, 0.1],
+            [0.01, 0.01],
+            [0.001, 0.001],
+            [0.0001, 0.0001],
+            [0.00001, 0.00001],
+            [0.000001, 0.000001],
+            [0.0000001, 0.0],
+            [0.00000001, 0.0],
+            [0.000000001, 0.0],
+            [0.0000000001, 0.0],
+            [Finance::EPSILON, Finance::EPSILON],
+            [Finance::EPSILON / 2, 0.0],
+            [1.0, 1.0],
+            [10.0, 10.0],
+            [1e8, 1e8],
+            [1e9, 1e9],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForPMT
      */
     public function testPMT(float $rate, int $periods, float $pv, float $fv, bool $beginning, float $pmt)
     {
-        $this->assertEquals($pmt, Finance::pmt($rate, $periods, $pv, $fv, $beginning));
+        $this->assertEquals($pmt, Finance::pmt($rate, $periods, $pv, $fv, $beginning), '', Finance::EPSILON);
     }
 
     public function dataProviderForPMT()
@@ -55,7 +89,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testAER(float$nominal, int $periods, float $rate)
     {
-        $this->assertEquals($rate, Finance::aer($nominal, $periods));
+        $this->assertEquals($rate, Finance::aer($nominal, $periods), '', Finance::EPSILON);
     }
 
     public function dataProviderForAER()
@@ -106,6 +140,132 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             [0.50, 365, 0.64815725173913452],
             [1.0, 1, 1.0],
             [1.0, 2, 1.25],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForFV
+     */
+    public function testFV(float $rate, int $periods, float $pmt, float $pv, bool $beginning, float $fv)
+    {
+        $this->assertEquals($fv, Finance::fv($rate, $periods, $pmt, $pv, $beginning), '', Finance::EPSILON);
+    }
+
+    public function dataProviderForFV()
+    {
+        return [
+            [0.0, 0, 0, 0, false, 0.0],
+            [0.1, 0, 0, 0, false, 0.0],
+            [0.0, 1, 0, 0, false, 0.0],
+            [0.0, 0, 1, 0, false, 0.0],
+            [0.0, 0, 0, 1, false, -1.0],
+            [0.0, 0, 0, -1, false, 1.0],
+            [0.0, 0, 1, 1, false, -1.0],
+            [0.0, 0, -1, -1, false, 1.0],
+            [0.0, 0, -1, 1, false, -1.0],
+            [0.0, 0, 1, -1, false, 1.0],
+            [0.0, 1, 1, 1, false, -2.0],
+            [0.0, 1, -1, 1, false, 0.0],
+            [0.0, 1, 1, -1, false, 0.0],
+            [0.0, 1, -1, -1, false, 2.0],
+            [0.1, 0, 0, 0, false, 0.0],
+            [0.1, 1, 0, 0, false, 0.0],
+            [0.1, 0, 1, 0, false, 0.0],
+            [0.1, 0, 0, 1, false, -1.0],
+            [0.1, 1, 1, 0, false, -1.0],
+            [0.1, 1, 0, 1, false, -1.1],
+            [0.1, 1, 1, 1, false, -2.1],
+            [0.0, 0, 0, 0, true, 0.0],
+            [0.1, 0, 0, 0, true, 0.0],
+            [0.0, 1, 0, 0, true, 0.0],
+            [0.0, 0, 1, 0, true, 0.0],
+            [0.0, 0, 0, 1, true, -1.0],
+            [0.0, 0, 0, -1, true, 1.0],
+            [0.0, 0, 1, 1, true, -1.0],
+            [0.0, 0, -1, -1, true, 1.0],
+            [0.0, 0, -1, 1, true, -1.0],
+            [0.0, 0, 1, -1, true, 1.0],
+            [0.0, 1, 1, 1, true, -2.0],
+            [0.0, 1, -1, 1, true, 0.0],
+            [0.0, 1, 1, -1, true, 0.0],
+            [0.0, 1, -1, -1, true, 2.0],
+            [0.1, 0, 0, 0, true, 0.0],
+            [0.1, 1, 0, 0, true, 0.0],
+            [0.1, 0, 1, 0, true, 0.0],
+            [0.1, 0, 0, 1, true, -1.0],
+            [0.1, 1, 1, 0, true, -1.1],
+            [0.1, 1, 0, 1, true, -1.1],
+            [0.1, 1, 1, 1, true, -2.2],
+            [0.05/12, 120, -100, -100, false, 15692.928894335892],
+            [0.035/12, 360, 2132.9622670919189, 475000, false, -2710622.8069359586],
+            [0.035/12, 360, -2132.9622670919189, 475000, false, 0.0],
+            [0.035/12, 360, 2132.9622670919189, -475000, false, 0.0],
+            [0.035/12, 360, -2132.9622670919189, -475000, false, 2710622.8069359586],
+            [0.035/12, 360, 2132.9622670919189, 475000, true, -2714575.798529407],
+            [0.035/12, 360, -2132.9622670919189, 475000, true, 3952.9915934484452],
+            [0.035/12, 360, 2132.9622670919189, -475000, true, -3952.9915934484452],
+            [0.035/12, 360, -2132.9622670919189, -475000, true, 2714575.798529407],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForPV
+     */
+    public function testPV(float $rate, int $periods, float $pmt, float $fv, bool $beginning, float $pv)
+    {
+        $this->assertEquals($pv, Finance::pv($rate, $periods, $pmt, $fv, $beginning), '', Finance::EPSILON);
+    }
+
+    public function dataProviderForPV()
+    {
+        return [
+            [0.0, 0, 0, 0, false, 0.0],
+            [0.1, 0, 0, 0, false, 0.0],
+            [0.0, 1, 0, 0, false, 0.0],
+            [0.0, 0, 1, 0, false, 0.0],
+            [0.0, 0, 0, 1, false, -1.0],
+            [0.0, 0, 0, -1, false, 1.0],
+            [0.0, 0, 1, 1, false, -1.0],
+            [0.0, 0, -1, -1, false, 1.0],
+            [0.0, 0, -1, 1, false, -1.0],
+            [0.0, 0, 1, -1, false, 1.0],
+            [0.0, 1, 1, 1, false, -2.0],
+            [0.0, 1, -1, 1, false, 0.0],
+            [0.0, 1, 1, -1, false, 0.0],
+            [0.0, 1, -1, -1, false, 2.0],
+            [0.1, 0, 0, 0, false, 0.0],
+            [0.1, 1, 0, 0, false, 0.0],
+            [0.1, 0, 1, 0, false, 0.0],
+            [0.1, 0, 0, 1, false, -1.0],
+            [0.1, 1, 1, 0, false, -0.90909090909090984],
+            [0.1, 1, 0, 1, false, -0.90909090909090984],
+            [0.1, 1, 1, 1, false, -1.8181818181818188],
+            [0.0, 0, 0, 0, true, 0.0],
+            [0.1, 0, 0, 0, true, 0.0],
+            [0.0, 1, 0, 0, true, 0.0],
+            [0.0, 0, 1, 0, true, 0.0],
+            [0.0, 0, 0, 1, true, -1.0],
+            [0.0, 0, 0, -1, true, 1.0],
+            [0.0, 0, 1, 1, true, -1.0],
+            [0.0, 0, -1, -1, true, 1.0],
+            [0.0, 0, -1, 1, true, -1.0],
+            [0.0, 0, 1, -1, true, 1.0],
+            [0.0, 1, 1, 1, true, -2.0],
+            [0.0, 1, -1, 1, true, 0.0],
+            [0.0, 1, 1, -1, true, 0.0],
+            [0.0, 1, -1, -1, true, 2.0],
+            [0.1, 0, 0, 0, true, 0.0],
+            [0.1, 1, 0, 0, true, 0.0],
+            [0.1, 0, 1, 0, true, 0.0],
+            [0.1, 0, 0, 1, true, -1.0],
+            [0.1, 1, 1, 0, true, -1.0],
+            [0.1, 1, 0, 1, true, -0.90909090909090906],
+            [0.1, 1, 1, 1, true, -1.9090909090909098],
+            [0.035/12, 5*12, 0, -1000, false, 839.67086876847554],
+            [0.035/12, 5*12, 0, -1000, true, 839.67086876847554],
+            [0.05, 5, -70, -1000, false, 1086.5895334126164],
+            [0.05, 5, -70, -1000, true, 1101.7427017598243],
+            [0.035/12, 12*30, -2132.9622670919189, 0, false, 475000],
         ];
     }
 }
