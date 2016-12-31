@@ -1011,6 +1011,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      *  where B is the mean-deviation form
      *
+     * Example:
+     *     [var₁  cov₁₂ cov₁₃]
+     * S = [cov₁₂ var₂  cov₂₃]
+     *     [cov₁₃ cov₂₃ var₃]
+     *
      * @return Matrix
      */
     public function covarianceMatrix(): Matrix
