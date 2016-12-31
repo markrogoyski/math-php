@@ -2479,6 +2479,13 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                 ],
                 [12, 10],
             ],
+            [
+                [
+                    [1, 5, 2, 6, 7, 3],
+                    [3, 11, 6, 8, 15, 11],
+                ],
+                [4, 9],
+            ],
             // Test data from: http://www.itl.nist.gov/div898/handbook/pmc/section5/pmc541.htm
             [
                 [
