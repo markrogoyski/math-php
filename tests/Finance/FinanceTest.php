@@ -148,7 +148,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testFV(float $rate, int $periods, float $pmt, float $pv, bool $beginning, float $fv)
     {
-        $this->assertEquals($fv, Finance::fv($rate, $periods, $pmt, $pv, $beginning));
+        $this->assertEquals($fv, Finance::fv($rate, $periods, $pmt, $pv, $beginning), Finance::EPSILON);
     }
 
     public function dataProviderForFV()
