@@ -72,6 +72,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - getColumn
      *  - get
      *  - getDiagonalElements
+     *  - asVectors
      **************************************************************************/
 
     /**
@@ -240,7 +241,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - directSum
      *  - subtract
      *  - multiply
-     *  - vectorMultiply (returns a Vector)
      *  - scalarMultiply
      *  - scalarDivide
      *  - hadamardProduct
@@ -253,6 +253,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - inverse
      *  - minorMatrix
      *  - cofactorMatrix
+     *  - meanDeviation
+     *  - covarianceMatrix
      **************************************************************************/
 
     /**
@@ -394,35 +396,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return MatrixFactory::create($R);
-    }
-
-    /**
-     * Matrix multiplication by a vector
-     * m x n matrix multiplied by a 1 x n vector resulting in a new vector.
-     * https://en.wikipedia.org/wiki/Matrix_multiplication#Square_matrix_and_column_vector
-     *
-     * @param  Vector $B Vector to multiply
-     *
-     * @return Vector
-     *
-     * @throws MatrixException if dimensions do not match
-     */
-    public function vectorMultiply(Vector $B): Vector
-    {
-        $B = $B->getVector();
-        $n = count($B);
-        $m = $this->m;
-
-        if ($n !== $this->n) {
-            throw new Exception\MatrixException("Matrix and vector dimensions do not match");
-        }
-
-        $R = [];
-        for ($i = 0; $i < $m; $i++) {
-            $R[$i] = array_sum(Map\Multi::multiply($this->getRow($i), $B));
-        }
-
-        return new Vector($R);
     }
 
     /**
@@ -927,46 +900,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sample mean of multivariate matrix
-     * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
-     *
-     *     1
-     * M = - (X₁ + X₂ + ⋯ + Xn)
-     *     N
-     *
-     * Example:
-     *      [1  4 7 8]
-     *  A = [2  2 8 4]
-     *      [1 13 1 5]
-     *
-     *  Consider each column of observations as a column vector:
-     *        [1]       [4]        [7]       [8]
-     *   X₁ = [2]  X₂ = [2]   X₃ = [8]  X₄ = [4]
-     *        [1]       [13]       [1]       [5]
-     *
-     *    1  /[1]   [4]    [7]   [8]\     1 [20]   [5]
-     *    - | [2] + [2]  + [8] + [4] |  = - [16] = [4]
-     *    4  \[1]   [13]   [1]   [5]/     4 [20]   [5]
-     *
-     * @return Vector
-     */
-    public function sampleMean(): Vector
-    {
-        $m = $this->m;
-        $n = $this->n;
-
-        $M = array_reduce(
-            $this->asVectors(),
-            function(Vector $carryV, Vector $V) {
-                return $carryV->add($V);
-            },
-            new Vector(array_fill(0, $m, 0))
-        );
-
-        return $M->scalarDivide($n);
-    }
-
-    /**
      * Mean deviation matrix
      * Matrix as an array of column vectors, each subtracted by the sample mean.
      *
@@ -1027,6 +960,81 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $S = $B->multiply($Bᵀ)->scalarMultiply((1 / ($n - 1)));
 
         return $S;
+    }
+
+    /**************************************************************************
+     * MATRIX OPERATIONS - Return a Vector
+     *  - vectorMultiply
+     *  - sampleMean
+     **************************************************************************/
+
+    /**
+     * Matrix multiplication by a vector
+     * m x n matrix multiplied by a 1 x n vector resulting in a new vector.
+     * https://en.wikipedia.org/wiki/Matrix_multiplication#Square_matrix_and_column_vector
+     *
+     * @param  Vector $B Vector to multiply
+     *
+     * @return Vector
+     *
+     * @throws MatrixException if dimensions do not match
+     */
+    public function vectorMultiply(Vector $B): Vector
+    {
+        $B = $B->getVector();
+        $n = count($B);
+        $m = $this->m;
+
+        if ($n !== $this->n) {
+            throw new Exception\MatrixException("Matrix and vector dimensions do not match");
+        }
+
+        $R = [];
+        for ($i = 0; $i < $m; $i++) {
+            $R[$i] = array_sum(Map\Multi::multiply($this->getRow($i), $B));
+        }
+
+        return new Vector($R);
+    }
+
+    /**
+     * Sample mean of multivariate matrix
+     * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
+     *
+     *     1
+     * M = - (X₁ + X₂ + ⋯ + Xn)
+     *     N
+     *
+     * Example:
+     *      [1  4 7 8]
+     *  A = [2  2 8 4]
+     *      [1 13 1 5]
+     *
+     *  Consider each column of observations as a column vector:
+     *        [1]       [4]        [7]       [8]
+     *   X₁ = [2]  X₂ = [2]   X₃ = [8]  X₄ = [4]
+     *        [1]       [13]       [1]       [5]
+     *
+     *    1  /[1]   [4]    [7]   [8]\     1 [20]   [5]
+     *    - | [2] + [2]  + [8] + [4] |  = - [16] = [4]
+     *    4  \[1]   [13]   [1]   [5]/     4 [20]   [5]
+     *
+     * @return Vector
+     */
+    public function sampleMean(): Vector
+    {
+        $m = $this->m;
+        $n = $this->n;
+
+        $M = array_reduce(
+            $this->asVectors(),
+            function(Vector $carryV, Vector $V) {
+                return $carryV->add($V);
+            },
+            new Vector(array_fill(0, $m, 0))
+        );
+
+        return $M->scalarDivide($n);
     }
 
     /**************************************************************************
