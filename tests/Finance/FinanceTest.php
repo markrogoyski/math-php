@@ -24,9 +24,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             [0.0001, 0.0001],
             [0.00001, 0.00001],
             [0.000001, 0.000001],
-            [0.0000001, 0.0000001],
-            [0.00000001, 0.00000001],
-            [0.000000001, 0.000000001],
+            [0.0000001, 0.0],
+            [0.00000001, 0.0],
+            [0.000000001, 0.0],
             [0.0000000001, 0.0],
             [Finance::EPSILON, Finance::EPSILON],
             [Finance::EPSILON / 2, 0.0],
@@ -42,7 +42,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPMT(float $rate, int $periods, float $pv, float $fv, bool $beginning, float $pmt)
     {
-        $this->assertEquals($pmt, Finance::pmt($rate, $periods, $pv, $fv, $beginning));
+        $this->assertEquals($pmt, Finance::pmt($rate, $periods, $pv, $fv, $beginning), Finance::EPSILON);
     }
 
     public function dataProviderForPMT()
@@ -89,7 +89,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testAER(float$nominal, int $periods, float $rate)
     {
-        $this->assertEquals($rate, Finance::aer($nominal, $periods));
+        $this->assertEquals($rate, Finance::aer($nominal, $periods), Finance::EPSILON);
     }
 
     public function dataProviderForAER()
@@ -213,7 +213,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPV(float $rate, int $periods, float $pmt, float $fv, bool $beginning, float $pv)
     {
-        $this->assertEquals($pv, Finance::pv($rate, $periods, $pmt, $fv, $beginning));
+        $this->assertEquals($pv, Finance::pv($rate, $periods, $pmt, $fv, $beginning), Finance::EPSILON);
     }
 
     public function dataProviderForPV()
