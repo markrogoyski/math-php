@@ -481,7 +481,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      */
     public function pNorm($p)
     {
-        return array_sum(Map\Single::pow($this->A, $p))**(1/$p);
+        return array_sum(Map\Single::pow(Map\Single::abs($this->A), $p))**(1/$p);
     }
 
     /**

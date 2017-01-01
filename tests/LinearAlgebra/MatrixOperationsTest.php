@@ -545,6 +545,85 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForScalarDivide
+     */
+    public function testScalarDivide(array $A, $k, array $R)
+    {
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
+
+        $this->assertEquals($R, $A->scalarDivide($k));
+    }
+
+    public function dataProviderForScalarDivide()
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 3,
+                [
+                    [1/3, 2/3, 1],
+                    [2/3, 1, 4/3],
+                    [1, 4/3, 5/3],
+                ],
+            ],
+            [
+                [
+                    [3, 6, 9],
+                ], 3,
+                [
+                    [1, 2, 3],
+                ],
+            ],
+            [
+                [
+                    [1],
+                    [2],
+                    [3],
+                ], 3,
+                [
+                    [1/3],
+                    [2/3],
+                    [1],
+                ],
+            ],
+            [
+                [
+                    [1],
+                ], 3,
+                [
+                    [1/3],
+                ],
+            ],
+        ];
+    }
+
+    public function testScalarDivideExceptionKNotNumber()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+
+        $this->setExpectedException('MathPHP\Exception\BadParameterException');
+        $A->scalarDivide('k');
+    }
+
+    public function testScalarDivideByZero()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+
+        $this->setExpectedException('MathPHP\Exception\BadParameterException');
+        $A->scalarDivide(0);
+    }
+
+    /**
      * @dataProvider dataProviderForTranspose
      */
     public function testTranspose(array $A, array $R)
@@ -2360,5 +2439,177 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('MathPHP\Exception\MatrixException');
         $A->cofactorMatrix();
+    }
+
+    /**
+     * @dataProvider dataProviderForSampleMean
+     */
+    public function testSampleMean(array $A, array $M)
+    {
+        $A = MatrixFactory::create($A);
+        $M = new Vector($M);
+
+        $this->assertEquals($M, $A->sampleMean());
+    }
+
+    public function dataProviderForSampleMean()
+    {
+        return [
+            // Test data from: http://www.maths.manchester.ac.uk/~mkt/MT3732%20(MVA)/Intro.pdf
+            [
+                [
+                    [4, -1, 3],
+                    [1, 3, 5],
+                ],
+                [2, 3],
+            ],
+            // Test data from Linear Algebra and Its Aplications (Lay)
+            [
+                [
+                    [1, 4, 7, 8],
+                    [2, 2, 8, 4],
+                    [1, 13, 1, 5],
+                ],
+                [5, 4, 5],
+            ],
+            [
+                [
+                    [19, 22, 6, 3, 2, 20],
+                    [12, 6, 9, 15, 13, 5],
+                ],
+                [12, 10],
+            ],
+            [
+                [
+                    [1, 5, 2, 6, 7, 3],
+                    [3, 11, 6, 8, 15, 11],
+                ],
+                [4, 9],
+            ],
+            // Test data from: http://www.itl.nist.gov/div898/handbook/pmc/section5/pmc541.htm
+            [
+                [
+                    [4, 4.2, 3.9, 4.3, 4.1],
+                    [2, 2.1, 2, 2.1, 2.2],
+                    [.6, .59, .58, .62, .63]
+                ],
+                [
+                    4.10, 2.08, 0.604
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForMeanDeviation
+     */
+    public function testMeanDeviation(array $A, array $B)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        $this->assertEquals($B, $A->meanDeviation());
+    }
+
+    public function dataProviderForMeanDeviation()
+    {
+        return [
+            // Test data from: http://www.maths.manchester.ac.uk/~mkt/MT3732%20(MVA)/Intro.pdf
+            [
+                [
+                    [4, -1, 3],
+                    [1, 3, 5],
+                ],
+                [
+                    [2, -3, 1],
+                    [-2, 0, 2],
+                ],
+            ],
+            // Test data from Linear Algebra and Its Aplications (Lay)
+            [
+                [
+                    [1, 4, 7, 8],
+                    [2, 2, 8, 4],
+                    [1, 13, 1, 5],
+                ],
+                [
+                    [-4, -1, 2, 3],
+                    [-2, -2, 4, 0],
+                    [-4, 8, -4, 0],
+                ],
+            ],
+            [
+                [
+                    [19, 22, 6, 3, 2, 20],
+                    [12, 6, 9, 15, 13, 5],
+                ],
+                [
+                    [7, 10, -6, -9, -10, 8],
+                    [2, -4, -1, 5, 3, -5],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForCovarianceMatrix
+     */
+    public function testCovarianceMatrix(array $A, array $S)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertEquals($S, $A->covarianceMatrix()->getMatrix(), '', 0.0001);
+    }
+
+    public function dataProviderForCovarianceMatrix()
+    {
+        return [
+            // Test data from Linear Algebra and Its Aplications (Lay)
+            [
+                [
+                    [1, 4, 7, 8],
+                    [2, 2, 8, 4],
+                    [1, 13, 1, 5],
+                ],
+                [
+                    [10, 6, 0],
+                    [6, 8, -8],
+                    [0, -8, 32],
+                ],
+            ],
+            [
+                [
+                    [19, 22, 6, 3, 2, 20],
+                    [12, 6, 9, 15, 13, 5],
+                ],
+                [
+                    [86, -27],
+                    [-27, 16],
+                ],
+            ],
+            // Test data from: http://www.itl.nist.gov/div898/handbook/pmc/section5/pmc541.htm
+            [
+                [
+                    [4, 4.2, 3.9, 4.3, 4.1],
+                    [2, 2.1, 2, 2.1, 2.2],
+                    [.6, .59, .58, .62, .63]
+                ],
+                [
+                    [0.025, 0.0075, 0.00175],
+                    [0.0075, 0.007, 0.00135],
+                    [0.00175, 0.00135, 0.00043],
+                ],
+            ],
+            [
+                [
+                    [2.5, 0.5, 2.2, 1.9, 3.1, 2.3, 2, 1, 1.5, 1.1],
+                    [2.4, 0.7, 2.9, 2.2, 3.0, 2.7, 1.6, 1.1, 1.6, 0.9],
+                ],
+                [
+                    [0.616555556, 0.615444444],
+                    [0.615444444, 0.716555556],
+                ],
+            ],
+        ];
     }
 }

@@ -121,6 +121,76 @@ class MatrixFactorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForArrayOfVectors
+     */
+    public function testCreateArrayOfVectors(array $A, array $expected)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $A);
+        $this->assertEquals($expected, $A->getMatrix());
+    }
+
+    public function dataProviderForArrayOfVectors()
+    {
+        return [
+            [
+                [
+                    new Vector([1, 2]),
+                ],
+                [
+                    [1],
+                    [2],
+                ],
+            ],
+            [
+                [
+                    new Vector([1, 2]),
+                    new Vector([3, 4]),
+                ],
+                [
+                    [1, 3],
+                    [2, 4],
+                ],
+            ],
+            [
+                [
+                    new Vector([1, 2]),
+                    new Vector([3, 4]),
+                    new Vector([5, 6]),
+                ],
+                [
+                    [1, 3, 5],
+                    [2, 4, 6],
+                ],
+            ],
+            [
+                [
+                    new Vector([1, 2, 3]),
+                    new Vector([3, 4, 5]),
+                    new Vector([5, 6, 6]),
+                ],
+                [
+                    [1, 3, 5],
+                    [2, 4, 6],
+                    [3, 5, 6],
+                ],
+            ],
+        ];
+    }
+
+    public function testCreateFromArrayOfVectorsExceptionVectorsDifferentLengths()
+    {
+        $A = [
+            new Vector([1, 2]),
+            new Vector([4, 5, 6]),
+        ];
+
+        $this->setExpectedException('MathPHP\Exception\MatrixException');
+        $A = MatrixFactory::create($A);
+    }
+
+    /**
      * @dataProvider dataProviderForFunctionSquareMatrix
      */
     public function testCreateFunctionSquareMatrix(array $A)

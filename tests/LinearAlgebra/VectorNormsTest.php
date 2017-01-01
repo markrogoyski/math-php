@@ -61,6 +61,8 @@ class VectorNormsTest extends \PHPUnit_Framework_TestCase
         return [
             [ [1, 2, 3], 2, 3.74165738677 ],
             [ [1, 2, 3], 3, 3.30192724889 ],
+            [ [-1, 2, -3], 1, 6 ],
+            [ [-1, 2, -3], 3, 3.30192724889 ],
         ];
     }
 

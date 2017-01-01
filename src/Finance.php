@@ -148,13 +148,14 @@ class Finance
         $when = $beginning ? 1 : 0;
 
         if ($rate == 0) {
-            $fv = - ($present_value + ($payment * $periods));
+            $fv = -($present_value + ($payment * $periods));
             return self::checkZero($fv);
         }
 
-        $initial = 1 + ($rate * $when);
+        $initial  = 1 + ($rate * $when);
         $compound = pow(1 + $rate, $periods);
-        $fv = - (($present_value * $compound) + (($payment * $initial * ($compound - 1)) / $rate));
+        $fv       = - (($present_value * $compound) + (($payment * $initial * ($compound - 1)) / $rate));
+
         return self::checkZero($fv);
     }
 
@@ -204,9 +205,10 @@ class Finance
             return self::checkZero($pv);
         }
 
-        $initial = 1 + ($rate * $when);
+        $initial  = 1 + ($rate * $when);
         $compound = pow(1 + $rate, $periods);
-        $pv = (-$future_value - (($payment * $initial * ($compound - 1)) / $rate)) / $compound;
+        $pv       = (-$future_value - (($payment * $initial * ($compound - 1)) / $rate)) / $compound;
+
         return self::checkZero($pv);
     }
 

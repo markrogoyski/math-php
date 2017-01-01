@@ -32,7 +32,7 @@ class ColumnVector extends Matrix
 
     /**
      * Transpose
-     * The transpose of a column vector is a rpw vector
+     * The transpose of a column vector is a row vector
      *
      * [x₁]ᵀ
      * [x₂]  = [x₁ x₂ ⋯ xm]

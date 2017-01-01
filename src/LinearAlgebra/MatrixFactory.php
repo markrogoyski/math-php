@@ -32,6 +32,8 @@ class MatrixFactory
                 return new SquareMatrix($A);
             case 'diagonal':
                 return new DiagonalMatrix($A);
+            case 'from_vectors':
+                return self::createFromVectors($A);
             case 'vandermonde':
                 return new VandermondeMatrix($A, $n);
             case 'function':
@@ -244,9 +246,20 @@ class MatrixFactory
     {
         $m = count($A);
 
-        // 1-dimensional array is how we create diagonal and vandermonde matrices
+        // 1-dimensional array is how we create diagonal and vandermonde matrices,
+        // as well as matrices from an array of vectors
         $one_dimensional = count(array_filter($A, 'is_array')) === 0;
         if ($one_dimensional) {
+            $is_array_of_vectors = array_reduce(
+                $A,
+                function ($carry, $item) {
+                    return $carry && ($item instanceof Vector);
+                },
+                true
+            );
+            if ($is_array_of_vectors) {
+                return 'from_vectors';
+            }
             if (is_null($vandermonde_n)) {
                 return 'diagonal';
             }
@@ -275,5 +288,44 @@ class MatrixFactory
             return 'function';
         }
         return 'matrix';
+    }
+
+    /**
+     * Create a matrix from an array of Vectors
+     *
+     * Example:
+     *        [1]       [4]        [7]       [8]
+     *   X₁ = [2]  X₂ = [2]   X₃ = [8]  X₄ = [4]
+     *        [1]       [13]       [1]       [5]
+     *
+     *       [1  4 7 8]
+     *   R = [2  2 8 4]
+     *       [1 13 1 5]
+     *
+     * @param  array  $A array of Vectors
+     *
+     * @return Matrix
+     *
+     * @throws MatrixException if the Vectors are not all the same length
+     */
+    private static function createFromVectors(array $A): Matrix
+    {
+        // Check that all vectors are the same length
+        $m = $A[0]->getN();
+        $n = count($A);
+        for ($j = 1; $j < $n; $j++) {
+            if ($A[$j]->getN() !== $m) {
+                throw new Exception\MatrixException('Vectors being combined into matrix have different lengths');
+            }
+        }
+
+        // Concatenate all the vectors
+        $R = [];
+        foreach ($A as $V) {
+            $R[] = $V->getVector();
+        }
+
+        // Transpose to create matrix from the vector columns
+        return (new Matrix($R))->transpose();
     }
 }

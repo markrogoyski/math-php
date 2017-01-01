@@ -10,6 +10,7 @@ It is actively under development with development (0.y.z) releases.
 Features
 --------
  * [Algebra](#algebra)
+ * [Finance](#finance)
  * Functions
    - [Map](#functions---map---single-array)
    - [Special Functions](#functions---special-functions)
@@ -93,6 +94,31 @@ $lcm = Algebra::lcm(5, 2);
 
 // Factors of an integer
 $factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
+```
+
+### Finance
+```php
+use MathPHP\Finance;
+
+// Financial payment for a loan or anuity with compound interest
+$rate          = 0.035 / 12; // 3.5% interest paid at the end of every month
+$periods       = 30 * 12;    // 30-year mortgage
+$present_value = 265000;     // Mortgage note of $265,000.00
+$future_value  = 0;
+$beginning     = false;      // Adjust the payment to the beginning or end of the period
+$pmt           = Finance::pmt($rate, $periods, $present_value, $future_value, $beginning);
+
+// Annual Equivalent Rate (AER) of an annual percentage rate (APR)
+$nominal = 0.035; // APR 3.5% interest
+$periods = 12;    // Compounded monthly
+$aer     = Finance::aer($nominal, $periods);
+
+// Future value for a loan or anuity with compound interest
+$payment = 1189.97;
+$fv      = Finance::fv($rate, $periods, $payment, $present_value, $beginning)
+
+// Present value for a loan or anuity with compound interest
+$pv = Finance::pv($rate, $periods, $payment, $future_value, $beginning)
 ```
 
 ### Functions - Map - Single Array
@@ -235,6 +261,13 @@ $matrix = [
 $A = MatrixFactory::create($matrix);
 $B = MatrixFactory::create($matrix);
 
+// Matrix factory can create a matrix from an array of column vectors
+use MathPHP\LinearAlgebra\Vector;
+$X₁ = new Vector([1, 4, 7]);
+$X₂ = new Vector([2, 5, 8]);
+$X₃ = new Vector([3, 6, 9]);
+$C  = MatrixFactory::create([$X₁, $X₂, $X₃]);
+
 // Can also directly instantiate desired matrix class
 $A = new Matrix($matrix);
 $B = new SquareMatrix($matrix);
@@ -248,6 +281,10 @@ $cols  = $A->getN();      // number of columns
 $row  = $A->getRow(2);
 $col  = $A->getColumn(2);
 $item = $A->get(2, 2);
+
+// Other representations of matrix data
+$vectors = $A->asVectors();           // array of column vectors
+$D       = $A->getDiagonalElements(); // array of the diagonal elements
 
 // Row operations
 list($mᵢ, $mⱼ, $k) = [1, 2, 5];
@@ -269,6 +306,7 @@ $A⊕B  = $A->directSum($B);
 $A−B  = $A->subtract($B);
 $AB   = $A->multiply($B);
 $２A  = $A->scalarMultiply(2);
+$A／2 = $A->scalarDivide(2);
 $A∘B  = $A->hadamardProduct($B);
 $A⊗B  = $A->kroneckerProduct($B);
 $Aᵀ 　= $A->transpose();
@@ -280,6 +318,12 @@ $rref = $A->rref();             // Reduced row echelon form
 $A⁻¹  = $A->inverse();
 $Mᵢⱼ  = $A->minorMatrix($mᵢ, $nⱼ); // Square matrix with row mᵢ and column nⱼ removed
 $CM   = $A->cofactorMatrix();
+$B    = $A->meanDeviation();
+$S    = $A->covarianceMatrix();
+
+// Matrix operations - return a new Vector
+$AB = $A->vectorMultiply($X₁);
+$M  = $A->sampleMean();
 
 // Matrix operations - return a value
 $tr⟮A⟯ = $A->trace();
