@@ -209,4 +209,42 @@ class Finance
         $pv = (-$future_value - (($payment * $initial * ($compound - 1)) / $rate)) / $compound;
         return self::checkZero($pv);
     }
+
+    /**
+     * Net present value of cash flows. Cash flows are periodic starting
+     * from an initial time and with a uniform discount rate.
+     *
+     * Similar to the =NPV() function in most spreadsheet software, except
+     * the initial (usually negative) cash flow at time 0 is given as the
+     * first element of the array rather than subtracted. For example,
+     *   spreadsheet: NPV(0.01, 100, 200, 300, 400) - 1000
+     * is done as
+     *   MathPHP: npv(0.01, [-1000, 100, 200, 300, 400])
+     *
+     * The basic net-present-value formula derivation:
+     * https://en.wikipedia.org/wiki/Net_present_value
+     *
+     *  n      Rₜ
+     *  Σ   --------
+     * t=0  (1 / r)ᵗ
+     *
+     * Examples:
+     * The net present value of 5 yearly cash flows after an initial $1000
+     * investment with a 3% discount rate:
+     *  npv(0.03, [-1000, 100, 500, 300, 700, 700])
+     *
+     * @param  float $rate
+     * @param  array $values
+     *
+     * @return float
+     */
+    public static function npv(float $rate, array $values): float
+    {
+        $result = 0.0;
+
+        for($i = 0; $i < count($values); ++$i) {
+            $result += $values[$i] / (1 + $rate)**$i;
+        }
+        return self::checkZero($result);
+    }
 }
