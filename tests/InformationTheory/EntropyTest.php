@@ -43,6 +43,11 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
                 [0.4, 0.1, 0.25, 0.25],
                 1.86,
             ],
+            // Other
+            [
+                [1/2, 1/4, 1/4, 0],
+                3/2,
+            ],
         ];
     }
 
@@ -188,229 +193,120 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForBhattacharyyaDistance
+     * @dataProvider dataProviderForShannonEntropy
      */
-    public function testBhattacharyyaDistance(array $p, array $q, $expected)
+    public function testJointEntropy(array $p, $expected)
     {
-        $BD = Entropy::bhattacharyyaDistance($p, $q);
+        $H = Entropy::jointEntropy($p);
 
-        $this->assertEquals($expected, $BD, '', 0.0001);
+        $this->assertEquals($expected, $H, '', 0.001);
     }
 
-    public function dataProviderForBhattacharyyaDistance()
-    {
-        return [
-            [
-                [0.2, 0.5, 0.3],
-                [0.1, 0.4, 0.5],
-                0.024361049046679,
-            ],
-            [
-                [0.4, 0.6],
-                [0.3, 0.7],
-                0.005531036666445
-            ],
-            [
-                [0.9, 0.1],
-                [0.1, 0.9],
-                0.510825623765991
-            ],
-        ];
-    }
-
-    public function testBhattacharyyaDistanceExceptionArraysDifferentLength()
-    {
-        $p = [0.4, 0.5, 0.1];
-        $q = [0.2, 0.8];
-
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
-        Entropy::bhattacharyyaDistance($p, $q);
-    }
-
-    public function testBhattacharyyaDistanceExceptionNotProbabilityDistributionThatAddsUpToOne()
+    public function testJointEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
         $p = [0.2, 0.2, 0.1];
-        $q = [0.2, 0.4, 0.6];
 
         $this->setExpectedException('MathPHP\Exception\BadDataException');
-        Entropy::bhattacharyyaDistance($p, $q);
+        Entropy::jointEntropy($p);
     }
 
     /**
-     * @dataProvider dataProviderForKullbackLeiblerDivergence
+     * @dataProvider dataProviderForRenyiEntropy
      */
-    public function testKullbackLeiblerDivergence(array $p, array $q, $expected)
+    public function testRenyiEntropy(array $p, $α, $expected)
     {
-        $BD = Entropy::kullbackLeiblerDivergence($p, $q);
+        $H = Entropy::renyiEntropy($p, $α);
 
-        $this->assertEquals($expected, $BD, '', 0.0001);
+        $this->assertEquals($expected, $H, '', 0.001);
     }
 
-    public function dataProviderForKullbackLeiblerDivergence()
+    public function dataProviderForRenyiEntropy()
     {
-        // Test data created using Python's scipi.stats.entropy
         return [
             [
-                [0.5, 0.5],
-                [0.75, 0.25],
-                0.14384103622589045,
-            ],
-            [
-                [0.75, 0.25],
-                [0.5, 0.5],
-                0.13081203594113694,
-            ],
-            [
-                [0.2, 0.5, 0.3],
-                [0.1, 0.4, 0.5],
-                0.096953524639296684,
-            ],
-            [
-                [0.4, 0.6],
-                [0.3, 0.7],
-                0.022582421084357374
-            ],
-            [
-                [0.9, 0.1],
-                [0.1, 0.9],
-                1.7577796618689758
+                [0.4, 0.6], 0.5, 0.985352,
+                [0.2, 0.3, 0.5], 0.8, 1.504855,
             ],
         ];
     }
 
-    public function testKullbackLeiblerDivergenceExceptionArraysDifferentLength()
-    {
-        $p = [0.4, 0.5, 0.1];
-        $q = [0.2, 0.8];
-
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
-        Entropy::kullbackLeiblerDivergence($p, $q);
-    }
-
-    public function testKullbackLeiblerDivergenceExceptionNotProbabilityDistributionThatAddsUpToOne()
+    public function testRenyiEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
         $p = [0.2, 0.2, 0.1];
-        $q = [0.2, 0.4, 0.6];
+        $α = 0.5;
 
         $this->setExpectedException('MathPHP\Exception\BadDataException');
-        Entropy::kullbackLeiblerDivergence($p, $q);
+        Entropy::renyiEntropy($p, $α);
+    }
+
+
+    public function testRenyiEntropyExceptionAlphaOutOfBounds()
+    {
+        $p = [0.4, 0.4, 0.2];
+        $α = -3;
+
+        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        Entropy::renyiEntropy($p, $α);
+    }
+
+    public function testRenyiEntropyExceptionAlphaEqualsOne()
+    {
+        $p = [0.4, 0.4, 0.2];
+        $α = 1;
+
+        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        Entropy::renyiEntropy($p, $α);
     }
 
     /**
-     * @dataProvider dataProviderForHellingerDistance
+     * @dataProvider dataProviderForPerplexity
      */
-    public function testHellingerDistance(array $p, array $q, $expected)
+    public function testPerplexity(array $p, $expected)
     {
-        $BD = Entropy::hellingerDistance($p, $q);
+        $H = Entropy::perplexity($p);
 
-        $this->assertEquals($expected, $BD, '', 0.0001);
+        $this->assertEquals($expected, $H, '', 0.001);
     }
 
-    public function dataProviderForHellingerDistance()
+    public function dataProviderForPerplexity()
     {
-        // Test data created with Python's numpy/scipy: norm(np.sqrt(p) - np.sqrt(q)) / np.sqrt(2)
         return [
             [
-                [0.2905, 0.4861, 0.2234],
-                [0.2704, 0.5259, 0.2137],
-                0.025008343695279284,
+                [1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10],
+                10
             ],
             [
-                [0.5, 0.5],
-                [0.75, 0.25],
-                0.18459191128251448,
+                [1],
+                1
             ],
             [
-                [0.2, 0.5, 0.3],
-                [0.1, 0.4, 0.5],
-                0.15513450177826621,
+                [0.6, 0.4],
+                1.960130896546316,
             ],
             [
-                [0.4, 0.6],
-                [0.3, 0.7],
-                0.074268220965891737
+                [0.514, 0.486],
+                1.999182253549837,
             ],
             [
-                [0.9, 0.1],
-                [0.1, 0.9],
-                0.63245553203367577
+                [0.231, 0.385, 0.308, 0.077],
+                3.546141242991336,
+            ],
+            [
+                [4/9, 3/9, 2/9],
+                2.888810361450759,
+            ],
+            [
+                [1/2, 1/4, 1/4, 0],
+                2.82842712474619,
             ],
         ];
     }
 
-    public function testHellingerDistanceExceptionArraysDifferentLength()
-    {
-        $p = [0.4, 0.5, 0.1];
-        $q = [0.2, 0.8];
-
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
-        Entropy::hellingerDistance($p, $q);
-    }
-
-    public function testHellingerDistanceExceptionNotProbabilityDistributionThatAddsUpToOne()
+    public function testPerplexityExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
         $p = [0.2, 0.2, 0.1];
-        $q = [0.2, 0.4, 0.6];
 
         $this->setExpectedException('MathPHP\Exception\BadDataException');
-        Entropy::hellingerDistance($p, $q);
-    }
-
-    /**
-     * @dataProvider dataProviderForJensenShannonDivergence
-     */
-    public function testJensenShannonDivergence(array $p, array $q, $expected)
-    {
-        $BD = Entropy::jensenShannonDivergence($p, $q);
-
-        $this->assertEquals($expected, $BD, '', 0.0001);
-    }
-
-    public function dataProviderForJensenShannonDivergence()
-    {
-        // Test data created with Python's numpy/scipi where p and q are numpy.arrays:
-        // def jsd(p, q):
-        //     M = (p + q) / 2
-        //     return (scipy.stats.entropy(p, M) + scipy.stats.entropy(q, M)) / 2
-        return [
-            [
-                [0.4, 0.6],
-                [0.5, 0.5],
-                0.0050593899289876343,
-            ],
-            [
-                [0.1, 0.2, 0.2, 0.2, 0.2, 0.1],
-                [0.0, 0.1, 0.4, 0.4, 0.1, 0.0],
-                0.12028442909461383
-            ],
-            [
-                [0.25, 0.5, 0.25],
-                [0.5, 0.3, 0.2],
-                0.035262717451799902,
-            ],
-            [
-                [0.5, 0.3, 0.2],
-                [0.25, 0.5, 0.25],
-                0.035262717451799902,
-            ],
-        ];
-    }
-
-    public function testJensenShannonDivergenceExceptionArraysDifferentLength()
-    {
-        $p = [0.4, 0.5, 0.1];
-        $q = [0.2, 0.8];
-
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
-        Entropy::jensenShannonDivergence($p, $q);
-    }
-
-    public function testJensenShannonDivergenceExceptionNotProbabilityDistributionThatAddsUpToOne()
-    {
-        $p = [0.2, 0.2, 0.1];
-        $q = [0.2, 0.4, 0.6];
-
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
-        Entropy::jensenShannonDivergence($p, $q);
+        Entropy::perplexity($p);
     }
 }

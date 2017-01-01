@@ -12,11 +12,6 @@ use MathPHP\Exception;
  *   - Shannon entropy (nats)
  *   - Shannon entropy (harts)
  *   - Cross entropy
- * - Distances and divergences
- *   - Bhattacharyya distance
- *   - Kullback-Leibler divergence
- *   - Hellinger distance
- *   - Jensen-Shannon divergence
  *
  * In information theory, entropy is the expected value (average) of the information contained in each message.
  *
@@ -203,208 +198,97 @@ class Entropy
     }
 
     /**
-     * Bhattacharyya distance
-     * Measures the similarity of two discrete or continuous probability distributions.
-     * https://en.wikipedia.org/wiki/Bhattacharyya_distance
+     * Joint entropy (bits)
+     * A measure of the uncertainty associated with a set of variables.
+     * https://en.wikipedia.org/wiki/Joint_entropy
      *
-     * For probability distributions p and q over the same domain X,
-     * the Bhattacharyya distance is defined as:
+     * H(X,Y) = -∑ ∑ P(x,y)log₂[P(x,y)]
+     *           x y
      *
-     * DB(p,q) = -ln(BC(p,q))
+     * Where x and y are particular values of random variables X and Y, respectively,
+     * and P(x,y) is the joint probability of these values occurring together.
+     * H is in shannons, or bits.
      *
-     * where BC is the Bhattacharyya coefficient:
+     * Joint entropy is basically just shannonEntropy but the probability distribution input
+     * represents the probability of two variables happening at the same time.
      *
-     * BC(p,q) = ∑ √(p(x) q(x))
-     *          x∈X
+     * @param  array $P⟮x、y⟯ probability distribution of x and y occuring together
      *
-     * @param array $p distribution p
-     * @param array $q distribution q
+     * @return float uncertainty
      *
-     * @return float distance between distributions
-     *
-     * @throws BadDataException if p and q do not have the same number of elements
-     * @throws BadDataException if p and q are not probability distributions that add up to 1
+     * @throws BadDataException if probability distribution $P⟮x、y⟯ does not add up to 1
      */
-    public static function bhattacharyyaDistance(array $p, array $q)
+    public static function jointEntropy(array $P⟮x、y⟯)
     {
-        // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
-            throw new Exception\BadDataException('p and q must have the same number of elements');
-        }
-
-        // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
-            throw new Exception\BadDataException('Distributions p and q must add up to 1');
-        }
-
-        // ∑ √(p(x) q(x))
-        $BC⟮p、q⟯ = array_sum(Map\Single::sqrt(Map\Multi::multiply($p, $q)));
-
-        return -log($BC⟮p、q⟯);
+        return self::shannonEntropy($P⟮x、y⟯);
     }
 
     /**
-     * Kullback-Leibler divergence
-     * (also known as: discrimination information, information divergence, information gain, relative entropy, KLIC, KL divergence)
-     * A measure of the difference between two probability distributions P and Q.
-     * https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence
-     *
-     *                       P(i)
-     * Dkl(P‖Q) = ∑ P(i) log ----
-     *            ⁱ          Q(i)
-     *
-     *
-     *
-     * @param  array  $p distribution p
-     * @param  array  $q distribution q
-     *
-     * @return float difference between distributions
-     *
-     * @throws BadDataException if p and q do not have the same number of elements
-     * @throws BadDataException if p and q are not probability distributions that add up to 1
-     */
-    public static function kullbackLeiblerDivergence(array $p, array $q)
-    {
-        // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
-            throw new Exception\BadDataException('p and q must have the same number of elements');
-        }
-
-        // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
-            throw new Exception\BadDataException('Distributions p and q must add up to 1');
-        }
-
-        // Defensive measures against taking the log of 0 which would be -∞ or dividing by 0
-        $p = array_map(
-            function ($pᵢ) {
-                return $pᵢ == 0 ? 1e-15 : $pᵢ;
-            },
-            $p
-        );
-        $q = array_map(
-            function ($qᵢ) {
-                return $qᵢ == 0 ? 1e-15 : $qᵢ;
-            },
-            $q
-        );
-
-        // ∑ P(i) log(P(i)/Q(i))
-        $Dkl⟮P‖Q⟯ = array_sum(array_map(
-            function ($P, $Q) use ($p, $q) {
-                return $P * log($P / $Q);
-            },
-            $p,
-            $q
-        ));
-
-        return $Dkl⟮P‖Q⟯;
-    }
-
-    /**
-     * Hellinger distance
-     * Used to quantify the similarity between two probability distributions. It is a type of f-divergence.
-     * https://en.wikipedia.org/wiki/Hellinger_distance
-     *
-     *          1   _______________
-     * H(P,Q) = -- √ ∑ (√pᵢ - √qᵢ)²
-     *          √2
-     *
-     * @param array $p distribution p
-     * @param array $q distribution q
-     *
-     * @return float difference between distributions
-     *
-     * @throws BadDataException if p and q do not have the same number of elements
-     * @throws BadDataException if p and q are not probability distributions that add up to 1
-     */
-    public static function hellingerDistance(array $p, array $q)
-    {
-        // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
-            throw new Exception\BadDataException('p and q must have the same number of elements');
-        }
-
-        // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
-            throw new Exception\BadDataException('Distributions p and q must add up to 1');
-        }
-
-        // Defensive measures against taking the log of 0 which would be -∞ or dividing by 0
-        $p = array_map(
-            function ($pᵢ) {
-                return $pᵢ == 0 ? 1e-15 : $pᵢ;
-            },
-            $p
-        );
-        $q = array_map(
-            function ($qᵢ) {
-                return $qᵢ == 0 ? 1e-15 : $qᵢ;
-            },
-            $q
-        );
-
-        // √ ∑ (√pᵢ - √qᵢ)²
-        $√∑⟮√pᵢ − √qᵢ⟯² = sqrt(array_sum(array_map(
-            function ($pᵢ, $qᵢ) {
-                return (sqrt($pᵢ) - sqrt($qᵢ))**2;
-            },
-            $p,
-            $q
-        )));
-
-        return (1 / sqrt(2)) * $√∑⟮√pᵢ − √qᵢ⟯²;
-    }
-
-    /**
-     * Jensen-Shannon divergence
-     * Also known as: information radius (IRad) or total divergence to the average.
-     * A method of measuring the similarity between two probability distributions.
-     * It is based on the Kullback–Leibler divergence, with some notable (and useful) differences,
-     * including that it is symmetric and it is always a finite value.
-     * https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence
-     *
-     *            1          1
-     * JSD(P‖Q) = - D(P‖M) + - D(Q‖M)
-     *            2          2
-     *
+     * Rényi entropy
+     * Rényi entropy generalizes the Hartley entropy, the Shannon entropy, the collision entropy and the min entropy
+     * https://en.wikipedia.org/wiki/R%C3%A9nyi_entropy
      *           1
-     * where M = - (P + Q)
-     *           2
+     * Hₐ(X) = ----- log₂(∑ pᵢᵃ)
+     *         1 - α
      *
-     *       D(P‖Q) = Kullback-Leibler divergence
+     * α ≥ 0; α ≠ 1
      *
-     * @param array $p distribution p
-     * @param array $q distribution q
+     * H is in shannons, or bits.
      *
-     * @return float difference between distributions
+     * @param  array  $p probability distribution
+     * @param  number $α order α
      *
-     * @throws BadDataException if p and q do not have the same number of elements
-     * @throws BadDataException if p and q are not probability distributions that add up to 1
+     * @return float
+     *
+     * @throws BadDataException if probability distribution p does not add up to 1
+     * @throws OutOfBoundsException if α < 0 or α = 1
      */
-    public static function jensenShannonDivergence(array $p, array $q)
+    public static function renyiEntropy(array $p, $α)
     {
-        // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
-            throw new Exception\BadDataException('p and q must have the same number of elements');
+        // Probability distribution must add up to 1.0
+        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
         }
 
-        // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
-            throw new Exception\BadDataException('Distributions p and q must add up to 1');
+        // α ≥ 0; α ≠ 1
+        if ($α < 0 || $α == 1) {
+            throw new Exception\OutOfBoundsException("α must be ≥ 0 and ≠ 1 ");
         }
 
-        $M = array_map(
-            function ($pᵢ, $qᵢ) {
-                return ($pᵢ + $qᵢ) / 2;
-            },
-            $p,
-            $q
-        );
+        // (1 / 1 - α) log (∑ pᵢᵃ)
+        $Hₐ⟮X⟯ = (1 / (1 - $α)) * log(array_sum(Map\Single::pow($p, $α)), 2);
 
-        $½D⟮P‖M⟯ = self::kullbackLeiblerDivergence($p, $M) / 2;
-        $½D⟮Q‖M⟯ = self::kullbackLeiblerDivergence($q, $M) / 2;
+        return $Hₐ⟮X⟯;
+    }
 
-        return $½D⟮P‖M⟯ + $½D⟮Q‖M⟯;
+    /**
+     * Perplexity
+     * a measurement of how well a probability distribution or probability model predicts a sample.
+     * It may be used to compare probability models.
+     * A low perplexity indicates the probability distribution is good at predicting the sample.
+     * https://en.wikipedia.org/wiki/Perplexity
+     *
+     * perplexity = 2ᴴ⁽ᵖ⁾ = 2^(-∑ pᵢlog₂(pᵢ))
+     * where H(p) = entropy
+     *
+     * Perplexity is in shannons, or bits.
+     *
+     * @param  array $p probability distribution
+     *
+     * @return float perplexity
+     *
+     * @throws BadDataException if probability distribution p does not add up to 1
+     */
+    public static function perplexity(array $p)
+    {
+        // Probability distribution must add up to 1.0
+        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        }
+
+        // ∑ pᵢlog₂(pᵢ)
+        $H⟮p⟯ = self::shannonEntropy($p);
+
+        return 2**$H⟮p⟯;
     }
 }
