@@ -244,7 +244,7 @@ class Finance
     {
         $result = 0.0;
 
-        for($i = 0; $i < count($values); ++$i) {
+        for ($i = 0; $i < count($values); ++$i) {
             $result += $values[$i] / (1 + $rate)**$i;
         }
         return self::checkZero($result);
