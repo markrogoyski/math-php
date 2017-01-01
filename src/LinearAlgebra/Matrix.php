@@ -949,6 +949,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * S = [cov₁₂ var₂  cov₂₃]
      *     [cov₁₃ cov₂₃ var₃]
      *
+     * Uses mathematical convention where matrix columns represent observation vectors.
+     * Follows formula and method found in Linear Algebra and Its Applications (Lay).
+     *
      * @return Matrix
      */
     public function covarianceMatrix(): Matrix
