@@ -47,7 +47,7 @@ class NewtonsMethod
         } while ($dif > $tol && $i < $iterations);
 
         if ($dif > $tol) {
-          return NAN;
+            return NAN;
         }
         return $guess;
     }
