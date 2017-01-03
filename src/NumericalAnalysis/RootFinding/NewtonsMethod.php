@@ -23,14 +23,14 @@ class NewtonsMethod
 
      * @return number
      */
-    public static function solve(callable $function, array $args, $target, $tol, $position = 0)
+    public static function solve(callable $function, array $args, $target, $tol, $position = 0, $iterations = 100)
     {
         Validation::tolerance($tol);
 
         // Initialize
         $args1 = $args;
         $guess = $args[$position];
-
+        $i = 0;
         do {
             $args1[$position] = $guess + $tol; // load the initial guess into the arguments
             $args[$position]  = $guess;        // load the initial guess into the arguments
@@ -38,10 +38,17 @@ class NewtonsMethod
             $y_at_xplusdelx   = call_user_func_array($function, $args1);
             $slope            = ($y_at_xplusdelx - $y)/ $tol;
             $del_y            = $target - $y;
+            if (abs($slope) < $tol) {
+                return NAN;
+            }
             $guess            = $del_y / $slope + $guess;
             $dif              = abs($del_y);
-        } while ($dif > $tol);
+            $i++;
+        } while ($dif > $tol && $i < $iterations);
 
+        if ($dif > $tol) {
+          return NAN;
+        }
         return $guess;
     }
 }
