@@ -250,11 +250,39 @@ class Finance
         return self::checkZero($result);
     }
 
+    /**
+     * Interest rate per period of an Annuity.
+     *
+     * Same as the =RATE() formula in most spreadsheet software.
+     *
+     * The basic rate formula derivation is to solve for the future value
+     * taking into account the present value:
+     * https://en.wikipedia.org/wiki/Future_value
+     *
+     *                        ((1+r)ᴺ - 1)
+     * FV + PV*(1+r)ᴺ + PMT * ------------ = 0
+     *                             r
+     * The (1+r*when) factor adjusts the payment to the beginning or end
+     * of the period. In the common case of a payment at the end of a period,
+     * the factor is 1 and reduces to the formula above.
+     *
+     * Not all solutions for the rate have real-value solutions or converge.
+     * In these cases, NAN is returned.
+     *
+     * @param  float $periods
+     * @param  float $payment
+     * @param  float $present_value
+     * @param  float $future_value
+     * @param  bool  $beginning
+     * @param  float $initial_guess
+     *
+     * @return float
+     */
     public static function rate(float $periods, float $payment, float $present_value, float $future_value, bool $beginning = false, float $initial_guess = 0.1): float
     {
         $when = $beginning ? 1 : 0;
 
-        $func2 = function($x, $periods, $payment, $present_value, $future_value, $when) {
+        $func2 = function ($x, $periods, $payment, $present_value, $future_value, $when) {
             return $future_value + $present_value*(1+$x)**$periods + $payment*(1+$x*$when)/$x * ((1+$x)**$periods - 1);
         };
 
