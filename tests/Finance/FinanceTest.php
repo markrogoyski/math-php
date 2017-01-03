@@ -302,4 +302,60 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             [0.03, [-1000, 100, -500, 300, 700, 700], 126.09900448974433],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForRATE
+     */
+    public function testRATE(float $periods, float $payment, float $present_value, float $future_value, bool $beginning, float $initial_guess, float $rate)
+    {
+        $result = Finance::rate($periods, $payment, $present_value, $future_value, $beginning, $initial_guess, $rate);
+        if (!is_nan($result) or !is_nan($rate)) {
+            $this->assertEquals($rate, Finance::rate($periods, $payment, $present_value, $future_value, $beginning, $initial_guess, $rate));
+        }
+    }
+
+    public function dataProviderForRATE()
+    {
+        return [
+            [0, 0.0, 0.0, 0.0, false, 0.1, NAN],
+            [1, 0.0, 0.0, 0.0, false, 0.1, NAN],
+            [1, -1.0, 0.0, 0.0, false, 0.1, NAN],
+            [1, 0.0, 1.0, 0.0, false, 0.1, -1.0],
+            [1, 0.0, 0.0, 1.0, false, 0.1, NAN],
+            [1, 1.0, 1.0, 0.0, false, 0.1, -2.0],
+            [1, -1.0, 2.0, 0.0, false, 0.1, -0.5],
+            [1, -1.0, 0.0, 1.0, false, 0.1, NAN],
+            [1, 0.0, 0.0, 0.0, true, 0.1, NAN],
+            [1, -1.0, 0.0, 0.0, true, 0.1, -1.0],
+            [1, 0.0, 1.0, 0.0, true, 0.1, -1.0],
+            [1, 0.0, 0.0, 1.0, true, 0.1, NAN],
+            [1, 1.0, 1.0, 0.0, true, 0.1, -1.0],
+            [1, -1.0, 2.0, 0.0, true, 0.1, -1.0],
+            [1, -1.0, 0.0, 1.0, true, 0.1, 0.0],
+            [2, 0.0, 0.0, 0.0, false, 0.1, NAN],
+            [2, -1.0, 0.0, 0.0, false, 0.1, -2.0],
+            [2, 0.0, 1.0, 0.0, false, 0.1, -0.99973094574435628],
+            [2, 0.0, 0.0, 1.0, false, 0.1, NAN],
+            [2, 1.0, 1.0, 0.0, false, 0.1, NAN],
+            [2, -1.0, 2.0, 0.0, false, 0.1, 0.0],
+            [2, -1.0, 0.0, 1.0, false, 0.1, -1.0],
+            [2, 0.0, 0.0, 0.0, true, 0.1, NAN],
+            [2, -1.0, 0.0, 0.0, true, 0.1, -1.0],
+            [2, 0.0, 1.0, 0.0, true, 0.1, -0.99973094574435628],
+            [2, 0.0, 0.0, 1.0, true, 0.1, NAN],
+            [2, 1.0, 1.0, 0.0, true, 0.1, -1.0],
+            [2, -1.0, 2.0, 0.0, true, 0.1, 0.0],
+            [2, -1.0, 0.0, 1.0, true, 0.1, -0.38196601125010515],
+            [2, -1, 0, 0, false, 0.1, -2.0],
+            [2, -1, 0, 1, false, 0.1, -1.0],
+            [2, -1, 0, 2, false, 0.1, 0.0],
+            [2, -1, 0, 3, false, 0.1, 1.0],
+            [2, -1, 0, 0, true, 0.1, -1.0],
+            [2, -1, 0, 1, true, 0.1, -0.38196601125010515],
+            [2, -1, 0, 2, true, 0.1, 0.0],
+            [2, -1, 0, 3, true, 0.1, 0.30277563773199473],
+            [48, -200, 8000, 0.0, false, 0.1, 0.0077014724882025348],
+            [360, -2132.96, 475000, 0.0, false, 0.1, 0.0029166595414678938],
+        ];
+    }
 }

@@ -249,4 +249,15 @@ class Finance
         }
         return self::checkZero($result);
     }
+
+    public static function rate(float $periods, float $payment, float $present_value, float $future_value, bool $beginning = false, float $initial_guess = 0.1): float
+    {
+        $when = $beginning ? 1 : 0;
+
+        $func2 = function($x, $periods, $payment, $present_value, $future_value, $when) {
+            return $future_value + $present_value*(1+$x)**$periods + $payment*(1+$x*$when)/$x * ((1+$x)**$periods - 1);
+        };
+
+        return self::checkZero(NumericalAnalysis\RootFinding\NewtonsMethod::solve($func2, [$initial_guess, $periods, $payment, $present_value, $future_value, $when], 0, self::EPSILON, 0));
+    }
 }
