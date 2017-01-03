@@ -219,9 +219,9 @@ class Finance
      * Similar to the =NPV() function in most spreadsheet software, except
      * the initial (usually negative) cash flow at time 0 is given as the
      * first element of the array rather than subtracted. For example,
-     *   spreadsheet: NPV(0.01, 100, 200, 300, 400) - 1000
+     *   spreadsheet: =NPV(0.01, 100, 200, 300, 400) - 1000
      * is done as
-     *   MathPHP: npv(0.01, [-1000, 100, 200, 300, 400])
+     *   MathPHP::npv(0.01, [-1000, 100, 200, 300, 400])
      *
      * The basic net-present-value formula derivation:
      * https://en.wikipedia.org/wiki/Net_present_value
