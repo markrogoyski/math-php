@@ -247,7 +247,7 @@ class Finance
         for ($i = 0; $i < count($values); ++$i) {
             $result += $values[$i] / (1 + $rate)**$i;
         }
-        return self::checkZero($result);
+        return $result;
     }
 
     /**
@@ -282,10 +282,41 @@ class Finance
     {
         $when = $beginning ? 1 : 0;
 
-        $func2 = function ($x, $periods, $payment, $present_value, $future_value, $when) {
+        $func = function ($x, $periods, $payment, $present_value, $future_value, $when) {
             return $future_value + $present_value*(1+$x)**$periods + $payment*(1+$x*$when)/$x * ((1+$x)**$periods - 1);
         };
 
-        return self::checkZero(NumericalAnalysis\RootFinding\NewtonsMethod::solve($func2, [$initial_guess, $periods, $payment, $present_value, $future_value, $when], 0, self::EPSILON, 0));
+        return self::checkZero(NumericalAnalysis\RootFinding\NewtonsMethod::solve($func, [$initial_guess, $periods, $payment, $present_value, $future_value, $when], 0, self::EPSILON, 0));
+    }
+
+    /**
+     * Internal rate of return.
+     * Periodic rate of return that would provide a net-present value (NPV) of 0.
+     *
+     * Same as =IRR formula in most spreadshet software.
+     *
+     * Reference:
+     * https://en.wikipedia.org/wiki/Internal_rate_of_return
+     *
+     * Examples:
+     * The rate of return of an initial investment of $100 with returns
+     * of $50, $40, and $30:
+     *  irr([-100, 50, 40, 30])
+     *
+     * Solves for NPV=0 using Newton's Method.
+     * TODO: Use eigenvalues to find the roots of a characteristic polynomial.
+     * This will allow finding all solutions and eliminate the need of the initial_guess.
+     *
+     * @param  array $values
+     * @param  float $initial_guess
+     *
+     * @return float
+     */
+    public static function irr(array $values, float $initial_guess = 0.1): float
+    {
+        $func = function ($x, $values) {
+            return Finance::npv($x, $values);
+        };
+        return self::checkZero(NumericalAnalysis\RootFinding\NewtonsMethod::solve($func, [$initial_guess, $values], 0, self::EPSILON, 0));
     }
 }
