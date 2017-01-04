@@ -106,6 +106,7 @@ class Finance
         if ($periods == 1) {
             return $nominal;
         }
+
         return pow(1 + ($nominal / $periods), $periods) - 1;
     }
 
@@ -226,7 +227,7 @@ class Finance
      * The basic net-present-value formula derivation:
      * https://en.wikipedia.org/wiki/Net_present_value
      *
-     *  n      Rₜ
+     *  n      Rt
      *  Σ   --------
      * t=0  (1 / r)ᵗ
      *
@@ -247,11 +248,12 @@ class Finance
         for ($i = 0; $i < count($values); ++$i) {
             $result += $values[$i] / (1 + $rate)**$i;
         }
+
         return self::checkZero($result);
     }
 
     /**
-     * Interest rate per period of an Annuity.
+     * Interest rate per period of an annuity.
      *
      * Same as the =RATE() formula in most spreadsheet software.
      *
