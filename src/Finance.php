@@ -226,7 +226,7 @@ class Finance
      * The basic net-present-value formula derivation:
      * https://en.wikipedia.org/wiki/Net_present_value
      *
-     *  n      Rt
+     *  n      Rₜ
      *  Σ   --------
      * t=0  (1 / r)ᵗ
      *
@@ -247,7 +247,45 @@ class Finance
         for ($i = 0; $i < count($values); ++$i) {
             $result += $values[$i] / (1 + $rate)**$i;
         }
-
         return self::checkZero($result);
+    }
+
+    /**
+     * Interest rate per period of an Annuity.
+     *
+     * Same as the =RATE() formula in most spreadsheet software.
+     *
+     * The basic rate formula derivation is to solve for the future value
+     * taking into account the present value:
+     * https://en.wikipedia.org/wiki/Future_value
+     *
+     *                        ((1+r)ᴺ - 1)
+     * FV + PV*(1+r)ᴺ + PMT * ------------ = 0
+     *                             r
+     * The (1+r*when) factor adjusts the payment to the beginning or end
+     * of the period. In the common case of a payment at the end of a period,
+     * the factor is 1 and reduces to the formula above.
+     *
+     * Not all solutions for the rate have real-value solutions or converge.
+     * In these cases, NAN is returned.
+     *
+     * @param  float $periods
+     * @param  float $payment
+     * @param  float $present_value
+     * @param  float $future_value
+     * @param  bool  $beginning
+     * @param  float $initial_guess
+     *
+     * @return float
+     */
+    public static function rate(float $periods, float $payment, float $present_value, float $future_value, bool $beginning = false, float $initial_guess = 0.1): float
+    {
+        $when = $beginning ? 1 : 0;
+
+        $func2 = function ($x, $periods, $payment, $present_value, $future_value, $when) {
+            return $future_value + $present_value*(1+$x)**$periods + $payment*(1+$x*$when)/$x * ((1+$x)**$periods - 1);
+        };
+
+        return self::checkZero(NumericalAnalysis\RootFinding\NewtonsMethod::solve($func2, [$initial_guess, $periods, $payment, $present_value, $future_value, $when], 0, self::EPSILON, 0));
     }
 }

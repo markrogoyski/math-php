@@ -54,4 +54,38 @@ class NewtonsMethodTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Exception');
         $x = NewtonsMethod::solve($func, $args, $target, $tol, $position);
     }
+
+    public function testNewtonsMethodNearZeroSlopeNAN()
+    {
+        $func = function ($x) {
+            return $x/$x;
+        };
+
+        $args     = [0.1];
+        $target   = 0;
+        $position = 0;
+        $tol      = 0.00001;
+
+        $x = NewtonsMethod::solve($func, $args, $target, $tol, $position);
+        if (!is_nan($x)) {
+            $this->assertEquals(NAN, $x);
+        }
+    }
+
+    public function testNewtonsMethodNoRealSolutionsNAN()
+    {
+        $func = function ($x) {
+            return $x**2 + 3*$x + 3;
+        };
+
+        $args     = [0.1];
+        $target   = 0;
+        $position = 0;
+        $tol      = 0.00001;
+
+        $x = NewtonsMethod::solve($func, $args, $target, $tol, $position);
+        if (!is_nan($x)) {
+            $this->assertEquals(NAN, $x);
+        }
+    }
 }
