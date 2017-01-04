@@ -119,6 +119,14 @@ $fv      = Finance::fv($rate, $periods, $payment, $present_value, $beginning)
 
 // Present value for a loan or anuity with compound interest
 $pv = Finance::pv($rate, $periods, $payment, $future_value, $beginning)
+
+// Net present value of cash flows
+$values = [-1000, 100, 200, 300, 400];
+$npv    = Finance::npv($rate, $values);
+
+// Interest rate per period of an annuity
+$beginning = false; // Adjust the payment to the beginning or end of the period
+$rate      = rate($periods, $payment, $present_value, $future_value, $beginning);
 ```
 
 ### Functions - Map - Single Array
