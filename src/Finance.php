@@ -363,7 +363,7 @@ class Finance
             return $x != 0;
         };
 
-        if (sizeof(array_filter($inflows, $nonzero)) ==0 || sizeof(array_filter($outflows, $nonzero)) == 0) {
+        if (sizeof(array_filter($inflows, $nonzero)) == 0 || sizeof(array_filter($outflows, $nonzero)) == 0) {
             return NAN;
         }
 
