@@ -353,10 +353,10 @@ class Finance
             if ($values[$i] >= 0) {
                 $inflows[] = 0;
                 $outflows[] = $values[$i];
-          } else {
-              $inflows[] = $values[$i];
-              $outflows[] = 0;
-          }
+            } else {
+                $inflows[] = $values[$i];
+                $outflows[] = 0;
+            }
         }
 
         $nonzero = function ($x) {
@@ -367,10 +367,10 @@ class Finance
             return NAN;
         }
 
-       $root = sizeof($values) - 1;
-       $pv_outflows = self::npv($reinvestment_rate, $outflows);
-       $fv_outflows = self::fv($reinvestment_rate, $root, 0, -$pv_outflows);
-       $pv_inflows = self::npv($finance_rate, $inflows);
-       return self::checkZero(pow($fv_outflows / -$pv_inflows, 1/$root) - 1);
+        $root = sizeof($values) - 1;
+        $pv_outflows = self::npv($reinvestment_rate, $outflows);
+        $fv_outflows = self::fv($reinvestment_rate, $root, 0, -$pv_outflows);
+        $pv_inflows = self::npv($finance_rate, $inflows);
+        return self::checkZero(pow($fv_outflows / -$pv_inflows, 1/$root) - 1);
     }
 }
