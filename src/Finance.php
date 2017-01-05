@@ -85,6 +85,8 @@ class Finance
      * The effective yearly rate of an annual percentage rate when the
      * annual percentage rate is compounded periodically within the year.
      *
+     * Same as the =EFFECT() function in most spreadsheet software.
+     *
      * The formula:
      * https://en.wikipedia.org/wiki/Effective_interest_rate
      *
@@ -321,5 +323,54 @@ class Finance
         };
 
         return self::checkZero(NumericalAnalysis\RootFinding\NewtonsMethod::solve($func, [$initial_guess, $values], 0, self::EPSILON, 0));
+    }
+
+    /**
+     * Modified internal rate of return.
+     * Rate of return that discounts inflows (invetments) at the financing rate,
+     * and reinvests outflows with an expected rate of return.
+     *
+     * Same as =MIRR formula in most spreadshet software.
+     *
+     * Reference:
+     * https://en.wikipedia.org/wiki/Modified_internal_rate_of_return
+     *
+     * Examples:
+     * The rate of return of an initial investment of $100 at 5% financing
+     * with returns of $50, $40, and $30 reinvested at 10%:
+     *  mirr([-100, 50, 40, 30], 0.05, 0.10)
+     *
+     * @param  array $values
+     * @param  float $initial_guess
+     *
+     * @return float
+     */
+    public static function mirr(array $values, float $finance_rate, float $reinvestment_rate): float
+    {
+        $inflows = array();
+        $outflows = array();
+        for ($i = 0; $i < sizeof($values); $i++) {
+            if ($values[$i] >= 0) {
+                $inflows[] = 0;
+                $outflows[] = $values[$i];
+            } else {
+                $inflows[] = $values[$i];
+                $outflows[] = 0;
+            }
+        }
+
+        $nonzero = function ($x) {
+            return $x != 0;
+        };
+
+        if (sizeof(array_filter($inflows, $nonzero)) == 0 || sizeof(array_filter($outflows, $nonzero)) == 0) {
+            return NAN;
+        }
+
+        $root = sizeof($values) - 1;
+        $pv_outflows = self::npv($reinvestment_rate, $outflows);
+        $fv_outflows = self::fv($reinvestment_rate, $root, 0, -$pv_outflows);
+        $pv_inflows = self::npv($finance_rate, $inflows);
+        return self::checkZero(pow($fv_outflows / -$pv_inflows, 1/$root) - 1);
     }
 }
