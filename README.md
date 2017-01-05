@@ -127,6 +127,10 @@ $npv    = Finance::npv($rate, $values);
 // Interest rate per period of an annuity
 $beginning = false; // Adjust the payment to the beginning or end of the period
 $rate      = rate($periods, $payment, $present_value, $future_value, $beginning);
+
+// Internal rate of return
+$values = [-100, 50, 40, 30];
+$irr    = Finance:irr($values); // Rate of return of an initial investment of $100 with returns of $50, $40, and $30
 ```
 
 ### Functions - Map - Single Array
