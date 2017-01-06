@@ -128,7 +128,7 @@ class Finance
      *
      * Examples:
      * The nominal rate of AER 3.557% interest compounded monthly.
-     *   aer(0.03557, 12)
+     *   nominal(0.03557, 12)
      *
      * @param  float $aer
      * @param  int $periods
