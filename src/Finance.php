@@ -113,6 +113,38 @@ class Finance
     }
 
     /**
+     * Annual Nominal Rate of an annual effective rate (AER).
+     * The nominal yearly rate of an annual effective rate when the
+     * annual effective rate is compounded periodically within the year.
+     *
+     * Same as the =NOMINAL() function in most spreadsheet software.
+     *
+     * See:
+     * https://en.wikipedia.org/wiki/Nominal_interest_rate
+     *
+     *           /          1/N    \
+     * NOMINAL = | (AER + 1)    -1 | * N
+     *           \                 /
+     *
+     * Examples:
+     * The nominal rate of AER 3.557% interest compounded monthly.
+     *   aer(0.03557, 12)
+     *
+     * @param  float $aer
+     * @param  int $periods
+     *
+     * @return float
+     */
+    public static function nominal(float $aer, int $periods): float
+    {
+        if ($periods == 1) {
+            return $aer;
+        }
+
+        return (pow($aer + 1, 1/$periods) - 1) * $periods;
+    }
+
+    /**
      * Future value for a loan or anuity with compound interest.
      *
      * Same as the =FV() function in most spreadsheet software.
