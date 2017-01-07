@@ -1,6 +1,10 @@
 <?php
 namespace MathPHP;
 
+/**
+  * General reference on financial functions and formulas:
+  * http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os-part2.html#__RefHeading__1018228_715980110
+  */
 class Finance
 {
     /**
@@ -78,6 +82,26 @@ class Finance
         return - ($future_value + ($present_value * pow(1 + $rate, $periods)))
             /
             ((1 + $rate*$when) / $rate * (pow(1 + $rate, $periods) - 1));
+    }
+
+    /**
+     * Number of payment periods of an annuity.
+     *
+     * @Param  float $rate
+     * @Param  float $payment
+     * @Param  float $present_value
+     * @Param  float $future_value
+     * @param  bool  $beginning adjust the payment to the beginning or end of the period
+     *
+     * @return float
+     */
+    public static function periods(float $rate, float $payment, float $present_value, float $future_value, bool $beginning = false): float
+    {
+        $when = $beginning ? 1 : 0;
+
+        if ($rate == 0) {
+            return - ($present_value + $future_value) / $payment;
+        }
     }
 
     /**

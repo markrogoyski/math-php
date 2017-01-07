@@ -85,6 +85,41 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForPERIODS
+     */
+    public function testPERIODS(float $rate, int $payment, float $pv, float $fv, bool $beginning, float $periods)
+    {
+        $this->assertEquals($periods, Finance::periods($rate, $payment, $pv, $fv, $beginning), '', Finance::EPSILON);
+    }
+
+    public function dataProviderForPERIODS()
+    {
+        return [
+            [0.0, 1, 0, 0, false, 0.0],
+            [0.0, 1, 1, 0, false, -1.0],
+            [0.0, 1, -1, 0, false, 1.0],
+            [0.0, 1, 0, 1, false, -1.0],
+            [0.0, 1, 0, -1, false, 1.0],
+            [0.0, 1, 1, 1, false, -2.0],
+            [0.0, 1, -1, 1, false, 0.0],
+            [0.0, 1, 1, -1, false, 0.0],
+            [0.0, 1, -1, -1, false, 2.0],
+            [0.0, -1, 0, 0, false, 0.0],
+            [0.0, -1, 1, 0, false, 1.0],
+            // numpy 1.12.0b1 gives 1.0 for this, whereas spreadsheet software gives 1.0.
+            // The interpretation is that a payment of $1 is made to an annuity that owes
+            // $1. To end up with $0, the payment will need to be reversed once.
+            [0.0, -1, -1, 0, false, -1.0],
+            [0.0, -1, 0, 1, false, 1.0],
+            [0.0, -1, 0, -1, false, -1.0],
+            [0.0, -1, 1, 1, false, 2.0],
+            [0.0, -1, -1, 1, false, 0.0],
+            [0.0, -1, 1, -1, false, 0.0],
+            [0.0, -1, -1, -1, false, -2.0],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForAER
      */
     public function testAER(float$nominal, int $periods, float $rate)
