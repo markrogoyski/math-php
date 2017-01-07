@@ -131,6 +131,11 @@ $rate      = rate($periods, $payment, $present_value, $future_value, $beginning)
 // Internal rate of return
 $values = [-100, 50, 40, 30];
 $irr    = Finance:irr($values); // Rate of return of an initial investment of $100 with returns of $50, $40, and $30
+
+// Modified internal rate of return
+$finance_rate      = 0.05; // 5% financing
+$reinvestment_rate = 0.10; // reinvested at 10%
+$mirr              = Finance:irr($values, $finance_rate); // rate of return of an initial investment of $100 at 5% financing with returns of $50, $40, and $30 reinvested at 10%
 ```
 
 ### Functions - Map - Single Array
