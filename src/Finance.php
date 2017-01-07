@@ -2,8 +2,9 @@
 namespace MathPHP;
 
 /**
-  * General reference on financial functions and formulas:
-  * http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os-part2.html#__RefHeading__1018228_715980110
+  * General references on financial functions and formulas:
+  * https://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os-part2.html#__RefHeading__1018228_715980110
+  * https://wiki.openoffice.org/wiki/Documentation/How_Tos/Calc:_Derivation_of_Financial_Formulas#Loans_and_Annuities
   */
 class Finance
 {
