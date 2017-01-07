@@ -3,8 +3,10 @@ namespace MathPHP;
 
 /**
   * General references on financial functions and formulas:
-  * https://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os-part2.html#__RefHeading__1018228_715980110
-  * https://wiki.openoffice.org/wiki/Documentation/How_Tos/Calc:_Derivation_of_Financial_Formulas#Loans_and_Annuities
+  * - Open Document Format for Office Applications (OpenDocument) Version 1.2 Part 2:
+  *   Recalculated Formula (OpenFormula) Format. 29 September 2011. OASIS Standard.
+  *   http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os-part2.html#__RefHeading__1018228_715980110
+  * - https://wiki.openoffice.org/wiki/Documentation/How_Tos/Calc:_Derivation_of_Financial_Formulas#Loans_and_Annuities
   */
 class Finance
 {
