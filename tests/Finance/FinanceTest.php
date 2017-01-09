@@ -87,7 +87,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForPERIODS
      */
-    public function testPERIODS(float $rate, int $payment, float $pv, float $fv, bool $beginning, float $periods)
+    public function testPERIODS(float $rate, float $payment, float $pv, float $fv, bool $beginning, float $periods)
     {
         $this->assertEquals($periods, Finance::periods($rate, $payment, $pv, $fv, $beginning), '', Finance::EPSILON);
     }
@@ -116,6 +116,12 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             [0.0, -1, -1, 1, false, 0.0],
             [0.0, -1, 1, -1, false, 0.0],
             [0.0, -1, -1, -1, false, -2.0],
+            [0.035/12.0, -2132, 475000, 0, false, 360.28732845118219],
+            [0.035/12.0, -2132.9622670919111, 475000, 0, false, 360.0],
+            [0.035/12.0, -2126.7592193687524, 475000, 0, false, 361.86102291347339],
+            [0.035/12.0, -2126.7592193687524, 475000, 0, true, 360.0],
+            [0.05, -1000.0, 0, 19600, false, 14.000708059400562],
+            [0.05, -1000.0, 0, 19600, true, 13.511855106593261],
         ];
     }
 
