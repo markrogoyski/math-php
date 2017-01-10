@@ -85,6 +85,47 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForPERIODS
+     */
+    public function testPERIODS(float $rate, float $payment, float $pv, float $fv, bool $beginning, float $periods)
+    {
+        $this->assertEquals($periods, Finance::periods($rate, $payment, $pv, $fv, $beginning), '', Finance::EPSILON);
+    }
+
+    public function dataProviderForPERIODS()
+    {
+        return [
+            [0.0, 1, 0, 0, false, 0.0],
+            [0.0, 1, 1, 0, false, -1.0],
+            [0.0, 1, -1, 0, false, 1.0],
+            [0.0, 1, 0, 1, false, -1.0],
+            [0.0, 1, 0, -1, false, 1.0],
+            [0.0, 1, 1, 1, false, -2.0],
+            [0.0, 1, -1, 1, false, 0.0],
+            [0.0, 1, 1, -1, false, 0.0],
+            [0.0, 1, -1, -1, false, 2.0],
+            [0.0, -1, 0, 0, false, 0.0],
+            [0.0, -1, 1, 0, false, 1.0],
+            // numpy 1.12.0b1 gives 1.0 for this, whereas spreadsheet software gives 1.0.
+            // The interpretation is that a payment of $1 is made to an annuity that owes
+            // $1. To end up with $0, the payment will need to be reversed once.
+            [0.0, -1, -1, 0, false, -1.0],
+            [0.0, -1, 0, 1, false, 1.0],
+            [0.0, -1, 0, -1, false, -1.0],
+            [0.0, -1, 1, 1, false, 2.0],
+            [0.0, -1, -1, 1, false, 0.0],
+            [0.0, -1, 1, -1, false, 0.0],
+            [0.0, -1, -1, -1, false, -2.0],
+            [0.035/12.0, -2132, 475000, 0, false, 360.28732845118219],
+            [0.035/12.0, -2132.9622670919111, 475000, 0, false, 360.0],
+            [0.035/12.0, -2126.7592193687524, 475000, 0, false, 361.86102291347339],
+            [0.035/12.0, -2126.7592193687524, 475000, 0, true, 360.0],
+            [0.05, -1000.0, 0, 19600, false, 14.000708059400562],
+            [0.05, -1000.0, 0, 19600, true, 13.511855106593261],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForAER
      */
     public function testAER(float$nominal, int $periods, float $rate)

@@ -1,6 +1,13 @@
 <?php
 namespace MathPHP;
 
+/**
+  * General references on financial functions and formulas:
+  * - Open Document Format for Office Applications (OpenDocument) Version 1.2 Part 2:
+  *   Recalculated Formula (OpenFormula) Format. 29 September 2011. OASIS Standard.
+  *   http://docs.oasis-open.org/office/v1.2/os/OpenDocument-v1.2-os-part2.html#__RefHeading__1018228_715980110
+  * - https://wiki.openoffice.org/wiki/Documentation/How_Tos/Calc:_Derivation_of_Financial_Formulas#Loans_and_Annuities
+  */
 class Finance
 {
     /**
@@ -19,9 +26,9 @@ class Finance
     }
 
     /**
-     * Financial payment for a loan or anuity with compound interest.
+     * Financial payment for a loan or annuity with compound interest.
      * Determines the periodic payment amount for a given interest rate,
-     * principal, targeted payment goal, life of the anuity as number
+     * principal, targeted payment goal, life of the annuity as number
      * of payments, and whether the payments are made at the start or end
      * of each payment period.
      *
@@ -37,7 +44,8 @@ class Finance
      * The formula is adjusted to allow targeting any future value rather than 0.
      * The 1/(1+r*when) factor adjusts the payment to the beginning or end
      * of the period. In the common case of a payment at the end of a period,
-     * the factor is 1 and reduces to the formula above.
+     * the factor is 1 and reduces to the formula above. Setting when=1 computes
+     * an "annuity due" with an immediate payment.
      *
      * Examples:
      * The payment on a 30-year fixed mortgage note of $265000 at 3.5% interest
@@ -78,6 +86,49 @@ class Finance
         return - ($future_value + ($present_value * pow(1 + $rate, $periods)))
             /
             ((1 + $rate*$when) / $rate * (pow(1 + $rate, $periods) - 1));
+    }
+
+    /**
+     * Number of payment periods of an annuity.
+     * Solves for the number of periods in the annuity formula.
+     *
+     * Same as the =NPER() function in most spreadsheet software.
+     *
+     * Solving the basic annuity formula for number of periods:
+     *        log(PMT - FV*r)
+     *        ---------------
+     *        log(PMT + PV*r)
+     * n = --------------------
+     *          log(1 + r)
+     *
+     * The (1+r*when) factor adjusts the payment to the beginning or end
+     * of the period. In the common case of a payment at the end of a period,
+     * the factor is 1 and reduces to the formula above. Setting when=1 computes
+     * an "annuity due" with an immediate payment.
+     *
+     * Examples:
+     * The number of periods of a $475000 mortgage with interest rate 3.5% and monthly
+     * payment of $2132.96  paid in full:
+     *   nper(0.035/12, -2132.96, 475000, 0)
+     *
+     * @Param  float $rate
+     * @Param  float $payment
+     * @Param  float $present_value
+     * @Param  float $future_value
+     * @param  bool  $beginning adjust the payment to the beginning or end of the period
+     *
+     * @return float
+     */
+    public static function periods(float $rate, float $payment, float $present_value, float $future_value, bool $beginning = false): float
+    {
+        $when = $beginning ? 1 : 0;
+
+        if ($rate == 0) {
+            return - ($present_value + $future_value) / $payment;
+        }
+
+        $initial  = $payment * (1.0 + $rate * $when);
+        return log(($initial - $future_value*$rate) / ($initial + $present_value*$rate)) / log(1.0 + $rate);
     }
 
     /**
@@ -145,7 +196,7 @@ class Finance
     }
 
     /**
-     * Future value for a loan or anuity with compound interest.
+     * Future value for a loan or annuity with compound interest.
      *
      * Same as the =FV() function in most spreadsheet software.
      *
@@ -158,7 +209,8 @@ class Finance
      *
      * The (1+r*when) factor adjusts the payment to the beginning or end
      * of the period. In the common case of a payment at the end of a period,
-     * the factor is 1 and reduces to the formula above.
+     * the factor is 1 and reduces to the formula above. Setting when=1 computes
+     * an "annuity due" with an immediate payment.
      *
      * Examples:
      * The future value in 5 years on a 30-year fixed mortgage note of $265000
@@ -195,7 +247,7 @@ class Finance
     }
 
     /**
-     * Present value for a loan or anuity with compound interest.
+     * Present value for a loan or annuity with compound interest.
      *
      * Same as the =PV() function in most spreadsheet software.
      *
@@ -210,7 +262,8 @@ class Finance
      *
      * The (1+r*when) factor adjusts the payment to the beginning or end
      * of the period. In the common case of a payment at the end of a period,
-     * the factor is 1 and reduces to the formula above.
+     * the factor is 1 and reduces to the formula above. Setting when=1 computes
+     * an "annuity due" with an immediate payment.
      *
      * Examples:
      * The present value of a band's $1000 face value paid in 5 year's time
@@ -300,7 +353,8 @@ class Finance
      *                             r
      * The (1+r*when) factor adjusts the payment to the beginning or end
      * of the period. In the common case of a payment at the end of a period,
-     * the factor is 1 and reduces to the formula above.
+     * the factor is 1 and reduces to the formula above. Setting when=1 computes
+     * an "annuity due" with an immediate payment.
      *
      * Not all solutions for the rate have real-value solutions or converge.
      * In these cases, NAN is returned.
