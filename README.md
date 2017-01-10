@@ -100,7 +100,7 @@ $factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
 ```php
 use MathPHP\Finance;
 
-// Financial payment for a loan or anuity with compound interest
+// Financial payment for a loan or annuity with compound interest
 $rate          = 0.035 / 12; // 3.5% interest paid at the end of every month
 $periods       = 30 * 12;    // 30-year mortgage
 $present_value = 265000;     // Mortgage note of $265,000.00
@@ -108,16 +108,19 @@ $future_value  = 0;
 $beginning     = false;      // Adjust the payment to the beginning or end of the period
 $pmt           = Finance::pmt($rate, $periods, $present_value, $future_value, $beginning);
 
+// Number of payment periods of an annuity.
+$periods = Finance::periods($rate, $payment, $present_value, $future_value, $beginning);
+
 // Annual Equivalent Rate (AER) of an annual percentage rate (APR)
 $nominal = 0.035; // APR 3.5% interest
 $periods = 12;    // Compounded monthly
 $aer     = Finance::aer($nominal, $periods);
 
-// Future value for a loan or anuity with compound interest
+// Future value for a loan or annuity with compound interest
 $payment = 1189.97;
 $fv      = Finance::fv($rate, $periods, $payment, $present_value, $beginning)
 
-// Present value for a loan or anuity with compound interest
+// Present value for a loan or annuity with compound interest
 $pv = Finance::pv($rate, $periods, $payment, $future_value, $beginning)
 
 // Net present value of cash flows
