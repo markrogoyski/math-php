@@ -85,6 +85,77 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForIPMT
+     */
+    public function testIPMT(float $rate, int $period, int $periods, float $pv, float $fv, bool $beginning, float $ipmt)
+    {
+        $result = Finance::ipmt($rate, $period, $periods, $pv, $fv, $beginning);
+        if (!is_nan($result) || !is_nan($ipmt)) {
+            $this->assertEquals($ipmt, $result, '', Finance::EPSILON);
+        }
+    }
+
+    public function dataProviderForIPMT()
+    {
+        return [
+            [0.0, 0, 1, 0, 0, false, NAN],
+            [0.0, 1, 1, 0, 0, false, 0.0],
+            [0.0, 2, 1, 0, 0, false, NAN],
+            [0.0, 0, 2, 0, 0, false, NAN],
+            [0.0, 1, 2, 0, 0, false, 0.0],
+            [0.0, 2, 2, 0, 0, false, 0.0],
+            [0.0, 3, 2, 0, 0, false, NAN],
+            [0.0, 0, 1, 1, 0, false, NAN],
+            [0.0, 1, 1, 1, 0, false, 0.0],
+            [0.0, 2, 1, 1, 0, false, NAN],
+            [0.0, 0, 2, 1, 0, false, NAN],
+            [0.0, 1, 2, 1, 0, false, 0.0],
+            [0.0, 2, 2, 1, 0, false, 0.0],
+            [0.0, 3, 2, 1, 0, false, NAN],
+            [0.05, 1, 1, 1, 0, false, -0.05],
+            [0.05, 1, 2, 1, 0, false, -0.05],
+            [0.05, 2, 2, 1, 0, false, -0.025609756097560967],
+            [0.05, 0, 3, 10, 0, false, NAN],
+            [0.05, 1, 3, 10, 0, false, -0.5],
+            [0.05, 2, 3, 10, 0, false, -0.34139571768437743],
+            [0.05, 3, 3, 10, 0, false, -0.17486122125297401],
+            [0.035/12, 1, 360, 475000, 0, false, -1385.4166666666667],
+            [0.035/12, 2, 360, 475000, 0, false, -1383.2363253320932],
+            [0.035/12, 3, 360, 475000, 0, false, -1381.0496246686268],
+            [0.035/12, 358, 360, 475000, 0, false, -18.555076810964287],
+            [0.035/12, 359, 360, 475000, 0, false, -12.388055839311468],
+            [0.035/12, 360, 360, 475000, 0, false, -6.203047723157991],
+            [0.0, 0, 1, 0, 0, true, NAN],
+            [0.0, 1, 1, 0, 0, true, 0.0],
+            [0.0, 2, 1, 0, 0, true, NAN],
+            [0.0, 0, 2, 0, 0, true, NAN],
+            [0.0, 1, 2, 0, 0, true, 0.0],
+            [0.0, 2, 2, 0, 0, true, 0.0],
+            [0.0, 3, 2, 0, 0, true, NAN],
+            [0.0, 0, 1, 1, 0, true, NAN],
+            [0.0, 1, 1, 1, 0, true, 0.0],
+            [0.0, 2, 1, 1, 0, true, NAN],
+            [0.0, 0, 2, 1, 0, true, NAN],
+            [0.0, 1, 2, 1, 0, true, 0.0],
+            [0.0, 2, 2, 1, 0, true, 0.0],
+            [0.0, 3, 2, 1, 0, true, NAN],
+            [0.05, 1, 1, 1, 0, true, 0.0],
+            [0.05, 1, 2, 1, 0, true, 0.0],
+            [0.05, 2, 2, 1, 0, true, -0.024390243902439036],
+            [0.05, 0, 3, 10, 0, true, NAN],
+            [0.05, 1, 3, 10, 0, true, 0.0],
+            [0.05, 2, 3, 10, 0, true, -0.32513877874702635],
+            [0.05, 3, 3, 10, 0, true, -0.16653449643140378],
+            [0.035/12, 1, 360, 475000, 0, true, 0.0],
+            [0.035/12, 2, 360, 475000, 0, true, -1379.213618943508],
+            [0.035/12, 3, 360, 475000, 0, true, -1377.0332776089344],
+            [0.035/12, 358, 360, 475000, 0, true, -18.50111522489313],
+            [0.035/12, 359, 360, 475000, 0, true, -12.352029087806763],
+            [0.035/12, 360, 360, 475000, 0, true, -6.1850081161539432],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForPERIODS
      */
     public function testPERIODS(float $rate, float $payment, float $pv, float $fv, bool $beginning, float $periods)

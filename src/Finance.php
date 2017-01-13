@@ -89,6 +89,85 @@ class Finance
     }
 
     /**
+     * Interest on a financial payment for a loan or annuity with compound interest.
+     * Determines the interest payment at a particular period of the annuity. For
+     * a typical loan paid down to zero, the amount of interest and principle paid
+     * throughout the lifetime of the loan will change, with the interest portion
+     * of the payment decreasing over time as the loan principle decreases.
+     *
+     * Same as the =IPMT() function in most spreadsheet software.
+     *
+     * See the PMT function for derivation of the formula. For IPMT, we have
+     * the payment equal to the interest portion and principle portion of the payment:
+     *
+     * PMT = IPMT + PPMT
+     *
+     * The interest portion IPMT on a regular annuity can be calculated by computing
+     * the future value of the annuity for the prior period and computing the compound
+     * interest for one period:
+     *
+     * IPMT = FV(p=n-1) * rate
+     *
+     * For an "annuity due" where payment is at the start of the period, period=1 has
+     * no interest portion of the payment because no time has elapsed for compounding.
+     * To compute the interest portion of the payment, the future value of 2 periods
+     * back needs to be computed, as the definition of a period is different, giving:
+     *
+     * IPMT = (FV(p=n-2) - PMT) * rate
+     *
+     * The sum of principle payments is equal to the annuity present value at period 0.
+     * By thinking of the future value at period 0 instead of the present value, the
+     * given formulas are computed.
+     *
+     *                       Regular Annuity |  Annuity Due
+     * Period   FV      PMT     IPMT   PPMT  |  IPMT   PPMT
+     *   0     -10.00                        |
+     *   1      -6.83  -3.67   -0.50  -3.17  |  0.00   -3.50
+     *   2      -3.50  -3.67   -0.34  -3.33  | -0.33   -3.17
+     *   3       0.00  -3.67   -0.17  -3.50  | -0.17   -3.33
+     *                         --------------|--------------
+     *                     SUM -1.01 -10.00  | -0.50  -10.00
+     *
+     * Examples:
+     * The interest on a payment on a 30-year fixed mortgage note of $265000 at 3.5% interest
+     * paid at the end of every month, looking at the first payment:
+     *   ipmt(0.035/12, 1, 30*12, 265000, 0, false)
+     *
+     * @param  float $rate
+     * @param  int   $period
+     * @param  int   $periods
+     * @param  float $present_value
+     * @param  float $future_value
+     * @param  bool  $beginning adjust the payment to the beginning or end of the period
+     *
+     * @return float
+     */
+    public static function ipmt(float $rate, int $period, int $periods, float $present_value, float $future_value = 0, bool $beginning = false): float
+    {
+        $when = $beginning ? 1 : 0;
+
+        if ($period < 1 || $period > $periods) {
+            return NAN;
+        }
+
+        if ($rate == 0) {
+            return 0;
+        }
+
+        if ($beginning && $period == 1) {
+            return 0.0;
+        }
+
+        $payment = self::pmt($rate, $periods, $present_value, $future_value, $beginning);
+        if ($beginning) {
+            $interest = (self::fv($rate, $period - 2, $payment, $present_value, $beginning) - $payment) * $rate;
+        } else {
+            $interest = self::fv($rate, $period - 1, $payment, $present_value, $beginning) * $rate;
+        }
+        return self::checkZero($interest);
+    }
+
+    /**
      * Number of payment periods of an annuity.
      * Solves for the number of periods in the annuity formula.
      *
