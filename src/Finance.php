@@ -19,8 +19,13 @@ class Finance
      * Consider any floating-point value less than epsilon from zero as zero,
      * ie any value in the range [-epsilon < 0 < epsilon] is considered zero.
      * Also used to convert -0.0 to 0.0.
+     *
+     * @param float $value
+     * @param float $epsilon
+     *
+     * @return float
      */
-    private static function checkZero(float $value, float $epsilon = self::EPSILON)
+    private static function checkZero(float $value, float $epsilon = self::EPSILON): float
     {
         return abs($value) < $epsilon ? 0.0 : $value;
     }
@@ -190,10 +195,10 @@ class Finance
      * payment of $2132.96  paid in full:
      *   nper(0.035/12, -2132.96, 475000, 0)
      *
-     * @Param  float $rate
-     * @Param  float $payment
-     * @Param  float $present_value
-     * @Param  float $future_value
+     * @param  float $rate
+     * @param  float $payment
+     * @param  float $present_value
+     * @param  float $future_value
      * @param  bool  $beginning adjust the payment to the beginning or end of the period
      *
      * @return float
@@ -462,7 +467,7 @@ class Finance
      * Internal rate of return.
      * Periodic rate of return that would provide a net-present value (NPV) of 0.
      *
-     * Same as =IRR formula in most spreadshet software.
+     * Same as =IRR formula in most spreadsheet software.
      *
      * Reference:
      * https://en.wikipedia.org/wiki/Internal_rate_of_return
@@ -495,7 +500,7 @@ class Finance
      * Rate of return that discounts inflows (invetments) at the financing rate,
      * and reinvests outflows with an expected rate of return.
      *
-     * Same as =MIRR formula in most spreadshet software.
+     * Same as =MIRR formula in most spreadsheet software.
      *
      * Reference:
      * https://en.wikipedia.org/wiki/Modified_internal_rate_of_return
@@ -512,14 +517,15 @@ class Finance
      */
     public static function mirr(array $values, float $finance_rate, float $reinvestment_rate): float
     {
-        $inflows = array();
+        $inflows  = array();
         $outflows = array();
+
         for ($i = 0; $i < sizeof($values); $i++) {
             if ($values[$i] >= 0) {
-                $inflows[] = 0;
+                $inflows[]  = 0;
                 $outflows[] = $values[$i];
             } else {
-                $inflows[] = $values[$i];
+                $inflows[]  = $values[$i];
                 $outflows[] = 0;
             }
         }
@@ -529,13 +535,14 @@ class Finance
         };
 
         if (sizeof(array_filter($inflows, $nonzero)) == 0 || sizeof(array_filter($outflows, $nonzero)) == 0) {
-            return NAN;
+            return \NAN;
         }
 
-        $root = sizeof($values) - 1;
+        $root        = sizeof($values) - 1;
         $pv_outflows = self::npv($reinvestment_rate, $outflows);
         $fv_outflows = self::fv($reinvestment_rate, $root, 0, -$pv_outflows);
-        $pv_inflows = self::npv($finance_rate, $inflows);
+        $pv_inflows  = self::npv($finance_rate, $inflows);
+
         return self::checkZero(pow($fv_outflows / -$pv_inflows, 1/$root) - 1);
     }
 }
