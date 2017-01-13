@@ -127,14 +127,14 @@ class Finance
      * Although the principle payments are equal, the total payment and interest portion are
      * lower with the annuity due because a principle payment is made immediately.
      *
-     *                       Regular Annuity  |  Annuity Due
-     * Period   FV       PMT     IPMT   PPMT  |   PMT    IPMT    PPMT
-     *   0     -10.00                         |
-     *   1      -6.83   -3.67   -0.50  -3.17  |  -3.50   0.00   -3.50
-     *   2      -3.50   -3.67   -0.34  -3.33  |  -3.50  -0.33   -3.17
-     *   3       0.00   -3.67   -0.17  -3.50  |  -3.50  -0.17   -3.33
-     *                ------------------------|----------------------
-     *             SUM -11.01  -1.01  -10.00  | -10.50  -0.50  -10.00
+     *                       Regular Annuity |  Annuity Due
+     * Period   FV       PMT    IPMT   PPMT  |   PMT    IPMT    PPMT
+     *   0     -10.00                        |
+     *   1      -6.83   -3.67  -0.50  -3.17  |  -3.50   0.00   -3.50
+     *   2      -3.50   -3.67  -0.34  -3.33  |  -3.50  -0.33   -3.17
+     *   3       0.00   -3.67  -0.17  -3.50  |  -3.50  -0.17   -3.33
+     *                -----------------------|----------------------
+     *             SUM -11.01  -1.01 -10.00  | -10.50  -0.50  -10.00
      *
      * Examples:
      * The interest on a payment on a 30-year fixed mortgage note of $265000 at 3.5% interest
