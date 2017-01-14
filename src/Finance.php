@@ -155,7 +155,7 @@ class Finance
         $when = $beginning ? 1 : 0;
 
         if ($period < 1 || $period > $periods) {
-            return NAN;
+            return \NAN;
         }
 
         if ($rate == 0) {
