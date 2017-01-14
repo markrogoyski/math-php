@@ -108,6 +108,10 @@ $future_value  = 0;
 $beginning     = false;      // Adjust the payment to the beginning or end of the period
 $pmt           = Finance::pmt($rate, $periods, $present_value, $future_value, $beginning);
 
+// Interest on a financial payment for a loan or annuity with compound interest.
+$period = 1; // First payment period
+$ipmt   = Finance::ipmt($rate, $period, $periods, $present_value, $future_value, $beginning);
+
 // Number of payment periods of an annuity.
 $periods = Finance::periods($rate, $payment, $present_value, $future_value, $beginning);
 
