@@ -155,7 +155,7 @@ class Finance
         $when = $beginning ? 1 : 0;
 
         if ($period < 1 || $period > $periods) {
-            return \NAN;
+            return NAN;
         }
 
         if ($rate == 0) {
@@ -173,6 +173,43 @@ class Finance
             $interest = self::fv($rate, $period - 1, $payment, $present_value, $beginning) * $rate;
         }
         return self::checkZero($interest);
+    }
+
+    /**
+     * Principle on a financial payment for a loan or annuity with compound interest.
+     * Determines the principle payment at a particular period of the annuity. For
+     * a typical loan paid down to zero, the amount of interest and principle paid
+     * throughout the lifetime of the loan will change, with the principle portion
+     * of the payment increasing over time as the loan principle decreases.
+     *
+     * Same as the =PPMT() function in most spreadsheet software.
+     *
+     * See the PMT function for derivation of the formula.
+     * See the IPMT function for derivation and use of PMT, IPMT, and PPMT.
+     *
+     * With derivations for PMT and IPMT, we simply compute:
+     *
+     * PPMT = PMT - IPMT
+     *
+     * Examples:
+     * The principle on a payment on a 30-year fixed mortgage note of $265000 at 3.5% interest
+     * paid at the end of every month, looking at the first payment:
+     *   ppmt(0.035/12, 1, 30*12, 265000, 0, false)
+     *
+     * @param  float $rate
+     * @param  int   $period
+     * @param  int   $periods
+     * @param  float $present_value
+     * @param  float $future_value
+     * @param  bool  $beginning adjust the payment to the beginning or end of the period
+     *
+     * @return float
+     */
+    public static function ppmt(float $rate, int $period, int $periods, float $present_value, float $future_value = 0, bool $beginning = false): float
+    {
+        $payment = self::pmt($rate, $periods, $present_value, $future_value, $beginning);
+        $ipmt = self::ipmt($rate, $period, $periods, $present_value, $future_value, $beginning);
+        return $payment - $ipmt;
     }
 
     /**
