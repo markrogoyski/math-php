@@ -585,4 +585,70 @@ class Finance
 
         return self::checkZero(pow($fv_outflows / -$pv_inflows, 1/$root) - 1);
     }
+
+    /**
+     * Payback of an investment.
+     * The number of periods to recoup cash outlays of an investment.
+     *
+     * This is commonly used, but is not a real financial measurement.
+     * It doesn't consider the cost of capital, the discount rate,
+     * re-investment of returns, compounding, or anything related to the
+     * time value of money.
+     *
+     * Avoid this when possible. Consider NPV, MIRR, IRR, and other financial
+     * functions.
+     *
+     * Reference:
+     * https://en.wikipedia.org/wiki/Payback_period
+     *
+     * The result is given assuming cash flows are continous throughout a period.
+     * To compute payback in terms of whole periods, use ceil() on the result.
+     *
+     * An investment could reach its payback period before future cash outlays occur.
+     * The payback period returned is defined to be the final point at which the
+     * sum of returns becomes posistive.
+     *
+     * Examples:
+     * The payback period of an investment with a %1000 investment and future returns
+     * of $100, $200, $300, $400, $500:
+     *  payback([-1000, 100, 200, 300, 400, 500])
+     *
+     * @param  array $values
+     *
+     * @return float
+     */
+    public static function payback(array $values): float
+    {
+        $last_outflow = -1;
+        for ($i = 0; $i < sizeof($values); $i++) {
+            if ($values[$i] < 0) {
+                $last_outflow = $i;
+            }
+        }
+
+        if ($last_outflow < 0) {
+            return 0.0;
+        }
+
+        $sum = $values[0];
+        $payback_period = -1;
+        for ($i = 1; $i < sizeof($values); $i++) {
+            $prevsum = $sum;
+            $sum += $values[$i];
+            if ($sum >= 0) {
+                if ($i > $last_outflow) {
+                    return ($i - 1) + (-$prevsum / $values[$i]);
+                }
+                if ($payback_period == -1) {
+                    $payback_period = ($i - 1) + (-$prevsum / $values[$i]);
+                }
+            } else {
+                $payback_period = -1;
+            }
+        }
+        if ($sum >= 0) {
+            return $payback_period;
+        }
+        return NAN;
+    }
 }
