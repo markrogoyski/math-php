@@ -3,7 +3,7 @@
 all : lint tests coverage
 
 lint :
-	find src tests -name \*.php | xargs phpcs --standard=coding_standard.xml
+	phpcs --standard=coding_standard.xml --ignore=vendor .
 
 tests :
 	$(MAKE) -C tests/ tests
