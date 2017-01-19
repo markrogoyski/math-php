@@ -231,7 +231,10 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPERIODS(float $rate, float $payment, float $pv, float $fv, bool $beginning, float $periods)
     {
-        $this->assertEquals($periods, Finance::periods($rate, $payment, $pv, $fv, $beginning), '', Finance::EPSILON);
+        $result = Finance::periods($rate, $payment, $pv, $fv, $beginning);
+        if (!is_nan($result) || !is_nan($periods)) {
+            $this->assertEquals($periods, $result, '', Finance::EPSILON);
+        }
     }
 
     public function dataProviderForPERIODS()
@@ -258,6 +261,13 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             [0.0, -1, -1, 1, false, 0.0],
             [0.0, -1, 1, -1, false, 0.0],
             [0.0, -1, -1, -1, false, -2.0],
+            [0.1, -100, 5000, 0, false, NAN],
+            [0.01, -100, 5000, 0, false, 69.660716893574829],
+            [0.001, -100, 5000, 0, false, 51.318936762444572],
+            [0.0001, -100, 5000, 0, false, 50.127924464590137],
+            [0.00001, -100, 5000, 0, false, 50.012754230013776],
+            [0.000001, -100, 5000, 0, false, 50.001275046275666],
+            [0.0, -100, 5000, 0, false, 50.0],
             [0.035/12.0, -2132, 475000, 0, false, 360.28732845118219],
             [0.035/12.0, -2132.9622670919111, 475000, 0, false, 360.0],
             [0.035/12.0, -2126.7592193687524, 475000, 0, false, 361.86102291347339],
