@@ -655,6 +655,6 @@ class Finance
         if ($sum >= 0) {
             return $payback_period;
         }
-        return NAN;
+        return \NAN;
     }
 }
