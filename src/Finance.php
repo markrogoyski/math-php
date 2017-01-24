@@ -155,7 +155,7 @@ class Finance
         $when = $beginning ? 1 : 0;
 
         if ($period < 1 || $period > $periods) {
-            return NAN;
+            return \NAN;
         }
 
         if ($rate == 0) {
@@ -609,7 +609,7 @@ class Finance
      * sum of returns becomes posistive.
      *
      * Examples:
-     * The payback period of an investment with a %1000 investment and future returns
+     * The payback period of an investment with a $1,000 investment and future returns
      * of $100, $200, $300, $400, $500:
      *  payback([-1000, 100, 200, 300, 400, 500])
      *
@@ -649,6 +649,6 @@ class Finance
         if ($sum >= 0) {
             return $payback_period;
         }
-        return NAN;
+        return \NAN;
     }
 }
