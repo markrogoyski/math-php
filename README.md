@@ -151,7 +151,7 @@ $reinvestment_rate = 0.10; // reinvested at 10%
 $mirr              = Finance:mirr($values, $finance_rate); // rate of return of an initial investment of $100 at 5% financing with returns of $50, $40, and $30 reinvested at 10%
 
 // Payback of an investment
-$values  = [-1000, 100, 200, 300, 400, 500]; The payback period of an investment with a $1,000 investment and future returns of $100, $200, $300, $400, $500
+$values  = [-1000, 100, 200, 300, 400, 500]; // The payback period of an investment with a $1,000 investment and future returns of $100, $200, $300, $400, $500
 $payback = Finance::payback($values);
 ```
 
