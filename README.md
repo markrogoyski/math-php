@@ -112,6 +112,9 @@ $pmt           = Finance::pmt($rate, $periods, $present_value, $future_value, $b
 $period = 1; // First payment period
 $ipmt   = Finance::ipmt($rate, $period, $periods, $present_value, $future_value, $beginning);
 
+// Principle on a financial payment for a loan or annuity with compound interest
+$ppmt = Finance::ppmt($rate, $period, $periods, $present_value, $future_value = 0, $beginning);
+
 // Number of payment periods of an annuity.
 $periods = Finance::periods($rate, $payment, $present_value, $future_value, $beginning);
 
@@ -119,6 +122,9 @@ $periods = Finance::periods($rate, $payment, $present_value, $future_value, $beg
 $nominal = 0.035; // APR 3.5% interest
 $periods = 12;    // Compounded monthly
 $aer     = Finance::aer($nominal, $periods);
+
+// Annual nominal rate of an annual effective rate (AER)
+$nomial = Finance::nominal($aer, $periods);
 
 // Future value for a loan or annuity with compound interest
 $payment = 1189.97;
@@ -143,6 +149,10 @@ $irr    = Finance:irr($values); // Rate of return of an initial investment of $1
 $finance_rate      = 0.05; // 5% financing
 $reinvestment_rate = 0.10; // reinvested at 10%
 $mirr              = Finance:mirr($values, $finance_rate); // rate of return of an initial investment of $100 at 5% financing with returns of $50, $40, and $30 reinvested at 10%
+
+// Payback of an investment
+$values  = [-1000, 100, 200, 300, 400, 500]; The payback period of an investment with a $1,000 investment and future returns of $100, $200, $300, $400, $500
+$payback = Finance::payback($values);
 ```
 
 ### Functions - Map - Single Array
