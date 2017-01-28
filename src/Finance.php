@@ -587,13 +587,13 @@ class Finance
     }
 
     /**
-     * Payback of an investment.
+     * Discounted Payback of an investment.
      * The number of periods to recoup cash outlays of an investment.
      *
-     * This is commonly used, but is not a real financial measurement.
-     * It doesn't consider the cost of capital, the discount rate,
-     * re-investment of returns, compounding, or anything related to the
-     * time value of money.
+     * This is commonly used with discount rate=0 as simple payback period,
+     * but it is not a real financial measurement when it doesn't consider the
+     * discount rate. Even with a discount rate, it doesn't consider the cost
+     * of capital or re-investment of returns.
      *
      * Avoid this when possible. Consider NPV, MIRR, IRR, and other financial
      * functions.
@@ -606,18 +606,23 @@ class Finance
      *
      * An investment could reach its payback period before future cash outlays occur.
      * The payback period returned is defined to be the final point at which the
-     * sum of returns becomes posistive.
+     * sum of returns becomes positive.
      *
      * Examples:
      * The payback period of an investment with a $1,000 investment and future returns
      * of $100, $200, $300, $400, $500:
      *  payback([-1000, 100, 200, 300, 400, 500])
      *
+     * The discounted payback period of an investment with a $1,000 investment, future returns
+     * of $100, $200, $300, $400, $500, and a discount rate of 0.10:
+     *  payback([-1000, 100, 200, 300, 400, 500], 0.1)
+     *
      * @param  array $values
+     * @param  float $rate
      *
      * @return float
      */
-    public static function payback(array $values): float
+    public static function payback(array $values, float $rate = 0.0): float
     {
         $last_outflow = -1;
         for ($i = 0; $i < sizeof($values); $i++) {
@@ -634,13 +639,14 @@ class Finance
         $payback_period = -1;
         for ($i = 1; $i < sizeof($values); $i++) {
             $prevsum = $sum;
-            $sum += $values[$i];
+            $discounted_flow = $values[$i] / (1 + $rate)**$i;
+            $sum += $discounted_flow;
             if ($sum >= 0) {
                 if ($i > $last_outflow) {
-                    return ($i - 1) + (-$prevsum / $values[$i]);
+                    return ($i - 1) + (-$prevsum / $discounted_flow);
                 }
                 if ($payback_period == -1) {
-                    $payback_period = ($i - 1) + (-$prevsum / $values[$i]);
+                    $payback_period = ($i - 1) + (-$prevsum / $discounted_flow);
                 }
             } else {
                 $payback_period = -1;
