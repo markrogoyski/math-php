@@ -56,7 +56,7 @@ class CircularTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test data made with custom R function:
-     * resultantLength <- function(x) {  
+     * resultantLength <- function(x) {
      *     sinSum = sum(sin(x))
      *     cosSum = sum(cos(x))
      *     R      = sqrt(sinSum^2 + cosSum^2)
@@ -94,7 +94,7 @@ class CircularTest extends \PHPUnit_Framework_TestCase
     /**
      * Test data made with custom R function:
      * meanResultantLength <- function(x) {
-     *     n      = length(x)   
+     *     n      = length(x)
      *     sinSum = sum(sin(x))
      *     cosSum = sum(cos(x))
      *     rho    = sqrt(sinSum^2 + cosSum^2) / n

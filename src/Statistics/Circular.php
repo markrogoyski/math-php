@@ -47,7 +47,7 @@ class Circular
      * C  = ∑cos θᵢ
      * R² = S² + C²
      * R  = √(S² + C²)
-     * 
+     *
      * @param  array $angles
      *
      * @return float
@@ -91,7 +91,7 @@ class Circular
      *
      *      _
      * ρ  = R
-     * 
+     *
      * @param  array $angles
      *
      * @return float
@@ -136,7 +136,7 @@ class Circular
      *
      *       _
      * Where R = ρ = mean resultant length
-     * 
+     *
      * @param  array $angles
      *
      * @return float
