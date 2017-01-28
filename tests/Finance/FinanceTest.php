@@ -752,4 +752,34 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             [[-2324000, 600000, 600000, 600000, 600000, 600000, 600000], 0.11, 5.3318794669369414],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForProfitabilityIndex
+     */
+    public function testProfitabilityIndex(array $values, float $rate, float $pi)
+    {
+        $result = Finance::profitabilityIndex($values, $rate);
+        if (!is_nan($result) || !is_nan($pi)) {
+            $this->assertEquals($pi, $result, '', Finance::EPSILON);
+        }
+    }
+
+    public function dataProviderForProfitabilityIndex()
+    {
+        return [
+            [[], 0.1, NAN],
+            [[-1], 0.1, 0.0],
+            [[1], 0.1, NAN],
+            [[-1, 1], 0.0, 1.0],
+            [[-1, 1, 1], 0.0, 2.0],
+            [[-1, 1, 1, -1], 0.0, 1.0],
+            [[-100, 50, 50, 50], 0.10, 1.2434259954921112],
+            [[-50000, 65000], 0.0, 1.3],
+            [[-50000, 65000], 0.01, 1.2871287128712872],
+            [[-40000, 18000, 12000, 10000, 9000, 6000], 0.10, 1.0916697195298382],
+            [[-40000, 18000, 12000, -10000, 9000, 6000], 0.10, 0.76091865698558803],
+            [[-40000, 18000, 12000, -10000, 9000, 6000], 0.01, 0.88405904911326394],
+            [[-40000, 18000, 12000, -10000, 9000, 6000], 0.0, 0.9],
+        ];
+    }
 }

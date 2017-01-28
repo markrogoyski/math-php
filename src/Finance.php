@@ -537,13 +537,18 @@ class Finance
 
     /**
      * Modified internal rate of return.
-     * Rate of return that discounts inflows (invetments) at the financing rate,
-     * and reinvests outflows with an expected rate of return.
+     * Rate of return that discounts outflows (investments) at the financing rate,
+     * and reinvests inflows with an expected rate of return.
      *
      * Same as =MIRR formula in most spreadsheet software.
      *
-     * Reference:
+     * The formula derivation:
      * https://en.wikipedia.org/wiki/Modified_internal_rate_of_return
+     *
+     *       _____________________________
+     *     n/ FV(re-invested cash inflows)
+     *  -  /  ----------------------------  - 1.0
+     *   \/   PV(discounted cash outflows)
      *
      * Examples:
      * The rate of return of an initial investment of $100 at 5% financing
@@ -562,11 +567,11 @@ class Finance
 
         for ($i = 0; $i < sizeof($values); $i++) {
             if ($values[$i] >= 0) {
-                $inflows[]  = 0;
-                $outflows[] = $values[$i];
-            } else {
                 $inflows[]  = $values[$i];
                 $outflows[] = 0;
+            } else {
+                $inflows[]  = 0;
+                $outflows[] = $values[$i];
             }
         }
 
@@ -579,11 +584,11 @@ class Finance
         }
 
         $root        = sizeof($values) - 1;
-        $pv_outflows = self::npv($reinvestment_rate, $outflows);
-        $fv_outflows = self::fv($reinvestment_rate, $root, 0, -$pv_outflows);
-        $pv_inflows  = self::npv($finance_rate, $inflows);
+        $pv_inflows = self::npv($reinvestment_rate, $inflows);
+        $fv_inflows = self::fv($reinvestment_rate, $root, 0, -$pv_inflows);
+        $pv_outflows  = self::npv($finance_rate, $outflows);
 
-        return self::checkZero(pow($fv_outflows / -$pv_inflows, 1/$root) - 1);
+        return self::checkZero(pow($fv_inflows / -$pv_outflows, 1/$root) - 1);
     }
 
     /**
@@ -656,5 +661,62 @@ class Finance
             return $payback_period;
         }
         return \NAN;
+    }
+
+    /**
+     * Profitability Index.
+     * The Profitability Index, also referred to as Profit Investment
+     * Ratio (PIR) and Value Investment Ratio (VIR), is a comparison of
+     * discounted cash inflows to discounted cash outflows. It can be
+     * used as a decision criteria of an investment, using larger than 1
+     * to choose an investment, and less than 1 to pass.
+     *
+     * The formula derivation:
+     * https://en.wikipedia.org/wiki/Profitability_index
+     *
+     * PV(cash inflows)
+     * ----------------
+     * PV(cash outflows)
+     *
+     * The formula is usually stated in terms of the initial investmest,
+     * but it is generalized here to discount all future outflows.
+     *
+     * Examples:
+     * The profitability index of an initial $100 investment with future
+     * returns of $50, $50, $50 with a 10% discount rate:
+     *  profitabilityIndex([-100, 50, 50, 50], 0.10)
+     *
+     * @param  array $values
+     * @param  float $rate
+     *
+     * @return float
+     */
+    public static function profitabilityIndex(array $values, float $rate): float
+    {
+        $inflows  = array();
+        $outflows = array();
+
+        for ($i = 0; $i < sizeof($values); $i++) {
+            if ($values[$i] >= 0) {
+                $inflows[]  = $values[$i];
+                $outflows[] = 0;
+            } else {
+                $inflows[]  = 0;
+                $outflows[] = -$values[$i];
+            }
+        }
+
+        $nonzero = function ($x) {
+            return $x != 0;
+        };
+
+        if (sizeof(array_filter($outflows, $nonzero)) == 0) {
+            return \NAN;
+        }
+
+        $pv_inflows  = self::npv($rate, $inflows);
+        $pv_outflows = self::npv($rate, $outflows);
+
+        return $pv_inflows / $pv_outflows;
     }
 }
