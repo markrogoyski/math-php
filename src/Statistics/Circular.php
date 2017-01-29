@@ -148,4 +148,24 @@ class Circular
 
         return $√⟮−2ln⟮R⟯⟯;
     }
+
+    /**
+     * Get a report of all the descriptive circular statistics over a list of angles
+     * Includes mean, resultant length, mean resultant length, variance, standard deviation.
+     *
+     * @param array $angles
+     *
+     * @return array [ n, mean, resultant_length, mean_resultant_length, variance, sd]
+     */
+    public static function describe(array $angles): array
+    {
+        return [
+            'n'                     => count($angles),
+            'mean'                  => self::mean($angles),
+            'resultant_length'      => self::resultantLength($angles),
+            'mean_resultant_length' => self::meanResultantLength($angles),
+            'variance'              => self::variance($angles),
+            'sd'                    => self::standardDeviation($angles),
+        ];
+    }
 }
