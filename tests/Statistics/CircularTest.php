@@ -36,7 +36,7 @@ class CircularTest extends \PHPUnit_Framework_TestCase
             // sin(0) + sin(π) = 0 + 0 = 0
             // cos(0) + cos(π) = 1 - 1 = 0
             // So it seems like it should end up as atan2(0, 0),
-            // but since the sum of sins isn't perfectly 0, it is a very small floating piont number,
+            // but since the sum of sins isn't perfectly 0, it is a very small floating point number,
             // like atan2(1.2246467991474E-16, 0),
             // which ends up as arctan(infinity) which equals 1.57079633.
             // R mean.circular results in NA,
