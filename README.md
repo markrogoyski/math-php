@@ -1281,13 +1281,25 @@ print_r($averages);
 ```php
 use MathPHP\Statistics\Circular;
 
-$angles = [355, 5, 15];
+$angles = [1.51269877, 1.07723915, 0.81992282];
 
 $θ = Circular::mean($angles);
 $R = Circular::resultantLength($angles);
 $ρ = Circular::meanResultantLength($angles);
 $V = Circular::variance($angles);
 $ν = Circular::standardDeviation($angles);
+
+// Descriptive circular statistics report
+$stats = Circular::describe($angles);
+print_r($stats);
+/* Array (
+    [n]                     => 3
+    [mean]                  => 1.1354043006436
+    [resultant_length]      => 2.8786207547493
+    [mean_resultant_length] => 0.9595402515831
+    [variance]              => 0.040459748416901
+    [sd]                    => 0.28740568481722
+); */
 ```
 
 ### Statistics - Correlation
