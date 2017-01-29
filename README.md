@@ -37,6 +37,7 @@ Features
  * Statistics
      - [ANOVA](#statistics---anova)
      - [Averages](#statistics---averages)
+     - [Circular](#statistics---circular)
      - [Correlation](#statistics---correlation)
      - [Descriptive](#statistics---descriptive)
      - [Distance and Divergence](#statistics---distance-and-divergence)
@@ -150,9 +151,14 @@ $finance_rate      = 0.05; // 5% financing
 $reinvestment_rate = 0.10; // reinvested at 10%
 $mirr              = Finance:mirr($values, $finance_rate); // rate of return of an initial investment of $100 at 5% financing with returns of $50, $40, and $30 reinvested at 10%
 
-// Payback of an investment
+// Discounted payback of an investment
 $values  = [-1000, 100, 200, 300, 400, 500];
-$payback = Finance::payback($values); // The payback period of an investment with a $1,000 investment and future returns of $100, $200, $300, $400, $500
+$rate    = 0.1;
+$payback = Finance::payback($values, $rate); // The payback period of an investment with a $1,000 investment and future returns of $100, $200, $300, $400, $500 and a discount rate of 0.10
+
+// Profitability index
+$values              = [-100, 50, 50, 50];
+$profitability_index = profitabilityIndex($values, $rate); // The profitability index of an initial $100 investment with future returns of $50, $50, $50 with a 10% discount rate
 ```
 
 ### Functions - Map - Single Array
@@ -1269,6 +1275,19 @@ print_r($averages);
     [iqm]                 => 14
     [cubic_mean]          => 15.492307432707
 ) */
+```
+
+### Statistics - Circular
+```php
+use MathPHP\Statistics\Circular;
+
+$angles = [355, 5, 15];
+
+θ = Circular::mean($angles);
+R = Circular::resultantLength($angles);
+ρ = Circular::meanResultantLength($angles);
+V = Circular::variance($angles);
+ν = Circular::standardDeviation($angles);
 ```
 
 ### Statistics - Correlation
