@@ -184,4 +184,24 @@ class CircularTest extends \PHPUnit_Framework_TestCase
             [[355, 5, 15], 1.172909],
         ];
     }
+
+    public function testDescribe()
+    {
+        $stats = Circular::describe([5, 15, 355]);
+
+        $this->assertTrue(is_array($stats));
+        $this->assertArrayHasKey('n', $stats);
+        $this->assertArrayHasKey('mean', $stats);
+        $this->assertArrayHasKey('resultant_length', $stats);
+        $this->assertArrayHasKey('mean_resultant_length', $stats);
+        $this->assertArrayHasKey('variance', $stats);
+        $this->assertArrayHasKey('sd', $stats);
+
+        $this->assertTrue(is_int($stats['n']));
+        $this->assertTrue(is_float($stats['mean']));
+        $this->assertTrue(is_float($stats['resultant_length']));
+        $this->assertTrue(is_float($stats['mean_resultant_length']));
+        $this->assertTrue(is_float($stats['variance']));
+        $this->assertTrue(is_float($stats['sd']));
+    }
 }
