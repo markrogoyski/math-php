@@ -1283,11 +1283,11 @@ use MathPHP\Statistics\Circular;
 
 $angles = [355, 5, 15];
 
-θ = Circular::mean($angles);
-R = Circular::resultantLength($angles);
-ρ = Circular::meanResultantLength($angles);
-V = Circular::variance($angles);
-ν = Circular::standardDeviation($angles);
+$θ = Circular::mean($angles);
+$R = Circular::resultantLength($angles);
+$ρ = Circular::meanResultantLength($angles);
+$V = Circular::variance($angles);
+$ν = Circular::standardDeviation($angles);
 ```
 
 ### Statistics - Correlation
