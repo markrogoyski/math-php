@@ -163,43 +163,43 @@ $profitability_index = profitabilityIndex($values, $rate); // The profitability 
 
 ### Functions - Map - Single Array
 ```php
-use MathPHP\Functions\Map\Single;
+use MathPHP\Functions\Map;
 
 $x = [1, 2, 3, 4];
 
-$sums        = Single::add($x, 2);      // [3, 4, 5, 6]
-$differences = Single::subtract($x, 1); // [0, 1, 2, 3]
-$products    = Single::multiply($x, 5); // [5, 10, 15, 20]
-$quotients   = Single::divide($x, 2);   // [0.5, 1, 1.5, 2]
-$x²          = Single::square($x);      // [1, 4, 9, 16]
-$x³          = Single::cube($x);        // [1, 8, 27, 64]
-$x⁴          = Single::pow($x, 4);      // [1, 16, 81, 256]
-$√x          = Single::sqrt($x);        // [1, 1.414, 1.732, 2]
-$∣x∣         = Single::abs($x);         // [1, 2, 3, 4]
-$maxes       = Single::max($x, 3);      // [3, 3, 3, 4]
-$mins        = Single::min($x, 3);      // [1, 2, 3, 3]
+$sums        = Map\Single::add($x, 2);      // [3, 4, 5, 6]
+$differences = Map\Single::subtract($x, 1); // [0, 1, 2, 3]
+$products    = Map\Single::multiply($x, 5); // [5, 10, 15, 20]
+$quotients   = Map\Single::divide($x, 2);   // [0.5, 1, 1.5, 2]
+$x²          = Map\Single::square($x);      // [1, 4, 9, 16]
+$x³          = Map\Single::cube($x);        // [1, 8, 27, 64]
+$x⁴          = Map\Single::pow($x, 4);      // [1, 16, 81, 256]
+$√x          = Map\Single::sqrt($x);        // [1, 1.414, 1.732, 2]
+$∣x∣         = Map\Single::abs($x);         // [1, 2, 3, 4]
+$maxes       = Map\Single::max($x, 3);      // [3, 3, 3, 4]
+$mins        = Map\Single::min($x, 3);      // [1, 2, 3, 3]
 ```
 
 ### Functions - Map - Multiple Arrays
 ```php
-use MathPHP\Functions\Map\Multi;
+use MathPHP\Functions\Map;
 
 $x = [10, 10, 10, 10];
 $y = [1,   2,  5, 10];
 
 // Map function against elements of two or more arrays, item by item (by item ...)
-$sums        = Multi::add($x, $y);      // [11, 12, 15, 20]
-$differences = Multi::subtract($x, $y); // [9, 8, 5, 0]
-$products    = Multi::multiply($x, $y); // [10, 20, 50, 100]
-$quotients   = Multi::divide($x, $y);   // [10, 5, 2, 1]
-$maxes       = Multi::max($x, $y);      // [10, 10, 10, 10]
-$mins        = Multi::mins($x, $y);     // [1, 2, 5, 10]
+$sums        = Map\Multi::add($x, $y);      // [11, 12, 15, 20]
+$differences = Map\Multi::subtract($x, $y); // [9, 8, 5, 0]
+$products    = Map\Multi::multiply($x, $y); // [10, 20, 50, 100]
+$quotients   = Map\Multi::divide($x, $y);   // [10, 5, 2, 1]
+$maxes       = Map\Multi::max($x, $y);      // [10, 10, 10, 10]
+$mins        = Map\Multi::mins($x, $y);     // [1, 2, 5, 10]
 
 // All functions work on multiple arrays; not limited to just two
 $x    = [10, 10, 10, 10];
 $y    = [1,   2,  5, 10];
 $z    = [4,   5,  6,  7];
-$sums = Multi::add($x, $y, $z); // [15, 17, 21, 27]
+$sums = Map\Multi::add($x, $y, $z); // [15, 17, 21, 27]
 ```
 
 ### Functions - Special Functions
