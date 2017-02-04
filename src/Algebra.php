@@ -134,4 +134,50 @@ class Algebra
         sort($factors);
         return $factors;
     }
+
+    /**
+     * Quadratic equation
+     * An equation having the form: ax² + bx + c = 0
+     * where x represents an unknown, or the root(s) of the equation,
+     * and a, b, and c represent known numbers such that a is not equal to 0.
+     * The numbers a, b, and c are the coefficients of the equation
+     * https://en.wikipedia.org/wiki/Quadratic_equation
+     *
+     *           _______
+     *     -b ± √b² -4ac
+     * x = -------------
+     *           2a
+     *
+     * @param  number $a x² coefficient
+     * @param  number $b x coefficient
+     * @param  number $c constant coefficient
+     *
+     * @return array  [x₁, x₂] roots of the equation
+     */
+    public static function quadratic($a, $b, $c): array
+    {
+        $√⟮b² − 4ac⟯ = sqrt(self::discriminant($a, $b, $c));
+        
+        $x₁ = (-$b - $√⟮b² − 4ac⟯) / (2*$a);
+        $x₂ = (-$b + $√⟮b² − 4ac⟯) / (2*$a);
+
+        return [$x₁, $x₂];
+    }
+
+    /**
+     * Discriminant
+     * https://en.wikipedia.org/wiki/Discriminant
+     *
+     * Δ = b² - 4ac
+     *
+     * @param  number $a x² coefficient
+     * @param  number $b x coefficient
+     * @param  number $c constant coefficient
+     *
+     * @return number
+     */
+    public static function discriminant($a, $b, $c)
+    {
+        return $b**2 - (4 * $a * $c);
+    }
 }
