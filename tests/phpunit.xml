@@ -31,6 +31,9 @@
     <testsuite name="InformationTheory">
       <directory suffix="Test.php">InformationTheory</directory>
     </testsuite>
+    <testsuite name="NumberTheory">
+      <directory suffix="Test.php">NumberTheory</directory>
+    </testsuite>
   </testsuites>
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
