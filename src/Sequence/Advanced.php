@@ -16,6 +16,7 @@ use MathPHP\NumberTheory\Integer;
  *  - Lazy caterer's sequence
  *  - Magic squares sequence
  *  - Perfect powers
+ *  - Not perfect powers
  *
  * All sequences return an array of numbers in the sequence.
  * The array index starting point depends on the sequence type.

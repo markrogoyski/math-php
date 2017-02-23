@@ -19,6 +19,8 @@ Features
  * Linear Algebra
    - [Matrix](#linear-algebra---matrix)
    - [Vector](#linear-algebra---vector)
+ * Number Theory
+   - [Integers](#number-theory---integers)
  * Numerical Analysis
    - [Interpolation](#numerical-analysis---interpolation)
    - [Numerical Differentiation](#numerical-analysis---numerical-differentiation)
@@ -476,6 +478,14 @@ print($A); // [1, 2]
 $n    = count($A);       // Countable
 $json = json_encode($A); // JsonSerializable
 $Aᵢ   = $A[$i];          // ArrayAccess
+```
+
+### Number Theory - Integers
+```php
+use MathPHP\NumberTheory\Integer;
+
+$n    = 225;
+$bool = Integer::isPerfectPower($n);
 ```
 
 ### Numerical Analysis - Interpolation
@@ -1042,6 +1052,14 @@ $lazy_caterer = Advanced::lazyCaterers($n);
 // Magic squares series (magic constants; magic sums)
 $magic_squares = Advanced::magicSquares($n);
 // [0, 1, 5, 15, 34, 65] - Indexed from 0
+
+// Perfect powers sequence
+$perfect_powers = Advanced::perfectPowers($n);
+// [4, 8, 9, 16, 25, 27] - Indexed from 0
+
+// Not perfect powers sequence
+$not_perfect_powers = Advanced::notPerfectPowers($n);
+// [2, 3, 5, 6, 7, 10] - Indexed from 0
 ```
 
 ### Set Theory
