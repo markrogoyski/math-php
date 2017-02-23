@@ -15,7 +15,7 @@ class Integer
      *  For each divisor of n (as m), consider all possible values of k from 2 to log₂n.
      *   - If mᵏ = n, return true
      *   - If exhaust all possible mᵏ combinations, return false.
-     * 
+     *
      * @param  int $n
      *
      * @return bool True if n is a perfect power; false otherwise.

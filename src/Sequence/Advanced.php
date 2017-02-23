@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\Sequence;
 
+use MathPHP\NumberTheory\Integer;
+
 /**
  * Advanced integer sequences
  *  - Fibonacci
@@ -13,6 +15,7 @@ namespace MathPHP\Sequence;
  *  - Look-and-say sequence
  *  - Lazy caterer's sequence
  *  - Magic squares sequence
+ *  - Perfect powers
  *
  * All sequences return an array of numbers in the sequence.
  * The array index starting point depends on the sequence type.
@@ -440,5 +443,77 @@ class Advanced
         }
 
         return $M;
+    }
+
+    /**
+     * Perfect powers
+     * https://en.wikipedia.org/wiki/Perfect_power
+     *
+     * mᵏ = n where m > 1 and k >= 2.
+     * Without duplication.
+     * https://oeis.org/A001597 (similar)
+     *
+     * Example:
+     *  n = 6
+     *  Sequence:    4, 8, 9, 16, 25, 27
+     *  Array index: 0, 1, 2, 3,  4,  5
+     *
+     * @param  int $n How many numbers in the sequence
+     *
+     * @return array
+     */
+    public static function perfectPowers(int $n): array
+    {
+        $pp = [];
+
+        if ($n <= 0) {
+            return $pp;
+        }
+
+        $i = 2;
+        while ($n > 0) {
+            if (Integer::isPerfectPower($i)) {
+                $pp[] = $i;
+                $n--;
+            }
+            $i++;
+        }
+
+        return $pp;
+    }
+
+    /**
+     * Numbers that are not perfect powers
+     * https://en.wikipedia.org/wiki/Perfect_power
+     *
+     * https://oeis.org/A007916
+     *
+     * Example:
+     *  n = 6
+     *  Sequence:    2, 3, 5, 6, 7, 10
+     *  Array index: 0, 1, 2, 3, 4, 5
+     *
+     * @param  int $n How many numbers in the sequence
+     *
+     * @return array
+     */
+    public static function notPerfectPowers(int $n): array
+    {
+        $npp = [];
+
+        if ($n <= 0) {
+            return $npp;
+        }
+
+        $i = 2;
+        while ($n > 0) {
+            if (!Integer::isPerfectPower($i)) {
+                $npp[] = $i;
+                $n--;
+            }
+            $i++;
+        }
+
+        return $npp;
     }
 }

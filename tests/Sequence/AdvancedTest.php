@@ -250,4 +250,44 @@ class AdvancedTest extends \PHPUnit_Framework_TestCase
 
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForPerfectPowers
+     */
+    public function testPerfecetPowers(int $n, array $perfect_powers)
+    {
+        $this->assertEquals($perfect_powers, Advanced::perfectPowers($n));
+    }
+
+    public function dataProviderForPerfectPowers()
+    {
+        return [
+            [-1, []],
+            [0, []],
+            [1, [4]],
+            [2, [4, 8]],
+            [10, [4, 8, 9, 16, 25, 27, 32, 36, 49, 64]],
+            [53, [4, 8, 9, 16, 25, 27, 32, 36, 49, 64, 81, 100, 121, 125, 128, 144, 169, 196, 216, 225, 243, 256, 289, 324, 343, 361, 400, 441, 484, 512, 529, 576, 625, 676, 729, 784, 841, 900, 961, 1000, 1024, 1089, 1156, 1225, 1296, 1331, 1369, 1444, 1521, 1600, 1681, 1728, 1764]],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForNotPerfectPowers
+     */
+    public function testNotPerfecetPowers(int $n, array $not_perfect_powers)
+    {
+        $this->assertEquals($not_perfect_powers, Advanced::notPerfectPowers($n));
+    }
+
+    public function dataProviderForNotPerfectPowers()
+    {
+        return [
+            [-1, []],
+            [0, []],
+            [1, [2]],
+            [2, [2, 3]],
+            [10, [2, 3, 5, 6, 7, 10, 11, 12, 13, 14]],
+            [71, [2, 3, 5, 6, 7, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 26, 28, 29, 30, 31, 33, 34, 35, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 82, 83]],
+        ];
+    }
 }
