@@ -1,7 +1,7 @@
 <?php
 namespace MathPHP\NumberTheory;
 
-class PrimeTest extends \PHPUnit_Framework_TestCase
+class IntegerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @testCase     isPerfectPrime returns true if n is a perfect prime.
@@ -10,7 +10,7 @@ class PrimeTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsPerfectPower(int $n)
     {
-        $this->assertTrue(Prime::isPerfectPower($n));
+        $this->assertTrue(Integer::isPerfectPower($n));
     }
 
     /**
@@ -85,7 +85,7 @@ class PrimeTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsNotPerfectPower(int $n)
     {
-        $this->assertFalse(Prime::isPerfectPower($n));
+        $this->assertFalse(Integer::isPerfectPower($n));
     }
 
     /**

@@ -3,7 +3,7 @@ namespace MathPHP\NumberTheory;
 
 use MathPHP\Algebra;
 
-class Prime
+class Integer
 {
     /**
      * Detect if an integer is a perfect power.
