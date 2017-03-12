@@ -484,8 +484,9 @@ $Aᵢ   = $A[$i];          // ArrayAccess
 ```php
 use MathPHP\NumberTheory\Integer;
 
-$n    = 225;
-$bool = Integer::isPerfectPower($n);
+$n           = 225;
+$bool        = Integer::isPerfectPower($n);
+list($m, $k) = Integer::perfectPower($n);
 ```
 
 ### Numerical Analysis - Interpolation
