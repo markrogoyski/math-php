@@ -1,7 +1,7 @@
 .PHONY: coverage tests
 
 tests :
-	phpunit
+	../vendor/bin/phpunit
 
 coverage :
-	phpunit --coverage-text=php://stdout
+	../vendor/bin/phpunit --coverage-text=php://stdout
