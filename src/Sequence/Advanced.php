@@ -517,4 +517,49 @@ class Advanced
 
         return $npp;
     }
+
+    /**
+     * Prime numbers up to n.
+     * https://oeis.org/A000040
+     *
+     * Algorithm: Sieve of Eratosthenes
+     * Let A be an array of boolean values, indexed by integers 2 to n, initially all set to true.
+     * for i = 2, 3, 4, ..., not exceeding √n:
+     *   if A[i] is true:
+     *      for j = i², i²+i, i²+2i, i²+3i, ..., not exceeding n:
+     *         A[j] := false.
+     *
+     * Output: all i such that A[i] is true.
+     *
+     * https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+     *
+     * Example:
+     *  n = 20
+     *  Sequence:    2, 3, 5, 7, 11, 13, 17, 19
+     *  Array index: 0, 1, 2, 3, 4,  5,  6,  7
+     *
+     * @param  int   $n Prime numbers up to this n
+     *
+     * @return array
+     */
+    public static function primesUpTo(int $n): array
+    {
+        if ($n < 2) {
+            return [];
+        }
+
+        $primes = array_fill_keys(range(2, $n), true);
+        $√n     = ceil(sqrt($n));
+
+        for ($i = 2; $i <= $√n; $i++) {
+            if ($primes[$i] === true) {
+                $i² = $i**2;
+                for ($j = $i²; $j <= $n; $j += $i) {
+                    $primes[$j] = false;
+                }
+            }
+        }
+
+        return array_keys(array_filter($primes));
+    }
 }
