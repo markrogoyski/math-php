@@ -1064,7 +1064,7 @@ $not_perfect_powers = Advanced::notPerfectPowers($n);
 
 // Prime numbers up to n (n is not the number of elements in the sequence)
 $primes = Advanced::primesUpTo(30);
-// [2, 3, 5, 7, 11, 13, 17, 19, 23, 29] - Index from 0
+// [2, 3, 5, 7, 11, 13, 17, 19, 23, 29] - Indexed from 0
 ```
 
 ### Set Theory
