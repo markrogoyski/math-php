@@ -148,18 +148,41 @@ class Algebra
      * x = -------------
      *           2a
      *
+     * Edge case where a = 0 and formula is not quadratic:
+     *
+     * 0x² + bx + c = 0
+     *
+     *     -c
+     * x = ---
+     *      b
+     *
+     * Note: If discriminant is negative, roots will be NAN.
+     *
      * @param  number $a x² coefficient
      * @param  number $b x coefficient
      * @param  number $c constant coefficient
      *
-     * @return array  [x₁, x₂] roots of the equation
+     * @return array  [x₁, x₂]   roots of the equation, or
+     *                [NAN, NAN] if discriminant is negative, or
+     *                [x]        if a = 0 and formula isn't quadratics
      */
     public static function quadratic($a, $b, $c): array
     {
+        // Formula not quadratic (a = 0)
+        if ($a === 0) {
+            return [-$c / $b];
+        }
+
+        // Discriminant intermediate calculation and imaginary number check
+        $⟮b² − 4ac⟯ = self::discriminant($a, $b, $c);
+        if ($⟮b² − 4ac⟯ < 0) {
+            return [\NAN, \NAN];
+        }
+
+        // Standard quadratic equation case
         $√⟮b² − 4ac⟯ = sqrt(self::discriminant($a, $b, $c));
-        
-        $x₁ = (-$b - $√⟮b² − 4ac⟯) / (2*$a);
-        $x₂ = (-$b + $√⟮b² − 4ac⟯) / (2*$a);
+        $x₁         = (-$b - $√⟮b² − 4ac⟯) / (2*$a);
+        $x₂         = (-$b + $√⟮b² − 4ac⟯) / (2*$a);
 
         return [$x₁, $x₂];
     }

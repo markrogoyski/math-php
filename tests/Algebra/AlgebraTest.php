@@ -4,6 +4,7 @@ namespace MathPHP;
 class AlgebraTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @testCase     gcd returns the greatest common divisor of two integers.
      * @dataProvider dataProviderForGCD
      */
     public function testGCD(int $a, int $b, int $gcd, int $_, int $__)
@@ -12,6 +13,7 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     extendedGCD returns the extended greatest common divisor of two integers.
      * @dataProvider dataProviderForGCD
      */
     public function testExtendedGCD(int $a, int $b, int $gcd, int $alpha, int $beta)
@@ -43,6 +45,7 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     lcm returns the least-common multiple of two integers.
      * @dataProvider dataProviderForLCM
      */
     public function testLCM(int $a, int $b, int $lcm)
@@ -68,6 +71,7 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     factors returns the expected factors of an integer.
      * @dataProvider dataProviderForFactors
      */
     public function testFactors(int $x, array $factors)
@@ -88,6 +92,7 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     quadratic returns the expected roots.
      * @dataProvider dataProviderForQuadratic
      */
     public function testQuadratic($a, $b, $c, $quadratic)
@@ -137,6 +142,73 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
             [5, -11/3, -4, [-3/5, 4/3]],
             [1, 1, -20, [-5, 4]],
             [1, -3, -18, [-3, 6]],
+            [2, -5, -3, [-1/2, 3]],
+        ];
+    }
+
+    /**
+     * @testCase     quadratic returns the expected root for edge case where a = 0 and formula is not quadratic.
+     * @dataProvider dataProviderForQuadraticAIsZero
+     */
+    public function testQuadraticAIsZero($a, $b, $c, $quadratic)
+    {
+        $this->assertEquals($quadratic, Algebra::quadratic($a, $b, $c), '', 0.00000001);
+    }
+
+    public function dataProviderForQuadraticAIsZero()
+    {
+        return [
+            [0, -5, -3, [-3/5]],
+            [0, 5, -3, [3/5]],
+            [0, 12, 6, [-1/2]],
+            [0, 3, 7, [-7/3]],
+        ];
+    }
+
+    /**
+     * @testCase     quadratic returns array of [NAN, NAN] if the discriminant is negative.
+     * @dataProvider dataProviderForQuadraticNegativeDiscriminant
+     */
+    public function testQuadraticNegativeDiscriminant($a, $b, $c)
+    {
+        $roots = Algebra::quadratic($a, $b, $c);
+        $this->assertInternalType('array', $roots);
+        $this->assertNotEmpty($roots);
+        $this->assertEquals(2, count($roots));
+        foreach ($roots as $root) {
+            $this->assertTrue(is_nan($root));
+        }
+    }
+
+    public function dataProviderForQuadraticNegativeDiscriminant()
+    {
+        return [
+            [10, 1, 1, [\NAN, \NAN]],
+            [3, 4, 20, [\NAN, \NAN]],
+        ];
+    }
+
+    /**
+     * @testCase     discriminant returns the expected value.
+     * @dataProvider dataProviderForDiscriminant
+     */
+    public function testDiscriminant($a, $b, $c, $discriminant)
+    {
+        $this->assertEquals($discriminant, Algebra::discriminant($a, $b, $c), '', 0.00000001);
+    }
+
+    public function dataProviderForDiscriminant()
+    {
+        return [
+            [2, 4, -4, 48],
+            [1, -3, -4, 25],
+            [1, 1, -4, 17],
+            [1, 0, -4, 16],
+            [6, 11, -35, 961],
+            [1, 0, -48, 192],
+            [1, -7, 0, 49],
+            [10, 1, 1, -39],
+            [3, 4, 20, -224],
         ];
     }
 }
