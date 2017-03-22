@@ -211,6 +211,8 @@ class Algebra
     /**
      * Cubic equation
      * An equation having the form: z³ + a₂z² + a₁z + a₀ = 0
+     * https://en.wikipedia.org/wiki/Cubic_function
+     * http://mathworld.wolfram.com/CubicFormula.html
      *
      * The coefficient a₃ of z³ may be taken as 1 without loss of generality by dividing the entire equation through by a₃.
      *
