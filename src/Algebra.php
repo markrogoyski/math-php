@@ -332,11 +332,9 @@ class Algebra
             return [$z₁, $z₂, $z₃];
         }
 
-        // One root is real, and two are are complex conjugates
-        if ($D > 0) {
-            $z₁ = $S + $T - $a₂ / 3;
+        // D > 0: One root is real, and two are are complex conjugates
+        $z₁ = $S + $T - $a₂ / 3;
 
-            return [$z₁, \NAN, \NAN];
-        }
+        return [$z₁, \NAN, \NAN];
     }
 }
