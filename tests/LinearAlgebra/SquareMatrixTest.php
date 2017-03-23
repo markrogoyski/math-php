@@ -63,4 +63,41 @@ class SquareMatrixTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    
+    /**
+     * @dataProvider dataProviderKroneckerSum
+     */
+    public function testKroneckerSum($A, $B, $expected)
+    {
+        $A        = new SquareMatrix($A);
+        $B        = new SquareMatrix($B);
+        $A⊕B      = $A->kroneckerSum($B);
+        $expected = new SquareMatrix($expected);
+        $this->assertEquals($expected->getMatrix(), $A⊕B->getMatrix());
+    }
+    
+    public function dataProviderKroneckerSum()
+    {
+        return [
+            [
+                [
+                    [1, 2],
+                    [3, 4],
+                ],
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ],
+                [
+                    [2, 2, 3, 2, 0, 0],
+                    [4, 6, 6, 0, 2, 0],
+                    [7, 8,10, 0, 0, 2],
+                    [3, 0, 0, 5, 2, 3],
+                    [0, 3, 0, 4, 9, 6],
+                    [0, 0, 3, 7, 8,13],
+                ],
+            ],
+        ];
+    }
 }
