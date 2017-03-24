@@ -739,4 +739,58 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @testCase     kroneckerProduct returns the expected Vector
+     * @dataProvider dataProviderForKroneckerProduct
+     * @param        array $A
+     * @param        array $B
+     * @param        array $expected
+     */
+    public function testKroneckerProduct(array $A, array $B, array $expected)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+        $R = new Vector($expected);
+
+        $A⨂B = $A->kroneckerProduct($B);
+
+        $this->assertEquals($R, $A⨂B);
+    }
+
+    public function dataProviderForKroneckerProduct(): array
+    {
+        return [
+            [
+                [1],
+                [1],
+                [1],
+            ],
+            [
+                [2],
+                [3],
+                [6],
+            ],
+            [
+                [1, 2],
+                [3, 4],
+                [3, 4, 6, 8],
+            ],
+            [
+                [4, 6],
+                [3, 9],
+                [12, 36, 18, 54],
+            ],
+            [
+                [1, 2, 3],
+                [4, 5, 6],
+                [4, 5, 6, 8, 10, 12, 12, 15, 18],
+            ],
+            [
+                [5, 3, 9, 8],
+                [1, 6, 5, 12],
+                [5, 30, 25, 60, 3, 18, 15, 36, 9, 54, 45, 108, 8, 48, 40, 96],
+            ],
+        ];
+    }
 }
