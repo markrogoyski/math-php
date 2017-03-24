@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Exception;
+
 class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -131,8 +133,11 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase     kroneckerSum returns the expected SquareMatrix
      * @dataProvider dataProviderKroneckerSum
+     * @param        array A
+     * @param        array B
+     * @param        array $expected
      */
-    public function testKroneckerSum($A, $B, $expected)
+    public function testKroneckerSum(array $A, array $B, array $expected)
     {
         $A   = new SquareMatrix($A);
         $B   = new SquareMatrix($B);
@@ -144,7 +149,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(SquareMatrix::class, $A⊕B);
     }
 
-    public function dataProviderKroneckerSum()
+    public function dataProviderKroneckerSum(): array
     {
         return [
             [
@@ -164,6 +169,106 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                     [3, 0, 0, 5, 2, 3],
                     [0, 3, 0, 4, 9, 6],
                     [0, 0, 3, 7, 8,13],
+                ],
+            ],
+            [
+                [
+                    [1, 1],
+                    [1, 1],
+                ],
+                [
+                    [1, 1],
+                    [1, 1],
+                ],
+                [
+                    [2, 1, 1, 0],
+                    [1, 2, 0, 1],
+                    [1, 0, 2, 1],
+                    [0, 1, 1, 2],
+                ],
+            ],
+            [
+                [
+                    [1, 1],
+                    [1, 1],
+                ],
+                [
+                    [2, 3],
+                    [4, 5],
+                ],
+                [
+                    [3, 3, 1, 0],
+                    [4, 6, 0, 1],
+                    [1, 0, 3, 3],
+                    [0, 1, 4, 6],
+                ],
+            ],
+            [
+                [
+                    [2, 3],
+                    [4, 5],
+                ],
+                [
+                    [1, 1],
+                    [1, 1],
+                ],
+                [
+                    [3, 1, 3, 0],
+                    [1, 3, 0, 3],
+                    [4, 0, 6, 1],
+                    [0, 4, 1, 6],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase kronecerSum throws a MatrixException if one of the matrices is not square
+     * @dataProvider dataProviderForKroneckerSumSquareMatrixException
+     * @param        array A
+     * @param        array B
+     */
+    public function testKroneckerSumSquareMatrixException($A, $B)
+    {
+        $A   = new Matrix($A);
+        $B   = new Matrix($B);
+
+        $this->setExpectedException(Exception\MatrixException::class);
+        $A⊕B = $A->kroneckerSum($B);
+    }
+
+    public function dataProviderForKroneckerSumSquareMatrixException(): array
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                ],
+                [
+                    [1, 2],
+                    [2, 3],
+                ]
+            ],
+            [
+                [
+                    [1, 2],
+                    [2, 3],
+                ],
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [2, 3],
+                    [4, 5],
+                ],
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
                 ],
             ],
         ];
@@ -1277,6 +1382,7 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
                     [25, 20, 45, 20, 16, 36],
                 ],
             ],
+
         ];
     }
 

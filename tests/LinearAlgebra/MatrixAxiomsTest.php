@@ -53,6 +53,8 @@ namespace MathPHP\LinearAlgebra;
  *    - (A ⊗ B)⁻¹ = A⁻¹ ⊗ B⁻¹
  *    - (A ⊗ B)ᵀ = Aᵀ ⊗ Bᵀ
  *    - det(A ⊗ B) = det(A)ᵐ det(B)ⁿ
+ *  - Kronecker sum
+ *    - A⊕B = A⊗Ib + I⊗aB
  *  - Covariance matrix
  *    - S = Sᵀ
  */
@@ -1705,6 +1707,27 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
         ];
+    }
+
+    /**
+     * Axiom: Kronecker sum A⊕B = A⊗Ib + I⊗aB
+     * Kronecker sum is the matrix product of the Kronecker product of each matrix with the other matrix's identiry matrix.
+     * @dataProvider dataProviderForTwoSquareMatrices
+     */
+    public function testKroneckerSum(array $A, array $B)
+    {
+        $A   = new SquareMatrix($A);
+        $B   = new SquareMatrix($B);
+        $A⊕B = $A->kroneckerSum($B);
+
+
+        $In          = MatrixFactory::identity($A->getN());
+        $Im          = MatrixFactory::identity($B->getM());
+        $A⊗Im        = $A->kroneckerProduct($Im);
+        $In⊗B        = $In->kroneckerProduct($B);
+        $A⊗Im＋In⊗B = $A⊗Im->add($In⊗B);
+
+        $this->assertEquals($A⊕B, $A⊗Im＋In⊗B);
     }
 
     /**
