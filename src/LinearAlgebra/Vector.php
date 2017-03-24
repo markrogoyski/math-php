@@ -207,6 +207,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *  - normalize
      *  - perpendicular
      *  - projection
+     *  - kroneckerProduct
      **************************************************************************/
 
     /**
@@ -306,9 +307,11 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      * https://en.wikipedia.org/wiki/Direct_product
      * http://mathworld.wolfram.com/VectorDirectProduct.html
      *
-     *            [A₁]              [A₁B₁ A₁B₂ A₁B₃]
-     * AB = ABᵀ = [A₂] [B₁ B₂ B₃] = [A₂B₁ A₂B₂ A₂B₃]
-     *            [A₃]              [A₃B₁ A₃B₂ A₃B₃]
+     *              [A₁]              [A₁B₁ A₁B₂ A₁B₃]
+     * AB = A⨂Bᵀ = [A₂] [B₁ B₂ B₃] = [A₂B₁ A₂B₂ A₂B₃]
+     *              [A₃]              [A₃B₁ A₃B₂ A₃B₃]
+     *
+     * Where ⨂ is the Kronecker product.
      *
      * @param Vector $B
      *
@@ -430,6 +433,29 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
         $B⊥   = $B->perpendicular();
 
         return $B⊥->scalarMultiply($A⋅B⊥ / $│B│²);
+    }
+
+    /**
+     * Kronecker product A⨂B
+     * The kronecker product of two column vectors is a column vector.
+     *
+     * Example:  [1]    [3]   [3]
+     *           [2] ⨂ [4] = [4]
+     *                        [6]
+     *                        [8]
+     *
+     * @param  Vector $B
+     *
+     * @return Vector
+     */
+    public function kroneckerProduct(Vector $B): Vector
+    {
+        $A = $this->asColumnMatrix();
+        $B = $B->asColumnMatrix();
+
+        $A⨂B = $A->kroneckerProduct($B);
+
+        return new Vector($A⨂B->getColumn(0));
     }
 
     /**************************************************************************
