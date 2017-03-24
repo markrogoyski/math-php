@@ -101,6 +101,10 @@ $factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
 // Quadradic equation
 list($a, $b, $c) = [1, 2, -8]; // x² + 2x - 8
 list($x₁, $x₂)   = Algebra::quadradic($a, $b, $c);
+
+// Cubic equation
+list($a, $b, $c, $d) = [2, 9, 3, -4]; // 2x³ + 9x² + 3x -4
+list($x₁, $x₂, $x₃)  = Algebra::cubic($a, $b, $c, $d);
 ```
 
 ### Finance
@@ -349,6 +353,7 @@ $R = $A->columnExclude($nᵢ);          // Exclude column $nᵢ
 // Matrix operations - return a new Matrix
 $A＋B = $A->add($B);
 $A⊕B  = $A->directSum($B);
+$A⊕B  = $A->kroneckerSum($B);
 $A−B  = $A->subtract($B);
 $AB   = $A->multiply($B);
 $２A  = $A->scalarMultiply(2);
@@ -457,9 +462,10 @@ $kA    = $A->scalarMultiply($k);
 $A＋B  = $A->add($B);
 $A−B   = $A->subtract($B);
 $A／k  = $A->scalarDivide($k);
-$A⨂B  = $A->outerProduct($B);
+$A⨂B  = $A->outerProduct($B);  // Same as direct product
+$AB    = $A->directProduct($B); // Same as outer product
 $AxB   = $A->crossProduct($B);
-$AB    = $A->directProduct($B);
+$A⨂B   = $A->kroneckerProduct($B);
 $Â     = $A->normalize();
 $A⊥    = $A->perpendicular();
 $projᵇA = $A->projection($B);   // projection of A onto B
