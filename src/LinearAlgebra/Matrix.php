@@ -239,11 +239,13 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * MATRIX OPERATIONS - Return a Matrix
      *  - add
      *  - directSum
+     *  - kroneckerSum
      *  - subtract
      *  - multiply
      *  - scalarMultiply
      *  - scalarDivide
      *  - hadamardProduct
+     *  - kroneckerProduct
      *  - transpose
      *  - trace
      *  - map
@@ -326,6 +328,41 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return MatrixFactory::create($R);
+    }
+
+    /**
+     * Kronecker Sum (A⊕B)
+     * A⊕B = A⊗Ib + I⊗aB
+     * Where A and B are square matrices, Ia and Ib are identiry matrixes,
+     * and ⊗ is the Kronecker product.
+     *
+     * https://en.wikipedia.org/wiki/Matrix_addition#Kronecker_sum
+     * http://mathworld.wolfram.com/KroneckerSum.html
+     *
+     * @param Matrix $B Square matrix
+     *
+     * @return SquareMatrix
+     *
+     * @throws Exception\MatrixException if either matrix is not a square matrix
+     */
+    public function kroneckerSum(Matrix $B) : SquareMatrix
+    {
+        if (!$this->isSquare() || !$B->isSquare()) {
+            throw new Exception\MatrixException('Matrices A and B must both be square for kroneckerSum');
+        }
+
+        $A  = $this;
+        $m  = $B->getM();
+        $n  = $this->n;
+
+        $In = MatrixFactory::identity($n);
+        $Im = MatrixFactory::identity($m);
+
+        $A⊗Im = $A->kroneckerProduct($Im);
+        $In⊗B = $In->kroneckerProduct($B);
+        $A⊕B  = $A⊗Im->add($In⊗B);
+
+        return $A⊕B;
     }
 
     /**
