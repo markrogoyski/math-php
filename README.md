@@ -10,6 +10,7 @@ It is actively under development with development (0.y.z) releases.
 Features
 --------
  * [Algebra](#algebra)
+ * [Arithmetic]($arithmetic)
  * [Finance](#finance)
  * Functions
    - [Map](#functions---map---single-array)
@@ -105,6 +106,13 @@ list($x₁, $x₂)   = Algebra::quadradic($a, $b, $c);
 // Cubic equation
 list($a, $b, $c, $d) = [2, 9, 3, -4]; // 2x³ + 9x² + 3x -4
 list($x₁, $x₂, $x₃)  = Algebra::cubic($a, $b, $c, $d);
+```
+
+### Arithmetic
+```php
+use MathPHP\Arithmetic;
+
+$³√x = Arithmetic::cubeRoot(-8); // -2
 ```
 
 ### Finance
