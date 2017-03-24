@@ -117,7 +117,6 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *  - length (magnitude)
      *  - dotProduct (innerProduct)
      *  - perpDotProduct
-     *  - directProduct (dyadic)
      **************************************************************************/
 
     /**
@@ -197,31 +196,13 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
         return $A⊥->dotProduct($B);
     }
 
-    /**
-     * Direct product (dyadic)
-     *
-     *            [A₁]              [A₁B₁ A₁B₂ A₁B₃]
-     * AB = ABᵀ = [A₂] [B₁ B₂ B₃] = [A₂B₁ A₂B₂ A₂B₃]
-     *            [A₃]              [A₃B₁ A₃B₂ A₃B₃]
-     *
-     * @param Vector $B
-     *
-     * @return Matrix
-     */
-    public function directProduct(Vector $B): Matrix
-    {
-        $A  = $this->asColumnMatrix();
-        $Bᵀ = $B->asRowMatrix();
-
-        return $A->kroneckerProduct($Bᵀ);
-    }
-
     /**************************************************************************
      * VECTOR OPERATIONS - Return a Vector or Matrix
      *  - add
      *  - subtract
      *  - scalarMultiply
      *  - outerProduct
+     *  - directProduct (dyadic)
      *  - crossProduct
      *  - normalize
      *  - perpendicular
@@ -299,6 +280,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     /**
      * Outer product (A⨂B)
      * https://en.wikipedia.org/wiki/Outer_product
+     * Same as direct product.
      *
      * @param Vector $B
      *
@@ -317,6 +299,27 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
         }
 
         return MatrixFactory::create($R);
+    }
+
+    /**
+     * Direct product (dyadic)
+     * https://en.wikipedia.org/wiki/Direct_product
+     * http://mathworld.wolfram.com/VectorDirectProduct.html
+     *
+     *            [A₁]              [A₁B₁ A₁B₂ A₁B₃]
+     * AB = ABᵀ = [A₂] [B₁ B₂ B₃] = [A₂B₁ A₂B₂ A₂B₃]
+     *            [A₃]              [A₃B₁ A₃B₂ A₃B₃]
+     *
+     * @param Vector $B
+     *
+     * @return Matrix
+     */
+    public function directProduct(Vector $B): Matrix
+    {
+        $A  = $this->asColumnMatrix();
+        $Bᵀ = $B->asRowMatrix();
+
+        return $A->kroneckerProduct($Bᵀ);
     }
 
     /**
