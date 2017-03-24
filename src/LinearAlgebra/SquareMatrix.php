@@ -34,4 +34,22 @@ class SquareMatrix extends Matrix
     {
         return true;
     }
+    
+    /**
+     * Kronecker Sum (A⊕B)
+     *
+     * https://en.wikipedia.org/wiki/Matrix_addition#Kronecker_sum
+     */
+    public function kroneckerSum(SquareMatrix $B) : SquareMatrix
+    {
+        $A = $this->A;
+        $m = $B->getM();
+        $n = $this->n;
+        $In = MatrixFactory::identity($n);
+        $Im = MatrixFactory::identity($m);
+        $A⊗Im = $this->kroneckerProduct($Im);
+        $In⊗B = $In->kroneckerProduct($B);
+        $A⊕B = $A⊗Im->add($In⊗B);
+        return $A⊕B;
+    }
 }
