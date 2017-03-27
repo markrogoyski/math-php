@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\NumberTheory;
 
+use MathPHP\Exception;
+
 class IntegerTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -244,5 +246,83 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
     public function testEmptyPerfectPower(int $n)
     {
         $this->assertEmpty(Integer::perfectPower($n));
+    }
+
+    /**
+     * @testCase     primeFactorization returns an array of the prime factors of an integer n.
+     * @dataProvider dataProviderForPrimeFactorization
+     * @param  int   $n
+     * @param  array $factors
+     */
+    public function testPrimeFactorization(int $n, array $factors)
+    {
+        $this->assertEquals($factors, Integer::primeFactorization($n));
+    }
+
+    public function dataProviderForPrimeFactorization(): array
+    {
+        return [
+            [2, [2]],
+            [3, [3]],
+            [4, [2, 2]],
+            [5, [5]],
+            [6, [2, 3]],
+            [7, [7]],
+            [8, [2, 2, 2]],
+            [9, [3, 3]],
+            [10, [2, 5]],
+            [11, [11]],
+            [12, [2, 2, 3]],
+            [13, [13]],
+            [14, [2, 7]],
+            [15, [3, 5]],
+            [16, [2, 2, 2, 2]],
+            [17, [17]],
+            [18, [2, 3, 3]],
+            [19, [19]],
+            [20, [2, 2, 5]],
+            [48, [2, 2, 2, 2, 3]],
+            [99, [3, 3, 11]],
+            [100, [2, 2, 5, 5]],
+            [101, [101]],
+            [111, [3, 37]],
+            [147, [3, 7, 7]],
+            [200, [2, 2, 2, 5, 5]],
+            [5555, [5, 11, 101]],
+            [8463, [3, 7, 13, 31]],
+            [12345, [3, 5, 823]],
+            [45123, [3, 13, 13, 89]],
+            [99999, [3, 3, 41, 271]],
+            [5465432, [2, 2, 2, 7, 17, 5741]],
+            [25794349, [7, 619, 5953]],
+            [87534987, [3, 23, 1268623]],
+            [123456789, [3, 3, 3607, 3803]],
+            [8654893156, [2, 2, 7, 13, 157, 269, 563]],
+            [2*3*5*7, [2, 3, 5, 7]],
+            [2*2*2*5*7*7*7*13, [2, 2, 2, 5, 7, 7, 7, 13]],
+        ];
+    }
+
+    /**
+     * @testCase     primeFactorization throws an OutOfBoundsException if n is < 2.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     */
+    public function testPrimeFactorizationOutOfBoundsException(int $n)
+    {
+        $this->setExpectedException(Exception\OutOfBoundsException::class);
+        Integer::primeFactorization($n);
+    }
+
+    public function dataProviderForPrimeFactorizationOutOfBoundsException(): array
+    {
+        return [
+            [1],
+            [0],
+            [-1],
+            [-2],
+            [-100],
+            [-98352299832],
+        ];
     }
 }
