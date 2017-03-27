@@ -2,6 +2,7 @@
 namespace MathPHP\NumberTheory;
 
 use MathPHP\Algebra;
+use MathPHP\Exception;
 
 class Integer
 {
@@ -67,5 +68,39 @@ class Integer
         }
 
         return [];
+    }
+
+    /**
+     * Prime factorization
+     * The prime factors of an integer.
+     * https://en.wikipedia.org/wiki/Prime_factor
+     *
+     * @todo   Use a better algorithm.
+     *
+     * @param  int $n
+     *
+     * @return array of prime factors
+     *
+     * @throws Exception\OutOfBoundsException if n is < 2.
+     */
+    public static function primeFactorization(int $n): array
+    {
+        if ($n < 2) {
+            throw new Exception\OutOfBoundsException("n must be ≥ 2. ($n provided)");
+        }
+
+        $remainder = $n;
+        $factors   = [];
+        $divisor   = 2;
+
+        while ($remainder > 1) {
+            while ($remainder % $divisor === 0) {
+                $factors[] = $divisor;
+                $remainder = intdiv($remainder, $divisor);
+            }
+            $divisor++;
+        }
+
+        return $factors;
     }
 }
