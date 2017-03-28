@@ -208,6 +208,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * MATRIX PROPERTIES
      *  - isSquare
      *  - isSymmetric
+     *  - isSingular
+     *  - isNonsingular
+     *  - isInvertible
      **************************************************************************/
 
     /**
@@ -271,6 +274,19 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return false;
+    }
+
+    /**
+     * Is the matrix invertible? (Regular nonsingular matrix)
+     * Convenience method for isNonsingular.
+     * https://en.wikipedia.org/wiki/Invertible_matrix
+     * http://mathworld.wolfram.com/NonsingularMatrix.html
+     *
+     * @return bool true if invertible; false otherwise.
+     */
+    public function isInvertible(): bool
+    {
+        return $this->isNonsingular();
     }
 
     /**************************************************************************

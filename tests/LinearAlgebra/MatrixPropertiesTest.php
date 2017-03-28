@@ -299,6 +299,17 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     isInvertible returns true for a invertible matrix.
+     * @dataProvider dataProviderForIsNonsingular
+     */
+    public function testIsInvertible(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isInvertible());
+    }
+
+    /**
      * @testCase     isNonsingular returns false for a singular matrix.
      * @dataProvider dataProviderForIsSingular
      */
@@ -307,6 +318,17 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
         $A = MatrixFactory::create($A);
 
         $this->assertFalse($A->isNonsingular());
+    }
+
+    /**
+     * @testCase     isInvertible returns false for a non-invertible matrix.
+     * @dataProvider dataProviderForIsSingular
+     */
+    public function testIsInvertibleFalseForNonInvertibleMatrix(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isInvertible());
     }
 
     public function dataProviderForIsNonsingular(): array
