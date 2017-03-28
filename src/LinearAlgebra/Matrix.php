@@ -214,7 +214,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * Is the matrix a square matrix?
      * Do rows m = columns n?
      *
-     * @return bool
+     * @return bool true if square; false otherwise.
      */
     public function isSquare(): bool
     {
@@ -225,7 +225,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * Is the matrix symmetric?
      * Does A = Aᵀ
      *
-     * @return bool
+     * @return bool true if summetric; false otherwise.
      */
     public function isSymmetric(): bool
     {
@@ -233,6 +233,44 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $Aᵀ = $this->transpose()->getMatrix();
 
         return $A == $Aᵀ;
+    }
+
+    /**
+     * Is the matrix singular?
+     * A square matrix that does not have an inverse.
+     * If the determinant is zero, then the matrix is singular.
+     * http://mathworld.wolfram.com/SingularMatrix.html
+     *
+     * @return bool true if singular; false otherwise.
+     */
+    public function isSingular(): bool
+    {
+        $│A│ = $this->det ?? $this->det();
+
+        if ($│A│ == 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Is the matrix nonsingular? (Regular matrix)
+     * A square matrix that is not singular. It has an inverse.
+     * If the determinant is nonzero, then the matrix is nonsingular.
+     * http://mathworld.wolfram.com/NonsingularMatrix.html
+     *
+     * @return bool true if nonsingular; false otherwise.
+     */
+    public function isNonsingular(): bool
+    {
+        $│A│ = $this->det ?? $this->det();
+
+        if ($│A│ != 0) {
+            return true;
+        }
+
+        return false;
     }
 
     /**************************************************************************
