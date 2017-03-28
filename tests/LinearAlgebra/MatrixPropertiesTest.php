@@ -4,12 +4,23 @@ namespace MathPHP\LinearAlgebra;
 class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @testCase     isSquare returns true for square matrices.
      * @dataProvider dataProviderForIsSquare
      */
     public function testIsSquare(array $A)
     {
         $A = MatrixFactory::create($A);
         $this->assertTrue($A->isSquare());
+    }
+
+    /**
+     * @testCase     isSquare returns false for nonsquare matrices.
+     * @dataProvider dataProviderForIsNotSquare
+     */
+    public function testIsSquareFalseNonSquareMatrix(array $A)
+    {
+        $A = MatrixFactory::create($A);
+        $this->assertFalse($A->isSquare());
     }
 
     public function dataProviderForIsSquare()
@@ -35,6 +46,7 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     isNotSquare returns true for nonsquare matrices.
      * @dataProvider dataProviderForIsNotSquare
      */
     public function testIsNotSquare(array $A)
@@ -74,6 +86,7 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     isSymmetric returns true for symmetric matrices.
      * @dataProvider dataProviderForIsSymmetric
      */
     public function testIsSymmetric(array $A)
@@ -106,6 +119,7 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     isSymmetric returns false for nonsymmetric matrices.
      * @dataProvider dataProviderForIsNotSymmetric
      */
     public function testIsNotSymmetric(array $A)
