@@ -2482,6 +2482,163 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     leadingPrincipalMinor returns the expected SquareMatrix
+     * @dataProvider dataProviderForLeadingPrincipalMinor
+     * @param        array $A
+     * @param        int $k
+     * @param        array $R
+     */
+    public function testLeadingPrincipalMinor(array $A, int $k, array $R)
+    {
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
+
+        $this->assertEquals($R, $A->leadingPrincipalMinor($k));
+    }
+
+    public function dataProviderForLeadingPrincipalMinor(): array
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ],
+                1,
+                [
+                    [1],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ],
+                2,
+                [
+                    [1, 2],
+                    [4, 5],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ],
+                3,
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3, 4],
+                    [5, 6, 7, 8],
+                    [9, 0, 1, 2],
+                    [3, 4, 5, 6],
+                ],
+                1,
+                [
+                    [1],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3, 4],
+                    [5, 6, 7, 8],
+                    [9, 0, 1, 2],
+                    [3, 4, 5, 6],
+                ],
+                2,
+                [
+                    [1, 2],
+                    [5, 6],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3, 4],
+                    [5, 6, 7, 8],
+                    [9, 0, 1, 2],
+                    [3, 4, 5, 6],
+                ],
+                3,
+                [
+                    [1, 2, 3],
+                    [5, 6, 7],
+                    [9, 0, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3, 4],
+                    [5, 6, 7, 8],
+                    [9, 0, 1, 2],
+                    [3, 4, 5, 6],
+                ],
+                4,
+                [
+                    [1, 2, 3, 4],
+                    [5, 6, 7, 8],
+                    [9, 0, 1, 2],
+                    [3, 4, 5, 6],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase leadingPrincipalMinor throws an OutOfBoundsException when k is < 0.
+     */
+    public function testLeadingPrincipalMinorExceptionKLessThanZero()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $this->setExpectedException(Exception\OutOfBoundsException::class);
+        $R = $A->leadingPrincipalMinor(-1);
+    }
+
+    /**
+     * @testCase leadingPrincipalMinor throws an OutOfBoundsException when k is > n.
+     */
+    public function testLeadingPrincipalMinorExceptionKGreaterThanN()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $this->setExpectedException(Exception\OutOfBoundsException::class);
+        $R = $A->leadingPrincipalMinor($A->getN() + 1);
+    }
+
+    /**
+     * @testCase leadingPrincipalMinor throws a MatrixException if the Matrix is not square.
+     */
+    public function testLeadingPrincipalMinorExceptionMatrixNotSquare()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+            [4, 5, 6],
+        ]);
+
+        $this->setExpectedException(Exception\MatrixException::class);
+        $R = $A->leadingPrincipalMinor(2);
+    }
+
+    /**
      * @dataProvider dataProviderForMinor
      */
     public function testMinor(array $A, int $mᵢ, int $nⱼ, $Mᵢⱼ)
