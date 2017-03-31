@@ -1285,6 +1285,12 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
                     [0, -3],
                 ],
             ],
+            [
+                [
+                    [-1, 4],
+                    [4, -1],
+                ]
+            ],
         ];
     }
 
