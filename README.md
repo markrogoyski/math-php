@@ -407,6 +407,10 @@ $bool = $A->isSymmetric();
 $bool = $A->isSingular();
 $bool = $A->isNonsingular(); // same as isInvertible
 $bool = $A->isInvertible();  // same as isNonsingular
+$bool = $A->isPositiveDefinite();
+$bool = $A->isPositiveSemidefinite();
+$bool = $A->isNegativeDefinite();
+$bool = $A->isNegativeSemidefinite();
 
 // Matrix decomposition
 $PLU = $A->LUDecomposition(); // returns array of Matrices [L, U, P, A]; P is permutation matrix
