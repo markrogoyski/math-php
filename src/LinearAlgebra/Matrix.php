@@ -211,6 +211,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isSingular
      *  - isNonsingular
      *  - isInvertible
+     *  - isPositiveDefinite
+     *  - isPositiveSemidefinite
+     *  - isNegativeDefinite
+     *  - isNegativeSemidefinite
      **************************************************************************/
 
     /**
@@ -221,7 +225,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isSquare(): bool
     {
-        return $this->m == $this->n;
+        return $this->m === $this->n;
     }
 
     /**
@@ -235,7 +239,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $A  = $this->A;
         $Aᵀ = $this->transpose()->getMatrix();
 
-        return $A == $Aᵀ;
+        return $A === $Aᵀ;
     }
 
     /**
@@ -287,6 +291,137 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function isInvertible(): bool
     {
         return $this->isNonsingular();
+    }
+
+    /**
+     * Is the matrix positive definite?
+     *  - It is square and symmetric.
+     *  - All principal minors have strictly positive determinants (> 0)
+     *
+     * Other facts:
+     *  - All its eigenvalues are positive.
+     *  - All its pivots are positive.
+     *
+     * https://en.wikipedia.org/wiki/Positive-definite_matrix
+     * http://mathworld.wolfram.com/PositiveDefiniteMatrix.html
+     * http://mat.gsia.cmu.edu/classes/QUANT/NOTES/chap1/node8.html
+     * https://en.wikipedia.org/wiki/Sylvester%27s_criterion
+     *
+     * @return boolean true if positive definite; false otherwise
+     */
+    public function isPositiveDefinite(): bool
+    {
+        if (!$this->isSquareAndSymmetric()) {
+            return false;
+        }
+
+        for ($i = 1; $i <= $this->n; $i++) {
+            if ($this->leadingPrincipalMinor($i)->det() <= 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix positive semidefinite?
+     *  - It is square and symmetric.
+     *  - All principal minors have positive determinants (≥ 0)
+     *
+     * http://mathworld.wolfram.com/PositiveSemidefiniteMatrix.html
+     *
+     * @return boolean true if positive semidefinite; false otherwise
+     */
+    public function isPositiveSemidefinite(): bool
+    {
+        if (!$this->isSquareAndSymmetric()) {
+            return false;
+        }
+
+        for ($i = 1; $i <= $this->n; $i++) {
+            if ($this->leadingPrincipalMinor($i)->det() < 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix negative definite?
+     *  - It is square and symmetric.
+     *  - All principal minors have nonzero determinants and alternate in signs, starting with det(A₁) < 0
+     *
+     * http://mathworld.wolfram.com/NegativeDefiniteMatrix.html
+     *
+     * @return boolean true if negative definite; false otherwise
+     */
+    public function isNegativeDefinite(): bool
+    {
+        if (!$this->isSquareAndSymmetric()) {
+            return false;
+        }
+
+        for ($i = 1; $i <= $this->n; $i++) {
+            switch ($i % 2) {
+                case 1:
+                    if ($this->leadingPrincipalMinor($i)->det() >= 0) {
+                        return false;
+                    }
+                    break;
+                case 0:
+                    if ($this->leadingPrincipalMinor($i)->det() <= 0) {
+                        return false;
+                    }
+                    break;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix negative semidefinite?
+     *  - It is square and symmetric.
+     *  - All principal minors have determinants that alternate signs, starting with det(A₁) ≤ 0
+     *
+     * http://mathworld.wolfram.com/NegativeSemidefiniteMatrix.html
+     *
+     * @return boolean true if negative semidefinite; false otherwise
+     */
+    public function isNegativeSemidefinite(): bool
+    {
+        if (!$this->isSquareAndSymmetric()) {
+            return false;
+        }
+
+        for ($i = 1; $i <= $this->n; $i++) {
+            switch ($i % 2) {
+                case 1:
+                    if ($this->leadingPrincipalMinor($i)->det() > 0) {
+                        return false;
+                    }
+                    break;
+                case 0:
+                    if ($this->leadingPrincipalMinor($i)->det() < 0) {
+                        return false;
+                    }
+                    break;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix square and symmetric
+     *
+     * @return boolean true if square and symmmetric; false otherwise
+     */
+    protected function isSquareAndSymmetric(): bool
+    {
+        return ($this->isSquare() && $this->isSymmetric());
     }
 
     /**************************************************************************
