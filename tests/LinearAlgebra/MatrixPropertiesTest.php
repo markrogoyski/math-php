@@ -1184,6 +1184,43 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     isPositiveSemidefinite returns false for a non positive semidefinite square matrix.
+     * @dataProvider dataProviderForIsNotPositiveSemidefinite
+     * @param        array $A
+     */
+    public function testIsNotPositiveSemiDefinite(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isPositiveSemidefinite());
+    }
+
+    public function dataProviderForIsNotPositiveSemidefinite(): array
+    {
+        return [
+            // Square and symmetric but fails determinate test
+            [
+                [
+                    [0, -4],
+                    [-4, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 4],
+                    [4, 1],
+                ]
+            ],
+            [
+                [
+                    [-1, 0],
+                    [0, -3],
+                ],
+            ],
+        ];
+    }
+
+    /**
      * @testCase     isNegativeDefinite returns true for a negative definite square matrix.
      * @dataProvider dataProviderForIsNegativeDefinite
      * @param        array $A
@@ -1209,6 +1246,43 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
                     [-3, 0, 0],
                     [0, -2, 0],
                     [0, 0, -1],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     isNegativeDefinite returns false for a non negative definite square matrix.
+     * @dataProvider dataProviderForIsNotNegativeDefinite
+     * @param        array $A
+     */
+    public function testIsNotNegativeDefinite(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isNegativeDefinite());
+    }
+
+    public function dataProviderForIsNotNegativeDefinite(): array
+    {
+        return [
+            // Square and symmetric but fails determinate test
+            [
+                [
+                    [0, -4],
+                    [-4, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 4],
+                    [4, 1],
+                ]
+            ],
+            [
+                [
+                    [1, 0],
+                    [0, -3],
                 ],
             ],
         ];
@@ -1245,6 +1319,43 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
                 [
                     [-1, -1],
                     [-1, -1],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     isNegativeSemidefinite returns false for a non negative semidefinite square matrix.
+     * @dataProvider dataProviderForIsNotNegativeSemidefinite
+     * @param        array $A
+     */
+    public function testIsNotNegativeSemidefinite(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isNegativeSemidefinite());
+    }
+
+    public function dataProviderForIsNotNegativeSemidefinite(): array
+    {
+        return [
+            // Square and symmetric but fails determinate test
+            [
+                [
+                    [0, -4],
+                    [-4, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 4],
+                    [4, 1],
+                ]
+            ],
+            [
+                [
+                    [1, 0],
+                    [0, -3],
                 ],
             ],
         ];
