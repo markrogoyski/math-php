@@ -905,4 +905,452 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @testCase     isPositiveDefinite returns true for a positive definite square matrix.
+     * @dataProvider dataProviderForIsPositiveDefinite
+     * @param        array $A
+     */
+    public function testIsPositiveDefinite(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isPositiveDefinite());
+    }
+
+    public function dataProviderForIsPositiveDefinite(): array
+    {
+        return [
+            [
+                [
+                    [2, -1],
+                    [-1, 2],
+                ],
+            ],
+            [
+                [
+                    [1, -1],
+                    [-1, 4],
+                ],
+            ],
+            [
+                [
+                    [5, 2],
+                    [2, 3],
+                ],
+            ],
+            [
+                [
+                    [6, 4],
+                    [4, 5],
+                ],
+            ],
+            [
+                [
+                    [12, -12],
+                    [-12, 96],
+                ],
+            ],
+            [
+                [
+                    [2, -1, 0],
+                    [-1, 2, -1],
+                    [0, -1, 2],
+                ],
+            ],
+            [
+                [
+                    [2, -1, 1],
+                    [-1, 2, -1],
+                    [1, -1, 2],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0],
+                    [0, 3, 0],
+                    [0, 0, 2],
+                ],
+            ],
+            [
+                [
+                    [3, -2, 0],
+                    [-2, 2, 0],
+                    [0, 0, 2],
+                ],
+            ],
+            [
+                [
+                    [4, 1, -1],
+                    [1, 2, 1],
+                    [-1, 1, 2],
+                ],
+            ],
+            [
+                [
+                    [9, -3, 3, 9],
+                    [-3, 17, -1, -7],
+                    [3, -1, 17, 15],
+                    [9, -7, 15, 44],
+                ],
+            ],
+            [
+                [
+                    [14, 4, 9],
+                    [4, 14, -7],
+                    [9, -7, 14],
+                ],
+            ],
+            [
+                [
+                    [13, 0, -3],
+                    [0, 9, 9],
+                    [-3, 9, 10],
+                ],
+            ],
+            [
+                [
+                    [14, -7, -13],
+                    [-7, 6, 5],
+                    [-13, 5, 14],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     isPositiveDefinite returns false for a non positive definite square matrix.
+     * @dataProvider dataProviderForIsNotPositiveDefinite
+     * @param        array $A
+     */
+    public function testIsNotPositiveDefinite(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isPositiveDefinite());
+    }
+
+    public function dataProviderForIsNotPositiveDefinite(): array
+    {
+        return [
+            // Not square
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [2, 3],
+                    [3, 4],
+                ],
+            ],
+            // Not symmetric
+            [
+                [
+                    [2, -1, 1],
+                    [-1, 2, -1],
+                    [2, -1, 2],
+                ],
+            ],
+            [
+                [
+                    [2, -1, 1],
+                    [-4, 2, -1],
+                    [1, -1, 2],
+                ],
+            ],
+            [
+                [
+                    [9, -13, 3, 9],
+                    [-3, 17, -1, -7],
+                    [3, -1, 17, 15],
+                    [9, -7, 15, 44],
+                ],
+            ],
+            // Square and symmetric but fails determinate test
+            [
+                [
+                    [0, 0],
+                    [0, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 4],
+                    [4, 1],
+                ]
+            ],
+            [
+                [
+                    [-1, 0],
+                    [0, -3],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     isPositiveSemidefinite returns true for a positive definite square matrix.
+     * @dataProvider dataProviderForIsPositiveSemidefinite
+     * @param        array $A
+     */
+    public function testIsPositiveSemidefinite(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isPositiveSemidefinite());
+    }
+
+    public function dataProviderForIsPositiveSemidefinite(): array
+    {
+        return [
+            [
+                [
+                    [0, 0],
+                    [0, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 0],
+                    [0, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 0],
+                    [0, 2],
+                ],
+            ],
+            [
+                [
+                    [1, 1],
+                    [1, 1],
+                ],
+            ],
+            [
+                [
+                    [2, -1],
+                    [-1, 2],
+                ],
+            ],
+            [
+                [
+                    [0, 0, 0],
+                    [0, 3, 0],
+                    [0, 0, 3],
+                ],
+            ],
+            [
+                [
+                    [2, -1, -1],
+                    [-1, 2, -1],
+                    [-1, -1, 2],
+                ],
+            ],
+            [
+                [
+                    [2, -1, 0],
+                    [-1, 2, -1],
+                    [0, -1, 2],
+                ],
+            ],
+            [
+                [
+                    [2, -1, 1],
+                    [-1, 2, -1],
+                    [1, -1, 2],
+                ],
+            ],
+            [
+                [
+                    [2, -1, 2],
+                    [-1, 2, -1],
+                    [2, -1, 2],
+                ],
+            ],
+            [
+                [
+                    [9, -3, 3, 9],
+                    [-3, 17, -1, -7],
+                    [3, -1, 17, 15],
+                    [9, -7, 15, 44],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     isNegativeDefinite returns true for a negative definite square matrix.
+     * @dataProvider dataProviderForIsNegativeDefinite
+     * @param        array $A
+     */
+    public function testIsNegativeDefinite(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isNegativeDefinite());
+    }
+
+    public function dataProviderForIsNegativeDefinite(): array
+    {
+        return [
+            [
+                [
+                    [-1, 1],
+                    [1, -2],
+                ],
+            ],
+            [
+                [
+                    [-3, 0, 0],
+                    [0, -2, 0],
+                    [0, 0, -1],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     isNegativeSemidefinite returns true for a negative semidefinite square matrix.
+     * @dataProvider dataProviderForIsNegativeSemidefinite
+     * @param        array $A
+     */
+    public function testIsNegativeSemidefinite(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isNegativeSemidefinite());
+    }
+
+    public function dataProviderForIsNegativeSemidefinite(): array
+    {
+        return [
+            [
+                [
+                    [0, 0],
+                    [0, 0],
+                ],
+            ],
+            [
+                [
+                    [0, 0],
+                    [0, -1],
+                ],
+            ],
+            [
+                [
+                    [-1, -1],
+                    [-1, -1],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase Non square matrix is not any definite.
+     */
+    public function testNonSquareMatrixIsNotAnyDefinite()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+
+        $this->assertFalse($A->isPositiveDefinite());
+        $this->assertFalse($A->isPositiveSemidefinite());
+        $this->assertFalse($A->isNegativeDefinite());
+        $this->assertFalse($A->isNegativeSemidefinite());
+    }
+
+    /**
+     * @testCase Non symmetric square matrix is not any definite.
+     */
+    public function testNonSymmetricSquareMatrixIsNotAnyDefinite()
+    {
+        $A = new Matrix([
+            [1, 2, 3],
+            [9, 8, 4],
+            [6, 2, 5],
+        ]);
+
+        $this->assertFalse($A->isPositiveDefinite());
+        $this->assertFalse($A->isPositiveSemidefinite());
+        $this->assertFalse($A->isNegativeDefinite());
+        $this->assertFalse($A->isNegativeSemidefinite());
+    }
+
+    /**
+     * @testCase     isSquareAndSymmetric returns true for square symmetric matrices
+     * @dataProvider dataProviderForIsPositiveDefinite
+     */
+    public function testIsSquareAndSymmetric(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $reflection_method = new \ReflectionMethod(Matrix::class, 'isSquareAndSymmetric');
+        $reflection_method->setAccessible(true);
+
+        $this->assertTrue($reflection_method->invoke($A));
+    }
+
+    /**
+     * @testCase     isSquareAndSymmetric returns false for non square symmetric matrices
+     * @dataProvider dataProviderForIsNotSquareAndSymmetric
+     */
+    public function testIsNotSquareAndSymmetric(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $reflection_method = new \ReflectionMethod(Matrix::class, 'isSquareAndSymmetric');
+        $reflection_method->setAccessible(true);
+
+        $this->assertFalse($reflection_method->invoke($A));
+    }
+
+    public function dataProviderForIsNotSquareAndSymmetric(): array
+    {
+        return [
+            // Not square
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [2, 3],
+                    [3, 4],
+                ],
+            ],
+            // Not symmetric
+            [
+                [
+                    [2, -1, 1],
+                    [-1, 2, -1],
+                    [2, -1, 2],
+                ],
+            ],
+            [
+                [
+                    [2, -1, 1],
+                    [-4, 2, -1],
+                    [1, -1, 2],
+                ],
+            ],
+            [
+                [
+                    [9, -13, 3, 9],
+                    [-3, 17, -1, -7],
+                    [3, -1, 17, 15],
+                    [9, -7, 15, 44],
+                ],
+            ],
+        ];
+    }
 }
