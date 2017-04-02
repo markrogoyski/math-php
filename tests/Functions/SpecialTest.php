@@ -1,25 +1,21 @@
 <?php
 namespace MathPHP\Functions;
 
+use MathPHP\Exception;
+
 class SpecialTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @testCase     signum/sgn returns the expected value
      * @dataProvider dataProviderForSignum
      */
     public function testSignum($x, $sign)
     {
         $this->assertEquals($sign, Special::signum($x));
-    }
-
-    /**
-     * @dataProvider dataProviderForSignum
-     */
-    public function testSgn($x, $sign)
-    {
         $this->assertEquals($sign, Special::sgn($x));
     }
 
-    public function dataProviderForSignum()
+    public function dataProviderForSignum(): array
     {
         return [
         [ 0, 0 ],
@@ -29,6 +25,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     gamma returns the expected value
      * @dataProvider dataProviderForGammaLanczos
      */
     public function testGamma($z, $Γ)
@@ -37,6 +34,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     gammaLanczos returns the expected value
      * @dataProvider dataProviderForGammaLanczos
      */
     public function testGammaLanczos($z, $Γ)
@@ -44,7 +42,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($Γ, Special::gammaLanczos($z), '', 0.001);
     }
 
-    public function dataProviderForGammaLanczos()
+    public function dataProviderForGammaLanczos(): array
     {
         return [
             [0.1, 9.51350769866873183629],
@@ -93,6 +91,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     gammaStirling returns the expected value
      * @dataProvider dataProviderForGammaStirling
      */
     public function testGammaStirling($n, $Γ)
@@ -100,7 +99,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($Γ, Special::gammaStirling($n), '', 0.01);
     }
 
-    public function dataProviderForGammaStirling()
+    public function dataProviderForGammaStirling(): array
     {
         return [
         [ 1, 1 ],
@@ -124,14 +123,16 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     beta returns the expected value
      * @dataProvider dataProviderForBeta
      */
     public function testBeta($x, $y, float $beta)
     {
         $this->assertEquals($beta, Special::beta($x, $y), '', 0.001);
+        $this->assertEquals($beta, Special::β($x, $y), '', 0.001);
     }
 
-    public function dataProviderForBeta()
+    public function dataProviderForBeta(): array
     {
         return [
             [ 1.5, 0, \INF ],
@@ -152,6 +153,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     logistic returns the expected value
      * @dataProvider dataProviderForLogistic
      */
     public function testLogistic($x₀, $L, $k, $x, $logistic)
@@ -159,7 +161,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($logistic, Special::logistic($x₀, $L, $k, $x), '', 0.001);
     }
 
-    public function dataProviderForLogistic()
+    public function dataProviderForLogistic(): array
     {
         return [
             [0, 0, 0, 0, 0],
@@ -174,6 +176,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase sigmoid returns the expected value
      * Sigmoid is just a special case of the logistic function.
      */
     public function testSigmoid()
@@ -187,22 +190,16 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
 
 
     /**
+     * @testCase     errorFunction returns the expected value
      * @dataProvider dataProviderForErrorFunction
      */
     public function testErrorFunction($x, $error)
     {
         $this->assertEquals($error, Special::errorFunction($x), '', 0.0001);
-    }
-
-    /**
-     * @dataProvider dataProviderForErrorFunction
-     */
-    public function testErf($x, $error)
-    {
         $this->assertEquals($error, Special::erf($x), '', 0.0001);
     }
 
-    public function dataProviderForErrorFunction()
+    public function dataProviderForErrorFunction(): array
     {
         return [
             [ 0, 0 ],
@@ -217,22 +214,16 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     complementaryErrorFunction returns the expected value
      * @dataProvider dataProviderForComplementaryErrorFunction
      */
     public function testComplementaryErrorFunction($x, $error)
     {
         $this->assertEquals($error, Special::complementaryErrorFunction($x), '', 0.0001);
-    }
-
-    /**
-     * @dataProvider dataProviderForComplementaryErrorFunction
-     */
-    public function testErfc($x, $error)
-    {
         $this->assertEquals($error, Special::erfc($x), '', 0.0001);
     }
 
-    public function dataProviderForComplementaryErrorFunction()
+    public function dataProviderForComplementaryErrorFunction(): array
     {
         return [
             [ 0, 1 ],
@@ -247,6 +238,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     lowerIncompleteGamma returns the expected value
      * @dataProvider dataProviderForLowerIncompleteGamma
      */
     public function testLowerIncompleteGamma($s, $x, $lig)
@@ -254,7 +246,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($lig, Special::lowerIncompleteGamma($s, $x), '', 0.001);
     }
 
-    public function dataProviderForLowerIncompleteGamma()
+    public function dataProviderForLowerIncompleteGamma(): array
     {
         return [
             [1, 2, 0.864664716763387308106],
@@ -266,6 +258,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     regularizedIncompleteBeta returns the expected value
      * @dataProvider dataProviderForRegularizedIncompleteBeta
      */
     public function testRegularizedIncompleteBeta($x, $a, $b, $rib)
@@ -273,7 +266,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($rib, Special::regularizedIncompleteBeta($x, $a, $b), '', 0.00001);
     }
 
-    public function dataProviderForRegularizedIncompleteBeta()
+    public function dataProviderForRegularizedIncompleteBeta(): array
     {
         return [
             [0.4, 1, 2, 0.64],
@@ -299,6 +292,9 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @testCase regularizedIncompleteBeta throws an OutOfBoundsException if a is less than 0
+     */
     public function testRegularizedIncompleteBetaExceptionALessThanZero()
     {
         $a = -1;
@@ -306,14 +302,18 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         Special::regularizedIncompleteBeta(0.4, $a, 4);
     }
 
+    /**
+     * @testCase regularizedIncompleteBeta throws an OutOfBoundsException if x is out of bounds
+     */
     public function testRegularizedIncompleteBetaExceptionXOutOfBounds()
     {
         $x = -1;
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->setExpectedException(Exception\OutOfBoundsException::class);
         Special::regularizedIncompleteBeta($x, 4, 4);
     }
 
     /**
+     * @testCase     incompleteBeta returns the expected value
      * @dataProvider dataProviderForIncompleteBeta
      */
     public function testIncompleteBeta($x, $a, $b, $ib)
@@ -321,7 +321,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($ib, Special::incompleteBeta($x, $a, $b), '', 0.0001);
     }
 
-    public function dataProviderForIncompleteBeta()
+    public function dataProviderForIncompleteBeta(): array
     {
         return [
             [0.1, 1, 3, 0.09033333333333333333333],
@@ -351,6 +351,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     upperIncompleteGamma returns the expected value
      * @dataProvider dataProviderForUpperIncompleteGamma
      */
     public function testUpperIncompleteGamma($s, $x, $uig)
@@ -358,7 +359,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($uig, Special::upperIncompleteGamma($s, $x), '', 0.0001);
     }
 
-    public function dataProviderForUpperIncompleteGamma()
+    public function dataProviderForUpperIncompleteGamma(): array
     {
         return [
             [0.0001, 1, 0.21939372],
@@ -374,19 +375,26 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @testCase upperIncompleteGamma throws an OutOfBoundsException if s is less than 0
+     */
     public function testUppderIncompleteGammaExceptionSLessThanZero()
     {
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->setExpectedException(Exception\OutOfBoundsException::class);
         Special::upperIncompleteGamma(-1, 1);
     }
-    
+
+    /**
+     * @testCase generalizedHypergeometric throws a BadParameterException if the parameter count is wrong
+     */
     public function testGeneralizedHypergeometricExceptionParameterCount()
     {
-        $this->setExpectedException('MathPHP\Exception\BadParameterException');
+        $this->setExpectedException(Exception\BadParameterException::class);
         Special::generalizedHypergeometric(2, 1, [6.464756838, 0.509199496, 0.241379523]);
     }
     
     /**
+     * @testCase confluentHypergeometric returns the expected value
      * @dataProvider dataProviderForConfluentHypergeometric
      */
     public function testConfluentHypergeometric($a, $b, $z, $expected)
@@ -395,7 +403,8 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $tol = .000001 * $expected;
         $this->assertEquals($expected, $actual, '', $tol);
     }
-    public function dataProviderForConfluentHypergeometric()
+
+    public function dataProviderForConfluentHypergeometric(): array
     {
         return [
             [6.464756838, 0.509199496, 0.241379523, 6.48114845060471],
@@ -406,6 +415,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * @testCase hypergeometric returns the expected value
      * @dataProvider dataProviderForHypergeometric
      */
     public function testHypergeometric($a, $b, $c, $z, $expected)
@@ -414,7 +424,8 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $tol = .000001 * $expected;
         $this->assertEquals($expected, $actual, '', $tol);
     }
-    public function dataProviderForHypergeometric()
+
+    public function dataProviderForHypergeometric(): array
     {
         return [
             [1, 1, 1, .9, 10],
@@ -423,14 +434,18 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             [3, 1.4, 1.5, .926, 1746.206366],
         ];
     }
-    
+
+    /**
+     * @testCase hypergeometric throws an OutOfBoundsException if n is greater than 1
+     */
     public function testHypergeometricExceptionNGreaterThanOne()
     {
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->setExpectedException(Exception\OutOfBoundsException::class);
         Special::hypergeometric(1, 1, 1, 1);
     }
 
     /**
+     * @testCase softmax returns the expected value
      * @dataProvider dataProviderForSoftmax
      */
     public function testSoftmax(array $𝐳, array $expected)
@@ -442,7 +457,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, array_sum($σ⟮𝐳⟯ⱼ));
     }
 
-    public function dataProviderForSoftmax()
+    public function dataProviderForSoftmax(): array
     {
         return [
             // Test data: Wikipedia
