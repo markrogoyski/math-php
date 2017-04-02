@@ -103,4 +103,21 @@ class Integer
 
         return $factors;
     }
+
+    /**
+     * Coprime (relatively prime, mututally prime)
+     * Two integers a and b are said to be coprime if the only positive integer that divides both of them is 1.
+     * That is, the only common positive factor of the two numbers is 1.
+     * This is equivalent to their greatest common divisor being 1.
+     * https://en.wikipedia.org/wiki/Coprime_integers
+     *
+     * @param  int $a
+     * @param  int $b
+     *
+     * @return bool true if a and b are coprime; false otherwise
+     */
+    public static function coprime(int $a, int $b): bool
+    {
+        return (Algebra::gcd($a, $b) === 1);
+    }
 }
