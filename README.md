@@ -518,6 +518,9 @@ $factors = Integer::primeFactorization($n);
 // Perfect powers
 $bool        = Integer::isPerfectPower($n);
 list($m, $k) = Integer::perfectPower($n);
+
+// Coprime
+$bool = Integer::coprime(4, 35);
 ```
 
 ### Numerical Analysis - Interpolation
