@@ -325,4 +325,152 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
             [-98352299832],
         ];
     }
+
+    /**
+     * @testCase     coprime returns true if a and b are coprime
+     * @dataProvider dataProviderForCoprime
+     * @param        int $a
+     * @param        int $b
+     */
+    public function testCoprime(int $a, int $b)
+    {
+        $this->assertTrue(Integer::coprime($a, $b));
+    }
+
+    public function dataProviderForCoprime(): array
+    {
+        return [
+            [1, 0],
+            [-1, 1],
+            [1, 2],
+            [1, 3],
+            [1, 4],
+            [1, 5],
+            [1, 6],
+            [1, 7],
+            [1, 8],
+            [1, 9],
+            [1, 10],
+            [1, 20],
+            [1, 30],
+            [1, 100],
+            [2, 3],
+            [2, 5],
+            [2, 7],
+            [2, 9],
+            [2, 11],
+            [2, 13],
+            [2, 15],
+            [2, 17],
+            [2, 19],
+            [2, 21],
+            [2, 23],
+            [2, 25],
+            [2, 27],
+            [2, 29],
+            [3, 4],
+            [3, 5],
+            [3, 7],
+            [3, 8],
+            [3, 10],
+            [3, 11],
+            [3, 13],
+            [3, 14],
+            [3, 16],
+            [4, 3],
+            [4, 5],
+            [4, 7],
+            [4, 17],
+            [4, 21],
+            [4, 35],
+            [5, 6],
+            [5, 7],
+            [5, 8],
+            [5, 9],
+            [5, 11],
+            [5, 12],
+            [5, 13],
+            [5, 14],
+            [5, 16],
+            [5, 27],
+            [6, 7],
+            [6, 11],
+            [6, 13],
+            [6, 17],
+            [6, 29],
+            [6, 23],
+            [6, 25],
+            [6, 29],
+            [19, 20],
+            [20, 21],
+            [23, 24],
+            [23, 25],
+            [27, 16],
+            [28, 29],
+            [29, 30],
+        ];
+    }
+
+    /**
+     * @testCase     coprime returns false if a and b are not coprime
+     * @dataProvider dataProviderForNotCoprime
+     * @param        int $a
+     * @param        int $b
+     */
+    public function testNotCoprime(int $a, int $b)
+    {
+        $this->assertFalse(Integer::coprime($a, $b));
+    }
+
+    public function dataProviderForNotCoprime(): array
+    {
+        return [
+            [2, 4],
+            [2, 6],
+            [2, 8],
+            [2, 10],
+            [2, 12],
+            [2, 14],
+            [2, 16],
+            [2, 18],
+            [2, 20],
+            [2, 22],
+            [2, 24],
+            [2, 26],
+            [2, 28],
+            [2, 30],
+            [3, 6],
+            [3, 9],
+            [3, 12],
+            [3, 15],
+            [4, 8],
+            [4, 12],
+            [4, 20],
+            [4, 22],
+            [4, 24],
+            [4, 30],
+            [5, 10],
+            [5, 15],
+            [5, 20],
+            [5, 25],
+            [5, 30],
+            [5, 50],
+            [5, 100],
+            [5, 200],
+            [5, 225],
+            [5, 555],
+            [6, 12],
+            [6, 14],
+            [6, 16],
+            [6, 18],
+            [6, 26],
+            [6, 28],
+            [6, 30],
+            [6, 32],
+            [12, 21],
+            [18, 20],
+            [20, 22],
+            [21, 24],
+        ];
+    }
 }
