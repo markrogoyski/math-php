@@ -260,11 +260,12 @@ class Special
      * https://en.wikipedia.org/wiki/Beta_function
      *
      *           Γ(x)Γ(y)
-     * B(x, y) = --------
+     * β(x, y) = --------
      *           Γ(x + y)
      *
-     * @param  int    $x
-     * @param  int    $y
+     * @param  int $x
+     * @param  int $y
+     *
      * @return float
      */
     public static function beta($x, $y): float
@@ -277,6 +278,19 @@ class Special
         $Γ⟮x ＋ y⟯ = self::gamma($x + $y);
 
         return $Γ⟮x⟯Γ⟮y⟯ / $Γ⟮x ＋ y⟯;
+    }
+
+    /**
+     * Beta function convenience method
+     *
+     * @param  int $x
+     * @param  int $y
+     *
+     * @return float
+     */
+    public static function β($x, $y): float
+    {
+        return self::beta($x, $y);
     }
 
     /**
