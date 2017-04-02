@@ -1,7 +1,7 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
-class MatrixFactorTest extends \PHPUnit_Framework_TestCase
+class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider dataProviderForDiagonalMatrix
