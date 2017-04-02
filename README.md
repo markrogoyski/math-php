@@ -1044,6 +1044,14 @@ $po10 = Basic::powersOfTen($n);
 // Factorial (n!)
 $fact = Basic::factorial($n);
 // [0!, 1!, 2!, 3!, 4!] = [1,  1,  2,  6,  24] - Indexed from 0
+
+// Digit sum
+$digit_sum = Basic::digitSum($n);
+// [0, 1, 2, 3, 4] - Indexed from 0
+
+// Digital root
+$digit_root = Basic::digitalRoot($n);
+// [0, 1, 2, 3, 4] - Indexed from 0
 ```
 
 ### Sequences - Advanced
