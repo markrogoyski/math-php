@@ -10,10 +10,10 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     public function testEval(array $intervals, array $polynomial_args, $input, $expected)
     {
         $functions = array_map(
-          function ($args) {
-            return new Polynomial($args);
-          },
-          $polynomial_args
+            function ($args) {
+              return new Polynomial($args);
+            },
+            $polynomial_args
         );
 
         $piecewise = new Piecewise($intervals, $functions);
