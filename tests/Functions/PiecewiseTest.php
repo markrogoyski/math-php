@@ -11,7 +11,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     {
         $functions = array_map(
             function ($args) {
-              return new Polynomial($args);
+                return new Polynomial($args);
             },
             $polynomial_args
         );
