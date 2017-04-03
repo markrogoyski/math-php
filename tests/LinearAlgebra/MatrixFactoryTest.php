@@ -123,9 +123,15 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForArrayOfVectors
      */
-    public function testCreateArrayOfVectors(array $A, array $expected)
+    public function testCreateArrayOfVectors(array $vectors, array $expected)
     {
-        $A = MatrixFactory::create($A);
+        $vectors = array_map(
+            function ($vector) {
+                return new Vector($vector);
+            },
+            $vectors
+        );
+        $A = MatrixFactory::create($vectors);
 
         $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $A);
         $this->assertEquals($expected, $A->getMatrix());
@@ -136,7 +142,7 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [
-                    new Vector([1, 2]),
+                    [1, 2],
                 ],
                 [
                     [1],
@@ -145,8 +151,8 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [
-                    new Vector([1, 2]),
-                    new Vector([3, 4]),
+                    [1, 2],
+                    [3, 4],
                 ],
                 [
                     [1, 3],
@@ -155,9 +161,9 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [
-                    new Vector([1, 2]),
-                    new Vector([3, 4]),
-                    new Vector([5, 6]),
+                    [1, 2],
+                    [3, 4],
+                    [5, 6],
                 ],
                 [
                     [1, 3, 5],
@@ -166,9 +172,9 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [
-                    new Vector([1, 2, 3]),
-                    new Vector([3, 4, 5]),
-                    new Vector([5, 6, 6]),
+                    [1, 2, 3],
+                    [3, 4, 5],
+                    [5, 6, 6],
                 ],
                 [
                     [1, 3, 5],

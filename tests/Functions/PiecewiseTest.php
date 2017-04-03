@@ -7,8 +7,15 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForEval
      */
-    public function testEval(array $intervals, array $functions, $input, $expected)
+    public function testEval(array $intervals, array $polynomial_args, $input, $expected)
     {
+        $functions = array_map(
+          function ($args) {
+            return new Polynomial($args);
+          },
+          $polynomial_args
+        );
+
         $piecewise = new Piecewise($intervals, $functions);
         $evaluated = $piecewise($input);
         $this->assertEquals($expected, $evaluated);
@@ -22,7 +29,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                 [
                   [-100, 100],                  // f interval: [-100, 100]
                 ], [
-                  new Polynomial([1, 0])        // f(x) = x
+                  [1, 0], // new Polynomial([1, 0])        // f(x) = x
                 ],
                 25, 25       // p(25) = f(25) = 25
             ],
@@ -33,9 +40,9 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                   [-2, 2],                      // g interval: [-2, 2]
                   [2, 100, true, false]         // h interval: (2, 100]
                 ], [
-                  new Polynomial([-1, 0]),      // f(x) = -x
-                  new Polynomial([2]),          // g(x) = 2
-                  new Polynomial([1, 0])        // h(x) = x
+                  [-1, 0], // new Polynomial([-1, 0]),      // f(x) = -x
+                  [2],     // new Polynomial([2]),          // g(x) = 2
+                  [1, 0],  // new Polynomial([1, 0])        // h(x) = x
                 ],
                 -27, 27       // p(-27) = f(-27) = -(-27) = 27
             ],
@@ -46,9 +53,9 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                   [-2, 2],                      // g interval: [-2, 2]
                   [2, 100, true, false]         // h interval: (2, 100]
                 ], [
-                  new Polynomial([-1, 0]),      // f(x) = -x
-                  new Polynomial([2]),          // g(x) = 2
-                  new Polynomial([1, 0])        // h(x) = x
+                  [-1, 0], // new Polynomial([-1, 0]),      // f(x) = -x
+                  [2],     // new Polynomial([2]),          // g(x) = 2
+                  [1, 0],  // new Polynomial([1, 0])        // h(x) = x
                 ],
                 1, 2       // p(1) = g(1) = 2
             ],
@@ -59,9 +66,9 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                   [-2, 2],                      // g interval: [-2, 2]
                   [2, 100, true, false]         // h interval: (2, 100]
                 ], [
-                  new Polynomial([-1, 0]),      // f(x) = -x
-                  new Polynomial([2]),          // g(x) = 2
-                  new Polynomial([1, 0])        // h(x) = x
+                  [-1, 0], // new Polynomial([-1, 0]),      // f(x) = -x
+                  [2],     // new Polynomial([2]),          // g(x) = 2
+                  [1, 0],  // new Polynomial([1, 0])        // h(x) = x
                 ],
                 20, 20       // p(20) = h(20) = 20
             ],
@@ -72,9 +79,9 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                   [-2, 2],                      // g interval: [-2, 2]
                   [2, 100, true, false]         // h interval: (2, 100]
                 ], [
-                  new Polynomial([-1, 0]),      // f(x) = -x
-                  new Polynomial([100]),        // g(x) = 100
-                  new Polynomial([1, 0])        // h(x) = x
+                  [-1, 0], // new Polynomial([-1, 0]),      // f(x) = -x
+                  [100], // new Polynomial([2]),          // g(x) = 100
+                  [1, 0],  // new Polynomial([1, 0])        // h(x) = x
                 ],
                 2, 100       // p(2) = h(2) = 100
             ],
@@ -85,9 +92,9 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                   [-100, -2, false, true],      // f interval: [-100, -2)
                   [2, 100, true, false]         // h interval: (2, 100]
                 ], [
-                  new Polynomial([2]),          // g(x) = 2
-                  new Polynomial([-1, 0]),      // f(x) = -x
-                  new Polynomial([1, 0])        // h(x) = x
+                  [2],     // new Polynomial([2]),          // g(x) = 2
+                  [-1, 0], // new Polynomial([-1, 0]),      // f(x) = -x
+                  [1, 0],  // new Polynomial([1, 0])        // h(x) = x
                 ],
                 0, 2       // p(0) = g(0) = 2
             ],
@@ -99,10 +106,10 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                   [2, 2],                       // z interval: [2, 2]
                   [2, 100, true, false]         // h interval: (2, 100]
                 ], [
-                  new Polynomial([-1, 0]),      // f(x) = -x
-                  new Polynomial([2]),          // g(x) = 2
-                  new Polynomial([0]),          // z(x) = 0
-                  new Polynomial([1, 0])        // h(x) = x
+                  [-1, 0], // new Polynomial([-1, 0]),      // f(x) = -x
+                  [2],     // new Polynomial([2]),          // g(x) = 2
+                  [0],     // new Polynomial([0]),          // z(x) = 0
+                  [1, 0],  // new Polynomial([1, 0])        // h(x) = x
                 ],
                 2, 0       // p(2) = z(2) = 0
             ],
