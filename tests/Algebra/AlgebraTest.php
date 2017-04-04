@@ -335,4 +335,29 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
         $a = 0;
         $this->assertEquals($quadratic, Algebra::cubic($a, $b, $c, $d), '', 0.00000001);
     }
+
+    /**
+     * @dataProvider dataProviderForQuartic
+     * @param        int $a
+     * @param        int $b
+     * @param        int $c
+     * @param        int $d
+     * @param        int $d
+     * @param        array $quartic expected roots
+     */
+    public function testQuartic($a, $b, $c, $d, $e, $quartic)
+    {
+        $this->assertEquals($quartic, Algebra::quartic($a, $b, $c, $d, $e), '', 0.00000001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForQuartic(): array
+    {
+        return [
+            [3, 6, -123, -126, 1080, [5, 3, -4, -6]],
+            [1, -10, 35, -50, 24, [4, 3, 2, 1]],
+         ];
+    }
 }
