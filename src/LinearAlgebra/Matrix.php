@@ -208,42 +208,233 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * MATRIX PROPERTIES
      *  - isSquare
      *  - isSymmetric
+     *  - isSingular
+     *  - isNonsingular
+     *  - isInvertible
+     *  - isPositiveDefinite
+     *  - isPositiveSemidefinite
+     *  - isNegativeDefinite
+     *  - isNegativeSemidefinite
      **************************************************************************/
 
     /**
      * Is the matrix a square matrix?
      * Do rows m = columns n?
      *
-     * @return bool
+     * @return bool true if square; false otherwise.
      */
     public function isSquare(): bool
     {
-        return $this->m == $this->n;
+        return $this->m === $this->n;
     }
 
     /**
      * Is the matrix symmetric?
      * Does A = Aᵀ
      *
-     * @return bool
+     * @return bool true if summetric; false otherwise.
      */
     public function isSymmetric(): bool
     {
         $A  = $this->A;
         $Aᵀ = $this->transpose()->getMatrix();
 
-        return $A == $Aᵀ;
+        return $A === $Aᵀ;
+    }
+
+    /**
+     * Is the matrix singular?
+     * A square matrix that does not have an inverse.
+     * If the determinant is zero, then the matrix is singular.
+     * http://mathworld.wolfram.com/SingularMatrix.html
+     *
+     * @return bool true if singular; false otherwise.
+     */
+    public function isSingular(): bool
+    {
+        $│A│ = $this->det ?? $this->det();
+
+        if ($│A│ == 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Is the matrix nonsingular? (Regular matrix)
+     * A square matrix that is not singular. It has an inverse.
+     * If the determinant is nonzero, then the matrix is nonsingular.
+     * http://mathworld.wolfram.com/NonsingularMatrix.html
+     *
+     * @return bool true if nonsingular; false otherwise.
+     */
+    public function isNonsingular(): bool
+    {
+        $│A│ = $this->det ?? $this->det();
+
+        if ($│A│ != 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Is the matrix invertible? (Regular nonsingular matrix)
+     * Convenience method for isNonsingular.
+     * https://en.wikipedia.org/wiki/Invertible_matrix
+     * http://mathworld.wolfram.com/NonsingularMatrix.html
+     *
+     * @return bool true if invertible; false otherwise.
+     */
+    public function isInvertible(): bool
+    {
+        return $this->isNonsingular();
+    }
+
+    /**
+     * Is the matrix positive definite?
+     *  - It is square and symmetric.
+     *  - All principal minors have strictly positive determinants (> 0)
+     *
+     * Other facts:
+     *  - All its eigenvalues are positive.
+     *  - All its pivots are positive.
+     *
+     * https://en.wikipedia.org/wiki/Positive-definite_matrix
+     * http://mathworld.wolfram.com/PositiveDefiniteMatrix.html
+     * http://mat.gsia.cmu.edu/classes/QUANT/NOTES/chap1/node8.html
+     * https://en.wikipedia.org/wiki/Sylvester%27s_criterion
+     *
+     * @return boolean true if positive definite; false otherwise
+     */
+    public function isPositiveDefinite(): bool
+    {
+        if (!$this->isSquareAndSymmetric()) {
+            return false;
+        }
+
+        for ($i = 1; $i <= $this->n; $i++) {
+            if ($this->leadingPrincipalMinor($i)->det() <= 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix positive semidefinite?
+     *  - It is square and symmetric.
+     *  - All principal minors have positive determinants (≥ 0)
+     *
+     * http://mathworld.wolfram.com/PositiveSemidefiniteMatrix.html
+     *
+     * @return boolean true if positive semidefinite; false otherwise
+     */
+    public function isPositiveSemidefinite(): bool
+    {
+        if (!$this->isSquareAndSymmetric()) {
+            return false;
+        }
+
+        for ($i = 1; $i <= $this->n; $i++) {
+            if ($this->leadingPrincipalMinor($i)->det() < 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix negative definite?
+     *  - It is square and symmetric.
+     *  - All principal minors have nonzero determinants and alternate in signs, starting with det(A₁) < 0
+     *
+     * http://mathworld.wolfram.com/NegativeDefiniteMatrix.html
+     *
+     * @return boolean true if negative definite; false otherwise
+     */
+    public function isNegativeDefinite(): bool
+    {
+        if (!$this->isSquareAndSymmetric()) {
+            return false;
+        }
+
+        for ($i = 1; $i <= $this->n; $i++) {
+            switch ($i % 2) {
+                case 1:
+                    if ($this->leadingPrincipalMinor($i)->det() >= 0) {
+                        return false;
+                    }
+                    break;
+                case 0:
+                    if ($this->leadingPrincipalMinor($i)->det() <= 0) {
+                        return false;
+                    }
+                    break;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix negative semidefinite?
+     *  - It is square and symmetric.
+     *  - All principal minors have determinants that alternate signs, starting with det(A₁) ≤ 0
+     *
+     * http://mathworld.wolfram.com/NegativeSemidefiniteMatrix.html
+     *
+     * @return boolean true if negative semidefinite; false otherwise
+     */
+    public function isNegativeSemidefinite(): bool
+    {
+        if (!$this->isSquareAndSymmetric()) {
+            return false;
+        }
+
+        for ($i = 1; $i <= $this->n; $i++) {
+            switch ($i % 2) {
+                case 1:
+                    if ($this->leadingPrincipalMinor($i)->det() > 0) {
+                        return false;
+                    }
+                    break;
+                case 0:
+                    if ($this->leadingPrincipalMinor($i)->det() < 0) {
+                        return false;
+                    }
+                    break;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix square and symmetric
+     *
+     * @return boolean true if square and symmmetric; false otherwise
+     */
+    protected function isSquareAndSymmetric(): bool
+    {
+        return ($this->isSquare() && $this->isSymmetric());
     }
 
     /**************************************************************************
      * MATRIX OPERATIONS - Return a Matrix
      *  - add
      *  - directSum
+     *  - kroneckerSum
      *  - subtract
      *  - multiply
      *  - scalarMultiply
      *  - scalarDivide
      *  - hadamardProduct
+     *  - kroneckerProduct
      *  - transpose
      *  - trace
      *  - map
@@ -326,6 +517,41 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return MatrixFactory::create($R);
+    }
+
+    /**
+     * Kronecker Sum (A⊕B)
+     * A⊕B = A⊗Ib + I⊗aB
+     * Where A and B are square matrices, Ia and Ib are identiry matrixes,
+     * and ⊗ is the Kronecker product.
+     *
+     * https://en.wikipedia.org/wiki/Matrix_addition#Kronecker_sum
+     * http://mathworld.wolfram.com/KroneckerSum.html
+     *
+     * @param Matrix $B Square matrix
+     *
+     * @return SquareMatrix
+     *
+     * @throws Exception\MatrixException if either matrix is not a square matrix
+     */
+    public function kroneckerSum(Matrix $B) : SquareMatrix
+    {
+        if (!$this->isSquare() || !$B->isSquare()) {
+            throw new Exception\MatrixException('Matrices A and B must both be square for kroneckerSum');
+        }
+
+        $A  = $this;
+        $m  = $B->getM();
+        $n  = $this->n;
+
+        $In = MatrixFactory::identity($n);
+        $Im = MatrixFactory::identity($m);
+
+        $A⊗Im = $A->kroneckerProduct($Im);
+        $In⊗B = $In->kroneckerProduct($B);
+        $A⊕B  = $A⊗Im->add($In⊗B);
+
+        return $A⊕B;
     }
 
     /**
@@ -862,6 +1088,56 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return $this->rowExclude($mᵢ)->columnExclude($nⱼ);
+    }
+
+    /**
+     * Leading principal minor
+     * The leading principal minor of A of order k is the minor of order k
+     * obtained by deleting the last n − k rows and columns.
+     *
+     * Example:
+     *
+     *     [1 2 3]
+     * A = [4 5 6]
+     *     [7 8 9]
+     *
+     * 1st order (k = 1): [1]
+     *
+     *                    [1 2]
+     * 2nd order (k = 2): [4 5]
+     *
+     *                    [1 2 3]
+     * 3rd order (k = 3): [4 5 6]
+     *                    [7 8 9]
+     *
+     * @param  int $k Order of the leading principal minor
+     *
+     * @return SquareMatrix
+     *
+     * @throws OutOfBoundsException if k ≤ 0
+     * @throws OutOfBoundsException if k > n
+     * @throws MatrixException if matrix is not square
+     */
+    public function leadingPrincipalMinor(int $k): SquareMatrix
+    {
+        if ($k <= 0) {
+            throw new Exception\OutOfBoundsException("k is ≤ 0: $k");
+        }
+        if ($k > $this->n) {
+            throw new Exception\OutOfBoundsException("k ($k) leading principal minor is larger than size of Matrix: " . $this->n);
+        }
+        if (!$this->isSquare()) {
+            throw new Exception\MatrixException('Matrix is not square; cannot get leading principal minor Matrix of a non-square matrix');
+        }
+
+        $R = [];
+        for ($i = 0; $i < $k; $i++) {
+            for ($j = 0; $j < $k; $j++) {
+                $R[$i][$j] = $this->A[$i][$j];
+            }
+        }
+
+        return MatrixFactory::create($R);
     }
 
     /**

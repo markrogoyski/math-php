@@ -1,9 +1,12 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Exception;
+
 class SquareMatrixTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @testCase     Constructor constructs a proper SquareMatrix
      * @dataProvider dataProviderMulti
      */
     public function testConstructor(array $A)
@@ -25,6 +28,21 @@ class SquareMatrixTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase SquareMatrix throws a MatrixException if the input is not a square array.
+     */
+    public function testConstructorExceptionNotSquareMatrix()
+    {
+        $A = [
+            [1, 2, 3],
+            [2, 3, 4],
+        ];
+
+        $this->setExpectedException(Exception\MatrixException::class);
+        $M = new SquareMatrix($A);
+    }
+
+    /**
+     * @testCase     getMatrix returns the expected matrix.
      * @dataProvider dataProviderMulti
      */
     public function testGetMatrix(array $A)
@@ -36,6 +54,7 @@ class SquareMatrixTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     isSquare always returns true for a SquareMatrix
      * @dataProvider dataProviderMulti
      */
     public function testIsSquare(array $A)
@@ -46,7 +65,7 @@ class SquareMatrixTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($S->isSquare());
     }
 
-    public function dataProviderMulti()
+    public function dataProviderMulti(): array
     {
         return [
             [

@@ -147,7 +147,7 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
         $A = new Vector($A);
         $B = new Vector($B);
         $R = new Matrix($R);
-        $this->assertEquals($R, $A->outerProduct($B));
+        $this->assertEquals($R->getMatrix(), $A->outerProduct($B)->getMatrix());
     }
 
     public function dataProviderForOuterProduct()
@@ -168,6 +168,50 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
                     [3, 6],
                     [4, 8],
                     [5, 10],
+                ],
+            ],
+            [
+                [1],
+                [2],
+                [
+                    [2],
+                ],
+            ],
+            [
+                [1, 2],
+                [2, 3],
+                [
+                    [2, 3],
+                    [4, 6],
+                ],
+            ],
+            [
+                [1, 2, 3],
+                [2, 3, 4],
+                [
+                    [2, 3, 4],
+                    [4, 6, 8],
+                    [6, 9, 12],
+                ],
+            ],
+            [
+                [1, 2, 3, 4],
+                [2, 3, 4, 5],
+                [
+                    [2, 3, 4, 5],
+                    [4, 6, 8, 10],
+                    [6, 9, 12, 15],
+                    [8, 12, 16, 20],
+                ],
+            ],
+            [
+                [3, 2, 6, 4],
+                [4, 5, 1, 7],
+                [
+                    [12, 15, 3, 21],
+                    [8, 10, 2, 14],
+                    [24, 30, 6, 42],
+                    [16, 20, 4, 28],
                 ],
             ],
         ];
@@ -665,6 +709,87 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
                     [6, 9, 12, 15],
                     [8, 12, 16, 20],
                 ],
+            ],
+            [
+                [3, 2, 6, 4],
+                [4, 5, 1, 7],
+                [
+                    [12, 15, 3, 21],
+                    [8, 10, 2, 14],
+                    [24, 30, 6, 42],
+                    [16, 20, 4, 28],
+                ],
+            ],
+            [
+                [1, 2],
+                [3, 4, 5],
+                [
+                    [3, 4, 5],
+                    [6, 8, 10],
+                ],
+            ],
+            [
+                [3, 4, 5],
+                [1, 2],
+                [
+                    [3, 6],
+                    [4, 8],
+                    [5, 10],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     kroneckerProduct returns the expected Vector
+     * @dataProvider dataProviderForKroneckerProduct
+     * @param        array $A
+     * @param        array $B
+     * @param        array $expected
+     */
+    public function testKroneckerProduct(array $A, array $B, array $expected)
+    {
+        $A = new Vector($A);
+        $B = new Vector($B);
+        $R = new Vector($expected);
+
+        $A⨂B = $A->kroneckerProduct($B);
+
+        $this->assertEquals($R, $A⨂B);
+    }
+
+    public function dataProviderForKroneckerProduct(): array
+    {
+        return [
+            [
+                [1],
+                [1],
+                [1],
+            ],
+            [
+                [2],
+                [3],
+                [6],
+            ],
+            [
+                [1, 2],
+                [3, 4],
+                [3, 4, 6, 8],
+            ],
+            [
+                [4, 6],
+                [3, 9],
+                [12, 36, 18, 54],
+            ],
+            [
+                [1, 2, 3],
+                [4, 5, 6],
+                [4, 5, 6, 8, 10, 12, 12, 15, 18],
+            ],
+            [
+                [5, 3, 9, 8],
+                [1, 6, 5, 12],
+                [5, 30, 25, 60, 3, 18, 15, 36, 9, 54, 45, 108, 8, 48, 40, 96],
             ],
         ];
     }

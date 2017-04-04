@@ -27,6 +27,7 @@ namespace MathPHP\LinearAlgebra;
  *    - A x (B x C) = (A ⋅ C)B - (A ⋅ B)C
  *  - Outer product
  *    - A⨂B = ABᵀ
+ *    - A⨂B = AB (direct product)
  *  - Scalar multiplication
  *    - (c + d)A = cA + dA
  *    - c(A + B) = cA + cB
@@ -465,6 +466,24 @@ class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
                 [12, 4, 5, 3, 21, 4],
             ],
         ];
+    }
+
+    /**
+     * Axiom: A⨂B = AB (direct product)
+     * Outer product is the same as the direct product
+     * @dataProvider dataProviderForTwoVectors
+     */
+    public function testOuterProductIsDirectProduct(array $A, array $B)
+    {
+        // Outer product
+        $Av   = new Vector($A);
+        $Bv   = new Vector($B);
+        $A⨂B = $Av->outerProduct($Bv);
+
+        // Direct product
+        $AB = $Av->directProduct($Bv);
+
+        $this->assertEquals($A⨂B->getMatrix(), $AB->getMatrix());
     }
 
     /**

@@ -7,9 +7,14 @@ Math PHP is the only library you need to integrate mathematical functions into y
 
 It is actively under development with development (0.y.z) releases.
 
+[![Coverage Status](https://coveralls.io/repos/github/markrogoyski/math-php/badge.svg?branch=master)](https://coveralls.io/github/markrogoyski/math-php?branch=master)
+[![Build Status](https://travis-ci.org/markrogoyski/math-php.svg?branch=master)](https://travis-ci.org/markrogoyski/math-php)
+[![License](https://poser.pugx.org/markrogoyski/math-php/license)](https://packagist.org/packages/markrogoyski/math-php)
+
 Features
 --------
  * [Algebra](#algebra)
+ * [Arithmetic](#arithmetic)
  * [Finance](#finance)
  * Functions
    - [Map](#functions---map---single-array)
@@ -101,6 +106,21 @@ $factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
 // Quadradic equation
 list($a, $b, $c) = [1, 2, -8]; // x² + 2x - 8
 list($x₁, $x₂)   = Algebra::quadradic($a, $b, $c);
+
+// Cubic equation
+list($a, $b, $c, $d) = [2, 9, 3, -4]; // 2x³ + 9x² + 3x -4
+list($x₁, $x₂, $x₃)  = Algebra::cubic($a, $b, $c, $d);
+```
+
+### Arithmetic
+```php
+use MathPHP\Arithmetic;
+
+$³√x = Arithmetic::cubeRoot(-8); // -2
+
+// Sum of digits
+$digit_sum    = Arithmetic::digitSum(99):    // 18
+$digital_root = Arithmetic::digitalRoot(99); // 9
 ```
 
 ### Finance
@@ -349,6 +369,7 @@ $R = $A->columnExclude($nᵢ);          // Exclude column $nᵢ
 // Matrix operations - return a new Matrix
 $A＋B = $A->add($B);
 $A⊕B  = $A->directSum($B);
+$A⊕B  = $A->kroneckerSum($B);
 $A−B  = $A->subtract($B);
 $AB   = $A->multiply($B);
 $２A  = $A->scalarMultiply(2);
@@ -358,11 +379,12 @@ $A⊗B  = $A->kroneckerProduct($B);
 $Aᵀ 　= $A->transpose();
 $D  　= $A->diagonal();
 $⟮A∣B⟯ = $A->augment($B);
-$⟮A∣I⟯ = $A->augmentIdentity();  // Augment with the identity matrix
+$⟮A∣I⟯ = $A->augmentIdentity();        // Augment with the identity matrix
 $⟮A∣B⟯ = $A->augmentBelow($B);
-$rref = $A->rref();             // Reduced row echelon form
+$rref = $A->rref();                   // Reduced row echelon form
 $A⁻¹  = $A->inverse();
-$Mᵢⱼ  = $A->minorMatrix($mᵢ, $nⱼ); // Square matrix with row mᵢ and column nⱼ removed
+$Mᵢⱼ  = $A->minorMatrix($mᵢ, $nⱼ);    // Square matrix with row mᵢ and column nⱼ removed
+$Mk   = $A->leadingPrincipalMinor($k); // kᵗʰ-order leading principal minor
 $CM   = $A->cofactorMatrix();
 $B    = $A->meanDeviation();
 $S    = $A->covarianceMatrix();
@@ -386,6 +408,13 @@ $max  = $A->maxNorm();
 // Matrix properties - return a bool
 $bool = $A->isSquare();
 $bool = $A->isSymmetric();
+$bool = $A->isSingular();
+$bool = $A->isNonsingular(); // same as isInvertible
+$bool = $A->isInvertible();  // same as isNonsingular
+$bool = $A->isPositiveDefinite();
+$bool = $A->isPositiveSemidefinite();
+$bool = $A->isNegativeDefinite();
+$bool = $A->isNegativeSemidefinite();
 
 // Matrix decomposition
 $PLU = $A->LUDecomposition(); // returns array of Matrices [L, U, P, A]; P is permutation matrix
@@ -457,9 +486,10 @@ $kA    = $A->scalarMultiply($k);
 $A＋B  = $A->add($B);
 $A−B   = $A->subtract($B);
 $A／k  = $A->scalarDivide($k);
-$A⨂B  = $A->outerProduct($B);
+$A⨂B  = $A->outerProduct($B);  // Same as direct product
+$AB    = $A->directProduct($B); // Same as outer product
 $AxB   = $A->crossProduct($B);
-$AB    = $A->directProduct($B);
+$A⨂B   = $A->kroneckerProduct($B);
 $Â     = $A->normalize();
 $A⊥    = $A->perpendicular();
 $projᵇA = $A->projection($B);   // projection of A onto B
@@ -484,9 +514,17 @@ $Aᵢ   = $A[$i];          // ArrayAccess
 ```php
 use MathPHP\NumberTheory\Integer;
 
-$n           = 225;
+$n = 225;
+
+// Prime factorization
+$factors = Integer::primeFactorization($n);
+
+// Perfect powers
 $bool        = Integer::isPerfectPower($n);
 list($m, $k) = Integer::perfectPower($n);
+
+// Coprime
+$bool = Integer::coprime(4, 35);
 ```
 
 ### Numerical Analysis - Interpolation
@@ -1006,6 +1044,14 @@ $po10 = Basic::powersOfTen($n);
 // Factorial (n!)
 $fact = Basic::factorial($n);
 // [0!, 1!, 2!, 3!, 4!] = [1,  1,  2,  6,  24] - Indexed from 0
+
+// Digit sum
+$digit_sum = Basic::digitSum($n);
+// [0, 1, 2, 3, 4] - Indexed from 0
+
+// Digital root
+$digit_root = Basic::digitalRoot($n);
+// [0, 1, 2, 3, 4] - Indexed from 0
 ```
 
 ### Sequences - Advanced

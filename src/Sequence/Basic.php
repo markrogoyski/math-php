@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\Sequence;
 
+use MathPHP\Arithmetic;
 use MathPHP\Exception;
 
 /**
@@ -238,5 +239,61 @@ class Basic
         }
 
         return $factorial;
+    }
+
+    /**
+     * Digit sum (sum of digits)
+     * https://en.wikipedia.org/wiki/Digit_sum
+     * https://oeis.org/A007953
+     *
+     * Example
+     *  n = 11
+     *  Sequence:    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1
+     *  Array index: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1
+     *
+     * @param  int $n How many numbers in the sequence
+     *
+     * @return array Indexed from 0 (indexes are the n in the digitSum(n))
+     */
+    public static function digitSum(int $n): array
+    {
+        if ($n <= 0) {
+            return [];
+        }
+
+        $digit_sums = [];
+        for ($i = 0; $i < $n; $i++) {
+            $digit_sums[] = Arithmetic::digitSum($i);
+        }
+
+        return $digit_sums;
+    }
+
+    /**
+     * Digital root (iterated digit sum, repeated digital sum)
+     * https://en.wikipedia.org/wiki/Digital_root
+     * http://oeis.org/A010888
+     *
+     * Example
+     *  n = 11
+     *  Sequence:    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1
+     *  Array index: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1
+     *
+     * @param  int $n How many numbers in the sequence
+     *
+     * @return array Indexed from 0 (indexes are the n in the digitSum(n))
+     */
+    public static function digitalRoot(int $n): array
+    {
+        if ($n <= 0) {
+            return [];
+        }
+
+        $digital_roots = [];
+        for ($i = 0; $i < $n; $i++) {
+            $digital_roots[] = Arithmetic::digitalRoot($i);
+        }
+
+        return $digital_roots;
     }
 }

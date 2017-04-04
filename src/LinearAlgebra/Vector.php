@@ -117,7 +117,6 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *  - length (magnitude)
      *  - dotProduct (innerProduct)
      *  - perpDotProduct
-     *  - directProduct (dyadic)
      **************************************************************************/
 
     /**
@@ -197,35 +196,18 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
         return $A⊥->dotProduct($B);
     }
 
-    /**
-     * Direct product (dyadic)
-     *
-     *            [A₁]              [A₁B₁ A₁B₂ A₁B₃]
-     * AB = ABᵀ = [A₂] [B₁ B₂ B₃] = [A₂B₁ A₂B₂ A₂B₃]
-     *            [A₃]              [A₃B₁ A₃B₂ A₃B₃]
-     *
-     * @param Vector $B
-     *
-     * @return Matrix
-     */
-    public function directProduct(Vector $B): Matrix
-    {
-        $A  = $this->asColumnMatrix();
-        $Bᵀ = $B->asRowMatrix();
-
-        return $A->kroneckerProduct($Bᵀ);
-    }
-
     /**************************************************************************
      * VECTOR OPERATIONS - Return a Vector or Matrix
      *  - add
      *  - subtract
      *  - scalarMultiply
      *  - outerProduct
+     *  - directProduct (dyadic)
      *  - crossProduct
      *  - normalize
      *  - perpendicular
      *  - projection
+     *  - kroneckerProduct
      **************************************************************************/
 
     /**
@@ -299,6 +281,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     /**
      * Outer product (A⨂B)
      * https://en.wikipedia.org/wiki/Outer_product
+     * Same as direct product.
      *
      * @param Vector $B
      *
@@ -317,6 +300,29 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
         }
 
         return MatrixFactory::create($R);
+    }
+
+    /**
+     * Direct product (dyadic)
+     * https://en.wikipedia.org/wiki/Direct_product
+     * http://mathworld.wolfram.com/VectorDirectProduct.html
+     *
+     *              [A₁]              [A₁B₁ A₁B₂ A₁B₃]
+     * AB = A⨂Bᵀ = [A₂] [B₁ B₂ B₃] = [A₂B₁ A₂B₂ A₂B₃]
+     *              [A₃]              [A₃B₁ A₃B₂ A₃B₃]
+     *
+     * Where ⨂ is the Kronecker product.
+     *
+     * @param Vector $B
+     *
+     * @return Matrix
+     */
+    public function directProduct(Vector $B): Matrix
+    {
+        $A  = $this->asColumnMatrix();
+        $Bᵀ = $B->asRowMatrix();
+
+        return $A->kroneckerProduct($Bᵀ);
     }
 
     /**
@@ -427,6 +433,29 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
         $B⊥   = $B->perpendicular();
 
         return $B⊥->scalarMultiply($A⋅B⊥ / $│B│²);
+    }
+
+    /**
+     * Kronecker product A⨂B
+     * The kronecker product of two column vectors is a column vector.
+     *
+     * Example:  [1]    [3]   [3]
+     *           [2] ⨂ [4] = [4]
+     *                        [6]
+     *                        [8]
+     *
+     * @param  Vector $B
+     *
+     * @return Vector
+     */
+    public function kroneckerProduct(Vector $B): Vector
+    {
+        $A = $this->asColumnMatrix();
+        $B = $B->asColumnMatrix();
+
+        $A⨂B = $A->kroneckerProduct($B);
+
+        return new Vector($A⨂B->getColumn(0));
     }
 
     /**************************************************************************
