@@ -1,7 +1,9 @@
 <?php
 namespace MathPHP\LinearAlgebra;
+
 use MathPHP\Algebra;
 use MathPHP\Exception;
+
 class Eigenvalue
 {
     /*
