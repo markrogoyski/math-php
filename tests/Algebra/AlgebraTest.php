@@ -359,6 +359,11 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
             [3, 6, -123, -126, 1080, [5, 3, -4, -6]],
             [1, -10, 35, -50, 24, [4, 3, 2, 1]],
             [1, 2, 1, 0, 0, [0, 0, -1, -1]],
+           
+            // Two Complex Roots
+//          [1, 2, 1, 0, -1, [-1.6180339887498714, 1.6180339887498714, \NAN, \NAN]],
+            // Four Complex Roots
+ //         [1, 0, 0, 0, 4, [\NAN, \NAN, \NAN, \NAN]],
          ];
     }
 }
