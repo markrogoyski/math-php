@@ -358,6 +358,7 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
         return [
             [3, 6, -123, -126, 1080, [5, 3, -4, -6]],
             [1, -10, 35, -50, 24, [4, 3, 2, 1]],
+            [1, 2, 1, 0, 0, [0, 0, -1, -1]],
          ];
     }
 }
