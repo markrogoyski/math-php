@@ -10,6 +10,7 @@ use MathPHP\Probability\Distribution\Continuous\StudentT;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\ColumnVector;
 use MathPHP\LinearAlgebra\VandermondeMatrix;
+use MathPHP\Exception;
 
 trait LeastSquares
 {
@@ -94,6 +95,10 @@ trait LeastSquares
         $this->fit_constant = $fit_constant;
         $this->p = $order;
         $this->ν = $this->n - $this->p - $this->fit_constant;
+
+        if ($this->ν <= 0) {
+            throw new Exception\BadDataException('Degrees of freedom ν must be > 0. Computed to be ' . $this->ν);
+        }
 
         // y = Xa
         $X = $this->createDesignMatrix($xs);
