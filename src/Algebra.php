@@ -373,6 +373,8 @@ class Algebra
         $c = ($f **2 - 4 * $h) / 16;
         $d = -1 * $g ** 2 / 64;
         $cubic_roots = self::cubic(1, $b, $c, $d);
+        echo $b . " " . $c . " " . $d;
+        print_r($cubic_roots);
         
         // We choose two non-zero roots.
         // What is supposed to happen if two of three are zero?
