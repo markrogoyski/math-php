@@ -6,6 +6,7 @@ use MathPHP\Exception;
 class EigenvalueTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @testCase     quadratic returns the expected eigenvalues
      * @dataProvider dataProviderForEigenvalues
      */
     public function testQuadratic(array $A, array $S)
@@ -74,6 +75,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     quadratic throws a BadDataException if the matrix is not the correct size (2x2 or 3x3)
      * @dataProvider dataProviderForQuadraticException
      */
     public function testQuadraticExceptionMatrixNotCorrectSize(array $A)
