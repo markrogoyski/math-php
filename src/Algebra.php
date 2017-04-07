@@ -170,7 +170,7 @@ class Algebra
      *                [NAN, NAN] if discriminant is negative, or
      *                [x]        if a = 0 and formula isn't quadratics
      */
-    public static function quadratic($a, $b, $c): array
+    public static function quadratic($a, $b, $c, $return_complex = false): array
     {
         // Formula not quadratic (a = 0)
         if ($a === 0) {
@@ -180,13 +180,19 @@ class Algebra
         // Discriminant intermediate calculation and imaginary number check
         $⟮b² − 4ac⟯ = self::discriminant($a, $b, $c);
         if ($⟮b² − 4ac⟯ < 0) {
-            return [\NAN, \NAN];
-        }
+            if (!$return_complex) {
+                return [\NAN, \NAN];
+            }
+            $complex = new ComplexNumber(0, sqrt(-1 * $⟮b² − 4ac⟯));
+            $x₁ = $complex->multiply(-1)->subtract($b)->divide(2 * $a);
+            $x₂ = $complex->subtract($b)->divide(2 * $a);
+        } else {
 
-        // Standard quadratic equation case
-        $√⟮b² − 4ac⟯ = sqrt(self::discriminant($a, $b, $c));
-        $x₁         = (-$b - $√⟮b² − 4ac⟯) / (2*$a);
-        $x₂         = (-$b + $√⟮b² − 4ac⟯) / (2*$a);
+            // Standard quadratic equation case
+            $√⟮b² − 4ac⟯ = sqrt(self::discriminant($a, $b, $c));
+            $x₁         = (-$b - $√⟮b² − 4ac⟯) / (2*$a);
+            $x₂         = (-$b + $√⟮b² − 4ac⟯) / (2*$a);
+        }
 
         return [$x₁, $x₂];
     }
