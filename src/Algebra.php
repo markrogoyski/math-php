@@ -187,7 +187,6 @@ class Algebra
             $x₁ = $complex->multiply(-1)->subtract($b)->divide(2 * $a);
             $x₂ = $complex->subtract($b)->divide(2 * $a);
         } else {
-
             // Standard quadratic equation case
             $√⟮b² − 4ac⟯ = sqrt(self::discriminant($a, $b, $c));
             $x₁         = (-$b - $√⟮b² − 4ac⟯) / (2*$a);
