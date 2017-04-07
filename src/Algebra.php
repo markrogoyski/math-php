@@ -183,7 +183,7 @@ class Algebra
             if (!$return_complex) {
                 return [\NAN, \NAN];
             }
-            $complex = new ComplexNumber(0, sqrt(-1 * $⟮b² − 4ac⟯));
+            $complex = new ComplexNumber(0, sqrt(-1 * $⟮b² − 4ac⟯));
             $x₁ = $complex->multiply(-1)->subtract($b)->divide(2 * $a);
             $x₂ = $complex->subtract($b)->divide(2 * $a);
         } else {
