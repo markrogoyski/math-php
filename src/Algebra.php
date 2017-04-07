@@ -2,6 +2,7 @@
 namespace MathPHP;
 
 use MathPHP\Arithmetic;
+use MathPHP\ComplexNumbers\ComplexNumber;
 
 class Algebra
 {
