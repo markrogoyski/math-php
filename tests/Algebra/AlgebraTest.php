@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP;
 
+use MathPHP\ComplexNumbers\ComplexNumber;
+
 class AlgebraTest extends \PHPUnit_Framework_TestCase
 {
     /**
