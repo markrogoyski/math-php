@@ -1,6 +1,6 @@
 <?php
 
-namespace MathPHP\ComplexNumbers;
+namespace MathPHP\Number;
 
 use MathPHP\Exception;
 use MathPHP\Functions\Special;
@@ -10,8 +10,7 @@ use MathPHP\Functions\Special;
  *
  * https://en.wikipedia.org/wiki/Complex_number
  */
-
-class ComplexNumber
+class Complex
 {
 
     protected $r;
@@ -62,9 +61,9 @@ class ComplexNumber
      *
      * https://en.wikipedia.org/wiki/Complex_number#Conjugate
      */
-    public function complexConjugate(): ComplexNumber
+    public function complexConjugate(): Complex
     {
-        return new ComplexNumber($this->r, -1 * $this->i);
+        return new Complex($this->r, -1 * $this->i);
     }
 
     /*
@@ -92,11 +91,11 @@ class ComplexNumber
      *
      * https://en.wikipedia.org/wiki/Complex_number#Square_root
      */
-    public function sqrt(): ComplexNumber
+    public function sqrt(): Complex
     {
         $r = sqrt(($this->r + $this->abs()) / 2);
         $i = Special::sgn($this->i) * sqrt(($this->abs() - $this->r) / 2);
-        return new ComplexNumber($r, $i);
+        return new Complex($r, $i);
     }
 
     /*
@@ -104,7 +103,7 @@ class ComplexNumber
      *
      * https://en.wikipedia.org/wiki/Complex_number#Reciprocal
      */
-    public function inv(): ComplexNumber
+    public function inv(): Complex
     {
         return $this->complexConjugate()->divide($this->abs() ** 2);
     }
@@ -118,18 +117,18 @@ class ComplexNumber
      *
      * https://en.wikipedia.org/wiki/Complex_number#Addition_and_subtraction
      */
-    public function add($c): ComplexNumber
+    public function add($c): Complex
     {
         if (is_numeric($c)) {
             $r = $this->r + $c;
             $i = $this->i;
-        } elseif ($c instanceof ComplexNumber) {
+        } elseif ($c instanceof Complex) {
             $r = $this->r + $c->r;
             $i = $this->i + $c->i;
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or complex number');
         }
-        return new ComplexNumber($r, $i);
+        return new Complex($r, $i);
     }
 
     /*
@@ -137,18 +136,18 @@ class ComplexNumber
      *
      * https://en.wikipedia.org/wiki/Complex_number#Addition_and_subtraction
      */
-    public function subtract($c): ComplexNumber
+    public function subtract($c): Complex
     {
         if (is_numeric($c)) {
             $r = $this->r - $c;
             $i = $this->i;
-        } elseif ($c instanceof ComplexNumber) {
+        } elseif ($c instanceof Complex) {
             $r = $this->r - $c->r;
             $i = $this->i - $c->i;
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or complex number');
         }
-        return new ComplexNumber($r, $i);
+        return new Complex($r, $i);
     }
 
     /*
@@ -156,18 +155,18 @@ class ComplexNumber
      *
      * https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_division
      */
-    public function multiply($c): ComplexNumber
+    public function multiply($c): Complex
     {
         if (is_numeric($c)) {
             $r = $c * $this->r;
             $i = $c * $this->i;
-        } elseif ($c instanceof ComplexNumber) {
+        } elseif ($c instanceof Complex) {
             $r = $this->r * $c->r - $this->i * $c->i;
             $i = $this->i * $c->r + $c->i * $this->r;
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or complex number');
         }
-        return new ComplexNumber($r, $i);
+        return new Complex($r, $i);
     }
 
     /*
@@ -177,13 +176,13 @@ class ComplexNumber
      *
      * https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_division
      */
-    public function divide($c): ComplexNumber
+    public function divide($c): Complex
     {
         if (is_numeric($c)) {
             $r = $this->r / $c;
             $i = $this->i / $c;
-            return new ComplexNumber($r, $i);
-        } elseif ($c instanceof ComplexNumber) {
+            return new Complex($r, $i);
+        } elseif ($c instanceof Complex) {
             return $this->multiply($c->inv());
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or complex number');

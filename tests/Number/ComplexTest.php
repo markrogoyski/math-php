@@ -1,11 +1,11 @@
 <?php
-namespace MathPHP\ComplexNumbers;
+namespace MathPHP\Number;
 
-class ComplexNumberTest extends \PHPUnit_Framework_TestCase
+class ComplexTest extends \PHPUnit_Framework_TestCase
 {
     public function testToString()
     {
-        $complex = new ComplexNumber(1, 1);
+        $complex = new Complex(1, 1);
         $string = $complex->__toString();
         $this->assertTrue(is_string($string));
         $this->assertEquals(
@@ -18,7 +18,7 @@ class ComplexNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetR($r, $i)
     {
-        $c = new ComplexNumber($r, $i);
+        $c = new Complex($r, $i);
         $this->assertEquals($r, $c->getR());
     }
     public function dataProviderForGetR()
@@ -33,7 +33,7 @@ class ComplexNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetI($r, $i)
     {
-        $c = new ComplexNumber($r, $i);
+        $c = new Complex($r, $i);
         $this->assertEquals($i, $c->getI());
     }
     public function dataProviderForGetI()
@@ -48,7 +48,7 @@ class ComplexNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testComplexConjugate($r, $i)
     {
-        $c = new ComplexNumber($r, $i);
+        $c = new Complex($r, $i);
         $cc = $c->complexConjugate();
         $this->assertEquals($c->getR(), $cc->getR());
         $this->assertEquals($c->getI(), -1 * $cc->getI());
@@ -65,7 +65,7 @@ class ComplexNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testAbs($r, $i, $expected)
     {
-        $c = new ComplexNumber($r, $i);
+        $c = new Complex($r, $i);
         $this->assertEquals($expected, $c->abs());
     }
     public function dataProviderForAbs()
@@ -80,7 +80,7 @@ class ComplexNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testArg($r, $i, $expected)
     {
-        $c = new ComplexNumber($r, $i);
+        $c = new Complex($r, $i);
         $this->assertEquals($expected, $c->arg());
     }
     public function dataProviderForArg()
@@ -96,7 +96,7 @@ class ComplexNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testSqrt($complex_array, $expected_array)
     {
-        $c = new ComplexNumber($complex_array[0], $complex_array[1]);
+        $c = new Complex($complex_array[0], $complex_array[1]);
         $result = $c->sqrt();
         $this->assertEquals($expected_array[0], $result->getR());
         $this->assertEquals($expected_array[1], $result->getI());
@@ -116,8 +116,8 @@ class ComplexNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd($complex_array1, $complex_array2, $expected_array)
     {
-        $c1 = new ComplexNumber($complex_array1[0], $complex_array1[1]);
-        $c2 = new ComplexNumber($complex_array2[0], $complex_array2[1]);
+        $c1 = new Complex($complex_array1[0], $complex_array1[1]);
+        $c2 = new Complex($complex_array2[0], $complex_array2[1]);
         $result = $c1->add($c2);
         $this->assertEquals($expected_array[0], $result->getR());
         $this->assertEquals($expected_array[1], $result->getI());
@@ -138,7 +138,7 @@ class ComplexNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddReal($complex_array, $real, $expected_array)
     {
-        $c = new ComplexNumber($complex_array[0], $complex_array[1]);
+        $c = new Complex($complex_array[0], $complex_array[1]);
         $result = $c->add($real);
         $this->assertEquals($expected_array[0], $result->getR());
         $this->assertEquals($expected_array[1], $result->getI());
@@ -159,8 +159,8 @@ class ComplexNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testSubtract($complex_array1, $complex_array2, $expected_array)
     {
-        $c1 = new ComplexNumber($complex_array1[0], $complex_array1[1]);
-        $c2 = new ComplexNumber($complex_array2[0], $complex_array2[1]);
+        $c1 = new Complex($complex_array1[0], $complex_array1[1]);
+        $c2 = new Complex($complex_array2[0], $complex_array2[1]);
         $result = $c1->subtract($c2);
         $this->assertEquals($expected_array[0], $result->getR());
         $this->assertEquals($expected_array[1], $result->getI());
@@ -181,8 +181,8 @@ class ComplexNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testDivide($complex_array1, $complex_array2, $expected_array)
     {
-        $c1 = new ComplexNumber($complex_array1[0], $complex_array1[1]);
-        $c2 = new ComplexNumber($complex_array2[0], $complex_array2[1]);
+        $c1 = new Complex($complex_array1[0], $complex_array1[1]);
+        $c2 = new Complex($complex_array2[0], $complex_array2[1]);
         $result = $c1->divide($c2);
         $this->assertEquals($expected_array[0], $result->getR());
         $this->assertEquals($expected_array[0], $result->r);
@@ -201,35 +201,35 @@ class ComplexNumberTest extends \PHPUnit_Framework_TestCase
 
     public function testComplexAddException()
     {
-        $complex = new ComplexNumber(1, 1);
+        $complex = new Complex(1, 1);
         $this->setExpectedException('MathPHP\Exception\IncorrectTypeException');
         $complex->add("string");
     }
 
     public function testComplexSubtractException()
     {
-        $complex = new ComplexNumber(1, 1);
+        $complex = new Complex(1, 1);
         $this->setExpectedException('MathPHP\Exception\IncorrectTypeException');
         $complex->subtract("string");
     }
 
     public function testComplexMultiplyException()
     {
-        $complex = new ComplexNumber(1, 1);
+        $complex = new Complex(1, 1);
         $this->setExpectedException('MathPHP\Exception\IncorrectTypeException');
         $complex->multiply("string");
     }
 
     public function testComplexDivideException()
     {
-        $complex = new ComplexNumber(1, 1);
+        $complex = new Complex(1, 1);
         $this->setExpectedException('MathPHP\Exception\IncorrectTypeException');
         $complex->divide("string");
     }
 
     public function testComplexGetException()
     {
-        $complex = new ComplexNumber(1, 1);
+        $complex = new Complex(1, 1);
         $this->setExpectedException('MathPHP\Exception\BadParameterException');
         $complex->p;
     }
