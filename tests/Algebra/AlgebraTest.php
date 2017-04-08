@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP;
 
+use MathPHP\ComplexNumbers\ComplexNumber;
+
 class AlgebraTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -185,6 +187,32 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
         return [
             [10, 1, 1, [\NAN, \NAN]],
             [3, 4, 20, [\NAN, \NAN]],
+        ];
+    }
+
+    /**
+     * @testCase     quadratic returns array of ComplexNumber objects if the discriminant is negative.
+     * @dataProvider dataProviderForQuadraticNegativeDiscriminantComplex
+     */
+    public function testQuadraticNegativeDiscriminantComplex($a, $b, $c, $expected)
+    {
+        $complex0 = new ComplexNumber($expected[0][0], $expected[0][1]);
+        $complex1 = new ComplexNumber($expected[1][0], $expected[1][1]);
+        $roots = Algebra::quadratic($a, $b, $c, true);
+        $this->assertInternalType('array', $roots);
+        $this->assertInstanceOf(ComplexNumber::class, $roots[0]);
+        $this->assertInstanceOf(ComplexNumber::class, $roots[1]);
+        $this->assertNotEmpty($roots);
+        $this->assertEquals(2, count($roots));
+        $this->assertTrue($roots[0]->equals($complex0));
+        $this->assertTrue($roots[1]->equals($complex1));
+    }
+
+    public function dataProviderForQuadraticNegativeDiscriminantComplex()
+    {
+        return [
+            [10, 1, 1, [[-.05, -1 * sqrt(39) / 20], [-.05, sqrt(39) / 20]]],
+            [3, 4, 20, [[-2 / 3, -1 * sqrt(14) * 2 / 3], [-2 / 3, sqrt(14) * 2 / 3]]],
         ];
     }
 
