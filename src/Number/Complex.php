@@ -1,5 +1,4 @@
 <?php
-
 namespace MathPHP\Number;
 
 use MathPHP\Exception;
@@ -8,114 +7,188 @@ use MathPHP\Functions\Special;
 /**
  * Complex Numbers
  *
+ * A complex number is a number that can be expressed in the form a + bi,
+ * where a and b are real numbers and i is the imaginary unit, satisfying the
+ * equation i² = −1. In this expression, a is the real part and b is the imaginary
+ * part of the complex number.
  * https://en.wikipedia.org/wiki/Complex_number
  */
 class Complex
 {
-
+    /**
+     * Real part of the complex number
+     * @var number
+     */
     protected $r;
+
+    /**
+     * Imaginary part fo the complex number
+     * @var number
+     */
     protected $i;
 
+    /**
+     * Constructor
+     *
+     * @param number $r Real part
+     * @param number $i Imaginary part
+     */
     public function __construct($r, $i)
     {
         $this->r = $r;
         $this->i = $i;
     }
     
-    public function __toString()
+    /**
+     * String representation of a complex number
+     * a + bi, a - bi, etc.
+     *
+     * @return string
+     */
+    public function __toString(): string
     {
-        $imag_string = $this->i . "i";
-        if ($this->i >= 0) {
-            $imag_string = "+" . $imag_string;
+        if ($this->r == 0 & $this->i == 0) {
+            return '0';
+        } elseif ($this->r == 0) {
+            return "$this->i" . 'i';
+        } elseif ($this->i == 0) {
+            return "$this->r";
+        } elseif ($this->i > 0) {
+            return "$this->r" . ' + ' . "$this->i" . 'i';
+        } else {
+            return "$this->r" . ' - ' . (string) abs($this->i) . 'i';
         }
-        return '(' . $this->r . $imag_string . ')';
     }
 
-    /*
-     * Setters and Getters
+    /**
+     * Get r or i
+     *
+     * @param string $part
+     *
+     * @return number
+     *
+     * @throws Exception\BadParameterException if something other than r or i is attempted
      */
-    public function __get($key)
+    public function __get(string $part)
     {
-        if ($key != 'r' && $key != 'i') {
-            throw new Exception\BadParameterException('The \'' . $key . '\' property does not exist in this class');
+        switch ($part) {
+            case 'r':
+            case 'i':
+                return $this->$part;
+
+            default:
+                throw new Exception\BadParameterException("The $part property does not exist in Complex number");
         }
-        return $this->$key;
     }
     
-    public function getR()
-    {
-        return $this->r;
-    }
-    
-    public function getI()
-    {
-        return $this->i;
-    }
+    /**************************************************************************
+     * UNARY FUNCTIONS
+     **************************************************************************/
 
-    /*
-     * Unary Functions
-     */
-
-    /*
+    /**
      * The conjugate of a complex number
      *
      * https://en.wikipedia.org/wiki/Complex_number#Conjugate
+     *
+     * @return Complex
      */
     public function complexConjugate(): Complex
     {
         return new Complex($this->r, -1 * $this->i);
     }
 
-    /*
+    /**
      * The absolute value (magnitude) of a complex number
-     *
      * https://en.wikipedia.org/wiki/Complex_number#Absolute_value_and_argument
+     *
+     * If z = a + bi
+     *        _______
+     * |z| = √a² + b²
+     *
+     * @return number
      */
     public function abs()
     {
-        return sqrt($this->r ** 2 + $this->i ** 2);
+        return sqrt($this->r**2 + $this->i**2);
     }
     
-    /*
+    /**
      * The argument (phase) of a complex number
-     *
+     * The argument of z is the angle of the radius OP with the positive real axis, and is written as arg(z).
      * https://en.wikipedia.org/wiki/Complex_number#Absolute_value_and_argument
+     *
+     * If z = a + bi
+     * arg(z) = atan(b, a)
+     *
+     * @return number
      */
     public function arg()
     {
         return atan2($this->i, $this->r);
     }
     
-    /*
+    /**
      * The square root of a complex number
-     *
      * https://en.wikipedia.org/wiki/Complex_number#Square_root
+     *
+     * The square roots of a + bi (with b ≠ 0) are ±(γ + δi), where
+     *
+     *         ____________
+     *        /     _______
+     *       / a + √a² + b²
+     * γ =  /  ------------
+     *     √         2
+     *
+     *               ____________
+     *              /      _______
+     *             / -a + √a² + b²
+     * δ = sgn(b) /  -------------
+     *           √         2
+     *
+     *
+     * @return Complex (positive root)
      */
     public function sqrt(): Complex
     {
-        $r = sqrt(($this->r + $this->abs()) / 2);
-        $i = Special::sgn($this->i) * sqrt(($this->abs() - $this->r) / 2);
-        return new Complex($r, $i);
+        $γ = sqrt(($this->r + $this->abs()) / 2);
+        $δ = Special::sgn($this->i) * sqrt((-$this->r + $this->abs()) / 2);
+
+        return new Complex($γ, $δ);
     }
 
-    /*
-     * The inverse of a complex number
+    /**
+     * The inverse of a complex number (reciprocal)
      *
      * https://en.wikipedia.org/wiki/Complex_number#Reciprocal
+     *
+     * @return Complex
+     *
+     * @throws Exception\BadDataException if = to 0 + 0i
      */
     public function inv(): Complex
     {
+        if ($this->r == 0 && $this->i == 0) {
+            throw new Exception\BadDataException('Cannot take inverse of 0 + 0i');
+        }
+
         return $this->complexConjugate()->divide($this->abs() ** 2);
     }
 
-    /*
-     * Binary Functions
-     */
+    /**************************************************************************
+     * BINARY FUNCTIONS
+     **************************************************************************/
 
-    /*
+    /**
      * Complex addition
-     *
      * https://en.wikipedia.org/wiki/Complex_number#Addition_and_subtraction
+     *
+     * (a + bi) + (c + di) = (a + c) + (b + d)i
+     *
+     * @param mixed $c
+     *
+     * @return Complex
+     *
+     * @throws Exception\IncorrectTypeException if the argument is not numeric or Complex.
      */
     public function add($c): Complex
     {
@@ -128,13 +201,21 @@ class Complex
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or complex number');
         }
+
         return new Complex($r, $i);
     }
 
-    /*
+    /**
      * Complex subtraction
-     *
      * https://en.wikipedia.org/wiki/Complex_number#Addition_and_subtraction
+     *
+     * (a + bi) - (c + di) = (a - c) + (b - d)i
+     *
+     * @param mixed $c
+     *
+     * @return Complex
+     *
+     * @throws Exception\IncorrectTypeException if the argument is not numeric or Complex.
      */
     public function subtract($c): Complex
     {
@@ -147,13 +228,21 @@ class Complex
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or complex number');
         }
+
         return new Complex($r, $i);
     }
 
-    /*
+    /**
      * Complex multiplication
-     *
      * https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_division
+     *
+     * (a + bi)(c + di) = (ac - bd) + (bc + ad)i
+     *
+     * @param mixed $c
+     *
+     * @return Complex
+     *
+     * @throws Exception\IncorrectTypeException if the argument is not numeric or Complex.
      */
     public function multiply($c): Complex
     {
@@ -162,19 +251,24 @@ class Complex
             $i = $c * $this->i;
         } elseif ($c instanceof Complex) {
             $r = $this->r * $c->r - $this->i * $c->i;
-            $i = $this->i * $c->r + $c->i * $this->r;
+            $i = $this->i * $c->r + $this->r * $c->i;
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or complex number');
         }
+
         return new Complex($r, $i);
     }
 
-    /*
+    /**
      * Complex division
-     *
      * Dividing two complex numbers is accomplished by multiplying the first by the inverse of the second
-     *
      * https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_division
+     *
+     * @param mixed $c
+     *
+     * @return Complex
+     *
+     * @throws Exception\IncorrectTypeException if the argument is not numeric or Complex.
      */
     public function divide($c): Complex
     {
@@ -189,16 +283,21 @@ class Complex
         }
     }
     
-    /*
-     * Comparison Operators
-     */
+    /**************************************************************************
+     * COMPARISON FUNCTIONS
+     **************************************************************************/
 
-    /*
+    /**
      * Test for equality
+     * Two complex numbers are equal if and only if both their real and imaginary parts are equal.
      *
      * https://en.wikipedia.org/wiki/Complex_number#Equality
+     *
+     * @param Complex $c
+     *
+     * @return bool
      */
-    public function equals($c): bool
+    public function equals(Complex $c): bool
     {
         return $this->r == $c->r && $this->i == $c->i;
     }
