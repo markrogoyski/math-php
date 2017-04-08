@@ -98,7 +98,7 @@ class Complex
     }
 
     /**
-     * The absolute value (magnitude) of a complex number
+     * The absolute value (magnitude) of a complex number (modulus)
      * https://en.wikipedia.org/wiki/Complex_number#Absolute_value_and_argument
      *
      * If z = a + bi
@@ -131,7 +131,37 @@ class Complex
      * The square root of a complex number
      * https://en.wikipedia.org/wiki/Complex_number#Square_root
      *
-     * The square roots of a + bi (with b ≠ 0) are ±(γ + δi), where
+     * The roots of a + bi (with b ≠ 0) are ±(γ + δi), where
+     *
+     *         ____________
+     *        /     _______
+     *       / a + √a² + b²
+     * γ =  /  ------------
+     *     √         2
+     *
+     *               ____________
+     *              /      _______
+     *             / -a + √a² + b²
+     * δ = sgn(b) /  -------------
+     *           √         2
+     *
+     * The square root returns the positive root.
+     *
+     * @return Complex (positive root)
+     */
+    public function sqrt(): Complex
+    {
+        $γ = sqrt(($this->r + $this->abs()) / 2);
+        $δ = Special::sgn($this->i) * sqrt((-$this->r + $this->abs()) / 2);
+
+        return new Complex($γ, $δ);
+    }
+
+    /**
+     * The roots of a complex number
+     * https://en.wikipedia.org/wiki/Complex_number#Square_root
+     *
+     * The roots of a + bi (with b ≠ 0) are ±(γ + δi), where
      *
      *         ____________
      *        /     _______
@@ -146,14 +176,17 @@ class Complex
      *           √         2
      *
      *
-     * @return Complex (positive root)
+     * @return array Complex[] (two roots)
      */
-    public function sqrt(): Complex
+    public function roots(): array
     {
         $γ = sqrt(($this->r + $this->abs()) / 2);
         $δ = Special::sgn($this->i) * sqrt((-$this->r + $this->abs()) / 2);
 
-        return new Complex($γ, $δ);
+        $z₁ = new Complex($γ, $δ);
+        $z₂ = new Complex(-$γ, -$δ);
+
+        return [$z₁, $z₂];
     }
 
     /**
@@ -165,7 +198,7 @@ class Complex
      *
      * @throws Exception\BadDataException if = to 0 + 0i
      */
-    public function inv(): Complex
+    public function inverse(): Complex
     {
         if ($this->r == 0 && $this->i == 0) {
             throw new Exception\BadDataException('Cannot take inverse of 0 + 0i');
@@ -277,7 +310,7 @@ class Complex
             $i = $this->i / $c;
             return new Complex($r, $i);
         } elseif ($c instanceof Complex) {
-            return $this->multiply($c->inv());
+            return $this->multiply($c->inverse());
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or complex number');
         }

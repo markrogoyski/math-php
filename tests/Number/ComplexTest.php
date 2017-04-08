@@ -139,7 +139,8 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     public function testArg($r, $i, $expected)
     {
         $c = new Complex($r, $i);
-        $this->assertEquals($expected, $c->arg());
+
+        $this->assertEquals($expected, $c->arg(), '', 0.00000001);
     }
 
     public function dataProviderForArg(): array
@@ -147,12 +148,23 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
         return [
             [0, 1, \M_PI / 2],
             [0, -1, \M_PI / -2],
+            [1, 1, 0.7853981633974483],
+            [2, 2, 0.7853981633974483],
+            [3, 3, 0.7853981633974483],
+            [1, 2, 1.1071487177940904],
+            [2, 1, 0.4636476090008061],
+            [3, 1.4, 0.4366271598135413],
+            [\M_PI, 1, 0.30816907111598496],
+            [1, \M_PI, 1.2626272556789115],
+            [-1, 1, 2.356194490192345],
+            [1, -1, -0.78539816],
+            [-1, -1, -2.35619449],
         ];
     }
 
     /**
      * @testCase     sqrt returns the expected positive Complex root
-     * @dataProvider dataProviderForsqrt
+     * @dataProvider dataProviderForSqrt
      * @param        number $r
      * @param        number $i
      * @param        number $expected_r
@@ -162,6 +174,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     {
         $c    = new Complex($r, $i);
         $sqrt = $c->sqrt();
+
         $this->assertEquals($expected_r, $sqrt->r, '', 0.00001);
         $this->assertEquals($expected_i, $sqrt->i, '', 0.00001);
     }
@@ -172,6 +185,39 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
             [8, -6, 3, -1],
             [9, 4, sqrt((9 + sqrt(97))/2), 2 * (sqrt(2/(9 + sqrt(97))))],
             [-4, -6, 1.2671, -2.3676],
+            [0, 9, 2.1213203, 2.1213203],
+            [10, -6, 3.2910412, -0.9115656],
+        ];
+    }
+
+    /**
+     * @testCase     roots returns the expected array of two Complex roots
+     * @dataProvider dataProviderForRoots
+     * @param        number $r
+     * @param        number $i
+     * @param        array  $z₁
+     * @param        array  $z₂
+     */
+    public function testRoots($r, $i, array $z₁, array $z₂)
+    {
+        $c     = new Complex($r, $i);
+        $roots = $c->roots();
+
+        $this->assertEquals($z₁['r'], $roots[0]->r, '', 0.00001);
+        $this->assertEquals($z₁['i'], $roots[0]->i, '', 0.00001);
+        $this->assertEquals($z₂['r'], $roots[1]->r, '', 0.00001);
+        $this->assertEquals($z₂['i'], $roots[1]->i, '', 0.00001);
+    }
+
+    public function dataProviderForRoots(): array
+    {
+        return [
+            [8, -6, ['r' => 3, 'i' => -1], ['r' => -3, 'i' => 1]],
+            [9, 4, ['r' => sqrt((9 + sqrt(97))/2), 'i' => 2 * (sqrt(2/(9 + sqrt(97))))], ['r' => -sqrt((9 + sqrt(97))/2), 'i' => -2 * (sqrt(2/(9 + sqrt(97))))]],
+            [-4, -6, ['r' => 1.2671, 'i' => -2.3676], ['r' => -1.2671, 'i' => 2.3676]],
+            [0, 9, ['r' => 2.1213203, 'i' => 2.1213203], ['r' => -2.1213203, 'i' => -2.1213203]],
+            [10, -6, ['r' => 3.2910412, 'i' => -0.9115656], ['r' => -3.2910412, 'i' => 0.9115656]],
+            [3, 3, ['r' => 1.90298, 'i' => 0.78824], ['r' => -1.90298, 'i' => -0.78824]],
         ];
     }
 
@@ -534,7 +580,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     public function testInverse($r, $i, $expected_r, $expected_i)
     {
         $c       = new Complex($r, $i);
-        $inverse = $c->inv();
+        $inverse = $c->inverse();
 
         $this->assertEquals($expected_r, $inverse->r);
         $this->assertEquals($expected_i, $inverse->i);
@@ -543,7 +589,6 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForInverse(): array
     {
         return [
-
             [1, 0, 1, 0],
             [0, 1, 0, -1],
             [1, 1, 1/2, -1/2],
@@ -561,7 +606,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     {
         $complex = new Complex(0, 0);
         $this->setExpectedException(Exception\BadDataException::class);
-        $complex->inv();
+        $complex->inverse();
     }
 
     /**
