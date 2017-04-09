@@ -21,9 +21,13 @@ namespace MathPHP\Number;
 class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Axiom: z + w = w + z
+     * @testCase @testCase Axiom: z + w = w + z
      * Commutativity of addition.
      * @dataProvider dataProviderForTwoComplexNumbers
+     * @param        number $r₁
+     * @param        number $i₁
+     * @param        number $r₂
+     * @param        number $i₂
      */
     public function testCommutativityOfAddition($r₁, $i₁, $r₂, $i₂)
     {
@@ -40,9 +44,13 @@ class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Axiom: zw = wz
+     * @testCase Axiom: zw = wz
      * Commutativity of multiplication.
      * @dataProvider dataProviderForTwoComplexNumbers
+     * @param        number $r₁
+     * @param        number $i₁
+     * @param        number $r₂
+     * @param        number $i₂
      */
     public function testCommutativityOfMultiplication($r₁, $i₁, $r₂, $i₂)
     {
@@ -59,9 +67,15 @@ class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Axiom: z + (u + v) = (z + u) + v
+     * @testCase Axiom: z + (u + v) = (z + u) + v
      * Associativity of Addition.
      * @dataProvider dataProviderForThreeComplexNumbers
+     * @param        number $r₁
+     * @param        number $i₁
+     * @param        number $r₂
+     * @param        number $i₂
+     * @param        number $r₃
+     * @param        number $i₃
      */
     public function testAssociativityOfAddition($r₁, $i₁, $r₂, $i₂, $r₃, $i₃)
     {
@@ -79,9 +93,15 @@ class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Axiom: z(uv) = (zu)v
+     * @testCase Axiom: z(uv) = (zu)v
      * Associativity of Multiplication.
      * @dataProvider dataProviderForThreeComplexNumbers
+     * @param        number $r₁
+     * @param        number $i₁
+     * @param        number $r₂
+     * @param        number $i₂
+     * @param        number $r₃
+     * @param        number $i₃
      */
     public function testAssociativityOfMultiplication($r₁, $i₁, $r₂, $i₂, $r₃, $i₃)
     {
@@ -99,9 +119,15 @@ class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Axiom: z(u + v) = zu + zv
+     * @testCase Axiom: z(u + v) = zu + zv
      * Distributed Law.
      * @dataProvider dataProviderForThreeComplexNumbers
+     * @param        number $r₁
+     * @param        number $i₁
+     * @param        number $r₂
+     * @param        number $i₂
+     * @param        number $r₃
+     * @param        number $i₃
      */
     public function testDistributedLaw($r₁, $i₁, $r₂, $i₂, $r₃, $i₃)
     {
