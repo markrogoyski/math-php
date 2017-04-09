@@ -18,7 +18,7 @@ namespace MathPHP\Number;
  *  - Distributed Law
  *    - z(u + v) = zu + zv
  */
-class ArithmeticAxiomsTest extends \PHPUnit_Framework_TestCase
+class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Axiom: z + w = w + z
