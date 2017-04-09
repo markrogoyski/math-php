@@ -17,11 +17,16 @@ namespace MathPHP\Number;
  *    - z(uv) = (zu)v
  *  - Distributed Law
  *    - z(u + v) = zu + zv
+ *  - Identity
+ *    - z + 0 = z
+ *    - z * 1 = z
+ *  - Inverse
+ *    - (∀a)(∃b) a + b = 0
  */
 class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @testCase @testCase Axiom: z + w = w + z
+     * @testCase Axiom: z + w = w + z
      * Commutativity of addition.
      * @dataProvider dataProviderForTwoComplexNumbers
      * @param        number $r₁
@@ -142,6 +147,90 @@ class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($zu ＋ zv->equals($z⟮u ＋ v⟯));
         $this->assertEquals($z⟮u ＋ v⟯->r, $zu ＋ zv->r);
         $this->assertEquals($z⟮u ＋ v⟯->i, $zu ＋ zv->i);
+    }
+
+    /**
+     * @testCase Axiom: z + 0 = z
+     * Additive identity
+     * @dataProvider dataProviderForOneComplexNumber
+     * @param        number $r
+     * @param        number $i
+     */
+    public function testAdditiveIdentity($r, $i)
+    {
+        $z = new Complex($r, $i);
+
+        $z＋0 = $z->add(0);
+
+        $this->assertTrue($z＋0->equals($z));
+        $this->assertTrue($z->equals($z＋0));
+        $this->assertEquals($z->r, $z＋0->r);
+        $this->assertEquals($z->i, $z＋0->i);
+    }
+
+    /**
+     * @testCase Axiom: z * 1 = z
+     * Multiplicative identity
+     * @dataProvider dataProviderForOneComplexNumber
+     * @param        number $r
+     * @param        number $i
+     */
+    public function testMlutiplicativeIdentity($r, $i)
+    {
+        $z = new Complex($r, $i);
+
+        $z1 = $z->multiply(1);
+
+        $this->assertTrue($z1->equals($z));
+        $this->assertTrue($z->equals($z1));
+        $this->assertEquals($z->r, $z1->r);
+        $this->assertEquals($z->i, $z1->i);
+    }
+
+    /**
+     * @testCase Axiom: (∀a)(∃b) a + b = 0
+     * Additive inverse.
+     * @dataProvider dataProviderForOneComplexNumber
+     * @param        number $r₁
+     * @param        number $i₁
+     */
+    public function testAdditiveInverse($r, $i)
+    {
+        $a = new Complex($r, $i);
+        $b = new Complex(-$r, -$i);
+
+        $a＋b = $a->add($b);
+
+        $this->assertEquals(0, $a＋b->r);
+        $this->assertEquals(0, $a＋b->i);
+    }
+
+    public function dataProviderForOneComplexNumber(): array
+    {
+        return [
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            [0, 1],
+            [1, 0],
+            [1, 0],
+            [1, 0],
+            [1, 1],
+            [1, 1],
+            [1, 1],
+            [1, 1],
+            [2, 3],
+            [4, 5],
+            [7, 4],
+            [-5, 2],
+            [3, -6],
+            [-3, -5],
+            [4, 5],
+            [3, 6],
+            [12, 65],
+            [54, -4],
+            [-3, 34],
+        ];
     }
 
     public function dataProviderForTwoComplexNumbers(): array
