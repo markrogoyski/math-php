@@ -20,7 +20,7 @@ class ArithmeticAxiomsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Axiom: dr(n) = n ⇔ n ∈ {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
-     * The digital root of {\displaystyle n} n is {\displaystyle n} n itself if and only if the number has exactly one digit.
+     * The digital root of n is n itself if and only if the number has exactly one digit.
      */
     public function testDigitalRootEqualsN()
     {
