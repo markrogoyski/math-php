@@ -254,6 +254,44 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     polarForm returns the expected complex number
+     * @dataProvider dataProviderForPolarForm
+     * @param        number $r₁
+     * @param        number $i₁
+     * @param        number $r₂
+     * @param        number $i₂
+     */
+    public function testPolarForm($r₁, $i₁, $r₂, $i₂)
+    {
+        $c          = new Complex($r₁, $i₁);
+        $expected   = new Complex($r₂, $i₂);
+        $polar_form = $c->polarForm();
+
+        $this->assertEquals($expected->r, $polar_form->r, '', 0.00001);
+        $this->assertEquals($expected->i, $polar_form->i, '', 0.00001);
+    }
+
+    /**
+     * Test data created with: http://www.analyzemath.com/Calculators/complex_polar_exp.html
+     * @return array
+     */
+    public function dataProviderForPolarForm(): array
+    {
+        return [
+            [5, 2, 5.3851648071 * cos(0.3805063771), 5.3851648071 * sin(0.3805063771)],
+            [49.90, 25.42, 56.0016642610 * cos(0.4711542561), 56.0016642610 * sin(0.4711542561)],
+            [-1, -1, 1.4142135624 * cos(-2.3561944902), 1.41421 * sin(-2.3561944902)],
+            [1, 0, 1 * cos(0), 1 * sin(0)],
+            [0, 1, 1 * cos(1.5707963268), 1 * sin(1.5707963268)],
+            [0, 0, 0, 0],
+            [\M_PI, 2, 3.7241917782 * cos(0.5669115049), 3.7241917782 * sin(0.5669115049)],
+            [8, 9, 12.0415945788 * cos(0.8441539861), 12.0415945788 * sin(0.8441539861)],
+            [814, -54, 815.7891884550 * cos(-0.0662420059), 815.7891884550 * sin(-0.0662420059)],
+            [-5, -3, 5.8309518948 * cos(-2.6011731533), 5.8309518948 * sin(-2.6011731533)],
+        ];
+    }
+
+    /**
      * @testCase     add of two complex numbers returns the expected complex number
      * @dataProvider dataProviderForAdd
      * @param        array  $complex1

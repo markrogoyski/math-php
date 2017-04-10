@@ -218,6 +218,25 @@ class Complex
         return new Complex(-$this->r, -$this->i);
     }
 
+    /**
+     * Polar form
+     * https://en.wikipedia.org/wiki/Complex_number#Polar_form
+     *
+     * z = a + bi = r(cos(θ) + i sin(θ))
+     * Where
+     *  r = |z|
+     *  θ = arg(z)
+     *
+     * @return Complex
+     */
+    public function polarForm(): Complex
+    {
+        $r = $this->abs();
+        $θ = $this->arg();
+
+        return new Complex($r * cos($θ), $r * sin($θ));
+    }
+
     /**************************************************************************
      * BINARY FUNCTIONS
      **************************************************************************/

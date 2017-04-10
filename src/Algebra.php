@@ -166,13 +166,14 @@ class Algebra
      * @param  number $a x² coefficient
      * @param  number $b x coefficient
      * @param  number $c constant coefficient
+     * @param  bool   $return_complex Whether to return complex numbers or NANs if imaginary roots
      *
      * @return array  [x₁, x₂]           roots of the equation, or
      *                [NAN, NAN]         if discriminant is negative, or
      *                [Complex, Complex] if discriminant is negative and complex option is on or
      *                [x]                if a = 0 and formula isn't quadratics
      */
-    public static function quadratic($a, $b, $c, $return_complex = false): array
+    public static function quadratic($a, $b, $c, bool $return_complex = false): array
     {
         // Formula not quadratic (a = 0)
         if ($a === 0) {
