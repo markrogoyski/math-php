@@ -222,6 +222,38 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     negate returns the expected complex number with signs negated
+     * @dataProvider dataProviderForNegate
+     * @param        number $r₁
+     * @param        number $i₁
+     * @param        number $r₂
+     * @param        number $i₂
+     */
+    public function testNegate($r₁, $i₁, $r₂, $i₂)
+    {
+        $c        = new Complex($r₁, $i₁);
+        $expected = new Complex($r₂, $i₂);
+        $negated  = $c->negate();
+
+        $this->assertTrue($negated->equals($expected));
+        $this->assertEquals($expected->r, $negated->r);
+        $this->assertEquals($expected->i, $negated->i);
+    }
+
+    public function dataProviderForNegate(): array
+    {
+        return [
+            [0, 0, 0, 0],
+            [1, 0, -1, 0],
+            [0, 1, 0, -1],
+            [1, 2, -1, -2],
+            [3, 4, -3, -4],
+            [-4, -5, 4, 5],
+            [-6, 3, 6, -3],
+        ];
+    }
+
+    /**
      * @testCase     add of two complex numbers returns the expected complex number
      * @dataProvider dataProviderForAdd
      * @param        array  $complex1

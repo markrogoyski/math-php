@@ -207,6 +207,17 @@ class Complex
         return $this->complexConjugate()->divide($this->abs() ** 2);
     }
 
+    /**
+     * Negate the complex number
+     * Switches the signs of both the real and imaginary parts.
+     *
+     * @return Complex
+     */
+    public function negate(): Complex
+    {
+        return new Complex(-$this->r, -$this->i);
+    }
+
     /**************************************************************************
      * BINARY FUNCTIONS
      **************************************************************************/
