@@ -34,8 +34,8 @@
     <testsuite name="NumberTheory">
       <directory suffix="Test.php">NumberTheory</directory>
     </testsuite>
-    <testsuite name="ComplexNumbers">
-      <directory suffix="Test.php">ComplexNumbers</directory>
+    <testsuite name="Number">
+      <directory suffix="Test.php">Number</directory>
     </testsuite>
   </testsuites>
   <filter>
