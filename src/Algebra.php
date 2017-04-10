@@ -298,7 +298,7 @@ class Algebra
      * @return array of roots (three real roots, or one real root and two NANs because complex numbers not yet supported)
      *                        (If $a₃ = 0, then only two roots of quadratic equation)
      */
-    public static function cubic($a₃, $a₂, $a₁, $a₀): array
+    public static function cubic($a₃, $a₂, $a₁, $a₀, $return_complex = false): array
     {
         if ($a₃ === 0) {
             return self::quadratic($a₂, $a₁, $a₀);
@@ -345,6 +345,14 @@ class Algebra
         // D > 0: One root is real, and two are are complex conjugates
         $z₁ = $S + $T - $a₂ / 3;
 
-        return [$z₁, \NAN, \NAN];
+        if (!$return_complex) {
+            return [$z₁, \NAN, \NAN];
+        } else {
+            $quad_a = 1;
+            $quad_b = $a₂ + $z₁;
+            $quad_c = $a₁ + $quad_b * $z₁;
+            $complex_roots = self::quadratic($quad_a, $quad_b, $quad_c, true);
+            return array_merge([$z₁], $complex_roots);
+        }
     }
 }
