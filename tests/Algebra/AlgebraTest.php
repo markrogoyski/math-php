@@ -356,8 +356,8 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForQuartic(): array
     {
         return [
-            [3, 6, -123, -126, 1080, [5, 3, -4, -6]],
-            [1, -10, 35, -50, 24, [4, 3, 2, 1]],
+            [3, 6, -123, -126, 1080, [5, -4, 3, -6]],
+            [1, -10, 35, -50, 24, [4, 2, 3, 1]],
             [1, 2, 1, 0, 0, [0, 0, -1, -1]],
            
             // Two Complex Roots
