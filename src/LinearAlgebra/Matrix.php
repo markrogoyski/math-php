@@ -215,6 +215,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isPositiveSemidefinite
      *  - isNegativeDefinite
      *  - isNegativeSemidefinite
+     *  - isLowerTriangular
+     *  - isUpperTriangular
+     *  - isTriangular
      **************************************************************************/
 
     /**
@@ -412,6 +415,77 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return true;
+    }
+
+    /**
+     * Is the matrix lower triangular?
+     *  - It is a square matrix
+     *  - All the entries above the main diagonal are zero
+     *
+     * https://en.wikipedia.org/wiki/Triangular_matrix
+     *
+     * @return boolean true if lower triangular; false otherwise
+     */
+    public function isLowerTriangular(): bool
+    {
+        if (!$this->isSquare()) {
+            return false;
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = $i+1; $j < $n; $j++) {
+                if ($this->A[$i][$j] != 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix upper triangular?
+     *  - It is a square matrix
+     *  - All the entries below the main diagonal are zero
+     *
+     * https://en.wikipedia.org/wiki/Triangular_matrix
+     *
+     * @return boolean true if upper triangular; false otherwise
+     */
+    public function isUpperTriangular(): bool
+    {
+        if (!$this->isSquare()) {
+            return false;
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+
+        for ($i = 1; $i < $m; $i++) {
+            for ($j = 0; $j < $i; $j++) {
+                if ($this->A[$i][$j] != 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix triangular?
+     * The matrix is either lower or upper triangular
+     *
+     * https://en.wikipedia.org/wiki/Triangular_matrix
+     *
+     * @return boolean true if triangular; false otherwise
+     */
+    public function isTriangular(): bool
+    {
+        return ($this->isLowerTriangular() || $this->isUpperTriangular());
     }
 
     /**

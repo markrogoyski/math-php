@@ -225,7 +225,7 @@ class Complex
      * z = a + bi = r(cos(θ) + i sin(θ))
      * Where
      *  r = |z|
-     *  θ = arg(z)
+     *  θ = arg(z) (in radians)
      *
      * @return Complex
      */
