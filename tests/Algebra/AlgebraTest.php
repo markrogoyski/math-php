@@ -351,6 +351,38 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     cubic returns the expected roots when D > 0: one root is real, 2 are complex conjugates.
+     * @dataProvider dataProviderForCubicOneRealRootWithComplex
+     * @param        int $a
+     * @param        int $b
+     * @param        int $c
+     * @param        int $d
+     * @param        array $cubic expected roots
+     */
+    public function testCubicOneRealRootWithComplex($a, $b, $c, $d, $roots)
+    {
+        $real_root = $roots[0];
+        $complex0 = new Number\Complex($roots[1]['r'], $roots[1]['i']);
+        $complex1 = new Number\Complex($roots[2]['r'], $roots[2]['i']);
+        list($z₁, $z₂, $z₃) = Algebra::cubic($a, $b, $c, $d, true);
+        $this->assertEquals($real_root, $z₁, '', 0.00000001);
+        $this->assertInstanceOf(Number\Complex::class, $z₂);
+        $this->assertInstanceOf(Number\Complex::class, $z₃);
+        $this->assertTrue($z₂->equals($complex0), "Expecting $complex0 but saw $z₂");
+        $this->assertTrue($z₃->equals($complex1), "Expecting $complex1 but saw $z₃");
+    }
+
+    public function dataProviderForCubicOneRealRootWithComplex(): array
+    {
+        return [
+            // D > 0: one root is real, 2 are complex conjugates.
+            [1, 0, 1, 0, [0, ['r'=>0, 'i'=>-1], ['r'=>0, 'i'=>1]]],
+            [1, -1, 1, -1, [1, ['r'=>0, 'i'=>-1], ['r'=>0, 'i'=>1]]],
+            
+        ];
+    }
+
+    /**
      * @testCase     cubic with a₃ coefficient of z³ of 0 is the same as quadratic.
      * @dataProvider dataProviderForQuadratic
      * @param        number $b
