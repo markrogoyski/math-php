@@ -33,10 +33,54 @@ class DiagonalMatrix extends SquareMatrix
 
     /**
      * Diagonal matrix must be symmetric
-     *
-     * @return bool
+     * @inheritDoc
      */
     public function isSymmetric(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Diagonal matrix must be lower triangular
+     * @inheritDoc
+     */
+    public function isLowerTriangular(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Diagonal matrix must be upper triangular
+     * @inheritDoc
+     */
+    public function isUpperTriangular(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Diagonal matrix must be triangular
+     * @inheritDoc
+     */
+    public function isTriangular(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Diagonal matrix must be diagonal
+     * @inheritDoc
+     */
+    public function isDiagonal(): bool
+    {
+        return ($this->isLowerTriangular() && $this->isUpperTriangular());
+    }
+
+    /**
+     * Diagonal matrix must be square and symmetric
+     * @inheritDoc
+     */
+    protected function isSquareAndSymmetric(): bool
     {
         return true;
     }

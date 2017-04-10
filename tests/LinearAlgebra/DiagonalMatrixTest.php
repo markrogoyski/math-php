@@ -4,7 +4,10 @@ namespace MathPHP\LinearAlgebra;
 class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @testCase     constructor builds the expected DiagonalMatrix
      * @dataProvider dataProviderMulti
+     * @param        array $A
+     * @param        array $R
      */
     public function testConstructor(array $A, array $R)
     {
@@ -25,7 +28,10 @@ class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     getMatrix returns the expected array
      * @dataProvider dataProviderMulti
+     * @param        array $A
+     * @param        array $R
      */
     public function testGetMatrix(array $A, array $R)
     {
@@ -35,7 +41,10 @@ class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     isSquare returns true
      * @dataProvider dataProviderMulti
+     * @param        array $A
+     * @param        array $R
      */
     public function testIsSquare(array $A, array $R)
     {
@@ -45,7 +54,10 @@ class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     isSymmetric returns true
      * @dataProvider dataProviderMulti
+     * @param        array $A
+     * @param        array $R
      */
     public function testIsSymmetric(array $A, array $R)
     {
@@ -54,7 +66,62 @@ class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($D->isSymmetric());
     }
 
-    public function dataProviderMulti()
+    /**
+     * @testCase     isLowerTriangular returns true
+     * @dataProvider dataProviderMulti
+     * @param        array $A
+     * @param        array $R
+     */
+    public function testIsLowerTriangular(array $A, array $R)
+    {
+        $D = new DiagonalMatrix($A);
+
+        $this->assertTrue($D->isLowerTriangular());
+    }
+
+    /**
+     * @testCase     isUpperTriangular returns true
+     * @dataProvider dataProviderMulti
+     * @param        array $A
+     * @param        array $R
+     */
+    public function testIsUpperTriangular(array $A, array $R)
+    {
+        $D = new DiagonalMatrix($A);
+
+        $this->assertTrue($D->isUpperTriangular());
+    }
+
+    /**
+     * @testCase     isTriangular returns true
+     * @dataProvider dataProviderMulti
+     * @param        array $A
+     * @param        array $R
+     */
+    public function testIsTriangular(array $A, array $R)
+    {
+        $D = new DiagonalMatrix($A);
+
+        $this->assertTrue($D->isTriangular());
+    }
+
+    /**
+     * @testCase     isSquareAndSymmetric returns true
+     * @dataProvider dataProviderMulti
+     * @param        array $A
+     * @param        array $R
+     */
+    public function testIsSquareAndSymmetric(array $D)
+    {
+        $D = MatrixFactory::create($D);
+
+        $reflection_method = new \ReflectionMethod(Matrix::class, 'isSquareAndSymmetric');
+        $reflection_method->setAccessible(true);
+
+        $this->assertTrue($reflection_method->invoke($D));
+    }
+
+    public function dataProviderMulti(): array
     {
         return [
             [

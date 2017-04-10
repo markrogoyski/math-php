@@ -489,6 +489,21 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Is the matrix diagonal?
+     *  - It is a square matrix
+     *  - All the entries above the main diagonal are zero
+     *  - All the entries below the main diagonal are zero
+     *
+     * http://mathworld.wolfram.com/DiagonalMatrix.html
+     *
+     * @return boolean true if diagonal; false otherwise
+     */
+    public function isDiagonal(): bool
+    {
+        return ($this->isLowerTriangular() && $this->isUpperTriangular());
+    }
+
+    /**
      * Is the matrix square and symmetric
      *
      * @return boolean true if square and symmmetric; false otherwise
