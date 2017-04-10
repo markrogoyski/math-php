@@ -73,7 +73,7 @@ class DiagonalMatrix extends SquareMatrix
      */
     public function isDiagonal(): bool
     {
-        return ($this->isLowerTriangular() && $this->isUpperTriangular());
+        return true;
     }
 
     /**
