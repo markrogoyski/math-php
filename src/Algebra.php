@@ -296,6 +296,9 @@ class Algebra
             return self::quadratic($a₂, $a₁, $a₀);
         }
 
+        if ($a₀ === 0) {
+            return array_merge([0], self::quadratic($a₃, $a₂, $a₁));
+        }
         // Take coefficient a₃ of z³ to be 1
         $a₂ = $a₂ / $a₃;
         $a₁ = $a₁ / $a₃;
@@ -357,6 +360,9 @@ class Algebra
     {
         if ($a₄ === 0) {
             return self::cubic($a₃, $a₂, $a₁, $a₀);
+        }
+        if ($a₀ === 0) {
+            return array_merge([0], self::cubic($a₄, $a₃, $a₂, $a₁));
         }
         // Take coefficient a₄ of z⁴ to be 1
         $a₃ = $a₃ / $a₄;
