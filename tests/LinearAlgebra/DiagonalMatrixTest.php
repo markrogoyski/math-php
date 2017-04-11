@@ -106,6 +106,19 @@ class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     isDiagonal returns true
+     * @dataProvider dataProviderMulti
+     * @param        array $A
+     * @param        array $R
+     */
+    public function testIsDiagonal(array $A, array $R)
+    {
+        $D = new DiagonalMatrix($A);
+
+        $this->assertTrue($D->isDiagonal());
+    }
+
+    /**
      * @testCase     isSquareAndSymmetric returns true
      * @dataProvider dataProviderMulti
      * @param        array $A
@@ -115,7 +128,7 @@ class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
     {
         $D = MatrixFactory::create($D);
 
-        $reflection_method = new \ReflectionMethod(Matrix::class, 'isSquareAndSymmetric');
+        $reflection_method = new \ReflectionMethod(DiagonalMatrix::class, 'isSquareAndSymmetric');
         $reflection_method->setAccessible(true);
 
         $this->assertTrue($reflection_method->invoke($D));
