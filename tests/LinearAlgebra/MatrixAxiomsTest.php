@@ -68,6 +68,29 @@ namespace MathPHP\LinearAlgebra;
  *    - A and B are PD ⇒ A + B is PD
  *    - A and B are PD ⇒ ABA is PD
  *    - A and B are PD ⇒ BAB is PD
+ *  - Triangular
+ *    - Zero matrix is lower triangular
+ *    - Zero matrix is upper triangular
+ *    - Lᵀ is upper triangular
+ *    - Uᵀ is lower triangular
+ *    - LL is lower triangular
+ *    - UU is upper triangular
+ *    - L + L is lower triangular
+ *    - U + U is upper triangular
+ *    - L⁻¹ is lower triangular (If L is invertible)
+ *    - U⁻¹ is upper triangular (If U is invertible)
+ *    - kL is lower triangular
+ *    - kU is upper triangular
+ *    - L is invertible iif diagonal is all non zero
+ *    - U is invertible iif diagonal is all non zero
+ *  - Diagonal
+ *    - Zero matrix is diagonal
+ *    - Dᵀ is diagonal
+ *    - DD is diagonal
+ *    - D + D is diagonal
+ *    - D⁻¹ is diagonal (If L is invertible)
+ *    - kD is lower triangular
+ *    - D is invertible iif diagonal is all non zero
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -2282,6 +2305,606 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                     [13, 0, -3],
                     [0, 9, 9],
                     [-3, 9, 10],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase Axiom: Zero matrix is lower triangular
+     */
+    public function testZeroMatrixIsLowerTriangular()
+    {
+        foreach (range(1, 20) as $m) {
+            $L = MatrixFactory::zero($m, $m);
+            $this->assertTrue($L->isLowerTriangular());
+        }
+    }
+
+    /**
+     * @testCase Axiom: Zero matrix is upper triangular
+     */
+    public function testZeroMatrixIsUpperTriangular()
+    {
+        foreach (range(1, 20) as $m) {
+            $L = MatrixFactory::zero($m, $m);
+            $this->assertTrue($L->isUpperTriangular());
+        }
+    }
+
+    /**
+     * @testCase Axiom: Zero matrix is diagonal
+     */
+    public function testZeroMatrixIsDiagonal()
+    {
+        foreach (range(1, 20) as $m) {
+            $L = MatrixFactory::zero($m, $m);
+            $this->assertTrue($L->isDiagonal());
+        }
+    }
+
+    /**
+     * @testCase Axiom: Lᵀ is upper triangular
+     * Transpose of a lower triangular matrix is upper triagular
+     * @dataProvider dataProviderForLowerTriangularMatrix
+     * @param array $L
+     */
+    public function testTransposeOfLowerTriangularMatrixIsUpperTriangular(array $L)
+    {
+        $L  = MatrixFactory::create($L);
+        $Lᵀ = $L->Transpose();
+
+        $this->assertTrue($L->isLowerTriangular());
+        $this->assertTrue($Lᵀ->isUpperTriangular());
+    }
+
+    /**
+     * @testCase Axiom: Uᵀ is lower triangular
+     * Transpose of an upper triangular matrix is lower triagular
+     * @dataProvider dataProviderForUpperTriangularMatrix
+     * @param array $U
+     */
+    public function testTransposeOfUpperTriangularMatrixIsLowerTriangular(array $U)
+    {
+        $U  = MatrixFactory::create($U);
+        $Uᵀ = $U->Transpose();
+
+        $this->assertTrue($U->isUpperTriangular());
+        $this->assertTrue($Uᵀ->isLowerTriangular());
+    }
+
+    /**
+     * @testCase Axiom: LL is lower triangular
+     * Product of two lower triangular matrices is lower triangular
+     * @dataProvider dataProviderForLowerTriangularMatrix
+     * @param array $L
+     */
+    public function testProductOfTwoLowerTriangularMatricesIsLowerTriangular(array $L)
+    {
+        $L  = MatrixFactory::create($L);
+        $LL = $L->multiply($L);
+
+        $this->assertTrue($L->isLowerTriangular());
+        $this->assertTrue($LL->isLowerTriangular());
+    }
+
+    /**
+     * @testCase Axiom: UU is upper triangular
+     * Product of two upper triangular matrices is upper triangular
+     * @dataProvider dataProviderForUpperTriangularMatrix
+     * @param array $U
+     */
+    public function testProductOfTwoUpperTriangularMatricesIsUpperTriangular(array $U)
+    {
+        $U  = MatrixFactory::create($U);
+        $UU = $U->multiply($U);
+
+        $this->assertTrue($U->isUpperTriangular());
+        $this->assertTrue($UU->isUpperTriangular());
+    }
+
+    /**
+     * @testCase Axiom: L + L is lower triangular
+     * Sum of two lower triangular matrices is lower triangular
+     * @dataProvider dataProviderForLowerTriangularMatrix
+     * @param array $L
+     */
+    public function testSumOfTwoLowerTriangularMatricesIsLowerTriangular(array $L)
+    {
+        $L    = MatrixFactory::create($L);
+        $L＋L = $L->add($L);
+
+        $this->assertTrue($L->isLowerTriangular());
+        $this->assertTrue($L＋L->isLowerTriangular());
+    }
+
+    /**
+     * @testCase Axiom: U + U is upper triangular
+     * Sum of two upper triangular matrices is upper triangular
+     * @dataProvider dataProviderForUpperTriangularMatrix
+     * @param array $U
+     */
+    public function testSumOfTwoUpperTriangularMatricesIsUpperTriangular(array $U)
+    {
+        $U    = MatrixFactory::create($U);
+        $U＋U = $U->add($U);
+
+        $this->assertTrue($U->isUpperTriangular());
+        $this->assertTrue($U＋U->isUpperTriangular());
+    }
+
+    /**
+     * @testCase Axiom: L⁻¹ is lower triangular (If L is invertible)
+     * The inverse of an invertible lower triangular matrix is lower triangular
+     * @dataProvider dataProviderForLowerTriangularMatrix
+     * @param array $L
+     */
+    public function testInverseOfInvertibleLowerTriangularMatrixIsLowerTriangular(array $L)
+    {
+        $L = MatrixFactory::create($L);
+        $this->assertTrue($L->isLowerTriangular());
+
+        if ($L->isInvertible()) {
+            $L⁻¹ = $L->inverse();
+            $this->assertTrue($L⁻¹->isLowerTriangular());
+        }
+    }
+
+    /**
+     * @testCase Axiom: U⁻¹ is upper triangular (If U is invertible)
+     * The inverse of an invertible upper triangular matrix is upper triangular
+     * @dataProvider dataProviderForUpperTriangularMatrix
+     * @param array $U
+     */
+    public function testInverseOfInvertibleUpperTriangularMatrixIsUpperTriangular(array $U)
+    {
+        $U = MatrixFactory::create($U);
+        $this->assertTrue($U->isUpperTriangular());
+
+        if ($U->isInvertible()) {
+            $U⁻¹ = $U->inverse();
+            $this->assertTrue($U⁻¹->isUpperTriangular());
+        }
+    }
+
+    /**
+     * @testCase Axiom: kL is lower triangular
+     * Product of a lower triangular matrix by a constant is lower triangular
+     * @dataProvider dataProviderForLowerTriangularMatrix
+     * @param array $L
+     */
+    public function testProductOfLowerTriangularMatrixByConstantIsLowerTriangular(array $L)
+    {
+        $L = MatrixFactory::create($L);
+        $this->assertTrue($L->isLowerTriangular());
+
+        foreach (range(1, 10) as $k) {
+            $kL = $L->scalarMultiply($k);
+            $this->assertTrue($kL->isLowerTriangular());
+        }
+    }
+
+    /**
+     * @testCase Axiom: kU is upper triangular
+     * Product of a upper triangular matrix by a constant is upper triangular
+     * @dataProvider dataProviderForUpperTriangularMatrix
+     * @param array $U
+     */
+    public function testProductOfUpperTriangularMatrixByConstantIsUpperTriangular(array $U)
+    {
+        $U = MatrixFactory::create($U);
+        $this->assertTrue($U->isUpperTriangular());
+
+        foreach (range(1, 10) as $k) {
+            $kU = $U->scalarMultiply($k);
+            $this->assertTrue($kU->isUpperTriangular());
+        }
+    }
+
+    /**
+     * @testCase Axiom: L is invertible iff diagonal is all non zero
+     * Lower triangular matrix is invertible if and only if its diagonal entries are all non zero
+     * @dataProvider dataProviderForLowerTriangularMatrix
+     * @param array $L
+     */
+    public function testLowerTriangularMatrixIsInvertibleIfAndOnlyIfDigaonalEntriesAreAllNonZero(array $L)
+    {
+        $L = MatrixFactory::create($L);
+        $this->assertTrue($L->isLowerTriangular());
+
+        $zeros = array_filter(
+            $L->getDiagonalElements(),
+            function ($x) {
+                return $x == 0;
+            }
+        );
+
+        if (count($zeros) == 0) {
+            $this->assertTrue($L->isInvertible());
+        } else {
+            $this->assertFalse($L->isInvertible());
+        }
+    }
+
+    /**
+     * @testCase Axiom: U is invertible iff diagonal is all non zero
+     * Upper triangular matrix is invertible if and only if its diagonal entries are all non zero
+     * @dataProvider dataProviderForUpperTriangularMatrix
+     * @param array $U
+     */
+    public function testUpperTriangularMatrixIsInvertibleIfAndOnlyIfDigaonalEntriesAreAllNonZero(array $U)
+    {
+        $U = MatrixFactory::create($U);
+        $this->assertTrue($U->isUpperTriangular());
+
+        $zeros = array_filter(
+            $U->getDiagonalElements(),
+            function ($x) {
+                return $x == 0;
+            }
+        );
+
+        if (count($zeros) == 0) {
+            $this->assertTrue($U->isInvertible());
+        } else {
+            $this->assertFalse($U->isInvertible());
+        }
+    }
+
+    /**
+     * @testCase Axiom: Dᵀ is diagonal
+     * Transpose of a diagonal matrix is diagonal
+     * @dataProvider dataProviderForDiagonalMatrix
+     * @param array $D
+     */
+    public function testTransposeOfDiagonalMatrixIsDiagonal(array $D)
+    {
+        $D  = MatrixFactory::create($D);
+        $Dᵀ = $D->Transpose();
+
+        $this->assertTrue($D->isDiagonal());
+        $this->assertTrue($Dᵀ->isDiagonal());
+    }
+
+    /**
+     * @testCase Axiom: DD is diagonal
+     * Product of two diagonal matrices is diagonal
+     * @dataProvider dataProviderForDiagonalMatrix
+     * @param array $D
+     */
+    public function testProductOfTwoDiagonalMatricesIsDiagonal(array $D)
+    {
+        $D  = MatrixFactory::create($D);
+        $DD = $D->multiply($D);
+
+        $this->assertTrue($D->isDiagonal());
+        $this->assertTrue($DD->isDiagonal());
+    }
+
+    /**
+     * @testCase Axiom: D + D is diagonal
+     * Sum of two diagonal matrices is diagonal
+     * @dataProvider dataProviderForDiagonalMatrix
+     * @param array $D
+     */
+    public function testSumOfTwoDiagonalMatricesIsDiagonal(array $D)
+    {
+        $D    = MatrixFactory::create($D);
+        $D＋D = $D->add($D);
+
+        $this->assertTrue($D->isDiagonal());
+        $this->assertTrue($D＋D->isDiagonal());
+    }
+
+    /**
+     * @testCase Axiom: D⁻¹ is diagonal (If D is invertible)
+     * The inverse of an invertible diagonal matrix is diagonal
+     * @dataProvider dataProviderForDiagonalMatrix
+     * @param array $D
+     */
+    public function testInverseOfInvertibleDiagonalMatrixIsDiagonal(array $D)
+    {
+        $D = MatrixFactory::create($D);
+        $this->assertTrue($D->isDiagonal());
+
+        if ($D->isInvertible()) {
+            $D⁻¹ = $D->inverse();
+            $this->assertTrue($D⁻¹->isDiagonal());
+        }
+    }
+
+    /**
+     * @testCase Axiom: kD is Diagonal
+     * Product of a diagonal matrix by a constant is diagonal
+     * @dataProvider dataProviderForDiagonalMatrix
+     * @param array $D
+     */
+    public function testProductOfDiagonalMatrixByConstantIsDiagonal(array $D)
+    {
+        $D = MatrixFactory::create($D);
+        $this->assertTrue($D->isDiagonal());
+
+        foreach (range(1, 10) as $k) {
+            $kD = $D->scalarMultiply($k);
+            $this->assertTrue($kD->isDiagonal());
+        }
+    }
+
+    /**
+     * @testCase Axiom: D is invertible iff diagonal is all non zero
+     * Diagonal matrix is invertible if and only if its diagonal entries are all non zero
+     * @dataProvider dataProviderForDiagonalMatrix
+     * @param array $D
+     */
+    public function testDiagonalMatrixIsInvertibleIfAndOnlyIfDigaonalEntriesAreAllNonZero(array $D)
+    {
+        $D = MatrixFactory::create($D);
+        $this->assertTrue($D->isDiagonal());
+
+        $zeros = array_filter(
+            $D->getDiagonalElements(),
+            function ($x) {
+                return $x == 0;
+            }
+        );
+
+        if (count($zeros) == 0) {
+            $this->assertTrue($D->isInvertible());
+        } else {
+            $this->assertFalse($D->isInvertible());
+        }
+    }
+
+    public function dataProviderForLowerTriangularMatrix(): array
+    {
+        return [
+            [
+                [
+                    [1],
+                ],
+            ],
+            [
+                [
+                    [0],
+                ],
+            ],
+            [
+                [
+                    [1, 0],
+                    [1, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0],
+                    [1, 1, 0],
+                    [1, 1, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0],
+                    [2, 3, 0],
+                    [4, 5, 6],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0],
+                    [2, 0, 0],
+                    [4, 5, 6],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0, 0],
+                    [1, 1, 0, 0],
+                    [1, 1, 1, 0],
+                    [1, 1, 1, 1],
+                ],
+            ],
+            [
+                [
+                    [5, 0, 0, 0],
+                    [-6, 1, 0, 0],
+                    [4, 6, 8, 0],
+                    [6, 7, 7, -1],
+                ],
+            ],
+            [
+                [
+                    [5, 0, 0, 0],
+                    [-6, 1, 0, 0],
+                    [4, 6, 0, 0],
+                    [6, 7, 7, -1],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0, 0, 0, 0],
+                    [1, 2, 0, 0, 0, 0],
+                    [1, 0, 3, 0, 0, 0],
+                    [1, 2, 0, 4, 0, 0],
+                    [1, 0, 0, 0, 5, 0],
+                    [1, 2, 3, 0, 0, 6],
+                ],
+            ],
+        ];
+    }
+
+    public function dataProviderForUpperTriangularMatrix(): array
+    {
+        return [
+            [
+                [
+                    [1],
+                ],
+            ],
+            [
+                [
+                    [0],
+                ],
+            ],
+            [
+                [
+                    [1, 1],
+                    [0, 1],
+                ]
+            ],
+            [
+                [
+                    [1, 2],
+                    [0, 4],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [0, 4, 5],
+                    [0, 0, 6],
+                ],
+            ],
+            [
+                [
+                    [6, 5, 4],
+                    [0, 8, 8],
+                    [0, 0, 9],
+                ],
+            ],
+            [
+                [
+                    [6, 5, 4],
+                    [0, 8, 8],
+                    [0, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3, 4],
+                    [0, 4, 5, 6],
+                    [0, 0, 6, 7],
+                    [0, 0, 0, 8],
+                ],
+            ],
+            [
+                [
+                    [-1, 0, 0, 0, 0, 0],
+                    [0, 2, 0, 0, 0, 0],
+                    [0, 0, 3, 0, 0, 0],
+                    [0, 0, 0, 4, 0, 0],
+                    [0, 0, 0, 0, 5, 0],
+                    [0, 0, 0, 0, 0, 6],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0, 0, 0, 0],
+                    [0, 2, 0, 0, 0, 0],
+                    [0, 0, 3, 0, 0, 0],
+                    [0, 0, 0, 4, 0, 0],
+                    [0, 0, 0, 0, 5, 0],
+                    [0, 0, 0, 0, 0, 6],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0, 0, 0, 0],
+                    [0, 2, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 5, 0],
+                    [0, 0, 0, 0, 0, 6],
+                ],
+            ],
+        ];
+    }
+
+    public function dataProviderForDiagonalMatrix(): array
+    {
+        return [
+            [
+                [
+                    [0],
+                ],
+            ],
+            [
+                [
+                    [1],
+                ],
+            ],
+            [
+                [
+                    [1, 0],
+                    [0, 1],
+                ],
+            ],
+            [
+                [
+                    [-5, 0],
+                    [0, 3],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0],
+                    [0, 1, 0],
+                    [0, 0, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 0, 1, 0],
+                    [0, 0, 0, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0, 0, 0],
+                    [0, 1, 0, 0, 0],
+                    [0, 0, 1, 0, 0],
+                    [0, 0, 0, 1, 0],
+                    [0, 0, 0, 0, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0, 0, 0],
+                    [0, 2, 0, 0, 0],
+                    [0, 0, 3, 0, 0],
+                    [0, 0, 0, 4, 0],
+                    [0, 0, 0, 0, -6],
+                ],
+            ],
+            [
+                [
+                    [-1, 0, 0, 0, 0, 0],
+                    [0, 2, 0, 0, 0, 0],
+                    [0, 0, 3, 0, 0, 0],
+                    [0, 0, 0, 4, 0, 0],
+                    [0, 0, 0, 0, 5, 0],
+                    [0, 0, 0, 0, 0, 6],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0, 0, 0, 0],
+                    [0, 2, 0, 0, 0, 0],
+                    [0, 0, 3, 0, 0, 0],
+                    [0, 0, 0, 4, 0, 0],
+                    [0, 0, 0, 0, 5, 0],
+                    [0, 0, 0, 0, 0, 6],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0, 0, 0, 0],
+                    [0, 2, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 4, 0, 0],
+                    [0, 0, 0, 0, 5, 0],
+                    [0, 0, 0, 0, 0, 0],
                 ],
             ],
         ];
