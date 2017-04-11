@@ -45,6 +45,11 @@ namespace MathPHP\LinearAlgebra;
  *  - Symmetric matrix
  *    - A = Aᵀ
  *    - A⁻¹Aᵀ = I
+ *    - A + B is symmetric
+ *    - A - B is symmetric
+ *    - kA is symmetric
+ *    - AAᵀ is symmetric
+ *    - AᵀA is symmetric
  *  - Kronecker product
  *    - A ⊗ (B + C) = A ⊗ B + A ⊗ C
  *    - (A + B) ⊗ C = A ⊗ C + B ⊗ C
@@ -88,7 +93,7 @@ namespace MathPHP\LinearAlgebra;
  *    - Dᵀ is diagonal
  *    - DD is diagonal
  *    - D + D is diagonal
- *    - D⁻¹ is diagonal (If L is invertible)
+ *    - D⁻¹ is diagonal (If D is invertible)
  *    - kD is lower triangular
  *    - D is invertible iif diagonal is all non zero
  */
@@ -1323,6 +1328,89 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($I, $A⁻¹Aᵀ);
         $this->assertEquals($I->getMatrix(), $A⁻¹Aᵀ->getMatrix());
+    }
+
+    /**
+     * @testCase Axiom: A + B is symmetric
+     * If A and B are symmetric matrices with the sme size, then A + B is symmetric
+     * @dataProvider dataProviderForSymmetric
+     * @param array $A
+     */
+    public function testSymmetricMatricesSumIsSymmetric(array $M)
+    {
+        $A    = MatrixFactory::create($M);
+        $B    = MatrixFactory::create($M);
+        $A＋B = $A->add($B);
+
+        $this->assertTrue($A->isSymmetric());
+        $this->assertTrue($B->isSymmetric());
+        $this->assertTrue($A＋B->isSymmetric());
+    }
+
+    /**
+     * @testCase Axiom: A - B is symmetric
+     * If A and B are symmetric matrices with the sme size, then A - B is symmetric
+     * @dataProvider dataProviderForSymmetric
+     * @param array $A
+     */
+    public function testSymmetricMatricesDifferenceIsSymmetric(array $M)
+    {
+        $A   = MatrixFactory::create($M);
+        $B   = MatrixFactory::create($M);
+        $A−B = $A->subtract($B);
+
+        $this->assertTrue($A->isSymmetric());
+        $this->assertTrue($B->isSymmetric());
+        $this->assertTrue($A−B->isSymmetric());
+    }
+
+    /**
+     * @testCase Axiom: kA is symmetric
+     * If A is a symmetric matrix, kA is symmetric
+     * @dataProvider dataProviderForSymmetric
+     * @param array $A
+     */
+    public function testSymmetricMatricesTimesScalarIsSymmetric(array $M)
+    {
+        $A   = MatrixFactory::create($M);
+        $this->assertTrue($A->isSymmetric());
+
+        foreach (range(1, 10) as $k) {
+            $kA = $A->scalarMultiply($k);
+            $this->assertTrue($kA->isSymmetric());
+        }
+    }
+
+    /**
+     * @testCase Axiom: AAᵀ is symmetric
+     * If A is a symmetric matrix, AAᵀ is symmetric
+     * @dataProvider dataProviderForSymmetric
+     * @param array $A
+     */
+    public function testSymmetricMatrixTimesTransposeIsSymmetric(array $M)
+    {
+        $A   = MatrixFactory::create($M);
+        $Aᵀ  = $A->transpose();
+        $AAᵀ = $A->multiply($Aᵀ);
+
+        $this->assertTrue($A->isSymmetric());
+        $this->assertTrue($AAᵀ->isSymmetric());
+    }
+
+    /**
+     * @testCase Axiom: AᵀA is symmetric
+     * If A is a symmetric matrix, AᵀA is symmetric
+     * @dataProvider dataProviderForSymmetric
+     * @param array $A
+     */
+    public function testTransposeTimesSymmetricMatrixIsSymmetric(array $M)
+    {
+        $A   = MatrixFactory::create($M);
+        $Aᵀ  = $A->transpose();
+        $AᵀA = $Aᵀ->multiply($A);
+
+        $this->assertTrue($A->isSymmetric());
+        $this->assertTrue($AᵀA->isSymmetric());
     }
 
     public function dataProviderForSymmetric()
