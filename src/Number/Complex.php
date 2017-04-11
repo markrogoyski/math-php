@@ -26,7 +26,12 @@ class Complex
      * @var number
      */
     protected $i;
-
+    
+    /**
+     * Floating-point range near zero to consider insignificant.
+     */
+    const EPSILON = 1e-6;
+    
     /**
      * Constructor
      *
@@ -362,6 +367,6 @@ class Complex
      */
     public function equals(Complex $c): bool
     {
-        return $this->r == $c->r && $this->i == $c->i;
+        return abs($this->r - $c->r) < self::EPSILON && abs($this->i - $c->i) < self::EPSILON;
     }
 }
