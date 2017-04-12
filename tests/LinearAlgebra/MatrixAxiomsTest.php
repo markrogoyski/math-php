@@ -21,6 +21,9 @@ namespace MathPHP\LinearAlgebra;
  *    - AA⁻¹ = I = A⁻¹A
  *    - (A⁻¹)⁻¹ = A
  *    - (AB)⁻¹ = B⁻¹A⁻¹
+ *    - A is invertible, Aᵀ is inveritble
+ *    - A is invertible, AAᵀ is inveritble
+ *    - A is invertible, AᵀA is inveritble
  *  - Transpose
  *    - (Aᵀ)ᵀ = A
  *    - (A⁻¹)ᵀ = (Aᵀ)⁻¹
@@ -50,6 +53,7 @@ namespace MathPHP\LinearAlgebra;
  *    - kA is symmetric
  *    - AAᵀ is symmetric
  *    - AᵀA is symmetric
+ *    - A is invertible symmetric, A⁻¹ is symmetric
  *  - Kronecker product
  *    - A ⊗ (B + C) = A ⊗ B + A ⊗ C
  *    - (A + B) ⊗ C = A ⊗ C + B ⊗ C
@@ -96,6 +100,8 @@ namespace MathPHP\LinearAlgebra;
  *    - D⁻¹ is diagonal (If D is invertible)
  *    - kD is lower triangular
  *    - D is invertible iif diagonal is all non zero
+ *  - Reduced row echelon form
+ *    - RREF is upper triangular
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -628,7 +634,63 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($⟮AB⟯⁻¹->getMatrix(), $B⁻¹A⁻¹->getMatrix());
     }
-    
+
+    /**
+     * @testCase Axiom: A is invertible, Aᵀ is inveritble
+     * If A is an invertible matrix, then the tranpose is also inveritble
+     * @dataProvider dataProviderForInverse
+     * @param        array $A
+     */
+    public function testIfMatrixIsInvertibleThenTransposeIsInvertible(array $A)
+    {
+        $A  = MatrixFactory::create($A);
+        $Aᵀ = $A->transpose();
+
+        if ($A->isInvertible()) {
+            $this->assertTrue($Aᵀ->isInvertible());
+        } else {
+            $this->assertFalse($Aᵀ->isInvertible());
+        }
+    }
+
+    /**
+     * @testCase Axiom: A is invertible, AAᵀ is inveritble
+     * If A is an invertible matrix, then the product of A and tranpose of A is also inveritble
+     * @dataProvider dataProviderForInverse
+     * @param        array $A
+     */
+    public function testIfMatrixIsInvertibleThenProductOfMatrixAndTransposeIsInvertible(array $A)
+    {
+        $A   = MatrixFactory::create($A);
+        $Aᵀ  = $A->transpose();
+        $AAᵀ = $A->multiply($Aᵀ);
+
+        if ($A->isInvertible()) {
+            $this->assertTrue($AAᵀ->isInvertible());
+        } else {
+            $this->assertFalse($AAᵀ->isInvertible());
+        }
+    }
+
+    /**
+     * @testCase Axiom: A is invertible, AᵀA is inveritble
+     * If A is an invertible matrix, then the product of transpose and A is also inveritble
+     * @dataProvider dataProviderForInverse
+     * @param        array $A
+     */
+    public function testIfMatrixIsInvertibleThenProductOfTransposeAndMatrixIsInvertible(array $A)
+    {
+        $A   = MatrixFactory::create($A);
+        $Aᵀ  = $A->transpose();
+        $AᵀA = $Aᵀ->multiply($A);
+
+        if ($A->isInvertible()) {
+            $this->assertTrue($AᵀA->isInvertible());
+        } else {
+            $this->assertFalse($AᵀA->isInvertible());
+        }
+    }
+
     public function dataProviderForInverseProductIsReverseProductOfInverses()
     {
         return [
@@ -1411,6 +1473,23 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($A->isSymmetric());
         $this->assertTrue($AᵀA->isSymmetric());
+    }
+
+    /**
+     * @testCase Axiom: A is invertible symmetric, A⁻¹ is symmetric
+     * If A is an invertible symmetric matrix, the inverse of A is also symmetric
+     * @dataProvider dataProviderForSymmetric
+     * @param array $A
+     */
+    public function testMatrixIsInvertibleSummetricThenInverseIsSymmetric(array $M)
+    {
+        $A   = MatrixFactory::create($M);
+
+        if ($A->isInvertible() && $A->isSymmetric()) {
+            $A⁻¹ = $A->inverse();
+            $A⁻¹ = $A->map(function ($x) { return round($x, 5); }); // Floating point adjustment
+            $this->assertTrue($A⁻¹->isSymmetric());
+        }
     }
 
     public function dataProviderForSymmetric()
@@ -2996,5 +3075,18 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
         ];
+    }
+
+    /**
+     * @testCase Axiom: Reduced row echelon form is upper triangular
+     * @dataProvider dataProviderForOneSquareMatrix
+     * @param array $A
+     */
+    public function testReducedRowEchelonFormIsUpperTriangular(array $A)
+    {
+        $A    = MatrixFactory::create($A);
+        $rref = $A->rref();
+
+        $this->assertTrue($rref->isUpperTriangular());
     }
 }
