@@ -1487,7 +1487,11 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 
         if ($A->isInvertible() && $A->isSymmetric()) {
             $A⁻¹ = $A->inverse();
-            $A⁻¹ = $A->map(function ($x) { return round($x, 5); }); // Floating point adjustment
+            $A⁻¹ = $A->map(
+                function ($x) {
+                    return round($x, 5); // Floating point adjustment
+                }
+            );
             $this->assertTrue($A⁻¹->isSymmetric());
         }
     }
