@@ -42,7 +42,7 @@ class Gamma extends Continuous
     {
     	$sum = 0;
     	foreach($xs as $x) {
-    		$sum += log(PDF($x,$α,$β),E);
+    		$sum += log(PDF($x,$α,$β));
     	}
     	return $sum / count($xs);
     }
