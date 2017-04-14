@@ -156,12 +156,7 @@ class Complex
      */
     public function sqrt(): Complex
     {
-        $sgn = Special::sgn($this->i);
-        $sgn = $sgn === 0 ? 1 : $sgn;
-        $γ = sqrt(($this->r + $this->abs()) / 2);
-        $δ = $sgn * sqrt((-$this->r + $this->abs()) / 2);
-
-        return new Complex($γ, $δ);
+        return $this->roots()[0];
     }
 
     /**
@@ -187,8 +182,9 @@ class Complex
      */
     public function roots(): array
     {
-        $γ = sqrt(($this->r + $this->abs()) / 2);
-        $δ = Special::sgn($this->i) * sqrt((-$this->r + $this->abs()) / 2);
+        $sgn = Special::sgn($this->i) >= 0 ? 1 : -1;
+        $γ   = sqrt(($this->r + $this->abs()) / 2);
+        $δ   = $sgn * sqrt((-$this->r + $this->abs()) / 2);
 
         $z₁ = new Complex($γ, $δ);
         $z₂ = new Complex(-$γ, -$δ);
