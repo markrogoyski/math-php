@@ -20,7 +20,7 @@ abstract class Distribution
 		$var = 0;
 		foreach($xs as $x) {
 			$s = $x-$mean;
-			$var += $x*$x;
+			$var += $s*$s;
 		}
 		$var /= count($xs)-1;
 		return $var;
