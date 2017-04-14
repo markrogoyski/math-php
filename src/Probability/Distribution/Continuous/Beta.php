@@ -122,7 +122,7 @@ class Beta extends Continuous
     
     	return $params;
     }
-    
+
     public static function avg_log_likelihood(array $xs, $α, $β)
     {
     	$sum = 0;

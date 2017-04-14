@@ -46,6 +46,5 @@ class Gamma extends Continuous
     	}
     	return $sum / count($xs);
     }
-
 }
 	

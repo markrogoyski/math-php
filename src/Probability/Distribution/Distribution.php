@@ -27,5 +27,4 @@ abstract class Distribution
 		$var /= count($xs)-1;
 		return $var;
 	}
-
 }

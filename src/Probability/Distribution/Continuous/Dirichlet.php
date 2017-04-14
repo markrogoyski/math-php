@@ -8,10 +8,9 @@ use MathPHP\Functions\Support;
  * Dirichlet distribution
  * https://en.wikipedia.org/wiki/Dirichlet_distribution
  */
+
 class Dirichlet extends Continuous
 {
-
-
 	public static function PDF(array $xs, array $as)
 	{
 		$top = 0;
@@ -31,13 +30,13 @@ class Dirichlet extends Continuous
 		return $normalizing_constant*$m;
 	}
 
-	public static function avg_log_likelihood(array $xs, $os)
+	public static function avg_log_likelihood(array $xss, $as)
 	{
 		$sum = 0;
-		foreach($xs as $x) {
-			$sum += log(PDF($x,$os));
+		foreach($xss as $xs) {
+			$sum += log(PDF($xs,$as));
 		}
-		return $sum / count($xs);
+		return $sum / count($xss);
 	}
 
 }
