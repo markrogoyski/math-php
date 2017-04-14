@@ -24,6 +24,8 @@ Features
  * Linear Algebra
    - [Matrix](#linear-algebra---matrix)
    - [Vector](#linear-algebra---vector)
+ * Numbers
+   - [Complex](#number---complex-numbers)
  * Number Theory
    - [Integers](#number-theory---integers)
  * Numerical Analysis
@@ -246,7 +248,8 @@ $Γ = Special::upperIncompleteGamma($x, $s);
 
 // Beta function
 list($x, $y) = [1, 2];
-$β = Special::beta($x, $y);
+$β = Special::beta($x, $y); // same as β
+$β = Special::β($x, $y);    // same as beta
 
 // Incomplete beta functions
 list($x, $a, $b) = [0.4, 2, 3];
@@ -415,6 +418,10 @@ $bool = $A->isPositiveDefinite();
 $bool = $A->isPositiveSemidefinite();
 $bool = $A->isNegativeDefinite();
 $bool = $A->isNegativeSemidefinite();
+$bool = $A->isLowerTriangular();
+$bool = $A->isUpperTriangular();
+$bool = $A->isTriangular();
+$bool = $A->isDiagonal();
 
 // Matrix decomposition
 $PLU = $A->LUDecomposition(); // returns array of Matrices [L, U, P, A]; P is permutation matrix
@@ -508,6 +515,39 @@ print($A); // [1, 2]
 $n    = count($A);       // Countable
 $json = json_encode($A); // JsonSerializable
 $Aᵢ   = $A[$i];          // ArrayAccess
+```
+
+### Number - Complex Numbers
+```php
+#use MathPHP\Number\Complex;
+
+list($r, $i) = [2, 4];
+
+$complex = new Complex($r, $i);
+
+// Accessors
+$r = $complex->r;
+$i = $complex->i;
+
+// Unary functions
+$conjugate     = $complex->complexConjugate();
+$│c│           = $complex->abs();     // absolute value (modulus)
+$arg⟮c⟯         = $complex->arg();     // argument (phase)
+$√c            = $complex->sqrt();    // positive square root
+list($z₁, $z₂) = $complex->roots();
+$c⁻¹           = $complex->inverse();
+$−c            = $complex->negate();
+$polar         = $complex->polarForm();
+
+// Binary functions
+$c＋c = $complex->add($complex);
+$c−c  = $complex->subtract($complex);
+$c×c  = $complex->multiply($complex);
+$c／c = $complex->divide($complex);
+
+// Other functions
+$bool   = $complex->equals($complex);
+$string = (string) $complex;
 ```
 
 ### Number Theory - Integers
@@ -1826,6 +1866,9 @@ $χ²       = Significance::chiSquaredTest($observed, $expected);
 
 Unit Tests
 ----------
+
+Beyond 100% code coverage! Testing each individual function directly with numerous data inputs to achieve 100% test coverage is only the starting point of thorough testing.
+Math PHP unit tests also tests mathematical axioms which indirectly test the same functions in multiple different ways ensuring that those math properties all work out according to the axioms.
 
 ```bash
 $ cd tests
