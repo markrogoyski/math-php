@@ -38,7 +38,7 @@ class Beta extends Continuous
      *            shape parameter β > 0
      * @param number $x
      *            x ∈ (0,1)
-     *    
+     *
      * @return float
      */
     public static function PDF($x, $α, $β)
