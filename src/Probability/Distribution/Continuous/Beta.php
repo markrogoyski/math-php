@@ -64,7 +64,8 @@ class Beta extends Continuous
         return Special::regularizedIncompleteBeta($x, $α, $β);
     }
 
-    public static function mom_estimate(array $xs) {
+    public static function mom_estimate(array $xs)
+    {
     	$mean = sample_mean($xs);
     	$var = sample_variance($xs);
     	
@@ -74,12 +75,14 @@ class Beta extends Continuous
     	 
     	return array($a,$B);
     }
-    
-    public static function MLE(array $xs) {
-    	return MLE_Newton($xs); 
-    }
 
-    public static function MLE_Newton(array $xs) {
+    public static function MLE(array $xs)
+    {
+    	return MLE_Newton($xs);
+    }
+    
+    public static function MLE_Newton(array $xs)
+    {
     	$params = mom_estimate($xs);
     	$delta = 1;
     	$delta_mult = 0.66; //slight overlap
@@ -120,7 +123,8 @@ class Beta extends Continuous
     	return $params;
     }
     
-    public static function avg_log_likelihood(array $xs, $α, $β) {
+    public static function avg_log_likelihood(array $xs, $α, $β)
+    {
     	$sum = 0;
     	foreach($xs as $x) {
     		$sum += log(PDF($x,$α,$β),E);

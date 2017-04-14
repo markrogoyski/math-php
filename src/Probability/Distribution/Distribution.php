@@ -4,7 +4,8 @@ namespace MathPHP\Probability\Distribution;
 abstract class Distribution
 {
 
-	public static function sample_mean(array $xs) {
+	public static function sample_mean(array $xs)
+	{
 		//compute mean
 		$mean = 0;
 		foreach($xs as $x) {
@@ -14,7 +15,8 @@ abstract class Distribution
 		return $mean;
 	}
 	
-	public static function sample_variance(array $xs) {
+	public static function sample_variance(array $xs)
+	{
 		$mean = sample_mean($xs);
 		//compute variance
 		$var = 0;
