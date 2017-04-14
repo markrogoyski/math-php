@@ -16,7 +16,7 @@ class Gamma extends Continuous
      * x ∈ (0,∞)
      * o ∈ (0,∞)
      * k ∈ (0,∞)
-     * 
+     *
      * @var array
      */
     const LIMITS = [
