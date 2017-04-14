@@ -1867,8 +1867,10 @@ $χ²       = Significance::chiSquaredTest($observed, $expected);
 Unit Tests
 ----------
 
-Beyond 100% code coverage! Testing each individual function directly with numerous data inputs to achieve 100% test coverage is only the starting point of thorough testing.
-Math PHP unit tests also tests mathematical axioms which indirectly test the same functions in multiple different ways ensuring that those math properties all work out according to the axioms.
+Beyond 100% code coverage!
+
+Math PHP has thousands of unit tests testing individual functions directly with numerous data inputs to achieve 100% test coverage.
+Math PHP unit tests also test mathematical axioms which indirectly test the same functions in multiple different ways ensuring that those math properties all work out according to the axioms.
 
 ```bash
 $ cd tests
