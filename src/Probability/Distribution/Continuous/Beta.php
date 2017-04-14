@@ -63,6 +63,83 @@ class Beta extends Continuous
 
         return Special::regularizedIncompleteBeta($x, $α, $β);
     }
+
+    public static function mom_estimate(array $xs) {
+    	//compute mean
+    	$mean = 0;
+    	foreach($xs as $x) {
+    		$mean += $x;	
+    	}
+    	$mean /= count($xs);
+    	
+    	//compute variance
+    	$var = 0;
+    	foreach($xs as $x) {
+    		$s = $x-$mean;
+    		$var += $x*$x;
+    	}
+    	$var /= count($xs)-1;
+    	
+    	//compute a and b
+    	$a = ($mean)*($mean*(1-$mean)/$var-1);
+    	$a = (1-$mean)*($mean*(1-$mean)/$var-1);
+    	 
+    	return array($a,$B);
+    }
+    
+    public static function MLE(array $xs) {
+    	return MLE_Newton($xs); 
+    }
+
+    public static function MLE_Newton(array $xs) {
+    	$params = mom_estimate($xs);
+    	$delta = 1;
+    	$delta_mult = 0.66; //slight overlap
+    	$done = 0.0001;
+    	
+    	$best = avg_log_likelihood($xs, $params[0], $params[1]);
+    	while( $delta > $done) {
+    		//correct a
+    		$a_up = $params[0]*exp($delta);
+    		$a_dn = $params[0]*exp(-$delta);
+    		$up = avg_log_likelihood($xs, $a_up, $params[1]);
+    		$dn = avg_log_likelihood($xs, $a_dn, $params[1]);
+    		if( $up > $best) {
+    			$params[0] = $a_up;
+    			$best = $up;
+    		}
+    		if( $dn > $best) {
+    			$params[0] = $a_dn;
+    			$best = $dn;
+    		}
+    		//correct b
+    		$a_up = $params[1]*exp($delta);
+    		$a_dn = $params[1]*exp(-$delta);
+    		$up = avg_log_likelihood($xs, $params[0], $a_up);
+    		$dn = avg_log_likelihood($xs, $params[0], $a_dn);
+    		if( $up > $best) {
+    			$params[1] = $a_up;
+    			$best = $up;
+    		}
+    		if( $dn > $best) {
+    			$params[1] = $a_dn;
+    			$best = $dn;
+    		}
+			//zoom in
+    		$delta *= $delta_mult;
+    	}
+    
+    	return $params;
+    }
+
+    
+    public static function avg_log_likelihood(array $xs, $α, $β) {
+    	$sum = 0;
+    	foreach($xs as $x) {
+    		$sum += log(PDF($x,$a,$b),E);
+    	}
+    	return $sum / count($xs);
+    }
     
     /**
      * Mean of the distribution
