@@ -65,20 +65,8 @@ class Beta extends Continuous
     }
 
     public static function mom_estimate(array $xs) {
-    	//compute mean
-    	$mean = 0;
-    	foreach($xs as $x) {
-    		$mean += $x;	
-    	}
-    	$mean /= count($xs);
-    	
-    	//compute variance
-    	$var = 0;
-    	foreach($xs as $x) {
-    		$s = $x-$mean;
-    		$var += $x*$x;
-    	}
-    	$var /= count($xs)-1;
+    	$mean = sample_mean($xs);
+    	$var = sample_variance($xs);
     	
     	//compute a and b
     	$a = ($mean)*($mean*(1-$mean)/$var-1);
@@ -131,12 +119,11 @@ class Beta extends Continuous
     
     	return $params;
     }
-
     
     public static function avg_log_likelihood(array $xs, $α, $β) {
     	$sum = 0;
     	foreach($xs as $x) {
-    		$sum += log(PDF($x,$a,$b),E);
+    		$sum += log(PDF($x,$α,$β),E);
     	}
     	return $sum / count($xs);
     }
