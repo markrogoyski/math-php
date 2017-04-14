@@ -156,8 +156,10 @@ class Complex
      */
     public function sqrt(): Complex
     {
+        $sgn = Special::sgn($this->i);
+        $sgn = $sgn === 0 ? 1 : $sgn;
         $γ = sqrt(($this->r + $this->abs()) / 2);
-        $δ = Special::sgn($this->i) * sqrt((-$this->r + $this->abs()) / 2);
+        $δ = $sgn * sqrt((-$this->r + $this->abs()) / 2);
 
         return new Complex($γ, $δ);
     }
