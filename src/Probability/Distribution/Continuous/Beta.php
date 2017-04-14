@@ -68,9 +68,9 @@ class Beta extends Continuous
     	$mean = sample_mean($xs);
     	$var = sample_variance($xs);
     	
-    	//compute a and b
+    	//compute a and B
     	$a = ($mean)*($mean*(1-$mean)/$var-1);
-    	$a = (1-$mean)*($mean*(1-$mean)/$var-1);
+    	$B = (1-$mean)*($mean*(1-$mean)/$var-1);
     	 
     	return array($a,$B);
     }
