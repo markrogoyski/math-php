@@ -519,11 +519,10 @@ $Aᵢ   = $A[$i];          // ArrayAccess
 
 ### Number - Complex Numbers
 ```php
-#use MathPHP\Number\Complex;
+use MathPHP\Number\Complex;
 
 list($r, $i) = [2, 4];
-
-$complex = new Complex($r, $i);
+$complex     = new Complex($r, $i);
 
 // Accessors
 $r = $complex->r;
