@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Exception;
+
 class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -689,16 +691,73 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testRREFAlreadyComputed()
+    /**
+     * @testCase rref lazy load is the same as the computed and returned value.
+     */
+    public function testRrefAlreadyComputed()
     {
         $A = new Matrix([
-            [1, 2, 3],
-            [2, 3, 4],
-            [3, 4, 5],
+            [ 4,  1,  2,  -3],
+            [-3,  3, -1,   4],
+            [-1,  2,  5,   1],
+            [ 5,  4,  3,  -1],
         ]);
         $rref1 = $A->rref(); // computes rref
         $rref2 = $A->rref(); // simply gets already-computed rref
 
         $this->assertEquals($rref1, $rref2);
+    }
+
+    /**
+     * @testCase     Test ref by solving the system of linear equations.
+     *               There is no single row echelon form for a matrix (as opposed to reduced row echelon form).
+     *               Therefore, instead of directly testing the REF obtained,
+     *               use the REF to then solve for x using back substitution.
+     *               The result should be the expected solution to the system of linear equations.
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected_x
+     */
+    public function testRefUsingSolve(array $A, array $b, array $expected_x)
+    {
+        $m        = count($b);
+        $A        = MatrixFactory::create($A);
+        $b_matrix = MatrixFactory::create([new Vector($b)]);
+        $Ab       = $A->augment($b_matrix);
+        $ref      = $Ab->ref();
+
+        // Solve for x using back substituion on the REF matrix
+        $x = [];
+        for ($i = $m - 1; $i >= 0; $i--) {
+            $x[$i] = $ref[$i][$m];
+            for ($j = $i + 1; $j < $m; $j++) {
+                $x[$i] -= $ref[$i][$j] * $x[$j];
+            }
+            $x[$i] /= $ref[$i][$i];
+        }
+
+        $this->assertEquals($expected_x, $x, '', 0.001);
+
+        // As an extra check, solve the original matrix and compare the result.
+        $solved_x = $A->solve($b);
+        $this->assertEquals($x, $solved_x->getVector(), '', 0.00001);
+    }
+
+    /**
+     * @testCase ref lazy load is the same as the computed and returned value.
+     */
+    public function testRefAlreadyComputed()
+    {
+        $A = new Matrix([
+            [ 4,  1,  2,  -3],
+            [-3,  3, -1,   4],
+            [-1,  2,  5,   1],
+            [ 5,  4,  3,  -1],
+        ]);
+        $ref1 = $A->ref(); // computes ref
+        $ref2 = $A->ref(); // simply gets already-computed ref
+
+        $this->assertEquals($ref1, $ref2);
     }
 }

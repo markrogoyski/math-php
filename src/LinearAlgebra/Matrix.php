@@ -28,6 +28,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     protected $A;
 
     /**
+     * Row echelon form
+     * @var Matrix
+     */
+    protected $ref;
+
+    /**
      * Reduced row echelon form
      * @var Matrix
      */
@@ -2122,9 +2128,68 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
     /**************************************************************************
      * MATRIX DECOMPOSITIONS - Return a Matrix (or array of Matrices)
-     *  - rref
+     *  - ref (row echelon form)
+     *  - rref (reduced row echelon form)
      *  - LU Decomposition
      **************************************************************************/
+
+    /**
+     * Row echelon form - Gaussian elimination
+     *
+     * Algorithm
+     *  for k = 1 ... min(m,n):
+     *    Find the k-th pivot:
+     *    i_max  := argmax (i = k ... m, abs(A[i, k]))
+     *    swap rows(k, i_max)
+     *    Do for all rows below pivot:
+     *    for i = k + 1 ... m:
+     *      f := A[i, k] / A[k, k]
+     *      Do for all remaining elements in current row:
+     *      for j = k + 1 ... n:
+     *        A[i, j]  := A[i, j] - A[k, j] * f
+     *      Fill lower triangular matrix with zeros:
+     *      A[i, k]  := 0
+     *
+     * https://en.wikipedia.org/wiki/Gaussian_elimination
+     *
+     * @return Matrix in row echelon form
+     */
+    public function ref(): Matrix
+    {
+        if (isset($this->ref)) {
+            return $this->ref;
+        }
+
+        $m    = $this->m;
+        $n    = $this->n;
+        $size = min($m, $n);
+        $R    = $this->A;
+
+        for ($k = 0; $k < $size; $k++) {
+            // Find i_max
+            $i_max = $k;
+            for ($i = $k; $i < $m; $i++) {
+                if (abs($R[$i][$k]) > abs($R[$i_max][$k])) {
+                    $i_max = $i;
+                }
+            }
+
+            // Swap rows k and i_max
+            list($R[$k], $R[$i_max]) = [$R[$i_max], $R[$k]];
+
+            // Row operations
+            for ($i = $k + 1; $i < $m; $i++) {
+                $f = $R[$i][$k] / $R[$k][$k];
+                for ($j = $k + 1; $j < $n; $j++) {
+                    $R[$i][$j] = $R[$i][$j] - ($R[$k][$j] * $f);
+                }
+                $R[$i][$k] = 0;
+            }
+        }
+
+        $this->ref = MatrixFactory::create($R);
+        return $this->ref;
+    }
 
     /**
      * Ruduced row echelon form (row canonical form)
