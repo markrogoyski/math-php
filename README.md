@@ -384,7 +384,6 @@ $D  　= $A->diagonal();
 $⟮A∣B⟯ = $A->augment($B);
 $⟮A∣I⟯ = $A->augmentIdentity();        // Augment with the identity matrix
 $⟮A∣B⟯ = $A->augmentBelow($B);
-$rref = $A->rref();                   // Reduced row echelon form
 $A⁻¹  = $A->inverse();
 $Mᵢⱼ  = $A->minorMatrix($mᵢ, $nⱼ);    // Square matrix with row mᵢ and column nⱼ removed
 $Mk   = $A->leadingPrincipalMinor($k); // kᵗʰ-order leading principal minor
@@ -422,9 +421,12 @@ $bool = $A->isLowerTriangular();
 $bool = $A->isUpperTriangular();
 $bool = $A->isTriangular();
 $bool = $A->isDiagonal();
+$bool = $A->isRef();
 
 // Matrix decomposition
-$PLU = $A->LUDecomposition(); // returns array of Matrices [L, U, P, A]; P is permutation matrix
+$ref  = $A->ref();             // Row echelon form
+$rref = $A->rref();            // Reduced row echelon form
+$PLU  = $A->LUDecomposition(); // returns array of Matrices [L, U, P, A]; P is permutation matrix
 
 // Solve a linear system of equations: Ax = b
 $b = new Vector(1, 2, 3);
