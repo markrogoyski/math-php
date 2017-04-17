@@ -224,6 +224,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isLowerTriangular
      *  - isUpperTriangular
      *  - isTriangular
+     *  - isRef
      **************************************************************************/
 
     /**
@@ -507,6 +508,55 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function isDiagonal(): bool
     {
         return ($this->isLowerTriangular() && $this->isUpperTriangular());
+    }
+
+    /**
+     * Is the matrix in row echelon form?
+     *  - All nonzero rows are above any rows of all zeroes
+     *  - The leading coefficient of a nonzero row is always strictly to the right of the leading coefficient of the row above it.
+     *
+     * @return boolean true if matrix is in row echelon form; false otherwise
+     */
+    public function isRef(): bool
+    {
+        $m           = $this->m;
+        $n           = $this->n;
+        $zero_row_ok = true;
+
+        // All nonzero rows are above any rows of all zeroes
+        for ($i = $m - 1; $i >= 0; $i--) {
+            $zero_row = count(array_filter(
+                $this->A[$i],
+                function ($x) {
+                    return $x != 0;
+                }
+            )) === 0;
+
+            if (!$zero_row) {
+                $zero_row_ok = false;
+                continue;
+            }
+
+            if ($zero_row && !$zero_row_ok) {
+                return false;
+            }
+        }
+
+        // Leading coefficients to the right of rows above it
+        $lc = -1;
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                if ($this->A[$i][$j] != 0) {
+                    if ($j <= $lc) {
+                        return false;
+                    }
+                    $lc = $j;
+                    continue 2;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
