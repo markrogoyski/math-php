@@ -515,6 +515,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - All nonzero rows are above any rows of all zeroes
      *  - The leading coefficient of a nonzero row is always strictly to the right of the leading coefficient of the row above it.
      *
+     * https://en.wikipedia.org/wiki/Row_echelon_form
+     *
      * @return boolean true if matrix is in row echelon form; false otherwise
      */
     public function isRef(): bool
@@ -553,6 +555,57 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                     $lc = $j;
                     continue 2;
                 }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix in reduced row echelon form?
+     *  - It is in row echelon form
+     *  - Leading coefficients are 1
+     *  - Leading coefficients are the only nonzero entry in its column
+     *
+     * https://en.wikipedia.org/wiki/Row_echelon_form
+     *
+     * @return boolean true if matrix is in reduced row echelon form; false otherwise
+     */
+    public function isRref(): bool
+    {
+        // Row echelon form
+        if (!$this->isRef()) {
+            return false;
+        }
+
+        $m   = $this->m;
+        $n   = $this->n;
+        $lcs = [];
+
+        // Leading coefficients are 1
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                if ($this->A[$i][$j] == 0) {
+                    continue;
+                }
+                if ($this->A[$i][$j] != 1) {
+                    return false;
+                }
+                $lcs[] = $j;
+                continue 2;
+            }
+        }
+
+        // Leading coefficients are the only nonzero entry in its column
+        foreach ($lcs as $j) {
+            $column  = $this->getColumn($j);
+            $entries = array_filter($column);
+            if (count($entries) !== 1) {
+                return false;
+            }
+            $entry = array_shift($entries);
+            if ($entry !== 1) {
+                return false;
             }
         }
 

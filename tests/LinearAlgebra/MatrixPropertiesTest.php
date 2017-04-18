@@ -2970,6 +2970,30 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($A->isRef());
     }
 
+    /**
+     * @testCase     isRef returns true for a matrix in row echelon form
+     * @dataProvider dataProviderForRref
+     * @param        array $A
+     */
+    public function testIsRref(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isRref());
+    }
+
+    /**
+     * @testCase     isRef returns false for a matrix not in row echelon form
+     * @dataProvider dataProviderForNotRef
+     * @param        array $A
+     */
+    public function testIsNotRref(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isRref());
+    }
+
     public function dataProviderForRef(): array
     {
         return [
@@ -3208,6 +3232,94 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
                     [3, -9, 12, -9, 6, 15],
                     [0, 0, 0, 0, 0, 0],
                     [0, 1, -2, 2, 1, -3],
+                    [0, 0, 0, 0, 1, 4],
+                ],
+            ],
+        ];
+    }
+
+    public function dataProviderForRref(): array
+    {
+        return [
+            [
+                [
+                    [1],
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                ],
+            ],
+            [
+                [
+                    [1, 0],
+                    [0, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 0],
+                    [0, 1],
+                    [0, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 0],
+                    [0, 1],
+                    [0, 0],
+                    [0, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 0, -1],
+                    [0, 1, 2],
+                    [0, 0, 0]
+                ],
+            ],
+            [
+                [
+                    [1, 2, 0, 0],
+                    [0, 0, 1, 0],
+                    [0, 0, 0, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 0, 0],
+                    [0, 0, 1, 0],
+                    [0, 0, 0, 1],
+                    [0, 0, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 3, 0],
+                    [0, 1, 0, 0],
+                    [0, 0, 0, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 4, -3, 0, 5],
+                    [0, 1, -2, 2, 0, -3],
+                    [0, 0, 0, 0, 1, 4],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 5, 0, -7],
+                    [0, 1, 4, 0, -6],
+                    [0, 0, 0, 1, 0],
+                    [0, 0, 0, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 12, -9, 0, 15],
+                    [0, 1, -2, 2, 0, -3],
                     [0, 0, 0, 0, 1, 4],
                 ],
             ],
