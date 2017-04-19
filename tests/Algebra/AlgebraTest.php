@@ -407,7 +407,7 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
      */
     public function testQuartic($a, $b, $c, $d, $e, $quartic)
     {
-        //$this->assertEquals($quartic, Algebra::quartic($a, $b, $c, $d, $e), '', 0.00000001);
+        $this->assertEquals($quartic, Algebra::quartic($a, $b, $c, $d, $e), '', 0.00000001);
     }
 
     /**
