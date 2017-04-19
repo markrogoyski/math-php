@@ -433,7 +433,7 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
             [1, 12, 49, 78, 40, [-1, -5, -2, -4]],
 
             // Depressed quartic and has 4 real roots.
-            [1, 0, -25, 60, -36, [3, 2, 1, -6]],
+            [1, 0, -25, 60, -36, [-6, 1, 2, 3]],
          ];
     }
 
