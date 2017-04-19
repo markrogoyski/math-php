@@ -476,6 +476,9 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
             // And is a depressed quartic. (sum of roots=0)
             [1, 0, 5/8, -5/8, -51/256, [-.25, .75, ['r'=>-.25, 'i' => -1], ['r'=>-.25, 'i'=>1]]],
             [1, 0, -5, 10, -6, [-3, 1, ['r'=>1, 'i'=>-1], ['r'=>1, 'i'=>1]]],
+            
+            // Biquadratic with two complex roots
+            [1, 0, -5, 0, -36, [3, -3, ['r'=>0, 'i'=>2], ['r'=>0, 'i'=>-2]]],
          ];
     }
 
@@ -517,6 +520,9 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
             // Four Complex Roots
             [1, -6, 18, -24, 16, [['r'=>1, 'i'=>-1], ['r'=>1, 'i'=>1], ['r'=>2, 'i'=>-2], ['r'=>2, 'i'=>2]]],
             [1, 0, -3, 12, 40, [['r'=>-2, 'i'=>-1], ['r'=>-2, 'i'=>1], ['r'=>2, 'i'=>-2], ['r'=>2, 'i'=>2]]],
+
+            // Biquadratic with four complex roots
+            [1, 0, 13, 0, 36, [['r'=>0, 'i'=>2], ['r'=>0, 'i'=>-2], ['r'=>0, 'i'=>3], ['r'=>0, 'i'=>-3]]],
          ];
     }
 }
