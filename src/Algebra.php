@@ -3,6 +3,7 @@ namespace MathPHP;
 
 use MathPHP\Arithmetic;
 use MathPHP\Number\Complex;
+use MathPHP\Functions\Map\Single;
 
 class Algebra
 {
