@@ -1,23 +1,26 @@
 <?php
-namespace MathPHP;
+namespace MathPHP\Tests;
+
+use MathPHP\Trigonometry;
 
 class TrigonometryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @testCase     method returns points on a unit circle.
+     * @testCase     unitCircle returns points on a unit circle.
      * @dataProvider dataProviderForUnitCircle
+     * @param        int $num
+     * @param        array $results
      */
     public function testUnitCircle(int $num, array $results)
     {
         $this->assertEquals($results, Trigonometry::unitCircle($num));
     }
 
-    public function dataProviderForUnitCircle()
+    public function dataProviderForUnitCircle(): array
     {
-        $sqrt = 1 / sqrt(2);
         return [
             [5, [[1, 0], [0, 1], [-1, 0], [0, -1], [1, 0]]],
-            [9, [[1, 0], [$sqrt, $sqrt], [0, 1], [-$sqrt, $sqrt], [-1, 0], [-$sqrt, -$sqrt], [0, -1], [$sqrt, -$sqrt], [1, 0]]],
+            [9, [[1, 0], [\M_SQRT1_2, \M_SQRT1_2], [0, 1], [-\M_SQRT1_2, \M_SQRT1_2], [-1, 0], [-\M_SQRT1_2, -\M_SQRT1_2], [0, -1], [\M_SQRT1_2, -\M_SQRT1_2], [1, 0]]],
         ];
     }
 }
