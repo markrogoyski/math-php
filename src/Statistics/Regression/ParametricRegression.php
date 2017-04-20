@@ -33,7 +33,7 @@ class ParametricRegression extends Regression
      */
     public function getEquation()
     {
-        return call_user_func([get_class($this), 'getModelEquation'], $this->parameters);
+        return $this->getModelEquation($this->parameters);
     }
     /**
      * Get the parameters
@@ -43,6 +43,6 @@ class ParametricRegression extends Regression
      */
     public function getParameters()
     {
-        return call_user_func([get_class($this), 'getModelParameters'], $this->parameters);
+        return $this->getModelParameters($this->parameters);
     }
 }

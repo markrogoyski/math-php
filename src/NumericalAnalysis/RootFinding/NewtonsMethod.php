@@ -34,8 +34,8 @@ class NewtonsMethod
         do {
             $args1[$position] = $guess + $tol; // load the initial guess into the arguments
             $args[$position]  = $guess;        // load the initial guess into the arguments
-            $y                = call_user_func_array($function, $args);
-            $y_at_xplusdelx   = call_user_func_array($function, $args1);
+            $y                = $function(...$args);
+            $y_at_xplusdelx   = $function(...$args1);
             $slope            = ($y_at_xplusdelx - $y)/ $tol;
             $del_y            = $target - $y;
             if (abs($slope) < $tol) {

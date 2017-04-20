@@ -64,7 +64,7 @@ abstract class Regression
      */
     public function evaluate($x)
     {
-        return call_user_func([get_class($this), 'evaluateModel'], $x, $this->parameters);
+        return $this->evaluateModel($x, $this->parameters);
     }
 
     /**
