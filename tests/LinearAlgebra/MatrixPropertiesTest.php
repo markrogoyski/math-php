@@ -1,11 +1,9 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
-require_once(__DIR__ . '/MatrixDataProvider.php');
-
 class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
 {
-    use MatrixDataProvider;
+    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
 
     /**
      * @testCase     isSquare returns true for square matrices.

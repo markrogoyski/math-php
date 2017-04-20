@@ -1,8 +1,6 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
-require_once(__DIR__ . '/MatrixDataProvider.php');
-
 /**
  * Tests of Matrix axioms
  * These tests don't test specific functions,
@@ -107,7 +105,7 @@ require_once(__DIR__ . '/MatrixDataProvider.php');
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
-    use MatrixDataProvider;
+    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
 
     /**
      * Axiom: r(A + B) = rA + rB

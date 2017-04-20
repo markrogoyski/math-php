@@ -1,5 +1,5 @@
 <?php
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
 
 trait MatrixDataProvider
 {

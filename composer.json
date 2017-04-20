@@ -7,13 +7,16 @@
   "require": {
     "php": ">=7.0.0"
   },
+  "autoload": {
+    "psr-4": { "MathPHP\\": "src/" }
+  },
   "require-dev": {
       "phpunit/phpunit": "5.*",
       "satooshi/php-coveralls": "dev-master",
       "squizlabs/php_codesniffer": "2.*"
   },
-  "autoload": {
-    "psr-4": { "MathPHP\\": "src/" }
+  "autoload-dev": {
+    "psr-4": { "MathPHP\\Tests\\": "tests/" }
   },
   "authors": [
     {
