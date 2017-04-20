@@ -319,6 +319,7 @@ $perplexity = Entropy::perplexity($p);         // log₂
 ### Linear Algebra - Matrix
 ```php
 use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\MatrixFactory;
 
 $matrix = [
     [1, 2, 3],
@@ -453,6 +454,7 @@ $identity_matrix = MatrixFactory::identity($n);    // Ones on the main diagonal
 $zero_matrix     = MatrixFactory::zero($m, $n);    // All zeros
 $ones_matrix     = MatrixFactory::one($m, $n);     // All ones
 $eye_matrix      = MatrixFactory::eye($m, $n, $k); // Ones (or other value) on the k-th diagonal
+$exchange_matrix = MatrixFactory::exchange($n);    // Ones on the reverse diagonal
 
 // Vandermonde matrix
 $V = MatrixFactory::create([1, 2, 3], 4); // 4 x 3 Vandermonde matrix
