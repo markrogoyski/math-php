@@ -291,10 +291,10 @@ class Algebra
      * z₂ = Complex conjugate; therefore, NAN
      * z₃ = Complex conjugate; therefore, NAN
      *
-     * @param  int $a₃  z³ coefficient
-     * @param  int $a₂  z² coefficient
-     * @param  int $a₁  z  coefficient
-     * @param  int $a₀     constant coefficient
+     * @param  number $a₃  z³ coefficient
+     * @param  number $a₂  z² coefficient
+     * @param  number $a₁  z  coefficient
+     * @param  number $a₀     constant coefficient
      *
      * @return array of roots (three real roots, or one real root and two NANs because complex numbers not yet supported)
      *                        (If $a₃ = 0, then only two roots of quadratic equation)
@@ -361,6 +361,14 @@ class Algebra
      * Quartic equation
      * An equation having the form: z⁴ + z³ + a₂z² + a₁z + a₀ = 0
      * https://en.wikipedia.org/wiki/Quartic_function
+     *
+     * @param  number $a₄ z⁴ coefficient
+     * @param  number $a₃ z³ coefficient
+     * @param  number $a₂ z² coefficient
+     * @param  number $a₁ z  coefficient
+     * @param  number $a₀    constant coefficient
+     *
+     * @return array of roots
      */
     public static function quartic($a₄, $a₃, $a₂, $a₁, $a₀, bool $return_complex = false): array
     {
@@ -394,9 +402,9 @@ class Algebra
             } else {
                 $Cz₊ = new Complex($z₊, 0);
                 $Cz₋ = new Complex($z₋, 0);
-                $z₁ = $z₊ < 0 ? $Cz₊->sqrt() : sqrt($z₊);
+                $z₁ = $z₊ < 0 ? $Cz₊->sqrt()  : sqrt($z₊);
                 $z₂ = $z₊ < 0 ? $z₁->negate() : $z₁ * -1;
-                $z₃ = $z₋ < 0 ? $Cz₋->sqrt() : sqrt($z₋);
+                $z₃ = $z₋ < 0 ? $Cz₋->sqrt()  : sqrt($z₋);
                 $z₄ = $z₋ < 0 ? $z₃->negate() : $z₃ * -1;
                 return [$z₁, $z₂, $z₃, $z₄];
             }
@@ -413,9 +421,9 @@ class Algebra
             $cubic_roots = self::cubic(8, 8 * $p, 2 * $p ** 2 - 8 * $r, -1 * $q ** 2);
             
             // $z₁ will always be a real number, so select it.
-            $m = $cubic_roots[0];
-            $roots1 = self::quadratic(1, sqrt(2*$m), $p / 2 + $m - $q/2/sqrt(2*$m), $return_complex);
-            $roots2 = self::quadratic(1, -1 * sqrt(2*$m), $p / 2 + $m + $q/2/sqrt(2*$m), $return_complex);
+            $m             = $cubic_roots[0];
+            $roots1        = self::quadratic(1, sqrt(2*$m), $p / 2 + $m - $q/2/sqrt(2*$m), $return_complex);
+            $roots2        = self::quadratic(1, -1 * sqrt(2*$m), $p / 2 + $m + $q/2/sqrt(2*$m), $return_complex);
             $discriminant1 = self::discriminant(1, sqrt(2*$m), $p / 2 + $m - $q/2/sqrt(2*$m), $return_complex);
             $discriminant2 = self::discriminant(1, -1 * sqrt(2*$m), $p / 2 + $m + $q/2/sqrt(2*$m), $return_complex);
             
