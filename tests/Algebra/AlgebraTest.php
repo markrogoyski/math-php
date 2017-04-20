@@ -295,7 +295,7 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
             [1, -4, -6, 5, [5, -1.61803398874989, 0.61803398874989]],
             [1, -3, -1, 1, [3.21431974337754, -0.67513087056665, 0.46081112718911]],
             [1, -2, -6, 4, [3.41421356237309, -2, 0.58578643762691]],
-            [1, 1, -16, 0, [3.53112887414927, -4.53112887414927, 0]],
+            [1, 1, -16, 0, [0, -4.53112887414927, 3.53112887414927]],
             [2, -3, -22, 24, [3.62221312679243, -3.16796177749228,  1.04574865069985]],
             [2, -2, -22, 24, [3.2488979294409, -3.35109344639606,  1.10219551695516]],
             [1000, -1254, -496, 191, [1.49979930548345, -0.50033136443491, 0.25453205895145]],
@@ -394,5 +394,37 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
     {
         $a = 0;
         $this->assertEquals($quadratic, Algebra::cubic($a, $b, $c, $d), '', 0.00000001);
+    }
+
+    /**
+     * @dataProvider dataProviderForQuartic
+     * @param        int $a
+     * @param        int $b
+     * @param        int $c
+     * @param        int $d
+     * @param        int $d
+     * @param        array $quartic expected roots
+     */
+    public function testQuartic($a, $b, $c, $d, $e, $quartic)
+    {
+        $this->assertEquals($quartic, Algebra::quartic($a, $b, $c, $d, $e), '', 0.00000001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForQuartic(): array
+    {
+        return [
+            [3, 6, -123, -126, 1080, [5, -4, 3, -6]],
+            [1, -10, 35, -50, 24, [4, 2, 3, 1]],
+            [1, 2, 1, 0, 0, [0, 0, -1, -1]],
+            [1, -4, 6, -4, 1, [1, 1, 1, 1]],
+           
+            // Two Complex Roots
+//          [1, 2, 1, 0, -1, [-1.6180339887498714, 1.6180339887498714, \NAN, \NAN]],
+            // Four Complex Roots
+ //         [1, 0, 0, 0, 4, [\NAN, \NAN, \NAN, \NAN]],
+         ];
     }
 }

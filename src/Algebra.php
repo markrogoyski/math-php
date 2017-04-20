@@ -304,6 +304,9 @@ class Algebra
             return self::quadratic($a₂, $a₁, $a₀);
         }
 
+        if ($a₀ === 0) {
+            return array_merge([0], self::quadratic($a₃, $a₂, $a₁));
+        }
         // Take coefficient a₃ of z³ to be 1
         $a₂ = $a₂ / $a₃;
         $a₁ = $a₁ / $a₃;
@@ -354,5 +357,65 @@ class Algebra
             $complex_roots = self::quadratic($quad_a, $quad_b, $quad_c, true);
             return array_merge([$z₁], $complex_roots);
         }
+    }
+
+    /**
+     * Quartic equation
+     * An equation having the form: z⁴ + z³ + a₂z² + a₁z + a₀ = 0
+     *
+     * @param  int $a₄  z⁴ coefficient
+     * @param  int $a₃  z³ coefficient
+     * @param  int $a₂  z² coefficient
+     * @param  int $a₁  z  coefficient
+     * @param  int $a₀     constant coefficient
+     *
+     * @return array of roots (four real roots)
+     *                        (If $a₄ = 0, then only two roots of cubic equation)
+     */
+    public static function quartic($a₄, $a₃, $a₂, $a₁, $a₀): array
+    {
+        if ($a₄ === 0) {
+            return self::cubic($a₃, $a₂, $a₁, $a₀);
+        }
+        if ($a₀ === 0) {
+            return array_merge([0], self::cubic($a₄, $a₃, $a₂, $a₁));
+        }
+        // Take coefficient a₄ of z⁴ to be 1
+        $a₃ = $a₃ / $a₄;
+        $a₂ = $a₂ / $a₄;
+        $a₁ = $a₁ / $a₄;
+        $a₀ = $a₀ / $a₄;
+        $a₄ = 1;
+        
+        $f = $a₂ - (3 * $a₃ ** 2 / 8);
+        $g = $a₁ + $a₃ ** 3 / 8 - $a₃ * $a₂ / 2;
+        $h = $a₀ - 3 * $a₃ ** 4 / 256 + $a₃ ** 2 * $a₂ / 16 - $a₃ * $a₁ / 4;
+ 
+        $b = $f / 2;
+        $c = ($f **2 - 4 * $h) / 16;
+        $d = -1 * $g ** 2 / 64;
+        $cubic_roots = self::cubic(1, $b, $c, $d);
+        
+        // We choose two non-zero roots.
+        // What is supposed to happen if two of three are zero?
+        // Need to handle complex roots.
+        if ($cubic_roots[0] != 0) {
+            $p = sqrt($cubic_roots[0]);
+        } else {
+            $p = sqrt($cubic_roots[1]);
+        }
+        if ($cubic_roots[2] != 0) {
+            $q = sqrt($cubic_roots[2]);
+        } else {
+            $q = sqrt($cubic_roots[1]);
+        }
+        $r = -1 * $g / 8 / $p / $q;
+        $s = $a₃ / 4 / $a₄;
+        
+        $z₁ = $p + $q + $r - $s;
+        $z₂ = $p - $q - $r - $s;
+        $z₃ = -1 * $p + $q - $r - $s;
+        $z₄ = -1 * $p - $q + $r - $s;
+        return [$z₁, $z₂, $z₃, $z₄];
     }
 }
