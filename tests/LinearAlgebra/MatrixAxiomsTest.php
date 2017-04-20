@@ -102,6 +102,9 @@ namespace MathPHP\LinearAlgebra;
  *    - D is invertible iif diagonal is all non zero
  *  - Reduced row echelon form
  *    - RREF is upper triangular
+ *  - Exchange matrix
+ *    - Jᵀ = J
+ *    - tr(J) is 1 if n is odd, and 0 if n is even
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -1983,5 +1986,37 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $rref = $A->rref();
 
         $this->assertTrue($rref->isUpperTriangular());
+    }
+
+    /**
+     * @testCase Axiom: Jᵀ = J
+     * Transpose of an exchange matrix is itself
+     */
+    public function testTransposeOfExchangeMatrix()
+    {
+        foreach (range(1, 20) as $n) {
+            $J  = MatrixFactory::exchange($n);
+            $Jᵀ = $J->transpose();
+            $this->assertEquals($J, $Jᵀ);
+            $this->assertEquals($J->getMatrix(), $Jᵀ->getMatrix());
+        }
+    }
+
+    /**
+     * @testCase Axiom: tr(J) is 1 if n is odd, and 0 if n is even
+     * Trace of J is 1 if n is odd, and 0 is n is even.
+     */
+    public function testTraceOfExchangeMatrix()
+    {
+        foreach (range(1, 20) as $n) {
+            $J    = MatrixFactory::exchange($n);
+            $tr⟮J⟯ = $J->trace();
+
+            if ($n % 2 == 1) {
+                $this->assertEquals(1, $tr⟮J⟯);
+            } else {
+                $this->assertEquals(0, $tr⟮J⟯);
+            }
+        }
     }
 }
