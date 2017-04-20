@@ -69,7 +69,7 @@ class MatrixFactory
      * @param int    $n size of matrix
      * @param number $x (optional; default 1)
      *
-     * @return Matrix
+     * @return SquareMatrix
      *
      * @throws OutOfBoundsException if n < 0
      */
@@ -84,6 +84,43 @@ class MatrixFactory
             for ($j = 0; $j < $n; $j++) {
                 $R[$i][$j] = $i == $j ? $x : 0;
             }
+        }
+
+        return self::create($R);
+    }
+
+    /**
+     * Echange matrix - n x n matrix with ones in the reverse diagonal
+     * Row-reversed, or column-reversed version of the identity matrix.
+     * https://en.wikipedia.org/wiki/Exchange_matrix
+     *
+     * Example:
+     *  n = 3; x = 1
+     *
+     *      [0 0 1]
+     *  A = [0 1 0]
+     *      [1 0 0]
+     *
+     * @param int    $n size of matrix
+     * @param number $x (Optional to set the diagonal to any number; default 1)
+     *
+     * @return SquareMatrix
+     *
+     * @throws OutOfBoundsException if n < 0
+     */
+    public static function exchange(int $n, $x = 1): SquareMatrix
+    {
+        if ($n < 0) {
+            throw new Exception\OutOfBoundsException("n must be ≥ 0. n = $n");
+        }
+        $R = [];
+
+        $one = $n - 1;
+        for ($i = 0; $i < $n; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $R[$i][$j] = $j == $one ? $x : 0;
+            }
+            $one--;
         }
 
         return self::create($R);

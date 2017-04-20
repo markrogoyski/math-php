@@ -385,6 +385,59 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
         MatrixFactory::identity(-1);
     }
 
+    /**
+     * @dataProvider dataProviderForExchange
+     */
+    public function testExchange(int $n, $x, array $R)
+    {
+        $R = new SquareMatrix($R);
+        $this->assertEquals($R, MatrixFactory::exchange($n, $x));
+    }
+
+    public function dataProviderForExchange()
+    {
+        return [
+            [
+                1, 1, [[1]],
+            ],
+            [
+                2, 1, [
+                    [0, 1],
+                    [1, 0],
+                ]
+            ],
+            [
+                3, 1, [
+                    [0, 0, 1],
+                    [0, 1, 0],
+                    [1, 0, 0]
+                ]
+            ],
+            [
+                4, 1, [
+                    [0, 0, 0, 1],
+                    [0, 0, 1, 0],
+                    [0, 1, 0, 0],
+                    [1, 0, 0, 0],
+                ]
+            ],
+            [
+                4, 5, [
+                    [0, 0, 0, 5],
+                    [0, 0, 5, 0],
+                    [0, 5, 0, 0],
+                    [5, 0, 0, 0],
+                ]
+            ],
+
+        ];
+    }
+
+    public function testExchangeExceptionNLessThanZero()
+    {
+        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        MatrixFactory::exchange(-1);
+    }
 
     /**
      * @dataProvider dataProviderForZero
