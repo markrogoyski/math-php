@@ -24,10 +24,6 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
         }
         array_unshift($params, $initial);
 
-        $classname     = get_called_class();
-        $CDF_callback  = [$classname, 'CDF'];
-        $PDF_callback  = [$classname, 'PDF'];
-
         $tolerance = .0000000001;
         $dif       = $tolerance + 1;
         $guess     = $params[0];
@@ -35,10 +31,10 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
         while ($dif > $tolerance) {
             // load the guess into the arguments
             $params[0] = $guess;
-            $y         = call_user_func_array($CDF_callback, $params);
+            $y         = static::CDF(...$params);
             
             // Since the CDF is the integral of the PDF, the PDF is the derivative of the CDF
-            $slope = call_user_func_array($PDF_callback, $params);
+            $slope = static::PDF(...$params);
             $del_y = $target - $y;
             $guess = $del_y / $slope + $guess;
             $dif   = abs($del_y);
