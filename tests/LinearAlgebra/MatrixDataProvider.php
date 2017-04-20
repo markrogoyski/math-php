@@ -39,13 +39,22 @@ trait MatrixDataProvider
     {
         return [
             [
-                [[1]]
+                [
+                    [1]
+                ]
             ],
             [
                 [
                   [1, 2],
                   [2, 3],
                 ]
+            ],
+            [
+                [
+                    [1, 0, 5],
+                    [4, 2, 0],
+                    [3, 0, 3],
+                ],
             ],
             [
                 [
@@ -210,7 +219,7 @@ trait MatrixDataProvider
         ];
     }
 
-   public function dataProviderForSingularMatrix(): array
+    public function dataProviderForSingularMatrix(): array
     {
         return [
             [
