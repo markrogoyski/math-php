@@ -395,4 +395,134 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
         $a = 0;
         $this->assertEquals($quadratic, Algebra::cubic($a, $b, $c, $d), '', 0.00000001);
     }
+
+    /**
+     * @dataProvider dataProviderForQuartic
+     * @param        int $a
+     * @param        int $b
+     * @param        int $c
+     * @param        int $d
+     * @param        int $d
+     * @param        array $quartic expected roots
+     */
+    public function testQuartic($a, $b, $c, $d, $e, $quartic)
+    {
+        $this->assertEquals($quartic, Algebra::quartic($a, $b, $c, $d, $e), '', 0.00000001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForQuartic(): array
+    {
+        return [
+            [3, 6, -123, -126, 1080, [5, -6, 3, -4]],
+            [1, -10, 35, -50, 24, [4, 1, 3, 2]],
+            [1, -4, 6, -4, 1, [1, 1, 1, 1]],
+            
+            // Actually a cubic
+            [0, 1, -6, 11, -6, [3, 1, 2]],
+            
+            // Zero Root
+            [1, -6, 11, -6, 0, [0, 3, 1, 2]],
+            
+            // Biquadratic
+            [1, 0, -5, 0, 4, [2, -2, 1, -1]],
+
+            // Depressed quartic is biquadratic
+            [1, 12, 49, 78, 40, [-1, -5, -2, -4]],
+
+            // Depressed quartic and has 4 real roots.
+            [1, 0, -25, 60, -36, [-6, 1, 2, 3]],
+         ];
+    }
+
+    /**
+     * @dataProvider dataProviderForQuarticTwoComplex
+     * @param        int $a
+     * @param        int $b
+     * @param        int $c
+     * @param        int $d
+     * @param        int $d
+     * @param        int $e
+     * @param        array $quartic expected roots
+     */
+    public function testQuarticTwoComplex($a, $b, $c, $d, $e, $quartic)
+    {
+        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
+        $this->assertEquals($quartic[0], floatval($z₁), '', 0.00000001);
+        $this->assertEquals($quartic[1], floatval($z₂), '', 0.00000001);
+        $this->assertNan($z₃, '');
+        $this->assertNan($z₄, '');
+        
+        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
+        $complex0 = new Number\Complex($quartic[2]['r'], $quartic[2]['i']);
+        $complex1 = new Number\Complex($quartic[3]['r'], $quartic[3]['i']);
+        $this->assertEquals($quartic[0], floatval($z₁), '', 0.00000001);
+        $this->assertEquals($quartic[1], floatval($z₂), '', 0.00000001);
+        $this->assertTrue($z₃->equals($complex0), "Expecting $complex0 but saw $z₃, complex conjugate is $z₄");
+        $this->assertTrue($z₄->equals($complex1), "Expecting $complex1 but saw $z₄, complex conjugate is $z₃");
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForQuarticTwoComplex(): array
+    {
+        return [
+            // Two Complex Roots
+            [1, -5, 10, -10, 4, [1, 2, ['r'=>1, 'i'=>-1], ['r'=>1, 'i'=>1]]],
+
+            // And is a depressed quartic. (sum of roots=0)
+            [1, 0, 5/8, -5/8, -51/256, [-.25, .75, ['r'=>-.25, 'i' => -1], ['r'=>-.25, 'i'=>1]]],
+            [1, 0, -5, 10, -6, [-3, 1, ['r'=>1, 'i'=>-1], ['r'=>1, 'i'=>1]]],
+            
+            // Biquadratic with two complex roots
+            [1, 0, -5, 0, -36, [3, -3, ['r'=>0, 'i'=>2], ['r'=>0, 'i'=>-2]]],
+         ];
+    }
+
+    /**
+     * @dataProvider dataProviderForQuarticFourComplex
+     * @param        int $a
+     * @param        int $b
+     * @param        int $c
+     * @param        int $d
+     * @param        int $d
+     * @param        int $e
+     * @param        array $quartic expected roots
+     */
+    public function testQuarticFourComplex($a, $b, $c, $d, $e, $quartic)
+    {
+        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
+        $this->assertNan($z₁);
+        $this->assertNan($z₂);
+        $this->assertNan($z₃);
+        $this->assertNan($z₄);
+        
+        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
+        $complex0 = new Number\Complex($quartic[0]['r'], $quartic[0]['i']);
+        $complex1 = new Number\Complex($quartic[1]['r'], $quartic[1]['i']);
+        $complex2 = new Number\Complex($quartic[2]['r'], $quartic[2]['i']);
+        $complex3 = new Number\Complex($quartic[3]['r'], $quartic[3]['i']);
+        $this->assertTrue($z₁->equals($complex0), "Expecting $complex0 but saw $z₁");
+        $this->assertTrue($z₂->equals($complex1), "Expecting $complex1 but saw $z₂");
+        $this->assertTrue($z₃->equals($complex2), "Expecting $complex2 but saw $z₃");
+        $this->assertTrue($z₄->equals($complex3), "Expecting $complex3 but saw $z₄");
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForQuarticFourComplex(): array
+    {
+        return [
+            // Four Complex Roots
+            [1, -6, 18, -24, 16, [['r'=>1, 'i'=>-1], ['r'=>1, 'i'=>1], ['r'=>2, 'i'=>-2], ['r'=>2, 'i'=>2]]],
+            [1, 0, -3, 12, 40, [['r'=>-2, 'i'=>-1], ['r'=>-2, 'i'=>1], ['r'=>2, 'i'=>-2], ['r'=>2, 'i'=>2]]],
+
+            // Biquadratic with four complex roots
+            [1, 0, 13, 0, 36, [['r'=>0, 'i'=>2], ['r'=>0, 'i'=>-2], ['r'=>0, 'i'=>3], ['r'=>0, 'i'=>-3]]],
+         ];
+    }
 }
