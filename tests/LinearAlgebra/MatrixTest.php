@@ -29,6 +29,17 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $matrix = MatrixFactory::create($A);
     }
 
+    public function testRawConstructorExceptionNCountDiffers()
+    {
+        $A = [
+            [1, 2, 3],
+            [2, 3, 4, 5],
+            [3, 4, 5],
+        ];
+        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $matrix = new Matrix($A);
+    }
+
     public function testGetMatrix()
     {
         $this->assertEquals($this->A, $this->matrix->getMatrix());

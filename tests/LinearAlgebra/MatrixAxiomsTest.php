@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
+require_once(__DIR__ . '/MatrixDataProvider.php');
+
 /**
  * Tests of Matrix axioms
  * These tests don't test specific functions,
@@ -105,6 +107,8 @@ namespace MathPHP\LinearAlgebra;
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
+    use MatrixDataProvider;
+
     /**
      * Axiom: r(A + B) = rA + rB
      * Order of scalar multiplication does not matter.
@@ -407,7 +411,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
      * Axiom: AI = A = IA
      * Matrix multiplied with the identity matrix is the original matrix.
      *
-     * @dataProvider dataProviderForMatrixTimesIdentityIsOriginalMatrix
+     * @dataProvider dataProviderForOneSquareMatrix
      */
     public function testMatrixTimesIdentityIsOriginalMatrix(array $A)
     {
@@ -418,68 +422,6 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($A->getMatrix(), $AI->getMatrix());
         $this->assertEquals($A->getMatrix(), $IA->getMatrix());
-    }
-
-    public function dataProviderForMatrixTimesIdentityIsOriginalMatrix()
-    {
-        return [
-            [
-                [
-                    [1, 5],
-                    [4, 3],
-                ],
-            ],
-            [
-                [
-                    [5, 6],
-                    [2, 1],
-                ],
-            ],
-            [
-                [
-                    [3, 8, 5],
-                    [3, 6, 1],
-                    [9, 5, 8],
-                ],
-            ],
-            [
-                [
-                    [5, 3, 8],
-                    [6, 4, 5],
-                    [1, 8, 9],
-                ],
-            ],
-            [
-                [
-                    [-4, -2, 9],
-                    [3, 14, -6],
-                    [3, 9, 9],
-                ],
-            ],
-            [
-                [
-                    [8, 7, 8],
-                    [-5, 4, 1],
-                    [3, 5, 1],
-                ],
-            ],
-            [
-                [
-                    [4, 7, 7, 8],
-                    [3, 6, 4, 1],
-                    [-3, 6, 8, -3],
-                    [3, 2, 1, -54],
-                ],
-            ],
-            [
-                [
-                    [3, 2, 6, 7],
-                    [4, 3, -6, 2],
-                    [12, 14, 14, -6],
-                    [4, 6, 4, -42],
-                ],
-            ],
-        ];
     }
 
     /**
@@ -791,68 +733,6 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($⟮rA⟯ᵀ->getMatrix(), $rAᵀ->getMatrix());
     }
 
-    public function dataProviderForOneSquareMatrix()
-    {
-        return [
-            [
-                [
-                    [1, 5],
-                    [4, 3],
-                ],
-            ],
-            [
-                [
-                    [5, 6],
-                    [2, 1],
-                ],
-            ],
-            [
-                [
-                    [3, 8, 5],
-                    [3, 6, 1],
-                    [9, 5, 8],
-                ],
-            ],
-            [
-                [
-                    [5, 3, 8],
-                    [6, 4, 5],
-                    [1, 8, 9],
-                ],
-            ],
-            [
-                [
-                    [-4, -2, 9],
-                    [3, 14, -6],
-                    [3, 9, 9],
-                ],
-            ],
-            [
-                [
-                    [8, 7, 8],
-                    [-5, 4, 1],
-                    [3, 5, 1],
-                ],
-            ],
-            [
-                [
-                    [4, 7, 7, 8],
-                    [3, 6, 4, 1],
-                    [-3, 6, 8, -3],
-                    [3, 2, 1, -54],
-                ],
-            ],
-            [
-                [
-                    [3, 2, 6, 7],
-                    [4, 3, -6, 2],
-                    [12, 14, 14, -6],
-                    [4, 6, 4, -42],
-                ],
-            ],
-        ];
-    }
-
     /**
      * (AB)ᵀ = BᵀAᵀ
      * Transpose of a product of matrices equals the product of their transposes in reverse order.
@@ -895,60 +775,6 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $Aᵀ＋Bᵀ = $Aᵀ->add($Bᵀ);
 
         $this->assertEquals($⟮A＋B⟯ᵀ->getMatrix(), $Aᵀ＋Bᵀ->getMatrix());
-    }
-
-    public function dataProviderForTwoSquareMatrices()
-    {
-        return [
-            [
-                [
-                    [1, 5],
-                    [4, 3],
-                ],
-                [
-                    [5, 6],
-                    [2, 1],
-                ],
-            ],
-            [
-                [
-                    [3, 8, 5],
-                    [3, 6, 1],
-                    [9, 5, 8],
-                ],
-                [
-                    [5, 3, 8],
-                    [6, 4, 5],
-                    [1, 8, 9],
-                ],
-            ],
-            [
-                [
-                    [-4, -2, 9],
-                    [3, 14, -6],
-                    [3, 9, 9],
-                ],
-                [
-                    [8, 7, 8],
-                    [-5, 4, 1],
-                    [3, 5, 1],
-                ],
-            ],
-            [
-                [
-                    [4, 7, 7, 8],
-                    [3, 6, 4, 1],
-                    [-3, 6, 8, -3],
-                    [3, 2, 1, -54],
-                ],
-                [
-                    [3, 2, 6, 7],
-                    [4, 3, -6, 2],
-                    [12, 14, 14, -6],
-                    [4, 6, 4, -42],
-                ],
-            ],
-        ];
     }
 
     /**
@@ -1169,201 +995,10 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($x, $A⁻¹b, '', 0.001);
     }
 
-    public function dataProviderForSolve()
-    {
-        return [
-            [
-                [
-                    [3, 4],
-                    [2, -1],
-                ],
-                [5, 7],
-                [3, -1],
-                [0, 0],
-            ],
-            [
-                [
-                    [3, 1],
-                    [2, -1],
-                ],
-                [5, 0],
-                [1, 2],
-                [0, 0],
-            ],
-            [
-                [
-                    [3, 4],
-                    [5, 3],
-                ],
-                [-2, 4],
-                [2, -2],
-                [0, 0],
-            ],
-            [
-                [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [0, 0, 1],
-                ],
-                [2, 3, -4],
-                [2, 3, -4],
-                [0, 0, 0],
-            ],
-            [
-                [
-                    [1, 1, -1],
-                    [3, 1, 1],
-                    [1, -1, 4],
-                ],
-                [1, 9, 8],
-                [3, -1, 1],
-                [0, 0, 0],
-            ],
-            [
-                [
-                    [2, 4, 1],
-                    [4, -10, 2],
-                    [1, 2, 4],
-                ],
-                [5, -8, 13],
-                [-1, 1, 3],
-                [0, 0, 0],
-            ],
-            [
-                [
-                    [1, 1, 1],
-                    [0, 2, 5],
-                    [2, 5, -1],
-                ],
-                [6, -4, 27],
-                [5, 3, -2],
-                [0, 0, 0],
-            ],
-            [
-                [
-                    [1, 2, 3],
-                    [2, -1, 1],
-                    [3, 0, -1],
-                ],
-                [9, 8, 3],
-                [2, -1, 3],
-                [0, 0, 0],
-            ],
-            [
-                [
-                    [2, 1, -3],
-                    [4, -2, 1],
-                    [3, 5, -2],
-                ],
-                [-4, 9, 5],
-                [2, 1, 3],
-                [0, 0, 0],
-            ],
-            [
-                [
-                    [4, 9, 0],
-                    [8, 0, 6],
-                    [0, 6, 6],
-                ],
-                [8, -1, -1],
-                [1/2, 2/3, -5/6],
-                [0, 0, 0],
-            ],
-            [
-                [
-                    [1, 1, 1],
-                    [1, -2, 2],
-                    [1, 2, -1],
-                ],
-                [0, 4, 2],
-                [4, -2, -2],
-                [0, 0, 0],
-            ],
-            [
-                [
-                    [3, 3, 4],
-                    [3, 5, 9],
-                    [5, 9, 17],
-                ],
-                [1, 2, 4],
-                [1, -2, 1],
-                [0, 0, 0],
-            ],
-            [
-                [
-                    [2, 1, 1],
-                    [-1, 1, -1],
-                    [1, 2, 3],
-                ],
-                [2, 3, -10],
-                [3, 1, -5],
-                [0, 0, 0],
-            ],
-            [
-                [
-                    [4, 2, -1, 3],
-                    [3, -4, 2, 5],
-                    [-2, 6, -5, -2],
-                    [5, 1, 6, -3],
-                ],
-                [16.9, -14, 25, 9.4],
-                [4.5, 1.6, -3.8, -2.7],
-                [0, 0, 0, 0],
-            ],
-            [
-                [
-                    [4, 2, -1, 3],
-                    [3, -4, 2, 5],
-                    [-2, 6, -5, -2],
-                    [5, 1, 6, -3],
-                ],
-                [-12, 34, 27, -19],
-                [-101.485, 101.242, 115.727, 102.394],
-                [0, 0, 0, 0],
-            ],
-            [
-                [
-                    [ 4,  1,  2,  -3],
-                    [-3,  3, -1,   4],
-                    [-1,  2,  5,   1],
-                    [ 5,  4,  3,  -1],
-                ],
-                [-16, 20, -4, -10],
-                [-1, 1, -2, 3],
-                [0, 0, 0, 0],
-            ],
-            [
-                [
-                    [ 4,  1,  2,  -3,  5],
-                    [-3,  3, -1,   4, -2],
-                    [-1,  2,  5,   1,  3],
-                    [ 5,  4,  3,  -1,  2],
-                    [ 1, -2,  3,  -4,  5],
-                ],
-                [-16, 20, -4, -10,  3],
-                [-15.354, 15.813, -1.770, -22.148, -6.660],
-                [0, 0, 0, 0, 0],
-            ],
-            [
-                [
-                    [1, 1, -2, 1, 3, -1],
-                    [2, -1, 1, 2, 1, -3],
-                    [1, 3, -3, -1, 2, 1],
-                    [5, 2, -1, -1, 2, 1],
-                    [-3, -1, 2, 3, 1, 3],
-                    [4, 3, 1, -6, -3, -2],
-                ],
-                [4, 20, -15, -3, 16, -27],
-                [1, -2, 3, 4, 2, -1],
-                [0, 0, 0, 0, 0, 0],
-            ],
-        ];
-    }
-
     /**
      * Axiom: A = Aᵀ
      * Symmetric matrix is the same as its transpose
-     * @dataProvider dataProviderForSymmetric
+     * @dataProvider dataProviderForSymmetricMatrix
      */
     public function testSymmetricEqualsTranspose(array $A)
     {
@@ -1377,7 +1012,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     /**
      * Axiom: A⁻¹Aᵀ = I
      * Symmetric matrix inverse times tranpose equals identity matrix
-     * @dataProvider dataProviderForSymmetric
+     * @dataProvider dataProviderForSymmetricMatrix
      */
     public function testSymmetricInverseTranposeEqualsIdentity(array $A)
     {
@@ -1395,7 +1030,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase Axiom: A + B is symmetric
      * If A and B are symmetric matrices with the sme size, then A + B is symmetric
-     * @dataProvider dataProviderForSymmetric
+     * @dataProvider dataProviderForSymmetricMatrix
      * @param array $A
      */
     public function testSymmetricMatricesSumIsSymmetric(array $M)
@@ -1412,7 +1047,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase Axiom: A - B is symmetric
      * If A and B are symmetric matrices with the sme size, then A - B is symmetric
-     * @dataProvider dataProviderForSymmetric
+     * @dataProvider dataProviderForSymmetricMatrix
      * @param array $A
      */
     public function testSymmetricMatricesDifferenceIsSymmetric(array $M)
@@ -1429,7 +1064,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase Axiom: kA is symmetric
      * If A is a symmetric matrix, kA is symmetric
-     * @dataProvider dataProviderForSymmetric
+     * @dataProvider dataProviderForSymmetricMatrix
      * @param array $A
      */
     public function testSymmetricMatricesTimesScalarIsSymmetric(array $M)
@@ -1446,7 +1081,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase Axiom: AAᵀ is symmetric
      * If A is a symmetric matrix, AAᵀ is symmetric
-     * @dataProvider dataProviderForSymmetric
+     * @dataProvider dataProviderForSymmetricMatrix
      * @param array $A
      */
     public function testSymmetricMatrixTimesTransposeIsSymmetric(array $M)
@@ -1462,7 +1097,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase Axiom: AᵀA is symmetric
      * If A is a symmetric matrix, AᵀA is symmetric
-     * @dataProvider dataProviderForSymmetric
+     * @dataProvider dataProviderForSymmetricMatrix
      * @param array $A
      */
     public function testTransposeTimesSymmetricMatrixIsSymmetric(array $M)
@@ -1478,7 +1113,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase Axiom: A is invertible symmetric, A⁻¹ is symmetric
      * If A is an invertible symmetric matrix, the inverse of A is also symmetric
-     * @dataProvider dataProviderForSymmetric
+     * @dataProvider dataProviderForSymmetricMatrix
      * @param array $A
      */
     public function testMatrixIsInvertibleSummetricThenInverseIsSymmetric(array $M)
@@ -1495,80 +1130,6 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
             $this->assertTrue($A⁻¹->isSymmetric());
         }
     }
-
-    public function dataProviderForSymmetric()
-    {
-        return [
-            [
-                [
-                    [1],
-                ],
-            ],
-            [
-                [
-                    [1, 2],
-                    [2, 1],
-                ],
-            ],
-            [
-                [
-                    [4, 1],
-                    [1, -2],
-                ],
-            ],
-            [
-                [
-                    [4, -1],
-                    [-1, 9],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 3],
-                    [2, 6, 4],
-                    [3, 4, 5],
-                ],
-            ],
-            [
-                [
-                    [1, 7, 3],
-                    [7, 4, -5],
-                    [3, -5, 6],
-                ],
-            ],
-            [
-                [
-                    [5, 6, 7],
-                    [6, 3, 2],
-                    [7, 2, 1],
-                ],
-            ],
-            [
-                [
-                    [2, 7, 3],
-                    [7, 9, 4],
-                    [3, 4, 7],
-                ],
-            ],
-            [
-                [
-                    [4, -1, -1, -1],
-                    [-1, 4, -1, -1],
-                    [-1, -1, 4, -1],
-                    [-1, -1, -1, 4],
-                ],
-            ],
-            [
-                [
-                    [1, 5, 6, 8],
-                    [5, 2, 7, 9],
-                    [6, 7, 3, 10],
-                    [8, 9, 10, 4],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Axiom: A ⊗ (B + C) = A ⊗ B + A ⊗ C
      * Kronecker product bilinearity
@@ -1618,125 +1179,6 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $A⊗⟮B⊗C⟯ = $A->kroneckerProduct($B->kroneckerProduct($C));
 
         $this->assertEquals($⟮A⊗B⟯⊗C->getMatrix(), $A⊗⟮B⊗C⟯->getMatrix());
-    }
-
-    public function dataProviderForThreeMatrices()
-    {
-        return [
-            [
-                [
-                    [1],
-                ],
-                [
-                    [2],
-                ],
-                [
-                    [3],
-                ],
-            ],
-            [
-                [
-                    [1, 5, 3],
-                    [3, 6, 3],
-                    [6, 7, 8],
-                ],
-                [
-                    [6, 9, 9],
-                    [3, 5, 1],
-                    [3, 5, 12],
-                ],
-                [
-                    [7, 9, 6],
-                    [1, 9, 1],
-                    [10, 12, 4],
-                ],
-            ],
-            [
-                [
-                    [12, 21, 6],
-                    [-3, 11, -6],
-                    [3, 6, -3],
-                ],
-                [
-                    [3, 7, 8],
-                    [4, 4, 2],
-                    [6, -4, 1],
-                ],
-                [
-                    [-1, -1, -5],
-                    [8, 15, 15],
-                    [8, 6, -12],
-                ],
-            ],
-            [
-                [
-                    [1, 2],
-                    [0, -1],
-                ],
-                [
-                    [0, -1],
-                    [1, 1],
-                ],
-                [
-                    [2, 8],
-                    [2, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 5, 3],
-                    [3, 6, 3],
-                    [6, 7, 8],
-                ],
-                [
-                    [6, 9, 9],
-                    [3, 5, 1],
-                    [3, 5, 12],
-                ],
-                [
-                    [6, 4, 9],
-                    [12, 3, -1],
-                    [10, 2, 15],
-                ],
-            ],
-            [
-                [
-                    [12, 21, 6],
-                    [-3, 11, -6],
-                    [3, 6, -3],
-                ],
-                [
-                    [3, 7, 8],
-                    [4, 4, 2],
-                    [6, -4, 1],
-                ],
-                [
-                    [1, 1, 5],
-                    [3, 4, 9],
-                    [3, 16, -2],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 3, 4, 5],
-                    [2, 3, 4, 5, 6],
-                    [4, 5, 6, 7, 8],
-                    [6, 5, 4, 5, 7],
-                ],
-                [
-                    [1, 2, 5, 5, 6],
-                    [2, 3, 5, 5, 6],
-                    [5, 4, 5, 5, 6],
-                    [3, 2, 5, 5, 6],
-                ],
-                [
-                    [5, 5, 7, 8, 9],
-                    [4, 4, 7, 8, 9],
-                    [7, 6, 7, 6, 7],
-                    [9, 9, 9, 0, 0],
-                ]
-            ],
-        ];
     }
 
     /**
@@ -1998,106 +1440,6 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($−A->isNegativeDefinite());
     }
 
-    public function dataProviderForPositiveDefiniteMatrix(): array
-    {
-        return [
-            [
-                [
-                    [2, -1],
-                    [-1, 2],
-                ],
-            ],
-            [
-                [
-                    [1, -1],
-                    [-1, 4],
-                ],
-            ],
-            [
-                [
-                    [5, 2],
-                    [2, 3],
-                ],
-            ],
-            [
-                [
-                    [6, 4],
-                    [4, 5],
-                ],
-            ],
-            [
-                [
-                    [12, -12],
-                    [-12, 96],
-                ],
-            ],
-            [
-                [
-                    [2, -1, 0],
-                    [-1, 2, -1],
-                    [0, -1, 2],
-                ],
-            ],
-            [
-                [
-                    [2, -1, 1],
-                    [-1, 2, -1],
-                    [1, -1, 2],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0],
-                    [0, 3, 0],
-                    [0, 0, 2],
-                ],
-            ],
-            [
-                [
-                    [3, -2, 0],
-                    [-2, 2, 0],
-                    [0, 0, 2],
-                ],
-            ],
-            [
-                [
-                    [4, 1, -1],
-                    [1, 2, 1],
-                    [-1, 1, 2],
-                ],
-            ],
-            [
-                [
-                    [9, -3, 3, 9],
-                    [-3, 17, -1, -7],
-                    [3, -1, 17, 15],
-                    [9, -7, 15, 44],
-                ],
-            ],
-            [
-                [
-                    [14, 4, 9],
-                    [4, 14, -7],
-                    [9, -7, 14],
-                ],
-            ],
-            [
-                [
-                    [13, 0, -3],
-                    [0, 9, 9],
-                    [-3, 9, 10],
-                ],
-            ],
-            [
-                [
-                    [14, -7, -13],
-                    [-7, 6, 5],
-                    [-13, 5, 14],
-                ],
-            ],
-        ];
-    }
-
     /**
      * @testCase Axiom: Positive semidefiniteness A is PSD ⇔ -A is NSD
      * If A is positive semidefinite, then -A is negative definite.
@@ -2111,85 +1453,6 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($A->isPositiveSemidefinite());
         $this->assertTrue($−A->isNegativeSemidefinite());
-    }
-
-    public function dataProviderForPositiveSemidefiniteMatrix(): array
-    {
-        return [
-            [
-                [
-                    [0, 0],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 0],
-                    [0, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 0],
-                    [0, 2],
-                ],
-            ],
-            [
-                [
-                    [1, 1],
-                    [1, 1],
-                ],
-            ],
-            [
-                [
-                    [2, -1],
-                    [-1, 2],
-                ],
-            ],
-            [
-                [
-                    [0, 0, 0],
-                    [0, 3, 0],
-                    [0, 0, 3],
-                ],
-            ],
-            [
-                [
-                    [2, -1, -1],
-                    [-1, 2, -1],
-                    [-1, -1, 2],
-                ],
-            ],
-            [
-                [
-                    [2, -1, 0],
-                    [-1, 2, -1],
-                    [0, -1, 2],
-                ],
-            ],
-            [
-                [
-                    [2, -1, 1],
-                    [-1, 2, -1],
-                    [1, -1, 2],
-                ],
-            ],
-            [
-                [
-                    [2, -1, 2],
-                    [-1, 2, -1],
-                    [2, -1, 2],
-                ],
-            ],
-            [
-                [
-                    [9, -3, 3, 9],
-                    [-3, 17, -1, -7],
-                    [3, -1, 17, 15],
-                    [9, -7, 15, 44],
-                ],
-            ],
-        ];
     }
 
     /**
@@ -2218,25 +1481,6 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($A->isNegativeDefinite());
         $this->assertTrue($A->isNegativeSemidefinite());
-    }
-
-    public function dataProviderForNegativeDefiniteMatrix(): array
-    {
-        return [
-            [
-                [
-                    [-1, 1],
-                    [1, -2],
-                ],
-            ],
-            [
-                [
-                    [-3, 0, 0],
-                    [0, -2, 0],
-                    [0, 0, -1],
-                ],
-            ],
-        ];
     }
 
     /**
@@ -2383,102 +1627,6 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($A->isPositiveDefinite());
         $this->assertTrue($B->isPositiveDefinite());
         $this->assertTrue($BAB->isPositiveDefinite());
-    }
-
-    public function dataProviderForTwoPositiveDefiniteMatrixes(): array
-    {
-        return [
-            [
-                [
-                    [2, -1],
-                    [-1, 2],
-                ],
-                [
-                    [1, -1],
-                    [-1, 4],
-                ],
-            ],
-            [
-                [
-                    [5, 2],
-                    [2, 3],
-                ],
-                [
-                    [6, 4],
-                    [4, 5],
-                ],
-            ],
-            [
-                [
-                    [12, -12],
-                    [-12, 96],
-                ],
-                [
-                    [6, 4],
-                    [4, 5],
-                ],
-            ],
-            [
-                [
-                    [2, -1, 0],
-                    [-1, 2, -1],
-                    [0, -1, 2],
-                ],
-                [
-                    [2, -1, 1],
-                    [-1, 2, -1],
-                    [1, -1, 2],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0],
-                    [0, 3, 0],
-                    [0, 0, 2],
-                ],
-                [
-                    [3, -2, 0],
-                    [-2, 2, 0],
-                    [0, 0, 2],
-                ],
-            ],
-            [
-                [
-                    [4, 1, -1],
-                    [1, 2, 1],
-                    [-1, 1, 2],
-                ],
-                [
-                    [3, -2, 0],
-                    [-2, 2, 0],
-                    [0, 0, 2],
-                ],
-            ],
-            [
-                [
-                    [14, 4, 9],
-                    [4, 14, -7],
-                    [9, -7, 14],
-                ],
-                [
-                    [13, 0, -3],
-                    [0, 9, 9],
-                    [-3, 9, 10],
-                ],
-            ],
-            [
-                [
-                    [14, -7, -13],
-                    [-7, 6, 5],
-                    [-13, 5, 14],
-                ],
-                [
-                    [13, 0, -3],
-                    [0, 9, 9],
-                    [-3, 9, 10],
-                ],
-            ],
-        ];
     }
 
     /**
@@ -2824,261 +1972,6 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         } else {
             $this->assertFalse($D->isInvertible());
         }
-    }
-
-    public function dataProviderForLowerTriangularMatrix(): array
-    {
-        return [
-            [
-                [
-                    [1],
-                ],
-            ],
-            [
-                [
-                    [0],
-                ],
-            ],
-            [
-                [
-                    [1, 0],
-                    [1, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0],
-                    [1, 1, 0],
-                    [1, 1, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0],
-                    [2, 3, 0],
-                    [4, 5, 6],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0],
-                    [2, 0, 0],
-                    [4, 5, 6],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0, 0],
-                    [1, 1, 0, 0],
-                    [1, 1, 1, 0],
-                    [1, 1, 1, 1],
-                ],
-            ],
-            [
-                [
-                    [5, 0, 0, 0],
-                    [-6, 1, 0, 0],
-                    [4, 6, 8, 0],
-                    [6, 7, 7, -1],
-                ],
-            ],
-            [
-                [
-                    [5, 0, 0, 0],
-                    [-6, 1, 0, 0],
-                    [4, 6, 0, 0],
-                    [6, 7, 7, -1],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0, 0, 0, 0],
-                    [1, 2, 0, 0, 0, 0],
-                    [1, 0, 3, 0, 0, 0],
-                    [1, 2, 0, 4, 0, 0],
-                    [1, 0, 0, 0, 5, 0],
-                    [1, 2, 3, 0, 0, 6],
-                ],
-            ],
-        ];
-    }
-
-    public function dataProviderForUpperTriangularMatrix(): array
-    {
-        return [
-            [
-                [
-                    [1],
-                ],
-            ],
-            [
-                [
-                    [0],
-                ],
-            ],
-            [
-                [
-                    [1, 1],
-                    [0, 1],
-                ]
-            ],
-            [
-                [
-                    [1, 2],
-                    [0, 4],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 3],
-                    [0, 4, 5],
-                    [0, 0, 6],
-                ],
-            ],
-            [
-                [
-                    [6, 5, 4],
-                    [0, 8, 8],
-                    [0, 0, 9],
-                ],
-            ],
-            [
-                [
-                    [6, 5, 4],
-                    [0, 8, 8],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 3, 4],
-                    [0, 4, 5, 6],
-                    [0, 0, 6, 7],
-                    [0, 0, 0, 8],
-                ],
-            ],
-            [
-                [
-                    [-1, 0, 0, 0, 0, 0],
-                    [0, 2, 0, 0, 0, 0],
-                    [0, 0, 3, 0, 0, 0],
-                    [0, 0, 0, 4, 0, 0],
-                    [0, 0, 0, 0, 5, 0],
-                    [0, 0, 0, 0, 0, 6],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0, 0, 0, 0],
-                    [0, 2, 0, 0, 0, 0],
-                    [0, 0, 3, 0, 0, 0],
-                    [0, 0, 0, 4, 0, 0],
-                    [0, 0, 0, 0, 5, 0],
-                    [0, 0, 0, 0, 0, 6],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0, 0, 0, 0],
-                    [0, 2, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 5, 0],
-                    [0, 0, 0, 0, 0, 6],
-                ],
-            ],
-        ];
-    }
-
-    public function dataProviderForDiagonalMatrix(): array
-    {
-        return [
-            [
-                [
-                    [0],
-                ],
-            ],
-            [
-                [
-                    [1],
-                ],
-            ],
-            [
-                [
-                    [1, 0],
-                    [0, 1],
-                ],
-            ],
-            [
-                [
-                    [-5, 0],
-                    [0, 3],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 0, 1, 0],
-                    [0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0, 0, 0],
-                    [0, 1, 0, 0, 0],
-                    [0, 0, 1, 0, 0],
-                    [0, 0, 0, 1, 0],
-                    [0, 0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0, 0, 0],
-                    [0, 2, 0, 0, 0],
-                    [0, 0, 3, 0, 0],
-                    [0, 0, 0, 4, 0],
-                    [0, 0, 0, 0, -6],
-                ],
-            ],
-            [
-                [
-                    [-1, 0, 0, 0, 0, 0],
-                    [0, 2, 0, 0, 0, 0],
-                    [0, 0, 3, 0, 0, 0],
-                    [0, 0, 0, 4, 0, 0],
-                    [0, 0, 0, 0, 5, 0],
-                    [0, 0, 0, 0, 0, 6],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0, 0, 0, 0],
-                    [0, 2, 0, 0, 0, 0],
-                    [0, 0, 3, 0, 0, 0],
-                    [0, 0, 0, 4, 0, 0],
-                    [0, 0, 0, 0, 5, 0],
-                    [0, 0, 0, 0, 0, 6],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0, 0, 0, 0],
-                    [0, 2, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 4, 0, 0],
-                    [0, 0, 0, 0, 5, 0],
-                    [0, 0, 0, 0, 0, 0],
-                ],
-            ],
-        ];
     }
 
     /**
