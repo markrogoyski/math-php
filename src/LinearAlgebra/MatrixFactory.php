@@ -50,9 +50,11 @@ class MatrixFactory
     /**************************************************************************
      * SPECIAL MATRICES - Not created from an Array
      *  - identity
+     *  - exchange
      *  - zero
      *  - one
      *  - eye
+     *  - hilbert
      **************************************************************************/
 
     /**
