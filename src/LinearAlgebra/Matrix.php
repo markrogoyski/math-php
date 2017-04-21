@@ -225,6 +225,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isUpperTriangular
      *  - isTriangular
      *  - isRef
+     *  - isRref
+     *  - isInvolutory
      **************************************************************************/
 
     /**
@@ -610,6 +612,21 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return true;
+    }
+
+    /**
+     * Is the matrix involutory?
+     * A matrix that is its own inverse. That is, multiplication by matrix A is an involution if and only if A² = I
+     * https://en.wikipedia.org/wiki/Involutory_matrix
+     *
+     * @return boolean true if matrix is involutory; false otherwise
+     */
+    public function isInvolutory(): bool
+    {
+        $I  = MatrixFactory::identity($this->m);
+        $A² = $this->multiply($this);
+
+        return $A²->getMatrix() === $I->getMatrix();
     }
 
     /**

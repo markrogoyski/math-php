@@ -33,6 +33,7 @@ trait MatrixDataProvider
      *  - dataProviderForThreeMatrices
      *  - dataProviderForSolve
      *  - dataProviderForTwoPositiveDefiniteMatrixes
+     *  - ProviderForInvolutoryMatrix
      **************************************************************************/
 
     public function dataProviderForSquareMatrix(): array
@@ -3684,6 +3685,39 @@ trait MatrixDataProvider
                     [13, 0, -3],
                     [0, 9, 9],
                     [-3, 9, 10],
+                ],
+            ],
+        ];
+    }
+
+    public function dataProviderForInvolutoryMatrix(): array
+    {
+        return [
+            [
+                [
+                    [1, 0],
+                    [0, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0],
+                    [0, 1, 0],
+                    [0, 0, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0],
+                    [0, 0, 1],
+                    [0, 1, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0],
+                    [0, -1, 0],
+                    [0, 0, -1],
                 ],
             ],
         ];

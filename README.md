@@ -424,6 +424,7 @@ $bool = $A->isTriangular();
 $bool = $A->isDiagonal();
 $bool = $A->isRef();
 $bool = $A->isRref();
+$bool = $A->isInvolutory();
 
 // Matrix decompositions
 $ref  = $A->ref();             // Row echelon form
