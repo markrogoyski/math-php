@@ -425,6 +425,7 @@ $bool = $A->isDiagonal();
 $bool = $A->isRef();
 $bool = $A->isRref();
 $bool = $A->isInvolutory();
+$bool = $A->isSignature();
 
 // Matrix decompositions
 $ref  = $A->ref();             // Row echelon form
