@@ -741,6 +741,6 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
     public function testHilbertExceptionNLessThanZero()
     {
         $this->setExpectedException(Exception\OutOfBoundsException::class);
-        MatrixFactory::exchange(-1);
+        MatrixFactory::hilbert(-1);
     }
 }

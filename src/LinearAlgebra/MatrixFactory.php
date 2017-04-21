@@ -257,7 +257,7 @@ class MatrixFactory
     public static function hilbert(int $n): SquareMatrix
     {
         if ($n < 1) {
-            throw new Exception\OutOfBoundsException("n must be > 0. m = $m");
+            throw new Exception\OutOfBoundsException("n must be > 0. m = $n");
         }
 
         $H = [];
