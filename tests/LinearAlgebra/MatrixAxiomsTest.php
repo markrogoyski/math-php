@@ -104,6 +104,7 @@ namespace MathPHP\LinearAlgebra;
  *    - RREF is upper triangular
  *  - Exchange matrix
  *    - Jᵀ = J
+ *    - J⁻¹ = J
  *    - tr(J) is 1 if n is odd, and 0 if n is even
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
@@ -1999,6 +2000,19 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
             $Jᵀ = $J->transpose();
             $this->assertEquals($J, $Jᵀ);
             $this->assertEquals($J->getMatrix(), $Jᵀ->getMatrix());
+        }
+    }
+
+    /**
+     * @testCase Axiom: J⁻¹ = J
+     * Inverse of an exchange matrix is itself
+     */
+    public function testInverseOfExchangeMatrix()
+    {
+        foreach (range(1, 20) as $n) {
+            $J  = MatrixFactory::exchange($n);
+            $J⁻¹ = $J->inverse();
+            $this->assertEquals($J->getMatrix(), $J⁻¹->getMatrix());
         }
     }
 
