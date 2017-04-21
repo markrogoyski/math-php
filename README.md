@@ -571,6 +571,10 @@ list($m, $k) = Integer::perfectPower($n);
 
 // Coprime
 $bool = Integer::coprime(4, 35);
+
+// Even and odd
+$bool = Integer::isEven($n);
+$bool = Integer::isOdd($n);
 ```
 
 ### Numerical Analysis - Interpolation
