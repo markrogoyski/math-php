@@ -459,4 +459,40 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($A->isInvolutory());
     }
+
+    /**
+     * @testCase     isInvolutory returns false for a non-Involutory matrix
+     * @dataProvider dataProviderForNotInvolutoryMatrix
+     * @param        array $A
+     */
+    public function testIsNotInvolutory(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isInvolutory());
+    }
+
+    /**
+     * @testCase     isSignature returns true for a Signature matrix
+     * @dataProvider dataProviderForSignatureMatrix
+     * @param        array $A
+     */
+    public function testIsSignature(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isSignature());
+    }
+
+    /**
+     * @testCase     isSignature returns false for a non-Signature matrix
+     * @dataProvider dataProviderForNotSignatureMatrix
+     * @param        array $A
+     */
+    public function testIsNotSignature(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isSignature());
+    }
 }

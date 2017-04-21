@@ -107,6 +107,8 @@ namespace MathPHP\LinearAlgebra;
  *    - Jᵀ = J
  *    - J⁻¹ = J
  *    - tr(J) is 1 if n is odd, and 0 if n is even
+ *  - Signature matrix
+ *    - A is involutory
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -2045,5 +2047,18 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
                 $this->assertEquals(0, $tr⟮J⟯);
             }
         }
+    }
+
+    /**
+     * @testCase Axiom: Signature matrix is involutory
+     * @dataProvider dataProviderForSignatureMatrix
+     * @param array $A
+     */
+    public function testSignatureMatrixIsInvolutory(array $A)
+    {
+        $A    = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isSignature());
+        $this->assertTrue($A->isInvolutory());
     }
 }

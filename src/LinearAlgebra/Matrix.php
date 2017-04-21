@@ -227,6 +227,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isRef
      *  - isRref
      *  - isInvolutory
+     *  - isSignature
      **************************************************************************/
 
     /**
@@ -627,6 +628,36 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $A² = $this->multiply($this);
 
         return $A²->getMatrix() === $I->getMatrix();
+    }
+
+    /**
+     * Is the matrix a signature matrix?
+     * A diagonal matrix whose diagonal elements are plus or minus 1.
+     * https://en.wikipedia.org/wiki/Signature_matrix
+     *
+     *     | ±1  0  0 |
+     * A = |  0 ±1  0 |
+     *     |  0  0 ±1 |
+     *
+     * @return boolean true if matrix is a signature matrix; false otherwise
+     */
+    public function isSignature(): bool
+    {
+        for ($i = 0; $i < $this->m; $i++) {
+            for ($j = 0; $j < $this->n; $j++) {
+                if ($i === $j) {
+                    if (!in_array($this->A[$i][$j], [-1, 1])) {
+                        return false;
+                    }
+                } else {
+                    if ($this->A[$i][$j] != 0) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
