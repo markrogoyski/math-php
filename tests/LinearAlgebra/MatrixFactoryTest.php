@@ -1,8 +1,12 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Exception;
+
 class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+
     /**
      * @dataProvider dataProviderForDiagonalMatrix
      */
@@ -719,5 +723,24 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
             [2, 2, 2, 1],
             [2, 2, 3, 1],
         ];
+    }
+
+    /**
+     * @testCase     hilbert creates the expected Hilbert matrix
+     * @dataProvider dataProviderForHilbertMatrix
+     * @param        int $n
+     * @param        array $H
+     */
+    public function testHilbertMatrix($n, $H)
+    {
+        $H = MatrixFactory::create($H);
+
+        $this->assertEquals($H, MatrixFactory::hilbert($n));
+    }
+
+    public function testHilbertExceptionNLessThanZero()
+    {
+        $this->setExpectedException(Exception\OutOfBoundsException::class);
+        MatrixFactory::exchange(-1);
     }
 }

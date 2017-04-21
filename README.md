@@ -457,6 +457,7 @@ $zero_matrix     = MatrixFactory::zero($m, $n);    // All zeros
 $ones_matrix     = MatrixFactory::one($m, $n);     // All ones
 $eye_matrix      = MatrixFactory::eye($m, $n, $k); // Ones (or other value) on the k-th diagonal
 $exchange_matrix = MatrixFactory::exchange($n);    // Ones on the reverse diagonal
+$hilbert_matrix  = MatrixFactory::hilbert($n);     // Square matrix with entries being the unit fractions
 
 // Vandermonde matrix
 $V = MatrixFactory::create([1, 2, 3], 4); // 4 x 3 Vandermonde matrix

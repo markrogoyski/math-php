@@ -37,6 +37,7 @@ trait MatrixDataProvider
      *  - dataProviderForNotInvolutoryMatrix
      *  - dataProviderForSignatureMatrix
      *  - dataProviderForNotSignatureMatrix
+     *  - dataProviderForHilbertMatrix
      **************************************************************************/
 
     public function dataProviderForSquareMatrix(): array
@@ -3951,6 +3952,50 @@ trait MatrixDataProvider
                     [-1, 0, 5],
                     [0, -1, 6],
                     [0, 0, -7],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @return array [n, matrix]
+     */
+    public function dataProviderForHilbertMatrix(): array
+    {
+        return [
+            [   1,
+                [
+                    [1],
+                ],
+            ],
+            [   2,
+                [
+                    [1, 1/2],
+                    [1/2, 1/3],
+                ],
+            ],
+            [   3,
+                [
+                    [1, 1/2, 1/3],
+                    [1/2, 1/3, 1/4],
+                    [1/3, 1/4, 1/5],
+                ],
+            ],
+            [   4,
+                [
+                    [1, 1/2, 1/3, 1/4],
+                    [1/2, 1/3, 1/4, 1/5],
+                    [1/3, 1/4, 1/5, 1/6],
+                    [1/4, 1/5, 1/6, 1/7]
+                ],
+            ],
+            [   5,
+                [
+                    [1, 1/2, 1/3, 1/4, 1/5],
+                    [1/2, 1/3, 1/4, 1/5, 1/6],
+                    [1/3, 1/4, 1/5, 1/6, 1/7],
+                    [1/4, 1/5, 1/6, 1/7, 1/8],
+                    [1/5, 1/6, 1/7, 1/8, 1/9],
                 ],
             ],
         ];

@@ -111,6 +111,9 @@ use MathPHP\NumberTheory\Integer;
  *    - tr(J) is 1 if n is odd, and 0 if n is even
  *  - Signature matrix
  *    - A is involutory
+ *  - Hilbert matrix
+ *    - H is symmetric
+ *    - H is positive definite
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -2062,5 +2065,27 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($A->isSignature());
         $this->assertTrue($A->isInvolutory());
+    }
+
+    /**
+     * @testCase Axiom: Hilbert matrix is symmetric
+     */
+    public function testHilbertMatrixIsSymmetric()
+    {
+        foreach (range(1, 10) as $n) {
+            $H = MatrixFactory::hilbert($n);
+            $this->assertTrue($H->isSymmetric());
+        }
+    }
+
+    /**
+     * @testCase Axiom: Hilbert matrix is positive definite
+     */
+    public function testHilbertMatrixIsPositiveDefinite()
+    {
+        foreach (range(1, 10) as $n) {
+            $H = MatrixFactory::hilbert($n);
+            $this->assertTrue($H->isPositiveDefinite());
+        }
     }
 }

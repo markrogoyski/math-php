@@ -236,6 +236,40 @@ class MatrixFactory
         return self::create($R);
     }
 
+    /**
+     * Hilbert matrix - a square matrix with entries being the unit fractions
+     * https://en.wikipedia.org/wiki/Hilbert_matrix
+     *
+     *           1
+     * Hij = ---------
+     *       i + j - 1
+     *
+     * Example: n = 5
+     *
+     *     [1 ½ ⅓ ¼ ⅕]
+     *     [½ ⅓ ¼ ⅕ ⅙]
+     * H = [⅓ ¼ ⅕ ⅙ ⅐]
+     *     [¼ ⅕ ⅙ ⅐ ⅛]
+     *     [⅕ ⅙ ⅐ ⅛ ⅑]
+     *
+     * @return SquareMatrix
+     */
+    public static function hilbert(int $n): SquareMatrix
+    {
+        if ($n < 1) {
+            throw new Exception\OutOfBoundsException("n must be > 0. m = $m");
+        }
+
+        $H = [];
+        for ($i = 1; $i <= $n; $i++) {
+            for ($j = 1; $j <= $n; $j++) {
+                $H[$i-1][$j-1] = 1 / ($i + $j - 1);
+            }
+        }
+
+        return self::create($H);
+    }
+
     /* ************************************************************************
      * PRIVATE HELPER METHODS
      * ***********************************************************************/
