@@ -447,4 +447,16 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($A->isRref());
     }
+
+    /**
+     * @testCase     isInvolutory returns true for a Involutory matrix
+     * @dataProvider dataProviderForInvolutoryMatrix
+     * @param        array $A
+     */
+    public function testIsInvolutory(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isInvolutory());
+    }
 }

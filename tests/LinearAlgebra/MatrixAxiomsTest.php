@@ -17,6 +17,7 @@ namespace MathPHP\LinearAlgebra;
  *    - r(AB) = (rA)B = A(rB)
  *  - Identity
  *    - AI = A = IA
+ *    - I is involutory
  *  - Inverse
  *    - AA⁻¹ = I = A⁻¹A
  *    - (A⁻¹)⁻¹ = A
@@ -424,6 +425,18 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($A->getMatrix(), $AI->getMatrix());
         $this->assertEquals($A->getMatrix(), $IA->getMatrix());
+    }
+
+    /**
+     * @testCase Axiom: I is involutory
+     * Identity matrix is involutory
+     */
+    public function testIdentityMatrixIsInvolutory()
+    {
+        foreach (range(1, 20) as $n) {
+            $A = MatrixFactory::identity($n);
+            $this->assertTrue($A->isInvolutory());
+        }
     }
 
     /**
