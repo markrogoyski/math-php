@@ -120,4 +120,28 @@ class Integer
     {
         return (Algebra::gcd($a, $b) === 1);
     }
+
+    /**
+     * Odd number
+     *
+     * @param  int $x
+     *
+     * @return bool true if x is odd; false otherwise
+     */
+    public static function isOdd(int $x): bool
+    {
+        return (abs($x) % 2) === 1;
+    }
+
+    /**
+     * Even number
+     *
+     * @param  int $x
+     *
+     * @return bool true if x is even; false otherwise
+     */
+    public static function isEven(int $x): bool
+    {
+        return (abs($x) % 2) === 0;
+    }
 }

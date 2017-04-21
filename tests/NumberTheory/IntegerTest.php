@@ -473,4 +473,44 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
             [21, 24],
         ];
     }
+
+    /**
+     * @testCase isOdd returns true for an odd number
+     */
+    public function testIsOdd()
+    {
+        foreach (range(-11, 101, 2) as $x) {
+            $this->assertTrue(Integer::isOdd($x));
+        }
+    }
+
+    /**
+     * @testCase isOdd returns false for an even number
+     */
+    public function testIsNotOdd()
+    {
+        foreach (range(-10, 100, 2) as $x) {
+            $this->assertFalse(Integer::isOdd($x));
+        }
+    }
+
+    /**
+     * @testCase isEven returns true for an even number
+     */
+    public function testIsEven()
+    {
+        foreach (range(-10, 100, 2) as $x) {
+            $this->assertTrue(Integer::isEven($x));
+        }
+    }
+
+    /**
+     * @testCase isEven returns false for an odd number
+     */
+    public function testIsNotEven()
+    {
+        foreach (range(-11, 101, 2) as $x) {
+            $this->assertFalse(Integer::isEven($x));
+        }
+    }
 }

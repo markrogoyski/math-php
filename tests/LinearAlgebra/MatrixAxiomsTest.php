@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\NumberTheory\Integer;
+
 /**
  * Tests of Matrix axioms
  * These tests don't test specific functions,
@@ -2041,7 +2043,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
             $J    = MatrixFactory::exchange($n);
             $tr⟮J⟯ = $J->trace();
 
-            if ($n % 2 == 1) {
+            if (Integer::isOdd($n)) {
                 $this->assertEquals(1, $tr⟮J⟯);
             } else {
                 $this->assertEquals(0, $tr⟮J⟯);
@@ -2056,7 +2058,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSignatureMatrixIsInvolutory(array $A)
     {
-        $A    = MatrixFactory::create($A);
+        $A = MatrixFactory::create($A);
 
         $this->assertTrue($A->isSignature());
         $this->assertTrue($A->isInvolutory());
