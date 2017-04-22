@@ -495,4 +495,87 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($A->isSignature());
     }
+
+    /**
+     * @testCase     isUpperBidiagonal returns true for an upper bidiagonal matrix
+     * @dataProvider dataProviderForUpperBidiagonalMatrix
+     * @param        array $A
+     */
+    public function testIsUpperBidiagonal(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isUpperBidiagonal());
+    }
+
+    /**
+     * @testCase     isUpperBidiagonal returns false for a non upper bidiagonal matrix
+     * @dataProvider dataProviderForNotUpperBidiagonalMatrix
+     * @param        array $A
+     */
+    public function testIsNotUpperBidiagonal(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isUpperBidiagonal());
+    }
+
+    /**
+     * @testCase     isLowerBidiagonal returns true for a lower bidiagonal matrix
+     * @dataProvider dataProviderForLowerBidiagonalMatrix
+     * @param        array $A
+     */
+    public function testIsLowerBidiagonal(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isLowerBidiagonal());
+    }
+
+    /**
+     * @testCase     isLowerBidiagonal returns false for a non lower bidiagonal matrix
+     * @dataProvider dataProviderForNotLowerBidiagonalMatrix
+     * @param        array $A
+     */
+    public function testIsNotLowerBidiagonal(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isLowerBidiagonal());
+    }
+
+    /**
+     * @testCase     isBidiagonal returns true for a lower bidiagonal matrix
+     * @dataProvider dataProviderForLowerBidiagonalMatrix
+     * @param        array $A
+     */
+    public function testLowerBidiagonalIsBidiagonal(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isBidiagonal());
+    }
+
+    /**
+     * @testCase     isBidiagonal returns true for an upper bidiagonal matrix
+     * @dataProvider dataProviderForUpperBidiagonalMatrix
+     * @param        array $A
+     */
+    public function testUpperBidiagonalIsBidiagonal(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isBidiagonal());
+    }
+    /**
+     * @testCase     isBidiagonal returns false for a non bidiagonal matrix
+     * @dataProvider dataProviderForNotBidiagonalMatrix
+     * @param        array $A
+     */
+    public function testIsNotBidiagonal(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isBidiagonal());
+    }
 }

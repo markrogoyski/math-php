@@ -661,6 +661,89 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Is the matrix upper bidiagonal?
+     *  - It is a square matrix
+     *  - Non-zero entries along the main diagonal
+     *  - Non-zero entries along the diagonal above the main diagonal
+     *  - All the other entries are zero
+     *
+     * https://en.wikipedia.org/wiki/Bidiagonal_matrix
+     *
+     * @return boolean true if upper bidiagonal; false otherwise
+     */
+    public function isUpperBidiagonal(): bool
+    {
+        if (!$this->isSquare() || !$this->isUpperTriangular()) {
+            return false;
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+
+        if ($m === 1 && $this->A[0][0] == 0) {
+            return false;
+        }
+
+        for ($i = 0; $i < $m - 1; $i++) {
+            if ($this->A[$i][$i+1] == 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix lower bidiagonal?
+     *  - It is a square matrix
+     *  - Non-zero entries along the main diagonal
+     *  - Non-zero entries along the diagonal below the main diagonal
+     *  - All the other entries are zero
+     *
+     * https://en.wikipedia.org/wiki/Bidiagonal_matrix
+     *
+     * @return boolean true if lower bidiagonal; false otherwise
+     */
+    public function isLowerBidiagonal(): bool
+    {
+        if (!$this->isSquare() || !$this->isLowerTriangular()) {
+            return false;
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+
+        if ($m === 1 && $this->A[0][0] == 0) {
+            return false;
+        }
+
+        for ($i = 1; $i < $m; $i++) {
+            if ($this->A[$i][$i-1] == 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix bidiagonal?
+     *  - It is a square matrix
+     *  - Non-zero entries along the main diagonal
+     *  - Non-zero entries along either the diagonal above or the diagonal below the main diagonal
+     *  - All the other entries are zero
+     *
+     * https://en.wikipedia.org/wiki/Bidiagonal_matrix
+     *
+     * @return boolean true if bidiagonal; false otherwise
+     */
+    public function isBidiagonal(): bool
+    {
+        return ($this->isUpperBidiagonal() || $this->isLowerBidiagonal());
+
+    }
+
+    /**
      * Is the matrix square and symmetric
      *
      * @return boolean true if square and symmmetric; false otherwise
