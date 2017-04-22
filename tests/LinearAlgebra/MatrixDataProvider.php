@@ -4093,7 +4093,7 @@ trait MatrixDataProvider
         ];
     }
 
-   public function dataProviderForNotUpperBidiagonalMatrix(): array
+    public function dataProviderForNotUpperBidiagonalMatrix(): array
     {
         return [
             [
@@ -4196,7 +4196,7 @@ trait MatrixDataProvider
         ];
     }
 
-   public function dataProviderForLowerBidiagonalMatrix(): array
+    public function dataProviderForLowerBidiagonalMatrix(): array
     {
         return [
             [

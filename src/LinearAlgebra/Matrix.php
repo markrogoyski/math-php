@@ -740,7 +740,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function isBidiagonal(): bool
     {
         return ($this->isUpperBidiagonal() || $this->isLowerBidiagonal());
-
     }
 
     /**
