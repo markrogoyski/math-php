@@ -110,8 +110,12 @@ list($a, $b, $c) = [1, 2, -8]; // x² + 2x - 8
 list($x₁, $x₂)   = Algebra::quadradic($a, $b, $c);
 
 // Cubic equation
-list($a, $b, $c, $d) = [2, 9, 3, -4]; // 2x³ + 9x² + 3x -4
-list($x₁, $x₂, $x₃)  = Algebra::cubic($a, $b, $c, $d);
+list($a₃, $a₂, $a₁, $a₀) = [2, 9, 3, -4]; // 2x³ + 9x² + 3x -4
+list($x₁, $x₂, $x₃)      = Algebra::cubic($a₃, $a₂, $a₁, $a₀);
+
+// Quartic equation
+list($a₄, $a₃, $a₂, $a₁, $a₀) = [1, -10, 35, -50, 24]; // z⁴ - 10z³ + 35z² - 50z + 24 = 0
+list($z₁, $z₂, $z₃, $z₄)      = Algebra::quartic($a₄, $a₃, $a₂, $a₁, $a₀);
 ```
 
 ### Arithmetic

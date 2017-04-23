@@ -359,7 +359,7 @@ class Algebra
 
     /**
      * Quartic equation
-     * An equation having the form: z⁴ + z³ + a₂z² + a₁z + a₀ = 0
+     * An equation having the form: a₄z⁴ + a₃z³ + a₂z² + a₁z + a₀ = 0
      * https://en.wikipedia.org/wiki/Quartic_function
      *
      * @param  number $a₄ z⁴ coefficient
