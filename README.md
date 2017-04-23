@@ -348,9 +348,10 @@ $rows  = $A->getM();      // number of rows
 $cols  = $A->getN();      // number of columns
 
 // Basic matrix elements (zero-based indexing)
-$row  = $A->getRow(2);
-$col  = $A->getColumn(2);
-$item = $A->get(2, 2);
+$row = $A->getRow(2);
+$col = $A->getColumn(2);
+$Aᵢⱼ = $A->get(2, 2);
+$Aᵢⱼ = $A[2][2];
 
 // Other representations of matrix data
 $vectors = $A->asVectors();           // array of column vectors
@@ -428,9 +429,10 @@ $bool = $A->isInvolutory();
 $bool = $A->isSignature();
 
 // Matrix decompositions
-$ref  = $A->ref();             // Row echelon form
-$rref = $A->rref();            // Reduced row echelon form
-$PLU  = $A->LUDecomposition(); // Returns array of Matrices [L, U, P, A]; P is permutation matrix
+$ref  = $A->ref();                   // Row echelon form
+$rref = $A->rref();                  // Reduced row echelon form
+$PLU  = $A->LUDecomposition();       // Returns array of Matrices [L, U, P, A]; P is permutation matrix
+$L    = $A->choleskyDecomposition(); // Returns lower triangular matrix L of A = LLᵀ
 
 // Solve a linear system of equations: Ax = b
 $b = new Vector(1, 2, 3);
