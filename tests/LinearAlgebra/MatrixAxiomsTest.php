@@ -114,6 +114,10 @@ use MathPHP\NumberTheory\Integer;
  *  - Hilbert matrix
  *    - H is symmetric
  *    - H is positive definite
+ *  - Cholesky decomposition
+ *    - A = LLᵀ
+ *    - L is lower triangular
+ *    - Lᵀ is upper triangular
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -2087,5 +2091,48 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
             $H = MatrixFactory::hilbert($n);
             $this->assertTrue($H->isPositiveDefinite());
         }
+    }
+
+    /**
+     * @testCase     Axiom: A = LLᵀ (Cholesky decomposition)
+     * @dataProvider dataProviderForPositiveDefiniteMatrix
+     * @param        array $A
+     */
+    public function testCholeskyDecompositionLTimesLTransposeIsA(array $A)
+    {
+        $A   = MatrixFactory::create($A);
+        $L   = $A->choleskyDecomposition();
+        $Lᵀ  = $L->transpose();
+        $LLᵀ = $L->multiply($Lᵀ);
+
+        $this->assertEquals($A, $LLᵀ);
+        $this->assertEquals($A->getMatrix(), $LLᵀ->getMatrix());
+    }
+
+    /**
+     * @testCase     Axiom: L is lower triangular (Cholesky decomposition)
+     * @dataProvider dataProviderForPositiveDefiniteMatrix
+     * @param        array $A
+     */
+    public function testCholeskyDecompositionLIsLowerTriangular(array $A)
+    {
+        $A = MatrixFactory::create($A);
+        $L = $A->choleskyDecomposition();
+
+        $this->assertTrue($L->isLowerTriangular());
+    }
+
+    /**
+     * @testCase     Axiom: Lᵀ is upper triangular (Cholesky decomposition)
+     * @dataProvider dataProviderForPositiveDefiniteMatrix
+     * @param        array $A
+     */
+    public function testCholeskyDecompositionLTransposeIsUpperTriangular(array $A)
+    {
+        $A  = MatrixFactory::create($A);
+        $L  = $A->choleskyDecomposition();
+        $Lᵀ = $L->transpose();
+
+        $this->assertTrue($Lᵀ->isUpperTriangular());
     }
 }
