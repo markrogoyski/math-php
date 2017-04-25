@@ -186,7 +186,7 @@ class RandomVariable
      *
      * @return number
      */
-    public static function SES(int $n)
+    public static function ses(int $n)
     {
         $６n⟮n − 1⟯           = 6 * $n * ($n - 1);
         $⟮n − 2⟯⟮n ＋ 1⟯⟮n ＋ 2⟯ = ($n - 2) * ($n + 1) * ($n + 3);
@@ -273,9 +273,9 @@ class RandomVariable
      *
      * @return number
      */
-    public static function SEK(int $n)
+    public static function sek(int $n)
     {
-        $２⟮SES⟯        = 2 * self::SES($n);
+        $２⟮SES⟯        = 2 * self::ses($n);
         $⟮n² − 1⟯       = $n**2 - 1;
         $⟮n − 3⟯⟮n ＋ 5⟯ = ($n - 3) * ($n + 5);
 

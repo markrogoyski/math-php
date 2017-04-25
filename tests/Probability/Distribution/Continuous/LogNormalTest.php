@@ -8,7 +8,7 @@ class LogNormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $μ, $σ, $pdf)
     {
-        $this->assertEquals($pdf, LogNormal::PDF($x, $μ, $σ), '', 0.001);
+        $this->assertEquals($pdf, LogNormal::pdf($x, $μ, $σ), '', 0.001);
     }
 
     public function dataProviderForPDF()
@@ -28,7 +28,7 @@ class LogNormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $μ, $σ, $cdf)
     {
-        $this->assertEquals($cdf, LogNormal::CDF($x, $μ, $σ), '', 0.001);
+        $this->assertEquals($cdf, LogNormal::cdf($x, $μ, $σ), '', 0.001);
     }
 
     public function dataProviderForCDF()

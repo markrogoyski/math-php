@@ -30,7 +30,7 @@ class Uniform extends Continuous
      * @param number $b upper boundary of the distribution
      * @param number $x percentile
      */
-    public static function PDF($a, $b, $x)
+    public static function pdf($a, $b, $x)
     {
         if ($x < $a || $x > $b) {
             return 0;
@@ -54,7 +54,7 @@ class Uniform extends Continuous
      * @param number $b upper boundary of the distribution
      * @param number $x percentile
      */
-    public static function CDF($a, $b, $x)
+    public static function cdf($a, $b, $x)
     {
         if ($x < $a) {
             return 0;

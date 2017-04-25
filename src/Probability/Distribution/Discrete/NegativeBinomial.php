@@ -35,7 +35,7 @@ class NegativeBinomial extends Discrete
      *
      * @return float
      */
-    public static function PMF(int $x, int $r, float $p): float
+    public static function pmf(int $x, int $r, float $p): float
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'r' => $r, 'p' => $p]);
      

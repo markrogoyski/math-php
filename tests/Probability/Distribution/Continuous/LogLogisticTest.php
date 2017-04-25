@@ -8,7 +8,7 @@ class LogLogisticTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $α, $β, $pdf)
     {
-        $this->assertEquals($pdf, LogLogistic::PDF($x, $α, $β), '', 0.001);
+        $this->assertEquals($pdf, LogLogistic::pdf($x, $α, $β), '', 0.001);
     }
 
     public function dataProviderForPDF()
@@ -25,7 +25,7 @@ class LogLogisticTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $α, $β, $cdf)
     {
-        $p = LogLogistic::CDF($x, $α, $β);
+        $p = LogLogistic::cdf($x, $α, $β);
         $this->assertEquals($cdf, $p, '', 0.001);
         $this->assertEquals($x, LogLogistic::inverse($p, $α, $β), '', 0.001);
     }

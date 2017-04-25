@@ -8,7 +8,7 @@ class WeibullTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $k, $λ, $pdf)
     {
-        $this->assertEquals($pdf, Weibull::PDF($x, $k, $λ), '', 0.001);
+        $this->assertEquals($pdf, Weibull::pdf($x, $k, $λ), '', 0.001);
     }
 
     public function dataProviderForPDF()
@@ -32,7 +32,7 @@ class WeibullTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $k, $λ, $cdf)
     {
-        $p = Weibull::CDF($x, $k, $λ);
+        $p = Weibull::cdf($x, $k, $λ);
         $this->assertEquals($cdf, $p, '', 0.001);
         if ($x >= 0) {
             $this->assertEquals($x, Weibull::inverse($p, $k, $λ), '', 0.001);

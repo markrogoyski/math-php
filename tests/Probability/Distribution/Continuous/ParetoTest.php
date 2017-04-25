@@ -8,7 +8,7 @@ class ParetoTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $a, $b, $pdf)
     {
-        $this->assertEquals($pdf, Pareto::PDF($x, $a, $b), '', 0.01);
+        $this->assertEquals($pdf, Pareto::pdf($x, $a, $b), '', 0.01);
     }
 
     public function dataProviderForPDF()
@@ -28,7 +28,7 @@ class ParetoTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($a, $b, $x, $cdf)
     {
-        $this->assertEquals($cdf, Pareto::CDF($a, $b, $x), '', 0.01);
+        $this->assertEquals($cdf, Pareto::cdf($a, $b, $x), '', 0.01);
     }
 
     public function dataProviderForCDF()

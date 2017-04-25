@@ -36,7 +36,7 @@ class Normal extends Continuous
      *
      * @return float f(x|μ,σ)
      */
-    public static function PDF($x, $μ, $σ): float
+    public static function pdf($x, $μ, $σ): float
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
 
@@ -65,7 +65,7 @@ class Normal extends Continuous
      *
      * @return float cdf(x) below
      */
-    public static function CDF($x, $μ, $σ): float
+    public static function cdf($x, $μ, $σ): float
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
 

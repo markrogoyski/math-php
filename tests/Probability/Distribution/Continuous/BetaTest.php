@@ -8,7 +8,7 @@ class BetaTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $α, $β, $pdf)
     {
-        $this->assertEquals($pdf, Beta::PDF($x, $α, $β), '', 0.001);
+        $this->assertEquals($pdf, Beta::pdf($x, $α, $β), '', 0.001);
     }
 
     public function dataProviderForPDF()
@@ -48,14 +48,14 @@ class BetaTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\Exception');
         list($x, $α, $β) = [4, 0, -3];
-        Beta::PDF($x, $α, $β);
+        Beta::pdf($x, $α, $β);
     }
 
     public function testPDFExceptionXOutOfBounds()
     {
         $this->setExpectedException('\Exception');
         list($x, $α, $β) = [4, 1, 1];
-        Beta::PDF($x, $α, $β);
+        Beta::pdf($x, $α, $β);
     }
 
     /**
@@ -63,7 +63,7 @@ class BetaTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $α, $β, $cdf)
     {
-        $this->assertEquals($cdf, Beta::CDF($x, $α, $β), '', 0.001);
+        $this->assertEquals($cdf, Beta::cdf($x, $α, $β), '', 0.001);
     }
 
     public function dataProviderForCDF()

@@ -40,7 +40,7 @@ class Cauchy extends Continuous
      *
      * @return number
      */
-    public static function PDF($x, $x₀, $γ)
+    public static function pdf($x, $x₀, $γ)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'x₀' => $x₀, 'γ' => $γ]);
 
@@ -58,7 +58,7 @@ class Cauchy extends Continuous
      *
      * @return number
      */
-    public static function CDF($x, $x₀, $γ)
+    public static function cdf($x, $x₀, $γ)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'x₀' => $x₀, 'γ' => $γ]);
 

@@ -165,7 +165,7 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     public function testCI(array $points, $x, $p, $ci)
     {
         $regression = new Linear($points);
-        $this->assertEquals($ci, $regression->CI($x, $p), '', .0000001);
+        $this->assertEquals($ci, $regression->ci($x, $p), '', .0000001);
     }
     
     public function dataProviderForCI()
@@ -192,7 +192,7 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     public function testPI(array $points, $x, $p, $q, $pi)
     {
         $regression = new Linear($points);
-        $this->assertEquals($pi, $regression->PI($x, $p, $q), '', .0000001);
+        $this->assertEquals($pi, $regression->pi($x, $p, $q), '', .0000001);
     }
     
     public function dataProviderForPI()
@@ -219,7 +219,7 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     public function testFProbability(array $points, $probability)
     {
         $regression = new Linear($points);
-        $Fprob = $regression->FProbability();
+        $Fprob = $regression->fProbability();
         $this->assertEquals($probability, $Fprob, '', .0000001);
     }
     
@@ -332,7 +332,7 @@ class LinearTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($sums['mse'], $regression->meanSquareResidual(), '', .0000001);
         $this->assertEquals($sums['msr'], $regression->meanSquareRegression(), '', .0000001);
         $this->assertEquals($sums['mst'], $regression->meanSquareTotal(), '', .0000001);
-        $this->assertEquals($sums['sd'], $regression->errorSD(), '', .0000001);
+        $this->assertEquals($sums['sd'], $regression->errorSd(), '', .0000001);
     }
     
     public function dataProviderForMeanSquares()
@@ -358,7 +358,7 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     {
         $regression = new Linear($points);
         $test_cook = $regression->cooksD();
-        $test_dffits = $regression->DFFITS();
+        $test_dffits = $regression->dffits();
         foreach ($test_cook as $key => $value) {
             $this->assertEquals($value, $cook[$key], '', .0000001);
         }

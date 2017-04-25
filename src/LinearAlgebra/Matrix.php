@@ -2545,7 +2545,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @throws MatrixException if matrix is not square
      */
-    public function LUDecomposition(): array
+    public function luDecomposition(): array
     {
         if (!$this->isSquare()) {
             throw new Exception\MatrixException('LU decomposition only works on square matrices');
@@ -2789,7 +2789,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         // No inverse or RREF pre-computed.
         // Use LU Decomposition.
-        $this->LUDecomposition();
+        $this->luDecomposition();
         $L = $this->L;
         $U = $this->U;
         $P = $this->P;

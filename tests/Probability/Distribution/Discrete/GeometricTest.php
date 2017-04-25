@@ -8,7 +8,7 @@ class GeometricTest extends \PHPUnit_Framework_TestCase
      */
     public function testPMF(int $k, float $p, float $pmf)
     {
-        $this->assertEquals($pmf, Geometric::PMF($k, $p), '', 0.001);
+        $this->assertEquals($pmf, Geometric::pmf($k, $p), '', 0.001);
     }
 
     public function dataProviderForPMF()
@@ -31,7 +31,7 @@ class GeometricTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF(int $k, float $p, float $cdf)
     {
-        $this->assertEquals($cdf, Geometric::CDF($k, $p), '', 0.001);
+        $this->assertEquals($cdf, Geometric::cdf($k, $p), '', 0.001);
     }
 
     public function dataProviderForCDF()

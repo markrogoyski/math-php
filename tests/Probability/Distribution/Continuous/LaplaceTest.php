@@ -8,7 +8,7 @@ class LaplaceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $μ, $b, $pdf)
     {
-        $this->assertEquals($pdf, Laplace::PDF($x, $μ, $b), '', 0.001);
+        $this->assertEquals($pdf, Laplace::pdf($x, $μ, $b), '', 0.001);
     }
 
     public function dataProviderForPDF()
@@ -29,7 +29,7 @@ class LaplaceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($μ, $b, $x, $cdf)
     {
-        $this->assertEquals($cdf, Laplace::CDF($μ, $b, $x), '', 0.001);
+        $this->assertEquals($cdf, Laplace::cdf($μ, $b, $x), '', 0.001);
     }
 
     public function dataProviderForCDF()

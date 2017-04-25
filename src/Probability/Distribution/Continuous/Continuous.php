@@ -31,10 +31,10 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
         while ($dif > $tolerance) {
             // load the guess into the arguments
             $params[0] = $guess;
-            $y         = static::CDF(...$params);
+            $y         = static::cdf(...$params);
             
             // Since the CDF is the integral of the PDF, the PDF is the derivative of the CDF
-            $slope = static::PDF(...$params);
+            $slope = static::pdf(...$params);
             $del_y = $target - $y;
             $guess = $del_y / $slope + $guess;
             $dif   = abs($del_y);
@@ -56,8 +56,8 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      */
     public static function between($x₁, $x₂, ...$params)
     {
-        $upper_area = static::CDF($x₂, ...$params);
-        $lower_area = static::CDF($x₁, ...$params);
+        $upper_area = static::cdf($x₂, ...$params);
+        $lower_area = static::cdf($x₁, ...$params);
         return $upper_area - $lower_area;
     }
   
@@ -91,7 +91,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      */
     public static function above($x, ...$params)
     {
-        return 1 - static::CDF($x, ...$params);
+        return 1 - static::cdf($x, ...$params);
     }
     
     /**

@@ -8,7 +8,7 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($t, $ν, $pdf)
     {
-        $this->assertEquals($pdf, StudentT::PDF($t, $ν), '', 0.00001);
+        $this->assertEquals($pdf, StudentT::pdf($t, $ν), '', 0.00001);
     }
 
     public function dataProviderForPDF()
@@ -40,7 +40,7 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($t, $ν, $cdf)
     {
-        $this->assertEquals($cdf, StudentT::CDF($t, $ν), '', 0.00001);
+        $this->assertEquals($cdf, StudentT::cdf($t, $ν), '', 0.00001);
     }
 
     public function dataProviderForCDF()

@@ -1,12 +1,14 @@
 <?php
 namespace MathPHP\Probability\Distribution\Discrete;
 
+/**
+ * Pascal distribution (convenience class for negative binomial distribution)
+ * https://en.wikipedia.org/wiki/Negative_binomial_distribution
+ */
 class Pascal extends Discrete
 {
     /**
-     * Pascal distribution (convenience method for negative binomial distribution)
      * Probability mass function
-     * https://en.wikipedia.org/wiki/Negative_binomial_distribution
      *
      * b(x; r, P) = ₓ₋₁Cᵣ₋₁ pʳ * (1 - P)ˣ⁻ʳ
      *
@@ -16,8 +18,8 @@ class Pascal extends Discrete
      *
      * @return float
      */
-    public static function PMF(int $x, int $r, float $P): float
+    public static function pmf(int $x, int $r, float $P): float
     {
-        return NegativeBinomial::PMF($x, $r, $P);
+        return NegativeBinomial::pmf($x, $r, $P);
     }
 }

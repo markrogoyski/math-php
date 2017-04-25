@@ -884,7 +884,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $LUP = $A->LUDecomposition();
+        $LUP = $A->luDecomposition();
 
         $L   = $LUP['L'];
         $U   = $LUP['U'];
@@ -905,7 +905,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $LUP = $A->LUDecomposition();
+        $LUP = $A->luDecomposition();
 
         $L   = $LUP['L'];
         $U   = $LUP['U'];
@@ -925,7 +925,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $LUP = $A->LUDecomposition();
+        $LUP = $A->luDecomposition();
 
         $P  = $LUP['P'];
         $Pᵀ = $P->transpose();
@@ -949,7 +949,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $LUP = $A->LUDecomposition();
+        $LUP = $A->luDecomposition();
         $L   = $LUP['L'];
         $U   = $LUP['U'];
         $P   = $LUP['P'];
@@ -975,7 +975,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $LUP = $A->LUDecomposition();
+        $LUP = $A->luDecomposition();
         $P   = $LUP['P'];
         $P⁻¹ = $P->inverse();
         $Pᵀ  = $P->transpose();

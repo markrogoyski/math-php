@@ -424,7 +424,7 @@ class Descriptive
      *
      * @return number
      */
-    public static function IQR(array $numbers, string $method = 'exclusive')
+    public static function iqr(array $numbers, string $method = 'exclusive')
     {
         return self::quartiles($numbers, $method)['IQR'];
     }

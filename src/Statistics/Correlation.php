@@ -214,7 +214,7 @@ class Correlation
      *
      * @return number
      */
-    public static function R2(array $X, array $Y, bool $popluation = false)
+    public static function r2(array $X, array $Y, bool $popluation = false)
     {
         return pow(self::r($X, $Y, $popluation), 2);
     }
@@ -451,7 +451,7 @@ class Correlation
         return [
             'cov' => self::covariance($X, $Y, $population),
             'r'   => self::r($X, $Y, $population),
-            'R2'  => self::R2($X, $Y, $population),
+            'r2'  => self::r2($X, $Y, $population),
             'tau' => self::kendallsTau($X, $Y),
             'rho' => self::spearmansRho($X, $Y),
         ];

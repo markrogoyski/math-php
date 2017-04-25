@@ -8,7 +8,7 @@ class NormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $μ, $σ, $pdf)
     {
-        $this->assertEquals($pdf, Normal::PDF($x, $μ, $σ), '', 0.001);
+        $this->assertEquals($pdf, Normal::pdf($x, $μ, $σ), '', 0.001);
     }
 
     public function dataProviderForPDF()
@@ -25,7 +25,7 @@ class NormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $μ, $σ, $probability)
     {
-        $this->assertEquals($probability, Normal::CDF($x, $μ, $σ), '', 0.001);
+        $this->assertEquals($probability, Normal::cdf($x, $μ, $σ), '', 0.001);
     }
 
     public function dataProviderForCDF()

@@ -35,7 +35,7 @@ class ChiSquared extends Continuous
      *
      * @return number probability
      */
-    public static function PDF($x, int $k)
+    public static function pdf($x, int $k)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'k' => $k]);
 
@@ -68,7 +68,7 @@ class ChiSquared extends Continuous
      *
      * @return number cumulative probability
      */
-    public static function CDF($x, int $k)
+    public static function cdf($x, int $k)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'k' => $k]);
 

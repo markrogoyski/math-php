@@ -36,7 +36,7 @@ class Beta extends Continuous
      *
      * @return float
      */
-    public static function PDF($x, $α, $β)
+    public static function pdf($x, $α, $β)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
 
@@ -57,7 +57,7 @@ class Beta extends Continuous
      *
      * @return float
      */
-    public static function CDF($x, $α, $β)
+    public static function cdf($x, $α, $β)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
 

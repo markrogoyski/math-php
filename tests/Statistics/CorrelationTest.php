@@ -281,12 +281,12 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_array($stats));
         $this->assertArrayHasKey('cov', $stats);
         $this->assertArrayHasKey('r', $stats);
-        $this->assertArrayHasKey('R2', $stats);
+        $this->assertArrayHasKey('r2', $stats);
         $this->assertArrayHasKey('tau', $stats);
         $this->assertArrayHasKey('rho', $stats);
         $this->assertTrue(is_numeric($stats['cov']));
         $this->assertTrue(is_numeric($stats['r']));
-        $this->assertTrue(is_numeric($stats['R2']));
+        $this->assertTrue(is_numeric($stats['r2']));
         $this->assertTrue(is_numeric($stats['tau']));
         $this->assertTrue(is_numeric($stats['rho']));
     }

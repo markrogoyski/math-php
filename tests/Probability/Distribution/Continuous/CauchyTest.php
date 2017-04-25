@@ -8,7 +8,7 @@ class CauchyTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $x₀, $γ, $pdf)
     {
-        $this->assertEquals($pdf, Cauchy::PDF($x, $x₀, $γ), '', 0.0001);
+        $this->assertEquals($pdf, Cauchy::pdf($x, $x₀, $γ), '', 0.0001);
     }
 
     public function dataProviderForPDF()
@@ -28,7 +28,7 @@ class CauchyTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $x₀, $γ, $cdf)
     {
-        $p = Cauchy::CDF($x, $x₀, $γ);
+        $p = Cauchy::cdf($x, $x₀, $γ);
         $this->assertEquals($cdf, $p, '', 0.0001);
         $this->assertEquals($x, Cauchy::inverse($p, $x₀, $γ), '', 0.0001);
     }

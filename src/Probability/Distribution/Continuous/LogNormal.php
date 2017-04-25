@@ -34,7 +34,7 @@ class LogNormal extends Continuous
      * @param  number $σ scale parameter > 0
      * @return number
      */
-    public static function PDF($x, $μ, $σ)
+    public static function pdf($x, $μ, $σ)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
 
@@ -58,7 +58,7 @@ class LogNormal extends Continuous
      * @param  number $σ scale parameter > 0
      * @return number
      */
-    public static function CDF($x, $μ, $σ)
+    public static function cdf($x, $μ, $σ)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
 

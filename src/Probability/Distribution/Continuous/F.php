@@ -43,7 +43,7 @@ class F extends Continuous
      *
      * @return number probability
      */
-    public static function PDF($x, int $d₁, int $d₂)
+    public static function pdf($x, int $d₁, int $d₂)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'd₁' => $d₁, 'd₂' => $d₂]);
 
@@ -75,7 +75,7 @@ class F extends Continuous
      *
      * @return number
      */
-    public static function CDF($x, int $d₁, int $d₂)
+    public static function cdf($x, int $d₁, int $d₂)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'd₁' => $d₁, 'd₂' => $d₂]);
 

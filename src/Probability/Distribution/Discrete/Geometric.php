@@ -3,6 +3,11 @@ namespace MathPHP\Probability\Distribution\Discrete;
 
 use MathPHP\Functions\Support;
 
+/**
+ * Geometric distribution
+ *
+ * https://en.wikipedia.org/wiki/Geometric_distribution
+ */
 class Geometric extends Discrete
 {
     /**
@@ -17,11 +22,10 @@ class Geometric extends Discrete
     ];
 
     /**
-     * Geometric distribution - probability mass function
+     * Probability mass function
      *
      * The probability distribution of the number Y = X − 1 of failures
      * before the first success, supported on the set { 0, 1, 2, 3, ... }
-     * https://en.wikipedia.org/wiki/Geometric_distribution
      *
      * k failures where k ∈ {0, 1, 2, 3, ...}
      *
@@ -32,7 +36,7 @@ class Geometric extends Discrete
      *
      * @return float
      */
-    public static function PMF(int $k, float $p): float
+    public static function pmf(int $k, float $p): float
     {
         Support::checkLimits(self::LIMITS, ['k' => $k, 'p' => $p]);
 
@@ -41,11 +45,10 @@ class Geometric extends Discrete
     }
 
     /**
-     * Geometric distribution - cumulative distribution function (lower cumulative)
+     * Cumulative distribution function (lower cumulative)
      *
      * The probability distribution of the number Y = X − 1 of failures
      * before the first success, supported on the set { 0, 1, 2, 3, ... }
-     * https://en.wikipedia.org/wiki/Geometric_distribution
      *
      * k failures where k ∈ {0, 1, 2, 3, ...}
      *
@@ -56,7 +59,7 @@ class Geometric extends Discrete
      *
      * @return float
      */
-    public static function CDF(int $k, float $p): float
+    public static function cdf(int $k, float $p): float
     {
         Support::checkLimits(self::LIMITS, ['k' => $k, 'p' => $p]);
 

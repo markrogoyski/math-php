@@ -7,7 +7,7 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @testCase     gcd returns the greatest common divisor of two integers.
-     * @dataProvider dataProviderForGCD
+     * @dataProvider dataProviderForGcd
      */
     public function testGCD(int $a, int $b, int $gcd, int $_, int $__)
     {
@@ -16,14 +16,14 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @testCase     extendedGCD returns the extended greatest common divisor of two integers.
-     * @dataProvider dataProviderForGCD
+     * @dataProvider dataProviderForGcd
      */
-    public function testExtendedGCD(int $a, int $b, int $gcd, int $alpha, int $beta)
+    public function testExtendedGcd(int $a, int $b, int $gcd, int $alpha, int $beta)
     {
-        $this->assertEquals([$gcd, $alpha, $beta], Algebra::extendedGCD($a, $b));
+        $this->assertEquals([$gcd, $alpha, $beta], Algebra::extendedGcd($a, $b));
     }
 
-    public function dataProviderForGCD()
+    public function dataProviderForGcd()
     {
         return [
             [0, 0, 0, 0, 1],
@@ -48,14 +48,14 @@ class AlgebraTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @testCase     lcm returns the least-common multiple of two integers.
-     * @dataProvider dataProviderForLCM
+     * @dataProvider dataProviderForLcm
      */
     public function testLCM(int $a, int $b, int $lcm)
     {
         $this->assertEquals($lcm, Algebra::lcm($a, $b));
     }
 
-    public function dataProviderForLCM()
+    public function dataProviderForLcm()
     {
         return [
             [0, 0, 0],

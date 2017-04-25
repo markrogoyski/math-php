@@ -5,9 +5,9 @@ class StandardNormalTest extends \PHPUnit_Framework_TestCase
 {
     public function testPDF()
     {
-        $this->assertEquals(Normal::PDF(1, 0, 1), StandardNormal::PDF(1));
-        $this->assertEquals(Normal::PDF(5, 0, 1), StandardNormal::PDF(5));
-        $this->assertEquals(Normal::PDF(10.23, 0, 1), StandardNormal::PDF(10.23));
+        $this->assertEquals(Normal::pdf(1, 0, 1), StandardNormal::pdf(1));
+        $this->assertEquals(Normal::pdf(5, 0, 1), StandardNormal::pdf(5));
+        $this->assertEquals(Normal::pdf(10.23, 0, 1), StandardNormal::pdf(10.23));
     }
 
     /**
@@ -17,8 +17,8 @@ class StandardNormalTest extends \PHPUnit_Framework_TestCase
     {
         $μ = 0;
         $σ = 1;
-        $this->assertEquals($cdf, StandardNormal::CDF($z), '', 0.0001);
-        $this->assertEquals(Normal::CDF($z, $μ, $σ), StandardNormal::CDF($z));
+        $this->assertEquals($cdf, StandardNormal::cdf($z), '', 0.0001);
+        $this->assertEquals(Normal::cdf($z, $μ, $σ), StandardNormal::cdf($z));
     }
 
     public function dataProviderForCDF()

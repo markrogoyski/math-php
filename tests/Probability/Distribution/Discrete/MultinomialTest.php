@@ -8,7 +8,7 @@ class MultinomialTest extends \PHPUnit_Framework_TestCase
      */
     public function testPMF(array $frequencies, array $probabilities, $pmf)
     {
-        $this->assertEquals($pmf, Multinomial::PMF($frequencies, $probabilities), '', 0.001);
+        $this->assertEquals($pmf, Multinomial::pmf($frequencies, $probabilities), '', 0.001);
     }
 
     public function dataProviderForPMF()
@@ -26,12 +26,12 @@ class MultinomialTest extends \PHPUnit_Framework_TestCase
     public function testPMFExceptionCountFrequenciesAndProbabilitiesDoNotMatch()
     {
         $this->setExpectedException('MathPHP\Exception\BadDataException');
-        Multinomial::PMF([1, 2,3], [0.3, 0.4, 0.2, 0.1]);
+        Multinomial::pmf([1, 2,3], [0.3, 0.4, 0.2, 0.1]);
     }
 
     public function testPMFExceptionProbabilitiesDoNotAddUpToOne()
     {
         $this->setExpectedException('MathPHP\Exception\BadDataException');
-        Multinomial::PMF([1, 2,3], [0.3, 0.2, 0.1]);
+        Multinomial::pmf([1, 2,3], [0.3, 0.2, 0.1]);
     }
 }

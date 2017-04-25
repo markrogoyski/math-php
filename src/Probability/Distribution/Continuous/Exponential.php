@@ -31,7 +31,7 @@ class Exponential extends Continuous
      *
      * @return float
      */
-    public static function PDF(float $x, float $λ): float
+    public static function pdf(float $x, float $λ): float
     {
         if ($x < 0) {
             return 0;
@@ -51,7 +51,7 @@ class Exponential extends Continuous
      *
      * @return float
      */
-    public static function CDF(float $x, float $λ): float
+    public static function cdf(float $x, float $λ): float
     {
         if ($x < 0) {
             return 0;

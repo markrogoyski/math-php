@@ -38,7 +38,7 @@ class StudentT extends Continuous
      * @param number $x percentile
      * @param int    $ν degrees of freedom > 0
      */
-    public static function PDF($x, int $ν)
+    public static function pdf($x, int $ν)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν]);
 
@@ -71,7 +71,7 @@ class StudentT extends Continuous
      * @param number $t t score
      * @param int    $ν degrees of freedom > 0
      */
-    public static function CDF($t, int $ν)
+    public static function cdf($t, int $ν)
     {
         Support::checkLimits(self::LIMITS, ['t' => $t, 'ν' => $ν]);
 

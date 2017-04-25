@@ -396,7 +396,7 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
      */
     public function testIQR(array $numbers, $IQR)
     {
-        $this->assertEquals($IQR, Descriptive::IQR($numbers));
+        $this->assertEquals($IQR, Descriptive::iqr($numbers));
     }
 
     public function dataProviderForIQR()

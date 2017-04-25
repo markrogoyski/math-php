@@ -4,6 +4,14 @@ namespace MathPHP\Probability\Distribution\Discrete;
 use MathPHP\Probability\Combinatorics;
 use MathPHP\Functions\Support;
 
+/**
+ * Poisson distribution
+ * A discrete probability distribution that expresses the probability of a given number of events
+ * occurring in a fixed interval of time and/or space if these events occur with a known average
+ * rate and independently of the time since the last event.
+ *
+ * https://en.wikipedia.org/wiki/Poisson_distribution
+ */
 class Poisson extends Discrete
 {
     /**
@@ -18,11 +26,7 @@ class Poisson extends Discrete
     ];
 
     /**
-     * Poisson distribution - probability mass function
-     * A discrete probability distribution that expresses the probability of a given number of events
-     * occurring in a fixed interval of time and/or space if these events occur with a known average
-     * rate and independently of the time since the last event.
-     * https://en.wikipedia.org/wiki/Poisson_distribution
+     * Probability mass function
      *
      *                              λᵏℯ^⁻λ
      * P(k events in an interval) = ------
@@ -33,7 +37,7 @@ class Poisson extends Discrete
      *
      * @return float The Poisson probability of observing k successful events in an interval
      */
-    public static function PMF(int $k, float $λ): float
+    public static function pmf(int $k, float $λ): float
     {
         Support::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
 
@@ -57,13 +61,13 @@ class Poisson extends Discrete
      *
      * @return float The cumulative Poisson probability
      */
-    public static function CDF(int $k, float $λ): float
+    public static function cdf(int $k, float $λ): float
     {
         Support::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
 
         return array_sum(array_map(
             function ($k) use ($λ) {
-                return self::PMF($k, $λ);
+                return self::pmf($k, $λ);
             },
             range(0, $k)
         ));

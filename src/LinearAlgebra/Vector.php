@@ -37,7 +37,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *  - getN
      *  - get
      *  - asColumnMatrix
-     *  - as RowMatrix
+     *  - asRowMatrix
      **************************************************************************/
 
     /**

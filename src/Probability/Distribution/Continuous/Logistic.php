@@ -41,7 +41,7 @@ class Logistic extends Continuous
      *
      * @return float
      */
-    public static function PDF($x, $μ, $s)
+    public static function pdf($x, $μ, $s)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
 
@@ -64,7 +64,7 @@ class Logistic extends Continuous
      *
      * @return float
      */
-    public static function CDF($x, $μ, $s)
+    public static function cdf($x, $μ, $s)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
 

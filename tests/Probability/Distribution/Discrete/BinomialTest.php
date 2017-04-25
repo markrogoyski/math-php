@@ -8,7 +8,7 @@ class BinomialTest extends \PHPUnit_Framework_TestCase
      */
     public function testPMF(int $n, int $r, float $p, float $pmf)
     {
-        $this->assertEquals($pmf, Binomial::PMF($n, $r, $p), '', 0.001);
+        $this->assertEquals($pmf, Binomial::pmf($n, $r, $p), '', 0.001);
     }
 
     /**
@@ -34,7 +34,7 @@ class BinomialTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF(int $n, int $r, float $p, float $cdf)
     {
-        $this->assertEquals($cdf, Binomial::CDF($n, $r, $p), '', 0.001);
+        $this->assertEquals($cdf, Binomial::cdf($n, $r, $p), '', 0.001);
     }
 
     /**

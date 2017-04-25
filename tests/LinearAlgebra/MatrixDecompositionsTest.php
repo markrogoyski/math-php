@@ -16,14 +16,14 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
         $U = MatrixFactory::create($U);
         $P = MatrixFactory::create($P);
 
-        $LU = $A->LUDecomposition();
+        $LU = $A->luDecomposition();
 
         $this->assertEquals($L, $LU['L'], '', 0.001);
         $this->assertEquals($U, $LU['U'], '', 0.001);
         $this->assertEquals($P, $LU['P'], '', 0.001);
     }
 
-    public function dataProviderForLUDecomposition()
+    public function dataProviderForLuDecomposition()
     {
         return [
             [
@@ -274,7 +274,7 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
         $A = MatrixFactory::create($A);
         $P = MatrixFactory::create($P);
 
-        $LU = $A->LUDecomposition();
+        $LU = $A->luDecomposition();
 
         $this->assertEquals($P, $LU['P'], '', 0.000001);
     }
@@ -286,7 +286,7 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
         ]);
         $this->setExpectedException('MathPHP\Exception\MatrixException');
-        $A->LUDecomposition();
+        $A->luDecomposition();
     }
 
     /**

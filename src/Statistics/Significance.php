@@ -72,7 +72,7 @@ class Significance
 
         // One- and two-tailed P values
         if ($Hₐ < $H₀) {
-            $p1 = StandardNormal::CDF($z);
+            $p1 = StandardNormal::cdf($z);
         } else {
             $p1 = StandardNormal::above($z);
         }
@@ -201,7 +201,7 @@ class Significance
 
         // One- and two-tailed P values
         if ($Hₐ < $H₀) {
-            $p1 = StudentT::CDF($t, $ν);
+            $p1 = StudentT::cdf($t, $ν);
         } else {
             $p1 = StudentT::above($t, $ν);
         }

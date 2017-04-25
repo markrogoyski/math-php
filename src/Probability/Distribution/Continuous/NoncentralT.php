@@ -44,7 +44,7 @@ class NoncentralT extends Continuous
      *
      * @return number
      */
-    public static function PDF($x, int $ν, $μ)
+    public static function pdf($x, int $ν, $μ)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν, 'μ' => $μ]);
 
@@ -74,16 +74,16 @@ class NoncentralT extends Continuous
      *
      * @return number
      */
-    public static function CDF($x, int $ν, $μ)
+    public static function cdf($x, int $ν, $μ)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν, 'μ' => $μ]);
         if ($μ == 0) {
-            return StudentT::CDF($x, $ν);
+            return StudentT::cdf($x, $ν);
         }
         if ($x >= 0) {
-            return self::F($x, $ν, $μ);
+            return self::f($x, $ν, $μ);
         }
-        return 1 - self::F($x, $ν, -$μ);
+        return 1 - self::f($x, $ν, -$μ);
     }
 
     /**
@@ -115,11 +115,11 @@ class NoncentralT extends Continuous
      *
      * @return number
      */
-    private static function F($x, int $ν, $μ)
+    private static function f($x, int $ν, $μ)
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν, 'μ' => $μ]);
 
-        $Φ = StandardNormal::CDF(-$μ);
+        $Φ = StandardNormal::cdf(-$μ);
         $y = $x**2/($x**2 + $ν);
 
         $sum = $Φ;

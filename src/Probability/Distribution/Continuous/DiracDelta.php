@@ -19,6 +19,7 @@ class DiracDelta extends Continuous
     const LIMITS = [
         'x'  => '(-∞,∞)',
     ];
+
     /**
      * Probability density function
      *
@@ -35,7 +36,7 @@ class DiracDelta extends Continuous
      *
      * @return number probability
      */
-    public static function PDF($x)
+    public static function pdf($x)
     {
         if ($x == 0) {
             return \INF;
@@ -55,7 +56,7 @@ class DiracDelta extends Continuous
      * @todo how to handle x = 0, depending on context, some say CDF=.5 @ x=0
      * @return number
      */
-    public static function CDF($x)
+    public static function cdf($x)
     {
         if ($x >= 0) {
             return 1;

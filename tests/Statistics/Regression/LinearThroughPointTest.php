@@ -153,7 +153,7 @@ class LinearThroughPointTest extends \PHPUnit_Framework_TestCase
     public function testCI(array $points, $x, $p, $ci)
     {
         $regression = new LinearThroughPoint($points);
-        $this->assertEquals($ci, $regression->CI($x, $p), '', .0000001);
+        $this->assertEquals($ci, $regression->ci($x, $p), '', .0000001);
     }
     
     public function dataProviderForCI()
@@ -180,7 +180,7 @@ class LinearThroughPointTest extends \PHPUnit_Framework_TestCase
     public function testPI(array $points, $x, $p, $q, $pi)
     {
         $regression = new LinearThroughPoint($points);
-        $this->assertEquals($pi, $regression->PI($x, $p, $q), '', .0000001);
+        $this->assertEquals($pi, $regression->pi($x, $p, $q), '', .0000001);
     }
     
     public function dataProviderForPI()

@@ -3,6 +3,14 @@ namespace MathPHP\Probability\Distribution\Discrete;
 
 use MathPHP\Functions\Support;
 
+/**
+ * Shifted geometric distribution
+ *
+ * The probability distribution of the number X of Bernoulli trials needed
+ * to get one success, supported on the set { 1, 2, 3, ...}
+ *
+ * https://en.wikipedia.org/wiki/Geometric_distribution
+ */
 class ShiftedGeometric extends Discrete
 {
     /**
@@ -17,11 +25,7 @@ class ShiftedGeometric extends Discrete
     ];
 
     /**
-     * Shifted geometric distribution - probability mass function
-     *
-     * The probability distribution of the number X of Bernoulli trials needed
-     * to get one success, supported on the set { 1, 2, 3, ...}
-     * https://en.wikipedia.org/wiki/Geometric_distribution
+     * Probability mass function
      *
      * k trials where k ∈ {1, 2, 3, ...}
      *
@@ -32,7 +36,7 @@ class ShiftedGeometric extends Discrete
      *
      * @return float
      */
-    public static function PMF(int $k, float $p): float
+    public static function pmf(int $k, float $p): float
     {
         Support::checkLimits(self::LIMITS, ['k' => $k, 'p' => $p]);
 
@@ -41,11 +45,7 @@ class ShiftedGeometric extends Discrete
     }
 
     /**
-     * Shifted geometric distribution - cumulative distribution function
-     *
-     * The probability distribution of the number X of Bernoulli trials needed
-     * to get one success, supported on the set { 1, 2, 3, ...}
-     * https://en.wikipedia.org/wiki/Geometric_distribution
+     * Cumulative distribution function
      *
      * k trials where k ∈ {0, 1, 2, 3, ...}
      *
@@ -56,7 +56,7 @@ class ShiftedGeometric extends Discrete
      *
      * @return float
      */
-    public static function CDF(int $k, float $p): float
+    public static function cdf(int $k, float $p): float
     {
         Support::checkLimits(self::LIMITS, ['k' => $k, 'p' => $p]);
 

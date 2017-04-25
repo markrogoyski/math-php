@@ -310,7 +310,7 @@ trait LeastSquares
      *
      * @return number
      */
-    public function errorSD()
+    public function errorSd()
     {
         return sqrt($this->meanSquareResidual());
     }
@@ -468,7 +468,7 @@ trait LeastSquares
      *
      * @return array
      */
-    public function DFFITS(): array
+    public function dffits(): array
     {
         $ys   = $this->reg_ys;
         $xs   = $this->reg_xs;
@@ -616,8 +616,8 @@ trait LeastSquares
         $t  = $this->tValues();
 
         return [
-            'm' => StudentT::CDF($t['m'], $ν),
-            'b' => StudentT::CDF($t['b'], $ν),
+            'm' => StudentT::cdf($t['m'], $ν),
+            'b' => StudentT::cdf($t['b'], $ν),
         ];
     }
 
@@ -639,7 +639,7 @@ trait LeastSquares
      *
      * @return number
      */
-    public function FStatistic()
+    public function fStatistic()
     {
         $F = $this->meanSquareRegression() / $this->meanSquareResidual();
         return $F;
@@ -659,9 +659,9 @@ trait LeastSquares
      *
      * @return number
      */
-    public function FProbability()
+    public function fProbability()
     {
-        $F = $this->FStatistic();
+        $F = $this->fStatistic();
         $n = $this->n;
 
         // Degrees of freedom
@@ -670,7 +670,7 @@ trait LeastSquares
         $d₁ = $n - $ν - 1;
         $d₂ = $ν;
 
-        return (F::CDF($F, $d₁, $d₂));
+        return (F::cdf($F, $d₁, $d₂));
     }
 
     /**
@@ -695,7 +695,7 @@ trait LeastSquares
      *
      * @return number
      */
-    public function CI($x, $p)
+    public function ci($x, $p)
     {
         $V  = $this->regressionVariance($x);
         $σ² = $this->meanSquareResidual();
@@ -730,7 +730,7 @@ trait LeastSquares
      *
      * @return number
      */
-    public function PI($x, $p, $q = 1)
+    public function pi($x, $p, $q = 1)
     {
         $V  = $this->regressionVariance($x) + 1 / $q;
         $σ² = $this->meanSquareResidual();

@@ -49,7 +49,7 @@ class Algebra
      *
      * @return array [gcd, a', b']
      */
-    public static function extendedGCD(int $a, int $b): array
+    public static function extendedGcd(int $a, int $b): array
     {
         // Base cases
         if ($a == 0) {

@@ -8,7 +8,7 @@ class PoissonTest extends \PHPUnit_Framework_TestCase
      */
     public function testPMF(int $k, float $λ, float $probability)
     {
-        $this->assertEquals($probability, Poisson::PMF($k, $λ), '', 0.001);
+        $this->assertEquals($probability, Poisson::pmf($k, $λ), '', 0.001);
     }
 
     /**
@@ -31,7 +31,7 @@ class PoissonTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF(int $k, float $λ, float $probability)
     {
-        $this->assertEquals($probability, Poisson::CDF($k, $λ), '', 0.001);
+        $this->assertEquals($probability, Poisson::cdf($k, $λ), '', 0.001);
     }
 
     /**

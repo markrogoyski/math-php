@@ -8,7 +8,7 @@ class UniformTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($a, $b, $x, $pdf)
     {
-        $this->assertEquals($pdf, Uniform::PDF($a, $b, $x), '', 0.001);
+        $this->assertEquals($pdf, Uniform::pdf($a, $b, $x), '', 0.001);
     }
 
     public function dataProviderForPDF()
@@ -27,7 +27,7 @@ class UniformTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($a, $b, $x, $cdf)
     {
-        $this->assertEquals($cdf, Uniform::CDF($a, $b, $x), '', 0.001);
+        $this->assertEquals($cdf, Uniform::cdf($a, $b, $x), '', 0.001);
     }
 
     public function dataProviderForCDF()

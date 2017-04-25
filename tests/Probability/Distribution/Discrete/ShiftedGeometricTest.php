@@ -8,7 +8,7 @@ class ShiftedGeometricTest extends \PHPUnit_Framework_TestCase
      */
     public function testPMF(int $k, float $p, float $pmf)
     {
-        $this->assertEquals($pmf, ShiftedGeometric::PMF($k, $p), '', 0.001);
+        $this->assertEquals($pmf, ShiftedGeometric::pmf($k, $p), '', 0.001);
     }
 
     public function dataProviderForPMF()
@@ -31,7 +31,7 @@ class ShiftedGeometricTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF(int $k, float $p, float $cdf)
     {
-        $this->assertEquals($cdf, ShiftedGeometric::CDF($k, $p), '', 0.001);
+        $this->assertEquals($cdf, ShiftedGeometric::cdf($k, $p), '', 0.001);
     }
 
     public function dataProviderForCDF()

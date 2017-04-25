@@ -8,7 +8,7 @@ class ChiSquaredTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, int $k, $pdf)
     {
-        $this->assertEquals($pdf, ChiSquared::PDF($x, $k), '', 0.00001);
+        $this->assertEquals($pdf, ChiSquared::pdf($x, $k), '', 0.00001);
     }
 
     public function dataProviderForPDF()
@@ -30,7 +30,7 @@ class ChiSquaredTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, int $k, $cdf)
     {
-        $this->assertEquals($cdf, ChiSquared::CDF($x, $k), '', 0.01);
+        $this->assertEquals($cdf, ChiSquared::cdf($x, $k), '', 0.01);
     }
 
     public function dataProviderForCDF()

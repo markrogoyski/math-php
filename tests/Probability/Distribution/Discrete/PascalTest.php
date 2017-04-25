@@ -8,7 +8,7 @@ class PascalTest extends \PHPUnit_Framework_TestCase
      */
     public function testPMF(int $x, int $r, float $P, float $neagative_binomial_distribution)
     {
-        $this->assertEquals($neagative_binomial_distribution, Pascal::PMF($x, $r, $P), '', 0.001);
+        $this->assertEquals($neagative_binomial_distribution, Pascal::pmf($x, $r, $P), '', 0.001);
     }
 
     /**

@@ -38,11 +38,11 @@ class StandardNormal extends Continuous
      *
      * @return float f(z|μ,σ)
      */
-    public static function PDF($z)
+    public static function pdf($z)
     {
         Support::checkLimits(self::LIMITS, ['z' => $z]);
 
-        return Normal::PDF($z, self::μ, self::σ);
+        return Normal::pdf($z, self::μ, self::σ);
     }
 
     /**
@@ -53,11 +53,11 @@ class StandardNormal extends Continuous
      *
      * @return float f(z|μ,σ)
      */
-    public static function CDF($z)
+    public static function cdf($z)
     {
         Support::checkLimits(self::LIMITS, ['z' => $z]);
 
-        return Normal::CDF($z, self::μ, self::σ);
+        return Normal::cdf($z, self::μ, self::σ);
     }
     
     /**

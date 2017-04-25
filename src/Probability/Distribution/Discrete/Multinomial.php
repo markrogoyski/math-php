@@ -4,12 +4,15 @@ namespace MathPHP\Probability\Distribution\Discrete;
 use MathPHP\Probability\Combinatorics;
 use MathPHP\Exception;
 
+/**
+ * Multinomial distribution (multivariate)
+ *
+ * https://en.wikipedia.org/wiki/Multinomial_distribution
+ */
 class Multinomial extends Discrete
 {
     /**
-     * Multinomial distribution (multivariate) - probability mass function
-     *
-     * https://en.wikipedia.org/wiki/Multinomial_distribution
+     * Probability mass function
      *
      *          n!
      * pmf = ------- p₁ˣ¹⋯pkˣᵏ
@@ -22,7 +25,7 @@ class Multinomial extends Discrete
      *
      * @return float
      */
-    public static function PMF(array $frequencies, array $probabilities): float
+    public static function pmf(array $frequencies, array $probabilities): float
     {
         // Must have a probability for each frequency
         if (count($frequencies) !== count($probabilities)) {

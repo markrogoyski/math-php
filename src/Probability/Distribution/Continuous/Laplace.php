@@ -33,7 +33,7 @@ class Laplace extends Continuous
      *
      * @return  float
      */
-    public static function PDF($x, $μ, $b): float
+    public static function pdf($x, $μ, $b): float
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'b' => $b]);
 
@@ -58,7 +58,7 @@ class Laplace extends Continuous
      *
      * @return  float
      */
-    public static function CDF($x, $μ, $b): float
+    public static function cdf($x, $μ, $b): float
     {
         Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'b' => $b]);
 

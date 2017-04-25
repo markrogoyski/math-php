@@ -107,7 +107,7 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
      */
     public function testSES(int $n, $ses)
     {
-        $this->assertEquals($ses, RandomVariable::SES($n), '', 0.001);
+        $this->assertEquals($ses, RandomVariable::ses($n), '', 0.001);
     }
 
     public function dataProviderForSES()
@@ -168,7 +168,7 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
      */
     public function testSEK(int $n, $sek)
     {
-        $this->assertEquals($sek, RandomVariable::SEK($n), '', 0.001);
+        $this->assertEquals($sek, RandomVariable::sek($n), '', 0.001);
     }
 
     public function dataProviderForSEK()

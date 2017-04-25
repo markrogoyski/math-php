@@ -8,7 +8,7 @@ class ExponentialTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $λ, $probability)
     {
-        $this->assertEquals($probability, Exponential::PDF($x, $λ), '', 0.001);
+        $this->assertEquals($probability, Exponential::pdf($x, $λ), '', 0.001);
     }
 
     public function dataProviderForPDF()
@@ -26,7 +26,7 @@ class ExponentialTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $λ, $probability)
     {
-        $this->assertEquals($probability, Exponential::CDF($x, $λ), '', 0.001);
+        $this->assertEquals($probability, Exponential::cdf($x, $λ), '', 0.001);
     }
 
     public function dataProviderForCDF()

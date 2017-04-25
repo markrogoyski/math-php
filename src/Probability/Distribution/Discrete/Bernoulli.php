@@ -3,6 +3,11 @@ namespace MathPHP\Probability\Distribution\Discrete;
 
 use MathPHP\Functions\Support;
 
+/**
+ * Bernoulli distribution
+ *
+ * https://en.wikipedia.org/wiki/Bernoulli_distribution
+ */
 class Bernoulli extends Discrete
 {
     /**
@@ -17,9 +22,7 @@ class Bernoulli extends Discrete
     ];
 
     /**
-     * Bernoulli distribution - probability mass function
-     *
-     * https://en.wikipedia.org/wiki/Bernoulli_distribution
+     * Probability mass function
      *
      * q = (1 - p)  for k = 0
      * q = p        for k = 1
@@ -29,7 +32,7 @@ class Bernoulli extends Discrete
      *
      * @return  float
      */
-    public static function PMF(int $k, float $p): float
+    public static function pmf(int $k, float $p): float
     {
         Support::checkLimits(self::LIMITS, ['k' => $k, 'p' => $p]);
 
@@ -40,9 +43,7 @@ class Bernoulli extends Discrete
         }
     }
     /**
-     * Bernoulli distribution - cumulative distribution function
-     *
-     * https://en.wikipedia.org/wiki/Bernoulli_distribution
+     * Cumulative distribution function
      *
      * 0      for k < 0
      * 1 - p  for 0 ≤ k < 1
@@ -53,7 +54,7 @@ class Bernoulli extends Discrete
      *
      * @return  float
      */
-    public static function CDF(int $k, float $p): float
+    public static function cdf(int $k, float $p): float
     {
         Support::checkLimits(self::LIMITS, ['p' => $p]);
 
