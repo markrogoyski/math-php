@@ -661,6 +661,39 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForSubtraction
+     */
+    public function testSubtraction(array $polynomialA, array $polynomialB, array $expected_sum)
+    {
+        $polynomialA    = new Polynomial($polynomialA);
+        $polynomialB    = new Polynomial($polynomialB);
+        $expected       = new Polynomial($expected_sum);
+        $sum            = $polynomialA->subtract($polynomialB);
+        $this->assertEquals($expected, $sum);
+    }
+
+    public function dataProviderForSubtraction()
+    {
+        return [
+            [
+                [1, 2, 3],      // f(x)      = x² + 2x + 3
+                [2, 3, 1],      // g(x)      = 2x² + 3x + 1
+                [-1, -1, 2],      // f(x)+g(x) = -1x² + 5x + 4
+            ],
+            [
+                [1, 2, 3, 4, 4], // f(x)      = x⁴ + 2x³ + 3x² + 4x + 4
+                [2, 3, 1],       // g(x)      = 2x² + 3x + 1
+                [1, 2, 1, 1, 3], // f(x)+g(x) = x⁴ + 2x³ + 5x² + 7x + 5
+            ],
+            [
+                [1, -8, 12, 3],  // f(x)      = x³ - 8x² + 12x + 3
+                [1, -8, 12, 3],  // g(x)      = f(x)
+                [0, 0, 0, 0], // f(x)+g(x) = 2x³ - 16x² + 24x + 6
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForMultiplication
      */
     public function testMultiplication(array $polynomialA, array $polynomialB, array $expected_product)
