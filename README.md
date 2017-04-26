@@ -56,7 +56,7 @@ Features
      - [Random Variables](#statistics---random-variables)
      - [Regressions](#statistics---regressions)
      - [Significance Testing](#statistics---significance-testing)
- * [Trigonometry]($trigonometry)
+ * [Trigonometry](#trigonometry)
 
 Setup
 -----
