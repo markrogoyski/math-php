@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\FunctionMatrix;
+use MathPHP\Exception;
 
 class FunctionMatrixTest extends \PHPUnit_Framework_TestCase
 {

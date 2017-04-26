@@ -16,6 +16,7 @@ class ExponentialTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForPDF()
     {
         return [
+            [ -1, 1, 0],
             [ 0, 1, 1 ],
             [ 1, 1, 0.36787944117 ],
             [ 2, 1, 0.13533528323 ],
@@ -34,6 +35,7 @@ class ExponentialTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForCDF()
     {
         return [
+            [-1, 1, 0],
             [ 0, 1, 0 ],
             [ 1, 1, 0.6321206 ],
             [ 2, 1, 0.8646647 ],

@@ -64,6 +64,6 @@ class CauchyTest extends \PHPUnit_Framework_TestCase
     {
         $x₀ = 5;
         $γ  = 3;
-        $this->assertEquals($x₀, Cauchy::median($x₀, $γ));
+        $this->assertEquals($x₀, Cauchy::mode($x₀, $γ));
     }
 }
