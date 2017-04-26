@@ -56,6 +56,7 @@ Features
      - [Random Variables](#statistics---random-variables)
      - [Regressions](#statistics---regressions)
      - [Significance Testing](#statistics---significance-testing)
+ * [Trigonometry]($trigonometry)
 
 Setup
 -----
@@ -1879,6 +1880,14 @@ $observed = [4, 6, 17, 16, 8, 9];
 $expected = [10, 10, 10, 10, 10, 10];
 $χ²       = Significance::chiSquaredTest($observed, $expected);
 // ['chi-square' => 14.2, 'p' => 0.014388]
+```
+
+### Trigonometry
+```php
+use MathPHP\Trigonometry;
+
+$n      = 9;
+$points = Trigonometry::unitCircle($n); // Produce n number of points along the unit circle
 ```
 
 Unit Tests
