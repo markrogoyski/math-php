@@ -1,6 +1,8 @@
 <?php
+namespace MathPHP\Tests\Functions;
 
-namespace MathPHP\Functions;
+use MathPHP\Functions\Piecewise;
+use MathPHP\Functions\Polynomial;
 
 class PiecewiseTest extends \PHPUnit_Framework_TestCase
 {

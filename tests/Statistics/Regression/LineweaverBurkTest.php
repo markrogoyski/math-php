@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Statistics\Regression;
+namespace MathPHP\Tests\Statistics\Regression;
+
+use MathPHP\Statistics\Regression\LineweaverBurk;
 
 class LineweaverBurkTest extends \PHPUnit_Framework_TestCase
 {

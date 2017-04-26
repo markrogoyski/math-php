@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Probability;
+namespace MathPHP\Tests\Probability;
+
+use MathPHP\Probability\Combinatorics;
 
 class CombinatoricsTest extends \PHPUnit_Framework_TestCase
 {

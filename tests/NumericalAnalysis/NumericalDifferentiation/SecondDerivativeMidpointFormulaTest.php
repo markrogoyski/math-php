@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
+namespace MathPHP\Tests\NumericalAnalysis\NumericalDifferentiation;
+
+use MathPHP\NumericalAnalysis\NumericalDifferentiation\SecondDerivativeMidpointFormula;
 
 class SecondDerivativeMidpointFormulaTest extends \PHPUnit_Framework_TestCase
 {

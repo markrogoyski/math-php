@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\NumericalAnalysis\Interpolation;
+namespace MathPHP\Tests\NumericalAnalysis\Interpolation;
+
+use MathPHP\NumericalAnalysis\Interpolation\Interpolation;
 
 class InterpolationTest extends \PHPUnit_Framework_TestCase
 {
@@ -7,7 +9,7 @@ class InterpolationTest extends \PHPUnit_Framework_TestCase
     {
         // Instantiating Interpolation (an abstract class)
         $this->setExpectedException('\Error');
-        new Interpolation;
+        new Interpolation();
     }
 
     public function testIncorrectInput()

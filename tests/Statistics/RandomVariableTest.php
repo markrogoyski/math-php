@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Statistics;
+namespace MathPHP\Tests\Statistics;
+
+use MathPHP\Statistics\RandomVariable;
 
 class RandomVariableTest extends \PHPUnit_Framework_TestCase
 {

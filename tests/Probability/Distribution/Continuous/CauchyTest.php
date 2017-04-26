@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Probability\Distribution\Continuous;
+namespace MathPHP\Tests\Probability\Distribution\Continuous;
+
+use MathPHP\Probability\Distribution\Continuous\Cauchy;
 
 class CauchyTest extends \PHPUnit_Framework_TestCase
 {

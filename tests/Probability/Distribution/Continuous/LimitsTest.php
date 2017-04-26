@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Probability\Distribution\Continuous;
+namespace MathPHP\Tests\Probability\Distribution\Continuous;
+
+use MathPHP\Probability\Distribution\Continuous;
 
 class LimitsTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,71 +21,71 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
 
     public function testBetaParameterLimits()
     {
-        $this->limitTest(Beta::LIMITS);
+        $this->limitTest(Continuous\Beta::LIMITS);
     }
 
     public function testCauchyParameterLimits()
     {
-        $this->limitTest(Cauchy::LIMITS);
+        $this->limitTest(Continuous\Cauchy::LIMITS);
     }
 
     public function testChiSquaredParameterLimits()
     {
-        $this->limitTest(ChiSquared::LIMITS);
+        $this->limitTest(Continuous\ChiSquared::LIMITS);
     }
 
     public function testExponentialParameterLimits()
     {
-        $this->limitTest(Exponential::LIMITS);
+        $this->limitTest(Continuous\Exponential::LIMITS);
     }
 
     public function testFParameterLimits()
     {
-        $this->limitTest(F::LIMITS);
+        $this->limitTest(Continuous\F::LIMITS);
     }
 
     public function testLaplaceParameterLimits()
     {
-        $this->limitTest(Laplace::LIMITS);
+        $this->limitTest(Continuous\Laplace::LIMITS);
     }
 
     public function testLogisticParameterLimits()
     {
-        $this->limitTest(Logistic::LIMITS);
+        $this->limitTest(Continuous\Logistic::LIMITS);
     }
 
     public function testLogLogisticParameterLimits()
     {
-        $this->limitTest(LogLogistic::LIMITS);
+        $this->limitTest(Continuous\LogLogistic::LIMITS);
     }
 
     public function testNormalParameterLimits()
     {
-        $this->limitTest(Normal::LIMITS);
+        $this->limitTest(Continuous\Normal::LIMITS);
     }
 
     public function testParetoParameterLimits()
     {
-        $this->limitTest(Pareto::LIMITS);
+        $this->limitTest(Continuous\Pareto::LIMITS);
     }
 
     public function testStandardNormalParameterLimits()
     {
-        $this->limitTest(StandardNormal::LIMITS);
+        $this->limitTest(Continuous\StandardNormal::LIMITS);
     }
 
     public function testStudentTParameterLimits()
     {
-        $this->limitTest(StudentT::LIMITS);
+        $this->limitTest(Continuous\StudentT::LIMITS);
     }
 
     public function testUniformParameterLimits()
     {
-        $this->limitTest(Uniform::LIMITS);
+        $this->limitTest(Continuous\Uniform::LIMITS);
     }
 
     public function testWeibullParameterLimits()
     {
-        $this->limitTest(Weibull::LIMITS);
+        $this->limitTest(Continuous\Weibull::LIMITS);
     }
 }

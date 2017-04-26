@@ -1,9 +1,10 @@
 <?php
-namespace MathPHP\Statistics;
+namespace MathPHP\Tests\Statistics;
+
+use MathPHP\Statistics\Correlation;
 
 class CorrelationTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @dataProvider dataProviderForPopulationCovariance
      */

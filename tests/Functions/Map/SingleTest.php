@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Functions\Map;
+namespace MathPHP\Tests\Functions\Map;
+
+use MathPHP\Functions\Map\Single;
 
 class SingleTest extends \PHPUnit_Framework_TestCase
 {

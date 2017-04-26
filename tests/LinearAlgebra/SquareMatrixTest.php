@@ -1,6 +1,8 @@
 <?php
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
 
+use MathPHP\LinearAlgebra\SquareMatrix;
+use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\Exception;
 
 class SquareMatrixTest extends \PHPUnit_Framework_TestCase

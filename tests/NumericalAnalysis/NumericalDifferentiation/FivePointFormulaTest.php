@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
+namespace MathPHP\Tests\NumericalAnalysis\NumericalDifferentiation;
+
+use MathPHP\NumericalAnalysis\NumericalDifferentiation\FivePointFormula;
 
 class FivePointFormulaTest extends \PHPUnit_Framework_TestCase
 {

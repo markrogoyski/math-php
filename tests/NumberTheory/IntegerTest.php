@@ -1,6 +1,7 @@
 <?php
-namespace MathPHP\NumberTheory;
+namespace MathPHP\Tests\NumberTheory;
 
+use MathPHP\NumberTheory\Integer;
 use MathPHP\Exception;
 
 class IntegerTest extends \PHPUnit_Framework_TestCase

@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Statistics;
+namespace MathPHP\Tests\Statistics;
+
+use MathPHP\Statistics\Distance;
 
 class DistanceTest extends \PHPUnit_Framework_TestCase
 {

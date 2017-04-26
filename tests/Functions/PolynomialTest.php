@@ -1,6 +1,7 @@
 <?php
+namespace MathPHP\Tests\Functions;
 
-namespace MathPHP\Functions;
+use MathPHP\Functions\Polynomial;
 
 class PolynomialTest extends \PHPUnit_Framework_TestCase
 {

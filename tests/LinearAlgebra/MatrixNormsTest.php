@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
+
+use MathPHP\LinearAlgebra\MatrixFactory;
 
 class MatrixNormsTest extends \PHPUnit_Framework_TestCase
 {

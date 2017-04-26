@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Functions;
+namespace MathPHP\Tests\Functions;
+
+use MathPHP\Functions\Support;
 
 class SupportTest extends \PHPUnit_Framework_TestCase
 {

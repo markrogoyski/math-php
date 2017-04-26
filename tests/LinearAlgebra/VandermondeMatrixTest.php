@@ -1,5 +1,8 @@
 <?php
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
+
+use MathPHP\LinearAlgebra\VandermondeMatrix;
+use MathPHP\LinearAlgebra\Matrix;
 
 class VandermondeMatrixTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP;
+namespace MathPHP\Tests\Finance;
+
+use MathPHP\Finance;
 
 class FinanceTest extends \PHPUnit_Framework_TestCase
 {

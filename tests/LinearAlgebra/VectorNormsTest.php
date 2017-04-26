@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
+
+use MathPHP\LinearAlgebra\Vector;
 
 class VectorNormsTest extends \PHPUnit_Framework_TestCase
 {

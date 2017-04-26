@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\NumericalAnalysis\RootFinding;
+namespace MathPHP\Tests\NumericalAnalysis\RootFinding;
+
+use MathPHP\NumericalAnalysis\RootFinding\BisectionMethod;
 
 class BisectionMethodTest extends \PHPUnit_Framework_TestCase
 {

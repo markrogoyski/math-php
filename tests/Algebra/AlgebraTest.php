@@ -1,7 +1,8 @@
 <?php
-namespace MathPHP;
+namespace MathPHP\Tests\Algebra;
 
-use MathPHP\Number\Complex;
+use MathPHP\Algebra;
+use MathPHP\Number;
 
 class AlgebraTest extends \PHPUnit_Framework_TestCase
 {

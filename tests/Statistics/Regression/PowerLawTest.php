@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Statistics\Regression;
+namespace MathPHP\Tests\Statistics\Regression;
+
+use MathPHP\Statistics\Regression\PowerLaw;
 
 class PowerLawTest extends \PHPUnit_Framework_TestCase
 {

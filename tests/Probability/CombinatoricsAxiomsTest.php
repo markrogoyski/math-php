@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Probability;
+namespace MathPHP\Tests\Probability;
+
+use MathPHP\Probability\Combinatorics;
 
 /**
  * Tests of Combinatorics axioms

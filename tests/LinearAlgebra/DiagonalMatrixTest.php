@@ -1,5 +1,9 @@
 <?php
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
+
+use MathPHP\LinearAlgebra\DiagonalMatrix;
+use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\MatrixFactory;
 
 class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
 {

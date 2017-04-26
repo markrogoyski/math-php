@@ -1,5 +1,8 @@
 <?php
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
+
+use MathPHP\LinearAlgebra\RowVector;
+use MathPHP\LinearAlgebra\Matrix;
 
 class RowVectorTest extends \PHPUnit_Framework_TestCase
 {

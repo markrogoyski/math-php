@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Probability\Distribution\Table;
+namespace MathPHP\Tests\Probability\Distribution\Table;
+
+use MathPHP\Probability\Distribution\Table\ChiSquared;
 
 class ChiSquaredlTest extends \PHPUnit_Framework_TestCase
 {

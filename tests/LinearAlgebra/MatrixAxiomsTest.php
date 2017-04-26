@@ -1,6 +1,10 @@
 <?php
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
 
+use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\SquareMatrix;
+use MathPHP\LinearAlgebra\Vector;
 use MathPHP\NumberTheory\Integer;
 
 /**

@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Statistics\Regression;
+namespace MathPHP\Tests\Statistics\Regression;
+
+use MathPHP\Statistics\Regression\TheilSen;
 
 class TheilSenTest extends \PHPUnit_Framework_TestCase
 {

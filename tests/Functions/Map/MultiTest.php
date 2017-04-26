@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Functions\Map;
+namespace MathPHP\Tests\Functions\Map;
+
+use MathPHP\Functions\Map\Multi;
 
 class MultiTest extends \PHPUnit_Framework_TestCase
 {

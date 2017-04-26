@@ -1,5 +1,9 @@
 <?php
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
+
+use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\Vector;
 
 class MatrixTest extends \PHPUnit_Framework_TestCase
 {

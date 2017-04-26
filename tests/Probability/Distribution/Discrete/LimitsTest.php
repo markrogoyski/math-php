@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Probability\Distribution\Discrete;
+namespace MathPHP\Tests\Probability\Distribution\Discrete;
+
+use MathPHP\Probability\Distribution\Discrete;
 
 class LimitsTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,31 +21,31 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
 
     public function testBernoulliParameterLimits()
     {
-        $this->limitTest(Bernoulli::LIMITS);
+        $this->limitTest(Discrete\Bernoulli::LIMITS);
     }
 
     public function testBinomialParameterLimits()
     {
-        $this->limitTest(Binomial::LIMITS);
+        $this->limitTest(Discrete\Binomial::LIMITS);
     }
 
     public function testGeometricParameterLimits()
     {
-        $this->limitTest(Geometric::LIMITS);
+        $this->limitTest(Discrete\Geometric::LIMITS);
     }
 
     public function testNegativeBinomialParameterLimits()
     {
-        $this->limitTest(NegativeBinomial::LIMITS);
+        $this->limitTest(Discrete\NegativeBinomial::LIMITS);
     }
 
     public function testPoissonParameterLimits()
     {
-        $this->limitTest(Poisson::LIMITS);
+        $this->limitTest(Discrete\Poisson::LIMITS);
     }
 
     public function testShiftedGeometricParameterLimits()
     {
-        $this->limitTest(ShiftedGeometric::LIMITS);
+        $this->limitTest(Discrete\ShiftedGeometric::LIMITS);
     }
 }

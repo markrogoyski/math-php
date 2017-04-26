@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Probability\Distribution\Continuous;
+namespace MathPHP\Tests\Probability\Distribution\Continuous;
+
+use MathPHP\Probability\Distribution\Continuous\LogLogistic;
 
 class LogLogisticTest extends \PHPUnit_Framework_TestCase
 {

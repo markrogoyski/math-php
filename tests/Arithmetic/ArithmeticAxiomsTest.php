@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP;
+namespace MathPHP\Tests\Arithmetic;
+
+use MathPHP\Arithmetic;
 
 /**
  * Tests of arithmetic axioms

@@ -1,8 +1,9 @@
 <?php
+namespace MathPHP\Tests\NumericalAnalysis\NumericalIntegration;
 
-namespace MathPHP\NumericalAnalysis\NumericalIntegration;
+use MathPHP\NumericalAnalysis\NumericalIntegration\SimpsonsThreeEighthsRule;
 
-class SimpsonsRuleThreeEighthsTest extends \PHPUnit_Framework_TestCase
+class SimpsonsThreeEighthsRuleTest extends \PHPUnit_Framework_TestCase
 {
     public function testapproximatePolynomial()
     {

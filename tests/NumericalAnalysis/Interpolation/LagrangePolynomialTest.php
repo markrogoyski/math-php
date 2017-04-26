@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\NumericalAnalysis\Interpolation;
+namespace MathPHP\Tests\NumericalAnalysis\Interpolation;
+
+use MathPHP\NumericalAnalysis\Interpolation\LagrangePolynomial;
 
 class LagrangePolynomialTest extends \PHPUnit_Framework_TestCase
 {

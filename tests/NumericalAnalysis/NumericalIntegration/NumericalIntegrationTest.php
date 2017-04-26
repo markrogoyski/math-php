@@ -1,8 +1,9 @@
 <?php
+namespace MathPHP\Tests\NumericalAnalysis\NumericalIntegration;
 
-namespace MathPHP\NumericalAnalysis\NumericalIntegration;
+use MathPHP\NumericalAnalysis\NumericalIntegration\NumericalIntegration;
 
-class NumbericalIntegrationTest extends \PHPUnit_Framework_TestCase
+class NumericalIntegrationTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstantiateAbstractClassException()
     {

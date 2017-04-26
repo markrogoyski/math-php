@@ -1,5 +1,8 @@
 <?php
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
+
+use MathPHP\LinearAlgebra\Vector;
+use MathPHP\LinearAlgebra\Matrix;
 
 /**
  * Tests of Vector axioms

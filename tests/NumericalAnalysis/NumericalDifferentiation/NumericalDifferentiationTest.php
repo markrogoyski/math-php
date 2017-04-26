@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
+namespace MathPHP\Tests\NumericalAnalysis\NumericalDifferentiation;
+
+use MathPHP\NumericalAnalysis\NumericalDifferentiation\NumericalDifferentiation;
 
 class NumericalDifferentiationTest extends \PHPUnit_Framework_TestCase
 {
@@ -7,7 +9,7 @@ class NumericalDifferentiationTest extends \PHPUnit_Framework_TestCase
     {
         // Instantiating NumericalDifferentiation (an abstract class)
         $this->setExpectedException('\Error');
-        new NumericalDifferentiation;
+        new NumericalDifferentiation();
     }
 
     public function testIncorrectInput()

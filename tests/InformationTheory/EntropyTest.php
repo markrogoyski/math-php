@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\InformationTheory;
+namespace MathPHP\Tests\InformationTheory;
+
+use MathPHP\InformationTheory\Entropy;
 
 class EntropyTest extends \PHPUnit_Framework_TestCase
 {

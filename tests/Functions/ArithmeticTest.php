@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Functions;
+namespace MathPHP\Tests\Functions;
+
+use MathPHP\Functions\Arithmetic;
 
 class ArithmeticTest extends \PHPUnit_Framework_TestCase
 {

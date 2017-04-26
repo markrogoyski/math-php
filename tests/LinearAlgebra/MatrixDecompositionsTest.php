@@ -1,6 +1,9 @@
 <?php
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
 
+use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
 class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase

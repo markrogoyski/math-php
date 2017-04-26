@@ -1,6 +1,7 @@
 <?php
-namespace MathPHP\Functions;
+namespace MathPHP\Tests\Functions;
 
+use MathPHP\Functions\Special;
 use MathPHP\Exception;
 
 class SpecialTest extends \PHPUnit_Framework_TestCase

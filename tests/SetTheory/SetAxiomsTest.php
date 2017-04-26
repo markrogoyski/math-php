@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\SetTheory;
+namespace MathPHP\Tests\SetTheory;
+
+use MathPHP\SetTheory\Set;
 
 /**
  * Tests of Set axioms

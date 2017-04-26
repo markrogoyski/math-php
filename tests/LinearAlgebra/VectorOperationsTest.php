@@ -1,5 +1,8 @@
 <?php
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
+
+use MathPHP\LinearAlgebra\Vector;
+use MathPHP\LinearAlgebra\Matrix;
 
 class VectorOperationsTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Probability\Distribution\Discrete;
+namespace MathPHP\Tests\Probability\Distribution\Discrete;
+
+use MathPHP\Probability\Distribution\Discrete\Binomial;
 
 class BinomialTest extends \PHPUnit_Framework_TestCase
 {

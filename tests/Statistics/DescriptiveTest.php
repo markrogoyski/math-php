@@ -1,9 +1,10 @@
 <?php
-namespace MathPHP\Statistics;
+namespace MathPHP\Tests\Statistics;
+
+use MathPHP\Statistics\Descriptive;
 
 class DescriptiveTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @dataProvider dataProviderForRange
      */

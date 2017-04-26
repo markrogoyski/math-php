@@ -1,5 +1,8 @@
 <?php
-namespace MathPHP\Probability\Distribution\Continuous;
+namespace MathPHP\Tests\Probability\Distribution\Continuous;
+
+use MathPHP\Probability\Distribution\Continuous\StandardNormal;
+use MathPHP\Probability\Distribution\Continuous\Normal;
 
 class StandardNormalTest extends \PHPUnit_Framework_TestCase
 {

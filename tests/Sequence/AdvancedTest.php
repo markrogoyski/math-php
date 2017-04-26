@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Sequence;
+namespace MathPHP\Tests\Sequence;
+
+use MathPHP\Sequence\Advanced;
 
 class AdvancedTest extends \PHPUnit_Framework_TestCase
 {

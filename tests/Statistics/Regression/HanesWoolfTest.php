@@ -1,9 +1,10 @@
 <?php
-namespace MathPHP\Statistics\Regression;
+namespace MathPHP\Tests\Statistics\Regression;
+
+use MathPHP\Statistics\Regression\HanesWoolf;
 
 class HanesWoolfTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @dataProvider dataProviderForParameters
      */
@@ -14,7 +15,8 @@ class HanesWoolfTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($V, $parameters['V'], '', 0.0001);
         $this->assertEquals($K, $parameters['K'], '', 0.0001);
     }
-    public function dataProviderForParameters()
+
+    public function dataProviderForParameters(): array
     {
         return [
             [

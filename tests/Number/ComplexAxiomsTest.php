@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Number;
+namespace MathPHP\Tests\Number;
+
+use MathPHP\Number\Complex;
 
 /**
  * Tests of complex number axioms

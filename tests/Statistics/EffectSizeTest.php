@@ -1,5 +1,7 @@
 <?php
-namespace MathPHP\Statistics;
+namespace MathPHP\Tests\Statistics;
+
+use MathPHP\Statistics\EffectSize;
 
 class EffectSizeTest extends \PHPUnit_Framework_TestCase
 {
