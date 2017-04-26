@@ -1,7 +1,7 @@
 <?php
 namespace MathPHP\Tests\Number;
 
-Use MathPHP\Number\Complex;
+use MathPHP\Number\Complex;
 use MathPHP\Exception;
 
 class ComplexTest extends \PHPUnit_Framework_TestCase
