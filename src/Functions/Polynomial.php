@@ -299,6 +299,45 @@ class Polynomial
     }
 
     /**
+     * Return a new polynomial that is the difference of the current polynomial and an
+     * input polynomial
+     * Example: $polynomial = new Polynomial([3, -16, 12]); // 3x² - 16x + 12
+     *          $integral   = $polynomial->diferentiate();     // 6x - 16
+     *          $difference        = $polynomial->subtract($derivative);  // 3x² - 22x + 28
+     *
+     * @param object $polynomial The polynomial we are subtracting from our current polynomial
+     *
+     * @return object The defference of our polynomial objects, also a polynomial object
+     */
+    public function subtract(Polynomial $polynomial): Polynomial
+    {
+        // Calculate the degree of the sum of the polynomials
+        $difDegree       = max($this->degree, $polynomial->degree);
+
+        // Reverse the coefficients arrays so you can sum component-wise
+        $coefficientsA = array_reverse($this->coefficients);
+        $coefficientsB = array_reverse($polynomial->coefficients);
+
+        // Start with an array of coefficients that all equal 0
+        $difCoefficients = array_fill(0, $difDegree+1, 0);
+
+        // Iterate through each degree. Get coefficients by summing component-wise.
+        for ($i = 0; $i < $difDegree + 1; $i++) {
+            // Calculate the degree of the current sum
+            $degree = $difDegree - $i;
+
+            // Get the coefficient of the i-th degree term from each polynomial if it exists, otherwise use 0
+            $a = $coefficientsA[$i] ?? 0;
+            $b = $coefficientsB[$i] ?? 0;
+
+            // The new coefficient is the sum of the original coefficients
+            $difCoefficients[$degree] = $a - $b;
+        }
+
+        return new Polynomial($difCoefficients);
+    }
+
+    /**
      * Return a new polynomial that is the product of the current polynomial and an
      * input polynomial
      * Example: $polynomial = new Polynomial([2, -16]);          // 2x - 16
