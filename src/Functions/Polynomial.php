@@ -403,7 +403,7 @@ class Polynomial
     {
         switch ($this->degree) {
             case 1:
-                return -1 * $this->coefficients[1] / $this->coefficients[0];
+                return [-1 * $this->coefficients[1] / $this->coefficients[0]];
             case 2:
                 return Algebra::quadratic(...$this->coefficients);
             case 3:
