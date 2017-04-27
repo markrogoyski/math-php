@@ -3,6 +3,7 @@ namespace MathPHP\Tests\NumericalAnalysis\Interpolation;
 
 use MathPHP\NumericalAnalysis\Interpolation\ClampedCubicSpline;
 use MathPHP\Functions\Polynomial;
+use MathPHP\Exception;
 
 class ClampedCubicSplineTest extends \PHPUnit_Framework_TestCase
 {
@@ -164,7 +165,7 @@ class ClampedCubicSplineTest extends \PHPUnit_Framework_TestCase
     public function testIncorrectInput()
     {
         // The input $source is neither a callback or a set of arrays
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $x                 = 10;
         $incorrectFunction = $x**2 + 2 * $x + 1;
         ClampedCubicSpline::getSplinePoints($incorrectFunction, [0,4,5]);
@@ -173,21 +174,21 @@ class ClampedCubicSplineTest extends \PHPUnit_Framework_TestCase
     public function testNotCoordinatesException()
     {
         // An array doesn't have precisely three numbers (coordinates)
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         ClampedCubicSpline::validateSpline([[0,0,1], [1,2,3], [2,2]]);
     }
 
     public function testNotEnoughArraysException()
     {
         // There are not enough arrays in the input
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         ClampedCubicSpline::validateSpline([[0,0,1]]);
     }
 
     public function testNotAFunctionException()
     {
         // Two arrays share the same first number (x-component)
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         ClampedCubicSpline::validateSpline([[0,0,1], [0,5,0], [1,1,3]]);
     }
 }

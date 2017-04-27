@@ -3,6 +3,7 @@ namespace MathPHP\Tests\Functions;
 
 use MathPHP\Functions\Piecewise;
 use MathPHP\Functions\Polynomial;
+use MathPHP\Exception;
 
 class PiecewiseTest extends \PHPUnit_Framework_TestCase
 {
@@ -131,7 +132,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -148,7 +149,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -165,7 +166,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -182,7 +183,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -199,7 +200,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -216,7 +217,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -233,7 +234,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -249,7 +250,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([2]),          // g(x) = 2
         ];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
     }
 
@@ -266,7 +267,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
         $evaluation = $piecewise(-1);
     }
@@ -284,7 +285,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
         $evaluation = $piecewise(2);
     }
@@ -302,7 +303,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
     }
 }

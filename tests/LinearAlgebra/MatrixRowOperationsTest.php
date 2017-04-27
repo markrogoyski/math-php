@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\Exception;
 
 class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
 {
@@ -80,7 +81,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [3, 4, 5],
         ]);
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $A->rowInterchange(4, 5);
     }
 
@@ -144,7 +145,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [3, 4, 5],
         ]);
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $A->rowMultiply(4, 5);
     }
 
@@ -155,7 +156,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [3, 4, 5],
         ]);
-        $this->expectException('MathPHP\Exception\BadParameterException');
+        $this->expectException(Exception\BadParameterException::class);
         $A->rowMultiply(2, 0);
     }
 
@@ -195,7 +196,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [3, 4, 5],
         ]);
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $A->rowDivide(4, 5);
     }
 
@@ -206,7 +207,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [3, 4, 5],
         ]);
-        $this->expectException('MathPHP\Exception\BadParameterException');
+        $this->expectException(Exception\BadParameterException::class);
         $A->rowDivide(2, 0);
     }
 
@@ -270,7 +271,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [3, 4, 5],
         ]);
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $A->rowAdd(4, 5, 2);
     }
 
@@ -281,7 +282,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [3, 4, 5],
         ]);
-        $this->expectException('MathPHP\Exception\BadParameterException');
+        $this->expectException(Exception\BadParameterException::class);
         $A->rowAdd(1, 2, 0);
     }
 
@@ -321,7 +322,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [3, 4, 5],
         ]);
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $A->rowAddScalar(4, 5, 2);
     }
 
@@ -385,7 +386,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [3, 4, 5],
         ]);
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $A->rowSubtract(4, 5, 2);
     }
 
@@ -425,7 +426,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
             [3, 4, 5],
         ]);
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $A->rowSubtractScalar(4, 5, 2);
     }
 
@@ -481,7 +482,7 @@ class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
 
     public function testRowExcludeExceptionRowDoesNotExist()
     {
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $this->matrix->rowExclude(-5);
     }
 }

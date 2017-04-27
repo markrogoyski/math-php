@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\Functions\Map;
 
 use MathPHP\Functions\Map\Multi;
+use MathPHP\Exception;
 
 class MultiTest extends \PHPUnit_Framework_TestCase
 {
@@ -341,13 +342,13 @@ class MultiTest extends \PHPUnit_Framework_TestCase
         $xs = [1, 2, 3];
         $ys = [1, 2];
 
-        $this->expectException('\MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         Multi::add($xs, $ys);
     }
 
     public function testCheckArrayLengthsExceptionOnlyOneArray()
     {
-        $this->expectException('\MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         Multi::add([1,2]);
     }
 }

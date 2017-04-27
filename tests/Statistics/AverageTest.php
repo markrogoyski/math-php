@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\Statistics;
 
 use MathPHP\Statistics\Average;
+use MathPHP\Exception;
 
 class AverageTest extends \PHPUnit_Framework_TestCase
 {
@@ -230,7 +231,7 @@ class AverageTest extends \PHPUnit_Framework_TestCase
 
     public function testHarmonicMeanExceptionNegativeValues()
     {
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         Average::harmonicMean([ 1, 2, 3, -4, 5, -6, 7 ]);
     }
 
@@ -298,13 +299,13 @@ class AverageTest extends \PHPUnit_Framework_TestCase
 
     public function testTruncatedMeanExceptionLessThanZeroTrimPercent()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Average::TruncatedMean([1, 2, 3], -4);
     }
 
     public function testTruncatedMeanExceptionGreaterThan99TrimPercent()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Average::TruncatedMean([1, 2, 3], 100);
     }
 
@@ -570,7 +571,7 @@ class AverageTest extends \PHPUnit_Framework_TestCase
         $n       = 3;
         $weights = [1, 2];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         Average::weightedMovingAverage($numbers, $n, $weights);
     }
 
@@ -705,7 +706,7 @@ class AverageTest extends \PHPUnit_Framework_TestCase
 
     public function testIdentricMeanExceptionNegativeValue()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Average::identricMean(-2, 5);
     }
 

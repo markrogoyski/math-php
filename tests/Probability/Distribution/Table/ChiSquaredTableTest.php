@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\Probability\Distribution\Table;
 
 use MathPHP\Probability\Distribution\Table\ChiSquared;
+use MathPHP\Exception;
 
 class ChiSquaredlTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +37,7 @@ class ChiSquaredlTest extends \PHPUnit_Framework_TestCase
 
     public function testChiSquaredException()
     {
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
 
         $df = 88474;
         $p  = 0.44;

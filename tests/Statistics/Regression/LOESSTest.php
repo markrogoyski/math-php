@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\Statistics\Regression;
 
 use MathPHP\Statistics\Regression\LOESS;
+use MathPHP\Exception;
 
 class LOESSTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,7 +36,7 @@ class LOESSTest extends \PHPUnit_Framework_TestCase
      */
     public function testSmoothnessParameterOutOfBoundsException(array $points, $α, $λ)
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         $loess = new LOESS($points, $α, $λ);
     }
 

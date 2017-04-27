@@ -4,6 +4,7 @@ namespace MathPHP\Tests\LinearAlgebra;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\Vector;
+use MathPHP\Exception;
 
 class MatrixTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +30,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4, 5],
             [3, 4, 5],
         ];
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $matrix = MatrixFactory::create($A);
     }
 
@@ -40,7 +41,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4, 5],
             [3, 4, 5],
         ];
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $matrix = new Matrix($A);
     }
 
@@ -159,7 +160,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRowException()
     {
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $this->matrix->getRow(8);
     }
 
@@ -179,7 +180,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     public function testGetColumnException()
     {
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $this->matrix->getColumn(8);
     }
 
@@ -207,13 +208,13 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     public function testGetExceptionRow()
     {
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $this->matrix->get(8, 1);
     }
 
     public function testGetExceptionColumn()
     {
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $this->matrix->get(1, 8);
     }
 
@@ -264,7 +265,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayAccessInterfaceOffsetSet()
     {
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         $this->matrix[0] = [4, 3, 5];
         $this->assertTrue($this->matrix->offsetExists(0));
     }
@@ -276,7 +277,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayAccessOffsetUnsetException()
     {
-        $this->expectException('MathPHP\Exception\MatrixException');
+        $this->expectException(Exception\MatrixException::class);
         unset($this->matrix[0]);
     }
 

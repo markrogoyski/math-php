@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\Probability;
 
 use MathPHP\Probability\Combinatorics;
+use MathPHP\Exception;
 
 class CombinatoricsTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +16,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
 
     public function testFactorialBoundsException()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::factorial(-1);
     }
 
@@ -49,7 +50,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
     
     public function testDoubleFactorialExceptionNLessThanZero()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::doubleFactorial(-1);
     }
     
@@ -75,7 +76,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
     
     public function testRisingFactorialExceptionNLessThanZero()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::risingFactorial(5, -1);
     }
 
@@ -108,7 +109,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
 
     public function testFallingFactorialExceptionNLessThanZero()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::fallingFactorial(5, -1);
     }
 
@@ -139,7 +140,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
 
     public function testSubactorialExceptionNLessThanZero()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::subfactorial(-1);
     }
 
@@ -153,7 +154,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
 
     public function testPermutationsBoundsException()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::permutations(-1);
     }
 
@@ -222,13 +223,13 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
 
     public function testPermutationsChooseKBoundsException()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::permutations(-1, 3);
     }
 
     public function testPermutationsChooseKKGreaterThanNException()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::permutations(3, 4);
     }
 
@@ -267,13 +268,13 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
 
     public function testCombinationsExceptionNLessThanZero()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::combinations(-1, 2);
     }
 
     public function testCombinationsExceptionRLargerThanN()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::combinations(1, 2);
     }
 
@@ -287,13 +288,13 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
 
     public function testCombinationsWithRepetitionBoundsException()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::combinations(-1, 3, Combinatorics::REPETITION);
     }
 
     public function testCombinationsRGreaterThanNException()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::combinations(3, 4, Combinatorics::REPETITION);
     }
 
@@ -349,7 +350,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
 
     public function testCentralBinomialCoefficientExceptionNLessThanZero()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::centralBinomialCoefficient(-1);
     }
 
@@ -381,7 +382,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
 
     public function testCatalanNumberExceptionNLessThanZero()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::catalanNumber(-1);
     }
 
@@ -462,7 +463,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
      */
     public function testLahNumberExceptionNOrKLessThanOne(int $n, int $k)
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Combinatorics::lahNumber($n, $k);
     }
 
@@ -477,7 +478,7 @@ class CombinatoricsTest extends \PHPUnit_Framework_TestCase
 
     public function testLahNumberExceptionNLessThanK()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
 
         $k = 4;
         $n = 2;

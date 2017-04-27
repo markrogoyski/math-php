@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\NumericalAnalysis\RootFinding;
 
 use MathPHP\NumericalAnalysis\RootFinding\BisectionMethod;
+use MathPHP\Exception;
 
 class BisectionMethodTest extends \PHPUnit_Framework_TestCase
 {
@@ -114,7 +115,7 @@ class BisectionMethodTest extends \PHPUnit_Framework_TestCase
         $b        = 2;
         $expected = 1;
 
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         $x = BisectionMethod::solve($func, $a, $b, $tol);
     }
 
@@ -129,7 +130,7 @@ class BisectionMethodTest extends \PHPUnit_Framework_TestCase
         $b        = 2;
         $expected = 1;
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $x = BisectionMethod::solve($func, $a, $b, $tol);
     }
 
@@ -144,7 +145,7 @@ class BisectionMethodTest extends \PHPUnit_Framework_TestCase
         $b        = 1;
         $expected = 1;
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         $x = BisectionMethod::solve($func, $a, $b, $tol);
     }
 }

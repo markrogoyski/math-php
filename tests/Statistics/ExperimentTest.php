@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\Statistics;
 
 use MathPHP\Statistics\Experiment;
+use MathPHP\Exception;
 
 class ExperimentTest extends \PHPUnit_Framework_TestCase
 {
@@ -99,7 +100,7 @@ class ExperimentTest extends \PHPUnit_Framework_TestCase
 
     public function testLikelihoodRatioSSException()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Experiment::likelihoodRatioSS(1.2, 1.5);
     }
 }

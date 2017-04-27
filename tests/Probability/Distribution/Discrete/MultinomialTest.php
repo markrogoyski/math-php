@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Distribution\Discrete\Multinomial;
+use MathPHP\Exception;
 
 class MultinomialTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,13 +28,13 @@ class MultinomialTest extends \PHPUnit_Framework_TestCase
 
     public function testPMFExceptionCountFrequenciesAndProbabilitiesDoNotMatch()
     {
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         Multinomial::pmf([1, 2,3], [0.3, 0.4, 0.2, 0.1]);
     }
 
     public function testPMFExceptionProbabilitiesDoNotAddUpToOne()
     {
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         Multinomial::pmf([1, 2,3], [0.3, 0.2, 0.1]);
     }
 }

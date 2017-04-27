@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\Statistics;
 
 use MathPHP\Statistics\Correlation;
+use MathPHP\Exception;
 
 class CorrelationTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +37,7 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
 
     public function testPopulationCovarianceExceptionWhenXAndYHaveDifferentCounts()
     {
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         Correlation::populationCovariance([ 1, 2 ], [ 2, 3, 4 ]);
     }
 
@@ -71,7 +72,7 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
 
     public function testSampleCovarianceExceptionWhenXAndYHaveDifferentCounts()
     {
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         Correlation::sampleCovariance([ 1, 2 ], [ 2, 3, 4 ]);
     }
 
@@ -221,7 +222,7 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
         $X = [1, 2, 3];
         $Y = [2, 3, 4, 5];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         Correlation::kendallsTau($X, $Y);
     }
 
@@ -269,7 +270,7 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
         $X = [1, 2, 3];
         $Y = [2, 3, 4, 5];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         Correlation::spearmansRho($X, $Y);
     }
 

@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\Statistics;
 
 use MathPHP\Statistics\Significance;
+use MathPHP\Exception;
 
 class SignificanceTest extends \PHPUnit_Framework_TestCase
 {
@@ -215,7 +216,7 @@ class SignificanceTest extends \PHPUnit_Framework_TestCase
         $observed = [1, 2, 3, 4];
         $expected = [1, 2, 3];
 
-        $this->expectException('MathPHP\Exception\BadDataException');
+        $this->expectException(Exception\BadDataException::class);
         Significance::chiSquaredTest($observed, $expected);
     }
 }

@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\Statistics;
 
 use MathPHP\Statistics\EffectSize;
+use MathPHP\Exception;
 
 class EffectSizeTest extends \PHPUnit_Framework_TestCase
 {
@@ -127,7 +128,7 @@ class EffectSizeTest extends \PHPUnit_Framework_TestCase
 
     public function testCohensQExceptionROutOfBounds()
     {
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
 
         EffectSize::cohensQ(0.1, 2);
     }

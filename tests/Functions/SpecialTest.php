@@ -299,7 +299,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     public function testRegularizedIncompleteBetaExceptionALessThanZero()
     {
         $a = -1;
-        $this->expectException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException(Exception\OutOfBoundsException::class);
         Special::regularizedIncompleteBeta(0.4, $a, 4);
     }
 
