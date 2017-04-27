@@ -9,7 +9,7 @@ class NumericalDifferentiationTest extends \PHPUnit_Framework_TestCase
     public function testInstantiateAbstractClassException()
     {
         // Instantiating NumericalDifferentiation (an abstract class)
-        $this->expectException('\Error');
+        $this->expectException(\Error::class);
         new NumericalDifferentiation();
     }
 

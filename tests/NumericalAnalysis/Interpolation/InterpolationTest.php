@@ -9,7 +9,7 @@ class InterpolationTest extends \PHPUnit_Framework_TestCase
     public function testInstantiateAbstractClassException()
     {
         // Instantiating Interpolation (an abstract class)
-        $this->expectException('\Error');
+        $this->expectException(\Error::class);
         new Interpolation();
     }
 

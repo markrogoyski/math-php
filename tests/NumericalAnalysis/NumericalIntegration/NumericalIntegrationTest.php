@@ -9,7 +9,7 @@ class NumericalIntegrationTest extends \PHPUnit_Framework_TestCase
     public function testInstantiateAbstractClassException()
     {
         // Instantiating NumericalIntegration (an abstract class)
-        $this->expectException('\Error');
+        $this->expectException(\Error::class);
         new NumericalIntegration;
     }
 
