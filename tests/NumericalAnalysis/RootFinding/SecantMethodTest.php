@@ -62,7 +62,7 @@ class SecantMethodTest extends \PHPUnit_Framework_TestCase
         $p₀       = -1;
         $p₁       = 2;
 
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $x = SecantMethod::solve($func, $p₀, $p₁, $tol);
     }
 
@@ -77,7 +77,7 @@ class SecantMethodTest extends \PHPUnit_Framework_TestCase
         $p₀       = 1;
         $p₁       = 1;
 
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $x = SecantMethod::solve($func, $p₀, $p₁, $tol);
     }
 }

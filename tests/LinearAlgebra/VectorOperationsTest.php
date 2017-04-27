@@ -40,7 +40,7 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
         $A = new Vector([1, 2]);
         $B = new Vector([1, 2, 3]);
 
-        $this->setExpectedException('MathPHP\Exception\VectorException');
+        $this->expectException('MathPHP\Exception\VectorException');
         $A->dotProduct($B);
     }
 
@@ -124,7 +124,7 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
         $A = new Vector($A);
         $B = new Vector($B);
 
-        $this->setExpectedException('MathPHP\Exception\VectorException');
+        $this->expectException('MathPHP\Exception\VectorException');
         $A->crossProduct($B);
     }
 
@@ -401,7 +401,7 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
         $A = new Vector([1, 2, 3]);
         $B = new Vector([1, 2]);
 
-        $this->setExpectedException('MathPHP\Exception\VectorException');
+        $this->expectException('MathPHP\Exception\VectorException');
         $A->add($B);
     }
 
@@ -450,7 +450,7 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
         $A = new Vector([1, 2, 3]);
         $B = new Vector([1, 2]);
 
-        $this->setExpectedException('MathPHP\Exception\VectorException');
+        $this->expectException('MathPHP\Exception\VectorException');
         $A->subtract($B);
     }
 
@@ -537,7 +537,7 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
     {
         $A = new Vector([1, 2, 3]);
 
-        $this->setExpectedException('MathPHP\Exception\VectorException');
+        $this->expectException('MathPHP\Exception\VectorException');
         $A->perpendicular();
     }
 
@@ -574,7 +574,7 @@ class VectorOperationsTest extends \PHPUnit_Framework_TestCase
         $A = new Vector([1, 2, 3]);
         $B = new Vector([1, 2, 3]);
 
-        $this->setExpectedException('MathPHP\Exception\VectorException');
+        $this->expectException('MathPHP\Exception\VectorException');
         $A->perpDotProduct($B);
     }
 

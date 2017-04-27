@@ -288,7 +288,7 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
             [1, 2, 3],
             [2, 3, 4],
         ]);
-        $this->setExpectedException('MathPHP\Exception\MatrixException');
+        $this->expectException('MathPHP\Exception\MatrixException');
         $A->luDecomposition();
     }
 
@@ -682,7 +682,7 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
             [3, 4, 5],
         ]);
 
-        $this->setExpectedException('MathPHP\Exception\IncorrectTypeException');
+        $this->expectException('MathPHP\Exception\IncorrectTypeException');
         $A->solve($b);
     }
 
@@ -924,7 +924,7 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
         ];
         $A = MatrixFactory::create($A);
 
-        $this->setExpectedException(Exception\MatrixException::class);
+        $this->expectException(Exception\MatrixException::class);
         $L = $A->choleskyDecomposition();
     }
 }

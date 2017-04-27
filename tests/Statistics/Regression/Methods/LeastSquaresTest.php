@@ -14,7 +14,7 @@ class LeastSquaresTest extends \PHPUnit_Framework_TestCase
      */
     public function testLeastSquaresDegreesOfFreedomBadDataException(array $points)
     {
-        $this->setExpectedException(Exception\BadDataException::class);
+        $this->expectException(Exception\BadDataException::class);
         $regression = new Linear($points);
     }
 

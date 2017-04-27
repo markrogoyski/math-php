@@ -53,7 +53,7 @@ class NewtonsMethodTest extends \PHPUnit_Framework_TestCase
         $position = 0;
         $tol      = -0.00001;
 
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         $x = NewtonsMethod::solve($func, $args, $target, $tol, $position);
     }
 

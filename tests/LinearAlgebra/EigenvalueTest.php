@@ -84,7 +84,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $this->setExpectedException(Exception\BadDataException::class);
+        $this->expectException(Exception\BadDataException::class);
         Eigenvalue::quadratic($A);
     }
 

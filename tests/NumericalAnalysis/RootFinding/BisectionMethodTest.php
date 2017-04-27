@@ -114,7 +114,7 @@ class BisectionMethodTest extends \PHPUnit_Framework_TestCase
         $b        = 2;
         $expected = 1;
 
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException('MathPHP\Exception\OutOfBoundsException');
         $x = BisectionMethod::solve($func, $a, $b, $tol);
     }
 
@@ -129,7 +129,7 @@ class BisectionMethodTest extends \PHPUnit_Framework_TestCase
         $b        = 2;
         $expected = 1;
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         $x = BisectionMethod::solve($func, $a, $b, $tol);
     }
 
@@ -144,7 +144,7 @@ class BisectionMethodTest extends \PHPUnit_Framework_TestCase
         $b        = 1;
         $expected = 1;
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         $x = BisectionMethod::solve($func, $a, $b, $tol);
     }
 }

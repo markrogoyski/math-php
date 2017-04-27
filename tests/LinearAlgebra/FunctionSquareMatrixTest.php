@@ -51,7 +51,7 @@ class FunctionSquareMatrixTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
         ];
 
-        $this->setExpectedException(Exception\BadDataException::class);
+        $this->expectException(Exception\BadDataException::class);
         $A = new FunctionSquareMatrix($A);
     }
 }

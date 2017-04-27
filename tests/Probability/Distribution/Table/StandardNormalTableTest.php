@@ -28,7 +28,7 @@ class StandardNormalTest extends \PHPUnit_Framework_TestCase
 
     public function testGetZScoreProbabilityExceptionZBadFormat()
     {
-        $this->setExpectedException('MathPHP\Exception\BadParameterException');
+        $this->expectException('MathPHP\Exception\BadParameterException');
         StandardNormal::getZScoreProbability('12.34');
     }
 
@@ -53,7 +53,7 @@ class StandardNormalTest extends \PHPUnit_Framework_TestCase
 
     public function testGetZScoreForConfidenceIntervalInvalidConfidenceLevel()
     {
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         StandardNormal::getZScoreForConfidenceInterval(12);
     }
 }

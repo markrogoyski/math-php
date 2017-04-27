@@ -69,7 +69,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
         $i       = 2;
         $complex = new Complex($r, $i);
 
-        $this->setExpectedException(Exception\BadParameterException::class);
+        $this->expectException(Exception\BadParameterException::class);
         $z = $complex->z;
     }
     
@@ -613,7 +613,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     public function testComplexAddException()
     {
         $complex = new Complex(1, 1);
-        $this->setExpectedException(Exception\IncorrectTypeException::class);
+        $this->expectException(Exception\IncorrectTypeException::class);
         $complex->add("string");
     }
 
@@ -624,7 +624,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     public function testComplexSubtractException()
     {
         $complex = new Complex(1, 1);
-        $this->setExpectedException(Exception\IncorrectTypeException::class);
+        $this->expectException(Exception\IncorrectTypeException::class);
         $complex->subtract("string");
     }
 
@@ -635,7 +635,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     public function testComplexMultiplyException()
     {
         $complex = new Complex(1, 1);
-        $this->setExpectedException(Exception\IncorrectTypeException::class);
+        $this->expectException(Exception\IncorrectTypeException::class);
         $complex->multiply("string");
     }
 
@@ -646,7 +646,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     public function testComplexDivideException()
     {
         $complex = new Complex(1, 1);
-        $this->setExpectedException(Exception\IncorrectTypeException::class);
+        $this->expectException(Exception\IncorrectTypeException::class);
         $complex->divide("string");
     }
 
@@ -686,7 +686,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     public function testInverseException()
     {
         $complex = new Complex(0, 0);
-        $this->setExpectedException(Exception\BadDataException::class);
+        $this->expectException(Exception\BadDataException::class);
         $complex->inverse();
     }
 

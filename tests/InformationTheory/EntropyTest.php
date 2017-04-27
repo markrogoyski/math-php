@@ -57,7 +57,7 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
     {
         $p = [0.2, 0.2, 0.1];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Entropy::shannonEntropy($p);
     }
 
@@ -101,7 +101,7 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
     {
         $p = [0.2, 0.2, 0.1];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Entropy::shannonNatEntropy($p);
     }
 
@@ -145,7 +145,7 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
     {
         $p = [0.2, 0.2, 0.1];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Entropy::shannonHartleyEntropy($p);
     }
 
@@ -181,7 +181,7 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
         $p = [0.4, 0.5, 0.1];
         $q = [0.2, 0.8];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Entropy::crossEntropy($p, $q);
     }
 
@@ -190,7 +190,7 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
         $p = [0.2, 0.2, 0.1];
         $q = [0.2, 0.4, 0.6];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Entropy::crossEntropy($p, $q);
     }
 
@@ -208,7 +208,7 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
     {
         $p = [0.2, 0.2, 0.1];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Entropy::jointEntropy($p);
     }
 
@@ -237,7 +237,7 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
         $p = [0.2, 0.2, 0.1];
         $α = 0.5;
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Entropy::renyiEntropy($p, $α);
     }
 
@@ -247,7 +247,7 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
         $p = [0.4, 0.4, 0.2];
         $α = -3;
 
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException('MathPHP\Exception\OutOfBoundsException');
         Entropy::renyiEntropy($p, $α);
     }
 
@@ -256,7 +256,7 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
         $p = [0.4, 0.4, 0.2];
         $α = 1;
 
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException('MathPHP\Exception\OutOfBoundsException');
         Entropy::renyiEntropy($p, $α);
     }
 
@@ -308,7 +308,7 @@ class EntropyTest extends \PHPUnit_Framework_TestCase
     {
         $p = [0.2, 0.2, 0.1];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Entropy::perplexity($p);
     }
 }

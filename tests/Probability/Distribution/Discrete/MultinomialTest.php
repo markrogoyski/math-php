@@ -27,13 +27,13 @@ class MultinomialTest extends \PHPUnit_Framework_TestCase
 
     public function testPMFExceptionCountFrequenciesAndProbabilitiesDoNotMatch()
     {
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Multinomial::pmf([1, 2,3], [0.3, 0.4, 0.2, 0.1]);
     }
 
     public function testPMFExceptionProbabilitiesDoNotAddUpToOne()
     {
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Multinomial::pmf([1, 2,3], [0.3, 0.2, 0.1]);
     }
 }

@@ -41,7 +41,7 @@ class DistanceTest extends \PHPUnit_Framework_TestCase
         $p = [0.4, 0.5, 0.1];
         $q = [0.2, 0.8];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Distance::bhattacharyyaDistance($p, $q);
     }
 
@@ -50,7 +50,7 @@ class DistanceTest extends \PHPUnit_Framework_TestCase
         $p = [0.2, 0.2, 0.1];
         $q = [0.2, 0.4, 0.6];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Distance::bhattacharyyaDistance($p, $q);
     }
 
@@ -101,7 +101,7 @@ class DistanceTest extends \PHPUnit_Framework_TestCase
         $p = [0.4, 0.5, 0.1];
         $q = [0.2, 0.8];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Distance::kullbackLeiblerDivergence($p, $q);
     }
 
@@ -110,7 +110,7 @@ class DistanceTest extends \PHPUnit_Framework_TestCase
         $p = [0.2, 0.2, 0.1];
         $q = [0.2, 0.4, 0.6];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Distance::kullbackLeiblerDivergence($p, $q);
     }
 
@@ -161,7 +161,7 @@ class DistanceTest extends \PHPUnit_Framework_TestCase
         $p = [0.4, 0.5, 0.1];
         $q = [0.2, 0.8];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Distance::hellingerDistance($p, $q);
     }
 
@@ -170,7 +170,7 @@ class DistanceTest extends \PHPUnit_Framework_TestCase
         $p = [0.2, 0.2, 0.1];
         $q = [0.2, 0.4, 0.6];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Distance::hellingerDistance($p, $q);
     }
 
@@ -219,7 +219,7 @@ class DistanceTest extends \PHPUnit_Framework_TestCase
         $p = [0.4, 0.5, 0.1];
         $q = [0.2, 0.8];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Distance::jensenShannonDivergence($p, $q);
     }
 
@@ -228,7 +228,7 @@ class DistanceTest extends \PHPUnit_Framework_TestCase
         $p = [0.2, 0.2, 0.1];
         $q = [0.2, 0.4, 0.6];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Distance::jensenShannonDivergence($p, $q);
     }
 }

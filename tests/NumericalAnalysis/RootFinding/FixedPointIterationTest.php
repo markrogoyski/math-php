@@ -53,7 +53,7 @@ class FixedPointIterationTest extends \PHPUnit_Framework_TestCase
         $b        = 3;
         $p        = 0;
 
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException('MathPHP\Exception\OutOfBoundsException');
         $x = FixedPointIteration::solve($func, $a, $b, $p, $tol);
     }
 
@@ -68,7 +68,7 @@ class FixedPointIterationTest extends \PHPUnit_Framework_TestCase
         $b        = 3;
         $p        = 3;
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         $x = FixedPointIteration::solve($func, $a, $b, $p, $tol);
     }
 
@@ -83,7 +83,7 @@ class FixedPointIterationTest extends \PHPUnit_Framework_TestCase
         $b        = 3;
         $p        = -1;
 
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException('MathPHP\Exception\OutOfBoundsException');
         $x = FixedPointIteration::solve($func, $a, $b, $p, $tol);
     }
 }

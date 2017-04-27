@@ -199,7 +199,7 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
             new Vector([4, 5, 6]),
         ];
 
-        $this->setExpectedException('MathPHP\Exception\MatrixException');
+        $this->expectException('MathPHP\Exception\MatrixException');
         $A = MatrixFactory::create($A);
     }
 
@@ -323,7 +323,7 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $A = [];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         $M = MatrixFactory::create($A);
     }
 
@@ -334,7 +334,7 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
             [[2], [3], [4]],
         ];
 
-        $this->setExpectedException('MathPHP\Exception\IncorrectTypeException');
+        $this->expectException('MathPHP\Exception\IncorrectTypeException');
         MatrixFactory::create($A);
     }
 
@@ -388,7 +388,7 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testIdentityExceptionNLessThanZero()
     {
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException('MathPHP\Exception\OutOfBoundsException');
         MatrixFactory::identity(-1);
     }
 
@@ -442,7 +442,7 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testExchangeExceptionNLessThanZero()
     {
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException('MathPHP\Exception\OutOfBoundsException');
         MatrixFactory::exchange(-1);
     }
 
@@ -492,7 +492,7 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testZeroExceptionRowsLessThanOne()
     {
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException('MathPHP\Exception\OutOfBoundsException');
         MatrixFactory::zero(0, 2);
     }
 
@@ -542,7 +542,7 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testOneExceptionRowsLessThanOne()
     {
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException('MathPHP\Exception\OutOfBoundsException');
         MatrixFactory::one(0, 2);
     }
 
@@ -713,7 +713,7 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testEyeExceptions(int $m, int $n, int $k, int $x)
     {
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException('MathPHP\Exception\OutOfBoundsException');
         $A = MatrixFactory::eye($m, $n, $k, $x);
     }
 
@@ -743,7 +743,7 @@ class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testHilbertExceptionNLessThanZero()
     {
-        $this->setExpectedException(Exception\OutOfBoundsException::class);
+        $this->expectException(Exception\OutOfBoundsException::class);
         MatrixFactory::hilbert(-1);
     }
 }

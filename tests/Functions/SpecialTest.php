@@ -299,7 +299,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     public function testRegularizedIncompleteBetaExceptionALessThanZero()
     {
         $a = -1;
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException('MathPHP\Exception\OutOfBoundsException');
         Special::regularizedIncompleteBeta(0.4, $a, 4);
     }
 
@@ -309,7 +309,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     public function testRegularizedIncompleteBetaExceptionXOutOfBounds()
     {
         $x = -1;
-        $this->setExpectedException(Exception\OutOfBoundsException::class);
+        $this->expectException(Exception\OutOfBoundsException::class);
         Special::regularizedIncompleteBeta($x, 4, 4);
     }
 
@@ -381,7 +381,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
      */
     public function testUppderIncompleteGammaExceptionSLessThanZero()
     {
-        $this->setExpectedException(Exception\OutOfBoundsException::class);
+        $this->expectException(Exception\OutOfBoundsException::class);
         Special::upperIncompleteGamma(-1, 1);
     }
 
@@ -390,7 +390,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
      */
     public function testGeneralizedHypergeometricExceptionParameterCount()
     {
-        $this->setExpectedException(Exception\BadParameterException::class);
+        $this->expectException(Exception\BadParameterException::class);
         Special::generalizedHypergeometric(2, 1, [6.464756838, 0.509199496, 0.241379523]);
     }
     
@@ -441,7 +441,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
      */
     public function testHypergeometricExceptionNGreaterThanOne()
     {
-        $this->setExpectedException(Exception\OutOfBoundsException::class);
+        $this->expectException(Exception\OutOfBoundsException::class);
         Special::hypergeometric(1, 1, 1, 1);
     }
 

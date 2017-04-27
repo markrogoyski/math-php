@@ -48,14 +48,14 @@ class BetaTest extends \PHPUnit_Framework_TestCase
 
     public function testPDFExceptionAlphaBetaLessThanEqualZero()
     {
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         list($x, $α, $β) = [4, 0, -3];
         Beta::pdf($x, $α, $β);
     }
 
     public function testPDFExceptionXOutOfBounds()
     {
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         list($x, $α, $β) = [4, 1, 1];
         Beta::pdf($x, $α, $β);
     }

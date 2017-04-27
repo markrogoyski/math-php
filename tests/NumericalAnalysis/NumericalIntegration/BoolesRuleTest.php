@@ -51,14 +51,14 @@ class BoolesRuleTest extends \PHPUnit_Framework_TestCase
     {
         // The number of subintervals is not a factor of four, or
         // equivalently, the number of points minus one is not a factor of four
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         BoolesRule::approximate([[0,0], [4,4], [2,2], [6,6], [8,8], [10, 10]]);
     }
 
     public function testNonConstantSpacingException()
     {
         // There is not constant spacing between points
-        $this->setExpectedException('\Exception');
+        $this->expectException('\Exception');
         BoolesRule::approximate([[0,0], [3,3], [2,2], [4,4], [5, 5]]);
     }
 }

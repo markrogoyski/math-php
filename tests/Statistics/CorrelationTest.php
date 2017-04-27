@@ -36,7 +36,7 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
 
     public function testPopulationCovarianceExceptionWhenXAndYHaveDifferentCounts()
     {
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Correlation::populationCovariance([ 1, 2 ], [ 2, 3, 4 ]);
     }
 
@@ -71,7 +71,7 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
 
     public function testSampleCovarianceExceptionWhenXAndYHaveDifferentCounts()
     {
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Correlation::sampleCovariance([ 1, 2 ], [ 2, 3, 4 ]);
     }
 
@@ -221,7 +221,7 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
         $X = [1, 2, 3];
         $Y = [2, 3, 4, 5];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Correlation::kendallsTau($X, $Y);
     }
 
@@ -269,7 +269,7 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
         $X = [1, 2, 3];
         $Y = [2, 3, 4, 5];
 
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
         Correlation::spearmansRho($X, $Y);
     }
 

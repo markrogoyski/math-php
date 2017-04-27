@@ -76,7 +76,7 @@ class SupportTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckLimitsLowerLimitException(array $limits, array $params)
     {
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException('MathPHP\Exception\OutOfBoundsException');
         Support::checkLimits($limits, $params);
     }
 
@@ -173,7 +173,7 @@ class SupportTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckLimitsUpperLimitException(array $limits, array $params)
     {
-        $this->setExpectedException('MathPHP\Exception\OutOfBoundsException');
+        $this->expectException('MathPHP\Exception\OutOfBoundsException');
         Support::checkLimits($limits, $params);
     }
 
@@ -209,7 +209,7 @@ class SupportTest extends \PHPUnit_Framework_TestCase
 
     public function testCheckLimitsLowerLimitEndpointException()
     {
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
 
         $limits = ['x' => '{0,1)'];
         $params = ['x' => 0.5];
@@ -218,7 +218,7 @@ class SupportTest extends \PHPUnit_Framework_TestCase
 
     public function testCheckLimitsUpperLimitEndpointException()
     {
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        $this->expectException('MathPHP\Exception\BadDataException');
 
         $limits = ['x' => '(0,1}'];
         $params = ['x' => 0.5];
@@ -230,7 +230,7 @@ class SupportTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckLimitsUndefinedParameterException(array $limits, array $params)
     {
-        $this->setExpectedException('MathPHP\Exception\BadParameterException');
+        $this->expectException('MathPHP\Exception\BadParameterException');
         Support::checkLimits($limits, $params);
     }
 

@@ -127,7 +127,7 @@ class SecondDerivativeMidpointFormulaTest extends \PHPUnit_Framework_TestCase
             return 26;
         };
 
-        $this->setExpectedException(Exception\BadDataException::class);
+        $this->expectException(Exception\BadDataException::class);
         $target   = 87348738473;
         $expected = $f’’($target);
         $actual   = SecondDerivativeMidpointFormula::differentiate($target, $points);

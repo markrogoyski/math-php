@@ -54,7 +54,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetException()
     {
-        $this->setExpectedException('MathPHP\Exception\VectorException');
+        $this->expectException('MathPHP\Exception\VectorException');
         $this->vector->get(100);
     }
 
@@ -69,7 +69,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayAccessInterfaceOffsetSet()
     {
-        $this->setExpectedException('MathPHP\Exception\VectorException');
+        $this->expectException('MathPHP\Exception\VectorException');
         $this->vector[0] = 1;
     }
 
@@ -80,7 +80,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayAccessOffsetUnsetException()
     {
-        $this->setExpectedException('MathPHP\Exception\VectorException');
+        $this->expectException('MathPHP\Exception\VectorException');
         unset($this->vector[0]);
     }
 

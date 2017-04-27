@@ -341,13 +341,13 @@ class MultiTest extends \PHPUnit_Framework_TestCase
         $xs = [1, 2, 3];
         $ys = [1, 2];
 
-        $this->setExpectedException('\MathPHP\Exception\BadDataException');
+        $this->expectException('\MathPHP\Exception\BadDataException');
         Multi::add($xs, $ys);
     }
 
     public function testCheckArrayLengthsExceptionOnlyOneArray()
     {
-        $this->setExpectedException('\MathPHP\Exception\BadDataException');
+        $this->expectException('\MathPHP\Exception\BadDataException');
         Multi::add([1,2]);
     }
 }

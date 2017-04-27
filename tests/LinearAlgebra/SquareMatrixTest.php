@@ -41,7 +41,7 @@ class SquareMatrixTest extends \PHPUnit_Framework_TestCase
             [2, 3, 4],
         ];
 
-        $this->setExpectedException(Exception\MatrixException::class);
+        $this->expectException(Exception\MatrixException::class);
         $M = new SquareMatrix($A);
     }
 

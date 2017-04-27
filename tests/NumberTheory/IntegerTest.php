@@ -311,7 +311,7 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrimeFactorizationOutOfBoundsException(int $n)
     {
-        $this->setExpectedException(Exception\OutOfBoundsException::class);
+        $this->expectException(Exception\OutOfBoundsException::class);
         Integer::primeFactorization($n);
     }
 

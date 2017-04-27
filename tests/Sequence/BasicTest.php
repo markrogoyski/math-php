@@ -54,7 +54,7 @@ class BasicTest extends \PHPUnit_Framework_TestCase
      */
     public function testGeometricProgressionExceptionRIsZero()
     {
-        $this->setExpectedException('MathPHP\Exception\BadParameterException');
+        $this->expectException('MathPHP\Exception\BadParameterException');
         $r = 0;
         Basic::geometricProgression(10, 2, $r);
     }
