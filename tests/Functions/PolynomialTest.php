@@ -768,6 +768,10 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
+                [1, -3],
+                [3],
+            ],
+            [
                 [1, -3, -4],
                 [-1, 4],
             ],
