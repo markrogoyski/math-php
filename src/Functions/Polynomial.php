@@ -2,6 +2,8 @@
 
 namespace MathPHP\Functions;
 
+use MathPHP\Algebra;
+
 /**
  * A convenience class for one-dimension polynomials.
  *
@@ -375,5 +377,41 @@ class Polynomial
         }
 
         return new Polynomial($productCoefficients);
+    }
+
+    /**
+     * Multiply a polynomial by a scalar value
+     *
+     * @param number $scaler value we are multiplying with our current polynomial
+     *
+     * @return object The product of our polynomial object and the scaler, also a polynomial object
+     */
+    public function scalerMultiply(float $scaler): Polynomial
+    {
+        foreach ($this->coefficients as $key => $value) {
+            $productCoefficients[] = $value * $scaler;
+        }
+        return new Polynomial($productCoefficients);
+    }
+
+    /**
+     * Calculate the roots of a polynomial
+     *
+     * Closed form solutions only exist if the degree is less than 5
+     */
+    public function roots(): array
+    {
+        switch ($this->degree) {
+            case 1:
+                return [-1 * $this->coefficients[1] / $this->coefficients[0]];
+            case 2:
+                return Algebra::quadratic(...$this->coefficients);
+            case 3:
+                return Algebra::cubic(...$this->coefficients);
+            case 4:
+                return Algebra::quartic(...$this->coefficients);
+            default:
+                return [\NAN];
+        }
     }
 }
