@@ -20,7 +20,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $this->matrix);
+        $this->assertInstanceOf(Matrix::class, $this->matrix);
     }
 
     public function testConstructorExceptionNCountDiffers()
@@ -244,7 +244,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         ];
         $matrix = MatrixFactory::create($A);
 
-        $this->assertInstanceOf('ArrayAccess', $matrix);
+        $this->assertInstanceOf(\ArrayAccess::class, $matrix);
 
         $this->assertEquals([1, 2, 3], $matrix[0]);
         $this->assertEquals([2, 3, 4], $matrix[1]);

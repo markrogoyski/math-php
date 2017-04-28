@@ -13,12 +13,12 @@ class SetTest extends \PHPUnit_Framework_TestCase
     public function testContstructor(array $members)
     {
         $set = new Set($members);
-        $this->assertInstanceOf('MathPHP\SetTheory\Set', $set);
+        $this->assertInstanceOf(Set::class, $set);
     }
 
     public function testInterfaces()
     {
-        $interfaces = class_implements('\MathPHP\SetTheory\Set');
+        $interfaces = class_implements(Set::class);
 
         $this->assertContains('Countable', $interfaces);
         $this->assertContains('Iterator', $interfaces);

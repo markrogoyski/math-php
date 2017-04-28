@@ -15,8 +15,8 @@ class VandermondeSquareMatrixTest extends \PHPUnit_Framework_TestCase
         $M = new VandermondeSquareMatrix($M, $n);
         $V = new Matrix($V);
 
-        $this->assertInstanceOf('MathPHP\LinearAlgebra\VandermondeSquareMatrix', $M);
-        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $M);
+        $this->assertInstanceOf(VandermondeSquareMatrix::class, $M);
+        $this->assertInstanceOf(Matrix::class, $M);
         
         $m = $V->getM();
         for ($i = 0; $i < $m; $i++) {

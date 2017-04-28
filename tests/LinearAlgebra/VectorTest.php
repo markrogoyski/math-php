@@ -16,7 +16,7 @@ class VectorTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $this->assertInstanceOf('MathPHP\LinearAlgebra\Vector', $this->vector);
+        $this->assertInstanceOf(Vector::class, $this->vector);
     }
 
     public function testGetVector()

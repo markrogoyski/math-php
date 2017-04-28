@@ -18,8 +18,8 @@ class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
         $D = new DiagonalMatrix($A);
         $R = new Matrix($R);
 
-        $this->assertInstanceOf('MathPHP\LinearAlgebra\DiagonalMatrix', $D);
-        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $D);
+        $this->assertInstanceOf(DiagonalMatrix::class, $D);
+        $this->assertInstanceOf(Matrix::class, $D);
 
         $m = $D->getM();
         for ($i = 0; $i < $m; $i++) {

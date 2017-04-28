@@ -18,8 +18,8 @@ class SquareMatrixTest extends \PHPUnit_Framework_TestCase
         $S = new SquareMatrix($A);
         $M = new Matrix($A);
 
-        $this->assertInstanceOf('MathPHP\LinearAlgebra\SquareMatrix', $S);
-        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $S);
+        $this->assertInstanceOf(SquareMatrix::class, $S);
+        $this->assertInstanceOf(Matrix::class, $S);
 
         $m = $S->getM();
         for ($i = 0; $i < $m; $i++) {

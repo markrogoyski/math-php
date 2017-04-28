@@ -14,8 +14,8 @@ class ColumnVectorTest extends \PHPUnit_Framework_TestCase
         $C = new ColumnVector($M);
         $V = new Matrix($V);
 
-        $this->assertInstanceOf('MathPHP\LinearAlgebra\ColumnVector', $C);
-        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $C);
+        $this->assertInstanceOf(ColumnVector::class, $C);
+        $this->assertInstanceOf(Matrix::class, $C);
 
         foreach ($M as $row => $value) {
             $this->assertEquals($value, $V[$row][0]);
@@ -53,8 +53,8 @@ class ColumnVectorTest extends \PHPUnit_Framework_TestCase
         $C  = new ColumnVector($M);
         $Cᵀ = $C->transpose();
 
-        $this->assertInstanceOf('MathPHP\LinearAlgebra\RowVector', $Cᵀ);
-        $this->assertInstanceOf('MathPHP\LinearAlgebra\Matrix', $Cᵀ);
+        $this->assertInstanceOf(\MathPHP\LinearAlgebra\RowVector::class, $Cᵀ);
+        $this->assertInstanceOf(Matrix::class, $Cᵀ);
 
         $this->assertEquals(1, $Cᵀ->getM());
         $this->assertEquals(count($M), $Cᵀ->getN());

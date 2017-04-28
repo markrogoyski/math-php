@@ -9,8 +9,8 @@ class LinearTest extends \PHPUnit_Framework_TestCase
     {
         $points = [ [1,2], [2,3], [4,5], [5,7], [6,8] ];
         $regression = new Linear($points);
-        $this->assertInstanceOf('MathPHP\Statistics\Regression\Regression', $regression);
-        $this->assertInstanceOf('MathPHP\Statistics\Regression\Linear', $regression);
+        $this->assertInstanceOf(\MathPHP\Statistics\Regression\Regression::class, $regression);
+        $this->assertInstanceOf(\MathPHP\Statistics\Regression\Linear::class, $regression);
     }
 
     public function testGetPoints()

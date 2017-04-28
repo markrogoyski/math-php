@@ -73,7 +73,7 @@ class ImmutableSetTest extends \PHPUnit_Framework_TestCase
     {
         $A = new ImmutableSet([1, 2, 3, 4]);
 
-        $this->assertInstanceOf('\MathPHP\SetTheory\Set', $A);
+        $this->assertInstanceOf(Set::class, $A);
     }
 
     public function testActsLikeASet()
