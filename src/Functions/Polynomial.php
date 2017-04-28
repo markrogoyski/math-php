@@ -386,7 +386,7 @@ class Polynomial
      *
      * @return object The product of our polynomial object and the scaler, also a polynomial object
      */
-    public function scalerMultiply($scaler): Polynomial
+    public function scalerMultiply(float $scaler): Polynomial
     {
         foreach ($this->coefficients as $key => $value) {
             $productCoefficients[] = $value * $scaler;
