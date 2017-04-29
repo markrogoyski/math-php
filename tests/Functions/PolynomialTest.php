@@ -728,13 +728,67 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataProviderForScalerAddition
+     */
+    public function testScalerAddition(array $polynomialA, $scaler, array $expected_product)
+    {
+        $polynomialA    = new Polynomial($polynomialA);
+        $expected       = new Polynomial($expected_product);
+        $product        = $polynomialA->add($scaler);
+        $this->assertEquals($expected, $product);
+    }
+
+    public function dataProviderForScalerAddition()
+    {
+        return [
+            [
+                [1, 2, 3],         // f(x)      = x² + 2x + 3
+                2,
+                [1, 2, 5],         // f(x)*c    = x² + 2x + 5
+            ],
+            [
+                [1, 2, 3, 4, 4],           // f(x)      = x⁴ + 2x³ + 3x² + 4x + 4
+                -2,
+                [1, 2, 3, 4, 2],      // f(x)*c    = 1x⁴ + 2x³ + 3x² + 4x + 2
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForScalerSubtraction
+     */
+    public function testScalerSubtraction(array $polynomialA, $scaler, array $expected_product)
+    {
+        $polynomialA    = new Polynomial($polynomialA);
+        $expected       = new Polynomial($expected_product);
+        $product        = $polynomialA->subtract($scaler);
+        $this->assertEquals($expected, $product);
+    }
+
+    public function dataProviderForScalerSubtraction()
+    {
+        return [
+            [
+                [1, 2, 3],         // f(x)      = x² + 2x + 3
+                2,
+                [1, 2, 1],         // f(x)*c    = x² + 2x + 1
+            ],
+            [
+                [1, 2, 3, 4, 4],           // f(x)      = x⁴ + 2x³ + 3x² + 4x + 4
+                -2,
+                [1, 2, 3, 4, 6],      // f(x)*c    = 1x⁴ + 2x³ + 3x² + 4x + 6
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForScalerMultiplication
      */
     public function testScalerMultiplication(array $polynomialA, $scaler, array $expected_product)
     {
-        $polynomialA = new Polynomial($polynomialA);
-        $expected    = new Polynomial($expected_product);
-        $product     = $polynomialA->scalerMultiply($scaler);
+        $polynomialA    = new Polynomial($polynomialA);
+        $expected       = new Polynomial($expected_product);
+        $product        = $polynomialA->multiply($scaler);
         $this->assertEquals($expected, $product);
     }
 
