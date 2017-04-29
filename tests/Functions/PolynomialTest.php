@@ -732,9 +732,9 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
      */
     public function testScalerMultiplication(array $polynomialA, $scaler, array $expected_product)
     {
-        $polynomialA    = new Polynomial($polynomialA);
-        $expected       = new Polynomial($expected_product);
-        $product        = $polynomialA->scalerMultiply($scaler);
+        $polynomialA = new Polynomial($polynomialA);
+        $expected    = new Polynomial($expected_product);
+        $product     = $polynomialA->scalerMultiply($scaler);
         $this->assertEquals($expected, $product);
     }
 
@@ -759,8 +759,8 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoots(array $polynomialA, array $expected_roots)
     {
-        $polynomialA    = new Polynomial($polynomialA);
-        $roots        = $polynomialA->roots();
+        $polynomialA = new Polynomial($polynomialA);
+        $roots       = $polynomialA->roots();
         $this->assertEquals($expected_roots, $roots);
     }
 
@@ -791,8 +791,8 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
      */
     public function testRootsNAN(array $polynomialA)
     {
-        $polynomialA    = new Polynomial($polynomialA);
-        $roots        = $polynomialA->roots();
+        $polynomialA = new Polynomial($polynomialA);
+        $roots       = $polynomialA->roots();
         $this->assertNan($roots[0]);
     }
 

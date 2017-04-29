@@ -275,7 +275,7 @@ class Polynomial
     public function add(Polynomial $polynomial): Polynomial
     {
         // Calculate the degree of the sum of the polynomials
-        $sumDegree       = max($this->degree, $polynomial->degree);
+        $sumDegree = max($this->degree, $polynomial->degree);
 
         // Reverse the coefficients arrays so you can sum component-wise
         $coefficientsA = array_reverse($this->coefficients);
@@ -314,7 +314,7 @@ class Polynomial
     public function subtract(Polynomial $polynomial): Polynomial
     {
         // Calculate the degree of the sum of the polynomials
-        $difDegree       = max($this->degree, $polynomial->degree);
+        $difDegree = max($this->degree, $polynomial->degree);
 
         // Reverse the coefficients arrays so you can sum component-wise
         $coefficientsA = array_reverse($this->coefficients);
@@ -353,7 +353,7 @@ class Polynomial
     public function multiply(Polynomial $polynomial): Polynomial
     {
         // Calculate the degree of the product of the polynomials
-        $productDegree       = $this->degree + $polynomial->degree;
+        $productDegree = $this->degree + $polynomial->degree;
 
         // Reverse the coefficients arrays so you can multiply component-wise
         $coefficientsA = array_reverse($this->coefficients);
@@ -384,7 +384,7 @@ class Polynomial
      *
      * @param number $scaler value we are multiplying with our current polynomial
      *
-     * @return object The product of our polynomial object and the scaler, also a polynomial object
+     * @return Polynomial The product of our polynomial object and the scaler, also a polynomial object
      */
     public function scalerMultiply(float $scaler): Polynomial
     {
@@ -398,6 +398,8 @@ class Polynomial
      * Calculate the roots of a polynomial
      *
      * Closed form solutions only exist if the degree is less than 5
+     *
+     * @return array of roots
      */
     public function roots(): array
     {
