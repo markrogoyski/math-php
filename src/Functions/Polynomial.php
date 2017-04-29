@@ -268,14 +268,17 @@ class Polynomial
      *          $integral   = $polynomial->integrate();     // x³ - 8x² + 12x
      *          $sum        = $polynomial->add($integral);  // x³ - 5x² - 4x + 12
      *
-     * @param object $polynomial The polynomial we are adding to our current polynomial
+     * @param $polynomial The polynomial or scaler we are adding to our current polynomial
      *
      * @return object The sum of our polynomial objects, also a polynomial object
      */
-    public function add(Polynomial $polynomial): Polynomial
+    public function add($polynomial): Polynomial
     {
+        if (is_numeric($polynomial)) {
+            $polynomial = new Polynomial([$polynomial]);
+        }
         // Calculate the degree of the sum of the polynomials
-        $sumDegree = max($this->degree, $polynomial->degree);
+        $sumDegree       = max($this->degree, $polynomial->degree);
 
         // Reverse the coefficients arrays so you can sum component-wise
         $coefficientsA = array_reverse($this->coefficients);
@@ -307,14 +310,17 @@ class Polynomial
      *          $integral   = $polynomial->diferentiate();     // 6x - 16
      *          $difference        = $polynomial->subtract($derivative);  // 3x² - 22x + 28
      *
-     * @param object $polynomial The polynomial we are subtracting from our current polynomial
+     * @param $polynomial The polynomial or scaler we are subtracting from our current polynomial
      *
      * @return object The defference of our polynomial objects, also a polynomial object
      */
-    public function subtract(Polynomial $polynomial): Polynomial
+    public function subtract($polynomial): Polynomial
     {
+        if (is_numeric($polynomial)) {
+            $polynomial = new Polynomial([$polynomial]);
+        }
         // Calculate the degree of the sum of the polynomials
-        $difDegree = max($this->degree, $polynomial->degree);
+        $difDegree       = max($this->degree, $polynomial->degree);
 
         // Reverse the coefficients arrays so you can sum component-wise
         $coefficientsA = array_reverse($this->coefficients);
@@ -346,14 +352,17 @@ class Polynomial
      *          $integral   = $polynomial->integrate();          // x² - 16x
      *          $product    = $polynomial->multiply($integral);  // 2x³ - 48x² + 256x
      *
-     * @param object $polynomial The polynomial we are multiplying with our current polynomial
+     * @param object $polynomial The polynomial or scaler we are multiplying with our current polynomial
      *
      * @return object The product of our polynomial objects, also a polynomial object
      */
-    public function multiply(Polynomial $polynomial): Polynomial
+    public function multiply($polynomial): Polynomial
     {
+        if (is_numeric($polynomial)) {
+            $polynomial = new Polynomial([$polynomial]);
+        }
         // Calculate the degree of the product of the polynomials
-        $productDegree = $this->degree + $polynomial->degree;
+        $productDegree       = $this->degree + $polynomial->degree;
 
         // Reverse the coefficients arrays so you can multiply component-wise
         $coefficientsA = array_reverse($this->coefficients);
@@ -380,26 +389,9 @@ class Polynomial
     }
 
     /**
-     * Multiply a polynomial by a scalar value
-     *
-     * @param number $scaler value we are multiplying with our current polynomial
-     *
-     * @return Polynomial The product of our polynomial object and the scaler, also a polynomial object
-     */
-    public function scalerMultiply(float $scaler): Polynomial
-    {
-        foreach ($this->coefficients as $key => $value) {
-            $productCoefficients[] = $value * $scaler;
-        }
-        return new Polynomial($productCoefficients);
-    }
-
-    /**
      * Calculate the roots of a polynomial
      *
      * Closed form solutions only exist if the degree is less than 5
-     *
-     * @return array of roots
      */
     public function roots(): array
     {
