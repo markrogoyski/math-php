@@ -3,6 +3,7 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Functions\Map;
 use MathPHP\Exception;
+use MathPHP\Algebra;
 
 /**
  * m x n Matrix
@@ -2830,6 +2831,31 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         // Return unknown xs as Vector
         return new Vector(array_reverse($x));
+    }
+
+    /*
+     * Produces the Eigenvalues for a 2x2 matrix
+     *
+     * Given a matrix
+     *      [a b]
+     * A =  [c d]
+     *
+     * Find λ₁ and λ₂ such that the determinant of:
+     *      [a-λ, b   ]
+     *      [c,    d-λ] = 0
+     *
+     * or ad - λ(a+d) + λ² - cb = 0
+     */
+    public function eigenvalues(): Matrix
+    {
+        $A = $this->A;
+        $a = -1;
+        $b = 1 * $A[0][0] + $A[1][1];
+        $c = 1 * $A[1][0] * $A[0][1] - $A[0][0] * $A[1][1];
+        $eigenvalues = Algebra::quadratic($a, $b, $c);
+        
+        // return a diagonal matrix
+        return MatrixFactory::create($eigenvalues);
     }
 
     /**************************************************************************

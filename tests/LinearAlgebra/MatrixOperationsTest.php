@@ -3092,4 +3092,29 @@ class MatrixOperationsTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForEigenvalues
+     */
+    public function testEigenvalues(array $A, array $S)
+    {
+        $A = MatrixFactory::create($A);
+        $this->assertEquals($S, $A->eigenvalues()->getMatrix(), '', 0.0001);
+    }
+    public function dataProviderForEigenvalues()
+    {
+        return [
+            // Test data from Linear Algebra and Its Aplications (Lay)
+            [
+                [
+                    [0, 1],
+                    [-2, -3],
+                ],
+                [
+                    [-1, 0],
+                    [0, -2],
+                ],
+            ],
+        ];
+    }
 }
