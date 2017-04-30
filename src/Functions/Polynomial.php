@@ -178,6 +178,26 @@ class Polynomial
     }
 
     /**
+     * Check that our input is either a number or a Polynomial
+     * Convert any numbers to Polynomial objects
+     *
+     * @param mixed $input The variable to check
+     * @return Polynomial
+     * @throws IncorrectTypeException
+     */
+    private function checkNumericOrPolynomial($input): Polynomial
+    {
+        if (is_numeric($input)) {
+            $polynomial = new Polynomial([$polynomial]);
+        } elseif $input instanceof Polynomial) {
+            $polynomial = $imput;
+        } else {
+            throw new Exception\IncorrectTypeException('Input must be a Polynomial or a number');
+        }
+        return $polynomial;
+    }
+
+    /**
      * Getter method for the degree of a polynomial
      *
      * @return int The degree of a polynomial object
@@ -274,11 +294,10 @@ class Polynomial
      */
     public function add($polynomial): Polynomial
     {
-        if (is_numeric($polynomial)) {
-            $polynomial = new Polynomial([$polynomial]);
-        }
+        $polynomial = $this->checkNumericOrPolynomil($polynomial);
+
         // Calculate the degree of the sum of the polynomials
-        $sumDegree       = max($this->degree, $polynomial->degree);
+        $sumDegree = max($this->degree, $polynomial->degree);
 
         // Reverse the coefficients arrays so you can sum component-wise
         $coefficientsA = array_reverse($this->coefficients);
@@ -316,11 +335,10 @@ class Polynomial
      */
     public function subtract($polynomial): Polynomial
     {
-        if (is_numeric($polynomial)) {
-            $polynomial = new Polynomial([$polynomial]);
-        }
+        $polynomial = $this->checkNumericOrPolynomial($polynomial);
+ 
         // Calculate the degree of the sum of the polynomials
-        $difDegree       = max($this->degree, $polynomial->degree);
+        $difDegree = max($this->degree, $polynomial->degree);
 
         // Reverse the coefficients arrays so you can sum component-wise
         $coefficientsA = array_reverse($this->coefficients);
@@ -358,11 +376,10 @@ class Polynomial
      */
     public function multiply($polynomial): Polynomial
     {
-        if (is_numeric($polynomial)) {
-            $polynomial = new Polynomial([$polynomial]);
-        }
+        $polynomial = $this->checkNumericOrPolynomial($polynomial);
+        
         // Calculate the degree of the product of the polynomials
-        $productDegree       = $this->degree + $polynomial->degree;
+        $productDegree = $this->degree + $polynomial->degree;
 
         // Reverse the coefficients arrays so you can multiply component-wise
         $coefficientsA = array_reverse($this->coefficients);
