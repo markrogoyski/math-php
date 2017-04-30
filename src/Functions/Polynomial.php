@@ -189,8 +189,8 @@ class Polynomial
     {
         if (is_numeric($input)) {
             $polynomial = new Polynomial([$polynomial]);
-        } elseif $input instanceof Polynomial) {
-            $polynomial = $imput;
+        } elseif ($input instanceof Polynomial) {
+            $polynomial = $input;
         } else {
             throw new Exception\IncorrectTypeException('Input must be a Polynomial or a number');
         }
@@ -294,7 +294,7 @@ class Polynomial
      */
     public function add($polynomial): Polynomial
     {
-        $polynomial = $this->checkNumericOrPolynomil($polynomial);
+        $polynomial = $this->checkNumericOrPolynomial($polynomial);
 
         // Calculate the degree of the sum of the polynomials
         $sumDegree = max($this->degree, $polynomial->degree);
