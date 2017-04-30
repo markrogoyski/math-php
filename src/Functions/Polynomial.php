@@ -3,6 +3,7 @@
 namespace MathPHP\Functions;
 
 use MathPHP\Algebra;
+use MathPHP\Exception;
 
 /**
  * A convenience class for one-dimension polynomials.
