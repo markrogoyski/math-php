@@ -1,9 +1,9 @@
-Math PHP
+MathPHP
 =====================
 
 ### Powerful Modern Math Library for PHP
 
-Math PHP is the only library you need to integrate mathematical functions into your applications. It is a self-contained library in pure PHP with no external dependencies.
+MathPHP is the only library you need to integrate mathematical functions into your applications. It is a self-contained library in pure PHP with no external dependencies.
 
 It is actively under development with development (0.y.z) releases.
 
@@ -77,7 +77,7 @@ Use [composer](http://getcomposer.org) to install the library:
 $ php composer.phar install
 ```
 
-Composer will install Math PHP inside your vendor folder. Then you can add the following to your
+Composer will install MathPHP inside your vendor folder. Then you can add the following to your
 .php files to use the library with Autoloading.
 
 ```php
@@ -1038,7 +1038,7 @@ use MathPHP\Probability\Distribution\Table;
 
 // Provided solely for completeness' sake.
 // It is statistics tradition to provide these tables.
-// Math PHP has dynamic distribution CDF functions you can use instead.
+// MathPHP has dynamic distribution CDF functions you can use instead.
 
 // Standard Normal Table (Z Table)
 $table       = Table\StandardNormal::Z_SCORES;
@@ -1895,8 +1895,8 @@ Unit Tests
 
 Beyond 100% code coverage!
 
-Math PHP has thousands of unit tests testing individual functions directly with numerous data inputs to achieve 100% test coverage.
-Math PHP unit tests also test mathematical axioms which indirectly test the same functions in multiple different ways ensuring that those math properties all work out according to the axioms.
+MathPHP has thousands of unit tests testing individual functions directly with numerous data inputs to achieve 100% test coverage.
+MathPHP unit tests also test mathematical axioms which indirectly test the same functions in multiple different ways ensuring that those math properties all work out according to the axioms.
 
 ```bash
 $ cd tests
@@ -1909,7 +1909,7 @@ $ phpunit
 Standards
 ---------
 
-Math PHP conforms to the following standards:
+MathPHP conforms to the following standards:
 
  * PSR-1 - Basic coding standard (http://www.php-fig.org/psr/psr-1/)
  * PSR-2 - Coding style guide (http://www.php-fig.org/psr/psr-2/)
@@ -1918,4 +1918,4 @@ Math PHP conforms to the following standards:
 License
 -------
 
-Math PHP is licensed under the MIT License.
+MathPHP is licensed under the MIT License.
