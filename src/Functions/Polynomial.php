@@ -188,7 +188,7 @@ class Polynomial
     private function checkNumericOrPolynomial($input): Polynomial
     {
         if (is_numeric($input)) {
-            $polynomial = new Polynomial([$polynomial]);
+            $polynomial = new Polynomial([$input]);
         } elseif ($input instanceof Polynomial) {
             $polynomial = $input;
         } else {
