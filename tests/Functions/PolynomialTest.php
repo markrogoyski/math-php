@@ -858,4 +858,12 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    
+    public function testException()
+    {
+        $this->setExpectedException('MathPHP\Exception\IncorrectTypeException');
+        $string = 'This is a string!';
+        $poly = new Polynomial([1, 2]);
+        $sum = $poly->add($string);
+    }
 }
