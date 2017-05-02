@@ -377,26 +377,27 @@ $R = $A->columnAdd($nᵢ, $nⱼ, $k);     // Add k * column nᵢ to column nⱼ
 $R = $A->columnExclude($nᵢ);          // Exclude column $nᵢ
 
 // Matrix operations - return a new Matrix
-$A＋B = $A->add($B);
-$A⊕B  = $A->directSum($B);
-$A⊕B  = $A->kroneckerSum($B);
-$A−B  = $A->subtract($B);
-$AB   = $A->multiply($B);
-$２A  = $A->scalarMultiply(2);
-$A／2 = $A->scalarDivide(2);
-$A∘B  = $A->hadamardProduct($B);
-$A⊗B  = $A->kroneckerProduct($B);
-$Aᵀ 　= $A->transpose();
-$D  　= $A->diagonal();
-$⟮A∣B⟯ = $A->augment($B);
-$⟮A∣I⟯ = $A->augmentIdentity();         // Augment with the identity matrix
-$⟮A∣B⟯ = $A->augmentBelow($B);
-$A⁻¹  = $A->inverse();
-$Mᵢⱼ  = $A->minorMatrix($mᵢ, $nⱼ);     // Square matrix with row mᵢ and column nⱼ removed
-$Mk   = $A->leadingPrincipalMinor($k); // kᵗʰ-order leading principal minor
-$CM   = $A->cofactorMatrix();
-$B    = $A->meanDeviation();
-$S    = $A->covarianceMatrix();
+$A＋B  = $A->add($B);
+$A⊕B   = $A->directSum($B);
+$A⊕B   = $A->kroneckerSum($B);
+$A−B   = $A->subtract($B);
+$AB    = $A->multiply($B);
+$２A   = $A->scalarMultiply(2);
+$A／2  = $A->scalarDivide(2);
+$A∘B   = $A->hadamardProduct($B);
+$A⊗B   = $A->kroneckerProduct($B);
+$Aᵀ 　 = $A->transpose();
+$D  　 = $A->diagonal();
+$⟮A∣B⟯  = $A->augment($B);
+$⟮A∣I⟯  = $A->augmentIdentity();         // Augment with the identity matrix
+$⟮A∣B⟯  = $A->augmentBelow($B);
+$A⁻¹   = $A->inverse();
+$Mᵢⱼ   = $A->minorMatrix($mᵢ, $nⱼ);     // Square matrix with row mᵢ and column nⱼ removed
+$Mk    = $A->leadingPrincipalMinor($k); // kᵗʰ-order leading principal minor
+$CM    = $A->cofactorMatrix();
+$B     = $A->meanDeviation();
+$S     = $A->covarianceMatrix();
+$adj⟮A⟯ = $A->adjugate();
 
 // Matrix operations - return a new Vector
 $AB = $A->vectorMultiply($X₁);
