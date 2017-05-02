@@ -122,6 +122,16 @@ use MathPHP\NumberTheory\Integer;
  *    - A = LLᵀ
  *    - L is lower triangular
  *    - Lᵀ is upper triangular
+ *  - Adjugate matrix
+ *    - adj⟮A⟯ = Cᵀ
+ *    - A adj⟮A⟯ = det⟮A⟯ I
+ *    - A⁻¹ = (1/det⟮A⟯) adj⟮A⟯
+ *    - adj⟮I⟯ = I
+ *    - adj⟮AB⟯ = adj⟮B⟯adj⟮A⟯
+ *    - adj⟮cA⟯ = cⁿ⁻¹ adj⟮A⟯
+ *    - adj⟮B⟯adj⟮A⟯ = det⟮B⟯B⁻¹ det⟮A⟯A⁻¹ = det⟮AB⟯⟮AB⟯⁻¹
+ *    - adj⟮Aᵀ⟯ = adj⟮A⟯ᵀ
+ *    - Aadj⟮A⟯ = adj⟮A⟯A = det⟮A⟯I
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -2138,5 +2148,199 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $Lᵀ = $L->transpose();
 
         $this->assertTrue($Lᵀ->isUpperTriangular());
+    }
+
+    /**
+     * @testCase     Axiom: adj⟮A⟯ = Cᵀ
+     *               Adjugate matrix equals the transpose of the cofactor matrix
+     * @dataProvider dataProviderForSquareMatrixGreaterThanOne
+     * @param        array $A
+     */
+    public function testAdjugateIsTransoseOfCofactorMatrix(array $A)
+    {
+        $A     = MatrixFactory::create($A);
+        $adj⟮A⟯ = $A->adjugate();
+        $Cᵀ    = $A->cofactorMatrix()->transpose();
+
+        $this->assertEquals($adj⟮A⟯, $Cᵀ, '', 0.00001);
+    }
+
+    /**
+     * @testCase     Axiom: A adj⟮A⟯ = det⟮A⟯ I 
+     *               The product of A with its adjugate yields a diagonal matrix whose diagonal entries are det(A)
+     * @dataProvider dataProviderForSquareMatrixGreaterThanOne
+     * @param        array $A
+     */
+    public function testAdjugateTimesAIsIdentityMatrixTimesDeterminantOfA(array $A)
+    {
+        $A     = MatrixFactory::create($A);
+        $adj⟮A⟯ = $A->adjugate();
+        $Aadj⟮A⟯ = $A->multiply($adj⟮A⟯);
+
+        $I     = MatrixFactory::identity($A->getN());
+        $det⟮A⟯ = $A->det();
+        $det⟮A⟯I = $I->scalarMultiply($det⟮A⟯);
+
+        $this->assertEquals($Aadj⟮A⟯, $det⟮A⟯I, '', 0.00001);
+    }
+
+    /**
+     * @testCase     Axiom: adj⟮A⟯ = det⟮A⟯A⁻¹
+     *               The product of A with its adjugate yields a diagonal matrix whose diagonal entries are det(A)
+     * @dataProvider dataProviderForNonsingularMatrix
+     * @param        array $A
+     */
+    public function testAdjugateEqualsInverseOfATimesDeterminant(array $A)
+    {
+        $A     = MatrixFactory::create($A);
+        $A⁻¹   = $A->inverse();
+        $adj⟮A⟯ = $A->adjugate();
+        $det⟮A⟯ = $A->det();
+        $det⟮A⟯A⁻¹ = $A⁻¹->scalarMultiply($det⟮A⟯);
+
+        $this->assertEquals($adj⟮A⟯, $det⟮A⟯A⁻¹, '', 0.00001);
+    }
+
+    /**
+     * @testCase     Axiom: A⁻¹ = (1/det⟮A⟯) adj⟮A⟯
+     *               The inverse of a matrix is equals to one over the determinant multiplied by the adjugate
+     * @dataProvider dataProviderForNonsingularMatrix
+     * @param        array $A
+     */
+    public function testInverseEqualsOneOverDetTimesAdjugate(array $A)
+    {
+        $A             = MatrixFactory::create($A);
+        $A⁻¹           = $A->inverse();
+        $adj⟮A⟯         = $A->adjugate();
+        $det⟮A⟯         = $A->det();
+        $⟮1／det⟮A⟯⟯adj⟮A⟯ = $adj⟮A⟯->scalarMultiply(1/$det⟮A⟯);
+
+        $this->assertEquals($A⁻¹, $⟮1／det⟮A⟯⟯adj⟮A⟯, '', 0.00001);
+    }
+
+    /**
+     * @testCase     Axiom: adj⟮I⟯ = I
+     *               The adjugate of identity matrix is identity matrix
+     * @dataProvider dataProviderForIdentityMatrix
+     * @param        array $A
+     */
+    public function testAdjugateOfIdenetityMatrixIsIdentity(array $I)
+    {
+        $I     = MatrixFactory::create($I);
+        $adj⟮I⟯ = $I->adjugate();
+
+        $this->assertEquals($adj⟮I⟯, $I, '', 0.00001);
+    }
+
+    /**
+     * @testCase     Axiom: adj⟮AB⟯ = adj⟮B⟯adj⟮A⟯
+     *               The adjugate of AB equals the adjugate of B times the adjugate of A
+     * @dataProvider dataProviderForTwoNonsingularMatrixes
+     * @param        array $A
+     * @param        array $B
+     */
+    public function testAdjugateABEqualsAdjugateBTimesAdjugateA(array $A, array $B)
+    {
+        $A      = MatrixFactory::create($A);
+        $B      = MatrixFactory::create($B);
+        $AB     = $A->multiply($B);
+        $adj⟮A⟯  = $A->adjugate();
+        $adj⟮B⟯  = $B->adjugate();
+        $adj⟮AB⟯ = $AB->adjugate();
+        $adj⟮B⟯adj⟮A⟯ = $adj⟮B⟯->multiply($adj⟮A⟯);
+
+        $this->assertEquals($adj⟮AB⟯, $adj⟮B⟯adj⟮A⟯, '', 0.00001);
+    }
+
+    /**
+     * @testCase     Axiom: adj⟮cA⟯ = cⁿ⁻¹ adj⟮A⟯
+     *               The adjugate of a matrix times a scalar equals the adjugate of the matrix then times a scalar raised to n - 1
+     * @dataProvider dataProviderForNonsingularMatrix
+     * @param        array $A
+     */
+    public function testAdjugateAtimesCEqualsAdjugateATimesCRaisedToNMinusOne(array $A)
+    {
+        $c             = 4;
+        $A             = MatrixFactory::create($A);
+        $cA            = $A->scalarMultiply($c);
+        $adj⟮A⟯         = $A->adjugate();
+        $adj⟮cA⟯        = $cA->adjugate();
+        $cⁿ⁻¹          = pow($c, $A->getN() - 1);
+        $cⁿ⁻¹adj⟮A⟯     = $adj⟮A⟯->scalarMultiply($cⁿ⁻¹);
+
+        $this->assertEquals($adj⟮cA⟯, $cⁿ⁻¹adj⟮A⟯, '', 0.00001);
+    }
+
+    /**
+     * @testCase     Axiom: adj⟮B⟯adj⟮A⟯ = det⟮B⟯B⁻¹ det⟮A⟯A⁻¹ = det⟮AB⟯⟮AB⟯⁻¹
+     *               The adjugate of B times adjugate A equals the determinant of B times inverse of B times determinant of A times inverse of A
+     *               which equals the determinant of AB times the inverse of AB
+     * @dataProvider dataProviderForTwoNonsingularMatrixes
+     * @param        array $A
+     * @param        array $B
+     */
+    public function testAdjugateBTimesAdjugateAEqualsDetBTimesInverseBTimesDetATimesInverseAEqualsDetABTimesInverseAB(array $A, array $B)
+    {
+        $A      = MatrixFactory::create($A);
+        $B      = MatrixFactory::create($B);
+        $A⁻¹    = $A->inverse();
+        $B⁻¹    = $B->inverse();
+        $AB     = $A->multiply($B);
+        $⟮AB⟯⁻¹  = $AB->inverse();
+        $adj⟮A⟯  = $A->adjugate();
+        $adj⟮B⟯  = $B->adjugate();
+        $det⟮A⟯  = $A->det();
+        $det⟮B⟯  = $B->det();
+        $det⟮AB⟯ = $AB->det();
+
+        $det⟮A⟯A⁻¹ = $A⁻¹->scalarMultiply($det⟮A⟯);
+        $det⟮B⟯B⁻¹ = $B⁻¹->scalarMultiply($det⟮B⟯);
+
+        $adj⟮B⟯adj⟮A⟯       = $adj⟮B⟯->multiply($adj⟮A⟯);
+        $det⟮B⟯B⁻¹det⟮A⟯A⁻¹ = $det⟮B⟯B⁻¹->multiply($det⟮A⟯A⁻¹);
+        $det⟮AB⟯⟮AB⟯⁻¹      = $⟮AB⟯⁻¹->scalarMultiply($det⟮AB⟯);
+
+        $this->assertEquals($adj⟮B⟯adj⟮A⟯, $det⟮B⟯B⁻¹det⟮A⟯A⁻¹, '', 0.001);
+        $this->assertEquals($det⟮B⟯B⁻¹det⟮A⟯A⁻¹, $det⟮AB⟯⟮AB⟯⁻¹, '', 0.001);
+        $this->assertEquals($adj⟮B⟯adj⟮A⟯, $det⟮AB⟯⟮AB⟯⁻¹, '', 0.001);
+    }
+
+    /**
+     * @testCase     Axiom: adj⟮Aᵀ⟯ = adj⟮A⟯ᵀ
+     *               The adjugate of a matrix transpase equals the transpose of a matrix adjugate
+     * @dataProvider dataProviderForNonsingularMatrix
+     * @param        array $A
+     */
+    public function testAdjugateOfTransposeEqualsTransposeOfAdjugate(array $A)
+    {
+        $A       = MatrixFactory::create($A);
+        $Aᵀ      = $A->transpose();
+        $adj⟮A⟯   = $A->adjugate();
+        $adj⟮Aᵀ⟯  = $Aᵀ->adjugate();
+        $adj⟮A⟯ᵀ  = $adj⟮A⟯->transpose();
+
+
+        $this->assertEquals($adj⟮Aᵀ⟯, $adj⟮A⟯ᵀ, '', 0.00001);
+    }
+
+    /**
+     * @testCase     Axiom: Aadj⟮A⟯ = adj⟮A⟯A = det⟮A⟯I
+     *               A matrix times its adjugate equals the adjugate times the matrix which equals the identity matrix times the determinant
+     * @dataProvider dataProviderForNonsingularMatrix
+     * @param        array $A
+     */
+    public function testMatrixTimesItsAdjugateEqualsAdjugateTimesMatrixEqualsDetTimesIdentity(array $A)
+    {
+        $A      = MatrixFactory::create($A);
+        $adj⟮A⟯  = $A->adjugate();
+        $Aadj⟮A⟯ = $A->multiply($adj⟮A⟯);
+        $adj⟮A⟯A = $adj⟮A⟯->multiply($A);
+        $det⟮A⟯  = $A->det();
+        $I      = MatrixFactory::identity($A->getN());
+        $det⟮A⟯I = $I->scalarMultiply($det⟮A⟯);
+
+        $this->assertEquals($Aadj⟮A⟯, $adj⟮A⟯A, '', 0.0001);
+        $this->assertEquals($Aadj⟮A⟯, $det⟮A⟯I, '', 0.0001);
+        $this->assertEquals($adj⟮A⟯A, $det⟮A⟯I, '', 0.0001);
     }
 }

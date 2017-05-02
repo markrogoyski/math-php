@@ -777,6 +777,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - cofactorMatrix
      *  - meanDeviation
      *  - covarianceMatrix
+     *  - adjugate
      **************************************************************************/
 
     /**
@@ -1492,6 +1493,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         if (!$this->isSquare()) {
             throw new Exception\MatrixException('Matrix is not square; cannot get cofactor Matrix of a non-square matrix');
         }
+        if ($this->n === 1) {
+            throw new Exception\MatrixException('Matrix must be 2x2 or greater to compute cofactorMatrix');
+        }
 
         $m = $this->m;
         $n = $this->n;
@@ -1570,6 +1574,28 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $S = $B->multiply($Bᵀ)->scalarMultiply((1 / ($n - 1)));
 
         return $S;
+    }
+
+    /**
+     * Adjugate matrix (adjoint, adjunct)
+     * The transpose of its cofactor matrix.
+     * https://en.wikipedia.org/wiki/Adjugate_matrix
+     *
+     * @return SquareMatrix
+     */
+    public function adjugate(): SquareMatrix
+    {
+        if (!$this->isSquare()) {
+            throw new Exception\MatrixException('Matrix is not square; cannot get adjugate Matrix of a non-square matrix');
+        }
+
+        if ($this->n === 1) {
+            return MatrixFactory::create([[1]]);
+        }
+
+        $adj⟮A⟯ = $this->cofactorMatrix()->transpose();
+
+        return $adj⟮A⟯;
     }
 
     /**************************************************************************
@@ -1766,12 +1792,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * For 4x4 and larger matrices:
      *
-     * │A│ = (-1)ⁿ │rref(A)│ ∏1/k
+     * │A│ = (-1)ⁿ │ref(A)│
      *
      *  where:
-     *   │rref(A)│ = determinant of the reduced row echelon form of A
-     *   ⁿ         = number of row swaps when computing RREF
-     *   ∏1/k      = product of 1/k where k is the scaling factor divisor
+     *   │ref(A)│ = determinant of the row echelon form of A
+     *   ⁿ        = number of row swaps when computing REF
      *
      * @return number
      *
@@ -1854,22 +1879,21 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         /*
          * nxn matrix 4x4 or larger
-         * Get row reduced echelon form, then compute determinant of rref.
-         * Then plug into formula with swaps and product of scaling factor.
-         * │A│ = (-1)ⁿ │rref(A)│ ∏1/k
+         * Get row echelon form, then compute determinant of ref.
+         * Then plug into formula with swaps.
+         * │A│ = (-1)ⁿ │ref(A)│
          */
-        $rref⟮A⟯ = $this->rref ?? $this->rref();
-        $ⁿ      = $this->rref_swaps;
-        $∏1／k  = $this->rref_∏scaling_factor;
+        $ref⟮A⟯ = $this->ref ?? $this->ref();
+        $ⁿ     = $this->ref_swaps;
 
-        // Det(rref(A))
-        $│rref⟮A⟯│ = 1;
+        // Det(ref(A))
+        $│ref⟮A⟯│ = 1;
         for ($i = 0; $i < $m; $i++) {
-            $│rref⟮A⟯│ *= $rref⟮A⟯[$i][$i];
+            $│ref⟮A⟯│ *= $ref⟮A⟯[$i][$i];
         }
 
-        // │A│ = (-1)ⁿ │rref(A)│ ∏1/k
-        $this->det = (-1)**$ⁿ * ($│rref⟮A⟯│ / $∏1／k);
+        // │A│ = (-1)ⁿ │ref(A)│
+        $this->det = (-1)**$ⁿ * $│ref⟮A⟯│;
         return $this->det;
     }
 
@@ -2397,10 +2421,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             return $this->ref;
         }
 
-        $m    = $this->m;
-        $n    = $this->n;
-        $size = min($m, $n);
-        $R    = $this->A;
+        $m     = $this->m;
+        $n     = $this->n;
+        $size  = min($m, $n);
+        $R     = $this->A;
+        $swaps = 0;
 
         for ($k = 0; $k < $size; $k++) {
             // Find i_max
@@ -2412,11 +2437,14 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
 
             // Swap rows k and i_max
-            list($R[$k], $R[$i_max]) = [$R[$i_max], $R[$k]];
+            if ($k != $i_max) {
+                list($R[$k], $R[$i_max]) = [$R[$i_max], $R[$k]];
+                $swaps++;
+            }
 
             // Row operations
             for ($i = $k + 1; $i < $m; $i++) {
-                $f = $R[$i][$k] / $R[$k][$k];
+                $f = ($R[$k][$k] != 0) ? $R[$i][$k] / $R[$k][$k] : 1;
                 for ($j = $k + 1; $j < $n; $j++) {
                     $R[$i][$j] = $R[$i][$j] - ($R[$k][$j] * $f);
                 }
@@ -2424,7 +2452,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        $this->ref = MatrixFactory::create($R);
+        $this->ref_swaps = $swaps;
+        $this->ref       = MatrixFactory::create($R);
+
         return $this->ref;
     }
 
