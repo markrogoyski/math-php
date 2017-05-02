@@ -20,7 +20,7 @@ class ObjectSquareMatrix extends SquareMatrix
      */
     private function checkEqualSizes(Matrix $B)
     {
-        if ($B->getM() !== $this->m) {
+        if ($B->getM() !== $this->m || $B->getN() !== $this->n) {
             throw new \MathPHP\Exception\MatrixException('Matrices are different sizes');
         }
     }
