@@ -1342,15 +1342,14 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         if (!$this->isSquare()) {
             throw new Exception\MatrixException('Not a sqaure matrix (required for determinant)');
         }
-
-        $│A│ = $this->det ?? $this->det();
-        if ($│A│ == 0) {
+        if ($this->isSingular()) {
             throw new Exception\MatrixException('Singular matrix (determinant = 0); not invertible');
         }
 
-        $m = $this->m;
-        $n = $this->n;
-        $A = $this->A;
+        $m   = $this->m;
+        $n   = $this->n;
+        $A   = $this->A;
+        $│A│ = $this->det ?? $this->det();
 
         /*
          * 2x2 matrix:

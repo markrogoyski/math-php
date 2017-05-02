@@ -2166,7 +2166,7 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     Axiom: A adj⟮A⟯ = det⟮A⟯ I 
+     * @testCase     Axiom: A adj⟮A⟯ = det⟮A⟯ I
      *               The product of A with its adjugate yields a diagonal matrix whose diagonal entries are det(A)
      * @dataProvider dataProviderForSquareMatrixGreaterThanOne
      * @param        array $A
