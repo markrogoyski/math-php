@@ -2474,7 +2474,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 }
                 $R[$i][$k] = 0;
             }
-
         }
 
         $this->ref_swaps = $swaps;
