@@ -404,10 +404,11 @@ $AB = $A->vectorMultiply($X₁);
 $M  = $A->sampleMean();
 
 // Matrix operations - return a value
-$tr⟮A⟯ = $A->trace();
-$|A|  = $a->det();              // Determinant
-$Mᵢⱼ  = $A->minor($mᵢ, $nⱼ);    // First minor
-$Cᵢⱼ  = $A->cofactor($mᵢ, $nⱼ);
+$tr⟮A⟯   = $A->trace();
+$|A|    = $a->det();              // Determinant
+$Mᵢⱼ    = $A->minor($mᵢ, $nⱼ);    // First minor
+$Cᵢⱼ    = $A->cofactor($mᵢ, $nⱼ);
+$rank⟮A⟯ = $A->rank();
 
 // Matrix norms - return a value
 $‖A‖₁ = $A->oneNorm();
