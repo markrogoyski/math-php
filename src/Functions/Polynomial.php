@@ -3,6 +3,7 @@
 namespace MathPHP\Functions;
 
 use MathPHP\Algebra;
+use MathPHP\Number\MatrixObjectInterface;
 
 /**
  * A convenience class for one-dimension polynomials.
@@ -43,7 +44,7 @@ use MathPHP\Algebra;
  *
  * https://en.wikipedia.org/wiki/Polynomial
  */
-class Polynomial
+class Polynomial implements MatrixObjectInterface
 {
     private $degree;
     private $coefficients;
