@@ -132,6 +132,11 @@ use MathPHP\NumberTheory\Integer;
  *    - adj⟮B⟯adj⟮A⟯ = det⟮B⟯B⁻¹ det⟮A⟯A⁻¹ = det⟮AB⟯⟮AB⟯⁻¹
  *    - adj⟮Aᵀ⟯ = adj⟮A⟯ᵀ
  *    - Aadj⟮A⟯ = adj⟮A⟯A = det⟮A⟯I
+ *  - Rank
+ *    - rank(A) ≤ min(m, n)
+ *    - Zero matrix has rank of 0
+ *    - If A is square matrix, then it is invertible only if rank = n (full rank)
+ *    - rank(AᵀA) = rank(AAᵀ) = rank(A) = rank(Aᵀ)
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -2342,5 +2347,73 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($Aadj⟮A⟯, $adj⟮A⟯A, '', 0.0001);
         $this->assertEquals($Aadj⟮A⟯, $det⟮A⟯I, '', 0.0001);
         $this->assertEquals($adj⟮A⟯A, $det⟮A⟯I, '', 0.0001);
+    }
+
+    /**
+     * @testCase     Axiom: rank(A) ≤ min(m, n)
+     *               The rank of a matrix is less than or equal to the minimum dimension of the matrix
+     * @dataProvider dataProviderForSingleMatrix
+     * @param        array $A
+     */
+    public function testRankLessThanMinDimension(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertLessThanOrEqual(min($A->getM(), $A->getN()), $A->rank());
+    }
+
+    /**
+     * @testCase Axiom: Zero matrix has rank of 0
+     */
+    public function testZeroMatrixHasRankOfZero()
+    {
+        foreach (range(1, 10) as $m) {
+            foreach (range(1, 10) as $n) {
+                $A = MatrixFactory::zero($m, $n);
+                $this->assertEquals(0, $A->rank());
+            }
+        }
+    }
+
+    /**
+     * @testCase     Axiom: If A is square matrix, then it is invertible only if rank = n (full rank)
+     * @dataProvider dataProviderForSquareMatrix
+     * @param        array $A
+     */
+    public function testSquareMatrixInvertibleIfFullRank(array $A)
+    {
+        $A    = MatrixFactory::create($A);
+        $rank = $A->rank();
+
+        if ($rank === $A->getM()) {
+            $this->assertTrue($A->isInvertible());
+        } else {
+            $this->assertFalse($A->isInvertible());
+        }
+    }
+
+    /**
+     * @testCase     Axiom: rank(AᵀA) = rank(AAᵀ) = rank(A) = rank(Aᵀ)
+     * @dataProvider dataProviderForSingleMatrix
+     * @param        array $A
+     */
+    public function testRankTransposeEqualities(array $A)
+    {
+        $A   = MatrixFactory::create($A);
+        $Aᵀ  = $A->transpose();
+        $AᵀA = $Aᵀ->multiply($A);
+        $AAᵀ = $A->multiply($Aᵀ);
+
+        $rank⟮A⟯   = $A->rank();
+        $rank⟮Aᵀ⟯  = $A->rank();
+        $rank⟮AᵀA⟯ = $A->rank();
+        $rank⟮AAᵀ⟯ = $A->rank();
+
+        $this->assertEquals($rank⟮A⟯, $rank⟮Aᵀ⟯);
+        $this->assertEquals($rank⟮A⟯, $rank⟮AᵀA⟯);
+        $this->assertEquals($rank⟮A⟯, $rank⟮AAᵀ⟯);
+        $this->assertEquals($rank⟮Aᵀ⟯, $rank⟮AᵀA⟯);
+        $this->assertEquals($rank⟮Aᵀ⟯, $rank⟮AAᵀ⟯);
+        $this->assertEquals($rank⟮AᵀA⟯, $rank⟮AAᵀ⟯);
     }
 }

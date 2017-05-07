@@ -46,6 +46,7 @@ trait MatrixDataProvider
      *  - dataProviderForBidiagonalMatrix
      *  - dataProviderForNotBidiagonalMatrix
      *  - dataProviderForIdentityMatrix
+     *  - dataProviderForSingleMatrix
      **************************************************************************/
 
     public function dataProviderForSquareMatrix(): array
@@ -5144,5 +5145,73 @@ trait MatrixDataProvider
                 ],
             ],
         ];
+    }
+
+    public function dataProviderForBidiagonalMatrix(): \Generator
+    {
+        foreach ($this->dataProviderForUpperBidiagonalMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForLowerBidiagonalMatrix() as $matrix) {
+            yield $matrix;
+        }
+    }
+
+    public function dataProviderForSingleMatrix(): \Generator
+    {
+        foreach ($this->dataProviderForSquareMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForNotSquareMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForSymmetricMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForNonsingularMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForPositiveDefiniteMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForPositiveSemidefiniteMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForNegativeDefiniteMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForNegativeSemidefiniteMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForUpperTriangularMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForLowerTriangularMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForDiagonalMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForRefMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForRrefMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForInvolutoryMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForUpperBidiagonalMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForLowerBidiagonalMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForBidiagonalMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForIdentityMatrix() as $matrix) {
+            yield $matrix;
+        }
     }
 }

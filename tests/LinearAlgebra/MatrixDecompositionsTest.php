@@ -8,6 +8,8 @@ use MathPHP\Exception;
 
 class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
 {
+    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+
     /**
      * @dataProvider dataProviderForLUDecomposition
      * Unit test data created from online calculator: https://www.easycalculation.com/matrix/lu-decomposition-matrix.php
@@ -297,10 +299,13 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRref(array $A, array $R)
     {
-        $A = MatrixFactory::create($A);
-        $R = MatrixFactory::create($R);
+        $A    = MatrixFactory::create($A);
+        $R    = MatrixFactory::create($R);
+        $rref = $A->rref();
 
-        $this->assertEquals($R, $A->rref(), '', 0.000001);
+        $this->assertEquals($R, $rref, '', 0.000001);
+        $this->assertTrue($rref->isRref());
+        $this->assertTrue($rref->isRef());
     }
 
     public function dataProviderForRref()
@@ -622,6 +627,19 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     isRref on rref matrix should return true
+     * @dataProvider dataProviderForNonsingularMatrix
+     */
+    public function testRrefIsRref(array $A)
+    {
+        $A   = MatrixFactory::create($A);
+        $rref = $A->rref();
+
+        $this->assertTrue($rref->isRref());
+        $this->assertTrue($rref->isRef());
+    }
+
+    /**
      * @dataProvider dataProviderForSolve
      */
     public function testSolveArray(array $A, array $b, array $expected)
@@ -666,7 +684,7 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
      * @dataProvider dataProviderForSolve
      * Compute the RREF before trying to solve.
      */
-    public function testSolveRREF(array $A, array $b, array $expected)
+    public function testSolveRref(array $A, array $b, array $expected)
     {
         $A        = MatrixFactory::create($A);
         $b        = new Vector($b);
@@ -872,6 +890,18 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
             [new Matrix([[1], [2], [3]])],
             [25],
         ];
+    }
+
+    /**
+     * @testCase     isRef on ref matrix should return true
+     * @dataProvider dataProviderForNonsingularMatrix
+     */
+    public function testRefIsRef(array $A)
+    {
+        $A   = MatrixFactory::create($A);
+        $ref = $A->ref();
+
+        $this->assertTrue($ref->isRef());
     }
 
     /**

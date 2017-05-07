@@ -289,7 +289,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     {
         $│A│ = $this->det ?? $this->det();
 
-        if ($│A│ != 0) {
+        if ($│A│ != 0 && abs($│A│) > 0.000000000001) {
             return true;
         }
 
@@ -610,7 +610,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 return false;
             }
             $entry = array_shift($entries);
-            if ($entry !== 1) {
+            if ($entry != 1) {
                 return false;
             }
         }
@@ -1681,6 +1681,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - det
      *  - minor
      *  - cofactor
+     *  - rank
      **************************************************************************/
 
     /**
@@ -1978,6 +1979,30 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $⟮−1⟯ⁱ⁺ʲ = (-1)**($mᵢ + $nⱼ);
 
         return $⟮−1⟯ⁱ⁺ʲ * $Mᵢⱼ;
+    }
+
+    /**
+     * Rank of a matrix
+     * Computed by counting number of pivots once in reduced row echelon form
+     * https://en.wikipedia.org/wiki/Rank_(linear_algebra)
+     *
+     * @return int
+     */
+    public function rank(): int
+    {
+        $rref   = $this->rref();
+        $pivots = 0;
+
+        for ($i = 0; $i < $this->m; $i++) {
+            for ($j = 0; $j < $this->n; $j++) {
+                if ($rref[$i][$j] != 0 && abs($rref[$i][$j]) > 0.000000000001) {
+                    $pivots++;
+                    continue 2;
+                }
+            }
+        }
+
+        return $pivots;
     }
 
     /**************************************************************************
@@ -2427,7 +2452,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $swaps = 0;
 
         for ($k = 0; $k < $size; $k++) {
-            // Find i_max
+            // Find column max
             $i_max = $k;
             for ($i = $k; $i < $m; $i++) {
                 if (abs($R[$i][$k]) > abs($R[$i_max][$k])) {
@@ -2435,7 +2460,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 }
             }
 
-            // Swap rows k and i_max
+            // Swap rows k and i_max (column max)
             if ($k != $i_max) {
                 list($R[$k], $R[$i_max]) = [$R[$i_max], $R[$k]];
                 $swaps++;
@@ -2449,6 +2474,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 }
                 $R[$i][$k] = 0;
             }
+
         }
 
         $this->ref_swaps = $swaps;
