@@ -256,4 +256,114 @@ class SupportTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @testCase     isZero returns true for infinitesimal quantities less than the defined epsilon
+     * @dataProvider dataProviderForZero
+     *
+     * @param  float $x
+     */
+    public function testIsZeroTrue(float $x)
+    {
+        $this->assertTrue(Support::isZero($x));
+    }
+
+    /**
+     * @testCase     isZero returns false for infinitesimal quantities greater than the defined epsilon
+     * @dataProvider dataProviderForNotZero
+     *
+     * @param  float $x
+     */
+    public function testIsZeroFalse(float $x)
+    {
+        $this->assertFalse(Support::isZero($x));
+    }
+
+    /**
+     * @testCase     isNotZero returns true for infinitesimal quantities greater than the defined epsilon
+     * @dataProvider dataProviderForNotZero
+     *
+     * @param  float $x
+     */
+    public function testIsNotZeroTrue(float $x)
+    {
+        $this->assertTrue(Support::isNotZero($x));
+    }
+
+    /**
+     * @testCase     isNotZero returns false for infinitesimal quantities less than the defined epsilon
+     * @dataProvider dataProviderForZero
+     *
+     * @param  float $x
+     */
+    public function testIsNotZeroFalse(float $x)
+    {
+        $this->assertFalse(Support::isNotZero($x));
+    }
+
+    public function dataProviderForZero(): array
+    {
+        return [
+            [0],
+            [0.0],
+            [0.00],
+            [0.000000000000000000000000000000],
+            [0.000000000000001],
+            [0.0000000000000001],
+            [0.00000000000000001],
+            [0.000000000000000001],
+            [0.0000000000000000001],
+            [0.00000000000000000001],
+            [0.000000000000000000001],
+            [0.0000000000000000000001],
+            [0.00000000000000000000001],
+            [0.000000000000000000000001],
+            [-0],
+            [-0.0],
+            [-0.00],
+            [-0.000000000000000000000000000000],
+            [-0.000000000000001],
+            [-0.0000000000000001],
+            [-0.00000000000000001],
+            [-0.000000000000000001],
+            [-0.0000000000000000001],
+            [-0.00000000000000000001],
+            [-0.000000000000000000001],
+            [-0.0000000000000000000001],
+            [-0.00000000000000000000001],
+            [-0.000000000000000000000001],
+        ];
+    }
+
+    public function dataProviderForNotZero(): array
+    {
+        return [
+            [1],
+            [1.0],
+            [1.00],
+            [1.000000000000000000000000000000],
+            [0.000000000000002],
+            [0.00000000000001],
+            [0.0000000000001],
+            [0.000000000001],
+            [0.00000000001],
+            [0.0000000001],
+            [0.000000001],
+            [0.00000001],
+            [0.0000001],
+            [-1],
+            [-1.0],
+            [-1.00],
+            [-1.000000000000000000000000000000],
+            [-0.000000000000002],
+            [-0.00000000000001],
+            [-0.0000000000001],
+            [-0.000000000001],
+            [-0.00000000001],
+            [-0.0000000001],
+            [-0.000000001],
+            [-0.00000001],
+            [-0.0000001],
+        ];
+    }
 }

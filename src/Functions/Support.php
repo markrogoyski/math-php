@@ -5,6 +5,8 @@ use MathPHP\Exception;
 
 class Support
 {
+    const ε = 0.000000000000001;
+
     /**
      * Checks that the values of the parameters passed
      * to a function fall within the defined bounds.
@@ -83,5 +85,31 @@ class Support
         }
 
         return true;
+    }
+
+    /**
+     * Is the number equivalent to zero?
+     * Due to floating-point arithmetic, zero might be represented as an infinitesimal quantity.
+     *
+     * @param  float $x
+     *
+     * @return boolean true if equivalent to zero; false otherwise
+     */
+    public static function isZero(float $x): bool
+    {
+        return ($x == 0 || abs($x) <= self::ε);
+    }
+
+    /**
+     * Is the number equivalent to a non-zero value?
+     * Due to floating-point arithmetic, zero might be represented as an infinitesimal quantity.
+     *
+     * @param  float $x
+     *
+     * @return boolean true if equivalent to a non-zero value; false otherwise
+     */
+    public static function isNotZero(float $x): bool
+    {
+        return ($x != 0 && abs($x) > self::ε);
     }
 }

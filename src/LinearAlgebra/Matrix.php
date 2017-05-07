@@ -2,6 +2,7 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Functions\Map;
+use MathPHP\Functions\Support;
 use MathPHP\Exception;
 
 /**
@@ -289,7 +290,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     {
         $│A│ = $this->det ?? $this->det();
 
-        if ($│A│ != 0 && abs($│A│) > 0.000000000001) {
+        if (Support::isNotZero($│A│)) {
             return true;
         }
 
@@ -1995,7 +1996,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         for ($i = 0; $i < $this->m; $i++) {
             for ($j = 0; $j < $this->n; $j++) {
-                if ($rref[$i][$j] != 0 && abs($rref[$i][$j]) > 0.000000000001) {
+                if (Support::isNotZero($rref[$i][$j])) {
                     $pivots++;
                     continue 2;
                 }
