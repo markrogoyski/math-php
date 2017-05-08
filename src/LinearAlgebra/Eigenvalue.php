@@ -3,11 +3,12 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Algebra;
 use MathPHP\Exception;
+use MathPHP\Functions\Polynomial;
 
 class Eigenvalue
 {
     /**
-     * Produces the Eigenvalues for a 2x2 or 3x3 matrix
+     * Produces the Eigenvalues for a 2x2, 3x3, or 4x4 matrix
      *
      * Given a matrix
      *      [a b]
@@ -24,7 +25,7 @@ class Eigenvalue
      * @return DiagonalMatrix of eigenvalues
      *
      * @throws Exception\BadDataException if the matrix is not square
-     * @throws Exception\BadDataException if the matrix is not 2x2 or 3x3
+     * @throws Exception\BadDataException if the matrix is not 2x2, 3x3, or 4x4
      */
     public static function quadratic(Matrix $A): DiagonalMatrix
     {
@@ -33,34 +34,29 @@ class Eigenvalue
         }
 
         $m = $A->getM();
-        if ($m < 2 || $m > 3) {
-            throw new Exception\BadDataException("Matrix must be 2x2 or 3x3. $m x $m given");
+        if ($m < 2 || $m > 4) {
+            throw new Exception\BadDataException("Matrix must be 2x2, 3x3, or 4x4. $m x $m given");
         }
-
-        $A = $A->getMatrix();
-
-        if ($m === 2) {
-            $a = -1;
-            $b = $A[0][0] + $A[1][1];
-            $c = $A[1][0] * $A[0][1] - $A[0][0] * $A[1][1];
-            $eigenvalues = Algebra::quadratic($a, $b, $c);
-        } else {
-            $a  = $A[0][0];
-            $b  = $A[0][1];
-            $c  = $A[0][2];
-            $d  = $A[1][0];
-            $e  = $A[1][1];
-            $f  = $A[1][2];
-            $g  = $A[2][0];
-            $h  = $A[2][1];
-            $i  = $A[2][2];
-            $qa = -1;
-            $qb = $a + $e + $i;
-            $qc = $c * $g + $h * $f + $d * $b - $a * $e - $a * $i - $e * $i;
-            $qd = $a * $e * $i + $b * $f * $g + $c * $d * $h - $g * $c * $e - $h * $f * $a - $d * $b * $i;
-            $eigenvalues = Algebra::cubic($qa, $qb, $qc, $qd);
+        
+        // Convert the numerical matrix into an ObjectMatrix
+        $B_array = [];
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $m; $j++) {
+                $B_array[$i][$j] = new Polynomial([$A[$i][$j]], 'λ');
+            }
         }
+        $B = MatrixFactory::create($B_array);
 
-        return MatrixFactory::create($eigenvalues);
+        // Create a diagonal Matrix of lambda and subtract it from B
+        $λ_poly = new Polynomial([1, 0], 'λ');
+        $λ = matrixFactory::create(array_fill(0, $m, $λ_poly));
+        $Bminusλ = $B->subtract($λ);
+
+        // The Eigenvalues are the roots of the determinant of this matrix
+        $det = $Bminusλ->det();
+        
+        // Calculate the roots of the determinant and convert into a diagonal matrix
+        $eigenvalues = MatrixFactory::create($det->roots());
+        return $eigenvalues;
     }
 }
