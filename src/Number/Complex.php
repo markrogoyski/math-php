@@ -13,7 +13,7 @@ use MathPHP\Functions\Special;
  * part of the complex number.
  * https://en.wikipedia.org/wiki/Complex_number
  */
-class Complex
+class Complex implements ObjectArithmetic
 {
     /**
      * Real part of the complex number
