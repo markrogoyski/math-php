@@ -42,6 +42,8 @@ class MatrixFactory
                 return new VandermondeSquareMatrix($A, $n);
             case 'function_square':
                 return new FunctionSquareMatrix($A);
+            case 'object_square':
+                return new ObjectSquareMatrix($A);
         }
 
         throw new Exception\IncorrectTypeException('Unknown matrix type');
@@ -345,8 +347,13 @@ class MatrixFactory
         // Square Matrices have the same number of rows (m) and columns (n)
         $n = count($A[0]);
         if ($m === $n) {
-            if (is_callable($A[0][0])) {
-                return 'function_square';
+            // closures are objects, so we need to separate them out.
+            if (is_object($A[0][0])) {
+                if ($A[0][0] instanceof \Closure) {
+                    return 'function_square';
+                } else {
+                    return 'object_square';
+                }
             }
             return 'square';
         }

@@ -1,8 +1,6 @@
 <?php
-namespace MathPHP\Tests\LinearAlgebra;
+namespace MathPHP\LinearAlgebra;
 
-use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\Eigenvalue;
 use MathPHP\Exception;
 
 class EigenvalueTest extends \PHPUnit_Framework_TestCase
@@ -25,21 +23,21 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
                     [0, 1],
                     [-2, -3],
                 ],
-                [-1, -2],
+                [-2, -1],
             ],
             [
                 [
                     [6, -1],
                     [2, 3],
                 ],
-                [5, 4],
+                [4, 5],
             ],
             [
                 [
                     [1, -2],
                     [-2, 0],
                 ],
-                [(1 + sqrt(17))/2, (1 - sqrt(17))/2],
+                [(1 - sqrt(17))/2, (1 + sqrt(17))/2],
             ],
             [
                 [
@@ -84,7 +82,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $this->expectException(Exception\BadDataException::class);
+        $this->setExpectedException(Exception\BadDataException::class);
         Eigenvalue::quadratic($A);
     }
 
@@ -95,14 +93,6 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
                 [
                     [1],
                 ],
-            ],
-            '4x4' => [
-                [
-                    [1, 2, 3, 4],
-                    [2, 3, 4, 5],
-                    [3, 4, 5, 6],
-                    [4, 5, 6, 7],
-                ]
             ],
             '5x5' => [
                 [
