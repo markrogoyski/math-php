@@ -61,7 +61,7 @@ class Polynomial implements ObjectArithmetic
      * that polynomial as its object parameters.
      *
      * @param mixed $coefficients An array of coefficients in decreasing powers
-                                  or a numeric value.
+     *                            or a numeric value.
      *                            Example: new Polynomial([1, 2, 3]) will create
      *                            a polynomial that looks like x² + 2x + 3.
      */
