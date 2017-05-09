@@ -61,18 +61,11 @@ class Polynomial implements ObjectArithmetic
      * that polynomial as its object parameters.
      *
      * @param mixed $coefficients An array of coefficients in decreasing powers
-     *                            or a numeric value.
      *                            Example: new Polynomial([1, 2, 3]) will create
      *                            a polynomial that looks like x² + 2x + 3.
      */
-    public function __construct($coefficients, $variable = "x")
+    public function __construct(array $coefficients, $variable = "x")
     {
-        if (is_numeric($coefficients)) {
-            $coefficients = [$coefficients];
-        }
-        if (!is_array($coefficients)) {
-            throw new Exception\BadParameterException('Input must be a number or an array');
-        }
         // Remove coefficients that are leading zeros
         for ($i = 0; $i < count($coefficients); $i++) {
             if ($coefficients[$i] != 0) {
