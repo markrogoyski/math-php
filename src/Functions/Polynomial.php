@@ -3,6 +3,8 @@
 namespace MathPHP\Functions;
 
 use MathPHP\Algebra;
+use MathPHP\Exception;
+use MathPHP\Number\ObjectArithmetic;
 
 /**
  * A convenience class for one-dimension polynomials.
@@ -43,7 +45,7 @@ use MathPHP\Algebra;
  *
  * https://en.wikipedia.org/wiki/Polynomial
  */
-class Polynomial
+class Polynomial implements ObjectArithmetic
 {
     private $degree;
     private $coefficients;
@@ -58,12 +60,19 @@ class Polynomial
      * When a polynomial is instantiated, set the coefficients and degree of
      * that polynomial as its object parameters.
      *
-     * @param array $coefficients An array of coefficients in decreasing powers.
+     * @param mixed $coefficients An array of coefficients in decreasing powers
+                                  or a numeric value.
      *                            Example: new Polynomial([1, 2, 3]) will create
      *                            a polynomial that looks like x² + 2x + 3.
      */
-    public function __construct(array $coefficients, $variable = "x")
+    public function __construct($coefficients, $variable = "x")
     {
+        if (is_numeric($coefficients)) {
+            $coefficients = [$coefficients];
+        }
+        if (!is_array($coefficients)) {
+            throw new Exception\BadParameterException('Input must be a number or an array');
+        }
         // Remove coefficients that are leading zeros
         for ($i = 0; $i < count($coefficients); $i++) {
             if ($coefficients[$i] != 0) {
@@ -178,6 +187,25 @@ class Polynomial
     }
 
     /**
+     * Check that our input is either a number or a Polynomial
+     * Convert any numbers to Polynomial objects
+     *
+     * @param mixed $input The variable to check
+     * @return Polynomial
+     * @throws IncorrectTypeException
+     */
+    private function checkNumericOrPolynomial($input): Polynomial
+    {
+        if (is_numeric($input)) {
+            $polynomial = new Polynomial([$input]);
+        } elseif ($input instanceof Polynomial) {
+            $polynomial = $input;
+        } else {
+            throw new Exception\IncorrectTypeException('Input must be a Polynomial or a number');
+        }
+        return $polynomial;
+    }
+    /**
      * Getter method for the degree of a polynomial
      *
      * @return int The degree of a polynomial object
@@ -268,12 +296,13 @@ class Polynomial
      *          $integral   = $polynomial->integrate();     // x³ - 8x² + 12x
      *          $sum        = $polynomial->add($integral);  // x³ - 5x² - 4x + 12
      *
-     * @param object $polynomial The polynomial we are adding to our current polynomial
+     * @param mixed $polynomial The polynomial or scaler we are adding to our current polynomial
      *
      * @return object The sum of our polynomial objects, also a polynomial object
      */
-    public function add(Polynomial $polynomial): Polynomial
+    public function add($polynomial): Polynomial
     {
+        $polynomial = $this->checkNumericOrPolynomial($polynomial);
         // Calculate the degree of the sum of the polynomials
         $sumDegree = max($this->degree, $polynomial->degree);
 
@@ -307,12 +336,13 @@ class Polynomial
      *          $integral   = $polynomial->diferentiate();     // 6x - 16
      *          $difference        = $polynomial->subtract($derivative);  // 3x² - 22x + 28
      *
-     * @param object $polynomial The polynomial we are subtracting from our current polynomial
+     * @param mixed $polynomial The polynomial or scaler we are subtracting from our current polynomial
      *
      * @return object The defference of our polynomial objects, also a polynomial object
      */
-    public function subtract(Polynomial $polynomial): Polynomial
+    public function subtract($polynomial): Polynomial
     {
+        $polynomial = $this->checkNumericOrPolynomial($polynomial);
         // Calculate the degree of the sum of the polynomials
         $difDegree = max($this->degree, $polynomial->degree);
 
@@ -346,12 +376,13 @@ class Polynomial
      *          $integral   = $polynomial->integrate();          // x² - 16x
      *          $product    = $polynomial->multiply($integral);  // 2x³ - 48x² + 256x
      *
-     * @param object $polynomial The polynomial we are multiplying with our current polynomial
+     * @param mixed $polynomial The polynomial or scaler we are multiplying with our current polynomial
      *
      * @return object The product of our polynomial objects, also a polynomial object
      */
-    public function multiply(Polynomial $polynomial): Polynomial
+    public function multiply($polynomial): Polynomial
     {
+        $polynomial = $this->checkNumericOrPolynomial($polynomial);
         // Calculate the degree of the product of the polynomials
         $productDegree = $this->degree + $polynomial->degree;
 
@@ -376,21 +407,6 @@ class Polynomial
             }
         }
 
-        return new Polynomial($productCoefficients);
-    }
-
-    /**
-     * Multiply a polynomial by a scalar value
-     *
-     * @param number $scaler value we are multiplying with our current polynomial
-     *
-     * @return Polynomial The product of our polynomial object and the scaler, also a polynomial object
-     */
-    public function scalerMultiply(float $scaler): Polynomial
-    {
-        foreach ($this->coefficients as $key => $value) {
-            $productCoefficients[] = $value * $scaler;
-        }
         return new Polynomial($productCoefficients);
     }
 
