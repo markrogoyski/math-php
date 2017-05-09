@@ -728,33 +728,6 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForScalerMultiplication
-     */
-    public function testScalerMultiplication(array $polynomialA, $scaler, array $expected_product)
-    {
-        $polynomialA = new Polynomial($polynomialA);
-        $expected    = new Polynomial($expected_product);
-        $product     = $polynomialA->scalerMultiply($scaler);
-        $this->assertEquals($expected, $product);
-    }
-
-    public function dataProviderForScalerMultiplication()
-    {
-        return [
-            [
-                [1, 2, 3],         // f(x)      = x² + 2x + 3
-                2,
-                [2, 4, 6],         // f(x)*c    = 2x² + 4x + 6
-            ],
-            [
-                [1, 2, 3, 4, 4],           // f(x)      = x⁴ + 2x³ + 3x² + 4x + 4
-                -2,
-                [-2, -4, -6, -8, -8],      // f(x)*c    = -2x⁴ - 4x³ - 6x² - 8x - 8
-            ],
-        ];
-    }
-
-    /**
      * @dataProvider dataProviderForRoots
      */
     public function testRoots(array $polynomialA, array $expected_roots)
