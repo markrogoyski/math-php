@@ -3,64 +3,107 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Algebra;
 use MathPHP\Exception;
+use MathPHP\Functions\Polynomial;
+use MathPHP\Functions\Map\Single;
+use MathPHP\Functions\Special;
 
 class Eigenvalue
 {
     /**
-     * Produces the Eigenvalues for a 2x2 or 3x3 matrix
+     * Produces the Eigenvalues for square 2x2 - 4x4 matricies
      *
      * Given a matrix
      *      [a b]
      * A =  [c d]
      *
-     * Find λ₁ and λ₂ such that the determinant of:
-     *      [a-λ, b   ]
-     *      [c,    d-λ] = 0
+     * Find all λ such that:
+     *      |A-Iλ| = 0
      *
-     * or ad - λ(a+d) + λ² - cb = 0
+     * This is accomplished by finding the roots of the polyniomial that
+     * is produced when computing the determinant of the matrix. The determinant
+     * polynomial is calculated using polynomial arithmetic.
      *
      * @param Matrix $A
      *
-     * @return DiagonalMatrix of eigenvalues
+     * @return array of eigenvalues
      *
      * @throws Exception\BadDataException if the matrix is not square
-     * @throws Exception\BadDataException if the matrix is not 2x2 or 3x3
+     * @throws Exception\BadDataException if the matrix is not 2x2, 3x3, or 4x4
      */
-    public static function quadratic(Matrix $A): DiagonalMatrix
+    public static function eigenvalue(Matrix $A): array
     {
         if (!$A->isSquare()) {
             throw new Exception\BadDataException('Matrix must be square');
         }
 
         $m = $A->getM();
-        if ($m < 2 || $m > 3) {
-            throw new Exception\BadDataException("Matrix must be 2x2 or 3x3. $m x $m given");
+        if ($m < 2 || $m > 4) {
+            throw new Exception\BadDataException("Matrix must be 2x2, 3x3, or 4x4. $m x $m given");
         }
-
-        $A = $A->getMatrix();
-
-        if ($m === 2) {
-            $a = -1;
-            $b = $A[0][0] + $A[1][1];
-            $c = $A[1][0] * $A[0][1] - $A[0][0] * $A[1][1];
-            $eigenvalues = Algebra::quadratic($a, $b, $c);
-        } else {
-            $a  = $A[0][0];
-            $b  = $A[0][1];
-            $c  = $A[0][2];
-            $d  = $A[1][0];
-            $e  = $A[1][1];
-            $f  = $A[1][2];
-            $g  = $A[2][0];
-            $h  = $A[2][1];
-            $i  = $A[2][2];
-            $qa = -1;
-            $qb = $a + $e + $i;
-            $qc = $c * $g + $h * $f + $d * $b - $a * $e - $a * $i - $e * $i;
-            $qd = $a * $e * $i + $b * $f * $g + $c * $d * $h - $g * $c * $e - $h * $f * $a - $d * $b * $i;
-            $eigenvalues = Algebra::cubic($qa, $qb, $qc, $qd);
+        
+        // Convert the numerical matrix into an ObjectMatrix
+        $B_array = [];
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $m; $j++) {
+                $B_array[$i][$j] = new Polynomial([$A[$i][$j]], 'λ');
+            }
         }
+        $B = MatrixFactory::create($B_array);
 
-        return MatrixFactory::create($eigenvalues);
+        // Create a diagonal Matrix of lambda and subtract it from B
+        $λ_poly = new Polynomial([1, 0], 'λ');
+        $λ = matrixFactory::create(array_fill(0, $m, $λ_poly));
+        $Bminusλ = $B->subtract($λ);
+
+        // The Eigenvalues are the roots of the determinant of this matrix
+        $det = $Bminusλ->det();
+        
+        // Calculate the roots of the determinant.
+        $eigenvalues = $det->roots();
+        return $eigenvalues;
+    }
+
+    /**
+     * Calculate the Eigenvectors for a matrix
+     *
+     * Eigenvectors are vectors whos direction is unchaged after
+     * the application of a transformation matrix.
+     *
+     * The results from this function are column unit vectors with the first
+     * element being positive.
+     *
+     * @return Matrix of eigenvectors
+     */
+    public static function eigenvector(Matrix $A): Matrix
+    {
+        $eigenvalues = self::eigenvalue($A);
+        $number = count($eigenvalues);
+        $M = [];
+        foreach ($eigenvalues as $eigenvalue) {
+            $I = MatrixFactory::identity($number, $eigenvalue);
+            $T = $A->subtract($I);
+            $valid_minor = false;
+            // Since by definition, the determinant of this matrix is zero, we cannot
+            // solve the system of equations. Instead, we will find the unnecessary row
+            // remove it, and set one of the variables to 1, and then solve for the
+            // remaining variables.
+            for ($i=0; $i<$number && !$valid_minor; $i++) {
+                for ($j=0; $j<$number && !$valid_minor; $j++) {
+                    $minor = $T->minorMatrix($i, $j);
+                    if ($minor->isInvertible()) {
+                        $valid_minor = true;
+                        $solution = Single::multiply($T->rowExclude($i)->getColumn($j), -1);
+                        $eigenvector = $minor->solve($solution)->getVector();
+                        array_splice($eigenvector, $j, 0, 1);
+                        // Last step is to scale the vector to be a unit vector.
+                        $scale_factor = Special::sgn($eigenvector[0]) / sqrt(array_sum(Single::square($eigenvector)));
+                        $eigenvector = Single::multiply($eigenvector, $scale_factor);
+                        $M[] = $eigenvector;
+                    }
+                }
+            }
+        }
+        $matrix = MatrixFactory::create($M);
+        return $matrix->transpose();
     }
 }
