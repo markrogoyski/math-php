@@ -50,9 +50,18 @@ class Eigenvalue
         }
         $B = MatrixFactory::create($B_array);
 
-        // Create a diagonal Matrix of lambda and subtract it from B
+        // Create a diagonal Matrix of lambda (Iλ)
         $λ_poly = new Polynomial([1, 0], 'λ');
-        $λ = matrixFactory::create(array_fill(0, $m, $λ_poly));
+        $zero_poly = new Polynomial([0], 'λ');
+        $λ_array =[];
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $m; $j++) {
+                $λ_array[$i][$j] = $i == $j ? $λ_poly : $zero_poly;
+            }
+        }
+        $λ = matrixFactory::create($λ_array);
+        
+        //Subtract Iλ from B
         $Bminusλ = $B->subtract($λ);
 
         // The Eigenvalues are the roots of the determinant of this matrix
