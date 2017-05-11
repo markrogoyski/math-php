@@ -13,13 +13,13 @@ use MathPHP\Exception;
  */
 class ObjectSquareMatrix extends SquareMatrix
 {
-    /*
+    /**
      * The type of object that is being stored in this Matrix
      * @var string
      */
     protected $object_type;
 
-    /*
+    /**
      * Constructor
      *
      * The constuctor follows performs all the same checks as the parent, but also checks that
@@ -34,7 +34,7 @@ class ObjectSquareMatrix extends SquareMatrix
     {
         parent::__construct($A);
 
-        if (in_array("MathPHP\Number\ObjectArithmetic", class_implements($A[0][0]))) {
+        if ($A[0][0] instanceof MathPHP\Number\ObjectArithmetic) {
             $this->object_type = get_class($A[0][0]);
         } else {
             throw new Exception\IncorrectTypeException("The object must implement the interface.");
@@ -74,7 +74,7 @@ class ObjectSquareMatrix extends SquareMatrix
         }
     }
 
-    /*
+    /**
      * {@inheritDoc}
      */
     public function add(Matrix $B): Matrix
@@ -89,7 +89,7 @@ class ObjectSquareMatrix extends SquareMatrix
         return MatrixFactory::create($R);
     }
 
-    /*
+    /**
      * {@inheritDoc}
      */
     public function subtract(Matrix $B): Matrix
@@ -104,7 +104,7 @@ class ObjectSquareMatrix extends SquareMatrix
         return MatrixFactory::create($R);
     }
 
-    /*
+    /**
      * Determinant
      *
      * This implementation is simpler than that of the parent. Instead of
@@ -159,7 +159,7 @@ class ObjectSquareMatrix extends SquareMatrix
         }
     }
 
-    /*
+    /**
      * {@inheritDoc}
      */
     public function cofactor(int $mᵢ, int $nⱼ)
