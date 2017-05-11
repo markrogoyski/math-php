@@ -4,6 +4,7 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
 use MathPHP\Number\ObjectArithmetic;
+
 /**
  * ObjectSquareMatrix
  *
@@ -28,7 +29,7 @@ class ObjectSquareMatrix extends SquareMatrix
      *
      * @throws BadDataExpcetion if any rows have a different column count
      * @throws IncorrectTypeException if all elements are not the same class
-     * @throws IncorrectTypeException if The class does not implement the ObjectArithmetic interface 
+     * @throws IncorrectTypeException if The class does not implement the ObjectArithmetic interface
      */
     public function __construct(array $A)
     {
