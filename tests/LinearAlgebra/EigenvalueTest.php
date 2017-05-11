@@ -152,9 +152,9 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
                     [4, 2, 5],
                 ],
                 [
-                    [2/sqrt(6), 2/sqrt(14), 1/sqrt(293)],
-                    [1/sqrt(6), -3/sqrt(14), 6/sqrt(293)],
-                    [-1/sqrt(6), -1/sqrt(14), 16/sqrt(293)],
+                    [2/sqrt(14), 1/sqrt(293), 2/sqrt(6)],
+                    [-3/sqrt(14), 6/sqrt(293), 1/sqrt(6)],
+                    [-1/sqrt(14), 16/sqrt(293), -1/sqrt(6)],
                 ]
             ],
         ];
