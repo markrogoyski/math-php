@@ -3,7 +3,7 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
-
+use MathPHP\Number\ObjectArithmetic;
 /**
  * ObjectSquareMatrix
  *
@@ -34,7 +34,7 @@ class ObjectSquareMatrix extends SquareMatrix
     {
         parent::__construct($A);
 
-        if ($A[0][0] instanceof MathPHP\Number\ObjectArithmetic) {
+        if ($A[0][0] instanceof ObjectArithmetic) {
             $this->object_type = get_class($A[0][0]);
         } else {
             throw new Exception\IncorrectTypeException("The object must implement the interface.");
