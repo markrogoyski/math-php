@@ -2,7 +2,8 @@
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\Exception;
-use MathPHP\LinearAlgebra;
+use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\Eigenvalue;
 
 class EigenvalueTest extends \PHPUnit_Framework_TestCase
 {
