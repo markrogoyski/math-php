@@ -3,6 +3,7 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Functions\Map;
 use MathPHP\Functions\Support;
+use MathPHP\Functions\Special;
 use MathPHP\Exception;
 
 /**
@@ -2123,16 +2124,16 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Add k times row mᵢ to row mⱼ
      *
-     * @param int $mᵢ Row to multiply * k to be added to row mⱼ
-     * @param int $mⱼ Row that will have row mⱼ * k added to it
-     * @param int $k  Multiplier
+     * @param int    $mᵢ Row to multiply * k to be added to row mⱼ
+     * @param int    $mⱼ Row that will have row mⱼ * k added to it
+     * @param number $k  Multiplier
      *
      * @return Matrix
      *
      * @throws MatrixException if row to add does not exist
      * @throws BadParameterException if k is 0
      */
-    public function rowAdd(int $mᵢ, int $mⱼ, int $k): Matrix
+    public function rowAdd(int $mᵢ, int $mⱼ, $k): Matrix
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to add does not exist');
@@ -2420,12 +2421,38 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      **************************************************************************/
 
     /**
-     * Row echelon form - Gaussian elimination
+     * Row echelon form
+     *
+     * First tries Guassian elimination.
+     * If that fails (singular matrix), uses custom row reduction algorithm
+     *
+     * @return Matrix in row echelon form
+     */
+    public function ref(): Matrix
+    {
+        if (isset($this->ref)) {
+            return $this->ref;
+        }
+
+        try {
+            $R = $this->gaussianElimination();
+        } catch (Exception\SingularMatrixException $e) {
+            $R = $this->rowReductionToEchelonForm();
+        }
+
+        $this->ref = MatrixFactory::create($R);
+        return $this->ref;
+    }
+
+    /**
+     * Gaussian elimination - row echelon form
      *
      * Algorithm
      *  for k = 1 ... min(m,n):
      *    Find the k-th pivot:
      *    i_max  := argmax (i = k ... m, abs(A[i, k]))
+     *    if A[i_max, k] = 0
+     *      error "Matrix is singular!"
      *    swap rows(k, i_max)
      *    Do for all rows below pivot:
      *    for i = k + 1 ... m:
@@ -2438,14 +2465,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * https://en.wikipedia.org/wiki/Gaussian_elimination
      *
-     * @return Matrix in row echelon form
+     * @return array - matrix in row echelon form
+     *
+     * @throws Exception]SingularMatrixException if the matrix is singular
      */
-    public function ref(): Matrix
+    protected function gaussianElimination()
     {
-        if (isset($this->ref)) {
-            return $this->ref;
-        }
-
         $m     = $this->m;
         $n     = $this->n;
         $size  = min($m, $n);
@@ -2459,6 +2484,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 if (abs($R[$i][$k]) > abs($R[$i_max][$k])) {
                     $i_max = $i;
                 }
+            }
+
+            if ($R[$i_max][$k] == 0) {
+                throw new Exception\SingularMatrixException('Guassian elimination fails for singular matrices');
             }
 
             // Swap rows k and i_max (column max)
@@ -2478,9 +2507,95 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         $this->ref_swaps = $swaps;
-        $this->ref       = MatrixFactory::create($R);
+        return $R;
+    }
 
-        return $this->ref;
+    /**
+     * Reduce a matrix to row echelon form using basic row operations
+     * Custom MathPHP classic row reduction using basic matrix operations.
+     *
+     * Algorithm:
+     *   (1) Find pivot
+     *     (a) If pivot column is 0, look down the column to find a non-zero pivot and swap rows
+     *     (b) If no non-zero pivot in the column, go to the next column of the same row and repeat (1)
+     *   (2) Scale pivot row so pivot is 1 by using row division
+     *   (3) Eliminate elements below pivot (make 0 using row addition of the pivot row * a scaling factor)
+     *       so there are no non-zero elements in the pivot column in rows below the pivot
+     *   (4) Repeat from 1 from the next row and column
+     *
+     *   (Extra) Keep track of number of row swaps (used for computing determinant)
+     *
+     * @return array - matrix in row echelon form
+     */
+    protected function rowReductionToEchelonForm(): array
+    {
+        $m    = $this->m;
+        $n    = $this->n;
+        $size = min($m, $n);
+        $R    = MatrixFactory::create($this->A);
+
+        // Starting conditions
+        $row   = 0;
+        $col   = 0;
+        $swaps = 0;
+        $ref   = false;
+
+        while (!$ref) {
+            // If pivot is 0, try to find a non-zero pivot in the column and swap rows
+            if (Support::isZero($R[$row][$col])) {
+                for ($j = $row + 1; $j < $m; $j++) {
+                    if (Support::isNotZero($R[$j][$col])) {
+                        $R = $R->rowInterchange($row, $j);
+                        $swaps++;
+                        break;
+                    }
+                }
+            }
+
+            // No non-zero pivot, go to next column of the same row
+            if (Support::isZero($R[$row][$col])) {
+                $col++;
+                if ($row >= $m || $col >= $n) {
+                    $ref = true;
+                }
+                continue;
+            }
+
+            // Scale pivot to 1
+            $divisor = $R[$row][$col];
+            $R = $R->rowDivide($row, $divisor);
+
+            // Eliminate elements below pivot
+            for ($j = $row + 1; $j < $m; $j++) {
+                $factor = $R[$j][$col];
+                if (Support::isNotZero($factor)) {
+                    $R = $R->rowAdd($row, $j, -$factor);
+                }
+            }
+
+            // Move on to next row and column
+            $row++;
+            $col++;
+
+            // If no more rows or columns, ref achieved
+            if ($row >= $m || $col >= $n) {
+                $ref = true;
+            }
+        }
+
+        $R = $R->getMatrix();
+
+        // Floating point adjustment for zero values
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                if (Support::isZero($R[$i][$j])) {
+                    $R[$i][$j] = 0;
+                }
+            }
+        }
+
+        $this->ref_swaps = $swaps;
+        return $R;
     }
 
     /**
