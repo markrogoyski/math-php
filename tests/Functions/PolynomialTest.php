@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\Functions;
 
 use MathPHP\Functions\Polynomial;
+use MathPHP\Exception;
 
 class PolynomialTest extends \PHPUnit_Framework_TestCase
 {
@@ -850,7 +851,7 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
         $this->assertNan($roots[0]);
     }
 
-    public function dataProviderForRootsNAN()
+    public function dataProviderForRootsNAN(): array
     {
         return [
             [
@@ -859,11 +860,55 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @testCase Polynomial constructor throws an IncorrectTypeException if the argument is not numeric or a Polynomial
+     */
     public function testException()
     {
-        $this->setExpectedException('MathPHP\Exception\IncorrectTypeException');
+        $this->expectException(Exception\IncorrectTypeException::class);
         $string = 'This is a string!';
-        $poly = new Polynomial([1, 2]);
-        $sum = $poly->add($string);
+        $poly   = new Polynomial([1, 2]);
+        $sum    = $poly->add($string);
+    }
+
+    /**
+     * @testCase     checkNumericOrPolynomial returns a Polynomial for numeric and Polynomial inputs
+     * @dataProvider dataProviderForCheckNumericOrPolynomial
+     */
+    public function testCheckNumericOrPolynomialNumericInput($input)
+    {
+        $method = new \ReflectionMethod(Polynomial::class, 'checkNumericOrPolynomial');
+        $method->setAccessible(true);
+
+        $polynomial = $method->invokeArgs(new Polynomial([1]), [$input]);
+        $this->assertInstanceOf(Polynomial::class, $polynomial);
+    }
+
+    public function dataProviderForCheckNumericOrPolynomial(): array
+    {
+        return [
+            [-1],
+            [0],
+            [1],
+            [10],
+            [2.45],
+            ['3'],
+            ['5.4'],
+            [new Polynomial([4])],
+            [new Polynomial([2, 3, 4])],
+
+        ];
+    }
+
+    /**
+     * @testCase checkNumericOrPolynomial throws an IncorrectTypeException if the input is not numeric or a Polynomial
+     */
+    public function testCheckNumericOrPolynomialException()
+    {
+        $method = new \ReflectionMethod(Polynomial::class, 'checkNumericOrPolynomial');
+        $method->setAccessible(true);
+
+        $this->expectException(Exception\IncorrectTypeException::class);
+        $polynomial = $method->invokeArgs(new Polynomial([1]), ['not a number']);
     }
 }
