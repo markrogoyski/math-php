@@ -297,30 +297,27 @@ class Polynomial implements ObjectArithmetic
     public function add($polynomial): Polynomial
     {
         $polynomial = $this->checkNumericOrPolynomial($polynomial);
-        // Calculate the degree of the sum of the polynomials
-        $sumDegree = max($this->degree, $polynomial->degree);
 
-        // Reverse the coefficients arrays so you can sum component-wise
-        $coefficientsA = array_reverse($this->coefficients);
-        $coefficientsB = array_reverse($polynomial->coefficients);
+        $coefficientsA = $this->coefficients;
+        $coefficientsB = $polynomial->coefficients;
 
-        // Start with an array of coefficients that all equal 0
-        $sumCoefficients = array_fill(0, $sumDegree+1, 0);
-
-        // Iterate through each degree. Get coefficients by summing component-wise.
-        for ($i = 0; $i < $sumDegree + 1; $i++) {
-            // Calculate the degree of the current sum
-            $degree = $sumDegree - $i;
-
-            // Get the coefficient of the i-th degree term from each polynomial if it exists, otherwise use 0
-            $a = $coefficientsA[$i] ?? 0;
-            $b = $coefficientsB[$i] ?? 0;
-
-            // The new coefficient is the sum of the original coefficients
-            $sumCoefficients[$degree] = $sumCoefficients[$degree] + $a + $b;
+        // If degrees are unequal, make coefficient array sizes equal so we can do component-wise addition
+        $degreeDifference = $this->getDegree() - $polynomial->getDegree();
+        if ($degreeDifference !== 0) {
+            $zeroArray = array_fill(0, abs($degreeDifference), 0);
+            if ($degreeDifference < 0) {
+                $coefficientsA = array_merge($zeroArray, $coefficientsA);
+            } else {
+                $coefficientsB = array_merge($zeroArray, $coefficientsB);
+            }
         }
 
-        return new Polynomial($sumCoefficients);
+        // Add coefficients via component-wise addition
+        $coefficientsSum = array_map(function ($coefficientA, $coefficientB) {
+          return $coefficientA + $coefficientB;
+        }, $coefficientsA, $coefficientsB);
+
+        return new Polynomial($coefficientsSum);
     }
 
     /**
