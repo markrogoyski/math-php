@@ -5,6 +5,7 @@ namespace MathPHP\Functions;
 use MathPHP\Algebra;
 use MathPHP\Exception;
 use MathPHP\Number\ObjectArithmetic;
+use MathPHP\Map\Multi;
 
 /**
  * A convenience class for one-dimension polynomials.
@@ -312,10 +313,7 @@ class Polynomial implements ObjectArithmetic
             }
         }
 
-        // Add coefficients via component-wise addition
-        $coefficientsSum = array_map(function ($coefficientA, $coefficientB) {
-          return $coefficientA + $coefficientB;
-        }, $coefficientsA, $coefficientsB);
+        $coefficientsSum = Multi::add($coefficientsA, $coefficientsB);
 
         return new Polynomial($coefficientsSum);
     }
