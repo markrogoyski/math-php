@@ -67,7 +67,8 @@ class Polynomial implements ObjectArithmetic
     public function __construct(array $coefficients, $variable = "x")
     {
         // Remove coefficients that are leading zeros
-        for ($i = 0; $i < count($coefficients); $i++) {
+        $initial_count = count($coefficients);
+        for ($i = 0; $i < $initial_count; $i++) {
             if ($coefficients[$i] != 0) {
                 break;
             }
