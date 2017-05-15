@@ -2469,7 +2469,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @throws Exception]SingularMatrixException if the matrix is singular
      */
-    protected function gaussianElimination()
+    protected function gaussianElimination(): array
     {
         $m     = $this->m;
         $n     = $this->n;
