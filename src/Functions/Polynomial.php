@@ -5,7 +5,7 @@ namespace MathPHP\Functions;
 use MathPHP\Algebra;
 use MathPHP\Exception;
 use MathPHP\Number\ObjectArithmetic;
-use MathPHP\Map\Multi;
+use MathPHP\Functions\Map\Multi;
 
 /**
  * A convenience class for one-dimension polynomials.
@@ -332,30 +332,9 @@ class Polynomial implements ObjectArithmetic
     public function subtract($polynomial): Polynomial
     {
         $polynomial = $this->checkNumericOrPolynomial($polynomial);
-        // Calculate the degree of the sum of the polynomials
-        $difDegree = max($this->degree, $polynomial->degree);
+        $additiveInverse = $polynomial->multiply(-1);
 
-        // Reverse the coefficients arrays so you can sum component-wise
-        $coefficientsA = array_reverse($this->coefficients);
-        $coefficientsB = array_reverse($polynomial->coefficients);
-
-        // Start with an array of coefficients that all equal 0
-        $difCoefficients = array_fill(0, $difDegree+1, 0);
-
-        // Iterate through each degree. Get coefficients by summing component-wise.
-        for ($i = 0; $i < $difDegree + 1; $i++) {
-            // Calculate the degree of the current sum
-            $degree = $difDegree - $i;
-
-            // Get the coefficient of the i-th degree term from each polynomial if it exists, otherwise use 0
-            $a = $coefficientsA[$i] ?? 0;
-            $b = $coefficientsB[$i] ?? 0;
-
-            // The new coefficient is the sum of the original coefficients
-            $difCoefficients[$degree] = $a - $b;
-        }
-
-        return new Polynomial($difCoefficients);
+        return $this->add($additiveInverse);
     }
 
     /**
