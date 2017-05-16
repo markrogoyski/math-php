@@ -191,14 +191,13 @@ class Polynomial implements ObjectArithmetic
      */
     private function checkNumericOrPolynomial($input): Polynomial
     {
-        if (is_numeric($input)) {
-            $polynomial = new Polynomial([$input]);
-        } elseif ($input instanceof Polynomial) {
-            $polynomial = $input;
+        if ($input instanceof Polynomial) {
+            return $input;
+        } elseif (is_numeric($input)) {
+            return new Polynomial([$input]);
         } else {
             throw new Exception\IncorrectTypeException('Input must be a Polynomial or a number');
         }
-        return $polynomial;
     }
     /**
      * Getter method for the degree of a polynomial

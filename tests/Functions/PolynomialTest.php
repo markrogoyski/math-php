@@ -685,7 +685,7 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
             [
                 [1, 2, 3],      // f(x)      = x² + 2x + 3
                 [2, 3, 1],      // g(x)      = 2x² + 3x + 1
-                [-1, -1, 2],      // f(x)-g(x) = -x² - x + 2
+                [-1, -1, 2],    // f(x)-g(x) = -x² - x + 2
             ],
             [
                 [1, 2, 3, 4, 4], // f(x)      = x⁴ + 2x³ + 3x² + 4x + 4
@@ -695,7 +695,7 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
             [
                 [1, -8, 12, 3],  // f(x)      = x³ - 8x² + 12x + 3
                 [1, -8, 12, 3],  // g(x)      = f(x)
-                [0, 0, 0, 0], // f(x)-g(x) = 0
+                [0, 0, 0, 0],    // f(x)-g(x) = 0
             ],
         ];
     }
@@ -753,7 +753,7 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
                 [1, 2, 5],         // f(x)*c    = x² + 2x + 5
             ],
             [
-                [1, 2, 3, 4, 4],           // f(x)      = x⁴ + 2x³ + 3x² + 4x + 4
+                [1, 2, 3, 4, 4],      // f(x)      = x⁴ + 2x³ + 3x² + 4x + 4
                 -2,
                 [1, 2, 3, 4, 2],      // f(x)*c    = 1x⁴ + 2x³ + 3x² + 4x + 2
             ],
@@ -780,7 +780,7 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
                 [1, 2, 1],         // f(x)*c    = x² + 2x + 1
             ],
             [
-                [1, 2, 3, 4, 4],           // f(x)      = x⁴ + 2x³ + 3x² + 4x + 4
+                [1, 2, 3, 4, 4],      // f(x)      = x⁴ + 2x³ + 3x² + 4x + 4
                 -2,
                 [1, 2, 3, 4, 6],      // f(x)*c    = 1x⁴ + 2x³ + 3x² + 4x + 6
             ],
