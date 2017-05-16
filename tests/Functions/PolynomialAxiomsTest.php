@@ -25,6 +25,11 @@ use MathPHP\Functions\Polynomial;
  *    - a ✕ 0 = 0 ✕ a = 0
  *  - Negate
  *    - -a = a * -1
+ *  - Arithmetic
+ *    - Sum of two polynomials is a polynomial
+ *    - Product of two polynomials is a polynomial
+ *    - Derivative of a polynomials is a polynomial
+ *    - Integral of twao polynomials is a polynomial
  */
 class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -207,6 +212,68 @@ class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($−a->getDegree(), $a⟮−1⟯->getDegree());
         $this->assertEquals($−a->getCoefficients(), $a⟮−1⟯->getCoefficients());
+    }
+
+    /**
+     * @testCase Axiom: Sum of two polynomials is a polynomial
+     * @dataProvider dataProviderForTwoPolynomials
+     * @param        array $a
+     * @param        array $b
+     */
+    public function testArithmeteicAdditionProperty(array $a, array $b)
+    {
+        $a = new Polynomial($a);
+        $b = new Polynomial($b);
+
+        $a＋b = $a->add($b);
+
+        $this->assertInstanceOf(Polynomial::class, $a＋b);
+    }
+
+    /**
+     * @testCase Axiom: Product of two polynomials is a polynomial
+     * @dataProvider dataProviderForTwoPolynomials
+     * @param        array $a
+     * @param        array $b
+     */
+    public function testArithmeteicMultiplicationProperty(array $a, array $b)
+    {
+        $a = new Polynomial($a);
+        $b = new Polynomial($b);
+
+        $ab = $a->multiply($b);
+
+        $this->assertInstanceOf(Polynomial::class, $ab);
+    }
+
+    /**
+     * @testCase Axiom: Derivative of a polynomials is a polynomial
+     * @dataProvider dataProviderForOnePolynomial
+     * @param        array $a
+     * @param        array $b
+     */
+    public function testArithmeteicDerivativeProperty(array $a)
+    {
+        $a = new Polynomial($a);
+
+        $derivative = $a->differentiate();
+
+        $this->assertInstanceOf(Polynomial::class, $derivative);
+    }
+
+    /**
+     * @testCase Axiom: Integral of a polynomials is a polynomial
+     * @dataProvider dataProviderForOnePolynomial
+     * @param        array $a
+     * @param        array $b
+     */
+    public function testArithmeteicIntegrationProperty(array $a)
+    {
+        $a = new Polynomial($a);
+
+        $derivative = $a->integrate();
+
+        $this->assertInstanceOf(Polynomial::class, $derivative);
     }
 
     public function dataProviderForOnePolynomial(): array
