@@ -35,7 +35,7 @@ class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
      * @param        array $a
      * @param        array $b
      */
-    public function testCommutativityOfAddition($a, $b)
+    public function testCommutativityOfAddition(array $a, array $b)
     {
         $a = new Polynomial($a);
         $b = new Polynomial($b);
@@ -54,7 +54,7 @@ class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
      * @param        array $a
      * @param        array $b
      */
-    public function testCommutativityOfMultiplication($a, $b)
+    public function testCommutativityOfMultiplication(array $a, array $b)
     {
         $a = new Polynomial($a);
         $b = new Polynomial($b);
@@ -74,7 +74,7 @@ class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
      * @param        array $b
      * @param        array $c
      */
-    public function testAssociativityOfAddition($a, $b, $c)
+    public function testAssociativityOfAddition(array $a, array $b, array $c)
     {
         $a = new Polynomial($a);
         $b = new Polynomial($b);
@@ -95,7 +95,7 @@ class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
      * @param        array $b
      * @param        array $c
      */
-    public function testAssociativityOfMultiplication($a, $b, $c)
+    public function testAssociativityOfMultiplication(array $a, array $b, array $c)
     {
         $a = new Polynomial($a);
         $b = new Polynomial($b);
@@ -116,7 +116,7 @@ class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
      * @param        array $b
      * @param        array $c
      */
-    public function testDistributiveLaw1($a, $b, $c)
+    public function testDistributiveLaw1(array $a, array $b, array $c)
     {
         $a = new Polynomial($a);
         $b = new Polynomial($b);
@@ -137,7 +137,7 @@ class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
      * @param        array $b
      * @param        array $c
      */
-    public function testDistributiveLaw2($a, $b, $c)
+    public function testDistributiveLaw2(array $a, array $b, array $c)
     {
         $a = new Polynomial($a);
         $b = new Polynomial($b);
@@ -156,7 +156,7 @@ class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
      * @dataProvider dataProviderForOnePolynomial
      * @param        array $a
      */
-    public function testIdentityOfAddition($a)
+    public function testIdentityOfAddition(array $a)
     {
         $a = new Polynomial($a);
 
@@ -177,7 +177,7 @@ class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
      * @dataProvider dataProviderForOnePolynomial
      * @param        array $a
      */
-    public function testIdentityOfMultiplication($a)
+    public function testIdentityOfMultiplication(array $a)
     {
         $a = new Polynomial($a);
 
