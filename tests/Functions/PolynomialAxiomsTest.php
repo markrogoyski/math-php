@@ -23,6 +23,8 @@ use MathPHP\Functions\Polynomial;
  *  - Identity
  *    - a + 0 = 0 + a = a
  *    - a ✕ 0 = 0 ✕ a = 0
+ *  - Negate
+ *    - -a = a * -1
  */
 class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -188,6 +190,23 @@ class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($zero->getCoefficients(), $a✕0->getCoefficients());
         $this->assertEquals($zero->getCoefficients(), $zero✕a->getCoefficients());
+    }
+
+    /**
+     * @testCase Axiom: -a = a * -1
+     * Negation is the same as multiplying by -1
+     * @dataProvider dataProviderForOnePolynomial
+     * @param        array $a
+     */
+    public function testNegateSameAsMultiplyingByNegativeOne(array $a)
+    {
+        $a = new Polynomial($a);
+
+        $−a = $a->negate();
+        $a⟮−1⟯ = $a->multiply(-1);
+
+        $this->assertEquals($−a->getDegree(), $a⟮−1⟯->getDegree());
+        $this->assertEquals($−a->getCoefficients(), $a⟮−1⟯->getCoefficients());
     }
 
     public function dataProviderForOnePolynomial(): array

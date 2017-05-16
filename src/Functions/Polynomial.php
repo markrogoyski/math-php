@@ -5,7 +5,7 @@ namespace MathPHP\Functions;
 use MathPHP\Algebra;
 use MathPHP\Exception;
 use MathPHP\Number\ObjectArithmetic;
-use MathPHP\Functions\Map\Multi;
+use MathPHP\Functions\Map;
 
 /**
  * A convenience class for one-dimension polynomials.
@@ -313,7 +313,7 @@ class Polynomial implements ObjectArithmetic
             }
         }
 
-        $coefficientsSum = Multi::add($coefficientsA, $coefficientsB);
+        $coefficientsSum = Map\Multi::add($coefficientsA, $coefficientsB);
 
         return new Polynomial($coefficientsSum);
     }
@@ -321,9 +321,9 @@ class Polynomial implements ObjectArithmetic
     /**
      * Return a new polynomial that is the difference of the current polynomial and an
      * input polynomial
-     * Example: $polynomial = new Polynomial([3, -16, 12]); // 3x² - 16x + 12
-     *          $integral   = $polynomial->diferentiate();     // 6x - 16
-     *          $difference        = $polynomial->subtract($derivative);  // 3x² - 22x + 28
+     * Example: $polynomial = new Polynomial([3, -16, 12]);        // 3x² - 16x + 12
+     *          $integral   = $polynomial->diferentiate();         // 6x - 16
+     *          $difference = $polynomial->subtract($derivative);  // 3x² - 22x + 28
      *
      * @param mixed $polynomial The polynomial or scaler we are subtracting from our current polynomial
      *
@@ -332,7 +332,7 @@ class Polynomial implements ObjectArithmetic
     public function subtract($polynomial): Polynomial
     {
         $polynomial = $this->checkNumericOrPolynomial($polynomial);
-        $additiveInverse = $polynomial->multiply(-1);
+        $additiveInverse = $polynomial->negate();
 
         return $this->add($additiveInverse);
     }
@@ -376,6 +376,18 @@ class Polynomial implements ObjectArithmetic
         }
 
         return new Polynomial($productCoefficients);
+    }
+
+    /**
+     * Return a new polynomial that is the negated version.
+     *
+     * @return Polynomial that is negated
+     */
+    public function negate(): Polynomial
+    {
+        return new Polynomial(
+            Map\Single::multiply($this->coefficients, -1)
+        );
     }
 
     /**

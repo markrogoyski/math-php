@@ -916,4 +916,72 @@ class PolynomialTest extends \PHPUnit_Framework_TestCase
         $this->expectException(Exception\IncorrectTypeException::class);
         $polynomial = $method->invokeArgs(new Polynomial([1]), ['not a number']);
     }
+
+    /**
+     * @testCase     negate returns a Polynomial with every coefficient negated
+     * @dataProvider dataProviderForNegate
+     * @param        array $polynomial
+     * @param        array $expected_negated_polynomial
+     */
+    public function testNegate(array $polynomial, array $expected_negated_polynomial)
+    {
+        $polynomial = new Polynomial($polynomial);
+        $expected   = new Polynomial($expected_negated_polynomial);
+        $negated    = $polynomial->negate();
+        $this->assertEquals($expected, $negated);
+    }
+
+    public function dataProviderForNegate(): array
+    {
+        return [
+            [
+                [],
+                [],
+            ],
+            [
+                [0],
+                [0],
+            ],
+            [
+                [1],
+                [-1],
+            ],
+            [
+                [-1],
+                [1],
+            ],
+            [
+                [1, 1],
+                [-1, -1],
+            ],
+            [
+                [-1, -1],
+                [1, 1],
+            ],
+            [
+                [1, -2, 3],
+                [-1, 2, -3],
+            ],
+            [
+                [5, 5, 5, -5, -5],
+                [-5, -5, -5, 5, 5],
+            ],
+            [
+                [23, 5, 65, 0, -4],
+                [-23, -5, -65, 0, 4],
+            ],
+            [
+                [-4, -3, 0, 0, 0],
+                [4, 3, 0, 0, 0],
+            ],
+            [
+                [-3, -4, 2, 1, 5, 5, 4, -3, 2],
+                [3, 4, -2, -1, -5, -5, -4, 3, -2],
+            ],
+            [
+                [1, 2, 3],
+                [-1, -2, -3],
+            ],
+        ];
+    }
 }
