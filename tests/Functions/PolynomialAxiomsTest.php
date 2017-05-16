@@ -28,8 +28,8 @@ use MathPHP\Functions\Polynomial;
  *  - Arithmetic
  *    - Sum of two polynomials is a polynomial
  *    - Product of two polynomials is a polynomial
- *    - Derivative of a polynomials is a polynomial
- *    - Integral of twao polynomials is a polynomial
+ *    - Derivative of a polynomial is a polynomial
+ *    - Integral of a polynomial is a polynomial
  */
 class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
 {
