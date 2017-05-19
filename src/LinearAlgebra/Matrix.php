@@ -796,10 +796,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function add(Matrix $B): Matrix
     {
         if ($B->getM() !== $this->m) {
-            throw new Exception\MatrixException('Matices have different number of rows');
+            throw new Exception\MatrixException('Matrices have different number of rows');
         }
         if ($B->getN() !== $this->n) {
-            throw new Exception\MatrixException('Matices have different number of columns');
+            throw new Exception\MatrixException('Matrices have different number of columns');
         }
 
         $R = [];
@@ -902,10 +902,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function subtract(Matrix $B): Matrix
     {
         if ($B->getM() !== $this->m) {
-            throw new Exception\MatrixException('Matices have different number of rows');
+            throw new Exception\MatrixException('Matrices have different number of rows');
         }
         if ($B->getN() !== $this->n) {
-            throw new Exception\MatrixException('Matices have different number of columns');
+            throw new Exception\MatrixException('Matrices have different number of columns');
         }
 
         $R = [];
