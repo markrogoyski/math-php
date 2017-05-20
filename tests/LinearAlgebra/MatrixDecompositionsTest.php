@@ -313,6 +313,18 @@ class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [
+                    [3, -4, 2],
+                    [-2, 6, 2],
+                    [4, 2, 10],
+                ],
+                [
+                    [1, 0, 2],
+                    [0, 1, 1],
+                    [0, 0, 0],
+                ],
+            ],
+            [
+                [
                     [1, 2, 3],
                     [2, 3, 4],
                     [3, 4, 5],
