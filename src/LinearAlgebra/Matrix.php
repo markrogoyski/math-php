@@ -2601,10 +2601,14 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Ruduced row echelon form (row canonical form)
      *
-     * Adapted from reference algorithm: https://rosettacode.org/wiki/Reduced_row_echelon_form
-     *
-     * Also computes number of swaps and product of scaling factor.
-     * These are used for computing the determinant.
+     * Algorithm:
+     *   (1) Reduce to REF
+     *   (2) Find pivot
+     *     (b) If no non-zero pivot in the column, go to the next column of the same row and repeat (2)
+     *   (2) Scale pivot row so pivot is 1 by using row division
+     *   (3) Eliminate elements above pivot (make 0 using row addition of the pivot row * a scaling factor)
+     *       so there are no non-zero elements in the pivot column in rows above the pivot
+     *   (4) Repeat from 2 from the next row and column
      *
      * @return Matrix in reduced row echelon form
      */
@@ -2616,57 +2620,60 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         $m = $this->m;
         $n = $this->n;
-        $R = MatrixFactory::create($this->A);
+        $R = $this->ref();
 
-        $swaps           = 0;
-        $∏scaling_factor = 1;
+        // Starting conditions
+        $row   = 0;
+        $col   = 0;
+        $rref = false;
 
-        $lead = 0;
-
-        for ($r = 0; $r < $m; $r++) {
-            if ($lead >= $n) {
-                break;
+        while (!$rref) {
+            // No non-zero pivot, go to next column of the same row
+            if (Support::isZero($R[$row][$col])) {
+                $col++;
+                if ($row >= $m || $col >= $n) {
+                    $rref = true;
+                }
+                continue;
             }
 
-            $i = $r;
-            while ($R[$i][$lead] == 0) {
-                $i++;
-                if ($i == $m) {
-                    $i = $r;
-                    $lead++;
-                    if ($lead == $n) {
-                        break 2; // done; break out of outer loop and return.
-                    }
+            // Scale pivot to 1
+            if ($R[$row][$col] != 1) {
+                $divisor = $R[$row][$col];
+                $R = $R->rowDivide($row, $divisor);
+            }
+
+            // Eliminate elements above pivot
+            for ($j = $row - 1; $j >= 0; $j--) {
+                $factor = $R[$j][$col];
+                if (Support::isNotZero($factor)) {
+                    $R = $R->rowAdd($row, $j, -$factor);
                 }
             }
 
-            // Swap rows i and r
-            if ($i !== $r) {
-                $R = $R->rowInterchange($i, $r);
-                $swaps++;
-            }
+            // Move on to next row and column
+            $row++;
+            $col++;
 
-            // Divide row $r by R[r][lead]
-            $lv = $R[$r][$lead];
-            $R  = $R->rowDivide($r, $lv);
-            if ($lv != 0) {
-                $∏scaling_factor *= 1 / $lv;
+            // If no more rows or columns, rref achieved
+            if ($row >= $m || $col >= $n) {
+                $rref = true;
             }
-
-            // Subtract row r * R[r][lead] from row i
-            for ($i = 0; $i < $m; $i++) {
-                if ($i != $r) {
-                    $R  = $R->rowSubtract($r, $i, $R[$i][$lead]);
-                }
-            }
-            $lead++;
         }
 
-        $this->rref                 = $R;
-        $this->rref_swaps           = $swaps;
-        $this->rref_∏scaling_factor = $∏scaling_factor;
+        $R = $R->getMatrix();
 
-        return $R;
+        // Floating point adjustment for zero values
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                if (Support::isZero($R[$i][$j])) {
+                    $R[$i][$j] = 0;
+                }
+            }
+        }
+
+        $this->rref = MatrixFactory::create($R);
+        return $this->rref;
     }
 
     /**
