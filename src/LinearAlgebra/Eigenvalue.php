@@ -91,7 +91,7 @@ class Eigenvalue
      */
     public static function eigenvector(Matrix $A, array $eigenvalues = []): Matrix
     {
-        if ($eigenvalues = []) {
+        if ($eigenvalues == []) {
             $eigenvalues = self::closedFormPolynomialRootMethod($A);
         }
         if (!$A->isSquare()) {
