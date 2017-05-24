@@ -30,7 +30,7 @@ class Eigenvalue
      * @throws Exception\BadDataException if the matrix is not square
      * @throws Exception\BadDataException if the matrix is not 2x2, 3x3, or 4x4
      */
-    public static function eigenvalue(Matrix $A): array
+    public static function closedFormPolynomialRootMethod(Matrix $A): array
     {
         if (!$A->isSquare()) {
             throw new Exception\BadDataException('Matrix must be square');
@@ -84,12 +84,22 @@ class Eigenvalue
      * If a eigenvalue appears multiple times, the eigenvectors in this space
      * will be orthoganal.
      *
+     * @params Matrix $A a square matrix.
+     * @params array $eigenvalues an array of eigenvalues for this matrix
+     *
      * @return Matrix of eigenvectors
      */
-    public static function eigenvector(Matrix $A): Matrix
+    public static function eigenvector(Matrix $A, array $eigenvalues): Matrix
     {
-        $eigenvalues = self::eigenvalue($A);
+        if (!$A->isSquare()) {
+            throw new Exception\BadDataException('Matrix must be square');
+        }
         $number = count($eigenvalues);
+        
+        // There cannot be more eigenvalues than the size of A, nor can there be zero. 
+        if ($number === 0 || $number > $A->getM()) {
+            throw new Exception\BadDataException('Improper number of eigenvalues provided');
+        }
         $M = [];
 
         // We will store all our solutions here first because, in the case where there are duplicate
@@ -107,6 +117,9 @@ class Eigenvalue
                 $rref = $T->rref();
 
                 $number_of_solutions = self::countSolutions($rref);
+                if ($number_of_solutions === 0) {
+                    throw new Exception\BadDataException($eigenvalue . 'is not an eigenvalue of this matrix');
+                }
                 if ($number_of_solutions == $number) {
                     return MatrixFactory::identity($number);
                 }
