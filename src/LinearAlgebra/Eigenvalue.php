@@ -96,7 +96,7 @@ class Eigenvalue
         }
         $number = count($eigenvalues);
         
-        // There cannot be more eigenvalues than the size of A, nor can there be zero. 
+        // There cannot be more eigenvalues than the size of A, nor can there be zero.
         if ($number === 0 || $number > $A->getM()) {
             throw new Exception\BadDataException('Improper number of eigenvalues provided');
         }
@@ -121,7 +121,7 @@ class Eigenvalue
 
                 $number_of_solutions = self::countSolutions($rref);
                 if ($number_of_solutions === 0) {
-                    throw new Exception\BadDataException($eigenvalue . 'is not an eigenvalue of this matrix');
+                    throw new Exception\BadDataException($eigenvalue . ' is not an eigenvalue of this matrix');
                 }
                 if ($number_of_solutions == $number) {
                     return MatrixFactory::identity($number);
