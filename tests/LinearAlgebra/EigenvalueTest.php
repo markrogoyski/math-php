@@ -121,7 +121,6 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     public function testEigenvectors(array $A, array $S)
     {
         $A = MatrixFactory::create($A);
-        $eigenvalues = Eigenvalue::closedFormPolynomialRootMethod($A);
         $this->assertEquals($S, Eigenvalue::eigenvector($A, $eigenvalues)->getMatrix(), '', 0.0001);
     }
 
@@ -237,13 +236,6 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForIncorrectNumberOfEigenvalues()
     {
         return [
-            [
-                [
-                    [0, 1],
-                    [-2, -3],
-                ],
-                [],
-            ],
             [
                 [
                     [0, 1],
