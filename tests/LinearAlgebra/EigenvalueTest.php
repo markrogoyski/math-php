@@ -14,7 +14,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     public function testEigenvalues(array $A, array $S)
     {
         $A = MatrixFactory::create($A);
-        $this->assertEquals($S, Eigenvalue::eigenvalue($A), '', 0.0001);
+        $this->assertEquals($S, Eigenvalue::closedFormPolynomialRootMethod($A), '', 0.0001);
     }
 
     public function dataProviderForEigenvalues(): array
@@ -84,8 +84,8 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     {
         $A = MatrixFactory::create($A);
 
-        $this->setExpectedException(Exception\BadDataException::class);
-        Eigenvalue::eigenvalue($A);
+        $this->expectException(Exception\BadDataException::class);
+        Eigenvalue::closedFormPolynomialRootMethod($A);
     }
 
     public function dataProviderForEigenvalueException(): array
@@ -121,7 +121,8 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     public function testEigenvectors(array $A, array $S)
     {
         $A = MatrixFactory::create($A);
-        $this->assertEquals($S, Eigenvalue::eigenvector($A)->getMatrix(), '', 0.0001);
+        $eigenvalues = Eigenvalue::closedFormPolynomialRootMethod($A);
+        $this->assertEquals($S, Eigenvalue::eigenvector($A, $eigenvalues)->getMatrix(), '', 0.0001);
     }
 
     public function dataProviderForEigenvector(): array
@@ -206,6 +207,106 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
                     [-2/sqrt(65), -2/sqrt(5), 2/3],
                     [6/sqrt(65), 1/sqrt(5), -2/3],
                 ]
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     user provides a matrix that is not square
+     */
+    public function testEigenvalueMatrixNotCorrectSize()
+    {
+        $A = MatrixFactory::create([[1,2]]);
+
+        $this->expectException(Exception\BadDataException::class);
+        Eigenvalue::eigenvector($A, [0]);
+    }
+
+    /**
+     * @testCase     user provides an array of eigenvales that is too long or short
+     * @dataProvider dataProviderForIncorrectNumberOfEigenvalues
+     */
+    public function testIncorrectNumberOfEigenvalues(array $A, array $B)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->expectException(Exception\BadDataException::class);
+        Eigenvalue::eigenvector($A, $B);
+    }
+
+    public function dataProviderForIncorrectNumberOfEigenvalues()
+    {
+        return [
+            [
+                [
+                    [0, 1],
+                    [-2, -3],
+                ],
+                [],
+            ],
+            [
+                [
+                    [0, 1],
+                    [-2, -3],
+                ],
+                [1,2,3],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     user provides an eigenvalue that is not a number
+     * @dataProvider dataProviderForEigenvalueNotNumeric
+     */
+    public function testEigenvalueNotNumeric(array $A, array $B)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->expectException(Exception\BadDataException::class);
+        Eigenvalue::eigenvector($A, $B);
+    }
+
+    public function dataProviderForEigenvalueNotNumeric()
+    {
+        return [
+            [
+                [
+                    [0, 1],
+                    [-2, -3],
+                ],
+                ["test"],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     user provides an incorrect eigenvalue
+     * @dataProvider dataProviderForEigenvalueNotAnEigenvalue
+     */
+    public function testEigenvalueNotAnEigenvalue(array $A, array $B)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->expectException(Exception\BadDataException::class);
+        Eigenvalue::eigenvector($A, $B);
+    }
+
+    public function dataProviderForEigenvalueNotAnEigenvalue()
+    {
+        return [
+            [
+                [
+                    [0, 1],
+                    [-2, -3],
+                ],
+                [-2, 0],
+            ],
+            [
+                [
+                    [0, 1],
+                    [-2, -3],
+                ],
+                [0, -3],
             ],
         ];
     }
