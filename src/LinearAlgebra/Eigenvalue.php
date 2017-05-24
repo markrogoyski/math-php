@@ -107,6 +107,9 @@ class Eigenvalue
         // pull them out in the same order as the eigenvalues array.
         $solution_array = [];
         foreach ($eigenvalues as $eigenvalue) {
+            if (!is_numeric($eigenvalue)) {
+                throw new Exception\BadDataException('Eigenvalue must be a number');
+            }
             // If this is a duplicate eigenvalue, and this is the second instance, the first
             // pass already found all the vectors.
             $key = array_search($eigenvalue, array_column($solution_array, 'eigenvalue'));
