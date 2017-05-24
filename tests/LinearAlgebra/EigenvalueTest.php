@@ -214,7 +214,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase     user provides a matrix that is not square
      */
-    public function testEigenvalueMatrixNotCorrectSize(array $A)
+    public function testEigenvalueMatrixNotCorrectSize()
     {
         $A = MatrixFactory::create([[1,2]]);
 
