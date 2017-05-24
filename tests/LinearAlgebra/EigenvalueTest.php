@@ -216,10 +216,10 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
      */
     public function testEigenvalueMatrixNotCorrectSize(array $A)
     {
-        $A = MatrixFactory::create([[1,2]], [0]);
+        $A = MatrixFactory::create([[1,2]]);
 
         $this->expectException(Exception\BadDataException::class);
-        Eigenvalue::eigenvector($A);
+        Eigenvalue::eigenvector($A, [0]);
     }
 
     /**
