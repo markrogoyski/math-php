@@ -89,15 +89,18 @@ class Eigenvalue
      *
      * @return Matrix of eigenvectors
      */
-    public static function eigenvector(Matrix $A, array $eigenvalues): Matrix
+    public static function eigenvector(Matrix $A, array $eigenvalues = []): Matrix
     {
+        if ($eigenvalues = []) {
+            $eigenvalues = self::closedFormPolynomialRootMethod($A);
+        }
         if (!$A->isSquare()) {
             throw new Exception\BadDataException('Matrix must be square');
         }
         $number = count($eigenvalues);
         
         // There cannot be more eigenvalues than the size of A, nor can there be zero.
-        if ($number === 0 || $number > $A->getM()) {
+        if ($number > $A->getM()) {
             throw new Exception\BadDataException('Improper number of eigenvalues provided');
         }
         $M = [];
