@@ -3,6 +3,7 @@ namespace MathPHP\Tests\Statistics;
 
 use MathPHP\Statistics\Correlation;
 use MathPHP\Exception;
+use MathPHP\LinearAlgebra\MatrixFactory;
 
 class CorrelationTest extends \PHPUnit_Framework_TestCase
 {
@@ -291,5 +292,46 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_numeric($stats['r2']));
         $this->assertTrue(is_numeric($stats['tau']));
         $this->assertTrue(is_numeric($stats['rho']));
+    }
+
+    /**
+     * @dataProvider dataProviderForEllipse
+     */
+    public function testEllipse(array $data, $sd, array $results)
+    {
+        $calc = Correlation::ellipse(array_column($data, 0), array_column($data, 1), $sd);
+        $this->assertEquals($results, $calc, '', 0.0001);
+    }
+
+    public function dataProviderForEllipse()
+    {
+        return [
+            [ // Test1
+                [
+                    [1.00787, 1.09905],
+                    [1.23724, 0.98834],
+                    [1.02175, 0.67245],
+                    [0.88458, 0.36003],
+                    [0.66582, 1.22097],
+                    [1.24408, 0.59735],
+                    [1.03421, 0.88595],
+                    [1.66279, 0.84183],
+                ],
+                1,
+                [
+                    [1.47449429236742, 0.555004169940273],
+                    [1.54091626950741, 0.797745563446301],
+                    [1.43693412988479, 1.05404701259189],
+                    [1.20226551661247, 1.22601007516927],
+                    [0.926545863867666, 1.24795070608341],
+                    [0.71509070763258, 1.11148833005973],
+                    [0.648668730492593, 0.868746936553699],
+                    [0.752650870115211, 0.612445487408114],
+                    [0.987319483387533, 0.440482424830733],
+                    [1.26303913613233, 0.418541793916591],
+                    [1.47449429236742, 0.555004169940273],
+                ],
+            ],
+        ];
     }
 }
