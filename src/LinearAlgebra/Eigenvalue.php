@@ -51,12 +51,14 @@ class Eigenvalue
         $B = MatrixFactory::create($B_array);
 
         // Create a diagonal Matrix of lambda (Iλ)
-        $λ_poly = new Polynomial([1, 0], 'λ');
+        $λ_poly    = new Polynomial([1, 0], 'λ');
         $zero_poly = new Polynomial([0], 'λ');
-        $λ_array =[];
+        $λ_array   = [];
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $m; $j++) {
-                $λ_array[$i][$j] = $i == $j ? $λ_poly : $zero_poly;
+                $λ_array[$i][$j] = ($i == $j)
+                    ? $λ_poly
+                    : $zero_poly;
             }
         }
         $λ = matrixFactory::create($λ_array);
@@ -84,14 +86,17 @@ class Eigenvalue
      * If a eigenvalue appears multiple times, the eigenvectors in this space
      * will be orthoganal.
      *
-     * @params Matrix $A a square matrix.
-     * @params array $eigenvalues an array of eigenvalues for this matrix
+     * @param Matrix $A a square matrix.
+     * @param array  $eigenvalues an array of eigenvalues for this matrix
      *
      * @return Matrix of eigenvectors
+     *
+     * @throws Exception\BadDataException if the matrix is not square; improper number of eigenvalues;
+     *                                    eigenvalue is not a number; eigenvalue is not an eigenvalue of the matrix
      */
     public static function eigenvector(Matrix $A, array $eigenvalues = []): Matrix
     {
-        if ($eigenvalues == []) {
+        if (empty($eigenvalues)) {
             $eigenvalues = self::closedFormPolynomialRootMethod($A);
         }
         if (!$A->isSquare()) {
@@ -141,26 +146,25 @@ class Eigenvalue
 
                  // A column of all zeroes means that a vector in that direction is a solution.
                 foreach ($zero_columns as $column) {
-                    $solution = array_fill(0, $number, 0);
+                    $solution          = array_fill(0, $number, 0);
                     $solution[$column] = 1;
-                    $solution_array[] = ['eigenvalue' => $eigenvalue, 'vector' => $solution];
+                    $solution_array[]  = ['eigenvalue' => $eigenvalue, 'vector' => $solution];
                     // Add the solution to rref.
                     $rref = $rref->augmentBelow(MatrixFactory::create([$solution]))->rref();
                     $number_of_solutions--;
                 }
 
                 $vectors_found = 0;
-                // Any remaining vectors must be found by solving an underdefined set of
-                // linear equations.
+                // Any remaining vectors must be found by solving an underdefined set of linear equations.
                 while ($number_of_solutions > $vectors_found) {
                     // We will force the value of one or more of the variables
                     // to be one, and solve for the remaining variables.
-                    $number_to_force = $number_of_solutions - $vectors_found;
+                    $number_to_force  = $number_of_solutions - $vectors_found;
                     $forced_variables = [];
-                    $n = $rref->getN();
+                    $n                = $rref->getN();
                     // The solution vector is a column vector.
                     $solution = new Vector(array_fill(0, $n - $number_to_force, 0));
-                    $matrix = $rref;
+                    $matrix   = $rref;
                     for ($i = 0; $i < $n && count($forced_variables) < $number_to_force; $i++) {
                         // Make sure that removing column $i does not leave behind a row of zeros
                         $column_can_be_used = true;
@@ -170,10 +174,10 @@ class Eigenvalue
                             }
                         }
                         if ($column_can_be_used) {
-                            $matrix = $matrix->columnExclude($i-count($forced_variables));
+                            $matrix             = $matrix->columnExclude($i-count($forced_variables));
                             $forced_variables[] = $i;
-                            $new_column = new Vector($rref->getColumn($i));
-                            $solution = $solution->add($new_column->scalarMultiply(-1));
+                            $new_column         = new Vector($rref->getColumn($i));
+                            $solution           = $solution->add($new_column->scalarMultiply(-1));
                         }
                     }
 
@@ -187,10 +191,10 @@ class Eigenvalue
                     $eigenvector_scaled = $eigenvector;
 
                     // Scale it to be a unit vector.
-                    $sign = Special::sgn($eigenvector_scaled[0]) == 1 ? 1 : -1;
-                    $scale_factor = $sign / sqrt(array_sum(Single::square($eigenvector_scaled)));
+                    $sign               = (Special::sgn($eigenvector_scaled[0]) == 1) ? 1 : -1;
+                    $scale_factor       = $sign / sqrt(array_sum(Single::square($eigenvector_scaled)));
                     $eigenvector_scaled = Single::multiply($eigenvector_scaled, $scale_factor);
-                    $solution_array[] = ['eigenvalue' => $eigenvalue, 'vector' => $eigenvector_scaled];
+                    $solution_array[]   = ['eigenvalue' => $eigenvalue, 'vector' => $eigenvector_scaled];
                     $vectors_found++;
 
                     // If there are more solutions to be found, we will append this solution to the bottom
@@ -214,6 +218,10 @@ class Eigenvalue
     /**
      * Count the number of rows that contain all zeroes, starting at the bottom.
      * In reduced row echelon form, all the rows of zero will be on the bottom.
+     *
+     * @param Matrix $M
+     *
+     * @return int
      */
     private static function countSolutions(Matrix $M): int
     {
@@ -234,6 +242,13 @@ class Eigenvalue
         return $number_of_solutions;
     }
 
+    /**
+     * Find the zero columns
+     *
+     * @param  Matrix $M
+     *
+     * @return array
+     */
     private static function findZeroColumns(Matrix $M): array
     {
         $m = $M->getM();

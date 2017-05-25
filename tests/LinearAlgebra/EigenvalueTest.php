@@ -10,6 +10,8 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase     quadratic returns the expected eigenvalues
      * @dataProvider dataProviderForEigenvalues
+     * @param        array $A
+     * @param        array $S
      */
     public function testEigenvalues(array $A, array $S)
     {
@@ -79,6 +81,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase     quadratic throws a BadDataException if the matrix is not the correct size (2x2 or 3x3)
      * @dataProvider dataProviderForEigenvalueException
+     * @param        array $A
      */
     public function testQuadraticExceptionMatrixNotCorrectSize(array $A)
     {
@@ -117,6 +120,8 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase     quadratic returns the expected eigenvalues
      * @dataProvider dataProviderForEigenvector
+     * @param        array $A
+     * @param        array $S
      */
     public function testEigenvectors(array $A, array $S)
     {
@@ -211,7 +216,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     user provides a matrix that is not square
+     * @testCase user provides a matrix that is not square
      */
     public function testEigenvalueMatrixNotCorrectSize()
     {
@@ -224,6 +229,8 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase     user provides an array of eigenvales that is too long or short
      * @dataProvider dataProviderForIncorrectNumberOfEigenvalues
+     * @param        array $A
+     * @param        array $B
      */
     public function testIncorrectNumberOfEigenvalues(array $A, array $B)
     {
@@ -233,7 +240,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
         Eigenvalue::eigenvector($A, $B);
     }
 
-    public function dataProviderForIncorrectNumberOfEigenvalues()
+    public function dataProviderForIncorrectNumberOfEigenvalues(): array
     {
         return [
             [
@@ -249,6 +256,8 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase     user provides an eigenvalue that is not a number
      * @dataProvider dataProviderForEigenvalueNotNumeric
+     * @param        array $A
+     * @param        array $V
      */
     public function testEigenvalueNotNumeric(array $A, array $B)
     {
@@ -258,7 +267,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
         Eigenvalue::eigenvector($A, $B);
     }
 
-    public function dataProviderForEigenvalueNotNumeric()
+    public function dataProviderForEigenvalueNotNumeric(): array
     {
         return [
             [
@@ -274,6 +283,8 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase     user provides an incorrect eigenvalue
      * @dataProvider dataProviderForEigenvalueNotAnEigenvalue
+     * @param        array $A
+     * @param        array $B
      */
     public function testEigenvalueNotAnEigenvalue(array $A, array $B)
     {
@@ -283,7 +294,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
         Eigenvalue::eigenvector($A, $B);
     }
 
-    public function dataProviderForEigenvalueNotAnEigenvalue()
+    public function dataProviderForEigenvalueNotAnEigenvalue(): array
     {
         return [
             [
