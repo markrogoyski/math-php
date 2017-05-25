@@ -5,6 +5,7 @@ use MathPHP\Exception;
 use MathPHP\Functions\Special;
 use MathPHP\Functions\Map;
 use MathPHP\LinearAlgebra\Eigenvalue;
+use MathPHP\LinearAlgebra\Eigenvector;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Probability\Distribution\Continuous\ChiSquared;
@@ -496,7 +497,7 @@ class Correlation
 
         // Sort the eigenvalues from highest to lowest
         rsort($eigenvalues);
-        $V = Eigenvalue::eigenvector($Cov, $eigenvalues);
+        $V = Eigenvector::eigenvectors($Cov, $eigenvalues);
 
         // Make ia diagonal matrix of the eigenvalues
         $D = MatrixFactory::create($eigenvalues);
