@@ -3012,10 +3012,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**************************************************************************
      * EIGEN METHODS
      * - eigenvalues
+     * - eigenvectors
      **************************************************************************/
 
     /**
-     * Eigen values of the matrix.
+     * Eigenvalues of the matrix.
      * Various eigenvalue algorithms (methods) are available.
      * Use the $method parameter to control the algorithm used.
      *
@@ -3030,6 +3031,25 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return Eigenvalue::$method($this);
+    }
+
+    /**
+     * Eigenvectors of the matrix.
+     * Eigenvector computation function takes in an array of eigenvalues as input.
+     * Various eigenvalue algorithms (methods) are availbale.
+     * Use the $method parameter to control the algorithm used.
+     *
+     * @param string $method Algorithm used to compute the eigenvalues
+     *
+     * @return Matrix of eigenvectors
+     */
+    public function eigenvectors(string $method = Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD): Matrix
+    {
+        if (!Eigenvalue::isAvailableMethod($method)) {
+            throw new Exception\MatrixException("$method is not a valid eigenvalue method");
+        }
+
+        return Eigenvector::eigenvectors($this, Eigenvalue::$method($this));
     }
 
     /**************************************************************************
