@@ -9,6 +9,17 @@ use MathPHP\Functions\Special;
 
 class Eigenvalue
 {
+    const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
+
+    const METHODS = [
+        self::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD,
+    ];
+
+    public static function isAvailableMethod(string $method): bool
+    {
+        return in_array($method, self::METHODS);
+    }
+
     /**
      * Produces the Eigenvalues for square 2x2 - 4x4 matricies
      *
@@ -94,7 +105,7 @@ class Eigenvalue
      * @throws Exception\BadDataException if the matrix is not square; improper number of eigenvalues;
      *                                    eigenvalue is not a number; eigenvalue is not an eigenvalue of the matrix
      */
-    public static function eigenvector(Matrix $A, array $eigenvalues = []): Matrix
+    public static function eigenvectors(Matrix $A, array $eigenvalues = []): Matrix
     {
         if (empty($eigenvalues)) {
             $eigenvalues = self::closedFormPolynomialRootMethod($A);

@@ -8,15 +8,16 @@ use MathPHP\LinearAlgebra\Eigenvalue;
 class EigenvalueTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @testCase     quadratic returns the expected eigenvalues
+     * @testCase     closedFormPolynomialRootMethod returns the expected eigenvalues
      * @dataProvider dataProviderForEigenvalues
      * @param        array $A
      * @param        array $S
      */
-    public function testEigenvalues(array $A, array $S)
+    public function testClosedFormPolynomialRootMethod(array $A, array $S)
     {
         $A = MatrixFactory::create($A);
         $this->assertEquals($S, Eigenvalue::closedFormPolynomialRootMethod($A), '', 0.0001);
+        $this->assertEquals($S, $A->eigenvalues(Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD), '', 0.0001);
     }
 
     public function dataProviderForEigenvalues(): array
@@ -79,11 +80,11 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     quadratic throws a BadDataException if the matrix is not the correct size (2x2 or 3x3)
+     * @testCase     closedFormPolynomialRootMethod throws a BadDataException if the matrix is not the correct size (2x2 or 3x3)
      * @dataProvider dataProviderForEigenvalueException
      * @param        array $A
      */
-    public function testQuadraticExceptionMatrixNotCorrectSize(array $A)
+    public function testClosedFormPolynomialRootMethodExceptionMatrixNotCorrectSize(array $A)
     {
         $A = MatrixFactory::create($A);
 
@@ -118,15 +119,31 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     quadratic returns the expected eigenvalues
+     * @testCase Matrix eigenvalues throws a MatrixException if the eigenvalue method is not valid
+     */
+    public function testMatrixEigenvalueInvalidMethodException()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $invalidMethod = 'SecretMethod';
+
+        $this->expectException(Exception\MatrixException::class);
+        $A->eigenvalues($invalidMethod);
+    }
+
+    /**
+     * @testCase     eigenvector using closedFormPolynomialRootMethod returns the expected eigenvalues
      * @dataProvider dataProviderForEigenvector
      * @param        array $A
      * @param        array $S
      */
-    public function testEigenvectors(array $A, array $S)
+    public function testEigenvectorsUsingClosedFormPolynomialRootMethod(array $A, array $S)
     {
         $A = MatrixFactory::create($A);
-        $this->assertEquals($S, Eigenvalue::eigenvector($A)->getMatrix(), '', 0.0001);
+        $this->assertEquals($S, Eigenvalue::eigenvectors($A)->getMatrix(), '', 0.0001);
     }
 
     public function dataProviderForEigenvector(): array
@@ -216,18 +233,18 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase user provides a matrix that is not square
+     * @testCase eigenvectors throws a BadDataException when the matrix is not square
      */
     public function testEigenvalueMatrixNotCorrectSize()
     {
         $A = MatrixFactory::create([[1,2]]);
 
         $this->expectException(Exception\BadDataException::class);
-        Eigenvalue::eigenvector($A, [0]);
+        Eigenvalue::eigenvectors($A, [0]);
     }
 
     /**
-     * @testCase     user provides an array of eigenvales that is too long or short
+     * @testCase     eigenvectors throws a BadDataException when the array of eigenvales is too long or short
      * @dataProvider dataProviderForIncorrectNumberOfEigenvalues
      * @param        array $A
      * @param        array $B
@@ -237,7 +254,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
         $A = MatrixFactory::create($A);
 
         $this->expectException(Exception\BadDataException::class);
-        Eigenvalue::eigenvector($A, $B);
+        Eigenvalue::eigenvectors($A, $B);
     }
 
     public function dataProviderForIncorrectNumberOfEigenvalues(): array
@@ -254,7 +271,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     user provides an eigenvalue that is not a number
+     * @testCase     eigenvectors throws a BadDataException when an eigenvalue that is provided is not a number
      * @dataProvider dataProviderForEigenvalueNotNumeric
      * @param        array $A
      * @param        array $V
@@ -264,7 +281,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
         $A = MatrixFactory::create($A);
 
         $this->expectException(Exception\BadDataException::class);
-        Eigenvalue::eigenvector($A, $B);
+        Eigenvalue::eigenvectors($A, $B);
     }
 
     public function dataProviderForEigenvalueNotNumeric(): array
@@ -281,7 +298,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     user provides an incorrect eigenvalue
+     * @testCase     eigenvectors throws a BadDataException when there is an incorrect eigenvalue provided
      * @dataProvider dataProviderForEigenvalueNotAnEigenvalue
      * @param        array $A
      * @param        array $B
@@ -291,7 +308,7 @@ class EigenvalueTest extends \PHPUnit_Framework_TestCase
         $A = MatrixFactory::create($A);
 
         $this->expectException(Exception\BadDataException::class);
-        Eigenvalue::eigenvector($A, $B);
+        Eigenvalue::eigenvectors($A, $B);
     }
 
     public function dataProviderForEigenvalueNotAnEigenvalue(): array

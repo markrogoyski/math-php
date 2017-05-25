@@ -3010,6 +3010,29 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**************************************************************************
+     * EIGEN METHODS
+     * - eigenvalues
+     **************************************************************************/
+
+    /**
+     * Eigen values of the matrix.
+     * Various eigenvalue algorithms (methods) are available.
+     * Use the $method parameter to control the algorithm used.
+     *
+     * @param string $method Algorithm used to compute the eigenvalues
+     *
+     * @return array of eigenvalues
+     */
+    public function eigenvalues(string $method = Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD): array
+    {
+        if (!Eigenvalue::isAvailableMethod($method)) {
+            throw new Exception\MatrixException("$method is not a valid eigenvalue method");
+        }
+
+        return Eigenvalue::$method($this);
+    }
+
+    /**************************************************************************
      * PHP MAGIC METHODS
      *  - __toString
      **************************************************************************/
