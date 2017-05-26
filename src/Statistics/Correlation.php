@@ -480,7 +480,7 @@ class Correlation
      *
      * @return array paired x and y points on an ellipse aligned with the data provided
      */
-    public static function ellipse(array $X, array $Y, float $z, int $num_points = 11)
+    public static function confidenceEllipse(array $X, array $Y, float $z, int $num_points = 11)
     {
         $p = 2 * StandardNormal::CDF($z) - 1;
         $chi = ChiSquared::inverse($p, 2);
