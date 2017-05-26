@@ -1,11 +1,18 @@
 <?php
 namespace MathPHP\Statistics;
 
-use MathPHP\Statistics\Average;
-use MathPHP\Statistics\RandomVariable;
+use MathPHP\Exception;
 use MathPHP\Functions\Special;
 use MathPHP\Functions\Map;
-use MathPHP\Exception;
+use MathPHP\LinearAlgebra\Eigenvalue;
+use MathPHP\LinearAlgebra\Eigenvector;
+use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\Probability\Distribution\Continuous\ChiSquared;
+use MathPHP\Probability\Distribution\Continuous\StandardNormal;
+use MathPHP\Statistics\Average;
+use MathPHP\Statistics\RandomVariable;
+use MathPHP\Trigonometry;
 
 class Correlation
 {
@@ -455,5 +462,63 @@ class Correlation
             'tau' => self::kendallsTau($X, $Y),
             'rho' => self::spearmansRho($X, $Y),
         ];
+    }
+
+        /**
+     * Given the data in $X and $Y, create an ellipse
+     * surrounding the data at $z standard deviations.
+     *
+     * The function will return $num_points pairs of X,Y data
+     * http://stackoverflow.com/questions/3417028/ellipse-around-the-data-in-matlab
+     *
+     * @param array $X an array of independent data
+     * @param array $Y an array of dependent data
+     * @param float $z the number of standard deviations to encompass
+     * @param int $num_points the number of points to include around the ellipse. The actual array
+     *                        will be one larger because the first point and last will be repeated
+     *                        to ease display.
+     *
+     * @return array paired x and y points on an ellipse aligned with the data provided
+     */
+    public static function confidenceEllipse(array $X, array $Y, float $z, int $num_points = 11)
+    {
+        $p = 2 * StandardNormal::CDF($z) - 1;
+        $chi = ChiSquared::inverse($p, 2);
+
+        $data_array[] = $X;
+        $data_array[] = $Y;
+        $data_matrix = new Matrix($data_array);
+        
+        $covarience_matrix = $data_matrix->covarianceMatrix();
+        
+        // Scale the data by the confidence interval
+        $Cov = $covarience_matrix->scalarMultiply($chi);
+        $eigenvalues = Eigenvalue::closedFormPolynomialRootMethod($Cov);
+
+        // Sort the eigenvalues from highest to lowest
+        rsort($eigenvalues);
+        $V = Eigenvector::eigenvectors($Cov, $eigenvalues);
+
+        // Make ia diagonal matrix of the eigenvalues
+        $D = MatrixFactory::create($eigenvalues);
+        $D = $D->map('sqrt');
+        $transformation_matrix = $V->multiply($D);
+        
+        $x_bar = Average::mean($X);
+        $y_bar = Average::mean($Y);
+        $translation_matrix = new Matrix([[$x_bar],[$y_bar]]);
+        
+        // We add a row to allow the transformation matrix to also traslate the ellipse to a different location
+        $transformation_matrix = $transformation_matrix->augment($translation_matrix);
+        
+        $unit_circle = new Matrix(Trigonometry::unitCircle($num_points));
+        
+        // We add a column of ones to allow us to translate the ellipse
+        $unit_circle_with_ones = $unit_circle->augment(MatrixFactory::one($num_points, 1));
+        
+        // The unit circle is rotated, stretched, and translated to the appropriate ellipse by the translation matrix.
+        $ellipse = $transformation_matrix->multiply($unit_circle_with_ones->transpose())->transpose();
+        
+        return $ellipse->getMatrix();
     }
 }
