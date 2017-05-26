@@ -464,40 +464,41 @@ class Correlation
         ];
     }
 
-        /**
+    /**
+     * Confidence ellipse (error ellipse)
      * Given the data in $X and $Y, create an ellipse
      * surrounding the data at $z standard deviations.
      *
      * The function will return $num_points pairs of X,Y data
      * http://stackoverflow.com/questions/3417028/ellipse-around-the-data-in-matlab
      *
-     * @param array $X an array of independent data
-     * @param array $Y an array of dependent data
-     * @param float $z the number of standard deviations to encompass
-     * @param int $num_points the number of points to include around the ellipse. The actual array
-     *                        will be one larger because the first point and last will be repeated
-     *                        to ease display.
+     * @param array $X          an array of independent data
+     * @param array $Y          an array of dependent data
+     * @param float $z          the number of standard deviations to encompass
+     * @param int   $num_points the number of points to include around the ellipse. The actual array
+     *                          will be one larger because the first point and last will be repeated
+     *                          to ease display.
      *
      * @return array paired x and y points on an ellipse aligned with the data provided
      */
-    public static function confidenceEllipse(array $X, array $Y, float $z, int $num_points = 11)
+    public static function confidenceEllipse(array $X, array $Y, float $z, int $num_points = 11): array
     {
-        $p = 2 * StandardNormal::CDF($z) - 1;
-        $chi = ChiSquared::inverse($p, 2);
+        $p  = 2 * StandardNormal::CDF($z) - 1;
+        $χ² = ChiSquared::inverse($p, 2);
 
         $data_array[] = $X;
         $data_array[] = $Y;
-        $data_matrix = new Matrix($data_array);
+        $data_matrix  = new Matrix($data_array);
         
         $covarience_matrix = $data_matrix->covarianceMatrix();
         
         // Scale the data by the confidence interval
-        $Cov = $covarience_matrix->scalarMultiply($chi);
-        $eigenvalues = Eigenvalue::closedFormPolynomialRootMethod($Cov);
+        $cov         = $covarience_matrix->scalarMultiply($χ²);
+        $eigenvalues = Eigenvalue::closedFormPolynomialRootMethod($cov);
 
         // Sort the eigenvalues from highest to lowest
         rsort($eigenvalues);
-        $V = Eigenvector::eigenvectors($Cov, $eigenvalues);
+        $V = Eigenvector::eigenvectors($cov, $eigenvalues);
 
         // Make ia diagonal matrix of the eigenvalues
         $D = MatrixFactory::create($eigenvalues);

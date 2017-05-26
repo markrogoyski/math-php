@@ -299,14 +299,14 @@ class CorrelationTest extends \PHPUnit_Framework_TestCase
      */
     public function testEllipse(array $data, $sd, array $results)
     {
-        $calc = Correlation::ConfidenceEllipse(array_column($data, 0), array_column($data, 1), $sd);
+        $calc = Correlation::confidenceEllipse(array_column($data, 0), array_column($data, 1), $sd);
         $this->assertEquals($results, $calc, '', 0.0001);
     }
 
     public function dataProviderForEllipse()
     {
         return [
-            [ // Test1
+            [
                 [
                     [1.00787, 1.09905],
                     [1.23724, 0.98834],
