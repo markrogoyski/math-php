@@ -8,7 +8,7 @@ use MathPHP\Functions\Special;
  * Big Integer
  *
  * The BigInt object is an array of 2 ints. Concatenating the two ints
- * provides the binary version of the integer in 2s compliment form. 
+ * provides the binary version of the integer in 2s compliment form.
  */
 class BigInt implements ObjectArithmetic
 {
