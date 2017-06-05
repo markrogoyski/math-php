@@ -140,7 +140,7 @@ class BigInt implements ObjectArithmetic
         if (is_int($a + $b)) {
             return ['overflow'=> false, 'value' => $a + $b];
         } else {
-            $c = $a - (\PHP_INT_MAX - \PHP_INT_MAX >> 1) + $b;
+            $c = $a - (\PHP_INT_MAX - (\PHP_INT_MAX >> 1)) + $b;
             return ['overflow'=> true, 'value' => $c];
         }
     }
