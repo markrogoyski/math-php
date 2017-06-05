@@ -20,14 +20,13 @@ class BigInt implements ObjectArithmetic
     /**
      * Constructor
      *
-     * Should the constructor use an array so that $this->value can be extended?
+     * convert an int to a BigInt
      * @param int $v
-     * @param int $w
      */
-    public function __construct(int $v, int $w = 0)
+    public function __construct(int $v)
     {
         $this->value[0] = $v;
-        $this->value[1] = $w;
+        $this->value[1] = $v > 0 ? 0: -1;
     }
     
     /**
