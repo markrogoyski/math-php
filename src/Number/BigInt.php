@@ -54,7 +54,7 @@ class BigInt implements ObjectArithmetic
      */
     public function abs(): BigInt
     {
-      
+      return \NAN;
     }
 
     /**************************************************************************
@@ -86,7 +86,7 @@ class BigInt implements ObjectArithmetic
      */
     public function subtract($c): BigInt
     {
-
+        return \NAN
     }
 
     /**
@@ -94,7 +94,7 @@ class BigInt implements ObjectArithmetic
      */
     public function multiply($c): BigInt
     {
-        
+        return \NAN
     }
 
     /**
@@ -118,7 +118,7 @@ class BigInt implements ObjectArithmetic
      */
     public function intdiv($c): BigInt
     {
-        
+        return \NAN
     }
 
     /**
@@ -127,7 +127,7 @@ class BigInt implements ObjectArithmetic
      */
     public function mod(int $c): BigInt
     {
-        
+        return \NAN
     }
 
     /**
@@ -135,7 +135,7 @@ class BigInt implements ObjectArithmetic
      */
     private function bitwiseAdd(int $a, int $b): array
     {
-        if (is_int($a + $b)){
+        if (is_int($a + $b)) {
             return ['overflow'=> false, 'value' => $a + $b];
         } else {
             $c = $a - (\PHP_INT_MAX - \PHP_INT_MAX >> 1) + $b;
