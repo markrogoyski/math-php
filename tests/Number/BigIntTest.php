@@ -38,43 +38,43 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @testCase     addition of two BigInts returns the expeced result
-     * @dataProvider dataProviderForAdd
-     * @param        array  $bigint1
-     * @param        array  $bigint2
+     * @dataProvider dataProviderForAddInt
+     * @param        array  $int1
+     * @param        array  $int2
      * @param        array  $expected
-    public function testAdd(array $bigint1, array $bigint2, array $e)
+     */
+    public function testAddInt(int $int1, int $int2, int $e)
     {
-        $A = new BigInt($bigint1[0], $bigint1[1]);
-        $B = new BigInt($bigint2[0], $bigint2[1]);
-        $C = $A->add($B);
-        $expected = new BigInt($e[0], $e[1]);
-        $this->assertTrue($C->equals($expected));
+        $A = new BigInt($int1);
+        $B = new BigInt($int2);
+        $sum = $A->add($B);
+        $expected = new BigInt($e);
+        $this->assertTrue($sum->equals($expected));
     }
 
-    public function dataProviderForAdd()
+    public function dataProviderForAddInt()
     {
         return [
             [ // 1 + 1 = 2
-                [1, 0],
-                [1, 0],
-                [2, 0],
+                1,
+                1,
+                2,
             ],
-            [ // 100 + 200 = 300
-                [100, 0],
-                [200, 0],
-                [300, 0],
+            [ // 123 + 234 = 357
+                123,
+                234,
+                357,
             ],
-            [ // Max int plus one
-                [\PHP_INT_MAX, 0],
-                [1, 0],
-                [0, 1],
+            [ // 1 + -1 = 0
+                1,
+                -1,
+                0,
             ],
-            [ // Max int times two
-                [\PHP_INT_MAX, 0],
-                [\PHP_INT_MAX, 0],
-                [\PHP_INT_MAX - 1, 1],
+            [ // -123 + -234 = -357
+                -123
+                -234,
+                -357,
             ],
         ];
     }
-    */
 }
