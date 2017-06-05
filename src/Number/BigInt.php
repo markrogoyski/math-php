@@ -57,6 +57,18 @@ class BigInt implements ObjectArithmetic
         return \NAN;
     }
 
+    public function decbin(): string
+    {
+        return $this->fullDecBin($this->value[1]) . $this->fullDecBin($this->value[0]);
+    }
+
+    // Binary representation of a number with leading zeroes.
+    private function fullDecBin($v): string
+    {
+        $bits = strlen(decbin(-1));
+        return sprintf('%' . $bits . 'd', decbin($v));
+    }
+
     /**************************************************************************
      * BINARY FUNCTIONS
      **************************************************************************/
