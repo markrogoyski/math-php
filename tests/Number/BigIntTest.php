@@ -7,16 +7,46 @@ use MathPHP\Number\BigInt;
 class BigIntTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @testCase     addition of two BigInts returns the expeced result
-     * @dataProvider dataProviderForAdd
-     * @param        array  $complex1
-     * @param        array  $complex2
+     * @testCase     binary representation is as expected
+     * @dataProvider dataProviderForDecBin
+     * @param        array  $bigint
      * @param        array  $expected
      */
-    public function testAdd(array $a, array $b, array $e)
+    public function testDecBin(array $bigint, string $expected)
     {
-        $A = new BigInt($a[0], $a[1]);
-        $B = new BigInt($b[0], $b[1]);
+        $A = new BigInt($bigint[0], $bigint[1]);
+        $this->assertEquals($string, $a->decbin());
+    }
+
+    public function dataProviderForDecBin()
+    {
+        return [
+            [ // 1 as a 128 bit number
+                [1],
+                '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001',
+            ],
+            [ // -1 as a 128 bit number
+                [-1],
+                '11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
+            ],
+            [ // MAX_INT as a 128 bit number
+                [\PHP_INT_MAX],
+                '00000000000000000000000000000000000000000000000000000000000000001111111111111111111111111111111111111111111111111111111111111111',
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     addition of two BigInts returns the expeced result
+     * @dataProvider dataProviderForAdd
+     * @param        array  $bigint1
+     * @param        array  $bigint2
+     * @param        array  $expected
+    
+    public function testAdd(array $bigint1, array $bigint2, array $e)
+    {
+        $A = new BigInt($bigint1[0], $bigint1[1]);
+        $B = new BigInt($bigint2[0], $bigint2[1]);
         $C = $A->add($B);
         $expected = new BigInt($e[0], $e[1]);
         $this->assertTrue($C->equals($expected));
@@ -47,4 +77,5 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    */
 }
