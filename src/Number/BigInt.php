@@ -54,7 +54,7 @@ class BigInt implements ObjectArithmetic
      */
     public function abs(): BigInt
     {
-      return \NAN;
+        return \NAN;
     }
 
     /**************************************************************************
