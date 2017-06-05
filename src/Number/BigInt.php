@@ -7,8 +7,7 @@ use MathPHP\Functions\Special;
 /**
  * Big Integer
  *
- * The BigInt obkect is an array of 2 ints. This allows us to represent
- * numbers up to 64 bits.
+ * The BigInt object is an array of 2 ints.
  */
 class BigInt implements ObjectArithmetic
 {
@@ -21,11 +20,14 @@ class BigInt implements ObjectArithmetic
     /**
      * Constructor
      *
-     * @param mixed $v int 
+     * Should the constructor use an array so that $this->value can be extended?
+     * @param int $v
+     * @param int $w
      */
-    public function __construct(int $r)
+    public function __construct(int $v, int $w = 0)
     {
         $this->value[0] = $v;
+        $this->value[1] = $w;
     }
     
     /**
@@ -37,55 +39,22 @@ class BigInt implements ObjectArithmetic
     {
         return (string) $this->value[0];
     }
-    
+
+    public function get(int $n): int
+    {
+        return $this->value[$n];
+    }
+
     /**************************************************************************
      * UNARY FUNCTIONS
      **************************************************************************/
 
     /**
-     * The absolute value (magnitude) of a complex number (modulus)
-     * https://en.wikipedia.org/wiki/Complex_number#Absolute_value_and_argument
-     *
-     * If z = a + bi
-     *        _______
-     * |z| = √a² + b²
-     *
-     * @return number
+     * The absolute value of a BigInt
      */
-    public function abs()
+    public function abs(): BigInt
     {
-        return sqrt($this->r**2 + $this->i**2);
-    }
-    
-    
-
-    /**
-     * The inverse of a complex number (reciprocal)
-     *
-     * https://en.wikipedia.org/wiki/Complex_number#Reciprocal
-     *
-     * @return Complex
-     *
-     * @throws Exception\BadDataException if = to 0 + 0i
-     */
-    public function inverse(): Complex
-    {
-        if ($this->r == 0 && $this->i == 0) {
-            throw new Exception\BadDataException('Cannot take inverse of 0 + 0i');
-        }
-
-        return $this->complexConjugate()->divide($this->abs() ** 2);
-    }
-
-    /**
-     * Negate the complex number
-     * Switches the signs of both the real and imaginary parts.
-     *
-     * @return Complex
-     */
-    public function negate(): Complex
-    {
-        return new Complex(-$this->r, -$this->i);
+      
     }
 
     /**************************************************************************
@@ -95,102 +64,82 @@ class BigInt implements ObjectArithmetic
     /**
      * Addition
      *
-     * @param mixed $c
-     *
-     * @return Complex
-     *
-     * @throws Exception\IncorrectTypeException if the argument is not numeric or Complex.
      */
-    public function add($c): Complex
+    public function add($c): BigInt
     {
-        if (is_numeric($c)) {
-            $r = $this->r + $c;
-            $i = $this->i;
-        } elseif ($c instanceof Complex) {
-            $r = $this->r + $c->r;
-            $i = $this->i + $c->i;
-        } else {
-            throw new Exception\IncorrectTypeException('Argument must be real or complex number');
+        $first = self::bitwiseAdd($this->value[0], $c->get(0));
+        $second = self::bitwiseAdd($this->value[1], $c->get(1));
+        if ($second['overflow']) {
+            return \NAN;
         }
-
-        return new Complex($r, $i);
+        if ($first['overflow']) {
+            $third = self::bitwiseAdd($second['value'], 1);
+        }
+        if ($third['overflow']) {
+            return \NAN;
+        }
+        return new BigInt($first['value'], $third['value']);
     }
 
     /**
-     * Complex subtraction
-     * https://en.wikipedia.org/wiki/Complex_number#Addition_and_subtraction
-     *
-     * (a + bi) - (c + di) = (a - c) + (b - d)i
-     *
-     * @param mixed $c
-     *
-     * @return Complex
-     *
-     * @throws Exception\IncorrectTypeException if the argument is not numeric or Complex.
+     * Subtraction
      */
-    public function subtract($c): Complex
+    public function subtract($c): BigInt
     {
-        if (is_numeric($c)) {
-            $r = $this->r - $c;
-            $i = $this->i;
-        } elseif ($c instanceof Complex) {
-            $r = $this->r - $c->r;
-            $i = $this->i - $c->i;
-        } else {
-            throw new Exception\IncorrectTypeException('Argument must be real or complex number');
-        }
 
-        return new Complex($r, $i);
     }
 
     /**
-     * Complex multiplication
-     * https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_division
-     *
-     * (a + bi)(c + di) = (ac - bd) + (bc + ad)i
-     *
-     * @param mixed $c
-     *
-     * @return Complex
-     *
-     * @throws Exception\IncorrectTypeException if the argument is not numeric or Complex.
+     * Multiplication
      */
-    public function multiply($c): Complex
+    public function multiply($c): BigInt
     {
-        if (is_numeric($c)) {
-            $r = $c * $this->r;
-            $i = $c * $this->i;
-        } elseif ($c instanceof Complex) {
-            $r = $this->r * $c->r - $this->i * $c->i;
-            $i = $this->i * $c->r + $this->r * $c->i;
-        } else {
-            throw new Exception\IncorrectTypeException('Argument must be real or complex number');
-        }
-
-        return new Complex($r, $i);
+        
     }
 
     /**
-     * Complex division
-     * Dividing two complex numbers is accomplished by multiplying the first by the inverse of the second
-     * https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_division
+     * Division
      *
-     * @param mixed $c
-     *
-     * @return Complex
-     *
-     * @throws Exception\IncorrectTypeException if the argument is not numeric or Complex.
+     * Returns the division of two BigInt, iff they are evenly divisible.
      */
-    public function divide($c): Complex
+    public function divide($c): BigInt
     {
-        if (is_numeric($c)) {
-            $r = $this->r / $c;
-            $i = $this->i / $c;
-            return new Complex($r, $i);
-        } elseif ($c instanceof Complex) {
-            return $this->multiply($c->inverse());
+        if (self::mod($c) === 0) {
+            return $this->intdiv($c);
         } else {
-            throw new Exception\IncorrectTypeException('Argument must be real or complex number');
+            return \NAN;
+        }
+    }
+
+    /**
+     * Integer Division
+     *
+     * Calculate the integer prtion of a division operation
+     */
+    public function intdiv($c): BigInt
+    {
+        
+    }
+
+    /**
+     * Mod
+     * The remainder of integer division
+     */
+    public function mod(int $c): BigInt
+    {
+        
+    }
+
+    /**
+     * Bitwise add two ints and return the result and if it overflows.
+     */
+    private function bitwiseAdd(int $a, int $b): array
+    {
+        if (is_int($a + $b)){
+            return ['overflow'=> false, 'value' => $a + $b];
+        } else {
+            $c = $a - (\PHP_INT_MAX - \PHP_INT_MAX >> 1) + $b;
+            return ['overflow'=> true, 'value' => $c];
         }
     }
     
@@ -200,16 +149,11 @@ class BigInt implements ObjectArithmetic
 
     /**
      * Test for equality
-     * Two complex numbers are equal if and only if both their real and imaginary parts are equal.
-     *
-     * https://en.wikipedia.org/wiki/Complex_number#Equality
-     *
-     * @param Complex $c
      *
      * @return bool
      */
-    public function equals(Complex $c): bool
+    public function equals(BigInt $c): bool
     {
-        return abs($this->r - $c->r) < self::EPSILON && abs($this->i - $c->i) < self::EPSILON;
+        return $this->value[0] == $c->get(0) && $this->value[1] == $c->get(1);
     }
 }
