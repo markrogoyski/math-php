@@ -9,12 +9,12 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase     binary representation is as expected
      * @dataProvider dataProviderForDecBin
-     * @param        array  $bigint
+     * @param        array  $int
      * @param        array  $expected
      */
-    public function testDecBin(array $bigint, string $expected)
+    public function testDecBin(int $int, string $expected)
     {
-        $A = new BigInt($bigint[0], $bigint[1]);
+        $A = new BigInt($int);
         $this->assertEquals($string, $A->decbin());
     }
 
@@ -22,15 +22,15 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [ // 1 as a 128 bit number
-                [1],
+                1,
                 '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001',
             ],
             [ // -1 as a 128 bit number
-                [-1],
+                -1,
                 '11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
             ],
             [ // MAX_INT as a 128 bit number
-                [\PHP_INT_MAX],
+                \PHP_INT_MAX,
                 '00000000000000000000000000000000000000000000000000000000000000001111111111111111111111111111111111111111111111111111111111111111',
             ],
         ];
