@@ -65,7 +65,7 @@ class BigInt implements ObjectArithmetic
     private function fullDecBin($v): string
     {
         $bits = strlen(decbin(-1));
-        return sprintf('%' . $bits . 'd', decbin($v));
+        return str_pad(decbin($v), $bits, '0', STR_PAD_LEFT);
     }
 
     /**************************************************************************
