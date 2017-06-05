@@ -42,7 +42,6 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
      * @param        array  $int1
      * @param        array  $int2
      * @param        array  $expected
-     */
     public function testAddInt(int $int1, int $int2, int $e)
     {
         $A = new BigInt($int1);
@@ -76,5 +75,5 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
                 -357,
             ],
         ];
-    }
+    }*/
 }
