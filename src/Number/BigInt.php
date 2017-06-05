@@ -86,7 +86,7 @@ class BigInt implements ObjectArithmetic
      */
     public function subtract($c): BigInt
     {
-        return \NAN
+        return \NAN;
     }
 
     /**
@@ -94,7 +94,7 @@ class BigInt implements ObjectArithmetic
      */
     public function multiply($c): BigInt
     {
-        return \NAN
+        return \NAN;
     }
 
     /**
@@ -118,7 +118,7 @@ class BigInt implements ObjectArithmetic
      */
     public function intdiv($c): BigInt
     {
-        return \NAN
+        return \NAN;
     }
 
     /**
@@ -127,7 +127,7 @@ class BigInt implements ObjectArithmetic
      */
     public function mod(int $c): BigInt
     {
-        return \NAN
+        return \NAN;
     }
 
     /**
