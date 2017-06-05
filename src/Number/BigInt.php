@@ -94,9 +94,6 @@ class BigInt implements ObjectArithmetic
 
     /**
      * Addition
-     * https://en.wikipedia.org/wiki/Complex_number#Addition_and_subtraction
-     *
-     * (a + bi) + (c + di) = (a + c) + (b + d)i
      *
      * @param mixed $c
      *
