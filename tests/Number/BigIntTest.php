@@ -15,7 +15,7 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
     public function testDecBin(int $int, string $expected)
     {
         $A = new BigInt($int);
-        $this->assertEquals($string, $A->decbin());
+        $this->assertEquals($expected, $A->decbin());
     }
 
     public function dataProviderForDecBin()
