@@ -74,6 +74,8 @@ class BigInt implements ObjectArithmetic
         }
         if ($first['overflow']) {
             $third = self::bitwiseAdd($second['value'], 1);
+        } else {
+            $third = $second;
         }
         if ($third['overflow']) {
             return \NAN;
