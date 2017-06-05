@@ -7,7 +7,8 @@ use MathPHP\Functions\Special;
 /**
  * Big Integer
  *
- * The BigInt object is an array of 2 ints.
+ * The BigInt object is an array of 2 ints. Concatenating the two ints
+ * provides the binary version of the integer in 2s compliment form. 
  */
 class BigInt implements ObjectArithmetic
 {
@@ -151,7 +152,7 @@ class BigInt implements ObjectArithmetic
         if (is_int($a + $b)) {
             return ['overflow'=> false, 'value' => $a + $b];
         } else {
-            $c = $a - (\PHP_INT_MAX - (\PHP_INT_MAX >> 1)) + $b;
+            $c = (\PHP_INT_MAX - $a - $b) * -1 + \PHP_INT_MIN;
             return ['overflow'=> true, 'value' => $c];
         }
     }
