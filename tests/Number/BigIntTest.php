@@ -9,10 +9,10 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase     binary representation is as expected
      * @dataProvider dataProviderForDecBin
-     * @param        array  $int
-     * @param        array  $expected
+     * @param        mixed  $int
+     * @param        string  $expected
      */
-    public function testDecBin(int $int, string $expected)
+    public function testDecBin($int, string $expected)
     {
         $A = new BigInt($int);
         $this->assertEquals($expected, $A->decbin());
