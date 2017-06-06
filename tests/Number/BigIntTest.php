@@ -78,16 +78,17 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @testCase     binary representation is as expected
-     * @dataProvider dataProviderForToIntNAN
+     * @dataProvider dataProviderForToIntOutOfBounds
      * @param        mixed  $int
      */
-    public function testToIntNAN(array $array)
+    public function testToIntOutOfBounds(array $array)
     {
         $A = new BigInt($array);
-        $this->assertNAN($A->toInt());
+        $this->expectException(Exception\OutOfBoundsException::class);
+        $test = $A->toInt();
     }
 
-    public function dataProviderForToIntNAN()
+    public function dataProviderForToIntOutOfBounds()
     {
         return [
             [[0, -1]],
