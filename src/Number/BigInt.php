@@ -2,6 +2,7 @@
 namespace MathPHP\Number;
 
 use MathPHP\Exception;
+use MathPHP\Functions\Boolean;
 use MathPHP\Functions\Special;
 
 /**
@@ -57,12 +58,26 @@ class BigInt implements ObjectArithmetic
         return \NAN;
     }
 
+    /*
+     * Decimal to Binary
+     *
+     * return the binary representation of the number without leading zeroes
+     * @return string
+     */
     public function decbin(): string
     {
-        return $this->fullDecBin($this->value[1]) . $this->fullDecBin($this->value[0]);
+        if ($this->value[1] === 0) {
+            return decbin($this->value[0]);
+        } else {
+            return decbin($this->value[1]) . this->fullDecBin($this->value[0])
     }
 
-    // Binary representation of a number with leading zeroes.
+    /*
+     * Decimal to Binary
+     *
+     * return the binary representation of a number with leading zeroes
+     * @return string
+     */
     private function fullDecBin($v): string
     {
         $bits = strlen(decbin(-1));
@@ -79,13 +94,13 @@ class BigInt implements ObjectArithmetic
      */
     public function add($c): BigInt
     {
-        $first = self::bitwiseAdd($this->value[0], $c->get(0));
-        $second = self::bitwiseAdd($this->value[1], $c->get(1));
+        $first = Boolean::bitwiseAdd($this->value[0], $c->get(0));
+        $second = Boolean::bitwiseAdd($this->value[1], $c->get(1));
         if ($second['overflow']) {
             return \NAN;
         }
         if ($first['overflow']) {
-            $third = self::bitwiseAdd($second['value'], 1);
+            $third = Boolean::bitwiseAdd($second['value'], 1);
         } else {
             $third = $second;
         }
@@ -128,7 +143,7 @@ class BigInt implements ObjectArithmetic
     /**
      * Integer Division
      *
-     * Calculate the integer prtion of a division operation
+     * Calculate the integer portion of a division operation
      */
     public function intdiv($c): BigInt
     {
@@ -142,20 +157,6 @@ class BigInt implements ObjectArithmetic
     public function mod(int $c): BigInt
     {
         return \NAN;
-    }
-
-    /**
-     * Bitwise add two ints and return the result and if it overflows.
-     */
-    private function bitwiseAdd(int $a, int $b): array
-    {
-        if (is_int($a + $b) && $a >= 0 || $b >= 0) {
-            $sum = $a + $b;
-            return ['overflow'=> $a < 0 || $b < 0 && $sum >= 0, 'value' => $sum];
-        } else {
-            $c = (\PHP_INT_MAX - $a - $b) * -1 + \PHP_INT_MIN;
-            return ['overflow'=> true, 'value' => $c];
-        }
     }
     
     /**************************************************************************
