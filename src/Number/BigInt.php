@@ -44,8 +44,16 @@ class BigInt implements ObjectArithmetic
             if ($prefix == '0b' && !preg_match('/[^0-1]/', $value)) {
                 // Determine if this is 32 or 64 bit OS
                 $bits = strlen(decbin(-1));
-                // extract the last $bits bits from $value and assign to $value[0]
-                // Assign remaining bits to $value[1]
+                if (strlen($value) > $bits) {
+                    // extract the last $bits bits from $value and assign to $value[0]
+                    $this->value[0] = bindec(substr($value, -1 * $bits));
+                    
+                    // Assign remaining bits to $value[1]
+                    $this->value[1] = bindec(substr($value, 0, -1 * $bits));
+                } else {
+                    $this->value[1] = 0;
+                    $this->value[0] = bindec($value);
+                }
             } else {
                 throw new Exception\BadParameterException("String must start with '0b' and then contain only ones and zeroes");
             }
