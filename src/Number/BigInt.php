@@ -46,16 +46,20 @@ class BigInt implements ObjectArithmetic
                 // extract the last $bits bits from $value and assign to $value[0]
                 // Assign remaining bits to $value[1]
             } else {
-                throw new Exception\BadParameterException("String must start with '0b' and then contain only ones and zeroes);
+                throw new Exception\BadParameterException("String must start with '0b' and then contain only ones and zeroes");
             }
         } elseif ($type == 'integer') {
             $this->value[0] = $v;
             $this->value[1] = $v >= 0 ? 0 : -1;
-        } elseif ($type == 'array' && count($v) == 2 && is_int($v[0]) && is_int($v[1])) {
-            $this->value[0] = $v[0];
-            $this->value[1] = $v[1];
+        } elseif ($type == 'array') {
+            if (count($v) == 2 && is_int($v[0]) && is_int($v[1])) {
+                $this->value[0] = $v[0];
+                $this->value[1] = $v[1];
+            } else {
+                throw new Exception\BadParameterException('Array must contain only two ints');
+            }
         } else {
-            throw new Exception\BadParameterException("constructor can only accept array, integer, or string values. Given type " . $type);
+            throw new Exception\BadParameterException('Constructor can only accept array, integer, or string values. Given type ' . $type);
         }
     }
     
