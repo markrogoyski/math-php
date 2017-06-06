@@ -44,14 +44,14 @@ class BigInt implements ObjectArithmetic
             $bits = strlen(decbin(-1));
             // extract the last $bits bits from $value and assign to $value[0]
             // Assign remaining bits to $value[1]
-        } elseif ($type == 'int') {
+        } elseif ($type == 'integer') {
             $this->value[0] = $v;
             $this->value[1] = $v >= 0 ? 0 : -1;
         } elseif ($type == 'array' && count($v) == 2 && is_int($v[0]) && is_int($v[1])) {
             $this->value[0] = $v[0];
             $this->value[1] = $v[1];
         } else {
-            throw new Exception\BadParameterException("constructor can only accept array, int, or string values. Given type " . $type); 
+            throw new Exception\BadParameterException("constructor can only accept array, integer, or string values. Given type " . $type); 
         }
     }
     
