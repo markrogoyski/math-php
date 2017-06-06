@@ -2,6 +2,7 @@
 
 namespace MathPHP\Tests\Number;
 
+use MathPHP\Exception;
 use MathPHP\Number\BigInt;
 
 class BigIntTest extends \PHPUnit_Framework_TestCase
