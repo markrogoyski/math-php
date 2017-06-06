@@ -58,9 +58,8 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
      * @testCase     binary representation is as expected
      * @dataProvider dataProviderForToInt
      * @param        mixed  $int
-     * @param        string  $expected
      */
-    public function testToInt($int)
+    public function testToInt(int $int)
     {
         $A = new BigInt($int);
         $this->assertEquals($int, $A->toInt());
@@ -74,6 +73,28 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
             [0],
             [\PHP_INT_MAX],
             [\PHP_INT_MIN],            
+        ];
+    }
+
+    /**
+     * @testCase     binary representation is as expected
+     * @dataProvider dataProviderForToIntNAN
+     * @param        mixed  $int
+     */
+    public function testToIntNAN(array $array)
+    {
+        $A = new BigInt($array);
+        $this->assertNAN($A->toInt());
+    }
+
+    public function dataProviderForToIntNAN()
+    {
+        return [
+            [[0, -1]],
+            [[-2, -2]],
+            [[-1, 0]],
+            [[1, -1]],
+            [[-1, 1]],            
         ];
     }
 
