@@ -40,10 +40,14 @@ class BigInt implements ObjectArithmetic
         if ($type == 'string' && substr($v, 0, 2) == '0b') {
             $value = substr($v, 2, -1);
             // Check that $value only contains ones and zeroes
-            // Determine if this is 32 or 64 bit OS
-            $bits = strlen(decbin(-1));
-            // extract the last $bits bits from $value and assign to $value[0]
-            // Assign remaining bits to $value[1]
+            if (!preg_match('/[^0-1]/', $value)) {
+                // Determine if this is 32 or 64 bit OS
+                $bits = strlen(decbin(-1));
+                // extract the last $bits bits from $value and assign to $value[0]
+                // Assign remaining bits to $value[1]
+            } else {
+                throw new Exception\BadParameterException("String must start with '0b' and then contain only ones and zeroes);
+            }
         } elseif ($type == 'integer') {
             $this->value[0] = $v;
             $this->value[1] = $v >= 0 ? 0 : -1;
