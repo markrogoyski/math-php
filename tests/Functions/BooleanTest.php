@@ -12,7 +12,7 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
     public function testBooleanAdd(int $a, int $b, array $e)
     {
         $results = Boolean::bitwiseAdd($a, $b);
-        $ezpected = ['overflow'=> $e[0], 'value'=>$e[1]];
+        $expected = ['overflow'=> $e[0], 'value'=>$e[1]];
         $this->assertEquals($expected, $results);
     }
 
@@ -20,13 +20,13 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                0b01, 0b01, [false, 0b10]
+                1, 1, [false, 2]
             ],
             [
-                0b1, -1, [true, 0]
+                1, -1, [true, 0]
             ],
             [
-                \PHP_INT_MAX, 0b1, [false, \PHP_INT_MIN]
+                \PHP_INT_MAX, 1, [false, \PHP_INT_MIN]
             ],
             [
                 -1, -1, [true, -2]
