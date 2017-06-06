@@ -84,7 +84,13 @@ class BigInt implements ObjectArithmetic
      */
     public function __toString(): string
     {
-        $temp = $this;
+        $string = '';
+        if ($this->isNegative()) {
+            $temp = $this->negate();
+            $string = '-';
+        } else {
+            $temp = $this;
+        }
         $ten_power = new BigInt(1);
         // Find largest n such that 10ⁿ is less than $this
         $n = 0;
