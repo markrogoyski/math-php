@@ -45,6 +45,38 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     Test Constructor Exceptions
+     * @dataProvider dataProviderForConstructorExceptions
+     * @param        mixed  $value
+     */
+    public function testConstructorExceptions($value)
+    {
+        $A = new BigInt($value);
+        $this->expectException(Exception\BadParameterException::class);
+    }
+
+    public function dataProviderForConstructorExceptions()
+    {
+        return [
+            [ // String that does not start with '0b'
+                "TEST",
+            ],
+            [ // String that does not start with '0b'
+                "0bTEST",
+            ],
+            [ // array with too many items
+                [1,2,3],
+            ],
+            [ // array with not enough items
+                [1],
+            ],
+            [ // array where both are not integers
+                [1, "test"],
+            ],
+        ];
+    }
+
+    /**
      * @testCase     addition of two BigInts returns the expeced result
      * @dataProvider dataProviderForAddInt
      * @param        array  $int1
