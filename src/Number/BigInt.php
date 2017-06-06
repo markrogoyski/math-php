@@ -103,6 +103,11 @@ class BigInt implements ObjectArithmetic
     {
         return $this->value[1] < 0;
     }
+
+    public function isPositive(): bool
+    {
+        return $this->value[1] > 0;
+    }
     /**************************************************************************
      * UNARY FUNCTIONS
      **************************************************************************/
@@ -123,7 +128,7 @@ class BigInt implements ObjectArithmetic
     public function negate(): BigInt
     {
         // Combine the ones compliment of $value[1] with the twos compliment of $value[0]
-        return new BigInt([-1 * $this->value[0], -1 * $this->value[1] - 1]);    
+        return new BigInt([-1 * $this->value[0], -1 * $this->value[1] - 1]);
     }
     
     /*
@@ -137,7 +142,7 @@ class BigInt implements ObjectArithmetic
         if ($this->value[1] === 0) {
             return decbin($this->value[0]);
         } else {
-            return decbin($this->value[1]) . str_pad(decbin($this->value[0]), strlen(decbin(-1)), '0', STR_PAD_LEFT);;
+            return decbin($this->value[1]) . str_pad(decbin($this->value[0]), strlen(decbin(-1)), '0', STR_PAD_LEFT);
         }
     }
 
@@ -218,7 +223,7 @@ class BigInt implements ObjectArithmetic
      */
     public function mod(int $c): BigInt
     {
-        return $this->subtract($this->intdiv($c)->multiply($c))
+        return $this->subtract($this->intdiv($c)->multiply($c));
     }
     
     /**************************************************************************
@@ -247,14 +252,14 @@ class BigInt implements ObjectArithmetic
                 //Big can can be cast to an int
                 return $this->toInt() > $c;
             } else {
-                // abs($this) is greater than all ints, so will be greater if $value[1] is positive. 
+                // abs($this) is greater than all ints, so will be greater if $value[1] is positive.
                 return $this->value[1] > 0;
             }
         } else {
             // If one is positive and one negative
-            if ($this->greaterThan(0) !== $c->greaterThan(0)) {
-                return $this->greaterThan(0);
-            } elseif($this->value[1] > $c->get(1)) {
+            if ($this->isNegative() !== $c->isNegative()) {
+                return $this->isPositive();
+            } elseif ($this->value[1] > $c->get(1)) {
                 return true
             }
         }
