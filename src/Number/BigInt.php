@@ -23,7 +23,7 @@ class BigInt implements ObjectArithmetic
      * Constructor
      *
      * Create a BigInt
-     * 
+     *
      * @param mixed $v
      */
     public function __construct($v)
