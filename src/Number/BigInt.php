@@ -49,7 +49,24 @@ class BigInt implements ObjectArithmetic
      */
     public function __toString(): string
     {
-        return (string) $this->value[0];
+        $temp = $this;
+        $ten_power = new BigInt(1);
+        // Find largest n such that 10ⁿ is less than $this
+        $n = 0;
+        while ($this->greaterThan($ten_power)) {
+            $n++;
+            $ten_power = $ten_power->multiply(10);
+        }
+        $n--;
+        $ten_power = $ten_power->divide(10);
+        $string = '';
+        while ($temp->greaterThan(0)) {
+            $intdiv = $temp->intdiv($ten_power);
+            $string .= $intdiv
+            $temp = $temp->subtract($ten_power->multiply($intdiv));
+            $ten_power = $ten_power->divide(10);
+        }
+        return $string;
     }
 
     public function get(int $n): int
@@ -145,7 +162,7 @@ class BigInt implements ObjectArithmetic
      */
     public function divide($c): BigInt
     {
-        if (self::mod($c) === 0) {
+        if ($this->mod($c)->equals(0)) {
             return $this->intdiv($c);
         } else {
             return \NAN;
@@ -159,7 +176,12 @@ class BigInt implements ObjectArithmetic
      */
     public function intdiv($c): BigInt
     {
-        return \NAN;
+        $c = 0;
+        $temp = $this;
+        while ($temp->subtract($c)->greaterThan(0)) {
+            $c++;
+        }
+        return $c;
     }
 
     /**
@@ -168,7 +190,7 @@ class BigInt implements ObjectArithmetic
      */
     public function mod(int $c): BigInt
     {
-        return \NAN;
+        return $this->subtract($this->intdiv($c)->multiply($c))
     }
     
     /**************************************************************************
@@ -180,8 +202,17 @@ class BigInt implements ObjectArithmetic
      *
      * @return bool
      */
-    public function equals(BigInt $c): bool
+    public function equals($c): bool
     {
         return $this->value[0] == $c->get(0) && $this->value[1] == $c->get(1);
+    }
+
+    /**
+     * Test if $c is gretaer than $this
+     *
+     * @return bool
+     */
+    public function greaterThan(BigInt $c): bool
+    {
     }
 }
