@@ -24,6 +24,14 @@ class BigInt implements ObjectArithmetic
      *
      * Create a BigInt
      *
+     * Providing an int will produce a BigInt with the same value.
+     *
+     * Providing a string that begins with "0b" will produce a BigInt with
+     * the specified bit sequence.
+     *
+     * Providing an array will create a BigInt with the bit squence of
+     * decbin($array[1]) . decbin($array[0])
+     *
      * @param mixed $v
      */
     public function __construct($v)
@@ -39,6 +47,9 @@ class BigInt implements ObjectArithmetic
         } elseif ($type == 'int') {
             $this->value[0] = $v;
             $this->value[1] = $v > 0 ? 0: -1;
+        } elseif ($type == 'array' && count($v) == 2 && is_int($v[0]) && is_int($v[1])) {
+            $this->value[0] = $v[0];
+            $this->value[1] = $v[1];
         }
     }
     
@@ -88,6 +99,10 @@ class BigInt implements ObjectArithmetic
         return $this->value[$n];
     }
 
+    public function isNegative(): bool
+    {
+        return $this->value[1] < 0;
+    }
     /**************************************************************************
      * UNARY FUNCTIONS
      **************************************************************************/
@@ -97,9 +112,20 @@ class BigInt implements ObjectArithmetic
      */
     public function abs(): BigInt
     {
-        return \NAN;
+        return $this->isNegative() ? $this->negate() : $this;
     }
 
+    /*
+     * Multiply the BigInt by -1
+     *
+     * @return BigInt
+     */
+    public function negate(): BigInt
+    {
+        // Combine the ones compliment of $value[1] with the twos compliment of $value[0]
+        return new BigInt([-1 * $this->value[0], -1 * $this->value[1] - 1]);    
+    }
+    
     /*
      * Decimal to Binary
      *
@@ -111,20 +137,8 @@ class BigInt implements ObjectArithmetic
         if ($this->value[1] === 0) {
             return decbin($this->value[0]);
         } else {
-            return decbin($this->value[1]) . $this->fullDecBin($this->value[0]);
+            return decbin($this->value[1]) . str_pad(decbin($this->value[0]), strlen(decbin(-1)), '0', STR_PAD_LEFT);;
         }
-    }
-
-    /*
-     * Decimal to Binary
-     *
-     * return the binary representation of a number with leading zeroes
-     * @return string
-     */
-    private function fullDecBin($v): string
-    {
-        $bits = strlen(decbin(-1));
-        return str_pad(decbin($v), $bits, '0', STR_PAD_LEFT);
     }
 
     /**************************************************************************
