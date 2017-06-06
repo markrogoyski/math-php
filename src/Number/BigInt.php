@@ -13,6 +13,7 @@ use MathPHP\Functions\Special;
  */
 class BigInt implements ObjectArithmetic
 {
+    const BYTES = 2;
     /**
      * Array of ints
      * @var array
@@ -40,16 +41,20 @@ class BigInt implements ObjectArithmetic
         if ($type == 'string') {
             // Check that $v starts with '0b' and only contains ones and zeroes
             $prefix = substr($v, 0, 2);
-            $value = substr($v, 2, -1);
+            $value = substr($v, 2);
             if ($prefix == '0b' && !preg_match('/[^0-1]/', $value)) {
                 // Determine if this is 32 or 64 bit OS
                 $bits = strlen(decbin(-1));
                 if (strlen($value) > $bits) {
-                    // extract the last $bits bits from $value and assign to $value[0]
-                    $this->value[0] = bindec(substr($value, -1 * $bits));
+                    if (strlen($value) > $bits * self::BYTES) {
+                        throw new Exception\BadParameterException("String has too many bits. Max allowed = " . {$bits * self::BYTES} . '. Given " . strlen($value));
+                    } else {
+                        // extract the last $bits bits from $value and assign to $value[0]
+                        $this->value[0] = bindec(substr($value, -1 * $bits));
                     
-                    // Assign remaining bits to $value[1]
-                    $this->value[1] = bindec(substr($value, 0, -1 * $bits));
+                        // Assign remaining bits to $value[1]
+                        $this->value[1] = bindec(substr($value, 0, -1 * $bits));
+                    }
                 } else {
                     $this->value[1] = 0;
                     $this->value[0] = bindec($value);
