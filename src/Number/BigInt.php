@@ -110,7 +110,7 @@ class BigInt implements ObjectArithmetic
     public function toInt(): int
     {
         // If the sign of the two values are the same, 
-        if ($this->value[1] >= 0 === $this->value[0] >= 0 && ($this->value[1] == -1 || $this->value[1] ==0) {
+        if ($this->value[1] >= 0 === $this->value[0] >= 0 && ($this->value[1] == -1 || $this->value[1] == 0)) {
             return $this->value[0];
         } else {
             return \NAN;
