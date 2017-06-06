@@ -22,13 +22,24 @@ class BigInt implements ObjectArithmetic
     /**
      * Constructor
      *
-     * convert an int to a BigInt
-     * @param int $v
+     * Create a BigInt
+     * 
+     * @param mixed $v
      */
-    public function __construct(int $v)
+    public function __construct($v)
     {
-        $this->value[0] = $v;
-        $this->value[1] = $v > 0 ? 0: -1;
+        $type = gettype($v);
+        if ($type == 'string' && substr($v, 0, 2) == '0b') {
+            $value = substr($v, 2, -1);
+            // Check that $value only contains ones and zeroes
+            // Determine if this is 32 or 64 bit OS
+            $bits = strlen(decbin(-1));
+            // extract the last $bits bits from $value and assign to $value[0]
+            // Assign remaining bits to $value[1]
+        } elseif ($type == 'int') {
+            $this->value[0] = $v;
+            $this->value[1] = $v > 0 ? 0: -1;
+        }
     }
     
     /**
