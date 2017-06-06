@@ -41,7 +41,7 @@ class BigInt implements ObjectArithmetic
             // Check that $v starts with '0b' and only contains ones and zeroes
             $prefix = substr($v, 0, 2);
             $value = substr($v, 2, -1);
-            if ($prefix == '0b' && preg_match('/[^0-1]/', $value)) {
+            if ($prefix == '0b' && !preg_match('/[^0-1]/', $value)) {
                 // Determine if this is 32 or 64 bit OS
                 $bits = strlen(decbin(-1));
                 // extract the last $bits bits from $value and assign to $value[0]
