@@ -78,6 +78,15 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     Test Constructor for a Type Exception
+     */
+    public function testConstructorFloatExceptions()
+    {
+        $this->expectException(Exception\IncorrectTypeException::class);
+        $A = new BigInt(2.5);
+    }
+    
+    /**
      * @testCase     addition of two BigInts returns the expeced result
      * @dataProvider dataProviderForAddInt
      * @param        array  $int1
