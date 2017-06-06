@@ -74,6 +74,9 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
             [ // String that is not only 1s and 0s after '0b'
                 "0bTEST",
             ],
+            [ // Too many bits
+                "0b10101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010111010000000000",
+            ],
             [ // array with too many items
                 [1,2,3],
             ],
