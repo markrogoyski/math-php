@@ -55,7 +55,7 @@ class BigInt implements ObjectArithmetic
             $this->value[0] = $v[0];
             $this->value[1] = $v[1];
         } else {
-            throw new Exception\BadParameterException("constructor can only accept array, integer, or string values. Given type " . $type); 
+            throw new Exception\BadParameterException("constructor can only accept array, integer, or string values. Given type " . $type);
         }
     }
     
