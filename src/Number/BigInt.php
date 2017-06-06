@@ -62,11 +62,25 @@ class BigInt implements ObjectArithmetic
         $string = '';
         while ($temp->greaterThan(0)) {
             $intdiv = $temp->intdiv($ten_power);
-            $string .= $intdiv
+            $string .= $intdiv;
             $temp = $temp->subtract($ten_power->multiply($intdiv));
             $ten_power = $ten_power->divide(10);
         }
         return $string;
+    }
+
+    /*
+     * Cast the BigInt to an int if possible
+     */
+    public function toInt(): int
+    {
+    }
+
+    /*
+     * Cast the BigInt to a float
+     */
+    public function toFloat(): float
+    {
     }
 
     public function get(int $n): int
@@ -208,11 +222,27 @@ class BigInt implements ObjectArithmetic
     }
 
     /**
-     * Test if $c is gretaer than $this
+     * Test if $c is greater than $this
      *
      * @return bool
      */
     public function greaterThan(BigInt $c): bool
     {
+        if (is_int($c)) {
+            if ($this->value[1] === 0 && $this->value[0] >= 0 || $this->value[1] === -1 && $this->value[0] < 0) {
+                //Big can can be cast to an int
+                return $this->toInt() > $c;
+            } else {
+                // abs($this) is greater than all ints, so will be greater if $value[1] is positive. 
+                return $this->value[1] > 0;
+            }
+        } else {
+            // If one is positive and one negative
+            if ($this->greaterThan(0) !== $c->greaterThan(0)) {
+                return $this->greaterThan(0);
+            } elseif($this->value[1] > $c->get(1)) {
+                return true
+            }
+        }
     }
 }
