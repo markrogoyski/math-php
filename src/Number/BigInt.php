@@ -60,7 +60,7 @@ class BigInt implements ObjectArithmetic
                 throw new Exception\BadParameterException('Array must contain only two ints');
             }
         } else {
-            throw new Exception\BadParameterException('Constructor can only accept array, integer, or string values. Given type ' . $type);
+            throw new Exception\IncorrectTypeException('Constructor can only accept array, integer, or string values. Given type ' . $type);
         }
     }
     
