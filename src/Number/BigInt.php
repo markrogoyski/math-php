@@ -14,7 +14,7 @@ use MathPHP\Functions\Special;
 class BigInt implements ObjectArithmetic
 {
     /**
-     * Real part of the complex number
+     * Array of ints
      * @var array
      */
     protected $value;
