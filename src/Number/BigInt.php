@@ -47,7 +47,7 @@ class BigInt implements ObjectArithmetic
                 $bits = strlen(decbin(-1));
                 if (strlen($value) > $bits) {
                     if (strlen($value) > $bits * self::BYTES) {
-                        throw new Exception\BadParameterException("String has too many bits. Max allowed = " . {$bits * self::BYTES} . '. Given " . strlen($value));
+                        throw new Exception\BadParameterException("String has too many bits. Max allowed = " . ($bits * self::BYTES) . '. Given " . strlen($value));
                     } else {
                         // extract the last $bits bits from $value and assign to $value[0]
                         $this->value[0] = bindec(substr($value, -1 * $bits));
