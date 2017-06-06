@@ -37,10 +37,11 @@ class BigInt implements ObjectArithmetic
     public function __construct($v)
     {
         $type = gettype($v);
-        if ($type == 'string' && substr($v, 0, 2) == '0b') {
+        if ($type == 'string') {            
+            // Check that $v starts with '0b' and only contains ones and zeroes
+            $prefix = substr($v, 0, 2);
             $value = substr($v, 2, -1);
-            // Check that $value only contains ones and zeroes
-            if (!preg_match('/[^0-1]/', $value)) {
+            if ($prefix == '0b' && preg_match('/[^0-1]/', $value)) {
                 // Determine if this is 32 or 64 bit OS
                 $bits = strlen(decbin(-1));
                 // extract the last $bits bits from $value and assign to $value[0]
