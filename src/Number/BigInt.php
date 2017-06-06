@@ -119,7 +119,7 @@ class BigInt implements ObjectArithmetic
         if ($this->value[1] >= 0 === $this->value[0] >= 0 && ($this->value[1] == -1 || $this->value[1] == 0)) {
             return $this->value[0];
         } else {
-            return \NAN;
+            throw new Exception\OutOfBoundsException();
         }
     }
 
