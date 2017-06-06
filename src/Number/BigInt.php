@@ -37,7 +37,7 @@ class BigInt implements ObjectArithmetic
     public function __construct($v)
     {
         $type = gettype($v);
-        if ($type == 'string') {            
+        if ($type == 'string') {
             // Check that $v starts with '0b' and only contains ones and zeroes
             $prefix = substr($v, 0, 2);
             $value = substr($v, 2, -1);
