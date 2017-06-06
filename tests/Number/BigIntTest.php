@@ -52,8 +52,8 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorExceptions($value)
     {
-        $A = new BigInt($value);
         $this->expectException(Exception\BadParameterException::class);
+        $A = new BigInt($value);
     }
 
     public function dataProviderForConstructorExceptions()
