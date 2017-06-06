@@ -46,7 +46,7 @@ class Dirichlet extends Continuous
 
         $n = count($xs);
         for ($i = 0; $i < $n; $i++) {
-           Support::checkLimits(self::LIMITS, ['x' => $xs[$i], 'α' => $αs[$i]]);
+            Support::checkLimits(self::LIMITS, ['x' => $xs[$i], 'α' => $αs[$i]]);
         }
 
         /*
@@ -67,7 +67,6 @@ class Dirichlet extends Continuous
         $B⟮α⟯ = self::multivariateBetaFunction($αs);
 
         return $∏xᵢ / $B⟮α⟯;
-
     }
     
     /**
