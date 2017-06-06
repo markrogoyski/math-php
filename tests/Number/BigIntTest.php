@@ -55,6 +55,29 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     binary representation is as expected
+     * @dataProvider dataProviderForToInt
+     * @param        mixed  $int
+     * @param        string  $expected
+     */
+    public function testToInt($int)
+    {
+        $A = new BigInt($int);
+        $this->assertEquals($int, $A->toInt());
+    }
+
+    public function dataProviderForToInt()
+    {
+        return [
+            [1],
+            [-1],
+            [0],
+            [\PHP_INT_MAX],
+            [\PHP_INT_MIN],            
+        ];
+    }
+
+    /**
      * @testCase     Test Constructor Exceptions
      * @dataProvider dataProviderForConstructorExceptions
      * @param        mixed  $value
