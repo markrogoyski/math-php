@@ -80,7 +80,7 @@ class BigInt implements ObjectArithmetic
         if ($this->value[1] === 0) {
             return decbin($this->value[0]);
         } else {
-            return decbin($this->value[1]) . $this->fullDecBin($this->value[0])
+            return decbin($this->value[1]) . $this->fullDecBin($this->value[0]);
     }
 
     /*
