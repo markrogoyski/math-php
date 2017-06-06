@@ -260,7 +260,7 @@ class BigInt implements ObjectArithmetic
             if ($this->isNegative() !== $c->isNegative()) {
                 return $this->isPositive();
             } elseif ($this->value[1] > $c->get(1)) {
-                return true
+                return true;
             }
         }
     }
