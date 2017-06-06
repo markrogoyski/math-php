@@ -61,7 +61,7 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
             [ // String that does not start with '0b'
                 "TEST",
             ],
-            [ // String that does not start with '0b'
+            [ // String that is not only 1s and 0s after '0b'
                 "0bTEST",
             ],
             [ // array with too many items
