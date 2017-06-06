@@ -11,7 +11,7 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
      */
     public function testBooleanAdd(int $a, int $b, array $expected)
     {
-        $results = Boolean::booleanAdd($a, $b);
+        $results = Boolean::bitwiseAdd($a, $b);
     }
 
     public function dataProviderForBooleanAdd()
