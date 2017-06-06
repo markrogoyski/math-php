@@ -50,6 +50,8 @@ class BigInt implements ObjectArithmetic
         } elseif ($type == 'array' && count($v) == 2 && is_int($v[0]) && is_int($v[1])) {
             $this->value[0] = $v[0];
             $this->value[1] = $v[1];
+        } else {
+            throw new Exception\BadParameterException("constructor can only accept array, int, or string values"); 
         }
     }
     
