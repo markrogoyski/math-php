@@ -46,7 +46,7 @@ class BigInt implements ObjectArithmetic
             // Assign remaining bits to $value[1]
         } elseif ($type == 'int') {
             $this->value[0] = $v;
-            $this->value[1] = $v > 0 ? 0: -1;
+            $this->value[1] = $v >= 0 ? 0 : -1;
         } elseif ($type == 'array' && count($v) == 2 && is_int($v[0]) && is_int($v[1])) {
             $this->value[0] = $v[0];
             $this->value[1] = $v[1];
@@ -139,10 +139,12 @@ class BigInt implements ObjectArithmetic
      */
     public function decbin(): string
     {
-        if ($this->value[1] === 0) {
+        if ($this->value[1] == 0) {
             return decbin($this->value[0]);
         } else {
-            return decbin($this->value[1]) . str_pad(decbin($this->value[0]), strlen(decbin(-1)), '0', STR_PAD_LEFT);
+            $first_part = decbin($this->value[1]);
+            $second_part = str_pad(decbin($this->value[0]), strlen(decbin(-1)), '0', STR_PAD_LEFT);
+            return $first_part . $second_part;
         }
     }
 
