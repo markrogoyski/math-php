@@ -32,7 +32,8 @@ class Boolean
     {
         if (is_int($a + $b)) {
             $sum = $a + $b;
-            return ['overflow'=> !($a > 0 && $b > 0), 'value' => $sum];
+            $overflow = (($a < 0 || $b < 0) && $sum >= 0) || ($a < 0 && $b < 0);
+            return ['overflow'=> $overflow, 'value' => $sum];
         } elseif ($a > 0 && $b > 0) {
             $c = $a - \PHP_INT_MAX + $b - 1 + \PHP_INT_MIN;
             return ['overflow'=> false, 'value' => $c];
