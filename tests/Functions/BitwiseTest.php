@@ -2,21 +2,21 @@
 
 namespace MathPHP\Tests\Functions;
 
-use MathPHP\Functions\Boolean;
+use MathPHP\Functions\Bitwise;
 
-class BooleanTest extends \PHPUnit_Framework_TestCase
+class BitwiseTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider dataProviderForBooleanAdd
+     * @dataProvider dataProviderForBitwiseAdd
      */
-    public function testBooleanAdd(int $a, int $b, array $e)
+    public function testBitwiseAdd(int $a, int $b, array $e)
     {
-        $results = Boolean::bitwiseAdd($a, $b);
+        $results = Bitwise::bitwiseAdd($a, $b);
         $expected = ['overflow'=> $e[0], 'value'=>$e[1]];
         $this->assertEquals($expected, $results);
     }
 
-    public function dataProviderForBooleanAdd()
+    public function dataProviderForBitwiseAdd()
     {
         return [
             [

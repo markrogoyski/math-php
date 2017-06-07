@@ -2,7 +2,7 @@
 
 namespace MathPHP\Functions;
 
-class Boolean
+class Bitwise
 {
 
     /**
