@@ -196,16 +196,13 @@ class BigInt implements ObjectArithmetic
     {
         $first = Boolean::bitwiseAdd($this->value[0], $c->get(0));
         $second = Boolean::bitwiseAdd($this->value[1], $c->get(1));
-        if ($second['overflow']) {
-            return \NAN;
-        }
         if ($first['overflow']) {
             $third = Boolean::bitwiseAdd($second['value'], 1);
         } else {
             $third = $second;
         }
-        if ($third['overflow']) {
-            return \NAN;
+        if ($third['overflow'] || $second['overflow']) {
+            throw new Exception\OutOfBoundsException();
         }
         return new BigInt($first['value'], $third['value']);
     }
