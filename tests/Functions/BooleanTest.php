@@ -40,6 +40,7 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
             [
                 0, 0, [false, 0]
             ],
+
         ];
     }
 }
