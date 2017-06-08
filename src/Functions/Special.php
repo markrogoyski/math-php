@@ -294,6 +294,30 @@ class Special
     }
 
     /**
+     * Multivariate Beta function
+     * https://en.wikipedia.org/wiki/Beta_function#Multivariate_beta_function
+     *
+     *                     Γ(α₁)Γ(α₂) ⋯ Γ(αn)
+     * B(α₁, α₂, ... αn) = ------------------
+     *                      Γ(α₁ + α₂ ⋯ αn)
+     *
+     * @param array float[] $αs
+     *
+     * @return float
+     */
+    public static function multivariateBetaFunction(array $αs): float
+    {
+        $∏Γ⟮α⟯ = 1;
+        foreach ($αs as $α) {
+            $∏Γ⟮α⟯ *= self::Γ($α);
+        }
+
+        $Γ⟮∑α⟯ = self::Γ(array_sum($αs));
+
+        return $∏Γ⟮α⟯ / $Γ⟮∑α⟯;
+    }
+
+    /**
      * Logistic function (logistic sigmoid function)
      * A logistic function or logistic curve is a common "S" shape (sigmoid curve).
      * https://en.wikipedia.org/wiki/Logistic_function

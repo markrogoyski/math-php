@@ -64,32 +64,8 @@ class Dirichlet extends Continuous
             )
         );
 
-        $B⟮α⟯ = self::multivariateBetaFunction($αs);
+        $B⟮α⟯ = Special::multivariateBetaFunction($αs);
 
         return $∏xᵢ / $B⟮α⟯;
-    }
-    
-    /**
-     * Multivariate Beta function
-     * https://en.wikipedia.org/wiki/Beta_function#Multivariate_beta_function
-     *
-     *                     Γ(α₁)Γ(α₂) ⋯ Γ(αn)
-     * B(α₁, α₂, ... αn) = ------------------
-     *                      Γ(α₁ + α₂ ⋯ αn)
-     *
-     * @param array float[] $αs
-     *
-     * @return float
-     */
-    private static function multivariateBetaFunction(array $αs): float
-    {
-        $∏Γ⟮α⟯ = 1;
-        foreach ($αs as $α) {
-            $∏Γ⟮α⟯ *= Special::Γ($α);
-        }
-
-        $Γ⟮∑α⟯ = Special::Γ(array_sum($αs));
-
-        return $∏Γ⟮α⟯ / $Γ⟮∑α⟯;
     }
 }
