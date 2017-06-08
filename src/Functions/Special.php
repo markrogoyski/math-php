@@ -305,7 +305,7 @@ class Special
      *
      * @return float
      */
-    public static function multivariateBetaFunction(array $αs): float
+    public static function multivariateBeta(array $αs): float
     {
         $∏Γ⟮α⟯ = 1;
         foreach ($αs as $α) {

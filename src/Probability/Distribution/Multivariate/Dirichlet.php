@@ -64,7 +64,7 @@ class Dirichlet extends Continuous
             )
         );
 
-        $B⟮α⟯ = Special::multivariateBetaFunction($αs);
+        $B⟮α⟯ = Special::multivariateBeta($αs);
 
         return $∏xᵢ / $B⟮α⟯;
     }
