@@ -1,7 +1,7 @@
 <?php
-namespace MathPHP\Tests\Probability\Distribution\Continuous\Multivariate;
+namespace MathPHP\Tests\Probability\Distribution\Multivariate;
 
-use MathPHP\Probability\Distribution\Continuous\Multivariate\Dirichlet;
+use MathPHP\Probability\Distribution\Multivariate\Dirichlet;
 use MathPHP\Exception;
 
 class DirichletTest extends \PHPUnit_Framework_TestCase

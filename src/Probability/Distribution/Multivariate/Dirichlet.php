@@ -1,5 +1,5 @@
 <?php
-namespace MathPHP\Probability\Distribution\Continuous\Multivariate;
+namespace MathPHP\Probability\Distribution\Multivariate;
 
 use MathPHP\Probability\Distribution\Continuous\Continuous;
 use MathPHP\Functions\Map;
