@@ -38,7 +38,7 @@ Features
      - Distributions
          * [Continuous](#probability---continuous-distributions)
          * [Discrete](#probability---discrete-distributions)
-         * [Multivariate]($probability---multivariate-distributions)
+         * [Multivariate](#probability---multivariate-distributions)
          * [Tables](#probability---distribution-tables)
  * Sequences
      - [Basic](#sequences---basic)
