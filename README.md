@@ -872,122 +872,122 @@ use MathPHP\Probability\Distribution\Continuous;
 $α   = 1; // shape parameter
 $β   = 1; // shape parameter
 $x   = 2;
-$pdf = Beta::pdf($α, $β, $x);
-$cdf = Beta::cdf($α, $β, $x);
-$μ   = Beta::mean($α, $β);
+$pdf = Continuous\Beta::pdf($α, $β, $x);
+$cdf = Continuous\Beta::cdf($α, $β, $x);
+$μ   = Continuous\Beta::mean($α, $β);
 
 // Cauchy distribution
 $x   = 1;
 $x₀  = 2; // location parameter
 $γ   = 3; // scale parameter
-$pdf = Cauchy::pdf(x, x₀, γ);
-$cdf = Cauchy::cdf(x, x₀, γ);
+$pdf = Continuous\Cauchy::pdf(x, x₀, γ);
+$cdf = Continuous\Cauchy::cdf(x, x₀, γ);
 
 // χ²-distribution (Chi-Squared)
 $x   = 1;
 $k   = 2; // degrees of freedom
-$pdf = ChiSquared::pdf($x, $k);
-$cdf = ChiSquared::cdf($x, $k);
+$pdf = Continuous\ChiSquared::pdf($x, $k);
+$cdf = Continuous\ChiSquared::cdf($x, $k);
 
 // Exponential distribution
 $x   = 2; // random variable
 $λ   = 1; // rate parameter
-$pdf = Exponential::pdf($x, $λ);
-$cdf = Exponential::cdf($x, $λ);
-$μ   = Exponential::mean($λ);
+$pdf = Continuous\Exponential::pdf($x, $λ);
+$cdf = Continuous\Exponential::cdf($x, $λ);
+$μ   = Continuous\Exponential::mean($λ);
 
 // F-distribution
 $x   = 2;
 $d₁  = 3; // degree of freedom v1
 $d₂  = 4; // degree of freedom v2
-$pdf = F::pdf($x, $d₁, $d₂);
-$cdf = F::cdf($x, $d₁, $d₂);
-$μ   = F::mean($d₁, $d₂);
+$pdf = Continuous\F::pdf($x, $d₁, $d₂);
+$cdf = Continuous\F::cdf($x, $d₁, $d₂);
+$μ   = Continuous\F::mean($d₁, $d₂);
 
 // Laplace distribution
 $x   = 1;
 $μ   = 1;   // location parameter
 $b   = 1.5; // scale parameter (diversity)
-$pdf = Laplace::pdf($x, $μ, $b);
-$cdf = Laplace::cdf($x, $μ, $b);
+$pdf = Continuous\Laplace::pdf($x, $μ, $b);
+$cdf = Continuous\Laplace::cdf($x, $μ, $b);
 
 // Logistic distribution
 $x   = 3;
 $μ   = 2;   // location parameter
 $s   = 1.5; // scale parameter
-$pdf = Logistic::pdf($x, $μ, $s);
-$cdf = Logistic::cdf($x, $μ, $s);
+$pdf = Continuous\Logistic::pdf($x, $μ, $s);
+$cdf = Continuous\Logistic::cdf($x, $μ, $s);
 
 // Log-logistic distribution (Fisk distribution)
 $x   = 2;
 $α   = 1; // scale parameter
 $β   = 1; // shape parameter
-$pdf = LogLogistic::pdf($x, $α, $β);
-$cdf = LogLogistic::cdf($x, $α, $β);
-$μ   = LogLogistic::mean($α, $β);
+$pdf = Continuous\LogLogistic::pdf($x, $α, $β);
+$cdf = Continuous\LogLogistic::cdf($x, $α, $β);
+$μ   = Continuous\LogLogistic::mean($α, $β);
 
 // Log-normal distribution
 $x = 4.3;
 $μ = 6;   // scale parameter
 $σ = 2;   // location parameter
-$pdf  = LogNormal::pdf($x, $μ, $σ);
-$cdf  = LogNormal::cdf($x, $μ, $σ);
-$mean = LogNormal::mean($μ, $σ);
+$pdf  = Continuous\LogNormal::pdf($x, $μ, $σ);
+$cdf  = Continuous\LogNormal::cdf($x, $μ, $σ);
+$mean = Continuous\LogNormal::mean($μ, $σ);
 
 // Normal distribution
 list($x, $σ, $μ) = [2, 1, 0];
-$pdf = Normal::pdf($x, $μ, $σ);
-$cdf = Normal::cdf($x, $μ, $σ);
+$pdf = Continuous\Normal::pdf($x, $μ, $σ);
+$cdf = Continuous\Normal::cdf($x, $μ, $σ);
 
 // Noncentral T distribution
 list($x, $ν, $μ) = [8, 50, 10];
-$pdf  = NoncentralT::pdf($x, $ν, $μ);
-$cdf  = NoncentralT::cdf($x, $ν, $μ);
-$mean = NoncentralT::mean($ν, $μ);
+$pdf  = Continuous\NoncentralT::pdf($x, $ν, $μ);
+$cdf  = Continuous\NoncentralT::cdf($x, $ν, $μ);
+$mean = Continuous\NoncentralT::mean($ν, $μ);
 
 // Pareto distribution
 $x   = 2;
 $a   = 1; // shape parameter
 $b   = 1; // scale parameter
-$pdf = Pareto::pdf($x, $a, $b);
-$cdf = Pareto::cdf($x, $a, $b);
-$μ   = Pareto::mean($a, $b);
+$pdf = Continuous\Pareto::pdf($x, $a, $b);
+$cdf = Continuous\Pareto::cdf($x, $a, $b);
+$μ   = Continuous\Pareto::mean($a, $b);
 
 // Standard normal distribution
 $z   = 2;
-$pdf = StandardNormal::pdf($z);
-$cdf = StandardNormal::cdf($z);
+$pdf = Continuous\StandardNormal::pdf($z);
+$cdf = Continuous\StandardNormal::cdf($z);
 
 // Student's t-distribution
 $x   = 2;
 $ν   = 3;   // degrees of freedom
 $p   = 0.4; // proportion of area
-$pdf = StudentT::pdf($x, $ν);
-$cdf = StudentT::cdf($x, $ν);
-$t   = StudentT::inverse2Tails($p, $ν);  // t such that the area greater than t and the area beneath -t is p
+$pdf = Continuous\StudentT::pdf($x, $ν);
+$cdf = Continuous\StudentT::cdf($x, $ν);
+$t   = Continuous\StudentT::inverse2Tails($p, $ν);  // t such that the area greater than t and the area beneath -t is p
 
 // Uniform distribution
 $a   = 1; // lower boundary of the distribution
 $b   = 4; // upper boundary of the distribution
 $x   = 2;
-$pdf = Uniform::pdf($a, $b, $x);
-$cdf = Uniform::cdf($a, $b, $x);
-$μ   = Uniform::mean($a, $b);
+$pdf = Continuous\Uniform::pdf($a, $b, $x);
+$cdf = Continuous\Uniform::cdf($a, $b, $x);
+$μ   = Continuous\Uniform::mean($a, $b);
 
 // Weibull distribution
 $x   = 2;
 $k   = 1; // shape parameter
 $λ   = 2; // scale parameter
-$pdf = Weibull::pdf($x, $k, $λ);
-$cdf = Weibull::cdf($x, $k, $λ);
-$μ   = Weibull::mean($k, $λ);
+$pdf = Continuous\Weibull::pdf($x, $k, $λ);
+$cdf = Continuous\Weibull::cdf($x, $k, $λ);
+$μ   = Continuous\Weibull::mean($k, $λ);
 
 // Other CDFs - All continuous distributions (...params will be distribution-specific)
 // Replace 'DistributionName' with desired distribution.
-$inv_cdf = DistributionName::inverse($target, ...$params);   // Inverse CDF of the distribution
-$between = DistributionName::between($x₁, $x₂, ...$params);  // Probability of being between two points, x₁ and x₂
-$outside = DistributionName::outside($x₁, $x₂, ...$params);  // Probability of being between below x₁ and above x₂
-$above   = DistributionName::above($x, ...$params);          // Probability of being above x to ∞
+$inv_cdf = Continuous\DistributionName::inverse($target, ...$params);   // Inverse CDF of the distribution
+$between = Continuous\DistributionName::between($x₁, $x₂, ...$params);  // Probability of being between two points, x₁ and x₂
+$outside = Continuous\DistributionName::outside($x₁, $x₂, ...$params);  // Probability of being between below x₁ and above x₂
+$above   = Continuous\DistributionName::above($x, ...$params);          // Probability of being above x to ∞
 
 // Random Number Generator
 $random  = DistributionName::rand(...$params);               // A random number with a given distribution
@@ -998,45 +998,45 @@ $random  = DistributionName::rand(...$params);               // A random number 
 use MathPHP\Probability\Distribution\Discrete;
 
 // Binomial distribution
-$n = 2;   // number of events
-$r = 1;   // number of successful events
-$P = 0.5; // probability of success
-$pmf = Binomial::pmf($n, $r, $P);
-$cdf = Binomial::cdf($n, $r, $P);
+$n   = 2;   // number of events
+$r   = 1;   // number of successful events
+$P   = 0.5; // probability of success
+$pmf = Discrete\Binomial::pmf($n, $r, $P);
+$cdf = Discrete\Binomial::cdf($n, $r, $P);
 
 // Bernoulli distribution (special case of binomial where n = 1)
-$pmf = Bernoulli::pmf($r, $P);
-$cdf = Bernoulli::cdf($r, $P);
+$pmf = Discrete\Bernoulli::pmf($r, $P);
+$cdf = Discrete\Bernoulli::cdf($r, $P);
 
 // Geometric distribution (failures before the first success)
-$k = 2;   // number of trials
-$p = 0.5; // success probability
-$pmf = Geometric::pmf($k, $p);
-$cdf = Geometric::cdf($k, $p);
+$k   = 2;   // number of trials
+$p   = 0.5; // success probability
+$pmf = Discrete\Geometric::pmf($k, $p);
+$cdf = Discrete\Geometric::cdf($k, $p);
 
 // Multinomial distribution
 $frequencies   = [7, 2, 3];
 $probabilities = [0.40, 0.35, 0.25];
-$pmf = Multinomial::pmf($frequencies, $probabilities);
+$pmf = Discrete\Multinomial::pmf($frequencies, $probabilities);
 
 // Negative binomial distribution (Pascal)
-$x = 2;   // number of trials required to produce r successes
-$r = 1;   // number of successful events
-$P = 0.5; // probability of success on an individual trial
-$pmf = NegativeBinomial::pmf($x, $r, $P);  // same as Pascal::pmf
-$pmf = Pascal::pmf($x, $r, $P);            // same as NegativeBinomial::pmf
+$x   = 2;   // number of trials required to produce r successes
+$r   = 1;   // number of successful events
+$P   = 0.5; // probability of success on an individual trial
+$pmf = Discrete\NegativeBinomial::pmf($x, $r, $P);  // same as Pascal::pmf
+$pmf = Discrete\Pascal::pmf($x, $r, $P);            // same as NegativeBinomial::pmf
 
 // Poisson distribution
-$k = 3; // events in the interval
-$λ = 2; // average number of successful events per interval
-$pmf = Poisson::pmf($k, $λ);
-$cdf = Poisson::cdf($k, $λ);
+$k   = 3; // events in the interval
+$λ   = 2; // average number of successful events per interval
+$pmf = Discrete\Poisson::pmf($k, $λ);
+$cdf = Discrete\Poisson::cdf($k, $λ);
 
 // Shifted geometric distribution (probability to get one success)
-$k = 2;   // number of trials
-$p = 0.5; // success probability
-$pmf = ShiftedGeometric::pmf($k, $p);
-$cdf = ShiftedGeometric::cdf($k, $p);
+$k   = 2;   // number of trials
+$p   = 0.5; // success probability
+$pmf = Discrete\ShiftedGeometric::pmf($k, $p);
+$cdf = Discrete\ShiftedGeometric::cdf($k, $p);
 ```
 
 ### Probability - Multivariate Distributions
