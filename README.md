@@ -38,6 +38,7 @@ Features
      - Distributions
          * [Continuous](#probability---continuous-distributions)
          * [Discrete](#probability---discrete-distributions)
+         * [Multivariate]($probability---multivariate-distributions)
          * [Tables](#probability---distribution-tables)
  * Sequences
      - [Basic](#sequences---basic)
@@ -1036,6 +1037,16 @@ $k = 2;   // number of trials
 $p = 0.5; // success probability
 $pmf = ShiftedGeometric::pmf($k, $p);
 $cdf = ShiftedGeometric::cdf($k, $p);
+```
+
+### Probability - Multivariate Distributions
+```php
+use MathPHP\Probability\Distribution\Multivariate;
+
+// Dirichlet distribution
+$xs  = [0.07255081, 0.27811903, 0.64933016];
+$αs  = [1, 2, 3];
+$pdf = Multivariate\Dirichlet::pdf($xs, $αs);
 ```
 
 ### Probability - Distribution Tables
