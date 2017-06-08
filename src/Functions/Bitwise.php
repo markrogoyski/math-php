@@ -31,15 +31,27 @@ class Bitwise
     public static function bitwiseAdd(int $a, int $b): array
     {
         if (is_int($a + $b)) {
+            // $a and $b are negative, the most significant bit will overflow.
+            // If only one is negative, the most significant bit will overflow if the sum
+            // is positive.
             $sum = $a + $b;
             $overflow = (($a < 0 || $b < 0) && $sum >= 0) || ($a < 0 && $b < 0);
             return ['overflow'=> $overflow, 'value' => $sum];
         } elseif ($a > 0 && $b > 0) {
+            // If $a + $b overflows as a signed int, it is now a negative int, but the most significant
+            // bit will not overflow.
             $c = $a - \PHP_INT_MAX + $b - 1 + \PHP_INT_MIN;
             return ['overflow'=> false, 'value' => $c];
         } else {
-            $a = $a + \PHP_INT_MAX + 1;
-            $b = $b + \PHP_INT_MAX + 1;
+            // The sum of two "large" negative numbers will both overflow the most significant bit
+            // and the signed int.
+            // The values of $a and $b have to be shifted towards zero to prevent the
+            // signed int from overflowing. We are removing the most significant
+            // bit from the ints by subtractingPHP_INT_MIN to prevent overflow.
+            // $a = 1001, $b = 1010, return [true, '0011] because \PHP_INT_MIN = 1000,
+            // Giving $a - 1000 = 0001, $b - 1000 = 0010.
+            $a -= \PHP_INT_MIN;
+            $b -= \PHP_INT_MIN;
             $c = $a + $b;
             return ['overflow'=> true, 'value' => $c];
         }
