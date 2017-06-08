@@ -261,6 +261,10 @@ list($x, $a, $b) = [0.4, 2, 3];
 $B  = Special::incompleteBeta($x, $a, $b);
 $Iₓ = Special::regularizedIncompleteBeta($x, $a, $b);
 
+// Multivariate beta function
+$αs = [1, 2, 3];
+$β  = Special::multivariateBeta($αs);
+
 // Error function (Gauss error function)
 $error = Special::errorFunction(2);              // same as erf
 $error = Special::erf(2);                        // same as errorFunction
