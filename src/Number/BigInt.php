@@ -357,7 +357,7 @@ class BigInt implements ObjectArithmetic
      *
      * Perform integer division and return the quotiant and remainder
      * @param $c The divisor - an int or BigInt
-     * @return array ['quotient', 'remainder'] 
+     * @return array ['quotient', 'remainder']
      */
     public function euclideanDivision($c): array
     {
