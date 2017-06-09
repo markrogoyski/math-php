@@ -440,12 +440,22 @@ class BigInt implements ObjectArithmetic
                 return false;
             } else {
                 // The largest word in each are equal.
-                if ($this->value[0] < 0 !== $c->get[0] < 0) {
+                if ($this->value[0] < 0 !== $c->get(0) < 0) {
                     return $c < 0;
                 } else {
                     return $this->value[0] > $c->get[0];
                 }
             } 
         }
+    }
+    public function lessThan($c): bool
+    {
+        if (is_int($c)) {
+            $c = new BigInt($c);
+        }
+        if ($this->equals($c)) {
+            return false;
+        }
+        return !$this->greaterThan($c);
     }
 }
