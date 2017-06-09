@@ -87,6 +87,29 @@ class BigInt implements ObjectArithmetic
         }
     }
 
+    public function __toString()
+    {
+        $n = ceil(log10(2) * ($msb + 1));
+        $string = '';
+        $negative = false;
+        if ($this->isNegative()) {
+            $temp = $this->negate();
+            $negative = true;
+        } else {
+            $temp = $this;
+        }
+        for ($i=$n; $i>=0; $i--) {
+            $results = $temp->euclideanDivision(10);
+            $string .= $results['quotient']->toInt();
+            $temp = $results['remainder'];
+        }
+        $string = ltrim($string, '0');
+        if ($negative) {
+            $string = '-' . $string;
+        }
+        return $string;
+    }
+
     /*
      * Cast the BigInt to an int if possible
      */
@@ -327,6 +350,52 @@ class BigInt implements ObjectArithmetic
             $n++;
         }
         return $product;
+    }
+
+    /**
+     * Euclidean Division
+     *
+     * Perform integer division and return the quotiant and remainder
+     * @param $c The divisor - an int or BigInt
+     * @return array ['quotient', 'remainder'] 
+     */
+    public function euclideanDivision($c): array
+    {
+        $change_sign_on_result = false;
+        $temp = $this;
+        $type = gettype($c);
+        if ($type == 'integer') {
+            $c = new BigInt($c);
+        }
+        if ($c->equals(self::minValue())) {
+            return $temp->greaterThan(self::minValue()) ? [0, $temp]: [1, 0];
+        }
+        if ($c->isNegative()) {
+            $change_sign_on_result = !$change_sign_on_result;
+            $c = $c->negate();
+        }
+        // How to handle cases where $this is self::minValue()?
+        if ($temp->isNegative()) {
+            $change_sign_on_result = !$change_sign_on_result;
+            $temp = $temp->negate();
+        }
+        if ($c->greaterThan($temp)) {
+            return [0, $temp];
+        }
+        $quotient = new BigInt(0);
+        $temp_msb = $temp->MSB();
+        $c_msb = $c->MSB();
+        $shifted_c = $c->leftShift($temp_msb - $c_msb);
+        while (!$shifted_c->lessThan($c)) {
+            if ($shifted_c->greaterThan($temp)) {
+                $temp = $temp->subtract($shifted_c);
+                $quotient = $quotient->leftShift()->add(1);
+            } else {
+                $quotient = $quotient->leftShift();
+            }
+            $shifted_c = $shifted_c->rightShift();
+        }
+        return ['quotient' => $change_sign_on_result ? $quotient->negate() : $quotient, 'remainder' => 0];
     }
 
     /**************************************************************************
