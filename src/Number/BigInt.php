@@ -196,7 +196,23 @@ class BigInt implements ObjectArithmetic
                 $second = Bitwise::add($second, 1);
             }
             if ($this->getBit(127 - $i) != $sign_bit) {
+                // I don't know if this should throw and exceptionof not
                 throw new Exception\OutOfBoundsException('Bitshift out of bounds');
+            }
+        }
+        return new BigInt($first, $second);
+    }
+    
+    public function rightShift($n=1)
+    {
+        $sign_bit = $this->isNegative() ? 1 : 0;
+        $first = $this->value[0];
+        $second = $this->value[1];
+        for ($i=0; $i<$n; $i++) {
+            $first = $first >> 1;
+            $second = $second >> 1;
+            if ($this->getBit(63 - $i) == 1) {
+                $second = Bitwise::add($second, 1);
             }
         }
         return new BigInt($first, $second);
@@ -443,7 +459,7 @@ class BigInt implements ObjectArithmetic
                 if ($this->value[0] < 0 !== $c->get(0) < 0) {
                     return $c < 0;
                 } else {
-                    return $this->value[0] > $c->get[0];
+                    return $this->value[0] > $c->get(0);
                 }
             } 
         }
