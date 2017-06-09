@@ -171,7 +171,7 @@ class BigInt implements ObjectArithmetic
             $first = $first << 1;
             $second = $second << 1;
             if ($this->getBit(63 - $i) == 1) {
-                $second = Bitwise::bitwiseAdd($second, 1);
+                $second = Bitwise::add($second, 1);
             }
             if ($this->getBit(127 - $i) != $sign_bit) {
                 throw new Exception\OutOfBoundsException('Bitshift out of bounds');
@@ -261,10 +261,10 @@ class BigInt implements ObjectArithmetic
             $c = new BigInt($c);
         }
         if ($c instanceof BigInt) {
-            $first = Bitwise::bitwiseAdd($this->value[0], $c->get(0));
-            $second = Bitwise::bitwiseAdd($this->value[1], $c->get(1));
+            $first = Bitwise::Add($this->value[0], $c->get(0));
+            $second = Bitwise::Add($this->value[1], $c->get(1));
             if ($first['overflow']) {
-                $second = Bitwise::bitwiseAdd($second['value'], 1);
+                $second = Bitwise::Add($second['value'], 1);
             }
             $both_positive_but_got_negative_result = $this->isPositive() && $c->isPositive() && $second['value'] < 0;
             $both_negative_but_got_positive_result = $this->isNegative() && $c->isNegative() && $second['value'] >= 0;
