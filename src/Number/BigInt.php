@@ -428,6 +428,9 @@ class BigInt implements ObjectArithmetic
                 return $this->value[1] > 0;
             }
         } else {
+            if ($this->equals($c)) {
+                return false;
+            }
             // If one is positive and one negative
             if ($this->isNegative() !== $c->isNegative()) {
                 return $this->isPositive();
@@ -437,8 +440,12 @@ class BigInt implements ObjectArithmetic
                 return false;
             } else {
                 // The largest word in each are equal.
-                // We need to compare the leas significant words as unsigned ints
-            }
+                if ($this->value[0] < 0 !== $c->get[0] < 0) {
+                    return $c < 0;
+                } else {
+                    return $this->value[0] > $c->get[0];
+                }
+            } 
         }
     }
 }
