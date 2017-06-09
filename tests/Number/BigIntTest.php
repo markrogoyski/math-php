@@ -468,7 +468,7 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
             [ // 1 / 1 = 1
                 1,
                 1,
-                1,
+                [1, 0],
             ],
             [// 5 / 2 = 2r1
                 5,
