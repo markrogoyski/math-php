@@ -433,11 +433,11 @@ class BigInt implements ObjectArithmetic
                 return $this->isPositive();
             } elseif ($this->value[1] > $c->get(1)) {
                 return true;
-            } else if ($this->value[1] < $c->get(1) {
+            } elseif ($this->value[1] < $c->get(1)) {
                 return false;
             } else {
                 // The largest word in each are equal.
-                // We need to compare the leas significant words as unsigned ints 
+                // We need to compare the leas significant words as unsigned ints
             }
         }
     }
