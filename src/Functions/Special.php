@@ -799,7 +799,7 @@ class Special
      *
      * @return array
      */
-    public static function softmax(array $𝐳): array
+    public static function softmax(array $z): array
     {
         $ℯ = \M_E;
 
@@ -807,16 +807,16 @@ class Special
             function ($z) use ($ℯ) {
                 return $ℯ**$z;
             },
-            $𝐳
+            $z
         ));
 
-        $σ⟮𝐳⟯ⱼ = array_map(
+        $σ⟮z⟯ⱼ = array_map(
             function ($z) use ($ℯ, $∑ᴷℯᶻᵢ) {
                 return ($ℯ**$z) / $∑ᴷℯᶻᵢ;
             },
-            $𝐳
+            $z
         );
 
-        return $σ⟮𝐳⟯ⱼ;
+        return $σ⟮z⟯ⱼ;
     }
 }

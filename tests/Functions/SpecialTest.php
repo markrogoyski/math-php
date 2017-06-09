@@ -449,13 +449,13 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
      * @testCase softmax returns the expected value
      * @dataProvider dataProviderForSoftmax
      */
-    public function testSoftmax(array $𝐳, array $expected)
+    public function testSoftmax(array $z, array $expected)
     {
-        $σ⟮𝐳⟯ⱼ = Special::softmax($𝐳);
+        $σ⟮z⟯ⱼ = Special::softmax($z);
 
-        $this->assertEquals($expected, $σ⟮𝐳⟯ⱼ, '', 0.00001);
+        $this->assertEquals($expected, $σ⟮z⟯ⱼ, '', 0.00001);
 
-        $this->assertEquals(1, array_sum($σ⟮𝐳⟯ⱼ));
+        $this->assertEquals(1, array_sum($σ⟮z⟯ⱼ));
     }
 
     public function dataProviderForSoftmax(): array
