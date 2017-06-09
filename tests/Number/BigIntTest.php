@@ -446,6 +446,39 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     divsion of two BigInts returns the expeced result
+     * @dataProvider dataProviderForDivideInt
+     * @param        array  $int1
+     * @param        array  $int2
+     * @param        array  $e
+     */
+    public function testDivideInt(int $int1, int $int2, array $e)
+    {
+        $A = new BigInt($int1);
+        $B = $int2;
+        $results = $A->euclideanDivision($B);
+        $expected_q = new BigInt($e[0]);
+        $expected_r = new BigInt($e[1]);
+        $this->assertEquals($expected_q->dechex(), $results['quotient']->dechex());
+        $this->assertEquals($expected_r->dechex(), $results['remainder']->dechex());
+    }
+    public function dataProviderForDivideInt()
+    {
+        return [
+            [ // 1 / 1 = 1
+                1,
+                1,
+                1,
+            ],
+            [// 5 / 2 = 2r1
+                5,
+                2,
+                [2, 1],
+            ],
+        ];
+    }
+
+    /**
      * @testCase     -1 times BigInt
      * @dataProvider dataProviderForNegate
      * @param        array  $bigint
