@@ -411,4 +411,34 @@ class BigInt implements ObjectArithmetic
     {
         return $this->value[0] == $c->get(0) && $this->value[1] == $c->get(1);
     }
+
+    /**
+     * Test if $c is greater than $this
+     *
+     * @return bool
+     */
+    public function greaterThan($c): bool
+    {
+        if (is_int($c)) {
+            if ($this->value[1] === 0 && $this->value[0] >= 0 || $this->value[1] === -1 && $this->value[0] < 0) {
+                //$this can can be cast to an int
+                return $this->toInt() > $c;
+            } else {
+                // abs($this) is greater than all ints, so will be greater if $value[1] is positive.
+                return $this->value[1] > 0;
+            }
+        } else {
+            // If one is positive and one negative
+            if ($this->isNegative() !== $c->isNegative()) {
+                return $this->isPositive();
+            } elseif ($this->value[1] > $c->get(1)) {
+                return true;
+            } else if ($this->value[1] < $c->get(1) {
+                return false;
+            } else {
+                // The largest word in each are equal.
+                // We need to compare the leas significant words as unsigned ints 
+            }
+        }
+    }
 }
