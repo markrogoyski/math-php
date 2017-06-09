@@ -85,7 +85,6 @@ class BigInt implements ObjectArithmetic
         } else {
             throw new Exception\IncorrectTypeException('Constructor can only accept array, integer, or string values. Given type ' . $type);
         }
-       // echo '[' . $this->value[0] . ' ' . $this->value[1] . ']';
     }
 
     /*
@@ -324,7 +323,6 @@ class BigInt implements ObjectArithmetic
             }
             if ($bit == 1) {
                 $product = $product->add($temp);
-                echo "\n" . $product->dechex() . "\n";
             }
             $n++;
         }
