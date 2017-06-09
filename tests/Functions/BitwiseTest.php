@@ -1,5 +1,4 @@
 <?php
-
 namespace MathPHP\Tests\Functions;
 
 use MathPHP\Functions\Bitwise;
@@ -8,37 +7,60 @@ class BitwiseTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider dataProviderForBitwiseAdd
+     * @param        int   $a
+     * @param        int   $b
+     * @param        array $expected
      */
-    public function testBitwiseAdd(int $a, int $b, array $e)
+    public function testBitwiseAdd(int $a, int $b, array $expected)
     {
-        $results = Bitwise::bitwiseAdd($a, $b);
-        $expected = ['overflow'=> $e[0], 'value'=>$e[1]];
+        $results = Bitwise::add($a, $b);
         $this->assertEquals($expected, $results);
     }
 
-    public function dataProviderForBitwiseAdd()
+    public function dataProviderForBitwiseAdd(): array
     {
         return [
             [
-                1, 1, [false, 2]
+                1, 1, [
+                    'overflow' => false,
+                    'value'    => 2,
+                ],
             ],
             [
-                1, -1, [true, 0]
+                1, -1, [
+                    'overflow' => true,
+                    'value'    => 0,
+                ],
             ],
             [
-                \PHP_INT_MAX, 1, [false, \PHP_INT_MIN]
+                \PHP_INT_MAX, 1, [
+                    'overflow' => false,
+                    'value'    => \PHP_INT_MIN,
+                ],
             ],
             [
-                -1, -1, [true, -2]
+                -1, -1, [
+                    'overflow' => true,
+                    'value'    => -2,
+                ],
             ],
             [
-                \PHP_INT_MIN, \PHP_INT_MIN, [true, 0]
+                \PHP_INT_MIN, \PHP_INT_MIN, [
+                    'overflow' => true,
+                    'value'    => 0,
+                ],
             ],
             [
-                \PHP_INT_MIN, \PHP_INT_MAX, [false, -1]
+                \PHP_INT_MIN, \PHP_INT_MAX, [
+                    'overflow' => false,
+                    'value'    => -1,
+                ],
             ],
             [
-                0, 0, [false, 0]
+                0, 0, [
+                    'overflow' => false,
+                    'value'    => 0,
+                ],
             ],
 
         ];
