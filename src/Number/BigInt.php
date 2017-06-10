@@ -249,7 +249,8 @@ class BigInt implements ObjectArithmetic
         foreach ($this->value as $int) {
             $string = str_pad(decbin($int), $bits, '0', STR_PAD_LEFT) . $string;
         }
-        return ltrim($string, '0');
+        $string = ltrim($string, '0');
+        return $string == '' ? '0' : $string;
     }
  
     /**
@@ -265,7 +266,8 @@ class BigInt implements ObjectArithmetic
         foreach ($this->value as $int) {
             $string = str_pad(dechex($int), $bits, '0', STR_PAD_LEFT) . $string;
         }
-        return ltrim($string, '0');
+        $string = ltrim($string, '0');
+        return $string == '' ? '0' : $string;
     }
 
     /**
