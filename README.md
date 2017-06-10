@@ -904,6 +904,13 @@ $pdf = Continuous\F::pdf($x, $d₁, $d₂);
 $cdf = Continuous\F::cdf($x, $d₁, $d₂);
 $μ   = Continuous\F::mean($d₁, $d₂);
 
+// Gamma distribution
+$x   = 4;
+$k   = 2; // shape parameter
+$θ   = 3; // scale parameter
+$pdf = Continuous\Gamma::pdf($x, $k, $θ);
+$cdf = Continuous\Gamma::cdf($x, $k, $θ);
+
 // Laplace distribution
 $x   = 1;
 $μ   = 1;   // location parameter
@@ -1482,6 +1489,12 @@ print_r($stats);
     [tau] => 0.94868329805051
     [rho] => 0.975
 ) */
+
+// Confidence ellipse - create an ellipse surrounding the data at a specified standard deviation
+$sd           = 1;
+$num_points   = 11; // Optional argument specifying number of points of the ellipse
+$ellipse_data = Correlation::confidenceEllipse($X, $Y, $sd, $num_points);
+
 ```
 
 ### Statistics - Descriptive
