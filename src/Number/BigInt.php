@@ -384,7 +384,7 @@ class BigInt implements ObjectArithmetic
             $c = new BigInt($c);
         }
         if ($c->equals(self::minValue())) {
-            return $temp->greaterThan(self::minValue()) ? [0, $temp]: [1, 0];
+            return $temp->greaterThan(self::minValue()) ? ['quotient' => 0, 'remainder' => $temp]: ['quotient' => 1, 'remainder' => 0];
         }
         if ($c->isNegative()) {
             $change_sign_on_result = !$change_sign_on_result;
@@ -396,7 +396,7 @@ class BigInt implements ObjectArithmetic
             $temp = $temp->negate();
         }
         if ($c->greaterThan($temp)) {
-            return [0, $temp];
+            return ['quotient' => 0, 'remainder' => $temp];
         }
         $quotient = new BigInt(0);
         $temp_msb = $temp->MSB();
