@@ -19,6 +19,7 @@ class GammaTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Data provider for PDF
+     * Test data created with calculator http://keisan.casio.com/exec/system/1180573217
      * @return array
      */
     public function dataProviderForPdf(): array
@@ -52,6 +53,7 @@ class GammaTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Data provider for CDF
+     * Test data created with calculator http://keisan.casio.com/exec/system/1180573217
      * @return array
      */
     public function dataProviderForCdf(): array
