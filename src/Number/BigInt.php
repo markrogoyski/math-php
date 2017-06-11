@@ -402,7 +402,7 @@ class BigInt implements ObjectArithmetic
             $change_sign_on_result = !$change_sign_on_result;
             $c = $c->negate();
         }
-        // How to handle cases where $this is self::minValue()?
+
         if ($temp->isNegative()) {
             $change_sign_on_result = !$change_sign_on_result;
             if (!$temp->equals(self::minValue())) {
@@ -420,7 +420,7 @@ class BigInt implements ObjectArithmetic
         $c_msb = $c->MSB();
         $shifted_c = $c->leftShift($temp_msb - $c_msb);
         while (!$shifted_c->lessThan($c)) {
-            if ($shifted_c->greaterThan($temp)) {
+            if (!$shifted_c->greaterThan($temp)) {
                 $temp = $temp->subtract($shifted_c);
                 if ($min_value_offset) {
                     $temp = $temp->add(1);
