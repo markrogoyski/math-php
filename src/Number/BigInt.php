@@ -379,7 +379,15 @@ class BigInt implements ObjectArithmetic
      */
     public function euclideanDivision($c): array
     {
+        // If we have negative numbers, we will change their signs.
+        // If there is only one, the final result will be converted back to negative.
         $change_sign_on_result = false;
+
+        // If $this is self::minValue() we cannot make it positive. Since minValue=-1*(maxValue+1),
+        // and minValue is 2s compliment, the bit sequence of maxValue+1 is the same as minValue. We
+        // will convert $this to maxValue and add the offset after the first operation.
+        $min_value_offset = false;
+
         $temp = $this;
         $type = gettype($c);
         if ($type == 'integer') {
@@ -395,7 +403,12 @@ class BigInt implements ObjectArithmetic
         // How to handle cases where $this is self::minValue()?
         if ($temp->isNegative()) {
             $change_sign_on_result = !$change_sign_on_result;
-            $temp = $temp->negate();
+            if (!$temp->equals(self::minValue())) {
+                $temp = $temp->negate();
+            } else {
+                $temp = self::maxValue();
+                $min_value_offset = true;
+            }
         }
         if ($c->greaterThan($temp)) {
             return ['quotient' => 0, 'remainder' => $temp];
@@ -407,6 +420,10 @@ class BigInt implements ObjectArithmetic
         while (!$shifted_c->lessThan($c)) {
             if ($shifted_c->greaterThan($temp)) {
                 $temp = $temp->subtract($shifted_c);
+                if ($min_value_offset) {
+                    $temp = $temp->add(1);
+                    $min_value_offset = false;
+                }
                 $quotient = $quotient->leftShift()->add(1);
             } else {
                 $quotient = $quotient->leftShift();
