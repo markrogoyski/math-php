@@ -211,8 +211,10 @@ class BigInt implements ObjectArithmetic
         for ($i=0; $i<$n; $i++) {
             $first = $first >> 1;
             $second = $second >> 1;
-            if ($this->getBit(63 - $i) == 1) {
-                $second = Bitwise::add($second, 1);
+            if ($this->getBit(64 + $i) == 1) {
+                $first = $first | \PHP_INT_MIN;
+            } else {
+                $first = $first & \PHP_INT_MAX;
             }
         }
         return new BigInt($first, $second);
