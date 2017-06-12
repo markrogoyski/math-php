@@ -203,7 +203,7 @@ class BigInt implements ObjectArithmetic
         return new BigInt($first, $second);
     }
     
-    public function rightShift($n=1)
+    public function rightShift($n = 1)
     {
         $sign_bit = $this->isNegative() ? 1 : 0;
         $first = $this->value[0];
@@ -432,7 +432,7 @@ class BigInt implements ObjectArithmetic
             }
             $shifted_c = $shifted_c->rightShift();
         }
-        return ['quotient' => $change_sign_on_result ? $quotient->negate() : $quotient, 'remainder' => new BigInt(0)];
+        return ['quotient' => $change_sign_on_result ? $quotient->negate() : $quotient, 'remainder' => new BigInt($temp)];
     }
 
     /**************************************************************************
@@ -482,7 +482,7 @@ class BigInt implements ObjectArithmetic
                 } else {
                     return $this->value[0] > $c->get(0);
                 }
-            } 
+            }
         }
     }
     public function lessThan($c): bool
