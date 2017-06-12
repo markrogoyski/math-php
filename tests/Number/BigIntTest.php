@@ -552,6 +552,7 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
      * @dataProvider dataProviderForToString
      * @param        array  $bigint
      * @param        array  $e
+    */
 
     public function testToString($bigint, string $e)
     {
@@ -569,5 +570,5 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
             [[-1, \PHP_INT_MAX], "160141188460469231687303715884105727"], // INT_MAX
             [[0, \PHP_INT_MIN], "-160141188460469231687303715884105728"], // INT_MIN
         ];
-    }*/
+    }
 }
