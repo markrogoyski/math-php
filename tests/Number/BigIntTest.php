@@ -532,7 +532,7 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
     public function testToString($bigint, string $e)
     {
         $A = new BigInt($bigint);
-        $this->assertEquals(, $e, $A->__toString()));
+        $this->assertEquals($e, $A->__toString());
     }
 
     public function dataProviderForToString()
