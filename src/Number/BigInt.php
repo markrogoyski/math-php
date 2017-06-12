@@ -396,7 +396,7 @@ class BigInt implements ObjectArithmetic
             $c = new BigInt($c);
         }
         if ($c->equals(self::minValue())) {
-            return $temp->greaterThan(self::minValue()) ? ['quotient' => 0, 'remainder' => $temp]: ['quotient' => 1, 'remainder' => 0];
+            return $temp->greaterThan(self::minValue()) ? ['quotient' => new BigInt(0), 'remainder' => $temp]: ['quotient' => new BigInt(1), 'remainder' => new BigInt(0)];
         }
         if ($c->isNegative()) {
             $change_sign_on_result = !$change_sign_on_result;
@@ -413,7 +413,7 @@ class BigInt implements ObjectArithmetic
             }
         }
         if ($c->greaterThan($temp)) {
-            return ['quotient' => 0, 'remainder' => $temp];
+            return ['quotient' => new BigInt(0), 'remainder' => $temp];
         }
         $quotient = new BigInt(0);
         $temp_msb = $temp->MSB();
@@ -432,7 +432,7 @@ class BigInt implements ObjectArithmetic
             }
             $shifted_c = $shifted_c->rightShift();
         }
-        return ['quotient' => $change_sign_on_result ? $quotient->negate() : $quotient, 'remainder' => 0];
+        return ['quotient' => $change_sign_on_result ? $quotient->negate() : $quotient, 'remainder' => new BigInt(0)];
     }
 
     /**************************************************************************
