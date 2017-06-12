@@ -89,6 +89,7 @@ class BigInt implements ObjectArithmetic
 
     public function __toString()
     {
+        $msb = $this->MSB();
         $n = ceil(log10(2) * ($msb + 1));
         $string = '';
         $negative = false;
