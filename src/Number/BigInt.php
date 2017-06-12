@@ -101,7 +101,7 @@ class BigInt implements ObjectArithmetic
         } else {
             $temp = $this;
         }
-        for ($i = $n; $i >= 0; $i--) {
+        for ($i = 0; $i < $n; $i++) {
             $results = $temp->euclideanDivision($divisor);
             $divisor = $divisor->intdiv(10);
             $string .= $results['quotient']->toInt();
