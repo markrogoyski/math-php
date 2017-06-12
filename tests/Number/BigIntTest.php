@@ -488,7 +488,7 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
     {
         $A = new BigInt($bigint);
         $B = $A->pow($p);
-        $this->assertEquals($e, $B->decbin());
+        $this->assertEquals($e, $B->dechex());
     }
 
     public function dataProviderForPow()
