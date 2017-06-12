@@ -91,6 +91,7 @@ class BigInt implements ObjectArithmetic
     {
         $msb = $this->MSB();
         $n = ceil(log10(2) * ($msb + 1));
+        $divisor = new BigInt(10)->pow($n);
         $string = '';
         $negative = false;
         if ($this->isNegative()) {
@@ -99,8 +100,9 @@ class BigInt implements ObjectArithmetic
         } else {
             $temp = $this;
         }
-        for ($i=$n; $i>=0; $i--) {
-            $results = $temp->euclideanDivision(10);
+        for ($i = $n; $i >= 0; $i--) {
+            $results = $temp->euclideanDivision($divisor);
+            $divisor = $divisor->intdiv(10);
             $string .= $results['quotient']->toInt();
             $temp = $results['remainder'];
         }
@@ -434,6 +436,27 @@ class BigInt implements ObjectArithmetic
             $shifted_c = $shifted_c->rightShift();
         }
         return ['quotient' => $change_sign_on_result ? $quotient->negate() : $quotient, 'remainder' => $temp];
+    }
+
+    public function intdiv($c): BigInt
+    {
+        $euclidean = $this->euclideanDivision($c);
+        return $euclidean['quotient'];
+    }
+
+    public function mod($c): BigInt
+    {
+        $euclidean = $this->euclideanDivision($c);
+        return $euclidean['remainder'];
+    }
+
+    public function pow($c): BigInt
+    {
+        $temp = $this;
+        for ($i = 0; $ < $c; $i++){
+            $temp = $temp->multiply($this);
+        }
+        return $temp;
     }
 
     /**************************************************************************
