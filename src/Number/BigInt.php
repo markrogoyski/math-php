@@ -120,7 +120,7 @@ class BigInt implements ObjectArithmetic
         if ($negative) {
             $string = '-' . $string;
         }
-        return $string;
+        return $string == '' ? '0' : $string;
     }
 
     /*
