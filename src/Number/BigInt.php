@@ -44,7 +44,7 @@ class BigInt implements ObjectArithmetic
     {
         $this->value = array_fill(0, self::WORDS, 0);
         // Determine if this is 32 or 64 bit OS
-        $this->word_size = strlen(decbin(-1));
+        $this->word_size = \PHP_INT_SIZE * 8;
         $word_size = $this->word_size;
         // Should we specify total bits and calculate $this->words = self::BITS / $this->word_size,
         // or specify self::WORDS and calculate bits = self::WORDS * $this->word_size?
