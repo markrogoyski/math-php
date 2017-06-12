@@ -551,7 +551,7 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
      * @dataProvider dataProviderForToString
      * @param        array  $bigint
      * @param        array  $e
-     
+
     public function testToString($bigint, string $e)
     {
         $A = new BigInt($bigint);
