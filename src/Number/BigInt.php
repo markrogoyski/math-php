@@ -392,7 +392,8 @@ class BigInt implements ObjectArithmetic
      * Perform integer division and return the quotiant and remainder
      *
      * Must figure out a way to perform division on negative numbers without
-     * negating the arguments.
+     * negating the arguments. I think you just divide like normal, but
+     * backfill the left bits with ones.
      *
      * @param $c The divisor - an int or BigInt
      * @return array ['quotient', 'remainder']
