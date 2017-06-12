@@ -500,6 +500,7 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
             [2, 0, "1"],
             [2, 5, "20"],
             [10, 7, "4c4b4"],
+        ];
     }
 
     /**
