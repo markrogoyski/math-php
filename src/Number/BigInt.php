@@ -91,7 +91,8 @@ class BigInt implements ObjectArithmetic
     {
         $msb = $this->MSB();
         $n = ceil(log10(2) * ($msb + 1));
-        $divisor = new BigInt(10)->pow($n);
+        $divisor = new BigInt(10);
+        $divisor = $divisor->pow($n);
         $string = '';
         $negative = false;
         if ($this->isNegative()) {
