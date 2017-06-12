@@ -522,4 +522,28 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
         $this->expectException(Exception\OutOfBoundsException::class);
         $N = $A->negate();
     }
+
+    /**
+     * @testCase     test that the returned string is as it should be
+     * @dataProvider dataProviderForToString
+     * @param        array  $bigint
+     * @param        array  $e
+     */
+    public function testToString($bigint, string $e)
+    {
+        $A = new BigInt($bigint);
+        $this->assertEquals(, $e, $A->__toString()));
+    }
+
+    public function dataProviderForToString()
+    {
+        return [
+            [1, "1"],
+            [-1, "-1"],
+            [1234567, "1234567"],
+            [1234567890, "1234567890"],
+            [[\PHP_INT_MAX, -1], "340282366920938463463374607431768211455"], // INT_MAX
+            [[\PHP_INT_MIN, 0], "-340282366920938463463374607431768211456"], // INT_MIN
+        ];
+    }
 }
