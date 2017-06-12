@@ -106,9 +106,8 @@ class BigInt implements ObjectArithmetic
         if ($this->isNegative() && !$this->equals(self::minValue())) {
             $temp = $this->negate();
             $negative = true;
-        } elseif ($this->equals(self::minValue()) {
+        } elseif ($this->equals(self::minValue())) {
             $min_value = -1;
-            
             $negative = true;
         }
         for ($i = 0; $i < $n; $i++) {
