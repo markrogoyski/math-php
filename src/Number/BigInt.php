@@ -467,7 +467,7 @@ class BigInt implements ObjectArithmetic
 
     public function pow($c): BigInt
     {
-        $temp = $this;
+        $temp = new BigInt(1);
         for ($i = 0; $i < $c; $i++) {
             $temp = $temp->multiply($this);
         }
