@@ -113,7 +113,7 @@ class BigInt implements ObjectArithmetic
         for ($i = 0; $i < $n; $i++) {
             $results = $temp->euclideanDivision($divisor);
             $divisor = $divisor->intdiv(10);
-            $string .= $results['quotient']->toInt() * $min_value
+            $string .= $results['quotient']->toInt() * $min_value;
             $temp = $results['remainder']->multiply($min_value);
         }
         $string = ltrim($string, '0');
