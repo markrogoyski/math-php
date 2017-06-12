@@ -479,6 +479,29 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     test power
+     * @dataProvider dataProviderForPow
+     * @param        array  $bigint
+     * @param        array  $e
+     */
+    public function testNegate($bigint, $p, $e)
+    {
+        $A = new BigInt($bigint);
+        $B = $A->pow($p);
+        $this->assertEquals($e, $B->decbin());
+    }
+
+    public function dataProviderForNegate()
+    {
+        return [
+            [1, 0, "1"],
+            [1, 1, "1"],
+            [1, 2, "1"],
+            [2, 5, "20"],
+            ];
+    }
+
+    /**
      * @testCase     -1 times BigInt
      * @dataProvider dataProviderForNegate
      * @param        array  $bigint
