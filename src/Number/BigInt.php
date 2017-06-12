@@ -90,6 +90,9 @@ class BigInt implements ObjectArithmetic
     public function __toString()
     {
         $msb = $this->MSB();
+        
+        // Given the most significant bit, this number is the smallest
+        // exponent of 10 that will be larger than $this.
         $n = ceil(log10(2) * ($msb + 1));
         $divisor = new BigInt(10);
         $divisor = $divisor->pow($n);
