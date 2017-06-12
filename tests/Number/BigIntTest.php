@@ -499,7 +499,7 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
             [1, 2, "1"],
             [2, 0, "1"],
             [2, 5, "20"],
-            [10, 8, "2faf08"],
+            [10, 8, "5f5e100"],
         ];
     }
 
@@ -547,19 +547,19 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
 
     public function testToString($bigint, string $e)
     {
-        //$A = new BigInt($bigint);
-        //$this->assertEquals($e, $A->__toString());
+        $A = new BigInt($bigint);
+        $this->assertEquals($e, $A->__toString());
     }
 
     public function dataProviderForToString()
     {
         return [
             [1, "1"],
-            [-1, "-1"],
-            [1234567, "1234567"],
-            [1234567890, "1234567890"],
-            [[-1, \PHP_INT_MAX], "160141188460469231687303715884105727"], // INT_MAX
-            [[0, \PHP_INT_MIN], "-160141188460469231687303715884105728"], // INT_MIN
+            //[-1, "-1"],
+            //[1234567, "1234567"],
+            //[1234567890, "1234567890"],
+            //[[-1, \PHP_INT_MAX], "160141188460469231687303715884105727"], // INT_MAX
+           // [[0, \PHP_INT_MIN], "-160141188460469231687303715884105728"], // INT_MIN
         ];
     }
 }
