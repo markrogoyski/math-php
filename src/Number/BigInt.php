@@ -432,7 +432,7 @@ class BigInt implements ObjectArithmetic
             }
             $shifted_c = $shifted_c->rightShift();
         }
-        return ['quotient' => $change_sign_on_result ? $quotient->negate() : $quotient, 'remainder' => new BigInt($temp)];
+        return ['quotient' => $change_sign_on_result ? $quotient->negate() : $quotient, 'remainder' => $temp];
     }
 
     /**************************************************************************
