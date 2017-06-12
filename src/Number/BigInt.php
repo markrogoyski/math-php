@@ -98,17 +98,24 @@ class BigInt implements ObjectArithmetic
         $divisor = $divisor->pow($n);
         $string = '';
         $negative = false;
-        if ($this->isNegative()) {
+        $temp = $this;
+        // If $this is self::minValue() we cannot negate it below. Instead we will perform the
+        // first division and negate the results. It seems like a bad hack and there might be
+        // a better way to do it.
+        $min_value = 1;
+        if ($this->isNegative() && !$this->equals(self::minValue())) {
             $temp = $this->negate();
             $negative = true;
-        } else {
-            $temp = $this;
+        } elseif ($this->equals(self::minValue()) {
+            $min_value = -1;
+            
+            $negative = true;
         }
         for ($i = 0; $i < $n; $i++) {
             $results = $temp->euclideanDivision($divisor);
             $divisor = $divisor->intdiv(10);
-            $string .= $results['quotient']->toInt();
-            $temp = $results['remainder'];
+            $string .= $results['quotient']->toInt() * $min_value
+            $temp = $results['remainder']->multiply($min_value);
         }
         $string = ltrim($string, '0');
         if ($negative) {
@@ -383,6 +390,10 @@ class BigInt implements ObjectArithmetic
      * Euclidean Division
      *
      * Perform integer division and return the quotiant and remainder
+     *
+     * Must figure out a way to perform division on negative numbers without
+     * negating the arguments.
+     *
      * @param $c The divisor - an int or BigInt
      * @return array ['quotient', 'remainder']
      */
