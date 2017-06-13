@@ -175,13 +175,21 @@ class BigInt implements ObjectArithmetic
     /**
      * Most Significant Bit
      *
+     * If the sign bit is a one, find the first zero.
+     * If the sign bit is a zero, find the first one.
      * zero indexed
      */
     public function MSB()
     {
+        
         $decbin = $this->decbin();
         $length = strlen($decbin);
-        return $length - 1;
+        $msb = $length - 1;
+        if ($this->isNegative()) {
+            $pos = strpos($decbin, "0");
+            $msb -= $pos;
+        }
+        return $msb;
     }
 
     /**
