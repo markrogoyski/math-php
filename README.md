@@ -87,7 +87,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 Alternatively, use composer on the command line to require and install MathPHP:
 
-```bash
+```
 $ php composer.phar require markrogoyski/math-php:0.*
 ```
 
