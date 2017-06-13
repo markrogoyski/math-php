@@ -187,6 +187,7 @@ class BigInt implements ObjectArithmetic
         $msb = $length - 1;
         if ($this->isNegative()) {
             $pos = strpos($decbin, "0");
+            $pos = $pos === false ? $length : $pos;
             $msb -= $pos;
         }
         return $msb;
