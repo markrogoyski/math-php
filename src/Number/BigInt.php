@@ -93,7 +93,7 @@ class BigInt implements ObjectArithmetic
         
         // Given the most significant bit, this number is the smallest
         // exponent of 10 that will be larger than $this.
-        $n = ceil(log10(2) * ($msb + 1));
+        $n = max(ceil(log10(2) * ($msb + 1)), 0);
         $divisor = new BigInt(10);
         $divisor = $divisor->pow($n);
         $string = '';
