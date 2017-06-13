@@ -85,6 +85,12 @@ Composer will install MathPHP inside your vendor folder. Then you can add the fo
 require_once(__DIR__ . '/vendor/autoload.php');
 ```
 
+For [Symfony](https://symfony.com/) projects require the library in the terminal:
+
+```bash
+$ php composer require markrogoyski/math-php
+```
+
 ### Minimum Requirements
  * PHP 7
 
