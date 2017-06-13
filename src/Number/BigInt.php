@@ -115,6 +115,7 @@ class BigInt implements ObjectArithmetic
             $divisor = $divisor->intdiv(10);
             $string .= $results['quotient']->toInt() * $min_value;
             $temp = $results['remainder']->multiply($min_value);
+            $min_value = 1;
         }
         $string = ltrim($string, '0');
         if ($negative) {
