@@ -382,6 +382,9 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForMSB()
     {
         return [
+            [-2, 0],
+            [-1, -1],
+            [0, -1],
             [1, 0],
             [2, 1],
             [4, 2],
