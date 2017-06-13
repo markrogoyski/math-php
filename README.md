@@ -85,6 +85,12 @@ Composer will install MathPHP inside your vendor folder. Then you can add the fo
 require_once(__DIR__ . '/vendor/autoload.php');
 ```
 
+Alternatively, use composer on the command line to require and install MathPHP:
+
+```bash
+$ php composer.phar require markrogoyski/math-php:0.*
+```
+
 ### Minimum Requirements
  * PHP 7
 
