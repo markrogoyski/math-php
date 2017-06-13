@@ -184,7 +184,8 @@ class BigInt implements ObjectArithmetic
         
         $decbin = $this->decbin();
         $length = strlen($decbin);
-        if ($this->equals(0)) {
+        $zero = new BigInt(0);
+        if ($this->equals($zero)) {
             $length -= 1;
         }
         $msb = $length - 1;
