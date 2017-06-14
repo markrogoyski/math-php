@@ -92,7 +92,7 @@ class BigInt implements ObjectArithmetic
                     $newint = $newint->plus($tens->multiply($multiplicand));
                     $tens = $tens->intdiv(10);
                 }
-                if($negate) {
+                if ($negate) {
                     $newint = $newint->negate();
                 }
                 $this->value[1] = $newint->value[1];
