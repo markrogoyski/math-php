@@ -78,6 +78,18 @@ class BigInt implements ObjectArithmetic
                 // Hex
                 // Remove the leading 0x
                 $v = substr($v, 2);
+                $value[0] = self::signedHexdec($v);
+                $value[1] = 0;
+                if (strlen($v) > $word_size / 4) {
+                    if (strlen($v) > $word_size * self::WORDS / 4) {
+                        throw new Exception\BadParameterException("String has too many bytes. Max allowed = " . ($word_size * self::WORDS / 4) . '. Given ' . strlen($v));
+                    } else {
+                        // Assign remaining bits to $value[1]
+                        $v = substr($v, 0, -16);
+                        $value[1] = self::signedHexdec($v);
+                    }
+                }
+                $newint = new BigInt($value);
             } elseif (preg_match('/^0[0-7]*$/', $v)) {
                 // Octal or Zero
                 // Remove the leading 0
@@ -363,11 +375,12 @@ class BigInt implements ObjectArithmetic
     /**************************************************************************
      * HELPER FUNCTIONS
      *  - signedBindec
+     *  - signedHexDec
      **************************************************************************/
 
     /**
-     * the native bindec function treats all bits as value bits.
-     * This version works on a 64 bit block and treats the MSB
+     * The native bindec function treats all bits as value bits.
+     * This version works on a 64 bit block and treats the leftmost bit
      * as a signing bit.
      */
     private static function signedBindec(string $s): int
@@ -379,6 +392,23 @@ class BigInt implements ObjectArithmetic
         $valuebits = substr($s, -63);
         $value = bindec($valuebits);
         return $signbit === '0' ? $value : $value - \PHP_INT_MAX - 1;
+    }
+
+    /**
+     * The native hexdec function treats all bits as value bits.
+     * This version works on a 64 bit block and treats the leftmost bit
+     * as a signing bit.
+     */
+    private static function signedHexdec(string $s): int
+    {
+        if (strlen($s) < 16) {
+            return hexdec($s);
+        }
+        // If the 16th character > 7, there is a 1 in the leftmost position.
+        $negative = strlen($s) > 15 ? hexdec(substr($s, -16, 1)) >= 8 : false;
+        $valuebits = substr($s, -15);
+        $value = bindec($valuebits);
+        return !$negative ? $value : $value - \PHP_INT_MAX - 1;
     }
 
     /**************************************************************************
