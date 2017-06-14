@@ -51,19 +51,17 @@ class BigInt implements ObjectArithmetic
         $type = gettype($v);
         if ($type == 'string') {
             $negate = false;
+            if (substr($v, 0, 1) == '-') {
+                $negate = true;
+                $v = substr($v, 1);
+            } elseif (substr($v, 0, 1) == '+') {
+                $v = substr($v, 1);
+            }
             $newint = new BigInt(0);
-            if (preg_match('/^[-+]?0b[01]+$/', $v)) {
+            if (preg_match('/^0b[01]+$/', $v)) {
                 // Binary
-                //Check if there is a minus or plus
-                if (substr($v, 0, 1) == '-') {
-                    $negate = true;
-                    $v = substr($v, 3);
-                } elseif (substr($v, 0, 1) == '+') {
-                    $v = substr($v, 3);
-                } else {
-                    // Remove the leading 0b
-                    $v = substr($v, 2);
-                }
+                // Remove the leading 0b
+                $v = substr($v, 2);
                 $value[0] = self::signedBindec($v);
                 $value[1] = 0;
                 if (strlen($v) > $word_size) {
@@ -76,37 +74,16 @@ class BigInt implements ObjectArithmetic
                     }
                 }
                 $newint = new BigInt($value);
-            } elseif (preg_match('/^[-+]?0[xX][0-9a-fA-F]+$/', $v)) {
+            } elseif (preg_match('/^0[xX][0-9a-fA-F]+$/', $v)) {
                 // Hex
-                if (substr($v, 0, 1) == '-') {
-                    $negate = true;
-                    $v = substr($v, 3);
-                } elseif (substr($v, 0, 1) == '+') {
-                    $v = substr($v, 3);
-                } else {
-                    // Remove the leading 0x
-                    $v = substr($v, 2);
-                }
-            } elseif (preg_match('/^[-+]?0[0-7]*$/', $v)) {
+                // Remove the leading 0x
+                $v = substr($v, 2);
+            } elseif (preg_match('/^0[0-7]*$/', $v)) {
                 // Octal or Zero
-                if (substr($v, 0, 1) == '-') {
-                    $negate = true;
-                    $v = substr($v, 2);
-                } elseif (substr($v, 0, 1) == '+') {
-                    $v = substr($v, 2);
-                } else {
-                    // Remove the leading 0
-                    $v = substr($v, 1);
-                }
-            } elseif (preg_match('/^[-+]?[1-9][0-9]*$/', $v)) {
+                // Remove the leading 0
+                $v = substr($v, 1);
+            } elseif (preg_match('/^[1-9][0-9]*$/', $v)) {
                 // Decimal
-                if (substr($v, 0, 1) == '-') {
-                    $negate = true;
-                    $v = substr($v, 1);
-                }
-                if (substr($v, 0, 1) == '+') {
-                    $v = substr($v, 1);
-                }
                 $power = strlen($v) - 1;
                 $tens = new BigInt(10);
                 $newint = new BigInt(0);
