@@ -69,6 +69,19 @@ class BigInt implements ObjectArithmetic
                 // Hex
             } elseif (preg_match('/0[0-7]+/', $v)) {
                 // Octal
+            } elseif (preg_match('[1-9][0-9]*', $v)) {
+                // Decimal
+                $power = strlen($v) - 1;
+                $tens = new BigInt(10);
+                $newint = new BigInt(0);
+                $tens = $ten->pow($power);
+                for ($i = 0; $i <= $power; $i++) {
+                    $multiplicand = (int)substr($v, $i, 1);
+                    $newint = $newint->plus($tens->multiply($multiplicand));
+                    $tens = $tens->intdiv(10);
+                }
+                $this->value[1] = $newint->value[1];
+                $this->value[0] = $newint->value[0];
             } else {
                 throw new Exception\BadParameterException("String must be a valid binary or hexadecimal value");
             }
