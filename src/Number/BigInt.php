@@ -50,7 +50,7 @@ class BigInt implements ObjectArithmetic
         // or specify self::WORDS and calculate bits = self::WORDS * $this->word_size?
         $type = gettype($v);
         if ($type == 'string') {
-            if (preg_match('/^[-+]?0b[01]+/', $v)) {
+            if (preg_match('/^[-+]?0b[01]+$/', $v)) {
                 // Binary
                 //Check if there is a minus or plus
                 $negate = false;
@@ -79,7 +79,7 @@ class BigInt implements ObjectArithmetic
                     $newint = $newint->negate();
                 }
                 $this->value = $newint->value;
-            } elseif (preg_match('/^[-+]?0[xX][0-9a-fA-F]+/', $v)) {
+            } elseif (preg_match('/^[-+]?0[xX][0-9a-fA-F]+$/', $v)) {
                 // Hex
                 $negate = false;
                 if (substr($v, 0, 1) == '-') {
@@ -91,8 +91,8 @@ class BigInt implements ObjectArithmetic
                 }
                 // Remove the leading 0x
                 $v = substr($v, 2);
-            } elseif (preg_match('/^[-+]?0[0-7]*/', $v)) {
-                // Octal
+            } elseif (preg_match('/^[-+]?0[0-7]*$/', $v)) {
+                // Octal or Zero
                 $negate = false;
                 if (substr($v, 0, 1) == '-') {
                     $negate = true;
@@ -107,7 +107,7 @@ class BigInt implements ObjectArithmetic
                     //$newint = $newint->negate();
                 }
                 //$this->value = $newint->value;
-            } elseif (preg_match('/^[-+]?[1-9][0-9]*/', $v)) {
+            } elseif (preg_match('/^[-+]?[1-9][0-9]*$/', $v)) {
                 // Decimal
                 $negate = false;
                 if (substr($v, 0, 1) == '-') {
