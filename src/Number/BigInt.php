@@ -67,10 +67,8 @@ class BigInt implements ObjectArithmetic
                 }
             } elseif (preg_match('/[-+]?0[xX][0-9a-fA-F]+/', $v)) {
                 // Hex
-                echo "HEX";
             } elseif (preg_match('/[-+]?0[0-7]+/', $v)) {
                 // Octal
-                echo "OCTAL";
             } elseif (preg_match('/([-+]?[1-9][0-9]*|0)/', $v)) {
                 // Decimal
                 $negate = false;
@@ -81,15 +79,13 @@ class BigInt implements ObjectArithmetic
                 if (substr($v, 0, 1) == '+') {
                     $v = substr($v, 1);
                 }
-                echo "DECIMAL";
                 $power = strlen($v) - 1;
                 $tens = new BigInt(10);
                 $newint = new BigInt(0);
                 $tens = $tens->pow($power);
                 for ($i = 0; $i <= $power; $i++) {
                     $multiplicand = (int)substr($v, $i, 1);
-                    echo $multiplicand . "*" . $tens . "+";
-                    $newint = $newint->plus($tens->multiply($multiplicand));
+                    $newint = $newint->add($tens->multiply($multiplicand));
                     $tens = $tens->intdiv(10);
                 }
                 if ($negate) {
