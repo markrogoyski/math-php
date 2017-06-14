@@ -104,16 +104,20 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
         $BigInt = new BigInt(1);
         return [
             [ // 1 as a 128 bit number (1x1)
-                1,
+                '+1',
                 '1',
             ],
             [ // -1 as a 128 bit number (1x128)
-                -1,
+                '-1',
                 'ffffffffffffffffffffffffffffffff',
             ],
             [ // MAX_INT as a 128 bit number (1x63)
                 '0b' . $BigInt::maxValue()->decbin(),
                 '7fffffffffffffffffffffffffffffff',
+            ],
+            [ // MIN_INT + 1 as a 128 bit number (1x63)
+                '-0b' . $BigInt::maxValue()->decbin(),
+                '80000000000000000000000000000001',
             ],
             [ // BigInt in binary
                 '0b' . $BigInt::minValue()->decbin(),
