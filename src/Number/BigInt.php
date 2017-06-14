@@ -67,8 +67,10 @@ class BigInt implements ObjectArithmetic
                 }
             } elseif (preg_match('/[-+]?0[xX][0-9a-fA-F]+/', $v)) {
                 // Hex
+                echo "HEX";
             } elseif (preg_match('/[-+]?0[0-7]+/', $v)) {
                 // Octal
+                echo "OCTAL";
             } elseif (preg_match('/[-+]?[1-9][0-9]*|0/', $v)) {
                 // Decimal
                 $negate = false;
