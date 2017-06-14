@@ -58,6 +58,13 @@ class BigInt implements ObjectArithmetic
                 $v = substr($v, 1);
             }
             $newint = new BigInt(0);
+            if (preg_match('/^0[0-7]*$/', $v)) {
+                // Octal or Zero
+                // Remove the leading 0
+                $v = substr($v, 1);
+                // Octal is such a pain, we will convert to binary.
+                $v = '0b' . base_convert($v, 8, 2);
+            }
             if (preg_match('/^0b[01]+$/', $v)) {
                 // Binary
                 // Remove the leading 0b
@@ -90,10 +97,6 @@ class BigInt implements ObjectArithmetic
                     }
                 }
                 $newint = new BigInt($value);
-            } elseif (preg_match('/^0[0-7]*$/', $v)) {
-                // Octal or Zero
-                // Remove the leading 0
-                $v = substr($v, 1);
             } elseif (preg_match('/^[1-9][0-9]*$/', $v)) {
                 // Decimal
                 $power = strlen($v) - 1;
