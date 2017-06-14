@@ -69,7 +69,7 @@ class BigInt implements ObjectArithmetic
                 // Hex
             } elseif (preg_match('/0[0-7]+/', $v)) {
                 // Octal
-            } elseif (preg_match('[1-9][0-9]*', $v)) {
+            } elseif (preg_match('/[1-9][0-9]*/', $v)) {
                 // Decimal
                 $power = strlen($v) - 1;
                 $tens = new BigInt(10);
