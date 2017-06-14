@@ -50,8 +50,9 @@ class BigInt implements ObjectArithmetic
         // or specify self::WORDS and calculate bits = self::WORDS * $this->word_size?
         $type = gettype($v);
         if ($type == 'string') {
-            if (preg_match('/0b[01]+/', $v)) {
+            if (preg_match('/[-+]?0b[01]+/', $v)) {
                 // Binary
+                //Check if there is a minus or plus
                 $value = substr($v, 2);
                 $this->value[0] = self::signedBindec($value);
                 $this->value[1] = 0;
@@ -64,12 +65,13 @@ class BigInt implements ObjectArithmetic
                         $this->value[1] = self::signedBindec($value);
                     }
                 }
-            } elseif (preg_match('/0[xX][0-9a-fA-F]+/', $v)) {
+            } elseif (preg_match('/[-+]?0[xX][0-9a-fA-F]+/', $v)) {
                 // Hex
-            } elseif (preg_match('/0[0-7]+/', $v)) {
+            } elseif (preg_match('/[-+]?0[0-7]+/', $v)) {
                 // Octal
-            } elseif (preg_match('/[1-9][0-9]*/', $v)) {
+            } elseif (preg_match('/[-+]?[1-9][0-9]*|0/', $v)) {
                 // Decimal
+                echo "DECIMAL";
                 $power = strlen($v) - 1;
                 $tens = new BigInt(10);
                 $newint = new BigInt(0);
