@@ -78,7 +78,7 @@ class BigInt implements ObjectArithmetic
                     $negate = true;
                     $v = substr($v, 1);
                 }
-                if ($substr($v, 0, 1) == '+') {
+                if (substr($v, 0, 1) == '+') {
                     $v = substr($v, 1);
                 }
                 echo "DECIMAL";
