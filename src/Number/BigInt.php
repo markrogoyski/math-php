@@ -56,13 +56,13 @@ class BigInt implements ObjectArithmetic
                 $negate = false;
                 if (substr($v, 0, 1) == '-') {
                     $negate = true;
-                    $v = substr($v, 1);
+                    $v = substr($v, 3);
+                } elseif (substr($v, 0, 1) == '+') {
+                    $v = substr($v, 3);
+                } else {
+                    // Remove the leading 0b
+                    $v = substr($v, 2);
                 }
-                if (substr($v, 0, 1) == '+') {
-                    $v = substr($v, 1);
-                }
-                // Remove the leading 0b
-                $v = substr($v, 2);
                 $value[0] = self::signedBindec($v);
                 $value[1] = 0;
                 if (strlen($v) > $word_size) {
