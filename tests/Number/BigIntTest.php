@@ -21,7 +21,7 @@ class BigIntTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderForDecBin()
     {
-        $minus_one = str_repeat("1", 128)
+        $minus_one = str_repeat("1", 128);
         return [
             [ // 1 as a 128 bit number (1x1)
                 1,
