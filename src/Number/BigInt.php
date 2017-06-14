@@ -74,7 +74,7 @@ class BigInt implements ObjectArithmetic
             } elseif (preg_match('/[-+]?[1-9][0-9]*|0/', $v)) {
                 // Decimal
                 $negate = false;
-                if ($substr($v, 0, 1) == '-') {
+                if (substr($v, 0, 1) == '-') {
                     $negate = true;
                     $v = substr($v, 1);
                 }
