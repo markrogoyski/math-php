@@ -100,6 +100,29 @@ class BigInt implements ObjectArithmetic
         }
     }
 
+    /**************************************************************************
+     * GETTERS AND SETTERS
+     **************************************************************************/
+
+    /**
+     * Get the bit at a specific positikn
+     * zero indexed
+     */
+    public function getBit(int $n): int
+    {
+        $word_size = $this->word_size;
+        if ($n > $word_size * self::WORDS) {
+            throw new Exception\OutOfBoundsException('Trying to access bit ' . $n . ' when only ' . ($word_size * self::WORDS) . ' exist');
+        }
+        $mask = $n == $word_size - 1 ? \PHP_INT_MIN : 2 ** ($n % $word_size);
+        return ($this->value[intdiv($n, $word_size)] & $mask) === 0 ? 0 : 1;
+    }
+
+    /**************************************************************************
+     * PHP MAGIC METHODS
+     *  - __toString
+     **************************************************************************/
+
     public function __toString()
     {
         $msb = $this->MSB();
@@ -137,6 +160,14 @@ class BigInt implements ObjectArithmetic
         return $string == '' ? '0' : $string;
     }
 
+    /**************************************************************************
+     * CASTING AND OUTPUT
+     *  - toInt
+     *  - decbin
+     *  - dechex
+     *  - decoct (TODO)
+     **************************************************************************/
+    
     /*
      * Cast the BigInt to an int if possible
      */
@@ -150,10 +181,45 @@ class BigInt implements ObjectArithmetic
         }
     }
 
-    public function get(int $n): int
+    /**
+     * Decimal to Binary
+     *
+     * return the binary representation of the number without leading zeroes
+     * @return string
+     */
+    public function decbin(): string
     {
-        return $this->value[$n];
+        $string = "";
+        $bits = strlen(decbin(-1));
+        foreach ($this->value as $int) {
+            $string = str_pad(decbin($int), $bits, '0', STR_PAD_LEFT) . $string;
+        }
+        $string = ltrim($string, '0');
+        return $string == '' ? '0' : $string;
     }
+ 
+    /**
+     * Decimal to Hexadecimal
+     *
+     * return the hexadecimal representation of the number without leading zeroes.
+     * @return string
+     */
+    public function dechex(): string
+    {
+        $string = "";
+        $bits = strlen(dechex(-1));
+        foreach ($this->value as $int) {
+            $string = str_pad(dechex($int), $bits, '0', STR_PAD_LEFT) . $string;
+        }
+        $string = ltrim($string, '0');
+        return $string == '' ? '0' : $string;
+    }
+
+    /**************************************************************************
+     * NUMBER PROPERTIES
+     *  - isNegative
+     *  - isPositive
+     **************************************************************************/
 
     public function isNegative(): bool
     {
@@ -165,6 +231,12 @@ class BigInt implements ObjectArithmetic
         return $this->value[1] >= 0 && $this->value[0] !== 0;
     }
 
+    /**************************************************************************
+     * STATIC CONSTANTS
+     *  - maxValue
+     *  - minValue
+     **************************************************************************/
+    
     /*
      * The largest value this object can represent
      */
@@ -182,47 +254,10 @@ class BigInt implements ObjectArithmetic
     }
 
     /**************************************************************************
-     * UNARY FUNCTIONS
+     * BITWISE FUNCTIONS
+     *  - leftShift
+     *  - rightShift
      **************************************************************************/
-
-    /**
-     * Most Significant Bit
-     *
-     * If the sign bit is a one, find the first zero.
-     * If the sign bit is a zero, find the first one.
-     * zero indexed
-     */
-    public function MSB()
-    {
-        
-        $decbin = $this->decbin();
-        $length = strlen($decbin);
-        $zero = new BigInt(0);
-        if ($this->equals($zero)) {
-            $length -= 1;
-        }
-        $msb = $length - 1;
-        if ($this->isNegative()) {
-            $pos = strpos($decbin, "0");
-            $pos = $pos === false ? $length : $pos;
-            $msb -= $pos;
-        }
-        return $msb;
-    }
-
-    /**
-     * Get the bit at a specific positikn
-     * zero indexed
-     */
-    public function getBit(int $n): int
-    {
-        $word_size = $this->word_size;
-        if ($n > $word_size * self::WORDS) {
-            throw new Exception\OutOfBoundsException('Trying to access bit ' . $n . ' when only ' . ($word_size * self::WORDS) . ' exist');
-        }
-        $mask = $n == $word_size - 1 ? \PHP_INT_MIN : 2 ** ($n % $word_size);
-        return ($this->value[intdiv($n, $word_size)] & $mask) === 0 ? 0 : 1;
-    }
 
     public function leftShift($n = 1)
     {
@@ -259,7 +294,38 @@ class BigInt implements ObjectArithmetic
         }
         return new BigInt($first, $second);
     }
-    
+
+    /**************************************************************************
+     * UNARY FUNCTIONS
+     *  - MSB
+     *  - negate
+     **************************************************************************/
+
+    /**
+     * Most Significant Bit
+     *
+     * If the sign bit is a one, find the first zero.
+     * If the sign bit is a zero, find the first one.
+     * zero indexed
+     */
+    public function MSB()
+    {
+        
+        $decbin = $this->decbin();
+        $length = strlen($decbin);
+        $zero = new BigInt(0);
+        if ($this->equals($zero)) {
+            $length -= 1;
+        }
+        $msb = $length - 1;
+        if ($this->isNegative()) {
+            $pos = strpos($decbin, "0");
+            $pos = $pos === false ? $length : $pos;
+            $msb -= $pos;
+        }
+        return $msb;
+    }
+
     /**
      * Multiply the BigInt by -1
      *
@@ -277,40 +343,12 @@ class BigInt implements ObjectArithmetic
         // Combine the ones compliment of $value[1] with the twos compliment of $value[0]
         return new BigInt([-1 * $this->value[0], -1 * $this->value[1] - 1]);
     }
+
     
-    /**
-     * Decimal to Binary
-     *
-     * return the binary representation of the number without leading zeroes
-     * @return string
-     */
-    public function decbin(): string
-    {
-        $string = "";
-        $bits = strlen(decbin(-1));
-        foreach ($this->value as $int) {
-            $string = str_pad(decbin($int), $bits, '0', STR_PAD_LEFT) . $string;
-        }
-        $string = ltrim($string, '0');
-        return $string == '' ? '0' : $string;
-    }
- 
-    /**
-     * Decimal to Hexadecimal
-     *
-     * return the hexadecimal representation of the number without leading zeroes.
-     * @return string
-     */
-    public function dechex(): string
-    {
-        $string = "";
-        $bits = strlen(dechex(-1));
-        foreach ($this->value as $int) {
-            $string = str_pad(dechex($int), $bits, '0', STR_PAD_LEFT) . $string;
-        }
-        $string = ltrim($string, '0');
-        return $string == '' ? '0' : $string;
-    }
+    /**************************************************************************
+     * HELPER FUNCTIONS
+     *  - signedBindec
+     **************************************************************************/
 
     /**
      * the native bindec function treats all bits as value bits.
@@ -330,6 +368,14 @@ class BigInt implements ObjectArithmetic
 
     /**************************************************************************
      * BINARY FUNCTIONS
+     *  - add
+     *  - subtract
+     *  - multiply
+     *  - euclideanDivision
+     *  - intdiv
+     *  - mod
+     *  - pow
+     *  - fact (TODO)
      **************************************************************************/
 
     /**
@@ -343,8 +389,8 @@ class BigInt implements ObjectArithmetic
             $c = new BigInt($c);
         }
         if ($c instanceof BigInt) {
-            $first = Bitwise::Add($this->value[0], $c->get(0));
-            $second = Bitwise::Add($this->value[1], $c->get(1));
+            $first = Bitwise::Add($this->value[0], $c->value[0]);
+            $second = Bitwise::Add($this->value[1], $c->value[1]);
             if ($first['overflow']) {
                 $second = Bitwise::Add($second['value'], 1);
             }
@@ -503,6 +549,9 @@ class BigInt implements ObjectArithmetic
 
     /**************************************************************************
      * COMPARISON FUNCTIONS
+     *  - equals
+     *  - greaterThan
+     *  - lessThan
      **************************************************************************/
 
     /**
@@ -512,7 +561,7 @@ class BigInt implements ObjectArithmetic
      */
     public function equals($c): bool
     {
-        return $this->value[0] == $c->get(0) && $this->value[1] == $c->get(1);
+        return $this->value[0] == $c->value[0] && $this->value[1] == $c->value[1];
     }
 
     /**
@@ -537,16 +586,16 @@ class BigInt implements ObjectArithmetic
             // If one is positive and one negative
             if ($this->isNegative() !== $c->isNegative()) {
                 return $this->isPositive();
-            } elseif ($this->value[1] > $c->get(1)) {
+            } elseif ($this->value[1] > $c->value[1]) {
                 return true;
-            } elseif ($this->value[1] < $c->get(1)) {
+            } elseif ($this->value[1] < $c->value[1]) {
                 return false;
             } else {
                 // The largest word in each are equal.
-                if ($this->value[0] < 0 !== $c->get(0) < 0) {
+                if ($this->value[0] < 0 !== $c->value[0] < 0) {
                     return $c < 0;
                 } else {
-                    return $this->value[0] > $c->get(0);
+                    return $this->value[0] > $c->value[0];
                 }
             }
         }
