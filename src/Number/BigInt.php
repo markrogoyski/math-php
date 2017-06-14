@@ -50,10 +50,9 @@ class BigInt implements ObjectArithmetic
         // or specify self::WORDS and calculate bits = self::WORDS * $this->word_size?
         $type = gettype($v);
         if ($type == 'string') {
-            // Check that $v starts with '0b' and only contains ones and zeroes
-            $prefix = substr($v, 0, 2);
-            $value = substr($v, 2);
             if (preg_match('/0b[01]+/', $v)) {
+                // Binary
+                $value = substr($v, 2);
                 $this->value[0] = self::signedBindec($value);
                 $this->value[1] = 0;
                 if (strlen($value) > $word_size) {
@@ -77,6 +76,7 @@ class BigInt implements ObjectArithmetic
                 $tens = $ten->pow($power);
                 for ($i = 0; $i <= $power; $i++) {
                     $multiplicand = (int)substr($v, $i, 1);
+                    echo $multiplicand . "*" . $tens . "+";
                     $newint = $newint->plus($tens->multiply($multiplicand));
                     $tens = $tens->intdiv(10);
                 }
