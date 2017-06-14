@@ -71,7 +71,7 @@ class BigInt implements ObjectArithmetic
             } elseif (preg_match('/[-+]?0[0-7]+/', $v)) {
                 // Octal
                 echo "OCTAL";
-            } elseif (preg_match('/[-+]?[1-9][0-9]*|0/', $v)) {
+            } elseif (preg_match('/([-+]?[1-9][0-9]*|0)/', $v)) {
                 // Decimal
                 $negate = false;
                 if (substr($v, 0, 1) == '-') {
@@ -85,7 +85,7 @@ class BigInt implements ObjectArithmetic
                 $power = strlen($v) - 1;
                 $tens = new BigInt(10);
                 $newint = new BigInt(0);
-                $tens = $ten->pow($power);
+                $tens = $tens->pow($power);
                 for ($i = 0; $i <= $power; $i++) {
                     $multiplicand = (int)substr($v, $i, 1);
                     echo $multiplicand . "*" . $tens . "+";
