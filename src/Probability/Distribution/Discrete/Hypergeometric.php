@@ -47,7 +47,7 @@ class Hypergeometric extends Discrete
      * K ∈ {0, 1, 2, ..., N}
      * n ∈ {0, 1, 2, ..., N}
      * k ∈ {max(0, n + K - N), ..., min(n, K)}
-     * 
+     *
      * @param  int $N population size
      * @param  int $K number of success states in the population
      * @param  int $n number of draws
