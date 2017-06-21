@@ -1010,16 +1010,16 @@ $random  = DistributionName::rand(...$params);               // A random number 
 ```php
 use MathPHP\Probability\Distribution\Discrete;
 
+// Bernoulli distribution (special case of binomial where n = 1)
+$pmf = Discrete\Bernoulli::pmf($r, $P);
+$cdf = Discrete\Bernoulli::cdf($r, $P);
+
 // Binomial distribution
 $n   = 2;   // number of events
 $r   = 1;   // number of successful events
 $P   = 0.5; // probability of success
 $pmf = Discrete\Binomial::pmf($n, $r, $P);
 $cdf = Discrete\Binomial::cdf($n, $r, $P);
-
-// Bernoulli distribution (special case of binomial where n = 1)
-$pmf = Discrete\Bernoulli::pmf($r, $P);
-$cdf = Discrete\Bernoulli::cdf($r, $P);
 
 // Geometric distribution (failures before the first success)
 $k   = 2;   // number of trials
