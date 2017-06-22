@@ -20,6 +20,10 @@ class HypergeometricTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($pmf, Hypergeometric::pmf($N, $K, $n, $k), '', 0.0000001);
     }
 
+    /**
+     * Test data made with: http://stattrek.com/m/online-calculator/hypergeometric.aspx
+     * @return array
+     */
     public function dataProviderForPmf(): array
     {
         return [
@@ -30,6 +34,37 @@ class HypergeometricTest extends \PHPUnit_Framework_TestCase
             [48, 6, 15, 2, 0.350128003786331],
             [48, 6, 15, 0, 0.0902552187538097],
             [48, 6, 15, 6, 0.000407855201543217],
+            [100, 30, 20, 5, 0.19182559242904654583],
+        ];
+    }
+
+    /**
+     * @testCase     cdf returns expected probability
+     * @dataProvider dataProviderForCdf
+     * @param  int   $N population size
+     * @param  int   $K number of success states in the population
+     * @param  int   $n number of draws
+     * @param  int   $k number of observed successes
+     * @param  float $cdf
+     */
+    public function testCdf(int $N, int $K, int $n, int $k, float $cdf)
+    {
+        $this->assertEquals($cdf, Hypergeometric::cdf($N, $K, $n, $k), '', 0.0000001);
+    }
+
+    /**
+     * Test data made with: http://stattrek.com/m/online-calculator/hypergeometric.aspx
+     * @return array
+     */
+    public function dataProviderForCdf(): array
+    {
+        return [
+            [50, 5, 10, 4, 0.000118937],
+            [100, 80, 50, 40, 0.401564391],
+            [100, 80, 50, 35, 0.988582509],
+            [48, 6, 15, 2, 0.269510717],
+            [48, 6, 15, 0, 0.909744781],
+            [100, 30, 20, 5, 0.599011207],
         ];
     }
 }
