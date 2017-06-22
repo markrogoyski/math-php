@@ -110,6 +110,36 @@ class Hypergeometric extends Discrete
     }
 
     /**
+     * Distribution mean
+     *
+     *          K
+     * mean = n -
+     *          N
+     *
+     * N is the population size,
+     * K is the number of success states in the population,
+     * n is the number of draws,
+     *
+     * N ∈ {0, 1, 2, ...}
+     * K ∈ {0, 1, 2, ..., N}
+     * n ∈ {0, 1, 2, ..., N}
+     * k ∈ {max(0, n + K - N), ..., min(n, K)}
+     *
+     * @param  int $N population size
+     * @param  int $K number of success states in the population
+     * @param  int $n number of draws
+     * @param  int $k number of observed successes
+     *
+     * @return float
+     */
+    public static function mean(int $N, int $K, int $n, int $k)
+    {
+        self::checkLimits($N, $K, $n, $k);
+
+        return $n * ($K / $N);
+    }
+
+    /**
      * Check limits
      *
      * @param  int $N population size
