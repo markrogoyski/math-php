@@ -1003,7 +1003,7 @@ $outside = Continuous\DistributionName::outside($x₁, $x₂, ...$params);  // P
 $above   = Continuous\DistributionName::above($x, ...$params);          // Probability of being above x to ∞
 
 // Random Number Generator
-$random  = DistributionName::rand(...$params);               // A random number with a given distribution
+$random  = Continuous\DistributionName::rand(...$params);  // A random number with a given distribution
 ```
 
 ### Probability - Discrete Distributions
@@ -1026,6 +1026,15 @@ $k   = 2;   // number of trials
 $p   = 0.5; // success probability
 $pmf = Discrete\Geometric::pmf($k, $p);
 $cdf = Discrete\Geometric::cdf($k, $p);
+
+// Hypergeometric distribution
+$N   = 50; // population size
+$K   = 5;  // number of success states in the population
+$n   = 10; // number of draws
+$k   = 4;  // number of observed successes
+$pmf = Discrete\Hypergeometric::pmf($N, $K, $n, $k);
+$cdf = Discrete\Hypergeometric::cdf($N, $K, $n, $k);
+$μ   = Discrete\Hypergeometric::mean($N, $K, $n, $k);
 
 // Multinomial distribution
 $frequencies   = [7, 2, 3];
