@@ -1059,6 +1059,14 @@ $k   = 2;   // number of trials
 $p   = 0.5; // success probability
 $pmf = Discrete\ShiftedGeometric::pmf($k, $p);
 $cdf = Discrete\ShiftedGeometric::cdf($k, $p);
+
+// Uniform distribution
+$a   = 1; // lower boundary of the distribution
+$b   = 4; // upper boundary of the distribution
+$k   = 2; // percentile
+$pmf = Discrete\Uniform::pmf($a, $b);
+$cdf = Discrete\Uniform::cdf($a, $b, $k);
+$μ   = Discrete\Uniform::mean($a, $b);
 ```
 
 ### Probability - Multivariate Distributions
