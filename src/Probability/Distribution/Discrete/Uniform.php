@@ -39,9 +39,7 @@ class Uniform extends Discrete
      */
     public static function pmf(int $a, int $b)
     {
-        if ($b <= $a) {
-            throw new Exception\BadDataException("b must be > a (b:$b a:$a)");
-        }
+        self::checkParams($a, $b);
 
         $n = $b - $a + 1;
 
@@ -66,9 +64,7 @@ class Uniform extends Discrete
      */
     public static function cdf(int $a, int $b, int $k)
     {
-        if ($b <= $a) {
-            throw new Exception\BadDataException("b must be > a (b:$b a:$a)");
-        }
+        self::checkParams($a, $b);
         if ($k < $a) {
             return 0;
         }
@@ -92,12 +88,12 @@ class Uniform extends Discrete
      * @param number $b upper boundary of the distribution
      *
      * @return number
+     * @throws BadDataException if b is ≤ a
      */
     public static function mean($a, $b)
     {
-        if ($b <= $a) {
-            throw new Exception\BadDataException("b must be > a (b:$b a:$a)");
-        }
+        self::checkParams($a, $b);
+
         return ($a + $b) / 2;
     }
 
@@ -112,12 +108,27 @@ class Uniform extends Discrete
      * @param number $b upper boundary of the distribution
      *
      * @return number
+     * @throws BadDataException if b is ≤ a
      */
     public static function median($a, $b)
+    {
+        self::checkParams($a, $b);
+
+        return ($a + $b) / 2;
+    }
+
+    /**
+     * Check parameters a and b
+     *
+     * @param number $a lower boundary of the distribution
+     * @param number $b upper boundary of the distribution
+     *
+     * @throws BadDataException if b is ≤ a
+     */
+    public static function checkParams($a, $b)
     {
         if ($b <= $a) {
             throw new Exception\BadDataException("b must be > a (b:$b a:$a)");
         }
-        return ($a + $b) / 2;
     }
 }
