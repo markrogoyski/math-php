@@ -2886,7 +2886,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * A = LU where L = LD
      * A = (LD)U
      *  - L = lower triangular matrix
-     *  - D = diagonal matrix 
+     *  - D = diagonal matrix
      *  - U = normalised upper triangular matrix
      *
      * @return array [
