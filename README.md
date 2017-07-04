@@ -449,7 +449,7 @@ $bool = $A->isSignature();
 // Matrix decompositions
 $ref  = $A->ref();                   // Row echelon form
 $rref = $A->rref();                  // Reduced row echelon form
-$PLU  = $A->luDecomposition();       // Returns array of Matrices [L, U, P, A]; P is permutation matrix
+$PLU  = $A->luDecomposition();       // Returns array of Matrices [L, U, P]; P is permutation matrix
 $LU   = $A->croutDecomposition();    // Returns array of Matrices [L, U]
 $L    = $A->choleskyDecomposition(); // Returns lower triangular matrix L of A = LLᵀ
 

@@ -2717,7 +2717,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *   L: Lower triangular matrix
      *   U: Upper triangular matrix
      *   P: Permutation matrix
-     *   A: Original square matrix
      * ]
      *
      * @throws MatrixException if matrix is not square
@@ -2768,7 +2767,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             'L' => $this->L,
             'U' => $this->U,
             'P' => $this->P,
-            'A' => MatrixFactory::create($this->A),
         ];
     }
 
