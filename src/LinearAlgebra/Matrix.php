@@ -2880,6 +2880,58 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return MatrixFactory::create($L);
     }
 
+    /**
+     * Crout decomposition
+     * An LU decomposition which decomposes a matrix into a lower triangular matrix (L), an upper triangular matrix (U).
+     * https://en.wikipedia.org/wiki/Crout_matrix_decomposition
+     *
+     * A = LU where L = LD
+     * A = (LD)U
+     *  - L = lower triangular matrix
+     *  - D = diagonal matrix 
+     *  - U = normalised upper triangular matrix
+     *
+     * @return array [
+     *   L: Lower triangular/diagonal matrix
+     *   U: Normalised upper triangular matrix
+     * ]
+     */
+    public function croutDecomposition(): array
+    {
+        $m   = $this->m;
+        $n   = $this->n;
+        $A   = $this->A;
+        $U   = MatrixFactory::identity($n)->getMatrix();
+        $L   = MatrixFactory::zero($m, $n)->getMatrix();
+        $sum = 0;
+
+        for ($j = 0; $j < $n; $j++) {
+            for ($i = $j; $i < $n; $i++) {
+                $sum = 0;
+                for ($k = 0; $k < $j; $k++) {
+                    $sum = $sum + $L[$i][$k] * $U[$k][$j];
+                }
+                $L[$i][$j] = $A[$i][$j] - $sum;
+            }
+
+            for ($i = $j; $i < $n; $i++) {
+                $sum = 0;
+                for ($k = 0; $k < $j; $k++) {
+                    $sum = $sum + $L[$j][$k] * $U[$k][$i];
+                }
+                if ($L[$j][$j] == 0) {
+                    throw new Exception\MatrixException('Cannot do Crout decomposition. det(L) close to 0 - Cannot divide by 0');
+                }
+                $U[$j][$i] = ($A[$j][$i] - $sum) / $L[$j][$j];
+            }
+        }
+
+        return [
+            'L' => MatrixFactory::create($L),
+            'U' => MatrixFactory::create($U),
+        ];
+    }
+
     /**************************************************************************
      * SOLVE LINEAR SYSTEM OF EQUATIONS
      * - solve
