@@ -10,7 +10,10 @@ use MathPHP\Exception;
  */
 class Piecewise
 {
+    /** @var array */
     private $intervals;
+
+    /** @var array */
     private $functions;
 
     /**
@@ -30,7 +33,7 @@ class Piecewise
      * A number of conditions need to be met for a piecewise function:
      *     o We must provide the same number of intervals as callback functions
      *     o Each function in our $functions array needs to be callable
-     *     o Each interval must contain precisely 2 numbers, optionally 2
+     *     o Each interval must contain precisely 2 numbers, optionally 2 booleans
      *     o An interval defined as a point (e.g. [2, 2]) must be closed at both ends
      *     o The numbers in an interval must be increasing. Given [a, b] then b >= a.
      *     o Two intervals cannot overlap. This means that if two intervals share
@@ -52,11 +55,11 @@ class Piecewise
     public function __construct(array $intervals, array $functions)
     {
         if (count($intervals) !== count($functions)) {
-            throw new Exception\BadDataException("For a piecewise function you must provide the same number of intervals as functions.");
+            throw new Exception\BadDataException('For a piecewise function you must provide the same number of intervals as functions.');
         }
 
-        if (count(array_filter($functions, "is_callable")) !== count($intervals)) {
-            throw new Exception\BadDataException("Not every function provided is valid. Ensure that each function is callable.");
+        if (count(array_filter($functions, 'is_callable')) !== count($intervals)) {
+            throw new Exception\BadDataException('Not every function provided is valid. Ensure that each function is callable.');
         }
 
         $unsortedIntervals = $intervals;
@@ -72,8 +75,8 @@ class Piecewise
             $lastB     = $b ?? -INF;
             $lastBOpen = $bOpen ?? false;
 
-            if (count(array_filter($interval, "is_numeric")) !== 2) {
-                throw new Exception\BadDataException("Each interval must contain two numbers.");
+            if (count(array_filter($interval, 'is_numeric')) !== 2) {
+                throw new Exception\BadDataException('Each interval must contain two numbers.');
             }
 
             // Fetch values from current interval
@@ -82,7 +85,7 @@ class Piecewise
             $aOpen = $interval[2] ?? false;
             $bOpen = $interval[3] ?? false;
 
-            if ($a === $b and ($aOpen or $bOpen)) {
+            if ($a === $b && ($aOpen || $bOpen)) {
                 throw new Exception\BadDataException("Your interval [{$a}, {$b}] is a point and thus needs to be closed at both ends");
             }
 
@@ -90,7 +93,7 @@ class Piecewise
                 throw new Exception\BadDataException("Interval must be increasing. Try again using [{$b}, {$a}] instead of [{$a}, {$b}]");
             }
 
-            if ($a === $lastB and !$aOpen and !$lastBOpen) {
+            if ($a === $lastB && !$aOpen && !$lastBOpen) {
                 throw new Exception\BadDataException("The intervals [{$lastA}, {$lastB}] and [{$a}, {$b}] share a point, but both intervals are also closed at that point. For intervals to share a point, one or both sides of that point must be open.");
             }
 
