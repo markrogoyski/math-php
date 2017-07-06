@@ -8,7 +8,12 @@ use MathPHP\Exception;
 class PiecewiseTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @testCase     Piecewise __invoke evaluates the expected function to get the expected result
      * @dataProvider dataProviderForEval
+     * @param        array $intervals
+     * @param        array $polynomial_args
+     * @param        array $inputs
+     * @param        array $expected
      */
     public function testEval(array $intervals, array $polynomial_args, array $inputs, array $expected)
     {
@@ -30,7 +35,7 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function dataProviderForEval()
+    public function dataProviderForEval(): array
     {
         return [
             // Test evaluation given a single interval, function
@@ -142,14 +147,37 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                     [-1, 0], // new Polynomial([-1, 0]),      // f(x) = -x
                     [1, 0],  // new Polynomial([1, 0])        // h(x) = x
                 ],
-                [0], [2]       // p(0) = g(0) = 2
+                [
+                    -27,   // p(-27) = f(-27) = -(-27) = 27
+                    -3,    // p(-3) = f(-3) = -(-3) = 3
+                    -2,    // p(-2) = g(-2) = 2
+                    -1,    // p(-1) = g(-1) = 2
+                    0,     // p(0) = g(0) = 2
+                    1,     // p(1) = g(1) = 2
+                    2,     // p(2) = g(2) = 2
+                    3,     // p(3) = h(3) = 3
+                    20,    // p(20) = h(20) = 20
+                    100,   // p(100) = h(100) = 100
+                ],
+                [
+                    27,    // p(-27) = f(-27) = -(-27) = 27
+                    3,     // p(-3) = f(-3) = -(-3) = 3
+                    2,     // p(-2) = g(-2) = 2
+                    2,     // p(-1) = g(-1) = 2
+                    2,     // p(0) = g(0) = 2
+                    2,     // p(1) = g(1) = 2
+                    2,     // p(2) = g(2) = 2
+                    3,     // p(3) = h(3) = 3
+                    20,    // p(20) = h(20) = 20
+                    100,   // p(100) = h(100) = 100
+                ]
             ],
-            // Test eveluation at "jump" located at a single point
+            // Test evaluation at "jump" located at a single point
             [
                 [
                     [-100, -2],           // f interval: [-100, -2]
                     [-2, 2, true, true],  // g interval: (-2, 2)
-                    [2, 2],               // z interval: [2, 2]
+                    [2, 2],               // z interval: [2, 2]    jump point
                     [2, 100, true, false] // h interval: (2, 100]
                 ],
                 [
@@ -158,7 +186,30 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
                     [0],     // new Polynomial([0]),          // z(x) = 0
                     [1, 0],  // new Polynomial([1, 0])        // h(x) = x
                 ],
-                [2], [0]         // p(2) = z(2) = 0
+                [
+                    -27,   // p(-27) = f(-27) = -(-27) = 27
+                    -3,    // p(-3) = f(-3) = -(-3) = 3
+                    -2,    // p(-2) = g(-2) = 2
+                    -1,    // p(-1) = g(-1) = 2
+                    0,     // p(0) = g(0) = 2
+                    1,     // p(1) = g(1) = 2
+                    2,     // p(2) = z(2) = 0  // jump point
+                    3,     // p(3) = h(3) = 3
+                    20,    // p(20) = h(20) = 20
+                    100,   // p(100) = h(100) = 100
+                ],
+                [
+                    27,    // p(-27) = f(-27) = -(-27) = 27
+                    3,     // p(-3) = f(-3) = -(-3) = 3
+                    2,     // p(-2) = g(-2) = 2
+                    2,     // p(-1) = g(-1) = 2
+                    2,     // p(0) = g(0) = 2
+                    2,     // p(1) = g(1) = 2
+                    0,     // p(2) = z(2) = 0  // jump point
+                    3,     // p(3) = h(3) = 3
+                    20,    // p(20) = h(20) = 20
+                    100,   // p(100) = h(100) = 100
+                ]
             ],
         ];
     }
