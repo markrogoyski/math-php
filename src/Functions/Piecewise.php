@@ -220,13 +220,13 @@ class Piecewise
      * Check the as and bs in the intervals
      * Helper method of constructor.
      *
-     * @param  number $a         [description]
-     * @param  number $b         [description]
-     * @param  number $lastA     [description]
-     * @param  number $lastB     [description]
-     * @param  number $lastBOpen [description]
-     * @param  bool   $aOpen     [description]
-     * @param  bool   $bOpen     [description]
+     * @param  number $a
+     * @param  number $b
+     * @param  number $lastA
+     * @param  number $lastB
+     * @param  number $lastBOpen
+     * @param  bool   $aOpen
+     * @param  bool   $bOpen
      *
      * @return void
      *
