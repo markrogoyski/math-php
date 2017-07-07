@@ -99,11 +99,6 @@ class Piecewise
     public function __invoke($x₀)
     {
         $function = $this->getFunction($x₀);
-
-        if ($function === false) {
-            throw new Exception\BadDataException("The input {$x₀} is not in the domain of this piecewise function, thus it is undefined at that point.");
-        }
-
         return $function($x₀);
     }
 
@@ -115,9 +110,11 @@ class Piecewise
     * @param number $x The value at which we are searching for a subinterval that
     *                  contains it, and thus has a corresponding function.
     *
-    * @return mixed Returns the function that contains $x in its domain, or false
+    * @return callable Returns the function that contains $x in its domain
+    *
+    * @throws BadDataException if an interval cannot be found which contains our $x
     */
-    public function getFunction($x)
+    private function getFunction($x): callable
     {
         foreach ($this->intervals as $i => $interval) {
             $a     = $interval[0];
@@ -126,26 +123,73 @@ class Piecewise
             $bOpen = $interval[3] ?? false;
 
             // Four permutations: open-open, open-closed, closed-open, closed-closed
-            if ($aOpen && $bOpen) {
-                if ($x > $a && $x < $b) {
-                    return $this->functions[$i];
-                }
-            } elseif ($aOpen && !$bOpen) {
-                if ($x > $a && $x <= $b) {
-                    return $this->functions[$i];
-                }
-            } elseif (!$aOpen && $bOpen) {
-                if ($x >= $a && $x < $b) {
-                    return $this->functions[$i];
-                }
-            } elseif (!$aOpen && !$bOpen) {
-                if ($x >= $a && $x <= $b) {
-                    return $this->functions[$i];
-                }
+            if ($this->openOpen($aOpen, $bOpen) && $x > $a && $x < $b) {
+                return $this->functions[$i];
+            }
+            if ($this->openClosed($aOpen, $bOpen) && $x > $a && $x <= $b) {
+                return $this->functions[$i];
+            }
+            if ($this->closedOpen($aOpen, $bOpen) && $x >= $a && $x < $b) {
+                return $this->functions[$i];
+            }
+            if ($this->closedClosed($aOpen, $bOpen) && $x >= $a && $x <= $b) {
+                return $this->functions[$i];
             }
         }
 
-        return false;
+        throw new Exception\BadDataException("The input {$x} is not in the domain of this piecewise function, thus it is undefined at that point.");
+    }
+
+    /**
+     * Open-open interval
+     *
+     * @param  bool $aOpen
+     * @param  bool $bOpen
+     *
+     * @return bool
+     */
+    private function openOpen(bool $aOpen, bool $bOpen): bool
+    {
+        return $aOpen && $bOpen;
+    }
+
+    /**
+     * Open-closed interval
+     *
+     * @param  bool $aOpen
+     * @param  bool $bOpen
+     *
+     * @return bool
+     */
+    private function openClosed(bool $aOpen, bool $bOpen): bool
+    {
+        return $aOpen && !$bOpen;
+    }
+
+    /**
+     * Closed-open interval
+     *
+     * @param  bool $aOpen
+     * @param  bool $bOpen
+     *
+     * @return bool
+     */
+    private function closedOpen(bool $aOpen, bool $bOpen): bool
+    {
+        return !$aOpen && $bOpen;
+    }
+
+    /**
+     * Closed-closed interval
+     *
+     * @param  bool $aOpen
+     * @param  bool $bOpen
+     *
+     * @return bool
+     */
+    private function closedClosed(bool $aOpen, bool $bOpen): bool
+    {
+        return !$aOpen && !$bOpen;
     }
 
     /**

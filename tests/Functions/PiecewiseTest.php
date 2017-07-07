@@ -7,6 +7,19 @@ use MathPHP\Exception;
 
 class PiecewiseTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var Piecewise|Mock */
+    private $piecewise;
+
+    /**
+     * Set up mock Piecewise
+     */
+    public function setUp()
+    {
+        $this->piecewise = $this->getMockBuilder(Piecewise::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+    }
+
     /**
      * @testCase     Piecewise __invoke evaluates the expected function to get the expected result
      * @dataProvider dataProviderForEval
@@ -448,14 +461,11 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
             new Polynomial([2])
         ];
 
-        $piecewise = $this->getMockBuilder(Piecewise::class)
-            ->disableOriginalConstructor()
-            ->getMock();
         $preconditions = new \ReflectionMethod(Piecewise::class, 'constructorPreconditions');
         $preconditions->setAccessible(true);
 
         $this->expectException(Exception\BadDataException::class);
-        $preconditions->invokeArgs($piecewise, [$intervals, $functions]);
+        $preconditions->invokeArgs($this->piecewise, [$intervals, $functions]);
     }
 
     /**
@@ -472,14 +482,11 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
             'certainly not callable',
         ];
 
-        $piecewise = $this->getMockBuilder(Piecewise::class)
-            ->disableOriginalConstructor()
-            ->getMock();
         $preconditions = new \ReflectionMethod(Piecewise::class, 'constructorPreconditions');
         $preconditions->setAccessible(true);
 
         $this->expectException(Exception\BadDataException::class);
-        $preconditions->invokeArgs($piecewise, [$intervals, $functions]);
+        $preconditions->invokeArgs($this->piecewise, [$intervals, $functions]);
     }
 
     /**
@@ -489,14 +496,11 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     {
         list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [1, 1, null, null, null, true, true];
 
-        $piecewise = $this->getMockBuilder(Piecewise::class)
-            ->disableOriginalConstructor()
-            ->getMock();
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
         $checkAsAndBs->setAccessible(true);
 
         $this->expectException(Exception\BadDataException::class);
-        $checkAsAndBs->invokeArgs($piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
+        $checkAsAndBs->invokeArgs($this->piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
     }
 
     /**
@@ -506,14 +510,11 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     {
         list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [2, 1, null, null, null, true, true];
 
-        $piecewise = $this->getMockBuilder(Piecewise::class)
-            ->disableOriginalConstructor()
-            ->getMock();
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
         $checkAsAndBs->setAccessible(true);
 
         $this->expectException(Exception\BadDataException::class);
-        $checkAsAndBs->invokeArgs($piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
+        $checkAsAndBs->invokeArgs($this->piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
     }
 
     /**
@@ -523,14 +524,11 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     {
         list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [1, 2, null, 1, false, false, true];
 
-        $piecewise = $this->getMockBuilder(Piecewise::class)
-            ->disableOriginalConstructor()
-            ->getMock();
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
         $checkAsAndBs->setAccessible(true);
 
         $this->expectException(Exception\BadDataException::class);
-        $checkAsAndBs->invokeArgs($piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
+        $checkAsAndBs->invokeArgs($this->piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
     }
 
     /**
@@ -540,13 +538,110 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
     {
         list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [3, 4, 2, 4, true, true, true];
 
-        $piecewise = $this->getMockBuilder(Piecewise::class)
-            ->disableOriginalConstructor()
-            ->getMock();
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
         $checkAsAndBs->setAccessible(true);
 
         $this->expectException(Exception\BadDataException::class);
-        $checkAsAndBs->invokeArgs($piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
+        $checkAsAndBs->invokeArgs($this->piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
+    }
+
+    /**
+     * @testCase     openOpen interval
+     * @dataProvider dataProviderForOpenOpen
+     * @param        bool $aOpen
+     * @param        bool $bOpen
+     * @param        bool $expected
+     */
+    public function testOpenOpen(bool $aOpen, bool $bOpen, bool $expected)
+    {
+        $openOpen = new \ReflectionMethod(Piecewise::class, 'openOpen');
+        $openOpen->setAccessible(true);
+
+        $this->assertSame($expected, $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]));
+    }
+
+    public function dataProviderForOpenOpen(): array
+    {
+        return [
+            [true, true, true],
+            [true, false, false],
+            [false, true, false],
+            [false, false, false],
+        ];
+    }
+
+    /**
+     * @testCase     openClosed interval
+     * @dataProvider dataProviderForOpenClosed
+     * @param        bool $aOpen
+     * @param        bool $bOpen
+     * @param        bool $expected
+     */
+    public function testOpenClosed(bool $aOpen, bool $bOpen, bool $expected)
+    {
+        $openOpen = new \ReflectionMethod(Piecewise::class, 'openClosed');
+        $openOpen->setAccessible(true);
+
+        $this->assertSame($expected, $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]));
+    }
+
+    public function dataProviderForOpenClosed(): array
+    {
+        return [
+            [true, true, false],
+            [true, false, true],
+            [false, true, false],
+            [false, false, false],
+        ];
+    }
+
+    /**
+     * @testCase     closedOpen interval
+     * @dataProvider dataProviderForClosedOpen
+     * @param        bool $aOpen
+     * @param        bool $bOpen
+     * @param        bool $expected
+     */
+    public function testClosedOpen(bool $aOpen, bool $bOpen, bool $expected)
+    {
+        $openOpen = new \ReflectionMethod(Piecewise::class, 'closedOpen');
+        $openOpen->setAccessible(true);
+
+        $this->assertSame($expected, $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]));
+    }
+
+    public function dataProviderForClosedOpen(): array
+    {
+        return [
+            [true, true, false],
+            [true, false, false],
+            [false, true, true],
+            [false, false, false],
+        ];
+    }
+
+    /**
+     * @testCase     closedClosed interval
+     * @dataProvider dataProviderForClosedClosed
+     * @param        bool $aOpen
+     * @param        bool $bOpen
+     * @param        bool $expected
+     */
+    public function testClosedClosed(bool $aOpen, bool $bOpen, bool $expected)
+    {
+        $openOpen = new \ReflectionMethod(Piecewise::class, 'closedClosed');
+        $openOpen->setAccessible(true);
+
+        $this->assertSame($expected, $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]));
+    }
+
+    public function dataProviderForClosedClosed(): array
+    {
+        return [
+            [true, true, false],
+            [true, false, false],
+            [false, true, false],
+            [false, false, true],
+        ];
     }
 }
