@@ -54,13 +54,7 @@ class Piecewise
      */
     public function __construct(array $intervals, array $functions)
     {
-        if (count($intervals) !== count($functions)) {
-            throw new Exception\BadDataException('For a piecewise function you must provide the same number of intervals as functions.');
-        }
-
-        if (count(array_filter($functions, 'is_callable')) !== count($intervals)) {
-            throw new Exception\BadDataException('Not every function provided is valid. Ensure that each function is callable.');
-        }
+        $this->constructorPreconditions($intervals, $functions);
 
         $unsortedIntervals = $intervals;
 
@@ -84,22 +78,7 @@ class Piecewise
             $b     = $interval[1];
             $aOpen = $interval[2] ?? false;
             $bOpen = $interval[3] ?? false;
-
-            if ($a === $b && ($aOpen || $bOpen)) {
-                throw new Exception\BadDataException("Your interval [{$a}, {$b}] is a point and thus needs to be closed at both ends");
-            }
-
-            if ($a > $b) {
-                throw new Exception\BadDataException("Interval must be increasing. Try again using [{$b}, {$a}] instead of [{$a}, {$b}]");
-            }
-
-            if ($a === $lastB && !$aOpen && !$lastBOpen) {
-                throw new Exception\BadDataException("The intervals [{$lastA}, {$lastB}] and [{$a}, {$b}] share a point, but both intervals are also closed at that point. For intervals to share a point, one or both sides of that point must be open.");
-            }
-
-            if ($a < $lastB) {
-                throw new Exception\BadDataException("The intervals [{$lastA}, {$lastB}] and [{$a}, {$b}] overlap. The subintervals of a piecewise functions cannot overlap.");
-            }
+            $this->checkAsAndBs($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen);
         }
 
         $this->intervals = $unsortedIntervals;
@@ -167,5 +146,64 @@ class Piecewise
         }
 
         return false;
+    }
+
+    /**
+     * Constructor preconditions - helper method
+     *  - Same number of intervals as functions
+     *  - All functions are callable
+     *
+     * @param  array  $intervals
+     * @param  array  $functions
+     *
+     * @return void
+     *
+     * @throws BadDataException if the number of intervals and functions are not the same
+     * @throws BadDataException if any function in $functions is not callable
+     */
+    private function constructorPreconditions(array $intervals, array $functions)
+    {
+        if (count($intervals) !== count($functions)) {
+            throw new Exception\BadDataException('For a piecewise function you must provide the same number of intervals as functions.');
+        }
+
+        if (count(array_filter($functions, 'is_callable')) !== count($intervals)) {
+            throw new Exception\BadDataException('Not every function provided is valid. Ensure that each function is callable.');
+        }
+    }
+
+    /**
+     * Check the as and bs in the intervals
+     * Helper method of constructor.
+     *
+     * @param  number $a         [description]
+     * @param  number $b         [description]
+     * @param  number $lastA     [description]
+     * @param  number $lastB     [description]
+     * @param  number $lastBOpen [description]
+     * @param  bool   $aOpen     [description]
+     * @param  bool   $bOpen     [description]
+     *
+     * @return void
+     *
+     * @throws BadDataException if any interval [a, b] is decreasing, or b < a
+     * @throws BadDataException if an interval is a point that is not closed
+     * @throws BadDataException if two intervals share a point that is closed at both ends
+     * @throws BadDataException if one interval starts or ends inside another interval
+     */
+    private function checkAsAndBs($a, $b, $lastA, $lastB, $lastBOpen, bool $aOpen, bool $bOpen)
+    {
+        if ($a === $b && ($aOpen || $bOpen)) {
+            throw new Exception\BadDataException("Your interval [{$a}, {$b}] is a point and thus needs to be closed at both ends");
+        }
+        if ($a > $b) {
+            throw new Exception\BadDataException("Interval must be increasing. Try again using [{$b}, {$a}] instead of [{$a}, {$b}]");
+        }
+        if ($a === $lastB && !$aOpen && !$lastBOpen) {
+            throw new Exception\BadDataException("The intervals [{$lastA}, {$lastB}] and [{$a}, {$b}] share a point, but both intervals are also closed at that point. For intervals to share a point, one or both sides of that point must be open.");
+        }
+        if ($a < $lastB) {
+            throw new Exception\BadDataException("The intervals [{$lastA}, {$lastB}] and [{$a}, {$b}] overlap. The subintervals of a piecewise functions cannot overlap.");
+        }
     }
 }

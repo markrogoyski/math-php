@@ -434,4 +434,119 @@ class PiecewiseTest extends \PHPUnit_Framework_TestCase
         $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
     }
+
+    /**
+     * @testCase preconditionExceptions throws an Exception\BadDataException if intervals and functions do not have the same number of elements
+     */
+    public function testConstructorPreconditionCountException()
+    {
+        $intervals = [
+            [1, 2],
+            [2, 3],
+        ];
+        $functions = [
+            new Polynomial([2])
+        ];
+
+        $piecewise = $this->getMockBuilder(Piecewise::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $preconditions = new \ReflectionMethod(Piecewise::class, 'constructorPreconditions');
+        $preconditions->setAccessible(true);
+
+        $this->expectException(Exception\BadDataException::class);
+        $preconditions->invokeArgs($piecewise, [$intervals, $functions]);
+    }
+
+    /**
+     * @testCase preconditionExceptions throws an Exception\BadDataException if the functions are not callable
+     */
+    public function testConstructorPreconditionCallableException()
+    {
+        $intervals = [
+            [1, 2],
+            [2, 3],
+        ];
+        $functions = [
+            'not a function',
+            'certainly not callable',
+        ];
+
+        $piecewise = $this->getMockBuilder(Piecewise::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $preconditions = new \ReflectionMethod(Piecewise::class, 'constructorPreconditions');
+        $preconditions->setAccessible(true);
+
+        $this->expectException(Exception\BadDataException::class);
+        $preconditions->invokeArgs($piecewise, [$intervals, $functions]);
+    }
+
+    /**
+     * @testCase checkAsAndBs throws an Exception\BadDataException if a point is not closed
+     */
+    public function testCheckAsAndBsExceptionPointNotClosed()
+    {
+        list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [1, 1, null, null, null, true, true];
+
+        $piecewise = $this->getMockBuilder(Piecewise::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
+        $checkAsAndBs->setAccessible(true);
+
+        $this->expectException(Exception\BadDataException::class);
+        $checkAsAndBs->invokeArgs($piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
+    }
+
+    /**
+     * @testCase checkAsAndBs throws an Exception\BadDataException if interval not increasing
+     */
+    public function testCheckAsAndBsExceptionIntervalNotIncreasing()
+    {
+        list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [2, 1, null, null, null, true, true];
+
+        $piecewise = $this->getMockBuilder(Piecewise::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
+        $checkAsAndBs->setAccessible(true);
+
+        $this->expectException(Exception\BadDataException::class);
+        $checkAsAndBs->invokeArgs($piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
+    }
+
+    /**
+     * @testCase checkAsAndBs throws an Exception\BadDataException if two intervals share a point that is closed at both ends
+     */
+    public function testCheckAsAndBsExceptionTwoIntervalsSharePointNotClosedAtBothEnds()
+    {
+        list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [1, 2, null, 1, false, false, true];
+
+        $piecewise = $this->getMockBuilder(Piecewise::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
+        $checkAsAndBs->setAccessible(true);
+
+        $this->expectException(Exception\BadDataException::class);
+        $checkAsAndBs->invokeArgs($piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
+    }
+
+    /**
+     * @testCase checkAsAndBs throws an Exception\BadDataException if one interval starts or ends inside another interval
+     */
+    public function testCheckAsAndBsExceptionOverlappingIntervals()
+    {
+        list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [3, 4, 2, 4, true, true, true];
+
+        $piecewise = $this->getMockBuilder(Piecewise::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
+        $checkAsAndBs->setAccessible(true);
+
+        $this->expectException(Exception\BadDataException::class);
+        $checkAsAndBs->invokeArgs($piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
+    }
 }
