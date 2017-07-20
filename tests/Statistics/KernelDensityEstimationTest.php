@@ -23,7 +23,7 @@ class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
     public function testDefaultKernelDensity(array $data, $x, $expected)
     {
         $KDE = new KernelDensityEstimation($data);
-        $this->assertEquals($expected, $KDE->KernelDensity($x), '', 0.0001);
+        $this->assertEquals($expected, $KDE->evaluate($x), '', 0.0001);
     }
 
     public function dataProviderForKernelDensity()
@@ -41,7 +41,7 @@ class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
     public function testDefaultKernelDensityCustomH(array $data, $h, $x, $expected)
     {
         $KDE = new KernelDensityEstimation($data, $h);
-        $this->assertEquals($expected, $KDE->KernelDensity($x), '', 0.0001);
+        $this->assertEquals($expected, $KDE->evaluate($x), '', 0.0001);
     }
 
     public function dataProviderForKernelDensityCustomH()
@@ -60,7 +60,7 @@ class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
     public function testDefaultKernelDensityCustomBoth(array $data, $h, $kernel, $x, $expected)
     {
         $KDE = new KernelDensityEstimation($data, $h, $kernel);
-        $this->assertEquals($expected, $KDE->KernelDensity($x), '', 0.0001);
+        $this->assertEquals($expected, $KDE->evaluate($x), '', 0.0001);
     }
 
     public function dataProviderForKernelDensityCustomBoth()

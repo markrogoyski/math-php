@@ -70,13 +70,15 @@ class KernelDensityEstimation
     }
 
     /**
-     * KernelDensity
+     * Evaluate
+     *
+     * Evaluate the kernel density estimation at $x
      *
      * @param float $x the value to evaluate
      *
      * @return float the kernel density estimate at $x
      */
-    public function KernelDensity($x)
+    public function evaluate($x)
     {
         // Scale data to (x - xi) / h and evaluate with the kernel function
         $scale1 = Single::subtract($this->data, $x);
