@@ -1022,6 +1022,13 @@ $P   = 0.5; // probability of success
 $pmf = Discrete\Binomial::pmf($n, $r, $P);
 $cdf = Discrete\Binomial::cdf($n, $r, $P);
 
+// Categorical distribution
+$k             = 3; // number of categories
+$probabilities = ['a' => 0.3, 'b' => 0.2, 'c' => 0.5]; // probabilities for categorices a, b, and c
+$categorical   = new Discrete\Categorical($k, $probabilities);
+$pmf_a         = $categorical->pmf('a');
+$mode          = $categorical->mode();
+
 // Geometric distribution (failures before the first success)
 $k   = 2;   // number of trials
 $p   = 0.5; // success probability
