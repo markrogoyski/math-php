@@ -7,6 +7,53 @@ use MathPHP\Exception;
 class CategoricalTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @testCase     Constructor throws a BadParameterException if k is <= 0
+     * @dataProvider dataProviderForBadK
+     * @param        int $k
+     * @param        array  $probabilities
+     */
+    public function testBadK(int $k)
+    {
+        $this->expectException(Exception\BadParameterException::class);
+        $categorical = new Categorical($k, []);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForBadK(): array
+    {
+        return [
+            [0],
+            [-1],
+            [-40],
+        ];
+    }
+
+    /**
+     * @testCase Constructor throws a BadDataException if there are no exactly k probabilities
+     * @return [type] [description]
+     */
+    public function testBadCount()
+    {
+        $k             = 3;
+        $probabilities = [0.4, 0.6];
+        $this->expectException(Exception\BadDataException::class);
+        $categorical = new Categorical($k, $probabilities);
+    }
+
+    /**
+     * @testCase Constructor throws a BadDataException if the probabilities do not add up to 1
+     */
+    public function testBadProbabilities()
+    {
+        $k             = 2;
+        $probabilities = [0.3, 0.2];
+        $this->expectException(Exception\BadDataException::class);
+        $categorical = new Categorical($k, $probabilities);
+    }
+
+    /**
      * @testCase     pmf returns the expected probability for the category x
      * @dataProvider dataProviderForPmf
      * @param        int    $k
@@ -66,50 +113,16 @@ class CategoricalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     Constructor throws a BadParameterException if k is <= 0
-     * @dataProvider dataProviderForBadK
-     * @param        int $k
-     * @param        array  $probabilities
+     * @testCase pmf throws a BadDataException if x is not a valid category
      */
-    public function testBadK(int $k)
-    {
-        $this->expectException(Exception\BadParameterException::class);
-        $categorical = new Categorical($k, []);
-    }
-
-    /**
-     * @return array
-     */
-    public function dataProviderForBadK(): array
-    {
-        return [
-            [0],
-            [-1],
-            [-40],
-        ];
-    }
-
-    /**
-     * @testCase Constructor throws a BadDataException if there are no exactly k probabilities
-     * @return [type] [description]
-     */
-    public function testBadCount()
-    {
-        $k             = 3;
-        $probabilities = [0.4, 0.6];
-        $this->expectException(Exception\BadDataException::class);
-        $categorical = new Categorical($k, $probabilities);
-    }
-
-    /**
-     * @testCase Constructor throws a BadDataException if the probabilities do not add up to 1
-     */
-    public function testBadProbabilities()
+    public function testPmfException()
     {
         $k             = 2;
-        $probabilities = [0.3, 0.2];
+        $probabilities = [0.4, 0.6];
+        $categorical   = new Categorical($k, $probabilities);
+
         $this->expectException(Exception\BadDataException::class);
-        $categorical = new Categorical($k, $probabilities);
+        $p = $categorical->pmf(99);
     }
 
     /**
