@@ -7,6 +7,9 @@ use MathPHP\Exception;
  * Categorical distribution
  *
  * https://en.wikipedia.org/wiki/Categorical_distribution
+ *
+ * @property-read int   $k             number of categories
+ * @property-read array $probabilities probabilities of each category
  */
 class Categorical extends Discrete
 {
