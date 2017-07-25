@@ -40,7 +40,8 @@ class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
      */
     public function testDefaultKernelDensityCustomH(array $data, $h, $x, $expected)
     {
-        $KDE = new KernelDensityEstimation($data, $h);
+        $KDE = new KernelDensityEstimation($data);
+        $KDE->setBandwidth($h);
         $this->assertEquals($expected, $KDE->evaluate($x), '', 0.0001);
     }
 
@@ -57,10 +58,13 @@ class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForKernelDensityCustomBoth
      */
-    public function testDefaultKernelDensityCustomBoth(array $data, $h, $kernel, $x, $expected)
+    public function testDefaultKernelDensityCustomBoth($h, $kernel, $x, $expected)
     {
-        $KDE = new KernelDensityEstimation($data, $h, $kernel);
+        $KDE = new KernelDensityEstimation($this->data, $h, $kernel);
+        $kernel2 = KernelDensityEstimation::TRICUBE;
+        $KDE2 = new KernelDensityEstimation($this->data, $h, $kernel2);
         $this->assertEquals($expected, $KDE->evaluate($x), '', 0.0001);
+        $this->assertEquals($expected, $KDE2->evaluate($x), '', 0.0001);
     }
 
     public function dataProviderForKernelDensityCustomBoth()
@@ -77,16 +81,42 @@ class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
         };
 
         return [
-            [ $this->data, $h, $kernel, 1, 0.238712304 ],
-            [ $this->data, $h, $kernel, .1, 0.420794741 ],
-            [ $this->data, $h, $kernel, -1, 0.229056709 ],
+            [ $h, $kernel, 1, 0.238712304 ],
+            [ $h, $kernel, .1, 0.420794741 ],
+            [ $h, $kernel, -1, 0.229056709 ],
         ];
     }
 
-    public function testBadH()
+    /**
+     * @dataProvider dataProviderForTestKernels
+     */
+    public function testKernels($kernel, $x, $expected)
+    {
+        $KDE = new KernelDensityEstimation($this->data, 1, $kernel);
+        $this->assertEquals($expected, $KDE->evaluate($x), '', 0.0001);
+    }
+
+    public function dataProviderForTestKernels()
+    {
+        return [
+            [KernelDensityEstimation::UNIFORM, 1, .25],
+            [KernelDensityEstimation::TRIANGULAR, 1, .235],
+            [KernelDensityEstimation::EPANECHNIKOV, 1, .2401905],
+            
+        ];
+    }
+
+    public function testBadKernel()
+    {
+        $this->expectException(Exception\BadParameterException::class);
+        $KDE = new KernelDensityEstimation($this->data, 1, 1.0);
+    }
+    
+    public function testBadSetBandwidth()
     {
         $this->expectException(Exception\OutOfBoundsException::class);
-        $KDE = new KernelDensityEstimation($this->data, -1);
+        $KDE = new KernelDensityEstimation($this->data);
+        $KDE->setBandwidth(-1);
     }
 
     public function testEmptyData()
