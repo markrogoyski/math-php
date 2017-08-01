@@ -2,8 +2,7 @@
 namespace MathPHP\Statistics;
 
 use MathPHP\Exception;
-use MathPHP\Functions\Map\Single;
-use MathPHP\Probability\Distribution\Continuous\StandardNormal;
+use MathPHP\Probability\Distribution\Continuous;
 use MathPHP\Statistics\Descriptive;
 
 /**
@@ -19,75 +18,86 @@ use MathPHP\Statistics\Descriptive;
  */
 class KernelDensityEstimation
 {
-    /**
-     * number of data points
-     * @var number
-     */
+    /** @var int number of data points */
     protected $n;
     
-    /**
-     * bandwidth
-     * @var number
-     */
+    /** @var float bandwidth */
     protected $h;
     
-    /**
-     * The kernel function
-     * @var callable
-     */
+    /** @var callable kernel function */
     protected $kernel;
 
-    const NORMAL       = 0;
-    const UNIFORM      = 1;
-    const TRIANGULAR   = 2;
-    const EPANECHNIKOV = 3;
-    const TRICUBE      = 4;
+    // Available built-in kernel functions
+    const STANDARD_NORMAL = 'StandardNormal';
+    const NORMAL          = 'Normal';
+    const UNIFORM         = 'Uniform';
+    const TRIANGULAR      = 'Triangular';
+    const EPANECHNIKOV    = 'Epanechnikov';
+    const TRICUBE         = 'Tricube';
 
     /**
-     * constructor
+     * Constructor
      *
-     * @param array $data data used for the estimation
-     * @param float $h the bandwidth
-     * @param callable or int $kernel a function used to generate the KDE
+     * @param array                $data data used for the estimation
+     * @param float|null           $h the bandwidth
+     * @param callable|string|null $kernel a function used to generate the KDE
      *
-     * @throws OutOfBoundsException if n is < 1 or h <= 0
+     * @throws BadDataException     if data set is empty
+     * @throws OutOfBoundsException h ≤ 0
      */
     public function __construct(array $data, float $h = null, $kernel = null)
     {
         $this->n = count($data);
         if ($this->n === 0) {
-            throw new Exception\OutOfBoundsException("Dataset cannot be empty.");
+            throw new Exception\BadDataException('Dataset cannot be empty.');
         }
         $this->data = $data;
 
-        if ($h === null) {
-            $h = (4 * Descriptive::StandardDeviation($data) ** 5 / 3 / $this->n) ** .2;
-        }
         $this->setBandwidth($h);
-
-        if ($kernel === null) {
-            $kernel = self::NORMAL;
-        }
         $this->setKernelFunction($kernel);
     }
-    
-    /**************************************************************************
-     * SETTERS
-     **************************************************************************/
 
     /**
      * Set Bandwidth
      *
-     * @param float $h the bandwidth
+     * @param float|null $h the bandwidth
      *
-     * @throws OutOfBoundsException if h <= 0
+     * @throws OutOfBoundsException if h ≤ 0
      */
-    public function setBandwidth(float $h)
+    public function setBandwidth(float $h = null)
     {
+        if ($h === null) {
+            $this->h = $this->getDefaultBandwidth();
+            return;
+        }
+
         if ($h <= 0) {
             throw new Exception\OutOfBoundsException("Bandwidth must be > 0. h = $h");
         }
+
         $this->h = $h;
+    }
+
+    /**
+     * Default bandwidth for when one is not provided.
+     * Uses the normal distribution approximation bandwidth estimator.
+     * https://en.wikipedia.org/wiki/Kernel_density_estimation#A_rule-of-thumb_bandwidth_estimator
+     *
+     *             ⅕
+     *      / 4σ⁵ \
+     * h = |  ---  |
+     *      \ 3n  /
+     *
+     *
+     * @return float
+     */
+    private function getDefaultBandwidth(): float
+    {
+        $４σ⁵ = 4 * Descriptive::standardDeviation($this->data)**5;
+        $３n  = 3 * $this->n;
+        $⅕    = 0.2;
+
+        return ($４σ⁵ / $３n) ** $⅕;
     }
 
     /**
@@ -96,74 +106,112 @@ class KernelDensityEstimation
      * If the parameter is a string, check that there is a function with that name
      * in the "library". If it's a callable, use that function.
      *
-     * @throws BadParameterException if $kernel is not an int or callable
+     * @param callable|string|null $kernel
+     *
+     * @throws BadParameterException if $kernel is not a string or callable
      */
-    public function setKernelFunction($kernel)
+    public function setKernelFunction($kernel = null)
     {
-        if (is_int($kernel)) {
-            switch ($kernel) {
-                case self::UNIFORM:
-                    $kernel = function ($x) {
-                        if (abs($x) > 1) {
-                            return 0;
-                        } else {
-                            return .5;
-                        }
-                    };
-                    break;
-                case self::TRIANGULAR:
-                    $kernel = function ($x) {
-                        if (abs($x) > 1) {
-                            return 0;
-                        } else {
-                            return 1 - abs($x);
-                        }
-                    };
-                    break;
-                case self::EPANECHNIKOV:
-                    $kernel = function ($x) {
-                        if (abs($x) > 1) {
-                            return 0;
-                        } else {
-                            return .75 * (1 - $x ** 2);
-                        }
-                    };
-                    break;
-                case self::TRICUBE:
-                    $kernel = function ($x) {
-                        if (abs($x) > 1) {
-                            return 0;
-                        } else {
-                            return 70 / 81 * ((1 - abs($x) ** 3) ** 3);
-                        }
-                    };
-                    break;
-                default:
-                    $kernel = ['MathPHP\Probability\Distribution\Continuous\StandardNormal', 'pdf'];
-                    break;
-            }
-            $this->kernel = $kernel;
+        if ($kernel === null) {
+            $this->kernel = $this->getKernelFunctionFromLibrary(self::STANDARD_NORMAL);
+        } elseif (is_string($kernel)) {
+            $this->kernel = $this->getKernelFunctionFromLibrary($kernel);
         } elseif (is_callable($kernel)) {
             $this->kernel = $kernel;
         } else {
-            throw new Exception\BadParameterException('Kernel must be an integer or a callable. Type is: ' . gettype($kernel));
+            throw new Exception\BadParameterException('Kernel must be a callable or a string. Type is: ' . gettype($kernel));
         }
     }
 
     /**
-     * Evaluate
+     * Select the kernel function from one of the built-in provided functions.
      *
+     * @param  string $kernel Name of built-in kernel function
+     *
+     * @return callable kernel function
+     *
+     * @throws BadDataException if the name of the kernel function is not one of the built-in functions
+     */
+    private function getKernelFunctionFromLibrary(string $kernel): callable
+    {
+        switch ($kernel) {
+            case self::STANDARD_NORMAL:
+                return [Continuous\StandardNormal::class, 'pdf'];
+
+            case self::NORMAL:
+                $μ = 0;
+                $σ = Descriptive::standardDeviation($this->data);
+                return function ($x) use ($μ, $σ) {
+                    return Continuous\Normal::pdf($x, $μ, $σ);
+                };
+
+            case self::UNIFORM:
+                return function ($x) {
+                    if (abs($x) > 1) {
+                        return 0;
+                    } else {
+                        return .5;
+                    }
+                };
+
+            case self::TRIANGULAR:
+                return function ($x) {
+                    if (abs($x) > 1) {
+                        return 0;
+                    } else {
+                        return 1 - abs($x);
+                    }
+                };
+
+            case self::EPANECHNIKOV:
+                return function ($x) {
+                    if (abs($x) > 1) {
+                        return 0;
+                    } else {
+                        return .75 * (1 - $x ** 2);
+                    }
+                };
+
+            case self::TRICUBE:
+                return function ($x) {
+                    if (abs($x) > 1) {
+                        return 0;
+                    } else {
+                        return 70 / 81 * ((1 - abs($x) ** 3) ** 3);
+                    }
+                };
+
+            default:
+                throw new Exception\BadDataException("Unknown kernel function: $kernel");
+        }
+    }
+
+    /**
      * Evaluate the kernel density estimation at $x
      *
+     *                       ____
+     *            1          \         / (x - xᵢ) \
+     * KDE(x) = -----   *     >     K |  -------   |
+     *          n * h        /         \    h     /
+     *                       ‾‾‾‾
      * @param float $x the value to evaluate
      *
      * @return float the kernel density estimate at $x
      */
-    public function evaluate($x)
+    public function evaluate(float $x): float
     {
-        // Scale data to (x - xi) / h and evaluate with the kernel function
-        $scale1 = Single::subtract($this->data, $x);
-        $scale2 = Single::divide($scale1, -1 * $this->h);
-        return 1 / $this->n / $this->h * array_sum(array_map($this->kernel, $scale2));
+        $h = $this->h;
+        $n = $this->n;
+
+        $scale = array_map(
+            function ($xᵢ) use ($x, $h) {
+                return ($x - $xᵢ) / $h;
+            },
+            $this->data
+        );
+        $K       = array_map($this->kernel, $scale);
+        $density = array_sum($K) / ($n * $h);
+
+        return $density;
     }
 }

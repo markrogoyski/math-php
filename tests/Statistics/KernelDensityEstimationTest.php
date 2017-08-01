@@ -3,10 +3,11 @@ namespace MathPHP\Tests\Statistics;
 
 use MathPHP\Exception;
 use MathPHP\Statistics\KernelDensityEstimation;
+use MathPHP\Statistics\Descriptive;
 
 class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
 {
-    // 100 Random normally distributed data points
+    /** @var array 100 Random normally distributed data points */
     private $data = [
             -2.76, -2.59, -2.57, -2.4, -1.9, -1.77, -1.33, -1.27, -1.26, -1.19, -1.13, -1.1, -1.09, -1.05, -1.03,
             -0.9, -0.87, -0.87, -0.85, -0.83, -0.78, -0.71, -0.62, -0.61, -0.6, -0.57, -0.55, -0.51, -0.5, -0.5,
@@ -18,15 +19,19 @@ class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
         ];
 
     /**
+     * @testCase     evaluate using default standard normal kernel function
      * @dataProvider dataProviderForKernelDensity
+     * @param        array $data
+     * @param        float $x
+     * @param        float $expected
      */
-    public function testDefaultKernelDensity(array $data, $x, $expected)
+    public function testDefaultKernelDensity(array $data, float $x, float $expected)
     {
         $KDE = new KernelDensityEstimation($data);
         $this->assertEquals($expected, $KDE->evaluate($x), '', 0.0001);
     }
 
-    public function dataProviderForKernelDensity()
+    public function dataProviderForKernelDensity(): array
     {
         return [
             [ $this->data, 1, 0.236055582 ],
@@ -36,16 +41,21 @@ class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     evaluate when setting custom h using default kernel function
      * @dataProvider dataProviderForKernelDensityCustomH
+     * @param        array $data
+     * @param        float $h
+     * @param        float $x
+     * @param        float $expected
      */
-    public function testDefaultKernelDensityCustomH(array $data, $h, $x, $expected)
+    public function testDefaultKernelDensityCustomH(array $data, float $h, float $x, float $expected)
     {
         $KDE = new KernelDensityEstimation($data);
         $KDE->setBandwidth($h);
         $this->assertEquals($expected, $KDE->evaluate($x), '', 0.0001);
     }
 
-    public function dataProviderForKernelDensityCustomH()
+    public function dataProviderForKernelDensityCustomH(): array
     {
         $h = count($this->data)**(-1/6);
         return [
@@ -56,18 +66,23 @@ class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * @testCase     Custom kernel function and custom h
      * @dataProvider dataProviderForKernelDensityCustomBoth
+     * @param        float $h
+     * @param        callable $kernel
+     * @param        float $x
+     * @param        float $expected
      */
-    public function testDefaultKernelDensityCustomBoth($h, $kernel, $x, $expected)
+    public function testDefaultKernelDensityCustomBoth(float $h, callable $kernel, float $x, float $expected)
     {
-        $KDE = new KernelDensityEstimation($this->data, $h, $kernel);
+        $KDE     = new KernelDensityEstimation($this->data, $h, $kernel);
         $kernel2 = KernelDensityEstimation::TRICUBE;
-        $KDE2 = new KernelDensityEstimation($this->data, $h, $kernel2);
+        $KDE2    = new KernelDensityEstimation($this->data, $h, $kernel2);
         $this->assertEquals($expected, $KDE->evaluate($x), '', 0.0001);
         $this->assertEquals($expected, $KDE2->evaluate($x), '', 0.0001);
     }
 
-    public function dataProviderForKernelDensityCustomBoth()
+    public function dataProviderForKernelDensityCustomBoth(): array
     {
         $h = 1;
 
@@ -88,15 +103,19 @@ class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     evaluate using optional kernel functions
      * @dataProvider dataProviderForTestKernels
+     * @param        string $kernel
+     * @param        float $x
+     * @param        float $expected
      */
-    public function testKernels($kernel, $x, $expected)
+    public function testKernels(string $kernel, float $x, float $expected)
     {
         $KDE = new KernelDensityEstimation($this->data, 1, $kernel);
         $this->assertEquals($expected, $KDE->evaluate($x), '', 0.0001);
     }
 
-    public function dataProviderForTestKernels()
+    public function dataProviderForTestKernels(): array
     {
         return [
             [KernelDensityEstimation::UNIFORM, 1, .25],
@@ -106,12 +125,58 @@ class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @testCase Kernel function NORMAL
+     * Test data made with scipy.stats.gaussian_kde
+     */
+    public function testNormal()
+    {
+        $KDE = new KernelDensityEstimation($this->data);
+        $h   = 0.3932;
+        $KDE->setBandwidth($h);
+        $KDE->setKernelFunction(KernelDensityEstimation::NORMAL);
+
+        $x = -3.939;
+        $this->assertEquals(8.60829883e-05, $KDE->evaluate($x), "Evaluate x = $x", 0.00001);
+
+        $x = -2.222;
+        $this->assertEquals(0.04138222, $KDE->evaluate($x), "Evaluate x = $x", 0.00001);
+
+        $x = -0.505;
+        $this->assertEquals(0.36562621, $KDE->evaluate($x), "Evaluate x = $x", 0.00001);
+
+        $x = 0;
+        $this->assertEquals(0.43200043, $KDE->evaluate($x), "Evaluate x = $x", 0.00001);
+
+        $x = 1.212;
+        $this->assertEquals(0.19113825, $KDE->evaluate($x), "Evaluate x = $x", 0.00001);
+
+        $x = 2.929;
+        $this->assertEquals(9.09492454e-05, $KDE->evaluate($x), "Evaluate x = $x", 0.00001);
+    }
+
+    /**
+     * @testCase Invalid kernel throws an Exception
+     */
     public function testBadKernel()
     {
         $this->expectException(Exception\BadParameterException::class);
         $KDE = new KernelDensityEstimation($this->data, 1, 1.0);
     }
-    
+
+    /**
+     * @testCase Unknown built-in kernel throws an Exception
+     */
+    public function testUnknownBuildInKernel()
+    {
+        $this->expectException(Exception\BadDataException::class);
+        $KDE = new KernelDensityEstimation($this->data);
+        $KDE->setKernelFunction('DoesNotExist');
+    }
+
+    /**
+     * @testCase Invalid bandwidth throws an Exception
+     */
     public function testBadSetBandwidth()
     {
         $this->expectException(Exception\OutOfBoundsException::class);
@@ -119,9 +184,12 @@ class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
         $KDE->setBandwidth(-1);
     }
 
+    /**
+     * @testCase Empty data throws an Exception
+     */
     public function testEmptyData()
     {
-        $this->expectException(Exception\OutOfBoundsException::class);
+        $this->expectException(Exception\BadDataException::class);
         $KDE = new KernelDensityEstimation([]);
     }
 }
