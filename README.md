@@ -54,6 +54,7 @@ Features
      - [Distributions](#statistics---distributions)
      - [Effect Size](#statistics---effect-size)
      - [Experiments](#statistics---experiments)
+     - [Kernel Density Estimation](#statistics---kernel-density-estimation)
      - [Random Variables](#statistics---random-variables)
      - [Regressions](#statistics---regressions)
      - [Significance Testing](#statistics---significance-testing)
@@ -1740,7 +1741,43 @@ $LL = Experiment::likelihoodRatio($a, $b, $c, $d);
 $sensitivity = 0.67;
 $specificity = 0.91;
 $LL          = Experiment::likelihoodRatioSS($sensitivity, $specificity);
+```
 
+### Statistics - Kernel Density Estimation
+```php
+use MathPHP\Statistics\KernelDensityEstimation
+
+$data = [-2.76, -1.09, -0.5, -0.15, 0.22, 0.69, 1.34, 1.75];
+$x    = 0.5;
+
+// Density estimator with default bandwidth (normal distribution approximation) and kernel function (standard normal)
+$kde     = new KernelDensityEstimation($data);
+$density = $kde->estimate($x)
+
+// Custom bandwidth
+$h = 0.1;
+$kde->setBandwidth($h);
+
+// Library of built-in kernel functions
+$kde->setKernelFunction(KernelDensityEstimation::STANDARD_NORMAL);
+$kde->setKernelFunction(KernelDensityEstimation::NORMAL);
+$kde->setKernelFunction(KernelDensityEstimation::UNIFORM);
+$kde->setKernelFunction(KernelDensityEstimation::TRIANGULAR);
+$kde->setKernelFunction(KernelDensityEstimation::EPANECHNIKOV);
+$kde->setKernelFunction(KernelDensityEstimation::TRICUBE);
+
+// Set custom kernel function (user-provided callable)
+$kernel = function ($x) {
+  if (abs($x)>1) {
+      return 0;
+  } else {
+      return 70 / 81 * ((1 - abs($x) ** 3) ** 3);
+  }
+};
+$kde->setKernelFunction($kernel);
+
+// All customization optionally can be done in the constructor
+$kde = new KernelDesnsityEstimation($data, $h, $kernel);
 ```
 
 ### Statistics - Random Variables
