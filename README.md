@@ -1752,7 +1752,7 @@ $x    = 0.5;
 
 // Density estimator with default bandwidth (normal distribution approximation) and kernel function (standard normal)
 $kde     = new KernelDensityEstimation($data);
-$density = $kde->estimate($x)
+$density = $kde->evaluate($x)
 
 // Custom bandwidth
 $h = 0.1;
@@ -1768,7 +1768,7 @@ $kde->setKernelFunction(KernelDensityEstimation::TRICUBE);
 
 // Set custom kernel function (user-provided callable)
 $kernel = function ($x) {
-  if (abs($x)>1) {
+  if (abs($x) > 1) {
       return 0;
   } else {
       return 70 / 81 * ((1 - abs($x) ** 3) ** 3);
