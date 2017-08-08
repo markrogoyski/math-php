@@ -1967,7 +1967,7 @@ $t  = Significance::tTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂)
 ] */
 
 // T score
-$Hₐ = 280; //Alternate hypothesis (M Sample mean)
+$Hₐ = 280; // Alternate hypothesis (M Sample mean)
 $s  = 50;  // SD of sample
 $n  = 15;  // Sample size
 $H₀ = 300; // Null hypothesis (μ₀ Population mean)
