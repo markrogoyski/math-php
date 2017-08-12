@@ -1094,7 +1094,7 @@ $∑ = MatrixFactory::create([
     [1, 0],
     [0, 1],
 ]);
-$pdf = Normal::pdf($X, $μ, $∑);
+$pdf = Multivariate\Normal::pdf($X, $μ, $∑);
 ```
 
 ### Probability - Distribution Tables
