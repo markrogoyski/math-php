@@ -1,7 +1,6 @@
 <?php
 namespace MathPHP\Probability\Distribution\Multivariate;
 
-use MathPHP\Probability\Distribution\Continuous\Continuous;
 use MathPHP\Functions\Map;
 use MathPHP\Functions\Special;
 use MathPHP\Functions\Support;
@@ -11,7 +10,7 @@ use MathPHP\Exception;
  * Dirichlet distribution
  * https://en.wikipedia.org/wiki/Dirichlet_distribution
  */
-class Dirichlet extends Continuous
+class Dirichlet
 {
     /**
      * Distribution parameter bounds limits

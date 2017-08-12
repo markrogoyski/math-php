@@ -1,0 +1,86 @@
+<?php
+namespace MathPHP\Probability\Distribution\Multivariate;
+
+use MathPHP\Exception;
+use MathPHP\Functions\Map;
+use MathPHP\LinearAlgebra\Vector;
+use MathPHP\LinearAlgebra\RowVector;
+use MathPHP\LinearAlgebra\Matrix;
+
+/**
+ * Normal distribution
+ * https://en.wikipedia.org/wiki/Multivariate_normal_distribution
+ */
+class Normal
+{
+    /**
+     * Probability density function
+     *
+     *                 exp(−½(x − μ)ᵀ∑⁻¹(x − μ))
+     * fx(x₁,...,xk) = -------------------------
+     *                        √(2π)ᵏ│∑│
+     *
+     * x is a real k-dimensional column vector
+     * μ is a real k-dimensinoal column vector of means
+     * │∑│ ≡ det(∑)
+     *
+     * @param array  $X ∈ Rᵏ   k-dimensional random vector
+     * @param array  $μ ∈ Rᵏ   location
+     * @param Matrix $∑ ∈ Rᵏˣᵏ covariance matrix
+     *
+     * @return float density
+     *
+     * @throws Exception\BadDataException if data preconditions are not satisfied
+     */
+    public static function pdf(array $X, array $μ, Matrix $∑): float
+    {
+        $k = count($X);
+        self::dataPreconditions($X, $μ, $∑, $k);
+
+        $π = \M_PI;
+        $│∑│      = $∑->det();
+        $√⟮2π⟯ᵏ│∑│ = sqrt((2 * $π)**$k * $│∑│);
+
+        $Δ       = Map\Multi::subtract($X, $μ);
+        $⟮x − μ⟯  = new Vector($Δ);
+        $⟮x − μ⟯ᵀ = new RowVector($Δ);
+        $∑⁻¹     = $∑->inverse();
+
+        $exp⟮−½⟮x − μ⟯ᵀ∑⁻¹⟮x − μ⟯⟯ = exp(
+            $⟮x − μ⟯ᵀ->scalarDivide(-2)
+                ->multiply($∑⁻¹)
+                ->multiply($⟮x − μ⟯)
+                ->get(0, 0)
+        );
+
+        return $exp⟮−½⟮x − μ⟯ᵀ∑⁻¹⟮x − μ⟯⟯ / $√⟮2π⟯ᵏ│∑│;
+    }
+
+    /**
+     * Data preconditions for PDF
+     *
+     * @param array  $X
+     * @param array  $μ
+     * @param Matrix $∑
+     * @param int    $k
+     *
+     * @throws Exception\BadDataException if X and μ do not have the same number of elements
+     * @throws Exception\BadDataException if the covariance matrix does not have the same number of rows and columns as number of elements in X and μ
+     * @throws Exception\BadDataException if the covariance matrix is not positive definite
+     */
+    private static function dataPreconditions(array $X, array $μ, Matrix $∑, int $k)
+    {
+        if (count($μ) !== $k) {
+            throw new Exception\BadDataException("X and μ must have the same number of elements. X has $k and μ has " . count($μ));
+        }
+        if ($∑->getM() !== $k || $∑->getN() !== $k) {
+            throw new Exception\BadDataException(
+                'Covariance matrix ∑ must have the the same number of rows and columns as there are X elements. ' .
+                "X has $k elements. Covariance matrix ∑ has " . $∑->getM() . ' rows and ' . $∑->getN() . ' columns.'
+            );
+        }
+        if (!$∑->isPositiveDefinite()) {
+            throw new Exception\BadDataException("Covariance matrix ∑ is not positive definite:\n$∑");
+        }
+    }
+}
