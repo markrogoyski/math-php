@@ -1086,6 +1086,15 @@ use MathPHP\Probability\Distribution\Multivariate;
 $xs  = [0.07255081, 0.27811903, 0.64933016];
 $αs  = [1, 2, 3];
 $pdf = Multivariate\Dirichlet::pdf($xs, $αs);
+
+// Normal distribution
+$X = [0.7, 1.4];
+$μ = [1, 1.1];
+$∑ = MatrixFactory::create([
+    [1, 0],
+    [0, 1],
+]);
+$pdf = Normal::pdf($X, $μ, $∑);
 ```
 
 ### Probability - Distribution Tables
