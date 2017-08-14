@@ -442,10 +442,14 @@ $bool = $A->isLowerTriangular();
 $bool = $A->isUpperTriangular();
 $bool = $A->isTriangular();
 $bool = $A->isDiagonal();
-$bool = $A->isRef();
-$bool = $A->isRref();
+$bool = $A->isUpperBidiagonal();
+$bool = $A->isLowerBidiagonal();
+$bool = $A->isBidiagonal();
+$bool = $A->isTridiagonal();
 $bool = $A->isInvolutory();
 $bool = $A->isSignature();
+$bool = $A->isRef();
+$bool = $A->isRref();
 
 // Matrix decompositions
 $ref  = $A->ref();                   // Row echelon form
