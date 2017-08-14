@@ -570,6 +570,7 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($A->isBidiagonal());
     }
+
     /**
      * @testCase     isBidiagonal returns false for a non bidiagonal matrix
      * @dataProvider dataProviderForNotBidiagonalMatrix
@@ -580,5 +581,29 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
         $A = MatrixFactory::create($A);
 
         $this->assertFalse($A->isBidiagonal());
+    }
+
+    /**
+     * @testCase     isTridiagonal returns true for a tridiagonal matrix
+     * @dataProvider dataProviderForTridiagonalMatrix
+     * @param        array $A
+     */
+    public function testIsTridiagonal(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isTridiagonal());
+    }
+
+    /**
+     * @testCase     isTridiagonal returns false for a non tridiagonal matrix
+     * @dataProvider dataProviderForNotTridiagonalMatrix
+     * @param        array $A
+     */
+    public function testIsNotTridiagonal(array $A)
+    {
+        $A = MatrixFactory::create($A);
+return;
+        $this->assertFalse($A->isTridiagonal());
     }
 }

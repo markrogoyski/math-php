@@ -233,6 +233,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isUpperBidiagonal
      *  - isLowerBidiagonal
      *  - isBidiagonal
+     *  - isTridiagonal
      **************************************************************************/
 
     /**
@@ -689,9 +690,19 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             return false;
         }
 
+        // Diagonal above main diagonal is non-zero
         for ($i = 0; $i < $m - 1; $i++) {
             if ($this->A[$i][$i+1] == 0) {
                 return false;
+            }
+        }
+
+        // Elements above upper diagonal are non-zero
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = $i+2; $j < $n; $j++) {
+                if ($this->A[$i][$j] != 0) {
+                    return false;
+                }
             }
         }
 
@@ -722,9 +733,19 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             return false;
         }
 
+        // Diagonal below main diagonal is non-zero
         for ($i = 1; $i < $m; $i++) {
             if ($this->A[$i][$i-1] == 0) {
                 return false;
+            }
+        }
+
+        // Elements below lower diagonal are non-zero
+        for ($i = 2; $i < $m; $i++) {
+            for ($j = 0; $j < $i-1; $j++) {
+                if ($this->A[$i][$j] != 0) {
+                    return false;
+                }
             }
         }
 
@@ -745,6 +766,69 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function isBidiagonal(): bool
     {
         return ($this->isUpperBidiagonal() || $this->isLowerBidiagonal());
+    }
+
+    /**
+     * Is the matrix tridiagonal?
+     *  - It is a square matrix
+     *  - Non-zero entries along the main diagonal
+     *  - Non-zero entries along the diagonal above the main diagonal
+     *  - Non-zero entries along the diagonal below the main diagonal
+     *  - All the other entries are zero
+     *
+     * https://en.wikipedia.org/wiki/Tridiagonal_matrix
+     *
+     * @return boolean true if tridiagonal; false otherwise
+     */
+    public function isTridiagonal(): bool
+    {
+        if (!$this->isSquare()) {
+            return false;
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+
+        // Diagonal is non-zero
+        for ($i = 0; $i < $m; $i++) {
+            if ($this->A[$i][$i] == 0) {
+                return false;
+            }
+        }
+
+        // Upper diagonal is non-zero
+        for ($i = 0; $i < $m - 1; $i++) {
+            if ($this->A[$i][$i+1] == 0) {
+                return false;
+            }
+        }
+
+        // Lower diagonal is non-zero    
+        for ($i = 1; $i < $m; $i++) {
+            if ($this->A[$i][$i-1] == 0) {
+                return false;
+            }
+        }
+
+        // Elements above upper diagonal are non-zero
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = $i+2; $j < $n; $j++) {
+                if ($this->A[$i][$j] != 0) {
+                    return false;
+                }
+            }
+        }
+
+        // Elements below lower diagonal are non-zero
+        for ($i = 2; $i < $m; $i++) {
+            for ($j = 0; $j < $i-1; $j++) {
+                if ($this->A[$i][$j] != 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
