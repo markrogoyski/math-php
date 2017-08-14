@@ -603,7 +603,7 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
     public function testIsNotTridiagonal(array $A)
     {
         $A = MatrixFactory::create($A);
-return;
+
         $this->assertFalse($A->isTridiagonal());
     }
 }

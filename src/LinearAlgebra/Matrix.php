@@ -803,7 +803,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        // Lower diagonal is non-zero    
+        // Lower diagonal is non-zero
         for ($i = 1; $i < $m; $i++) {
             if ($this->A[$i][$i-1] == 0) {
                 return false;
