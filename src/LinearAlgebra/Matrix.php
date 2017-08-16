@@ -80,6 +80,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - getColumn
      *  - get
      *  - getDiagonalElements
+     *  - getSuperdiagonalElements
+     *  - getSubdiagonalElements
      *  - asVectors
      **************************************************************************/
 
@@ -184,6 +186,52 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
         return $diagonal;
+    }
+
+    /**
+     * Returns the elements on the superdiagonal of a square matrix as an array
+     *     [1 2 3]
+     * A = [4 5 6]
+     *     [7 8 9]
+     *
+     * getSuperdiagonalElements($A) = [2, 6]
+     *
+     * http://mathworld.wolfram.com/Superdiagonal.html
+     *
+     * @return array
+     */
+    public function getSuperdiagonalElements(): array
+    {
+        $superdiagonal = [];
+        if ($this->isSquare()) {
+            for ($i = 0; $i < $this->m - 1; $i++) {
+                $superdiagonal[] = $this->A[$i][$i+1];
+            }
+        }
+        return $superdiagonal;
+    }
+
+    /**
+     * Returns the elements on the subdiagonal of a square matrix as an array
+     *     [1 2 3]
+     * A = [4 5 6]
+     *     [7 8 9]
+     *
+     * getSubdiagonalElements($A) = [4, 8]
+     *
+     * http://mathworld.wolfram.com/Subdiagonal.html
+     *
+     * @return array
+     */
+    public function getSubdiagonalElements(): array
+    {
+        $subdiagonal = [];
+        if ($this->isSquare()) {
+            for ($i = 1; $i < $this->m; $i++) {
+                $subdiagonal[] = $this->A[$i][$i-1];
+            }
+        }
+        return $subdiagonal;
     }
 
     /**
