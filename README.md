@@ -371,8 +371,10 @@ $Aᵢⱼ = $A->get(2, 2);
 $Aᵢⱼ = $A[2][2];
 
 // Other representations of matrix data
-$vectors = $A->asVectors();           // array of column vectors
-$D       = $A->getDiagonalElements(); // array of the diagonal elements
+$vectors = $A->asVectors();                // array of column vectors
+$D       = $A->getDiagonalElements();      // array of the diagonal elements
+$d       = $A->getSuperdiagonalElements(); // array of the superdiagonal elements
+$d       = $A->getSubdiagonalElements();   // array of the subdiagonal elements
 
 // Row operations
 list($mᵢ, $mⱼ, $k) = [1, 2, 5];
