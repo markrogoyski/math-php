@@ -669,8 +669,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Is the matrix upper bidiagonal?
      *  - It is a square matrix
-     *  - Non-zero entries along the main diagonal
-     *  - Non-zero entries along the diagonal above the main diagonal
+     *  - Non-zero entries allowed along the main diagonal
+     *  - Non-zero entries allowed along the diagonal above the main diagonal
      *  - All the other entries are zero
      *
      * https://en.wikipedia.org/wiki/Bidiagonal_matrix
@@ -686,18 +686,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $m = $this->m;
         $n = $this->n;
 
-        if ($m === 1 && $this->A[0][0] == 0) {
-            return false;
-        }
-
-        // Diagonal above main diagonal is non-zero
-        for ($i = 0; $i < $m - 1; $i++) {
-            if ($this->A[$i][$i+1] == 0) {
-                return false;
-            }
-        }
-
-        // Elements above upper diagonal are non-zero
+        // Elements above upper diagonal are zero
         for ($i = 0; $i < $m; $i++) {
             for ($j = $i+2; $j < $n; $j++) {
                 if ($this->A[$i][$j] != 0) {
@@ -712,8 +701,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Is the matrix lower bidiagonal?
      *  - It is a square matrix
-     *  - Non-zero entries along the main diagonal
-     *  - Non-zero entries along the diagonal below the main diagonal
+     *  - Non-zero entries allowed along the main diagonal
+     *  - Non-zero entries allowed along the diagonal below the main diagonal
      *  - All the other entries are zero
      *
      * https://en.wikipedia.org/wiki/Bidiagonal_matrix
@@ -728,17 +717,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         $m = $this->m;
         $n = $this->n;
-
-        if ($m === 1 && $this->A[0][0] == 0) {
-            return false;
-        }
-
-        // Diagonal below main diagonal is non-zero
-        for ($i = 1; $i < $m; $i++) {
-            if ($this->A[$i][$i-1] == 0) {
-                return false;
-            }
-        }
 
         // Elements below lower diagonal are non-zero
         for ($i = 2; $i < $m; $i++) {
@@ -771,9 +749,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Is the matrix tridiagonal?
      *  - It is a square matrix
-     *  - Non-zero entries along the main diagonal
-     *  - Non-zero entries along the diagonal above the main diagonal
-     *  - Non-zero entries along the diagonal below the main diagonal
+     *  - Non-zero entries allowed along the main diagonal
+     *  - Non-zero entries allowed along the diagonal above the main diagonal
+     *  - Non-zero entries allowed along the diagonal below the main diagonal
      *  - All the other entries are zero
      *
      * https://en.wikipedia.org/wiki/Tridiagonal_matrix
@@ -789,28 +767,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $m = $this->m;
         $n = $this->n;
 
-        // Diagonal is non-zero
-        for ($i = 0; $i < $m; $i++) {
-            if ($this->A[$i][$i] == 0) {
-                return false;
-            }
-        }
-
-        // Upper diagonal is non-zero
-        for ($i = 0; $i < $m - 1; $i++) {
-            if ($this->A[$i][$i+1] == 0) {
-                return false;
-            }
-        }
-
-        // Lower diagonal is non-zero
-        for ($i = 1; $i < $m; $i++) {
-            if ($this->A[$i][$i-1] == 0) {
-                return false;
-            }
-        }
-
-        // Elements above upper diagonal are non-zero
+        // Elements above upper diagonal are zero
         for ($i = 0; $i < $m; $i++) {
             for ($j = $i+2; $j < $n; $j++) {
                 if ($this->A[$i][$j] != 0) {
@@ -819,7 +776,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        // Elements below lower diagonal are non-zero
+        // Elements below lower diagonal are zero
         for ($i = 2; $i < $m; $i++) {
             for ($j = 0; $j < $i-1; $j++) {
                 if ($this->A[$i][$j] != 0) {
