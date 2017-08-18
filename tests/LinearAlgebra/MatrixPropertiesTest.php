@@ -606,4 +606,52 @@ class MatrixPropertiesTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($A->isTridiagonal());
     }
+
+    /**
+     * @testCase     isUpperHessenberg returns true for an upper Hessenberg matrix
+     * @dataProvider dataProviderForUpperHessenbergMatrix
+     * @param        array $A
+     */
+    public function testIsUpperHessenberg(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isUpperHessenberg());
+    }
+
+    /**
+     * @testCase     isUpperHessenberg returns false for a non upper Hessenberg matrix
+     * @dataProvider dataProviderForNotUpperHessenbergMatrix
+     * @param        array $A
+     */
+    public function testIsNotUpperHessenberg(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isUpperHessenberg());
+    }
+
+    /**
+     * @testCase     isLowerHessenberg returns true for an lower Hessenberg matrix
+     * @dataProvider dataProviderForLowerHessenbergMatrix
+     * @param        array $A
+     */
+    public function testIsLowerHessenberg(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isLowerHessenberg());
+    }
+
+    /**
+     * @testCase     isLowerHessenberg returns false for a non lower Hessenberg matrix
+     * @dataProvider dataProviderForNotLowerHessenbergMatrix
+     * @param        array $A
+     */
+    public function testIsNotLowerHessenberg(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isLowerHessenberg());
+    }
 }

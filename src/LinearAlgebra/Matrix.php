@@ -837,6 +837,66 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Is the matrix upper bidiagonal?
+     *  - It is a square matrix
+     *  - Has zero entries below the first subdiagonal
+     *
+     * https://en.wikipedia.org/wiki/Hessenberg_matrix
+     *
+     * @return boolean true if upper Hessenberg; false otherwise
+     */
+    public function isUpperHessenberg(): bool
+    {
+        if (!$this->isSquare()) {
+            return false;
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+
+        // Elements below lower diagonal are zero
+        for ($i = 2; $i < $m; $i++) {
+            for ($j = 0; $j < $i-1; $j++) {
+                if ($this->A[$i][$j] != 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Is the matrix lower bidiagonal?
+     *  - It is a square matrix
+     *  - Has zero entries above the first subdiagonal
+     *
+     * https://en.wikipedia.org/wiki/Hessenberg_matrix
+     *
+     * @return boolean true if lower Hessenberg; false otherwise
+     */
+    public function isLowerHessenberg(): bool
+    {
+        if (!$this->isSquare()) {
+            return false;
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+
+        // Elements above upper diagonal are zero
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = $i+2; $j < $n; $j++) {
+                if ($this->A[$i][$j] != 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Is the matrix square and symmetric
      *
      * @return boolean true if square and symmmetric; false otherwise
