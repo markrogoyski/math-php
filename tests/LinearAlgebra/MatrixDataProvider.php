@@ -5748,6 +5748,21 @@ trait MatrixDataProvider
         return [
             [
                 [
+                    [1, 0, 0, 0],
+                    [1, 1, 0, 0],
+                    [1, 1, 1, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0],
+                    [1, 1, 0],
+                    [1, 1, 1],
+                    [0, 0, 0],
+                ],
+            ],
+            [
+                [
                     [1, 0, 0],
                     [1, 1, 0],
                     [1, 1, 1],
@@ -6059,6 +6074,21 @@ trait MatrixDataProvider
     public function dataProviderForNotLowerHessenbergMatrix(): array
     {
         return [
+            [
+                [
+                    [1, 1, 1, 0],
+                    [0, 1, 1, 0],
+                    [0, 0, 1, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 1, 1],
+                    [0, 1, 1],
+                    [0, 0, 1],
+                    [0, 0, 0],
+                ],
+            ],
             [
                 [
                     [1, 1, 1],
