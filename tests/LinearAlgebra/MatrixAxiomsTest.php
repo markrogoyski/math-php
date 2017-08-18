@@ -137,9 +137,10 @@ use MathPHP\NumberTheory\Integer;
  *    - Zero matrix has rank of 0
  *    - If A is square matrix, then it is invertible only if rank = n (full rank)
  *    - rank(AᵀA) = rank(AAᵀ) = rank(A) = rank(Aᵀ)
- *  - Bidiagonal - Hessenberg
+ *  - Bi/tridiagonal - Hessenberg
  *    - Lower bidiagonal matrix is upper Hessenberg
  *    - Upper bidiagonal matrix is lower Hessenberg
+ *    - A matrix that is both upper Hessenberg and lower Hessenberg is a tridiagonal matrix
  */
 class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
 {
@@ -2443,6 +2444,20 @@ class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
         $A = MatrixFactory::create($A);
 
         $this->assertTrue($A->isUpperBidiagonal());
+        $this->assertTrue($A->isLowerHessenberg());
+    }
+
+    /**
+     * @testCase     Axiom: A matrix that is both upper Hessenberg and lower Hessenberg is a tridiagonal matrix
+     * @dataProvider dataProviderForTridiagonalMatrix
+     * @param        array $A
+     */
+    public function testTridiagonalMatrixIsUpperAndLowerHessenberg(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isTridiagonal());
+        $this->assertTrue($A->isUpperHessenberg());
         $this->assertTrue($A->isLowerHessenberg());
     }
 }

@@ -763,11 +763,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             return false;
         }
 
-        $m = $this->m;
-        $n = $this->n;
-
         // Elements below lower diagonal are non-zero
-        for ($i = 2; $i < $m; $i++) {
+        for ($i = 2; $i < $this->m; $i++) {
             for ($j = 0; $j < $i-1; $j++) {
                 if ($this->A[$i][$j] != 0) {
                     return false;
@@ -802,6 +799,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - Non-zero entries allowed along the diagonal below the main diagonal
      *  - All the other entries are zero
      *
+     *  - Is both upper and lower Hessenberg
+     *
      * https://en.wikipedia.org/wiki/Tridiagonal_matrix
      *
      * @return boolean true if tridiagonal; false otherwise
@@ -812,32 +811,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             return false;
         }
 
-        $m = $this->m;
-        $n = $this->n;
-
-        // Elements above upper diagonal are zero
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = $i+2; $j < $n; $j++) {
-                if ($this->A[$i][$j] != 0) {
-                    return false;
-                }
-            }
-        }
-
-        // Elements below lower diagonal are zero
-        for ($i = 2; $i < $m; $i++) {
-            for ($j = 0; $j < $i-1; $j++) {
-                if ($this->A[$i][$j] != 0) {
-                    return false;
-                }
-            }
+        if (!$this->isUpperHessenberg() || !$this->isLowerHessenberg()) {
+            return false;
         }
 
         return true;
     }
 
     /**
-     * Is the matrix upper bidiagonal?
+     * Is the matrix upper Hessenberg?
      *  - It is a square matrix
      *  - Has zero entries below the first subdiagonal
      *
@@ -851,11 +833,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             return false;
         }
 
-        $m = $this->m;
-        $n = $this->n;
-
         // Elements below lower diagonal are zero
-        for ($i = 2; $i < $m; $i++) {
+        for ($i = 2; $i < $this->m; $i++) {
             for ($j = 0; $j < $i-1; $j++) {
                 if ($this->A[$i][$j] != 0) {
                     return false;
@@ -867,7 +846,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Is the matrix lower bidiagonal?
+     * Is the matrix lower Hessenberg?
      *  - It is a square matrix
      *  - Has zero entries above the first subdiagonal
      *
@@ -881,12 +860,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             return false;
         }
 
-        $m = $this->m;
-        $n = $this->n;
-
         // Elements above upper diagonal are zero
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = $i+2; $j < $n; $j++) {
+        for ($i = 0; $i < $this->m; $i++) {
+            for ($j = $i+2; $j < $this->n; $j++) {
                 if ($this->A[$i][$j] != 0) {
                     return false;
                 }
