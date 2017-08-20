@@ -1564,13 +1564,13 @@ $S² = Descriptive::sampleVariance($numbers);     // n - 1 degrees of freedom
 $df = 5;                                    // degrees of freedom
 $S² = Descriptive::variance($numbers, $df); // can specify custom degrees of freedom
 
-// Standard deviation (Uses population variance)
+// Standard deviation (For a sample; uses sample variance)
 $σ = Descriptive::sd($numbers);                // same as standardDeviation;
 $σ = Descriptive::standardDeviation($numbers); // same as sd;
 
-// SD+ (Standard deviation for a sample; uses sample variance)
-$SD＋ = Descriptive::sd($numbers, Descriptive::SAMPLE); // SAMPLE constant = true
-$SD＋ = Descriptive::standardDeviation($numbers, true); // same as sd with SAMPLE constant
+// SD+ (For a population; uses population variance)
+$SD＋ = Descriptive::sd($numbers, Descriptive::POPULATION); // POPULATION constant = true
+$SD＋ = Descriptive::standardDeviation($numbers, true);     // same as sd with POPULATION constant
 
 // Coefficient of variation (cᵥ)
 $cᵥ = Descriptive::coefficientOfVariation($numbers);
