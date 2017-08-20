@@ -178,15 +178,7 @@ class Descriptive
      */
     public static function sd(array $numbers, bool $SD＋ = false)
     {
-        if (empty($numbers)) {
-            return null;
-        }
-
-        $n = count($numbers);
-
-        return $SD＋
-            ? sqrt(self::populationVariance($numbers))
-            : sqrt(self::sampleVariance($numbers));
+        return self::standardDeviation($numbers, $SD＋);
     }
 
     /**
