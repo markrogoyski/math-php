@@ -1568,7 +1568,7 @@ $S² = Descriptive::variance($numbers, $df); // can specify custom degrees of fr
 $σ = Descriptive::sd($numbers);                // same as standardDeviation;
 $σ = Descriptive::standardDeviation($numbers); // same as sd;
 
-// SD+ (For a population; uses population variance)
+// SD+ (Standard deviation for a population; uses population variance)
 $SD＋ = Descriptive::sd($numbers, Descriptive::POPULATION); // POPULATION constant = true
 $SD＋ = Descriptive::standardDeviation($numbers, true);     // same as sd with POPULATION constant
 
