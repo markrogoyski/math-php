@@ -1,10 +1,10 @@
 <?php
 namespace MathPHP\Tests\Number;
 
-use MathPHP\Number\RationalNumber;
+use MathPHP\Number\Rational;
 use MathPHP\Exception;
 
-class RationalNumberTest extends \PHPUnit_Framework_TestCase
+class RationalTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @testCase     __toString returns the proper string representation of a rational number
@@ -16,9 +16,9 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($w, $n, $d, string $string)
     {
-        $number = new RationalNumber($w, $n, $d);
-        $this->assertEquals($string, $number->__toString());
-        $this->assertEquals($string, (string) $number);
+        $number = new Rational($w, $n, $d);
+        $this->assertSame($string, $number->__toString());
+        $this->assertSame($string, (string) $number);
     }
     
     public function dataProviderForToString(): array
@@ -47,7 +47,7 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testToFloat($w, $n, $d, $float)
     {
-        $number = new RationalNumber($w, $n, $d);
+        $number = new Rational($w, $n, $d);
         $this->assertEquals($float, $number->toFloat());
     }
     
@@ -73,7 +73,7 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
     public function testNormalizeException()
     {
         $this->expectException(Exception\BadDataException::class);
-        $number = new RationalNumber(1, 1, 0);
+        $number = new Rational(1, 1, 0);
     }
 
     /**
@@ -86,8 +86,8 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testAbs($w, $n, $d, $result)
     {
-        $number = new RationalNumber($w, $n, $d);
-        $result_rn = new RationalNumber(...$result);
+        $number = new Rational($w, $n, $d);
+        $result_rn = new Rational(...$result);
         $this->assertTrue($number->abs()->equals($result_rn));
     }
     
@@ -116,9 +116,9 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd($rn1, $rn2, $result)
     {
-        $rational_number_1 = new RationalNumber($rn1[0], $rn1[1], $rn1[2]);
-        $rational_number_2 = new RationalNumber($rn2[0], $rn2[1], $rn2[2]);
-        $result_rn = new RationalNumber(...$result);
+        $rational_number_1 = new Rational($rn1[0], $rn1[1], $rn1[2]);
+        $rational_number_2 = new Rational($rn2[0], $rn2[1], $rn2[2]);
+        $result_rn = new Rational(...$result);
         $this->assertTrue($rational_number_1->add($rational_number_2)->equals($result_rn));
     }
     
@@ -142,9 +142,9 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testSubtract($rn1, $rn2, $result)
     {
-        $rational_number_1 = new RationalNumber($rn1[0], $rn1[1], $rn1[2]);
-        $rational_number_2 = new RationalNumber($rn2[0], $rn2[1], $rn2[2]);
-        $result_rn = new RationalNumber(...$result);
+        $rational_number_1 = new Rational($rn1[0], $rn1[1], $rn1[2]);
+        $rational_number_2 = new Rational($rn2[0], $rn2[1], $rn2[2]);
+        $result_rn = new Rational(...$result);
         $this->assertTrue($rational_number_1->subtract($rational_number_2)->equals($result_rn));
     }
     
@@ -168,8 +168,8 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testMultiply($rn1, $rn2, $result)
     {
-        $rational_number_1 = new RationalNumber($rn1[0], $rn1[1], $rn1[2]);
-        $rational_number_2 = new RationalNumber($rn2[0], $rn2[1], $rn2[2]);
+        $rational_number_1 = new Rational(...$rn1);
+        $rational_number_2 = new Rational(...$rn2);
         $result_rn = new RationalNumber(...$result);
         $this->assertTrue($rational_number_1->multiply($rational_number_2)->equals($result_rn));
     }
@@ -194,9 +194,9 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testDivide($rn1, $rn2, $result)
     {
-        $rational_number_1 = new RationalNumber($rn1[0], $rn1[1], $rn1[2]);
-        $rational_number_2 = new RationalNumber($rn2[0], $rn2[1], $rn2[2]);
-        $result_rn = new RationalNumber(...$result);
+        $rational_number_1 = new Rational(...$rn1);
+        $rational_number_2 = new Rational(...$rn2);
+        $result_rn = new Rational(...$result);
         $this->assertTrue($rational_number_1->divide($rational_number_2)->equals($result_rn));
     }
     
@@ -220,8 +220,8 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddInt($rn, $int, $result)
     {
-        $rational_number = new RationalNumber($rn[0], $rn[1], $rn[2]);
-        $result_rn = new RationalNumber(...$result);
+        $rational_number = new Rational(...$rn);
+        $result_rn = new Rational(...$result);
         $this->assertTrue($rational_number->add($int)->equals($result_rn));
     }
     
@@ -245,8 +245,8 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testSubtractInt($rn, $int, $result)
     {
-        $rational_number = new RationalNumber($rn[0], $rn[1], $rn[2]);
-        $result_rn = new RationalNumber(...$result);
+        $rational_number = new Rational(...$rn);
+        $result_rn = new Rational(...$result);
         $this->assertTrue($rational_number->subtract($int)->equals($result_rn));
     }
     
@@ -270,8 +270,8 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testDivideInt($rn, $int, $result)
     {
-        $rational_number = new RationalNumber($rn[0], $rn[1], $rn[2]);
-        $result_rn = new RationalNumber(...$result);
+        $rational_number = new Rational(...$rn);
+        $result_rn = new Rational(...$result);
         $this->assertTrue($rational_number->divide($int)->equals($result_rn));
     }
     
@@ -292,7 +292,7 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
     public function testAddException()
     {
         $this->expectException(Exception\IncorrectTypeException::class);
-        $number = new RationalNumber(1, 0, 1);
+        $number = new Rational(1, 0, 1);
         $number->add(1.5);
     }
 
@@ -302,7 +302,7 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
     public function testSubtractException()
     {
         $this->expectException(Exception\IncorrectTypeException::class);
-        $number = new RationalNumber(1, 0, 1);
+        $number = new Rational(1, 0, 1);
         $number->subtract(1.5);
     }
 
@@ -312,7 +312,7 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
     public function testMultiplyException()
     {
         $this->expectException(Exception\IncorrectTypeException::class);
-        $number = new RationalNumber(1, 0, 1);
+        $number = new Rational(1, 0, 1);
         $number->multiply(1.5);
     }
 
@@ -322,7 +322,7 @@ class RationalNumberTest extends \PHPUnit_Framework_TestCase
     public function testDivideException()
     {
         $this->expectException(Exception\IncorrectTypeException::class);
-        $number = new RationalNumber(1, 0, 1);
+        $number = new Rational(1, 0, 1);
         $number->divide(1.5);
     }
 }
