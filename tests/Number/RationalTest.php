@@ -170,7 +170,7 @@ class RationalTest extends \PHPUnit_Framework_TestCase
     {
         $rational_number_1 = new Rational(...$rn1);
         $rational_number_2 = new Rational(...$rn2);
-        $result_rn = new RationalNumber(...$result);
+        $result_rn = new Rational(...$result);
         $this->assertTrue($rational_number_1->multiply($rational_number_2)->equals($result_rn));
     }
     

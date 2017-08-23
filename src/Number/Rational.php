@@ -138,7 +138,7 @@ class Rational implements ObjectArithmetic
         $d = $this->denominator;
         if (is_int($r)) {
             $w += $r;
-        } elseif ($c instanceof Rational) {
+        } elseif ($r instanceof Rational) {
             $rn = $r->numerator;
             $rd = $r->denominator;
             $rw = $r->whole;
@@ -187,7 +187,7 @@ class Rational implements ObjectArithmetic
             $w *= $r;
             $n *= $r;
             return new Rational($w, $n, $d);
-        } elseif ($c instanceof Rational) {
+        } elseif ($r instanceof Rational) {
             $w2 = $r->whole;
             $n2 = $r->numerator;
             $d2 = $r->denominator;
