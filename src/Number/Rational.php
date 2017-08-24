@@ -64,6 +64,7 @@ class Rational implements ObjectArithmetic
             }
             $fraction = $this->numeratorToSuperscript() . '/' . $this->denominatorToSubscript();
         }
+
         $string = $sign . $whole . $fraction;
         if ($string == '') {
             $string = '0';
@@ -160,24 +161,51 @@ class Rational implements ObjectArithmetic
      */
     public function add($r): Rational
     {
-        $w = $this->whole;
-        $n = $this->numerator;
-        $d = $this->denominator;
         if (is_int($r)) {
-            $w += $r;
+            return $this->addInt($r);
         } elseif ($r instanceof Rational) {
-            $rn = $r->numerator;
-            $rd = $r->denominator;
-            $rw = $r->whole;
-            
-            $w += $rw;
-            
-            $lcm = Algebra::lcm($d, $rd);
-            $n = $n * intdiv($lcm, $d) + $rn * intdiv($lcm, $rd);
-            $d = $lcm;
+            return $this->addRational($r);
         } else {
             throw new Exception\IncorrectTypeException('Argument must be an integer or RationalNumber');
         }
+    }
+
+    /**
+     * Add an integer
+     *
+     * @param int $int
+     *
+     * @return Rational
+     */
+    private function addInt(int $int): Rational
+    {
+        $w = $this->whole + $int;
+        return new Rational($w, $this->numerator, $this->denominator);
+    }
+
+    /**
+     * Add a rational number
+     *
+     * @param Rational $r
+     *
+     * @return Rational
+     */
+    private function addRational(Rational $r): Rational
+    {
+        $w = $this->whole;
+        $n = $this->numerator;
+        $d = $this->denominator;
+
+        $rn = $r->numerator;
+        $rd = $r->denominator;
+        $rw = $r->whole;
+
+        $w += $rw;
+
+        $lcm = Algebra::lcm($d, $rd);
+        $n = $n * intdiv($lcm, $d) + $rn * intdiv($lcm, $rd);
+        $d = $lcm;
+
         return new Rational($w, $n, $d);
     }
 
@@ -213,28 +241,53 @@ class Rational implements ObjectArithmetic
      */
     public function multiply($r): Rational
     {
-        $w = $this->whole;
-        $n = $this->numerator;
-        $d = $this->denominator;
-
         if (is_int($r)) {
-            $w *= $r;
-            $n *= $r;
-            return new Rational($w, $n, $d);
+            return $this->multiplyInt($r);
         } elseif ($r instanceof Rational) {
-            $w2 = $r->whole;
-            $n2 = $r->numerator;
-            $d2 = $r->denominator;
-            
-            $new_w = $w * $w2;
-            $new_n = $w * $n2 * $d + $w2 * $n * $d2 + $n2 * $n;
-            $new_d = $d * $d2;
-            return new Rational($new_w, $new_n, $new_d);
+            return $this->multiplyRational($r);
         } else {
             throw new Exception\IncorrectTypeException('Argument must be an integer or RationalNumber');
         }
     }
-    
+
+    /**
+     * Multiply an integer
+     *
+     * @param int $int
+     *
+     * @return Rational
+     */
+    private function multiplyInt(int $int): Rational
+    {
+        $w = $this->whole * $int;
+        $n = $this->numerator * $int;
+        return new Rational($w, $n, $this->denominator);
+    }
+
+    /**
+     * Multiply a rational number
+     *
+     * @param Rational $r
+     *
+     * @return Rational
+     */
+    private function multiplyRational(Rational $r): Rational
+    {
+        $w = $this->whole;
+        $n = $this->numerator;
+        $d = $this->denominator;
+
+        $w2 = $r->whole;
+        $n2 = $r->numerator;
+        $d2 = $r->denominator;
+
+        $new_w = $w * $w2;
+        $new_n = $w * $n2 * $d + $w2 * $n * $d2 + $n2 * $n;
+        $new_d = $d * $d2;
+
+        return new Rational($new_w, $new_n, $new_d);
+    }
+
     /**
      * Divide
      * Return the result of dividing two rational numbers, or a rational number by an integer.
@@ -247,24 +300,52 @@ class Rational implements ObjectArithmetic
      */
     public function divide($r): Rational
     {
+        if (is_int($r)) {
+            return $this->divideInt($r);
+        } elseif ($r instanceof Rational) {
+            return $this->divideRational($r);
+        } else {
+            throw new Exception\IncorrectTypeException('Argument must be an integer or RationalNumber');
+        }
+    }
+
+    /**
+     * Divide by an integer
+     *
+     * @param int $int
+     *
+     * @return Rational
+     */
+    private function divideInt(int $int): Rational
+    {
+        $w = $this->whole;
+        $n = $this->numerator;
+        $d = $this->denominator;
+        return new Rational(0, $w * $d + $n, $int * $d);
+    }
+
+    /**
+     * Divide by a rational number
+     *
+     * @param Rational $r
+     *
+     * @return Rational
+     */
+    private function divideRational(Rational $r): Rational
+    {
         $w = $this->whole;
         $n = $this->numerator;
         $d = $this->denominator;
 
-        if (is_int($r)) {
-            return new Rational(0, $w * $d + $n, $r * $d);
-        } elseif ($r instanceof Rational) {
-            $w2 = $r->whole;
-            $n2 = $r->numerator;
-            $d2 = $r->denominator;
-            
-            $new_w = 0;
-            $new_n = $d2 * ($w * $d + $n);
-            $new_d = $d * ($w2 * $d2 + $n2);
-            return new Rational($new_w, $new_n, $new_d);
-        } else {
-            throw new Exception\IncorrectTypeException('Argument must be an integer or RationalNumber');
-        }
+        $w2 = $r->whole;
+        $n2 = $r->numerator;
+        $d2 = $r->denominator;
+
+        $new_w = 0;
+        $new_n = $d2 * ($w * $d + $n);
+        $new_d = $d * ($w2 * $d2 + $n2);
+
+        return new Rational($new_w, $new_n, $new_d);
     }
 
     /**************************************************************************
