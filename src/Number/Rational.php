@@ -62,7 +62,7 @@ class Rational implements ObjectArithmetic
             if ($this->whole !== 0) {
                 $whole .= ' ';
             }
-            $fraction = $this->NumeratorToSuperscript() . '/' . $this->DenominatorToSubscript();
+            $fraction = $this->numeratorToSuperscript() . '/' . $this->denominatorToSubscript();
         }
         $string = $sign . $whole . $fraction;
         if ($string == '') {
@@ -70,26 +70,47 @@ class Rational implements ObjectArithmetic
         }
         return $string;
     }
-    
-    private function NumeratorToSuperscript()
+
+    /**
+     * Convert the numerator to superscript character
+     *
+     * @return string
+     */
+    private function numeratorToSuperscript(): string
     {
-        return $this->toSuperOrSubscript(abs($this->numerator), "superscript");
+        return $this->toSuperOrSubscript(
+            abs($this->numerator),
+            ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹']
+        );
     }
-    
-    private function DenominatorToSubscript()
+
+    /**
+     * Convert the denominator to subscript character
+     *
+     * @return string
+     */
+    private function denominatorToSubscript(): string
     {
-        return $this->toSuperOrSubscript($this->denominator, "subscript");
+        return $this->toSuperOrSubscript(
+            $this->denominator,
+            ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉']
+        );
     }
-    
-    private function toSuperOrSubscript(int $i, string $super_or_sub): string
+
+    /**
+     * Convert a character to an alternate script (super or subscript)
+     *
+     * @param int   $i     number to convert
+     * @param array $chars conversion character map
+     *
+     * @return string
+     */
+    private function toSuperOrSubscript(int $i, array $chars): string
     {
-        $return_string = '';
-        $chars = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
-        if ($super_or_sub == "subscript") {
-            $chars = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
-        }
+        $return_string   = '';
         $number_of_chars = floor(log10($i) + 1);
-        $working_value = $i;
+        $working_value   = $i;
+
         for ($j = $number_of_chars - 1; $j >= 0; $j--) {
             $int = intdiv($working_value, 10 ** $j);
             $return_string .= $chars[$int];
@@ -97,8 +118,13 @@ class Rational implements ObjectArithmetic
         }
         return $return_string;
     }
-    
-    public function toFloat()
+
+    /**
+     * Rational number as a float
+     *
+     * @return float
+     */
+    public function toFloat(): float
     {
         $frac = $this->numerator / $this->denominator;
         $sum  = $this->whole + $frac;
@@ -111,7 +137,8 @@ class Rational implements ObjectArithmetic
  
     /**
      * The absolute value of a rational number
-     * @return RationalNumber
+     *
+     * @return Rational
      */
     public function abs(): Rational
     {
@@ -125,9 +152,9 @@ class Rational implements ObjectArithmetic
     /**
      * Addition
      *
-     * @param mixed $c
+     * @param Rational|int $r
      *
-     * @return RationalNumber
+     * @return Rational
      *
      * @throws Exception\IncorrectTypeException if the argument is not numeric or Rational.
      */
@@ -157,6 +184,11 @@ class Rational implements ObjectArithmetic
     /**
      * Subtraction
      *
+     * @param Rational|int $r
+     *
+     * @return Rational
+     *
+     * @throws Exception\IncorrectTypeException if the argument is not numeric or Rational.
      */
     public function subtract($r): Rational
     {
@@ -171,11 +203,13 @@ class Rational implements ObjectArithmetic
 
     /**
      * Multiply
-     *
      * Return the result of multiplying two rational numbers, or a rational number and an integer.
      *
-     * @param mixed $r
-     * $return RationalNumber
+     * @param Rational|int $r
+     *
+     * @return Rational
+     *
+     * @throws Exception\IncorrectTypeException if the argument is not numeric or Rational.
      */
     public function multiply($r): Rational
     {
@@ -203,11 +237,13 @@ class Rational implements ObjectArithmetic
     
     /**
      * Divide
-     *
      * Return the result of dividing two rational numbers, or a rational number by an integer.
      *
-     * @param mixed $r
-     * $return RationalNumber
+     * @param Rational|int $r
+     *
+     * @return Rational
+     *
+     * @throws Exception\IncorrectTypeException if the argument is not numeric or Rational.
      */
     public function divide($r): Rational
     {
@@ -239,6 +275,10 @@ class Rational implements ObjectArithmetic
      * Test for equality
      *
      * Two normalized RationalNumbers are equal IFF all three parts are equal.
+     *
+     * @param Rational $rn
+     *
+     * @return bool
      */
     public function equals(Rational $rn): bool
     {
@@ -254,6 +294,12 @@ class Rational implements ObjectArithmetic
      * We will ensure that the numerator is smaller than the denominator, the sign
      * of the denominator is always positive, and the signs of the numerator and
      * whole number match.
+     *
+     * @param int $w whole number
+     * @param int $n numerator
+     * @param int $d denominator
+     *
+     * @return array
      */
     private function normalize(int $w, int $n, int $d): array
     {
