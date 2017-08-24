@@ -1,5 +1,4 @@
 <?php
-
 namespace MathPHP\Number;
 
 use MathPHP\Algebra;
@@ -28,16 +27,16 @@ class Rational implements ObjectArithmetic
     /**
      * Constructor
      *
-     * to do: How to handle negative numbers in various positions.
+     * @todo  How to handle negative numbers in various positions.
      * @param int $w whole part
      * @param int $n numerator part
      * @param int $d
      */
     public function __construct(int $w, int $n, int $d)
     {
-        list($w, $n, $d) = self::normalize($w, $n, $d);
-        $this->whole = $w;
-        $this->numerator = $n;
+        list($w, $n, $d)   = self::normalize($w, $n, $d);
+        $this->whole       = $w;
+        $this->numerator   = $n;
         $this->denominator = $d;
     }
     
@@ -49,24 +48,25 @@ class Rational implements ObjectArithmetic
      */
     public function __toString(): string
     {
-        $sign = "";
-        $whole = "";
-        $fraction = "";
-        if (Special::sgn($this->whole) == -1 || Special::sgn($this->numerator) == -1) {
-            $sign = "-";
+        $sign     = '';
+        $whole    = '';
+        $fraction = '';
+
+        if (Special::sgn($this->whole) === -1 || Special::sgn($this->numerator) === -1) {
+            $sign = '-';
         }
         if ($this->whole !== 0) {
             $whole = abs($this->whole);
         }
         if ($this->numerator !== 0) {
             if ($this->whole !== 0) {
-                $whole .= " ";
+                $whole .= ' ';
             }
-            $fraction = $this->NumeratorToSuperscript() . "/" . $this->DenominatorToSubscript();
+            $fraction = $this->NumeratorToSuperscript() . '/' . $this->DenominatorToSubscript();
         }
         $string = $sign . $whole . $fraction;
-        if ($string == "") {
-            $string = "0";
+        if ($string == '') {
+            $string = '0';
         }
         return $string;
     }
@@ -83,7 +83,7 @@ class Rational implements ObjectArithmetic
     
     private function toSuperOrSubscript(int $i, string $super_or_sub): string
     {
-        $return_string = "";
+        $return_string = '';
         $chars = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
         if ($super_or_sub == "subscript") {
             $chars = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
@@ -101,7 +101,7 @@ class Rational implements ObjectArithmetic
     public function toFloat()
     {
         $frac = $this->numerator / $this->denominator;
-        $sum = $this->whole + $frac;
+        $sum  = $this->whole + $frac;
         return $sum;
     }
     
@@ -113,7 +113,7 @@ class Rational implements ObjectArithmetic
      * The absolute value of a rational number
      * @return RationalNumber
      */
-    public function abs()
+    public function abs(): Rational
     {
         return new Rational(abs($this->whole), abs($this->numerator), abs($this->denominator));
     }
@@ -242,7 +242,9 @@ class Rational implements ObjectArithmetic
      */
     public function equals(Rational $rn): bool
     {
-        return $this->whole == $rn->whole && $this->numerator == $rn->numerator && $this->denominator == $rn->denominator;
+        return $this->whole       == $rn->whole        &&
+               $this->numerator   == $rn->numerator    &&
+               $this->denominator == $rn->denominator;
     }
 
     /**

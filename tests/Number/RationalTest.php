@@ -34,18 +34,27 @@ class RationalTest extends \PHPUnit_Framework_TestCase
             [-5, 1, 2, '-4 ¹/₂'],
             [0, 1, 2, '¹/₂'],
             [0, -1, 2, '-¹/₂'],
+            [0, 2, 3, '²/₃'],
+            [0, 3, 4, '³/₄'],
+            [0, 4, 5, '⁴/₅'],
+            [0, 5, 6, '⁵/₆'],
+            [0, 6, 7, '⁶/₇'],
+            [0, 7, 8, '⁷/₈'],
+            [0, 8, 9, '⁸/₉'],
+            [0, 9, 10, '⁹/₁₀'],
+            [0, 10, 21, '¹⁰/₂₁'],
         ];
     }
     
     /**
-     * @testCase     __toFloat returns the correct floating point number
+     * @testCase     toFloat returns the correct floating point number
      * @dataProvider dataProviderForToFloat
      * @param        number $w
      * @param        number $n
      * @param        number $d
      * @param        float $float
      */
-    public function testToFloat($w, $n, $d, $float)
+    public function testToFloat($w, $n, $d, float $float)
     {
         $number = new Rational($w, $n, $d);
         $this->assertEquals($float, $number->toFloat());
@@ -68,7 +77,7 @@ class RationalTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @testCase  normalization throws an Exception\BadDataException if the denominator is zero
+     * @testCase normalization throws an Exception\BadDataException if the denominator is zero
      */
     public function testNormalizeException()
     {
@@ -77,14 +86,14 @@ class RationalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     Abs returns the correct number
+     * @testCase     abs returns the correct number
      * @dataProvider dataProviderForAbs
      * @param        number $w
      * @param        number $n
      * @param        number $d
      * @param        array $result
      */
-    public function testAbs($w, $n, $d, $result)
+    public function testAbs($w, $n, $d, array $result)
     {
         $number = new Rational($w, $n, $d);
         $result_rn = new Rational(...$result);
@@ -108,20 +117,23 @@ class RationalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     Add returns the correct number
+     * @testCase     add returns the correct number
      * @dataProvider dataProviderForAdd
      * @param        array $rn1
      * @param        array $rn2
-     * @param        array $result
+     * @param        array $expected
      */
-    public function testAdd($rn1, $rn2, $result)
+    public function testAdd(array $rn1, array $rn2, array $expected)
     {
         $rational_number_1 = new Rational($rn1[0], $rn1[1], $rn1[2]);
         $rational_number_2 = new Rational($rn2[0], $rn2[1], $rn2[2]);
-        $result_rn = new Rational(...$result);
-        $this->assertTrue($rational_number_1->add($rational_number_2)->equals($result_rn));
+        $addition_result   = $rational_number_1->add($rational_number_2);
+        $expected_rn       = new Rational(...$expected);
+        $this->assertTrue($addition_result->equals($expected_rn));
+        $this->assertSame($expected_rn->__toString(), $addition_result->__toString());
+        $this->assertSame($expected_rn->toFloat(), $addition_result->toFloat());
     }
-    
+
     public function dataProviderForAdd(): array
     {
         return [
@@ -134,18 +146,21 @@ class RationalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     Subtract returns the correct number
+     * @testCase     subtract returns the correct number
      * @dataProvider dataProviderForSubtract
      * @param        array $rn1
      * @param        array $rn2
-     * @param        float $result
+     * @param        float $expected
      */
-    public function testSubtract($rn1, $rn2, $result)
+    public function testSubtract(array $rn1, array $rn2, array $expected)
     {
-        $rational_number_1 = new Rational($rn1[0], $rn1[1], $rn1[2]);
-        $rational_number_2 = new Rational($rn2[0], $rn2[1], $rn2[2]);
-        $result_rn = new Rational(...$result);
-        $this->assertTrue($rational_number_1->subtract($rational_number_2)->equals($result_rn));
+        $rational_number_1  = new Rational($rn1[0], $rn1[1], $rn1[2]);
+        $rational_number_2  = new Rational($rn2[0], $rn2[1], $rn2[2]);
+        $subtraction_result = $rational_number_1->subtract($rational_number_2);
+        $expected_rn        = new Rational(...$expected);
+        $this->assertTrue($subtraction_result->equals($expected_rn));
+        $this->assertSame($expected_rn->__toString(), $subtraction_result->__toString());
+        $this->assertSame($expected_rn->toFloat(), $subtraction_result->toFloat());
     }
     
     public function dataProviderForSubtract(): array
@@ -160,18 +175,21 @@ class RationalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     Multiply returns the correct number
+     * @testCase     multiply returns the correct number
      * @dataProvider dataProviderForMultiply
      * @param        array $rn1
      * @param        array $rn2
-     * @param        float $result
+     * @param        float $expected
      */
-    public function testMultiply($rn1, $rn2, $result)
+    public function testMultiply(array $rn1, array $rn2, array $expected)
     {
-        $rational_number_1 = new Rational(...$rn1);
-        $rational_number_2 = new Rational(...$rn2);
-        $result_rn = new Rational(...$result);
-        $this->assertTrue($rational_number_1->multiply($rational_number_2)->equals($result_rn));
+        $rational_number_1     = new Rational($rn1[0], $rn1[1], $rn1[2]);
+        $rational_number_2     = new Rational($rn2[0], $rn2[1], $rn2[2]);
+        $multiplication_result = $rational_number_1->multiply($rational_number_2);
+        $expected_rn           = new Rational(...$expected);
+        $this->assertTrue($multiplication_result->equals($expected_rn));
+        $this->assertSame($expected_rn->__toString(), $multiplication_result->__toString());
+        $this->assertSame($expected_rn->toFloat(), $multiplication_result->toFloat());
     }
     
     public function dataProviderForMultiply(): array
@@ -186,18 +204,21 @@ class RationalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     Divide returns the correct number
+     * @testCase     divide returns the correct number
      * @dataProvider dataProviderForDivide
      * @param        array $rn1
      * @param        array $rn2
-     * @param        float $result
+     * @param        float $expected
      */
-    public function testDivide($rn1, $rn2, $result)
+    public function testDivide(array $rn1, array $rn2, array $expected)
     {
-        $rational_number_1 = new Rational(...$rn1);
-        $rational_number_2 = new Rational(...$rn2);
-        $result_rn = new Rational(...$result);
-        $this->assertTrue($rational_number_1->divide($rational_number_2)->equals($result_rn));
+        $rational_number_1 = new Rational($rn1[0], $rn1[1], $rn1[2]);
+        $rational_number_2 = new Rational($rn2[0], $rn2[1], $rn2[2]);
+        $division_result   = $rational_number_1->divide($rational_number_2);
+        $expected_rn       = new Rational(...$expected);
+        $this->assertTrue($division_result->equals($expected_rn));
+        $this->assertSame($expected_rn->__toString(), $division_result->__toString());
+        $this->assertSame($expected_rn->toFloat(), $division_result->toFloat());
     }
     
     public function dataProviderForDivide(): array
@@ -212,13 +233,13 @@ class RationalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     Add int returns the correct number
+     * @testCase     add int returns the correct number
      * @dataProvider dataProviderForAddInt
      * @param        array $rn
-     * @param        int $int
-     * @param        float $result
+     * @param        int   $int
+     * @param        array $result
      */
-    public function testAddInt($rn, $int, $result)
+    public function testAddInt(array $rn, int $int, array $result)
     {
         $rational_number = new Rational(...$rn);
         $result_rn = new Rational(...$result);
@@ -237,16 +258,16 @@ class RationalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     Subtract int returns the correct number
+     * @testCase     subtract int returns the correct number
      * @dataProvider dataProviderForSubtractInt
      * @param        array $rn
-     * @param        int $int
-     * @param        float $result
+     * @param        int   $int
+     * @param        array $result
      */
-    public function testSubtractInt($rn, $int, $result)
+    public function testSubtractInt(array $rn, int $int, array $result)
     {
         $rational_number = new Rational(...$rn);
-        $result_rn = new Rational(...$result);
+        $result_rn       = new Rational(...$result);
         $this->assertTrue($rational_number->subtract($int)->equals($result_rn));
     }
     
@@ -262,16 +283,42 @@ class RationalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     Divide int returns the correct number
+     * @testCase     multiply int returns the correct number
+     * @dataProvider dataProviderForMultiplyInt
+     * @param        array $rn
+     * @param        int   $int
+     * @param        array $expected
+     */
+    public function testMultiplyInt(array $rn, int $int, array $expected)
+    {
+        $rational_number       = new Rational(...$rn);
+        $expected_rn           = new Rational(...$expected);
+        $multiplication_result = $rational_number->multiply($int);
+        $this->assertTrue($multiplication_result->equals($expected_rn));
+    }
+
+    public function dataProviderForMultiplyInt(): array
+    {
+        return [
+            [[1, 0, 1], 0, [0, 0, 1]],
+            [[1, 0, 1], -1, [-1, 0, 1]],
+            [[3, 5, 2], 10, [55, 0, 1]],
+            [[-5, -1, 2], -4, [22, 0, 1]],
+            [[15, 6, 13], 2, [30, 12, 13]],
+        ];
+    }
+
+    /**
+     * @testCase     divide int returns the correct number
      * @dataProvider dataProviderForDivideInt
      * @param        array $rn
      * @param        int $int
      * @param        float $result
      */
-    public function testDivideInt($rn, $int, $result)
+    public function testDivideInt(array $rn, int $int, array $result)
     {
         $rational_number = new Rational(...$rn);
-        $result_rn = new Rational(...$result);
+        $result_rn       = new Rational(...$result);
         $this->assertTrue($rational_number->divide($int)->equals($result_rn));
     }
     
