@@ -75,7 +75,7 @@ class GammaTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataProviderForMean
-     * Test data created with mental arithmetic 
+     * Test data created with mental arithmetic
      */
     public function testMean($k, $θ, $μ)
     {
