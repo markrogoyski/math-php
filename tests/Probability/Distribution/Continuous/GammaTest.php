@@ -44,7 +44,7 @@ class GammaTest extends \PHPUnit_Framework_TestCase
      * @param number $x   x ∈ (0,1)
      * @param number $k   shape parameter α > 0
      * @param number $θ   scale parameter θ > 0
-     * @param number $pdf
+     * @param number $cdf
      */
     public function testCdf($x, $k, $θ, $cdf)
     {
@@ -74,14 +74,21 @@ class GammaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     mean returns the expected average
      * @dataProvider dataProviderForMean
-     * Test data created with mental arithmetic
+     * @param        number $k
+     * @param        number $θ
+     * @param        number $μ
      */
     public function testMean($k, $θ, $μ)
     {
         $this->assertEquals($μ, Gamma::mean($k, $θ), '', 0.0001);
     }
 
+    /**
+     * Data provider for mean
+     * @return array
+     */
     public function dataProviderForMean(): array
     {
         return [
