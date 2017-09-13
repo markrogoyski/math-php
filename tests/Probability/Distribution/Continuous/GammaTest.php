@@ -72,4 +72,23 @@ class GammaTest extends \PHPUnit_Framework_TestCase
             [4, 0.5, 6, 0.7517869210100764165283],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForMean
+     * Test data created with mental arithmetic
+     */
+    public function testMean($k, $θ, $μ)
+    {
+        $this->assertEquals($μ, Gamma::mean($k, $θ), '', 0.0001);
+    }
+
+    public function dataProviderForMean(): array
+    {
+        return [
+            [1, 1, 1.0],
+            [1, 2, 2.0],
+            [2, 1, 2.0],
+            [9, 0.5, 4.5],
+        ];
+    }
 }

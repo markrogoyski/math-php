@@ -73,4 +73,21 @@ class Gamma extends Continuous
 
         return $γ / $Γ⟮k⟯;
     }
+
+    /**
+     * Mean of the distribution
+     *
+     * μ = k θ
+     *
+     * @param number $k shape parameter k > 0
+     * @param number $θ scale parameter θ > 0
+     *
+     * @return number
+     */
+    public static function mean($k, $θ)
+    {
+        Support::checkLimits(self::LIMITS, ['k' => $k, 'θ' => $θ]);
+
+        return $k * $θ;
+    }
 }
