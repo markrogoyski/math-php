@@ -26,6 +26,7 @@ Features
    - [Vector](#linear-algebra---vector)
  * Numbers
    - [Complex](#number---complex-numbers)
+   - [Rational](#number---rational-numbers)
  * Number Theory
    - [Integers](#number-theory---integers)
  * Numerical Analysis
@@ -585,6 +586,31 @@ $c／c = $complex->divide($complex);
 // Other functions
 $bool   = $complex->equals($complex);
 $string = (string) $complex;
+```
+
+### Number - Rational Numbers
+```php
+use MathPHP\Number\Rational;
+
+$whole       = 0;
+$numerator   = 2;
+$denominator = 3;
+
+$rational = new Rational($whole, $numerator, $denominator); // ²/₃
+
+// Unary functions
+$│rational│ = $rational->abs();
+
+// Binary functions
+$sum      = $rational->add($rational);
+$diff     = $rational->subtract($rational);
+$product  = $rational->multiply($rational);
+$quotient = $rational->divide($rational);
+
+// Other functions
+$bool   = $rational->equals($rational);
+$float  = $rational->toFloat();
+$string = (string) $rational;
 ```
 
 ### Number Theory - Integers
