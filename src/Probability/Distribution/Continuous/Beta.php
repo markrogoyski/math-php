@@ -44,7 +44,7 @@ class Beta extends Continuous
         $xᵃ⁻¹     = pow($x, $α - 1);
         $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $β - 1);
         $B⟮α、β⟯    = Special::beta($α, $β);
-        return ($xᵃ⁻¹ * $⟮1 − x⟯ᵝ⁻¹) / $B⟮α、β⟯;
+        return ($xᵃ⁻¹ * $⟮1 − x⟯ᵝ⁻¹) / $B⟮α、β⟯;
     }
     
     /**
