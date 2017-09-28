@@ -1,8 +1,35 @@
 <?php
 namespace MathPHP\Probability\Distribution\Continuous;
 
+use MathPHP\Functions\Support;
+use MathPHP\Exception;
+
 abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
 {
+    const LIMITS = [];
+
+    protected $params;
+    
+    public function __construct(...$params)
+    {
+        $limits = static::LIMITS;
+        array_shift($limits);
+        $new_params = $limits;
+        $number_needed = count($limits);
+        $number_given = count($params);
+        if ($number_needed !== $number_given) {
+            throw new Exception\BadDataException('Incorrect number of parameters. Need ' . $number_needed . ' but given ' . $number_given . '.');
+        } else {
+            $i = 0;
+            foreach ($limits as $key => $value) {
+                $new_params[$key] = $params[$i];
+                $i++;
+            }
+            Support::checkLimits($limits, $new_params);
+        }
+        $this->params = $new_params;
+    }
+    
     /**
      * The Inverse CDF of the distribution
      *
