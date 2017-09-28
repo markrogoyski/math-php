@@ -30,20 +30,21 @@ class Beta extends Continuous
      * pdf = --------------
      *           B(α,β)
      *
-     * @param number $α shape parameter α > 0
-     * @param number $β shape parameter β > 0
      * @param number $x x ∈ (0,1)
      *
      * @return float
      */
-    public static function pdf($x, $α, $β)
+    public function pdf($x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
+        $limit['x'] = static::LIMITS['x'];
+        Support::checkLimits($limit, ['x' => $x]);
 
+        $α = $this->params["α"];
+        $β = $this->params["β"];
         $xᵃ⁻¹     = pow($x, $α - 1);
-        $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $β - 1);
+        $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $β - 1);
         $B⟮α、β⟯    = Special::beta($α, $β);
-        return ($xᵃ⁻¹ * $⟮1 − x⟯ᵝ⁻¹) / $B⟮α、β⟯;
+        return ($xᵃ⁻¹ * $⟮1 − x⟯ᵝ⁻¹) / $B⟮α、β⟯;
     }
     
     /**
@@ -51,15 +52,17 @@ class Beta extends Continuous
      *
      * cdf = Iₓ(α,β)
      *
-     * @param number $α shape parameter α > 0
-     * @param number $β shape parameter β > 0
      * @param number $x x ∈ (0,1)
      *
      * @return float
      */
-    public static function cdf($x, $α, $β)
+    public function cdf($x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
+        $limit['x'] = static::LIMITS['x'];
+        Support::checkLimits($limit, ['x' => $x]);
+
+        $α = $this->params["α"];
+        $β = $this->params["β"];
 
         return Special::regularizedIncompleteBeta($x, $α, $β);
     }
@@ -76,9 +79,10 @@ class Beta extends Continuous
      *
      * @return number
      */
-    public static function mean($α, $β)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['α' => $α, 'β' => $β]);
+        $α = $this->params["α"];
+        $β = $this->params["β"];
 
         return $α / ($α + $β);
     }
