@@ -28,7 +28,18 @@ class Beta extends Continuous
 
     /** @var number Shape Parameter */
     protected $β;
-    
+
+    /**
+     * Constructor
+     *
+     * @param number $α shape parameter α > 0
+     * @param number $β shape parameter β > 0
+     */
+    public function __construct($α, $β)
+    {
+        parent::_construct($α, $β);
+    }
+
     /**
      * Probability density function
      *
