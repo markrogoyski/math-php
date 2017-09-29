@@ -22,6 +22,12 @@ class Beta extends Continuous
         'α' => '(0,∞)',
         'β' => '(0,∞)',
     ];
+
+    /** @var number Shape Parameter */
+    protected $α;
+
+    /** @var number Shape Parameter */
+    protected $β;
     
     /**
      * Probability density function
