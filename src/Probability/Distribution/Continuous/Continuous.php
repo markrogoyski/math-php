@@ -22,6 +22,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
         } else {
             $i = 0;
             foreach ($limits as $key => $value) {
+                $this->$key = $params[$i];
                 $new_params[$key] = $params[$i];
                 $i++;
             }

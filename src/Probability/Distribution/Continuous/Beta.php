@@ -39,11 +39,9 @@ class Beta extends Continuous
         $limit['x'] = static::LIMITS['x'];
         Support::checkLimits($limit, ['x' => $x]);
 
-        $α = $this->params["α"];
-        $β = $this->params["β"];
-        $xᵃ⁻¹     = pow($x, $α - 1);
-        $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $β - 1);
-        $B⟮α、β⟯    = Special::beta($α, $β);
+        $xᵃ⁻¹     = pow($x, $this->α - 1);
+        $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $this->β - 1);
+        $B⟮α、β⟯    = Special::beta($this->α, $this->β);
         return ($xᵃ⁻¹ * $⟮1 − x⟯ᵝ⁻¹) / $B⟮α、β⟯;
     }
     
@@ -61,10 +59,7 @@ class Beta extends Continuous
         $limit['x'] = static::LIMITS['x'];
         Support::checkLimits($limit, ['x' => $x]);
 
-        $α = $this->params["α"];
-        $β = $this->params["β"];
-
-        return Special::regularizedIncompleteBeta($x, $α, $β);
+        return Special::regularizedIncompleteBeta($x, $this->α, $this->β);
     }
     
     /**
@@ -81,9 +76,7 @@ class Beta extends Continuous
      */
     public function mean()
     {
-        $α = $this->params["α"];
-        $β = $this->params["β"];
 
-        return $α / ($α + $β);
+        return $this->α / ($this->α + $this->β);
     }
 }
