@@ -37,7 +37,7 @@ class Beta extends Continuous
      */
     public function __construct($α, $β)
     {
-        parent::_construct($α, $β);
+        parent::__construct($α, $β);
     }
 
     /**
