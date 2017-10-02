@@ -12,23 +12,14 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
     
     public function __construct(...$params)
     {
-        $limits = static::LIMITS;
-        array_shift($limits);
-        $new_params = $limits;
-        $number_needed = count($limits);
-        $number_given = count($params);
-        if ($number_needed !== $number_given) {
-            throw new Exception\BadDataException('Incorrect number of parameters. Need ' . $number_needed . ' but given ' . $number_given . '.');
-        } else {
-            $i = 0;
-            foreach ($limits as $key => $value) {
-                $this->$key = $params[$i];
-                $new_params[$key] = $params[$i];
-                $i++;
-            }
-            Support::checkLimits($limits, $new_params);
+        $new_params = static::PARAMETER_LIMITS;
+        $i = 0;
+        foreach ($new_params as $key => $value) {
+            $this->$key = $params[$i];
+            $new_params[$key] = $params[$i];
+            $i++;
         }
-        $this->params = $new_params;
+        Support::checkLimits(static::PARAMETER_LIMITS, $new_params);
     }
     
     /**

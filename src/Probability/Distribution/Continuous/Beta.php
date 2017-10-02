@@ -11,14 +11,21 @@ use MathPHP\Functions\Support;
 class Beta extends Continuous
 {
     /**
-     * Distribution parameter bounds limits
+     * Distribution support bounds limits
      * x ∈ [0,1]
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '[0,1]',
+    ];
+
+    /**
+     * Distribution parameter bounds limits
      * α ∈ (0,∞)
      * β ∈ (0,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '[0,1]',
+    const PARAMETER_LIMITS = [
         'α' => '(0,∞)',
         'β' => '(0,∞)',
     ];
@@ -53,8 +60,7 @@ class Beta extends Continuous
      */
     public function pdf($x)
     {
-        $limit['x'] = static::LIMITS['x'];
-        Support::checkLimits($limit, ['x' => $x]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $α = $this->α;
         $β = $this->β;
@@ -75,8 +81,7 @@ class Beta extends Continuous
      */
     public function cdf($x)
     {
-        $limit['x'] = static::LIMITS['x'];
-        Support::checkLimits($limit, ['x' => $x]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $α = $this->α;
         $β = $this->β;
