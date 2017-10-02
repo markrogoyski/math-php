@@ -1,8 +1,27 @@
 <?php
 namespace MathPHP\Probability\Distribution\Continuous;
 
+use MathPHP\Functions\Support;
+use MathPHP\Exception;
+
 abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
 {
+    const LIMITS = [];
+
+    protected $params;
+    
+    public function __construct(...$params)
+    {
+        $new_params = static::PARAMETER_LIMITS;
+        $i = 0;
+        foreach ($new_params as $key => $value) {
+            $this->$key = $params[$i];
+            $new_params[$key] = $params[$i];
+            $i++;
+        }
+        Support::checkLimits(static::PARAMETER_LIMITS, $new_params);
+    }
+    
     /**
      * The Inverse CDF of the distribution
      *

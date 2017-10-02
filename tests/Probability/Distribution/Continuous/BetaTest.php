@@ -10,7 +10,8 @@ class BetaTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $α, $β, $pdf)
     {
-        $this->assertEquals($pdf, Beta::pdf($x, $α, $β), '', 0.001);
+        $beta = new Beta($α, $β);
+        $this->assertEquals($pdf, $beta->pdf($x), '', 0.001);
     }
 
     public function dataProviderForPDF()
@@ -50,14 +51,16 @@ class BetaTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException('\Exception');
         list($x, $α, $β) = [4, 0, -3];
-        Beta::pdf($x, $α, $β);
+        $beta = new Beta($α, $β);
+        $beta->pdf($x);
     }
 
     public function testPDFExceptionXOutOfBounds()
     {
         $this->expectException('\Exception');
         list($x, $α, $β) = [4, 1, 1];
-        Beta::pdf($x, $α, $β);
+        $beta = new Beta($α, $β);
+        $beta->pdf($x);
     }
 
     /**
@@ -65,7 +68,8 @@ class BetaTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $α, $β, $cdf)
     {
-        $this->assertEquals($cdf, Beta::cdf($x, $α, $β), '', 0.001);
+        $beta = new Beta($α, $β);
+        $this->assertEquals($cdf, $beta->cdf($x), '', 0.001);
     }
 
     public function dataProviderForCDF()
@@ -106,7 +110,8 @@ class BetaTest extends \PHPUnit_Framework_TestCase
      */
     public function testMean($α, $β, $μ)
     {
-        $this->assertEquals($μ, Beta::mean($α, $β), '', 0.0001);
+        $beta = new Beta($α, $β);
+        $this->assertEquals($μ, $beta->mean(), '', 0.0001);
     }
 
     public function dataProviderForMean()
