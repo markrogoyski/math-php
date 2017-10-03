@@ -200,7 +200,15 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
      */
     public function testParetoParameterLimits()
     {
-        $this->limitTest(Continuous\Pareto::LIMITS);
+        $this->limitTest(Continuous\Pareto::PARAMETER_LIMITS);
+    }
+
+    /**
+     * @testCase Limits constant is correct format
+     */
+    public function testParetoSupportLimits()
+    {
+        $this->limitTest(Continuous\Pareto::SUPPORT_LIMITS);
     }
 
     /**
