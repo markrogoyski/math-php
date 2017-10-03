@@ -4,17 +4,41 @@ namespace MathPHP\Probability\Distribution\Continuous;
 class Uniform extends Continuous
 {
     /**
-     * Distribution parameter bounds limits
+     * Distribution support bounds limits
      * x ∈ (-∞,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '(-∞,∞)',
+    ];
+
+    /**
+     * Distribution parameter bounds limits
      * a ∈ (-∞,∞)
      * b ∈ (-∞,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '(-∞,∞)',
+    const PARAMETER_LIMITS = [
         'a' => '(-∞,∞)',
         'b' => '(-∞,∞)',
     ];
+    
+    /** @var number Lower Bound Parameter */
+    protected $a;
+
+    /** @var number Upper Bound Parameter */
+    protected $b;
+
+    /**
+     * Constructor
+     *
+     * @param number $a lower bound parameter
+     * @param number $b upper bound parameter
+     */
+    public function __construct($a, $b)
+    {
+        parent::__construct($a, $b);
+    }
 
     /**
      * Continuous uniform distribution - probability desnsity function
@@ -26,12 +50,12 @@ class Uniform extends Continuous
      *
      * pdf = 0      for x < a, x > b
      *
-     * @param number $a lower boundary of the distribution
-     * @param number $b upper boundary of the distribution
      * @param number $x percentile
      */
-    public static function pdf($a, $b, $x)
+    public function pdf($x)
     {
+        $a = $this->a;
+        $b = $this->b;
         if ($x < $a || $x > $b) {
             return 0;
         }
@@ -50,12 +74,12 @@ class Uniform extends Continuous
      *
      * cdf = 1      x ≥ b
      *
-     * @param number $a lower boundary of the distribution
-     * @param number $b upper boundary of the distribution
      * @param number $x percentile
      */
-    public static function cdf($a, $b, $x)
+    public function cdf($x)
     {
+        $a = $this->a;
+        $b = $this->b;
         if ($x < $a) {
             return 0;
         }
@@ -72,13 +96,11 @@ class Uniform extends Continuous
      * μ = -----
      *       2
      *
-     * @param number $a lower boundary of the distribution
-     * @param number $b upper boundary of the distribution
      *
      * @return number
      */
-    public static function mean($a, $b)
+    public function mean()
     {
-        return ($a + $b) / 2;
+        return ($this->a + $this->b) / 2;
     }
 }
