@@ -34,9 +34,14 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
         $this->limitTest(Continuous\ChiSquared::PARAMETER_LIMITS);
     }
 
+    public function testExponentialSupportLimits()
+    {
+        $this->limitTest(Continuous\Exponential::PARAMETER_LIMITS);
+    }
+
     public function testExponentialParameterLimits()
     {
-        $this->limitTest(Continuous\Exponential::LIMITS);
+        $this->limitTest(Continuous\Exponential::SUPPORT_LIMITS);
     }
 
     public function testFParameterLimits()
