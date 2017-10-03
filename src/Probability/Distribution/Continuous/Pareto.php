@@ -66,7 +66,7 @@ class Pareto extends Continuous
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $a = $this->a;
-        $b - $this->b;
+        $b = $this->b;
         if ($x < $b) {
             return 0;
         }
@@ -93,7 +93,7 @@ class Pareto extends Continuous
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $a = $this->a;
-        $b - $this->b;
+        $b = $this->b;
         if ($x < $b) {
             return 0;
         }
@@ -116,7 +116,7 @@ class Pareto extends Continuous
     {
 
         $a = $this->a;
-        $b - $this->b;
+        $b = $this->b;
         if ($a <= 1) {
             return INF;
         }
