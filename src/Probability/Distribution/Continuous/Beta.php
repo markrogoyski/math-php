@@ -11,15 +11,6 @@ use MathPHP\Functions\Support;
 class Beta extends Continuous
 {
     /**
-     * Distribution support bounds limits
-     * x ∈ [0,1]
-     * @var array
-     */
-    const SUPPORT_LIMITS = [
-        'x' => '[0,1]',
-    ];
-
-    /**
      * Distribution parameter bounds limits
      * α ∈ (0,∞)
      * β ∈ (0,∞)
@@ -28,6 +19,15 @@ class Beta extends Continuous
     const PARAMETER_LIMITS = [
         'α' => '(0,∞)',
         'β' => '(0,∞)',
+    ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ [0,1]
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '[0,1]',
     ];
 
     /** @var number Shape Parameter */

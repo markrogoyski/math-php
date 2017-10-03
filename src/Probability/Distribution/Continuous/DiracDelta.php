@@ -11,6 +11,13 @@ use MathPHP\Functions\Support;
 class DiracDelta extends Continuous
 {
     /**
+     * Distribution parameter bounds limits
+     *
+     * @var array
+     */
+    const PARAMETER_LIMITS = [];
+
+    /**
      * Distribution support bounds limits
      * x  ∈ (-∞,∞)
      *
@@ -21,15 +28,7 @@ class DiracDelta extends Continuous
     ];
 
     /**
-     * Distribution parameter bounds limits
-     *
-     * @var array
-     */
-    const PARAMETER_LIMITS = [];
-
-    /**
      * Constructor
-     *
      */
     public function __construct()
     {
@@ -59,6 +58,7 @@ class DiracDelta extends Continuous
             return 0;
         }
     }
+
     /**
      * Cumulative distribution function
      * https://en.wikipedia.org/wiki/Heaviside_step_function

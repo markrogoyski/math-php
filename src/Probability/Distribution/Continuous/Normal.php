@@ -11,15 +11,6 @@ use MathPHP\Functions\Support;
 class Normal extends Continuous
 {
     /**
-     * Distribution support bounds limits
-     * x ∈ (-∞,∞)
-     * @var array
-     */
-    const SUPPORT_LIMITS = [
-        'x' => '(-∞,∞)',
-    ];
-
-    /**
      * Distribution parameter bounds limits
      * μ ∈ (-∞,∞)
      * σ ∈ (0,∞)
@@ -28,6 +19,15 @@ class Normal extends Continuous
     const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
         'σ' => '(0,∞)',
+    ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ (-∞,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '(-∞,∞)',
     ];
 
     /** @var number Mean Parameter */

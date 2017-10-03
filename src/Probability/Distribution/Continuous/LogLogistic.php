@@ -10,15 +10,6 @@ use MathPHP\Functions\Support;
  */
 class LogLogistic extends Continuous
 {
-
-    /**
-     * Distribution support bounds limits
-     * x ∈ [0,∞)
-     * @var array
-     */
-    const SUPPORT_LIMITS = [
-        'x' => '[0,∞)',
-    ];
     /**
      * Distribution parameter bounds limits
      * α ∈ (0,∞)
@@ -28,6 +19,15 @@ class LogLogistic extends Continuous
     const PARAMETER_LIMITS = [
         'α' => '(0,∞)',
         'β' => '(0,∞)',
+    ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ [0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '[0,∞)',
     ];
 
      /** @var number Scale Parameter */

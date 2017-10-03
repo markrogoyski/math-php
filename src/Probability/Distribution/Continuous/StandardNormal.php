@@ -23,6 +23,12 @@ class StandardNormal extends Continuous
     const σ = 1;
 
     /**
+     * Distribution parameter bounds limits
+     * @var array
+     */
+    const PARAMETER_LIMITS = [];
+
+    /**
      * Distribution support bounds limits
      * z ∈ (-∞,∞)
      * @var array
@@ -30,12 +36,6 @@ class StandardNormal extends Continuous
     const SUPPORT_LIMITS = [
         'z' => '(-∞,∞)',
     ];
-
-    /**
-     * Distribution parameter bounds limits
-     * @var array
-     */
-    const PARAMETER_LIMITS = [];
 
     /**
      * Probability density function

@@ -7,15 +7,6 @@ use MathPHP\Functions\Support;
 class Weibull extends Continuous
 {
     /**
-     * Distribution support bounds limits
-     * x ∈ [0,∞)
-     * @var array
-     */
-    const SUPPORT_LIMITS = [
-        'x' => '(-∞,∞)',
-    ];
-
-    /**
      * Distribution parameter bounds limits
      * λ ∈ (0,∞)
      * k ∈ (0,∞)
@@ -25,7 +16,16 @@ class Weibull extends Continuous
         'k' => '(0,∞)',
         'λ' => '(0,∞)',
     ];
-    
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ [0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '(-∞,∞)',
+    ];
+
     /** @var number Shape Parameter */
     protected $k;
 

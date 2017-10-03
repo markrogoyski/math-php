@@ -11,21 +11,21 @@ use MathPHP\Functions\Support;
 class StudentT extends Continuous
 {
     /**
-     * Distribution support bounds limits
-     * t ∈ (-∞,∞)
-     * @var array
-     */
-    const SUPPORT_LIMITS = [
-        't' => '(-∞,∞)',
-    ];
-
-    /**
      * Distribution parameter bounds limits
      * ν ∈ (0,∞)
      * @var array
      */
     const PARAMETER_LIMITS = [
         'ν' => '(0,∞)',
+    ];
+
+    /**
+     * Distribution support bounds limits
+     * t ∈ (-∞,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        't' => '(-∞,∞)',
     ];
 
     /** @var number Degrees of Freedom Parameter */

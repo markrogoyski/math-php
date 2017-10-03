@@ -11,21 +11,21 @@ use MathPHP\Functions\Support;
 class ChiSquared extends Continuous
 {
     /**
-     * Distribution support bounds limits
-     * x ∈ [0,∞)
-     * @var array
-     */
-    const SUPPORT_LIMITS = [
-        'x' => '[0,∞)',
-    ];
-
-    /**
      * Distribution parameter bounds limits
      * k ∈ [1,∞)
      * @var array
      */
     const PARAMETER_LIMITS = [
         'k' => '[1,∞)',
+    ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ [0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '[0,∞)',
     ];
 
     /** @var number Degrees of Freedom Parameter */

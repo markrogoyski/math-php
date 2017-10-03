@@ -10,21 +10,21 @@ use MathPHP\Functions\Support;
 class Exponential extends Continuous
 {
     /**
-     * Distribution support bounds limits
-     * x ∈ [0,∞)
-     * @var array
-     */
-    const SUPPORT_LIMITS = [
-        'x' => '[0,∞)',
-    ];
-
-    /**
      * Distribution parameter bounds limits
      * λ ∈ (0,∞)
      * @var array
      */
     const PARAMETER_LIMITS = [
         'λ' => '(0,∞)',
+    ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ [0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '[0,∞)',
     ];
 
      /** @var float rate parameter */

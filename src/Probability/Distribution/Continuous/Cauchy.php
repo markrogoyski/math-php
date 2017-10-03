@@ -10,15 +10,6 @@ use MathPHP\Functions\Support;
 class Cauchy extends Continuous
 {
     /**
-     * Distribution support bounds limits
-     * x  ∈ (-∞,∞)
-     * @var array
-     */
-    const SUPPORT_LIMITS = [
-        'x'  => '(-∞,∞)',
-    ];
-
-    /**
      * Distribution parameter bounds limits
      * x₀ ∈ (-∞,∞)
      * γ  ∈ (0,∞)
@@ -27,6 +18,15 @@ class Cauchy extends Continuous
     const PARAMETER_LIMITS = [
         'x₀' => '(-∞,∞)',
         'γ'  => '(0,∞)',
+    ];
+
+    /**
+     * Distribution support bounds limits
+     * x  ∈ (-∞,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x'  => '(-∞,∞)',
     ];
 
     /** @var number Location Parameter */

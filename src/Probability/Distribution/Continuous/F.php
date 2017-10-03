@@ -11,15 +11,6 @@ use MathPHP\Functions\Support;
 class F extends Continuous
 {
     /**
-     * Distribution Support bounds limits
-     * x  ∈ [0,∞)
-     * @var array
-     */
-    const SUPPORT_LIMITS = [
-        'x'  => '[0,∞)',
-    ];
-
-    /**
      * Distribution parameter bounds limits
      * d₁ ∈ (0,∞)
      * d₂ ∈ (0,∞)
@@ -28,6 +19,15 @@ class F extends Continuous
     const PARAMETER_LIMITS = [
         'd₁' => '(0,∞)',
         'd₂' => '(0,∞)',
+    ];
+
+    /**
+     * Distribution Support bounds limits
+     * x  ∈ [0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x'  => '[0,∞)',
     ];
 
     /** @var number Degree of Freedom Parameter */
