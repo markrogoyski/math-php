@@ -29,7 +29,7 @@ class ParetoTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForCDF
      */
-    public function testCDF($a, $b, $x, $cdf)
+    public function testCDF($x, $a, $b, $cdf)
     {
         $pareto = new Pareto($a, $b);
         $this->assertEquals($cdf, $pareto->cdf($x), '', 0.01);
