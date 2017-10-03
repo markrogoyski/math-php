@@ -61,7 +61,7 @@ class Pareto extends Continuous
      *
      * @return number
      */
-    public static function pdf($x)
+    public function pdf($x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -88,7 +88,7 @@ class Pareto extends Continuous
      *
      * @return number
      */
-    public static function cdf($x)
+    public function cdf($x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -112,7 +112,7 @@ class Pareto extends Continuous
      *
      * @return number
      */
-    public static function mean()
+    public function mean()
     {
 
         $a = $this->a;
