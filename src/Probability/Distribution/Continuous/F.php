@@ -36,7 +36,6 @@ class F extends Continuous
     /** @var number Degree of Freedom Parameter */
     protected $d₂;
 
-    
     /**
      * Constructor
      *
@@ -72,6 +71,7 @@ class F extends Continuous
 
         $d₁ = $this->d₁;
         $d₂ = $this->d₂;
+
         // Numerator
         $⟮d₁x⟯ᵈ¹d₂ᵈ²                = ($d₁ * $x)**$d₁ * $d₂**$d₂;
         $⟮d₁x＋d₂⟯ᵈ¹⁺ᵈ²             = ($d₁ * $x + $d₂)**($d₁ + $d₂);
@@ -104,6 +104,7 @@ class F extends Continuous
 
         $d₁ = $this->d₁;
         $d₂ = $this->d₂;
+
         $ᵈ¹ˣ／d₁x＋d₂ = ($d₁ * $x) / ($d₁ * $x + $d₂);
 
         return Special::regularizedIncompleteBeta($ᵈ¹ˣ／d₁x＋d₂, $d₁/2, $d₂/2);
@@ -121,6 +122,7 @@ class F extends Continuous
     public function mean()
     {
         $d₂ = $this->d₂;
+
         if ($d₂ > 2) {
             return $d₂ / ($d₂ - 2);
         }

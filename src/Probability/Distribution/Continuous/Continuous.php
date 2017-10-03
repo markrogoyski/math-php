@@ -6,6 +6,11 @@ use MathPHP\Exception;
 
 abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
 {
+    /**
+     * Constructor
+     *
+     * @param number[] $params
+     */
     public function __construct(...$params)
     {
         $new_params = static::PARAMETER_LIMITS;

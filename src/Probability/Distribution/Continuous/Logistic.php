@@ -67,6 +67,7 @@ class Logistic extends Continuous
 
         $μ = $this->μ;
         $s = $this->s;
+
         $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
         return $ℯ＾⁻⁽x⁻μ⁾／s / ($s * pow(1 + $ℯ＾⁻⁽x⁻μ⁾／s, 2));
     }
@@ -92,6 +93,7 @@ class Logistic extends Continuous
 
         $μ = $this->μ;
         $s = $this->s;
+
         $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
         return 1 / (1 + $ℯ＾⁻⁽x⁻μ⁾／s);
     }
@@ -101,7 +103,7 @@ class Logistic extends Continuous
      *
      * μ = μ
      *
-     * @return μ
+     * @return number μ
      */
     public function mean()
     {

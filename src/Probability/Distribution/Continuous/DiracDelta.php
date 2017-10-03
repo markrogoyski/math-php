@@ -40,7 +40,6 @@ class DiracDelta extends Continuous
      * Probability density function
      *
      *
-     *
      *          /‾
      *         |  +∞,   x = 0
      * δ(x) = <

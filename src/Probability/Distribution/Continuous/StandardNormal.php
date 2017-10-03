@@ -77,6 +77,6 @@ class StandardNormal extends Continuous
      */
     public function mean()
     {
-        return 0;
+        return self::μ;
     }
 }

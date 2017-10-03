@@ -39,7 +39,7 @@ class Cauchy extends Continuous
      * Constructor
      *
      * @param number $x₀ location parameter
-     * @param number $γ scale parameter γ > 0
+     * @param number $γ  scale parameter γ > 0
      */
     public function __construct($x₀, $γ)
     {
@@ -64,8 +64,9 @@ class Cauchy extends Continuous
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $x₀ = $this->x₀;
-        $γ = $this->γ;
-        $π = \M_PI;
+        $γ  = $this->γ;
+        $π  = \M_PI;
+
         return 1 / ($π * $γ * (1 + (($x - $x₀) / $γ) ** 2));
     }
     
@@ -82,8 +83,9 @@ class Cauchy extends Continuous
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $x₀ = $this->x₀;
-        $γ = $this->γ;
-        $π = \M_PI;
+        $γ  = $this->γ;
+        $π  = \M_PI;
+
         return 1 / $π * atan(($x - $x₀) / $γ) + .5;
     }
     
@@ -91,7 +93,6 @@ class Cauchy extends Continuous
      * Mean of the distribution (undefined)
      *
      * μ is undefined
-     *
      *
      * @return null
      */
@@ -103,8 +104,7 @@ class Cauchy extends Continuous
     /**
      * Meadian of the distribution
      *
-     *
-     * @return x₀
+     * @return number x₀
      */
     public function median()
     {
@@ -114,8 +114,7 @@ class Cauchy extends Continuous
     /**
      * Mode of the distribution
      *
-     *
-     * @return x₀
+     * @return number x₀
      */
     public function mode()
     {

@@ -25,7 +25,6 @@ class Weibull extends Continuous
         'k' => '(0,∞)',
         'λ' => '(0,∞)',
     ];
-
     
     /** @var number Shape Parameter */
     protected $k;
@@ -61,12 +60,13 @@ class Weibull extends Continuous
     public function pdf($x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
-
-        $k = $this->k;
-        $λ = $this->λ;
         if ($x < 0) {
             return 0;
         }
+
+        $k = $this->k;
+        $λ = $this->λ;
+
         $k／λ      = $k / $λ;
         $⟮x／λ⟯ᵏ⁻¹  = pow($x / $λ, $k - 1);
         $ℯ⁻⁽x／λ⁾ᵏ = exp(-pow($x / $λ, $k));
@@ -87,12 +87,13 @@ class Weibull extends Continuous
     public function cdf($x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
-
-        $k = $this->k;
-        $λ = $this->λ;
         if ($x < 0) {
             return 0;
         }
+
+        $k = $this->k;
+        $λ = $this->λ;
+
         $ℯ⁻⁽x／λ⁾ᵏ = exp(-pow($x / $λ, $k));
         return 1 - $ℯ⁻⁽x／λ⁾ᵏ;
     }
@@ -108,6 +109,7 @@ class Weibull extends Continuous
     {
         $k = $this->k;
         $λ = $this->λ;
+
         return $λ * Special::gamma(1 + 1 / $k);
     }
     

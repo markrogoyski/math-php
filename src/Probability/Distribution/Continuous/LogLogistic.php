@@ -67,6 +67,7 @@ class LogLogistic extends Continuous
 
         $α = $this->α;
         $β = $this->β;
+
         $⟮β／α⟯⟮x／α⟯ᵝ⁻¹  = ($β / $α) * pow($x / $α, $β - 1);
         $⟮1 ＋ ⟮x／α⟯ᵝ⟯² = pow(1 + ($x / $α)**$β, 2);
         return $⟮β／α⟯⟮x／α⟯ᵝ⁻¹ / $⟮1 ＋ ⟮x／α⟯ᵝ⟯²;
@@ -81,7 +82,7 @@ class LogLogistic extends Continuous
      *
      * @param number $x (x > 0)
      *
-     * @return @number
+     * @return number
      */
     public function cdf($x)
     {
@@ -89,6 +90,7 @@ class LogLogistic extends Continuous
 
         $α = $this->α;
         $β = $this->β;
+
         $⟮x／α⟯⁻ᵝ = pow($x / $α, -$β);
         return 1 / (1 + $⟮x／α⟯⁻ᵝ);
     }
@@ -107,7 +109,6 @@ class LogLogistic extends Continuous
      */
     public function mean()
     {
-
         $α = $this->α;
         $β = $this->β;
         $π = \M_PI;

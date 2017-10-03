@@ -28,6 +28,9 @@ class ChiSquared extends Continuous
         'k' => '[1,∞)',
     ];
 
+    /** @var number Degrees of Freedom Parameter */
+    protected $k;
+
     /**
      * Constructor
      *
@@ -37,9 +40,6 @@ class ChiSquared extends Continuous
     {
         parent::__construct($k);
     }
-
-    /** @var number Degrees of Freedom Parameter */
-    protected $k;
 
     /**
      * Probability density function
@@ -59,6 +59,7 @@ class ChiSquared extends Continuous
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $k = $this->k;
+
         // Numerator
         $x⁽ᵏ／²⁾⁻¹ = $x**(($k / 2) - 1);
         $ℯ⁻⁽ˣ／²⁾  = exp(-($x / 2));
@@ -93,6 +94,7 @@ class ChiSquared extends Continuous
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $k = $this->k;
+
         // Numerator
         $γ⟮k／2、x／2⟯ = Special::γ($k / 2, $x / 2);
 

@@ -51,8 +51,8 @@ class Normal extends Continuous
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
-        $μ = $this->μ;
-        $σ = $this->σ;
+        $μ     = $this->μ;
+        $σ     = $this->σ;
         $π     = \M_PI;
         $σ√⟮2π⟯ = $σ * sqrt(2 * $π);
 
@@ -82,6 +82,7 @@ class Normal extends Continuous
 
         $μ = $this->μ;
         $σ = $this->σ;
+
         return 1/2 * ( 1 + Special::erf(($x - $μ) / ($σ * sqrt(2))) );
     }
     
@@ -94,7 +95,6 @@ class Normal extends Continuous
      */
     public function mean()
     {
-
         return $this->μ;
     }
 }
