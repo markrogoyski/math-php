@@ -57,7 +57,7 @@ class Binomial extends Discrete
      *
      * @return float
      */
-    public static function pmf(int $r): float
+    public function pmf(int $r): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['r' => $r]);
 
@@ -78,7 +78,7 @@ class Binomial extends Discrete
      *
      * @return float
      */
-    public static function cdf(int $r): float
+    public function cdf(int $r): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['r' => $r]);
 
