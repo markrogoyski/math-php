@@ -6,14 +6,23 @@ use MathPHP\Probability\Distribution\Continuous\LogNormal;
 class LogNormalTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @testCase     pdf
      * @dataProvider dataProviderForPDF
+     * @param        number $x
+     * @param        number $μ
+     * @param        number $σ
+     * @param        number $pdf
      */
     public function testPDF($x, $μ, $σ, $pdf)
     {
-        $this->assertEquals($pdf, LogNormal::pdf($x, $μ, $σ), '', 0.001);
+        $log_normal = new LogNormal($μ, $σ);
+        $this->assertEquals($pdf, $log_normal->pdf($x, $μ, $σ), '', 0.001);
     }
 
-    public function dataProviderForPDF()
+    /**
+     * @return array
+     */
+    public function dataProviderForPDF(): array
     {
         return [
             [ 4.3, 6, 2, 0.003522012 ],
@@ -27,13 +36,21 @@ class LogNormalTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataProviderForCDF
+     * @param        number $x
+     * @param        number $μ
+     * @param        number $σ
+     * @param        number $cdf
      */
     public function testCDF($x, $μ, $σ, $cdf)
     {
-        $this->assertEquals($cdf, LogNormal::cdf($x, $μ, $σ), '', 0.001);
+        $log_normal = new LogNormal($μ, $σ);
+        $this->assertEquals($cdf, $log_normal->cdf($x, $μ, $σ), '', 0.001);
     }
 
-    public function dataProviderForCDF()
+    /**
+     * @return array
+     */
+    public function dataProviderForCDF(): array
     {
         return [
             [ 4.3, 6, 2, 0.0115828 ],
@@ -47,13 +64,20 @@ class LogNormalTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataProviderForMean
+     * @param        number $μ
+     * @param        number $σ
+     * @param        number $mean
      */
     public function testMean($μ, $σ, $mean)
     {
-        $this->assertEquals($mean, LogNormal::mean($μ, $σ), '', 0.000001);
+        $log_normal = new LogNormal($μ, $σ);
+        $this->assertEquals($mean, $log_normal->mean($μ, $σ), '', 0.000001);
     }
 
-    public function dataProviderForMean()
+    /**
+     * @return array
+     */
+    public function dataProviderForMean(): array
     {
         return [
             [1, 1, 4.48168907034],

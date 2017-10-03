@@ -8,16 +8,40 @@ class LogNormal extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x ∈ (0,∞)
      * μ ∈ (-∞,∞)
      * σ ∈ (0,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '(0,∞)',
+    const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
         'σ' => '(0,∞)',
     ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ (0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '(0,∞)',
+    ];
+
+     /** @var number location parameter */
+    protected $μ;
+
+     /** @var float scale parameter > 0 */
+    protected $σ;
+
+    /**
+     * Constructor
+     *
+     * @param  number $μ location parameter
+     * @param  number $σ scale parameter > 0
+     */
+    public function __construct($μ, $λ)
+    {
+        parent::__construct($μ, $λ);
+    }
 
     /**
      * Log normal distribution - probability density function
@@ -30,18 +54,21 @@ class LogNormal extends Continuous
      *       xσ√2π
      *
      * @param  number $x > 0
-     * @param  number $μ location parameter
-     * @param  number $σ scale parameter > 0
+     *
      * @return number
      */
-    public static function pdf($x, $μ, $σ)
+    public function pdf($x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
-        $π          = \M_PI;
+        $μ = $this->μ;
+        $σ = $this->σ;
+        $π = \M_PI;
+
         $xσ√2π      = $x * $σ * sqrt(2 * $π);
         $⟮ln x − μ⟯² = pow(log($x) - $μ, 2);
         $σ²         = $σ**2;
+
         return (1 / $xσ√2π) * exp(-($⟮ln x − μ⟯² / (2 *$σ²)));
     }
     /**
@@ -54,17 +81,20 @@ class LogNormal extends Continuous
      *       2   2      \   √2σ     /
      *
      * @param  number $x > 0
-     * @param  number $μ location parameter
-     * @param  number $σ scale parameter > 0
+     *
      * @return number
      */
-    public static function cdf($x, $μ, $σ)
+    public function cdf($x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
-        $π          = \M_PI;
+        $μ = $this->μ;
+        $σ = $this->σ;
+        $π = \M_PI;
+
         $⟮ln x − μ⟯ = log($x) - $μ;
         $√2σ       = sqrt(2) * $σ;
+
         return 1/2 + 1/2 * Special::erf($⟮ln x − μ⟯ / $√2σ);
     }
     
@@ -78,9 +108,10 @@ class LogNormal extends Continuous
      *
      * @return number
      */
-    public static function mean($μ, $σ)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['μ' => $μ, 'σ' => $σ]);
+        $μ = $this->μ;
+        $σ = $this->σ;
 
         return exp($μ + ($σ**2 / 2));
     }

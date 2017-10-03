@@ -166,6 +166,22 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase Limits constant is correct format
      */
+    public function testLogNormalParameterLimits()
+    {
+        $this->limitTest(Continuous\LogNormal::PARAMETER_LIMITS);
+    }
+
+    /**
+     * @testCase Limits constant is correct format
+     */
+    public function testLogNormalSupportLimits()
+    {
+        $this->limitTest(Continuous\LogNormal::SUPPORT_LIMITS);
+    }
+
+    /**
+     * @testCase Limits constant is correct format
+     */
     public function testNormalParameterLimits()
     {
         $this->limitTest(Continuous\Normal::PARAMETER_LIMITS);
