@@ -240,7 +240,15 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
      */
     public function testUniformParameterLimits()
     {
-        $this->limitTest(Continuous\Uniform::LIMITS);
+        $this->limitTest(Continuous\Uniform::PARAMETER_LIMITS);
+    }
+
+    /**
+     * @testCase Limits constant is correct format
+     */
+    public function testUniformParameterLimits()
+    {
+        $this->limitTest(Continuous\Uniform::SUPPORT_LIMITS);
     }
 
     /**
