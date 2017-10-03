@@ -10,19 +10,41 @@ use MathPHP\Functions\Support;
 class Logistic extends Continuous
 {
     /**
-     * Distribution parameter bounds limits
+     * Distribution support bounds limits
      * x ∈ (-∞,∞)
-     * μ ∈ (-∞,∞)
-     * s ∈ (0,∞)
-     * p ∈ [0,1]
      * @var array
      */
-    const LIMITS = [
+    const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',
+    ];
+
+    /**
+     * Distribution parameter bounds limits
+     * μ ∈ (-∞,∞)
+     * s ∈ (0,∞)
+     * @var array
+     */
+    const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
         's' => '(0,∞)',
-        'p' => '[0,1]',
     ];
+
+    /** @var number Location Parameter */
+    protected $μ;
+    
+    /** @var number Scale Parameter */
+    protected $s;
+
+    /**
+     * Constructor
+     *
+     * @param number $μ shape parameter
+     * @param number $s shape parameter s > 0
+     */
+    public function __construct($μ, $s)
+    {
+        parent::__construct($μ, $s);
+    }
 
     /**
      * Probability density function
@@ -36,15 +58,15 @@ class Logistic extends Continuous
      *                \        \    s   / /
      *
      * @param number $x
-     * @param number $μ location parameter
-     * @param number $s scale parameter > 0
      *
      * @return float
      */
-    public static function pdf($x, $μ, $s)
+    public function pdf($x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
+        $μ = $this->μ;
+        $s = $this->s;
         $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
         return $ℯ＾⁻⁽x⁻μ⁾／s / ($s * pow(1 + $ℯ＾⁻⁽x⁻μ⁾／s, 2));
     }
@@ -64,10 +86,12 @@ class Logistic extends Continuous
      *
      * @return float
      */
-    public static function cdf($x, $μ, $s)
+    public function cdf($x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
+        $μ = $this->μ;
+        $s = $this->s;
         $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
         return 1 / (1 + $ℯ＾⁻⁽x⁻μ⁾／s);
     }
@@ -77,16 +101,11 @@ class Logistic extends Continuous
      *
      * μ = μ
      *
-     * @param number $μ location parameter
-     * @param number $s scale parameter
-     *
      * @return μ
      */
-    public static function mean($μ, $s)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['μ' => $μ, 's' => $s]);
-
-        return $μ;
+        return $this->μ;
     }
     
     /**
@@ -97,16 +116,14 @@ class Logistic extends Continuous
      *                     \ 1 - p /
      *
      * @param number $p
-     * @param number $μ
-     * @param number $s
      *
      * @return number
      */
-    public static function inverse($p, ...$params)
+    public function inverse($p)
     {
-        $μ = $params[0];
-        $s = $params[1];
-        Support::checkLimits(self::LIMITS, ['μ' => $μ, 's' => $s, 'p' => $p]);
+        Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
+        $μ = $this->μ;
+        $s = $this->s;
 
         return $μ + $s * log($p / (1 - $p));
     }

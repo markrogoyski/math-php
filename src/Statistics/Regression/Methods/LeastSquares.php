@@ -615,9 +615,10 @@ trait LeastSquares
         $ν  = $this->ν;
         $t  = $this->tValues();
 
+        $studentT = new StudentT($ν);
         return [
-            'm' => StudentT::cdf($t['m'], $ν),
-            'b' => StudentT::cdf($t['b'], $ν),
+            'm' => $studentT->cdf($t['m']),
+            'b' => $studentT->cdf($t['b']),
         ];
     }
 
@@ -670,7 +671,8 @@ trait LeastSquares
         $d₁ = $n - $ν - 1;
         $d₂ = $ν;
 
-        return (F::cdf($F, $d₁, $d₂));
+        $fDist = new F($d₁, $d₂);
+        return ($fDist->cdf($F));
     }
 
     /**
@@ -701,7 +703,8 @@ trait LeastSquares
         $σ² = $this->meanSquareResidual();
         
         // The t-value
-        $t = StudentT::inverse2Tails($p, $this->ν);
+        $studentT = new StudentT($this->ν);
+        $t = $studentT->inverse2Tails($p);
         
         return $t * sqrt($σ² * $V);
     }
@@ -736,7 +739,8 @@ trait LeastSquares
         $σ² = $this->meanSquareResidual();
      
         // The t-value
-        $t = StudentT::inverse2Tails($p, $this->ν);
+        $studentT = new StudentT($this->ν);
+        $t = $studentT->inverse2Tails($p);
         
         return $t * sqrt($σ² * $V);
     }

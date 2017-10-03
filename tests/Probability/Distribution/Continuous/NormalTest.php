@@ -10,7 +10,8 @@ class NormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $μ, $σ, $pdf)
     {
-        $this->assertEquals($pdf, Normal::pdf($x, $μ, $σ), '', 0.001);
+        $normal = new Normal($μ, $σ);
+        $this->assertEquals($pdf, $normal->pdf($x), '', 0.001);
     }
 
     public function dataProviderForPDF()
@@ -27,7 +28,8 @@ class NormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $μ, $σ, $probability)
     {
-        $this->assertEquals($probability, Normal::cdf($x, $μ, $σ), '', 0.001);
+        $normal = new Normal($μ, $σ);
+        $this->assertEquals($probability, $normal->cdf($x), '', 0.001);
     }
 
     public function dataProviderForCDF()
@@ -48,7 +50,8 @@ class NormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testBetween($lower, $upper, $μ, $σ, $probability)
     {
-        $this->assertEquals($probability, Normal::between($lower, $upper, $μ, $σ), '', 0.00001);
+        $normal = new Normal($μ, $σ);
+        $this->assertEquals($probability, $normal->between($lower, $upper), '', 0.00001);
     }
 
     public function dataProviderForBetween()
@@ -64,7 +67,8 @@ class NormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testOutside($lower, $upper, $μ, $σ, $probability)
     {
-        $this->assertEquals($probability, Normal::outside($lower, $upper, $μ, $σ), '', 0.00001);
+        $normal = new Normal($μ, $σ);
+        $this->assertEquals($probability, $normal->outside($lower, $upper), '', 0.00001);
     }
 
     public function dataProviderForOutside()
@@ -80,7 +84,8 @@ class NormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testAbove($x, $μ, $σ, $probability)
     {
-        $this->assertEquals($probability, Normal::above($x, $μ, $σ), '', 0.00001);
+        $normal = new Normal($μ, $σ);
+        $this->assertEquals($probability, $normal->above($x), '', 0.00001);
     }
 
     public function dataProviderForAbove()
@@ -95,6 +100,7 @@ class NormalTest extends \PHPUnit_Framework_TestCase
     {
         $μ = 5;
         $σ = 1.5;
-        $this->assertEquals($μ, Normal::mean($μ, $σ));
+        $normal = new Normal($μ, $σ);
+        $this->assertEquals($μ, $normal->mean());
     }
 }

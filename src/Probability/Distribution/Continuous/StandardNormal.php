@@ -23,13 +23,19 @@ class StandardNormal extends Continuous
     const σ = 1;
 
     /**
-     * Distribution parameter bounds limits
+     * Distribution support bounds limits
      * z ∈ (-∞,∞)
      * @var array
      */
-    const LIMITS = [
+    const SUPPORT_LIMITS = [
         'z' => '(-∞,∞)',
     ];
+
+    /**
+     * Distribution parameter bounds limits
+     * @var array
+     */
+    const PARAMETER_LIMITS = [];
 
     /**
      * Probability density function
@@ -38,11 +44,12 @@ class StandardNormal extends Continuous
      *
      * @return float f(z|μ,σ)
      */
-    public static function pdf($z)
+    public function pdf($z)
     {
-        Support::checkLimits(self::LIMITS, ['z' => $z]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['z' => $z]);
 
-        return Normal::pdf($z, self::μ, self::σ);
+        $normal = new Normal(self::μ, self::σ);
+        return $normal->pdf($z);
     }
 
     /**
@@ -53,11 +60,12 @@ class StandardNormal extends Continuous
      *
      * @return float f(z|μ,σ)
      */
-    public static function cdf($z)
+    public function cdf($z)
     {
-        Support::checkLimits(self::LIMITS, ['z' => $z]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['z' => $z]);
 
-        return Normal::cdf($z, self::μ, self::σ);
+        $normal = new Normal(self::μ, self::σ);
+        return $normal->cdf($z);
     }
     
     /**
@@ -67,7 +75,7 @@ class StandardNormal extends Continuous
      *
      * @return int 0
      */
-    public static function mean()
+    public function mean()
     {
         return 0;
     }
