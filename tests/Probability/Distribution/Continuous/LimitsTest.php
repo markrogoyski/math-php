@@ -120,7 +120,15 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
      */
     public function testLaplaceParameterLimits()
     {
-        $this->limitTest(Continuous\Laplace::LIMITS);
+        $this->limitTest(Continuous\Laplace::PARAMETER_LIMITS);
+    }
+
+    /**
+     * @testCase Limits constant is correct format
+     */
+    public function testLaplaceSupportLimits()
+    {
+        $this->limitTest(Continuous\Laplace::SUPPORT_LIMITS);
     }
 
     /**
