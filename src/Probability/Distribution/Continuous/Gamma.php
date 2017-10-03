@@ -12,16 +12,40 @@ class Gamma extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x ∈ (0,∞)
      * k ∈ (0,∞)
      * θ ∈ (0,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '(0,∞)',
+    const PARAMETER_LIMITS = [
         'k' => '(0,∞)',
         'θ' => '(0,∞)',
     ];
+
+    /**
+     * Distribution suport bounds limits
+     * x ∈ (0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '(0,∞)',
+    ];
+
+    /** @var number shape parameter k > 0 */
+    protected $k;
+
+    /** @var number shape parameter θ > 0 */
+    protected $θ;
+
+    /**
+     * Constructor
+     *
+     * @param number $k shape parameter k > 0
+     * @param number $θ scale parameter θ > 0
+     */
+    public function __construct($k, $θ)
+    {
+        parent::__construct($k, $θ);
+    }
 
     /**
      * Probability density function
@@ -32,14 +56,15 @@ class Gamma extends Continuous
      *       Γ(k)θᵏ
      *
      * @param number $x percentile      x > 0
-     * @param number $k shape parameter k > 0
-     * @param number $θ scale parameter θ > 0
      *
      * @return float
      */
-    public static function pdf($x, $k, $θ): float
+    public function pdf($x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'k' => $k, 'θ' => $θ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $k = $this->k;
+        $θ = $this->θ;
 
         $Γ⟮k⟯   = Special::Γ($k);
         $θᵏ    = $θ**$k;
@@ -59,14 +84,15 @@ class Gamma extends Continuous
      *       Γ(k)     \   θ /
      *
      * @param number $x percentile      x > 0
-     * @param number $k shape parameter k > 0
-     * @param number $θ scale parameter θ > 0
      *
      * @return float
      */
-    public static function cdf($x, $k, $θ): float
+    public function cdf($x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'k' => $k, 'θ' => $θ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $k = $this->k;
+        $θ = $this->θ;
 
         $Γ⟮k⟯ = Special::Γ($k);
         $γ   = Special::γ($k, $x / $θ);
@@ -79,15 +105,10 @@ class Gamma extends Continuous
      *
      * μ = k θ
      *
-     * @param number $k shape parameter k > 0
-     * @param number $θ scale parameter θ > 0
-     *
      * @return number
      */
-    public static function mean($k, $θ)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['k' => $k, 'θ' => $θ]);
-
-        return $k * $θ;
+        return $this->k * $this->θ;
     }
 }

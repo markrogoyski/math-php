@@ -102,6 +102,22 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase Limits constant is correct format
      */
+    public function testGammaParameterLimits()
+    {
+        $this->limitTest(Continuous\Gamma::PARAMETER_LIMITS);
+    }
+
+    /**
+     * @testCase Limits constant is correct format
+     */
+    public function testGammaSupportLimits()
+    {
+        $this->limitTest(Continuous\Gamma::SUPPORT_LIMITS);
+    }
+
+    /**
+     * @testCase Limits constant is correct format
+     */
     public function testLaplaceParameterLimits()
     {
         $this->limitTest(Continuous\Laplace::LIMITS);

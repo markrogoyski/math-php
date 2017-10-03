@@ -27,6 +27,9 @@ class Exponential extends Continuous
         'λ' => '(0,∞)',
     ];
 
+     /** @var float rate parameter */
+    protected $λ;
+
     /**
      * Constructor
      *
