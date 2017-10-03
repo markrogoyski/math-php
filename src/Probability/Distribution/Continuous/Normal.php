@@ -11,17 +11,30 @@ use MathPHP\Functions\Support;
 class Normal extends Continuous
 {
     /**
-     * Distribution parameter bounds limits
+     * Distribution support bounds limits
      * x ∈ (-∞,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '(-∞,∞)',
+    ];
+
+    /**
+     * Distribution parameter bounds limits
      * μ ∈ (-∞,∞)
      * σ ∈ (0,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '(-∞,∞)',
+    const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
         'σ' => '(0,∞)',
     ];
+
+    /** @var number Mean Parameter */
+    protected $μ;
+
+    /** @var number Standard Deviation Parameter */
+    protected $σ;
 
     /**
      * Probability density function
@@ -31,15 +44,15 @@ class Normal extends Continuous
      *            σ√⟮2π⟯
      *
      * @param number $x random variable
-     * @param number $μ mean
-     * @param number $σ standard deviation
      *
      * @return float f(x|μ,σ)
      */
-    public static function pdf($x, $μ, $σ): float
+    public function pdf($x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
+        $μ = $this->μ;
+        $σ = $this->σ;
         $π     = \M_PI;
         $σ√⟮2π⟯ = $σ * sqrt(2 * $π);
 
@@ -60,15 +73,15 @@ class Normal extends Continuous
      *          2 |_        \  σ√2  / _|
      *
      * @param number $x upper bound
-     * @param number $μ mean
-     * @param number $σ standard deviation
      *
      * @return float cdf(x) below
      */
-    public static function cdf($x, $μ, $σ): float
+    public function cdf($x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'σ' => $σ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
+        $μ = $this->μ;
+        $σ = $this->σ;
         return 1/2 * ( 1 + Special::erf(($x - $μ) / ($σ * sqrt(2))) );
     }
     
@@ -77,15 +90,11 @@ class Normal extends Continuous
      *
      * μ = μ
      *
-     * @param number $μ mean
-     * @param number $σ standard deviation
-     *
      * @return number
      */
-    public static function mean($μ, $σ)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['μ' => $μ, 'σ' => $σ]);
 
-        return $μ;
+        return $this->μ;
     }
 }

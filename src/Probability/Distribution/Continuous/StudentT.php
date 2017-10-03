@@ -11,17 +11,35 @@ use MathPHP\Functions\Support;
 class StudentT extends Continuous
 {
     /**
-     * Distribution parameter bounds limits
-     * x ∈ (-∞,∞)
-     * ν ∈ (0,∞)
+     * Distribution support bounds limits
      * t ∈ (-∞,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '(-∞,∞)',
-        'ν' => '(0,∞)',
+    const SUPPORT_LIMITS = [
         't' => '(-∞,∞)',
     ];
+
+    /**
+     * Distribution parameter bounds limits
+     * ν ∈ (0,∞)
+     * @var array
+     */
+    const PARAMETER_LIMITS = [
+        'ν' => '(0,∞)',
+    ];
+
+    /** @var number Degrees of Freedom Parameter */
+    protected $ν;
+
+    /**
+     * Constructor
+     *
+     * @param number $ν degrees of freedom ν > 0
+     */
+    public function __construct($ν)
+    {
+        parent::__construct($ν);
+    }
 
     /**
      * Probability density function
@@ -38,22 +56,23 @@ class StudentT extends Continuous
      * @param number $x percentile
      * @param int    $ν degrees of freedom > 0
      */
-    public static function pdf($x, int $ν)
+    public function pdf($t)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
 
+        $ν = $this->ν;
         $π = \M_PI;
 
         // Numerator
         $Γ⟮⟮ν＋1⟯∕2⟯ = Special::gamma(($ν + 1) / 2);
-        $⟮1＋x²∕ν⟯ = 1 + ($x**2 / $ν);
+        $⟮1＋t²∕ν⟯ = 1 + ($t**2 / $ν);
         $−⟮ν＋1⟯∕2 = -($ν + 1) / 2;
 
         // Denominator
         $√⟮νπ⟯  = sqrt($ν * $π);
         $Γ⟮ν∕2⟯ = Special::gamma($ν / 2);
         
-        return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋x²∕ν⟯**$−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);
+        return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋t²∕ν⟯**$−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);
     }
     
     /**
@@ -71,10 +90,11 @@ class StudentT extends Continuous
      * @param number $t t score
      * @param int    $ν degrees of freedom > 0
      */
-    public static function cdf($t, int $ν)
+    public function cdf($t)
     {
-        Support::checkLimits(self::LIMITS, ['t' => $t, 'ν' => $ν]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
 
+        $ν = $this->ν;
         if ($t == 0) {
             return .5;
         }
@@ -101,9 +121,10 @@ class StudentT extends Continuous
      *
      * @return number t-score
      */
-    public static function inverse2Tails($p, $ν)
+    public function inverse2Tails($p)
     {
-        Support::checkLimits(self::LIMITS, ['ν' => $ν]);
+        Support::checkLimits(['p'  => '[0,1]'], ['p' => $p]);
+        $ν = $this->ν;
         return self::inverse(1 - $p / 2, $ν);
     }
     
@@ -117,10 +138,9 @@ class StudentT extends Continuous
      *
      * @return number
      */
-    public static function mean($ν)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['ν' => $ν]);
-        if ($ν > 1) {
+        if ($this->ν > 1) {
             return 0;
         }
 
@@ -136,9 +156,8 @@ class StudentT extends Continuous
      *
      * @return number
      */
-    public static function median($ν)
+    public function median()
     {
-        Support::checkLimits(self::LIMITS, ['ν' => $ν]);
         return 0;
     }
 }

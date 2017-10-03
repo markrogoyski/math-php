@@ -10,7 +10,8 @@ class LogLogisticTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $α, $β, $pdf)
     {
-        $this->assertEquals($pdf, LogLogistic::pdf($x, $α, $β), '', 0.001);
+        $logLogistic = new LogLogistic($α, $β);
+        $this->assertEquals($pdf, $logLogistic->pdf($x), '', 0.001);
     }
 
     public function dataProviderForPDF()
@@ -27,9 +28,10 @@ class LogLogisticTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $α, $β, $cdf)
     {
-        $p = LogLogistic::cdf($x, $α, $β);
+        $logLogistic = new LogLogistic($α, $β);
+        $p = $logLogistic->cdf($x);
         $this->assertEquals($cdf, $p, '', 0.001);
-        $this->assertEquals($x, LogLogistic::inverse($p, $α, $β), '', 0.001);
+        $this->assertEquals($x, $logLogistic->inverse($p), '', 0.001);
     }
 
     public function dataProviderForCDF()
@@ -46,7 +48,8 @@ class LogLogisticTest extends \PHPUnit_Framework_TestCase
      */
     public function testMean($α, $β, $μ)
     {
-        $this->assertEquals($μ, LogLogistic::mean($α, $β), '', 0.00001);
+        $logLogistic = new LogLogistic($α, $β);
+        $this->assertEquals($μ, $logLogistic->mean(), '', 0.00001);
     }
 
     public function dataProviderForMean()
@@ -61,6 +64,7 @@ class LogLogisticTest extends \PHPUnit_Framework_TestCase
     
     public function testMeanNan()
     {
-        $this->assertNan(LogLogistic::mean(1, 1));
+        $logLogistic = new LogLogistic(1, 1);
+        $this->assertNan($logLogistic->mean());
     }
 }

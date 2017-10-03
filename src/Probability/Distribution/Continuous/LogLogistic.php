@@ -10,20 +10,42 @@ use MathPHP\Functions\Support;
  */
 class LogLogistic extends Continuous
 {
+
     /**
-     * Distribution parameter bounds limits
+     * Distribution support bounds limits
      * x ∈ [0,∞)
-     * α ∈ (0,∞)
-     * β ∈ (0,∞)
-     * p ∈ [0,1]
      * @var array
      */
-    const LIMITS = [
+    const SUPPORT_LIMITS = [
         'x' => '[0,∞)',
+    ];
+    /**
+     * Distribution parameter bounds limits
+     * α ∈ (0,∞)
+     * β ∈ (0,∞)
+     * @var array
+     */
+    const PARAMETER_LIMITS = [
         'α' => '(0,∞)',
         'β' => '(0,∞)',
-        'p' => '[0,1]',
     ];
+
+     /** @var number Scale Parameter */
+    protected $α;
+
+    /** @var number Shape Parameter */
+    protected $β;
+
+    /**
+     * Constructor
+     *
+     * @param number $α scale parameter α > 0
+     * @param number $β shape parameter β > 0
+     */
+    public function __construct($α, $β)
+    {
+        parent::__construct($α, $β);
+    }
 
     /**
      * Probability density function
@@ -38,14 +60,18 @@ class LogLogistic extends Continuous
      *
      * @return number
      */
-    public static function pdf($x, $α, $β)
-    {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
 
+    public function pdf($x)
+    {
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $α = $this->α;
+        $β = $this->β;
         $⟮β／α⟯⟮x／α⟯ᵝ⁻¹  = ($β / $α) * pow($x / $α, $β - 1);
         $⟮1 ＋ ⟮x／α⟯ᵝ⟯² = pow(1 + ($x / $α)**$β, 2);
         return $⟮β／α⟯⟮x／α⟯ᵝ⁻¹ / $⟮1 ＋ ⟮x／α⟯ᵝ⟯²;
     }
+
     /**
      * Cumulative distribution function
      *
@@ -54,15 +80,15 @@ class LogLogistic extends Continuous
      *              1 + (x/α)⁻ᵝ
      *
      * @param number $x (x > 0)
-     * @param number $α scale parameter (α > 0)
-     * @param number $β shape parameter (β > 0)
      *
      * @return @number
      */
-    public static function cdf($x, $α, $β)
+    public function cdf($x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
+        $α = $this->α;
+        $β = $this->β;
         $⟮x／α⟯⁻ᵝ = pow($x / $α, -$β);
         return 1 / (1 + $⟮x／α⟯⁻ᵝ);
     }
@@ -79,10 +105,11 @@ class LogLogistic extends Continuous
      *
      * @return number
      */
-    public static function mean($α, $β)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['α' => $α, 'β' => $β]);
 
+        $α = $this->α;
+        $β = $this->β;
         $π = \M_PI;
 
         if ($β > 1) {
@@ -100,16 +127,15 @@ class LogLogistic extends Continuous
      *                 \ 1 - p /
      *
      * @param number $p
-     * @param number $α
-     * @param number $β
      *
      * @return number
      */
-    public static function inverse($p, ...$params)
+    public function inverse($p)
     {
-        $α = $params[0];
-        $β = $params[1];
-        Support::checkLimits(self::LIMITS, ['α' => $α, 'β' => $β, 'p' => $p]);
+        Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
+
+        $α = $this->α;
+        $β = $this->β;
         
         return $α * ($p / (1 - $p))**(1/$β);
     }

@@ -11,14 +11,30 @@ use MathPHP\Functions\Support;
 class DiracDelta extends Continuous
 {
     /**
-     * Distribution parameter bounds limits
+     * Distribution support bounds limits
      * x  ∈ (-∞,∞)
      *
      * @var array
      */
-    const LIMITS = [
+    const SUPPORT_LIMITS = [
         'x'  => '(-∞,∞)',
     ];
+
+    /**
+     * Distribution parameter bounds limits
+     *
+     * @var array
+     */
+    const PARAMETER_LIMITS = [];
+
+    /**
+     * Constructor
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * Probability density function
@@ -68,7 +84,7 @@ class DiracDelta extends Continuous
      * The inverse of the CDF function
      *
      */
-    public static function inverse($p, ...$params)
+    public function inverse($p)
     {
         return 0;
     }
