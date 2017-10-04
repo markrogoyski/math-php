@@ -10,7 +10,8 @@ class ParetoTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $a, $b, $pdf)
     {
-        $this->assertEquals($pdf, Pareto::pdf($x, $a, $b), '', 0.01);
+        $pareto = new Pareto($a, $b);
+        $this->assertEquals($pdf, $pareto->pdf($x), '', 0.01);
     }
 
     public function dataProviderForPDF()
@@ -28,9 +29,10 @@ class ParetoTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForCDF
      */
-    public function testCDF($a, $b, $x, $cdf)
+    public function testCDF($x, $a, $b, $cdf)
     {
-        $this->assertEquals($cdf, Pareto::cdf($a, $b, $x), '', 0.01);
+        $pareto = new Pareto($a, $b);
+        $this->assertEquals($cdf, $pareto->cdf($x), '', 0.01);
     }
 
     public function dataProviderForCDF()
@@ -51,7 +53,8 @@ class ParetoTest extends \PHPUnit_Framework_TestCase
      */
     public function testMean($a, $b, $μ)
     {
-        $this->assertEquals($μ, Pareto::mean($a, $b), '', 0.0001);
+        $pareto = new Pareto($a, $b);
+        $this->assertEquals($μ, $pareto->mean(), '', 0.0001);
     }
 
     public function dataProviderForMean()
