@@ -192,9 +192,8 @@ class NormalTest extends \PHPUnit_Framework_TestCase
         $μ = [0, 0];
         $∑ = new Matrix($M);
 
-        $normal = new Normal($μ, $∑);
         $this->expectException(Exception\BadDataException::class);
-        $pdf = $normal->pdf($x);
+        $normal = new Normal($μ, $∑);
     }
 
     /**
@@ -207,8 +206,7 @@ class NormalTest extends \PHPUnit_Framework_TestCase
         $∑ = new Matrix([
             [1, 0],
             [0, 1],
-        ]);
-
+        
         $normal = new Normal($μ, $∑);
         $this->expectException(Exception\BadDataException::class);
         $pdf = $normal->pdf($x);
@@ -228,6 +226,5 @@ class NormalTest extends \PHPUnit_Framework_TestCase
 
         $normal = new Normal($μ, $∑);
         $this->expectException(Exception\BadDataException::class);
-        $pdf = $normal->pdf($x);
     }
 }
