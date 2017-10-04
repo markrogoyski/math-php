@@ -4,15 +4,6 @@ namespace MathPHP\Probability\Distribution\Continuous;
 class Uniform extends Continuous
 {
     /**
-     * Distribution support bounds limits
-     * x ∈ (-∞,∞)
-     * @var array
-     */
-    const SUPPORT_LIMITS = [
-        'x' => '(-∞,∞)',
-    ];
-
-    /**
      * Distribution parameter bounds limits
      * a ∈ (-∞,∞)
      * b ∈ (-∞,∞)
@@ -21,6 +12,15 @@ class Uniform extends Continuous
     const PARAMETER_LIMITS = [
         'a' => '(-∞,∞)',
         'b' => '(-∞,∞)',
+    ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ (-∞,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '(-∞,∞)',
     ];
     
     /** @var number Lower Bound Parameter */

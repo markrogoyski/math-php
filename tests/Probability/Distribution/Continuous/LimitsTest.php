@@ -70,6 +70,22 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase Limits constant is correct format
      */
+    public function testDiracDeltaParameterLimits()
+    {
+        $this->limitTest(Continuous\DiracDelta::PARAMETER_LIMITS);
+    }
+
+    /**
+     * @testCase Limits constant is correct format
+     */
+    public function testDiracDeltaSupportLimits()
+    {
+        $this->limitTest(Continuous\DiracDelta::SUPPORT_LIMITS);
+    }
+
+    /**
+     * @testCase Limits constant is correct format
+     */
     public function testExponentialParameterLimits()
     {
         $this->limitTest(Continuous\Exponential::SUPPORT_LIMITS);
@@ -177,6 +193,22 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     public function testLogNormalSupportLimits()
     {
         $this->limitTest(Continuous\LogNormal::SUPPORT_LIMITS);
+    }
+
+    /**
+     * @testCase Limits constant is correct format
+     */
+    public function testNoncentralTParameterLimits()
+    {
+        $this->limitTest(Continuous\NoncentralT::PARAMETER_LIMITS);
+    }
+
+    /**
+     * @testCase Limits constant is correct format
+     */
+    public function testNoncentralTSupportLimits()
+    {
+        $this->limitTest(Continuous\NoncentralT::SUPPORT_LIMITS);
     }
 
     /**
