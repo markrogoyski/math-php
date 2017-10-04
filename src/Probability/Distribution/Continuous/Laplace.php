@@ -99,7 +99,7 @@ class Laplace extends Continuous
      *
      * μ = μ
      *
-     * @return μ
+     * @return float μ
      */
     public function mean()
     {

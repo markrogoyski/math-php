@@ -4,7 +4,7 @@ namespace MathPHP\Probability\Distribution\Continuous;
 use MathPHP\Functions\Support;
 
 /**
- * Exponental distribution
+ * Exponential distribution
  * https://en.wikipedia.org/wiki/Exponential_distribution
  */
 class Exponential extends Continuous

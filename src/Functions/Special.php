@@ -17,7 +17,7 @@ class Special
      * sgn(x) = {  0 if x = 0
      *          {  1 if x > 0
      *
-     * @param number $x
+     * @param float $x
      *
      * @return int
      */
@@ -32,6 +32,10 @@ class Special
     /**
      * Sign function (signum function) - sgn
      * Convenience wrapper for signum function.
+     *
+     * @param float $x
+     *
+     * @return int
      */
     public static function sgn(float $x): int
     {
@@ -449,7 +453,7 @@ class Special
      *
      * @return number
      *
-     * @throws OutOfBoundsException if s is <= 0
+     * @throws Exception\OutOfBoundsException if s is <= 0
      */
     public static function upperIncompleteGamma($s, $x)
     {
@@ -525,9 +529,9 @@ class Special
      * Generalized form of the beta function
      * https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function
      *
-     * @param  $x Upper limit of the integration 0 ≦ x ≦ 1
-     * @param  $a Shape parameter a > 0
-     * @param  $b Shape parameter b > 0
+     * @param number $x Upper limit of the integration 0 ≦ x ≦ 1
+     * @param number $a Shape parameter a > 0
+     * @param number $b Shape parameter b > 0
      *
      * @return number
      */
@@ -559,9 +563,9 @@ class Special
      * This algorithm is valid when both a and b are greater than 1
      *
      * @param int $m the number of α and β parameters to calculate
-     * @param  $x Upper limit of the integration 0 ≦ x ≦ 1
-     * @param  $a Shape parameter a > 1
-     * @param  $b Shape parameter b > 1
+     * @param number $x Upper limit of the integration 0 ≦ x ≦ 1
+     * @param number $a Shape parameter a > 1
+     * @param number $b Shape parameter b > 1
      *
      * @return number
      */
@@ -608,9 +612,9 @@ class Special
      * http://www.boost.org/doc/libs/1_35_0/libs/math/doc/sf_and_dist/html/math_toolkit/special/sf_beta/ibeta_function.html
      * https://github.com/boostorg/math/blob/develop/include/boost/math/special_functions/beta.hpp
      *
-     * @param  $x Upper limit of the integration 0 ≦ x ≦ 1
-     * @param  $a Shape parameter a > 0
-     * @param  $b Shape parameter b > 0
+     * @param number $x Upper limit of the integration 0 ≦ x ≦ 1
+     * @param number $a Shape parameter a > 0
+     * @param number $b Shape parameter b > 0
      *
      * @return number
      */
@@ -700,7 +704,7 @@ class Special
      *
      * @return number
      *
-     * @throws BadParameterException if the number of parameters is incorrect
+     * @throws Exception\BadParameterException if the number of parameters is incorrect
      */
     public static function generalizedHypergeometric(int $p, int $q, ...$params)
     {
@@ -771,7 +775,7 @@ class Special
      *
      * @return number
      *
-     * @throws OutOfBoundsExpcetion if |z| >= 1
+     * @throws Exception\OutOfBoundsException if |z| >= 1
      */
     public static function hypergeometric($a, $b, $c, $z)
     {

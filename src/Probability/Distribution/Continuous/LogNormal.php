@@ -103,9 +103,6 @@ class LogNormal extends Continuous
      *
      * μ = exp(μ + σ²/2)
      *
-     * @param  number $μ
-     * @param  number $σ
-     *
      * @return number
      */
     public function mean()

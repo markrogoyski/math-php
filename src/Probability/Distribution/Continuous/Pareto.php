@@ -10,23 +10,23 @@ use MathPHP\Functions\Support;
 class Pareto extends Continuous
 {
     /**
-     * Distribution support bounds limits
-     * x ∈ (0,∞)
-     * @var array
-     */
-    const SUPPORT_LIMITS = [
-        'x' => '(0,∞)',
-        'a' => '(0,∞)',
-        'b' => '(0,∞)',
-    ];
-
-    /**
      * Distribution parameter bounds limits
      * a ∈ (0,∞)
      * b ∈ (0,∞)
      * @var array
      */
     const PARAMETER_LIMITS = [
+        'a' => '(0,∞)',
+        'b' => '(0,∞)',
+    ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ (0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '(0,∞)',
         'a' => '(0,∞)',
         'b' => '(0,∞)',
     ];

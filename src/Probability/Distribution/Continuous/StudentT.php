@@ -53,8 +53,9 @@ class StudentT extends Continuous
      *         \ 2 /
      *
      *
-     * @param number $x percentile
-     * @param int    $ν degrees of freedom > 0
+     * @param number $t t score
+     *
+     * @return number
      */
     public function pdf($t)
     {
@@ -88,7 +89,8 @@ class StudentT extends Continuous
      *        Iₓ₍t₎(ν/2, ½) is the regularized incomplete beta function
      *
      * @param number $t t score
-     * @param int    $ν degrees of freedom > 0
+     *
+     * @return number
      */
     public function cdf($t)
     {
@@ -117,7 +119,6 @@ class StudentT extends Continuous
      * Find t such that the area greater than t and the area beneath -t is p.
      *
      * @param number $p Proportion of area
-     * @param number $ν Degrees of freedom
      *
      * @return number t-score
      */
@@ -134,8 +135,6 @@ class StudentT extends Continuous
      * μ = 0 if ν > 1
      * otherwise undefined
      *
-     * @param number $ν Degrees of freedom
-     *
      * @return number
      */
     public function mean()
@@ -151,8 +150,6 @@ class StudentT extends Continuous
      * Median of the distribution
      *
      * μ = 0
-     *
-     * @param number $ν Degrees of freedom
      *
      * @return number
      */

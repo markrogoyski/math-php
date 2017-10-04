@@ -51,6 +51,8 @@ class Uniform extends Continuous
      * pdf = 0      for x < a, x > b
      *
      * @param number $x percentile
+     *
+     * @return number
      */
     public function pdf($x)
     {
@@ -75,6 +77,8 @@ class Uniform extends Continuous
      * cdf = 1      x ≥ b
      *
      * @param number $x percentile
+     *
+     * @return number
      */
     public function cdf($x)
     {
