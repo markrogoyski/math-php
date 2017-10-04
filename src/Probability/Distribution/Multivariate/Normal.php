@@ -86,3 +86,4 @@ class Normal
 
         return $exp⟮−½⟮x − μ⟯ᵀ∑⁻¹⟮x − μ⟯⟯ / $√⟮2π⟯ᵏ│∑│;
     }
+}
