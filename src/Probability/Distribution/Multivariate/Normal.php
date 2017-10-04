@@ -64,6 +64,9 @@ class Normal
     public function pdf(array $X): float
     {
         $k = count($X);
+        $μ = $this->μ;
+        $∑ = $this->∑;
+
         if (count($μ) !== $k) {
             throw new Exception\BadDataException("X and μ must have the same number of elements. X has $k and μ has " . count($μ));
         }
