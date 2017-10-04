@@ -14,18 +14,40 @@ class NoncentralT extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x ∈ (-∞,∞)
      * ν ∈ (0,∞)
-     * t ∈ (-∞,∞)
      * μ ∈ (-∞,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '(-∞,∞)',
+    const PARAMETER_LIMITS = [
         'ν' => '(0,∞)',
-        't' => '(-∞,∞)',
         'μ' => '(-∞,∞)',
     ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ (-∞,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '(-∞,∞)',
+    ];
+
+    /** @var int degrees of freedom > 0 */
+    protected $ν;
+
+    /** @var float Noncentrality parameter */
+    protected $μ;
+
+    /**
+     * Constructor
+     *
+     * @param int    $ν degrees of freedom > 0
+     * @param number $μ Noncentrality parameter
+     */
+    public function __construct(int $ν, $μ)
+    {
+        parent::__construct($ν, $μ);
+    }
 
     /**
      * Probability density function
@@ -40,13 +62,15 @@ class NoncentralT extends Continuous
      *                                        \                       \   2   /                         \ 2    /         /
      *
      * @param number $x percentile
-     * @param int    $ν degrees of freedom > 0
      *
      * @return number
      */
-    public static function pdf($x, int $ν, $μ)
+    public function pdf($x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν, 'μ' => $μ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $ν = $this->ν;
+        $μ = $this->μ;
 
         $part1 =  $ν ** ($ν / 2) * Special::gamma($ν + 1) * exp(-1 * $μ**2 / 2) / 2**$ν / ($ν + $x**2)**($ν / 2) / Special::gamma($ν / 2);
 
@@ -69,22 +93,24 @@ class NoncentralT extends Continuous
      *         = 1 - Fᵥ,₋ᵤ(x)  if x < 0
      *
      * @param number $x
-     * @param int    $ν Degrees of freedom
-     * @param number $μ Noncentrality parameter
      *
      * @return number
      */
-    public static function cdf($x, int $ν, $μ)
+    public function cdf($x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν, 'μ' => $μ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $ν = $this->ν;
+        $μ = $this->μ;
+
         if ($μ == 0) {
             $studentT = new StudentT($ν);
             return $studentT->cdf($x);
         }
         if ($x >= 0) {
-            return self::f($x, $ν, $μ);
+            return $this->f($x, $ν, $μ);
         }
-        return 1 - self::f($x, $ν, -$μ);
+        return 1 - $this->f($x, $ν, -$μ);
     }
 
     /**
@@ -111,15 +137,11 @@ class NoncentralT extends Continuous
      *        √2Γ(j + 3/2)     \  2  /   \ 2  /
      *
      * @param number $x
-     * @param int    $ν Degrees of freedom
-     * @param number $μ Noncentrality parameter
      *
      * @return number
      */
-    private static function f($x, int $ν, $μ)
+    private function f($x, int $ν, $μ)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν, 'μ' => $μ]);
-
         $standardNormal = new StandardNormal();
         $Φ = $standardNormal->cdf(-$μ);
         $y = $x**2/($x**2 + $ν);
@@ -152,14 +174,13 @@ class NoncentralT extends Continuous
      *
      *      = Does not exist        if ν ≤ 1
      *
-     * @param int    $ν Degrees of freedom
-     * @param number $μ Noncentrality parameter
-     *
      * @return number
      */
-    public static function mean(int $ν, $μ)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['ν' => $ν, 'μ' => $μ]);
+        $ν = $this->ν;
+        $μ = $this->μ;
+
         if ($ν == 1) {
             return \NAN;
         }
