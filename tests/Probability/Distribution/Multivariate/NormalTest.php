@@ -20,7 +20,8 @@ class NormalTest extends \PHPUnit_Framework_TestCase
     public function testPdf(array $x, array $μ, array $∑, float $pdf)
     {
         $∑ = new Matrix($∑);
-        $this->assertEquals($pdf, Normal::pdf($x, $μ, $∑), '', 0.00000000000001);
+        $normal = new Normal($μ, $∑);
+        $this->assertEquals($pdf, $normal->pdf($x), '', 0.00000000000001);
     }
 
     /**
@@ -191,8 +192,9 @@ class NormalTest extends \PHPUnit_Framework_TestCase
         $μ = [0, 0];
         $∑ = new Matrix($M);
 
+        $normal = new Normal($μ, $∑);
         $this->expectException(Exception\BadDataException::class);
-        $pdf = Normal::pdf($x, $μ, $∑);
+        $pdf = $normal->pdf($x);
     }
 
     /**
@@ -207,8 +209,9 @@ class NormalTest extends \PHPUnit_Framework_TestCase
             [0, 1],
         ]);
 
+        $normal = new Normal($μ, $∑);
         $this->expectException(Exception\BadDataException::class);
-        $pdf = Normal::pdf($x, $μ, $∑);
+        $pdf = $normal->pdf($x);
     }
 
     /**
@@ -223,7 +226,8 @@ class NormalTest extends \PHPUnit_Framework_TestCase
             [0, 1, 0],
         ]);
 
+        $normal = new Normal($μ, $∑);
         $this->expectException(Exception\BadDataException::class);
-        $pdf = Normal::pdf($x, $μ, $∑);
+        $pdf = $normal->pdf($x);
     }
 }
