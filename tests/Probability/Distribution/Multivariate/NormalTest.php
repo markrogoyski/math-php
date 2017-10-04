@@ -188,7 +188,6 @@ class NormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testPdfCovarianceMatrixNotPositiveDefiniteException(array $M)
     {
-        $x = [0, 0];
         $μ = [0, 0];
         $∑ = new Matrix($M);
 
@@ -201,12 +200,12 @@ class NormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testPdfXAndMuDifferentNumberOfElementsException()
     {
-        $x = [0, 0];
-        $μ = [0, 0, 0];
+        $μ = [0, 0];
         $∑ = new Matrix([
             [1, 0],
             [0, 1],
         ]);
+        $x = [0, 0, 0];
         $normal = new Normal($μ, $∑);
         $this->expectException(Exception\BadDataException::class);
         $pdf = $normal->pdf($x);
@@ -217,7 +216,6 @@ class NormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testPdfCovarianceMatrixDifferentNumberOfElementsException()
     {
-        $x = [0, 0];
         $μ = [0, 0];
         $∑ = new Matrix([
             [1, 0, 0],
