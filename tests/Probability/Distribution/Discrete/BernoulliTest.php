@@ -26,8 +26,9 @@ class BernoulliTest extends \PHPUnit_Framework_TestCase
 
     public function testPFMIsBinomialWithNEqualsOne()
     {
-        $this->assertEquals(Binomial::pmf(1, 0, 0.6), Bernoulli::pmf(0, 0.6));
-        $this->assertEquals(Binomial::pmf(1, 1, 0.6), Bernoulli::pmf(1, 0.6));
+        $binomial = new Binomial(1, 0.6);
+        $this->assertEquals($binomial->pmf(0), Bernoulli::pmf(0, 0.6));
+        $this->assertEquals($binomial->pmf(1), Bernoulli::pmf(1, 0.6));
     }
 
     /**

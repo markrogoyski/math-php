@@ -26,7 +26,12 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
 
     public function testBinomialParameterLimits()
     {
-        $this->limitTest(Discrete\Binomial::LIMITS);
+        $this->limitTest(Discrete\Binomial::PARAMETER_LIMITS);
+    }
+
+    public function testBinomialSupportLimits()
+    {
+        $this->limitTest(Discrete\Binomial::SUPPORT_LIMITS);
     }
 
     public function testGeometricParameterLimits()
