@@ -31,9 +31,9 @@ class Categorical extends Discrete
      * @param  array $probabilities of each category - If associative array, category names are keys.
      *                                                 Otherwise, category names are array indexes.
      *
-     * @throws BadParameterException if k does not indicate at least one category
-     * @throws BadDataException      if there are not k probabilities
-     * @throws BadaDataException     if the probabilities do not add up to 1
+     * @throws Exception\BadParameterException if k does not indicate at least one category
+     * @throws Exception\BadDataException      if there are not k probabilities
+     * @throws Exception\BadaDataException     if the probabilities do not add up to 1
      */
     public function __construct(int $k, array $probabilities)
     {
@@ -61,11 +61,11 @@ class Categorical extends Discrete
      *
      * pmf = p(x = i) = pᵢ
      *
-     * @param  $x category name/number
+     * @param  mixed $x category name/number
      *
      * @return float
      *
-     * @throws BadDataException if x is not a valid category
+     * @throws Exception\BadDataException if x is not a valid category
      */
     public function pmf($x): float
     {
@@ -105,7 +105,7 @@ class Categorical extends Discrete
      *
      * @return int|array
      *
-     * @throws BadDataException if $name is not a valid parameter
+     * @throws Exception\BadDataException if $name is not a valid parameter
      */
     public function __get(string $name)
     {
