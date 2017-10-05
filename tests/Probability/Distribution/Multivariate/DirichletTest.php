@@ -9,10 +9,14 @@ class DirichletTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase pdf works as expected
      * @dataProvider dataProviderForPDF
+     * @param        array $xs
+     * @param        array $αs
+     * @param        float $pdf
      */
     public function testPdf(array $xs, array $αs, $pdf)
     {
-        $this->assertEquals($pdf, Dirichlet::pdf($xs, $αs), '', 0.00001);
+        $dirichlet = new Dirichlet($αs);
+        $this->assertEquals($pdf, $dirichlet->pdf($xs), '', 0.00001);
     }
 
     /**
@@ -104,6 +108,7 @@ class DirichletTest extends \PHPUnit_Framework_TestCase
         $αs = [1, 2, 3];
 
         $this->expectException(Exception\BadDataException::class);
-        $pdf = Dirichlet::pdf($xs, $αs);
+        $dirichlet = new Dirichlet($αs);
+        $pdf       = $dirichlet->pdf($xs);
     }
 }
