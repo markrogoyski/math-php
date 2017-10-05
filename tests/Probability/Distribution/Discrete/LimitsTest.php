@@ -56,7 +56,15 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGeometricParameterLimits()
     {
-        $this->limitTest(Discrete\Geometric::LIMITS);
+        $this->limitTest(Discrete\Geometric::PARAMETER_LIMITS);
+    }
+
+    /**
+     * @testCase Limits constant is correct format
+     */
+    public function testGeometricSupportLimits()
+    {
+        $this->limitTest(Discrete\Geometric::SUPPORT_LIMITS);
     }
 
     /**
