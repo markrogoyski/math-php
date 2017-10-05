@@ -19,36 +19,65 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @testCase Limits constant is correct format
+     */
     public function testBernoulliParameterLimits()
     {
-        $this->limitTest(Discrete\Bernoulli::LIMITS);
+        $this->limitTest(Discrete\Bernoulli::PARAMETER_LIMITS);
     }
 
+    /**
+     * @testCase Limits constant is correct format
+     */
+    public function testBernoulliSupportLimits()
+    {
+        $this->limitTest(Discrete\Bernoulli::SUPPORT_LIMITS);
+    }
+
+    /**
+     * @testCase Limits constant is correct format
+     */
     public function testBinomialParameterLimits()
     {
         $this->limitTest(Discrete\Binomial::PARAMETER_LIMITS);
     }
 
+    /**
+     * @testCase Limits constant is correct format
+     */
     public function testBinomialSupportLimits()
     {
         $this->limitTest(Discrete\Binomial::SUPPORT_LIMITS);
     }
 
+    /**
+     * @testCase Limits constant is correct format
+     */
     public function testGeometricParameterLimits()
     {
         $this->limitTest(Discrete\Geometric::LIMITS);
     }
 
+    /**
+     * @testCase Limits constant is correct format
+     */
     public function testNegativeBinomialParameterLimits()
     {
         $this->limitTest(Discrete\NegativeBinomial::LIMITS);
     }
 
+    /**
+     * @testCase Limits constant is correct format
+     */
     public function testPoissonParameterLimits()
     {
         $this->limitTest(Discrete\Poisson::LIMITS);
     }
 
+    /**
+     * @testCase Limits constant is correct format
+     */
     public function testShiftedGeometricParameterLimits()
     {
         $this->limitTest(Discrete\ShiftedGeometric::LIMITS);

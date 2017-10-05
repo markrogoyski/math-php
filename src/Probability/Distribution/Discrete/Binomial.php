@@ -12,15 +12,6 @@ use MathPHP\Functions\Support;
 class Binomial extends Discrete
 {
     /**
-     * Distribution support bounds limits
-     * r ∈ [0,∞)
-     * @var array
-     */
-    const SUPPORT_LIMITS = [
-        'r' => '[0,∞)',
-    ];
-
-    /**
      * Distribution parameter bounds limits
      * n ∈ [0,∞)
      * p ∈ [0,1]
@@ -29,6 +20,15 @@ class Binomial extends Discrete
     const PARAMETER_LIMITS = [
         'n' => '[0,∞)',
         'p' => '[0,1]',
+    ];
+
+    /**
+     * Distribution support bounds limits
+     * r ∈ [0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'r' => '[0,∞)',
     ];
 
     /** @var int number of events */
