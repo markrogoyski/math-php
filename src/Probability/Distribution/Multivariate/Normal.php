@@ -13,6 +13,37 @@ use MathPHP\LinearAlgebra\Matrix;
  */
 class Normal
 {
+    /** @var array location */
+    protected $μ;
+    
+    /** @var Matrix covariance matrix */
+    protected $∑;
+
+    /**
+     * Constructor
+     *
+     * @param array  $μ ∈ Rᵏ   location
+     * @param Matrix $∑ ∈ Rᵏˣᵏ covariance matrix
+     *
+     * @throws Exception\BadDataException if the covariance matrix does not have the same number of rows and columns as number of elements in μ
+     * @throws Exception\BadDataException if the covariance matrix is not positive definite
+     */
+    public function __construct(array $μ, Matrix $∑)
+    {
+        $k = count($μ);
+        if ($∑->getM() !== $k || $∑->getN() !== $k) {
+            throw new Exception\BadDataException(
+                'Covariance matrix ∑ must have the the same number of rows and columns as there are X elements. ' .
+                "X has $k elements. Covariance matrix ∑ has " . $∑->getM() . ' rows and ' . $∑->getN() . ' columns.'
+            );
+        }
+        if (!$∑->isPositiveDefinite()) {
+            throw new Exception\BadDataException("Covariance matrix ∑ is not positive definite:\n$∑");
+        }
+        $this->μ = $μ;
+        $this->∑ = $∑;
+    }
+
     /**
      * Probability density function
      *
@@ -25,17 +56,20 @@ class Normal
      * │∑│ ≡ det(∑)
      *
      * @param array  $X ∈ Rᵏ   k-dimensional random vector
-     * @param array  $μ ∈ Rᵏ   location
-     * @param Matrix $∑ ∈ Rᵏˣᵏ covariance matrix
      *
      * @return float density
      *
-     * @throws Exception\BadDataException if data preconditions are not satisfied
+     * @throws Exception\BadDataException if X and μ do not have the same number of elements
      */
-    public static function pdf(array $X, array $μ, Matrix $∑): float
+    public function pdf(array $X): float
     {
         $k = count($X);
-        self::dataPreconditions($X, $μ, $∑, $k);
+        $μ = $this->μ;
+        $∑ = $this->∑;
+
+        if (count($μ) !== $k) {
+            throw new Exception\BadDataException("X and μ must have the same number of elements. X has $k and μ has " . count($μ));
+        }
 
         $π = \M_PI;
         $│∑│      = $∑->det();
@@ -54,33 +88,5 @@ class Normal
         );
 
         return $exp⟮−½⟮x − μ⟯ᵀ∑⁻¹⟮x − μ⟯⟯ / $√⟮2π⟯ᵏ│∑│;
-    }
-
-    /**
-     * Data preconditions for PDF
-     *
-     * @param array  $X
-     * @param array  $μ
-     * @param Matrix $∑
-     * @param int    $k
-     *
-     * @throws Exception\BadDataException if X and μ do not have the same number of elements
-     * @throws Exception\BadDataException if the covariance matrix does not have the same number of rows and columns as number of elements in X and μ
-     * @throws Exception\BadDataException if the covariance matrix is not positive definite
-     */
-    private static function dataPreconditions(array $X, array $μ, Matrix $∑, int $k)
-    {
-        if (count($μ) !== $k) {
-            throw new Exception\BadDataException("X and μ must have the same number of elements. X has $k and μ has " . count($μ));
-        }
-        if ($∑->getM() !== $k || $∑->getN() !== $k) {
-            throw new Exception\BadDataException(
-                'Covariance matrix ∑ must have the the same number of rows and columns as there are X elements. ' .
-                "X has $k elements. Covariance matrix ∑ has " . $∑->getM() . ' rows and ' . $∑->getN() . ' columns.'
-            );
-        }
-        if (!$∑->isPositiveDefinite()) {
-            throw new Exception\BadDataException("Covariance matrix ∑ is not positive definite:\n$∑");
-        }
     }
 }
