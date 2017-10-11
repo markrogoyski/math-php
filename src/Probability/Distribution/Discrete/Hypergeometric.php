@@ -170,7 +170,7 @@ class Hypergeometric extends Discrete
      *
      * @return float
      */
-    public  function mean(): float
+    public function mean(): float
     {
         return $this->n * ($this->K / $this->N);
     }
