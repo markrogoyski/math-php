@@ -17,7 +17,8 @@ class HypergeometricTest extends \PHPUnit_Framework_TestCase
      */
     public function testPmf(int $N, int $K, int $n, int $k, float $pmf)
     {
-        $this->assertEquals($pmf, Hypergeometric::pmf($N, $K, $n, $k), '', 0.0000001);
+        $hypergeometric = new Hypergeometric($N, $K, $n);
+        $this->assertEquals($pmf, $hypergeometric->pmf($k), '', 0.0000001);
     }
 
     /**
@@ -49,7 +50,8 @@ class HypergeometricTest extends \PHPUnit_Framework_TestCase
      */
     public function testCdf(int $N, int $K, int $n, int $k, float $cdf)
     {
-        $this->assertEquals($cdf, Hypergeometric::cdf($N, $K, $n, $k), '', 0.0000001);
+        $hypergeometric = new Hypergeometric($N, $K, $n);
+        $this->assertEquals($cdf, $hypergeometric->cdf($k), '', 0.0000001);
     }
 
     /**
@@ -74,12 +76,12 @@ class HypergeometricTest extends \PHPUnit_Framework_TestCase
      * @param  int   $N population size
      * @param  int   $K number of success states in the population
      * @param  int   $n number of draws
-     * @param  int   $k number of observed successes
      * @param  float $mean
      */
-    public function testMean(int $N, int $K, int $n, int $k, float $mean)
+    public function testMean(int $N, int $K, int $n, float $mean)
     {
-        $this->assertEquals($mean, Hypergeometric::mean($N, $K, $n, $k), '', 0.0000001);
+        $hypergeometric = new Hypergeometric($N, $K, $n);
+        $this->assertEquals($mean, $hypergeometric->mean(), '', 0.0000001);
     }
 
     /**
@@ -89,14 +91,14 @@ class HypergeometricTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForMean(): array
     {
         return [
-            [50, 5, 10, 4, 1],
-            [50, 5, 10, 5, 1],
-            [100, 80, 50, 40, 40],
-            [100, 80, 50, 35, 40],
-            [48, 6, 15, 2, 1.875],
-            [48, 6, 15, 0, 1.875],
-            [48, 6, 15, 6, 1.875],
-            [100, 30, 20, 5, 6],
+            [50, 5, 10, 1],
+            [50, 5, 10, 1],
+            [100, 80, 50, 40],
+            [100, 80, 50, 40],
+            [48, 6, 15, 1.875],
+            [48, 6, 15, 1.875],
+            [48, 6, 15, 1.875],
+            [100, 30, 20, 6],
         ];
     }
 }
