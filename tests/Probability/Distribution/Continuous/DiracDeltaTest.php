@@ -10,7 +10,8 @@ class DiracDeltaTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $pdf)
     {
-        $this->assertEquals($pdf, DiracDelta::pdf($x), '', 0.00001);
+        $dirac = new DiracDelta();
+        $this->assertEquals($pdf, $dirac->pdf($x), '', 0.00001);
     }
     public function dataProviderForPDF()
     {
@@ -26,7 +27,8 @@ class DiracDeltaTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $cdf)
     {
-        $this->assertEquals($cdf, DiracDelta::cdf($x), '', 0.00001);
+        $dirac = new DiracDelta();
+        $this->assertEquals($cdf, $dirac->cdf($x), '', 0.00001);
     }
     public function dataProviderForCDF()
     {
