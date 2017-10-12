@@ -34,14 +34,14 @@ class Binomial extends Discrete
     /** @var int number of events */
     protected $n;
 
-    /** @var number probability of success */
+    /** @var float probability of success */
     protected $p;
 
     /**
      * Constructor
      *
      * @param int $n number of events n >= 0
-     * @param number $p probability of success 0 <= p <= 1
+     * @param float $p probability of success 0 <= p <= 1
      */
     public function __construct(int $n, float $p)
     {

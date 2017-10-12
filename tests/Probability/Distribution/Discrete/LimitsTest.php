@@ -70,24 +70,27 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     /**
      * @testCase Limits constant is correct format
      */
-    public function testNegativeBinomialParameterLimits()
+    public function testShiftedGeometricLimits()
     {
-        $this->limitTest(Discrete\NegativeBinomial::LIMITS);
+        $this->limitTest(Discrete\ShiftedGeometric::PARAMETER_LIMITS);
+        $this->limitTest(Discrete\ShiftedGeometric::SUPPORT_LIMITS);
     }
 
     /**
      * @testCase Limits constant is correct format
      */
-    public function testPoissonParameterLimits()
+    public function testNegativeBinomialLimits()
     {
-        $this->limitTest(Discrete\Poisson::LIMITS);
+        $this->limitTest(Discrete\NegativeBinomial::PARAMETER_LIMITS);
+        $this->limitTest(Discrete\NegativeBinomial::SUPPORT_LIMITS);
     }
 
     /**
      * @testCase Limits constant is correct format
      */
-    public function testShiftedGeometricParameterLimits()
+    public function testPoissonLimits()
     {
-        $this->limitTest(Discrete\ShiftedGeometric::LIMITS);
+        $this->limitTest(Discrete\Poisson::PARAMETER_LIMITS);
+        $this->limitTest(Discrete\Poisson::SUPPORT_LIMITS);
     }
 }

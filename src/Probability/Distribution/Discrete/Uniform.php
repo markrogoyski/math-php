@@ -9,18 +9,49 @@ use MathPHP\Exception;
  */
 class Uniform extends Discrete
 {
+
     /**
      * Distribution parameter bounds limits
-     * k ∈ (-∞,∞)
      * a ∈ (-∞,∞)
      * b ∈ (-∞,∞)  b > a
      * @var array
      */
-    const LIMITS = [
-        'k' => '(-∞,∞)',
+    const PARAMETER_LIMITS = [
         'a' => '(-∞,∞)',
         'b' => '(-∞,∞)',
     ];
+
+    /**
+     * Distribution support bounds limits
+     * k ∈ (-∞,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'k' => '(-∞,∞)',
+    ];
+
+    /** @var int number of events */
+    protected $a;
+
+    /** @var float probability of success */
+    protected $b;
+
+    /**
+     * Constructor
+     *
+     * @param int $a lower boundary of the distribution
+     * @param int $b upper boundary of the distribution
+     *
+     * @throws BadDataException if b is ≤ a
+     */
+    public function __construct(int $a, int $b)
+    {
+        if ($b <= $a) {
+            throw new Exception\BadDataException("b must be > a (b:$b a:$a)");
+        }
+
+        parent::__construct($a, $b);
+    }
 
     /**
      * Probability mass function
@@ -31,15 +62,12 @@ class Uniform extends Discrete
      *
      * Percentile n = b - a + 1
      *
-     * @param number $a lower boundary of the distribution
-     * @param number $b upper boundary of the distribution
-     *
      * @return number
-     * @throws BadDataException if b is ≤ a
      */
-    public static function pmf(int $a, int $b)
+    public function pmf()
     {
-        self::checkParams($a, $b);
+        $a = $this->a;
+        $b = $this->b;
 
         $n = $b - $a + 1;
 
@@ -55,16 +83,15 @@ class Uniform extends Discrete
      *
      * Percentile n = b - a + 1
      *
-     * @param number $a lower boundary of the distribution
-     * @param number $b upper boundary of the distribution
      * @param number $k percentile
      *
      * @return number
-     * @throws BadDataException if b is ≤ a
      */
-    public static function cdf(int $a, int $b, int $k)
+    public function cdf(int $k)
     {
-        self::checkParams($a, $b);
+        $a = $this->a;
+        $b = $this->b;
+
         if ($k < $a) {
             return 0;
         }
@@ -84,15 +111,12 @@ class Uniform extends Discrete
      * μ = -----
      *       2
      *
-     * @param number $a lower boundary of the distribution
-     * @param number $b upper boundary of the distribution
-     *
      * @return number
-     * @throws BadDataException if b is ≤ a
      */
-    public static function mean($a, $b)
+    public function mean()
     {
-        self::checkParams($a, $b);
+        $a = $this->a;
+        $b = $this->b;
 
         return ($a + $b) / 2;
     }
@@ -104,31 +128,13 @@ class Uniform extends Discrete
      * μ = -----
      *       2
      *
-     * @param number $a lower boundary of the distribution
-     * @param number $b upper boundary of the distribution
-     *
      * @return number
-     * @throws BadDataException if b is ≤ a
      */
-    public static function median($a, $b)
+    public function median()
     {
-        self::checkParams($a, $b);
+        $a = $this->a;
+        $b = $this->b;
 
         return ($a + $b) / 2;
-    }
-
-    /**
-     * Check parameters a and b
-     *
-     * @param number $a lower boundary of the distribution
-     * @param number $b upper boundary of the distribution
-     *
-     * @throws BadDataException if b is ≤ a
-     */
-    public static function checkParams($a, $b)
-    {
-        if ($b <= $a) {
-            throw new Exception\BadDataException("b must be > a (b:$b a:$a)");
-        }
     }
 }

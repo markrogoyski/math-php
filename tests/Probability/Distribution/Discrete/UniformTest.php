@@ -15,7 +15,8 @@ class UniformTest extends \PHPUnit_Framework_TestCase
      */
     public function testPmf(int $a, int $b, float $pmf)
     {
-        $this->assertEquals($pmf, Uniform::pmf($a, $b), '', 0.001);
+        $uniform = new Uniform($a, $b);
+        $this->assertEquals($pmf, $uniform->pmf(), '', 0.001);
     }
 
     public function dataProviderForPmf(): array
@@ -29,14 +30,14 @@ class UniformTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase pmf throws a BadDataException if b is < a
+     * @testCase constructor throws a BadDataException if b is < a
      */
-    public function testPmfException()
+    public function testConstructorException()
     {
         $this->expectException(Exception\BadDataException::class);
         $a   = 4;
         $b   = 1;
-        $pmf = Uniform::pmf($a, $b);
+        $uniform = new Uniform($a, $b);
     }
 
     /**
@@ -48,7 +49,8 @@ class UniformTest extends \PHPUnit_Framework_TestCase
      */
     public function testCdf(int $a, int $b, $k, float $pmf)
     {
-        $this->assertEquals($pmf, Uniform::cdf($a, $b, $k), '', 0.001);
+        $uniform = new Uniform($a, $b);
+        $this->assertEquals($pmf, $uniform->cdf($k), '', 0.001);
     }
 
     public function dataProviderForCdf(): array
@@ -64,18 +66,6 @@ class UniformTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase cdf throws a BadDataException if b is < a
-     */
-    public function testCdfException()
-    {
-        $this->expectException(Exception\BadDataException::class);
-        $a   = 4;
-        $b   = 1;
-        $k   = 2;
-        $pmf = Uniform::cdf($a, $b, $k);
-    }
-
-    /**
      * @testCase     mean returns the expected average
      * @dataProvider dataProviderForAverage
      * @param        int   $a
@@ -84,7 +74,8 @@ class UniformTest extends \PHPUnit_Framework_TestCase
      */
     public function testMean(int $a, int $b, float $mean)
     {
-        $this->assertEquals($mean, Uniform::mean($a, $b), '', 0.0001);
+        $uniform = new Uniform($a, $b);
+        $this->assertEquals($mean, $uniform->mean(), '', 0.0001);
     }
 
     /**
@@ -96,7 +87,8 @@ class UniformTest extends \PHPUnit_Framework_TestCase
      */
     public function testMedian(int $a, int $b, float $median)
     {
-        $this->assertEquals($median, Uniform::median($a, $b), '', 0.0001);
+        $uniform = new Uniform($a, $b);
+        $this->assertEquals($median, $uniform->median(), '', 0.0001);
     }
 
     public function dataProviderForAverage(): array
@@ -106,27 +98,5 @@ class UniformTest extends \PHPUnit_Framework_TestCase
             [1, 3, 4/2],
             [1, 4, 5/2],
         ];
-    }
-
-    /**
-     * @testCase mean throws a BadDataException if b is < a
-     */
-    public function testMeanException()
-    {
-        $this->expectException(Exception\BadDataException::class);
-        $a   = 4;
-        $b   = 1;
-        $pmf = Uniform::mean($a, $b);
-    }
-
-    /**
-     * @testCase median throws a BadDataException if b is < a
-     */
-    public function testMedianException()
-    {
-        $this->expectException(Exception\BadDataException::class);
-        $a   = 4;
-        $b   = 1;
-        $pmf = Uniform::median($a, $b);
     }
 }

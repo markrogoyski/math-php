@@ -16,14 +16,34 @@ class Poisson extends Discrete
 {
     /**
      * Distribution parameter bounds limits
-     * k ∈ [0,∞)
      * λ ∈ [0,1]
      * @var array
      */
-    const LIMITS = [
-        'k' => '[0,∞)',
+    const PARAMETER_LIMITS = [
         'λ' => '(0,∞)',
     ];
+
+    /**
+     * Distribution support bounds limits
+     * k ∈ [0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'k' => '[0,∞)',
+    ];
+
+    /** @var float average number of successful events per interval */
+    protected $λ;
+
+    /**
+     * Constructor
+     *
+     * @param  float $λ average number of successful events per interval
+     */
+    public function __construct(float $λ)
+    {
+        parent::__construct($λ);
+    }
 
     /**
      * Probability mass function
@@ -33,13 +53,14 @@ class Poisson extends Discrete
      *                                k!
      *
      * @param  int   $k events in the interval
-     * @param  float $λ average number of successful events per interval
      *
      * @return float The Poisson probability of observing k successful events in an interval
      */
-    public static function pmf(int $k, float $λ): float
+    public function pmf(int $k): float
     {
-        Support::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['k' => $k]);
+
+        $λ = $this->λ;
 
         $λᵏℯ＾−λ = pow($λ, $k) * exp(-$λ);
         $k！     = Combinatorics::factorial($k);
@@ -57,13 +78,14 @@ class Poisson extends Discrete
      *          ₓ₌₀  xᵢ!
      *
      * @param  int   $k events in the interval
-     * @param  float $λ average number of successful events per interval
      *
      * @return float The cumulative Poisson probability
      */
-    public static function cdf(int $k, float $λ): float
+    public function cdf(int $k): float
     {
-        Support::checkLimits(self::LIMITS, ['k' => $k, 'λ' => $λ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['k' => $k]);
+
+        $λ = $this->λ;
 
         return array_sum(array_map(
             function ($k) use ($λ) {
