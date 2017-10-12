@@ -50,7 +50,7 @@ class DiracDelta extends Continuous
      *
      * @return number probability
      */
-    public static function pdf($x)
+    public function pdf($x)
     {
         if ($x == 0) {
             return \INF;
@@ -71,7 +71,7 @@ class DiracDelta extends Continuous
      * @todo how to handle x = 0, depending on context, some say CDF=.5 @ x=0
      * @return number
      */
-    public static function cdf($x)
+    public function cdf($x)
     {
         if ($x >= 0) {
             return 1;
