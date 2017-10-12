@@ -126,11 +126,11 @@ class Cauchy extends Continuous
      *
      * Q(p;x₀,γ) = x₀ + γ tan[π(p - ½)]
      *
-     * @param number $p
+     * @param float $p
      *
      * @return number
      */
-    public function inverse($p)
+    public function inverse(float $p)
     {
         Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
 

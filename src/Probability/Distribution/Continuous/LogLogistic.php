@@ -125,11 +125,11 @@ class LogLogistic extends Continuous
      * F⁻¹(p;α,β) = α |  -----  |
      *                 \ 1 - p /
      *
-     * @param number $p
+     * @param float $p
      *
      * @return number
      */
-    public function inverse($p)
+    public function inverse(float $p)
     {
         Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
 

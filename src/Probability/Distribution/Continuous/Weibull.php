@@ -118,11 +118,11 @@ class Weibull extends Continuous
      *
      * Q(p;k,λ) = λ(-ln(1 - p))¹/ᵏ
      *
-     * @param number $p
+     * @param float $p
      *
      * @return number
      */
-    public function inverse($p)
+    public function inverse(float $p)
     {
         Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
         $k = $this->k;

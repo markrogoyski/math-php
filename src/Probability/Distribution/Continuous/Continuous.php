@@ -4,7 +4,7 @@ namespace MathPHP\Probability\Distribution\Continuous;
 use MathPHP\Functions\Support;
 use MathPHP\Exception;
 
-abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
+abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution implements ContinuousInterface
 {
     /**
      * The Inverse CDF of the distribution
@@ -12,12 +12,12 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      * For example, if the calling class CDF definition is CDF($x, $d1, $d2)
      * than the inverse is called as inverse($target, $d1, $d2)
      *
-     * @param number $target   The area for which we are trying to find the $x
+     * @param float $target   The area for which we are trying to find the $x
      *
      * @todo check the parameter ranges.
      * @return $number
      */
-    public function inverse($target)
+    public function inverse(float $target)
     {
         $initial = $this->mean();
         if (is_nan($initial)) {
@@ -46,12 +46,12 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      *
      * P(between) = CDF($x₂) - CDF($x₁)
      *
-     * @param number $x₁ Lower bound
-     * @param number $x₂ Upper bound
+     * @param float $x₁ Lower bound
+     * @param float $x₂ Upper bound
      *
      * @return number
      */
-    public function between($x₁, $x₂)
+    public function between(float $x₁, float $x₂)
     {
         $upper_area = $this->cdf($x₂);
         $lower_area = $this->cdf($x₁);
@@ -64,12 +64,12 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      *
      * P(outside) = 1 - P(between) = 1 - (CDF($x₂) - CDF($x₁))
      *
-     * @param number $x₁ Lower bound
-     * @param number $x₂ Upper bound
+     * @param float $x₁ Lower bound
+     * @param float $x₂ Upper bound
      *
      * @return number
      */
-    public function outside($x₁, $x₂)
+    public function outside(float $x₁, float $x₂)
     {
         return 1 - $this->between($x₁, $x₂);
     }
@@ -80,11 +80,11 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      *
      * P(above) = 1 - CDF(x)
      *
-     * @param number $x
+     * @param float $x
      *
      * @return number
      */
-    public function above($x)
+    public function above(float $x)
     {
         return 1 - $this->cdf($x);
     }

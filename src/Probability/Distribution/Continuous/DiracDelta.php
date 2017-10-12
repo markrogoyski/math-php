@@ -83,7 +83,17 @@ class DiracDelta extends Continuous
      * The inverse of the CDF function
      *
      */
-    public function inverse($p)
+    public function inverse(float $p)
+    {
+        return 0;
+    }
+
+    /**
+     * Mean of the distribution
+     *
+     * @return number
+     */
+    public function mean()
     {
         return 0;
     }

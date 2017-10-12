@@ -97,9 +97,6 @@ class Beta extends Continuous
      * μ = -----
      *     α + β
      *
-     * @param number $α shape parameter α > 0
-     * @param number $β shape parameter β > 0
-     *
      * @return number
      */
     public function mean()
