@@ -46,11 +46,11 @@ class DiracDelta extends Continuous
      *          \_
      *
      *
-     * @param number $x
+     * @param float $x
      *
      * @return number probability
      */
-    public function pdf($x)
+    public function pdf(float $x)
     {
         if ($x == 0) {
             return \INF;
@@ -67,11 +67,11 @@ class DiracDelta extends Continuous
      *  |   δ(x) dx = 1
      * \|-∞
      *
-     * @param number $x
+     * @param float $x
      * @todo how to handle x = 0, depending on context, some say CDF=.5 @ x=0
      * @return number
      */
-    public function cdf($x)
+    public function cdf(float $x)
     {
         if ($x >= 0) {
             return 1;

@@ -53,11 +53,11 @@ class StudentT extends Continuous
      *         \ 2 /
      *
      *
-     * @param number $t t score
+     * @param float $t t score
      *
      * @return number
      */
-    public function pdf($t)
+    public function pdf(float $t)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
 
@@ -88,11 +88,11 @@ class StudentT extends Continuous
      *
      *        Iₓ₍t₎(ν/2, ½) is the regularized incomplete beta function
      *
-     * @param number $t t score
+     * @param float $t t score
      *
      * @return number
      */
-    public function cdf($t)
+    public function cdf(float $t)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
 

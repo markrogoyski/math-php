@@ -40,11 +40,11 @@ class StandardNormal extends Continuous
     /**
      * Probability density function
      *
-     * @param number $z random variable
+     * @param float $z random variable
      *
      * @return float f(z|μ,σ)
      */
-    public function pdf($z)
+    public function pdf(float $z)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['z' => $z]);
 
@@ -56,11 +56,11 @@ class StandardNormal extends Continuous
      * Cumulative distribution function
      * P value for a z score.
      *
-     * @param number $z random variable
+     * @param float $z random variable
      *
      * @return float f(z|μ,σ)
      */
-    public function cdf($z)
+    public function cdf(float $z)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['z' => $z]);
 

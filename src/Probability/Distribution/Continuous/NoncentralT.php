@@ -61,11 +61,11 @@ class NoncentralT extends Continuous
      * 2  * (ν + x²)         * Γ(ν / 2)      |           (ν + x²) * Γ|  ------ |          √(ν + x²) * Γ|  - + 1 |         |
      *                                        \                       \   2   /                         \ 2    /         /
      *
-     * @param number $x percentile
+     * @param float $x percentile
      *
      * @return number
      */
-    public function pdf($x)
+    public function pdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -92,11 +92,11 @@ class NoncentralT extends Continuous
      * Fᵥ,ᵤ(x) = Fᵥ,ᵤ(x),      if x ≥ 0
      *         = 1 - Fᵥ,₋ᵤ(x)  if x < 0
      *
-     * @param number $x
+     * @param float $x
      *
      * @return number
      */
-    public function cdf($x)
+    public function cdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 

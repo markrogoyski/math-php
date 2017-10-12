@@ -55,11 +55,11 @@ class Cauchy extends Continuous
      *    πγ | 1  +  | ---------|  |
      *       └        \    γ   /   ┘
      *
-     * @param number $x
+     * @param float $x
      *
      * @return number
      */
-    public function pdf($x)
+    public function pdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -74,11 +74,11 @@ class Cauchy extends Continuous
      * Cumulative distribution function
      * Calculate the cumulative value value up to a point, left tail.
      *
-     * @param number $x
+     * @param float $x
      *
      * @return number
      */
-    public function cdf($x)
+    public function cdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 

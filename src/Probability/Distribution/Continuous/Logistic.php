@@ -57,11 +57,11 @@ class Logistic extends Continuous
      *              s| 1 + exp| - -----  | |
      *                \        \    s   / /
      *
-     * @param number $x
+     * @param float $x
      *
      * @return float
      */
-    public function pdf($x)
+    public function pdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -81,13 +81,11 @@ class Logistic extends Continuous
      *              1 + exp| - -----  |
      *                      \    s   /
      *
-     * @param number $μ location parameter
-     * @param number $s scale parameter
-     * @param number $x
+     * @param float $x
      *
      * @return float
      */
-    public function cdf($x)
+    public function cdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 

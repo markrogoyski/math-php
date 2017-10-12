@@ -43,11 +43,11 @@ class Normal extends Continuous
      * f(x|μ,σ) = ----- ℯ^−⟮x − μ⟯²∕2σ²
      *            σ√⟮2π⟯
      *
-     * @param number $x random variable
+     * @param float $x random variable
      *
      * @return float f(x|μ,σ)
      */
-    public function pdf($x): float
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -72,11 +72,11 @@ class Normal extends Continuous
      * cdf(x) = - | 1 + erf|  ----- |  |
      *          2 |_        \  σ√2  / _|
      *
-     * @param number $x upper bound
+     * @param float $x upper bound
      *
      * @return float cdf(x) below
      */
-    public function cdf($x): float
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 

@@ -53,11 +53,11 @@ class LogNormal extends Continuous
      * pdf = ----- ℯ       2σ²
      *       xσ√2π
      *
-     * @param  number $x > 0
+     * @param  float $x > 0
      *
      * @return number
      */
-    public function pdf($x)
+    public function pdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -80,11 +80,11 @@ class LogNormal extends Continuous
      * cdf = - + - erf |  --------  |
      *       2   2      \   √2σ     /
      *
-     * @param  number $x > 0
+     * @param  float $x > 0
      *
      * @return number
      */
-    public function cdf($x)
+    public function cdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 

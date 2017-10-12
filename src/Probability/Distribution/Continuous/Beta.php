@@ -54,11 +54,11 @@ class Beta extends Continuous
      * pdf = --------------
      *           B(α,β)
      *
-     * @param number $x x ∈ (0,1)
+     * @param float $x x ∈ (0,1)
      *
      * @return float
      */
-    public function pdf($x)
+    public function pdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -76,11 +76,11 @@ class Beta extends Continuous
      *
      * cdf = Iₓ(α,β)
      *
-     * @param number $x x ∈ (0,1)
+     * @param float $x x ∈ (0,1)
      *
      * @return float
      */
-    public function cdf($x)
+    public function cdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 

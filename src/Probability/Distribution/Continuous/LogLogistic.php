@@ -54,14 +54,12 @@ class LogLogistic extends Continuous
      * f(x; α, β) = -------------
      *              (1 + (x/α)ᵝ)²
      *
-     * @param number $x (x > 0)
-     * @param number $α scale parameter (α > 0)
-     * @param number $β shape parameter (β > 0)
+     * @param float $x (x > 0)
      *
      * @return number
      */
 
-    public function pdf($x)
+    public function pdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -80,11 +78,11 @@ class LogLogistic extends Continuous
      * F(x; α, β) = -----------
      *              1 + (x/α)⁻ᵝ
      *
-     * @param number $x (x > 0)
+     * @param float $x (x > 0)
      *
      * @return number
      */
-    public function cdf($x)
+    public function cdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 

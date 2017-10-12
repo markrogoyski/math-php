@@ -59,13 +59,13 @@ class F extends Continuous
      *      x B |  --, --  |
      *           \ 2   2  /
      *
-     * @param number $x  percentile ≥ 0
+     * @param float $x  percentile ≥ 0
      *
      * @todo how to handle x = 0
      *
      * @return number probability
      */
-    public function pdf($x)
+    public function pdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -94,11 +94,11 @@ class F extends Continuous
      *
      * Where I is the regularized incomplete beta function.
      *
-     * @param number $x  percentile ≥ 0
+     * @param float $x  percentile ≥ 0
      *
      * @return number
      */
-    public function cdf($x)
+    public function cdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 

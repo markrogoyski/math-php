@@ -50,11 +50,11 @@ class ChiSquared extends Continuous
      *           2ᵏ/² Γ |  -  |
      *                   \ 2 /
      *
-     * @param number $x point at which to evaluate > 0
+     * @param float $x point at which to evaluate > 0
      *
      * @return number probability
      */
-    public function pdf($x)
+    public function pdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -84,12 +84,11 @@ class ChiSquared extends Continuous
      *         Γ |  -  |
      *            \ 2 /
      *
-     * @param number $x Chi-square critical value (CV) > 0
-     * @param int    $k degrees of freedom > 0
+     * @param float $x Chi-square critical value (CV) > 0
      *
      * @return number cumulative probability
      */
-    public function cdf($x)
+    public function cdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 

@@ -50,11 +50,11 @@ class Uniform extends Continuous
      *
      * pdf = 0      for x < a, x > b
      *
-     * @param number $x percentile
+     * @param float $x percentile
      *
      * @return number
      */
-    public function pdf($x)
+    public function pdf(float $x)
     {
         $a = $this->a;
         $b = $this->b;
@@ -76,11 +76,11 @@ class Uniform extends Continuous
      *
      * cdf = 1      x ≥ b
      *
-     * @param number $x percentile
+     * @param float $x percentile
      *
      * @return number
      */
-    public function cdf($x)
+    public function cdf(float $x)
     {
         $a = $this->a;
         $b = $this->b;

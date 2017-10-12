@@ -57,11 +57,11 @@ class Pareto extends Continuous
      *
      * P(x) = 0      for x < b
      *
-     * @param  number $x
+     * @param  float $x
      *
      * @return number
      */
-    public function pdf($x)
+    public function pdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -84,11 +84,11 @@ class Pareto extends Continuous
      *
      * D(x) = 0           for x < b
      *
-     * @param  number $x
+     * @param  float $x
      *
      * @return number
      */
-    public function cdf($x)
+    public function cdf(float $x)
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 

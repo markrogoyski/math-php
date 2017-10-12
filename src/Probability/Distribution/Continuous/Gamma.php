@@ -55,11 +55,11 @@ class Gamma extends Continuous
      * pdf = ------ xᵏ⁻¹ e θ
      *       Γ(k)θᵏ
      *
-     * @param number $x percentile      x > 0
+     * @param float $x percentile      x > 0
      *
      * @return float
      */
-    public function pdf($x): float
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -83,11 +83,11 @@ class Gamma extends Continuous
      * cdf = ----- γ | k, -  |
      *       Γ(k)     \   θ /
      *
-     * @param number $x percentile      x > 0
+     * @param float $x percentile      x > 0
      *
      * @return float
      */
-    public function cdf($x): float
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 

@@ -51,11 +51,11 @@ class Laplace extends Continuous
      * f(x|μ,b) = -- exp| - -------  |
      *            2b     \     b    /
      *
-     * @param  number $x
+     * @param  float $x
      *
      * @return float
      */
-    public function pdf($x): float
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -77,11 +77,11 @@ class Laplace extends Continuous
      * F(x) = 1 - - exp| - ------ |  if x ≥ μ
      *            2     \    b   /
      *
-     * @param  number $x
+     * @param  float $x
      *
      * @return float
      */
-    public function cdf($x): float
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
