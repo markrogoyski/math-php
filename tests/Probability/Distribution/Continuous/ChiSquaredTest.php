@@ -10,7 +10,8 @@ class ChiSquaredTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, int $k, $pdf)
     {
-        $this->assertEquals($pdf, ChiSquared::pdf($x, $k), '', 0.00001);
+        $chiSquared = new ChiSquared($k);
+        $this->assertEquals($pdf, $chiSquared->pdf($x), '', 0.00001);
     }
 
     public function dataProviderForPDF()
@@ -32,7 +33,8 @@ class ChiSquaredTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, int $k, $cdf)
     {
-        $this->assertEquals($cdf, ChiSquared::cdf($x, $k), '', 0.01);
+        $chiSquared = new ChiSquared($k);
+        $this->assertEquals($cdf, $chiSquared->cdf($x), '', 0.01);
     }
 
     public function dataProviderForCDF()
@@ -55,6 +57,7 @@ class ChiSquaredTest extends \PHPUnit_Framework_TestCase
     public function testMean()
     {
         $k = 5;
-        $this->assertEquals($k, ChiSquared::mean($k));
+        $chiSquared = new ChiSquared($k);
+        $this->assertEquals($k, $chiSquared->mean());
     }
 }

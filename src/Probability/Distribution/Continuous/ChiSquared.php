@@ -12,14 +12,34 @@ class ChiSquared extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x ∈ [0,∞)
      * k ∈ [1,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '[0,∞)',
+    const PARAMETER_LIMITS = [
         'k' => '[1,∞)',
     ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ [0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '[0,∞)',
+    ];
+
+    /** @var number Degrees of Freedom Parameter */
+    protected $k;
+
+    /**
+     * Constructor
+     *
+     * @param number $k degrees of freedom parameter k >= 1
+     */
+    public function __construct($k)
+    {
+        parent::__construct($k);
+    }
 
     /**
      * Probability density function
@@ -30,14 +50,15 @@ class ChiSquared extends Continuous
      *           2ᵏ/² Γ |  -  |
      *                   \ 2 /
      *
-     * @param number $x point at which to evaluate > 0
-     * @param int    $k degrees of freedom > 0
+     * @param float $x point at which to evaluate > 0
      *
      * @return number probability
      */
-    public static function pdf($x, int $k)
+    public function pdf(float $x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'k' => $k]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $k = $this->k;
 
         // Numerator
         $x⁽ᵏ／²⁾⁻¹ = $x**(($k / 2) - 1);
@@ -63,14 +84,15 @@ class ChiSquared extends Continuous
      *         Γ |  -  |
      *            \ 2 /
      *
-     * @param number $x Chi-square critical value (CV) > 0
-     * @param int    $k degrees of freedom > 0
+     * @param float $x Chi-square critical value (CV) > 0
      *
      * @return number cumulative probability
      */
-    public static function cdf($x, int $k)
+    public function cdf(float $x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'k' => $k]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $k = $this->k;
 
         // Numerator
         $γ⟮k／2、x／2⟯ = Special::γ($k / 2, $x / 2);
@@ -86,14 +108,10 @@ class ChiSquared extends Continuous
      *
      * μ = k
      *
-     * @param int $k degrees of freedom > 0
-     *
      * @return int k
      */
-    public static function mean(int $k)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['k' => $k]);
-
-        return $k;
+        return $this->k;
     }
 }

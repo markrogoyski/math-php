@@ -10,7 +10,8 @@ class LogisticTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $μ, $s, $pdf)
     {
-        $this->assertEquals($pdf, Logistic::pdf($x, $μ, $s), '', 0.001);
+        $logistic = new Logistic($μ, $s);
+        $this->assertEquals($pdf, $logistic->pdf($x), '', 0.001);
     }
 
     public function dataProviderForPDF()
@@ -41,9 +42,10 @@ class LogisticTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $μ, $s, $cdf)
     {
-        $p = Logistic::cdf($x, $μ, $s);
+        $logistic = new Logistic($μ, $s);
+        $p = $logistic->cdf($x, $μ, $s);
         $this->assertEquals($cdf, $p, '', 0.001);
-        $this->assertEquals($x, Logistic::inverse($p, $μ, $s), '', 0.001);
+        $this->assertEquals($x, $logistic->inverse($p), '', 0.001);
     }
 
     public function dataProviderForCDF()
@@ -72,6 +74,7 @@ class LogisticTest extends \PHPUnit_Framework_TestCase
     {
         $μ = 5;
         $s = 1;
-        $this->assertEquals($μ, Logistic::mean($μ, $s));
+        $logistic = new Logistic($μ, $s);
+        $this->assertEquals($μ, $logistic->mean());
     }
 }

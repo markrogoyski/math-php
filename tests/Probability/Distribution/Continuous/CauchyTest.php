@@ -10,7 +10,8 @@ class CauchyTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $x₀, $γ, $pdf)
     {
-        $this->assertEquals($pdf, Cauchy::pdf($x, $x₀, $γ), '', 0.0001);
+        $cauchy = new Cauchy($x₀, $γ);
+        $this->assertEquals($pdf, $cauchy->pdf($x), '', 0.0001);
     }
 
     public function dataProviderForPDF()
@@ -30,9 +31,10 @@ class CauchyTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $x₀, $γ, $cdf)
     {
-        $p = Cauchy::cdf($x, $x₀, $γ);
+        $cauchy = new Cauchy($x₀, $γ);
+        $p = $cauchy->cdf($x);
         $this->assertEquals($cdf, $p, '', 0.0001);
-        $this->assertEquals($x, Cauchy::inverse($p, $x₀, $γ), '', 0.0001);
+        $this->assertEquals($x, $cauchy->inverse($p), '', 0.0001);
     }
 
     public function dataProviderForCDF()
@@ -49,21 +51,28 @@ class CauchyTest extends \PHPUnit_Framework_TestCase
 
     public function testMean()
     {
-        $this->assertNan(Cauchy::mean(1, 1));
-        $this->assertNan(Cauchy::mean(2, 3));
+        $cauchy1 = new Cauchy(1, 1);
+        $cauchy2 = new Cauchy(2, 3);
+
+        $this->assertNan($cauchy1->mean());
+        $this->assertNan($cauchy2->mean());
     }
 
     public function testMedian()
     {
         $x₀ = 5;
         $γ  = 3;
-        $this->assertEquals($x₀, Cauchy::median($x₀, $γ));
+        
+        $cauchy = new Cauchy($x₀, $γ);
+        $this->assertEquals($x₀, $cauchy->median());
     }
 
     public function testMode()
     {
         $x₀ = 5;
         $γ  = 3;
-        $this->assertEquals($x₀, Cauchy::mode($x₀, $γ));
+        
+        $cauchy = new Cauchy($x₀, $γ);
+        $this->assertEquals($x₀, $cauchy->mode($x₀, $γ));
     }
 }

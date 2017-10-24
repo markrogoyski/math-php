@@ -7,16 +7,40 @@ class Laplace extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x ∈ (-∞,∞)
      * μ ∈ (-∞,∞)
      * b ∈ (0,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '(-∞,∞)',
+    const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
         'b' => '(0,∞)',
     ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ (-∞,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '(-∞,∞)',
+    ];
+
+     /** @var float location parameter */
+    protected $μ;
+
+     /** @var float scale parameter */
+    protected $b;
+
+    /**
+     * Constructor
+     *
+     * @param number $μ location parameter
+     * @param number $b scale parameter (diversity)  b > 0
+     */
+    public function __construct($μ, $b)
+    {
+        parent::__construct($μ, $b);
+    }
 
     /**
      * Laplace distribution - probability density function
@@ -27,15 +51,16 @@ class Laplace extends Continuous
      * f(x|μ,b) = -- exp| - -------  |
      *            2b     \     b    /
      *
-     * @param  number $x
-     * @param  number $μ location parameter
-     * @param  number $b scale parameter (diversity)  b > 0
+     * @param  float $x
      *
-     * @return  float
+     * @return float
      */
-    public static function pdf($x, $μ, $b): float
+    public function pdf(float $x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'b' => $b]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $μ = $this->μ;
+        $b = $this->b;
 
         return (1 / (2 * $b)) * exp(-( abs($x - $μ)/$b ));
     }
@@ -52,15 +77,16 @@ class Laplace extends Continuous
      * F(x) = 1 - - exp| - ------ |  if x ≥ μ
      *            2     \    b   /
      *
-     * @param  number $x
-     * @param  number $μ location parameter
-     * @param  number $b scale parameter (diversity)  b > 0
+     * @param  float $x
      *
-     * @return  float
+     * @return float
      */
-    public static function cdf($x, $μ, $b): float
+    public function cdf(float $x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 'b' => $b]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $μ = $this->μ;
+        $b = $this->b;
 
         if ($x < $μ) {
             return (1/2) * exp(($x - $μ) / $b);
@@ -73,15 +99,10 @@ class Laplace extends Continuous
      *
      * μ = μ
      *
-     * @param  number $μ location parameter
-     * @param  number $b scale parameter (diversity)  b > 0
-     *
-     * @return μ
+     * @return float μ
      */
-    public static function mean($μ, $b)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['μ' => $μ, 'b' => $b]);
-
-        return $μ;
+        return $this->μ;
     }
 }

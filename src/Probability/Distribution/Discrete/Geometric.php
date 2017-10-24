@@ -12,14 +12,34 @@ class Geometric extends Discrete
 {
     /**
      * Distribution parameter bounds limits
-     * k ∈ [1,∞)
      * p ∈ (0,1]
      * @var array
      */
-    const LIMITS = [
-        'k' => '[1,∞)',
+    const PARAMETER_LIMITS = [
         'p' => '(0,1]',
     ];
+
+    /**
+     * Distribution parameter bounds limits
+     * k ∈ [1,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'k' => '[1,∞)',
+    ];
+
+    /** @var float success probability  0 < p ≤ 1 */
+    protected $p;
+
+    /**
+     * Constructor
+     *
+     * @param float $p success probability  0 < p ≤ 1
+     */
+    public function __construct(float $p)
+    {
+        parent::__construct($p);
+    }
 
     /**
      * Probability mass function
@@ -32,13 +52,13 @@ class Geometric extends Discrete
      * pmf = (1 - p)ᵏp
      *
      * @param  int   $k number of trials     k ≥ 1
-     * @param  float $p success probability  0 < p ≤ 1
      *
      * @return float
      */
-    public static function pmf(int $k, float $p): float
+    public function pmf(int $k): float
     {
-        Support::checkLimits(self::LIMITS, ['k' => $k, 'p' => $p]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['k' => $k]);
+        $p = $this->p;
 
         $⟮1 − p⟯ᵏ = pow(1 - $p, $k);
         return $⟮1 − p⟯ᵏ * $p;
@@ -55,13 +75,13 @@ class Geometric extends Discrete
      * pmf = 1 - (1 - p)ᵏ⁺¹
      *
      * @param  int   $k number of trials     k ≥ 0
-     * @param  float $p success probability  0 < p ≤ 1
      *
      * @return float
      */
-    public static function cdf(int $k, float $p): float
+    public function cdf(int $k): float
     {
-        Support::checkLimits(self::LIMITS, ['k' => $k, 'p' => $p]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['k' => $k]);
+        $p = $this->p;
 
         $⟮1 − p⟯ᵏ⁺¹ = pow(1 - $p, $k + 1);
         return 1 - $⟮1 − p⟯ᵏ⁺¹;

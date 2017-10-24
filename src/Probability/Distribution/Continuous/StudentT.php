@@ -12,16 +12,34 @@ class StudentT extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x ∈ (-∞,∞)
      * ν ∈ (0,∞)
+     * @var array
+     */
+    const PARAMETER_LIMITS = [
+        'ν' => '(0,∞)',
+    ];
+
+    /**
+     * Distribution support bounds limits
      * t ∈ (-∞,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '(-∞,∞)',
-        'ν' => '(0,∞)',
+    const SUPPORT_LIMITS = [
         't' => '(-∞,∞)',
     ];
+
+    /** @var number Degrees of Freedom Parameter */
+    protected $ν;
+
+    /**
+     * Constructor
+     *
+     * @param number $ν degrees of freedom ν > 0
+     */
+    public function __construct($ν)
+    {
+        parent::__construct($ν);
+    }
 
     /**
      * Probability density function
@@ -35,25 +53,27 @@ class StudentT extends Continuous
      *         \ 2 /
      *
      *
-     * @param number $x percentile
-     * @param int    $ν degrees of freedom > 0
+     * @param float $t t score
+     *
+     * @return number
      */
-    public static function pdf($x, int $ν)
+    public function pdf(float $t)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
 
+        $ν = $this->ν;
         $π = \M_PI;
 
         // Numerator
         $Γ⟮⟮ν＋1⟯∕2⟯ = Special::gamma(($ν + 1) / 2);
-        $⟮1＋x²∕ν⟯ = 1 + ($x**2 / $ν);
+        $⟮1＋t²∕ν⟯ = 1 + ($t**2 / $ν);
         $−⟮ν＋1⟯∕2 = -($ν + 1) / 2;
 
         // Denominator
         $√⟮νπ⟯  = sqrt($ν * $π);
         $Γ⟮ν∕2⟯ = Special::gamma($ν / 2);
         
-        return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋x²∕ν⟯**$−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);
+        return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋t²∕ν⟯**$−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);
     }
     
     /**
@@ -68,13 +88,15 @@ class StudentT extends Continuous
      *
      *        Iₓ₍t₎(ν/2, ½) is the regularized incomplete beta function
      *
-     * @param number $t t score
-     * @param int    $ν degrees of freedom > 0
+     * @param float $t t score
+     *
+     * @return number
      */
-    public static function cdf($t, int $ν)
+    public function cdf(float $t)
     {
-        Support::checkLimits(self::LIMITS, ['t' => $t, 'ν' => $ν]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
 
+        $ν = $this->ν;
         if ($t == 0) {
             return .5;
         }
@@ -97,13 +119,13 @@ class StudentT extends Continuous
      * Find t such that the area greater than t and the area beneath -t is p.
      *
      * @param number $p Proportion of area
-     * @param number $ν Degrees of freedom
      *
      * @return number t-score
      */
-    public static function inverse2Tails($p, $ν)
+    public function inverse2Tails($p)
     {
-        Support::checkLimits(self::LIMITS, ['ν' => $ν]);
+        Support::checkLimits(['p'  => '[0,1]'], ['p' => $p]);
+        $ν = $this->ν;
         return self::inverse(1 - $p / 2, $ν);
     }
     
@@ -113,14 +135,11 @@ class StudentT extends Continuous
      * μ = 0 if ν > 1
      * otherwise undefined
      *
-     * @param number $ν Degrees of freedom
-     *
      * @return number
      */
-    public static function mean($ν)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['ν' => $ν]);
-        if ($ν > 1) {
+        if ($this->ν > 1) {
             return 0;
         }
 
@@ -132,13 +151,10 @@ class StudentT extends Continuous
      *
      * μ = 0
      *
-     * @param number $ν Degrees of freedom
-     *
      * @return number
      */
-    public static function median($ν)
+    public function median()
     {
-        Support::checkLimits(self::LIMITS, ['ν' => $ν]);
         return 0;
     }
 }

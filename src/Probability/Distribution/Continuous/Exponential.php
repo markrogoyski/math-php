@@ -4,21 +4,41 @@ namespace MathPHP\Probability\Distribution\Continuous;
 use MathPHP\Functions\Support;
 
 /**
- * Exponental distribution
+ * Exponential distribution
  * https://en.wikipedia.org/wiki/Exponential_distribution
  */
 class Exponential extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x ∈ [0,∞)
      * λ ∈ (0,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '[0,∞)',
+    const PARAMETER_LIMITS = [
         'λ' => '(0,∞)',
     ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ [0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '[0,∞)',
+    ];
+
+     /** @var float rate parameter */
+    protected $λ;
+
+    /**
+     * Constructor
+     *
+     * @param float $λ often called the rate parameter
+     */
+    public function __construct(float $λ)
+    {
+        parent::__construct($λ);
+    }
 
     /**
      * Probability density function
@@ -27,16 +47,17 @@ class Exponential extends Continuous
      *        = 0       x < 0
      *
      * @param float $x the random variable
-     * @param float $λ often called the rate parameter
      *
      * @return float
      */
-    public static function pdf(float $x, float $λ): float
+    public function pdf(float $x): float
     {
         if ($x < 0) {
             return 0;
         }
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'λ' => $λ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $λ = $this->λ;
 
         return $λ * exp(-$λ * $x);
     }
@@ -46,17 +67,18 @@ class Exponential extends Continuous
      * f(x;λ) = 1 − ℯ^⁻λx  x ≥ 0
      *        = 0          x < 0
      *
-     * @param float $λ often called the rate parameter
      * @param float $x the random variable
      *
      * @return float
      */
-    public static function cdf(float $x, float $λ): float
+    public function cdf(float $x): float
     {
         if ($x < 0) {
             return 0;
         }
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'λ' => $λ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $λ = $this->λ;
 
         return 1 - exp(-$λ * $x);
     }
@@ -66,14 +88,10 @@ class Exponential extends Continuous
      *
      * μ = λ⁻¹
      *
-     * @param float $λ often called the rate parameter
-     *
      * @return number
      */
-    public static function mean(float $λ)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['λ' => $λ]);
-
-        return 1 / $λ;
+        return 1 / $this->λ;
     }
 }

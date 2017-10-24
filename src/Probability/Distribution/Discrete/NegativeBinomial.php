@@ -11,18 +11,43 @@ use MathPHP\Functions\Support;
  */
 class NegativeBinomial extends Discrete
 {
+
     /**
      * Distribution parameter bounds limits
-     * x ∈ [0,∞)
      * r ∈ [0,∞)
      * p ∈ [0,1]
      * @var array
      */
-    const LIMITS = [
-        'x' => '[0,∞)',
+    const PARAMETER_LIMITS = [
         'r' => '[0,∞)',
         'p' => '[0,1]',
     ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ [0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '[0,∞)',
+    ];
+
+    /** @var int number of successful events */
+    protected $n;
+
+    /** @var float probability of success on an individual trial */
+    protected $p;
+
+    /**
+     * Constructor
+     *
+     * @param  int   $r number of successful events
+     * @param  float $p probability of success on an individual trial
+     */
+    public function __construct(int $r, float $p)
+    {
+        parent::__construct($r, $p);
+    }
 
     /**
      * Probability mass function
@@ -30,14 +55,15 @@ class NegativeBinomial extends Discrete
      * b(x; r, p) = ₓ₋₁Cᵣ₋₁ pʳ * (1 - p)ˣ⁻ʳ
      *
      * @param  int   $x number of trials required to produce r successes
-     * @param  int   $r number of successful events
-     * @param  float $p probability of success on an individual trial
      *
      * @return float
      */
-    public static function pmf(int $x, int $r, float $p): float
+    public function pmf(int $x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'r' => $r, 'p' => $p]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $r = $this->r;
+        $p = $this->p;
      
         $ₓ₋₁Cᵣ₋₁   = Combinatorics::combinations($x - 1, $r - 1);
         $pʳ        = pow($p, $r);

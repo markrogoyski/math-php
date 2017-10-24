@@ -12,17 +12,41 @@ class Beta extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x ∈ [0,1]
      * α ∈ (0,∞)
      * β ∈ (0,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '[0,1]',
+    const PARAMETER_LIMITS = [
         'α' => '(0,∞)',
         'β' => '(0,∞)',
     ];
-    
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ [0,1]
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '[0,1]',
+    ];
+
+    /** @var number Shape Parameter */
+    protected $α;
+
+    /** @var number Shape Parameter */
+    protected $β;
+
+    /**
+     * Constructor
+     *
+     * @param number $α shape parameter α > 0
+     * @param number $β shape parameter β > 0
+     */
+    public function __construct($α, $β)
+    {
+        parent::__construct($α, $β);
+    }
+
     /**
      * Probability density function
      *
@@ -30,15 +54,16 @@ class Beta extends Continuous
      * pdf = --------------
      *           B(α,β)
      *
-     * @param number $α shape parameter α > 0
-     * @param number $β shape parameter β > 0
-     * @param number $x x ∈ (0,1)
+     * @param float $x x ∈ (0,1)
      *
      * @return float
      */
-    public static function pdf($x, $α, $β)
+    public function pdf(float $x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $α = $this->α;
+        $β = $this->β;
 
         $xᵃ⁻¹     = pow($x, $α - 1);
         $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $β - 1);
@@ -51,15 +76,16 @@ class Beta extends Continuous
      *
      * cdf = Iₓ(α,β)
      *
-     * @param number $α shape parameter α > 0
-     * @param number $β shape parameter β > 0
-     * @param number $x x ∈ (0,1)
+     * @param float $x x ∈ (0,1)
      *
      * @return float
      */
-    public static function cdf($x, $α, $β)
+    public function cdf(float $x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'α' => $α, 'β' => $β]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $α = $this->α;
+        $β = $this->β;
 
         return Special::regularizedIncompleteBeta($x, $α, $β);
     }
@@ -71,14 +97,12 @@ class Beta extends Continuous
      * μ = -----
      *     α + β
      *
-     * @param number $α shape parameter α > 0
-     * @param number $β shape parameter β > 0
-     *
      * @return number
      */
-    public static function mean($α, $β)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['α' => $α, 'β' => $β]);
+        $α = $this->α;
+        $β = $this->β;
 
         return $α / ($α + $β);
     }

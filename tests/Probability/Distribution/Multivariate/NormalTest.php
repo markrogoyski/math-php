@@ -20,7 +20,8 @@ class NormalTest extends \PHPUnit_Framework_TestCase
     public function testPdf(array $x, array $μ, array $∑, float $pdf)
     {
         $∑ = new Matrix($∑);
-        $this->assertEquals($pdf, Normal::pdf($x, $μ, $∑), '', 0.00000000000001);
+        $normal = new Normal($μ, $∑);
+        $this->assertEquals($pdf, $normal->pdf($x), '', 0.00000000000001);
     }
 
     /**
@@ -187,12 +188,11 @@ class NormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testPdfCovarianceMatrixNotPositiveDefiniteException(array $M)
     {
-        $x = [0, 0];
         $μ = [0, 0];
         $∑ = new Matrix($M);
 
         $this->expectException(Exception\BadDataException::class);
-        $pdf = Normal::pdf($x, $μ, $∑);
+        $normal = new Normal($μ, $∑);
     }
 
     /**
@@ -200,15 +200,15 @@ class NormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testPdfXAndMuDifferentNumberOfElementsException()
     {
-        $x = [0, 0];
-        $μ = [0, 0, 0];
+        $μ = [0, 0];
         $∑ = new Matrix([
             [1, 0],
             [0, 1],
         ]);
-
+        $x = [0, 0, 0];
+        $normal = new Normal($μ, $∑);
         $this->expectException(Exception\BadDataException::class);
-        $pdf = Normal::pdf($x, $μ, $∑);
+        $pdf = $normal->pdf($x);
     }
 
     /**
@@ -216,7 +216,6 @@ class NormalTest extends \PHPUnit_Framework_TestCase
      */
     public function testPdfCovarianceMatrixDifferentNumberOfElementsException()
     {
-        $x = [0, 0];
         $μ = [0, 0];
         $∑ = new Matrix([
             [1, 0, 0],
@@ -224,6 +223,6 @@ class NormalTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->expectException(Exception\BadDataException::class);
-        $pdf = Normal::pdf($x, $μ, $∑);
+        $normal = new Normal($μ, $∑);
     }
 }

@@ -12,16 +12,40 @@ class F extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x  ∈ [0,∞)
      * d₁ ∈ (0,∞)
      * d₂ ∈ (0,∞)
      * @var array
      */
-    const LIMITS = [
-        'x'  => '[0,∞)',
+    const PARAMETER_LIMITS = [
         'd₁' => '(0,∞)',
         'd₂' => '(0,∞)',
     ];
+
+    /**
+     * Distribution Support bounds limits
+     * x  ∈ [0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x'  => '[0,∞)',
+    ];
+
+    /** @var number Degree of Freedom Parameter */
+    protected $d₁;
+
+    /** @var number Degree of Freedom Parameter */
+    protected $d₂;
+
+    /**
+     * Constructor
+     *
+     * @param number $d₁ degree of freedom parameter d₁ > 0
+     * @param number $d₂ degree of freedom parameter d₂ > 0
+     */
+    public function __construct($d₁, $d₂)
+    {
+        parent::__construct($d₁, $d₂);
+    }
 
     /**
      * Probability density function
@@ -35,17 +59,18 @@ class F extends Continuous
      *      x B |  --, --  |
      *           \ 2   2  /
      *
-     * @param number $x  percentile ≥ 0
-     * @param int    $d₁ degree of freedom v1 > 0
-     * @param int    $d₂ degree of freedom v2 > 0
+     * @param float $x  percentile ≥ 0
      *
      * @todo how to handle x = 0
      *
      * @return number probability
      */
-    public static function pdf($x, int $d₁, int $d₂)
+    public function pdf(float $x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'd₁' => $d₁, 'd₂' => $d₂]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $d₁ = $this->d₁;
+        $d₂ = $this->d₂;
 
         // Numerator
         $⟮d₁x⟯ᵈ¹d₂ᵈ²                = ($d₁ * $x)**$d₁ * $d₂**$d₂;
@@ -69,15 +94,16 @@ class F extends Continuous
      *
      * Where I is the regularized incomplete beta function.
      *
-     * @param number $x  percentile ≥ 0
-     * @param int    $d₁ degree of freedom v1 > 0
-     * @param int    $d₂ degree of freedom v2 > 0
+     * @param float $x  percentile ≥ 0
      *
      * @return number
      */
-    public static function cdf($x, int $d₁, int $d₂)
+    public function cdf(float $x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'd₁' => $d₁, 'd₂' => $d₂]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $d₁ = $this->d₁;
+        $d₂ = $this->d₂;
 
         $ᵈ¹ˣ／d₁x＋d₂ = ($d₁ * $x) / ($d₁ * $x + $d₂);
 
@@ -91,13 +117,12 @@ class F extends Continuous
      * μ = ------  for d₂ > 2
      *     d₂ - 2
      *
-     * @param int $d₁ degree of freedom v1 > 0
-     * @param int $d₂ degree of freedom v2 > 0
-     *
      * @return number
      */
-    public static function mean(int $d₁, int $d₂)
+    public function mean()
     {
+        $d₂ = $this->d₂;
+
         if ($d₂ > 2) {
             return $d₂ / ($d₂ - 2);
         }

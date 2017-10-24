@@ -10,7 +10,8 @@ class FTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $d1, $d2, $pdf)
     {
-        $this->assertEquals($pdf, F::pdf($x, $d1, $d2), '', 0.00001);
+        $f = new F($d1, $d2);
+        $this->assertEquals($pdf, $f->pdf($x), '', 0.00001);
     }
 
     public function dataProviderForPDF()
@@ -32,7 +33,8 @@ class FTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $d1, $d2, $cdf)
     {
-        $this->assertEquals($cdf, F::cdf($x, $d1, $d2), '', 0.00001);
+        $f = new F($d1, $d2);
+        $this->assertEquals($cdf, $f->cdf($x), '', 0.00001);
     }
 
     public function dataProviderForCDF()
@@ -53,9 +55,10 @@ class FTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderForMean
      */
-    public function testMean(int $d₁, int $d₂, $μ)
+    public function testMean(int $d1, int $d2, $μ)
     {
-        $this->assertEquals($μ, F::mean($d₁, $d₂), '', 0.0001);
+        $f = new F($d1, $d2);
+        $this->assertEquals($μ, $f->mean(), '', 0.0001);
     }
 
     public function dataProviderForMean()
@@ -70,8 +73,9 @@ class FTest extends \PHPUnit_Framework_TestCase
     
     public function testMeanNAN()
     {
-        $this->assertNan(F::mean(1, 0));
-        $this->assertNan(F::mean(1, 1));
-        $this->assertNan(F::mean(1, 2));
+        $f1 = new F(1, 1);
+        $f2 = new F(1, 2);
+        $this->assertNan($f1->mean());
+        $this->assertNan($f2->mean());
     }
 }

@@ -10,7 +10,6 @@ class CategoricalTest extends \PHPUnit_Framework_TestCase
      * @testCase     Constructor throws a BadParameterException if k is <= 0
      * @dataProvider dataProviderForBadK
      * @param        int $k
-     * @param        array  $probabilities
      */
     public function testBadK(int $k)
     {
@@ -32,7 +31,6 @@ class CategoricalTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @testCase Constructor throws a BadDataException if there are no exactly k probabilities
-     * @return [type] [description]
      */
     public function testBadCount()
     {

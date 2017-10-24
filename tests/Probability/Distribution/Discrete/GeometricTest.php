@@ -6,11 +6,17 @@ use MathPHP\Probability\Distribution\Discrete\Geometric;
 class GeometricTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @testCase     pmf
      * @dataProvider dataProviderForPMF
+     * @param        int   $k
+     * @param        float $p
+     * @param        float $pmf
+     *
      */
-    public function testPMF(int $k, float $p, float $pmf)
+    public function testPmf(int $k, float $p, float $pmf)
     {
-        $this->assertEquals($pmf, Geometric::pmf($k, $p), '', 0.001);
+        $geometric = new Geometric($p);
+        $this->assertEquals($pmf, $geometric->pmf($k), '', 0.001);
     }
 
     public function dataProviderForPMF()
@@ -29,11 +35,16 @@ class GeometricTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     cdf
      * @dataProvider dataProviderForCDF
+     * @param        int   $k
+     * @param        float $p
+     * @param        float $cdf
      */
-    public function testCDF(int $k, float $p, float $cdf)
+    public function testCdf(int $k, float $p, float $cdf)
     {
-        $this->assertEquals($cdf, Geometric::cdf($k, $p), '', 0.001);
+        $geometric = new Geometric($p);
+        $this->assertEquals($cdf, $geometric->cdf($k), '', 0.001);
     }
 
     public function dataProviderForCDF()

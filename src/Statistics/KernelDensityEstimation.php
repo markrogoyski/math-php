@@ -136,13 +136,17 @@ class KernelDensityEstimation
     {
         switch ($kernel) {
             case self::STANDARD_NORMAL:
-                return [Continuous\StandardNormal::class, 'pdf'];
+                return function ($x) {
+                    $standardNormal = new Continuous\StandardNormal();
+                    return $standardNormal->pdf($x);
+                };
 
             case self::NORMAL:
                 $μ = 0;
                 $σ = Descriptive::standardDeviation($this->data);
                 return function ($x) use ($μ, $σ) {
-                    return Continuous\Normal::pdf($x, $μ, $σ);
+                    $normal = new Continuous\Normal($μ, $σ);
+                    return $normal->pdf($x);
                 };
 
             case self::UNIFORM:

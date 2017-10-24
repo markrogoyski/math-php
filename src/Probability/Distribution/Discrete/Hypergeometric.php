@@ -1,7 +1,6 @@
 <?php
 namespace MathPHP\Probability\Distribution\Discrete;
 
-use MathPHP\Exception;
 use MathPHP\Functions\Special;
 use MathPHP\Functions\Support;
 use MathPHP\Probability\Combinatorics;
@@ -21,9 +20,49 @@ class Hypergeometric extends Discrete
      * k ∈ [max(0, n + K - N),min(n, K)]
      * @var array
      */
-    const LIMITS = [
+    const PARMAETER_LIMITS = [
         'N' => '[0,∞)',
     ];
+
+    /** @var array */
+    private $support_limit;
+
+    /** @var int */
+    private $N;
+
+    /** @var int */
+    private $K;
+
+    /** @var int */
+    private $n;
+
+    /**
+     * Constructor
+     *
+     * N ∈ {0, 1, 2, ...}
+     * K ∈ {0, 1, 2, ..., N}
+     * n ∈ {0, 1, 2, ..., N}
+     *
+     * @param  int $N population size
+     * @param  int $K number of success states in the population
+     * @param  int $n number of draws
+     */
+    public function __construct(int $N, int $K, int $n)
+    {
+        $parameter_limits = [
+            'N' => '[0,∞)',
+            'K' => "[0, $N]",
+            'n' => "[0, $N]",
+        ];
+        Support::checkLimits($parameter_limits, ['N' => $N, 'K' => $K, 'n' => $n]);
+
+        $this->support_limit = ['k' => '[' . max(0, $n + $K - $N) . ',' . min($n, $K) . ']'];
+
+
+        $this->N = $N;
+        $this->K = $K;
+        $this->n = $n;
+    }
 
     /**
      * Probability mass function
@@ -49,16 +88,17 @@ class Hypergeometric extends Discrete
      * n ∈ {0, 1, 2, ..., N}
      * k ∈ {max(0, n + K - N), ..., min(n, K)}
      *
-     * @param  int $N population size
-     * @param  int $K number of success states in the population
-     * @param  int $n number of draws
      * @param  int $k number of observed successes
      *
      * @return float
      */
-    public static function pmf(int $N, int $K, int $n, int $k): float
+    public function pmf(int $k): float
     {
-        self::checkLimits($N, $K, $n, $k);
+        Support::checkLimits($this->support_limit, ['k' => $k]);
+
+        $N = $this->N;
+        $K = $this->K;
+        $n = $this->n;
 
         $KCk          = Combinatorics::combinations($K, $k);
         $⟮N − K⟯C⟮n − k⟯ = Combinatorics::combinations(($N - $K), ($n - $k));
@@ -89,16 +129,17 @@ class Hypergeometric extends Discrete
      * n ∈ {0, 1, 2, ..., N}
      * k ∈ {max(0, n + K - N), ..., min(n, K)}
      *
-     * @param  int $N population size
-     * @param  int $K number of success states in the population
-     * @param  int $n number of draws
      * @param  int $k number of observed successes
      *
      * @return float
      */
-    public static function cdf(int $N, int $K, int $n, int $k): float
+    public function cdf(int $k): float
     {
-        self::checkLimits($N, $K, $n, $k);
+        Support::checkLimits($this->support_limit, ['k' => $k]);
+
+        $N = $this->N;
+        $K = $this->K;
+        $n = $this->n;
 
         $nC⟮k ＋ 1⟯         = Combinatorics::combinations($n, $k + 1);
         $⟮N − n⟯C⟮K − k − 1⟯ = Combinatorics::combinations(($N - $n), ($K - $k - 1));
@@ -125,38 +166,12 @@ class Hypergeometric extends Discrete
      * n ∈ {0, 1, 2, ..., N}
      * k ∈ {max(0, n + K - N), ..., min(n, K)}
      *
-     * @param  int $N population size
-     * @param  int $K number of success states in the population
-     * @param  int $n number of draws
      * @param  int $k number of observed successes
      *
      * @return float
      */
-    public static function mean(int $N, int $K, int $n, int $k)
+    public function mean(): float
     {
-        self::checkLimits($N, $K, $n, $k);
-
-        return $n * ($K / $N);
-    }
-
-    /**
-     * Check limits
-     *
-     * @param  int $N population size
-     * @param  int $K number of success states in the population
-     * @param  int $n number of draws
-     * @param  int $k number of observed successes
-     */
-    private static function checkLimits(int $N, int $K, int $n, int $k)
-    {
-        $limits = array_merge(
-            self::LIMITS,
-            [
-                'K' => "[0,$N]",
-                'n' => "[0,$N]",
-                'k' => '[' . max(0, $n + $K - $N) . ',' . min($n, $K) . ']',
-            ]
-        );
-        Support::checkLimits($limits, ['N' => $N, 'K' => $K, 'n' => $n, 'k' => $k]);
+        return $this->n * ($this->K / $this->N);
     }
 }

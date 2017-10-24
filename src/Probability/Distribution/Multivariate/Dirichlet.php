@@ -14,14 +14,38 @@ class Dirichlet
 {
     /**
      * Distribution parameter bounds limits
-     * x ∈ (0,1)
      * α ∈ (0,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '(0,1)',
+    const PARAMETER_LIMITS = [
         'α' => '(0,∞)',
     ];
+
+    /**
+     * Distribution parameter bounds limits
+     * x ∈ (0,1)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'x' => '(0,1)',
+    ];
+
+    /** @var float[] $αs */
+    protected $αs;
+
+    /**
+     * Constructor
+     *
+     * @param loat[] $αs
+     */
+    public function __construct(array $αs)
+    {
+        $n = count($αs);
+        for ($i = 0; $i < $n; $i++) {
+            Support::checkLimits(self::PARAMETER_LIMITS, ['α' => $αs[$i]]);
+        }
+        $this->αs = $αs;
+    }
 
     /**
      * Probability density function
@@ -33,19 +57,20 @@ class Dirichlet
      * where B(α) is the multivariate Beta function
      *
      * @param array float[] $xs
-     * @param array float[] $αs
      *
      * @return float
+     *
+     * @throws Exception\BadDataException if xs and αs don't have the same number of elements
      */
-    public static function pdf(array $xs, array $αs): float
+    public function pdf(array $xs): float
     {
-        if (count($xs) !== count($αs)) {
+        if (count($xs) !== count($this->αs)) {
             throw new Exception\BadDataException('xs and αs must have the same number of elements');
         }
 
         $n = count($xs);
         for ($i = 0; $i < $n; $i++) {
-            Support::checkLimits(self::LIMITS, ['x' => $xs[$i], 'α' => $αs[$i]]);
+            Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $xs[$i]]);
         }
 
         /*
@@ -59,11 +84,11 @@ class Dirichlet
                     return $xᵢ**($αᵢ - 1);
                 },
                 $xs,
-                $αs
+                $this->αs
             )
         );
 
-        $B⟮α⟯ = Special::multivariateBeta($αs);
+        $B⟮α⟯ = Special::multivariateBeta($this->αs);
 
         return $∏xᵢ / $B⟮α⟯;
     }

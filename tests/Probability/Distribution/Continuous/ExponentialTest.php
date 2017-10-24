@@ -7,13 +7,20 @@ class ExponentialTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider dataProviderForPDF
+     * @param number $x
+     * @param number $λ
+     * @param number $probability
      */
     public function testPDF($x, $λ, $probability)
     {
-        $this->assertEquals($probability, Exponential::pdf($x, $λ), '', 0.001);
+        $exponential = new Exponential($λ);
+        $this->assertEquals($probability, $exponential->pdf($x), '', 0.001);
     }
 
-    public function dataProviderForPDF()
+    /**
+     * @return array
+     */
+    public function dataProviderForPDF(): array
     {
         return [
             [ -1, 1, 0],
@@ -26,13 +33,20 @@ class ExponentialTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataProviderForCDF
+     * @param number $x
+     * @param number $λ
+     * @param number $probability
      */
     public function testCDF($x, $λ, $probability)
     {
-        $this->assertEquals($probability, Exponential::cdf($x, $λ), '', 0.001);
+        $exponential = new Exponential($λ);
+        $this->assertEquals($probability, $exponential->cdf($x), '', 0.001);
     }
 
-    public function dataProviderForCDF()
+    /**
+     * @return array
+     */
+    public function dataProviderForCDF(): array
     {
         return [
             [-1, 1, 0],
@@ -48,13 +62,19 @@ class ExponentialTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataProviderForMean
+     * @param number $λ
+     * @param number $μ
      */
     public function testMean($λ, $μ)
     {
-        $this->assertEquals($μ, Exponential::mean($λ), '', 0.0001);
+        $exponential = new Exponential($λ);
+        $this->assertEquals($μ, $exponential->mean(), '', 0.0001);
     }
 
-    public function dataProviderForMean()
+    /**
+     * @return array
+     */
+    public function dataProviderForMean(): array
     {
         return [
             [1, 1],

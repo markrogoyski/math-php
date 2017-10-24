@@ -10,7 +10,8 @@ class DiracDeltaTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($x, $pdf)
     {
-        $this->assertEquals($pdf, DiracDelta::pdf($x), '', 0.00001);
+        $dirac = new DiracDelta();
+        $this->assertEquals($pdf, $dirac->pdf($x), '', 0.00001);
     }
     public function dataProviderForPDF()
     {
@@ -26,7 +27,8 @@ class DiracDeltaTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($x, $cdf)
     {
-        $this->assertEquals($cdf, DiracDelta::cdf($x), '', 0.00001);
+        $dirac = new DiracDelta();
+        $this->assertEquals($cdf, $dirac->cdf($x), '', 0.00001);
     }
     public function dataProviderForCDF()
     {
@@ -40,15 +42,23 @@ class DiracDeltaTest extends \PHPUnit_Framework_TestCase
     
     public function testInverse()
     {
-        $this->assertEquals(0, DiracDelta::inverse(.5), '', 0.0001);
-        $this->assertEquals(0, DiracDelta::inverse(.1), '', 0.0001);
-        $this->assertEquals(0, DiracDelta::inverse(.7), '', 0.0001);
+        $diracDelta = new DiracDelta();
+        $this->assertEquals(0, $diracDelta->inverse(.5), '', 0.0001);
+        $this->assertEquals(0, $diracDelta->inverse(.1), '', 0.0001);
+        $this->assertEquals(0, $diracDelta->inverse(.7), '', 0.0001);
     }
     
     public function testRand()
     {
-        $this->assertEquals(0, DiracDelta::rand(), '', 0.0001);
-        $this->assertEquals(0, DiracDelta::rand(), '', 0.0001);
-        $this->assertEquals(0, DiracDelta::rand(), '', 0.0001);
+        $diracDelta = new DiracDelta();
+        $this->assertEquals(0, $diracDelta->rand(), '', 0.0001);
+        $this->assertEquals(0, $diracDelta->rand(), '', 0.0001);
+        $this->assertEquals(0, $diracDelta->rand(), '', 0.0001);
+    }
+
+    public function testMean()
+    {
+        $diracDelta = new DiracDelta();
+        $this->assertEquals(0, $diracDelta->mean(), '', 0.0001);
     }
 }

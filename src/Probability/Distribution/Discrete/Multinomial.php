@@ -11,6 +11,26 @@ use MathPHP\Exception;
  */
 class Multinomial extends Discrete
 {
+    /** @var array */
+    protected $probabilities;
+
+    /**
+     * Multinomial constructor
+     *
+     * @param   array $probabilities
+     *
+     * @throws Exception\BadDataException if the probabilities do not add up to 1
+     */
+    public function __construct(array $probabilities)
+    {
+        // Probabilities must add up to 1
+        if (round(array_sum($probabilities), 1) != 1) {
+            throw new Exception\BadDataException('Probabilities do not add up to 1.');
+        }
+
+        $this->probabilities = $probabilities;
+    }
+
     /**
      * Probability mass function
      *
@@ -21,20 +41,16 @@ class Multinomial extends Discrete
      * n = number of trials (sum of the frequencies) = x₁ + x₂ + ⋯ xk
      *
      * @param  array $frequencies
-     * @param  array $probabilities
      *
      * @return float
+     *
+     * @throws Exception\BadDataException if the number of frequencies does not match the number of probabilities
      */
-    public static function pmf(array $frequencies, array $probabilities): float
+    public function pmf(array $frequencies): float
     {
         // Must have a probability for each frequency
-        if (count($frequencies) !== count($probabilities)) {
+        if (count($frequencies) !== count($this->probabilities)) {
             throw new Exception\BadDataException('Number of frequencies does not match number of probabilities.');
-        }
-
-        // Probabilities must add up to 1
-        if (round(array_sum($probabilities), 1) != 1) {
-            throw new Exception\BadDataException('Probabilities do not add up to 1.');
         }
 
         $n   = array_sum($frequencies);
@@ -50,7 +66,7 @@ class Multinomial extends Discrete
                 return $p**$x;
             },
             $frequencies,
-            $probabilities
+            $this->probabilities
         ));
 
         return ($n！ / $x₁！⋯xk！) * $p₁ˣ¹⋯pkˣᵏ;

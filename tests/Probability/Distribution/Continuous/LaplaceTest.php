@@ -5,15 +5,24 @@ use MathPHP\Probability\Distribution\Continuous\Laplace;
 
 class LaplaceTest extends \PHPUnit_Framework_TestCase
 {
-     /**
+    /**
+     * @testCase     pdf
      * @dataProvider dataProviderForPDF
+     * @param        number $x
+     * @param        number $μ
+     * @param        number $b
+     * @param        number $pdf
      */
     public function testPDF($x, $μ, $b, $pdf)
     {
-        $this->assertEquals($pdf, Laplace::pdf($x, $μ, $b), '', 0.001);
+        $laplace = new Laplace($μ, $b);
+        $this->assertEquals($pdf, $laplace->pdf($x), '', 0.001);
     }
 
-    public function dataProviderForPDF()
+    /**
+     * @return array
+     */
+    public function dataProviderForPDF(): array
     {
         return [
             [ 1, 0, 1, 0.1839397206 ],
@@ -27,14 +36,23 @@ class LaplaceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     cdf
      * @dataProvider dataProviderForCDF
+     * @param        number $x
+     * @param        number $μ
+     * @param        number $b
+     * @param        number $cdf
      */
-    public function testCDF($μ, $b, $x, $cdf)
+    public function testCDF($x, $μ, $b, $cdf)
     {
-        $this->assertEquals($cdf, Laplace::cdf($μ, $b, $x), '', 0.001);
+        $laplace = new Laplace($μ, $b);
+        $this->assertEquals($cdf, $laplace->cdf($x), '', 0.001);
     }
 
-    public function dataProviderForCDF()
+    /**
+     * @return array
+     */
+    public function dataProviderForCDF(): array
     {
         return [
             [ 1, 0, 1, 0.8160602794 ],
@@ -47,10 +65,14 @@ class LaplaceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @testCase mean
+     */
     public function testMean()
     {
         $μ = 5;
         $b = 1;
-        $this->assertEquals($μ, Laplace::mean($μ, $b));
+        $laplace = new Laplace($μ, $b);
+        $this->assertEquals($μ, $laplace->mean());
     }
 }

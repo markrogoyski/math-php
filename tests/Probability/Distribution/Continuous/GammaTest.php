@@ -6,6 +6,7 @@ use MathPHP\Probability\Distribution\Continuous\Gamma;
 class GammaTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @testCase     pdf
      * @dataProvider dataProviderForPdf
      * @param number $x   x ∈ (0,1)
      * @param number $k   shape parameter α > 0
@@ -14,7 +15,8 @@ class GammaTest extends \PHPUnit_Framework_TestCase
      */
     public function testPdf($x, $k, $θ, $pdf)
     {
-        $this->assertEquals($pdf, Gamma::pdf($x, $k, $θ), '', 0.00000001);
+        $gamma = new Gamma($k, $θ);
+        $this->assertEquals($pdf, $gamma->pdf($x), '', 0.00000001);
     }
 
     /**
@@ -40,6 +42,7 @@ class GammaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     cdf
      * @dataProvider dataProviderForCdf
      * @param number $x   x ∈ (0,1)
      * @param number $k   shape parameter α > 0
@@ -48,7 +51,8 @@ class GammaTest extends \PHPUnit_Framework_TestCase
      */
     public function testCdf($x, $k, $θ, $cdf)
     {
-        $this->assertEquals($cdf, Gamma::cdf($x, $k, $θ), '', 0.000001);
+        $gamma = new Gamma($k, $θ);
+        $this->assertEquals($cdf, $gamma->cdf($x), '', 0.000001);
     }
 
     /**
@@ -82,7 +86,8 @@ class GammaTest extends \PHPUnit_Framework_TestCase
      */
     public function testMean($k, $θ, $μ)
     {
-        $this->assertEquals($μ, Gamma::mean($k, $θ), '', 0.0001);
+        $gamma = new Gamma($k, $θ);
+        $this->assertEquals($μ, $gamma->mean(), '', 0.0001);
     }
 
     /**

@@ -10,7 +10,8 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
      */
     public function testPDF($t, $ν, $pdf)
     {
-        $this->assertEquals($pdf, StudentT::pdf($t, $ν), '', 0.00001);
+        $studentT = new StudentT($ν);
+        $this->assertEquals($pdf, $studentT->pdf($t), '', 0.00001);
     }
 
     public function dataProviderForPDF()
@@ -42,7 +43,8 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
      */
     public function testCDF($t, $ν, $cdf)
     {
-        $this->assertEquals($cdf, StudentT::cdf($t, $ν), '', 0.00001);
+        $studentT = new StudentT($ν);
+        $this->assertEquals($cdf, $studentT->cdf($t), '', 0.00001);
     }
 
     public function dataProviderForCDF()
@@ -70,7 +72,8 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
      */
     public function testMean($ν, $μ)
     {
-        $this->assertEquals($μ, StudentT::mean($ν));
+        $studentT = new StudentT($ν);
+        $this->assertEquals($μ, $studentT->mean());
     }
 
     public function dataProviderForMean()
@@ -83,7 +86,8 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
     
     public function testMeanNAN()
     {
-        $this->assertNan(StudentT::mean(1));
+        $studentT = new StudentT(1);
+        $this->assertNan($studentT->mean());
     }
     
     /**
@@ -91,7 +95,8 @@ class StudentTTest extends \PHPUnit_Framework_TestCase
      */
     public function testInverse($p, $ν, $x)
     {
-        $this->assertEquals($x, StudentT::inverse($p, $ν));
+        $studentT = new StudentT($ν);
+        $this->assertEquals($x, $studentT->inverse($p));
     }
 
     public function dataProviderForInverse()

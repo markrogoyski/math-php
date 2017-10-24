@@ -14,31 +14,55 @@ class Binomial extends Discrete
     /**
      * Distribution parameter bounds limits
      * n ∈ [0,∞)
-     * r ∈ [0,∞)
      * p ∈ [0,1]
      * @var array
      */
-    const LIMITS = [
+    const PARAMETER_LIMITS = [
         'n' => '[0,∞)',
-        'r' => '[0,∞)',
         'p' => '[0,1]',
     ];
+
+    /**
+     * Distribution support bounds limits
+     * r ∈ [0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
+        'r' => '[0,∞)',
+    ];
+
+    /** @var int number of events */
+    protected $n;
+
+    /** @var float probability of success */
+    protected $p;
+
+    /**
+     * Constructor
+     *
+     * @param int $n number of events n >= 0
+     * @param float $p probability of success 0 <= p <= 1
+     */
+    public function __construct(int $n, float $p)
+    {
+        parent::__construct($n, $p);
+    }
 
     /**
      * Probability mass function
      *
      * P(X = r) = nCr pʳ (1 - p)ⁿ⁻ʳ
      *
-     * @param  int   $n number of events
      * @param  int   $r number of successful events
-     * @param  float $p probability of success
      *
      * @return float
      */
-    public static function pmf(int $n, int $r, float $p): float
+    public function pmf(int $r): float
     {
-        Support::checkLimits(self::LIMITS, ['n' => $n, 'r' => $r, 'p' => $p]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['r' => $r]);
 
+        $n = $this->n;
+        $p = $this->p;
         $nCr       = Combinatorics::combinations($n, $r);
         $pʳ        = pow($p, $r);
         $⟮1 − p⟯ⁿ⁻ʳ = pow(1 - $p, $n - $r);
@@ -50,19 +74,19 @@ class Binomial extends Discrete
      * Cumulative distribution function
      * Computes and sums the binomial distribution at each of the values in r.
      *
-     * @param  int   $n number of events
      * @param  int   $r number of successful events
-     * @param  float $P probability of success
      *
      * @return float
      */
-    public static function cdf(int $n, int $r, float $p): float
+    public function cdf(int $r): float
     {
-        Support::checkLimits(self::LIMITS, ['n' => $n, 'r' => $r, 'p' => $p]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['r' => $r]);
 
+        $n = $this->n;
+        $p = $this->p;
         $cumulative_probability = 0;
         for ($i = $r; $i >= 0; $i--) {
-            $cumulative_probability += self::pmf($n, $i, $p);
+            $cumulative_probability += $this->pmf($i);
         }
         return $cumulative_probability;
     }

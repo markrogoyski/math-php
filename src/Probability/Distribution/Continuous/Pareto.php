@@ -11,16 +11,42 @@ class Pareto extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x ∈ (0,∞)
      * a ∈ (0,∞)
      * b ∈ (0,∞)
      * @var array
      */
-    const LIMITS = [
+    const PARAMETER_LIMITS = [
+        'a' => '(0,∞)',
+        'b' => '(0,∞)',
+    ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ (0,∞)
+     * @var array
+     */
+    const SUPPORT_LIMITS = [
         'x' => '(0,∞)',
         'a' => '(0,∞)',
         'b' => '(0,∞)',
     ];
+
+    /** @var number Shape Parameter */
+    protected $a;
+
+    /** @var number Scale Parameter */
+    protected $b;
+
+    /**
+     * Constructor
+     *
+     * @param number $a shape parameter
+     * @param number $b scale parameter
+     */
+    public function __construct($a, $b)
+    {
+        parent::__construct($a, $b);
+    }
 
     /**
      * Probability density function
@@ -31,16 +57,16 @@ class Pareto extends Continuous
      *
      * P(x) = 0      for x < b
      *
-     * @param  number $x
-     * @param  number $a shape parameter
-     * @param  number $b scale parameter
+     * @param  float $x
      *
      * @return number
      */
-    public static function pdf($x, $a, $b)
+    public function pdf(float $x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'a' => $a, 'b' => $b]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
+        $a = $this->a;
+        $b = $this->b;
         if ($x < $b) {
             return 0;
         }
@@ -58,16 +84,16 @@ class Pareto extends Continuous
      *
      * D(x) = 0           for x < b
      *
-     * @param  number $a shape parameter
-     * @param  number $b scale parameter
-     * @param  number $x
+     * @param  float $x
      *
      * @return number
      */
-    public static function cdf($x, $a, $b)
+    public function cdf(float $x)
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'a' => $a, 'b' => $b]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
+        $a = $this->a;
+        $b = $this->b;
         if ($x < $b) {
             return 0;
         }
@@ -83,15 +109,14 @@ class Pareto extends Continuous
      * μ = ----- for a > 1
      *     a - 1
      *
-     * @param  number $a shape parameter
-     * @param  number $b scale parameter
      *
      * @return number
      */
-    public static function mean($a, $b)
+    public function mean()
     {
-        Support::checkLimits(self::LIMITS, ['a' => $a, 'b' => $b]);
 
+        $a = $this->a;
+        $b = $this->b;
         if ($a <= 1) {
             return INF;
         }
