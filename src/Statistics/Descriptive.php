@@ -424,38 +424,56 @@ class Descriptive
     /**
      * Compute the P-th percentile of a list of numbers
      *
-     * Nearest rank method
+     * Linear interpolation between closest ranks method - Second variant, C = 1
      * P-th percentile (0 <= P <= 100) of a list of N ordered values (sorted from least to greatest)
-     * is the smallest value in the list such that P percent of the data is less than or equal to that value.
-     * This is obtained by first calculating the ordinal rank,
-     * and then taking the value from the ordered list that corresponds to that rank.
-     * https://en.wikipedia.org/wiki/Percentile
+     * Similar method used in NumPy and Excel
+     * https://en.wikipedia.org/wiki/Percentile#Second_variant.2C_.7F.27.22.60UNIQ--postMath-00000043-QINU.60.22.27.7F
      *
-     *     ⌈  P      ⌉
-     * n = | --- × N |
-     *     | 100     |
+     *      P
+     * x - --- (N - 1) + 1
+     *     100
      *
-     * n: ordinal rank
-     * P: percentile
-     * N: number of elements in list
+     * P = percentile
+     * N = number of elements in list
+     *
+     * ν(x) = νₓ + x％1(νₓ₊₁ - νₓ)
+     *
+     * ⌊x⌋  = integer part of x
+     * x％1 = fraction part of x
+     * νₓ   = number in position x in sorted list of numbers
+     * νₓ₊₁ = number in position x + 1 in sorted list of number
      *
      * @param array $numbers
-     * @param int   $P percentile to calculate
-     * @return number in list corresponding to P percentile
+     * @param float   $P percentile to calculate
      *
-     * @throws OutOfBoundsException if $P percentile is not between 0 and 100
+     * @return float in list corresponding to P percentile
+     *
+     * @throws Exception\BadDataException if $numbers is empty
+     * @throws Exception\OutOfBoundsException if $P percentile is not between 0 and 100
      */
-    public static function percentile(array $numbers, int $P)
+    public static function percentile(array $numbers, float $P): float
     {
+        if (empty($numbers)) {
+            throw new Exception\BadDataException('List of numbers must not be empty.');
+        }
         if ($P < 0 || $P > 100) {
             throw new Exception\OutOfBoundsException('Percentile P must be between 0 and 100.');
         }
+
         sort($numbers);
-
         $N = count($numbers);
-        $n = ($P / 100) * $N;
 
-        return $numbers[ ceil($n) - 1 ];
+        if ($P == 100) {
+            return  $numbers[$N - 1];
+        }
+
+        $x    = ($P / 100) * ($N - 1) + 1;
+        $⌊x⌋  = intval($x);
+        $x％1 = $x - $⌊x⌋;
+        $νₓ   = $numbers[$⌊x⌋ - 1];
+        $νₓ₊₁ = $numbers[$⌊x⌋];
+
+        return $νₓ + $x％1 * ($νₓ₊₁ - $νₓ);
     }
 
     /**
