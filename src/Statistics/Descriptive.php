@@ -460,8 +460,12 @@ class Descriptive
             throw new Exception\OutOfBoundsException('Percentile P must be between 0 and 100.');
         }
 
-        sort($numbers);
         $N = count($numbers);
+        if ($N === 1) {
+            return array_shift($numbers);
+        }
+
+        sort($numbers);
 
         if ($P == 100) {
             return  $numbers[$N - 1];
