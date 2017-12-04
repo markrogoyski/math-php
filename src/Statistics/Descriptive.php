@@ -75,9 +75,9 @@ class Descriptive
      *
      * @param array $numbers
      * @param int   $ν degrees of freedom
-     * @return numeric
+     * @return number
      *
-     * @throws OutOfBoundsException if degrees of freedom is ≤ 0
+     * @throws Exception\OutOfBoundsException if degrees of freedom is ≤ 0
      */
     public static function variance(array $numbers, int $ν)
     {
@@ -105,7 +105,7 @@ class Descriptive
      * N is the number of numbers in the population set
      *
      * @param array $numbers
-     * @return numeric
+     * @return number
      */
     public static function populationVariance(array $numbers)
     {
@@ -125,7 +125,7 @@ class Descriptive
      * n is the number of numbers in the sample set
      *
      * @param array $numbers
-     * @return numeric
+     * @return number
      */
     public static function sampleVariance(array $numbers)
     {
@@ -152,7 +152,7 @@ class Descriptive
      * @param bool  $SD＋: true returns SD+ (uses population variance);
      *              false returns SD (uses sample variance);
      *              Default is false (SD (sample variance))
-     * @return numeric
+     * @return number
      */
     public static function standardDeviation(array $numbers, bool $SD＋ = false)
     {
@@ -174,7 +174,7 @@ class Descriptive
      * @param bool  $SD＋: true returns SD+ (uses population variance);
      *              false returns SD (uses sample variance);
      *              Default is false (SD (sample variance))
-     * @return numeric
+     * @return number
      */
     public static function sd(array $numbers, bool $SD＋ = false)
     {
@@ -196,7 +196,7 @@ class Descriptive
      * N is the number of numbers in the population set
      *
      * @param array $numbers
-     * @return numeric
+     * @return number
      */
     public static function meanAbsoluteDeviation(array $numbers)
     {
@@ -229,7 +229,7 @@ class Descriptive
      * x̄ is the median
      *
      * @param array $numbers
-     * @return numeric
+     * @return number
      */
     public static function medianAbsoluteDeviation(array $numbers)
     {
