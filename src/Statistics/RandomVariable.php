@@ -185,9 +185,15 @@ class RandomVariable
      * @param int $n Sample size
      *
      * @return number
+     *
+     * @throws Exception\BadDataException if n < 3
      */
     public static function ses(int $n)
     {
+        if ($n < 3) {
+            throw new Exception\BadDataException("SES requires a dataset of n > 2. N of $n given.");
+        }
+
         $６n⟮n − 1⟯           = 6 * $n * ($n - 1);
         $⟮n − 2⟯⟮n ＋ 1⟯⟮n ＋ 2⟯ = ($n - 2) * ($n + 1) * ($n + 3);
 
@@ -272,9 +278,15 @@ class RandomVariable
      * @param int $n Sample size
      *
      * @return number
+     *
+     * @throws Exception\BadDataException if n < 4
      */
     public static function sek(int $n)
     {
+        if ($n < 4) {
+            throw new Exception\BadDataException("SEK requires a dataset of n > 3. N of $n given.");
+        }
+
         $２⟮SES⟯        = 2 * self::ses($n);
         $⟮n² − 1⟯       = $n**2 - 1;
         $⟮n − 3⟯⟮n ＋ 5⟯ = ($n - 3) * ($n + 5);

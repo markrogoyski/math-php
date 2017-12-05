@@ -1,19 +1,27 @@
 <?php
 namespace MathPHP\Tests\Statistics;
 
+use MathPHP\Exception;
 use MathPHP\Statistics\RandomVariable;
 
 class RandomVariableTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @testCase     centralMoment
      * @dataProvider dataProviderForCentralMoment
+     * @param        array $X
+     * @param        int   $n
+     * @param        float $moment
      */
-    public function testCentralMoment(array $X, $n, $moment)
+    public function testCentralMoment(array $X, int $n, float $moment)
     {
         $this->assertEquals($moment, RandomVariable::centralMoment($X, $n), '', 0.0001);
     }
 
-    public function dataProviderForCentralMoment()
+    /**
+     * @return array
+     */
+    public function dataProviderForCentralMoment(): array
     {
         return [
             [ [ 600, 470, 170, 430, 300 ], 1, 0 ],
@@ -22,20 +30,29 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @testCasel centralMoment is null if X is empty
+     */
     public function testCentralMomentNullIfXEmpty()
     {
         $this->assertNull(RandomVariable::centralMoment(array(), 3));
     }
 
     /**
+     * @testCase     populationSkewness
      * @dataProvider dataProviderForPopulationSkewness
+     * @param        array $X
+     * @param        float $skewness
      */
-    public function testPopulationSkewness(array $X, $skewness)
+    public function testPopulationSkewness(array $X, float $skewness)
     {
         $this->assertEquals($skewness, RandomVariable::populationSkewness($X), '', 0.0001);
     }
 
-    public function dataProviderForPopulationSkewness()
+    /**
+     * @return array
+     */
+    public function dataProviderForPopulationSkewness(): array
     {
         return [
             [ [61,61,61,61,61,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,73,73,73,73,73,73,73,73], -0.1082 ],
@@ -48,20 +65,29 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @testCase populationSkewness is null if array is empty
+     */
     public function testPopulationSkewnessNullWhenEmptyArray()
     {
         $this->assertNull(RandomVariable::populationSkewness(array()));
     }
 
     /**
+     * @testCase     sampleSkewness
      * @dataProvider dataProviderForSampleSkewness
+     * @param        array $X
+     * @param        float $skewness
      */
-    public function testSampleSkewness(array $X, $skewness)
+    public function testSampleSkewness(array $X, float $skewness)
     {
         $this->assertEquals($skewness, RandomVariable::sampleSkewness($X), '', 0.01);
     }
 
-    public function dataProviderForSampleSkewness()
+    /**
+     * @return array
+     */
+    public function dataProviderForSampleSkewness(): array
     {
         return [
             [ [61,61,61,61,61,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,73,73,73,73,73,73,73,73], -0.1098 ],
@@ -74,20 +100,29 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @testCase sampleSkewness is null when array is empty
+     */
     public function testSampleSkewnessNullWhenEmptyArray()
     {
         $this->assertNull(RandomVariable::sampleSkewness(array()));
     }
 
     /**
+     * @testCasel    skewness
      * @dataProvider dataProviderForSkewness
+     * @param        array $X
+     * @param        float $skewness
      */
-    public function testSkewness(array $X, $skewness)
+    public function testSkewness(array $X, float $skewness)
     {
         $this->assertEquals($skewness, RandomVariable::skewness($X), '', 0.01);
     }
 
-    public function dataProviderForSkewness()
+    /**
+     * @return array
+     */
+    public function dataProviderForSkewness(): array
     {
         return [
             [ [61,61,61,61,61,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,73,73,73,73,73,73,73,73], -0.1076 ],
@@ -99,20 +134,29 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @testCase skewness is null when array is empty
+     */
     public function testSkewnessNullWhenEmptyArray()
     {
         $this->assertNull(RandomVariable::skewness(array()));
     }
 
     /**
-     * @dataProvider dataProviderForSES
+     * @testCase     ses
+     * @dataProvider dataProviderForSes
+     * @param        int   $n
+     * @param        float $ses
      */
-    public function testSES(int $n, $ses)
+    public function testSes(int $n, float $ses)
     {
         $this->assertEquals($ses, RandomVariable::ses($n), '', 0.001);
     }
 
-    public function dataProviderForSES()
+    /**
+     * @return array
+     */
+    public function dataProviderForSes(): array
     {
         return [
             [5, 0.913],
@@ -125,14 +169,44 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForKurtosis
+     * @testCase     ses throws a BadDataException if n is < 3
+     * @dataProvider dataProviderForSesException
+     * @param        int $n
      */
-    public function testKurtosis(array $X, $kurtosis)
+    public function testSesException(int $n)
+    {
+        $this->expectException(Exception\BadDataException::class);
+        RandomVariable::ses($n);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForSesException(): array
+    {
+        return [
+            [-1],
+            [0],
+            [1],
+            [2],
+        ];
+    }
+
+    /**
+     * @testCase     kurtosis
+     * @dataProvider dataProviderForKurtosis
+     * @param        array $X
+     * @param        float $kurtosis
+     */
+    public function testKurtosis(array $X, float $kurtosis)
     {
         $this->assertEquals($kurtosis, RandomVariable::kurtosis($X), '', 0.001);
     }
 
-    public function dataProviderForKurtosis()
+    /**
+     * @return array
+     */
+    public function dataProviderForKurtosis(): array
     {
         return [
             [ [ 1987, 1987, 1991, 1992, 1992, 1992, 1992, 1993, 1994, 1994, 1995 ], -0.2320107 ],
@@ -145,35 +219,109 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @testCase kurtosis returns null when array is empty
+     */
     public function testKurtosisNullWhenEmptyArray()
     {
         $this->assertNull(RandomVariable::kurtosis(array()));
     }
 
-    public function testIsPlatykurtic()
+    /**
+     * @testCase     isPlatykurtic
+     * @dataProvider dataProviderForPlatykurtic
+     * @param        array $data
+     */
+    public function testIsPlatykurtic(array $data)
     {
-        $this->assertTrue(RandomVariable::isPlatykurtic([ 2, 2, 4, 6, 8, 10, 10 ]));
-    }
-
-    public function testIsLeptokurtic()
-    {
-        $this->assertTrue(RandomVariable::isLeptokurtic([ 1, 2, 3, 4, 5, 9, 23, 32, 69 ]));
-    }
-
-    public function testIsMesokurtic()
-    {
-        $this->assertTrue(RandomVariable::isMesokurtic([ 4, 5, 5, 5, 5, 6 ]));
+        $this->assertTrue(RandomVariable::isPlatykurtic($data));
     }
 
     /**
-     * @dataProvider dataProviderForSEK
+     * @testCase     isLeptokurtic
+     * @dataProvider dataProviderForLeptokurtic
+     * @param        array $data
      */
-    public function testSEK(int $n, $sek)
+    public function testIsLeptokurtic(array $data)
+    {
+        $this->assertTrue(RandomVariable::isLeptokurtic($data));
+    }
+
+    /**
+     * @testCase     isMesokurtic
+     * @dataProvider dataProviderForMesokurtic
+     * @param        array $data
+     */
+    public function testIsMesokurtic(array $data)
+    {
+        $this->assertTrue(RandomVariable::isMesokurtic($data));
+    }
+
+    /**
+     * @testCase     isPlatykurtic returns false for a leptokurtic data set
+     * @dataProvider dataProviderForLeptokurtic
+     * @param        array $data
+     */
+    public function testIsNotPlatykurtic(array $data)
+    {
+        $this->assertFalse(RandomVariable::isPlatykurtic($data));
+    }
+
+    /**
+     * @testCase     isLeptokurtic returns false for a platykurtic data set
+     * @dataProvider dataProviderForPlatykurtic
+     * @param        array $data
+     */
+    public function testIsNotLeptokurtic(array $data)
+    {
+        $this->assertFalse(RandomVariable::isLeptokurtic($data));
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForPlatykurtic(): array
+    {
+        return [
+            [[2, 2, 4, 6, 8, 10, 10]],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForLeptokurtic(): array
+    {
+        return [
+            [[1, 2, 3, 4, 5, 9, 23, 32, 69]],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForMesokurtic(): array
+    {
+        return [
+            [[4, 5, 5, 5, 5, 6]],
+        ];
+    }
+
+    /**
+     * @testCase     sek
+     * @dataProvider dataProviderForSek
+     * @param        int   $n
+     * @param        float $sek
+     */
+    public function testSek(int $n, float $sek)
     {
         $this->assertEquals($sek, RandomVariable::sek($n), '', 0.001);
     }
 
-    public function dataProviderForSEK()
+    /**
+     * @return array
+     */
+    public function dataProviderForSek(): array
     {
         return [
             [5, 2],
@@ -186,7 +334,35 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     sek throws a BadDataException if n is < 4
+     * @dataProvider dataProviderForSekException
+     * @param        int $n
+     */
+    public function testSekException(int $n)
+    {
+        $this->expectException(Exception\BadDataException::class);
+        RandomVariable::sek($n);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForSekException(): array
+    {
+        return [
+            [-1],
+            [0],
+            [1],
+            [2],
+            [3],
+        ];
+    }
+
+    /**
+     * @testCase     standardErrorOfTheMean
      * @dataProvider dataProviderForStandardErrorOfTheMean
+     * @param        array $X
+     * @param        float $sem
      */
     public function testStandardErrorOfTheMean(array $X, float $sem)
     {
@@ -194,14 +370,20 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     standardErrorOfTheMean
      * @dataProvider dataProviderForStandardErrorOfTheMean
+     * @param        array $X
+     * @param        float $sem
      */
     public function testSem(array $X, float $sem)
     {
         $this->assertEquals($sem, RandomVariable::sem($X), '', 0.0001);
     }
 
-    public function dataProviderForStandardErrorOfTheMean()
+    /**
+     * @return array
+     */
+    public function dataProviderForStandardErrorOfTheMean(): array
     {
         return [
             [ [1,2,3,4,5,5,6,7], 0.7180703308172536 ],
@@ -212,14 +394,23 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     confidenceInterval
      * @dataProvider dataProviderForConfidenceInterval
+     * @param        number $μ
+     * @param        number $n
+     * @param        float  $σ
+     * @param        float  $cl
+     * @param        array  $ci
      */
-    public function testConfidenceInterval($μ, $n, $σ, $cl, array $ci)
+    public function testConfidenceInterval($μ, $n, float $σ, float $cl, array $ci)
     {
         $this->assertEquals($ci, RandomVariable::confidenceInterval($μ, $n, $σ, $cl), '', 0.1);
     }
 
-    public function dataProviderForConfidenceInterval()
+    /**
+     * @return array
+     */
+    public function dataProviderForConfidenceInterval(): array
     {
         return [
             [90, 9, 36, 80, ['ci' => 15.38, 'lower_bound' => 74.62, 'upper_bound' => 105.38]],
@@ -233,14 +424,20 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     sumOfSquares
      * @dataProvider dataProviderForSumOfSquares
+     * @param        array  $numbers
+     * @param        number $sos
      */
     public function testSumOfSquares(array $numbers, $sos)
     {
         $this->assertEquals($sos, RandomVariable::sumOfSquares($numbers), '', 0.001);
     }
 
-    public function dataProviderForSumOfSquares()
+    /**
+     * @return array
+     */
+    public function dataProviderForSumOfSquares(): array
     {
         return [
             [ [3, 6, 7, 11, 12, 13, 17], 817],
@@ -251,20 +448,29 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @testCase sumOfSquares is null when the array is empty
+     */
     public function testSumOfSquaresNullWhenEmptyArray()
     {
         $this->assertNull(RandomVariable::sumOfSquares(array()));
     }
 
     /**
+     * @testCase     sumOfSquaresDeviations
      * @dataProvider dataProviderForSumOfSquaresDeviations
+     * @param        array $numbers
+     * @param        float $sos
      */
-    public function testSumOfSquaresDeviations(array $numbers, $sos)
+    public function testSumOfSquaresDeviations(array $numbers, float $sos)
     {
         $this->assertEquals($sos, RandomVariable::sumOfSquaresDeviations($numbers), '', 0.001);
     }
 
-    public function dataProviderForSumOfSquaresDeviations()
+    /**
+     * @return array
+     */
+    public function dataProviderForSumOfSquaresDeviations(): array
     {
         return [
             [ [3, 6, 7, 11, 12, 13, 17], 136.8571],
@@ -275,6 +481,9 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @testCase sumOfSquaresDeviations is null when the array is empty
+     */
     public function testSumOfSquaresDeviationsNullWhenEmptyArray()
     {
         $this->assertNull(RandomVariable::sumOfSquaresDeviations(array()));
