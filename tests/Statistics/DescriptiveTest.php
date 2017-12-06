@@ -737,6 +737,103 @@ class DescriptiveTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase     describe will return null ses for values of n < 3
+     * @dataProvider dataProviderForDescribeNullSes
+     * @param        array $numbers
+     */
+    public function testDescribeSesNullForSmallN(array $numbers)
+    {
+        $stats = Descriptive::describe($numbers);
+        $this->assertNull($stats['ses']);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForDescribeNullSes(): array
+    {
+        return [
+            [[-1]],
+            [[0]],
+            [[1]],
+            [[2]],
+            [[3]],
+            [[4]],
+            [[5]],
+            [[10]],
+            [[100]],
+            [[999999]],
+            [[-1, -1]],
+            [[-1, 0]],
+            [[0, -1]],
+            [[0, 0]],
+            [[0, 1]],
+            [[1, 0]],
+            [[1, 1]],
+            [[1, 2]],
+            [[5, 5]],
+            [[10, 10]],
+            [[9293, 85732]],
+        ];
+    }
+
+    /**
+     * @testCase     describe will return null sek for values of n < 4
+     * @dataProvider dataProviderForDescribeNullSek
+     * @param        array $numbers
+     */
+    public function testDescribeSekNullForSmallN(array $numbers)
+    {
+        $stats = Descriptive::describe($numbers);
+        $this->assertNull($stats['sek']);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForDescribeNullSek(): array
+    {
+        return [
+            [[-1]],
+            [[0]],
+            [[1]],
+            [[2]],
+            [[3]],
+            [[4]],
+            [[5]],
+            [[10]],
+            [[100]],
+            [[999999]],
+            [[-1, -1]],
+            [[-1, 0]],
+            [[0, -1]],
+            [[0, 0]],
+            [[0, 1]],
+            [[1, 0]],
+            [[1, 1]],
+            [[1, 2]],
+            [[5, 5]],
+            [[10, 10]],
+            [[9293, 85732]],
+            [[-1, -1, -1]],
+            [[-1, 0, 0]],
+            [[-1, 0, -1]],
+            [[0, -1, 0]],
+            [[0, -1, -1]],
+            [[0, 0, -1]],
+            [[-1, 0, -1]],
+            [[0, 0, 0]],
+            [[0, 1], 0],
+            [[1, 0], 0],
+            [[1, 1], 1],
+            [[1, 2, 3]],
+            [[5, 5], 5],
+            [[10, 10, 10]],
+            [[9293, 85732, 44837475]],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForFiveNumberSummary
      */
     public function testFiveNumberSummary(array $numbers, array $summary)

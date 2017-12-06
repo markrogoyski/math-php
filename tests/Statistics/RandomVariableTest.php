@@ -394,6 +394,14 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase standardErrorOfTheMean is null when array is empty
+     */
+    public function testStandardErrorOfTheMeanNullWhenEmptyArray()
+    {
+        $this->assertNull(RandomVariable::standardErrorOfTheMean(array()));
+    }
+
+    /**
      * @testCase     confidenceInterval
      * @dataProvider dataProviderForConfidenceInterval
      * @param        number $μ
@@ -420,6 +428,7 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
             [90, 9, 36, 99, ['ci' => 30.91, 'lower_bound' => 59.09, 'upper_bound' => 120.91]],
             [90, 9, 36, 99.5, ['ci' => 33.68, 'lower_bound' => 56.32, 'upper_bound' => 123.68]],
             [90, 9, 36, 99.9, ['ci' => 39.49, 'lower_bound' => 50.51, 'upper_bound' => 129.49]],
+            [90, 0, 36, 99.9, ['ci' => null, 'lower_bound' => null, 'upper_bound' => null]],
         ];
     }
 

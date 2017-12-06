@@ -64,7 +64,7 @@ class RandomVariable
             $X
         ));
         $N = count($X);
-    
+
         return $∑⟮xᵢ − μ⟯ⁿ / $N;
     }
 
@@ -157,7 +157,8 @@ class RandomVariable
      */
     public static function skewness(array $X)
     {
-        if (empty($X)) {
+        $N  = count($X);
+        if ($N < 2) {
             return null;
         }
 
@@ -169,9 +170,13 @@ class RandomVariable
             $X
         ));
         $σ³ = pow(Descriptive::standardDeviation($X, Descriptive::SAMPLE), 3);
-        $N  = count($X);
-    
-        return $∑⟮xᵢ − μ⟯³ / ($σ³ * ($N - 1));
+
+        $⟮σ³ × ⟮N − 1⟯⟯ = ($σ³ * ($N - 1));
+        if ($⟮σ³ × ⟮N − 1⟯⟯ == 0) {
+            return \NAN;
+        }
+
+        return $∑⟮xᵢ − μ⟯³ / $⟮σ³ × ⟮N − 1⟯⟯;
     }
 
     /**
@@ -224,6 +229,10 @@ class RandomVariable
 
         $μ₄  = self::centralMoment($X, 4);
         $μ₂² = pow(self::centralMoment($X, 2), 2);
+
+        if ($μ₂² == 0) {
+            return \NAN;
+        }
 
         return ( $μ₄ / $μ₂² ) - 3;
     }
@@ -310,8 +319,12 @@ class RandomVariable
      *
      * @return float
      */
-    public static function standardErrorOfTheMean(array $X): float
+    public static function standardErrorOfTheMean(array $X)
     {
+        if (empty($X)) {
+            return null;
+        }
+
         $s  = Descriptive::standardDeviation($X, Descriptive::SAMPLE);
         $√n = sqrt(count($X));
         return $s / $√n;
@@ -343,14 +356,18 @@ class RandomVariable
      * Available confidence levels: See Probability\StandardNormalTable::Z_SCORES_FOR_CONFIDENCE_INTERVALS
      *
      * @param number $μ  sample mean
-     * @param number $n  sample size
+     * @param int    $n  sample size
      * @param number $σ  standard deviation
      * @param string $cl confidence level (Ex: 95, 99, 99.5, 99.9, etc.)
      *
      * @return array [ ci, lower_bound, upper_bound ]
      */
-    public static function confidenceInterval($μ, $n, $σ, string $cl): array
+    public static function confidenceInterval($μ, int $n, $σ, string $cl): array
     {
+        if ($n === 0) {
+            return ['ci' => null, 'lower_bound' => null, 'upper_bound' => null];
+        }
+
         $z = Table\StandardNormal::getZScoreForConfidenceInterval($cl);
 
         $ci = $z * ($σ / sqrt($n));
