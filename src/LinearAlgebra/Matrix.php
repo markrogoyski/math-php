@@ -49,14 +49,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
     /**
      * Inverse
+     * @var Matrix
      */
     protected $A⁻¹;
 
     /**
      * Constructor
-     * @param array of arrays $A m x n matrix
+     * @param array $A of arrays $A m x n matrix
      *
-     * @throws BadDataExpcetion if any rows have a different column count
+     * @throws Exception\BadDataException if any rows have a different column count
      */
     public function __construct(array $A)
     {
@@ -118,7 +119,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @param  int    $i row index (from 0 to m - 1)
      * @return array
      *
-     * @throws MatrixException if row i does not exist
+     * @throws Exception\MatrixException if row i does not exist
      */
     public function getRow(int $i): array
     {
@@ -135,7 +136,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @param  int   $j column index (from 0 to n - 1)
      * @return array
      *
-     * @throws MatrixException if column j does not exist
+     * @throws Exception\MatrixException if column j does not exist
      */
     public function getColumn(int $j): array
     {
@@ -153,7 +154,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @param  int    $j column index
      * @return number
      *
-     * @throws MatrixException if row i or column j does not exist
+     * @throws Exception\MatrixException if row i or column j does not exist
      */
     public function get(int $i, int $j)
     {
@@ -917,7 +918,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if matrices have a different number of rows or columns
+     * @throws Exception\MatrixException if matrices have a different number of rows or columns
      */
     public function add(Matrix $B): Matrix
     {
@@ -1023,7 +1024,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if matrices have a different number of rows or columns
+     * @throws Exception\MatrixException if matrices have a different number of rows or columns
      */
     public function subtract(Matrix $B): Matrix
     {
@@ -1052,8 +1053,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws IncorrectTypeException if parameter B is not a Matrix or Vector
-     * @throws MatrixException if matrix dimensions do not match
+     * @throws Exception\IncorrectTypeException if parameter B is not a Matrix or Vector
+     * @throws Exception\MatrixException if matrix dimensions do not match
      */
     public function multiply($B): Matrix
     {
@@ -1091,7 +1092,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws BadParameterException if λ is not a number
+     * @throws Exception\BadParameterException if λ is not a number
      */
     public function scalarMultiply($λ): Matrix
     {
@@ -1117,8 +1118,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws BadParameterException if λ is not a number
-     * @throws BadParameterException if λ is 0
+     * @throws Exception\BadParameterException if λ is not a number
+     * @throws Exception\BadParameterException if λ is 0
      */
     public function scalarDivide($λ): Matrix
     {
@@ -1155,7 +1156,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if matrices are not the same dimensions
+     * @throws Exception\MatrixException if matrices are not the same dimensions
      */
     public function hadamardProduct(Matrix $B): Matrix
     {
@@ -1279,7 +1280,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return number
      *
-     * @throws MatrixException if the matrix is not a square matrix
+     * @throws Exception\MatrixException if the matrix is not a square matrix
      */
     public function trace()
     {
@@ -1361,7 +1362,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if matrices do not have the same number of rows
+     * @throws Exception\MatrixException if matrices do not have the same number of rows
      */
     public function augment(Matrix $B): Matrix
     {
@@ -1398,7 +1399,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if matrix is not square
+     * @throws Exception\MatrixException if matrix is not square
      */
     public function augmentIdentity(): Matrix
     {
@@ -1428,7 +1429,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if matrices do not have the same number of columns
+     * @throws Exception\MatrixException if matrices do not have the same number of columns
      */
     public function augmentBelow(Matrix $B): Matrix
     {
@@ -1457,8 +1458,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if not a square matrix
-     * @throws MatrixException if singular matrix
+     * @throws Exception\MatrixException if not a square matrix
+     * @throws Exception\MatrixException if singular matrix
      */
     public function inverse(): Matrix
     {
@@ -1529,9 +1530,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix with row mᵢ and column nⱼ removed
      *
-     * @throws MatrixException if matrix is not square
-     * @throws MatrixException if row to exclude for minor matrix does not exist
-     * @throws MatrixException if column to exclude for minor matrix does not exist
+     * @throws Exception\MatrixException if matrix is not square
+     * @throws Exception\MatrixException if row to exclude for minor matrix does not exist
+     * @throws Exception\MatrixException if column to exclude for minor matrix does not exist
      */
     public function minorMatrix(int $mᵢ, int $nⱼ): SquareMatrix
     {
@@ -1572,9 +1573,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return SquareMatrix
      *
-     * @throws OutOfBoundsException if k ≤ 0
-     * @throws OutOfBoundsException if k > n
-     * @throws MatrixException if matrix is not square
+     * @throws Exception\OutOfBoundsException if k ≤ 0
+     * @throws Exception\OutOfBoundsException if k > n
+     * @throws Exception\MatrixException if matrix is not square
      */
     public function leadingPrincipalMinor(int $k): SquareMatrix
     {
@@ -1612,7 +1613,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if matrix is not square
+     * @throws Exception\MatrixException if matrix is not square
      */
     public function cofactorMatrix(): SquareMatrix
     {
@@ -1708,6 +1709,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * https://en.wikipedia.org/wiki/Adjugate_matrix
      *
      * @return SquareMatrix
+     *
+     * @throws Exception\MatrixException is matrix is not square
      */
     public function adjugate(): SquareMatrix
     {
@@ -1739,7 +1742,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Vector
      *
-     * @throws MatrixException if dimensions do not match
+     * @throws Exception\MatrixException if dimensions do not match
      */
     public function vectorMultiply(Vector $B): Vector
     {
@@ -1927,7 +1930,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return number
      *
-     * @throws MatrixException if matrix is not square
+     * @throws Exception\MatrixException if matrix is not square
      */
     public function det()
     {
@@ -2043,9 +2046,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return number
      *
-     * @throws MatrixException if matrix is not square
-     * @throws MatrixException if row to exclude for minor does not exist
-     * @throws MatrixException if column to exclude for minor does not exist
+     * @throws Exception\MatrixException if matrix is not square
+     * @throws Exception\MatrixException if row to exclude for minor does not exist
+     * @throws Exception\MatrixException if column to exclude for minor does not exist
      */
     public function minor(int $mᵢ, int $nⱼ)
     {
@@ -2086,9 +2089,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return number
      *
-     * @throws MatrixException if matrix is not square
-     * @throws MatrixException if row to exclude for cofactor does not exist
-     * @throws MatrixException if column to exclude for cofactor does not exist
+     * @throws Exception\MatrixException if matrix is not square
+     * @throws Exception\MatrixException if row to exclude for cofactor does not exist
+     * @throws Exception\MatrixException if column to exclude for cofactor does not exist
      */
     public function cofactor(int $mᵢ, int $nⱼ)
     {
@@ -2155,7 +2158,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix with rows mᵢ and mⱼ interchanged
      *
-     * @throws MatrixException if row to interchange does not exist
+     * @throws Exception\MatrixException if row to interchange does not exist
      */
     public function rowInterchange(int $mᵢ, int $mⱼ): Matrix
     {
@@ -2192,8 +2195,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if row to multiply does not exist
-     * @throws BadParameterException if k is 0
+     * @throws Exception\MatrixException if row to multiply does not exist
+     * @throws Exception\BadParameterException if k is 0
      */
     public function rowMultiply(int $mᵢ, int $k): Matrix
     {
@@ -2224,8 +2227,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if row to multiply does not exist
-     * @throws BadParameterException if k is 0
+     * @throws Exception\MatrixException if row to multiply does not exist
+     * @throws Exception\BadParameterException if k is 0
      */
     public function rowDivide(int $mᵢ, $k): Matrix
     {
@@ -2255,8 +2258,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if row to add does not exist
-     * @throws BadParameterException if k is 0
+     * @throws Exception\MatrixException if row to add does not exist
+     * @throws Exception\BadParameterException if k is 0
      */
     public function rowAdd(int $mᵢ, int $mⱼ, $k): Matrix
     {
@@ -2287,7 +2290,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if row to add does not exist
+     * @throws Exception\MatrixException if row to add does not exist
      */
     public function rowAddScalar(int $mᵢ, $k): Matrix
     {
@@ -2314,7 +2317,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if row to subtract does not exist
+     * @throws Exception\MatrixException if row to subtract does not exist
      */
     public function rowSubtract(int $mᵢ, int $mⱼ, $k): Matrix
     {
@@ -2343,7 +2346,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if row to subtract does not exist
+     * @throws Exception\MatrixException if row to subtract does not exist
      */
     public function rowSubtractScalar(int $mᵢ, int $k): Matrix
     {
@@ -2368,7 +2371,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix with row mᵢ excluded
      *
-     * @throws MatrixException if row to exclude does not exist
+     * @throws Exception\MatrixException if row to exclude does not exist
      */
     public function rowExclude(int $mᵢ): Matrix
     {
@@ -2408,7 +2411,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix with columns nᵢ and nⱼ interchanged
      *
-     * @throws MatrixException if column to interchange does not exist
+     * @throws Exception\MatrixException if column to interchange does not exist
      */
     public function columnInterchange(int $nᵢ, int $nⱼ): Matrix
     {
@@ -2448,8 +2451,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if column to multiply does not exist
-     * @throws BadParameterException if k is 0
+     * @throws Exception\MatrixException if column to multiply does not exist
+     * @throws Exception\BadParameterException if k is 0
      */
     public function columnMultiply(int $nᵢ, int $k): Matrix
     {
@@ -2479,8 +2482,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix
      *
-     * @throws MatrixException if column to add does not exist
-     * @throws BadParameterException if k is 0
+     * @throws Exception\MatrixException if column to add does not exist
+     * @throws Exception\BadParameterException if k is 0
      */
     public function columnAdd(int $nᵢ, int $nⱼ, int $k): Matrix
     {
@@ -2508,7 +2511,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Matrix with column nᵢ excluded
      *
-     * @throws MatrixException if column to exclude does not exist
+     * @throws Exception\MatrixException if column to exclude does not exist
      */
     public function columnExclude(int $nᵢ): Matrix
     {
@@ -2592,7 +2595,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return array - matrix in row echelon form
      *
-     * @throws Exception]SingularMatrixException if the matrix is singular
+     * @throws Exception\SingularMatrixException if the matrix is singular
      */
     protected function gaussianElimination(): array
     {
@@ -2844,7 +2847,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *   P: Permutation matrix
      * ]
      *
-     * @throws MatrixException if matrix is not square
+     * @throws Exception\MatrixException if matrix is not square
      */
     public function luDecomposition(): array
     {
@@ -3018,6 +3021,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *   L: Lower triangular/diagonal matrix
      *   U: Normalised upper triangular matrix
      * ]
+     *
+     * @throws Exception\MatrixException if there is division by 0 because of a 0-value determinant
      */
     public function croutDecomposition(): array
     {
@@ -3109,7 +3114,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Vector x
      *
-     * @throws IncorrectTypeException if b is not a Vector or array
+     * @throws Exception\IncorrectTypeException if b is not a Vector or array
      */
     public function solve($b)
     {
@@ -3198,6 +3203,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @param string $method Algorithm used to compute the eigenvalues
      *
      * @return array of eigenvalues
+     *
+     * @throws Exception\MatrixException if method is not a valid eigenvalue method
      */
     public function eigenvalues(string $method = Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD): array
     {
@@ -3217,6 +3224,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @param string $method Algorithm used to compute the eigenvalues
      *
      * @return Matrix of eigenvectors
+     *
+     * @throws Exception\MatrixException if method is not a valid eigenvalue method
      */
     public function eigenvectors(string $method = Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD): Matrix
     {
@@ -3269,7 +3278,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * @throws MatrixException
+     * @throws Exception\MatrixException
      */
     public function offsetSet($i, $value)
     {
@@ -3277,7 +3286,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * @throws MatrixException
+     * @throws Exception\MatrixException
      */
     public function offsetUnset($i)
     {
