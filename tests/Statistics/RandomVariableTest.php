@@ -109,6 +109,15 @@ class RandomVariableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testCase sampleSkewness is null when array has fewer than 3 elements
+     */
+    public function testSampleSkewnessNullWhenSmallArray()
+    {
+        $this->assertNull(RandomVariable::sampleSkewness([1]));
+        $this->assertNull(RandomVariable::sampleSkewness([1, 2]));
+    }
+
+    /**
      * @testCasel    skewness
      * @dataProvider dataProviderForSkewness
      * @param        array $X

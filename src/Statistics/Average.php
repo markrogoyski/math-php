@@ -6,9 +6,6 @@ use MathPHP\Exception;
 
 /**
  * Statistical averages
- *  - Averages of a list of numbers
- *  - Averages
-
  */
 class Average
 {
@@ -110,6 +107,7 @@ class Average
         // Otherwise, we are going to slice $numbers into 5-element slices
         // and find the median of each.
         $num_slices = ceil($n / 5);
+        $median_array = [];
         for ($i = 0; $i < $num_slices; $i++) {
             $median_array[] = self::median(array_slice($numbers, 5 * $i, 5));
         }
@@ -117,7 +115,7 @@ class Average
         // Then we find the median of the medians.
         $median_of_medians = self::median($median_array);
         
-        // Next we walk the array and seperate it into values that are greater than or less than
+        // Next we walk the array and separate it into values that are greater than or less than
         // this "median of medians".
         $lower_upper   = self::splitAtValue($numbers, $median_of_medians);
         $lower_number = count($lower_upper['lower']);
@@ -393,7 +391,7 @@ class Average
      * @param  int    $trim_percent Percent between 0-99
      * @return number
      *
-     * @throws OutOfBoundsException if trim percent is not between 0 and 99
+     * @throws Exception\OutOfBoundsException if trim percent is not between 0 and 99
      */
     public static function truncatedMean(array $numbers, int $trim_percent)
     {

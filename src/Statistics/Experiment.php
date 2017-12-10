@@ -206,7 +206,7 @@ class Experiment
      *
      * @return array [ LL+, LL- ]
      *
-     * @throws OutOfBoundsException if sensitivity or specificity are > 1.0
+     * @throws Exception\OutOfBoundsException if sensitivity or specificity are > 1.0
      */
     public static function likelihoodRatioSS(float $sensitivity, float $specificity): array
     {

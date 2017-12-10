@@ -1,8 +1,6 @@
 <?php
 namespace MathPHP\Statistics;
 
-use MathPHP\Statistics\Average;
-use MathPHP\Statistics\RandomVariable;
 use MathPHP\Exception;
 
 class Descriptive
@@ -159,8 +157,6 @@ class Descriptive
         if (empty($numbers)) {
             return null;
         }
-
-        $n = count($numbers);
 
         return $SD＋
             ? sqrt(self::populationVariance($numbers))

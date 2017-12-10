@@ -1,8 +1,6 @@
 <?php
 namespace MathPHP\Statistics;
 
-use MathPHP\Statistics\Average;
-use MathPHP\Statistics\Descriptive;
 use MathPHP\Probability\Distribution\Table;
 use MathPHP\Functions\Map;
 use MathPHP\Exception;
@@ -46,11 +44,11 @@ class RandomVariable
      *          N
      *
      * @param array $X list of numbers (random variable X)
-     * @param array $n n-th central moment to calculate
+     * @param int   $n n-th central moment to calculate
      *
      * @return number n-th central moment
      */
-    public static function centralMoment(array $X, $n)
+    public static function centralMoment(array $X, int $n)
     {
         if (empty($X)) {
             return null;
@@ -123,11 +121,11 @@ class RandomVariable
      */
     public static function sampleSkewness(array $X)
     {
-        if (empty($X)) {
+        $n = count($X);
+        if ($n < 3) {
             return null;
         }
 
-        $n     = count($X);
         $μ₃    = self::centralMoment($X, 3);
         $μ₂    = self::centralMoment($X, 2);
 
@@ -300,7 +298,7 @@ class RandomVariable
         $⟮n² − 1⟯       = $n**2 - 1;
         $⟮n − 3⟯⟮n ＋ 5⟯ = ($n - 3) * ($n + 5);
 
-        return $２⟮SES⟯ * sqrt($⟮n² − 1⟯ / (($n - 3) * ($n + 5)));
+        return $２⟮SES⟯ * sqrt($⟮n² − 1⟯ / $⟮n − 3⟯⟮n ＋ 5⟯);
     }
 
     /**

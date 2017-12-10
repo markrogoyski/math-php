@@ -51,8 +51,8 @@ class Distance
      *
      * @return float distance between distributions
      *
-     * @throws BadDataException if p and q do not have the same number of elements
-     * @throws BadDataException if p and q are not probability distributions that add up to 1
+     * @throws Exception\BadDataException if p and q do not have the same number of elements
+     * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
      */
     public static function bhattacharyyaDistance(array $p, array $q)
     {
@@ -89,8 +89,8 @@ class Distance
      *
      * @return float difference between distributions
      *
-     * @throws BadDataException if p and q do not have the same number of elements
-     * @throws BadDataException if p and q are not probability distributions that add up to 1
+     * @throws Exception\BadDataException if p and q do not have the same number of elements
+     * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
      */
     public static function kullbackLeiblerDivergence(array $p, array $q)
     {
@@ -144,8 +144,8 @@ class Distance
      *
      * @return float difference between distributions
      *
-     * @throws BadDataException if p and q do not have the same number of elements
-     * @throws BadDataException if p and q are not probability distributions that add up to 1
+     * @throws Exception\BadDataException if p and q do not have the same number of elements
+     * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
      */
     public static function hellingerDistance(array $p, array $q)
     {
@@ -208,8 +208,8 @@ class Distance
      *
      * @return float difference between distributions
      *
-     * @throws BadDataException if p and q do not have the same number of elements
-     * @throws BadDataException if p and q are not probability distributions that add up to 1
+     * @throws Exception\BadDataException if p and q do not have the same number of elements
+     * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
      */
     public static function jensenShannonDivergence(array $p, array $q)
     {

@@ -208,7 +208,7 @@ class Significance
         } else {
             $p1 = $studentT->above($t);
         }
-        $p2 = $studentT->outside(-abs($t), abs($t), $ν);
+        $p2 = $studentT->outside(-abs($t), abs($t));
 
         return [
             't'  => $t,
@@ -318,7 +318,8 @@ class Significance
      * @param  array  $expected
      *
      * @return array [chi-square, p]
-     * @throws BadDataException if count of observed does not equal count of expected
+     *
+     * @throws Exception\BadDataException if count of observed does not equal count of expected
      */
     public static function chiSquaredTest(array $observed, array $expected)
     {

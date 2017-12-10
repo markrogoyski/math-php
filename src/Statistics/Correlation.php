@@ -2,7 +2,6 @@
 namespace MathPHP\Statistics;
 
 use MathPHP\Exception;
-use MathPHP\Functions\Special;
 use MathPHP\Functions\Map;
 use MathPHP\LinearAlgebra\Eigenvalue;
 use MathPHP\LinearAlgebra\Eigenvector;
@@ -10,8 +9,6 @@ use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Probability\Distribution\Continuous\ChiSquared;
 use MathPHP\Probability\Distribution\Continuous\StandardNormal;
-use MathPHP\Statistics\Average;
-use MathPHP\Statistics\RandomVariable;
 use MathPHP\Trigonometry;
 
 class Correlation
@@ -30,7 +27,7 @@ class Correlation
      *
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
-     * @param bool  $popluation Optional flag for population or sample covariance
+     * @param bool  $population Optional flag for population or sample covariance
      *
      * @return number
      */
@@ -59,7 +56,7 @@ class Correlation
      *
      * @return number
      *
-     * @throws BadDataException if X and Y do not have the same number of elements
+     * @throws Exception\BadDataException if X and Y do not have the same number of elements
      */
     public static function populationCovariance(array $X, array $Y)
     {
@@ -218,6 +215,7 @@ class Correlation
      *
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
+     * @param bool  $popluation
      *
      * @return number
      */
@@ -236,6 +234,7 @@ class Correlation
      *
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
+     * @param bool  $popluation
      *
      * @return number
      */
@@ -281,7 +280,7 @@ class Correlation
      *
      * @return number
      *
-     * @throws BadDataException if both random variables do not have the same number of elements
+     * @throws Exception\BadDataException if both random variables do not have the same number of elements
      */
     public static function kendallsTau(array $X, array $Y)
     {

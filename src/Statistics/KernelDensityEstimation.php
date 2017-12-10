@@ -3,7 +3,6 @@ namespace MathPHP\Statistics;
 
 use MathPHP\Exception;
 use MathPHP\Probability\Distribution\Continuous;
-use MathPHP\Statistics\Descriptive;
 
 /**
  * Kernel Density Estimate
@@ -18,6 +17,9 @@ use MathPHP\Statistics\Descriptive;
  */
 class KernelDensityEstimation
 {
+    /** @var array Data used for the esimtation */
+    protected $data;
+
     /** @var int number of data points */
     protected $n;
     
@@ -42,8 +44,8 @@ class KernelDensityEstimation
      * @param float|null           $h the bandwidth
      * @param callable|string|null $kernel a function used to generate the KDE
      *
-     * @throws BadDataException     if data set is empty
-     * @throws OutOfBoundsException h ≤ 0
+     * @throws Exception\BadDataException     if data set is empty
+     * @throws Exception\OutOfBoundsException h ≤ 0
      */
     public function __construct(array $data, float $h = null, $kernel = null)
     {
@@ -62,7 +64,7 @@ class KernelDensityEstimation
      *
      * @param float|null $h the bandwidth
      *
-     * @throws OutOfBoundsException if h ≤ 0
+     * @throws Exception\OutOfBoundsException if h ≤ 0
      */
     public function setBandwidth(float $h = null)
     {
@@ -108,7 +110,7 @@ class KernelDensityEstimation
      *
      * @param callable|string|null $kernel
      *
-     * @throws BadParameterException if $kernel is not a string or callable
+     * @throws Exception\BadParameterException if $kernel is not a string or callable
      */
     public function setKernelFunction($kernel = null)
     {
@@ -130,7 +132,7 @@ class KernelDensityEstimation
      *
      * @return callable kernel function
      *
-     * @throws BadDataException if the name of the kernel function is not one of the built-in functions
+     * @throws Exception\BadDataException if the name of the kernel function is not one of the built-in functions
      */
     private function getKernelFunctionFromLibrary(string $kernel): callable
     {

@@ -57,7 +57,7 @@ class EffectSize
      *  SSt = sum of squares treatment
      *  SSE = sum of squares error
      *
-     * @param  number $SSB Sum of squares treatment
+     * @param  number $SSt Sum of squares treatment
      * @param  number $SSE Sum of squares error
      *
      * @return number
@@ -66,7 +66,6 @@ class EffectSize
     {
         return $SSt / ($SSt + $SSE);
     }
-
 
     /**
      * ω² (omega-squared)
@@ -143,7 +142,7 @@ class EffectSize
      *
      * @return number
      *
-     * @throws OutOfBoundsException if an r is ≤ 0
+     * @throws Exception\OutOfBoundsException if an r is ≤ 0
      */
     public static function cohensQ($r₁, $r₂)
     {
