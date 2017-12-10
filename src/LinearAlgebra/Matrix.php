@@ -3,7 +3,6 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Functions\Map;
 use MathPHP\Functions\Support;
-use MathPHP\Functions\Special;
 use MathPHP\Exception;
 
 /**
@@ -11,47 +10,38 @@ use MathPHP\Exception;
  */
 class Matrix implements \ArrayAccess, \JsonSerializable
 {
-    /**
-     * Number of rows
-     * @var int
-     */
+    /** @var int Number of rows */
     protected $m;
 
-    /**
-     * Number of columns
-     * @var int
-     */
+    /** @var int Number of columns */
     protected $n;
 
-    /**
-     * Matrix
-     * @var array of arrays
-     */
+    /** @var array Matrix array of arrays */
     protected $A;
 
-    /**
-     * Row echelon form
-     * @var Matrix
-     */
+    /** @var Matrix Row echelon form */
     protected $ref;
 
-    /**
-     * Reduced row echelon form
-     * @var Matrix
-     */
+    /** @var Matrix Reduced row echelon form */
     protected $rref;
 
-    /**
-     * Determinant
-     * @var number
-     */
+    /** @var int Number of row swaps when computing REF */
+    protected $ref_swaps;
+
+    /** @var number Determinant */
     protected $det;
 
-    /**
-     * Inverse
-     * @var Matrix
-     */
+    /** @var Matrix Inverse */
     protected $A⁻¹;
+
+    /** @var Matrix Lower matrix in LUP decomposition */
+    protected $L;
+
+    /** @var Matrix Upper matrix in LUP decomposition */
+    protected $U;
+
+    /** @var Matrix Permutation matrix in LUP decomposition */
+    protected $P;
 
     /**
      * Constructor
@@ -527,7 +517,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         $m = $this->m;
-        $n = $this->n;
 
         for ($i = 1; $i < $m; $i++) {
             for ($j = 0; $j < $i; $j++) {
@@ -982,7 +971,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Kronecker Sum (A⊕B)
      * A⊕B = A⊗Ib + I⊗aB
-     * Where A and B are square matrices, Ia and Ib are identiry matrixes,
+     * Where A and B are square matrices, Ia and Ib are identity matrixes,
      * and ⊗ is the Kronecker product.
      *
      * https://en.wikipedia.org/wiki/Matrix_addition#Kronecker_sum
@@ -990,11 +979,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param Matrix $B Square matrix
      *
-     * @return SquareMatrix
+     * @return Matrix
      *
      * @throws Exception\MatrixException if either matrix is not a square matrix
      */
-    public function kroneckerSum(Matrix $B) : SquareMatrix
+    public function kroneckerSum(Matrix $B): Matrix
     {
         if (!$this->isSquare() || !$B->isSquare()) {
             throw new Exception\MatrixException('Matrices A and B must both be square for kroneckerSum');
@@ -1226,7 +1215,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $initial_matrix = array_shift($row);
             $matrices[] = array_reduce(
                 $row,
-                function ($augmented_matrix, $matrix) {
+                function (Matrix $augmented_matrix, Matrix $matrix) {
                     return $augmented_matrix->augment($matrix);
                 },
                 $initial_matrix
@@ -1237,7 +1226,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $initial_matrix = array_shift($matrices);
         $A⊗B            = array_reduce(
             $matrices,
-            function ($augmented_matrix, $matrix) {
+            function (Matrix $augmented_matrix, Matrix $matrix) {
                 return $augmented_matrix->augmentBelow($matrix);
             },
             $initial_matrix
@@ -1395,8 +1384,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * C must be a square matrix
      *
-     * @param  Matrix $B Matrix columns to add to matrix A
-     *
      * @return Matrix
      *
      * @throws Exception\MatrixException if matrix is not square
@@ -1534,7 +1521,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if row to exclude for minor matrix does not exist
      * @throws Exception\MatrixException if column to exclude for minor matrix does not exist
      */
-    public function minorMatrix(int $mᵢ, int $nⱼ): SquareMatrix
+    public function minorMatrix(int $mᵢ, int $nⱼ): Matrix
     {
         if (!$this->isSquare()) {
             throw new Exception\MatrixException('Matrix is not square; cannot get minor Matrix of a non-square matrix');
@@ -1571,13 +1558,13 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param  int $k Order of the leading principal minor
      *
-     * @return SquareMatrix
+     * @return Matrix
      *
      * @throws Exception\OutOfBoundsException if k ≤ 0
      * @throws Exception\OutOfBoundsException if k > n
      * @throws Exception\MatrixException if matrix is not square
      */
-    public function leadingPrincipalMinor(int $k): SquareMatrix
+    public function leadingPrincipalMinor(int $k): Matrix
     {
         if ($k <= 0) {
             throw new Exception\OutOfBoundsException("k is ≤ 0: $k");
@@ -1615,7 +1602,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @throws Exception\MatrixException if matrix is not square
      */
-    public function cofactorMatrix(): SquareMatrix
+    public function cofactorMatrix(): Matrix
     {
         if (!$this->isSquare()) {
             throw new Exception\MatrixException('Matrix is not square; cannot get cofactor Matrix of a non-square matrix');
@@ -1662,7 +1649,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $M = $this->sampleMean();
 
         $B = array_map(
-            function ($Xᵢ) use ($M) {
+            function (Vector $Xᵢ) use ($M) {
                 return $Xᵢ->subtract($M);
             },
             $X
@@ -1708,11 +1695,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * The transpose of its cofactor matrix.
      * https://en.wikipedia.org/wiki/Adjugate_matrix
      *
-     * @return SquareMatrix
+     * @return Matrix
      *
      * @throws Exception\MatrixException is matrix is not square
      */
-    public function adjugate(): SquareMatrix
+    public function adjugate(): Matrix
     {
         if (!$this->isSquare()) {
             throw new Exception\MatrixException('Matrix is not square; cannot get adjugate Matrix of a non-square matrix');
@@ -1943,7 +1930,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         $m = $this->m;
-        $n = $this->n;
         $R = MatrixFactory::create($this->A);
 
         /*
@@ -2659,7 +2645,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     {
         $m    = $this->m;
         $n    = $this->n;
-        $size = min($m, $n);
         $R    = MatrixFactory::create($this->A);
 
         // Starting conditions
@@ -2978,11 +2963,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * lⱼᵢ = --- |  aⱼᵢ - ∑lⱼₓlᵢₓ |
      *       lᵢᵢ  \      ˣ⁼¹     /
      *
-     * @return SquareMatrix Lower triangular matrix L of A = LLᵀ
+     * @return Matrix Lower triangular matrix L of A = LLᵀ
      *
      * @throws Exception\MatrixException if the matrix is not positive definite
      */
-    public function choleskyDecomposition(): SquareMatrix
+    public function choleskyDecomposition(): Matrix
     {
         if (!$this->isPositiveDefinite()) {
             throw new Exception\MatrixException('Matrix must be positive definite for Cholesky decomposition');
@@ -3267,17 +3252,27 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * ArrayAccess INTERFACE
      **************************************************************************/
 
+    /**
+     * @param mixed $i
+     * @return bool
+     */
     public function offsetExists($i): bool
     {
         return isset($this->A[$i]);
     }
 
+    /**
+     * @param mixed $i
+     * @return mixed
+     */
     public function offsetGet($i)
     {
         return $this->A[$i];
     }
 
     /**
+     * @param  mixed $i
+     * @param  mixed $value
      * @throws Exception\MatrixException
      */
     public function offsetSet($i, $value)
@@ -3286,6 +3281,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * @param  mixed $i
      * @throws Exception\MatrixException
      */
     public function offsetUnset($i)
@@ -3297,6 +3293,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * JsonSerializable INTERFACE
      **************************************************************************/
 
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
         return $this->A;
