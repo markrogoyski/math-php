@@ -137,6 +137,8 @@ class NoncentralT extends Continuous
      *        √2Γ(j + 3/2)     \  2  /   \ 2  /
      *
      * @param number $x
+     * @param int    $ν
+     * @param number $μ
      *
      * @return number
      */

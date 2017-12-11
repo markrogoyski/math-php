@@ -72,6 +72,8 @@ class Basic
      * @param  number $r Common ratio
      *
      * @return array Indexed from 0 (indexes are powers of common ratio)
+     * 
+     * @throws Exception\BadParameterException
      */
     public static function geometricProgression(int $n, $a, $r): array
     {

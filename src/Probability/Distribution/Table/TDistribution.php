@@ -201,10 +201,12 @@ class TDistribution
     /**
      * Get one-sided t value using confidence level percentage
      *
-     * @param int    $ν degrees of freedom
+     * @param string $ν degrees of freedom
      * @param string $cl confidence level percentage
      *
      * @return float t value
+     *
+     * @throws Exception\BadDataException
      */
     public static function getOneSidedTValueFromConfidenceLevel(string $ν, string $cl): float
     {
@@ -220,10 +222,12 @@ class TDistribution
     /**
      * Get two-sided t value using confidence level percentage
      *
-     * @param int    $ν degrees of freedom
+     * @param string $ν degrees of freedom
      * @param string $cl confidence level percentage
      *
      * @return float t value
+     *
+     * @throws Exception\BadDataException
      */
     public static function getTwoSidedTValueFromConfidenceLevel(string $ν, string $cl): float
     {
@@ -239,10 +243,12 @@ class TDistribution
     /**
      * Get one-sided t value using alpha
      *
-     * @param int    $ν degrees of freedom
+     * @param string $ν degrees of freedom
      * @param string $α alpha
      *
      * @return float t value
+     *
+     * @throws Exception\BadDataException
      */
     public static function getOneSidedTValueFromAlpha(string $ν, string $α): float
     {
@@ -258,10 +264,12 @@ class TDistribution
     /**
      * Get two-sided t value using alpha
      *
-     * @param int    $ν degrees of freedom
+     * @param string $ν degrees of freedom
      * @param string $α alpha
      *
      * @return float t value
+     *
+     * @throws Exception\BadDataException
      */
     public static function getTwoSidedTValueFromAlpha(string $ν, string $α): float
     {

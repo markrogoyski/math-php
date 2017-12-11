@@ -59,8 +59,9 @@ class Arithmetic
      *
      * Example: 65,536 is 7, because 6 + 5 + 5 + 3 + 6 = 25 and 2 + 5 = 7
      *
-     * @param  int    $x [description]
-     * @return [type]    [description]
+     * @param  int $x
+     *
+     * @return int
      */
     public static function digitalRoot(int $x): int
     {

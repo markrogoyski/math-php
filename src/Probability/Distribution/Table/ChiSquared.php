@@ -306,6 +306,8 @@ class ChiSquared
      * @param float $p P value
      *
      * @return float χ² score
+     *
+     * @throws Exception\BadDataException
      */
     public static function getChiSquareValue(int $df, float $p): float
     {

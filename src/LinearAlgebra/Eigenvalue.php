@@ -1,11 +1,8 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
-use MathPHP\Algebra;
 use MathPHP\Exception;
 use MathPHP\Functions\Polynomial;
-use MathPHP\Functions\Map\Single;
-use MathPHP\Functions\Special;
 
 class Eigenvalue
 {

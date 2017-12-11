@@ -11,7 +11,6 @@ use MathPHP\Functions\Support;
  */
 class NegativeBinomial extends Discrete
 {
-
     /**
      * Distribution parameter bounds limits
      * r ∈ [0,∞)
@@ -33,7 +32,7 @@ class NegativeBinomial extends Discrete
     ];
 
     /** @var int number of successful events */
-    protected $n;
+    protected $r;
 
     /** @var float probability of success on an individual trial */
     protected $p;

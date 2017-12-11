@@ -1,5 +1,4 @@
 <?php
-
 namespace MathPHP\Functions;
 
 use MathPHP\Algebra;
@@ -61,9 +60,10 @@ class Polynomial implements ObjectArithmetic
      * When a polynomial is instantiated, set the coefficients and degree of
      * that polynomial as its object parameters.
      *
-     * @param mixed $coefficients An array of coefficients in decreasing powers
+     * @param mixed  $coefficients An array of coefficients in decreasing powers
      *                            Example: new Polynomial([1, 2, 3]) will create
      *                            a polynomial that looks like x² + 2x + 3.
+     * @param string $variable
      */
     public function __construct(array $coefficients, $variable = "x")
     {
@@ -155,7 +155,7 @@ class Polynomial implements ObjectArithmetic
      *
      * @param number $x₀ The value at which we are evaluting our polynomial
      *
-     * @return number The result of our polynomial evaluated at $x₀
+     * @return float The result of our polynomial evaluated at $x₀
      */
     public function __invoke($x₀): float
     {
@@ -187,7 +187,7 @@ class Polynomial implements ObjectArithmetic
      *
      * @param mixed $input The variable to check
      * @return Polynomial
-     * @throws IncorrectTypeException
+     * @throws Exception\IncorrectTypeException
      */
     private function checkNumericOrPolynomial($input): Polynomial
     {
@@ -232,7 +232,7 @@ class Polynomial implements ObjectArithmetic
     /**
      * Setter method for the dependent variable of a polynomial
      *
-     * @param string The new dependent variable of a polynomial object
+     * @param string $variable The new dependent variable of a polynomial object
      */
     public function setVariable(string $variable)
     {
@@ -244,7 +244,7 @@ class Polynomial implements ObjectArithmetic
      * Example: $polynomial = new Polynomial([1, -8, 12, 3]); // x³ - 8x² + 12x + 3
      *          $derivative = $polynomial->differentiate();   // 3x² - 16x + 12
      *
-     * @return object The derivative of our polynomial object, also a polynomial object
+     * @return Polynomial The derivative of our polynomial object, also a polynomial object
      */
     public function differentiate(): Polynomial
     {
@@ -268,7 +268,7 @@ class Polynomial implements ObjectArithmetic
      *
      * Note that this method assumes the constant of integration to be 0.
      *
-     * @return object The integral of our polynomial object, also a polynomial object
+     * @return Polynomial The integral of our polynomial object, also a polynomial object
      */
     public function integrate(): Polynomial
     {
@@ -292,7 +292,7 @@ class Polynomial implements ObjectArithmetic
      *
      * @param mixed $polynomial The polynomial or scaler we are adding to our current polynomial
      *
-     * @return object The sum of our polynomial objects, also a polynomial object
+     * @return Polynomial The sum of our polynomial objects, also a polynomial object
      */
     public function add($polynomial): Polynomial
     {
@@ -326,7 +326,7 @@ class Polynomial implements ObjectArithmetic
      *
      * @param mixed $polynomial The polynomial or scaler we are subtracting from our current polynomial
      *
-     * @return object The defference of our polynomial objects, also a polynomial object
+     * @return Polynomial The defference of our polynomial objects, also a polynomial object
      */
     public function subtract($polynomial): Polynomial
     {
@@ -345,7 +345,7 @@ class Polynomial implements ObjectArithmetic
      *
      * @param mixed $polynomial The polynomial or scaler we are multiplying with our current polynomial
      *
-     * @return object The product of our polynomial objects, also a polynomial object
+     * @return Polynomial The product of our polynomial objects, also a polynomial object
      */
     public function multiply($polynomial): Polynomial
     {

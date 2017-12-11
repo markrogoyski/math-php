@@ -1,7 +1,6 @@
 <?php
 namespace MathPHP;
 
-use MathPHP\Arithmetic;
 use MathPHP\Number\Complex;
 use MathPHP\Functions\Map\Single;
 
@@ -291,10 +290,11 @@ class Algebra
      * z₂ = Complex conjugate; therefore, NAN
      * z₃ = Complex conjugate; therefore, NAN
      *
-     * @param  number $a₃  z³ coefficient
-     * @param  number $a₂  z² coefficient
-     * @param  number $a₁  z  coefficient
-     * @param  number $a₀     constant coefficient
+     * @param  number $a₃  z³         coefficient
+     * @param  number $a₂  z²         coefficient
+     * @param  number $a₁  z          coefficient
+     * @param  number $a₀             constant coefficient
+     * @param  bool   $return_complex whether to return complex numbers
      *
      * @return array of roots (three real roots, or one real root and two NANs because complex numbers not yet supported)
      *                        (If $a₃ = 0, then only two roots of quadratic equation)
@@ -362,11 +362,12 @@ class Algebra
      * An equation having the form: a₄z⁴ + a₃z³ + a₂z² + a₁z + a₀ = 0
      * https://en.wikipedia.org/wiki/Quartic_function
      *
-     * @param  number $a₄ z⁴ coefficient
-     * @param  number $a₃ z³ coefficient
-     * @param  number $a₂ z² coefficient
-     * @param  number $a₁ z  coefficient
-     * @param  number $a₀    constant coefficient
+     * @param  number $a₄ z⁴          coefficient
+     * @param  number $a₃ z³          coefficient
+     * @param  number $a₂ z²          coefficient
+     * @param  number $a₁ z           coefficient
+     * @param  number $a₀             constant coefficient
+     * @param  bool   $return_complex whether to return complex numbers
      *
      * @return array of roots
      */
@@ -424,8 +425,8 @@ class Algebra
             $m             = $cubic_roots[0];
             $roots1        = self::quadratic(1, sqrt(2*$m), $p / 2 + $m - $q/2/sqrt(2*$m), $return_complex);
             $roots2        = self::quadratic(1, -1 * sqrt(2*$m), $p / 2 + $m + $q/2/sqrt(2*$m), $return_complex);
-            $discriminant1 = self::discriminant(1, sqrt(2*$m), $p / 2 + $m - $q/2/sqrt(2*$m), $return_complex);
-            $discriminant2 = self::discriminant(1, -1 * sqrt(2*$m), $p / 2 + $m + $q/2/sqrt(2*$m), $return_complex);
+            $discriminant1 = self::discriminant(1, sqrt(2*$m), $p / 2 + $m - $q/2/sqrt(2*$m));
+            $discriminant2 = self::discriminant(1, -1 * sqrt(2*$m), $p / 2 + $m + $q/2/sqrt(2*$m));
             
             // sort the real roots first.
             $sorted_results = $discriminant1>$discriminant2 ? array_merge($roots1, $roots2) : array_merge($roots2, $roots1);
@@ -443,6 +444,7 @@ class Algebra
         if (!$return_complex) {
             return Single::subtract($depressed_quartic_roots, $a₃ / 4);
         } else {
+            $quartic_roots = [];
             foreach ($depressed_quartic_roots as $key => $root) {
                 if (is_float($root)) {
                     $quartic_roots[$key] = $root - $a₃ / 4;

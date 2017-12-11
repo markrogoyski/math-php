@@ -25,9 +25,9 @@ class Support
      *
      * @return bool True if all parameters are within defined limits
      *
-     * @throws BadParameterException if a parameter without bounds limits is defined
-     * @throws OutOfBoundsException if any parameter is outside the defined limits
-     * @throws BadDataException if an unknown bounds character is used
+     * @throws Exception\BadParameterException if a parameter without bounds limits is defined
+     * @throws Exception\OutOfBoundsException if any parameter is outside the defined limits
+     * @throws Exception\BadDataException if an unknown bounds character is used
      */
     public static function checkLimits(array $limits, array $params)
     {

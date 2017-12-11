@@ -166,8 +166,6 @@ class Hypergeometric extends Discrete
      * n ∈ {0, 1, 2, ..., N}
      * k ∈ {max(0, n + K - N), ..., min(n, K)}
      *
-     * @param  int $k number of observed successes
-     *
      * @return float
      */
     public function mean(): float

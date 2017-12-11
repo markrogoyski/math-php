@@ -5,6 +5,13 @@ use MathPHP\Exception;
 
 class FunctionSquareMatrix extends SquareMatrix
 {
+    /**
+     * FunctionSquareMatrix constructor.
+     *
+     * @param array $A
+     *
+     * @throws Exception\BadDataException
+     */
     public function __construct(array $A)
     {
         $n = count($A);
@@ -17,7 +24,14 @@ class FunctionSquareMatrix extends SquareMatrix
         parent::__construct($A);
     }
 
-    public function evaluate(array $params)
+    /**
+     * Evaluate
+     *
+     * @param array $params
+     *
+     * @return Matrix
+     */
+    public function evaluate(array $params): Matrix
     {
         $m = $this->m;
         $n = $this->n;

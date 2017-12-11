@@ -82,8 +82,6 @@ class Binomial extends Discrete
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['r' => $r]);
 
-        $n = $this->n;
-        $p = $this->p;
         $cumulative_probability = 0;
         for ($i = $r; $i >= 0; $i--) {
             $cumulative_probability += $this->pmf($i);

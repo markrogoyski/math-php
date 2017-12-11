@@ -125,8 +125,8 @@ class StudentT extends Continuous
     public function inverse2Tails($p)
     {
         Support::checkLimits(['p'  => '[0,1]'], ['p' => $p]);
-        $ν = $this->ν;
-        return self::inverse(1 - $p / 2, $ν);
+
+        return $this->inverse(1 - $p / 2);
     }
     
     /**

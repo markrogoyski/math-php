@@ -61,8 +61,11 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     /**
      * Get a specific value at position i
      *
-     * @param  int    $i index
+     * @param  int $i index
+     *
      * @return number
+     *
+     * @throws Exception\VectorException
      */
     public function get(int $i)
     {
@@ -147,6 +150,8 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      * @param Vector $B
      *
      * @return number
+     *
+     * @throws Exception\VectorException
      */
     public function dotProduct(Vector $B)
     {
@@ -184,6 +189,8 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      * @param Vector $B
      *
      * @return number
+     *
+     * @throws Exception\VectorException
      */
     public function perpDotProduct(Vector $B)
     {
@@ -220,6 +227,8 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      * @param Vector $B
      *
      * @return Vector
+     *
+     * @throws Exception\VectorException
      */
     public function add(Vector $B): Vector
     {
@@ -241,6 +250,8 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      * @param Vector $B
      *
      * @return Vector
+     *
+     * @throws Exception\VectorException
      */
     public function subtract(Vector $B): Vector
     {
@@ -338,6 +349,8 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      * @param Vector $B
      *
      * @return Vector
+     *
+     * @throws Exception\VectorException
      */
     public function crossProduct(Vector $B)
     {
@@ -382,6 +395,8 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      * A = [b]  A⊥ = [a]
      *
      * @return Vector
+     *
+     * @throws Exception\VectorException
      */
     public function perpendicular(): Vector
     {
@@ -506,6 +521,8 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *
      * |x|p = (∑|xᵢ|ᵖ)¹/ᵖ
      *
+     * @param number $p
+     *
      * @return number
      */
     public function pNorm($p)
@@ -546,6 +563,9 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      * Countable INTERFACE
      **************************************************************************/
 
+    /**
+     * @return int
+     */
     public function count(): int
     {
         return count($this->A);
@@ -555,21 +575,38 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      * ArrayAccess INTERFACE
      **************************************************************************/
 
+    /**
+     * @param mixed $i
+     * @return bool
+     */
     public function offsetExists($i): bool
     {
         return isset($this->A[$i]);
     }
 
+    /**
+     * @param mixed $i
+     * @return mixed
+     */
     public function offsetGet($i)
     {
         return $this->A[$i];
     }
 
+    /**
+     * @param mixed $i
+     * @param mixed $value
+     * @throws Exception\VectorException
+     */
     public function offsetSet($i, $value)
     {
         throw new Exception\VectorException('Vector class does not allow setting values');
     }
 
+    /**
+     * @param mixed $i
+     * @throws Exception\VectorException
+     */
     public function offsetUnset($i)
     {
         throw new Exception\VectorException('Vector class does not allow unsetting values');
@@ -579,6 +616,9 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      * JsonSerializable INTERFACE
      **************************************************************************/
 
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
         return $this->A;

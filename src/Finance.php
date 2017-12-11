@@ -152,8 +152,6 @@ class Finance
      */
     public static function ipmt(float $rate, int $period, int $periods, float $present_value, float $future_value = 0, bool $beginning = false): float
     {
-        $when = $beginning ? 1 : 0;
-
         if ($period < 1 || $period > $periods) {
             return \NAN;
         }
@@ -518,7 +516,7 @@ class Finance
      *  irr([-100, 50, 40, 30])
      *
      * Solves for NPV=0 using Newton's Method.
-     * TODO: Use eigenvalues to find the roots of a characteristic polynomial.
+     * @todo: Use eigenvalues to find the roots of a characteristic polynomial.
      * This will allow finding all solutions and eliminate the need of the initial_guess.
      *
      * @param  array $values
@@ -556,7 +554,8 @@ class Finance
      *  mirr([-100, 50, 40, 30], 0.05, 0.10)
      *
      * @param  array $values
-     * @param  float $initial_guess
+     * @param  float $finance_rate
+     * @param  float $reinvestment_rate
      *
      * @return float
      */

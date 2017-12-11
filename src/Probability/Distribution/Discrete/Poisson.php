@@ -85,11 +85,9 @@ class Poisson extends Discrete
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['k' => $k]);
 
-        $λ = $this->λ;
-
         return array_sum(array_map(
-            function ($k) use ($λ) {
-                return self::pmf($k, $λ);
+            function ($k) {
+                return $this->pmf($k);
             },
             range(0, $k)
         ));

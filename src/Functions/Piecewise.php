@@ -44,13 +44,13 @@ class Piecewise
      *                          Example: [[-10, 0, false, true], [0, 2], [3, 10]]
      * @param  array $functions Array of callback functions
      *
-     * @throws BadDataException if the number of intervals and functions are not the same
-     * @throws BadDataException if any function in $functions is not callable
-     * @throws BadDataException if any interval in $intervals does not contain 2 numbers
-     * @throws BadDataException if any interval [a, b] is decreasing, or b < a
-     * @throws BadDataException if an interval is a point that is not closed
-     * @throws BadDataException if two intervals share a point that is closed at both ends
-     * @throws BadDataException if one interval starts or ends inside another interval
+     * @throws Exception\BadDataException if the number of intervals and functions are not the same
+     * @throws Exception\BadDataException if any function in $functions is not callable
+     * @throws Exception\BadDataException if any interval in $intervals does not contain 2 numbers
+     * @throws Exception\BadDataException if any interval [a, b] is decreasing, or b < a
+     * @throws Exception\BadDataException if an interval is a point that is not closed
+     * @throws Exception\BadDataException if two intervals share a point that is closed at both ends
+     * @throws Exception\BadDataException if one interval starts or ends inside another interval
      */
     public function __construct(array $intervals, array $functions)
     {
@@ -94,7 +94,7 @@ class Piecewise
     *
     * @return number The specific function evaluated at $x₀
     *
-    * @throws BadDataException if an interval cannot be found which contains our $x₀
+    * @throws Exception\BadDataException if an interval cannot be found which contains our $x₀
     */
     public function __invoke($x₀)
     {
@@ -112,7 +112,7 @@ class Piecewise
     *
     * @return callable Returns the function that contains $x in its domain
     *
-    * @throws BadDataException if an interval cannot be found which contains our $x
+    * @throws Exception\BadDataException if an interval cannot be found which contains our $x
     */
     private function getFunction($x): callable
     {
@@ -202,8 +202,8 @@ class Piecewise
      *
      * @return void
      *
-     * @throws BadDataException if the number of intervals and functions are not the same
-     * @throws BadDataException if any function in $functions is not callable
+     * @throws Exception\BadDataException if the number of intervals and functions are not the same
+     * @throws Exception\BadDataException if any function in $functions is not callable
      */
     private function constructorPreconditions(array $intervals, array $functions)
     {
@@ -230,10 +230,10 @@ class Piecewise
      *
      * @return void
      *
-     * @throws BadDataException if any interval [a, b] is decreasing, or b < a
-     * @throws BadDataException if an interval is a point that is not closed
-     * @throws BadDataException if two intervals share a point that is closed at both ends
-     * @throws BadDataException if one interval starts or ends inside another interval
+     * @throws Exception\BadDataException if any interval [a, b] is decreasing, or b < a
+     * @throws Exception\BadDataException if an interval is a point that is not closed
+     * @throws Exception\BadDataException if two intervals share a point that is closed at both ends
+     * @throws Exception\BadDataException if one interval starts or ends inside another interval
      */
     private function checkAsAndBs($a, $b, $lastA, $lastB, $lastBOpen, bool $aOpen, bool $bOpen)
     {

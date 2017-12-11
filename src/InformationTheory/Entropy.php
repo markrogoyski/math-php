@@ -34,7 +34,7 @@ class Entropy
      *
      * @return float average minimum number of bits
      *
-     * @throws BadDataException if probability distribution p does not add up to 1
+     * @throws Exception\BadDataException if probability distribution p does not add up to 1
      */
     public static function shannonEntropy(array $p)
     {
@@ -77,7 +77,7 @@ class Entropy
      *
      * @return float average minimum number of nats
      *
-     * @throws BadDataException if probability distribution p does not add up to 1
+     * @throws Exception\BadDataException if probability distribution p does not add up to 1
      */
     public static function shannonNatEntropy(array $p)
     {
@@ -120,7 +120,7 @@ class Entropy
      *
      * @return float average minimum number of hartleys
      *
-     * @throws BadDataException if probability distribution p does not add up to 1
+     * @throws Exception\BadDataException if probability distribution p does not add up to 1
      */
     public static function shannonHartleyEntropy(array $p)
     {
@@ -162,8 +162,8 @@ class Entropy
      *
      * @return float entropy between distributions
      *
-     * @throws BadDataException if p and q do not have the same number of elements
-     * @throws BadDataException if p and q are not probability distributions that add up to 1
+     * @throws Exception\BadDataException if p and q do not have the same number of elements
+     * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
      */
     public static function crossEntropy(array $p, array $q)
     {
@@ -216,7 +216,7 @@ class Entropy
      *
      * @return float uncertainty
      *
-     * @throws BadDataException if probability distribution $P⟮x、y⟯ does not add up to 1
+     * @throws Exception\BadDataException if probability distribution $P⟮x、y⟯ does not add up to 1
      */
     public static function jointEntropy(array $P⟮x、y⟯)
     {
@@ -240,8 +240,8 @@ class Entropy
      *
      * @return float
      *
-     * @throws BadDataException if probability distribution p does not add up to 1
-     * @throws OutOfBoundsException if α < 0 or α = 1
+     * @throws Exception\BadDataException if probability distribution p does not add up to 1
+     * @throws Exception\OutOfBoundsException if α < 0 or α = 1
      */
     public static function renyiEntropy(array $p, $α)
     {
@@ -277,7 +277,7 @@ class Entropy
      *
      * @return float perplexity
      *
-     * @throws BadDataException if probability distribution p does not add up to 1
+     * @throws Exception\BadDataException if probability distribution p does not add up to 1
      */
     public static function perplexity(array $p)
     {

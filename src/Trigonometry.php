@@ -14,6 +14,8 @@ class Trigonometry
      * [[1, 0], [0, 1], [-1, 0], [0, -1], [1, 0]]
      *
      * @param int $numpoints
+     *
+     * @return array
      */
     public static function unitCircle(int $numpoints = 11): array
     {

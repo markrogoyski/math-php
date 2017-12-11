@@ -3,7 +3,14 @@ namespace MathPHP\LinearAlgebra;
 
 class FunctionMatrix extends Matrix
 {
-    public function evaluate(array $params)
+    /**
+     * Evaluate
+     *
+     * @param array $params
+     *
+     * @return Matrix
+     */
+    public function evaluate(array $params): Matrix
     {
         $m = $this->m;
         $n = $this->n;

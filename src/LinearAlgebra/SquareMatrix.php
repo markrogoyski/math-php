@@ -12,7 +12,10 @@ class SquareMatrix extends Matrix
 {
     /**
      * Constructor
+     *
      * @param array $A
+     *
+     * @throws Exception\MathException
      */
     public function __construct(array $A)
     {

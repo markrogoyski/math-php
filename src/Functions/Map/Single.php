@@ -11,6 +11,7 @@ class Single
      *
      * @param  array $xs
      * @param  number $k Number to add to each element
+     *
      * @return array
      */
     public static function add(array $xs, $k): array
@@ -28,6 +29,7 @@ class Single
      *
      * @param  array $xs
      * @param  number $k Number to subtract from each element
+     *
      * @return array
      */
     public static function subtract(array $xs, $k): array
@@ -45,6 +47,7 @@ class Single
      *
      * @param  array $xs
      * @param  number $k Number to multiply to each element
+     *
      * @return array
      */
     public static function multiply(array $xs, $k): array
@@ -62,6 +65,7 @@ class Single
      *
      * @param  array $xs
      * @param  number $k Number to divide each element by
+     *
      * @return array
      */
     public static function divide(array $xs, $k): array
@@ -78,6 +82,7 @@ class Single
      * Map square
      *
      * @param  array  $xs
+     *
      * @return array
      */
     public static function square(array $xs): array
@@ -94,6 +99,7 @@ class Single
      * Map cube
      *
      * @param  array  $xs
+     *
      * @return array
      */
     public static function cube(array $xs): array
@@ -110,6 +116,8 @@ class Single
      * Map raise to a power
      *
      * @param  array  $xs
+     * @param  number $n
+     *
      * @return array
      */
     public static function pow(array $xs, $n): array
@@ -126,6 +134,7 @@ class Single
      * Map square root
      *
      * @param  array  $xs
+     *
      * @return array
      */
     public static function sqrt(array $xs): array
@@ -142,6 +151,7 @@ class Single
      * Map absolute value
      *
      * @param  array $xs
+     *
      * @return array
      */
     public static function abs(array $xs): array

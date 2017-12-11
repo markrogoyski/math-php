@@ -1,5 +1,4 @@
 <?php
-
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
@@ -10,7 +9,7 @@ use MathPHP\Number\ObjectArithmetic;
  *
  * The objectSquareMatrix extends Matrix functions to a matrix of objects.
  * The object must implement the MatrixArithmetic interface to prove
- * compatiblity. It extends the SquareMatrix in order to use Matrix::minor().
+ * compatibility. It extends the SquareMatrix in order to use Matrix::minor().
  */
 class ObjectSquareMatrix extends SquareMatrix
 {
@@ -25,11 +24,12 @@ class ObjectSquareMatrix extends SquareMatrix
      *
      * The constuctor follows performs all the same checks as the parent, but also checks that
      * all of the elements in the arry are of the same data type.
-     * @param array of arrays $A m x n matrix
      *
-     * @throws BadDataExpcetion if any rows have a different column count
-     * @throws IncorrectTypeException if all elements are not the same class
-     * @throws IncorrectTypeException if The class does not implement the ObjectArithmetic interface
+     * @param array[] of arrays $A m x n matrix
+     *
+     * @throws Exception\BadDataException if any rows have a different column count
+     * @throws Exception\IncorrectTypeException if all elements are not the same class
+     * @throws Exception\IncorrectTypeException if The class does not implement the ObjectArithmetic interface
      */
     public function __construct(array $A)
     {
@@ -43,7 +43,7 @@ class ObjectSquareMatrix extends SquareMatrix
         foreach ($A as $i => $row) {
             foreach ($row as $object) {
                 if (get_class($object) != $this->object_type) {
-                    throw new Exception\IncorrectTypeExpcetion("All elements in the matrix must be of the same type.");
+                    throw new Exception\IncorrectTypeException("All elements in the matrix must be of the same type.");
                 }
             }
         }
@@ -62,16 +62,16 @@ class ObjectSquareMatrix extends SquareMatrix
     /**
      * Check that the matricies are the same size and of the same type
      *
-     * @throws MatrixException if matrices have a different number of rows or columns
-     * @throws IncorrectTypeException if the two matricies are not the same class
+     * @throws Exception\MatrixException if matrices have a different number of rows or columns
+     * @throws Exception\IncorrectTypeException if the two matricies are not the same class
      */
     private function checkEqualSizes(Matrix $B)
     {
         if ($B->getM() !== $this->m || $B->getN() !== $this->n) {
-            throw new \MathPHP\Exception\MatrixException('Matrices are different sizes');
+            throw new Exception\MatrixException('Matrices are different sizes');
         }
         if ($B->getObjectType() !== $this->object_type) {
-            throw new \MathPHP\Exception\IncorrectTypeException('Matrices must contain the same object types');
+            throw new Exception\IncorrectTypeException('Matrices must contain the same object types');
         }
     }
 
@@ -113,7 +113,7 @@ class ObjectSquareMatrix extends SquareMatrix
      * for the first row of the matrix, perform element-wise multiplication, and
      * add the results of that row.
      *
-     * This implentation also uses the same algorithm for 2x2 matricies. Adding
+     * This implementation also uses the same algorithm for 2x2 matricies. Adding
      * a special case may quicken code execution.
      *
      * @return ObjectArithmetic

@@ -42,7 +42,7 @@ class Combinatorics
      *
      * @return int number of permutations of n
      *
-     * @throws OutOfBoundsException if n < 0
+     * @throws Exception\OutOfBoundsException if n < 0
      */
     public static function factorial(int $n)
     {
@@ -82,7 +82,7 @@ class Combinatorics
      *
      * @return int
      *
-     * @throws OutOfBoundsException if n < 0
+     * @throws Exception\OutOfBoundsException if n < 0
      */
     public static function doubleFactorial(int $n)
     {
@@ -122,7 +122,7 @@ class Combinatorics
      * @param  int    $n
      * @return number
      *
-     * @throws OutOfBoundsException if n < 0
+     * @throws Exception\OutOfBoundsException if n < 0
      */
     public static function risingFactorial($x, int $n)
     {
@@ -150,7 +150,7 @@ class Combinatorics
      * @param  int    $n
      * @return number
      *
-     * @throws OutOfBoundsException if n < 0
+     * @throws Exception\OutOfBoundsException if n < 0
      */
     public static function fallingFactorial($x, int $n)
     {
@@ -185,7 +185,8 @@ class Combinatorics
      * @param  int $n
      *
      * @return int number of permutations of n
-     * @throws OutOfBoundsException if n < 0
+     *
+     * @throws Exception\OutOfBoundsException if n < 0
      */
     public static function subfactorial(int $n)
     {
@@ -224,7 +225,7 @@ class Combinatorics
      *
      * @return int number of permutations of n
      *
-     * @throws OutOfBoundsException if n is negative or k is larger than n
+     * @throws Exception\OutOfBoundsException if n is negative or k is larger than n
      */
     public static function permutations(int $n, int $k = null)
     {
@@ -270,7 +271,7 @@ class Combinatorics
      *
      * @return int number of possible combinations of n objects taken k at a time
      *
-     * @throws OutOfBoundsException if n is negative; if k is larger than n
+     * @throws Exception\OutOfBoundsException if n is negative; if k is larger than n
      */
     public static function combinations(int $n, int $k, bool $repetition = false)
     {
@@ -309,7 +310,7 @@ class Combinatorics
      *
      * @return int number
      *
-     * @throws OutOfBoundsException if n < 0
+     * @throws Exception\OutOfBoundsException if n < 0
      */
     public static function centralBinomialCoefficient(int $n)
     {
@@ -340,7 +341,7 @@ class Combinatorics
      *
      * @return int number
      *
-     * @throws OutOfBoundsException if n < 0
+     * @throws Exception\OutOfBoundsException if n < 0
      */
     public static function catalanNumber(int $n)
     {
@@ -365,7 +366,7 @@ class Combinatorics
      *
      * @return number
      *
-     * @throws OutOfBoundsException if n or k < 1 or n < k
+     * @throws Exception\OutOfBoundsException if n or k < 1 or n < k
      */
     public static function lahNumber(int $n, int $k)
     {

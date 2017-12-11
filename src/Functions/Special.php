@@ -2,7 +2,6 @@
 namespace MathPHP\Functions;
 
 use MathPHP\Probability\Combinatorics;
-use MathPHP\Statistics\RandomVariable;
 use MathPHP\Functions\Map\Single;
 use MathPHP\Exception;
 
@@ -577,8 +576,13 @@ class Special
         'b'  => '(1,∞)',
         ];
         Support::checkLimits($limits, ['x' => $x, 'a' => $a, 'b' => $b]);
+
         $beta     = self::beta($a, $b);
         $constant = $x**$a * (1 - $x)**$b / $beta;
+
+        $α_array = [];
+        $β_array = [];
+
         for ($i = 0; $i < $m; $i++) {
             if ($i == 0) {
                 $α = 1;
@@ -591,6 +595,8 @@ class Special
             $α_array[]      = $α;
             $β_array[]      = $β;
         }
+
+        $fraction_array = [];
         for ($i = $m - 1; $i >= 0; $i--) {
             if ($i == $m - 1) {
                 $fraction_array[$i] = $α_array[$i] / $β_array[$i];
@@ -651,6 +657,7 @@ class Special
             
             // We will calculate the continuous fraction with a minimum depth of 10.
             $m        = 10;        // Counter
+            $I = 0;
             do {
                 $I_new = self::iBetaCF($m, $x, $a, $b);
                 if ($m > 10) {

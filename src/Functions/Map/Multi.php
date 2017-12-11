@@ -13,7 +13,7 @@ class Multi
      *
      * [x₁ + y₁, x₂ + y₂, ... ]
      *
-     * @param array ...$arrays Two or more arrays of numbers
+     * @param array[] ...$arrays Two or more arrays of numbers
      *
      * @return array
      */
@@ -39,7 +39,7 @@ class Multi
      *
      * [x₁ - y₁, x₂ - y₂, ... ]
      *
-     * @param array ...$arrays Two or more arrays of numbers
+     * @param array[] ...$arrays Two or more arrays of numbers
      *
      * @return array
      */
@@ -70,7 +70,7 @@ class Multi
      *
      * [x₁ * y₁, x₂ * y₂, ... ]
      *
-     * @param array ...$arrays Two or more arrays of numbers
+     * @param array[] ...$arrays Two or more arrays of numbers
      *
      * @return array
      */
@@ -96,7 +96,7 @@ class Multi
      *
      * [x₁ / y₁, x₂ / y₂, ... ]
      *
-     * @param array ...$arrays Two or more arrays of numbers
+     * @param array[] ...$arrays Two or more arrays of numbers
      *
      * @return array
      */
@@ -127,7 +127,7 @@ class Multi
      *
      * [max(x₁, y₁), max(x₂, y₂), ... ]
      *
-     * @param array ...$arrays Two or more arrays of numbers
+     * @param array[] ...$arrays Two or more arrays of numbers
      *
      * @return array
      */
@@ -158,7 +158,7 @@ class Multi
      *
      * [max(x₁, y₁), max(x₂, y₂), ... ]
      *
-     * @param array ...$arrays Two or more arrays of numbers
+     * @param array[] ...$arrays Two or more arrays of numbers
      *
      * @return array
      */
@@ -191,11 +191,11 @@ class Multi
     /**
      * Check that two or more arrays are all the same length
      *
-     * @param  array $arrays
+     * @param  array[] $arrays
      *
      * @return bool
-     * @throws BadDataException if there are not at least two arrays
-     * @throws BadDataException if arrays are not equal lengths
+     * @throws Exception\BadDataException if there are not at least two arrays
+     * @throws Exception\BadDataException if arrays are not equal lengths
      */
     private static function checkArrayLengths(array $arrays): bool
     {

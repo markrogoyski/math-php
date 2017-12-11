@@ -18,10 +18,12 @@ class MatrixFactory
      * @param  int|null $n Optional n for Vandermonde matrix
      *
      * @return Matrix
+     *
+     * @throws Exception\IncorrectTypeException
      */
     public static function create(array $A, int $n = null): Matrix
     {
-        self::checkParams($A, $n);
+        self::checkParams($A);
 
         $matrix_type = self::determineMatrixType($A, $n);
 
@@ -73,11 +75,11 @@ class MatrixFactory
      * @param int    $n size of matrix
      * @param number $x (optional; default 1)
      *
-     * @return SquareMatrix
+     * @return Matrix
      *
-     * @throws OutOfBoundsException if n < 0
+     * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function identity(int $n, $x = 1): SquareMatrix
+    public static function identity(int $n, $x = 1): Matrix
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException("n must be ≥ 0. n = $n");
@@ -108,11 +110,11 @@ class MatrixFactory
      * @param int    $n size of matrix
      * @param number $x (Optional to set the diagonal to any number; default 1)
      *
-     * @return SquareMatrix
+     * @return Matrix
      *
-     * @throws OutOfBoundsException if n < 0
+     * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function exchange(int $n, $x = 1): SquareMatrix
+    public static function exchange(int $n, $x = 1): Matrix
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException("n must be ≥ 0. n = $n");
@@ -145,7 +147,7 @@ class MatrixFactory
      *
      * @return Matrix
      *
-     * @throws OutOfBoundsException if m < 1 or n < 1
+     * @throws Exception\OutOfBoundsException if m < 1 or n < 1
      */
     public static function zero(int $m, int $n): Matrix
     {
@@ -179,7 +181,7 @@ class MatrixFactory
      *
      * @return Matrix
      *
-     * @throws OutOfBoundsException if m or n < 1
+     * @throws Exception\OutOfBoundsException if m or n < 1
      */
     public static function one(int $m, int $n): Matrix
     {
@@ -217,8 +219,8 @@ class MatrixFactory
      *
      * @return Matrix
      *
-     * @throws OutOfBoundsException if m, n, or k are < 0
-     * @throws OutOfBoundsException if k >= n
+     * @throws Exception\OutOfBoundsException if m, n, or k are < 0
+     * @throws Exception\OutOfBoundsException if k >= n
      */
     public static function eye(int $m, int $n, int $k, $x = 1): Matrix
     {
@@ -256,9 +258,13 @@ class MatrixFactory
      *     [¼ ⅕ ⅙ ⅐ ⅛]
      *     [⅕ ⅙ ⅐ ⅛ ⅑]
      *
-     * @return SquareMatrix
+     * @param int $n
+     *
+     * @return Matrix
+     *
+     * @throws Exception\OutOfBoundsException
      */
-    public static function hilbert(int $n): SquareMatrix
+    public static function hilbert(int $n): Matrix
     {
         if ($n < 1) {
             throw new Exception\OutOfBoundsException("n must be > 0. m = $n");
@@ -282,14 +288,13 @@ class MatrixFactory
      * Check input parameters
      *
      * @param  array    $A
-     * @param  int|null $n
      *
      * @return bool
      *
-     * @throws BadDataException if array data not provided for matrix creation
-     * @throws MatrixException if any row has a different column count
+     * @throws Exception\BadDataException if array data not provided for matrix creation
+     * @throws Exception\MatrixException if any row has a different column count
      */
-    private static function checkParams(array $A, int $n = null): bool
+    private static function checkParams(array $A): bool
     {
         if (empty($A)) {
             throw new Exception\BadDataException('Array data not provided for Matrix creation');
@@ -313,11 +318,11 @@ class MatrixFactory
      * @param  array    $A 1- or 2-dimensional array of Matrix data
      *                     1-dimensional array for Diagonal and Vandermonde matrices
      *                     2-dimensional array for Square, Function, and regular Matrices
-     * @param  int|null $n Optional n for Vandermonde matrix
+     * @param  int|null $vandermonde_n Optional n for Vandermonde matrix
      *
      * @return string indicating what matrix type to create
      */
-    private static function determineMatrixType(array $A, $vandermonde_n): string
+    private static function determineMatrixType(array $A, int $vandermonde_n = null): string
     {
         $m = count($A);
 
@@ -386,7 +391,7 @@ class MatrixFactory
      *
      * @return Matrix
      *
-     * @throws MatrixException if the Vectors are not all the same length
+     * @throws Exception\MatrixException if the Vectors are not all the same length
      */
     private static function createFromVectors(array $A): Matrix
     {

@@ -27,8 +27,10 @@ class VandermondeSquareMatrix extends SquareMatrix
     /**
      * Create the Vandermonde Matrix from a simple array.
      *
-     * @param $M array (α₁, α₂, α₃ ⋯ αm)
-     * @param $n int
+     * @param array $M (α₁, α₂, α₃ ⋯ αm)
+     * @param int   $n
+     *
+     * @throws Exception\MatrixException
      */
     public function __construct(array $M, int $n)
     {

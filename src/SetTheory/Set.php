@@ -189,7 +189,7 @@ class Set implements \Countable, \Iterator
      * Add an array of elements to the set
      * Does nothing if element already exists in the set.
      *
-     * @param array $x
+     * @param array $members
      *
      * @return Set (this set)
      */
@@ -384,7 +384,7 @@ class Set implements \Countable, \Iterator
      * Example:
      *  {1, 2} ∪ {2, 3} = {1, 2, 3}
      *
-     * @param  Set ...$Bs One or more sets
+     * @param  Set[] ...$Bs One or more sets
      *
      * @return Set
      */
@@ -411,13 +411,13 @@ class Set implements \Countable, \Iterator
      * Example:
      *  {1, 2} ∩ {2, 3} = {2}
      *
-     * @param  Set ...$Bs One or more sets
+     * @param  Set[] ...$Bs One or more sets
      *
      * @return Set
      */
     public function intersect(Set ...$Bs): Set
     {
-        $other_members = [];
+        $B_members = [];
         foreach ($Bs as $B) {
             $B_members[] = $B->asArray();
         }
@@ -431,7 +431,7 @@ class Set implements \Countable, \Iterator
      * Difference (relative complement) (A ∖ B) or (A - B)
      * Produces a new set with elements that are not in the other sets.
      *
-     * @param  Set ...$Bs One or more sets
+     * @param  Set[] ...$Bs One or more sets
      *
      * @return Set
      */

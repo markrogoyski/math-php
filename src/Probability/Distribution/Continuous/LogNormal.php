@@ -36,7 +36,7 @@ class LogNormal extends Continuous
      * Constructor
      *
      * @param  number $μ location parameter
-     * @param  number $σ scale parameter > 0
+     * @param  number $λ scale parameter > 0
      */
     public function __construct($μ, $λ)
     {
@@ -90,7 +90,6 @@ class LogNormal extends Continuous
 
         $μ = $this->μ;
         $σ = $this->σ;
-        $π = \M_PI;
 
         $⟮ln x − μ⟯ = log($x) - $μ;
         $√2σ       = sqrt(2) * $σ;

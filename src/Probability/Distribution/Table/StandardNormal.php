@@ -109,6 +109,8 @@ class StandardNormal
      * @param float $Z
      *
      * @return float probability
+     *
+     * @throws Exception\BadDataException
      */
     public static function getZScoreProbability(float $Z): float
     {
@@ -149,6 +151,8 @@ class StandardNormal
      * @param  int $cl confidence level
      *
      * @return float Z score
+     *
+     * @throws Exception\BadDataException
      */
     public static function getZScoreForConfidenceInterval(string $cl): float
     {
