@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Functions\Map;
 
 use MathPHP\Functions\Map\Single;
 
-class SingleTest extends \PHPUnit_Framework_TestCase
+class SingleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForSquare

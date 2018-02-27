@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\Gamma;
 
-class GammaTest extends \PHPUnit_Framework_TestCase
+class GammaTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     pdf

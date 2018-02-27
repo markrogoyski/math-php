@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Multivariate;
 
 use MathPHP\Probability\Distribution\Multivariate;
 
-class LimitsTest extends \PHPUnit_Framework_TestCase
+class LimitsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Limits should look like:

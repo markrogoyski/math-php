@@ -4,7 +4,7 @@ namespace MathPHP\Tests\InformationTheory;
 use MathPHP\InformationTheory\Entropy;
 use MathPHP\Exception;
 
-class EntropyTest extends \PHPUnit_Framework_TestCase
+class EntropyTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForShannonEntropy

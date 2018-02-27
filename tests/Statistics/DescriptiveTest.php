@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Statistics;
 use MathPHP\Statistics\Descriptive;
 use MathPHP\Exception;
 
-class DescriptiveTest extends \PHPUnit_Framework_TestCase
+class DescriptiveTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForRange

@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Statistics;
 use MathPHP\Statistics\Distance;
 use MathPHP\Exception;
 
-class DistanceTest extends \PHPUnit_Framework_TestCase
+class DistanceTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForBhattacharyyaDistance

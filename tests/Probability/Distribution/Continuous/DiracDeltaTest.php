@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\DiracDelta;
 
-class DiracDeltaTest extends \PHPUnit_Framework_TestCase
+class DiracDeltaTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForPDF

@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous;
 
-class LimitsTest extends \PHPUnit_Framework_TestCase
+class LimitsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Limits should look like:

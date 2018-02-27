@@ -6,7 +6,7 @@ use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
-class MatrixDecompositionsTest extends \PHPUnit_Framework_TestCase
+class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
 {
     use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
 

@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Functions\Map;
 use MathPHP\Functions\Map\Multi;
 use MathPHP\Exception;
 
-class MultiTest extends \PHPUnit_Framework_TestCase
+class MultiTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

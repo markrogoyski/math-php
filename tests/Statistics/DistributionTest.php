@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Statistics;
 
 use MathPHP\Statistics\Distribution;
 
-class DistributionTest extends \PHPUnit_Framework_TestCase
+class DistributionTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

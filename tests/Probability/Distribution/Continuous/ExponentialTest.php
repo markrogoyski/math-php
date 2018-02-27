@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\Exponential;
 
-class ExponentialTest extends \PHPUnit_Framework_TestCase
+class ExponentialTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForPDF

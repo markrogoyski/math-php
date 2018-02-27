@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\Beta;
 
-class BetaTest extends \PHPUnit_Framework_TestCase
+class BetaTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForPDF

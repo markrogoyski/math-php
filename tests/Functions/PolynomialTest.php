@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Functions;
 use MathPHP\Functions\Polynomial;
 use MathPHP\Exception;
 
-class PolynomialTest extends \PHPUnit_Framework_TestCase
+class PolynomialTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForString

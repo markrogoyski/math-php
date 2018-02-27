@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Sequence;
 use MathPHP\Sequence\Basic;
 use MathPHP\Exception;
 
-class BasicTest extends \PHPUnit_Framework_TestCase
+class BasicTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     arithmeticProgression produces the expected sequence

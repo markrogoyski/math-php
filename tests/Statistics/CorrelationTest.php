@@ -5,7 +5,7 @@ use MathPHP\Statistics\Correlation;
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\MatrixFactory;
 
-class CorrelationTest extends \PHPUnit_Framework_TestCase
+class CorrelationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForPopulationCovariance

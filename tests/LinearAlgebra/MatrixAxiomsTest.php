@@ -142,7 +142,7 @@ use MathPHP\NumberTheory\Integer;
  *    - Upper bidiagonal matrix is lower Hessenberg
  *    - A matrix that is both upper Hessenberg and lower Hessenberg is a tridiagonal matrix
  */
-class MatrixAxiomsTest extends \PHPUnit_Framework_TestCase
+class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
 

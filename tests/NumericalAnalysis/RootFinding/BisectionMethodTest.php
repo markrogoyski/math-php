@@ -4,7 +4,7 @@ namespace MathPHP\Tests\NumericalAnalysis\RootFinding;
 use MathPHP\NumericalAnalysis\RootFinding\BisectionMethod;
 use MathPHP\Exception;
 
-class BisectionMethodTest extends \PHPUnit_Framework_TestCase
+class BisectionMethodTest extends \PHPUnit\Framework\TestCase
 {
     public function testSolve()
     {

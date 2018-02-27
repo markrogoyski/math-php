@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Distribution\Discrete\Poisson;
 
-class PoissonTest extends \PHPUnit_Framework_TestCase
+class PoissonTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForPMF

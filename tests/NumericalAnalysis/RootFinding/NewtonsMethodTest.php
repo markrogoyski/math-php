@@ -3,7 +3,7 @@ namespace MathPHP\Tests\NumericalAnalysis\RootFinding;
 
 use MathPHP\NumericalAnalysis\RootFinding\NewtonsMethod;
 
-class NewtonsMethodTest extends \PHPUnit_Framework_TestCase
+class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
 {
     public function testSolve()
     {

@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Number;
 use MathPHP\Number\Complex;
 use MathPHP\Exception;
 
-class ComplexTest extends \PHPUnit_Framework_TestCase
+class ComplexTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     __toString returns the proper string representation of a complex number

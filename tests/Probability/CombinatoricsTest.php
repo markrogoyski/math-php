@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Probability;
 use MathPHP\Probability\Combinatorics;
 use MathPHP\Exception;
 
-class CombinatoricsTest extends \PHPUnit_Framework_TestCase
+class CombinatoricsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForFactorialPermutations

@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\Uniform;
 
-class UniformTest extends \PHPUnit_Framework_TestCase
+class UniformTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForPDF

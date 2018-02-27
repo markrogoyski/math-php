@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Probability\Distribution\Discrete;
 use MathPHP\Probability\Distribution\Discrete\Categorical;
 use MathPHP\Exception;
 
-class CategoricalTest extends \PHPUnit_Framework_TestCase
+class CategoricalTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     Constructor throws a BadParameterException if k is <= 0

@@ -4,7 +4,7 @@ namespace MathPHP\Tests\NumericalAnalysis\NumericalIntegration;
 use MathPHP\NumericalAnalysis\NumericalIntegration\NumericalIntegration;
 use MathPHP\Exception;
 
-class NumericalIntegrationTest extends \PHPUnit_Framework_TestCase
+class NumericalIntegrationTest extends \PHPUnit\Framework\TestCase
 {
     public function testInstantiateAbstractClassException()
     {

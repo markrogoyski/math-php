@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Sequence;
 
 use MathPHP\Sequence\Advanced;
 
-class AdvancedTest extends \PHPUnit_Framework_TestCase
+class AdvancedTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForFibonacci

@@ -5,7 +5,7 @@ use MathPHP\SetTheory\Set;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\LinearAlgebra\Matrix;
 
-class SetTest extends \PHPUnit_Framework_TestCase
+class SetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForSingleSet

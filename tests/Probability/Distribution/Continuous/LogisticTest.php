@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\Logistic;
 
-class LogisticTest extends \PHPUnit_Framework_TestCase
+class LogisticTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForPDF

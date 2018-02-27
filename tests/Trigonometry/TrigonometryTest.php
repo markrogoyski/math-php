@@ -3,7 +3,7 @@ namespace MathPHP\Tests;
 
 use MathPHP\Trigonometry;
 
-class TrigonometryTest extends \PHPUnit_Framework_TestCase
+class TrigonometryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     unitCircle returns points on a unit circle.

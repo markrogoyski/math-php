@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Probability\Distribution\Discrete;
 use MathPHP\Probability\Distribution\Discrete\Hypergeometric;
 use MathPHP\Exception;
 
-class HypergeometricTest extends \PHPUnit_Framework_TestCase
+class HypergeometricTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     pmf returns expected probability

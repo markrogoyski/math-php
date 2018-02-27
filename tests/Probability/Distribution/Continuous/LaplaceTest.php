@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\Laplace;
 
-class LaplaceTest extends \PHPUnit_Framework_TestCase
+class LaplaceTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     pdf

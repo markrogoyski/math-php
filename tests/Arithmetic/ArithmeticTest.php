@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Arithmetic;
 
 use MathPHP\Arithmetic;
 
-class ArithmeticTest extends \PHPUnit_Framework_TestCase
+class ArithmeticTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     cubeRoot returns the expected value.

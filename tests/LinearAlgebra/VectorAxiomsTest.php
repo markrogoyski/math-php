@@ -47,7 +47,7 @@ use MathPHP\LinearAlgebra\Matrix;
  *    - projᵇA ⋅ perpᵇA = 0
  *    - |projᵇA⊥ ⋅ perpᵇA| = |projᵇA| |perpᵇA|
  */
-class VectorAxiomsTest extends \PHPUnit_Framework_TestCase
+class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Axiom: |x|₂ ≤ |x|₁ ≤ √n |x|₂

@@ -3,7 +3,7 @@ namespace MathPHP\Tests\NumericalAnalysis\RootFinding;
 
 use MathPHP\NumericalAnalysis\RootFinding\SecantMethod;
 
-class SecantMethodTest extends \PHPUnit_Framework_TestCase
+class SecantMethodTest extends \PHPUnit\Framework\TestCase
 {
     public function testSolve()
     {

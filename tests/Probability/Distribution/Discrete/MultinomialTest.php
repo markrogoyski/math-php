@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Probability\Distribution\Discrete;
 use MathPHP\Probability\Distribution\Discrete\Multinomial;
 use MathPHP\Exception;
 
-class MultinomialTest extends \PHPUnit_Framework_TestCase
+class MultinomialTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     pmf

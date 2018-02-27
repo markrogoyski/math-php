@@ -18,7 +18,7 @@ use MathPHP\Probability\Combinatorics;
  *   - L(n,2) = (n - 1)n! / 2
  *   - L(n,n) = 1
  */
-class CombinatoricsAxiomsTest extends \PHPUnit_Framework_TestCase
+class CombinatoricsAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Axiom: x⁽ⁿ⁾ = L⟮n,k⟯ x₍k₎

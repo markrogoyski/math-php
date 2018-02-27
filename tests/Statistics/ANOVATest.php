@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Statistics;
 use MathPHP\Statistics\ANOVA;
 use MathPHP\Exception;
 
-class ANOVATest extends \PHPUnit_Framework_TestCase
+class ANOVATest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     oneWay with three samples

@@ -5,7 +5,7 @@ use MathPHP\LinearAlgebra\SquareMatrix;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\Exception;
 
-class SquareMatrixTest extends \PHPUnit_Framework_TestCase
+class SquareMatrixTest extends \PHPUnit\Framework\TestCase
 {
     use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
 

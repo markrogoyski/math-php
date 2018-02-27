@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Distribution\Discrete\Geometric;
 
-class GeometricTest extends \PHPUnit_Framework_TestCase
+class GeometricTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     pmf

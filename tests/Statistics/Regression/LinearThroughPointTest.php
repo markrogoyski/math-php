@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Statistics\Regression;
 
 use MathPHP\Statistics\Regression\LinearThroughPoint;
 
-class LinearThroughPointTest extends \PHPUnit_Framework_TestCase
+class LinearThroughPointTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructor()
     {

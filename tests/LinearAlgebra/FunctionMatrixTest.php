@@ -4,7 +4,7 @@ namespace MathPHP\Tests\LinearAlgebra;
 use MathPHP\LinearAlgebra\FunctionMatrix;
 use MathPHP\Exception;
 
-class FunctionMatrixTest extends \PHPUnit_Framework_TestCase
+class FunctionMatrixTest extends \PHPUnit\Framework\TestCase
 {
     public function testEvaluate()
     {

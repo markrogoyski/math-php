@@ -3,7 +3,7 @@ namespace MathPHP\Tests\NumericalAnalysis\NumericalIntegration;
 
 use MathPHP\NumericalAnalysis\NumericalIntegration\SimpsonsRule;
 
-class SimpsonsRuleTest extends \PHPUnit_Framework_TestCase
+class SimpsonsRuleTest extends \PHPUnit\Framework\TestCase
 {
     public function testapproximatePolynomial()
     {

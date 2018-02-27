@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Functions;
 
 use MathPHP\Functions\Arithmetic;
 
-class ArithmeticTest extends \PHPUnit_Framework_TestCase
+class ArithmeticTest extends \PHPUnit\Framework\TestCase
 {
     public function testSum()
     {

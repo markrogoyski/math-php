@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Distribution\Discrete\NegativeBinomial;
 
-class NegativeBinomialTest extends \PHPUnit_Framework_TestCase
+class NegativeBinomialTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForPMF

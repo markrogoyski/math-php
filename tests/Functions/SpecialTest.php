@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Functions;
 use MathPHP\Functions\Special;
 use MathPHP\Exception;
 
-class SpecialTest extends \PHPUnit_Framework_TestCase
+class SpecialTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     signum/sgn returns the expected value

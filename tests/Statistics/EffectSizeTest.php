@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Statistics;
 use MathPHP\Statistics\EffectSize;
 use MathPHP\Exception;
 
-class EffectSizeTest extends \PHPUnit_Framework_TestCase
+class EffectSizeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForEtaSquared

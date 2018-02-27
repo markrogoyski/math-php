@@ -4,7 +4,7 @@ namespace MathPHP\Tests\NumericalAnalysis\Interpolation;
 use MathPHP\NumericalAnalysis\Interpolation\Interpolation;
 use MathPHP\Exception;
 
-class InterpolationTest extends \PHPUnit_Framework_TestCase
+class InterpolationTest extends \PHPUnit\Framework\TestCase
 {
     public function testInstantiateAbstractClassException()
     {

@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Statistics\Regression;
 
 use MathPHP\Statistics\Regression\HanesWoolf;
 
-class HanesWoolfTest extends \PHPUnit_Framework_TestCase
+class HanesWoolfTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForParameters

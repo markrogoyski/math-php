@@ -5,7 +5,7 @@ use MathPHP\LinearAlgebra\Vector;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\Exception;
 
-class VectorTest extends \PHPUnit_Framework_TestCase
+class VectorTest extends \PHPUnit\Framework\TestCase
 {
 
     public function setUp()

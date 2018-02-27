@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Probability\Distribution\Multivariate;
 use MathPHP\Probability\Distribution\Multivariate\Dirichlet;
 use MathPHP\Exception;
 
-class DirichletTest extends \PHPUnit_Framework_TestCase
+class DirichletTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase pdf works as expected

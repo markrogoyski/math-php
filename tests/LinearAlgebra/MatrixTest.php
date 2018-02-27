@@ -6,7 +6,7 @@ use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
-class MatrixTest extends \PHPUnit_Framework_TestCase
+class MatrixTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {

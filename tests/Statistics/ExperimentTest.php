@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Statistics;
 use MathPHP\Statistics\Experiment;
 use MathPHP\Exception;
 
-class ExperimentTest extends \PHPUnit_Framework_TestCase
+class ExperimentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForRiskRatio

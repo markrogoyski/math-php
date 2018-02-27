@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Statistics\Regression;
 
 use MathPHP\Statistics\Regression\PowerLaw;
 
-class PowerLawTest extends \PHPUnit_Framework_TestCase
+class PowerLawTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testConstructor()

@@ -6,7 +6,7 @@ use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Number\Complex;
 use MathPHP\Exception;
 
-class ObjectMatrixTest extends \PHPUnit_Framework_TestCase
+class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderException

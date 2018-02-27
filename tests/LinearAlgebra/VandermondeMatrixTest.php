@@ -4,7 +4,7 @@ namespace MathPHP\Tests\LinearAlgebra;
 use MathPHP\LinearAlgebra\VandermondeMatrix;
 use MathPHP\LinearAlgebra\Matrix;
 
-class VandermondeMatrixTest extends \PHPUnit_Framework_TestCase
+class VandermondeMatrixTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForTestConstructor

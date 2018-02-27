@@ -5,7 +5,7 @@ use MathPHP\LinearAlgebra\Vector;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\Exception;
 
-class VectorOperationsTest extends \PHPUnit_Framework_TestCase
+class VectorOperationsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForDotProduct

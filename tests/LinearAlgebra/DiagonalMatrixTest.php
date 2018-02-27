@@ -5,7 +5,7 @@ use MathPHP\LinearAlgebra\DiagonalMatrix;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 
-class DiagonalMatrixTest extends \PHPUnit_Framework_TestCase
+class DiagonalMatrixTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     constructor builds the expected DiagonalMatrix

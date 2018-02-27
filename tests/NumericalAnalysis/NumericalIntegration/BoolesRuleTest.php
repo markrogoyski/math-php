@@ -3,7 +3,7 @@ namespace MathPHP\Tests\NumericalAnalysis\NumericalIntegration;
 
 use MathPHP\NumericalAnalysis\NumericalIntegration\BoolesRule;
 
-class BoolesRuleTest extends \PHPUnit_Framework_TestCase
+class BoolesRuleTest extends \PHPUnit\Framework\TestCase
 {
     public function testapproximatePolynomial()
     {

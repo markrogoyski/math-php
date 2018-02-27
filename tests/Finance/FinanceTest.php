@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Finance;
 
 use MathPHP\Finance;
 
-class FinanceTest extends \PHPUnit_Framework_TestCase
+class FinanceTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForcheckZero

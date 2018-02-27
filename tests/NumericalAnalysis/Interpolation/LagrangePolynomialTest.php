@@ -3,7 +3,7 @@ namespace MathPHP\Tests\NumericalAnalysis\Interpolation;
 
 use MathPHP\NumericalAnalysis\Interpolation\LagrangePolynomial;
 
-class LagrangePolynomialTest extends \PHPUnit_Framework_TestCase
+class LagrangePolynomialTest extends \PHPUnit\Framework\TestCase
 {
     public function testPolynomialAgrees()
     {

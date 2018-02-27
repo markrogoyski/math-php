@@ -6,7 +6,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Eigenvector;
 use MathPHP\LinearAlgebra\Eigenvalue;
 
-class EigenvectorTest extends \PHPUnit_Framework_TestCase
+class EigenvectorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     eigenvector using closedFormPolynomialRootMethod returns the expected eigenvalues

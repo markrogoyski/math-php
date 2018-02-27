@@ -4,7 +4,7 @@ namespace MathPHP\Tests\SetTheory;
 use MathPHP\SetTheory\ImmutableSet;
 use MathPHP\SetTheory\Set;
 
-class ImmutableSetTest extends \PHPUnit_Framework_TestCase
+class ImmutableSetTest extends \PHPUnit\Framework\TestCase
 {
     public function testAddDoesNothing()
     {

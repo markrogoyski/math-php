@@ -3,7 +3,7 @@ namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
 
-class MatrixNormsTest extends \PHPUnit_Framework_TestCase
+class MatrixNormsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForOneNorm

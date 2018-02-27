@@ -31,7 +31,7 @@ use MathPHP\Functions\Polynomial;
  *    - Derivative of a polynomial is a polynomial
  *    - Integral of a polynomial is a polynomial
  */
-class PolynoialAxiomsTest extends \PHPUnit_Framework_TestCase
+class PolynoialAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase Axiom: a + b = b + a

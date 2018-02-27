@@ -5,7 +5,7 @@ use MathPHP\NumericalAnalysis\Interpolation\ClampedCubicSpline;
 use MathPHP\Functions\Polynomial;
 use MathPHP\Exception;
 
-class ClampedCubicSplineTest extends \PHPUnit_Framework_TestCase
+class ClampedCubicSplineTest extends \PHPUnit\Framework\TestCase
 {
     public function testPolynomialAgrees()
     {

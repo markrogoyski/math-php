@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Distribution\Discrete\Binomial;
 
-class BinomialTest extends \PHPUnit_Framework_TestCase
+class BinomialTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForPMF

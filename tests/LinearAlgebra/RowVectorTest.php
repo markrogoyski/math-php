@@ -4,7 +4,7 @@ namespace MathPHP\Tests\LinearAlgebra;
 use MathPHP\LinearAlgebra\RowVector;
 use MathPHP\LinearAlgebra\Matrix;
 
-class RowVectorTest extends \PHPUnit_Framework_TestCase
+class RowVectorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForConstructor

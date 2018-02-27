@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Probability\Distribution\Table;
 use MathPHP\Probability\Distribution\Table\StandardNormal;
 use MathPHP\Exception;
 
-class StandardNormalTest extends \PHPUnit_Framework_TestCase
+class StandardNormalTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

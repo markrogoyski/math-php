@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Statistics;
 use MathPHP\Statistics\Average;
 use MathPHP\Exception;
 
-class AverageTest extends \PHPUnit_Framework_TestCase
+class AverageTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForMean

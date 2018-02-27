@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Functions;
 use MathPHP\Functions\Support;
 use MathPHP\Exception;
 
-class SupportTest extends \PHPUnit_Framework_TestCase
+class SupportTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForCheckLimitsLowerLimit

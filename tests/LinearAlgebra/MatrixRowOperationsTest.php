@@ -4,7 +4,7 @@ namespace MathPHP\Tests\LinearAlgebra;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Exception;
 
-class MatrixRowOperationsTest extends \PHPUnit_Framework_TestCase
+class MatrixRowOperationsTest extends \PHPUnit\Framework\TestCase
 {
 
     public function setUp()

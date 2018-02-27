@@ -5,7 +5,7 @@ use MathPHP\Exception;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Eigenvalue;
 
-class EigenvalueTest extends \PHPUnit_Framework_TestCase
+class EigenvalueTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     closedFormPolynomialRootMethod returns the expected eigenvalues

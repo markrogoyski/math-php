@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Algebra;
 use MathPHP\Algebra;
 use MathPHP\Number;
 
-class AlgebraTest extends \PHPUnit_Framework_TestCase
+class AlgebraTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     gcd returns the greatest common divisor of two integers.

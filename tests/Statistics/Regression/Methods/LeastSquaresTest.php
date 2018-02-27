@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Statistics\Regression;
 use MathPHP\Statistics\Regression\Linear;
 use MathPHP\Exception;
 
-class LeastSquaresTest extends \PHPUnit_Framework_TestCase
+class LeastSquaresTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     LeastSquares trait leastSquares method throws a BadDataException if degrees of freedom is ≤ 0

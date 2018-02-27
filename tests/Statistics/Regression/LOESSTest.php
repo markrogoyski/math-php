@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Statistics\Regression;
 use MathPHP\Statistics\Regression\LOESS;
 use MathPHP\Exception;
 
-class LOESSTest extends \PHPUnit_Framework_TestCase
+class LOESSTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForEvaluate

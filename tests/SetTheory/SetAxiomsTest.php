@@ -45,7 +45,7 @@ use MathPHP\SetTheory\Set;
  *  - Power set
  *    - |S| = n, then |P(S)| = 2ⁿ
  */
-class SetAxiomsTest extends \PHPUnit_Framework_TestCase
+class SetAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Axiom: Ø ⊆ A

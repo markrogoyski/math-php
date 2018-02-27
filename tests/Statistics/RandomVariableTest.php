@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Statistics;
 use MathPHP\Exception;
 use MathPHP\Statistics\RandomVariable;
 
-class RandomVariableTest extends \PHPUnit_Framework_TestCase
+class RandomVariableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     centralMoment

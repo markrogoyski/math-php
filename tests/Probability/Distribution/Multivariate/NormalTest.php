@@ -5,7 +5,7 @@ use MathPHP\Probability\Distribution\Multivariate\Normal;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\Exception;
 
-class NormalTest extends \PHPUnit_Framework_TestCase
+class NormalTest extends \PHPUnit\Framework\TestCase
 {
     use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
 

@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Probability\Distribution\Table;
 use MathPHP\Probability\Distribution\Table\TDistribution;
 use MathPHP\Exception;
 
-class TDistributionTest extends \PHPUnit_Framework_TestCase
+class TDistributionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForOneSidedCL

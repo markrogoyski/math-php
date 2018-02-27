@@ -7,7 +7,7 @@ use MathPHP\LinearAlgebra\SquareMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
-class MatrixFactoryTest extends \PHPUnit_Framework_TestCase
+class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
 {
     use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
 

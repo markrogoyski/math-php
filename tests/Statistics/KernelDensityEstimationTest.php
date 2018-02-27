@@ -5,7 +5,7 @@ use MathPHP\Exception;
 use MathPHP\Statistics\KernelDensityEstimation;
 use MathPHP\Statistics\Descriptive;
 
-class KernelDensityEstimationTest extends \PHPUnit_Framework_TestCase
+class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
 {
     /** @var array 100 Random normally distributed data points */
     private $data = [

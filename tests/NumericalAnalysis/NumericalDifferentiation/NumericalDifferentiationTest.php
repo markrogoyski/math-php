@@ -4,7 +4,7 @@ namespace MathPHP\Tests\NumericalAnalysis\NumericalDifferentiation;
 use MathPHP\NumericalAnalysis\NumericalDifferentiation\NumericalDifferentiation;
 use MathPHP\Exception;
 
-class NumericalDifferentiationTest extends \PHPUnit_Framework_TestCase
+class NumericalDifferentiationTest extends \PHPUnit\Framework\TestCase
 {
     public function testInstantiateAbstractClassException()
     {

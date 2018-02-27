@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Probability\Distribution\Discrete;
 use MathPHP\Probability\Distribution\Discrete\Uniform;
 use MathPHP\Exception;
 
-class UniformTest extends \PHPUnit_Framework_TestCase
+class UniformTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     pmf returns the expectd probability

@@ -4,7 +4,7 @@ namespace MathPHP\Tests\NumericalAnalysis\RootFinding;
 use MathPHP\NumericalAnalysis\RootFinding\FixedPointIteration;
 use MathPHP\Exception;
 
-class FixedPointIterationTest extends \PHPUnit_Framework_TestCase
+class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
 {
     public function testSolve()
     {

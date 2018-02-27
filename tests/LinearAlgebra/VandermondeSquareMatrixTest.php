@@ -5,7 +5,7 @@ use MathPHP\LinearAlgebra\VandermondeSquareMatrix;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\Exception;
 
-class VandermondeSquareMatrixTest extends \PHPUnit_Framework_TestCase
+class VandermondeSquareMatrixTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForTestConstructor

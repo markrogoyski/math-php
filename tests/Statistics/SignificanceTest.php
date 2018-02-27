@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Statistics;
 use MathPHP\Statistics\Significance;
 use MathPHP\Exception;
 
-class SignificanceTest extends \PHPUnit_Framework_TestCase
+class SignificanceTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForZScore

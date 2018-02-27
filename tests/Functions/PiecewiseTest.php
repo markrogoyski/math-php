@@ -5,7 +5,7 @@ use MathPHP\Functions\Piecewise;
 use MathPHP\Functions\Polynomial;
 use MathPHP\Exception;
 
-class PiecewiseTest extends \PHPUnit_Framework_TestCase
+class PiecewiseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Piecewise|Mock */
     private $piecewise;

@@ -3,7 +3,7 @@ namespace MathPHP\Tests\NumericalAnalysis\NumericalDifferentiation;
 
 use MathPHP\NumericalAnalysis\NumericalDifferentiation\ThreePointFormula;
 
-class ThreePointFormulaTest extends \PHPUnit_Framework_TestCase
+class ThreePointFormulaTest extends \PHPUnit\Framework\TestCase
 {
     public function testZeroError()
     {

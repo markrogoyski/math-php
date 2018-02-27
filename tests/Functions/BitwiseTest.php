@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Functions;
 
 use MathPHP\Functions\Bitwise;
 
-class BitwiseTest extends \PHPUnit_Framework_TestCase
+class BitwiseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForBitwiseAdd

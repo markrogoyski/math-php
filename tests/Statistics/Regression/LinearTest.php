@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Statistics\Regression;
 
 use MathPHP\Statistics\Regression\Linear;
 
-class LinearTest extends \PHPUnit_Framework_TestCase
+class LinearTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructor()
     {

@@ -18,7 +18,7 @@ use MathPHP\Arithmetic;
  *    - dr(a×b) = dr(dr(a) × dr(b))
  *    - dr(n) = 0 ⇔ n = 9m for m = 1, 2, 3 ⋯
  */
-class ArithmeticAxiomsTest extends \PHPUnit_Framework_TestCase
+class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Axiom: dr(n) = n ⇔ n ∈ {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}

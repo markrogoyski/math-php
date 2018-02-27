@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Statistics\Regression;
 
 use MathPHP\Statistics\Regression\LineweaverBurk;
 
-class LineweaverBurkTest extends \PHPUnit_Framework_TestCase
+class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForEquation

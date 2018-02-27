@@ -4,7 +4,7 @@ namespace MathPHP\Tests\NumberTheory;
 use MathPHP\NumberTheory\Integer;
 use MathPHP\Exception;
 
-class IntegerTest extends \PHPUnit_Framework_TestCase
+class IntegerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     isPerfectPower returns true if n is a perfect prime.

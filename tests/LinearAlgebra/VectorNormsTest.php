@@ -3,7 +3,7 @@ namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\Vector;
 
-class VectorNormsTest extends \PHPUnit_Framework_TestCase
+class VectorNormsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForL1Norm

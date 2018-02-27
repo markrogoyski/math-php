@@ -11,7 +11,7 @@
     "psr-4": { "MathPHP\\": "src/" }
   },
   "require-dev": {
-      "phpunit/phpunit": "5.*",
+      "phpunit/phpunit": "6.*",
       "satooshi/php-coveralls": "^2.0",
       "squizlabs/php_codesniffer": "2.*"
   },

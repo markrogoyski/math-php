@@ -4,7 +4,7 @@ namespace MathPHP\Tests\NumericalAnalysis\NumericalDifferentiation;
 use MathPHP\NumericalAnalysis\NumericalDifferentiation\SecondDerivativeMidpointFormula;
 use MathPHP\Exception;
 
-class SecondDerivativeMidpointFormulaTest extends \PHPUnit_Framework_TestCase
+class SecondDerivativeMidpointFormulaTest extends \PHPUnit\Framework\TestCase
 {
     public function testZeroError()
     {

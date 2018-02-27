@@ -3,7 +3,7 @@ namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Distribution\Discrete\ShiftedGeometric;
 
-class ShiftedGeometricTest extends \PHPUnit_Framework_TestCase
+class ShiftedGeometricTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForPMF

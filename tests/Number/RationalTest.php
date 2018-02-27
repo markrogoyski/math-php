@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Number;
 use MathPHP\Number\Rational;
 use MathPHP\Exception;
 
-class RationalTest extends \PHPUnit_Framework_TestCase
+class RationalTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     __toString returns the proper string representation of a rational number

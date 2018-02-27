@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Probability\Distribution\Discrete;
 use MathPHP\Probability\Distribution\Discrete\Bernoulli;
 use MathPHP\Probability\Distribution\Discrete\Binomial;
 
-class BernoulliTest extends \PHPUnit_Framework_TestCase
+class BernoulliTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     pmf
