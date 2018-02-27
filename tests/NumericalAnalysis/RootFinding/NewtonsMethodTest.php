@@ -69,9 +69,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $tol      = 0.00001;
 
         $x = NewtonsMethod::solve($func, $args, $target, $tol, $position);
-        if (!is_nan($x)) {
-            $this->assertEquals(NAN, $x);
-        }
+        $this->assertNan($x);
     }
 
     public function testNewtonsMethodNoRealSolutionsNAN()
@@ -86,8 +84,6 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $tol      = 0.00001;
 
         $x = NewtonsMethod::solve($func, $args, $target, $tol, $position);
-        if (!is_nan($x)) {
-            $this->assertEquals(NAN, $x);
-        }
+        $this->assertNan($x);
     }
 }

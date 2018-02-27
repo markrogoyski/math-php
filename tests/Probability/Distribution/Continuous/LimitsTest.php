@@ -70,14 +70,6 @@ class LimitsTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase Limits constant is correct format
      */
-    public function testDiracDeltaParameterLimits()
-    {
-        $this->limitTest(Continuous\DiracDelta::PARAMETER_LIMITS);
-    }
-
-    /**
-     * @testCase Limits constant is correct format
-     */
     public function testDiracDeltaSupportLimits()
     {
         $this->limitTest(Continuous\DiracDelta::SUPPORT_LIMITS);
@@ -241,14 +233,6 @@ class LimitsTest extends \PHPUnit\Framework\TestCase
     public function testParetoSupportLimits()
     {
         $this->limitTest(Continuous\Pareto::SUPPORT_LIMITS);
-    }
-
-    /**
-     * @testCase Limits constant is correct format
-     */
-    public function testStandardNormalParameterLimits()
-    {
-        $this->limitTest(Continuous\StandardNormal::PARAMETER_LIMITS);
     }
 
     /**

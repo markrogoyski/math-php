@@ -79,15 +79,10 @@ class CombinatoricsAxiomsTest extends \PHPUnit\Framework\TestCase
      * Axiom: L(n,2) = (n - 1)n! / 2
      * Lah number identity when k is 2
      *
-     * @dataProvider dataProivderForLahNumberIdentities
+     * @dataProvider dataProivderForLahNumberIdentitiesGreaterThanOne
      */
     public function testLahNumberIdentityKEqualsTwo(int $n)
     {
-        // Skip exception where n < k
-        if ($n === 1) {
-            return;
-        }
-
         $L⟮n、1⟯     = Combinatorics::lahNumber($n, 2);
         $⟮n−1⟯n！／2 = (($n - 1) * Combinatorics::factorial($n)) / 2;
 
@@ -107,6 +102,9 @@ class CombinatoricsAxiomsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, $L⟮n、n⟯);
     }
 
+    /**
+     * @return array
+     */
     public function dataProivderForLahNumbers()
     {
         return [
@@ -153,10 +151,31 @@ class CombinatoricsAxiomsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @return array
+     */
     public function dataProivderForLahNumberIdentities()
     {
         return [
             [1],
+            [2],
+            [3],
+            [4],
+            [5],
+            [6],
+            [7],
+            [8],
+            [9],
+            [12],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProivderForLahNumberIdentitiesGreaterThanOne()
+    {
+        return [
             [2],
             [3],
             [4],
