@@ -8,7 +8,7 @@ use MathPHP\Functions\Support;
  * The simplest case of a normal distribution.
  * This is a special case when μ = 0 and σ = 1,
  */
-class StandardNormal extends Continuous
+class StandardNormal extends Normal
 {
     /**
      * Mean is always 0
@@ -24,9 +24,14 @@ class StandardNormal extends Continuous
 
     /**
      * Distribution parameter bounds limits
+     * μ ∈ [0,0]
+     * σ ∈ [1,1]
      * @var array
      */
-    const PARAMETER_LIMITS = [];
+    const PARAMETER_LIMITS = [
+        'μ' => '[-0,0]',
+        'σ' => '[1,1]',
+    ];
 
     /**
      * Distribution support bounds limits
@@ -38,45 +43,10 @@ class StandardNormal extends Continuous
     ];
 
     /**
-     * Probability density function
-     *
-     * @param float $z random variable
-     *
-     * @return float f(z|μ,σ)
+     * StandardNormal constructor
      */
-    public function pdf(float $z)
+    public function __construct()
     {
-        Support::checkLimits(self::SUPPORT_LIMITS, ['z' => $z]);
-
-        $normal = new Normal(self::μ, self::σ);
-        return $normal->pdf($z);
-    }
-
-    /**
-     * Cumulative distribution function
-     * P value for a z score.
-     *
-     * @param float $z random variable
-     *
-     * @return float f(z|μ,σ)
-     */
-    public function cdf(float $z)
-    {
-        Support::checkLimits(self::SUPPORT_LIMITS, ['z' => $z]);
-
-        $normal = new Normal(self::μ, self::σ);
-        return $normal->cdf($z);
-    }
-    
-    /**
-     * Mean of the distribution
-     *
-     * μ = 0
-     *
-     * @return int 0
-     */
-    public function mean()
-    {
-        return self::μ;
+        parent::__construct(self::μ, self::σ);
     }
 }
