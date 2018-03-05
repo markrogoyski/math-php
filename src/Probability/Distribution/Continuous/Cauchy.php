@@ -102,7 +102,7 @@ class Cauchy extends Continuous
     }
         
     /**
-     * Meadian of the distribution
+     * Median of the distribution
      *
      * @return number x₀
      */
