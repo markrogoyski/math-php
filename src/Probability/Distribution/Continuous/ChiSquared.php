@@ -97,7 +97,7 @@ class ChiSquared extends Continuous
         // Numerator
         $γ⟮k／2、x／2⟯ = Special::γ($k / 2, $x / 2);
 
-        // Demoninator
+        // Denominator
         $Γ⟮k／2⟯ = Special::Γ($k / 2);
 
         return $γ⟮k／2、x／2⟯ / $Γ⟮k／2⟯;
