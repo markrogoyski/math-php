@@ -50,7 +50,7 @@ class DiracDelta extends Continuous
      *
      * @return number probability
      */
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         if ($x == 0) {
             return \INF;
@@ -69,9 +69,10 @@ class DiracDelta extends Continuous
      *
      * @param float $x
      * @todo how to handle x = 0, depending on context, some say CDF=.5 @ x=0
-     * @return number
+     *
+     * @return int
      */
-    public function cdf(float $x)
+    public function cdf(float $x): int
     {
         if ($x >= 0) {
             return 1;
@@ -82,8 +83,9 @@ class DiracDelta extends Continuous
     /**
      * The inverse of the CDF function
      *
+     * @return int
      */
-    public function inverse(float $p)
+    public function inverse(float $p): int
     {
         return 0;
     }
@@ -91,9 +93,9 @@ class DiracDelta extends Continuous
     /**
      * Mean of the distribution
      *
-     * @return number
+     * @return int
      */
-    public function mean()
+    public function mean(): int
     {
         return 0;
     }
