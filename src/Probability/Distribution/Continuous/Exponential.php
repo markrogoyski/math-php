@@ -88,9 +88,9 @@ class Exponential extends Continuous
      *
      * μ = λ⁻¹
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
         return 1 / $this->λ;
     }
