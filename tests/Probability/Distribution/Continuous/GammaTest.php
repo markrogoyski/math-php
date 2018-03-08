@@ -8,12 +8,12 @@ class GammaTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     pdf
      * @dataProvider dataProviderForPdf
-     * @param number $x   x ∈ (0,1)
-     * @param number $k   shape parameter α > 0
-     * @param number $θ   scale parameter θ > 0
-     * @param number $pdf
+     * @param        float $x   x ∈ (0,1)
+     * @param        float $k   shape parameter α > 0
+     * @param        float $θ   scale parameter θ > 0
+     * @param        float $pdf
      */
-    public function testPdf($x, $k, $θ, $pdf)
+    public function testPdf(float $x, float $k, float $θ, float $pdf)
     {
         $gamma = new Gamma($k, $θ);
         $this->assertEquals($pdf, $gamma->pdf($x), '', 0.00000001);
@@ -22,7 +22,8 @@ class GammaTest extends \PHPUnit\Framework\TestCase
     /**
      * Data provider for PDF
      * Test data created with calculator http://keisan.casio.com/exec/system/1180573217
-     * @return array
+     * Additional data generated with R dgamma(x, shape = k, scale = θ)
+     * @return array [x, k, θ, pdf]
      */
     public function dataProviderForPdf(): array
     {
@@ -38,18 +39,26 @@ class GammaTest extends \PHPUnit\Framework\TestCase
             [0.1, 0.1, 0.1, 0.386691694403023771966],
             [15, 0.1, 0.1, 8.2986014463775253874E-68],
             [4, 0.5, 6, 0.05912753695472959648351],
+
+            [1, 4, 5, 0.0002183282],
+            [2, 4, 5, 0.001430016],
+            [3, 4, 5, 0.003951444],
+            [5, 4, 5, 0.01226265],
+            [15, 4, 5, 0.04480836],
+            [115, 4, 5, 4.161876e-08],
+
         ];
     }
 
     /**
      * @testCase     cdf
      * @dataProvider dataProviderForCdf
-     * @param number $x   x ∈ (0,1)
-     * @param number $k   shape parameter α > 0
-     * @param number $θ   scale parameter θ > 0
-     * @param number $cdf
+     * @param        float $x   x ∈ (0,1)
+     * @param        float $k   shape parameter α > 0
+     * @param        float $θ   scale parameter θ > 0
+     * @param        float $cdf
      */
-    public function testCdf($x, $k, $θ, $cdf)
+    public function testCdf(float $x, float $k, float $θ, float $cdf)
     {
         $gamma = new Gamma($k, $θ);
         $this->assertEquals($cdf, $gamma->cdf($x), '', 0.000001);
@@ -58,7 +67,8 @@ class GammaTest extends \PHPUnit\Framework\TestCase
     /**
      * Data provider for CDF
      * Test data created with calculator http://keisan.casio.com/exec/system/1180573217
-     * @return array
+     * Additional data generated with R pgamma(x, shape = k, scale = θ)
+     * @return array [x, k, θ, cdf]
      */
     public function dataProviderForCdf(): array
     {
@@ -74,17 +84,24 @@ class GammaTest extends \PHPUnit\Framework\TestCase
             [0.1, 0.1, 0.1, 0.975872656273672222617],
             [15, 0.1, 0.1, 1],
             [4, 0.5, 6, 0.7517869210100764165283],
+
+            [1, 4, 5, 5.684024e-05],
+            [2, 4, 5, 0.0007762514],
+            [3, 4, 5, 0.003358069],
+            [5, 4, 5, 0.01898816],
+            [15, 4, 5, 0.3527681],
+            [115, 4, 5, 0.9999998],
         ];
     }
 
     /**
      * @testCase     mean returns the expected average
      * @dataProvider dataProviderForMean
-     * @param        number $k
-     * @param        number $θ
-     * @param        number $μ
+     * @param        float $k
+     * @param        float $θ
+     * @param        float $μ
      */
-    public function testMean($k, $θ, $μ)
+    public function testMean(float $k, float $θ, float $μ)
     {
         $gamma = new Gamma($k, $θ);
         $this->assertEquals($μ, $gamma->mean(), '', 0.0001);
@@ -92,7 +109,7 @@ class GammaTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Data provider for mean
-     * @return array
+     * @return array [k, θ, μ]
      */
     public function dataProviderForMean(): array
     {
