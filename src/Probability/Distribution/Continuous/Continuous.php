@@ -6,6 +6,9 @@ use MathPHP\Exception;
 
 abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution implements ContinuousDistribution
 {
+    const GUESS_THRESHOLD = 10;
+    const GUESS_ALLOWANCE = 8;
+
     /**
      * The Inverse CDF of the distribution
      *
@@ -24,18 +27,34 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
             $initial = $this->median();
         }
 
-        $tolerance = .0000000001;
-        $dif       = $tolerance + 1;
-        $guess     = $initial;
+        $tolerance     = .0000000001;
+        $dif           = $tolerance + 1;
+        $guess         = $initial;
+        $guess_history = [];
 
         while ($dif > $tolerance) {
-            $y     = $this->cdf($guess);
-            
+            $y = $this->cdf($guess);
+
             // Since the CDF is the integral of the PDF, the PDF is the derivative of the CDF
             $slope = $this->pdf($guess);
             $del_y = $target - $y;
             $guess = $del_y / $slope + $guess;
-            $dif   = abs($del_y);
+
+            // Handle edge case of guesses flipping between two or more small numbers
+            $guess_history["$guess"] = isset($guess_history["$guess"])
+                ? $guess_history["$guess"] + 1
+                : 0;
+            if ($guess_history["$guess"] > self::GUESS_THRESHOLD) {
+                $repeated_guesses = array_filter(
+                    $guess_history,
+                    function ($repeated_guess) {
+                        return $repeated_guess > self::GUESS_ALLOWANCE;
+                    }
+                );
+                return array_sum(array_keys($repeated_guesses)) / count($repeated_guesses);
+            }
+
+            $dif = abs($del_y);
         }
         return $guess;
     }
