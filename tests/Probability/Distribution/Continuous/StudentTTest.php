@@ -6,104 +6,179 @@ use MathPHP\Probability\Distribution\Continuous\StudentT;
 class StudentTTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @dataProvider dataProviderForPDF
+     * @testCase     pdf
+     * @dataProvider dataProviderForPdf
+     * @param        float $t
+     * @param        float $ν
+     * @param        float $pdf
      */
-    public function testPDF($t, $ν, $pdf)
+    public function testPdf(float $t, float $ν, float $pdf)
     {
         $studentT = new StudentT($ν);
-        $this->assertEquals($pdf, $studentT->pdf($t), '', 0.00001);
+        $this->assertEquals($pdf, $studentT->pdf($t), '', 0.0000001);
     }
 
-    public function dataProviderForPDF()
+    /**
+     * @return array [t, ν, pdf]
+     * Generated with R dt(t, ν) from package stats
+     */
+    public function dataProviderForPdf(): array
     {
         return [
-            [1, 2, 0.192450089729875254836],
-            [-1, 2, 0.192450089729875254836],
+            [-4, 1, 0.01872411],
+            [-3, 1, 0.03183099],
+            [-2, 1, 0.06366198],
+            [-1, 1, 0.1591549],
+            [0, 1, 0.3183099],
+            [1, 1, 0.1591549],
+            [2, 1, 0.06366198],
+            [3, 1, 0.03183099],
+            [4, 1, 0.01872411],
+            [5, 1, 0.01224269],
+            [10, 1, 0.003151583],
 
-            [-5, 2, 0.007127781101],
-            [-3.9, 2, 0.01400646997],
-            [-1.1, 2, 0.1738771253],
-            [-0.1, 2, 0.3509182168],
-            [0, 2, 0.353553391],
-            [0.1, 2, 0.3509182168],
-            [2.9, 2, 0.02977308969],
-            [5, 2, 0.007127781101],
+            [-4, 2, 0.01309457],
+            [-3, 2, 0.02741012],
+            [-2, 2, 0.06804138],
+            [-1, 2, 0.1924501],
+            [0, 2, 0.3535534],
+            [1, 2, 0.1924501],
+            [2, 2, 0.06804138],
+            [3, 2, 0.02741012],
+            [4, 2, 0.01309457],
+            [5, 2, 0.007127781],
+            [10, 2, 0.0009707329],
 
-            [-5, 6, 0.001220840981],
-            [-1.4, 6, 0.1423079919],
-            [0, 6, 0.382732772],
-            [1, 6, 0.223142291],
-            [2.9, 6, 0.0178279372],
-            [5, 6, 0.001220840981],
+            [-4, 6, 0.004054578],
+            [-3, 6, 0.01549193],
+            [-2, 6, 0.06403612],
+            [-1, 6, 0.2231423],
+            [0, 6, 0.3827328],
+            [1, 6, 0.2231423],
+            [2, 6, 0.06403612],
+            [3, 6, 0.01549193],
+            [4, 6, 0.004054578],
+            [5, 6, 0.001220841],
+            [10, 6, 1.651408e-05],
         ];
     }
 
     /**
-     * @dataProvider dataProviderForCDF
+     * @testCase     cdf
+     * @dataProvider dataProviderForCdf
+     * @param        float $t
+     * @param        float $ν
+     * @param        float $cdf
      */
-    public function testCDF($t, $ν, $cdf)
+    public function testCdf(float $t, float $ν, float $cdf)
     {
         $studentT = new StudentT($ν);
-        $this->assertEquals($cdf, $studentT->cdf($t), '', 0.00001);
+        $this->assertEquals($cdf, $studentT->cdf($t), '', 0.0000001);
     }
 
-    public function dataProviderForCDF()
+    /**
+     * @return array [t, ν, cdf]
+     * Generated with R pt(t, ν) from package stats
+     */
+    public function dataProviderForCdf(): array
     {
         return [
-            [1, 2, 0.788675134594812882255],
-            [-1, 2, 0.211324865405187117745],
-            [-2, 3, 0.069662984279421588424],
+            [-4, 1, 0.07797913],
+            [-3, 1, 0.1024164],
+            [-2, 1, 0.1475836],
+            [-1, 1, 0.25],
+            [0, 1, 0.5],
+            [1, 1, 0.75],
+            [2, 1, 0.8524164],
+            [3, 1, 0.8975836],
+            [4, 1, 0.9220209],
+            [5, 1, 0.937167],
+            [10, 1, 0.9682745],
 
+            [-4, 2, 0.02859548],
+            [-3, 2, 0.04773298],
+            [-2, 2, 0.09175171],
+            [-1, 2, 0.2113249],
             [0, 2, 0.5],
-            [0.1, 2, 0.5352672808],
-            [2.9, 2, 0.9494099023],
-            [5, 2, 0.9811252243],
+            [1, 2, 0.7886751],
+            [2, 2, 0.9082483],
+            [3, 2, 0.952267],
+            [4, 2, 0.9714045],
+            [5, 2, 0.9811252],
+            [10, 2, 0.9950738],
 
+            [-4, 6, 0.003559489],
+            [-3, 6, 0.0120041],
+            [-2, 6, 0.04621316],
+            [-1, 6, 0.1779588],
             [0, 6, 0.5],
-            [1, 6, 0.8220411581],
-            [3.9, 6, 0.9960080137],
-            [5, 6, 0.9987738291],
+            [1, 6, 0.8220412],
+            [2, 6, 0.9537868],
+            [3, 6, 0.9879959],
+            [4, 6, 0.9964405],
+            [5, 6, 0.9987738],
+            [10, 6, 0.999971],
 
+            [-2, 3, 0.06966298],
+            [0.1, 2, 0.5352673],
+            [2.9, 2, 0.9494099],
+            [3.9, 6, 0.996008],
         ];
     }
 
     /**
+     * @testCase     mean
      * @dataProvider dataProviderForMean
+     * @param        float $ν
+     * @param        float $μ
      */
-    public function testMean($ν, $μ)
+    public function testMean(float $ν, float $μ)
     {
         $studentT = new StudentT($ν);
         $this->assertEquals($μ, $studentT->mean());
     }
 
-    public function dataProviderForMean()
+    /**
+     * @return array [ν, μ]
+     */
+    public function dataProviderForMean(): array
     {
         return [
             [2, 0],
             [3, 0],
         ];
     }
-    
-    public function testMeanNAN()
+
+    /**
+     * @testCase mean is not a number when ν is less than or equal to 1
+     */
+    public function testMeanNan()
     {
         $studentT = new StudentT(1);
         $this->assertNan($studentT->mean());
     }
-    
+
     /**
+     * @testCase     inverse
      * @dataProvider dataProviderForInverse
+     * @param        float $p
+     * @param        float $ν
+     * @param        float $x
      */
-    public function testInverse($p, $ν, $x)
+    public function testInverse(float $p, float $ν, float $x)
     {
         $studentT = new StudentT($ν);
         $this->assertEquals($x, $studentT->inverse($p));
     }
 
-    public function dataProviderForInverse()
+    /**
+     * @return array [p, ν, x]
+     */
+    public function dataProviderForInverse(): array
     {
         return [
-            [.6, 1, 0.3249196962],
-            [.6, 2, 0.2886751346],
+            [0.6, 1, 0.3249196962],
+            [0.6, 2, 0.2886751346],
         ];
     }
 }

@@ -19,7 +19,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     {
         $noncentral_t = new NoncentralT($ν, $μ);
         $tol = abs(self::ε * $pdf);
-        $this->assertEquals($pdf,  $noncentral_t->pdf($t), '', $tol);
+        $this->assertEquals($pdf, $noncentral_t->pdf($t), '', $tol);
     }
 
     /**
