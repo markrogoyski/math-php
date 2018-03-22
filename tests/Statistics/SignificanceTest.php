@@ -9,14 +9,22 @@ use MathPHP\Exception;
 class SignificanceTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     zScore table value
      * @dataProvider dataProviderForZScore
+     * @param        float $μ
+     * @param        float $σ
+     * @param        float $M
+     * @param        float $z
      */
-    public function testZScore($μ, $σ, $M, $z)
+    public function testZScore(float $μ, float $σ, float $M, float $z)
     {
         $this->assertEquals($z, Significance::zScore($M, $μ, $σ, Significance::Z_TABLE_VALUE), '', 0.001);
     }
 
-    public function dataProviderForZScore()
+    /**
+     * @return array [μ, σ, M, z]
+     */
+    public function dataProviderForZScore(): array
     {
         return [
             [1, 1, 1, 0],
@@ -30,14 +38,22 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     zScore raw value
      * @dataProvider dataProviderForZScoreRaw
+     * @param        float $μ
+     * @param        float $σ
+     * @param        float $M
+     * @param        float $z
      */
-    public function testZScoreRaw($μ, $σ, $M, $z)
+    public function testZScoreRaw(float $μ, float $σ, float $M, float $z)
     {
         $this->assertEquals($z, Significance::zScore($M, $μ, $σ, Significance::Z_RAW_VALUE), '', 0.01);
     }
 
-    public function dataProviderForZScoreRaw()
+    /**
+     * @return array [μ, σ, M, z]
+     */
+    public function dataProviderForZScoreRaw(): array
     {
         return [
             [1, 1, 1, 0],
@@ -51,14 +67,21 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider dataProviderForSEM
+     * @testCase     sem
+     * @dataProvider dataProviderForSem
+     * @param        float $σ
+     * @param        int   $n
+     * @param        float $sem
      */
-    public function testSEM($σ, int $n, $sem)
+    public function testSem(float $σ, int $n, float $sem)
     {
         $this->assertEquals($sem, Significance::sem($σ, $n), '', 0.0001);
     }
 
-    public function dataProviderForSEM()
+    /**
+     * @return array [σ, n, sem]
+     */
+    public function dataProviderForSem(): array
     {
         return [
             [5, 100, 0.5],
@@ -68,17 +91,26 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     zTestOneSample
      * @dataProvider dataProviderForZTestOneSample
+     * @param        float $Hₐ
+     * @param        int   $n
+     * @param        float $H₀
+     * @param        float $σ
+     * @param        array $ztest
      */
-    public function testZTestOneSample($Hₐ, $n, $H₀, $σ, array $ztest)
+    public function testZTestOneSample(float $Hₐ, int $n, float $H₀, float $σ, array $ztest)
     {
         $this->assertEquals($ztest, Significance::zTest($Hₐ, $n, $H₀, $σ), '', 0.001);
     }
 
-    // Test data created from these sites:
-    //  - http://www.socscistatistics.com/tests/ztest_sample_mean/Default2.aspx
-    //  - https://www.easycalculation.com/statistics/p-value-for-z-score.php
-    public function dataProviderForZTestOneSample()
+    /**
+     * @return array [Hₐ, n, H₀, σ, ztest]
+     * Test data created from these sites:
+     *   - http://www.socscistatistics.com/tests/ztest_sample_mean/Default2.aspx
+     *   - https://www.easycalculation.com/statistics/p-value-for-z-score.php
+     */
+    public function dataProviderForZTestOneSample(): array
     {
         return [
             [96, 55, 100, 12, ['z' => -2.4720661623652, 'p1' => 0.00676, 'p2' => 0.013436]],
@@ -93,14 +125,23 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     tScore
      * @dataProvider dataProviderForTScore
+     * @param        float $Hₐ
+     * @param        float $s
+     * @param        int   $n
+     * @param        float $H₀
+     * @param        float $t
      */
-    public function testTScore($Hₐ, $s, $n, $H₀, $t)
+    public function testTScore(float $Hₐ, float $s, int $n, float $H₀, float $t)
     {
         $this->assertEquals($t, Significance::tScore($Hₐ, $s, $n, $H₀), '', 0.001);
     }
 
-    public function dataProviderForTScore()
+    /**
+     * @return array [Hₐ, s, n, H₀, t]
+     */
+    public function dataProviderForTScore(): array
     {
         return [
             [130.1, 21.21, 100, 120, 4.762],
@@ -172,7 +213,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
      * t, df, p2 generated with R t.test(x, mu=H₀)
      * p1 generated with calculators http://www.socscistatistics.com/pvalues/tdistribution.aspx and https://www.danielsoper.com/statcalc/calculator.aspx?id=8
      */
-    public function dataProviderForTTestOneSample()
+    public function dataProviderForTTestOneSample(): array
     {
         return [
             [
@@ -254,14 +295,23 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     testTestFromSummaryData more tests
      * @dataProvider dataProviderForTTestOneSampleFromSummaryData
+     * @param        float $Hₐ
+     * @param        float $s
+     * @param        int   $n
+     * @param        float $H₀
+     * @param        array $ttest
      */
-    public function testTTestOneSampleFromSummaryData2($Hₐ, $s, $n, $H₀, array $ttest)
+    public function testTTestOneSampleFromSummaryData2(float $Hₐ, float $s, int $n, float $H₀, array $ttest)
     {
         $this->assertEquals($ttest, Significance::tTestOneSampleFromSummaryData($Hₐ, $s, $n, $H₀), '', 0.001);
     }
 
-    public function dataProviderForTTestOneSampleFromSummaryData()
+    /**
+     * @return array [Hₐ, s, n, H₀, ttest]
+     */
+    public function dataProviderForTTestOneSampleFromSummaryData(): array
     {
         return [
             [130.1, 21.21, 100, 120, ['t' => 4.762, 'df' => 99, 'p1' => 0, 'p2' => 0, 'mean' => 130.1, 'sd' => 21.21]],
@@ -274,18 +324,18 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     tTest for two samples
      * @dataProvider dataProviderFortTestTwoSampleDataSet
-     * @param        array  $x₁
-     * @param        array  $x₂
-     * @param        number $μ₁ Sample mean of population 1
-     * @param        number $μ₂ Sample mean of population 2
-     * @param        int    $n₁ Sample size of population 1
-     * @param        int    $n₂ Sample size of population 1
-     * @param        number $σ₁ Standard deviation of sample mean 1
-     * @param        number $σ₂ Standard deviation of sample mean 2
+     * @param        array $x₁
+     * @param        array $x₂
+     * @param        float $μ₁ Sample mean of population 1
+     * @param        float $μ₂ Sample mean of population 2
+     * @param        int   $n₁ Sample size of population 1
+     * @param        int   $n₂ Sample size of population 1
+     * @param        float $σ₁ Standard deviation of sample mean 1
+     * @param        float $σ₂ Standard deviation of sample mean 2
      * @param        array  $expected
      * @throws       Exception\BadParameterException
      */
-    public function testtTestWithTwoSamples(array $x₁, array $x₂, $μ₁, $μ₂, int $n₁, int $n₂, $σ₁, $σ₂, array $expected)
+    public function testtTestWithTwoSamples(array $x₁, array $x₂, float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, array $expected)
     {
         $tTest = Significance::tTest($x₁, $x₂);
         $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
@@ -301,17 +351,17 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     tTestTwoSample
      * @dataProvider dataProviderFortTestTwoSampleDataSet
-     * @param        array  $x₁
-     * @param        array  $x₂
-     * @param        number $μ₁ Sample mean of population 1
-     * @param        number $μ₂ Sample mean of population 2
-     * @param        int    $n₁ Sample size of population 1
-     * @param        int    $n₂ Sample size of population 1
-     * @param        number $σ₁ Standard deviation of sample mean 1
-     * @param        number $σ₂ Standard deviation of sample mean 2
+     * @param        array $x₁
+     * @param        array $x₂
+     * @param        float $μ₁ Sample mean of population 1
+     * @param        float $μ₂ Sample mean of population 2
+     * @param        int   $n₁ Sample size of population 1
+     * @param        int   $n₂ Sample size of population 1
+     * @param        float $σ₁ Standard deviation of sample mean 1
+     * @param        float $σ₂ Standard deviation of sample mean 2
      * @param        array  $expected
      */
-    public function testtTestTwoSample(array $x₁, array $x₂, $μ₁, $μ₂, int $n₁, int $n₂, $σ₁, $σ₂, array $expected)
+    public function testtTestTwoSample(array $x₁, array $x₂, float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, array $expected)
     {
         $tTest = Significance::tTestTwoSample($x₁, $x₂);
         $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
@@ -327,17 +377,17 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     tTestTwoSampleFromSummaryData
      * @dataProvider dataProviderFortTestTwoSampleDataSet
-     * @param        array  $x₁
-     * @param        array  $x₂
-     * @param        number $μ₁ Sample mean of population 1
-     * @param        number $μ₂ Sample mean of population 2
-     * @param        int    $n₁ Sample size of population 1
-     * @param        int    $n₂ Sample size of population 1
-     * @param        number $σ₁ Standard deviation of sample mean 1
-     * @param        number $σ₂ Standard deviation of sample mean 2
+     * @param        array $x₁
+     * @param        array $x₂
+     * @param        float $μ₁ Sample mean of population 1
+     * @param        float $μ₂ Sample mean of population 2
+     * @param        int   $n₁ Sample size of population 1
+     * @param        int   $n₂ Sample size of population 1
+     * @param        float $σ₁ Standard deviation of sample mean 1
+     * @param        float $σ₂ Standard deviation of sample mean 2
      * @param        array  $expected
      */
-    public function testtTestTwoSampleFromSummaryData(array $x₁, array $x₂, $μ₁, $μ₂, int $n₁, int $n₂, $σ₁, $σ₂, array $expected)
+    public function testtTestTwoSampleFromSummaryData(array $x₁, array $x₂, float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, array $expected)
     {
         $tTest = Significance::tTestTwoSampleFromSummaryData($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂);
         $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
@@ -422,15 +472,15 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     tTestTwoSampleFromSummaryData regressions
      * @dataProvider dataProviderForTTestTwoSampleFromSummaryData
-     * @param        number $μ₁ Sample mean of population 1
-     * @param        number $μ₂ Sample mean of population 2
-     * @param        int    $n₁ Sample size of population 1
-     * @param        int    $n₂ Sample size of population 1
-     * @param        number $σ₁ Standard deviation of sample mean 1
-     * @param        number $σ₂ Standard deviation of sample mean 2
+     * @param        float $μ₁ Sample mean of population 1
+     * @param        float $μ₂ Sample mean of population 2
+     * @param        int   $n₁ Sample size of population 1
+     * @param        int   $n₂ Sample size of population 1
+     * @param        float $σ₁ Standard deviation of sample mean 1
+     * @param        float $σ₂ Standard deviation of sample mean 2
      * @param        array  $expected
      */
-    public function testTTestTwoSampleFromSummaryDataRegression($μ₁, $μ₂, int $n₁, int $n₂, $σ₁, $σ₂, array $expected)
+    public function testTTestTwoSampleFromSummaryDataRegression(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, array $expected)
     {
         $tTest = Significance::tTestTwoSampleFromSummaryData($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂);
         $this->assertEquals($expected['t'], $tTest['t'], '', 0.0001);
@@ -470,9 +520,15 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     chiSquaredTest
      * @dataProvider dataProviderForChiSquaredTest
+     * @param        array $observed
+     * @param        array $expected
+     * @param        float $χ²
+     * @param        float $p
+     * @throws       \Exception
      */
-    public function testChiSquaredTest(array $observed, array $expected, $χ², $p)
+    public function testChiSquaredTest(array $observed, array $expected, float $χ², float $p)
     {
         $chi = Significance::chiSquaredTest($observed, $expected);
 
@@ -480,7 +536,10 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($p, $chi['p'], '', 0.0001);
     }
 
-    public function dataProviderForChiSquaredTest()
+    /**
+     * @return array [observed, expected, χ², p]
+     */
+    public function dataProviderForChiSquaredTest(): array
     {
         return [
             // Example data from Statistics (Freedman, Pisani, Purves)
@@ -512,6 +571,9 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @testCase chiSquaredTest BadDataException
+     */
     public function testChiSquaredTestExceptionCountsDiffer()
     {
         $observed = [1, 2, 3, 4];
