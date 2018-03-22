@@ -2031,7 +2031,7 @@ $σ = 1; // Population SD
 $z = Significance::zScore($μ, $σ, $x);
 
 // T test - One sample (from sample data)
-$a     = [3, 4, 4, 5, 5, 5, 6, 6, 7, 8]; // data set
+$a     = [3, 4, 4, 5, 5, 5, 6, 6, 7, 8]; // Data set
 $H₀    = 300;                            // Null hypothesis (μ₀ Population mean)
 $tTest = Significance::tTest($a, $H₀)
 print_r($tTest);
@@ -2049,7 +2049,7 @@ $Hₐ    = 280; // Alternate hypothesis (M Sample mean)
 $s     = 50;  // Standard deviation of sample
 $n     = 15;  // Sample size
 $H₀    = 300; // Null hypothesis (μ₀ Population mean)
-$ttest = Significance::tTestOneSampleFromSummaryData($Hₐ, $s, $n, $H₀);
+$tTest = Significance::tTestOneSampleFromSummaryData($Hₐ, $s, $n, $H₀);
 print_r($tTest);
 /* Array (
     [t]    => -1.549193338483    // t score
