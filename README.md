@@ -2030,30 +2030,70 @@ $μ = 7; // Population mean
 $σ = 1; // Population SD
 $z = Significance::zScore($μ, $σ, $x);
 
-// T test - One sample (t and p values)
-$Hₐ = 280; // Alternate hypothesis (M Sample mean)
-$s  = 50;  // SD of sample
-$n  = 15;  // Sample size
-$H₀ = 300; // Null hypothesis (μ₀ Population mean)
-$t  = Significance::tTestOneSample($Hₐ, $s, $n, $H₀);
-/* [
-  't'  => -1.549, // t score
-  'p1' => 0.0718, // one-tailed p value
-  'p2' => 0.1437, // two-tailed p value
-] */
+// T test - One sample (from sample data)
+$a     = [3, 4, 4, 5, 5, 5, 6, 6, 7, 8]; // data set
+$H₀    = 300;                            // Null hypothesis (μ₀ Population mean)
+$tTest = Significance::tTest($a, $H₀)
+print_r($tTest);
+/* Array (
+    [t]    => 0.42320736951516  // t score
+    [df]   => 9                 // degrees of freedom
+    [p1]   => 0.34103867713806  // one-tailed p value
+    [p2]   => 0.68207735427613  // two-tailed p value
+    [mean] => 5.3               // sample mean
+    [sd]   => 1.4944341180973   // standard deviation
+) */
 
-// T test - Two samples (t and p values)
-$μ₁ = 42.14; // Sample mean of population 1
-$μ₂ = 43.23; // Sample mean of population 2
-$n₁ = 10;    // Sample size of population 1
-$n₂ = 10;    // Sample size of population 2
-$σ₁ = 0.683; // Standard deviation of sample mean 1
-$σ₂ = 0.750; // Standard deviation of sample mean 2
-$t  = Significance::tTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂);
-/* [
-  't'  => -3.3978,  // t score
-  'p1' => 0.001604, // one-tailed p value
-  'p2' => 0.181947, // two-tailed p value
+// T test - One sample (from summary data)
+$Hₐ    = 280; // Alternate hypothesis (M Sample mean)
+$s     = 50;  // Standard deviation of sample
+$n     = 15;  // Sample size
+$H₀    = 300; // Null hypothesis (μ₀ Population mean)
+$ttest = Significance::tTestOneSampleFromSummaryData($Hₐ, $s, $n, $H₀);
+print_r($tTest);
+/* Array (
+    [t]    => -1.549193338483    // t score
+    [df]   => 14                 // degreees of freedom
+    [p1]   => 0.071820000122611  // one-tailed p value
+    [p2]   => 0.14364000024522   // two-tailed p value
+    [mean] => 280                // sample mean
+    [sd]   => 50                 // standard deviation
+) */
+
+// T test - Two samples (from sample data)
+$x₁    = [27.5, 21.0, 19.0, 23.6, 17.0, 17.9, 16.9, 20.1, 21.9, 22.6, 23.1, 19.6, 19.0, 21.7, 21.4];
+$x₂    = [27.1, 22.0, 20.8, 23.4, 23.4, 23.5, 25.8, 22.0, 24.8, 20.2, 21.9, 22.1, 22.9, 20.5, 24.4];
+$tTest = Significance::tTest($x₁, $x₂);
+print_r($tTest);
+/* Array (
+    [t]     => -2.4553600286929   // t score
+    [df]    => 24.988527070145    // degrees of freedom
+    [p1]    => 0.010688914613979  // one-tailed p value
+    [p2]    => 0.021377829227958  // two-tailed p value
+    [mean1] => 20.82              // mean of sample x₁
+    [mean2] => 22.98667           // mean of sample x₂
+    [sd1]   => 2.804894           // standard deviation of x₁
+    [sd2]   => 1.952605           // standard deviation of x₂
+) */
+
+// T test - Two samples (from summary data)
+$μ₁    = 42.14; // Sample mean of population 1
+$μ₂    = 43.23; // Sample mean of population 2
+$n₁    = 10;    // Sample size of population 1
+$n₂    = 10;    // Sample size of population 2
+$σ₁    = 0.683; // Standard deviation of sample mean 1
+$σ₂    = 0.750; // Standard deviation of sample mean 2
+$tTest = Significance::tTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂);
+print_r($tTest);
+/* Array (
+   [t] => -3.3972305988708     // t score
+   [df] => 17.847298548027     // degrees of freedom
+   [p1] => 0.0016211251126198  // one-tailed p value
+   [p2] => 0.0032422502252396  // two-tailed p value
+   [mean1] => 42.14
+   [mean2] => 43.23
+   [sd1] => 0.6834553
+   [sd2] => 0.7498889
 ] */
 
 // T score

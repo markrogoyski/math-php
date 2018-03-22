@@ -170,7 +170,64 @@ class Significance
     }
 
     /**
+     * t-test - one sample or two sample tests
+     * https://en.wikipedia.org/wiki/Student%27s_t-test
+     *
+     * @param array $a sample set 1
+     * @param float|array $b population mean for one sampe t test; sample set 2 for two sample t-test
+     *
+     * @return array
+     *
+     * @throws Exception\BadParameterException
+     */
+    public static function tTest(array $a, $b): array
+    {
+        if (is_numeric($b)) {
+            return self::tTestOneSample($a, $b);
+        }
+        if (is_array($b)) {
+            return self::tTestTwoSample($a, $b);
+        }
+
+        throw new Exception\BadParameterException('Second parameter must be numeric for one-sample t-test, or an array for two-sample t-test');
+    }
+
+    /**
      * One-sample Student's t-test
+     * Compares sample mean to the population mean.
+     * https://en.wikipedia.org/wiki/Student%27s_t-test
+     *
+     *     Hₐ - H₀   M - μ   M - μ   M - μ
+     * t = ------- = ----- = ----- = -----
+     *        σ        σ      SEM     σ/√n
+     *
+     * p1 = CDF below if left tailed
+     *    = CDF above if right tailed
+     * p2 = CDF outside
+     *
+     * @param array  $a  Sample set
+     * @param number $H₀ Null hypothesis (μ₀ Population mean)
+     *
+     * @return array [
+     *   t    => t score
+     *   df   => degrees of freedom
+     *   p1   => one-tailed p value (left or right tail depends on how Hₐ differs from H₀)
+     *   p2   => two-tailed p value
+     *   mean => sample mean
+     *   sd   => standard deviation
+     * ]
+     */
+    public static function tTestOneSample(array $a, $H₀): array
+    {
+        $n  = count($a);
+        $Hₐ = Average::mean($a);
+        $σ  = Descriptive::standardDeviation($a, Descriptive::SAMPLE);
+
+        return self::tTestOneSampleFromSummaryData($Hₐ, $σ, $n, $H₀);
+    }
+
+    /**
+     * One-sample Student's t-test from summary data
      * Compares sample mean to the population mean.
      * https://en.wikipedia.org/wiki/Student%27s_t-test
      *
@@ -188,12 +245,15 @@ class Significance
      * @param number $H₀ Null hypothesis (μ₀ Population mean)
      *
      * @return array [
-     *   z  => z score
-     *   p1 => one-tailed p value (left or right tail depends on how Hₐ differs from H₀)
-     *   p2 => two-tailed p value
+     *   t    => t score
+     *   df   => degrees of freedom
+     *   p1   => one-tailed p value (left or right tail depends on how Hₐ differs from H₀)
+     *   p2   => two-tailed p value
+     *   mean => sample mean
+     *   sd   => standard deviation
      * ]
      */
-    public static function tTestOneSample($Hₐ, $s, $n, $H₀): array
+    public static function tTestOneSampleFromSummaryData($Hₐ, $s, $n, $H₀): array
     {
         // Calculate test statistic t
         $t = self::tScore($Hₐ, $s, $n, $H₀);
@@ -211,35 +271,107 @@ class Significance
         $p2 = $studentT->outside(-abs($t), abs($t));
 
         return [
-            't'  => $t,
-            'p1' => $p1,
-            'p2' => $p2,
+            't'    => $t,
+            'df'   => $ν,
+            'p1'   => $p1,
+            'p2'   => $p2,
+            'mean' => $Hₐ,
+            'sd'   => $s,
         ];
     }
 
     /**
-     * Two-sample t-test
+     * Two-sample t-test (Welch's test)
      * Test the means of two samples.
      * https://en.wikipedia.org/wiki/Student%27s_t-test
      *
-     *      μ₁ - μ₂ - Δ
+     *        μ₁ - μ₂
      * t = --------------
      *        _________
      *       /σ₁²   σ₂²
      *      / --- + ---
      *     √   n₁    n₂
      *
+     *
+     *         / σ₁²   σ₂² \²
+     *        | --- + ---  |
+     *         \ n₁    n₂  /
+     * ν =  -------------------
+     *      (σ₁²/n₁)²  (σ₂²/n₂)²
+     *      -------- + --------
+     *       n₁ - 1     n₂ - 1
+     *
      * where
      *  μ₁ is sample mean 1
      *  μ₂ is sample mean 2
-     *  Δ  is the hypothesized difference between the population means (0 if testing for equal means)
      *  σ₁ is standard deviation of sample mean 1
      *  σ₂ is standard deviation of sample mean 2
      *  n₁ is sample size of mean 1
      *  n₂ is sample size of mean 2
+     *  t  is test statistic
+     *  ν  is degrees of freedom
      *
-     * For Student's t distribution CDF, degrees of freedom:
-     *  ν = (n₁ - 1) + (n₂ - 1)
+     * p1 = CDF above
+     * p2 = CDF outside
+     *
+     * @param array $x₁ sample set 1
+     * @param array $x₂ sample set 2
+     *
+     * @return array [
+     *   t     => t score
+     *   df    => degrees of freedom
+     *   p1    => one-tailed p value
+     *   p2    => two-tailed p value
+     *   mean1 => mean of sample set 1
+     *   mean2 => mean of sample set 2
+     *   sd1   => standard deviation of sample set 1
+     *   sd2   => standard deviation of sample set 2
+     * ]
+     */
+    public static function tTestTwoSample(array $x₁, array $x₂): array
+    {
+        $n₁ = count($x₁);
+        $n₂ = count($x₂);
+
+        $μ₁ = Average::mean($x₁);
+        $μ₂ = Average::mean($x₂);
+
+        $σ₁ = Descriptive::sd($x₁, Descriptive::SAMPLE);
+        $σ₂ = Descriptive::sd($x₂, Descriptive::SAMPLE);
+
+        return self::tTestTwoSampleFromSummaryData($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂);
+    }
+
+    /**
+     * Two-sample t-test (Welch's test) from summary data
+     * Test the means of two samples.
+     * https://en.wikipedia.org/wiki/Student%27s_t-test
+     *
+     *        μ₁ - μ₂
+     * t = --------------
+     *        _________
+     *       /σ₁²   σ₂²
+     *      / --- + ---
+     *     √   n₁    n₂
+     *
+     *
+     *         / σ₁²   σ₂² \²
+     *        | --- + ---  |
+     *         \ n₁    n₂  /
+     * ν =  -------------------
+     *      (σ₁²/n₁)²  (σ₂²/n₂)²
+     *      -------- + --------
+     *       n₁ - 1     n₂ - 1
+     *
+     * where
+     *  μ₁ is sample mean 1
+     *  μ₂ is sample mean 2
+     *  σ₁ is standard deviation of sample mean 1
+     *  σ₂ is standard deviation of sample mean 2
+     *  n₁ is sample size of mean 1
+     *  n₂ is sample size of mean 2
+     *  t  is test statistic
+     *  ν  is degrees of freedom
      *
      * p1 = CDF above
      * p2 = CDF outside
@@ -250,21 +382,27 @@ class Significance
      * @param number $n₂ Sample size of population 1
      * @param number $σ₁ Standard deviation of sample mean 1
      * @param number $σ₂ Standard deviation of sample mean 2
-     * @param number $Δ  (Optional) hypothesized difference between the population means (0 if testing for equal means)
      *
      * @return array [
-     *   t  => t score
-     *   p1 => one-tailed p value
-     *   p2 => two-tailed p value
+     *   t     => t score
+     *   df    => degrees of freedom
+     *   p1    => one-tailed p value
+     *   p2    => two-tailed p value
+     *   mean1 => mean of sample set 1
+     *   mean2 => mean of sample set 2
+     *   sd1   => standard deviation of sample set 1
+     *   sd2   => standard deviation of sample set 2
      * ]
      */
-    public static function tTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂, $Δ = 0): array
+    public static function tTestTwoSampleFromSummaryData($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂): array
     {
         // Calculate t score (test statistic)
-        $t = ($μ₁ - $μ₂ - $Δ) / sqrt((($σ₁**2) / $n₁) + (($σ₂**2) / $n₂));
+        $t = ($μ₁ - $μ₂) / sqrt((($σ₁**2) / $n₁) + (($σ₂**2) / $n₂));
 
         // Degrees of freedom
-        $ν = ($n₁ - 1) + ($n₂ - 1);
+        $ν = ((($σ₁**2) / $n₁) + (($σ₂**2) / $n₂))**2
+            /
+            (((($σ₁**2) / $n₁)**2 / ($n₁ - 1)) + ((($σ₂**2) / $n₂)**2 / ($n₂ - 1)));
 
         // One- and two-tailed P values
         $studentT = new StudentT($ν);
@@ -273,8 +411,13 @@ class Significance
 
         return [
             't'  => $t,
+            'df' => $ν,
             'p1' => $p1,
             'p2' => $p2,
+            'mean1' => $μ₁,
+            'mean2' => $μ₂,
+            'sd1'   => $σ₁,
+            'sd2'   => $σ₂,
         ];
     }
 
