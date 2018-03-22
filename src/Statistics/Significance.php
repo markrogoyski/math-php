@@ -24,10 +24,10 @@ class Significance
      * One-sample Z-test
      * Convenience method for zTestOneSample()
      *
-     * @param number $Hₐ Alternate hypothesis (M Sample mean)
-     * @param int    $n  Sample size
-     * @param number $H₀ Null hypothesis (μ Population mean)
-     * @param number $σ  SD of population (Standard error of the mean)
+     * @param float $Hₐ Alternate hypothesis (M Sample mean)
+     * @param int   $n  Sample size
+     * @param float $H₀ Null hypothesis (μ Population mean)
+     * @param float $σ  SD of population (Standard error of the mean)
      *
      * @return array [
      *   z  => z score
@@ -35,7 +35,7 @@ class Significance
      *   p2 => two-tailed p value
      * ]
      */
-    public static function zTest($Hₐ, $n, $H₀, $σ): array
+    public static function zTest(float $Hₐ, int $n, float $H₀, float $σ): array
     {
         return self::zTestOneSample($Hₐ, $n, $H₀, $σ);
     }
@@ -53,10 +53,10 @@ class Significance
      *    = CDF above if right tailed
      * p2 = CDF outside
      *
-     * @param number $Hₐ Alternate hypothesis (M Sample mean)
-     * @param int    $n  Sample size
-     * @param number $H₀ Null hypothesis (μ Population mean)
-     * @param number $σ  SD of population (Standard error of the mean)
+     * @param float $Hₐ Alternate hypothesis (M Sample mean)
+     * @param int   $n  Sample size
+     * @param float $H₀ Null hypothesis (μ Population mean)
+     * @param float $σ  SD of population (Standard error of the mean)
      *
      * @return array [
      *   z  => z score
@@ -64,7 +64,7 @@ class Significance
      *   p2 => two-tailed p value
      * ]
      */
-    public static function zTestOneSample($Hₐ, $n, $H₀, $σ): array
+    public static function zTestOneSample(float $Hₐ, int $n, float $H₀, float $σ): array
     {
         // Calculate z score (test statistic)
         $sem = self::sem($σ, $n);
@@ -114,13 +114,13 @@ class Significance
      * p1 = CDF above
      * p2 = CDF outside
      *
-     * @param number $μ₁ Sample mean of population 1
-     * @param number $μ₂ Sample mean of population 2
-     * @param number $n₁ Sample size of population 1
-     * @param number $n₂ Sample size of population 1
-     * @param number $σ₁ Standard deviation of sample mean 1
-     * @param number $σ₂ Standard deviation of sample mean 2
-     * @param number $Δ  (Optional) hypothesized difference between the population means (0 if testing for equal means)
+     * @param float $μ₁ Sample mean of population 1
+     * @param float $μ₂ Sample mean of population 2
+     * @param int   $n₁ Sample size of population 1
+     * @param int   $n₂ Sample size of population 1
+     * @param float $σ₁ Standard deviation of sample mean 1
+     * @param float $σ₂ Standard deviation of sample mean 2
+     * @param float $Δ  (Optional) hypothesized difference between the population means (0 if testing for equal means)
      *
      * @return array [
      *   z  => z score
@@ -128,7 +128,7 @@ class Significance
      *   p2 => two-tailed p value
      * ]
      */
-    public static function zTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂, $Δ = 0): array
+    public static function zTestTwoSample(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, float $Δ = 0): array
     {
         // Calculate z score (test statistic)
         $z = ($μ₁ - $μ₂ - $Δ) / sqrt((($σ₁**2) / $n₁) + (($σ₂**2) / $n₂));
@@ -153,14 +153,14 @@ class Significance
      * z = -----
      *       σ
      *
-     * @param number $M           Sample mean
-     * @param number $μ           Population mean
-     * @param number $σ           Population standard deviation
+     * @param float $M           Sample mean
+     * @param float $μ           Population mean
+     * @param float $σ           Population standard deviation
      * @param bool   $table_value Whether to return a rouned z score for looking up in a standard normal table, or the raw z score value
      *
      * @return float
      */
-    public static function zScore($M, $μ, $σ, bool $table_value = false): float
+    public static function zScore(float $M, float $μ, float $σ, bool $table_value = false): float
     {
         $z = ($M - $μ) / $σ;
 
@@ -205,8 +205,8 @@ class Significance
      *    = CDF above if right tailed
      * p2 = CDF outside
      *
-     * @param array  $a  Sample set
-     * @param number $H₀ Null hypothesis (μ₀ Population mean)
+     * @param array $a  Sample set
+     * @param float $H₀ Null hypothesis (μ₀ Population mean)
      *
      * @return array [
      *   t    => t score
@@ -217,7 +217,7 @@ class Significance
      *   sd   => standard deviation
      * ]
      */
-    public static function tTestOneSample(array $a, $H₀): array
+    public static function tTestOneSample(array $a, float $H₀): array
     {
         $n  = count($a);
         $Hₐ = Average::mean($a);
@@ -239,10 +239,10 @@ class Significance
      *    = CDF above if right tailed
      * p2 = CDF outside
      *
-     * @param number $Hₐ Alternate hypothesis (M Sample mean)
-     * @param number $s  SD of sample
+     * @param float $Hₐ Alternate hypothesis (M Sample mean)
+     * @param float $s  SD of sample
      * @param int    $n  Sample size
-     * @param number $H₀ Null hypothesis (μ₀ Population mean)
+     * @param float $H₀ Null hypothesis (μ₀ Population mean)
      *
      * @return array [
      *   t    => t score
@@ -253,7 +253,7 @@ class Significance
      *   sd   => standard deviation
      * ]
      */
-    public static function tTestOneSampleFromSummaryData($Hₐ, $s, $n, $H₀): array
+    public static function tTestOneSampleFromSummaryData(float $Hₐ, float $s, int $n, float $H₀): array
     {
         // Calculate test statistic t
         $t = self::tScore($Hₐ, $s, $n, $H₀);
@@ -376,12 +376,12 @@ class Significance
      * p1 = CDF above
      * p2 = CDF outside
      *
-     * @param number $μ₁ Sample mean of population 1
-     * @param number $μ₂ Sample mean of population 2
-     * @param number $n₁ Sample size of population 1
-     * @param number $n₂ Sample size of population 1
-     * @param number $σ₁ Standard deviation of sample mean 1
-     * @param number $σ₂ Standard deviation of sample mean 2
+     * @param float $μ₁ Sample mean of population 1
+     * @param float $μ₂ Sample mean of population 2
+     * @param int   $n₁ Sample size of population 1
+     * @param int   $n₂ Sample size of population 1
+     * @param float $σ₁ Standard deviation of sample mean 1
+     * @param float $σ₂ Standard deviation of sample mean 2
      *
      * @return array [
      *   t     => t score
@@ -394,7 +394,7 @@ class Significance
      *   sd2   => standard deviation of sample set 2
      * ]
      */
-    public static function tTestTwoSampleFromSummaryData($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂): array
+    public static function tTestTwoSampleFromSummaryData(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂): array
     {
         // Calculate t score (test statistic)
         $t = ($μ₁ - $μ₂) / sqrt((($σ₁**2) / $n₁) + (($σ₂**2) / $n₂));
@@ -428,14 +428,14 @@ class Significance
      * t = ------- = -----
      *      s/√n      s/√n
      *
-     * @param number $Hₐ Alternate hypothesis (M Sample mean)
-     * @param number $s  SD of sample
+     * @param float $Hₐ Alternate hypothesis (M Sample mean)
+     * @param float $s  SD of sample
      * @param int    $n  Sample size
-     * @param number $H₀ Null hypothesis (μ₀ Population mean)
+     * @param float $H₀ Null hypothesis (μ₀ Population mean)
      *
-     * @return number
+     * @return float
      */
-    public static function tScore($Hₐ, $s, $n, $H₀)
+    public static function tScore(float $Hₐ, float $s, int $n, float $H₀): float
     {
         return ($Hₐ - $H₀) / ($s / sqrt($n));
     }
@@ -464,7 +464,7 @@ class Significance
      *
      * @throws Exception\BadDataException if count of observed does not equal count of expected
      */
-    public static function chiSquaredTest(array $observed, array $expected)
+    public static function chiSquaredTest(array $observed, array $expected): array
     {
         // Arrays must have the same number of elements
         if (count($observed) !== count($expected)) {
@@ -506,12 +506,12 @@ class Significance
      * SEM = --
      *       √n
      *
-     * @param number $σ Population standard deviation
-     * @param int    $n Sample size (number of observations of the sample)
+     * @param float $σ Population standard deviation
+     * @param int   $n Sample size (number of observations of the sample)
      *
      * @return float
      */
-    public static function sem($σ, $n)
+    public static function sem(float $σ, int $n): float
     {
         return $σ / sqrt($n);
     }
