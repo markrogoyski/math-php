@@ -125,6 +125,39 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     zTestTwoSample
+     * @dataProvider dataProviderForZTestTwoSample
+     * @param        float $μ₁
+     * @param        float $μ₂
+     * @param        int   $n₁
+     * @param        int   $n₂
+     * @param        float $σ₁
+     * @param        float $σ₂
+     * @param        float $Δ
+     * @param        array $ztest
+     */
+    public function testZTestTwoSample(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, float $Δ, array $ztest)
+    {
+        $this->assertEquals($ztest, Significance::zTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂, $Δ), '', 0.001);
+    }
+
+    /**
+     * @return array [μ₁, μ₂, n₁, n₂, σ₁, σ₂, Δ, ztest]
+     * Test data created using this online calculator: http://www.mathcracker.com/z-test-for-two-means.php
+     */
+    public function dataProviderForZTestTwoSample(): array
+    {
+        return [
+            [28, 33, 75, 50, 14.1, 9.5, 0, ['z' => -2.36868418147285, 'p1' => 0.00893, 'p2' => 0.0179]],
+            [9.78, 15.10, 900, 1000, 4.05, 4.28, 0, ['z' => -27.83, 'p1' => 0.0, 'p2' => 0.0]],  // Test data: http://www.stat.ucla.edu/~cochran/stat10/winter/lectures/lect21.html
+            [150.0648965, 126.7361145, 68, 292, 233.8012747, 199.3031358, 0, ['z' => 0.761, 'p1' => 0.22335, 'p2' => 0.4467]],  // Github issue 175 test data
+            [3100, 2750, 75, 75, 420, 425, 0, ['z' => 5.073, 'p1' => 0.0000, 'p2' => 0.0000]],
+            [34.5, 34.9, 80, 90, 0.4, 0.8, 0, ['z' => -4.191, 'p1' => 0.0, 'p2' => 0.0]],
+            [12.2, 9.2, 1000, 1000, 10.2, 9.9, 0, ['z' => 6.674, 'p1' => 0.0, 'p2' => 0.0]],
+        ];
+    }
+
+    /**
      * @testCase     tScore
      * @dataProvider dataProviderForTScore
      * @param        float $Hₐ
