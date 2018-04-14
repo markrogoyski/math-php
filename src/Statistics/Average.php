@@ -182,15 +182,18 @@ class Average
         // Count how many times each number occurs
         // Determine the max any number occurs
         // Find all numbers that occur max times
-        $number_counts = array_count_values($numbers);
-        $max           = max($number_counts);
-        $modes         = array();
+        $number_strings = array_map('strval', $numbers);
+        $number_counts  = array_count_values($number_strings);
+        $max            = max($number_counts);
+        $modes          = array();
         foreach ($number_counts as $number => $count) {
             if ($count === $max) {
                 $modes[] = $number;
             }
         }
-        return $modes;
+
+        // Cast back to numbers
+        return array_map('floatval', $modes);
     }
 
     /**
