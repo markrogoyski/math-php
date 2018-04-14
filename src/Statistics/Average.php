@@ -228,7 +228,7 @@ class Average
      * @param  array  $numbers
      * @return number
      *
-     * @throws BadDataException if there are negative numbers
+     * @throws Exception\BadDataException if there are negative numbers
      */
     public static function harmonicMean(array $numbers)
     {
@@ -332,6 +332,8 @@ class Average
      *
      * @param  array  $numbers
      * @return number
+     *
+     * @throws Exception\OutOfBoundsException
      */
     public static function interquartileMean(array $numbers)
     {
@@ -344,6 +346,8 @@ class Average
      *
      * @param  array  $numbers
      * @return number
+     *
+     * @throws Exception\OutOfBoundsException
      */
     public static function iqm(array $numbers)
     {
@@ -613,7 +617,7 @@ class Average
      *
      * @return array of averages
      *
-     * @throws BadDataException if number of weights is not equal to number of n-points
+     * @throws Exception\BadDataException if number of weights is not equal to number of n-points
      */
     public static function weightedMovingAverage(array $numbers, int $n, array $weights): array
     {
@@ -774,7 +778,7 @@ class Average
      * @param  number $y
      * @return number
      *
-     * @throws OutOfBoundsException if x or y is ≤ 0
+     * @throws Exception\OutOfBoundsException if x or y is ≤ 0
      */
     public static function identricMean($x, $y)
     {
@@ -804,6 +808,9 @@ class Average
      *
      * @return array [ mean, median, mode, geometric_mean, harmonic_mean,
      *                 contraharmonic_mean, quadratic_mean, trimean, iqm, cubic_mean ]
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\OutOfBoundsException
      */
     public static function describe(array $numbers): array
     {
