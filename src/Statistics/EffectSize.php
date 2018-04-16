@@ -34,12 +34,12 @@ class EffectSize
      *  SSt = sum of squares treatment
      *  SST = sum of squares total
      *
-     * @param  number $SSt Sum of squares treatment
-     * @param  number $SST Sum of squares total
+     * @param  float $SSt Sum of squares treatment
+     * @param  float $SST Sum of squares total
      *
-     * @return number
+     * @return float
      */
-    public static function etaSquared($SSt, $SST)
+    public static function etaSquared(float $SSt, float $SST): float
     {
         return $SSt / $SST;
     }
@@ -57,12 +57,12 @@ class EffectSize
      *  SSt = sum of squares treatment
      *  SSE = sum of squares error
      *
-     * @param  number $SSt Sum of squares treatment
-     * @param  number $SSE Sum of squares error
+     * @param  float $SSt Sum of squares treatment
+     * @param  float $SSE Sum of squares error
      *
-     * @return number
+     * @return float
      */
-    public static function partialEtaSquared($SSt, $SSE)
+    public static function partialEtaSquared(float $SSt, float $SSE): float
     {
         return $SSt / ($SSt + $SSE);
     }
@@ -83,14 +83,14 @@ class EffectSize
      *  dft = degrees of freedom treatment
      *  MSE = Mean squares error
      *
-     * @param number $SSt Sum of squares treatment
-     * @param number $dft Degrees of freedom treatment
-     * @param number $SST Sum of squares total
-     * @param number $MSE Mean squares error
+     * @param float $SSt Sum of squares treatment
+     * @param int   $dft Degrees of freedom treatment
+     * @param float $SST Sum of squares total
+     * @param float $MSE Mean squares error
      *
-     * @return number
+     * @return float
      */
-    public static function omegaSquared($SSt, $dft, $SST, $MSE)
+    public static function omegaSquared(float $SSt, int $dft, float $SST, float $MSE): float
     {
         return ($SSt - $dft * $MSE) / ($SST + $MSE);
     }
@@ -116,11 +116,11 @@ class EffectSize
      * ƒ² = ------
      *      1 - ω²
      *
-     * @param number $measure_of_variance_explained (R², η², ω²)
+     * @param float $measure_of_variance_explained (R², η², ω²)
      *
-     * @return number
+     * @return float
      */
-    public static function cohensF($measure_of_variance_explained)
+    public static function cohensF(float $measure_of_variance_explained): float
     {
         return $measure_of_variance_explained / (1 - $measure_of_variance_explained);
     }
@@ -137,14 +137,14 @@ class EffectSize
      *
      * where r₁ and r₂ are the regressions being compared
      *
-     * @param number $r₁
-     * @param number $r₂
+     * @param float $r₁
+     * @param float $r₂
      *
-     * @return number
+     * @return float
      *
      * @throws Exception\OutOfBoundsException if an r is ≤ 0
      */
-    public static function cohensQ($r₁, $r₂)
+    public static function cohensQ(float $r₁, float $r₂): float
     {
         if ($r₁ >= 1 || $r₂ >= 1) {
             throw new Exception\OutOfBoundsException('r must be greater than or equal to 1');
@@ -179,14 +179,14 @@ class EffectSize
      *
      * This formula uses the common simplified version of the pooled standard deviation.
      *
-     * @param number $μ₁ Mean of sample population 1
-     * @param number $μ₂ Mean of sample population 2
-     * @param number $s₁ Standard deviation of sample population 1
-     * @param number $s₂ Standard deviation of sample population 2
+     * @param float $μ₁ Mean of sample population 1
+     * @param float $μ₂ Mean of sample population 2
+     * @param float $s₁ Standard deviation of sample population 1
+     * @param float $s₂ Standard deviation of sample population 2
      *
-     * @return number
+     * @return float
      */
-    public static function cohensD($μ₁, $μ₂, $s₁, $s₂)
+    public static function cohensD(float $μ₁, float $μ₂, float $s₁, float $s₂): float
     {
         // Variance of each data set
         $s₁² = $s₁ * $s₁;
@@ -231,16 +231,16 @@ class EffectSize
      *  n₂  = sample size of sample population 2
      *  s*  = pooled standard deviation
      *
-     * @param number $μ₁ Mean of sample population 1
-     * @param number $μ₂ Mean of sample population 2
-     * @param number $s₁ Standard deviation of sample population 1
-     * @param number $s₂ Standard deviation of sample population 2
-     * @param number $n₁ Sample size of sample popluation 1
-     * @param number $n₂ Sample size of sample popluation 2
+     * @param float $μ₁ Mean of sample population 1
+     * @param float $μ₂ Mean of sample population 2
+     * @param float $s₁ Standard deviation of sample population 1
+     * @param float $s₂ Standard deviation of sample population 2
+     * @param int   $n₁ Sample size of sample popluation 1
+     * @param int   $n₂ Sample size of sample popluation 2
      *
-     * @return number
+     * @return float
      */
-    public static function hedgesG($μ₁, $μ₂, $s₁, $s₂, $n₁, $n₂)
+    public static function hedgesG(float $μ₁, float $μ₂, float $s₁, float $s₂, int $n₁, int $n₂): float
     {
         // Variance of each data set
         $s₁² = $s₁ * $s₁;
@@ -274,13 +274,13 @@ class EffectSize
      *  μ₂ = mean of sample population 2
      *  s₂ = standard deviation of sample population 2
      *
-     * @param number $μ₁ Mean of sample population 1
-     * @param number $μ₂ Mean of sample population 2
-     * @param number $s₂ Standard deviation of sample population 2
+     * @param float $μ₁ Mean of sample population 1
+     * @param float $μ₂ Mean of sample population 2
+     * @param float $s₂ Standard deviation of sample population 2
      *
-     * @return number
+     * @return float
      */
-    public static function glassDelta($μ₁, $μ₂, $s₂)
+    public static function glassDelta(float $μ₁, float $μ₂, float $s₂): float
     {
         return ($μ₁ - $μ₂) / $s₂;
     }

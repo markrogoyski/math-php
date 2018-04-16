@@ -21,6 +21,9 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $anova, '', 0.0001);
     }
 
+    /**
+     * @return array [sample1, sample2, sample3, expectedAnova]
+     */
     public function dataProviderForOneWayWithThreeSamples(): array
     {
         return [
@@ -169,6 +172,9 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $anova, '', 0.0001);
     }
 
+    /**
+     * @return array [sample1, sample2, sample3, sample4, expetedAnova]
+     */
     public function dataProviderForOneWayWithFourSamples(): array
     {
         return [
@@ -297,6 +303,9 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($dfT, $dfB + $dfW);
     }
 
+    /**
+     * @return array [sample1, sample2, sample3
+     */
     public function dataProviderForOneWayAxiomsThreeSamples(): array
     {
         return [
@@ -344,6 +353,9 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($dfT, $dfB + $dfW);
     }
 
+    /**
+     * @return array [sample1, sample2, sample3, sample4, sample5]
+     */
     public function dataProviderForOneWayAxiomsFiveSamples(): array
     {
         return [
@@ -385,6 +397,9 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $anova['ANOVA'], '', 0.001);
     }
 
+    /**
+     * @return array [A₁, $A₂, expectedAnova]
+     */
     public function dataProviderForTwoWayTwoAs(): array
     {
         return [
@@ -501,6 +516,9 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $anova['ANOVA'], '', 0.001);
     }
 
+    /**
+     * @return array [A₁, A₂, A₃, expectedAnova]
+     */
     public function dataProviderForTwoWayThreeAs(): array
     {
         return [

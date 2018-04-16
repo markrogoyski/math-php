@@ -7,7 +7,13 @@ use MathPHP\Exception;
 class ExperimentTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     riskRatio
      * @dataProvider dataProviderForRiskRatio
+     * @param        int $a
+     * @param        int $b
+     * @param        int $c
+     * @param        int $d
+     * @param        array $rr
      */
     public function testRiskRatio(int $a, int $b, int $c, int $d, array $rr)
     {
@@ -18,7 +24,10 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($rr['p'], $result['p'], '', 0.0001);
     }
 
-    public function dataProviderForRiskRatio()
+    /**
+     * @return array [a, b, c, d, rr]
+     */
+    public function dataProviderForRiskRatio(): array
     {
         return [
             [20, 80, 1, 99, ['RR' => 20, 'ci_lower_bound' => 2.7361, 'ci_upper_bound' => 146.1912, 'p' => 0.0032]],
@@ -32,7 +41,13 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     oddsRatio
      * @dataProvider dataProviderForOddsRatio
+     * @param        int $a
+     * @param        int $b
+     * @param        int $c
+     * @param        int $d
+     * @param        array $or
      */
     public function testOddsRatio(int $a, int $b, int $c, int $d, array $or)
     {
@@ -43,7 +58,10 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($or['p'], $result['p'], '', 0.0001);
     }
 
-    public function dataProviderForOddsRatio()
+    /**
+     * @return array [a, b, c, d, or]
+     */
+    public function dataProviderForOddsRatio(): array
     {
         return [
             [20, 80, 1, 99, ['OR' => 24.7500, 'ci_lower_bound' => 3.2509, 'ci_upper_bound' => 188.4303, 'p' => 0.0019]],
@@ -57,7 +75,13 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     likelihoodRatio
      * @dataProvider dataProviderForLikelihoodRatio
+     * @param        int $a
+     * @param        int $b
+     * @param        int $c
+     * @param        int $d
+     * @param        array $ll
      */
     public function testLikelihoodRatio(int $a, int $b, int $c, int $d, array $ll)
     {
@@ -66,7 +90,10 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($ll['LL-'], $result['LL-'], '', 0.001);
     }
 
-    public function dataProviderForLikelihoodRatio()
+    /**
+     * @return array [a, b, c, d, ll]
+     */
+    public function dataProviderForLikelihoodRatio(): array
     {
         return [
             [20, 180, 10, 1820, ['LL+' => 7.4074, 'LL-' => 0.3663]],
@@ -81,16 +108,23 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     likelihoodRatioSS
      * @dataProvider dataProviderForLikelihoodRatioSS
+     * @param        float $sensitivity
+     * @param        float $specificity
+     * @param        array $ll
      */
-    public function testLikelihoodRatioSS($sensitivity, $specificity, array $ll)
+    public function testLikelihoodRatioSS(float $sensitivity, float $specificity, array $ll)
     {
         $result = Experiment::likelihoodRatioSS($sensitivity, $specificity);
         $this->assertEquals($ll['LL+'], $result['LL+'], '', 0.001);
         $this->assertEquals($ll['LL-'], $result['LL-'], '', 0.001);
     }
 
-    public function dataProviderForLikelihoodRatioSS()
+    /**
+     * @return array [sensitivity, specificity]
+     */
+    public function dataProviderForLikelihoodRatioSS(): array
     {
         return [
             [0.67, 0.91, ['LL+' => 7.4444, 'LL-' => 0.3626]],
@@ -98,6 +132,9 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @testCase likelihoodRatioSS exception if sensitivity or specificity are > 1.0
+     */
     public function testLikelihoodRatioSSException()
     {
         $this->expectException(Exception\OutOfBoundsException::class);

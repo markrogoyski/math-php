@@ -19,7 +19,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [X, n, moment]
      */
     public function dataProviderForCentralMoment(): array
     {
@@ -50,7 +50,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [X, skewness]
      */
     public function dataProviderForPopulationSkewness(): array
     {
@@ -85,7 +85,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [X, skewness]
      */
     public function dataProviderForSampleSkewness(): array
     {
@@ -129,7 +129,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [X, skewness]
      */
     public function dataProviderForSkewness(): array
     {
@@ -163,7 +163,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [n, ses]
      */
     public function dataProviderForSes(): array
     {
@@ -189,7 +189,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [n]
      */
     public function dataProviderForSesException(): array
     {
@@ -213,7 +213,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [X, kurtosis]
      */
     public function dataProviderForKurtosis(): array
     {
@@ -287,7 +287,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [data]
      */
     public function dataProviderForPlatykurtic(): array
     {
@@ -297,7 +297,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [data]
      */
     public function dataProviderForLeptokurtic(): array
     {
@@ -307,7 +307,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [data]
      */
     public function dataProviderForMesokurtic(): array
     {
@@ -328,7 +328,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [n, sek]
      */
     public function dataProviderForSek(): array
     {
@@ -354,7 +354,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [n]
      */
     public function dataProviderForSekException(): array
     {
@@ -390,7 +390,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [X, sem]
      */
     public function dataProviderForStandardErrorOfTheMean(): array
     {
@@ -425,7 +425,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [μ, n, σ, cl, ci]
      */
     public function dataProviderForConfidenceInterval(): array
     {
@@ -486,7 +486,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array [numbers, sos]
      */
     public function dataProviderForSumOfSquaresDeviations(): array
     {

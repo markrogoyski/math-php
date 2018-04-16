@@ -152,6 +152,8 @@ class RandomVariable
      * @param array $X list of numbers (random variable X)
      *
      * @return number
+     *
+     * @throws Exception\OutOfBoundsException
      */
     public static function skewness(array $X)
     {
@@ -187,11 +189,11 @@ class RandomVariable
      *
      * @param int $n Sample size
      *
-     * @return number
+     * @return float
      *
      * @throws Exception\BadDataException if n < 3
      */
-    public static function ses(int $n)
+    public static function ses(int $n): float
     {
         if ($n < 3) {
             throw new Exception\BadDataException("SES requires a dataset of n > 2. N of $n given.");
@@ -284,11 +286,11 @@ class RandomVariable
      *
      * @param int $n Sample size
      *
-     * @return number
+     * @return float
      *
      * @throws Exception\BadDataException if n < 4
      */
-    public static function sek(int $n)
+    public static function sek(int $n): float
     {
         if ($n < 4) {
             throw new Exception\BadDataException("SEK requires a dataset of n > 3. N of $n given.");
@@ -316,6 +318,8 @@ class RandomVariable
      * @param array $X list of numbers (random variable X)
      *
      * @return float
+     *
+     * @throws Exception\OutOfBoundsException
      */
     public static function standardErrorOfTheMean(array $X)
     {
@@ -334,6 +338,8 @@ class RandomVariable
      * @param array $X list of numbers (random variable X)
      *
      * @return float
+     *
+     * @throws Exception\OutOfBoundsException
      */
     public static function sem(array $X): float
     {
@@ -353,12 +359,14 @@ class RandomVariable
      *
      * Available confidence levels: See Probability\StandardNormalTable::Z_SCORES_FOR_CONFIDENCE_INTERVALS
      *
-     * @param number $μ  sample mean
-     * @param int    $n  sample size
-     * @param number $σ  standard deviation
+     * @param number $μ sample mean
+     * @param int $n sample size
+     * @param number $σ standard deviation
      * @param string $cl confidence level (Ex: 95, 99, 99.5, 99.9, etc.)
      *
      * @return array [ ci, lower_bound, upper_bound ]
+     *
+     * @throws Exception\BadDataException
      */
     public static function confidenceInterval($μ, int $n, $σ, string $cl): array
     {

@@ -11,6 +11,15 @@ use MathPHP\Probability\Distribution\Continuous\ChiSquared;
 use MathPHP\Probability\Distribution\Continuous\StandardNormal;
 use MathPHP\Trigonometry;
 
+/**
+ * Statistical correlation
+ *  - covariance
+ *  - correlation coefficient (r)
+ *  - coefficient of determination (R²)
+ *  - Kendall's tau (τ)
+ *  - Spearman's rho (ρ)
+ *  - confidence ellipse
+ */
 class Correlation
 {
     const X = 0;
@@ -27,11 +36,13 @@ class Correlation
      *
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
-     * @param bool  $population Optional flag for population or sample covariance
+     * @param bool $population Optional flag for population or sample covariance
      *
-     * @return number
+     * @return float
+     *
+     * @throws Exception\BadDataException
      */
-    public static function covariance(array $X, array $Y, bool $population = false)
+    public static function covariance(array $X, array $Y, bool $population = false): float
     {
         return $population
             ? self::populationCovariance($X, $Y)
@@ -54,11 +65,11 @@ class Correlation
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
      *
-     * @return number
+     * @return float
      *
      * @throws Exception\BadDataException if X and Y do not have the same number of elements
      */
-    public static function populationCovariance(array $X, array $Y)
+    public static function populationCovariance(array $X, array $Y): float
     {
         if (count($X) !== count($Y)) {
             throw new Exception\BadDataException('X and Y must have the same number of elements.');
@@ -94,11 +105,11 @@ class Correlation
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
      *
-     * @return number
+     * @return float
      *
-     * @throws BadDataException if X and Y do not have the same number of elements
+     * @throws Exception\BadDataException if X and Y do not have the same number of elements
      */
-    public static function sampleCovariance(array $X, array $Y)
+    public static function sampleCovariance(array $X, array $Y): float
     {
         if (count($X) !== count($Y)) {
             throw new Exception\BadDataException('X and Y must have the same number of elements.');
@@ -126,13 +137,15 @@ class Correlation
      *
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
-     * @param bool  $popluation Optional flag for population or sample covariance
+     * @param bool $population Optional flag for population or sample covariance
      *
-     * @return number
+     * @return float
+     *
+     * @throws Exception\BadDataException
      */
-    public static function r(array $X, array $Y, bool $popluation = false)
+    public static function r(array $X, array $Y, bool $population = false): float
     {
-        return $popluation
+        return $population
             ? self::populationCorrelationCoefficient($X, $Y)
             : self::sampleCorrelationCoefficient($X, $Y);
     }
@@ -162,9 +175,11 @@ class Correlation
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
      *
-     * @return number
+     * @return float
+     *
+     * @throws Exception\BadDataException
      */
-    public static function populationCorrelationCoefficient(array $X, array $Y)
+    public static function populationCorrelationCoefficient(array $X, array $Y): float
     {
         $cov⟮X，Y⟯ = self::populationCovariance($X, $Y);
         $σx      = Descriptive::standardDeviation($X, true);
@@ -198,9 +213,11 @@ class Correlation
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
      *
-     * @return number
+     * @return float
+     *
+     * @throws Exception\BadDataException
      */
-    public static function sampleCorrelationCoefficient(array $X, array $Y)
+    public static function sampleCorrelationCoefficient(array $X, array $Y): float
     {
         $Sxy = self::sampleCovariance($X, $Y);
         $sx  = Descriptive::standardDeviation($X, Descriptive::SAMPLE);
@@ -215,11 +232,13 @@ class Correlation
      *
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
-     * @param bool  $popluation
+     * @param bool $popluation
      *
-     * @return number
+     * @return float
+     *
+     * @throws Exception\BadDataException
      */
-    public static function r2(array $X, array $Y, bool $popluation = false)
+    public static function r2(array $X, array $Y, bool $popluation = false): float
     {
         return pow(self::r($X, $Y, $popluation), 2);
     }
@@ -234,11 +253,13 @@ class Correlation
      *
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
-     * @param bool  $popluation
+     * @param bool $popluation
      *
-     * @return number
+     * @return float
+     *
+     * @throws Exception\BadDataException
      */
-    public static function coefficientOfDetermination(array $X, array $Y, bool $popluation = false)
+    public static function coefficientOfDetermination(array $X, array $Y, bool $popluation = false): float
     {
         return pow(self::r($X, $Y, $popluation), 2);
     }
@@ -278,11 +299,11 @@ class Correlation
      *
      * @todo Implement with algorithm faster than O(n²)
      *
-     * @return number
+     * @return float
      *
      * @throws Exception\BadDataException if both random variables do not have the same number of elements
      */
-    public static function kendallsTau(array $X, array $Y)
+    public static function kendallsTau(array $X, array $Y): float
     {
         if (count($X) !== count($Y)) {
             throw new Exception\BadDataException('Both random variables must have the same number of elements');
@@ -368,11 +389,11 @@ class Correlation
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
      *
-     * @return number
+     * @return float
      *
-     * @throws BadDataException if both random variables do not have the same number of elements
+     * @throws Exception\BadDataException if both random variables do not have the same number of elements
      */
-    public static function spearmansRho(array $X, array $Y)
+    public static function spearmansRho(array $X, array $Y): float
     {
         if (count($X) !== count($Y)) {
             throw new Exception\BadDataException('Both random variables must have the same number of elements');
@@ -446,13 +467,15 @@ class Correlation
     /**
      * Descriptive correlation report about two random variables
      *
-     * @param  array $X          values for random variable X
-     * @param  array $Y          values for random variable Y
-     * @param  bool  $population Optional flag if all samples of a population are present
+     * @param  array $X values for random variable X
+     * @param  array $Y values for random variable Y
+     * @param  bool $population Optional flag if all samples of a population are present
      *
      * @return array [cov, r, R2, tau, rho]
+     *
+     * @throws Exception\BadDataException
      */
-    public static function describe(array $X, array $Y, bool $population = false)
+    public static function describe(array $X, array $Y, bool $population = false): array
     {
         return [
             'cov' => self::covariance($X, $Y, $population),
@@ -471,14 +494,20 @@ class Correlation
      * The function will return $num_points pairs of X,Y data
      * http://stackoverflow.com/questions/3417028/ellipse-around-the-data-in-matlab
      *
-     * @param array $X          an array of independent data
-     * @param array $Y          an array of dependent data
-     * @param float $z          the number of standard deviations to encompass
-     * @param int   $num_points the number of points to include around the ellipse. The actual array
+     * @param array $X an array of independent data
+     * @param array $Y an array of dependent data
+     * @param float $z the number of standard deviations to encompass
+     * @param int $num_points the number of points to include around the ellipse. The actual array
      *                          will be one larger because the first point and last will be repeated
      *                          to ease display.
      *
      * @return array paired x and y points on an ellipse aligned with the data provided
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\BadParameterException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MatrixException
+     * @throws Exception\OutOfBoundsException
      */
     public static function confidenceEllipse(array $X, array $Y, float $z, int $num_points = 11): array
     {

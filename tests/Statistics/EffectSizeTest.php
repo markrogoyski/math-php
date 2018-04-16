@@ -7,16 +7,23 @@ use MathPHP\Exception;
 class EffectSizeTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     etaSquared
      * @dataProvider dataProviderForEtaSquared
+     * @param        float $SSt
+     * @param        float $SST
+     * @param        float $expected
      */
-    public function testEtaSquared($SSt, $SST, $expected)
+    public function testEtaSquared(float $SSt, float $SST, float $expected)
     {
         $η² = EffectSize::etaSquared($SSt, $SST);
 
         $this->assertEquals($expected, $η², '', 0.0000000001);
     }
 
-    public function dataProviderForEtaSquared()
+    /**
+     * @return array [SSt, SST, expected]
+     */
+    public function dataProviderForEtaSquared(): array
     {
         return [
             // Test data: http://www.statisticshowto.com/eta-squared/
@@ -36,16 +43,23 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     partialEtaSquared
      * @dataProvider dataProviderForPartialEtaSquared
+     * @param        float $SSt
+     * @param        float $SSE
+     * @param        float $expected
      */
-    public function testPartialEtaSquared($SSt, $SSE, $expected)
+    public function testPartialEtaSquared(float $SSt, float $SSE, float $expected)
     {
         $η²p = EffectSize::partialEtaSquared($SSt, $SSE);
 
         $this->assertEquals($expected, $η²p, '', 0.000000001);
     }
 
-    public function dataProviderForPartialEtaSquared()
+    /**
+     * @return array [SSt, SSE, expected]
+     */
+    public function dataProviderForPartialEtaSquared(): array
     {
         return [
             // Test data: http://jalt.org/test/bro_28.htm
@@ -60,16 +74,25 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         omegaSquared
      * @dataProvider dataProviderForOmegaSquared
+     * @param        float $SSt
+     * @param        int   $dft
+     * @param        float $SST
+     * @param        float $MSE
+     * @param        float $expected
      */
-    public function testOmegaSquared($SSt, $dft, $SST, $MSE, $expected)
+    public function testOmegaSquared(float $SSt, int $dft, float $SST, float $MSE, float $expected)
     {
         $ω² = EffectSize::omegaSquared($SSt, $dft, $SST, $MSE);
 
         $this->assertEquals($expected, $ω², '', 0.000001);
     }
 
-    public function dataProviderForOmegaSquared()
+    /**
+     * @return array [SSt, dft, SST, MSE, expected]
+     */
+    public function dataProviderForOmegaSquared(): array
     {
         return [
             // Test data: http://www.uccs.edu/lbecker/glm_effectsize.html
@@ -80,16 +103,22 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     cohensF
      * @dataProvider dataProviderForCohensF
+     * @param        float $measure_of_variance_explained
+     * @param        float $expected
      */
-    public function testCohensF($measure_of_variance_explained, $expected)
+    public function testCohensF(float $measure_of_variance_explained, float $expected)
     {
         $ƒ² = EffectSize::cohensF($measure_of_variance_explained);
 
         $this->assertEquals($expected, $ƒ², '', 0.0000001);
     }
 
-    public function dataProviderForCohensF()
+    /**
+     * @return array [measure of variance explained, expected]
+     */
+    public function dataProviderForCohensF(): array
     {
         return [
             [0.06550008026971, 0.07009104964783],
@@ -103,16 +132,23 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     cohensQ
      * @dataProvider dataProviderForCohensQ
+     * @param        float $r₁
+     * @param        float $r₂
+     * @param        float $expected
      */
-    public function testCohensQ($r₁, $r₂, $expected)
+    public function testCohensQ(float $r₁, float $r₂, float $expected)
     {
         $q = EffectSize::cohensQ($r₁, $r₂);
 
         $this->assertEquals($expected, $q, '', 0.001);
     }
 
-    public function dataProviderForCohensQ()
+    /**
+     * @return array  [r₁, r₂, expected]
+     */
+    public function dataProviderForCohensQ(): array
     {
         return [
             [0.1, 0.1, 0],
@@ -126,6 +162,9 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @testCase cohensQ R out of bounds
+     */
     public function testCohensQExceptionROutOfBounds()
     {
         $this->expectException(Exception\OutOfBoundsException::class);
@@ -134,16 +173,25 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     cohensD
      * @dataProvider dataProviderForCohensD
+     * @param        float $μ₁
+     * @param        float $μ₂
+     * @param        float $s₁
+     * @param        float $s₂
+     * @param        float $expected
      */
-    public function testCohensD($μ₁, $μ₂, $s₁, $s₂, $expected)
+    public function testCohensD(float $μ₁, float $μ₂, float $s₁, float $s₂, float $expected)
     {
         $d = EffectSize::cohensD($μ₁, $μ₂, $s₁, $s₂);
 
         $this->assertEquals($expected, $d, '', 0.00001);
     }
 
-    public function dataProviderForCohensD()
+    /**
+     * @return array [μ₁, μ₂, s₁, s₂, expected]
+     */
+    public function dataProviderForCohensD(): array
     {
         return [
             // Test data: http://www.uccs.edu/~lbecker/
@@ -158,16 +206,27 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     hedgesG
      * @dataProvider dataProviderForHedgesG
+     * @param        float $μ₁
+     * @param        float $μ₂
+     * @param        float $s₁
+     * @param        float $s₂
+     * @param        int   $n₁
+     * @param        int   $n₂
+     * @param        float $expected
      */
-    public function testHedgesG($μ₁, $μ₂, $s₁, $s₂, $n₁, $n₂, $expected)
+    public function testHedgesG(float $μ₁, float $μ₂, float $s₁, float $s₂, int $n₁, int $n₂, float $expected)
     {
         $g = EffectSize::hedgesG($μ₁, $μ₂, $s₁, $s₂, $n₁, $n₂);
 
         $this->assertEquals($expected, $g, '', 0.00001);
     }
 
-    public function dataProviderForHedgesG()
+    /**
+     * @return array [μ₁, μ₂, s₁, s₂, n₁, n₂, expected]
+     */
+    public function dataProviderForHedgesG(): array
     {
         return [
             // Test data: http://www.polyu.edu.hk/mm/effectsizefaqs/calculator/calculator.html
@@ -184,16 +243,24 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     glassDelta
      * @dataProvider dataProviderForGlassDelta
+     * @param        float $μ₁
+     * @param        float $μ₂
+     * @param        float $s₂
+     * @param        float $expected
      */
-    public function testGlassDelta($μ₁, $μ₂, $s₂, $expected)
+    public function testGlassDelta(float $μ₁, float $μ₂, float $s₂, float $expected)
     {
         $Δ = EffectSize::glassDelta($μ₁, $μ₂, $s₂);
 
         $this->assertEquals($expected, $Δ, '', 0.00001);
     }
 
-    public function dataProviderForGlassDelta()
+    /**
+     * @return array [μ₁, μ₂, s₂, expected]
+     */
+    public function dataProviderForGlassDelta(): array
     {
         return [
             [40, 57.727272727273, 30.763910379179, -0.57623600],

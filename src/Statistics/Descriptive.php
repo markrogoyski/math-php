@@ -3,6 +3,11 @@ namespace MathPHP\Statistics;
 
 use MathPHP\Exception;
 
+/**
+ * Descriptive statistics
+ * Summary statistics that quantitatively describe or summarize features of a collection of information.
+ * https://en.wikipedia.org/wiki/Descriptive_statistics
+ */
 class Descriptive
 {
     const POPULATION = true;
@@ -103,7 +108,10 @@ class Descriptive
      * N is the number of numbers in the population set
      *
      * @param array $numbers
+     *
      * @return number
+     *
+     * @throws Exception\OutOfBoundsException
      */
     public static function populationVariance(array $numbers)
     {
@@ -123,7 +131,10 @@ class Descriptive
      * n is the number of numbers in the sample set
      *
      * @param array $numbers
+     *
      * @return number
+     *
+     * @throws Exception\OutOfBoundsException
      */
     public static function sampleVariance(array $numbers)
     {
@@ -147,10 +158,13 @@ class Descriptive
      * SD+ = √⟮σ²⟯ = √⟮sample variance⟯
      *
      * @param array $numbers
-     * @param bool  $SD＋: true returns SD+ (uses population variance);
+     * @param bool $SD＋ : true returns SD+ (uses population variance);
      *              false returns SD (uses sample variance);
      *              Default is false (SD (sample variance))
+     *
      * @return number
+     *
+     * @throws Exception\OutOfBoundsException
      */
     public static function standardDeviation(array $numbers, bool $SD＋ = false)
     {
@@ -167,10 +181,13 @@ class Descriptive
      * sd - Standard deviation - convenience method
      *
      * @param array $numbers
-     * @param bool  $SD＋: true returns SD+ (uses population variance);
+     * @param bool $SD＋ : true returns SD+ (uses population variance);
      *              false returns SD (uses sample variance);
      *              Default is false (SD (sample variance))
+     *
      * @return number
+     *
+     * @throws Exception\OutOfBoundsException
      */
     public static function sd(array $numbers, bool $SD＋ = false)
     {
@@ -484,7 +501,8 @@ class Descriptive
      *
      * Midhinge = (first quartile, third quartile) / 2
      *
-     * @param  array  $numbers
+     * @param  array $numbers
+     *
      * @return number
      */
     public static function midhinge(array $numbers)
@@ -511,6 +529,8 @@ class Descriptive
      * @param array $numbers
      *
      * @return number
+     *
+     * @throws Exception\OutOfBoundsException
      */
     public static function coefficientOfVariation(array $numbers)
     {
@@ -525,10 +545,14 @@ class Descriptive
      * Includes mean, median, mode, range, midrange, variance, standard deviation, quartiles, etc.
      *
      * @param array $numbers
-     * @param bool  $population: true means all possible observations of the system are present;
-     *              false means a sample is used.
+     * @param bool $population : true means all possible observations of the system are present;
+     *                           false means a sample is used.
+     *
      * @return array [ n, mean, median, mode, range, midrange, variance, sd, CV, mean_mad,
      *                 median_mad, quartiles, skewness, kurtosis, sem, ci_95, ci_99 ]
+     *
+     * @throws Exception\OutOfBoundsException
+     * @throws Exception\BadDataException
      */
     public static function describe(array $numbers, bool $population = false): array
     {
@@ -578,7 +602,7 @@ class Descriptive
      *
      * @return array [min, Q1, median, Q3, max]
      */
-    public static function fiveNumberSummary(array $numbers)
+    public static function fiveNumberSummary(array $numbers): array
     {
         $quartiles = self::quartiles($numbers);
 

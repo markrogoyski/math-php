@@ -40,12 +40,13 @@ class KernelDensityEstimation
     /**
      * Constructor
      *
-     * @param array                $data data used for the estimation
-     * @param float|null           $h the bandwidth
+     * @param array $data data used for the estimation
+     * @param float|null $h the bandwidth
      * @param callable|string|null $kernel a function used to generate the KDE
      *
      * @throws Exception\BadDataException     if data set is empty
      * @throws Exception\OutOfBoundsException h ≤ 0
+     * @throws Exception\BadParameterException
      */
     public function __construct(array $data, float $h = null, $kernel = null)
     {
@@ -92,6 +93,8 @@ class KernelDensityEstimation
      *
      *
      * @return float
+     *
+     * @throws Exception\OutOfBoundsException
      */
     private function getDefaultBandwidth(): float
     {
@@ -111,6 +114,8 @@ class KernelDensityEstimation
      * @param callable|string|null $kernel
      *
      * @throws Exception\BadParameterException if $kernel is not a string or callable
+     * @throws Exception\BadDataException
+     * @throws Exception\OutOfBoundsException
      */
     public function setKernelFunction($kernel = null)
     {
@@ -133,6 +138,7 @@ class KernelDensityEstimation
      * @return callable kernel function
      *
      * @throws Exception\BadDataException if the name of the kernel function is not one of the built-in functions
+     * @throws Exception\OutOfBoundsException
      */
     private function getKernelFunctionFromLibrary(string $kernel): callable
     {

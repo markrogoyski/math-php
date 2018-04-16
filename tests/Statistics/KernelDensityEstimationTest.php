@@ -31,6 +31,9 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $KDE->evaluate($x), '', 0.0001);
     }
 
+    /**
+     * @return array [data, x, expected]
+     */
     public function dataProviderForKernelDensity(): array
     {
         return [
@@ -55,6 +58,9 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $KDE->evaluate($x), '', 0.0001);
     }
 
+    /**
+     * @return array [data, h, x, expected]
+     */
     public function dataProviderForKernelDensityCustomH(): array
     {
         $h = count($this->data)**(-1/6);
@@ -82,6 +88,9 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $KDE2->evaluate($x), '', 0.0001);
     }
 
+    /**
+     * @return array [h, kernel, x, expected]
+     */
     public function dataProviderForKernelDensityCustomBoth(): array
     {
         $h = 1;
@@ -115,6 +124,9 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $KDE->evaluate($x), '', 0.0001);
     }
 
+    /**
+     * @return array [kernel, x, expected]
+     */
     public function dataProviderForTestKernels(): array
     {
         return [

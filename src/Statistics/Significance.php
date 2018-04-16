@@ -179,6 +179,7 @@ class Significance
      * @return array
      *
      * @throws Exception\BadParameterException
+     * @throws Exception\OutOfBoundsException
      */
     public static function tTest(array $a, $b): array
     {
@@ -205,7 +206,7 @@ class Significance
      *    = CDF above if right tailed
      * p2 = CDF outside
      *
-     * @param array $a  Sample set
+     * @param array $a Sample set
      * @param float $H₀ Null hypothesis (μ₀ Population mean)
      *
      * @return array [
@@ -216,6 +217,8 @@ class Significance
      *   mean => sample mean
      *   sd   => standard deviation
      * ]
+     *
+     * @throws Exception\OutOfBoundsException
      */
     public static function tTestOneSample(array $a, float $H₀): array
     {
@@ -327,6 +330,8 @@ class Significance
      *   sd1   => standard deviation of sample set 1
      *   sd2   => standard deviation of sample set 2
      * ]
+     *
+     * @throws Exception\OutOfBoundsException
      */
     public static function tTestTwoSample(array $x₁, array $x₂): array
     {

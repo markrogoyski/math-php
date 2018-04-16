@@ -6,9 +6,12 @@ use MathPHP\Statistics\Circular;
 class CircularTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     mean
      * @dataProvider dataProviderForMean
+     * @param        array $angles
+     * @param        float $mean
      */
-    public function testMean($angles, $mean)
+    public function testMean(array $angles, float $mean)
     {
         $this->assertEquals($mean, Circular::mean($angles), '', 0.000001);
     }
@@ -16,13 +19,13 @@ class CircularTest extends \PHPUnit\Framework\TestCase
     /**
      * Test data made with R package circular's function mean.circular()
      * https://cran.r-project.org/web/packages/circular/circular.pdf
+     * @return array [angles, mean]
      */
-    public function dataProviderForMean()
+    public function dataProviderForMean(): array
     {
         $π = \M_PI;
 
         return [
-
             [[0, 2 * $π], 0],
             [[0, 0.5 * $π], 0.7853982],
             [[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], 0.5],
@@ -49,11 +52,14 @@ class CircularTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     resultantLength
      * @dataProvider dataProviderForResultantLength
+     * @param        array $angles
+     * @param        float $length
      */
-    public function testResultantLength($angles, $mean)
+    public function testResultantLength(array $angles, float $length)
     {
-        $this->assertEquals($mean, Circular::resultantLength($angles), '', 0.00001);
+        $this->assertEquals($length, Circular::resultantLength($angles), '', 0.00001);
     }
 
     /**
@@ -64,8 +70,9 @@ class CircularTest extends \PHPUnit\Framework\TestCase
      *     R      = sqrt(sinSum^2 + cosSum^2)
      *     return(R)
      * }
+     * @return array [angles, length]
      */
-    public function dataProviderForResultantLength()
+    public function dataProviderForResultantLength(): array
     {
         $π = \M_PI;
 
@@ -86,11 +93,14 @@ class CircularTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     meanResultantLength
      * @dataProvider dataProviderForMeanResultantLength
+     * @param        array $angles
+     * @param        float $length
      */
-    public function testMeanResultantLength($angles, $mean)
+    public function testMeanResultantLength(array $angles, float $length)
     {
-        $this->assertEquals($mean, Circular::meanResultantLength($angles), '', 0.000001);
+        $this->assertEquals($length, Circular::meanResultantLength($angles), '', 0.000001);
     }
 
     /**
@@ -102,8 +112,9 @@ class CircularTest extends \PHPUnit\Framework\TestCase
      *     rho    = sqrt(sinSum^2 + cosSum^2) / n
      *     return(rho)
      * }
+     * @return array [angles, length]
      */
-    public function dataProviderForMeanResultantLength()
+    public function dataProviderForMeanResultantLength(): array
     {
         $π = \M_PI;
 
@@ -124,18 +135,22 @@ class CircularTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     variance
      * @dataProvider dataProviderForVariance
+     * @param        array $angles
+     * @param        float $variance
      */
-    public function testVariance($angles, $mean)
+    public function testVariance(array $angles, float $variance)
     {
-        $this->assertEquals($mean, Circular::variance($angles), '', 0.000001);
+        $this->assertEquals($variance, Circular::variance($angles), '', 0.000001);
     }
 
     /**
      * Test data made with R package circular's function var.circular()
      * https://cran.r-project.org/web/packages/circular/circular.pdf
+     * @return array [angles, variance]
      */
-    public function dataProviderForVariance()
+    public function dataProviderForVariance(): array
     {
         $π = \M_PI;
 
@@ -156,18 +171,22 @@ class CircularTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     standardDeviation
      * @dataProvider dataProviderForStandardDeviation
+     * @param        array $angles
+     * @param        float $sd
      */
-    public function testStandardDeviation($angles, $mean)
+    public function testStandardDeviation(array $angles, float $sd)
     {
-        $this->assertEquals($mean, Circular::standardDeviation($angles), '', 0.000001);
+        $this->assertEquals($sd, Circular::standardDeviation($angles), '', 0.000001);
     }
 
     /**
      * Test data made with R package circular's function sd.circular()
      * https://cran.r-project.org/web/packages/circular/circular.pdf
+     * @return array [angles, standardDeviation]
      */
-    public function dataProviderForStandardDeviation()
+    public function dataProviderForStandardDeviation(): array
     {
         $π = \M_PI;
 
@@ -187,6 +206,9 @@ class CircularTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @testCase describe
+     */
     public function testDescribe()
     {
         $stats = Circular::describe([5, 15, 355]);

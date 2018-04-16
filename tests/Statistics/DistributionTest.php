@@ -5,16 +5,21 @@ use MathPHP\Statistics\Distribution;
 
 class DistributionTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
+     * @testCase     frequency
      * @dataProvider dataProviderForFrequency
+     * @param        array $values
+     * @param        array $frequencies
      */
     public function testFrequency(array $values, array $frequencies)
     {
         $this->assertEquals($frequencies, Distribution::frequency($values));
     }
 
-    public function dataProviderForFrequency()
+    /**
+     * @return array [values, frequencies]
+     */
+    public function dataProviderForFrequency(): array
     {
         return [
             [
@@ -37,14 +42,20 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     relativeFrequency
      * @dataProvider dataProviderForRelativeFrequency
+     * @param        array $values
+     * @param        array $frequencies
      */
     public function testRelativeFrequency(array $values, array $frequencies)
     {
         $this->assertEquals($frequencies, Distribution::relativeFrequency($values), '', 0.0001);
     }
 
-    public function dataProviderForRelativeFrequency()
+    /**
+     * @return array [values, frequencies]
+     */
+    public function dataProviderForRelativeFrequency(): array
     {
         return [
             [
@@ -67,14 +78,20 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     cumulativeFrequency
      * @dataProvider dataProviderForCumulativeFrequency
+     * @param        array $values
+     * @param        array $frequencies
      */
     public function testCumulativeFrequency(array $values, array $frequencies)
     {
         $this->assertEquals($frequencies, Distribution::cumulativeFrequency($values), '', 0.0001);
     }
 
-    public function dataProviderForCumulativeFrequency()
+    /**
+     * @return array [values, frequencies]
+     */
+    public function dataProviderForCumulativeFrequency(): array
     {
         return [
             [
@@ -97,14 +114,20 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     cumulativeRelativeFrequency
      * @dataProvider dataProviderForCumulativeRelativeFrequency
+     * @param        array $values
+     * @param        array $frequencies
      */
     public function testCumulativeRelativeFrequency(array $values, array $frequencies)
     {
         $this->assertEquals($frequencies, Distribution::cumulativeRelativeFrequency($values), '', 0.0001);
     }
 
-    public function dataProviderForCumulativeRelativeFrequency()
+    /**
+     * @return array [values, frequencies]
+     */
+    public function dataProviderForCumulativeRelativeFrequency(): array
     {
         return [
             [
@@ -127,14 +150,20 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     stemAndLeafPlot
      * @dataProvider dataProviderForStemAndLeafPlot
+     * @param        array $values
+     * @param        array $plot
      */
     public function testStemAndLeafPlot(array $values, array $plot)
     {
         $this->assertEquals($plot, Distribution::stemAndLeafPlot($values));
     }
 
-    public function dataProviderForStemAndLeafPlot()
+    /**
+     * @return array [values, plot]
+     */
+    public function dataProviderForStemAndLeafPlot(): array
     {
         return [
             [
@@ -144,6 +173,9 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @testCase stemAndLeafPlot printed to standard output
+     */
     public function testStemAndLeafPlotPrint()
     {
         $this->expectOutputString('0 | 1 2 3' . \PHP_EOL);
