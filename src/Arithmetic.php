@@ -73,4 +73,18 @@ class Arithmetic
 
         return $root;
     }
+
+    /**
+     * Test if two numbers are almost equal, within a tolerance ε
+     *
+     * @param float $x
+     * @param float $y
+     * @param float $ε tolerance
+     *
+     * @return bool true if the numbers are equal within a tolerance; false if they are not
+     */
+    public static function almostEqual(float $x, float $y, $ε = 0.000000000001): bool
+    {
+        return abs($x - $y) <= $ε;
+    }
 }
