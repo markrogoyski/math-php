@@ -137,6 +137,12 @@ $³√x = Arithmetic::cubeRoot(-8); // -2
 // Sum of digits
 $digit_sum    = Arithmetic::digitSum(99):    // 18
 $digital_root = Arithmetic::digitalRoot(99); // 9
+
+// Equality of numbers within a tolerance
+$x = 0.00000003458;
+$y = 0.00000003455;
+$ε = 0.0000000001;
+$almostEqual = Arithmetic::almostEqual($x, $y, $ε); // true
 ```
 
 ### Finance
