@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\Statistics\Regression\Methods;
 
+use MathPHP\Exception;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\ColumnVector;
 use MathPHP\LinearAlgebra\VandermondeMatrix;
@@ -47,8 +48,12 @@ trait WeightedLeastSquares
      * @param  array $ys y values
      * @param  array $xs x values
      * @param  array $ws weight values
+     * @param  int   $order
      *
      * @return Matrix [[m], [b]]
+     *
+     * @throws Exception\MatrixException
+     * @throws Exception\IncorrectTypeException
      */
     public function leastSquares(array $ys, array $xs, array $ws, int $order = 1): Matrix
     {

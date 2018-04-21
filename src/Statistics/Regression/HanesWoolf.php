@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\Statistics\Regression;
 
+use MathPHP\Exception;
 use MathPHP\Functions\Map\Multi;
 
 /**
@@ -18,6 +19,9 @@ class HanesWoolf extends ParametricRegression
     /**
      * Calculate the regression parameters by least squares on linearized data
      * x / y = x / V + K / V
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\MatrixException
      */
     public function calculate()
     {

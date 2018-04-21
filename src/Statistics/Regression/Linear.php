@@ -1,9 +1,7 @@
 <?php
 namespace MathPHP\Statistics\Regression;
 
-use MathPHP\Statistics\Average;
-use MathPHP\Statistics\RandomVariable;
-use MathPHP\Probability\Distribution\Continuous\StudentT;
+use MathPHP\Exception;
 
 /**
  * Simple linear regression - least squares method
@@ -56,6 +54,9 @@ class Linear extends ParametricRegression
 
     /**
      * Calculates the regression parameters.
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\MatrixException
      */
     public function calculate()
     {

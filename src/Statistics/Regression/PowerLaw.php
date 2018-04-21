@@ -1,7 +1,7 @@
 <?php
 namespace MathPHP\Statistics\Regression;
 
-use MathPHP\Statistics\Average;
+use MathPHP\Exception;
 
 /**
  * Power law regression (power curve) - Least squares fitting
@@ -33,6 +33,9 @@ class PowerLaw extends ParametricRegression
     /**
      * Calculate the regression parameters by least squares on linearized data
      * ln(y) = ln(A) + B*ln(x)
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\MatrixException
      */
     public function calculate()
     {

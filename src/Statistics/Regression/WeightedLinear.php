@@ -1,9 +1,7 @@
 <?php
 namespace MathPHP\Statistics\Regression;
 
-use MathPHP\Statistics\Average;
-use MathPHP\Statistics\RandomVariable;
-use MathPHP\Probability\Distribution\Continuous\StudentT;
+use MathPHP\Exception;
 
 /**
  * Weighted linear regression - least squares method
@@ -40,6 +38,8 @@ class WeightedLinear extends ParametricRegression
 
     /**
      * Calculates the regression parameters.
+     *
+     * @throws Exception\MatrixException
      */
     public function calculate()
     {

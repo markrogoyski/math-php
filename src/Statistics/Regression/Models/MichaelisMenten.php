@@ -12,19 +12,22 @@ namespace MathPHP\Statistics\Regression\Models;
  */
 trait MichaelisMenten
 {
-    protected static $V = 0; // V parameter index
-    protected static $K = 1; // K parameter index
+    /** @var int V parameter index */
+    protected static $V = 0;
+
+    /** @var int K parameter index */
+    protected static $K = 1;
 
     /**
      * Evaluate the equation using the regression parameters
      * y = (V * X) / (K + X)
      *
-     * @param number $x
-     * @param array  $params
+     * @param float $x
+     * @param array $params
      *
-     * @return number y evaluated
+     * @return float y evaluated
      */
-    public static function evaluateModel($x, array $params)
+    public static function evaluateModel(float $x, array $params): float
     {
         $V = $params[self::$V];
         $K = $params[self::$K];

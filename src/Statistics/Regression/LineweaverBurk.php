@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\Statistics\Regression;
 
+use MathPHP\Exception;
 use MathPHP\Functions\Map\Single;
 
 /**
@@ -18,6 +19,9 @@ class LineweaverBurk extends ParametricRegression
     /**
      * Calculate the regression parameters by least squares on linearized data
      * y⁻¹ = K * V⁻¹ * x⁻¹ + V⁻¹
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\MatrixException
      */
     public function calculate()
     {
