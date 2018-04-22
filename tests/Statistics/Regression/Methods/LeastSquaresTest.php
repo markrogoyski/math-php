@@ -18,6 +18,9 @@ class LeastSquaresTest extends \PHPUnit\Framework\TestCase
         $regression = new Linear($points);
     }
 
+    /**
+     * @return array [points]
+     */
     public function dataProviderForLeastSquaresDegreesOfFreedomBadDataException(): array
     {
         return [

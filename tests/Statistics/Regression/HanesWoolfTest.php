@@ -6,9 +6,13 @@ use MathPHP\Statistics\Regression\HanesWoolf;
 class HanesWoolfTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     getParameters
      * @dataProvider dataProviderForParameters
+     * @param        array $points
+     * @param        float $V
+     * @param        float $K
      */
-    public function testGetParameters(array $points, $V, $K)
+    public function testGetParameters(array $points, float $V, float $K)
     {
         $regression = new HanesWoolf($points);
         $parameters = $regression->getParameters();
@@ -16,6 +20,9 @@ class HanesWoolfTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($K, $parameters['K'], '', 0.0001);
     }
 
+    /**
+     * @return array [points, V, K]
+     */
     public function dataProviderForParameters(): array
     {
         return [

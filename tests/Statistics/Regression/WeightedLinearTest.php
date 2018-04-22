@@ -6,9 +6,14 @@ use MathPHP\Statistics\Regression\WeightedLinear;
 class WeightedLinearTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     getParameters
      * @dataProvider dataProviderForParameters
+     * @param        array $points
+     * @param        array $weights
+     * @param        float $m
+     * @param        float $b
      */
-    public function testGetParameters(array $points, $weights, $m, $b)
+    public function testGetParameters(array $points, array $weights, float $m, float $b)
     {
         $regression = new WeightedLinear($points, $weights);
         $parameters = $regression->getParameters();
@@ -16,7 +21,10 @@ class WeightedLinearTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($b, $parameters['b'], '', 0.0001);
     }
 
-    public function dataProviderForParameters()
+    /**
+     * @return array [points, weights, m, b]
+     */
+    public function dataProviderForParameters(): array
     {
         return [
             [

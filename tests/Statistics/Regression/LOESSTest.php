@@ -7,9 +7,15 @@ use MathPHP\Exception;
 class LOESSTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     evaluate
      * @dataProvider dataProviderForEvaluate
+     * @param        array $points
+     * @param        float $α
+     * @param        float $λ
+     * @param        array $yHat
+     * @throws       \Exception
      */
-    public function testEvaluate(array $points, $α, $λ, $yHat)
+    public function testEvaluate(array $points, float $α, float $λ, array $yHat)
     {
         $loess     = new LOESS($points, $α, $λ);
         $test_yHat = $loess->yHat();
@@ -17,9 +23,12 @@ class LOESSTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals($yHat[$key], $value, '', .0000001);
         }
     }
-    public function dataProviderForEvaluate()
+
+    /**
+     * @return array [points, α, λ, yHat]
+     */
+    public function dataProviderForEvaluate(): array
     {
-        
         // data from http://www.itl.nist.gov/div898/handbook/pmd/section1/dep/dep144.htm
         return [
             [
@@ -32,15 +41,23 @@ class LOESSTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     smoothness parameter OutOfBoundsException
      * @dataProvider dataProviderForSmoothnessParameterOutOfBoundsException
+     * @param        array $points
+     * @param        float $α
+     * @param        float $λ
+     * @throws       \Exception
      */
-    public function testSmoothnessParameterOutOfBoundsException(array $points, $α, $λ)
+    public function testSmoothnessParameterOutOfBoundsException(array $points, float $α, float $λ)
     {
         $this->expectException(Exception\OutOfBoundsException::class);
         $loess = new LOESS($points, $α, $λ);
     }
 
-    public function dataProviderForSmoothnessParameterOutOfBoundsException()
+    /**
+     * @return array [points, α, λ]
+     */
+    public function dataProviderForSmoothnessParameterOutOfBoundsException(): array
     {
         return [
             [

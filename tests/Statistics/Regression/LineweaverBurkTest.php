@@ -6,8 +6,9 @@ use MathPHP\Statistics\Regression\LineweaverBurk;
 class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     getEquation - Equation matches pattern y = V * X / (K + x)
      * @dataProvider dataProviderForEquation
-     * Equation matches pattern y = V * X / (K + x)
+     * @param        array $points
      */
     public function testGetEquation(array $points)
     {
@@ -15,7 +16,10 @@ class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
         $this->assertRegExp('/^y = \d+[.]\d+x\/\(\d+[.]\d+\+x\)$/', $regression->getEquation());
     }
 
-    public function dataProviderForEquation()
+    /**
+     * @return array [points]
+     */
+    public function dataProviderForEquation(): array
     {
         return [
             [
@@ -25,9 +29,13 @@ class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     getParameters
      * @dataProvider dataProviderForParameters
+     * @param        array $points
+     * @param        float $V
+     * @param        float $K
      */
-    public function testGetParameters(array $points, $V, $K)
+    public function testGetParameters(array $points, float $V, float $K)
     {
         $regression = new LineweaverBurk($points);
         $parameters = $regression->getParameters();
@@ -35,7 +43,10 @@ class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($K, $parameters['K'], '', 0.0001);
     }
 
-    public function dataProviderForParameters()
+    /**
+     * @return array [points, V, K]
+     */
+    public function dataProviderForParameters(): array
     {
         return [
             [
@@ -46,15 +57,22 @@ class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     evaluate
      * @dataProvider dataProviderForEvaluate
+     * @param        array $points
+     * @param        float $x
+     * @param        float $y
      */
-    public function testEvaluate(array $points, $x, $y)
+    public function testEvaluate(array $points, float $x, float $y)
     {
         $regression = new LineweaverBurk($points);
         $this->assertEquals($y, $regression->evaluate($x), '', 0.0001);
     }
 
-    public function dataProviderForEvaluate()
+    /**
+     * @return array [points, x, y]
+     */
+    public function dataProviderForEvaluate(): array
     {
         return [
             [
