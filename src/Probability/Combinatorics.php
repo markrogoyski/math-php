@@ -40,11 +40,11 @@ class Combinatorics
      *
      * @param  int $n
      *
-     * @return int number of permutations of n
+     * @return float number of permutations of n
      *
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function factorial(int $n)
+    public static function factorial(int $n): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute factorial of a negative number.');
@@ -58,7 +58,7 @@ class Combinatorics
     }
 
     /**
-     * Double facatorial (iterative)
+     * Double factorial (iterative)
      * Also known as semifactorial
      *
      * The product of all the integers from 1 up to some non-negative integer n
@@ -80,11 +80,11 @@ class Combinatorics
      *
      * @param  int $n
      *
-     * @return int
+     * @return float
      *
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function doubleFactorial(int $n)
+    public static function doubleFactorial(int $n): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute double factorial of a negative number.');
@@ -118,13 +118,14 @@ class Combinatorics
      *
      * x⁽ⁿ⁾ = x * (x + 1) * (x + 2) ... (x + n - 1)
      *
-     * @param  number $x
-     * @param  int    $n
-     * @return number
+     * @param  float $x
+     * @param  int   $n
+     *
+     * @return float
      *
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function risingFactorial($x, int $n)
+    public static function risingFactorial(float $x, int $n): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute rising factorial of a negative number.');
@@ -146,13 +147,14 @@ class Combinatorics
      *
      * x₍ᵢ₎ = x * (x - 1) * (x - 2) ... (x - i + 1)
      *
-     * @param  number $x
-     * @param  int    $n
-     * @return number
+     * @param  float $x
+     * @param  int   $n
+     *
+     * @return float
      *
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function fallingFactorial($x, int $n)
+    public static function fallingFactorial(float $x, int $n): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute rising factorial of a negative number.');
@@ -184,11 +186,11 @@ class Combinatorics
      *
      * @param  int $n
      *
-     * @return int number of permutations of n
+     * @return float number of permutations of n
      *
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function subfactorial(int $n)
+    public static function subfactorial(int $n): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute subfactorial of a negative number.');
@@ -223,11 +225,11 @@ class Combinatorics
      * @param int $n
      * @param int $k (Optional) for nPk permutations
      *
-     * @return int number of permutations of n
+     * @return float number of permutations of n
      *
      * @throws Exception\OutOfBoundsException if n is negative or k is larger than n
      */
-    public static function permutations(int $n, int $k = null)
+    public static function permutations(int $n, int $k = null): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative permutations.');
@@ -269,11 +271,11 @@ class Combinatorics
      * @param  int  $k
      * @param  bool $repetition Whether to do n choose k with or without repetitions
      *
-     * @return int number of possible combinations of n objects taken k at a time
+     * @return float number of possible combinations of n objects taken k at a time
      *
      * @throws Exception\OutOfBoundsException if n is negative; if k is larger than n
      */
-    public static function combinations(int $n, int $k, bool $repetition = false)
+    public static function combinations(int $n, int $k, bool $repetition = false): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative combinations.');
@@ -308,11 +310,11 @@ class Combinatorics
      *
      * @param  int $n
      *
-     * @return int number
+     * @return float number
      *
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function centralBinomialCoefficient(int $n)
+    public static function centralBinomialCoefficient(int $n): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative central binomial coefficient.');
@@ -339,11 +341,11 @@ class Combinatorics
      *
      * @param  int $n
      *
-     * @return int number
+     * @return float number
      *
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function catalanNumber(int $n)
+    public static function catalanNumber(int $n): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative catalan number.');
@@ -364,11 +366,11 @@ class Combinatorics
      * @param int $n
      * @param int $k
      *
-     * @return number
+     * @return float
      *
      * @throws Exception\OutOfBoundsException if n or k < 1 or n < k
      */
-    public static function lahNumber(int $n, int $k)
+    public static function lahNumber(int $n, int $k): float
     {
         if ($n < 1 || $k < 1) {
             throw new Exception\OutOfBoundsException("n and k must be < 1 for Lah Numbers");
@@ -397,9 +399,11 @@ class Combinatorics
      *
      * @param  array $groups Sizes of each subgroup
      *
-     * @return int Number of divisions of n items into r distinct nonoverlapping subgroups
+     * @return float Number of divisions of n items into r distinct nonoverlapping subgroups
+     *
+     * @throws Exception\OutOfBoundsException
      */
-    public static function multinomial(array $groups)
+    public static function multinomial(array $groups): float
     {
         $n            = array_sum($groups);
         $n！          = self::factorial($n);
