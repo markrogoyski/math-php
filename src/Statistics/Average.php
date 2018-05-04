@@ -32,6 +32,49 @@ class Average
         return array_sum($numbers) / count($numbers);
     }
 
+     /**
+     * Calculate the weighted mean average of a list of numbers
+     *
+     *     ∑⟮xᵢwᵢ⟯
+     * x̄ = -----
+     *      ∑⟮wᵢ⟯
+     *
+     * @param array $numbers
+     * @param array $weights
+     *
+     * @return number
+     *
+     * @throws Exception\BadParameterException if the number of numbers
+     * and weights are not equal
+     */
+    public static function weightedMean(array $numbers, array $weights)
+    {
+        if (empty($numbers)) {
+            return null;
+        }
+
+        if (empty($weights)) {
+            return Average::mean($numbers);
+        }
+
+        $n = count($numbers);
+
+        if($n !== count($weights)){
+            throw new Exception\BadParameterException("Number of numbers must equal the number of weights");
+        }
+
+
+        $numbers = array_values($numbers);
+        $weights = array_values($weights);
+
+        $sum = 0;
+        for ($i = 0; $i<$n; $i++) {
+            $sum += $numbers[$i] * $weights[$i];
+        }
+
+        return $sum / array_sum($weights);
+    }
+
     /**
      * Calculate the median average of a list of numbers
      *
