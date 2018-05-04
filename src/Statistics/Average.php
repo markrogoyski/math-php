@@ -59,7 +59,7 @@ class Average
 
         $n = count($numbers);
 
-        if($n !== count($weights)){
+        if ($n !== count($weights)) {
             throw new Exception\BadParameterException("Number of numbers must equal the number of weights");
         }
 
