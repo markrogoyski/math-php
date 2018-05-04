@@ -44,7 +44,7 @@ class Average
      *
      * @return number
      *
-     * @throws Exception\BadParameterException if the number of numbers
+     * @throws Exception\BadDataException if the number of numbers
      * and weights are not equal
      */
     public static function weightedMean(array $numbers, array $weights)
@@ -60,7 +60,7 @@ class Average
         $n = count($numbers);
 
         if ($n !== count($weights)) {
-            throw new Exception\BadParameterException("Number of numbers must equal the number of weights");
+            throw new Exception\BadDataException("Numbers and weights must have the same number of elements.");
         }
 
 
