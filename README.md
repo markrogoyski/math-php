@@ -1497,6 +1497,7 @@ print_r($anova);
 use MathPHP\Statistics\Average;
 
 $numbers = [13, 18, 13, 14, 13, 16, 14, 21, 13];
+$weights = [12, 1,  23, 6,  12, 26, 21, 12, 1 ];
 
 // Mean, median, mode
 $mean   = Average::mean($numbers);
@@ -1504,6 +1505,7 @@ $median = Average::median($numbers);
 $mode   = Average::mode($numbers); // Returns an array — may be multimodal
 
 // Other means of a list of numbers
+$weighted_mean       = Average::weightedMean($numbers, $weights)
 $geometric_mean      = Average::geometricMean($numbers);
 $harmonic_mean       = Average::harmonicMean($numbers);
 $contraharmonic_mean = Average::contraharmonicMean($numbers);
