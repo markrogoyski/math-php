@@ -147,6 +147,59 @@ class Descriptive
     }
 
     /**
+     * Weighted sample variance
+     *
+     * Biased case
+     *
+     *       ∑wᵢ⟮xᵢ - μw⟯²
+     * σ²w = ----------
+     *           ∑wᵢ
+     *
+     * Unbiased estimator for frequency weights
+     *
+     *       ∑wᵢ⟮xᵢ - μw⟯²
+     * σ²w = ----------
+     *         ∑wᵢ - 1
+     *
+     * μw is the weighted mean
+     *
+     * https://en.wikipedia.org/wiki/Weighted_arithmetic_mean#Weighted_sample_variance
+     *
+     * @param array $numbers
+     * @param array $weights
+     * @param bool $biased
+     *
+     * @return number
+     *
+     * @throws Exception\OutOfBoundsException
+     * @throws Exception\BadDataException if the number of numbers
+     * and weights are not equal
+     */
+    public static function weightedSampleVariance(array $numbers, array $weights, bool $biased = false)
+    {
+        if (count($numbers) == 1) {
+            return 0;
+        }
+
+        $n = count($numbers);
+
+        if ($n !== count($weights)) {
+            throw new Exception\BadDataException("Numbers and weights must have the same number of elements.");
+        }
+
+        $μw           = Average::weightedMean($numbers, $weights);
+        $∑wᵢ⟮xᵢ − μw⟯² = array_sum(array_map(
+            function ($xᵢ, $wᵢ) use ($μw) {
+                return $wᵢ * pow(($xᵢ - $μw), 2);
+            },
+            $numbers,
+            $weights
+        ));
+
+        return $∑wᵢ⟮xᵢ − μw⟯² / (array_sum($weights) - ($biased ? 0 : 1));
+    }
+
+    /**
      * Standard deviation
      * A measure that is used to quantify the amount of variation or dispersion of a set of data values.
      * A low standard deviation indicates that the data points tend to be close to the mean

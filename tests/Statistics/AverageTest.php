@@ -46,6 +46,48 @@ class AverageTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     mean
+     * @dataProvider dataProviderForWeightedMean
+     * @param        array $numbers
+     * @param        float $mean
+     */
+    public function testWeightedMean(array $numbers, array $weights, float $mean)
+    {
+        $this->assertEquals($mean, Average::weightedMean($numbers, $weights), '', 0.001);
+    }
+
+    /**
+     * @return array [numbers, weights, mean]
+     */
+    public function dataProviderForWeightedMean(): array
+    {
+        return [
+            [ [26, 3, 3, 20, 21, 14, 4, 16, 13, 14], [10, 29, 26, 18, 9, 20, 9, 14, 27, 9], 11.6433 ],
+            [ [ 1, 2, 3 ], [ 1, 1, 1 ], 2 ],
+            [ [ 2, 0.8, 2.9, 2.4, 2.8, 1.3, 2.7, 0.7, 0, 1.9 ], [2.1, 1.9, 0.5, 2.7, 1.9, 0.1, 1.5, 1.7, 2, 0.5], 1.69732 ],
+        ];
+    }
+
+    /**
+     * @testCase weighted mean when the input array is empty
+     */
+    public function testWeightedMeanNullWhenEmptyArray()
+    {
+        $this->assertNull(Average::weightedMean(array(), array()));
+    }
+
+    /**
+     * @testCase mean when the input array is empty
+    * @dataProvider dataProviderForMean
+     * @param        array $numbers
+     * @param        float $mean
+     */
+    public function testWeightedMeanNullWhenEmptWeights($numbers, $mean)
+    {
+        $this->assertEquals($mean, Average::weightedMean($numbers, array()), '', 0.01);
+    }
+
+    /**
      * @testCase     median
      * @dataProvider dataProviderForMedian
      * @param        array $numbers

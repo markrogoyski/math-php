@@ -179,6 +179,33 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         Descriptive::variance([1, 2, 3], -1);
     }
 
+     /**
+     * @testCase     weightedSampleVariance
+     * @dataProvider dataProviderForWeightedSampleVariance
+     * @param        array $numbers
+     * @param        array $weights
+     * @param        float $variance
+     */
+    public function testWeightedSampleVariance(array $numbers, array $weights, float $variance)
+    {
+        $this->assertEquals($variance, Descriptive::weightedSampleVariance($numbers, $weights), '', 0.01);
+    }
+
+     /**
+     * Data provider for weighted sample variance test
+     * @return array [ [ numbers, weights ], variance ]
+     */
+    public function dataProviderForWeightedSampleVariance(): array
+    {
+        return [
+            [ [ -10, 0, 10, 20, 30 ], [1, 1, 1, 1, 1], 250 ],
+            [ [ 8, 9, 10, 11, 12 ], [1, 1, 1, 1, 1], 2.5 ],
+            [ [ 600, 470, 170, 430, 300 ], [1, 1, 1, 1, 1], 27130 ],
+            [ [ -5, 1, 8, 7, 2 ], [1, 1, 1, 1, 1], 27.3 ],
+            [ [ 3, 7, 34, 25, 46, 7754, 3, 6 ], [1, 1, 1, 1, 1, 1, 1, 1], 7481522.21429 ],
+        ];
+    }
+
     /**
      * @testCase     standardDeviation
      * @dataProvider dataProviderForStandardDeviationUsingPopulationVariance
