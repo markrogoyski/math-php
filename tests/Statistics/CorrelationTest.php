@@ -44,6 +44,34 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     weightedCovariance
+     * @dataProvider dataProviderForWeightedCovariance
+     * @param        array $X
+     * @param        array $Y
+     * @param        array $w
+     * @param        float $covariance
+     */
+    public function testWeightedCovariance(array $X, array $Y, array $w, float $covariance)
+    {
+        $this->assertEquals($covariance, Correlation::weightedCovariance($X, $Y, $w), '', 0.001);
+    }
+
+    /**
+     * Data provider for weighted covariance test
+     * @return array [X, Y, w, covariance]
+     */
+    public function dataProviderForWeightedCovariance(): array
+    {
+        return [
+            [ [ 1, 2, 3, 4 ], [ 2, 3, 4, 5 ], [ 1, 1, 1, 1 ], 1.25 ],
+            [ [ 1, 2, 4, 7, 9, 10 ], [ 2, 3, 5, 8, 11, 12.5 ],  [ 1.0, 1, 1, 1, 1, 1 ], 13.29167 ],
+            [ [ 1, 3, 2, 5, 8, 7, 12, 2, 4], [ 8, 6, 9, 4, 3, 3, 2, 7, 7 ], [ 1, 1, 1, 1, 1, 1, 1, 1, 1 ], -7.1728 ],
+            [ [1.4, 1.9, 2.6, 0.3, 0.3, 0.8, 1, 2.5, 2.9, 0.9], [2.6, 3, 1.4, 1.5, 2.8, 1.9, 1.9, 0.6, 2.0, 2.1], [0.87, 0.68, 0.69, 0.83, 0.17, 0.56, 0.01, 0.79, 0.26, 0.72], -0.179768 ],
+            [ [9, 18, 10, 29, 22], [2, 11, 5, 12, 21], [8, 15, 10, 0, 6], 29.0178]
+        ];
+    }
+
+    /**
      * @testCase populationCovariance when X and Y have different counts
      */
     public function testPopulationCovarianceExceptionWhenXAndYHaveDifferentCounts()
@@ -123,6 +151,19 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     weightedCorrelationCoefficient
+     * @dataProvider dataProviderForWeightedCorrelationCoefficient
+     * @param        array $x
+     * @param        array $y
+     * @param        array $w
+     * @param        float $wcc
+     */
+    public function testWeightedCorrelationCoefficient(array $x, array $y, array $w, float $wcc)
+    {
+        $this->assertEquals($wcc, Correlation::weightedCorrelationCoefficient($x, $y, $w), '', 0.001);
+    }
+
+    /**
      * Data provider for population correlation coefficient test
      * @return array [x, y, ppc]
      */
@@ -131,6 +172,20 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         return [
             [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 40, 80, 100 ], 0.96841 ],
             [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 30, 50, 120 ], 0.96359 ],
+        ];
+    }
+
+     /**
+     * Data provider for weighted correlation coefficient test
+     * @return array [x, y, w, wcc]
+     */
+    public function dataProviderForWeightedCorrelationCoefficient(): array
+    {
+        return [
+            [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 40, 80, 100 ], [1, 1, 1, 1, 1], 0.96841 ],
+            [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 30, 50, 120 ], [1, 1, 1, 1, 1], 0.96359 ],
+            [ [1.1, 1.6, 1.7, 2.3, 1.3], [1.7, 0.5, 1.7, 0.3, 1.2], [1.14, 0.88, 0.64, 1.78, 1.64], -0.812775],
+            [[9, 18, 10, 29, 22], [2, 11, 5, 12, 21], [8, 15, 10, 0, 6], 0.949086]
         ];
     }
 
