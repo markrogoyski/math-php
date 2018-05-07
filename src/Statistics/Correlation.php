@@ -182,6 +182,7 @@ class Correlation
      * @return float
      *
      * @throws Exception\BadDataException
+     * @throws Exception\OutOfBoundsException
      */
     public static function r(array $X, array $Y, bool $population = false): float
     {
@@ -218,6 +219,7 @@ class Correlation
      * @return float
      *
      * @throws Exception\BadDataException
+     * @throws Exception\OutOfBoundsException
      */
     public static function populationCorrelationCoefficient(array $X, array $Y): float
     {
@@ -256,6 +258,7 @@ class Correlation
      * @return float
      *
      * @throws Exception\BadDataException
+     * @throws Exception\OutOfBoundsException
      */
     public static function sampleCorrelationCoefficient(array $X, array $Y): float
     {
@@ -277,6 +280,7 @@ class Correlation
      * @return float
      *
      * @throws Exception\BadDataException
+     * @throws Exception\OutOfBoundsException
      */
     public static function r2(array $X, array $Y, bool $popluation = false): float
     {
@@ -298,6 +302,7 @@ class Correlation
      * @return float
      *
      * @throws Exception\BadDataException
+     * @throws Exception\OutOfBoundsException
      */
     public static function coefficientOfDetermination(array $X, array $Y, bool $popluation = false): float
     {
@@ -327,11 +332,11 @@ class Correlation
      *
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
+     * @param array $w values for weights
      *
      * @return float
      *
      * @throws Exception\BadDataException
-     * @throws Exception\OutOfBoundsException
      */
     public static function weightedCorrelationCoefficient(array $X, array $Y, array $w): float
     {
@@ -552,6 +557,7 @@ class Correlation
      * @return array [cov, r, R2, tau, rho]
      *
      * @throws Exception\BadDataException
+     * @throws Exception\OutOfBoundsException
      */
     public static function describe(array $X, array $Y, bool $population = false): array
     {

@@ -46,10 +46,12 @@ class AverageTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @testCase     weightedMean
      * @dataProvider dataProviderForWeightedMean
      * @param        array $numbers
+     * @param        array $weights
      * @param        float $mean
+     * @throws       \Exception
      */
     public function testWeightedMean(array $numbers, array $weights, float $mean)
     {
@@ -80,6 +82,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase weighted mean when the input array is empty
+     * @throws   \Exception
      */
     public function testWeightedMeanNullWhenEmptyArray()
     {
@@ -87,14 +90,28 @@ class AverageTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase mean when the input array is empty
-    * @dataProvider dataProviderForMean
+     * @testCase     mean when the input array is empty
+     * @dataProvider dataProviderForMean
      * @param        array $numbers
      * @param        float $mean
+     * @throws       \Exception
      */
-    public function testWeightedMeanNullWhenEmptWeights($numbers, $mean)
+    public function testWeightedMeanIsJustMeanWhenEmptyWeights(array $numbers, float $mean)
     {
         $this->assertEquals($mean, Average::weightedMean($numbers, array()), '', 0.01);
+    }
+
+    /**
+     * @testCase weightedMean throws a BadDataException when the numbers and weights don't have the same number of elements
+     * @throws   Exception\BadDataException
+     */
+    public function testWeightedMeanBadDataExceptionWhenCountsDoNotMatch()
+    {
+        $numbers = [1, 2, 3];
+        $weights = [1, 1];
+
+        $this->expectException(Exception\BadDataException::class);
+        Average::weightedMean($numbers, $weights);
     }
 
     /**
@@ -322,6 +339,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase harmonicMean when the input array is empty
+     * @throws   \Exception
      */
     public function testHarmonicMeanNullWhenEmptyArray()
     {
@@ -330,6 +348,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase harmonicMean with negative values
+     * @throws   \Exception
      */
     public function testHarmonicMeanExceptionNegativeValues()
     {
@@ -338,9 +357,12 @@ class AverageTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     rootMeanSquare
      * @dataProvider dataProviderForRootMeanSquare
+     * @param        array $numbers
+     * @param        float $rms
      */
-    public function testRootMeanSquare(array $numbers, $rms)
+    public function testRootMeanSquare(array $numbers, float $rms)
     {
         $this->assertEquals($rms, Average::rootMeanSquare($numbers), '', 0.01);
     }
@@ -399,6 +421,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
      * @param        array $numbers
      * @param        float $trim_percent
      * @param        float $mean
+     * @throws       \Exception
      */
     public function testTruncatedMean(array $numbers, float $trim_percent, float $mean)
     {
@@ -420,6 +443,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase truncatedMean trim percent is less than zero
+     * @throws   \Exception
      */
     public function testTruncatedMeanExceptionLessThanZeroTrimPercent()
     {
@@ -429,6 +453,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase truncatedMean trim percent greater than 99
+     * @throws   \Exception
      */
     public function testTruncatedMeanExceptionGreaterThan99TrimPercent()
     {
@@ -441,6 +466,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForInterquartileMean
      * @param        array $numbers
      * @param        float $iqm
+     * @throws       \Exception
      */
     public function testInterquartileMean(array $numbers, float $iqm)
     {
@@ -452,6 +478,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForInterquartileMean
      * @param        array $numbers
      * @param        float $iqm
+     * @throws       \Exception
      */
     public function testIQM(array $numbers, float $iqm)
     {
@@ -517,6 +544,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase lehmerMean with a p of zero is the harmonic mean
+     * @throws   \Exception
      */
     public function testLehmerMeanPEqualsZeroIsHarmonicMean()
     {
@@ -605,6 +633,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase generalizedMean with a p of negative one is the harmonic mean
+     * @throws   \Exception
      */
     public function testGeneralizedMeanPEqualsNegativeOneIsHarmonicMean()
     {
@@ -746,6 +775,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
      * @param        int   $n
      * @param        array $weights
      * @param        array $WMA
+     * @throws       \Exception
      */
     public function testWeightedMovingAverage(array $numbers, int $n, array $weights, array $WMA)
     {
@@ -781,6 +811,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase weightedMovingAverage weights differ from n
+     * @throws   \Exception
      */
     public function testWeightedMovingAverageExceptionWeightsDifferFromN()
     {
@@ -943,6 +974,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
      * @param        float $x
      * @param        float $y
      * @param        float $mean
+     * @throws       \Exception
      */
     public function testIdentricMean(float $x, float $y, float $mean)
     {
@@ -965,6 +997,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase identricMean throws an \Exception for a negative value
+     * @throws   \Exception
      */
     public function testIdentricMeanExceptionNegativeValue()
     {
@@ -974,6 +1007,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase describe
+     * @throws   \Exception
      */
     public function testDescribe()
     {

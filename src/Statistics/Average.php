@@ -158,7 +158,6 @@ class Average
         // this "median of medians".
         $lower_upper   = self::splitAtValue($numbers, $median_of_medians);
         $lower_number = count($lower_upper['lower']);
-        $upper_number = count($lower_upper['upper']);
         $equal_number = $lower_upper['equal'];
         
         // Lastly, we find which group of values our value of interest is in, and find it in the
@@ -742,7 +741,7 @@ class Average
 
         // Standard case x and y > 0
         list($a, $g) = [$x, $y];
-        foreach (range(1, 10) as $_) {
+        for ($i = 0; $i <= 10; $i++) {
             list($a, $g) = [self::mean([$a, $g]), self::geometricMean([$a, $g])];
         }
         return $a;

@@ -91,6 +91,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForPopulationVariance
      * @param        array $numbers
      * @param        float $variance
+     * @throws       \Exception
      */
     public function testPopulationVariance(array $numbers, float $variance)
     {
@@ -116,6 +117,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase populationVariance when the array is empty
+     * @throws   \Exception
      */
     public function testPopulationVarianceNullWhenEmptyArray()
     {
@@ -127,6 +129,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForSampleVariance
      * @param        array $numbers
      * @param        float $variance
+     * @throws       \Exception
      */
     public function testSampleVariance(array $numbers, float $variance)
     {
@@ -156,6 +159,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase sampleVariance when the array is empty
+     * @throws   \Exception
      */
     public function testSampleVarianceNullWhenEmptyArray()
     {
@@ -164,6 +168,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase sampleVariance when the array only contains one item
+     * @throws   \Exception
      */
     public function testSampleVarianceZeroWhenListContainsOnlyOneItem()
     {
@@ -172,6 +177,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase variance when the degrees of freedom is less than zero
+     * @throws   \Exception
      */
     public function testVarianceExceptionDFLessThanZero()
     {
@@ -179,12 +185,13 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         Descriptive::variance([1, 2, 3], -1);
     }
 
-     /**
+    /**
      * @testCase     weightedSampleVariance unbiased
      * @dataProvider dataProviderForWeightedSampleVarianceUnbiased
      * @param        array $numbers
      * @param        array $weights
      * @param        float $variance
+     * @throws       \Exception
      */
     public function testWeightedSampleVarianceUnbiased(array $numbers, array $weights, float $variance)
     {
@@ -212,6 +219,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
      * @param        array $numbers
      * @param        array $weights
      * @param        float $variance
+     * @throws       \Exception
      */
     public function testWeightedSampleVarianceBiased(array $numbers, array $weights, float $variance)
     {
@@ -237,10 +245,35 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase weightedSampleVariance is zero when there is only one number.
+     * @throws   Exception\BadDataException
+     */
+    public function testWeightedSampleVarianceSetOfOne()
+    {
+        $numbers = [4];
+        $weights = [1];
+        $this->assertEquals(0, Descriptive::weightedSampleVariance($numbers, $weights));
+    }
+
+    /**
+     * @testCase weightedSampleVariance throws a BadDataException if the weights and numbers have different counts
+     * @throws   Exception\BadDataException
+     */
+    public function testWeightedSampleVarianceException()
+    {
+        $numbers = [1, 2, 3];
+        $weights = [1, 1];
+
+        $this->expectException(Exception\BadDataException::class);
+        Descriptive::weightedSampleVariance($numbers, $weights);
+    }
+
+    /**
      * @testCase     standardDeviation
      * @dataProvider dataProviderForStandardDeviationUsingPopulationVariance
      * @param        array $numbers
      * @param        float $standard_deviation
+     * @throws       \Exception
      */
     public function testStandardDeviationUsingPopulationVariance(array $numbers, float $standard_deviation)
     {
@@ -252,8 +285,9 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForStandardDeviationUsingPopulationVariance
      * @param        array $numbers
      * @param        float $standard_deviation
+     * @throws       \Exception
      */
-    public function testSDeviationUsingPopulationVariance(array $numbers, float $standard_deviation)
+    public function testSdUsingPopulationVariance(array $numbers, float $standard_deviation)
     {
         $this->assertEquals($standard_deviation, Descriptive::sd($numbers, true), '', 0.01);
     }
@@ -280,6 +314,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForStandardDeviationUsingSampleVariance
      * @param        array $numbers
      * @param        float $standard_deviation
+     * @throws       \Exception
      */
     public function testStandardDeviationUsingSampleVariance(array $numbers, float $standard_deviation)
     {
@@ -291,6 +326,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForStandardDeviationUsingSampleVariance
      * @param        array $numbers
      * @param        float $standard_deviation
+     * @throws       \Exception
      */
     public function testSDeviationUsingSampleVariance(array $numbers, float $standard_deviation)
     {
@@ -313,6 +349,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase standardDeviation when the array is empty
+     * @throws   \Exception
      */
     public function testStandardDeviationNullWhenEmptyArray()
     {
@@ -321,6 +358,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase sd when the array is empty
+     * @throws   \Exception
      */
     public function testSDNullWhenEmptyArray()
     {
@@ -566,6 +604,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
      * @param        array $numbers
      * @param        float $percentile
      * @param        float $value
+     * @throws       \Exception
      */
     public function testPercentile(array $numbers, float $percentile, float $value)
     {
@@ -728,6 +767,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase percentile throws an Exception\BadDataException if numbers is empty
+     * @throws   \Exception
      */
     public function testPercentileEmptyList()
     {
@@ -737,6 +777,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase percentile throws an Exception\OutOfBoundsException if P is < 0
+     * @throws   \Exception
      */
     public function testPercentileOutOfLowerBoundsP()
     {
@@ -746,6 +787,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase percentile throws an Exception\OutOfBoundsException if P is > 100
+     * @throws   \Exception
      */
     public function testPercentileOutOfUpperBoundsP()
     {
@@ -782,6 +824,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForCoefficientOfVariation
      * @param        array $numbers
      * @param        float $cv
+     * @throws       \Exception
      */
     public function testsCoefficientOfVariation(array $numbers, float $cv)
     {
@@ -805,6 +848,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase describe - population
+     * @throws   \Exception
      */
     public function testDescribePopulation()
     {
@@ -858,6 +902,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase describe - sample
+     * @throws   \Exception
      */
     public function testDescribeSample()
     {
@@ -909,6 +954,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
      * @testCase     describe will return null ses for values of n < 3
      * @dataProvider dataProviderForDescribeNullSes
      * @param        array $numbers
+     * @throws       \Exception
      */
     public function testDescribeSesNullForSmallN(array $numbers)
     {
@@ -950,6 +996,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
      * @testCase     describe will return null sek for values of n < 4
      * @dataProvider dataProviderForDescribeNullSek
      * @param        array $numbers
+     * @throws       \Exception
      */
     public function testDescribeSekNullForSmallN(array $numbers)
     {

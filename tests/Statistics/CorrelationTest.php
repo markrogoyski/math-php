@@ -12,6 +12,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $X
      * @param        array $Y
      * @param        float $covariance
+     * @throws       \Exception
      */
     public function testCovariancePopluation(array $X, array $Y, float $covariance)
     {
@@ -24,6 +25,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $X
      * @param        array $Y
      * @param        float $covariance
+     * @throws       \Exception
      */
     public function testPopulationCovariance(array $X, array $Y, float $covariance)
     {
@@ -50,6 +52,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $Y
      * @param        array $w
      * @param        float $covariance
+     * @throws       \Exception
      */
     public function testWeightedCovariance(array $X, array $Y, array $w, float $covariance)
     {
@@ -72,7 +75,41 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     weightedCovariance throws a BadDataException if the counts of any of the arrays are different
+     * @dataProvider dataProviderForWeightedCovarianceException
+     * @param        array $X
+     * @param        array $Y
+     * @param        array $w
+     * @throws       Exception\BadDataException
+     */
+    public function testWeightedCovarianceException(array $X, array $Y, array $w)
+    {
+        $this->expectException(Exception\BadDataException::class);
+        Correlation::weightedCovariance($X, $Y, $w);
+    }
+
+    /**
+     * @return array [X, Y, weights]
+     */
+    public function dataProviderForWeightedCovarianceException(): array
+    {
+        return [
+            [
+                [1, 2, 3],
+                [2, 3],
+                [1, 1, 1],
+            ],
+            [
+                [1, 2, 3],
+                [2, 3, 4],
+                [1, 1,],
+            ],
+        ];
+    }
+
+    /**
      * @testCase populationCovariance when X and Y have different counts
+     * @throws   \Exception
      */
     public function testPopulationCovarianceExceptionWhenXAndYHaveDifferentCounts()
     {
@@ -86,6 +123,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $X
      * @param        array $Y
      * @param        float $covariance
+     * @throws       \Exception
      */
     public function testCovarianceSample(array $X, array $Y, float $covariance)
     {
@@ -98,6 +136,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $X
      * @param        array $Y
      * @param        float $covariance
+     * @throws       \Exception
      */
     public function testSampleCovariance(array $X, array $Y, float $covariance)
     {
@@ -119,6 +158,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase sampleCovariance when X and Y have different counts
+     * @throws   \Exception
      */
     public function testSampleCovarianceExceptionWhenXAndYHaveDifferentCounts()
     {
@@ -132,6 +172,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $x
      * @param        array $y
      * @param        float $pcc
+     * @throws       \Exception
      */
     public function testRPopulation(array $x, array $y, float $pcc)
     {
@@ -144,6 +185,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $x
      * @param        array $y
      * @param        float $pcc
+     * @throws       \Exception
      */
     public function testPopulationCorrelationCoefficient(array $x, array $y, float $pcc)
     {
@@ -169,6 +211,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $y
      * @param        array $w
      * @param        float $wcc
+     * @throws       \Exception
      */
     public function testWeightedCorrelationCoefficient(array $x, array $y, array $w, float $wcc)
     {
@@ -197,6 +240,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $x
      * @param        array $y
      * @param        float $scc
+     * @throws       \Exception
      */
     public function testRSample(array $x, array $y, float $scc)
     {
@@ -209,6 +253,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $x
      * @param        array $y
      * @param        float $scc
+     * @throws       \Exception
      */
     public function testSampleCorrelationCoefficient(array $x, array $y, float $scc)
     {
@@ -233,6 +278,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $X
      * @param        array $Y
      * @param        float $r2
+     * @throws       \Exception
      */
     public function testCoefficientOfDetermination(array $X, array $Y, float $r2)
     {
@@ -245,6 +291,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $X
      * @param        array $Y
      * @param        float $r2
+     * @throws       \Exception
      */
     public function testR2(array $X, array $Y, float $r2)
     {
@@ -276,6 +323,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $X
      * @param        array $Y
      * @param        float $τ
+     * @throws       \Exception
      */
     public function testKendallsTau(array $X, array $Y, float $τ)
     {
@@ -330,6 +378,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase kendallsTau with different length arrays
+     * @throws   \Exception
      */
     public function testKendallsTauExceptionDifferentLengthArrays()
     {
@@ -346,6 +395,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $X
      * @param        array $Y
      * @param        float $ρ
+     * @throws       \Exception
      */
     public function testSpearmansRho(array $X, array $Y, float $ρ)
     {
@@ -388,6 +438,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase spearmansRho with different length arrays
+     * @throws   \Exception
      */
     public function testSpearmansRhoExceptionDifferentLengthArrays()
     {
@@ -400,6 +451,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase describe
+     * @throws   \Exception
      */
     public function testDescribe()
     {
@@ -426,6 +478,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $data
      * @param        float $sd
      * @param        array $results
+     * @throws       \Exception
      */
     public function testEllipse(array $data, float $sd, array $results)
     {
