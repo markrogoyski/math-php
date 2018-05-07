@@ -53,7 +53,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
      */
     public function testWeightedMean(array $numbers, array $weights, float $mean)
     {
-        $this->assertEquals($mean, Average::weightedMean($numbers, $weights), '', 0.001);
+        $this->assertEquals($mean, Average::weightedMean($numbers, $weights), '', 0.0001);
     }
 
     /**
@@ -62,9 +62,19 @@ class AverageTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForWeightedMean(): array
     {
         return [
+            // Weights add up to 1
+            [ [1, 3, 5, 7, 10], [1/5, 1/5, 1/5, 1/5, 1/5], 5.2],
+            [ [1, 2, 3, 4], [1/4, 1/4, 1/4, 1/4], 2.5],
+            [ [1, 2,3 , 4], [0.1, 0.1, 0.7, 0.1], 2.8],
+            [ [8, 6, 7], [0.5, 0.3, 0.2], 7.2],
+            [ [9, 4, 6], [0.5, 0.3, 0.2], 6.9],
+
+            // Weights do not add at up 1
             [ [26, 3, 3, 20, 21, 14, 4, 16, 13, 14], [10, 29, 26, 18, 9, 20, 9, 14, 27, 9], 11.6433 ],
             [ [ 1, 2, 3 ], [ 1, 1, 1 ], 2 ],
             [ [ 2, 0.8, 2.9, 2.4, 2.8, 1.3, 2.7, 0.7, 0, 1.9 ], [2.1, 1.9, 0.5, 2.7, 1.9, 0.1, 1.5, 1.7, 2, 0.5], 1.69732 ],
+            [ [70, 80, 90], [2, 3, 1], 78.3333],
+            [ [1, 2, 5, 7], [2, 14, 8, 32], 5.25],
         ];
     }
 

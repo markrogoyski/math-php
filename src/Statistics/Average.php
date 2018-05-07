@@ -32,8 +32,9 @@ class Average
         return array_sum($numbers) / count($numbers);
     }
 
-     /**
+    /**
      * Calculate the weighted mean average of a list of numbers
+     * https://en.wikipedia.org/wiki/Weighted_arithmetic_mean
      *
      *     ∑⟮xᵢwᵢ⟯
      * x̄ = -----
@@ -44,35 +45,30 @@ class Average
      *
      * @return number
      *
-     * @throws Exception\BadDataException if the number of numbers
-     * and weights are not equal
+     * @throws Exception\BadDataException if the number of numbers and weights are not equal
      */
     public static function weightedMean(array $numbers, array $weights)
     {
         if (empty($numbers)) {
             return null;
         }
-
         if (empty($weights)) {
             return Average::mean($numbers);
         }
-
-        $n = count($numbers);
-
-        if ($n !== count($weights)) {
-            throw new Exception\BadDataException("Numbers and weights must have the same number of elements.");
+        if (count($numbers) !== count($weights)) {
+            throw new Exception\BadDataException('Numbers and weights must have the same number of elements.');
         }
 
+        $∑⟮xᵢwᵢ⟯ = array_sum(array_map(
+            function ($xᵢ, $wᵢ) {
+                return $xᵢ * $wᵢ;
+            },
+            $numbers,
+            $weights
+        ));
+        $∑⟮wᵢ⟯ = array_sum($weights);
 
-        $numbers = array_values($numbers);
-        $weights = array_values($weights);
-
-        $sum = 0;
-        for ($i = 0; $i<$n; $i++) {
-            $sum += $numbers[$i] * $weights[$i];
-        }
-
-        return $sum / array_sum($weights);
+        return $∑⟮xᵢwᵢ⟯ / $∑⟮wᵢ⟯;
     }
 
     /**

@@ -151,19 +151,6 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     weightedCorrelationCoefficient
-     * @dataProvider dataProviderForWeightedCorrelationCoefficient
-     * @param        array $x
-     * @param        array $y
-     * @param        array $w
-     * @param        float $wcc
-     */
-    public function testWeightedCorrelationCoefficient(array $x, array $y, array $w, float $wcc)
-    {
-        $this->assertEquals($wcc, Correlation::weightedCorrelationCoefficient($x, $y, $w), '', 0.001);
-    }
-
-    /**
      * Data provider for population correlation coefficient test
      * @return array [x, y, ppc]
      */
@@ -175,17 +162,32 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-     /**
+    /**
+     * @testCase     weightedCorrelationCoefficient
+     * @dataProvider dataProviderForWeightedCorrelationCoefficient
+     * @param        array $x
+     * @param        array $y
+     * @param        array $w
+     * @param        float $wcc
+     */
+    public function testWeightedCorrelationCoefficient(array $x, array $y, array $w, float $wcc)
+    {
+        $this->assertEquals($wcc, Correlation::weightedCorrelationCoefficient($x, $y, $w), '', 0.00001);
+    }
+
+    /**
      * Data provider for weighted correlation coefficient test
+     * Test data created using R package wCorr: weightedCorr(x, y, weights = w, method = "Pearson")
      * @return array [x, y, w, wcc]
      */
     public function dataProviderForWeightedCorrelationCoefficient(): array
     {
         return [
-            [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 40, 80, 100 ], [1, 1, 1, 1, 1], 0.96841 ],
-            [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 30, 50, 120 ], [1, 1, 1, 1, 1], 0.96359 ],
-            [ [1.1, 1.6, 1.7, 2.3, 1.3], [1.7, 0.5, 1.7, 0.3, 1.2], [1.14, 0.88, 0.64, 1.78, 1.64], -0.812775],
-            [[9, 18, 10, 29, 22], [2, 11, 5, 12, 21], [8, 15, 10, 0, 6], 0.949086]
+            [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 40, 80, 100 ], [1, 1, 1, 1, 1], 0.9684134 ],
+            [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 30, 50, 120 ], [1, 1, 1, 1, 1], 0.963586 ],
+            [ [ 1, 2, 4, 5, 8 ], [ 5, 20, 30, 50, 120 ], [0.2, 0.3, 0.2, 0.2, 0.1], 0.9510173 ],
+            [ [1.1, 1.6, 1.7, 2.3, 1.3], [1.7, 0.5, 1.7, 0.3, 1.2], [1.14, 0.88, 0.64, 1.78, 1.64], -0.8127747],
+            [[9, 18, 10, 29, 22], [2, 11, 5, 12, 21], [8, 15, 10, 0, 6], 0.9490861]
         ];
     }
 

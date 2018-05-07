@@ -167,24 +167,19 @@ class Descriptive
      *
      * @param array $numbers
      * @param array $weights
-     * @param bool $biased
+     * @param bool  $biased
      *
      * @return number
      *
-     * @throws Exception\OutOfBoundsException
-     * @throws Exception\BadDataException if the number of numbers
-     * and weights are not equal
+     * @throws Exception\BadDataException if the number of numbers and weights are not equal
      */
     public static function weightedSampleVariance(array $numbers, array $weights, bool $biased = false)
     {
-        if (count($numbers) == 1) {
+        if (count($numbers) === 1) {
             return 0;
         }
-
-        $n = count($numbers);
-
-        if ($n !== count($weights)) {
-            throw new Exception\BadDataException("Numbers and weights must have the same number of elements.");
+        if (count($numbers) !== count($weights)) {
+            throw new Exception\BadDataException('Numbers and weights must have the same number of elements.');
         }
 
         $μw           = Average::weightedMean($numbers, $weights);
@@ -196,7 +191,11 @@ class Descriptive
             $weights
         ));
 
-        return $∑wᵢ⟮xᵢ − μw⟯² / (array_sum($weights) - ($biased ? 0 : 1));
+        $∑wᵢ = $biased
+            ? array_sum($weights)
+            : array_sum($weights) - 1;
+
+        return $∑wᵢ⟮xᵢ − μw⟯² / $∑wᵢ;
     }
 
     /**

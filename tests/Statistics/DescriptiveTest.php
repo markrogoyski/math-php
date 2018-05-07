@@ -180,22 +180,22 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
      /**
-     * @testCase     weightedSampleVariance
-     * @dataProvider dataProviderForWeightedSampleVariance
+     * @testCase     weightedSampleVariance unbiased
+     * @dataProvider dataProviderForWeightedSampleVarianceUnbiased
      * @param        array $numbers
      * @param        array $weights
      * @param        float $variance
      */
-    public function testWeightedSampleVariance(array $numbers, array $weights, float $variance)
+    public function testWeightedSampleVarianceUnbiased(array $numbers, array $weights, float $variance)
     {
-        $this->assertEquals($variance, Descriptive::weightedSampleVariance($numbers, $weights), '', 0.01);
+        $this->assertEquals($variance, Descriptive::weightedSampleVariance($numbers, $weights), '', 0.00001);
     }
 
      /**
      * Data provider for weighted sample variance test
      * @return array [ [ numbers, weights ], variance ]
      */
-    public function dataProviderForWeightedSampleVariance(): array
+    public function dataProviderForWeightedSampleVarianceUnbiased(): array
     {
         return [
             [ [ -10, 0, 10, 20, 30 ], [1, 1, 1, 1, 1], 250 ],
@@ -203,6 +203,36 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
             [ [ 600, 470, 170, 430, 300 ], [1, 1, 1, 1, 1], 27130 ],
             [ [ -5, 1, 8, 7, 2 ], [1, 1, 1, 1, 1], 27.3 ],
             [ [ 3, 7, 34, 25, 46, 7754, 3, 6 ], [1, 1, 1, 1, 1, 1, 1, 1], 7481522.21429 ],
+        ];
+    }
+
+    /**
+     * @testCase     weightedSampleVariance biased
+     * @dataProvider dataProviderForWeightedSampleVarianceBiased
+     * @param        array $numbers
+     * @param        array $weights
+     * @param        float $variance
+     */
+    public function testWeightedSampleVarianceBiased(array $numbers, array $weights, float $variance)
+    {
+        $biased = true;
+        $this->assertEquals($variance, Descriptive::weightedSampleVariance($numbers, $weights, $biased), '', 0.1);
+    }
+
+    /**
+     * Data provider for weighted sample variance test
+     * Test data created with R package Weighted.Desc.Stat: w.var(x, w)
+     * @return array [ [ numbers, weights ], variance ]
+     */
+    public function dataProviderForWeightedSampleVarianceBiased(): array
+    {
+        return [
+            [ [ -10, 0, 10, 20, 30 ], [1, 1, 1, 1, 1], 200 ],
+            [ [ 8, 9, 10, 11, 12 ], [1, 1, 1, 1, 1], 2 ],
+            [ [ 8, 9, 10, 11, 12 ], [0.3, 0.3, 0.2, 0.2, 0.1], 1.702479 ],
+            [ [ 600, 470, 170, 430, 300 ], [1, 1, 1, 1, 1], 21704 ],
+            [ [ -5, 1, 8, 7, 2 ], [1, 1, 1, 1, 1], 21.84 ],
+            [ [ 3, 7, 34, 25, 46, 7754, 3, 6 ], [1, 1, 1, 1, 1, 1, 1, 1], 6546332 ],
         ];
     }
 

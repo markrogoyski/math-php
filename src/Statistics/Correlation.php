@@ -304,15 +304,14 @@ class Correlation
         return pow(self::r($X, $Y, $popluation), 2);
     }
 
-     /**
+    /**
      * Weighted correlation coefficient
      * Pearson product-moment correlation coefficient (PPMCC or PCC or Pearson's r) width weighted values
      *
      * A normalized measure of the linear correlation between two variables X and Y,
      * giving a value between +1 and −1 inclusive, where 1 is total positive correlation,
      * 0 is no correlation, and −1 is total negative correlation.
-     * It is widely used in the sciences as a measure of the degree of linear dependence
-     * between two variables.
+     * It is widely used in the sciences as a measure of the degree of linear dependence between two variables.
      * https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Weighted_correlation_coefficient
      *
      * The weighted correlation coefficient of two variables in a data sample is their covariance
@@ -332,6 +331,7 @@ class Correlation
      * @return float
      *
      * @throws Exception\BadDataException
+     * @throws Exception\OutOfBoundsException
      */
     public static function weightedCorrelationCoefficient(array $X, array $Y, array $w): float
     {
