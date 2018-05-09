@@ -1497,15 +1497,17 @@ print_r($anova);
 use MathPHP\Statistics\Average;
 
 $numbers = [13, 18, 13, 14, 13, 16, 14, 21, 13];
-$weights = [12, 1,  23, 6,  12, 26, 21, 12, 1 ];
 
 // Mean, median, mode
 $mean   = Average::mean($numbers);
 $median = Average::median($numbers);
 $mode   = Average::mode($numbers); // Returns an array — may be multimodal
 
+// Weighted mean
+$weights       = [12, 1, 23, 6, 12, 26, 21, 12, 1];
+$weighted_mean = Average::weightedMean($numbers, $weights)
+
 // Other means of a list of numbers
-$weighted_mean       = Average::weightedMean($numbers, $weights)
 $geometric_mean      = Average::geometricMean($numbers);
 $harmonic_mean       = Average::harmonicMean($numbers);
 $contraharmonic_mean = Average::contraharmonicMean($numbers);
@@ -1593,12 +1595,12 @@ use MathPHP\Statistics\Correlation;
 
 $X = [1, 2, 3, 4, 5];
 $Y = [2, 3, 4, 4, 6];
-$w = [2, 3, 1, 1, 5];
 
 // Covariance
 $σxy = Correlation::covariance($X, $Y);  // Has optional parameter to set population (defaults to sample covariance)
 
 // Weighted covariance
+$w    = [2, 3, 1, 1, 5];
 $σxyw = Correlation::weightedCovariance($X, $Y, $w);
 
 // r - Pearson product-moment correlation coefficient (Pearson's r)
@@ -1651,6 +1653,10 @@ $S² = Descriptive::sampleVariance($numbers);     // n - 1 degrees of freedom
 // Variance (Custom degrees of freedom)
 $df = 5;                                    // degrees of freedom
 $S² = Descriptive::variance($numbers, $df); // can specify custom degrees of freedom
+
+// Weighted sample variance
+$weights = [0.1, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1];
+$σ²w     = Descriptive::weightedSampleVariance($numbers, $weights, $biased = false);
 
 // Standard deviation (For a sample; uses sample variance)
 $σ = Descriptive::sd($numbers);                // same as standardDeviation;
