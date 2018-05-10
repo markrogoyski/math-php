@@ -166,12 +166,14 @@ class Algebra
      * @param  number $a x² coefficient
      * @param  number $b x coefficient
      * @param  number $c constant coefficient
-     * @param  bool   $return_complex Whether to return complex numbers or NANs if imaginary roots
+     * @param  bool $return_complex Whether to return complex numbers or NANs if imaginary roots
      *
      * @return array  [x₁, x₂]           roots of the equation, or
      *                [NAN, NAN]         if discriminant is negative, or
      *                [Complex, Complex] if discriminant is negative and complex option is on or
      *                [x]                if a = 0 and formula isn't quadratics
+     *
+     * @throws Exception\IncorrectTypeException
      */
     public static function quadratic($a, $b, $c, bool $return_complex = false): array
     {
@@ -290,14 +292,16 @@ class Algebra
      * z₂ = Complex conjugate; therefore, NAN
      * z₃ = Complex conjugate; therefore, NAN
      *
-     * @param  number $a₃  z³         coefficient
-     * @param  number $a₂  z²         coefficient
-     * @param  number $a₁  z          coefficient
-     * @param  number $a₀             constant coefficient
-     * @param  bool   $return_complex whether to return complex numbers
+     * @param  number $a₃ z³         coefficient
+     * @param  number $a₂ z²         coefficient
+     * @param  number $a₁ z          coefficient
+     * @param  number $a₀ constant coefficient
+     * @param  bool $return_complex whether to return complex numbers
      *
      * @return array of roots (three real roots, or one real root and two NANs because complex numbers not yet supported)
      *                        (If $a₃ = 0, then only two roots of quadratic equation)
+     *
+     * @throws Exception\IncorrectTypeException
      */
     public static function cubic($a₃, $a₂, $a₁, $a₀, bool $return_complex = false): array
     {
@@ -366,10 +370,12 @@ class Algebra
      * @param  number $a₃ z³          coefficient
      * @param  number $a₂ z²          coefficient
      * @param  number $a₁ z           coefficient
-     * @param  number $a₀             constant coefficient
-     * @param  bool   $return_complex whether to return complex numbers
+     * @param  number $a₀ constant coefficient
+     * @param  bool $return_complex whether to return complex numbers
      *
      * @return array of roots
+     *
+     * @throws Exception\IncorrectTypeException
      */
     public static function quartic($a₄, $a₃, $a₂, $a₁, $a₀, bool $return_complex = false): array
     {

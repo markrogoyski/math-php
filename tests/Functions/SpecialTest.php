@@ -391,7 +391,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     public function testGeneralizedHypergeometricExceptionParameterCount()
     {
         $this->expectException(Exception\BadParameterException::class);
-        Special::generalizedHypergeometric(2, 1, [6.464756838, 0.509199496, 0.241379523]);
+        Special::generalizedHypergeometric(2, 1, ...[6.464756838, 0.509199496, 0.241379523]);
     }
     
     /**

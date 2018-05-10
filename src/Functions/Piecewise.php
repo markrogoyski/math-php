@@ -90,13 +90,13 @@ class Piecewise
     * the corresponding function for that point in the domain, and then return
     * the function evaluated at that point. If no function is found, throw an Exception.
     *
-    * @param number $x₀ The value at which we are evaluating our piecewise function
+    * @param float $x₀ The value at which we are evaluating our piecewise function
     *
-    * @return number The specific function evaluated at $x₀
+    * @return float The specific function evaluated at $x₀
     *
     * @throws Exception\BadDataException if an interval cannot be found which contains our $x₀
     */
-    public function __invoke($x₀)
+    public function __invoke(float $x₀): float
     {
         $function = $this->getFunction($x₀);
         return $function($x₀);
@@ -107,14 +107,14 @@ class Piecewise
     * the function that corresponds to that subinterval. If no subinterval is found
     * such that our input is contained within it, a false is returned.
     *
-    * @param number $x The value at which we are searching for a subinterval that
+    * @param float $x The value at which we are searching for a subinterval that
     *                  contains it, and thus has a corresponding function.
     *
     * @return callable Returns the function that contains $x in its domain
     *
     * @throws Exception\BadDataException if an interval cannot be found which contains our $x
     */
-    private function getFunction($x): callable
+    private function getFunction(float $x): callable
     {
         foreach ($this->intervals as $i => $interval) {
             $a     = $interval[0];
@@ -224,7 +224,7 @@ class Piecewise
      * @param  number $b
      * @param  number $lastA
      * @param  number $lastB
-     * @param  number $lastBOpen
+     * @param  bool   $lastBOpen
      * @param  bool   $aOpen
      * @param  bool   $bOpen
      *

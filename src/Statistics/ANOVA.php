@@ -113,6 +113,7 @@ class ANOVA
      *               ]
      *
      * @throws Exception\BadDataException if less than three samples, or if all samples don't have the same number of values
+     * @throws Exception\OutOfBoundsException
      */
     public static function oneWay(array ...$samples): array
     {
@@ -378,6 +379,7 @@ class ANOVA
      *                 ]
      *               ]
      * @throws Exception\BadDataException if less than two A factors, or if B factors or values have different number elements
+     * @throws Exception\OutOfBoundsException
      */
     public static function twoWay(array ...$data): array
     {

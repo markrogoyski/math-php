@@ -293,6 +293,8 @@ class Polynomial implements ObjectArithmetic
      * @param mixed $polynomial The polynomial or scaler we are adding to our current polynomial
      *
      * @return Polynomial The sum of our polynomial objects, also a polynomial object
+     *
+     * @throws Exception\IncorrectTypeException
      */
     public function add($polynomial): Polynomial
     {
@@ -327,6 +329,8 @@ class Polynomial implements ObjectArithmetic
      * @param mixed $polynomial The polynomial or scaler we are subtracting from our current polynomial
      *
      * @return Polynomial The defference of our polynomial objects, also a polynomial object
+     *
+     * @throws Exception\IncorrectTypeException
      */
     public function subtract($polynomial): Polynomial
     {
@@ -346,6 +350,8 @@ class Polynomial implements ObjectArithmetic
      * @param mixed $polynomial The polynomial or scaler we are multiplying with our current polynomial
      *
      * @return Polynomial The product of our polynomial objects, also a polynomial object
+     *
+     * @throws Exception\IncorrectTypeException
      */
     public function multiply($polynomial): Polynomial
     {
@@ -395,6 +401,8 @@ class Polynomial implements ObjectArithmetic
      * Closed form solutions only exist if the degree is less than 5
      *
      * @return array of roots
+     *
+     * @throws Exception\IncorrectTypeException
      */
     public function roots(): array
     {
