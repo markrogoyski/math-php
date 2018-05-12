@@ -87,4 +87,19 @@ class Arithmetic
     {
         return abs($x - $y) <= $ε;
     }
+
+    /**
+     * Returns the magnitude value with the sign of the sign number
+     *
+     * @param float $magnitude
+     * @param float $sign
+     *
+     * @return float $magnitude with the sign of $sign
+     */
+    public static function copySign(float $magnitude, float $sign): float
+    {
+        return $sign >= 0
+            ? abs($magnitude)
+            : -abs($magnitude);
+    }
 }

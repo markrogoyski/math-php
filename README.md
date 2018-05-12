@@ -143,6 +143,11 @@ $x = 0.00000003458;
 $y = 0.00000003455;
 $ε = 0.0000000001;
 $almostEqual = Arithmetic::almostEqual($x, $y, $ε); // true
+
+// Copy sign
+$magnitude = 5;
+$sign      = -3;
+$signed_magnitude = Arithmetic::copySign($magnitude, $sign); // -5
 ```
 
 ### Finance

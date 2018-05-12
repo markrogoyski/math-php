@@ -6,6 +6,47 @@ use MathPHP\Arithmetic;
 class ArithmeticTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     copySign
+     * @dataProvider dataProviderForCopySign
+     * @param        float $x
+     * @param        float $y
+     * @param        float $x_with_y_sign
+     */
+    public function copySign(float $x, float $y, float $x_with_y_sign)
+    {
+        $this->assertSame($x_with_y_sign, Arithmetic::copySign($x, $y));
+    }
+
+    /**
+     * @return array [x, y, x with y sign]
+     */
+    public function dataProviderForCopySign(): array
+    {
+        return [
+            [1, 1, 1],
+            [1, -1, -1],
+            [-1, 1, 1],
+            [-1, -1, -1],
+            [2, 1, 2],
+            [2, -1, -2],
+            [-2, 1, 2],
+            [-2, -1, -2],
+            [3, 0, 3],
+            [3, -0, 3],
+            [-3, 0, 3],
+            [-3, -0, 3],
+            [2.3, 1, 2.3],
+            [2.3, -1, -2.3],
+            [-2.3, 1, 2.3],
+            [-2.3, -1, -2.3],
+            [INF, 1, INF],
+            [INF, -1, -INF],
+            [-INF, 1, INF],
+            [-INF, -1, -INF],
+        ];
+    }
+
+    /**
      * @testCase     cubeRoot returns the expected value.
      * @dataProvider dataProviderForCubeRoot
      * @param  number $x
