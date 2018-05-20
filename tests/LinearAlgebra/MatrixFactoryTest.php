@@ -387,6 +387,110 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @testCase     downshiftPermutation
+     * @dataProvider dataProviderForDownshiftPermutation
+     * @param        int $n
+     * @param        array $R
+     * @throws       \Exception
+     */
+    public function testDownshiftPermutation(int $n, array $R)
+    {
+        $R = new SquareMatrix($R);
+        $this->assertEquals($R, MatrixFactory::downshiftPermutation($n));
+    }
+
+    /**
+     * @return array [n, R]
+     */
+    public function dataProviderForDownshiftPermutation(): array
+    {
+        return [
+            [
+                1,
+                [
+                    [1]
+                ]
+            ],
+            [
+                2,
+                [
+                    [0, 1],
+                    [1, 0],
+                ]
+            ],
+            [
+                3,
+                [
+                    [0, 0, 1],
+                    [1, 0, 0],
+                    [0, 1, 0],
+                ]
+            ],
+            [
+                4,
+                [
+                    [0, 0, 0, 1],
+                    [1, 0, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 0, 1, 0],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     upshiftPermutation
+     * @dataProvider dataProviderForUpshiftPermutation
+     * @param        int $n
+     * @param        array $R
+     * @throws       \Exception
+     */
+    public function testUpshiftPermutation(int $n, array $R)
+    {
+        $R = new SquareMatrix($R);
+        $this->assertEquals($R, MatrixFactory::upshiftPermutation($n));
+    }
+
+    /**
+     * @return array [n, R]
+     */
+    public function dataProviderForUpshiftPermutation(): array
+    {
+        return [
+            [
+                1,
+                [
+                    [1]
+                ]
+            ],
+            [
+                2,
+                [
+                    [0, 1],
+                    [1, 0],
+                ]
+            ],
+            [
+                3,
+                [
+                    [0, 1, 0],
+                    [0, 0, 1],
+                    [1, 0, 0],
+                ]
+            ],
+            [
+                4,
+                [
+                    [0, 1, 0, 0],
+                    [0, 0, 1, 0],
+                    [0, 0, 0, 1],
+                    [1, 0, 0, 0],
+                ]
+            ],
+        ];
+    }
+
     public function testIdentityExceptionNLessThanZero()
     {
         $this->expectException(Exception\OutOfBoundsException::class);

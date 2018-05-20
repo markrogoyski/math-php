@@ -495,13 +495,15 @@ print($A);
  */
 
 // Specialized matrices
-list($m, $n, $k)     = [4, 4, 2];
-$identity_matrix = MatrixFactory::identity($n);    // Ones on the main diagonal
-$zero_matrix     = MatrixFactory::zero($m, $n);    // All zeros
-$ones_matrix     = MatrixFactory::one($m, $n);     // All ones
-$eye_matrix      = MatrixFactory::eye($m, $n, $k); // Ones (or other value) on the k-th diagonal
-$exchange_matrix = MatrixFactory::exchange($n);    // Ones on the reverse diagonal
-$hilbert_matrix  = MatrixFactory::hilbert($n);     // Square matrix with entries being the unit fractions
+list($m, $n, $k)              = [4, 4, 2];
+$identity_matrix              = MatrixFactory::identity($n);             // Ones on the main diagonal
+$zero_matrix                  = MatrixFactory::zero($m, $n);             // All zeros
+$ones_matrix                  = MatrixFactory::one($m, $n);              // All ones
+$eye_matrix                   = MatrixFactory::eye($m, $n, $k);          // Ones (or other value) on the k-th diagonal
+$exchange_matrix              = MatrixFactory::exchange($n);             // Ones on the reverse diagonal
+$downshift_permutation_matrix = MatrixFactory::downshiftPermutation($n); // Permutation matrix that pushes the components of a vector down one notch with wraparound
+$upshift_permutation_matrix   = MatrixFactory::upshiftPermutation($n);   // Permutation matrix that pushes the components of a vector up one notch with wraparound
+$hilbert_matrix               = MatrixFactory::hilbert($n);              // Square matrix with entries being the unit fractions
 
 // Vandermonde matrix
 $V = MatrixFactory::create([1, 2, 3], 4); // 4 x 3 Vandermonde matrix

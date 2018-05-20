@@ -133,6 +133,48 @@ class MatrixFactory
     }
 
     /**
+     * Downshift permutation matrix
+     * Pushes the components of a vector down one notch with wraparound
+     *
+     *       [0, 0, 0, 1] [x₁]   [x₄]
+     *       [1, 0, 0, 0] [x₂]   [x₁]
+     * D₄x = [0, 1, 0, 0] [x₃] = [x₂]
+     *       [0, 0, 1, 0] [x₄]   [x₃]
+     *
+     * @param  int $n
+     *
+     * @return Matrix
+     *
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\OutOfBoundsException
+     */
+    public static function downshiftPermutation(int $n): Matrix
+    {
+        $I = self::identity($n)->getMatrix();
+
+        $bottom_row = array_pop($I);
+        array_unshift($I, $bottom_row);
+
+        return self::create($I);
+    }
+
+    /**
+     * Upshift permutation matrix - Dᵀ
+     * Pushes the components of a vector up one notch with wraparound
+     *
+     * @param  int $n
+     *
+     * @return Matrix
+     *
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\OutOfBoundsException
+     */
+    public static function upshiftPermutation(int $n): Matrix
+    {
+        return self::downshiftPermutation($n)->transpose();
+    }
+
+    /**
      * Zero matrix - m x n matrix with all elements being zeros
      *
      * Example:
