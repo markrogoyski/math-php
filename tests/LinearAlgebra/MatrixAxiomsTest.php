@@ -17,6 +17,7 @@ use MathPHP\NumberTheory\Integer;
  * Axioms tested:
  *  - Addition
  *    - r(A + B) = rA + rB
+ *    - A + (−A) = 0
  *  - Multiplication
  *    - (AB)C = A(BC)
  *    - A(B + C) = AB + BC
@@ -219,6 +220,76 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
                     [12, 14, 14, -6],
                     [4, 6, 4, -42],
                 ], -8
+            ],
+        ];
+    }
+
+    /**
+     * Axiom: A + (−A) = 0
+     * Adding the negate of a matrix is a zero matrix.
+     *
+     * @dataProvider dataProviderForNegateAdditionZeroMatrix
+     * @param        array $A
+     * @param        array $Z
+     * @throws       \Exception
+     */
+    public function testAddNegateIsZeroMatrix(array $A, array $Z)
+    {
+        $A  = MatrixFactory::create($A);
+        $−A = $A->negate();
+        $Z  = MatrixFactory::create($Z);
+
+        $this->assertEquals($Z, $A->add($−A));
+        $this->assertEquals($Z, $−A->add($A));
+    }
+
+    /**
+     * @return array [A, Z]
+     */
+    public function dataProviderForNegateAdditionZeroMatrix(): array
+    {
+        return [
+            [
+                [
+                    [0]
+                ],
+                [
+                    [0]
+                ]
+            ],
+            [
+                [
+                    [1]
+                ],
+                [
+                    [0]
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ],
+                [
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [5, -4, 3, 2, -10],
+                    [5, 5, 5, -4, -4],
+                    [0, 0, -2, 4, 49],
+                    [4, 3, 0, 0, -1],
+                ],
+                [
+                    [0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0],
+                ]
             ],
         ];
     }

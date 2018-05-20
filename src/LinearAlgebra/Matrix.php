@@ -1101,6 +1101,19 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Negate a matrix
+     * −A = −1A
+     *
+     * @return Matrix
+     *
+     * @throws Exception\BadParameterException
+     */
+    public function negate(): Matrix
+    {
+        return $this->scalarMultiply(-1);
+    }
+
+    /**
      * Scalar matrix division
      *
      * @param  number $λ

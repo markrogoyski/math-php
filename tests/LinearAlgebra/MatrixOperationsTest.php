@@ -683,6 +683,76 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @testCase     negate
+     * @dataProvider dataProviderForNegate
+     * @param        array $A
+     * @param        array $−A
+     * @throws       \Exception
+     */
+    public function testNegate(array $A, array $−A)
+    {
+        $A  = MatrixFactory::create($A);
+        $−A = MatrixFactory::create($−A);
+
+        $this->assertEquals($−A, $A->negate());
+    }
+
+    /**
+     * @return array [A, −A]
+     */
+    public function dataProviderForNegate(): array
+    {
+        return [
+            [
+                [
+                    [0]
+                ],
+                [
+                    [0]
+                ],
+            ],
+            [
+                [
+                    [1]
+                ],
+                [
+                    [-1]
+                ],
+            ],
+            [
+                [
+                    [-1]
+                ],
+                [
+                    [1]
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [3, 4],
+                ],
+                [
+                    [-1, -2],
+                    [-3, -4],
+                ],
+            ],
+            [
+                [
+                    [1, -2, 3],
+                    [-4, 5, -6],
+                    [7, -8, 9],
+                ],
+                [
+                    [-1, 2, -3],
+                    [4, -5, 6],
+                    [-7, 8, -9],
+                ]
+            ],
+        ];
+    }
+
     public function testScalarMultiplyExceptionKNotNumber()
     {
         $A = MatrixFactory::create([
