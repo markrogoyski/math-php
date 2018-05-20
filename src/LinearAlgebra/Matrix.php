@@ -290,7 +290,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * Is the matrix symmetric?
      * Does A = Aᵀ
      *
-     * @return bool true if summetric; false otherwise.
+     * @return bool true if symmetric; false otherwise.
      */
     public function isSymmetric(): bool
     {
@@ -298,6 +298,22 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $Aᵀ = $this->transpose()->getMatrix();
 
         return $A === $Aᵀ;
+    }
+
+    /**
+     * Is the matrix skew-symmetric?
+     * Does Aᵀ = −A
+     *
+     * @return bool true if skew-symmetric; false otherwise.
+     *
+     * @throws Exception\BadParameterException
+     */
+    public function isSkewSymmetric(): bool
+    {
+        $Aᵀ = $this->transpose()->getMatrix();
+        $−A = $this->negate()->getMatrix();
+
+        return $Aᵀ === $−A;
     }
 
     /**

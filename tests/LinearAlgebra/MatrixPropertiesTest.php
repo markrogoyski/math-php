@@ -61,6 +61,31 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     isSkewSymmetric returns true for skew-symmetric matrices.
+     * @dataProvider dataProviderForSkewSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsSkewSymmetric(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isSkewSymmetric());
+    }
+
+    /**
+     * @testCase     isSkewSymmetric returns false for nonsymmetric matrices.
+     * @dataProvider dataProviderForNotSymmetricMatrix
+     */
+    public function testIsNotSkewSymmetric(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertFalse($A->isSkewSymmetric());
+    }
+
+
+    /**
      * @testCase     isSingular returns true for a singular matrix.
      * @dataProvider dataProviderForSingularMatrix
      */

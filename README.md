@@ -446,6 +446,7 @@ $max  = $A->maxNorm();
 // Matrix properties - return a bool
 $bool = $A->isSquare();
 $bool = $A->isSymmetric();
+$bool = $A->isSkewSymmetric();
 $bool = $A->isSingular();
 $bool = $A->isNonsingular();           // Same as isInvertible
 $bool = $A->isInvertible();            // Same as isNonsingular

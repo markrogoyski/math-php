@@ -62,6 +62,12 @@ use MathPHP\NumberTheory\Integer;
  *    - AAᵀ is symmetric
  *    - AᵀA is symmetric
  *    - A is invertible symmetric, A⁻¹ is symmetric
+ *  - Skew-symmetric matrix
+ *    - The sum of two skew-symmetric matrices is skew-symmetric
+ *    - Scalar multiple of a skew-symmetric matrix is skew-symmetric
+ *    - The elements on the diagonal of a skew-symmetric matrix are zero, and therefore also its trace
+ *    - A is skew-symmetric, then det(A) ≥ 0
+ *    - A is a real skew-symmetric matrix, then I+A is invertible, where I is the identity matrix
  *  - Kronecker product
  *    - A ⊗ (B + C) = A ⊗ B + A ⊗ C
  *    - (A + B) ⊗ C = A ⊗ C + B ⊗ C
@@ -1250,6 +1256,81 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
             $this->assertTrue($A⁻¹->isSymmetric());
         }
     }
+
+    /**
+     * @testCase     Axiom: A is skew-symmetric, det(A) ≥ 0
+     *               If A is a skew-symmetric matrix, the determinant is greater than zero.
+     * @dataProvider dataProviderForSkewSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testMatrixIsSkewSymmetricDeterminantGreaterThanZero(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $this->assertTrue($A->isSkewSymmetric());
+        $this->assertGreaterThanOrEqual(0, $A->det());
+    }
+
+    /**
+     * @testCase     Axiom: The sum of two skew-symmetric matrices is skew-symmetric
+     * @dataProvider dataProviderForSkewSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testSumOfTwoSkewSymmetricMatricesIsSkewSymmetric(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $B = $A->add($A);
+        $this->assertTrue($B->isSkewSymmetric());
+    }
+
+    /**
+     * @testCase     Axiom: Scalar multiple of a skew-symmetric matrix is skew-symmetric
+     * @dataProvider dataProviderForSkewSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testScalarMultipleOfSkewSymmetricMatrixIsSkewSymmetric(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        $B = $A->scalarMultiply(6);
+        $this->assertTrue($B->isSkewSymmetric());
+    }
+
+    /**
+     * @testCase     Axiom: The elements on the diagonal of a skew-symmetric matrix are zero, and therefore also its trace
+     * @dataProvider dataProviderForSkewSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testSkewSymmetricMatrixDiagonalElementsAreZeroAndThereforeTraceIsZero(array $A)
+    {
+        $A = MatrixFactory::create($A);
+
+        foreach ($A->getDiagonalElements() as $diagonal_element) {
+            $this->assertEquals(0, $diagonal_element);
+        }
+        $this->assertEquals(0, $A->trace());
+    }
+
+    /**
+     * @testCase     Axiom: A is a real skew-symmetric matrix, then I+A is invertible, where I is the identity matrix
+     * @dataProvider dataProviderForSkewSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testSkewSymmetricMatrixAddedToIdentityIsInvertible(array $A)
+    {
+        $A = MatrixFactory::create($A);
+        $I = MatrixFactory::identity($A->getN());
+
+        $I＋A = $I->add($A);
+        $this->assertTrue($I＋A->isInvertible());
+    }
+
     /**
      * Axiom: A ⊗ (B + C) = A ⊗ B + A ⊗ C
      * Kronecker product bilinearity
