@@ -30,6 +30,7 @@ class ObjectSquareMatrix extends SquareMatrix
      * @throws Exception\BadDataException if any rows have a different column count
      * @throws Exception\IncorrectTypeException if all elements are not the same class
      * @throws Exception\IncorrectTypeException if The class does not implement the ObjectArithmetic interface
+     * @throws Exception\MathException
      */
     public function __construct(array $A)
     {

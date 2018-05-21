@@ -19,7 +19,10 @@ class MatrixFactory
      *
      * @return Matrix
      *
+     * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
      */
     public static function create(array $A, int $n = null): Matrix
     {
@@ -72,14 +75,19 @@ class MatrixFactory
      *  A = [0 1 0]
      *      [0 0 1]
      *
-     * @param int    $n size of matrix
-     * @param number $x (optional; default 1)
+     * @param int   $n size of matrix
+     * @param float $x (optional; default 1)
      *
      * @return Matrix
      *
+     * @throws
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function identity(int $n, $x = 1): Matrix
+    public static function identity(int $n, float $x = 1): Matrix
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException("n must be ≥ 0. n = $n");
@@ -107,14 +115,18 @@ class MatrixFactory
      *  A = [0 1 0]
      *      [1 0 0]
      *
-     * @param int    $n size of matrix
-     * @param number $x (Optional to set the diagonal to any number; default 1)
+     * @param int   $n size of matrix
+     * @param float $x (Optional to set the diagonal to any number; default 1)
      *
      * @return Matrix
      *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function exchange(int $n, $x = 1): Matrix
+    public static function exchange(int $n, float $x = 1): Matrix
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException("n must be ≥ 0. n = $n");
@@ -145,8 +157,11 @@ class MatrixFactory
      *
      * @return Matrix
      *
+     * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
-     * @throws Exception\OutOfBoundsException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
+     * @throws Exception\OutOfBoundsException if n < 0
      */
     public static function downshiftPermutation(int $n): Matrix
     {
@@ -166,7 +181,10 @@ class MatrixFactory
      *
      * @return Matrix
      *
+     * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException
      */
     public static function upshiftPermutation(int $n): Matrix
@@ -189,6 +207,10 @@ class MatrixFactory
      *
      * @return Matrix
      *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if m < 1 or n < 1
      */
     public static function zero(int $m, int $n): Matrix
@@ -223,6 +245,10 @@ class MatrixFactory
      *
      * @return Matrix
      *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if m or n < 1
      */
     public static function one(int $m, int $n): Matrix
@@ -254,17 +280,20 @@ class MatrixFactory
      *  A = [0 0 1]
      *      [0 0 0]
      *
-     * @param int    $m number of rows
-     * @param int    $n number of columns
-     * @param int    $k Diagonal to fill with xs
-     * @param number $x (optional; default 1)
+     * @param int   $m number of rows
+     * @param int   $n number of columns
+     * @param int   $k Diagonal to fill with xs
+     * @param float $x (optional; default 1)
      *
      * @return Matrix
      *
-     * @throws Exception\OutOfBoundsException if m, n, or k are < 0
-     * @throws Exception\OutOfBoundsException if k >= n
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
+     * @throws Exception\OutOfBoundsException if m, n, or k are < 0; if k >= n
      */
-    public static function eye(int $m, int $n, int $k, $x = 1): Matrix
+    public static function eye(int $m, int $n, int $k, float $x = 1): Matrix
     {
         if ($n < 0 || $m < 0 || $k < 0) {
             throw new Exception\OutOfBoundsException("m, n and k must be ≥ 0. m = $m, n = $n, k = $k");
@@ -304,6 +333,10 @@ class MatrixFactory
      *
      * @return Matrix
      *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException
      */
     public static function hilbert(int $n): Matrix
@@ -429,11 +462,13 @@ class MatrixFactory
      *   R = [2  2 8 4]
      *       [1 13 1 5]
      *
-     * @param  array  $A array of Vectors
+     * @param  array $A array of Vectors
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if the Vectors are not all the same length
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\BadDataException
      */
     private static function createFromVectors(array $A): Matrix
     {

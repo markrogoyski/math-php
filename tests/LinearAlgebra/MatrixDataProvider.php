@@ -33,6 +33,7 @@ trait MatrixDataProvider
      *  - dataProviderForOneSquareMatrix
      *  - dataProviderForTwoSquareMatrices
      *  - dataProviderForThreeMatrices
+     *  - dataProviderForFourMatrices
      *  - dataProviderForSolve
      *  - dataProviderForTwoPositiveDefiniteMatrixes
      *  - dataProviderForInvolutoryMatrix

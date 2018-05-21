@@ -11,6 +11,7 @@ class FunctionSquareMatrix extends SquareMatrix
      * @param array $A
      *
      * @throws Exception\BadDataException
+     * @throws Exception\MathException
      */
     public function __construct(array $A)
     {
@@ -30,6 +31,11 @@ class FunctionSquareMatrix extends SquareMatrix
      * @param array $params
      *
      * @return Matrix
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
      */
     public function evaluate(array $params): Matrix
     {

@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Exception;
+
 class FunctionMatrix extends Matrix
 {
     /**
@@ -9,6 +11,11 @@ class FunctionMatrix extends Matrix
      * @param array $params
      *
      * @return Matrix
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
      */
     public function evaluate(array $params): Matrix
     {

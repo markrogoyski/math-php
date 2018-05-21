@@ -40,6 +40,8 @@ class ColumnVector extends Matrix
      * [xm]
      *
      * @return RowVector
+     *
+     * @throws \MathPHP\Exception\MatrixException
      */
     public function transpose(): RowVector
     {
