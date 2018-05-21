@@ -72,6 +72,7 @@ use MathPHP\NumberTheory\Integer;
  *    - A ⊗ (B + C) = A ⊗ B + A ⊗ C
  *    - (A + B) ⊗ C = A ⊗ C + B ⊗ C
  *    - (A ⊗ B) ⊗ C = A ⊗ (B ⊗ C)
+ *    - (A ⊗ B)(C ⊗ D) = AC ⊗ BD
  *    - (kA) ⊗ B = A ⊗ (kB) = k(A ⊗ B)
  *    - (A ⊗ B)⁻¹ = A⁻¹ ⊗ B⁻¹
  *    - (A ⊗ B)ᵀ = Aᵀ ⊗ Bᵀ
@@ -1380,6 +1381,34 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $A⊗⟮B⊗C⟯ = $A->kroneckerProduct($B->kroneckerProduct($C));
 
         $this->assertEquals($⟮A⊗B⟯⊗C->getMatrix(), $A⊗⟮B⊗C⟯->getMatrix());
+    }
+
+    /**
+     * @testCase     Axiom: (A ⊗ B)(C ⊗ D) = AC ⊗ BD
+     *               Kronecker multiplication
+     * @dataProvider dataProviderForFourMatrices
+     * @param        array $A
+     * @param        array $B
+     * @param        array $C
+     * @param        array $D
+     * @throws       \Exception
+     */
+    public function testKroneckerProductMultiplication(array $A, array $B, array $C, array $D)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+        $C = MatrixFactory::create($C);
+        $D = MatrixFactory::create($D);
+
+        $⟮A⊗B⟯ = $A->kroneckerProduct($B);
+        $⟮C⊗D⟯ = $C->kroneckerProduct($D);
+        $⟮A⊗B⟯⟮C⊗D⟯ = $⟮A⊗B⟯->multiply($⟮C⊗D⟯);
+
+        $AC = $A->multiply($C);
+        $BD = $B->multiply($D);
+        $AC⊗BD = $AC->kroneckerProduct($BD);
+
+        $this->assertEquals($⟮A⊗B⟯⟮C⊗D⟯->getMatrix(), $AC⊗BD->getMatrix());
     }
 
     /**
