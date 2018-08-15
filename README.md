@@ -2058,7 +2058,7 @@ $z  = Significance::zTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂)
 $M = 8; // Sample mean
 $μ = 7; // Population mean
 $σ = 1; // Population SD
-$z = Significance::zScore($μ, $σ, $x);
+$z = Significance::zScore($M, $μ, $σ);
 
 // T test - One sample (from sample data)
 $a     = [3, 4, 4, 5, 5, 5, 6, 6, 7, 8]; // Data set
