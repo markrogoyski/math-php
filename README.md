@@ -1076,13 +1076,13 @@ $μ       = $weibull->mean();
 
 // Other CDFs - All continuous distributions (...params will be distribution-specific)
 // Replace '$distribution' with desired distribution.
-$inv_cdf = $distribution->inverse($target, ...$params);   // Inverse CDF of the distribution
-$between = $distribution->between($x₁, $x₂, ...$params);  // Probability of being between two points, x₁ and x₂
-$outside = $distribution->outside($x₁, $x₂, ...$params);  // Probability of being between below x₁ and above x₂
-$above   = $distribution->above($x, ...$params);          // Probability of being above x to ∞
+$inv_cdf = $distribution->inverse($target);   // Inverse CDF of the distribution
+$between = $distribution->between($x₁, $x₂);  // Probability of being between two points, x₁ and x₂
+$outside = $distribution->outside($x₁, $x);   // Probability of being between below x₁ and above x₂
+$above   = $distribution->above($x);          // Probability of being above x to ∞
 
 // Random Number Generator
-$random  = $distribution->rand(...$params);  // A random number with a given distribution
+$random  = $distribution->rand();  // A random number with a given distribution
 ```
 
 ### Probability - Discrete Distributions
