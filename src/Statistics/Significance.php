@@ -174,7 +174,7 @@ class Significance
      * https://en.wikipedia.org/wiki/Student%27s_t-test
      *
      * @param array $a sample set 1
-     * @param float|array $b population mean for one sampe t test; sample set 2 for two sample t-test
+     * @param float|array $b population mean for one sample t test; sample set 2 for two sample t-test
      *
      * @return array
      *
