@@ -1074,7 +1074,7 @@ $pdf     = $weibull->pdf($x);
 $cdf     = $weibull->cdf($x);
 $μ       = $weibull->mean();
 
-// Other CDFs - All continuous distributions (...params will be distribution-specific)
+// Other CDFs - All continuous distributions
 // Replace '$distribution' with desired distribution.
 $inv_cdf = $distribution->inverse($target);   // Inverse CDF of the distribution
 $between = $distribution->between($x₁, $x₂);  // Probability of being between two points, x₁ and x₂
