@@ -1,7 +1,7 @@
 <?php
 namespace MathPHP\Probability\Distribution\Continuous;
 
-use MathPHP\Functions\Support;
+use MathPHP\Exception\OutOfBoundsException;
 
 /**
  * Exponential distribution
@@ -55,7 +55,6 @@ class Exponential extends Continuous
         if ($x < 0) {
             return 0;
         }
-        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $λ = $this->λ;
 
@@ -76,7 +75,6 @@ class Exponential extends Continuous
         if ($x < 0) {
             return 0;
         }
-        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $λ = $this->λ;
 
@@ -93,5 +91,30 @@ class Exponential extends Continuous
     public function mean(): float
     {
         return 1 / $this->λ;
+    }
+
+    /**
+     * Inverse cumulative distribution function (quantile function)
+     *
+     *            −ln(1 − p)
+     * F⁻¹(p;λ) = ----------    0 ≤ p < 1
+     *                λ
+     *
+     * @param float $p
+     *
+     * @return float
+     *
+     * @throws OutOfBoundsException
+     */
+    public function inverse(float $p): float
+    {
+        if ($p < 0 || $p > 1) {
+            throw new OutOfBoundsException("p must be between 0 and 1; given a p of $p");
+        }
+        if ($p == 1) {
+            return \INF;
+        }
+
+        return -log(1 - $p) / $this->λ;
     }
 }

@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\Exponential;
+use MathPHP\Exception\OutOfBoundsException;
 
 class ExponentialTest extends \PHPUnit\Framework\TestCase
 {
@@ -10,12 +11,18 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForPdf
      * @param        float $λ
      * @param        float $x
-     * @param        float $pdf
+     * @param        float $expected_pdf
      */
-    public function testPdf(float $λ, float $x, float $pdf)
+    public function testPdf(float $λ, float $x, float $expected_pdf)
     {
+        // Given
         $exponential = new Exponential($λ);
-        $this->assertEquals($pdf, $exponential->pdf($x), '', 0.000001);
+
+        // When
+        $pdf = $exponential->pdf($x);
+
+        // Then
+        $this->assertEquals($expected_pdf, $pdf, '', 0.000001);
     }
 
     /**
@@ -65,12 +72,18 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForCdf
      * @param number $λ
      * @param number $x
-     * @param number $cdf
+     * @param number $expected_cdf
      */
-    public function testCdf($λ, $x, $cdf)
+    public function testCdf($λ, $x, $expected_cdf)
     {
+        // Given
         $exponential = new Exponential($λ);
-        $this->assertEquals($cdf, $exponential->cdf($x), '', 0.0000001);
+
+        // When
+        $cdf = $exponential->cdf($x);
+
+        // Then
+        $this->assertEquals($expected_cdf, $cdf, '', 0.0000001);
     }
 
     /**
@@ -127,8 +140,14 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
      */
     public function testMean($λ, $μ)
     {
+        // Given
         $exponential = new Exponential($λ);
-        $this->assertEquals($μ, $exponential->mean(), '', 0.0001);
+
+        // When
+        $mean = $exponential->mean();
+
+        // then
+        $this->assertEquals($μ, $mean, '', 0.0001);
     }
 
     /**
@@ -142,5 +161,146 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
             [3, 0.33333],
             [4, 0.25],
         ];
+    }
+
+    /**
+     * @testCase     inverse of cdf is x
+     * @dataProvider dataProviderForInverse
+     * @param        float $λ
+     * @param        float $p
+     * @param        float $expectedInverse
+     * @throws       \Exception
+     */
+    public function testInverse(float $λ, float $p, float $expectedInverse)
+    {
+        // Given
+        $exponential = new Exponential($λ);
+
+        // When
+        $inverse = $exponential->inverse($p);
+
+        // Then
+        $this->assertEquals($expectedInverse, $inverse, '', 0.00001);
+    }
+
+    /**
+     * @testCase     inverse of cdf is original p
+     * @dataProvider dataProviderForInverse
+     * @param        float $λ
+     * @param        float $p
+     * @throws       \Exception
+     */
+    public function testInverseOfCdf(float $λ, float $p)
+    {
+        // Given
+        $exponential = new Exponential($λ);
+        $cdf = $exponential->cdf($p);
+
+        // When
+        $inverse_of_cdf = $exponential->inverse($cdf);
+
+        // Then
+        $this->assertEquals($p, $inverse_of_cdf, '', 0.000001);
+    }
+
+    /**
+     * @return array [λ, p, cdf]
+     * Generated with R (stats) qexp(p, λ)
+     */
+    public function dataProviderForInverse(): array
+    {
+        return [
+            [0.1, 0, 0],
+            [0.1, 0.1, 1.053605],
+            [0.1, 0.3, 3.566749],
+            [0.1, 0.5, 6.931472],
+            [0.1, 0.7, 12.03973],
+            [0.1, 0.9, 23.02585],
+            [0.1, 1, \INF],
+
+            [1, 0, 0],
+            [1, 0.1, 0.1053605],
+            [1, 0.3, 0.3566749],
+            [1, 0.5, 0.6931472],
+            [1, 0.7, 1.203973],
+            [1, 0.9, 2.302585],
+            [1, 1, \INF],
+
+            [2, 0, 0],
+            [2, 0.1, 0.05268026],
+            [2, 0.3, 0.1783375],
+            [2, 0.5, 0.3465736],
+            [2, 0.7, 0.6019864],
+            [2, 0.9, 1.151293],
+            [2, 1, \INF],
+
+            [1/3, 0, 0],
+            [1/3, 0.1, 0.3160815],
+            [1/3, 0.3, 1.070025],
+            [1/3, 0.5, 2.079442],
+            [1/3, 0.7, 3.611918],
+            [1/3, 0.9, 6.907755],
+            [1/3, 1, \INF],
+
+
+            [4, 0, 0],
+            [4, 0.1, 0.02634013],
+            [4, 0.3, 0.08916874],
+            [4, 0.5, 0.1732868],
+            [4, 0.7, 0.3009932],
+            [4, 0.9, 0.5756463],
+            [4, 1, \INF],
+        ];
+    }
+
+    /**
+     * @testCase     inverse throws OutOfBounds exceptions for bad p values
+     * @dataProvider dataProviderForInverseOutOfBoundsP
+     * @param        float $p
+     * @throws       \Exception
+     */
+    public function testInverseOutOfBoundsException(float $p)
+    {
+        // Given
+        $λ           = 1;
+        $exponential = new Exponential($λ);
+
+        // Then
+        $this->expectException(OutOfBoundsException::class);
+
+        // When
+        $exponential->inverse($p);
+    }
+
+    /**
+     * @return array [p]
+     */
+    public function dataProviderForInverseOutOfBoundsP(): array
+    {
+        return [
+            [-1],
+            [-0.01],
+            [1.01],
+            [2],
+        ];
+    }
+
+    /**
+     * @testCase rand
+     */
+    public function testRand()
+    {
+        foreach (range(1, 4) as $λ) {
+            foreach (range(1, 20) as $_) {
+                // Given
+                $exponential = new Exponential($λ);
+
+                // When
+                $random = $exponential->rand();
+
+                // Then
+                $this->assertTrue(is_numeric($random));
+            }
+        }
     }
 }
