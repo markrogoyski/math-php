@@ -52,12 +52,12 @@ class Support
                 switch ($lower_endpoint) {
                     case '(':
                         if ($value <= $lower_limit) {
-                            throw new Exception\OutOfBoundsException("{$variable} must be > {$lower_limit}");
+                            throw new Exception\OutOfBoundsException("{$variable} must be > {$lower_limit} (lower bound), given {$value}");
                         }
                         break;
                     case '[':
                         if ($value < $lower_limit) {
-                            throw new Exception\OutOfBoundsException("{$variable} must be >= {$lower_limit}");
+                            throw new Exception\OutOfBoundsException("{$variable} must be >= {$lower_limit} (lower bound), given {$value}");
                         }
                         break;
                     default:
@@ -70,12 +70,12 @@ class Support
                 switch ($upper_endpoint) {
                     case ')':
                         if ($value >= $upper_limit) {
-                            throw new Exception\OutOfBoundsException("{$variable} must be < {$upper_limit}");
+                            throw new Exception\OutOfBoundsException("{$variable} must be < {$upper_limit} (upper bound), given {$value}");
                         }
                         break;
                     case ']':
                         if ($value > $upper_limit) {
-                            throw new Exception\OutOfBoundsException("{$variable} must be <= {$upper_limit}");
+                            throw new Exception\OutOfBoundsException("{$variable} must be <= {$upper_limit} (upper bound), given {$value}");
                         }
                         break;
                     default:

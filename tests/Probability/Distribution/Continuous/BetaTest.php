@@ -12,12 +12,18 @@ class BetaTest extends \PHPUnit\Framework\TestCase
      * @param        float $x
      * @param        float $α
      * @param        float $β
-     * @param        float $pdf
+     * @param        float $expected_pdf
      */
-    public function testPdf(float $x, float $α, float $β, float $pdf)
+    public function testPdf(float $x, float $α, float $β, float $expected_pdf)
     {
+        // Given
         $beta = new Beta($α, $β);
-        $this->assertEquals($pdf, $beta->pdf($x), '', 0.0000001);
+
+        // When
+        $pdf = $beta->pdf($x);
+
+        // Then
+        $this->assertEquals($expected_pdf, $pdf, '', 0.0000001);
     }
 
     /**
@@ -262,7 +268,10 @@ class BetaTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructorExceptionAlphaBetaLessThanEqualZero(float $α, float $β)
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         new Beta($α, $β);
     }
 
@@ -290,9 +299,14 @@ class BetaTest extends \PHPUnit\Framework\TestCase
      */
     public function testPdfExceptionXOutOfBounds(float $x)
     {
-        $this->expectException(Exception\OutOfBoundsException::class);
+        // Given
         list($α, $β) = [1, 1];
         $beta = new Beta($α, $β);
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         $beta->pdf($x);
     }
 
@@ -318,12 +332,18 @@ class BetaTest extends \PHPUnit\Framework\TestCase
      * @param        float $x
      * @param        float $α
      * @param        float $β
-     * @param        float $cdf
+     * @param        float $expected_cdf
      */
-    public function testCdf($x, $α, $β, $cdf)
+    public function testCdf($x, $α, $β, $expected_cdf)
     {
+        // Given
         $beta = new Beta($α, $β);
-        $this->assertEquals($cdf, $beta->cdf($x), '', 0.000001);
+
+        // When
+        $cdf = $beta->cdf($x);
+
+        // Then
+        $this->assertEquals($expected_cdf, $cdf, '', 0.000001);
     }
 
     /**
@@ -752,8 +772,14 @@ class BetaTest extends \PHPUnit\Framework\TestCase
      */
     public function testMean(float $α, float $β, float $μ)
     {
+        // Given
         $beta = new Beta($α, $β);
-        $this->assertEquals($μ, $beta->mean(), '', 0.000001);
+
+        // When
+        $mean = $beta->mean();
+
+        // Then
+        $this->assertEquals($μ, $mean, '', 0.000001);
     }
 
     /**
@@ -774,24 +800,127 @@ class BetaTest extends \PHPUnit\Framework\TestCase
      * @param        float $α
      * @param        float $β
      * @param        float $x
-     * @param        float $inverse
+     * @param        float $expected_inverse
+     * @throws       \Exception
      */
-    public function testInverse(float $α, float $β, float $x, float $inverse)
+    public function testInverse(float $α, float $β, float $x, float $expected_inverse)
     {
+        // Given
         $beta = new Beta($α, $β);
-        $this->assertEquals($inverse, $beta->inverse($x), '', 0.0001);
+
+        // When
+        $inverse = $beta->inverse($x);
+
+        // Then
+        $this->assertEquals($expected_inverse, $inverse, '', 0.0000001);
     }
 
     /**
      * @return array [α, β, x, inverse]
+     * Generated with R (stats) qbeta(x, α, β)
      */
     public function dataProviderForInverse(): array
     {
         return [
-            [10, 5, 0.01, 0.3726],
-            [10, 5, 0.5, 0.6742],
-            [10, 5, 0.99, 0.8981],
-            [4, 5, 0.2, 0.303225845],
+            [1, 1, 0, 0],
+            [1, 1, 0.01, 0.01],
+            [1, 1, 0.1, 0.1],
+            [1, 1, 0.2, 0.2],
+            [1, 1, 0.3, 0.3],
+            [1, 1, 0.4, 0.4],
+            [1, 1, 0.5, 0.5],
+            [1, 1, 0.6, 0.6],
+            [1, 1, 0.7, 0.7],
+            [1, 1, 0.8, 0.8],
+            [1, 1, 0.9, 0.9],
+            [1, 1, 0.99, 0.99],
+            [1, 1, 1, 1],
+
+            [2, 1, 0, 0],
+            [2, 1, 0.01, 0.1],
+            [2, 1, 0.1, 0.3162278],
+            [2, 1, 0.2, 0.4472136],
+            [2, 1, 0.3, 0.5477226],
+            [2, 1, 0.4, 0.6324555],
+            [2, 1, 0.5, 0.7071068],
+            [2, 1, 0.6, 0.7745967],
+            [2, 1, 0.7, 0.83666],
+            [2, 1, 0.8, 0.8944272],
+            [2, 1, 0.9, 0.9486833],
+            [2, 1, 0.99, 0.9949874],
+            [2, 1, 1, 1],
+
+            [1, 2, 0, 0],
+            [1, 2, 0.01, 0.005012563],
+            [1, 2, 0.1, 0.0513167],
+            [1, 2, 0.2, 0.1055728],
+            [1, 2, 0.3, 0.16334],
+            [1, 2, 0.4, 0.2254033],
+            [1, 2, 0.5, 0.2928932],
+            [1, 2, 0.6, 0.3675445],
+            [1, 2, 0.7, 0.4522774],
+            [1, 2, 0.8, 0.5527864],
+            [1, 2, 0.9, 0.6837722],
+            [1, 2, 0.99, 0.9],
+            [1, 2, 1, 1],
+
+            [2, 3, 0, 0],
+            [2, 3, 0.01, 0.04199864],
+            [2, 3, 0.1, 0.1425593],
+            [2, 3, 0.2, 0.2123171],
+            [2, 3, 0.3, 0.2723839],
+            [2, 3, 0.4, 0.3291665],
+            [2, 3, 0.5, 0.3857276],
+            [2, 3, 0.6, 0.4445],
+            [2, 3, 0.7, 0.5084048],
+            [2, 3, 0.8, 0.5824536],
+            [2, 3, 0.9, 0.6795394],
+            [2, 3, 0.99, 0.8591325],
+            [2, 3, 1, 1],
+
+            [4, 5, 0.2, 0.3032258],
+            [10, 5, 0.01, 0.3725653],
+            [10, 5, 0.5, 0.6742488],
+            [10, 5, 0.99, 0.8980714],
         ];
+    }
+
+    /**
+     * @testCase inverse throws an exception if it fails to converge on a guess within the tolerance
+     * @throws   Exception\MathException
+     */
+    public function testInverseFailToConvergeException()
+    {
+        // Given
+        list($α, $β, $x) = [2, 5, 0.6];
+        $tolerance       = 1.0e-15;
+        $max_iterations  = 2;
+        $beta            = new Beta($α, $β);
+
+        // Then
+        $this->expectException(Exception\MathException::class);
+
+        // When
+        $inverse = $beta->inverse($x, $tolerance, $max_iterations);
+    }
+
+    /**
+     * @testCase rand
+     */
+    public function testRand()
+    {
+        foreach (range(1, 10) as $α) {
+            foreach (range(1, 10) as $β) {
+                // Given
+                $beta = new Beta($α, $β);
+                foreach (range(1, 3) as $_) {
+                    // When
+                    $random = $beta->rand();
+
+                    // Then
+                    $this->assertTrue(is_numeric($random));
+                }
+            }
+        }
     }
 }
