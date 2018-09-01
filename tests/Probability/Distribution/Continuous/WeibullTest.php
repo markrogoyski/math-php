@@ -11,12 +11,18 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
      * @param        float $x
      * @param        float $k
      * @param        float $λ
-     * @param        float $pdf
+     * @param        float $expected_pdf
      */
-    public function testPdf(float $x, float $k, float $λ, float $pdf)
+    public function testPdf(float $x, float $k, float $λ, float $expected_pdf)
     {
+        // Given
         $weibull = new Weibull($k, $λ);
-        $this->assertEquals($pdf, $weibull->pdf($x), '', 0.0000001);
+
+        // When
+        $pdf = $weibull->pdf($x);
+
+        // Then
+        $this->assertEquals($expected_pdf, $pdf, '', 0.0000001);
     }
 
     /**
@@ -65,16 +71,22 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
      * @param        float $x
      * @param        float $k
      * @param        float $λ
-     * @param        float $cdf
+     * @param        float $expected_cdf
      */
-    public function testCdf(float $x, float $k, float $λ, float $cdf)
+    public function testCdf(float $x, float $k, float $λ, float $expected_cdf)
     {
+        // Given
         $weibull = new Weibull($k, $λ);
-        $this->assertEquals($cdf, $weibull->cdf($x), '', 0.0000001);
+
+        // When
+        $cdf = $weibull->cdf($x);
+
+        // Then
+        $this->assertEquals($expected_cdf, $cdf, '', 0.0000001);
     }
 
     /**
-     * @return array [x, k, λ. cdf]
+     * @return array [x, k, λ, cdf]
      * Generated with R pweibull(x, shape, scale)
      */
     public function dataProviderForCdf(): array
@@ -113,23 +125,73 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse of cdf is x
      * @dataProvider dataProviderForInverse
+     * @param float $p
+     * @param float $k
+     * @param float $λ
+     * @param float $expected_inverse
+     */
+    public function testInverse(float $p, float $k, float $λ, float $expected_inverse)
+    {
+        // Given
+        $weibull =  new Weibull($k, $λ);
+
+        // When
+        $inverse = $weibull->inverse($p);
+
+        // Then
+        $this->assertEquals($expected_inverse, $inverse, '', 0.000001);
+    }
+
+    /**
+     * @return array [x, k, λ, inverse]
+     * Generated with R (stats) qweibull(p, shape, scale)
+     */
+    public function dataProviderForInverse(): array
+    {
+        return [
+            [0, 1, 1, 0],
+            [0.1, 1, 1, 0.1053605],
+            [0.3, 1, 1, 0.3566749],
+            [0.5, 1, 1, 0.6931472],
+            [0.7, 1, 1, 1.203973],
+            [0.9, 1, 1, 2.302585],
+            [1, 1, 1, \INF],
+
+            [0, 2, 3, 0],
+            [0.1, 2, 3, 0.9737785],
+            [0.3, 2, 3, 1.791668],
+            [0.5, 2, 3, 2.497664],
+            [0.7, 2, 3, 3.291771],
+            [0.9, 2, 3, 4.552281],
+            [1, 2, 3, \INF],
+        ];
+    }
+
+    /**
+     * @testCase     inverse of cdf is x
+     * @dataProvider dataProviderForInverseOfCdf
      * @param        float $x
      * @param        float $k
      * @param        float $λ
      */
-    public function testInverse(float $x, float $k, float $λ)
+    public function testInverseOfCdf(float $x, float $k, float $λ)
     {
+        // Given
         $weibull = new Weibull($k, $λ);
         $cdf = $weibull->cdf($x);
-        $this->assertEquals($x, $weibull->inverse($cdf), '', 0.000001);
+
+        // When
+        $inverse_of_cdf = $weibull->inverse($cdf);
+
+        // Then
+        $this->assertEquals($x, $inverse_of_cdf, '', 0.000001);
     }
 
     /**
      * @return array [x, k, λ]
      */
-    public function dataProviderForInverse(): array
+    public function dataProviderForInverseOfCdf(): array
     {
         return [
             [1, 1, 1],
@@ -167,8 +229,14 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
      */
     public function testMean(float $k, float $λ, float $μ)
     {
+        // Given
         $weibull = new Weibull($k, $λ);
-        $this->assertEquals($μ, $weibull->mean(), '', 0.0001);
+
+        // When
+        $mean = $weibull->mean();
+
+        // Then
+        $this->assertEquals($μ, $mean, '', 0.0001);
     }
 
     /**
@@ -182,5 +250,25 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
             [2, 1, 0.88622692545275801365],
             [2, 2, 1.77245386],
         ];
+    }
+
+    /**
+     * @testCase rand
+     */
+    public function testRand()
+    {
+        foreach (range(1, 10) as $k) {
+            foreach (range(1, 10) as $λ) {
+                // Given
+                $weibull = new Weibull($k, $λ);
+                foreach (range(1, 3) as $_) {
+                    // When
+                    $random = $weibull->rand();
+
+                    // Then
+                    $this->assertTrue(is_numeric($random));
+                }
+            }
+        }
     }
 }

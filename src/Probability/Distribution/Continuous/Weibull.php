@@ -35,10 +35,10 @@ class Weibull extends Continuous
     /**
      * Constructor
      *
-     * @param number $k shape parameter k > 0
-     * @param number $λ scale parameter λ > 0
+     * @param float $k shape parameter k > 0
+     * @param float $λ scale parameter λ > 0
      */
-    public function __construct($k, $λ)
+    public function __construct(float $k, float $λ)
     {
         parent::__construct($k, $λ);
     }
@@ -55,9 +55,10 @@ class Weibull extends Continuous
      * f(x) = 0                    for x < 0
      *
      * @param float $x percentile (value to evaluate)
+     *
      * @return float
      */
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
         if ($x < 0) {
@@ -82,9 +83,10 @@ class Weibull extends Continuous
      * f(x) = 0           for x < 0
      *
      * @param float $x percentile (value to evaluate)
+     *
      * @return float
      */
-    public function cdf(float $x)
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
         if ($x < 0) {
@@ -103,9 +105,9 @@ class Weibull extends Continuous
      *
      * μ = λΓ(1 + 1/k)
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
         $k = $this->k;
         $λ = $this->λ;
@@ -120,9 +122,9 @@ class Weibull extends Continuous
      *
      * @param float $p
      *
-     * @return number
+     * @return float
      */
-    public function inverse(float $p)
+    public function inverse(float $p): float
     {
         Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
         $k = $this->k;
