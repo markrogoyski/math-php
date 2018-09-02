@@ -11,12 +11,18 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
      * @param        float $x
      * @param        float $x₀
      * @param        float $γ
-     * @param        float $pdf
+     * @param        float $expected_pdf
      */
-    public function testPdf(float $x, float $x₀, float $γ, float $pdf)
+    public function testPdf(float $x, float $x₀, float $γ, float $expected_pdf)
     {
+        // Given
         $cauchy = new Cauchy($x₀, $γ);
-        $this->assertEquals($pdf, $cauchy->pdf($x), '', 0.000000001);
+
+        // When
+        $pdf = $cauchy->pdf($x);
+
+        // Then
+        $this->assertEquals($expected_pdf, $pdf, '', 0.000000001);
     }
 
     /**
@@ -63,13 +69,18 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
      * @param        float $x
      * @param        float $x₀
      * @param        float $γ
-     * @param        float $expectedCdf
+     * @param        float $expected_cdf
      */
-    public function testCdf(float $x, float $x₀, float $γ, float $expectedCdf)
+    public function testCdf(float $x, float $x₀, float $γ, float $expected_cdf)
     {
+        // Given
         $cauchy = new Cauchy($x₀, $γ);
+
+        // When
         $cdf = $cauchy->cdf($x);
-        $this->assertEquals($expectedCdf, $cdf, '', 0.000000001);
+
+        // Then
+        $this->assertEquals($expected_cdf, $cdf, '', 0.000000001);
     }
 
     /**
@@ -79,11 +90,17 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
      * @param        float $x₀
      * @param        float $γ
      */
-    public function testInverse(float $x, float $x₀, float $γ)
+    public function testInverseOfCdf(float $x, float $x₀, float $γ)
     {
+        // Given
         $cauchy = new Cauchy($x₀, $γ);
         $cdf = $cauchy->cdf($x);
-        $this->assertEquals($x, $cauchy->inverse($cdf), '', 0.000000001);
+
+        // When
+        $inverse_of_cdf = $cauchy->inverse($cdf);
+
+        // Then
+        $this->assertEquals($x, $inverse_of_cdf, '', 0.000000001);
     }
 
     /**
@@ -125,6 +142,46 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @dataProvider dataProviderForInverse
+     * @param float $p
+     * @param float $x₀
+     * @param float $γ
+     * @param float $expected_inverse
+     */
+    public function testInverse(float $p, float $x₀, float $γ, float $expected_inverse)
+    {
+        // Given
+        $cauchy = new Cauchy($x₀, $γ);
+
+        // When
+        $inverse = $cauchy->inverse($p);
+
+        // Then
+        $this->assertEquals($expected_inverse, $inverse, '', 0.000001);
+    }
+
+    /**
+     * @return array [$p, $x₀, $γ, expected_inverse]
+     * Generated with R (stats) qcauchy(p, location, scale)
+     */
+    public function dataProviderForInverse(): array
+    {
+        return [
+            [0.1, 1, 1, -2.077684],
+            [0.3, 1, 1, 0.2734575],
+            [0.5, 1, 1, 1],
+            [0.7, 1, 1, 1.726543],
+            [0.9, 1, 1, 4.077684],
+
+            [0.1, 2, 3, -7.233051],
+            [0.3, 2, 3, -0.1796276],
+            [0.5, 2, 3, 2],
+            [0.7, 2, 3, 4.179628],
+            [0.9, 2, 3, 11.23305],
+        ];
+    }
+
+    /**
      * @testCase     mean is not a number
      * @dataProvider dataProviderForAverages
      * @param        float $x₀
@@ -132,20 +189,32 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
      */
     public function testMean(float $x₀, float $γ)
     {
+        // Given
         $cauchy = new Cauchy($x₀, $γ);
-        $this->assertNan($cauchy->mean());
+
+        // When
+        $mean = $cauchy->mean();
+
+        // Then
+        $this->assertNan($mean);
     }
 
     /**
-     * @testCase     medidan is $x₀
+     * @testCase     median is $x₀
      * @dataProvider dataProviderForAverages
      * @param        float $x₀
      * @param        float $γ
      */
     public function testMedian(float $x₀, float $γ)
     {
+        // Given
         $cauchy = new Cauchy($x₀, $γ);
-        $this->assertEquals($x₀, $cauchy->median());
+
+        // When
+        $median = $cauchy->median();
+
+        // Then
+        $this->assertEquals($x₀, $median);
     }
 
     /**
@@ -156,8 +225,14 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
      */
     public function testMode(float $x₀, float $γ)
     {
+        // Given
         $cauchy = new Cauchy($x₀, $γ);
-        $this->assertEquals($x₀, $cauchy->mode());
+
+        // When
+        $mode = $cauchy->mode();
+
+        // Then
+        $this->assertEquals($x₀, $mode);
     }
 
     /**
@@ -178,5 +253,25 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
             [2, 3],
             [5, 3],
         ];
+    }
+
+    /**
+     * @testCase rand
+     */
+    public function testRand()
+    {
+        foreach (range(-5, 5) as $x₀) {
+            foreach (range(1, 10) as $γ) {
+                // Given
+                $cauchy = new Cauchy($x₀, $γ);
+                foreach (range(1, 3) as $_) {
+                    // When
+                    $random = $cauchy->rand();
+
+                    // Then
+                    $this->assertTrue(is_numeric($random));
+                }
+            }
+        }
     }
 }

@@ -38,10 +38,10 @@ class Cauchy extends Continuous
     /**
      * Constructor
      *
-     * @param number $x₀ location parameter
-     * @param number $γ  scale parameter γ > 0
+     * @param float $x₀ location parameter
+     * @param float $γ  scale parameter γ > 0
      */
-    public function __construct($x₀, $γ)
+    public function __construct(float $x₀, float $γ)
     {
         parent::__construct($x₀, $γ);
     }
@@ -57,9 +57,9 @@ class Cauchy extends Continuous
      *
      * @param float $x
      *
-     * @return number
+     * @return float
      */
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -76,9 +76,9 @@ class Cauchy extends Continuous
      *
      * @param float $x
      *
-     * @return number
+     * @return float
      */
-    public function cdf(float $x)
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -94,9 +94,9 @@ class Cauchy extends Continuous
      *
      * μ is undefined
      *
-     * @return null
+     * @return float \NAN
      */
-    public function mean()
+    public function mean(): float
     {
         return \NAN;
     }
@@ -104,9 +104,9 @@ class Cauchy extends Continuous
     /**
      * Median of the distribution
      *
-     * @return number x₀
+     * @return float x₀
      */
-    public function median()
+    public function median(): float
     {
         return $this->x₀;
     }
@@ -114,9 +114,9 @@ class Cauchy extends Continuous
     /**
      * Mode of the distribution
      *
-     * @return number x₀
+     * @return float x₀
      */
-    public function mode()
+    public function mode(): float
     {
         return $this->x₀;
     }
@@ -128,14 +128,14 @@ class Cauchy extends Continuous
      *
      * @param float $p
      *
-     * @return number
+     * @return float
      */
-    public function inverse(float $p)
+    public function inverse(float $p): float
     {
         Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
 
         $x₀ = $this->x₀;
-        $γ = $this->γ;
+        $γ  = $this->γ;
 
         $π = \M_PI;
 
