@@ -29,19 +29,19 @@ class Logistic extends Continuous
         'x' => '(-∞,∞)',
     ];
 
-    /** @var number Location Parameter */
+    /** @var float Location Parameter */
     protected $μ;
     
-    /** @var number Scale Parameter */
+    /** @var float Scale Parameter */
     protected $s;
 
     /**
      * Constructor
      *
-     * @param number $μ shape parameter
-     * @param number $s shape parameter s > 0
+     * @param float $μ shape parameter
+     * @param float $s shape parameter s > 0
      */
-    public function __construct($μ, $s)
+    public function __construct(float $μ, float $s)
     {
         parent::__construct($μ, $s);
     }
@@ -61,7 +61,7 @@ class Logistic extends Continuous
      *
      * @return float
      */
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -85,7 +85,7 @@ class Logistic extends Continuous
      *
      * @return float
      */
-    public function cdf(float $x)
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -101,9 +101,21 @@ class Logistic extends Continuous
      *
      * μ = μ
      *
-     * @return number μ
+     * @return float μ
      */
-    public function mean()
+    public function mean(): float
+    {
+        return $this->μ;
+    }
+
+    /**
+     * Median of the distribution
+     *
+     * median = μ
+     *
+     * @return float μ
+     */
+    public function median(): float
     {
         return $this->μ;
     }
@@ -117,13 +129,17 @@ class Logistic extends Continuous
      *
      * @param float $p
      *
-     * @return number
+     * @return float
      */
-    public function inverse(float $p)
+    public function inverse(float $p): float
     {
         Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
         $μ = $this->μ;
         $s = $this->s;
+
+        if ($p == 1) {
+            return \INF;
+        }
 
         return $μ + $s * log($p / (1 - $p));
     }

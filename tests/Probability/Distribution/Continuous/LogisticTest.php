@@ -11,17 +11,23 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
      * @param        float $x
      * @param        float $μ
      * @param        float $s
-     * @param        float $pdf
+     * @param        float $expected_pdf
      */
-    public function testPdf(float $x, float $μ, float $s, float $pdf)
+    public function testPdf(float $x, float $μ, float $s, float $expected_pdf)
     {
+        // Given
         $logistic = new Logistic($μ, $s);
-        $this->assertEquals($pdf, $logistic->pdf($x), '', 0.000001);
+
+        // When
+        $pdf = $logistic->pdf($x);
+
+        // Then
+        $this->assertEquals($expected_pdf, $pdf, '', 0.000001);
     }
 
     /**
      * @return array [x, μ, s, pdf]
-     * Generated with R dlogis(x, μ, s)
+     * Generated with R (stats) dlogis(x, μ, s)
      */
     public function dataProviderForPdf(): array
     {
@@ -68,12 +74,18 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
      * @param        float $x
      * @param        float $μ
      * @param        float $s
-     * @param        float $cdf
+     * @param        float $expected_cdf
      */
-    public function testCdf(float $x, float $μ, float $s, float $cdf)
+    public function testCdf(float $x, float $μ, float $s, float $expected_cdf)
     {
+        // Given
         $logistic = new Logistic($μ, $s);
-        $this->assertEquals($cdf, $logistic->cdf($x, $μ, $s), '', 0.000001);
+
+        // When
+        $cdf = $logistic->cdf($x);
+
+        // Then
+        $this->assertEquals($expected_cdf, $cdf, '', 0.000001);
     }
 
     /**
@@ -83,16 +95,22 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
      * @param        float $μ
      * @param        float $s
      */
-    public function testInverse(float $x, float $μ, float $s)
+    public function testInverseOfCdf(float $x, float $μ, float $s)
     {
+        // Given
         $logistic = new Logistic($μ, $s);
-        $cdf = $logistic->cdf($x, $μ, $s);
-        $this->assertEquals($x, $logistic->inverse($cdf), '', 0.000001);
+        $cdf      = $logistic->cdf($x);
+
+        // When
+        $inverse_of_cdf = $logistic->inverse($cdf);
+
+        // Then
+        $this->assertEquals($x, $inverse_of_cdf, '', 0.000001);
     }
 
     /**
      * @return array [x, μ, s, cdf]
-     * Generated with R plogis(x, μ, s)
+     * Generated with R (stats) plogis(x, μ, s)
      */
     public function dataProviderForCdf(): array
     {
@@ -137,9 +155,116 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
      */
     public function testMean()
     {
-        $μ = 5;
-        $s = 1;
+        foreach (range(-3, 3) as $μ) {
+            foreach (range(1, 3) as $s) {
+                // Given
+                $logistic = new Logistic($μ, $s);
+
+                // When
+                $mean = $logistic->mean();
+
+                // Then
+                $this->assertEquals($μ, $mean);
+            }
+        }
+    }
+
+    /**
+     * @testCase median
+     */
+    public function testMedian()
+    {
+        foreach (range(-3, 3) as $μ) {
+            foreach (range(1, 3) as $s) {
+                // Given
+                $logistic = new Logistic($μ, $s);
+
+                // When
+                $median = $logistic->median();
+
+                // Then
+                $this->assertEquals($μ, $median);
+            }
+        }
+    }
+
+    /**
+     * @testCase     inverse
+     * @dataProvider dataProviderForInverse
+     * @param        float $p
+     * @param        float $μ
+     * @param        float $s
+     * @param        $expected_inverse
+     */
+    public function testInverse(float $p, float $μ, float $s, $expected_inverse)
+    {
+        // Given
         $logistic = new Logistic($μ, $s);
-        $this->assertEquals($μ, $logistic->mean());
+
+        // When
+        $inverse = $logistic->inverse($p);
+
+        // Then
+        $this->assertEquals($expected_inverse, $inverse, '', 0.00001);
+    }
+
+    /**
+     * @return array [p, μ, s, inverse]
+     * Generated with R (stats) qlogis(p, location, scale)
+     */
+    public function dataProviderForInverse(): array
+    {
+        return [
+            [0, -1, 1, -\INF],
+            [0.1, -1, 1, -3.197225],
+            [0.3, -1, 1, -1.847298],
+            [0.5, -1, 1, -1],
+            [0.7, -1, 1, -0.1527021],
+            [0.9, -1, 1, 1.197225],
+            [1, -1, 1, \INF],
+
+            [0, 0, 1, -\INF],
+            [0.1, 0, 1, -2.197225],
+            [0.3, 0, 1, -0.8472979],
+            [0.5, 0, 1, 0],
+            [0.7, 0, 1, 0.8472979],
+            [0.9, 0, 1, 2.197225],
+            [1, 0, 1, \INF],
+
+            [0, 1, 1, -\INF],
+            [0.1, 1, 1, -1.197225],
+            [0.3, 1, 1, 0.1527021],
+            [0.5, 1, 1, 1],
+            [0.7, 1, 1, 1.847298],
+            [0.9, 1, 1, 3.197225],
+            [1, 1, 1, \INF],
+
+            [0, 2, 5, -\INF],
+            [0.1, 2, 5, -8.986123],
+            [0.3, 2, 5, -2.236489],
+            [0.5, 2, 5, 2],
+            [0.7, 2, 5, 6.236489],
+            [0.9, 2, 5, 12.98612],
+            [1, 2, 5, \INF],
+        ];
+    }
+
+    /**
+     * @testCase rand
+     */
+    public function testRand()
+    {
+        foreach (range(-3, 3) as $μ) {
+            foreach (range(1, 3) as $s) {
+                // Given
+                $logistic = new Logistic($μ, $s);
+
+                // When
+                $rand = $logistic->rand();
+
+                // Then
+                $this->assertTrue(is_numeric($rand));
+            }
+        }
     }
 }
