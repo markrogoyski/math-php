@@ -34,10 +34,10 @@ class Laplace extends Continuous
     /**
      * Constructor
      *
-     * @param number $μ location parameter
-     * @param number $b scale parameter (diversity)  b > 0
+     * @param float $μ location parameter
+     * @param float $b scale parameter (diversity)  b > 0
      */
-    public function __construct($μ, $b)
+    public function __construct(float $μ, float $b)
     {
         parent::__construct($μ, $b);
     }
@@ -101,8 +101,32 @@ class Laplace extends Continuous
      *
      * @return float μ
      */
-    public function mean()
+    public function mean(): float
     {
         return $this->μ;
+    }
+
+    /**
+     * Median of the distribution
+     *
+     * median = μ
+     *
+     * @return float μ
+     */
+    public function median(): float
+    {
+        return $this->μ;
+    }
+
+    public function inverse(float $p): float
+    {
+        if ($p == 0) {
+            return -\INF;
+        }
+        if ($p == 1) {
+            return \INF;
+        }
+
+        return parent::inverse($p);
     }
 }

@@ -8,15 +8,21 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     pdf
      * @dataProvider dataProviderForPdf
-     * @param        number $x
-     * @param        number $μ
-     * @param        number $b
-     * @param        number $pdf
+     * @param        float $x
+     * @param        float $μ
+     * @param        float $b
+     * @param        float $expected_pdf
      */
-    public function testPdf($x, $μ, $b, $pdf)
+    public function testPdf(float $x, float $μ, float $b, float $expected_pdf)
     {
+        // Given
         $laplace = new Laplace($μ, $b);
-        $this->assertEquals($pdf, $laplace->pdf($x), '', 0.000001);
+
+        // When
+        $pdf = $laplace->pdf($x);
+
+        // Then
+        $this->assertEquals($expected_pdf, $pdf, '', 0.000001);
     }
 
     /**
@@ -38,15 +44,21 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     cdf
      * @dataProvider dataProviderForCdf
-     * @param        number $x
-     * @param        number $μ
-     * @param        number $b
-     * @param        number $cdf
+     * @param        float $x
+     * @param        float $μ
+     * @param        float $b
+     * @param        float $expected_cdf
      */
-    public function testCdf($x, $μ, $b, $cdf)
+    public function testCdf(float $x, float $μ, float $b, float $expected_cdf)
     {
+        // Given
         $laplace = new Laplace($μ, $b);
-        $this->assertEquals($cdf, $laplace->cdf($x), '', 0.000001);
+
+        // When
+        $cdf = $laplace->cdf($x);
+
+        // Then
+        $this->assertEquals($expected_cdf, $cdf, '', 0.000001);
     }
 
     /**
@@ -66,13 +78,129 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase mean
+     * @testCase mean is always $μ
      */
     public function testMean()
     {
-        $μ = 5;
-        $b = 1;
+        foreach (range(-5, 5) as $μ) {
+            foreach (range(1, 3) as $b) {
+                // Given
+                $laplace = new Laplace($μ, $b);
+
+                // When
+                $mean = $laplace->mean();
+
+                // Then
+                $this->assertEquals($μ, $mean);
+            }
+        }
+    }
+
+    /**
+     * @testCase median is always $μ
+     */
+    public function testMedian()
+    {
+        foreach (range(-5, 5) as $μ) {
+            foreach (range(1, 3) as $b) {
+                // Given
+                $laplace = new Laplace($μ, $b);
+
+                // When
+                $median = $laplace->median();
+
+                // Then
+                $this->assertEquals($μ, $median);
+            }
+        }
+    }
+
+    /**
+     * @testCase     inverse
+     * @dataProvider dataProviderForInverse
+     * @param        float $p
+     * @param        float $μ
+     * @param        float $b
+     * @param        $expected_inverse
+     */
+    public function testInverse(float $p, float $μ, float $b, $expected_inverse)
+    {
+        // Given
         $laplace = new Laplace($μ, $b);
-        $this->assertEquals($μ, $laplace->mean());
+
+        // When
+        $inverse = $laplace->inverse($p);
+
+        // Then
+        $this->assertEquals($expected_inverse, $inverse, '', 0.00001);
+    }
+
+    /**
+     * @return array [p, μ, b, inverse]
+     * Generated with R (rmutil) qlaplace(p, location, dispersion)
+     */
+    public function dataProviderForInverse(): array
+    {
+        return [
+            [0, 0, 1, -\INF],
+            [0.1, 0, 1, -1.609438],
+            [0.3, 0, 1, -0.5108256],
+            [0.5, 0, 1, 0],
+            [0.7, 0, 1, 0.5108256],
+            [0.9, 0, 1, 1.609438],
+            [1, 0, 1, \INF],
+
+            [0, 1, 1, -\INF],
+            [0.1, 1, 1, -0.6094379],
+            [0.2, 1, 1, 0.08370927],
+            [0.3, 1, 1, 0.4891744],
+            [0.5, 1, 1, 1],
+            [0.7, 1, 1, 1.510826],
+            [0.9, 1, 1, 2.609438],
+            [1, 1, 1, \INF],
+
+            [0, -1, 1, -\INF],
+            [0.1, -1, 1, -2.609438],
+            [0.3, -1, 1, -1.510826],
+            [0.5, -1, 1, -1],
+            [0.7, -1, 1, -0.4891744],
+            [0.9, -1, 1, 0.6094379],
+            [1, -1, 1, \INF],
+
+            [0, 2, 4, -\INF],
+            [0.1, 2, 4, -4.437752],
+            [0.3, 2, 4, -0.0433025],
+            [0.5, 2, 4, 2],
+            [0.7, 2, 4, 4.043302],
+            [0.9, 2, 4, 8.437752],
+            [1, 2, 4, \INF],
+
+            [0, 13, 9, -\INF],
+            [0.1, 13, 9, -1.484941],
+            [0.3, 13, 9, 8.402569],
+            [0.5, 13, 9, 13],
+            [0.7, 13, 9, 17.59743],
+            [0.9, 13, 9, 27.48494],
+            [1, 13, 9, \INF],
+        ];
+    }
+
+    /**
+     * @testCase rand
+     */
+    public function testRand()
+    {
+        foreach (range(-3, 3) as $μ) {
+            foreach (range(1, 3) as $b) {
+                // Given
+                $laplace = new Laplace($μ, $b);
+
+                // When
+                $random = $laplace->rand();
+
+                // Then
+                $this->assertTrue(is_numeric($random));
+            }
+        }
     }
 }
