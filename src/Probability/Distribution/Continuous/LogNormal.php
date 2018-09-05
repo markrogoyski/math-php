@@ -26,7 +26,7 @@ class LogNormal extends Continuous
         'x' => '(0,∞)',
     ];
 
-     /** @var number location parameter */
+     /** @var float location parameter */
     protected $μ;
 
      /** @var float scale parameter > 0 */
@@ -35,10 +35,10 @@ class LogNormal extends Continuous
     /**
      * Constructor
      *
-     * @param  number $μ location parameter
-     * @param  number $λ scale parameter > 0
+     * @param float $μ location parameter
+     * @param float $λ scale parameter > 0
      */
-    public function __construct($μ, $λ)
+    public function __construct(float $μ, float $λ)
     {
         parent::__construct($μ, $λ);
     }
@@ -55,9 +55,9 @@ class LogNormal extends Continuous
      *
      * @param  float $x > 0
      *
-     * @return number
+     * @return float
      */
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -82,9 +82,9 @@ class LogNormal extends Continuous
      *
      * @param  float $x > 0
      *
-     * @return number
+     * @return float
      */
-    public function cdf(float $x)
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -102,13 +102,50 @@ class LogNormal extends Continuous
      *
      * μ = exp(μ + σ²/2)
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
         $μ = $this->μ;
         $σ = $this->σ;
 
         return exp($μ + ($σ**2 / 2));
+    }
+
+    /**
+     * Median of the distribution
+     *
+     * median = exp(μ)
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        return exp($this->μ);
+    }
+
+    /**
+     * Inverse of CDF (quantile)
+     *
+     * exp(μ + σ * normal-inverse(p))
+     *
+     * @param float $p
+     *
+     * @return float
+     */
+    public function inverse(float $p): float
+    {
+        if ($p == 0) {
+            return 0;
+        }
+        if ($p == 1) {
+            return \INF;
+        }
+
+        $μ = $this->μ;
+        $σ = $this->σ;
+        $standard_normal = new StandardNormal();
+
+        return exp($μ + $σ * $standard_normal->inverse($p));
     }
 }
