@@ -11,12 +11,18 @@ class NormalTest extends \PHPUnit\Framework\TestCase
      * @param        float $x
      * @param        float $μ
      * @param        float $σ
-     * @param        float $pdf
+     * @param        float $expected_pdf
      */
-    public function testPdf(float $μ, float $σ, float $x, float $pdf)
+    public function testPdf(float $μ, float $σ, float $x, float $expected_pdf)
     {
+        // Given
         $normal = new Normal($μ, $σ);
-        $this->assertEquals($pdf, $normal->pdf($x), '', 0.0000001);
+
+        // When
+        $pdf = $normal->pdf($x);
+
+        // Then
+        $this->assertEquals($expected_pdf, $pdf, '', 0.0000001);
     }
 
     /**
@@ -114,12 +120,18 @@ class NormalTest extends \PHPUnit\Framework\TestCase
      * @param        float $x
      * @param        float $μ
      * @param        float $σ
-     * @param        float $cdf
+     * @param        float $expected_cdf
      */
-    public function testCdf(float $μ, float $σ, float $x, float $cdf)
+    public function testCdf(float $μ, float $σ, float $x, float $expected_cdf)
     {
+        // Given
         $normal = new Normal($μ, $σ);
-        $this->assertEquals($cdf, $normal->cdf($x), '', 0.0000001);
+
+        // When
+        $cdf = $normal->cdf($x);
+
+        // Then
+        $this->assertEquals($expected_cdf, $cdf, '', 0.0000001);
     }
 
     /**
@@ -234,8 +246,14 @@ class NormalTest extends \PHPUnit\Framework\TestCase
      */
     public function testBetween(float $lower, float $upper, float $μ, float $σ, float $probability)
     {
+        // Given
         $normal = new Normal($μ, $σ);
-        $this->assertEquals($probability, $normal->between($lower, $upper), '', 0.00001);
+
+        // When
+        $between = $normal->between($lower, $upper);
+
+        // Then
+        $this->assertEquals($probability, $between, '', 0.00001);
     }
 
     /**
@@ -260,8 +278,14 @@ class NormalTest extends \PHPUnit\Framework\TestCase
      */
     public function testOutside(float $lower, float $upper, float $μ, float $σ, float $probability)
     {
+        // Given
         $normal = new Normal($μ, $σ);
-        $this->assertEquals($probability, $normal->outside($lower, $upper), '', 0.00001);
+
+        // When
+        $outside = $normal->outside($lower, $upper);
+
+        // Then
+        $this->assertEquals($probability, $outside, '', 0.00001);
     }
 
     /**
@@ -285,8 +309,14 @@ class NormalTest extends \PHPUnit\Framework\TestCase
      */
     public function testAbove(float $x, float $μ, float $σ, float $probability)
     {
+        // Given
         $normal = new Normal($μ, $σ);
-        $this->assertEquals($probability, $normal->above($x), '', 0.00001);
+
+        // When
+        $above = $normal->above($x);
+
+        // Then
+        $this->assertEquals($probability, $above, '', 0.00001);
     }
 
     /**
@@ -301,14 +331,55 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase mean
+     * @testCase     mean
+     * @dataProvider dataProviderForMean
+     * @param        float μ
      */
-    public function testMean()
+    public function testMean(float $μ)
     {
-        $μ = 5;
-        $σ = 1.5;
+        // Given
+        $σ      = 1.5;
         $normal = new Normal($μ, $σ);
-        $this->assertEquals($μ, $normal->mean());
+
+        // When
+        $mean = $normal->mean();
+
+        // Then
+        $this->assertEquals($μ, $mean);
+    }
+
+    /**
+     * @testCase     median
+     * @dataProvider dataProviderForMean
+     * @param        float μ
+     */
+    public function testMedian(float $μ)
+    {
+        // Given
+        $σ      = 1.5;
+        $normal = new Normal($μ, $σ);
+
+        // When
+        $median = $normal->median();
+
+        // Then
+        $this->assertEquals($μ, $median);
+    }
+
+    /**
+     * @return array [μ]
+     */
+    public function dataProviderForMean(): array
+    {
+        return [
+            [-2],
+            [-1],
+            [0],
+            [1],
+            [1.3],
+            [2],
+            [5],
+        ];
     }
 
     /**
@@ -331,6 +402,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForInverse(): array
     {
         return [
+            [0, 1, 1, \INF],
             [0, 1, 0.99, 2.32634787],
             [0, 1, 0.9, 1.28155157],
             [0, 1, 0.8, 0.84162123],
@@ -350,7 +422,9 @@ class NormalTest extends \PHPUnit\Framework\TestCase
             [0, 1, 0.2, -0.84162123],
             [0, 1, 0.1, -1.28155157],
             [0, 1, 0.01, -2.32634787],
+            [0, 1, 0, -\INF],
 
+            [1, 1, 1, \INF],
             [1, 1, 0.99, 3.32634787],
             [1, 1, 0.9, 2.28155157],
             [1, 1, 0.8, 1.84162123],
@@ -362,7 +436,9 @@ class NormalTest extends \PHPUnit\Framework\TestCase
             [1, 1, 0.2, 0.15837877],
             [1, 1, 0.1, -0.28155157],
             [1, 1, 0.01, -1.32634787],
+            [1, 1, 0, -\INF],
 
+            [3.2, 2.8, 1, \INF],
             [3.2, 2.8, 0.99, 9.71377405],
             [3.2, 2.8, 0.9, 6.78834438],
             [3.2, 2.8, 0.8, 5.55653945],
@@ -374,6 +450,144 @@ class NormalTest extends \PHPUnit\Framework\TestCase
             [3.2, 2.8, 0.2, 0.84346055],
             [3.2, 2.8, 0.1, -0.38834438],
             [3.2, 2.8, 0.01, -3.31377405],
+            [3.2, 2.8, 0, -\INF],
+
+            [-1, 1, 0, -\INF],
+            [-1, 1, 0.1, -2.281552],
+            [-1, 1, 0.2, -1.841621],
+            [-1, 1, 0.3, -1.524401],
+            [-1, 1, 0.4, -1.253347],
+            [-1, 1, 0.5, -1],
+            [-1, 1, 0.6, -0.7466529],
+            [-1, 1, 0.7, -0.4755995],
+            [-1, 1, 0.8, -0.1583788],
+            [-1, 1, 0.9, 0.2815516],
+            [-1, 1, 1, \INF],
+
+            [5, 7, 0, -\INF],
+            [5, 7, 0.1, -3.970861],
+            [5, 7, 0.2, -0.8913486],
+            [5, 7, 0.3, 1.329196],
+            [5, 7, 0.4, 3.22657],
+            [5, 7, 0.5, 5],
+            [5, 7, 0.6, 6.77343],
+            [5, 7, 0.7, 8.670804],
+            [5, 7, 0.8, 10.89135],
+            [5, 7, 0.9, 13.97086],
+            [5, 7, 1, \INF],
+        ];
+    }
+
+    /**
+     * @testCase     Inverse of CDF is x
+     * @dataProvider dataProviderForInverseOfCdf
+     * @param        float $x
+     * @param        float $μ
+     * @param        float $σ
+     */
+    public function testInverseOfCdf(float $μ, float $σ, float $x)
+    {
+        // Given
+        $normal = new Normal($μ, $σ);
+        $cdf    = $normal->cdf($x);
+
+        // When
+        $inverse_of_cdf = $normal->inverse($cdf);
+
+        // Then
+        $this->assertEquals($x, $inverse_of_cdf, '', 0.00001);
+    }
+
+    /**
+     * @return array [μ, σ, x, cdf]
+     */
+    public function dataProviderForInverseOfCdf(): array
+    {
+        return [
+            [0, 1, 5, 0.99999971],
+            [0, 1, 4, 0.99996833],
+            [0, 1, 3, 0.9986501],
+            [0, 1, 2, 0.97724987],
+            [0, 1, 1.96, 0.9750021],
+            [0, 1, 1.5, 0.9331928],
+            [0, 1, 1.1, 0.86433394],
+            [0, 1, 1, 0.84134475],
+            [0, 1, 0.9, 0.81593987],
+            [0, 1, 0.8, 0.7881446],
+            [0, 1, 0.7, 0.75803635],
+            [0, 1, 0.6, 0.72574688],
+            [0, 1, 0.5, 0.69146246],
+            [0, 1, 0.4, 0.65542174],
+            [0, 1, 0.31, 0.62171952],
+            [0, 1, 0.3, 0.61791142],
+            [0, 1, 0.2, 0.57925971],
+            [0, 1, 0.1, 0.53982784],
+            [0, 1, 0.01, 0.50398936],
+            [0, 1, 0.02, 0.50797831],
+            [0, 1, 0, 0.5],
+            [0, 1, -0.1, 0.46017216],
+            [0, 1, -0.31, 0.37828048],
+            [0, 1, -0.39, 0.34826827],
+            [0, 1, -0.5, 0.30853754],
+            [0, 1, -1, 0.15865525],
+            [0, 1, -1.96, 0.0249979],
+            [0, 1, -2, 0.02275013],
+            [0, 1, -2.90, 0.00186581],
+            [0, 1, -2.96, 0.0015382],
+            [0, 1, -3, 0.0013499],
+            [0, 1, -3.09, 0.00100078],
+            [0, 1, -4, 0.00003167],
+            [0, 1, -5, 2.9e-7],
+
+            [1, 1, 6, 0.99999971],
+            [1, 1, 5, 0.99996833],
+            [1, 1, 4, 0.9986501],
+            [1, 1, 3, 0.97724987],
+            [1, 1, 2, 0.84134475],
+            [1, 1, 1.96, 0.83147239],
+            [1, 1, 1.5, 0.69146246],
+            [1, 1, 1.1, 0.53982784],
+            [1, 1, 1, 0.5],
+            [1, 1, 0.9, 0.46017216],
+            [1, 1, 0.8, 0.42074029],
+            [1, 1, 0.7, 0.38208858],
+            [1, 1, 0.6, 0.34457826],
+            [1, 1, 0.5, 0.30853754],
+            [1, 1, 0.4, 0.27425312],
+            [1, 1, 0.3, 0.24196365],
+            [1, 1, 0.2, 0.2118554],
+            [1, 1, 0.1, 0.18406013],
+            [1, 1, 0, 0.15865525],
+            [1, 1, -0.1, 0.13566606],
+            [1, 1, -0.5, 0.0668072],
+            [1, 1, -1, 0.02275013],
+            [1, 1, -1.96, 0.0015382],
+            [1, 1, -2, 0.0013499],
+            [1, 1, -3, 0.00003167],
+            [1, 1, -4, 2.9e-7],
+
+            [3.2, 2.8, 10, 0.99242078],
+            [3.2, 2.8, 6, 0.84134475],
+            [3.2, 2.8, 5, 0.7398416],
+            [3.2, 2.8, 4, 0.61245152],
+            [3.2, 2.8, 3, 0.47152834],
+            [3.2, 2.8, 2, 0.33411757],
+            [3.2, 2.8, 1, 0.21601745],
+            [3.2, 2.8, 0, 0.12654895],
+            [3.2, 2.8, -1, 0.0668072],
+            [3.2, 2.8, -2, 0.03164542],
+            [3.2, 2.8, -3, 0.01340457],
+            [3.2, 2.8, -4, 0.005064],
+            [3.2, 2.8, -5, 0.00170262],
+            [3.2, 2.8, -6, 0.00050862],
+            [3.2, 2.8, -10, 0.00000121],
+
+            [72, 15.2, 84, 0.7850824],
+            [25, 2, 26, 0.69146246],
+            [5, 1, 6, 0.84134475],
+            [25, 14, 39, 0.84134475],
+            [4, 0.3, 3.5, 0.04779035],
+            [1, 1.1, 1.3, 0.60746857],
         ];
     }
 }

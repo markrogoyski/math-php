@@ -96,15 +96,46 @@ class Normal extends Continuous
 
         return 1/2 * ( 1 + Special::erf(($x - $μ) / ($σ * sqrt(2))) );
     }
+
+    /**
+     * Inverse CDF (quantile)
+     *
+     * @param float $p
+     *
+     * @return float
+     */
+    public function inverse(float $p): float
+    {
+        if ($p == 0) {
+            return -\INF;
+        }
+        if ($p == 1) {
+            return \INF;
+        }
+
+        return parent::inverse($p);
+    }
     
     /**
      * Mean of the distribution
      *
      * μ = μ
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
+    {
+        return $this->μ;
+    }
+
+    /**
+     * Median of the distribution
+     *
+     * median = μ
+     *
+     * @return float
+     */
+    public function median(): float
     {
         return $this->μ;
     }
