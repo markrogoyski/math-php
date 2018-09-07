@@ -31,19 +31,19 @@ class Pareto extends Continuous
         'b' => '(0,∞)',
     ];
 
-    /** @var number Shape Parameter */
+    /** @var float Shape Parameter */
     protected $a;
 
-    /** @var number Scale Parameter */
+    /** @var float Scale Parameter */
     protected $b;
 
     /**
      * Constructor
      *
-     * @param number $a shape parameter
-     * @param number $b scale parameter
+     * @param float $a shape parameter
+     * @param float $b scale parameter
      */
-    public function __construct($a, $b)
+    public function __construct(float $a, float $b)
     {
         parent::__construct($a, $b);
     }
@@ -59,9 +59,9 @@ class Pareto extends Continuous
      *
      * @param  float $x
      *
-     * @return number
+     * @return float
      */
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -86,9 +86,9 @@ class Pareto extends Continuous
      *
      * @param  float $x
      *
-     * @return number
+     * @return float
      */
-    public function cdf(float $x)
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -101,6 +101,32 @@ class Pareto extends Continuous
     }
 
     /**
+     * Inverse CDF (quantile)
+     *
+     *             b
+     * F⁻¹(P) = -------
+     *          (1 - P)¹/ᵃ
+     *
+     * @param float $p
+     *
+     * @return float
+     */
+    public function inverse(float $p): float
+    {
+        $a = $this->a;
+        $b = $this->b;
+
+        if ($p == 0) {
+            return -\INF;
+        }
+        if ($p == 1) {
+            return \INF;
+        }
+
+        return $b / ((1 - $p)**(1/$a));
+    }
+
+    /**
      * Mean of the distribution
      *
      * μ = ∞ for a ≤ 1
@@ -109,18 +135,32 @@ class Pareto extends Continuous
      * μ = ----- for a > 1
      *     a - 1
      *
-     *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
-
         $a = $this->a;
         $b = $this->b;
+
         if ($a <= 1) {
             return INF;
         }
 
         return $a * $b / ($a - 1);
+    }
+
+    /**
+     * Median of the distribution
+     *
+     * median = a ᵇ√2
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        $a = $this->a;
+        $b = $this->b;
+
+        return $a * (2**(1/$b));
     }
 }

@@ -590,4 +590,23 @@ class NormalTest extends \PHPUnit\Framework\TestCase
             [1, 1.1, 1.3, 0.60746857],
         ];
     }
+
+    /**
+     * @testCase rand
+     */
+    public function testRand()
+    {
+        foreach (range(-3, 3) as $μ) {
+            foreach (range(1, 3) as $σ) {
+                // Given
+                $normal = new Normal($μ, $σ);
+
+                // When
+                $random = $normal->rand();
+
+                // Then
+                $this->assertTrue(is_numeric($random));
+            }
+        }
+    }
 }
