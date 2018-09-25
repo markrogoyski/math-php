@@ -9,19 +9,39 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     gcd returns the greatest common divisor of two integers.
      * @dataProvider dataProviderForGcd
+     * @param        int $a
+     * @param        int $b
+     * @param        int $expected_gcd
+     * @param        int $_
+     * @param        int $__
      */
-    public function testGCD(int $a, int $b, int $gcd, int $_, int $__)
+    public function testGCD(int $a, int $b, int $expected_gcd, int $_, int $__)
     {
-        $this->assertEquals($gcd, Algebra::gcd($a, $b));
+        // When
+        $gcd = Algebra::gcd($a, $b);
+
+        // Then
+        $this->assertEquals($expected_gcd, $gcd);
     }
 
     /**
      * @testCase     extendedGCD returns the extended greatest common divisor of two integers.
      * @dataProvider dataProviderForGcd
+     * @param int $a
+     * @param int $b
+     * @param int $expected_gcd
+     * @param int $expected_alpha
+     * @param int $expected_beta
      */
-    public function testExtendedGcd(int $a, int $b, int $gcd, int $alpha, int $beta)
+    public function testExtendedGcd(int $a, int $b, int $expected_gcd, int $expected_alpha, int $expected_beta)
     {
-        $this->assertEquals([$gcd, $alpha, $beta], Algebra::extendedGcd($a, $b));
+        // When
+        list($gcd, $alpha, $beta) = Algebra::extendedGcd($a, $b);
+
+        // Then
+        $this->assertEquals($expected_gcd, $gcd);
+        $this->assertEquals($expected_alpha, $alpha);
+        $this->assertEquals($expected_beta, $beta);
     }
 
     public function dataProviderForGcd()
@@ -50,13 +70,23 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     lcm returns the least-common multiple of two integers.
      * @dataProvider dataProviderForLcm
+     * @param        int $a
+     * @param        int $b
+     * @param        int $expected_lcm
      */
-    public function testLCM(int $a, int $b, int $lcm)
+    public function testLCM(int $a, int $b, int $expected_lcm)
     {
-        $this->assertEquals($lcm, Algebra::lcm($a, $b));
+        // When
+        $lcm = Algebra::lcm($a, $b);
+
+        // Then
+        $this->assertEquals($expected_lcm, $lcm);
     }
 
-    public function dataProviderForLcm()
+    /**
+     * @return array [a, b, lcm]
+     */
+    public function dataProviderForLcm(): array
     {
         return [
             [0, 0, 0],
@@ -76,13 +106,22 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     factors returns the expected factors of an integer.
      * @dataProvider dataProviderForFactors
+     * @param        int $x
+     * @param        array $expected_factors
      */
-    public function testFactors(int $x, array $factors)
+    public function testFactors(int $x, array $expected_factors)
     {
-        $this->assertEquals($factors, Algebra::factors($x));
+        // When
+        $factors = Algebra::factors($x);
+
+        // Then
+        $this->assertEquals($expected_factors, $factors);
     }
 
-    public function dataProviderForFactors()
+    /**
+     * @return array [x, factors]
+     */
+    public function dataProviderForFactors(): array
     {
         return [
             [ 0, [\INF] ],
@@ -97,16 +136,30 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     quadratic returns the expected roots.
      * @dataProvider dataProviderForQuadratic
+     * @param        float $a
+     * @param        float $b
+     * @param        float $c
+     * @param        array $expected_quadratic
+     * @throws       \MathPHP\Exception\IncorrectTypeException
      */
-    public function testQuadratic($a, $b, $c, $quadratic)
+    public function testQuadratic(float $a, float $b, float $c, array $expected_quadratic)
     {
-        $this->assertEquals($quadratic, Algebra::quadratic($a, $b, $c), '', 0.00000001);
+        // Given
+        $expected_r1 = $expected_quadratic[0];
+        $expected_r2 = $expected_quadratic[1];
+
+        // When
+        list($r1, $r2) = Algebra::quadratic($a, $b, $c);
+
+        // Then
+        $this->assertEquals($expected_r1, $r1, '', 0.00000001);
+        $this->assertEquals($expected_r2, $r2, '', 0.00000001);
     }
 
     /**
      * Many data examples from: http://www.themathpage.com/alg/quadratic-equations.htm
      */
-    public function dataProviderForQuadratic()
+    public function dataProviderForQuadratic(): array
     {
         return [
             [2, 4, -4, [-1 - sqrt(3), -1 + sqrt(3)]],
@@ -152,13 +205,25 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     quadratic returns the expected root for edge case where a = 0 and formula is not quadratic.
      * @dataProvider dataProviderForQuadraticAIsZero
+     * @param        number$a
+     * @param        number$b
+     * @param        number$c
+     * @param        array $expected_quadratic
+     * @throws      \MathPHP\Exception\IncorrectTypeException
      */
-    public function testQuadraticAIsZero($a, $b, $c, $quadratic)
+    public function testQuadraticAIsZero($a, $b, $c, array $expected_quadratic)
     {
-        $this->assertEquals($quadratic, Algebra::quadratic($a, $b, $c), '', 0.00000001);
+        // When
+        $quadratic = Algebra::quadratic($a, $b, $c);
+
+        // Then
+        $this->assertEquals($expected_quadratic, $quadratic, '', 0.00000001);
     }
 
-    public function dataProviderForQuadraticAIsZero()
+    /**
+     * @return array [a, b, c, quadratic]
+     */
+    public function dataProviderForQuadraticAIsZero(): array
     {
         return [
             [0, -5, -3, [-3/5]],
@@ -171,10 +236,17 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     quadratic returns array of [NAN, NAN] if the discriminant is negative.
      * @dataProvider dataProviderForQuadraticNegativeDiscriminant
+     * @param        float $a
+     * @param        float $b
+     * @param        float $c
+     * @throws       \MathPHP\Exception\IncorrectTypeException
      */
-    public function testQuadraticNegativeDiscriminant($a, $b, $c)
+    public function testQuadraticNegativeDiscriminant(float $a, float $b, float $c)
     {
+        // When
         $roots = Algebra::quadratic($a, $b, $c);
+
+        // Then
         $this->assertInternalType('array', $roots);
         $this->assertNotEmpty($roots);
         $this->assertEquals(2, count($roots));
@@ -183,7 +255,10 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function dataProviderForQuadraticNegativeDiscriminant()
+    /**
+     * @return array [a, b, c]
+     */
+    public function dataProviderForQuadraticNegativeDiscriminant(): array
     {
         return [
             [10, 1, 1, [\NAN, \NAN]],
@@ -194,12 +269,22 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     quadratic returns array of Complex Number objects if the discriminant is negative.
      * @dataProvider dataProviderForQuadraticNegativeDiscriminantComplex
+     * @param        float $a
+     * @param        float $b
+     * @param        float $c
+     * @param        array $expected
+     * @throws       \Exception
      */
-    public function testQuadraticNegativeDiscriminantComplex($a, $b, $c, $expected)
+    public function testQuadraticNegativeDiscriminantComplex(float $a, float $b, float $c, array $expected)
     {
+        // Given
         $complex0 = new Number\Complex($expected[0][0], $expected[0][1]);
         $complex1 = new Number\Complex($expected[1][0], $expected[1][1]);
+
+        // When
         $roots = Algebra::quadratic($a, $b, $c, true);
+
+        // Then
         $this->assertInternalType('array', $roots);
         $this->assertInstanceOf(Number\Complex::class, $roots[0]);
         $this->assertInstanceOf(Number\Complex::class, $roots[1]);
@@ -209,7 +294,10 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($roots[1]->equals($complex1));
     }
 
-    public function dataProviderForQuadraticNegativeDiscriminantComplex()
+    /**
+     * @return array [a, b, c, quadratic]
+     */
+    public function dataProviderForQuadraticNegativeDiscriminantComplex(): array
     {
         return [
             [10, 1, 1, [[-.05, -1 * sqrt(39) / 20], [-.05, sqrt(39) / 20]]],
@@ -221,12 +309,19 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
      * @testCase     discriminant returns the expected value.
      * @dataProvider dataProviderForDiscriminant
      */
-    public function testDiscriminant($a, $b, $c, $discriminant)
+    public function testDiscriminant(float $a, float $b, float $c, float $expected_discriminant)
     {
-        $this->assertEquals($discriminant, Algebra::discriminant($a, $b, $c), '', 0.00000001);
+        // When
+        $discriminant = Algebra::discriminant($a, $b, $c);
+
+        // Then
+        $this->assertEquals($expected_discriminant, $discriminant, '', 0.00000001);
     }
 
-    public function dataProviderForDiscriminant()
+    /**
+     * @return array [a, b, c, discriminant]
+     */
+    public function dataProviderForDiscriminant(): array
     {
         return [
             [2, 4, -4, 48],
@@ -248,11 +343,16 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
      * @param        int $b
      * @param        int $c
      * @param        int $d
-     * @param        array $cubic expected roots
+     * @param        array $expected_cubic expected roots
+     * @throws       \Exception
      */
-    public function testCubic($a, $b, $c, $d, $cubic)
+    public function testCubic(int $a, int $b, int $c, int $d, array $expected_cubic)
     {
-        $this->assertEquals($cubic, Algebra::cubic($a, $b, $c, $d), '', 0.00000001);
+        // When
+        $cubic = Algebra::cubic($a, $b, $c, $d);
+
+        // Then
+        $this->assertEquals($expected_cubic, $cubic, '', 0.00000001);
     }
 
     /**
@@ -313,15 +413,19 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     cubic returns the expected roots when D > 0: one root is real, 2 are complex conjugates.
      * @dataProvider dataProviderForCubicOneRealRoot
-     * @param        int $a
-     * @param        int $b
-     * @param        int $c
-     * @param        int $d
-     * @param        array $cubic expected roots
+     * @param        float $a
+     * @param        float $b
+     * @param        float $c
+     * @param        float $d
+     * @param        float $real_root
+     * @throws       \Exception
      */
-    public function testCubicOneRealRoot($a, $b, $c, $d, $real_root)
+    public function testCubicOneRealRoot(float $a, float $b, float $c, float $d, float $real_root)
     {
+        // When
         list($z₁, $z₂, $z₃) = Algebra::cubic($a, $b, $c, $d);
+
+        // Then
         $this->assertEquals($real_root, $z₁, '', 0.00000001);
         $this->assertNan($z₂);
         $this->assertNan($z₃);
@@ -354,18 +458,24 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     cubic returns the expected roots when D > 0: one root is real, 2 are complex conjugates.
      * @dataProvider dataProviderForCubicOneRealRootWithComplex
-     * @param        int $a
-     * @param        int $b
-     * @param        int $c
-     * @param        int $d
-     * @param        array $cubic expected roots
+     * @param        int   $a
+     * @param        int   $b
+     * @param        int   $c
+     * @param        int   $d
+     * @param        array $roots
+     * @throws       \Exception
      */
-    public function testCubicOneRealRootWithComplex($a, $b, $c, $d, $roots)
+    public function testCubicOneRealRootWithComplex(int $a, int $b, int $c, int $d, array $roots)
     {
+        // Given
         $real_root = $roots[0];
         $complex0 = new Number\Complex($roots[1]['r'], $roots[1]['i']);
         $complex1 = new Number\Complex($roots[2]['r'], $roots[2]['i']);
+
+        // When
         list($z₁, $z₂, $z₃) = Algebra::cubic($a, $b, $c, $d, true);
+
+        // Then
         $this->assertEquals($real_root, $z₁, '', 0.00000001);
         $this->assertInstanceOf(Number\Complex::class, $z₂);
         $this->assertInstanceOf(Number\Complex::class, $z₃);
@@ -373,6 +483,9 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($z₃->equals($complex1), "Expecting $complex1 but saw $z₃");
     }
 
+    /**
+     * @return array [a, b, c, d, roots]
+     */
     public function dataProviderForCubicOneRealRootWithComplex(): array
     {
         return [
@@ -386,33 +499,69 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     cubic with a₃ coefficient of z³ of 0 is the same as quadratic.
      * @dataProvider dataProviderForQuadratic
-     * @param        number $b
-     * @param        number $c
-     * @param        number $d
-     * @param        array  $quadratic
+     * @param        float $b
+     * @param        float $c
+     * @param        float $d
+     * @param        array $quadratic
+     * @throws       \Exception
      */
-    public function testCubicCubeCoefficientZeroSameAsQuadratic($b, $c, $d, $quadratic)
+    public function testCubicCubeCoefficientZeroSameAsQuadratic(float $b, float $c, float $d, array $quadratic)
     {
         $a = 0;
         $this->assertEquals($quadratic, Algebra::cubic($a, $b, $c, $d), '', 0.00000001);
     }
 
     /**
-     * @dataProvider dataProviderForQuartic
-     * @param        int $a
-     * @param        int $b
-     * @param        int $c
-     * @param        int $d
-     * @param        int $d
-     * @param        array $quartic expected roots
+     * @testCase     cubic returns array of Complex Number objects if the quadradic discriminant is negative.
+     * @dataProvider dataProviderForQuadraticNegativeDiscriminantComplex
+     * @param        float $a₂
+     * @param        float $a₁
+     * @param        float $a₀
+     * @param        array $expected
+     * @throws       \Exception
      */
-    public function testQuartic($a, $b, $c, $d, $e, $quartic)
+    public function testCubicNegativeDiscriminantComplex(float $a₂, float $a₁, float $a₀, array $expected)
     {
-        $this->assertEquals($quartic, Algebra::quartic($a, $b, $c, $d, $e), '', 0.00000001);
+        // Given
+        $a₃       = 0;
+        $complex0 = new Number\Complex($expected[0][0], $expected[0][1]);
+        $complex1 = new Number\Complex($expected[1][0], $expected[1][1]);
+
+        // When
+        $roots = Algebra::cubic($a₃, $a₂, $a₁, $a₀, true);
+
+        // Then
+        $this->assertInternalType('array', $roots);
+        $this->assertInstanceOf(Number\Complex::class, $roots[0]);
+        $this->assertInstanceOf(Number\Complex::class, $roots[1]);
+        $this->assertNotEmpty($roots);
+        $this->assertEquals(2, count($roots));
+        $this->assertTrue($roots[0]->equals($complex0));
+        $this->assertTrue($roots[1]->equals($complex1));
     }
 
     /**
-     * @return array
+     * @testCase     quartic
+     * @dataProvider dataProviderForQuartic
+     * @param        int   $a
+     * @param        int   $b
+     * @param        int   $c
+     * @param        int   $d
+     * @param        int   $e
+     * @param        array $expected_quartic
+     * @throws       \Exception
+     */
+    public function testQuartic(int $a, int $b, int $c, int $d, int $e, array $expected_quartic)
+    {
+        // When
+        $quartic = Algebra::quartic($a, $b, $c, $d, $e);
+
+        // Then
+        $this->assertEquals($expected_quartic, $quartic, '', 0.00000001);
+    }
+
+    /**
+     * @return array [a, b, c, d, e, quartic]
      */
     public function dataProviderForQuartic(): array
     {
@@ -439,26 +588,32 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     quartic with two complex roots
      * @dataProvider dataProviderForQuarticTwoComplex
      * @param        int $a
      * @param        int $b
      * @param        int $c
      * @param        int $d
-     * @param        int $d
      * @param        int $e
      * @param        array $quartic expected roots
+     * @throws       \Exception
      */
     public function testQuarticTwoComplex($a, $b, $c, $d, $e, $quartic)
     {
+        // When
         list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
+        // Then
         $this->assertEquals($quartic[0], floatval($z₁), '', 0.00000001);
         $this->assertEquals($quartic[1], floatval($z₂), '', 0.00000001);
         $this->assertNan($z₃, '');
         $this->assertNan($z₄, '');
-        
-        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
+
+        // Given
         $complex0 = new Number\Complex($quartic[2]['r'], $quartic[2]['i']);
         $complex1 = new Number\Complex($quartic[3]['r'], $quartic[3]['i']);
+        // When
+        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
+        // Then
         $this->assertEquals($quartic[0], floatval($z₁), '', 0.00000001);
         $this->assertEquals($quartic[1], floatval($z₂), '', 0.00000001);
         $this->assertTrue($z₃->equals($complex0), "Expecting $complex0 but saw $z₃, complex conjugate is $z₄");
@@ -484,28 +639,35 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     quartic with four complex roots
      * @dataProvider dataProviderForQuarticFourComplex
-     * @param        int $a
-     * @param        int $b
-     * @param        int $c
-     * @param        int $d
-     * @param        int $d
-     * @param        int $e
+     * @param        int   $a
+     * @param        int   $b
+     * @param        int   $c
+     * @param        int   $d
+     * @param        int   $d
+     * @param        int   $e
      * @param        array $quartic expected roots
+     * @throws       \Exception
      */
-    public function testQuarticFourComplex($a, $b, $c, $d, $e, $quartic)
+    public function testQuarticFourComplex(int $a, int $b, int $c, int $d, int $e, array $quartic)
     {
+        // When
         list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
+        // Then
         $this->assertNan($z₁);
         $this->assertNan($z₂);
         $this->assertNan($z₃);
         $this->assertNan($z₄);
-        
-        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
+
+        // Given
         $complex0 = new Number\Complex($quartic[0]['r'], $quartic[0]['i']);
         $complex1 = new Number\Complex($quartic[1]['r'], $quartic[1]['i']);
         $complex2 = new Number\Complex($quartic[2]['r'], $quartic[2]['i']);
         $complex3 = new Number\Complex($quartic[3]['r'], $quartic[3]['i']);
+        // When
+        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
+        // Then
         $this->assertTrue($z₁->equals($complex0), "Expecting $complex0 but saw $z₁");
         $this->assertTrue($z₂->equals($complex1), "Expecting $complex1 but saw $z₂");
         $this->assertTrue($z₃->equals($complex2), "Expecting $complex2 but saw $z₃");

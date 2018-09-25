@@ -207,13 +207,13 @@ class Algebra
      *
      * Δ = b² - 4ac
      *
-     * @param  number $a x² coefficient
-     * @param  number $b x coefficient
-     * @param  number $c constant coefficient
+     * @param  float $a x² coefficient
+     * @param  float $b x coefficient
+     * @param  float $c constant coefficient
      *
-     * @return number
+     * @return float
      */
-    public static function discriminant($a, $b, $c)
+    public static function discriminant(float $a, float $b, float $c): float
     {
         return $b**2 - (4 * $a * $c);
     }
