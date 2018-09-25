@@ -28,15 +28,15 @@ class StudentT extends Continuous
         't' => '(-∞,∞)',
     ];
 
-    /** @var number Degrees of Freedom Parameter */
+    /** @var float Degrees of Freedom Parameter */
     protected $ν;
 
     /**
      * Constructor
      *
-     * @param number $ν degrees of freedom ν > 0
+     * @param float $ν degrees of freedom ν > 0
      */
-    public function __construct($ν)
+    public function __construct(float $ν)
     {
         parent::__construct($ν);
     }
@@ -55,9 +55,9 @@ class StudentT extends Continuous
      *
      * @param float $t t score
      *
-     * @return number
+     * @return float
      */
-    public function pdf(float $t)
+    public function pdf(float $t): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
 
@@ -90,9 +90,9 @@ class StudentT extends Continuous
      *
      * @param float $t t score
      *
-     * @return number
+     * @return float
      */
-    public function cdf(float $t)
+    public function cdf(float $t): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
 
@@ -120,9 +120,9 @@ class StudentT extends Continuous
      *
      * @param number $p Proportion of area
      *
-     * @return number t-score
+     * @return float t-score
      */
-    public function inverse2Tails($p)
+    public function inverse2Tails($p): float
     {
         Support::checkLimits(['p'  => '[0,1]'], ['p' => $p]);
 
@@ -135,9 +135,9 @@ class StudentT extends Continuous
      * μ = 0 if ν > 1
      * otherwise undefined
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
         if ($this->ν > 1) {
             return 0;
@@ -151,9 +151,9 @@ class StudentT extends Continuous
      *
      * μ = 0
      *
-     * @return number
+     * @return float
      */
-    public function median()
+    public function median(): float
     {
         return 0;
     }

@@ -14,6 +14,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
+        // Given
         $this->standardNormal = new StandardNormal();
     }
 
@@ -21,11 +22,15 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
      * @testCase     pdf
      * @dataProvider dataProviderForPdf
      * @param        float $z
-     * @param        float $pdf
+     * @param        float $expected_pdf
      */
-    public function testPdf(float $z, float $pdf)
+    public function testPdf(float $z, float $expected_pdf)
     {
-        $this->assertEquals($pdf, $this->standardNormal->pdf($z), '', 0.0000001);
+        // When
+        $pdf = $this->standardNormal->pdf($z);
+
+        // Then
+        $this->assertEquals($expected_pdf, $pdf, '', 0.0000001);
     }
 
     /**
@@ -35,8 +40,15 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
      */
     public function testPdfEqualsNormalWithMeanZeroAndStandardDeviationOne(float $z)
     {
-        $normal = new Normal(self::μ, self::σ);
-        $this->assertEquals($normal->pdf($z), $this->standardNormal->pdf($z), '', 0.0000001);
+        // Given
+        $normal     = new Normal(self::μ, self::σ);
+        $normal_pdf = $normal->pdf($z);
+
+        // When
+        $pdf = $this->standardNormal->pdf($z);
+
+        // Then
+        $this->assertEquals($normal_pdf, $pdf, '', 0.0000001);
     }
 
     /**
@@ -82,11 +94,15 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
      * @testCase     cdf
      * @dataProvider dataProviderForCdf
      * @param        float $z
-     * @param        float $cdf
+     * @param        float $expected_cdf
      */
-    public function testCdf(float $z, float $cdf)
+    public function testCdf(float $z, float $expected_cdf)
     {
-        $this->assertEquals($cdf, $this->standardNormal->cdf($z), '', 0.0000001);
+        // When
+        $cdf = $this->standardNormal->cdf($z);
+
+        // Then
+        $this->assertEquals($expected_cdf, $cdf, '', 0.0000001);
     }
 
     /**
@@ -96,8 +112,15 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
      */
     public function testCdfEqualsNormalWithMeanZeroAndStandardDeviationOne(float $z)
     {
+        // Given
         $normal = new Normal(0, 1);
-        $this->assertEquals($normal->cdf($z), $this->standardNormal->cdf($z), '', 0.0000001);
+        $normal_cdf = $normal->cdf($z);
+
+        // When
+        $cdf = $this->standardNormal->cdf($z);
+
+        // Then
+        $this->assertEquals($normal_cdf, $cdf, '', 0.0000001);
     }
 
     /**
@@ -152,20 +175,26 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
      */
     public function testMean()
     {
-        $standardNormal = new StandardNormal();
-        $this->assertEquals(0, $standardNormal->mean());
+        // When
+        $mean = $this->standardNormal->mean();
+
+        // Then
+        $this->assertEquals(0, $mean);
     }
 
     /**
      * @testCase     inverse
      * @dataProvider dataProviderForInverse
      * @param        float $target
-     * @param        float $inverse
+     * @param        float $expected_inverse
      */
-    public function testInverse(float $target, float $inverse)
+    public function testInverse(float $target, float $expected_inverse)
     {
-        $standardNormal = new StandardNormal();
-        $this->assertEquals($inverse, $standardNormal->inverse($target), '', 0.000001);
+        // When
+        $inverse = $this->standardNormal->inverse($target);
+
+        // Then
+        $this->assertEquals($expected_inverse, $inverse, '', 0.000001);
     }
 
     /**
