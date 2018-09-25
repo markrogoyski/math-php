@@ -306,7 +306,7 @@ class Algebra
     public static function cubic($a₃, $a₂, $a₁, $a₀, bool $return_complex = false): array
     {
         if ($a₃ === 0) {
-            return self::quadratic($a₂, $a₁, $a₀);
+            return self::quadratic($a₂, $a₁, $a₀, $return_complex);
         }
 
         // Take coefficient a₃ of z³ to be 1
@@ -425,7 +425,7 @@ class Algebra
             $r = $a₀;
             // Create the resolvent cubic.
             // 8m³ + 8pm² + (2p² - 8r)m - q² = 0
-            $cubic_roots = self::cubic(8, 8 * $p, 2 * $p ** 2 - 8 * $r, -1 * $q ** 2);
+            $cubic_roots = self::cubic(8, 8 * $p, 2 * $p ** 2 - 8 * $r, -1 * $q ** 2, $return_complex);
             
             // $z₁ will always be a real number, so select it.
             $m             = $cubic_roots[0];
