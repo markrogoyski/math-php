@@ -308,6 +308,10 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     discriminant returns the expected value.
      * @dataProvider dataProviderForDiscriminant
+     * @param        float $a
+     * @param        float $b
+     * @param        float $c
+     * @param        float $expected_discriminant
      */
     public function testDiscriminant(float $a, float $b, float $c, float $expected_discriminant)
     {
@@ -644,7 +648,6 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
      * @param        int   $a
      * @param        int   $b
      * @param        int   $c
-     * @param        int   $d
      * @param        int   $d
      * @param        int   $e
      * @param        array $quartic expected roots
