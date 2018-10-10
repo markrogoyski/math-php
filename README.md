@@ -637,6 +637,9 @@ $n = 225;
 // Prime factorization
 $factors = Integer::primeFactorization($n);
 
+// Perfect Number
+$bool = Integer::isPerfectNumber($n);
+
 // Perfect powers
 $bool        = Integer::isPerfectPower($n);
 list($m, $k) = Integer::perfectPower($n);

@@ -7,18 +7,93 @@ use MathPHP\Exception;
 class IntegerTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     isPerfectNumber
+     * @dataProvider dataProviderForPerfectNumbers
+     * @param        int $n
+     */
+    public function testIsPerfectNumber(int $n)
+    {
+        // When
+        $isPerfectNumber = Integer::isPerfectNumber($n);
+
+        // Then
+        $this->assertTrue($isPerfectNumber);
+    }
+
+    /**
+     * @see    https://oeis.org/A000396
+     * @return array
+     */
+    public function dataProviderForPerfectNumbers(): array
+    {
+        return [
+            [6],
+            [28],
+            [496],
+            [8128],
+            [33550336],
+            [8589869056],
+            [137438691328],
+        ];
+    }
+
+    /**
+     * @testCase     isPerfectNumber is not a perfect number
+     * @dataProvider dataProviderForNonPerfectNumbers
+     * @param        int $n
+     */
+    public function testIsNotPerfectNumber(int $n)
+    {
+        // When
+        $isPerfectNumber = Integer::isPerfectNumber($n);
+
+        // Then
+        $this->assertFalse($isPerfectNumber);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForNonPerfectNumbers(): array
+    {
+        return [
+            [-1],
+            [0],
+            [1],
+            [2],
+            [3],
+            [4],
+            [5],
+            [7],
+            [8],
+            [9],
+            [10],
+            [26],
+            [498],
+            [8124],
+            [23550336],
+            [2589869056],
+            [133438691328],
+        ];
+    }
+
+    /**
      * @testCase     isPerfectPower returns true if n is a perfect prime.
      * @dataProvider dataProviderForIsPerfectPower
      * @param        int $n
      */
     public function testIsPerfectPower(int $n)
     {
-        $this->assertTrue(Integer::isPerfectPower($n));
+        // When
+        $isPerfectPower = Integer::isPerfectPower($n);
+
+        // Then
+        $this->assertTrue($isPerfectPower);
     }
 
     /**
      * A001597 Perfect powers: m^k where m > 0 and k >= 2.
-     * https://oeis.org/A001597
+     * @see    https://oeis.org/A001597
      * @return array
      */
     public function dataProviderForIsPerfectPower(): array
@@ -88,12 +163,16 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsNotPerfectPower(int $n)
     {
-        $this->assertFalse(Integer::isPerfectPower($n));
+        // When
+        $isPerfectPower = Integer::isPerfectPower($n);
+
+        // Then
+        $this->assertFalse($isPerfectPower);
     }
 
     /**
      * A007916 Numbers that are not perfect powers.
-     * https://oeis.org/A007916
+     * @see    https://oeis.org/A007916
      * @return array
      */
     public function dataProviderForIsNotPerfectPower(): array
@@ -177,12 +256,15 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      * @testCase     perfectPower returns m and k for n such that mᵏ = n if n is a perfect power.
      * @dataProvider dataProviderForPerfectPower
      * @param        int $n
-     * @param        int $m
-     * @param        int $k
+     * @param        int $expected_m
+     * @param        int $expected_k
      */
     public function testPerfectPower(int $n, int $expected_m, int $expected_k)
     {
+        // When
         list($m, $k) = Integer::perfectPower($n);
+
+        // Then
         $this->assertEquals($expected_m, $m);
         $this->assertEquals($expected_k, $k);
     }
@@ -228,9 +310,13 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function testPerfectPowerArray(int $n)
     {
+        // When
         $perfect_power = Integer::perfectPower($n);
+
+        // Then
         $this->assertNotEmpty($perfect_power);
 
+        // And
         $m = array_shift($perfect_power);
         $k = array_shift($perfect_power);
         $this->assertTrue(is_numeric($m));
@@ -246,20 +332,32 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function testEmptyPerfectPower(int $n)
     {
-        $this->assertEmpty(Integer::perfectPower($n));
+        // When
+        $empty = Integer::perfectPower($n);
+
+        // Then
+        $this->assertEmpty($empty);
     }
 
     /**
      * @testCase     primeFactorization returns an array of the prime factors of an integer n.
      * @dataProvider dataProviderForPrimeFactorization
-     * @param  int   $n
-     * @param  array $factors
+     * @param        int   $n
+     * @param        array $expected_actors
+     * @throws       \Exception
      */
-    public function testPrimeFactorization(int $n, array $factors)
+    public function testPrimeFactorization(int $n, array $expected_actors)
     {
-        $this->assertEquals($factors, Integer::primeFactorization($n));
+        // When
+        $factors = Integer::primeFactorization($n);
+
+        // Then
+        $this->assertEquals($expected_actors, $factors);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForPrimeFactorization(): array
     {
         return [
@@ -308,13 +406,20 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      * @testCase     primeFactorization throws an OutOfBoundsException if n is < 2.
      * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
      * @param        int $n
+     * @throws       \Exception
      */
     public function testPrimeFactorizationOutOfBoundsException(int $n)
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Integer::primeFactorization($n);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForPrimeFactorizationOutOfBoundsException(): array
     {
         return [
@@ -335,9 +440,16 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCoprime(int $a, int $b)
     {
-        $this->assertTrue(Integer::coprime($a, $b));
+        // When
+        $coprime = Integer::coprime($a, $b);
+
+        // Then
+        $this->assertTrue($coprime);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForCoprime(): array
     {
         return [
@@ -420,9 +532,16 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function testNotCoprime(int $a, int $b)
     {
-        $this->assertFalse(Integer::coprime($a, $b));
+        // When
+        $coprime = Integer::coprime($a, $b);
+
+        // Then
+        $this->assertFalse($coprime);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForNotCoprime(): array
     {
         return [
@@ -481,7 +600,11 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     public function testIsOdd()
     {
         foreach (range(-11, 101, 2) as $x) {
-            $this->assertTrue(Integer::isOdd($x));
+            // When
+            $isOdd = Integer::isOdd($x);
+
+            // Then
+            $this->assertTrue($isOdd);
         }
     }
 
@@ -491,7 +614,11 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     public function testIsNotOdd()
     {
         foreach (range(-10, 100, 2) as $x) {
-            $this->assertFalse(Integer::isOdd($x));
+            // When
+            $isOdd = Integer::isOdd($x);
+
+            // Then
+            $this->assertFalse($isOdd);
         }
     }
 
@@ -501,7 +628,11 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     public function testIsEven()
     {
         foreach (range(-10, 100, 2) as $x) {
-            $this->assertTrue(Integer::isEven($x));
+            // When
+            $isEven = Integer::isEven($x);
+
+            // Then
+            $this->assertTrue($isEven);
         }
     }
 
@@ -511,7 +642,11 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     public function testIsNotEven()
     {
         foreach (range(-11, 101, 2) as $x) {
-            $this->assertFalse(Integer::isEven($x));
+            // When
+            $isEven = Integer::isEven($x);
+
+            // Then
+            $this->assertFalse($isEven);
         }
     }
 }
