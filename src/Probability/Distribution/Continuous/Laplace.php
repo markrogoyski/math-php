@@ -118,6 +118,13 @@ class Laplace extends Continuous
         return $this->μ;
     }
 
+    /**
+     * Inverse cumulative distribution function (quantile function)
+     *
+     * @param float $p
+     *
+     * @return float
+     */
     public function inverse(float $p): float
     {
         if ($p == 0) {

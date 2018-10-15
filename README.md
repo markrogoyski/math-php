@@ -928,6 +928,8 @@ $divisions = Combinatorics::multinomial($groups);
 ```php
 use MathPHP\Probability\Distribution\Continuous;
 
+$p = 0.1;
+
 // Beta distribution
 $α    = 1; // shape parameter
 $β    = 1; // shape parameter
@@ -935,6 +937,7 @@ $x    = 2;
 $beta = new Continuous\Beta($α, $β);
 $pdf  = $beta->pdf($x);
 $cdf  = $beta->cdf($x);
+$icdf = $beta->inverse($p);
 $μ    = $beta->mean();
 
 // Cauchy distribution
@@ -944,6 +947,10 @@ $x      = 1;
 $cauchy = new Continuous\Cauchy(x₀, γ);
 $pdf    = $cauchy->pdf(x);
 $cdf    = $cauchy->cdf(x);
+$icdf   = $cauchy->inverse($p);
+$μ      = $cauchy->mean();
+$median = $cauchy->median();
+$mode   = $cauchy->mode();
 
 // χ²-distribution (Chi-Squared)
 $k   = 2; // degrees of freedom
@@ -951,12 +958,15 @@ $x   = 1;
 $χ²  = new Continuous\ChiSquared($k);
 $pdf = $χ²->pdf($x);
 $cdf = $χ²->cdf($x);
+$μ   = $χ²->mean($x);
 
 // Dirac delta distribution
 $x     = 1;
 $dirac = new Continuous\DiracDelta();
 $pdf   = $dirac->pdf($x);
 $cdf   = $dirac->cdf($x);
+$icdf  = $dirac->inverse($p);
+$μ     = $dirac->mean();
 
 // Exponential distribution
 $λ           = 1; // rate parameter
@@ -964,6 +974,7 @@ $x           = 2;
 $exponential = new Continuous\Exponential($λ);
 $pdf         = $exponential->pdf($x);
 $cdf         = $exponential->cdf($x);
+$icdf        = $exponential->inverse($p);
 $μ           = $exponential->mean();
 
 // F-distribution
@@ -991,6 +1002,9 @@ $x       = 1;
 $laplace = new Continuous\Laplace($μ, $b);
 $pdf     = $laplace->pdf($x);
 $cdf     = $laplace->cdf($x);
+$icdf    = $laplace->inverse($p);
+$mean    = $laplace->mean();
+$median  = $laplace->median();
 
 // Logistic distribution
 $μ        = 2;   // location parameter
@@ -999,6 +1013,9 @@ $x        = 3;
 $logistic = new Continuous\Logistic($μ, $s);
 $pdf      = $logistic->pdf($x);
 $cdf      = $logistic->cdf($x);
+$icdf     = $logistic->inverse($p);
+$mean     = $logistic->mean();
+$median   = $logistic->median();
 
 // Log-logistic distribution (Fisk distribution)
 $α           = 1; // scale parameter
@@ -1007,6 +1024,7 @@ $x           = 2;
 $logLogistic = new Continuous\LogLogistic($α, $β);
 $pdf         = $logLogistic->pdf($x);
 $cdf         = $logLogistic->cdf($x);
+$icdf        = $logLogistic->inverse($p);
 $μ           = $logLogistic->mean();
 
 // Log-normal distribution
@@ -1016,7 +1034,9 @@ $x         = 4.3;
 $logNormal = new Continuous\LogNormal($μ, $σ);
 $pdf       = $logNormal->pdf($x);
 $cdf       = $logNormal->cdf($x);
-$mean      = $logNormal->mean();
+$icdf      = $logNormal->inverse($p);
+$μ         = $logNormal->mean();
+$median    = $logNormal->median();
 
 // Noncentral T distribution
 $ν            = 50; // degrees of freedom
@@ -1034,6 +1054,9 @@ $x      = 2;
 $normal = new Continuous\Normal($μ, $σ);
 $pdf    = $normal->pdf($x);
 $cdf    = $normal->cdf($x);
+$icdf   = $normal->inverse($p);
+$mean   = $normal->mean();
+$median = $normal->median();
 
 // Pareto distribution
 $a      = 1; // shape parameter
@@ -1042,13 +1065,18 @@ $x      = 2;
 $pareto = new Continuous\Pareto($a, $b);
 $pdf    = $pareto->pdf($x);
 $cdf    = $pareto->cdf($x);
+$icdf   = $pareto->inverse($p);
 $μ      = $pareto->mean();
+$median = $pareto->median();
 
 // Standard normal distribution
 $z              = 2;
 $standardNormal = new Continuous\StandardNormal();
 $pdf            = $standardNormal->pdf($z);
 $cdf            = $standardNormal->cdf($z);
+$icdf           = $standardNormal->inverse($p);
+$μ              = $standardNormal->mean();
+$median         = $standardNormal->median();
 
 // Student's t-distribution
 $ν        = 3;   // degrees of freedom
@@ -1058,6 +1086,8 @@ $studentT = new Continuous\StudentT::pdf($ν);
 $pdf      = $studentT->pdf($x);
 $cdf      = $studentT->cdf($x);
 $t        = $studentT->inverse2Tails($p);  // t such that the area greater than t and the area beneath -t is p
+$μ        = $studentT->mean();
+$median   = $studentT->median();
 
 // Uniform distribution
 $a       = 1; // lower boundary of the distribution
@@ -1075,6 +1105,7 @@ $x       = 2;
 $weibull = new Continuous\Weibull($k, $λ);
 $pdf     = $weibull->pdf($x);
 $cdf     = $weibull->cdf($x);
+$icdf    = $weibull->inverse($p);
 $μ       = $weibull->mean();
 
 // Other CDFs - All continuous distributions
