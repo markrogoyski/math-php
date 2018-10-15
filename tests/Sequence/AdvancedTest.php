@@ -289,7 +289,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
         $lazy_caterers = Advanced::lazyCaterers($n);
 
         // Then
-        $this->assertEquals($expected_lazy_caterers,$lazy_caterers );
+        $this->assertEquals($expected_lazy_caterers,$lazy_caterers);
     }
 
     /**
