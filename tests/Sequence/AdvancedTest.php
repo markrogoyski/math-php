@@ -2,18 +2,29 @@
 namespace MathPHP\Tests\Sequence;
 
 use MathPHP\Sequence\Advanced;
+use MathPHP\Exception;
 
 class AdvancedTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     fibonacci
      * @dataProvider dataProviderForFibonacci
+     * @param        int $n
+     * @param        array $expected_fibonacci
      */
-    public function testFibonacci(int $n, array $fibonacci)
+    public function testFibonacci(int $n, array $expected_fibonacci)
     {
-        $this->assertEquals($fibonacci, Advanced::fibonacci($n));
+        // When
+        $fibonacci = Advanced::fibonacci($n);
+
+        // Then
+        $this->assertEquals($expected_fibonacci, $fibonacci);
     }
 
-    public function dataProviderForFibonacci()
+    /**
+     * @return array
+     */
+    public function dataProviderForFibonacci(): array
     {
         return [
             [-1, []],
@@ -29,14 +40,24 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     lucasNumber
      * @dataProvider dataProviderForLucasNumber
+     * @param        int $n
+     * @param        array $expected_lucas
      */
-    public function testLucasNumber(int $n, array $lucas)
+    public function testLucasNumber(int $n, array $expected_lucas)
     {
-        $this->assertEquals($lucas, Advanced::lucasNumber($n));
+        // When
+        $lucas = Advanced::lucasNumber($n);
+
+        // Then
+        $this->assertEquals($expected_lucas, $lucas);
     }
 
-    public function dataProviderForLucasNumber()
+    /**
+     * @return array
+     */
+    public function dataProviderForLucasNumber(): array
     {
         return [
             [-1, []],
@@ -52,14 +73,24 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     pellNumber
      * @dataProvider dataProviderForPellNumber
+     * @param        int $n
+     * @param        array $expected_pell
      */
-    public function testPellNumber(int $n, array $pell)
+    public function testPellNumber(int $n, array $expected_pell)
     {
-        $this->assertEquals($pell, Advanced::pellNumber($n));
+        // When
+        $pell = Advanced::pellNumber($n);
+
+        // Then
+        $this->assertEquals($expected_pell, $pell);
     }
 
-    public function dataProviderForPellNumber()
+    /**
+     * @return array
+     */
+    public function dataProviderForPellNumber(): array
     {
         return [
             [-1, []],
@@ -75,14 +106,24 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     triangularNumber
      * @dataProvider dataProviderForTriangularNumber
+     * @param        int $n
+     * @param        array $expected_triangular
      */
-    public function testTriangularNumber(int $n, array $triangular)
+    public function testTriangularNumber(int $n, array $expected_triangular)
     {
-        $this->assertEquals($triangular, Advanced::triangularNumber($n));
+        // When
+        $triangular = Advanced::triangularNumber($n);
+
+        // Then
+        $this->assertEquals($expected_triangular, $triangular);
     }
 
-    public function dataProviderForTriangularNumber()
+    /**
+     * @return array
+     */
+    public function dataProviderForTriangularNumber(): array
     {
         return [
             [-1, []],
@@ -98,14 +139,24 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     pentagonalNumber
      * @dataProvider dataProviderForPentagonalNumber
+     * @param        int $n
+     * @param        array $expected_pentagonal
      */
-    public function testPentagonalNumber(int $n, array $pentagonal)
+    public function testPentagonalNumber(int $n, array $expected_pentagonal)
     {
-        $this->assertEquals($pentagonal, Advanced::pentagonalNumber($n));
+        // When
+        $pentagonal = Advanced::pentagonalNumber($n);
+
+        // Then
+        $this->assertEquals($expected_pentagonal, $pentagonal);
     }
 
-    public function dataProviderForPentagonalNumber()
+    /**
+     * @return array
+     */
+    public function dataProviderForPentagonalNumber(): array
     {
         return [
             [-1, []],
@@ -121,14 +172,24 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     hexagonalNumber
      * @dataProvider dataProviderForHexagonalNumber
+     * @param        int $n
+     * @param        array $expected_hexagonal
      */
-    public function testHexagonalNumber(int $n, array $hexagonal)
+    public function testHexagonalNumber(int $n, array $expected_hexagonal)
     {
-        $this->assertEquals($hexagonal, Advanced::hexagonalNumber($n));
+        // When
+        $hexagonal = Advanced::hexagonalNumber($n);
+
+        // Then
+        $this->assertEquals($expected_hexagonal, $hexagonal);
     }
 
-    public function dataProviderForHexagonalNumber()
+    /**
+     * @return array
+     */
+    public function dataProviderForHexagonalNumber(): array
     {
         return [
             [-1, []],
@@ -144,14 +205,24 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     heptagonalNumber
      * @dataProvider dataProviderForHeptagonalNumber
+     * @param        int $n
+     * @param        array $expected_heptagonal
      */
-    public function testHeptagonalNumber(int $n, array $heptagonal)
+    public function testHeptagonalNumber(int $n, array $expected_heptagonal)
     {
-        $this->assertEquals($heptagonal, Advanced::heptagonalNumber($n));
+        // When
+        $heptagonal = Advanced::heptagonalNumber($n);
+
+        // Then
+        $this->assertEquals($expected_heptagonal, $heptagonal);
     }
 
-    public function dataProviderForHeptagonalNumber()
+    /**
+     * @return array
+     */
+    public function dataProviderForHeptagonalNumber(): array
     {
         return [
             [-1, []],
@@ -167,14 +238,24 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     lookAndSay
      * @dataProvider dataProviderForLookAndSay
+     * @param        int $n
+     * @param        array $expected_look_and_say
      */
-    public function testLookAndSay(int $n, array $look_and_say)
+    public function testLookAndSay(int $n, array $expected_look_and_say)
     {
-        $this->assertEquals($look_and_say, Advanced::lookAndSay($n));
+        // When
+        $look_and_say = Advanced::lookAndSay($n);
+
+        // Then
+        $this->assertEquals($expected_look_and_say, $look_and_say);
     }
 
-    public function dataProviderForLookAndSay()
+    /**
+     * @return array
+     */
+    public function dataProviderForLookAndSay(): array
     {
         return [
             [0,  []],
@@ -197,14 +278,24 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     lazyCaterers
      * @dataProvider dataProviderForLazyCaterers
+     * @param        int $n
+     * @param        array $expected_lazy_caterers
      */
-    public function testLazyCaterers(int $n, array $lazy_caterers)
+    public function testLazyCaterers(int $n, array $expected_lazy_caterers)
     {
-        $this->assertEquals($lazy_caterers, Advanced::lazyCaterers($n));
+        // When
+        $lazy_caterers = Advanced::lazyCaterers($n);
+
+        // Then
+        $this->assertEquals($expected_lazy_caterers,$lazy_caterers );
     }
 
-    public function dataProviderForLazyCaterers()
+    /**
+     * @return array
+     */
+    public function dataProviderForLazyCaterers(): array
     {
         return [
             [-1, []],
@@ -225,14 +316,24 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     magicSquares
      * @dataProvider dataProviderForMagicSquares
+     * @param        int $n
+     * @param        array $expected_M
      */
-    public function testMagicSquares(int $n, array $M)
+    public function testMagicSquares(int $n, array $expected_M)
     {
-        $this->assertEquals($M, Advanced::magicSquares($n));
+        // When
+        $M = Advanced::magicSquares($n);
+
+        // Then
+        $this->assertEquals($expected_M, $M);
     }
 
-    public function dataProviderForMagicSquares()
+    /**
+     * @return array
+     */
+    public function dataProviderForMagicSquares(): array
     {
         return [
             [-1, []],
@@ -254,14 +355,106 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider dataProviderForPerfectPowers
+     * @testCase     perfectNumbers
+     * @dataProvider dataProviderForPerfectNumbers
+     * @param        int   $n
+     * @param        array $expected_perfect_numbers
+     * @throws       \Exception
      */
-    public function testPerfecetPowers(int $n, array $perfect_powers)
+    public function testPerfectNumbers(int $n, array $expected_perfect_numbers)
     {
-        $this->assertEquals($perfect_powers, Advanced::perfectPowers($n));
+        // When
+        $perfect_numbers = Advanced::perfectNumbers($n);
+
+        // Then
+        $this->assertEquals($expected_perfect_numbers, $perfect_numbers);
     }
 
-    public function dataProviderForPerfectPowers()
+    /**
+     * @return array
+     */
+    public function dataProviderForPerfectNumbers(): array
+    {
+        return [
+            [
+                0,
+                [],
+            ],
+            [
+                1,
+                [6],
+            ],
+            [
+                2,
+                [6, 28],
+            ],
+            [
+                3,
+                [6, 28, 496],
+            ],
+            [
+                4,
+                [6, 28, 496, 8128],
+            ],
+            [
+                5,
+                [6, 28, 496, 8128, 33550336],
+            ],
+            [
+                6,
+                [6, 28, 496, 8128, 33550336, 8589869056],
+            ],
+            [
+                7,
+                [6, 28, 496, 8128, 33550336, 8589869056, 137438691328],
+            ],
+            [
+                8,
+                [6, 28, 496, 8128, 33550336, 8589869056, 137438691328, 2305843008139952128],
+            ],
+            [
+                9,
+                [6, 28, 496, 8128, 33550336, 8589869056, 137438691328, 2305843008139952128, 2658455991569831744654692615953842176],
+            ],
+            [
+                10,
+                [6, 28, 496, 8128, 33550336, 8589869056, 137438691328, 2305843008139952128, 2658455991569831744654692615953842176, 191561942608236107294793378084303638130997321548169216],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase perfectNumbers exceptionis n is too large
+     * @throws   \Exception
+     */
+    public function testPerfectNumberException()
+    {
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $sequence = Advanced::perfectNumbers(11);
+    }
+
+    /**
+     * @testCase     perfectPowers
+     * @dataProvider dataProviderForPerfectPowers
+     * @param        int $n
+     * @param        array $expected_perfect_powers
+     */
+    public function testPerfectPowers(int $n, array $expected_perfect_powers)
+    {
+        // When
+        $perfect_powers = Advanced::perfectPowers($n);
+
+        // Then
+        $this->assertEquals($expected_perfect_powers, $perfect_powers);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForPerfectPowers(): array
     {
         return [
             [-1, []],
@@ -274,14 +467,24 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     not perfectPowers
      * @dataProvider dataProviderForNotPerfectPowers
+     * @param        int $n
+     * @param        array $expected_not_perfect_powers
      */
-    public function testNotPerfecetPowers(int $n, array $not_perfect_powers)
+    public function testNotPerfectPowers(int $n, array $expected_not_perfect_powers)
     {
-        $this->assertEquals($not_perfect_powers, Advanced::notPerfectPowers($n));
+        // When
+        $not_perfect_powers = Advanced::notPerfectPowers($n);
+
+        // Then
+        $this->assertEquals($expected_not_perfect_powers, $not_perfect_powers);
     }
 
-    public function dataProviderForNotPerfectPowers()
+    /**
+     * @return array
+     */
+    public function dataProviderForNotPerfectPowers(): array
     {
         return [
             [-1, []],
@@ -297,14 +500,21 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
      * @testCase     primesUpTo returns an array of all prime numbers up to n.
      * @dataProvider dataProviderForPimesUpTo
      * @param        int   $n
-     * @param        array $primes
+     * @param        array $expected_primes
      */
-    public function testPrimesUpTo(int $n, array $primes)
+    public function testPrimesUpTo(int $n, array $expected_primes)
     {
-        $this->assertEquals($primes, Advanced::primesUpTo($n));
+        // When
+        $primes = Advanced::primesUpTo($n);
+
+        // Then
+        $this->assertEquals($expected_primes, $primes);
     }
 
-    public function dataProviderForPimesUpTo()
+    /**
+     * @return array
+     */
+    public function dataProviderForPimesUpTo(): array
     {
         return [
             [-1, []],

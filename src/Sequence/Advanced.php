@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\Sequence;
 
+use MathPHP\Exception\OutOfBoundsException;
 use MathPHP\NumberTheory\Integer;
 
 /**
@@ -444,6 +445,38 @@ class Advanced
         }
 
         return $M;
+    }
+
+    const PERFECT_NUMBERS = [
+        6, 28, 496, 8128, 33550336, 8589869056, 137438691328, 2305843008139952128, 2658455991569831744654692615953842176, 191561942608236107294793378084303638130997321548169216
+    ];
+
+    /**
+     * Perfect numbers
+     * @see https://oeis.org/A000396
+     *
+     * Example
+     *  n = 5
+     *  Sequence:    6, 28, 496, 8128, 33550336
+     *  Array index: 0, 1,  2,   3,    4
+     *
+     * @param  int $n
+     *
+     * @return array
+     *
+     * @throws OutOfBoundsException
+     */
+    public static function perfectNumbers(int $n): array
+    {
+        if ($n <= 0) {
+            return [];
+        }
+
+        if ($n <= 10) {
+            return array_slice(self::PERFECT_NUMBERS, 0, $n);
+        }
+
+        throw new OutOfBoundsException("Perfect numbers beyond the tenth are too large to compute");
     }
 
     /**
