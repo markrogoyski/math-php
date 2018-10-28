@@ -13,7 +13,10 @@
   "require-dev": {
       "phpunit/phpunit": "6.*",
       "satooshi/php-coveralls": "^2.0",
-      "squizlabs/php_codesniffer": "2.*"
+      "squizlabs/php_codesniffer": "2.*",
+      "phpstan/phpstan": "*",
+      "phpmd/phpmd": "^2.6",
+      "phploc/phploc": "*"
   },
   "autoload-dev": {
     "psr-4": { "MathPHP\\Tests\\": "tests/" }
@@ -23,7 +26,7 @@
       "name": "Mark Rogoyski",
       "email": "mark@rogoyski.com",
       "homepage": "https://github.com/markrogoyski",
-      "role": "Developer"
+      "role": "Lead developer"
     },
     {
       "name": "Kevin Nowaczyk",

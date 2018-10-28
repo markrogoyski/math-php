@@ -14,4 +14,4 @@ script:
   - vendor/bin/phpcs --ignore=vendor --standard=coding_standard.xml .
 
 after_success:
-  - travis_retry php vendor/bin/coveralls
+  - travis_retry php vendor/bin/php-coveralls -v

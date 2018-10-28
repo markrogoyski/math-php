@@ -1,15 +1,19 @@
-.PHONY : coverage lint setup tests
+.PHONY : tests lint static report coverage
 
-all : lint tests coverage
+all : tests lint static report
 
-setup :
-	composer install
+tests :
+	vendor/bin/phpunit tests/ --configuration=tests/phpunit.xml
 
 lint :
 	vendor/bin/phpcs --standard=coding_standard.xml --ignore=vendor .
 
-tests :
-	$(MAKE) -C tests/ tests
+static :
+	vendor/bin/phpstan analyze --level max src/ tests/
+	vendor/bin/phpmd src/ text cleancode,codesize,design,unusedcode,naming
 
 coverage :
-	$(MAKE) -C tests/ coverage
+	vendor/bin/phpunit tests/ --configuration=tests/phpunit.xml --coverage-text=php://stdout
+
+report :
+	vendor/bin/phploc src/
