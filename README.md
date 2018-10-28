@@ -1351,6 +1351,10 @@ $lazy_caterer = Advanced::lazyCaterers($n);
 $magic_squares = Advanced::magicSquares($n);
 // [0, 1, 5, 15, 34, 65] - Indexed from 0
 
+// Perfect numbers
+$perfect_numbers = Advanced::perfectNumbers($n);
+// [6, 28, 496, 8128, 33550336, 8589869056] - Indexed from 0
+
 // Perfect powers sequence
 $perfect_powers = Advanced::perfectPowers($n);
 // [4, 8, 9, 16, 25, 27] - Indexed from 0
