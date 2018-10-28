@@ -48,7 +48,7 @@ class DiracDelta extends Continuous
      *
      * @param float $x
      *
-     * @return number probability
+     * @return float probability
      */
     public function pdf(float $x): float
     {

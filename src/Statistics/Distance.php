@@ -120,7 +120,7 @@ class Distance
 
         // ∑ P(i) log(P(i)/Q(i))
         $Dkl⟮P‖Q⟯ = array_sum(array_map(
-            function ($P, $Q) use ($p, $q) {
+            function ($P, $Q) {
                 return $P * log($P / $Q);
             },
             $p,

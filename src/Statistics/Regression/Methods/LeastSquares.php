@@ -199,7 +199,7 @@ trait LeastSquares
     public function sumOfSquaresRegression(): float
     {
         if ($this->fit_constant == 1) {
-            return RandomVariable::sumOfSquaresDeviations($this->Yhat());
+            return RandomVariable::sumOfSquaresDeviations($this->yhat());
         }
         return array_sum(Single::square($this->reg_Yhat));
     }

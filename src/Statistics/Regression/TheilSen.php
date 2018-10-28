@@ -17,6 +17,12 @@ class TheilSen extends ParametricRegression
 {
     use Models\LinearModel;
 
+    /** @var float */
+    protected $m;
+
+    /** @var float */
+    protected $b;
+
     /**
      * Calculate the regression parameters using the Theil-Sen method
      *

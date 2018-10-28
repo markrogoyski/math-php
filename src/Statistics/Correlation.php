@@ -596,7 +596,7 @@ class Correlation
     public static function confidenceEllipse(array $X, array $Y, float $z, int $num_points = 11): array
     {
         $standardNormal = new StandardNormal();
-        $p  = 2 * $standardNormal->CDF($z) - 1;
+        $p  = 2 * $standardNormal->cdf($z) - 1;
         $chiSquared = new ChiSquared(2);
         $χ² = $chiSquared->inverse($p);
 

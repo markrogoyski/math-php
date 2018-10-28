@@ -46,7 +46,7 @@ class RandomVariable
      * @param array $X list of numbers (random variable X)
      * @param int   $n n-th central moment to calculate
      *
-     * @return number n-th central moment
+     * @return number|null n-th central moment
      */
     public static function centralMoment(array $X, int $n)
     {
@@ -83,7 +83,7 @@ class RandomVariable
      *
      * @param array $X list of numbers (random variable X)
      *
-     * @return number
+     * @return number|null
      */
     public static function populationSkewness(array $X)
     {
@@ -117,7 +117,7 @@ class RandomVariable
      *
      * @param array $X list of numbers (random variable X)
      *
-     * @return number
+     * @return number|null
      */
     public static function sampleSkewness(array $X)
     {
@@ -151,7 +151,7 @@ class RandomVariable
      *
      * @param array $X list of numbers (random variable X)
      *
-     * @return number
+     * @return number|null
      *
      * @throws Exception\OutOfBoundsException
      */
@@ -219,7 +219,7 @@ class RandomVariable
      *
      * @param array $X list of numbers (random variable X)
      *
-     * @return number
+     * @return number|null
      */
     public static function kurtosis(array $X)
     {
@@ -317,7 +317,7 @@ class RandomVariable
      *
      * @param array $X list of numbers (random variable X)
      *
-     * @return float
+     * @return float|null
      *
      * @throws Exception\OutOfBoundsException
      */
@@ -395,7 +395,7 @@ class RandomVariable
      *
      * @param array $numbers
      *
-     * @return number
+     * @return number|null
      */
     public static function sumOfSquares(array $numbers)
     {
@@ -415,7 +415,7 @@ class RandomVariable
      *
      * @param  array  $numbers
      *
-     * @return number
+     * @return number|null
      */
     public static function sumOfSquaresDeviations(array $numbers)
     {

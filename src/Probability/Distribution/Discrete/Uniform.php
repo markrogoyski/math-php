@@ -82,7 +82,7 @@ class Uniform extends Discrete
      *
      * Percentile n = b - a + 1
      *
-     * @param number $k percentile
+     * @param int $k percentile
      *
      * @return number
      */

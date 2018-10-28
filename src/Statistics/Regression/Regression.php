@@ -20,7 +20,7 @@ abstract class Regression
 
     /**
      * Y values of the original points
-     * @var [type]
+     * @var array
      */
     protected $ys;
 

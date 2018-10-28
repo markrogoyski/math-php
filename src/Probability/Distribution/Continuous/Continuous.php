@@ -18,7 +18,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      * @param float $target   The area for which we are trying to find the $x
      *
      * @todo check the parameter ranges.
-     * @return $number
+     * @return number
      */
     public function inverse(float $target)
     {

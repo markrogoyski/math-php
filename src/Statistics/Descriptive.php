@@ -22,7 +22,8 @@ class Descriptive
      * R = max x - min x
      *
      * @param array $numbers
-     * @return number
+     *
+     * @return number|null
      */
     public static function range(array $numbers)
     {
@@ -42,7 +43,8 @@ class Descriptive
      *           2
      *
      * @param array $numbers
-     * @return number
+     *
+     * @return number|null
      */
     public static function midrange(array $numbers)
     {
@@ -78,7 +80,8 @@ class Descriptive
      *
      * @param array $numbers
      * @param int   $ν degrees of freedom
-     * @return number
+     *
+     * @return number|null
      *
      * @throws Exception\OutOfBoundsException if degrees of freedom is ≤ 0
      */
@@ -214,7 +217,7 @@ class Descriptive
      *              false returns SD (uses sample variance);
      *              Default is false (SD (sample variance))
      *
-     * @return number
+     * @return number|null
      *
      * @throws Exception\OutOfBoundsException
      */
@@ -261,7 +264,8 @@ class Descriptive
      * N is the number of numbers in the population set
      *
      * @param array $numbers
-     * @return number
+     *
+     * @return number|null
      */
     public static function meanAbsoluteDeviation(array $numbers)
     {
@@ -294,7 +298,8 @@ class Descriptive
      * x̄ is the median
      *
      * @param array $numbers
-     * @return number
+     *
+     * @return number|null
      */
     public static function medianAbsoluteDeviation(array $numbers)
     {
@@ -629,12 +634,12 @@ class Descriptive
             'quartiles'          => self::quartiles($numbers),
             'midhinge'           => self::midhinge($numbers),
             'skewness'           => $population ? RandomVariable::populationSkewness($numbers) : RandomVariable::skewness($numbers),
-            'ses'                => $n > 2 ? RandomVariable::SES($n) : null,
+            'ses'                => $n > 2 ? RandomVariable::ses($n) : null,
             'kurtosis'           => RandomVariable::kurtosis($numbers),
-            'sek'                => $n > 3 ? RandomVariable::SEK($n) : null,
+            'sek'                => $n > 3 ? RandomVariable::sek($n) : null,
             'sem'                => RandomVariable::standardErrorOfTheMean($numbers),
-            'ci_95'              => RandomVariable::confidenceInterval($μ, $n, $σ, 95),
-            'ci_99'              => RandomVariable::confidenceInterval($μ, $n, $σ, 99),
+            'ci_95'              => RandomVariable::confidenceInterval($μ, $n, $σ, '95'),
+            'ci_99'              => RandomVariable::confidenceInterval($μ, $n, $σ, '99'),
         ];
     }
 

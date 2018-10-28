@@ -28,13 +28,13 @@ class ChiSquared extends Continuous
         'x' => '[0,∞)',
     ];
 
-    /** @var number Degrees of Freedom Parameter */
+    /** @var float Degrees of Freedom Parameter */
     protected $k;
 
     /**
      * Constructor
      *
-     * @param number $k degrees of freedom parameter k >= 1
+     * @param float $k degrees of freedom parameter k >= 1
      */
     public function __construct($k)
     {
@@ -52,7 +52,7 @@ class ChiSquared extends Continuous
      *
      * @param float $x point at which to evaluate > 0
      *
-     * @return number probability
+     * @return float probability
      */
     public function pdf(float $x)
     {
@@ -86,7 +86,7 @@ class ChiSquared extends Continuous
      *
      * @param float $x Chi-square critical value (CV) > 0
      *
-     * @return number cumulative probability
+     * @return float cumulative probability
      */
     public function cdf(float $x)
     {
@@ -108,7 +108,7 @@ class ChiSquared extends Continuous
      *
      * μ = k
      *
-     * @return int k
+     * @return float k
      */
     public function mean()
     {

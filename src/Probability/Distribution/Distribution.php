@@ -8,7 +8,7 @@ abstract class Distribution
     /**
      * Constructor
      *
-     * @param number[] $params
+     * @param number $params
      */
     public function __construct(...$params)
     {

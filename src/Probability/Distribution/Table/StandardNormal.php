@@ -148,7 +148,7 @@ class StandardNormal
     /**
      * Get Z score for confidence interval
      *
-     * @param  int $cl confidence level
+     * @param  string $cl confidence level
      *
      * @return float Z score
      *

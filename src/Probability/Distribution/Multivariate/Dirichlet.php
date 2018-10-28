@@ -36,7 +36,7 @@ class Dirichlet
     /**
      * Constructor
      *
-     * @param loat[] $αs
+     * @param float[] $αs
      */
     public function __construct(array $αs)
     {
@@ -56,7 +56,7 @@ class Dirichlet
      *
      * where B(α) is the multivariate Beta function
      *
-     * @param array float[] $xs
+     * @param float[] $xs
      *
      * @return float
      *

@@ -22,7 +22,7 @@ class Average
      *
      * @param array $numbers
      *
-     * @return number
+     * @return number|null
      */
     public static function mean(array $numbers)
     {
@@ -43,7 +43,7 @@ class Average
      * @param array $numbers
      * @param array $weights
      *
-     * @return number
+     * @return number|null
      *
      * @throws Exception\BadDataException if the number of numbers and weights are not equal
      */
@@ -76,7 +76,7 @@ class Average
      *
      * @param array $numbers
      *
-     * @return number
+     * @return number|null
      */
     public static function median(array $numbers)
     {
@@ -123,7 +123,7 @@ class Average
      * @param array $numbers
      * @param int $k zero indexed
      *
-     * @return number
+     * @return number|null
      */
     public static function kthSmallest(array $numbers, int $k)
     {
@@ -243,7 +243,8 @@ class Average
      * Geometric mean = ⁿ√a₀a₁a₂ ⋯
      *
      * @param  array  $numbers
-     * @return number
+     *
+     * @return number|null
      */
     public static function geometricMean(array $numbers)
     {
@@ -264,7 +265,8 @@ class Average
      * https://en.wikipedia.org/wiki/Harmonic_mean
      *
      * @param  array  $numbers
-     * @return number
+     *
+     * @return number|null
      *
      * @throws Exception\BadDataException if there are negative numbers
      */

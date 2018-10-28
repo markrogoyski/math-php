@@ -248,7 +248,7 @@ class Set implements \Countable, \Iterator
      *
      * @param mixed $x
      *
-     * @return string
+     * @return string|null
      */
     protected function getKey($x)
     {

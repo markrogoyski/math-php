@@ -25,8 +25,8 @@ class VandermondeMatrix extends Matrix
     /**
      * Create the Vandermonde Matrix from a simple array.
      *
-     * @param $M array (α₁, α₂, α₃ ⋯ αm)
-     * @param $n int
+     * @param array $M (α₁, α₂, α₃ ⋯ αm)
+     * @param int   $n
      */
     public function __construct(array $M, int $n)
     {

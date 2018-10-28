@@ -30,6 +30,12 @@ class PowerLaw extends ParametricRegression
 {
     use Models\PowerModel, Methods\LeastSquares;
 
+    /** @var float */
+    protected $a;
+
+    /** @var float */
+    protected $b;
+
     /**
      * Calculate the regression parameters by least squares on linearized data
      * ln(y) = ln(A) + B*ln(x)
