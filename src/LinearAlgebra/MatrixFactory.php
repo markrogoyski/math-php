@@ -80,7 +80,6 @@ class MatrixFactory
      *
      * @return Matrix
      *
-     * @throws
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException

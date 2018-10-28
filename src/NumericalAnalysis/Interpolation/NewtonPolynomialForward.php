@@ -24,7 +24,7 @@ class NewtonPolynomialForward extends Interpolation
     /**
      * Interpolate
      *
-     * @param          $source   The source of our approximation. Should be either
+     * @param callable|array $source The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
      *                           (point) contains precisely two numbers, an x and y.
      *                           Example array: [[1,2], [2,3], [3,4]].

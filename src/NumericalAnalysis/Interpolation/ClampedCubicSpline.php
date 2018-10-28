@@ -38,12 +38,12 @@ class ClampedCubicSpline extends Interpolation
     /**
      * Interpolate
      *
-     * @param          $source   The source of our approximation. Should be either
+     * @param callable|array     $source   The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
      *                           (point) contains precisely three numbers: x, y, and y'
      *                           Example array: [[1,2,1], [2,3,0], [3,4,2]].
      *                           Example callback: function($x) {return $x**2;}
-     * @param numbers  ... $args (Optional) An additonal callback: our first derivative,
+     * @param number   ... $args (Optional) An additonal callback: our first derivative,
      *                           and arguments of our callback functions: start,
      *                           end, and n.
      *                           Example: approximate($source, $derivative, 0, 8, 5).
@@ -151,14 +151,14 @@ class ClampedCubicSpline extends Interpolation
      * @todo  Add method to verify input arguments are valid.
      *        Verify $start and $end are numbers, $end > $start, and $points is an integer > 1
      *
-     * @param          $source The source of our approximation. Should be either
+     * @param callable|array   $source The source of our approximation. Should be either
      *                         a callback function or a set of arrays.
      * @param  array   $args   The arguments of our callback function: derivative,
      *                         start, end, and n. Example: [$derivative, 0, 8, 5].
      *                         If $source is a set of arrays, $args will default to [].
      *
      * @return array
-     * @throws Exception if $source is not callable or a set of arrays
+     * @throws Exception\BadDataException if $source is not callable or a set of arrays
      */
     public static function getSplinePoints($source, array $args = []): array
     {

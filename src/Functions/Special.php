@@ -70,11 +70,11 @@ class Special
             return \INF;
         }
         // Negative integer, or negative int as a float (Ex: from beta(-0.1, -0.9) since it will call Γ(x + y))
-        if ((is_int($n) || is_numeric($n) && abs($n - round($n)) < 0.00001) && $n < 0) {
+        if ((abs($n - round($n)) < 0.00001) && $n < 0) {
             return -\INF;
         }
-        // Positive integer, or postive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
-        if ((is_int($n) || is_numeric($n) && abs($n - round($n)) < 0.00001) && $n > 0) {
+        // Positive integer, or positive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
+        if ((abs($n - round($n)) < 0.00001) && $n > 0) {
             return Combinatorics::factorial(round($n) - 1);
         }
 
@@ -156,11 +156,11 @@ class Special
             return \INF;
         }
         // Negative integer, or negative int as a float
-        if ((is_int($z) || is_numeric($z) && abs($z - round($z)) < 0.00001) && $z < 0) {
+        if ((abs($z - round($z)) < 0.00001) && $z < 0) {
             return -\INF;
         }
-        // Positive integer, or postive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
-        if ((is_int($z) || is_numeric($z) && abs($z - round($z)) < 0.00001) && $z > 0) {
+        // Positive integer, or positive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
+        if ((abs($z - round($z)) < 0.00001) && $z > 0) {
             return Combinatorics::factorial(round($z) - 1);
         }
 
@@ -241,11 +241,11 @@ class Special
             return \INF;
         }
         // Negative integer, or negative int as a float
-        if ((is_int($n) || is_numeric($n) && abs($n - round($n)) < 0.00001) && $n < 0) {
+        if ((abs($n - round($n)) < 0.00001) && $n < 0) {
             return -\INF;
         }
         // Positive integer, or postive int as a float
-        if ((is_int($n) || is_numeric($n) && abs($n - round($n)) < 0.00001) && $n > 0) {
+        if ((abs($n - round($n)) < 0.00001) && $n > 0) {
             return Combinatorics::factorial(round($n) - 1);
         }
 
@@ -316,7 +316,7 @@ class Special
      * B(α₁, α₂, ... αn) = ------------------
      *                      Γ(α₁ + α₂ ⋯ αn)
      *
-     * @param array float[] $αs
+     * @param float[] $αs
      *
      * @return float
      *

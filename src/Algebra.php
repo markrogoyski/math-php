@@ -339,7 +339,7 @@ class Algebra
         $T = Arithmetic::cubeRoot($R - sqrt($D));
 
         // All roots are real, and at least two are equal
-        if ($D === 0 || ($D > -self::ZERO_TOLERANCE && $D < self::ZERO_TOLERANCE)) {
+        if ($D == 0 || ($D > -self::ZERO_TOLERANCE && $D < self::ZERO_TOLERANCE)) {
             $z₁ = -$a₂ / 3 - ($S + $T) / 2;
             $z₂ = $S + $T - $a₂ / 3;
             $z₃ = -$a₂ / 3 - ($S + $T) / 2;
@@ -392,7 +392,7 @@ class Algebra
         $a₄ = 1;
 
         // Has a zero root.
-        if ($a₀ === 0) {
+        if ($a₀ == 0) {
             return array_merge([0], self::cubic($a₄, $a₃, $a₂, $a₁, $return_complex));
         }
         

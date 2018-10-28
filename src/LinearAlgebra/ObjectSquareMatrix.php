@@ -25,7 +25,7 @@ class ObjectSquareMatrix extends SquareMatrix
      * The constuctor follows performs all the same checks as the parent, but also checks that
      * all of the elements in the arry are of the same data type.
      *
-     * @param array[] of arrays $A m x n matrix
+     * @param array[] $A m x n matrix
      *
      * @throws Exception\BadDataException if any rows have a different column count
      * @throws Exception\IncorrectTypeException if all elements are not the same class

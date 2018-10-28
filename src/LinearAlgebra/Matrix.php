@@ -1107,7 +1107,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * Matrix multiplication
      * https://en.wikipedia.org/wiki/Matrix_multiplication#Matrix_product_.28two_matrices.29
      *
-     * @param  Matrix/Vector $B Matrix or Vector to multiply
+     * @param  Matrix|Vector $B Matrix or Vector to multiply
      *
      * @return Matrix
      *
@@ -1382,7 +1382,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Map a function over all elements of the Matrix
      *
-     * @param  \Callable $func takes a matrix item as input
+     * @param  callable $func takes a matrix item as input
      *
      * @return Matrix
      *
@@ -3256,7 +3256,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *   xᵢ = --- | yᵢ - ∑ Uᵢⱼxⱼ |
      *        Uᵢᵢ  \   ʲ⁼ⁱ⁺¹     /
      *
-     * @param Vector/array $b solution to Ax = b
+     * @param Vector|array $b solution to Ax = b
      *
      * @return Vector x
      *

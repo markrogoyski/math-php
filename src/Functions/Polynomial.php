@@ -60,12 +60,12 @@ class Polynomial implements ObjectArithmetic
      * When a polynomial is instantiated, set the coefficients and degree of
      * that polynomial as its object parameters.
      *
-     * @param mixed  $coefficients An array of coefficients in decreasing powers
+     * @param array  $coefficients An array of coefficients in decreasing powers
      *                            Example: new Polynomial([1, 2, 3]) will create
      *                            a polynomial that looks like x² + 2x + 3.
      * @param string $variable
      */
-    public function __construct(array $coefficients, $variable = "x")
+    public function __construct(array $coefficients, string $variable = "x")
     {
         // Remove coefficients that are leading zeros
         $initial_count = count($coefficients);

@@ -140,7 +140,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      */
     public function length()
     {
-        return $this->l2norm();
+        return $this->l2Norm();
     }
 
     /**
@@ -381,7 +381,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      */
     public function normalize(): Vector
     {
-        $│A│ = $this->l2norm();
+        $│A│ = $this->l2Norm();
 
         return $this->scalarDivide($│A│);
     }
@@ -424,7 +424,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function projection(Vector $B): Vector
     {
         $A⋅B  = $this->dotProduct($B);
-        $│B│² = ($B->l2norm())**2;
+        $│B│² = ($B->l2Norm())**2;
 
         return $B->scalarMultiply($A⋅B / $│B│²);
     }
@@ -444,7 +444,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function perp(Vector $B): Vector
     {
         $A⋅B⊥ = $B->perpDotProduct($this);
-        $│B│² = ($B->l2norm())**2;
+        $│B│² = ($B->l2Norm())**2;
         $B⊥   = $B->perpendicular();
 
         return $B⊥->scalarMultiply($A⋅B⊥ / $│B│²);

@@ -76,7 +76,7 @@ class Eigenvalue
                     : $zero_poly;
             }
         }
-        $λ = matrixFactory::create($λ_array);
+        $λ = MatrixFactory::create($λ_array);
         
         //Subtract Iλ from B
         $Bminusλ = $B->subtract($λ);

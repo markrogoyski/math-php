@@ -29,14 +29,14 @@ abstract class Interpolation
      * @todo  Add method to verify input arguments are valid.
      *        Verify $start and $end are numbers, $end > $start, and $points is an integer > 1
      *
-     * @param          $source The source of our approximation. Should be either
+     * @param callable|array   $source The source of our approximation. Should be either
      *                         a callback function or a set of arrays.
      * @param  array   $args   The arguments of our callback function: start,
      *                         end, and n. Example: [0, 8, 5]. If $source is a
      *                         set of arrays, $args will default to [].
      *
      * @return array
-     * @throws Exception if $source is not callable or a set of arrays
+     * @throws Exception\BadDataException if $source is not callable or a set of arrays
      */
     public static function getPoints($source, array $args = []): array
     {
