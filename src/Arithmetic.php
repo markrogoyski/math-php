@@ -8,11 +8,11 @@ class Arithmetic
      * This function is necessary because pow($x, 1/3) returns NAN for negative values.
      * PHP does not have the cbrt built-in function.
      *
-     * @param  number $x
+     * @param  float $x
      *
-     * @return number
+     * @return float
      */
-    public static function cubeRoot($x)
+    public static function cubeRoot(float $x): float
     {
         if ($x >= 0) {
             return pow($x, 1/3);

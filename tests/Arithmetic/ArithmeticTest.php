@@ -12,9 +12,13 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
      * @param        float $y
      * @param        float $x_with_y_sign
      */
-    public function copySign(float $x, float $y, float $x_with_y_sign)
+    public function testCopySign(float $x, float $y, float $x_with_y_sign)
     {
-        $this->assertSame($x_with_y_sign, Arithmetic::copySign($x, $y));
+        // When
+        $copy_sign = Arithmetic::copySign($x, $y);
+
+        // Then
+        $this->assertSame($x_with_y_sign, $copy_sign);
     }
 
     /**
@@ -49,12 +53,16 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     cubeRoot returns the expected value.
      * @dataProvider dataProviderForCubeRoot
-     * @param  number $x
-     * @param  number $cube_root
+     * @param        float $x
+     * @param        float $expected_cube_root
      */
-    public function testCubeRoot($x, $cube_root)
+    public function testCubeRoot(float $x, float $expected_cube_root)
     {
-        $this->assertEquals($cube_root, Arithmetic::cubeRoot($x), '', 0.000000001);
+        // When
+        $cube_root = Arithmetic::cubeRoot($x);
+
+        // Then
+        $this->assertEquals($expected_cube_root, $cube_root, '', 0.000000001);
     }
 
     /**
@@ -94,7 +102,11 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
      */
     public function testDigitSum(int $x, int $b, int $expected)
     {
-        $this->assertEquals($expected, Arithmetic::digitSum($x, $b));
+        // When
+        $digital_sum = Arithmetic::digitSum($x, $b);
+
+        // Then
+        $this->assertEquals($expected, $digital_sum);
     }
 
     public function dataProviderForDigitSum(): array
@@ -179,7 +191,11 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
      */
     public function testDigitalRoot(int $x, int $expected_root)
     {
-        $this->assertEquals($expected_root, Arithmetic::digitalRoot($x));
+        // When
+        $digital_root = Arithmetic::digitalRoot($x);
+
+        // Then
+        $this->assertEquals($expected_root, $digital_root);
     }
 
     public function dataProviderForDigitalRoot(): array
@@ -251,7 +267,11 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
      */
     public function testAlmostEqual(float $x, float $y, float $ε, bool $expected)
     {
-        $this->assertSame($expected, Arithmetic::almostEqual($x, $y, $ε));
+        // When
+        $equal = Arithmetic::almostEqual($x, $y, $ε);
+
+        // Then
+        $this->assertSame($expected, $equal);
     }
 
     /**
