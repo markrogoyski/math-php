@@ -623,8 +623,8 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     {
         $data = [199.31, 199.53, 200.19, 200.82, 201.92, 201.95, 202.18, 245.57];
         $G = Significance::GrubbsStatistic($data);
-        $this->assertEquals($G, 2.4687, '', 0.0001);
+        $this->assertEquals(2.4687, $G, '', 0.0001);
         $Gcrit = Significance::CriticalGrubbs(.05, count($data));
-        $this->assertEquals($Gcrit, 2.032, '', 0.001);
+        $this->assertEquals(2.032, $Gcrit, '', 0.001);
     }
 }
