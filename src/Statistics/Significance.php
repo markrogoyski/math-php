@@ -1,9 +1,12 @@
 <?php
 namespace MathPHP\Statistics;
 
+use MathPHP\Functions\Map\Single;
 use MathPHP\Probability\Distribution\Continuous\StandardNormal;
 use MathPHP\Probability\Distribution\Continuous\StudentT;
 use MathPHP\Probability\Distribution\Continuous\ChiSquared;
+use MathPHP\Statistics\Descriptive;
+use MathPHP\Statistics\Average;
 use MathPHP\Exception;
 
 /**
@@ -520,4 +523,34 @@ class Significance
     {
         return $σ / sqrt($n);
     }
+    
+    /**
+     * The Grubbs Statistic (G) of a series of data
+     *
+     * G is the largest absolute z-score for a set of data
+     */
+     
+    public static function GrubbsStatistic(array $data): float
+    {
+        $μ = Average::mean($data);
+        $σ = Descriptive::standardDeviation($data);
+            
+        return max(Single::abs(Single::subtract($data, $μ))) / $σ;
+    }
+    
+    /**
+     * The critical Grubbs Value
+     * https://en.wikipedia.org/wiki/Grubbs%27_test_for_outliers
+     * https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h1.htm
+     * 
+     * The Critical Gubbs value is used to determine if a value in a set of data is
+     * likely to be an outlier.
+     */
+    public static function CriticalGrubbs($𝛼, $n): float
+    {
+        $studentT = new StudentT($n - 2)
+        $T = $studentT->inverse($𝛼 / $n);
+        return ($n - 1) * $T / sqrt($n * ($n - 2 + $T ** 2))
+    }
+    
 }
