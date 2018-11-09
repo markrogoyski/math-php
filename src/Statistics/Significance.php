@@ -548,7 +548,7 @@ class Significance
      */
     public static function CriticalGrubbs($𝛼, $n): float
     {
-        $studentT = new StudentT($n - 2)
+        $studentT = new StudentT($n - 2);
         $T = $studentT->inverse($𝛼 / $n);
         return ($n - 1) * $T / sqrt($n * ($n - 2 + $T ** 2))
     }
