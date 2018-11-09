@@ -550,6 +550,6 @@ class Significance
     {
         $studentT = new StudentT($n - 2);
         $T = $studentT->inverse($𝛼 / $n);
-        return ($n - 1) * sqrt($T ** 2 / $n * ($n - 2 + $T ** 2));
+        return ($n - 1) * sqrt($T ** 2 / $n / ($n - 2 + $T ** 2));
     }
 }
