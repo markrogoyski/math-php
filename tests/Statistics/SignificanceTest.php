@@ -615,4 +615,16 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadDataException::class);
         Significance::chiSquaredTest($observed, $expected);
     }
+    
+    /**
+     * @testCase     GrubbsTest
+     */
+    public function GrubbsTest()
+    {
+        $data = [199.31, 199.53, 200.19, 200.82, 201.92, 201.9,5 202.18, 245.57];
+        $G = Descriptive::GrubbsStatistic($data);
+        $this->assertEquals($G, 2.4687, '', 0.0001);
+        $Gcrit = Descriptive::CriticalGrubbs(.05, 8);
+        $this->assertEquals($Gcrit, 2.032, '', 0.001);
+    }
 }
