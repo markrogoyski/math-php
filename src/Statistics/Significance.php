@@ -542,7 +542,7 @@ class Significance
      * The critical Grubbs Value
      * https://en.wikipedia.org/wiki/Grubbs%27_test_for_outliers
      * https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h1.htm
-     * 
+     *
      * The Critical Gubbs value is used to determine if a value in a set of data is
      * likely to be an outlier.
      */
@@ -552,5 +552,4 @@ class Significance
         $T = $studentT->inverse($𝛼 / $n);
         return ($n - 1) * $T / sqrt($n * ($n - 2 + $T ** 2))
     }
-    
 }
