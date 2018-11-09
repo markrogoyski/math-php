@@ -621,7 +621,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
      */
     public function GrubbsTest()
     {
-        $data = [199.31, 199.53, 200.19, 200.82, 201.92, 201.9,5 202.18, 245.57];
+        $data = [199.31, 199.53, 200.19, 200.82, 201.92, 201.95, 202.18, 245.57];
         $G = Descriptive::GrubbsStatistic($data);
         $this->assertEquals($G, 2.4687, '', 0.0001);
         $Gcrit = Descriptive::CriticalGrubbs(.05, 8);
