@@ -8,14 +8,15 @@ abstract class Distribution
     /**
      * Constructor
      *
-     * @param number $params
+     * @param number ...$params
      */
     public function __construct(...$params)
     {
         $new_params = static::PARAMETER_LIMITS;
         $i = 0;
+
         foreach ($new_params as $key => $value) {
-            $this->$key = $params[$i];
+            $this->$key       = $params[$i];
             $new_params[$key] = $params[$i];
             $i++;
         }

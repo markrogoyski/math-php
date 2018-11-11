@@ -795,6 +795,102 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     median
+     * @dataProvider dataProviderForMedian
+     * @param        float $α
+     * @param        float $β
+     * @param        float $expected
+     */
+    public function testMedian(float $α, float $β, float $expected)
+    {
+        // Given
+        $beta = new Beta($α, $β);
+
+        // When
+        $median = $beta->median();
+
+        // Then
+        $this->assertEquals($expected, $median, '', 0.000001);
+    }
+
+    /**
+     * Data generated with calculator: https://captaincalculator.com/math/statistics/beta-distribution-calculator/
+     * @return array [α, β, μ]
+     */
+    public function dataProviderForMedian(): array
+    {
+        return [
+            // α == β
+            [1, 1, 0.5],
+            [2, 2, 0.5],
+            [3, 3, 0.5],
+
+            // α == 1, β > 0
+            [1, 0.1, 0.99902344],
+            [1, 0.5, 0.75],
+            [1, 2, 0.29289322],
+            [1, 3, 0.20629947],
+            [1, 4, 0.15910358],
+            [1, 5, 0.12944944],
+
+            // β == 1, α > 0
+            [0.1, 1, 0.00097656],
+            [0.5, 1, 0.25],
+            [2, 1, 0.70710678],
+            [3, 1, 0.79370053],
+            [4, 1, 0.84089642],
+            [5, 1, 0.87055056],
+
+            // α == 3, β == 2
+            [3, 2, 0.61427243],
+
+            // α == 2, β == 3
+            [2, 3, 0.38572757],
+        ];
+    }
+
+    /**
+     * @testCase     median when it is approximated
+     * @dataProvider dataProviderForMedianApproximation
+     * @param        float $α
+     * @param        float $β
+     * @param        float $expected
+     * @param        float $expectedError
+     */
+    public function testMedianApproximation(float $α, float $β, float $expected, float $expectedError)
+    {
+        // Given
+        $beta = new Beta($α, $β);
+
+        // When
+        $median = $beta->median();
+
+        // Then
+        $ε = abs($expected - $median);
+        $η = $ε / $expected;
+        $this->assertLessThan($expectedError, $η);
+    }
+
+    /**
+     * Data generated with calculator: https://captaincalculator.com/math/statistics/beta-distribution-calculator/
+     * @return array [α, β, μ]
+     */
+    public function dataProviderForMedianApproximation(): array
+    {
+        return [
+            // α ≥ 2 and β ≥ 2 the error it is less than 1%
+            [2, 4, 0.31381017, 0.01],
+            [4, 2, 0.68618983, 0.01],
+            [4, 5, 0.4401552, 0.01],
+            [7, 4, 0.64490003, 0.01],
+
+            // α, β ≥ 1 the error is less than 4%
+            [1.8, 1.1, 0.6513904, 0.04],
+            [1.4, 1.3, 0.52366548, 0.04],
+        ];
+    }
+
+    /**
      * @testCase     inverse
      * @dataProvider dataProviderForInverse
      * @param        float $α

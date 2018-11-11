@@ -22,7 +22,7 @@ class Average
      *
      * @param array $numbers
      *
-     * @return number|null
+     * @return float|null
      */
     public static function mean(array $numbers)
     {
@@ -177,11 +177,11 @@ class Average
      * than the value. Also, tell how many times the value appears in the array.
      *
      * @param array $numbers
-     * @param int   $value
+     * @param float $value
      *
      * @return array
      */
-    private static function splitAtValue(array $numbers, $value): array
+    private static function splitAtValue(array $numbers, float $value): array
     {
         $lower = [];
         $upper = [];
@@ -296,9 +296,10 @@ class Average
      * https://en.wikipedia.org/wiki/Contraharmonic_mean
      *
      * @param  array  $numbers
-     * @return number
+     *
+     * @return float
      */
-    public static function contraharmonicMean(array $numbers)
+    public static function contraharmonicMean(array $numbers): float
     {
         $p = 2;
         return self::lehmerMean($numbers, $p);
@@ -314,9 +315,10 @@ class Average
      *        √       n
      *
      * @param  array  $numbers
-     * @return number
+     *
+     * @return float
      */
-    public static function rootMeanSquare(array $numbers)
+    public static function rootMeanSquare(array $numbers): float
     {
         $x₁²＋x₂²＋⋯ = array_sum(array_map(
             function ($x) {
@@ -333,9 +335,10 @@ class Average
      * Convenience function for rootMeanSquare
      *
      * @param  array  $numbers
-     * @return number
+     *
+     * @return float
      */
-    public static function quadraticMean(array $numbers)
+    public static function quadraticMean(array $numbers): float
     {
         return self::rootMeanSquare($numbers);
     }
@@ -350,10 +353,11 @@ class Average
      * TM = -------------
      *            4
      *
-     * @param  array  $numbers
-     * @return number
+     * @param  array $numbers
+     *
+     * @return float
      */
-    public static function trimean(array $numbers)
+    public static function trimean(array $numbers): float
     {
         $quartiles = Descriptive::quartiles($numbers);
         $Q₁        = $quartiles['Q1'];
@@ -371,11 +375,12 @@ class Average
      * https://en.wikipedia.org/wiki/Interquartile_mean
      *
      * @param  array  $numbers
-     * @return number
+     *
+     * @return float
      *
      * @throws Exception\OutOfBoundsException
      */
-    public static function interquartileMean(array $numbers)
+    public static function interquartileMean(array $numbers): float
     {
         return self::truncatedMean($numbers, 25);
     }
@@ -385,11 +390,12 @@ class Average
      * Convenience function for interquartileMean
      *
      * @param  array  $numbers
-     * @return number
+     *
+     * @return float
      *
      * @throws Exception\OutOfBoundsException
      */
-    public static function iqm(array $numbers)
+    public static function iqm(array $numbers): float
     {
         return self::truncatedMean($numbers, 25);
     }
@@ -403,9 +409,10 @@ class Average
      *           √   n ⁱ⁼¹
      *
      * @param  array $numbers
-     * @return number
+     *
+     * @return float
      */
-    public static function cubicMean(array $numbers)
+    public static function cubicMean(array $numbers): float
     {
         $n    = count($numbers);
         $∑xᵢ³ = array_sum(array_map(
@@ -436,11 +443,12 @@ class Average
      *
      * @param  array  $numbers
      * @param  int    $trim_percent Percent between 0-99
-     * @return number
+     *
+     * @return float
      *
      * @throws Exception\OutOfBoundsException if trim percent is not between 0 and 99
      */
-    public static function truncatedMean(array $numbers, int $trim_percent)
+    public static function truncatedMean(array $numbers, int $trim_percent): float
     {
         if ($trim_percent < 0 || $trim_percent > 99) {
             throw new Exception\OutOfBoundsException('Trim percent must be between 0 and 99.');
@@ -474,10 +482,11 @@ class Average
      *  L∞(x) is the max(x)
      *
      * @param  array  $numbers
-     * @param  number $p
-     * @return number
+     * @param  float  $p
+     *
+     * @return float
      */
-    public static function lehmerMean(array $numbers, $p)
+    public static function lehmerMean(array $numbers, $p): float
     {
         // Special cases for infinite p
         if ($p == -\INF) {
@@ -522,10 +531,11 @@ class Average
      *  M∞(x) is max(X)
      *
      * @param  array  $numbers
-     * @param  number $p
-     * @return number
+     * @param  float $p
+     *
+     * @return float
      */
-    public static function generalizedMean(array $numbers, $p)
+    public static function generalizedMean(array $numbers, float $p): float
     {
         // Special cases for infinite p
         if ($p == -\INF) {
@@ -556,11 +566,12 @@ class Average
      * Power mean (generalized mean)
      * Convenience method for generalizedMean
      *
-     * @param  array  $numbers
-     * @param  number $p
-     * @return number
+     * @param  array $numbers
+     * @param  float $p
+     *
+     * @return float
      */
-    public static function powerMean(array $numbers, $p)
+    public static function powerMean(array $numbers, float $p): float
     {
         return self::generalizedMean($numbers, $p);
     }
@@ -725,11 +736,12 @@ class Average
      * If x or y = 0, then agm = 0
      * If x or y < 0, then NaN
      *
-     * @param  number $x
-     * @param  number $y
+     * @param  float $x
+     * @param  float $y
+     *
      * @return float
      */
-    public static function arithmeticGeometricMean($x, $y): float
+    public static function arithmeticGeometricMean(float $x, float $y): float
     {
         // x or y < 0 = NaN
         if ($x < 0 || $y < 0) {
@@ -752,11 +764,12 @@ class Average
     /**
      * Convenience method for arithmeticGeometricMean
      *
-     * @param  number $x
-     * @param  number $y
+     * @param  float $x
+     * @param  float $y
+     *
      * @return float
      */
-    public static function agm($x, $y): float
+    public static function agm(float $x, float $y): float
     {
         return self::arithmeticGeometricMean($x, $y);
     }
@@ -775,11 +788,12 @@ class Average
      *             -----------
      *             ln y - ln x
      *
-     * @param  number $x
-     * @param  number $y
-     * @return number
+     * @param  float $x
+     * @param  float $y
+     *
+     * @return float
      */
-    public static function logarithmicMean($x, $y)
+    public static function logarithmicMean(float $x, float $y): float
     {
         if ($x == 0 || $y == 0) {
             return 0;
@@ -797,11 +811,12 @@ class Average
      *            __
      * H = ⅓(A + √AB + B)
      *
-     * @param  number $A
-     * @param  number $B
-     * @return number
+     * @param  float $A
+     * @param  float $B
+     *
+     * @return float
      */
-    public static function heronianMean($A, $B)
+    public static function heronianMean(float $A, float $B): float
     {
         return 1/3 * ($A + sqrt($A*$B) + $B);
     }
@@ -814,13 +829,14 @@ class Average
      * I(x,y) = - ˣ⁻ʸ/  --
      *          ℯ   √   yʸ
      *
-     * @param  number $x
-     * @param  number $y
-     * @return number
+     * @param  float $x
+     * @param  float $y
+     *
+     * @return float
      *
      * @throws Exception\OutOfBoundsException if x or y is ≤ 0
      */
-    public static function identricMean($x, $y)
+    public static function identricMean(float $x, float $y): float
     {
         // x and y must be positive
         if ($x <= 0 || $y <= 0) {

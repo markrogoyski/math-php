@@ -81,7 +81,7 @@ class Descriptive
      * @param array $numbers
      * @param int   $ν degrees of freedom
      *
-     * @return number|null
+     * @return float|null
      *
      * @throws Exception\OutOfBoundsException if degrees of freedom is ≤ 0
      */
@@ -112,7 +112,7 @@ class Descriptive
      *
      * @param array $numbers
      *
-     * @return number
+     * @return float|null
      *
      * @throws Exception\OutOfBoundsException
      */
@@ -135,7 +135,7 @@ class Descriptive
      *
      * @param array $numbers
      *
-     * @return number
+     * @return float|null
      *
      * @throws Exception\OutOfBoundsException
      */
@@ -217,7 +217,7 @@ class Descriptive
      *              false returns SD (uses sample variance);
      *              Default is false (SD (sample variance))
      *
-     * @return number|null
+     * @return float|null
      *
      * @throws Exception\OutOfBoundsException
      */
@@ -240,7 +240,7 @@ class Descriptive
      *              false returns SD (uses sample variance);
      *              Default is false (SD (sample variance))
      *
-     * @return number
+     * @return float|null
      *
      * @throws Exception\OutOfBoundsException
      */
@@ -560,7 +560,7 @@ class Descriptive
      *
      * @param  array $numbers
      *
-     * @return number
+     * @return float|null
      */
     public static function midhinge(array $numbers)
     {

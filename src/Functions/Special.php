@@ -730,9 +730,9 @@ class Special
      *   ₁F₁ = ₁F₁n₋₁ + ∏  -----------------  = ₁F₁n₋₁ + ∏n
      *                  1   (b + n - 1) * n
      *
-     * @param int     $p      the number of parameters in the numerator
-     * @param int     $q      the number of parameters in the denominator
-     * @param float[] $params a collection of the a, b, and z parameters
+     * @param int    $p         the number of parameters in the numerator
+     * @param int    $q         the number of parameters in the denominator
+     * @param float  ...$params a collection of the a, b, and z parameters
      *
      * @return float
      *

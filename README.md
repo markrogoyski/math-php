@@ -931,14 +931,15 @@ use MathPHP\Probability\Distribution\Continuous;
 $p = 0.1;
 
 // Beta distribution
-$α    = 1; // shape parameter
-$β    = 1; // shape parameter
-$x    = 2;
-$beta = new Continuous\Beta($α, $β);
-$pdf  = $beta->pdf($x);
-$cdf  = $beta->cdf($x);
-$icdf = $beta->inverse($p);
-$μ    = $beta->mean();
+$α      = 1; // shape parameter
+$β      = 1; // shape parameter
+$x      = 2;
+$beta   = new Continuous\Beta($α, $β);
+$pdf    = $beta->pdf($x);
+$cdf    = $beta->cdf($x);
+$icdf   = $beta->inverse($p);
+$μ      = $beta->mean();
+$median = $beta->median();
 
 // Cauchy distribution
 $x₀     = 2; // location parameter
