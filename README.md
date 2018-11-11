@@ -954,12 +954,13 @@ $median = $cauchy->median();
 $mode   = $cauchy->mode();
 
 // χ²-distribution (Chi-Squared)
-$k   = 2; // degrees of freedom
-$x   = 1;
-$χ²  = new Continuous\ChiSquared($k);
-$pdf = $χ²->pdf($x);
-$cdf = $χ²->cdf($x);
-$μ   = $χ²->mean($x);
+$k      = 2; // degrees of freedom
+$x      = 1;
+$χ²     = new Continuous\ChiSquared($k);
+$pdf    = $χ²->pdf($x);
+$cdf    = $χ²->cdf($x);
+$μ      = $χ²->mean($x);
+$median = $χ²->median();
 
 // Dirac delta distribution
 $x     = 1;

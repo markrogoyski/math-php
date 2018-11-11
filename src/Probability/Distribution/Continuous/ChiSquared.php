@@ -36,7 +36,7 @@ class ChiSquared extends Continuous
      *
      * @param float $k degrees of freedom parameter k >= 1
      */
-    public function __construct($k)
+    public function __construct(float $k)
     {
         parent::__construct($k);
     }
@@ -54,7 +54,7 @@ class ChiSquared extends Continuous
      *
      * @return float probability
      */
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -88,7 +88,7 @@ class ChiSquared extends Continuous
      *
      * @return float cumulative probability
      */
-    public function cdf(float $x)
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -110,8 +110,25 @@ class ChiSquared extends Continuous
      *
      * @return float k
      */
-    public function mean()
+    public function mean(): float
     {
         return $this->k;
+    }
+
+    /**
+     * Median - closed form approximation
+     *
+     *             /    2 \³
+     * median ≈ k | 1 - -  |
+     *             \    k /
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        $k          = $this->k;
+        $⟮1 − 2／9k⟯ = 1 - (2 /(9 * $k));
+
+        return $k * $⟮1 − 2／9k⟯**3;
     }
 }
