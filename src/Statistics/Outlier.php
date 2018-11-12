@@ -49,7 +49,7 @@ class Outlier
      *
      * The Critical Gubbs value is used to determine if a value in a set of data is
      * likely to be an outlier.
-     
+     *
      * @param float $𝛼 Significance Level
      * @param int $n Size of the data set
      * @param int $tails (1 or 2) one or two-tailed test
@@ -58,7 +58,7 @@ class Outlier
      */
     public static function CriticalGrubbs(float $𝛼, int $n, int $tails = 2): float
     {
-        If ($tails < 1 or $tails > 2) {
+        if ($tails < 1 || $tails > 2) {
             //throw Exception;
         }
         $studentT = new StudentT($n - 2);
@@ -87,7 +87,7 @@ class Outlier
             $zbar = Average::mean($z);
             $kthlargest = Average::kthlargest($data, $n - $k);
             $smaller_set[];
-            foreach $z as $value {
+            foreach ($z as $value) {
                 if ($value <= $kthlargest) {
                     $smaller_set[] = $value;
                 }
@@ -106,11 +106,10 @@ class Outlier
                     $smaller_set[] = $value;
                 }
             }
-            
         }
         if ($tails == "lower") {
             $kthlargest = Average::kthlargest($data, $k + 1);
-            foreach $z as $value {
+            foreach ($z as $value) {
                 if ($value >= $kthlargest) {
                     $smaller_set[] = $value;
                 }
