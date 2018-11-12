@@ -87,7 +87,7 @@ class Outlier
             $z = Single::abs(Single::subtract($data, $ybar));
             $zbar = Average::mean($z);
             $kthlargest = Average::kthlargest($data, $n - $k);
-            $smaller_set[];
+            $smaller_set = [];
             foreach ($z as $value) {
                 if ($value <= $kthlargest) {
                     $smaller_set[] = $value;
@@ -124,7 +124,7 @@ class Outlier
     public function CriticalTietjenMoore(float $𝛼, int $n, int $k)
     {
         $normal = new StandardNormal();
-        $CriticalList[];
+        $CriticalList = [];
         for ($i = 0; $i < 10000; $i++) {
             for ($j = 0; $j < $n; $j++) {
                 $data[] = $normal->rand();
