@@ -39,7 +39,7 @@ class Outlier
         $σ = Descriptive::standardDeviation($data);
         
         $difference = Single::multiply(Single::subtract($data, $μ), ($tails == "upper" ? 1 : -1));
-        $max = $tails == "two" ? max(Single::abs($difference)) : $difference;
+        $max = $tails == "two" ? max(Single::abs($difference)) : max($difference);
         return $max / $σ;
     }
     
