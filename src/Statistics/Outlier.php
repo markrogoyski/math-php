@@ -2,6 +2,7 @@
 namespace MathPHP\Statistics;
 
 use MathPHP\Functions\Map\Single;
+use MathPHP\Probability\Distribution\Continuous\StandardNormal;
 use MathPHP\Probability\Distribution\Continuous\StudentT;
 use MathPHP\Statistics\Average;
 use MathPHP\Statistics\Descriptive;
@@ -77,7 +78,7 @@ class Outlier
      *
      * @return float
      */
-    public static function TietjenMooreStatistic(array $data, int $k, string $tails = "two"): float
+    public static function TietjenMooreStatistic(array $data, int $k, string $tails = "lower"): float
     {
         $ybar = Average::mean($data);
         $n = count($data);
@@ -118,5 +119,18 @@ class Outlier
         $ykbar = Average::mean($smaller_set);
         $num = array_sum(Single::square(Single::subtract($smaller_set, $ykbar)));
         return $num / $den;
+    }
+    
+    public function CriticalTietjenMoore(float $𝛼, int $n, int $k)
+    {
+        $normal = new StandardNormal();
+        $CriticalList[];
+        for ($i = 0; $i < 10000; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $data[] = $normal->rand();
+            }
+            $criticalList[] = TietjenMooreStatistic($data, $k));
+        }
+        return Average::kthlargest($criticalList, $𝛼 * 10000);
     }
 }
