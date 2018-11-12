@@ -23,5 +23,7 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
         $data = [-1.40, -0.44, -0.30, -0.24, -0.22, -0.13, -0.05, 0.06, 0.10, 0.18, 0.20, 0.39, 0.48, 0.63, 1.01];
         $Ek = Outlier::TietjenMooreStatistic($data, 2, "two");
         $this->assertEquals(.292, $Ek, '', 0.001);
+        $Ekcrit = Outlier::CriticalTietjenMoores(.05, count($data));
+        $this->assertEquals(.317, $Ekcrit, '', 0.001);
     }
 }
