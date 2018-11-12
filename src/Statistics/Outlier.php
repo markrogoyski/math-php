@@ -99,7 +99,7 @@ class Outlier
             return $num / $den;
         }
         $den = array_sum(Single::square(Single::subtract($data, $ybar)));
-        $smaller_set[];
+        $smaller_set = [];
         if ($tails == "upper") {
             $kthlargest = Average::kthlargest($data, $n - $k);
             foreach ($z as $value) {
