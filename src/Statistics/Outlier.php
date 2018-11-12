@@ -31,7 +31,7 @@ class Outlier
      */
     public static function GrubbsStatistic(array $data, string $tails = "two"): float
     {
-        if ($tails != "upper" && $tails != "lower" && $tails != "two) {
+        if ($tails != "upper" && $tails != "lower" && $tails != "two") {
             //throw exception;
         }
         $μ = Average::mean($data);
@@ -101,7 +101,7 @@ class Outlier
         $smaller_set[];
         if ($tails == "upper") {
             $kthlargest = Average::kthlargest($data, $n - $k);
-            foreach $z as $value {
+            foreach ($z as $value) {
                 if ($value <= $kthlargest) {
                     $smaller_set[] = $value;
                 }
@@ -118,5 +118,5 @@ class Outlier
         $ykbar = Average::mean($smaller_set);
         $num = array_sum(Single::square(Single::subtract($smaller_set, $ykbar)));
         return $num / $den;
-    }  
+    }
 }
