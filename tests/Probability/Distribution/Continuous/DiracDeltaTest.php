@@ -9,12 +9,18 @@ class DiracDeltaTest extends \PHPUnit\Framework\TestCase
      * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $x
-     * @param        float $pdf
+     * @param        float $expectedPdf
      */
-    public function testPdf(float $x, float $pdf)
+    public function testPdf(float $x, float $expectedPdf)
     {
+        // Given
         $dirac = new DiracDelta();
-        $this->assertEquals($pdf, $dirac->pdf($x), '', 0.00001);
+
+        // When
+        $pdf = $dirac->pdf($x);
+
+        // Then
+        $this->assertEquals($expectedPdf, $pdf);
     }
 
     /**
@@ -40,12 +46,18 @@ class DiracDeltaTest extends \PHPUnit\Framework\TestCase
      * @testCase     cdf
      * @dataProvider dataProviderForCdf
      * @param        float $x
-     * @param        int   $cdf
+     * @param        int   $expectedCdf
      */
-    public function testCdf(float $x, int $cdf)
+    public function testCdf(float $x, int $expectedCdf)
     {
+        // Given
         $dirac = new DiracDelta();
-        $this->assertSame($cdf, $dirac->cdf($x));
+
+        // When
+        $cdf = $dirac->cdf($x);
+
+        // Then
+        $this->assertSame($expectedCdf, $cdf);
     }
 
     /**
@@ -73,9 +85,15 @@ class DiracDeltaTest extends \PHPUnit\Framework\TestCase
      */
     public function testInverse()
     {
+        // Given
         $diracDelta = new DiracDelta();
+
         foreach (range(-10, 10, 0.5) as $p) {
-            $this->assertEquals(0, $diracDelta->inverse($p));
+            // When
+            $inverse = $diracDelta->inverse($p);
+
+            // Then
+            $this->assertEquals(0, $inverse);
         }
     }
 
@@ -84,9 +102,15 @@ class DiracDeltaTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
+        // Given
         $diracDelta = new DiracDelta();
+
         foreach (range(-10, 10, 0.5) as $_) {
-            $this->assertEquals(0, $diracDelta->rand());
+            // When
+            $rand = $diracDelta->rand();
+
+            // Then
+            $this->assertEquals(0, $rand);
         }
     }
 
@@ -95,9 +119,32 @@ class DiracDeltaTest extends \PHPUnit\Framework\TestCase
      */
     public function testMean()
     {
+        // Given
         $diracDelta = new DiracDelta();
+
         foreach (range(-10, 10, 0.5) as $_) {
-            $this->assertEquals(0, $diracDelta->mean());
+            // When
+            $mean = $diracDelta->mean();
+
+            // Then
+            $this->assertEquals(0, $mean);
+        }
+    }
+
+    /**
+     * @testCase median is always 0
+     */
+    public function testMedian()
+    {
+        // Given
+        $diracDelta = new DiracDelta();
+
+        foreach (range(-10, 10, 0.5) as $_) {
+            // When
+            $median = $diracDelta->median();
+
+            // Then
+            $this->assertEquals(0, $median);
         }
     }
 }

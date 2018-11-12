@@ -1,9 +1,6 @@
 <?php
 namespace MathPHP\Probability\Distribution\Continuous;
 
-use MathPHP\Functions\Special;
-use MathPHP\Functions\Support;
-
 /**
  * Dirac Delta Function
  * https://en.wikipedia.org/wiki/Dirac_delta_function
@@ -96,6 +93,16 @@ class DiracDelta extends Continuous
      * @return int
      */
     public function mean(): int
+    {
+        return 0;
+    }
+
+    /**
+     * Median of the distribution
+     *
+     * @return int
+     */
+    public function median(): int
     {
         return 0;
     }
