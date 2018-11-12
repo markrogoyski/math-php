@@ -37,7 +37,7 @@ class Outlier
         $μ = Average::mean($data);
         $σ = Descriptive::standardDeviation($data);
         
-        $difference =  Single::multiply(Single::subtract($data, $μ), ($tails == "upper" ? 1 : -1));
+        $difference = Single::multiply(Single::subtract($data, $μ), ($tails == "upper" ? 1 : -1));
         $max = $tails == "two" ? max(Single::abs($difference)) : $difference;
         return $max / $σ;
     }
