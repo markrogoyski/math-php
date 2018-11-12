@@ -129,7 +129,7 @@ class Outlier
             for ($j = 0; $j < $n; $j++) {
                 $data[] = $normal->rand();
             }
-            $criticalList[] = TietjenMooreStatistic($data, $k));
+            $criticalList[] = TietjenMooreStatistic($data, $k);
         }
         return Average::kthlargest($criticalList, $𝛼 * 10000);
     }
