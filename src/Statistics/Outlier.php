@@ -94,7 +94,7 @@ class Outlier
                 }
             }
         }
-        else if ($tails == "upper") {
+        elseif ($tails == "upper") {
             $kthlargest = Average::kthlargest($data, $n - $k);
             foreach ($z as $value) {
                 if ($value <= $kthlargest) {
@@ -102,7 +102,7 @@ class Outlier
                 }
             }
         }
-        else if ($tails == "lower") {
+        elseif ($tails == "lower") {
             $kthlargest = Average::kthlargest($data, $k + 1);
             foreach ($z as $value) {
                 if ($value >= $kthlargest) {
