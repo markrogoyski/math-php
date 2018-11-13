@@ -81,26 +81,20 @@ class Outlier
     public static function TietjenMooreStatistic(array $data, int $k, string $tails = "lower"): float
     {
         $ybar = Average::mean($data);
+        $den = array_sum(Single::square(Single::subtract($data, $zbar)));
         $n = count($data);
         $num = 0;
+        $smaller_set = [];
         if ($tails == "two") {
             $z = Single::abs(Single::subtract($data, $ybar));
-            $zbar = Average::mean($z);
-            $kthlargest = Average::kthlargest($data, $n - $k);
-            $smaller_set = [];
-            foreach ($z as $value) {
-                if ($value <= $kthlargest) {
+            $kthlargest = Average::kthlargest($z, $n - $k);
+            foreach ($data as $value) {
+                if (abs($value - $ybar) <= $kthlargest) {
                     $smaller_set[] = $value;
                 }
             }
-            $zkbar = Average::mean($smaller_set);
-            $num = array_sum(Single::square(Single::subtract($smaller_set, $zkbar)));
-            $den = array_sum(Single::square(Single::subtract($data, $zbar)));
-            return $num / $den;
         }
-        $den = array_sum(Single::square(Single::subtract($data, $ybar)));
-        $smaller_set = [];
-        if ($tails == "upper") {
+        else if ($tails == "upper") {
             $kthlargest = Average::kthlargest($data, $n - $k);
             foreach ($z as $value) {
                 if ($value <= $kthlargest) {
@@ -108,7 +102,7 @@ class Outlier
                 }
             }
         }
-        if ($tails == "lower") {
+        else if ($tails == "lower") {
             $kthlargest = Average::kthlargest($data, $k + 1);
             foreach ($z as $value) {
                 if ($value >= $kthlargest) {
