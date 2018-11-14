@@ -978,6 +978,7 @@ $pdf         = $exponential->pdf($x);
 $cdf         = $exponential->cdf($x);
 $icdf        = $exponential->inverse($p);
 $μ           = $exponential->mean();
+$median      = $exponential->median();
 
 // F-distribution
 $d₁  = 3; // degree of freedom v1

@@ -94,6 +94,20 @@ class Exponential extends Continuous
     }
 
     /**
+     * Median of the distribution
+     *
+     *          ln(2)
+     * median = -----
+     *            λ
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        return log(2) / $this->λ;
+    }
+
+    /**
      * Inverse cumulative distribution function (quantile function)
      *
      *            −ln(1 − p)

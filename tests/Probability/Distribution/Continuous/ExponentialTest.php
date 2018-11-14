@@ -164,6 +164,37 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     median
+     * @dataProvider dataProviderForMedian
+     * @param        number $λ
+     * @param        number $expectedMedian
+     */
+    public function testMedian($λ, $expectedMedian)
+    {
+        // Given
+        $exponential = new Exponential($λ);
+
+        // When
+        $median = $exponential->median();
+
+        // then
+        $this->assertEquals($expectedMedian, $median, '', 0.0001);
+    }
+
+    /**
+     * @return array [λ, median]
+     */
+    public function dataProviderForMedian(): array
+    {
+        return [
+            [1, 0.69314718055995],
+            [2, 0.34657359027997],
+            [3, 0.23104906018665],
+            [4, 0.17328679513999],
+        ];
+    }
+
+    /**
      * @testCase     inverse of cdf is x
      * @dataProvider dataProviderForInverse
      * @param        float $λ
