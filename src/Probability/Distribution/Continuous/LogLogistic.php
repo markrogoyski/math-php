@@ -30,19 +30,19 @@ class LogLogistic extends Continuous
         'x' => '[0,∞)',
     ];
 
-     /** @var number Scale Parameter */
+     /** @var float Scale Parameter */
     protected $α;
 
-    /** @var number Shape Parameter */
+    /** @var float Shape Parameter */
     protected $β;
 
     /**
      * Constructor
      *
-     * @param number $α scale parameter α > 0
-     * @param number $β shape parameter β > 0
+     * @param float $α scale parameter α > 0
+     * @param float $β shape parameter β > 0
      */
-    public function __construct($α, $β)
+    public function __construct(float $α, float $β)
     {
         parent::__construct($α, $β);
     }
@@ -56,10 +56,10 @@ class LogLogistic extends Continuous
      *
      * @param float $x (x > 0)
      *
-     * @return number
+     * @return float
      */
 
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -80,9 +80,9 @@ class LogLogistic extends Continuous
      *
      * @param float $x (x > 0)
      *
-     * @return number
+     * @return float
      */
-    public function cdf(float $x)
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -100,9 +100,9 @@ class LogLogistic extends Continuous
      * μ = --------  if β > 1, else undefined
      *     sin(π/β)
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
         $α = $this->α;
         $β = $this->β;
@@ -114,6 +114,18 @@ class LogLogistic extends Continuous
 
         return \NAN;
     }
+
+    /**
+     * Median of the distribution
+     *
+     * median = α
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        return $this->α;
+    }
     
     /**
      * Inverse CDF (Quantile function)
@@ -124,9 +136,9 @@ class LogLogistic extends Continuous
      *
      * @param float $p
      *
-     * @return number
+     * @return float
      */
-    public function inverse(float $p)
+    public function inverse(float $p): float
     {
         Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
 

@@ -11,12 +11,18 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
      * @param        float $x
      * @param        float $α
      * @param        float $β
-     * @param        float $pdf
+     * @param        float $expectedPdf
      */
-    public function testPdf(float $x, float $α, float $β, float $pdf)
+    public function testPdf(float $x, float $α, float $β, float $expectedPdf)
     {
+        // Given
         $logLogistic = new LogLogistic($α, $β);
-        $this->assertEquals($pdf, $logLogistic->pdf($x), '', 0.000001);
+
+        // When
+        $pdf = $logLogistic->pdf($x);
+
+        // Then
+        $this->assertEquals($expectedPdf, $pdf, '', 0.000001);
     }
 
     /**
@@ -60,13 +66,18 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
      * @param        float $x
      * @param        float $α
      * @param        float $β
-     * @param        float $cdf
+     * @param        float $expectedPdf
      */
-    public function testCdf(float $x, float $α, float $β, float $cdf)
+    public function testCdf(float $x, float $α, float $β, float $expectedPdf)
     {
+        // Given
         $logLogistic = new LogLogistic($α, $β);
-        $p = $logLogistic->cdf($x);
-        $this->assertEquals($cdf, $p, '', 0.000001);
+
+        // When
+        $cdf = $logLogistic->cdf($x);
+
+        // Then
+        $this->assertEquals($expectedPdf, $cdf, '', 0.000001);
     }
 
     /**
@@ -78,9 +89,15 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
      */
     public function testInverse(float $x, float $α, float $β)
     {
+        // Given
         $logLogistic = new LogLogistic($α, $β);
-        $cdf = $logLogistic->cdf($x);
-        $this->assertEquals($x, $logLogistic->inverse($cdf), '', 0.000001);
+        $cdf         = $logLogistic->cdf($x);
+
+        // When
+        $inverseOfCdf = $logLogistic->inverse($cdf);
+
+        // Then
+        $this->assertEquals($x, $inverseOfCdf, '', 0.000001);
     }
 
     /**
@@ -127,8 +144,14 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
      */
     public function testMean(float $α, float $β, float $μ)
     {
+        // Given
         $logLogistic = new LogLogistic($α, $β);
-        $this->assertEquals($μ, $logLogistic->mean(), '', 0.00001);
+
+        // When
+        $mean = $logLogistic->mean();
+
+        // Then
+        $this->assertEquals($μ, $mean, '', 0.00001);
     }
 
     /**
@@ -168,4 +191,23 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
             [5, 1],
         ];
     }
+
+    /**
+     * @testCase     median
+     * @dataProvider dataProviderForMean
+     * @param        float $α
+     * @param        float $β
+     */
+    public function testMedian(float $α, float $β)
+    {
+        // Given
+        $logLogistic = new LogLogistic($α, $β);
+
+        // When
+        $median = $logLogistic->median();
+
+        // Then
+        $this->assertEquals($α, $median, '', 0.00001);
+    }
+
 }
