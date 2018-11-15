@@ -17,7 +17,10 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
         $Gcrit = Outlier::CriticalGrubbs(.05, count($data), 1);
         $this->assertEquals(2.032, $Gcrit, '', 0.001);
     }
-    
+
+    /**
+     * @testCase    TietjenMooreTest
+     */
     public function TietjenMooreTest()
     {
         $data = [-1.40, -0.44, -0.30, -0.24, -0.22, -0.13, -0.05, 0.06, 0.10, 0.18, 0.20, 0.39, 0.48, 0.63, 1.01];
