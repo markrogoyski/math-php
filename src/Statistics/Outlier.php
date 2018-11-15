@@ -11,10 +11,6 @@ use MathPHP\Statistics\Descriptive;
  * Tests for outliers in data
  *  - Grubbs Test
  *  - Tietjen-Moore Test
- *  - Dixon Q Test
- *  - Chauvenet's criterion
- *  - Peirce's criterion
- *  - Generalized ESD Test
  */
 class Outlier
 {
@@ -114,17 +110,33 @@ class Outlier
         $num = array_sum(Single::square(Single::subtract($smaller_set, $ykbar)));
         return $num / $den;
     }
-    
-    public function CriticalTietjenMoore(float $𝛼, int $n, int $k)
+
+    /**
+     * The critical Tietjen-Moore Value
+     *
+     * The Critical Tietjen-Moore value is used to determine if multiple values in a set of data are
+     * likely to be outliers.
+     *
+     * The critical value is determined by simulation.
+     *
+     * @param float $𝛼 Significance Level
+     * @param int $n Size of the data set
+     * @param int $k The number of outliers to test for
+     *
+     * @return float
+     */
+    public function CriticalTietjenMoore(float $𝛼, int $n, int $k, string $tails = "lower")
     {
+        $number_of_simulations = 100000;
         $normal = new StandardNormal();
         $CriticalList = [];
-        for ($i = 0; $i < 10000; $i++) {
+        for ($i = 0; $i < $number_of_simulations; $i++) {
             for ($j = 0; $j < $n; $j++) {
                 $data[] = $normal->rand();
             }
-            $criticalList[] = TietjenMooreStatistic($data, $k);
+            $criticalList[] = TietjenMooreStatistic($data, $k, $tails);
         }
-        return Average::kthlargest($criticalList, $𝛼 * 10000);
+        return Average::kthlargest($criticalList, $𝛼 * $number_of_simulations);
     }
+    
 }
