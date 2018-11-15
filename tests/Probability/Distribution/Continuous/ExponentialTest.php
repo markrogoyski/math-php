@@ -178,7 +178,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
         $median = $exponential->median();
 
         // then
-        $this->assertEquals($expectedMedian, $median, '', 0.0001);
+        $this->assertEquals($expectedMedian, $median, '', 0.0000001);
     }
 
     /**

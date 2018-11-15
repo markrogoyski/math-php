@@ -11,12 +11,18 @@ class GammaTest extends \PHPUnit\Framework\TestCase
      * @param        float $x   x ∈ (0,1)
      * @param        float $k   shape parameter α > 0
      * @param        float $θ   scale parameter θ > 0
-     * @param        float $pdf
+     * @param        float $expectedPdf
      */
-    public function testPdf(float $x, float $k, float $θ, float $pdf)
+    public function testPdf(float $x, float $k, float $θ, float $expectedPdf)
     {
+        // Given
         $gamma = new Gamma($k, $θ);
-        $this->assertEquals($pdf, $gamma->pdf($x), '', 0.00000001);
+
+        // When
+        $pdf = $gamma->pdf($x);
+
+        // Then
+        $this->assertEquals($expectedPdf, $pdf, '', 0.00000001);
     }
 
     /**
@@ -46,7 +52,6 @@ class GammaTest extends \PHPUnit\Framework\TestCase
             [5, 4, 5, 0.01226265],
             [15, 4, 5, 0.04480836],
             [115, 4, 5, 4.161876e-08],
-
         ];
     }
 
@@ -56,12 +61,18 @@ class GammaTest extends \PHPUnit\Framework\TestCase
      * @param        float $x   x ∈ (0,1)
      * @param        float $k   shape parameter α > 0
      * @param        float $θ   scale parameter θ > 0
-     * @param        float $cdf
+     * @param        float $expectedCdf
      */
-    public function testCdf(float $x, float $k, float $θ, float $cdf)
+    public function testCdf(float $x, float $k, float $θ, float $expectedCdf)
     {
+        // Given
         $gamma = new Gamma($k, $θ);
-        $this->assertEquals($cdf, $gamma->cdf($x), '', 0.000001);
+
+        // When
+        $cdf = $gamma->cdf($x);
+
+        // Then
+        $this->assertEquals($expectedCdf, $cdf, '', 0.000001);
     }
 
     /**
@@ -103,8 +114,14 @@ class GammaTest extends \PHPUnit\Framework\TestCase
      */
     public function testMean(float $k, float $θ, float $μ)
     {
+        // Given
         $gamma = new Gamma($k, $θ);
-        $this->assertEquals($μ, $gamma->mean(), '', 0.0001);
+
+        // When
+        $mean = $gamma->mean();
+
+        // Then
+        $this->assertEquals($μ, $mean, '', 0.0001);
     }
 
     /**
@@ -118,6 +135,39 @@ class GammaTest extends \PHPUnit\Framework\TestCase
             [1, 2, 2.0],
             [2, 1, 2.0],
             [9, 0.5, 4.5],
+        ];
+    }
+
+    /**
+     * @testCase     median returns the expected approximation of the average
+     * @dataProvider dataProviderForMedian
+     * @param        float $k
+     * @param        float $θ
+     * @param        float $expectedApproximation
+     */
+    public function testMedian(float $k, float $θ, float $expectedApproximation)
+    {
+        // Given
+        $gamma = new Gamma($k, $θ);
+
+        // When
+        $median = $gamma->median();
+
+        // Then
+        $this->assertEquals($expectedApproximation, $median, '', 0.000001);
+    }
+
+    /**
+     * Data provider for median
+     * @return array [k, θ, μ]
+     */
+    public function dataProviderForMedian(): array
+    {
+        return [
+            [1, 1, 0.6875],
+            [1, 2, 1.375],
+            [2, 1, 1.6774193548387],
+            [9, 0.5, 4.33455882352943],
         ];
     }
 }

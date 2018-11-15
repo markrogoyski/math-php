@@ -105,10 +105,28 @@ class Gamma extends Continuous
      *
      * μ = k θ
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
         return $this->k * $this->θ;
+    }
+
+    /**
+     * Approximation of the median of the distribution
+     * https://en.wikipedia.org/wiki/Gamma_distribution#Median_calculation
+     *
+     *       3k - 0.8
+     * υ ≈ μ --------
+     *       3k + 0.2
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        $μ   = $this->mean();
+        $３k = 3 * $this->k;
+
+        return $μ * (($３k - 0.8) / ($３k + 0.2));
     }
 }
