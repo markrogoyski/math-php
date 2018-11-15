@@ -209,5 +209,4 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertEquals($α, $median, '', 0.00001);
     }
-
 }
