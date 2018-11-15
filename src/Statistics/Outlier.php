@@ -138,5 +138,4 @@ class Outlier
         }
         return Average::kthlargest($criticalList, $𝛼 * $number_of_simulations);
     }
-    
 }
