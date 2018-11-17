@@ -940,6 +940,7 @@ $cdf    = $beta->cdf($x);
 $icdf   = $beta->inverse($p);
 $μ      = $beta->mean();
 $median = $beta->median();
+$mode   = $beta->mode();
 
 // Cauchy distribution
 $x₀     = 2; // location parameter

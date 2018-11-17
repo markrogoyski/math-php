@@ -156,6 +156,33 @@ class Beta extends Continuous
     }
 
     /**
+     * Mode of the distribution
+     *
+     *          α - 1
+     * mode = ---------    α, β > 1
+     *        α + β - 2
+     *
+     * mode = 0            α = 1, β > 1
+     * mode = 1            α > 1, β = 1
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        $α = $this->α;
+        $β = $this->β;
+
+        if ($α == 1 && $β > 1) {
+            return 0;
+        }
+        if ($α > 1 && $β == 1) {
+            return 1;
+        }
+
+        return ($α - 1) / ($α + $β - 2);
+    }
+
+    /**
      * Inverse cumulative distribution function (quantile function)
      * Iterative method
      *

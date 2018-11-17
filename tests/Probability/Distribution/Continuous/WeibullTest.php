@@ -273,6 +273,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Data generated with https://captaincalculator.com/math/statistics/weibull-distribution-calculator/
      * @return array [k, λ, μ]
      */
     public function dataProviderForMedian(): array
@@ -306,6 +307,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Data generated with https://captaincalculator.com/math/statistics/weibull-distribution-calculator/
      * @return array [k, λ, μ]
      */
     public function dataProviderForMode(): array

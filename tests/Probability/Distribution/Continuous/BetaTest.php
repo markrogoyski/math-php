@@ -891,6 +891,42 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     mode
+     * @dataProvider dataProviderForMode
+     * @param        float $α
+     * @param        float $β
+     * @param        float $expected
+     */
+    public function testMode(float $α, float $β, float $expected)
+    {
+        // Given
+        $beta = new Beta($α, $β);
+
+        // When
+        $mode = $beta->mode();
+
+        // Then
+        $this->assertEquals($expected, $mode, '', 0.000001);
+    }
+
+    /**
+     * Data generated with calculator: https://captaincalculator.com/math/statistics/beta-distribution-calculator/
+     * @return array [α, β, μ]
+     */
+    public function dataProviderForMode(): array
+    {
+        return [
+            [1, 2, 0],
+            [1, 3, 0],
+            [2, 1, 1],
+            [3, 1, 1],
+            [2, 2, 0.5],
+            [4, 5, 0.42857143],
+            [7, 4, 0.66666667],
+        ];
+    }
+
+    /**
      * @testCase     inverse
      * @dataProvider dataProviderForInverse
      * @param        float $α
