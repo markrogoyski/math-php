@@ -927,6 +927,42 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        float $α
+     * @param        float $β
+     * @param        float $expected
+     */
+    public function testVariance(float $α, float $β, float $expected)
+    {
+        // Given
+        $beta = new Beta($α, $β);
+
+        // When
+        $variance = $beta->variance();
+
+        // Then
+        $this->assertEquals($expected, $variance, '', 0.000001);
+    }
+
+    /**
+     * Data generated with calculator: https://captaincalculator.com/math/statistics/beta-distribution-calculator/
+     * @return array [α, β, var]
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [1, 2, 0.05555556],
+            [1, 3, 0.0375],
+            [2, 1, 0.05555556],
+            [3, 1, 0.0375],
+            [2, 2, 0.05],
+            [4, 5, 0.02469136],
+            [7, 4, 0.01928375],
+        ];
+    }
+
+    /**
      * @testCase     inverse
      * @dataProvider dataProviderForInverse
      * @param        float $α

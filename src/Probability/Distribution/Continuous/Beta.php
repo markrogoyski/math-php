@@ -183,6 +183,27 @@ class Beta extends Continuous
     }
 
     /**
+     * Variance of the distribution
+     *
+     *                  αβ
+     * var[X] = -------------------
+     *          ⟮α ＋ β⟯²⟮α ＋ β ＋ 1⟯
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $α = $this->α;
+        $β = $this->β;
+
+        $αβ          = $α * $β;
+        $⟮α ＋ β⟯²     = ($α + $β)**2;
+        $⟮α ＋ β ＋ 1⟯ = $α + $β + 1;
+
+        return $αβ / ($⟮α ＋ β⟯² * $⟮α ＋ β ＋ 1⟯);
+    }
+
+    /**
      * Inverse cumulative distribution function (quantile function)
      * Iterative method
      *
