@@ -249,6 +249,40 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
             [1, 2, 2],
             [2, 1, 0.88622692545275801365],
             [2, 2, 1.77245386],
+            [22, 27, 26.34458072],
+        ];
+    }
+
+    /**
+     * @testCase     median
+     * @dataProvider dataProviderForMedian
+     * @param        float $k
+     * @param        float $λ
+     * @param        float $μ
+     */
+    public function testMedian(float $k, float $λ, float $μ)
+    {
+        // Given
+        $weibull = new Weibull($k, $λ);
+
+        // When
+        $median = $weibull->median();
+
+        // Then
+        $this->assertEquals($μ, $median, '', 0.0001);
+    }
+
+    /**
+     * @return array [k, λ, μ]
+     */
+    public function dataProviderForMedian(): array
+    {
+        return [
+            [1, 1, 0.69314718055995],
+            [2, 1, 0.83255461],
+            [1, 2, 1.38629436],
+            [2, 2, 1.66510922],
+            [22, 27, 26.55391482],
         ];
     }
 

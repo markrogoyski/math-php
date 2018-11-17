@@ -1110,6 +1110,7 @@ $pdf     = $weibull->pdf($x);
 $cdf     = $weibull->cdf($x);
 $icdf    = $weibull->inverse($p);
 $μ       = $weibull->mean();
+$median  = $weibull->median();
 
 // Other CDFs - All continuous distributions - Replace {$distribution} with desired distribution.
 $between = $distribution->between($x₁, $x₂);  // Probability of being between two points, x₁ and x₂

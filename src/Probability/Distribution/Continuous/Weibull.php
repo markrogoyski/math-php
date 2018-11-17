@@ -114,6 +114,23 @@ class Weibull extends Continuous
 
         return $λ * Special::gamma(1 + 1 / $k);
     }
+
+    /**
+     * Median of the distribution
+     *
+     * median = λ(ln 2)¹ᐟᵏ
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        $k = $this->k;
+        $λ = $this->λ;
+
+        $⟮ln 2⟯¹ᐟᵏ = pow(log(2), 1/$k);
+
+        return $λ * $⟮ln 2⟯¹ᐟᵏ;
+    }
     
     /**
      * Inverse CDF (Quantile function)
