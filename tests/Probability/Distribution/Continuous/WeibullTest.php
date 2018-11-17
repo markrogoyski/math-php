@@ -287,6 +287,40 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     mode
+     * @dataProvider dataProviderForMode
+     * @param        float $k
+     * @param        float $λ
+     * @param        float $μ
+     */
+    public function testMode(float $k, float $λ, float $μ)
+    {
+        // Given
+        $weibull = new Weibull($k, $λ);
+
+        // When
+        $mode = $weibull->mode();
+
+        // Then
+        $this->assertEquals($μ, $mode, '', 0.0001);
+    }
+
+    /**
+     * @return array [k, λ, μ]
+     */
+    public function dataProviderForMode(): array
+    {
+        return [
+            [0.5, 1, 0],
+            [1, 1, 0],
+            [2, 1, 0.70710678],
+            [1, 2, 0],
+            [2, 2, 1.41421356],
+            [22, 27, 26.94296757],
+        ];
+    }
+
+    /**
      * @testCase rand
      */
     public function testRand()

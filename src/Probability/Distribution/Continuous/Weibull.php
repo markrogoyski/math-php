@@ -131,6 +131,31 @@ class Weibull extends Continuous
 
         return $λ * $⟮ln 2⟯¹ᐟᵏ;
     }
+
+    /**
+     * Mode of the distribution
+     *
+     *    / k - 1  \¹ᐟᵏ
+     * λ |  -----  |
+     *    \   k    /
+     *
+     * 0  k ≤ 1
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        $k = $this->k;
+        $λ = $this->λ;
+
+        if ($k <= 1) {
+            return 0;
+        }
+
+        $⟮⟮k − 1⟯／k⟯¹ᐟᵏ = pow(($k - 1) / $k, 1/$k);
+
+        return $λ * $⟮⟮k − 1⟯／k⟯¹ᐟᵏ;
+    }
     
     /**
      * Inverse CDF (Quantile function)
