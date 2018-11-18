@@ -131,6 +131,23 @@ class Logistic extends Continuous
     {
         return $this->μ;
     }
+
+    /**
+     * Variance of the distribution
+     *
+     *          s²π²
+     * var[X] = ----
+     *           3
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $s² = $this->s**2;
+        $π² = \M_PI**2;
+
+        return ($s² * $π²) / 3;
+    }
     
     /**
      * Inverse CDF (quantile function)

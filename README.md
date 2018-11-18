@@ -1032,6 +1032,7 @@ $icdf     = $logistic->inverse($p);
 $μ        = $logistic->mean();
 $median   = $logistic->median();
 $mode     = $logistic->mode();
+$variance = $logisitic->variance();
 
 // Log-logistic distribution (Fisk distribution)
 $α           = 1; // scale parameter

@@ -208,6 +208,38 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        float $μ
+     * @param        float $s
+     * @param        float $expected
+     */
+    public function testVariance(float $μ, float $s, float $expected)
+    {
+        // Given
+        $logistic = new Logistic($μ, $s);
+
+        // When
+        $variance = $logistic->variance();
+
+        // Then
+        $this->assertEquals($expected, $variance, '', 0.000001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [0, 1, 3.28986813369645],
+            [0, 2, 13.15947253478581],
+            [0, 3, 29.60881320326808],
+            [5, 4, 52.63789013914325],
+        ];
+    }
+
+    /**
      * @testCase     inverse
      * @dataProvider dataProviderForInverse
      * @param        float $p
