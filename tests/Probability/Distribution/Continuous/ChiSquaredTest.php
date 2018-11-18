@@ -200,4 +200,37 @@ class ChiSquaredTest extends \PHPUnit\Framework\TestCase
             [20, 19.3407133058986],
         ];
     }
+
+    /**
+     * @testCase     mode
+     * @dataProvider dataProviderForMode
+     * @param        float $k
+     * @param        float $expected
+     */
+    public function testMode(float $k, float $expected)
+    {
+        // Given
+        $chiSquared = new ChiSquared($k);
+
+        // When
+        $mode = $chiSquared->mode();
+
+        // Then
+        $this->assertEquals($expected, $mode, '', 0.00000001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForMode(): array
+    {
+        return [
+            [1, 0],
+            [2, 0],
+            [3, 1],
+            [4, 2],
+            [5, 3],
+            [20, 18],
+        ];
+    }
 }

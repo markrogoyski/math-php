@@ -131,4 +131,16 @@ class ChiSquared extends Continuous
 
         return $k * $⟮1 − 2／9k⟯**3;
     }
+
+    /**
+     * Mode of the distribution
+     *
+     * max(k - 2, 0)
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        return max($this->k - 2, 0);
+    }
 }

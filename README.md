@@ -963,6 +963,7 @@ $pdf    = $χ²->pdf($x);
 $cdf    = $χ²->cdf($x);
 $μ      = $χ²->mean($x);
 $median = $χ²->median();
+$mode   = $χ²->mode();
 
 // Dirac delta distribution
 $x     = 1;
