@@ -209,4 +209,38 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertEquals($α, $median, '', 0.00001);
     }
+
+    /**
+     * @testCase     mode
+     * @dataProvider dataProviderForMode
+     * @param        float $α
+     * @param        float $β
+     * @param        float $expected
+     */
+    public function testMode(float $α, float $β, float $expected)
+    {
+        // Given
+        $logLogistic = new LogLogistic($α, $β);
+
+        // When
+        $mode = $logLogistic->mode();
+
+        // Then
+        $this->assertEquals($expected, $mode, '', 0.00001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForMode(): array
+    {
+        return [
+            [1, 0.2, 0],
+            [2, 0.9, 0],
+            [3, 1, 0],
+            [1, 2, 0.577350269189623],
+            [1, 3, 0.793700525984102],
+            [2, 3, 1.5874010519682],
+        ];
+    }
 }

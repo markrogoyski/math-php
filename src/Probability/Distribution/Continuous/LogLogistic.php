@@ -126,6 +126,29 @@ class LogLogistic extends Continuous
     {
         return $this->α;
     }
+
+    /**
+     * Mode of the distribution
+     *
+     * mode = 0                 β ≤ 1
+     *
+     *           / β - 1 \ 1/β
+     * mode = α |  -----  |     β > 1
+     *           \ β + 1 /
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        $α = $this->α;
+        $β = $this->β;
+
+        if ($β <= 1) {
+            return 0;
+        }
+
+        return $α * pow(($β - 1) / ($β + 1), 1/$β);
+    }
     
     /**
      * Inverse CDF (Quantile function)

@@ -1043,6 +1043,8 @@ $pdf         = $logLogistic->pdf($x);
 $cdf         = $logLogistic->cdf($x);
 $icdf        = $logLogistic->inverse($p);
 $μ           = $logLogistic->mean();
+$median      = $logLogistic->median();
+$mode        = $logLogistic->mode();
 
 // Log-normal distribution
 $μ         = 6;   // scale parameter
