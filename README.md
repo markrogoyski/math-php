@@ -997,15 +997,16 @@ $mode = $f->mode();
 $var  = $f->variance();
 
 // Gamma distribution
-$k     = 2; // shape parameter
-$θ     = 3; // scale parameter
-$x     = 4;
-$gamma = new Continuous\Gamma($k, $θ);
-$pdf   = $gamma->pdf($x);
-$cdf   = $gamma->cdf($x);
-$μ     = $gamma->mean();
-$mode  = $gamma->mode();
-$var   = $gamma->variance();
+$k      = 2; // shape parameter
+$θ      = 3; // scale parameter
+$x      = 4;
+$gamma  = new Continuous\Gamma($k, $θ);
+$pdf    = $gamma->pdf($x);
+$cdf    = $gamma->cdf($x);
+$μ      = $gamma->mean();
+$median = $gamma->median();
+$mode   = $gamma->mode();
+$var    = $gamma->variance();
 
 // Laplace distribution
 $μ       = 1;   // location parameter
