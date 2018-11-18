@@ -243,4 +243,63 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
             [2, 3, 1.5874010519682],
         ];
     }
+
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        float $α
+     * @param        float $β
+     * @param        float $expected
+     */
+    public function testVariance(float $α, float $β, float $expected)
+    {
+        // Given
+        $logLogistic = new LogLogistic($α, $β);
+
+        // When
+        $variance = $logLogistic->variance();
+
+        // Then
+        $this->assertEquals($expected, $variance, '', 0.00001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [1, 3, -473.39731252713666],
+            [2, 4, -79.39739526887552],
+        ];
+    }
+
+    /**
+     * @testCase     variance is not a number when β ≤ 2
+     * @dataProvider dataProviderForVarianceNan
+     * @param        float $α
+     * @param        float $β
+     */
+    public function testVarianceNan(float $α, float $β)
+    {
+        // Given
+        $logLogistic = new LogLogistic($α, $β);
+
+        // When
+        $variance = $logLogistic->variance();
+
+        // Then
+        $this->assertNan($variance);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForVarianceNan(): array
+    {
+        return [
+            [1, 1],
+            [2, 2],
+        ];
+    }
 }

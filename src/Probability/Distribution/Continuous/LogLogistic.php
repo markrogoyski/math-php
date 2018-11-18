@@ -149,6 +149,33 @@ class LogLogistic extends Continuous
 
         return $α * pow(($β - 1) / ($β + 1), 1/$β);
     }
+
+    /**
+     * Variance of the distribution
+     *
+     *              /   2β       β²  \
+     * var[X] = α² |  ------ - -----  |    β > 2
+     *              \ sin 2β   sin²β  /
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $α = $this->α;
+        $β = $this->β;
+
+        if ($β <= 2) {
+            return \NAN;
+        }
+
+        $α²    = $α**2;
+        $β²    = $β**2;
+        $２β   = 2 * $β;
+        $sin2β = sin($２β);
+        $sin²β = sin($β)**2;
+
+        return $α² * (($２β/$sin2β) - ($β²/$sin²β));
+    }
     
     /**
      * Inverse CDF (Quantile function)
