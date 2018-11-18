@@ -143,4 +143,16 @@ class ChiSquared extends Continuous
     {
         return max($this->k - 2, 0);
     }
+
+    /**
+     * Variance of the distribution
+     *
+     * var[X] = 2k
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        return 2 * $this->k;
+    }
 }

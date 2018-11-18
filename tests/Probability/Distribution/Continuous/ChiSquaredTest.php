@@ -233,4 +233,37 @@ class ChiSquaredTest extends \PHPUnit\Framework\TestCase
             [20, 18],
         ];
     }
+
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        float $k
+     * @param        float $expected
+     */
+    public function testVariance(float $k, float $expected)
+    {
+        // Given
+        $chiSquared = new ChiSquared($k);
+
+        // When
+        $variance = $chiSquared->variance();
+
+        // Then
+        $this->assertEquals($expected, $variance, '', 0.00000001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [1, 2],
+            [2, 4],
+            [3, 6],
+            [4, 8],
+            [5, 10],
+            [20, 40],
+        ];
+    }
 }
