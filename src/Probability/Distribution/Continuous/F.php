@@ -30,19 +30,19 @@ class F extends Continuous
         'x'  => '[0,∞)',
     ];
 
-    /** @var number Degree of Freedom Parameter */
+    /** @var float Degree of Freedom Parameter */
     protected $d₁;
 
-    /** @var number Degree of Freedom Parameter */
+    /** @var float Degree of Freedom Parameter */
     protected $d₂;
 
     /**
      * Constructor
      *
-     * @param number $d₁ degree of freedom parameter d₁ > 0
-     * @param number $d₂ degree of freedom parameter d₂ > 0
+     * @param float $d₁ degree of freedom parameter d₁ > 0
+     * @param float $d₂ degree of freedom parameter d₂ > 0
      */
-    public function __construct($d₁, $d₂)
+    public function __construct(float $d₁, float $d₂)
     {
         parent::__construct($d₁, $d₂);
     }
@@ -63,9 +63,9 @@ class F extends Continuous
      *
      * @todo how to handle x = 0
      *
-     * @return number probability
+     * @return float probability
      */
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -96,9 +96,9 @@ class F extends Continuous
      *
      * @param float $x  percentile ≥ 0
      *
-     * @return number
+     * @return float
      */
-    public function cdf(float $x)
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -117,9 +117,9 @@ class F extends Continuous
      * μ = ------  for d₂ > 2
      *     d₂ - 2
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
         $d₂ = $this->d₂;
 
@@ -128,5 +128,26 @@ class F extends Continuous
         }
 
         return \NAN;
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     *        d₁ - 2   d₂
+     * mode = ------ ------     d₁ > 2
+     *          d₁   d₂ + 2
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        $d₁ = $this->d₁;
+        $d₂ = $this->d₂;
+
+        if ($d₁ <= 2) {
+            return \NAN;
+        }
+
+        return (($d₁ - 2) / $d₁) * ($d₂ / ($d₂ + 2));
     }
 }

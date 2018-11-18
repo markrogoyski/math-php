@@ -986,13 +986,14 @@ $median      = $exponential->median();
 $variance    = $exponential->variance();
 
 // F-distribution
-$d₁  = 3; // degree of freedom v1
-$d₂  = 4; // degree of freedom v2
-$x   = 2;
-$f   = new Continuous\F($d₁, $d₂);
-$pdf = $f->pdf($x);
-$cdf = $f->cdf($x);
-$μ   = $f->mean();
+$d₁   = 3; // degree of freedom v1
+$d₂   = 4; // degree of freedom v2
+$x    = 2;
+$f    = new Continuous\F($d₁, $d₂);
+$pdf  = $f->pdf($x);
+$cdf  = $f->cdf($x);
+$μ    = $f->mean();
+$mode = $f->mode();
 
 // Gamma distribution
 $k     = 2; // shape parameter
