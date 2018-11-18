@@ -1018,6 +1018,7 @@ $cdf     = $laplace->cdf($x);
 $icdf    = $laplace->inverse($p);
 $mean    = $laplace->mean();
 $median  = $laplace->median();
+$mode    = $laplace->mode();
 
 // Logistic distribution
 $μ        = 2;   // location parameter

@@ -119,6 +119,18 @@ class Laplace extends Continuous
     }
 
     /**
+     * Mode of the distribution
+     *
+     * mode = μ
+     *
+     * @return float μ
+     */
+    public function mode(): float
+    {
+        return $this->μ;
+    }
+
+    /**
      * Inverse cumulative distribution function (quantile function)
      *
      * @param float $p

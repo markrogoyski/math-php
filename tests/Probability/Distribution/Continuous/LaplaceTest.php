@@ -78,7 +78,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase mean is always $μ
+     * @testCase mean is always μ
      */
     public function testMean()
     {
@@ -97,7 +97,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase median is always $μ
+     * @testCase median is always μ
      */
     public function testMedian()
     {
@@ -111,6 +111,25 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
 
                 // Then
                 $this->assertEquals($μ, $median);
+            }
+        }
+    }
+
+    /**
+     * @testCase mode is always μ
+     */
+    public function testMode()
+    {
+        foreach (range(-5, 5) as $μ) {
+            foreach (range(1, 3) as $b) {
+                // Given
+                $laplace = new Laplace($μ, $b);
+
+                // When
+                $mode = $laplace->mode();
+
+                // Then
+                $this->assertEquals($μ, $mode);
             }
         }
     }
