@@ -1016,9 +1016,10 @@ $laplace = new Continuous\Laplace($μ, $b);
 $pdf     = $laplace->pdf($x);
 $cdf     = $laplace->cdf($x);
 $icdf    = $laplace->inverse($p);
-$mean    = $laplace->mean();
+$μ       = $laplace->mean();
 $median  = $laplace->median();
 $mode    = $laplace->mode();
+$var     = $laplace->variance();
 
 // Logistic distribution
 $μ        = 2;   // location parameter
@@ -1028,7 +1029,7 @@ $logistic = new Continuous\Logistic($μ, $s);
 $pdf      = $logistic->pdf($x);
 $cdf      = $logistic->cdf($x);
 $icdf     = $logistic->inverse($p);
-$mean     = $logistic->mean();
+$μ        = $logistic->mean();
 $median   = $logistic->median();
 
 // Log-logistic distribution (Fisk distribution)
@@ -1059,7 +1060,7 @@ $x            = 8;
 $noncenetralT = new Continuous\NoncentralT($ν, $μ);
 $pdf          = $noncenetralT->pdf($x);
 $cdf          = $noncenetralT->cdf($x);
-$mean         = $noncenetralT->mean();
+$μ            = $noncenetralT->mean();
 
 // Normal distribution
 $σ      = 1;
@@ -1069,7 +1070,7 @@ $normal = new Continuous\Normal($μ, $σ);
 $pdf    = $normal->pdf($x);
 $cdf    = $normal->cdf($x);
 $icdf   = $normal->inverse($p);
-$mean   = $normal->mean();
+$μ      = $normal->mean();
 $median = $normal->median();
 
 // Pareto distribution

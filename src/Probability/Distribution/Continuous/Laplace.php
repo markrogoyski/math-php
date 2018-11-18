@@ -131,6 +131,18 @@ class Laplace extends Continuous
     }
 
     /**
+     * Variance of the distribution
+     *
+     * var[X] = 2b²
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        return 2 * $this->b**2;
+    }
+
+    /**
      * Inverse cumulative distribution function (quantile function)
      *
      * @param float $p

@@ -135,6 +135,40 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        float $μ
+     * @param        float $b
+     * @param        float $expected
+     */
+    public function testVariance(float $μ, float $b, float $expected)
+    {
+        // Given
+        $laplace = new Laplace($μ, $b);
+
+        // When
+        $variance = $laplace->variance();
+
+        // Then
+        $this->assertEquals($expected, $variance, '', 0.000001);
+    }
+
+    /**
+     * @return array [μ, b, variance]
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [1, 1, 2],
+            [2, 1, 2],
+            [3, 1, 2],
+            [1, 2, 8],
+            [2, 2, 8],
+            [4, 3, 18],
+        ];
+    }
+
+    /**
      * @testCase     inverse
      * @dataProvider dataProviderForInverse
      * @param        float $p
