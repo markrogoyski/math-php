@@ -238,4 +238,41 @@ class GammaTest extends \PHPUnit\Framework\TestCase
             [0.9, 6],
         ];
     }
+
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        float $k
+     * @param        float $θ
+     * @param        float $expected
+     */
+    public function testVariance(float $k, float $θ, float $expected)
+    {
+        // Given
+        $gamma = new Gamma($k, $θ);
+
+        // When
+        $variance = $gamma->variance();
+
+        // Then
+        $this->assertEquals($expected, $variance, '', 0.000001);
+    }
+
+    /**
+     * Data provider for variance
+     * @return array [k, θ, variance]
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [1, 1, 1],
+            [1, 2, 4],
+            [2, 1, 2],
+            [2, 2, 8],
+            [2, 3, 18],
+            [3, 1, 3],
+            [3, 2, 12],
+            [3, 3, 27],
+        ];
+    }
 }

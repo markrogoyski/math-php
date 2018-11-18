@@ -145,4 +145,16 @@ class Gamma extends Continuous
 
         return ($this->k - 1) * $this->θ;
     }
+
+    /**
+     * Variance of the distribution
+     *
+     * var[X] = kθ²
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        return $this->k * $this->θ**2;
+    }
 }

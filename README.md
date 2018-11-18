@@ -1005,6 +1005,7 @@ $pdf   = $gamma->pdf($x);
 $cdf   = $gamma->cdf($x);
 $μ     = $gamma->mean();
 $mode  = $gamma->mode();
+$var   = $gamma->variance();
 
 // Laplace distribution
 $μ       = 1;   // location parameter
