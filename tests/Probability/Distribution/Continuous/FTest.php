@@ -215,7 +215,7 @@ class FTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array [d₁, d₂, $μ]
+     * @return array [d₁, d₂, μ]
      */
     public function dataProviderForMode(): array
     {
@@ -257,6 +257,73 @@ class FTest extends \PHPUnit\Framework\TestCase
             [1, 5],
             [2, 2],
             [2, 4],
+        ];
+    }
+
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        int   $d₁
+     * @param        int   $d₂
+     * @param        float $expected
+     */
+    public function testVariance(int $d₁, int $d₂, float $expected)
+    {
+        // Given
+        $f = new F($d₁, $d₂);
+
+        // When
+        $variance = $f->variance();
+
+        // Then
+        $this->assertEquals($expected, $variance, '', 0.0001);
+    }
+
+    /**
+     * @return array [d₁, d₂, variance]
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [1, 5, 22.22222222],
+            [2, 5, 13.88888889],
+            [3, 5, 11.11111111],
+            [4, 5, 9.72222222],
+            [5, 5, 8.88888889],
+            [6, 5, 8.33333333],
+            [5, 7, 2.61333333],
+            [9, 8, 1.48148148],
+        ];
+    }
+
+    /**
+     * @testCase     variance is not defined for d₂ <= 4
+     * @dataProvider dataProviderForVarianceNan
+     * @param        int   $d₁
+     * @param        int   $d₂
+     */
+    public function testVarianceNan(int $d₁, int $d₂)
+    {
+        // Given
+        $f = new F($d₁, $d₂);
+
+        // When
+        $variance = $f->variance();
+
+        // Then
+        $this->assertNan($variance);
+    }
+
+    /**
+     * @return array [d₁, d]
+     */
+    public function dataProviderForVarianceNan(): array
+    {
+        return [
+            [1, 1],
+            [1, 2],
+            [2, 3],
+            [5, 4],
         ];
     }
 }

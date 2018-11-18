@@ -994,6 +994,7 @@ $pdf  = $f->pdf($x);
 $cdf  = $f->cdf($x);
 $μ    = $f->mean();
 $mode = $f->mode();
+$var  = $f->variance();
 
 // Gamma distribution
 $k     = 2; // shape parameter

@@ -150,4 +150,28 @@ class F extends Continuous
 
         return (($d₁ - 2) / $d₁) * ($d₂ / ($d₂ + 2));
     }
+
+    /**
+     * Variance of the distribution
+     *
+     *          2d₂²(d₁ + d₂ - 2)
+     * var[X] = -------------------   d₂ > 4
+     *          d₁(d₂ - 2)²(d₂ - 4)
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $d₁ = $this->d₁;
+        $d₂ = $this->d₂;
+
+        if ($d₂ <= 4) {
+            return \NAN;
+        }
+
+        $２d₂²⟮d₁ ＋ d₂ − 2⟯ = (2 * $d₂**2) * ($d₁ + $d₂ - 2);
+        $d₁⟮d₂ − 2⟯²⟮d₂ − 4⟯  = ($d₁ * ($d₂ - 2)**2) * ($d₂ - 4);
+
+        return $２d₂²⟮d₁ ＋ d₂ − 2⟯ / $d₁⟮d₂ − 2⟯²⟮d₂ − 4⟯;
+    }
 }
