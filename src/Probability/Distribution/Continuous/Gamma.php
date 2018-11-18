@@ -30,19 +30,19 @@ class Gamma extends Continuous
         'x' => '(0,∞)',
     ];
 
-    /** @var number shape parameter k > 0 */
+    /** @var float shape parameter k > 0 */
     protected $k;
 
-    /** @var number shape parameter θ > 0 */
+    /** @var float shape parameter θ > 0 */
     protected $θ;
 
     /**
      * Constructor
      *
-     * @param number $k shape parameter k > 0
-     * @param number $θ scale parameter θ > 0
+     * @param float $k shape parameter k > 0
+     * @param float $θ scale parameter θ > 0
      */
-    public function __construct($k, $θ)
+    public function __construct(float $k, float $θ)
     {
         parent::__construct($k, $θ);
     }
@@ -128,5 +128,21 @@ class Gamma extends Continuous
         $３k = 3 * $this->k;
 
         return $μ * (($３k - 0.8) / ($３k + 0.2));
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     * mode = (k - 1)θ   k ≥ 1
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        if ($this->k < 1) {
+            return \NAN;
+        }
+
+        return ($this->k - 1) * $this->θ;
     }
 }

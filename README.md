@@ -1004,6 +1004,7 @@ $gamma = new Continuous\Gamma($k, $θ);
 $pdf   = $gamma->pdf($x);
 $cdf   = $gamma->cdf($x);
 $μ     = $gamma->mean();
+$mode  = $gamma->mode();
 
 // Laplace distribution
 $μ       = 1;   // location parameter

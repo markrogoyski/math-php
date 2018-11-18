@@ -170,4 +170,72 @@ class GammaTest extends \PHPUnit\Framework\TestCase
             [9, 0.5, 4.33455882352943],
         ];
     }
+
+    /**
+     * @testCase     mode
+     * @dataProvider dataProviderForMode
+     * @param        float $k
+     * @param        float $θ
+     * @param        float $expected
+     */
+    public function testMode(float $k, float $θ, float $expected)
+    {
+        // Given
+        $gamma = new Gamma($k, $θ);
+
+        // When
+        $mode = $gamma->mode();
+
+        // Then
+        $this->assertEquals($expected, $mode, '', 0.000001);
+    }
+
+    /**
+     * Data provider for mode
+     * @return array [k, θ, μ]
+     */
+    public function dataProviderForMode(): array
+    {
+        return [
+            [1, 1, 0],
+            [1, 2, 0],
+            [2, 1, 1],
+            [2, 2, 2],
+            [2, 3, 3],
+            [3, 1, 2],
+            [3, 2, 4],
+            [3, 3, 6],
+        ];
+    }
+
+    /**
+     * @testCase     mode is not a number if k < 1
+     * @dataProvider dataProviderForModeNan
+     * @param        float $k
+     * @param        float $θ
+     */
+    public function testModeNan(float $k, float $θ)
+    {
+        // Given
+        $gamma = new Gamma($k, $θ);
+
+        // When
+        $mode = $gamma->mode();
+
+        // Then
+        $this->assertNan($mode);
+    }
+
+    /**
+     * Data provider for mode NAN
+     * @return array [k, θ]
+     */
+    public function dataProviderForModeNan(): array
+    {
+        return [
+            [0.1, 1],
+            [0.5, 3],
+            [0.9, 6],
+        ];
+    }
 }
