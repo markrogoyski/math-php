@@ -236,6 +236,24 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     variance is not a number
+     * @dataProvider dataProviderForAverages
+     * @param        float $x₀
+     * @param        float $γ
+     */
+    public function testVariance(float $x₀, float $γ)
+    {
+        // Given
+        $cauchy = new Cauchy($x₀, $γ);
+
+        // When
+        $variance = $cauchy->variance();
+
+        // Then
+        $this->assertNan($variance);
+    }
+
+    /**
      * @return array [x₀, γ]
      */
     public function dataProviderForAverages(): array

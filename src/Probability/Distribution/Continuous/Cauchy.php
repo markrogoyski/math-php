@@ -120,6 +120,16 @@ class Cauchy extends Continuous
     {
         return $this->x₀;
     }
+
+    /**
+     * Variance of the distribution (undefined)
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        return \NAN;
+    }
     
     /**
      * Inverse CDF (Quantile function)
