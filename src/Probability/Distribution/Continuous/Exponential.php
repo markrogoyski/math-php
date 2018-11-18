@@ -108,6 +108,32 @@ class Exponential extends Continuous
     }
 
     /**
+     * Mode of the distribution
+     *
+     * mode = 0
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        return 0;
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     *           1
+     * var[X] = --
+     *          λ²
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        return 1 / ($this->λ**2);
+    }
+
+    /**
      * Inverse cumulative distribution function (quantile function)
      *
      *            −ln(1 − p)

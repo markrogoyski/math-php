@@ -147,4 +147,21 @@ class DiracDeltaTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals(0, $median);
         }
     }
+
+    /**
+     * @testCase mode is always 0
+     */
+    public function testMode()
+    {
+        // Given
+        $diracDelta = new DiracDelta();
+
+        foreach (range(-10, 10, 0.5) as $_) {
+            // When
+            $mode = $diracDelta->mode();
+
+            // Then
+            $this->assertEquals(0, $mode);
+        }
+    }
 }

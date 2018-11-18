@@ -106,4 +106,14 @@ class DiracDelta extends Continuous
     {
         return 0;
     }
+
+    /**
+     * Mode of the distribution
+     *
+     * @return int
+     */
+    public function mode(): int
+    {
+        return 0;
+    }
 }
