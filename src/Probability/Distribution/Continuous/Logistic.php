@@ -119,6 +119,18 @@ class Logistic extends Continuous
     {
         return $this->μ;
     }
+
+    /**
+     * Mode of the distribution
+     *
+     * mode = μ
+     *
+     * @return float μ
+     */
+    public function mode(): float
+    {
+        return $this->μ;
+    }
     
     /**
      * Inverse CDF (quantile function)

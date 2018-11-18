@@ -189,6 +189,25 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase mode
+     */
+    public function testMode()
+    {
+        foreach (range(-3, 3) as $μ) {
+            foreach (range(1, 3) as $s) {
+                // Given
+                $logistic = new Logistic($μ, $s);
+
+                // When
+                $mode = $logistic->mode();
+
+                // Then
+                $this->assertEquals($μ, $mode);
+            }
+        }
+    }
+
+    /**
      * @testCase     inverse
      * @dataProvider dataProviderForInverse
      * @param        float $p
