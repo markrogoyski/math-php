@@ -1057,6 +1057,7 @@ $cdf       = $logNormal->cdf($x);
 $icdf      = $logNormal->inverse($p);
 $μ         = $logNormal->mean();
 $median    = $logNormal->median();
+$mode      = $logNormal->mode();
 
 // Noncentral T distribution
 $ν            = 50; // degrees of freedom

@@ -125,6 +125,18 @@ class LogNormal extends Continuous
     }
 
     /**
+     * Mode of the distribution
+     *
+     * mode = exp(μ - σ²)
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        return exp($this->μ - $this->σ**2);
+    }
+
+    /**
      * Inverse of CDF (quantile)
      *
      * exp(μ + σ * normal-inverse(p))

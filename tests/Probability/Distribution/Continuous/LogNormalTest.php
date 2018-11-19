@@ -47,6 +47,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     cdf
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $μ
@@ -87,6 +88,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     mean
      * @dataProvider dataProviderForMean
      * @param        float $μ
      * @param        float $σ
@@ -118,6 +120,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     median
      * @dataProvider dataProviderForMedian
      * @param        float $μ
      * @param        float $σ
@@ -147,6 +150,41 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
             [2.6, 3.16, 13.46373803500169],
         ];
     }
+
+    /**
+     * @testCase     mode
+     * @dataProvider dataProviderForMode
+     * @param        float $μ
+     * @param        float $σ
+     * @param        float $expected
+     */
+    public function testMode(float $μ, float $σ, float $expected)
+    {
+        // Given
+        $log_normal = new LogNormal($μ, $σ);
+
+        // When
+        $mode = $log_normal->mode();
+
+        // Then
+        $this->assertEquals($expected, $mode, '', 0.000001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForMode(): array
+    {
+        return [
+            [1, 1, 1],
+            [1, 2, 0.049787068367864],
+            [2, 1, 2.718281828459045],
+            [2, 2, 0.135335283236613],
+            [1.3, 1.6, 0.28365402649977],
+            [2.6, 3.16, 0.000620118480873],
+        ];
+    }
+
 
     /**
      * @testCase     inverse
