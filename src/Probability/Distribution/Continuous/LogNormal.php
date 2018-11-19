@@ -137,6 +137,24 @@ class LogNormal extends Continuous
     }
 
     /**
+     * Variance of the distribution
+     *
+     * var[X] = [exp(σ²) - 1][exp(2μ + σ²)]
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $μ = $this->μ;
+        $σ = $this->σ;
+
+        $σ²  = $σ**2;
+        $２μ = 2*$μ;
+
+        return (exp($σ²) - 1) * exp($２μ + $σ²);
+    }
+
+    /**
      * Inverse of CDF (quantile)
      *
      * exp(μ + σ * normal-inverse(p))

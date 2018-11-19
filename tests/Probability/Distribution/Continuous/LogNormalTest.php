@@ -185,6 +185,40 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        float $μ
+     * @param        float $σ
+     * @param        float $expected
+     */
+    public function testVariance(float $μ, float $σ, float $expected)
+    {
+        // Given
+        $log_normal = new LogNormal($μ, $σ);
+
+        // When
+        $variance = $log_normal->variance();
+
+        // Then
+        $this->assertEquals($expected, $variance, '', 0.001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [1, 1, 34.51261310995665],
+            [1, 2, 21623.03700131397116],
+            [2, 1, 255.01563439015922],
+            [2, 2, 159773.83343196209715],
+            [1.3, 1.6, 2078.79512496361378],
+            [2.6, 3.16, 85446299583.51734035309427],
+        ];
+    }
+
 
     /**
      * @testCase     inverse
