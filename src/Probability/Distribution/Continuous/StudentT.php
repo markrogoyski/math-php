@@ -157,4 +157,45 @@ class StudentT extends Continuous
     {
         return 0;
     }
+
+
+    /**
+     * Mode of the distribution
+     *
+     * μ = 0
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        return 0;
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     *        ν
+     * σ² = -----    ν > 2
+     *      ν - 2
+     *
+     * σ² = ∞        1 < ν ≤ 2
+     *
+     * σ² is undefined otherwise
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $ν = $this->ν;
+
+        if ($ν > 2) {
+            return $ν / ($ν - 2);
+        }
+
+        if ($ν > 1) {
+            return \INF;
+        }
+
+        return \NAN;
+    }
 }

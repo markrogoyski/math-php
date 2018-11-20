@@ -10,12 +10,18 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForPdf
      * @param        float $t
      * @param        float $ν
-     * @param        float $pdf
+     * @param        float $expected
      */
-    public function testPdf(float $t, float $ν, float $pdf)
+    public function testPdf(float $t, float $ν, float $expected)
     {
+        // Given
         $studentT = new StudentT($ν);
-        $this->assertEquals($pdf, $studentT->pdf($t), '', 0.0000001);
+
+        // When
+        $pdf = $studentT->pdf($t);
+
+        // Then
+        $this->assertEquals($expected, $pdf, '', 0.0000001);
     }
 
     /**
@@ -68,12 +74,18 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForCdf
      * @param        float $t
      * @param        float $ν
-     * @param        float $cdf
+     * @param        float $expected
      */
-    public function testCdf(float $t, float $ν, float $cdf)
+    public function testCdf(float $t, float $ν, float $expected)
     {
+        // Given
         $studentT = new StudentT($ν);
-        $this->assertEquals($cdf, $studentT->cdf($t), '', 0.0000001);
+
+        // When
+        $cdf = $studentT->cdf($t);
+
+        // Then
+        $this->assertEquals($expected, $cdf, '', 0.0000001);
     }
 
     /**
@@ -134,8 +146,14 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
      */
     public function testMean(float $ν, float $μ)
     {
+        // Given
         $studentT = new StudentT($ν);
-        $this->assertEquals($μ, $studentT->mean());
+
+        // When
+        $mean = $studentT->mean();
+
+        // Then
+        $this->assertEquals($μ, $mean);
     }
 
     /**
@@ -154,8 +172,127 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
      */
     public function testMeanNan()
     {
-        $studentT = new StudentT(1);
-        $this->assertNan($studentT->mean());
+        // Given
+        $ν        = 1;
+        $studentT = new StudentT($ν);
+
+        // When
+        $mean = $studentT->mean();
+
+        // Then
+        $this->assertNan($mean);
+    }
+
+    /**
+     * @testCase     median
+     * @dataProvider dataProviderForMedianAndMode
+     * @param        float $ν
+     * @param        float $expected
+     */
+    public function testMedian(float $ν, float $expected)
+    {
+        // Given
+        $studentT = new StudentT($ν);
+
+        // When
+        $median = $studentT->median();
+
+        // Then
+        $this->assertEquals($expected, $median);
+    }
+
+    /**
+     * @testCase     mode
+     * @dataProvider dataProviderForMedianAndMode
+     * @param        float $ν
+     * @param        float $expected
+     */
+    public function testMode(float $ν, float $expected)
+    {
+        // Given
+        $studentT = new StudentT($ν);
+
+        // When
+        $mode = $studentT->mode();
+
+        // Then
+        $this->assertEquals($expected, $mode);
+    }
+
+    /**
+     * @return array [ν, μ]
+     */
+    public function dataProviderForMedianAndMode(): array
+    {
+        return [
+            [1, 0],
+            [2, 0],
+            [3, 0],
+            [4, 0],
+        ];
+    }
+
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        float $ν
+     * @param        float $expected
+     */
+    public function testVariance(float $ν, float $expected)
+    {
+        // Given
+        $studentT = new StudentT($ν);
+
+        // When
+        $variance = $studentT->variance();
+
+        // Then
+        $this->assertEquals($expected, $variance);
+    }
+
+    /**
+     * @return array [ν, μ]
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [1.1, \INF],
+            [1.5, \INF],
+            [2, \INF],
+            [3, 3],
+            [4, 2],
+            [5, 5/3],
+        ];
+    }
+
+    /**
+     * @testCase     variance is not a number when ν ≤ 1
+     * @dataProvider dataProviderForVarianceNan
+     * @param        float $ν
+     */
+    public function testVarianceNan(float $ν)
+    {
+        // Given
+        $studentT = new StudentT($ν);
+
+        // When
+        $variance = $studentT->variance();
+
+        // Then
+        $this->assertNan($variance);
+    }
+
+    /**
+     * @return array [ν, μ]
+     */
+    public function dataProviderForVarianceNan(): array
+    {
+        return [
+            [0.1],
+            [0.5],
+            [0.9],
+            [1],
+        ];
     }
 
     /**
@@ -167,8 +304,14 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
      */
     public function testInverse(float $p, float $ν, float $x)
     {
+        // Given
         $studentT = new StudentT($ν);
-        $this->assertEquals($x, $studentT->inverse($p));
+
+        // When
+        $inverse = $studentT->inverse($p);
+
+        // Then
+        $this->assertEquals($x, $inverse);
     }
 
     /**

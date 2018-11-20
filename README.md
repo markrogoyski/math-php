@@ -1116,6 +1116,8 @@ $cdf      = $studentT->cdf($x);
 $t        = $studentT->inverse2Tails($p);  // t such that the area greater than t and the area beneath -t is p
 $μ        = $studentT->mean();
 $median   = $studentT->median();
+$mode     = $studentT->mode();
+$σ²       = $studentT->variance();
 
 // Uniform distribution
 $a       = 1; // lower boundary of the distribution
