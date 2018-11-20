@@ -183,6 +183,30 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase mode
+     */
+    public function testMode()
+    {
+        // When
+        $mode = $this->standardNormal->mode();
+
+        // Then
+        $this->assertEquals(0, $mode);
+    }
+
+    /**
+     * @testCase variance
+     */
+    public function testVariance()
+    {
+        // When
+        $variance = $this->standardNormal->variance();
+
+        // Then
+        $this->assertEquals(1, $variance);
+    }
+
+    /**
      * @testCase     inverse
      * @dataProvider dataProviderForInverse
      * @param        float $target

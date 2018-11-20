@@ -941,7 +941,7 @@ $icdf   = $beta->inverse($p);
 $μ      = $beta->mean();
 $median = $beta->median();
 $mode   = $beta->mode();
-$var    = $beta->variance();
+$σ²     = $beta->variance();
 
 // Cauchy distribution
 $x₀     = 2; // location parameter
@@ -964,7 +964,7 @@ $cdf    = $χ²->cdf($x);
 $μ      = $χ²->mean($x);
 $median = $χ²->median();
 $mode   = $χ²->mode();
-$var    = $χ²->variance();
+$σ²     = $χ²->variance();
 
 // Dirac delta distribution
 $x     = 1;
@@ -983,7 +983,7 @@ $cdf         = $exponential->cdf($x);
 $icdf        = $exponential->inverse($p);
 $μ           = $exponential->mean();
 $median      = $exponential->median();
-$variance    = $exponential->variance();
+$σ²          = $exponential->variance();
 
 // F-distribution
 $d₁   = 3; // degree of freedom v1
@@ -994,7 +994,7 @@ $pdf  = $f->pdf($x);
 $cdf  = $f->cdf($x);
 $μ    = $f->mean();
 $mode = $f->mode();
-$var  = $f->variance();
+$σ²   = $f->variance();
 
 // Gamma distribution
 $k      = 2; // shape parameter
@@ -1006,7 +1006,7 @@ $cdf    = $gamma->cdf($x);
 $μ      = $gamma->mean();
 $median = $gamma->median();
 $mode   = $gamma->mode();
-$var    = $gamma->variance();
+$σ²     = $gamma->variance();
 
 // Laplace distribution
 $μ       = 1;   // location parameter
@@ -1019,7 +1019,7 @@ $icdf    = $laplace->inverse($p);
 $μ       = $laplace->mean();
 $median  = $laplace->median();
 $mode    = $laplace->mode();
-$var     = $laplace->variance();
+$σ²      = $laplace->variance();
 
 // Logistic distribution
 $μ        = 2;   // location parameter
@@ -1032,7 +1032,7 @@ $icdf     = $logistic->inverse($p);
 $μ        = $logistic->mean();
 $median   = $logistic->median();
 $mode     = $logistic->mode();
-$variance = $logisitic->variance();
+$σ²       = $logisitic->variance();
 
 // Log-logistic distribution (Fisk distribution)
 $α           = 1; // scale parameter
@@ -1045,7 +1045,7 @@ $icdf        = $logLogistic->inverse($p);
 $μ           = $logLogistic->mean();
 $median      = $logLogistic->median();
 $mode        = $logLogistic->mode();
-$variance    = $logLogistic->variance();
+$σ²          = $logLogistic->variance();
 
 // Log-normal distribution
 $μ         = 6;   // scale parameter
@@ -1058,7 +1058,7 @@ $icdf      = $logNormal->inverse($p);
 $μ         = $logNormal->mean();
 $median    = $logNormal->median();
 $mode      = $logNormal->mode();
-$variance  = $logNormal->variance();
+$σ²        = $logNormal->variance();
 
 // Noncentral T distribution
 $ν            = 50; // degrees of freedom
@@ -1080,7 +1080,7 @@ $icdf   = $normal->inverse($p);
 $μ      = $normal->mean();
 $median = $normal->median();
 $mode   = $normal->mode();
-$var    = $normal->variance();
+$σ²     = $normal->variance();
 
 // Pareto distribution
 $a      = 1; // shape parameter
@@ -1093,7 +1093,7 @@ $icdf   = $pareto->inverse($p);
 $μ      = $pareto->mean();
 $median = $pareto->median();
 $mode   = $pareto->mode();
-$var    = $pareto->variance();
+$σ²     = $pareto->variance();
 
 // Standard normal distribution
 $z              = 2;
@@ -1103,6 +1103,8 @@ $cdf            = $standardNormal->cdf($z);
 $icdf           = $standardNormal->inverse($p);
 $μ              = $standardNormal->mean();
 $median         = $standardNormal->median();
+$mode           = $standardNormal->mode();
+$σ²             = $standardNormal->variance();
 
 // Student's t-distribution
 $ν        = 3;   // degrees of freedom
