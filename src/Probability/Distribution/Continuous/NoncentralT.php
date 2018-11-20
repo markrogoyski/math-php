@@ -4,7 +4,6 @@ namespace MathPHP\Probability\Distribution\Continuous;
 use MathPHP\Functions\Special;
 use MathPHP\Functions\Support;
 use MathPHP\Probability\Combinatorics;
-use MathPHP\Probability\Distribution\Continuous\StandardNormal;
 
 /**
  * Noncentral t-distribution
@@ -41,10 +40,10 @@ class NoncentralT extends Continuous
     /**
      * Constructor
      *
-     * @param int    $ν degrees of freedom > 0
-     * @param number $μ Noncentrality parameter
+     * @param int   $ν degrees of freedom > 0
+     * @param float $μ Noncentrality parameter
      */
-    public function __construct(int $ν, $μ)
+    public function __construct(int $ν, float $μ)
     {
         parent::__construct($ν, $μ);
     }
@@ -63,9 +62,9 @@ class NoncentralT extends Continuous
      *
      * @param float $x percentile
      *
-     * @return number
+     * @return float
      */
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -94,9 +93,9 @@ class NoncentralT extends Continuous
      *
      * @param float $x
      *
-     * @return number
+     * @return float
      */
-    public function cdf(float $x)
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -136,13 +135,13 @@ class NoncentralT extends Continuous
      *   qⱼ = ------------ exp| - -   | |  -   |
      *        √2Γ(j + 3/2)     \  2  /   \ 2  /
      *
-     * @param number $x
-     * @param int    $ν
-     * @param number $μ
+     * @param float $x
+     * @param int   $ν
+     * @param float $μ
      *
-     * @return number
+     * @return float
      */
-    private function f($x, int $ν, $μ)
+    private function f(float $x, int $ν, float $μ): float
     {
         $standardNormal = new StandardNormal();
         $Φ = $standardNormal->cdf(-$μ);
@@ -176,9 +175,9 @@ class NoncentralT extends Continuous
      *
      *      = Does not exist        if ν ≤ 1
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
         $ν = $this->ν;
         $μ = $this->μ;
