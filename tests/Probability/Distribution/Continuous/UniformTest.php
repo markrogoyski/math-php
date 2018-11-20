@@ -1,22 +1,59 @@
 <?php
 namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
+use MathPHP\Exception\OutOfBoundsException;
 use MathPHP\Probability\Distribution\Continuous\Uniform;
 
 class UniformTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @testCase     constructor exception b < a
+     * @dataProvider dataProviderForOutOfBoundsParameters
+     * @param        float $a
+     * @param        float $b
+     * @throws       \Exception
+     */
+    public function testConstructorExceptionBLessThanA(float $a, float $b)
+    {
+        // Then
+        $this->expectException(OutOfBoundsException::class);
+
+        // When
+        $uniform = new Uniform($a, $b);
+    }
+
+    /**
+     * @return array [a, b]
+     */
+    public function dataProviderForOutOfBoundsParameters(): array
+    {
+        return [
+            [1, 0],
+            [2, 1],
+            [4, 1],
+            [94, 35],
+        ];
+    }
+
     /**
      * @testCase     pdf
      * @dataProvider dataProviderForPdf
      * @param        float $a
      * @param        float $b
      * @param        float $x
-     * @param        float $pdf
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testPdf(float $a, float $b, float $x, float $pdf)
+    public function testPdf(float $a, float $b, float $x, float $expected)
     {
+        // Given
         $uniform = new Uniform($a, $b);
-        $this->assertEquals($pdf, $uniform->pdf($x), '', 0.001);
+
+        // When
+        $pdf = $uniform->pdf($x);
+
+        // Then
+        $this->assertEquals($expected, $pdf, '', 0.001);
     }
 
     /**
@@ -53,12 +90,19 @@ class UniformTest extends \PHPUnit\Framework\TestCase
      * @param        float $a
      * @param        float $b
      * @param        float $x
-     * @param        float $cdf
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testCdf(float $a, float $b, float $x, float $cdf)
+    public function testCdf(float $a, float $b, float $x, float $expected)
     {
+        // Given
         $uniform = new Uniform($a, $b);
-        $this->assertEquals($cdf, $uniform->cdf($x), '', 0.001);
+
+        // When
+        $cdf = $uniform->cdf($x);
+
+        // Then
+        $this->assertEquals($expected, $cdf, '', 0.001);
     }
 
     /**
@@ -95,11 +139,58 @@ class UniformTest extends \PHPUnit\Framework\TestCase
      * @param        float $a
      * @param        float $b
      * @param        float $μ
+     * @throws       \Exception
      */
     public function testMean(float $a, float $b, float $μ)
     {
+        // Given
         $uniform = new Uniform($a, $b);
-        $this->assertEquals($μ, $uniform->mean(), '', 0.00001);
+
+        // When
+        $mean = $uniform->mean();
+
+        // Then
+        $this->assertEquals($μ, $mean, '', 0.00001);
+    }
+
+    /**
+     * @testCase     median
+     * @dataProvider dataProviderForMean
+     * @param        float $a
+     * @param        float $b
+     * @param        float $μ
+     * @throws       \Exception
+     */
+    public function testMedian(float $a, float $b, float $μ)
+    {
+        // Given
+        $uniform = new Uniform($a, $b);
+
+        // When
+        $median = $uniform->median();
+
+        // Then
+        $this->assertEquals($μ, $median, '', 0.00001);
+    }
+
+    /**
+     * @testCase     mode
+     * @dataProvider dataProviderForMean
+     * @param        float $a
+     * @param        float $b
+     * @throws       \Exception
+     */
+    public function testMode(float $a, float $b)
+    {
+        // Given
+        $uniform = new Uniform($a, $b);
+
+        // When
+        $mode = $uniform->mode();
+
+        // Then
+        $this->assertGreaterThanOrEqual($a, $mode);
+        $this->assertLessThanOrEqual($b, $mode);
     }
 
     /**
@@ -108,13 +199,48 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForMean(): array
     {
         return [
-            [0, 0, 0],
             [0, 1, 0.5],
-            [1, 0, 0.5],
-            [1, 1, 1],
-            [2, 1, 1.5],
-            [2, 2, 2],
-            [5, 4, 4.5],
+            [0, 2, 1],
+            [1, 2, 1.5],
+            [2, 3, 5/2],
+            [2, 4, 3],
+            [5, 11, 8],
         ];
     }
+
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        float $a
+     * @param        float $b
+     * @param        float $expected
+     * @throws       \Exception
+     */
+    public function testVariance(float $a, float $b, float $expected)
+    {
+        // Given
+        $uniform = new Uniform($a, $b);
+
+        // When
+        $variance = $uniform->variance();
+
+        // Then
+        $this->assertEquals($expected, $variance, '', 0.00001);
+    }
+
+    /**
+     * @return array [a, b, var]
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [0, 1, 1/12],
+            [0, 2, 4/12],
+            [1, 2, 1/12],
+            [2, 3, 1/12],
+            [2, 4, 4/12],
+            [5, 11, 3],
+        ];
+    }
+
 }

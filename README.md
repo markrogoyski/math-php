@@ -1126,7 +1126,10 @@ $x       = 2;
 $uniform = new Continuous\Uniform($a, $b);
 $pdf     = $uniform->pdf($x);
 $cdf     = $uniform->cdf($x);
-$μ       = $uniform->mean(b);
+$μ       = $uniform->mean();
+$median  = $uniform->median();
+$mode    = $uniform->mode();
+$σ²      = $uniform->variance();
 
 // Weibull distribution
 $k       = 1; // shape parameter
