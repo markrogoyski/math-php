@@ -163,4 +163,39 @@ class Pareto extends Continuous
 
         return $a * (2**(1/$b));
     }
+
+    /**
+     * Mode of the distribution
+     *
+     * mode = a
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        return $this->a;
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     * σ² = ∞                 a ≤ 2
+     *
+     *            ab²
+     * σ² = ---------------   a > 2
+     *      (a - 1)²(a - 2)
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $a = $this->a;
+        $b = $this->b;
+
+        if ($a <= 2) {
+            return \INF;
+        }
+
+        return ($a * $b**2) / (($a - 1)**2 * ($a - 2));
+    }
 }

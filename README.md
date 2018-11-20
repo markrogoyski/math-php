@@ -1092,6 +1092,8 @@ $cdf    = $pareto->cdf($x);
 $icdf   = $pareto->inverse($p);
 $μ      = $pareto->mean();
 $median = $pareto->median();
+$mode   = $pareto->mode();
+$var    = $pareto->variance();
 
 // Standard normal distribution
 $z              = 2;

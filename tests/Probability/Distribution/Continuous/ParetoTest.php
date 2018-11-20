@@ -314,4 +314,70 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
             [4, 5, 4.59479341998814],
         ];
     }
+
+    /**
+     * @testCase     mode
+     * @dataProvider dataProviderForMode
+     * @param        float $a
+     * @param        float $b
+     * @param        float $expected
+     */
+    public function testMode(float $a, float $b, float $expected)
+    {
+        // Given
+        $pareto = new Pareto($a, $b);
+
+        // When
+        $mode = $pareto->mode();
+
+        // Then
+        $this->assertEquals($expected, $mode, '', 0.0000001);
+    }
+
+    /**
+     * @return array [a, b, mode]
+     */
+    public function dataProviderForMode(): array
+    {
+        return [
+            [1, 1, 1],
+            [2, 2, 2],
+            [2, 1, 2],
+            [4, 5, 4],
+        ];
+    }
+
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        float $a
+     * @param        float $b
+     * @param        float $expected
+     */
+    public function testVariance(float $a, float $b, float $expected)
+    {
+        // Given
+        $pareto = new Pareto($a, $b);
+
+        // When
+        $variance = $pareto->variance();
+
+        // Then
+        $this->assertEquals($expected, $variance, '', 0.0000001);
+    }
+
+    /**
+     * @return array [a, b, σ²]
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [1, 1, \INF],
+            [2, 2, \INF],
+            [2, 1, \INF],
+            [3, 1, 0.75],
+            [3, 2, 3],
+            [4, 3, 2],
+        ];
+    }
 }
