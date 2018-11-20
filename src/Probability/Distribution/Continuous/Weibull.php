@@ -26,10 +26,10 @@ class Weibull extends Continuous
         'x' => '(-∞,∞)',
     ];
 
-    /** @var number Shape Parameter */
+    /** @var float Shape Parameter */
     protected $k;
 
-    /** @var number Scale Parameter */
+    /** @var float Scale Parameter */
     protected $λ;
 
     /**
