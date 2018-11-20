@@ -242,5 +242,4 @@ class UniformTest extends \PHPUnit\Framework\TestCase
             [5, 11, 3],
         ];
     }
-
 }
