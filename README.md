@@ -1079,6 +1079,8 @@ $cdf    = $normal->cdf($x);
 $icdf   = $normal->inverse($p);
 $μ      = $normal->mean();
 $median = $normal->median();
+$mode   = $normal->mode();
+$var    = $normal->variance();
 
 // Pareto distribution
 $a      = 1; // shape parameter

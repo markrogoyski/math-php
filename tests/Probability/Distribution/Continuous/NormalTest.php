@@ -367,6 +367,24 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     mode
+     * @dataProvider dataProviderForMean
+     * @param        float μ
+     */
+    public function testMode(float $μ)
+    {
+        // Given
+        $σ      = 1.5;
+        $normal = new Normal($μ, $σ);
+
+        // When
+        $mode = $normal->mode();
+
+        // Then
+        $this->assertEquals($μ, $mode);
+    }
+
+    /**
      * @return array [μ]
      */
     public function dataProviderForMean(): array
@@ -379,6 +397,40 @@ class NormalTest extends \PHPUnit\Framework\TestCase
             [1.3],
             [2],
             [5],
+        ];
+    }
+
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        float $μ
+     * @param        float $σ
+     * @param        float $expected
+     */
+    public function testVariance(float $μ, float $σ, float $expected)
+    {
+        // Given
+        $normal = new Normal($μ, $σ);
+
+        // When
+        $variance = $normal->variance();
+
+        // Then
+        $this->assertEquals($expected, $variance);
+    }
+
+    /**
+     * @return array [μ, σ, var]
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [-2, 1, 1],
+            [-1, 2, 4],
+            [0, 3, 9],
+            [1, 4, 16],
+            [1.3, 5, 25],
+            [2, 6, 36],
         ];
     }
 
