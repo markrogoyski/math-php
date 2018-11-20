@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\Tests\Statistics;
 
+use MathPHP\Exception;
 use MathPHP\Statistics\Outlier;
 
 class OutlierTest extends \PHPUnit\Framework\TestCase
@@ -17,20 +18,13 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
         $Gcrit = Outlier::CriticalGrubbs(.05, count($data), 1);
         $this->assertEquals(2.032, $Gcrit, '', 0.001);
     }
-
+    
     /**
-     * @testCase    TietjenMooreTest
+     * @testCase     Tails must be 1 or 2
      */
-    public function TietjenMooreTest()
+    public function testGrubbsException()
     {
-        $data = [-1.40, -0.44, -0.30, -0.24, -0.22, -0.13, -0.05, 0.06, 0.10, 0.18, 0.20, 0.39, 0.48, 0.63, 1.01];
-        $Ek = Outlier::TietjenMooreStatistic($data, 2, "two");
-        $Eku = Outlier::TietjenMooreStatistic($data, 2, "upper");
-        $Ekl = Outlier::TietjenMooreStatistic($data, 1, "lower");
-        $this->assertEquals(.292, $Ek, '', 0.001);
-        $this->assertEquals(.634, $Eku, '', 0.001);
-        $this->assertEquals(.493, $Ekl, '', 0.001);
-        $Ekcrit = Outlier::CriticalTietjenMoore(.05, count($data), 2, "two");
-        $this->assertEquals(.315, $Ekcrit, '', 0.005);
+        $this->expectException(Exception\BadParameterException::class);
+        $Gcrit = Outlier::CriticalGrubbs(.05, 10, 3);
     }
 }
