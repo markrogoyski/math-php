@@ -99,6 +99,24 @@ class Weibull extends Continuous
         $ℯ⁻⁽x／λ⁾ᵏ = exp(-pow($x / $λ, $k));
         return 1 - $ℯ⁻⁽x／λ⁾ᵏ;
     }
+
+    /**
+     * Inverse CDF (Quantile function)
+     *
+     * Q(p;k,λ) = λ(-ln(1 - p))¹/ᵏ
+     *
+     * @param float $p
+     *
+     * @return float
+     */
+    public function inverse(float $p): float
+    {
+        Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
+        $k = $this->k;
+        $λ = $this->λ;
+
+        return $λ * (-1 * log(1 - $p))**(1/$k);
+    }
     
     /**
      * Mean of the distribution
@@ -155,23 +173,5 @@ class Weibull extends Continuous
         $⟮⟮k − 1⟯／k⟯¹ᐟᵏ = pow(($k - 1) / $k, 1/$k);
 
         return $λ * $⟮⟮k − 1⟯／k⟯¹ᐟᵏ;
-    }
-    
-    /**
-     * Inverse CDF (Quantile function)
-     *
-     * Q(p;k,λ) = λ(-ln(1 - p))¹/ᵏ
-     *
-     * @param float $p
-     *
-     * @return float
-     */
-    public function inverse(float $p): float
-    {
-        Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
-        $k = $this->k;
-        $λ = $this->λ;
-
-        return $λ * (-1 * log(1 - $p))**(1/$k);
     }
 }

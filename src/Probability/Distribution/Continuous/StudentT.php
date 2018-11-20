@@ -118,11 +118,11 @@ class StudentT extends Continuous
      * Inverse 2 tails
      * Find t such that the area greater than t and the area beneath -t is p.
      *
-     * @param number $p Proportion of area
+     * @param float $p Proportion of area
      *
      * @return float t-score
      */
-    public function inverse2Tails($p): float
+    public function inverse2Tails(float $p): float
     {
         Support::checkLimits(['p'  => '[0,1]'], ['p' => $p]);
 

@@ -93,6 +93,25 @@ class Laplace extends Continuous
         }
         return 1 - (1/2) * exp(-($x - $μ) / $b);
     }
+
+    /**
+     * Inverse cumulative distribution function (quantile function)
+     *
+     * @param float $p
+     *
+     * @return float
+     */
+    public function inverse(float $p): float
+    {
+        if ($p == 0) {
+            return -\INF;
+        }
+        if ($p == 1) {
+            return \INF;
+        }
+
+        return parent::inverse($p);
+    }
     
     /**
      * Mean of the distribution
@@ -140,24 +159,5 @@ class Laplace extends Continuous
     public function variance(): float
     {
         return 2 * $this->b**2;
-    }
-
-    /**
-     * Inverse cumulative distribution function (quantile function)
-     *
-     * @param float $p
-     *
-     * @return float
-     */
-    public function inverse(float $p): float
-    {
-        if ($p == 0) {
-            return -\INF;
-        }
-        if ($p == 1) {
-            return \INF;
-        }
-
-        return parent::inverse($p);
     }
 }

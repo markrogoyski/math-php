@@ -92,6 +92,27 @@ class LogLogistic extends Continuous
         $⟮x／α⟯⁻ᵝ = pow($x / $α, -$β);
         return 1 / (1 + $⟮x／α⟯⁻ᵝ);
     }
+
+    /**
+     * Inverse CDF (Quantile function)
+     *
+     *                 /   p   \ 1/β
+     * F⁻¹(p;α,β) = α |  -----  |
+     *                 \ 1 - p /
+     *
+     * @param float $p
+     *
+     * @return float
+     */
+    public function inverse(float $p): float
+    {
+        Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
+
+        $α = $this->α;
+        $β = $this->β;
+
+        return $α * ($p / (1 - $p))**(1/$β);
+    }
     
     /**
      * Mean of the distribution
@@ -175,26 +196,5 @@ class LogLogistic extends Continuous
         $sin²β = sin($β)**2;
 
         return $α² * (($２β/$sin2β) - ($β²/$sin²β));
-    }
-    
-    /**
-     * Inverse CDF (Quantile function)
-     *
-     *                 /   p   \ 1/β
-     * F⁻¹(p;α,β) = α |  -----  |
-     *                 \ 1 - p /
-     *
-     * @param float $p
-     *
-     * @return float
-     */
-    public function inverse(float $p): float
-    {
-        Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
-
-        $α = $this->α;
-        $β = $this->β;
-        
-        return $α * ($p / (1 - $p))**(1/$β);
     }
 }

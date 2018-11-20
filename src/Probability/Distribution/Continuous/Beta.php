@@ -92,6 +92,42 @@ class Beta extends Continuous
     }
 
     /**
+     * Inverse cumulative distribution function (quantile function)
+     * Iterative method
+     *
+     * @param float $x
+     * @param float $tolerance (optional)
+     * @param int   $max_iterations (optional)
+     *
+     * @return float
+     *
+     * @throws MathException if it fails to converge on a guess within the tolerance
+     */
+    public function inverse(float $x, float $tolerance = 1.0e-15, int $max_iterations = 200): float
+    {
+        list($a, $b) = [0, 2];
+
+        for ($i = 0; $i < $max_iterations; $i++) {
+            $guess = ($a + $b) / 2;
+            $cdf   = $this->cdf($guess);
+
+            if ($cdf == $x || $cdf == 0) {
+                $b = $a;
+            } elseif ($cdf > $x) {
+                $b = $guess;
+            } else {
+                $a = $guess;
+            }
+
+            if (($b - $a) <= $tolerance) {
+                return $guess;
+            }
+        }
+
+        throw new MathException("Failed to converge on a Beta inverse within a tolerance of $tolerance after {$max_iterations} iterations");
+    }
+
+    /**
      * Mean of the distribution
      *
      *       α
@@ -201,41 +237,5 @@ class Beta extends Continuous
         $⟮α ＋ β ＋ 1⟯ = $α + $β + 1;
 
         return $αβ / ($⟮α ＋ β⟯² * $⟮α ＋ β ＋ 1⟯);
-    }
-
-    /**
-     * Inverse cumulative distribution function (quantile function)
-     * Iterative method
-     *
-     * @param float $x
-     * @param float $tolerance (optional)
-     * @param int   $max_iterations (optional)
-     *
-     * @return float
-     *
-     * @throws MathException if it fails to converge on a guess within the tolerance
-     */
-    public function inverse(float $x, float $tolerance = 1.0e-15, int $max_iterations = 200): float
-    {
-        list($a, $b) = [0, 2];
-
-        for ($i = 0; $i < $max_iterations; $i++) {
-            $guess = ($a + $b) / 2;
-            $cdf   = $this->cdf($guess);
-
-            if ($cdf == $x || $cdf == 0) {
-                $b = $a;
-            } elseif ($cdf > $x) {
-                $b = $guess;
-            } else {
-                $a = $guess;
-            }
-
-            if (($b - $a) <= $tolerance) {
-                return $guess;
-            }
-        }
-
-        throw new MathException("Failed to converge on a Beta inverse within a tolerance of $tolerance after {$max_iterations} iterations");
     }
 }
