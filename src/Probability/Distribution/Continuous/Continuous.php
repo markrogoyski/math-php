@@ -1,9 +1,6 @@
 <?php
 namespace MathPHP\Probability\Distribution\Continuous;
 
-use MathPHP\Functions\Support;
-use MathPHP\Exception;
-
 abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution implements ContinuousDistribution
 {
     const GUESS_THRESHOLD = 10;
@@ -112,6 +109,8 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      * Produce a random number with a particular distribution
      *
      * @return number
+     *
+     * @throws \Exception
      */
     public function rand()
     {
