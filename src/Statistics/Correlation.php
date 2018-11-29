@@ -667,5 +667,5 @@ class Correlation
         $x = $point_matrix->subtract($μ);
         $M = $x->multiply($S⁻¹)->multiply($x->transpose());
         return sqrt($M[0][0]);
-    }    
+    }
 }
