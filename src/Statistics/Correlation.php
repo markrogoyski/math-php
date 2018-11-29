@@ -662,7 +662,7 @@ class Correlation
         $S⁻¹ = $data_matrix->covarianceMatrix()->inverse();
         $μ = [];
         foreach ($data as $row) {
-            $μ[] = Average::mean($row);
+            $μ[] = [Average::mean($row)];
         }
         $μ_matrix = new Matrix($μ);
         $x = $point_matrix->subtract($μ_matrix);
