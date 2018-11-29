@@ -664,7 +664,8 @@ class Correlation
         foreach ($data as $row) {
             $μ[] = Average::mean($row);
         }
-        $x = $point_matrix->subtract($μ);
+        $μ_matrix = new Matrix($μ);
+        $x = $point_matrix->subtract($μ_matrix);
         $M = $x->multiply($S⁻¹)->multiply($x->transpose());
         return sqrt($M[0][0]);
     }
