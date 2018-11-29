@@ -661,11 +661,11 @@ class Correlation
         
         $S⁻¹ = $data_matrix->covarianceMatrix()->inverse();
         $μ = [];
-        foreach $data as $row {
+        foreach ($data as $row) {
             $μ[] = Average::mean($row);
         }
         $x = $point_matrix->subtract($μ);
         $M = $x->multiply($S⁻¹)->multiply($x->transpose());
-        $D = sqrt($M[0][0]);
+        return sqrt($M[0][0]);
     }    
 }
