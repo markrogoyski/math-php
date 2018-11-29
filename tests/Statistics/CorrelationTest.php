@@ -532,7 +532,8 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     {
         for ($i=0; $i<10; $i++) {
             $calc = Correlation::Mahalanobis(array_column($data, $i), $distances);
-            $this->assertEquals(array_column($distances, $i), $calc, '', 0.0001);
+            $point = array_map(null, ...$array_column($distances, $i));
+            $this->assertEquals($point, $calc, '', 0.0001);
         }
     }
     
@@ -549,6 +550,6 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
                 ],
                 [1.24017, 0.76023, 0.12775, 1.46567, 1.64518, 0.54437, 2.23095, 1.54365, 1.66195, 0.77103],
             ],
-       ];
+        ];
     }
 }
