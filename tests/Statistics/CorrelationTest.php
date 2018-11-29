@@ -528,11 +528,11 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      * @param        array $distances
      * @throws       \Exception
      */
-    public function testMahalanobis(array $data, array $results)
+    public function testMahalanobis(array $data, array $distances)
     {
         for ($i=0; $i<10; $i++) {
             $calc = Correlation::Mahalanobis(array_column($data, $i), $distances);
-            $this->assertEquals(array_column($resukts, $i), $calc, '', 0.0001);
+            $this->assertEquals(array_column($distances, $i), $calc, '', 0.0001);
         }
     }
     
