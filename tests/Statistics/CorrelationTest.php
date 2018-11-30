@@ -531,9 +531,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     public function testMahalanobis(array $data, array $distances)
     {
         for ($i=0; $i<10; $i++) {
-            $column = array_column($data, $i);
-            $point = array_map(null, ...$column);
-            $calc = Correlation::Mahalanobis($point, $data);
+            $calc = Correlation::Mahalanobis([[$data[0][$i]],[$data[1][$i]]], $data);
             $this->assertEquals($distances[$i], $calc, '', 0.0001);
         }
     }
