@@ -2,6 +2,8 @@
 namespace MathPHP\Statistics;
 
 use MathPHP\Functions\Map;
+use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\Statistics\Average;
 use MathPHP\Exception;
 
 /**
@@ -235,5 +237,42 @@ class Distance
         $½D⟮Q‖M⟯ = self::kullbackLeiblerDivergence($q, $M) / 2;
 
         return $½D⟮P‖M⟯ + $½D⟮Q‖M⟯;
+    }
+
+    /**
+     * Mahalanobis distance
+     *
+     * https://en.wikipedia.org/wiki/Mahalanobis_distance
+     *
+     * The Mahalanobis distance measures the distance between two points in multidimensional
+     * space, scaled by the standard deviation of tje data in each dimension.
+     *
+     * If x and y are vectors of points in space, and S is the covariance matrix of that space,
+     * the Mahalanobis distance, D, of the point within the space is:
+     *
+     *    D = √[(x-y)ᵀ S⁻¹ (x-y)]
+     *
+     * If y is not provided, the distances will be caculated from the centroid of tje dataset.
+     *
+     * @param array $x a vector in the vector space. ie [[1],[2],[4]]
+     * @param array $data an array of data. ie [[1,2,3,4],[6,2,8,1],[0,4,8,1]]
+     * @param array $y a vector in the vector space
+     *
+     */
+    public static function Mahalanobis(array $x, array $data, array $y = []): float
+    {
+        $x_matrix = new Matrix($x);
+        $data_matrix  = new Matrix($data);
+        
+        $S⁻¹ = $data_matrix->covarianceMatrix()->inverse();
+        if ($y == []) {
+            foreach ($data as $row) {
+                $y[] = [Average::mean($row)];
+            }
+        }
+        $y_matrix = new Matrix($y);
+        $diff = $x_matrix->subtract($y_matrix);
+        $D = $diff->transpose()->multiply($S⁻¹)->multiply($diff);
+        return sqrt($D[0][0]);
     }
 }

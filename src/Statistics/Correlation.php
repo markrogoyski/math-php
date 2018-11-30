@@ -636,37 +636,4 @@ class Correlation
         
         return $ellipse->getMatrix();
     }
-    
-    /**
-     * Mahalanobis distance
-     *
-     * https://en.wikipedia.org/wiki/Mahalanobis_distance
-     *
-     * The Mahalanobis distance measures the distance a point is from the centroid of a set of data in multidimensional
-     * space, scaled by the standard deviation in each dimension.
-     *
-     * If x is a vector of a point in space, μ is a vector of the average value in each dimension,
-     * and S is the covariance matrix from a set of data, the Mahalanobis distance, D, of the point within the space is:
-     *
-     *    D = √[(x-μ)ᵀ S⁻¹ (x-μ)]
-     *
-     * @param array $point in multidimensional space. ie [[1],[2],[4]]
-     * @param array $data an array of data. ie [[1,2,3,4],[6,2,8,1],[0,4,8,1]]
-     *
-     */
-    public static function Mahalanobis(array $point, array $data): float
-    {
-        $point_matrix = new Matrix($point);
-        $data_matrix  = new Matrix($data);
-        
-        $S⁻¹ = $data_matrix->covarianceMatrix()->inverse();
-        $μ = [];
-        foreach ($data as $row) {
-            $μ[] = [Average::mean($row)];
-        }
-        $μ_matrix = new Matrix($μ);
-        $x = $point_matrix->subtract($μ_matrix);
-        $M = $x->transpose()->multiply($S⁻¹)->multiply($x);
-        return sqrt($M[0][0]);
-    }
 }
