@@ -956,6 +956,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - meanDeviation
      *  - covarianceMatrix
      *  - adjugate
+     *  - submatrix
      **************************************************************************/
 
     /**
@@ -1828,6 +1829,35 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $adj⟮A⟯ = $this->cofactorMatrix()->transpose();
 
         return $adj⟮A⟯;
+    }
+
+    /**
+     * submatrix
+     *
+     * Return an arbitrary subset of a Matrix as a new Matrix.
+     *
+     * @param int $m₁ Starting row
+     * @param int $n₁ Starting column
+     * @param int $m₂ Ending row
+     * @param int $n₂ Ending column
+     *
+     * @return Matrix
+     */
+    public function submatrix(int $m₁, int $n₁, int $m₂, int $n₂): Matrix
+    {
+        if ($m₁ >= $this->m || $m₁ < 0 || $m₂ >= $this->m || $m₂ < 0) {
+            throw new Exception\MatrixException('Specified Matrix row does not exist');
+        }
+        if ($n₁ >= $this->n || $n₁ < 0 || $n₂ >= $this->n || $n₂ < 0) {
+            throw new Exception\MatrixException('Specified Matrix column does not exist');
+        }
+        $A = [];
+        for ($i = 0; $i <= abs($m₂ - $m₁); $i++) {
+            for ($j = 0; $j <= abs($n₂ - $n₁); $j++) {
+                $A[$i][$j] = $this->A[$i + min($m₁, $m₂)][$j + min($n₁, $n₂)];
+            }
+        }
+        return new Matrix($A);
     }
 
     /**************************************************************************
