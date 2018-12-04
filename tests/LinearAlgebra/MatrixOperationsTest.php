@@ -4228,10 +4228,10 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
                     [3, 0, 5, 4],
                     [-1, 9, 11, 10],
                 ],
-                [1, 2, 0, 0],
+                [0, 1, 1, 3],
                 [
-                    [1, 4, 7],
-                    [3, 0, 5],
+                    [4, 7, 30],
+                    [0, 5, 4],
                 ],
             ],
         ];
@@ -4255,6 +4255,28 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         ]);
         $this->expectException(Exception\MatrixException::class);
         $A->submatrix(0, 0, 1, 4);
+    }
+
+    public function testSubMatrixWrongRowOrder()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $this->expectException(Exception\MatrixException::class);
+        $A->submatrix(3, 0, 1, 3);
+    }
+    
+    public function testSubMatrixWrongColumnOrder()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $this->expectException(Exception\MatrixException::class);
+        $A->submatrix(0, 3, 1, 0);
     }
 
     /**
