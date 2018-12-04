@@ -1162,6 +1162,10 @@ $k         = 0;
 $bernoulli = new Discrete\Bernoulli($p);
 $pmf       = $bernoulli->pmf($k);
 $cdf       = $bernoulli->cdf($k);
+$μ         = $bernoulli->mean();
+$median    = $bernoulli->median();
+$mode      = $bernoulli->mode();
+$σ²        = $bernoulli->variance();
 
 // Binomial distribution
 $n        = 2;   // number of events
