@@ -4186,6 +4186,78 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @dataProvider dataProviderForSubmatrix
+     */
+    public function testSubmatrix(array $data, array $params, array $result)
+    {
+        $data_matrix = new Matrix($data);
+        $result_matrix = new Matrix($result);
+        $this->assertEquals($result_matrix, $data_matrix->submatrix(...$params));
+    }
+    
+    public function dataProviderForSubMatrix()
+    {
+        return [
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                [1, 1, 2, 2],
+                [
+                    [0, 5],
+                    [9, 11],
+                ],
+            ],
+            [
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                    [-1, 9, 11],
+                ],
+                [0, 0, 1, 0],
+                [
+                    [1],
+                    [3],
+                ],
+            ],
+            [
+                [
+                    [1, 4, 7, 30],
+                    [3, 0, 5, 4],
+                    [-1, 9, 11, 10],
+                ],
+                [1, 2, 0, 0],
+                [
+                    [1, 4, 7],
+                    [3, 0, 5],
+                ],
+            ],
+        ];
+    }
+    public function testSubmatrixExceptionBadRow()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $this->expectException(Exception\MatrixException::class);
+        $A->submatrix(0, 0, 4, 1);
+    }
+    public function testSubMatrixExceptionBadColumn()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $this->expectException(Exception\MatrixException::class);
+        $A->submatrix(0, 0, 1, 4);
+    }
+
+    /**
      * @testCase     rank returns the expected value
      * @dataProvider dataProviderForRank
      */
