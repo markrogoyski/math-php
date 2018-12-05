@@ -102,4 +102,73 @@ class BinomialTest extends \PHPUnit\Framework\TestCase
             [100, 35, 0.36, 0.4623937],
         ];
     }
+
+    /**
+     * @testCase     mean
+     * @dataProvider dataProviderForMean
+     * @param        int   $n
+     * @param        float $p
+     * @param        float $μ
+     */
+    public function testMean(int $n, float $p, float $μ)
+    {
+        // Given
+        $binomial = new Binomial($n, $p);
+
+        // When
+        $mean = $binomial->mean();
+
+        // Then
+        $this->assertEquals($μ, $mean, '', 0.000001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForMean(): array
+    {
+        return [
+            [0, 0, 0],
+            [0, 1, 0],
+            [5, 0, 0],
+            [1, 1, 1],
+            [1, 0.5, 0.5],
+            [10, 0.2, 2],
+        ];
+    }
+
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        int   $n
+     * @param        float $p
+     * @param        float $σ²
+     */
+    public function testVariance(int $n, float $p, float $σ²)
+    {
+        // Given
+        $binomial = new Binomial($n, $p);
+
+        // When
+        $variance = $binomial->variance();
+
+        // Then
+        $this->assertEquals($σ², $variance, '', 0.000001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [0, 0, 0],
+            [0, 1, 0],
+            [5, 0, 0],
+            [1, 1, 0],
+            [1, 0.5, .25],
+            [5, 0.4, 1.2],
+            [10, 0.2, 1.6],
+        ];
+    }
 }

@@ -1174,6 +1174,8 @@ $r        = 1;   // number of successful events
 $binomial = new Discrete\Binomial($n, $p);
 $pmf      = $binomial->pmf($r);
 $cdf      = $binomial->cdf($r);
+$μ        = $binomial->mean();
+$σ²       = $binomial->variance();
 
 // Categorical distribution
 $k             = 3;                                    // number of categories

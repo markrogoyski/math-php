@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\Probability\Distribution\Discrete;
 
+use MathPHP\Arithmetic;
 use MathPHP\Probability\Combinatorics;
 use MathPHP\Functions\Support;
 
@@ -150,5 +151,32 @@ class Binomial extends Discrete
             $cdf += $this->pmf($i);
         }
         return $cdf;
+    }
+
+    /**
+     * Mean of the distribution
+     *
+     * μ = np
+     *
+     * @return float
+     */
+    public function mean(): float
+    {
+        return $this->n * $this->p;
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     * σ² = np(1 - p)
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $n = $this->n;
+        $p = $this->p;
+
+        return $n * $p * (1 - $p);
     }
 }
