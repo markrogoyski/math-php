@@ -40,7 +40,7 @@ class Binomial extends Discrete
     /**
      * Constructor
      *
-     * @param int $n number of events n >= 0
+     * @param int   $n number of events n >= 0
      * @param float $p probability of success 0 <= p <= 1
      */
     public function __construct(int $n, float $p)
@@ -53,7 +53,10 @@ class Binomial extends Discrete
      *
      * P(X = r) = nCr pʳ (1 - p)ⁿ⁻ʳ
      *
-     * @param  int   $r number of successful events
+     * If n is large, combinatorial factorial blows up,
+     * so use the multiplication method instead.
+     *
+     * @param  int $r number of successful events
      *
      * @return float
      */
@@ -61,6 +64,24 @@ class Binomial extends Discrete
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['r' => $r]);
 
+        return $this->n < 150
+            ? $this->combinatorialMethod($r)
+            : $this->multiplicationMethod($r, $this->n, $this->p);
+    }
+
+    /**
+     * PMF combinatorial method
+     *
+     * P(X = r) = nCr pʳ (1 - p)ⁿ⁻ʳ
+     *
+     * @param int $r number of successful events
+     *
+     * @return float
+     *
+     * @throws \MathPHP\Exception\OutOfBoundsException
+     */
+    private function combinatorialMethod(int $r): float
+    {
         $n = $this->n;
         $p = $this->p;
         $nCr       = Combinatorics::combinations($n, $r);
@@ -71,10 +92,52 @@ class Binomial extends Discrete
     }
 
     /**
+     * PMF multiplication method
+     *
+     * Evaluate binomial probabilities using a method that avoids unnecessary overflow and underflow
+     * Catherine Loader: http://octave.1599824.n4.nabble.com/attachment/3829107/0/loader2000Fast.pdf
+     *
+     *               x             x   n-x
+     *              __  n - x + i __   __
+     * p(x; n, p) = ||  --------- || p ||  (1 - p)
+     *              ⁱ⁼¹     i     ⁱ⁼¹  ⁱ⁼¹
+     *
+     * @param int   $r number of successful events
+     * @param int   $n number of events
+     * @param float $p probability of success
+     *
+     * @return float
+     */
+    private function multiplicationMethod(int $r, int $n, float $p): float
+    {
+        if (2 * $r > $n) {
+            return $this->multiplicationMethod($n - $r, $n, 1 - $p);
+        }
+
+        list($j₀, $j₁, $j₂) = [0, 0, 0];
+        $f = 1;
+
+        while (($j₀ < $r) | ($j₁ < $r) | ($j₂ < $n - $r)) {
+            if (($j₀ < $r) && ($f < 1)) {
+                $j₀++;
+                $f *= ($n - $r + $j₀) / $j₀;
+            } elseif ($j₁ < $r) {
+                $j₁++;
+                $f *= $p;
+            } else {
+                $j₂++;
+                $f *= 1 - $p;
+            }
+        }
+
+        return $f;
+    }
+
+    /**
      * Cumulative distribution function
      * Computes and sums the binomial distribution at each of the values in r.
      *
-     * @param  int   $r number of successful events
+     * @param  int $r number of successful events
      *
      * @return float
      */
@@ -82,10 +145,10 @@ class Binomial extends Discrete
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['r' => $r]);
 
-        $cumulative_probability = 0;
+        $cdf = 0;
         for ($i = $r; $i >= 0; $i--) {
-            $cumulative_probability += $this->pmf($i);
+            $cdf += $this->pmf($i);
         }
-        return $cumulative_probability;
+        return $cdf;
     }
 }
