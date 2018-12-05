@@ -4186,16 +4186,30 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     submatrix
      * @dataProvider dataProviderForSubmatrix
+     * @param        array $data
+     * @param        array $params
+     * @param        array $result
+     * @throws       \Exception
      */
     public function testSubmatrix(array $data, array $params, array $result)
     {
-        $data_matrix = new Matrix($data);
-        $result_matrix = new Matrix($result);
-        $this->assertEquals($result_matrix, $data_matrix->submatrix(...$params));
+        // Given
+        $M = new Matrix($data);
+        $expectedMatrix = new Matrix($result);
+
+        // When
+        $R = $M->submatrix(...$params);
+
+        // Then
+        $this->assertEquals($expectedMatrix->getMatrix(), $R->getMatrix());
     }
-    
-    public function dataProviderForSubMatrix()
+
+    /**
+     * @return array
+     */
+    public function dataProviderForSubMatrix(): array
     {
         return [
             [
@@ -4236,46 +4250,84 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @testCase submatrix exception - bad row
+     * @throws   \Exception
+     */
     public function testSubmatrixExceptionBadRow()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
         ]);
+
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->submatrix(0, 0, 4, 1);
     }
+
+    /**
+     * @testCase submatrix exception - bad column
+     * @throws   \Exception
+     */
     public function testSubMatrixExceptionBadColumn()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
         ]);
+
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->submatrix(0, 0, 1, 4);
     }
 
+    /**
+     * @testCase submatrix exception - wrong row order
+     * @throws   \Exception
+     */
     public function testSubMatrixWrongRowOrder()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
         ]);
+
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->submatrix(3, 0, 1, 3);
     }
-    
+
+    /**
+     * @testCase submatrix exception - wrong column order
+     * @throws   \Exception
+     */
     public function testSubMatrixWrongColumnOrder()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
         ]);
+
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->submatrix(0, 3, 1, 0);
     }
 
