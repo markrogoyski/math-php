@@ -3507,7 +3507,13 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return $this->A;
     }
 
-    public function getObjectType()
+    /**
+     * Get the type of objects that are stored in the matrix
+     *
+     * @return string The class of the objects
+     */
+    public function getObjectType(): string
     {
+        return 'number';
     }
 }

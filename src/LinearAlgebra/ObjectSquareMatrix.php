@@ -55,7 +55,7 @@ class ObjectSquareMatrix extends SquareMatrix
      *
      * @return string The class of the objects
      */
-    public function getObjectType()
+    public function getObjectType(): string
     {
         return $this->object_type;
     }
