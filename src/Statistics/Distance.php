@@ -268,7 +268,6 @@ class Distance
         $Centroid = $data->sampleMean()->asColumnMatrix();
         $Nx = $x->getN();
         if ($Nx > 1) {
-            $Ndata = $data->getN();
             // Combined covariance Matrix
             $S = $data->augment($x)->covarianceMatrix();
             $diff = $x->sampleMean()->asColumnMatrix()->subtract($Centroid);
