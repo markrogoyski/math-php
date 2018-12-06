@@ -4266,6 +4266,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->expectException(Exception\MatrixException::class);
+        $this->expectExceptionMessage('Specified Matrix row does not exist');
 
         // When
         $A->submatrix(0, 0, 4, 1);
@@ -4286,6 +4287,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->expectException(Exception\MatrixException::class);
+        $this->expectExceptionMessage('Specified Matrix column does not exist');
 
         // When
         $A->submatrix(0, 0, 1, 4);
@@ -4306,9 +4308,10 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->expectException(Exception\MatrixException::class);
+        $this->expectExceptionMessage('Ending row must be greater than beginning row');
 
         // When
-        $A->submatrix(3, 0, 1, 3);
+        $A->submatrix(2, 0, 1, 2);
     }
 
     /**
@@ -4326,9 +4329,10 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->expectException(Exception\MatrixException::class);
+        $this->expectExceptionMessage('Ending column must be greater than the beginning column');
 
         // When
-        $A->submatrix(0, 3, 1, 0);
+        $A->submatrix(0, 2, 1, 0);
     }
 
     /**
