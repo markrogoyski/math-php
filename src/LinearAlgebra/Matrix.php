@@ -1832,7 +1832,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * submatrix
+     * Submatrix
      *
      * Return an arbitrary subset of a Matrix as a new Matrix.
      *
@@ -1842,6 +1842,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @param int $n₂ Ending column
      *
      * @return Matrix
+     *
+     * @throws Exception\MatrixException
      */
     public function submatrix(int $m₁, int $n₁, int $m₂, int $n₂): Matrix
     {
@@ -1852,18 +1854,20 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             throw new Exception\MatrixException('Specified Matrix column does not exist');
         }
         if ($m₂ < $m₁) {
-            throw new Exception\MatrixException('Ending row must be greater than begining row');
+            throw new Exception\MatrixException('Ending row must be greater than beginning row');
         }
         if ($n₂ < $n₁) {
-            throw new Exception\MatrixException('Ending column must be greater than the begining column');
+            throw new Exception\MatrixException('Ending column must be greater than the beginning column');
         }
+
         $A = [];
         for ($i = 0; $i <= $m₂ - $m₁; $i++) {
             for ($j = 0; $j <= $n₂ - $n₁; $j++) {
                 $A[$i][$j] = $this->A[$i + $m₁][$j + $n₁];
             }
         }
-        return new Matrix($A);
+
+        return MatrixFactory::create($A);
     }
 
     /**************************************************************************

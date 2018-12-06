@@ -33,7 +33,7 @@ class Categorical extends Discrete
      *
      * @throws Exception\BadParameterException if k does not indicate at least one category
      * @throws Exception\BadDataException      if there are not k probabilities
-     * @throws Exception\BadaDataException     if the probabilities do not add up to 1
+     * @throws Exception\BadDataException      if the probabilities do not add up to 1
      */
     public function __construct(int $k, array $probabilities)
     {
@@ -77,7 +77,7 @@ class Categorical extends Discrete
     }
 
     /**
-     * Mode
+     * Mode of the distribution
      *
      * i such that pᵢ = max(p₁, ... pk)
      *

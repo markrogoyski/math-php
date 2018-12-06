@@ -425,7 +425,7 @@ $CM    = $A->cofactorMatrix();
 $B     = $A->meanDeviation();
 $S     = $A->covarianceMatrix();
 $adj⟮A⟯ = $A->adjugate();
-$Mᵢⱼ   = $A->submatrix($mᵢ, $nᵢ, $mⱼ, $nⱼ) //Submatrix of A from row mᵢ, column nᵢ to row mⱼ, column nⱼ
+$Mᵢⱼ   = $A->submatrix($mᵢ, $nᵢ, $mⱼ, $nⱼ) // Submatrix of A from row mᵢ, column nᵢ to row mⱼ, column nⱼ
 
 // Matrix operations - return a new Vector
 $AB = $A->vectorMultiply($X₁);
@@ -1163,6 +1163,10 @@ $k         = 0;
 $bernoulli = new Discrete\Bernoulli($p);
 $pmf       = $bernoulli->pmf($k);
 $cdf       = $bernoulli->cdf($k);
+$μ         = $bernoulli->mean();
+$median    = $bernoulli->median();
+$mode      = $bernoulli->mode();
+$σ²        = $bernoulli->variance();
 
 // Binomial distribution
 $n        = 2;   // number of events
@@ -1171,6 +1175,8 @@ $r        = 1;   // number of successful events
 $binomial = new Discrete\Binomial($n, $p);
 $pmf      = $binomial->pmf($r);
 $cdf      = $binomial->cdf($r);
+$μ        = $binomial->mean();
+$σ²       = $binomial->variance();
 
 // Categorical distribution
 $k             = 3;                                    // number of categories
