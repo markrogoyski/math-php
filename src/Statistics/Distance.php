@@ -269,7 +269,7 @@ class Distance
         $Nx = $x->getN();
         if ($Nx > 1) {
             $Ndata = $data->getN();
-            // Weighted Average Matrix
+            // Combined covariance Matrix
             $S = $data->augment($x)->covarianceMatrix();
             $diff = $x->sampleMean()->asColumnMatrix()->subtract($Centroid);
         } else {
