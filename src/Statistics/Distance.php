@@ -245,7 +245,7 @@ class Distance
      * https://en.wikipedia.org/wiki/Mahalanobis_distance
      *
      * The Mahalanobis distance measures the distance between two points in multidimensional
-     * space, scaled by the standard deviation of tje data in each dimension.
+     * space, scaled by the standard deviation of the data in each dimension.
      *
      * If x and y are vectors of points in space, and S is the covariance matrix of that space,
      * the Mahalanobis distance, D, of the point within the space is:
