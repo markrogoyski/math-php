@@ -262,6 +262,7 @@ class Distance
      * @param array $data an array of data. ie [[1,2,3,4],[6,2,8,1],[0,4,8,1]]
      * @param array $y a vector in the vector space
      *
+     * @return float Mahalanobis Distance
      */
     public static function Mahalanobis(Matrix $x, Matrix $data, Matrix $y = null): float
     {
