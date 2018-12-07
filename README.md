@@ -1191,6 +1191,10 @@ $k         = 2;   // number of trials
 $geometric = new Discrete\Geometric($p);
 $pmf       = $geometric->pmf($k);
 $cdf       = $geometric->cdf($k);
+$μ         = $geometric->mean();
+$median    = $geometric->median();
+$mode      = $geometric->mode();
+$σ²        = $geometric->variance();
 
 // Hypergeometric distribution
 $N        = 50; // population size

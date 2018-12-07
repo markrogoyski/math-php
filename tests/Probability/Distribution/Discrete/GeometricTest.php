@@ -7,19 +7,27 @@ class GeometricTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     pmf
-     * @dataProvider dataProviderForPMF
+     * @dataProvider dataProviderForPmf
      * @param        int   $k
      * @param        float $p
-     * @param        float $pmf
-     *
+     * @param        float $expectedPmf
      */
-    public function testPmf(int $k, float $p, float $pmf)
+    public function testPmf(int $k, float $p, float $expectedPmf)
     {
+        // Given
         $geometric = new Geometric($p);
-        $this->assertEquals($pmf, $geometric->pmf($k), '', 0.001);
+
+        // When
+        $pmf = $geometric->pmf($k);
+
+        // Then
+        $this->assertEquals($expectedPmf, $pmf, '', 0.001);
     }
 
-    public function dataProviderForPMF()
+    /**
+     * @return array
+     */
+    public function dataProviderForPmf(): array
     {
         return [
             [ 5, 0.1, 0.059049 ],
@@ -36,18 +44,27 @@ class GeometricTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase     cdf
-     * @dataProvider dataProviderForCDF
+     * @dataProvider dataProviderForCdf
      * @param        int   $k
      * @param        float $p
-     * @param        float $cdf
+     * @param        float $expectedCdf
      */
-    public function testCdf(int $k, float $p, float $cdf)
+    public function testCdf(int $k, float $p, float $expectedCdf)
     {
+        // Given
         $geometric = new Geometric($p);
-        $this->assertEquals($cdf, $geometric->cdf($k), '', 0.001);
+
+        // When
+        $cdf = $geometric->cdf($k);
+
+        // Then
+        $this->assertEquals($expectedCdf, $cdf, '', 0.001);
     }
 
-    public function dataProviderForCDF()
+    /**
+     * @return array
+     */
+    public function dataProviderForCdf(): array
     {
         return [
             [ 5, 0.1, 0.468559 ],
@@ -59,6 +76,138 @@ class GeometricTest extends \PHPUnit\Framework\TestCase
             [ 5, 0.09, 0.432130747959 ],
             [ 1, 1, 1 ],
             [ 2, 1, 1 ],
+        ];
+    }
+
+    /**
+     * @testCase     mean
+     * @dataProvider dataProviderForMean
+     * @param        float $p
+     * @param        float $μ
+     */
+    public function testMean(float $p, float $μ)
+    {
+        // Given
+        $geometric = new Geometric($p);
+
+        // When
+        $mean = $geometric->mean();
+
+        // Then
+        $this->assertEquals($μ, $mean, '', 0.000001);
+    }
+
+    /**
+     * @return array [p, μ]
+     */
+    public function dataProviderForMean(): array
+    {
+        return [
+            [0.1, 9],
+            [0.2, 4],
+            [0.5, 1],
+            [0.8, 0.25],
+            [0.9, 0.11111111111111],
+            [1, 0],
+        ];
+    }
+
+    /**
+     * @testCase     median
+     * @dataProvider dataProviderForMedian
+     * @param        float $p
+     * @param        float $expected
+     */
+    public function testMedian(float $p, float $expected)
+    {
+        // Given
+        $geometric = new Geometric($p);
+
+        // When
+        $median = $geometric->median();
+
+        // Then
+        $this->assertEquals($expected, $median, '', 0.000001);
+    }
+
+    /**
+     * @return array [p, median]
+     */
+    public function dataProviderForMedian(): array
+    {
+        return [
+            [0.1, 6],
+            [0.2, 3],
+            [0.5, 0],
+            [0.8, 0],
+            [0.9, 0],
+            [1, -1],
+        ];
+    }
+
+    /**
+     * @testCase     mode
+     * @dataProvider dataProviderForMode
+     * @param        float $p
+     * @param        float $expected
+     */
+    public function testMode(float $p, float $expected)
+    {
+        // Given
+        $geometric = new Geometric($p);
+
+        // When
+        $mode = $geometric->mode();
+
+        // Then
+        $this->assertEquals($expected, $mode, '', 0.000001);
+    }
+
+    /**
+     * @return array [p, mode]
+     */
+    public function dataProviderForMode(): array
+    {
+        return [
+            [0.1, 0],
+            [0.2, 0],
+            [0.5, 0],
+            [0.8, 0],
+            [0.9, 0],
+            [1, 0],
+        ];
+    }
+
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        float $p
+     * @param        float $σ²
+     */
+    public function testVariance(float $p, float $σ²)
+    {
+        // Given
+        $geometric = new Geometric($p);
+
+        // When
+        $mode = $geometric->variance();
+
+        // Then
+        $this->assertEquals($σ², $mode, '', 0.000001);
+    }
+
+    /**
+     * @return array [p, variance]
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [0.1, 90],
+            [0.2, 20],
+            [0.5, 2],
+            [0.8, 0.3125],
+            [0.9, 0.12345679012346],
+            [1, 0],
         ];
     }
 }

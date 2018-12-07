@@ -86,4 +86,61 @@ class Geometric extends Discrete
         $⟮1 − p⟯ᵏ⁺¹ = pow(1 - $p, $k + 1);
         return 1 - $⟮1 − p⟯ᵏ⁺¹;
     }
+
+    /**
+     * Mean of the distribution
+     *
+     *     1 - p
+     * μ = -----
+     *       p
+     *
+     * @return float
+     */
+    public function mean(): float
+    {
+        return (1 - $this->p) / $this->p;
+    }
+
+    /**
+     * Median of the distribution
+     *
+     *           _           _
+     *          |     -1      |
+     * median = | ----------- | - 1
+     *          | log₂(1 - p) |
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        $log₂⟮1 − p⟯ = log(1 - $this->p, 2);
+
+        return ceil(-1 / $log₂⟮1 − p⟯) - 1;
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     * mode = 0
+     *
+     * @return int
+     */
+    public function mode(): int
+    {
+        return 0;
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     *      1 - p
+     * σ² = -----
+     *        p²
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        return (1 - $this->p) / $this->p**2;
+    }
 }
