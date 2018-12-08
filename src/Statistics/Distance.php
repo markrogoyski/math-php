@@ -3,7 +3,6 @@ namespace MathPHP\Statistics;
 
 use MathPHP\Functions\Map;
 use MathPHP\LinearAlgebra\Matrix;
-use MathPHP\Statistics\Average;
 use MathPHP\Exception;
 
 /**
@@ -13,6 +12,7 @@ use MathPHP\Exception;
  * - Distances
  *   - Bhattacharyya distance
  *   - Hellinger distance
+ *   - Mahalanobis distance
  * - Divergences
  *   - Kullback-Leibler divergence
  *   - Jensen-Shannon divergence
@@ -252,22 +252,29 @@ class Distance
      *
      *    D = √[(x-y)ᵀ S⁻¹ (x-y)]
      *
-     * If y is not provided, the distances will be caculated from x to the centroid of the dataset.
+     * If y is not provided, the distances will be calculated from x to the centroid of the dataset.
      *
      * The Mahalanobis distance can also be used to measure the distance between two sets of data.
      * If x has more than one column, the combined data covariance matrix is used, and the distance
      * will be calculated between the centroids of each data set.
      *
-     * @param array $x a vector in the vector space. ie [[1],[2],[4]] or a matrix of data
-     * @param array $data an array of data. ie [[1,2,3,4],[6,2,8,1],[0,4,8,1]]
-     * @param array $y a vector in the vector space
+     * @param Matrix      $x    a vector in the vector space. ie [[1],[2],[4]] or a matrix of data
+     * @param Matrix      $data an array of data. i.e. [[1,2,3,4],[6,2,8,1],[0,4,8,1]]
+     * @param Matrix|null $y    a vector in the vector space
      *
      * @return float Mahalanobis Distance
+     *
+     * @throws Exception\BadParameterException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MatrixException
+     * @throws Exception\OutOfBoundsException
+     * @throws Exception\VectorException
      */
     public static function Mahalanobis(Matrix $x, Matrix $data, Matrix $y = null): float
     {
         $Centroid = $data->sampleMean()->asColumnMatrix();
-        $Nx = $x->getN();
+        $Nx       = $x->getN();
+
         if ($Nx > 1) {
             // Combined covariance Matrix
             $S = $data->augment($x)->covarianceMatrix();
@@ -279,9 +286,9 @@ class Distance
             }
             $diff = $x->subtract($y);
         }
-            
+
         $S⁻¹ = $S->inverse();
-        $D = $diff->transpose()->multiply($S⁻¹)->multiply($diff);
+        $D   = $diff->transpose()->multiply($S⁻¹)->multiply($diff);
         return sqrt($D[0][0]);
     }
 }

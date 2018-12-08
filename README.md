@@ -1840,9 +1840,21 @@ $q = [0.1, 0.4, 0.5];
 // Distances
 $DB⟮p、q⟯ = Distance::bhattacharyyaDistance($p, $q);
 $H⟮p、q⟯  = Distance::hellingerDistance($p, $q);
-$D       = Distance::Mahalanobis($x, $data);      // The Mahalanobis Distance from x to the centroid of the data.
-$D       = Distance::Mahalanobis($x, $data, $y);  // The Mahalanobis Distance between $x and $y using the data.
-$D       = Distance::Mahalanobis($data1, $data2); // The Mahalanobis Distance between the centroids of two sets of data.
+
+// Mahalanobis distance
+$x    = new Matrix([[6], [5]]);
+$data = new Matrix([
+    [4, 4, 5, 2, 3, 6, 9, 7, 4, 5],
+    [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
+]);
+$otherData = new Matrix([
+    [4, 4, 5, 2, 3, 6, 9, 7, 4, 5],
+    [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
+]);
+$y = new Matrix([[2], [2]]);
+$D = Distance::Mahalanobis($x, $data);          // Mahalanobis distance from x to the centroid of the data.
+$D = Distance::Mahalanobis($x, $data, $y);      // Mahalanobis distance between $x and $y using the data.
+$D = Distance::Mahalanobis($data, $otherData);  // Mahalanobis distance between the centroids of two sets of data.
 
 // Divergences
 $Dkl⟮P‖Q⟯ = Distance::kullbackLeiblerDivergence($p, $q);

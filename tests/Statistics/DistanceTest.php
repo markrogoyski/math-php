@@ -291,33 +291,59 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForMahalanobisCenter
      * @param        array $x
      * @param        Matrix $data
-     * @param        float $distance
+     * @param        float $expectedDistance
      * @throws       \Exception
      */
-    public function testMahalanobisCenter(array $x, Matrix $data, float $distance)
+    public function testMahalanobisCenter(array $x, Matrix $data, float $expectedDistance)
     {
+        // Given
         $x_m = new Matrix($x);
-        $calc = Distance::Mahalanobis($x_m, $data);
-        $this->assertEquals($distance, $calc, '', 0.0001);
+
+        // When
+        $distance = Distance::Mahalanobis($x_m, $data);
+
+        // Then
+        $this->assertEquals($expectedDistance, $distance, '', 0.0001);
     }
 
     /**
      * @return array [x, data, distance]
+     * @throws \Exception
      */
     public function dataProviderForMahalanobisCenter(): array
     {
         $data = [
-                    [4, 4, 5, 2, 3, 6, 9, 7, 4, 5],
-                    [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
-                ];
-        $twotwo = new Matrix([[2],[2]]);
+            [4, 4, 5, 2, 3, 6, 9, 7, 4, 5],
+            [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
+        ];
         $data_matrix = new Matrix($data);
+
         return [
-            [[[4],[3]],$data_matrix, 1.24017],
-            [[[4],[7]], $data_matrix, .76023],
-            [[[5],[5]], $data_matrix, .12775],
-            [[[2],[7]], $data_matrix, 1.46567],
-            [[[3],[9]], $data_matrix, 1.64518],
+            [
+                [[4], [3]],
+                $data_matrix,
+                1.24017
+            ],
+            [
+                [[4], [7]],
+                $data_matrix,
+                0.76023
+            ],
+            [
+                [[5], [5]],
+                $data_matrix,
+                0.12775
+            ],
+            [
+                [[2], [7]],
+                $data_matrix,
+                1.46567
+            ],
+            [
+                [[3], [9]],
+                $data_matrix,
+                1.64518
+            ],
         ];
     }
 
@@ -327,52 +353,89 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
      * @param        array $x
      * @param        array $y
      * @param        Matrix $data
-     * @param        float $distance
+     * @param        float $expectedDistance
      * @throws       \Exception
      */
-    public function testMahalanobisPoint(array $x, array $y, Matrix $data, float $distance)
+    public function testMahalanobisPoint(array $x, array $y, Matrix $data, float $expectedDistance)
     {
+        // Given
         $x_m = new Matrix($x);
         $y_m = new Matrix($y);
-        $calc = Distance::Mahalanobis($x_m, $data, $y_m);
-        $this->assertEquals($distance, $calc, '', 0.0001);
+
+        // when
+        $distance = Distance::Mahalanobis($x_m, $data, $y_m);
+
+        // Then
+        $this->assertEquals($expectedDistance, $distance, '', 0.0001);
     }
 
     /**
-     * @return array [x, data, distance]
+     * @return array [x, y, data, distance]
+     * @throws \Exception
      */
     public function dataProviderForMahalanobisPoint(): array
     {
         $data = [
-                    [4, 4, 5, 2, 3, 6, 9, 7, 4, 5],
-                    [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
-                ];
-        $twotwo = new Matrix([[2],[2]]);
+            [4, 4, 5, 2, 3, 6, 9, 7, 4, 5],
+            [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
+        ];
         $data_matrix = new Matrix($data);
+
         return [
-            [[[6],[5]], [[2],[2]], $data_matrix, 2.76992],
-            [[[9],[6]], [[2],[2]], $data_matrix, 4.47614],
-            [[[7],[2]], [[2],[2]], $data_matrix, 2.58465],
-            [[[4],[2]], [[2],[2]], $data_matrix, 1.03386],
-            [[[5],[7]], [[2],[-2]], $data_matrix, 4.6909],
+            [
+                [[6], [5]],
+                [[2], [2]],
+                $data_matrix,
+                2.76992
+            ],
+            [
+                [[9], [6]],
+                [[2], [2]],
+                $data_matrix,
+                4.47614
+            ],
+            [
+                [[7], [2]],
+                [[2], [2]],
+                $data_matrix,
+                2.58465
+            ],
+            [
+                [[4], [2]],
+                [[2], [2]],
+                $data_matrix,
+                1.03386
+            ],
+            [
+                [[5], [7]],
+                [[2], [-2]],
+                $data_matrix,
+                4.6909
+            ],
         ];
     }
+
     /**
-     * @testCase     Mahalanobis between two datasets
+     * @testCase Mahalanobis between two datasets
      * https://rdrr.io/rforge/GenAlgo/man/maha.html
-     * @throws       \Exception
+     * @throws  \Exception
      */
     public function testMahalanobisTwoData()
     {
+        // Given
         $data1 = new Matrix([
             [4, 4, 5, 2, 3, 6, 9, 7, 4, 5],
             [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
         ]);
         $data2 = new Matrix([
-            [5,3,6,3,9],
-            [7,6,1,2,9],
+            [5, 3, 6, 3, 9],
+            [7, 6, 1, 2, 9],
         ]);
-        $calc = Distance::Mahalanobis($data2, $data1);
-        $this->assertEquals(0.1863069, $calc, '', 0.0001);
+
+        // When
+        $distance = Distance::Mahalanobis($data2, $data1);
+
+        // Then
+        $this->assertEquals(0.1863069, $distance, '', 0.0001);
     }
 }
