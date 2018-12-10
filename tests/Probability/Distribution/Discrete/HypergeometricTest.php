@@ -2,7 +2,6 @@
 namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Distribution\Discrete\Hypergeometric;
-use MathPHP\Exception;
 
 class HypergeometricTest extends \PHPUnit\Framework\TestCase
 {
@@ -13,12 +12,18 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
      * @param  int   $K number of success states in the population
      * @param  int   $n number of draws
      * @param  int   $k number of observed successes
-     * @param  float $pmf
+     * @param  float $expectedPmf
      */
-    public function testPmf(int $N, int $K, int $n, int $k, float $pmf)
+    public function testPmf(int $N, int $K, int $n, int $k, float $expectedPmf)
     {
+        // Given
         $hypergeometric = new Hypergeometric($N, $K, $n);
-        $this->assertEquals($pmf, $hypergeometric->pmf($k), '', 0.0000001);
+
+        // When
+        $pmf = $hypergeometric->pmf($k);
+
+        // Then
+        $this->assertEquals($expectedPmf, $pmf, '', 0.0000001);
     }
 
     /**
@@ -46,12 +51,18 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
      * @param  int   $K number of success states in the population
      * @param  int   $n number of draws
      * @param  int   $k number of observed successes
-     * @param  float $cdf
+     * @param  float $expectedCdf
      */
-    public function testCdf(int $N, int $K, int $n, int $k, float $cdf)
+    public function testCdf(int $N, int $K, int $n, int $k, float $expectedCdf)
     {
+        // Given
         $hypergeometric = new Hypergeometric($N, $K, $n);
-        $this->assertEquals($cdf, $hypergeometric->cdf($k), '', 0.0000001);
+
+        // When
+        $cdf = $hypergeometric->cdf($k);
+
+        // Then
+        $this->assertEquals($expectedCdf, $cdf, '', 0.0000001);
     }
 
     /**
@@ -76,12 +87,18 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
      * @param  int   $N population size
      * @param  int   $K number of success states in the population
      * @param  int   $n number of draws
-     * @param  float $mean
+     * @param  float $μ
      */
-    public function testMean(int $N, int $K, int $n, float $mean)
+    public function testMean(int $N, int $K, int $n, float $μ)
     {
+        // Given
         $hypergeometric = new Hypergeometric($N, $K, $n);
-        $this->assertEquals($mean, $hypergeometric->mean(), '', 0.0000001);
+
+        // When
+        $mean = $hypergeometric->mean();
+
+        // Then
+        $this->assertEquals($μ, $mean, '', 0.0000001);
     }
 
     /**
@@ -92,13 +109,73 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [50, 5, 10, 1],
-            [50, 5, 10, 1],
             [100, 80, 50, 40],
-            [100, 80, 50, 40],
-            [48, 6, 15, 1.875],
-            [48, 6, 15, 1.875],
             [48, 6, 15, 1.875],
             [100, 30, 20, 6],
+        ];
+    }
+
+    /**
+     * @testCase     mode
+     * @dataProvider dataProviderForMode
+     * @param  int   $N population size
+     * @param  int   $K number of success states in the population
+     * @param  int   $n number of draws
+     * @param  array $expectedMode
+     */
+    public function testMode(int $N, int $K, int $n, array $expectedMode)
+    {
+        // Given
+        $hypergeometric = new Hypergeometric($N, $K, $n);
+
+        // When
+        $mode = $hypergeometric->mode();
+
+        // Then
+        $this->assertEquals($expectedMode, $mode, '', 0.0000001);
+    }
+
+    /**
+     * @return array [N, K, n, mode]
+     */
+    public function dataProviderForMode(): array
+    {
+        return [
+            [50, 5, 10, [1, 1]],
+            [100, 80, 50, [40, 40]],
+            [48, 6, 15, [2, 2]],
+            [100, 30, 20, [6, 6]],
+        ];
+    }
+
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param  int   $N population size
+     * @param  int   $K number of success states in the population
+     * @param  int   $n number of draws
+     * @param  float $σ²
+     */
+    public function testVariance(int $N, int $K, int $n, float $σ²)
+    {
+        // Given
+        $hypergeometric = new Hypergeometric($N, $K, $n);
+
+        // When
+        $variance = $hypergeometric->variance();
+
+        // Then
+        $this->assertEquals($σ², $variance, '', 0.0000001);
+    }
+
+    /**
+     * @return array [N, K, n, σ²]
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [50, 5, 10, 0.73469387755102],
+            [100, 80, 50, 4.040404040404],
         ];
     }
 }

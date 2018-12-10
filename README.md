@@ -1205,6 +1205,8 @@ $hypergeo = new Discrete\Hypergeometric($N, $K, $n);
 $pmf      = $hypergeo->pmf($k);
 $cdf      = $hypergeo->cdf($k);
 $μ        = $hypergeo->mean();
+$mode     = $hypergeo->mode();
+$σ²       = $hypergeo->variance();
 
 // Multinomial distribution
 $frequencies   = [7, 2, 3];

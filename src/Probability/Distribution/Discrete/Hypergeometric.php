@@ -153,9 +153,9 @@ class Hypergeometric extends Discrete
     /**
      * Distribution mean
      *
-     *          K
-     * mean = n -
-     *          N
+     *       K
+     * μ = n -
+     *       N
      *
      * N is the population size,
      * K is the number of success states in the population,
@@ -171,5 +171,45 @@ class Hypergeometric extends Discrete
     public function mean(): float
     {
         return $this->n * ($this->K / $this->N);
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     *         _              _
+     *        | (n + 1)(K + 1) |       | (n + 1)(K + 1) |
+     * mode = | -------------- | - 1,  | -------------- |
+     *        |    (N + 2)     |       |_    (N + 2)   _|
+     *
+     * @return float[]
+     */
+    public function mode(): array
+    {
+        $N = $this->N;
+        $K = $this->K;
+        $n = $this->n;
+
+        return [
+            ceil((($n + 1) * ($K + 1)) / ($N + 2)) -1,
+            floor((($n + 1) * ($K + 1)) / ($N + 2)),
+        ];
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     *        K (N - K) N - n
+     * σ² = n - ------- -----
+     *        N    N    N - 1
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $N = $this->N;
+        $K = $this->K;
+        $n = $this->n;
+
+        return $n * ($K / $N) * (($N - $K) / $N) * (($N - $n) / ($N - 1));
     }
 }
