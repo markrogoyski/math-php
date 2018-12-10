@@ -1,5 +1,5 @@
 <?php
-namespace MathPHP\Probability\Distribution\Discrete;
+namespace MathPHP\Probability\Distribution\Multivariate;
 
 use MathPHP\Probability\Combinatorics;
 use MathPHP\Exception;
@@ -9,7 +9,7 @@ use MathPHP\Exception;
  *
  * https://en.wikipedia.org/wiki/Multinomial_distribution
  */
-class Multinomial extends Discrete
+class Multinomial
 {
     /** @var array */
     protected $probabilities;

@@ -1208,12 +1208,6 @@ $μ        = $hypergeo->mean();
 $mode     = $hypergeo->mode();
 $σ²       = $hypergeo->variance();
 
-// Multinomial distribution
-$frequencies   = [7, 2, 3];
-$probabilities = [0.40, 0.35, 0.25];
-$multinomial   = new Discrete\Multinomial($probabilities);
-$pmf           = $multinomial->pmf($frequencies);
-
 // Negative binomial distribution (Pascal)
 $r                = 1;   // number of successful events
 $P                = 0.5; // probability of success on an individual trial
@@ -1271,6 +1265,12 @@ $∑      = MatrixFactory::create([
 $X      = [0.7, 1.4];
 $normal = new Multivariate\Normal($μ, $∑);
 $pdf    = $normal->pdf($X);
+
+// Multinomial distribution
+$frequencies   = [7, 2, 3];
+$probabilities = [0.40, 0.35, 0.25];
+$multinomial   = new Multivariate\Multinomial($probabilities);
+$pmf           = $multinomial->pmf($frequencies);
 ```
 
 ### Probability - Distribution Tables
