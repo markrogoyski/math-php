@@ -38,9 +38,11 @@ class TheilSen extends ParametricRegression
         $n      = count($this->points);
         for ($i = 0; $i < $n; $i++) {
             for ($j = $i + 1; $j < $n; $j++) {
-                $pointi   = $this->points[$i];
-                $pointj   = $this->points[$j];
-                $slopes[] = ($pointj[1] - $pointi[1]) / ($pointj[0] - $pointi[0]);
+                if ($pointj[0] != $pointi[0]) {
+                    $pointi   = $this->points[$i];
+                    $pointj   = $this->points[$j];
+                    $slopes[] = ($pointj[1] - $pointi[1]) / ($pointj[0] - $pointi[0]);
+                }
             }
         }
 
