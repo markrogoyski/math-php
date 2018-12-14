@@ -1,8 +1,8 @@
 <?php
 namespace MathPHP\Probability\Distribution\Discrete;
 
+use MathPHP\Exception\MathException;
 use MathPHP\Probability\Combinatorics;
-use MathPHP\Functions\Special;
 use MathPHP\Functions\Support;
 
 /**
@@ -40,7 +40,7 @@ class NegativeBinomial extends Discrete
     /**
      * Constructor
      *
-     * @param  int   $r number of successful events
+     * @param  int   $r number of failures until the experiment is stopped
      * @param  float $p probability of success on an individual trial
      */
     public function __construct(int $r, float $p)
@@ -51,11 +51,18 @@ class NegativeBinomial extends Discrete
     /**
      * Probability mass function
      *
-     * b(x; r, p) = ₓ₋₁Cᵣ₋₁ pʳ * (1 - p)ˣ⁻ʳ
+     *               / x + r - 1 \
+     * b(k; r, p) = |             | (1 - p)ˣ pʳ
+     *               \     x     /
      *
-     * @param  int   $x number of trials required to produce r successes
+     *
+     *            = ₓ₊ᵣ₋₁Cₓ (1 - p)ˣ pʳ
+     *
+     * @param  int $x number of successes
      *
      * @return float
+     *
+     * @throws MathException
      */
     public function pmf(int $x): float
     {
@@ -63,11 +70,11 @@ class NegativeBinomial extends Discrete
 
         $r = $this->r;
         $p = $this->p;
-     
-        $ₓ₋₁Cᵣ₋₁   = Combinatorics::combinations($x - 1, $r - 1);
-        $pʳ        = pow($p, $r);
-        $⟮1 − p⟯ˣ⁻ʳ = pow(1 - $p, $x - $r);
+
+        $ₓ₊ᵣ₋₁Cₓ = Combinatorics::combinations($x + $r - 1, $x);
+        $⟮1 − p⟯ˣ = pow(1 - $p, $x);
+        $pʳ      = pow($p, $r);
     
-        return $ₓ₋₁Cᵣ₋₁ * $pʳ * $⟮1 − p⟯ˣ⁻ʳ;
+        return $ₓ₊ᵣ₋₁Cₓ * $⟮1 − p⟯ˣ * $pʳ;
     }
 }

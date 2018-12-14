@@ -6,29 +6,42 @@ use MathPHP\Probability\Distribution\Discrete\Pascal;
 class PascalTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     pmf
      * @dataProvider dataProviderForPMF
+     * @param        int   $r
+     * @param        float $p
+     * @param        int   $x
+     * @param        float $expectedPmf
+     * @throws       \Exception
      */
-    public function testPMF(int $x, int $r, float $P, float $neagative_binomial_distribution)
+    public function testPMF(int $r, float $p, int $x, float $expectedPmf)
     {
-        $pascal = new Pascal($r, $P);
-        $this->assertEquals($neagative_binomial_distribution, $pascal->pmf($x), '', 0.001);
+        // Given
+        $pascal = new Pascal($r, $p);
+
+        // When
+        $pmf = $pascal->pmf($x);
+
+        // Then
+        $this->assertEquals($expectedPmf, $pmf, '', 0.001);
     }
 
     /**
-     * Data provider for  PMF
-     * Data: [ x, r, P, negative binomial distribution ]
+     * @return array [r, p, x, pmf]
+     * Data generated with R stats dnbinom(x, r, p)
      */
-    public function dataProviderForPMF()
+    public function dataProviderForPMF(): array
     {
         return [
-            [ 2, 1, 0.5, 0.25 ],
-            [ 2, 1, 0.4, 0.24 ],
-            [ 6, 2, 0.7, 0.019845 ],
-            [ 8, 7, 0.83, 0.322919006776561 ],
-            [ 10, 5, 0.85, 0.00424542789316406 ],
-            [ 50, 48, 0.97, 0.245297473979909 ],
-            [ 5, 4, 1, 0.0 ],
-            [ 2, 2, 0.5, 0.25 ],
+            [1, 0.5, 2, 0.125],
+            [1, 0.4, 2, 0.144],
+            [2, 0.5, 3, 0.125],
+            [2, 0.3, 3, 0.12348],
+            [4, 0.95, 2, 0.02036266],
+            [7, 0.6, 4, 0.1504936],
+            [1, 0.2, 3, 0.1024],
+            [1, 0.2, 7, 0.04194304],
+            [40, 0.35, 65, 0.02448896],
         ];
     }
 }

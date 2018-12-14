@@ -1209,16 +1209,16 @@ $mode     = $hypergeo->mode();
 $σ²       = $hypergeo->variance();
 
 // Negative binomial distribution (Pascal)
-$r                = 1;   // number of successful events
+$r                = 1;   // number of failures until the experiment is stopped
 $P                = 0.5; // probability of success on an individual trial
-$x                = 2;   // number of trials required to produce r successes
+$x                = 2;   // number of successes
 $negativeBinomial = new Discrete\NegativeBinomial($r, $p);
 $pmf              = $negativeBinomial->pmf($x);
 
 // Pascal distribution (Negative binomial)
-$r      = 1;   // number of successful events
+$r      = 1;   // number of failures until the experiment is stopped
 $P      = 0.5; // probability of success on an individual trial
-$x      = 2;   // number of trials required to produce r successes
+$x      = 2;   // number of successes
 $pascal = new Discrete\Pascal($r, $p);
 $pmf    = $pascal->pmf($x);
 

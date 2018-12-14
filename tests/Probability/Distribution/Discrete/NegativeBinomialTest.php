@@ -6,31 +6,42 @@ use MathPHP\Probability\Distribution\Discrete\NegativeBinomial;
 class NegativeBinomialTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     pmf
      * @dataProvider dataProviderForPMF
+     * @param        int   $r
+     * @param        float $p
+     * @param        int   $x
+     * @param        float $expectedPmf
+     * @throws       \Exception
      */
-    public function testPMF(int $x, int $r, float $P, float $pmf)
+    public function testPMF(int $r, float $p, int $x, float $expectedPmf)
     {
-        $negativeBinomial = new NegativeBinomial($r, $P);
-        $this->assertEquals($pmf, $negativeBinomial->pmf($x), '', 0.001);
+        // Given
+        $negativeBinomial = new NegativeBinomial($r, $p);
+
+        // When
+        $pmf = $negativeBinomial->pmf($x);
+
+        // Then
+        $this->assertEquals($expectedPmf, $pmf, '', 0.001);
     }
 
     /**
-     * Data provider for negative binomial PMF
-     * Data: [ x, r, P, negative binomial distribution ]
+     * @return array [r, p, x, pmf]
+     * Data generated with R stats dnbinom(x, r, p)
      */
-    public function dataProviderForPMF()
+    public function dataProviderForPMF(): array
     {
         return [
-            [ 2, 1, 0.5, 0.25 ],
-            [ 2, 1, 0.4, 0.24 ],
-            [ 6, 2, 0.7, 0.019845 ],
-            [ 8, 7, 0.83, 0.322919006776561 ],
-            [ 10, 5, 0.85, 0.00424542789316406 ],
-            [ 50, 48, 0.97, 0.245297473979909 ],
-            [ 5, 4, 1, 0.0 ],
-            [ 2, 2, 0.5, 0.25 ],
-            [ 3, 1, 0.20, 0.128 ],
-            [ 7, 3, 0.20, 0.049152 ],
+            [1, 0.5, 2, 0.125],
+            [1, 0.4, 2, 0.144],
+            [2, 0.5, 3, 0.125],
+            [2, 0.3, 3, 0.12348],
+            [4, 0.95, 2, 0.02036266],
+            [7, 0.6, 4, 0.1504936],
+            [1, 0.2, 3, 0.1024],
+            [1, 0.2, 7, 0.04194304],
+            [40, 0.35, 65, 0.02448896],
         ];
     }
 }
