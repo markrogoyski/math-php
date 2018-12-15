@@ -46,6 +46,47 @@ class NegativeBinomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     cdf
+     * @dataProvider dataProviderForCdf
+     * @param        int   $r
+     * @param        float $p
+     * @param        int   $x
+     * @param        float $expectedCdf
+     * @throws       \Exception
+     */
+    public function testCdf(int $r, float $p, int $x, float $expectedCdf)
+    {
+        // Given
+        $negativeBinomial = new NegativeBinomial($r, $p);
+
+        // When
+        $cdf = $negativeBinomial->cdf($x);
+
+        // Then
+        $this->assertEquals($expectedCdf, $cdf, '', 0.0000001);
+    }
+
+    /**
+     * @return array [r, p, x, cdf]
+     * Data generated with R stats pnbinom(x, r, p)
+     */
+    public function dataProviderForCdf(): array
+    {
+        return [
+            [1, 0.5, 2, 0.875],
+            [1, 0.4, 2, 0.784],
+            [2, 0.5, 3, 0.8125],
+            [2, 0.3, 3, 0.47178],
+            [4, 0.95, 2, 0.9977702],
+            [7, 0.6, 4, 0.5327742],
+            [1, 0.2, 3, 0.5904],
+            [1, 0.2, 7, 0.8322278],
+            [40, 0.35, 65, 0.2845497],
+            [3, 0.35, 0, 0.042875],
+        ];
+    }
+
+    /**
      * @testCase     mean
      * @dataProvider dataProviderForMean
      * @param        int   $r

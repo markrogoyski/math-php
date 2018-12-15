@@ -79,6 +79,31 @@ class NegativeBinomial extends Discrete
     }
 
     /**
+     * Cumulative distribution function (lower cumulative distribution)
+     *
+     *               ₓ
+     * P(x; r, p) =  Σ pmf(k, r, p)
+     *              ᵏ⁼⁰
+     *
+     * @param int $x number of successes
+     *
+     * @return float
+     *
+     * @throws MathException
+     */
+    public function cdf(int $x): float
+    {
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        return array_sum(
+            array_map(
+                [$this, 'pmf'],
+                range(0, $x)
+            )
+        );
+    }
+
+    /**
      * Mean of the distribution
      *
      *       pr

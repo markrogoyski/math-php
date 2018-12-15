@@ -7,14 +7,14 @@ class PascalTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     pmf
-     * @dataProvider dataProviderForPMF
+     * @dataProvider dataProviderForPmf
      * @param        int   $r
      * @param        float $p
      * @param        int   $x
      * @param        float $expectedPmf
      * @throws       \Exception
      */
-    public function testPMF(int $r, float $p, int $x, float $expectedPmf)
+    public function testPmf(int $r, float $p, int $x, float $expectedPmf)
     {
         // Given
         $pascal = new Pascal($r, $p);
@@ -30,7 +30,7 @@ class PascalTest extends \PHPUnit\Framework\TestCase
      * @return array [r, p, x, pmf]
      * Data generated with R stats dnbinom(x, r, p)
      */
-    public function dataProviderForPMF(): array
+    public function dataProviderForPmf(): array
     {
         return [
             [1, 0.5, 2, 0.125],
@@ -44,6 +44,48 @@ class PascalTest extends \PHPUnit\Framework\TestCase
             [40, 0.35, 65, 0.02448896],
         ];
     }
+
+    /**
+     * @testCase     cdf
+     * @dataProvider dataProviderForCdf
+     * @param        int   $r
+     * @param        float $p
+     * @param        int   $x
+     * @param        float $expectedCdf
+     * @throws       \Exception
+     */
+    public function testCdf(int $r, float $p, int $x, float $expectedCdf)
+    {
+        // Given
+        $pascal = new Pascal($r, $p);
+
+        // When
+        $cdf = $pascal->cdf($x);
+
+        // Then
+        $this->assertEquals($expectedCdf, $cdf, '', 0.0000001);
+    }
+
+    /**
+     * @return array [r, p, x, cdf]
+     * Data generated with R stats pnbinom(x, r, p)
+     */
+    public function dataProviderForCdf(): array
+    {
+        return [
+            [1, 0.5, 2, 0.875],
+            [1, 0.4, 2, 0.784],
+            [2, 0.5, 3, 0.8125],
+            [2, 0.3, 3, 0.47178],
+            [4, 0.95, 2, 0.9977702],
+            [7, 0.6, 4, 0.5327742],
+            [1, 0.2, 3, 0.5904],
+            [1, 0.2, 7, 0.8322278],
+            [40, 0.35, 65, 0.2845497],
+            [3, 0.35, 0, 0.042875],
+        ];
+    }
+
 
     /**
      * @testCase     mean
@@ -137,5 +179,4 @@ class PascalTest extends \PHPUnit\Framework\TestCase
             [4, 0.05, 0.22160664819945],
         ];
     }
-}
 }
