@@ -44,4 +44,98 @@ class PascalTest extends \PHPUnit\Framework\TestCase
             [40, 0.35, 65, 0.02448896],
         ];
     }
+
+    /**
+     * @testCase     mean
+     * @dataProvider dataProviderForMean
+     * @param        int   $r
+     * @param        float $p
+     * @param        float $μ
+     */
+    public function testMean(int $r, float $p, float $μ)
+    {
+        // Given
+        $pascal = new Pascal($r, $p);
+
+        // When
+        $mean = $pascal->mean();
+
+        // Then
+        $this->assertEquals($μ, $mean, '', 0.00000001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForMean(): array
+    {
+        return [
+            [4, 0.05, 0.21052631578947],
+        ];
+    }
+
+    /**
+     * @testCase     mode
+     * @dataProvider dataProviderForMode
+     * @param        int   $r
+     * @param        float $p
+     * @param        float $expected
+     */
+    public function testMode(int $r, float $p, float $expected)
+    {
+        // Given
+        $pascal = new Pascal($r, $p);
+
+        // When
+        $mode = $pascal->mode();
+
+        // Then
+        $this->assertEquals($expected, $mode, '', 0.00000001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForMode(): array
+    {
+        return [
+            [0, 0.05, 0],
+            [0, 0.95, 0],
+            [1, 0.05, 0],
+            [1, 0.95, 0],
+            [2, 0.05, 0],
+            [2, 0.5, 1],
+            [2, 0.9, 9],
+        ];
+    }
+
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        int   $r
+     * @param        float $p
+     * @param        float σ²
+     */
+    public function testVariance(int $r, float $p, float $σ²)
+    {
+        // Given
+        $pascal = new Pascal($r, $p);
+
+        // When
+        $variance = $pascal->variance();
+
+        // Then
+        $this->assertEquals($σ², $variance, '', 0.00000001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [4, 0.05, 0.22160664819945],
+        ];
+    }
+}
 }

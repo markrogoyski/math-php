@@ -1214,6 +1214,9 @@ $P                = 0.5; // probability of success on an individual trial
 $x                = 2;   // number of successes
 $negativeBinomial = new Discrete\NegativeBinomial($r, $p);
 $pmf              = $negativeBinomial->pmf($x);
+$μ                = $negativeBinomial->mean();
+$mode             = $negativeBinomial->mode();
+$σ²               = $negativeBinomial->variance();
 
 // Pascal distribution (Negative binomial)
 $r      = 1;   // number of failures until the experiment is stopped
@@ -1221,6 +1224,9 @@ $P      = 0.5; // probability of success on an individual trial
 $x      = 2;   // number of successes
 $pascal = new Discrete\Pascal($r, $p);
 $pmf    = $pascal->pmf($x);
+$μ      = $pascal->mean();
+$mode   = $pascal->mode();
+$σ²     = $pascal->variance();
 
 // Poisson distribution
 $λ       = 2; // average number of successful events per interval

@@ -77,4 +77,55 @@ class NegativeBinomial extends Discrete
     
         return $ₓ₊ᵣ₋₁Cₓ * $⟮1 − p⟯ˣ * $pʳ;
     }
+
+    /**
+     * Mean of the distribution
+     *
+     *       pr
+     * μ = -----
+     *     1 - p
+     *
+     * @return float
+     */
+    public function mean(): float
+    {
+        return ($this->p * $this->r) / (1 - $this->p);
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     *        | p(r - 1) |
+     * mode = | -------- |  for r > 1
+     *        |_  1 - p _|
+     *
+     * mode = 0             for r ≤ 1
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        if ($this->r <= 1) {
+            return 0;
+        }
+
+        $r = $this->r;
+        $p = $this->p;
+
+        return floor(($p * ($r - 1)) / (1 - $p));
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     *         pr
+     * σ² = --------
+     *      (1 - p)²
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        return ($this->p * $this->r) / (1 - $this->p)**2;
+    }
 }
