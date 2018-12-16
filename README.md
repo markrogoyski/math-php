@@ -1260,6 +1260,8 @@ $uniform = new Discrete\Uniform($a, $b);
 $pmf     = $uniform->pmf();
 $cdf     = $uniform->cdf($k);
 $μ       = $uniform->mean();
+$median  = $uniform->median();
+$σ²      = $uniform->variance();
 ```
 
 ### Probability - Multivariate Distributions

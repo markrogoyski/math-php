@@ -7,18 +7,28 @@ use MathPHP\Exception;
 class UniformTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pmf returns the expectd probability
+     * @testCase     pmf returns the expected probability
      * @dataProvider dataProviderForPmf
      * @param        int   $a
      * @param        int   $b
-     * @param        float $pmf
+     * @param        float $expectedPmf
+     * @throws       \Exception
      */
-    public function testPmf(int $a, int $b, float $pmf)
+    public function testPmf(int $a, int $b, float $expectedPmf)
     {
+        // Given
         $uniform = new Uniform($a, $b);
-        $this->assertEquals($pmf, $uniform->pmf(), '', 0.001);
+
+        // When
+        $pmf = $uniform->pmf();
+
+        // Then
+        $this->assertEquals($expectedPmf, $pmf, '', 0.001);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForPmf(): array
     {
         return [
@@ -34,25 +44,40 @@ class UniformTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructorException()
     {
+        // Given
+        $a = 4;
+        $b = 1;
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
-        $a   = 4;
-        $b   = 1;
+
+        // When
         $uniform = new Uniform($a, $b);
     }
 
     /**
-     * @testCase     cdf returns the expected culmulative probability
+     * @testCase     cdf returns the expected cumulative probability
      * @dataProvider dataProviderForCdf
      * @param        int   $a
      * @param        int   $b
-     * @param        float $pmf
+     * @param        float $expectedCdf
+     * @throws       \Exception
      */
-    public function testCdf(int $a, int $b, $k, float $pmf)
+    public function testCdf(int $a, int $b, $k, float $expectedCdf)
     {
+        // Given
         $uniform = new Uniform($a, $b);
-        $this->assertEquals($pmf, $uniform->cdf($k), '', 0.001);
+
+        // When
+        $cdf = $uniform->cdf($k);
+
+        // Then
+        $this->assertEquals($expectedCdf, $cdf, '', 0.001);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForCdf(): array
     {
         return [
@@ -66,37 +91,87 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean returns the expected average
+     * @testCase     mean
      * @dataProvider dataProviderForAverage
      * @param        int   $a
      * @param        int   $b
-     * @param        float $mean
+     * @param        float $expectedMean
+     * @throws       \Exception
      */
-    public function testMean(int $a, int $b, float $mean)
+    public function testMean(int $a, int $b, float $expectedMean)
     {
+        // Given
         $uniform = new Uniform($a, $b);
-        $this->assertEquals($mean, $uniform->mean(), '', 0.0001);
+
+        // When
+        $mean = $uniform->mean();
+
+        // Then
+        $this->assertEquals($expectedMean, $mean, '', 0.0001);
     }
 
     /**
-     * @testCase     median returns the expected average
+     * @testCase     median
      * @dataProvider dataProviderForAverage
      * @param        int   $a
      * @param        int   $b
-     * @param        float $mean
+     * @param        float $expectedMedian
+     * @throws       \Exception
      */
-    public function testMedian(int $a, int $b, float $median)
+    public function testMedian(int $a, int $b, float $expectedMedian)
     {
+        // Given
         $uniform = new Uniform($a, $b);
-        $this->assertEquals($median, $uniform->median(), '', 0.0001);
+
+        // When
+        $median = $uniform->median();
+
+        // Then
+        $this->assertEquals($expectedMedian, $median, '', 0.0001);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForAverage(): array
     {
         return [
             [1, 2, 3/2],
             [1, 3, 4/2],
             [1, 4, 5/2],
+        ];
+    }
+
+    /**
+     * @testCase     variance
+     * @dataProvider dataProviderForVariance
+     * @param        int   $a
+     * @param        int   $b
+     * @param        float $expectedVariance
+     * @throws       \Exception
+     */
+    public function testVariance(int $a, int $b, float $expectedVariance)
+    {
+        // Given
+        $uniform = new Uniform($a, $b);
+
+        // When
+        $variance = $uniform->variance();
+
+        // Then
+        $this->assertEquals($expectedVariance, $variance, '', 0.0001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [1, 2, 0.25],
+            [1, 3, 0.66666666666667],
+            [1, 4, 1.25],
+            [2, 4, 0.66666666666667],
         ];
     }
 }

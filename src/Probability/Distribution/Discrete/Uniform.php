@@ -61,9 +61,9 @@ class Uniform extends Discrete
      *
      * Percentile n = b - a + 1
      *
-     * @return number
+     * @return float
      */
-    public function pmf()
+    public function pmf(): float
     {
         $a = $this->a;
         $b = $this->b;
@@ -84,9 +84,9 @@ class Uniform extends Discrete
      *
      * @param int $k percentile
      *
-     * @return number
+     * @return float
      */
-    public function cdf(int $k)
+    public function cdf(int $k): float
     {
         $a = $this->a;
         $b = $this->b;
@@ -110,9 +110,9 @@ class Uniform extends Discrete
      * μ = -----
      *       2
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
         $a = $this->a;
         $b = $this->b;
@@ -127,13 +127,30 @@ class Uniform extends Discrete
      * μ = -----
      *       2
      *
-     * @return number
+     * @return float
      */
-    public function median()
+    public function median(): float
     {
         $a = $this->a;
         $b = $this->b;
 
         return ($a + $b) / 2;
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     *      (b - a + 1)² - 1
+     * σ² = ----------------
+     *             12
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $a = $this->a;
+        $b = $this->b;
+
+        return (($b - $a + 1)**2 - 1) / 12;
     }
 }
