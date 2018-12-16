@@ -1247,6 +1247,10 @@ $k                = 2;   // number of trials
 $shiftedGeometric = new Discrete\ShiftedGeometric($p);
 $pmf              = $shiftedGeometric->pmf($k);
 $cdf              = $shiftedGeometric->cdf($k);
+$μ                = $shiftedGeometric->mean();
+$median           = $shiftedGeometric->median();
+$mode             = $shiftedGeometric->mode();
+$σ²               = $shiftedGeometric->variance();
 
 // Uniform distribution
 $a       = 1; // lower boundary of the distribution
