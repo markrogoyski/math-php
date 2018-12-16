@@ -1236,6 +1236,10 @@ $k       = 3; // events in the interval
 $poisson = new Discrete\Poisson($λ);
 $pmf     = $poisson->pmf($k);
 $cdf     = $poisson->cdf($k);
+$μ       = $poisson->mean();
+$median  = $poisson->median();
+$mode    = $poisson->mode();
+$σ²      = $poisson->variance();
 
 // Shifted geometric distribution (probability to get one success)
 $p                = 0.5; // success probability

@@ -92,4 +92,55 @@ class Poisson extends Discrete
             range(0, $k)
         ));
     }
+
+    /**
+     * Mean of the distribution
+     *
+     * μ = λ
+     *
+     * @return float
+     */
+    public function mean(): float
+    {
+        return $this->λ;
+    }
+
+    /**
+     * Median of the distribution
+     *
+     * median = ⌊λ + ⅓ - 0.02/λ⌋
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        return floor($this->λ + 1/3 - 0.02/$this->λ);
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     * mode = ⌈λ - 1⌉, ⌊λ⌋
+     *
+     * @return array
+     */
+    public function mode(): array
+    {
+        return [
+            ceil($this->λ - 1),
+            floor($this->λ),
+        ];
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     * σ² = λ
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        return $this->λ;
+    }
 }
