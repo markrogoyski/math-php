@@ -225,7 +225,7 @@ class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
         ];
-    }    
+    }
 
     /**
      * @dataProvider dataProviderDet
