@@ -107,6 +107,39 @@ class ObjectSquareMatrix extends SquareMatrix
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function multiply($B): Matrix
+    {
+        if ((!$B instanceof Matrix) && (!$B instanceof Vector)) {
+            throw new Exception\IncorrectTypeException('Can only do matrix multiplication with a Matrix or Vector');
+        }
+        if ($B instanceof Vector) {
+            $B = $B->asColumnMatrix();
+        }
+        if ($B->getM() !== $this->n) {
+            throw new Exception\MatrixException("Matrix dimensions do not match");
+        }
+        $n = $B->getN();
+        $m = $this->m;
+        $R = [];
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $VA        = $this->getRow($i);
+                $VB        = $B->getColumn($j);
+                $sum = $VA[0]->multiply($VB[0]);
+                foreach ($VA as $key => $value) {
+                    if ($key > 0) {
+                        $sum = $sum->add($VA[$key]->multiply($VB[$key]));
+                    }
+                }
+                $R[$i][$j] = $sum;
+            }
+        }
+        return MatrixFactory::create($R);
+    }
+    
+    /**
      * Determinant
      *
      * This implementation is simpler than that of the parent. Instead of

@@ -51,6 +51,23 @@ class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
         $C = $A->add($B);
     }
 
+    public function testMatrixMulSizeException()
+    {
+        $polynomial = new Polynomial([1, 4, 7]);
+        $A = MatrixFactory::create([[$polynomial, $polynomial]]);
+        $B = MatrixFactory::create([[$polynomial]]);
+        $this->expectException(Exception\MatrixException::class);
+        $C = $A->multiply($B);
+    }
+
+    public function testMatrixMulTypeException()
+    {
+        $polynomial = new Polynomial([1, 4, 7]);
+        $A = MatrixFactory::create([[$polynomial, $polynomial]]);
+        $this->expectException(Exception\IncorrectTypeException::class);
+        $C = $A->multiply(21);
+    }
+    
     /**
      * @dataProvider dataProviderDetException
      */
@@ -159,6 +176,52 @@ class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
                 [
                     [new Polynomial([3, 0]), new Polynomial([0, 1])],
                     [new Polynomial([3, -2]), new Polynomial([-3, -4])],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderMul
+     */
+    public function testMul(array $A, array $B, array $expected)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+        $sum = $A->multiply($B);
+        $expected = matrixFactory::create($expected);
+        $this->assertEquals($sum, $expected);
+    }
+
+    public function dataProviderMul()
+    {
+        return [
+            [
+                [
+                    [new Polynomial([1, 0]), new Polynomial([0, 0])],
+                    [new Polynomial([0, 0]), new Polynomial([1, 0])],
+                ],
+                [
+                    [new Polynomial([1, 0]), new Polynomial([1, 1])],
+                    [new Polynomial([1, 1]), new Polynomial([1, 0])],
+                ],
+                [
+                    [new Polynomial([1, 0, 0]), new Polynomial([1, 1, 0])],
+                    [new Polynomial([1, 1, 0]), new Polynomial([1, 0, 0])],
+                ],
+            ],
+            [
+                [
+                    [new Polynomial([1, 0]), new Polynomial([1, 0])],
+                    [new Polynomial([1, 0]), new Polynomial([1, 0])],
+                ],
+                [
+                    [new Polynomial([1, 0]), new Polynomial([1, 1])],
+                    [new Polynomial([1, 1]), new Polynomial([1, 0])],
+                ],
+                [
+                    [new Polynomial([2, 1, 0]), new Polynomial([2, 1, 0])],
+                    [new Polynomial([2, 1, 0]), new Polynomial([2, 1, 0])],
                 ],
             ],
         ];
