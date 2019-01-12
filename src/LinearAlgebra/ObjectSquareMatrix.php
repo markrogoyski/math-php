@@ -127,13 +127,20 @@ class ObjectSquareMatrix extends SquareMatrix
             for ($j = 0; $j < $n; $j++) {
                 $VA        = $this->getRow($i);
                 $VB        = $B->getColumn($j);
-                $sum = $VA[0]->multiply($VB[0]);
-                foreach ($VA as $key => $value) {
-                    if ($key > 0) {
-                        $sum = $sum->add($VA[$key]->multiply($VB[$key]));
+                $R[$i][$j] = array_reduce(
+                    array_map(
+                        function (ObjectArithmetic $a, ObjectArithmetic $b) {
+                            return $a->multiply($b);
+                        },
+                        $VA,
+                        $VB
+                    ),
+                    function ($sum, $item) {
+                        return $sum
+                            ? $sum->add($item)
+                            : $item;
                     }
-                }
-                $R[$i][$j] = $sum;
+                );
             }
         }
         return MatrixFactory::create($R);
