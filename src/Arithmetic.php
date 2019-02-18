@@ -102,4 +102,35 @@ class Arithmetic
             ? abs($magnitude)
             : -abs($magnitude);
     }
+
+    /**
+     * Truncate a given number's decimals, to at most the requested amount of decimal places - without any rounding
+     *
+     * @param float $number The number which we are truncating decimals of
+     * @param int $places The amount of decimals to keep
+     * @return string The result number (Could be a float-like number or not, depending on places > 0)
+     */
+    public static function truncateDecimals(float $number, int $places)
+    {
+        $positionOfDecimal = strpos($number, '.');
+
+        // Get position of decimal - if there aren't any, then result the number
+        if ($positionOfDecimal === false) {
+            return $number;
+        }
+
+        // Get the right number of decimals
+        $decimal = substr($number, $positionOfDecimal + 1);
+        $truncatedDecimal = substr($decimal, 0, $places);
+
+        // Create final result
+        $result = substr($number, 0, $positionOfDecimal) . '.' . $truncatedDecimal;
+
+        // If we are truncating to no decimal places, remove the dot at the end
+        if ($places == 0) {
+            $result = substr($result, 0, -1);
+        }
+
+        return $result;
+    }
 }
