@@ -1531,6 +1531,41 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Augment a matrix from above
+     * An augmented matrix is a matrix obtained by prepending the rows of two given matrices
+     *
+     *     [1, 2, 3]
+     * A = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     * B = [4, 5, 6]
+     *
+     *         [4, 5, 6]
+     *         [1, 2, 3]
+     * (A_B) = [2, 3, 4]
+     *         [3, 4, 5]
+     *
+     * @param  Matrix $B Matrix rows to add to matrix A
+     *
+     * @return Matrix
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
+     */
+    public function augmentAbove(Matrix $B): Matrix
+    {
+        if ($B->getN() !== $this->n) {
+            throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
+        }
+
+        $⟮A∣B⟯ = array_merge($B->getMatrix(), $this->A);
+
+        return MatrixFactory::create($⟮A∣B⟯);
+    }
+
+    /**
      * Inverse
      *
      * For a 2x2 matrix:

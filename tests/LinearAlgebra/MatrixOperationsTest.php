@@ -1320,18 +1320,31 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     augmentBelow
      * @dataProvider dataProviderForAugmentBelow
+     * @param        array $A
+     * @param        array $B
+     * @param        array $⟮A∣B⟯
+     * @throws       \Exception
      */
     public function testAugmentBelow(array $A, array $B, array $⟮A∣B⟯)
     {
+        // Given
         $A    = MatrixFactory::create($A);
         $B    = MatrixFactory::create($B);
         $⟮A∣B⟯ = MatrixFactory::create($⟮A∣B⟯);
 
-        $this->assertEquals($⟮A∣B⟯, $A->augmentBelow($B));
+        // When
+        $augmented = $A->augmentBelow($B);
+
+        // Then
+        $this->assertEquals($⟮A∣B⟯, $augmented);
     }
 
-    public function dataProviderForAugmentBelow()
+    /**
+     * @return array
+     */
+    public function dataProviderForAugmentBelow(): array
     {
         return [
             [
@@ -1407,8 +1420,13 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testAugmentBelowExceptionColumnssDoNotMatch()
+    /**
+     * @testCase It is an error to augment a matrix from below if the column count does not match
+     * @throws   \Exception
+     */
+    public function testAugmentBelowExceptionColumnsDoNotMatch()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
@@ -1419,8 +1437,136 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
             [5, 6],
         ]);
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->augmentBelow($B);
+    }
+
+    /**
+     * @testCase     augmentAbove
+     * @dataProvider dataProviderForAugmentAbove
+     * @param        array $A
+     * @param        array $B
+     * @param        array $⟮A∣B⟯
+     * @throws       \Exception
+     */
+    public function testAugmentAbove(array $A, array $B, array $⟮A∣B⟯)
+    {
+        // Given
+        $A    = MatrixFactory::create($A);
+        $B    = MatrixFactory::create($B);
+        $⟮A∣B⟯ = MatrixFactory::create($⟮A∣B⟯);
+
+        // When
+        $augmented = $A->augmentAbove($B);
+
+        // Then
+        $this->assertEquals($⟮A∣B⟯, $augmented);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForAugmentAbove(): array
+    {
+        return [
+            [
+                [
+                    [1],
+                ],
+                [
+                    [2],
+                ],
+                [
+                    [2],
+                    [1],
+                ],
+            ],
+            [
+                [
+                    [1],
+                    [2],
+                ],
+                [
+                    [3],
+                ],
+                [
+                    [3],
+                    [1],
+                    [2],
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [2, 3],
+                ],
+                [
+                    [3, 4],
+                ],
+                [
+                    [3, 4],
+                    [1, 2],
+                    [2, 3],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                ],
+                [
+                    [3, 4, 5],
+                ],
+                [
+                    [3, 4, 5],
+                    [1, 2, 3],
+                    [2, 3, 4],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                ],
+                [
+                    [3, 4, 5],
+                    [4, 5, 6]
+                ],
+                [
+                    [3, 4, 5],
+                    [4, 5, 6],
+                    [1, 2, 3],
+                    [2, 3, 4],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase It is an error to augment a matrix from above if the column count does not match
+     * @throws   \Exception
+     */
+    public function testAugmentAboveExceptionColumnsDoNotMatch()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $B = MatrixFactory::create([
+            [4, 5],
+            [5, 6],
+        ]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $A->augmentAbove($B);
     }
 
     /**
