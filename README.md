@@ -419,6 +419,7 @@ $⟮A∣B⟯  = $A->augment($B);
 $⟮A∣I⟯  = $A->augmentIdentity();         // Augment with the identity matrix
 $⟮A∣B⟯  = $A->augmentBelow($B);
 $⟮A∣B⟯  = $A->augmentAbove($B);
+$⟮B∣A⟯  = $A->augmentLeft($B);
 $A⁻¹   = $A->inverse();
 $Mᵢⱼ   = $A->minorMatrix($mᵢ, $nⱼ);     // Square matrix with row mᵢ and column nⱼ removed
 $Mk    = $A->leadingPrincipalMinor($k); // kᵗʰ-order leading principal minor

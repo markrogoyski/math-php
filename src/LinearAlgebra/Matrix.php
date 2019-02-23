@@ -950,6 +950,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - diagonal
      *  - augment
      *  - augmentIdentity
+     *  - augmentBelow
+     *  - augmentAbove
+     *  - augmentLeft
      *  - inverse
      *  - minorMatrix
      *  - cofactorMatrix
@@ -1495,6 +1498,47 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return $this->augment(MatrixFactory::identity($this->getM()));
+    }
+
+    /**
+     * Augment a matrix on the left
+     * An augmented matrix is a matrix obtained by preprending the columns of two given matrices
+     *
+     *     [1, 2, 3]
+     * A = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     *     [4]
+     * B = [5]
+     *     [6]
+     *
+     *         [4 | 1, 2, 3]
+     * (A|B) = [5 | 2, 3, 4]
+     *         [6 | 3, 4, 5]
+     *
+     * @param  Matrix $B Matrix columns to add to matrix A
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException if matrices do not have the same number of rows
+     * @throws Exception\IncorrectTypeException
+     */
+    public function augmentLeft(Matrix $B): Matrix
+    {
+        if ($B->getM() !== $this->m) {
+            throw new Exception\MatrixException('Matrices to augment do not have the same number of rows');
+        }
+
+        $m    = $this->m;
+        $A    = $this->A;
+        $B    = $B->getMatrix();
+        $⟮B∣A⟯ = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            $⟮B∣A⟯[$i] = array_merge($B[$i], $A[$i]);
+        }
+
+        return MatrixFactory::create($⟮B∣A⟯);
     }
 
     /**

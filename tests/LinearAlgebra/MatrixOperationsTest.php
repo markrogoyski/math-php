@@ -1151,18 +1151,31 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     augment
      * @dataProvider dataProviderForAugment
+     * @param        array $A
+     * @param        array $B
+     * @param        array $⟮A∣B⟯
+     * @throws       \Exception
      */
     public function testAugment(array $A, array $B, array $⟮A∣B⟯)
     {
+        // Given
         $A    = MatrixFactory::create($A);
         $B    = MatrixFactory::create($B);
         $⟮A∣B⟯ = MatrixFactory::create($⟮A∣B⟯);
 
-        $this->assertEquals($⟮A∣B⟯, $A->augment($B));
+        // When
+        $augmented = $A->augment($B);
+
+        // Then
+        $this->assertEquals($⟮A∣B⟯, $augmented);
     }
 
-    public function dataProviderForAugment()
+    /**
+     * @return array
+     */
+    public function dataProviderForAugment(): array
     {
         return [
             [
@@ -1244,6 +1257,10 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @testCase augment matrix with matrix that does not match dimensions
+     * @throws   \Exception
+     */
     public function testAugmentExceptionRowsDoNotMatch()
     {
         $A = MatrixFactory::create([
@@ -1567,6 +1584,133 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
 
         // When
         $A->augmentAbove($B);
+    }
+
+    /**
+     * @testCase     augmentLeft
+     * @dataProvider dataProviderForAugment
+     * @param        array $A
+     * @param        array $B
+     * @param        array $⟮A∣B⟯
+     * @throws       \Exception
+     */
+    public function testAugmentLeft(array $A, array $B, array $⟮B∣A⟯)
+    {
+        // Given
+        $A    = MatrixFactory::create($A);
+        $B    = MatrixFactory::create($B);
+        $⟮B∣A⟯ = MatrixFactory::create($⟮B∣A⟯);
+
+        // When
+        $augmented = $A->augment($B);
+
+        // Then
+        $this->assertEquals($⟮B∣A⟯, $augmented);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForAugmentLeft(): array
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [
+                    [4],
+                    [5],
+                    [6],
+                ],
+                [
+                    [4, 1, 2, 3],
+                    [5, 2, 3, 4],
+                    [6, 3, 4, 5],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [
+                    [4, 7, 8],
+                    [5, 7, 8],
+                    [6, 7, 8],
+                ],
+                [
+                    [4, 7, 8, 1, 2, 3],
+                    [5, 7, 8, 2, 3, 4],
+                    [6, 7, 8, 3, 4, 5],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+
+                ],
+                [
+                    [4],
+
+                ],
+                [
+                    [4, 1, 2, 3],
+                ]
+            ],
+            [
+                [
+                    [1],
+
+                ],
+                [
+                    [4],
+                ],
+                [
+                    [4, 1],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [
+                    [4, 7, 8, 9],
+                    [5, 7, 8, 9],
+                    [6, 7, 8, 9],
+                ],
+                [
+                    [4, 7, 8, 9, 1, 2, 3],
+                    [5, 7, 8, 9, 2, 3, 4],
+                    [6, 7, 8, 9, 3, 4, 5],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @testCase augmentLeft matrix with matrix that does not match dimensions
+     * @throws   \Exception
+     */
+    public function testAugmentLeftExceptionRowsDoNotMatch()
+    {
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+        $B = MatrixFactory::create([
+            [4, 5],
+            [5, 6],
+        ]);
+
+        $this->expectException(Exception\MatrixException::class);
+        $A->augmentLeft($B);
     }
 
     /**
