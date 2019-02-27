@@ -439,7 +439,7 @@ class Correlation
         $⟮nc − nd⟯ = $nc - $nd;
        
         /* tau-a (no rank ties):
-         *   
+         *
          *        nc - nd
          *   τ = ----------
          *       n(n - 1)/2
