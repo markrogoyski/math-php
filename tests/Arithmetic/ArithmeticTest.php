@@ -394,13 +394,13 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
      * @param        int $places
      * @param        string $expectedResult
      */
-    public function testTruncatesDecimals(float $x, int $places, string $expectedResult)
+    public function testTruncatesDecimals(string $x, int $places, string $expectedResult)
     {
         // When
         $result = Arithmetic::truncateDecimals($x, $places);
 
         // Then
-        $this->assertEquals($expectedResult, $result);
+        $this->assertTrue($expectedResult === $result);
     }
 
     /**
@@ -409,23 +409,26 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForTruncateDecimals(): array
     {
         return [
-            [12.123456789, 5, 12.12345],
-            [12.123, 2, 12.12],
-            [12.127, 2, 12.12],
-            [12.12, 2, 12.12],
-            [12, 2, 12],
-            [12.0000, 3, 12.000],
-            [12.0009346, 3, 12.000],
-            [12.0009346, 4, 12.0009],
-            [-352.682, 1, -352.6],
-            [0, 1, 0],
-            [123.45, 3, 123.45],
-            [123, 0, 123],
-            [123.456, 0, 123],
-            [123, 5, 123],
-            [123., 2, 123],
-            [123., 0, 123],
-            [123.321, 0, 123],
+            ['12.123456789', 5, '12.12345'],
+            ['12.123', 2, '12.12'],
+            ['12.127', 2, '12.12'],
+            ['12.12', 2, '12.12'],
+            ['12', 2, '12'],
+            ['12.0000', 3, '12.000'],
+            ['12.0009346', 3, '12.000'],
+            ['12.0009346', 4, '12.0009'],
+            ['-352.682', 1, '-352.6'],
+            ['0', 1, '0'],
+            ['123.45', 3, '123.45'],
+            ['123', 0, '123'],
+            ['123.456', 0, '123'],
+            ['123', 5, '123'],
+            ['123.', 2, '123'],
+            ['123.', 0, '123'],
+            ['123.321', 0, '123'],
+            ['123.006', 2, '123.00'],
         ];
     }
+
+
 }
