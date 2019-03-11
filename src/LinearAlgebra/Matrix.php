@@ -3401,7 +3401,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Householder reflection
      *
-     * u = x - αx   where α = ‖x‖
+     * u = x - αe   where α = ‖x‖
      *
      *      u
      * v = ---

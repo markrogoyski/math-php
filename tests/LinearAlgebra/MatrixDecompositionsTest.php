@@ -2151,5 +2151,4 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
             //],
         ];
     }
-
 }
