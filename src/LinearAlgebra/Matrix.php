@@ -3325,6 +3325,131 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         ];
     }
 
+    /**
+     * Floating point adjustment for zero values
+     */
+    protected function floatingPointZeroAdjustment()
+    {
+        for ($i = 0; $i < $this->m; $i++) {
+            for ($j = 0; $j < $this->n; $j++) {
+                if (Support::isZero($this->A[$i][$j])) {
+                    $this->A[$i][$j] = 0;
+                }
+            }
+        }
+    }
+
+    /**
+     * QR Decomposition using Householder reflections
+     *
+     * A = QR
+     *
+     * Q is an orthogonal matrix
+     * R is an upper triangular matrix
+     *
+     * @return Matrix[] Q and R
+     *
+     * @throws Exception\MathException
+     */
+    public function qrDecomposition(): array
+    {
+        $m   = $this->m;
+        $n   = $this->n;
+        $R   = clone($this);
+        $Hs  = [];
+
+        // R = H₂H₁Hx A where H are Householder reflection matrices
+        for ($i = 0; $i < $n; $i++) {
+            $Aᵢ = $R;
+
+            // H = householder reflection matrix
+            for ($j = 0; $j < $i; $j++) {
+                $Aᵢ = $Aᵢ->minorMatrix(0, 0);
+            }
+            $Hᵢ = $this->householderReflection($Aᵢ);
+
+            // Augment H as an identity matrix back to size of original A
+            for ($k = $i; $k > 0; $k--) {
+                $leftAugment           = MatrixFactory::zero($Hᵢ->getN(), 1);
+                $aboveAugmentValues    = array_fill(0, $Hᵢ->getM() + 1, 0);
+                $aboveAugmentValues[0] = 1;
+                $aboveAugment = MatrixFactory::create([$aboveAugmentValues]);
+                $Hᵢ = $Hᵢ->augmentLeft($leftAugment)->augmentAbove($aboveAugment);
+            }
+
+            $Hs[] = $Hᵢ;
+            $R    = $Hᵢ->multiply($R);
+        }
+        $R->floatingPointZeroAdjustment();
+
+        // Q = H₂H₁Hx
+        $H₁ = array_shift($Hs);
+        $Q  = array_reduce(
+            $Hs,
+            function (Matrix $product, Matrix $Hᵢ) {
+                return $product->multiply($Hᵢ);
+            },
+            $H₁
+        );
+
+        return [
+            'Q' => $Q,
+            'R' => $R,
+        ];
+    }
+
+    /**
+     * Householder reflection
+     *
+     * u = x - αx   where α = ‖x‖
+     *
+     *      u
+     * v = ---
+     *     ‖u‖
+     *
+     * Q = I - 2vvᵀ
+     *
+     * @param Matrix $A
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MathException
+     */
+    private function householderReflection(Matrix $A): Matrix
+    {
+        $aᵢ   = new Vector($A->getColumn(0));
+        $size = count($aᵢ);
+
+        // α = ‖x‖
+        $α = sqrt(array_sum(Map\Single::square($aᵢ->getVector())));
+
+        // eᵢ = [1, 0, 0, ... ]
+        $eᵢ    = array_fill(0, $size, 0);
+        $eᵢ[0] = 1;
+        $eᵢ    = new Vector($eᵢ);
+
+        // u = x - sign(a1) * αe
+        $x = $aᵢ;
+        $u = $x[0] < 0
+            ? $x->subtract($eᵢ->scalarMultiply($α))
+            : $x->add($eᵢ->scalarMultiply($α));
+
+        // v = u / ‖u‖
+        $‖u‖ = sqrt(array_sum(Map\Single::square($u->getVector())));
+        $v = $‖u‖ != 0
+            ? $u->scalarDivide($‖u‖)
+            : $u;
+
+        // Qᵢ = I - 2 vvᵀ
+        $Iᵢ  = MatrixFactory::identity($size);
+        $v   = $v->asColumnMatrix();
+        $vᵀ  = $v->transpose();
+        $vvᵀ = $v->multiply($vᵀ);
+        $Hᵢ  = $Iᵢ->subtract($vvᵀ->scalarMultiply(2));
+
+        return $Hᵢ;
+    }
+
     /**************************************************************************
      * SOLVE LINEAR SYSTEM OF EQUATIONS
      * - solve

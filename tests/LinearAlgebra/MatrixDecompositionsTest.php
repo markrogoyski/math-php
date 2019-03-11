@@ -2071,4 +2071,85 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\MatrixException::class);
         $lu = $A->croutDecomposition();
     }
+
+    /**
+     * @testCase     qrDecomposition returns the expected array of Q and R factorized matrices
+     * @dataProvider dataProviderForQrDecomposition
+     * @param        array $A
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testQrDecomposition1(array $A, array $expected)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $Q = MatrixFactory::create($expected['Q']);
+        $R = MatrixFactory::create($expected['R']);
+
+        // When
+        $qr  = $A->qrDecomposition();
+        $qrQ = $qr['Q'];
+        $qrR = $qr['R'];
+
+        print("\nR:$qrR");
+
+        // Then A = QR
+        $this->assertEquals($A->getMatrix(), $qrQ->multiply($qrR)->getMatrix(), '', 0.00001);
+
+        // And Q is orthogonal and R is upper triangular
+        $this->assertTrue($qrR->isUpperTriangular());
+        // Add test for Q orthongality
+
+        // And Q and R are expected solution to QR decomposition
+        $this->assertEquals($R->getMatrix(), $qrR->getMatrix(), '', 0.00001);
+        $this->assertEquals($Q->getMatrix(), $qrQ->getMatrix(), '', 0.00001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForQrDecomposition(): array
+    {
+        return [
+            [
+                [
+                    [2, -2, 18],
+                    [2, 1, 0],
+                    [1, 2, 0],
+                ],
+                [
+                    'Q' => [
+                        [-2/3,  2/3, 1/3],
+                        [-2/3, -1/3, -2/3],
+                        [-1/3, -2/3, 2/3],
+                    ],
+                    'R' => [
+                        [-3,  0, -12],
+                        [ 0, -3,  12],
+                        [ 0,  0,  6],
+                    ],
+                ],
+            ],
+            //[
+            //    [
+            //        [12, -51,    4],
+            //        [ 6,  167, -68],
+            //        [-4,  24,  -41],
+            //    ],
+            //    [
+            //        'Q' => [
+            //            [ -0.85714286,  0.39428571,  0.33142857],
+            //            [ -0.42857143, -0.90285714, -0.03428571],
+            //            [0.28571429, -0.17142857,  0.94285714],
+            //        ],
+            //        'R' => [
+            //            [-14,  -21, 14],
+            //            [ 0, -175, 70],
+            //            [ 0,   0,  -35],
+            //        ],
+            //    ],
+            //],
+        ];
+    }
+
 }
