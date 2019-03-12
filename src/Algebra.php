@@ -136,6 +136,7 @@ class Algebra
                 }
             }
         }
+
         sort($factors);
         return $factors;
     }
@@ -352,13 +353,14 @@ class Algebra
 
         if (!$return_complex) {
             return [$z₁, \NAN, \NAN];
-        } else {
-            $quad_a = 1;
-            $quad_b = $a₂ + $z₁;
-            $quad_c = $a₁ + $quad_b * $z₁;
-            $complex_roots = self::quadratic($quad_a, $quad_b, $quad_c, true);
-            return array_merge([$z₁], $complex_roots);
         }
+
+        $quad_a = 1;
+        $quad_b = $a₂ + $z₁;
+        $quad_c = $a₁ + $quad_b * $z₁;
+        $complex_roots = self::quadratic($quad_a, $quad_b, $quad_c, true);
+
+        return array_merge([$z₁], $complex_roots);
     }
 
     /**
@@ -406,15 +408,16 @@ class Algebra
             $z₋ = $quadratic_roots[1];
             if (!$return_complex) {
                 return [sqrt($z₊), -1 * sqrt($z₊), sqrt($z₋), -1 * sqrt($z₋)];
-            } else {
-                $Cz₊ = new Complex($z₊, 0);
-                $Cz₋ = new Complex($z₋, 0);
-                $z₁ = $z₊ < 0 ? $Cz₊->sqrt()  : sqrt($z₊);
-                $z₂ = $z₊ < 0 ? $z₁->negate() : $z₁ * -1;
-                $z₃ = $z₋ < 0 ? $Cz₋->sqrt()  : sqrt($z₋);
-                $z₄ = $z₋ < 0 ? $z₃->negate() : $z₃ * -1;
-                return [$z₁, $z₂, $z₃, $z₄];
             }
+
+            $Cz₊ = new Complex($z₊, 0);
+            $Cz₋ = new Complex($z₋, 0);
+            $z₁  = $z₊ < 0 ? $Cz₊->sqrt()  : sqrt($z₊);
+            $z₂  = $z₊ < 0 ? $z₁->negate() : $z₁ * -1;
+            $z₃  = $z₋ < 0 ? $Cz₋->sqrt()  : sqrt($z₋);
+            $z₄  = $z₋ < 0 ? $z₃->negate() : $z₃ * -1;
+
+            return [$z₁, $z₂, $z₃, $z₄];
         }
         
         // Is a depressed quartic
@@ -449,16 +452,16 @@ class Algebra
         // The roots for this polynomial are the roots of the depressed polynomial minus a₃/4.
         if (!$return_complex) {
             return Single::subtract($depressed_quartic_roots, $a₃ / 4);
-        } else {
-            $quartic_roots = [];
-            foreach ($depressed_quartic_roots as $key => $root) {
-                if (is_float($root)) {
-                    $quartic_roots[$key] = $root - $a₃ / 4;
-                } else {
-                    $quartic_roots[$key] = $root->subtract($a₃ / 4);
-                }
-            }
-            return $quartic_roots;
         }
+
+        $quartic_roots = [];
+        foreach ($depressed_quartic_roots as $key => $root) {
+            if (is_float($root)) {
+                $quartic_roots[$key] = $root - $a₃ / 4;
+            } else {
+                $quartic_roots[$key] = $root->subtract($a₃ / 4);
+            }
+        }
+        return $quartic_roots;
     }
 }

@@ -94,92 +94,122 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     digitSum returns the expected sum of digits
-     * @dataProvider dataProviderForDigitSum
+     * @testCase     digitSum returns the expected sum of digits for base 10
+     * @dataProvider dataProviderForDigitSumBaseTen
      * @param        int $x
-     * @param        int $b
      * @param        int $expected
      */
-    public function testDigitSum(int $x, int $b, int $expected)
+    public function testDigitSum(int $x, int $expected)
     {
+        // Given
+        $base = 10;
+
         // When
-        $digital_sum = Arithmetic::digitSum($x, $b);
+        $digital_sum = Arithmetic::digitSum($x, $base);
 
         // Then
         $this->assertEquals($expected, $digital_sum);
     }
 
-    public function dataProviderForDigitSum(): array
+    /**
+     * @return array
+     */
+    public function dataProviderForDigitSumBaseTen(): array
     {
         return [
-            // Base 10
-            [0, 10, 0],
-            [1, 10, 1],
-            [2, 10, 2],
-            [3, 10, 3],
-            [4, 10, 4],
-            [5, 10, 5],
-            [6, 10, 6],
-            [7, 10, 7],
-            [8, 10, 8],
-            [9, 10, 9],
-            [10, 10, 1],
-            [11, 10, 2],
-            [12, 10, 3],
-            [13, 10, 4],
-            [14, 10, 5],
-            [15, 10, 6],
-            [16, 10, 7],
-            [17, 10, 8],
-            [18, 10, 9],
-            [19, 10, 10],
-            [20, 10, 2],
-            [21, 10, 3],
-            [22, 10, 4],
-            [23, 10, 5],
-            [24, 10, 6],
-            [25, 10, 7],
-            [26, 10, 8],
-            [27, 10, 9],
-            [28, 10, 10],
-            [29, 10, 11],
-            [30, 10, 3],
-            [31, 10, 4],
-            [32, 10, 5],
-            [33, 10, 6],
-            [34, 10, 7],
-            [111, 10, 3],
-            [222, 10, 6],
-            [123, 10, 6],
-            [999, 10, 27],
-            [152, 10, 8],
-            [84001, 10, 13],
-            [18, 10, 9],
-            [27, 10, 9],
-            [36, 10, 9],
-            [45, 10, 9],
-            [54, 10, 9],
-            [63, 10, 9],
-            [72, 10, 9],
-            [81, 10, 9],
-            [90, 10, 9],
-            [99, 10, 18],
-            // Base 2
-            [0b0, 2, 0],
-            [0b1, 2, 1],
-            [0b10, 2, 1],
-            [0b11, 2, 2],
-            [0b100, 2, 1],
-            [0b101, 2, 2],
-            [0b110, 2, 2],
-            [0b111, 2, 3],
-            [0b1000, 2, 1],
-            [0b1001, 2, 2],
-            [0b1010, 2, 2],
-            [0b1011, 2, 3],
-            [0b1100, 2, 2],
-            [0b1101, 2, 3],
-            [0b111, 2, 3],
+            [0, 0],
+            [1, 1],
+            [2, 2],
+            [3, 3],
+            [4, 4],
+            [5, 5],
+            [6, 6],
+            [7, 7],
+            [8, 8],
+            [9, 9],
+            [10, 1],
+            [11, 2],
+            [12, 3],
+            [13, 4],
+            [14, 5],
+            [15, 6],
+            [16, 7],
+            [17, 8],
+            [18, 9],
+            [19, 10],
+            [20, 2],
+            [21, 3],
+            [22, 4],
+            [23, 5],
+            [24, 6],
+            [25, 7],
+            [26, 8],
+            [27, 9],
+            [28, 10],
+            [29, 11],
+            [30, 3],
+            [31, 4],
+            [32, 5],
+            [33, 6],
+            [34, 7],
+            [111, 3],
+            [222, 6],
+            [123, 6],
+            [999, 27],
+            [152, 8],
+            [84001, 13],
+            [18, 9],
+            [27, 9],
+            [36, 9],
+            [45, 9],
+            [54, 9],
+            [63, 9],
+            [72, 9],
+            [81, 9],
+            [90, 9],
+            [99, 18],
+        ];
+    }
+
+    /**
+     * @testCase     digitSum returns the expected sum of digits for base 2
+     * @dataProvider dataProviderForDigitSumBaseTwo
+     * @param        int $x
+     * @param        int $expected
+     */
+    public function testDigitSumBaseTwo(int $x, int $expected)
+    {
+        // Given
+        $base = 2;
+
+        // When
+        $digital_sum = Arithmetic::digitSum($x, $base);
+
+        // Then
+        $this->assertEquals($expected, $digital_sum);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForDigitSumBaseTwo(): array
+    {
+        return [
+            [0b0, 0],
+            [0b1, 1],
+            [0b10, 1],
+            [0b11, 2],
+            [0b100, 1],
+            [0b101, 2],
+            [0b110, 2],
+            [0b111, 3],
+            [0b1000, 1],
+            [0b1001, 2],
+            [0b1010, 2],
+            [0b1011, 3],
+            [0b1100, 2],
+            [0b1101, 3],
+            [0b111, 3],
         ];
     }
 
@@ -198,6 +228,9 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_root, $digital_root);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForDigitalRoot(): array
     {
         return [

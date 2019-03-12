@@ -8,14 +8,21 @@ class TrigonometryTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     unitCircle returns points on a unit circle.
      * @dataProvider dataProviderForUnitCircle
-     * @param        int $num
-     * @param        array $results
+     * @param        int   $points
+     * @param        array $expected
      */
-    public function testUnitCircle(int $num, array $results)
+    public function testUnitCircle(int $points, array $expected)
     {
-        $this->assertEquals($results, Trigonometry::unitCircle($num));
+        // When
+        $unitCircle = Trigonometry::unitCircle($points);
+
+        // Then
+        $this->assertEquals($expected, $unitCircle);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForUnitCircle(): array
     {
         return [

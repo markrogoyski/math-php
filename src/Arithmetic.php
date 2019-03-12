@@ -44,7 +44,7 @@ class Arithmetic
         $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ = 0;
 
         for ($n = 0; $n <= $logx; $n++) {
-            $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ += (($x % pow($b, $n+1)) - ($x % $b**$n)) / ($b**$n);
+            $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ += intdiv(($x % pow($b, $n+1)) - ($x % $b**$n), ($b**$n));
         }
 
         return $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯;

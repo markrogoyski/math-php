@@ -6,14 +6,24 @@ use MathPHP\Finance;
 class FinanceTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     checkZero
      * @dataProvider dataProviderForcheckZero
+     * @param        float $value
+     * @param        float $result
+     * @throws       \Exception
      */
-    public function testcheckZero(float $value, float $result)
+    public function testCheckZero(float $value, float $result)
     {
+        // Given
         $reflection = new \ReflectionClass('MathPHP\Finance');
-        $method = $reflection->getMethod('checkZero');
+        $method     = $reflection->getMethod('checkZero');
         $method->setAccessible(true);
-        $this->assertEquals($result, $method->invokeArgs(null, [$value]));
+
+        // When
+        $checkedZero = $method->invokeArgs(null, [$value]);
+
+        // Then
+        $this->assertEquals($result, $checkedZero);
     }
 
     /**
@@ -43,11 +53,22 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     pmt
      * @dataProvider dataProviderForPmt
+     * @param        float $rate
+     * @param        int   $periods
+     * @param        float $pv
+     * @param        float $fv
+     * @param        bool  $beginning
+     * @param        float $expected
      */
-    public function testPmt(float $rate, int $periods, float $pv, float $fv, bool $beginning, float $pmt)
+    public function testPmt(float $rate, int $periods, float $pv, float $fv, bool $beginning, float $expected)
     {
-        $this->assertEquals($pmt, Finance::pmt($rate, $periods, $pv, $fv, $beginning), '', Finance::EPSILON);
+        // When
+        $pmt = Finance::pmt($rate, $periods, $pv, $fv, $beginning);
+
+        // Then
+        $this->assertEquals($expected, $pmt, '', Finance::EPSILON);
     }
 
     /**
@@ -93,12 +114,23 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     ipmt
      * @dataProvider dataProviderForIpmt
+     * @param        float $rate
+     * @param        int   $period
+     * @param        int   $periods
+     * @param        float $pv
+     * @param        float $fv
+     * @param        bool  $beginning
+     * @param        float $expected
      */
-    public function testIPMT(float $rate, int $period, int $periods, float $pv, float $fv, bool $beginning, float $ipmt)
+    public function testIPMT(float $rate, int $period, int $periods, float $pv, float $fv, bool $beginning, float $expected)
     {
-        $result = Finance::ipmt($rate, $period, $periods, $pv, $fv, $beginning);
-        $this->assertEquals($ipmt, $result, '', Finance::EPSILON);
+        // Given
+        $ipmt = Finance::ipmt($rate, $period, $periods, $pv, $fv, $beginning);
+
+        // Then
+        $this->assertEquals($expected, $ipmt, '', Finance::EPSILON);
     }
 
     /**
@@ -147,12 +179,22 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     ipmt not a number
      * @dataProvider dataProviderForIpmtNan
+     * @param        float $rate
+     * @param        int   $period
+     * @param        int   $periods
+     * @param        float $pv
+     * @param        float $fv
+     * @param        bool  $beginning
      */
     public function testIpmtNan(float $rate, int $period, int $periods, float $pv, float $fv, bool $beginning)
     {
-        $result = Finance::ipmt($rate, $period, $periods, $pv, $fv, $beginning);
-        $this->assertNan($result);
+        // When
+        $ipmt = Finance::ipmt($rate, $period, $periods, $pv, $fv, $beginning);
+
+        // Then
+        $this->assertNan($ipmt);
     }
 
     /**
@@ -183,12 +225,23 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     ppmt
      * @dataProvider dataProviderForPpmt
+     * @param        float $rate
+     * @param        int   $period
+     * @param        int   $periods
+     * @param        float $pv
+     * @param        float $fv
+     * @param        bool  $beginning
+     * @param        float $expected
      */
-    public function testPPMT(float $rate, int $period, int $periods, float $pv, float $fv, bool $beginning, float $ppmt)
+    public function testPPMT(float $rate, int $period, int $periods, float $pv, float $fv, bool $beginning, float $expected)
     {
-        $result = Finance::ppmt($rate, $period, $periods, $pv, $fv, $beginning);
-        $this->assertEquals($ppmt, $result, '', Finance::EPSILON);
+        // When
+        $ppmt = Finance::ppmt($rate, $period, $periods, $pv, $fv, $beginning);
+
+        // Then
+        $this->assertEquals($expected, $ppmt, '', Finance::EPSILON);
     }
 
     /**
@@ -237,12 +290,22 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     ppmt not a number
      * @dataProvider dataProviderForPpmtNan
+     * @param        float $rate
+     * @param        int   $period
+     * @param        int   $periods
+     * @param        float $pv
+     * @param        float $fv
+     * @param        bool  $beginning
      */
     public function testPpmtNan(float $rate, int $period, int $periods, float $pv, float $fv, bool $beginning)
     {
-        $result = Finance::ppmt($rate, $period, $periods, $pv, $fv, $beginning);
-        $this->assertNan($result);
+        // When
+        $ppmt = Finance::ppmt($rate, $period, $periods, $pv, $fv, $beginning);
+
+        // Then
+        $this->assertNan($ppmt);
     }
 
     /**
@@ -273,12 +336,22 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     periods
      * @dataProvider dataProviderForPeriods
+     * @param        float $rate
+     * @param        float $payment
+     * @param        float $pv
+     * @param        float $fv
+     * @param        bool  $beginning
+     * @param        float $expected
      */
-    public function testPeriods(float $rate, float $payment, float $pv, float $fv, bool $beginning, float $periods)
+    public function testPeriods(float $rate, float $payment, float $pv, float $fv, bool $beginning, float $expected)
     {
-        $result = Finance::periods($rate, $payment, $pv, $fv, $beginning);
-        $this->assertEquals($periods, $result, '', Finance::EPSILON);
+        // When
+        $periods = Finance::periods($rate, $payment, $pv, $fv, $beginning);
+
+        // Then
+        $this->assertEquals($expected, $periods, '', Finance::EPSILON);
     }
 
     /**
@@ -324,12 +397,21 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     periods not a number
      * @dataProvider dataProviderForPeriodsNan
+     * @param        float $rate
+     * @param        float $payment
+     * @param        float $pv
+     * @param        float $fv
+     * @param        bool  $beginning
      */
     public function testPeriodsNan(float $rate, float $payment, float $pv, float $fv, bool $beginning)
     {
-        $result = Finance::periods($rate, $payment, $pv, $fv, $beginning);
-        $this->assertNan($result);
+        // When
+        $periods = Finance::periods($rate, $payment, $pv, $fv, $beginning);
+
+        // Then
+        $this->assertNan($periods);
     }
 
     /**
@@ -338,18 +420,29 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForPeriodsNan(): array
     {
         return [
-            [0.1, -100, 5000, 0, false, NAN],
+            [0.1, -100, 5000, 0, false],
         ];
     }
 
     /**
+     * @testCase     aer
      * @dataProvider dataProviderForAer
+     * @param        float $nominal
+     * @param        int   $periods
+     * @param        float $expected
      */
-    public function testAer(float$nominal, int $periods, float $rate)
+    public function testAer(float $nominal, int $periods, float $expected)
     {
-        $this->assertEquals($rate, Finance::aer($nominal, $periods), '', Finance::EPSILON);
+        // Given
+        $aer = Finance::aer($nominal, $periods);
+
+        // Then
+        $this->assertEquals($expected, $aer, '', Finance::EPSILON);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForAer(): array
     {
         return [
@@ -402,11 +495,19 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     nominal
      * @dataProvider dataProviderForNominal
+     * @param        float $aer
+     * @param        int   $periods
+     * @param        float $rate
      */
     public function testNominal(float$aer, int $periods, float $rate)
     {
-        $this->assertEquals($rate, Finance::nominal($aer, $periods), '', Finance::EPSILON);
+        // When
+        $nominal = Finance::nominal($aer, $periods);
+
+        // Then
+        $this->assertEquals($rate, $nominal, '', Finance::EPSILON);
     }
 
     /**
@@ -464,11 +565,22 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     fv
      * @dataProvider dataProviderForFv
+     * @param        float $rate
+     * @param        int   $periods
+     * @param        float $pmt
+     * @param        float $pv
+     * @param        bool  $beginning
+     * @param        float $expected
      */
-    public function testFv(float $rate, int $periods, float $pmt, float $pv, bool $beginning, float $fv)
+    public function testFv(float $rate, int $periods, float $pmt, float $pv, bool $beginning, float $expected)
     {
-        $this->assertEquals($fv, Finance::fv($rate, $periods, $pmt, $pv, $beginning), '', Finance::EPSILON);
+        // When
+        $fv = Finance::fv($rate, $periods, $pmt, $pv, $beginning);
+
+        // Then
+        $this->assertEquals($expected, $fv, '', Finance::EPSILON);
     }
 
     /**
@@ -532,11 +644,22 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     pv
      * @dataProvider dataProviderForPv
+     * @param        float $rate
+     * @param        int   $periods
+     * @param        float $pmt
+     * @param        float $fv
+     * @param        bool  $beginning
+     * @param        float $expected
      */
-    public function testPv(float $rate, int $periods, float $pmt, float $fv, bool $beginning, float $pv)
+    public function testPv(float $rate, int $periods, float $pmt, float $fv, bool $beginning, float $expected)
     {
-        $this->assertEquals($pv, Finance::pv($rate, $periods, $pmt, $fv, $beginning), '', Finance::EPSILON);
+        // When
+        $pv = Finance::pv($rate, $periods, $pmt, $fv, $beginning);
+
+        // Then
+        $this->assertEquals($expected, $pv, '', Finance::EPSILON);
     }
 
     /**
@@ -596,11 +719,19 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     npv
      * @dataProvider dataProviderForNpv
+     * @param        float $rate
+     * @param        array $values
+     * @param        float $expected
      */
-    public function testNpv(float $rate, array $values, float $npv)
+    public function testNpv(float $rate, array $values, float $expected)
     {
-        $this->assertEquals($npv, Finance::npv($rate, $values), '', Finance::EPSILON);
+        // When
+        $npv = Finance::npv($rate, $values);
+
+        // Then
+        $this->assertEquals($expected, $npv, '', Finance::EPSILON);
     }
 
     /**
@@ -633,12 +764,23 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     rate
      * @dataProvider dataProviderForRate
+     * @param        float $periods
+     * @param        float $payment
+     * @param        float $present_value
+     * @param        float $future_value
+     * @param        bool  $beginning
+     * @param        float $initial_guess
+     * @param        float $expected
      */
-    public function testRate(float $periods, float $payment, float $present_value, float $future_value, bool $beginning, float $initial_guess, float $rate)
+    public function testRate(float $periods, float $payment, float $present_value, float $future_value, bool $beginning, float $initial_guess, float $expected)
     {
-        $result = Finance::rate($periods, $payment, $present_value, $future_value, $beginning, $initial_guess, $rate);
-        $this->assertEquals($rate, $result, '', Finance::EPSILON);
+        // When
+        $rate = Finance::rate($periods, $payment, $present_value, $future_value, $beginning, $initial_guess, $expected);
+
+        // Then
+        $this->assertEquals($expected, $rate, '', Finance::EPSILON);
     }
 
     /**
@@ -678,12 +820,22 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     rate not a number
      * @dataProvider dataProviderForRateNan
+     * @param        float $periods
+     * @param        float $payment
+     * @param        float $present_value
+     * @param        float $future_value
+     * @param        bool  $beginning
+     * @param        float $initial_guess
      */
-    public function testRateNan(float $periods, float $payment, float $present_value, float $future_value, bool $beginning, float $initial_guess, float $rate)
+    public function testRateNan(float $periods, float $payment, float $present_value, float $future_value, bool $beginning, float $initial_guess)
     {
-        $result = Finance::rate($periods, $payment, $present_value, $future_value, $beginning, $initial_guess, $rate);
-        $this->assertNan($result);
+        // When
+        $rate = Finance::rate($periods, $payment, $present_value, $future_value, $beginning, $initial_guess);
+
+        // Then
+        $this->assertNan($rate);
     }
 
     /**
@@ -692,28 +844,35 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForRateNan(): array
     {
         return [
-            [0, 0.0, 0.0, 0.0, false, 0.1, NAN],
-            [1, 0.0, 0.0, 0.0, false, 0.1, NAN],
-            [1, -1.0, 0.0, 0.0, false, 0.1, NAN],
-            [1, 0.0, 0.0, 1.0, false, 0.1, NAN],
-            [1, -1.0, 0.0, 1.0, false, 0.1, NAN],
-            [1, 0.0, 0.0, 0.0, true, 0.1, NAN],
-            [1, 0.0, 0.0, 1.0, true, 0.1, NAN],
-            [2, 0.0, 0.0, 0.0, false, 0.1, NAN],
-            [2, 0.0, 0.0, 1.0, false, 0.1, NAN],
-            [2, 1.0, 1.0, 0.0, false, 0.1, NAN],
-            [2, 0.0, 0.0, 0.0, true, 0.1, NAN],
-            [2, 0.0, 0.0, 1.0, true, 0.1, NAN],
+            [0, 0.0, 0.0, 0.0, false, 0.1],
+            [1, 0.0, 0.0, 0.0, false, 0.1],
+            [1, -1.0, 0.0, 0.0, false, 0.1],
+            [1, 0.0, 0.0, 1.0, false, 0.1],
+            [1, -1.0, 0.0, 1.0, false, 0.1],
+            [1, 0.0, 0.0, 0.0, true, 0.1],
+            [1, 0.0, 0.0, 1.0, true, 0.1],
+            [2, 0.0, 0.0, 0.0, false, 0.1],
+            [2, 0.0, 0.0, 1.0, false, 0.1],
+            [2, 1.0, 1.0, 0.0, false, 0.1],
+            [2, 0.0, 0.0, 0.0, true, 0.1],
+            [2, 0.0, 0.0, 1.0, true, 0.1],
         ];
     }
 
     /**
+     * @testCase     irr
      * @dataProvider dataProviderForIrr
+     * @param        array $values
+     * @param        float $initial_guess
+     * @param        float $expected
      */
-    public function testIrr(array $values, float $initial_guess, float $irr)
+    public function testIrr(array $values, float $initial_guess, float $expected)
     {
-        $result = Finance::irr($values, $initial_guess);
-        $this->assertEquals($irr, $result, '', Finance::EPSILON);
+        // When
+        $irr = Finance::irr($values, $initial_guess);
+
+        // Then
+        $this->assertEquals($expected, $irr, '', Finance::EPSILON);
     }
 
     /**
@@ -752,12 +911,18 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     irr not a number
      * @dataProvider dataProviderForIrrNan
+     * @param        array $values
+     * @param        float $initial_guess
      */
     public function testIrrNan(array $values, float $initial_guess)
     {
-        $result = Finance::irr($values, $initial_guess);
-        $this->assertNan($result);
+        // When
+        $irr = Finance::irr($values, $initial_guess);
+
+        // Then
+        $this->assertNan($irr);
     }
 
     /**
@@ -766,26 +931,34 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForIrrNan(): array
     {
         return [
-            [[-1], 0.1, NAN],
-            [[0], 0.1, NAN],
-            [[1], 0.1, NAN],
-            [[1, 0], 0.1, NAN],
-            [[1, 1], 0.1, NAN],
-            [[1, 2], 0.1, NAN],
-            [[1, 3], 0.1, NAN],
-            [[-1, -1], 0.1, NAN],
-            [[-1, 0], 0.1, NAN],
-            [[-1000000, 10000000, -10000000, 0, 0, 0], 0.634, NAN],
+            [[-1], 0.1],
+            [[0], 0.1],
+            [[1], 0.1],
+            [[1, 0], 0.1],
+            [[1, 1], 0.1],
+            [[1, 2], 0.1],
+            [[1, 3], 0.1],
+            [[-1, -1], 0.1],
+            [[-1, 0], 0.1],
+            [[-1000000, 10000000, -10000000, 0, 0, 0], 0.634],
         ];
     }
 
     /**
+     * @testCase     mirr
      * @dataProvider dataProviderForMirr
+     * @param        array $values
+     * @param        float $finance_rate
+     * @param        float $reinvestment_rate
+     * @param        float $expected
      */
-    public function testMirr(array $values, float $finance_rate, float $reinvestment_rate, float $mirr)
+    public function testMirr(array $values, float $finance_rate, float $reinvestment_rate, float $expected)
     {
-        $result = Finance::mirr($values, $finance_rate, $reinvestment_rate);
-        $this->assertEquals($mirr, $result, '', Finance::EPSILON);
+        // When
+        $mirr = Finance::mirr($values, $finance_rate, $reinvestment_rate);
+
+        // Then
+        $this->assertEquals($expected, $mirr, '', Finance::EPSILON);
     }
 
     /**
@@ -807,12 +980,19 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     mirr not a number
      * @dataProvider dataProviderForMirrNan
+     * @param        array $values
+     * @param        float $finance_rate
+     * @param        float $reinvestment_rate
      */
     public function testMirrNan(array $values, float $finance_rate, float $reinvestment_rate)
     {
-        $result = Finance::mirr($values, $finance_rate, $reinvestment_rate);
-        $this->assertNan($result);
+        // When
+        $mirr = Finance::mirr($values, $finance_rate, $reinvestment_rate);
+
+        // Then
+        $this->assertNan($mirr);
     }
 
     /**
@@ -821,21 +1001,28 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForMirrNan(): array
     {
         return [
-            [[], 0.1, 0.1, NAN],
-            [[-1], 0.1, 0.1, NAN],
-            [[-1, -2], 0.1, 0.1, NAN],
-            [[1], 0.1, 0.1, NAN],
-            [[1, 2], 0.1, 0.1, NAN],
+            [[], 0.1, 0.1],
+            [[-1], 0.1, 0.1],
+            [[-1, -2], 0.1, 0.1],
+            [[1], 0.1, 0.1],
+            [[1, 2], 0.1, 0.1],
         ];
     }
 
     /**
+     * @testCase     payback
      * @dataProvider dataProviderForPayback
+     * @param        array $values
+     * @param        float $rate
+     * @param        float $expected
      */
-    public function testPayback(array $values, float $rate, float $payback)
+    public function testPayback(array $values, float $rate, float $expected)
     {
-        $result = Finance::payback($values, $rate);
-        $this->assertEquals($payback, $result, '', Finance::EPSILON);
+        // When
+        $payback = Finance::payback($values, $rate);
+
+        // Then
+        $this->assertEquals($expected, $payback, '', Finance::EPSILON);
     }
 
     /**
@@ -877,12 +1064,18 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     payback not a number
      * @dataProvider dataProviderForPaybackNan
+     * @param        array $values
+     * @param        float $rate
      */
     public function testPaybackNan(array $values, float $rate)
     {
-        $result = Finance::payback($values, $rate);
-        $this->assertNan($result);
+        // When
+        $payback = Finance::payback($values, $rate);
+
+        // Then
+        $this->assertNan($payback);
     }
 
     /**
@@ -891,28 +1084,35 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForPaybackNan(): array
     {
         return [
-            [[-1], 0.0, NAN],
-            [[-1, 0], 0.0, NAN],
-            [[-1, 1, 1], 0.62, NAN],
-            [[-1, 1, 1], 0.61803399, NAN],
-            [[-1, 1, 1], 0.62, NAN],
-            [[-1, 1, 1], 1.0, NAN],
-            [[-1, 1, 1], 2.0, NAN],
-            [[-2], 0.0, NAN],
-            [[-2, 1], 0.0, NAN],
-            [[-10, 5, -6, 5, 5], 0.0, NAN],
-            [[-10, 5, -5, 5, 5, -1], 0.0, NAN],
-            [[-10, 15, -7, 5, 6, -10], 0.0, NAN],
+            [[-1], 0.0],
+            [[-1, 0], 0.0],
+            [[-1, 1, 1], 0.62],
+            [[-1, 1, 1], 0.61803399],
+            [[-1, 1, 1], 0.62],
+            [[-1, 1, 1], 1.0],
+            [[-1, 1, 1], 2.0],
+            [[-2], 0.0],
+            [[-2, 1], 0.0],
+            [[-10, 5, -6, 5, 5], 0.0],
+            [[-10, 5, -5, 5, 5, -1], 0.0],
+            [[-10, 15, -7, 5, 6, -10], 0.0],
         ];
     }
 
     /**
+     * @testCase     profitabilityIndex
      * @dataProvider dataProviderForProfitabilityIndex
+     * @param        array $values
+     * @param        float $rate
+     * @param        float $expected
      */
-    public function testProfitabilityIndex(array $values, float $rate, float $pi)
+    public function testProfitabilityIndex(array $values, float $rate, float $expected)
     {
-        $result = Finance::profitabilityIndex($values, $rate);
-        $this->assertEquals($pi, $result, '', Finance::EPSILON);
+        // When
+        $profitabilityIndex = Finance::profitabilityIndex($values, $rate);
+
+        // Then
+        $this->assertEquals($expected, $profitabilityIndex, '', Finance::EPSILON);
     }
 
     /**
@@ -936,12 +1136,18 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     profitabilityIndex not a number
      * @dataProvider dataProviderForProfitabilityIndexNan
+     * @param        array $values
+     * @param        float $rate
      */
     public function testProfitabilityIndexNan(array $values, float $rate)
     {
-        $result = Finance::profitabilityIndex($values, $rate);
-        $this->assertNan($result);
+        // When
+        $profitabilityIndex = Finance::profitabilityIndex($values, $rate);
+
+        // Then
+        $this->assertNan($profitabilityIndex);
     }
 
     /**
@@ -950,8 +1156,8 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForProfitabilityIndexNan(): array
     {
         return [
-            [[], 0.1, NAN],
-            [[1], 0.1, NAN],
+            [[], 0.1],
+            [[1], 0.1],
         ];
     }
 }
