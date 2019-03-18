@@ -3352,7 +3352,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 $sum = Map\Multi::add($sum, $scaledE);
             }
             $v = Map\Multi::subtract($aᵢ, $sum);
-            $vArray[] = $v
+            $vArray[] = $v;
             $sumsq = array_sum(Map\Multi::multiply($v, $v));
             $e[] = Map\Single::divide($v, sqrt($sumsq));
         }
