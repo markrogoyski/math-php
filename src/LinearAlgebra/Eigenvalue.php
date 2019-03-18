@@ -88,4 +88,126 @@ class Eigenvalue
         $eigenvalues = $det->roots();
         return $eigenvalues;
     }
+    
+    /**
+     * JK Method
+     *
+     * Calculate Eigenvalues of a symmetric matrix.
+     *
+     * @param Matrix $A
+     *
+     * @return array of eigenvalues
+     *
+     * @throws Exception\BadDataException if the matrix is not symmetric or is 1x1.     
+     */
+    public static function JKMethod(Matrix $A): array
+    {
+        $originalA = $A;
+        if (!$A->isSymmetric()) {
+            throw new Exception\BadDataException('Matrix must be symmetric');
+        }
+        $m = $A->getM();
+        if ($m < 2) {
+            throw new Exception\BadDataException("Matrix must be 2x2 or larger");
+        }
+
+        $num_zero = 0;
+        $iterationCount = 0;
+        $ε = 1E-16;
+        $Ematrix = [];
+        while ($num_zero < $m * ($m - 1) / 2 && $iterationCount < 100) {
+            for ($i = 0; $i < $m - 1; $i++) {
+                for ($j = $i + 1; $j < $m; $j++) {
+                    $num = 0;
+                    $den = 0;
+
+                    $x = $A->getColumn($i);
+                    $y = $A->getColumn($j);
+                    $num = 2 * array_sum(Multi::multiply($x, $y));
+                    $den = array_sum(Multi::subtract(Single::square($x), Single::square($y)));
+
+                    if (abs($num) > $ε || abs($den) > $ε) {
+                        if (abs($num) <= abs($den)) {
+                            $tan2θ = abs($num) / abs($den);
+                            $cos2θ = 1 / sqrt(1 + $tan2θ ** 2);
+                            $sin2θ = $tan2θ * $cos2θ;
+                        } else {
+                            $cot2θ = abs($den) / abs($num);
+                            $sin2θ = 1 / sqrt(1 + $cot2θ ** 2);
+                            $cos2θ = $cot2θ * $sin2θ;
+                        }
+                
+                        $cosθ = sqrt((1 + $cos2θ) / 2);
+                        $sinθ = $sin2θ / 2 / $cosθ;
+                
+                        $cosφ = $den > 0 ? $cosθ : $sinθ;
+                        $sinφ = $den > 0 ? $sinθ : $cosθ;
+                
+                        $sinφ = Special::sgn($num) * $sinφ;
+
+                        $x = $A->submatrix(0, $i, $m - 1, $i);
+                        $y = $A->submatrix(0, $j, $m - 1, $j);
+                        $submatrix = $x->augment($y);
+                        $transformArray = [
+                            [$cosφ, -1 * $sinφ],
+                            [$sinφ, $cosφ],
+                        ];
+
+                        $transform = MatrixFactory::create($transformArray);
+                        $newColumns = $submatrix->multiply($transform);
+                        $A = self::replaceColumn($A, $newColumns->getColumn(0), $i);
+                        $A = self::replaceColumn($A, $newColumns->getColumn(1), $j);
+                    }
+                }
+            }
+
+            if (abs($num) < $ε) {
+                $num_zero++;
+            } else {
+                $num_zero = 0;
+            }
+            $iterationCount++;
+        }
+    
+        if ($iterationCount == 100) {
+             throw new Exception\BadDataException("Eigenvalues not found");
+        }
+        // $A is now a matrix of eigenvectors in each column
+        $eigenvalues = [];
+        for ($i = 0; $i < $m; $i++) {
+            $eigenvalues[] = sqrt(array_sum(Single::square($A->getColumn($i))));
+        }
+        $λ³ = $A
+            ->transpose()
+            ->multiply($originalA)
+            ->multiply($A)
+            ->getDiagonalElements();
+        // The PHP pow() function does not work on negative numbers so
+        // we need to be more complicated.
+        $absλ³ = Single::abs($λ³);
+        $sgnλ = Multi::divide($λ³, $absλ³);
+        $absλ = Single::pow($absλ³, 1/3);
+        $λ = Multi::multiply($sgnλ, $absλ);
+        
+        return $λ;
+    }
+
+    /**
+     * Replaces a column in a matrix with values from an array
+     *
+     * @param Matrix $matrix
+     * @param array $array of new values
+     * @param int $column
+     *
+     * @returns Matrix with new values in the specified column 
+     */
+    private static function replaceColumn(Matrix $matrix, array $array, int $column): Matrix
+    {
+        $A = $matrix->getMatrix();
+        $m = $matrix->getM();
+        for ($i = 0; $i < $m; $i++) {
+            $A[$i][$column] = $array[$i];
+        }
+        return MatrixFactory::create($A);
+    }
 }
