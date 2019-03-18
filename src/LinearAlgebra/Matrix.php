@@ -2789,6 +2789,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - rref (reduced row echelon form)
      *  - LU decomposition
      *  - Cholesky decomposition
+     *  - Gram-Schmidt QR decomposition 
      **************************************************************************/
 
     /**
@@ -3334,8 +3335,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * A = QR and QᵀQ = I
      *
      * @return array [
-     *   Q: Lower triangular/diagonal matrix
-     *   R: Normalised upper triangular matrix
+     *   Q: Orthonormal matrix
+     *   R: Upper triangular matrix
      * ]
      */
     public function GramSchmidtQR(): array
@@ -3353,7 +3354,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 $sum = Map\Multi::add($sum, $scaledE);
             }
             $v = Map\Multi::subtract($aᵢ, $sum);
-            $vArray[] = $v;
             $sumsq = array_sum(Map\Single::square($v));
             $e[] = Map\Single::divide($v, sqrt($sumsq));
         }
@@ -3368,7 +3368,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return [
             'Q' => $Q,
             'R' => MatrixFactory::create($R),
-            'v' => MatrixFactory::create($vArray)->transpose(),
         ];
     }
 
