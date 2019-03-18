@@ -3324,6 +3324,50 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             'U' => MatrixFactory::create($U),
         ];
     }
+    
+    /**
+     * Gram-Schmidt QR Decomposition
+     *
+     * Create a QR decomposition of $A using the Gram-Schmidt Process
+     *
+     * Q is a matrix of column vectors, and R is an upper triangular matrix such that
+     * A = QR and QᵀQ = I
+     *
+     * @return array [
+     *   Q: Lower triangular/diagonal matrix
+     *   R: Normalised upper triangular matrix
+     * ]
+     */
+    private function GramSchmidtQR(): array
+    {
+        $m = $this->m;
+        $row = array_fill(0, $m, 0);
+        $R = array_fill(0, $m, $row);
+        for ($i = 0; $i < $m; $i++) {
+            $aᵢ = $this->getColumn($i);
+            $sum = array_fill(0, $m, 0);
+            for ($j = 0; $j < $i; $j++) {
+                $dotproduct = array_sum(Multi::multiply($e[$j], $aᵢ));
+                $scaledE = Single::multiply($e[$j], $dotproduct); 
+                $sum = Multi::add($sum, $scaledE);
+            }
+            $v = Multi::subtract($aᵢ, $sum)
+            $sumsq = array_sum(Multi::multiply($v, $v));
+            $e[] = Single::divide($v, $sumsq);
+        }
+        $Qᵀ = MatrixFactory::create($e);
+        $Q = $Qᵀ->transpose();
+        
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j <= $i; $j++) {
+                $R[$i][$j] = array_sum(Multi::multiply($e[$j], $this->getColumn($i)));
+            }
+        }
+        return [
+            'Q' => $Q,
+            'R' => MatrixFactory::create($R),
+        ];
+    }
 
     /**************************************************************************
      * SOLVE LINEAR SYSTEM OF EQUATIONS
