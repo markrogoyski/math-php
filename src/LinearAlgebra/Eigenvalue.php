@@ -98,7 +98,7 @@ class Eigenvalue
      *
      * @return array of eigenvalues
      *
-     * @throws Exception\BadDataException if the matrix is not symmetric or is 1x1.     
+     * @throws Exception\BadDataException if the matrix is not symmetric or is 1x1.
      */
     public static function JKMethod(Matrix $A): array
     {
@@ -199,7 +199,7 @@ class Eigenvalue
      * @param array $array of new values
      * @param int $column
      *
-     * @returns Matrix with new values in the specified column 
+     * @returns Matrix with new values in the specified column
      */
     private static function replaceColumn(Matrix $matrix, array $array, int $column): Matrix
     {
