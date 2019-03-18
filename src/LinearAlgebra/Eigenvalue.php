@@ -5,6 +5,7 @@ use MathPHP\Exception;
 use MathPHP\Functions\Map\Multi;
 use MathPHP\Functions\Map\Single;
 use MathPHP\Functions\Polynomial;
+use MathPHP\Functions\Special;
 
 class Eigenvalue
 {
