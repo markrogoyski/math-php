@@ -2076,12 +2076,14 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForQrDecomposition
      *
      */
-    public function testQrDecomposition(array $A, array $Q, array $R)
+    public function testQrDecomposition(array $A, array $Q, array $R, array $v)
     {
         $A = MatrixFactory::create($A);
         $Q = MatrixFactory::create($Q);
         $R = MatrixFactory::create($R);
+        $v = MatrixFactory::create($v);
         $QR = $A->GramSchmidtQR();
+        $this->assertEquals($v, $QR['v'], '', 0.001);
         $this->assertEquals($Q, $QR['Q'], '', 0.001);
         $this->assertEquals($R, $QR['R'], '', 0.001);
     }
@@ -2104,6 +2106,11 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
                     [3.0, 0.0, 12.0],
                     [0.0, 3.0, -12.0],
                     [0.0, 0.0, 6.0],
+                ],
+                [
+                    [2, -2, 2],
+                    [2, 1, -4],
+                    [1, 2, 4],
                 ],
             ],
         ];
