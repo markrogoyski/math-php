@@ -2074,7 +2074,7 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     
     /**
      * @dataProvider dataProviderForQrDecomposition
-     * 
+     *
      */
     public function testQrDecomposition(array $A, array $Q, array $R)
     {
@@ -2085,6 +2085,7 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($Q, $QR['Q'], '', 0.001);
         $this->assertEquals($R, $QR['R'], '', 0.001);
     }
+
     public function dataProviderForQrDecomposition()
     {
         return [
