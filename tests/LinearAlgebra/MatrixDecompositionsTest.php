@@ -2071,4 +2071,40 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\MatrixException::class);
         $lu = $A->croutDecomposition();
     }
+    
+    /**
+     * @dataProvider dataProviderForQrDecomposition
+     * 
+     */
+    public function testQrDecomposition(array $A, array $Q, array $R)
+    {
+        $A = MatrixFactory::create($A);
+        $Q = MatrixFactory::create($Q);
+        $R = MatrixFactory::create($R);
+        $QR = $A->GramSchmidtQR();
+        $this->assertEquals($Q, $QR['Q'], '', 0.001);
+        $this->assertEquals($R, $QR['R'], '', 0.001);
+    }
+    public function dataProviderForQrDecomposition()
+    {
+        return [
+            [
+                [
+                    [2, -2, 18],
+                    [2, 1, 0],
+                    [1, 2, 0],
+                ],
+                [
+                    [2/3, -2/3, 1/3],
+                    [2.3, 1/3, -2/3],
+                    [1/3, 1/3, 2/3],
+                ],
+                [
+                    [3.0, 0.0, 12.0],
+                    [0.0, 3.0, -12.0],
+                    [0.0, 0.0, 6.0],
+                ],
+            ],
+        ];
+    }
 }
