@@ -133,4 +133,82 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\MatrixException::class);
         $A->eigenvalues($invalidMethod);
     }
+
+    /**
+     * @testCase     JKMethod returns the expected eigenvalues
+     * @dataProvider dataProviderForJKEigenvalues
+     * @param        array $A
+     * @param        array $S
+     */
+    public function testJKMethod(array $A, array $S)
+    {
+        $A = MatrixFactory::create($A);
+        $this->assertEquals($S, Eigenvalue::JkMethod($A), '', 0.0001);
+    }
+    public function dataProviderForJKEigenvalues(): array
+    {
+        return [
+            [
+                [
+                    [1, 4],
+                    [4, 1],
+                ],
+                [5.000, -3.000],
+            ],
+            [
+                [
+                    [1, 1, 1],
+                    [1, 2, 1],
+                    [1, 1, 1],
+                ],
+                [2 + M_SQRT2, 2 - M_SQRT2, 0.00],
+            ],
+            [
+                [
+                    [4, -30, 60, -35],
+                    [-30, 300, -675, 420],
+                    [60, -675, 1620, -1050],
+                    [-35, 420, -1050, 700],
+                ],
+                [2585.2538, 37.10149, 1.47805, .166642],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     JKMethod throws a BadDataException if the matrix is not the correct size.
+     * @dataProvider dataProviderForJkException
+     * @param        array $A
+     */
+    public function testJKExceptionMatrixNotCorrectSize(array $A)
+    {
+        $A = MatrixFactory::create($A);
+        $this->expectException(Exception\BadDataException::class);
+        Eigenvalue::JKMethod($A);
+    }
+    public function dataProviderForJkException(): array
+    {
+        return [
+            '1x1' => [
+                [
+                    [1],
+                ],
+            ],
+            'not_symetric' => [
+                [
+                    [1, 2, 3, 4, 6],
+                    [2, 3, 4, 5, 6],
+                    [3, 4, 5, 6, 7],
+                    [4, 5, 6, 7, 8],
+                    [5, 6, 7, 8, 9],
+                ]
+            ],
+            'not_square' => [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                ],
+            ],
+        ];
+    }
 }
