@@ -3348,10 +3348,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $sum = array_fill(0, $m, 0);
             for ($j = 0; $j < $i; $j++) {
                 $dotproduct = array_sum(Multi::multiply($e[$j], $aᵢ));
-                $scaledE = Single::multiply($e[$j], $dotproduct); 
+                $scaledE = Single::multiply($e[$j], $dotproduct);
                 $sum = Multi::add($sum, $scaledE);
             }
-            $v = Multi::subtract($aᵢ, $sum)
+            $v = Multi::subtract($aᵢ, $sum);
             $sumsq = array_sum(Multi::multiply($v, $v));
             $e[] = Single::divide($v, $sumsq);
         }
