@@ -3367,7 +3367,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return [
             'Q' => $Q,
             'R' => MatrixFactory::create($R),
-            'v' => MatrixFactory::create($vArray),
+            'v' => MatrixFactory::create($vArray)->transpose(),
         ];
     }
 
