@@ -3362,7 +3362,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j <= $i; $j++) {
-                $R[$i][$j] = array_sum(Map\Multi::multiply($e[$j], $this->getColumn($i)));
+                $R[$j][$i] = array_sum(Map\Multi::multiply($e[$j], $this->getColumn($i)));
             }
         }
         return [
