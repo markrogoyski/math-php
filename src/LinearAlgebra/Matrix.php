@@ -3347,20 +3347,20 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $aᵢ = $this->getColumn($i);
             $sum = array_fill(0, $m, 0);
             for ($j = 0; $j < $i; $j++) {
-                $dotproduct = array_sum(Multi::multiply($e[$j], $aᵢ));
-                $scaledE = Single::multiply($e[$j], $dotproduct);
-                $sum = Multi::add($sum, $scaledE);
+                $dotproduct = array_sum(Map\Multi::multiply($e[$j], $aᵢ));
+                $scaledE = Map\Single::multiply($e[$j], $dotproduct);
+                $sum = Map\Multi::add($sum, $scaledE);
             }
-            $v = Multi::subtract($aᵢ, $sum);
-            $sumsq = array_sum(Multi::multiply($v, $v));
-            $e[] = Single::divide($v, $sumsq);
+            $v = Map\Multi::subtract($aᵢ, $sum);
+            $sumsq = array_sum(Map\Multi::multiply($v, $v));
+            $e[] = Map\Single::divide($v, $sumsq);
         }
         $Qᵀ = MatrixFactory::create($e);
         $Q = $Qᵀ->transpose();
         
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j <= $i; $j++) {
-                $R[$i][$j] = array_sum(Multi::multiply($e[$j], $this->getColumn($i)));
+                $R[$i][$j] = array_sum(Map\Multi::multiply($e[$j], $this->getColumn($i)));
             }
         }
         return [
