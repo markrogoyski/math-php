@@ -3360,7 +3360,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $Qᵀ = MatrixFactory::create($e);
         $Q = $Qᵀ->transpose();
         
-        for ($i = 0; $i < $m; $i++) {
+        for ($i = 0; $i < $n; $i++) {
             for ($j = 0; $j <= $i; $j++) {
                 $R[$j][$i] = array_sum(Map\Multi::multiply($e[$j], $this->getColumn($i)));
             }
