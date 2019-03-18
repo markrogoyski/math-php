@@ -3353,7 +3353,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
             $v = Map\Multi::subtract($aᵢ, $sum);
             $sumsq = array_sum(Map\Multi::multiply($v, $v));
-            $e[] = Map\Single::divide($v, $sumsq);
+            $e[] = Map\Single::divide($v, sqrt($sumsq));
         }
         $Qᵀ = MatrixFactory::create($e);
         $Q = $Qᵀ->transpose();
