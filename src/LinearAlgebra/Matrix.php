@@ -2789,7 +2789,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - rref (reduced row echelon form)
      *  - LU decomposition
      *  - Cholesky decomposition
-     *  - Gram-Schmidt QR decomposition 
+     *  - Gram-Schmidt QR decomposition
      **************************************************************************/
 
     /**
