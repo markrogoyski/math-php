@@ -2,14 +2,18 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
+use MathPHP\Functions\Map\Multi;
+use MathPHP\Functions\Map\Single;
 use MathPHP\Functions\Polynomial;
 
 class Eigenvalue
 {
     const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
+    const JK_METHOD = 'JKMethod';
 
     const METHODS = [
         self::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD,
+        self::JK_METHOD,
     ];
 
     /**
