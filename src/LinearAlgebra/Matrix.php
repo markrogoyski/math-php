@@ -3341,17 +3341,18 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function GramSchmidtQR(): array
     {
         $m = $this->m;
-        $row = array_fill(0, $m, 0);
-        $R = array_fill(0, $m, $row);
+        $zero_row = array_fill(0, $m, 0);
+        $R = array_fill(0, $m, $zero_row);
         for ($i = 0; $i < $m; $i++) {
             $aᵢ = $this->getColumn($i);
-            $sum = array_fill(0, $m, 0);
+            $sum = $zero_row;
             for ($j = 0; $j < $i; $j++) {
                 $dotproduct = array_sum(Map\Multi::multiply($e[$j], $aᵢ));
                 $scaledE = Map\Single::multiply($e[$j], $dotproduct);
                 $sum = Map\Multi::add($sum, $scaledE);
             }
             $v = Map\Multi::subtract($aᵢ, $sum);
+            $vArray[] = $v
             $sumsq = array_sum(Map\Multi::multiply($v, $v));
             $e[] = Map\Single::divide($v, sqrt($sumsq));
         }
@@ -3366,6 +3367,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return [
             'Q' => $Q,
             'R' => MatrixFactory::create($R),
+            'v' => MatrixFactory::create($vArray),
         ];
     }
 
