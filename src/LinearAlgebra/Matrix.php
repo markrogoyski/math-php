@@ -3338,7 +3338,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *   R: Normalised upper triangular matrix
      * ]
      */
-    private function GramSchmidtQR(): array
+    public function GramSchmidtQR(): array
     {
         $m = $this->m;
         $row = array_fill(0, $m, 0);
