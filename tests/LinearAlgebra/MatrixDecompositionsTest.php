@@ -2091,8 +2091,6 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
         $qrQ = $qr['Q'];
         $qrR = $qr['R'];
 
-        print("\nR:$qrR");
-
         // Then A = QR
         $this->assertEquals($A->getMatrix(), $qrQ->multiply($qrR)->getMatrix(), '', 0.00001);
 
@@ -2148,6 +2146,27 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
                         [ 0,   0,  -35],
                     ],
                 ],
+            ],
+            [
+                [
+                    [2, -2, -3],
+                    [0, -6, -1],
+                    [0, 0, 1],
+                    [0, 0, 4],
+                ],
+                [
+                    'Q' => [
+                        [-1.0, 0.0, 0.0],
+                        [0.0, -1.0, 0.0],
+                        [0.0, 0.0, -1 / sqrt(17)],
+                        [0.0, 0.0, -4 / sqrt(17)],
+                    ],
+                    'R' => [
+                        [-2.0, 2.0, 3.0],
+                        [0.0, 6.0, 1.0],
+                        [0.0, 0.0, -1 * sqrt(17)],
+                    ],
+                ]
             ],
         ];
     }
