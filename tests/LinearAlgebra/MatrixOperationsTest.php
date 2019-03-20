@@ -4973,4 +4973,94 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @testCase     insert returns the expected value
+     * @dataProvider dataProviderForInsert
+     */
+    public function testInsert(array $A, array $B, int $m, int $n, $expected)
+    {
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+        $this->assertEquals($expected, $A->insert($B, $m, $n)->getMatrix());
+    }
+    
+    public function dataProviderForInsert(): array
+    {
+        return [
+            [
+                [
+                    [1, 1, 1],
+                    [1, 1, 1],
+                    [1, 1, 1],
+                ],
+                [
+                    [0, 0],
+                    [0, 0],
+                ],
+                1,
+                1,
+                [
+                    [1, 1, 1],
+                    [1, 0, 0],
+                    [1, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 1, 1],
+                    [1, 1, 1],
+                    [1, 1, 1],
+                ],
+                [
+                    [0, 0],
+                ],
+                1,
+                1,
+                [
+                    [1, 1, 1],
+                    [1, 0, 0],
+                    [1, 1, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 1, 1],
+                    [1, 1, 1],
+                    [1, 1, 1],
+                ],
+                [
+                    [0, 0],
+                ],
+                2,
+                1,
+                [
+                    [1, 1, 1],
+                    [1, 1, 1],
+                    [1, 0, 0],
+                ],
+            ],
+        ];
+    }
+    /**
+     * @testCase insert exception - Inner matrix exceedes bounds
+     * @throws   \Exception
+     */
+    public function testinsertMatrixExceedsBounds()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 1, 1],
+            [1, 1, 1],
+            [1, 1, 1],
+        ]);
+        // And
+        $B = MatrixFactory::create([
+            [0, 0, 0],
+        ]);
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+        // When
+        $A->insert($B, 1, 1);
+    }
 }
