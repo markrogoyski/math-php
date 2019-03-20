@@ -2,6 +2,7 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Functions\Map;
+use MathPHP\Functions\Special;
 use MathPHP\Functions\Support;
 use MathPHP\Exception;
 
@@ -960,6 +961,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - covarianceMatrix
      *  - adjugate
      *  - submatrix
+     *  - insert
      **************************************************************************/
 
     /**
@@ -1947,6 +1949,33 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return MatrixFactory::create($A);
+    }
+
+    /**
+     * Insert
+     * Insert a smaller matrix within a larger matrix starting at a specified position
+     *
+     * @param Matrix $small the smaller matrix to embed
+     * @param int $m Starting row
+     * @param int $n Starting column
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException
+     */
+    public function insert(Matrix $small, int $m, int $n): Matrix
+    {
+        if ($small->getM() + $m > $this->m || $small->getN() + $n > $this->n) {
+            throw new Exception\MatrixException('Inner matrix exceedes the bounds of the outer matrix');
+        }
+
+        $new_array = $this->A;
+        for ($i = 0; $i < $small->getM(); $i++) {
+            for ($j = 0; $j < $small->getN(); $j++) {
+                $new_array[$i + $m][$j + $n] = $small[$i][$j];
+            }
+        }
+        return MatrixFactory::create($new_array);
     }
 
     /**************************************************************************
@@ -3353,101 +3382,46 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function qrDecomposition(): array
     {
-        $m   = $this->m;
-        $n   = $this->n;
-        $R   = clone($this);
-        $Hs  = [];
-
-        // R = H₂H₁Hx A where H are Householder reflection matrices
-        for ($i = 0; $i < $n; $i++) {
-            $Aᵢ = $R;
-
-            // H = householder reflection matrix
-            for ($j = 0; $j < $i; $j++) {
-                $Aᵢ = $Aᵢ->minorMatrix(0, 0);
-            }
-            $Hᵢ = $this->householderReflection($Aᵢ);
-
-            // Augment H as an identity matrix back to size of original A
-            for ($k = $i; $k > 0; $k--) {
-                $leftAugment           = MatrixFactory::zero($Hᵢ->getN(), 1);
-                $aboveAugmentValues    = array_fill(0, $Hᵢ->getM() + 1, 0);
-                $aboveAugmentValues[0] = 1;
-                $aboveAugment = MatrixFactory::create([$aboveAugmentValues]);
-                $Hᵢ = $Hᵢ->augmentLeft($leftAugment)->augmentAbove($aboveAugment);
-            }
-
-            $Hs[] = $Hᵢ;
-            $R    = $Hᵢ->multiply($R);
+        $n = $this->n;  // columns
+        $m = $this->m;  // rows
+        $HA[-1] = $this;
+        $skip_last = $this->isSquare() ? 1 : 0;
+        $FullI = MatrixFactory::identity($m);
+        for ($i = 0; $i < $n - $skip_last; $i++) {
+            $A = $HA[$i - 1]->submatrix($i, $i, $m - 1, $n - 1);
+            
+            //  The leftmost column of A
+            $u = $A->submatrix(0, 0, $A->getM() - 1, 0);
+            $uᵀu = $u->transpose()->multiply($u);
+            // The square root of the sum of squares
+            $α = sqrt($uᵀu[0][0]);
+            // We use the sign of the top element of u
+            $sgn = Special::sgn($u[0][0]);
+            $I = MatrixFactory::identity($A->getM());
+            // Get the first column of I
+            $e = $I->submatrix(0, 0, $A->getM() - 1, 0);
+            $v = $e->scalarMultiply($α * $sgn)->add($u);
+            
+            // The sum of squares of v
+            $vᵀv = $v->transpose()->multiply($v);
+            $scalar_vᵀv = $vᵀv[0][0];
+            
+            $vvᵀ = $v->multiply($v->transpose());
+            // We scale $vvᵀ, subtract it from a small Identity, and embed in a large identity
+            $H[$i] = $FullI->insert($I->subtract($vvᵀ->scalarMultiply(2 / $scalar_vᵀv)), $i, $i);
+            $HA[$i] = $H[$i]->multiply($HA[$i - 1]);
         }
-        $R->floatingPointZeroAdjustment();
-
-        // Q = H₂H₁Hx
-        $H₁ = array_shift($Hs);
-        $Q  = array_reduce(
-            $Hs,
-            function (Matrix $product, Matrix $Hᵢ) {
-                return $product->multiply($Hᵢ);
-            },
-            $H₁
-        );
-
+        $R = $HA[$n - 1 - $skip_last];
+        $Q = $H[0];
+        foreach ($H as $key => $value) {
+            if ($key > 0) {
+                $Q = $Q->multiply($value);
+            }
+        }
         return [
-            'Q' => $Q,
-            'R' => $R,
+            'Q' => $Q->submatrix(0, 0, $m - 1, $n - 1),
+            'R' => $R->submatrix(0, 0, min($m, $n) - 1, $n - 1),
         ];
-    }
-
-    /**
-     * Householder reflection
-     *
-     * u = x - αe   where α = ‖x‖
-     *
-     *      u
-     * v = ---
-     *     ‖u‖
-     *
-     * Q = I - 2vvᵀ
-     *
-     * @param Matrix $A
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MathException
-     */
-    private function householderReflection(Matrix $A): Matrix
-    {
-        $aᵢ   = new Vector($A->getColumn(0));
-        $size = count($aᵢ);
-
-        // α = ‖x‖
-        $α = sqrt(array_sum(Map\Single::square($aᵢ->getVector())));
-
-        // eᵢ = [1, 0, 0, ... ]
-        $eᵢ    = array_fill(0, $size, 0);
-        $eᵢ[0] = 1;
-        $eᵢ    = new Vector($eᵢ);
-
-        // u = x - sign(a1) * αe
-        $x = $aᵢ;
-        $u = $x[0] < 0
-            ? $x->subtract($eᵢ->scalarMultiply($α))
-            : $x->add($eᵢ->scalarMultiply($α));
-
-        // v = u / ‖u‖
-        $‖u‖ = sqrt(array_sum(Map\Single::square($u->getVector())));
-        $v = $‖u‖ != 0
-            ? $u->scalarDivide($‖u‖)
-            : $u;
-
-        // Qᵢ = I - 2 vvᵀ
-        $Iᵢ  = MatrixFactory::identity($size);
-        $v   = $v->asColumnMatrix();
-        $vᵀ  = $v->transpose();
-        $vvᵀ = $v->multiply($vᵀ);
-        $Hᵢ  = $Iᵢ->subtract($vvᵀ->scalarMultiply(2));
-
-        return $Hᵢ;
     }
 
     /**************************************************************************
