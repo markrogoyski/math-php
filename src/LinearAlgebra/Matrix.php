@@ -3437,7 +3437,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $x = $this->submatrix(0, 0, $m - 1, 0);
         
         // α is the square root of the sum of squares of x with the correct sign
-        $α = Special::sgn($x[0][0]) * sqrt($x->transpose()->multiply($x)->get(0, 0));
+        $α = Special::sgn($x[0][0]) * $x->frobeniusNorm();
         
         // e is the first column of I
         $e = $I->submatrix(0, 0, $m - 1, 0);
