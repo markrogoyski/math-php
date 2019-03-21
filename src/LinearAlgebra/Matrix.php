@@ -3384,22 +3384,24 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     {
         $n = $this->n;  // columns
         $m = $this->m;  // rows
-        $HA[-1] = $this;
+        $HA = $this;
         $skip_last = $this->isSquare() ? 1 : 0;
         $FullI = MatrixFactory::identity($m);
         for ($i = 0; $i < $n - $skip_last; $i++) {
             // Remove the leftmost $i columns and upper $i rows
-            $A = $HA[$i - 1]->submatrix($i, $i, $m - 1, $n - 1);
+            $A = $HA->submatrix($i, $i, $m - 1, $n - 1);
+            
+            //Create the householder matrix
             $innerH = $A->householderMatrix();
+            
+            // Embed the smaller matrix within a full rank Identity matrix
             $H[$i] = $FullI->insert($innerH, $i, $i);
-            $HA[$i] = $H[$i]->multiply($HA[$i - 1]);
+            $HA = $H[$i]->multiply($HA);
         }
-        $R = $HA[$n - 1 - $skip_last];
-        $Q = $H[0];
+        $R = $HA;
+        $Q = array_shift($H);
         foreach ($H as $key => $value) {
-            if ($key > 0) {
                 $Q = $Q->multiply($value);
-            }
         }
         return [
             'Q' => $Q->submatrix(0, 0, $m - 1, $n - 1),
@@ -3421,24 +3423,29 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     private function householderMatrix(): Matrix
     {
-        //  The leftmost column of A
-        $x = $this->submatrix(0, 0, $this->getM() - 1, 0);
+        $m = $this->m;
+        $I = MatrixFactory::identity($m);
+        
+        //  x is the leftmost column of A
+        $x = $this->submatrix(0, 0, $m - 1, 0);
+        
+        // α is the square root of the sum of squares of x
+        // with the correct sign
         $xᵀx = $x->transpose()->multiply($x);
-        // The square root of the sum of squares
-        $α = sqrt($xᵀx[0][0]);
-        // We use the sign of the top element of u
         $sgn = Special::sgn($x[0][0]);
-        $I = MatrixFactory::identity($this->getM());
-        // Get the first column of I
-        $e = $I->submatrix(0, 0, $this->getM() - 1, 0);
-        $u = $e->scalarMultiply($α * $sgn)->add($x);
+        $α = $sqn * sqrt($xᵀx[0][0]);
+        
+        // e is the first column of I
+        $e = $I->submatrix(0, 0, $m - 1, 0);
+        
+        // u = x ± αe
+        $u = $e->scalarMultiply($α)->add($x);
         $uᵀ = $u->transpose();
-        // The sum of squares of v
         $uᵀu = $uᵀ->multiply($u);
         $scalar_uᵀu = $uᵀu[0][0];
 
         $uuᵀ = $u->multiply($uᵀ);
-        // We scale $uuᵀ, subtract it from a small Identity, and embed in a large identity
+        // We scale $uuᵀ and subtract it from the identity matrix
         return $I->subtract($uuᵀ->scalarMultiply(2 / $scalar_uᵀu));
     }
 
