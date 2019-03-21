@@ -3387,6 +3387,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $HA = $this;
         $skip_last = $this->isSquare() ? 1 : 0;
         $FullI = MatrixFactory::identity($m);
+        $Q = $FullI;
         for ($i = 0; $i < $n - $skip_last; $i++) {
             // Remove the leftmost $i columns and upper $i rows
             $A = $HA->submatrix($i, $i, $m - 1, $n - 1);
@@ -3395,14 +3396,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $innerH = $A->householderMatrix();
             
             // Embed the smaller matrix within a full rank Identity matrix
-            $H[$i] = $FullI->insert($innerH, $i, $i);
-            $HA = $H[$i]->multiply($HA);
+            $H = $FullI->insert($innerH, $i, $i);
+            $Q = $Q->multiply($H);
+            $HA = $H->multiply($HA);
         }
         $R = $HA;
-        $Q = array_shift($H);
-        foreach ($H as $key => $value) {
-                $Q = $Q->multiply($value);
-        }
         return [
             'Q' => $Q->submatrix(0, 0, $m - 1, $n - 1),
             'R' => $R->submatrix(0, 0, min($m, $n) - 1, $n - 1),
