@@ -3431,7 +3431,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         // with the correct sign
         $xᵀx = $x->transpose()->multiply($x);
         $sgn = Special::sgn($x[0][0]);
-        $α = $sqn * sqrt($xᵀx[0][0]);
+        $α = $sgn * sqrt($xᵀx[0][0]);
         
         // e is the first column of I
         $e = $I->submatrix(0, 0, $m - 1, 0);
