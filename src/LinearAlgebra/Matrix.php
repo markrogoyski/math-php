@@ -3424,16 +3424,16 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     private function householderMatrix(): Matrix
     {
         //  The leftmost column of A
-        $u = $this->submatrix(0, 0, $this->getM() - 1, 0);
-        $uᵀu = $u->transpose()->multiply($u);
+        $x = $this->submatrix(0, 0, $this->getM() - 1, 0);
+        $xᵀx = $x->transpose()->multiply($x);
         // The square root of the sum of squares
-        $α = sqrt($uᵀu[0][0]);
+        $α = sqrt($xᵀx[0][0]);
         // We use the sign of the top element of u
-        $sgn = Special::sgn($u[0][0]);
+        $sgn = Special::sgn($x[0][0]);
         $I = MatrixFactory::identity($this->getM());
         // Get the first column of I
         $e = $I->submatrix(0, 0, $this->getM() - 1, 0);
-        $v = $e->scalarMultiply($α * $sgn)->add($u);
+        $v = $e->scalarMultiply($α * $sgn)->add($x);
 
         // The sum of squares of v
         $vᵀv = $v->transpose()->multiply($v);
