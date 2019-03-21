@@ -3385,6 +3385,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $n = $this->n;  // columns
         $m = $this->m;  // rows
         $HA = $this;
+
+        // If the source matrix is square, the final householder matrix will be
+        // the identity matrix with a -1 in the bottom corner. The effect of this
+        // final transformation would only change signs on existing matricies. Both
+        // R and Q will already be in approprite forms in the next to the last step.
+        // We can skip the last transformation without affecting the validity of the
+        // results. Results indicate other software behaves similarly.
+        //
+        // This is because on a 1x1 matrix uuᵀ = uᵀu, so I - [[2]] = [[-1]]
         $skip_last = $this->isSquare() ? 1 : 0;
         $FullI = MatrixFactory::identity($m);
         $Q = $FullI;
@@ -3427,24 +3436,21 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         //  x is the leftmost column of A
         $x = $this->submatrix(0, 0, $m - 1, 0);
         
-        // α is the square root of the sum of squares of x
-        // with the correct sign
-        $xᵀx = $x->transpose()->multiply($x);
-        $sgn = Special::sgn($x[0][0]);
-        $α = $sgn * sqrt($xᵀx[0][0]);
+        // α is the square root of the sum of squares of x with the correct sign
+        $α = Special::sgn($x[0][0]) * sqrt($x->transpose()->multiply($x)->get(0, 0));
         
         // e is the first column of I
         $e = $I->submatrix(0, 0, $m - 1, 0);
         
         // u = x ± αe
         $u = $e->scalarMultiply($α)->add($x);
-        $uᵀ = $u->transpose();
-        $uᵀu = $uᵀ->multiply($u);
-        $scalar_uᵀu = $uᵀu[0][0];
 
+        $uᵀ = $u->transpose();
+        $uᵀu = $uᵀ->multiply($u)->get(0, 0);
         $uuᵀ = $u->multiply($uᵀ);
+        
         // We scale $uuᵀ and subtract it from the identity matrix
-        return $I->subtract($uuᵀ->scalarMultiply(2 / $scalar_uᵀu));
+        return $I->subtract($uuᵀ->scalarMultiply(2 / $uᵀu));
     }
 
     /**************************************************************************
