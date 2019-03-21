@@ -3410,13 +3410,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Householder Matrix
      *
-     * u = x - αe   where α = ‖x‖
+     * u = x ± αe   where α = ‖x‖ and sgn(α) = sgn(x)
      *
-     *      u
-     * v = ---
-     *     ‖u‖
-     *
-     * Q = I - 2vvᵀ
+     *              uuᵀ
+     * Q = I - 2 * -----
+     *              uᵀu
      *
      * @return Matrix
      *
@@ -3433,15 +3431,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $I = MatrixFactory::identity($this->getM());
         // Get the first column of I
         $e = $I->submatrix(0, 0, $this->getM() - 1, 0);
-        $v = $e->scalarMultiply($α * $sgn)->add($x);
-
+        $u = $e->scalarMultiply($α * $sgn)->add($x);
+        $uᵀ = $u->transpose();
         // The sum of squares of v
-        $vᵀv = $v->transpose()->multiply($v);
-        $scalar_vᵀv = $vᵀv[0][0];
+        $uᵀu = $uᵀ->multiply($u);
+        $scalar_uᵀu = $uᵀu[0][0];
 
-        $vvᵀ = $v->multiply($v->transpose());
-        // We scale $vvᵀ, subtract it from a small Identity, and embed in a large identity
-        return $I->subtract($vvᵀ->scalarMultiply(2 / $scalar_vᵀv));
+        $uuᵀ = $u->multiply($uᵀ);
+        // We scale $uuᵀ, subtract it from a small Identity, and embed in a large identity
+        return $I->subtract($uuᵀ->scalarMultiply(2 / $scalar_uᵀu));
     }
 
     /**************************************************************************
