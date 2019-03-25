@@ -7,7 +7,7 @@ use MathPHP\Exception;
  * Zipf's Law
  * https://en.wikipedia.org/wiki/Zipf's_law
  */
-class Uniform extends Discrete
+class Zipf extends Discrete
 {
     /**
      * Distribution parameter bounds limits
