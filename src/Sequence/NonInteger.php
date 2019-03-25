@@ -19,8 +19,8 @@ class NonInteger
      * Harmonic Numbers
      *
      *       n
-     * Hn = sum(1/n)
-     *      k=1
+     * Hᵢ = sum(1/i)
+     *      i=1
      *
      * https://en.wikipedia.org/wiki/Harmonic_number
      */
