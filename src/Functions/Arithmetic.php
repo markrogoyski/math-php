@@ -10,9 +10,9 @@ class Arithmetic
      * Adds any number of single variable (callback) functions {f(x)}. Returns
      * the sum as a callback function.
      *
-     * @param callable[] ...$args Two or more single-variable callback functions
+     * @param callable ...$args Two or more single-variable callback functions
      *
-     * @return callable          Sum of the input functions
+     * @return callable         Sum of the input functions
      */
     public static function add(callable ...$args): callable
     {
@@ -33,9 +33,9 @@ class Arithmetic
      * Multiplies any number of single variable (callback) functions {f(x)}.
      * Returns the product as a callback function.
      *
-     * @param callable[] ...$args Two or more single-variable callback functions
+     * @param callable ...$args Two or more single-variable callback functions
      *
-     * @return callable          Product of the input functions
+     * @return callable         Product of the input functions
      */
     public static function multiply(callable ...$args): callable
     {

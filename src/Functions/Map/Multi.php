@@ -13,9 +13,11 @@ class Multi
      *
      * [x₁ + y₁, x₂ + y₂, ... ]
      *
-     * @param array[] ...$arrays Two or more arrays of numbers
+     * @param array ...$arrays Two or more arrays of numbers
      *
      * @return array
+     *
+     * @throws Exception\BadDataException
      */
     public static function add(array ...$arrays): array
     {
@@ -39,9 +41,11 @@ class Multi
      *
      * [x₁ - y₁, x₂ - y₂, ... ]
      *
-     * @param array[] ...$arrays Two or more arrays of numbers
+     * @param array ...$arrays Two or more arrays of numbers
      *
      * @return array
+     *
+     * @throws Exception\BadDataException
      */
     public static function subtract(array ...$arrays): array
     {
@@ -70,9 +74,11 @@ class Multi
      *
      * [x₁ * y₁, x₂ * y₂, ... ]
      *
-     * @param array[] ...$arrays Two or more arrays of numbers
+     * @param array ...$arrays Two or more arrays of numbers
      *
      * @return array
+     *
+     * @throws Exception\BadDataException
      */
     public static function multiply(array ...$arrays): array
     {
@@ -96,9 +102,11 @@ class Multi
      *
      * [x₁ / y₁, x₂ / y₂, ... ]
      *
-     * @param array[] ...$arrays Two or more arrays of numbers
+     * @param array ...$arrays Two or more arrays of numbers
      *
      * @return array
+     *
+     * @throws Exception\BadDataException
      */
     public static function divide(array ...$arrays): array
     {
@@ -127,9 +135,11 @@ class Multi
      *
      * [max(x₁, y₁), max(x₂, y₂), ... ]
      *
-     * @param array[] ...$arrays Two or more arrays of numbers
+     * @param array ...$arrays Two or more arrays of numbers
      *
      * @return array
+     *
+     * @throws Exception\BadDataException
      */
     public static function max(array ...$arrays): array
     {
@@ -158,9 +168,11 @@ class Multi
      *
      * [max(x₁, y₁), max(x₂, y₂), ... ]
      *
-     * @param array[] ...$arrays Two or more arrays of numbers
+     * @param array ...$arrays Two or more arrays of numbers
      *
      * @return array
+     *
+     * @throws Exception\BadDataException
      */
     public static function min(array ...$arrays): array
     {
@@ -184,9 +196,9 @@ class Multi
         return $mins;
     }
 
-    /**
+    /* *************** *
      * PRIVATE METHODS
-     */
+     * *************** */
 
     /**
      * Check that two or more arrays are all the same length
@@ -194,6 +206,7 @@ class Multi
      * @param  array[] $arrays
      *
      * @return bool
+     *
      * @throws Exception\BadDataException if there are not at least two arrays
      * @throws Exception\BadDataException if arrays are not equal lengths
      */
