@@ -1791,7 +1791,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase Axiom: Positive definiteness A and B are PD ⇒ A + B is PD
      * If A and B are positive definite then A + B is positive definite.
-     * @dataProvider dataProviderForTwoPositiveDefiniteMatrixes
+     * @dataProvider dataProviderForTwoPositiveDefiniteMatrices
      * @param  array $A
      * @param  array $B
      */
@@ -1826,7 +1826,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase Axiom: Positive definiteness A and B are PD ⇒ ABA is PD
      * If A and B are positive definite then ABA is positive definite.
-     * @dataProvider dataProviderForTwoPositiveDefiniteMatrixes
+     * @dataProvider dataProviderForTwoPositiveDefiniteMatrices
      * @param  array $A
      * @param  array $B
      */
@@ -1844,7 +1844,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase Axiom: Positive definiteness A and B are PD ⇒ BAB is PD
      * If A and B are positive definite then BAB is positive definite.
-     * @dataProvider dataProviderForTwoPositiveDefiniteMatrixes
+     * @dataProvider dataProviderForTwoPositiveDefiniteMatrices
      * @param  array $A
      * @param  array $B
      */
@@ -2425,7 +2425,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     Axiom: adj⟮AB⟯ = adj⟮B⟯adj⟮A⟯
      *               The adjugate of AB equals the adjugate of B times the adjugate of A
-     * @dataProvider dataProviderForTwoNonsingularMatrixes
+     * @dataProvider dataProviderForTwoNonsingularMatrices
      * @param        array $A
      * @param        array $B
      */
@@ -2465,7 +2465,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @testCase     Axiom: adj⟮B⟯adj⟮A⟯ = det⟮B⟯B⁻¹ det⟮A⟯A⁻¹ = det⟮AB⟯⟮AB⟯⁻¹
      *               The adjugate of B times adjugate A equals the determinant of B times inverse of B times determinant of A times inverse of A
      *               which equals the determinant of AB times the inverse of AB
-     * @dataProvider dataProviderForTwoNonsingularMatrixes
+     * @dataProvider dataProviderForTwoNonsingularMatrices
      * @param        array $A
      * @param        array $B
      */

@@ -27,7 +27,7 @@ class MatrixComparisonsTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         isEqual finds to matrices to not be equal
      * @dataProvider dataProviderForTwoSquareMatrices
-     * @dataProvider dataProviderForTwoNonsingularMatrixes
+     * @dataProvider dataProviderForTwoNonsingularMatrices
      * @param        array $A
      * @param        array $B
      * @throws       \Exception

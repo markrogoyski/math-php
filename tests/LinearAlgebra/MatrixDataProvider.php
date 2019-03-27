@@ -12,7 +12,7 @@ trait MatrixDataProvider
      *  - dataProviderForSkewSymmetricMatrix
      *  - dataProviderForSingularMatrix
      *  - dataProviderForNonsingularMatrix
-     *  - dataProviderForTwoNonsingularMatrixes
+     *  - dataProviderForTwoNonsingularMatrices
      *  - dataProviderForPositiveDefiniteMatrix
      *  - dataProviderForNotPositiveDefiniteMatrix
      *  - dataProviderForPositiveSemidefiniteMatrix
@@ -35,7 +35,7 @@ trait MatrixDataProvider
      *  - dataProviderForThreeMatrices
      *  - dataProviderForFourMatrices
      *  - dataProviderForSolve
-     *  - dataProviderForTwoPositiveDefiniteMatrixes
+     *  - dataProviderForTwoPositiveDefiniteMatrices
      *  - dataProviderForInvolutoryMatrix
      *  - dataProviderForNotInvolutoryMatrix
      *  - dataProviderForSignatureMatrix
@@ -1113,7 +1113,7 @@ trait MatrixDataProvider
         ];
     }
 
-    public function dataProviderForTwoNonsingularMatrixes(): array
+    public function dataProviderForTwoNonsingularMatrices(): array
     {
         return [
             [
@@ -4513,7 +4513,7 @@ trait MatrixDataProvider
         ];
     }
 
-    public function dataProviderForTwoPositiveDefiniteMatrixes(): array
+    public function dataProviderForTwoPositiveDefiniteMatrices(): array
     {
         return [
             [
