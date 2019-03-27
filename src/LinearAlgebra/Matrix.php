@@ -251,6 +251,40 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return $vectors;
     }
 
+    /***************************************************************************
+     * MATRIX COMPARISONS
+     *  - isEqual
+     ***************************************************************************/
+
+    /**
+     * Is this matrix equal to some other matrix?
+     *
+     * @param Matrix $B
+     *
+     * @return bool
+     */
+    public function isEqual(Matrix $B): bool
+    {
+        $m = $this->m;
+        $n = $this->n;
+
+        // Same dimensions
+        if ($m != $B->m || $n != $B->n) {
+            return false;
+        }
+
+        // All elements are the same
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                if ($this->A[$i][$j] != $B[$i][$j]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     /**************************************************************************
      * MATRIX PROPERTIES
      *  - isSquare
