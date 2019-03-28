@@ -360,4 +360,137 @@ class SupportTest extends \PHPUnit\Framework\TestCase
             [-0.0000001],
         ];
     }
+
+    /**
+     * @test         isEqual returns true for equal values
+     * @dataProvider dataProviderForEqualValues
+     * @param        int|float $x
+     * @param        int|float $y
+     */
+    public function testIsEqual($x, $y)
+    {
+        $this->assertTrue(Support::isEqual($x, $y));
+    }
+
+    /**
+     * @test         isEqual returns false for unequal values
+     * @dataProvider dataProviderForUnequalValues
+     * @param        int|float $x
+     * @param        int|float $y
+     */
+    public function testIsEqualWhenNotEqual($x, $y)
+    {
+        $this->assertFalse(Support::isEqual($x, $y));
+    }
+
+    /**
+     * @test         isMptEqual returns true for unequal values
+     * @dataProvider dataProviderForUnequalValues
+     * @param        int|float $x
+     * @param        int|float $y
+     */
+    public function testIsNotEqual($x, $y)
+    {
+        $this->assertTrue(Support::isNotEqual($x, $y));
+    }
+
+    /**
+     * @test         isMptEqual returns false for equal values
+     * @dataProvider dataProviderForEqualValues
+     * @param        int|float $x
+     * @param        int|float $y
+     */
+    public function testIsNotEqualWhenEqual($x, $y)
+    {
+        $this->assertFalse(Support::isNotEqual($x, $y));
+    }
+
+
+    /**
+     * @return array
+     */
+    public function dataProviderForEqualValues(): array
+    {
+        return [
+            [0, 0],
+            [1, 1],
+            [2, 2],
+            [489837, 489837],
+            [-1, -1],
+            [-2, -2],
+            [-489837, -489837],
+            [1.1, 1.1],
+            [4.86, 4.86],
+            [4.4948739874, 4.4948739874],
+            [-1.1, -1.1],
+            [-4.86, -4.86],
+            [-4.4948739874, -4.4948739874],
+            [0.01, 0.01],
+            [0.001, 0.001],
+            [0.0001, 0.0001],
+            [0.00001, 0.00001],
+            [0.000001, 0.000001],
+            [0.0000001, 0.0000001],
+            [0.00000001, 0.00000001],
+            [0.000000001, 0.000000001],
+            [0.0000000001, 0.0000000001],
+            [0.00000000001, 0.00000000001],
+            [0.000000000001, 0.000000000001],
+            [-0.01, -0.01],
+            [-0.001, -0.001],
+            [-0.0001, -0.0001],
+            [-0.00001, -0.00001],
+            [-0.000001, -0.000001],
+            [-0.0000001, -0.0000001],
+            [-0.00000001, -0.00000001],
+            [-0.000000001, -0.000000001],
+            [-0.0000000001, -0.0000000001],
+            [-0.00000000001, -0.00000000001],
+            [-0.000000000001, -0.000000000001],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForUnequalValues(): array
+    {
+        return [
+            [0, 1],
+            [1, 2],
+            [2, 3],
+            [489838, 489837],
+            [-1, -2],
+            [-2, -3],
+            [-489838, -489837],
+            [1.1, 1.2],
+            [4.86, 4.87],
+            [4.4948739876, 4.4948739874],
+            [-1.1, -1.2],
+            [-4.86, -4.87],
+            [-4.4948739873, -4.4948739874],
+            [0.01, 0.02],
+            [0.001, 0.002],
+            [0.0001, 0.0002],
+            [0.00001, 0.00002],
+            [0.000001, 0.000002],
+            [0.0000001, 0.0000002],
+            [0.00000001, 0.00000002],
+            [0.000000001, 0.000000002],
+            [0.0000000001, 0.0000000002],
+            [0.00000000001, 0.00000000002],
+            [0.000000000001, 0.000000000002],
+            [-0.01, -0.02],
+            [-0.001, -0.002],
+            [-0.0001, -0.0002],
+            [-0.00001, -0.00002],
+            [-0.000001, -0.000002],
+            [-0.0000001, -0.0000002],
+            [-0.00000001, -0.00000002],
+            [-0.000000001, -0.000000002],
+            [-0.0000000001, -0.0000000002],
+            [-0.00000000001, -0.00000000002],
+            [-0.000000000001, -0.000000000002],
+        ];
+    }
 }

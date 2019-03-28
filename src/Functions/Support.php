@@ -112,4 +112,30 @@ class Support
     {
         return ($x != 0 && abs($x) > self::ε);
     }
+
+    /**
+     * Are two numbers equivalent up to a tiny tolerance?
+     *
+     * @param float $x
+     * @param float $y
+     *
+     * @return bool
+     */
+    public static function isEqual(float $x, float $y): bool
+    {
+        return $x == $y || abs($x - $y) < self::ε;
+    }
+
+    /**
+     * Are two numbers not equal given a tiny tolerance?
+     *
+     * @param float $x
+     * @param float $y
+     *
+     * @return bool
+     */
+    public static function isNotEqual(float $x, float $y): bool
+    {
+        return $x != $y && abs($x - $y) >= self::ε;
+    }
 }
