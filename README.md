@@ -467,6 +467,7 @@ $bool = $A->isBidiagonal();
 $bool = $A->isTridiagonal();
 $bool = $A->isUpperHessenberg();
 $bool = $A->isLowerHessenberg();
+$bool = $A->isOrthogonal();
 $bool = $A->isInvolutory();
 $bool = $A->isSignature();
 $bool = $A->isRef();
