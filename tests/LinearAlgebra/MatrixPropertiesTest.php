@@ -679,4 +679,34 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
 
         $this->assertFalse($A->isLowerHessenberg());
     }
+
+    /**
+     * @test         isOrthogonal
+     * @dataProvider dataProviderForOrthogonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsOrthogonal2(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertTrue($A->isOrthogonal());
+    }
+
+    /**
+     * @test         isOrthogonal when not orthogonal
+     * @dataProvider dataProviderForNonOrthogonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsOrthogonalWhenNotOrthogonal(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertFalse($A->isOrthogonal());
+    }
 }

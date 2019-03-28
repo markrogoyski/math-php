@@ -276,7 +276,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         // All elements are the same
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                if ($this->A[$i][$j] != $B[$i][$j]) {
+                if (Support::isNotEqual($this->A[$i][$j], $B[$i][$j])) {
                     return false;
                 }
             }
@@ -307,6 +307,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isLowerBidiagonal
      *  - isBidiagonal
      *  - isTridiagonal
+     *  - isUpperHessenberg
+     *  - isLowerHessenberg
+     *  - isOrthogonal
      **************************************************************************/
 
     /**
@@ -952,6 +955,29 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return true;
+    }
+
+    /**
+     * Is the matrix orthogonal?
+     *  - It is a square matrix
+     *  - AAᵀ = AᵀA = I
+     *
+     * @return bool
+     *
+     * @throws Exception\MathException
+     */
+    public function isOrthogonal(): bool
+    {
+        if (!$this->isSquare()) {
+            return false;
+        }
+
+        // AAᵀ = I
+        $I   = MatrixFactory::identity($this->m);
+        $Aᵀ  = $this->transpose();
+        $AAᵀ = $this->multiply($Aᵀ);
+
+        return $AAᵀ->isEqual($I);
     }
 
     /**

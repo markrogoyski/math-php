@@ -12,6 +12,7 @@ class MatrixComparisonsTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForSquareMatrix
      * @dataProvider dataProviderForNotSquareMatrix
      * @dataProvider dataProviderForNonsingularMatrix
+     * @dataProvider dataProviderForMatrixWithWeirdNumbers
      * @param        array $A
      * @throws       \Exception
      */

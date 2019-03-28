@@ -55,6 +55,9 @@ trait MatrixDataProvider
      *  - dataProviderForNotLowerHessenbergMatrix
      *  - dataProviderForIdentityMatrix
      *  - dataProviderForSingleMatrix
+     *  - dataProviderForOrthogonalMatrix
+     *  - dataProviderForNonOrthogonalMatrix
+     *  - dataProviderForMatrixWithWeirdNumbers
      **************************************************************************/
 
     public function dataProviderForSquareMatrix(): array
@@ -6468,6 +6471,165 @@ trait MatrixDataProvider
         ];
     }
 
+    public function dataProviderForOrthogonalMatrix(): array
+    {
+        return [
+            [
+                [
+                    [1]
+                ]
+            ],
+            [
+                [
+                    [-1]
+                ]
+            ],
+            [
+                [
+                    [1, 0],
+                    [0, 1],
+                ]
+            ],
+            [
+                [
+                    [1, 0],
+                    [0, -1],
+                ]
+            ],
+            [
+                [
+                    [-1, 0],
+                    [0, 1],
+                ]
+            ],
+            [
+                [
+                    [0, 1],
+                    [1, 0],
+                ]
+            ],
+            [
+                [
+                    [0.96, -0.28],
+                    [0.28, 0.96],
+                ]
+            ],
+            [
+                [
+                    [0, -0.80, -0.60],
+                    [0.80, -0.36, 0.48],
+                    [0.60, 0.48, -0.64],
+                ]
+            ],
+            [
+                [
+                    [0, 0, 0, 1],
+                    [0, 0, 1, 0],
+                    [1, 0, 0, 0],
+                    [0, 1, 0, 0],
+                ]
+            ],
+            [
+                [
+                    [0, -1, 0],
+                    [1, 0, 0],
+                    [0, 0, -1],
+                ]
+            ],
+            [
+                [
+                    [-1, 0, 0],
+                    [0, -1, 0],
+                    [0, 0, -1],
+                ]
+            ],
+            [
+                [
+                    [1/sqrt(2), 1/sqrt(2)],
+                    [1/sqrt(2), -1/sqrt(2)],
+                ]
+            ],
+            [
+                [
+                    [2/3, -2/3, 1/3],
+                    [1/3, 2/3, 2/3],
+                    [2/3, 1/3, -2/3],
+                ]
+            ],
+        ];
+    }
+
+    public function dataProviderForNonOrthogonalMatrix(): array
+    {
+        return [
+            // Not square
+            [
+                [
+                    [1],
+                    [0],
+                ]
+            ],
+            [
+                [
+                    [0.96, -0.28, 2],
+                    [0.28, 0.96, 5],
+                ]
+            ],
+            // Square but not orthogonal
+            [
+                [
+                    [3, 1],
+                    [7, 5],
+                ]
+            ],
+        ];
+    }
+
+    public function dataProviderForMatrixWithWeirdNumbers(): array
+    {
+        return [
+            [
+                [
+                    [0.0000001],
+                ]
+            ],
+            [
+                [
+                    [0.0000001, 0.00000002],
+                    [0.00000000034, 0.000000000009994387],
+                ]
+            ],
+            [
+                [
+                    [1/2, 1/3, 1/4],
+                    [1/5, 1/6, 1/7],
+                    [2/3, 3/5, 8/9],
+                ]
+            ],
+            [
+                [
+                    [cos(1), cos(0), cos(1.4)],
+                    [sin(1), sin(0), sin(1.4)],
+                    [tan(1), tan(0), tan(1.4)],
+                    [sin(\M_PI), cos(\M_PI), tan(\M_PI)],
+                ]
+            ],
+            [
+                [
+                    [\M_PI, \M_2_PI, \M_2_SQRTPI],
+                    [\M_E, \M_EULER, \M_LOG2E],
+                    [\M_LOG10E, \M_LN2, \M_LNPI],
+                ]
+            ],
+            [
+                [
+                    [\PHP_INT_MAX, \PHP_INT_MIN],
+                    [\INF, -\INF],
+                ]
+            ]
+        ];
+    }
+
     public function dataProviderForBidiagonalMatrix(): \Generator
     {
         foreach ($this->dataProviderForUpperBidiagonalMatrix() as $matrix) {
@@ -6532,6 +6694,9 @@ trait MatrixDataProvider
             yield $matrix;
         }
         foreach ($this->dataProviderForIdentityMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForMatrixWithWeirdNumbers() as $matrix) {
             yield $matrix;
         }
     }
