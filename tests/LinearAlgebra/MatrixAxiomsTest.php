@@ -149,6 +149,11 @@ use MathPHP\NumberTheory\Integer;
  *    - Lower bidiagonal matrix is upper Hessenberg
  *    - Upper bidiagonal matrix is lower Hessenberg
  *    - A matrix that is both upper Hessenberg and lower Hessenberg is a tridiagonal matrix
+ *  - Orthogonal matrix
+ *    - AAᵀ = I
+ *    - AᵀA = I
+ *    - A⁻¹ = Aᵀ
+ *    - det(A) = 1
  */
 class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 {
@@ -2640,5 +2645,82 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($A->isTridiagonal());
         $this->assertTrue($A->isUpperHessenberg());
         $this->assertTrue($A->isLowerHessenberg());
+    }
+
+    /**
+     * @test         Axiom: AAᵀ = I for an orthogonal matrix A
+     * @dataProvider dataProviderForOrthogonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testOrthogonalMatrixTimesTransposeIsIdentityMatrix(array $A)
+    {
+        // Given
+        $A  = MatrixFactory::create($A);
+        $Aᵀ = $A->transpose();
+        $I  = MatrixFactory::identity($A->getM());
+
+        // When
+        $AAᵀ = $A->multiply($Aᵀ);
+
+        // Then
+        $this->assertEquals($I->getMatrix(), $AAᵀ->getMatrix());
+    }
+
+    /**
+     * @test         Axiom: AᵀA = I for an orthogonal matrix A
+     * @dataProvider dataProviderForOrthogonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testOrthogonalTransposeOfOrthogonalMatrixTimesMatrixIsIdentityMatrix(array $A)
+    {
+        // Given
+        $A  = MatrixFactory::create($A);
+        $Aᵀ = $A->transpose();
+        $I  = MatrixFactory::identity($A->getM());
+
+        // When
+        $AᵀA = $Aᵀ->multiply($A);
+
+        // Then
+        $this->assertEquals($I->getMatrix(), $AᵀA->getMatrix());
+    }
+
+    /**
+     * @test         Axiom: A⁻¹ = Aᵀ for an orthogonal matrix A
+     * @dataProvider dataProviderForOrthogonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testOrthogonalMatrixInverseEqualsTransposeOfOrthogonalMatrix(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $Aᵀ  = $A->transpose();
+        $A⁻¹ = $A->inverse();
+
+        // Then
+        $this->assertEquals($A⁻¹->getMatrix(), $Aᵀ->getMatrix());
+    }
+
+    /**
+     * @test         Axiom: det(A) = ±1 for an orthogonal matrix A
+     * @dataProvider dataProviderForOrthogonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testOrthogonalMatrixDeterminateIsOne(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $det⟮A⟯ = $A->det();
+
+        // Then
+        $this->assertEquals(1, abs($det⟮A⟯));
     }
 }
