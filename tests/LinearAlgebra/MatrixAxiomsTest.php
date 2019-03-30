@@ -1,11 +1,11 @@
 <?php
 namespace MathPHP\Tests\LinearAlgebra;
 
-use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\SquareMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\NumberTheory\Integer;
+use MathPHP\Tests;
 
 /**
  * Tests of Matrix axioms
@@ -157,13 +157,16 @@ use MathPHP\NumberTheory\Integer;
  */
 class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 {
-    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+    use Tests\LinearAlgebra\MatrixDataProvider;
 
     /**
      * Axiom: r(A + B) = rA + rB
      * Order of scalar multiplication does not matter.
      *
      * @dataProvider dataProviderForScalarMultiplicationOrderAddition
+     * @param        array $A
+     * @param        array $B
+     * @param        int $r
      * @throws       \Exception
      */
     public function testScalarMultiplicationOrderAddition(array $A, array $B, int $r)
@@ -315,6 +318,9 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Matrix multiplication is associative
      *
      * @dataProvider dataProviderForMultiplicationIsAssociative
+     * @param        array $A
+     * @param        array $B
+     * @param        array $C
      * @throws       \Exception
      */
     public function testMultiplicationIsAssociative(array $A, array $B, array $C)
@@ -380,6 +386,9 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Matrix multiplication is distributive
      *
      * @dataProvider dataProviderForMultiplicationIsDistributive
+     * @param        array $A
+     * @param        array $B
+     * @param        array $C
      * @throws       \Exception
      */
     public function testMultiplicationIsDistributive(array $A, array $B, array $C)
@@ -462,6 +471,9 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Order of scalar multiplication does not matter.
      *
      * @dataProvider dataProviderForScalarMultiplicationOrder
+     * @param        array $A
+     * @param        array $B
+     * @param        int $r
      * @throws       \Exception
      */
     public function testScalarMultiplcationOrder(array $A, array $B, int $r)
@@ -548,6 +560,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Matrix multiplied with the identity matrix is the original matrix.
      *
      * @dataProvider dataProviderForOneSquareMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testMatrixTimesIdentityIsOriginalMatrix(array $A)
@@ -579,9 +592,10 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Matrix multiplied with its inverse is the identity matrix.
      *
      * @dataProvider dataProviderForInverse
+     * @param        array $A
      * @throws       \Exception
      */
-    public function testMatrixTimesInverseIsIdentity(array $A, array $A⁻¹)
+    public function testMatrixTimesInverseIsIdentity(array $A)
     {
         $A    = MatrixFactory::create($A);
         $A⁻¹  = $A->inverse();
@@ -599,6 +613,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Inverse of inverse is the original matrix.
      *
      * @dataProvider dataProviderForOneSquareMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testInverseOfInverseIsOriginalMatrix(array $A)
@@ -717,6 +732,8 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * The inverse of a product is the reverse product of the inverses.
      *
      * @dataProvider dataProviderForInverseProductIsReverseProductOfInverses
+     * @param        array $A
+     * @param        array $B
      * @throws       \Exception
      */
     public function testInverseProductIsReverseProductOfInverses(array $A, array $B)
@@ -854,6 +871,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * The transpose of the transpose is the original matrix.
      *
      * @dataProvider dataProviderForOneSquareMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testTransposeOfTransposeIsOriginalMatrix(array $A)
@@ -869,6 +887,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * The transpose of the inverse is the inverse of the transpose.
      *
      * @dataProvider dataProviderForOneSquareMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testTransposeOfInverseIsInverseOfTranspose(array $A)
@@ -885,6 +904,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Scalar multiplication order does not matter for transpose
      *
      * @dataProvider dataProviderForOneSquareMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testScalarMultiplicationOfTransposeOrder(array $A)
@@ -903,6 +923,8 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Transpose of a product of matrices equals the product of their transposes in reverse order.
      *
      * @dataProvider dataProviderForTwoSquareMatrices
+     * @param        array $A
+     * @param        array $B
      * @throws       \Exception
      */
     public function testTransposeProductIsProductOfTranposesInReverseOrder(array $A, array $B)
@@ -926,6 +948,8 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Transpose of sum is the same as sum of transposes
      *
      * @dataProvider dataProviderForTwoSquareMatrices
+     * @param        array $A
+     * @param        array $B
      * @throws       \Exception
      */
     public function testTransposeSumIsSameAsSumOfTransposes(array $A, array $B)
@@ -949,6 +973,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Trace is the same as the trace of the transpose
      *
      * @dataProvider dataProviderForOneSquareMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testTraceIsSameAsTraceOfTranspose(array $A)
@@ -967,6 +992,8 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Trace of product does not matter the order they were multiplied
      *
      * @dataProvider dataProviderForTwoSquareMatrices
+     * @param        array $A
+     * @param        array $B
      * @throws       \Exception
      */
     public function testTraceOfProductIsSameRegardlessOfOrderMultiplied(array $A, array $B)
@@ -985,6 +1012,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Determinant of matrix is the same as determinant of transpose.
      *
      * @dataProvider dataProviderForOneSquareMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testDeterminantSameAsDeterminantOfTranspose(array $A)
@@ -1002,6 +1030,8 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Determinant of product of matrices is the same as the product of determinants.
      *
      * @dataProvider dataProviderForTwoSquareMatrices
+     * @param        array $A
+     * @param        array $B
      * @throws       \Exception
      */
     public function testDeterminantProductSameAsProductOfDeterminants(array $A, array $B)
@@ -1024,6 +1054,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * PA = LU
      * Basic LU decomposition property that permutation matrix times the matrix is the product of the lower and upper decomposition matrices.
      * @dataProvider dataProviderForOneSquareMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testLUDecompositionPAEqualsLU(array $A)
@@ -1038,7 +1069,6 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         $PA = $P->multiply($A);
         $LU = $L->multiply($U);
-        $UL = $U->multiply($L);
 
         $this->assertEquals($PA->getMatrix(), $LU->getMatrix());
     }
@@ -1046,6 +1076,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     /**
      * A = P⁻¹LU
      * @dataProvider dataProviderForOneSquareMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testLUDecompositionAEqualsPInverseLU(array $A)
@@ -1067,6 +1098,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * PPᵀ = I = PᵀP
      * Permutation matrix of the LU decomposition times the transpose of the permutation matrix is the identity matrix.
      * @dataProvider dataProviderForOneSquareMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testLUDecompositionPPTransposeEqualsIdentity(array $A)
@@ -1092,6 +1124,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * (PA)⁻¹ = (LU)⁻¹ = U⁻¹L⁻¹
      * Inverse of the LU decomposition equation is the inverse of the other side.
      * @dataProvider dataProviderForOneSquareMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testInverseWithLUDecompositionInverse(array $A)
@@ -1119,6 +1152,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * P⁻¹ = Pᵀ
      * Inverse of the permutation matrix equals the transpose of the permutation matrix
      * @dataProvider dataProviderForOneSquareMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testPInverseEqualsPTranspose(array $A)
@@ -1138,6 +1172,10 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Matrix multiplied with unknown x vector subtract solution b is 0
      *
      * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $x
+     * @param        array $zeros
      * @throws       \Exception
      */
     public function testSolveEquationForZero(array $A, array $b, array $x, array $zeros)
@@ -1158,9 +1196,12 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Matrix multiplied with unknown x vector subtract solution b is 0
      *
      * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $x
      * @throws       \Exception
      */
-    public function testSolveInverseBEqualsX(array $A, array $b, array $x, array $zeros)
+    public function testSolveInverseBEqualsX(array $A, array $b, array $x)
     {
         $A   = MatrixFactory::create($A);
         $A⁻¹ = $A->inverse();
@@ -1177,6 +1218,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Axiom: A = Aᵀ
      * Symmetric matrix is the same as its transpose
      * @dataProvider dataProviderForSymmetricMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testSymmetricEqualsTranspose(array $A)
@@ -1192,6 +1234,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Axiom: A⁻¹Aᵀ = I
      * Symmetric matrix inverse times tranpose equals identity matrix
      * @dataProvider dataProviderForSymmetricMatrix
+     * @param        array $A
      * @throws       \Exception
      */
     public function testSymmetricInverseTranposeEqualsIdentity(array $A)
@@ -1211,7 +1254,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @testCase Axiom: A + B is symmetric
      * If A and B are symmetric matrices with the sme size, then A + B is symmetric
      * @dataProvider dataProviderForSymmetricMatrix
-     * @param        array $A
+     * @param        array $M
      * @throws       \Exception
      */
     public function testSymmetricMatricesSumIsSymmetric(array $M)
@@ -1229,7 +1272,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @testCase Axiom: A - B is symmetric
      * If A and B are symmetric matrices with the sme size, then A - B is symmetric
      * @dataProvider dataProviderForSymmetricMatrix
-     * @param        array $A
+     * @param        array $M
      * @throws       \Exception
      */
     public function testSymmetricMatricesDifferenceIsSymmetric(array $M)
@@ -1247,7 +1290,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @testCase Axiom: kA is symmetric
      * If A is a symmetric matrix, kA is symmetric
      * @dataProvider dataProviderForSymmetricMatrix
-     * @param        array $A
+     * @param        array $M
      * @throws       \Exception
      */
     public function testSymmetricMatricesTimesScalarIsSymmetric(array $M)
@@ -1265,7 +1308,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @testCase Axiom: AAᵀ is symmetric
      * If A is a symmetric matrix, AAᵀ is symmetric
      * @dataProvider dataProviderForSymmetricMatrix
-     * @param        array $A
+     * @param        array $M
      * @throws       \Exception
      */
     public function testSymmetricMatrixTimesTransposeIsSymmetric(array $M)
@@ -1282,7 +1325,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @testCase Axiom: AᵀA is symmetric
      * If A is a symmetric matrix, AᵀA is symmetric
      * @dataProvider dataProviderForSymmetricMatrix
-     * @param        array $A
+     * @param        array $M
      * @throws       \Exception
      */
     public function testTransposeTimesSymmetricMatrixIsSymmetric(array $M)
@@ -1299,16 +1342,16 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @testCase Axiom: A is invertible symmetric, A⁻¹ is symmetric
      * If A is an invertible symmetric matrix, the inverse of A is also symmetric
      * @dataProvider dataProviderForSymmetricMatrix
-     * @param        array $A
+     * @param        array $M
      * @throws       \Exception
      */
-    public function testMatrixIsInvertibleSummetricThenInverseIsSymmetric(array $M)
+    public function testMatrixIsInvertibleSymmetricThenInverseIsSymmetric(array $M)
     {
         $A   = MatrixFactory::create($M);
 
         if ($A->isInvertible() && $A->isSymmetric()) {
             $A⁻¹ = $A->inverse();
-            $A⁻¹ = $A->map(
+            $A⁻¹ = $A⁻¹->map(
                 function ($x) {
                     return round($x, 5); // Floating point adjustment
                 }
@@ -1868,14 +1911,13 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
             $rA = $A->scalarMultiply($r);
             $this->assertTrue($rA->isPositiveDefinite());
         }
-        $A⁻¹ = $A->inverse();
     }
 
     /**
      * @testCase Axiom: Positive definiteness A and B are PD ⇒ A + B is PD
      * If A and B are positive definite then A + B is positive definite.
      * @dataProvider dataProviderForPositiveDefiniteMatrix
-     * @param        array $A
+     * @param        array $M
      * @throws       \Exception
      */
     public function testPositiveDefiniteAPlusAIsPositiveDefinite(array $M)
@@ -1912,7 +1954,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @testCase Axiom: Positive definiteness A and B are PD ⇒ ABA is PD
      * If A and B are positive definite then ABA is positive definite.
      * @dataProvider dataProviderForPositiveDefiniteMatrix
-     * @param        array $A
+     * @param        array $M
      * @throws       \Exception
      */
     public function testPositiveDefiniteAAAIsPositiveDefinite(array $M)
@@ -2552,7 +2594,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @testCase     Axiom: adj⟮I⟯ = I
      *               The adjugate of identity matrix is identity matrix
      * @dataProvider dataProviderForIdentityMatrix
-     * @param        array $A
+     * @param        array $I
      * @throws       \Exception
      */
     public function testAdjugateOfIdenetityMatrixIsIdentity(array $I)

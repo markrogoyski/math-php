@@ -3163,7 +3163,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * L = [0.5  1 0]  U = [0 1 1.5]
      *     [0.5 -1 1]      [0 0  -2]
      *
-     * @return array [
+     * @return Matrix[] [
      *   L: Lower triangular matrix
      *   U: Upper triangular matrix
      *   P: Permutation matrix
