@@ -2740,9 +2740,9 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $AAᵀ = $A->multiply($Aᵀ);
 
         $rank⟮A⟯   = $A->rank();
-        $rank⟮Aᵀ⟯  = $A->rank();
-        $rank⟮AᵀA⟯ = $A->rank();
-        $rank⟮AAᵀ⟯ = $A->rank();
+        $rank⟮Aᵀ⟯  = $Aᵀ->rank();
+        $rank⟮AᵀA⟯ = $AᵀA->rank();
+        $rank⟮AAᵀ⟯ = $AAᵀ->rank();
 
         $this->assertEquals($rank⟮A⟯, $rank⟮Aᵀ⟯);
         $this->assertEquals($rank⟮A⟯, $rank⟮AᵀA⟯);

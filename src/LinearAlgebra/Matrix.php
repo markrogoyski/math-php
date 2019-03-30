@@ -2921,7 +2921,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 }
             }
 
-            if ($R[$i_max][$k] == 0) {
+            if (Support::isZero($R[$i_max][$k])) {
                 throw new Exception\SingularMatrixException('Guassian elimination fails for singular matrices');
             }
 
@@ -2933,9 +2933,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
             // Row operations
             for ($i = $k + 1; $i < $m; $i++) {
-                $f = ($R[$k][$k] != 0) ? $R[$i][$k] / $R[$k][$k] : 1;
+                $f = (Support::isNotZero($R[$k][$k])) ? $R[$i][$k] / $R[$k][$k] : 1;
                 for ($j = $k + 1; $j < $n; $j++) {
                     $R[$i][$j] = $R[$i][$j] - ($R[$k][$j] * $f);
+                    if (Support::isZero($R[$i][$j])) {
+                        $R[$i][$j] = 0;
+                    }
                 }
                 $R[$i][$k] = 0;
             }
@@ -3008,6 +3011,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 $factor = $R[$j][$col];
                 if (Support::isNotZero($factor)) {
                     $R = $R->rowAdd($row, $j, -$factor);
+                    for ($k = 0; $k < $n; $k++) {
+                        if (Support::isZero($R[$j][$k])) {
+                            $R->A[$j][$k] = 0;
+                        }
+                    }
                 }
             }
 
