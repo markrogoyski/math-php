@@ -60,13 +60,13 @@ abstract class Interpolation
      * between start and end
      *
      * @param  callable $function f(x) callback function
-     * @param  number   $start    the start of the interval
-     * @param  number   $end      the end of the interval
-     * @param  number   $n        the number of function evaluations
+     * @param  float    $start    the start of the interval
+     * @param  float    $end      the end of the interval
+     * @param  int      $n        the number of function evaluations
      *
      * @return array
      */
-    protected static function functionToPoints(callable $function, $start, $end, $n): array
+    protected static function functionToPoints(callable $function, float $start, float $end, int $n): array
     {
         $points = [];
         $h      = ($end-$start)/($n-1);
@@ -84,15 +84,16 @@ abstract class Interpolation
      * has precisely two numbers, and that no two points share the same first number
      * (x-component)
      *
-     * @param  array  $points Array of arrays (points)
-     * @param  number $degree The miminum number of input arrays
+     * @param  array $points Array of arrays (points)
+     * @param  int   $degree The miminum number of input arrays
      *
      * @return bool
-     * @throws Exception if there are less than two points
-     * @throws Exception if any point does not contain two numbers
-     * @throws Exception if two points share the same first number (x-component)
+     *
+     * @throws Exception\BadDataException if there are less than two points
+     * @throws Exception\BadDataException if any point does not contain two numbers
+     * @throws Exception\BadDataException if two points share the same first number (x-component)
      */
-    public static function validate(array $points, $degree = 2): bool
+    public static function validate(array $points, int $degree = 2): bool
     {
         if (count($points) < $degree) {
             throw new Exception\BadDataException('You need to have at least $degree sets of coordinates (arrays) for this technique');

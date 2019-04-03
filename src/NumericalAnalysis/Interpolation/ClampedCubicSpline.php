@@ -38,22 +38,24 @@ class ClampedCubicSpline extends Interpolation
     /**
      * Interpolate
      *
-     * @param callable|array     $source   The source of our approximation. Should be either
+     * @param callable|array $source The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
      *                           (point) contains precisely three numbers: x, y, and y'
      *                           Example array: [[1,2,1], [2,3,0], [3,4,2]].
      *                           Example callback: function($x) {return $x**2;}
-     * @param number   ... $args (Optional) An additonal callback: our first derivative,
+     * @param number ...$args (Optional) An additonal callback: our first derivative,
      *                           and arguments of our callback functions: start,
      *                           end, and n.
      *                           Example: approximate($source, $derivative, 0, 8, 5).
      *                           If $source is a set of points, do not input any
      *                           $args. Example: approximate($source).
      *
-     * @return Piecewise         The interpolting (piecewise) polynomial, as an
+     * @return Piecewise         The interpolating (piecewise) polynomial, as an
      *                           instance of Piecewise.
+     *
+     * @throws Exception\BadDataException
      */
-    public static function interpolate($source, ... $args)
+    public static function interpolate($source, ... $args): Piecewise
     {
         // Get an array of points from our $source argument
         $points = self::getSplinePoints($source, $args);
@@ -81,6 +83,7 @@ class ClampedCubicSpline extends Interpolation
         $z     = [$a[0]/(2*$h[0])];
         $c[$k] = 0;
         $poly  = [];
+        $int   = [];
 
         for ($i = 0; $i < $k; $i++) {
             $xᵢ    = $sorted[$i][$x];
@@ -184,13 +187,13 @@ class ClampedCubicSpline extends Interpolation
      *
      * @param  callable $function   f(x) callback function
      * @param  callable $derivative f'(x) callback function
-     * @param  number   $start      the start of the interval
-     * @param  number   $end        the end of the interval
-     * @param  number   $n          the number of function evaluations
+     * @param  float    $start      the start of the interval
+     * @param  float    $end        the end of the interval
+     * @param  int      $n          the number of function evaluations
      *
      * @return array
      */
-    protected static function functionToSplinePoints(callable $function, callable $derivative, $start, $end, $n): array
+    protected static function functionToSplinePoints(callable $function, callable $derivative, float $start, float $end, int $n): array
     {
         $points = [];
         $h      = ($end-$start)/($n-1);
@@ -209,15 +212,16 @@ class ClampedCubicSpline extends Interpolation
      * has precisely three numbers, and that no two points share the same first number
      * (x-component)
      *
-     * @param  array  $points Array of arrays (points)
-     * @param  number $degree The miminum number of input arrays
+     * @param  array $points Array of arrays (points)
+     * @param  int   $degree The minimum number of input arrays
      *
      * @return bool
-     * @throws Exception if there are less than two points
-     * @throws Exception if any point does not contain three numbers
-     * @throws Exception if two points share the same first number (x-component)
+     *
+     * @throws Exception\BadDataException if there are less than two points
+     * @throws Exception\BadDataException if any point does not contain three numbers
+     * @throws Exception\BadDataException if two points share the same first number (x-component)
      */
-    public static function validateSpline(array $points, $degree = 2): bool
+    public static function validateSpline(array $points, int $degree = 2): bool
     {
         if (count($points) < $degree) {
             throw new Exception\BadDataException('You need to have at least $degree sets of coordinates (arrays) for this technique');

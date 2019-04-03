@@ -29,14 +29,17 @@ class NewtonPolynomialForward extends Interpolation
      *                           (point) contains precisely two numbers, an x and y.
      *                           Example array: [[1,2], [2,3], [3,4]].
      *                           Example callback: function($x) {return $x**2;}
-     * @param number   ... $args The arguments of our callback function: start,
+     * @param number ...$args The arguments of our callback function: start,
      *                           end, and n. Example: approximate($source, 0, 8, 5).
      *                           If $source is a set of points, do not input any
      *                           $args. Example: approximate($source).
      *
      * @return callable          The interpolating polynomial p(x)
+     *
+     * @throws \MathPHP\Exception\BadDataException
+     * @throws \MathPHP\Exception\IncorrectTypeException
      */
-    public static function interpolate($source, ... $args)
+    public static function interpolate($source, ... $args): callable
     {
         // get an array of points from our $source argument
         $points = self::getPoints($source, $args);

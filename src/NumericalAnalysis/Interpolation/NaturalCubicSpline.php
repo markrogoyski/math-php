@@ -32,20 +32,22 @@ class NaturalCubicSpline extends Interpolation
     /**
      * Interpolate
      *
-     * @param callable|array     $source   The source of our approximation. Should be either
+     * @param callable|array $source The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
      *                           (point) contains precisely two numbers, an x and y.
      *                           Example array: [[1,2], [2,3], [3,4]].
      *                           Example callback: function($x) {return $x**2;}
-     * @param number   ... $args The arguments of our callback function: start,
+     * @param number   ...$args  The arguments of our callback function: start,
      *                           end, and n. Example: approximate($source, 0, 8, 5).
      *                           If $source is a set of points, do not input any
      *                           $args. Example: approximate($source).
      *
-     * @return Piecewise         The interpolting (piecewise) polynomial, as an
+     * @return Piecewise         The interpolating (piecewise) polynomial, as an
      *                           instance of Piecewise.
+     *
+     * @throws \MathPHP\Exception\BadDataException
      */
-    public static function interpolate($source, ... $args)
+    public static function interpolate($source, ... $args): Piecewise
     {
         // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
@@ -69,6 +71,7 @@ class NaturalCubicSpline extends Interpolation
         $c     = [];
         $c[$k] = 0;
         $poly  = [];
+        $int   = [];
 
         for ($i = 0; $i < $k; $i++) {
             $xᵢ     = $sorted[$i][$x];
