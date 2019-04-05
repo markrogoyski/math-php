@@ -48,19 +48,21 @@ class ThreePointFormula extends NumericalDifferentiation
      *
      *         where ζ₀ lies between x₀ and x₀ + 2h
      *
-     * @param number         $target The value at which we are approximating the derivative
+     * @param number $target The value at which we are approximating the derivative
      * @param callable|array $source The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
      *                           (point) contains precisely two numbers, an x and y.
      *                           Example array: [[1,2], [2,3], [3,4]].
      *                           Example callback: function($x) {return $x**2;}
-     * @param number   ... $args The arguments of our callback function: start,
+     * @param number ...$args The arguments of our callback function: start,
      *                           end, and n. Example: differentiate($target, $source, 0, 8, 3).
      *                           If $source is a set of points, do not input any
      *                           $args. Example: approximate($source).
      *
      * @return number            The approximation of f'($target), i.e. the derivative
      *                           of our input at our target point
+     *
+     * @throws \MathPHP\Exception\BadDataException
      */
     public static function differentiate($target, $source, ... $args)
     {
@@ -79,7 +81,6 @@ class ThreePointFormula extends NumericalDifferentiation
         $y = self::Y;
 
         // Initialize
-        $n = count($sorted);
         $h = ($sorted[2][$x] - $sorted[0][$x]) / 2;
 
         /*

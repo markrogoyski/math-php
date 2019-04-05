@@ -54,7 +54,7 @@ class FivePointFormula extends NumericalDifferentiation
      *                           (point) contains precisely two numbers, an x and y.
      *                           Example array: [[1,2], [2,3], [3,4], [4,5], [5,6]].
      *                           Example callback: function($x) {return $x**2;}
-     * @param number   ... $args The arguments of our callback function: start,
+     * @param number   ...$args  The arguments of our callback function: start,
      *                           end, and n. Example: approximate($number, $source, 0, 8, 5).
      *                           If $source is a set of points, do not input any
      *                           $args. Example: approximate($source).
@@ -62,7 +62,7 @@ class FivePointFormula extends NumericalDifferentiation
      * @return number            The approximation of f'($target), i.e. the derivative
      *                           of our input at our target point
      */
-    public static function differentiate($target, $source, ... $args)
+    public static function differentiate($target, $source, ...$args)
     {
         // get an array of points from our $source argument
         $points = self::getPoints($source, $args);

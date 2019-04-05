@@ -45,7 +45,7 @@ abstract class NumericalDifferentiation
      *                         set of arrays, $args will default to [].
      *
      * @return array
-     * @throws Exception if $source is not callable or a set of arrays
+     * @throws Exception\BadDataException if $source is not callable or a set of arrays
      */
     public static function getPoints($source, array $args = []): array
     {
@@ -97,9 +97,10 @@ abstract class NumericalDifferentiation
      * @param  number $degree The number of input arrays
      *
      * @return bool
-     * @throws Exception if there are not enough input arrays
-     * @throws Exception if any point does not contain two numbers
-     * @throws Exception if two points share the same first number (x-component)
+     *
+     * @throws Exception\BadDataException if there are not enough input arrays
+     * @throws Exception\BadDataException if any point does not contain two numbers
+     * @throws Exception\BadDataException if two points share the same first number (x-component)
      */
     public static function validate(array $points, $degree): bool
     {
@@ -147,7 +148,7 @@ abstract class NumericalDifferentiation
      *
      * @param  array $sorted Points sorted by (increasing) x-component
      *
-     * @throws Exception if the spacing between any two points is not equal
+     * @throws Exception\BadDataException if the spacing between any two points is not equal
      *         to the average spacing between every point
      */
     public static function isSpacingConstant(array $sorted)
@@ -169,12 +170,13 @@ abstract class NumericalDifferentiation
      * @param  number $target The value at which we are approximating the derivative
      * @param  array  $sorted Points sorted by (increasing) x-component
      *
-     * @throws Exception if $target is not contained in the array of our x-components
+     * @throws Exception\BadDataException if $target is not contained in the array of our x-components
      */
     public static function isTargetInPoints($target, array $sorted)
     {
-        $x       = 0;
-        $length  = count($sorted);
+        $x           = 0;
+        $length      = count($sorted);
+        $xcomponents = [];
 
         // construct array of x-components
         for ($i = 0; $i < $length; $i++) {
