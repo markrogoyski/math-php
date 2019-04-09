@@ -10,7 +10,7 @@ class NonIntegerTest extends \PHPUnit\Framework\TestCase
      * @testCase     HarmonicNumber produces the expected sequence
      * @dataProvider dataProviderForHarmonicNumbers
      */
-    public function testHarmonicNumbers(int $n, int $d, int $a₁, array $progression)
+    public function testHarmonicNumbers(int $n, array $progression)
     {
         $this->assertEquals($progression, NonInteger::Harmonic($n));
     }
