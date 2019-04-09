@@ -18,11 +18,15 @@ class NonInteger
     /**
      * Harmonic Numbers
      *
-     *       n
-     * Hᵢ = sum(1/i)
+     *      n
+     * Hᵢ = ∑(1/i)
      *      i=1
      *
      * https://en.wikipedia.org/wiki/Harmonic_number
+     *
+     * @param int $n the length of the sequence to calculate
+     *
+     * @return array
      */
     public static function Harmonic(int $n)
     {
@@ -32,13 +36,18 @@ class NonInteger
     /**
      * Hyperharmonic Numbers
      *
-     *       n
-     * Hᵢₛ = sum(1/iˢ)
+     *      n
+     * Hᵢₛ = ∑(1/iˢ)
      *      i=1
      *
      * https://en.wikipedia.org/wiki/Harmonic_series_(mathematics)#p-series
+     *
+     * @param int $n the length of the sequence to calculate
+     * @param number $s the exponent
+     *
+     * @return array
      */
-    public static function Hyperharmonic(int $n, int $s)
+    public static function Hyperharmonic(int $n, $s)
     {
         if ($n < 1) {
             throw new Exception\BadParameterException('n must be 1 or greater');
