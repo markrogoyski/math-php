@@ -33,7 +33,7 @@ class NonInteger
         $sum = 0;
         for ($i = 1; $i < $n; $i++) {
             $sum += 1 / $i;
-            $result[] = $sum;
+            $result[$i] = $sum;
         }
         return $result;
     }
