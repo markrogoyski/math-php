@@ -20,4 +20,13 @@ class NonIntegerTest extends \PHPUnit\Framework\TestCase
             [10, [1 => 1, 3/2, 11/6, 25/12, 137/60, 49/20, 363/140, 761/280, 7129/2520, 7381/2520]],
         ];
     }
+    
+    /**
+     * @testCase geometricProgression throws a BadParameterException when R is zero
+     */
+    public function testHamonicException()
+    {
+        $this->expectException(Exception\BadParameterException::class);
+        NonInteger::Harmonic(0);
+    }
 }
