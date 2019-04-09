@@ -100,12 +100,13 @@ class Eigenvalue
      * Calculate Eigenvalues of a symmetric matrix.
      *
      * @param Matrix $A
+     * @param int $iter the maximum number of iterations
      *
      * @return array of eigenvalues
      *
      * @throws Exception\BadDataException if the matrix is not symmetric or is 1x1.
      */
-    public static function JKMethod(Matrix $A): array
+    public static function JKMethod(Matrix $A, int $iter = 100): array
     {
         $originalA = $A;
         if (!$A->isSymmetric()) {
@@ -120,7 +121,7 @@ class Eigenvalue
         $iterationCount = 0;
         $ε = 1E-16;
         $Ematrix = [];
-        while ($num_zero < $m * ($m - 1) / 2 && $iterationCount < 100) {
+        while ($num_zero < $m * ($m - 1) / 2 && $iterationCount < $iter) {
             for ($i = 0; $i < $m - 1; $i++) {
                 for ($j = $i + 1; $j < $m; $j++) {
                     $num = 0;
@@ -174,7 +175,7 @@ class Eigenvalue
             $iterationCount++;
         }
     
-        if ($iterationCount == 100) {
+        if ($iterationCount == $iter) {
              throw new Exception\BadDataException("Eigenvalues not found");
         }
         // $A is now a matrix of eigenvectors in each column
