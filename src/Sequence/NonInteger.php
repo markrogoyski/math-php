@@ -45,7 +45,7 @@ class NonInteger
         }
         $result = [];
         $sum = 0;
-        for ($i = 1; $i < $n; $i++) {
+        for ($i = 1; $i <= $n; $i++) {
             $sum += 1 / $i ** $s;
             $result[$i] = $sum;
         }
