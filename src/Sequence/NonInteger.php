@@ -26,6 +26,9 @@ class NonInteger
      */
     public static function Harmonic(int $n)
     {
+        if ($n < 1) {
+            throw new Exception\BadParameterException('n must be 1 or greater');
+        }
         $result = [];
         $sum = 0;
         for($i = 1; $i < $n; $i++) {
