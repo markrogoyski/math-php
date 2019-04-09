@@ -2,7 +2,7 @@
 
 namespace MathPHP\Sequence;
 
-use MathPHP\Exception\BadParameterException;
+use MathPHP\Exception;
 use MathPHP\NumberTheory\Integer;
 
 /**
