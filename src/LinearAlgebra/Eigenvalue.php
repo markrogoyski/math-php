@@ -191,7 +191,12 @@ class Eigenvalue
         // The PHP pow() function does not work on negative numbers so
         // we need to be more complicated.
         $absλ³ = Single::abs($λ³);
-        $sgnλ = Multi::divide($λ³, $absλ³);
+        $sgnλ = array_map(
+            function ($x) {
+                return $x >= 0 ? 1 : -1;
+            },
+            $λ³
+        );
         $absλ = Single::pow($absλ³, 1/3);
         $λ = Multi::multiply($sgnλ, $absλ);
         
