@@ -333,7 +333,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isSymmetric(): bool
     {
-        if (!isSquare()) {
+        if (!$this->isSquare()) {
             return false;
         }
         return $this->transpose()->isEqual($this);
