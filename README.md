@@ -44,6 +44,7 @@ Features
  * Sequences
      - [Basic](#sequences---basic)
      - [Advanced](#sequences---advanced)
+     - [NonInteger](#sequences---non-integer)
  * [Set Theory](#set-theory)
  * Statistics
      - [ANOVA](#statistics---anova)
@@ -1435,6 +1436,22 @@ $not_perfect_powers = Advanced::notPerfectPowers($n);
 // Prime numbers up to n (n is not the number of elements in the sequence)
 $primes = Advanced::primesUpTo(30);
 // [2, 3, 5, 7, 11, 13, 17, 19, 23, 29] - Indexed from 0
+```
+
+### Sequences - Non-Integer
+```php
+use MathPHP\Sequence\NonInteger;
+
+$n = 4; // Number of elements in the sequence
+
+// Harmonic sequence
+$harmonic_sequence = NonInteger::harmonic($n);
+// [1, 3/2, 11/6, 25/12] - Indexed from 1
+
+// Hyperharmonic sequence
+$p = 2;
+$hyperharmonic_sequence = NonInteger::hyperharmonic($n, $p);
+// [1, 5/4, 49/36, 205/144] - Indexed from 1
 ```
 
 ### Set Theory
