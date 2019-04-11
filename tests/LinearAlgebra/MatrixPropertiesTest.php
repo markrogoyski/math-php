@@ -281,34 +281,6 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isSquareAndSymmetric returns true for square symmetric matrices
-     * @dataProvider dataProviderForPositiveDefiniteMatrix
-     */
-    public function testIsSquareAndSymmetric(array $A)
-    {
-        $A = MatrixFactory::create($A);
-
-        $reflection_method = new \ReflectionMethod(Matrix::class, 'isSquareAndSymmetric');
-        $reflection_method->setAccessible(true);
-
-        $this->assertTrue($reflection_method->invoke($A));
-    }
-
-    /**
-     * @testCase     isSquareAndSymmetric returns false for non square symmetric matrices
-     * @dataProvider dataProviderForNotSquareAndSymmetricMatrix
-     */
-    public function testIsNotSquareAndSymmetric(array $A)
-    {
-        $A = MatrixFactory::create($A);
-
-        $reflection_method = new \ReflectionMethod(Matrix::class, 'isSquareAndSymmetric');
-        $reflection_method->setAccessible(true);
-
-        $this->assertFalse($reflection_method->invoke($A));
-    }
-
-    /**
      * @testCase     isUpperTriangular returns true for an upper triangular matrix
      * @dataProvider dataProviderForUpperTriangularMatrix
      * @param        array $A

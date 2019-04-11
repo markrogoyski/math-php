@@ -75,13 +75,4 @@ class DiagonalMatrix extends SquareMatrix
     {
         return true;
     }
-
-    /**
-     * Diagonal matrix must be square and symmetric
-     * @inheritDoc
-     */
-    protected function isSquareAndSymmetric(): bool
-    {
-        return true;
-    }
 }

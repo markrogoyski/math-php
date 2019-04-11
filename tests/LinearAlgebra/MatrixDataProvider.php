@@ -1965,50 +1965,6 @@ trait MatrixDataProvider
         ];
     }
 
-    public function dataProviderForNotSquareAndSymmetricMatrix(): array
-    {
-        return [
-            // Not square
-            [
-                [
-                    [1, 2, 3],
-                    [2, 3, 4],
-                ],
-            ],
-            [
-                [
-                    [1, 2],
-                    [2, 3],
-                    [3, 4],
-                ],
-            ],
-            // Not symmetric
-            [
-                [
-                    [2, -1, 1],
-                    [-1, 2, -1],
-                    [2, -1, 2],
-                ],
-            ],
-            [
-                [
-                    [2, -1, 1],
-                    [-4, 2, -1],
-                    [1, -1, 2],
-                ],
-            ],
-            [
-                [
-                    [9, -13, 3, 9],
-                    [-3, 17, -1, -7],
-                    [3, -1, 17, 15],
-                    [9, -7, 15, 44],
-                ],
-            ],
-        ];
-    }
-
-
     public function dataProviderForUpperTriangularMatrix(): array
     {
         return [
