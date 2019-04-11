@@ -1,26 +1,22 @@
 <?php
-
 namespace MathPHP\Sequence;
-
-use MathPHP\Exception;
-use MathPHP\NumberTheory\Integer;
 
 /**
  * Non-integer sequences
  *  - Harmonic
+ *  - Hyperharmonic
  *
  * All sequences return an array of numbers in the sequence.
  * The array index starting point depends on the sequence type.
  */
 class NonInteger
 {
-
     /**
      * Harmonic Numbers
      *
-     *      n
-     * Hᵢ = ∑(1/i)
-     *      i=1
+     *      n  1
+     * Hᵢ = ∑  -
+     *     ⁱ⁼¹ i
      *
      * https://en.wikipedia.org/wiki/Harmonic_number
      *
@@ -28,36 +24,40 @@ class NonInteger
      *
      * @return array
      */
-    public static function Harmonic(int $n)
+    public static function Harmonic(int $n): array
     {
         return self::Hyperharmonic($n, 1);
     }
 
     /**
-     * Hyperharmonic Numbers
+     * Hyperharmonic Numbers (p-series)
      *
-     *      n
-     * Hᵢₛ = ∑(1/iˢ)
-     *      i=1
+     *       n  1
+     * Hᵢp = ∑  --
+     *      ⁱ⁼¹ iᵖ
      *
      * https://en.wikipedia.org/wiki/Harmonic_series_(mathematics)#p-series
+     * https://en.wikipedia.org/wiki/Hyperharmonic_number
      *
-     * @param int $n the length of the sequence to calculate
-     * @param number $s the exponent
+     * @param int   $n the length of the sequence to calculate
+     * @param float $p the exponent
      *
      * @return array
      */
-    public static function Hyperharmonic(int $n, $s)
+    public static function Hyperharmonic(int $n, float $p): array
     {
-        if ($n < 1) {
-            throw new Exception\BadParameterException('n must be 1 or greater');
+        if ($n <= 0) {
+            return [];
         }
-        $result = [];
-        $sum = 0;
+
+        $sequence = [];
+        $∑        = 0;
+
         for ($i = 1; $i <= $n; $i++) {
-            $sum += 1 / $i ** $s;
-            $result[$i] = $sum;
+            $∑ += 1 / $i ** $p;
+            $sequence[$i] = $∑;
         }
-        return $result;
+
+        return $sequence;
     }
 }
