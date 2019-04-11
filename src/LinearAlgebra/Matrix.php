@@ -333,10 +333,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isSymmetric(): bool
     {
-        $A  = $this->A;
-        $Aᵀ = $this->transpose()->getMatrix();
-
-        return $A === $Aᵀ;
+        if (!isSquare()) {
+            return false;
+        }
+        return $this->transpose()->isEqual($this);
     }
 
     /**
@@ -443,7 +443,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isPositiveDefinite(): bool
     {
-        if (!$this->isSquareAndSymmetric()) {
+        if (!$this->isSymmetric()) {
             return false;
         }
 
@@ -472,7 +472,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isPositiveSemidefinite(): bool
     {
-        if (!$this->isSquareAndSymmetric()) {
+        if (!$this->isSymmetric()) {
             return false;
         }
 
@@ -501,7 +501,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isNegativeDefinite(): bool
     {
-        if (!$this->isSquareAndSymmetric()) {
+        if (!$this->isSymmetric()) {
             return false;
         }
 
@@ -539,7 +539,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isNegativeSemidefinite(): bool
     {
-        if (!$this->isSquareAndSymmetric()) {
+        if (!$this->isSymmetric()) {
             return false;
         }
 
@@ -977,19 +977,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $AAᵀ = $this->multiply($Aᵀ);
 
         return $AAᵀ->isEqual($I);
-    }
-
-    /**
-     * Is the matrix square and symmetric
-     *
-     * @return boolean true if square and symmmetric; false otherwise
-     *
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\MatrixException
-     */
-    protected function isSquareAndSymmetric(): bool
-    {
-        return ($this->isSquare() && $this->isSymmetric());
     }
 
     /**************************************************************************
