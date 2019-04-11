@@ -171,11 +171,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function getDiagonalElements(): array
     {
         $diagonal = [];
-        if ($this->isSquare()) {
-            for ($i = 0; $i < $this->m; $i++) {
-                $diagonal[] = $this->A[$i][$i];
-            }
+        for ($i = 0; $i < min($this->m, $this->n); $i++) {
+            $diagonal[] = $this->A[$i][$i];
         }
+
         return $diagonal;
     }
 
