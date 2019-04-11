@@ -54,6 +54,7 @@ use MathPHP\Tests;
  *    - Ax - b = 0
  *    - x = A⁻¹b
  *  - Symmetric matrix
+ *    - A is square
  *    - A = Aᵀ
  *    - A⁻¹Aᵀ = I
  *    - A + B is symmetric
@@ -1215,6 +1216,24 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Axiom: Symmetric matrix is square
+     * @dataProvider dataProviderForSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testSymmetricMatrixIsSquare(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $isSquare = $A->isSquare();
+
+        // Then
+        $this->assertTrue($isSquare);
+    }
+
+    /**
      * Axiom: A = Aᵀ
      * Symmetric matrix is the same as its transpose
      * @dataProvider dataProviderForSymmetricMatrix
@@ -1232,12 +1251,12 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Axiom: A⁻¹Aᵀ = I
-     * Symmetric matrix inverse times tranpose equals identity matrix
+     * Symmetric matrix inverse times transpose equals identity matrix
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
      */
-    public function testSymmetricInverseTranposeEqualsIdentity(array $A)
+    public function testSymmetricInverseTransposeEqualsIdentity(array $A)
     {
         $A   = MatrixFactory::create($A);
         $A⁻¹ = $A->inverse();
