@@ -80,7 +80,7 @@ class Finance
      *
      * @return float
      */
-    public static function pmt(float $rate, int $periods, float $present_value, float $future_value = 0, bool $beginning = false): float
+    public static function pmt(float $rate, int $periods, float $present_value, float $future_value = 0.0, bool $beginning = false): float
     {
         $when = $beginning ? 1 : 0;
 
@@ -150,7 +150,7 @@ class Finance
      *
      * @return float
      */
-    public static function ipmt(float $rate, int $period, int $periods, float $present_value, float $future_value = 0, bool $beginning = false): float
+    public static function ipmt(float $rate, int $period, int $periods, float $present_value, float $future_value = 0.0, bool $beginning = false): float
     {
         if ($period < 1 || $period > $periods) {
             return \NAN;
@@ -203,7 +203,7 @@ class Finance
      *
      * @return float
      */
-    public static function ppmt(float $rate, int $period, int $periods, float $present_value, float $future_value = 0, bool $beginning = false): float
+    public static function ppmt(float $rate, int $period, int $periods, float $present_value, float $future_value = 0.0, bool $beginning = false): float
     {
         $payment = self::pmt($rate, $periods, $present_value, $future_value, $beginning);
         $ipmt = self::ipmt($rate, $period, $periods, $present_value, $future_value, $beginning);
