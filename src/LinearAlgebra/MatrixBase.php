@@ -125,7 +125,23 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
         }
         return $diagonal;
     }
-    
+
+     /**************************************************************************
+     * MATRIX PROPERTIES
+     *  - isSquare
+     **************************************************************************/
+
+    /**
+     * Is the matrix a square matrix?
+     * Do rows m = columns n?
+     *
+     * @return bool true if square; false otherwise.
+     */
+    public function isSquare(): bool
+    {
+        return $this->m === $this->n;
+    }
+
     /**************************************************************************
      * ArrayAccess INTERFACE
      **************************************************************************/
