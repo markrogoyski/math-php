@@ -397,7 +397,7 @@ class Combinatorics
      * http://mathworld.wolfram.com/MultinomialCoefficient.html
      * https://en.wikipedia.org/wiki/Multinomial_theorem
      *
-     * @param  array $groups Sizes of each subgroup
+     * @param  int[] $groups Sizes of each subgroup
      *
      * @return float Number of divisions of n items into r distinct nonoverlapping subgroups
      *
@@ -405,9 +405,10 @@ class Combinatorics
      */
     public static function multinomial(array $groups): float
     {
+        /** @var int $n */
         $n            = array_sum($groups);
         $n！          = self::factorial($n);
-        $k₁！k₂！⋯km！ = array_product(array_map('self::factorial', $groups));
+        $k₁！k₂！⋯km！ = array_product(array_map([Combinatorics::class, 'factorial'], $groups));
 
         return $n！ / $k₁！k₂！⋯km！;
     }
