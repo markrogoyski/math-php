@@ -326,6 +326,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * Is the matrix symmetric?
      * Does A = Aᵀ
      *
+     * Algorithm: Iterate on the upper triangular half and compare with corresponding
+     * values on the lower triangular half. Skips the diagonal as it is symmetric with itself.
+     *
      * @return bool true if symmetric; false otherwise.
      *
      * @throws Exception\IncorrectTypeException
@@ -336,7 +339,16 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         if (!$this->isSquare()) {
             return false;
         }
-        return $this->transpose()->isEqual($this);
+
+        for ($i = 0; $i < $this->m; $i++) {
+            for ($j = 1; $j < $this->n; $j++) {
+                if (Support::isNotEqual($this->A[$i][$j], $this->A[$j][$i])) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
