@@ -168,7 +168,6 @@ class Matrix extends MatrixBase
 
     /**************************************************************************
      * MATRIX PROPERTIES
-     *  - isSquare
      *  - isSymmetric
      *  - isSingular
      *  - isNonsingular
@@ -192,17 +191,6 @@ class Matrix extends MatrixBase
      *  - isLowerHessenberg
      *  - isOrthogonal
      **************************************************************************/
-
-    /**
-     * Is the matrix a square matrix?
-     * Do rows m = columns n?
-     *
-     * @return bool true if square; false otherwise.
-     */
-    public function isSquare(): bool
-    {
-        return $this->m === $this->n;
-    }
 
     /**
      * Is the matrix symmetric?
