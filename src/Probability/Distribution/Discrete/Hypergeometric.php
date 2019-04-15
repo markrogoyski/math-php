@@ -20,21 +20,23 @@ class Hypergeometric extends Discrete
      * k ∈ [max(0, n + K - N),min(n, K)]
      * @var array
      */
-    const PARMAETER_LIMITS = [
+    const PARAMETER_LIMITS = [
         'N' => '[0,∞)',
+        'K' => '[0,∞]', // Dynamically checked in constructor
+        'n' => '[0,∞]', // Dynamically checked in constructor
     ];
 
     /** @var array */
-    private $support_limit;
+    protected $support_limit;
 
     /** @var int */
-    private $N;
+    protected $N;
 
     /** @var int */
-    private $K;
+    protected $K;
 
     /** @var int */
-    private $n;
+    protected $n;
 
     /**
      * Constructor
@@ -49,19 +51,15 @@ class Hypergeometric extends Discrete
      */
     public function __construct(int $N, int $K, int $n)
     {
-        $parameter_limits = [
-            'N' => '[0,∞)',
+        parent::__construct($N, $K, $n);
+
+        $dynamic_parameter_limits = [
             'K' => "[0, $N]",
             'n' => "[0, $N]",
         ];
-        Support::checkLimits($parameter_limits, ['N' => $N, 'K' => $K, 'n' => $n]);
+        Support::checkLimits($dynamic_parameter_limits, ['K' => $K, 'n' => $n]);
 
         $this->support_limit = ['k' => '[' . max(0, $n + $K - $N) . ',' . min($n, $K) . ']'];
-
-
-        $this->N = $N;
-        $this->K = $K;
-        $this->n = $n;
     }
 
     /**
