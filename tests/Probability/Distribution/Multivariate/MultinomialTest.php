@@ -8,13 +8,13 @@ class MultinomialTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testCase     pmf
-     * @dataProvider dataProviderForPMF
+     * @dataProvider dataProviderForPmf
      * @param        array $frequencies
      * @param        array $probabilities
      * @param        $expectedPmf
      * @throws       \Exception
      */
-    public function testPMF(array $frequencies, array $probabilities, $expectedPmf)
+    public function testPmf(array $frequencies, array $probabilities, $expectedPmf)
     {
         // Given
         $multinomial = new Multinomial($probabilities);
@@ -29,7 +29,7 @@ class MultinomialTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array
      */
-    public function dataProviderForPMF(): array
+    public function dataProviderForPmf(): array
     {
         return [
             [ [1, 1], [0.5, 0.5], 0.5 ],
@@ -45,11 +45,29 @@ class MultinomialTest extends \PHPUnit\Framework\TestCase
      * @testCase pmf throws Exception\BadDataException if the number of frequencies does not match the number of probabilities
      * @throws   \Exception
      */
-    public function testPMFExceptionCountFrequenciesAndProbabilitiesDoNotMatch()
+    public function testPmfExceptionCountFrequenciesAndProbabilitiesDoNotMatch()
     {
         // Given
         $probabilities = [0.3, 0.4, 0.2, 0.1];
         $frequencies   = [1, 2, 3];
+        $multinomial   = new Multinomial($probabilities);
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // when
+        $multinomial->pmf($frequencies);
+    }
+
+    /**
+     * @testCase pmf throws Exception\BadDataException if one of the frequencies is not an int
+     * @throws   \Exception
+     */
+    public function testPmfExceptionFrequenciesAreNotAllIntegers()
+    {
+        // Given
+        $probabilities = [0.3, 0.4, 0.2, 0.1];
+        $frequencies   = [1, 2.3, 3, 4.4];
         $multinomial   = new Multinomial($probabilities);
 
         // Then
