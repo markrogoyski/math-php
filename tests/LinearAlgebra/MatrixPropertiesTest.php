@@ -52,6 +52,7 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     isSymmetric returns false for nonsymmetric matrices.
      * @dataProvider dataProviderForNotSymmetricMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
      */
     public function testIsNotSymmetric(array $A)
     {
@@ -74,8 +75,10 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isSkewSymmetric returns false for nonsymmetric matrices.
+     * @testCase     isSkewSymmetric returns false for non skew-symmetric matrices.
+     * @dataProvider dataProviderForNotSkewSymmetricMatrix
      * @dataProvider dataProviderForNotSymmetricMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
      */
     public function testIsNotSkewSymmetric(array $A)
     {

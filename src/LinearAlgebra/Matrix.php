@@ -325,6 +325,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Is the matrix symmetric?
      * Does A = Aᵀ
+     * aᵢⱼ = aⱼᵢ
      *
      * Algorithm: Iterate on the upper triangular half and compare with corresponding
      * values on the lower triangular half. Skips the diagonal as it is symmetric with itself.
@@ -340,8 +341,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             return false;
         }
 
-        for ($i = 0; $i < $this->m; $i++) {
-            for ($j = 1; $j < $this->n; $j++) {
+        for ($i = 0; $i < $this->m - 1; $i++) {
+            for ($j = $i + 1; $j < $this->n; $j++) {
                 if (Support::isNotEqual($this->A[$i][$j], $this->A[$j][$i])) {
                     return false;
                 }
@@ -352,8 +353,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Is the matrix skew-symmetric?
+     * Is the matrix skew-symmetric? (Antisymmetric matrix)
      * Does Aᵀ = −A
+     * aᵢⱼ = -aⱼᵢ and main diagonal are all zeros
+     *
+     * Algorithm: Iterate on the upper triangular half and compare with corresponding
+     * values on the lower triangular half. Skips the diagonal as it is symmetric with itself.
      *
      * @return bool true if skew-symmetric; false otherwise.
      *
@@ -363,10 +368,24 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isSkewSymmetric(): bool
     {
-        $Aᵀ = $this->transpose()->getMatrix();
-        $−A = $this->negate()->getMatrix();
+        if (!$this->isSquare()) {
+            return false;
+        }
 
-        return $Aᵀ === $−A;
+        for ($i = 0; $i < $this->m - 1; $i++) {
+            for ($j = $i + 1; $j < $this->n; $j++) {
+                if (Support::isNotEqual($this->A[$i][$j], -$this->A[$j][$i])) {
+                    return false;
+                }
+            }
+        }
+        foreach ($this->getDiagonalElements() as $diagonalElement) {
+            if (Support::isNotZero($diagonalElement)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
