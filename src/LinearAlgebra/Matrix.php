@@ -2452,53 +2452,9 @@ class Matrix extends MatrixBase
 
     /**************************************************************************
      * COLUMN OPERATIONS - Return a Matrix
-     *  - columnInterchange
      *  - columnMultiply
      *  - columnAdd
-     *  - columnExclude
      **************************************************************************/
-
-    /**
-     * Interchange two columns
-     *
-     * Column nᵢ changes to position nⱼ
-     * Column nⱼ changes to position nᵢ
-     *
-     * @param int $nᵢ Column to swap into column position nⱼ
-     * @param int $nⱼ Column to swap into column position nᵢ
-     *
-     * @return Matrix with columns nᵢ and nⱼ interchanged
-     *
-     * @throws Exception\MatrixException if column to interchange does not exist
-     * @throws Exception\IncorrectTypeException
-     */
-    public function columnInterchange(int $nᵢ, int $nⱼ): Matrix
-    {
-        if ($nᵢ >= $this->n || $nⱼ >= $this->n) {
-            throw new Exception\MatrixException('Column to interchange does not exist');
-        }
-
-        $m = $this->m;
-        $n = $this->n;
-        $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                switch ($j) {
-                    case $nᵢ:
-                        $R[$i][$j] = $this->A[$i][$nⱼ];
-                        break;
-                    case $nⱼ:
-                        $R[$i][$j] = $this->A[$i][$nᵢ];
-                        break;
-                    default:
-                        $R[$i][$j] = $this->A[$i][$j];
-                }
-            }
-        }
-
-        return MatrixFactory::create($R);
-    }
 
     /**
      * Multiply a column by a factor k
@@ -2560,43 +2516,6 @@ class Matrix extends MatrixBase
 
         for ($i = 0; $i < $m; $i++) {
             $R[$i][$nⱼ] += $R[$i][$nᵢ] * $k;
-        }
-
-        return MatrixFactory::create($R);
-    }
-
-    /**
-     * Exclude a column from the result matrix
-     *
-     * @param int $nᵢ Column to exclude
-     *
-     * @return Matrix with column nᵢ excluded
-     *
-     * @throws Exception\MatrixException if column to exclude does not exist
-     * @throws Exception\IncorrectTypeException
-     */
-    public function columnExclude(int $nᵢ): Matrix
-    {
-        if ($nᵢ >= $this->n || $nᵢ < 0) {
-            throw new Exception\MatrixException('Column to exclude does not exist');
-        }
-
-        $m = $this->m;
-        $n = $this->n;
-        $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                if ($j === $nᵢ) {
-                    continue;
-                }
-                $R[$i][$j] = $this->A[$i][$j];
-            }
-        }
-
-        // Reset column indexes
-        for ($i = 0; $i < $m; $i++) {
-            $R[$i] = array_values($R[$i]);
         }
 
         return MatrixFactory::create($R);
