@@ -860,7 +860,6 @@ class Matrix extends MatrixBase
      *  - scalarDivide
      *  - hadamardProduct
      *  - kroneckerProduct
-     *  - transpose
      *  - trace
      *  - map
      *  - diagonal
@@ -1242,32 +1241,6 @@ class Matrix extends MatrixBase
         );
 
         return $A⊗B;
-    }
-
-    /**
-     * Transpose matrix
-     *
-     * The transpose of a matrix A is another matrix Aᵀ:
-     *  - reflect A over its main diagonal (which runs from top-left to bottom-right) to obtain AT
-     *  - write the rows of A as the columns of AT
-     *  - write the columns of A as the rows of AT
-     * Formally, the i th row, j th column element of Aᵀ is the j th row, i th column element of A.
-     * If A is an m × n matrix then Aᵀ is an n × m matrix.
-     * https://en.wikipedia.org/wiki/Transpose
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException
-     * @throws Exception\IncorrectTypeException
-     */
-    public function transpose()
-    {
-        $Aᵀ = [];
-        for ($i = 0; $i < $this->n; $i++) {
-            $Aᵀ[$i] = $this->getColumn($i);
-        }
-
-        return MatrixFactory::create($Aᵀ);
     }
 
     /**
