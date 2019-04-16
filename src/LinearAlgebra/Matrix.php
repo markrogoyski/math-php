@@ -2257,54 +2257,13 @@ class Matrix extends MatrixBase
 
     /**************************************************************************
      * ROW OPERATIONS - Return a Matrix
-     *  - rowInterchange
      *  - rowMultiply
      *  - rowDivide
      *  - rowAdd
      *  - rowAddScalar
      *  - rowSubtract
      *  - rowSubtractScalar
-     *  - rowExclude
      **************************************************************************/
-
-    /**
-     * Interchange two rows
-     *
-     * Row mᵢ changes to position mⱼ
-     * Row mⱼ changes to position mᵢ
-     *
-     * @param int $mᵢ Row to swap into row position mⱼ
-     * @param int $mⱼ Row to swap into row position mᵢ
-     *
-     * @return Matrix with rows mᵢ and mⱼ interchanged
-     *
-     * @throws Exception\MatrixException if row to interchange does not exist
-     * @throws Exception\IncorrectTypeException
-     */
-    public function rowInterchange(int $mᵢ, int $mⱼ): Matrix
-    {
-        if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
-            throw new Exception\MatrixException('Row to interchange does not exist');
-        }
-
-        $m = $this->m;
-        $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            switch ($i) {
-                case $mᵢ:
-                    $R[$i] = $this->A[$mⱼ];
-                    break;
-                case $mⱼ:
-                    $R[$i] = $this->A[$mᵢ];
-                    break;
-                default:
-                    $R[$i] = $this->A[$i];
-            }
-        }
-
-        return MatrixFactory::create($R);
-    }
 
     /**
      * Multiply a row by a factor k
@@ -2489,35 +2448,6 @@ class Matrix extends MatrixBase
         }
 
         return MatrixFactory::create($R);
-    }
-
-    /**
-     * Exclude a row from the result matrix
-     *
-     * @param int $mᵢ Row to exclude
-     *
-     * @return Matrix with row mᵢ excluded
-     *
-     * @throws Exception\MatrixException if row to exclude does not exist
-     * @throws Exception\IncorrectTypeException
-     */
-    public function rowExclude(int $mᵢ): Matrix
-    {
-        if ($mᵢ >= $this->m || $mᵢ < 0) {
-            throw new Exception\MatrixException('Row to exclude does not exist');
-        }
-
-        $m = $this->m;
-        $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            if ($i === $mᵢ) {
-                continue;
-            }
-            $R[$i] = $this->A[$i];
-        }
-
-        return MatrixFactory::create(array_values($R));
     }
 
     /**************************************************************************
