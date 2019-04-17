@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\Functions\Map;
 
+use MathPHP\Exception;
+
 /**
  * Map functions against a single array
  */
@@ -107,6 +109,36 @@ class Single
         return array_map(
             function ($x) {
                 return $x**3;
+            },
+            $xs
+        );
+    }
+
+    /**
+     * Map reciprocal
+     * x := 1/x
+     *
+     * @param  array  $xs
+     *
+     * @return array
+     *
+     * @throws Exception\BadDataException if 0 is one of the numbers
+     */
+    public static function reciprocal(array $xs): array
+    {
+        $zeros = array_filter(
+            $xs,
+            function (float $x) {
+                return $x == 0;
+            }
+        );
+        if (!empty($zeros)) {
+            throw new Exception\BadDataException('Cannot compute the reciprocal of 0');
+        }
+
+        return array_map(
+            function ($x) {
+                return 1 / $x;
             },
             $xs
         );

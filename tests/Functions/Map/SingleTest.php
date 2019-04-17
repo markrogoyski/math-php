@@ -2,6 +2,7 @@
 namespace MathPHP\Tests\Functions\Map;
 
 use MathPHP\Functions\Map\Single;
+use MathPHP\Exception;
 
 class SingleTest extends \PHPUnit\Framework\TestCase
 {
@@ -223,5 +224,58 @@ class SingleTest extends \PHPUnit\Framework\TestCase
             [[1, 2, 3, 4, 5], 3.4, [1, 2, 3, 3.4, 3.4]],
             [[1, 2, 3, 4, 5], 6.7, [1, 2, 3, 4, 5]],
         ];
+    }
+
+    /**
+     * @test         reciprocal
+     * @dataProvider dataProviderForReciprocal
+     * @param        array $xs
+     * @param        array $expectedReciprocals
+     * @throws       \Exception
+     */
+    public function testReciprocal(array $xs, array $expectedReciprocals)
+    {
+        // When
+        $reciprocals = Single::reciprocal($xs);
+
+        // Then
+        $this->assertEquals($expectedReciprocals, $reciprocals);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForReciprocal(): array
+    {
+        return [
+            [
+                [1, 2, 3, 4],
+                [1/1, 1/2, 1/3, 1/4],
+            ],
+            [
+                [7, 8, 9, 10],
+                [1/7, 1/8, 1/9, 1/10],
+            ],
+            [
+                [-2, -1, 1.1, 2.5, 6.73],
+                [-1/2, -1/1, 1/1.1, 1/2.5, 1/6.73],
+            ]
+        ];
+    }
+
+    /**
+     * @test   reciprocal when there are zeros
+     * @throws Exception\BadDataException
+     */
+    public function testReciprocalWithZeros()
+    {
+        // Given
+        $xs = [1, 2, 0, 3, 0];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Single::reciprocal($xs);
     }
 }
