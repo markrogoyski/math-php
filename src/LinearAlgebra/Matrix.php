@@ -2499,8 +2499,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * Each element of Row mᵢ will be multiplied by k
      *
-     * @param int $mᵢ Row to multiply
-     * @param int $k Multiplier
+     * @param int   $mᵢ Row to multiply
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
@@ -2508,7 +2508,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function rowMultiply(int $mᵢ, int $k): Matrix
+    public function rowMultiply(int $mᵢ, float $k): Matrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to multiply does not exist');
@@ -2532,8 +2532,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * Each element of Row mᵢ will be divided by k
      *
-     * @param int $mᵢ Row to multiply
-     * @param int $k divisor
+     * @param int   $mᵢ Row to multiply
+     * @param float $k divisor
      *
      * @return Matrix
      *
@@ -2541,7 +2541,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function rowDivide(int $mᵢ, $k): Matrix
+    public function rowDivide(int $mᵢ, float $k): Matrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to multiply does not exist');
@@ -2563,9 +2563,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Add k times row mᵢ to row mⱼ
      *
-     * @param int $mᵢ Row to multiply * k to be added to row mⱼ
-     * @param int $mⱼ Row that will have row mⱼ * k added to it
-     * @param number $k Multiplier
+     * @param int   $mᵢ Row to multiply * k to be added to row mⱼ
+     * @param int   $mⱼ Row that will have row mⱼ * k added to it
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
@@ -2573,7 +2573,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function rowAdd(int $mᵢ, int $mⱼ, $k): Matrix
+    public function rowAdd(int $mᵢ, int $mⱼ, float $k): Matrix
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to add does not exist');
@@ -2597,15 +2597,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * Each element of Row mᵢ will have k added to it
      *
-     * @param int $mᵢ Row to add k to
-     * @param int $k scalar
+     * @param int   $mᵢ Row to add k to
+     * @param float $k scalar
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if row to add does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowAddScalar(int $mᵢ, $k): Matrix
+    public function rowAddScalar(int $mᵢ, float $k): Matrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to add does not exist');
@@ -2624,21 +2624,20 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Subtract k times row mᵢ to row mⱼ
      *
-     * @param int $mᵢ Row to multiply * k to be subtracted to row mⱼ
-     * @param int $mⱼ Row that will have row mⱼ * k subtracted to it
-     * @param number $k Multiplier
+     * @param int   $mᵢ Row to multiply * k to be subtracted to row mⱼ
+     * @param int   $mⱼ Row that will have row mⱼ * k subtracted to it
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if row to subtract does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowSubtract(int $mᵢ, int $mⱼ, $k): Matrix
+    public function rowSubtract(int $mᵢ, int $mⱼ, float $k): Matrix
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to subtract does not exist');
         }
-
 
         $n = $this->n;
         $R = $this->A;
@@ -2655,15 +2654,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * Each element of Row mᵢ will have k subtracted from it
      *
-     * @param int $mᵢ Row to add k to
-     * @param int $k scalar
+     * @param int   $mᵢ Row to add k to
+     * @param float $k scalar
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if row to subtract does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowSubtractScalar(int $mᵢ, int $k): Matrix
+    public function rowSubtractScalar(int $mᵢ, float $k): Matrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to subtract does not exist');
@@ -2763,8 +2762,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * Each element of column nᵢ will be multiplied by k
      *
-     * @param int $nᵢ Column to multiply
-     * @param int $k Multiplier
+     * @param int   $nᵢ Column to multiply
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
@@ -2772,7 +2771,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function columnMultiply(int $nᵢ, int $k): Matrix
+    public function columnMultiply(int $nᵢ, float $k): Matrix
     {
         if ($nᵢ >= $this->n) {
             throw new Exception\MatrixException('Column to multiply does not exist');
@@ -2794,9 +2793,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Add k times column nᵢ to column nⱼ
      *
-     * @param int $nᵢ Column to multiply * k to be added to column nⱼ
-     * @param int $nⱼ Column that will have column nⱼ * k added to it
-     * @param int $k Multiplier
+     * @param int   $nᵢ Column to multiply * k to be added to column nⱼ
+     * @param int   $nⱼ Column that will have column nⱼ * k added to it
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
@@ -2804,7 +2803,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function columnAdd(int $nᵢ, int $nⱼ, int $k): Matrix
+    public function columnAdd(int $nᵢ, int $nⱼ, float $k): Matrix
     {
         if ($nᵢ >= $this->n || $nⱼ >= $this->n) {
             throw new Exception\MatrixException('Column to add does not exist');
