@@ -79,8 +79,11 @@ class ObjectSquareMatrix extends SquareMatrix
     /**
      * {@inheritDoc}
      */
-    public function add(Matrix $B): Matrix
+    public function add($B): Matrix
     {
+        if (!$B instanceof Matrix) {
+            throw new Exception\IncorrectTypeException('Can only do matrix addition with a Matrix');
+        }
         $this->checkEqualSizes($B);
         $R = [];
         for ($i = 0; $i < $this->m; $i++) {
@@ -94,8 +97,11 @@ class ObjectSquareMatrix extends SquareMatrix
     /**
      * {@inheritDoc}
      */
-    public function subtract(Matrix $B): Matrix
+    public function subtract($B): Matrix
     {
+        if (!$B instanceof Matrix) {
+            throw new Exception\IncorrectTypeException('Can only do matrix subtraction with a Matrix');
+        }
         $this->checkEqualSizes($B);
         $R = [];
         for ($i = 0; $i < $this->m; $i++) {

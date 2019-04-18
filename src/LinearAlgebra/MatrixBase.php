@@ -158,12 +158,12 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * If A is an m × n matrix then Aᵀ is an n × m matrix.
      * https://en.wikipedia.org/wiki/Transpose
      *
-     * @return Matrix
+     * @return MatrixInterface
      *
      * @throws Exception\MatrixException
      * @throws Exception\IncorrectTypeException
      */
-    public function transpose()
+    public function transpose(): MatrixInterface
     {
         $Aᵀ = [];
         for ($i = 0; $i < $this->n; $i++) {
@@ -192,7 +192,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if row to interchange does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowInterchange(int $mᵢ, int $mⱼ): Matrix
+    public function rowInterchange(int $mᵢ, int $mⱼ): MatrixInterface
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to interchange does not exist');
@@ -224,7 +224,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if column to exclude does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function columnExclude(int $nᵢ): Matrix
+    public function columnExclude(int $nᵢ): MatrixInterface
     {
         if ($nᵢ >= $this->n || $nᵢ < 0) {
             throw new Exception\MatrixException('Column to exclude does not exist');
@@ -257,7 +257,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if row to exclude does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowExclude(int $mᵢ): Matrix
+    public function rowExclude(int $mᵢ): MatrixInterface
     {
         if ($mᵢ >= $this->m || $mᵢ < 0) {
             throw new Exception\MatrixException('Row to exclude does not exist');
@@ -293,7 +293,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if column to interchange does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function columnInterchange(int $nᵢ, int $nⱼ): Matrix
+    public function columnInterchange(int $nᵢ, int $nⱼ): MatrixInterface
     {
         if ($nᵢ >= $this->n || $nⱼ >= $this->n) {
             throw new Exception\MatrixException('Column to interchange does not exist');
@@ -317,6 +317,263 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
         }
         return MatrixFactory::create($R);
     }
+
+    /**************************************************************************
+     * MATRIX OPERATIONS - Return a Matrix
+     *  - directSum
+     *  - augment
+     *  - augmentBelow
+     *  - augmentAbove
+     *  - augmentLeft
+     *  - submatrix
+     **************************************************************************/
+
+    /**
+     * Direct sum of two matrices: A ⊕ B
+     * The direct sum of any pair of matrices A of size m × n and B of size p × q
+     * is a matrix of size (m + p) × (n + q)
+     * https://en.wikipedia.org/wiki/Matrix_addition#Direct_sum
+     *
+     * @param  Matrix $B Matrix to add to this matrix
+     *
+     * @return Matrix
+     *
+     * @throws Exception\IncorrectTypeException
+     */
+    public function directSum(MatrixInterface $B): MatrixInterface
+    {
+        if ($B->getObjectType() !== $this->getObjectType()) {
+            throw new Exception\MatrixException('Matrices must be the same type');
+        }
+        $m = $this->m + $B->getM();
+        $n = $this->n + $B->getN();
+
+        $R = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $R[$i][$j] = 0;
+            }
+        }
+        for ($i = 0; $i < $this->m; $i++) {
+            for ($j = 0; $j < $this->n; $j++) {
+                $R[$i][$j] = $this->A[$i][$j];
+            }
+        }
+
+        $m = $B->getM();
+        $n = $B->getN();
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $R[$i + $this->m][$j + $this->n] = $B[$i][$j];
+            }
+        }
+
+        return MatrixFactory::create($R);
+    }
+
+    /**
+     * Augment a matrix on the left
+     * An augmented matrix is a matrix obtained by preprending the columns of two given matrices
+     *
+     *     [1, 2, 3]
+     * A = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     *     [4]
+     * B = [5]
+     *     [6]
+     *
+     *         [4 | 1, 2, 3]
+     * (A|B) = [5 | 2, 3, 4]
+     *         [6 | 3, 4, 5]
+     *
+     * @param  Matrix $B Matrix columns to add to matrix A
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException if matrices do not have the same number of rows
+     * @throws Exception\IncorrectTypeException
+     */
+    public function augmentLeft(MatrixInterface $B): MatrixInterface
+    {
+        if ($B->getM() !== $this->m) {
+            throw new Exception\MatrixException('Matrices to augment do not have the same number of rows');
+        }
+        if ($B->getObjectType() !== $this->getObjectType()) {
+            throw new Exception\MatrixException('Matrices must be the same type');
+        }
+
+        $m    = $this->m;
+        $A    = $this->A;
+        $B    = $B->getMatrix();
+        $⟮B∣A⟯ = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            $⟮B∣A⟯[$i] = array_merge($B[$i], $A[$i]);
+        }
+
+        return MatrixFactory::create($⟮B∣A⟯);
+    }
+
+    /**
+     * Augment a matrix from below
+     * An augmented matrix is a matrix obtained by appending the rows of two given matrices
+     *
+     *     [1, 2, 3]
+     * A = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     * B = [4, 5, 6]
+     *
+     *         [1, 2, 3]
+     * (A_B) = [2, 3, 4]
+     *         [3, 4, 5]
+     *         [4, 5, 6]
+     *
+     * @param  Matrix $B Matrix rows to add to matrix A
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException if matrices do not have the same number of columns
+     * @throws Exception\IncorrectTypeException
+     */
+    public function augmentBelow(MatrixInterface $B): MatrixInterface
+    {
+        if ($B->getN() !== $this->n) {
+            throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
+        }
+        if ($B->getObjectType() !== $this->getObjectType()) {
+            throw new Exception\MatrixException('Matrices must be the same type');
+        }
+
+        $⟮A∣B⟯ = array_merge($this->A, $B->getMatrix());
+
+        return MatrixFactory::create($⟮A∣B⟯);
+    }
+
+    /**
+     * Augment a matrix from above
+     * An augmented matrix is a matrix obtained by prepending the rows of two given matrices
+     *
+     *     [1, 2, 3]
+     * A = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     * B = [4, 5, 6]
+     *
+     *         [4, 5, 6]
+     *         [1, 2, 3]
+     * (A_B) = [2, 3, 4]
+     *         [3, 4, 5]
+     *
+     * @param  Matrix $B Matrix rows to add to matrix A
+     *
+     * @return Matrix
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
+     */
+    public function augmentAbove(MatrixInterface $B): MatrixInterface
+    {
+        if ($B->getN() !== $this->n) {
+            throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
+        }
+        if ($B->getObjectType() !== $this->getObjectType()) {
+            throw new Exception\MatrixException('Matrices must be the same type');
+        }
+
+        $⟮A∣B⟯ = array_merge($B->getMatrix(), $this->A);
+
+        return MatrixFactory::create($⟮A∣B⟯);
+    }
+
+    /**
+     * Augment a matrix
+     * An augmented matrix is a matrix obtained by appending the columns of two given matrices
+     *
+     *     [1, 2, 3]
+     * A = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     *     [4]
+     * B = [5]
+     *     [6]
+     *
+     *         [1, 2, 3 | 4]
+     * (A|B) = [2, 3, 4 | 5]
+     *         [3, 4, 5 | 6]
+     *
+     * @param  Matrix $B Matrix columns to add to matrix A
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException if matrices do not have the same number of rows
+     * @throws Exception\IncorrectTypeException
+     */
+    public function augment(MatrixInterface $B): MatrixInterface
+    {
+        if ($B->getM() !== $this->m) {
+            throw new Exception\MatrixException('Matrices to augment do not have the same number of rows');
+        }
+        if ($B->getObjectType() !== $this->getObjectType()) {
+            throw new Exception\MatrixException('Matrices must be the same type');
+        }
+
+        $m    = $this->m;
+        $A    = $this->A;
+        $B    = $B->getMatrix();
+        $⟮A∣B⟯ = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            $⟮A∣B⟯[$i] = array_merge($A[$i], $B[$i]);
+        }
+
+        return MatrixFactory::create($⟮A∣B⟯);
+    }
+
+    /**
+     * Submatrix
+     *
+     * Return an arbitrary subset of a Matrix as a new Matrix.
+     *
+     * @param int $m₁ Starting row
+     * @param int $n₁ Starting column
+     * @param int $m₂ Ending row
+     * @param int $n₂ Ending column
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException
+     */
+    public function submatrix(int $m₁, int $n₁, int $m₂, int $n₂): MatrixInterface
+    {
+        if ($m₁ >= $this->m || $m₁ < 0 || $m₂ >= $this->m || $m₂ < 0) {
+            throw new Exception\MatrixException('Specified Matrix row does not exist');
+        }
+        if ($n₁ >= $this->n || $n₁ < 0 || $n₂ >= $this->n || $n₂ < 0) {
+            throw new Exception\MatrixException('Specified Matrix column does not exist');
+        }
+        if ($m₂ < $m₁) {
+            throw new Exception\MatrixException('Ending row must be greater than beginning row');
+        }
+        if ($n₂ < $n₁) {
+            throw new Exception\MatrixException('Ending column must be greater than the beginning column');
+        }
+
+        $A = [];
+        for ($i = 0; $i <= $m₂ - $m₁; $i++) {
+            for ($j = 0; $j <= $n₂ - $n₁; $j++) {
+                $A[$i][$j] = $this->A[$i + $m₁][$j + $n₁];
+            }
+        }
+
+        return MatrixFactory::create($A);
+    }
+    
+    abstract public function getObjectType(): string;
 
     /**************************************************************************
      * ArrayAccess INTERFACE

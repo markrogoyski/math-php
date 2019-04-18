@@ -8,7 +8,7 @@ use MathPHP\Exception;
 /**
  * m x n Matrix
  */
-class Matrix extends MatrixBase
+class Matrix extends MatrixBase implements MatrixInterface
 {
     /** @var Matrix Row echelon form */
     protected $ref;
@@ -852,7 +852,6 @@ class Matrix extends MatrixBase
     /**************************************************************************
      * MATRIX OPERATIONS - Return a Matrix
      *  - add
-     *  - directSum
      *  - kroneckerSum
      *  - subtract
      *  - multiply
@@ -863,18 +862,13 @@ class Matrix extends MatrixBase
      *  - trace
      *  - map
      *  - diagonal
-     *  - augment
      *  - augmentIdentity
-     *  - augmentBelow
-     *  - augmentAbove
-     *  - augmentLeft
      *  - inverse
      *  - minorMatrix
      *  - cofactorMatrix
      *  - meanDeviation
      *  - covarianceMatrix
      *  - adjugate
-     *  - submatrix
      **************************************************************************/
 
     /**
@@ -891,8 +885,11 @@ class Matrix extends MatrixBase
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
      */
-    public function add(Matrix $B): Matrix
+    public function add($B): Matrix
     {
+        if (!$B instanceof Matrix) {
+            throw new Exception\IncorrectTypeException('Can only do matrix subtraction with a Matrix');
+        }
         if ($B->getM() !== $this->m) {
             throw new Exception\MatrixException('Matrices have different number of rows');
         }
@@ -905,47 +902,6 @@ class Matrix extends MatrixBase
         for ($i = 0; $i < $this->m; $i++) {
             for ($j = 0; $j < $this->n; $j++) {
                 $R[$i][$j] = $this->A[$i][$j] + $B[$i][$j];
-            }
-        }
-
-        return MatrixFactory::create($R);
-    }
-
-    /**
-     * Direct sum of two matrices: A ⊕ B
-     * The direct sum of any pair of matrices A of size m × n and B of size p × q
-     * is a matrix of size (m + p) × (n + q)
-     * https://en.wikipedia.org/wiki/Matrix_addition#Direct_sum
-     *
-     * @param  Matrix $B Matrix to add to this matrix
-     *
-     * @return Matrix
-     *
-     * @throws Exception\IncorrectTypeException
-     */
-    public function directSum(Matrix $B): Matrix
-    {
-        $m = $this->m + $B->getM();
-        $n = $this->n + $B->getN();
-
-        $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = 0;
-            }
-        }
-        for ($i = 0; $i < $this->m; $i++) {
-            for ($j = 0; $j < $this->n; $j++) {
-                $R[$i][$j] = $this->A[$i][$j];
-            }
-        }
-
-        $m = $B->getM();
-        $n = $B->getN();
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $R[$i + $this->m][$j + $this->n] = $B[$i][$j];
             }
         }
 
@@ -1003,8 +959,11 @@ class Matrix extends MatrixBase
      * @throws Exception\MatrixException if matrices have a different number of rows or columns
      * @throws Exception\IncorrectTypeException
      */
-    public function subtract(Matrix $B): Matrix
+    public function subtract($B): Matrix
     {
+        if (!$B instanceof Matrix) {
+            throw new Exception\IncorrectTypeException('Can only do matrix subtraction with a Matrix');
+        }
         if ($B->getM() !== $this->m) {
             throw new Exception\MatrixException('Matrices have different number of rows');
         }
@@ -1321,47 +1280,6 @@ class Matrix extends MatrixBase
     }
 
     /**
-     * Augment a matrix
-     * An augmented matrix is a matrix obtained by appending the columns of two given matrices
-     *
-     *     [1, 2, 3]
-     * A = [2, 3, 4]
-     *     [3, 4, 5]
-     *
-     *     [4]
-     * B = [5]
-     *     [6]
-     *
-     *         [1, 2, 3 | 4]
-     * (A|B) = [2, 3, 4 | 5]
-     *         [3, 4, 5 | 6]
-     *
-     * @param  Matrix $B Matrix columns to add to matrix A
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException if matrices do not have the same number of rows
-     * @throws Exception\IncorrectTypeException
-     */
-    public function augment(Matrix $B): Matrix
-    {
-        if ($B->getM() !== $this->m) {
-            throw new Exception\MatrixException('Matrices to augment do not have the same number of rows');
-        }
-
-        $m    = $this->m;
-        $A    = $this->A;
-        $B    = $B->getMatrix();
-        $⟮A∣B⟯ = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            $⟮A∣B⟯[$i] = array_merge($A[$i], $B[$i]);
-        }
-
-        return MatrixFactory::create($⟮A∣B⟯);
-    }
-
-    /**
      * Augment a matrix with its identity matrix
      *
      *     [1, 2, 3]
@@ -1387,115 +1305,6 @@ class Matrix extends MatrixBase
         }
 
         return $this->augment(MatrixFactory::identity($this->getM()));
-    }
-
-    /**
-     * Augment a matrix on the left
-     * An augmented matrix is a matrix obtained by preprending the columns of two given matrices
-     *
-     *     [1, 2, 3]
-     * A = [2, 3, 4]
-     *     [3, 4, 5]
-     *
-     *     [4]
-     * B = [5]
-     *     [6]
-     *
-     *         [4 | 1, 2, 3]
-     * (A|B) = [5 | 2, 3, 4]
-     *         [6 | 3, 4, 5]
-     *
-     * @param  Matrix $B Matrix columns to add to matrix A
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException if matrices do not have the same number of rows
-     * @throws Exception\IncorrectTypeException
-     */
-    public function augmentLeft(Matrix $B): Matrix
-    {
-        if ($B->getM() !== $this->m) {
-            throw new Exception\MatrixException('Matrices to augment do not have the same number of rows');
-        }
-
-        $m    = $this->m;
-        $A    = $this->A;
-        $B    = $B->getMatrix();
-        $⟮B∣A⟯ = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            $⟮B∣A⟯[$i] = array_merge($B[$i], $A[$i]);
-        }
-
-        return MatrixFactory::create($⟮B∣A⟯);
-    }
-
-    /**
-     * Augment a matrix from below
-     * An augmented matrix is a matrix obtained by appending the rows of two given matrices
-     *
-     *     [1, 2, 3]
-     * A = [2, 3, 4]
-     *     [3, 4, 5]
-     *
-     * B = [4, 5, 6]
-     *
-     *         [1, 2, 3]
-     * (A_B) = [2, 3, 4]
-     *         [3, 4, 5]
-     *         [4, 5, 6]
-     *
-     * @param  Matrix $B Matrix rows to add to matrix A
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException if matrices do not have the same number of columns
-     * @throws Exception\IncorrectTypeException
-     */
-    public function augmentBelow(Matrix $B): Matrix
-    {
-        if ($B->getN() !== $this->n) {
-            throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
-        }
-
-        $⟮A∣B⟯ = array_merge($this->A, $B->getMatrix());
-
-        return MatrixFactory::create($⟮A∣B⟯);
-    }
-
-    /**
-     * Augment a matrix from above
-     * An augmented matrix is a matrix obtained by prepending the rows of two given matrices
-     *
-     *     [1, 2, 3]
-     * A = [2, 3, 4]
-     *     [3, 4, 5]
-     *
-     * B = [4, 5, 6]
-     *
-     *         [4, 5, 6]
-     *         [1, 2, 3]
-     * (A_B) = [2, 3, 4]
-     *         [3, 4, 5]
-     *
-     * @param  Matrix $B Matrix rows to add to matrix A
-     *
-     * @return Matrix
-     *
-     * @throws Exception\BadDataException
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\MathException
-     * @throws Exception\MatrixException
-     */
-    public function augmentAbove(Matrix $B): Matrix
-    {
-        if ($B->getN() !== $this->n) {
-            throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
-        }
-
-        $⟮A∣B⟯ = array_merge($B->getMatrix(), $this->A);
-
-        return MatrixFactory::create($⟮A∣B⟯);
     }
 
     /**
@@ -1797,45 +1606,6 @@ class Matrix extends MatrixBase
         $adj⟮A⟯ = $this->cofactorMatrix()->transpose();
 
         return $adj⟮A⟯;
-    }
-
-    /**
-     * Submatrix
-     *
-     * Return an arbitrary subset of a Matrix as a new Matrix.
-     *
-     * @param int $m₁ Starting row
-     * @param int $n₁ Starting column
-     * @param int $m₂ Ending row
-     * @param int $n₂ Ending column
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException
-     */
-    public function submatrix(int $m₁, int $n₁, int $m₂, int $n₂): Matrix
-    {
-        if ($m₁ >= $this->m || $m₁ < 0 || $m₂ >= $this->m || $m₂ < 0) {
-            throw new Exception\MatrixException('Specified Matrix row does not exist');
-        }
-        if ($n₁ >= $this->n || $n₁ < 0 || $n₂ >= $this->n || $n₂ < 0) {
-            throw new Exception\MatrixException('Specified Matrix column does not exist');
-        }
-        if ($m₂ < $m₁) {
-            throw new Exception\MatrixException('Ending row must be greater than beginning row');
-        }
-        if ($n₂ < $n₁) {
-            throw new Exception\MatrixException('Ending column must be greater than the beginning column');
-        }
-
-        $A = [];
-        for ($i = 0; $i <= $m₂ - $m₁; $i++) {
-            for ($j = 0; $j <= $n₂ - $n₁; $j++) {
-                $A[$i][$j] = $this->A[$i + $m₁][$j + $n₁];
-            }
-        }
-
-        return MatrixFactory::create($A);
     }
 
     /**************************************************************************
