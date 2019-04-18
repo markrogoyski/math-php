@@ -37,7 +37,7 @@ class RowVector extends Matrix
      *
      * @throws \MathPHP\Exception\MatrixException
      */
-    public function transpose(): ColumnVector
+    public function transpose(): MatrixInterface
     {
         return new ColumnVector($this->getRow(0));
     }
