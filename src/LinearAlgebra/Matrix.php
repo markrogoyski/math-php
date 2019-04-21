@@ -1185,8 +1185,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Matrix multiplication
-     * https://en.wikipedia.org/wiki/Matrix_multiplication#Matrix_product_.28two_matrices.29
+     * Matrix multiplication - ikj algorithm
+     * https://en.wikipedia.org/wiki/Matrix_multiplication
+     *
+     * ikj is an improvement on the classic ijk algorithm by simply changing the order of the loops.
      *
      * @param  Matrix|Vector $B Matrix or Vector to multiply
      *
@@ -1204,20 +1206,22 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         if ($B instanceof Vector) {
             $B = $B->asColumnMatrix();
         }
-
         if ($B->getM() !== $this->n) {
             throw new Exception\MatrixException("Matrix dimensions do not match");
         }
 
-        $n = $B->getN();
-        $m = $this->m;
+        // Initialize R with all zeros
         $R = [];
+        for ($i = 0; $i < $this->m; $i++) {
+            $R[$i] = array_fill(0, $B->n, 0);
+        }
 
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $VA        = new Vector($this->getRow($i));
-                $VB        = new Vector($B->getColumn($j));
-                $R[$i][$j] = $VA->dotProduct($VB);
+        // ikj algorithm
+        for ($i = 0; $i < $this->m; $i++) {
+            for ($k = 0; $k < $this->n; $k++) {
+                for ($j = 0; $j < $B->n; $j++) {
+                    $R[$i][$j] += $this->A[$i][$k] * $B[$k][$j];
+                }
             }
         }
 
