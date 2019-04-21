@@ -1210,14 +1210,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             throw new Exception\MatrixException("Matrix dimensions do not match");
         }
 
-        // Initialize R with all zeros
-        $R = [];
-        for ($i = 0; $i < $this->m; $i++) {
-            $R[$i] = array_fill(0, $B->n, 0);
-        }
-
         // ikj algorithm
         for ($i = 0; $i < $this->m; $i++) {
+            $R[$i] = array_fill(0, $B->n, 0);
             for ($k = 0; $k < $this->n; $k++) {
                 for ($j = 0; $j < $B->n; $j++) {
                     $R[$i][$j] += $this->A[$i][$k] * $B[$k][$j];
