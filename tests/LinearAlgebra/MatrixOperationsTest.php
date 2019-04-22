@@ -358,21 +358,114 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         multiplication
      * @dataProvider dataProviderForMultiply
+     * @param        array $A
+     * @param        array $B
+     * @param        array $expected
+     * @throws       \Exception
      */
-    public function testMultiply(array $A, array $B, array $R)
+    public function testMultiply(array $A, array $B, array $expected)
     {
-        $A  = MatrixFactory::create($A);
-        $B  = MatrixFactory::create($B);
-        $R  = MatrixFactory::create($R);
-        $R2 = $A->multiply($B);
-        $this->assertInstanceOf(Matrix::class, $R2);
-        $this->assertEquals($R, $R2);
+        // Given
+        $A        = MatrixFactory::create($A);
+        $B        = MatrixFactory::create($B);
+        $expected = MatrixFactory::create($expected);
+
+        // When
+        $R = $A->multiply($B);
+
+        // Then
+        $this->assertEquals($expected, $R);
+        $this->assertTrue($R->isEqual($expected));
     }
 
     public function dataProviderForMultiply()
     {
         return [
+            [
+                [
+                    [2]
+                ],
+                [
+                    [3]
+                ],
+                [
+                    [6]
+                ],
+            ],
+            [
+                [
+                    [3]
+                ],
+                [
+                    [2]
+                ],
+                [
+                    [6]
+                ],
+            ],
+            [
+                [
+                    [1]
+                ],
+                [
+                    [1, 2, 3]
+                ],
+                [
+                    [1, 2, 3]
+                ],
+            ],
+            [
+                [
+                    [0]
+                ],
+                [
+                    [1, 2, 3]
+                ],
+                [
+                    [0, 0, 0]
+                ],
+            ],
+            [
+                [
+                    [4]
+                ],
+                [
+                    [1, 2, 3]
+                ],
+                [
+                    [4, 8, 12]
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [3, 4],
+                ],
+                [
+                    [0, 0],
+                    [0, 0],
+                ],
+                [
+                    [0, 0],
+                    [0, 0],
+                ],
+            ],
+            [
+                [
+                    [0, 0],
+                    [0, 0],
+                ],
+                [
+                    [1, 2],
+                    [3, 4],
+                ],
+                [
+                    [0, 0],
+                    [0, 0],
+                ],
+            ],
             [
                 [
                     [0, 1],
@@ -533,6 +626,23 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
                     [249, 207, 174, 150, 189, 183, 186, 198, 219, 249, 207],
                     [207, 236, 193, 159, 197, 181, 174, 176, 187, 207, 236],
                     [174, 193, 221, 177, 214, 188, 171, 163, 164, 174, 193],
+                ],
+            ],
+            [
+                [
+                    [1.4, 5.3, 4.8],
+                    [3.2, 2.3, 9.05],
+                    [9.54, 0.2, 1.85],
+                ],
+                [
+                    [3.5, 5.6, 6.7],
+                    [6.5, 4.2, 9.05],
+                    [0.6, 0.236, 4.5],
+                ],
+                [
+                    [42.23, 31.2328, 78.945],
+                    [31.58, 29.7158, 82.980],
+                    [35.80, 54.7006, 74.053],
                 ],
             ],
         ];
