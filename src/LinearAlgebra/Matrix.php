@@ -2504,16 +2504,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @return Matrix
      *
      * @throws Exception\MatrixException if row to multiply does not exist
-     * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
     public function rowMultiply(int $mᵢ, float $k): Matrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to multiply does not exist');
-        }
-        if ($k == 0) {
-            throw new Exception\BadParameterException('Multiplication factor k must not be 0');
         }
 
         $n = $this->n;
@@ -2767,16 +2763,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @return Matrix
      *
      * @throws Exception\MatrixException if column to multiply does not exist
-     * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
     public function columnMultiply(int $nᵢ, float $k): Matrix
     {
         if ($nᵢ >= $this->n) {
             throw new Exception\MatrixException('Column to multiply does not exist');
-        }
-        if ($k == 0) {
-            throw new Exception\BadParameterException('Multiplication factor k must not be 0');
         }
 
         $m = $this->m;

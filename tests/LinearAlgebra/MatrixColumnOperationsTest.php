@@ -171,6 +171,18 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
                     [15.3, 4, 5],
                 ]
             ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 0,
+                [
+                    [0, 2, 3],
+                    [0, 3, 4],
+                    [0, 4, 5],
+                ]
+            ],
         ];
     }
 
@@ -192,26 +204,6 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
 
         // When
         $A->columnMultiply(4, 5);
-    }
-
-    /**
-     * @test   columnMultiply k is zero
-     * @throws \Exception
-     */
-    public function testColumnMultiplyExceptionKIsZero()
-    {
-        // Given
-        $A = MatrixFactory::create([
-            [1, 2, 3],
-            [2, 3, 4],
-            [3, 4, 5],
-        ]);
-
-        // Then
-        $this->expectException(Exception\BadParameterException::class);
-
-        // When
-        $A->columnMultiply(2, 0);
     }
 
     /**
