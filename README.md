@@ -434,6 +434,8 @@ $Mᵢⱼ   = $A->submatrix($mᵢ, $nᵢ, $mⱼ, $nⱼ) // Submatrix of A from ro
 // Matrix operations - return a new Vector
 $AB = $A->vectorMultiply($X₁);
 $M  = $A->sampleMean();
+$M  = $A->rowMeans();
+$M  = $A->columnMeans();
 
 // Matrix operations - return a value
 $tr⟮A⟯   = $A->trace();

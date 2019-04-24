@@ -1227,19 +1227,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * Scalar matrix multiplication
      * https://en.wikipedia.org/wiki/Matrix_multiplication#Scalar_multiplication
      *
-     * @param  number $λ
+     * @param  float $λ
      *
      * @return Matrix
      *
      * @throws Exception\BadParameterException if λ is not a number
      * @throws Exception\IncorrectTypeException
      */
-    public function scalarMultiply($λ): Matrix
+    public function scalarMultiply(float $λ): Matrix
     {
-        if (!is_numeric($λ)) {
-            throw new Exception\BadParameterException('Parameter λ is not a number');
-        }
-
         $R = [];
 
         for ($i = 0; $i < $this->m; $i++) {
@@ -1268,7 +1264,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Scalar matrix division
      *
-     * @param  number $λ
+     * @param  float $λ
      *
      * @return Matrix
      *
@@ -1276,11 +1272,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\BadParameterException if λ is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function scalarDivide($λ): Matrix
+    public function scalarDivide(float $λ): Matrix
     {
-        if (!is_numeric($λ)) {
-            throw new Exception\BadParameterException('Parameter λ is not a number');
-        }
         if ($λ == 0) {
             throw new Exception\BadParameterException('Parameter λ cannot equal 0');
         }
@@ -2098,6 +2091,82 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         );
 
         return $M->scalarDivide($n);
+    }
+
+    /**
+     * Means of each row, returned as a Vector
+     * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
+     *
+     *     1
+     * M = - (X₁ + X₂ + ⋯ + Xn)
+     *     n
+     *
+     * Example:
+     *      [1  4 7 8]
+     *  A = [2  2 8 4]
+     *      [1 13 1 5]
+     *
+     *  Consider each column of observations as a column vector:
+     *        [1]       [4]        [7]       [8]
+     *   X₁ = [2]  X₂ = [2]   X₃ = [8]  X₄ = [4]
+     *        [1]       [13]       [1]       [5]
+     *
+     *    1  /[1]   [4]    [7]   [8]\     1 [20]   [5]
+     *    - | [2] + [2]  + [8] + [4] |  = - [16] = [4]
+     *    4  \[1]   [13]   [1]   [5]/     4 [20]   [5]
+     *
+     * @return Vector
+     */
+    public function rowMeans(): Vector
+    {
+        $n = $this->n;
+
+        $M = array_map(
+            function (array $row) use ($n) {
+                return array_sum($row) / $n;
+            },
+            $this->A
+        );
+
+        return new Vector($M);
+    }
+
+    /**
+     * Means of each row, returned as a Vector
+     * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
+     *
+     *     1
+     * M = - (X₁ + X₂ + ⋯ + Xn)
+     *     m
+     *
+     * Example:
+     *      [1  4 7 8]
+     *  A = [2  2 8 4]
+     *      [1 13 1 5]
+     *
+     *  Consider each row of observations as a row vector:
+     *
+     *   X₁ = [1  4 7 9]
+     *   X₂ = [2  2 8 4]
+     *   X₃ = [1 13 1 5]
+     *
+     *   1  /  1    4    7    9  \      1
+     *   - |  +2   +2   +8   +4   |  =  - [4  19  16  18]  =  [1⅓, 6⅓, 5⅓, 5.⅔]
+     *   3  \ +1  +13   +1   +5  /      3
+     *
+     * @return Vector
+     */
+    public function columnMeans(): Vector
+    {
+        $m = $this->m;
+        $n = $this->n;
+
+        $M = [];
+        for ($i = 0; $i < $n; $i++) {
+            $M[] = array_sum(array_column($this->A, $i)) / $m;
+        }
+
+        return new Vector($M);
     }
 
     /**************************************************************************
