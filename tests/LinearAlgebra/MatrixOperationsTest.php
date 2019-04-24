@@ -4427,65 +4427,6 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider dataProviderForSampleMean
-     */
-    public function testSampleMean(array $A, array $M)
-    {
-        $A = MatrixFactory::create($A);
-        $M = new Vector($M);
-
-        $this->assertEquals($M, $A->sampleMean());
-    }
-
-    public function dataProviderForSampleMean()
-    {
-        return [
-            // Test data from: http://www.maths.manchester.ac.uk/~mkt/MT3732%20(MVA)/Intro.pdf
-            [
-                [
-                    [4, -1, 3],
-                    [1, 3, 5],
-                ],
-                [2, 3],
-            ],
-            // Test data from Linear Algebra and Its Aplications (Lay)
-            [
-                [
-                    [1, 4, 7, 8],
-                    [2, 2, 8, 4],
-                    [1, 13, 1, 5],
-                ],
-                [5, 4, 5],
-            ],
-            [
-                [
-                    [19, 22, 6, 3, 2, 20],
-                    [12, 6, 9, 15, 13, 5],
-                ],
-                [12, 10],
-            ],
-            [
-                [
-                    [1, 5, 2, 6, 7, 3],
-                    [3, 11, 6, 8, 15, 11],
-                ],
-                [4, 9],
-            ],
-            // Test data from: http://www.itl.nist.gov/div898/handbook/pmc/section5/pmc541.htm
-            [
-                [
-                    [4, 4.2, 3.9, 4.3, 4.1],
-                    [2, 2.1, 2, 2.1, 2.2],
-                    [.6, .59, .58, .62, .63]
-                ],
-                [
-                    4.10, 2.08, 0.604
-                ],
-            ],
-        ];
-    }
-
-    /**
      * @dataProvider dataProviderForMeanDeviation
      */
     public function testMeanDeviation(array $A, array $B)

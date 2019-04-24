@@ -1904,7 +1904,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function meanDeviation(): Matrix
     {
         $X = $this->asVectors();
-        $M = $this->sampleMean();
+        $M = $this->rowMeans();
 
         $B = array_map(
             function (Vector $Xᵢ) use ($M) {
@@ -2021,7 +2021,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**************************************************************************
      * MATRIX OPERATIONS - Return a Vector
      *  - vectorMultiply
-     *  - sampleMean
+     *  - rowMeans
+     *  - columnMeans
      **************************************************************************/
 
     /**
@@ -2051,46 +2052,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return new Vector($R);
-    }
-
-    /**
-     * Sample mean of multivariate matrix
-     * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
-     *
-     *     1
-     * M = - (X₁ + X₂ + ⋯ + Xn)
-     *     N
-     *
-     * Example:
-     *      [1  4 7 8]
-     *  A = [2  2 8 4]
-     *      [1 13 1 5]
-     *
-     *  Consider each column of observations as a column vector:
-     *        [1]       [4]        [7]       [8]
-     *   X₁ = [2]  X₂ = [2]   X₃ = [8]  X₄ = [4]
-     *        [1]       [13]       [1]       [5]
-     *
-     *    1  /[1]   [4]    [7]   [8]\     1 [20]   [5]
-     *    - | [2] + [2]  + [8] + [4] |  = - [16] = [4]
-     *    4  \[1]   [13]   [1]   [5]/     4 [20]   [5]
-     *
-     * @return Vector
-     */
-    public function sampleMean(): Vector
-    {
-        $m = $this->m;
-        $n = $this->n;
-
-        $M = array_reduce(
-            $this->asVectors(),
-            function (Vector $carryV, Vector $V) {
-                return $carryV->add($V);
-            },
-            new Vector(array_fill(0, $m, 0))
-        );
-
-        return $M->scalarDivide($n);
     }
 
     /**
@@ -2132,7 +2093,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Means of each row, returned as a Vector
+     * Means of each column, returned as a Vector
      * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
      *
      *     1
