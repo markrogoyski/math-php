@@ -9,18 +9,17 @@ namespace MathPHP\LinearAlgebra;
 class DiagonalMatrix extends SquareMatrix
 {
     /**
-     * A Diagonal Matrix is constucted from a single-row array.
+     * A Diagonal Matrix is constructed from a single-row array.
      * The elements of this array are placed on the diagonal of a
      * square matrix.
      */
     public function __construct(array $D)
     {
-        $this->m = count($D);
-        $this->n = $this->m;
+        $m = count($D);
 
         $A = [];
-        for ($i = 0; $i < $this->m; $i++) {
-            for ($j = 0; $j < $this->m; $j++) {
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $m; $j++) {
                 if ($i == $j) {
                     $A[$i][$j] = $D[$i];
                 } else {
@@ -28,7 +27,8 @@ class DiagonalMatrix extends SquareMatrix
                 }
             }
         }
-        $this->A = $A;
+
+        parent::__construct($A);
     }
 
     /**
