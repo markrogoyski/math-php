@@ -358,21 +358,114 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         multiplication
      * @dataProvider dataProviderForMultiply
+     * @param        array $A
+     * @param        array $B
+     * @param        array $expected
+     * @throws       \Exception
      */
-    public function testMultiply(array $A, array $B, array $R)
+    public function testMultiply(array $A, array $B, array $expected)
     {
-        $A  = MatrixFactory::create($A);
-        $B  = MatrixFactory::create($B);
-        $R  = MatrixFactory::create($R);
-        $R2 = $A->multiply($B);
-        $this->assertInstanceOf(Matrix::class, $R2);
-        $this->assertEquals($R, $R2);
+        // Given
+        $A        = MatrixFactory::create($A);
+        $B        = MatrixFactory::create($B);
+        $expected = MatrixFactory::create($expected);
+
+        // When
+        $R = $A->multiply($B);
+
+        // Then
+        $this->assertEquals($expected, $R);
+        $this->assertTrue($R->isEqual($expected));
     }
 
     public function dataProviderForMultiply()
     {
         return [
+            [
+                [
+                    [2]
+                ],
+                [
+                    [3]
+                ],
+                [
+                    [6]
+                ],
+            ],
+            [
+                [
+                    [3]
+                ],
+                [
+                    [2]
+                ],
+                [
+                    [6]
+                ],
+            ],
+            [
+                [
+                    [1]
+                ],
+                [
+                    [1, 2, 3]
+                ],
+                [
+                    [1, 2, 3]
+                ],
+            ],
+            [
+                [
+                    [0]
+                ],
+                [
+                    [1, 2, 3]
+                ],
+                [
+                    [0, 0, 0]
+                ],
+            ],
+            [
+                [
+                    [4]
+                ],
+                [
+                    [1, 2, 3]
+                ],
+                [
+                    [4, 8, 12]
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [3, 4],
+                ],
+                [
+                    [0, 0],
+                    [0, 0],
+                ],
+                [
+                    [0, 0],
+                    [0, 0],
+                ],
+            ],
+            [
+                [
+                    [0, 0],
+                    [0, 0],
+                ],
+                [
+                    [1, 2],
+                    [3, 4],
+                ],
+                [
+                    [0, 0],
+                    [0, 0],
+                ],
+            ],
             [
                 [
                     [0, 1],
@@ -533,6 +626,23 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
                     [249, 207, 174, 150, 189, 183, 186, 198, 219, 249, 207],
                     [207, 236, 193, 159, 197, 181, 174, 176, 187, 207, 236],
                     [174, 193, 221, 177, 214, 188, 171, 163, 164, 174, 193],
+                ],
+            ],
+            [
+                [
+                    [1.4, 5.3, 4.8],
+                    [3.2, 2.3, 9.05],
+                    [9.54, 0.2, 1.85],
+                ],
+                [
+                    [3.5, 5.6, 6.7],
+                    [6.5, 4.2, 9.05],
+                    [0.6, 0.236, 4.5],
+                ],
+                [
+                    [42.23, 31.2328, 78.945],
+                    [31.58, 29.7158, 82.980],
+                    [35.80, 54.7006, 74.053],
                 ],
             ],
         ];
@@ -760,6 +870,145 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         rowMeans
+     * @dataProvider dataProviderForRowMeans
+     * @param        array $A
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testRowMeans(array $A, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $expected = new Vector($expected);
+
+        // When
+        $R = $A->rowMeans();
+
+        // Then
+        $this->assertEquals($expected, $R);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForRowMeans(): array
+    {
+        return [
+            // Test data from: http://www.maths.manchester.ac.uk/~mkt/MT3732%20(MVA)/Intro.pdf
+            [
+                [
+                    [4, -1, 3],
+                    [1, 3, 5],
+                ],
+                [2, 3],
+            ],
+            // Test data from Linear Algebra and Its Aplications (Lay)
+            [
+                [
+                    [1, 4, 7, 8],
+                    [2, 2, 8, 4],
+                    [1, 13, 1, 5],
+                ],
+                [5, 4, 5],
+            ],
+            [
+                [
+                    [19, 22, 6, 3, 2, 20],
+                    [12, 6, 9, 15, 13, 5],
+                ],
+                [12, 10],
+            ],
+            [
+                [
+                    [1, 5, 2, 6, 7, 3],
+                    [3, 11, 6, 8, 15, 11],
+                ],
+                [4, 9],
+            ],
+            // Test data from: http://www.itl.nist.gov/div898/handbook/pmc/section5/pmc541.htm
+            [
+                [
+                    [4, 4.2, 3.9, 4.3, 4.1],
+                    [2, 2.1, 2, 2.1, 2.2],
+                    [.6, .59, .58, .62, .63]
+                ],
+                [
+                    4.10, 2.08, 0.604
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @test         columnMeans
+     * @dataProvider dataProviderForColumnMeans
+     * @param        array $A
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testColumnMeans(array $A, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $expected = new Vector($expected);
+
+        // When
+        $R = $A->columnMeans();
+
+        // Then
+        $this->assertEquals($expected, $R, '', 0.000001);
+    }
+
+    /**
+     * Computed using R colMeans(A)
+     * @return array
+     */
+    public function dataProviderForColumnMeans(): array
+    {
+        return [
+            [
+                [
+                    [4, -1, 3],
+                    [1, 3, 5],
+                ],
+                [2.5, 1.0, 4.0],
+            ],
+            [
+                [
+                    [1, 4, 7, 8],
+                    [2, 2, 8, 4],
+                    [1, 13, 1, 5],
+                ],
+                [1.333333, 6.333333, 5.333333, 5.666667],
+            ],
+            [
+                [
+                    [19, 22, 6, 3, 2, 20],
+                    [12, 6, 9, 15, 13, 5],
+                ],
+                [15.5, 14.0,  7.5,  9.0,  7.5, 12.5],
+            ],
+            [
+                [
+                    [1, 5, 2, 6, 7, 3],
+                    [3, 11, 6, 8, 15, 11],
+                ],
+                [2, 8, 4, 7, 11, 7],
+            ],
+            [
+                [
+                    [4, 4.2, 3.9, 4.3, 4.1],
+                    [2, 2.1, 2, 2.1, 2.2],
+                    [.6, .59, .58, .62, .63]
+                ],
+                [2.200000, 2.296667, 2.160000, 2.340000, 2.310000],
+            ]
+        ];
+    }
+
+
+    /**
      * @dataProvider dataProviderForScalarMultiply
      */
     public function testScalarMultiply(array $A, $k, array $R)
@@ -886,17 +1135,6 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testScalarMultiplyExceptionKNotNumber()
-    {
-        $A = MatrixFactory::create([
-            [1, 2, 3],
-            [2, 3, 4],
-        ]);
-
-        $this->expectException(Exception\BadParameterException::class);
-        $A->scalarMultiply('k');
-    }
-
     /**
      * @dataProvider dataProviderForScalarDivide
      */
@@ -952,17 +1190,6 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
         ];
-    }
-
-    public function testScalarDivideExceptionKNotNumber()
-    {
-        $A = MatrixFactory::create([
-            [1, 2, 3],
-            [2, 3, 4],
-        ]);
-
-        $this->expectException(Exception\BadParameterException::class);
-        $A->scalarDivide('k');
     }
 
     public function testScalarDivideByZero()
@@ -4197,65 +4424,6 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
 
         $this->expectException(Exception\MatrixException::class);
         $A->cofactorMatrix();
-    }
-
-    /**
-     * @dataProvider dataProviderForSampleMean
-     */
-    public function testSampleMean(array $A, array $M)
-    {
-        $A = MatrixFactory::create($A);
-        $M = new Vector($M);
-
-        $this->assertEquals($M, $A->sampleMean());
-    }
-
-    public function dataProviderForSampleMean()
-    {
-        return [
-            // Test data from: http://www.maths.manchester.ac.uk/~mkt/MT3732%20(MVA)/Intro.pdf
-            [
-                [
-                    [4, -1, 3],
-                    [1, 3, 5],
-                ],
-                [2, 3],
-            ],
-            // Test data from Linear Algebra and Its Aplications (Lay)
-            [
-                [
-                    [1, 4, 7, 8],
-                    [2, 2, 8, 4],
-                    [1, 13, 1, 5],
-                ],
-                [5, 4, 5],
-            ],
-            [
-                [
-                    [19, 22, 6, 3, 2, 20],
-                    [12, 6, 9, 15, 13, 5],
-                ],
-                [12, 10],
-            ],
-            [
-                [
-                    [1, 5, 2, 6, 7, 3],
-                    [3, 11, 6, 8, 15, 11],
-                ],
-                [4, 9],
-            ],
-            // Test data from: http://www.itl.nist.gov/div898/handbook/pmc/section5/pmc541.htm
-            [
-                [
-                    [4, 4.2, 3.9, 4.3, 4.1],
-                    [2, 2.1, 2, 2.1, 2.2],
-                    [.6, .59, .58, .62, .63]
-                ],
-                [
-                    4.10, 2.08, 0.604
-                ],
-            ],
-        ];
     }
 
     /**

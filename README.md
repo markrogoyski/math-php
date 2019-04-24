@@ -232,6 +232,7 @@ $√x          = Map\Single::sqrt($x);        // [1, 1.414, 1.732, 2]
 $∣x∣         = Map\Single::abs($x);         // [1, 2, 3, 4]
 $maxes       = Map\Single::max($x, 3);      // [3, 3, 3, 4]
 $mins        = Map\Single::min($x, 3);      // [1, 2, 3, 3]
+$reciprocals = Map\Single::reciprocal($x);  // [1, 1/2, 1/3, 1/4]
 ```
 
 ### Functions - Map - Multiple Arrays
@@ -432,7 +433,8 @@ $Mᵢⱼ   = $A->submatrix($mᵢ, $nᵢ, $mⱼ, $nⱼ) // Submatrix of A from ro
 
 // Matrix operations - return a new Vector
 $AB = $A->vectorMultiply($X₁);
-$M  = $A->sampleMean();
+$M  = $A->rowMeans();
+$M  = $A->columnMeans();
 
 // Matrix operations - return a value
 $tr⟮A⟯   = $A->trace();
@@ -490,6 +492,9 @@ $func = function($x) {
     return $x * 2;
 };
 $R = $A->map($func);
+
+// Matrix comparisons
+$bool = $A->isEqual($B);
 
 // Print a matrix
 print($A);
