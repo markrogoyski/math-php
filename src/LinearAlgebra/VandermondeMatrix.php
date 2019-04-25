@@ -30,15 +30,13 @@ class VandermondeMatrix extends Matrix
      */
     public function __construct(array $M, int $n)
     {
-        $this->n = $n;
-        $this->m = count($M);
-        
         $A = [];
         foreach ($M as $row => $α) {
             for ($i = 0; $i < $n; $i++) {
                 $A[$row][$i] = $α**$i;
             }
         }
-        $this->A = $A;
+
+        parent::__construct($A);
     }
 }

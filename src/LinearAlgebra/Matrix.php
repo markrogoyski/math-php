@@ -43,6 +43,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var Matrix Permutation matrix in LUP decomposition */
     protected $P;
 
+    /** @var float Error/zero tolerance */
+    protected $ε;
+
+    // Default error/zero tolerance
+    const ε = 0.00000000001;
+
     /**
      * Constructor
      * @param array $A of arrays $A m x n matrix
@@ -54,6 +60,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $this->A = $A;
         $this->m = count($A);
         $this->n = $this->m > 0 ? count($A[0]) : 0;
+        $this->ε = self::ε;
 
         foreach ($A as $i => $row) {
             if (count($row) !== $this->n) {
@@ -251,6 +258,23 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /***************************************************************************
+     * SETTERS
+     *  - setError
+     **************************************************************************/
+
+    /**
+     * Set the error/zero tolerance for matrix values
+     *  - Used to determine tolerance for equality
+     *  - Used to determine if a value is zero
+     *
+     * @param float $ε
+     */
+    public function setError(float $ε)
+    {
+        $this->ε = $ε;
+    }
+
+    /***************************************************************************
      * MATRIX COMPARISONS
      *  - isEqual
      ***************************************************************************/
@@ -266,6 +290,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     {
         $m = $this->m;
         $n = $this->n;
+        $ε = $this->ε;
 
         // Same dimensions
         if ($m != $B->m || $n != $B->n) {
@@ -275,7 +300,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         // All elements are the same
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                if (Support::isNotEqual($this->A[$i][$j], $B[$i][$j])) {
+                if (Support::isNotEqual($this->A[$i][$j], $B[$i][$j], $ε)) {
                     return false;
                 }
             }
@@ -343,7 +368,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         for ($i = 0; $i < $this->m - 1; $i++) {
             for ($j = $i + 1; $j < $this->n; $j++) {
-                if (Support::isNotEqual($this->A[$i][$j], $this->A[$j][$i])) {
+                if (Support::isNotEqual($this->A[$i][$j], $this->A[$j][$i], $this->ε)) {
                     return false;
                 }
             }
@@ -374,13 +399,13 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         for ($i = 0; $i < $this->m - 1; $i++) {
             for ($j = $i + 1; $j < $this->n; $j++) {
-                if (Support::isNotEqual($this->A[$i][$j], -$this->A[$j][$i])) {
+                if (Support::isNotEqual($this->A[$i][$j], -$this->A[$j][$i], $this->ε)) {
                     return false;
                 }
             }
         }
         foreach ($this->getDiagonalElements() as $diagonalElement) {
-            if (Support::isNotZero($diagonalElement)) {
+            if (Support::isNotZero($diagonalElement, $this->ε)) {
                 return false;
             }
         }
@@ -427,7 +452,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     {
         $│A│ = $this->det ?? $this->det();
 
-        if (Support::isNotZero($│A│)) {
+        if (Support::isNotZero($│A│, $this->ε)) {
             return true;
         }
 
@@ -2462,7 +2487,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         for ($i = 0; $i < $this->m; $i++) {
             for ($j = 0; $j < $this->n; $j++) {
-                if (Support::isNotZero($rref[$i][$j])) {
+                if (Support::isNotZero($rref[$i][$j], $this->ε)) {
                     $pivots++;
                     continue 2;
                 }
@@ -2948,6 +2973,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $size  = min($m, $n);
         $R     = $this->A;
         $swaps = 0;
+        $ε     = $this->ε;
 
         for ($k = 0; $k < $size; $k++) {
             // Find column max
@@ -2958,7 +2984,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 }
             }
 
-            if (Support::isZero($R[$i_max][$k])) {
+            if (Support::isZero($R[$i_max][$k], $ε)) {
                 throw new Exception\SingularMatrixException('Guassian elimination fails for singular matrices');
             }
 
@@ -2970,10 +2996,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
             // Row operations
             for ($i = $k + 1; $i < $m; $i++) {
-                $f = (Support::isNotZero($R[$k][$k])) ? $R[$i][$k] / $R[$k][$k] : 1;
+                $f = (Support::isNotZero($R[$k][$k], $ε)) ? $R[$i][$k] / $R[$k][$k] : 1;
                 for ($j = $k + 1; $j < $n; $j++) {
                     $R[$i][$j] = $R[$i][$j] - ($R[$k][$j] * $f);
-                    if (Support::isZero($R[$i][$j])) {
+                    if (Support::isZero($R[$i][$j], $ε)) {
                         $R[$i][$j] = 0;
                     }
                 }
@@ -3011,6 +3037,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $m    = $this->m;
         $n    = $this->n;
         $R    = MatrixFactory::create($this->A);
+        $ε    = $this->ε;
 
         // Starting conditions
         $row   = 0;
@@ -3020,9 +3047,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         while (!$ref) {
             // If pivot is 0, try to find a non-zero pivot in the column and swap rows
-            if (Support::isZero($R[$row][$col])) {
+            if (Support::isZero($R[$row][$col], $ε)) {
                 for ($j = $row + 1; $j < $m; $j++) {
-                    if (Support::isNotZero($R[$j][$col])) {
+                    if (Support::isNotZero($R[$j][$col], $ε)) {
                         $R = $R->rowInterchange($row, $j);
                         $swaps++;
                         break;
@@ -3031,7 +3058,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
 
             // No non-zero pivot, go to next column of the same row
-            if (Support::isZero($R[$row][$col])) {
+            if (Support::isZero($R[$row][$col], $ε)) {
                 $col++;
                 if ($row >= $m || $col >= $n) {
                     $ref = true;
@@ -3046,10 +3073,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             // Eliminate elements below pivot
             for ($j = $row + 1; $j < $m; $j++) {
                 $factor = $R[$j][$col];
-                if (Support::isNotZero($factor)) {
+                if (Support::isNotZero($factor, $ε)) {
                     $R = $R->rowAdd($row, $j, -$factor);
                     for ($k = 0; $k < $n; $k++) {
-                        if (Support::isZero($R[$j][$k])) {
+                        if (Support::isZero($R[$j][$k], $ε)) {
                             $R->A[$j][$k] = 0;
                         }
                     }
@@ -3071,7 +3098,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         // Floating point adjustment for zero values
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                if (Support::isZero($R[$i][$j])) {
+                if (Support::isZero($R[$i][$j], $ε)) {
                     $R[$i][$j] = 0;
                 }
             }
@@ -3108,6 +3135,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $m = $this->m;
         $n = $this->n;
         $R = $this->ref();
+        $ε = $this->ε;
 
         // Starting conditions
         $row   = 0;
@@ -3116,7 +3144,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         while (!$rref) {
             // No non-zero pivot, go to next column of the same row
-            if (Support::isZero($R[$row][$col])) {
+            if (Support::isZero($R[$row][$col], $ε)) {
                 $col++;
                 if ($row >= $m || $col >= $n) {
                     $rref = true;
@@ -3133,7 +3161,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             // Eliminate elements above pivot
             for ($j = $row - 1; $j >= 0; $j--) {
                 $factor = $R[$j][$col];
-                if (Support::isNotZero($factor)) {
+                if (Support::isNotZero($factor, $ε)) {
                     $R = $R->rowAdd($row, $j, -$factor);
                 }
             }
@@ -3153,7 +3181,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         // Floating point adjustment for zero values
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                if (Support::isZero($R[$i][$j])) {
+                if (Support::isZero($R[$i][$j], $ε)) {
                     $R[$i][$j] = 0;
                 }
             }

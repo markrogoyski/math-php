@@ -26,6 +26,8 @@ class SquareMatrix extends Matrix
         if ($this->m !== $this->n) {
             throw new Exception\MatrixException('Not a square matrix; row count and column count differ');
         }
+
+        parent::__construct($A);
     }
 
     /**

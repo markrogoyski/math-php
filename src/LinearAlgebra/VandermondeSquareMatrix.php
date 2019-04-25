@@ -22,7 +22,7 @@ use MathPHP\Exception;
  *
  * https://en.wikipedia.org/wiki/Vandermonde_matrix
  */
-class VandermondeSquareMatrix extends SquareMatrix
+class VandermondeSquareMatrix extends VandermondeMatrix
 {
     /**
      * Create the Vandermonde Matrix from a simple array.
@@ -34,19 +34,10 @@ class VandermondeSquareMatrix extends SquareMatrix
      */
     public function __construct(array $M, int $n)
     {
-        $this->n = $n;
-        $this->m = count($M);
-
-        if ($this->m !== $this->n) {
+        if (count($M) !== $n) {
             throw new Exception\MatrixException('n must equal m for square Vandermonde Matrix');
         }
         
-        $A = [];
-        foreach ($M as $row => $α) {
-            for ($i = 0; $i < $n; $i++) {
-                $A[$row][$i] = $α**$i;
-            }
-        }
-        $this->A = $A;
+        parent::__construct($M, $n);
     }
 }

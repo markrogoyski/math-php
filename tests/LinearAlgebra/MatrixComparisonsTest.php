@@ -43,4 +43,50 @@ class MatrixComparisonsTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($A->isEqual($B));
         $this->assertFalse($B->isEqual($A));
     }
+
+    /**
+     * @test   isEqual finds matrices to be equal because the values are within the error tolerance
+     * @throws \Exception
+     */
+    public function testIsEqualBecauseWithinErrorTolerance()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1.0001, 2.0002],
+            [3.0003, 4.0004],
+        ]);
+        $B = MatrixFactory::create([
+            [1.0002, 2.0003],
+            [3.0004, 4.0005],
+        ]);
+
+        // When
+        $A->setError(0.001);
+
+        // Then
+        $this->assertTrue($A->isEqual($B));
+    }
+
+    /**
+     * @test   isEqual finds matrices to be not equal because the values are within the error tolerance
+     * @throws \Exception
+     */
+    public function testIsNotEqualBecauseOutsideOfErrorTolerance()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1.0001, 2.0002],
+            [3.0003, 4.0004],
+        ]);
+        $B = MatrixFactory::create([
+            [1.0002, 2.0003],
+            [3.0004, 4.0005],
+        ]);
+
+        // When
+        $A->setError(0.00001);
+
+        // Then
+        $this->assertFalse($A->isEqual($B));
+    }
 }

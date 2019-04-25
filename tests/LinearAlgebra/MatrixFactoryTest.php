@@ -73,7 +73,6 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A, $n);
 
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\VandermondeSquareMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\SquareMatrix::class, $A);
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $A);
     }
 
