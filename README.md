@@ -433,6 +433,8 @@ $Mᵢⱼ   = $A->submatrix($mᵢ, $nᵢ, $mⱼ, $nⱼ) // Submatrix of A from ro
 
 // Matrix operations - return a new Vector
 $AB = $A->vectorMultiply($X₁);
+$M  = $A->rowSums();
+$M  = $A->columnSums();
 $M  = $A->rowMeans();
 $M  = $A->columnMeans();
 

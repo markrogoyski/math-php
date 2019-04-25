@@ -2046,7 +2046,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**************************************************************************
      * MATRIX OPERATIONS - Return a Vector
      *  - vectorMultiply
+     *  - rowSums
      *  - rowMeans
+     *  - columnSums
      *  - columnMeans
      **************************************************************************/
 
@@ -2080,6 +2082,23 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Sums of each row, returned as a Vector
+     *
+     * @return Vector
+     */
+    public function rowSums(): Vector
+    {
+        $sums = array_map(
+            function (array $row) {
+                return array_sum($row);
+            },
+            $this->A
+        );
+
+        return new Vector($sums);
+    }
+
+    /**
      * Means of each row, returned as a Vector
      * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
      *
@@ -2107,14 +2126,29 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     {
         $n = $this->n;
 
-        $M = array_map(
+        $means = array_map(
             function (array $row) use ($n) {
                 return array_sum($row) / $n;
             },
             $this->A
         );
 
-        return new Vector($M);
+        return new Vector($means);
+    }
+
+    /**
+     * Sums of each column, returned as a Vector
+     *
+     * @return Vector
+     */
+    public function columnSums(): Vector
+    {
+        $sums = [];
+        for ($i = 0; $i < $this->n; $i++) {
+            $sums[] = array_sum(array_column($this->A, $i));
+        }
+
+        return new Vector($sums);
     }
 
     /**
@@ -2147,12 +2181,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $m = $this->m;
         $n = $this->n;
 
-        $M = [];
+        $means = [];
         for ($i = 0; $i < $n; $i++) {
-            $M[] = array_sum(array_column($this->A, $i)) / $m;
+            $means[] = array_sum(array_column($this->A, $i)) / $m;
         }
 
-        return new Vector($M);
+        return new Vector($means);
     }
 
     /**************************************************************************

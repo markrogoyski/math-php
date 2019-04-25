@@ -870,6 +870,73 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         rowSums
+     * @dataProvider dataProviderForRowSums
+     * @param        array $A
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testRowSums(array $A, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $expected = new Vector($expected);
+
+        // When
+        $R = $A->rowSums();
+
+        // Then
+        $this->assertEquals($expected, $R);
+    }
+
+    /**
+     * Computed using R rowSums(A)
+     * @return array
+     */
+    public function dataProviderForRowSums(): array
+    {
+        return [
+            [
+                [
+                    [4, -1, 3],
+                    [1, 3, 5],
+                ],
+                [6, 9],
+            ],
+            [
+                [
+                    [1, 4, 7, 8],
+                    [2, 2, 8, 4],
+                    [1, 13, 1, 5],
+                ],
+                [20, 16, 20],
+            ],
+            [
+                [
+                    [19, 22, 6, 3, 2, 20],
+                    [12, 6, 9, 15, 13, 5],
+                ],
+                [72, 60],
+            ],
+            [
+                [
+                    [1, 5, 2, 6, 7, 3],
+                    [3, 11, 6, 8, 15, 11],
+                ],
+                [24, 54],
+            ],
+            [
+                [
+                    [4, 4.2, 3.9, 4.3, 4.1],
+                    [2, 2.1, 2, 2.1, 2.2],
+                    [.6, .59, .58, .62, .63]
+                ],
+                [20.50, 10.40, 3.02],
+            ],
+        ];
+    }
+
+    /**
      * @test         rowMeans
      * @dataProvider dataProviderForRowMeans
      * @param        array $A
@@ -933,10 +1000,75 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
                     [2, 2.1, 2, 2.1, 2.2],
                     [.6, .59, .58, .62, .63]
                 ],
-                [
-                    4.10, 2.08, 0.604
-                ],
+                [4.10, 2.08, 0.604],
             ],
+        ];
+    }
+
+    /**
+     * @test         columnSums
+     * @dataProvider dataProviderForColumnSums
+     * @param        array $A
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testColumnSums(array $A, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $expected = new Vector($expected);
+
+        // When
+        $R = $A->columnSums();
+
+        // Then
+        $this->assertEquals($expected, $R, '', 0.000001);
+    }
+
+    /**
+     * Computed using R colSums(A)
+     * @return array
+     */
+    public function dataProviderForColumnSums(): array
+    {
+        return [
+            [
+                [
+                    [4, -1, 3],
+                    [1, 3, 5],
+                ],
+                [5, 2, 8],
+            ],
+            [
+                [
+                    [1, 4, 7, 8],
+                    [2, 2, 8, 4],
+                    [1, 13, 1, 5],
+                ],
+                [4, 19, 16, 17],
+            ],
+            [
+                [
+                    [19, 22, 6, 3, 2, 20],
+                    [12, 6, 9, 15, 13, 5],
+                ],
+                [31, 28, 15, 18, 15, 25],
+            ],
+            [
+                [
+                    [1, 5, 2, 6, 7, 3],
+                    [3, 11, 6, 8, 15, 11],
+                ],
+                [4, 16, 8, 14, 22, 14],
+            ],
+            [
+                [
+                    [4, 4.2, 3.9, 4.3, 4.1],
+                    [2, 2.1, 2, 2.1, 2.2],
+                    [.6, .59, .58, .62, .63]
+                ],
+                [6.60, 6.89, 6.48, 7.02, 6.93],
+            ]
         ];
     }
 
