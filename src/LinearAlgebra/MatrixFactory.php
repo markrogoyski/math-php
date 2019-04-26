@@ -12,9 +12,7 @@ class MatrixFactory
     /**
      * Factory method
      *
-     * @param  array    $A 1- or 2-dimensional array of Matrix data
-     *                     1-dimensional array for Diagonal matrices
-     *                     2-dimensional array for Square, Function, and regular Matrices
+     * @param  array[] $A 2-dimensional array of Matrix data
      *
      * @return Matrix
      *
@@ -34,8 +32,6 @@ class MatrixFactory
                 return new Matrix($A);
             case 'square':
                 return new SquareMatrix($A);
-            case 'from_vectors':
-                return self::createFromVectors($A);
             case 'function':
                 return new FunctionMatrix($A);
             case 'function_square':
@@ -45,6 +41,47 @@ class MatrixFactory
         }
 
         throw new Exception\IncorrectTypeException('Unknown matrix type');
+    }
+
+    /**
+     * Factory method to create a matrix from an array of Vectors
+     *
+     * Example:
+     *        [1]       [4]        [7]       [8]
+     *   X₁ = [2]  X₂ = [2]   X₃ = [8]  X₄ = [4]
+     *        [1]       [13]       [1]       [5]
+     *
+     *       [1  4 7 8]
+     *   R = [2  2 8 4]
+     *       [1 13 1 5]
+     *
+     * @param  Vector[] $A array of Vectors
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException if the Vectors are not all the same length
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\BadDataException
+     */
+    public static function createFromVectors(array $A): Matrix
+    {
+        // Check that all vectors are the same length
+        $m = $A[0]->getN();
+        $n = count($A);
+        for ($j = 1; $j < $n; $j++) {
+            if ($A[$j]->getN() !== $m) {
+                throw new Exception\MatrixException('Vectors being combined into matrix have different lengths');
+            }
+        }
+
+        // Concatenate all the vectors
+        $R = [];
+        foreach ($A as $V) {
+            $R[] = $V->getVector();
+        }
+
+        // Transpose to create matrix from the vector columns
+        return (new Matrix($R))->transpose();
     }
 
     /**************************************************************************
@@ -442,36 +479,16 @@ class MatrixFactory
     /**
      * Determine what type of matrix to create
      *
-     * @param  array    $A 1- or 2-dimensional array of Matrix data
-     *                     1-dimensional array for Diagonal and Vandermonde matrices
-     *                     2-dimensional array for Square, Function, and regular Matrices
-     * @param  int|null $vandermonde_n Optional n for Vandermonde matrix
+     * @param  array A 2-dimensional array of Matrix data
      *
      * @return string indicating what matrix type to create
      */
     private static function determineMatrixType(array $A): string
     {
         $m = count($A);
-
-        // 1-dimensional array is how we create diagonal matrices,
-        // as well as matrices from an array of vectors
-        $one_dimensional = count(array_filter($A, 'is_array')) === 0;
-        if ($one_dimensional) {
-            $is_array_of_vectors = array_reduce(
-                $A,
-                function ($carry, $item) {
-                    return $carry && ($item instanceof Vector);
-                },
-                true
-            );
-            if ($is_array_of_vectors) {
-                return 'from_vectors';
-            }
-            return 'diagonal';
-        }
+        $n = count($A[0]);
 
         // Square Matrices have the same number of rows (m) and columns (n)
-        $n = count($A[0]);
         if ($m === $n) {
             // closures are objects, so we need to separate them out.
             if (is_object($A[0][0])) {
@@ -493,47 +510,8 @@ class MatrixFactory
         if (is_callable($A[0][0])) {
             return 'function';
         }
+
+        // Numeric matrix
         return 'matrix';
-    }
-
-    /**
-     * Create a matrix from an array of Vectors
-     *
-     * Example:
-     *        [1]       [4]        [7]       [8]
-     *   X₁ = [2]  X₂ = [2]   X₃ = [8]  X₄ = [4]
-     *        [1]       [13]       [1]       [5]
-     *
-     *       [1  4 7 8]
-     *   R = [2  2 8 4]
-     *       [1 13 1 5]
-     *
-     * @param  array $A array of Vectors
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException if the Vectors are not all the same length
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\BadDataException
-     */
-    private static function createFromVectors(array $A): Matrix
-    {
-        // Check that all vectors are the same length
-        $m = $A[0]->getN();
-        $n = count($A);
-        for ($j = 1; $j < $n; $j++) {
-            if ($A[$j]->getN() !== $m) {
-                throw new Exception\MatrixException('Vectors being combined into matrix have different lengths');
-            }
-        }
-
-        // Concatenate all the vectors
-        $R = [];
-        foreach ($A as $V) {
-            $R[] = $V->getVector();
-        }
-
-        // Transpose to create matrix from the vector columns
-        return (new Matrix($R))->transpose();
     }
 }

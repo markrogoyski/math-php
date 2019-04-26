@@ -1931,6 +1931,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $X = $this->asVectors();
         $M = $this->rowMeans();
 
+        /** @var Vector[] $B */
         $B = array_map(
             function (Vector $Xᵢ) use ($M) {
                 return $Xᵢ->subtract($M);
@@ -1938,7 +1939,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $X
         );
 
-        return MatrixFactory::create($B);
+        return MatrixFactory::createFromVectors($B);
     }
 
     /**

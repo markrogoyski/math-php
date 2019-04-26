@@ -1494,7 +1494,7 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     {
         $m        = count($b);
         $A        = MatrixFactory::create($A);
-        $b_matrix = MatrixFactory::create([new Vector($b)]);
+        $b_matrix = MatrixFactory::createFromVectors([new Vector($b)]);
         $Ab       = $A->augment($b_matrix);
         $ref      = $Ab->ref();
 

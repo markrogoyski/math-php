@@ -70,14 +70,18 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreateArrayOfVectors(array $vectors, array $expected)
     {
+        // Given
         $vectors = array_map(
             function ($vector) {
                 return new Vector($vector);
             },
             $vectors
         );
-        $A = MatrixFactory::create($vectors);
 
+        // When
+        $A = MatrixFactory::createFromVectors($vectors);
+
+        // Then
         $this->assertInstanceOf(Matrix::class, $A);
         $this->assertEquals($expected, $A->getMatrix());
     }
@@ -132,13 +136,17 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
 
     public function testCreateFromArrayOfVectorsExceptionVectorsDifferentLengths()
     {
+        // Given
         $A = [
             new Vector([1, 2]),
             new Vector([4, 5, 6]),
         ];
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
-        $A = MatrixFactory::create($A);
+
+        // When
+        $A = MatrixFactory::createFromVectors($A);
     }
 
     /**
