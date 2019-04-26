@@ -13,9 +13,8 @@ class MatrixFactory
      * Factory method
      *
      * @param  array    $A 1- or 2-dimensional array of Matrix data
-     *                     1-dimensional array for Diagonal and Vandermonde matrices
+     *                     1-dimensional array for Diagonal matrices
      *                     2-dimensional array for Square, Function, and regular Matrices
-     * @param  int|null $n Optional n for Vandermonde matrix
      *
      * @return Matrix
      *
@@ -24,11 +23,11 @@ class MatrixFactory
      * @throws Exception\MathException
      * @throws Exception\MatrixException
      */
-    public static function create(array $A, int $n = null): Matrix
+    public static function create(array $A): Matrix
     {
         self::checkParams($A);
 
-        $matrix_type = self::determineMatrixType($A, $n);
+        $matrix_type = self::determineMatrixType($A);
 
         switch ($matrix_type) {
             case 'matrix':
@@ -39,12 +38,8 @@ class MatrixFactory
                 return new DiagonalMatrix($A);
             case 'from_vectors':
                 return self::createFromVectors($A);
-            case 'vandermonde':
-                return new VandermondeMatrix($A, $n);
             case 'function':
                 return new FunctionMatrix($A);
-            case 'vandermonde_square':
-                return new VandermondeSquareMatrix($A, $n);
             case 'function_square':
                 return new FunctionSquareMatrix($A);
             case 'object_square':
@@ -55,7 +50,7 @@ class MatrixFactory
     }
 
     /**************************************************************************
-     * SPECIAL MATRICES - Not created from an Array
+     * SPECIAL MATRICES - Not created from an array of arrays
      *  - identity
      *  - exchange
      *  - zero
@@ -354,6 +349,31 @@ class MatrixFactory
         return self::create($H);
     }
 
+    /**
+     * Create the Vandermonde Matrix from a simple array.
+     *
+     * @param array $M (α₁, α₂, α₃ ⋯ αm)
+     * @param int   $n
+     *
+     * @return Matrix
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
+     */
+    public static function vandermonde(array $M, int $n): Matrix
+    {
+        $A = [];
+        foreach ($M as $row => $α) {
+            for ($i = 0; $i < $n; $i++) {
+                $A[$row][$i] = $α ** $i;
+            }
+        }
+
+        return self::create($A);
+    }
+
     /* ************************************************************************
      * PRIVATE HELPER METHODS
      * ***********************************************************************/
@@ -396,11 +416,11 @@ class MatrixFactory
      *
      * @return string indicating what matrix type to create
      */
-    private static function determineMatrixType(array $A, int $vandermonde_n = null): string
+    private static function determineMatrixType(array $A): string
     {
         $m = count($A);
 
-        // 1-dimensional array is how we create diagonal and vandermonde matrices,
+        // 1-dimensional array is how we create diagonal matrices,
         // as well as matrices from an array of vectors
         $one_dimensional = count(array_filter($A, 'is_array')) === 0;
         if ($one_dimensional) {
@@ -414,13 +434,7 @@ class MatrixFactory
             if ($is_array_of_vectors) {
                 return 'from_vectors';
             }
-            if (is_null($vandermonde_n)) {
-                return 'diagonal';
-            }
-            if ($m === $vandermonde_n) {
-                return 'vandermonde_square';
-            }
-            return 'vandermonde';
+            return 'diagonal';
         }
 
         // Square Matrices have the same number of rows (m) and columns (n)

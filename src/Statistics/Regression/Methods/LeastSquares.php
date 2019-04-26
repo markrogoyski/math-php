@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\Statistics\Regression\Methods;
 
+use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Statistics\RandomVariable;
 use MathPHP\Functions\Map\Single;
 use MathPHP\Functions\Map\Multi;
@@ -8,7 +9,6 @@ use MathPHP\Probability\Distribution\Continuous\F;
 use MathPHP\Probability\Distribution\Continuous\StudentT;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\ColumnVector;
-use MathPHP\LinearAlgebra\VandermondeMatrix;
 use MathPHP\Exception;
 
 trait LeastSquares
@@ -126,7 +126,7 @@ trait LeastSquares
      *
      * @param mixed $xs
      *
-     * @return (Vandermonde)Matrix
+     * @return Matrix (Vandermonde)
      *
      * @throws Exception\MatrixException
      */
@@ -136,7 +136,7 @@ trait LeastSquares
             $xs = [$xs];
         }
 
-        $X = new VandermondeMatrix($xs, $this->p + 1);
+        $X = MatrixFactory::vandermonde($xs, $this->p + 1);
         if ($this->fit_constant == 0) {
             $X = $X->columnExclude(0);
         }

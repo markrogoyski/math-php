@@ -2,8 +2,8 @@
 namespace MathPHP\Statistics\Regression;
 
 use MathPHP\Functions\Map\Single;
+use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Statistics\Average;
-use MathPHP\LinearAlgebra\VandermondeMatrix;
 use MathPHP\Exception;
 
 /**
@@ -87,7 +87,7 @@ class LOESS extends NonParametricRegression
 
         // Local Regression Parameters
         $parameters = $this->leastSquares($this->ys, $this->xs, $weights, $λ);
-        $X          = new VandermondeMatrix([$x], $λ + 1);
+        $X          = MatrixFactory::vandermonde([$x], $λ + 1);
 
         return $X->multiply($parameters)[0][0];
     }

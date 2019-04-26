@@ -66,68 +66,6 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider dataProviderForVandermondeSquareMatrix
-     */
-    public function testCreateVandermondeSquareMatrix(array $A, $n)
-    {
-        $A = MatrixFactory::create($A, $n);
-
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\VandermondeSquareMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $A);
-    }
-
-    public function dataProviderForVandermondeSquareMatrix()
-    {
-        return [
-            [
-                [1],
-                1,
-            ],
-            [
-                [1, 2],
-                2
-            ],
-            [
-                [3, 2, 5],
-                3,
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider dataProviderForVandermondeMatrix
-     */
-    public function testCreateVandermondeMatrix(array $A, $n)
-    {
-        $A = MatrixFactory::create($A, $n);
-
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\VandermondeMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $A);
-    }
-
-    public function dataProviderForVandermondeMatrix()
-    {
-        return [
-            [
-                [1],
-                2,
-            ],
-            [
-                [1, 2],
-                1
-            ],
-            [
-                [1, 2],
-                3
-            ],
-            [
-                [3, 2, 5],
-                5,
-            ],
-        ];
-    }
-
-    /**
      * @dataProvider dataProviderForArrayOfVectors
      */
     public function testCreateArrayOfVectors(array $vectors, array $expected)
