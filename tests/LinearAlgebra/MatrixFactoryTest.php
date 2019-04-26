@@ -241,7 +241,6 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNotInstanceOf(\MathPHP\LinearAlgebra\SquareMatrix::class, $A);
         $this->assertNotInstanceOf(\MathPHP\LinearAlgebra\FunctionMatrix::class, $A);
-        $this->assertNotInstanceOf(\MathPHP\LinearAlgebra\VandermondeMatrix::class, $A);
         $this->assertNotInstanceOf(\MathPHP\LinearAlgebra\DiagonalMatrix::class, $A);
     }
 
