@@ -367,11 +367,7 @@ use MathPHP\LinearAlgebra\Vector;
 $X₁ = new Vector([1, 4, 7]);
 $X₂ = new Vector([2, 5, 8]);
 $X₃ = new Vector([3, 6, 9]);
-$C  = MatrixFactory::create([$X₁, $X₂, $X₃]);
-
-// Can also directly instantiate desired matrix class
-$A = new Matrix($matrix);
-$B = new SquareMatrix($matrix);
+$C  = MatrixFactory::createFromVectors([$X₁, $X₂, $X₃]);
 
 // Basic matrix data
 $array = $A->getMatrix();
@@ -515,15 +511,9 @@ $eye_matrix                   = MatrixFactory::eye($m, $n, $k);          // Ones
 $exchange_matrix              = MatrixFactory::exchange($n);             // Ones on the reverse diagonal
 $downshift_permutation_matrix = MatrixFactory::downshiftPermutation($n); // Permutation matrix that pushes the components of a vector down one notch with wraparound
 $upshift_permutation_matrix   = MatrixFactory::upshiftPermutation($n);   // Permutation matrix that pushes the components of a vector up one notch with wraparound
+$diagonal_matrix              = MatrixFactory::diagonal([1, 2, 3]);      // 3 x 3 diagonal matrix with zeros above and below the diagonal
 $hilbert_matrix               = MatrixFactory::hilbert($n);              // Square matrix with entries being the unit fractions
-
-// Vandermonde matrix
-$V = MatrixFactory::create([1, 2, 3], 4); // 4 x 3 Vandermonde matrix
-$V = new VandermondeMatrix([1, 2, 3], 4); // Same as using MatrixFactory
-
-// Diagonal matrix
-$D = MatrixFactory::create([1, 2, 3]); // 3 x 3 diagonal matrix with zeros above and below the diagonal
-$D = new DiagonalMatrix([1, 2, 3]);    // Same as using MatrixFactory
+$vandermonde_matrix           = MatrixFactory::vandermonde([1, 2, 3], 4); // 4 x 3 Vandermonde matrix
 
 // PHP Predefined Interfaces
 $json = json_encode($A); // JsonSerializable

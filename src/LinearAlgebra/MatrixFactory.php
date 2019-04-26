@@ -88,6 +88,8 @@ class MatrixFactory
      * SPECIAL MATRICES - Not created from an array of arrays
      *  - identity
      *  - exchange
+     *  - downshiftPermutation
+     *  - upshiftPermutation
      *  - zero
      *  - one
      *  - eye
