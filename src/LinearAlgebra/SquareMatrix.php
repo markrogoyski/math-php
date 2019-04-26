@@ -19,15 +19,11 @@ class SquareMatrix extends Matrix
      */
     public function __construct(array $A)
     {
-        $this->A = $A;
-        $this->m = count($A);
-        $this->n = $this->m > 0 ? count($A[0]) : 0;
+        parent::__construct($A);
 
         if ($this->m !== $this->n) {
             throw new Exception\MatrixException('Not a square matrix; row count and column count differ');
         }
-
-        parent::__construct($A);
     }
 
     /**
