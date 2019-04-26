@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Exception\MatrixException;
+
 /**
  * Diagonal matrix
  * Elements along the main diagonal are the only non-zero elements (may also be zero).
@@ -9,26 +11,17 @@ namespace MathPHP\LinearAlgebra;
 class DiagonalMatrix extends SquareMatrix
 {
     /**
-     * A Diagonal Matrix is constructed from a single-row array.
-     * The elements of this array are placed on the diagonal of a
-     * square matrix.
+     * Constructor
+     *
+     * @param array $A
      */
-    public function __construct(array $D)
+    public function __construct(array $A)
     {
-        $m = count($D);
-
-        $A = [];
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $m; $j++) {
-                if ($i == $j) {
-                    $A[$i][$j] = $D[$i];
-                } else {
-                    $A[$i][$j] = 0;
-                }
-            }
-        }
-
         parent::__construct($A);
+
+        if (!parent::isDiagonal()) {
+            throw new MatrixException('Trying to construct DiagonalMatrix with non-diagonal elements: ' . print_r($this->A, true));
+        }
     }
 
     /**

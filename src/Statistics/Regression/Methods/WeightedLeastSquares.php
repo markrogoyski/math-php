@@ -60,7 +60,7 @@ trait WeightedLeastSquares
         // y = Xa
         $X = MatrixFactory::vandermonde($xs, $order + 1);
         $y = new ColumnVector($ys);
-        $W = new DiagonalMatrix($ws);
+        $W = MatrixFactory::diagonal($ws);
 
         // a = (XᵀWX)⁻¹XᵀWy
         $Xᵀ       = $X->transpose();

@@ -34,8 +34,6 @@ class MatrixFactory
                 return new Matrix($A);
             case 'square':
                 return new SquareMatrix($A);
-            case 'diagonal':
-                return new DiagonalMatrix($A);
             case 'from_vectors':
                 return self::createFromVectors($A);
             case 'function':
@@ -56,7 +54,9 @@ class MatrixFactory
      *  - zero
      *  - one
      *  - eye
+     *  - diagonal
      *  - hilbert
+     *  - vandermonde
      **************************************************************************/
 
     /**
@@ -305,6 +305,39 @@ class MatrixFactory
         }
 
         return self::create($R);
+    }
+
+    /**
+     * A Diagonal Matrix is constructed from a single-row array.
+     * The elements of this array are placed on the diagonal of a square matrix.
+     *
+     * Example:
+     *  D = [1, 2, 3]
+     *
+     *     [1 0 0]
+     * A = [0 2 0]
+     *     [0 0 3]
+     *
+     * @param array $D elements of the diagonal
+     *
+     * @return DiagonalMatrix
+     */
+    public static function diagonal(array $D): DiagonalMatrix
+    {
+        $m = count($D);
+
+        $A = [];
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $m; $j++) {
+                if ($i == $j) {
+                    $A[$i][$j] = $D[$i];
+                } else {
+                    $A[$i][$j] = 0;
+                }
+            }
+        }
+
+        return new DiagonalMatrix($A);
     }
 
     /**

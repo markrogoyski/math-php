@@ -16,7 +16,7 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreateDiagonalMatrix(array $A)
     {
-        $A = MatrixFactory::create($A);
+        $A = MatrixFactory::diagonal($A);
 
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\DiagonalMatrix::class, $A);
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $A);

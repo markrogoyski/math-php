@@ -3282,7 +3282,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $n = $this->n;
 
         // Initialize L as diagonal ones matrix, and U as zero matrix
-        $L = (new DiagonalMatrix(array_fill(0, $n, 1)))->getMatrix();
+        $L = MatrixFactory::diagonal(array_fill(0, $n, 1))->getMatrix();
         $U = MatrixFactory::zero($n, $n)->getMatrix();
 
         // Create permutation matrix P and pivoted PA
