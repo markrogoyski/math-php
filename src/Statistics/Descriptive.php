@@ -675,7 +675,9 @@ class Descriptive
             'median_mad'         => self::medianAbsoluteDeviation($numbers),
             'quartiles'          => self::quartiles($numbers),
             'midhinge'           => self::midhinge($numbers),
-            'skewness'           => $population ? RandomVariable::populationSkewness($numbers) : RandomVariable::skewness($numbers),
+            'skewness'           => $population
+                ? ($n > 0 ? RandomVariable::populationSkewness($numbers) : null)
+                : ($n >= 2 ? RandomVariable::skewness($numbers) : null),
             'ses'                => $n > 2 ? RandomVariable::ses($n) : null,
             'kurtosis'           => RandomVariable::kurtosis($numbers),
             'sek'                => $n > 3 ? RandomVariable::sek($n) : null,
