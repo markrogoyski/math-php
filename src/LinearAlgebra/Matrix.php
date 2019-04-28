@@ -1236,6 +1236,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         // ikj algorithm
+        $R = [];
         for ($i = 0; $i < $this->m; $i++) {
             $R[$i] = array_fill(0, $B->n, 0);
             for ($k = 0; $k < $this->n; $k++) {

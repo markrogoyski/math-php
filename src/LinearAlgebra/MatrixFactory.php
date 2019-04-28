@@ -481,7 +481,7 @@ class MatrixFactory
     /**
      * Determine what type of matrix to create
      *
-     * @param  array A 2-dimensional array of Matrix data
+     * @param  array[] $A 2-dimensional array of Matrix data
      *
      * @return string indicating what matrix type to create
      */
