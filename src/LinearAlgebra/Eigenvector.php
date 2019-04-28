@@ -19,8 +19,8 @@ class Eigenvector
      * If a eigenvalue appears multiple times, the eigenvectors in this space
      * will be orthoganal.
      *
-     * @param Matrix $A a square matrix.
-     * @param array  $eigenvalues an array of eigenvalues for this matrix
+     * @param Matrix  $A           a square matrix.
+     * @param float[] $eigenvalues an array of eigenvalues for this matrix
      *
      * @return Matrix of eigenvectors
      *
