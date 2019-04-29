@@ -587,4 +587,24 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @test   Object type of numeric matrix
+     * @throws \Exception
+     */
+    public function testGetObjectType()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        // When
+        $objectType = $A->getObjectType();
+
+        // Then
+        $this->assertSame('number', $objectType);
+    }
 }

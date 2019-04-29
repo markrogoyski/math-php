@@ -1947,10 +1947,10 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase     augmentLeft
-     * @dataProvider dataProviderForAugment
+     * @dataProvider dataProviderForAugmentLeft
      * @param        array $A
      * @param        array $B
-     * @param        array $⟮A∣B⟯
+     * @param        array $⟮B∣A⟯
      * @throws       \Exception
      */
     public function testAugmentLeft(array $A, array $B, array $⟮B∣A⟯)
@@ -1961,7 +1961,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $⟮B∣A⟯ = MatrixFactory::create($⟮B∣A⟯);
 
         // When
-        $augmented = $A->augment($B);
+        $augmented = $A->augmentLeft($B);
 
         // Then
         $this->assertEquals($⟮B∣A⟯, $augmented);

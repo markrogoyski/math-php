@@ -6,7 +6,7 @@ use MathPHP\Arithmetic;
 class ArithmeticTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     copySign
+     * @test         copySign
      * @dataProvider dataProviderForCopySign
      * @param        float $x
      * @param        float $y
@@ -51,7 +51,7 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cubeRoot returns the expected value.
+     * @test         cubeRoot returns the expected value.
      * @dataProvider dataProviderForCubeRoot
      * @param        float $x
      * @param        float $expected_cube_root
@@ -94,7 +94,7 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     digitSum returns the expected sum of digits for base 10
+     * @test         digitSum returns the expected sum of digits for base 10
      * @dataProvider dataProviderForDigitSumBaseTen
      * @param        int $x
      * @param        int $expected
@@ -172,7 +172,7 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     digitSum returns the expected sum of digits for base 2
+     * @test         digitSum returns the expected sum of digits for base 2
      * @dataProvider dataProviderForDigitSumBaseTwo
      * @param        int $x
      * @param        int $expected
@@ -214,7 +214,7 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     digitalRoot returns the expected root
+     * @test         digitalRoot returns the expected root
      * @dataProvider dataProviderForDigitalRoot
      * @param        int $x
      * @param        int $expected_root
@@ -291,7 +291,7 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     almostEqual
+     * @test         almostEqual
      * @dataProvider dataProviderForAlmostEqual
      * @param        float $x
      * @param        float $y

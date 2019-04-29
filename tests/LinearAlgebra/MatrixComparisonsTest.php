@@ -89,4 +89,25 @@ class MatrixComparisonsTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertFalse($A->isEqual($B));
     }
+
+    /**
+     * @test   isEqual finds matrices to be not equal because the dimensions are not the same
+     * @throws \Exception
+     */
+    public function testIsEqualNotEqualBecauseDifferentDimmensions()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+        $B = MatrixFactory::create([
+            [1, 2],
+            [2, 3],
+        ]);
+
+        // Then
+        $this->assertFalse($A->isEqual($B));
+        $this->assertFalse($B->isEqual($A));
+    }
 }

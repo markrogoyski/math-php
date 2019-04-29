@@ -619,8 +619,25 @@ class AverageTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test truncatedMean trim percent is less than zero
-     * @throws   \Exception
+     * @test   truncatedMean of an empty list
+     * @throws \Exception
+     */
+    public function testTruncatedMeanExceptionEmptyList()
+    {
+        // Given
+        $numbers      = [];
+        $trim_percent = 5;
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Average::truncatedMean($numbers, $trim_percent);
+    }
+
+    /**
+     * @test   truncatedMean trim percent is less than zero
+     * @throws \Exception
      */
     public function testTruncatedMeanExceptionLessThanZeroTrimPercent()
     {
