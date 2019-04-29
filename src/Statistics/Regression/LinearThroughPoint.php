@@ -30,6 +30,12 @@ class LinearThroughPoint extends ParametricRegression
 {
     use Methods\LeastSquares, Models\LinearModel;
 
+    /** @var float */
+    private $v;
+
+    /** @var float */
+    private $w;
+
     /**
      * Given a set of data ($points) and a point($force), perform a least squares
      * regression of the data, such that the regression is forced to pass through
@@ -61,9 +67,9 @@ class LinearThroughPoint extends ParametricRegression
 
         $parameters = $this->leastSquares($y’, $x’, 1, 0)->getColumn(0);
 
-        $this->m = $parameters[0];
-        $this->b = $this->w - $this->m * $this->v;
+        $m = $parameters[0];
+        $b = $this->w - $m * $this->v;
 
-        $this->parameters = [$this->b, $this->m];
+        $this->parameters = [$b, $m];
     }
 }

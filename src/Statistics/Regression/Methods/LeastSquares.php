@@ -43,6 +43,18 @@ trait LeastSquares
      */
     private $reg_P;
 
+    /** @var float */
+    private $fit_constant;
+
+    /** @var int */
+    private $p;
+
+    /** @var int Degrees of freedom */
+    private $ν;
+
+    /** @var Matrix */
+    private $⟮XᵀX⟯⁻¹;
+
     /**
      * Linear least squares fitting using Matrix algebra (Polynomial).
      *
@@ -94,7 +106,6 @@ trait LeastSquares
     {
         $this->reg_ys = $ys;
         $this->reg_xs = $xs;
-        
         $this->fit_constant = $fit_constant;
         $this->p = $order;
         $this->ν = $this->n - $this->p - $this->fit_constant;
@@ -199,7 +210,7 @@ trait LeastSquares
     public function sumOfSquaresRegression(): float
     {
         if ($this->fit_constant == 1) {
-            return RandomVariable::sumOfSquaresDeviations($this->yhat());
+            return RandomVariable::sumOfSquaresDeviations($this->yHat());
         }
         return array_sum(Single::square($this->reg_Yhat));
     }
