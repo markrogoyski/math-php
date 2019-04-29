@@ -21,7 +21,9 @@ class HanesWoolf extends ParametricRegression
      * x / y = x / V + K / V
      *
      * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException
+     * @throws Exception\MathException
      */
     public function calculate()
     {
@@ -35,5 +37,18 @@ class HanesWoolf extends ParametricRegression
         $K = $linear_parameters[0] * $V;
 
         $this->parameters = [$V, $K];
+    }
+
+    /**
+     * Evaluate the regression equation at x
+     * Uses the instance model's evaluateModel method.
+     *
+     * @param  float $x
+     *
+     * @return float
+     */
+    public function evaluate(float $x): float
+    {
+        return $this->evaluateModel($x, $this->parameters);
     }
 }

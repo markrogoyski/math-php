@@ -5,7 +5,6 @@ use MathPHP\Exception;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\ColumnVector;
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\DiagonalMatrix;
 
 trait WeightedLeastSquares
 {
@@ -52,8 +51,7 @@ trait WeightedLeastSquares
      *
      * @return Matrix [[m], [b]]
      *
-     * @throws Exception\MatrixException
-     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
      */
     public function leastSquares(array $ys, array $xs, array $ws, int $order = 1): Matrix
     {

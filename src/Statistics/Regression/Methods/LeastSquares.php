@@ -98,9 +98,7 @@ trait LeastSquares
      *
      * @return Matrix [[m], [b]]
      *
-     * @throws Exception\BadDataException
-     * @throws Exception\MatrixException
-     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
      */
     public function leastSquares(array $ys, array $xs, int $order = 1, int $fit_constant = 1): Matrix
     {
@@ -139,6 +137,9 @@ trait LeastSquares
      *
      * @return Matrix (Vandermonde)
      *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
      * @throws Exception\MatrixException
      */
     public function createDesignMatrix($xs): Matrix
@@ -191,7 +192,7 @@ trait LeastSquares
     /**************************************************************************
      * Sum Of Squares
      *************************************************************************/
-     
+
     /**
      * SSreg - The Sum Squares of the regression (Explained sum of squares)
      *
@@ -206,6 +207,8 @@ trait LeastSquares
      * SSreg = ∑ŷᵢ²
      *
      * @return float
+     *
+     * @throws Exception\BadDataException
      */
     public function sumOfSquaresRegression(): float
     {
@@ -257,6 +260,8 @@ trait LeastSquares
      * SStot = ∑yᵢ²
      *
      * @return float
+     *
+     * @throws Exception\BadDataException
      */
     public function sumOfSquaresTotal(): float
     {
@@ -281,6 +286,8 @@ trait LeastSquares
      * MSR = SSᵣ / p
      *
      * @return float
+     *
+     * @throws Exception\BadDataException
      */
     public function meanSquareRegression(): float
     {
@@ -311,6 +318,8 @@ trait LeastSquares
      * MSTO = SSOT / (n - 1)
      *
      * @return float
+     *
+     * @throws Exception\BadDataException
      */
     public function meanSquareTotal(): float
     {
@@ -361,6 +370,9 @@ trait LeastSquares
      *        √    n
      *
      * @return array [m => se(m), b => se(b)]
+     *
+     * @throws Exception\BadParameterException
+     * @throws Exception\IncorrectTypeException
      */
     public function standardErrors(): array
     {

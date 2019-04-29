@@ -41,7 +41,9 @@ class PowerLaw extends ParametricRegression
      * ln(y) = ln(A) + B*ln(x)
      *
      * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException
+     * @throws Exception\MathException
      */
     public function calculate()
     {
@@ -57,5 +59,18 @@ class PowerLaw extends ParametricRegression
         $this->b = $linearized_parameters[1];
 
         $this->parameters = [$this->a, $this->b];
+    }
+
+    /**
+     * Evaluate the regression equation at x
+     * Uses the instance model's evaluateModel method.
+     *
+     * @param  float $x
+     *
+     * @return float
+     */
+    public function evaluate(float $x): float
+    {
+        return $this->evaluateModel($x, $this->parameters);
     }
 }

@@ -7,10 +7,12 @@ abstract class ParametricRegression extends Regression
      * An array of model parameters
      */
     protected $parameters;
-    
+
     /**
      * Have the parent separate the points into xs and ys.
      * Calculate the regression parameters
+     *
+     * @param float[] $points
      */
     public function __construct(array $points)
     {
@@ -49,4 +51,8 @@ abstract class ParametricRegression extends Regression
     {
         return $this->getModelParameters($this->parameters);
     }
+
+    abstract public function getModelEquation(array $parameters): string;
+
+    abstract public function getModelParameters(array $parameters): array;
 }

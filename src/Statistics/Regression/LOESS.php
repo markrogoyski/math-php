@@ -68,8 +68,12 @@ class LOESS extends NonParametricRegression
      *
      * @return float
      *
+     * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
      * @throws Exception\MatrixException
+     * @throws Exception\OutOfBoundsException
+     * @throws Exception\VectorException
      */
     public function evaluate(float $x): float
     {
