@@ -25,7 +25,7 @@ class FixedPointIteration
      * Use Fixed Point Iteration to find the x which produces f(x) = 0 by
      * rewriting f(x) = 0 as g(x) = x, where g(x) is our input function.
      *
-     * @param Callable $function g(x) callback function, obtained by rewriting
+     * @param callable $function g(x) callback function, obtained by rewriting
      *                           f(x) = 0 as g(x) = x
      * @param number   $a        The start of the interval which contains a root
      * @param number   $b        The end of the interval which contains a root
@@ -33,10 +33,12 @@ class FixedPointIteration
      * @param number   $tol      Tolerance; How close to the actual solution we would like.
 
      * @return number
+     *
+     * @throws Exception\OutOfBoundsException
+     * @throws Exception\BadDataException
      */
     public static function solve(callable $function, $a, $b, $p, $tol)
     {
-        // Validate input arguments
         self::validate($a, $b, $p, $tol);
 
         do {
@@ -60,9 +62,9 @@ class FixedPointIteration
      * @param number   $p        The initial guess of our root
      * @param number   $tol      Tolerance; How close to the actual solution we would like.
      *
-     * @throws Exception if $tol (the tolerance) is negative
-     * @throws Exception if $a = $b
-     * @throws Exception if either $p > $a or $p < $b return false
+     * @throws Exception\OutOfBoundsException if $tol (the tolerance) is negative
+     * @throws Exception\BadDataException if $a = $b
+     * @throws Exception\OutOfBoundsException if either $p > $a or $p < $b return false
      */
     private static function validate($a, $b, $p, $tol)
     {
