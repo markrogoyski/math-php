@@ -17,7 +17,7 @@ use MathPHP\Exception;
 class SecondDerivativeMidpointFormula extends NumericalDifferentiation
 {
     /**
-     * Use the Second Derivative Midpoint Formula to aproximate the second derivative of a
+     * Use the Second Derivative Midpoint Formula to approximate the second derivative of a
      * function at our $target. Our input can support either a set of arrays, or a callback
      * function with arguments (to produce a set of arrays). Each array in our
      * input contains two numbers which correspond to coordinates (x, y) or

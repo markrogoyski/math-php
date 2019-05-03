@@ -15,14 +15,10 @@ use MathPHP\Exception;
  */
 abstract class NumericalDifferentiation
 {
-    /**
-     * @var int Index of x
-     */
+    /** @var int Index of x */
     const X = 0;
 
-    /**
-     * @var int Index of y
-     */
+    /** @var int Index of y */
     const Y = 1;
 
     abstract public static function differentiate($target, $source, ...$args);
@@ -118,7 +114,7 @@ abstract class NumericalDifferentiation
             if (in_array($x_component, $x_coordinates)) {
                 throw new Exception\BadDataException('Not a function. Your input array contains more than one coordinate with the same x-component.');
             }
-            array_push($x_coordinates, $x_component);
+            $x_coordinates[] = $x_component;
         }
 
         return true;
@@ -174,16 +170,14 @@ abstract class NumericalDifferentiation
      */
     public static function isTargetInPoints($target, array $sorted)
     {
-        $x           = 0;
-        $length      = count($sorted);
-        $xcomponents = [];
+        $xComponents = array_map(
+            function (array $point) {
+                return $point[self::X];
+            },
+            $sorted
+        );
 
-        // construct array of x-components
-        for ($i = 0; $i < $length; $i++) {
-            $xcomponents[] = $sorted[$i][$x];
-        }
-
-        if (!in_array($target, $xcomponents)) {
+        if (!in_array($target, $xComponents)) {
             throw new Exception\BadDataException('Your target point must be the x-component of one of the points you supplied.');
         }
     }

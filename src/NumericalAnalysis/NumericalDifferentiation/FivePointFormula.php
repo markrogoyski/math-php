@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 
+use MathPHP\Exception;
+
 /**
  * Five Point Formula
  *
@@ -15,7 +17,7 @@ namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 class FivePointFormula extends NumericalDifferentiation
 {
     /**
-     * Use the Five Point Formula to aproximate the derivative of a function at
+     * Use the Five Point Formula to approximate the derivative of a function at
      * our $target. Our input can support either a set of arrays, or a callback
      * function with arguments (to produce a set of arrays). Each array in our
      * input contains two numbers which correspond to coordinates (x, y) or
@@ -48,7 +50,7 @@ class FivePointFormula extends NumericalDifferentiation
      *
      *         where ζ₀ lies between x₀ and x₀ + 4h
      *
-     * @param number         $target The value at which we are approximating the derivative
+     * @param float         $target The value at which we are approximating the derivative
      * @param callable|array $source The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
      *                           (point) contains precisely two numbers, an x and y.
@@ -59,10 +61,12 @@ class FivePointFormula extends NumericalDifferentiation
      *                           If $source is a set of points, do not input any
      *                           $args. Example: approximate($source).
      *
-     * @return number            The approximation of f'($target), i.e. the derivative
+     * @return float            The approximation of f'($target), i.e. the derivative
      *                           of our input at our target point
+     *
+     * @throws Exception\BadDataException
      */
-    public static function differentiate($target, $source, ...$args)
+    public static function differentiate($target, $source, ...$args): float
     {
         // get an array of points from our $source argument
         $points = self::getPoints($source, $args);
@@ -79,7 +83,6 @@ class FivePointFormula extends NumericalDifferentiation
         $y = self::Y;
 
         // Initialize
-        $n = count($sorted);
         $h = ($sorted[4][$x] - $sorted[0][$x]) / 4;
 
         /*

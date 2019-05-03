@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 
+use MathPHP\Exception;
+
 /**
  * Three Point Formula
  *
@@ -15,7 +17,7 @@ namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 class ThreePointFormula extends NumericalDifferentiation
 {
     /**
-     * Use the Three Point Formula to aproximate the derivative of a function at
+     * Use the Three Point Formula to approximate the derivative of a function at
      * our $target. Our input can support either a set of arrays, or a callback
      * function with arguments (to produce a set of arrays). Each array in our
      * input contains two numbers which correspond to coordinates (x, y) or
@@ -62,7 +64,7 @@ class ThreePointFormula extends NumericalDifferentiation
      * @return number            The approximation of f'($target), i.e. the derivative
      *                           of our input at our target point
      *
-     * @throws \MathPHP\Exception\BadDataException
+     * @throws Exception\BadDataException
      */
     public static function differentiate($target, $source, ... $args)
     {
