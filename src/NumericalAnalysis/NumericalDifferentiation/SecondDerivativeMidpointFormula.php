@@ -39,7 +39,7 @@ class SecondDerivativeMidpointFormula extends NumericalDifferentiation
      *
      *     where ζ lies between x₀ - h and x₀ + h
      *
-     * @param number $target The value at which we are approximating the derivative
+     * @param float          $target The value at which we are approximating the derivative
      * @param callable|array $source The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
      *                           (point) contains precisely two numbers, an x and y.
@@ -55,7 +55,7 @@ class SecondDerivativeMidpointFormula extends NumericalDifferentiation
      *
      * @throws Exception\BadDataException
      */
-    public static function differentiate($target, $source, ...$args)
+    public static function differentiate(float $target, $source, ...$args)
     {
         // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
@@ -70,6 +70,11 @@ class SecondDerivativeMidpointFormula extends NumericalDifferentiation
         $x = self::X;
         $y = self::Y;
 
+        // Guard clause - target must equal the x-component of the midpoint
+        if ($sorted[1][$x] != $target) {
+            throw new Exception\BadDataException('Your target must be the midpoint of your input');
+        }
+
         // Initialize
         $h = ($sorted[2][$x] - $sorted[0][$x]) / 2;
 
@@ -80,15 +85,11 @@ class SecondDerivativeMidpointFormula extends NumericalDifferentiation
          *
          *     where ζ lies between x₀ - h and x₀ + h
          */
+        $f⟮x₀⧿h⟯ = $sorted[0][$y];
+        $f⟮x₀⟯   = $sorted[1][$y];
+        $f⟮x₀⧾h⟯ = $sorted[2][$y];
 
-        if ($sorted[1][$x] == $target) {
-            $f⟮x₀⧿h⟯     = $sorted[0][$y];
-            $f⟮x₀⟯       = $sorted[1][$y];
-            $f⟮x₀⧾h⟯     = $sorted[2][$y];
-            $derivative = ($f⟮x₀⧿h⟯ - 2*$f⟮x₀⟯ + $f⟮x₀⧾h⟯) / ($h**2);
-        } else {
-            throw new Exception\BadDataException('Your target must be the midpoint of your input');
-        }
+        $derivative = ($f⟮x₀⧿h⟯ - 2*$f⟮x₀⟯ + $f⟮x₀⧾h⟯) / ($h**2);
 
         return $derivative;
     }

@@ -7,9 +7,9 @@ use MathPHP\Exception;
  * Base class for numerical integration techniques.
  *
  * Numerical integration techniques are used to approximate the value of
- * an indefinite intergal.
+ * an indefinite integral.
  *
- * This calss gives each technique a set of common tools, and requires each
+ * This class gives each technique a set of common tools, and requires each
  * technique to define an approximate() method to approximate an indefinite
  * integral.
  */
@@ -93,15 +93,15 @@ abstract class NumericalIntegration
      * has precisely two numbers, and that no two points share the same first number
      * (x-component)
      *
-     * @param  array  $points Array of arrays (points)
-     * @param  number $degree The miminum number of input arrays
+     * @param  array $points Array of arrays (points)
+     * @param  int   $degree The minimum number of input arrays
      *
      * @return bool
-     * @throws Exception if there are less than two points
-     * @throws Exception if any point does not contain two numbers
-     * @throws Exception if two points share the same first number (x-component)
+     * @throws Exception\BadDataException if there are less than two points
+     * @throws Exception\BadDataException if any point does not contain two numbers
+     * @throws Exception\BadDataException if two points share the same first number (x-component)
      */
-    public static function validate(array $points, $degree = 2): bool
+    public static function validate(array $points, int $degree = 2): bool
     {
         if (count($points) < $degree) {
             throw new Exception\BadDataException("You need to have at least $degree sets of coordinates (arrays) for this technique");

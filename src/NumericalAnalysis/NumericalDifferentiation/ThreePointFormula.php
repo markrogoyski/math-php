@@ -50,7 +50,7 @@ class ThreePointFormula extends NumericalDifferentiation
      *
      *         where ζ₀ lies between x₀ and x₀ + 2h
      *
-     * @param number $target The value at which we are approximating the derivative
+     * @param float          $target The value at which we are approximating the derivative
      * @param callable|array $source The source of our approximation. Should be either
      *                           a callback function or a set of arrays. Each array
      *                           (point) contains precisely two numbers, an x and y.
@@ -66,7 +66,7 @@ class ThreePointFormula extends NumericalDifferentiation
      *
      * @throws Exception\BadDataException
      */
-    public static function differentiate($target, $source, ... $args)
+    public static function differentiate(float $target, $source, ...$args)
     {
         // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
@@ -93,7 +93,16 @@ class ThreePointFormula extends NumericalDifferentiation
          *          2h                    6
          *
          *     where ζ₁ lies between x₀ - h and x₀ + h
-         *
+         */
+        if ($sorted[1][$x] == $target) {
+            $f⟮x₀⧿h⟯     = $sorted[0][$y];
+            $f⟮x₀⧾h⟯     = $sorted[2][$y];
+            $derivative = ($f⟮x₀⧾h⟯ - $f⟮x₀⧿h⟯) / (2*$h);
+
+            return $derivative;
+        }
+
+        /*
          * If the 1st or 3rd point is our $target, use the Endpoint Formula:
          * Note that when the 3rd point is our $target, we use a negative h.
          *
@@ -103,30 +112,18 @@ class ThreePointFormula extends NumericalDifferentiation
          *
          *     where ζ₀ lies between x₀ and x₀ + 2h
          */
-
-        // If the 2nd point is our $target, use the Midpoint Formula
-        if ($sorted[1][$x] == $target) {
-            $f⟮x₀⧿h⟯     = $sorted[0][$y];
-            $f⟮x₀⧾h⟯     = $sorted[2][$y];
-            $derivative = ($f⟮x₀⧾h⟯ - $f⟮x₀⧿h⟯) / (2*$h);
-
-        // If the 1st or 3rd point is our $target, use the Endpoint Formula
-        } else {
-            // The 1st point is our $target
-            if ($sorted[0][$x] == $target) {
-                $f⟮x₀⟯    = $sorted[0][$y];
-                $f⟮x₀⧾h⟯  = $sorted[1][$y];
-                $f⟮x₀⧾2h⟯ = $sorted[2][$y];
-
-            // If the 3rd point is our $target, use negative h
-            } else {
-                $h       = -$h;
-                $f⟮x₀⟯    = $sorted[2][$y];
-                $f⟮x₀⧾h⟯  = $sorted[1][$y];
-                $f⟮x₀⧾2h⟯ = $sorted[0][$y];
-            }
-            $derivative = (-3*$f⟮x₀⟯ + 4*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯) / (2*$h);
+        if ($sorted[0][$x] == $target) {  // The 1st point is our $target
+            $f⟮x₀⟯    = $sorted[0][$y];
+            $f⟮x₀⧾h⟯  = $sorted[1][$y];
+            $f⟮x₀⧾2h⟯ = $sorted[2][$y];
+        } else {                          // The 3rd point is our $target, use negative h
+            $h       = -$h;
+            $f⟮x₀⟯    = $sorted[2][$y];
+            $f⟮x₀⧾h⟯  = $sorted[1][$y];
+            $f⟮x₀⧾2h⟯ = $sorted[0][$y];
         }
+
+        $derivative = (-3*$f⟮x₀⟯ + 4*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯) / (2*$h);
 
         return $derivative;
     }

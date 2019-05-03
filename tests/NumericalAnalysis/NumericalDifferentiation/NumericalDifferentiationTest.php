@@ -6,54 +6,104 @@ use MathPHP\Exception;
 
 class NumericalDifferentiationTest extends \PHPUnit\Framework\TestCase
 {
-    public function testInstantiateAbstractClassException()
-    {
-        // Instantiating NumericalDifferentiation (an abstract class)
-        $this->expectException(\Error::class);
-        new NumericalDifferentiation();
-    }
-
+    /**
+     * @test   getPoints data is not a callback nor set of arrays
+     * @throws \Exception
+     */
     public function testIncorrectInput()
     {
-        // The input $source is neither a callback or a set of arrays
-        $this->expectException(Exception\BadDataException::class);
+        // Given
         $x                 = 10;
         $incorrectFunction = $x**2 + 2 * $x + 1;
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
         NumericalDifferentiation::getPoints($incorrectFunction, [0,4,5]);
     }
 
+    /**
+     * @test   validate an array doesn't have precisely two numbers (coordinates)
+     * @throws \Exception
+     */
     public function testNotCoordinatesException()
     {
-        // An array doesn't have precisely two numbers (coordinates)
+        // Given
+        $points = [[0,0], [1,2,3], [2,2]];
+        $degree = 3;
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
-        NumericalDifferentiation::validate([[0,0], [1,2,3], [2,2]], $degree = 3);
+
+        // When
+        NumericalDifferentiation::validate($points, $degree);
     }
 
+    /**
+     * @test   validate there are not enough arrays in the input
+     * @throws \Exception
+     */
     public function testNotEnoughArraysException()
     {
-        // There are not enough arrays in the input
+        // Given
+        $points = [[0,0]];
+        $degree = 3;
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
-        NumericalDifferentiation::validate([[0,0]], $degree = 3);
+
+        // When
+        NumericalDifferentiation::validate($points, $degree);
     }
 
+    /**
+     * @test   validate two arrays share the same first number (x-component)
+     * @throws \Exception
+     */
     public function testNotAFunctionException()
     {
-        // Two arrays share the same first number (x-component)
+        // Given
+        $points = [[0,0], [0,5], [1,1]];
+        $degree = 3;
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
-        NumericalDifferentiation::validate([[0,0], [0,5], [1,1]], $degree = 3);
+
+        // When
+        NumericalDifferentiation::validate($points, $degree);
     }
 
+    /**
+     * @test   isSpacingConstant when there is not constant spacing between points
+     * @throws \Exception
+     */
     public function testSpacingNonConstant()
     {
-        // There is not constant spacing between points
+        // Given
+        $sortedPoints = [[0,0], [3,3], [2,2]];
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
-        NumericalDifferentiation::isSpacingConstant([[0,0], [3,3], [2,2]]);
+
+        // When
+        NumericalDifferentiation::isSpacingConstant($sortedPoints);
     }
 
+    /**
+     * @test   isTargetInPoints target is not the x-component of one of the points
+     * @throws \Exception
+     */
     public function testTargetNotInPoints()
     {
-        // Our target is not the x-component of one of our points
+        // Given
+        $target       = 1;
+        $sortedPoints = [[0,0], [3,3], [2,2]];
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
-        NumericalDifferentiation::isTargetInPoints(1, [[0,0], [3,3], [2,2]]);
+
+        // When
+        NumericalDifferentiation::isTargetInPoints($target, $sortedPoints);
     }
 }

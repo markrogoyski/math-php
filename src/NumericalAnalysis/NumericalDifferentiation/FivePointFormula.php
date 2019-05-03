@@ -66,9 +66,9 @@ class FivePointFormula extends NumericalDifferentiation
      *
      * @throws Exception\BadDataException
      */
-    public static function differentiate($target, $source, ...$args): float
+    public static function differentiate(float $target, $source, ...$args): float
     {
-        // get an array of points from our $source argument
+        // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
         // Validate input, sort points, make sure spacing is constant, and make
@@ -86,18 +86,28 @@ class FivePointFormula extends NumericalDifferentiation
         $h = ($sorted[4][$x] - $sorted[0][$x]) / 4;
 
         /*
-         * Five Point Formula:
-         *
-         *   - If the 3rd point is our $target, use the Midpoint Formula:
+         * If the 3rd point is our $target, use the Midpoint Formula:
          *
          *              1                                         h⁴
          *     f′(x₀) = - [f(x₀-2h)-8f(x₀-h)+8f(x₀+h)-f(x₀+2h)] - - f⁽⁵⁾(ζ₁)
          *             12h                                        30
          *
          *         where ζ₁ lies between x₀ - 2h and x₀ + 2h
-         *
-         *   - If the 1st or 5th point is our $target, use the Endpoint Formula:
-         *   - Note that when the 3rd point is our $target, we use a negative h.
+         */
+        if ($sorted[2][$x] == $target) {
+            $f⟮x₀⧿2h⟯    = $sorted[0][$y];
+            $f⟮x₀⧿h⟯     = $sorted[1][$y];
+            $f⟮x₀⧾h⟯     = $sorted[3][$y];
+            $f⟮x₀⧾2h⟯    = $sorted[4][$y];
+
+            $derivative = ($f⟮x₀⧿2h⟯ - 8*$f⟮x₀⧿h⟯ + 8*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯) / (12*$h);
+
+            return $derivative;
+        }
+
+        /*
+         * If the 1st or 5th point is our $target, use the Endpoint Formula:
+         * Note that when the 3rd point is our $target, we use a negative h.
          *
          *              1                                                        h⁴
          *     f′(x₀) = - [-25f(x₀)+48f(x₀+h)-36f(x₀+2h)+16f(x₀+3h)-3f(x₀+4h)] + - f⁽⁵⁾(ζ₀)
@@ -105,36 +115,22 @@ class FivePointFormula extends NumericalDifferentiation
          *
          *         where ζ₀ lies between x₀ and x₀ + 4h
          */
-
-        // If the 3nd point is our $target, use the Midpoint Formula
-        if ($sorted[2][$x] == $target) {
-            $f⟮x₀⧿2h⟯    = $sorted[0][$y];
-            $f⟮x₀⧿h⟯     = $sorted[1][$y];
-            $f⟮x₀⧾h⟯     = $sorted[3][$y];
-            $f⟮x₀⧾2h⟯    = $sorted[4][$y];
-            $derivative = ($f⟮x₀⧿2h⟯ - 8*$f⟮x₀⧿h⟯ + 8*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯) / (12*$h);
-
-        // If the 1st or 5th point is our $target, use the Endpoint Formula
-        } else {
-            // The 1st point is our $target
-            if ($sorted[0][$x] == $target) {
-                $f⟮x₀⟯    = $sorted[0][$y];
-                $f⟮x₀⧾h⟯  = $sorted[1][$y];
-                $f⟮x₀⧾2h⟯ = $sorted[2][$y];
-                $f⟮x₀⧾3h⟯ = $sorted[3][$y];
-                $f⟮x₀⧾4h⟯ = $sorted[4][$y];
-
-            // If the 5th point is our $target, use negative h
-            } else {
-                $h = -$h;
-                $f⟮x₀⟯    = $sorted[4][$y];
-                $f⟮x₀⧾h⟯  = $sorted[3][$y];
-                $f⟮x₀⧾2h⟯ = $sorted[2][$y];
-                $f⟮x₀⧾3h⟯ = $sorted[1][$y];
-                $f⟮x₀⧾4h⟯ = $sorted[0][$y];
-            }
-            $derivative = (-25*$f⟮x₀⟯ + 48*$f⟮x₀⧾h⟯ - 36*$f⟮x₀⧾2h⟯ + 16*$f⟮x₀⧾3h⟯ - 3*$f⟮x₀⧾4h⟯) / (12*$h);
+        if ($sorted[0][$x] == $target) {  // The 1st point is our $target
+            $f⟮x₀⟯    = $sorted[0][$y];
+            $f⟮x₀⧾h⟯  = $sorted[1][$y];
+            $f⟮x₀⧾2h⟯ = $sorted[2][$y];
+            $f⟮x₀⧾3h⟯ = $sorted[3][$y];
+            $f⟮x₀⧾4h⟯ = $sorted[4][$y];
+        } else {                          // The 5th point is our $target, use negative h
+            $h = -$h;
+            $f⟮x₀⟯    = $sorted[4][$y];
+            $f⟮x₀⧾h⟯  = $sorted[3][$y];
+            $f⟮x₀⧾2h⟯ = $sorted[2][$y];
+            $f⟮x₀⧾3h⟯ = $sorted[1][$y];
+            $f⟮x₀⧾4h⟯ = $sorted[0][$y];
         }
+
+        $derivative = (-25*$f⟮x₀⟯ + 48*$f⟮x₀⧾h⟯ - 36*$f⟮x₀⧾2h⟯ + 16*$f⟮x₀⧾3h⟯ - 3*$f⟮x₀⧾4h⟯) / (12*$h);
 
         return $derivative;
     }
