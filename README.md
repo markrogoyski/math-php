@@ -136,7 +136,7 @@ use MathPHP\Arithmetic;
 $³√x = Arithmetic::cubeRoot(-8); // -2
 
 // Sum of digits
-$digit_sum    = Arithmetic::digitSum(99):    // 18
+$digit_sum    = Arithmetic::digitSum(99);    // 18
 $digital_root = Arithmetic::digitalRoot(99); // 9
 
 // Equality of numbers within a tolerance
