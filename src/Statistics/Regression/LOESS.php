@@ -30,7 +30,7 @@ class LOESS extends NonParametricRegression
 
     /**
      * Number of points considered in the local regression
-     * @var number
+     * @var int
      */
     protected $number_of_points;
 
@@ -56,7 +56,7 @@ class LOESS extends NonParametricRegression
         }
 
         // Number of points considered in the local regression
-        $this->number_of_points = min(ceil($this->α * $this->n), $this->n);
+        $this->number_of_points = min((int) ceil($this->α * $this->n), $this->n);
     }
 
     /**
