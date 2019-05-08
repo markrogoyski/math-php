@@ -6,13 +6,13 @@ use MathPHP\Functions\Piecewise;
 use MathPHP\Exception;
 
 /**
- * Clamped Cubic Spline Interpolating Polyonomial
+ * Clamped Cubic Spline Interpolating Polynomial
  *
  * In numerical analysis, cubic splines are used for polynomial
  * interpolation.
  *
  * A cubic spline is a spline constructed of piecewise third-order polynomials
- * which pass through a set of m control points." In the case of the Clamped
+ * which pass through a set of m control points. In the case of the Clamped
  * cubic spline, the first derivative of piecewise polynomial is set to equal the
  * first derivative of our input at the endpoints.
  *
@@ -30,9 +30,7 @@ use MathPHP\Exception;
  */
 class ClampedCubicSpline extends Interpolation
 {
-    /**
-     * @var int Index of y’ (y-prime)
-     */
+    /** @var int Index of y’ (y-prime) */
     const Y’ = 2;
 
     /**
@@ -43,7 +41,7 @@ class ClampedCubicSpline extends Interpolation
      *                           (point) contains precisely three numbers: x, y, and y'
      *                           Example array: [[1,2,1], [2,3,0], [3,4,2]].
      *                           Example callback: function($x) {return $x**2;}
-     * @param number ...$args (Optional) An additonal callback: our first derivative,
+     * @param number ...$args   (Optional) An additonal callback: our first derivative,
      *                           and arguments of our callback functions: start,
      *                           end, and n.
      *                           Example: approximate($source, $derivative, 0, 8, 5).
@@ -55,7 +53,7 @@ class ClampedCubicSpline extends Interpolation
      *
      * @throws Exception\BadDataException
      */
-    public static function interpolate($source, ... $args): Piecewise
+    public static function interpolate($source, ...$args): Piecewise
     {
         // Get an array of points from our $source argument
         $points = self::getSplinePoints($source, $args);
@@ -165,20 +163,24 @@ class ClampedCubicSpline extends Interpolation
      */
     public static function getSplinePoints($source, array $args = []): array
     {
-        if (is_callable($source)) {
-            $function   = $source;
-            $derivative = $args[0];
-            $start      = $args[1];
-            $end        = $args[2];
-            $n          = $args[3];
-            $points     = self::functionToSplinePoints($function, $derivative, $start, $end, $n);
-        } elseif (is_array($source)) {
-            $points   = $source;
-        } else {
-            throw new Exception\BadDataException("Input source is incorrect. You need to input either a callback function or a set of arrays");
+        // Guard clause - source must be callable or array of points
+        if (!is_callable($source) && !is_array($source)) {
+            throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
 
-        return $points;
+        // Source is already an array: nothing to do
+        if (is_array($source)) {
+            return $source;
+        }
+
+        // Construct points from callable function
+        $function   = $source;
+        $derivative = $args[0];
+        $start      = $args[1];
+        $end        = $args[2];
+        $n          = $args[3];
+
+        return self::functionToSplinePoints($function, $derivative, $start, $end, $n);
     }
 
     /**
@@ -204,6 +206,7 @@ class ClampedCubicSpline extends Interpolation
             $f’⟮xᵢ⟯      = $derivative($xᵢ);
             $points[$i] = [$xᵢ, $f⟮xᵢ⟯, $f’⟮xᵢ⟯];
         }
+
         return $points;
     }
 
@@ -215,13 +218,11 @@ class ClampedCubicSpline extends Interpolation
      * @param  array $points Array of arrays (points)
      * @param  int   $degree The minimum number of input arrays
      *
-     * @return bool
-     *
      * @throws Exception\BadDataException if there are less than two points
      * @throws Exception\BadDataException if any point does not contain three numbers
      * @throws Exception\BadDataException if two points share the same first number (x-component)
      */
-    public static function validateSpline(array $points, int $degree = 2): bool
+    public static function validateSpline(array $points, int $degree = 2)
     {
         if (count($points) < $degree) {
             throw new Exception\BadDataException('You need to have at least $degree sets of coordinates (arrays) for this technique');
@@ -237,9 +238,7 @@ class ClampedCubicSpline extends Interpolation
             if (in_array($x_component, $x_coordinates)) {
                 throw new Exception\BadDataException('Not a function. Your input array contains more than one coordinate with the same x-component.');
             }
-            array_push($x_coordinates, $x_component);
+            $x_coordinates[] = $x_component;
         }
-
-        return true;
     }
 }

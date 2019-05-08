@@ -5,7 +5,7 @@ use MathPHP\Functions\Polynomial;
 use MathPHP\Functions\Piecewise;
 
 /**
- * Natural Cubic Spline Interpolating Polyonomial
+ * Natural Cubic Spline Interpolating Polynomial
  *
  * In numerical analysis, cubic splines are used for polynomial
  * interpolation.
@@ -47,7 +47,7 @@ class NaturalCubicSpline extends Interpolation
      *
      * @throws \MathPHP\Exception\BadDataException
      */
-    public static function interpolate($source, ... $args): Piecewise
+    public static function interpolate($source, ...$args): Piecewise
     {
         // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);

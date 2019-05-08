@@ -46,7 +46,7 @@ class LagrangePolynomial extends Interpolation
      */
     public static function interpolate($source, ...$args): Polynomial
     {
-        // get an array of points from our $source argument
+        // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
         // Validate input and sort points
