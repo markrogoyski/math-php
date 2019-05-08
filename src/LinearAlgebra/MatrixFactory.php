@@ -140,14 +140,13 @@ class MatrixFactory
      * https://en.wikipedia.org/wiki/Exchange_matrix
      *
      * Example:
-     *  n = 3; x = 1
+     *  n = 3;
      *
      *      [0 0 1]
      *  A = [0 1 0]
      *      [1 0 0]
      *
-     * @param int   $n size of matrix
-     * @param float $x (Optional to set the diagonal to any number; default 1)
+     * @param int $n size of matrix
      *
      * @return Matrix
      *
@@ -157,7 +156,7 @@ class MatrixFactory
      * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function exchange(int $n, float $x = 1): Matrix
+    public static function exchange(int $n): Matrix
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException("n must be ≥ 0. n = $n");
@@ -167,7 +166,7 @@ class MatrixFactory
         $one = $n - 1;
         for ($i = 0; $i < $n; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = $j == $one ? $x : 0;
+                $R[$i][$j] = $j == $one ? 1 : 0;
             }
             $one--;
         }
@@ -324,7 +323,7 @@ class MatrixFactory
      * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if m, n, or k are < 0; if k >= n
      */
-    public static function eye(int $m, int $n, int $k, float $x = 1): Matrix
+    public static function eye(int $m, int $n, int $k, float $x = null): Matrix
     {
         if ($n < 0 || $m < 0 || $k < 0) {
             throw new Exception\OutOfBoundsException("m, n and k must be ≥ 0. m = $m, n = $n, k = $k");
@@ -332,6 +331,7 @@ class MatrixFactory
         if ($k >= $n) {
             throw new Exception\OutOfBoundsException("k must be < n. k = $k, n = $n");
         }
+        $x = $x ?? 1;
 
         $R = (self::zero($m, $n))->getMatrix();
 

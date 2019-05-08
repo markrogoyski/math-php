@@ -439,57 +439,70 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   identity with n less than zero
+     * @throws \Exception
+     */
     public function testIdentityExceptionNLessThanZero()
     {
+        // Given
+        $n = -1;
+
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
-        MatrixFactory::identity(-1);
+
+        // When
+        MatrixFactory::identity($n);
     }
 
     /**
+     * @test         exchange
      * @dataProvider dataProviderForExchange
+     * @param        int   $n
+     * @param        array $R
+     * @throws       \Exception
      */
-    public function testExchange(int $n, $x, array $R)
+    public function testExchange(int $n, array $R)
     {
+        // Given
         $R = new SquareMatrix($R);
-        $this->assertEquals($R, MatrixFactory::exchange($n, $x));
+
+        $E = MatrixFactory::exchange($n);
+
+        // Then
+        $this->assertEquals($R, $E);
     }
 
-    public function dataProviderForExchange()
+    /**
+     * @return array
+     */
+    public function dataProviderForExchange(): array
     {
         return [
             [
-                1, 1, [[1]],
+                1, [[1]],
             ],
             [
-                2, 1, [
+                2, [
                     [0, 1],
                     [1, 0],
                 ]
             ],
             [
-                3, 1, [
+                3, [
                     [0, 0, 1],
                     [0, 1, 0],
                     [1, 0, 0]
                 ]
             ],
             [
-                4, 1, [
+                4, [
                     [0, 0, 0, 1],
                     [0, 0, 1, 0],
                     [0, 1, 0, 0],
                     [1, 0, 0, 0],
                 ]
             ],
-            [
-                4, 5, [
-                    [0, 0, 0, 5],
-                    [0, 0, 5, 0],
-                    [0, 5, 0, 0],
-                    [5, 0, 0, 0],
-                ]
-            ],
-
         ];
     }
 
@@ -500,15 +513,29 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         zero
      * @dataProvider dataProviderForZero
+     * @param        int   $m
+     * @param        int   $n
+     * @param        array $R
+     * @throws       \Exception
      */
-    public function testZero($m, $n, array $R)
+    public function testZero(int $m, int $n, array $R)
     {
+        // Given
         $R = MatrixFactory::create($R);
-        $this->assertEquals($R, MatrixFactory::zero($m, $n));
+
+        // When
+        $Z = MatrixFactory::zero($m, $n);
+
+        // Then
+        $this->assertEquals($R, $Z);
     }
 
-    public function dataProviderForZero()
+    /**
+     * @return array
+     */
+    public function dataProviderForZero(): array
     {
         return [
             [
@@ -543,10 +570,21 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   zero with row less than one
+     * @throws \Exception
+     */
     public function testZeroExceptionRowsLessThanOne()
     {
+        // Given
+        $m = 0;
+        $n = 2;
+
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
-        MatrixFactory::zero(0, 2);
+
+        // When
+        MatrixFactory::zero($m, $n);
     }
 
     /**
