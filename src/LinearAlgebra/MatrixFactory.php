@@ -100,17 +100,15 @@ class MatrixFactory
 
     /**
      * Identity matrix - n x n matrix with ones in the diagonal
-     * Option to set the diagonal to any number.
      *
      * Example:
-     *  n = 3; x = 1
+     *  n = 3;
      *
      *      [1 0 0]
      *  A = [0 1 0]
      *      [0 0 1]
      *
      * @param int   $n size of matrix
-     * @param float $x (optional; default 1)
      *
      * @return Matrix
      *
@@ -120,7 +118,7 @@ class MatrixFactory
      * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function identity(int $n, float $x = 1): Matrix
+    public static function identity(int $n): Matrix
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException("n must be ≥ 0. n = $n");
@@ -129,7 +127,7 @@ class MatrixFactory
 
         for ($i = 0; $i < $n; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = $i == $j ? $x : 0;
+                $R[$i][$j] = $i == $j ? 1 : 0;
             }
         }
 
@@ -137,7 +135,7 @@ class MatrixFactory
     }
 
     /**
-     * Echange matrix - n x n matrix with ones in the reverse diagonal
+     * Exchange matrix - n x n matrix with ones in the reverse diagonal
      * Row-reversed, or column-reversed version of the identity matrix.
      * https://en.wikipedia.org/wiki/Exchange_matrix
      *

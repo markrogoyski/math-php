@@ -731,7 +731,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 continue;
             }
 
-            if ($zero_row && !$zero_row_ok) {
+            if (!$zero_row_ok) {
                 return false;
             }
         }

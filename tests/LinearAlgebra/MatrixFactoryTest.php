@@ -284,50 +284,54 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         identity
      * @dataProvider dataProviderForIdentity
+     * @param        int   $n
+     * @param        array $R
+     * @throws       \Exception
      */
-    public function testIdentity(int $n, $x, array $R)
+    public function testIdentity(int $n, array $R)
     {
+        // Given
         $R = new SquareMatrix($R);
-        $this->assertEquals($R, MatrixFactory::identity($n, $x));
+
+        // When
+        $I = MatrixFactory::identity($n);
+
+        // Then
+        $this->assertEquals($R, $I);
     }
 
-    public function dataProviderForIdentity()
+    /**
+     * @return array
+     */
+    public function dataProviderForIdentity(): array
     {
         return [
             [
-                1, 1, [[1]],
+                1, [[1]],
             ],
             [
-                2, 1, [
+                2, [
                     [1, 0],
                     [0, 1],
                 ]
             ],
             [
-                3, 1, [
+                3, [
                     [1, 0, 0],
                     [0, 1, 0],
                     [0, 0, 1]
                 ]
             ],
             [
-                4, 1, [
+                4, [
                     [1, 0, 0, 0],
                     [0, 1, 0, 0],
                     [0, 0, 1, 0],
                     [0, 0, 0, 1],
                 ]
             ],
-            [
-                4, 5, [
-                    [5, 0, 0, 0],
-                    [0, 5, 0, 0],
-                    [0, 0, 5, 0],
-                    [0, 0, 0, 5],
-                ]
-            ],
-
         ];
     }
 
