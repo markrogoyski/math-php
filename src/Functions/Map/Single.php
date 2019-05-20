@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\Functions\Map;
 
+use MathPHP\Arithmetic;
 use MathPHP\Exception;
 
 /**
@@ -171,9 +172,21 @@ class Single
      */
     public static function sqrt(array $xs): array
     {
+        return self::root($xs, 2);
+    }
+
+    /**
+     * Map root
+     *
+     * @param  array  $xs
+     *
+     * @return array
+     */
+    public static function root(array $xs, int $n): array
+    {
         return array_map(
-            function ($x) {
-                return sqrt($x);
+            function ($x) use ($n) {
+                return Arithmetic::root($x, $n);
             },
             $xs
         );
