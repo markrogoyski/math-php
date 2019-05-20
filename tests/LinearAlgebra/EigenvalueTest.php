@@ -143,7 +143,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     public function testJKMethod(array $A, array $S)
     {
         $A = MatrixFactory::create($A);
-        $this->assertEquals($S, Eigenvalue::JkMethod($A), '', 0.0001);
+        $this->assertEquals($S, $A->eigenvalues(Eigenvalue::JK_METHOD), '', 0.0001);
     }
     public function dataProviderForJKEigenvalues(): array
     {
@@ -229,6 +229,17 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     eigenvalues throws a MatrixException if the matrix is not the correct size.
+     * @param        array $A
+     */
+    public function testMatrixNotSquare()
+    {
+        $A = MatrixFactory::create([[1, 2, 3, 4]]);
+        $this->expectException(Exception\MatrixException::class);
+        $A->eigenvalues();
+    }
+
+    /**
      * @testCase     JKMethod throws exception if number of iterations is exceeded
      * @dataProvider dataProviderForJkIterationFailure
      * @param        array $A
@@ -252,5 +263,48 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
         ];
+    }
+
+    /**
+     * @testCase     Eigenvalues of triangular matricies
+     * @dataProvider dataProviderForTriangularEigenvalues
+     * @param        array $A
+     */
+    public function testTriangularEigenvalues(array $A, array $S)
+    {
+        $A = MatrixFactory::create($A);
+        $this->assertEquals($S, $A->eigenvalues(), '', 0.0001);
+    }
+
+    public function dataProviderForTriangularEigenvalues(): array
+    {
+        return [
+            [
+                [
+                    [1, 1, 0, 0, 0],
+                    [0, 2, 2, 0, 0],
+                    [0, 0, 3, 3, 0],
+                    [0, 0, 0, 4, 6],
+                    [0, 0, 0, 0, 5],
+                ],
+                [1, 2, 3, 4, 5],
+            ],
+        ];
+    }
+
+    /**
+     * @testCase     Test Unsolvable with current algorithms
+     */
+    public function testUnsolvableEigenvalues()
+    {
+        // matrix larger than 5x5, not triangular, not symmetric
+        $A = [[1, 1, 0, 0, 0],
+              [2, 2, 2, 0, 0],
+              [0, 0, 3, 3, 0],
+              [0, 0, 0, 4, 6],
+              [0, 0, 0, 0, 5]];
+        $A = MatrixFactory::create($A);
+        $this->expectException(Exception\MatrixException::class);
+        $A->eigenvalues();
     }
 }
