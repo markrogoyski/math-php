@@ -371,7 +371,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                     return false;
                 }
             }
-        
+        }
         return true;
     }
 
