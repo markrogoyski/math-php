@@ -365,15 +365,13 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         if (!$this->isSquare()) {
             return false;
         }
-
         for ($i = 0; $i < $this->m - 1; $i++) {
             for ($j = $i + 1; $j < $this->n; $j++) {
                 if (Support::isNotEqual($this->A[$i][$j], $this->A[$j][$i], $this->ε)) {
                     return false;
                 }
             }
-        }
-
+        
         return true;
     }
 
