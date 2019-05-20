@@ -3724,13 +3724,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         if (!$this->isSquare()) {
             throw new Exception\MatrixException('Eigenvectors can only be calculated on square matrices');
         }
-        if ($method == Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD || ($method === null && $this->m < 5)) {
-            return Eigenvector::eigenvectors($this, Eigenvalue::closedFormPolynomialRootMethod($this));
-        }
-        if ($method == Eigenvalue::JK_METHOD || ($method === null && $this->isSymmetric())) {
-            return Eigenvector::eigenvectors($this, Eigenvalue::JKMethod($this));
-        }
-        throw new Exception\MatrixException("Eigenvector cannot be calculated");
+        return Eigenvector::eigenvectors($this, $this->eigenvalues($method));
     }
 
     /**************************************************************************
