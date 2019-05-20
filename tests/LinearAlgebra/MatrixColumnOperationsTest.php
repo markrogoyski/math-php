@@ -6,29 +6,32 @@ use MathPHP\Exception;
 
 class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
 {
-
-    public function setUp()
+    /**
+     * @test         columnInterchange
+     * @dataProvider dataProviderForColumnInterchange
+     * @param        array $A
+     * @param        int   $nᵢ
+     * @param        int   $nⱼ
+     * @param        array $expectedMatrix
+     * @throws      \Exception
+     */
+    public function testColulmnInterchange(array $A, int $nᵢ, int $nⱼ, array $expectedMatrix)
     {
-        $this->A = [
-            [1, 2, 3],
-            [2, 3, 4],
-            [4, 5, 6],
-        ];
-        $this->matrix = MatrixFactory::create($this->A);
+        // Given
+        $A = MatrixFactory::create($A);
+        $expectedMatrix = MatrixFactory::create($expectedMatrix);
+
+        // When
+        $R = $A->columnInterchange($nᵢ, $nⱼ);
+
+        // Then
+        $this->assertEquals($expectedMatrix, $R);
     }
 
     /**
-     * @dataProvider dataProviderForColulmnInterchange
+     * @return array
      */
-    public function testColulmnInterchange(array $A, int $nᵢ, int $nⱼ, array $R)
-    {
-        $A = MatrixFactory::create($A);
-        $R = MatrixFactory::create($R);
-
-        $this->assertEquals($R, $A->columnInterchange($nᵢ, $nⱼ));
-    }
-
-    public function dataProviderForColulmnInterchange()
+    public function dataProviderForColumnInterchange(): array
     {
         return [
             [
@@ -72,29 +75,52 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   columnInterchange column greater than n
+     * @throws \Exception
+     */
     public function testColumnInterchangeExceptionColumnGreaterThanN()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
         ]);
+
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->columnInterchange(4, 5);
     }
 
     /**
+     * @test         columnMultiply
      * @dataProvider dataProviderForColumnMultiply
+     * @param        array $A
+     * @param        int   $nᵢ
+     * @param        float $k
+     * @param        array $expectedMatrix
+     * @throws       \Exception
      */
-    public function testColumnMultiply(array $A, int $nᵢ, $k, array $R)
+    public function testColumnMultiply(array $A, int $nᵢ, float $k, array $expectedMatrix)
     {
+        // Given
         $A = MatrixFactory::create($A);
-        $R = MatrixFactory::create($R);
+        $expectedMatrix = MatrixFactory::create($expectedMatrix);
 
-        $this->assertEquals($R, $A->columnMultiply($nᵢ, $k));
+        // When
+        $R = $A->columnMultiply($nᵢ, $k);
+
+        // Then
+        $this->assertEquals($expectedMatrix, $R);
     }
 
-    public function dataProviderForColumnMultiply()
+    /**
+     * @return array
+     */
+    public function dataProviderForColumnMultiply(): array
     {
         return [
             [
@@ -133,43 +159,80 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
                     [3, 4, 40],
                 ]
             ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 5.1,
+                [
+                    [5.1, 2, 3],
+                    [10.2, 3, 4],
+                    [15.3, 4, 5],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 0,
+                [
+                    [0, 2, 3],
+                    [0, 3, 4],
+                    [0, 4, 5],
+                ]
+            ],
         ];
     }
 
+    /**
+     * @test  columnMultiply column greater than n
+     * @throws \Exception
+     */
     public function testColumnMultiplyExceptionColumnGreaterThanN()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
         ]);
+
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->columnMultiply(4, 5);
     }
 
-    public function testColumnMultiplyExceptionKIsZero()
+    /**
+     * @test         columnAdd
+     * @dataProvider dataProviderForColumnAdd
+     * @param        array $A
+     * @param        int   $nᵢ
+     * @param        int   $nⱼ
+     * @param        float $k
+     * @param        array $expectedMatrix
+     * @throws      \Exception
+     */
+    public function testColumnAdd(array $A, int $nᵢ, int $nⱼ, float $k, array $expectedMatrix)
     {
-        $A = MatrixFactory::create([
-            [1, 2, 3],
-            [2, 3, 4],
-            [3, 4, 5],
-        ]);
-        $this->expectException(Exception\BadParameterException::class);
-        $A->columnMultiply(2, 0);
+        // Given
+        $A = MatrixFactory::create($A);
+        $expectedMatrix = MatrixFactory::create($expectedMatrix);
+
+        // When
+        $R = $A->columnAdd($nᵢ, $nⱼ, $k);
+
+        // Then
+        $this->assertEquals($expectedMatrix, $R);
     }
 
     /**
-     * @dataProvider dataProviderForColumnAdd
+     * @return array
      */
-    public function testColumnAdd(array $A, int $nᵢ, $nⱼ, int $k, array $R)
-    {
-        $A = MatrixFactory::create($A);
-        $R = MatrixFactory::create($R);
-
-        $this->assertEquals($R, $A->columnAdd($nᵢ, $nⱼ, $k));
-    }
-
-    public function dataProviderForColumnAdd()
+    public function dataProviderForColumnAdd(): array
     {
         return [
             [
@@ -208,44 +271,86 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
                     [3, 4, 17],
                 ]
             ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 1, 2.2,
+                [
+                    [1, 4.2, 3],
+                    [2, 7.4, 4],
+                    [3, 10.6, 5],
+                ]
+            ],
         ];
     }
 
-
+    /**
+     * @test   columnAdd row greater than n
+     * @throws \Exception
+     */
     public function testColumnAddExceptionRowGreaterThanN()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
         ]);
+
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->columnAdd(4, 5, 2);
     }
 
+    /**
+     * @test   columnAdd k is zero
+     * @throws \Exception
+     */
     public function testColumnAddExceptionKIsZero()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
         ]);
+
+        // Then
         $this->expectException(Exception\BadParameterException::class);
+
+        // When
         $A->columnAdd(1, 2, 0);
     }
 
     /**
+     * @test         columnExclude
      * @dataProvider dataProviderForColumnExclude
+     * @param        array $A
+     * @param        int   $nᵢ
+     * @param        array $expectedMatrix
+     * @throws       \Exception
      */
-    public function testColumnExclude(array $A, int $nᵢ, array $R)
+    public function testColumnExclude(array $A, int $nᵢ, array $expectedMatrix)
     {
+        // Given
         $A = MatrixFactory::create($A);
-        $R = MatrixFactory::create($R);
+        $expectedMatrix = MatrixFactory::create($expectedMatrix);
 
-        $this->assertEquals($R, $A->columnExclude($nᵢ));
+        // When
+        $R = $A->columnExclude($nᵢ);
+
+        // Then
+        $this->assertEquals($expectedMatrix, $R);
     }
 
-    public function dataProviderForColumnExclude()
+    /**
+     * @return array
+     */
+    public function dataProviderForColumnExclude(): array
     {
         return [
             [
@@ -287,9 +392,86 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   columnExclude column does not exist
+     * @throws \Exception
+     */
     public function testColumnExcludeExceptionColumnDoesNotExist()
     {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [4, 5, 6],
+        ]);
+
+        // Then
         $this->expectException(Exception\MatrixException::class);
-        $this->matrix->columnExclude(-5);
+
+        // When
+        $A->columnExclude(-5);
+    }
+    
+    /**
+     * @test         replaceColumn
+     * @dataProvider dataProviderForReplaceColumn
+     * @param        array $A
+     * @param        array $row
+     * @param        int   $n
+     * @param        array $expectedMatrix
+     * @throws       \Exception
+     */
+    public function testReplaceColumn(array $A, array $column, int $n, array $expectedMatrix)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $expectedMatrix = MatrixFactory::create($expectedMatrix);
+        // When
+        $R = $A->replaceColumn($column, $n);
+        // Then
+        $this->assertEquals($expectedMatrix, $R);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForReplaceColumn(): array
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ],
+                [3, 2, 1],
+                1,
+                [
+                    [1, 3, 3],
+                    [2, 2, 4],
+                    [3, 1, 5],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @test  replaceColumn on a column that does not exist
+     * @throws \Exception
+     */
+    public function testReplaceColumnExceptionColumnDoesNotExist()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [4, 5, 6],
+        ]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $A->replaceColumn([1,2,3], -5);
     }
 }

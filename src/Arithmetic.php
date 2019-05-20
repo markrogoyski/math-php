@@ -4,6 +4,22 @@ namespace MathPHP;
 class Arithmetic
 {
     /**
+     * Integer Root
+     *
+     * Calculate the integer root of a value.
+     */
+    public static function root(float $x, int $n): float
+    {
+        // Use the the PHP pow function if it is an even root or if $x is positive
+        if ($x >= 0 || $n % 2 === 0) {
+            return pow($x, 1 / $n);
+        }
+
+        // If $x is negative and it is an odd root, we can extend the native function
+        return -pow(abs($x), 1 / $n);
+    }
+
+    /**
      * Cube root ³√x
      * This function is necessary because pow($x, 1/3) returns NAN for negative values.
      * PHP does not have the cbrt built-in function.
@@ -14,11 +30,7 @@ class Arithmetic
      */
     public static function cubeRoot(float $x): float
     {
-        if ($x >= 0) {
-            return pow($x, 1/3);
-        }
-
-        return -pow(abs($x), 1/3);
+        return self::root($x, 3);
     }
 
     /**
@@ -44,7 +56,7 @@ class Arithmetic
         $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ = 0;
 
         for ($n = 0; $n <= $logx; $n++) {
-            $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ += (($x % pow($b, $n+1)) - ($x % $b**$n)) / ($b**$n);
+            $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ += intdiv(($x % pow($b, $n+1)) - ($x % $b**$n), ($b**$n));
         }
 
         return $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯;

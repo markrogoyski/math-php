@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\Tests\LinearAlgebra;
 
+use MathPHP\Exception\MatrixException;
 use MathPHP\LinearAlgebra\DiagonalMatrix;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
@@ -8,136 +9,135 @@ use MathPHP\LinearAlgebra\MatrixFactory;
 class DiagonalMatrixTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     constructor builds the expected DiagonalMatrix
+     * @test         constructor builds the expected DiagonalMatrix
      * @dataProvider dataProviderMulti
      * @param        array $A
      * @param        array $R
+     * @throws       \Exception
      */
     public function testConstructor(array $A, array $R)
     {
-        $D = new DiagonalMatrix($A);
+        // Given
         $R = new Matrix($R);
 
-        $this->assertInstanceOf(DiagonalMatrix::class, $D);
-        $this->assertInstanceOf(Matrix::class, $D);
+        // When
+        $D = MatrixFactory::diagonal($A);
 
-        $m = $D->getM();
-        for ($i = 0; $i < $m; $i++) {
-            $this->assertEquals($R[$i], $D[$i]);
-        }
-        $m = $R->getM();
-        for ($i = 0; $i < $m; $i++) {
-            $this->assertEquals($R[$i], $D[$i]);
-        }
+        // Then
+        $this->assertInstanceOf(DiagonalMatrix::class, $D);
+        $this->assertTrue($R->isEqual($D));
+        $this->assertTrue($D->isEqual($R));
     }
 
     /**
-     * @testCase     getMatrix returns the expected array
+     * @test         getMatrix returns the expected array
      * @dataProvider dataProviderMulti
      * @param        array $A
      * @param        array $R
+     * @throws       \Exception
      */
     public function testGetMatrix(array $A, array $R)
     {
-        $D = new DiagonalMatrix($A);
+        // Given
+        $D = MatrixFactory::diagonal($A);
 
+        // Then
         $this->assertEquals($R, $D->getMatrix());
     }
 
     /**
-     * @testCase     isSquare returns true
+     * @test         isSquare returns true
      * @dataProvider dataProviderMulti
      * @param        array $A
-     * @param        array $R
+     * @throws       \Exception
      */
-    public function testIsSquare(array $A, array $R)
+    public function testIsSquare(array $A)
     {
-        $D = new DiagonalMatrix($A);
+        // Given
+        $D = MatrixFactory::diagonal($A);
 
+        // Then
         $this->assertTrue($D->isSquare());
     }
 
     /**
-     * @testCase     isSymmetric returns true
+     * @test         isSymmetric returns true
      * @dataProvider dataProviderMulti
      * @param        array $A
-     * @param        array $R
+     * @throws       \Exception
      */
-    public function testIsSymmetric(array $A, array $R)
+    public function testIsSymmetric(array $A)
     {
-        $D = new DiagonalMatrix($A);
+        // Given
+        $D = MatrixFactory::diagonal($A);
 
+        // Then
         $this->assertTrue($D->isSymmetric());
     }
 
     /**
-     * @testCase     isLowerTriangular returns true
+     * @test         isLowerTriangular returns true
      * @dataProvider dataProviderMulti
      * @param        array $A
-     * @param        array $R
+     * @throws       \Exception
      */
-    public function testIsLowerTriangular(array $A, array $R)
+    public function testIsLowerTriangular(array $A)
     {
-        $D = new DiagonalMatrix($A);
+        // Given
+        $D = MatrixFactory::diagonal($A);
 
+        // Then
         $this->assertTrue($D->isLowerTriangular());
     }
 
     /**
-     * @testCase     isUpperTriangular returns true
+     * @test         isUpperTriangular returns true
      * @dataProvider dataProviderMulti
      * @param        array $A
-     * @param        array $R
+     * @throws       \Exception
      */
-    public function testIsUpperTriangular(array $A, array $R)
+    public function testIsUpperTriangular(array $A)
     {
-        $D = new DiagonalMatrix($A);
+        // Given
+        $D = MatrixFactory::diagonal($A);
 
+        // Then
         $this->assertTrue($D->isUpperTriangular());
     }
 
     /**
-     * @testCase     isTriangular returns true
+     * @test         isTriangular returns true
      * @dataProvider dataProviderMulti
      * @param        array $A
-     * @param        array $R
+     * @throws       \Exception
      */
-    public function testIsTriangular(array $A, array $R)
+    public function testIsTriangular(array $A)
     {
-        $D = new DiagonalMatrix($A);
+        // Given
+        $D = MatrixFactory::diagonal($A);
 
+        // Then
         $this->assertTrue($D->isTriangular());
     }
 
     /**
-     * @testCase     isDiagonal returns true
+     * @test         isDiagonal returns true
      * @dataProvider dataProviderMulti
      * @param        array $A
-     * @param        array $R
+     * @throws       \Exception
      */
-    public function testIsDiagonal(array $A, array $R)
+    public function testIsDiagonal(array $A)
     {
-        $D = new DiagonalMatrix($A);
+        // Given
+        $D = MatrixFactory::diagonal($A);
 
+        // Then
         $this->assertTrue($D->isDiagonal());
     }
 
     /**
-     * @testCase     isSquareAndSymmetric returns true
-     * @dataProvider dataProviderMulti
-     * @param        array $A
-     * @param        array $R
+     * @return array
      */
-    public function testIsSquareAndSymmetric(array $D)
-    {
-        $D = MatrixFactory::create($D);
-
-        $reflection_method = new \ReflectionMethod(DiagonalMatrix::class, 'isSquareAndSymmetric');
-        $reflection_method->setAccessible(true);
-
-        $this->assertTrue($reflection_method->invoke($D));
-    }
-
     public function dataProviderMulti(): array
     {
         return [
@@ -156,5 +156,24 @@ class DiagonalMatrixTest extends \PHPUnit\Framework\TestCase
                 ]
             ],
         ];
+    }
+
+    /**
+     * @test   Construction error
+     * @throws MatrixException
+     */
+    public function testConstructionException()
+    {
+        // Given
+        $A = [
+            [1, 0, 0],
+            [0, 2, 0],
+        ];
+
+        // Then
+        $this->expectException(MatrixException::class);
+
+        // When
+        $matrix = new DiagonalMatrix($A);
     }
 }

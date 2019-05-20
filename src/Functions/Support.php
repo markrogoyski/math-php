@@ -5,7 +5,7 @@ use MathPHP\Exception;
 
 class Support
 {
-    const ε = 0.000000000001;
+    const ε = 0.00000000001;
 
     /**
      * Checks that the values of the parameters passed
@@ -95,9 +95,9 @@ class Support
      *
      * @return boolean true if equivalent to zero; false otherwise
      */
-    public static function isZero(float $x): bool
+    public static function isZero(float $x, float $ε = self::ε): bool
     {
-        return ($x == 0 || abs($x) <= self::ε);
+        return ($x == 0 || abs($x) <= $ε);
     }
 
     /**
@@ -108,8 +108,34 @@ class Support
      *
      * @return boolean true if equivalent to a non-zero value; false otherwise
      */
-    public static function isNotZero(float $x): bool
+    public static function isNotZero(float $x, float $ε = self::ε): bool
     {
-        return ($x != 0 && abs($x) > self::ε);
+        return ($x != 0 && abs($x) > $ε);
+    }
+
+    /**
+     * Are two numbers equivalent up to a tiny tolerance?
+     *
+     * @param float $x
+     * @param float $y
+     *
+     * @return bool
+     */
+    public static function isEqual(float $x, float $y, float $ε = self::ε): bool
+    {
+        return $x == $y || abs($x - $y) < $ε;
+    }
+
+    /**
+     * Are two numbers not equal given a tiny tolerance?
+     *
+     * @param float $x
+     * @param float $y
+     *
+     * @return bool
+     */
+    public static function isNotEqual(float $x, float $y, float $ε = self::ε): bool
+    {
+        return $x != $y && abs($x - $y) >= $ε;
     }
 }

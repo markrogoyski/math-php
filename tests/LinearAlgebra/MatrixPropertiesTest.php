@@ -52,6 +52,7 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     isSymmetric returns false for nonsymmetric matrices.
      * @dataProvider dataProviderForNotSymmetricMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
      */
     public function testIsNotSymmetric(array $A)
     {
@@ -74,8 +75,10 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isSkewSymmetric returns false for nonsymmetric matrices.
+     * @testCase     isSkewSymmetric returns false for non skew-symmetric matrices.
+     * @dataProvider dataProviderForNotSkewSymmetricMatrix
      * @dataProvider dataProviderForNotSymmetricMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
      */
     public function testIsNotSkewSymmetric(array $A)
     {
@@ -278,34 +281,6 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($A->isPositiveSemidefinite());
         $this->assertFalse($A->isNegativeDefinite());
         $this->assertFalse($A->isNegativeSemidefinite());
-    }
-
-    /**
-     * @testCase     isSquareAndSymmetric returns true for square symmetric matrices
-     * @dataProvider dataProviderForPositiveDefiniteMatrix
-     */
-    public function testIsSquareAndSymmetric(array $A)
-    {
-        $A = MatrixFactory::create($A);
-
-        $reflection_method = new \ReflectionMethod(Matrix::class, 'isSquareAndSymmetric');
-        $reflection_method->setAccessible(true);
-
-        $this->assertTrue($reflection_method->invoke($A));
-    }
-
-    /**
-     * @testCase     isSquareAndSymmetric returns false for non square symmetric matrices
-     * @dataProvider dataProviderForNotSquareAndSymmetricMatrix
-     */
-    public function testIsNotSquareAndSymmetric(array $A)
-    {
-        $A = MatrixFactory::create($A);
-
-        $reflection_method = new \ReflectionMethod(Matrix::class, 'isSquareAndSymmetric');
-        $reflection_method->setAccessible(true);
-
-        $this->assertFalse($reflection_method->invoke($A));
     }
 
     /**
@@ -678,5 +653,35 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A);
 
         $this->assertFalse($A->isLowerHessenberg());
+    }
+
+    /**
+     * @test         isOrthogonal
+     * @dataProvider dataProviderForOrthogonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsOrthogonal2(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertTrue($A->isOrthogonal());
+    }
+
+    /**
+     * @test         isOrthogonal when not orthogonal
+     * @dataProvider dataProviderForNonOrthogonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsOrthogonalWhenNotOrthogonal(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertFalse($A->isOrthogonal());
     }
 }

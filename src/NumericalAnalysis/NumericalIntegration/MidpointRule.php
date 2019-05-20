@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\NumericalAnalysis\NumericalIntegration;
 
+use MathPHP\Exception;
+
 /**
  * Midpoint rule
  *
@@ -52,21 +54,23 @@ class MidpointRule extends NumericalIntegration
      *
      *  where h = xᵢ₊₁ - xᵢ
      *  note: this implementation does not compute the error term.
-     * @param callable|array $source   The source of our approximation. Should be either
-     *                           a callback function or a set of arrays. Each array
-     *                           (point) contains precisely two numbers, an x and y.
-     *                           Example array: [[1,2], [2,3], [3,4]].
-     *                           Example callback: function($x) {return $x**2;}
-     * @param number   ... $args The arguments of our callback function: start,
-     *                           end, and n. Example: approximate($source, 0, 8, 5).
-     *                           If $source is a set of points, do not input any
-     *                           $args. Example: approximate($source).
+     * @param callable|array $source The source of our approximation. Should be either
+     *                               a callback function or a set of arrays. Each array
+     *                               (point) contains precisely two numbers, an x and y.
+     *                               Example array: [[1,2], [2,3], [3,4]].
+     *                               Example callback: function($x) {return $x**2;}
+     * @param number        ...$args The arguments of our callback function: start,
+     *                               end, and n. Example: approximate($source, 0, 8, 5).
+     *                               If $source is a set of points, do not input any
+     *                               $args. Example: approximate($source).
      *
-     * @return number            The approximation to the integral of f(x)
+     * @return float                 The approximation to the integral of f(x)
+     *
+     * @throws Exception\BadDataException
      */
-    public static function approximate($source, ... $args)
+    public static function approximate($source, ...$args): float
     {
-        // get an array of points from our $source argument
+        // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
         // Validate input and sort points

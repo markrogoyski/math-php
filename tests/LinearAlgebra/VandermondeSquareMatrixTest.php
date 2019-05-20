@@ -1,34 +1,40 @@
 <?php
 namespace MathPHP\Tests\LinearAlgebra;
 
-use MathPHP\LinearAlgebra\VandermondeSquareMatrix;
-use MathPHP\LinearAlgebra\Matrix;
-use MathPHP\Exception;
+use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\SquareMatrix;
 
 class VandermondeSquareMatrixTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test         Vandermonde matrix is constructed correctly
      * @dataProvider dataProviderForTestConstructor
+     * @param        array $M
+     * @param        int $n
+     * @param        array $V
+     * @throws       \Exception
      */
-    public function testConstructor($M, int $n, $V)
+    public function testConstructor(array $M, int $n, array $V)
     {
-        $M = new VandermondeSquareMatrix($M, $n);
-        $V = new Matrix($V);
+        // Given
+        $V = MatrixFactory::create($V);
 
-        $this->assertInstanceOf(VandermondeSquareMatrix::class, $M);
-        $this->assertInstanceOf(Matrix::class, $M);
-        
-        $m = $V->getM();
-        for ($i = 0; $i < $m; $i++) {
-            $this->assertEquals($V[$i], $M[$i]);
-        }
-        $m = $M->getM();
-        for ($i = 0; $i < $m; $i++) {
-            $this->assertEquals($V[$i], $M[$i]);
-        }
+        // When
+        $M = MatrixFactory::vandermonde($M, $n);
+
+        // Then
+        $this->assertTrue($V->isEqual($M));
+        $this->assertTrue($M->isEqual($V));
+
+        // And
+        $this->assertTrue($M->isSquare());
+        $this->assertInstanceOf(SquareMatrix::class, $M);
     }
 
-    public function dataProviderForTestConstructor()
+    /**
+     * @return array
+     */
+    public function dataProviderForTestConstructor(): array
     {
         return [
             [
@@ -49,16 +55,5 @@ class VandermondeSquareMatrixTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
         ];
-    }
-
-    public function testConstructorException()
-    {
-        $A = [
-            [1, 2, 3],
-            [2, 3, 4],
-        ];
-
-        $this->expectException(Exception\MatrixException::class);
-        $A = new VandermondeSquareMatrix($A, 1);
     }
 }

@@ -21,14 +21,16 @@ class Descriptive
      *
      * R = max x - min x
      *
-     * @param array $numbers
+     * @param float[] $numbers
      *
-     * @return number|null
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function range(array $numbers)
+    public static function range(array $numbers): float
     {
         if (empty($numbers)) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the range of an empty list of numbers');
         }
         return max($numbers) - min($numbers);
     }
@@ -42,16 +44,18 @@ class Descriptive
      * M = -------------
      *           2
      *
-     * @param array $numbers
+     * @param float[] $numbers
      *
-     * @return number|null
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function midrange(array $numbers)
+    public static function midrange(array $numbers): float
     {
         if (empty($numbers)) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the midrange of an empty list of numbers');
         }
-        return Average::mean([ min($numbers), max($numbers) ]);
+        return Average::mean([min($numbers), max($numbers)]);
     }
 
     /**
@@ -72,23 +76,24 @@ class Descriptive
      * Generalized method that allows setting the degrees of freedom.
      * For population variance, set d.f. (ν) to n
      * For sample variance, set d.f (ν) to n - 1
-     * Or use popluationVariance or sampleVaraince covenience methods.
+     * Or use populationVariance or sampleVariance convenience methods.
      *
      * μ is the population mean
      * ν is the degrees of freedom, which usually is
      *   the number of numbers in the population set or n - 1 for sample set.
      *
-     * @param array $numbers
-     * @param int   $ν degrees of freedom
+     * @param float[] $numbers
+     * @param int     $ν degrees of freedom
      *
-     * @return float|null
+     * @return float
      *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      * @throws Exception\OutOfBoundsException if degrees of freedom is ≤ 0
      */
-    public static function variance(array $numbers, int $ν)
+    public static function variance(array $numbers, int $ν): float
     {
         if (empty($numbers)) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the variance of an empty list of numbers');
         }
         if ($ν <= 0) {
             throw new Exception\OutOfBoundsException('Degrees of freedom must be > 0');
@@ -110,13 +115,14 @@ class Descriptive
      * μ is the population mean
      * N is the number of numbers in the population set
      *
-     * @param array $numbers
+     * @param float[] $numbers
      *
-     * @return float|null
+     * @return float
      *
-     * @throws Exception\OutOfBoundsException
+     * @throws Exception\BadDataException if the input array of numbers is empty
+     * @throws Exception\OutOfBoundsException if degrees of freedom is ≤ 0
      */
-    public static function populationVariance(array $numbers)
+    public static function populationVariance(array $numbers): float
     {
         $N = count($numbers);
         return self::variance($numbers, $N);
@@ -133,13 +139,14 @@ class Descriptive
      * x̄ is the sample mean
      * n is the number of numbers in the sample set
      *
-     * @param array $numbers
+     * @param float[] $numbers
      *
-     * @return float|null
+     * @return float
      *
-     * @throws Exception\OutOfBoundsException
+     * @throws Exception\BadDataException if the input array of numbers is empty
+     * @throws Exception\OutOfBoundsException if degrees of freedom is ≤ 0
      */
-    public static function sampleVariance(array $numbers)
+    public static function sampleVariance(array $numbers): float
     {
         if (count($numbers) == 1) {
             return 0;
@@ -168,15 +175,15 @@ class Descriptive
      *
      * https://en.wikipedia.org/wiki/Weighted_arithmetic_mean#Weighted_sample_variance
      *
-     * @param array $numbers
-     * @param array $weights
-     * @param bool  $biased
+     * @param float[] $numbers
+     * @param float[] $weights
+     * @param bool    $biased
      *
-     * @return number
+     * @return float
      *
      * @throws Exception\BadDataException if the number of numbers and weights are not equal
      */
-    public static function weightedSampleVariance(array $numbers, array $weights, bool $biased = false)
+    public static function weightedSampleVariance(array $numbers, array $weights, bool $biased = false): float
     {
         if (count($numbers) === 1) {
             return 0;
@@ -212,19 +219,20 @@ class Descriptive
      * σ   = √⟮σ²⟯ = √⟮variance⟯
      * SD+ = √⟮σ²⟯ = √⟮sample variance⟯
      *
-     * @param array $numbers
-     * @param bool $SD＋ : true returns SD+ (uses population variance);
-     *              false returns SD (uses sample variance);
-     *              Default is false (SD (sample variance))
+     * @param float[] $numbers
+     * @param bool    $SD＋ : true returns SD+ (uses population variance);
+     *                false returns SD (uses sample variance);
+     *                Default is false (SD (sample variance))
      *
-     * @return float|null
+     * @return float
      *
-     * @throws Exception\OutOfBoundsException
+     * @throws Exception\BadDataException if the input array of numbers is empty
+     * @throws Exception\OutOfBoundsException if degrees of freedom is ≤ 0
      */
-    public static function standardDeviation(array $numbers, bool $SD＋ = false)
+    public static function standardDeviation(array $numbers, bool $SD＋ = false): float
     {
         if (empty($numbers)) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the standard deviation of an empty list of numbers');
         }
 
         return $SD＋
@@ -235,16 +243,17 @@ class Descriptive
     /**
      * sd - Standard deviation - convenience method
      *
-     * @param array $numbers
-     * @param bool $SD＋ : true returns SD+ (uses population variance);
-     *              false returns SD (uses sample variance);
-     *              Default is false (SD (sample variance))
+     * @param float[] $numbers
+     * @param bool    $SD＋ : true returns SD+ (uses population variance);
+     *                false returns SD (uses sample variance);
+     *                Default is false (SD (sample variance))
      *
-     * @return float|null
+     * @return float
      *
-     * @throws Exception\OutOfBoundsException
+     * @throws Exception\BadDataException if the input array of numbers is empty
+     * @throws Exception\OutOfBoundsException if degrees of freedom is ≤ 0
      */
-    public static function sd(array $numbers, bool $SD＋ = false)
+    public static function sd(array $numbers, bool $SD＋ = false): float
     {
         return self::standardDeviation($numbers, $SD＋);
     }
@@ -263,14 +272,16 @@ class Descriptive
      * x̄ is the mean
      * N is the number of numbers in the population set
      *
-     * @param array $numbers
+     * @param float[] $numbers
      *
-     * @return number|null
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function meanAbsoluteDeviation(array $numbers)
+    public static function meanAbsoluteDeviation(array $numbers): float
     {
         if (empty($numbers)) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the mean absolute deviation of an empty list of numbers');
         }
 
         $x         = Average::mean($numbers);
@@ -297,14 +308,16 @@ class Descriptive
      *
      * x̄ is the median
      *
-     * @param array $numbers
+     * @param float[] $numbers
      *
-     * @return number|null
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function medianAbsoluteDeviation(array $numbers)
+    public static function medianAbsoluteDeviation(array $numbers): float
     {
         if (empty($numbers)) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the median absolute deviation of an empty list of numbers');
         }
 
         $x = Average::median($numbers);
@@ -325,12 +338,14 @@ class Descriptive
      *  - Inclusive
      *  - Exclusive
      *
-     * @param array $numbers
-     * @param string $method What quartile method to use (optional - default: exclusive)
+     * @param float[] $numbers
+     * @param string  $method What quartile method to use (optional - default: exclusive)
      *
-     * @return array [ 0%, Q1, Q2, Q3, 100%, IQR ]
+     * @return float[] (0%, Q1, Q2, Q3, 100%, IQR)
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function quartiles(array $numbers, string $method = 'exclusive')
+    public static function quartiles(array $numbers, string $method = 'exclusive'): array
     {
         switch (strtolower($method)) {
             case 'inclusive':
@@ -366,17 +381,32 @@ class Descriptive
      * This rule is employed by the TI-83 calculator boxplot and "1-Var Stats" functions.
      * This is the most basic method that is commonly taught in math textbooks.
      *
-     * @param array $numbers
-     * @return array [ 0%, Q1, Q2, Q3, 100%, IQR ]
+     * @param float[] $numbers
+     *
+     * @return array (0%, Q1, Q2, Q3, 100%, IQR)
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
     public static function quartilesExclusive(array $numbers): array
     {
         if (empty($numbers)) {
-            return array();
+            throw new Exception\BadDataException('Cannot find the quartiles of an empty list of numbers');
+        }
+        if (count($numbers) === 1) {
+            $number = array_pop($numbers);
+            return [
+                '0%'   => $number,
+                'Q1'   => $number,
+                'Q2'   => $number,
+                'Q3'   => $number,
+                '100%' => $number,
+                'IQR'  => 0,
+            ];
         }
 
         sort($numbers);
         $length = count($numbers);
+
         if ($length % 2 == 0) {
             $lower_half = array_slice($numbers, 0, $length / 2);
             $upper_half = array_slice($numbers, $length / 2);
@@ -422,17 +452,21 @@ class Descriptive
      * The values found by this method are also known as "Tukey's hinges".
      * This is the method that the programming language R uses by default.
      *
-     * @param array $numbers
-     * @return array [ 0%, Q1, Q2, Q3, 100%, IQR ]
+     * @param float[] $numbers
+     *
+     * @return array (0%, Q1, Q2, Q3, 100%, IQR)
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
     public static function quartilesInclusive(array $numbers): array
     {
         if (empty($numbers)) {
-            return array();
+            throw new Exception\BadDataException('Cannot find the quartiles of an empty list of numbers');
         }
 
         sort($numbers);
         $length = count($numbers);
+
         if ($length % 2 == 0) {
             $lower_half = array_slice($numbers, 0, $length / 2);
             $upper_half = array_slice($numbers, $length / 2);
@@ -467,12 +501,14 @@ class Descriptive
      *
      * IQR = Q₃ - Q₁
      *
-     * @param array  $numbers
-     * @param string $method What quartile method to use (optional - default: exclusive)
+     * @param float[] $numbers
+     * @param string  $method What quartile method to use (optional - default: exclusive)
      *
-     * @return number
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function interquartileRange(array $numbers, string $method = 'exclusive')
+    public static function interquartileRange(array $numbers, string $method = 'exclusive'): float
     {
         return self::quartiles($numbers, $method)['IQR'];
     }
@@ -481,12 +517,14 @@ class Descriptive
      * IQR - Interquartile range (midspread, middle fifty)
      * Convenience wrapper function for interquartileRange.
      *
-     * @param array  $numbers
-     * @param string $method What quartile method to use (optional - default: exclusive)
+     * @param float[] $numbers
+     * @param string  $method What quartile method to use (optional - default: exclusive)
      *
-     * @return number
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function iqr(array $numbers, string $method = 'exclusive')
+    public static function iqr(array $numbers, string $method = 'exclusive'): float
     {
         return self::quartiles($numbers, $method)['IQR'];
     }
@@ -513,18 +551,18 @@ class Descriptive
      * νₓ   = number in position x in sorted list of numbers
      * νₓ₊₁ = number in position x + 1 in sorted list of number
      *
-     * @param array $numbers
+     * @param float[] $numbers
      * @param float   $P percentile to calculate
      *
      * @return float in list corresponding to P percentile
      *
-     * @throws Exception\BadDataException if $numbers is empty
+     * @throws Exception\BadDataException if the input array of numbers is empty
      * @throws Exception\OutOfBoundsException if $P percentile is not between 0 and 100
      */
     public static function percentile(array $numbers, float $P): float
     {
         if (empty($numbers)) {
-            throw new Exception\BadDataException('List of numbers must not be empty.');
+            throw new Exception\BadDataException('Cannot find the P-th percentile of an empty list of numbers');
         }
         if ($P < 0 || $P > 100) {
             throw new Exception\OutOfBoundsException('Percentile P must be between 0 and 100.');
@@ -558,15 +596,18 @@ class Descriptive
      *
      * Midhinge = (first quartile, third quartile) / 2
      *
-     * @param  array $numbers
+     * @param  float[] $numbers
      *
-     * @return float|null
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function midhinge(array $numbers)
+    public static function midhinge(array $numbers): float
     {
         $quartiles = self::quartiles($numbers);
         $Q1        = $quartiles['Q1'];
         $Q2        = $quartiles['Q3'];
+
         return Average::mean([$Q1, $Q2]);
     }
 
@@ -583,13 +624,14 @@ class Descriptive
      * cᵥ = -
      *      μ
      *
-     * @param array $numbers
+     * @param float[] $numbers
      *
-     * @return number
+     * @return float
      *
-     * @throws Exception\OutOfBoundsException
+     * @throws Exception\BadDataException if the input array of numbers is empty
+     * @throws Exception\OutOfBoundsException if degrees of freedom is ≤ 0
      */
-    public static function coefficientOfVariation(array $numbers)
+    public static function coefficientOfVariation(array $numbers): float
     {
         $σ = self::standardDeviation($numbers);
         $μ = Average::mean($numbers);
@@ -601,12 +643,12 @@ class Descriptive
      * Get a report of all the descriptive statistics over a list of numbers
      * Includes mean, median, mode, range, midrange, variance, standard deviation, quartiles, etc.
      *
-     * @param array $numbers
-     * @param bool $population : true means all possible observations of the system are present;
+     * @param float[] $numbers
+     * @param bool    $population : true means all possible observations of the system are present;
      *                           false means a sample is used.
      *
-     * @return array [ n, mean, median, mode, range, midrange, variance, sd, CV, mean_mad,
-     *                 median_mad, quartiles, skewness, kurtosis, sem, ci_95, ci_99 ]
+     * @return array [n, mean, median, mode, range, midrange, variance, sd, CV, mean_mad,
+     *                median_mad, quartiles, skewness, kurtosis, sem, ci_95, ci_99]
      *
      * @throws Exception\OutOfBoundsException
      * @throws Exception\BadDataException
@@ -633,7 +675,9 @@ class Descriptive
             'median_mad'         => self::medianAbsoluteDeviation($numbers),
             'quartiles'          => self::quartiles($numbers),
             'midhinge'           => self::midhinge($numbers),
-            'skewness'           => $population ? RandomVariable::populationSkewness($numbers) : RandomVariable::skewness($numbers),
+            'skewness'           => $population
+                ? ($n > 0 ? RandomVariable::populationSkewness($numbers) : null)
+                : ($n >= 2 ? RandomVariable::skewness($numbers) : null),
             'ses'                => $n > 2 ? RandomVariable::ses($n) : null,
             'kurtosis'           => RandomVariable::kurtosis($numbers),
             'sek'                => $n > 3 ? RandomVariable::sek($n) : null,
@@ -658,6 +702,8 @@ class Descriptive
      * @param  array  $numbers
      *
      * @return array [min, Q1, median, Q3, max]
+     *
+     * @throws Exception\BadDataException
      */
     public static function fiveNumberSummary(array $numbers): array
     {

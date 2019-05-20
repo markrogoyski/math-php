@@ -128,7 +128,7 @@ class Significance
      *   p2 => two-tailed p value
      * ]
      */
-    public static function zTestTwoSample(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, float $Δ = 0): array
+    public static function zTestTwoSample(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, float $Δ = 0.0): array
     {
         // Calculate z score (test statistic)
         $z = ($μ₁ - $μ₂ - $Δ) / sqrt((($σ₁**2) / $n₁) + (($σ₂**2) / $n₂));

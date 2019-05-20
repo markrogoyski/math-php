@@ -7,14 +7,19 @@ use MathPHP\Exception;
 class DescriptiveTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     range
+     * @test         range
      * @dataProvider dataProviderForRange
      * @param        array $numbers
-     * @param        float $range
+     * @param        float $expectedRange
+     * @throws       \Exception
      */
-    public function testRange(array $numbers, float $range)
+    public function testRange(array $numbers, float $expectedRange)
     {
-        $this->assertEquals($range, Descriptive::range($numbers), '', 0.01);
+        // When
+        $range = Descriptive::range($numbers);
+
+        // Then
+        $this->assertEquals($expectedRange, $range, '', 0.01);
     }
 
     /**
@@ -39,22 +44,35 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase range when array is empty
+     * @test   range when array is empty
+     * @throws \Exception
      */
-    public function testRangeNullWhenEmptyArray()
+    public function testRangeExceptionWhenEmptyArray()
     {
-        $this->assertNull(Descriptive::range(array()));
+        // Given
+        $numbers = [];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Descriptive::range($numbers);
     }
 
     /**
-     * @testCase     midrange
+     * @test         midrange
      * @dataProvider dataProviderForMidrange
      * @param        array $numbers
-     * @param        float $midrange
+     * @param        float $expectedMidrange
+     * @throws       \Exception
      */
-    public function testMidrange(array $numbers, float $midrange)
+    public function testMidrange(array $numbers, float $expectedMidrange)
     {
-        $this->assertEquals($midrange, Descriptive::midrange($numbers), '', 0.01);
+        // When
+        $midrange = Descriptive::midrange($numbers);
+
+        // Then
+        $this->assertEquals($expectedMidrange, $midrange, '', 0.01);
     }
 
     /**
@@ -79,23 +97,35 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase midrange when the array is empty
+     * @test   midrange when the array is empty
+     * @throws \Exception
      */
-    public function testMidrangeNullWhenEmptyArray()
+    public function testMidrangeExceptionWhenEmptyArray()
     {
-        $this->assertNull(Descriptive::midrange(array()));
+        // Given
+        $numbers = [];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Descriptive::midrange($numbers);
     }
 
     /**
-     * @testCase     populationVariance
+     * @test         populationVariance
      * @dataProvider dataProviderForPopulationVariance
      * @param        array $numbers
-     * @param        float $variance
+     * @param        float $expectedVariance
      * @throws       \Exception
      */
-    public function testPopulationVariance(array $numbers, float $variance)
+    public function testPopulationVariance(array $numbers, float $expectedVariance)
     {
-        $this->assertEquals($variance, Descriptive::populationVariance($numbers), '', 0.01);
+        // When
+        $variance = Descriptive::populationVariance($numbers);
+
+        // Then
+        $this->assertEquals($expectedVariance, $variance, '', 0.01);
     }
 
     /**
@@ -116,24 +146,35 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase populationVariance when the array is empty
-     * @throws   \Exception
+     * @test   populationVariance when the array is empty
+     * @throws \Exception
      */
-    public function testPopulationVarianceNullWhenEmptyArray()
+    public function testPopulationVarianceExceptionWhenEmptyArray()
     {
-        $this->assertNull(Descriptive::populationVariance(array()));
+        // Given
+        $numbers = [];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Descriptive::populationVariance($numbers);
     }
 
     /**
-     * @testCase     sampleVariance
+     * @test         sampleVariance
      * @dataProvider dataProviderForSampleVariance
      * @param        array $numbers
-     * @param        float $variance
+     * @param        float $expectedVariance
      * @throws       \Exception
      */
-    public function testSampleVariance(array $numbers, float $variance)
+    public function testSampleVariance(array $numbers, float $expectedVariance)
     {
-        $this->assertEquals($variance, Descriptive::sampleVariance($numbers), '', 0.01);
+        // When
+        $variance = Descriptive::sampleVariance($numbers);
+
+        // Then
+        $this->assertEquals($expectedVariance, $variance, '', 0.01);
     }
 
     /**
@@ -158,44 +199,66 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase sampleVariance when the array is empty
+     * @test sampleVariance when the array is empty
      * @throws   \Exception
      */
-    public function testSampleVarianceNullWhenEmptyArray()
+    public function testSampleVarianceExceptionWhenEmptyArray()
     {
-        $this->assertNull(Descriptive::sampleVariance(array()));
+        // Given
+        $numbers = [];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Descriptive::sampleVariance($numbers);
     }
 
     /**
-     * @testCase sampleVariance when the array only contains one item
+     * @test sampleVariance when the array only contains one item
      * @throws   \Exception
      */
     public function testSampleVarianceZeroWhenListContainsOnlyOneItem()
     {
-        $this->assertEquals(0, Descriptive::sampleVariance([5]));
+        // When
+        $variance = Descriptive::sampleVariance([5]);
+
+        // Then
+        $this->assertEquals(0, $variance);
     }
 
     /**
-     * @testCase variance when the degrees of freedom is less than zero
-     * @throws   \Exception
+     * @test   variance when the degrees of freedom is less than zero
+     * @throws \Exception
      */
     public function testVarianceExceptionDFLessThanZero()
     {
+        // Given
+        $numbers = [1, 2, 3];
+        $ν       = -1;
+
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
-        Descriptive::variance([1, 2, 3], -1);
+
+        // When
+        Descriptive::variance($numbers, $ν);
     }
 
     /**
-     * @testCase     weightedSampleVariance unbiased
+     * @test         weightedSampleVariance unbiased
      * @dataProvider dataProviderForWeightedSampleVarianceUnbiased
      * @param        array $numbers
      * @param        array $weights
-     * @param        float $variance
+     * @param        float $expectedVariance
      * @throws       \Exception
      */
-    public function testWeightedSampleVarianceUnbiased(array $numbers, array $weights, float $variance)
+    public function testWeightedSampleVarianceUnbiased(array $numbers, array $weights, float $expectedVariance)
     {
-        $this->assertEquals($variance, Descriptive::weightedSampleVariance($numbers, $weights), '', 0.00001);
+        // When
+        $variance = Descriptive::weightedSampleVariance($numbers, $weights);
+
+        // Then
+        $this->assertEquals($expectedVariance, $variance, '', 0.00001);
     }
 
      /**
@@ -214,17 +277,23 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     weightedSampleVariance biased
+     * @test         weightedSampleVariance biased
      * @dataProvider dataProviderForWeightedSampleVarianceBiased
      * @param        array $numbers
      * @param        array $weights
-     * @param        float $variance
+     * @param        float $expectedVariance
      * @throws       \Exception
      */
-    public function testWeightedSampleVarianceBiased(array $numbers, array $weights, float $variance)
+    public function testWeightedSampleVarianceBiased(array $numbers, array $weights, float $expectedVariance)
     {
+        // Given
         $biased = true;
-        $this->assertEquals($variance, Descriptive::weightedSampleVariance($numbers, $weights, $biased), '', 0.1);
+
+        // When
+        $variance = Descriptive::weightedSampleVariance($numbers, $weights, $biased);
+
+        // Then
+        $this->assertEquals($expectedVariance, $variance, '', 0.1);
     }
 
     /**
@@ -245,51 +314,69 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase weightedSampleVariance is zero when there is only one number.
-     * @throws   Exception\BadDataException
+     * @test   weightedSampleVariance is zero when there is only one number.
+     * @throws Exception\BadDataException
      */
     public function testWeightedSampleVarianceSetOfOne()
     {
+        // Given
         $numbers = [4];
         $weights = [1];
-        $this->assertEquals(0, Descriptive::weightedSampleVariance($numbers, $weights));
+
+        // When
+        $variance = Descriptive::weightedSampleVariance($numbers, $weights);
+
+        // Then
+        $this->assertEquals(0, $variance);
     }
 
     /**
-     * @testCase weightedSampleVariance throws a BadDataException if the weights and numbers have different counts
-     * @throws   Exception\BadDataException
+     * @test   weightedSampleVariance throws a BadDataException if the weights and numbers have different counts
+     * @throws Exception\BadDataException
      */
     public function testWeightedSampleVarianceException()
     {
+        // Given
         $numbers = [1, 2, 3];
         $weights = [1, 1];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Descriptive::weightedSampleVariance($numbers, $weights);
     }
 
     /**
-     * @testCase     standardDeviation
+     * @test         standardDeviation using population variance
      * @dataProvider dataProviderForStandardDeviationUsingPopulationVariance
      * @param        array $numbers
-     * @param        float $standard_deviation
+     * @param        float $expectedStandardDeviation
      * @throws       \Exception
      */
-    public function testStandardDeviationUsingPopulationVariance(array $numbers, float $standard_deviation)
+    public function testStandardDeviationUsingPopulationVariance(array $numbers, float $expectedStandardDeviation)
     {
-        $this->assertEquals($standard_deviation, Descriptive::standardDeviation($numbers, true), '', 0.01);
+        // When
+        $sd = Descriptive::standardDeviation($numbers, true);
+
+        // Then
+        $this->assertEquals($expectedStandardDeviation, $sd, '', 0.01);
     }
 
     /**
-     * @testCase     sd
+     * @test         sd using population variance
      * @dataProvider dataProviderForStandardDeviationUsingPopulationVariance
      * @param        array $numbers
-     * @param        float $standard_deviation
+     * @param        float $expectedStandardDeviation
      * @throws       \Exception
      */
-    public function testSdUsingPopulationVariance(array $numbers, float $standard_deviation)
+    public function testSdUsingPopulationVariance(array $numbers, float $expectedStandardDeviation)
     {
-        $this->assertEquals($standard_deviation, Descriptive::sd($numbers, true), '', 0.01);
+        // When
+        $sd = Descriptive::sd($numbers, true);
+
+        // Then
+        $this->assertEquals($expectedStandardDeviation, $sd, '', 0.01);
     }
 
     /**
@@ -310,27 +397,35 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     standardDeviation
+     * @test         standardDeviation using sample variance
      * @dataProvider dataProviderForStandardDeviationUsingSampleVariance
      * @param        array $numbers
-     * @param        float $standard_deviation
+     * @param        float $expectedStandardDeviation
      * @throws       \Exception
      */
-    public function testStandardDeviationUsingSampleVariance(array $numbers, float $standard_deviation)
+    public function testStandardDeviationUsingSampleVariance(array $numbers, float $expectedStandardDeviation)
     {
-        $this->assertEquals($standard_deviation, Descriptive::standardDeviation($numbers), '', 0.01);
+        // When
+        $sd = Descriptive::standardDeviation($numbers);
+
+        // Then
+        $this->assertEquals($expectedStandardDeviation, $sd, '', 0.01);
     }
 
     /**
-     * @testCase     sd
+     * @test         sd using sample variance
      * @dataProvider dataProviderForStandardDeviationUsingSampleVariance
      * @param        array $numbers
-     * @param        float $standard_deviation
+     * @param        float $expectedStandardDeviation
      * @throws       \Exception
      */
-    public function testSDeviationUsingSampleVariance(array $numbers, float $standard_deviation)
+    public function testSDeviationUsingSampleVariance(array $numbers, float $expectedStandardDeviation)
     {
-        $this->assertEquals($standard_deviation, Descriptive::sd($numbers), '', 0.01);
+        // When
+        $sd = Descriptive::sd($numbers);
+
+        // Then
+        $this->assertEquals($expectedStandardDeviation, $sd, '', 0.01);
     }
 
     /**
@@ -348,32 +443,51 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase standardDeviation when the array is empty
-     * @throws   \Exception
+     * @test   standardDeviation when the array is empty
+     * @throws \Exception
      */
-    public function testStandardDeviationNullWhenEmptyArray()
+    public function testStandardDeviationExceptionWhenEmptyArray()
     {
-        $this->assertNull(Descriptive::standardDeviation(array()));
+        // Given
+        $numbers = [];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Descriptive::standardDeviation($numbers);
     }
 
     /**
-     * @testCase sd when the array is empty
+     * @test     sd when the array is empty
      * @throws   \Exception
      */
-    public function testSDNullWhenEmptyArray()
+    public function testSDExceptionWhenEmptyArray()
     {
-        $this->assertNull(Descriptive::sd(array()));
+        // Given
+        $numbers = [];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Descriptive::sd($numbers);
     }
 
     /**
-     * @testCase     meanAbsoluteDeviation
+     * @test         meanAbsoluteDeviation
      * @dataProvider dataProviderForMeanAbsoluteDeviation
      * @param        array $numbers
-     * @param        float $mad
+     * @param        float $expectedMad
+     * @throws       \Exception
      */
-    public function testMeanAbsoluteDeviation(array $numbers, float $mad)
+    public function testMeanAbsoluteDeviation(array $numbers, float $expectedMad)
     {
-        $this->assertEquals($mad, Descriptive::meanAbsoluteDeviation($numbers), '', 0.01);
+        // When
+        $mad = Descriptive::meanAbsoluteDeviation($numbers);
+
+        // Then
+        $this->assertEquals($expectedMad, $mad, '', 0.01);
     }
 
     /**
@@ -389,22 +503,35 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase meanAbsoluteDeviation when the array is empty
+     * @test   meanAbsoluteDeviation when the array is empty
+     * @throws \Exception
      */
-    public function testMeanAbsoluteDeviationNullWhenEmptyArray()
+    public function testMeanAbsoluteDeviationExceptionWhenEmptyArray()
     {
-        $this->assertNull(Descriptive::meanAbsoluteDeviation(array()));
+        // Given
+        $numbers = [];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Descriptive::meanAbsoluteDeviation($numbers);
     }
 
     /**
-     * @testCase     medianAbsoluteDeviation
+     * @test         medianAbsoluteDeviation
      * @dataProvider dataProviderForMedianAbsoluteDeviation
      * @param        array $numbers
-     * @param        float $mad
+     * @param        float $expectedMad
+     * @throws       \Exception
      */
-    public function testMedianAbsoluteDeviation(array $numbers, float $mad)
+    public function testMedianAbsoluteDeviation(array $numbers, float $expectedMad)
     {
-        $this->assertEquals($mad, Descriptive::medianAbsoluteDeviation($numbers), '', 0.01);
+        // When
+        $mad = Descriptive::medianAbsoluteDeviation($numbers);
+
+        // Then
+        $this->assertEquals($expectedMad, $mad, '', 0.01);
     }
 
     /**
@@ -421,22 +548,35 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase medianAbsoluteDeviation when array is empty
+     * @test   medianAbsoluteDeviation when array is empty
+     * @throws \Exception
      */
-    public function testMedianAbsoluteDeviationNullWhenEmptyArray()
+    public function testMedianAbsoluteDeviationExceptionWhenEmptyArray()
     {
-        $this->assertNull(Descriptive::medianAbsoluteDeviation(array()));
+        // Given
+        $numbers = [];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Descriptive::medianAbsoluteDeviation($numbers);
     }
 
     /**
-     * @testCase     quartilesExclusive
+     * @test         quartilesExclusive
      * @dataProvider dataProviderForQuartilesExclusive
      * @param        array $numbers
-     * @param        array $quartiles
+     * @param        array $expectedQuartiles
+     * @throws       \Exception
      */
-    public function testQuartilesExclusive(array $numbers, array $quartiles)
+    public function testQuartilesExclusive(array $numbers, array $expectedQuartiles)
     {
-        $this->assertEquals($quartiles, Descriptive::quartilesExclusive($numbers));
+        // When
+        $quartiles = Descriptive::quartilesExclusive($numbers);
+
+        // Then
+        $this->assertEquals($expectedQuartiles, $quartiles);
     }
 
     /**
@@ -456,27 +596,44 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
             [
                 [ 0, 2, 2, 4, 5, 6, 7, 7, 8, 9, 34, 34, 43, 54, 54, 76, 234 ],
                 [ '0%' => 0, 'Q1' => 4.5, 'Q2' => 8, 'Q3' => 48.5, '100%' => 234, 'IQR' => 44 ],
+            ],
+            [
+                [0],
+                [ '0%' => 0, 'Q1' => 0, 'Q2' => 0, 'Q3' => 0, '100%' => 0, 'IQR' => 0 ],
             ]
         ];
     }
 
     /**
-     * @testCase quartilesExclusive when the array is empty
+     * @test   quartilesExclusive when the array is empty
+     * @throws \Exception
      */
-    public function testQuartilesExclusiveEmptyWhenEmptyArray()
+    public function testQuartilesExclusiveExceptionWhenEmptyArray()
     {
-        $this->assertEmpty(Descriptive::quartilesExclusive(array()));
+        // Given
+        $numbers = [];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Descriptive::quartilesExclusive($numbers);
     }
 
     /**
-     * @testCase     quartilesInclusive
+     * @test         quartilesInclusive
      * @dataProvider dataProviderForQuartilesInclusive
      * @param        array $numbers
-     * @param        array $quartiles
+     * @param        array $expectedQuartiles
+     * @throws       \Exception
      */
-    public function testQuartilesInclusive(array $numbers, array $quartiles)
+    public function testQuartilesInclusive(array $numbers, array $expectedQuartiles)
     {
-        $this->assertEquals($quartiles, Descriptive::quartilesInclusive($numbers));
+        // When
+        $quartiles = Descriptive::quartilesInclusive($numbers);
+
+        // Then
+        $this->assertEquals($expectedQuartiles, $quartiles);
     }
 
     /**
@@ -501,23 +658,36 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase quartilesInclusive when the array is empty
+     * @test   quartilesInclusive when the array is empty
+     * @throws \Exception
      */
-    public function testQuartilesInclusiveEmptyWhenEmptyArray()
+    public function testQuartilesInclusiveExceptionWhenEmptyArray()
     {
-        $this->assertEmpty(Descriptive::quartilesInclusive(array()));
+        // Given
+        $numbers = [];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Descriptive::quartilesInclusive($numbers);
     }
 
     /**
-     * @testCase     quartiles
+     * @test         quartiles
      * @dataProvider dataProviderForQuartiles
-     * @param        array $numbers
+     * @param        array  $numbers
      * @param        string $method
-     * @param        array $quartiles
+     * @param        array  $expectedQuartiles
+     * @throws       \Exception
      */
-    public function testQuartiles(array $numbers, string $method, array $quartiles)
+    public function testQuartiles(array $numbers, string $method, array $expectedQuartiles)
     {
-        $this->assertEquals($quartiles, Descriptive::quartiles($numbers, $method));
+        // When
+        $quartiles = Descriptive::quartiles($numbers, $method);
+
+        // Then
+        $this->assertEquals($expectedQuartiles, $quartiles);
     }
 
     /**
@@ -566,25 +736,35 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     interquartileRange
+     * @test         interquartileRange
      * @dataProvider dataProviderForIQR
      * @param        array $numbers
-     * @param        float $IQR
+     * @param        float $expectedIqr
+     * @throws       \Exception
      */
-    public function testInterquartileRange(array $numbers, float $IQR)
+    public function testInterquartileRange(array $numbers, float $expectedIqr)
     {
-        $this->assertEquals($IQR, Descriptive::interquartileRange($numbers));
+        // When
+        $iqr = Descriptive::interquartileRange($numbers);
+
+        // Then
+        $this->assertEquals($expectedIqr, $iqr);
     }
 
     /**
-     * @testCase     iqr
+     * @test         iqr
      * @dataProvider dataProviderForIQR
      * @param        array $numbers
-     * @param        float $IQR
+     * @param        float $expectedIqr
+     * @throws       \Exception
      */
-    public function testIQR(array $numbers, float $IQR)
+    public function testIQR(array $numbers, float $expectedIqr)
     {
-        $this->assertEquals($IQR, Descriptive::iqr($numbers));
+        // When
+        $iqr = Descriptive::iqr($numbers);
+
+        // Then
+        $this->assertEquals($expectedIqr, $iqr);
     }
 
     /**
@@ -593,26 +773,33 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForIQR(): array
     {
         return [
-            [ [ 6, 7, 15, 36, 39, 40, 41, 42, 43, 47, 49], 28 ],
-            [ [ 7, 15, 36, 39, 40, 41 ], 25 ],
+            [ [6, 7, 15, 36, 39, 40, 41, 42, 43, 47, 49], 28 ],
+            [ [7, 15, 36, 39, 40, 41 ], 25 ],
+            [ [0], 0 ],
+            [ [1], 0 ],
+            [ [9], 0 ],
         ];
     }
 
     /**
-     * @testCase     percentile
+     * @test         percentile
      * @dataProvider dataProviderForPercentile
      * @param        array $numbers
      * @param        float $percentile
-     * @param        float $value
+     * @param        float $expectedValue
      * @throws       \Exception
      */
-    public function testPercentile(array $numbers, float $percentile, float $value)
+    public function testPercentile(array $numbers, float $percentile, float $expectedValue)
     {
-        $this->assertEquals($value, Descriptive::percentile($numbers, $percentile), '', 0.0000001);
+        // When
+        $value = Descriptive::percentile($numbers, $percentile);
+
+        // Then
+        $this->assertEquals($expectedValue, $value, '', 0.0000001);
     }
 
     /**
-     * @return array [numbres, percentile, value]
+     * @return array [numbers, percentile, value]
      */
     public function dataProviderForPercentile(): array
     {
@@ -766,44 +953,70 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase percentile throws an Exception\BadDataException if numbers is empty
-     * @throws   \Exception
+     * @test   percentile throws an Exception\BadDataException if numbers is empty
+     * @throws \Exception
      */
     public function testPercentileEmptyList()
     {
+        // Given
+        $numbers = [];
+        $P       = 5;
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
-        Descriptive::percentile([], 5);
+
+        // When
+        Descriptive::percentile($numbers, $P);
     }
 
     /**
-     * @testCase percentile throws an Exception\OutOfBoundsException if P is < 0
-     * @throws   \Exception
+     * @test   percentile throws an Exception\OutOfBoundsException if P is < 0
+     * @throws \Exception
      */
     public function testPercentileOutOfLowerBoundsP()
     {
+        // Given
+        $numbers = [1, 2, 3];
+        $P       = -4;
+
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
-        Descriptive::percentile([1, 2, 3], -4);
+
+        // When
+        Descriptive::percentile($numbers, $P);
     }
 
     /**
-     * @testCase percentile throws an Exception\OutOfBoundsException if P is > 100
-     * @throws   \Exception
+     * @test   percentile throws an Exception\OutOfBoundsException if P is > 100
+     * @throws \Exception
      */
     public function testPercentileOutOfUpperBoundsP()
     {
+        // Given
+        $numbers = [1, 2, 3];
+        $P       = 101;
+
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
-        Descriptive::percentile([1, 2, 3], 101);
+
+        // When
+        Descriptive::percentile($numbers, $P);
     }
 
     /**
-     * @testCase     midhinge
+     * @test         midhinge
      * @dataProvider dataProviderForMidhinge
      * @param        array $numbers
-     * @param        float $midhinge
+     * @param        float $expectedMidhinge
+     * @throws       \Exception
      */
-    public function testMidhinge(array $numbers, float $midhinge)
+    public function testMidhinge(array $numbers, float $expectedMidhinge)
     {
-        $this->assertEquals($midhinge, Descriptive::midhinge($numbers), '', 0.01);
+        // When
+        $midhinge = Descriptive::midhinge($numbers);
+
+        // Then
+        $this->assertEquals($expectedMidhinge, $midhinge, '', 0.01);
     }
 
     /**
@@ -820,15 +1033,32 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     coefficientOfVariation
+     * @test   midhinge throws an Exception\BadDataException if numbers is empty
+     * @throws \Exception
+     */
+    public function testMidhingeEmptyList()
+    {
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Descriptive::midhinge([]);
+    }
+
+    /**
+     * @test         coefficientOfVariation
      * @dataProvider dataProviderForCoefficientOfVariation
      * @param        array $numbers
-     * @param        float $cv
+     * @param        float $expectedCv
      * @throws       \Exception
      */
-    public function testsCoefficientOfVariation(array $numbers, float $cv)
+    public function testsCoefficientOfVariation(array $numbers, float $expectedCv)
     {
-        $this->assertEquals($cv, Descriptive::coefficientOfVariation($numbers), '', 0.0001);
+        // When
+        $cv = Descriptive::coefficientOfVariation($numbers);
+
+        // Then
+        $this->assertEquals($expectedCv, $cv, '', 0.0001);
     }
 
     /**
@@ -847,12 +1077,18 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase describe - population
-     * @throws   \Exception
+     * @test   describe - population
+     * @throws \Exception
      */
     public function testDescribePopulation()
     {
-        $stats = Descriptive::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], true);
+        // Given
+        $population = true;
+
+        // When
+        $stats = Descriptive::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], $population);
+
+        // Then
         $this->assertTrue(is_array($stats));
         $this->assertArrayHasKey('n', $stats);
         $this->assertArrayHasKey('min', $stats);
@@ -901,12 +1137,18 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase describe - sample
-     * @throws   \Exception
+     * @test   describe - sample
+     * @throws \Exception
      */
     public function testDescribeSample()
     {
-        $stats = Descriptive::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], false);
+        // Given
+        $population = false;
+
+        // When
+        $stats = Descriptive::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], $population);
+
+        // Then
         $this->assertTrue(is_array($stats));
         $this->assertArrayHasKey('n', $stats);
         $this->assertArrayHasKey('min', $stats);
@@ -951,14 +1193,17 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     describe will return null ses for values of n < 3
+     * @test         describe will return null ses for values of n < 3
      * @dataProvider dataProviderForDescribeNullSes
      * @param        array $numbers
      * @throws       \Exception
      */
     public function testDescribeSesNullForSmallN(array $numbers)
     {
+        // When
         $stats = Descriptive::describe($numbers);
+
+        // Then
         $this->assertNull($stats['ses']);
     }
 
@@ -993,14 +1238,17 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     describe will return null sek for values of n < 4
+     * @test         describe will return null sek for values of n < 4
      * @dataProvider dataProviderForDescribeNullSek
      * @param        array $numbers
      * @throws       \Exception
      */
     public function testDescribeSekNullForSmallN(array $numbers)
     {
+        // When
         $stats = Descriptive::describe($numbers);
+
+        // Then
         $this->assertNull($stats['sek']);
     }
 
@@ -1050,17 +1298,25 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     fiveNumberSummary
+     * @test         fiveNumberSummary
      * @dataProvider dataProviderForFiveNumberSummary
      * @param        array $numbers
-     * @param        array $summary
+     * @param        array $expectedSummary
+     * @throws       \Exception
      */
-    public function testFiveNumberSummary(array $numbers, array $summary)
+    public function testFiveNumberSummary(array $numbers, array $expectedSummary)
     {
-        $this->assertEquals($summary, Descriptive::fiveNumberSummary($numbers), '', 0.0001);
+        // When
+        $summary = Descriptive::fiveNumberSummary($numbers);
+
+        // Then
+        $this->assertEquals($expectedSummary, $summary, '', 0.0001);
     }
 
-    public function dataProviderForFiveNumberSummary()
+    /**
+     * @return array
+     */
+    public function dataProviderForFiveNumberSummary(): array
     {
         return [
             [

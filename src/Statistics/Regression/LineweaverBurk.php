@@ -21,7 +21,9 @@ class LineweaverBurk extends ParametricRegression
      * y⁻¹ = K * V⁻¹ * x⁻¹ + V⁻¹
      *
      * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException
+     * @throws Exception\MathException
      */
     public function calculate()
     {
@@ -37,5 +39,18 @@ class LineweaverBurk extends ParametricRegression
         $K = $linearized_parameters[1] * $V;
 
         $this->parameters = [$V, $K];
+    }
+
+    /**
+     * Evaluate the regression equation at x
+     * Uses the instance model's evaluateModel method.
+     *
+     * @param  float $x
+     *
+     * @return float
+     */
+    public function evaluate(float $x): float
+    {
+        return $this->evaluateModel($x, $this->parameters);
     }
 }

@@ -53,16 +53,12 @@ abstract class Regression
 
     /**
      * Evaluate the regression equation at x
-     * Uses the instance model's evaluateModel method.
      *
-     * @param  float $x
+     * @param float $x
      *
      * @return float
      */
-    public function evaluate(float $x): float
-    {
-        return $this->evaluateModel($x, $this->parameters);
-    }
+    abstract public function evaluate(float $x): float;
 
     /**
      * Get points

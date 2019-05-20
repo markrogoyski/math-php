@@ -592,7 +592,30 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     quartic with two complex roots
+     * @testCase     quartic with two complex roots - not set to return complex
+     * @dataProvider dataProviderForQuarticTwoComplex
+     * @param        int $a
+     * @param        int $b
+     * @param        int $c
+     * @param        int $d
+     * @param        int $e
+     * @param        array $quartic expected roots
+     * @throws       \Exception
+     */
+    public function testQuarticTwoComplexNotSetToReturnComplex($a, $b, $c, $d, $e, $quartic)
+    {
+        // When
+        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
+
+        // Then
+        $this->assertEquals($quartic[0], floatval($z₁), '', 0.00000001);
+        $this->assertEquals($quartic[1], floatval($z₂), '', 0.00000001);
+        $this->assertNan($z₃, '');
+        $this->assertNan($z₄, '');
+    }
+
+    /**
+     * @testCase     quartic with two complex roots - set to return complex
      * @dataProvider dataProviderForQuarticTwoComplex
      * @param        int $a
      * @param        int $b
@@ -604,19 +627,13 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
      */
     public function testQuarticTwoComplex($a, $b, $c, $d, $e, $quartic)
     {
-        // When
-        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
-        // Then
-        $this->assertEquals($quartic[0], floatval($z₁), '', 0.00000001);
-        $this->assertEquals($quartic[1], floatval($z₂), '', 0.00000001);
-        $this->assertNan($z₃, '');
-        $this->assertNan($z₄, '');
-
         // Given
         $complex0 = new Number\Complex($quartic[2]['r'], $quartic[2]['i']);
         $complex1 = new Number\Complex($quartic[3]['r'], $quartic[3]['i']);
+
         // When
         list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
+
         // Then
         $this->assertEquals($quartic[0], floatval($z₁), '', 0.00000001);
         $this->assertEquals($quartic[1], floatval($z₂), '', 0.00000001);
@@ -643,7 +660,30 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     quartic with four complex roots
+     * @testCase     quartic with four complex roots - not set to return complex
+     * @dataProvider dataProviderForQuarticFourComplex
+     * @param        int   $a
+     * @param        int   $b
+     * @param        int   $c
+     * @param        int   $d
+     * @param        int   $e
+     * @param        array $quartic expected roots
+     * @throws       \Exception
+     */
+    public function testQuarticFourComplexReturnsNansIfNotSetToReturnComplex(int $a, int $b, int $c, int $d, int $e, array $quartic)
+    {
+        // When
+        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
+
+        // Then
+        $this->assertNan($z₁);
+        $this->assertNan($z₂);
+        $this->assertNan($z₃);
+        $this->assertNan($z₄);
+    }
+
+    /**
+     * @testCase     quartic with four complex roots - set to return complex
      * @dataProvider dataProviderForQuarticFourComplex
      * @param        int   $a
      * @param        int   $b
@@ -655,21 +695,15 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
      */
     public function testQuarticFourComplex(int $a, int $b, int $c, int $d, int $e, array $quartic)
     {
-        // When
-        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
-        // Then
-        $this->assertNan($z₁);
-        $this->assertNan($z₂);
-        $this->assertNan($z₃);
-        $this->assertNan($z₄);
-
         // Given
         $complex0 = new Number\Complex($quartic[0]['r'], $quartic[0]['i']);
         $complex1 = new Number\Complex($quartic[1]['r'], $quartic[1]['i']);
         $complex2 = new Number\Complex($quartic[2]['r'], $quartic[2]['i']);
         $complex3 = new Number\Complex($quartic[3]['r'], $quartic[3]['i']);
+
         // When
         list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
+
         // Then
         $this->assertTrue($z₁->equals($complex0), "Expecting $complex0 but saw $z₁");
         $this->assertTrue($z₂->equals($complex1), "Expecting $complex1 but saw $z₂");

@@ -19,8 +19,8 @@ class Eigenvector
      * If a eigenvalue appears multiple times, the eigenvectors in this space
      * will be orthoganal.
      *
-     * @param Matrix $A a square matrix.
-     * @param array  $eigenvalues an array of eigenvalues for this matrix
+     * @param Matrix  $A           a square matrix.
+     * @param float[] $eigenvalues an array of eigenvalues for this matrix
      *
      * @return Matrix of eigenvectors
      *
@@ -55,7 +55,7 @@ class Eigenvector
             // pass already found all the vectors.
             $key = array_search($eigenvalue, array_column($solution_array, 'eigenvalue'));
             if (!$key) {
-                $I = MatrixFactory::identity($number, $eigenvalue);
+                $I = MatrixFactory::diagonal(array_fill(0, $number, $eigenvalue));
                 $T = $A->subtract($I);
 
                 $rref = $T->rref();

@@ -44,6 +44,7 @@ Features
  * Sequences
      - [Basic](#sequences---basic)
      - [Advanced](#sequences---advanced)
+     - [NonInteger](#sequences---non-integer)
  * [Set Theory](#set-theory)
  * Statistics
      - [ANOVA](#statistics---anova)
@@ -135,7 +136,7 @@ use MathPHP\Arithmetic;
 $³√x = Arithmetic::cubeRoot(-8); // -2
 
 // Sum of digits
-$digit_sum    = Arithmetic::digitSum(99):    // 18
+$digit_sum    = Arithmetic::digitSum(99);    // 18
 $digital_root = Arithmetic::digitalRoot(99); // 9
 
 // Equality of numbers within a tolerance
@@ -231,6 +232,7 @@ $√x          = Map\Single::sqrt($x);        // [1, 1.414, 1.732, 2]
 $∣x∣         = Map\Single::abs($x);         // [1, 2, 3, 4]
 $maxes       = Map\Single::max($x, 3);      // [3, 3, 3, 4]
 $mins        = Map\Single::min($x, 3);      // [1, 2, 3, 3]
+$reciprocals = Map\Single::reciprocal($x);  // [1, 1/2, 1/3, 1/4]
 ```
 
 ### Functions - Map - Multiple Arrays
@@ -365,11 +367,7 @@ use MathPHP\LinearAlgebra\Vector;
 $X₁ = new Vector([1, 4, 7]);
 $X₂ = new Vector([2, 5, 8]);
 $X₃ = new Vector([3, 6, 9]);
-$C  = MatrixFactory::create([$X₁, $X₂, $X₃]);
-
-// Can also directly instantiate desired matrix class
-$A = new Matrix($matrix);
-$B = new SquareMatrix($matrix);
+$C  = MatrixFactory::createFromVectors([$X₁, $X₂, $X₃]);
 
 // Basic matrix data
 $array = $A->getMatrix();
@@ -431,7 +429,10 @@ $Mᵢⱼ   = $A->submatrix($mᵢ, $nᵢ, $mⱼ, $nⱼ) // Submatrix of A from ro
 
 // Matrix operations - return a new Vector
 $AB = $A->vectorMultiply($X₁);
-$M  = $A->sampleMean();
+$M  = $A->rowSums();
+$M  = $A->columnSums();
+$M  = $A->rowMeans();
+$M  = $A->columnMeans();
 
 // Matrix operations - return a value
 $tr⟮A⟯   = $A->trace();
@@ -467,6 +468,7 @@ $bool = $A->isBidiagonal();
 $bool = $A->isTridiagonal();
 $bool = $A->isUpperHessenberg();
 $bool = $A->isLowerHessenberg();
+$bool = $A->isOrthogonal();
 $bool = $A->isInvolutory();
 $bool = $A->isSignature();
 $bool = $A->isRef();
@@ -489,6 +491,9 @@ $func = function($x) {
 };
 $R = $A->map($func);
 
+// Matrix comparisons
+$bool = $A->isEqual($B);
+
 // Print a matrix
 print($A);
 /*
@@ -506,15 +511,9 @@ $eye_matrix                   = MatrixFactory::eye($m, $n, $k);          // Ones
 $exchange_matrix              = MatrixFactory::exchange($n);             // Ones on the reverse diagonal
 $downshift_permutation_matrix = MatrixFactory::downshiftPermutation($n); // Permutation matrix that pushes the components of a vector down one notch with wraparound
 $upshift_permutation_matrix   = MatrixFactory::upshiftPermutation($n);   // Permutation matrix that pushes the components of a vector up one notch with wraparound
+$diagonal_matrix              = MatrixFactory::diagonal([1, 2, 3]);      // 3 x 3 diagonal matrix with zeros above and below the diagonal
 $hilbert_matrix               = MatrixFactory::hilbert($n);              // Square matrix with entries being the unit fractions
-
-// Vandermonde matrix
-$V = MatrixFactory::create([1, 2, 3], 4); // 4 x 3 Vandermonde matrix
-$V = new VandermondeMatrix([1, 2, 3], 4); // Same as using MatrixFactory
-
-// Diagonal matrix
-$D = MatrixFactory::create([1, 2, 3]); // 3 x 3 diagonal matrix with zeros above and below the diagonal
-$D = new DiagonalMatrix([1, 2, 3]);    // Same as using MatrixFactory
+$vandermonde_matrix           = MatrixFactory::vandermonde([1, 2, 3], 4); // 4 x 3 Vandermonde matrix
 
 // PHP Predefined Interfaces
 $json = json_encode($A); // JsonSerializable
@@ -1434,6 +1433,22 @@ $not_perfect_powers = Advanced::notPerfectPowers($n);
 // Prime numbers up to n (n is not the number of elements in the sequence)
 $primes = Advanced::primesUpTo(30);
 // [2, 3, 5, 7, 11, 13, 17, 19, 23, 29] - Indexed from 0
+```
+
+### Sequences - Non-Integer
+```php
+use MathPHP\Sequence\NonInteger;
+
+$n = 4; // Number of elements in the sequence
+
+// Harmonic sequence
+$harmonic_sequence = NonInteger::harmonic($n);
+// [1, 3/2, 11/6, 25/12] - Indexed from 1
+
+// Hyperharmonic sequence
+$p = 2;
+$hyperharmonic_sequence = NonInteger::hyperharmonic($n, $p);
+// [1, 5/4, 49/36, 205/144] - Indexed from 1
 ```
 
 ### Set Theory

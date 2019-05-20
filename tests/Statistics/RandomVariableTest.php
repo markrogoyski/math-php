@@ -7,15 +7,20 @@ use MathPHP\Statistics\RandomVariable;
 class RandomVariableTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     centralMoment
+     * @test         centralMoment
      * @dataProvider dataProviderForCentralMoment
      * @param        array $X
      * @param        int   $n
-     * @param        float $moment
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testCentralMoment(array $X, int $n, float $moment)
+    public function testCentralMoment(array $X, int $n, float $expected)
     {
-        $this->assertEquals($moment, RandomVariable::centralMoment($X, $n), '', 0.0001);
+        // When
+        $centralMoment = RandomVariable::centralMoment($X, $n);
+
+        // Then
+        $this->assertEquals($expected, $centralMoment, '', 0.0001);
     }
 
     /**
@@ -31,22 +36,32 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCasel centralMoment is null if X is empty
+     * @test   centralMoment error if X is empty
+     * @throws \Exception
      */
     public function testCentralMomentNullIfXEmpty()
     {
-        $this->assertNull(RandomVariable::centralMoment(array(), 3));
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        RandomVariable::centralMoment(array(), 3);
     }
 
     /**
-     * @testCase     populationSkewness
+     * @test         populationSkewness
      * @dataProvider dataProviderForPopulationSkewness
      * @param        array $X
-     * @param        float $skewness
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testPopulationSkewness(array $X, float $skewness)
+    public function testPopulationSkewness(array $X, float $expected)
     {
-        $this->assertEquals($skewness, RandomVariable::populationSkewness($X), '', 0.0001);
+        // When
+        $populationSkewness = RandomVariable::populationSkewness($X);
+
+        // Then
+        $this->assertEquals($expected, $populationSkewness, '', 0.0001);
     }
 
     /**
@@ -66,22 +81,32 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase populationSkewness is null if array is empty
+     * @test   populationSkewness error if array is empty
+     * @throws \Exception
      */
     public function testPopulationSkewnessNullWhenEmptyArray()
     {
-        $this->assertNull(RandomVariable::populationSkewness(array()));
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        RandomVariable::populationSkewness(array());
     }
 
     /**
-     * @testCase     sampleSkewness
+     * @test         sampleSkewness
      * @dataProvider dataProviderForSampleSkewness
      * @param        array $X
-     * @param        float $skewness
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testSampleSkewness(array $X, float $skewness)
+    public function testSampleSkewness(array $X, float $expected)
     {
-        $this->assertEquals($skewness, RandomVariable::sampleSkewness($X), '', 0.01);
+        // When
+        $skewness = RandomVariable::sampleSkewness($X);
+
+        // Then
+        $this->assertEquals($expected, $skewness, '', 0.01);
     }
 
     /**
@@ -101,31 +126,45 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase sampleSkewness is null when array is empty
+     * @test   sampleSkewness errpr when array is empty
+     * @throws \Exception
      */
     public function testSampleSkewnessNullWhenEmptyArray()
     {
-        $this->assertNull(RandomVariable::sampleSkewness(array()));
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        RandomVariable::sampleSkewness(array());
     }
 
     /**
-     * @testCase sampleSkewness is null when array has fewer than 3 elements
+     * @test   sampleSkewness error when array has fewer than 3 elements
+     * @throws \Exception
      */
     public function testSampleSkewnessNullWhenSmallArray()
     {
-        $this->assertNull(RandomVariable::sampleSkewness([1]));
-        $this->assertNull(RandomVariable::sampleSkewness([1, 2]));
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        RandomVariable::sampleSkewness([1, 2]);
     }
 
     /**
-     * @testCasel    skewness
+     * @test         skewness
      * @dataProvider dataProviderForSkewness
      * @param        array $X
-     * @param        float $skewness
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testSkewness(array $X, float $skewness)
+    public function testSkewness(array $X, float $expected)
     {
-        $this->assertEquals($skewness, RandomVariable::skewness($X), '', 0.01);
+        // When
+        $skewness = RandomVariable::skewness($X);
+
+        // Then
+        $this->assertEquals($expected, $skewness, '', 0.01);
     }
 
     /**
@@ -144,22 +183,32 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase skewness is null when array is empty
+     * @test   skewness error when array is empty
+     * @throws \Exception
      */
     public function testSkewnessNullWhenEmptyArray()
     {
-        $this->assertNull(RandomVariable::skewness(array()));
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        RandomVariable::skewness(array());
     }
 
     /**
-     * @testCase     ses
+     * @test         ses
      * @dataProvider dataProviderForSes
      * @param        int   $n
-     * @param        float $ses
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testSes(int $n, float $ses)
+    public function testSes(int $n, float $expected)
     {
-        $this->assertEquals($ses, RandomVariable::ses($n), '', 0.001);
+        // When
+        $ses = RandomVariable::ses($n);
+
+        // Then
+        $this->assertEquals($expected, $ses, '', 0.001);
     }
 
     /**
@@ -178,13 +227,17 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     ses throws a BadDataException if n is < 3
+     * @test         ses throws a BadDataException if n is < 3
      * @dataProvider dataProviderForSesException
      * @param        int $n
+     * @throws       \Exception
      */
     public function testSesException(int $n)
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         RandomVariable::ses($n);
     }
 
@@ -202,14 +255,19 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     kurtosis
+     * @test         kurtosis
      * @dataProvider dataProviderForKurtosis
      * @param        array $X
-     * @param        float $kurtosis
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testKurtosis(array $X, float $kurtosis)
+    public function testKurtosis(array $X, float $expected)
     {
-        $this->assertEquals($kurtosis, RandomVariable::kurtosis($X), '', 0.001);
+        // When
+        $kurtosis = RandomVariable::kurtosis($X);
+
+        // Then
+        $this->assertEquals($expected, $kurtosis, '', 0.001);
     }
 
     /**
@@ -229,17 +287,23 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase kurtosis returns null when array is empty
+     * @test   kurtosis error when array is empty
+     * @throws \Exception
      */
     public function testKurtosisNullWhenEmptyArray()
     {
-        $this->assertNull(RandomVariable::kurtosis(array()));
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        RandomVariable::kurtosis(array());
     }
 
     /**
-     * @testCase     isPlatykurtic
+     * @test         isPlatykurtic
      * @dataProvider dataProviderForPlatykurtic
      * @param        array $data
+     * @throws       \Exception
      */
     public function testIsPlatykurtic(array $data)
     {
@@ -247,9 +311,10 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isLeptokurtic
+     * @test         isLeptokurtic
      * @dataProvider dataProviderForLeptokurtic
      * @param        array $data
+     * @throws       \Exception
      */
     public function testIsLeptokurtic(array $data)
     {
@@ -257,9 +322,10 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isMesokurtic
+     * @test         isMesokurtic
      * @dataProvider dataProviderForMesokurtic
      * @param        array $data
+     * @throws       \Exception
      */
     public function testIsMesokurtic(array $data)
     {
@@ -267,9 +333,10 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isPlatykurtic returns false for a leptokurtic data set
+     * @test         isPlatykurtic returns false for a leptokurtic data set
      * @dataProvider dataProviderForLeptokurtic
      * @param        array $data
+     * @throws       \Exception
      */
     public function testIsNotPlatykurtic(array $data)
     {
@@ -277,9 +344,10 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isLeptokurtic returns false for a platykurtic data set
+     * @test         isLeptokurtic returns false for a platykurtic data set
      * @dataProvider dataProviderForPlatykurtic
      * @param        array $data
+     * @throws       \Exception
      */
     public function testIsNotLeptokurtic(array $data)
     {
@@ -317,14 +385,19 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     sek
+     * @test         sek
      * @dataProvider dataProviderForSek
      * @param        int   $n
-     * @param        float $sek
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testSek(int $n, float $sek)
+    public function testSek(int $n, float $expected)
     {
-        $this->assertEquals($sek, RandomVariable::sek($n), '', 0.001);
+        // When
+        $sek = RandomVariable::sek($n);
+
+        // Then
+        $this->assertEquals($expected, $sek, '', 0.001);
     }
 
     /**
@@ -343,13 +416,17 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     sek throws a BadDataException if n is < 4
+     * @test         sek throws a BadDataException if n is < 4
      * @dataProvider dataProviderForSekException
      * @param        int $n
+     * @throws       \Exception
      */
     public function testSekException(int $n)
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         RandomVariable::sek($n);
     }
 
@@ -368,25 +445,35 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     standardErrorOfTheMean
+     * @test         standardErrorOfTheMean
      * @dataProvider dataProviderForStandardErrorOfTheMean
      * @param        array $X
-     * @param        float $sem
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testStandardErrorOfTheMean(array $X, float $sem)
+    public function testStandardErrorOfTheMean(array $X, float $expected)
     {
-        $this->assertEquals($sem, RandomVariable::standardErrorOfTheMean($X), '', 0.0001);
+        // When
+        $sem = RandomVariable::standardErrorOfTheMean($X);
+
+        // Then
+        $this->assertEquals($expected, $sem, '', 0.0001);
     }
 
     /**
-     * @testCase     standardErrorOfTheMean
+     * @test         standardErrorOfTheMean
      * @dataProvider dataProviderForStandardErrorOfTheMean
      * @param        array $X
-     * @param        float $sem
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testSem(array $X, float $sem)
+    public function testSem(array $X, float $expected)
     {
-        $this->assertEquals($sem, RandomVariable::sem($X), '', 0.0001);
+        // When
+        $sem = RandomVariable::sem($X);
+
+        // Then
+        $this->assertEquals($expected, $sem, '', 0.0001);
     }
 
     /**
@@ -403,25 +490,35 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase standardErrorOfTheMean is null when array is empty
+     * @test   standardErrorOfTheMean error when array is empty
+     * @throws \Exception
      */
     public function testStandardErrorOfTheMeanNullWhenEmptyArray()
     {
-        $this->assertNull(RandomVariable::standardErrorOfTheMean(array()));
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        RandomVariable::standardErrorOfTheMean(array());
     }
 
     /**
-     * @testCase     confidenceInterval
+     * @test         confidenceInterval
      * @dataProvider dataProviderForConfidenceInterval
      * @param        number $μ
      * @param        number $n
      * @param        float  $σ
      * @param        float  $cl
-     * @param        array  $ci
+     * @param        array  $expected
+     * @throws       \Exception
      */
-    public function testConfidenceInterval($μ, $n, float $σ, float $cl, array $ci)
+    public function testConfidenceInterval($μ, $n, float $σ, float $cl, array $expected)
     {
-        $this->assertEquals($ci, RandomVariable::confidenceInterval($μ, $n, $σ, $cl), '', 0.1);
+        // When
+        $ci = RandomVariable::confidenceInterval($μ, $n, $σ, $cl);
+
+        // Then
+        $this->assertEquals($expected, $ci, '', 0.1);
     }
 
     /**
@@ -442,14 +539,19 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     sumOfSquares
+     * @test         sumOfSquares
      * @dataProvider dataProviderForSumOfSquares
      * @param        array  $numbers
-     * @param        number $sos
+     * @param        number $expected
+     * @throws       \Exception
      */
-    public function testSumOfSquares(array $numbers, $sos)
+    public function testSumOfSquares(array $numbers, $expected)
     {
-        $this->assertEquals($sos, RandomVariable::sumOfSquares($numbers), '', 0.001);
+        // When
+        $sos = RandomVariable::sumOfSquares($numbers);
+
+        // Then
+        $this->assertEquals($expected, $sos, '', 0.001);
     }
 
     /**
@@ -467,22 +569,32 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase sumOfSquares is null when the array is empty
+     * @test   sumOfSquares error when the array is empty
+     * @throws \Exception
      */
     public function testSumOfSquaresNullWhenEmptyArray()
     {
-        $this->assertNull(RandomVariable::sumOfSquares(array()));
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        RandomVariable::sumOfSquares(array());
     }
 
     /**
-     * @testCase     sumOfSquaresDeviations
+     * @test         sumOfSquaresDeviations
      * @dataProvider dataProviderForSumOfSquaresDeviations
      * @param        array $numbers
-     * @param        float $sos
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testSumOfSquaresDeviations(array $numbers, float $sos)
+    public function testSumOfSquaresDeviations(array $numbers, float $expected)
     {
-        $this->assertEquals($sos, RandomVariable::sumOfSquaresDeviations($numbers), '', 0.001);
+        // When
+        $sosDeviations = RandomVariable::sumOfSquaresDeviations($numbers);
+
+        // Then
+        $this->assertEquals($expected, $sosDeviations, '', 0.001);
     }
 
     /**
@@ -500,10 +612,15 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase sumOfSquaresDeviations is null when the array is empty
+     * @test   sumOfSquaresDeviations is null when the array is empty
+     * @throws \Exception
      */
     public function testSumOfSquaresDeviationsNullWhenEmptyArray()
     {
-        $this->assertNull(RandomVariable::sumOfSquaresDeviations(array()));
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        RandomVariable::sumOfSquaresDeviations(array());
     }
 }

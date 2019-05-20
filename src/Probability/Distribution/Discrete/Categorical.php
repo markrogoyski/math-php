@@ -13,6 +13,8 @@ use MathPHP\Exception;
  */
 class Categorical extends Discrete
 {
+    const PARAMETER_LIMITS = [];
+
     /** @var int number of categories */
     private $k;
 
@@ -54,6 +56,8 @@ class Categorical extends Discrete
 
         $this->k             = $k;
         $this->probabilities = $probabilities;
+
+        parent::__construct();
     }
 
     /**

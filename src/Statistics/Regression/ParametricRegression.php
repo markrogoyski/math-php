@@ -1,22 +1,26 @@
 <?php
 namespace MathPHP\Statistics\Regression;
 
-class ParametricRegression extends Regression
+abstract class ParametricRegression extends Regression
 {
     /**
      * An array of model parameters
      */
     protected $parameters;
-    
+
     /**
      * Have the parent separate the points into xs and ys.
      * Calculate the regression parameters
+     *
+     * @param float[] $points
      */
     public function __construct(array $points)
     {
         parent::__construct($points);
         $this->calculate();
     }
+
+    abstract public function calculate();
     
     /**
      * Return the model as a string
@@ -47,4 +51,8 @@ class ParametricRegression extends Regression
     {
         return $this->getModelParameters($this->parameters);
     }
+
+    abstract public function getModelEquation(array $parameters): string;
+
+    abstract public function getModelParameters(array $parameters): array;
 }

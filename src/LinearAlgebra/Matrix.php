@@ -43,6 +43,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var Matrix Permutation matrix in LUP decomposition */
     protected $P;
 
+    /** @var float Error/zero tolerance */
+    protected $ε;
+
+    // Default error/zero tolerance
+    const ε = 0.00000000001;
+
     /**
      * Constructor
      * @param array $A of arrays $A m x n matrix
@@ -54,6 +60,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $this->A = $A;
         $this->m = count($A);
         $this->n = $this->m > 0 ? count($A[0]) : 0;
+        $this->ε = self::ε;
 
         foreach ($A as $i => $row) {
             if (count($row) !== $this->n) {
@@ -171,11 +178,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function getDiagonalElements(): array
     {
         $diagonal = [];
-        if ($this->isSquare()) {
-            for ($i = 0; $i < $this->m; $i++) {
-                $diagonal[] = $this->A[$i][$i];
-            }
+        for ($i = 0; $i < min($this->m, $this->n); $i++) {
+            $diagonal[] = $this->A[$i][$i];
         }
+
         return $diagonal;
     }
 
@@ -251,6 +257,58 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return $vectors;
     }
 
+    /***************************************************************************
+     * SETTERS
+     *  - setError
+     **************************************************************************/
+
+    /**
+     * Set the error/zero tolerance for matrix values
+     *  - Used to determine tolerance for equality
+     *  - Used to determine if a value is zero
+     *
+     * @param float $ε
+     */
+    public function setError(float $ε)
+    {
+        $this->ε = $ε;
+    }
+
+    /***************************************************************************
+     * MATRIX COMPARISONS
+     *  - isEqual
+     ***************************************************************************/
+
+    /**
+     * Is this matrix equal to some other matrix?
+     *
+     * @param Matrix $B
+     *
+     * @return bool
+     */
+    public function isEqual(Matrix $B): bool
+    {
+        $m = $this->m;
+        $n = $this->n;
+        $ε = $this->ε;
+
+        // Same dimensions
+        if ($m != $B->m || $n != $B->n) {
+            return false;
+        }
+
+        // All elements are the same
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                if (Support::isNotEqual($this->A[$i][$j], $B[$i][$j], $ε)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     /**************************************************************************
      * MATRIX PROPERTIES
      *  - isSquare
@@ -273,6 +331,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isLowerBidiagonal
      *  - isBidiagonal
      *  - isTridiagonal
+     *  - isUpperHessenberg
+     *  - isLowerHessenberg
+     *  - isOrthogonal
      **************************************************************************/
 
     /**
@@ -289,6 +350,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Is the matrix symmetric?
      * Does A = Aᵀ
+     * aᵢⱼ = aⱼᵢ
+     *
+     * Algorithm: Iterate on the upper triangular half and compare with corresponding
+     * values on the lower triangular half. Skips the diagonal as it is symmetric with itself.
      *
      * @return bool true if symmetric; false otherwise.
      *
@@ -297,15 +362,28 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isSymmetric(): bool
     {
-        $A  = $this->A;
-        $Aᵀ = $this->transpose()->getMatrix();
+        if (!$this->isSquare()) {
+            return false;
+        }
 
-        return $A === $Aᵀ;
+        for ($i = 0; $i < $this->m - 1; $i++) {
+            for ($j = $i + 1; $j < $this->n; $j++) {
+                if (Support::isNotEqual($this->A[$i][$j], $this->A[$j][$i], $this->ε)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
-     * Is the matrix skew-symmetric?
+     * Is the matrix skew-symmetric? (Antisymmetric matrix)
      * Does Aᵀ = −A
+     * aᵢⱼ = -aⱼᵢ and main diagonal are all zeros
+     *
+     * Algorithm: Iterate on the upper triangular half and compare with corresponding
+     * values on the lower triangular half. Skips the diagonal as it is symmetric with itself.
      *
      * @return bool true if skew-symmetric; false otherwise.
      *
@@ -315,10 +393,24 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isSkewSymmetric(): bool
     {
-        $Aᵀ = $this->transpose()->getMatrix();
-        $−A = $this->negate()->getMatrix();
+        if (!$this->isSquare()) {
+            return false;
+        }
 
-        return $Aᵀ === $−A;
+        for ($i = 0; $i < $this->m - 1; $i++) {
+            for ($j = $i + 1; $j < $this->n; $j++) {
+                if (Support::isNotEqual($this->A[$i][$j], -$this->A[$j][$i], $this->ε)) {
+                    return false;
+                }
+            }
+        }
+        foreach ($this->getDiagonalElements() as $diagonalElement) {
+            if (Support::isNotZero($diagonalElement, $this->ε)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -360,7 +452,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     {
         $│A│ = $this->det ?? $this->det();
 
-        if (Support::isNotZero($│A│)) {
+        if (Support::isNotZero($│A│, $this->ε)) {
             return true;
         }
 
@@ -407,7 +499,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isPositiveDefinite(): bool
     {
-        if (!$this->isSquareAndSymmetric()) {
+        if (!$this->isSymmetric()) {
             return false;
         }
 
@@ -436,7 +528,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isPositiveSemidefinite(): bool
     {
-        if (!$this->isSquareAndSymmetric()) {
+        if (!$this->isSymmetric()) {
             return false;
         }
 
@@ -465,7 +557,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isNegativeDefinite(): bool
     {
-        if (!$this->isSquareAndSymmetric()) {
+        if (!$this->isSymmetric()) {
             return false;
         }
 
@@ -503,7 +595,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isNegativeSemidefinite(): bool
     {
-        if (!$this->isSquareAndSymmetric()) {
+        if (!$this->isSymmetric()) {
             return false;
         }
 
@@ -639,7 +731,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 continue;
             }
 
-            if ($zero_row && !$zero_row_ok) {
+            if (!$zero_row_ok) {
                 return false;
             }
         }
@@ -921,16 +1013,26 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Is the matrix square and symmetric
+     * Is the matrix orthogonal?
+     *  - It is a square matrix
+     *  - AAᵀ = AᵀA = I
      *
-     * @return boolean true if square and symmmetric; false otherwise
+     * @return bool
      *
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\MatrixException
+     * @throws Exception\MathException
      */
-    protected function isSquareAndSymmetric(): bool
+    public function isOrthogonal(): bool
     {
-        return ($this->isSquare() && $this->isSymmetric());
+        if (!$this->isSquare()) {
+            return false;
+        }
+
+        // AAᵀ = I
+        $I   = MatrixFactory::identity($this->m);
+        $Aᵀ  = $this->transpose();
+        $AAᵀ = $this->multiply($Aᵀ);
+
+        return $AAᵀ->isEqual($I);
     }
 
     /**************************************************************************
@@ -1108,8 +1210,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Matrix multiplication
-     * https://en.wikipedia.org/wiki/Matrix_multiplication#Matrix_product_.28two_matrices.29
+     * Matrix multiplication - ikj algorithm
+     * https://en.wikipedia.org/wiki/Matrix_multiplication
+     *
+     * ikj is an improvement on the classic ijk algorithm by simply changing the order of the loops.
      *
      * @param  Matrix|Vector $B Matrix or Vector to multiply
      *
@@ -1127,20 +1231,18 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         if ($B instanceof Vector) {
             $B = $B->asColumnMatrix();
         }
-
         if ($B->getM() !== $this->n) {
             throw new Exception\MatrixException("Matrix dimensions do not match");
         }
 
-        $n = $B->getN();
-        $m = $this->m;
+        // ikj algorithm
         $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $VA        = new Vector($this->getRow($i));
-                $VB        = new Vector($B->getColumn($j));
-                $R[$i][$j] = $VA->dotProduct($VB);
+        for ($i = 0; $i < $this->m; $i++) {
+            $R[$i] = array_fill(0, $B->n, 0);
+            for ($k = 0; $k < $this->n; $k++) {
+                for ($j = 0; $j < $B->n; $j++) {
+                    $R[$i][$j] += $this->A[$i][$k] * $B[$k][$j];
+                }
             }
         }
 
@@ -1151,19 +1253,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * Scalar matrix multiplication
      * https://en.wikipedia.org/wiki/Matrix_multiplication#Scalar_multiplication
      *
-     * @param  number $λ
+     * @param  float $λ
      *
      * @return Matrix
      *
      * @throws Exception\BadParameterException if λ is not a number
      * @throws Exception\IncorrectTypeException
      */
-    public function scalarMultiply($λ): Matrix
+    public function scalarMultiply(float $λ): Matrix
     {
-        if (!is_numeric($λ)) {
-            throw new Exception\BadParameterException('Parameter λ is not a number');
-        }
-
         $R = [];
 
         for ($i = 0; $i < $this->m; $i++) {
@@ -1192,7 +1290,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Scalar matrix division
      *
-     * @param  number $λ
+     * @param  float $λ
      *
      * @return Matrix
      *
@@ -1200,11 +1298,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\BadParameterException if λ is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function scalarDivide($λ): Matrix
+    public function scalarDivide(float $λ): Matrix
     {
-        if (!is_numeric($λ)) {
-            throw new Exception\BadParameterException('Parameter λ is not a number');
-        }
         if ($λ == 0) {
             throw new Exception\BadParameterException('Parameter λ cannot equal 0');
         }
@@ -1835,8 +1930,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function meanDeviation(): Matrix
     {
         $X = $this->asVectors();
-        $M = $this->sampleMean();
+        $M = $this->rowMeans();
 
+        /** @var Vector[] $B */
         $B = array_map(
             function (Vector $Xᵢ) use ($M) {
                 return $Xᵢ->subtract($M);
@@ -1844,7 +1940,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $X
         );
 
-        return MatrixFactory::create($B);
+        return MatrixFactory::createFromVectors($B);
     }
 
     /**
@@ -1952,7 +2048,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**************************************************************************
      * MATRIX OPERATIONS - Return a Vector
      *  - vectorMultiply
-     *  - sampleMean
+     *  - rowSums
+     *  - rowMeans
+     *  - columnSums
+     *  - columnMeans
      **************************************************************************/
 
     /**
@@ -1985,12 +2084,29 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Sample mean of multivariate matrix
+     * Sums of each row, returned as a Vector
+     *
+     * @return Vector
+     */
+    public function rowSums(): Vector
+    {
+        $sums = array_map(
+            function (array $row) {
+                return array_sum($row);
+            },
+            $this->A
+        );
+
+        return new Vector($sums);
+    }
+
+    /**
+     * Means of each row, returned as a Vector
      * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
      *
      *     1
      * M = - (X₁ + X₂ + ⋯ + Xn)
-     *     N
+     *     n
      *
      * Example:
      *      [1  4 7 8]
@@ -2008,20 +2124,71 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return Vector
      */
-    public function sampleMean(): Vector
+    public function rowMeans(): Vector
+    {
+        $n = $this->n;
+
+        $means = array_map(
+            function (array $row) use ($n) {
+                return array_sum($row) / $n;
+            },
+            $this->A
+        );
+
+        return new Vector($means);
+    }
+
+    /**
+     * Sums of each column, returned as a Vector
+     *
+     * @return Vector
+     */
+    public function columnSums(): Vector
+    {
+        $sums = [];
+        for ($i = 0; $i < $this->n; $i++) {
+            $sums[] = array_sum(array_column($this->A, $i));
+        }
+
+        return new Vector($sums);
+    }
+
+    /**
+     * Means of each column, returned as a Vector
+     * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
+     *
+     *     1
+     * M = - (X₁ + X₂ + ⋯ + Xn)
+     *     m
+     *
+     * Example:
+     *      [1  4 7 8]
+     *  A = [2  2 8 4]
+     *      [1 13 1 5]
+     *
+     *  Consider each row of observations as a row vector:
+     *
+     *   X₁ = [1  4 7 9]
+     *   X₂ = [2  2 8 4]
+     *   X₃ = [1 13 1 5]
+     *
+     *   1  /  1    4    7    9  \      1
+     *   - |  +2   +2   +8   +4   |  =  - [4  19  16  18]  =  [1⅓, 6⅓, 5⅓, 5.⅔]
+     *   3  \ +1  +13   +1   +5  /      3
+     *
+     * @return Vector
+     */
+    public function columnMeans(): Vector
     {
         $m = $this->m;
         $n = $this->n;
 
-        $M = array_reduce(
-            $this->asVectors(),
-            function (Vector $carryV, Vector $V) {
-                return $carryV->add($V);
-            },
-            new Vector(array_fill(0, $m, 0))
-        );
+        $means = [];
+        for ($i = 0; $i < $n; $i++) {
+            $means[] = array_sum(array_column($this->A, $i)) / $m;
+        }
 
-        return $M->scalarDivide($n);
+        return new Vector($means);
     }
 
     /**************************************************************************
@@ -2356,7 +2523,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         for ($i = 0; $i < $this->m; $i++) {
             for ($j = 0; $j < $this->n; $j++) {
-                if (Support::isNotZero($rref[$i][$j])) {
+                if (Support::isNotZero($rref[$i][$j], $this->ε)) {
                     $pivots++;
                     continue 2;
                 }
@@ -2376,6 +2543,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - rowSubtract
      *  - rowSubtractScalar
      *  - rowExclude
+     *  - replaceRow
      **************************************************************************/
 
     /**
@@ -2422,22 +2590,18 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * Each element of Row mᵢ will be multiplied by k
      *
-     * @param int $mᵢ Row to multiply
-     * @param int $k Multiplier
+     * @param int   $mᵢ Row to multiply
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if row to multiply does not exist
-     * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function rowMultiply(int $mᵢ, int $k): Matrix
+    public function rowMultiply(int $mᵢ, float $k): Matrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to multiply does not exist');
-        }
-        if ($k == 0) {
-            throw new Exception\BadParameterException('Multiplication factor k must not be 0');
         }
 
         $n = $this->n;
@@ -2455,8 +2619,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * Each element of Row mᵢ will be divided by k
      *
-     * @param int $mᵢ Row to multiply
-     * @param int $k divisor
+     * @param int   $mᵢ Row to multiply
+     * @param float $k divisor
      *
      * @return Matrix
      *
@@ -2464,7 +2628,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function rowDivide(int $mᵢ, $k): Matrix
+    public function rowDivide(int $mᵢ, float $k): Matrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to multiply does not exist');
@@ -2486,9 +2650,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Add k times row mᵢ to row mⱼ
      *
-     * @param int $mᵢ Row to multiply * k to be added to row mⱼ
-     * @param int $mⱼ Row that will have row mⱼ * k added to it
-     * @param number $k Multiplier
+     * @param int   $mᵢ Row to multiply * k to be added to row mⱼ
+     * @param int   $mⱼ Row that will have row mⱼ * k added to it
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
@@ -2496,7 +2660,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function rowAdd(int $mᵢ, int $mⱼ, $k): Matrix
+    public function rowAdd(int $mᵢ, int $mⱼ, float $k): Matrix
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to add does not exist');
@@ -2520,15 +2684,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * Each element of Row mᵢ will have k added to it
      *
-     * @param int $mᵢ Row to add k to
-     * @param int $k scalar
+     * @param int   $mᵢ Row to add k to
+     * @param float $k scalar
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if row to add does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowAddScalar(int $mᵢ, $k): Matrix
+    public function rowAddScalar(int $mᵢ, float $k): Matrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to add does not exist');
@@ -2547,21 +2711,20 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Subtract k times row mᵢ to row mⱼ
      *
-     * @param int $mᵢ Row to multiply * k to be subtracted to row mⱼ
-     * @param int $mⱼ Row that will have row mⱼ * k subtracted to it
-     * @param number $k Multiplier
+     * @param int   $mᵢ Row to multiply * k to be subtracted to row mⱼ
+     * @param int   $mⱼ Row that will have row mⱼ * k subtracted to it
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if row to subtract does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowSubtract(int $mᵢ, int $mⱼ, $k): Matrix
+    public function rowSubtract(int $mᵢ, int $mⱼ, float $k): Matrix
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to subtract does not exist');
         }
-
 
         $n = $this->n;
         $R = $this->A;
@@ -2578,15 +2741,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * Each element of Row mᵢ will have k subtracted from it
      *
-     * @param int $mᵢ Row to add k to
-     * @param int $k scalar
+     * @param int   $mᵢ Row to add k to
+     * @param float $k scalar
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if row to subtract does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowSubtractScalar(int $mᵢ, int $k): Matrix
+    public function rowSubtractScalar(int $mᵢ, float $k): Matrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to subtract does not exist');
@@ -2631,12 +2794,31 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return MatrixFactory::create(array_values($R));
     }
 
+    /**
+     * Replaces a row in a matrix with values from an array
+     *
+     * @param array $array of new values
+     * @param int $row
+     *
+     * @return Matrix with new values in the specified row
+     */
+    public function replaceRow(array $array, int $row): Matrix
+    {
+        if ($row >= $this->m || $row < 0) {
+            throw new Exception\MatrixException('Row to replace does not exist');
+        }
+        $A = $this->A;
+        $A[$row] = $array;
+        return MatrixFactory::create($A);
+    }
+
     /**************************************************************************
      * COLUMN OPERATIONS - Return a Matrix
      *  - columnInterchange
      *  - columnMultiply
      *  - columnAdd
      *  - columnExclude
+     *  - replaceColumn
      **************************************************************************/
 
     /**
@@ -2686,22 +2868,18 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * Each element of column nᵢ will be multiplied by k
      *
-     * @param int $nᵢ Column to multiply
-     * @param int $k Multiplier
+     * @param int   $nᵢ Column to multiply
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if column to multiply does not exist
-     * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function columnMultiply(int $nᵢ, int $k): Matrix
+    public function columnMultiply(int $nᵢ, float $k): Matrix
     {
         if ($nᵢ >= $this->n) {
             throw new Exception\MatrixException('Column to multiply does not exist');
-        }
-        if ($k == 0) {
-            throw new Exception\BadParameterException('Multiplication factor k must not be 0');
         }
 
         $m = $this->m;
@@ -2717,9 +2895,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Add k times column nᵢ to column nⱼ
      *
-     * @param int $nᵢ Column to multiply * k to be added to column nⱼ
-     * @param int $nⱼ Column that will have column nⱼ * k added to it
-     * @param int $k Multiplier
+     * @param int   $nᵢ Column to multiply * k to be added to column nⱼ
+     * @param int   $nⱼ Column that will have column nⱼ * k added to it
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
@@ -2727,7 +2905,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function columnAdd(int $nᵢ, int $nⱼ, int $k): Matrix
+    public function columnAdd(int $nᵢ, int $nⱼ, float $k): Matrix
     {
         if ($nᵢ >= $this->n || $nⱼ >= $this->n) {
             throw new Exception\MatrixException('Column to add does not exist');
@@ -2781,6 +2959,27 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return MatrixFactory::create($R);
+    }
+
+    /**
+     * Replaces a column in a matrix with values from an array
+     *
+     * @param array $array of new values
+     * @param int $column
+     *
+     * @returns Matrix with new values in the specified column
+     */
+    public function replaceColumn(array $array, int $column): Matrix
+    {
+        if ($column >= $this->n || $column < 0) {
+            throw new Exception\MatrixException('Column to replace does not exist');
+        }
+        $A = $this->A;
+        $m = $this->m;
+        for ($i = 0; $i < $m; $i++) {
+            $A[$i][$column] = $array[$i];
+        }
+        return MatrixFactory::create($A);
     }
 
     /**************************************************************************
@@ -2851,6 +3050,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $size  = min($m, $n);
         $R     = $this->A;
         $swaps = 0;
+        $ε     = $this->ε;
 
         for ($k = 0; $k < $size; $k++) {
             // Find column max
@@ -2861,7 +3061,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 }
             }
 
-            if ($R[$i_max][$k] == 0) {
+            if (Support::isZero($R[$i_max][$k], $ε)) {
                 throw new Exception\SingularMatrixException('Guassian elimination fails for singular matrices');
             }
 
@@ -2873,9 +3073,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
             // Row operations
             for ($i = $k + 1; $i < $m; $i++) {
-                $f = ($R[$k][$k] != 0) ? $R[$i][$k] / $R[$k][$k] : 1;
+                $f = (Support::isNotZero($R[$k][$k], $ε)) ? $R[$i][$k] / $R[$k][$k] : 1;
                 for ($j = $k + 1; $j < $n; $j++) {
                     $R[$i][$j] = $R[$i][$j] - ($R[$k][$j] * $f);
+                    if (Support::isZero($R[$i][$j], $ε)) {
+                        $R[$i][$j] = 0;
+                    }
                 }
                 $R[$i][$k] = 0;
             }
@@ -2911,6 +3114,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $m    = $this->m;
         $n    = $this->n;
         $R    = MatrixFactory::create($this->A);
+        $ε    = $this->ε;
 
         // Starting conditions
         $row   = 0;
@@ -2920,9 +3124,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         while (!$ref) {
             // If pivot is 0, try to find a non-zero pivot in the column and swap rows
-            if (Support::isZero($R[$row][$col])) {
+            if (Support::isZero($R[$row][$col], $ε)) {
                 for ($j = $row + 1; $j < $m; $j++) {
-                    if (Support::isNotZero($R[$j][$col])) {
+                    if (Support::isNotZero($R[$j][$col], $ε)) {
                         $R = $R->rowInterchange($row, $j);
                         $swaps++;
                         break;
@@ -2931,7 +3135,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
 
             // No non-zero pivot, go to next column of the same row
-            if (Support::isZero($R[$row][$col])) {
+            if (Support::isZero($R[$row][$col], $ε)) {
                 $col++;
                 if ($row >= $m || $col >= $n) {
                     $ref = true;
@@ -2946,8 +3150,13 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             // Eliminate elements below pivot
             for ($j = $row + 1; $j < $m; $j++) {
                 $factor = $R[$j][$col];
-                if (Support::isNotZero($factor)) {
+                if (Support::isNotZero($factor, $ε)) {
                     $R = $R->rowAdd($row, $j, -$factor);
+                    for ($k = 0; $k < $n; $k++) {
+                        if (Support::isZero($R[$j][$k], $ε)) {
+                            $R->A[$j][$k] = 0;
+                        }
+                    }
                 }
             }
 
@@ -2966,7 +3175,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         // Floating point adjustment for zero values
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                if (Support::isZero($R[$i][$j])) {
+                if (Support::isZero($R[$i][$j], $ε)) {
                     $R[$i][$j] = 0;
                 }
             }
@@ -3003,6 +3212,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $m = $this->m;
         $n = $this->n;
         $R = $this->ref();
+        $ε = $this->ε;
 
         // Starting conditions
         $row   = 0;
@@ -3011,7 +3221,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         while (!$rref) {
             // No non-zero pivot, go to next column of the same row
-            if (Support::isZero($R[$row][$col])) {
+            if (Support::isZero($R[$row][$col], $ε)) {
                 $col++;
                 if ($row >= $m || $col >= $n) {
                     $rref = true;
@@ -3028,7 +3238,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             // Eliminate elements above pivot
             for ($j = $row - 1; $j >= 0; $j--) {
                 $factor = $R[$j][$col];
-                if (Support::isNotZero($factor)) {
+                if (Support::isNotZero($factor, $ε)) {
                     $R = $R->rowAdd($row, $j, -$factor);
                 }
             }
@@ -3048,7 +3258,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         // Floating point adjustment for zero values
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                if (Support::isZero($R[$i][$j])) {
+                if (Support::isZero($R[$i][$j], $ε)) {
                     $R[$i][$j] = 0;
                 }
             }
@@ -3095,7 +3305,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * L = [0.5  1 0]  U = [0 1 1.5]
      *     [0.5 -1 1]      [0 0  -2]
      *
-     * @return array [
+     * @return Matrix[] [
      *   L: Lower triangular matrix
      *   U: Upper triangular matrix
      *   P: Permutation matrix
@@ -3115,7 +3325,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $n = $this->n;
 
         // Initialize L as diagonal ones matrix, and U as zero matrix
-        $L = (new DiagonalMatrix(array_fill(0, $n, 1)))->getMatrix();
+        $L = MatrixFactory::diagonal(array_fill(0, $n, 1))->getMatrix();
         $U = MatrixFactory::zero($n, $n)->getMatrix();
 
         // Create permutation matrix P and pivoted PA

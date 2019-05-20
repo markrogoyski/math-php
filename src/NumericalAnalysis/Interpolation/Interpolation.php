@@ -8,14 +8,10 @@ use MathPHP\Exception;
  */
 abstract class Interpolation
 {
-    /**
-     * @var int Index of x
-     */
+    /** @var int Index of x */
     const X = 0;
 
-    /**
-     * @var int Index of y
-     */
+    /** @var int Index of y */
     const Y = 1;
 
     /**
@@ -29,30 +25,33 @@ abstract class Interpolation
      * @todo  Add method to verify input arguments are valid.
      *        Verify $start and $end are numbers, $end > $start, and $points is an integer > 1
      *
-     * @param callable|array   $source The source of our approximation. Should be either
-     *                         a callback function or a set of arrays.
-     * @param  array   $args   The arguments of our callback function: start,
-     *                         end, and n. Example: [0, 8, 5]. If $source is a
-     *                         set of arrays, $args will default to [].
+     * @param callable|array $source The source of our approximation. Should be either a callback function or a set of arrays.
+     * @param array          $args   The arguments of our callback function: start, end, and n.
+     *                               Example: [0, 8, 5]. If $source is a set of arrays, $args will default to [].
      *
      * @return array
+     *
      * @throws Exception\BadDataException if $source is not callable or a set of arrays
      */
     public static function getPoints($source, array $args = []): array
     {
-        if (is_callable($source)) {
-            $function = $source;
-            $start    = $args[0];
-            $end      = $args[1];
-            $n        = $args[2];
-            $points   = self::functionToPoints($function, $start, $end, $n);
-        } elseif (is_array($source)) {
-            $points   = $source;
-        } else {
+        // Guard clause - source must be callable or array of points
+        if (!is_callable($source) && !is_array($source)) {
             throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
 
-        return $points;
+        // Source is already an array: nothing to do
+        if (is_array($source)) {
+            return $source;
+        }
+
+        // Construct points from callable function
+        $function = $source;
+        $start    = $args[0];
+        $end      = $args[1];
+        $n        = $args[2];
+
+        return self::functionToPoints($function, $start, $end, $n);
     }
 
     /**
@@ -60,13 +59,13 @@ abstract class Interpolation
      * between start and end
      *
      * @param  callable $function f(x) callback function
-     * @param  number   $start    the start of the interval
-     * @param  number   $end      the end of the interval
-     * @param  number   $n        the number of function evaluations
+     * @param  float    $start    the start of the interval
+     * @param  float    $end      the end of the interval
+     * @param  int      $n        the number of function evaluations
      *
      * @return array
      */
-    protected static function functionToPoints(callable $function, $start, $end, $n): array
+    protected static function functionToPoints(callable $function, float $start, float $end, int $n): array
     {
         $points = [];
         $h      = ($end-$start)/($n-1);
@@ -84,15 +83,14 @@ abstract class Interpolation
      * has precisely two numbers, and that no two points share the same first number
      * (x-component)
      *
-     * @param  array  $points Array of arrays (points)
-     * @param  number $degree The miminum number of input arrays
+     * @param  array $points Array of arrays (points)
+     * @param  int   $degree The minimum number of input arrays
      *
-     * @return bool
-     * @throws Exception if there are less than two points
-     * @throws Exception if any point does not contain two numbers
-     * @throws Exception if two points share the same first number (x-component)
+     * @throws Exception\BadDataException if there are less than two points
+     * @throws Exception\BadDataException if any point does not contain two numbers
+     * @throws Exception\BadDataException if two points share the same first number (x-component)
      */
-    public static function validate(array $points, $degree = 2): bool
+    public static function validate(array $points, int $degree = 2)
     {
         if (count($points) < $degree) {
             throw new Exception\BadDataException('You need to have at least $degree sets of coordinates (arrays) for this technique');
@@ -108,10 +106,8 @@ abstract class Interpolation
             if (in_array($x_component, $x_coordinates)) {
                 throw new Exception\BadDataException('Not a function. Your input array contains more than one coordinate with the same x-component.');
             }
-            array_push($x_coordinates, $x_component);
+            $x_coordinates[] = $x_component;
         }
-
-        return true;
     }
 
     /**
@@ -120,13 +116,12 @@ abstract class Interpolation
      *
      * @param  array $points
      *
-     * @return array
+     * @return array[]
      */
     protected static function sort(array $points): array
     {
-        $x = self::X;
-        usort($points, function ($a, $b) use ($x) {
-            return $a[$x] <=> $b[$x];
+        usort($points, function (array $a, array $b) {
+            return $a[self::X] <=> $b[self::X];
         });
 
         return $points;

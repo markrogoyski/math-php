@@ -52,7 +52,13 @@ class Multinomial
         if (count($frequencies) !== count($this->probabilities)) {
             throw new Exception\BadDataException('Number of frequencies does not match number of probabilities.');
         }
+        foreach ($frequencies as $frequency) {
+            if (!is_int($frequency)) {
+                throw new Exception\BadDataException("Frequencies must be integers. $frequency is not an int.");
+            }
+        }
 
+        /** @var int $n */
         $n   = array_sum($frequencies);
         $n！ = Combinatorics::factorial($n);
 

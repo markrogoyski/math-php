@@ -378,14 +378,14 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
                 [
                     [1, 2]
                 ],
-                [],
+                [1],
             ],
             [
                 [
                     [1],
                     [2],
                 ],
-                [],
+                [1],
             ],
             [
                 [[1]],
@@ -414,6 +414,23 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
                     [4, 5, 6, 7],
                 ],
                 [1, 3, 5, 7],
+            ],
+            [
+                [
+                    [1, 2, 3, 4],
+                    [2, 3, 4, 5],
+                    [3, 4, 5, 6],
+                ],
+                [1, 3, 5],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                    [4, 5, 6],
+                ],
+                [1, 3, 5],
             ],
         ];
     }
@@ -569,5 +586,25 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
                 '[[1]]',
             ],
         ];
+    }
+
+    /**
+     * @test   Object type of numeric matrix
+     * @throws \Exception
+     */
+    public function testGetObjectType()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        // When
+        $objectType = $A->getObjectType();
+
+        // Then
+        $this->assertSame('number', $objectType);
     }
 }

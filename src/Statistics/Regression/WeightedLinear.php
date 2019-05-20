@@ -40,9 +40,24 @@ class WeightedLinear extends ParametricRegression
      * Calculates the regression parameters.
      *
      * @throws Exception\MatrixException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
      */
     public function calculate()
     {
         $this->parameters = $this->leastSquares($this->ys, $this->xs, $this->ws)->getColumn(0);
+    }
+
+    /**
+     * Evaluate the regression equation at x
+     * Uses the instance model's evaluateModel method.
+     *
+     * @param  float $x
+     *
+     * @return float
+     */
+    public function evaluate(float $x): float
+    {
+        return $this->evaluateModel($x, $this->parameters);
     }
 }

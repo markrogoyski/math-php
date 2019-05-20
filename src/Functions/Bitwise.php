@@ -45,8 +45,10 @@ class Bitwise
      */
     public static function add(int $a, int $b): array
     {
-        if (is_int($a + $b)) {
-            $sum      = $a + $b;
+        /** @var int|float due to potential overflow */
+        $sum = $a + $b;
+
+        if (is_int($sum)) {
             $overflow = (($a < 0 || $b < 0) && $sum >= 0) || ($a < 0 && $b < 0);
         } elseif ($a > 0 && $b > 0) {
             $sum      = $a - \PHP_INT_MAX + $b - 1 + \PHP_INT_MIN;

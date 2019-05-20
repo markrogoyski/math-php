@@ -45,7 +45,7 @@ class Eigenvalue
      *
      * @param Matrix $A
      *
-     * @return array of eigenvalues
+     * @return float[] of eigenvalues
      *
      * @throws Exception\BadDataException if the matrix is not square
      * @throws Exception\BadDataException if the matrix is not 2x2, 3x3, or 4x4
@@ -81,14 +81,15 @@ class Eigenvalue
                     : $zero_poly;
             }
         }
+        /** @var ObjectSquareMatrix $λ */
         $λ = MatrixFactory::create($λ_array);
-        
-        //Subtract Iλ from B
+
+        /** @var ObjectSquareMatrix Subtract Iλ from B */
         $Bminusλ = $B->subtract($λ);
 
-        // The Eigenvalues are the roots of the determinant of this matrix
+        /** @var Polynomial The Eigenvalues are the roots of the determinant of this matrix */
         $det = $Bminusλ->det();
-        
+
         // Calculate the roots of the determinant.
         $eigenvalues = $det->roots();
         return $eigenvalues;
@@ -120,13 +121,9 @@ class Eigenvalue
         $num_zero = 0;
         $iterationCount = 0;
         $ε = 1E-16;
-        $Ematrix = [];
         while ($num_zero < $m * ($m - 1) / 2 && $iterationCount < $iter) {
             for ($i = 0; $i < $m - 1; $i++) {
                 for ($j = $i + 1; $j < $m; $j++) {
-                    $num = 0;
-                    $den = 0;
-
                     $x = $A->getColumn($i);
                     $y = $A->getColumn($j);
                     $num = 2 * array_sum(Multi::multiply($x, $y));
@@ -161,8 +158,8 @@ class Eigenvalue
 
                         $transform = MatrixFactory::create($transformArray);
                         $newColumns = $submatrix->multiply($transform);
-                        $A = self::replaceColumn($A, $newColumns->getColumn(0), $i);
-                        $A = self::replaceColumn($A, $newColumns->getColumn(1), $j);
+                        $A = $A->replaceColumn($newColumns->getColumn(0), $i);
+                        $A = $A->replaceColumn($newColumns->getColumn(1), $j);
                     }
                 }
             }
@@ -201,24 +198,5 @@ class Eigenvalue
         $λ = Multi::multiply($sgnλ, $absλ);
         
         return $λ;
-    }
-
-    /**
-     * Replaces a column in a matrix with values from an array
-     *
-     * @param Matrix $matrix
-     * @param array $array of new values
-     * @param int $column
-     *
-     * @returns Matrix with new values in the specified column
-     */
-    private static function replaceColumn(Matrix $matrix, array $array, int $column): Matrix
-    {
-        $A = $matrix->getMatrix();
-        $m = $matrix->getM();
-        for ($i = 0; $i < $m; $i++) {
-            $A[$i][$column] = $array[$i];
-        }
-        return MatrixFactory::create($A);
     }
 }
