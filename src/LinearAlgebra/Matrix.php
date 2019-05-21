@@ -3250,12 +3250,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * Create permutation matrix P:
      *      [0 1 0]
-     *  P = [1 0 1]
+     *  P = [1 0 0]
      *      [0 0 1]
      *
      * Pivot A to be PA:
      *       [0 1 0][1 3 5]   [2 4 7]
-     *  PA = [1 0 1][2 4 7] = [1 3 5]
+     *  PA = [1 0 0][2 4 7] = [1 3 5]
      *       [0 0 1][1 1 0]   [1 1 0]
      *
      * Calculate L and U
