@@ -120,7 +120,7 @@ class Eigenvalue
 
         $num_zero = 0;
         $iterationCount = 0;
-        $ε = 1E-16;
+        $ε = 1E-14;
         while ($num_zero < $m * ($m - 1) / 2 && $iterationCount < $iter) {
             for ($i = 0; $i < $m - 1; $i++) {
                 for ($j = $i + 1; $j < $m; $j++) {
