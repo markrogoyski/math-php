@@ -684,4 +684,36 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertFalse($A->isOrthogonal());
     }
+
+    /**
+     * @test         isNormal
+     * @dataProvider dataProviderForOrthogonalMatrix
+     * @dataProvider dataProviderForSkewSymmetricMatrix
+     * @dataProvider dataProviderForDiagonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testisNormal(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertTrue($A->isNormal());
+    }
+
+    /**
+     * @test         isNormal when not normal
+     * @dataProvider dataProviderForNonNormalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsNormalWhenNotNormal(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertFalse($A->isNormal());
+    }
 }
