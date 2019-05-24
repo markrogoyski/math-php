@@ -57,6 +57,7 @@ trait MatrixDataProvider
      *  - dataProviderForSingleMatrix
      *  - dataProviderForOrthogonalMatrix
      *  - dataProviderForNonOrthogonalMatrix
+     *  - dataProviderForNonNormalMatrix
      *  - dataProviderForMatrixWithWeirdNumbers
      **************************************************************************/
 
