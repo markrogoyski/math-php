@@ -334,6 +334,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isUpperHessenberg
      *  - isLowerHessenberg
      *  - isOrthogonal
+     *  - isNormal
      **************************************************************************/
 
     /**
@@ -1033,6 +1034,31 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $AAᵀ = $this->multiply($Aᵀ);
 
         return $AAᵀ->isEqual($I);
+    }
+
+    /**
+     * Is the matrix normal?
+     *  - It is a square matrix
+     *  - AAᵀ = AᵀA
+     *
+     * https://en.wikipedia.org/wiki/Normal_matrix
+     * @return bool
+     *
+     * @throws Exception\MathException
+     */
+    public function isNormal(): bool
+    {
+        if (!$this->isSquare()) {
+            return false;
+        }
+
+        // AAᵀ = I
+        $I   = MatrixFactory::identity($this->m);
+        $Aᵀ  = $this->transpose();
+        $AAᵀ = $this->multiply($Aᵀ);
+        $AᵀA = $Aᵀ->multiply($this);
+
+        return $AAᵀ->isEqual($AᵀA);
     }
 
     /**************************************************************************
