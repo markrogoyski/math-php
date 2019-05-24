@@ -120,16 +120,17 @@ class Eigenvalue
 
         $num_zero = 0;
         $iterationCount = 0;
-        $ε = 1E-14;
         while ($num_zero < $m * ($m - 1) / 2 && $iterationCount < $iter) {
             for ($i = 0; $i < $m - 1; $i++) {
                 for ($j = $i + 1; $j < $m; $j++) {
                     $x = $A->getColumn($i);
                     $y = $A->getColumn($j);
-                    $num = 2 * array_sum(Multi::multiply($x, $y));
+                    $xy = Multi::multiply($x, $y);
+                    $num = 2 * array_sum($xy);
+                    $ε = max(max(Single::abs($xy)) * 1E-7 * sqrt(count($xy) * 2), 1E-14);
                     $den = array_sum(Multi::subtract(Single::square($x), Single::square($y)));
 
-                    if (abs($num) > $ε || abs($den) > $ε) {
+                    if (abs($num) > $ε || $den < 0) {
                         if (abs($num) <= abs($den)) {
                             $tan2θ = abs($num) / abs($den);
                             $cos2θ = 1 / sqrt(1 + $tan2θ ** 2);
