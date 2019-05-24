@@ -1052,7 +1052,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             return false;
         }
 
-        // AAᵀ = I
+        // AAᵀ = AᵀA
         $I   = MatrixFactory::identity($this->m);
         $Aᵀ  = $this->transpose();
         $AAᵀ = $this->multiply($Aᵀ);
