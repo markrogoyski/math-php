@@ -104,7 +104,7 @@ class BoolesRule extends NumericalIntegration
          * ⁽ⁿ⁻¹⁾/⁴ 2h
          *  = ∑    -- [7f⟮x₄ᵢ₋₃⟯ + 32f⟮x₄ᵢ₋₂⟯ + 12f⟮x₄ᵢ₋₁⟯ + 32f⟮x₄ᵢ⟯ + 7f⟮x₄ᵢ₊₁⟯] + O(h⁷f⁽⁶⁾(x))
          *   ⁱ⁼¹   45
-         *
+         *  where h = (xn - x₁) / (n - 1)
          */
         for ($i = 1; $i < ($subIntervals/4) + 1; $i++) {
             $x₄ᵢ₋₃          = $sorted[(4*$i)-4][$x];

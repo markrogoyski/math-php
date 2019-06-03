@@ -15,8 +15,7 @@ class RectangleMethodTest extends \PHPUnit\Framework\TestCase
      * Indefinite integral over [0, 3] = F(3) - F(0) = 3
      *
      * h₁, h₂, ... denotes the size on interval 1, 2, ...
-     * ζ₁, ζ₂, ... denotes the max of the second derivative of f(x) on
-     *             interval 1, 2, ...
+     * ζ₁, ζ₂, ... denotes the max of the second derivative of f(x) on interval 1, 2, ...
      * f'(x)  = -2x + 2
      * f''(x) = -2
      * ζ      = |f''(x)| = 2
