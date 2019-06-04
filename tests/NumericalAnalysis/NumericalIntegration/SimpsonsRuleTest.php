@@ -90,9 +90,6 @@ class SimpsonsRuleTest extends \PHPUnit\Framework\TestCase
      * f''''(x) = 0
      * ζ        = f''''(x) = 0
      * Error    = O(h^5 * ζ) = 0
-     *
-     * Approximate with points (0, 1), (1.5, 6.25) and (3, 16)
-     * Error = 0
      */
     public function testApproximateUsingCallback()
     {
@@ -129,9 +126,6 @@ class SimpsonsRuleTest extends \PHPUnit\Framework\TestCase
      * f''''(x) = 0
      * ζ        = f''''(x) = 0
      * Error    = O(h^5 * ζ) = 0
-     *
-     * Approximate with points (0, 1), (1.5, 6.25) and (3, 16)
-     * Error = 0
      */
     public function testApproximateUsingPolynomial()
     {
