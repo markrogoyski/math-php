@@ -151,6 +151,67 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test   approximate using callback (http://mathfaculty.fullerton.edu/mathews/n2003/BooleRuleMod.html)
+     * @throws \Exception
+     */
+    public function testApproximatePolynomialCallback2()
+    {
+        // Given 2 + cos(2√x)
+        $func = function ($x) {
+            return 2 + cos(2 * sqrt($x));
+        };
+        $start    = 0;
+        $end      = 2;
+        $n        = 5;
+        $expected = 3.46;
+        $tol      = 0.0001;
+
+        // When
+        $x = BoolesRule::approximate($func, $start, $end, $n);
+
+        // Then
+        $this->assertEquals($expected, $x, '', $tol);
+    }
+
+    /**
+     * @test         approximate using callback (http://mathfaculty.fullerton.edu/mathews/n2003/BooleRuleMod.html)
+     * @dataProvider dataProviderForCallback3
+     * @throws       \Exception
+     */
+    public function testApproximatePolynomialCallback3(int $n, float $expected)
+    {
+        // Given 1 + e^-x sin(8x^2/3)
+        $func = function ($x) {
+            return 1 + M_E**-$x * sin(8*$x**(2/3));
+        };
+        $start    = 0;
+        $end      = 2;
+        $tol      = 0.000001;
+
+        // When
+        $x = BoolesRule::approximate($func, $start, $end, $n);
+
+        // Then
+        $this->assertEquals($expected, $x, '', $tol);
+    }
+
+    /**
+     * http://mathfaculty.fullerton.edu/mathews/n2003/boolerule/BooleRuleMod/Links/BooleRuleMod_lnk_12.html
+     * @return array
+     */
+    public function dataProviderForCallback3(): array
+    {
+        return [
+            [5, 1.553155],
+            [9, 1.963413],
+            [13, 2.001295],
+            [17, 2.007328],
+            [49, 2.014809],
+            [121, 2.015961],
+        ];
+    }
+
+    /**
      * @test   approximate exception when sub intervals are not a factor of four, or
      *         equivalently, the number of points minus one is not a factor of four
      * @throws \Exception
