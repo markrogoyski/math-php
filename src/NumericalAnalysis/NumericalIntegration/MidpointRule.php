@@ -24,7 +24,7 @@ use MathPHP\Exception;
 class MidpointRule extends NumericalIntegration
 {
     /**
-     * Use the Midpoint rule to aproximate the definite integral of a
+     * Use the Midpoint rule to approximate the definite integral of a
      * function f(x). Our input can support either a set of arrays, or a callback
      * function with arguments (to produce a set of arrays). Each array in our
      * input contains two numbers which correspond to coordinates (x, y) or

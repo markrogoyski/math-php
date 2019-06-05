@@ -174,6 +174,46 @@ class TrapezoidalRuleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         approximate e^x² (http://tutorial.math.lamar.edu/Classes/CalcII/ApproximatingDefIntegrals.aspx)
+     * @dataProvider dataProviderForEXSquared
+     * @param        int   $n
+     * @param        float $expected
+     * @param        float $tol
+     * @throws       \Exception
+     */
+    public function testApproximateUsingCallback2(int $n, float $expected, float $tol)
+    {
+        // Given e^x²
+        $func = function ($x) {
+            return M_E**($x**2);
+        };
+        $start    = 0;
+        $end      = 2;
+
+        // When
+        $x = TrapezoidalRule::approximate($func, $start, $end, $n);
+
+        // Then
+        $this->assertEquals($expected, $x, '', $tol);
+    }
+
+    /**
+     * http://tutorial.math.lamar.edu/Classes/CalcII/ApproximatingDefIntegrals.aspx
+     * @return array (n, expected, tol)
+     */
+    public function dataProviderForEXSquared(): array
+    {
+        return [
+            [4, 20.64455905, 4.19193129],
+            [8, 17.5650858, 1.1124580],
+            [16, 16.7353812, 0.2827535],
+            [32, 16.5236176, 0.0709898],
+            [64, 16.4703942, 0.0177665],
+            [128, 16.4570706, 0.0044428],
+        ];
+    }
+
+    /**
      * @test   approximate using polynomial
      * @throws \Exception
      *
