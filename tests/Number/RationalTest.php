@@ -16,11 +16,19 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      */
     public function testToString($w, $n, $d, string $string)
     {
+        // Given
         $number = new Rational($w, $n, $d);
-        $this->assertSame($string, $number->__toString());
-        $this->assertSame($string, (string) $number);
+
+        // when
+        $stringRepresentation = (string) $number;
+
+        // Then
+        $this->assertSame($string, $stringRepresentation);
     }
-    
+
+    /**
+     * @return array
+     */
     public function dataProviderForToString(): array
     {
         return [
@@ -43,6 +51,11 @@ class RationalTest extends \PHPUnit\Framework\TestCase
             [0, 8, 9, '⁸/₉'],
             [0, 9, 10, '⁹/₁₀'],
             [0, 10, 21, '¹⁰/₂₁'],
+            [0, 3, 2, '1 ¹/₂'],
+            [0, 4, 2, '2'],
+            [0, 5, 2, '2 ¹/₂'],
+            [0, 10, 2, '5'],
+            [0, 4, 3, '1 ¹/₃'],
         ];
     }
     
@@ -56,10 +69,19 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      */
     public function testToFloat($w, $n, $d, float $float)
     {
+        // Given
         $number = new Rational($w, $n, $d);
-        $this->assertEquals($float, $number->toFloat());
+
+        // When
+        $computedFloat = $number->toFloat();
+
+        // Then
+        $this->assertEquals($float, $computedFloat);
     }
-    
+
+    /**
+     * @return array
+     */
     public function dataProviderForToFloat(): array
     {
         return [
@@ -81,7 +103,10 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      */
     public function testNormalizeException()
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $number = new Rational(1, 1, 0);
     }
 
@@ -95,11 +120,19 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      */
     public function testAbs($w, $n, $d, array $result)
     {
+        // Given
         $number = new Rational($w, $n, $d);
+
+        // When
         $result_rn = new Rational(...$result);
+
+        // Then
         $this->assertTrue($number->abs()->equals($result_rn));
     }
-    
+
+    /**
+     * @return array
+     */
     public function dataProviderForAbs(): array
     {
         return [
@@ -122,18 +155,27 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      * @param        array $rn1
      * @param        array $rn2
      * @param        array $expected
+     * @throws       \Exception
      */
     public function testAdd(array $rn1, array $rn2, array $expected)
     {
+        // Given
         $rational_number_1 = new Rational($rn1[0], $rn1[1], $rn1[2]);
         $rational_number_2 = new Rational($rn2[0], $rn2[1], $rn2[2]);
-        $addition_result   = $rational_number_1->add($rational_number_2);
         $expected_rn       = new Rational(...$expected);
+
+        // When
+        $addition_result   = $rational_number_1->add($rational_number_2);
+
+        // Then
         $this->assertTrue($addition_result->equals($expected_rn));
         $this->assertSame($expected_rn->__toString(), $addition_result->__toString());
         $this->assertSame($expected_rn->toFloat(), $addition_result->toFloat());
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForAdd(): array
     {
         return [
@@ -150,19 +192,28 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForSubtract
      * @param        array $rn1
      * @param        array $rn2
-     * @param        float $expected
+     * @param        array $expected
+     * @throws       \Exception
      */
     public function testSubtract(array $rn1, array $rn2, array $expected)
     {
-        $rational_number_1  = new Rational($rn1[0], $rn1[1], $rn1[2]);
-        $rational_number_2  = new Rational($rn2[0], $rn2[1], $rn2[2]);
+        // Given
+        $rational_number_1 = new Rational($rn1[0], $rn1[1], $rn1[2]);
+        $rational_number_2 = new Rational($rn2[0], $rn2[1], $rn2[2]);
+        $expected_rn       = new Rational(...$expected);
+
+        // When
         $subtraction_result = $rational_number_1->subtract($rational_number_2);
-        $expected_rn        = new Rational(...$expected);
+
+        // Then
         $this->assertTrue($subtraction_result->equals($expected_rn));
         $this->assertSame($expected_rn->__toString(), $subtraction_result->__toString());
         $this->assertSame($expected_rn->toFloat(), $subtraction_result->toFloat());
     }
-    
+
+    /**
+     * @return array
+     */
     public function dataProviderForSubtract(): array
     {
         return [
@@ -179,19 +230,28 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForMultiply
      * @param        array $rn1
      * @param        array $rn2
-     * @param        float $expected
+     * @param        array $expected
+     * @throws       \Exception
      */
     public function testMultiply(array $rn1, array $rn2, array $expected)
     {
-        $rational_number_1     = new Rational($rn1[0], $rn1[1], $rn1[2]);
-        $rational_number_2     = new Rational($rn2[0], $rn2[1], $rn2[2]);
+        // Given
+        $rational_number_1 = new Rational($rn1[0], $rn1[1], $rn1[2]);
+        $rational_number_2 = new Rational($rn2[0], $rn2[1], $rn2[2]);
+        $expected_rn      = new Rational(...$expected);
+
+        // When
         $multiplication_result = $rational_number_1->multiply($rational_number_2);
-        $expected_rn           = new Rational(...$expected);
+
+        // Then
         $this->assertTrue($multiplication_result->equals($expected_rn));
         $this->assertSame($expected_rn->__toString(), $multiplication_result->__toString());
         $this->assertSame($expected_rn->toFloat(), $multiplication_result->toFloat());
     }
-    
+
+    /**
+     * @return array
+     */
     public function dataProviderForMultiply(): array
     {
         return [
@@ -208,19 +268,28 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForDivide
      * @param        array $rn1
      * @param        array $rn2
-     * @param        float $expected
+     * @param        array $expected
+     * @throws       \Exception
      */
     public function testDivide(array $rn1, array $rn2, array $expected)
     {
+        // given
         $rational_number_1 = new Rational($rn1[0], $rn1[1], $rn1[2]);
         $rational_number_2 = new Rational($rn2[0], $rn2[1], $rn2[2]);
-        $division_result   = $rational_number_1->divide($rational_number_2);
         $expected_rn       = new Rational(...$expected);
+
+        // When
+        $division_result   = $rational_number_1->divide($rational_number_2);
+
+        // Then
         $this->assertTrue($division_result->equals($expected_rn));
         $this->assertSame($expected_rn->__toString(), $division_result->__toString());
         $this->assertSame($expected_rn->toFloat(), $division_result->toFloat());
     }
-    
+
+    /**
+     * @return array
+     */
     public function dataProviderForDivide(): array
     {
         return [
@@ -238,14 +307,24 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      * @param        array $rn
      * @param        int   $int
      * @param        array $result
+     * @throws       \Exception
      */
     public function testAddInt(array $rn, int $int, array $result)
     {
+        // Given
         $rational_number = new Rational(...$rn);
-        $result_rn = new Rational(...$result);
-        $this->assertTrue($rational_number->add($int)->equals($result_rn));
+        $result_rn       = new Rational(...$result);
+
+        // When
+        $additionResult = $rational_number->add($int);
+
+        // Then
+        $this->assertTrue($additionResult->equals($result_rn));
     }
-    
+
+    /**
+     * @return array
+     */
     public function dataProviderForAddInt(): array
     {
         return [
@@ -263,14 +342,24 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      * @param        array $rn
      * @param        int   $int
      * @param        array $result
+     * @throws       \Exception
      */
     public function testSubtractInt(array $rn, int $int, array $result)
     {
+        // Given
         $rational_number = new Rational(...$rn);
         $result_rn       = new Rational(...$result);
-        $this->assertTrue($rational_number->subtract($int)->equals($result_rn));
+
+        // When
+        $subtractionResult = $rational_number->subtract($int);
+
+        // Then
+        $this->assertTrue($subtractionResult->equals($result_rn));
     }
-    
+
+    /**
+     * @return array
+     */
     public function dataProviderForSubtractInt(): array
     {
         return [
@@ -288,15 +377,24 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      * @param        array $rn
      * @param        int   $int
      * @param        array $expected
+     * @throws       \Exception
      */
     public function testMultiplyInt(array $rn, int $int, array $expected)
     {
+        // Given
         $rational_number       = new Rational(...$rn);
         $expected_rn           = new Rational(...$expected);
+
+        // When
         $multiplication_result = $rational_number->multiply($int);
+
+        // Then
         $this->assertTrue($multiplication_result->equals($expected_rn));
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForMultiplyInt(): array
     {
         return [
@@ -312,16 +410,26 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      * @testCase     divide int returns the correct number
      * @dataProvider dataProviderForDivideInt
      * @param        array $rn
-     * @param        int $int
-     * @param        float $result
+     * @param        int   $int
+     * @param        array $result
+     * @throws       \Exception
      */
     public function testDivideInt(array $rn, int $int, array $result)
     {
+        // given
         $rational_number = new Rational(...$rn);
         $result_rn       = new Rational(...$result);
-        $this->assertTrue($rational_number->divide($int)->equals($result_rn));
+
+        // When
+        $divisionResult = $rational_number->divide($int);
+
+        // Then
+        $this->assertTrue($divisionResult->equals($result_rn));
     }
-    
+
+    /**
+     * @return array
+     */
     public function dataProviderForDivideInt(): array
     {
         return [
@@ -334,7 +442,8 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase  Adding a float throws an exception
+     * @testCase Adding a float throws an exception
+     * @throws   \Exception
      */
     public function testAddException()
     {
@@ -344,32 +453,50 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase  Subtracting a float throws an exception
+     * @testCase Subtracting a float throws an exception
+     * @throws   \Exception
      */
     public function testSubtractException()
     {
-        $this->expectException(Exception\IncorrectTypeException::class);
+        // Given
         $number = new Rational(1, 0, 1);
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
         $number->subtract(1.5);
     }
 
     /**
-     * @testCase  multiplying a float throws an exception
+     * @testCase Multiplying a float throws an exception
+     * @throws   \Exception
      */
     public function testMultiplyException()
     {
-        $this->expectException(Exception\IncorrectTypeException::class);
+        // Given
         $number = new Rational(1, 0, 1);
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
         $number->multiply(1.5);
     }
 
     /**
-     * @testCase  Dividing a float throws an exception
+     * @testCase Dividing a float throws an exception
+     * @throws   \Exception
      */
     public function testDivideException()
     {
-        $this->expectException(Exception\IncorrectTypeException::class);
+        // Given
         $number = new Rational(1, 0, 1);
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
         $number->divide(1.5);
     }
 }
