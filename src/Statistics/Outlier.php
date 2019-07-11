@@ -3,17 +3,15 @@ namespace MathPHP\Statistics;
 
 use MathPHP\Exception;
 use MathPHP\Functions\Map\Single;
-use MathPHP\Probability\Distribution\Continuous\StandardNormal;
 use MathPHP\Probability\Distribution\Continuous\StudentT;
-use MathPHP\Statistics\Average;
-use MathPHP\Statistics\Descriptive;
 
 /**
  * Tests for outliers in data
- *  - Grubbs Test
+ *  - Grubbs' Test
  */
 class Outlier
 {
+    const ONE_SIDED       = 'one';
     const TWO_SIDED       = 'two';
     const ONE_SIDED_LOWER = 'lower';
     const ONE_SIDED_UPPER = 'upper';
@@ -24,6 +22,9 @@ class Outlier
      * G is the largest z-score for a set of data
      * The statistic can be calculated, looking at only the maximum value ("upper")
      * the minimum value ("lower"), or the data point with the largest residual ("two")
+     *
+     * https://en.wikipedia.org/wiki/Grubbs%27_test_for_outliers
+     * https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h1.htm
      *
      * Two-sided Grubbs' test statistic - largest difference from the mean is an outlier
      *
@@ -52,9 +53,9 @@ class Outlier
      * @throws Exception\OutOfBoundsException
      * @throws Exception\BadParameterException if the type of test is not valid
      */
-    public static function grubbsStatistic(array $data, string $typeOfTest = 'two'): float
+    public static function grubbsStatistic(array $data, string $typeOfTest = self::TWO_SIDED): float
     {
-        self::validateTestType($typeOfTest);
+        self::validateGrubbsTestType($typeOfTest);
 
         $μ = Average::mean($data);
         $σ = Descriptive::standardDeviation($data);
@@ -79,10 +80,11 @@ class Outlier
     
     /**
      * The critical Grubbs Value
-     * https://en.wikipedia.org/wiki/Grubbs%27_test_for_outliers
-     * https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h1.htm
      *
      * The critical Grubbs' value is used to determine if a value in a set of data is likely to be an outlier.
+     *
+     * https://en.wikipedia.org/wiki/Grubbs%27_test_for_outliers
+     * https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h1.htm
      *
      *                                ___________
      *                   (n - 1)     /    T²
@@ -92,27 +94,43 @@ class Outlier
      * T = Critical value of the t distribution with (N-2) degrees of freedom and a significance level of α/(2N)
      *     For the one-sided tests, replace α/(2N) with α/N.
      *
-     * @param float $𝛼 Significance Level
-     * @param int   $n Size of the data set
-     * @param int   $tails (1 or 2) one or two-tailed test
+     * @param float  $𝛼 Significance Level
+     * @param int    $n Size of the data set
+     * @param string $typeOfTest ('one' or 'two') one or two-tailed test
      *
      * @return float
      *
      * @throws Exception\BadParameterException
      */
-    public static function criticalGrubbs(float $𝛼, int $n, int $tails = 2): float
+    public static function grubbsCriticalValue(float $𝛼, int $n, string $typeOfTest): float
     {
-        if ($tails < 1 || $tails > 2) {
-            throw new Exception\BadParameterException('Tails must be 1 or 2');
-        }
+        self::validateGrubbsCriticalValueTestType($typeOfTest);
 
         $studentT = new StudentT($n - 2);
 
-        $T = $tails === 1
+        $T = $typeOfTest === self::ONE_SIDED
             ? $studentT->inverse($𝛼 / $n)
             : $studentT->inverse($𝛼 / (2 * $n));
 
         return (($n - 1) / sqrt($n)) * sqrt($T ** 2 / ($n - 2 + $T ** 2));
+    }
+
+    /* ********************** *
+     * PRIVATE HELPER METHODS
+     * ********************** */
+
+    /**
+     * Validate the type of test is two sided, or one sided lower or upper
+     *
+     * @param string $typeOfTest
+     *
+     * @throws Exception\BadParameterException
+     */
+    private static function validateGrubbsTestType(string $typeOfTest)
+    {
+        if (!in_array($typeOfTest, [self::TWO_SIDED, self::ONE_SIDED_LOWER, self::ONE_SIDED_UPPER])) {
+            throw new Exception\BadParameterException("{$typeOfTest} is not a valid Grubbs; test");
+        }
     }
 
     /**
@@ -122,10 +140,10 @@ class Outlier
      *
      * @throws Exception\BadParameterException
      */
-    private static function validateTestType(string $typeOfTest)
+    private static function validateGrubbsCriticalValueTestType(string $typeOfTest)
     {
-        if (!in_array($typeOfTest, [self::TWO_SIDED, self::ONE_SIDED_LOWER, self::ONE_SIDED_UPPER])) {
-            throw new Exception\BadParameterException("{$typeOfTest} is not a valid Grubbs test");
+        if (!in_array($typeOfTest, [self::ONE_SIDED, self::TWO_SIDED])) {
+            throw new Exception\BadParameterException("{$typeOfTest} is not a valid Grubbs' test");
         }
     }
 }

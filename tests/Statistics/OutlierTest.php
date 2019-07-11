@@ -124,17 +124,17 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
      * @test         Critical value for two-sided test
      * @dataProvider dataProviderForCriticalValueOneSided
      * @param        float $𝛼
-     * @param        int $n
+     * @param        int   $n
      * @param        float $expectedCriticalValue
      * @throws       Exception\BadParameterException
      */
     public function testCriticalGrubsOneSided(float $𝛼, int $n, float $expectedCriticalValue)
     {
         // Given
-        $oneSided = 1;
+        $oneSided = Outlier::ONE_SIDED;
 
         // When
-        $criticalValue = Outlier::criticalGrubbs($𝛼, $n, $oneSided);
+        $criticalValue = Outlier::grubbsCriticalValue($𝛼, $n, $oneSided);
 
         // Then
         $this->assertEquals($expectedCriticalValue, $criticalValue, '', 0.001);
@@ -225,17 +225,17 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
      * @test         Critical value for two-sided test
      * @dataProvider dataProviderForCriticalValueTwoSided
      * @param        float $𝛼
-     * @param        int $n
+     * @param        int   $n
      * @param        float $expectedCriticalValue
      * @throws       Exception\BadParameterException
      */
     public function testCriticalGrubsTwoSided(float $𝛼, int $n, float $expectedCriticalValue)
     {
         // Given
-        $twoSided = 2;
+        $twoSided = Outlier::TWO_SIDED;
 
         // When
-        $criticalValue = Outlier::criticalGrubbs($𝛼, $n, $twoSided);
+        $criticalValue = Outlier::grubbsCriticalValue($𝛼, $n, $twoSided);
 
         // Then
         $this->assertEquals($expectedCriticalValue, $criticalValue, '', 0.001);
@@ -341,20 +341,20 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         Critical value tails must be 1 or 2
      * @dataProvider dataProviderForInvalidTails
-     * @param        int $tails
+     * @param        string $typeOfTest
      * @throws       \Exception
      */
-    public function testCriticalValueException(int $tails)
+    public function testCriticalValueException(string $typeOfTest)
     {
         // Given
         $𝛼 = 0.05;
-        $n     = 10;
+        $n = 10;
 
         // Then
         $this->expectException(Exception\BadParameterException::class);
 
         // When
-        $criticalValue = Outlier::criticalGrubbs($𝛼, $n, $tails);
+        $criticalValue = Outlier::grubbsCriticalValue($𝛼, $n, $typeOfTest);
     }
 
     /**
@@ -363,11 +363,9 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForInvalidTails(): array
     {
         return [
-            [-1],
-            [0],
-            [3],
-            [4],
-            [10],
+            ['zero'],
+            ['three'],
+            ['ten'],
         ];
     }
 }
