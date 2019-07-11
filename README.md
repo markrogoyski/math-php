@@ -57,6 +57,7 @@ Features
      - [Effect Size](#statistics---effect-size)
      - [Experiments](#statistics---experiments)
      - [Kernel Density Estimation](#statistics---kernel-density-estimation)
+     - [Outlier](#statistics---outlier)
      - [Random Variables](#statistics---random-variables)
      - [Regressions](#statistics---regressions)
      - [Significance Testing](#statistics---significance-testing)
@@ -2033,6 +2034,27 @@ $kde->setKernelFunction($kernel);
 
 // All customization optionally can be done in the constructor
 $kde = new KernelDesnsityEstimation($data, $h, $kernel);
+```
+
+### Statistics - Outlier
+```php
+use MathPHP\Statistics\Outlier;
+
+$data = [199.31, 199.53, 200.19, 200.82, 201.92, 201.95, 202.18, 245.57];
+$n    = 8;    // size of data
+$𝛼    = 0.05; // significance level
+
+// Grubb's test - two sided test
+$grubbsStatistic = Outlier::grubbsStatistic($data, Outlier::TWO_SIDED);
+$criticalValue   = Outlier::grubbsCriticalValue($𝛼, $n, Outlier::TWO_SIDED);
+
+// Grubbs' test - one sided test of minimum value
+$grubbsStatistic = Outlier::grubbsStatistic($data, Outlier::ONE_SIDED_LOWER);
+$criticalValue   = Outlier::grubbsCriticalValue($𝛼, $n, Outlier::ONE_SIDED);
+
+// Grubbs' test - one sided test of maximum value
+$grubbsStatistic = Outlier::grubbsStatistic($data, Outlier::ONE_SIDED_UPPER);
+$criticalValue   = Outlier::grubbsCriticalValue($𝛼, $n, Outlier::ONE_SIDED);
 ```
 
 ### Statistics - Random Variables

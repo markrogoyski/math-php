@@ -94,7 +94,7 @@ class Outlier
      * T = Critical value of the t distribution with (N-2) degrees of freedom and a significance level of α/(2N)
      *     For the one-sided tests, replace α/(2N) with α/N.
      *
-     * @param float  $𝛼 Significance Level
+     * @param float  $𝛼 Significance level
      * @param int    $n Size of the data set
      * @param string $typeOfTest ('one' or 'two') one or two-tailed test
      *
