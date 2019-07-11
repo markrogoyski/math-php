@@ -25,6 +25,24 @@ class Outlier
      * The statistic can be calculated, looking at only the maximum value ("upper")
      * the minimum value ("lower"), or the data point with the largest residual ("two")
      *
+     * Two-sided Grubbs' test statistic - largest difference from the mean is an outlier
+     *
+     *     max❘Yᵢ − μ❘
+     * G = ----------
+     *         σ
+     *
+     * One-sided Grubbs' test statistic - minimum value is an outlier
+     *
+     *     μ - Ymin
+     * G = --------
+     *        σ
+     *
+     * One-sided Grubbs' test statistic - maximum value is an outlier
+     *
+     *     Ymax - μ
+     * G = --------
+     *        σ
+     *
      * @param float[] $data
      * @param string  $typeOfTest ("upper" "lower", or "two")
      *
@@ -64,7 +82,15 @@ class Outlier
      * https://en.wikipedia.org/wiki/Grubbs%27_test_for_outliers
      * https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h1.htm
      *
-     * The Critical Grubbs value is used to determine if a value in a set of data is likely to be an outlier.
+     * The critical Grubbs' value is used to determine if a value in a set of data is likely to be an outlier.
+     *
+     *                                ___________
+     *                   (n - 1)     /    T²
+     * Critical value =  ------- \  / ----------
+     *                     √n     \/  n - 2 + T²
+     *
+     * T = Critical value of the t distribution with (N-2) degrees of freedom and a significance level of α/(2N)
+     *     For the one-sided tests, replace α/(2N) with α/N.
      *
      * @param float $𝛼 Significance Level
      * @param int   $n Size of the data set
