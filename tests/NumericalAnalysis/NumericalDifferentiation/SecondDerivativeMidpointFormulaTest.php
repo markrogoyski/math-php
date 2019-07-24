@@ -144,7 +144,6 @@ class SecondDerivativeMidpointFormulaTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $actual);
     }
 
-
     /**
      * @test   differentiate target exception
      * @throws \Exception

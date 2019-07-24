@@ -179,13 +179,8 @@ class FivePointFormulaTest extends \PHPUnit\Framework\TestCase
         };
         $expected = $f’($x);
 
-        // And
-        $n = 5;
-        $a = 0;
-        $b = 4;
-
         // When
-        $actual = FivePointFormula::differentiate($x, $f, $a, $b, $n);
+        $actual = FivePointFormula::differentiate($x, $points);
 
         // Then
         $this->assertEquals($expected, $actual);
