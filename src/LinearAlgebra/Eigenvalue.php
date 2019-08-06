@@ -120,8 +120,8 @@ class Eigenvalue
         for ($i = 0; $i <$m; $i++) {
             $random_array[] = [rand()];
         }
-        $b = MatrixFactory::create($random_array);
-        $new_b = MatrixFactory::zero($m, 1);
+        $new_b = MatrixFactory::create($random_array);
+        $b = MatrixFactory::zero($m, 1);
         $abs = -1;
         $new_abs = -2;
         while (!$b->isEqual($new_b)) {
