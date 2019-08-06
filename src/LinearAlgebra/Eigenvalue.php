@@ -137,14 +137,18 @@ class Eigenvalue
         }
         $new_b = MatrixFactory::create($random_array);
         $b = MatrixFactory::zero($m, 1);
+        $newμ = 0;
+        $μ = -1
         $abs = -1;
         $new_abs = -2;
-        while (!$b->isEqual($new_b)) {
+        while ($μ ! == $newμ) {
             $b = $new_b;
+            $μ = $newμ;
             $Ab = $A->multiply($b);
             $new_b = $Ab->scalarDivide($Ab->frobeniusNorm());
+            $newμ = $new_b->transpose()->multiply($A)->multiply($new_b) / $new_b->transpose()->multiply($new_b);
         }
         
-        return $b->transpose()->multiply($A)->multiply($b) / $b->transpose()->multiply($b);
+        return $newμ;
     }
 }
