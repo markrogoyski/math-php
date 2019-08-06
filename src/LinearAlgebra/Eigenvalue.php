@@ -92,6 +92,27 @@ class Eigenvalue
         return $eigenvalues;
     }
 
+    /**
+     * Power Iteration
+     *
+     * The recurrance relation:
+     *         Abₖ
+     * bₖ₊₁ = ------
+     *        ‖Abₖ‖
+     *
+     * will converge to the dominant eigenvector,
+     *
+     * The corresponding eigenvalue is calculated as:
+     *
+     *      bₖᐪAbₖ
+     * μₖ = -------
+     *       bₖᐪbₖ
+     *
+     * https://en.wikipedia.org/wiki/Power_iteration
+     * @param Matrix $A
+     *
+     * @return float most extreme eigenvalue
+     */
     public static function powerIteration(Matrix $A): array
     {
         $m = $A->getM();
