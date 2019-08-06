@@ -31,8 +31,8 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A);
         // Find the most extreme value
         $eigenvalue = max($S) ** 2 > min($S) ** 2 ? max($S) : min($S);
-        $this->assertEquals($eigenvalue, Eigenvalue::powerIteration($A), '', 0.0001);
-        $this->assertEquals($eigenvalue, $A->eigenvalues(Eigenvalue::POWER_ITERATION), '', 0.0001);
+        $this->assertEquals([$eigenvalue], Eigenvalue::powerIteration($A), '', 0.0001);
+        $this->assertEquals([$eigenvalue], $A->eigenvalues(Eigenvalue::POWER_ITERATION), '', 0.0001);
     }
 
     public function dataProviderForEigenvalues(): array
