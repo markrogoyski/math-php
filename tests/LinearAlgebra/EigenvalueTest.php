@@ -20,6 +20,21 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($S, $A->eigenvalues(Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD), '', 0.0001);
     }
 
+    /**
+     * @testCase     powerIterationMethod returns the expected eigenvalues
+     * @dataProvider dataProviderForEigenvalues
+     * @param        array $A
+     * @param        array $S
+     */
+    public function testPowerIteration(array $A, array $S)
+    {
+        $A = MatrixFactory::create($A);
+        // Find the most extreme value
+        $eigenvalue = max($S) ** 2 > min($S) ** 2 ? max($S) : min($S);
+        $this->assertEquals($eigenvalue, Eigenvalue::powerIteration($A), '', 0.0001);
+        $this->assertEquals($eigenvalue, $A->eigenvalues(Eigenvalue::POWER_ITERATION), '', 0.0001);
+    }
+
     public function dataProviderForEigenvalues(): array
     {
         return [
