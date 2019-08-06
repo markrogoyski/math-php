@@ -3,6 +3,7 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
 use MathPHP\Functions\Polynomial;
+use MathPHP\Functions\Support;
 
 class Eigenvalue
 {
