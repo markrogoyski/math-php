@@ -138,8 +138,7 @@ class Eigenvalue
         $new_b = MatrixFactory::create($random_array);
         $b = MatrixFactory::zero($m, 1);
         $newμ = 0;
-        $μ = -1
-        $abs = -1;
+        $μ = -1;
         $new_abs = -2;
         while ($μ ! == $newμ) {
             $b = $new_b;
