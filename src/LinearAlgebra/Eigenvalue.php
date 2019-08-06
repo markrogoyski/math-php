@@ -145,7 +145,7 @@ class Eigenvalue
             $μ = $newμ;
             $Ab = $A->multiply($b);
             $new_b = $Ab->scalarDivide($Ab->frobeniusNorm());
-            $newμ = $new_b->transpose()->multiply($A)->multiply($new_b) / $new_b->transpose()->multiply($new_b);
+            $newμ = $new_b->transpose()->multiply($A)->multiply($new_b)->get(0, 0) / $new_b->transpose()->multiply($new_b)->get(0, 0);
         }
         
         return $newμ;
