@@ -123,10 +123,10 @@ class Eigenvalue
      * https://en.wikipedia.org/wiki/Power_iteration
      * @param Matrix $A
      *
-     * @return float most extreme eigenvalue
+     * @return float[] most extreme eigenvalue
      * @throws Exception\BadDataException if the matrix is not square
      */
-    public static function powerIteration(Matrix $A): float
+    public static function powerIteration(Matrix $A): array
     {
         self::checkMatrix($A);
         
@@ -148,6 +148,6 @@ class Eigenvalue
             $newμ = $new_b->transpose()->multiply($A)->multiply($new_b)->get(0, 0) / $new_b->transpose()->multiply($new_b)->get(0, 0);
         }
         
-        return $newμ;
+        return [$newμ];
     }
 }
