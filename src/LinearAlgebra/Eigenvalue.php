@@ -140,7 +140,7 @@ class Eigenvalue
         $newμ = 0;
         $μ = -1;
         $new_abs = -2;
-        while ($μ !== $newμ) {
+        while (!support::isEqual($μ, $newμ)) {
             $b = $new_b;
             $μ = $newμ;
             $Ab = $A->multiply($b);
