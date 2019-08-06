@@ -126,7 +126,7 @@ class Eigenvalue
      * @return float most extreme eigenvalue
      * @throws Exception\BadDataException if the matrix is not square
      */
-    public static function powerIteration(Matrix $A): array
+    public static function powerIteration(Matrix $A): float
     {
         self::checkMatrix($A);
         
