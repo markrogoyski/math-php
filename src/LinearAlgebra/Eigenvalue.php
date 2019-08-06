@@ -27,6 +27,20 @@ class Eigenvalue
     }
 
     /**
+     * Verify that the matrix can have eigenvalues
+     *
+     * @param Matrix $A
+     *
+     * @throws Exception\BadDataException if the matrix is not square
+     */
+    private static checkMatrix(Matrix $A)
+    {
+        if (!$A->isSquare()) {
+            throw new Exception\BadDataException('Matrix must be square');
+        }
+    }
+
+    /**
      * Produces the Eigenvalues for square 2x2 - 4x4 matricies
      *
      * Given a matrix
@@ -49,9 +63,7 @@ class Eigenvalue
      */
     public static function closedFormPolynomialRootMethod(Matrix $A): array
     {
-        if (!$A->isSquare()) {
-            throw new Exception\BadDataException('Matrix must be square');
-        }
+        self::checkMatrix($A);
 
         $m = $A->getM();
         if ($m < 2 || $m > 4) {
@@ -112,9 +124,12 @@ class Eigenvalue
      * @param Matrix $A
      *
      * @return float most extreme eigenvalue
+     * @throws Exception\BadDataException if the matrix is not square
      */
     public static function powerIteration(Matrix $A): array
     {
+        self::checkMatrix($A);
+        
         $m = $A->getM();
         $random_array = [];
         for ($i = 0; $i <$m; $i++) {
