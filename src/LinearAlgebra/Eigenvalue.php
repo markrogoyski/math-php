@@ -7,9 +7,11 @@ use MathPHP\Functions\Polynomial;
 class Eigenvalue
 {
     const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
+    const POWER_ITERATION = 'powerIteration';
 
     const METHODS = [
         self::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD,
+        self::POWER_ITERATION,
     ];
 
     /**
@@ -88,5 +90,25 @@ class Eigenvalue
         // Calculate the roots of the determinant.
         $eigenvalues = $det->roots();
         return $eigenvalues;
+    }
+
+    public static function powerIteration(Matrix $A): array
+    {
+        $m = $A->getM();
+        $random_array = [];
+        for ($i = 0; $i <$m; $i++) {
+            $random_array[] = [rand()];
+        }
+        $b = MatrixFactory::create($random_array);
+        $new_b = MatrixFactory::zero($m, 1);
+        $abs = -1;
+        $new_abs = -2;
+        while (!$b->isEqual($new_b)) {
+            $b = $new_b;
+            $Ab = $A->multiply($b);
+            $new_b = $Ab->scalarDivide($Ab->frobeniusNorm());
+        }
+        
+        return $b->transpose()->multiply($A)->multiply($b) / $b->transpose()->multiply($b);
     }
 }
