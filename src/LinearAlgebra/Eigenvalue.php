@@ -33,7 +33,7 @@ class Eigenvalue
      *
      * @throws Exception\BadDataException if the matrix is not square
      */
-    private static checkMatrix(Matrix $A)
+    private static function checkMatrix(Matrix $A)
     {
         if (!$A->isSquare()) {
             throw new Exception\BadDataException('Matrix must be square');
