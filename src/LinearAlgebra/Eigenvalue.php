@@ -89,4 +89,57 @@ class Eigenvalue
         $eigenvalues = $det->roots();
         return $eigenvalues;
     }
+
+    /**
+     * Find eigenvalues by the Jacobi method
+     *
+     * https://en.wikipedia.org/wiki/Jacobi_eigenvalue_algorithm
+     *
+     * @param Matrix $A
+     *
+     * @return float[] of eigenvalues
+     *
+     * @throws Exception\BadDataException if the matrix is not square
+     */
+    public static function jacobiMethod(Matrix $A): array
+    {
+        // Check if square and is symmetric
+        $D = $A;
+        $m = $A->getM();
+        $S = MatrixFactory::identity($m);
+        while (!$D->isDiagonal()) {
+            // Find the largest off-diagonal element in $D
+            $pivot = ['value' => 0, 'i' => 0, 'j'=> 0];
+            for ($i = 0; $i < $m - 1; $i++) {
+                for ($j = $i + 1; $j < $m; $j++) {
+                   if (abs($D[$i][$j]) > abs($d['value'])) {
+                       $pivot['value'] = $D[$i][$j];
+                       $pivot['i'] = $i;
+                       $pivot['j'] = $j;
+                   }
+                }
+            }
+            $i = $pivot['i'];
+            $j = $pivot['j']
+            if ($D[$i][$i] == $D[$j][$j]) {
+                $angle = $$D[$i][$i] <=> 0 * \M_PI / 4;
+            } else {
+                $angle = atan(2 * $D[$j][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
+            }
+            $G = self::givensmatrix($i, $j, $angle, $m);
+            $D = $G->transpose()->multiply($D)->multiply($G);
+            $S = $S->multiply($G);
+        }
+        return $D->getDiagonalElements();
+    }
+
+    private static function givensMatrix($i, $j, $angle, $m) : Matrix
+    {
+        $G = Matrixfactory::identity($m)->getMatrix();
+        $G[$i][$i] = cos($angle);
+        $G[$j][$j] = cos($angle);
+        $G[$i][$j] = - 1 * sin($angle);
+        $G[$j][$i] = sin($angle);
+        return MatrixFactory::create($A);
+    }
 }
