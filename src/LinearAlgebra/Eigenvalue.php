@@ -3,6 +3,7 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
 use MathPHP\Functions\Polynomial;
+user MathPHP\Functions\Support;
 
 class Eigenvalue
 {
@@ -109,7 +110,7 @@ class Eigenvalue
         $D = $A;
         $m = $A->getM();
         $S = MatrixFactory::identity($m);
-        while (!$D->isDiagonal()) {
+        while (!self::isNearlyDiagonal($D)) {
             // Find the largest off-diagonal element in $D
             $pivot = ['value' => 0, 'i' => 0, 'j'=> 0];
             for ($i = 0; $i < $m - 1; $i++) {
@@ -143,5 +144,24 @@ class Eigenvalue
         $G[$i][$j] = - 1 * sin($angle);
         $G[$j][$i] = sin($angle);
         return MatrixFactory::create($G);
+    }
+
+    /**
+     * Is the matrix nearly diagonal?
+     */
+    private static function isNearlyDiagonal(Matrix $A): bool
+    {
+        if (!$this->isSquare()) {
+            return false;
+        }
+        $m = $A->getM();
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $m; $j++) {
+                if ($i !== $j && !Support::isZero($A[$i][$j])) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
