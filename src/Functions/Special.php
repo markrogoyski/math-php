@@ -22,10 +22,7 @@ class Special
      */
     public static function signum(float $x): int
     {
-        if ($x == 0) {
-            return 0;
-        }
-        return $x < 0 ? -1 : 1;
+        return $x <=> 0;
     }
 
     /**
