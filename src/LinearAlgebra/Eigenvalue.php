@@ -142,6 +142,6 @@ class Eigenvalue
         $G[$j][$j] = cos($angle);
         $G[$i][$j] = - 1 * sin($angle);
         $G[$j][$i] = sin($angle);
-        return MatrixFactory::create($A);
+        return MatrixFactory::create($G);
     }
 }
