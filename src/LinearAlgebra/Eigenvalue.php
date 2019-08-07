@@ -7,9 +7,11 @@ use MathPHP\Functions\Polynomial;
 class Eigenvalue
 {
     const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
+    const JACOBI_METHOD = 'jacobiMethod';
 
     const METHODS = [
         self::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD,
+        self::JACOBI_METHOD,
     ];
 
     /**
