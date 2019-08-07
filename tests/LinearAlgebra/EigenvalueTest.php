@@ -20,6 +20,19 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($S, $A->eigenvalues(Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD), '', 0.0001);
     }
 
+    /**
+     * @testCase     jacobiMethod returns the expected eigenvalues
+     * @dataProvider dataProviderForEigenvalues
+     * @param        array $A
+     * @param        array $S
+     */
+    public function testJacobiMethod(array $A, array $S)
+    {
+        $A = MatrixFactory::create($A);
+        $this->assertEquals($S, Eigenvalue::jacobiMethod($A), '', 0.0001);
+        $this->assertEquals($S, $A->eigenvalues(Eigenvalue::JACOBI_METHOD), '', 0.0001);
+    }
+
     public function dataProviderForEigenvalues(): array
     {
         return [
