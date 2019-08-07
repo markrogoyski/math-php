@@ -136,17 +136,15 @@ class Eigenvalue
         for ($i = 0; $i <$m; $i++) {
             $random_array[] = [rand()];
         }
-        $new_b = MatrixFactory::create($random_array);
-        $b = MatrixFactory::zero($m, 1);
+        $b = MatrixFactory::create($random_array);
         $newμ = 0;
         $μ = -1;
         $new_abs = -2;
-        while (!support::isEqual($μ, $newμ)) {
-            $b = $new_b;
+        while (!Support::isEqual($μ, $newμ)) {
             $μ = $newμ;
             $Ab = $A->multiply($b);
-            $new_b = $Ab->scalarDivide($Ab->frobeniusNorm());
-            $newμ = $new_b->transpose()->multiply($A)->multiply($new_b)->get(0, 0) / $new_b->transpose()->multiply($new_b)->get(0, 0);
+            $b = $Ab->scalarDivide($Ab->frobeniusNorm());
+            $newμ = $b->transpose()->multiply($A)->multiply($b)->get(0, 0) / $b->transpose()->multiply($b)->get(0, 0);
         }
         
         return [$newμ];
