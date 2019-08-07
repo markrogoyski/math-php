@@ -122,7 +122,7 @@ class Eigenvalue
                 }
             }
             $i = $pivot['i'];
-            $j = $pivot['j']
+            $j = $pivot['j'];
             if ($D[$i][$i] == $D[$j][$j]) {
                 $angle = $$D[$i][$i] <=> 0 * \M_PI / 4;
             } else {
