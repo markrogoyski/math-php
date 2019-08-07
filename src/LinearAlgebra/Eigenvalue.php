@@ -129,7 +129,7 @@ class Eigenvalue
             } else {
                 $angle = atan(2 * $D[$j][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
             }
-            $G = self::givensmatrix($i, $j, $angle, $m);
+            $G = self::givensMatrix($i, $j, $angle, $m);
             $D = $G->transpose()->multiply($D)->multiply($G);
             $S = $S->multiply($G);
         }
@@ -151,7 +151,7 @@ class Eigenvalue
      */
     private static function isNearlyDiagonal(Matrix $A): bool
     {
-        if (!$this->isSquare()) {
+        if (!$A->isSquare()) {
             return false;
         }
         $m = $A->getM();
