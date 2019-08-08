@@ -134,7 +134,7 @@ class Eigenvalue
             $S = $S->multiply($G);
         }
         $eigenvalues = $D->getDiagonalElements();
-        usort($eigenvalues, function ($a, $b){
+        usort($eigenvalues, function ($a, $b) {
             return abs($b) <=> abs($a);
         });
         return $eigenvalues;
