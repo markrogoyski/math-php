@@ -51,6 +51,34 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         root returns the expected value.
+     * @dataProvider dataProviderForRoot
+     * @param        float $x
+     * @param        int $n
+     * @param        float $expected_root
+     */
+    public function testRoot(float $x, int $n, float $expected_root)
+    {
+        // When
+        $root = Arithmetic::root($x, $n);
+
+        // Then
+        $this->assertEquals($expected_root, $root, '', 0.000000001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForRoot(): array
+    {
+        return [
+            [1, 6, 1],
+            [-1, 5, -1],
+            [3125, 5, 5],
+        ];
+    }
+
+    /**
      * @test         cubeRoot returns the expected value.
      * @dataProvider dataProviderForCubeRoot
      * @param        float $x
