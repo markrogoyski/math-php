@@ -134,9 +134,10 @@ class Eigenvalue
             $S = $S->multiply($G);
         }
         $eigenvalues = $D->getDiagonalElements();
-        return usort($eigenvalues, function($a, $b){
+        usort($eigenvalues, function($a, $b){
             return abs($b) <=> abs($a);
         });
+        return eigenvalues;
     }
 
     private static function givensMatrix($i, $j, $angle, $m) : Matrix
