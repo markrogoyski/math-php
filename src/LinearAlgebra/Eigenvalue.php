@@ -115,11 +115,11 @@ class Eigenvalue
             $pivot = ['value' => 0, 'i' => 0, 'j'=> 0];
             for ($i = 0; $i < $m - 1; $i++) {
                 for ($j = $i + 1; $j < $m; $j++) {
-                   if (abs($D[$i][$j]) > abs($pivot['value'])) {
-                       $pivot['value'] = $D[$i][$j];
-                       $pivot['i'] = $i;
-                       $pivot['j'] = $j;
-                   }
+                    if (abs($D[$i][$j]) > abs($pivot['value'])) {
+                        $pivot['value'] = $D[$i][$j];
+                        $pivot['i'] = $i;
+                        $pivot['j'] = $j;
+                    }
                 }
             }
             $i = $pivot['i'];
