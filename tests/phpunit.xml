@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="bootstrap.php" colors="true">
   <testsuites>
+    <testsuite name="Arithmetic">
+      <directory suffix="Test.php">Arithmetic</directory>
+    </testsuite>
     <testsuite name="Probabilty">
       <directory suffix="Test.php">Probability</directory>
     </testsuite>
