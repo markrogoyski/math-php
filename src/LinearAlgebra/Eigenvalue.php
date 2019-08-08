@@ -106,7 +106,13 @@ class Eigenvalue
      */
     public static function jacobiMethod(Matrix $A): array
     {
-        // Check if square and is symmetric
+        if (!$A->isSquare()) {
+            throw new Exception\BadDataException('Matrix must be square');
+        }
+
+        if (!$A->isSymmetric()) {
+            throw new Exception\BadDataException('Matrix must be symmetric');
+        }
         $D = $A;
         $m = $A->getM();
         $S = MatrixFactory::identity($m);
