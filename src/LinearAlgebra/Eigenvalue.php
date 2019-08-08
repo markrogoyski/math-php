@@ -121,13 +121,14 @@ class Eigenvalue
      * μₖ = -------
      *       bₖᐪbₖ
      *
-     * https://en.wikipedia.org/wiki/Power_iteration
-     * @param Matrix $A
+     * https://en.wikipedia.org/wiki/Power_itera
+     * @param Matrix $Ation
+     * @param int $iterations max number of iterations to perform
      *
      * @return float[] most extreme eigenvalue
      * @throws Exception\BadDataException if the matrix is not square
      */
-    public static function powerIteration(Matrix $A): array
+    public static function powerIteration(Matrix $A, int $iterations = 1000): array
     {
         self::checkMatrix($A);
         
@@ -141,10 +142,14 @@ class Eigenvalue
         $μ = -1;
         $new_abs = -2;
         while (!Support::isEqual($μ, $newμ)) {
+            if ($iterations <= 0) {
+                throw new Exception\FunctionFailedToConvergeException("Maximum number of iterations excecuted.");
+            }
             $μ = $newμ;
             $Ab = $A->multiply($b);
             $b = $Ab->scalarDivide($Ab->frobeniusNorm());
             $newμ = $b->transpose()->multiply($A)->multiply($b)->get(0, 0) / $b->transpose()->multiply($b)->get(0, 0);
+            $iterations--;
         }
         
         return [$newμ];
