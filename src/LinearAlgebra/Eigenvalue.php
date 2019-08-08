@@ -4,6 +4,7 @@ namespace MathPHP\LinearAlgebra;
 use MathPHP\Exception;
 use MathPHP\Functions\Polynomial;
 use MathPHP\Functions\Support;
+use MathPHP\LinearAlgebra\MatrixFactory;
 
 class Eigenvalue
 {
@@ -136,7 +137,7 @@ class Eigenvalue
             } else {
                 $angle = atan(2 * $D[$i][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
             }
-            $G = self::givensMatrix($i, $j, $angle, $m);
+            $G = MatrixFactory::givens($i, $j, $angle, $m);
             $D = $G->transpose()->multiply($D)->multiply($G);
             $S = $S->multiply($G);
         }
@@ -145,36 +146,6 @@ class Eigenvalue
             return abs($b) <=> abs($a);
         });
         return $eigenvalues;
-    }
-
-    /**
-    * Construct a givens matrix
-    *
-    *               [  1 ⋯ 0 ⋯ 0 ⋯ 0 ]
-    *               [  ⋮ ⋱ ⋮    ⋮    ⋮  ]
-    *               [  0 ⋯ c ⋯-s ⋯ 0 ]
-    * G (𝒾,𝒿,θ) =    [  ⋮   ⋮  ⋱ ⋮    ⋮ ]
-    *               [  0 ⋯ s ⋯ c ⋯ 0 ]
-    *               [  ⋮    ⋮    ⋮  ⋱ ⋮ ]
-    *               [  0 ⋯ 0 ⋯ 0 ⋯ 1 ]
-    *
-    * https://en.wikipedia.org/wiki/Givens_rotation
-    *
-    * @param int $i The row in G in which the top of the roatation lies
-    * @param int $j The column in G in which the left of the roatation lies
-    * @param float $angle The angle to use in the trigonometric functions
-    * @param int $m The total number of rows in G
-    *
-    * @return Matrix
-    */
-    private static function givensMatrix(int $i, int $j, float $angle, int $m) : Matrix
-    {
-        $G = Matrixfactory::identity($m)->getMatrix();
-        $G[$i][$i] = cos($angle);
-        $G[$j][$j] = cos($angle);
-        $G[$i][$j] = - 1 * sin($angle);
-        $G[$j][$i] = sin($angle);
-        return MatrixFactory::create($G);
     }
 
     /**

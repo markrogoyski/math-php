@@ -96,6 +96,7 @@ class MatrixFactory
      *  - diagonal
      *  - hilbert
      *  - vandermonde
+     *  - givens
      **************************************************************************/
 
     /**
@@ -442,6 +443,36 @@ class MatrixFactory
         }
 
         return self::create($A);
+    }
+
+   /**
+    * Construct a Givens rotation matrix
+    *
+    *               [  1 ⋯ 0 ⋯ 0 ⋯ 0 ]
+    *               [  ⋮ ⋱ ⋮    ⋮    ⋮  ]
+    *               [  0 ⋯ c ⋯-s ⋯ 0 ]
+    * G (𝒾,𝒿,θ) =    [  ⋮   ⋮  ⋱ ⋮    ⋮ ]
+    *               [  0 ⋯ s ⋯ c ⋯ 0 ]
+    *               [  ⋮    ⋮    ⋮  ⋱ ⋮ ]
+    *               [  0 ⋯ 0 ⋯ 0 ⋯ 1 ]
+    *
+    * https://en.wikipedia.org/wiki/Givens_rotation
+    *
+    * @param int $i The row in G in which the top of the roatation lies
+    * @param int $j The column in G in which the left of the roatation lies
+    * @param float $angle The angle to use in the trigonometric functions
+    * @param int $m The total number of rows in G
+    *
+    * @return Matrix
+    */
+    public static function givens(int $i, int $j, float $angle, int $m) : Matrix
+    {
+        $G = Matrixfactory::identity($m)->getMatrix();
+        $G[$i][$i] = cos($angle);
+        $G[$j][$j] = cos($angle);
+        $G[$i][$j] = -1 * sin($angle);
+        $G[$j][$i] = sin($angle);
+        return MatrixFactory::create($G);
     }
 
     /* ************************************************************************
