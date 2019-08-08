@@ -25,14 +25,13 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForEigenvalues
      * @param        array $A
      * @param        array $S
+     * @param        float $max_abs_eigenvalue maximum absolute eigenvalue
      */
-    public function testPowerIteration(array $A, array $S)
+    public function testPowerIteration(array $A, array $S, float $max_abs_eigenvalue)
     {
         $A = MatrixFactory::create($A);
-        // Find the most extreme value
-        $eigenvalue = max($S) ** 2 > min($S) ** 2 ? max($S) : min($S);
-        $this->assertEquals([$eigenvalue], Eigenvalue::powerIteration($A), '', 0.0001);
-        $this->assertEquals([$eigenvalue], $A->eigenvalues(Eigenvalue::POWER_ITERATION), '', 0.0001);
+        $this->assertEquals([$max_abs_eigenvalue], Eigenvalue::powerIteration($A), '', 0.0001);
+        $this->assertEquals([$max_abs_eigenvalue], $A->eigenvalues(Eigenvalue::POWER_ITERATION), '', 0.0001);
     }
 
     public function dataProviderForEigenvalues(): array
@@ -44,6 +43,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [-2, -3],
                 ],
                 [-2, -1],
+                -2,
             ],
             [
                 [
@@ -51,6 +51,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [2, 3],
                 ],
                 [4, 5],
+                5,
             ],
             [
                 [
@@ -58,6 +59,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [-2, 0],
                 ],
                 [(1 - sqrt(17))/2, (1 + sqrt(17))/2],
+                (1 + sqrt(17))/2,
             ],
             [
                 [
@@ -66,6 +68,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [4, 2, 5],
                 ],
                 [6, -5, 3],
+                6,
             ],
             [
                 [
@@ -74,6 +77,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [-1, 0, 1],
                 ],
                 [2, 1, 2],
+                2,
             ],
             [
                 [
@@ -82,6 +86,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [-1, -2, -1],
                 ],
                 [3, -4, 0],
+                -4,
             ],
             [
                 [
@@ -90,6 +95,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [7, 8, 9],
                 ],
                 [(3*(5 + sqrt(33)))/2, (-3*(sqrt(33) - 5))/2, 0],
+                3*(5 + sqrt(33))/2,
             ],
         ];
     }
