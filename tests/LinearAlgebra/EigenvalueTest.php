@@ -131,7 +131,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-public function dataProviderForSymmetricEigenvalues(): array
+    public function dataProviderForSymmetricEigenvalues(): array
     {
         return [
             [
