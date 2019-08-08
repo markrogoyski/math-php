@@ -240,4 +240,42 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\MatrixException::class);
         $A->eigenvalues($invalidMethod);
     }
+
+    /**
+     * @testCase     JacobiMethod throws a BadDataException if the matrix is not the correct size.
+     * @dataProvider dataProviderForSymmetricException
+     * @param        array $A
+     */
+    public function testJacobiExceptionMatrixNotCorrectSize(array $A)
+    {
+        $A = MatrixFactory::create($A);
+        $this->expectException(Exception\BadDataException::class);
+        Eigenvalue::jacobiMethod($A);
+    }
+    public function dataProviderForSymmetricException(): array
+    {
+        return [
+            '1x1' => [
+                [
+                    [1],
+                ],
+            ],
+            'not_symetric' => [
+                [
+                    [1, 2, 3, 4, 6],
+                    [2, 3, 4, 5, 6],
+                    [3, 4, 5, 6, 7],
+                    [4, 5, 6, 7, 8],
+                    [5, 6, 7, 8, 9],
+                ]
+            ],
+            'not_square' => [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                ],
+            ],
+        ];
+    }
+
 }
