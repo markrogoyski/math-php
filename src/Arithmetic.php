@@ -7,6 +7,11 @@ class Arithmetic
      * Integer Root
      *
      * Calculate the integer root of a value.
+     *
+     * @param  float $x
+     * @param  int $n
+     *
+     * @return float
      */
     public static function root(float $x, int $n): float
     {
