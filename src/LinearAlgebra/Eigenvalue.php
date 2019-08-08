@@ -102,7 +102,8 @@ class Eigenvalue
      *
      * @return float[] of eigenvalues
      *
-     * @throws Exception\BadDataException if the matrix is not square
+     * @throws Exception\BadDataException if the matrix is not symmetric
+     * @throws Exception\BadDataException if the matrix is 1x1
      */
     public static function jacobiMethod(Matrix $A): array
     {
