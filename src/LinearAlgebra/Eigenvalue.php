@@ -121,8 +121,8 @@ class Eigenvalue
      * μₖ = -------
      *       bₖᐪbₖ
      *
-     * https://en.wikipedia.org/wiki/Power_itera
-     * @param Matrix $Ation
+     * https://en.wikipedia.org/wiki/Power_iteration
+     * @param Matrix $A
      * @param int $iterations max number of iterations to perform
      *
      * @return float[] most extreme eigenvalue
