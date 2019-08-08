@@ -458,20 +458,23 @@ class MatrixFactory
     *
     * https://en.wikipedia.org/wiki/Givens_rotation
     *
-    * @param int $i The row in G in which the top of the roatation lies
-    * @param int $j The column in G in which the left of the roatation lies
+    * @param int $m The row in G in which the top of the roatation lies
+    * @param int $n The column in G in which the left of the roatation lies
     * @param float $angle The angle to use in the trigonometric functions
-    * @param int $m The total number of rows in G
+    * @param int $size The total number of rows in G
     *
     * @return Matrix
     */
-    public static function givens(int $i, int $j, float $angle, int $m) : Matrix
+    public static function givens(int $m, int $n, float $angle, int $size) : Matrix
     {
-        $G = Matrixfactory::identity($m)->getMatrix();
-        $G[$i][$i] = cos($angle);
-        $G[$j][$j] = cos($angle);
-        $G[$i][$j] = -1 * sin($angle);
-        $G[$j][$i] = sin($angle);
+        if ($m >= $size || $n >= $size || $m < 0 || $n < 0) {
+            throw new Exception\OutOfBoundsException("m and n must be within the matrix");
+        }
+        $G = Matrixfactory::identity($size)->getMatrix();
+        $G[$m][$m] = cos($angle);
+        $G[$n][$n] = cos($angle);
+        $G[$m][$n] = -1 * sin($angle);
+        $G[$n][$m] = sin($angle);
         return MatrixFactory::create($G);
     }
 
