@@ -137,7 +137,7 @@ class Eigenvalue
         usort($eigenvalues, function($a, $b){
             return abs($b) <=> abs($a);
         });
-        return eigenvalues;
+        return $eigenvalues;
     }
 
     private static function givensMatrix($i, $j, $angle, $m) : Matrix
