@@ -106,10 +106,6 @@ class Eigenvalue
      */
     public static function jacobiMethod(Matrix $A): array
     {
-        if (!$A->isSquare()) {
-            throw new Exception\BadDataException('Matrix must be square');
-        }
-
         if (!$A->isSymmetric()) {
             throw new Exception\BadDataException('Matrix must be symmetric');
         }
