@@ -186,9 +186,6 @@ class Eigenvalue
      */
     private static function isNearlyDiagonal(Matrix $A): bool
     {
-        if (!$A->isSquare()) {
-            return false;
-        }
         $m = $A->getM();
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $m; $j++) {
