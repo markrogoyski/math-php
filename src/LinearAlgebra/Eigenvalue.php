@@ -113,8 +113,12 @@ class Eigenvalue
         if (!$A->isSymmetric()) {
             throw new Exception\BadDataException('Matrix must be symmetric');
         }
-        $D = $A;
+
         $m = $A->getM();
+        if ($m < 2) {
+            throw new Exception\BadDataException("Matrix must be 2x2 or larger");
+        }
+        $D = $A;
         $S = MatrixFactory::identity($m);
         while (!self::isNearlyDiagonal($D)) {
             // Find the largest off-diagonal element in $D
@@ -146,7 +150,27 @@ class Eigenvalue
         return $eigenvalues;
     }
 
-    private static function givensMatrix($i, $j, $angle, $m) : Matrix
+    /**
+    * Construct a givens matrix
+    *
+    *               [  1 ⋯ 0 ⋯ 0 ⋯ 0 ]
+    *               [  ⋮ ⋱ ⋮    ⋮    ⋮  ]
+    *               [  0 ⋯ c ⋯-s ⋯ 0 ]
+    * G (𝒾,𝒿,θ) =    [  ⋮   ⋮  ⋱ ⋮    ⋮ ]
+    *               [  0 ⋯ s ⋯ c ⋯ 0 ]
+    *               [  ⋮    ⋮    ⋮  ⋱ ⋮ ]
+    *               [  0 ⋯ 0 ⋯ 0 ⋯ 1 ]
+    *
+    * https://en.wikipedia.org/wiki/Givens_rotation
+    *
+    * @param int $i The row in G in which the top of the roatation lies
+    * @param int $j The column in G in which the left of the roatation lies
+    * @param float $angle The angle to use in the trigonometric functions
+    * @param int $m The total number of rows in G
+    *
+    * @return Matrix
+    */
+    private static function givensMatrix(int $i, int $j, float $angle, int $m) : Matrix
     {
         $G = Matrixfactory::identity($m)->getMatrix();
         $G[$i][$i] = cos($angle);
@@ -157,7 +181,11 @@ class Eigenvalue
     }
 
     /**
-     * Is the matrix nearly diagonal?
+     * True if all off-diagonal elements are very close to zero
+     *
+     * @param Matrix $A
+     *
+     * @return bool
      */
     private static function isNearlyDiagonal(Matrix $A): bool
     {
