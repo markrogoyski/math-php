@@ -118,7 +118,7 @@ class Eigenvalue
         }
         $D = $A;
         $S = MatrixFactory::identity($m);
-        while (!self::isNearlyDiagonal($D)) {
+        while (!$D->isDiagonal()) {
             // Find the largest off-diagonal element in $D
             $pivot = ['value' => 0, 'i' => 0, 'j'=> 0];
             for ($i = 0; $i < $m - 1; $i++) {
@@ -146,25 +146,5 @@ class Eigenvalue
             return abs($b) <=> abs($a);
         });
         return $eigenvalues;
-    }
-
-    /**
-     * True if all off-diagonal elements are very close to zero
-     *
-     * @param Matrix $A
-     *
-     * @return bool
-     */
-    private static function isNearlyDiagonal(Matrix $A): bool
-    {
-        $m = $A->getM();
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $m; $j++) {
-                if ($i !== $j && !Support::isZero($A[$i][$j])) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 }

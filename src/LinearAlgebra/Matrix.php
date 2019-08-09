@@ -638,7 +638,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         for ($i = 0; $i < $m; $i++) {
             for ($j = $i+1; $j < $n; $j++) {
-                if ($this->A[$i][$j] != 0) {
+                if (!Support::isZero($this->A[$i][$j])) {
                     return false;
                 }
             }
@@ -666,7 +666,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         for ($i = 1; $i < $m; $i++) {
             for ($j = 0; $j < $i; $j++) {
-                if ($this->A[$i][$j] != 0) {
+                if (!Support::isZero($this->A[$i][$j])) {
                     return false;
                 }
             }
