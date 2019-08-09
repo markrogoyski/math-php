@@ -33,7 +33,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($S, $A->eigenvalues(Eigenvalue::JACOBI_METHOD), '', 0.0001);
     }
 
-    /*
+    /**
      * @test         powerIterationMethod returns the expected eigenvalues
      * @dataProvider dataProviderForEigenvalues
      * @param        array $A
@@ -317,7 +317,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /*
+    /**
      * @test         Power Iteration throws exception if number of iterations is exceeded
      * @dataProvider dataProviderForIterationFailure
      * @param        array $A
