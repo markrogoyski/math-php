@@ -2,6 +2,7 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Functions\Map;
+use MathPHP\Functions\Special;
 use MathPHP\Functions\Support;
 use MathPHP\Exception;
 
@@ -1087,6 +1088,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - covarianceMatrix
      *  - adjugate
      *  - submatrix
+     *  - insert
      **************************************************************************/
 
     /**
@@ -2068,6 +2070,33 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return MatrixFactory::create($A);
+    }
+
+    /**
+     * Insert
+     * Insert a smaller matrix within a larger matrix starting at a specified position
+     *
+     * @param Matrix $small the smaller matrix to embed
+     * @param int $m Starting row
+     * @param int $n Starting column
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException
+     */
+    public function insert(Matrix $small, int $m, int $n): Matrix
+    {
+        if ($small->getM() + $m > $this->m || $small->getN() + $n > $this->n) {
+            throw new Exception\MatrixException('Inner matrix exceedes the bounds of the outer matrix');
+        }
+
+        $new_array = $this->A;
+        for ($i = 0; $i < $small->getM(); $i++) {
+            for ($j = 0; $j < $small->getN(); $j++) {
+                $new_array[$i + $m][$j + $n] = $small[$i][$j];
+            }
+        }
+        return MatrixFactory::create($new_array);
     }
 
     /**************************************************************************
@@ -3517,6 +3546,110 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             'L' => MatrixFactory::create($L),
             'U' => MatrixFactory::create($U),
         ];
+    }
+
+    /**
+     * Floating point adjustment for zero values
+     */
+    protected function floatingPointZeroAdjustment()
+    {
+        for ($i = 0; $i < $this->m; $i++) {
+            for ($j = 0; $j < $this->n; $j++) {
+                if (Support::isZero($this->A[$i][$j])) {
+                    $this->A[$i][$j] = 0;
+                }
+            }
+        }
+    }
+
+    /**
+     * QR Decomposition using Householder reflections
+     *
+     * A = QR
+     *
+     * Q is an orthogonal matrix
+     * R is an upper triangular matrix
+     *
+     * @return Matrix[] Q and R
+     *
+     * @throws Exception\MathException
+     */
+    public function qrDecomposition(): array
+    {
+        $n = $this->n;  // columns
+        $m = $this->m;  // rows
+        $HA = $this;
+
+        // If the source matrix is square or wider than it is tall, the final
+        // householder matrix will be the identity matrix with a -1 in the bottom
+        // corner. The effect of this final transformation would only change signs
+        // on existing matricies. Both R and Q will already be in approprite forms
+        // in the next to the last step. We can skip the last transformation without
+        // affecting the validity of the results. Results indicate other software
+        // behaves similarly.
+        //
+        // This is because on a 1x1 matrix uuᵀ = uᵀu, so I - [[2]] = [[-1]]
+        $numReflections = min($m - 1, $n);
+        $FullI = MatrixFactory::identity($m);
+        $Q = $FullI;
+        for ($i = 0; $i < $numReflections; $i++) {
+            // Remove the leftmost $i columns and upper $i rows
+            $A = $HA->submatrix($i, $i, $m - 1, $n - 1);
+            
+            //Create the householder matrix
+            $innerH = $A->householderMatrix();
+            
+            // Embed the smaller matrix within a full rank Identity matrix
+            $H = $FullI->insert($innerH, $i, $i);
+            $Q = $Q->multiply($H);
+            $HA = $H->multiply($HA);
+        }
+        $R = $HA;
+        return [
+            'Q' => $Q->submatrix(0, 0, $m - 1, min($m, $n) - 1),
+            'R' => $R->submatrix(0, 0, min($m, $n) - 1, $n - 1),
+        ];
+    }
+
+    /**
+     * Householder Matrix
+     *
+     * u = x ± αe   where α = ‖x‖ and sgn(α) = sgn(x)
+     *
+     *              uuᵀ
+     * Q = I - 2 * -----
+     *              uᵀu
+     *
+     * @return Matrix
+     *
+     */
+    private function householderMatrix(): Matrix
+    {
+        $m = $this->m;
+        $I = MatrixFactory::identity($m);
+        
+        //  x is the leftmost column of A
+        $x = $this->submatrix(0, 0, $m - 1, 0);
+        
+        // α is the square root of the sum of squares of x with the correct sign
+        $α = Special::sgn($x[0][0]) * $x->frobeniusNorm();
+        if ($α === 0) {
+            return $I;
+        }
+        // e is the first column of I
+        $e = $I->submatrix(0, 0, $m - 1, 0);
+        
+        // u = x ± αe
+        $u = $e->scalarMultiply($α)->add($x);
+
+        $uᵀ = $u->transpose();
+        $uᵀu = $uᵀ->multiply($u)->get(0, 0);
+        $uuᵀ = $u->multiply($uᵀ);
+        if ($uᵀu == 0) {
+            return $I;
+        }
+        // We scale $uuᵀ and subtract it from the identity matrix
+        return $I->subtract($uuᵀ->scalarMultiply(2 / $uᵀu));
     }
 
     /**************************************************************************
