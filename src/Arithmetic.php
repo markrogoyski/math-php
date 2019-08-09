@@ -4,24 +4,26 @@ namespace MathPHP;
 class Arithmetic
 {
     /**
-     * Calculate any root of a value: ⁿ√x
+     * Calculate any nᵗʰ root of a value: ⁿ√x
      * Equivalent to x¹/ⁿ
+     *
+     * nᵗʰ root of a number x is a number r which, when raised to the power n yields x:
      *
      * Use the the PHP pow function if it is an even root or if $x is positive.
      * If $x is negative and it is an odd root, we can extend the native function.
      *
      * @param  float $x value to find the root of
-     * @param  int   $n magnitude of the root (2 for square root, 3 for cube root, etc.)
+     * @param  int   $nᵗʰ root (magnitude of the root - 2 for square root, 3 for cube root, etc.)
      *
      * @return float
      */
-    public static function root(float $x, int $n): float
+    public static function root(float $x, int $nᵗʰ): float
     {
-        if ($x >= 0 || $n % 2 === 0) {
-            return pow($x, 1/$n);
+        if ($x >= 0 || $nᵗʰ % 2 === 0) {
+            return pow($x, 1/$nᵗʰ);
         }
 
-        return -pow(abs($x), 1/$n);
+        return -pow(abs($x), 1/$nᵗʰ);
     }
 
     /**
