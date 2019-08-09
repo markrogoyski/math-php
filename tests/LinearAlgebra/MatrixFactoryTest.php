@@ -841,6 +841,8 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase Test that the appropriate matrix is constructed
+     *
+     * @runInSeparateProcess
      */
     public function testRandomMatrix()
     {

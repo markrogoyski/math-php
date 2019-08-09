@@ -160,12 +160,13 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForIterationFailure
      * @param        array $A
      */
-    public function testJkIterationFail(array $A)
+    public function testPowerIterationFail(array $A)
     {
         $A = MatrixFactory::create($A);
         $this->expectException(Exception\FunctionFailedToConvergeException::class);
         Eigenvalue::powerIteration($A, 0);
     }
+
     public function dataProviderForIterationFailure(): array
     {
         return [

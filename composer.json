@@ -17,7 +17,7 @@
       "phpstan/phpstan": "*",
       "phpmd/phpmd": "^2.6",
       "phploc/phploc": "*",
-      "php-mock/php-mock-phpunit": "*"
+      "php-mock/php-mock-phpunit": "2.*"
   },
   "autoload-dev": {
     "psr-4": { "MathPHP\\Tests\\": "tests/" }
