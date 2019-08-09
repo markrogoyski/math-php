@@ -47,7 +47,7 @@ class Outlier
      * @param float[] $data
      * @param string  $typeOfTest ("upper" "lower", or "two")
      *
-     * @return float
+     * @return float G (Grubb's test statistic)
      *
      * @throws Exception\BadDataException
      * @throws Exception\OutOfBoundsException
@@ -62,20 +62,18 @@ class Outlier
 
         if ($typeOfTest === self::TWO_SIDED) {
             $max❘Yᵢ − μ❘ = max(Single::abs(Single::subtract($data, $μ)));
-            $G = $max❘Yᵢ − μ❘ / $σ;
+            return $max❘Yᵢ − μ❘ / $σ;
         }
 
         if ($typeOfTest === self::ONE_SIDED_LOWER) {
             $yMin = min($data);
-            $G = ($μ - $yMin) / $σ;
+            return ($μ - $yMin) / $σ;
         }
 
         if ($typeOfTest === self::ONE_SIDED_UPPER) {
             $yMax = max($data);
-            $G = ($yMax - $μ) / $σ;
+            return ($yMax - $μ) / $σ;
         }
-
-        return $G;
     }
     
     /**

@@ -10,6 +10,7 @@ use MathPHP\Exception;
 class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
 {
     use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+    use \phpmock\phpunit\PHPMock;
 
     /**
      * @dataProvider dataProviderForDiagonalMatrix
@@ -836,5 +837,18 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(Exception\OutOfBoundsException::class);
         MatrixFactory::hilbert(-1);
+    }
+
+    /**
+     * @testCase Test that the appropriate matrix is constructed
+     *
+     * @runInSeparateProcess
+     */
+    public function testRandomMatrix()
+    {
+        $expected = [[.31415926535]];
+        $rand = $this->getFunctionMock('MathPHP\LinearAlgebra', 'rand');
+        $rand->expects($this->once())->willReturn(.31415926535);
+        $this->assertEquals($expected, MatrixFactory::random(1, 1)->getMatrix());
     }
 }

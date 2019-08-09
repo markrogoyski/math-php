@@ -6,13 +6,16 @@ use MathPHP\Functions\Polynomial;
 use MathPHP\Functions\Support;
 use MathPHP\LinearAlgebra\MatrixFactory;
 
+
 class Eigenvalue
 {
     const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
+    const POWER_ITERATION = 'powerIteration';
     const JACOBI_METHOD = 'jacobiMethod';
 
     const METHODS = [
         self::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD,
+        self::POWER_ITERATION,
         self::JACOBI_METHOD,
     ];
 
@@ -26,6 +29,20 @@ class Eigenvalue
     public static function isAvailableMethod(string $method): bool
     {
         return in_array($method, self::METHODS);
+    }
+
+    /**
+     * Verify that the matrix can have eigenvalues
+     *
+     * @param Matrix $A
+     *
+     * @throws Exception\BadDataException if the matrix is not square
+     */
+    private static function checkMatrix(Matrix $A)
+    {
+        if (!$A->isSquare()) {
+            throw new Exception\BadDataException('Matrix must be square');
+        }
     }
 
     /**
@@ -51,9 +68,7 @@ class Eigenvalue
      */
     public static function closedFormPolynomialRootMethod(Matrix $A): array
     {
-        if (!$A->isSquare()) {
-            throw new Exception\BadDataException('Matrix must be square');
-        }
+        self::checkMatrix($A);
 
         $m = $A->getM();
         if ($m < 2 || $m > 4) {
@@ -146,5 +161,48 @@ class Eigenvalue
             return abs($b) <=> abs($a);
         });
         return $eigenvalues;
+    }
+
+    /*
+     * Power Iteration
+     *
+     * The recurrance relation:
+     *         Abₖ
+     * bₖ₊₁ = ------
+     *        ‖Abₖ‖
+     *
+     * will converge to the dominant eigenvector,
+     *
+     * The corresponding eigenvalue is calculated as:
+     *
+     *      bₖᐪAbₖ
+     * μₖ = -------
+     *       bₖᐪbₖ
+     *
+     * https://en.wikipedia.org/wiki/Power_iteration
+     * @param Matrix $A
+     * @param int $iterations max number of iterations to perform
+     *
+     * @return float[] most extreme eigenvalue
+     * @throws Exception\BadDataException if the matrix is not square
+     */
+    public static function powerIteration(Matrix $A, int $iterations = 1000): array
+    {
+        self::checkMatrix($A);
+        
+        $b = MatrixFactory::random($A->getM(), 1);
+        $newμ = 0;
+        $μ = -1;
+        while (!Support::isEqual($μ, $newμ)) {
+            if ($iterations <= 0) {
+                throw new Exception\FunctionFailedToConvergeException("Maximum number of iterations excecuted.");
+            }
+            $μ = $newμ;
+            $Ab = $A->multiply($b);
+            $b = $Ab->scalarDivide($Ab->frobeniusNorm());
+            $newμ = $b->transpose()->multiply($A)->multiply($b)->get(0, 0) / $b->transpose()->multiply($b)->get(0, 0);
+            $iterations--;
+        }
+        return [$newμ];
     }
 }
