@@ -132,15 +132,9 @@ class Eigenvalue
     {
         self::checkMatrix($A);
         
-        $m = $A->getM();
-        $random_array = [];
-        for ($i = 0; $i <$m; $i++) {
-            $random_array[] = [rand()];
-        }
-        $b = MatrixFactory::create($random_array);
+        $b = MatrixFactory::random($A->getM(), 1);
         $newμ = 0;
         $μ = -1;
-        $new_abs = -2;
         while (!Support::isEqual($μ, $newμ)) {
             if ($iterations <= 0) {
                 throw new Exception\FunctionFailedToConvergeException("Maximum number of iterations excecuted.");
