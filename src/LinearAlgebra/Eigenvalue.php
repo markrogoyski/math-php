@@ -6,7 +6,6 @@ use MathPHP\Functions\Polynomial;
 use MathPHP\Functions\Support;
 use MathPHP\LinearAlgebra\MatrixFactory;
 
-
 class Eigenvalue
 {
     const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
