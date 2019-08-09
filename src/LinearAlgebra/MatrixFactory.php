@@ -444,6 +444,25 @@ class MatrixFactory
         return self::create($A);
     }
 
+    /**
+     * Create a Matrix of random numbers
+     *
+     * @param int $m number of rows
+     * @param int $n number of columns
+     *
+     * @return Matrix
+     */
+    public static function random(int $m, int $n): Matrix
+    {
+        $A = [];
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $A[$i][$j] = rand();
+            }
+        }
+        return self::create($A);
+    }
+
     /* ************************************************************************
      * PRIVATE HELPER METHODS
      * ***********************************************************************/
