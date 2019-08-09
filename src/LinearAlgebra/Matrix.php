@@ -3633,9 +3633,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         
         // α is the square root of the sum of squares of x with the correct sign
         $α = Special::sgn($x[0][0]) * $x->frobeniusNorm();
-        if ($α === 0) {
-            return $I;
-        }
+
         // e is the first column of I
         $e = $I->submatrix(0, 0, $m - 1, 0);
         
