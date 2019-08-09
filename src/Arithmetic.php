@@ -4,23 +4,24 @@ namespace MathPHP;
 class Arithmetic
 {
     /**
-     * Integer Root
+     * Calculate any root of a value: ⁿ√x
+     * Equivalent to x¹/ⁿ
      *
-     * Calculate the integer root of a value.
+     * Use the the PHP pow function if it is an even root or if $x is positive.
+     * If $x is negative and it is an odd root, we can extend the native function.
      *
-     * @param  float $x
-     * @param  int $n
+     * @param  float $x value to find the root of
+     * @param  int   $n magnitude of the root (2 for square root, 3 for cube root, etc.)
      *
      * @return float
      */
     public static function root(float $x, int $n): float
     {
-        // Use the the PHP pow function if it is an even root or if $x is positive
         if ($x >= 0 || $n % 2 === 0) {
-            return pow($x, 1 / $n);
+            return pow($x, 1/$n);
         }
-        // If $x is negative and it is an odd root, we can extend the native function
-        return -pow(abs($x), 1 / $n);
+
+        return -pow(abs($x), 1/$n);
     }
 
     /**
