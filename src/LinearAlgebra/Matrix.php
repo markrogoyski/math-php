@@ -3439,7 +3439,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         
         // α is the square root of the sum of squares of x with the correct sign
         $α = Special::sgn($x[0][0]) * $x->frobeniusNorm();
-        
+        if ($α === 0) {
+            return $I;
+        }
         // e is the first column of I
         $e = $I->submatrix(0, 0, $m - 1, 0);
         
@@ -3449,7 +3451,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $uᵀ = $u->transpose();
         $uᵀu = $uᵀ->multiply($u)->get(0, 0);
         $uuᵀ = $u->multiply($uᵀ);
-        
+        if ($uᵀu == 0) {
+            return $I;
+        }
         // We scale $uuᵀ and subtract it from the identity matrix
         return $I->subtract($uuᵀ->scalarMultiply(2 / $uᵀu));
     }
