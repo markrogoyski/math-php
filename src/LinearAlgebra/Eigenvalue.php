@@ -147,7 +147,7 @@ class Eigenvalue
             $i = $pivot['i'];
             $j = $pivot['j'];
             if ($D[$i][$i] == $D[$j][$j]) {
-                $angle = ($D[$i][$i] <=> 0) * \M_PI / 4;
+                $angle = ($D[$i][$i] > 0 ? 1 : -1) * \M_PI / 4;
             } else {
                 $angle = atan(2 * $D[$i][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
             }
