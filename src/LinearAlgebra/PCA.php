@@ -232,7 +232,7 @@ class PCA
         return $result_matrix;
     }
 
-    public function geCriticalT²(float $alpha = .05): array
+    public function getCriticalT²(float $alpha = .05): array
     {
         $samp = $this->data->getM();
         $vars = $this->data->getN();
