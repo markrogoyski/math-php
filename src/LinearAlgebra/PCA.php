@@ -83,7 +83,7 @@ class PCA
         $corrCovMatrix = $this->data->transpose()->multiply($this->data);
         
         $this->inertia = $corrCovMatrix->trace();
-        $this->EVal = $corrCovMatrix->eigenvalues(Eigenvalue::JACOBI_METHOD);
+        $this->EVal = new Vector($corrCovMatrix->eigenvalues(Eigenvalue::JACOBI_METHOD));
         $this->EVec = $corrCovMatrix->eigenvectors(Eigenvalue::JACOBI_METHOD);
     }
 
