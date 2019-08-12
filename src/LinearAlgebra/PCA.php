@@ -193,7 +193,7 @@ class PCA
             $P = $this->EVec->submatrix(0, 0, $this->EVec->getM() - 1, $i);
             $Pprime = $P->transpose();
             $I = MatrixFactory::identity($P->getM());
-            $newColumn = $X->multiply($I->subtract($P->multiply($Pprime)))->multipy($Xprime)->getDiagonalElements();
+            $newColumn = MatrixFactory::create([$X->multiply($I->subtract($P->multiply($Pprime)))->multiply($Xprime)->getDiagonalElements()])->transpose();
             if (!$initialized) {
                 $result_matrix = $new_column;
                 $initialized = true;
@@ -224,7 +224,7 @@ class PCA
             $P = $this->EVec->submatrix(0, 0, $this->EVec->getM() - 1, $i);
             $inverse_lambda = MatrixFactory::diagonal($this->EVal->getVector())->inverse()->submatrix(0, $i, 0, $i);
             $Pprime = $P->transpose();
-            $newColumn = $X->multiply($P)->multiply($inverse_lambda)->multiply($Pprime)->multiply($Xprime)->getDiagonalElements();
+            $new_column = $X->multiply($P)->multiply($inverse_lambda)->multiply($Pprime)->multiply($Xprime)->getDiagonalElements();
             if (!$initialized) {
                 $result_matrix = $new_column;
                 $initialized = true;
