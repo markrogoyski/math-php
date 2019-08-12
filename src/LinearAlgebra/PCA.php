@@ -261,7 +261,7 @@ class PCA
         for ($i = 0; $i < $vars - 1; $i++) {
             $evals = array_slice($this->EVal->getVector(), $i + 1);
             $t1 = array_sum($evals);
-            $t2 = array_sum(Single::sqr($evals));
+            $t2 = array_sum(Single::square($evals));
             $t3 = array_sum(Single::pow($evals, 3));
             $h0 = 1 -2 * $t1 * $t3 / 3 / $t2 ** 2;
             if ($h0 < .001) {
