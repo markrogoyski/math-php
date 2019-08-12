@@ -259,7 +259,7 @@ class PCA
         $vars = $this->data->getN();
         $Qcrit = [];
         for ($i = 0; $i < $vars - 1; $i++) {
-            $evals = array_slice($this->EVals->getVector(), $i + 1);
+            $evals = array_slice($this->EVal->getVector(), $i + 1);
             $t1 = sum($evals);
             $t2 = sum(Single::sqr($evals));
             $t3 = sum(Single::pow($evals, 3));
