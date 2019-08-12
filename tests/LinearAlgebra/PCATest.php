@@ -175,7 +175,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * model = pca(data, center=TRUE, scale=TRUE)
      * print(model$calres$T2)
      */
-    public function getT²Distances()
+    public function testGetT²Distances()
     {
         $expected = [
             [0.0780052327, 0.7393467, 0.8221398, 0.8820597, 3.969633, 4.095989, 5.80369, 5.803872, 7.061447],
@@ -223,7 +223,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * model = pca(data, center=TRUE, scale=TRUE)
      * print(model$calres$Q)
      */
-    public function getQResiduals()
+    public function testGetQResiduals()
     {
         $expected = [
             [2.2230939, 0.8461148, 0.80436922, 0.78848881, 0.22297302, 0.20733107, 0.0279166962, 0.02790607, 4.999714E-31],
