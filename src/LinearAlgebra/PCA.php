@@ -220,8 +220,8 @@ class PCA
         $initialized = false;
         for ($i = 0; $i < $this->data->getN(); $i++) {
             // Get the first $i+1 columns of the loading matrix
-            $P = $this->EVec->submatrix(0, $EVec->getM(), 0, $i);
-            $inverse_lambda = MatrixFactory::diagonal($this->eVal->getVector())->inverse()->submatrix(0, $i, 0, $i);
+            $P = $this->EVec->submatrix(0, $this->EVec->getM(), 0, $i);
+            $inverse_lambda = MatrixFactory::diagonal($this->EVal->getVector())->inverse()->submatrix(0, $i, 0, $i);
             $Pprime = $P->transpose();
             $newColumn = $X->multiply($P)->multiply($inverse_lambda)->multiply($Pprime)->multipy($Xprime)->getDiagonalElements();
             if (!initialized) {
