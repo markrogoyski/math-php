@@ -188,7 +188,7 @@ class PCA
         }
         $Xprime = $X->transpose();
         $initialized = false;
-        for ($i = 0; $i < $$this->data->getN(); $i++) {
+        for ($i = 0; $i < $this->data->getN(); $i++) {
             // Get the first $i+1 columns of the loading matrix
              $P = $this->EVec->submatrix(0, $Evec->getM(), 0, $i);
              $Pprime = $P->transpose();
