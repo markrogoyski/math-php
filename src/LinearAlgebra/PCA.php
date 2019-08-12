@@ -150,7 +150,7 @@ class PCA
      */
     public function getR(): array
     {
-        return $this->EVal->scalarDivide($this->inertia);
+        return $this->EVal->scalarDivide($this->inertia)->getVector();
     }
 
     /**
