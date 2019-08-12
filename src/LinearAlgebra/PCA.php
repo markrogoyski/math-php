@@ -140,7 +140,7 @@ class PCA
         } else {
             $scaled_data = $this->normalizeData($newdata);
         }
-        return $scaled_data->multiply($EVec);
+        return $scaled_data->multiply($this->EVec);
     }
 
     /**
