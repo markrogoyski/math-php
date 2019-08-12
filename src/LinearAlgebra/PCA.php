@@ -27,7 +27,7 @@ class PCA
     protected $scale;
 
     /**
-     * @var Vector $Eval
+     * @var Vector $EVal
      * The EigenValues of the correlation Matrix
      * Also the Loading Matrix for the PCA
      */
