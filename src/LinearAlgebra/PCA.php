@@ -81,7 +81,8 @@ class PCA
         $this->data = $this->normalizeData();
         
         // Create the correlation Matrix
-        $corrCovMatrix = $this->data->transpose()->multiply($this->data);
+        $samples = $M->getM();
+        $corrCovMatrix = $this->data->transpose()->multiply($this->data)->scalarDivide($samples - 1);
         
         $this->inertia = $corrCovMatrix->trace();
         $this->EVal = new Vector($corrCovMatrix->eigenvalues(Eigenvalue::JACOBI_METHOD));
