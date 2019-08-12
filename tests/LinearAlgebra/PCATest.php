@@ -127,7 +127,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
     }
 
     public function testCriticalQ()
-        //public function criticalQ() {
+    {
         //library(mdatools)
         //data = mtcars[,c(1:7,10,11)]
         //m = pca(data, 9, scale = TRUE)
