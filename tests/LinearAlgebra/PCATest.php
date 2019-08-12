@@ -37,7 +37,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
         // print(model$calres$expvar / 100)
         $expected = [0.628437719, 0.231344477, 0.056023869, 0.029447503, 0.020350960,
                      0.013754799, 0.011673547, 0.006501528, 0.002465598];
-        $this->assertEquals($expected, $this->pca->getR()->getVector());
+        $this->assertEquals($expected, $this->pca->getR());
     }
 
     public function testLoadings()
