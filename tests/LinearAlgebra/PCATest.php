@@ -115,14 +115,15 @@ class PCATest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->pca->getEigenvalues()->getVector());
     }
     
-    //public function criticalT2() {
+    public function testcriticalT2() {
        // library(mdatools)
        // data = mtcars[,c(1:7,10,11)]
        // m = pca(data, 9, scale = TRUE)
        // show(m$T2lim)
-        //$expected = [4.159615, 6.852714, 9.40913, 12.01948, 14.76453, 17.69939,
-         //            20.87304, 24.33584, 28.14389];
-    //}
+        $expected = [4.159615, 6.852714, 9.40913, 12.01948, 14.76453, 17.69939,
+            20.87304, 24.33584, 28.14389];
+        $this->assertEquals($expected, $this->pca->getCriticalT²());
+    }
 
     //public function criticalQ() {
         //library(mdatools)
