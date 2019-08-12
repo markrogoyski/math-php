@@ -220,7 +220,7 @@ class PCA
         $initialized = false;
         for ($i = 0; $i < $this->data->getN(); $i++) {
             // Get the first $i+1 columns of the loading matrix
-            $P = $this->EVec->submatrix(0, $Evec->getM(), 0, $i);
+            $P = $this->EVec->submatrix(0, $EVec->getM(), 0, $i);
             $inverse_lambda = MatrixFactory::diagonal($this->eVal->getVector())->inverse()->submatrix(0, $i, 0, $i);
             $Pprime = $P->transpose();
             $newColumn = $X->multiply($P)->multiply($inverse_lambda)->multiply($Pprime)->multipy($Xprime)->getDiagonalElements();
@@ -260,9 +260,9 @@ class PCA
         $Qcrit = [];
         for ($i = 0; $i < $vars - 1; $i++) {
             $evals = array_slice($this->EVal->getVector(), $i + 1);
-            $t1 = sum($evals);
-            $t2 = sum(Single::sqr($evals));
-            $t3 = sum(Single::pow($evals, 3));
+            $t1 = array_sum($evals);
+            $t2 = array_sum(Single::sqr($evals));
+            $t3 = array_sum(Single::pow($evals, 3));
             $h0 = 1 -2 * $t1 * $t3 / 3 / $t2 ** 2;
             if ($h0 < .001) {
                 $h0 = .001;
