@@ -118,6 +118,14 @@ class PCA
     {
         return $this->EVec;
     }
+
+    /**
+     * The eigenvalues of the correlation matrix
+     */
+    public function getEigenvalues(): Vector
+    {
+        return $this->EVal;
+    }
  
     /**
      * Get Scores
