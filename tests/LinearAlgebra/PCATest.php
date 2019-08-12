@@ -28,24 +28,34 @@ class PCATest extends \PHPUnit\Framework\TestCase
     {
         $this->assertInstanceOf(PCA::class, $this->pca);
     }
-    
+
+    /**
+     * @test The class returns the correct R values
+     *
+     * R code for expected values:
+     * library(mdatools)
+     * data = mtcars[,c(1:7,10,11)]
+     * model = pca(data, center=TRUE, scale=TRUE)
+     * print(model$calres$expvar / 100)
+     */
     public function testR()
     {
-        // library(mdatools)
-        //
-        // model = pca(mtcars[,c(1:7,10,11)], center=TRUE, scale=TRUE)
-        // print(model$calres$expvar / 100)
         $expected = [0.628437719, 0.231344477, 0.056023869, 0.029447503, 0.020350960,
                      0.013754799, 0.011673547, 0.006501528, 0.002465598];
         $this->assertEquals($expected, $this->pca->getR(), '', .00001);
     }
 
+    /**
+     * @test The class returns the correct loadings
+     *
+     * R code for expected values:
+     * library(mdatools)
+     * data = mtcars[,c(1:7,10,11)]
+     * model = pca(data, center=TRUE, scale=TRUE)
+     * print(model$loadings))
+     */
     public function testLoadings()
     {
-        // library(mdatools)
-        //
-        // model = pca(mtcars[,c(1:7,10,11)], center=TRUE, scale=TRUE)
-        // print(model$loadings)
         $expected = [
             [-0.3931477, 0.02753861, -0.22119309, -0.006126378, -0.320762, 0.72015586, -0.38138068, -0.12465987, 0.11492862],
             [0.4025537, 0.01570975, -0.25231615, 0.040700251, 0.1171397, 0.2243255, -0.15893251, 0.81032177, 0.16266295],
@@ -60,11 +70,15 @@ class PCATest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->pca->getLoadings()->getMatrix());
     }
 
-    
-    // library(mdatools)
-    //
-    // model = pca(mtcars[,c(1:7,10,11)],
-    // print(model$calres$scores)
+    /**
+     * @test The class returns the correct scores
+     *
+     * R code for expected values:
+     * library(mdatools)
+     * data = mtcars[,c(1:7,10,11)]
+     * model = pca(data, center=TRUE, scale=TRUE)
+     * print(model$calres$scores)
+     */
     public function testScores()
     {
         $expected = [
@@ -104,45 +118,65 @@ class PCATest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->pca->getScores()->getMatrix());
     }
 
+    /**
+     * @test The class returns the correct eigenvalues
+     *
+     * R code for expected values:
+     * library(mdatools)
+     * data = mtcars[,c(1:7,10,11)]
+     * model = pca(data, center=TRUE, scale=TRUE)
+     * print(model$eigenvals)
+     */
     public function testEigenvalues()
     {
-        // library(mdatools)
-        //
-        // model = pca(mtcars[,c(1:7,10,11)], center=TRUE, scale=TRUE)
-        // print(model$eigenvals)
         $expected = [5.65593947, 2.08210029, 0.50421482, 0.26502753, 0.18315864,
                      0.12379319, 0.105061920, .05851375, 0.02219038];
         $this->assertEquals($expected, $this->pca->getEigenvalues()->getVector(), '', .00001);
     }
-    
+
+    /**
+     * @test The class returns the correct critical T² distances
+     *
+     * R code for expected values:
+     * library(mdatools)
+     * data = mtcars[,c(1:7,10,11)]
+     * model = pca(data, center=TRUE, scale=TRUE)
+     * show(model$T2lim)
+     */
     public function testCriticalT2()
     {
-       // library(mdatools)
-       // data = mtcars[,c(1:7,10,11)]
-       // m = pca(data, 9, scale = TRUE)
-       // show(m$T2lim)
         $expected = [4.159615, 6.852714, 9.40913, 12.01948, 14.76453, 17.69939,
             20.87304, 24.33584, 28.14389];
         $this->assertEquals($expected, $this->pca->getCriticalT²(), '', .00001);
     }
 
+    /**
+     * @test The class returns the correct critical Q distances
+     *
+     * R code for expected values:
+     * library(mdatools)
+     * data = mtcars[,c(1:7,10,11)]
+     * model = pca(data, center=TRUE, scale=TRUE)
+     * show(model$Qlim)
+     */
     public function testCriticalQ()
     {
-        //library(mdatools)
-        //data = mtcars[,c(1:7,10,11)]
-        //m = pca(data, 9, scale = TRUE)
-        //show(m$Qlim)
         $expected = [9.799571, 3.054654, 1.785614, 1.200338, 0.7974437, 0.534007,
                      0.2584248, 0.08314212, 0];
         $this->assertEquals($expected, $this->pca->getCriticalQ(), '', .00001);
     }
 
+    /**
+     * @test The class returns the correct T² distances
+     *
+     * R code for expected values:
+     * library(mdatools)
+     * data = mtcars[,c(1:7,10,11)]
+     * model = pca(data, center=TRUE, scale=TRUE)
+     * print(model$calres$T2)
+     */
     public function getT²Distances()
     {
-        //library(mdatools)
-        //data = mtcars[,c(1:7,10,11)]
-        //model = pca(data, 9,scale = TRUE, info = 'Simple PCA model')
-        //print(model$calres$T2)
         $expected = [
             [0.0780052327, 0.7393467, 0.8221398, 0.8820597, 3.969633, 4.095989, 5.80369, 5.803872, 7.061447],
             [0.0717867274, 0.5301802, 0.5545185, 0.5822158, 2.936674, 2.97207, 4.886617, 4.94145, 5.172425],
@@ -179,13 +213,18 @@ class PCATest extends \PHPUnit\Framework\TestCase
         ];
         $this->assertEquals($expected, $this->pca->getT²Distances()->getMatrix());
     }
-    
+
+    /**
+     * @test The class returns the correct Q distances
+     *
+     * R code for expected values:
+     * library(mdatools)
+     * data = mtcars[,c(1:7,10,11)]
+     * model = pca(data, center=TRUE, scale=TRUE)
+     * print(model$calres$Q)
+     */
     public function getQDistances()
     {
-        // library(mdatools)
-        // data = mtcars[,c(1:7,10,11)]
-        // model = pca(data, 9,scale = TRUE, info = 'Simple PCA model')
-        // print(model$calres$Q)
         $expected = [
             [2.2230939, 0.8461148, 0.80436922, 0.78848881, 0.22297302, 0.20733107, 0.0279166962, 0.02790607, 4.999714E-31],
             [1.6191345, 0.6647133, 0.65244159, 0.64510102, 0.21386161, 0.20947992, 0.008333885, 0.005125428, 6.842829E-31],
