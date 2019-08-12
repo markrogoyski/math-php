@@ -7,6 +7,7 @@ use MathPHP\LinearAlgebra\Eigenvalue;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Probability\Distribution\Continuous\F;
+use MathPHP\Probability\Distribution\Continuous\StandardNormal;
 use MathPHP\Statistics\Descriptive;
 
 /**
@@ -233,6 +234,9 @@ class PCA
         return $result_matrix;
     }
 
+    /**
+     *
+     */
     public function getCriticalT²(float $alpha = .05): array
     {
         $samp = $this->data->getM();
@@ -243,5 +247,32 @@ class PCA
             $T_array[] = $T;
         }
         return $T_array;
+    }
+
+    /**
+     * Calculate the critical limits of Q
+     *
+     * @param float $alpha the probability limit of the critical value
+     */
+    public function getCriticalQ(float $alpha = .05): array
+    {
+        $vars = $this->data->getN();
+        $Qcrit = [];
+        for ($i = 0; $i < $vars; $i++) {
+            $evals = array_slice($this->EVals->getVector(), $i + 1);
+            $t1 = sum($evals);
+            $t2 = sum(Single::sqr($evals));
+            $t3 = sum(Single::pow($evals, 3));
+            $h0 = 1 -2 * $t1 * $t3 / 3 / $t2 ** 2;
+            if ($h0 < .001) {
+                $h0 = .001;
+            }
+            $normal = new StandardNormal();
+            $ca = $normal->inverse(1 - $alpha);
+            $h1 = $ca * sqrt(2 * $t2 * $h0 ** 2) / $t1;
+            $h2 = $t2 * $h0 * ($h0 - 1) / $t1 ** 2;
+            $Qcrit[] = $t1 * (1 + $h1 + $h2) ** (1 / $h0);
+        }
+        return $Qcrit;
     }
 }
