@@ -6,6 +6,7 @@ use MathPHP\Functions\Map\Single;
 use MathPHP\LinearAlgebra\Eigenvalue;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\Probability\Distribution\Continuous\F;
 use MathPHP\Statistics\Descriptive;
 
 /**
@@ -229,5 +230,17 @@ class PCA
             }
         }
         return $result_matrix;
+    }
+
+    public function geCriticalT²(float $alpha = .05): array
+    {
+        $samp = $this->data->getM();
+        $vars = $this->data->getN();
+        for ($i = 1; $i <= $vars; $i++) {
+            $F = new F($i, $samp - 1);
+            $T = $i * ($samp - 1) * $F->inverse(1 - $alpha) / ($samp - $i);
+            $T_array[] = $T;
+        }
+        return $T_array;
     }
 }
