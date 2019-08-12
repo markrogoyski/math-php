@@ -91,6 +91,19 @@ class PCA
         $this->EVec = $corrCovMatrix->eigenvectors(Eigenvalue::JACOBI_METHOD);
     }
 
+    /**
+     * Verify that the matrix has the same nuber of columns as the original data
+     *
+     * @param Matrix $A
+     *
+     * @throws Exception\BadDataException if the matrix is not square
+     */
+    private function checkNewData(Matrix $new_data)
+    {
+        if ($newdata->getN() !== $this->data->getN()) {
+            throw new Exception\BadDataException('Data does not have the same number of columns');
+        }
+    }
 
     /**
      * NormalizeData
@@ -102,16 +115,20 @@ class PCA
      */
     public function normalizeData(Matrix $new_data = null): Matrix
     {
-        // Check that $new_data->getN() === $this->data->getN()
         if ($new_data === null) {
-            $new_data = $this->data;
+            $X = $this->data;
+        } else {
+            $this->checkNewData($new_data);
+            $X = $new_data;
         }
-        $ones_column = MatrixFactory::one($new_data->getM(), 1);
+        $ones_column = MatrixFactory::one($X->getM(), 1);
         
         // Create a matrix the same dimentions as $new_data, each element is the average of that column in the original data.
         $center_matrix = $ones_column->multiply(MatrixFactory::create([$this->center->getVector()]));
         $scale_matrix = MatrixFactory::diagonal($this->scale->getVector())->inverse();
-        $scaled_data = $new_data->subtract($center_matrix)->multiply($scale_matrix);
+
+        // $scaled_data = ($X - μ) / σ
+        $scaled_data = $X->subtract($center_matrix)->multiply($scale_matrix);
         return $scaled_data;
     }
     
@@ -136,12 +153,12 @@ class PCA
      *
      * Transform the normalized data with the loadings matrix
      */
-    public function getScores(Matrix $newdata = null): Matrix
+    public function getScores(Matrix $new_data = null): Matrix
     {
-        // Check that $newdata->getN() === $this->data->getN()
-        if ($newdata === null) {
+        if ($new_data === null) {
             $scaled_data = $this->data;
         } else {
+            $this->checkNewData($new_data);
             $scaled_data = $this->normalizeData($newdata);
         }
         return $scaled_data->multiply($this->EVec);
@@ -176,19 +193,21 @@ class PCA
      * Get the Q Residuals
      *
      * The Q redidual is the error in the model at a given model complexity.
-     * For each row (i) in the data Matrix x:
-     * Qi = xi(I-PP')xi'
+     * For each row (i) in the data Matrix x, and retained componenets (j):
+     * Qᵢ = eᵢ'eᵢ = xᵢ(I-PⱼPⱼ')xᵢ'
+     *
+     * @param Matrix $new_data - An optional Matrix of new data which is Normalized against the original data
+     *
+     * @return Matrix
      */
-    public function getQResiduals(Matrix $newdata = null): Matrix
+    public function getQResiduals(Matrix $new_data = null): Matrix
     {
         $vars = $this->data->getN();
-        if ($newdata === null) {
+        if ($new_data === null) {
             $X = $this->data;
         } else {
-            if ($newdata->getN() !== $vars) {
-                throw new Exception\MatrixException('Data does not have the same number of columns');
-            }
-            $X = normalizeData($newdata);
+            $this->checkNewData($new_data);
+            $X = normalizeData($new_data);
         }
         
         $Xprime = $X->transpose();
@@ -213,17 +232,21 @@ class PCA
      * Get the T² Distance
      *
      * Get the distance from the score to the center of the model plane.
+     * For each row (i) in the data matrix, and retained componenets (j)
+     * Tᵢ² = XᵢPⱼΛⱼ⁻¹Pⱼ'Xᵢ'
+     *
+     * @param Matrix $new_data - An optional Matrix of new data which is Normalized against the original data
+     *
+     * @return Matrix
      */
-    public function getT²Distances(Matrix $newdata = null): Matrix
+    public function getT²Distances(Matrix $new_data = null): Matrix
     {
         $vars = $this->data->getN();
-        if ($newdata === null) {
+        if ($new_data === null) {
             $X = $this->data;
         } else {
-            if ($newdata->getN() !== $vars) {
-                throw new Exception\MatrixException('Data does not have the same number of columns');
-            }
-            $X = normalizeData($newdata);
+            $this->checkNewData($new_data);
+            $X = normalizeData($new_data);
         }
         $Xprime = $X->transpose();
         $initialized = false;
@@ -244,7 +267,10 @@ class PCA
     }
 
     /**
+     * Calculate the critical limits of T²
      *
+     * @param float $alpha the probability limit of the critical value
+     * @return float[] Critical values for each model complexity
      */
     public function getCriticalT²(float $alpha = .05): array
     {
@@ -262,6 +288,7 @@ class PCA
      * Calculate the critical limits of Q
      *
      * @param float $alpha the probability limit of the critical value
+     * @return float[] Critical values for each model complexity
      */
     public function getCriticalQ(float $alpha = .05): array
     {
