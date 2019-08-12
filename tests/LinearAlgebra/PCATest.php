@@ -126,15 +126,6 @@ class PCATest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->pca->getCriticalT²(), '', .00001);
     }
 
-    //public function criticalQ() {
-        //library(mdatools)
-        //data = mtcars[,c(1:7,10,11)]
-        //m = pca(data, 9, scale = TRUE)
-        //show(m$Qlim)
-        //$expected = [9.799571, 3.054654, 1.785614, 1.200338, 0.7974437, 0.534007,
-        //             0.2584248, 0.08314212, 0];
-    //}
-    
     public function getT²Distances()
     {
         //library(mdatools)
