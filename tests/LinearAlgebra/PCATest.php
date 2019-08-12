@@ -133,7 +133,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
         //             0.2584248, 0.08314212, 0];
     //}
     
-    public function T2()
+    public function getT²Distances()
     {
         //library(mdatools)
         //data = mtcars[,c(1:7,10,11)]
@@ -176,7 +176,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->pca->getT²Distances()->getMatrix());
     }
     
-    public function Q()
+    public function getQDistances()
     {
         // library(mdatools)
         // data = mtcars[,c(1:7,10,11)]
