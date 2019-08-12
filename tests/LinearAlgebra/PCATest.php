@@ -101,6 +101,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [2.96252801, 3.9993896, 0.70296512, -0.73000448, -0.22756074, 0.65580986, 0.49422807, -0.082329298, -0.053112079],
             [-1.90443632, 0.108419, 0.39906976, 0.31285789, 0.11738974, -0.48091826, 0.31102454, -0.315146031, 0.165790892],
         ];
+        $this->assertEquals($expected, $this->pca->getScores()->getMatrix());
     }
 
     public function testEigenvalues()
@@ -172,6 +173,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [1.5517443671, 9.2339474, 10.2140058, 12.224765, 12.507492, 15.981726, 18.306654, 18.422492, 18.549614],
             [0.6412511483, 0.6468967, 0.9627476, 1.3320679, 1.407305, 3.275602, 4.196356, 5.893684, 7.132357],
         ];
+        $this->assertEquals($expected, $this->pca->getT²Distances()->getMatrix());
     }
     
     public function Q()
@@ -214,5 +216,6 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [17.7579146, 1.7627973, 1.26863739, 0.73573085, 0.68394696, 0.25386039, 0.0095990062, 0.002820893, 9.523531E-30],
             [0.737494, 0.7257394, 0.56648268, 0.46860262, 0.45482227, 0.22353991, 0.1268036408, 0.02748662, 2.271057E-30],
         ];
+        $this->assertEquals($expected, $this->pca->getQDistances()->getMatrix());
     }
 }
