@@ -37,7 +37,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
         // print(model$calres$expvar / 100)
         $expected = [0.628437719, 0.231344477, 0.056023869, 0.029447503, 0.020350960,
                      0.013754799, 0.011673547, 0.006501528, 0.002465598];
-        $this->assertEquals($expected, $this->pca->getR(), .00001);
+        $this->assertEquals($expected, $this->pca->getR(), '', .00001);
     }
 
     public function testLoadings()
@@ -112,7 +112,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
         // print(model$eigenvals)
         $expected = [5.65593947, 2.08210029, 0.50421482, 0.26502753, 0.18315864,
                      0.12379319, 0.105061920, .05851375, 0.02219038];
-        $this->assertEquals($expected, $this->pca->getEigenvalues()->getVector());
+        $this->assertEquals($expected, $this->pca->getEigenvalues()->getVector(), '', .00001);
     }
     
     public function testcriticalT2()
@@ -123,7 +123,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
        // show(m$T2lim)
         $expected = [4.159615, 6.852714, 9.40913, 12.01948, 14.76453, 17.69939,
             20.87304, 24.33584, 28.14389];
-        $this->assertEquals($expected, $this->pca->getCriticalT²(), .00001);
+        $this->assertEquals($expected, $this->pca->getCriticalT²(), '', .00001);
     }
 
     //public function criticalQ() {
