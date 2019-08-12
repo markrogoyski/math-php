@@ -215,7 +215,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test The class returns the correct Q distances
+     * @test The class returns the correct Q residuals
      *
      * R code for expected values:
      * library(mdatools)
@@ -223,7 +223,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * model = pca(data, center=TRUE, scale=TRUE)
      * print(model$calres$Q)
      */
-    public function getQDistances()
+    public function getQResiduals()
     {
         $expected = [
             [2.2230939, 0.8461148, 0.80436922, 0.78848881, 0.22297302, 0.20733107, 0.0279166962, 0.02790607, 4.999714E-31],
@@ -259,6 +259,6 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [17.7579146, 1.7627973, 1.26863739, 0.73573085, 0.68394696, 0.25386039, 0.0095990062, 0.002820893, 9.523531E-30],
             [0.737494, 0.7257394, 0.56648268, 0.46860262, 0.45482227, 0.22353991, 0.1268036408, 0.02748662, 2.271057E-30],
         ];
-        $this->assertEquals($expected, $this->pca->getQDistances()->getMatrix());
+        $this->assertEquals($expected, $this->pca->getQResiduals()->getMatrix());
     }
 }
