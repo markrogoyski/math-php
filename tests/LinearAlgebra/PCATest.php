@@ -211,7 +211,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [1.5517443671, 9.2339474, 10.2140058, 12.224765, 12.507492, 15.981726, 18.306654, 18.422492, 18.549614],
             [0.6412511483, 0.6468967, 0.9627476, 1.3320679, 1.407305, 3.275602, 4.196356, 5.893684, 7.132357],
         ];
-        $this->assertEquals($expected, $this->pca->getT²Distances()->getMatrix());
+        $this->assertEquals($expected, $this->pca->getT²Distances()->getMatrix(), '', .00001);
     }
 
     /**
@@ -259,6 +259,6 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [17.7579146, 1.7627973, 1.26863739, 0.73573085, 0.68394696, 0.25386039, 0.0095990062, 0.002820893, 9.523531E-30],
             [0.737494, 0.7257394, 0.56648268, 0.46860262, 0.45482227, 0.22353991, 0.1268036408, 0.02748662, 2.271057E-30],
         ];
-        $this->assertEquals($expected, $this->pca->getQResiduals()->getMatrix());
+        $this->assertEquals($expected, $this->pca->getQResiduals()->getMatrix(), '', .00001);
     }
 }
