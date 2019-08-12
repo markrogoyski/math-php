@@ -2,6 +2,7 @@
 
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Exception;
 use MathPHP\Functions\Map\Single;
 use MathPHP\LinearAlgebra\Eigenvalue;
 use MathPHP\LinearAlgebra\Matrix;
@@ -180,25 +181,29 @@ class PCA
      */
     public function getQResiduals(Matrix $newdata = null): Matrix
     {
-        // Check that $newdata->getN() === $this->data->getN()
+        $vars = $this->data->getN();
         if ($newdata === null) {
             $X = $this->data;
         } else {
+            if ($newdata->getN() !== $vars) {
+                throw new Exception\MatrixException('Data does not have the same number of columns');
+            }
             $X = normalizeData($newdata);
         }
+        
         $Xprime = $X->transpose();
         $initialized = false;
-        for ($i = 0; $i < $this->data->getN(); $i++) {
+        $I = MatrixFactory::identity($vars);
+        for ($i = 0; $i < $vars; $i++) {
             // Get the first $i+1 columns of the loading matrix
-            $P = $this->EVec->submatrix(0, 0, $this->EVec->getM() - 1, $i);
+            $P = $this->EVec->submatrix(0, 0, $vars - 1, $i);
             $Pprime = $P->transpose();
-            $I = MatrixFactory::identity($P->getM());
             $new_column = MatrixFactory::create([$X->multiply($I->subtract($P->multiply($Pprime)))->multiply($Xprime)->getDiagonalElements()])->transpose();
             if (!$initialized) {
                 $result_matrix = $new_column;
                 $initialized = true;
             } else {
-                $result_matrix = $result_matrix->augmentRight($new_column);
+                $result_matrix = $result_matrix->augment($new_column);
             }
         }
         return $result_matrix;
@@ -211,25 +216,28 @@ class PCA
      */
     public function getT²Distances(Matrix $newdata = null): Matrix
     {
-        // Check that $newdata->getN() === $this->data->getN()
+        $vars = $this->data->getN();
         if ($newdata === null) {
             $X = $this->data;
         } else {
+            if ($newdata->getN() !== $vars) {
+                throw new Exception\MatrixException('Data does not have the same number of columns');
+            }
             $X = normalizeData($newdata);
         }
         $Xprime = $X->transpose();
         $initialized = false;
         for ($i = 0; $i < $this->data->getN(); $i++) {
             // Get the first $i+1 columns of the loading matrix
-            $P = $this->EVec->submatrix(0, 0, $this->EVec->getM() - 1, $i);
-            $inverse_lambda = MatrixFactory::diagonal($this->EVal->getVector())->inverse()->submatrix(0, 0, 0, $i);
+            $P = $this->EVec->submatrix(0, 0, $vars - 1, $i);
+            $inverse_lambda = MatrixFactory::diagonal(array_slice($this->EVal->getVector(), 0, $i + 1))->inverse();
             $Pprime = $P->transpose();
             $new_column = MatrixFactory::create([$X->multiply($P)->multiply($inverse_lambda)->multiply($Pprime)->multiply($Xprime)->getDiagonalElements()])->transpose();
             if (!$initialized) {
                 $result_matrix = $new_column;
                 $initialized = true;
             } else {
-                $result_matrix = $result_matrix->augmentright($new_column);
+                $result_matrix = $result_matrix->augment($new_column);
             }
         }
         return $result_matrix;
