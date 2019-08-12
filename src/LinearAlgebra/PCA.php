@@ -237,7 +237,7 @@ class PCA
         $samp = $this->data->getM();
         $vars = $this->data->getN();
         for ($i = 1; $i <= $vars; $i++) {
-            $F = new F($i, $samp - 1);
+            $F = new F($i, $samp - $i);
             $T = $i * ($samp - 1) * $F->inverse(1 - $alpha) / ($samp - $i);
             $T_array[] = $T;
         }
