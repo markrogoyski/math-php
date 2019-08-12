@@ -10,6 +10,9 @@ use MathPHP\Tests\Data\SampleData;
 
 class PCATest extends \PHPUnit\Framework\TestCase
 {
+    protected $pca;
+    protected $matrix;
+    
     public function setUp()
     {
         $this->A = SampleData::mtcars();
@@ -34,6 +37,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
         // print(model$calres$expvar / 100)
         $expected = [0.628437719, 0.231344477, 0.056023869, 0.029447503, 0.020350960,
                      0.013754799, 0.011673547, 0.006501528, 0.002465598];
+        $this->assertEquals($expected, $this->pca->getR()->getVector());
     }
 
     public function testLoadings()
@@ -53,6 +57,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [-0.2094749, 0.55078264, 0.20658376, -0.282381831, -0.562486, -0.32298239, -0.08555707, 0.31636479, 0.04719694],
             [0.2445807, 0.4843131, 0.46412069, -0.214492216, 0.399782, 0.35706914, -0.2060421, -0.10832772, -0.32045892]
         ];
+        $this->assertEquals($expected, $this->pca->getLoadings()->getMatrix());
     }
 
     
@@ -106,6 +111,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
         // print(model$eigenvals)
         $expected = [5.65593947, 2.08210029, 0.50421482, 0.26502753, 0.18315864,
                      0.12379319, 0.105061920, .05851375, 0.02219038];
+        $this->assertEquals($expected, $this->pca->getEigenvalues()->getVector());
     }
     
     //public function criticalT2() {
