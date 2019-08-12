@@ -58,18 +58,18 @@ class PCA
      *
      * @throws Exception\BadDataException if any rows have a different column count
      */
-    public function __construct(Matrix $M, bool $center = null, bool $scale = null)
+    public function __construct(Matrix $M, bool $center = true, bool $scale = true)
     {
         // Check that there is enough data: at least two columns and rows
         if (!$M->getM() > 1 || !$M->getN() > 1) {
             //throw exception
         }
-        if ($center === null || $center === true) {
+        if ($center === true) {
             $this->center = $M->columnMeans();
         } else {
             $this->center = new Vector(array_fill(0, $this->data->getN()));
         }
-        if ($scale === null || $scale === true) {
+        if ($scale === true) {
             $Mt = $M->transpose();
             $scalearray = [];
             for ($i = 0; $i < $Mt->getM(); $i++) {
