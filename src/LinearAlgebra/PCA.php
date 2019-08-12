@@ -31,7 +31,7 @@ class PCA
      * The EigenValues of the correlation Matrix
      * Also the Loading Matrix for the PCA
      */
-    protected $Eval = null;
+    protected $EVal = null;
 
     /**
      * @var Matrix $EVec
@@ -83,7 +83,7 @@ class PCA
         $corrCovMatrix = $this->data->transpose()->multiply($this->data);
         
         $this->inertia = $corrCovMatrix->trace();
-        $this->Eval = $corrCovMatrix->eigenvalues(Eigenvalue::JACOBI_METHOD);
+        $this->EVal = $corrCovMatrix->eigenvalues(Eigenvalue::JACOBI_METHOD);
         $this->EVec = $corrCovMatrix->eigenvectors(Eigenvalue::JACOBI_METHOD);
     }
 
