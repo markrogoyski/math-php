@@ -55,7 +55,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * model = pca(data, center=TRUE, scale=TRUE)
      * print(model$calres$cumexpvar / 100)
      */
-    public function testRsq()
+    public function testCumRsq()
     {
         $expected = [0.6284377, 0.8597822, 0.9158061, 0.9452536, 0.9656045, 0.9793593,
                      0.9910329, 0.9975344, 1.0000000];
