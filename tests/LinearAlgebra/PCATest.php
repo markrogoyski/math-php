@@ -328,7 +328,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
     /**
      * @test Test that the new data must have the have the same number of columns
      */
-    public function testConstructorException()
+    public function testNewDataException()
     {
         $this->expectException(Exception\BadDataException::class);
         $new_data = MatrixFactory::create([[1,2]]);
