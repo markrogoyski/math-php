@@ -2,6 +2,7 @@
 
 namespace MathPHP\Tests\LinearAlgebra;
 
+use MathPHP\Functions\Map\Multi;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\PCA;
@@ -67,6 +68,24 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [-0.2094749, 0.55078264, 0.20658376, -0.282381831, -0.562486, -0.32298239, -0.08555707, 0.31636479, 0.04719694],
             [0.2445807, 0.4843131, 0.46412069, -0.214492216, 0.399782, 0.35706914, -0.2060421, -0.10832772, -0.32045892]
         ];
+        // Since each column could be multiplied by -1, we will compare the two and adjust.
+        $loadings = $this->pca->getLoadings();
+        $load_array = $loadings->getMatrix();
+        
+        //Get an array that's roughtly ones and negative ones.
+        $quotiant = Multi::divide($expected[1], $load_array[1]);
+        
+        // Convert to exactly one or negative one. Cannot be zero.
+        $signum = array_map(
+            function ($x) {
+                return $x <=> 0;
+            },
+            $quotiant
+        );
+        $sign_change = MatrixFactory::diagonal($signum);
+        
+        // Multiplying a sign change matrix on the right changes column signs.
+        $sign_adjusted = $loadings->multiply($sign_change);
         $this->assertEquals($expected, $this->pca->getLoadings()->getMatrix());
     }
 
