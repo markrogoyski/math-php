@@ -39,11 +39,11 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * model = pca(data, center=TRUE, scale=TRUE)
      * print(model$calres$expvar / 100)
      */
-    public function testR()
+    public function testRsq()
     {
         $expected = [0.628437719, 0.231344477, 0.056023869, 0.029447503, 0.020350960,
                      0.013754799, 0.011673547, 0.006501528, 0.002465598];
-        $this->assertEquals($expected, $this->pca->getR(), '', .00001);
+        $this->assertEquals($expected, $this->pca->getRsq(), '', .00001);
     }
 
     /**
