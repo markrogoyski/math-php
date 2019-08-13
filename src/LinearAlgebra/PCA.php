@@ -309,7 +309,7 @@ class PCA
             $h2 = $t2 * $h0 * ($h0 - 1) / $t1 ** 2;
             $Qcrit[] = $t1 * (1 + $h1 + $h2) ** (1 / $h0);
         }
-        //
+        // The final value is always zero since the model is perfectly fit.
         $Qcrit[] = 0;
         return $Qcrit;
     }
