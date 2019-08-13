@@ -86,7 +86,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
         
         // Multiplying a sign change matrix on the right changes column signs.
         $sign_adjusted = $loadings->multiply($sign_change);
-        $this->assertEquals($expected, $sign_adjusted->getMatrix());
+        $this->assertEquals($expected, $sign_adjusted->getMatrix(), '', .00001);
     }
 
     /**
@@ -152,7 +152,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
         
         // Multiplying a sign change matrix on the right changes column signs.
         $sign_adjusted = $scores->multiply($sign_change);
-        $this->assertEquals($expected, $sign_adjusted->getMatrix());
+        $this->assertEquals($expected, $sign_adjusted->getMatrix(), '', .00001);
     }
 
     /**
