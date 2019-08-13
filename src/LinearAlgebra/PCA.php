@@ -61,7 +61,7 @@ class PCA
     public function __construct(Matrix $M, bool $center = true, bool $scale = true)
     {
         // Check that there is enough data: at least two columns and rows
-        if (!$M->getM() > 1 || !$M->getN() > 1) {
+        if (!($M->getM() > 1) || !($M->getN() > 1)) {
             throw new Exception\BadDataException('Data matrix must be at least 2x2.');
         }
         if ($center === true) {
@@ -100,7 +100,7 @@ class PCA
      */
     private function checkNewData(Matrix $new_data)
     {
-        if ($newdata->getN() !== $this->data->getN()) {
+        if ($new_data->getN() !== $this->data->getN()) {
             throw new Exception\BadDataException('Data does not have the same number of columns');
         }
     }
