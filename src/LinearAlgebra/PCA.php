@@ -62,7 +62,7 @@ class PCA
     {
         // Check that there is enough data: at least two columns and rows
         if (!$M->getM() > 1 || !$M->getN() > 1) {
-            //throw exception
+            throw new Exception\BadDataException('Data matrix must be at least 2x2.');
         }
         if ($center === true) {
             $this->center = $M->columnMeans();
@@ -134,6 +134,7 @@ class PCA
     
     /**
      * The loadings are the unit eigenvectors of the correlation matrix
+     * @return Matrix
      */
     public function getLoadings(): Matrix
     {
@@ -142,6 +143,7 @@ class PCA
 
     /**
      * The eigenvalues of the correlation matrix
+     * @return Vector
      */
     public function getEigenvalues(): Vector
     {
@@ -152,6 +154,7 @@ class PCA
      * Get Scores
      *
      * Transform the normalized data with the loadings matrix
+     * @return Matrix
      */
     public function getScores(Matrix $new_data = null): Matrix
     {
@@ -168,6 +171,7 @@ class PCA
      * Get R² Values
      *
      * R² for each component is eigenvalue divided by the sum of all eigenvalues
+     * @return float[]
      */
     public function getRsq(): array
     {
@@ -176,6 +180,7 @@ class PCA
 
     /**
      * Get the cumulative R²
+     * @return float[]
      */
     public function getCumRsq(): array
     {
