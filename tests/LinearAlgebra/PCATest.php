@@ -72,7 +72,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
         $loadings = $this->pca->getLoadings();
         $load_array = $loadings->getMatrix();
         
-        //Get an array that's roughtly ones and negative ones.
+        //Get an array that's roughly ones and negative ones.
         $quotiant = Multi::divide($expected[1], $load_array[1]);
         
         // Convert to exactly one or negative one. Cannot be zero.
@@ -138,7 +138,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
         $scores = $this->pca->getScores();
         $score_array = $scores->getMatrix();
         
-        //Get an array that's roughtly ones and negative ones.
+        // Get an array that's roughly ones and negative ones.
         $quotiant = Multi::divide($expected[1], $score_array[1]);
         
         // Convert to exactly one or negative one. Cannot be zero.
