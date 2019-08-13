@@ -86,7 +86,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
         
         // Multiplying a sign change matrix on the right changes column signs.
         $sign_adjusted = $loadings->multiply($sign_change);
-        $this->assertEquals($expected, $this->pca->getLoadings()->getMatrix());
+        $this->assertEquals($expected, $sign_adjusted->getMatrix());
     }
 
     /**
@@ -134,7 +134,25 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [2.96252801, 3.9993896, 0.70296512, -0.73000448, -0.22756074, 0.65580986, 0.49422807, -0.082329298, -0.053112079],
             [-1.90443632, 0.108419, 0.39906976, 0.31285789, 0.11738974, -0.48091826, 0.31102454, -0.315146031, 0.165790892],
         ];
-        $this->assertEquals($expected, $this->pca->getScores()->getMatrix());
+        // Since each column could be multiplied by -1, we will compare the two and adjust.
+        $scores = $this->pca->getScores();
+        $score_array = $scores->getMatrix();
+        
+        //Get an array that's roughtly ones and negative ones.
+        $quotiant = Multi::divide($expected[1], $score_array[1]);
+        
+        // Convert to exactly one or negative one. Cannot be zero.
+        $signum = array_map(
+            function ($x) {
+                return $x <=> 0;
+            },
+            $quotiant
+        );
+        $sign_change = MatrixFactory::diagonal($signum);
+        
+        // Multiplying a sign change matrix on the right changes column signs.
+        $sign_adjusted = $scores->multiply($sign_change);
+        $this->assertEquals($expected, $sign_adjusted->getMatrix());
     }
 
     /**
