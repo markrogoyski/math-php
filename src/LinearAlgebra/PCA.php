@@ -179,7 +179,7 @@ class PCA
      */
     public function getCumRsq(): array
     {
-        $array = $this->getR();
+        $array = $this->getRsq();
         $result = [];
         $sum = 0;
         foreach ($array as $value) {
