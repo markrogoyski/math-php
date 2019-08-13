@@ -314,4 +314,24 @@ class PCATest extends \PHPUnit\Framework\TestCase
         ];
         $this->assertEquals($expected, $this->pca->getQResiduals()->getMatrix(), '', .00001);
     }
+
+    /**
+     * @test Test that the constructor throws an exception if the source matrix is too small
+     */
+    public function testConstructorException()
+    {
+        $this->expectException(Exception\BadDataException::class);
+        $matrix = MatrixFactory::create([[1,2]]);
+        $pca = new PCA($matrix, true, true);
+    }
+
+    /**
+     * @test Test that the new data must have the have the same number of columns
+     */
+    public function testConstructorException()
+    {
+        $this->expectException(Exception\BadDataException::class);
+        $new_data = MatrixFactory::create([[1,2]]);
+        $this->pca->getScores($new_data);
+    }
 }
