@@ -169,7 +169,7 @@ class PCA
      *
      * R² for each component is eigenvalue divided by the sum of all eigenvalues
      */
-    public function getR(): array
+    public function getRsq(): array
     {
         return $this->EVal->scalarDivide($this->inertia)->getVector();
     }
