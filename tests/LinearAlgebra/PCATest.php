@@ -31,7 +31,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test The class returns the correct R values
+     * @test The class returns the correct R-squared values
      *
      * R code for expected values:
      * library(mdatools)
@@ -44,6 +44,22 @@ class PCATest extends \PHPUnit\Framework\TestCase
         $expected = [0.628437719, 0.231344477, 0.056023869, 0.029447503, 0.020350960,
                      0.013754799, 0.011673547, 0.006501528, 0.002465598];
         $this->assertEquals($expected, $this->pca->getRsq(), '', .00001);
+    }
+
+    /**
+     * @test The class returns the correct cummulative R-squared values
+     *
+     * R code for expected values:
+     * library(mdatools)
+     * data = mtcars[,c(1:7,10,11)]
+     * model = pca(data, center=TRUE, scale=TRUE)
+     * print(model$calres$cumexpvar / 100)
+     */
+    public function testRsq()
+    {
+        $expected = [0.6284377, 0.8597822, 0.9158061, 0.9452536, 0.9656045, 0.9793593,
+                     0.9910329, 0.9975344, 1.0000000];
+        $this->assertEquals($expected, $this->pca->getCumRsq(), '', .00001);
     }
 
     /**
