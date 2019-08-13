@@ -55,8 +55,8 @@ class Eigenvector
             // pass already found all the vectors.
             $key = array_search($eigenvalue, array_column($solution_array, 'eigenvalue'));
             if (!$key) {
-                $I = MatrixFactory::identity($number)->scalarMultiply($eigenvalue);
-                $T = $A->subtract($I);
+                $Iλ = MatrixFactory::identity($number)->scalarMultiply($eigenvalue);
+                $T = $A->subtract($Iλ);
 
                 $rref = $T->rref();
 
