@@ -177,7 +177,7 @@ class PCA
     /**
      * Get the cumulative R²
      */
-    public function getCumR(): array
+    public function getCumRsq(): array
     {
         $array = $this->getR();
         $result = [];
