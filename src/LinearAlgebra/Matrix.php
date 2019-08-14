@@ -326,6 +326,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isTriangular
      *  - isRef
      *  - isRref
+     *  - isIdempotent
      *  - isInvolutory
      *  - isSignature
      *  - isUpperBidiagonal
@@ -806,6 +807,19 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return true;
+    }
+
+    /**
+     * Is the matrix idempotent?
+     * A matrix that equals itself when squared.
+     * https://en.wikipedia.org/wiki/Idempotent_matrix
+     *
+     * @return boolean true if matrix is idempotent; false otherwise
+     */
+    public function isIndempotent(): bool
+    {
+        $A² = $this->multiply($this);
+        return $A²->getMatrix() == $this->A;
     }
 
     /**
