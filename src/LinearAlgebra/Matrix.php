@@ -819,7 +819,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function isIdempotent(): bool
     {
         $A² = $this->multiply($this);
-        return $A²->getMatrix() == $this->A;
+        return $this->isEqual($A²);
     }
 
     /**
@@ -837,7 +837,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $I  = MatrixFactory::identity($this->m);
         $A² = $this->multiply($this);
 
-        return $A²->getMatrix() == $I->getMatrix();
+        return $A²->isEqual($I);
     }
 
     /**
