@@ -36,6 +36,7 @@ trait MatrixDataProvider
      *  - dataProviderForFourMatrices
      *  - dataProviderForSolve
      *  - dataProviderForTwoPositiveDefiniteMatrices
+     *  - dataProviderForIdempotentMatrix
      *  - dataProviderForInvolutoryMatrix
      *  - dataProviderForNotInvolutoryMatrix
      *  - dataProviderForSignatureMatrix
@@ -4608,6 +4609,25 @@ trait MatrixDataProvider
                     [13, 0, -3],
                     [0, 9, 9],
                     [-3, 9, 10],
+                ],
+            ],
+        ];
+    }
+
+    public function dataProviderForIdempotentMatrix(): array
+    {
+        return [
+            [
+                [
+                    [3, -6],
+                    [1, -2],
+                ],
+            ],
+            [
+                [
+                    [2, -2, -4],
+                    [-1, 3, 4],
+                    [1, -2, -3],
                 ],
             ],
         ];
