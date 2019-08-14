@@ -816,7 +816,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @return boolean true if matrix is idempotent; false otherwise
      */
-    public function isIndempotent(): bool
+    public function isIdempotent(): bool
     {
         $A² = $this->multiply($this);
         return $A²->getMatrix() == $this->A;
