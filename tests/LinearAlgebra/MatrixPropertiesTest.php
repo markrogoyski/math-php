@@ -573,6 +573,36 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($A->isRref());
     }
 
+/**
+     * @test         isIdempotent returns true for an Idempotent matrix
+     * @dataProvider dataProviderForIdempotentMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsIdempotent(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertTrue($A->isIdempotent());
+    }
+
+    /**
+     * @test         isIdempotent returns false for a non-Idempotent matrix
+     * @dataProvider dataProviderForNotIdempotentMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsNotIdempotent(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertFalse($A->isIdempotent());
+    }
+
     /**
      * @test         isInvolutory returns true for a Involutory matrix
      * @dataProvider dataProviderForInvolutoryMatrix
