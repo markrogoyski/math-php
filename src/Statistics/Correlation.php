@@ -615,7 +615,7 @@ class Correlation
         $V = Eigenvector::eigenvectors($cov, $eigenvalues);
 
         // Make ia diagonal matrix of the eigenvalues
-        $D = MatrixFactory::create($eigenvalues);
+        $D = MatrixFactory::diagonal($eigenvalues);
         $D = $D->map('sqrt');
         $transformation_matrix = $V->multiply($D);
         

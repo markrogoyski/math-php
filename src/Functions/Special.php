@@ -22,10 +22,7 @@ class Special
      */
     public static function signum(float $x): int
     {
-        if ($x == 0) {
-            return 0;
-        }
-        return $x < 0 ? -1 : 1;
+        return $x <=> 0;
     }
 
     /**
@@ -75,14 +72,14 @@ class Special
         }
         // Positive integer, or positive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
         if ((abs($n - round($n)) < 0.00001) && $n > 0) {
-            return Combinatorics::factorial(round($n) - 1);
+            return Combinatorics::factorial((int) round($n) - 1);
         }
 
         // Half integer cases (determine if int + 0.5)
         if ((round($n * 2) / 2 / $n) == 1) {
             // Compute parts of equation
             $π     = \M_PI;
-            $x     = round($n - 0.5, 0);
+            $x     = (int) round($n - 0.5, 0);
             $√π    = sqrt($π);
             if ($x == 0) {
                 return $√π;
@@ -161,7 +158,7 @@ class Special
         }
         // Positive integer, or positive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
         if ((abs($z - round($z)) < 0.00001) && $z > 0) {
-            return Combinatorics::factorial(round($z) - 1);
+            return Combinatorics::factorial((int) round($z) - 1);
         }
 
         // p coefficients: g = 7, n = 9
@@ -246,7 +243,7 @@ class Special
         }
         // Positive integer, or postive int as a float
         if ((abs($n - round($n)) < 0.00001) && $n > 0) {
-            return Combinatorics::factorial(round($n) - 1);
+            return Combinatorics::factorial((int) round($n) - 1);
         }
 
         // Compute parts of equation

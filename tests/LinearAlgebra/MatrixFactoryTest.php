@@ -10,13 +10,14 @@ use MathPHP\Exception;
 class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
 {
     use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+    use \phpmock\phpunit\PHPMock;
 
     /**
      * @dataProvider dataProviderForDiagonalMatrix
      */
     public function testCreateDiagonalMatrix(array $A)
     {
-        $A = MatrixFactory::create($A);
+        $A = MatrixFactory::diagonal($A);
 
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\DiagonalMatrix::class, $A);
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $A);
@@ -66,81 +67,22 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider dataProviderForVandermondeSquareMatrix
-     */
-    public function testCreateVandermondeSquareMatrix(array $A, $n)
-    {
-        $A = MatrixFactory::create($A, $n);
-
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\VandermondeSquareMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\SquareMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $A);
-    }
-
-    public function dataProviderForVandermondeSquareMatrix()
-    {
-        return [
-            [
-                [1],
-                1,
-            ],
-            [
-                [1, 2],
-                2
-            ],
-            [
-                [3, 2, 5],
-                3,
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider dataProviderForVandermondeMatrix
-     */
-    public function testCreateVandermondeMatrix(array $A, $n)
-    {
-        $A = MatrixFactory::create($A, $n);
-
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\VandermondeMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $A);
-    }
-
-    public function dataProviderForVandermondeMatrix()
-    {
-        return [
-            [
-                [1],
-                2,
-            ],
-            [
-                [1, 2],
-                1
-            ],
-            [
-                [1, 2],
-                3
-            ],
-            [
-                [3, 2, 5],
-                5,
-            ],
-        ];
-    }
-
-    /**
      * @dataProvider dataProviderForArrayOfVectors
      */
     public function testCreateArrayOfVectors(array $vectors, array $expected)
     {
+        // Given
         $vectors = array_map(
             function ($vector) {
                 return new Vector($vector);
             },
             $vectors
         );
-        $A = MatrixFactory::create($vectors);
 
+        // When
+        $A = MatrixFactory::createFromVectors($vectors);
+
+        // Then
         $this->assertInstanceOf(Matrix::class, $A);
         $this->assertEquals($expected, $A->getMatrix());
     }
@@ -195,13 +137,17 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
 
     public function testCreateFromArrayOfVectorsExceptionVectorsDifferentLengths()
     {
+        // Given
         $A = [
             new Vector([1, 2]),
             new Vector([4, 5, 6]),
         ];
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
-        $A = MatrixFactory::create($A);
+
+        // When
+        $A = MatrixFactory::createFromVectors($A);
     }
 
     /**
@@ -296,7 +242,6 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
 
         $this->assertNotInstanceOf(\MathPHP\LinearAlgebra\SquareMatrix::class, $A);
         $this->assertNotInstanceOf(\MathPHP\LinearAlgebra\FunctionMatrix::class, $A);
-        $this->assertNotInstanceOf(\MathPHP\LinearAlgebra\VandermondeMatrix::class, $A);
         $this->assertNotInstanceOf(\MathPHP\LinearAlgebra\DiagonalMatrix::class, $A);
     }
 
@@ -340,50 +285,54 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         identity
      * @dataProvider dataProviderForIdentity
+     * @param        int   $n
+     * @param        array $R
+     * @throws       \Exception
      */
-    public function testIdentity(int $n, $x, array $R)
+    public function testIdentity(int $n, array $R)
     {
+        // Given
         $R = new SquareMatrix($R);
-        $this->assertEquals($R, MatrixFactory::identity($n, $x));
+
+        // When
+        $I = MatrixFactory::identity($n);
+
+        // Then
+        $this->assertEquals($R, $I);
     }
 
-    public function dataProviderForIdentity()
+    /**
+     * @return array
+     */
+    public function dataProviderForIdentity(): array
     {
         return [
             [
-                1, 1, [[1]],
+                1, [[1]],
             ],
             [
-                2, 1, [
+                2, [
                     [1, 0],
                     [0, 1],
                 ]
             ],
             [
-                3, 1, [
+                3, [
                     [1, 0, 0],
                     [0, 1, 0],
                     [0, 0, 1]
                 ]
             ],
             [
-                4, 1, [
+                4, [
                     [1, 0, 0, 0],
                     [0, 1, 0, 0],
                     [0, 0, 1, 0],
                     [0, 0, 0, 1],
                 ]
             ],
-            [
-                4, 5, [
-                    [5, 0, 0, 0],
-                    [0, 5, 0, 0],
-                    [0, 0, 5, 0],
-                    [0, 0, 0, 5],
-                ]
-            ],
-
         ];
     }
 
@@ -491,57 +440,70 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   identity with n less than zero
+     * @throws \Exception
+     */
     public function testIdentityExceptionNLessThanZero()
     {
+        // Given
+        $n = -1;
+
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
-        MatrixFactory::identity(-1);
+
+        // When
+        MatrixFactory::identity($n);
     }
 
     /**
+     * @test         exchange
      * @dataProvider dataProviderForExchange
+     * @param        int   $n
+     * @param        array $R
+     * @throws       \Exception
      */
-    public function testExchange(int $n, $x, array $R)
+    public function testExchange(int $n, array $R)
     {
+        // Given
         $R = new SquareMatrix($R);
-        $this->assertEquals($R, MatrixFactory::exchange($n, $x));
+
+        $E = MatrixFactory::exchange($n);
+
+        // Then
+        $this->assertEquals($R, $E);
     }
 
-    public function dataProviderForExchange()
+    /**
+     * @return array
+     */
+    public function dataProviderForExchange(): array
     {
         return [
             [
-                1, 1, [[1]],
+                1, [[1]],
             ],
             [
-                2, 1, [
+                2, [
                     [0, 1],
                     [1, 0],
                 ]
             ],
             [
-                3, 1, [
+                3, [
                     [0, 0, 1],
                     [0, 1, 0],
                     [1, 0, 0]
                 ]
             ],
             [
-                4, 1, [
+                4, [
                     [0, 0, 0, 1],
                     [0, 0, 1, 0],
                     [0, 1, 0, 0],
                     [1, 0, 0, 0],
                 ]
             ],
-            [
-                4, 5, [
-                    [0, 0, 0, 5],
-                    [0, 0, 5, 0],
-                    [0, 5, 0, 0],
-                    [5, 0, 0, 0],
-                ]
-            ],
-
         ];
     }
 
@@ -552,15 +514,29 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         zero
      * @dataProvider dataProviderForZero
+     * @param        int   $m
+     * @param        int   $n
+     * @param        array $R
+     * @throws       \Exception
      */
-    public function testZero($m, $n, array $R)
+    public function testZero(int $m, int $n, array $R)
     {
+        // Given
         $R = MatrixFactory::create($R);
-        $this->assertEquals($R, MatrixFactory::zero($m, $n));
+
+        // When
+        $Z = MatrixFactory::zero($m, $n);
+
+        // Then
+        $this->assertEquals($R, $Z);
     }
 
-    public function dataProviderForZero()
+    /**
+     * @return array
+     */
+    public function dataProviderForZero(): array
     {
         return [
             [
@@ -595,10 +571,21 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   zero with row less than one
+     * @throws \Exception
+     */
     public function testZeroExceptionRowsLessThanOne()
     {
+        // Given
+        $m = 0;
+        $n = 2;
+
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
-        MatrixFactory::zero(0, 2);
+
+        // When
+        MatrixFactory::zero($m, $n);
     }
 
     /**
@@ -850,5 +837,18 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(Exception\OutOfBoundsException::class);
         MatrixFactory::hilbert(-1);
+    }
+
+    /**
+     * @testCase Test that the appropriate matrix is constructed
+     *
+     * @runInSeparateProcess
+     */
+    public function testRandomMatrix()
+    {
+        $expected = [[.31415926535]];
+        $rand = $this->getFunctionMock('MathPHP\LinearAlgebra', 'rand');
+        $rand->expects($this->once())->willReturn(.31415926535);
+        $this->assertEquals($expected, MatrixFactory::random(1, 1)->getMatrix());
     }
 }

@@ -95,9 +95,9 @@ class Support
      *
      * @return boolean true if equivalent to zero; false otherwise
      */
-    public static function isZero(float $x): bool
+    public static function isZero(float $x, float $ε = self::ε): bool
     {
-        return ($x == 0 || abs($x) <= self::ε);
+        return ($x == 0 || abs($x) <= $ε);
     }
 
     /**
@@ -108,9 +108,9 @@ class Support
      *
      * @return boolean true if equivalent to a non-zero value; false otherwise
      */
-    public static function isNotZero(float $x): bool
+    public static function isNotZero(float $x, float $ε = self::ε): bool
     {
-        return ($x != 0 && abs($x) > self::ε);
+        return ($x != 0 && abs($x) > $ε);
     }
 
     /**
@@ -121,9 +121,9 @@ class Support
      *
      * @return bool
      */
-    public static function isEqual(float $x, float $y): bool
+    public static function isEqual(float $x, float $y, float $ε = self::ε): bool
     {
-        return $x == $y || abs($x - $y) < self::ε;
+        return $x == $y || abs($x - $y) < $ε;
     }
 
     /**
@@ -134,8 +134,8 @@ class Support
      *
      * @return bool
      */
-    public static function isNotEqual(float $x, float $y): bool
+    public static function isNotEqual(float $x, float $y, float $ε = self::ε): bool
     {
-        return $x != $y && abs($x - $y) >= self::ε;
+        return $x != $y && abs($x - $y) >= $ε;
     }
 }

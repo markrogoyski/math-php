@@ -17,11 +17,8 @@ class RowVector extends Matrix
      */
     public function __construct(array $N)
     {
-        $this->m = 1;
-        $this->n = count($N);
-
-        $A       = [$N];
-        $this->A = $A;
+        $A = [$N];
+        parent::__construct($A);
     }
 
     /**

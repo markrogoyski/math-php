@@ -12,10 +12,7 @@ class MatrixFactory
     /**
      * Factory method
      *
-     * @param  array    $A 1- or 2-dimensional array of Matrix data
-     *                     1-dimensional array for Diagonal and Vandermonde matrices
-     *                     2-dimensional array for Square, Function, and regular Matrices
-     * @param  int|null $n Optional n for Vandermonde matrix
+     * @param  array[] $A 2-dimensional array of Matrix data
      *
      * @return Matrix
      *
@@ -24,27 +21,19 @@ class MatrixFactory
      * @throws Exception\MathException
      * @throws Exception\MatrixException
      */
-    public static function create(array $A, int $n = null): Matrix
+    public static function create(array $A): Matrix
     {
         self::checkParams($A);
 
-        $matrix_type = self::determineMatrixType($A, $n);
+        $matrix_type = self::determineMatrixType($A);
 
         switch ($matrix_type) {
             case 'matrix':
                 return new Matrix($A);
             case 'square':
                 return new SquareMatrix($A);
-            case 'diagonal':
-                return new DiagonalMatrix($A);
-            case 'from_vectors':
-                return self::createFromVectors($A);
-            case 'vandermonde':
-                return new VandermondeMatrix($A, $n);
             case 'function':
                 return new FunctionMatrix($A);
-            case 'vandermonde_square':
-                return new VandermondeSquareMatrix($A, $n);
             case 'function_square':
                 return new FunctionSquareMatrix($A);
             case 'object_square':
@@ -54,29 +43,73 @@ class MatrixFactory
         throw new Exception\IncorrectTypeException('Unknown matrix type');
     }
 
+    /**
+     * Factory method to create a matrix from an array of Vectors
+     *
+     * Example:
+     *        [1]       [4]        [7]       [8]
+     *   X₁ = [2]  X₂ = [2]   X₃ = [8]  X₄ = [4]
+     *        [1]       [13]       [1]       [5]
+     *
+     *       [1  4 7 8]
+     *   R = [2  2 8 4]
+     *       [1 13 1 5]
+     *
+     * @param  Vector[] $A array of Vectors
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException if the Vectors are not all the same length
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\BadDataException
+     */
+    public static function createFromVectors(array $A): Matrix
+    {
+        // Check that all vectors are the same length
+        $m = $A[0]->getN();
+        $n = count($A);
+        for ($j = 1; $j < $n; $j++) {
+            if ($A[$j]->getN() !== $m) {
+                throw new Exception\MatrixException('Vectors being combined into matrix have different lengths');
+            }
+        }
+
+        // Concatenate all the vectors
+        $R = [];
+        foreach ($A as $V) {
+            $R[] = $V->getVector();
+        }
+
+        // Transpose to create matrix from the vector columns
+        return (new Matrix($R))->transpose();
+    }
+
     /**************************************************************************
-     * SPECIAL MATRICES - Not created from an Array
+     * SPECIAL MATRICES - Not created from an array of arrays
      *  - identity
      *  - exchange
+     *  - downshiftPermutation
+     *  - upshiftPermutation
      *  - zero
      *  - one
      *  - eye
+     *  - diagonal
      *  - hilbert
+     *  - vandermonde
+     *  - givens
      **************************************************************************/
 
     /**
      * Identity matrix - n x n matrix with ones in the diagonal
-     * Option to set the diagonal to any number.
      *
      * Example:
-     *  n = 3; x = 1
+     *  n = 3;
      *
      *      [1 0 0]
      *  A = [0 1 0]
      *      [0 0 1]
      *
      * @param int   $n size of matrix
-     * @param float $x (optional; default 1)
      *
      * @return Matrix
      *
@@ -86,7 +119,7 @@ class MatrixFactory
      * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function identity(int $n, float $x = 1): Matrix
+    public static function identity(int $n): Matrix
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException("n must be ≥ 0. n = $n");
@@ -95,7 +128,7 @@ class MatrixFactory
 
         for ($i = 0; $i < $n; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = $i == $j ? $x : 0;
+                $R[$i][$j] = $i == $j ? 1 : 0;
             }
         }
 
@@ -103,19 +136,18 @@ class MatrixFactory
     }
 
     /**
-     * Echange matrix - n x n matrix with ones in the reverse diagonal
+     * Exchange matrix - n x n matrix with ones in the reverse diagonal
      * Row-reversed, or column-reversed version of the identity matrix.
      * https://en.wikipedia.org/wiki/Exchange_matrix
      *
      * Example:
-     *  n = 3; x = 1
+     *  n = 3;
      *
      *      [0 0 1]
      *  A = [0 1 0]
      *      [1 0 0]
      *
-     * @param int   $n size of matrix
-     * @param float $x (Optional to set the diagonal to any number; default 1)
+     * @param int $n size of matrix
      *
      * @return Matrix
      *
@@ -125,7 +157,7 @@ class MatrixFactory
      * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function exchange(int $n, float $x = 1): Matrix
+    public static function exchange(int $n): Matrix
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException("n must be ≥ 0. n = $n");
@@ -135,7 +167,7 @@ class MatrixFactory
         $one = $n - 1;
         for ($i = 0; $i < $n; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = $j == $one ? $x : 0;
+                $R[$i][$j] = $j == $one ? 1 : 0;
             }
             $one--;
         }
@@ -292,7 +324,7 @@ class MatrixFactory
      * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if m, n, or k are < 0; if k >= n
      */
-    public static function eye(int $m, int $n, int $k, float $x = 1): Matrix
+    public static function eye(int $m, int $n, int $k, float $x = null): Matrix
     {
         if ($n < 0 || $m < 0 || $k < 0) {
             throw new Exception\OutOfBoundsException("m, n and k must be ≥ 0. m = $m, n = $n, k = $k");
@@ -300,6 +332,7 @@ class MatrixFactory
         if ($k >= $n) {
             throw new Exception\OutOfBoundsException("k must be < n. k = $k, n = $n");
         }
+        $x = $x ?? 1;
 
         $R = (self::zero($m, $n))->getMatrix();
 
@@ -310,6 +343,39 @@ class MatrixFactory
         }
 
         return self::create($R);
+    }
+
+    /**
+     * A Diagonal Matrix is constructed from a single-row array.
+     * The elements of this array are placed on the diagonal of a square matrix.
+     *
+     * Example:
+     *  D = [1, 2, 3]
+     *
+     *     [1 0 0]
+     * A = [0 2 0]
+     *     [0 0 3]
+     *
+     * @param array $D elements of the diagonal
+     *
+     * @return DiagonalMatrix
+     */
+    public static function diagonal(array $D): DiagonalMatrix
+    {
+        $m = count($D);
+
+        $A = [];
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $m; $j++) {
+                if ($i == $j) {
+                    $A[$i][$j] = $D[$i];
+                } else {
+                    $A[$i][$j] = 0;
+                }
+            }
+        }
+
+        return new DiagonalMatrix($A);
     }
 
     /**
@@ -354,6 +420,83 @@ class MatrixFactory
         return self::create($H);
     }
 
+    /**
+     * Create the Vandermonde Matrix from a simple array.
+     *
+     * @param array $M (α₁, α₂, α₃ ⋯ αm)
+     * @param int   $n
+     *
+     * @return Matrix
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
+     */
+    public static function vandermonde(array $M, int $n): Matrix
+    {
+        $A = [];
+        foreach ($M as $row => $α) {
+            for ($i = 0; $i < $n; $i++) {
+                $A[$row][$i] = $α ** $i;
+            }
+        }
+
+        return self::create($A);
+    }
+
+   /**
+    * Construct a Givens rotation matrix
+    *
+    *               [  1 ⋯ 0 ⋯ 0 ⋯ 0 ]
+    *               [  ⋮ ⋱ ⋮    ⋮    ⋮  ]
+    *               [  0 ⋯ c ⋯-s ⋯ 0 ]
+    * G (𝒾,𝒿,θ) =    [  ⋮   ⋮  ⋱ ⋮    ⋮ ]
+    *               [  0 ⋯ s ⋯ c ⋯ 0 ]
+    *               [  ⋮    ⋮    ⋮  ⋱ ⋮ ]
+    *               [  0 ⋯ 0 ⋯ 0 ⋯ 1 ]
+    *
+    * https://en.wikipedia.org/wiki/Givens_rotation
+    *
+    * @param int $m The row in G in which the top of the roatation lies
+    * @param int $n The column in G in which the left of the roatation lies
+    * @param float $angle The angle to use in the trigonometric functions
+    * @param int $size The total number of rows in G
+    *
+    * @return Matrix
+    */
+    public static function givens(int $m, int $n, float $angle, int $size) : Matrix
+    {
+        if ($m >= $size || $n >= $size || $m < 0 || $n < 0) {
+            throw new Exception\OutOfBoundsException("m and n must be within the matrix");
+        }
+        $G = Matrixfactory::identity($size)->getMatrix();
+        $G[$m][$m] = cos($angle);
+        $G[$n][$n] = cos($angle);
+        $G[$m][$n] = -1 * sin($angle);
+        $G[$n][$m] = sin($angle);
+        return MatrixFactory::create($G);
+    }
+
+    /**
+     * Create a Matrix of random numbers
+     *
+     * @param int $m number of rows
+     * @param int $n number of columns
+     *
+     * @return Matrix
+     */
+    public static function random(int $m, int $n): Matrix
+    {
+        $A = [];
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $A[$i][$j] = rand();
+            }
+        }
+        return self::create($A);
+    }
+
     /* ************************************************************************
      * PRIVATE HELPER METHODS
      * ***********************************************************************/
@@ -389,42 +532,16 @@ class MatrixFactory
     /**
      * Determine what type of matrix to create
      *
-     * @param  array    $A 1- or 2-dimensional array of Matrix data
-     *                     1-dimensional array for Diagonal and Vandermonde matrices
-     *                     2-dimensional array for Square, Function, and regular Matrices
-     * @param  int|null $vandermonde_n Optional n for Vandermonde matrix
+     * @param  array[] $A 2-dimensional array of Matrix data
      *
      * @return string indicating what matrix type to create
      */
-    private static function determineMatrixType(array $A, int $vandermonde_n = null): string
+    private static function determineMatrixType(array $A): string
     {
         $m = count($A);
-
-        // 1-dimensional array is how we create diagonal and vandermonde matrices,
-        // as well as matrices from an array of vectors
-        $one_dimensional = count(array_filter($A, 'is_array')) === 0;
-        if ($one_dimensional) {
-            $is_array_of_vectors = array_reduce(
-                $A,
-                function ($carry, $item) {
-                    return $carry && ($item instanceof Vector);
-                },
-                true
-            );
-            if ($is_array_of_vectors) {
-                return 'from_vectors';
-            }
-            if (is_null($vandermonde_n)) {
-                return 'diagonal';
-            }
-            if ($m === $vandermonde_n) {
-                return 'vandermonde_square';
-            }
-            return 'vandermonde';
-        }
+        $n = count($A[0]);
 
         // Square Matrices have the same number of rows (m) and columns (n)
-        $n = count($A[0]);
         if ($m === $n) {
             // closures are objects, so we need to separate them out.
             if (is_object($A[0][0])) {
@@ -446,47 +563,8 @@ class MatrixFactory
         if (is_callable($A[0][0])) {
             return 'function';
         }
+
+        // Numeric matrix
         return 'matrix';
-    }
-
-    /**
-     * Create a matrix from an array of Vectors
-     *
-     * Example:
-     *        [1]       [4]        [7]       [8]
-     *   X₁ = [2]  X₂ = [2]   X₃ = [8]  X₄ = [4]
-     *        [1]       [13]       [1]       [5]
-     *
-     *       [1  4 7 8]
-     *   R = [2  2 8 4]
-     *       [1 13 1 5]
-     *
-     * @param  array $A array of Vectors
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException if the Vectors are not all the same length
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\BadDataException
-     */
-    private static function createFromVectors(array $A): Matrix
-    {
-        // Check that all vectors are the same length
-        $m = $A[0]->getN();
-        $n = count($A);
-        for ($j = 1; $j < $n; $j++) {
-            if ($A[$j]->getN() !== $m) {
-                throw new Exception\MatrixException('Vectors being combined into matrix have different lengths');
-            }
-        }
-
-        // Concatenate all the vectors
-        $R = [];
-        foreach ($A as $V) {
-            $R[] = $V->getVector();
-        }
-
-        // Transpose to create matrix from the vector columns
-        return (new Matrix($R))->transpose();
     }
 }

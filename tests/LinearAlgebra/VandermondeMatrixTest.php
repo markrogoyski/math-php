@@ -1,33 +1,35 @@
 <?php
 namespace MathPHP\Tests\LinearAlgebra;
 
-use MathPHP\LinearAlgebra\VandermondeMatrix;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\MatrixFactory;
 
 class VandermondeMatrixTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test         Vandermonde matrix is constructed correctly
      * @dataProvider dataProviderForTestConstructor
+     * @param        array $M
+     * @param        int $n
+     * @param        array $V
+     * @throws       \Exception
      */
-    public function testConstructor($M, int $n, $V)
+    public function testConstructor(array $M, int $n, array $V)
     {
-        $M = new VandermondeMatrix($M, $n);
-        $V = new Matrix($V);
-
-        $this->assertInstanceOf(VandermondeMatrix::class, $M);
-        $this->assertInstanceOf(Matrix::class, $M);
+        // Given
+        $V = MatrixFactory::create($V);
         
-        $m = $V->getM();
-        for ($i = 0; $i < $m; $i++) {
-            $this->assertEquals($V[$i], $M[$i]);
-        }
-        $m = $M->getM();
-        for ($i = 0; $i < $m; $i++) {
-            $this->assertEquals($V[$i], $M[$i]);
-        }
+        // When
+        $M = MatrixFactory::vandermonde($M, $n);
+
+        // Then
+        $this->assertTrue($V->isEqual($M));
+        $this->assertTrue($M->isEqual($V));
     }
 
-    public function dataProviderForTestConstructor()
+    /**
+     * @return array
+     */
+    public function dataProviderForTestConstructor(): array
     {
         return [
             [

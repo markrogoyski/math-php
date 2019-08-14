@@ -43,15 +43,17 @@ class RandomVariable
      * μn = ----------
      *          N
      *
-     * @param array $X list of numbers (random variable X)
-     * @param int   $n n-th central moment to calculate
+     * @param float[] $X list of numbers (random variable X)
+     * @param int     $n n-th central moment to calculate
      *
-     * @return number|null n-th central moment
+     * @return float n-th central moment
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function centralMoment(array $X, int $n)
+    public static function centralMoment(array $X, int $n): float
     {
         if (empty($X)) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the central moment of an empty list of numbers');
         }
 
         $μ         = Average::mean($X);
@@ -81,14 +83,16 @@ class RandomVariable
      * μ₂ is the second central moment
      * μ₃ is the third central moment
      *
-     * @param array $X list of numbers (random variable X)
+     * @param float[] $X list of numbers (random variable X)
      *
-     * @return number|null
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function populationSkewness(array $X)
+    public static function populationSkewness(array $X): float
     {
         if (empty($X)) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the population skewness of an empty list of numbers');
         }
 
         $μ₃ = self::centralMoment($X, 3);
@@ -115,15 +119,17 @@ class RandomVariable
      * μ₃ is the third central moment
      * n is the sample size
      *
-     * @param array $X list of numbers (random variable X)
+     * @param float[] $X list of numbers (random variable X)
      *
-     * @return number|null
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers has less than 3 elements
      */
-    public static function sampleSkewness(array $X)
+    public static function sampleSkewness(array $X): float
     {
         $n = count($X);
         if ($n < 3) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the sample skewness of less than three numbers');
         }
 
         $μ₃    = self::centralMoment($X, 3);
@@ -149,17 +155,19 @@ class RandomVariable
      * σ³ is the standard deviation cubed, or, the variance raised to the 3/2 power.
      * N is the sample size
      *
-     * @param array $X list of numbers (random variable X)
+     * @param float[] $X list of numbers (random variable X)
      *
-     * @return number|null
+     * @return float
      *
      * @throws Exception\OutOfBoundsException
+     *
+     * @throws Exception\BadDataException if the input array of numbers has less than 2 elements
      */
-    public static function skewness(array $X)
+    public static function skewness(array $X): float
     {
         $N  = count($X);
         if ($N < 2) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the skewness of less than two numbers');
         }
 
         $μ         = Average::mean($X);
@@ -217,14 +225,16 @@ class RandomVariable
      * μ₂ is the second central moment
      * μ₄ is the fourth central moment
      *
-     * @param array $X list of numbers (random variable X)
+     * @param float[] $X list of numbers (random variable X)
      *
-     * @return number|null
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function kurtosis(array $X)
+    public static function kurtosis(array $X): float
     {
         if (empty($X)) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the kurtosis of an empty list of numbers');
         }
 
         $μ₄  = self::centralMoment($X, 4);
@@ -244,6 +254,8 @@ class RandomVariable
      * @param array $X list of numbers (random variable X)
      *
      * @return bool true if platykurtic
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
     public static function isPlatykurtic(array $X): bool
     {
@@ -257,6 +269,8 @@ class RandomVariable
      * @param array $X list of numbers (random variable X)
      *
      * @return bool true if leptokurtic
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
     public static function isLeptokurtic(array $X): bool
     {
@@ -270,6 +284,8 @@ class RandomVariable
      * @param array $X list of numbers (random variable X)
      *
      * @return bool true if mesokurtic
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
     public static function isMesokurtic(array $X): bool
     {
@@ -315,16 +331,17 @@ class RandomVariable
      * s = sample standard deviation
      * n = size (number of observations) of the sample
      *
-     * @param array $X list of numbers (random variable X)
+     * @param float[] $X list of numbers (random variable X)
      *
-     * @return float|null
+     * @return float
      *
      * @throws Exception\OutOfBoundsException
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function standardErrorOfTheMean(array $X)
+    public static function standardErrorOfTheMean(array $X): float
     {
         if (empty($X)) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the SEM of an empty list of numbers');
         }
 
         $s  = Descriptive::standardDeviation($X, Descriptive::SAMPLE);
@@ -340,6 +357,7 @@ class RandomVariable
      * @return float
      *
      * @throws Exception\OutOfBoundsException
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
     public static function sem(array $X): float
     {
@@ -359,16 +377,16 @@ class RandomVariable
      *
      * Available confidence levels: See Probability\StandardNormalTable::Z_SCORES_FOR_CONFIDENCE_INTERVALS
      *
-     * @param number $μ sample mean
-     * @param int $n sample size
-     * @param number $σ standard deviation
+     * @param float  $μ sample mean
+     * @param int    $n sample size
+     * @param float  $σ standard deviation
      * @param string $cl confidence level (Ex: 95, 99, 99.5, 99.9, etc.)
      *
      * @return array [ ci, lower_bound, upper_bound ]
      *
      * @throws Exception\BadDataException
      */
-    public static function confidenceInterval($μ, int $n, $σ, string $cl): array
+    public static function confidenceInterval(float $μ, int $n, float $σ, string $cl): array
     {
         if ($n === 0) {
             return ['ci' => null, 'lower_bound' => null, 'upper_bound' => null];
@@ -382,7 +400,7 @@ class RandomVariable
         $upper_bound = $μ + $ci;
 
         return [
-            'ci' => $ci,
+            'ci'          => $ci,
             'lower_bound' => $lower_bound,
             'upper_bound' => $upper_bound,
         ];
@@ -393,14 +411,16 @@ class RandomVariable
      *
      * ∑⟮xᵢ⟯²
      *
-     * @param array $numbers
+     * @param float[] $numbers
      *
-     * @return number|null
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function sumOfSquares(array $numbers)
+    public static function sumOfSquares(array $numbers): float
     {
         if (empty($numbers)) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the sum of squares of an empty list of numbers');
         }
 
          $∑⟮xᵢ⟯² = array_sum(Map\Single::square($numbers));
@@ -413,14 +433,16 @@ class RandomVariable
      *
      * ∑⟮xᵢ - μ⟯²
      *
-     * @param  array  $numbers
+     * @param  float[] $numbers
      *
-     * @return number|null
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function sumOfSquaresDeviations(array $numbers)
+    public static function sumOfSquaresDeviations(array $numbers): float
     {
         if (empty($numbers)) {
-            return null;
+            throw new Exception\BadDataException('Cannot find the sum of squares deviations of an empty list of numbers');
         }
 
         $μ         = Average::mean($numbers);

@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\Statistics\Regression\Methods;
 
+use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Statistics\RandomVariable;
 use MathPHP\Functions\Map\Single;
 use MathPHP\Functions\Map\Multi;
@@ -8,7 +9,6 @@ use MathPHP\Probability\Distribution\Continuous\F;
 use MathPHP\Probability\Distribution\Continuous\StudentT;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\ColumnVector;
-use MathPHP\LinearAlgebra\VandermondeMatrix;
 use MathPHP\Exception;
 
 trait LeastSquares
@@ -42,6 +42,18 @@ trait LeastSquares
      * @var Matrix
      */
     private $reg_P;
+
+    /** @var float */
+    private $fit_constant;
+
+    /** @var int */
+    private $p;
+
+    /** @var int Degrees of freedom */
+    private $ν;
+
+    /** @var Matrix */
+    private $⟮XᵀX⟯⁻¹;
 
     /**
      * Linear least squares fitting using Matrix algebra (Polynomial).
@@ -86,15 +98,12 @@ trait LeastSquares
      *
      * @return Matrix [[m], [b]]
      *
-     * @throws Exception\BadDataException
-     * @throws Exception\MatrixException
-     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
      */
     public function leastSquares(array $ys, array $xs, int $order = 1, int $fit_constant = 1): Matrix
     {
         $this->reg_ys = $ys;
         $this->reg_xs = $xs;
-        
         $this->fit_constant = $fit_constant;
         $this->p = $order;
         $this->ν = $this->n - $this->p - $this->fit_constant;
@@ -126,8 +135,11 @@ trait LeastSquares
      *
      * @param mixed $xs
      *
-     * @return (Vandermonde)Matrix
+     * @return Matrix (Vandermonde)
      *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
      * @throws Exception\MatrixException
      */
     public function createDesignMatrix($xs): Matrix
@@ -136,7 +148,7 @@ trait LeastSquares
             $xs = [$xs];
         }
 
-        $X = new VandermondeMatrix($xs, $this->p + 1);
+        $X = MatrixFactory::vandermonde($xs, $this->p + 1);
         if ($this->fit_constant == 0) {
             $X = $X->columnExclude(0);
         }
@@ -180,7 +192,7 @@ trait LeastSquares
     /**************************************************************************
      * Sum Of Squares
      *************************************************************************/
-     
+
     /**
      * SSreg - The Sum Squares of the regression (Explained sum of squares)
      *
@@ -195,11 +207,13 @@ trait LeastSquares
      * SSreg = ∑ŷᵢ²
      *
      * @return float
+     *
+     * @throws Exception\BadDataException
      */
     public function sumOfSquaresRegression(): float
     {
         if ($this->fit_constant == 1) {
-            return RandomVariable::sumOfSquaresDeviations($this->yhat());
+            return RandomVariable::sumOfSquaresDeviations($this->yHat());
         }
         return array_sum(Single::square($this->reg_Yhat));
     }
@@ -246,6 +260,8 @@ trait LeastSquares
      * SStot = ∑yᵢ²
      *
      * @return float
+     *
+     * @throws Exception\BadDataException
      */
     public function sumOfSquaresTotal(): float
     {
@@ -270,6 +286,8 @@ trait LeastSquares
      * MSR = SSᵣ / p
      *
      * @return float
+     *
+     * @throws Exception\BadDataException
      */
     public function meanSquareRegression(): float
     {
@@ -300,6 +318,8 @@ trait LeastSquares
      * MSTO = SSOT / (n - 1)
      *
      * @return float
+     *
+     * @throws Exception\BadDataException
      */
     public function meanSquareTotal(): float
     {
@@ -350,6 +370,9 @@ trait LeastSquares
      *        √    n
      *
      * @return array [m => se(m), b => se(b)]
+     *
+     * @throws Exception\BadParameterException
+     * @throws Exception\IncorrectTypeException
      */
     public function standardErrors(): array
     {

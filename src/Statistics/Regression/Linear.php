@@ -56,10 +56,25 @@ class Linear extends ParametricRegression
      * Calculates the regression parameters.
      *
      * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException
+     * @throws Exception\MathException
      */
     public function calculate()
     {
         $this->parameters = $this->leastSquares($this->ys, $this->xs)->getColumn(0);
+    }
+
+    /**
+     * Evaluate the regression equation at x
+     * Uses the instance model's evaluateModel method.
+     *
+     * @param  float $x
+     *
+     * @return float
+     */
+    public function evaluate(float $x): float
+    {
+        return $this->evaluateModel($x, $this->parameters);
     }
 }

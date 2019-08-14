@@ -47,8 +47,13 @@ use MathPHP\Functions\Map;
  */
 class Polynomial implements ObjectArithmetic
 {
+    /** @var int */
     private $degree;
+
+    /** @var array */
     private $coefficients;
+
+    /** @var string */
     private $variable;
 
     /**
@@ -110,7 +115,7 @@ class Polynomial implements ObjectArithmetic
 
             // Build the exponent of our string as a unicode character
             $exponent = '';
-            for ($j = 0; $j < strlen($power); $j++) {
+            for ($j = 0; $j < strlen(strval($power)); $j++) {
                 $digit     = intval(strval($power)[$j]); // The j-th digit of $power
                 $exponent .= self::SYMBOLS[$digit];      // The corresponding unicode character
             };
@@ -143,7 +148,7 @@ class Polynomial implements ObjectArithmetic
 
         $polynomial = ($polynomial !== '') ? $polynomial : '0';
 
-        return $polynomial;
+        return (string) $polynomial;
     }
 
     /**

@@ -1,6 +1,8 @@
 <?php
 namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 
+use MathPHP\Exception;
+
 /**
  * Three Point Formula
  *
@@ -15,7 +17,7 @@ namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 class ThreePointFormula extends NumericalDifferentiation
 {
     /**
-     * Use the Three Point Formula to aproximate the derivative of a function at
+     * Use the Three Point Formula to approximate the derivative of a function at
      * our $target. Our input can support either a set of arrays, or a callback
      * function with arguments (to produce a set of arrays). Each array in our
      * input contains two numbers which correspond to coordinates (x, y) or
@@ -48,23 +50,23 @@ class ThreePointFormula extends NumericalDifferentiation
      *
      *         where ζ₀ lies between x₀ and x₀ + 2h
      *
-     * @param number $target The value at which we are approximating the derivative
-     * @param callable|array $source The source of our approximation. Should be either
-     *                           a callback function or a set of arrays. Each array
-     *                           (point) contains precisely two numbers, an x and y.
-     *                           Example array: [[1,2], [2,3], [3,4]].
-     *                           Example callback: function($x) {return $x**2;}
-     * @param number ...$args The arguments of our callback function: start,
-     *                           end, and n. Example: differentiate($target, $source, 0, 8, 3).
-     *                           If $source is a set of points, do not input any
-     *                           $args. Example: approximate($source).
+     * @param float          $target  The value at which we are approximating the derivative
+     * @param callable|array $source  The source of our approximation. Should be either
+     *                                a callback function or a set of arrays. Each array
+     *                                (point) contains precisely two numbers, an x and y.
+     *                                Example array: [[1,2], [2,3], [3,4]].
+     *                                Example callback: function($x) {return $x**2;}
+     * @param number         ...$args The arguments of our callback function: start,
+     *                                end, and n. Example: differentiate($target, $source, 0, 8, 3).
+     *                                If $source is a set of points, do not input any
+     *                                $args. Example: approximate($source).
      *
-     * @return number            The approximation of f'($target), i.e. the derivative
-     *                           of our input at our target point
+     * @return float                  The approximation of f'($target), i.e. the derivative
+     *                                of our input at our target point
      *
-     * @throws \MathPHP\Exception\BadDataException
+     * @throws Exception\BadDataException
      */
-    public static function differentiate($target, $source, ... $args)
+    public static function differentiate(float $target, $source, ...$args): float
     {
         // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
@@ -91,7 +93,16 @@ class ThreePointFormula extends NumericalDifferentiation
          *          2h                    6
          *
          *     where ζ₁ lies between x₀ - h and x₀ + h
-         *
+         */
+        if ($sorted[1][$x] == $target) {
+            $f⟮x₀⧿h⟯     = $sorted[0][$y];
+            $f⟮x₀⧾h⟯     = $sorted[2][$y];
+            $derivative = ($f⟮x₀⧾h⟯ - $f⟮x₀⧿h⟯) / (2*$h);
+
+            return $derivative;
+        }
+
+        /*
          * If the 1st or 3rd point is our $target, use the Endpoint Formula:
          * Note that when the 3rd point is our $target, we use a negative h.
          *
@@ -101,30 +112,18 @@ class ThreePointFormula extends NumericalDifferentiation
          *
          *     where ζ₀ lies between x₀ and x₀ + 2h
          */
-
-        // If the 2nd point is our $target, use the Midpoint Formula
-        if ($sorted[1][$x] == $target) {
-            $f⟮x₀⧿h⟯     = $sorted[0][$y];
-            $f⟮x₀⧾h⟯     = $sorted[2][$y];
-            $derivative = ($f⟮x₀⧾h⟯ - $f⟮x₀⧿h⟯) / (2*$h);
-
-        // If the 1st or 3rd point is our $target, use the Endpoint Formula
-        } else {
-            // The 1st point is our $target
-            if ($sorted[0][$x] == $target) {
-                $f⟮x₀⟯    = $sorted[0][$y];
-                $f⟮x₀⧾h⟯  = $sorted[1][$y];
-                $f⟮x₀⧾2h⟯ = $sorted[2][$y];
-
-            // If the 3rd point is our $target, use negative h
-            } else {
-                $h       = -$h;
-                $f⟮x₀⟯    = $sorted[2][$y];
-                $f⟮x₀⧾h⟯  = $sorted[1][$y];
-                $f⟮x₀⧾2h⟯ = $sorted[0][$y];
-            }
-            $derivative = (-3*$f⟮x₀⟯ + 4*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯) / (2*$h);
+        if ($sorted[0][$x] == $target) {  // The 1st point is our $target
+            $f⟮x₀⟯    = $sorted[0][$y];
+            $f⟮x₀⧾h⟯  = $sorted[1][$y];
+            $f⟮x₀⧾2h⟯ = $sorted[2][$y];
+        } else {                          // The 3rd point is our $target, use negative h
+            $h       = -$h;
+            $f⟮x₀⟯    = $sorted[2][$y];
+            $f⟮x₀⧾h⟯  = $sorted[1][$y];
+            $f⟮x₀⧾2h⟯ = $sorted[0][$y];
         }
+
+        $derivative = (-3*$f⟮x₀⟯ + 4*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯) / (2*$h);
 
         return $derivative;
     }

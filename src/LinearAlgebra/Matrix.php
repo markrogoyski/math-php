@@ -2,6 +2,7 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Functions\Map;
+use MathPHP\Functions\Special;
 use MathPHP\Functions\Support;
 use MathPHP\Exception;
 
@@ -34,6 +35,12 @@ class Matrix extends MatrixBase implements MatrixInterface
     /** @var Matrix Permutation matrix in LUP decomposition */
     protected $P;
 
+    /** @var float Error/zero tolerance */
+    protected $ε;
+
+    // Default error/zero tolerance
+    const ε = 0.00000000001;
+
     /**
      * Constructor
      * @param array $A of arrays $A m x n matrix
@@ -45,6 +52,7 @@ class Matrix extends MatrixBase implements MatrixInterface
         $this->A = $A;
         $this->m = count($A);
         $this->n = $this->m > 0 ? count($A[0]) : 0;
+        $this->ε = self::ε;
 
         foreach ($A as $i => $row) {
             if (count($row) !== $this->n) {
@@ -133,6 +141,23 @@ class Matrix extends MatrixBase implements MatrixInterface
     }
 
     /***************************************************************************
+     * SETTERS
+     *  - setError
+     **************************************************************************/
+
+    /**
+     * Set the error/zero tolerance for matrix values
+     *  - Used to determine tolerance for equality
+     *  - Used to determine if a value is zero
+     *
+     * @param float $ε
+     */
+    public function setError(float $ε)
+    {
+        $this->ε = $ε;
+    }
+
+    /***************************************************************************
      * MATRIX COMPARISONS
      *  - isEqual
      ***************************************************************************/
@@ -148,6 +173,7 @@ class Matrix extends MatrixBase implements MatrixInterface
     {
         $m = $this->m;
         $n = $this->n;
+        $ε = $this->ε;
 
         // Same dimensions
         if ($m != $B->m || $n != $B->n) {
@@ -157,7 +183,7 @@ class Matrix extends MatrixBase implements MatrixInterface
         // All elements are the same
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                if (Support::isNotEqual($this->A[$i][$j], $B[$i][$j])) {
+                if (Support::isNotEqual($this->A[$i][$j], $B[$i][$j], $ε)) {
                     return false;
                 }
             }
@@ -190,11 +216,16 @@ class Matrix extends MatrixBase implements MatrixInterface
      *  - isUpperHessenberg
      *  - isLowerHessenberg
      *  - isOrthogonal
+     *  - isNormal
      **************************************************************************/
 
     /**
      * Is the matrix symmetric?
      * Does A = Aᵀ
+     * aᵢⱼ = aⱼᵢ
+     *
+     * Algorithm: Iterate on the upper triangular half and compare with corresponding
+     * values on the lower triangular half. Skips the diagonal as it is symmetric with itself.
      *
      * @return bool true if symmetric; false otherwise.
      *
@@ -206,12 +237,25 @@ class Matrix extends MatrixBase implements MatrixInterface
         if (!$this->isSquare()) {
             return false;
         }
-        return $this->transpose()->isEqual($this);
+
+        for ($i = 0; $i < $this->m - 1; $i++) {
+            for ($j = $i + 1; $j < $this->n; $j++) {
+                if (Support::isNotEqual($this->A[$i][$j], $this->A[$j][$i], $this->ε)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
-     * Is the matrix skew-symmetric?
+     * Is the matrix skew-symmetric? (Antisymmetric matrix)
      * Does Aᵀ = −A
+     * aᵢⱼ = -aⱼᵢ and main diagonal are all zeros
+     *
+     * Algorithm: Iterate on the upper triangular half and compare with corresponding
+     * values on the lower triangular half. Skips the diagonal as it is symmetric with itself.
      *
      * @return bool true if skew-symmetric; false otherwise.
      *
@@ -221,10 +265,24 @@ class Matrix extends MatrixBase implements MatrixInterface
      */
     public function isSkewSymmetric(): bool
     {
-        $Aᵀ = $this->transpose()->getMatrix();
-        $−A = $this->negate()->getMatrix();
+        if (!$this->isSquare()) {
+            return false;
+        }
 
-        return $Aᵀ === $−A;
+        for ($i = 0; $i < $this->m - 1; $i++) {
+            for ($j = $i + 1; $j < $this->n; $j++) {
+                if (Support::isNotEqual($this->A[$i][$j], -$this->A[$j][$i], $this->ε)) {
+                    return false;
+                }
+            }
+        }
+        foreach ($this->getDiagonalElements() as $diagonalElement) {
+            if (Support::isNotZero($diagonalElement, $this->ε)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -266,7 +324,7 @@ class Matrix extends MatrixBase implements MatrixInterface
     {
         $│A│ = $this->det ?? $this->det();
 
-        if (Support::isNotZero($│A│)) {
+        if (Support::isNotZero($│A│, $this->ε)) {
             return true;
         }
 
@@ -451,7 +509,7 @@ class Matrix extends MatrixBase implements MatrixInterface
 
         for ($i = 0; $i < $m; $i++) {
             for ($j = $i+1; $j < $n; $j++) {
-                if ($this->A[$i][$j] != 0) {
+                if (!Support::isZero($this->A[$i][$j])) {
                     return false;
                 }
             }
@@ -479,7 +537,7 @@ class Matrix extends MatrixBase implements MatrixInterface
 
         for ($i = 1; $i < $m; $i++) {
             for ($j = 0; $j < $i; $j++) {
-                if ($this->A[$i][$j] != 0) {
+                if (!Support::isZero($this->A[$i][$j])) {
                     return false;
                 }
             }
@@ -545,7 +603,7 @@ class Matrix extends MatrixBase implements MatrixInterface
                 continue;
             }
 
-            if ($zero_row && !$zero_row_ok) {
+            if (!$zero_row_ok) {
                 return false;
             }
         }
@@ -849,6 +907,30 @@ class Matrix extends MatrixBase implements MatrixInterface
         return $AAᵀ->isEqual($I);
     }
 
+    /**
+     * Is the matrix normal?
+     *  - It is a square matrix
+     *  - AAᵀ = AᵀA
+     *
+     * https://en.wikipedia.org/wiki/Normal_matrix
+     * @return bool
+     *
+     * @throws Exception\MathException
+     */
+    public function isNormal(): bool
+    {
+        if (!$this->isSquare()) {
+            return false;
+        }
+
+        // AAᵀ = AᵀA
+        $Aᵀ  = $this->transpose();
+        $AAᵀ = $this->multiply($Aᵀ);
+        $AᵀA = $Aᵀ->multiply($this);
+
+        return $AAᵀ->isEqual($AᵀA);
+    }
+
     /**************************************************************************
      * MATRIX OPERATIONS - Return a Matrix
      *  - add
@@ -869,6 +951,8 @@ class Matrix extends MatrixBase implements MatrixInterface
      *  - meanDeviation
      *  - covarianceMatrix
      *  - adjugate
+     *  - submatrix
+     *  - insert
      **************************************************************************/
 
     /**
@@ -982,8 +1066,10 @@ class Matrix extends MatrixBase implements MatrixInterface
     }
 
     /**
-     * Matrix multiplication
-     * https://en.wikipedia.org/wiki/Matrix_multiplication#Matrix_product_.28two_matrices.29
+     * Matrix multiplication - ikj algorithm
+     * https://en.wikipedia.org/wiki/Matrix_multiplication
+     *
+     * ikj is an improvement on the classic ijk algorithm by simply changing the order of the loops.
      *
      * @param  Matrix|Vector $B Matrix or Vector to multiply
      *
@@ -1001,20 +1087,18 @@ class Matrix extends MatrixBase implements MatrixInterface
         if ($B instanceof Vector) {
             $B = $B->asColumnMatrix();
         }
-
         if ($B->getM() !== $this->n) {
             throw new Exception\MatrixException("Matrix dimensions do not match");
         }
 
-        $n = $B->getN();
-        $m = $this->m;
+        // ikj algorithm
         $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $VA        = new Vector($this->getRow($i));
-                $VB        = new Vector($B->getColumn($j));
-                $R[$i][$j] = $VA->dotProduct($VB);
+        for ($i = 0; $i < $this->m; $i++) {
+            $R[$i] = array_fill(0, $B->n, 0);
+            for ($k = 0; $k < $this->n; $k++) {
+                for ($j = 0; $j < $B->n; $j++) {
+                    $R[$i][$j] += $this->A[$i][$k] * $B[$k][$j];
+                }
             }
         }
 
@@ -1025,19 +1109,15 @@ class Matrix extends MatrixBase implements MatrixInterface
      * Scalar matrix multiplication
      * https://en.wikipedia.org/wiki/Matrix_multiplication#Scalar_multiplication
      *
-     * @param  number $λ
+     * @param  float $λ
      *
      * @return Matrix
      *
      * @throws Exception\BadParameterException if λ is not a number
      * @throws Exception\IncorrectTypeException
      */
-    public function scalarMultiply($λ): Matrix
+    public function scalarMultiply(float $λ): Matrix
     {
-        if (!is_numeric($λ)) {
-            throw new Exception\BadParameterException('Parameter λ is not a number');
-        }
-
         $R = [];
 
         for ($i = 0; $i < $this->m; $i++) {
@@ -1066,7 +1146,7 @@ class Matrix extends MatrixBase implements MatrixInterface
     /**
      * Scalar matrix division
      *
-     * @param  number $λ
+     * @param  float $λ
      *
      * @return Matrix
      *
@@ -1074,11 +1154,8 @@ class Matrix extends MatrixBase implements MatrixInterface
      * @throws Exception\BadParameterException if λ is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function scalarDivide($λ): Matrix
+    public function scalarDivide(float $λ): Matrix
     {
-        if (!is_numeric($λ)) {
-            throw new Exception\BadParameterException('Parameter λ is not a number');
-        }
         if ($λ == 0) {
             throw new Exception\BadParameterException('Parameter λ cannot equal 0');
         }
@@ -1533,8 +1610,9 @@ class Matrix extends MatrixBase implements MatrixInterface
     public function meanDeviation(): Matrix
     {
         $X = $this->asVectors();
-        $M = $this->sampleMean();
+        $M = $this->rowMeans();
 
+        /** @var Vector[] $B */
         $B = array_map(
             function (Vector $Xᵢ) use ($M) {
                 return $Xᵢ->subtract($M);
@@ -1542,7 +1620,7 @@ class Matrix extends MatrixBase implements MatrixInterface
             $X
         );
 
-        return MatrixFactory::create($B);
+        return MatrixFactory::createFromVectors($B);
     }
 
     /**
@@ -1608,10 +1686,79 @@ class Matrix extends MatrixBase implements MatrixInterface
         return $adj⟮A⟯;
     }
 
+    /**
+     * Submatrix
+     *
+     * Return an arbitrary subset of a Matrix as a new Matrix.
+     *
+     * @param int $m₁ Starting row
+     * @param int $n₁ Starting column
+     * @param int $m₂ Ending row
+     * @param int $n₂ Ending column
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException
+     */
+    public function submatrix(int $m₁, int $n₁, int $m₂, int $n₂): Matrix
+    {
+        if ($m₁ >= $this->m || $m₁ < 0 || $m₂ >= $this->m || $m₂ < 0) {
+            throw new Exception\MatrixException('Specified Matrix row does not exist');
+        }
+        if ($n₁ >= $this->n || $n₁ < 0 || $n₂ >= $this->n || $n₂ < 0) {
+            throw new Exception\MatrixException('Specified Matrix column does not exist');
+        }
+        if ($m₂ < $m₁) {
+            throw new Exception\MatrixException('Ending row must be greater than beginning row');
+        }
+        if ($n₂ < $n₁) {
+            throw new Exception\MatrixException('Ending column must be greater than the beginning column');
+        }
+
+        $A = [];
+        for ($i = 0; $i <= $m₂ - $m₁; $i++) {
+            for ($j = 0; $j <= $n₂ - $n₁; $j++) {
+                $A[$i][$j] = $this->A[$i + $m₁][$j + $n₁];
+            }
+        }
+
+        return MatrixFactory::create($A);
+    }
+
+    /**
+     * Insert
+     * Insert a smaller matrix within a larger matrix starting at a specified position
+     *
+     * @param Matrix $small the smaller matrix to embed
+     * @param int $m Starting row
+     * @param int $n Starting column
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException
+     */
+    public function insert(Matrix $small, int $m, int $n): Matrix
+    {
+        if ($small->getM() + $m > $this->m || $small->getN() + $n > $this->n) {
+            throw new Exception\MatrixException('Inner matrix exceedes the bounds of the outer matrix');
+        }
+
+        $new_array = $this->A;
+        for ($i = 0; $i < $small->getM(); $i++) {
+            for ($j = 0; $j < $small->getN(); $j++) {
+                $new_array[$i + $m][$j + $n] = $small[$i][$j];
+            }
+        }
+        return MatrixFactory::create($new_array);
+    }
+
     /**************************************************************************
      * MATRIX OPERATIONS - Return a Vector
      *  - vectorMultiply
-     *  - sampleMean
+     *  - rowSums
+     *  - rowMeans
+     *  - columnSums
+     *  - columnMeans
      **************************************************************************/
 
     /**
@@ -1644,12 +1791,29 @@ class Matrix extends MatrixBase implements MatrixInterface
     }
 
     /**
-     * Sample mean of multivariate matrix
+     * Sums of each row, returned as a Vector
+     *
+     * @return Vector
+     */
+    public function rowSums(): Vector
+    {
+        $sums = array_map(
+            function (array $row) {
+                return array_sum($row);
+            },
+            $this->A
+        );
+
+        return new Vector($sums);
+    }
+
+    /**
+     * Means of each row, returned as a Vector
      * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
      *
      *     1
      * M = - (X₁ + X₂ + ⋯ + Xn)
-     *     N
+     *     n
      *
      * Example:
      *      [1  4 7 8]
@@ -1667,20 +1831,71 @@ class Matrix extends MatrixBase implements MatrixInterface
      *
      * @return Vector
      */
-    public function sampleMean(): Vector
+    public function rowMeans(): Vector
+    {
+        $n = $this->n;
+
+        $means = array_map(
+            function (array $row) use ($n) {
+                return array_sum($row) / $n;
+            },
+            $this->A
+        );
+
+        return new Vector($means);
+    }
+
+    /**
+     * Sums of each column, returned as a Vector
+     *
+     * @return Vector
+     */
+    public function columnSums(): Vector
+    {
+        $sums = [];
+        for ($i = 0; $i < $this->n; $i++) {
+            $sums[] = array_sum(array_column($this->A, $i));
+        }
+
+        return new Vector($sums);
+    }
+
+    /**
+     * Means of each column, returned as a Vector
+     * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
+     *
+     *     1
+     * M = - (X₁ + X₂ + ⋯ + Xn)
+     *     m
+     *
+     * Example:
+     *      [1  4 7 8]
+     *  A = [2  2 8 4]
+     *      [1 13 1 5]
+     *
+     *  Consider each row of observations as a row vector:
+     *
+     *   X₁ = [1  4 7 9]
+     *   X₂ = [2  2 8 4]
+     *   X₃ = [1 13 1 5]
+     *
+     *   1  /  1    4    7    9  \      1
+     *   - |  +2   +2   +8   +4   |  =  - [4  19  16  18]  =  [1⅓, 6⅓, 5⅓, 5.⅔]
+     *   3  \ +1  +13   +1   +5  /      3
+     *
+     * @return Vector
+     */
+    public function columnMeans(): Vector
     {
         $m = $this->m;
         $n = $this->n;
 
-        $M = array_reduce(
-            $this->asVectors(),
-            function (Vector $carryV, Vector $V) {
-                return $carryV->add($V);
-            },
-            new Vector(array_fill(0, $m, 0))
-        );
+        $means = [];
+        for ($i = 0; $i < $n; $i++) {
+            $means[] = array_sum(array_column($this->A, $i)) / $m;
+        }
 
-        return $M->scalarDivide($n);
+        return new Vector($means);
     }
 
     /**************************************************************************
@@ -2015,7 +2230,7 @@ class Matrix extends MatrixBase implements MatrixInterface
 
         for ($i = 0; $i < $this->m; $i++) {
             for ($j = 0; $j < $this->n; $j++) {
-                if (Support::isNotZero($rref[$i][$j])) {
+                if (Support::isNotZero($rref[$i][$j], $this->ε)) {
                     $pivots++;
                     continue 2;
                 }
@@ -2040,22 +2255,18 @@ class Matrix extends MatrixBase implements MatrixInterface
      *
      * Each element of Row mᵢ will be multiplied by k
      *
-     * @param int $mᵢ Row to multiply
-     * @param int $k Multiplier
+     * @param int   $mᵢ Row to multiply
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if row to multiply does not exist
-     * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function rowMultiply(int $mᵢ, int $k): Matrix
+    public function rowMultiply(int $mᵢ, float $k): Matrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to multiply does not exist');
-        }
-        if ($k == 0) {
-            throw new Exception\BadParameterException('Multiplication factor k must not be 0');
         }
 
         $n = $this->n;
@@ -2073,8 +2284,8 @@ class Matrix extends MatrixBase implements MatrixInterface
      *
      * Each element of Row mᵢ will be divided by k
      *
-     * @param int $mᵢ Row to multiply
-     * @param int $k divisor
+     * @param int   $mᵢ Row to multiply
+     * @param float $k divisor
      *
      * @return Matrix
      *
@@ -2082,7 +2293,7 @@ class Matrix extends MatrixBase implements MatrixInterface
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function rowDivide(int $mᵢ, $k): Matrix
+    public function rowDivide(int $mᵢ, float $k): Matrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to multiply does not exist');
@@ -2104,9 +2315,9 @@ class Matrix extends MatrixBase implements MatrixInterface
     /**
      * Add k times row mᵢ to row mⱼ
      *
-     * @param int $mᵢ Row to multiply * k to be added to row mⱼ
-     * @param int $mⱼ Row that will have row mⱼ * k added to it
-     * @param number $k Multiplier
+     * @param int   $mᵢ Row to multiply * k to be added to row mⱼ
+     * @param int   $mⱼ Row that will have row mⱼ * k added to it
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
@@ -2114,7 +2325,7 @@ class Matrix extends MatrixBase implements MatrixInterface
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function rowAdd(int $mᵢ, int $mⱼ, $k): Matrix
+    public function rowAdd(int $mᵢ, int $mⱼ, float $k): Matrix
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to add does not exist');
@@ -2138,15 +2349,15 @@ class Matrix extends MatrixBase implements MatrixInterface
      *
      * Each element of Row mᵢ will have k added to it
      *
-     * @param int $mᵢ Row to add k to
-     * @param int $k scalar
+     * @param int   $mᵢ Row to add k to
+     * @param float $k scalar
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if row to add does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowAddScalar(int $mᵢ, $k): Matrix
+    public function rowAddScalar(int $mᵢ, float $k): Matrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to add does not exist');
@@ -2165,21 +2376,20 @@ class Matrix extends MatrixBase implements MatrixInterface
     /**
      * Subtract k times row mᵢ to row mⱼ
      *
-     * @param int $mᵢ Row to multiply * k to be subtracted to row mⱼ
-     * @param int $mⱼ Row that will have row mⱼ * k subtracted to it
-     * @param number $k Multiplier
+     * @param int   $mᵢ Row to multiply * k to be subtracted to row mⱼ
+     * @param int   $mⱼ Row that will have row mⱼ * k subtracted to it
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if row to subtract does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowSubtract(int $mᵢ, int $mⱼ, $k): Matrix
+    public function rowSubtract(int $mᵢ, int $mⱼ, float $k): Matrix
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to subtract does not exist');
         }
-
 
         $n = $this->n;
         $R = $this->A;
@@ -2196,15 +2406,15 @@ class Matrix extends MatrixBase implements MatrixInterface
      *
      * Each element of Row mᵢ will have k subtracted from it
      *
-     * @param int $mᵢ Row to add k to
-     * @param int $k scalar
+     * @param int   $mᵢ Row to add k to
+     * @param float $k scalar
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if row to subtract does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowSubtractScalar(int $mᵢ, int $k): Matrix
+    public function rowSubtractScalar(int $mᵢ, float $k): Matrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to subtract does not exist');
@@ -2231,22 +2441,18 @@ class Matrix extends MatrixBase implements MatrixInterface
      *
      * Each element of column nᵢ will be multiplied by k
      *
-     * @param int $nᵢ Column to multiply
-     * @param int $k Multiplier
+     * @param int   $nᵢ Column to multiply
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
      * @throws Exception\MatrixException if column to multiply does not exist
-     * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function columnMultiply(int $nᵢ, int $k): Matrix
+    public function columnMultiply(int $nᵢ, float $k): Matrix
     {
         if ($nᵢ >= $this->n) {
             throw new Exception\MatrixException('Column to multiply does not exist');
-        }
-        if ($k == 0) {
-            throw new Exception\BadParameterException('Multiplication factor k must not be 0');
         }
 
         $m = $this->m;
@@ -2262,9 +2468,9 @@ class Matrix extends MatrixBase implements MatrixInterface
     /**
      * Add k times column nᵢ to column nⱼ
      *
-     * @param int $nᵢ Column to multiply * k to be added to column nⱼ
-     * @param int $nⱼ Column that will have column nⱼ * k added to it
-     * @param int $k Multiplier
+     * @param int   $nᵢ Column to multiply * k to be added to column nⱼ
+     * @param int   $nⱼ Column that will have column nⱼ * k added to it
+     * @param float $k Multiplier
      *
      * @return Matrix
      *
@@ -2272,7 +2478,7 @@ class Matrix extends MatrixBase implements MatrixInterface
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function columnAdd(int $nᵢ, int $nⱼ, int $k): Matrix
+    public function columnAdd(int $nᵢ, int $nⱼ, float $k): Matrix
     {
         if ($nᵢ >= $this->n || $nⱼ >= $this->n) {
             throw new Exception\MatrixException('Column to add does not exist');
@@ -2359,6 +2565,7 @@ class Matrix extends MatrixBase implements MatrixInterface
         $size  = min($m, $n);
         $R     = $this->A;
         $swaps = 0;
+        $ε     = $this->ε;
 
         for ($k = 0; $k < $size; $k++) {
             // Find column max
@@ -2369,7 +2576,7 @@ class Matrix extends MatrixBase implements MatrixInterface
                 }
             }
 
-            if (Support::isZero($R[$i_max][$k])) {
+            if (Support::isZero($R[$i_max][$k], $ε)) {
                 throw new Exception\SingularMatrixException('Guassian elimination fails for singular matrices');
             }
 
@@ -2381,10 +2588,10 @@ class Matrix extends MatrixBase implements MatrixInterface
 
             // Row operations
             for ($i = $k + 1; $i < $m; $i++) {
-                $f = (Support::isNotZero($R[$k][$k])) ? $R[$i][$k] / $R[$k][$k] : 1;
+                $f = (Support::isNotZero($R[$k][$k], $ε)) ? $R[$i][$k] / $R[$k][$k] : 1;
                 for ($j = $k + 1; $j < $n; $j++) {
                     $R[$i][$j] = $R[$i][$j] - ($R[$k][$j] * $f);
-                    if (Support::isZero($R[$i][$j])) {
+                    if (Support::isZero($R[$i][$j], $ε)) {
                         $R[$i][$j] = 0;
                     }
                 }
@@ -2422,6 +2629,7 @@ class Matrix extends MatrixBase implements MatrixInterface
         $m    = $this->m;
         $n    = $this->n;
         $R    = MatrixFactory::create($this->A);
+        $ε    = $this->ε;
 
         // Starting conditions
         $row   = 0;
@@ -2431,9 +2639,9 @@ class Matrix extends MatrixBase implements MatrixInterface
 
         while (!$ref) {
             // If pivot is 0, try to find a non-zero pivot in the column and swap rows
-            if (Support::isZero($R[$row][$col])) {
+            if (Support::isZero($R[$row][$col], $ε)) {
                 for ($j = $row + 1; $j < $m; $j++) {
-                    if (Support::isNotZero($R[$j][$col])) {
+                    if (Support::isNotZero($R[$j][$col], $ε)) {
                         $R = $R->rowInterchange($row, $j);
                         $swaps++;
                         break;
@@ -2442,7 +2650,7 @@ class Matrix extends MatrixBase implements MatrixInterface
             }
 
             // No non-zero pivot, go to next column of the same row
-            if (Support::isZero($R[$row][$col])) {
+            if (Support::isZero($R[$row][$col], $ε)) {
                 $col++;
                 if ($row >= $m || $col >= $n) {
                     $ref = true;
@@ -2457,10 +2665,10 @@ class Matrix extends MatrixBase implements MatrixInterface
             // Eliminate elements below pivot
             for ($j = $row + 1; $j < $m; $j++) {
                 $factor = $R[$j][$col];
-                if (Support::isNotZero($factor)) {
+                if (Support::isNotZero($factor, $ε)) {
                     $R = $R->rowAdd($row, $j, -$factor);
                     for ($k = 0; $k < $n; $k++) {
-                        if (Support::isZero($R[$j][$k])) {
+                        if (Support::isZero($R[$j][$k], $ε)) {
                             $R->A[$j][$k] = 0;
                         }
                     }
@@ -2482,7 +2690,7 @@ class Matrix extends MatrixBase implements MatrixInterface
         // Floating point adjustment for zero values
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                if (Support::isZero($R[$i][$j])) {
+                if (Support::isZero($R[$i][$j], $ε)) {
                     $R[$i][$j] = 0;
                 }
             }
@@ -2519,6 +2727,7 @@ class Matrix extends MatrixBase implements MatrixInterface
         $m = $this->m;
         $n = $this->n;
         $R = $this->ref();
+        $ε = $this->ε;
 
         // Starting conditions
         $row   = 0;
@@ -2527,7 +2736,7 @@ class Matrix extends MatrixBase implements MatrixInterface
 
         while (!$rref) {
             // No non-zero pivot, go to next column of the same row
-            if (Support::isZero($R[$row][$col])) {
+            if (Support::isZero($R[$row][$col], $ε)) {
                 $col++;
                 if ($row >= $m || $col >= $n) {
                     $rref = true;
@@ -2544,7 +2753,7 @@ class Matrix extends MatrixBase implements MatrixInterface
             // Eliminate elements above pivot
             for ($j = $row - 1; $j >= 0; $j--) {
                 $factor = $R[$j][$col];
-                if (Support::isNotZero($factor)) {
+                if (Support::isNotZero($factor, $ε)) {
                     $R = $R->rowAdd($row, $j, -$factor);
                 }
             }
@@ -2564,7 +2773,7 @@ class Matrix extends MatrixBase implements MatrixInterface
         // Floating point adjustment for zero values
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                if (Support::isZero($R[$i][$j])) {
+                if (Support::isZero($R[$i][$j], $ε)) {
                     $R[$i][$j] = 0;
                 }
             }
@@ -2597,12 +2806,12 @@ class Matrix extends MatrixBase implements MatrixInterface
      *
      * Create permutation matrix P:
      *      [0 1 0]
-     *  P = [1 0 1]
+     *  P = [1 0 0]
      *      [0 0 1]
      *
      * Pivot A to be PA:
      *       [0 1 0][1 3 5]   [2 4 7]
-     *  PA = [1 0 1][2 4 7] = [1 3 5]
+     *  PA = [1 0 0][2 4 7] = [1 3 5]
      *       [0 0 1][1 1 0]   [1 1 0]
      *
      * Calculate L and U
@@ -2631,7 +2840,7 @@ class Matrix extends MatrixBase implements MatrixInterface
         $n = $this->n;
 
         // Initialize L as diagonal ones matrix, and U as zero matrix
-        $L = (new DiagonalMatrix(array_fill(0, $n, 1)))->getMatrix();
+        $L = MatrixFactory::diagonal(array_fill(0, $n, 1))->getMatrix();
         $U = MatrixFactory::zero($n, $n)->getMatrix();
 
         // Create permutation matrix P and pivoted PA
@@ -2839,6 +3048,108 @@ class Matrix extends MatrixBase implements MatrixInterface
             'L' => MatrixFactory::create($L),
             'U' => MatrixFactory::create($U),
         ];
+    }
+
+    /**
+     * Floating point adjustment for zero values
+     */
+    protected function floatingPointZeroAdjustment()
+    {
+        for ($i = 0; $i < $this->m; $i++) {
+            for ($j = 0; $j < $this->n; $j++) {
+                if (Support::isZero($this->A[$i][$j])) {
+                    $this->A[$i][$j] = 0;
+                }
+            }
+        }
+    }
+
+    /**
+     * QR Decomposition using Householder reflections
+     *
+     * A = QR
+     *
+     * Q is an orthogonal matrix
+     * R is an upper triangular matrix
+     *
+     * @return Matrix[] Q and R
+     *
+     * @throws Exception\MathException
+     */
+    public function qrDecomposition(): array
+    {
+        $n = $this->n;  // columns
+        $m = $this->m;  // rows
+        $HA = $this;
+
+        // If the source matrix is square or wider than it is tall, the final
+        // householder matrix will be the identity matrix with a -1 in the bottom
+        // corner. The effect of this final transformation would only change signs
+        // on existing matricies. Both R and Q will already be in approprite forms
+        // in the next to the last step. We can skip the last transformation without
+        // affecting the validity of the results. Results indicate other software
+        // behaves similarly.
+        //
+        // This is because on a 1x1 matrix uuᵀ = uᵀu, so I - [[2]] = [[-1]]
+        $numReflections = min($m - 1, $n);
+        $FullI = MatrixFactory::identity($m);
+        $Q = $FullI;
+        for ($i = 0; $i < $numReflections; $i++) {
+            // Remove the leftmost $i columns and upper $i rows
+            $A = $HA->submatrix($i, $i, $m - 1, $n - 1);
+            
+            //Create the householder matrix
+            $innerH = $A->householderMatrix();
+            
+            // Embed the smaller matrix within a full rank Identity matrix
+            $H = $FullI->insert($innerH, $i, $i);
+            $Q = $Q->multiply($H);
+            $HA = $H->multiply($HA);
+        }
+        $R = $HA;
+        return [
+            'Q' => $Q->submatrix(0, 0, $m - 1, min($m, $n) - 1),
+            'R' => $R->submatrix(0, 0, min($m, $n) - 1, $n - 1),
+        ];
+    }
+
+    /**
+     * Householder Matrix
+     *
+     * u = x ± αe   where α = ‖x‖ and sgn(α) = sgn(x)
+     *
+     *              uuᵀ
+     * Q = I - 2 * -----
+     *              uᵀu
+     *
+     * @return Matrix
+     *
+     */
+    private function householderMatrix(): Matrix
+    {
+        $m = $this->m;
+        $I = MatrixFactory::identity($m);
+        
+        //  x is the leftmost column of A
+        $x = $this->submatrix(0, 0, $m - 1, 0);
+        
+        // α is the square root of the sum of squares of x with the correct sign
+        $α = Special::sgn($x[0][0]) * $x->frobeniusNorm();
+
+        // e is the first column of I
+        $e = $I->submatrix(0, 0, $m - 1, 0);
+        
+        // u = x ± αe
+        $u = $e->scalarMultiply($α)->add($x);
+
+        $uᵀ = $u->transpose();
+        $uᵀu = $uᵀ->multiply($u)->get(0, 0);
+        $uuᵀ = $u->multiply($uᵀ);
+        if ($uᵀu == 0) {
+            return $I;
+        }
+        // We scale $uuᵀ and subtract it from the identity matrix
+        return $I->subtract($uuᵀ->scalarMultiply(2 / $uᵀu));
     }
 
     /**************************************************************************

@@ -20,14 +20,12 @@ class ColumnVector extends Matrix
      */
     public function __construct(array $M)
     {
-        $this->n = 1;
-        $this->m = count($M);
-
         $A = [];
         foreach ($M as $value) {
             $A[] = [$value];
         }
-        $this->A = $A;
+
+        parent::__construct($A);
     }
 
     /**

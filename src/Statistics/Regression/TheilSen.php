@@ -30,6 +30,9 @@ class TheilSen extends ParametricRegression
      * Calculate the slopes of all pairs of points and select the median value
      * Calculate the intercept using the slope, and the medians of the X and Y values.
      *   b = Ymedian - (m * Xmedian)
+     *
+     * @throws \MathPHP\Exception\BadDataException
+     * @throws \MathPHP\Exception\OutOfBoundsException
      */
     public function calculate()
     {
@@ -38,8 +41,8 @@ class TheilSen extends ParametricRegression
         $n      = count($this->points);
         for ($i = 0; $i < $n; $i++) {
             for ($j = $i + 1; $j < $n; $j++) {
-                $pointi   = $this->points[$i];
-                $pointj   = $this->points[$j];
+                $pointi = $this->points[$i];
+                $pointj = $this->points[$j];
                 if ($pointj[0] != $pointi[0]) {
                     $slopes[] = ($pointj[1] - $pointi[1]) / ($pointj[0] - $pointi[0]);
                 }
@@ -50,5 +53,18 @@ class TheilSen extends ParametricRegression
         $this->b = Average::median($this->ys) - ($this->m * Average::median($this->xs));
 
         $this->parameters = [$this->b, $this->m];
+    }
+
+    /**
+     * Evaluate the regression equation at x
+     * Uses the instance model's evaluateModel method.
+     *
+     * @param  float $x
+     *
+     * @return float
+     */
+    public function evaluate(float $x): float
+    {
+        return $this->evaluateModel($x, $this->parameters);
     }
 }

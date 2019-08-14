@@ -3,13 +3,19 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
 use MathPHP\Functions\Polynomial;
+use MathPHP\Functions\Support;
+use MathPHP\LinearAlgebra\MatrixFactory;
 
 class Eigenvalue
 {
     const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
+    const POWER_ITERATION = 'powerIteration';
+    const JACOBI_METHOD = 'jacobiMethod';
 
     const METHODS = [
         self::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD,
+        self::POWER_ITERATION,
+        self::JACOBI_METHOD,
     ];
 
     /**
@@ -22,6 +28,20 @@ class Eigenvalue
     public static function isAvailableMethod(string $method): bool
     {
         return in_array($method, self::METHODS);
+    }
+
+    /**
+     * Verify that the matrix can have eigenvalues
+     *
+     * @param Matrix $A
+     *
+     * @throws Exception\BadDataException if the matrix is not square
+     */
+    private static function checkMatrix(Matrix $A)
+    {
+        if (!$A->isSquare()) {
+            throw new Exception\BadDataException('Matrix must be square');
+        }
     }
 
     /**
@@ -40,16 +60,14 @@ class Eigenvalue
      *
      * @param Matrix $A
      *
-     * @return array of eigenvalues
+     * @return float[] of eigenvalues
      *
      * @throws Exception\BadDataException if the matrix is not square
      * @throws Exception\BadDataException if the matrix is not 2x2, 3x3, or 4x4
      */
     public static function closedFormPolynomialRootMethod(Matrix $A): array
     {
-        if (!$A->isSquare()) {
-            throw new Exception\BadDataException('Matrix must be square');
-        }
+        self::checkMatrix($A);
 
         $m = $A->getM();
         if ($m < 2 || $m > 4) {
@@ -76,16 +94,114 @@ class Eigenvalue
                     : $zero_poly;
             }
         }
+        /** @var ObjectSquareMatrix $λ */
         $λ = MatrixFactory::create($λ_array);
-        
-        //Subtract Iλ from B
+
+        /** @var ObjectSquareMatrix Subtract Iλ from B */
         $Bminusλ = $B->subtract($λ);
 
-        // The Eigenvalues are the roots of the determinant of this matrix
+        /** @var Polynomial The Eigenvalues are the roots of the determinant of this matrix */
         $det = $Bminusλ->det();
-        
+
         // Calculate the roots of the determinant.
         $eigenvalues = $det->roots();
         return $eigenvalues;
+    }
+
+    /**
+     * Find eigenvalues by the Jacobi method
+     *
+     * https://en.wikipedia.org/wiki/Jacobi_eigenvalue_algorithm
+     *
+     * @param Matrix $A
+     *
+     * @return float[] of eigenvalues
+     *
+     * @throws Exception\BadDataException if the matrix is not symmetric
+     * @throws Exception\BadDataException if the matrix is 1x1
+     */
+    public static function jacobiMethod(Matrix $A): array
+    {
+        if (!$A->isSymmetric()) {
+            throw new Exception\BadDataException('Matrix must be symmetric');
+        }
+
+        $m = $A->getM();
+        if ($m < 2) {
+            throw new Exception\BadDataException("Matrix must be 2x2 or larger");
+        }
+        $D = $A;
+        $S = MatrixFactory::identity($m);
+        while (!$D->isDiagonal()) {
+            // Find the largest off-diagonal element in $D
+            $pivot = ['value' => 0, 'i' => 0, 'j'=> 0];
+            for ($i = 0; $i < $m - 1; $i++) {
+                for ($j = $i + 1; $j < $m; $j++) {
+                    if (abs($D[$i][$j]) > abs($pivot['value'])) {
+                        $pivot['value'] = $D[$i][$j];
+                        $pivot['i'] = $i;
+                        $pivot['j'] = $j;
+                    }
+                }
+            }
+            $i = $pivot['i'];
+            $j = $pivot['j'];
+            if ($D[$i][$i] == $D[$j][$j]) {
+                $angle = ($D[$i][$i] > 0 ? 1 : -1) * \M_PI / 4;
+            } else {
+                $angle = atan(2 * $D[$i][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
+            }
+            $G = MatrixFactory::givens($i, $j, $angle, $m);
+            $D = $G->transpose()->multiply($D)->multiply($G);
+            $S = $S->multiply($G);
+        }
+        $eigenvalues = $D->getDiagonalElements();
+        usort($eigenvalues, function ($a, $b) {
+            return abs($b) <=> abs($a);
+        });
+        return $eigenvalues;
+    }
+
+    /*
+     * Power Iteration
+     *
+     * The recurrance relation:
+     *         Abₖ
+     * bₖ₊₁ = ------
+     *        ‖Abₖ‖
+     *
+     * will converge to the dominant eigenvector,
+     *
+     * The corresponding eigenvalue is calculated as:
+     *
+     *      bₖᐪAbₖ
+     * μₖ = -------
+     *       bₖᐪbₖ
+     *
+     * https://en.wikipedia.org/wiki/Power_iteration
+     * @param Matrix $A
+     * @param int $iterations max number of iterations to perform
+     *
+     * @return float[] most extreme eigenvalue
+     * @throws Exception\BadDataException if the matrix is not square
+     */
+    public static function powerIteration(Matrix $A, int $iterations = 1000): array
+    {
+        self::checkMatrix($A);
+        
+        $b = MatrixFactory::random($A->getM(), 1);
+        $newμ = 0;
+        $μ = -1;
+        while (!Support::isEqual($μ, $newμ)) {
+            if ($iterations <= 0) {
+                throw new Exception\FunctionFailedToConvergeException("Maximum number of iterations excecuted.");
+            }
+            $μ = $newμ;
+            $Ab = $A->multiply($b);
+            $b = $Ab->scalarDivide($Ab->frobeniusNorm());
+            $newμ = $b->transpose()->multiply($A)->multiply($b)->get(0, 0) / $b->transpose()->multiply($b)->get(0, 0);
+            $iterations--;
+        }
+        return [$newμ];
     }
 }

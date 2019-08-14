@@ -326,4 +326,24 @@ class FTest extends \PHPUnit\Framework\TestCase
             [5, 4],
         ];
     }
+
+    /**
+     * @testCase     median (temporary version that is just the mean)
+     * @dataProvider dataProviderForMean
+     * @todo         Rewrite test using actual median values once median calculation is implemented
+     * @param        int   $d₁
+     * @param        int   $d₂
+     * @param        float $μ
+     */
+    public function testMedianTemporaryVersion(int $d₁, int $d₂, float $μ)
+    {
+        // Given
+        $f = new F($d₁, $d₂);
+
+        // When
+        $mean = $f->median();
+
+        // Then
+        $this->assertEquals($μ, $mean, '', 0.0001);
+    }
 }

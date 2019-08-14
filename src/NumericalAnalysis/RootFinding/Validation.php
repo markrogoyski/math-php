@@ -6,14 +6,14 @@ use MathPHP\Exception;
 /**
  * Common validation methods for root finding techniques
  */
-trait Validation
+class Validation
 {
     /**
      * Throw an exception if the tolerance is negative.
      *
      * @param number $tol Tolerance; How close to the actual solution we would like.
      *
-     * @throws Exception if $tol (the tolerance) is negative
+     * @throws Exception\OutOfBoundsException if $tol (the tolerance) is negative
      */
     public static function tolerance($tol)
     {
@@ -28,7 +28,7 @@ trait Validation
      * @param number $a The start of the interval
      * @param number $b The end of the interval
      *
-     * @throws Exception if $a = $b
+     * @throws Exception\BadDataException if $a = $b
      */
     public static function interval($a, $b)
     {

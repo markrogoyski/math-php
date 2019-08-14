@@ -57,6 +57,7 @@ trait MatrixDataProvider
      *  - dataProviderForSingleMatrix
      *  - dataProviderForOrthogonalMatrix
      *  - dataProviderForNonOrthogonalMatrix
+     *  - dataProviderForNonNormalMatrix
      *  - dataProviderForMatrixWithWeirdNumbers
      **************************************************************************/
 
@@ -428,6 +429,50 @@ trait MatrixDataProvider
                     [7, 0, -5, 3],
                     [3, 5, 0, 2],
                     [6, -3, -2, 0],
+                ],
+            ],
+        ];
+    }
+
+    public function dataProviderForNotSkewSymmetricMatrix(): array
+    {
+        return [
+            [
+                [
+                    [1]
+                ]
+            ],
+            [
+                [
+                    [1, 0],
+                    [0, 1],
+                ]
+            ],
+            [
+                [
+                    [0, 2],
+                    [2, 0],
+                ],
+            ],
+            [
+                [
+                    [1, -1],
+                    [1, 1],
+                ],
+            ],
+            [
+                [
+                    [0, 2, -1],
+                    [-2, 1, -4],
+                    [1, 4, 0],
+                ]
+            ],
+            [
+                [
+                    [0, -1, -1, -1],
+                    [1, 0, -1, -1],
+                    [1, 1, 0, 1],
+                    [1, 1, 1, 0],
                 ],
             ],
         ];
@@ -6541,6 +6586,34 @@ trait MatrixDataProvider
         ];
     }
 
+    
+    public function dataProviderForNonNormalMatrix(): array
+    {
+        return [
+            // Not square
+            [
+                [
+                    [1],
+                    [0],
+                ]
+            ],
+            [
+                [
+                    [0.96, -0.28, 2],
+                    [0.28, 0.96, 5],
+                ]
+            ],
+            // Square but not normal
+            [
+                [
+                    [1, 2, 0],
+                    [3, 4, 0],
+                    [0, 0, 0],
+                ]
+            ],
+        ];
+    }
+    
     public function dataProviderForMatrixWithWeirdNumbers(): array
     {
         return [

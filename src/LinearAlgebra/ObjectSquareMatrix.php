@@ -212,9 +212,10 @@ class ObjectSquareMatrix extends SquareMatrix
      */
     public function cofactor(int $mᵢ, int $nⱼ)
     {
-        // All necessary exceptions are thrown in Matrix::minor
+        /** @var ObjectArithmetic $Mᵢⱼ */
         $Mᵢⱼ    = $this->minor($mᵢ, $nⱼ);
         $⟮−1⟯ⁱ⁺ʲ = (-1)**($mᵢ + $nⱼ);
+
         return $Mᵢⱼ->multiply($⟮−1⟯ⁱ⁺ʲ);
     }
 }

@@ -1,10 +1,7 @@
 <?php
 namespace MathPHP\Statistics\Regression;
 
-use MathPHP\Statistics\Average;
-use MathPHP\Functions\Map\Multi;
 use MathPHP\Functions\Map\Single;
-use MathPHP\Probability\Distribution\Continuous\StudentT;
 
 /**
  * Linear Regression Through a Fixed Point - least squares method
@@ -30,6 +27,12 @@ class LinearThroughPoint extends ParametricRegression
 {
     use Methods\LeastSquares, Models\LinearModel;
 
+    /** @var float */
+    private $v;
+
+    /** @var float */
+    private $w;
+
     /**
      * Given a set of data ($points) and a point($force), perform a least squares
      * regression of the data, such that the regression is forced to pass through
@@ -47,9 +50,14 @@ class LinearThroughPoint extends ParametricRegression
 
         parent::__construct($points);
     }
-    
+
     /**
      * Calculates the regression parameters.
+     *
+     * @throws \MathPHP\Exception\BadDataException
+     * @throws \MathPHP\Exception\IncorrectTypeException
+     * @throws \MathPHP\Exception\MatrixException
+     * @throws \MathPHP\Exception\MathException
      */
     public function calculate()
     {
@@ -61,9 +69,22 @@ class LinearThroughPoint extends ParametricRegression
 
         $parameters = $this->leastSquares($y’, $x’, 1, 0)->getColumn(0);
 
-        $this->m = $parameters[0];
-        $this->b = $this->w - $this->m * $this->v;
+        $m = $parameters[0];
+        $b = $this->w - $m * $this->v;
 
-        $this->parameters = [$this->b, $this->m];
+        $this->parameters = [$b, $m];
+    }
+
+    /**
+     * Evaluate the regression equation at x
+     * Uses the instance model's evaluateModel method.
+     *
+     * @param  float $x
+     *
+     * @return float
+     */
+    public function evaluate(float $x): float
+    {
+        return $this->evaluateModel($x, $this->parameters);
     }
 }

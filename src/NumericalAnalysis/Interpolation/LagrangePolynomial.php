@@ -39,14 +39,14 @@ class LagrangePolynomial extends Interpolation
      *                           If $source is a set of points, do not input any
      *                           $args. Example: approximate($source).
      *
-     * @return callable          The lagrange polynomial p(x)
+     * @return Polynomial        The lagrange polynomial p(x)
      *
      * @throws \MathPHP\Exception\BadDataException
      * @throws \MathPHP\Exception\IncorrectTypeException
      */
-    public static function interpolate($source, ...$args): callable
+    public static function interpolate($source, ...$args): Polynomial
     {
-        // get an array of points from our $source argument
+        // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
         // Validate input and sort points

@@ -2,7 +2,7 @@
 namespace MathPHP\NumericalAnalysis\NumericalIntegration;
 
 use MathPHP\NumericalAnalysis\Interpolation\LagrangePolynomial;
-use MathPHP\Functions\Polynomial;
+use MathPHP\Exception;
 
 /**
  * Boole's Rule
@@ -62,21 +62,24 @@ class BoolesRule extends NumericalIntegration
      *           ⁱ⁼¹   45
      * where h = (xn - x₁) / (n - 1)
      *
-     * @param callable|array $source The source of our approximation. Should be either
-     *                           a callback function or a set of arrays. Each array
-     *                           (point) contains precisely two numbers, an x and y.
-     *                           Example array: [[1,2], [2,3], [3,4], [4,5], [5,6]].
-     *                           Example callback: function($x) {return $x**2;}
-     * @param number   ... $args The arguments of our callback function: start,
-     *                           end, and n. Example: approximate($source, 0, 8, 4).
-     *                           If $source is a set of points, do not input any
-     *                           $args. Example: approximate($source).
+     * @param callable|array $source  The source of our approximation. Should be either
+     *                                a callback function or a set of arrays. Each array
+     *                                (point) contains precisely two numbers, an x and y.
+     *                                Example array: [[1,2], [2,3], [3,4], [4,5], [5,6]].
+     *                                Example callback: function($x) {return $x**2;}
+     * @param number         ...$args The arguments of our callback function: start,
+     *                                end, and n. Example: approximate($source, 0, 8, 4).
+     *                                If $source is a set of points, do not input any
+     *                                $args. Example: approximate($source).
      *
-     * @return number            The approximation to the integral of f(x)
+     * @return float                  The approximation to the integral of f(x)
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      */
-    public static function approximate($source, ... $args)
+    public static function approximate($source, ...$args): float
     {
-        // get an array of points from our $source argument
+        // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
         // Validate input and sort points
@@ -91,18 +94,19 @@ class BoolesRule extends NumericalIntegration
 
         // Initialize
         $n             = count($sorted);
-        $subintervals  = $n - 1;
+        $subIntervals  = $n - 1;
         $a             = $sorted[0][$x];
         $b             = $sorted[$n-1][$x];
-        $h             = ($b - $a) / $subintervals;
+        $h             = ($b - $a) / $subIntervals;
         $approximation = 0;
 
         /*
-        * ⁽ⁿ⁻¹⁾/⁴ 2h
-        *  = ∑    -- [7f⟮x₄ᵢ₋₃⟯ + 32f⟮x₄ᵢ₋₂⟯ + 12f⟮x₄ᵢ₋₁⟯ + 32f⟮x₄ᵢ⟯ + 7f⟮x₄ᵢ₊₁⟯] + O(h⁷f⁽⁶⁾(x))
-        *   ⁱ⁼¹   45
+         * ⁽ⁿ⁻¹⁾/⁴ 2h
+         *  = ∑    -- [7f⟮x₄ᵢ₋₃⟯ + 32f⟮x₄ᵢ₋₂⟯ + 12f⟮x₄ᵢ₋₁⟯ + 32f⟮x₄ᵢ⟯ + 7f⟮x₄ᵢ₊₁⟯] + O(h⁷f⁽⁶⁾(x))
+         *   ⁱ⁼¹   45
+         *  where h = (xn - x₁) / (n - 1)
          */
-        for ($i = 1; $i < ($subintervals/4) + 1; $i++) {
+        for ($i = 1; $i < ($subIntervals/4) + 1; $i++) {
             $x₄ᵢ₋₃          = $sorted[(4*$i)-4][$x];
             $x₄ᵢ₋₂          = $sorted[(4*$i)-3][$x];
             $x₄ᵢ₋₁          = $sorted[(4*$i)-2][$x];

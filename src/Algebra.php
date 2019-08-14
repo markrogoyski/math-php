@@ -164,10 +164,10 @@ class Algebra
      *
      * Note: If discriminant is negative, roots will be NAN.
      *
-     * @param  number $a x² coefficient
-     * @param  number $b x coefficient
-     * @param  number $c constant coefficient
-     * @param  bool $return_complex Whether to return complex numbers or NANs if imaginary roots
+     * @param  float $a x² coefficient
+     * @param  float $b x coefficient
+     * @param  float $c constant coefficient
+     * @param  bool  $return_complex Whether to return complex numbers or NANs if imaginary roots
      *
      * @return float[]|Complex[]  [x₁, x₂]           roots of the equation, or
      *                            [NAN, NAN]         if discriminant is negative, or
@@ -176,10 +176,10 @@ class Algebra
      *
      * @throws Exception\IncorrectTypeException
      */
-    public static function quadratic($a, $b, $c, bool $return_complex = false): array
+    public static function quadratic(float $a, float $b, float $c, bool $return_complex = false): array
     {
         // Formula not quadratic (a = 0)
-        if ($a === 0) {
+        if ($a == 0) {
             return [-$c / $b];
         }
 
@@ -293,20 +293,20 @@ class Algebra
      * z₂ = Complex conjugate; therefore, NAN
      * z₃ = Complex conjugate; therefore, NAN
      *
-     * @param  number $a₃ z³         coefficient
-     * @param  number $a₂ z²         coefficient
-     * @param  number $a₁ z          coefficient
-     * @param  number $a₀ constant coefficient
-     * @param  bool $return_complex whether to return complex numbers
+     * @param  float $a₃ z³         coefficient
+     * @param  float $a₂ z²         coefficient
+     * @param  float $a₁ z          coefficient
+     * @param  float $a₀ constant coefficient
+     * @param  bool  $return_complex whether to return complex numbers
      *
      * @return float[]|Complex[] array of roots (three real roots, or one real root and two NANs because complex numbers not yet supported)
      *                           (If $a₃ = 0, then only two roots of quadratic equation)
      *
      * @throws Exception\IncorrectTypeException
      */
-    public static function cubic($a₃, $a₂, $a₁, $a₀, bool $return_complex = false): array
+    public static function cubic(float $a₃, float $a₂, float $a₁, float $a₀, bool $return_complex = false): array
     {
-        if ($a₃ === 0) {
+        if ($a₃ == 0) {
             return self::quadratic($a₂, $a₁, $a₀, $return_complex);
         }
 
@@ -368,21 +368,21 @@ class Algebra
      * An equation having the form: a₄z⁴ + a₃z³ + a₂z² + a₁z + a₀ = 0
      * https://en.wikipedia.org/wiki/Quartic_function
      *
-     * @param  number $a₄ z⁴          coefficient
-     * @param  number $a₃ z³          coefficient
-     * @param  number $a₂ z²          coefficient
-     * @param  number $a₁ z           coefficient
-     * @param  number $a₀             constant coefficient
-     * @param  bool   $return_complex whether to return complex numbers
+     * @param  float $a₄ z⁴          coefficient
+     * @param  float $a₃ z³          coefficient
+     * @param  float $a₂ z²          coefficient
+     * @param  float $a₁ z           coefficient
+     * @param  float $a₀             constant coefficient
+     * @param  bool  $return_complex whether to return complex numbers
      *
      * @return float[]|Complex[] array of roots
      *
      * @throws Exception\IncorrectTypeException
      */
-    public static function quartic($a₄, $a₃, $a₂, $a₁, $a₀, bool $return_complex = false): array
+    public static function quartic(float $a₄, float $a₃, float $a₂, float $a₁, float $a₀, bool $return_complex = false): array
     {
         // Not actually quartic.
-        if ($a₄ === 0) {
+        if ($a₄ == 0) {
             return self::cubic($a₃, $a₂, $a₁, $a₀, $return_complex);
         }
 
@@ -395,7 +395,7 @@ class Algebra
 
         // Has a zero root.
         if ($a₀ == 0) {
-            return array_merge([0], self::cubic($a₄, $a₃, $a₂, $a₁, $return_complex));
+            return array_merge([0.0], self::cubic($a₄, $a₃, $a₂, $a₁, $return_complex));
         }
         
         // Is Biquadratic

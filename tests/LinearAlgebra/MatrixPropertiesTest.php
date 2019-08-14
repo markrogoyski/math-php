@@ -9,254 +9,336 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
 
     /**
-     * @testCase     isSquare returns true for square matrices.
+     * @test         isSquare returns true for square matrices.
      * @dataProvider dataProviderForSquareMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsSquare(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
+
+        // Then
         $this->assertTrue($A->isSquare());
     }
 
     /**
-     * @testCase     isSquare returns false for nonsquare matrices.
+     * @test         isSquare returns false for nonsquare matrices.
      * @dataProvider dataProviderForNotSquareMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsSquareFalseNonSquareMatrix(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
+
+        // Then
         $this->assertFalse($A->isSquare());
     }
 
     /**
-     * @testCase     isNotSquare returns true for nonsquare matrices.
+     * @test         isNotSquare returns true for nonsquare matrices.
      * @dataProvider dataProviderForNotSquareMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotSquare(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
+
+        // Then
         $this->assertFalse($A->isSquare());
     }
 
     /**
-     * @testCase     isSymmetric returns true for symmetric matrices.
+     * @test         isSymmetric returns true for symmetric matrices.
      * @dataProvider dataProviderForSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsSymmetric(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isSymmetric());
     }
 
     /**
-     * @testCase     isSymmetric returns false for nonsymmetric matrices.
+     * @test         isSymmetric returns false for nonsymmetric matrices.
      * @dataProvider dataProviderForNotSymmetricMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotSymmetric(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isSymmetric());
     }
 
     /**
-     * @testCase     isSkewSymmetric returns true for skew-symmetric matrices.
+     * @test         isSkewSymmetric returns true for skew-symmetric matrices.
      * @dataProvider dataProviderForSkewSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
      */
     public function testIsSkewSymmetric(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isSkewSymmetric());
     }
 
     /**
-     * @testCase     isSkewSymmetric returns false for nonsymmetric matrices.
+     * @test         isSkewSymmetric returns false for non skew-symmetric matrices.
+     * @dataProvider dataProviderForNotSkewSymmetricMatrix
      * @dataProvider dataProviderForNotSymmetricMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotSkewSymmetric(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isSkewSymmetric());
     }
 
 
     /**
-     * @testCase     isSingular returns true for a singular matrix.
+     * @test         isSingular returns true for a singular matrix.
      * @dataProvider dataProviderForSingularMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsSingular(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isSingular());
     }
 
     /**
-     * @testCase     isSingular returns false for a nonsingular matrix.
+     * @test         isSingular returns false for a nonsingular matrix.
      * @dataProvider dataProviderForNonsingularMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsSingularFalseForNonsingularMatrix(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isSingular());
     }
 
     /**
-     * @testCase     isNonsingular returns true for a nonsingular matrix.
+     * @test         isNonsingular returns true for a nonsingular matrix.
      * @dataProvider dataProviderForNonsingularMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNonsingular(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isNonsingular());
     }
 
     /**
-     * @testCase     isInvertible returns true for a invertible matrix.
+     * @test         isInvertible returns true for a invertible matrix.
      * @dataProvider dataProviderForNonsingularMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsInvertible(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isInvertible());
     }
 
     /**
-     * @testCase     isNonsingular returns false for a singular matrix.
+     * @test         isNonsingular returns false for a singular matrix.
      * @dataProvider dataProviderForSingularMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNonsingularFalseForSingularMatrix(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
         $this->assertFalse($A->isNonsingular());
     }
 
     /**
-     * @testCase     isInvertible returns false for a non-invertible matrix.
+     * @test         isInvertible returns false for a non-invertible matrix.
      * @dataProvider dataProviderForSingularMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsInvertibleFalseForNonInvertibleMatrix(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isInvertible());
     }
 
     /**
-     * @testCase     isPositiveDefinite returns true for a positive definite square matrix.
+     * @test         isPositiveDefinite returns true for a positive definite square matrix.
      * @dataProvider dataProviderForPositiveDefiniteMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsPositiveDefinite(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isPositiveDefinite());
     }
 
     /**
-     * @testCase     isPositiveDefinite returns false for a non positive definite square matrix.
+     * @test         isPositiveDefinite returns false for a non positive definite square matrix.
      * @dataProvider dataProviderForNotPositiveDefiniteMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotPositiveDefinite(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isPositiveDefinite());
     }
 
     /**
-     * @testCase     isPositiveSemidefinite returns true for a positive definite square matrix.
+     * @test         isPositiveSemidefinite returns true for a positive definite square matrix.
      * @dataProvider dataProviderForPositiveSemidefiniteMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsPositiveSemidefinite(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isPositiveSemidefinite());
     }
 
     /**
-     * @testCase     isPositiveSemidefinite returns false for a non positive semidefinite square matrix.
+     * @test         isPositiveSemidefinite returns false for a non positive semidefinite square matrix.
      * @dataProvider dataProviderForNotPositiveSemidefiniteMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotPositiveSemiDefinite(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isPositiveSemidefinite());
     }
 
     /**
-     * @testCase     isNegativeDefinite returns true for a negative definite square matrix.
+     * @test         isNegativeDefinite returns true for a negative definite square matrix.
      * @dataProvider dataProviderForNegativeDefiniteMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNegativeDefinite(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isNegativeDefinite());
     }
 
     /**
-     * @testCase     isNegativeDefinite returns false for a non negative definite square matrix.
+     * @test         isNegativeDefinite returns false for a non negative definite square matrix.
      * @dataProvider dataProviderForNotNegativeDefiniteMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotNegativeDefinite(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isNegativeDefinite());
     }
 
     /**
-     * @testCase     isNegativeSemidefinite returns true for a negative semidefinite square matrix.
+     * @test         isNegativeSemidefinite returns true for a negative semidefinite square matrix.
      * @dataProvider dataProviderForNegativeSemidefiniteMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNegativeSemidefinite(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isNegativeSemidefinite());
     }
 
     /**
-     * @testCase     isNegativeSemidefinite returns false for a non negative semidefinite square matrix.
+     * @test         isNegativeSemidefinite returns false for a non negative semidefinite square matrix.
      * @dataProvider dataProviderForNotNegativeSemidefiniteMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotNegativeSemidefinite(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isNegativeSemidefinite());
     }
 
     /**
-     * @testCase Non square matrix is not any definite.
+     * @test     Non square matrix is not any definite.
+     * @throws       \Exception
      */
     public function testNonSquareMatrixIsNotAnyDefinite()
     {
+        // Given
         $A = new Matrix([
             [1, 2, 3],
             [2, 3, 4],
         ]);
 
+        // Then
         $this->assertFalse($A->isPositiveDefinite());
         $this->assertFalse($A->isPositiveSemidefinite());
         $this->assertFalse($A->isNegativeDefinite());
@@ -264,16 +346,19 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Non symmetric square matrix is not any definite.
+     * @test     Non symmetric square matrix is not any definite.
+     * @throws       \Exception
      */
     public function testNonSymmetricSquareMatrixIsNotAnyDefinite()
     {
+        // Given
         $A = new Matrix([
             [1, 2, 3],
             [9, 8, 4],
             [6, 2, 5],
         ]);
 
+        // Then
         $this->assertFalse($A->isPositiveDefinite());
         $this->assertFalse($A->isPositiveSemidefinite());
         $this->assertFalse($A->isNegativeDefinite());
@@ -281,374 +366,460 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isUpperTriangular returns true for an upper triangular matrix
+     * @test         isUpperTriangular returns true for an upper triangular matrix
      * @dataProvider dataProviderForUpperTriangularMatrix
-     * @param        array $A
+     * @param        array $U
+     * @throws       \Exception
      */
     public function testIsUpperTriangular(array $U)
     {
+        // Given
         $U = MatrixFactory::create($U);
 
+        // Then
         $this->assertTrue($U->isUpperTriangular());
     }
 
     /**
-     * @testCase     isUpperTriangular returns false for a non upper triangular matrix
+     * @test         isUpperTriangular returns false for a non upper triangular matrix
      * @dataProvider dataProviderForNotTriangularMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotUpperTriangular(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isUpperTriangular());
     }
 
     /**
-     * @testCase     isLowerTriangular returns true for an upper triangular matrix
+     * @test         isLowerTriangular returns true for an upper triangular matrix
      * @dataProvider dataProviderForLowerTriangularMatrix
-     * @param        array $A
+     * @param        array $L
+     * @throws       \Exception
      */
     public function testIsLowerTriangular(array $L)
     {
+        // Given
         $L = MatrixFactory::create($L);
 
+        // Then
         $this->assertTrue($L->isLowerTriangular());
     }
 
     /**
-     * @testCase     isLowerTriangular returns false for a non upper triangular matrix
+     * @test         isLowerTriangular returns false for a non upper triangular matrix
      * @dataProvider dataProviderForNotTriangularMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotLowerTriangular(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isLowerTriangular());
     }
 
     /**
-     * @testCase     isTriangular returns true for a lower triangular matrix
+     * @test         isTriangular returns true for a lower triangular matrix
      * @dataProvider dataProviderForLowerTriangularMatrix
      * @param        array $L
+     * @throws       \Exception
      */
     public function testIsTriangularForLowerTriangular(array $L)
     {
+        // Given
         $L = MatrixFactory::create($L);
 
         $this->assertTrue($L->isTriangular());
     }
 
     /**
-     * @testCase     isTriangular returns true for an upper triangular matrix
+     * @test         isTriangular returns true for an upper triangular matrix
      * @dataProvider dataProviderForUpperTriangularMatrix
-     * @param        array $A
+     * @param        array $U
+     * @throws       \Exception
      */
     public function testIsTriangularForUpperTriangular(array $U)
     {
+        // Given
         $U = MatrixFactory::create($U);
 
+        // Then
         $this->assertTrue($U->isTriangular());
     }
 
     /**
-     * @testCase     isTriangular returns false for a non triangular matrix
+     * @test         isTriangular returns false for a non triangular matrix
      * @dataProvider dataProviderForNotTriangularMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotTriangular(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isTriangular());
     }
 
     /**
-     * @testCase     isDiagonal returns true for a diagonal matrix
+     * @test         isDiagonal returns true for a diagonal matrix
      * @dataProvider dataProviderForDiagonalMatrix
-     * @param        array $A
+     * @param        array $D
+     * @throws       \Exception
      */
     public function testIsDiagonal(array $D)
     {
+        // Given
         $D = MatrixFactory::create($D);
 
+        // Then
         $this->assertTrue($D->isDiagonal());
     }
 
     /**
-     * @testCase     isDiagonal returns false for a non diagonal matrix
+     * @test         isDiagonal returns false for a non diagonal matrix
      * @dataProvider dataProviderForNotDiagonalMatrix
-     * @param        array $L
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsDiagonalForLowerTriangular(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isDiagonal());
     }
 
     /**
-     * @testCase     isRef returns true for a matrix in row echelon form
+     * @test         isRef returns true for a matrix in row echelon form
      * @dataProvider dataProviderForRefMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsRef(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isRef());
     }
 
     /**
-     * @testCase     isRef returns false for a matrix not in row echelon form
+     * @test         isRef returns false for a matrix not in row echelon form
      * @dataProvider dataProviderForNotRefMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotRef(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isRef());
     }
 
     /**
-     * @testCase     isRef returns true for a matrix in row echelon form
+     * @test         isRef returns true for a matrix in row echelon form
      * @dataProvider dataProviderForRrefMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsRref(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
         $this->assertTrue($A->isRref());
     }
 
     /**
-     * @testCase     isRef returns false for a matrix not in row echelon form
+     * @test         isRef returns false for a matrix not in row echelon form
      * @dataProvider dataProviderForNotRefMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotRref(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isRref());
     }
 
     /**
-     * @testCase     isRef returns false for a ref matrix
+     * @test         isRef returns false for a ref matrix
      * @dataProvider dataProviderForNotRrefMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotRrefForRefMatrix(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isRref());
     }
 
     /**
-     * @testCase     isInvolutory returns true for a Involutory matrix
+     * @test         isInvolutory returns true for a Involutory matrix
      * @dataProvider dataProviderForInvolutoryMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsInvolutory(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isInvolutory());
     }
 
     /**
-     * @testCase     isInvolutory returns false for a non-Involutory matrix
+     * @test         isInvolutory returns false for a non-Involutory matrix
      * @dataProvider dataProviderForNotInvolutoryMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotInvolutory(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isInvolutory());
     }
 
     /**
-     * @testCase     isSignature returns true for a Signature matrix
+     * @test         isSignature returns true for a Signature matrix
      * @dataProvider dataProviderForSignatureMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsSignature(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isSignature());
     }
 
     /**
-     * @testCase     isSignature returns false for a non-Signature matrix
+     * @test         isSignature returns false for a non-Signature matrix
      * @dataProvider dataProviderForNotSignatureMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotSignature(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
         $this->assertFalse($A->isSignature());
     }
 
     /**
-     * @testCase     isUpperBidiagonal returns true for an upper bidiagonal matrix
+     * @test         isUpperBidiagonal returns true for an upper bidiagonal matrix
      * @dataProvider dataProviderForUpperBidiagonalMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsUpperBidiagonal(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isUpperBidiagonal());
     }
 
     /**
-     * @testCase     isUpperBidiagonal returns false for a non upper bidiagonal matrix
+     * @test         isUpperBidiagonal returns false for a non upper bidiagonal matrix
      * @dataProvider dataProviderForNotUpperBidiagonalMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotUpperBidiagonal(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isUpperBidiagonal());
     }
 
     /**
-     * @testCase     isLowerBidiagonal returns true for a lower bidiagonal matrix
+     * @test         isLowerBidiagonal returns true for a lower bidiagonal matrix
      * @dataProvider dataProviderForLowerBidiagonalMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsLowerBidiagonal(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
         $this->assertTrue($A->isLowerBidiagonal());
     }
 
     /**
-     * @testCase     isLowerBidiagonal returns false for a non lower bidiagonal matrix
+     * @test         isLowerBidiagonal returns false for a non lower bidiagonal matrix
      * @dataProvider dataProviderForNotLowerBidiagonalMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotLowerBidiagonal(array $A)
     {
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isLowerBidiagonal());
     }
 
     /**
-     * @testCase     isBidiagonal returns true for a lower bidiagonal matrix
+     * @test         isBidiagonal returns true for a lower bidiagonal matrix
      * @dataProvider dataProviderForLowerBidiagonalMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testLowerBidiagonalIsBidiagonal(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isBidiagonal());
     }
 
     /**
-     * @testCase     isBidiagonal returns true for an upper bidiagonal matrix
+     * @test         isBidiagonal returns true for an upper bidiagonal matrix
      * @dataProvider dataProviderForUpperBidiagonalMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testUpperBidiagonalIsBidiagonal(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isBidiagonal());
     }
 
     /**
-     * @testCase     isBidiagonal returns false for a non bidiagonal matrix
+     * @test         isBidiagonal returns false for a non bidiagonal matrix
      * @dataProvider dataProviderForNotBidiagonalMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotBidiagonal(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
         $this->assertFalse($A->isBidiagonal());
     }
 
     /**
-     * @testCase     isTridiagonal returns true for a tridiagonal matrix
+     * @test         isTridiagonal returns true for a tridiagonal matrix
      * @dataProvider dataProviderForTridiagonalMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsTridiagonal(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isTridiagonal());
     }
 
     /**
-     * @testCase     isTridiagonal returns false for a non tridiagonal matrix
+     * @test         isTridiagonal returns false for a non tridiagonal matrix
      * @dataProvider dataProviderForNotTridiagonalMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotTridiagonal(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isTridiagonal());
     }
 
     /**
-     * @testCase     isUpperHessenberg returns true for an upper Hessenberg matrix
+     * @test         isUpperHessenberg returns true for an upper Hessenberg matrix
      * @dataProvider dataProviderForUpperHessenbergMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsUpperHessenberg(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
         $this->assertTrue($A->isUpperHessenberg());
     }
 
     /**
-     * @testCase     isUpperHessenberg returns false for a non upper Hessenberg matrix
+     * @test         isUpperHessenberg returns false for a non upper Hessenberg matrix
      * @dataProvider dataProviderForNotUpperHessenbergMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotUpperHessenberg(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isUpperHessenberg());
     }
 
     /**
-     * @testCase     isLowerHessenberg returns true for an lower Hessenberg matrix
+     * @test         isLowerHessenberg returns true for an lower Hessenberg matrix
      * @dataProvider dataProviderForLowerHessenbergMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsLowerHessenberg(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isLowerHessenberg());
     }
 
     /**
-     * @testCase     isLowerHessenberg returns false for a non lower Hessenberg matrix
+     * @test         isLowerHessenberg returns false for a non lower Hessenberg matrix
      * @dataProvider dataProviderForNotLowerHessenbergMatrix
      * @param        array $A
+     * @throws       \Exception
      */
     public function testIsNotLowerHessenberg(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertFalse($A->isLowerHessenberg());
     }
 
@@ -680,5 +851,37 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertFalse($A->isOrthogonal());
+    }
+
+    /**
+     * @test         isNormal
+     * @dataProvider dataProviderForOrthogonalMatrix
+     * @dataProvider dataProviderForSkewSymmetricMatrix
+     * @dataProvider dataProviderForDiagonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testisNormal(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertTrue($A->isNormal());
+    }
+
+    /**
+     * @test         isNormal when not normal
+     * @dataProvider dataProviderForNonNormalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsNormalWhenNotNormal(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertFalse($A->isNormal());
     }
 }
