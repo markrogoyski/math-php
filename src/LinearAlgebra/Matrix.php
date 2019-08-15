@@ -326,6 +326,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isTriangular
      *  - isRef
      *  - isRref
+     *  - isIdempotent
      *  - isInvolutory
      *  - isSignature
      *  - isUpperBidiagonal
@@ -809,6 +810,19 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Is the matrix idempotent?
+     * A matrix that equals itself when squared.
+     * https://en.wikipedia.org/wiki/Idempotent_matrix
+     *
+     * @return boolean true if matrix is idempotent; false otherwise
+     */
+    public function isIdempotent(): bool
+    {
+        $A² = $this->multiply($this);
+        return $this->isEqual($A²);
+    }
+
+    /**
      * Is the matrix involutory?
      * A matrix that is its own inverse. That is, multiplication by matrix A is an involution if and only if A² = I
      * https://en.wikipedia.org/wiki/Involutory_matrix
@@ -823,7 +837,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $I  = MatrixFactory::identity($this->m);
         $A² = $this->multiply($this);
 
-        return $A²->getMatrix() == $I->getMatrix();
+        return $A²->isEqual($I);
     }
 
     /**
