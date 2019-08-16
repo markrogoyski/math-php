@@ -10,7 +10,6 @@ use MathPHP\Exception;
 class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
 {
     use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
-    use \phpmock\phpunit\PHPMock;
 
     /**
      * @dataProvider dataProviderForDiagonalMatrix
@@ -809,7 +808,10 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::eye($m, $n, $k, $x);
     }
 
-    public function dataProviderForEyeExceptions()
+    /**
+     * @return array
+     */
+    public function dataProviderForEyeExceptions(): array
     {
         return [
             [-1, 2, 1, 1],
@@ -821,34 +823,61 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     hilbert creates the expected Hilbert matrix
+     * @test         hilbert creates the expected Hilbert matrix
      * @dataProvider dataProviderForHilbertMatrix
      * @param        int $n
      * @param        array $H
+     * @throws       \Exception
      */
     public function testHilbertMatrix($n, $H)
     {
+        // Given
         $H = MatrixFactory::create($H);
 
-        $this->assertEquals($H, MatrixFactory::hilbert($n));
+        // When
+        $sut = MatrixFactory::hilbert($n);
+
+        // Then
+        $this->assertEquals($H, $sut);
     }
 
+    /**
+     * @test   Hilbert exception when n is less than zero
+     * @throws \Exception
+     */
     public function testHilbertExceptionNLessThanZero()
     {
+        // Given
+        $n = -1;
+
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         MatrixFactory::hilbert(-1);
     }
 
     /**
-     * @testCase Test that the appropriate matrix is constructed
-     *
-     * @runInSeparateProcess
+     * @test   Creating a random matrix of a specific size
+     * @throws \Exception
      */
     public function testRandomMatrix()
     {
-        $expected = [[.31415926535]];
-        $rand = $this->getFunctionMock('MathPHP\LinearAlgebra', 'rand');
-        $rand->expects($this->once())->willReturn(.31415926535);
-        $this->assertEquals($expected, MatrixFactory::random(1, 1)->getMatrix());
+        // Given
+        for ($m = 1; $m < 5; $m++) {
+            for ($n = 1; $n < 5; $n++) {
+                // When
+                $A = MatrixFactory::random($m, $n);
+
+                // Then
+                $this->assertEquals($m, $A->getM());
+                $this->assertEquals($n, $A->getN());
+
+                // And
+                $A->map(function ($element) {
+                    $this->assertTrue(is_int($element));
+                });
+            }
+        }
     }
 }
