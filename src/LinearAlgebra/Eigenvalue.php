@@ -129,8 +129,10 @@ class Eigenvalue
         if ($m < 2) {
             throw new Exception\BadDataException("Matrix must be 2x2 or larger");
         }
+
         $D = $A;
         $S = MatrixFactory::identity($m);
+
         while (!$D->isDiagonal()) {
             // Find the largest off-diagonal element in $D
             $pivot = ['value' => 0, 'i' => 0, 'j'=> 0];
@@ -143,6 +145,7 @@ class Eigenvalue
                     }
                 }
             }
+
             $i = $pivot['i'];
             $j = $pivot['j'];
             if ($D[$i][$i] == $D[$j][$j]) {
@@ -150,10 +153,12 @@ class Eigenvalue
             } else {
                 $angle = atan(2 * $D[$i][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
             }
+
             $G = MatrixFactory::givens($i, $j, $angle, $m);
             $D = $G->transpose()->multiply($D)->multiply($G);
             $S = $S->multiply($G);
         }
+
         $eigenvalues = $D->getDiagonalElements();
         usort($eigenvalues, function ($a, $b) {
             return abs($b) <=> abs($a);
@@ -164,7 +169,7 @@ class Eigenvalue
     /*
      * Power Iteration
      *
-     * The recurrance relation:
+     * The recurrence relation:
      *         Abₖ
      * bₖ₊₁ = ------
      *        ‖Abₖ‖
