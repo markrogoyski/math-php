@@ -23,7 +23,7 @@ trait PowerModel
         $a = $params[self::$A];
         $b = $params[self::$B];
 
-        return $a * $x**$b;
+        return $a * $x ** $b;
     }
 
     /**

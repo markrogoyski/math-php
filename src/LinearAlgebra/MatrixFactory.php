@@ -415,7 +415,7 @@ class MatrixFactory
         $H = [];
         for ($i = 1; $i <= $n; $i++) {
             for ($j = 1; $j <= $n; $j++) {
-                $H[$i-1][$j-1] = 1 / ($i + $j - 1);
+                $H[$i - 1][$j - 1] = 1 / ($i + $j - 1);
             }
         }
 

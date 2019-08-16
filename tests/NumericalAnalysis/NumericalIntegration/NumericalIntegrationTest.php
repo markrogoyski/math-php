@@ -10,7 +10,7 @@ class NumericalIntegrationTest extends \PHPUnit\Framework\TestCase
     {
         // Instantiating NumericalIntegration (an abstract class)
         $this->expectException(\Error::class);
-        new NumericalIntegration;
+        new NumericalIntegration();
     }
 
     public function testIncorrectInput()
@@ -18,7 +18,7 @@ class NumericalIntegrationTest extends \PHPUnit\Framework\TestCase
         // The input $source is neither a callback or a set of arrays
         $this->expectException(Exception\BadDataException::class);
         $x                 = 10;
-        $incorrectFunction = $x**2 + 2 * $x + 1;
+        $incorrectFunction = $x ** 2 + 2 * $x + 1;
         NumericalIntegration::getPoints($incorrectFunction, [0,4,5]);
     }
 

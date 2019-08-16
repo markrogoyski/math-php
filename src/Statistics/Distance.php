@@ -178,7 +178,7 @@ class Distance
         // √ ∑ (√pᵢ - √qᵢ)²
         $√∑⟮√pᵢ − √qᵢ⟯² = sqrt(array_sum(array_map(
             function ($pᵢ, $qᵢ) {
-                return (sqrt($pᵢ) - sqrt($qᵢ))**2;
+                return (sqrt($pᵢ) - sqrt($qᵢ)) ** 2;
             },
             $p,
             $q

@@ -277,7 +277,7 @@ class Average
             },
             1
         );
-        $ⁿ√a₀a₁a₂⋯ = pow($a₀a₁a₂⋯, 1/$n);
+        $ⁿ√a₀a₁a₂⋯ = pow($a₀a₁a₂⋯, 1 / $n);
 
         return $ⁿ√a₀a₁a₂⋯;
     }
@@ -364,7 +364,7 @@ class Average
         $n = count($numbers);
         $x₁²＋x₂²＋⋯ = array_sum(array_map(
             function ($x) {
-                return $x**2;
+                return $x ** 2;
             },
             $numbers
         ));
@@ -410,7 +410,7 @@ class Average
         $Q₂        = $quartiles['Q2'];
         $Q₃        = $quartiles['Q3'];
 
-        return ($Q₁ + 2*$Q₂ + $Q₃) / 4;
+        return ($Q₁ + 2 * $Q₂ + $Q₃) / 4;
     }
 
     /**
@@ -469,7 +469,7 @@ class Average
         $n    = count($numbers);
         $∑xᵢ³ = array_sum(Map\Single::cube($numbers));
 
-        return pow($∑xᵢ³ / $n, 1/3);
+        return pow($∑xᵢ³ / $n, 1 / 3);
     }
 
     /**
@@ -607,7 +607,7 @@ class Average
         $n    = count($numbers);
         $∑xᵢᵖ = array_sum(Map\Single::pow($numbers, $p));
 
-        return pow($∑xᵢᵖ / $n, 1/$p);
+        return pow($∑xᵢᵖ / $n, 1 / $p);
     }
 
     /**
@@ -868,7 +868,7 @@ class Average
      */
     public static function heronianMean(float $A, float $B): float
     {
-        return 1/3 * ($A + sqrt($A*$B) + $B);
+        return 1 / 3 * ($A + sqrt($A * $B) + $B);
     }
 
     /**
@@ -900,10 +900,10 @@ class Average
 
         // Standard case
         $ℯ  = \M_E;
-        $xˣ = $x**$x;
-        $yʸ = $y**$y;
+        $xˣ = $x ** $x;
+        $yʸ = $y ** $y;
 
-        return 1/$ℯ * pow($xˣ/$yʸ, 1/($x - $y));
+        return 1 / $ℯ * pow($xˣ / $yʸ, 1 / ($x - $y));
     }
 
     /**

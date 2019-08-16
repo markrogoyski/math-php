@@ -63,7 +63,7 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
      */
     public function dataProviderForKernelDensityCustomH(): array
     {
-        $h = count($this->data)**(-1/6);
+        $h = count($this->data) ** (-1 / 6);
         return [
             [ $this->data, $h, 1, 0.237991168 ],
             [ $this->data, $h, .1, 0.40525027 ],

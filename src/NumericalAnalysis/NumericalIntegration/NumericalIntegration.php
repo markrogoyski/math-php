@@ -78,10 +78,10 @@ abstract class NumericalIntegration
     protected static function functionToPoints(callable $function, float $start, float $end, int $n): array
     {
         $points = [];
-        $h      = ($end-$start) / ($n-1);
+        $h      = ($end - $start) / ($n - 1);
 
         for ($i = 0; $i < $n; $i++) {
-            $xᵢ         = $start + $i*$h;
+            $xᵢ         = $start + $i * $h;
             $f⟮xᵢ⟯       = $function($xᵢ);
             $points[$i] = [$xᵢ, $f⟮xᵢ⟯];
         }

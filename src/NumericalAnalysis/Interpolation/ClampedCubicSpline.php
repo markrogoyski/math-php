@@ -75,17 +75,17 @@ class ClampedCubicSpline extends Interpolation
         $f⟮x₀⟯  = $sorted[0][$y];  // y₀
         $f⟮x₁⟯  = $sorted[1][$y];  // y₁
         $y’₀   = $sorted[0][$y’]; // y₀-prime
-        $h     = [$x₁-$x₀];
-        $a     = [(3/$h[0])*($f⟮x₁⟯-$f⟮x₀⟯) - 3*$y’₀];
+        $h     = [$x₁ - $x₀];
+        $a     = [(3 / $h[0]) * ($f⟮x₁⟯ - $f⟮x₀⟯) - 3 * $y’₀];
         $μ     = [0.5];
-        $z     = [$a[0]/(2*$h[0])];
+        $z     = [$a[0] / (2 * $h[0])];
         $c[$k] = 0;
         $poly  = [];
         $int   = [];
 
         for ($i = 0; $i < $k; $i++) {
             $xᵢ    = $sorted[$i][$x];
-            $xᵢ₊₁  = $sorted[$i+1][$x];
+            $xᵢ₊₁  = $sorted[$i + 1][$x];
             $a[$i] = $sorted[$i][$y];
             $h[$i] = $xᵢ₊₁ - $xᵢ;
 
@@ -93,40 +93,40 @@ class ClampedCubicSpline extends Interpolation
                 continue;
             }
 
-            $xᵢ₋₁   = $sorted[$i-1][$x];
+            $xᵢ₋₁   = $sorted[$i - 1][$x];
             $f⟮xᵢ⟯   = $sorted[$i][$y];   // yᵢ
-            $f⟮xᵢ₊₁⟯ = $sorted[$i+1][$y]; // yᵢ₊₁
-            $f⟮xᵢ₋₁⟯ = $sorted[$i-1][$y]; // yᵢ₋₁
+            $f⟮xᵢ₊₁⟯ = $sorted[$i + 1][$y]; // yᵢ₊₁
+            $f⟮xᵢ₋₁⟯ = $sorted[$i - 1][$y]; // yᵢ₋₁
 
-            $α      = (3/$h[$i])*($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯) - (3/$h[$i-1])*($f⟮xᵢ⟯ - $f⟮xᵢ₋₁⟯);
-            $l      = 2*($xᵢ₊₁ - $xᵢ₋₁) - $h[$i-1]*$μ[$i-1];
-            $μ[$i]  = $h[$i]/$l;
-            $z[$i]  = ($α - $h[$i-1]*$z[$i-1])/$l;
+            $α      = (3 / $h[$i]) * ($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯) - (3 / $h[$i - 1]) * ($f⟮xᵢ⟯ - $f⟮xᵢ₋₁⟯);
+            $l      = 2 * ($xᵢ₊₁ - $xᵢ₋₁) - $h[$i - 1] * $μ[$i - 1];
+            $μ[$i]  = $h[$i] / $l;
+            $z[$i]  = ($α - $h[$i - 1] * $z[$i - 1]) / $l;
         }
 
         $f⟮xₙ⟯   = $sorted[$k][$y];   // yₙ
-        $f⟮xₙ₋₁⟯ = $sorted[$k-1][$y]; // yₙ₋₁
+        $f⟮xₙ₋₁⟯ = $sorted[$k - 1][$y]; // yₙ₋₁
         $y’ₙ    = $sorted[$k][$y’];  // yₙ-prime
-        $a[$k]  = 3*$y’ₙ - 3*($f⟮xₙ⟯ - $f⟮xₙ₋₁⟯)/$h[$k-1];
-        $l      = $h[$k-1]*(2 - $μ[$k - 1]);
-        $z[$k]  = ($a[$k] - $h[$k-1]*$z[$k-1])/$l;
+        $a[$k]  = 3 * $y’ₙ - 3 * ($f⟮xₙ⟯ - $f⟮xₙ₋₁⟯) / $h[$k - 1];
+        $l      = $h[$k - 1] * (2 - $μ[$k - 1]);
+        $z[$k]  = ($a[$k] - $h[$k - 1] * $z[$k - 1]) / $l;
         $c[$n]  = $z[$k];
 
-        for ($i = $k-1; $i >= 0; $i--) {
+        for ($i = $k - 1; $i >= 0; $i--) {
             $xᵢ     = $sorted[$i][$x];
-            $xᵢ₊₁   = $sorted[$i+1][$x];
+            $xᵢ₊₁   = $sorted[$i + 1][$x];
             $f⟮xᵢ⟯   = $sorted[$i][$y];    // yᵢ
-            $f⟮xᵢ₊₁⟯ = $sorted[$i+1][$y];  // yᵢ₊₁
+            $f⟮xᵢ₊₁⟯ = $sorted[$i + 1][$y];  // yᵢ₊₁
 
-            $c[$i]  = $z[$i] - $μ[$i]*$c[$i+1];
-            $b[$i]  = ($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯)/$h[$i] - $h[$i]*($c[$i+1] + 2*$c[$i])/3;
-            $d[$i]  = ($c[$i+1] - $c[$i])/(3*$h[$i]);
+            $c[$i]  = $z[$i] - $μ[$i] * $c[$i + 1];
+            $b[$i]  = ($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯) / $h[$i] - $h[$i] * ($c[$i + 1] + 2 * $c[$i]) / 3;
+            $d[$i]  = ($c[$i + 1] - $c[$i]) / (3 * $h[$i]);
 
             $poly[$i] = new Polynomial([
                 $d[$i],
-                $c[$i] - 3*$d[$i]*$xᵢ,
-                $b[$i] - 2*$c[$i]*$xᵢ + 3*$d[$i]*($xᵢ**2),
-                $a[$i] - $b[$i]*$xᵢ + $c[$i]*($xᵢ**2) - $d[$i]*($xᵢ**3)
+                $c[$i] - 3 * $d[$i] * $xᵢ,
+                $b[$i] - 2 * $c[$i] * $xᵢ + 3 * $d[$i] * ($xᵢ ** 2),
+                $a[$i] - $b[$i] * $xᵢ + $c[$i] * ($xᵢ ** 2) - $d[$i] * ($xᵢ ** 3)
             ]);
 
             if ($i == 0) {
@@ -198,10 +198,10 @@ class ClampedCubicSpline extends Interpolation
     protected static function functionToSplinePoints(callable $function, callable $derivative, float $start, float $end, int $n): array
     {
         $points = [];
-        $h      = ($end-$start)/($n-1);
+        $h      = ($end - $start) / ($n - 1);
 
         for ($i = 0; $i < $n; $i++) {
-            $xᵢ         = $start + $i*$h;
+            $xᵢ         = $start + $i * $h;
             $f⟮xᵢ⟯       = $function($xᵢ);
             $f’⟮xᵢ⟯      = $derivative($xᵢ);
             $points[$i] = [$xᵢ, $f⟮xᵢ⟯, $f’⟮xᵢ⟯];

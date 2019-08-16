@@ -424,7 +424,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function projection(Vector $B): Vector
     {
         $A⋅B  = $this->dotProduct($B);
-        $│B│² = ($B->l2Norm())**2;
+        $│B│² = ($B->l2Norm()) ** 2;
 
         return $B->scalarMultiply($A⋅B / $│B│²);
     }
@@ -444,7 +444,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function perp(Vector $B): Vector
     {
         $A⋅B⊥ = $B->perpDotProduct($this);
-        $│B│² = ($B->l2Norm())**2;
+        $│B│² = ($B->l2Norm()) ** 2;
         $B⊥   = $B->perpendicular();
 
         return $B⊥->scalarMultiply($A⋅B⊥ / $│B│²);
@@ -527,7 +527,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      */
     public function pNorm($p)
     {
-        return array_sum(Map\Single::pow(Map\Single::abs($this->A), $p))**(1/$p);
+        return array_sum(Map\Single::pow(Map\Single::abs($this->A), $p)) ** (1 / $p);
     }
 
     /**

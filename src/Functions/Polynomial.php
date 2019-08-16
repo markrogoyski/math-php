@@ -177,7 +177,7 @@ class Polynomial implements ObjectArithmetic
         for ($i = 0; $i < $degree + 1; $i++) {
             // Create a callback function for the current term
             $term = function ($x) use ($degree, $coefficients, $i) {
-                return $coefficients[$i] * $x**($degree - $i);
+                return $coefficients[$i] * $x ** ($degree - $i);
             };
             // Add the new term to the polynomial
             $polynomial = Arithmetic::add($polynomial, $term);
@@ -369,13 +369,13 @@ class Polynomial implements ObjectArithmetic
         $coefficientsB = array_reverse($polynomial->coefficients);
 
         // Start with an array of coefficients that all equal 0
-        $productCoefficients = array_fill(0, $productDegree+1, 0);
+        $productCoefficients = array_fill(0, $productDegree + 1, 0);
 
         // Iterate through the product of terms component-wise
         for ($i = 0; $i < $this->degree + 1; $i++) {
             for ($j = 0; $j < $polynomial->degree + 1; $j++) {
                 // Calculate the degree of the current product
-                $degree = $productDegree-($i+$j);
+                $degree = $productDegree - ($i + $j);
 
                 // Calculate the product of the coefficients
                 $product = $coefficientsA[$i] * $coefficientsB[$j];

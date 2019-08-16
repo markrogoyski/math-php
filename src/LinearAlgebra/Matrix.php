@@ -203,7 +203,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $superdiagonal = [];
         if ($this->isSquare()) {
             for ($i = 0; $i < $this->m - 1; $i++) {
-                $superdiagonal[] = $this->A[$i][$i+1];
+                $superdiagonal[] = $this->A[$i][$i + 1];
             }
         }
         return $superdiagonal;
@@ -226,7 +226,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $subdiagonal = [];
         if ($this->isSquare()) {
             for ($i = 1; $i < $this->m; $i++) {
-                $subdiagonal[] = $this->A[$i][$i-1];
+                $subdiagonal[] = $this->A[$i][$i - 1];
             }
         }
         return $subdiagonal;
@@ -639,7 +639,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $n = $this->n;
 
         for ($i = 0; $i < $m; $i++) {
-            for ($j = $i+1; $j < $n; $j++) {
+            for ($j = $i + 1; $j < $n; $j++) {
                 if (!Support::isZero($this->A[$i][$j])) {
                     return false;
                 }
@@ -896,7 +896,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         // Elements above upper diagonal are zero
         for ($i = 0; $i < $m; $i++) {
-            for ($j = $i+2; $j < $n; $j++) {
+            for ($j = $i + 2; $j < $n; $j++) {
                 if ($this->A[$i][$j] != 0) {
                     return false;
                 }
@@ -925,7 +925,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         // Elements below lower diagonal are non-zero
         for ($i = 2; $i < $this->m; $i++) {
-            for ($j = 0; $j < $i-1; $j++) {
+            for ($j = 0; $j < $i - 1; $j++) {
                 if ($this->A[$i][$j] != 0) {
                     return false;
                 }
@@ -995,7 +995,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         // Elements below lower diagonal are zero
         for ($i = 2; $i < $this->m; $i++) {
-            for ($j = 0; $j < $i-1; $j++) {
+            for ($j = 0; $j < $i - 1; $j++) {
                 if ($this->A[$i][$j] != 0) {
                     return false;
                 }
@@ -1022,7 +1022,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         // Elements above upper diagonal are zero
         for ($i = 0; $i < $this->m; $i++) {
-            for ($j = $i+2; $j < $this->n; $j++) {
+            for ($j = $i + 2; $j < $this->n; $j++) {
                 if ($this->A[$i][$j] != 0) {
                     return false;
                 }
@@ -1808,7 +1808,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 [$d, -$b],
                 [-$c, $a],
             ]);
-            $A⁻¹ = $R->scalarMultiply(1/$│A│);
+            $A⁻¹ = $R->scalarMultiply(1 / $│A│);
 
             $this->A⁻¹ = $A⁻¹;
             return $A⁻¹;
@@ -2314,7 +2314,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                $ΣΣaᵢⱼ² += ($this->A[$i][$j])**2;
+                $ΣΣaᵢⱼ² += ($this->A[$i][$j]) ** 2;
             }
         }
 
@@ -2485,7 +2485,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         // │A│ = (-1)ⁿ │ref(A)│
-        $this->det = (-1)**$ⁿ * $│ref⟮A⟯│;
+        $this->det = (-1) ** $ⁿ * $│ref⟮A⟯│;
         return $this->det;
     }
 
@@ -2572,7 +2572,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         $Mᵢⱼ    = $this->minor($mᵢ, $nⱼ);
-        $⟮−1⟯ⁱ⁺ʲ = (-1)**($mᵢ + $nⱼ);
+        $⟮−1⟯ⁱ⁺ʲ = (-1) ** ($mᵢ + $nⱼ);
 
         return $⟮−1⟯ⁱ⁺ʲ * $Mᵢⱼ;
     }
@@ -3497,7 +3497,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $L = MatrixFactory::zero($m, $m)->getMatrix();
 
         for ($j = 0; $j < $m; $j++) {
-            for ($i = 0; $i < ($j+1); $i++) {
+            for ($i = 0; $i < ($j + 1); $i++) {
                 $∑lⱼₓlᵢₓ = 0;
                 for ($x = 0; $x < $i; $x++) {
                     $∑lⱼₓlᵢₓ += $L[$j][$x] * $L[$i][$x];

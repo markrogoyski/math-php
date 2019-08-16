@@ -20,7 +20,7 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
         // Rewrite f(x) = 0 as (x⁴ + 8x³ -13x² + 96)/92 = x
         // Thus, g(x) = (x⁴ + 8x³ -13x² + 96)/92
         $func = function ($x) {
-            return ($x**4 + 8 * $x**3 - 13 * $x**2 + 96)/92;
+            return ($x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 + 96) / 92;
         };
         $tol = 0.00001;
 
@@ -62,7 +62,7 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
         // Note that f(x) has a root at 1
         // Rewrite f(x) = 0 as (x⁴ + 8x³ -13x² + 96)/92 = x
         // Thus, g(x) = (x⁴ + 8x³ -13x² + 96)/92
-        $polynomial = new Polynomial([1/92, 8/92, -13/92, 96/92]);
+        $polynomial = new Polynomial([1 / 92, 8 / 92, -13 / 92, 96 / 92]);
         $tol        = 0.00001;
 
         // g(0)  = 96/92, where 0 < 96/92 < 2
@@ -99,7 +99,7 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return ($x**4 + 8 * $x**3 - 13 * $x**2 + 96)/92;
+            return ($x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 + 96) / 92;
         };
         $tol = -0.00001;
         $a   = 0;
@@ -121,7 +121,7 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return ($x**4 + 8 * $x**3 - 13 * $x**2 + 96)/92;
+            return ($x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 + 96) / 92;
         };
         $tol = 0.00001;
         $a   = 3;
@@ -143,7 +143,7 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return ($x**4 + 8 * $x**3 - 13 * $x**2 + 96)/92;
+            return ($x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 + 96) / 92;
         };
         $tol = 0.00001;
         $a   = 0;

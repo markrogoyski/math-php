@@ -95,10 +95,10 @@ class MidpointRule extends NumericalIntegration
          */
         for ($i = 0; $i < $steps; $i++) {
             $xᵢ             = $sorted[$i][$x];
-            $xᵢ₊₁           = $sorted[$i+1][$x];
+            $xᵢ₊₁           = $sorted[$i + 1][$x];
             $f⟮xᵢ⟯           = $sorted[$i][$y];     // yᵢ
-            $f⟮xᵢ₊₁⟯         = $sorted[$i+1][$y];   // yᵢ₊₁
-            $midpoint       = ($f⟮xᵢ⟯+$f⟮xᵢ₊₁⟯) / 2;
+            $f⟮xᵢ₊₁⟯         = $sorted[$i + 1][$y];   // yᵢ₊₁
+            $midpoint       = ($f⟮xᵢ⟯ + $f⟮xᵢ₊₁⟯) / 2;
             $h              = $xᵢ₊₁ - $xᵢ;
             $approximation += $h * $midpoint;
         }

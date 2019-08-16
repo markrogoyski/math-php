@@ -60,7 +60,7 @@ class LagrangePolynomialTest extends \PHPUnit\Framework\TestCase
     {
         // f(x) = x⁴ + 8x³ -13x² -92x + 96
         $f = function ($x) {
-            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
 
         // And
@@ -104,7 +104,7 @@ class LagrangePolynomialTest extends \PHPUnit\Framework\TestCase
     {
         // f(x) = x⁴ + 8x³ -13x² -92x + 96
         $f = function ($x) {
-            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
 
         // And

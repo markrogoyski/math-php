@@ -41,7 +41,7 @@ class FunctionSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(3, $ME[0][0], '', 0.000001);
         $this->assertEquals(-1, $ME[0][1], '', 0.000001);
         $this->assertEquals(2, $ME[1][0], '', 0.000001);
-        $this->assertEquals(1/2, $ME[1][1], '', 0.000001);
+        $this->assertEquals(1 / 2, $ME[1][1], '', 0.000001);
     }
 
     public function testConstructorException()

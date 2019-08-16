@@ -208,7 +208,7 @@ class ObjectSquareMatrix extends SquareMatrix
     {
         /** @var ObjectArithmetic $Mᵢⱼ */
         $Mᵢⱼ    = $this->minor($mᵢ, $nⱼ);
-        $⟮−1⟯ⁱ⁺ʲ = (-1)**($mᵢ + $nⱼ);
+        $⟮−1⟯ⁱ⁺ʲ = (-1) ** ($mᵢ + $nⱼ);
 
         return $Mᵢⱼ->multiply($⟮−1⟯ⁱ⁺ʲ);
     }

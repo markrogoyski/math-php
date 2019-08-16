@@ -16,7 +16,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
         $args     = [-4.1];
         $target   = 0;
@@ -103,7 +103,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x**3 - $x + 1;
+            return $x ** 3 - $x + 1;
         };
         $expected = -1.324717;
         $args     = [-1];
@@ -127,7 +127,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x**2 - 5;
+            return $x ** 2 - 5;
         };
         $expected = sqrt(5);
         $args     = [2];
@@ -151,7 +151,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return cos($x) - 2*$x;
+            return cos($x) - 2 * $x;
         };
         $expected = 0.450183;
         $args     = [0];
@@ -198,7 +198,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
         $args     = [-4.1];
         $target   = 0;
@@ -220,7 +220,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x/$x;
+            return $x / $x;
         };
         $args     = [0.1];
         $target   = 0;
@@ -242,7 +242,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x**2 + 3*$x + 3;
+            return $x ** 2 + 3 * $x + 3;
         };
         $args     = [0.1];
         $target   = 0;

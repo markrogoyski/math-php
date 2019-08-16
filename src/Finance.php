@@ -90,7 +90,7 @@ class Finance
 
         return - ($future_value + ($present_value * pow(1 + $rate, $periods)))
             /
-            ((1 + $rate*$when) / $rate * (pow(1 + $rate, $periods) - 1));
+            ((1 + $rate * $when) / $rate * (pow(1 + $rate, $periods) - 1));
     }
 
     /**
@@ -250,7 +250,7 @@ class Finance
         }
 
         $initial  = $payment * (1.0 + $rate * $when);
-        return log(($initial - $future_value*$rate) / ($initial + $present_value*$rate)) / log(1.0 + $rate);
+        return log(($initial - $future_value * $rate) / ($initial + $present_value * $rate)) / log(1.0 + $rate);
     }
 
     /**
@@ -314,7 +314,7 @@ class Finance
             return $aer;
         }
 
-        return (pow($aer + 1, 1/$periods) - 1) * $periods;
+        return (pow($aer + 1, 1 / $periods) - 1) * $periods;
     }
 
     /**
@@ -455,7 +455,7 @@ class Finance
         $result = 0.0;
 
         for ($i = 0; $i < count($values); ++$i) {
-            $result += $values[$i] / (1 + $rate)**$i;
+            $result += $values[$i] / (1 + $rate) ** $i;
         }
 
         return $result;
@@ -495,7 +495,7 @@ class Finance
         $when = $beginning ? 1 : 0;
 
         $func = function ($x, $periods, $payment, $present_value, $future_value, $when) {
-            return $future_value + $present_value*(1+$x)**$periods + $payment*(1+$x*$when)/$x * ((1+$x)**$periods - 1);
+            return $future_value + $present_value * (1 + $x) ** $periods + $payment * (1 + $x * $when) / $x * ((1 + $x) ** $periods - 1);
         };
 
         return self::checkZero(NumericalAnalysis\RootFinding\NewtonsMethod::solve($func, [$initial_guess, $periods, $payment, $present_value, $future_value, $when], 0, self::EPSILON, 0));
@@ -587,7 +587,7 @@ class Finance
         $fv_inflows = self::fv($reinvestment_rate, $root, 0, -$pv_inflows);
         $pv_outflows  = self::npv($finance_rate, $outflows);
 
-        return self::checkZero(pow($fv_inflows / -$pv_outflows, 1/$root) - 1);
+        return self::checkZero(pow($fv_inflows / -$pv_outflows, 1 / $root) - 1);
     }
 
     /**
@@ -643,7 +643,7 @@ class Finance
         $payback_period = -1;
         for ($i = 1; $i < sizeof($values); $i++) {
             $prevsum = $sum;
-            $discounted_flow = $values[$i] / (1 + $rate)**$i;
+            $discounted_flow = $values[$i] / (1 + $rate) ** $i;
             $sum += $discounted_flow;
             if ($sum >= 0) {
                 if ($i > $last_outflow) {

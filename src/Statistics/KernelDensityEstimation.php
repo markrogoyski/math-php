@@ -98,7 +98,7 @@ class KernelDensityEstimation
      */
     private function getDefaultBandwidth(): float
     {
-        $４σ⁵ = 4 * Descriptive::standardDeviation($this->data)**5;
+        $４σ⁵ = 4 * Descriptive::standardDeviation($this->data) ** 5;
         $３n  = 3 * $this->n;
         $⅕    = 0.2;
 

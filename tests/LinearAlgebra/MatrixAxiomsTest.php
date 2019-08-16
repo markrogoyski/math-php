@@ -658,7 +658,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
                 ],
                 [
                     [-2, 1],
-                    [3/2, -1/2],
+                    [3 / 2, -1 / 2],
                 ],
             ],
             [
@@ -678,9 +678,9 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
                     [1, 0, 6],
                 ],
                 [
-                    [12/11, -6/11, -1/11],
-                    [5/22, 3/22, -5/22],
-                    [-2/11, 1/11, 2/11],
+                    [12 / 11, -6 / 11, -1 / 11],
+                    [5 / 22, 3 / 22, -5 / 22],
+                    [-2 / 11, 1 / 11, 2 / 11],
                 ],
             ],
             [
@@ -1622,8 +1622,8 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
 
-        $det⟮A⟯ᵐ  = ($A->det())**$B->getM();
-        $det⟮B⟯ⁿ  = ($B->det())**$A->getN();
+        $det⟮A⟯ᵐ  = ($A->det()) ** $B->getM();
+        $det⟮B⟯ⁿ  = ($B->det()) ** $A->getN();
         $det⟮A⊗B⟯ = $A->kroneckerProduct($B)->det();
 
         $this->assertEquals($det⟮A⊗B⟯, $det⟮A⟯ᵐ  * $det⟮B⟯ⁿ, '', 0.0001);
@@ -2604,7 +2604,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $A⁻¹           = $A->inverse();
         $adj⟮A⟯         = $A->adjugate();
         $det⟮A⟯         = $A->det();
-        $⟮1／det⟮A⟯⟯adj⟮A⟯ = $adj⟮A⟯->scalarMultiply(1/$det⟮A⟯);
+        $⟮1／det⟮A⟯⟯adj⟮A⟯ = $adj⟮A⟯->scalarMultiply(1 / $det⟮A⟯);
 
         $this->assertEquals($A⁻¹, $⟮1／det⟮A⟯⟯adj⟮A⟯, '', 0.00001);
     }

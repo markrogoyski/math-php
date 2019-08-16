@@ -62,7 +62,7 @@ class Laplace extends Continuous
         $μ = $this->μ;
         $b = $this->b;
 
-        return (1 / (2 * $b)) * exp(-( abs($x - $μ)/$b ));
+        return (1 / (2 * $b)) * exp(-( abs($x - $μ) / $b ));
     }
     /**
      * Laplace distribution - cumulative distribution function
@@ -89,9 +89,9 @@ class Laplace extends Continuous
         $b = $this->b;
 
         if ($x < $μ) {
-            return (1/2) * exp(($x - $μ) / $b);
+            return (1 / 2) * exp(($x - $μ) / $b);
         }
-        return 1 - (1/2) * exp(-($x - $μ) / $b);
+        return 1 - (1 / 2) * exp(-($x - $μ) / $b);
     }
 
     /**
@@ -158,6 +158,6 @@ class Laplace extends Continuous
      */
     public function variance(): float
     {
-        return 2 * $this->b**2;
+        return 2 * $this->b ** 2;
     }
 }

@@ -2,7 +2,7 @@
 <ruleset name="MathPHP">
  <description>The coding standard for Math PHP.</description>
 
- <rule ref="PSR2">
+ <rule ref="PSR12">
   <!-- Math functions may start with Greek letters which wont be CamelCase -->
   <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps"/>
 

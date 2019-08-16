@@ -195,8 +195,8 @@ class Algebra
         } else {
             // Standard quadratic equation case
             $√⟮b² − 4ac⟯ = sqrt(self::discriminant($a, $b, $c));
-            $x₁         = (-$b - $√⟮b² − 4ac⟯) / (2*$a);
-            $x₂         = (-$b + $√⟮b² − 4ac⟯) / (2*$a);
+            $x₁         = (-$b - $√⟮b² − 4ac⟯) / (2 * $a);
+            $x₂         = (-$b + $√⟮b² − 4ac⟯) / (2 * $a);
         }
 
         return [$x₁, $x₂];
@@ -216,7 +216,7 @@ class Algebra
      */
     public static function discriminant(float $a, float $b, float $c): float
     {
-        return $b**2 - (4 * $a * $c);
+        return $b ** 2 - (4 * $a * $c);
     }
 
     /**
@@ -316,21 +316,21 @@ class Algebra
         $a₀ = $a₀ / $a₃;
 
         // Intermediate variables
-        $Q = (3*$a₁ - $a₂**2) / 9;
-        $R = (9*$a₂*$a₁ - 27*$a₀ - 2*$a₂**3) / 54;
+        $Q = (3 * $a₁ - $a₂ ** 2) / 9;
+        $R = (9 * $a₂ * $a₁ - 27 * $a₀ - 2 * $a₂ ** 3) / 54;
 
         // Polynomial discriminant
-        $D = $Q**3 + $R**2;
+        $D = $Q ** 3 + $R ** 2;
 
         // All roots are real and unequal
         if ($D < 0) {
-            $θ     = acos($R / sqrt((-$Q)**3));
+            $θ     = acos($R / sqrt((-$Q) ** 3));
             $２√−Q = 2 * sqrt(-$Q);
             $π     = \M_PI;
 
             $z₁    = $２√−Q * cos($θ / 3) - ($a₂ / 3);
-            $z₂    = $２√−Q * cos(($θ + 2*$π) / 3) - ($a₂ / 3);
-            $z₃    = $２√−Q * cos(($θ + 4*$π) / 3) - ($a₂ / 3);
+            $z₂    = $２√−Q * cos(($θ + 2 * $π) / 3) - ($a₂ / 3);
+            $z₃    = $２√−Q * cos(($θ + 4 * $π) / 3) - ($a₂ / 3);
 
             return [$z₁, $z₂, $z₃];
         }
@@ -432,13 +432,13 @@ class Algebra
             
             // $z₁ will always be a real number, so select it.
             $m             = $cubic_roots[0];
-            $roots1        = self::quadratic(1, sqrt(2*$m), $p / 2 + $m - $q/2/sqrt(2*$m), $return_complex);
-            $roots2        = self::quadratic(1, -1 * sqrt(2*$m), $p / 2 + $m + $q/2/sqrt(2*$m), $return_complex);
-            $discriminant1 = self::discriminant(1, sqrt(2*$m), $p / 2 + $m - $q/2/sqrt(2*$m));
-            $discriminant2 = self::discriminant(1, -1 * sqrt(2*$m), $p / 2 + $m + $q/2/sqrt(2*$m));
+            $roots1        = self::quadratic(1, sqrt(2 * $m), $p / 2 + $m - $q / 2 / sqrt(2 * $m), $return_complex);
+            $roots2        = self::quadratic(1, -1 * sqrt(2 * $m), $p / 2 + $m + $q / 2 / sqrt(2 * $m), $return_complex);
+            $discriminant1 = self::discriminant(1, sqrt(2 * $m), $p / 2 + $m - $q / 2 / sqrt(2 * $m));
+            $discriminant2 = self::discriminant(1, -1 * sqrt(2 * $m), $p / 2 + $m + $q / 2 / sqrt(2 * $m));
             
             // sort the real roots first.
-            $sorted_results = $discriminant1>$discriminant2 ? array_merge($roots1, $roots2) : array_merge($roots2, $roots1);
+            $sorted_results = $discriminant1 > $discriminant2 ? array_merge($roots1, $roots2) : array_merge($roots2, $roots1);
             return $sorted_results;
         }
 

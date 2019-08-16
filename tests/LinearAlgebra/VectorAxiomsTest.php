@@ -686,9 +686,9 @@ class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
         $A = new Vector($A);
         $B = new Vector($B);
 
-        $│A│²      = ($A->length())**2;
-        $│projᵇA│² = ($A->projection($B)->length())**2;
-        $│perpᵇA│² = ($A->perp($B)->length())**2;
+        $│A│²      = ($A->length()) ** 2;
+        $│projᵇA│² = ($A->projection($B)->length()) ** 2;
+        $│perpᵇA│² = ($A->perp($B)->length()) ** 2;
 
         $this->assertEquals($│A│², $│projᵇA│² + $│perpᵇA│²);
     }

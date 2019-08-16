@@ -68,13 +68,13 @@ class NevillesMethod extends Interpolation
             for ($j = 1; $j <= $i; $j++) {
                 $xᵢ₋ⱼ        = $sorted[$i - $j][$x];
                 $xᵢ          = $sorted[$i][$x];
-                $Q₍ᵢ₎₍ⱼ₋₁₎   = $Q[$i][$j-1]($target);
-                $Q₍ᵢ₋₁₎₍ⱼ₋₁₎ = $Q[$i-1][$j-1]($target);
+                $Q₍ᵢ₎₍ⱼ₋₁₎   = $Q[$i][$j - 1]($target);
+                $Q₍ᵢ₋₁₎₍ⱼ₋₁₎ = $Q[$i - 1][$j - 1]($target);
                 $Q[$i][$j]   = LagrangePolynomial::interpolate([[$xᵢ₋ⱼ,$Q₍ᵢ₋₁₎₍ⱼ₋₁₎],[$xᵢ,$Q₍ᵢ₎₍ⱼ₋₁₎]]);
             }
         }
 
         // Return our (n-1)th-degree Lagrange polynomial evaluated at $target
-        return $Q[$n-1][$n-1]($target);
+        return $Q[$n - 1][$n - 1]($target);
     }
 }

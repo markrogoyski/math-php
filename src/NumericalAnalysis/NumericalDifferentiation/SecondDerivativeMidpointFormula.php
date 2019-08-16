@@ -89,7 +89,7 @@ class SecondDerivativeMidpointFormula extends NumericalDifferentiation
         $f⟮x₀⟯   = $sorted[1][$y];
         $f⟮x₀⧾h⟯ = $sorted[2][$y];
 
-        $derivative = ($f⟮x₀⧿h⟯ - 2*$f⟮x₀⟯ + $f⟮x₀⧾h⟯) / ($h**2);
+        $derivative = ($f⟮x₀⧿h⟯ - 2 * $f⟮x₀⟯ + $f⟮x₀⧾h⟯) / ($h ** 2);
 
         return $derivative;
     }

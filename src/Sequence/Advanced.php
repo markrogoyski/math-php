@@ -228,7 +228,7 @@ class Advanced
 
         // Standard case for pn: (3n² - n) / 2
         for ($i = 1; $i <= $n; $i++) {
-            $pentagonal[$i] = (3*($i**2) - $i) / 2;
+            $pentagonal[$i] = (3 * ($i ** 2) - $i) / 2;
         }
 
         return $pentagonal;
@@ -298,7 +298,7 @@ class Advanced
 
         // Standard case for Hn: (5n² - 3n) / 2
         for ($i = 1; $i <= $n; $i++) {
-            $heptagonal[$i] = ((5 * $i**2) - (3 * $i)) / 2;
+            $heptagonal[$i] = ((5 * $i ** 2) - (3 * $i)) / 2;
         }
 
         return $heptagonal;
@@ -405,7 +405,7 @@ class Advanced
         $p = [];
 
         for ($i = 0; $i < $n; $i++) {
-            $p[] = ($i**2 + $i + 2) / 2;
+            $p[] = ($i ** 2 + $i + 2) / 2;
         }
 
         return $p;
@@ -441,7 +441,7 @@ class Advanced
         $M = [];
 
         for ($i = 0; $i < $n; $i++) {
-            $M[] = ($i * ($i**2 + 1)) / 2;
+            $M[] = ($i * ($i ** 2 + 1)) / 2;
         }
 
         return $M;
@@ -586,7 +586,7 @@ class Advanced
 
         for ($i = 2; $i <= $√n; $i++) {
             if ($primes[$i] === true) {
-                $i² = $i**2;
+                $i² = $i ** 2;
                 for ($j = $i²; $j <= $n; $j += $i) {
                     $primes[$j] = false;
                 }

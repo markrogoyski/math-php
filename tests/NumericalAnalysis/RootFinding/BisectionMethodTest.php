@@ -18,7 +18,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
         // Given f(x) = x⁴ + 8x³ -13x² -92x + 96
         // This polynomial has 4 roots: 3, 1 ,-8 and -4
         $func = function ($x) {
-            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
         $tol = 0.00001;
 
@@ -129,7 +129,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
         // Given f(x) = x³ - x - 2
         // Find the root 1.521
         $func = function ($x) {
-            return $x**3 - $x - 2;
+            return $x ** 3 - $x - 2;
         };
         $tol = 0.001;
 
@@ -153,7 +153,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
         // Given f(x) = x² - 3
         // Find the root 1.7344
         $func = function ($x) {
-            return $x**2 - 3;
+            return $x ** 2 - 3;
         };
         $tol = 0.01;
 
@@ -199,7 +199,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
         $tol = -0.00001;
         $a   = 0;
@@ -220,7 +220,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
         $tol = 0.00001;
         $a   = 2;

@@ -71,7 +71,7 @@ class Pareto extends Continuous
             return 0;
         }
 
-        $abᵃ  = $a * $b**$a;
+        $abᵃ  = $a * $b ** $a;
         $xᵃ⁺¹ = pow($x, $a + 1);
         return $abᵃ / $xᵃ⁺¹;
     }
@@ -123,7 +123,7 @@ class Pareto extends Continuous
             return \INF;
         }
 
-        return $b / ((1 - $p)**(1/$a));
+        return $b / ((1 - $p) ** (1 / $a));
     }
 
     /**
@@ -161,7 +161,7 @@ class Pareto extends Continuous
         $a = $this->a;
         $b = $this->b;
 
-        return $a * (2**(1/$b));
+        return $a * (2 ** (1 / $b));
     }
 
     /**
@@ -196,6 +196,6 @@ class Pareto extends Continuous
             return \INF;
         }
 
-        return ($a * $b**2) / (($a - 1)**2 * ($a - 2));
+        return ($a * $b ** 2) / (($a - 1) ** 2 * ($a - 2));
     }
 }

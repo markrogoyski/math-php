@@ -135,7 +135,7 @@ class Eigenvalue
 
         while (!$D->isDiagonal()) {
             // Find the largest off-diagonal element in $D
-            $pivot = ['value' => 0, 'i' => 0, 'j'=> 0];
+            $pivot = ['value' => 0, 'i' => 0, 'j' => 0];
             for ($i = 0; $i < $m - 1; $i++) {
                 for ($j = $i + 1; $j < $m; $j++) {
                     if (abs($D[$i][$j]) > abs($pivot['value'])) {

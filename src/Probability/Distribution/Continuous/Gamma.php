@@ -67,11 +67,11 @@ class Gamma extends Continuous
         $θ = $this->θ;
 
         $Γ⟮k⟯   = Special::Γ($k);
-        $θᵏ    = $θ**$k;
+        $θᵏ    = $θ ** $k;
         $Γ⟮k⟯θᵏ = $Γ⟮k⟯ * $θᵏ;
 
-        $xᵏ⁻¹ = $x**($k - 1);
-        $e    = \M_E**(-$x / $θ);
+        $xᵏ⁻¹ = $x ** ($k - 1);
+        $e    = \M_E ** (-$x / $θ);
 
         return ($xᵏ⁻¹ * $e) / $Γ⟮k⟯θᵏ;
     }
@@ -155,6 +155,6 @@ class Gamma extends Continuous
      */
     public function variance(): float
     {
-        return $this->k * $this->θ**2;
+        return $this->k * $this->θ ** 2;
     }
 }

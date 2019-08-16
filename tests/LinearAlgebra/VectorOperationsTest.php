@@ -322,7 +322,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
             [
                 [1],
                 2,
-                [1/2],
+                [1 / 2],
             ],
             [
                 [2, 4],
@@ -332,7 +332,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
             [
                 [1, 2, 3],
                 2,
-                [1/2, 1, 3/2],
+                [1 / 2, 1, 3 / 2],
             ],
             [
                 [5, 10, 15, 20, 25],
@@ -604,17 +604,17 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
             [
                 [1, 2, 3],
                 [4, 5, 6],
-                [128/77, 160/77, 192/77],
+                [128 / 77, 160 / 77, 192 / 77],
             ],
             [
                 [4, 5, 6],
                 [1, 2, 3],
-                [16/7, 32/7, 48/7],
+                [16 / 7, 32 / 7, 48 / 7],
             ],
             [
                 [2, 9, -4],
                 [-1, 5, 5],
-                [-23/51, 115/51, 115/51],
+                [-23 / 51, 115 / 51, 115 / 51],
             ],
             [
                 [1, 1, 1],
@@ -634,7 +634,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
             [
                 [1, 2, 1],
                 [2, 1, 2],
-                [4/3, 2/3, 4/3],
+                [4 / 3, 2 / 3, 4 / 3],
             ],
         ];
     }

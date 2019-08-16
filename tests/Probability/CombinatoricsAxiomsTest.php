@@ -58,7 +58,7 @@ class CombinatoricsAxiomsTest extends \PHPUnit\Framework\TestCase
 
         $∑⟮−1⟯ⁿ⁻ᵏL⟮n、k⟯x₍k₎ = 0;
         for ($k = 1; $k <= $n; $k++) {
-            $⟮−1⟯ⁿ⁻ᵏ            = (-1)**($n - $k);
+            $⟮−1⟯ⁿ⁻ᵏ            = (-1) ** ($n - $k);
             $L⟮n、k⟯             = Combinatorics::lahNumber($n, $k);
             $x⁽ᵏ⁾              = Combinatorics::risingFactorial($x, $k);
             $∑⟮−1⟯ⁿ⁻ᵏL⟮n、k⟯x₍k₎ += $⟮−1⟯ⁿ⁻ᵏ * $L⟮n、k⟯ * $x⁽ᵏ⁾;

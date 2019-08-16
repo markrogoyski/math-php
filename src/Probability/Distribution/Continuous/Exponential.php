@@ -155,6 +155,6 @@ class Exponential extends Continuous
      */
     public function variance(): float
     {
-        return 1 / ($this->λ**2);
+        return 1 / ($this->λ ** 2);
     }
 }

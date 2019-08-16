@@ -102,12 +102,12 @@ class Eigenvector
                         // Make sure that removing column $i does not leave behind a row of zeros
                         $column_can_be_used = true;
                         for ($j = 0; $j <= $i && $j < $rref->getM() && $column_can_be_used; $j++) {
-                            if ($matrix->columnExclude($i-count($forced_variables))->getRow($j) == array_fill(0, $matrix->getN() - 1, 0)) {
+                            if ($matrix->columnExclude($i - count($forced_variables))->getRow($j) == array_fill(0, $matrix->getN() - 1, 0)) {
                                 $column_can_be_used = false;
                             }
                         }
                         if ($column_can_be_used) {
-                            $matrix             = $matrix->columnExclude($i-count($forced_variables));
+                            $matrix             = $matrix->columnExclude($i - count($forced_variables));
                             $forced_variables[] = $i;
                             $new_column         = new Vector($rref->getColumn($i));
                             $solution           = $solution->subtract($new_column);

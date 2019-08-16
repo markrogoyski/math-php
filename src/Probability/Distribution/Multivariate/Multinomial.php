@@ -69,7 +69,7 @@ class Multinomial
 
         $p₁ˣ¹⋯pkˣᵏ = array_product(array_map(
             function ($x, $p) {
-                return $p**$x;
+                return $p ** $x;
             },
             $frequencies,
             $this->probabilities

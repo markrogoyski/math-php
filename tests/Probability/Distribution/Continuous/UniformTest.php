@@ -202,7 +202,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
             [0, 1, 0.5],
             [0, 2, 1],
             [1, 2, 1.5],
-            [2, 3, 5/2],
+            [2, 3, 5 / 2],
             [2, 4, 3],
             [5, 11, 8],
         ];
@@ -234,11 +234,11 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForVariance(): array
     {
         return [
-            [0, 1, 1/12],
-            [0, 2, 4/12],
-            [1, 2, 1/12],
-            [2, 3, 1/12],
-            [2, 4, 4/12],
+            [0, 1, 1 / 12],
+            [0, 2, 4 / 12],
+            [1, 2, 1 / 12],
+            [2, 3, 1 / 12],
+            [2, 4, 4 / 12],
             [5, 11, 3],
         ];
     }

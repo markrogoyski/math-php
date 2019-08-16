@@ -601,7 +601,7 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
         return [
             [
                 [1, 2, 3],      // f(x)  = x² + 2x + 3
-                [1/3, 1, 3, 0], // ∫f(x) = (1/3)x³ + x² + 3x
+                [1 / 3, 1, 3, 0], // ∫f(x) = (1/3)x³ + x² + 3x
             ],
             [
                 [5],    // f(x)  = 5
@@ -613,7 +613,7 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 [1, 0],      // f(x)  = x
-                [1/2, 0, 0], // ∫f(x) = (1/2)²
+                [1 / 2, 0, 0], // ∫f(x) = (1/2)²
             ],
         ];
     }

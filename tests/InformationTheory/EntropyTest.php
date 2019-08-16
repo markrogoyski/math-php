@@ -38,7 +38,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
             ],
             // Test data from: http://www.csun.edu/~twang/595DM/Slides/Information%20&%20Entropy.pdf
             [
-                [4/9, 3/9, 2/9],
+                [4 / 9, 3 / 9, 2 / 9],
                 1.5304755,
             ],
             // Test data from: http://www.cs.rochester.edu/u/james/CSC248/Lec6.pdf
@@ -48,8 +48,8 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
             ],
             // Other
             [
-                [1/2, 1/4, 1/4, 0],
-                3/2,
+                [1 / 2, 1 / 4, 1 / 4, 0],
+                3 / 2,
             ],
         ];
     }
@@ -92,7 +92,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
                 1.2661221087912,
             ],
             [
-                [4/9, 3/9, 2/9],
+                [4 / 9, 3 / 9, 2 / 9],
                 1.06085694715802,
             ],
         ];
@@ -136,7 +136,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
                 0.54986984526372,
             ],
             [
-                [4/9, 3/9, 2/9],
+                [4 / 9, 3 / 9, 2 / 9],
                 0.46072431823946,
             ],
         ];
@@ -275,7 +275,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [
-                [1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10],
+                [1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10],
                 10
             ],
             [
@@ -295,11 +295,11 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
                 3.546141242991336,
             ],
             [
-                [4/9, 3/9, 2/9],
+                [4 / 9, 3 / 9, 2 / 9],
                 2.888810361450759,
             ],
             [
-                [1/2, 1/4, 1/4, 0],
+                [1 / 2, 1 / 4, 1 / 4, 0],
                 2.82842712474619,
             ],
         ];

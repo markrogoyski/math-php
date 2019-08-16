@@ -131,7 +131,7 @@ class Significance
     public static function zTestTwoSample(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, float $Δ = 0.0): array
     {
         // Calculate z score (test statistic)
-        $z = ($μ₁ - $μ₂ - $Δ) / sqrt((($σ₁**2) / $n₁) + (($σ₂**2) / $n₂));
+        $z = ($μ₁ - $μ₂ - $Δ) / sqrt((($σ₁ ** 2) / $n₁) + (($σ₂ ** 2) / $n₂));
 
         $standardNormal = new StandardNormal();
         // One- and two-tailed P values
@@ -402,12 +402,12 @@ class Significance
     public static function tTestTwoSampleFromSummaryData(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂): array
     {
         // Calculate t score (test statistic)
-        $t = ($μ₁ - $μ₂) / sqrt((($σ₁**2) / $n₁) + (($σ₂**2) / $n₂));
+        $t = ($μ₁ - $μ₂) / sqrt((($σ₁ ** 2) / $n₁) + (($σ₂ ** 2) / $n₂));
 
         // Degrees of freedom
-        $ν = ((($σ₁**2) / $n₁) + (($σ₂**2) / $n₂))**2
+        $ν = ((($σ₁ ** 2) / $n₁) + (($σ₂ ** 2) / $n₂)) ** 2
             /
-            (((($σ₁**2) / $n₁)**2 / ($n₁ - 1)) + ((($σ₂**2) / $n₂)**2 / ($n₂ - 1)));
+            (((($σ₁ ** 2) / $n₁) ** 2 / ($n₁ - 1)) + ((($σ₂ ** 2) / $n₂) ** 2 / ($n₂ - 1)));
 
         // One- and two-tailed P values
         $studentT = new StudentT($ν);
@@ -489,7 +489,7 @@ class Significance
          *            Eᵢ
          */
         for ($i = 0; $i < $n; $i++) {
-            $χ² += (($O[$i] - $E[$i])**2) / $E[$i];
+            $χ² += (($O[$i] - $E[$i]) ** 2) / $E[$i];
         }
 
         $chiSquared = new ChiSquared($k);

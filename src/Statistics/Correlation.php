@@ -537,7 +537,7 @@ class Correlation
         $∑d² = array_sum($d²);
 
         // Denominator: n(n² − 1)
-        $n⟮n² − 1⟯ = $n * ($n**2 - 1);
+        $n⟮n² − 1⟯ = $n * ($n ** 2 - 1);
 
         /*
          *          6 ∑ dᵢ²

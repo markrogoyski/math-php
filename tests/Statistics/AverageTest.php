@@ -82,8 +82,8 @@ class AverageTest extends \PHPUnit\Framework\TestCase
     {
         return [
             // Weights add up to 1
-            [ [1, 3, 5, 7, 10], [1/5, 1/5, 1/5, 1/5, 1/5], 5.2],
-            [ [1, 2, 3, 4], [1/4, 1/4, 1/4, 1/4], 2.5],
+            [ [1, 3, 5, 7, 10], [1 / 5, 1 / 5, 1 / 5, 1 / 5, 1 / 5], 5.2],
+            [ [1, 2, 3, 4], [1 / 4, 1 / 4, 1 / 4, 1 / 4], 2.5],
             [ [1, 2,3 , 4], [0.1, 0.1, 0.7, 0.1], 2.8],
             [ [8, 6, 7], [0.5, 0.3, 0.2], 7.2],
             [ [9, 4, 6], [0.5, 0.3, 0.2], 6.9],
@@ -859,7 +859,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $numbers = [3, 6];
-        $p       = 1/2;
+        $p       = 1 / 2;
 
         // When
         $mean = Average::lehmerMean($numbers, $p);

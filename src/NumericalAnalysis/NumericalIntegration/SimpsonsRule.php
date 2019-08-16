@@ -95,7 +95,7 @@ class SimpsonsRule extends NumericalIntegration
         $n             = count($sorted);
         $subintervals  = $n - 1;
         $a             = $sorted[0][$x];
-        $b             = $sorted[$n-1][$x];
+        $b             = $sorted[$n - 1][$x];
         $h             = ($b - $a) / $subintervals;
         $approximation = 0;
 
@@ -106,13 +106,13 @@ class SimpsonsRule extends NumericalIntegration
          *   ⁱ⁼¹   3
          *  where h = (xn - x₁) / (n - 1)
          */
-        for ($i = 1; $i < ($subintervals/2) + 1; $i++) {
-            $x₂ᵢ₋₁          = $sorted[(2*$i)-2][$x];
-            $x₂ᵢ            = $sorted[(2*$i)-1][$x];
-            $x₂ᵢ₊₁          = $sorted[(2*$i)][$x];
-            $f⟮x₂ᵢ₋₁⟯        = $sorted[(2*$i)-2][$y];  // y₂ᵢ₋₁
-            $f⟮x₂ᵢ⟯          = $sorted[(2*$i)-1][$y];  // y₂ᵢ
-            $f⟮x₂ᵢ₊₁⟯        = $sorted[(2*$i)][$y];    // y₂ᵢ₊₁
+        for ($i = 1; $i < ($subintervals / 2) + 1; $i++) {
+            $x₂ᵢ₋₁          = $sorted[(2 * $i) - 2][$x];
+            $x₂ᵢ            = $sorted[(2 * $i) - 1][$x];
+            $x₂ᵢ₊₁          = $sorted[(2 * $i)][$x];
+            $f⟮x₂ᵢ₋₁⟯        = $sorted[(2 * $i) - 2][$y];  // y₂ᵢ₋₁
+            $f⟮x₂ᵢ⟯          = $sorted[(2 * $i) - 1][$y];  // y₂ᵢ
+            $f⟮x₂ᵢ₊₁⟯        = $sorted[(2 * $i)][$y];    // y₂ᵢ₊₁
             $lagrange       = LagrangePolynomial::interpolate([[$x₂ᵢ₋₁, $f⟮x₂ᵢ₋₁⟯], [$x₂ᵢ, $f⟮x₂ᵢ⟯], [$x₂ᵢ₊₁, $f⟮x₂ᵢ₊₁⟯]]);
             $integral       = $lagrange->integrate();
             $approximation += $integral($x₂ᵢ₊₁) - $integral($x₂ᵢ₋₁); // definite integral of lagrange polynomial

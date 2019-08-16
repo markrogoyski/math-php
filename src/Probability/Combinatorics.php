@@ -196,12 +196,12 @@ class Combinatorics
             throw new Exception\OutOfBoundsException('Cannot compute subfactorial of a negative number.');
         }
 
-        $n！= self::factorial($n);
+        $n！ = self::factorial($n);
         $∑  = 0;
 
         for ($i = 0; $i <= $n; $i++) {
             $i！ = self::factorial($i);
-            $∑  += ((-1)**$i) / $i！;
+            $∑  += ((-1) ** $i) / $i！;
         }
         return $n！ * $∑;
     }
@@ -321,7 +321,7 @@ class Combinatorics
         }
 
         $⟮2n⟯！ = self::factorial(2 * $n);
-        $⟮n！⟯² = (self::factorial($n))**2;
+        $⟮n！⟯² = (self::factorial($n)) ** 2;
 
         return $⟮2n⟯！ / $⟮n！⟯²;
     }

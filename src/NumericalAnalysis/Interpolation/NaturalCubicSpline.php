@@ -75,7 +75,7 @@ class NaturalCubicSpline extends Interpolation
 
         for ($i = 0; $i < $k; $i++) {
             $xᵢ     = $sorted[$i][$x];
-            $xᵢ₊₁   = $sorted[$i+1][$x];
+            $xᵢ₊₁   = $sorted[$i + 1][$x];
             $a[$i]  = $sorted[$i][$y];
             $h[$i]  = $xᵢ₊₁ - $xᵢ;
 
@@ -83,32 +83,32 @@ class NaturalCubicSpline extends Interpolation
                 continue;
             }
 
-            $xᵢ₋₁   = $sorted[$i-1][$x];
+            $xᵢ₋₁   = $sorted[$i - 1][$x];
             $f⟮xᵢ⟯   = $sorted[$i][$y];    // yᵢ
-            $f⟮xᵢ₊₁⟯ = $sorted[$i+1][$y];  // yᵢ₊₁
-            $f⟮xᵢ₋₁⟯ = $sorted[$i-1][$y];  // yᵢ₋₁
+            $f⟮xᵢ₊₁⟯ = $sorted[$i + 1][$y];  // yᵢ₊₁
+            $f⟮xᵢ₋₁⟯ = $sorted[$i - 1][$y];  // yᵢ₋₁
 
-            $α      = (3/$h[$i])*($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯) - (3/$h[$i-1])*($f⟮xᵢ⟯ - $f⟮xᵢ₋₁⟯);
-            $l      = 2*($xᵢ₊₁ - $xᵢ₋₁) - $h[$i-1]*$μ[$i-1];
-            $μ[$i]  = $h[$i]/$l;
-            $z[$i]  = ($α - $h[$i-1]*$z[$i-1])/$l;
+            $α      = (3 / $h[$i]) * ($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯) - (3 / $h[$i - 1]) * ($f⟮xᵢ⟯ - $f⟮xᵢ₋₁⟯);
+            $l      = 2 * ($xᵢ₊₁ - $xᵢ₋₁) - $h[$i - 1] * $μ[$i - 1];
+            $μ[$i]  = $h[$i] / $l;
+            $z[$i]  = ($α - $h[$i - 1] * $z[$i - 1]) / $l;
         }
 
-        for ($i = $k-1; $i >= 0; $i--) {
+        for ($i = $k - 1; $i >= 0; $i--) {
             $xᵢ       = $sorted[$i][$x];
-            $xᵢ₊₁     = $sorted[$i+1][$x];
+            $xᵢ₊₁     = $sorted[$i + 1][$x];
             $f⟮xᵢ⟯     = $sorted[$i][$y];    // yᵢ
-            $f⟮xᵢ₊₁⟯   = $sorted[$i+1][$y];  // yᵢ₊₁
+            $f⟮xᵢ₊₁⟯   = $sorted[$i + 1][$y];  // yᵢ₊₁
 
-            $c[$i]    = $z[$i] - $μ[$i]*$c[$i+1];
-            $b[$i]    = ($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯)/$h[$i] - $h[$i]*($c[$i+1] + 2*$c[$i])/3;
-            $d[$i]    = ($c[$i+1] - $c[$i])/(3*$h[$i]);
+            $c[$i]    = $z[$i] - $μ[$i] * $c[$i + 1];
+            $b[$i]    = ($f⟮xᵢ₊₁⟯ - $f⟮xᵢ⟯) / $h[$i] - $h[$i] * ($c[$i + 1] + 2 * $c[$i]) / 3;
+            $d[$i]    = ($c[$i + 1] - $c[$i]) / (3 * $h[$i]);
 
             $poly[$i] = new Polynomial([
                 $d[$i],
-                $c[$i] - 3*$d[$i]*$xᵢ,
-                $b[$i] - 2*$c[$i]*$xᵢ + 3*$d[$i]*($xᵢ**2),
-                $a[$i] - $b[$i]*$xᵢ + $c[$i]*($xᵢ**2) - $d[$i]*($xᵢ**3)
+                $c[$i] - 3 * $d[$i] * $xᵢ,
+                $b[$i] - 2 * $c[$i] * $xᵢ + 3 * $d[$i] * ($xᵢ ** 2),
+                $a[$i] - $b[$i] * $xᵢ + $c[$i] * ($xᵢ ** 2) - $d[$i] * ($xᵢ ** 3)
             ]);
 
             if ($i == 0) {

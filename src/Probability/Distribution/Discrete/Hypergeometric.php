@@ -188,7 +188,7 @@ class Hypergeometric extends Discrete
         $n = $this->n;
 
         return [
-            ceil((($n + 1) * ($K + 1)) / ($N + 2)) -1,
+            ceil((($n + 1) * ($K + 1)) / ($N + 2)) - 1,
             floor((($n + 1) * ($K + 1)) / ($N + 2)),
         ];
     }

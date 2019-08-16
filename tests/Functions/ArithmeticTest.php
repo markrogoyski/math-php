@@ -9,12 +9,12 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     {
         // f(x) = x⁴ + 8x³ -13x² -92x + 96
         $f = function ($x) {
-            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
 
         // g(x) = x³ - 12x² + 72x + 27
         $g = function ($x) {
-            return $x**3 - 12 * $x**2 + 72 * $x + 27;
+            return $x ** 3 - 12 * $x ** 2 + 72 * $x + 27;
         };
 
         // Σ(x) = f(x) + g(x) = x⁴ + 9x³ -25x² -20x + 123
@@ -50,7 +50,7 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     {
         // f(x) = x² + 8x - 12
         $f = function ($x) {
-            return $x**2 + 8*$x - 12;
+            return $x ** 2 + 8 * $x - 12;
         };
 
         // g(x) = x - 9
@@ -91,7 +91,7 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     {
         // f(x) = 8x³ - 13x² -92x + 96
         $f = function ($x) {
-            return 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
 
         $g = $f;

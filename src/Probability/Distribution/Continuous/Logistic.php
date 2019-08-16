@@ -167,8 +167,8 @@ class Logistic extends Continuous
      */
     public function variance(): float
     {
-        $s² = $this->s**2;
-        $π² = \M_PI**2;
+        $s² = $this->s ** 2;
+        $π² = \M_PI ** 2;
 
         return ($s² * $π²) / 3;
     }

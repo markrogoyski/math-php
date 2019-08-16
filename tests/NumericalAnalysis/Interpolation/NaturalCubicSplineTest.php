@@ -112,7 +112,7 @@ class NaturalCubicSplineTest extends \PHPUnit\Framework\TestCase
 
         // So, tol <= (1/24) * (1/5)⁴ * 24 = (1/5)⁴
 
-        $tol = 0.2**4;
+        $tol = 0.2 ** 4;
         $roundoff = 0.000001; // round off error
 
         $p = NaturalCubicSpline::interpolate($f, $a, $b, $n);

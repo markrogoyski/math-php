@@ -88,7 +88,7 @@ class Integer
 
         foreach ($ms as $m) {
             foreach (range(2, $max_k) as $k) {
-                $mᵏ = $m**$k;
+                $mᵏ = $m ** $k;
                 if ($mᵏ == $n) {
                     return [$m, $k];
                 }

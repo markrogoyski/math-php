@@ -173,11 +173,11 @@ class Beta extends Continuous
         }
 
         if ($α == 1 && $β > 0) {
-            return 1 - 2**(-1 / $β);
+            return 1 - 2 ** (-1 / $β);
         }
 
         if ($β == 1 && $α > 0) {
-            return 2**(-1 / $α);
+            return 2 ** (-1 / $α);
         }
 
         if ($α == 3 && $β == 2) {
@@ -188,7 +188,7 @@ class Beta extends Continuous
             return 0.38572756813238945;
         }
 
-        return ($α - 1/3) / ($α + $β - 2/3);
+        return ($α - 1 / 3) / ($α + $β - 2 / 3);
     }
 
     /**
@@ -233,7 +233,7 @@ class Beta extends Continuous
         $β = $this->β;
 
         $αβ          = $α * $β;
-        $⟮α ＋ β⟯²     = ($α + $β)**2;
+        $⟮α ＋ β⟯²     = ($α + $β) ** 2;
         $⟮α ＋ β ＋ 1⟯ = $α + $β + 1;
 
         return $αβ / ($⟮α ＋ β⟯² * $⟮α ＋ β ＋ 1⟯);

@@ -114,7 +114,7 @@ class Complex implements ObjectArithmetic
      */
     public function abs()
     {
-        return sqrt($this->r**2 + $this->i**2);
+        return sqrt($this->r ** 2 + $this->i ** 2);
     }
     
     /**

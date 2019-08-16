@@ -16,7 +16,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
         $tol = 0.00001;
 
@@ -123,7 +123,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x**3 - $x + 1;
+            return $x ** 3 - $x + 1;
         };
         $expected = -1.324717;
         $p₁       = -3;
@@ -146,7 +146,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x**2 - 5;
+            return $x ** 2 - 5;
         };
         $expected = sqrt(5);
         $p₁       = 1;
@@ -169,7 +169,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return cos($x) - 2*$x;
+            return cos($x) - 2 * $x;
         };
         $expected = 0.450183;
         $p₁       = 0;
@@ -191,7 +191,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
         $tol      = -0.00001;
         $p₀       = -1;
@@ -212,7 +212,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x**4 + 8 * $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
         $tol = 0.00001;
         $p₀  = 1;

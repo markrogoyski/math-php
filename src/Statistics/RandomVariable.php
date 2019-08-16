@@ -98,7 +98,7 @@ class RandomVariable
         $μ₃ = self::centralMoment($X, 3);
         $μ₂ = self::centralMoment($X, 2);
     
-        $μ₂³′² = pow($μ₂, 3/2);
+        $μ₂³′² = pow($μ₂, 3 / 2);
 
         return ($μ₃ /  $μ₂³′²);
     }
@@ -135,7 +135,7 @@ class RandomVariable
         $μ₃    = self::centralMoment($X, 3);
         $μ₂    = self::centralMoment($X, 2);
 
-        $μ₂³′² = pow($μ₂, 3/2);
+        $μ₂³′² = pow($μ₂, 3 / 2);
 
         $√⟮n⟮n − 1⟯⟯ = sqrt($n * ($n - 1));
 
@@ -313,7 +313,7 @@ class RandomVariable
         }
 
         $２⟮SES⟯        = 2 * self::ses($n);
-        $⟮n² − 1⟯       = $n**2 - 1;
+        $⟮n² − 1⟯       = $n ** 2 - 1;
         $⟮n − 3⟯⟮n ＋ 5⟯ = ($n - 3) * ($n + 5);
 
         return $２⟮SES⟯ * sqrt($⟮n² − 1⟯ / $⟮n − 3⟯⟮n ＋ 5⟯);

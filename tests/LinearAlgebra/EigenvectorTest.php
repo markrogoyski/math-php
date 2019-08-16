@@ -30,8 +30,8 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
                     [-2, -3],
                 ],
                 [
-                    [1/sqrt(5), \M_SQRT1_2],
-                    [-2/sqrt(5), -\M_SQRT1_2],
+                    [1 / sqrt(5), \M_SQRT1_2],
+                    [-2 / sqrt(5), -\M_SQRT1_2],
                 ]
             ],
             [
@@ -40,8 +40,8 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
                     [2, 3],
                 ],
                 [
-                    [1/sqrt(5), \M_SQRT1_2],
-                    [2/sqrt(5), \M_SQRT1_2],
+                    [1 / sqrt(5), \M_SQRT1_2],
+                    [2 / sqrt(5), \M_SQRT1_2],
                 ]
             ],
             [
@@ -51,9 +51,9 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
                     [4, 2, 5],
                 ],
                 [
-                    [1/sqrt(293), 2/sqrt(6), 2/sqrt(14)],
-                    [6/sqrt(293), 1/sqrt(6), -3/sqrt(14)],
-                    [16/sqrt(293), -1/sqrt(6), -1/sqrt(14)],
+                    [1 / sqrt(293), 2 / sqrt(6), 2 / sqrt(14)],
+                    [6 / sqrt(293), 1 / sqrt(6), -3 / sqrt(14)],
+                    [16 / sqrt(293), -1 / sqrt(6), -1 / sqrt(14)],
                 ]
             ],
             [ // RREF is a zero matrix
@@ -75,9 +75,9 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
                     [3, 0, 4],
                 ],
                 [
-                    [0, 1/sqrt(14), \M_SQRT1_2],
-                    [1, 2/sqrt(14), 0],
-                    [0, 3/sqrt(14), -1 * \M_SQRT1_2],
+                    [0, 1 / sqrt(14), \M_SQRT1_2],
+                    [1, 2 / sqrt(14), 0],
+                    [0, 3 / sqrt(14), -1 * \M_SQRT1_2],
                 ]
             ],
             [ // Matrix has duplicate eigenvalues. no solution on the axis
@@ -87,9 +87,9 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
                     [3, 6, -8],
                 ],
                 [
-                    [1/\M_SQRT3, 1/sqrt(14), 5/sqrt(42)],
-                    [1/\M_SQRT3, 2/sqrt(14), -4/sqrt(42)],
-                    [1/\M_SQRT3, 3/sqrt(14), -1/sqrt(42)],
+                    [1 / \M_SQRT3, 1 / sqrt(14), 5 / sqrt(42)],
+                    [1 / \M_SQRT3, 2 / sqrt(14), -4 / sqrt(42)],
+                    [1 / \M_SQRT3, 3 / sqrt(14), -1 / sqrt(42)],
                 ]
             ],
             [ // The top row of the rref has a solitary 1 in position 0,0
@@ -99,9 +99,9 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
                     [2, 2, 5],
                 ],
                 [
-                    [ 5/sqrt(65), 0, 1/3],
-                    [-2/sqrt(65), -2/sqrt(5), 2/3],
-                    [6/sqrt(65), 1/sqrt(5), -2/3],
+                    [ 5 / sqrt(65), 0, 1 / 3],
+                    [-2 / sqrt(65), -2 / sqrt(5), 2 / 3],
+                    [6 / sqrt(65), 1 / sqrt(5), -2 / 3],
                 ]
             ],
         ];

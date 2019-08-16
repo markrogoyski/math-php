@@ -151,6 +151,6 @@ class NegativeBinomial extends Discrete
      */
     public function variance(): float
     {
-        return ($this->p * $this->r) / (1 - $this->p)**2;
+        return ($this->p * $this->r) / (1 - $this->p) ** 2;
     }
 }

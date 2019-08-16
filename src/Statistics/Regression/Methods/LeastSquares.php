@@ -446,7 +446,7 @@ trait LeastSquares
 
         return array_map(
             function ($eᵢ, $hᵢ) use ($mse, $p) {
-                return ($eᵢ**2 / $mse / $p) * ($hᵢ / (1 - $hᵢ)**2);
+                return ($eᵢ ** 2 / $mse / $p) * ($hᵢ / (1 - $hᵢ) ** 2);
             },
             $e,
             $h
@@ -508,7 +508,7 @@ trait LeastSquares
         // Mean square residuals with the the i-th observation removed
         $MSₑ₍ᵢ₎ = array_map(
             function ($eᵢ, $hᵢ) use ($MSₑ, $ν) {
-                return ($MSₑ - ($eᵢ**2 / ((1 - $hᵢ) * $ν))) * ($ν / ($ν - 1));
+                return ($MSₑ - ($eᵢ ** 2 / ((1 - $hᵢ) * $ν))) * ($ν / ($ν - 1));
             },
             $e,
             $h

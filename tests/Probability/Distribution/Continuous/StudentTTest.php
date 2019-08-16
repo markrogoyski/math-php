@@ -261,7 +261,7 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
             [2, \INF],
             [3, 3],
             [4, 2],
-            [5, 5/3],
+            [5, 5 / 3],
         ];
     }
 

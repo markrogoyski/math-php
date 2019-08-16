@@ -167,7 +167,7 @@ class ANOVA
         $SST = RandomVariable::sumOfSquaresDeviations($all_elements);
         $SSB = array_sum(array_map(
             function ($sample) use ($n, $μ) {
-                return $n * (Average::mean($sample) - $μ)**2;
+                return $n * (Average::mean($sample) - $μ) ** 2;
             },
             $samples
         ));
@@ -485,7 +485,7 @@ class ANOVA
         // Sum of squares factor A
         $SSA = array_sum(array_map(
             function ($f1) use ($μ) {
-                return $f1['n'] * ($f1['mean'] - $μ)**2;
+                return $f1['n'] * ($f1['mean'] - $μ) ** 2;
             },
             $summary_A
         ));
@@ -493,7 +493,7 @@ class ANOVA
         // Sum of squares factor B
         $SSB = array_sum(array_map(
             function ($B) use ($μ) {
-                return $B['n'] * ($B['mean'] - $μ)**2;
+                return $B['n'] * ($B['mean'] - $μ) ** 2;
             },
             $summary_B
         ));
@@ -503,7 +503,7 @@ class ANOVA
         foreach ($data as $A => $Bs) {
             foreach ($Bs as $B => $values) {
                 foreach ($values as $value) {
-                    $SSW += ($value - $summary_AB[$A][$B]['mean'])**2;
+                    $SSW += ($value - $summary_AB[$A][$B]['mean']) ** 2;
                 }
             }
         }
@@ -513,7 +513,7 @@ class ANOVA
         foreach ($data as $A => $Bs) {
             foreach ($Bs as $B => $values) {
                 foreach ($values as $value) {
-                    $SST += ($value - $μ)**2;
+                    $SST += ($value - $μ) ** 2;
                 }
             }
         }

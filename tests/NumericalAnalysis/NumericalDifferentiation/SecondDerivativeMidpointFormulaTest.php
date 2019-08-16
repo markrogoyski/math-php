@@ -29,7 +29,7 @@ class SecondDerivativeMidpointFormulaTest extends \PHPUnit\Framework\TestCase
     {
         // Given f(x) = 13x² -92x + 96
         $f = function ($x) {
-            return 13 * $x**2 - 92 * $x + 96;
+            return 13 * $x ** 2 - 92 * $x + 96;
         };
 
         // And $f’’ - 26
@@ -76,12 +76,12 @@ class SecondDerivativeMidpointFormulaTest extends \PHPUnit\Framework\TestCase
     {
         // Given f(x) = x⁴ - 13x² -92x + 96
         $f = function ($x) {
-            return $x**4 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 4 - 13 * $x ** 2 - 92 * $x + 96;
         };
 
         // And $f’’(x) = 12x² - 26
         $f’’ = function ($x) {
-            return 12 * $x**2 - 26;
+            return 12 * $x ** 2 - 26;
         };
 
         // And
@@ -124,7 +124,7 @@ class SecondDerivativeMidpointFormulaTest extends \PHPUnit\Framework\TestCase
     {
         // Given f(x) = 13x² -92x + 96
         $f = function ($x) {
-            return 13 * $x**2 - 92 * $x + 96;
+            return 13 * $x ** 2 - 92 * $x + 96;
         };
         $points = [[0, $f(0)], [2, $f(2)], [4, $f(4)]];
 
@@ -152,7 +152,7 @@ class SecondDerivativeMidpointFormulaTest extends \PHPUnit\Framework\TestCase
     {
         // Given f(x) = 13x² -92x + 96
         $f = function ($x) {
-            return 13 * $x**2 - 92 * $x + 96;
+            return 13 * $x ** 2 - 92 * $x + 96;
         };
 
         $points = [[0, $f(0)], [2, $f(2)], [4, $f(4)]];
