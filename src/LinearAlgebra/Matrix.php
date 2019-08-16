@@ -815,6 +815,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * https://en.wikipedia.org/wiki/Idempotent_matrix
      *
      * @return boolean true if matrix is idempotent; false otherwise
+     *
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MatrixException
+     * @throws Exception\VectorException
      */
     public function isIdempotent(): bool
     {
