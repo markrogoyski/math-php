@@ -508,16 +508,17 @@ print($A);
 
 // Specialized matrices
 list($m, $n, $k)              = [4, 4, 2];
-$identity_matrix              = MatrixFactory::identity($n);             // Ones on the main diagonal
-$zero_matrix                  = MatrixFactory::zero($m, $n);             // All zeros
-$ones_matrix                  = MatrixFactory::one($m, $n);              // All ones
-$eye_matrix                   = MatrixFactory::eye($m, $n, $k);          // Ones (or other value) on the k-th diagonal
-$exchange_matrix              = MatrixFactory::exchange($n);             // Ones on the reverse diagonal
-$downshift_permutation_matrix = MatrixFactory::downshiftPermutation($n); // Permutation matrix that pushes the components of a vector down one notch with wraparound
-$upshift_permutation_matrix   = MatrixFactory::upshiftPermutation($n);   // Permutation matrix that pushes the components of a vector up one notch with wraparound
-$diagonal_matrix              = MatrixFactory::diagonal([1, 2, 3]);      // 3 x 3 diagonal matrix with zeros above and below the diagonal
-$hilbert_matrix               = MatrixFactory::hilbert($n);              // Square matrix with entries being the unit fractions
+$identity_matrix              = MatrixFactory::identity($n);              // Ones on the main diagonal
+$zero_matrix                  = MatrixFactory::zero($m, $n);              // All zeros
+$ones_matrix                  = MatrixFactory::one($m, $n);               // All ones
+$eye_matrix                   = MatrixFactory::eye($m, $n, $k);           // Ones (or other value) on the k-th diagonal
+$exchange_matrix              = MatrixFactory::exchange($n);              // Ones on the reverse diagonal
+$downshift_permutation_matrix = MatrixFactory::downshiftPermutation($n);  // Permutation matrix that pushes the components of a vector down one notch with wraparound
+$upshift_permutation_matrix   = MatrixFactory::upshiftPermutation($n);    // Permutation matrix that pushes the components of a vector up one notch with wraparound
+$diagonal_matrix              = MatrixFactory::diagonal([1, 2, 3]);       // 3 x 3 diagonal matrix with zeros above and below the diagonal
+$hilbert_matrix               = MatrixFactory::hilbert($n);               // Square matrix with entries being the unit fractions
 $vandermonde_matrix           = MatrixFactory::vandermonde([1, 2, 3], 4); // 4 x 3 Vandermonde matrix
+$random_matrix                = MatrixFactory::random($m, $n);            // m x n matrix of random integers
 
 // PHP Predefined Interfaces
 $json = json_encode($A); // JsonSerializable
