@@ -3349,106 +3349,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function luDecomposition(): array
     {
-        if (!$this->isSquare()) {
-            throw new Exception\MatrixException('LU decomposition only works on square matrices');
-        }
-
-        $n = $this->n;
-
-        // Initialize L as diagonal ones matrix, and U as zero matrix
-        $L = MatrixFactory::diagonal(array_fill(0, $n, 1))->getMatrix();
-        $U = MatrixFactory::zero($n, $n)->getMatrix();
-
-        // Create permutation matrix P and pivoted PA
-        $P  = $this->pivotize();
-        $PA = $P->multiply($this);
-
-        // Fill out L and U
-        for ($i = 0; $i < $n; $i++) {
-            // Calculate Uⱼᵢ
-            for ($j = 0; $j <= $i; $j++) {
-                $sum = 0;
-                for ($k = 0; $k < $j; $k++) {
-                    $sum += $U[$k][$i] * $L[$j][$k];
-                }
-                $U[$j][$i] = $PA[$j][$i] - $sum;
-            }
-
-            // Calculate Lⱼᵢ
-            for ($j = $i; $j < $n; $j++) {
-                $sum = 0;
-                for ($k = 0; $k < $i; $k++) {
-                    $sum += $U[$k][$i] * $L[$j][$k];
-                }
-                $L[$j][$i] = ($U[$i][$i] == 0) ? \NAN : ($PA[$j][$i] - $sum) / $U[$i][$i];
-            }
-        }
-
-        // Assemble return array items: [L, U, P, A]
-        $this->L = MatrixFactory::create($L);
-        $this->U = MatrixFactory::create($U);
-        $this->P = $P;
-
-        return [
-            'L' => $this->L,
-            'U' => $this->U,
-            'P' => $this->P,
-        ];
-    }
-
-    /**
-     * Pivotize creates the permutation matrix P for the LU decomposition.
-     * The permutation matrix is an identity matrix with rows possibly interchanged.
-     *
-     * The product PA results in a new matrix whose rows consist of the rows of A
-     * but no rearranged in the order specified by the permutation matrix P.
-     *
-     * Example:
-     *
-     *     [α₁₁ α₁₂ α₁₃]
-     * A = [α₂₁ α₂₂ α₂₃]
-     *     [α₃₁ α₃₂ α₃₃]
-     *
-     *     [0 1 0]
-     * P = [1 0 0]
-     *     [0 0 1]
-     *
-     *      [α₂₁ α₂₂ α₂₃] \ rows
-     * PA = [α₁₁ α₁₂ α₁₃] / interchanged
-     *      [α₃₁ α₃₂ α₃₃]
-     *
-     * @return Matrix
-     *
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\MatrixException
-     * @throws Exception\OutOfBoundsException
-     */
-    protected function pivotize(): Matrix
-    {
-        $n = $this->n;
-        $P = MatrixFactory::identity($n);
-        $A = $this->A;
-
-        // Set initial column max to diagonal element Aᵢᵢ
-        for ($i = 0; $i < $n; $i++) {
-            $max = $A[$i][$i];
-            $row = $i;
-
-            // Check for column element below Aᵢᵢ that is bigger
-            for ($j = $i; $j < $n; $j++) {
-                if ($A[$j][$i] > $max) {
-                    $max = $A[$j][$i];
-                    $row = $j;
-                }
-            }
-
-            // Swap rows if a larger column element below Aᵢᵢ was found
-            if ($i != $row) {
-                $P = $P->rowInterchange($i, $row);
-            }
-        }
-
-        return $P;
+        $results = Decompositions\LU::decompose($this);
+        $this->L = $results['L'];
+        $this->U = $results['U'];
+        $this->P = $results['P'];
+        return $results;
     }
 
     /**
