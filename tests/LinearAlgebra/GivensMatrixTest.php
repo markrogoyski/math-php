@@ -7,13 +7,22 @@ use MathPHP\LinearAlgebra\MatrixFactory;
 class GivensMatrixTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @test Test that the construction fails when parameters are out of bounds
+     * @test    Test that the construction fails when parameters are out of bounds
+     * @throws \Exception
      */
     public function testException()
     {
+        // Given
+        $m     = 2;
+        $n     = 3;
+        $angle = \M_PI;
+        $size  = 2;
+
+        // Then
         $this->expectException(OutOfBoundsException::class);
+
         // When
-        $matrix = MatrixFactory::givens(2, 3, \M_PI, 2);
+        $matrix = MatrixFactory::givens($m, $n, $angle, $size);
     }
 
     /**
@@ -24,14 +33,21 @@ class GivensMatrixTest extends \PHPUnit\Framework\TestCase
      * @param        float $angle
      * @param        int $size
      * @param        array $expected
+     * @throws       \Exception
      */
     public function testGivensMatrix(int $m, int $n, float $angle, int $size, array $expected)
     {
+        // When
         $G = MatrixFactory::givens($m, $n, $angle, $size);
+
+        // Then
         $this->assertEquals($expected, $G->getMatrix());
     }
 
-    public function dataProviderForTestGivensMatrix()
+    /**
+     * @return array
+     */
+    public function dataProviderForTestGivensMatrix(): array
     {
         return [
             [
