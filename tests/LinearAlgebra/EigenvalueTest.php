@@ -12,12 +12,38 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForEigenvalues
      * @param        array $A
      * @param        array $S
+     * @throws       \Exception
      */
     public function testClosedFormPolynomialRootMethod(array $A, array $S)
     {
+        // Given
         $A = MatrixFactory::create($A);
-        $this->assertEquals($S, Eigenvalue::closedFormPolynomialRootMethod($A), '', 0.0001);
+
+        // When
+        $eigenvalues = Eigenvalue::closedFormPolynomialRootMethod($A);
+
+        // Then
+        $this->assertEquals($S, $eigenvalues, '', 0.0001);
         $this->assertEquals($S, $A->eigenvalues(Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD), '', 0.0001);
+    }
+
+    /**
+     * @test         Matrix eigenvalues using closedFormPolynomialRootMethod returns the expected eigenvalues
+     * @dataProvider dataProviderForEigenvalues
+     * @param        array $A
+     * @param        array $S
+     * @throws       \Exception
+     */
+    public function testClosedFormPolynomialRootMethodViaMatrix(array $A, array $S)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $eigenvalues = $A->eigenvalues(Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD);
+
+        // Then
+        $this->assertEquals($S, $eigenvalues, '', 0.0001);
     }
 
     /**
@@ -25,12 +51,37 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForSymmetricEigenvalues
      * @param        array $A
      * @param        array $S
+     * @throws       \Exception
      */
     public function testJacobiMethod(array $A, array $S)
     {
+        // Given
         $A = MatrixFactory::create($A);
-        $this->assertEquals($S, Eigenvalue::jacobiMethod($A), '', 0.0001);
-        $this->assertEquals($S, $A->eigenvalues(Eigenvalue::JACOBI_METHOD), '', 0.0001);
+
+        // When
+        $eigenvalues = Eigenvalue::jacobiMethod($A);
+
+        // Then
+        $this->assertEquals($S, $eigenvalues, '', 0.0001);
+    }
+
+    /**
+     * @test         Matrix eigenvalues using jacobiMethod returns the expected eigenvalues
+     * @dataProvider dataProviderForSymmetricEigenvalues
+     * @param        array $A
+     * @param        array $S
+     * @throws       \Exception
+     */
+    public function testJacobiMethodViaMatrix(array $A, array $S)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $eigenvalues = $A->eigenvalues(Eigenvalue::JACOBI_METHOD);
+
+        // Then
+        $this->assertEquals($S, $eigenvalues, '', 0.0001);
     }
 
     /**
@@ -39,14 +90,43 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
      * @param        array $A
      * @param        array $S
      * @param        float $max_abs_eigenvalue maximum absolute eigenvalue
+     * @throws       \Exception
      */
     public function testPowerIteration(array $A, array $S, float $max_abs_eigenvalue)
     {
+        // Given
         $A = MatrixFactory::create($A);
-        $this->assertEquals([$max_abs_eigenvalue], Eigenvalue::powerIteration($A), '', 0.0001);
-        $this->assertEquals([$max_abs_eigenvalue], $A->eigenvalues(Eigenvalue::POWER_ITERATION), '', 0.0001);
+
+        // When
+        $eigenvalues = Eigenvalue::powerIteration($A);
+
+        // Then
+        $this->assertEquals([$max_abs_eigenvalue], $eigenvalues, '', 0.0001);
     }
 
+    /**
+     * @test         Matrix eigenvalues using powerIterationMethod returns the expected eigenvalues
+     * @dataProvider dataProviderForEigenvalues
+     * @param        array $A
+     * @param        array $S
+     * @param        float $max_abs_eigenvalue maximum absolute eigenvalue
+     * @throws       \Exception
+     */
+    public function testPowerIterationViaMatrix(array $A, array $S, float $max_abs_eigenvalue)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $eigenvalues = $A->eigenvalues(Eigenvalue::POWER_ITERATION);
+
+        // Then
+        $this->assertEquals([$max_abs_eigenvalue], $eigenvalues, '', 0.0001);
+    }
+
+    /**
+     * @return array
+     */
     public function dataProviderForEigenvalues(): array
     {
         return [
@@ -117,15 +197,23 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
      * @test         closedFormPolynomialRootMethod throws a BadDataException if the matrix is not the correct size (2x2 or 3x3)
      * @dataProvider dataProviderForEigenvalueException
      * @param        array $A
+     * @throws       \Exception
      */
     public function testClosedFormPolynomialRootMethodExceptionMatrixNotCorrectSize(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Eigenvalue::closedFormPolynomialRootMethod($A);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForEigenvalueException(): array
     {
         return [
@@ -152,6 +240,9 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForSymmetricEigenvalues(): array
     {
         return [
@@ -264,10 +355,12 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test Matrix eigenvalues throws a MatrixException if the eigenvalue method is not valid
+     * @test   Matrix eigenvalues throws a MatrixException if the eigenvalue method is not valid
+     * @throws \Exception
      */
     public function testMatrixEigenvalueInvalidMethodException()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
@@ -275,7 +368,10 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         ]);
         $invalidMethod = 'SecretMethod';
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->eigenvalues($invalidMethod);
     }
 
@@ -283,14 +379,23 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
      * @testCase     JacobiMethod throws a BadDataException if the matrix is not the correct size.
      * @dataProvider dataProviderForSymmetricException
      * @param        array $A
+     * @throws       \Exception
      */
     public function testJacobiExceptionMatrixNotCorrectSize(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Eigenvalue::jacobiMethod($A);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForSymmetricException(): array
     {
         return [
@@ -321,14 +426,23 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
      * @test         Power Iteration throws exception if number of iterations is exceeded
      * @dataProvider dataProviderForIterationFailure
      * @param        array $A
+     * @throws       \Exception
      */
     public function testPowerIterationFail(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
+
+        // Then
         $this->expectException(Exception\FunctionFailedToConvergeException::class);
+
+        // When
         Eigenvalue::powerIteration($A, 0);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForIterationFailure(): array
     {
         return [

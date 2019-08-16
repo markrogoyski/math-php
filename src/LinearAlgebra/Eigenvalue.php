@@ -4,7 +4,6 @@ namespace MathPHP\LinearAlgebra;
 use MathPHP\Exception;
 use MathPHP\Functions\Polynomial;
 use MathPHP\Functions\Support;
-use MathPHP\LinearAlgebra\MatrixFactory;
 
 class Eigenvalue
 {
@@ -179,29 +178,33 @@ class Eigenvalue
      *       bₖᐪbₖ
      *
      * https://en.wikipedia.org/wiki/Power_iteration
+     *
      * @param Matrix $A
      * @param int $iterations max number of iterations to perform
      *
      * @return float[] most extreme eigenvalue
+     *
      * @throws Exception\BadDataException if the matrix is not square
      */
     public static function powerIteration(Matrix $A, int $iterations = 1000): array
     {
         self::checkMatrix($A);
         
-        $b = MatrixFactory::random($A->getM(), 1);
+        $b    = MatrixFactory::random($A->getM(), 1);
         $newμ = 0;
-        $μ = -1;
+        $μ    = -1;
+
         while (!Support::isEqual($μ, $newμ)) {
             if ($iterations <= 0) {
-                throw new Exception\FunctionFailedToConvergeException("Maximum number of iterations excecuted.");
+                throw new Exception\FunctionFailedToConvergeException("Maximum number of iterations exceeded.");
             }
-            $μ = $newμ;
-            $Ab = $A->multiply($b);
-            $b = $Ab->scalarDivide($Ab->frobeniusNorm());
+            $μ    = $newμ;
+            $Ab   = $A->multiply($b);
+            $b    = $Ab->scalarDivide($Ab->frobeniusNorm());
             $newμ = $b->transpose()->multiply($A)->multiply($b)->get(0, 0) / $b->transpose()->multiply($b)->get(0, 0);
             $iterations--;
         }
+
         return [$newμ];
     }
 }
