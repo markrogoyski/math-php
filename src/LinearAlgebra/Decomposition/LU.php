@@ -1,22 +1,65 @@
 <?php
-
 namespace MathPHP\LinearAlgebra\Decomposition;
 
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 
+/**
+ * LU Decomposition (Doolittle decomposition) with pivoting via permutation matrix
+ *
+ * A matrix has an LU-factorization if it can be expressed as the product of a
+ * lower-triangular matrix L and an upper-triangular matrix U. If A is a nonsingular
+ * matrix, then we can find a permutation matrix P so that PA will have an LU decomposition:
+ *   PA = LU
+ *
+ * https://en.wikipedia.org/wiki/LU_decomposition
+ * https://en.wikipedia.org/wiki/LU_decomposition#Doolittle_algorithm
+ *
+ * L: Lower triangular matrix--all entries above the main diagonal are zero.
+ *    The main diagonal will be all ones.
+ * U: Upper triangular matrix--all entries below the main diagonal are zero.
+ * P: Permutation matrix--Identity matrix with possible rows interchanged.
+ *
+ * Example:
+ *      [1 3 5]
+ *  A = [2 4 7]
+ *      [1 1 0]
+ *
+ * Create permutation matrix P:
+ *      [0 1 0]
+ *  P = [1 0 0]
+ *      [0 0 1]
+ *
+ * Pivot A to be PA:
+ *       [0 1 0][1 3 5]   [2 4 7]
+ *  PA = [1 0 0][2 4 7] = [1 3 5]
+ *       [0 0 1][1 1 0]   [1 1 0]
+ *
+ * Calculate L and U
+ *
+ *     [1    0 0]      [2 4   7]
+ * L = [0.5  1 0]  U = [0 1 1.5]
+ *     [0.5 -1 1]      [0 0  -2]
+ */
 class LU
 {
-    /** @var Matrix Lower matrix in LUP decomposition */
-    protected $L;
+    /** @var Matrix Lower triangular matrix in LUP decomposition */
+    private $L;
 
-    /** @var Matrix Upper matrix in LUP decomposition */
-    protected $U;
+    /** @var Matrix Upper triangular matrix in LUP decomposition */
+    private $U;
 
     /** @var Matrix Permutation matrix in LUP decomposition */
-    protected $P;
+    private $P;
 
+    /**
+     * LU constructor
+     *
+     * @param Matrix $L Lower triangular matrix
+     * @param Matrix $U Upper triangular matrix
+     * @param Matrix $P Permutation matrix
+     */
     private function __construct(Matrix $L, Matrix $U, Matrix $P)
     {
         $this->L = $L;
@@ -55,50 +98,17 @@ class LU
     }
 
     /**
-     * LU Decomposition (Doolittle decomposition) with pivoting via permutation matrix
+     * Decompose a matrix into an LU Decomposition (using Doolittle decomposition) with pivoting via permutation matrix
+     * Factory method to create LU objects.
      *
-     * A matrix has an LU-factorization if it can be expressed as the product of a
-     * lower-triangular matrix L and an upper-triangular matrix U. If A is a nonsingular
-     * matrix, then we can find a permutation matrix P so that PA will have an LU decomposition:
-     *   PA = LU
+     * @param Matrix $A
      *
-     * https://en.wikipedia.org/wiki/LU_decomposition
-     * https://en.wikipedia.org/wiki/LU_decomposition#Doolittle_algorithm
+     * @return LU
      *
-     * L: Lower triangular matrix--all entries above the main diagonal are zero.
-     *    The main diagonal will be all ones.
-     * U: Upper tirangular matrix--all entries below the main diagonal are zero.
-     * P: Permutation matrix--Identity matrix with possible rows interchanged.
-     *
-     * Example:
-     *      [1 3 5]
-     *  A = [2 4 7]
-     *      [1 1 0]
-     *
-     * Create permutation matrix P:
-     *      [0 1 0]
-     *  P = [1 0 0]
-     *      [0 0 1]
-     *
-     * Pivot A to be PA:
-     *       [0 1 0][1 3 5]   [2 4 7]
-     *  PA = [1 0 0][2 4 7] = [1 3 5]
-     *       [0 0 1][1 1 0]   [1 1 0]
-     *
-     * Calculate L and U
-     *
-     *     [1    0 0]      [2 4   7]
-     * L = [0.5  1 0]  U = [0 1 1.5]
-     *     [0.5 -1 1]      [0 0  -2]
-     *
-     * @return Matrix[] [
-     *   L: Lower triangular matrix
-     *   U: Upper triangular matrix
-     *   P: Permutation matrix
-     * ]
-     *
-     * @throws Exception\MatrixException if matrix is not square
+     * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException
      * @throws Exception\VectorException
      */
@@ -139,7 +149,7 @@ class LU
             }
         }
 
-        // return the object
+        // Create LU decomposition
         return new LU(MatrixFactory::create($L), MatrixFactory::create($U), $P);
     }
 
@@ -166,7 +176,9 @@ class LU
      *
      * @return Matrix
      *
+     * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
      * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException
      */
