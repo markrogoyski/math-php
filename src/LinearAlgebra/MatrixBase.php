@@ -187,7 +187,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @param int $mᵢ Row to swap into row position mⱼ
      * @param int $mⱼ Row to swap into row position mᵢ
      *
-     * @return Matrix with rows mᵢ and mⱼ interchanged
+     * @return MatrixInterface with rows mᵢ and mⱼ interchanged
      *
      * @throws Exception\MatrixException if row to interchange does not exist
      * @throws Exception\IncorrectTypeException
@@ -219,7 +219,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @param int $nᵢ Column to exclude
      *
-     * @return Matrix with column nᵢ excluded
+     * @return MatrixInterface with column nᵢ excluded
      *
      * @throws Exception\MatrixException if column to exclude does not exist
      * @throws Exception\IncorrectTypeException
@@ -252,7 +252,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @param int $mᵢ Row to exclude
      *
-     * @return Matrix with row mᵢ excluded
+     * @return MatrixInterface with row mᵢ excluded
      *
      * @throws Exception\MatrixException if row to exclude does not exist
      * @throws Exception\IncorrectTypeException
@@ -288,7 +288,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @param int $nᵢ Column to swap into column position nⱼ
      * @param int $nⱼ Column to swap into column position nᵢ
      *
-     * @return Matrix with columns nᵢ and nⱼ interchanged
+     * @return MatrixInterface with columns nᵢ and nⱼ interchanged
      *
      * @throws Exception\MatrixException if column to interchange does not exist
      * @throws Exception\IncorrectTypeException
@@ -336,7 +336,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @param  Matrix $B Matrix to add to this matrix
      *
-     * @return Matrix
+     * @return MatrixInterface
      *
      * @throws Exception\IncorrectTypeException
      */
@@ -390,7 +390,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @param  Matrix $B Matrix columns to add to matrix A
      *
-     * @return Matrix
+     * @return MatrixInterface
      *
      * @throws Exception\MatrixException if matrices do not have the same number of rows
      * @throws Exception\IncorrectTypeException
@@ -433,7 +433,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @param  Matrix $B Matrix rows to add to matrix A
      *
-     * @return Matrix
+     * @return MatrixInterface
      *
      * @throws Exception\MatrixException if matrices do not have the same number of columns
      * @throws Exception\IncorrectTypeException
@@ -469,7 +469,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @param  Matrix $B Matrix rows to add to matrix A
      *
-     * @return Matrix
+     * @return MatrixInterface
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
@@ -508,7 +508,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @param  Matrix $B Matrix columns to add to matrix A
      *
-     * @return Matrix
+     * @return MatrixInterface
      *
      * @throws Exception\MatrixException if matrices do not have the same number of rows
      * @throws Exception\IncorrectTypeException
@@ -544,7 +544,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @param int $m₂ Ending row
      * @param int $n₂ Ending column
      *
-     * @return Matrix
+     * @return MatrixInterface
      *
      * @throws Exception\MatrixException
      */
