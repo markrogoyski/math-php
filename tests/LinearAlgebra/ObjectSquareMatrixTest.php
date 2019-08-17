@@ -1,71 +1,93 @@
 <?php
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\Functions\Polynomial;
+use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\ObjectSquareMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Number\Complex;
 use MathPHP\Exception;
 
-class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
+class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @dataProvider dataProviderException
+     * @test The constructor throws the proper exceptions
+     * @dataProvider dataProviderConstructorException
      */
-    public function testMatrixException(array $A, array $B)
+    public function testMatrixConstructorException(array $A, $exception)
     {
-        $A = MatrixFactory::create($A);
-        $B = MatrixFactory::create($B);
-        $this->expectException(Exception\MatrixException::class);
-        $sum = $A->add($B);
+        $this->expectException($exception);
+        $A = new ObjectSquareMatrix($A);
     }
 
-    public function dataProviderException()
+    public function dataProviderConstructorException()
     {
         return [
             [
-                [
-                    [new Polynomial([1, 2]), new Polynomial([2, 1])],
-                    [new Polynomial([2, 2]), new Polynomial([2, 0])],
-                ],
-                [
-                    [new Polynomial([1, 2])],
-                ],
+                [[new \stdClass()]],
+                Exception\IncorrectTypeException::class,
+            ],
+            [
+                [[new \stdClass(), new Polynomial([1, 2, 3])],
+                [new \stdClass(), new Polynomial([1, 2, 3])]],
+                Exception\IncorrectTypeException::class,
             ],
         ];
     }
 
-    public function testMatrixConstructException()
+    /**
+     * @test Addition throws the proper exceptions
+     * @dataProvider dataProviderForArithmaticExceptions
+     */
+    public function testMatrixAddException($A, $B, $exception)
     {
-        $object = new Vector([1, 4, 7]);
-        $this->expectException(Exception\IncorrectTypeException::class);
-        $A = MatrixFactory::create([[$object]]);
-    }
-
-    public function testMatrixAddException()
-    {
-        $polynomial = new Polynomial([1, 4, 7]);
-        $complex = new Complex(1, 4);
-        $A = MatrixFactory::create([[$polynomial]]);
-        $B = MatrixFactory::create([[$complex]]);
-        $this->expectException(Exception\IncorrectTypeException::class);
+        $A = MatrixFactory::create($A);
+        $this->expectException($exception);
         $C = $A->add($B);
     }
 
-    public function testMatrixMulSizeException()
+    /**
+     * @test Subtraction throws the proper exceptions
+     * @dataProvider dataProviderForArithmaticExceptions
+     */
+    public function testMatrixSubtractException($A, $B, $exception)
     {
-        $polynomial = new Polynomial([1, 4, 7]);
-        $A = MatrixFactory::create([[$polynomial, $polynomial]]);
-        $B = MatrixFactory::create([[$polynomial]]);
-        $this->expectException(Exception\MatrixException::class);
+        $A = MatrixFactory::create($A);
+        $this->expectException($exception);
+        $C = $A->subtract($B);
+    }
+
+    /**
+     * @test Subtraction throws the proper exceptions
+     * @dataProvider dataProviderForArithmaticExceptions
+     */
+    public function testMatrixMultiplyException($A, $B, $exception)
+    {
+        $A = new ObjectSquareMatrix($A);
+        $this->expectException($exception);
         $C = $A->multiply($B);
     }
 
-    public function testMatrixMulTypeException()
+    public function dataProviderForArithmaticExceptions()
     {
-        $polynomial = new Polynomial([1, 4, 7]);
-        $A = MatrixFactory::create([[$polynomial, $polynomial]]);
-        $this->expectException(Exception\IncorrectTypeException::class);
-        $C = $A->multiply(21);
+        return[
+            [ // Different Sizes
+                [[new Polynomial([1, 2, 3]), new Polynomial([1, 2, 3])],
+                [new Polynomial([1, 2, 3]), new Polynomial([1, 2, 3])]],
+                MatrixFactory::create([[new Polynomial([1, 2, 3])]]),
+                Exception\MatrixException::class,
+            ],
+            [ // Different Types
+                [[new Polynomial([1, 2, 3])]],
+                new ObjectSquareMatrix([[new Complex(1, 2)]]),
+                Exception\IncorrectTypeException::class,
+            ],
+            [ // Not a Matrix
+                [[new Polynomial([1, 2, 3])]],
+                new Complex(1, 2),
+                Exception\IncorrectTypeException::class,
+            ],
+        ];
     }
     
     /**
@@ -222,6 +244,35 @@ class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
                 [
                     [new Polynomial([2, 1, 0]), new Polynomial([2, 1, 0])],
                     [new Polynomial([2, 1, 0]), new Polynomial([2, 1, 0])],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @test Matrix can be multiplied by a vector
+     * @dataProvider dataProviderMultiplyVector
+     */
+    public function testMultiplyVector(array $A, array $B, array $expected)
+    {
+        $A = MatrixFactory::create($A);
+        $B = new Vector($B);
+        $sum = $A->multiply($B);
+        $expected = matrixFactory::create($expected);
+        $this->assertEquals($sum, $expected);
+    }
+    public function dataProviderMultiplyVector()
+    {
+        return [
+            [
+                [
+                    [new Polynomial([1, 0]), new Polynomial([0, 0])],
+                    [new Polynomial([0, 0]), new Polynomial([1, 0])],
+                ],
+                [new Polynomial([1, 0]), new Polynomial([1, 1])],
+                [
+                    [new Polynomial([1, 0, 0])],
+                    [new Polynomial([1, 1, 0])],
                 ],
             ],
         ];

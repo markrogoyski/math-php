@@ -951,7 +951,6 @@ class Matrix extends MatrixBase implements MatrixInterface
      *  - meanDeviation
      *  - covarianceMatrix
      *  - adjugate
-     *  - submatrix
      *  - insert
      **************************************************************************/
 
