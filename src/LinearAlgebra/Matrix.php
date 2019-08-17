@@ -3018,7 +3018,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - ref (row echelon form)
      *  - rref (reduced row echelon form)
      *  - LU decomposition
+     *  - QR decomposition
      *  - Cholesky decomposition
+     *  - Crout decomposition
      **************************************************************************/
 
     /**
@@ -3349,10 +3351,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function luDecomposition(): array
     {
-        $decomposition = Decomposition\LU::decompose($this);
-        $this->L = $decomposition->getL();
-        $this->U = $decomposition->getU();
-        $this->P = $decomposition->getP();
+        $lu = Decomposition\LU::decompose($this);
+
+        $this->L = $lu->getL();
+        $this->U = $lu->getU();
+        $this->P = $lu->getP();
+
         return [
             'L' => $this->L,
             'U' => $this->U,
@@ -3476,20 +3480,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Floating point adjustment for zero values
-     */
-    protected function floatingPointZeroAdjustment()
-    {
-        for ($i = 0; $i < $this->m; $i++) {
-            for ($j = 0; $j < $this->n; $j++) {
-                if (Support::isZero($this->A[$i][$j])) {
-                    $this->A[$i][$j] = 0;
-                }
-            }
-        }
-    }
-
-    /**
      * QR Decomposition using Householder reflections
      *
      * A = QR
@@ -3503,10 +3493,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function qrDecomposition(): array
     {
-        $decomposition = Decomposition\QR::decompose($this);
+        $qr = Decomposition\QR::decompose($this);
+
         return [
-            'Q' => $decomposition->getQ(),
-            'R' => $decomposition->getR(),
+            'Q' => $qr->getQ(),
+            'R' => $qr->getR(),
         ];
     }
 
