@@ -3349,11 +3349,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function luDecomposition(): array
     {
-        $results = Decompositions\LU::decompose($this);
-        $this->L = $results['L'];
-        $this->U = $results['U'];
-        $this->P = $results['P'];
-        return $results;
+        $decomposition = Decomposition\LU::decompose($this);
+        $this->L = $decomposition->getL();
+        $this->U = $decomposition->getU();
+        $this->P = $decomposition->getP();
+        return [
+            'L' => $this->L,
+            'U' => $this->U,
+            'P' => $this->P,
+        ];
     }
 
     /**
@@ -3499,78 +3503,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function qrDecomposition(): array
     {
-        $n = $this->n;  // columns
-        $m = $this->m;  // rows
-        $HA = $this;
-
-        // If the source matrix is square or wider than it is tall, the final
-        // householder matrix will be the identity matrix with a -1 in the bottom
-        // corner. The effect of this final transformation would only change signs
-        // on existing matricies. Both R and Q will already be in approprite forms
-        // in the next to the last step. We can skip the last transformation without
-        // affecting the validity of the results. Results indicate other software
-        // behaves similarly.
-        //
-        // This is because on a 1x1 matrix uuᵀ = uᵀu, so I - [[2]] = [[-1]]
-        $numReflections = min($m - 1, $n);
-        $FullI = MatrixFactory::identity($m);
-        $Q = $FullI;
-        for ($i = 0; $i < $numReflections; $i++) {
-            // Remove the leftmost $i columns and upper $i rows
-            $A = $HA->submatrix($i, $i, $m - 1, $n - 1);
-            
-            //Create the householder matrix
-            $innerH = $A->householderMatrix();
-            
-            // Embed the smaller matrix within a full rank Identity matrix
-            $H = $FullI->insert($innerH, $i, $i);
-            $Q = $Q->multiply($H);
-            $HA = $H->multiply($HA);
-        }
-        $R = $HA;
+        $decomposition = Decomposition\QR::decompose($this);
         return [
-            'Q' => $Q->submatrix(0, 0, $m - 1, min($m, $n) - 1),
-            'R' => $R->submatrix(0, 0, min($m, $n) - 1, $n - 1),
+            'Q' => $decomposition->getQ(),
+            'R' => $decomposition->getR(),
         ];
-    }
-
-    /**
-     * Householder Matrix
-     *
-     * u = x ± αe   where α = ‖x‖ and sgn(α) = sgn(x)
-     *
-     *              uuᵀ
-     * Q = I - 2 * -----
-     *              uᵀu
-     *
-     * @return Matrix
-     *
-     */
-    private function householderMatrix(): Matrix
-    {
-        $m = $this->m;
-        $I = MatrixFactory::identity($m);
-        
-        //  x is the leftmost column of A
-        $x = $this->submatrix(0, 0, $m - 1, 0);
-        
-        // α is the square root of the sum of squares of x with the correct sign
-        $α = Special::sgn($x[0][0]) * $x->frobeniusNorm();
-
-        // e is the first column of I
-        $e = $I->submatrix(0, 0, $m - 1, 0);
-        
-        // u = x ± αe
-        $u = $e->scalarMultiply($α)->add($x);
-
-        $uᵀ = $u->transpose();
-        $uᵀu = $uᵀ->multiply($u)->get(0, 0);
-        $uuᵀ = $u->multiply($uᵀ);
-        if ($uᵀu == 0) {
-            return $I;
-        }
-        // We scale $uuᵀ and subtract it from the identity matrix
-        return $I->subtract($uuᵀ->scalarMultiply(2 / $uᵀu));
     }
 
     /**************************************************************************
