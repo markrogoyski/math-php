@@ -13,6 +13,9 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  *
  * Q is an orthogonal matrix
  * R is an upper triangular matrix
+ *
+ * @property-read Matrix $Q orthogonal matrix
+ * @property-read Matrix $R upper triangular matrix
  */
 class QR implements \ArrayAccess
 {
