@@ -23,9 +23,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var number Determinant */
     protected $det;
 
-    /** @var Matrix Inverse */
-    protected $A⁻¹;
-
     /** @var MatrixCatalog */
     protected $catalog;
 
@@ -1779,8 +1776,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function inverse(): Matrix
     {
-        if (isset($this->A⁻¹)) {
-            return $this->A⁻¹;
+        if ($this->catalog->hasInverse()) {
+            return $this->catalog->getInverse();
         }
 
         if (!$this->isSquare()) {
@@ -1816,7 +1813,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             ]);
             $A⁻¹ = $R->scalarMultiply(1 / $│A│);
 
-            $this->A⁻¹ = $A⁻¹;
+            $this->catalog->addInverse($A⁻¹);
             return $A⁻¹;
         }
 
@@ -1832,7 +1829,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         $A⁻¹ = MatrixFactory::create($A⁻¹);
 
-        $this->A⁻¹ = $A⁻¹;
+        $this->catalog->addInverse($A⁻¹);
         return $A⁻¹;
     }
 
@@ -3242,21 +3239,21 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         // If inverse is already calculated, solve: x = A⁻¹b
-        if (isset($this->A⁻¹)) {
-            return new Vector($this->A⁻¹->multiply($b)->getColumn(0));
+        if ($this->catalog->hasInverse()) {
+            return new Vector($this->catalog->getInverse()->multiply($b)->getColumn(0));
         }
 
         // If 2x2, just compute the inverse and solve: x = A⁻¹b
         if ($this->m === 2 && $this->n === 2) {
-            $this->inverse();
-            return new Vector($this->A⁻¹->multiply($b)->getColumn(0));
+            $A⁻¹ = $this->inverse();
+            return new Vector($A⁻¹->multiply($b)->getColumn(0));
         }
 
         // For 3x3 or higher, check if the RREF is already computed.
         // If so, just compute the inverse and solve: x = A⁻¹b
-        if (isset($this->rref)) {
-            $this->inverse();
-            return new Vector($this->A⁻¹->multiply($b)->getColumn(0));
+        if ($this->catalog->hasReducedRowEchelonForm()) {
+            $A⁻¹ = $this->inverse();
+            return new Vector($A⁻¹->multiply($b)->getColumn(0));
         }
 
         // No inverse or RREF pre-computed.

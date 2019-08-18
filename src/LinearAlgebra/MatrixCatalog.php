@@ -3,6 +3,9 @@ namespace MathPHP\LinearAlgebra;
 
 class MatrixCatalog
 {
+    /** @var Matrix inverse */
+    private $A⁻¹;
+
     /** @var Reduction\RowEchelonForm */
     private $REF;
 
@@ -20,6 +23,37 @@ class MatrixCatalog
 
     /** @var Decomposition\Crout */
     private $crout;
+
+    /**************************************************************************
+     * DERIVED MATRICES
+     *  - inverse
+     **************************************************************************/
+
+    // INVERSE
+
+    /**
+     * @param Matrix $A⁻¹
+     */
+    public function addInverse(Matrix $A⁻¹)
+    {
+        $this->A⁻¹ = $A⁻¹;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasInverse()
+    {
+        return isset($this->A⁻¹);
+    }
+
+    /**
+     * @return Matrix
+     */
+    public function getInverse(): Matrix
+    {
+        return $this->A⁻¹;
+    }
 
     /**************************************************************************
      * MATRIX REDUCTIONS
