@@ -3067,13 +3067,13 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return $this->catalog->getReducedRowEchelonForm();
     }
 
-    /**************************************************************************
-     * MATRIX DECOMPOSITIONS - Return a Matrix (or array of Matrices)
+    /********************************************************************************
+     * MATRIX DECOMPOSITIONS - Returns a Decomposition object that contains Matrices
      *  - LU decomposition
      *  - QR decomposition
      *  - Cholesky decomposition
      *  - Crout decomposition
-     **************************************************************************/
+     ********************************************************************************/
 
     /**
      * LU Decomposition (Doolittle decomposition) with pivoting via permutation matrix
