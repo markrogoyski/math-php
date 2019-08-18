@@ -165,7 +165,7 @@ class PCA
             $scaled_data = $this->data;
         } else {
             $this->checkNewData($new_data);
-            $scaled_data = $this->normalizeData($newdata);
+            $scaled_data = $this->normalizeData($new_data);
         }
         return $scaled_data->multiply($this->EVec);
     }
@@ -215,7 +215,7 @@ class PCA
             $X = $this->data;
         } else {
             $this->checkNewData($new_data);
-            $X = normalizeData($new_data);
+            $X = $this->normalizeData($new_data);
         }
         
         $Xprime = $X->transpose();
@@ -254,7 +254,7 @@ class PCA
             $X = $this->data;
         } else {
             $this->checkNewData($new_data);
-            $X = normalizeData($new_data);
+            $X = $this->normalizeData($new_data);
         }
         $Xprime = $X->transpose();
         $initialized = false;
