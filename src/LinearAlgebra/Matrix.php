@@ -3071,45 +3071,14 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * LU Decomposition (Doolittle decomposition) with pivoting via permutation matrix
      *
-     * A matrix has an LU-factorization if it can be expressed as the product of a
-     * lower-triangular matrix L and an upper-triangular matrix U. If A is a nonsingular
-     * matrix, then we can find a permutation matrix P so that PA will have an LU decomposition:
-     *   PA = LU
-     *
-     * https://en.wikipedia.org/wiki/LU_decomposition
-     * https://en.wikipedia.org/wiki/LU_decomposition#Doolittle_algorithm
+     * A = LU(P)
      *
      * L: Lower triangular matrix--all entries above the main diagonal are zero.
      *    The main diagonal will be all ones.
      * U: Upper tirangular matrix--all entries below the main diagonal are zero.
      * P: Permutation matrix--Identity matrix with possible rows interchanged.
      *
-     * Example:
-     *      [1 3 5]
-     *  A = [2 4 7]
-     *      [1 1 0]
-     *
-     * Create permutation matrix P:
-     *      [0 1 0]
-     *  P = [1 0 0]
-     *      [0 0 1]
-     *
-     * Pivot A to be PA:
-     *       [0 1 0][1 3 5]   [2 4 7]
-     *  PA = [1 0 0][2 4 7] = [1 3 5]
-     *       [0 0 1][1 1 0]   [1 1 0]
-     *
-     * Calculate L and U
-     *
-     *     [1    0 0]      [2 4   7]
-     * L = [0.5  1 0]  U = [0 1 1.5]
-     *     [0.5 -1 1]      [0 0  -2]
-     *
-     * @return Matrix[] [
-     *   L: Lower triangular matrix
-     *   U: Upper triangular matrix
-     *   P: Permutation matrix
-     * ]
+     * @return Decomposition\LU
      *
      * @throws Exception\MatrixException if matrix is not square
      * @throws Exception\IncorrectTypeException
@@ -3125,20 +3094,13 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
     /**
      * Cholesky decomposition
-     * A decomposition of a square, positive definitive matrix
-     * into the product of a lower triangular matrix and its transpose.
      *
-     * https://en.wikipedia.org/wiki/Cholesky_decomposition
+     * A decomposition of a square, positive definitive matrix into the product of a lower triangular matrix and its transpose.
      *
      * A = LLᵀ
      *
-     *     [a₁₁ a₁₂ a₁₃]
-     * A = [a₂₁ a₂₂ a₂₃]
-     *     [a₃₁ a₃₂ a₃₃]
-     *
-     *     [l₁₁  0   0 ] [l₁₁ l₁₂ l₁₃]
-     * A = [l₂₁ l₂₂  0 ] [ 0  l₂₂ l₂₃] ≡ LLᵀ
-     *     [l₃₁ l₃₂ l₃₃] [ 0   0  l₃₃]
+     * L:  Lower triangular matrix
+     * Lᵀ: Transpose of lower triangular matrix
      *
      * @return Decomposition\Cholesky
      *
@@ -3156,8 +3118,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
     /**
      * Crout decomposition
-     * An LU decomposition which decomposes a matrix into a lower triangular matrix (L), an upper triangular matrix (U).
-     * https://en.wikipedia.org/wiki/Crout_matrix_decomposition
+     *
+     * Decomposes a matrix into a lower triangular matrix (L), an upper triangular matrix (U).
      *
      * A = LU where L = LD
      * A = (LD)U
