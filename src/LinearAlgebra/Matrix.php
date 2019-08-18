@@ -32,14 +32,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var Matrix Inverse */
     protected $A⁻¹;
 
-    /** @var Matrix Lower matrix in LUP decomposition */
-    protected $L;
-
-    /** @var Matrix Upper matrix in LUP decomposition */
-    protected $U;
-
-    /** @var Matrix Permutation matrix in LUP decomposition */
-    protected $P;
+    /** @var Decomposition\LU */
+    protected $lu;
 
     /** @var float Error/zero tolerance */
     protected $ε;
@@ -3122,19 +3116,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\OutOfBoundsException
      * @throws Exception\VectorException
      */
-    public function luDecomposition(): array
+    public function luDecomposition(): Decomposition\LU
     {
-        $lu = Decomposition\LU::decompose($this);
+        $this->lu = Decomposition\LU::decompose($this);
 
-        $this->L = $lu->getL();
-        $this->U = $lu->getU();
-        $this->P = $lu->getP();
-
-        return [
-            'L' => $this->L,
-            'U' => $this->U,
-            'P' => $this->P,
-        ];
+        return $this->lu;
     }
 
     /**
@@ -3313,11 +3299,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         // No inverse or RREF pre-computed.
         // Use LU Decomposition.
-        $this->luDecomposition();
-        $L = $this->L;
-        $U = $this->U;
-        $P = $this->P;
-        $m = $this->m;
+        $lu = $this->luDecomposition();
+        $L  = $lu->L;
+        $U  = $lu->U;
+        $P  = $lu->P;
+        $m  = $this->m;
 
         // Pivot solution vector b with permutation matrix: Pb
         $Pb = $P->multiply($b);
