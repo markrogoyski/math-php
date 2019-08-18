@@ -3,6 +3,12 @@ namespace MathPHP\LinearAlgebra;
 
 class MatrixCatalog
 {
+    /** @var Reduction\RowEchelonForm */
+    private $REF;
+
+    /** @var Reduction\ReducedRowEchelonForm */
+    private $RREF;
+
     /** @var Decomposition\LU */
     private $LU;
 
@@ -14,6 +20,73 @@ class MatrixCatalog
 
     /** @var Decomposition\Crout */
     private $crout;
+
+    /**************************************************************************
+     * MATRIX REDUCTIONS
+     *  - ref (row echelon form)
+     *  - rref (reduced row echelon form)
+     **************************************************************************/
+
+    // ROW ECHELON FORM
+
+    /**
+     * @param Reduction\RowEchelonForm $REF
+     */
+    public function addRowEchelonForm(Reduction\RowEchelonForm $REF)
+    {
+        $this->REF = $REF;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasRowEchelonForm()
+    {
+        return isset($this->REF);
+    }
+
+    /**
+     * @return Reduction\RowEchelonForm
+     */
+    public function getRowEchelonForm(): Reduction\RowEchelonForm
+    {
+        return $this->REF;
+    }
+
+    // REDUCED ROW ECHELON FORM
+
+    /**
+     * @param Reduction\ReducedRowEchelonForm $RREF
+     */
+    public function addReducedRowEchelonForm(Reduction\ReducedRowEchelonForm $RREF)
+    {
+        $this->RREF = $RREF;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasReducedRowEchelonForm()
+    {
+        return isset($this->RREF);
+    }
+
+    /**
+     * @return Reduction\ReducedRowEchelonForm
+     */
+    public function getReducedRowEchelonForm(): Reduction\ReducedRowEchelonForm
+    {
+        return $this->RREF;
+    }
+
+    /**************************************************************************
+     * MATRIX DECOMPOSITIONS
+     *  - LU decomposition
+     *  - QR decomposition
+     *  - Cholesky decomposition
+     *  - Crout decomposition
+     **************************************************************************/
+
 
     // LU DECOMPOSITION
 

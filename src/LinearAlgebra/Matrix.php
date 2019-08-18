@@ -17,14 +17,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var int Number of columns */
     protected $n;
 
-    /** @var array Matrix array of arrays */
+    /** @var array[] Matrix data as array of arrays */
     protected $A;
-
-    /** @var Reduction\RowEchelonForm Matrix in row echelon form */
-    protected $ref;
-
-    /** @var Reduction\ReducedRowEchelonForm Matrix in reduced row echelon form */
-    protected $rref;
 
     /** @var number Determinant */
     protected $det;
@@ -3043,11 +3037,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function ref(): Reduction\RowEchelonForm
     {
-        if (!isset($this->ref)) {
-            $this->ref = Reduction\RowEchelonForm::reduce($this);
+        if (!$this->catalog->hasRowEchelonForm()) {
+            $this->catalog->addRowEchelonForm(Reduction\RowEchelonForm::reduce($this));
         }
 
-        return $this->ref;
+        return $this->catalog->getRowEchelonForm();
     }
 
     /**
@@ -3062,14 +3056,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function rref(): Reduction\ReducedRowEchelonForm
     {
-        if (!isset($this->rref)) {
-            if (!isset($this->ref)) {
-                $this->ref();
-            }
-            $this->rref = Reduction\ReducedRowEchelonForm::reduceFromRowEchelonForm($this->ref);
+        $ref = $this->ref();
+        if (!$this->catalog->hasReducedRowEchelonForm()) {
+            $this->catalog->addReducedRowEchelonForm(Reduction\ReducedRowEchelonForm::reduce($ref));
         }
 
-        return $this->rref;
+        return $this->catalog->getReducedRowEchelonForm();
     }
 
     /**************************************************************************
