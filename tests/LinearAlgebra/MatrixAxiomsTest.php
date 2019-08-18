@@ -2509,7 +2509,6 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $LLᵀ = $L->multiply($Lᵀ);
 
         // Then
-        $this->assertEquals($A, $LLᵀ);
         $this->assertEquals($A->getMatrix(), $LLᵀ->getMatrix());
     }
 

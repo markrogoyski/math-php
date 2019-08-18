@@ -32,8 +32,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var Matrix Inverse */
     protected $A⁻¹;
 
-    /** @var Decomposition\LU */
-    protected $lu;
+    /** @var MatrixCatalog */
+    protected $catalog;
 
     /** @var float Error/zero tolerance */
     protected $ε;
@@ -43,18 +43,30 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
     /**
      * Constructor
-     * @param array $A of arrays $A m x n matrix
+     *
+     * @param array[] $A of arrays $A m x n matrix
      *
      * @throws Exception\BadDataException if any rows have a different column count
      */
     public function __construct(array $A)
     {
-        $this->A = $A;
-        $this->m = count($A);
-        $this->n = $this->m > 0 ? count($A[0]) : 0;
-        $this->ε = self::ε;
+        $this->A       = $A;
+        $this->m       = count($A);
+        $this->n       = $this->m > 0 ? count($A[0]) : 0;
+        $this->ε       = self::ε;
+        $this->catalog = new MatrixCatalog();
 
-        foreach ($A as $i => $row) {
+        $this->validateMatrixDimensions();
+    }
+
+    /**
+     * Validate the matrix is entirely m x n
+     *
+     * @throws Exception\BadDataException
+     */
+    protected function validateMatrixDimensions()
+    {
+        foreach ($this->A as $i => $row) {
             if (count($row) !== $this->n) {
                 throw new Exception\BadDataException("Row $i has a different column count: " . count($row) . "; was expecting {$this->n}.");
             }
@@ -3087,9 +3099,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function luDecomposition(): Decomposition\LU
     {
-        $this->lu = Decomposition\LU::decompose($this);
+        if (!$this->catalog->hasLuDecomposition()) {
+            $this->catalog->addLuDecomposition(Decomposition\LU::decompose($this));
+        }
 
-        return $this->lu;
+        return $this->catalog->getLuDecomposition();
     }
 
     /**
@@ -3106,9 +3120,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function qrDecomposition(): Decomposition\QR
     {
-        $qr = Decomposition\QR::decompose($this);
+        if (!$this->catalog->hasQrDecomposition()) {
+            $this->catalog->addQrDecomposition(Decomposition\QR::decompose($this));
+        }
 
-        return $qr;
+        return $this->catalog->getQrDecomposition();
     }
 
     /**
@@ -3130,9 +3146,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function choleskyDecomposition(): Decomposition\Cholesky
     {
-        $cholesky = Decomposition\Cholesky::decompose($this);
+        if (!$this->catalog->hasCholeskyDecomposition()) {
+            $this->catalog->addCholeskyDecomposition(Decomposition\Cholesky::decompose($this));
+        }
 
-        return $cholesky;
+        return $this->catalog->getCholeskyDecomposition();
     }
 
     /**
@@ -3154,9 +3172,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function croutDecomposition(): Decomposition\Crout
     {
-        $crout = Decomposition\Crout::decompose($this);
+        if (!$this->catalog->hasCroutDecomposition()) {
+            $this->catalog->addCroutDecomposition(Decomposition\Crout::decompose($this));
+        }
 
-        return $crout;
+        return $this->catalog->getCroutDecomposition();
     }
 
     /**************************************************************************
