@@ -3059,9 +3059,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function rref(): Reduction\ReducedRowEchelonForm
     {
-        $ref = $this->ref();
         if (!$this->catalog->hasReducedRowEchelonForm()) {
-            $this->catalog->addReducedRowEchelonForm(Reduction\ReducedRowEchelonForm::reduce($ref));
+            $ref = $this->ref();
+            $this->catalog->addReducedRowEchelonForm($ref->rref());
         }
 
         return $this->catalog->getReducedRowEchelonForm();

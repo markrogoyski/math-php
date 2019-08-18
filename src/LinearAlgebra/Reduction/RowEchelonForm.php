@@ -46,6 +46,21 @@ class RowEchelonForm extends Matrix
     }
 
     /**
+     * Reduced row echelon form
+     *
+     * @return ReducedRowEchelonForm
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\BadParameterException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MatrixException
+     */
+    public function rref(): ReducedRowEchelonForm
+    {
+        return ReducedRowEchelonForm::reduceFromRowEchelonForm($this);
+    }
+
+    /**
      * Reduce a matrix to row echelon form
      * Factory method to create a RowEchelonForm matrix
      *
