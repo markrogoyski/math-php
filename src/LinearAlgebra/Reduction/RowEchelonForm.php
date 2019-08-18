@@ -19,7 +19,7 @@ use MathPHP\LinearAlgebra\Matrix;
 class RowEchelonForm extends Matrix
 {
     /** @var int Number of row swaps when computing REF */
-    private $swaps;
+    protected $swaps;
 
     /**
      * RowEchelonForm constructor
@@ -69,7 +69,10 @@ class RowEchelonForm extends Matrix
             list($R, $ref_swaps) = self::rowReductionToEchelonForm($A);
         }
 
-        return new RowEchelonForm($R, $ref_swaps);
+        $ref = new RowEchelonForm($R, $ref_swaps);
+        $ref->setError($A->getError());
+
+        return $ref;
     }
 
     /**

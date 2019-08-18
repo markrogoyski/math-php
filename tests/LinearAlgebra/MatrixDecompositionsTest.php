@@ -304,7 +304,7 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
         $R    = MatrixFactory::create($R);
         $rref = $A->rref();
 
-        $this->assertEquals($R, $rref, '', 0.000001);
+        $this->assertEquals($R->getMatrix(), $rref->getMatrix(), '', 0.000001);
         $this->assertTrue($rref->isRref());
         $this->assertTrue($rref->isRef());
     }

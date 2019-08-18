@@ -2,9 +2,9 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Functions\Map;
-use MathPHP\Functions\Special;
 use MathPHP\Functions\Support;
 use MathPHP\Exception;
+use MathPHP\LinearAlgebra\Reduction;
 
 /**
  * m x n Matrix
@@ -20,10 +20,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var array Matrix array of arrays */
     protected $A;
 
-    /** @var Matrix Row echelon form */
+    /** @var Reduction\RowEchelonForm Matrix in row echelon form */
     protected $ref;
 
-    /** @var Matrix Reduced row echelon form */
+    /** @var Reduction\ReducedRowEchelonForm Matrix in reduced row echelon form */
     protected $rref;
 
     /** @var number Determinant */
@@ -3045,85 +3045,24 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Ruduced row echelon form (row canonical form) - RREF
+     * Reduced row echelon form (row canonical form) - RREF
      *
-     * Algorithm:
-     *   (1) Reduce to REF
-     *   (2) Find pivot
-     *     (b) If no non-zero pivot in the column, go to the next column of the same row and repeat (2)
-     *   (2) Scale pivot row so pivot is 1 by using row division
-     *   (3) Eliminate elements above pivot (make 0 using row addition of the pivot row * a scaling factor)
-     *       so there are no non-zero elements in the pivot column in rows above the pivot
-     *   (4) Repeat from 2 from the next row and column
+     * @return Reduction\ReducedRowEchelonForm
      *
-     * @return Matrix in reduced row echelon form
-     *
+     * @throws Exception\BadDataException
      * @throws Exception\BadParameterException
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException
      */
-    public function rref(): Matrix
+    public function rref(): Reduction\ReducedRowEchelonForm
     {
-        if (isset($this->rref)) {
-            return $this->rref;
+        if (!isset($this->rref)) {
+            if (!isset($this->ref)) {
+                $this->ref();
+            }
+            $this->rref = Reduction\ReducedRowEchelonForm::reduceFromRowEchelonForm($this->ref);
         }
 
-        $m = $this->m;
-        $n = $this->n;
-        $R = $this->ref();
-        $ε = $this->ε;
-
-        // Starting conditions
-        $row   = 0;
-        $col   = 0;
-        $rref = false;
-
-        while (!$rref) {
-            // No non-zero pivot, go to next column of the same row
-            if (Support::isZero($R[$row][$col], $ε)) {
-                $col++;
-                if ($row >= $m || $col >= $n) {
-                    $rref = true;
-                }
-                continue;
-            }
-
-            // Scale pivot to 1
-            if ($R[$row][$col] != 1) {
-                $divisor = $R[$row][$col];
-                $R = $R->rowDivide($row, $divisor);
-            }
-
-            // Eliminate elements above pivot
-            for ($j = $row - 1; $j >= 0; $j--) {
-                $factor = $R[$j][$col];
-                if (Support::isNotZero($factor, $ε)) {
-                    $R = $R->rowAdd($row, $j, -$factor);
-                }
-            }
-
-            // Move on to next row and column
-            $row++;
-            $col++;
-
-            // If no more rows or columns, rref achieved
-            if ($row >= $m || $col >= $n) {
-                $rref = true;
-            }
-        }
-
-        $R = $R->getMatrix();
-
-        // Floating point adjustment for zero values
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                if (Support::isZero($R[$i][$j], $ε)) {
-                    $R[$i][$j] = 0;
-                }
-            }
-        }
-
-        $this->rref = MatrixFactory::create($R);
         return $this->rref;
     }
 
