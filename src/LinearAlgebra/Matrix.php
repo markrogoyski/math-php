@@ -3195,18 +3195,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * Q is an orthogonal matrix
      * R is an upper triangular matrix
      *
-     * @return Matrix[] Q and R
+     * @return Decomposition\QR
      *
      * @throws Exception\MathException
      */
-    public function qrDecomposition(): array
+    public function qrDecomposition(): Decomposition\QR
     {
         $qr = Decomposition\QR::decompose($this);
 
-        return [
-            'Q' => $qr->getQ(),
-            'R' => $qr->getR(),
-        ];
+        return $qr;
     }
 
     /**************************************************************************

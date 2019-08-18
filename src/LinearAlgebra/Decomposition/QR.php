@@ -14,7 +14,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  * Q is an orthogonal matrix
  * R is an upper triangular matrix
  */
-class QR
+class QR implements \ArrayAccess
 {
     /** @var Matrix orthogonal matrix  */
     private $Q;
@@ -161,5 +161,74 @@ class QR
         
         // We scale $uuᵀ and subtract it from the identity matrix
         return $I->subtract($uuᵀ->scalarMultiply(2 / $uᵀu));
+    }
+
+    /**
+     * Get Q or R matrix
+     *
+     * @param string $name
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException
+     */
+    public function __get(string $name): Matrix
+    {
+        switch ($name) {
+            case 'Q':
+            case 'R':
+                return $this->$name;
+
+            default:
+                throw new Exception\MatrixException("QR class does not have a gettable property: $name");
+        }
+    }
+
+    /**************************************************************************
+     * ArrayAccess INTERFACE
+     **************************************************************************/
+
+    /**
+     * @param mixed $i
+     * @return bool
+     */
+    public function offsetExists($i): bool
+    {
+        switch ($i) {
+            case 'Q':
+            case 'R':
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * @param mixed $i
+     * @return mixed
+     */
+    public function offsetGet($i)
+    {
+        return $this->$i;
+    }
+
+    /**
+     * @param  mixed $i
+     * @param  mixed $value
+     * @throws Exception\MatrixException
+     */
+    public function offsetSet($i, $value)
+    {
+        throw new Exception\MatrixException('QR class does not allow setting values');
+    }
+
+    /**
+     * @param  mixed $i
+     * @throws Exception\MatrixException
+     */
+    public function offsetUnset($i)
+    {
+        throw new Exception\MatrixException('QR class does not allow unsetting values');
     }
 }
