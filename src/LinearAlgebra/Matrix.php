@@ -3140,21 +3140,18 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * A = [l₂₁ l₂₂  0 ] [ 0  l₂₂ l₂₃] ≡ LLᵀ
      *     [l₃₁ l₃₂ l₃₃] [ 0   0  l₃₃]
      *
-     * @return Matrix[] Lower triangular matrix L and transpose of L of A = LLᵀ
+     * @return Decomposition\Cholesky
      *
      * @throws Exception\MatrixException if the matrix is not positive definite
      * @throws Exception\OutOfBoundsException
      * @throws Exception\IncorrectTypeException
      * @throws Exception\BadParameterException
      */
-    public function choleskyDecomposition(): array
+    public function choleskyDecomposition(): Decomposition\Cholesky
     {
         $cholesky = Decomposition\Cholesky::decompose($this);
 
-        return [
-            'L'  => $cholesky->getL(),
-            'LT' => $cholesky->getLTranspose(),
-        ];
+        return $cholesky;
     }
 
     /**

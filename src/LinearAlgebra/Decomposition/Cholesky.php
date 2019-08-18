@@ -33,8 +33,11 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  *        1   /      ᵢ₋₁     \
  * lⱼᵢ = --- |  aⱼᵢ - ∑lⱼₓlᵢₓ |
  *       lᵢᵢ  \      ˣ⁼¹     /
+ *
+ * @property-read Matrix $L  Lower triangular matrix
+ * @property-read Matrix $Lᵀ Transpose of lower triangular matrix
  */
-class Cholesky
+class Cholesky implements \ArrayAccess
 {
     /** @var Matrix Lower triangular matrix L of A = LLᵀ */
     private $L;
@@ -110,5 +113,77 @@ class Cholesky
         $Lᵀ = $L->transpose();
 
         return new Cholesky($L, $Lᵀ);
+    }
+
+    /**
+     * Get L, or Lᵀ matrix
+     *
+     * @param string $name
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException
+     */
+    public function __get(string $name): Matrix
+    {
+        switch ($name) {
+            case 'L':
+                return $this->L;
+
+            case 'LT':
+            case 'Lᵀ':
+                return $this->Lᵀ;
+
+            default:
+                throw new Exception\MatrixException("Cholesky class does not have a gettable property: $name");
+        }
+    }
+
+    /**************************************************************************
+     * ArrayAccess INTERFACE
+     **************************************************************************/
+
+    /**
+     * @param mixed $i
+     * @return bool
+     */
+    public function offsetExists($i): bool
+    {
+        switch ($i) {
+            case 'L':
+            case 'LT':
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * @param mixed $i
+     * @return mixed
+     */
+    public function offsetGet($i)
+    {
+        return $this->$i;
+    }
+
+    /**
+     * @param  mixed $i
+     * @param  mixed $value
+     * @throws Exception\MatrixException
+     */
+    public function offsetSet($i, $value)
+    {
+        throw new Exception\MatrixException('LU class does not allow setting values');
+    }
+
+    /**
+     * @param  mixed $i
+     * @throws Exception\MatrixException
+     */
+    public function offsetUnset($i)
+    {
+        throw new Exception\MatrixException('LU class does not allow unsetting values');
     }
 }
