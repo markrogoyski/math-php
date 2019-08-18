@@ -66,7 +66,7 @@ class Crout
      * @throws Exception\MatrixException if there is division by 0 because of a 0-value determinant
      * @throws Exception\OutOfBoundsException
      */
-    public function decompose(Matrix $A): Crout
+    public static function decompose(Matrix $A): Crout
     {
         $m   = $A->getM();
         $n   = $A->getN();

@@ -85,7 +85,7 @@ class Cholesky
      * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException
      */
-    public function decompose(Matrix $A): Cholesky
+    public static function decompose(Matrix $A): Cholesky
     {
         if (!$A->isPositiveDefinite()) {
             throw new Exception\MatrixException('Matrix must be positive definite for Cholesky decomposition');
