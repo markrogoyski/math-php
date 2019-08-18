@@ -3165,23 +3165,17 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - D = diagonal matrix
      *  - U = normalised upper triangular matrix
      *
-     * @return array [
-     *   L: Lower triangular/diagonal matrix
-     *   U: Normalised upper triangular matrix
-     * ]
+     * @return Decomposition\Crout
      *
      * @throws Exception\MatrixException if there is division by 0 because of a 0-value determinant
      * @throws Exception\OutOfBoundsException
      * @throws Exception\IncorrectTypeException
      */
-    public function croutDecomposition(): array
+    public function croutDecomposition(): Decomposition\Crout
     {
         $crout = Decomposition\Crout::decompose($this);
 
-        return [
-            'L' => $crout->getL(),
-            'U' => $crout->getU(),
-        ];
+        return $crout;
     }
 
     /**
