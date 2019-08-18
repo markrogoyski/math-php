@@ -3093,6 +3093,25 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * QR Decomposition using Householder reflections
+     *
+     * A = QR
+     *
+     * Q is an orthogonal matrix
+     * R is an upper triangular matrix
+     *
+     * @return Decomposition\QR
+     *
+     * @throws Exception\MathException
+     */
+    public function qrDecomposition(): Decomposition\QR
+    {
+        $qr = Decomposition\QR::decompose($this);
+
+        return $qr;
+    }
+
+    /**
      * Cholesky decomposition
      *
      * A decomposition of a square, positive definitive matrix into the product of a lower triangular matrix and its transpose.
@@ -3138,25 +3157,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $crout = Decomposition\Crout::decompose($this);
 
         return $crout;
-    }
-
-    /**
-     * QR Decomposition using Householder reflections
-     *
-     * A = QR
-     *
-     * Q is an orthogonal matrix
-     * R is an upper triangular matrix
-     *
-     * @return Decomposition\QR
-     *
-     * @throws Exception\MathException
-     */
-    public function qrDecomposition(): Decomposition\QR
-    {
-        $qr = Decomposition\QR::decompose($this);
-
-        return $qr;
     }
 
     /**************************************************************************
