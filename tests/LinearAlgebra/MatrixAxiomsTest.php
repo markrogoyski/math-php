@@ -1242,10 +1242,13 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSymmetricEqualsTranspose(array $A)
     {
-        $A  = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $Aᵀ = $A->transpose();
 
-        $this->assertEquals($A, $Aᵀ);
+        // Then
         $this->assertEquals($A->getMatrix(), $Aᵀ->getMatrix());
     }
 
@@ -1767,11 +1770,14 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testCovarianceMatrixIsSymmetric(array $A)
     {
+        // Given
         $A  = MatrixFactory::create($A);
+
+        // When
         $S  = $A->covarianceMatrix();
         $Sᵀ = $S->transpose();
 
-        $this->assertEquals($S, $Sᵀ);
+        // Then
         $this->assertEquals($S->getMatrix(), $Sᵀ->getMatrix());
     }
 
@@ -2406,16 +2412,18 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Axiom: Jᵀ = J
+     * @test Axiom: Jᵀ = J
      * Transpose of an exchange matrix is itself
      * @throws \Exception
      */
     public function testTransposeOfExchangeMatrix()
     {
         foreach (range(1, 20) as $n) {
+            // Given
             $J  = MatrixFactory::exchange($n);
+            // When
             $Jᵀ = $J->transpose();
-            $this->assertEquals($J, $Jᵀ);
+            // Then
             $this->assertEquals($J->getMatrix(), $Jᵀ->getMatrix());
         }
     }

@@ -1489,12 +1489,17 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function transpose()
     {
+        if ($this->catalog->hasTranspose()) {
+            return $this->catalog->getTranspose();
+        }
+
         $Aᵀ = [];
         for ($i = 0; $i < $this->n; $i++) {
             $Aᵀ[$i] = $this->getColumn($i);
         }
 
-        return MatrixFactory::create($Aᵀ);
+        $this->catalog->addTranspose(MatrixFactory::create($Aᵀ));
+        return $this->catalog->getTranspose();
     }
 
     /**

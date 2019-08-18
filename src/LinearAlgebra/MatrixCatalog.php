@@ -3,6 +3,9 @@ namespace MathPHP\LinearAlgebra;
 
 class MatrixCatalog
 {
+    /** @var Matrix transpose */
+    private $Aᵀ;
+
     /** @var Matrix inverse */
     private $A⁻¹;
 
@@ -26,8 +29,35 @@ class MatrixCatalog
 
     /**************************************************************************
      * DERIVED MATRICES
+     *  - transpose
      *  - inverse
      **************************************************************************/
+
+    // TRANSPOSE
+
+    /**
+     * @param Matrix $Aᵀ
+     */
+    public function addTranspose(Matrix $Aᵀ)
+    {
+        $this->Aᵀ = $Aᵀ;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTranspose()
+    {
+        return isset($this->Aᵀ);
+    }
+
+    /**
+     * @return Matrix
+     */
+    public function getTranspose(): Matrix
+    {
+        return $this->Aᵀ;
+    }
 
     // INVERSE
 

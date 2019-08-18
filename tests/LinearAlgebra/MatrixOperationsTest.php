@@ -1336,21 +1336,48 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         transpose
      * @dataProvider dataProviderForTranspose
+     * @param        array $A
+     * @param        array $R
+     * @throws       \Exception
      */
     public function testTranspose(array $A, array $R)
     {
-        $A  = MatrixFactory::create($A);
-        $R  = MatrixFactory::create($R);
-        $Aᵀ = $A->transpose();
-        $this->assertEquals($R, $Aᵀ);
+        // Given
+        $A = MatrixFactory::create($A);
+        $R = MatrixFactory::create($R);
 
-        // Transpose of transpose is the original matrix
-        $Aᵀᵀ = $Aᵀ->transpose();
-        $this->assertEquals($A, $Aᵀᵀ);
+        // When
+        $Aᵀ = $A->transpose();
+
+        // Then
+        $this->assertEquals($R->getMatrix(), $Aᵀ->getMatrix());
     }
 
-    public function dataProviderForTranspose()
+    /**
+     * @test         transpose of transpose is the original matrix
+     * @dataProvider dataProviderForTranspose
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testTransposeOfTransposeIsOriginalMatrix(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $Aᵀ  = $A->transpose();
+        $Aᵀᵀ = $Aᵀ->transpose();
+
+        // Then
+        $this->assertEquals($A->getMatrix(), $Aᵀᵀ->getMatrix());
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForTranspose(): array
     {
         return [
             [
