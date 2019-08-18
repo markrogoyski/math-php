@@ -478,12 +478,15 @@ $bool = $A->isSignature();
 $bool = $A->isRef();
 $bool = $A->isRref();
 
+// Matrix reductions
+$ref  = $A->ref();                  // Matrix in row echelon form
+$rref = $A->rref();                 // Matrix in reduced row echelon form
+
 // Matrix decompositions
-$ref  = $A->ref();                   // Row echelon form
-$rref = $A->rref();                  // Reduced row echelon form
-$PLU  = $A->luDecomposition();       // Returns array of Matrices [L, U, P]; P is permutation matrix
-$LU   = $A->croutDecomposition();    // Returns array of Matrices [L, U]
-$L    = $A->choleskyDecomposition(); // Returns lower triangular matrix L of A = LLᵀ
+$LU  = $A->luDecomposition();       // LU->L: lower triangular matrix, LU->U: upper triangular matrix, LU-P: permutation matrix
+$QR  = $A->qrDecomposition();       // QR->Q: orthogonal matrix, QR->R: upper triangular matrix
+$LU  = $A->croutDecomposition();    // LU->L: lower triangular matrix, LU->U: normalized upper triangular matrix
+$LLᵀ = $A->choleskyDecomposition(); // LLᵀ->L lower triangular matrix, LLᵀ->LT (or LLᵀ): transpose of lower triangular matrix
 
 // Solve a linear system of equations: Ax = b
 $b = new Vector(1, 2, 3);
