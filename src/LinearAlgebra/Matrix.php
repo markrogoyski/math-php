@@ -3381,47 +3381,21 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * A = [l₂₁ l₂₂  0 ] [ 0  l₂₂ l₂₃] ≡ LLᵀ
      *     [l₃₁ l₃₂ l₃₃] [ 0   0  l₃₃]
      *
-     * Diagonal elements
-     *          ____________
-     *         /     ᵢ₋₁
-     * lᵢᵢ =  / aᵢᵢ - ∑l²ᵢₓ
-     *       √       ˣ⁼¹
-     *
-     * Elements below diagonal
-     *
-     *        1   /      ᵢ₋₁     \
-     * lⱼᵢ = --- |  aⱼᵢ - ∑lⱼₓlᵢₓ |
-     *       lᵢᵢ  \      ˣ⁼¹     /
-     *
-     * @return Matrix Lower triangular matrix L of A = LLᵀ
+     * @return Matrix[] Lower triangular matrix L and transpose of L of A = LLᵀ
      *
      * @throws Exception\MatrixException if the matrix is not positive definite
      * @throws Exception\OutOfBoundsException
      * @throws Exception\IncorrectTypeException
      * @throws Exception\BadParameterException
      */
-    public function choleskyDecomposition(): Matrix
+    public function choleskyDecomposition(): array
     {
-        if (!$this->isPositiveDefinite()) {
-            throw new Exception\MatrixException('Matrix must be positive definite for Cholesky decomposition');
-        }
+        $cholesky = Decomposition\Cholesky::decompose($this);
 
-        $m = $this->m;
-        $L = MatrixFactory::zero($m, $m)->getMatrix();
-
-        for ($j = 0; $j < $m; $j++) {
-            for ($i = 0; $i < ($j + 1); $i++) {
-                $∑lⱼₓlᵢₓ = 0;
-                for ($x = 0; $x < $i; $x++) {
-                    $∑lⱼₓlᵢₓ += $L[$j][$x] * $L[$i][$x];
-                }
-                $L[$j][$i] = ($j === $i)
-                    ? sqrt($this->A[$j][$j] - $∑lⱼₓlᵢₓ)
-                    : (1 / $L[$i][$i] * ($this->A[$j][$i] - $∑lⱼₓlᵢₓ));
-            }
-        }
-
-        return MatrixFactory::create($L);
+        return [
+            'L'  => $cholesky->getL(),
+            'LT' => $cholesky->getLTranspose(),
+        ];
     }
 
     /**

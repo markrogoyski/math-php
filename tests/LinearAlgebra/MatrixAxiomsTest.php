@@ -2499,11 +2499,16 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testCholeskyDecompositionLTimesLTransposeIsA(array $A)
     {
-        $A   = MatrixFactory::create($A);
-        $L   = $A->choleskyDecomposition();
-        $Lᵀ  = $L->transpose();
+        // Given
+        $A        = MatrixFactory::create($A);
+        $cholesky = $A->choleskyDecomposition();
+        $L        = $cholesky['L'];
+        $Lᵀ       = $cholesky['LT'];
+
+        // When
         $LLᵀ = $L->multiply($Lᵀ);
 
+        // Then
         $this->assertEquals($A, $LLᵀ);
         $this->assertEquals($A->getMatrix(), $LLᵀ->getMatrix());
     }
@@ -2516,10 +2521,14 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testCholeskyDecompositionLIsLowerTriangular(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
-        $L = $A->choleskyDecomposition();
 
-        $this->assertTrue($L->isLowerTriangular());
+        // When
+        $cholesky = $A->choleskyDecomposition();
+
+        // Then
+        $this->assertTrue($cholesky['L']->isLowerTriangular());
     }
 
     /**
@@ -2530,11 +2539,14 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testCholeskyDecompositionLTransposeIsUpperTriangular(array $A)
     {
-        $A  = MatrixFactory::create($A);
-        $L  = $A->choleskyDecomposition();
-        $Lᵀ = $L->transpose();
+        // Given
+        $A = MatrixFactory::create($A);
 
-        $this->assertTrue($Lᵀ->isUpperTriangular());
+        // When
+        $cholesky = $A->choleskyDecomposition();
+
+        // Then
+        $this->assertTrue($cholesky['LT']->isUpperTriangular());
     }
 
     /**

@@ -1540,12 +1540,25 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
      */
     public function testCholeskyDecomposition(array $A, array $expected_L)
     {
-        $A          = MatrixFactory::create($A);
-        $expected_L = MatrixFactory::create($expected_L);
-        $L          = $A->choleskyDecomposition();
+        // Given
+        $A           = MatrixFactory::create($A);
+        $expected_L  = MatrixFactory::create($expected_L);
+        $expected_Lᵀ = $expected_L->transpose();
 
+        // When
+        $cholesky = $A->choleskyDecomposition();
+        $L        = $cholesky['L'];
+        $Lᵀ       = $cholesky['LT'];
+
+        // Then
         $this->assertEquals($expected_L, $L, '', 0.00001);
+        $this->assertEquals($expected_Lᵀ, $Lᵀ, '', 0.00001);
         $this->assertEquals($expected_L->getMatrix(), $L->getMatrix(), '', 0.00001);
+        $this->assertEquals($expected_Lᵀ->getMatrix(), $Lᵀ->getMatrix(), '', 0.00001);
+
+        // And LLᵀ = A
+        $LLᵀ = $L->multiply($Lᵀ);
+        $this->assertEquals($A->getMatrix(), $LLᵀ->getMatrix());
     }
 
     public function dataProviderForCholeskyDecomposition(): array
