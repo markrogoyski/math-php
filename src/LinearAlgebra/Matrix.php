@@ -3420,36 +3420,11 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function croutDecomposition(): array
     {
-        $m   = $this->m;
-        $n   = $this->n;
-        $A   = $this->A;
-        $U   = MatrixFactory::identity($n)->getMatrix();
-        $L   = MatrixFactory::zero($m, $n)->getMatrix();
-
-        for ($j = 0; $j < $n; $j++) {
-            for ($i = $j; $i < $n; $i++) {
-                $sum = 0;
-                for ($k = 0; $k < $j; $k++) {
-                    $sum = $sum + $L[$i][$k] * $U[$k][$j];
-                }
-                $L[$i][$j] = $A[$i][$j] - $sum;
-            }
-
-            for ($i = $j; $i < $n; $i++) {
-                $sum = 0;
-                for ($k = 0; $k < $j; $k++) {
-                    $sum = $sum + $L[$j][$k] * $U[$k][$i];
-                }
-                if ($L[$j][$j] == 0) {
-                    throw new Exception\MatrixException('Cannot do Crout decomposition. det(L) close to 0 - Cannot divide by 0');
-                }
-                $U[$j][$i] = ($A[$j][$i] - $sum) / $L[$j][$j];
-            }
-        }
+        $crout = Decomposition\Crout::decompose($this);
 
         return [
-            'L' => MatrixFactory::create($L),
-            'U' => MatrixFactory::create($U),
+            'L' => $crout->getL(),
+            'U' => $crout->getU(),
         ];
     }
 
