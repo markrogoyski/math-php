@@ -26,9 +26,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var Matrix Reduced row echelon form */
     protected $rref;
 
-    /** @var int Number of row swaps when computing REF */
-    protected $ref_swaps;
-
     /** @var number Determinant */
     protected $det;
 
@@ -109,6 +106,15 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function getN(): int
     {
         return $this->n;
+    }
+
+    /**
+     * Get error / zero tolerance
+     * @return float
+     */
+    public function getError(): float
+    {
+        return $this->ε;
     }
 
     /**
@@ -2476,7 +2482,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
          * │A│ = (-1)ⁿ │ref(A)│
          */
         $ref⟮A⟯ = $this->ref ?? $this->ref();
-        $ⁿ     = $this->ref_swaps;
+        $ⁿ     = $ref⟮A⟯->getRowSwaps();
 
         // Det(ref(A))
         $│ref⟮A⟯│ = 1;
@@ -3014,212 +3020,32 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**************************************************************************
-     * MATRIX DECOMPOSITIONS - Return a Matrix (or array of Matrices)
+     * MATRIX REDUCTIONS - Return a Matrix in a reduced form
      *  - ref (row echelon form)
      *  - rref (reduced row echelon form)
-     *  - LU decomposition
-     *  - QR decomposition
-     *  - Cholesky decomposition
-     *  - Crout decomposition
      **************************************************************************/
 
     /**
-     * Row echelon form
+     * Row echelon form - REF
      *
-     * First tries Guassian elimination.
-     * If that fails (singular matrix), uses custom row reduction algorithm
+     * @return Reduction\RowEchelonForm
      *
-     * @return Matrix in row echelon form
-     *
+     * @throws Exception\BadDataException
      * @throws Exception\BadParameterException
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException
      */
-    public function ref(): Matrix
+    public function ref(): Reduction\RowEchelonForm
     {
-        if (isset($this->ref)) {
-            return $this->ref;
+        if (!isset($this->ref)) {
+            $this->ref = Reduction\RowEchelonForm::reduce($this);
         }
 
-        try {
-            $R = $this->gaussianElimination();
-        } catch (Exception\SingularMatrixException $e) {
-            $R = $this->rowReductionToEchelonForm();
-        }
-
-        $this->ref = MatrixFactory::create($R);
         return $this->ref;
     }
 
     /**
-     * Gaussian elimination - row echelon form
-     *
-     * Algorithm
-     *  for k = 1 ... min(m,n):
-     *    Find the k-th pivot:
-     *    i_max  := argmax (i = k ... m, abs(A[i, k]))
-     *    if A[i_max, k] = 0
-     *      error "Matrix is singular!"
-     *    swap rows(k, i_max)
-     *    Do for all rows below pivot:
-     *    for i = k + 1 ... m:
-     *      f := A[i, k] / A[k, k]
-     *      Do for all remaining elements in current row:
-     *      for j = k + 1 ... n:
-     *        A[i, j]  := A[i, j] - A[k, j] * f
-     *      Fill lower triangular matrix with zeros:
-     *      A[i, k]  := 0
-     *
-     * https://en.wikipedia.org/wiki/Gaussian_elimination
-     *
-     * @return array - matrix in row echelon form
-     *
-     * @throws Exception\SingularMatrixException if the matrix is singular
-     */
-    protected function gaussianElimination(): array
-    {
-        $m     = $this->m;
-        $n     = $this->n;
-        $size  = min($m, $n);
-        $R     = $this->A;
-        $swaps = 0;
-        $ε     = $this->ε;
-
-        for ($k = 0; $k < $size; $k++) {
-            // Find column max
-            $i_max = $k;
-            for ($i = $k; $i < $m; $i++) {
-                if (abs($R[$i][$k]) > abs($R[$i_max][$k])) {
-                    $i_max = $i;
-                }
-            }
-
-            if (Support::isZero($R[$i_max][$k], $ε)) {
-                throw new Exception\SingularMatrixException('Guassian elimination fails for singular matrices');
-            }
-
-            // Swap rows k and i_max (column max)
-            if ($k != $i_max) {
-                list($R[$k], $R[$i_max]) = [$R[$i_max], $R[$k]];
-                $swaps++;
-            }
-
-            // Row operations
-            for ($i = $k + 1; $i < $m; $i++) {
-                $f = (Support::isNotZero($R[$k][$k], $ε)) ? $R[$i][$k] / $R[$k][$k] : 1;
-                for ($j = $k + 1; $j < $n; $j++) {
-                    $R[$i][$j] = $R[$i][$j] - ($R[$k][$j] * $f);
-                    if (Support::isZero($R[$i][$j], $ε)) {
-                        $R[$i][$j] = 0;
-                    }
-                }
-                $R[$i][$k] = 0;
-            }
-        }
-
-        $this->ref_swaps = $swaps;
-        return $R;
-    }
-
-    /**
-     * Reduce a matrix to row echelon form using basic row operations
-     * Custom MathPHP classic row reduction using basic matrix operations.
-     *
-     * Algorithm:
-     *   (1) Find pivot
-     *     (a) If pivot column is 0, look down the column to find a non-zero pivot and swap rows
-     *     (b) If no non-zero pivot in the column, go to the next column of the same row and repeat (1)
-     *   (2) Scale pivot row so pivot is 1 by using row division
-     *   (3) Eliminate elements below pivot (make 0 using row addition of the pivot row * a scaling factor)
-     *       so there are no non-zero elements in the pivot column in rows below the pivot
-     *   (4) Repeat from 1 from the next row and column
-     *
-     *   (Extra) Keep track of number of row swaps (used for computing determinant)
-     *
-     * @return array - matrix in row echelon form
-     *
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\MatrixException
-     * @throws Exception\BadParameterException
-     */
-    protected function rowReductionToEchelonForm(): array
-    {
-        $m    = $this->m;
-        $n    = $this->n;
-        $R    = MatrixFactory::create($this->A);
-        $ε    = $this->ε;
-
-        // Starting conditions
-        $row   = 0;
-        $col   = 0;
-        $swaps = 0;
-        $ref   = false;
-
-        while (!$ref) {
-            // If pivot is 0, try to find a non-zero pivot in the column and swap rows
-            if (Support::isZero($R[$row][$col], $ε)) {
-                for ($j = $row + 1; $j < $m; $j++) {
-                    if (Support::isNotZero($R[$j][$col], $ε)) {
-                        $R = $R->rowInterchange($row, $j);
-                        $swaps++;
-                        break;
-                    }
-                }
-            }
-
-            // No non-zero pivot, go to next column of the same row
-            if (Support::isZero($R[$row][$col], $ε)) {
-                $col++;
-                if ($row >= $m || $col >= $n) {
-                    $ref = true;
-                }
-                continue;
-            }
-
-            // Scale pivot to 1
-            $divisor = $R[$row][$col];
-            $R = $R->rowDivide($row, $divisor);
-
-            // Eliminate elements below pivot
-            for ($j = $row + 1; $j < $m; $j++) {
-                $factor = $R[$j][$col];
-                if (Support::isNotZero($factor, $ε)) {
-                    $R = $R->rowAdd($row, $j, -$factor);
-                    for ($k = 0; $k < $n; $k++) {
-                        if (Support::isZero($R[$j][$k], $ε)) {
-                            $R->A[$j][$k] = 0;
-                        }
-                    }
-                }
-            }
-
-            // Move on to next row and column
-            $row++;
-            $col++;
-
-            // If no more rows or columns, ref achieved
-            if ($row >= $m || $col >= $n) {
-                $ref = true;
-            }
-        }
-
-        $R = $R->getMatrix();
-
-        // Floating point adjustment for zero values
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                if (Support::isZero($R[$i][$j], $ε)) {
-                    $R[$i][$j] = 0;
-                }
-            }
-        }
-
-        $this->ref_swaps = $swaps;
-        return $R;
-    }
-
-    /**
-     * Ruduced row echelon form (row canonical form)
+     * Ruduced row echelon form (row canonical form) - RREF
      *
      * Algorithm:
      *   (1) Reduce to REF
@@ -3300,6 +3126,14 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $this->rref = MatrixFactory::create($R);
         return $this->rref;
     }
+
+    /**************************************************************************
+     * MATRIX DECOMPOSITIONS - Return a Matrix (or array of Matrices)
+     *  - LU decomposition
+     *  - QR decomposition
+     *  - Cholesky decomposition
+     *  - Crout decomposition
+     **************************************************************************/
 
     /**
      * LU Decomposition (Doolittle decomposition) with pivoting via permutation matrix

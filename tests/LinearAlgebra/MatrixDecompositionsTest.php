@@ -3,6 +3,7 @@ namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\Reduction;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
@@ -1710,18 +1711,24 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         rowReductionToEchelonForm method of ref
      * @dataProvider dataProviderForRowReductionToEchelonForm
+     * @param        array $A
+     * @param        array $R
+     * @throws       \Exception
      */
     public function testRowReductionToEchelonForm(array $A, array $R)
     {
-        $method = new \ReflectionMethod(Matrix::class, 'rowReductionToEchelonForm');
-        $method->setAccessible(true);
-
+        // Given
         $A   = MatrixFactory::create($A);
         $R   = MatrixFactory::create($R);
-        $ref = MatrixFactory::create($method->invoke($A));
 
-        $this->assertEquals($R, $ref, '', 0.000001);
+        // When
+        list($ref, $swaps) = Reduction\RowEchelonForm::rowReductionToEchelonForm($A);
+        $ref = MatrixFactory::create($ref);
+
+        // Then
+        $this->assertEquals($R->getMatrix(), $ref->getMatrix(), '', 0.000001);
         $this->assertTrue($ref->isRef());
     }
 
