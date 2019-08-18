@@ -27,6 +27,9 @@ class MatrixCatalog
     /** @var Decomposition\Crout */
     private $crout;
 
+    /** @var float determinant */
+    private $det;
+
     /**************************************************************************
      * DERIVED MATRICES
      *  - transpose
@@ -254,5 +257,36 @@ class MatrixCatalog
     public function getCroutDecomposition(): Decomposition\Crout
     {
         return $this->crout;
+    }
+
+    /**************************************************************************
+     * DERIVED DATA
+     *  - determinant
+     **************************************************************************/
+
+    // DETERMINANT
+
+    /**
+     * @param number $det
+     */
+    public function addDeterminant($det)
+    {
+        $this->det = $det;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDeterminant()
+    {
+        return isset($this->det);
+    }
+
+    /**
+     * @return number
+     */
+    public function getDeterminant()
+    {
+        return $this->det;
     }
 }

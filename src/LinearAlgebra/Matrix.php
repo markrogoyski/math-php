@@ -20,9 +20,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var array[] Matrix data as array of arrays */
     protected $A;
 
-    /** @var number Determinant */
-    protected $det;
-
     /** @var MatrixCatalog */
     protected $catalog;
 
@@ -433,7 +430,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isSingular(): bool
     {
-        $│A│ = $this->det ?? $this->det();
+        $│A│ = $this->det();
 
         if ($│A│ == 0) {
             return true;
@@ -456,7 +453,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isNonsingular(): bool
     {
-        $│A│ = $this->det ?? $this->det();
+        $│A│ = $this->det();
 
         if (Support::isNotZero($│A│, $this->ε)) {
             return true;
@@ -1795,7 +1792,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $m   = $this->m;
         $n   = $this->n;
         $A   = $this->A;
-        $│A│ = $this->det ?? $this->det();
+        $│A│ = $this->det();
 
         /*
          * 2x2 matrix:
@@ -2405,12 +2402,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function det()
     {
-        if (isset($this->det)) {
-            return $this->det;
+        if ($this->catalog->hasDeterminant()) {
+            return $this->catalog->getDeterminant();
         }
 
         if (!$this->isSquare()) {
-            throw new Exception\MatrixException('Not a sqaure matrix (required for determinant)');
+            throw new Exception\MatrixException('Not a square matrix (required for determinant)');
         }
 
         $m = $this->m;
@@ -2423,8 +2420,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
          * |A| = a
          */
         if ($m === 1) {
-            $this->det = $R[0][0];
-            return $this->det;
+            $det = $R[0][0];
+            $this->catalog->addDeterminant($det);
+            return $det;
         }
 
         /*
@@ -2443,8 +2441,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $ad = $a * $d;
             $bc = $b * $c;
 
-            $this->det = $ad - $bc;
-            return $this->det;
+            $det = $ad - $bc;
+            $this->catalog->addDeterminant($det);
+            return $det;
         }
 
         /*
@@ -2473,8 +2472,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $dh = $d * $h;
             $eg = $e * $g;
 
-            $this->det = $a * ($ei - $fh) - $b * ($di - $fg) + $c * ($dh - $eg);
-            return $this->det;
+            $det = $a * ($ei - $fh) - $b * ($di - $fg) + $c * ($dh - $eg);
+            $this->catalog->addDeterminant($det);
+            return $det;
         }
 
         /*
@@ -2483,7 +2483,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
          * Then plug into formula with swaps.
          * │A│ = (-1)ⁿ │ref(A)│
          */
-        $ref⟮A⟯ = $this->ref ?? $this->ref();
+        $ref⟮A⟯ = $this->ref();
         $ⁿ     = $ref⟮A⟯->getRowSwaps();
 
         // Det(ref(A))
@@ -2493,8 +2493,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         // │A│ = (-1)ⁿ │ref(A)│
-        $this->det = (-1) ** $ⁿ * $│ref⟮A⟯│;
-        return $this->det;
+        $det = (-1) ** $ⁿ * $│ref⟮A⟯│;
+        $this->catalog->addDeterminant($det);
+        return $det;
     }
 
     /**

@@ -161,12 +161,13 @@ class ObjectSquareMatrix extends SquareMatrix
      */
     public function det()
     {
-        if (isset($this->det)) {
-            return $this->det;
+        if ($this->catalog->hasDeterminant()) {
+            return $this->catalog->getDeterminant();
         }
+
         $m = $this->m;
-        $n = $this->n;
         $R = MatrixFactory::create($this->A);
+
         /*
          * 1x1 matrix
          *  A = [a]
@@ -174,8 +175,7 @@ class ObjectSquareMatrix extends SquareMatrix
          * |A| = a
          */
         if ($m === 1) {
-            $this->det = $R[0][0];
-            return $this->det;
+            $det = $R[0][0];
         } else {
             // Calculate the cofactors of the top row of the matrix
             $row_of_cofactors = [];
@@ -196,9 +196,10 @@ class ObjectSquareMatrix extends SquareMatrix
                     $det = $det->add($R[0][$key]->multiply($value));
                 }
             }
-            $this->det = $det;
-            return $this->det;
         }
+
+        $this->catalog->addDeterminant($det);
+        return $det;
     }
 
     /**
