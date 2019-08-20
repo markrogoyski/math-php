@@ -12,24 +12,36 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
 
     /**
+     * @test         LU decomposition
      * @dataProvider dataProviderForLUDecomposition
      * Unit test data created from online calculator: https://www.easycalculation.com/matrix/lu-decomposition-matrix.php
+     * @param        array $A
+     * @param        array $L
+     * @param        array $U
+     * @param        array $P
+     * @throws       \Exception
      */
     public function testLUDecomposition(array $A, array $L, array $U, array $P)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $L = MatrixFactory::create($L);
         $U = MatrixFactory::create($U);
         $P = MatrixFactory::create($P);
 
+        // When
         $LU = $A->luDecomposition();
 
+        // Then
         $this->assertEquals($L, $LU['L'], '', 0.001);
         $this->assertEquals($U, $LU['U'], '', 0.001);
         $this->assertEquals($P, $LU['P'], '', 0.001);
     }
 
-    public function dataProviderForLuDecomposition()
+    /**
+     * @return array
+     */
+    public function dataProviderForLuDecomposition(): array
     {
         return [
             [
@@ -272,990 +284,140 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         LU decomposition pivot matrix
      * @dataProvider dataProviderForLUDecomposition
      * Unit test data created from online calculator: https://www.easycalculation.com/matrix/lu-decomposition-matrix.php
+     * @param        array $A
+     * @param        array $_
+     * @param        array $__
+     * @param        array $P
+     * @throws       \Exception
      */
     public function testLUDecompositionPivotize(array $A, array $_, array $__, array $P)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $P = MatrixFactory::create($P);
 
+        // When
         $LU = $A->luDecomposition();
 
+        // Then
         $this->assertEquals($P, $LU['P'], '', 0.000001);
     }
 
+    /**
+     * @test   LU decomposition exception for matrix not being square
+     * @throws \Exception
+     */
     public function testLUDecompositionExceptionNotSquare()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
         ]);
+
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->luDecomposition();
     }
 
     /**
-     * @dataProvider dataProviderForRref
-     */
-    public function testRref(array $A, array $R)
-    {
-        $A    = MatrixFactory::create($A);
-        $R    = MatrixFactory::create($R);
-        $rref = $A->rref();
-
-        $this->assertEquals($R->getMatrix(), $rref->getMatrix(), '', 0.000001);
-        $this->assertTrue($rref->isRref());
-        $this->assertTrue($rref->isRef());
-    }
-
-    public function dataProviderForRref()
-    {
-        return [
-            [
-                [
-                    [1, 2, 3],
-                    [2, 3, 4],
-                    [3, 4, 5],
-                ],
-                [
-                    [1, 0, -1],
-                    [0, 1, 2],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 3, -1],
-                    [0, 1, 7],
-                ],
-                [
-                    [1, 0, -22],
-                    [0, 1, 7],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 1],
-                    [-2, -3, 1],
-                    [3, 5, 0],
-                ],
-                [
-                    [1, 0, -5],
-                    [0, 1, 3],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [0, 3, -6, 6, 4, -5],
-                    [3, -7, 8, -5, 8, 9],
-                    [3, -9, 12, -9, 6, 15],
-                ],
-                [
-                    [1, 0, -2, 3, 0, -24],
-                    [0, 1, -2, 2, 0, -7],
-                    [0, 0, 0, 0, 1, 4],
-                ],
-            ],
-            [
-                [
-                    [0, 2, 8, -7],
-                    [2, -2, 4, 0],
-                    [-3, 4, -2, -5],
-                ],
-                [
-                    [1, 0, 6, 0],
-                    [0, 1, 4, 0],
-                    [0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [1, -2, 3, 9],
-                    [-1, 3, 0, -4],
-                    [2, -5, 5, 17],
-                ],
-                [
-                    [1, 0, 0, 1],
-                    [0, 1, 0, -1],
-                    [0, 0, 1, 2],
-                ],
-            ],
-            [
-                [
-                    [1, 0, -2, 1, 0],
-                    [0, -1, -3, 1, 3],
-                    [-2, -1, 1, -1, 3],
-                    [0, 3, 9, 0, -12],
-                ],
-                [
-                    [1, 0, -2, 0, 1],
-                    [0, 1, 3, 0, -4],
-                    [0, 0, 0, 1, -1],
-                    [0, 0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 1, 4, 1, 2],
-                    [0, 1, 2, 1, 1],
-                    [0, 0, 0, 1, 2],
-                    [1, -1, 0, 0, 2],
-                    [2, 1, 6, 0, 1],
-                ],
-                [
-                    [1, 0, 2, 0, 1],
-                    [0, 1, 2, 0, -1],
-                    [0, 0, 0, 1, 2],
-                    [0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 0, -1, 1, -10],
-                    [1, 3, 1, 1, -1, -9],
-                    [2, 5, 1, 0, 0, -19],
-                    [3, 6, 0, 0, -6, -27],
-                    [1, 5, 3, 5, -5, -7],
-                ],
-                [
-                    [1, 0, -2, 0, -10, -7],
-                    [0, 1, 1, 0, 4, -1],
-                    [0, 0, 0, 1, -3, 1],
-                    [0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                  [-4, 3, 1, 5, -8],
-                  [6, 0, 9, 2, 6],
-                  [-1, 4, 4, 0, 2],
-                  [8, -1, 3, 4, 0],
-                  [5, 9, -7, -7, 1],
-                ],
-                [
-                  [1, 0, 0, 0, 0],
-                  [0, 1, 0, 0, 0],
-                  [0, 0, 1, 0, 0],
-                  [0, 0, 0, 1, 0],
-                  [0, 0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [4, 7],
-                    [2, 6],
-                ],
-                [
-                    [1, 0],
-                    [0, 1],
-                ],
-            ],
-            [
-                [
-                    [4, 3],
-                    [3, 2],
-                ],
-                [
-                    [1, 0],
-                    [0, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 2],
-                    [3, 4],
-                ],
-                [
-                    [1, 0],
-                    [0, 1],
-                ],
-            ],
-            [
-                [
-                    [3, 1],
-                    [3, 4],
-                ],
-                [
-                    [1, 0],
-                    [0, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 3],
-                    [0, 4, 5],
-                    [1, 0, 6],
-                ],
-                [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [7, 2, 1],
-                    [0, 3, -1],
-                    [-3, 4, -2],
-                ],
-                [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [3, 6, 6, 8],
-                    [4, 5, 3, 2],
-                    [2, 2, 2, 3],
-                    [6, 8, 4, 2],
-                ],
-                [
-                    [1, 0, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 0, 1, 0],
-                    [0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [0, 0],
-                    [0, 1],
-                ],
-                [
-                    [0, 1],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 1, 1, 1, 1],
-                    [0, 1, 1, 1, 1],
-                    [0, 0, 0, 0, 1],
-                ],
-                [
-                    [1, 0, 0, 0, 0],
-                    [0, 1, 1, 1, 0],
-                    [0, 0, 0 ,0, 1],
-                ],
-            ],
-            [
-                [
-                    [0, 0],
-                    [1, 1],
-                    [-1, 0],
-                    [0, -1],
-                    [0, 0],
-                    [0, 0],
-                    [0, 0],
-                    [0, 0],
-                    [1, 1],
-                ],
-                [
-                    [1, 0],
-                    [0, 1],
-                    [0, 0],
-                    [0, 0],
-                    [0, 0],
-                    [0, 0],
-                    [0, 0],
-                    [0, 0],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [1,  2,  3,  4,  3,  1],
-                    [2,  4,  6,  2,  6,  2],
-                    [3,  6, 18,  9,  9, -6],
-                    [4,  8, 12, 10, 12,  4],
-                    [5, 10, 24, 11, 15, -4],
-                ],
-                [
-                    [1,  2,  0,  0,  3, 4],
-                    [0,  0,  1,  0,  0, -1],
-                    [0,  0,  0,  1,  0, 0],
-                    [0,  0,  0,  0,  0, 0],
-                    [0,  0,  0,  0,  0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 3, 4, 3, 1],
-                    [2, 4, 6, 2, 6, 2],
-                    [3, 6, 18, 9, 9, -6],
-                    [4, 8, 12, 10, 12, 4],
-                    [5, 10, 24, 11, 15, -4]
-                ],
-                [
-                    [1, 2, 0, 0, 3, 4],
-                    [0, 0, 1, 0, 0, -1],
-                    [0, 0, 0, 1, 0, 0],
-                    [0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [0, 1],
-                    [1, 2],
-                    [0, 5],
-                ],
-                [
-                    [1, 0],
-                    [0, 1],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 1, 0, 1, 0],
-                    [1, 0, 1, 0, 0, 1],
-                    [1, 0, 0, 1, 1, 0],
-                    [1, 0, 0, 1, 0, 1],
-                    [0, 1, 0, 1, 1, 0],
-                    [0, 1, 0, 1, 0, 1],
-                    [0, 1, 1, 0, 1, 0],
-                    [0, 1, 1, 0, 0, 1],
-                ],
-                [
-                    [1, 0, 0, 1, 0, 1],
-                    [0, 1, 0, 1, 0, 1],
-                    [0, 0, 1, -1, 0, 0],
-                    [0, 0, 0, 0, 1, -1],
-                    [0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [3, -4, 2],
-                    [-2, 6, 2],
-                    [4, 2, 10],
-                ],
-                [
-                    [1, 0, 2],
-                    [0, 1, 1],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [3, 4, 2],
-                    [-2, 6, 2],
-                    [4, 2, 10],
-                ],
-                [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [3, -4, 2],
-                    [2, 6, 2],
-                    [4, 2, 10],
-                ],
-                [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [3, -4, 2],
-                    [2, 6, 2],
-                    [-4, 2, 10],
-                ],
-                [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [3, -4, 2],
-                    [-2, 6, 2],
-                    [-4, 2, 10],
-                ],
-                [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [-3, -4, 2],
-                    [-2, 6, 2],
-                    [4, 2, 10],
-                ],
-                [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [2, 0, -1, 0, 0],
-                    [1, 0, 0, -1, 0],
-                    [3, 0, 0, -2, -1],
-                    [0, 1, 0, 0, -2],
-                    [0, 1, -1, 0, 0]
-                ],
-                [
-                    [1, 0, 0, 0, -1],
-                    [0, 1, 0, 0, -2],
-                    [0, 0, 1, 0, -2],
-                    [0, 0, 0, 1, -1],
-                    [0, 0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [2, -1, 4, 3, 2, 3, 4, 4],
-                    [-1, 2, 3, 2, 1, 2, 3, 3],
-                    [4, 3, 2, 1, 2, 3, 4, 4],
-                    [2, 1, 2, 1, 2, 1, 2, 2],
-                    [3, 2, 3, 2, 1, 2, 3, 3],
-                    [3, 2, 3, 2, 1, 2, 1, 2],
-                    [4, 3, 4, 3, 2, 1, 2, 2],
-                    [4, 3, 4, 3, 2, 2, 2, 2],
-                ],
-                [
-                    [1, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 1, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 1, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 1, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 1, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 1, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 1, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [5, -7, 6],
-                    [-9, 5, 5],
-                    [1, 3, 11],
-                ],
-                [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 3, 0, 0, 0],
-                    [0, 0, 1, 1, 0, 1],
-                    [0, 0, 0, 1, 1, 1],
-                ],
-                [
-                    [1, 2, 0, 0, 3, 0],
-                    [0, 0, 1, 0, -1, 0],
-                    [0, 0, 0, 1, 1, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 1],
-                    [-2, -3, 1],
-                    [3, 5, 0]
-                ],
-                [
-                    [1, 0, -5],
-                    [0, 1, 3],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [-7, -6, -12, -33],
-                    [5, 5, 7, 24],
-                    [1, 0, 4, 5],
-                ],
-                [
-                    [1, 0, 0, -3],
-                    [0, 1, 0, 5],
-                    [0, 0, 1, 2],
-                ],
-            ],
-            [
-                [
-                    [1, -1, 2, 1],
-                    [2, 1, 1, 8],
-                    [1, 1, 0, 5],
-                ],
-                [
-                    [1, 0, 1, 3],
-                    [0, 1, -1, 2],
-                    [0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [2, 1, 7, -7, 2],
-                    [-3, 4, -5, -6, 3],
-                    [1, 1, 4, -5, 2],
-                ],
-                [
-                    [1, 0, 3, -2, 0],
-                    [0, 1, 1, -3, 0],
-                    [0, 0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [2, -3, 1, 7, 14],
-                    [2, 8, -4, 5, -1],
-                    [1, 3, -3, 0, 4],
-                    [-5, 2, 3, 4, -19],
-                ],
-                [
-                    [1, 0, 0, 0, 1],
-                    [0, 1, 0, 0, -3],
-                    [0, 0, 1, 0, -4],
-                    [0, 0, 0, 1, 1],
-                ],
-            ],
-            [
-                [
-                    [3, 4, -1, 2, 6],
-                    [1, -2, 3, 1, 2],
-                    [0, 10, -10, -1, 1],
-                ],
-                [
-                    [1, 0, 1, 4 / 5, 0],
-                    [0, 1, -1, -1 / 10, 0],
-                    [0, 0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [2, 4, 5, 7, -26],
-                    [1, 2, 1, -1, -4],
-                    [-2, -4, 1, 11, -10],
-                ],
-                [
-                    [1, 2, 0, -4, 2],
-                    [0, 0, 1, 3, -6],
-                    [0, 0, 0, 0 ,0],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 8, -7, -2],
-                    [3, 2, 12, -5, 6],
-                    [-1, 1, 1, -5, -10],
-                ],
-                [
-                    [1, 0, 2, 1, 0],
-                    [0, 1, 3, -4, 0],
-                    [0, 0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [2, 1, 7, -2, 4],
-                    [3, -2, 0, 11, 13],
-                    [1, 1, 5, -3, 1],
-                ],
-                [
-                    [1, 0, 2, 1, 3],
-                    [0, 1, 3, -4, -2],
-                    [0, 0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [2, 3, -1, -9, -16],
-                    [1, 2, 1, 0, 0],
-                    [-1, 2, 3, 4, 8],
-                ],
-                [
-                    [1, 0, 0, 2, 3],
-                    [0, 1, 0, -3, -5],
-                    [0, 0, 1, 4, 7],
-                ],
-            ],
-            [
-                [
-                    [2, 3, 19, -4, 2],
-                    [1, 2, 12, -3, 1],
-                    [-1, 2, 8, -5, 1],
-                ],
-                [
-                    [1, 0, 2, 1, 0],
-                    [0, 1, 5, -2, 0],
-                    [0, 0, 0 ,0, 1],
-                ],
-            ],
-            [
-                [
-                    [-1, 5, 0, 0, -8],
-                    [-2, 5, 5, 2, 9],
-                    [-3, -1, 3, 1, 3],
-                    [7, 6, 5, 1, 30],
-                ],
-                [
-                    [1, 0, 0, 0, 3],
-                    [0, 1, 0, 0, -1],
-                    [0, 0, 1, 0, 2],
-                    [0, 0, 0, 1, 5],
-                ],
-            ],
-            [
-                [
-                    [1, 2, -4, -1, 0, 32],
-                    [1, 3, -7, 0, -1, 33],
-                    [1, 0, 2, -2, 3, 22],
-                ],
-                [
-                    [1, 0, 2, 0, 5, 6],
-                    [0, 1, -3, 0, -2, 9],
-                    [0, 0, 0, 1, 1, -8],
-                ],
-            ],
-            [
-                [
-                    [2, 1, 6],
-                    [-1, -1, -2],
-                    [3, 4, 4],
-                    [3, 5, 2],
-                ],
-                [
-                    [1, 0, 4],
-                    [0, 1, -2],
-                    [0, 0, 0],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [2, 1, 5, 10],
-                    [1, -3, -1, -2],
-                    [4, -2, 6, 12],
-                ],
-                [
-                    [1, 0, 2, 4],
-                    [0, 1, 1, 2],
-                    [0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 2, -4],
-                    [-3, -1, -3],
-                    [-2, 1, -7],
-                ],
-                [
-                    [1, 0, 2],
-                    [0, 1, -3],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 1, 1],
-                    [-4, -3, -2],
-                    [3, 2, 1],
-                ],
-                [
-                    [1, 0, -1],
-                    [0, 1, 2],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 2, -1, -1],
-                    [2, 4, -1, 4],
-                    [-1, -2, 3, 5],
-                ],
-                [
-                    [1, 2, 0, 0],
-                    [0, 0, 1, 0],
-                    [0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 1, -1, 1],
-                    [2, 1, -1, 3],
-                    [1, 4, -4, -2],
-                    [2, 0, 1, 2],
-                ],
-                [
-                    [1, 0, 0, 2],
-                    [0, 1, 0, -3],
-                    [0, 0, 1, -2],
-                    [0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [4, 4, 2, 108],
-                    [1, 1, 1, 30],
-                    [2, -1, 0, 0],
-                ],
-                [
-                    [1, 0, 0, 8],
-                    [0, 1, 0, 16],
-                    [0, 0, 1, 6],
-                ],
-            ],
-            [
-                [
-                    [1, 1, 1, 1, 66],
-                    [1, -4, 0, 0, 0],
-                    [4, 4, 2, 2, 252],
-                ],
-                [
-                    [1, 0, 0, 0, 48],
-                    [0, 1, 0, 0, 12],
-                    [0, 0, 1, 1, 6],
-                ],
-            ],
-            [
-                [
-                    [5, 0, 0, 0],
-                    [-6, 1, 0, 0],
-                    [4, 6, 8, 0],
-                    [6, 7, 7, -1],
-                ],
-                [
-                    [1, 0, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 0, 1, 0],
-                    [0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [5, -6, 4, 6],
-                    [0, 1, 6, 7],
-                    [0, 0, 8, 7],
-                    [0, 0, 0, -1]
-                ],
-                [
-                    [1, 0, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 0, 1, 0],
-                    [0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [25, -30, 20, 30],
-                    [-30, 37, -18, -29],
-                    [20, -18, 116, 122],
-                    [30, -29, 122, 135],
-                ],
-                [
-                    [1, 0, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 0, 1, 0],
-                    [0, 0, 0, 1],
-                ]
-            ],
-            [
-                [
-                    [113, 60, 74, -6],
-                    [60, 86, 97, -7],
-                    [74, 97, 113, -7],
-                    [-6, -7, -7, 1],
-                ],
-                [
-                    [1, 0, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 0, 1, 0],
-                    [0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [5, 0, 0, 0],
-                    [-6, 1, 0, 0],
-                    [4, 6, 0, 0],
-                    [6, 7, 7, -1],
-                ],
-                [
-                    [1, 0, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 0, 1, -1 / 7],
-                    [0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [5, -6, 4, 6],
-                    [0, 1, 6, 7],
-                    [0, 0, 0, 7],
-                    [0, 0, 0, -1]
-                ],
-                [
-                    [1, 0, 8, 0],
-                    [0, 1, 6, 0],
-                    [0, 0, 0, 1],
-                    [0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [113, 60, 42, -6],
-                    [60, 86, 49, -7],
-                    [42, 49, 49, -7],
-                    [-6, -7, -7, 1],
-                ],
-                [
-                    [1, 0, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 0, 1, -1 / 7],
-                    [0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [25, -30, 20, 30],
-                    [-30, 37, -18, -29],
-                    [20, -18, 52, 66],
-                    [30, -29, 66, 135],
-                ],
-                [
-                    [1, 0, 8, 0],
-                    [0, 1, 6, 0],
-                    [0, 0, 0, 1],
-                    [0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [172, 124, 45, 0],
-                    [124, 92, 30, 0],
-                    [45, 30, 25, 0],
-                    [0, 0, 0, 0],
-                ],
-                [
-                    [1, 0, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 0, 1, 0],
-                    [0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [18, 36, 54, 41],
-                    [36, 81, 126, 83],
-                    [54, 126, 198, 125],
-                    [41, 83, 125, 102],
-                ],
-                [
-                    [1, 0, -1, 0],
-                    [0, 1, 2, 0],
-                    [0, 0, 0, 1],
-                    [0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [82, 98, 110, 48],
-                    [98, 118, 133, 60],
-                    [110, 133, 151, 66],
-                    [48, 60, 66, 48],
-                ],
-                [
-                    [1, 0, 0, -6],
-                    [0, 1, 0, 10],
-                    [0, 0, 1, -4],
-                    [0, 0, 0, 0],
-                ]
-            ]
-        ];
-    }
-
-    /**
-     * @testCase     isRref on rref matrix should return true
-     * @dataProvider dataProviderForNonsingularMatrix
-     */
-    public function testRrefIsRref(array $A)
-    {
-        $A   = MatrixFactory::create($A);
-        $rref = $A->rref();
-
-        $this->assertTrue($rref->isRref());
-        $this->assertTrue($rref->isRef());
-    }
-
-    /**
+     * @test         Solve array
      * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
      */
     public function testSolveArray(array $A, array $b, array $expected)
     {
+        // Given
         $A        = MatrixFactory::create($A);
         $expected = new Vector($expected);
-        $x        = $A->solve($b);
 
+        // When
+        $x = $A->solve($b);
+
+        // Then
         $this->assertEquals($expected, $x, '', 0.001);
     }
 
     /**
+     * @test         Solve vector
      * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
      */
     public function testSolveVector(array $A, array $b, array $expected)
     {
+        // Given
         $A        = MatrixFactory::create($A);
         $b        = new Vector($b);
         $expected = new Vector($expected);
-        $x        = $A->solve($b);
 
+        // When
+        $x = $A->solve($b);
+
+        // Then
         $this->assertEquals($expected, $x, '', 0.001);
     }
 
     /**
+     * @test         Compute the inverse before trying to solve
      * @dataProvider dataProviderForSolve
-     * Compute the inverse before trying to solve.
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
      */
     public function testSolveInverse(array $A, array $b, array $expected)
     {
+        // Given
         $A        = MatrixFactory::create($A);
         $b        = new Vector($b);
         $expected = new Vector($expected);
 
+        // When
         $A->inverse();
         $x = $A->solve($b);
 
+        // Then
         $this->assertEquals($expected, $x, '', 0.001);
     }
 
     /**
+     * @test         Compute the RREF before trying to solve.
      * @dataProvider dataProviderForSolve
-     * Compute the RREF before trying to solve.
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
      */
     public function testSolveRref(array $A, array $b, array $expected)
     {
+        // Given
         $A        = MatrixFactory::create($A);
         $b        = new Vector($b);
         $expected = new Vector($expected);
 
+        // When
         $A->rref();
         $x = $A->solve($b);
 
+        // Then
         $this->assertEquals($expected, $x, '', 0.001);
     }
 
-    public function dataProviderForSolve()
+    /**
+     * @return array
+     */
+    public function dataProviderForSolve(): array
     {
         return [
             [
@@ -1429,21 +591,31 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         solve exception
      * @dataProvider dataProviderForSolveExceptionNotVectorOrArray
+     * @throws       \Exception
      */
     public function testSolveExceptionNotVectorOrArray($b)
     {
+        // Given
         $A = new Matrix([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
         ]);
 
+        // Then
         $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
         $A->solve($b);
     }
 
-    public function dataProviderForSolveExceptionNotVectorOrArray()
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    public function dataProviderForSolveExceptionNotVectorOrArray(): array
     {
         return [
             [new Matrix([[1], [2], [3]])],
@@ -1452,36 +624,7 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isRef on ref matrix should return true
-     * @dataProvider dataProviderForNonsingularMatrix
-     */
-    public function testRefIsRef(array $A)
-    {
-        $A   = MatrixFactory::create($A);
-        $ref = $A->ref();
-
-        $this->assertTrue($ref->isRef());
-    }
-
-    /**
-     * @testCase rref lazy load is the same as the computed and returned value.
-     */
-    public function testRrefAlreadyComputed()
-    {
-        $A = new Matrix([
-            [ 4,  1,  2,  -3],
-            [-3,  3, -1,   4],
-            [-1,  2,  5,   1],
-            [ 5,  4,  3,  -1],
-        ]);
-        $rref1 = $A->rref(); // computes rref
-        $rref2 = $A->rref(); // simply gets already-computed rref
-
-        $this->assertEquals($rref1, $rref2);
-    }
-
-    /**
-     * @testCase     Test ref by solving the system of linear equations.
+     * @test         Test ref by solving the system of linear equations.
      *               There is no single row echelon form for a matrix (as opposed to reduced row echelon form).
      *               Therefore, instead of directly testing the REF obtained,
      *               use the REF to then solve for x using back substitution.
@@ -1490,16 +633,18 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
      * @param        array $A
      * @param        array $b
      * @param        array $expected_x
+     * @throws       \Exception
      */
     public function testRefUsingSolve(array $A, array $b, array $expected_x)
     {
+        // Given
         $m        = count($b);
         $A        = MatrixFactory::create($A);
         $b_matrix = MatrixFactory::createFromVectors([new Vector($b)]);
         $Ab       = $A->augment($b_matrix);
         $ref      = $Ab->ref();
 
-        // Solve for x using back substituion on the REF matrix
+        // When solve for x using back substitution on the REF matrix
         $x = [];
         for ($i = $m - 1; $i >= 0; $i--) {
             $x[$i] = $ref[$i][$m];
@@ -1509,28 +654,12 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
             $x[$i] /= $ref[$i][$i];
         }
 
+        // Then
         $this->assertEquals($expected_x, $x, '', 0.001);
 
-        // As an extra check, solve the original matrix and compare the result.
+        // And as an extra check, solve the original matrix and compare the result.
         $solved_x = $A->solve($b);
         $this->assertEquals($x, $solved_x->getVector(), '', 0.00001);
-    }
-
-    /**
-     * @testCase ref lazy load is the same as the computed and returned value.
-     */
-    public function testRefAlreadyComputed()
-    {
-        $A = new Matrix([
-            [ 4,  1,  2,  -3],
-            [-3,  3, -1,   4],
-            [-1,  2,  5,   1],
-            [ 5,  4,  3,  -1],
-        ]);
-        $ref1 = $A->ref(); // computes ref
-        $ref2 = $A->ref(); // simply gets already-computed ref
-
-        $this->assertEquals($ref1, $ref2);
     }
 
     /**
@@ -1538,6 +667,7 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForCholeskyDecomposition
      * @param        array $A
      * @param        array $expected_L
+     * @throws       \Exception
      */
     public function testCholeskyDecomposition(array $A, array $expected_L)
     {
@@ -1562,6 +692,9 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($A->getMatrix(), $LLᵀ->getMatrix());
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForCholeskyDecomposition(): array
     {
         return [
@@ -1695,10 +828,12 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase choleskyDecomposition throws a MatrixException if the matrix is not positive definite
+     * @test   choleskyDecomposition throws a MatrixException if the matrix is not positive definite
+     * @throws \Exception
      */
     public function testCholeskyDecompositionException()
     {
+        // Given
         $A = [
             [1, 2, 3],
             [2, 3, 4],
@@ -1706,431 +841,38 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
         ];
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $L = $A->choleskyDecomposition();
     }
 
     /**
-     * @test         rowReductionToEchelonForm method of ref
-     * @dataProvider dataProviderForRowReductionToEchelonForm
-     * @param        array $A
-     * @param        array $R
-     * @throws       \Exception
-     */
-    public function testRowReductionToEchelonForm(array $A, array $R)
-    {
-        // Given
-        $A   = MatrixFactory::create($A);
-        $R   = MatrixFactory::create($R);
-
-        // When
-        list($ref, $swaps) = Reduction\RowEchelonForm::rowReductionToEchelonForm($A);
-        $ref = MatrixFactory::create($ref);
-
-        // Then
-        $this->assertEquals($R->getMatrix(), $ref->getMatrix(), '', 0.000001);
-        $this->assertTrue($ref->isRef());
-    }
-
-    public function dataProviderForRowReductionToEchelonForm(): array
-    {
-        return [
-            [
-                [
-                    [1, 2, 0],
-                    [-1, 1, 1],
-                    [1, 2, 3],
-                ],
-                [
-                    [1, 2, 0],
-                    [0, 1, 1 / 3],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [0, 2, 0],
-                    [-1, 1, 1],
-                    [1, 2, 3],
-                ],
-                [
-                    [1, -1, -1],
-                    [0, 1, 0],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [0, 2, 0],
-                    [0, 1, 1],
-                    [1, 2, 3],
-                ],
-                [
-                    [1, 2, 3],
-                    [0, 1, 1],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 0],
-                    [0, 1, 1],
-                    [0, 2, 3],
-                ],
-                [
-                    [1, 2, 0],
-                    [0, 1, 1],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [2, 5, 4],
-                    [2, 4, 6],
-                    [8, 7, 5],
-                    [6, 4, 5],
-                    [6, 2, 3],
-                ],
-                [
-                    [1, 5 / 2, 2],
-                    [0, 1, -2],
-                    [0, 0, 1],
-                    [0, 0, 0],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 0, -2, 1, 0],
-                    [0, -1, -3, 1, 3],
-                    [-2, -1, 1, -1, 3],
-                    [0, 3, 9, 0, -12],
-                ],
-                [
-                    [1, 0, -2, 1, 0],
-                    [0, 1, 3, -1, -3],
-                    [0, 0, 0, 1, -1],
-                    [0, 0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [5, 4, 8],
-                    [7, 7, 5],
-                    [6, 2, 4],
-                ],
-                [
-                    [1, 4 / 5, 8 / 5],
-                    [0, 1, -31 / 7],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [2, 0, -1, 0, 0],
-                    [1, 0, 0, -1, 0],
-                    [3, 0, 0, -2, -1],
-                    [0, 1, 0, 0, -2],
-                    [0, 1, -1, 0, 0]
-                ],
-                [
-                    [1, 0, -1 / 2, 0, 0],
-                    [0, 1, 0, 0, -2],
-                    [0, 0, 1, -4 / 3, -2 / 3],
-                    [0, 0, 0, 1, -1],
-                    [0, 0, 0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [2, -1, 4, 3, 2, 3, 4, 4],
-                    [-1, 2, 3, 2, 1, 2, 3, 3],
-                    [4, 3, 2, 1, 2, 3, 4, 4],
-                    [2, 1, 2, 1, 2, 1, 2, 2],
-                    [3, 2, 3, 2, 1, 2, 3, 3],
-                    [3, 2, 3, 2, 1, 2, 1, 2],
-                    [4, 3, 4, 3, 2, 1, 2, 2],
-                    [4, 3, 4, 3, 2, 2, 2, 2],
-                ],
-                [
-                    [1, -1 / 2, 2, 3 / 2, 1, 3 / 2, 2, 2],
-                    [0, 1, 10 / 3, 7 / 3, 4 / 3, 7 / 3, 10 / 3, 10 / 3],
-                    [0, 0, 1, 25 / 34, 13 / 34, 11 / 17, 31 / 34, 31 / 34],
-                    [0, 0, 0, 1, -11 / 5, 18 / 5, 13 / 5, 13 / 5],
-                    [0, 0, 0, 0, 1, 2, 2, 2],
-                    [0, 0, 0, 0, 0, 1, 1, 1],
-                    [0, 0, 0, 0, 0, 0, 1, 1 / 2],
-                    [0, 0, 0, 0, 0, 0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [0]
-                ],
-                [
-                    [0],
-                ],
-            ],
-            [
-                [
-                    [1]
-                ],
-                [
-                    [1],
-                ],
-            ],
-            [
-                [
-                    [5]
-                ],
-                [
-                    [1],
-                ],
-            ],
-            [
-                [
-                    [0, 0],
-                    [0, 0]
-                ],
-                [
-                    [0, 0],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [0, 0],
-                    [0, 1]
-                ],
-                [
-                    [0, 1],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 0],
-                    [0, 0]
-                ],
-                [
-                    [1, 0],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [0, 0],
-                    [1, 0]
-                ],
-                [
-                    [1, 0],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [0, 0],
-                    [1, 1]
-                ],
-                [
-                    [1, 1],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [0, 1],
-                    [0, 1]
-                ],
-                [
-                    [0, 1],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 0],
-                    [1, 0]
-                ],
-                [
-                    [1, 0],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 1],
-                    [1, 1]
-                ],
-                [
-                    [1, 1],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [2, 6],
-                    [1, 3]
-                ],
-                [
-                    [1, 3],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [3, 6],
-                    [1, 2]
-                ],
-                [
-                    [1, 2],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 2],
-                    [1, 2]
-                ],
-                [
-                    [1, 2],
-                    [0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 3],
-                    [2, 3, 4],
-                    [3, 4, 5],
-                ],
-                [
-                    [1, 2, 3],
-                    [0, 1, 2],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 1],
-                    [-2, -3, 1],
-                    [3, 5, 0],
-                ],
-                [
-                    [1, 2, 1],
-                    [0, 1, 3],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, -1, 2],
-                    [2, 1, 1],
-                    [1, 1, 0],
-                ],
-                [
-                    [1, -1, 2],
-                    [0, 1, -1],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 1],
-                    [0, 1, -1],
-                    [0, 0, 0],
-                ],
-                [
-                    [1, 0, 1],
-                    [0, 1, -1],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 3],
-                    [1, 3, 1],
-                    [3, 4, 7],
-                ],
-                [
-                    [1, 2, 3],
-                    [0, 1, -2],
-                    [0, 0, 1],
-                ],
-            ],
-            [
-                [
-                    [1, 0, 0],
-                    [-2, 0, 0],
-                    [4, 6, 1],
-                ],
-                [
-                    [1, 0, 0],
-                    [0, 1, 1 / 6],
-                    [0, 0, 0],
-                ],
-            ],
-            [
-                [
-                    [1, 1, 4, 1, 2],
-                    [0, 1, 2, 1, 1],
-                    [0, 0, 0, 1, 2],
-                    [1, -1, 0, 0, 2],
-                    [2, 1, 6, 0, 1],
-                ],
-                [
-                    [1, 1, 4, 1, 2],
-                    [0, 1, 2, 1, 1],
-                    [0, 0, 0, 1, 2],
-                    [0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0],
-                ],
-            ],
-            // This is an interesting case because of the miniscule values that are for all intents and purposes zero.
-            // If the miniscule zero-like values are not handled properly, the zero value will be used as a pivot,
-            // instead of being interchanged with a non-zero row.
-            [
-                [
-                    [0, 1, 4, 2, 3, 3, 4, 4],
-                    [1, 0, 3, 1, 2, 2, 3, 3],
-                    [4, 3, 0, 2, 3, 3, 4, 4],
-                    [3, 2, 1, 1, 2, 2, 3, 3],
-                    [2, 1, 2, 0, 1, 1, 2, 2],
-                    [3, 2, 3, 1, 2, 0, 1, 2],
-                    [4, 3, 4, 2, 3, 1, 0, 2],
-                    [4, 3, 4, 2, 3, 2, 2, 0],
-                ],
-                [
-                    [1, 0, 3, 1, 2, 2, 3, 3],
-                    [0, 1, 4, 2, 3, 3, 4, 4],
-                    [0, 0, 1, 1 / 3, 7 / 12, 7 / 12, 5 / 6, 5 / 6],
-                    [0, 0, 0, 1, 1, 1, 1, 1],
-                    [0, 0, 0, 0, 1, 5, 6, 4],
-                    [0, 0, 0, 0, 0, 1, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 1, -1],
-                    [0, 0, 0, 0, 0, 0, 0, 0],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @testCase     croutDecomposition returns the expected array of L and U factorized matrices
+     * @test         croutDecomposition returns the expected array of L and U factorized matrices
      * @dataProvider dataProviderForCroutDecomposition
      * @param        array $A
      * @param        array $expected
+     * @throws       \Exception
      */
     public function testCroutDecomposition(array $A, array $expected)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $L = MatrixFactory::create($expected['L']);
         $U = MatrixFactory::create($expected['U']);
 
+        // When
         $lu = $A->croutDecomposition();
 
+        // Then
         $this->assertEquals($L->getMatrix(), $lu['L']->getMatrix(), '', 0.00001);
         $this->assertEquals($U->getMatrix(), $lu['U']->getMatrix(), '', 0.00001);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForCroutDecomposition(): array
     {
         return [
@@ -2233,21 +975,26 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase croutDecomposition throws a MatrixException if the det(L) is close to zero
+     * @test    croutDecomposition throws a MatrixException if the det(L) is close to zero
+     * @throws \Exception
      */
     public function testCroutDecompositionException()
     {
+        // Given
         $A = MatrixFactory::create([
             [3, 4],
             [6, 8],
         ]);
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $lu = $A->croutDecomposition();
     }
 
     /**
-     * @testCase     qrDecomposition returns the expected array of Q and R factorized matrices
+     * @test         qrDecomposition returns the expected array of Q and R factorized matrices
      * @dataProvider dataProviderForQrDecomposition
      * @param        array $A
      * @param        array $expected
