@@ -3108,6 +3108,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - QR decomposition
      *  - Cholesky decomposition
      *  - Crout decomposition
+     *  - Singular value decomposition (SVD)
      ********************************************************************************/
 
     /**
@@ -3216,7 +3217,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * U is an orthogonal matrix
      * S is a diagonal matrix
-     * Vᵀ is an orthogonal matrix
+     * V is an orthogonal matrix
      *
      * @return Decomposition\SVD
      *
