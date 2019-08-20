@@ -30,9 +30,13 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
         $LU = $A->luDecomposition();
 
         // Then
-        $this->assertEquals($L, $LU['L'], '', 0.001);
-        $this->assertEquals($U, $LU['U'], '', 0.001);
-        $this->assertEquals($P, $LU['P'], '', 0.001);
+        $this->assertEquals($L, $LU->L, '', 0.001);
+        $this->assertEquals($U, $LU->U, '', 0.001);
+        $this->assertEquals($P, $LU->P, '', 0.001);
+
+        // And
+        $this->assertTrue($LU->L->isLowerTriangular());
+        $this->assertTrue($LU->U->isUpperTriangular());
     }
 
     /**
@@ -281,29 +285,6 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         LU decomposition pivot matrix
-     * @dataProvider dataProviderForLUDecomposition
-     * Unit test data created from online calculator: https://www.easycalculation.com/matrix/lu-decomposition-matrix.php
-     * @param        array $A
-     * @param        array $_
-     * @param        array $__
-     * @param        array $P
-     * @throws       \Exception
-     */
-    public function testLUDecompositionPivotize(array $A, array $_, array $__, array $P)
-    {
-        // Given
-        $A = MatrixFactory::create($A);
-        $P = MatrixFactory::create($P);
-
-        // When
-        $LU = $A->luDecomposition();
-
-        // Then
-        $this->assertEquals($P, $LU['P'], '', 0.000001);
-    }
-
-    /**
      * @test   LU decomposition exception for matrix not being square
      * @throws \Exception
      */
@@ -338,12 +319,10 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
 
         // When
         $cholesky = $A->choleskyDecomposition();
-        $L        = $cholesky['L'];
-        $Lᵀ       = $cholesky['LT'];
+        $L        = $cholesky->L;
+        $Lᵀ       = $cholesky->LT;
 
         // Then
-        $this->assertEquals($expected_L, $L, '', 0.00001);
-        $this->assertEquals($expected_Lᵀ, $Lᵀ, '', 0.00001);
         $this->assertEquals($expected_L->getMatrix(), $L->getMatrix(), '', 0.00001);
         $this->assertEquals($expected_Lᵀ->getMatrix(), $Lᵀ->getMatrix(), '', 0.00001);
 
@@ -526,8 +505,8 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
         $lu = $A->croutDecomposition();
 
         // Then
-        $this->assertEquals($L->getMatrix(), $lu['L']->getMatrix(), '', 0.00001);
-        $this->assertEquals($U->getMatrix(), $lu['U']->getMatrix(), '', 0.00001);
+        $this->assertEquals($L->getMatrix(), $lu->L->getMatrix(), '', 0.00001);
+        $this->assertEquals($U->getMatrix(), $lu->U->getMatrix(), '', 0.00001);
     }
 
     /**
