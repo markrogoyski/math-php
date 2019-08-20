@@ -240,7 +240,7 @@ class PCA
      *
      * @return Matrix
      */
-    public function getT²Distances(Matrix $new_data = null): Matrix
+    public function getT2Distances(Matrix $new_data = null): Matrix
     {
         $vars = $this->data->getN();
         if ($new_data === null) {
@@ -273,7 +273,7 @@ class PCA
      * @param float $alpha the probability limit of the critical value
      * @return float[] Critical values for each model complexity
      */
-    public function getCriticalT²(float $alpha = .05): array
+    public function getCriticalT2(float $alpha = .05): array
     {
         $samp = $this->data->getM();
         $vars = $this->data->getN();

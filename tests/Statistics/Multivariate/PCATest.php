@@ -210,7 +210,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
     {
         $expected = [4.159615, 6.852714, 9.40913, 12.01948, 14.76453, 17.69939,
             20.87304, 24.33584, 28.14389];
-        $this->assertEquals($expected, $this->pca->getCriticalT²(), '', .00001);
+        $this->assertEquals($expected, $this->pca->getCriticalT2(), '', .00001);
     }
 
     /**
@@ -274,7 +274,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [1.5517443671, 9.2339474, 10.2140058, 12.224765, 12.507492, 15.981726, 18.306654, 18.422492, 18.549614],
             [0.6412511483, 0.6468967, 0.9627476, 1.3320679, 1.407305, 3.275602, 4.196356, 5.893684, 7.132357],
         ];
-        $this->assertEquals($expected, $this->pca->getT²Distances()->getMatrix(), '', .00001);
+        $this->assertEquals($expected, $this->pca->getT2Distances()->getMatrix(), '', .00001);
     }
 
     /**
@@ -291,7 +291,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
     {
         $expected = [[0.002794881, 29.97494, 40.72243, 41.2289, 50.24047, 328.5471, 451.289, 518.2879, 654.4443]];
         $newdata = MatrixFactory::create([[1,2,3,4,5,6,7,8,9]]);
-        $this->assertEquals($expected, $this->pca->getT²Distances($newdata)->getMatrix(), '', .0001);
+        $this->assertEquals($expected, $this->pca->getT2Distances($newdata)->getMatrix(), '', .0001);
     }
 
     /**
