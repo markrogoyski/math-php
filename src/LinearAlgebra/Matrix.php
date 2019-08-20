@@ -77,7 +77,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
     /**
      * Get matrix
-     * @return array of arrays
+     * @return array[] of arrays
      */
     public function getMatrix(): array
     {
