@@ -42,13 +42,6 @@ class PCA
      * The Eigenvectors of the correlation matrix
      */
     protected $EVec = null;
-
-    /**
-     * @var number $inertia
-     * The trace of the correlation matrix
-     * Also the sum of the eigenvalues
-     */
-    protected $inertia;
     
     /**
      * Constructor
@@ -88,8 +81,7 @@ class PCA
         // Create the correlation / variance-covarience Matrix
         $samples = $M->getM();
         $corrCovMatrix = $this->data->transpose()->multiply($this->data)->scalarDivide($samples - 1);
-        
-        $this->inertia = $corrCovMatrix->trace();
+
         $this->EVal = new Vector($corrCovMatrix->eigenvalues(Eigenvalue::JACOBI_METHOD));
         $this->EVec = $corrCovMatrix->eigenvectors(Eigenvalue::JACOBI_METHOD);
     }
@@ -178,7 +170,8 @@ class PCA
      */
     public function getRsq(): array
     {
-        return $this->EVal->scalarDivide($this->inertia)->getVector();
+        $total_variance = $this->EVal->sum();
+        return $this->EVal->scalarDivide($total_variance)->getVector();
     }
 
     /**
