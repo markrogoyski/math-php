@@ -76,7 +76,7 @@ class PCA
         $this->data = $M;
 
         // Center and scale the data as needed
-        $this->data = $this->normalizeData();
+        $this->data = $this->standardizeData();
         
         // Create the correlation / variance-covarience Matrix
         $samples = $M->getM();
@@ -101,14 +101,14 @@ class PCA
     }
 
     /**
-     * NormalizeData
+     * Standardize the data
      * Use the object $center and $scale Vectors to transform the provided data
      *
-     * @param Matrix $new_data - An optional Matrix of new data which is Normalized against the original data
+     * @param Matrix $new_data - An optional Matrix of new data which is standardized against the original data
      *
      * @return Matrix
      */
-    public function normalizeData(Matrix $new_data = null): Matrix
+    public function standardizeData(Matrix $new_data = null): Matrix
     {
         if ($new_data === null) {
             $X = $this->data;
@@ -148,7 +148,7 @@ class PCA
     /**
      * Get Scores
      *
-     * Transform the normalized data with the loadings matrix
+     * Transform the standardized data with the loadings matrix
      * @return Matrix
      */
     public function getScores(Matrix $new_data = null): Matrix
@@ -157,7 +157,7 @@ class PCA
             $scaled_data = $this->data;
         } else {
             $this->checkNewData($new_data);
-            $scaled_data = $this->normalizeData($new_data);
+            $scaled_data = $this->standardizeData($new_data);
         }
         return $scaled_data->multiply($this->EVec);
     }
@@ -197,7 +197,7 @@ class PCA
      * For each row (i) in the data Matrix x, and retained componenets (j):
      * Qᵢ = eᵢ'eᵢ = xᵢ(I-PⱼPⱼ')xᵢ'
      *
-     * @param Matrix $new_data - An optional Matrix of new data which is Normalized against the original data
+     * @param Matrix $new_data - An optional Matrix of new data which is standardized against the original data
      *
      * @return Matrix
      */
@@ -208,7 +208,7 @@ class PCA
             $X = $this->data;
         } else {
             $this->checkNewData($new_data);
-            $X = $this->normalizeData($new_data);
+            $X = $this->standardizeData($new_data);
         }
         
         $Xprime = $X->transpose();
@@ -236,7 +236,7 @@ class PCA
      * For each row (i) in the data matrix, and retained componenets (j)
      * Tᵢ² = XᵢPⱼΛⱼ⁻¹Pⱼ'Xᵢ'
      *
-     * @param Matrix $new_data - An optional Matrix of new data which is Normalized against the original data
+     * @param Matrix $new_data - An optional Matrix of new data which is standardized against the original data
      *
      * @return Matrix
      */
@@ -247,7 +247,7 @@ class PCA
             $X = $this->data;
         } else {
             $this->checkNewData($new_data);
-            $X = $this->normalizeData($new_data);
+            $X = $this->standardizeData($new_data);
         }
         $Xprime = $X->transpose();
         $initialized = false;
