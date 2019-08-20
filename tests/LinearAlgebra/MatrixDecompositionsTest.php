@@ -3,7 +3,6 @@ namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Matrix;
-use MathPHP\LinearAlgebra\Reduction;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
@@ -1000,7 +999,7 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
      * @param        array $expected
      * @throws       \Exception
      */
-    public function testQrDecomposition1(array $A, array $expected)
+    public function testQrDecomposition(array $A, array $expected)
     {
         // Given
         $A = MatrixFactory::create($A);
@@ -1009,15 +1008,11 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
 
         // When
         $qr  = $A->qrDecomposition();
-        $qrQ = $qr['Q'];
-        $qrR = $qr['R'];
+        $qrQ = $qr->Q;
+        $qrR = $qr->R;
 
         // Then A = QR
         $this->assertEquals($A->getMatrix(), $qrQ->multiply($qrR)->getMatrix(), '', 0.00001);
-
-        // And Q is orthogonal and R is upper triangular
-        //$this->assertTrue($qrR->isUpperTriangular());
-        // Add test for Q orthongality
 
         // And Q and R are expected solution to QR decomposition
         $this->assertEquals($R->getMatrix(), $qrR->getMatrix(), '', 0.00001);
@@ -1091,25 +1086,6 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 [
-                    [1, 2, 3, 4],
-                    [4, 3, 4, 2],
-                    [-3, 6, 7, -3],
-                ],
-                [
-                    'Q' => [
-                        [-0.1961161, -0.3096428,  0.9304084],
-                        [-0.7844645, -0.5197576, -0.3383303],
-                        [0.5883484, -0.7962244, -0.1409710],
-                    ],
-                    'R' => [
-                        [-5.09902,  0.7844645,  0.3922323, -4.1184388],
-                        [0.00000, -6.9559051, -8.5815299,  0.1105867],
-                        [0.00000,  0.0000000,  0.4511071,  3.4678858],
-                    ],
-                ],
-            ],
-            [
-                [
                     [0],
                     [0],
                 ],
@@ -1172,32 +1148,6 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 [
-                    [0, 0],
-                ],
-                [
-                    'Q' => [
-                        [1],
-                    ],
-                    'R' => [
-                        [0, 0],
-                    ],
-                ],
-            ],
-            [
-                [
-                    [1, 1],
-                ],
-                [
-                    'Q' => [
-                        [1],
-                    ],
-                    'R' => [
-                        [1, 1],
-                    ],
-                ],
-            ],
-            [
-                [
                     [1],
                     [1],
                 ],
@@ -1208,6 +1158,72 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
                     ],
                     'R' => [
                         [-1.414214],
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @test         qrDecomposition properties
+     * @dataProvider dataProviderForQrDecompositionResultingInSquareMatrices
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testQrDecompositionProperties(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $qr = $A->qrDecomposition();
+
+        // Then
+        $this->assertTrue($qr->R->isUpperTriangular());
+        $this->assertTrue($qr->Q->isOrthogonal());
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForQrDecompositionResultingInSquareMatrices(): array
+    {
+        return [
+            [
+                [
+                    [2, -2, 18],
+                    [2, 1, 0],
+                    [1, 2, 0],
+                ],
+                [
+                    'Q' => [
+                        [-2 / 3,  2 / 3, 1 / 3],
+                        [-2 / 3, -1 / 3, -2 / 3],
+                        [-1 / 3, -2 / 3, 2 / 3],
+                    ],
+                    'R' => [
+                        [-3,  0, -12],
+                        [ 0, -3,  12],
+                        [ 0,  0,  6],
+                    ],
+                ],
+            ],
+            [
+                [
+                    [12, -51,    4],
+                    [ 6,  167, -68],
+                    [-4,  24,  -41],
+                ],
+                [
+                    'Q' => [
+                        [ -0.85714286,  0.39428571,  0.33142857],
+                        [ -0.42857143, -0.90285714, -0.03428571],
+                        [0.28571429, -0.17142857,  0.94285714],
+                    ],
+                    'R' => [
+                        [-14,  -21, 14],
+                        [ 0, -175, 70],
+                        [ 0,   0,  -35],
                     ],
                 ],
             ],

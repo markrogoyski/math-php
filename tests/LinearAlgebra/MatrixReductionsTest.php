@@ -4,8 +4,6 @@ namespace MathPHP\Tests\LinearAlgebra;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\Reduction;
-use MathPHP\LinearAlgebra\Vector;
-use MathPHP\Exception;
 
 class MatrixReductionsTest extends \PHPUnit\Framework\TestCase
 {
