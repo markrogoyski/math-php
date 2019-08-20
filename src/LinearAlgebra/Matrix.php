@@ -1757,6 +1757,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Inverse
      *
+     * For a 1x1 matrix
+     *  A   = [a]
+     *  A⁻¹ = [1/a]
+     *
      * For a 2x2 matrix:
      *      [a b]
      *  A = [c d]
@@ -1794,6 +1798,14 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $A   = $this->A;
         $│A│ = $this->det();
 
+         // 1x1 matrix: A⁻¹ = [1 / a]
+        if ($m === 1) {
+            $a   = $A[0][0];
+            $A⁻¹ = MatrixFactory::create([[1 / $a]]);
+            $this->catalog->addInverse($A⁻¹);
+            return $A⁻¹;
+        }
+
         /*
          * 2x2 matrix:
          *      [a b]
@@ -1818,10 +1830,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $this->catalog->addInverse($A⁻¹);
             return $A⁻¹;
         }
-
-        /*
-         * nxn matrix 3x3 or larger
-         */
+        
+        // nxn matrix 3x3 or larger
         $R   = $this->augmentIdentity()->rref();
         $A⁻¹ = [];
 

@@ -3644,20 +3644,65 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         inverse
      * @dataProvider dataProviderForInverse
+     * @param        array $A
+     * @param        array $A⁻¹
+     * @throws       \Exception
      */
     public function testInverse(array $A, array $A⁻¹)
     {
+        // Given
         $A   = MatrixFactory::create($A);
         $A⁻¹ = MatrixFactory::create($A⁻¹);
 
-        $this->assertEquals($A⁻¹, $A->inverse(), '', 0.001); // Test calculation
-        $this->assertEquals($A⁻¹, $A->inverse(), '', 0.001); // Test class attribute
+        // When
+        $inverse      = $A->inverse();
+        $inverseAgain = $A->inverse();
+
+        // Then
+        $this->assertEquals($A⁻¹, $inverse, '', 0.001); // Test calculation
+        $this->assertEquals($A⁻¹, $inverseAgain, '', 0.001); // Test class attribute
     }
 
-    public function dataProviderForInverse()
+    /**
+     * @return array
+     */
+    public function dataProviderForInverse(): array
     {
         return [
+            [
+                [
+                    [1]
+                ],
+                [
+                    [1]
+                ]
+            ],
+            [
+                [
+                    [2]
+                ],
+                [
+                    [1 / 2]
+                ]
+            ],
+            [
+                [
+                    [10]
+                ],
+                [
+                    [1 / 10]
+                ]
+            ],
+            [
+                [
+                    [-3]
+                ],
+                [
+                    [-1 / 3]
+                ]
+            ],
             [
                 [
                     [4, 7],
