@@ -13,7 +13,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  * The generalization of the eigendecomposition of a square matrix to an m x n matrix
  * https://en.wikipedia.org/wiki/Singular_value_decomposition
  */
-class SVD implements \ArrayAccess
+class SVD extends DecompositionBase
 {
     /** @var Matrix m x m orthogonal matrix  */
     private $U;
@@ -124,33 +124,5 @@ class SVD implements \ArrayAccess
             default:
                 return false;
         }
-    }
-
-    /**
-     * @param mixed $i
-     * @return mixed
-     */
-    public function offsetGet($i)
-    {
-        return $this->$i;
-    }
-
-    /**
-     * @param  mixed $i
-     * @param  mixed $value
-     * @throws Exception\MatrixException
-     */
-    public function offsetSet($i, $value)
-    {
-        throw new Exception\MatrixException('SVD class does not allow setting values');
-    }
-
-    /**
-     * @param  mixed $i
-     * @throws Exception\MatrixException
-     */
-    public function offsetUnset($i)
-    {
-        throw new Exception\MatrixException('SVD class does not allow unsetting values');
     }
 }

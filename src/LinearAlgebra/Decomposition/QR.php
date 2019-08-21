@@ -17,7 +17,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  * @property-read Matrix $Q orthogonal matrix
  * @property-read Matrix $R upper triangular matrix
  */
-class QR implements \ArrayAccess
+class QR extends DecompositionBase
 {
     /** @var Matrix orthogonal matrix  */
     private $Q;
@@ -205,33 +205,5 @@ class QR implements \ArrayAccess
             default:
                 return false;
         }
-    }
-
-    /**
-     * @param mixed $i
-     * @return mixed
-     */
-    public function offsetGet($i)
-    {
-        return $this->$i;
-    }
-
-    /**
-     * @param  mixed $i
-     * @param  mixed $value
-     * @throws Exception\MatrixException
-     */
-    public function offsetSet($i, $value)
-    {
-        throw new Exception\MatrixException('QR class does not allow setting values');
-    }
-
-    /**
-     * @param  mixed $i
-     * @throws Exception\MatrixException
-     */
-    public function offsetUnset($i)
-    {
-        throw new Exception\MatrixException('QR class does not allow unsetting values');
     }
 }
