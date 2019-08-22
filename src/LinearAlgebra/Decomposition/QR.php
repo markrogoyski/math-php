@@ -38,26 +38,6 @@ class QR implements \ArrayAccess
     }
 
     /**
-     * Get Q
-     *
-     * @return Matrix
-     */
-    public function getQ(): Matrix
-    {
-        return $this->Q;
-    }
-
-    /**
-     * Get R
-     *
-     * @return Matrix
-     */
-    public function getR(): Matrix
-    {
-        return $this->R;
-    }
-
-    /**
      * Decompose a matrix into a QR Decomposition using Householder reflections
      * Factory method to create QR objects.
      *

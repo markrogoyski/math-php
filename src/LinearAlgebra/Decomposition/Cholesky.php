@@ -35,6 +35,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  *       lᵢᵢ  \      ˣ⁼¹     /
  *
  * @property-read Matrix $L  Lower triangular matrix
+ * @property-read Matrix $LT Transpose of lower triangular matrix
  * @property-read Matrix $Lᵀ Transpose of lower triangular matrix
  */
 class Cholesky implements \ArrayAccess
@@ -55,22 +56,6 @@ class Cholesky implements \ArrayAccess
     {
         $this->L  = $L;
         $this->Lᵀ = $Lᵀ;
-    }
-
-    /**
-     * @return Matrix
-     */
-    public function getL(): Matrix
-    {
-        return $this->L;
-    }
-
-    /**
-     * @return Matrix
-     */
-    public function getLTranspose(): Matrix
-    {
-        return $this->Lᵀ;
     }
 
     /**
@@ -151,7 +136,7 @@ class Cholesky implements \ArrayAccess
     {
         switch ($i) {
             case 'L':
-            case 'LT':
+            case 'Lᵀ':
                 return true;
 
             default:

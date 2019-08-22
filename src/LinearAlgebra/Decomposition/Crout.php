@@ -40,22 +40,6 @@ class Crout implements \ArrayAccess
     }
 
     /**
-     * @return Matrix
-     */
-    public function getL(): Matrix
-    {
-        return $this->L;
-    }
-
-    /**
-     * @return Matrix
-     */
-    public function getU(): Matrix
-    {
-        return $this->U;
-    }
-
-    /**
      * Decompose a matrix into Crout decomposition
      * Factory method to create Crout decomposition
      *
