@@ -6,6 +6,7 @@ use MathPHP\Functions\Map\Single;
 use MathPHP\LinearAlgebra\Eigenvalue;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\Vector;
 
 /**
  * Singular value decomposition
@@ -23,7 +24,10 @@ class SVD extends DecompositionBase
 
     /** @var Matrix m x n diagonal matrix  */
     private $S;
-    
+
+    /** @var Vector diagonal elements from $S  */
+    private $D;
+
     /**
      * SVD constructor
      *
@@ -36,6 +40,7 @@ class SVD extends DecompositionBase
         $this->U = $U;
         $this->S = $S;
         $this->V = $V;
+        $this->D = new Vector($S->getDiagonalElements());
     }
 
     /**
@@ -66,6 +71,16 @@ class SVD extends DecompositionBase
     public function getV(): Matrix
     {
         return $this->V;
+    }
+
+    /**
+     * Get D
+     *
+     * @return Vector
+     */
+    public function getD(): Vector
+    {
+        return $this->D;
     }
 
     public static function decompose(Matrix $M): SVD
@@ -113,6 +128,7 @@ class SVD extends DecompositionBase
             case 'U':
             case 'S':
             case 'V':
+            case 'D':
                 return $this->$name;
             default:
                 throw new Exception\MatrixException("SVD class does not have a gettable property: $name");
@@ -132,6 +148,7 @@ class SVD extends DecompositionBase
             case 'U':
             case 'S':
             case 'V':
+            case 'D':
                 return true;
             default:
                 return false;
