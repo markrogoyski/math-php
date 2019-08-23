@@ -90,10 +90,10 @@ class SVD extends DecompositionBase
         $MtM = $Mt->multiply($M);
         
         // m x m orthoganol matrix
-        $U = $MMt->eigenvectors(Eigenvalue::JACOBI_METHOD);
+        $U = $MMt->eigenvectors();
         
         // n x n orthoganol matrix
-        $V = $MtM->eigenvectors(Eigenvalue::JACOBI_METHOD);
+        $V = $MtM->eigenvectors();
 
         // A rectangular diagonal matrix
         $S = $U->transpose()->multiply($M)->multiply($V);
