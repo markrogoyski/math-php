@@ -523,4 +523,38 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @test that the function fails appropriately
+     * @dataProvider dataProviderForEigenvalueFailure
+     */
+    public function testSmartEigenvalueFailure(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+        
+        // When
+        $A->eigenvalues();
+    }
+
+    public function dataProviderForEigenvalueFailure()
+    {
+        return [
+            [ // Not Square
+                [[1, 2]],
+            ],
+            [ // Can Not Solve (yet)
+                [
+                    [1, 2, 3, 4, 5],
+                    [2, 3, 4, 5, 1],
+                    [3, 4, 5, 1, 2],
+                    [4, 5, 1, 2, 3],
+                    [6, 1, 2, 3, 4],
+                ],
+            ],
+        ];
+    }
 }
