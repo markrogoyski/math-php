@@ -18,7 +18,7 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
     {
         $A = MatrixFactory::create($A);
         $this->assertEquals($S, Eigenvector::eigenvectors($A)->getMatrix(), '', 0.0001);
-        $this->assertEquals($S, $A->eigenvectors(Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD)->getMatrix(), '', 0.0001);
+        $this->assertEquals($S, $A->eigenvectors()->getMatrix(), '', 0.0001);
     }
 
     public function dataProviderForEigenvector(): array
@@ -40,8 +40,8 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
                     [2, 3],
                 ],
                 [
-                    [1 / sqrt(5), \M_SQRT1_2],
-                    [2 / sqrt(5), \M_SQRT1_2],
+                    [\M_SQRT1_2, 1 / sqrt(5)],
+                    [\M_SQRT1_2, 2 / sqrt(5)],
                 ]
             ],
             [
@@ -75,9 +75,9 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
                     [3, 0, 4],
                 ],
                 [
-                    [0, 1 / sqrt(14), \M_SQRT1_2],
-                    [1, 2 / sqrt(14), 0],
-                    [0, 3 / sqrt(14), -1 * \M_SQRT1_2],
+                    [1 / sqrt(14), 0, \M_SQRT1_2],
+                    [2 / sqrt(14), 1, 0],
+                    [3 / sqrt(14), 0, -1 * \M_SQRT1_2],
                 ]
             ],
             [ // Matrix has duplicate eigenvalues. no solution on the axis
@@ -87,9 +87,9 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
                     [3, 6, -8],
                 ],
                 [
-                    [1 / \M_SQRT3, 1 / sqrt(14), 5 / sqrt(42)],
-                    [1 / \M_SQRT3, 2 / sqrt(14), -4 / sqrt(42)],
-                    [1 / \M_SQRT3, 3 / sqrt(14), -1 / sqrt(42)],
+                    [1 / sqrt(14), 1 / \M_SQRT3, 5 / sqrt(42)],
+                    [2 / sqrt(14), 1 / \M_SQRT3, -4 / sqrt(42)],
+                    [3 / sqrt(14), 1 / \M_SQRT3, -1 / sqrt(42)],
                 ]
             ],
             [ // The top row of the rref has a solitary 1 in position 0,0
@@ -99,9 +99,9 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
                     [2, 2, 5],
                 ],
                 [
-                    [ 5 / sqrt(65), 0, 1 / 3],
-                    [-2 / sqrt(65), -2 / sqrt(5), 2 / 3],
-                    [6 / sqrt(65), 1 / sqrt(5), -2 / 3],
+                    [ 5 / sqrt(65), 1 / 3, 0],
+                    [-2 / sqrt(65), 2 / 3, -2 / sqrt(5)],
+                    [6 / sqrt(65), -2 / 3, 1 / sqrt(5),],
                 ]
             ],
         ];
