@@ -3334,13 +3334,35 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @throws Exception\MatrixException if method is not a valid eigenvalue method
      */
-    public function eigenvalues(string $method = Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD): array
+    public function eigenvalues(string $method = null): array
     {
-        if (!Eigenvalue::isAvailableMethod($method)) {
+        if ($method !== null && !Eigenvalue::isAvailableMethod($method)) {
             throw new Exception\MatrixException("$method is not a valid eigenvalue method");
         }
-
-        return Eigenvalue::$method($this);
+        if (!$this->isSquare()) {
+            throw new Exception\MatrixException('Eigenvalues can only be calculated on square matrices');
+        }
+        if ($method === null) {
+            if ($this->m == 1) {
+                return [$this->A[0][0]];
+            }
+            if ($this->isTriangular()) {
+                $diagonal = $this->getDiagonalElements();
+                usort($diagonal, function ($a, $b) {
+                    return abs($b) <=> abs($a);
+                });
+                return $diagonal;
+            }
+            if ($this->m < 5) {
+                return Eigenvalue::closedFormPolynomialRootMethod($this);
+            }
+            if ($this->isSymmetric()) {
+                return Eigenvalue::jacobiMethod($this);
+            }
+            throw new Exception\MatrixException("Eigenvalue cannot be calculated");
+        } elseif (Eigenvalue::isAvailableMethod($method)) {
+            return Eigenvalue::$method($this);
+        }
     }
 
     /**
@@ -3356,13 +3378,13 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if method is not a valid eigenvalue method
      * @throws Exception\BadDataException
      */
-    public function eigenvectors(string $method = Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD): Matrix
+    public function eigenvectors(string $method = null): Matrix
     {
-        if (!Eigenvalue::isAvailableMethod($method)) {
-            throw new Exception\MatrixException("$method is not a valid eigenvalue method");
+        if ($method === null) {
+            return Eigenvector::eigenvectors($this, $this->eigenvalues());
         }
-
-        return Eigenvector::eigenvectors($this, Eigenvalue::$method($this));
+        
+        return Eigenvector::eigenvectors($this, $this->eigenvalues($method));
     }
 
     /**************************************************************************
