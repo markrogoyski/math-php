@@ -122,7 +122,7 @@ class SVD extends DecompositionBase
      *
      * @throws Exception\MatrixException
      */
-    public function __get(string $name): Matrix
+    public function __get(string $name)
     {
         switch ($name) {
             case 'U':
