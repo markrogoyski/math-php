@@ -18,7 +18,7 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
     {
         $A = MatrixFactory::create($A);
         $this->assertEquals($S, Eigenvector::eigenvectors($A)->getMatrix(), '', 0.0001);
-        $this->assertEquals($S, $A->eigenvectors(Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD)->getMatrix(), '', 0.0001);
+        $this->assertEquals($S, $A->eigenvectors()->getMatrix(), '', 0.0001);
     }
 
     public function dataProviderForEigenvector(): array
