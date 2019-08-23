@@ -304,6 +304,28 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test   LU Decomposition invalid property
+     * @throws \Exception
+     */
+    public function testLUDecompositionInvalidProperty()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [5, 3, 4, 1],
+            [5, 6, 4, 3],
+            [7, 6, 5, 3],
+            [2, 7, 4, 7],
+        ]);
+        $LU = $A->luDecomposition();
+
+        // Then
+        $this->expectException(Exception\MathException::class);
+
+        // When
+        $doesNotExist = $LU->doesNotExist;
+    }
+
+    /**
      * @testCase     choleskyDecomposition computes the expected lower triangular matrix
      * @dataProvider dataProviderForCholeskyDecomposition
      * @param        array $A
@@ -488,6 +510,27 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test   Cholesky Decomposition invalid property
+     * @throws \Exception
+     */
+    public function testCholeskyDecompositionInvalidProperty()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [4, 1, -1],
+            [1, 2, 1],
+            [-1, 1, 2],
+        ]);
+        $cholesky = $A->choleskyDecomposition();
+
+        // Then
+        $this->expectException(Exception\MathException::class);
+
+        // When
+        $doesNotExist = $cholesky->doesNotExist;
+    }
+
+    /**
      * @test         croutDecomposition returns the expected array of L and U factorized matrices
      * @dataProvider dataProviderForCroutDecomposition
      * @param        array $A
@@ -630,6 +673,27 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
 
         // When
         $lu = $A->croutDecomposition();
+    }
+
+    /**
+     * @test   Crout Decomposition invalid property
+     * @throws \Exception
+     */
+    public function testCountDecompositionInvalidProperty()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [4, 1, -1],
+            [1, 2, 1],
+            [-1, 1, 2],
+        ]);
+        $crout = $A->croutDecomposition();
+
+        // Then
+        $this->expectException(Exception\MathException::class);
+
+        // When
+        $doesNotExist = $crout->doesNotExist;
     }
 
     /**
@@ -868,6 +932,27 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
         ];
+    }
+
+    /**
+     * @test   QR Decomposition invalid property
+     * @throws \Exception
+     */
+    public function testQRDecompositionInvalidProperty()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [4, 1, -1],
+            [1, 2, 1],
+            [-1, 1, 2],
+        ]);
+        $qr = $A->qrDecomposition();
+
+        // Then
+        $this->expectException(Exception\MathException::class);
+
+        // When
+        $doesNotExist = $qr->doesNotExist;
     }
 
     /**

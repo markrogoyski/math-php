@@ -32,6 +32,28 @@ class MatrixReductionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         RREF directly
+     * @dataProvider dataProviderForRref
+     * @param        array $A
+     * @param        array $R
+     * @throws       \Exception
+     */
+    public function testRrefDirectly(array $A, array $R)
+    {
+        // Given
+        $A    = MatrixFactory::create($A);
+        $R    = MatrixFactory::create($R);
+
+        // When
+        $rref = Reduction\ReducedRowEchelonForm::reduce($A);
+
+        // Then
+        $this->assertEquals($R->getMatrix(), $rref->getMatrix(), '', 0.000001);
+        $this->assertTrue($rref->isRref());
+        $this->assertTrue($rref->isRef());
+    }
+
+    /**
      * @return array
      */
     public function dataProviderForRref(): array

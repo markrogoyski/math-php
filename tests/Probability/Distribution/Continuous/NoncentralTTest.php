@@ -219,7 +219,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
         $tol          = abs(self::ε * $expected);
 
         // When
-        $median = $noncentral_t->mean();
+        $median = $noncentral_t->median();
 
         // Then
         $this->assertEquals($expected, $median, '', $tol);
