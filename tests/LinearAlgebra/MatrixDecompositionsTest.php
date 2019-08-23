@@ -1055,6 +1055,7 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
         $svd = $A->SVD();
         
         // Then
+        $this->assertTrue(isset($svd['U']) && isset($svd['S']) && isset($svd['V']) && isset($svd['D']));
         $this->assertTrue($svd->getU()->isOrthogonal());
         $this->assertTrue($svd->getS()->isRectangularDiagonal());
         $this->assertTrue($svd->getV()->isOrthogonal());
