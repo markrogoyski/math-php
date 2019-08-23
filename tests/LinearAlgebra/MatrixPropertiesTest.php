@@ -483,6 +483,21 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertTrue($D->isDiagonal());
     }
+    
+    /**
+     * @test         isRectangularDiagonal returns false appropriately
+     * @dataProvider dataProviderForNotRectangularDiagonalMatrix
+     * @param        array $D
+     * @throws       \Exception
+     */
+    public function testIsNotRectangularDiagonal(array $D)
+    {
+        // Given
+        $D = MatrixFactory::create($D);
+
+        // Then
+        $this->assertFalse($D->isRectangularDiagonal());
+    }
 
     /**
      * @test         isDiagonal returns false for a non diagonal matrix
