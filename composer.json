@@ -24,9 +24,9 @@
   "authors": [
     {
       "name": "Mark Rogoyski",
+      "role": "Lead developer",
       "email": "mark@rogoyski.com",
-      "homepage": "https://github.com/markrogoyski",
-      "role": "Lead developer"
+      "homepage": "https://github.com/markrogoyski"
     },
     {
       "name": "Kevin Nowaczyk",
