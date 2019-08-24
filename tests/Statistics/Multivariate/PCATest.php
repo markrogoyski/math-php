@@ -1,21 +1,27 @@
 <?php
-
 namespace MathPHP\Tests\Statistics\Multivariate;
 
 use MathPHP\Functions\Map\Multi;
-use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Statistics\Multivariate\PCA;
 use MathPHP\Exception;
 use MathPHP\Tests\Data\SampleData;
 
 class PCATest extends \PHPUnit\Framework\TestCase
 {
+    /** @var array[] */
     protected $A;
+
+    /** @var PCA */
     protected $pca;
+
+    /** @var Matrix  */
     protected $matrix;
-    protected $signature;
-    
+
+    /**
+     * @throws Exception\MathException
+     */
     public function setUp()
     {
         $this->A = SampleData::mtcars();
@@ -23,13 +29,6 @@ class PCATest extends \PHPUnit\Framework\TestCase
         // Remove top row, left column, and categorical variables
         $this->matrix = MatrixFactory::create($this->A)->rowExclude(0)->columnExclude(9)->columnExclude(8)->columnExclude(0);
         $this->pca = new PCA($this->matrix, true, true);
-    }
-    /**
-     * @testCase constructor
-     */
-    public function testConstructor()
-    {
-        $this->assertInstanceOf(PCA::class, $this->pca);
     }
 
     /**
@@ -43,13 +42,18 @@ class PCATest extends \PHPUnit\Framework\TestCase
      */
     public function testRsq()
     {
-        $expected = [0.628437719, 0.231344477, 0.056023869, 0.029447503, 0.020350960,
-                     0.013754799, 0.011673547, 0.006501528, 0.002465598];
-        $this->assertEquals($expected, $this->pca->getRsq(), '', .00001);
+        // Given
+        $expected = [0.628437719, 0.231344477, 0.056023869, 0.029447503, 0.020350960, 0.013754799, 0.011673547, 0.006501528, 0.002465598];
+
+        // When
+        $R2 = $this->pca->getRsq();
+
+        // Then
+        $this->assertEquals($expected, $R2, '', .00001);
     }
 
     /**
-     * @test The class returns the correct cummulative R-squared values
+     * @test The class returns the correct cumulative R-squared values
      *
      * R code for expected values:
      * library(mdatools)
@@ -59,9 +63,14 @@ class PCATest extends \PHPUnit\Framework\TestCase
      */
     public function testCumRsq()
     {
-        $expected = [0.6284377, 0.8597822, 0.9158061, 0.9452536, 0.9656045, 0.9793593,
-                     0.9910329, 0.9975344, 1.0000000];
-        $this->assertEquals($expected, $this->pca->getCumRsq(), '', .00001);
+        // Given
+        $expected = [0.6284377, 0.8597822, 0.9158061, 0.9452536, 0.9656045, 0.9793593, 0.9910329, 0.9975344, 1.0000000];
+
+        // When
+        $cumR2 = $this->pca->getCumRsq();
+
+        // Then
+        $this->assertEquals($expected, $cumR2, '', .00001);
     }
 
     /**
@@ -72,9 +81,12 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * data = mtcars[,c(1:7,10,11)]
      * model = pca(data, center=TRUE, scale=TRUE)
      * print(model$loadings))
+     *
+     * @throws \Exception
      */
     public function testLoadings()
     {
+        // Given
         $expected = [
             [-0.3931477, 0.02753861, -0.22119309, -0.006126378, -0.320762, 0.72015586, -0.38138068, -0.12465987, 0.11492862],
             [0.4025537, 0.01570975, -0.25231615, 0.040700251, 0.1171397, 0.2243255, -0.15893251, 0.81032177, 0.16266295],
@@ -86,11 +98,12 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [-0.2094749, 0.55078264, 0.20658376, -0.282381831, -0.562486, -0.32298239, -0.08555707, 0.31636479, 0.04719694],
             [0.2445807, 0.4843131, 0.46412069, -0.214492216, 0.399782, 0.35706914, -0.2060421, -0.10832772, -0.32045892]
         ];
-        // Since each column could be multiplied by -1, we will compare the two and adjust.
-        $loadings = $this->pca->getLoadings();
+
+        // And since each column could be multiplied by -1, we will compare the two and adjust.
+        $loadings   = $this->pca->getLoadings();
         $load_array = $loadings->getMatrix();
         
-        //Get an array that's roughly ones and negative ones.
+        // Get an array that's roughly ones and negative ones.
         $quotiant = Multi::divide($expected[1], $load_array[1]);
         
         // Convert to exactly one or negative one. Cannot be zero.
@@ -104,6 +117,8 @@ class PCATest extends \PHPUnit\Framework\TestCase
         
         // Multiplying a sign change matrix on the right changes column signs.
         $sign_adjusted = $loadings->multiply($sign_change);
+
+        // Then
         $this->assertEquals($expected, $sign_adjusted->getMatrix(), '', .00001);
     }
 
@@ -118,9 +133,12 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * new = matrix(c(1:9), 1, 9)
      * result = predict(model, new)
      * print(result$scores)
+     *
+     * @throws \Exception
      */
     public function testScores()
     {
+        // Given
         $expected = [
             [-0.66422351, 1.1734476, -0.20431724, -0.12601751, 0.75200784, -0.12506777, -0.42357334, -0.003259165, -0.167051112],
             [-0.63719807, 0.9769448, 0.11077779, -0.08567709, 0.65668822, -0.06619437, -0.44849307, 0.056643244, -0.071592094],
@@ -155,7 +173,8 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [2.96252801, 3.9993896, 0.70296512, -0.73000448, -0.22756074, 0.65580986, 0.49422807, -0.082329298, -0.053112079],
             [-1.90443632, 0.108419, 0.39906976, 0.31285789, 0.11738974, -0.48091826, 0.31102454, -0.315146031, 0.165790892],
         ];
-        // Since each column could be multiplied by -1, we will compare the two and adjust.
+
+        // And since each column could be multiplied by -1, we will compare the two and adjust.
         $scores = $this->pca->getScores();
         $score_array = $scores->getMatrix();
         
@@ -173,11 +192,18 @@ class PCATest extends \PHPUnit\Framework\TestCase
         
         // Multiplying a sign change matrix on the right changes column signs.
         $sign_adjusted = $scores->multiply($signature);
+
+        // Then
         $this->assertEquals($expected, $sign_adjusted->getMatrix(), '', .00001);
 
+        // And Given
         $expected = MatrixFactory::create([[0.1257286, 7.899684, 2.327884, -0.366373, 1.284736, -5.869623, -3.59103, -1.97999, 1.738207]]);
         $sign_adjusted = $expected->multiply($signature);
+
+        // When
         $scores = $this->pca->getScores(MatrixFactory::create([[1,2,3,4,5,6,7,8,9]]));
+
+        // Then
         $this->assertEquals($sign_adjusted->getMatrix(), $scores->getMatrix(), '', .00001);
     }
 
@@ -192,9 +218,14 @@ class PCATest extends \PHPUnit\Framework\TestCase
      */
     public function testEigenvalues()
     {
-        $expected = [5.65593947, 2.08210029, 0.50421482, 0.26502753, 0.18315864,
-                     0.12379319, 0.105061920, .05851375, 0.02219038];
-        $this->assertEquals($expected, $this->pca->getEigenvalues()->getVector(), '', .00001);
+        // Given
+        $expected = [5.65593947, 2.08210029, 0.50421482, 0.26502753, 0.18315864, 0.12379319, 0.105061920, .05851375, 0.02219038];
+
+        // When
+        $eigenvalues = $this->pca->getEigenvalues()->getVector();
+
+        // Then
+        $this->assertEquals($expected, $eigenvalues, '', .00001);
     }
 
     /**
@@ -208,9 +239,14 @@ class PCATest extends \PHPUnit\Framework\TestCase
      */
     public function testCriticalT2()
     {
-        $expected = [4.159615, 6.852714, 9.40913, 12.01948, 14.76453, 17.69939,
-            20.87304, 24.33584, 28.14389];
-        $this->assertEquals($expected, $this->pca->getCriticalT2(), '', .00001);
+        // Given
+        $expected = [4.159615, 6.852714, 9.40913, 12.01948, 14.76453, 17.69939, 20.87304, 24.33584, 28.14389];
+
+        // When
+        $criticalT2 = $this->pca->getCriticalT2();
+
+        // Then
+        $this->assertEquals($expected, $criticalT2, '', .00001);
     }
 
     /**
@@ -224,9 +260,14 @@ class PCATest extends \PHPUnit\Framework\TestCase
      */
     public function testCriticalQ()
     {
-        $expected = [9.799571, 3.054654, 1.785614, 1.200338, 0.7974437, 0.534007,
-                     0.2584248, 0.08314212, 0];
-        $this->assertEquals($expected, $this->pca->getCriticalQ(), '', .00001);
+        // Given
+        $expected = [9.799571, 3.054654, 1.785614, 1.200338, 0.7974437, 0.534007, 0.2584248, 0.08314212, 0];
+
+        // When
+        $criticalQ = $this->pca->getCriticalQ();
+
+        // Then
+        $this->assertEquals($expected, $criticalQ, '', .00001);
     }
 
     /**
@@ -237,9 +278,12 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * data = mtcars[,c(1:7,10,11)]
      * model = pca(data, center=TRUE, scale=TRUE)
      * print(model$calres$T2)
+     *
+     * @throws \Exception
      */
     public function testGetT²Distances()
     {
+        // Given
         $expected = [
             [0.0780052327, 0.7393467, 0.8221398, 0.8820597, 3.969633, 4.095989, 5.80369, 5.803872, 7.061447],
             [0.0717867274, 0.5301802, 0.5545185, 0.5822158, 2.936674, 2.97207, 4.886617, 4.94145, 5.172425],
@@ -274,7 +318,12 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [1.5517443671, 9.2339474, 10.2140058, 12.224765, 12.507492, 15.981726, 18.306654, 18.422492, 18.549614],
             [0.6412511483, 0.6468967, 0.9627476, 1.3320679, 1.407305, 3.275602, 4.196356, 5.893684, 7.132357],
         ];
-        $this->assertEquals($expected, $this->pca->getT2Distances()->getMatrix(), '', .00001);
+
+        // When
+        $T²Distances = $this->pca->getT2Distances()->getMatrix();
+
+        // Then
+        $this->assertEquals($expected, $T²Distances, '', .00001);
     }
 
     /**
@@ -286,12 +335,20 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * new = matrix(c(1:9), 1, 9)
      * result = predict(model, new)
      * print(result$T2)
+     *
+     * @throws \Exception
      */
     public function testT2WithNewData()
     {
+        // Given
         $expected = [[0.002794881, 29.97494, 40.72243, 41.2289, 50.24047, 328.5471, 451.289, 518.2879, 654.4443]];
-        $newdata = MatrixFactory::create([[1,2,3,4,5,6,7,8,9]]);
-        $this->assertEquals($expected, $this->pca->getT2Distances($newdata)->getMatrix(), '', .0001);
+        $newdata  = MatrixFactory::create([[1,2,3,4,5,6,7,8,9]]);
+
+        // When
+        $T²Distances = $this->pca->getT2Distances($newdata)->getMatrix();
+
+        // Then
+        $this->assertEquals($expected, $T²Distances, '', .0001);
     }
 
     /**
@@ -302,9 +359,12 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * data = mtcars[,c(1:7,10,11)]
      * model = pca(data, center=TRUE, scale=TRUE)
      * print(model$calres$Q)
+     *
+     * @throws \Exception
      */
     public function testGetQResiduals()
     {
+        // Given
         $expected = [
             [2.2230939, 0.8461148, 0.80436922, 0.78848881, 0.22297302, 0.20733107, 0.0279166962, 0.02790607, 4.999714E-31],
             [1.6191345, 0.6647133, 0.65244159, 0.64510102, 0.21386161, 0.20947992, 0.008333885, 0.005125428, 6.842829E-31],
@@ -339,7 +399,12 @@ class PCATest extends \PHPUnit\Framework\TestCase
             [17.7579146, 1.7627973, 1.26863739, 0.73573085, 0.68394696, 0.25386039, 0.0095990062, 0.002820893, 9.523531E-30],
             [0.737494, 0.7257394, 0.56648268, 0.46860262, 0.45482227, 0.22353991, 0.1268036408, 0.02748662, 2.271057E-30],
         ];
-        $this->assertEquals($expected, $this->pca->getQResiduals()->getMatrix(), '', .00001);
+
+        // When
+        $qResiduals = $this->pca->getQResiduals()->getMatrix();
+
+        // Then
+        $this->assertEquals($expected, $qResiduals, '', .00001);
     }
 
     /**
@@ -351,31 +416,51 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * new = matrix(c(1:9), 1, 9)
      * result = predict(model, new)
      * print(result$Q)
+     *
+     * @throws \Exception
      */
     public function testQWithNewData()
     {
+        // Given
         $expected = [[123.8985, 61.49351, 56.07446, 55.94023, 54.28968, 19.83721, 6.941721, 3.021362, 6.86309e-29]];
-        $newdata = MatrixFactory::create([[1,2,3,4,5,6,7,8,9]]);
-        $this->assertEquals($expected, $this->pca->getQResiduals($newdata)->getMatrix(), '', .0001);
+        $newData  = MatrixFactory::create([[1,2,3,4,5,6,7,8,9]]);
+
+        // When
+        $qResiduals = $this->pca->getQResiduals($newData)->getMatrix();
+
+        // Then
+        $this->assertEquals($expected, $qResiduals, '', .0001);
     }
 
     /**
-     * @test Test that the constructor throws an exception if the source matrix is too small
+     * @test   Test that the constructor throws an exception if the source matrix is too small
+     * @throws \Exception
      */
     public function testConstructorException()
     {
-        $this->expectException(Exception\BadDataException::class);
+        // Given
         $matrix = MatrixFactory::create([[1,2]]);
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
         $pca = new PCA($matrix, true, true);
     }
 
     /**
-     * @test Test that the new data must have the have the same number of columns
+     * @test   Test that the new data must have the have the same number of columns
+     * @throws \Exception
      */
     public function testNewDataException()
     {
-        $this->expectException(Exception\BadDataException::class);
+        // Given
         $new_data = MatrixFactory::create([[1,2]]);
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
         $this->pca->getScores($new_data);
     }
 }

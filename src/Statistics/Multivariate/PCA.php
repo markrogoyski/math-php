@@ -1,5 +1,4 @@
 <?php
-
 namespace MathPHP\Statistics\Multivariate;
 
 use MathPHP\Exception;
@@ -46,11 +45,12 @@ class PCA
     /**
      * Constructor
      *
-     * @param Matrix $A each row is a sample, each column is a variable
+     * @param Matrix $M each row is a sample, each column is a variable
      * @param bool $center - Sets if the columns are to be centered to μ = 0
      * @param bool $scale - Sets if the columns are to be scaled to σ  = 1
      *
      * @throws Exception\BadDataException if any rows have a different column count
+     * @throws Exception\MathException
      */
     public function __construct(Matrix $M, bool $center = true, bool $scale = true)
     {
@@ -64,11 +64,11 @@ class PCA
             $this->center = new Vector(array_fill(0, $this->data->getN()));
         }
         if ($scale === true) {
-            $scalearray = [];
+            $scaleArray = [];
             for ($i = 0; $i < $M->getN(); $i++) {
-                $scalearray[] = Descriptive::standardDeviation($M->getColumn($i));
+                $scaleArray[] = Descriptive::standardDeviation($M->getColumn($i));
             }
-            $this->scale = new Vector($scalearray);
+            $this->scale = new Vector($scaleArray);
         } else {
             $this->scale = new Vector(array_fill(1, $this->data->getN()));
         }
@@ -89,13 +89,13 @@ class PCA
     /**
      * Verify that the matrix has the same number of columns as the original data
      *
-     * @param Matrix $A
+     * @param Matrix $newData
      *
      * @throws Exception\BadDataException if the matrix is not square
      */
-    private function checkNewData(Matrix $new_data)
+    private function checkNewData(Matrix $newData)
     {
-        if ($new_data->getN() !== $this->data->getN()) {
+        if ($newData->getN() !== $this->data->getN()) {
             throw new Exception\BadDataException('Data does not have the same number of columns');
         }
     }
@@ -107,6 +107,8 @@ class PCA
      * @param Matrix $new_data - An optional Matrix of new data which is standardized against the original data
      *
      * @return Matrix
+     *
+     * @throws Exception\MathException
      */
     public function standardizeData(Matrix $new_data = null): Matrix
     {
@@ -129,6 +131,7 @@ class PCA
     
     /**
      * The loadings are the unit eigenvectors of the correlation matrix
+     *
      * @return Matrix
      */
     public function getLoadings(): Matrix
@@ -138,6 +141,7 @@ class PCA
 
     /**
      * The eigenvalues of the correlation matrix
+     *
      * @return Vector
      */
     public function getEigenvalues(): Vector
@@ -149,7 +153,10 @@ class PCA
      * Get Scores
      *
      * Transform the standardized data with the loadings matrix
+     *
      * @return Matrix
+     *
+     * @throws Exception\MathException
      */
     public function getScores(Matrix $new_data = null): Matrix
     {
@@ -166,6 +173,7 @@ class PCA
      * Get R² Values
      *
      * R² for each component is eigenvalue divided by the sum of all eigenvalues
+     *
      * @return float[]
      */
     public function getRsq(): array
@@ -176,6 +184,7 @@ class PCA
 
     /**
      * Get the cumulative R²
+     *
      * @return float[]
      */
     public function getCumRsq(): array
@@ -193,13 +202,15 @@ class PCA
     /**
      * Get the Q Residuals
      *
-     * The Q redidual is the error in the model at a given model complexity.
+     * The Q residual is the error in the model at a given model complexity.
      * For each row (i) in the data Matrix x, and retained componenets (j):
      * Qᵢ = eᵢ'eᵢ = xᵢ(I-PⱼPⱼ')xᵢ'
      *
      * @param Matrix $new_data - An optional Matrix of new data which is standardized against the original data
      *
      * @return Matrix
+     *
+     * @throws Exception\MathException
      */
     public function getQResiduals(Matrix $new_data = null): Matrix
     {
@@ -239,6 +250,8 @@ class PCA
      * @param Matrix $new_data - An optional Matrix of new data which is standardized against the original data
      *
      * @return Matrix
+     *
+     * @throws Exception\MathException
      */
     public function getT2Distances(Matrix $new_data = null): Matrix
     {
@@ -271,6 +284,7 @@ class PCA
      * Calculate the critical limits of T²
      *
      * @param float $alpha the probability limit of the critical value
+     *
      * @return float[] Critical values for each model complexity
      */
     public function getCriticalT2(float $alpha = .05): array
@@ -289,6 +303,7 @@ class PCA
      * Calculate the critical limits of Q
      *
      * @param float $alpha the probability limit of the critical value
+     *
      * @return float[] Critical values for each model complexity
      */
     public function getCriticalQ(float $alpha = .05): array
