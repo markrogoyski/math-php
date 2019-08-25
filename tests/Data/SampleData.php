@@ -1,10 +1,20 @@
 <?php
-
 namespace MathPHP\Tests\Data;
 
 class SampleData
 {
-    public static function mtcars()
+    /**
+     * mtcards dataset (Motor Trend Car Road Tests)
+     *
+     * The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of
+     * automobile design and performance for 32 automobiles (1973–74 models).
+     *
+     * 32 observations on 11 variables.
+     * R mtcars
+     *
+     * @return array[]
+     */
+    public static function mtcars(): array
     {
         return [
             ['model', 'mpg', 'cyl', 'disp', 'hp', 'drat', 'wt', 'qsec', 'vs', 'am', 'gear', 'carb'],
