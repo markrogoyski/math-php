@@ -3333,6 +3333,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @return array of eigenvalues
      *
      * @throws Exception\MatrixException if method is not a valid eigenvalue method
+     * @throws Exception\MathException
      */
     public function eigenvalues(string $method = null): array
     {
@@ -3371,7 +3372,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @return Matrix of eigenvectors
      *
      * @throws Exception\MatrixException if method is not a valid eigenvalue method
-     * @throws Exception\BadDataException
+     * @throws Exception\MathException
      */
     public function eigenvectors(string $method = null): Matrix
     {
