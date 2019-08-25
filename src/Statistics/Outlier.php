@@ -55,8 +55,6 @@ class Outlier
      */
     public static function grubbsStatistic(array $data, string $typeOfTest = self::TWO_SIDED): float
     {
-        self::validateGrubbsTestType($typeOfTest);
-
         $μ = Average::mean($data);
         $σ = Descriptive::standardDeviation($data);
 
@@ -74,6 +72,8 @@ class Outlier
             $yMax = max($data);
             return ($yMax - $μ) / $σ;
         }
+
+        throw new Exception\BadParameterException("{$typeOfTest} is not a valid Grubbs; test");
     }
     
     /**
@@ -116,20 +116,6 @@ class Outlier
     /* ********************** *
      * PRIVATE HELPER METHODS
      * ********************** */
-
-    /**
-     * Validate the type of test is two sided, or one sided lower or upper
-     *
-     * @param string $typeOfTest
-     *
-     * @throws Exception\BadParameterException
-     */
-    private static function validateGrubbsTestType(string $typeOfTest)
-    {
-        if (!in_array($typeOfTest, [self::TWO_SIDED, self::ONE_SIDED_LOWER, self::ONE_SIDED_UPPER])) {
-            throw new Exception\BadParameterException("{$typeOfTest} is not a valid Grubbs; test");
-        }
-    }
 
     /**
      * Validate the type of test is two sided, or one sided lower or upper
