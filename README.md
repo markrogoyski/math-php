@@ -479,14 +479,34 @@ $bool = $A->isRef();
 $bool = $A->isRref();
 
 // Matrix reductions
-$ref  = $A->ref();                  // Matrix in row echelon form
-$rref = $A->rref();                 // Matrix in reduced row echelon form
+$ref  = $A->ref();   // Matrix in row echelon form
+$rref = $A->rref();  // Matrix in reduced row echelon form
 
 // Matrix decompositions
-$LU  = $A->luDecomposition();       // LU->L: lower triangular matrix, LU->U: upper triangular matrix, LU-P: permutation matrix
-$QR  = $A->qrDecomposition();       // QR->Q: orthogonal matrix, QR->R: upper triangular matrix
-$LU  = $A->croutDecomposition();    // LU->L: lower triangular matrix, LU->U: normalized upper triangular matrix
-$LLᵀ = $A->choleskyDecomposition(); // LLᵀ->L lower triangular matrix, LLᵀ->LT (or LLᵀ): transpose of lower triangular matrix
+// LU decomposition
+$LU = $A->luDecomposition();
+$L  = $LU->L;  // lower triangular matrix
+$U  = $LU->U;  // upper triangular matrix
+$P  = $LU-P;   // permutation matrix
+
+// QR decomposition
+$QR = $A->qrDecomposition();
+$Q  = $QR->Q;  // orthogonal matrix
+$R  = $QR->R;  // upper triangular matrix
+
+// Crout decomposition
+$LU = $A->croutDecomposition();
+$L  = $LU->L;  // lower triangular matrix
+$U  = $LU->U;  // normalized upper triangular matrix
+
+// Cholesky decomposition
+$LLᵀ = $A->choleskyDecomposition();
+$L   = $LLᵀ->L;   // lower triangular matrix
+$LT  = $LLᵀ->LT;  // transpose of lower triangular matrix
+
+// Eigenvalues and eigenvectors
+$eigenvalues   = $A->eigenvalues();   // array of eigenvalues
+$eigenvecetors = $A->eigenvectors();  // Matrix of eigenvectors
 
 // Solve a linear system of equations: Ax = b
 $b = new Vector(1, 2, 3);
