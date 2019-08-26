@@ -144,7 +144,7 @@ class Polynomial implements ObjectArithmetic
 
         // Cleanup front and back; drop redundant ¹ and ⁰ terms from monomials
         $polynomial = trim(str_replace([$variable . '¹ ', $variable . '⁰ '], $variable . ' ', $polynomial), '+ ');
-        $polynomial = preg_replace('/^\-\s/', '-', $polynomial);
+        $polynomial = preg_replace('/^-\s/', '-', $polynomial);
 
         $polynomial = ($polynomial !== '') ? $polynomial : '0';
 
@@ -299,6 +299,7 @@ class Polynomial implements ObjectArithmetic
      *
      * @return Polynomial The sum of our polynomial objects, also a polynomial object
      *
+     * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
      */
     public function add($polynomial): Polynomial
@@ -335,6 +336,7 @@ class Polynomial implements ObjectArithmetic
      *
      * @return Polynomial The defference of our polynomial objects, also a polynomial object
      *
+     * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
      */
     public function subtract($polynomial): Polynomial
