@@ -114,9 +114,6 @@ class ObjectSquareMatrix extends SquareMatrix
         if ((!$B instanceof Matrix) && (!$B instanceof Vector)) {
             throw new Exception\IncorrectTypeException('Can only do matrix multiplication with a Matrix or Vector');
         }
-        if ($B instanceof Vector) {
-            $B = $B->asColumnMatrix();
-        }
         if ($B->getM() !== $this->n) {
             throw new Exception\MatrixException("Matrix dimensions do not match");
         }
