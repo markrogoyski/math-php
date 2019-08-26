@@ -2,7 +2,6 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Functions\Polynomial;
-use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Number\Complex;
 use MathPHP\Exception;
 
