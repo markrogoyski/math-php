@@ -21,7 +21,6 @@ class HanesWoolf extends ParametricRegression
      * x / y = x / V + K / V
      *
      * @throws Exception\BadDataException
-     * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException
      * @throws Exception\MathException
      */
