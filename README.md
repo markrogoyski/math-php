@@ -18,7 +18,7 @@ Features
  * [Finance](#finance)
  * Functions
    - [Map](#functions---map---single-array)
-   - [Polynomial]($functions--polynomial)
+   - [Polynomial](#functions---polynomial)
    - [Special Functions](#functions---special-functions)
  * Information Theory
    - [Entropy](#information-theory---entropy)
