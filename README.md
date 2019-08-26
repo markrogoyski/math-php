@@ -289,6 +289,9 @@ $negated    = $polynomial->negate();               // Polynomial -x² - 2x - 3
 $degree       = $polynomial->getDegree();        // 2
 $coefficients = $polynomial->getCoefficients();  // [1, 2, 3]
 
+// String representation
+print($polynomial);  // x² + 2x + 3
+
 // Roots
 $polynomial = new Polynomial([1, -3, -4]);
 $roots      = $polynomial->roots();         // [-1, 4]
