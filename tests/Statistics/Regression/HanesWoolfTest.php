@@ -45,7 +45,7 @@ class HanesWoolfTest extends \PHPUnit\Framework\TestCase
      * @param        $x
      * @param        $expected_y
      */
-    public function testEvaludate(array $points, float $x, float $expected_y)
+    public function testEvaluate(array $points, float $x, float $expected_y)
     {
         // Given
         $regression = new HanesWoolf($points);
