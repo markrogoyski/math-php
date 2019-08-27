@@ -146,33 +146,6 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     eigenvectors throws a BadDataException when an eigenvalue that is provided is not a number
-     * @dataProvider dataProviderForEigenvectorNotNumeric
-     * @param        array $A
-     * @param        array $V
-     */
-    public function testEigenvectorNotNumeric(array $A, array $B)
-    {
-        $A = MatrixFactory::create($A);
-
-        $this->expectException(Exception\BadDataException::class);
-        Eigenvector::eigenvectors($A, $B);
-    }
-
-    public function dataProviderForEigenvectorNotNumeric(): array
-    {
-        return [
-            [
-                [
-                    [0, 1],
-                    [-2, -3],
-                ],
-                ["test"],
-            ],
-        ];
-    }
-
-    /**
      * @testCase     eigenvectors throws a BadDataException when there is an incorrect eigenvalue provided
      * @dataProvider dataProviderForEigenvectorNotAnEigenvector
      * @param        array $A
