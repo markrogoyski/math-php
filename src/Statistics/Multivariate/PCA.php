@@ -70,7 +70,7 @@ class PCA
             }
             $this->scale = new Vector($scaleArray);
         } else {
-            $this->scale = new Vector(array_fill(1, $this->data->getN()));
+            $this->scale = new Vector(array_fill(1, $this->data->getN(), 1));
         }
         // Save the source data to the class
         $this->data = $M;
