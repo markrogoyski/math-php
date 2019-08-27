@@ -463,4 +463,24 @@ class PCATest extends \PHPUnit\Framework\TestCase
         // When
         $this->pca->getScores($new_data);
     }
+
+    /**
+     * @test The class returns the correct eigenvalues when data is not scaled
+     *
+     * R code for expected values:
+     * library(mdatools)
+     * data = mtcars[,c(1:7,10,11)]
+     * model = pca(data, center=TRUE, scale=FALSE)
+     * print(model$eigenvals)
+     */
+    public function testPCANoScaling()
+    {
+        $pca = new PCA($this->matrix, true, false);
+        // Given
+        $expected = [1.864106e+04, 1.455220e+03, 9.402948e+00, 1.625431e+00, 8.185525e-01, 4.190430e-01, 9.327903e-02, 8.175127e-02, 4.660443e-02];
+        // When
+        $eigenvalues = $pca->getEigenvalues()->getVector();
+        // Then
+        $this->assertEquals($expected, $eigenvalues, '', .00001);
+    }
 }
