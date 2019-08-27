@@ -35,6 +35,18 @@ class Eigenvector
         if (!$A->isSquare()) {
             throw new Exception\BadDataException('Matrix must be square');
         }
+        // Scale the whole matrix by the max absolute value
+        // to ensure computability.
+        $max_abs = 0;
+        $matrix = $A->getMatrix();
+        for ($i = 0; $i < $M->getM(); $i++) {
+            for ($j = 0; $j < $M->getN(); $j++) {
+                $max_abs = $matrix[$i][$j] > $max_abs ? $matrix[$i][$j] : $max_abs;
+            }
+        }
+        $A = $A->scalarDivide($max_abs);
+        $eig = new Vector($eigenvalues);
+        $eigenvalues = $eig->scalarDivide($max_abs)->getVector();
         $number = count($eigenvalues);
         
         // There cannot be more eigenvalues than the size of A, nor can there be zero.
