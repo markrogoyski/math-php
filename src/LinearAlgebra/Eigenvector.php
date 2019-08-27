@@ -39,8 +39,8 @@ class Eigenvector
         // to ensure computability.
         $max_abs = 0;
         $matrix = $A->getMatrix();
-        for ($i = 0; $i < $M->getM(); $i++) {
-            for ($j = 0; $j < $M->getN(); $j++) {
+        for ($i = 0; $i < $A->getM(); $i++) {
+            for ($j = 0; $j < $A->getN(); $j++) {
                 $max_abs = $matrix[$i][$j] > $max_abs ? $matrix[$i][$j] : $max_abs;
             }
         }
