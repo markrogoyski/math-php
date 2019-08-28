@@ -471,16 +471,19 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * library(mdatools)
      * data = mtcars[,c(1:7,10,11)]
      * model = pca(data, center=TRUE, scale=FALSE)
-     * print(model$eigenvals)
+     * print(model$calres$expvar / 100)
      */
     public function testPCANoScaling()
     {
         $pca = new PCA($this->matrix, true, false);
+
         // Given
-        $expected = [1.864106e+04, 1.455220e+03, 9.402948e+00, 1.625431e+00, 8.185525e-01, 4.190430e-01, 9.327903e-02, 8.175127e-02, 4.660443e-02];
+        $expected = [9.270116e-01, 7.236743e-02, 4.676043e-04, 8.083193e-05, 4.070624e-05, 2.083882e-05, 4.638724e-06, 4.065453e-06, 2.317617e-06];
+
         // When
-        $eigenvalues = $pca->getEigenvalues()->getVector();
+        $rsq = $pca->getRsq();
+
         // Then
-        $this->assertEquals($expected, $eigenvalues, '', .00001);
+        $this->assertEquals($expected, $rsq, '', .000001);
     }
 }
