@@ -486,4 +486,27 @@ class PCATest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertEquals($expected, $rsq, '', .000001);
     }
+
+    /**
+     * @test The class returns the correct eigenvalues when data is not scaled
+     *
+     * R code for expected values:
+     * library(mdatools)
+     * data = mtcars[,c(1:7,10,11)]
+     * model = pca(data, center=FALSE, scale=TRUE)
+     * print(model$calres$expvar / 100)
+     */
+    public function testPCANoCentering()
+    {
+        $pca = new PCA($this->matrix, false, true);
+
+        // Given
+        $expected = [9.627597e-01, 2.399382e-02, 8.974667e-03, 1.647348e-03, 1.007722e-03, 6.644581e-04, 4.551423e-04, 4.007877e-04, 9.637733e-05];
+
+        // When
+        $rsq = $pca->getRsq();
+
+        // Then
+        $this->assertEquals($expected, $rsq, '', .000001);
+    }
 }
