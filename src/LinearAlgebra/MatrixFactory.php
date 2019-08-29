@@ -2,6 +2,7 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
+use MathPHP\Functions\Polynomial;
 
 /**
  * Matrix factory to create matrices of all types.
@@ -510,6 +511,18 @@ class MatrixFactory
             }
         }
         return self::create($A);
+    }
+
+    public function CompanionMatrix(Polynomial $t): Matrix
+    {
+        $coefficients = $t->getCoefficients();
+        $reversed_coefficients = new Vector(array_reverse($coefficients));
+
+        // Make a column matrix without the largest factor, after setting it to 1
+        $column_matrix = Matrixfactory::createFromVectors([$reversed_coefficients])->scalarDivide($coefficients[0])->exclude_row($t->getDegree());
+        $zero_row = MatrixFactory::zero(1, $column_matrix->getM());
+        $companion = MatrixFactory::identity($column_matrix->getM() - 1)->augmentAbove($zero_row)->augment($column_matrix);
+        return $companion
     }
 
     /* ************************************************************************
