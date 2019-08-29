@@ -41,7 +41,7 @@ class PCA
      * The Eigenvectors of the correlation matrix
      */
     protected $EVec = null;
-    
+
     /**
      * Constructor
      *
@@ -54,6 +54,7 @@ class PCA
      */
     public function __construct(Matrix $M, bool $center = true, bool $scale = true)
     {
+        $this->center = $center;
         // Check that there is enough data: at least two columns and rows
         if (!($M->getM() > 1) || !($M->getN() > 1)) {
             throw new Exception\BadDataException('Data matrix must be at least 2x2.');
@@ -126,6 +127,7 @@ class PCA
 
         // $scaled_data = ($X - μ) / σ
         $scaled_data = $X->subtract($center_matrix)->multiply($scale_matrix);
+
         return $scaled_data;
     }
     
@@ -146,7 +148,11 @@ class PCA
      */
     public function getEigenvalues(): Vector
     {
-        return $this->EVal;
+        $EV = [];
+        for ($i = 0; $i < $this->data->getN(); $i++) {
+            $EV[] = Descriptive::standardDeviation($this->getScores()->getColumn($i)) ** 2;
+        }
+        return new Vector($EV);
     }
  
     /**
@@ -311,7 +317,7 @@ class PCA
         $vars = $this->data->getN();
         $Qcrit = [];
         for ($i = 0; $i < $vars - 1; $i++) {
-            $evals = array_slice($this->EVal->getVector(), $i + 1);
+            $evals = array_slice($this->getEigenvalues()->getVector(), $i + 1);
             $t1 = array_sum($evals);
             $t2 = array_sum(Single::square($evals));
             $t3 = array_sum(Single::pow($evals, 3));
