@@ -8,7 +8,7 @@ use MathPHP\Statistics\Multivariate\PCA;
 use MathPHP\Exception;
 use MathPHP\Tests\Data\SampleData;
 
-class PcaCenterTrueScaleFalseTest extends \PHPUnit\Framework\TestCase
+class PCACenterTrueScaleFalseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var array[] */
     private static $A;
