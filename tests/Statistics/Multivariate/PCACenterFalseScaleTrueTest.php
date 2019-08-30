@@ -11,24 +11,24 @@ use MathPHP\Tests\Data\SampleData;
 class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
 {
     /** @var array[] */
-    protected $A;
+    private static $A;
 
     /** @var PCA */
-    protected $pca;
+    private static $pca;
 
     /** @var Matrix  */
-    protected $matrix;
+    private static $matrix;
 
     /**
      * @throws Exception\MathException
      */
-    public function setUp()
+    public static function setUpBeforeClass()
     {
-        $this->A = SampleData::mtcars();
+        self::$A = SampleData::mtcars();
 
         // Remove top row, left column, and categorical variables
-        $this->matrix = MatrixFactory::create($this->A)->rowExclude(0)->columnExclude(9)->columnExclude(8)->columnExclude(0);
-        $this->pca = new PCA($this->matrix, false, true);
+        self::$matrix = MatrixFactory::create(self::$A)->rowExclude(0)->columnExclude(9)->columnExclude(8)->columnExclude(0);
+        self::$pca = new PCA(self::$matrix, false, true);
     }
 
     /**
@@ -46,7 +46,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $expected = [9.627597e-01, 2.399382e-02, 8.974667e-03, 1.647348e-03, 1.007722e-03, 6.644581e-04, 4.551423e-04, 4.007877e-04, 9.637733e-05];
 
         // When
-        $R2 = $this->pca->getRsq();
+        $R2 = self::$pca->getRsq();
 
         // Then
         $this->assertEquals($expected, $R2, '', .00001);
@@ -67,7 +67,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $expected = [0.9627597, 0.9867535, 0.9957282, 0.9973755, 0.9983832, 0.9990477, 0.9995028, 0.9999036, 1.0000000];
 
         // When
-        $cumR2 = $this->pca->getCumRsq();
+        $cumR2 = self::$pca->getCumRsq();
 
         // Then
         $this->assertEquals($expected, $cumR2, '', .00001);
@@ -100,7 +100,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         ];
 
         // And since each column could be multiplied by -1, we will compare the two and adjust.
-        $loadings   = $this->pca->getLoadings();
+        $loadings   = self::$pca->getLoadings();
         $load_array = $loadings->getMatrix();
 
         // Get an array that's roughly ones and negative ones.
@@ -176,7 +176,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         ];
 
         // And since each column could be multiplied by -1, we will compare the two and adjust.
-        $scores = $this->pca->getScores();
+        $scores = self::$pca->getScores();
         $score_array = $scores->getMatrix();
 
         // Get an array that's roughly ones and negative ones.
@@ -202,7 +202,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $sign_adjusted = $expected->multiply($signature);
 
         // When
-        $scores = $this->pca->getScores(MatrixFactory::create([[1,2,3,4,5,6,7,8,9]]));
+        $scores = self::$pca->getScores(MatrixFactory::create([[1,2,3,4,5,6,7,8,9]]));
 
         // Then
         $this->assertEquals($sign_adjusted->getMatrix(), $scores->getMatrix(), '', .00001);
@@ -223,7 +223,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $expected = [4.030377e-01, 5.538161e+00, 2.072459e+00, 3.803137e-01, 2.326922e-01, 1.534309e-01, 1.051069e-01, 9.254194e-02, 2.225659e-02];
 
         // When
-        $eigenvalues = $this->pca->getEigenvalues()->getVector();
+        $eigenvalues = self::$pca->getEigenvalues()->getVector();
 
         // Then
         $this->assertEquals($expected, $eigenvalues, '', .00001);
@@ -244,7 +244,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $expected = [4.159615, 6.852714, 9.40913, 12.01948, 14.76453, 17.69939, 20.87304, 24.33584, 28.14389];
 
         // When
-        $criticalT2 = $this->pca->getCriticalT2();
+        $criticalT2 = self::$pca->getCriticalT2();
 
         // Then
         $this->assertEquals($expected, $criticalT2, '', .00001);
@@ -265,7 +265,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $expected = [25.824597, 9.343233, 2.3843107, 1.4845012, 0.9577895, 0.6182419, 0.3849731, 0.08339018, 0];
 
         // When
-        $criticalQ = $this->pca->getCriticalQ();
+        $criticalQ = self::$pca->getCriticalQ();
 
         // Then
         $this->assertEquals($expected, $criticalQ, '', .00001);
@@ -321,7 +321,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         ];
 
         // When
-        $T²Distances = $this->pca->getT2Distances()->getMatrix();
+        $T²Distances = self::$pca->getT2Distances()->getMatrix();
 
         // Then
         $this->assertEquals($expected, $T²Distances, '', .00001);
@@ -346,7 +346,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $newdata  = MatrixFactory::create([[1,2,3,4,5,6,7,8,9]]);
 
         // When
-        $T²Distances = $this->pca->getT2Distances($newdata)->getMatrix();
+        $T²Distances = self::$pca->getT2Distances($newdata)->getMatrix();
 
         // Then
         $this->assertEquals($expected, $T²Distances, '', .0001);
@@ -402,7 +402,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         ];
 
         // When
-        $qResiduals = $this->pca->getQResiduals()->getMatrix();
+        $qResiduals = self::$pca->getQResiduals()->getMatrix();
 
         // Then
         $this->assertEquals($expected, $qResiduals, '', .00001);
@@ -427,7 +427,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $newData  = MatrixFactory::create([[1,2,3,4,5,6,7,8,9]]);
 
         // When
-        $qResiduals = $this->pca->getQResiduals($newData)->getMatrix();
+        $qResiduals = self::$pca->getQResiduals($newData)->getMatrix();
 
         // Then
         $this->assertEquals($expected, $qResiduals, '', .0001);
