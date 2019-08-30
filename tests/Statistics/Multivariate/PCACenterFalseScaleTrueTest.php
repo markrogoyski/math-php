@@ -310,7 +310,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
     /**
      * @test The class returns the correct T² distances
      *
-     * library(mdatools)
+     * R code for expected values:
      *   new = matrix(c(1:9), 1, 9)
      *   result = predict(model, new)
      *   result$T2
