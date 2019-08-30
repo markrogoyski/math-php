@@ -3,8 +3,10 @@ namespace MathPHP\Functions;
 
 use MathPHP\Algebra;
 use MathPHP\Exception;
-use MathPHP\Number\ObjectArithmetic;
 use MathPHP\Functions\Map;
+use MathPHP\Number\ObjectArithmetic;
+use MathPHP\LinearAlgebra\Decomposition;
+use MathPHp\LinearAlgebra\MatrixFactory;
 
 /**
  * A convenience class for one-dimension polynomials.
@@ -423,7 +425,7 @@ class Polynomial implements ObjectArithmetic
             case 4:
                 return Algebra::quartic(...$this->coefficients);
             default:
-                return [\NAN];
+                return Decomposition\Eigen::decompose(MatrixFactory::companionMatrix($this))->getD()->getVector();
         }
     }
 }

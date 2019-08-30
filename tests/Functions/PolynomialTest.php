@@ -3,6 +3,8 @@ namespace MathPHP\Tests\Functions;
 
 use MathPHP\Functions\Polynomial;
 use MathPHP\Exception;
+use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHp\LinearAlgebra\Decomposition;
 
 class PolynomialTest extends \PHPUnit\Framework\TestCase
 {
@@ -1049,36 +1051,6 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         roots NAN
-     * @dataProvider dataProviderForRootsNAN
-     * @param        array $polynomialA
-     * @throws       \Exception
-     */
-    public function testRootsNAN(array $polynomialA)
-    {
-        // Given
-        $polynomialA = new Polynomial($polynomialA);
-
-        // When
-        $roots = $polynomialA->roots();
-
-        // Then
-        $this->assertNan($roots[0]);
-    }
-
-    /**
-     * @return array
-     */
-    public function dataProviderForRootsNAN(): array
-    {
-        return [
-            [
-                [1, -3, -4, 5, 5, 5],
-            ],
-        ];
-    }
-
-    /**
      * @test   add - IncorrectTypeException if the argument is not numeric or a Polynomial
      * @throws \Exception
      */
@@ -1216,6 +1188,46 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
             [
                 [1, 2, 3],
                 [-1, -2, -3],
+            ],
+        ];
+    }
+
+    /**
+     * @test         Test that the proper roots are calculated using the companion matrix
+     * @dataProvider dataProviderForTestCompanionMatrix
+     * @param array  $roots the roots of the polynomial
+     * @param array  $companion_matrix the expected companion matrix
+     */
+    public function testCompanionMatrix(array $roots, array $expected_matrix)
+    {
+        // Initialize a polynomial to 1
+        $poly = new Polynomial([1]);
+
+        // Generate the polynomial with the provided roots
+        foreach ($roots as $root) {
+            $factor = new Polynomial([1, -1 * $root]);
+            $poly = $poly->multiply($factor);
+        }
+
+        $companion = MatrixFactory::companionMatrix($poly);
+        $this->assertEquals($expected_matrix, $companion->getMatrix(), '', .0000001);
+
+        $this->assertEquals($roots, $poly->roots(), '', .0000001);
+    }
+
+    public function dataProviderForTestCompanionMatrix()
+    {
+        return [
+            [
+                [6, 5, 4, 3, 2, 1],
+                [
+                    [0, 0, 0, 0, 0, -720],
+                    [1, 0, 0, 0, 0, 1764],
+                    [0, 1, 0, 0, 0, -1624],
+                    [0, 0, 1, 0, 0, 735],
+                    [0, 0, 0, 1, 0, -175],
+                    [0, 0, 0, 0, 1, 21],
+                ],
             ],
         ];
     }
