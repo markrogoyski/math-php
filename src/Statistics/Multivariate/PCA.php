@@ -21,26 +21,19 @@ use MathPHP\Statistics\Descriptive;
 class PCA
 {
     /** @var Matrix Dataset */
-    protected $data;
+    private $data;
  
     /** @var Vector Means */
-    protected $center;
+    private $center;
  
     /** @var Vector Scale */
-    protected $scale;
+    private $scale;
 
-    /**
-     * @var Vector $EVal
-     * The EigenValues of the correlation Matrix
-     * Also the Loading Matrix for the PCA
-     */
-    protected $EVal = null;
+    /** @var Vector $EVal Eigenvalues of the correlation Matrix - Also the Loading Matrix for the PCA */
+    private $EVal = null;
 
-    /**
-     * @var Matrix $EVec
-     * The Eigenvectors of the correlation matrix
-     */
-    protected $EVec = null;
+    /** @var Matrix $EVec Eigenvectors of the correlation matrix */
+    private $EVec = null;
 
     /**
      * Constructor
@@ -215,12 +208,12 @@ class PCA
      * Get the Q Residuals
      *
      * The Q residual is the error in the model at a given model complexity.
-     * For each row (i) in the data Matrix x, and retained componenets (j):
+     * For each row (i) in the data Matrix x, and retained components (j):
      * Qᵢ = eᵢ'eᵢ = xᵢ(I-PⱼPⱼ')xᵢ'
      *
      * @param Matrix $new_data - An optional Matrix of new data which is standardized against the original data
      *
-     * @return Matrix
+     * @return Matrix of Q residuals
      *
      * @throws Exception\MathException
      */
@@ -239,19 +232,19 @@ class PCA
         $I  = MatrixFactory::identity($vars);
 
         // Initial element with initialization of result matrix
-        $P             = $this->EVec->submatrix(0, 0, $vars - 1, 0);  // Get the first column of the loading matrix
-        $P′            = $P->transpose();
-        $result_matrix = MatrixFactory::create([$X->multiply($I->subtract($P->multiply($P′)))->multiply($X′)->getDiagonalElements()])->transpose();
+        $P  = $this->EVec->submatrix(0, 0, $vars - 1, 0);  // Get the first column of the loading matrix
+        $P′ = $P->transpose();
+        $Q  = MatrixFactory::create([$X->multiply($I->subtract($P->multiply($P′)))->multiply($X′)->getDiagonalElements()])->transpose();
 
         for ($i = 1; $i < $vars; $i++) {
             // Get the first $i+1 columns of the loading matrix
-            $P             = $this->EVec->submatrix(0, 0, $vars - 1, $i);
-            $P′            = $P->transpose();
-            $new_column    = MatrixFactory::create([$X->multiply($I->subtract($P->multiply($P′)))->multiply($X′)->getDiagonalElements()])->transpose();
-            $result_matrix = $result_matrix->augment($new_column);
+            $P  = $this->EVec->submatrix(0, 0, $vars - 1, $i);
+            $P′ = $P->transpose();
+            $Qᵢ = MatrixFactory::create([$X->multiply($I->subtract($P->multiply($P′)))->multiply($X′)->getDiagonalElements()])->transpose();
+            $Q  = $Q->augment($Qᵢ);
         }
 
-        return $result_matrix;
+        return $Q;
     }
     
     /**
@@ -279,24 +272,23 @@ class PCA
         }
 
         $X′ = $X->transpose();
-        $initialized = false;
 
         // Initial element with initialization of result matrix
-        $P              = $this->EVec->submatrix(0, 0, $vars - 1, 0); // // Get the first column of the loading matrix
-        $P′             = $P->transpose();
-        $inverse_lambda = MatrixFactory::diagonal(array_slice($this->EVal->getVector(), 0, 0 + 1))->inverse();
-        $result_matrix  = MatrixFactory::create([$X->multiply($P)->multiply($inverse_lambda)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
+        $P    = $this->EVec->submatrix(0, 0, $vars - 1, 0); // // Get the first column of the loading matrix
+        $P′   = $P->transpose();
+        $Λⱼ⁻¹ = MatrixFactory::diagonal(array_slice($this->EVal->getVector(), 0, 0 + 1))->inverse();
+        $T²   = MatrixFactory::create([$X->multiply($P)->multiply($Λⱼ⁻¹)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
 
         for ($i = 1; $i < $this->data->getN(); $i++) {
             // Get the first $i+1 columns of the loading matrix
-            $P              = $this->EVec->submatrix(0, 0, $vars - 1, $i);
-            $inverse_lambda = MatrixFactory::diagonal(array_slice($this->EVal->getVector(), 0, $i + 1))->inverse();
-            $P′             = $P->transpose();
-            $new_column     = MatrixFactory::create([$X->multiply($P)->multiply($inverse_lambda)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
-            $result_matrix  = $result_matrix->augment($new_column);
+            $P    = $this->EVec->submatrix(0, 0, $vars - 1, $i);
+            $P′   = $P->transpose();
+            $Λⱼ⁻¹ = MatrixFactory::diagonal(array_slice($this->EVal->getVector(), 0, $i + 1))->inverse();
+            $Tᵢ²  = MatrixFactory::create([$X->multiply($P)->multiply($Λⱼ⁻¹)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
+            $T²   = $T²->augment($Tᵢ²);
         }
 
-        return $result_matrix;
+        return $T²;
     }
 
     /**
@@ -308,17 +300,17 @@ class PCA
      */
     public function getCriticalT2(float $alpha = .05): array
     {
-        $samp    = $this->data->getM();
-        $vars    = $this->data->getN();
-        $T_array = [];
+        $samp = $this->data->getM();
+        $vars = $this->data->getN();
 
+        $T²Critical = [];
         for ($i = 1; $i <= $vars; $i++) {
             $F = new F($i, $samp - $i);
             $T = $i * ($samp - 1) * $F->inverse(1 - $alpha) / ($samp - $i);
-            $T_array[] = $T;
+            $T²Critical[] = $T;
         }
 
-        return $T_array;
+        return $T²Critical;
     }
 
     /**
@@ -333,7 +325,7 @@ class PCA
     public function getCriticalQ(float $alpha = .05): array
     {
         $vars  = $this->data->getN();
-        $Qcrit = [];
+        $QCritical = [];
 
         for ($i = 0; $i < $vars - 1; $i++) {
             $evals = array_slice($this->getEigenvalues()->getVector(), $i + 1);
@@ -353,12 +345,12 @@ class PCA
             $h1 = $ca * sqrt(2 * $t2 * $h0 ** 2) / $t1;
             $h2 = $t2 * $h0 * ($h0 - 1) / $t1 ** 2;
 
-            $Qcrit[] = $t1 * (1 + $h1 + $h2) ** (1 / $h0);
+            $QCritical[] = $t1 * (1 + $h1 + $h2) ** (1 / $h0);
         }
 
         // The final value is always zero since the model is perfectly fit.
-        $Qcrit[] = 0;
-        
-        return $Qcrit;
+        $QCritical[] = 0;
+
+        return $QCritical;
     }
 }
