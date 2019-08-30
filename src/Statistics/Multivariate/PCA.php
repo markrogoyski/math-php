@@ -54,16 +54,15 @@ class PCA
      */
     public function __construct(Matrix $M, bool $center = true, bool $scale = true)
     {
-        $this->center = $center;
         // Check that there is enough data: at least two columns and rows
         if (!($M->getM() > 1) || !($M->getN() > 1)) {
             throw new Exception\BadDataException('Data matrix must be at least 2x2.');
         }
-        if ($center === true) {
-            $this->center = $M->columnMeans();
-        } else {
-            $this->center = new Vector(array_fill(0, $M->getN(), 0));
-        }
+
+        $this->center = $center === true
+            ? $this->center = $M->columnMeans()
+            : $this->center = new Vector(array_fill(0, $M->getN(), 0));
+
         if ($scale === true) {
             $scaleArray = [];
             for ($i = 0; $i < $M->getN(); $i++) {
@@ -73,6 +72,7 @@ class PCA
         } else {
             $this->scale = new Vector(array_fill(0, $M->getN(), 1));
         }
+
         // Save the source data to the class
         $this->data = $M;
 
@@ -80,9 +80,10 @@ class PCA
         $this->data = $this->standardizeData();
         
         // Create the correlation / variance-covarience Matrix
-        $samples = $M->getM();
+        $samples       = $M->getM();
         $corrCovMatrix = $this->data->transpose()->multiply($this->data)->scalarDivide($samples - 1);
 
+        // Eigenvalues and vectors
         $this->EVal = new Vector($corrCovMatrix->eigenvalues(Eigenvalue::JACOBI_METHOD));
         $this->EVec = $corrCovMatrix->eigenvectors(Eigenvalue::JACOBI_METHOD);
     }
@@ -121,14 +122,12 @@ class PCA
         }
         $ones_column = MatrixFactory::one($X->getM(), 1);
         
-        // Create a matrix the same dimentions as $new_data, each element is the average of that column in the original data.
+        // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
         $center_matrix = $ones_column->multiply(MatrixFactory::create([$this->center->getVector()]));
-        $scale_matrix = MatrixFactory::diagonal($this->scale->getVector())->inverse();
+        $scale_matrix  = MatrixFactory::diagonal($this->scale->getVector())->inverse();
 
-        // $scaled_data = ($X - μ) / σ
-        $scaled_data = $X->subtract($center_matrix)->multiply($scale_matrix);
-
-        return $scaled_data;
+        // scaled data: ($X - μ) / σ
+        return $X->subtract($center_matrix)->multiply($scale_matrix);
     }
     
     /**
@@ -145,6 +144,8 @@ class PCA
      * The eigenvalues of the correlation matrix
      *
      * @return Vector
+     *
+     * @throws Exception\MathException
      */
     public function getEigenvalues(): Vector
     {
@@ -152,13 +153,16 @@ class PCA
         for ($i = 0; $i < $this->data->getN(); $i++) {
             $EV[] = Descriptive::standardDeviation($this->getScores()->getColumn($i)) ** 2;
         }
+
         return new Vector($EV);
     }
- 
+
     /**
      * Get Scores
      *
      * Transform the standardized data with the loadings matrix
+     *
+     * @param Matrix|null $new_data
      *
      * @return Matrix
      *
@@ -172,6 +176,7 @@ class PCA
             $this->checkNewData($new_data);
             $scaled_data = $this->standardizeData($new_data);
         }
+
         return $scaled_data->multiply($this->EVec);
     }
 
@@ -195,13 +200,14 @@ class PCA
      */
     public function getCumRsq(): array
     {
-        $array = $this->getRsq();
         $result = [];
-        $sum = 0;
-        foreach ($array as $value) {
-            $sum += array_shift($array);
+        $sum    = 0;
+
+        foreach ($this->getRsq() as $R²value) {
+            $sum += $R²value;
             $result[] = $sum;
         }
+
         return $result;
     }
 
@@ -221,6 +227,7 @@ class PCA
     public function getQResiduals(Matrix $new_data = null): Matrix
     {
         $vars = $this->data->getN();
+
         if ($new_data === null) {
             $X = $this->data;
         } else {
@@ -228,21 +235,22 @@ class PCA
             $X = $this->standardizeData($new_data);
         }
         
-        $Xprime = $X->transpose();
-        $initialized = false;
-        $I = MatrixFactory::identity($vars);
-        for ($i = 0; $i < $vars; $i++) {
+        $X′ = $X->transpose();
+        $I  = MatrixFactory::identity($vars);
+
+        // Initial element with initialization of result matrix
+        $P             = $this->EVec->submatrix(0, 0, $vars - 1, 0);  // Get the first column of the loading matrix
+        $P′            = $P->transpose();
+        $result_matrix = MatrixFactory::create([$X->multiply($I->subtract($P->multiply($P′)))->multiply($X′)->getDiagonalElements()])->transpose();
+
+        for ($i = 1; $i < $vars; $i++) {
             // Get the first $i+1 columns of the loading matrix
-            $P = $this->EVec->submatrix(0, 0, $vars - 1, $i);
-            $Pprime = $P->transpose();
-            $new_column = MatrixFactory::create([$X->multiply($I->subtract($P->multiply($Pprime)))->multiply($Xprime)->getDiagonalElements()])->transpose();
-            if (!$initialized) {
-                $result_matrix = $new_column;
-                $initialized = true;
-            } else {
-                $result_matrix = $result_matrix->augment($new_column);
-            }
+            $P             = $this->EVec->submatrix(0, 0, $vars - 1, $i);
+            $P′            = $P->transpose();
+            $new_column    = MatrixFactory::create([$X->multiply($I->subtract($P->multiply($P′)))->multiply($X′)->getDiagonalElements()])->transpose();
+            $result_matrix = $result_matrix->augment($new_column);
         }
+
         return $result_matrix;
     }
     
@@ -262,27 +270,32 @@ class PCA
     public function getT2Distances(Matrix $new_data = null): Matrix
     {
         $vars = $this->data->getN();
+
         if ($new_data === null) {
             $X = $this->data;
         } else {
             $this->checkNewData($new_data);
             $X = $this->standardizeData($new_data);
         }
-        $Xprime = $X->transpose();
+
+        $X′ = $X->transpose();
         $initialized = false;
-        for ($i = 0; $i < $this->data->getN(); $i++) {
+
+        // Initial element with initialization of result matrix
+        $P              = $this->EVec->submatrix(0, 0, $vars - 1, 0); // // Get the first column of the loading matrix
+        $P′             = $P->transpose();
+        $inverse_lambda = MatrixFactory::diagonal(array_slice($this->EVal->getVector(), 0, 0 + 1))->inverse();
+        $result_matrix  = MatrixFactory::create([$X->multiply($P)->multiply($inverse_lambda)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
+
+        for ($i = 1; $i < $this->data->getN(); $i++) {
             // Get the first $i+1 columns of the loading matrix
-            $P = $this->EVec->submatrix(0, 0, $vars - 1, $i);
+            $P              = $this->EVec->submatrix(0, 0, $vars - 1, $i);
             $inverse_lambda = MatrixFactory::diagonal(array_slice($this->EVal->getVector(), 0, $i + 1))->inverse();
-            $Pprime = $P->transpose();
-            $new_column = MatrixFactory::create([$X->multiply($P)->multiply($inverse_lambda)->multiply($Pprime)->multiply($Xprime)->getDiagonalElements()])->transpose();
-            if (!$initialized) {
-                $result_matrix = $new_column;
-                $initialized = true;
-            } else {
-                $result_matrix = $result_matrix->augment($new_column);
-            }
+            $P′             = $P->transpose();
+            $new_column     = MatrixFactory::create([$X->multiply($P)->multiply($inverse_lambda)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
+            $result_matrix  = $result_matrix->augment($new_column);
         }
+
         return $result_matrix;
     }
 
@@ -295,13 +308,16 @@ class PCA
      */
     public function getCriticalT2(float $alpha = .05): array
     {
-        $samp = $this->data->getM();
-        $vars = $this->data->getN();
+        $samp    = $this->data->getM();
+        $vars    = $this->data->getN();
+        $T_array = [];
+
         for ($i = 1; $i <= $vars; $i++) {
             $F = new F($i, $samp - $i);
             $T = $i * ($samp - 1) * $F->inverse(1 - $alpha) / ($samp - $i);
             $T_array[] = $T;
         }
+
         return $T_array;
     }
 
@@ -311,28 +327,38 @@ class PCA
      * @param float $alpha the probability limit of the critical value
      *
      * @return float[] Critical values for each model complexity
+     *
+     * @throws Exception\MathException
      */
     public function getCriticalQ(float $alpha = .05): array
     {
-        $vars = $this->data->getN();
+        $vars  = $this->data->getN();
         $Qcrit = [];
+
         for ($i = 0; $i < $vars - 1; $i++) {
             $evals = array_slice($this->getEigenvalues()->getVector(), $i + 1);
+
             $t1 = array_sum($evals);
             $t2 = array_sum(Single::square($evals));
             $t3 = array_sum(Single::pow($evals, 3));
+
             $h0 = 1 - 2 * $t1 * $t3 / 3 / $t2 ** 2;
             if ($h0 < .001) {
                 $h0 = .001;
             }
+
             $normal = new StandardNormal();
-            $ca = $normal->inverse(1 - $alpha);
+            $ca     = $normal->inverse(1 - $alpha);
+
             $h1 = $ca * sqrt(2 * $t2 * $h0 ** 2) / $t1;
             $h2 = $t2 * $h0 * ($h0 - 1) / $t1 ** 2;
+
             $Qcrit[] = $t1 * (1 + $h1 + $h2) ** (1 / $h0);
         }
+
         // The final value is always zero since the model is perfectly fit.
         $Qcrit[] = 0;
+        
         return $Qcrit;
     }
 }
