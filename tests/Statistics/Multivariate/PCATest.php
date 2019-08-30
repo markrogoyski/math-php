@@ -20,6 +20,11 @@ class PCATest extends \PHPUnit\Framework\TestCase
     private static $matrix;
 
     /**
+     * R code for expected values:
+     *   library(mdatools)
+     *   data = mtcars[,c(1:7,10,11)]
+     *   model = pca(data, center=TRUE, scale=TRUE)
+     *
      * @throws Exception\MathException
      */
     public static function setUpBeforeClass()
@@ -35,10 +40,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct R-squared values
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=TRUE, scale=TRUE)
-     * print(model$calres$expvar / 100)
+     *   model$calres$expvar / 100
      */
     public function testRsq()
     {
@@ -56,10 +58,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct cumulative R-squared values
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=TRUE, scale=TRUE)
-     * print(model$calres$cumexpvar / 100)
+     *   model$calres$cumexpvar / 100
      */
     public function testCumRsq()
     {
@@ -77,10 +76,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct loadings
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=TRUE, scale=TRUE)
-     * print(model$loadings))
+     *   model$loadings
      *
      * @throws \Exception
      */
@@ -126,13 +122,10 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct scores
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=TRUE, scale=TRUE)
-     * print(model$calres$scores)
-     * new = matrix(c(1:9), 1, 9)
-     * result = predict(model, new)
-     * print(result$scores)
+     *   model$calres$scores
+     *   new = matrix(c(1:9), 1, 9)
+     *   result = predict(model, new)
+     *   result$scores
      *
      * @throws \Exception
      */
@@ -211,10 +204,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct eigenvalues
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=TRUE, scale=TRUE)
-     * print(model$eigenvals)
+     *   model$eigenvals
      */
     public function testEigenvalues()
     {
@@ -232,10 +222,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct critical T² distances
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=TRUE, scale=TRUE)
-     * show(model$T2lim)
+     *   model$T2lim
      */
     public function testCriticalT2()
     {
@@ -253,10 +240,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct critical Q distances
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=TRUE, scale=TRUE)
-     * show(model$Qlim)
+     *   model$Qlim
      */
     public function testCriticalQ()
     {
@@ -274,10 +258,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct T² distances
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=TRUE, scale=TRUE)
-     * print(model$calres$T2)
+     *   model$calres$T2
      *
      * @throws \Exception
      */
@@ -329,12 +310,10 @@ class PCATest extends \PHPUnit\Framework\TestCase
     /**
      * @test The class returns the correct T² distances
      *
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=TRUE, scale=TRUE)
-     * new = matrix(c(1:9), 1, 9)
-     * result = predict(model, new)
-     * print(result$T2)
+     * R code for expected values:
+     *   new = matrix(c(1:9), 1, 9)
+     *   result = predict(model, new)
+     *   result$T2
      *
      * @throws \Exception
      */
@@ -355,10 +334,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct Q residuals
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=TRUE, scale=TRUE)
-     * print(model$calres$Q)
+     *   model$calres$Q
      *
      * @throws \Exception
      */
@@ -410,12 +386,10 @@ class PCATest extends \PHPUnit\Framework\TestCase
     /**
      * @test The class returns the correct Q residuals
      *
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=TRUE, scale=TRUE)
-     * new = matrix(c(1:9), 1, 9)
-     * result = predict(model, new)
-     * print(result$Q)
+     * R code for expected values:
+     *   new = matrix(c(1:9), 1, 9)
+     *   result = predict(model, new)
+     *   result$Q
      *
      * @throws \Exception
      */

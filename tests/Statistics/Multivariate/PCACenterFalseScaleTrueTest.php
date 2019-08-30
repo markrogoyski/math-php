@@ -20,6 +20,10 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
     private static $matrix;
 
     /**
+     * R code for expected values:
+     *   library(mdatools)
+     *   data = mtcars[,c(1:7,10,11)]
+     *   model = pca(data, center=FALSE, scale=TRUE)
      * @throws Exception\MathException
      */
     public static function setUpBeforeClass()
@@ -35,10 +39,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct R-squared values
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=FALSE, scale=TRUE)
-     * print(model$calres$expvar / 100)
+     *   model$calres$expvar / 100
      */
     public function testRsq()
     {
@@ -56,10 +57,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct cumulative R-squared values
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=FALSE, scale=TRUE)
-     * print(model$calres$cumexpvar / 100)
+     *   model$calres$cumexpvar / 100
      */
     public function testCumRsq()
     {
@@ -77,10 +75,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct loadings
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=FALSE, scale=TRUE)
-     * print(model$loadings))
+     *   model$loadings
      *
      * @throws \Exception
      */
@@ -127,13 +122,10 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct scores
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=FALSE, scale=TRUE)
-     * print(model$calres$scores)
-     * new = matrix(c(1:9), 1, 9)
-     * result = predict(model, new)
-     * print(result$scores)
+     *   model$calres$scores
+     *   new = matrix(c(1:9), 1, 9)
+     *   result = predict(model, new)
+     *   result$scores
      *
      * @throws \Exception
      */
@@ -212,10 +204,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct eigenvalues
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=FALSE, scale=TRUE)
-     * print(model$eigenvals)
+     *   model$eigenvals
      */
     public function testEigenvalues()
     {
@@ -233,10 +222,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct critical T² distances
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=FALSE, scale=TRUE)
-     * show(model$T2lim)
+     *   model$T2lim
      */
     public function testCriticalT2()
     {
@@ -254,10 +240,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct critical Q distances
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=FALSE, scale=TRUE)
-     * show(model$Qlim)
+     *   model$Qlim
      */
     public function testCriticalQ()
     {
@@ -275,10 +258,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct T² distances
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=FALSE, scale=TRUE)
-     * print(model$calres$T2)
+     *   model$calres$T2
      *
      * @throws \Exception
      */
@@ -331,11 +311,9 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct T² distances
      *
      * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=FALSE, scale=TRUE)
-     * new = matrix(c(1:9), 1, 9)
-     * result = predict(model, new)
-     * print(result$T2)
+     *   new = matrix(c(1:9), 1, 9)
+     *   result = predict(model, new)
+     *   result$T2
      *
      * @throws \Exception
      */
@@ -356,10 +334,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct Q residuals
      *
      * R code for expected values:
-     * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=FALSE, scale=TRUE)
-     * print(model$calres$Q)
+     *   model$calres$Q
      *
      * @throws \Exception
      */
@@ -412,11 +387,9 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
      * @test The class returns the correct Q residuals
      *
      * library(mdatools)
-     * data = mtcars[,c(1:7,10,11)]
-     * model = pca(data, center=FALSE, scale=TRUE)
-     * new = matrix(c(1:9), 1, 9)
-     * result = predict(model, new)
-     * print(result$Q)
+     *   new = matrix(c(1:9), 1, 9)
+     *   result = predict(model, new)
+     *   result$Q
      *
      * @throws \Exception
      */
