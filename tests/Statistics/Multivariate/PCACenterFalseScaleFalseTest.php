@@ -36,6 +36,19 @@ class PCACenterFalseScaleFalseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test   Construction
+     * @throws \Exception
+     */
+    public function testConstruction()
+    {
+        // When
+        $pca = new PCA(self::$matrix, false, false);
+
+        // Then
+        $this->assertInstanceOf(PCA::class, $pca);
+    }
+
+    /**
      * @test The class returns the correct R-squared values
      *
      * R code for expected values:

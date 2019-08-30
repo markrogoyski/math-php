@@ -37,6 +37,19 @@ class PCATest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test   Construction
+     * @throws \Exception
+     */
+    public function testConstruction()
+    {
+        // When
+        $pca = new PCA(self::$matrix, true, true);
+
+        // Then
+        $this->assertInstanceOf(PCA::class, $pca);
+    }
+
+    /**
      * @test The class returns the correct R-squared values
      *
      * R code for expected values:
