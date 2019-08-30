@@ -90,10 +90,10 @@ class SVD extends DecompositionBase
         $MtM = $Mt->multiply($M);
         
         // m x m orthoganol matrix
-        $U = $MMt->eigenvectors();
+        $U = Eigen::decompose($MMt)->getV();
         
         // n x n orthoganol matrix
-        $V = $MtM->eigenvectors();
+        $V = Eigen::decompose($MtM)->getV();
 
         // A rectangular diagonal matrix
         $S = $U->transpose()->multiply($M)->multiply($V);
