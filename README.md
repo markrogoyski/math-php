@@ -58,6 +58,8 @@ Features
      - [Effect Size](#statistics---effect-size)
      - [Experiments](#statistics---experiments)
      - [Kernel Density Estimation](#statistics---kernel-density-estimation)
+     - Multivariate
+        * [PCA - Principal Component Analysis](#statistics---Multivariate---PCA-(Principal-Component-Analysis))
      - [Outlier](#statistics---outlier)
      - [Random Variables](#statistics---random-variables)
      - [Regressions](#statistics---regressions)
@@ -2099,6 +2101,33 @@ $kde->setKernelFunction($kernel);
 
 // All customization optionally can be done in the constructor
 $kde = new KernelDesnsityEstimation($data, $h, $kernel);
+```
+
+### Statistics - Multivariate - PCA (Principal Component Analysis)
+```php
+use MathPHP\Statistics\Multivariate\PCA;
+use MathPHP\LinearAlgebra\MatrixFactory;
+
+// Given
+$matrix = MatrixFactory::create($data);  // observations of possibly correlated variables
+$center = true;                          // do mean centering of data
+$scale  = true;                          // do standardization of data
+
+// Build a principal component analysis model to explore
+$model = new PCA($matrix, $center, $scale);
+
+// Scores and loadings of the PCA model
+$scores      = $model->getScores();       // Matrix of transformed standardized data with the loadings matrix
+$loadings    = $model->getLoadings();     // Matrix of unit eigenvectors of the correlation matrix
+$eigenvalues = $model->getEigenvalues();  // Vector of eigenvalues of components
+
+// Residuals, limits, critical values and more
+$R²         = $model->getR2();           // array of R² values
+$cumR²      = $model->getCumR2();        // array of cummulative R² values
+$Q          = $model->getQResiduals();   // Matrix of Q residuals
+$T²         = $model->getT2Distances();  // Matrix of T² distances
+$T²Critical = $model->getCriticalT2();   // array of critical limits of T²
+$QCritical  = $model->getCriticalQ();    // array of critical limits of Q
 ```
 
 ### Statistics - Outlier
