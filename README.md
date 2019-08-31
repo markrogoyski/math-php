@@ -59,7 +59,7 @@ Features
      - [Experiments](#statistics---experiments)
      - [Kernel Density Estimation](#statistics---kernel-density-estimation)
      - Multivariate
-        * [PCA - Principal Component Analysis](#statistics---Multivariate---PCA-(Principal-Component-Analysis))
+        * [PCA (Principal Component Analysis)](#statistics---multivariate---principal-component-analysis)
      - [Outlier](#statistics---outlier)
      - [Random Variables](#statistics---random-variables)
      - [Regressions](#statistics---regressions)
@@ -2103,7 +2103,7 @@ $kde->setKernelFunction($kernel);
 $kde = new KernelDesnsityEstimation($data, $h, $kernel);
 ```
 
-### Statistics - Multivariate - PCA (Principal Component Analysis)
+### Statistics - Multivariate - Principal Component Analysis
 ```php
 use MathPHP\Statistics\Multivariate\PCA;
 use MathPHP\LinearAlgebra\MatrixFactory;
