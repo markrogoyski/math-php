@@ -180,7 +180,7 @@ class PCA
      *
      * @return float[]
      */
-    public function getRsq(): array
+    public function getR2(): array
     {
         $total_variance = $this->EVal->sum();
         return $this->EVal->scalarDivide($total_variance)->getVector();
@@ -196,7 +196,7 @@ class PCA
         $result = [];
         $sum    = 0;
 
-        foreach ($this->getRsq() as $R²value) {
+        foreach ($this->getR2() as $R²value) {
             $sum += $R²value;
             $result[] = $sum;
         }

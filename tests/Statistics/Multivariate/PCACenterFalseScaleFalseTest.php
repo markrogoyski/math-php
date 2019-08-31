@@ -60,7 +60,7 @@ class PCACenterFalseScaleFalseTest extends \PHPUnit\Framework\TestCase
         $expected = [9.803400e-01,1.703780e-02,2.556893e-03,4.616958e-05,1.016372e-05,5.622890e-06,1.984531e-06,8.650104e-07,4.790115e-07];
 
         // When
-        $R2 = self::$pca->getRsq();
+        $R2 = self::$pca->getR2();
 
         // Then
         $this->assertEquals($expected, $R2, '', .00001);
