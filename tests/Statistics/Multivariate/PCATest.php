@@ -79,7 +79,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
         $expected = [0.6284377, 0.8597822, 0.9158061, 0.9452536, 0.9656045, 0.9793593, 0.9910329, 0.9975344, 1.0000000];
 
         // When
-        $cumR2 = self::$pca->getCumRsq();
+        $cumR2 = self::$pca->getCumR2();
 
         // Then
         $this->assertEquals($expected, $cumR2, '', .00001);

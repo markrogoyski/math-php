@@ -191,7 +191,7 @@ class PCA
      *
      * @return float[]
      */
-    public function getCumRsq(): array
+    public function getCumR2(): array
     {
         $result = [];
         $sum    = 0;

@@ -65,7 +65,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $expected = [0.9627597, 0.9867535, 0.9957282, 0.9973755, 0.9983832, 0.9990477, 0.9995028, 0.9999036, 1.0000000];
 
         // When
-        $cumR2 = self::$pca->getCumRsq();
+        $cumR2 = self::$pca->getCumR2();
 
         // Then
         $this->assertEquals($expected, $cumR2, '', .00001);
