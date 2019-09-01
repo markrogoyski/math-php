@@ -756,8 +756,6 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
 
         // When
         $qr  = $A->qrDecomposition();
-        $qrQ = $qr->Q;
-        $qrR = $qr->R;
 
         // Then Q is orthogonal and R is upper triangular
         $this->assertTrue($qr->Q->isOrthogonal());

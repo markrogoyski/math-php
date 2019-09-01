@@ -50,6 +50,9 @@ use MathPHP\Tests;
  *    - PPᵀ = I = PᵀP
  *    - (PA)⁻¹ = (LU)⁻¹ = U⁻¹L⁻¹
  *    - P⁻¹ = Pᵀ
+ *  - QR Decomposition (A = QR)
+ *    - A = QR
+ *    - Q is orthogonal, R is upper triangular
  *  - System of linear equations (Ax = b)
  *    - Ax - b = 0
  *    - x = A⁻¹b
@@ -1147,6 +1150,49 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($⟮PA⟯⁻¹->getMatrix(), $⟮LU⟯⁻¹->getMatrix());
         $this->assertEquals($⟮LU⟯⁻¹->getMatrix(), $U⁻¹L⁻¹->getMatrix());
         $this->assertEquals($⟮PA⟯⁻¹->getMatrix(), $U⁻¹L⁻¹->getMatrix());
+    }
+
+    /**
+     * @test A = QR
+     * Basic QR decomposition property that A = QR
+     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testQRDecompositionAEqualsQR(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $qr  = $A->qrDecomposition();
+        $qrQ = $qr->Q;
+        $qrR = $qr->R;
+
+        // Then A = QR
+        $this->assertEquals($A->getMatrix(), $qrQ->multiply($qrR)->getMatrix(), '', 0.00001);
+    }
+
+    /**
+     * @test QR.Q is orthogonal and QR.R is upper triangular
+     * QR decomposition properties Q is orthogonal and R is upper triangular
+     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testQRDecompositionQOrthogonalRUpperTriangular(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $qr  = $A->qrDecomposition();
+
+        // Then Q is orthogonal and R is upper triangular
+        $this->assertTrue($qr->Q->isOrthogonal());
+        $this->assertTrue($qr->R->isUpperTriangular());
     }
 
     /**
