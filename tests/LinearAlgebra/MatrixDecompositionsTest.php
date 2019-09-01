@@ -698,8 +698,8 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test         qrDecomposition returns the expected array of Q and R factorized matrices
-     * @dataProvider dataProviderForQrDecomposition
-     * @dataProvider dataProviderForQrDecompositionResultingInSquareMatrices
+     * @dataProvider dataProviderForQrDecompositionSquareMatrices
+     * @dataProvider dataProviderForQrDecompositionNonSquareMatrices
      * @param        array $A
      * @param        array $expected
      * @throws       \Exception
@@ -725,153 +725,8 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
-     */
-    public function dataProviderForQrDecomposition(): array
-    {
-        return [
-            [
-                [
-                    [2, -2, 18],
-                    [2, 1, 0],
-                    [1, 2, 0],
-                ],
-                [
-                    'Q' => [
-                        [-2 / 3,  2 / 3, 1 / 3],
-                        [-2 / 3, -1 / 3, -2 / 3],
-                        [-1 / 3, -2 / 3, 2 / 3],
-                    ],
-                    'R' => [
-                        [-3,  0, -12],
-                        [ 0, -3,  12],
-                        [ 0,  0,  6],
-                    ],
-                ],
-            ],
-            [
-                [
-                    [12, -51,    4],
-                    [ 6,  167, -68],
-                    [-4,  24,  -41],
-                ],
-                [
-                    'Q' => [
-                        [-0.85714286,  0.39428571,  0.33142857],
-                        [-0.42857143, -0.90285714, -0.03428571],
-                        [0.28571429, -0.17142857,  0.94285714],
-                    ],
-                    'R' => [
-                        [-14,  -21, 14],
-                        [ 0, -175, 70],
-                        [ 0,   0,  -35],
-                    ],
-                ],
-            ],
-            [
-                [
-                    [2, -2, -3],
-                    [0, -6, -1],
-                    [0, 0, 1],
-                    [0, 0, 4],
-                ],
-                [
-                    'Q' => [
-                        [-1.0, 0.0, 0.0],
-                        [0.0, -1.0, 0.0],
-                        [0.0, 0.0, -1 / sqrt(17)],
-                        [0.0, 0.0, -4 / sqrt(17)],
-                    ],
-                    'R' => [
-                        [-2.0, 2.0, 3.0],
-                        [0.0, 6.0, 1.0],
-                        [0.0, 0.0, -1 * sqrt(17)],
-                    ],
-                ]
-            ],
-            [
-                [
-                    [0],
-                    [0],
-                ],
-                [
-                    'Q' => [
-                        [1],
-                        [0],
-                    ],
-                    'R' => [
-                        [0],
-                    ],
-                ],
-            ],
-            [
-                [
-                    [1,0,0],
-                    [0,0,0],
-                    [0,0,0],
-                    [0,0,0],
-                ],
-                [
-                    'Q' => [
-                        [-1,0,0],
-                        [0,1,0],
-                        [0,0,1],
-                        [0,0,0],
-                    ],
-                    'R' => [
-                        [-1,0,0],
-                        [0,0,0],
-                        [0,0,0],
-                    ],
-                ],
-            ],
-            [
-                [
-                    [0],
-                ],
-                [
-                    'Q' => [
-                        [1],
-                    ],
-                    'R' => [
-                        [0],
-                    ],
-                ],
-            ],
-            [
-                [
-                    [1],
-                ],
-                [
-                    'Q' => [
-                        [1],
-                    ],
-                    'R' => [
-                        [1],
-                    ],
-                ],
-            ],
-            [
-                [
-                    [1],
-                    [1],
-                ],
-                [
-                    'Q' => [
-                        [-0.7071068],
-                        [-0.7071068],
-                    ],
-                    'R' => [
-                        [-1.414214],
-                    ],
-                ],
-            ],
-        ];
-    }
-
-    /**
      * @test         qrDecomposition properties
-     * @dataProvider dataProviderForQrDecompositionResultingInSquareMatrices
+     * @dataProvider dataProviderForQrDecompositionSquareMatrices
      * @param        array $A
      * @throws       \Exception
      */
@@ -891,7 +746,7 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array
      */
-    public function dataProviderForQrDecompositionResultingInSquareMatrices(): array
+    public function dataProviderForQrDecompositionSquareMatrices(): array
     {
         return [
             [
@@ -992,6 +847,113 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
                         [ 0.000000, -6.892909, -5.151990,  9.2353658],
                         [ 0.000000,  0.000000, -8.542201, -0.6932606],
                         [ 0.000000,  0.000000,  0.000000,  2.7907676],
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForQrDecompositionNonSquareMatrices(): array
+    {
+        return [
+            [
+                [
+                    [2, -2, -3],
+                    [0, -6, -1],
+                    [0, 0, 1],
+                    [0, 0, 4],
+                ],
+                [
+                    'Q' => [
+                        [-1.0, 0.0, 0.0],
+                        [0.0, -1.0, 0.0],
+                        [0.0, 0.0, -1 / sqrt(17)],
+                        [0.0, 0.0, -4 / sqrt(17)],
+                    ],
+                    'R' => [
+                        [-2.0, 2.0, 3.0],
+                        [0.0, 6.0, 1.0],
+                        [0.0, 0.0, -1 * sqrt(17)],
+                    ],
+                ]
+            ],
+            [
+                [
+                    [0],
+                    [0],
+                ],
+                [
+                    'Q' => [
+                        [1],
+                        [0],
+                    ],
+                    'R' => [
+                        [0],
+                    ],
+                ],
+            ],
+            [
+                [
+                    [1,0,0],
+                    [0,0,0],
+                    [0,0,0],
+                    [0,0,0],
+                ],
+                [
+                    'Q' => [
+                        [-1,0,0],
+                        [0,1,0],
+                        [0,0,1],
+                        [0,0,0],
+                    ],
+                    'R' => [
+                        [-1,0,0],
+                        [0,0,0],
+                        [0,0,0],
+                    ],
+                ],
+            ],
+            [
+                [
+                    [0],
+                ],
+                [
+                    'Q' => [
+                        [1],
+                    ],
+                    'R' => [
+                        [0],
+                    ],
+                ],
+            ],
+            [
+                [
+                    [1],
+                ],
+                [
+                    'Q' => [
+                        [1],
+                    ],
+                    'R' => [
+                        [1],
+                    ],
+                ],
+            ],
+            [
+                [
+                    [1],
+                    [1],
+                ],
+                [
+                    'Q' => [
+                        [-0.7071068],
+                        [-0.7071068],
+                    ],
+                    'R' => [
+                        [-1.414214],
                     ],
                 ],
             ],
