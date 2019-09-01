@@ -698,13 +698,13 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test         qrDecomposition returns the expected array of Q and R factorized matrices
-     * @dataProvider dataProviderForQrDecompositionSquareMatrices
-     * @dataProvider dataProviderForQrDecompositionNonSquareMatrices
+     * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
+     * @dataProvider dataProviderForQrDecompositionNonSquareMatricesWithSpecificResults
      * @param        array $A
      * @param        array $expected
      * @throws       \Exception
      */
-    public function testQrDecomposition(array $A, array $expected)
+    public function testQrDecompositionResultMatrices(array $A, array $expected)
     {
         // Given
         $A = MatrixFactory::create($A);
@@ -716,37 +716,57 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
         $qrQ = $qr->Q;
         $qrR = $qr->R;
 
-        // Then A = QR
-        $this->assertEquals($A->getMatrix(), $qrQ->multiply($qrR)->getMatrix(), '', 0.00001);
-
         // And Q and R are expected solution to QR decomposition
         $this->assertEquals($R->getMatrix(), $qrR->getMatrix(), '', 0.00001);
         $this->assertEquals($Q->getMatrix(), $qrQ->getMatrix(), '', 0.00001);
     }
 
     /**
-     * @test         qrDecomposition properties
-     * @dataProvider dataProviderForQrDecompositionSquareMatrices
+     * @test         qrDecomposition property A = QR
+     * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
+     * @dataProvider dataProviderForQrDecompositionNonSquareMatricesWithSpecificResults
      * @param        array $A
      * @throws       \Exception
      */
-    public function testQrDecompositionProperties(array $A)
+    public function testQrDecompositionPropertyAEqualsQR(array $A)
     {
         // Given
         $A = MatrixFactory::create($A);
 
         // When
-        $qr = $A->qrDecomposition();
+        $qr  = $A->qrDecomposition();
+        $qrQ = $qr->Q;
+        $qrR = $qr->R;
 
-        // Then
-        $this->assertTrue($qr->R->isUpperTriangular());
-        $this->assertTrue($qr->Q->isOrthogonal());
+        // Then A = QR
+        $this->assertEquals($A->getMatrix(), $qrQ->multiply($qrR)->getMatrix(), '', 0.00001);
     }
 
     /**
-     * @return array
+     * @test         qrDecomposition properties Q is orthogonal and R is upper triangular
+     * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
+     * @param        array $A
+     * @throws       \Exception
      */
-    public function dataProviderForQrDecompositionSquareMatrices(): array
+    public function testQrDecompositionPropertiesOfQR(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $qr  = $A->qrDecomposition();
+        $qrQ = $qr->Q;
+        $qrR = $qr->R;
+
+        // Then Q is orthogonal and R is upper triangular
+        $this->assertTrue($qr->Q->isOrthogonal());
+        $this->assertTrue($qr->R->isUpperTriangular());
+    }
+
+    /**
+     * @return array (A, Q, R)
+     */
+    public function dataProviderForQrDecompositionSquareMatricesWithSpecificResults(): array
     {
         return [
             [
@@ -953,9 +973,9 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array (A, Q, R)
      */
-    public function dataProviderForQrDecompositionNonSquareMatrices(): array
+    public function dataProviderForQrDecompositionNonSquareMatricesWithSpecificResults(): array
     {
         return [
             [
