@@ -551,7 +551,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     JacobiMethod throws a BadDataException if the matrix is not the correct size.
+     * @test         JacobiMethod throws a BadDataException if the matrix is not the correct size.
      * @dataProvider dataProviderForSymmetricException
      * @param        array $A
      * @throws       \Exception
@@ -650,8 +650,11 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertEquals($S, $eigenvalues, '', 0.0001);
     }
-    
-    public function dataProviderForTriangularEigenvalues()
+
+    /**
+     * @return array
+     */
+    public function dataProviderForTriangularEigenvalues(): array
     {
         return [
             [
@@ -684,8 +687,9 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test that the function fails appropriately
+     * @test         the function fails appropriately
      * @dataProvider dataProviderForEigenvalueFailure
+     * @throws       \Exception
      */
     public function testSmartEigenvalueFailure(array $A)
     {
@@ -699,7 +703,10 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $A->eigenvalues();
     }
 
-    public function dataProviderForEigenvalueFailure()
+    /**
+     * @return array
+     */
+    public function dataProviderForEigenvalueFailure(): array
     {
         return [
             [ // Not Square

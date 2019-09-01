@@ -8,8 +8,8 @@ use MathPHP\Functions\Support;
 class Eigenvalue
 {
     const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
-    const POWER_ITERATION = 'powerIteration';
-    const JACOBI_METHOD = 'jacobiMethod';
+    const POWER_ITERATION                    = 'powerIteration';
+    const JACOBI_METHOD                      = 'jacobiMethod';
 
     const METHODS = [
         self::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD,
@@ -63,6 +63,7 @@ class Eigenvalue
      *
      * @throws Exception\BadDataException if the matrix is not square
      * @throws Exception\BadDataException if the matrix is not 2x2, 3x3, or 4x4
+     * @throws Exception\MathException
      */
     public static function closedFormPolynomialRootMethod(Matrix $A): array
     {
@@ -93,14 +94,15 @@ class Eigenvalue
                     : $zero_poly;
             }
         }
+
         /** @var ObjectSquareMatrix $λ */
         $λ = MatrixFactory::create($λ_array);
 
-        /** @var ObjectSquareMatrix Subtract Iλ from B */
-        $Bminusλ = $B->subtract($λ);
+        /** @var ObjectSquareMatrix $⟮B − λ⟯ Subtract Iλ from B */
+        $⟮B − λ⟯ = $B->subtract($λ);
 
-        /** @var Polynomial The Eigenvalues are the roots of the determinant of this matrix */
-        $det = $Bminusλ->det();
+        /** @var Polynomial $det The Eigenvalues are the roots of the determinant of this matrix */
+        $det = $⟮B − λ⟯->det();
 
         // Calculate the roots of the determinant.
         $eigenvalues = $det->roots();
@@ -121,6 +123,7 @@ class Eigenvalue
      *
      * @throws Exception\BadDataException if the matrix is not symmetric
      * @throws Exception\BadDataException if the matrix is 1x1
+     * @throws Exception\MathException
      */
     public static function jacobiMethod(Matrix $A): array
     {
@@ -143,19 +146,17 @@ class Eigenvalue
                 for ($j = $i + 1; $j < $m; $j++) {
                     if (abs($D[$i][$j]) > abs($pivot['value'])) {
                         $pivot['value'] = $D[$i][$j];
-                        $pivot['i'] = $i;
-                        $pivot['j'] = $j;
+                        $pivot['i']     = $i;
+                        $pivot['j']     = $j;
                     }
                 }
             }
 
-            $i = $pivot['i'];
-            $j = $pivot['j'];
-            if ($D[$i][$i] == $D[$j][$j]) {
-                $angle = ($D[$i][$i] > 0 ? 1 : -1) * \M_PI / 4;
-            } else {
-                $angle = atan(2 * $D[$i][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
-            }
+            $i     = $pivot['i'];
+            $j     = $pivot['j'];
+            $angle = ($D[$i][$i] == $D[$j][$j])
+                ? ($D[$i][$i] > 0 ? 1 : -1) * \M_PI / 4
+                : atan(2 * $D[$i][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
 
             $G = MatrixFactory::givens($i, $j, $angle, $m);
             $D = $G->transpose()->multiply($D)->multiply($G);
@@ -169,7 +170,7 @@ class Eigenvalue
         return $eigenvalues;
     }
 
-    /*
+    /**
      * Power Iteration
      *
      * The recurrence relation:
@@ -193,6 +194,7 @@ class Eigenvalue
      * @return float[] most extreme eigenvalue
      *
      * @throws Exception\BadDataException if the matrix is not square
+     * @throws Exception\MathException
      */
     public static function powerIteration(Matrix $A, int $iterations = 1000): array
     {
