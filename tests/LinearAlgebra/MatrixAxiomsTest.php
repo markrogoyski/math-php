@@ -1058,6 +1058,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * PA = LU
      * Basic LU decomposition property that permutation matrix times the matrix is the product of the lower and upper decomposition matrices.
      * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -1080,6 +1081,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     /**
      * A = P⁻¹LU
      * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -1102,6 +1104,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * PPᵀ = I = PᵀP
      * Permutation matrix of the LU decomposition times the transpose of the permutation matrix is the identity matrix.
      * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -1128,6 +1131,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * (PA)⁻¹ = (LU)⁻¹ = U⁻¹L⁻¹
      * Inverse of the LU decomposition equation is the inverse of the other side.
      * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
      */
