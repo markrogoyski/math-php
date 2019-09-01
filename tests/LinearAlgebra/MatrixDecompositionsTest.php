@@ -699,6 +699,7 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         qrDecomposition returns the expected array of Q and R factorized matrices
      * @dataProvider dataProviderForQrDecomposition
+     * @dataProvider dataProviderForQrDecompositionResultingInSquareMatrices
      * @param        array $A
      * @param        array $expected
      * @throws       \Exception
@@ -756,8 +757,8 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
                 ],
                 [
                     'Q' => [
-                        [ -0.85714286,  0.39428571,  0.33142857],
-                        [ -0.42857143, -0.90285714, -0.03428571],
+                        [-0.85714286,  0.39428571,  0.33142857],
+                        [-0.42857143, -0.90285714, -0.03428571],
                         [0.28571429, -0.17142857,  0.94285714],
                     ],
                     'R' => [
