@@ -883,7 +883,7 @@ class MatrixDecompositionsTest extends \PHPUnit\Framework\TestCase
         $qr = $A->qrDecomposition();
 
         // Then
-        $this->assertTrue($qr->R->isUpperTriangular());
+        $this->assertTrue($qr->R->isUpperTriangular(), 'Failed asserting that R is upper-triangular.');
         $this->assertTrue($qr->Q->isOrthogonal());
     }
 
