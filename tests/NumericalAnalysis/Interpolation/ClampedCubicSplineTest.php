@@ -9,7 +9,7 @@ class ClampedCubicSplineTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test         Interpolated piecewise function computes expected values: p(x) = expected
-     * @dataProvider dataProviderForPiecewiseForPolynomialAgrees
+     * @dataProvider dataProviderForPolynomialAgrees
      * @param        int $x
      * @param        int $expected
      * @throws       \Exception
@@ -32,7 +32,7 @@ class ClampedCubicSplineTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array (x, expected)
      */
-    public function dataProviderForPiecewiseForPolynomialAgrees(): array
+    public function dataProviderForPolynomialAgrees(): array
     {
         return [
             [0, 0],    // p(0) = 0
