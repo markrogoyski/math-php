@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
+use MathPHP\Exception;
 use MathPHP\Functions\Polynomial;
 
 /**
@@ -38,8 +39,8 @@ class NevillesMethod extends Interpolation
      *
      * @return float                  The interpolated value at our target
      *
-     * @throws \MathPHP\Exception\BadDataException
-     * @throws \MathPHP\Exception\IncorrectTypeException
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      */
     public static function interpolate(float $target, $source, ...$args): float
     {
@@ -55,8 +56,8 @@ class NevillesMethod extends Interpolation
         $y = self::Y;
 
         // Initialize
-        $n   = count($sorted);
-        $Q   = [];
+        $n = count($sorted);
+        $Q = [];
 
         // Build our 0th-degree Lagrange polynomials: Q₍ᵢ₎₍₀₎ = yᵢ for all i < n
         for ($i = 0; $i < $n; $i++) {

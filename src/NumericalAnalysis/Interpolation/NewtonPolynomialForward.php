@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
+use MathPHP\Exception;
 use MathPHP\Functions\Polynomial;
 
 /**
@@ -36,8 +37,8 @@ class NewtonPolynomialForward extends Interpolation
      *
      * @return callable              The interpolating polynomial p(x)
      *
-     * @throws \MathPHP\Exception\BadDataException
-     * @throws \MathPHP\Exception\IncorrectTypeException
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      */
     public static function interpolate($source, ... $args): callable
     {

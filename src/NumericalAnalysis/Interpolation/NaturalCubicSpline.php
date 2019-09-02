@@ -1,6 +1,7 @@
 <?php
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
+use MathPHP\Exception;
 use MathPHP\Functions\Polynomial;
 use MathPHP\Functions\Piecewise;
 
@@ -45,7 +46,7 @@ class NaturalCubicSpline extends Interpolation
      * @return Piecewise         The interpolating (piecewise) polynomial, as an
      *                           instance of Piecewise.
      *
-     * @throws \MathPHP\Exception\BadDataException
+     * @throws Exception\BadDataException
      */
     public static function interpolate($source, ...$args): Piecewise
     {
