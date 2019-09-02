@@ -53,6 +53,10 @@ use MathPHP\Tests;
  *  - QR Decomposition (A = QR)
  *    - A = QR
  *    - Q is orthogonal, R is upper triangular
+ *  - Crout Decomposition (A = LU)
+ *    - A = LU where L = LD
+ *  - Cholesky Decomposition (A = LLᵀ)
+ *     - A = LLᵀ
  *  - System of linear equations (Ax = b)
  *    - Ax - b = 0
  *    - x = A⁻¹b
