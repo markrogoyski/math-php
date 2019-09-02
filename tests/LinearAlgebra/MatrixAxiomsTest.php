@@ -1064,17 +1064,18 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testLUDecompositionPAEqualsLU(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // When
         $LUP = $A->luDecomposition();
+        $L   = $LUP->L;
+        $U   = $LUP->U;
+        $P   = $LUP->P;
 
-        $L   = $LUP['L'];
-        $U   = $LUP['U'];
-        $P   = $LUP['P'];
-
+        // Then PA = LU;
         $PA = $P->multiply($A);
         $LU = $L->multiply($U);
-
         $this->assertEquals($PA->getMatrix(), $LU->getMatrix());
     }
 
@@ -1087,16 +1088,17 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testLUDecompositionAEqualsPInverseLU(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // When
         $LUP = $A->luDecomposition();
+        $L   = $LUP->L;
+        $U   = $LUP->U;
+        $P   = $LUP->P;
 
-        $L   = $LUP['L'];
-        $U   = $LUP['U'];
-        $P   = $LUP['P'];
-
+        // Then A = P⁻¹LU
         $P⁻¹LU = $P->inverse()->multiply($L)->multiply($U);
-
         $this->assertEquals($A->getMatrix(), $P⁻¹LU->getMatrix());
     }
 
@@ -1110,11 +1112,13 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testLUDecompositionPPTransposeEqualsIdentity(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // When
         $LUP = $A->luDecomposition();
 
-        $P  = $LUP['P'];
+        $P  = $LUP->P;
         $Pᵀ = $P->transpose();
 
         $PPᵀ = $P->multiply($Pᵀ);
@@ -1122,6 +1126,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         $I = MatrixFactory::identity($A->getM());
 
+        // Then PPᵀ = I = PᵀP
         $this->assertEquals($PPᵀ->getMatrix(), $I->getMatrix());
         $this->assertEquals($I->getMatrix(), $PᵀP->getMatrix());
         $this->assertEquals($PPᵀ->getMatrix(), $PᵀP->getMatrix());
@@ -1137,20 +1142,23 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testInverseWithLUDecompositionInverse(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // When
         $LUP = $A->luDecomposition();
-        $L   = $LUP['L'];
-        $U   = $LUP['U'];
-        $P   = $LUP['P'];
+        $L   = $LUP->L;
+        $U   = $LUP->U;
+        $P   = $LUP->P;
 
-        $⟮PA⟯⁻¹    = $P->multiply($A)->inverse();
+        $⟮PA⟯⁻¹ = $P->multiply($A)->inverse();
         $⟮LU⟯⁻¹ = $L->multiply($U)->inverse();
 
-        $U⁻¹      = $U->inverse();
-        $L⁻¹      = $L->inverse();
-        $U⁻¹L⁻¹   = $U⁻¹->multiply($L⁻¹);
+        $U⁻¹    = $U->inverse();
+        $L⁻¹    = $L->inverse();
+        $U⁻¹L⁻¹ = $U⁻¹->multiply($L⁻¹);
 
+        // Then (PA)⁻¹ = (LU)⁻¹ = U⁻¹L⁻¹
         $this->assertEquals($⟮PA⟯⁻¹->getMatrix(), $⟮LU⟯⁻¹->getMatrix());
         $this->assertEquals($⟮LU⟯⁻¹->getMatrix(), $U⁻¹L⁻¹->getMatrix());
         $this->assertEquals($⟮PA⟯⁻¹->getMatrix(), $U⁻¹L⁻¹->getMatrix());
@@ -1170,12 +1178,12 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A);
 
         // When
-        $qr  = $A->qrDecomposition();
-        $qrQ = $qr->Q;
-        $qrR = $qr->R;
+        $qr = $A->qrDecomposition();
+        $Q  = $qr->Q;
+        $R  = $qr->R;
 
         // Then A = QR
-        $this->assertEquals($A->getMatrix(), $qrQ->multiply($qrR)->getMatrix(), '', 0.00001);
+        $this->assertEquals($A->getMatrix(), $Q->multiply($R)->getMatrix(), '', 0.00001);
     }
 
     /**
@@ -1197,6 +1205,49 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         // Then Q is orthogonal and R is upper triangular
         $this->assertTrue($qr->Q->isOrthogonal());
         $this->assertTrue($qr->R->isUpperTriangular());
+    }
+
+    /**
+     * @test A = LU where L = LD
+     * Basic Crout decomposition property that A = (LD)U
+     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testCroutDecompositionAEqualsLDU(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $crout = $A->croutDecomposition();
+        $L     = $crout->L;
+        $U     = $crout->U;
+
+        // Then A = LU
+        $this->assertEquals($A->getMatrix(), $L->multiply($U)->getMatrix(), '', 0.00001);
+    }
+
+    /**
+     * @test A = LLᵀ
+     * Basic Cholesky decomposition property that A = LLᵀ
+     * @dataProvider dataProviderForPositiveDefiniteMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testCholeskyDecompositionAEqualsLLᵀ(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $cholesky = $A->choleskyDecomposition();
+        $L        = $cholesky->L;
+        $Lᵀ       = $cholesky->LT;
+
+        // Then A = LLᵀ
+        $this->assertEquals($A->getMatrix(), $L->multiply($Lᵀ)->getMatrix(), '', 0.00001);
     }
 
     /**
