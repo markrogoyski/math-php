@@ -82,9 +82,6 @@ class NewtonPolynomialForward extends Interpolation
 
             for ($j = 1; $j <= $i; $j++) {
                 // generate the (x - xⱼ₋₁) term for each j
-                //$term = function ($t) use ($sorted, $x, $i, $j) {
-                //    return ($t - $sorted[$j-1][$x]);
-                //};
                 $term = new Polynomial([1, -$sorted[$j - 1][$x]]);
                 // multiply the term and our cumulative product
                 $product = $product->multiply($term);
