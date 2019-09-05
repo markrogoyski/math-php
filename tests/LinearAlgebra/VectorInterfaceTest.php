@@ -146,4 +146,31 @@ class VectorInterfaceTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @test Iteration
+     */
+    public function testIteration()
+    {
+        // When
+        foreach ($this->V as $element) {
+            // Then
+            $this->assertIsInt($element);
+        }
+
+        // When Rewinding
+        foreach ($this->V as $element) {
+            // Then
+            $this->assertIsInt($element);
+        }
+    }
+
+    public function testIteratorKeys()
+    {
+        // When
+        foreach ($this->V as $k => $v) {
+            // Then
+            $this->assertSame($v, $this->A[$k]);
+        }
+    }
 }

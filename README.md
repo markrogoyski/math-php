@@ -634,12 +634,13 @@ $pnorm  = $A->pNorm();
 $max    = $A->maxNorm();
 
 // Print a vector
-print($A); // [1, 2]
+print($A);  // [1, 2]
 
-// PHP Predefined Interfaces
-$n    = count($A);       // Countable
-$json = json_encode($A); // JsonSerializable
-$Aᵢ   = $A[$i];          // ArrayAccess
+// PHP standard interfaces
+$n    = count($A);                // Countable
+$json = json_encode($A);          // JsonSerializable
+$Aᵢ   = $A[$i];                   // ArrayAccess
+foreach ($A as $element) { ... }  // Iterator
 ```
 
 ### Number - Complex Numbers

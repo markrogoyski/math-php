@@ -7,13 +7,16 @@ use MathPHP\Exception;
 /**
  * 1 x n Vector
  */
-class Vector implements \Countable, \ArrayAccess, \JsonSerializable
+class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
 {
     /** @var int Number of elements */
     private $n;
 
     /** @var array of numbers */
     private $A;
+
+    /** @var int Iterator position */
+    private $i;
 
     /**
      * Constructor
@@ -24,6 +27,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     {
         $this->A = $A;
         $this->n = count($A);
+        $this->i = 0;
     }
 
     /**************************************************************************
@@ -625,5 +629,37 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function jsonSerialize()
     {
         return $this->A;
+    }
+
+    /**************************************************************************
+     * Iterator INTERFACE
+     **************************************************************************/
+
+    public function rewind()
+    {
+        $this->i = 0;
+    }
+
+    public function current()
+    {
+        return $this->A[$this->i];
+    }
+
+    public function key()
+    {
+        return $this->i;
+    }
+
+    public function next()
+    {
+        ++$this->i;
+    }
+
+    /**
+     * @return bool
+     */
+    public function valid(): bool
+    {
+        return isset($this->A[$this->i]);
     }
 }
