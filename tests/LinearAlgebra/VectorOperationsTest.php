@@ -456,6 +456,138 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         multiply
+     * @dataProvider dataProviderForMultiply
+     * @param        array $A
+     * @param        array $B
+     * @param        array $R
+     * @throws       \Exception
+     */
+    public function testMultiply(array $A, array $B, array $R)
+    {
+        // Given
+        $A    = new Vector($A);
+        $B    = new Vector($B);
+        $R    = new Vector($R);
+
+        // When
+        $A×B = $A->multiply($B);
+
+        // Then
+        $this->assertEquals($R, $A×B);
+        $this->assertEquals($R->getVector(), $A×B->getVector());
+    }
+
+    public function dataProviderForMultiply(): array
+    {
+        return [
+            [
+                [],
+                [],
+                [],
+            ],
+            [
+                [1],
+                [2],
+                [2],
+            ],
+            [
+                [1, 2, 3],
+                [1, 2, 3],
+                [1, 4, 9],
+            ],
+            [
+                [1, 2, 3],
+                [-2, -2, -4],
+                [-2, -4, -12],
+            ],
+        ];
+    }
+
+    /**
+     * @test   Multiply size mismatch
+     * @throws \Exception
+     */
+    public function testMultiplyExceptionSizeMisMatch()
+    {
+        // Given
+        $A = new Vector([1, 2, 3]);
+        $B = new Vector([1, 2]);
+
+        // Then
+        $this->expectException(Exception\VectorException::class);
+
+        // Then
+        $A->add($B);
+    }
+
+    /**
+     * @test         divide
+     * @dataProvider dataProviderForDivide
+     * @param        array $A
+     * @param        array $B
+     * @param        array $R
+     * @throws       \Exception
+     */
+    public function testDivide(array $A, array $B, array $R)
+    {
+        // Given
+        $A    = new Vector($A);
+        $B    = new Vector($B);
+        $R    = new Vector($R);
+
+        // When
+        $A／B = $A->divide($B);
+
+        // Then
+        $this->assertEquals($R, $A／B);
+        $this->assertEquals($R->getVector(), $A／B->getVector());
+    }
+
+    public function dataProviderForDivide(): array
+    {
+        return [
+            [
+                [],
+                [],
+                [],
+            ],
+            [
+                [1],
+                [2],
+                [1 / 2],
+            ],
+            [
+                [1, 2, 3],
+                [1, 2, 3],
+                [1, 1, 1],
+            ],
+            [
+                [1, 2, 3],
+                [-2, -2, -4],
+                [-1 / 2, -1, -3 / 4],
+            ],
+        ];
+    }
+
+    /**
+     * @test   Divide size mismatch
+     * @throws \Exception
+     */
+    public function testDivideExceptionSizeMisMatch()
+    {
+        // Given
+        $A = new Vector([1, 2, 3]);
+        $B = new Vector([1, 2]);
+
+        // Then
+        $this->expectException(Exception\VectorException::class);
+
+        // Then
+        $A->add($B);
+    }
+
+    /**
      * @dataProvider dataProviderForLength
      */
     public function testLength(array $A, $l²norm)

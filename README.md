@@ -606,18 +606,22 @@ $M     = $A->asRowMatrix();    // Vector as a 1xn matrix
 // Basic vector elements (zero-based indexing)
 $item = $A->get(1);
 
-// Vector operations - return a value
+// Vector numeric operations - return a value
 $sum  = $A->sum();
 $│A│  = $A->length();           // same as l2Norm
 $A⋅B  = $A->dotProduct($B);     // same as innerProduct
 $A⋅B  = $A->innerProduct($B);   // same as dotProduct
 $A⊥⋅B = $A->perpDotProduct($B);
 
-// Vector operations - return a Vector or Matrix
-$kA    = $A->scalarMultiply($k);
+// Vector arithmetic operations - return a Vector
 $A＋B  = $A->add($B);
 $A−B   = $A->subtract($B);
+$A×B   = $A->multiply($B);
+$A／B  = $A->divide($B);
+$kA    = $A->scalarMultiply($k);
 $A／k  = $A->scalarDivide($k);
+
+// Vector operations - return a Vector or Matrix
 $A⨂B  = $A->outerProduct($B);  // Same as direct product
 $AB    = $A->directProduct($B); // Same as outer product
 $AxB   = $A->crossProduct($B);
@@ -633,7 +637,7 @@ $l²norm = $A->l2Norm();
 $pnorm  = $A->pNorm();
 $max    = $A->maxNorm();
 
-// Print a vector
+// String representation
 print($A);  // [1, 2]
 
 // PHP standard interfaces

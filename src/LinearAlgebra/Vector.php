@@ -122,7 +122,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**************************************************************************
-     * VECTOR OPERATIONS - Return a number
+     * VECTOR NUMERIC OPERATIONS - Return a number
      *  - sum
      *  - length (magnitude)
      *  - dotProduct (innerProduct)
@@ -214,14 +214,9 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * VECTOR OPERATIONS - Return a Vector or Matrix
      *  - add
      *  - subtract
+     *  - multiply
+     *  - divide
      *  - scalarMultiply
-     *  - outerProduct
-     *  - directProduct (dyadic)
-     *  - crossProduct
-     *  - normalize
-     *  - perpendicular
-     *  - projection
-     *  - kroneckerProduct
      **************************************************************************/
 
     /**
@@ -236,6 +231,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * @return Vector
      *
      * @throws Exception\VectorException
+     * @throws Exception\BadDataException
      */
     public function add(Vector $B): Vector
     {
@@ -271,6 +267,54 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Multiply (A * B)
+     *
+     * A = [a₁, a₂, a₃]
+     * B = [b₁, b₂, b₃]
+     * A * B = [a₁ * b₁, a₂ * b₂, a₃ * b₃]
+     *
+     * @param Vector $B
+     *
+     * @return Vector
+     *
+     * @throws Exception\VectorException
+     * @throws Exception\BadDataException
+     */
+    public function multiply(Vector $B): Vector
+    {
+        if ($B->getN() !== $this->n) {
+            throw new Exception\VectorException('Vectors must be the same length for multiplication');
+        }
+
+        $R = Map\Multi::multiply($this->A, $B->getVector());
+        return new Vector($R);
+    }
+
+    /**
+     * Divide (A / B)
+     *
+     * A = [a₁, a₂, a₃]
+     * B = [b₁, b₂, b₃]
+     * A / B = [a₁ / b₁, a₂ / b₂, a₃ / b₃]
+     *
+     * @param Vector $B
+     *
+     * @return Vector
+     *
+     * @throws Exception\VectorException
+     * @throws Exception\BadDataException
+     */
+    public function divide(Vector $B): Vector
+    {
+        if ($B->getN() !== $this->n) {
+            throw new Exception\VectorException('Vectors must be the same length for division');
+        }
+
+        $R = Map\Multi::divide($this->A, $B->getVector());
+        return new Vector($R);
+    }
+
+    /**
      * Scalar multiplication (scale)
      * kA = [k * a₁, k * a₂, k * a₃ ...]
      *
@@ -295,6 +339,17 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     {
         return new Vector(Map\Single::divide($this->A, $k));
     }
+
+    /**************************************************************************
+     * VECTOR ADVANCED OPERATIONS - Return a Vector or Matrix
+     *  - outerProduct
+     *  - directProduct (dyadic)
+     *  - crossProduct
+     *  - normalize
+     *  - perpendicular
+     *  - projection
+     *  - kroneckerProduct
+     **************************************************************************/
 
     /**
      * Outer product (A⨂B)
@@ -359,7 +414,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @throws Exception\VectorException
      */
-    public function crossProduct(Vector $B)
+    public function crossProduct(Vector $B): Vector
     {
         if ($B->getN() !== 3 || $this->n !== 3) {
             throw new Exception\VectorException('Vectors must have 3 items');
