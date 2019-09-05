@@ -155,7 +155,7 @@ class VectorInterfaceTest extends \PHPUnit\Framework\TestCase
         // When
         foreach ($this->V as $element) {
             // Then
-            $this->assertIsInt($element);
+            $this->assertTrue(is_int($element));
         }
 
         // When Rewinding
