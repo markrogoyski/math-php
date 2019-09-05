@@ -7,33 +7,48 @@ use MathPHP\Exception;
 
 class VectorTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var array */
+    private $A;
+
+    /** @var Vector */
+    private $V;
 
     public function setUp()
     {
         $this->A = [1, 2, 3, 4, 5];
-        $this->vector = new Vector($this->A);
-    }
-
-    public function testConstructor()
-    {
-        $this->assertInstanceOf(Vector::class, $this->vector);
-    }
-
-    public function testGetVector()
-    {
-        $this->assertEquals($this->A, $this->vector->getVector());
+        $this->V = new Vector($this->A);
     }
 
     /**
-     * @dataProvider dataProviderForGetN
+     * @test Get vector values as array
      */
-    public function testGetN(array $A, int $n)
+    public function testGetVector()
     {
-        $vector = new Vector($A);
-        $this->assertEquals($n, $vector->getN());
+        // When
+        $values = $this->V->getVector();
+
+        // Then
+        $this->assertEquals($this->A, $values);
     }
 
-    public function dataProviderForGetN()
+    /**
+     * @test         Get N
+     * @dataProvider dataProviderForGetN
+     * @param        array $A
+     * @param        int $expected
+     */
+    public function testGetN(array $A, int $expected)
+    {
+        // Given
+        $V = new Vector($A);
+
+        // When
+        $n = $V->getN();
+
+        $this->assertEquals($expected, $n);
+    }
+
+    public function dataProviderForGetN(): array
     {
         return [
             [[], 0],
@@ -44,74 +59,116 @@ class VectorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   Get a value
+     * @throws Exception\VectorException
+     */
     public function testGet()
     {
-        $this->assertEquals(1, $this->vector->get(0));
-        $this->assertEquals(2, $this->vector->get(1));
-        $this->assertEquals(3, $this->vector->get(2));
-        $this->assertEquals(4, $this->vector->get(3));
-        $this->assertEquals(5, $this->vector->get(4));
+        // Then
+        $this->assertEquals(1, $this->V->get(0));
+        $this->assertEquals(2, $this->V->get(1));
+        $this->assertEquals(3, $this->V->get(2));
+        $this->assertEquals(4, $this->V->get(3));
+        $this->assertEquals(5, $this->V->get(4));
     }
 
+    /**
+     * @test   Get exception
+     * @throws Exception\VectorException
+     */
     public function testGetException()
     {
+        // Then
         $this->expectException(Exception\VectorException::class);
-        $this->vector->get(100);
+
+        // When
+        $this->V->get(100);
     }
 
+    /**
+     * @test ArrayAccess interface
+     */
     public function testArrayAccessInterfaceOffsetGet()
     {
-        $this->assertEquals(1, $this->vector[0]);
-        $this->assertEquals(2, $this->vector[1]);
-        $this->assertEquals(3, $this->vector[2]);
-        $this->assertEquals(4, $this->vector[3]);
-        $this->assertEquals(5, $this->vector[4]);
+        $this->assertEquals(1, $this->V[0]);
+        $this->assertEquals(2, $this->V[1]);
+        $this->assertEquals(3, $this->V[2]);
+        $this->assertEquals(4, $this->V[3]);
+        $this->assertEquals(5, $this->V[4]);
     }
 
+    /**
+     * @test ArrayAccess interface
+     */
     public function testArrayAccessInterfaceOffsetSet()
     {
+        // Then
         $this->expectException(Exception\VectorException::class);
-        $this->vector[0] = 1;
+
+        // When
+        $this->V[0] = 1;
     }
 
+    /**
+     * @test ArrayAccess interface
+     */
     public function testArrayAccessOffsetExists()
     {
-        $this->assertTrue($this->vector->offsetExists(0));
+        $this->assertTrue($this->V->offsetExists(0));
     }
 
+    /**
+     * @test ArrayAccess interface
+     */
     public function testArrayAccessOffsetUnsetException()
     {
+        // Then
         $this->expectException(Exception\VectorException::class);
-        unset($this->vector[0]);
+
+        // When
+        unset($this->V[0]);
     }
 
+    /**
+     * @test toString
+     */
     public function testToString()
     {
-        $A      = new Vector([1, 2, 3]);
+        // Given
+        $A = new Vector([1, 2, 3]);
+
+        // When
         $string = $A->__toString();
+
+        // Then
         $this->assertTrue(is_string($string));
         $this->assertEquals('[1, 2, 3]', $string);
     }
 
     /**
+     * @test         As column matrix
      * @dataProvider dataProviderForAsColumnMatrix
+     * @param        array $A
+     * @param        array $R
+     * @throws       Exception\MathException
      */
     public function testAsColumnMatrix(array $A, array $R)
     {
+        // Given
         $A = new Vector($A);
         $R = new Matrix($R);
+
+        // When
         $M = $A->asColumnMatrix();
 
-        $this->assertEquals($R, $M);
+        // Then
+        $this->assertEquals($R->getMatrix(), $M->getMatrix());
     }
 
-    public function dataProviderForAsColumnMatrix()
+    public function dataProviderForAsColumnMatrix(): array
     {
         return [
-            [
-                [],
-                [],
-            ],
             [
                 [1],
                 [
@@ -146,18 +203,26 @@ class VectorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         As row matrix
      * @dataProvider dataProviderForAsRowMatrix
+     * @param        array $A
+     * @param        array $R
+     * @throws       Exception\MathException
      */
     public function testAsRowMatrix(array $A, array $R)
     {
+        // Given
         $A = new Vector($A);
         $R = new Matrix($R);
+
+        // When
         $M = $A->asRowMatrix();
 
-        $this->assertEquals($R, $M);
+        // Then
+        $this->assertEquals($R->getMatrix(), $M->getMatrix());
     }
 
-    public function dataProviderForAsRowMatrix()
+    public function dataProviderForAsRowMatrix(): array
     {
         return [
             [
@@ -194,16 +259,24 @@ class VectorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         Countable interface
      * @dataProvider dataProviderForCountable
+     * @param        array $A
+     * @param        int $n
      */
-    public function testCountableInterface(array $A, $n)
+    public function testCountableInterface(array $A, int $n)
     {
-        $A = new Vector($A);
+        // Given
+        $V = new Vector($A);
 
-        $this->assertEquals($n, count($A));
+        // When
+        $count = count($V);
+
+        // Then
+        $this->assertEquals($n, $count);
     }
 
-    public function dataProviderForCountable()
+    public function dataProviderForCountable(): array
     {
         return [
             [[], 0],
@@ -221,16 +294,24 @@ class VectorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         JsonSerializable interface
      * @dataProvider dataProviderForJsonSerializable
+     * @param        array $A
+     * @param        string $json
      */
     public function testJsonSerializable(array $A, string $json)
     {
-        $A    = new Vector($A);
+        // Given
+        $A = new Vector($A);
 
-        $this->assertEquals($json, json_encode($A));
+        // When
+        $jsonString = json_encode($A);
+
+        // Then
+        $this->assertEquals($json, $jsonString);
     }
 
-    public function dataProviderForJsonSerializable()
+    public function dataProviderForJsonSerializable(): array
     {
         return [
             [
@@ -248,10 +329,15 @@ class VectorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test Interfaces
+     */
     public function testInterfaces()
     {
+        // Given
         $interfaces = class_implements('\MathPHP\LinearAlgebra\Vector');
 
+        // Then
         $this->assertContains('Countable', $interfaces);
         $this->assertContains('ArrayAccess', $interfaces);
         $this->assertContains('JsonSerializable', $interfaces);

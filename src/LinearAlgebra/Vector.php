@@ -9,20 +9,15 @@ use MathPHP\Exception;
  */
 class Vector implements \Countable, \ArrayAccess, \JsonSerializable
 {
-    /**
-     * Number of elements
-     * @var int
-     */
+    /** @var int Number of elements */
     private $n;
 
-    /**
-     * Vector
-     * @var array
-     */
+    /** @var array of numbers */
     private $A;
 
     /**
      * Constructor
+     *
      * @param array $A 1 x n vector
      */
     public function __construct(array $A)
@@ -42,7 +37,8 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
 
     /**
      * Get matrix
-     * @return array of arrays
+     *
+     * @return array
      */
     public function getVector(): array
     {
@@ -51,6 +47,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
 
     /**
      * Get item count (n)
+     *
      * @return int number of items
      */
     public function getN(): int
@@ -87,13 +84,17 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *      [3]
      *
      * @return Matrix
+     *
+     * @throws Exception\MathException
      */
     public function asColumnMatrix()
     {
-        $matrix = [];
-        foreach ($this->A as $element) {
-            $matrix[] = [$element];
-        }
+        $matrix = array_map(
+            function ($element) {
+                return [$element];
+            },
+            $this->A
+        );
 
         return new Matrix($matrix);
     }
@@ -108,6 +109,8 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *  ]
      *
      * @return Matrix
+     *
+     * @throws Exception\MathException
      */
     public function asRowMatrix()
     {
