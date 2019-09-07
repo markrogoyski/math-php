@@ -2,7 +2,7 @@
 namespace MathPHP\LinearAlgebra\Decomposition;
 
 use MathPHP\Exception;
-use MathPHP\Functions\Special;
+use MathPHP\LinearAlgebra\Householder;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 
@@ -83,7 +83,7 @@ class QR implements \ArrayAccess
             $A = $HA->submatrix($i, $i, $m - 1, $n - 1);
             
             // Create the householder matrix
-            $innerH = self::householderMatrix($A);
+            $innerH = Householder::transform($A);
             
             // Embed the smaller matrix within a full rank Identity matrix
             $H  = $FullI->insert($innerH, $i, $i);
@@ -96,54 +96,6 @@ class QR implements \ArrayAccess
             $Q->submatrix(0, 0, $m - 1, min($m, $n) - 1),
             $R->submatrix(0, 0, min($m, $n) - 1, $n - 1)
         );
-    }
-
-    /**
-     * Householder Matrix
-     *
-     * u = x ± αe   where α = ‖x‖ and sgn(α) = sgn(x)
-     *
-     *              uuᵀ
-     * Q = I - 2 * -----
-     *              uᵀu
-     *
-     * @param Matrix $A source Matrix
-     *
-     * @return Matrix
-     *
-     * @throws Exception\BadDataException
-     * @throws Exception\BadParameterException
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\MathException
-     * @throws Exception\MatrixException
-     * @throws Exception\OutOfBoundsException
-     * @throws Exception\VectorException
-     */
-    private static function householderMatrix(Matrix $A): Matrix
-    {
-        $m = $A->getM();
-        $I = MatrixFactory::identity($m);
-        
-        // x is the leftmost column of A
-        $x = $A->submatrix(0, 0, $m - 1, 0);
-        
-        // α is the square root of the sum of squares of x with the correct sign
-        $α = Special::sgn($x[0][0]) * $x->frobeniusNorm();
-        
-        // e is the first column of I
-        $e = $I->submatrix(0, 0, $m - 1, 0);
-        
-        // u = x ± αe
-        $u   = $e->scalarMultiply($α)->add($x);
-        $uᵀ  = $u->transpose();
-        $uᵀu = $uᵀ->multiply($u)->get(0, 0);
-        $uuᵀ = $u->multiply($uᵀ);
-        if ($uᵀu == 0) {
-            return $I;
-        }
-        
-        // We scale $uuᵀ and subtract it from the identity matrix
-        return $I->subtract($uuᵀ->scalarMultiply(2 / $uᵀu));
     }
 
     /**
