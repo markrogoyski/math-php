@@ -7,32 +7,6 @@ use MathPHP\Exception;
 class QRTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @test         qrDecomposition returns the expected array of Q and R factorized matrices
-     * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
-     * @dataProvider dataProviderForQrDecompositionNonSquareMatricesWithSpecificResults
-     * @param        array $A
-     * @param        array $Q
-     * @param        array $R
-     * @throws       \Exception
-     */
-    public function testQrDecompositionResultMatrices(array $A, array $Q, array $R)
-    {
-        // Given
-        $A = MatrixFactory::create($A);
-        $Q = MatrixFactory::create($Q);
-        $R = MatrixFactory::create($R);
-
-        // When
-        $qr  = $A->qrDecomposition();
-        $qrQ = $qr->Q;
-        $qrR = $qr->R;
-
-        // And Q and R are expected solution to QR decomposition
-        $this->assertEquals($R->getMatrix(), $qrR->getMatrix(), '', 0.00001);
-        $this->assertEquals($Q->getMatrix(), $qrQ->getMatrix(), '', 0.00001);
-    }
-
-    /**
      * @test         qrDecomposition property A = QR
      * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
      * @dataProvider dataProviderForQrDecompositionNonSquareMatricesWithSpecificResults
@@ -70,6 +44,33 @@ class QRTest extends \PHPUnit\Framework\TestCase
         // Then Q is orthogonal and R is upper triangular
         $this->assertTrue($qr->Q->isOrthogonal());
         $this->assertTrue($qr->R->isUpperTriangular());
+    }
+
+    /**
+     * @test         qrDecomposition returns the expected array of Q and R factorized matrices
+     *               This test could be removed. It is testing a specific implementation of QR decomposition.
+     * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
+     * @dataProvider dataProviderForQrDecompositionNonSquareMatricesWithSpecificResults
+     * @param        array $A
+     * @param        array $Q
+     * @param        array $R
+     * @throws       \Exception
+     */
+    public function testQrDecompositionResultMatrices(array $A, array $Q, array $R)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $Q = MatrixFactory::create($Q);
+        $R = MatrixFactory::create($R);
+
+        // When
+        $qr  = $A->qrDecomposition();
+        $qrQ = $qr->Q;
+        $qrR = $qr->R;
+
+        // And Q and R are expected solution to QR decomposition
+        $this->assertEquals($R->getMatrix(), $qrR->getMatrix(), '', 0.00001);
+        $this->assertEquals($Q->getMatrix(), $qrQ->getMatrix(), '', 0.00001);
     }
 
     /**

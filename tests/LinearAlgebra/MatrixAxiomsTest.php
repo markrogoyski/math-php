@@ -1109,6 +1109,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     /**
      * PPᵀ = I = PᵀP
      * Permutation matrix of the LU decomposition times the transpose of the permutation matrix is the identity matrix.
+     * @dataProvider dataProviderForSquareMatrix
      * @dataProvider dataProviderForOneSquareMatrix
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
@@ -1171,6 +1172,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     /**
      * @test A = QR
      * Basic QR decomposition property that A = QR
+     * @dataProvider dataProviderForSquareMatrix
      * @dataProvider dataProviderForOneSquareMatrix
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
@@ -1193,6 +1195,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     /**
      * @test QR.Q is orthogonal and QR.R is upper triangular
      * QR decomposition properties Q is orthogonal and R is upper triangular
+     * @dataProvider dataProviderForSquareMatrix
      * @dataProvider dataProviderForOneSquareMatrix
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
@@ -1257,6 +1260,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     /**
      * P⁻¹ = Pᵀ
      * Inverse of the permutation matrix equals the transpose of the permutation matrix
+     *
      * @dataProvider dataProviderForOneSquareMatrix
      * @param        array $A
      * @throws       \Exception
