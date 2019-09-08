@@ -1267,7 +1267,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**************************************************************************
-     * MATRIX OPERATIONS - Return a Matrix
+     * MATRIX ARITHMETIC OPERATIONS - Return a Matrix
      *  - add
      *  - directSum
      *  - kroneckerSum
@@ -1277,23 +1277,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - scalarDivide
      *  - hadamardProduct
      *  - kroneckerProduct
-     *  - transpose
-     *  - trace
-     *  - map
-     *  - diagonal
-     *  - augment
-     *  - augmentIdentity
-     *  - augmentBelow
-     *  - augmentAbove
-     *  - augmentLeft
-     *  - inverse
-     *  - minorMatrix
-     *  - cofactorMatrix
-     *  - meanDeviation
-     *  - covarianceMatrix
-     *  - adjugate
-     *  - submatrix
-     *  - insert
      **************************************************************************/
 
     /**
@@ -1654,6 +1637,22 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         return $A⊗B;
     }
+
+    /**************************************************************************
+     * MATRIX OPERATIONS - Return a Matrix
+     *  - transpose
+     *  - trace
+     *  - map
+     *  - diagonal
+     *  - inverse
+     *  - minorMatrix
+     *  - cofactorMatrix
+     *  - meanDeviation
+     *  - covarianceMatrix
+     *  - adjugate
+     *  - submatrix
+     *  - insert
+     **************************************************************************/
 
     /**
      * Transpose matrix
@@ -2142,7 +2141,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**************************************************************************
-     * MATRIX OPERATIONS - Return a Vector
+     * MATRIX VECTOR OPERATIONS - Return a Vector
      *  - vectorMultiply
      *  - rowSums
      *  - rowMeans
