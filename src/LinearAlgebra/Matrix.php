@@ -1080,6 +1080,193 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**************************************************************************
+     * MATRIX AUGMENTATION - Return a Matrix
+     *  - augment
+     *  - augmentIdentity
+     *  - augmentBelow
+     *  - augmentAbove
+     *  - augmentLeft
+     **************************************************************************/
+
+    /**
+     * Augment a matrix
+     * An augmented matrix is a matrix obtained by appending the columns of two given matrices
+     *
+     *     [1, 2, 3]
+     * A = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     *     [4]
+     * B = [5]
+     *     [6]
+     *
+     *         [1, 2, 3 | 4]
+     * (A|B) = [2, 3, 4 | 5]
+     *         [3, 4, 5 | 6]
+     *
+     * @param  Matrix $B Matrix columns to add to matrix A
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException if matrices do not have the same number of rows
+     * @throws Exception\IncorrectTypeException
+     */
+    public function augment(Matrix $B): Matrix
+    {
+        if ($B->getM() !== $this->m) {
+            throw new Exception\MatrixException('Matrices to augment do not have the same number of rows');
+        }
+
+        $m    = $this->m;
+        $A    = $this->A;
+        $B    = $B->getMatrix();
+        $⟮A∣B⟯ = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            $⟮A∣B⟯[$i] = array_merge($A[$i], $B[$i]);
+        }
+
+        return MatrixFactory::create($⟮A∣B⟯);
+    }
+
+    /**
+     * Augment a matrix with its identity matrix
+     *
+     *     [1, 2, 3]
+     * C = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     *         [1, 2, 3 | 1, 0, 0]
+     * (C|I) = [2, 3, 4 | 0, 1, 0]
+     *         [3, 4, 5 | 0, 0, 1]
+     *
+     * C must be a square matrix
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException if matrix is not square
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\OutOfBoundsException
+     */
+    public function augmentIdentity(): Matrix
+    {
+        if (!$this->isSquare()) {
+            throw new Exception\MatrixException('Matrix is not square; cannot augment with the identity matrix');
+        }
+
+        return $this->augment(MatrixFactory::identity($this->getM()));
+    }
+
+    /**
+     * Augment a matrix on the left
+     * An augmented matrix is a matrix obtained by preprending the columns of two given matrices
+     *
+     *     [1, 2, 3]
+     * A = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     *     [4]
+     * B = [5]
+     *     [6]
+     *
+     *         [4 | 1, 2, 3]
+     * (A|B) = [5 | 2, 3, 4]
+     *         [6 | 3, 4, 5]
+     *
+     * @param  Matrix $B Matrix columns to add to matrix A
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException if matrices do not have the same number of rows
+     * @throws Exception\IncorrectTypeException
+     */
+    public function augmentLeft(Matrix $B): Matrix
+    {
+        if ($B->getM() !== $this->m) {
+            throw new Exception\MatrixException('Matrices to augment do not have the same number of rows');
+        }
+
+        $m    = $this->m;
+        $A    = $this->A;
+        $B    = $B->getMatrix();
+        $⟮B∣A⟯ = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            $⟮B∣A⟯[$i] = array_merge($B[$i], $A[$i]);
+        }
+
+        return MatrixFactory::create($⟮B∣A⟯);
+    }
+
+    /**
+     * Augment a matrix from below
+     * An augmented matrix is a matrix obtained by appending the rows of two given matrices
+     *
+     *     [1, 2, 3]
+     * A = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     * B = [4, 5, 6]
+     *
+     *         [1, 2, 3]
+     * (A_B) = [2, 3, 4]
+     *         [3, 4, 5]
+     *         [4, 5, 6]
+     *
+     * @param  Matrix $B Matrix rows to add to matrix A
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException if matrices do not have the same number of columns
+     * @throws Exception\IncorrectTypeException
+     */
+    public function augmentBelow(Matrix $B): Matrix
+    {
+        if ($B->getN() !== $this->n) {
+            throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
+        }
+
+        $⟮A∣B⟯ = array_merge($this->A, $B->getMatrix());
+
+        return MatrixFactory::create($⟮A∣B⟯);
+    }
+
+    /**
+     * Augment a matrix from above
+     * An augmented matrix is a matrix obtained by prepending the rows of two given matrices
+     *
+     *     [1, 2, 3]
+     * A = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     * B = [4, 5, 6]
+     *
+     *         [4, 5, 6]
+     *         [1, 2, 3]
+     * (A_B) = [2, 3, 4]
+     *         [3, 4, 5]
+     *
+     * @param  Matrix $B Matrix rows to add to matrix A
+     *
+     * @return Matrix
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
+     */
+    public function augmentAbove(Matrix $B): Matrix
+    {
+        if ($B->getN() !== $this->n) {
+            throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
+        }
+
+        $⟮A∣B⟯ = array_merge($B->getMatrix(), $this->A);
+
+        return MatrixFactory::create($⟮A∣B⟯);
+    }
+
+    /**************************************************************************
      * MATRIX OPERATIONS - Return a Matrix
      *  - add
      *  - directSum
@@ -1574,184 +1761,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return MatrixFactory::create($R);
-    }
-
-    /**
-     * Augment a matrix
-     * An augmented matrix is a matrix obtained by appending the columns of two given matrices
-     *
-     *     [1, 2, 3]
-     * A = [2, 3, 4]
-     *     [3, 4, 5]
-     *
-     *     [4]
-     * B = [5]
-     *     [6]
-     *
-     *         [1, 2, 3 | 4]
-     * (A|B) = [2, 3, 4 | 5]
-     *         [3, 4, 5 | 6]
-     *
-     * @param  Matrix $B Matrix columns to add to matrix A
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException if matrices do not have the same number of rows
-     * @throws Exception\IncorrectTypeException
-     */
-    public function augment(Matrix $B): Matrix
-    {
-        if ($B->getM() !== $this->m) {
-            throw new Exception\MatrixException('Matrices to augment do not have the same number of rows');
-        }
-
-        $m    = $this->m;
-        $A    = $this->A;
-        $B    = $B->getMatrix();
-        $⟮A∣B⟯ = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            $⟮A∣B⟯[$i] = array_merge($A[$i], $B[$i]);
-        }
-
-        return MatrixFactory::create($⟮A∣B⟯);
-    }
-
-    /**
-     * Augment a matrix with its identity matrix
-     *
-     *     [1, 2, 3]
-     * C = [2, 3, 4]
-     *     [3, 4, 5]
-     *
-     *         [1, 2, 3 | 1, 0, 0]
-     * (C|I) = [2, 3, 4 | 0, 1, 0]
-     *         [3, 4, 5 | 0, 0, 1]
-     *
-     * C must be a square matrix
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException if matrix is not square
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\OutOfBoundsException
-     */
-    public function augmentIdentity(): Matrix
-    {
-        if (!$this->isSquare()) {
-            throw new Exception\MatrixException('Matrix is not square; cannot augment with the identity matrix');
-        }
-
-        return $this->augment(MatrixFactory::identity($this->getM()));
-    }
-
-    /**
-     * Augment a matrix on the left
-     * An augmented matrix is a matrix obtained by preprending the columns of two given matrices
-     *
-     *     [1, 2, 3]
-     * A = [2, 3, 4]
-     *     [3, 4, 5]
-     *
-     *     [4]
-     * B = [5]
-     *     [6]
-     *
-     *         [4 | 1, 2, 3]
-     * (A|B) = [5 | 2, 3, 4]
-     *         [6 | 3, 4, 5]
-     *
-     * @param  Matrix $B Matrix columns to add to matrix A
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException if matrices do not have the same number of rows
-     * @throws Exception\IncorrectTypeException
-     */
-    public function augmentLeft(Matrix $B): Matrix
-    {
-        if ($B->getM() !== $this->m) {
-            throw new Exception\MatrixException('Matrices to augment do not have the same number of rows');
-        }
-
-        $m    = $this->m;
-        $A    = $this->A;
-        $B    = $B->getMatrix();
-        $⟮B∣A⟯ = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            $⟮B∣A⟯[$i] = array_merge($B[$i], $A[$i]);
-        }
-
-        return MatrixFactory::create($⟮B∣A⟯);
-    }
-
-    /**
-     * Augment a matrix from below
-     * An augmented matrix is a matrix obtained by appending the rows of two given matrices
-     *
-     *     [1, 2, 3]
-     * A = [2, 3, 4]
-     *     [3, 4, 5]
-     *
-     * B = [4, 5, 6]
-     *
-     *         [1, 2, 3]
-     * (A_B) = [2, 3, 4]
-     *         [3, 4, 5]
-     *         [4, 5, 6]
-     *
-     * @param  Matrix $B Matrix rows to add to matrix A
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException if matrices do not have the same number of columns
-     * @throws Exception\IncorrectTypeException
-     */
-    public function augmentBelow(Matrix $B): Matrix
-    {
-        if ($B->getN() !== $this->n) {
-            throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
-        }
-
-        $⟮A∣B⟯ = array_merge($this->A, $B->getMatrix());
-
-        return MatrixFactory::create($⟮A∣B⟯);
-    }
-
-    /**
-     * Augment a matrix from above
-     * An augmented matrix is a matrix obtained by prepending the rows of two given matrices
-     *
-     *     [1, 2, 3]
-     * A = [2, 3, 4]
-     *     [3, 4, 5]
-     *
-     * B = [4, 5, 6]
-     *
-     *         [4, 5, 6]
-     *         [1, 2, 3]
-     * (A_B) = [2, 3, 4]
-     *         [3, 4, 5]
-     *
-     * @param  Matrix $B Matrix rows to add to matrix A
-     *
-     * @return Matrix
-     *
-     * @throws Exception\BadDataException
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\MathException
-     * @throws Exception\MatrixException
-     */
-    public function augmentAbove(Matrix $B): Matrix
-    {
-        if ($B->getN() !== $this->n) {
-            throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
-        }
-
-        $⟮A∣B⟯ = array_merge($B->getMatrix(), $this->A);
-
-        return MatrixFactory::create($⟮A∣B⟯);
     }
 
     /**
