@@ -428,23 +428,23 @@ $R = $A->columnAdd($nᵢ, $nⱼ, $k);     // Add k * column nᵢ to column nⱼ
 $R = $A->columnExclude($nᵢ);          // Exclude column $nᵢ
 
 // Matrix augmentations - return a new Matrix
-$⟮A∣B⟯  = $A->augment($B);        // Augment on the right - standard augmentation
-$⟮A∣I⟯  = $A->augmentIdentity();  // Augment with the identity matrix
-$⟮A∣B⟯  = $A->augmentBelow($B);
-$⟮A∣B⟯  = $A->augmentAbove($B);
-$⟮B∣A⟯  = $A->augmentLeft($B);
+$⟮A∣B⟯ = $A->augment($B);        // Augment on the right - standard augmentation
+$⟮A∣I⟯ = $A->augmentIdentity();  // Augment with the identity matrix
+$⟮A∣B⟯ = $A->augmentBelow($B);
+$⟮A∣B⟯ = $A->augmentAbove($B);
+$⟮B∣A⟯ = $A->augmentLeft($B);
 
 // Matrix arithmetic operations - return a new Matrix
-$A＋B  = $A->add($B);
-$A⊕B   = $A->directSum($B);
-$A⊕B   = $A->kroneckerSum($B);
-$A−B   = $A->subtract($B);
-$AB    = $A->multiply($B);
-$２A   = $A->scalarMultiply(2);
-$A／2  = $A->scalarDivide(2);
-$−A    = $A->negate();
-$A∘B   = $A->hadamardProduct($B);
-$A⊗B   = $A->kroneckerProduct($B);
+$A＋B = $A->add($B);
+$A⊕B  = $A->directSum($B);
+$A⊕B  = $A->kroneckerSum($B);
+$A−B  = $A->subtract($B);
+$AB   = $A->multiply($B);
+$２A  = $A->scalarMultiply(2);
+$A／2 = $A->scalarDivide(2);
+$−A   = $A->negate();
+$A∘B  = $A->hadamardProduct($B);
+$A⊗B  = $A->kroneckerProduct($B);
 
 // Matrix operations - return a new Matrix
 $Aᵀ 　 = $A->transpose();
@@ -476,7 +476,7 @@ $M  = $A->columnMeans();
 $‖A‖₁ = $A->oneNorm();
 $‖A‖F = $A->frobeniusNorm(); // Hilbert–Schmidt norm
 $‖A‖∞ = $A->infinityNorm();
-$max  = $A->maxNorm();
+$max   = $A->maxNorm();
 
 // Matrix reductions
 $ref  = $A->ref();   // Matrix in row echelon form
