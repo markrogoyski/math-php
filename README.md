@@ -442,7 +442,14 @@ $R = $A->columnMultiply($nᵢ, $k);     // Multiply column nᵢ by k
 $R = $A->columnAdd($nᵢ, $nⱼ, $k);     // Add k * column nᵢ to column nⱼ
 $R = $A->columnExclude($nᵢ);          // Exclude column $nᵢ
 
-// Matrix operations - return a new Matrix
+// Matrix augmentations - return a new Matrix
+$⟮A∣B⟯  = $A->augment($B);        // Augment on the right - standard augmentation
+$⟮A∣I⟯  = $A->augmentIdentity();  // Augment with the identity matrix
+$⟮A∣B⟯  = $A->augmentBelow($B);
+$⟮A∣B⟯  = $A->augmentAbove($B);
+$⟮B∣A⟯  = $A->augmentLeft($B);
+
+// Matrix arithmetic operations - return a new Matrix
 $A＋B  = $A->add($B);
 $A⊕B   = $A->directSum($B);
 $A⊕B   = $A->kroneckerSum($B);
@@ -453,28 +460,18 @@ $A／2  = $A->scalarDivide(2);
 $−A    = $A->negate();
 $A∘B   = $A->hadamardProduct($B);
 $A⊗B   = $A->kroneckerProduct($B);
+
+// Matrix operations - return a new Matrix
 $Aᵀ 　 = $A->transpose();
 $D  　 = $A->diagonal();
-$⟮A∣B⟯  = $A->augment($B);
-$⟮A∣I⟯  = $A->augmentIdentity();         // Augment with the identity matrix
-$⟮A∣B⟯  = $A->augmentBelow($B);
-$⟮A∣B⟯  = $A->augmentAbove($B);
-$⟮B∣A⟯  = $A->augmentLeft($B);
 $A⁻¹   = $A->inverse();
-$Mᵢⱼ   = $A->minorMatrix($mᵢ, $nⱼ);     // Square matrix with row mᵢ and column nⱼ removed
-$Mk    = $A->leadingPrincipalMinor($k); // kᵗʰ-order leading principal minor
+$Mᵢⱼ   = $A->minorMatrix($mᵢ, $nⱼ);        // Square matrix with row mᵢ and column nⱼ removed
+$Mk    = $A->leadingPrincipalMinor($k);    // kᵗʰ-order leading principal minor
 $CM    = $A->cofactorMatrix();
 $B     = $A->meanDeviation();
 $S     = $A->covarianceMatrix();
 $adj⟮A⟯ = $A->adjugate();
 $Mᵢⱼ   = $A->submatrix($mᵢ, $nᵢ, $mⱼ, $nⱼ) // Submatrix of A from row mᵢ, column nᵢ to row mⱼ, column nⱼ
-
-// Matrix operations - return a new Vector
-$AB = $A->vectorMultiply($X₁);
-$M  = $A->rowSums();
-$M  = $A->columnSums();
-$M  = $A->rowMeans();
-$M  = $A->columnMeans();
 
 // Matrix operations - return a value
 $tr⟮A⟯   = $A->trace();
@@ -482,6 +479,13 @@ $|A|    = $a->det();              // Determinant
 $Mᵢⱼ    = $A->minor($mᵢ, $nⱼ);    // First minor
 $Cᵢⱼ    = $A->cofactor($mᵢ, $nⱼ);
 $rank⟮A⟯ = $A->rank();
+
+// Matrix vector operations - return a new Vector
+$AB = $A->vectorMultiply($X₁);
+$M  = $A->rowSums();
+$M  = $A->columnSums();
+$M  = $A->rowMeans();
+$M  = $A->columnMeans();
 
 // Matrix norms - return a value
 $‖A‖₁ = $A->oneNorm();
