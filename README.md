@@ -394,39 +394,24 @@ $perplexity = Entropy::perplexity($p);         // log₂
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 
+// Create an m × n matrix from an array of arrays
 $matrix = [
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9],
 ];
-
-// Matrix factory creates most appropriate matrix
 $A = MatrixFactory::create($matrix);
-$B = MatrixFactory::create($matrix);
-
-// Matrix factory can create a matrix from an array of column vectors
-use MathPHP\LinearAlgebra\Vector;
-$X₁ = new Vector([1, 4, 7]);
-$X₂ = new Vector([2, 5, 8]);
-$X₃ = new Vector([3, 6, 9]);
-$C  = MatrixFactory::createFromVectors([$X₁, $X₂, $X₃]);
 
 // Basic matrix data
-$array = $A->getMatrix();
-$rows  = $A->getM();      // number of rows
-$cols  = $A->getN();      // number of columns
+$array = $A->getMatrix();  // Original array of arrays
+$rows  = $A->getM();       // number of rows
+$cols  = $A->getN();       // number of columns
 
-// Basic matrix elements (zero-based indexing)
+// Basic matrix element getters (zero-based indexing)
 $row = $A->getRow(2);
 $col = $A->getColumn(2);
 $Aᵢⱼ = $A->get(2, 2);
 $Aᵢⱼ = $A[2][2];
-
-// Other representations of matrix data
-$vectors = $A->asVectors();                // array of column vectors
-$D       = $A->getDiagonalElements();      // array of the diagonal elements
-$d       = $A->getSuperdiagonalElements(); // array of the superdiagonal elements
-$d       = $A->getSubdiagonalElements();   // array of the subdiagonal elements
 
 // Row operations
 list($mᵢ, $mⱼ, $k) = [1, 2, 5];
@@ -473,7 +458,7 @@ $S     = $A->covarianceMatrix();
 $adj⟮A⟯ = $A->adjugate();
 $Mᵢⱼ   = $A->submatrix($mᵢ, $nᵢ, $mⱼ, $nⱼ) // Submatrix of A from row mᵢ, column nᵢ to row mⱼ, column nⱼ
 
-// Matrix operations - return a value
+// Matrix value operations - return a value
 $tr⟮A⟯   = $A->trace();
 $|A|    = $a->det();              // Determinant
 $Mᵢⱼ    = $A->minor($mᵢ, $nⱼ);    // First minor
@@ -492,35 +477,6 @@ $‖A‖₁ = $A->oneNorm();
 $‖A‖F = $A->frobeniusNorm(); // Hilbert–Schmidt norm
 $‖A‖∞ = $A->infinityNorm();
 $max  = $A->maxNorm();
-
-// Matrix properties - return a bool
-$bool = $A->isSquare();
-$bool = $A->isSymmetric();
-$bool = $A->isSkewSymmetric();
-$bool = $A->isSingular();
-$bool = $A->isNonsingular();           // Same as isInvertible
-$bool = $A->isInvertible();            // Same as isNonsingular
-$bool = $A->isPositiveDefinite();
-$bool = $A->isPositiveSemidefinite();
-$bool = $A->isNegativeDefinite();
-$bool = $A->isNegativeSemidefinite();
-$bool = $A->isLowerTriangular();
-$bool = $A->isUpperTriangular();
-$bool = $A->isTriangular();
-$bool = $A->isDiagonal();
-$bool = $A->isUpperBidiagonal();
-$bool = $A->isLowerBidiagonal();
-$bool = $A->isBidiagonal();
-$bool = $A->isTridiagonal();
-$bool = $A->isUpperHessenberg();
-$bool = $A->isLowerHessenberg();
-$bool = $A->isOrthogonal();
-$bool = $A->isNormal();
-$bool = $A->isIdempotent();
-$bool = $A->isInvolutory();
-$bool = $A->isSignature();
-$bool = $A->isRef();
-$bool = $A->isRref();
 
 // Matrix reductions
 $ref  = $A->ref();   // Matrix in row echelon form
@@ -565,7 +521,42 @@ $R = $A->map($func);
 // Matrix comparisons
 $bool = $A->isEqual($B);
 
-// Print a matrix
+// Matrix properties - return a bool
+$bool = $A->isSquare();
+$bool = $A->isSymmetric();
+$bool = $A->isSkewSymmetric();
+$bool = $A->isSingular();
+$bool = $A->isNonsingular();           // Same as isInvertible
+$bool = $A->isInvertible();            // Same as isNonsingular
+$bool = $A->isPositiveDefinite();
+$bool = $A->isPositiveSemidefinite();
+$bool = $A->isNegativeDefinite();
+$bool = $A->isNegativeSemidefinite();
+$bool = $A->isLowerTriangular();
+$bool = $A->isUpperTriangular();
+$bool = $A->isTriangular();
+$bool = $A->isDiagonal();
+$bool = $A->isUpperBidiagonal();
+$bool = $A->isLowerBidiagonal();
+$bool = $A->isBidiagonal();
+$bool = $A->isTridiagonal();
+$bool = $A->isUpperHessenberg();
+$bool = $A->isLowerHessenberg();
+$bool = $A->isOrthogonal();
+$bool = $A->isNormal();
+$bool = $A->isIdempotent();
+$bool = $A->isInvolutory();
+$bool = $A->isSignature();
+$bool = $A->isRef();
+$bool = $A->isRref();
+
+// Other representations of matrix data
+$vectors = $A->asVectors();                 // array of column vectors
+$D       = $A->getDiagonalElements();       // array of the diagonal elements
+$d       = $A->getSuperdiagonalElements();  // array of the superdiagonal elements
+$d       = $A->getSubdiagonalElements();    // array of the subdiagonal elements
+
+// String representation - Print a matrix
 print($A);
 /*
  [1, 2, 3]
@@ -573,24 +564,43 @@ print($A);
  [3, 4, 5]
  */
 
-// Specialized matrices
-list($m, $n, $k, $angle, $size) = [4, 4, 2, 3.14159, 2];
-$identity_matrix                = MatrixFactory::identity($n);                  // Ones on the main diagonal
-$zero_matrix                    = MatrixFactory::zero($m, $n);                  // All zeros
-$ones_matrix                    = MatrixFactory::one($m, $n);                   // All ones
-$eye_matrix                     = MatrixFactory::eye($m, $n, $k);               // Ones (or other value) on the k-th diagonal
-$exchange_matrix                = MatrixFactory::exchange($n);                  // Ones on the reverse diagonal
-$downshift_permutation_matrix   = MatrixFactory::downshiftPermutation($n);      // Permutation matrix that pushes the components of a vector down one notch with wraparound
-$upshift_permutation_matrix     = MatrixFactory::upshiftPermutation($n);        // Permutation matrix that pushes the components of a vector up one notch with wraparound
-$diagonal_matrix                = MatrixFactory::diagonal([1, 2, 3]);           // 3 x 3 diagonal matrix with zeros above and below the diagonal
-$hilbert_matrix                 = MatrixFactory::hilbert($n);                   // Square matrix with entries being the unit fractions
-$vandermonde_matrix             = MatrixFactory::vandermonde([1, 2, 3], 4);     // 4 x 3 Vandermonde matrix
-$random_matrix                  = MatrixFactory::random($m, $n);                // m x n matrix of random integers
-$givens_matrix                  = MatrixFactory::givens($m, $n, $angle, $size); // givens rotation matrix
-
 // PHP Predefined Interfaces
 $json = json_encode($A); // JsonSerializable
 $Aᵢⱼ  = $A[$mᵢ][$nⱼ];    // ArrayAccess
+```
+
+#### Linear Algebra - Matrix Construction (Factory)
+```php
+$matrix = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+];
+
+// Matrix factory creates most appropriate matrix
+$A = MatrixFactory::create($matrix);
+
+// Matrix factory can create a matrix from an array of column vectors
+use MathPHP\LinearAlgebra\Vector;
+$X₁ = new Vector([1, 4, 7]);
+$X₂ = new Vector([2, 5, 8]);
+$X₃ = new Vector([3, 6, 9]);
+$A  = MatrixFactory::createFromVectors([$X₁, $X₂, $X₃]);
+
+// Specialized matrices
+list($m, $n, $k, $angle, $size) = [4, 4, 2, 3.14159, 2];
+$identity_matrix                = MatrixFactory::identity($n);                   // Ones on the main diagonal
+$zero_matrix                    = MatrixFactory::zero($m, $n);                   // All zeros
+$ones_matrix                    = MatrixFactory::one($m, $n);                    // All ones
+$eye_matrix                     = MatrixFactory::eye($m, $n, $k);                // Ones (or other value) on the k-th diagonal
+$exchange_matrix                = MatrixFactory::exchange($n);                   // Ones on the reverse diagonal
+$downshift_permutation_matrix   = MatrixFactory::downshiftPermutation($n);       // Permutation matrix that pushes the components of a vector down one notch with wraparound
+$upshift_permutation_matrix     = MatrixFactory::upshiftPermutation($n);         // Permutation matrix that pushes the components of a vector up one notch with wraparound
+$diagonal_matrix                = MatrixFactory::diagonal([1, 2, 3]);            // 3 x 3 diagonal matrix with zeros above and below the diagonal
+$hilbert_matrix                 = MatrixFactory::hilbert($n);                    // Square matrix with entries being the unit fractions
+$vandermonde_matrix             = MatrixFactory::vandermonde([1, 2, 3], 4);      // 4 x 3 Vandermonde matrix
+$random_matrix                  = MatrixFactory::random($m, $n);                 // m x n matrix of random integers
+$givens_matrix                  = MatrixFactory::givens($m, $n, $angle, $size);  // givens rotation matrix
 ```
 
 ### Linear Algebra - Vector
