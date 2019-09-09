@@ -2,43 +2,29 @@
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\Matrix;
-use MathPHP\LinearAlgebra\SquareMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
 class MatrixVectorOperations extends \PHPUnit\Framework\TestCase
 {
-    /** @var array */
-    private $A;
-
-    /** @var Matrix */
-    private $matrix;
-
-    public function setUp()
-    {
-        $this->A = [
-            [1, 2, 3],
-            [2, 3, 4],
-            [4, 5, 6],
-        ];
-        $this->matrix = MatrixFactory::create($this->A);
-    }
-
     /**
      * @dataProvider dataProviderForVectorMultiply
      */
     public function testVectorMultiply(array $A, array $B, array $R)
     {
+        // Given
         $A  = MatrixFactory::create($A);
         $B  = new Vector($B);
         $R  = new Vector($R);
+
+        // When
         $R2 = $A->vectorMultiply($B);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\Vector::class, $R2);
+
+        // Then
         $this->assertEquals($R, $R2);
     }
 
-    public function dataProviderForVectorMultiply()
+    public function dataProviderForVectorMultiply(): array
     {
         return [
             [
@@ -104,13 +90,17 @@ class MatrixVectorOperations extends \PHPUnit\Framework\TestCase
 
     public function testVectorMultiplyExceptionDimensionsDoNotMatch()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
         ]);
         $B = new Vector([1, 2, 3, 4, 5]);
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->vectorMultiply($B);
     }
 

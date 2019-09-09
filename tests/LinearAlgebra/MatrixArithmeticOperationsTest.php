@@ -9,36 +9,24 @@ use MathPHP\Exception;
 
 class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var array */
-    private $A;
-
-    /** @var Matrix */
-    private $matrix;
-
-    public function setUp()
-    {
-        $this->A = [
-            [1, 2, 3],
-            [2, 3, 4],
-            [4, 5, 6],
-        ];
-        $this->matrix = MatrixFactory::create($this->A);
-    }
-
     /**
      * @dataProvider dataProviderForAdd
      */
     public function testAdd(array $A, array $B, array $R)
     {
+        // Given
         $A  = MatrixFactory::create($A);
         $B  = MatrixFactory::create($B);
         $R  = MatrixFactory::create($R);
+
+        // When
         $R2 = $A->add($B);
+
+        // Then
         $this->assertEquals($R, $R2);
-        $this->assertInstanceOf(Matrix::class, $R2);
     }
 
-    public function dataProviderForAdd()
+    public function dataProviderForAdd(): array
     {
         return [
             [
@@ -77,6 +65,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
 
     public function testAddExceptionRows()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2],
             [2, 3],
@@ -85,12 +74,16 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
             [1, 2]
         ]);
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        //  WHen
         $A->add($B);
     }
 
     public function testAddExceptionColumns()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
@@ -100,7 +93,10 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
             [2, 3],
         ]);
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->add($B);
     }
 
@@ -109,15 +105,19 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testDirectSum(array $A, array $B, array $R)
     {
+        // Given
         $A  = MatrixFactory::create($A);
         $B  = MatrixFactory::create($B);
         $R  = MatrixFactory::create($R);
+
+        // When
         $R2 = $A->directSum($B);
+
+        // Then
         $this->assertEquals($R, $R2);
-        $this->assertInstanceOf(Matrix::class, $R2);
     }
 
-    public function dataProviderForDirectSum()
+    public function dataProviderForDirectSum(): array
     {
         return [
             [
@@ -148,11 +148,15 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testKroneckerSum(array $A, array $B, array $expected)
     {
+        // Given
         $A   = new SquareMatrix($A);
         $B   = new SquareMatrix($B);
-        $A⊕B = $A->kroneckerSum($B);
         $R   = new SquareMatrix($expected);
 
+        // When
+        $A⊕B = $A->kroneckerSum($B);
+
+        // Then
         $this->assertEquals($R, $A⊕B);
         $this->assertEquals($R->getMatrix(), $A⊕B->getMatrix());
         $this->assertInstanceOf(SquareMatrix::class, $A⊕B);
@@ -239,10 +243,14 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testKroneckerSumSquareMatrixException($A, $B)
     {
+        // Given
         $A   = new Matrix($A);
         $B   = new Matrix($B);
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A⊕B = $A->kroneckerSum($B);
     }
 
@@ -288,15 +296,19 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSubtract(array $A, array $B, array $R)
     {
+        // Given
         $A  = MatrixFactory::create($A);
         $B  = MatrixFactory::create($B);
         $R  = MatrixFactory::create($R);
+
+        // When
         $R2 = $A->subtract($B);
+
+        // Then
         $this->assertEquals($R, $R2);
-        $this->assertInstanceOf(Matrix::class, $R2);
     }
 
-    public function dataProviderForSubtract()
+    public function dataProviderForSubtract(): array
     {
         return [
             [
@@ -335,6 +347,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
 
     public function testSubtractExceptionRows()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2],
             [2, 3],
@@ -343,12 +356,16 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
             [1, 2]
         ]);
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->subtract($B);
     }
 
     public function testSubtractExceptionColumns()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
@@ -358,7 +375,10 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
             [2, 3],
         ]);
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->subtract($B);
     }
 
@@ -385,7 +405,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($R->isEqual($expected));
     }
 
-    public function dataProviderForMultiply()
+    public function dataProviderForMultiply(): array
     {
         return [
             [
@@ -658,15 +678,19 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testMultiplyVector(array $A, array $B, array $R)
     {
+        // Given
         $A  = MatrixFactory::create($A);
         $B  = new Vector($B);
         $R  = MatrixFactory::create($R);
+
+        // When
         $R2 = $A->multiply($B);
-        $this->assertInstanceOf(Matrix::class, $R2);
+
+        // Then
         $this->assertEquals($R, $R2);
     }
 
-    public function dataProviderForMultiplyVector()
+    public function dataProviderForMultiplyVector(): array
     {
         return [
             [
@@ -755,6 +779,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
 
     public function testMultiplyExceptionDimensionsDoNotMatch()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
@@ -764,12 +789,16 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
             [2, 3, 4],
         ]);
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->multiply($B);
     }
 
     public function testMultiplyExceptionNotMatrixOrVector()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
@@ -781,7 +810,10 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
             [3, 4, 5],
         ];
 
+        // Then
         $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
         $A->multiply($B);
     }
 
@@ -790,13 +822,18 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testScalarMultiply(array $A, $k, array $R)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $R = MatrixFactory::create($R);
 
-        $this->assertEquals($R, $A->scalarMultiply($k));
+        // When
+        $kA = $A->scalarMultiply($k);
+
+        // Then
+        $this->assertEquals($R, $kA);
     }
 
-    public function dataProviderForScalarMultiply()
+    public function dataProviderForScalarMultiply(): array
     {
         return [
             [
@@ -846,15 +883,20 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
      * @testCase     negate
      * @dataProvider dataProviderForNegate
      * @param        array $A
-     * @param        array $−A
+     * @param        array $expected
      * @throws       \Exception
      */
-    public function testNegate(array $A, array $−A)
+    public function testNegate(array $A, array $expected)
     {
-        $A  = MatrixFactory::create($A);
-        $−A = MatrixFactory::create($−A);
+        // Given
+        $A        = MatrixFactory::create($A);
+        $expected = MatrixFactory::create($expected);
 
-        $this->assertEquals($−A, $A->negate());
+        // When
+        $−A = $A->negate();
+
+        // Then
+        $this->assertEquals($expected, $−A);
     }
 
     /**
@@ -917,13 +959,18 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testScalarDivide(array $A, $k, array $R)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $R = MatrixFactory::create($R);
 
-        $this->assertEquals($R, $A->scalarDivide($k));
+        // When
+        $divided = $A->scalarDivide($k);
+
+        // Then
+        $this->assertEquals($R, $divided);
     }
 
-    public function dataProviderForScalarDivide()
+    public function dataProviderForScalarDivide(): array
     {
         return [
             [
@@ -971,28 +1018,37 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
 
     public function testScalarDivideByZero()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
         ]);
 
+        // Then
         $this->expectException(Exception\BadParameterException::class);
+
+        // When
         $A->scalarDivide(0);
     }
 
     /**
      * @dataProvider dataProviderForHadamardProduct
      */
-    public function testHadamardProduct(array $A, array $B, array $A∘B)
+    public function testHadamardProduct(array $A, array $B, array $expected)
     {
-        $A   = MatrixFactory::create($A);
-        $B   = MatrixFactory::create($B);
-        $A∘B = MatrixFactory::create($A∘B);
+        // Given
+        $A        = MatrixFactory::create($A);
+        $B        = MatrixFactory::create($B);
+        $expected = MatrixFactory::create($expected);
 
-        $this->assertEquals($A∘B, $A->hadamardProduct($B));
+        // When
+        $A∘B = $A->hadamardProduct($B);
+
+        // Then
+        $this->assertEquals($expected, $A∘B);
     }
 
-    public function dataProviderForHadamardProduct()
+    public function dataProviderForHadamardProduct(): array
     {
         return [
             [
@@ -1034,6 +1090,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
 
     public function testHadamardProductDimensionsDoNotMatch()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
@@ -1043,7 +1100,10 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
             [2, 3, 4, 5],
         ]);
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->hadamardProduct($B);
     }
 
@@ -1052,15 +1112,19 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testKroneckerProduct(array $A, array $B, array $expected)
     {
+        // Given
         $A        = new Matrix($A);
         $B        = new Matrix($B);
-        $A⊗B      = $A->kroneckerProduct($B);
         $expected = new Matrix($expected);
 
+        // When
+        $A⊗B = $A->kroneckerProduct($B);
+
+        // Then
         $this->assertEquals($expected->getMatrix(), $A⊗B->getMatrix());
     }
 
-    public function dataProviderForKroneckerProduct()
+    public function dataProviderForKroneckerProduct(): array
     {
         return [
             [
