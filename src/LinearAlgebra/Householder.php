@@ -3,16 +3,22 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
 
+/**
+ *  A Householder transformation (also known as a Householder reflection or elementary reflector) is a linear
+ *  transformation that describes a reflection about a plane or hyperplane containing the origin.
+ */
 class Householder
 {
     /**
-     * Householder Matrix
+     * Householder matrix transformation
      *
      * u = x ± αe   where α = ‖x‖ and sgn(α) = sgn(x)
      *
      *              uuᵀ
      * Q = I - 2 * -----
      *              uᵀu
+     *
+     * https://en.wikipedia.org/wiki/Householder_transformation
      *
      * @param Matrix $A source Matrix
      *

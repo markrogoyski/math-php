@@ -194,7 +194,6 @@ class HouseholderTest extends \PHPUnit\Framework\TestCase
                     [1, 3, 4, 9, 4],
                 ]
             ],
-
             [
                 [
                     [2, -2, -3],

@@ -1652,6 +1652,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - adjugate
      *  - submatrix
      *  - insert
+     *  - householder
      **************************************************************************/
 
     /**
@@ -2138,6 +2139,18 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
         return MatrixFactory::create($new_array);
+    }
+
+    /**
+     * Householder matrix transformation
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MathException
+     */
+    public function householder(): Matrix
+    {
+        return Householder::transform($this);
     }
 
     /**************************************************************************

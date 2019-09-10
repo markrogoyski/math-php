@@ -162,6 +162,10 @@ use MathPHP\Tests;
  *    - AᵀA = I
  *    - A⁻¹ = Aᵀ
  *    - det(A) = 1
+ *  - Householder matrix transformation
+ *    - H is involutory
+ *    - H has determinant that is -1
+ *    - H has eigenvalues 1 and -1
  */
 class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 {
@@ -3059,5 +3063,66 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertEquals(1, abs($det⟮A⟯));
+    }
+
+    /**
+     * @test         Axiom: Householder transformation creates a matrix that is involutory
+     * @dataProvider dataProviderForSquareMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testHouseholderTransformMatrixInvolutoryProperty(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $H = $A->householder();
+
+        // Then
+        $this->assertTrue($H->isInvolutory());
+    }
+
+    /**
+     * @test         Axiom: Householder transformation creates a matrix with a determinant that is -1
+     * @dataProvider dataProviderForSquareMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testHouseholderTransformMatrixDeterminant(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $H = $A->householder();
+
+        // Then
+        $this->assertEquals(-1, $H->det(), '', 0.000001);
+    }
+
+    /**
+     * @test         Axiom: Householder transformation creates a matrix that has eigenvalues 1 and -1
+     * @dataProvider dataProviderForSquareMatrixGreaterThanOne
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testHouseholderTransformMatrixEigenvalues(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $H = $A->householder();
+
+        // Then
+        $eigenvalues = array_filter(
+            $H->eigenvalues(),
+            function ($x) {
+                return !is_nan($x);
+            }
+        );
+        $this->assertEquals(1, max($eigenvalues), '', 0.00001);
+        $this->assertEquals(-1, min($eigenvalues), '', 0.00001);
     }
 }
