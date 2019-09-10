@@ -457,6 +457,7 @@ $B     = $A->meanDeviation();
 $S     = $A->covarianceMatrix();
 $adj⟮A⟯ = $A->adjugate();
 $Mᵢⱼ   = $A->submatrix($mᵢ, $nᵢ, $mⱼ, $nⱼ) // Submatrix of A from row mᵢ, column nᵢ to row mⱼ, column nⱼ
+$H     = $A->householder();
 
 // Matrix value operations - return a value
 $tr⟮A⟯   = $A->trace();
