@@ -322,4 +322,93 @@ class LUTest extends \PHPUnit\Framework\TestCase
         // When
         $doesNotExist = $LU->doesNotExist;
     }
+
+    /**
+     * @test   LU Decomposition ArrayAccess
+     * @throws \Exception
+     */
+    public function testLUDecompositionArrayAccess()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [5, 3, 4, 1],
+            [5, 6, 4, 3],
+            [7, 6, 5, 3],
+            [2, 7, 4, 7],
+        ]);
+        $LU = $A->luDecomposition();
+
+        // When
+        $L = $LU['L'];
+        $U = $LU['U'];
+        $P = $LU['P'];
+
+        // Then
+        $this->assertEquals($LU->L, $L);
+        $this->assertEquals($LU->U, $U);
+        $this->assertEquals($LU->P, $P);
+    }
+
+    /**
+     * @test   LU Decomposition ArrayAccess invalid offset
+     * @throws \Exception
+     */
+    public function testLUDecompositionArrayAccessInvalidOffset()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [5, 3, 4, 1],
+            [5, 6, 4, 3],
+            [7, 6, 5, 3],
+            [2, 7, 4, 7],
+        ]);
+        $LU = $A->luDecomposition();
+
+        // Then
+        $this->assertFalse(isset($LU['doesNotExist']));
+    }
+
+    /**
+     * @test   LU Decomposition ArrayAccess set disabled
+     * @throws \Exception
+     */
+    public function testLUDecompositionArrayAccessSetDisabled()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [5, 3, 4, 1],
+            [5, 6, 4, 3],
+            [7, 6, 5, 3],
+            [2, 7, 4, 7],
+        ]);
+        $LU = $A->luDecomposition();
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $LU['U'] = $A;
+    }
+
+    /**
+     * @test   LU Decomposition ArrayAccess unset disabled
+     * @throws \Exception
+     */
+    public function testLUDecompositionArrayAccessUnsetDisabled()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [5, 3, 4, 1],
+            [5, 6, 4, 3],
+            [7, 6, 5, 3],
+            [2, 7, 4, 7],
+        ]);
+        $LU = $A->luDecomposition();
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        unset($LU['U']);
+    }
 }
