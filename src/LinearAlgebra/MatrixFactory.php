@@ -491,8 +491,10 @@ class MatrixFactory
     /**
      * Create a Matrix of random numbers
      *
-     * @param int $m number of rows
-     * @param int $n number of columns
+     * @param int $m   number of rows
+     * @param int $n   number of columns
+     * @param int $min lower bound for the random number (optional - default: 0)
+     * @param int $max upper bound for the random number (optional - default: 20)
      *
      * @return Matrix
      *
@@ -501,12 +503,12 @@ class MatrixFactory
      * @throws Exception\MathException
      * @throws Exception\MatrixException
      */
-    public static function random(int $m, int $n): Matrix
+    public static function random(int $m, int $n, int $min = 0, int $max = 20): Matrix
     {
         $A = [];
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                $A[$i][$j] = rand();
+                $A[$i][$j] = rand($min, $max);
             }
         }
         return self::create($A);
