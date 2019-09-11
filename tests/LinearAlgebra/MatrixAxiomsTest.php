@@ -571,7 +571,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Axiom: AI = A = IA
      * Matrix multiplied with the identity matrix is the original matrix.
      *
-     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSquareMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -624,7 +624,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * Axiom: (A⁻¹)⁻¹ = A
      * Inverse of inverse is the original matrix.
      *
-     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSquareMatrixGreaterThanOneWithoutOddMatrices
      * @param        array $A
      * @throws       \Exception
      */
@@ -882,7 +882,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * (Aᵀ)ᵀ = A
      * The transpose of the transpose is the original matrix.
      *
-     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSquareMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -898,7 +898,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * (A⁻¹)ᵀ = (Aᵀ)⁻¹
      * The transpose of the inverse is the inverse of the transpose.
      *
-     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSquareMatrixGreaterThanOneWithoutOddMatrices
      * @param        array $A
      * @throws       \Exception
      */
@@ -915,7 +915,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * (rA)ᵀ = rAᵀ
      * Scalar multiplication order does not matter for transpose
      *
-     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSquareMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -984,7 +984,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * tr(A) = tr(Aᵀ)
      * Trace is the same as the trace of the transpose
      *
-     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSquareMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -1023,7 +1023,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * det(A) = det(Aᵀ)
      * Determinant of matrix is the same as determinant of transpose.
      *
-     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSquareMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -1034,7 +1034,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $det⟮A⟯  = $A->det();
         $det⟮Aᵀ⟯ = $A->transpose()->det();
 
-        $this->assertEquals($det⟮A⟯, $det⟮Aᵀ⟯);
+        $this->assertEquals($det⟮A⟯, $det⟮Aᵀ⟯, '', 0.00001);
     }
 
     /**
@@ -1065,7 +1065,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     /**
      * PA = LU
      * Basic LU decomposition property that permutation matrix times the matrix is the product of the lower and upper decomposition matrices.
-     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSquareMatrixGreaterThanOneWithoutOddMatrices
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
@@ -1089,7 +1089,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * A = P⁻¹LU
-     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSquareMatrixGreaterThanOneWithoutOddMatrices
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
@@ -1114,7 +1114,6 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * PPᵀ = I = PᵀP
      * Permutation matrix of the LU decomposition times the transpose of the permutation matrix is the identity matrix.
      * @dataProvider dataProviderForSquareMatrix
-     * @dataProvider dataProviderForOneSquareMatrix
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
@@ -1144,7 +1143,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     /**
      * (PA)⁻¹ = (LU)⁻¹ = U⁻¹L⁻¹
      * Inverse of the LU decomposition equation is the inverse of the other side.
-     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSquareMatrixGreaterThanOneWithoutOddMatrices
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
@@ -1177,7 +1176,6 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @test A = QR
      * Basic QR decomposition property that A = QR
      * @dataProvider dataProviderForSquareMatrix
-     * @dataProvider dataProviderForOneSquareMatrix
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
@@ -1200,7 +1198,6 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @test QR.Q is orthogonal and QR.R is upper triangular
      * QR decomposition properties Q is orthogonal and R is upper triangular
      * @dataProvider dataProviderForSquareMatrix
-     * @dataProvider dataProviderForOneSquareMatrix
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
@@ -1221,7 +1218,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     /**
      * @test A = LU where L = LD
      * Basic Crout decomposition property that A = (LD)U
-     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSquareMatrixGreaterThanOneWithoutOddMatrices
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
@@ -1265,7 +1262,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * P⁻¹ = Pᵀ
      * Inverse of the permutation matrix equals the transpose of the permutation matrix
      *
-     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSquareMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -2512,7 +2509,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @testCase Axiom: Reduced row echelon form is upper triangular
-     * @dataProvider dataProviderForOneSquareMatrix
+     * @dataProvider dataProviderForSquareMatrix
      * @param        array $A
      * @throws       \Exception
      */
