@@ -74,7 +74,7 @@ class ArbitraryInteger implements ObjectArithmetic
             // This would allow very-very long numbers, with more than MaxInt number of chars.
             $length = strlen($number);
             if ($number == '') {
-                throw new \Exception;
+                throw new \Exception();
             }
             // Set to default offset and ascii alphabet
             if ($offset === null) {
@@ -112,14 +112,14 @@ class ArbitraryInteger implements ObjectArithmetic
                 }
                 $this->base256 = $base256->getBinary();
             } elseif ($base > 256) {
-                throw \Exception;
+                throw new \Exception();
             } else {
                 $this->base256 = $number;
                 // need to drop any leading zeroes.
             }
         } else {
             // Not an int, and not a string
-            throw new \Exception;
+            throw new \Exception();
         }
     }
 
@@ -204,7 +204,7 @@ class ArbitraryInteger implements ObjectArithmetic
     public function toBase(int $base, $alphabet = null): string
     {
         if ($base > 256) {
-            throw new \Exception;
+            throw new \Exception();
         }
         if ($alphabet === null) {
             $alphabet = self::getDefaultAlphabet($base);
@@ -282,7 +282,7 @@ class ArbitraryInteger implements ObjectArithmetic
     {
         $number = self::prepareParameter($number);
         if ($this->lessThan($number)) {
-            throw new \Exception;
+            throw new \Exception();
         }
         $number = $number->getBinary();
         $carry = 0;
