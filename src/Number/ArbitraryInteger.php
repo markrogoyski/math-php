@@ -2,8 +2,13 @@
 
 namespace MathPHP\Number;
 
+use MathPHP\Exception;
+
 /**
  * Arbitrary Length Integer
+ *
+ * An object to manipulate positive integers of arbitrary size.
+ * The object should be able to store values from 0 up to 256 ^ (PHP_MAX_INT + 1) - 1
  *
  * http://www.faqs.org/rfcs/rfc3548.html
  */
@@ -49,6 +54,9 @@ class ArbitraryInteger implements ObjectArithmetic
             }
             $this->base256 = $string;
         } elseif (is_string($number)) {
+            if ($number == '') {
+                throw new Exception\BadParameterException("String cannot be empty.");
+            }
             if ($base === null && $offset !== null && strlen($offset) > 1) {
                 $base = strlen($offset);
             }
@@ -68,18 +76,15 @@ class ArbitraryInteger implements ObjectArithmetic
                     $base = 10;
                 }
             }
-            // Check that all elements are greater than the offset, and are members of the alphabet.
-            
             // Can we avoid measuring the length?
             // This would allow very-very long numbers, with more than MaxInt number of chars.
             $length = strlen($number);
-            if ($number == '') {
-                throw new \Exception();
-            }
+            
             // Set to default offset and ascii alphabet
             if ($offset === null) {
                 $offset = self::getDefaultAlphabet($base);
             }
+            // Check that all elements are greater than the offset, and are members of the alphabet.
             // Remove the offset.
             if ($offset !== chr(0)) {
                 // I'm duplicating the for loop instead of placing the if within the for
@@ -112,14 +117,14 @@ class ArbitraryInteger implements ObjectArithmetic
                 }
                 $this->base256 = $base256->getBinary();
             } elseif ($base > 256) {
-                throw new \Exception();
+                throw new Exception\BadParameterException("Number base cannot be greater than 256.");
             } else {
                 $this->base256 = $number;
                 // need to drop any leading zeroes.
             }
         } else {
             // Not an int, and not a string
-            throw new \Exception();
+            throw new Exception\IncorrectTypeException("Number can only be an int or a string: type '" . gettype($number) . "' provided");
         }
     }
 
@@ -139,6 +144,24 @@ class ArbitraryInteger implements ObjectArithmetic
             $int += ord($digit) * $place_value;
         }
         return $int;
+    }
+
+    /**
+     * Convert ArbitraryInteger to a float
+     *
+     * @return float
+     */
+    public function toFloat(): float
+    {
+        $number = str_split(strrev($this->base256));
+        $place_value = 1;
+        $float = ord($number[0]);
+        unset($number[0]);
+        foreach ($number as $digit) {
+            $place_value *= 256;
+            $float += ord($digit) * $place_value;
+        }
+        return floatval($float);
     }
 
     private static function prepareParameter($number): ArbitraryInteger
@@ -204,7 +227,7 @@ class ArbitraryInteger implements ObjectArithmetic
     public function toBase(int $base, $alphabet = null): string
     {
         if ($base > 256) {
-            throw new \Exception();
+            throw new Exception\BadParameterException("Number base cannot be greater than 256.");
         }
         if ($alphabet === null) {
             $alphabet = self::getDefaultAlphabet($base);
@@ -276,13 +299,18 @@ class ArbitraryInteger implements ObjectArithmetic
     }
 
     /**
+     * Subtraction
      *
+     * Calculate the difference between two numbers
+     *
+     * @param ArbitraryInteger|int $number
+     * @return ArbitraryInteger
      */
     public function subtract($number): ArbitraryInteger
     {
         $number = self::prepareParameter($number);
         if ($this->lessThan($number)) {
-            throw new \Exception();
+            throw new Exception\BadParameterException('Negative numbers are not supported.');
         }
         $number = $number->getBinary();
         $carry = 0;
