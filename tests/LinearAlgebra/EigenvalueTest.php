@@ -49,6 +49,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         jacobiMethod returns the expected eigenvalues
      * @dataProvider dataProviderForSymmetricEigenvalues
+     * @dataProvider dataProviderForSymmetricEigenvalueEdgeCases
      * @param        array $A
      * @param        array $S
      * @throws       \Exception
@@ -68,6 +69,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         Matrix eigenvalues using jacobiMethod returns the expected eigenvalues
      * @dataProvider dataProviderForSymmetricEigenvalues
+     * @dataProvider dataProviderForSymmetricEigenvalueEdgeCases
      * @param        array $A
      * @param        array $S
      * @throws       \Exception
@@ -87,6 +89,8 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         powerIterationMethod returns the expected eigenvalues
      * @dataProvider dataProviderForEigenvalues
+     * @dataProvider dataProviderForLargeMatrixEigenvalues
+     * @dataProvider dataProviderForSymmetricEigenvalues
      * @param        array $A
      * @param        array $S
      * @param        float $max_abs_eigenvalue maximum absolute eigenvalue
@@ -107,6 +111,8 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         Matrix eigenvalues using powerIterationMethod returns the expected eigenvalues
      * @dataProvider dataProviderForEigenvalues
+     * @dataProvider dataProviderForLargeMatrixEigenvalues
+     * @dataProvider dataProviderForSymmetricEigenvalues
      * @param        array $A
      * @param        array $S
      * @param        float $max_abs_eigenvalue maximum absolute eigenvalue
@@ -125,7 +131,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array (matrix, eigenvalues, dominant eigenvalue)
      */
     public function dataProviderForEigenvalues(): array
     {
@@ -153,6 +159,14 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                 ],
                 [(1 + sqrt(17)) / 2, (1 - sqrt(17)) / 2],
                 (1 + sqrt(17)) / 2,
+            ],
+            [
+                [
+                    [2, -12],
+                    [1, -5],
+                ],
+                [-2, -1],
+                -2,
             ],
             [
                 [
@@ -199,6 +213,36 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                 [14.528807, -4.404176, 1.875369],
                 14.528807,
             ],
+            [
+                [
+                    [0, 11, -5],
+                    [-2, 17, -7],
+                    [-4, 26, -10],
+                ],
+                [4, 2, 1],
+                4,
+            ],
+        ];
+    }
+
+    /**
+     * @return array (matrix, eigenvalues, dominant eiganvalue)
+     */
+    public function dataProviderForLargeMatrixEigenvalues(): array
+    {
+        return [
+            [
+                [
+                    [ 87,  270, -12, -49, -276,  40],
+                    [-14,  -45,   6,  10,   46,  -4],
+                    [-50, -156,   4,  25,  162, -25],
+                    [ 94,  294,  -5, -47, -306,  49],
+                    [  1,    1,   3,   1,    0,   2],
+                    [ 16,   48,   1,  -6,  -48,   8],
+                ],
+                [4, 3, 2, -2, 1, -1],
+                4,
+            ]
         ];
     }
 
@@ -250,7 +294,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array (matrix, eigenvalues, dominant eigenvalue)
      */
     public function dataProviderForSymmetricEigenvalues(): array
     {
@@ -261,6 +305,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [4, 1],
                 ],
                 [5.000, -3.000],
+                5,
             ],
             [
                 [
@@ -269,14 +314,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [1, 1, 1],
                 ],
                 [2 + M_SQRT2, 2 - M_SQRT2, 0.00],
-            ],
-            [
-                [
-                    [0, 0, 0],
-                    [0, 0, 0],
-                    [0, 0, 0],
-                ],
-                [0, 0, 0],
+                2 + M_SQRT2,
             ],
             [
                 [
@@ -285,6 +323,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [1, 1, 1],
                 ],
                 [3, 8.881784e-16, 0],
+                3,
             ],
             [
                 [
@@ -294,6 +333,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [-35, 420, -1050, 700],
                 ],
                 [2585.2538, 37.10149, 1.47805, .166642],
+                2585.2538,
             ],
             [
                 [
@@ -301,6 +341,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [2, 3],
                 ],
                 [4.236068, -0.236068],
+                4.236068,
             ],
             [
                 [
@@ -308,6 +349,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [2, 1],
                 ],
                 [3, -1],
+                3,
             ],
             [
                 [
@@ -315,6 +357,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [1, -2],
                 ],
                 [4.162278, -2.162278],
+                4.162278,
             ],
             [
                 [
@@ -322,6 +365,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [-1, 9],
                 ],
                 [9.192582, 3.807418],
+                9.192582,
             ],
             [
                 [
@@ -330,6 +374,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [3, 4, 5],
                 ],
                 [10.784062, 1.825499, -0.609561],
+                10.784062,
             ],
             [
                 [
@@ -338,6 +383,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [3, -5, 6],
                 ],
                 [10.971983, 7.035946, -7.007929],
+                10.971983,
             ],
             [
                 [
@@ -346,6 +392,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [7, 2, 1],
                 ],
                 [13.7082039, -5.0000000, 0.2917961],
+                13.7082039,
             ],
             [
                 [
@@ -355,6 +402,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [-1, -1, -1, 4],
                 ],
                 [5, 5, 5, 1],
+                5,
             ],
             [
                 [
@@ -363,6 +411,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [3, 4, 7],
                 ],
                 [16.065129, 4.287057, -2.352186],
+                16.065129,
             ],
             [
                 [
@@ -372,6 +421,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [8, 9, 10, 4],
                 ],
                 [25.527715, -7.381045, -4.652925, -3.493745],
+                25.527715,
             ],
             [
                 [
@@ -381,6 +431,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [6, 3, 2, 4],
                 ],
                 [13.6856756, 9.5813577, -7.2742130, -0.9928203],
+                13.6856756,
             ],
             [
                 [
@@ -394,6 +445,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [1, 6, -16, -20, -4, 19, -3, 15],
                 ],
                 [53.85777, -49.65359, -48.21567, 35.73664, -33.18637, 22.86811, 15.47171, -10.87861],
+                53.85777,
             ],
             [
                 [
@@ -402,6 +454,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [4, 2, 3],
                 ],
                 [7, 7, -2],
+                7,
             ],
             [
                 [
@@ -410,6 +463,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [0, 0, 1 / 4],
                 ],
                 [1 / 2, 1 / 3, 1 / 4],
+                1 / 2,
             ],
             [
                 [
@@ -418,6 +472,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [5, 0, 7],
                 ],
                 [10.150897, -6.089238, 0.938341],
+                10.150897,
             ],
             [
                 [
@@ -426,6 +481,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [5, 1, 3],
                 ],
                 [10.055486, -3.259280, 3.203794],
+                10.055486,
             ],
             [
                 [
@@ -434,6 +490,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [5, 1, 3],
                 ],
                 [7.102976, -3.461768, 2.358792],
+                7.102976,
             ],
             [
                 [
@@ -443,6 +500,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [0, 1, 0, 1],
                 ],
                 [3, 2, 2, 0],
+                3,
             ],
             [
                 [
@@ -451,6 +509,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [-12, 13, 1],
                 ],
                 [31.535690, -9.643665, -6.892025],
+                31.535690,
             ],
             [
                 [
@@ -460,6 +519,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [6, 6, 7, 10],
                 ],
                 [30.6854034, 7.1478692, -4.5592669, 0.7259942],
+                30.6854034,
             ],
             [
                 [
@@ -468,6 +528,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [8, -4, 6],
                 ],
                 [12.531500, 8.945111, -6.476611],
+                12.531500,
             ],
             [
                 [
@@ -476,6 +537,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [0, 0, 4],
                 ],
                 [4, 2, 1],
+                4,
             ],
             [
                 [
@@ -484,6 +546,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [2, -4, -3],
                 ],
                 [14.528807, -4.404176, 1.875369],
+                14.528807,
             ],
             [
                 [
@@ -492,6 +555,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [0, 0, 1],
                 ],
                 [1, 1, 1],
+                1,
             ],
             [
                 [
@@ -500,6 +564,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [1, 2, 3],
                 ],
                 [5.0489173, 0.6431041, 0.3079785],
+                5.0489173,
             ],
             [
                 [
@@ -508,6 +573,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [4, 5, 0],
                 ],
                 [8.055810, -5.180268, -2.875543],
+                8.055810,
             ],
             [
                 [
@@ -517,6 +583,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [-2, 3, -3, 2],
                 ],
                 [15, 5, 0, 0],
+                15,
             ],
             [
                 [
@@ -525,6 +592,25 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [-3 / 2, 1, -3],
                 ],
                 [4.468627, -3.468627, 1.000000],
+                4.468627,
+            ],
+        ];
+    }
+
+    /**
+     * @return array (matrix, eigenvalues, dominant eigenvalue)
+     */
+    public function dataProviderForSymmetricEigenvalueEdgeCases(): array
+    {
+        return [
+            [
+                [
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 0],
+                ],
+                [0, 0, 0],
+                0,
             ],
         ];
     }
