@@ -5,10 +5,11 @@ namespace MathPHP\Tests\LinearAlgebra\Reduction;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\Reduction;
+use MathPHP\Tests;
 
 class ReducedRowEchelonFormTest extends \PHPUnit\Framework\TestCase
 {
-    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+    use Tests\LinearAlgebra\MatrixDataProvider;
 
     /**
      * @test         RREF

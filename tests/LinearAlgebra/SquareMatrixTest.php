@@ -8,7 +8,7 @@ use MathPHP\Exception;
 
 class SquareMatrixTest extends \PHPUnit\Framework\TestCase
 {
-    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+    use MatrixDataProvider;
 
     /**
      * @testCase     Constructor constructs a proper SquareMatrix

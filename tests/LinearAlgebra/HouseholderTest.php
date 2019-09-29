@@ -7,7 +7,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
 
 class HouseholderTest extends \PHPUnit\Framework\TestCase
 {
-    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+    use MatrixDataProvider;
 
     /**
      * @test         Householder transformation creates a matrix that is involutory

@@ -7,7 +7,7 @@ use MathPHP\LinearAlgebra\Matrix;
 
 class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
 {
-    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+    use MatrixDataProvider;
 
     /**
      * @test         isSquare returns true for square matrices.

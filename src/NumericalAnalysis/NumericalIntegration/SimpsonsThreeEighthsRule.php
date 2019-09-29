@@ -78,7 +78,7 @@ class SimpsonsThreeEighthsRule extends NumericalIntegration
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
      */
-    public static function approximate($source, ... $args): float
+    public static function approximate($source, ...$args): float
     {
         // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);

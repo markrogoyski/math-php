@@ -19,7 +19,8 @@ use MathPHP\Exception;
  */
 class WeightedLinear extends ParametricRegression
 {
-    use Models\LinearModel, Methods\WeightedLeastSquares;
+    use Models\LinearModel;
+    use Methods\WeightedLeastSquares;
 
     /**
      * Array of weights

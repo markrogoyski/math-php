@@ -15,7 +15,8 @@ use MathPHP\Functions\Map\Single;
  */
 class LineweaverBurk extends ParametricRegression
 {
-    use Models\MichaelisMenten, Methods\LeastSquares;
+    use Models\MichaelisMenten;
+    use Methods\LeastSquares;
 
     /**
      * Calculate the regression parameters by least squares on linearized data

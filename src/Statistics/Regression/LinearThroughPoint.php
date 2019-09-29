@@ -26,7 +26,8 @@ use MathPHP\Functions\Map\Single;
  */
 class LinearThroughPoint extends ParametricRegression
 {
-    use Methods\LeastSquares, Models\LinearModel;
+    use Methods\LeastSquares;
+    use Models\LinearModel;
 
     /** @var float */
     private $v;

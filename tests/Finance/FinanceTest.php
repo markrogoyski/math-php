@@ -502,7 +502,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
      * @param        int   $periods
      * @param        float $rate
      */
-    public function testNominal(float$aer, int $periods, float $rate)
+    public function testNominal(float $aer, int $periods, float $rate)
     {
         // When
         $nominal = Finance::nominal($aer, $periods);
