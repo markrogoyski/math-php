@@ -4398,7 +4398,8 @@ trait MatrixDataProvider
                         [0, 0, 0, 0, 1, 4],
                     ],
                 ],
-            ] as $matrix) {
+            ] as $matrix
+        ) {
             yield $matrix;
         }
     }
