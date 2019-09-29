@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Number;
 
 use MathPHP\Number\Complex;

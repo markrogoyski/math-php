@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Statistics\Multivariate;
 
 use MathPHP\Functions\Map\Multi;

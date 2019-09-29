@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\LinearAlgebra\Reduction;
 
 use MathPHP\LinearAlgebra\MatrixFactory;

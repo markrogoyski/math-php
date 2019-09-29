@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Finance;
 
 use MathPHP\Finance;

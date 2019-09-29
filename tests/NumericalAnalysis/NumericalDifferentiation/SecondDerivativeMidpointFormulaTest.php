@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\NumericalAnalysis\NumericalDifferentiation;
 
 use MathPHP\NumericalAnalysis\NumericalDifferentiation\SecondDerivativeMidpointFormula;

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\LinearAlgebra\Reduction;
 
 use MathPHP\Exception;

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Functions\Map;
 
 use MathPHP\Functions\Map\Single;

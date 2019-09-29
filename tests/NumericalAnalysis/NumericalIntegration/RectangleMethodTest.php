@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\NumericalAnalysis\NumericalIntegration;
 
 use MathPHP\Functions\Polynomial;

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Functions\Polynomial;

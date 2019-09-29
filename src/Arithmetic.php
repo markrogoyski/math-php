@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP;
 
 class Arithmetic

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\NumericalAnalysis\Interpolation;
 
 use MathPHP\NumericalAnalysis\Interpolation\NewtonPolynomialForward;
