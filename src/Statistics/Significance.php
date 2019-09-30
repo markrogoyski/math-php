@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Statistics;
 
 use MathPHP\Probability\Distribution\Continuous\StandardNormal;

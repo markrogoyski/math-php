@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Statistics\Regression;
 
 use MathPHP\Statistics\Regression\HanesWoolf;

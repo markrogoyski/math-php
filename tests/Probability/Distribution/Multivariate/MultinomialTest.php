@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Multivariate;
 
 use MathPHP\Probability\Distribution\Multivariate\Multinomial;

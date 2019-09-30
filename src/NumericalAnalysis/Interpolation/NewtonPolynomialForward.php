@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
 use MathPHP\Exception;
@@ -40,7 +41,7 @@ class NewtonPolynomialForward extends Interpolation
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
      */
-    public static function interpolate($source, ... $args): callable
+    public static function interpolate($source, ...$args): callable
     {
         // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);

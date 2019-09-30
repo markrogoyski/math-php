@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\SetTheory;
 
 use MathPHP\SetTheory\ImmutableSet;

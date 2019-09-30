@@ -390,8 +390,8 @@ class ArbitraryInteger implements ObjectArithmetic
         return $result;
     }
 
-    /**
-     * For divisors less than 256
+        /**
+     * Integer Division
      */
     public function intdiv($divisor): array
     {
@@ -400,28 +400,24 @@ class ArbitraryInteger implements ObjectArithmetic
         }
         $two_fifty_six = new ArbitraryInteger(256);
 
-        // A 64 bit system can safely use 7 bytes
-        $three_bytes = new ArbitraryInteger(33554431);
-
+        // If the divisor is less than Int_max / 256 then
+        // the native php intdiv and mod functions can be used.
+        $safe_bytes = new ArbitraryInteger(intdiv(PHP_INT_MAX, 256));
         $divisor = self::prepareParameter($divisor);
-        if ($divisor->lessThan($three_bytes)) {
-            // Find number of chars in $divisor
-            $nibble_len = strlen($divisor->getBinary());
+        if ($divisor->lessThan($safe_bytes)) {
             $divisor = $divisor->toInteger();
             $base_256 = $this->base256;
             $len = strlen($base_256);
             
             $carry = 0;
             $int = '';
-            for ($i = 0; $i < $len; $i += $nibble_len) {
+            for ($i = 0; $i < $len; $i++) {
                 // Grab same number of chars from $this
-                $chr_obj = new ArbitraryInteger(substr($base_256, $i, $nibble_len), 256);
-
+                $chr_obj = new ArbitraryInteger(substr($base_256, $i, 1), 256);
                 // Convert chr into int
                 $chr = $chr_obj->toInteger();
-            
                 // Calculate $int and $mod
-                $int_chr = intdiv($chr + $carry * 256 ** $nibble_len, $divisor);
+                $int_chr = intdiv($chr + $carry * 256, $divisor);
                 $carry = ($chr + $carry * 256) % $divisor;
                 if ($int !== '' || $int_chr !== 0) {
                     $int .= chr($int_chr);
@@ -430,9 +426,52 @@ class ArbitraryInteger implements ObjectArithmetic
             $int = new ArbitraryInteger($int, 256);
             $mod = new ArbitraryInteger($carry);
         } else {
-            // User repeated subtraction to find solutions.
+            $int = new ArbitraryInteger(0);
+            $divisor256 = $divisor->getBinary();
+            $base256 = $this->base256;
+            $length = strlen($base256);
+            $mod = new ArbitraryInteger(0);
+            // Pop a char of the left of $base256 onto the right of $mod
+            for ($i = 0; $i < $length; $i++) {
+                $new_char = new ArbitraryInteger($base256[$i], 256);
+                // $mod .= $new_char
+                $mod = $mod->leftShift(8)->add($new_char);
+                $new_int = new ArbitraryInteger(0);
+                if ($mod->greaterThan($divisor)) {
+                    while (!$mod->lessThan($divisor)) {
+                        $new_int = $new_int->add(1);
+                        $mod = $mod->subtract($divisor);
+                    }
+                }
+                $int = $int->leftShift(8)->add($new_int);
+            }
         }
         return [$int, $mod];
+    }
+
+    /**
+     * Integer Square Root
+     *
+     * Calculate the largest integer less than the square root of an integer.
+     * https://en.wikipedia.org/wiki/Integer_square_root
+     */
+    public function isqrt(): ArbitraryInteger
+    {
+        $length = strlen($this->base256);
+        // Start close to the value, at a number around half the digits.
+        $X = new ArbitraryInteger(substr($this->base256, 0, intdiv($length, 2) + 1), 256);
+        $lastX = $X;
+        $converge = false;
+        while (!$converge) {
+            list($NX, $mod) = $this->intdiv($X);
+            list($X, $mod) = $X->add($NX)->intdiv(2);
+            if ($X->equals($lastX) || $X->equals($lastX->add(1))) {
+                $converge = true;
+            } else {
+                $lastX = $X;
+            }
+        }
+        return $lastX;
     }
 
     /**
@@ -505,6 +544,21 @@ class ArbitraryInteger implements ObjectArithmetic
             $int = new ArbitraryInteger($int);
         }
         return $this->base256 == $int->getBinary();
+    }
+
+    /**
+     * Greater Than
+     *
+     * Test if one ArbitraryInteger is less than another
+     *
+     * @param $int
+     *
+     * @return bool
+     */
+    public function greaterThan($int): bool
+    {
+        $int = self::prepareParameter($int);
+        return $int->lessThan($this);
     }
 
     /**

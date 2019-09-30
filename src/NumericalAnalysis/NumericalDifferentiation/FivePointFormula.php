@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 
 use MathPHP\Exception;

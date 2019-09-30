@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Functions;
 
 use MathPHP\Functions\Arithmetic;

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\Matrix;
@@ -9,7 +10,7 @@ use MathPHP\Exception;
 
 class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+    use MatrixDataProvider;
 
     /**
      * @dataProvider dataProviderForDiagonalMatrix

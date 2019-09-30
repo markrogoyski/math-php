@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Statistics\Regression;
 
 use MathPHP\Functions\Map\Single;

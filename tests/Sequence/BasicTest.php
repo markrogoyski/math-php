@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Sequence;
 
 use MathPHP\Sequence\Basic;

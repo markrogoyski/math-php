@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Functions;
 
 /**
@@ -16,7 +17,7 @@ class Arithmetic
      */
     public static function add(callable ...$args): callable
     {
-        $sum = function ($x, ... $args) {
+        $sum = function ($x, ...$args) {
             $function = 0;
             foreach ($args as $arg) {
                 $function += $arg($x);
@@ -39,7 +40,7 @@ class Arithmetic
      */
     public static function multiply(callable ...$args): callable
     {
-        $product = function ($x, ... $args) {
+        $product = function ($x, ...$args) {
             $function = 1;
             foreach ($args as $arg) {
                 $function *= $arg($x);

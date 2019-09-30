@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\InformationTheory;
 
 use MathPHP\InformationTheory\Entropy;

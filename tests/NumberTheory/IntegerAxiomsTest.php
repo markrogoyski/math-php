@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\NumberTheory;
 
 use MathPHP\NumberTheory\Integer;

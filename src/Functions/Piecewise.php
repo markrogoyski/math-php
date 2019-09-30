@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Functions;
 
 use MathPHP\Exception;

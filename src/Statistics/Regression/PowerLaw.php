@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Statistics\Regression;
 
 use MathPHP\Exception;
@@ -28,7 +29,8 @@ use MathPHP\Exception;
  */
 class PowerLaw extends ParametricRegression
 {
-    use Models\PowerModel, Methods\LeastSquares;
+    use Models\PowerModel;
+    use Methods\LeastSquares;
 
     /** @var float */
     protected $a;

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
 use MathPHP\Functions\Polynomial;

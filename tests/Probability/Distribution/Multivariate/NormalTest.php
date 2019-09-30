@@ -1,13 +1,15 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Multivariate;
 
 use MathPHP\Probability\Distribution\Multivariate\Normal;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\Exception;
+use MathPHP\Tests;
 
 class NormalTest extends \PHPUnit\Framework\TestCase
 {
-    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+    use Tests\LinearAlgebra\MatrixDataProvider;
 
     /**
      * @testCase     pdf returns the expected density

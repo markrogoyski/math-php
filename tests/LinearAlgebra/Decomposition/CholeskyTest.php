@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\LinearAlgebra\Decomposition;
 
 use MathPHP\LinearAlgebra\MatrixFactory;

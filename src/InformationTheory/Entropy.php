@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\InformationTheory;
 
 use MathPHP\Functions\Map;

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\FunctionMatrix;

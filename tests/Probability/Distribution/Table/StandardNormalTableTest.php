@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Table;
 
 use MathPHP\Probability\Distribution\Table\StandardNormal;

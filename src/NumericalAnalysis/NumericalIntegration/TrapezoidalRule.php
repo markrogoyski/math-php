@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\NumericalIntegration;
 
 use MathPHP\Exception;
@@ -73,7 +74,7 @@ class TrapezoidalRule extends NumericalIntegration
      * @throws Exception\BadDataException
      * @throws \MathPHP\Exception\IncorrectTypeException
      */
-    public static function approximate($source, ... $args): float
+    public static function approximate($source, ...$args): float
     {
         // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);

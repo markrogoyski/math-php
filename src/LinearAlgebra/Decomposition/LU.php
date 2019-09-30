@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\LinearAlgebra\Decomposition;
 
 use MathPHP\Exception;

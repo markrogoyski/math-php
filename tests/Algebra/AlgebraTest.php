@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Algebra;
 
 use MathPHP\Algebra;

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Statistics\Multivariate;
 
 use MathPHP\Exception;

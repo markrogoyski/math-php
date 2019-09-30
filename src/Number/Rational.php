@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Number;
 
 use MathPHP\Algebra;

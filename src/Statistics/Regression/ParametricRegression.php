@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Statistics\Regression;
 
 abstract class ParametricRegression extends Regression

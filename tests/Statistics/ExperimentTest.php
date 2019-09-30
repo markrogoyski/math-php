@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Statistics;
 
 use MathPHP\Statistics\Experiment;

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution;
 
 use MathPHP\Functions\Support;

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Multivariate;
 
 use MathPHP\Probability\Combinatorics;

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\RootFinding;
 
 use MathPHP\Exception;

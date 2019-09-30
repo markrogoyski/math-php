@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Statistics\Regression;
 
 use MathPHP\Exception;
@@ -14,7 +15,8 @@ use MathPHP\Functions\Map\Multi;
  */
 class HanesWoolf extends ParametricRegression
 {
-    use Methods\LeastSquares, Models\MichaelisMenten;
+    use Methods\LeastSquares;
+    use Models\MichaelisMenten;
 
     /**
      * Calculate the regression parameters by least squares on linearized data
