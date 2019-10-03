@@ -26,6 +26,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             ['0b1101', '13'],
             ['0xff', '255'],
             ['0127', '87'],
+            ['-31415', '-31415'],
         ];
     }
 
@@ -45,6 +46,8 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             [200],
             [123456],
             [PHP_INT_MAX],
+            [31415],
+            [-31415],
         ];
     }
 
@@ -68,42 +71,45 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider dataProviderForToBase
+     * @test
+     * @dataProvider dataProviderForTestAddition
      */
-    public function testToBase(string $number, int $base, $alphabet, string $expected)
+    public function testAddition(string $int1, string $int2, string $expected)
     {
-        $obj = new ArbitraryInteger($number);
-
-        $this->assertSame($expected, $obj->toBase($base, $alphabet));
+        $int1 = new ArbitraryInteger($int1);
+        $int2 = new ArbitraryInteger($int2);
+        $this->assertEquals($expected, (string) $int1->add($int2));
     }
 
-    public function dataProviderForToBase()
+    public function dataProviderForTestAddition()
     {
         return [
-            ['200', 10, null, '200'],
-            ['123456', 10, 'ABCDEFGHIJ', 'BCDEFG'],
-            ['123456', 64, ArbitraryInteger::RFC3548_BASE64_FILE_SAFE, 'eJA'],
+            ['0', '1', '1'],
+            ['0', '-1', '-1'],
+            ['-1', '0', '-1'],
+            ['-1', '-2', '-3'],
+            ['-2', '-1', '-3'],
         ];
     }
 
     /**
-     * @test         Constructor determines number base from the alphabet
-     * @dataProvider dataProviderForTestGetBaseFromAlphabet
+     * @test
+     * @dataProvider dataProviderForTestSubtract
      */
-    public function testGetBaseFromAlphabet(string $int, string $alphabet, string $expected)
+    public function testSubtract(string $int1, string $int2, string $expected)
     {
-        $obj = new ArbitraryInteger($int, null, $alphabet);
-        $this->assertSame($expected, (string) $obj);
+        $int1 = new ArbitraryInteger($int1);
+        $int2 = new ArbitraryInteger($int2);
+        $this->assertEquals($expected, (string) $int1->subtract($int2));
     }
 
-    public function dataProviderForTestGetBaseFromAlphabet()
+    public function dataProviderForTestSubtract()
     {
         return [
-            [
-                '2z',
-                '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz',
-                '115',
-            ],
+            ['0', '1', '-1'],
+            ['0', '-1', '1'],
+            ['-1', '-2', '1'],
+            ['-2', '-1', '-1'],
         ];
     }
 
@@ -177,7 +183,47 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
-    
+
+    /**
+     * @test         abs() returns the proper result
+     * @dataProvider dataProviderForAbs
+     * @param        string $int
+     * @param        string $expected
+     */
+    public function testAbs(string $int, string $expected)
+    {
+        $abs = new ArbitraryInteger($int);
+        $this->assertEquals($expected, (string) $abs->abs());
+    }
+
+    public function dataProviderForAbs()
+    {
+        return [
+            ['-12345678910', '12345678910'],
+        ];
+    }
+
+    /**
+     * @test         negate() returns the proper result
+     * @dataProvider dataProviderForNegate
+     * @param        string $int
+     * @param        string $expected
+     */
+    public function testNegate(string $int, string $expected)
+    {
+        $neg = new ArbitraryInteger($int);
+        $this->assertEquals($expected, (string) $neg->negate());
+    }
+
+    public function dataProviderForNegate()
+    {
+        return [
+            ['-123456789101112', '123456789101112'],
+            ['123456789101112', '-123456789101112'],
+            ['0', '0'],
+        ];
+    }
+
     /**
      * @test         fact() returns the proper result
      * @dataProvider dataProviderForFact
@@ -254,6 +300,26 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test Test that greaterThan () works as it should
+     * @dataProvider dataProviderForTestGreaterThan
+     */
+    public function testGreaterThan(string $int1, string $int2, bool $expected)
+    {
+        $int1 = new ArbitraryInteger($int1);
+        $int2 = new ArbitraryInteger($int2);
+        $this->assertEquals($expected, $int1->greaterThan($int2));
+    }
+
+    public function dataProviderForTestGreaterThan()
+    {
+        return [
+            ['0', '-1', true],
+            ['-1', '0', false],
+            ['0', '0', false],
+        ];
+    }
+
+    /**
      * @test     Constructor throws an exception when given an empty string
      * @throws   \Exception
      */
@@ -300,55 +366,5 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             // object
             [new \stdClass()],
         ];
-    }
-
-    /**
-     * @test     Constructor throws an exception when base>256
-     * @throws   \Exception
-     */
-    public function testInvalidBaseException()
-    {
-        // Given
-        $base = 300;
-
-        // Then
-        $this->expectException(Exception\BadParameterException::class);
-
-        // When
-        $int =  new ArbitraryInteger('123456', $base);
-    }
-
-    /**
-     * @test     Constructor throws an exception when base>256
-     * @throws   \Exception
-     */
-    public function testInvalidToBaseException()
-    {
-        // Given
-        $base = 300;
-        $int =  new ArbitraryInteger('123456');
-
-        // Then
-        $this->expectException(Exception\BadParameterException::class);
-
-        // When
-        $string =  $int->toBase($base);
-    }
-
-    /**
-     * @test     Subtract throws exception if negative result
-     * @throws   \Exception
-     */
-    public function testNegativeResultException()
-    {
-        // Given
-        $int1 =  new ArbitraryInteger('123456');
-        $int2 =  new ArbitraryInteger('123457');
-
-        // Then
-        $this->expectException(Exception\BadParameterException::class);
-
-        // When
-        $difference =  $int1->subtract($int2);
     }
 }

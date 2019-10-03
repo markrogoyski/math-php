@@ -3,12 +3,13 @@
 namespace MathPHP\Number;
 
 use MathPHP\Exception;
+use MathPHP\Functions\BaseEncoderDecoder;
 
 /**
  * Arbitrary Length Integer
  *
- * An object to manipulate positive integers of arbitrary size.
- * The object should be able to store values from 0 up to 256 ^ (PHP_MAX_INT + 1) - 1
+ * An object to manipulate integers of arbitrary size.
+ * The object should be able to store values from 0 up to (256 ** PHP_MAX_INT) - 1
  *
  * http://www.faqs.org/rfcs/rfc3548.html
  */
@@ -16,18 +17,7 @@ class ArbitraryInteger implements ObjectArithmetic
 {
     /** @var string number in binary format */
     protected $base256;
-
-    /** string alphabet of base 16 numbers */
-    const RFC3548_BASE16 = '0123456789ABCDEF';
-
-    /** string alphabet of base 64 numbers */
-    const RFC3548_BASE64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-
-    /** string alphabet of file safe base 64 numbers */
-    const RFC3548_BASE64_FILE_SAFE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
-
-    /** string alphabet of base 32 numbers */
-    const RFC3548_BASE32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    protected $positive;
 
     /**
      * Constructor
@@ -41,9 +31,14 @@ class ArbitraryInteger implements ObjectArithmetic
      *   $offset can either be a single character or a string.
      *   If it is a string and more than one character, the number of characters must equal the base
      */
-    public function __construct($number, $base = null, $offset = null)
+    public function __construct($number)
     {
+        $this->positive = true;
         if (is_int($number)) {
+            if ($number < 0) {
+                $this->positive = false;
+                $number = -$number;
+            }
             // Should we check that $base is 10 or null and $offset makes sense?
             $int_part = intdiv($number, 256);
             $string = chr($number % 256);
@@ -57,75 +52,72 @@ class ArbitraryInteger implements ObjectArithmetic
             if ($number == '') {
                 throw new Exception\BadParameterException("String cannot be empty.");
             }
-            if ($base === null && $offset !== null && strlen($offset) > 1) {
-                $base = strlen($offset);
+            if ($number[0] == '-') {
+                $this->positive = false;
+                $number = substr($number, 1);
             }
-            if ($base === null) {
-                if ($number[0] == '0') {
-                    if ($number[1] == 'x') {
-                        $base = 16;
-                        $number = substr($number, 2);
-                    } elseif ($number[1] == 'b') {
-                        $base = 2;
-                        $number = substr($number, 2);
-                    } else {
-                        $base = 8;
-                        $number = substr($number, 1);
-                    }
-                } else {
+            $offset = '0';
+            $number = strtolower($number);
+            if ($number[0] == '0') {
+                if ($number == '0') {
                     $base = 10;
+                } elseif ($number[1] == 'x') {
+                    $base = 16;
+                    $number = substr($number, 2);
+                    $offset = '0123456789abcdef';
+                } elseif ($number[1] == 'b') {
+                    $base = 2;
+                    $number = substr($number, 2);
+                } else {
+                    $base = 8;
+                    $number = substr($number, 1);
                 }
+            } else {
+                $base = 10;
             }
             // Can we avoid measuring the length?
             // This would allow very-very long numbers, with more than MaxInt number of chars.
             $length = strlen($number);
             
-            // Set to default offset and ascii alphabet
-            if ($offset === null) {
-                $offset = self::getDefaultAlphabet($base);
-            }
             // Check that all elements are greater than the offset, and are members of the alphabet.
             // Remove the offset.
-            if ($offset !== chr(0)) {
-                // I'm duplicating the for loop instead of placing the if within the for
-                // to prevent calling the if/else on every pass.
-                if (strlen($offset) ==  1) {
-                    // Subtract a constant offset from each character.
-                    $offset_num = ord($offset);
-                    for ($i = 0; $i < $length; $i++) {
-                        $chr = $number[$i];
-                        $number[$i] = chr(ord($chr) - $offset_num);
-                    }
-                } else {
-                    // Lookup the offset from the string position
-                    for ($i = 0; $i < $length; $i++) {
-                        $chr = $number[$i];
-                        $number[$i] = chr(strpos($offset, $chr));
-                    }
+            // I'm duplicating the for loop instead of placing the if within the for
+            // to prevent calling the if/else on every pass.
+            if (strlen($offset) ==  1) {
+                // Subtract a constant offset from each character.
+                $offset_num = ord($offset);
+                for ($i = 0; $i < $length; $i++) {
+                    $chr = $number[$i];
+                    $number[$i] = chr(ord($chr) - $offset_num);
+                }
+            } else {
+                // Lookup the offset from the string position
+                for ($i = 0; $i < $length; $i++) {
+                    $chr = $number[$i];
+                    $number[$i] = chr(strpos($offset, $chr));
                 }
             }
-
             // Convert to base 256
             $base256 = new ArbitraryInteger(0);
-            if ($base < 256) {
-                $base_obj = new ArbitraryInteger($base);
-                $place_value = new ArbitraryInteger(1);
-                $length = strlen($number);
-                for ($i = 0; $i < $length; $i++) {
-                    $chr = ord($number[$i]);
-                    $base256 = $base256->multiply($base)->add($chr);
-                }
-                $this->base256 = $base256->getBinary();
-            } elseif ($base > 256) {
-                throw new Exception\BadParameterException("Number base cannot be greater than 256.");
-            } else {
-                $this->base256 = $number;
-                // need to drop any leading zeroes.
+            $base_obj = new ArbitraryInteger($base);
+            $place_value = new ArbitraryInteger(1);
+            $length = strlen($number);
+            for ($i = 0; $i < $length; $i++) {
+                $chr = ord($number[$i]);
+                $base256 = $base256->multiply($base)->add($chr);
             }
+            $this->base256 = $base256->getBinary();
         } else {
             // Not an int, and not a string
             throw new Exception\IncorrectTypeException("Number can only be an int or a string: type '" . gettype($number) . "' provided");
         }
+    }
+
+    public static function fromBinary(string $value, bool $positive): ArbitraryInteger
+    {
+        $result = new ArbitraryInteger(0);
+        $result->setVariables($value, $positive);
+        return $result;
     }
 
     /**
@@ -143,7 +135,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $place_value *= 256;
             $int += ord($digit) * $place_value;
         }
-        return $int;
+        return $int * ($this->positive ? 1 : -1);
     }
 
     /**
@@ -161,7 +153,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $place_value *= 256;
             $float += ord($digit) * $place_value;
         }
-        return floatval($float);
+        return floatval($float) * ($this->positive ? 1 : -1);
     }
 
     private static function prepareParameter($number): ArbitraryInteger
@@ -180,31 +172,8 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function __toString(): string
     {
-        return $this->toBase(10);
-    }
-
-    /**
-     * Get the default alphabet for a given number base
-     *
-     * @param int $base
-     * @return string
-     */
-    protected static function getDefaultAlphabet(int $base): string
-    {
-        switch ($base) {
-            case 2:
-            case 8:
-            case 10:
-                $offset = '0';
-                break;
-            case 16:
-                $offset = '0123456789abcdef';
-                break;
-            default:
-                $offset = chr(0);
-                break;
-        }
-        return $offset;
+        $sign = $this->positive ? '' : '-';
+        return $sign . BaseEncoderDecoder::toBase($this, 10);
     }
 
     /**
@@ -216,45 +185,16 @@ class ArbitraryInteger implements ObjectArithmetic
         return $this->base256;
     }
 
-    /**
-     * Convert to an arbitrary base and alphabet
-     *
-     * @param int $base
-     * @param string $alphabet
-     *
-     * @return string
-     */
-    public function toBase(int $base, $alphabet = null): string
+    public function getPositive(): bool
     {
-        if ($base > 256) {
-            throw new Exception\BadParameterException("Number base cannot be greater than 256.");
-        }
-        if ($alphabet === null) {
-            $alphabet = self::getDefaultAlphabet($base);
-        }
-        $base_256 = $this->base256;
-        $result = '';
-        while ($base_256 !== '') {
-            $carry = 0;
-            $next_int = $base_256;
-            $len = strlen($base_256);
-            $base_256 = '';
-            for ($i = 0; $i < $len; $i++) {
-                $chr = ord($next_int[$i]);
-                $int = intdiv($chr + 256 * $carry, $base);
-                $carry = ($chr + 256 * $carry) % $base;
-                // or just trim off all leading chr(0)s
-                if ($base_256 !== '' || $int > 0) {
-                    $base_256 .= chr($int);
-                }
-            }
-            if (strlen($alphabet) == 1) {
-                $result = chr(ord($alphabet) + $carry) . $result;
-            } else {
-                $result = $alphabet[$carry] . $result;
-            }
-        }
-        return $result;
+        return $this->positive;
+    }
+
+    protected function setVariables(string $value, bool $positive)
+    {
+        // Strip leading chr(0) entries.
+        $this->base256 = $value;
+        $this->positive = $positive;
     }
 
     /**************************************************************************
@@ -273,8 +213,12 @@ class ArbitraryInteger implements ObjectArithmetic
     {
         // check if string, object, or int
         // throw exception if appropriate
-        if (!is_object($number)) {
-            $number = new ArbitraryInteger($number);
+        $number = self::prepareParameter($number);
+        if (!$number->getPositive()) {
+            return $this->subtract($number->negate());
+        }
+        if (!$this->positive) {
+            return $number->subtract($this->negate());
         }
         $number = $number->getBinary();
         $carry = 0;
@@ -295,7 +239,7 @@ class ArbitraryInteger implements ObjectArithmetic
         if ($carry > 0) {
             $result = chr($carry) . $result;
         }
-        return new ArbitraryInteger($result, 256);
+        return self::fromBinary($result, true);
     }
 
     /**
@@ -309,8 +253,15 @@ class ArbitraryInteger implements ObjectArithmetic
     public function subtract($number): ArbitraryInteger
     {
         $number = self::prepareParameter($number);
+        
+        if (!$number->getPositive()) {
+            return $this->add($number->negate());
+        }
+        if (!$this->positive) {
+            return $this->negate()->add($number)->negate();
+        }
         if ($this->lessThan($number)) {
-            throw new Exception\BadParameterException('Negative numbers are not supported.');
+            return $number->subtract($this)->negate();
         }
         $number = $number->getBinary();
         $carry = 0;
@@ -332,7 +283,7 @@ class ArbitraryInteger implements ObjectArithmetic
             
             $result = chr($difference) . $result;
         }
-        return new ArbitraryInteger($result, 256);
+        return self::fromBinary($result, true);
     }
 
     /**
@@ -346,11 +297,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function multiply($number): ArbitraryInteger
     {
-        // check if string, object, or int
-        // throw exception if appropriate
-        if (!is_object($number)) {
-            $number = new ArbitraryInteger($number);
-        }
+        $number = self::prepareParameter($number);
         $number = $number->getBinary();
         $length = strlen($number);
         $product = new ArbitraryInteger(0);
@@ -370,7 +317,7 @@ class ArbitraryInteger implements ObjectArithmetic
                 $inner_product = chr($carry) . $inner_product;
             }
             $inner_product = $inner_product . str_repeat(chr(0), $i - 1);
-            $inner_obj = new ArbitraryInteger($inner_product, 256);
+            $inner_obj = self::fromBinary($inner_product, $this->positive);
             $product = $product->add($inner_obj);
         }
         return $product;
@@ -378,9 +325,7 @@ class ArbitraryInteger implements ObjectArithmetic
 
     public function pow($exp): ArbitraryInteger
     {
-        if (!is_object($exp)) {
-            $exp = new ArbitraryInteger($exp);
-        }
+        $exp = self::prepareParameter($exp);
         $result = new ArbitraryInteger(1);
         $i = new ArbitraryInteger(0);
         while ($i->lessThan($exp)) {
@@ -390,7 +335,7 @@ class ArbitraryInteger implements ObjectArithmetic
         return $result;
     }
 
-        /**
+    /**
      * Integer Division
      */
     public function intdiv($divisor): array
@@ -413,7 +358,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $int = '';
             for ($i = 0; $i < $len; $i++) {
                 // Grab same number of chars from $this
-                $chr_obj = new ArbitraryInteger(substr($base_256, $i, 1), 256);
+                $chr_obj = self::fromBinary(substr($base_256, $i, 1), $this->positive);
                 // Convert chr into int
                 $chr = $chr_obj->toInteger();
                 // Calculate $int and $mod
@@ -423,7 +368,7 @@ class ArbitraryInteger implements ObjectArithmetic
                     $int .= chr($int_chr);
                 }
             }
-            $int = new ArbitraryInteger($int, 256);
+            $int = self::fromBinary((string) $int, $this->positive);
             $mod = new ArbitraryInteger($carry);
         } else {
             $int = new ArbitraryInteger(0);
@@ -433,7 +378,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $mod = new ArbitraryInteger(0);
             // Pop a char of the left of $base256 onto the right of $mod
             for ($i = 0; $i < $length; $i++) {
-                $new_char = new ArbitraryInteger($base256[$i], 256);
+                $new_char = self::fromBinary($base256[$i], true);
                 // $mod .= $new_char
                 $mod = $mod->leftShift(8)->add($new_char);
                 $new_int = new ArbitraryInteger(0);
@@ -449,6 +394,23 @@ class ArbitraryInteger implements ObjectArithmetic
         return [$int, $mod];
     }
 
+    /**************************************************************************
+     * UNARY FUNCTIONS
+     **************************************************************************/
+
+    /**
+     * Multiply by -1
+     *
+     * If $this is zero, then do nothing
+     */
+    public function negate(): ArbitraryInteger
+    {
+        $result = new ArbitraryInteger(0);
+        $base256 = $this->base256;
+        $result->setVariables($base256, $base256 == chr(0) ? true : !$this->positive);
+        return $result;
+    }
+
     /**
      * Integer Square Root
      *
@@ -459,7 +421,7 @@ class ArbitraryInteger implements ObjectArithmetic
     {
         $length = strlen($this->base256);
         // Start close to the value, at a number around half the digits.
-        $X = new ArbitraryInteger(substr($this->base256, 0, intdiv($length, 2) + 1), 256);
+        $X = self::fromBinary(substr($this->base256, 0, intdiv($length, 2) + 1), true);
         $lastX = $X;
         $converge = false;
         while (!$converge) {
@@ -472,6 +434,19 @@ class ArbitraryInteger implements ObjectArithmetic
             }
         }
         return $lastX;
+    }
+
+    /**
+     * Absolute Value
+     *
+     * @return ArbitraryInteger
+     */
+    public function abs(): ArbitraryInteger
+    {
+        $result = new ArbitraryInteger(0);
+        $base256 = $this->base256;
+        $result->setVariables($base256, true);
+        return $result;
     }
 
     /**
@@ -493,106 +468,6 @@ class ArbitraryInteger implements ObjectArithmetic
             $result = $result->multiply($i_obj);
         }
         return $result;
-    }
-
-    /**
-     * currently limited to shifting MaxInt*8 bits
-     */
-    public function leftShift($bits)
-    {
-        if (!is_object($bits)) {
-            $bits = new ArbitraryInteger($bits);
-        }
-        $shifted_string = "";
-        $length = strlen($this->base256);
-        list($bytes, $bits) = $bits->intdiv(8);
-        $bits = $bits->toInteger();
-        $carry = 0;
-        for ($i = 0; $i < $length; $i++) {
-            $chr = ord($this->base256[$i]);
-            // If $shifted string is empty, don’t add 0x00.
-            $new_value = chr($carry + intdiv($chr << $bits, 256));
-            if ($shifted_string !== "" || $new_value !== chr(0)) {
-                $shifted_string .= $new_value;
-            }
-            $carry = ($chr << $bits) % 256;
-        }
-        $shifted_string .= chr($carry);
-
-        // Pad $bytes of 0x00 on the right.
-        $shifted_string = $shifted_string . str_repeat(chr(0), $bytes->toInteger());
-
-        return new ArbitraryInteger($shifted_string, 256);
-    }
-
-    /**************************************************************************
-     * COMPARISON FUNCTIONS
-     **************************************************************************/
-
-    /**
-     * Test for equality
-     *
-     * Two ArbitraryIntegers are equal IFF their $base256 strings are identical.
-     *
-     * @param ArbitraryInteger $int
-     *
-     * @return bool
-     */
-    public function equals($int): bool
-    {
-        if (is_int($int)) {
-            $int = new ArbitraryInteger($int);
-        }
-        return $this->base256 == $int->getBinary();
-    }
-
-    /**
-     * Greater Than
-     *
-     * Test if one ArbitraryInteger is less than another
-     *
-     * @param $int
-     *
-     * @return bool
-     */
-    public function greaterThan($int): bool
-    {
-        $int = self::prepareParameter($int);
-        return $int->lessThan($this);
-    }
-
-    /**
-     * Less Than
-     *
-     * Test if one ArbitraryInteger is less than another
-     *
-     * @param $int
-     *
-     * @return bool
-     */
-    public function lessThan($int): bool
-    {
-        $int = self::prepareParameter($int);
-        $base_256 = $this->base256;
-        $int_256 = $int->getBinary();
-        $my_len = strlen($base_256);
-        $int_len = strlen($int_256);
-
-        // If one number has more digits, it is larger
-        if ($my_len > $int_len) {
-            return false;
-        } elseif ($int_len > $my_len) {
-            return true;
-        } else {
-            // Test each digit from most significant to least.
-            for ($i = 0; $i < $my_len; $i++) {
-                if ($base_256[$i] !== $int_256[$i]) {
-                    return ord($base_256[$i]) < ord($int_256[$i]);
-                }
-            }
-            // Must be equal
-            return false;
-        }
     }
 
     /**
@@ -623,6 +498,118 @@ class ArbitraryInteger implements ObjectArithmetic
             return ArbitraryInteger::ackermann($m->subtract(1), 1);
         } else {
             return ArbitraryInteger::ackermann($m->subtract(1), ArbitraryInteger::ackermann($m, $n->subtract(1)));
+        }
+    }
+
+    /**************************************************************************
+     * BITWISE OPERATIONS
+     **************************************************************************/
+
+    /**
+     * Currently limited to shifting MaxInt*8 bits
+     */
+    public function leftShift($bits)
+    {
+        $bits = self::prepareParameter($bits);
+        $shifted_string = "";
+        $length = strlen($this->base256);
+        list($bytes, $bits) = $bits->intdiv(8);
+        $bits = $bits->toInteger();
+        $carry = 0;
+        for ($i = 0; $i < $length; $i++) {
+            $chr = ord($this->base256[$i]);
+            // If $shifted string is empty, don’t add 0x00.
+            $new_value = chr($carry + intdiv($chr << $bits, 256));
+            if ($shifted_string !== "" || $new_value !== chr(0)) {
+                $shifted_string .= $new_value;
+            }
+            $carry = ($chr << $bits) % 256;
+        }
+        $shifted_string .= chr($carry);
+
+        // Pad $bytes of 0x00 on the right.
+        $shifted_string = $shifted_string . str_repeat(chr(0), $bytes->toInteger());
+
+        return self::fromBinary($shifted_string, true);
+    }
+
+    /**************************************************************************
+     * COMPARISON FUNCTIONS
+     **************************************************************************/
+
+    /**
+     * Test for equality
+     *
+     * Two ArbitraryIntegers are equal IFF their $base256 strings
+     * are identical and their signs are identical.
+     *
+     * @param ArbitraryInteger $int
+     *
+     * @return bool
+     */
+    public function equals($int): bool
+    {
+        $int = self::prepareParameter($int);
+        return $this->base256 == $int->getBinary() && $this->positive == $int->getPositive();
+    }
+
+    /**
+     * Greater Than
+     *
+     * Test if one ArbitraryInteger is greater than another
+     *
+     * @param $int
+     *
+     * @return bool
+     */
+    public function greaterThan($int): bool
+    {
+        $int = self::prepareParameter($int);
+        return $int->lessThan($this);
+    }
+
+    /**
+     * Less Than
+     *
+     * Test if one ArbitraryInteger is less than another
+     *
+     * @param $int
+     *
+     * @return bool
+     */
+    public function lessThan($int): bool
+    {
+        $int = self::prepareParameter($int);
+        $base_256 = $this->base256;
+        $int_256 = $int->getBinary();
+        $my_len = strlen($base_256);
+        $int_len = strlen($int_256);
+        $my_positive = $this->positive;
+        $int_positive = $int->getPositive();
+        
+        // Check if signs differ
+        if ($my_positive && !$int_positive) {
+            return false;
+        }
+        if ($int_positive && !$my_positive) {
+            return true;
+        }
+        
+        // If one number has more digits, its absolute value is larger.
+        if ($my_len > $int_len) {
+            return !$my_positive;
+        } elseif ($int_len > $my_len) {
+            return $my_positive;
+        } else {
+            // Test each digit from most significant to least.
+            for ($i = 0; $i < $my_len; $i++) {
+                if ($base_256[$i] !== $int_256[$i]) {
+                    $test = ord($base_256[$i]) < ord($int_256[$i]);
+                    return $my_positive ? $test : !$test;
+                }
+            }
+            // Must be equal
+            return false;
         }
     }
 }
