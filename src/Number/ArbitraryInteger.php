@@ -386,19 +386,25 @@ class ArbitraryInteger implements ObjectArithmetic
     }
 
     /**
-     * @todo use Exponentiation by squaring
+     * Raise an ArbitraryInteger to a power
+     *
      * https://en.wikipedia.org/wiki/Exponentiation_by_squaring
      */
     public function pow($exp): ArbitraryInteger
     {
         $exp = self::prepareParameter($exp);
-        $result = new ArbitraryInteger(1);
-        $i = new ArbitraryInteger(0);
-        while ($i->lessThan($exp)) {
-            $result = $result->multiply($this);
-            $i = $i->add(1);
+        if ($exp->equals(0)) {
+            return new ArbitraryInteger(1);
         }
-        return $result;
+        if ($exp->equals(1)) {
+            return $this;
+        }
+        list($int, $mod) = $exp->fullIntdiv(2);
+        $square = $this->multiply($this)->pow($int);
+        if ($mod->equals(1)) {
+            return $square->multiply($this);
+        }
+        return $square;
     }
 
     /**
