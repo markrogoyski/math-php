@@ -351,6 +351,7 @@ class ArbitraryInteger implements ObjectArithmetic
      * Multiply
      * Return the result of multiplying two ArbitraryIntegers, or an ArbitraryInteger and an integer.
      *
+     * @todo use Karatsuba algorithm
      * @param ArbitraryInteger|int $number
      *
      * @return ArbitraryInteger
@@ -384,6 +385,10 @@ class ArbitraryInteger implements ObjectArithmetic
         return $product;
     }
 
+    /**
+     * @todo use Exponentiation by squaring
+     * https://en.wikipedia.org/wiki/Exponentiation_by_squaring
+     */
     public function pow($exp): ArbitraryInteger
     {
         $exp = self::prepareParameter($exp);
