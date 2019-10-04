@@ -198,7 +198,7 @@ class ArbitraryInteger implements ObjectArithmetic
     public function rand(int $bytes): ArbitraryInteger
     {
         if ($bytes <= 0) {
-            throw new \Exception;
+            throw new \Exception();
         }
         return new ArbitraryInteger('0x' . random_bytes($bytes));
     }
