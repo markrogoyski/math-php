@@ -181,6 +181,11 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [
+                1000000,
+                0,
+                '1',
+            ],
+            [
                 1000000000,
                 6,
                 '1000000000000000000000000000000000000000000000000000000',
