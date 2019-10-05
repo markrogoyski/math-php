@@ -195,7 +195,7 @@ class ArbitraryInteger implements ObjectArithmetic
         $this->positive = $positive;
     }
 
-    public function rand(int $bytes): ArbitraryInteger
+    public static function rand(int $bytes): ArbitraryInteger
     {
         if ($bytes <= 0) {
             throw new \Exception();
