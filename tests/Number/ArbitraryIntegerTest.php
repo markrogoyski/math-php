@@ -72,6 +72,16 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
+     */
+    public function testRand()
+    {
+        $number = ArbitraryInteger::rand(1);
+        $this->assertInstanceOf(ArbitraryInteger::class, $number);
+        $this->assertTrue($number->lessThan(65536));
+    }
+
+    /**
+     * @test
      * @dataProvider dataProviderForTestAddition
      */
     public function testAddition(string $int1, string $int2, string $expected)
