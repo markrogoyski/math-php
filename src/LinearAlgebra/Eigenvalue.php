@@ -204,10 +204,10 @@ class Eigenvalue
         $b    = MatrixFactory::random($A->getM(), 1);
         $newμ = 0;
         $μ    = -1;
-        $max_iterations = 2;
-        $iterations = 0;
+        $max_rerun = 2;
+        $rerun = 0;
         $max_ev = 0;
-        while ($iterations < $max_iterations) {
+        while ($rerun < $max_rerun) {
             while (!Support::isEqual($μ, $newμ)) {
                 if ($iterations <= 0) {
                     throw new Exception\FunctionFailedToConvergeException("Maximum number of iterations exceeded.");
@@ -224,7 +224,7 @@ class Eigenvalue
             $newb = $b->getMatrix();
             $newb[1][1] = $newb[1][1] / 2;
             $b = MatrixFactory::create($newb);
-            $iterations++;
+            $rerun++;
         }
 
         return [$max_ev];
