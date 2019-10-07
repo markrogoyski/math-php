@@ -219,6 +219,9 @@ class Eigenvalue
                 }
                 $μ    = $newμ;
                 $Ab   = $A->multiply($b);
+                while ($Ab->frobeniusNorm() == 0) {
+                    $Ab = MatrixFactory::random($A->getM(), 1);
+                }
                 $b    = $Ab->scalarDivide($Ab->frobeniusNorm());
                 $newμ = $b->transpose()->multiply($A)->multiply($b)->get(0, 0);
                 $iterations--;
