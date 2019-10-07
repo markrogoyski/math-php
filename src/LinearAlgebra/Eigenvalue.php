@@ -204,18 +204,29 @@ class Eigenvalue
         $b    = MatrixFactory::random($A->getM(), 1);
         $newμ = 0;
         $μ    = -1;
-
-        while (!Support::isEqual($μ, $newμ)) {
-            if ($iterations <= 0) {
-                throw new Exception\FunctionFailedToConvergeException("Maximum number of iterations exceeded.");
+        $max_iterations = 2;
+        $iterations = 0;
+        $max_ev = 0;
+        while ($iterations < $max_iterations) {
+            while (!Support::isEqual($μ, $newμ)) {
+                if ($iterations <= 0) {
+                    throw new Exception\FunctionFailedToConvergeException("Maximum number of iterations exceeded.");
+                }
+                $μ    = $newμ;
+                $Ab   = $A->multiply($b);
+                $b    = $Ab->scalarDivide($Ab->frobeniusNorm());
+                $newμ = $b->transpose()->multiply($A)->multiply($b)->get(0, 0) / $b->transpose()->multiply($b)->get(0, 0);
+                $iterations--;
             }
-            $μ    = $newμ;
-            $Ab   = $A->multiply($b);
-            $b    = $Ab->scalarDivide($Ab->frobeniusNorm());
-            $newμ = $b->transpose()->multiply($A)->multiply($b)->get(0, 0) / $b->transpose()->multiply($b)->get(0, 0);
-            $iterations--;
+            $max_ev = max($max_ev, $newμ);
+            // Perturb the eigenvector and run again to
+            // Make sure the same solution is found.
+            $newb = $b->getMatrix();
+            $newb[1][1] = $newb[1][1] / 2;
+            $b = MatrixFactory::create($newb);
+            $iterations++;
         }
 
-        return [$newμ];
+        return [$max_ev];
     }
 }
