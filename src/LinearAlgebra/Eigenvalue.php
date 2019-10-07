@@ -200,7 +200,7 @@ class Eigenvalue
     public static function powerIteration(Matrix $A, int $iterations = 1000): array
     {
         self::checkMatrix($A);
-        
+        $initial_iter = $iterations;
         $b    = MatrixFactory::random($A->getM(), 1);
         $newμ = 0;
         $μ    = -1;
@@ -225,6 +225,7 @@ class Eigenvalue
             $newb[1][1] = $newb[1][1] / 2;
             $b = MatrixFactory::create($newb);
             $rerun++;
+            $iterations = $initial_iter;
         }
 
         return [$max_ev];
