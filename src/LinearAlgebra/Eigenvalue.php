@@ -218,7 +218,7 @@ class Eigenvalue
                 $newμ = $b->transpose()->multiply($A)->multiply($b)->get(0, 0) / $b->transpose()->multiply($b)->get(0, 0);
                 $iterations--;
             }
-            $max_ev = max($max_ev, $newμ);
+            $max_ev = abs($max_ev) > abs($newμ) ? $max_ev : $newμ;
             // Perturb the eigenvector and run again to
             // Make sure the same solution is found.
             $newb = $b->getMatrix();
