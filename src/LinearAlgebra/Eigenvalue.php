@@ -202,6 +202,9 @@ class Eigenvalue
         self::checkMatrix($A);
         $initial_iter = $iterations;
         $b    = MatrixFactory::random($A->getM(), 1);
+        
+        // Scale to a unit vector
+        $b    = $b->scalarDivide($b->frobeniusNorm());
         $newμ = 0;
         $μ    = -1;
         $max_rerun = 2;
@@ -215,19 +218,24 @@ class Eigenvalue
                 $μ    = $newμ;
                 $Ab   = $A->multiply($b);
                 $b    = $Ab->scalarDivide($Ab->frobeniusNorm());
-                $newμ = $b->transpose()->multiply($A)->multiply($b)->get(0, 0) / $b->transpose()->multiply($b)->get(0, 0);
+                $newμ = $b->transpose()->multiply($A)->multiply($b)->get(0, 0);
                 $iterations--;
             }
             $max_ev = abs($max_ev) > abs($newμ) ? $max_ev : $newμ;
             // Perturb the eigenvector and run again to
             // Make sure the same solution is found.
             $newb = $b->getMatrix();
-            $newb[1][0] = $newb[1][0] / 2;
-            $b = MatrixFactory::create($newb);
+            for ($i = 0; $i < count($newb); $i++) {
+                $newb[$i][0] = $newb[1][0] + rand() / 10;
+            }
+            $b    = MatrixFactory::create($newb);
+            // Scale to a unit vector
+            $b    = $b->scalarDivide($b->frobeniusNorm());
+            $newμ = 0;
+            $μ    = -1;
             $rerun++;
             $iterations = $initial_iter;
         }
-
         return [$max_ev];
     }
 }
