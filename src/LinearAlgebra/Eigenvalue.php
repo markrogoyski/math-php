@@ -222,7 +222,7 @@ class Eigenvalue
             // Perturb the eigenvector and run again to
             // Make sure the same solution is found.
             $newb = $b->getMatrix();
-            $newb[1][1] = $newb[1][1] / 2;
+            $newb[1][0] = $newb[1][0] / 2;
             $b = MatrixFactory::create($newb);
             $rerun++;
             $iterations = $initial_iter;
