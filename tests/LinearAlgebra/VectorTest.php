@@ -52,7 +52,6 @@ class VectorTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForGetN(): array
     {
         return [
-            [[], 0],
             [[1], 1],
             [[1,2], 2],
             [[1,2,3], 3],
@@ -183,12 +182,6 @@ class VectorTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [
-                [],
-                [
-                    [],
-                ],
-            ],
-            [
                 [1],
                 [
                     [1],
@@ -213,5 +206,21 @@ class VectorTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
         ];
+    }
+
+    /**
+     * @test   Empty Vector is not allowed
+     * @throws \Exception
+     */
+    public function testEmptyVectorException()
+    {
+        // Given
+        $values = [];
+
+        // Then
+        $this->expectException(Exception\MathException::class);
+
+        // When
+        $V = new Vector($values);
     }
 }

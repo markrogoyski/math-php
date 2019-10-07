@@ -139,7 +139,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 [1, 2, 3],
-                [],
+                [1],
             ],
         ];
     }
@@ -257,11 +257,6 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [
-                [],
-                2,
-                [],
-            ],
-            [
                 [1],
                 2,
                 [2],
@@ -315,11 +310,6 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForScalarDivide()
     {
         return [
-            [
-                [],
-                2,
-                [],
-            ],
             [
                 [1],
                 2,
@@ -376,11 +366,6 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [
-                [],
-                [],
-                [],
-            ],
-            [
                 [1],
                 [2],
                 [3],
@@ -424,11 +409,6 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForSubtract()
     {
         return [
-            [
-                [],
-                [],
-                [],
-            ],
             [
                 [3],
                 [2],
@@ -482,11 +462,6 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForMultiply(): array
     {
         return [
-            [
-                [],
-                [],
-                [],
-            ],
             [
                 [1],
                 [2],
@@ -548,11 +523,6 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForDivide(): array
     {
         return [
-            [
-                [],
-                [],
-                [],
-            ],
             [
                 [1],
                 [2],
