@@ -828,6 +828,28 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Is the matrix nilpotent?
+     *
+     * A square MxM matrix is nilpotent if it becomes the
+     * zero matrix when raised to some power k<=M.
+     *
+     * https://en.wikipedia.org/wiki/Nilpotent_matrix
+     */
+    public function isNilpotent(): bool
+    {
+        $A = $this;
+        $m = $this->getM();
+        $zero = MatrixFactory::zero($m, $m);
+        for ($i = 0; $i < $m; $i++) {
+            $A = $A->multiply($this);
+            if ($A->equals($zero)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Is the matrix involutory?
      * A matrix that is its own inverse. That is, multiplication by matrix A is an involution if and only if A² = I
      * https://en.wikipedia.org/wiki/Involutory_matrix
