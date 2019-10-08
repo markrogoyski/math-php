@@ -3055,6 +3055,26 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**************************************************************************
+     * APPLYING FUNCTIONS OVER ARRAY MARGINS - Return an array
+     *  - applyRows
+     **************************************************************************/
+
+    /**
+     * Apply a function over the rows of the matrix
+     *
+     * @param callable $func
+     *
+     * @return array|array[] Depends on the function
+     */
+    public function applyRows(callable $func): array
+    {
+        return array_map(
+            $func,
+            $this->A
+        );
+    }
+
+    /**************************************************************************
      * MATRIX REDUCTIONS - Return a Matrix in a reduced form
      *  - ref (row echelon form)
      *  - rref (reduced row echelon form)
