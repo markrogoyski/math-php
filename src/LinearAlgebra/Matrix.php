@@ -823,6 +823,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isIdempotent(): bool
     {
+        if (!$this->isSquare()) {
+            return false;
+        }
         $A² = $this->multiply($this);
         return $this->isEqual($A²);
     }
@@ -839,6 +842,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isNilpotent(): bool
     {
+        if (!$this->isSquare()) {
+            return false;
+        }
         if ($this->trace() !== 0) {
             return false;
         }
