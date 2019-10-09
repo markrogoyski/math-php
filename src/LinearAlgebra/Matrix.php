@@ -850,7 +850,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             if ($A->isEqual($zero)) {
                 return true;
             }
-            if ($this->trace() !== 0) {
+            if ($A->trace() !== 0) {
                 return false;
             }
         }
