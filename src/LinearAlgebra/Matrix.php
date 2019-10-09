@@ -851,6 +851,9 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $A = $this;
         $m = $this->getM();
         $zero = MatrixFactory::zero($m, $m);
+        if ($this->isEqual($zero)) {
+                return true;
+            }
         for ($i = 1; $i < $m; $i++) {
             $A = $A->multiply($this);
             if ($A->isEqual($zero)) {
