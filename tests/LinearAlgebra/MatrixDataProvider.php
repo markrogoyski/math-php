@@ -5074,6 +5074,11 @@ trait MatrixDataProvider
         return [
             [
                 [
+                    [0, 1],
+                ],
+            ],
+            [
+                [
                     [3, 6],
                     [1, 2],
                 ],
@@ -5119,6 +5124,11 @@ trait MatrixDataProvider
     public function dataProviderForNotNilpotentMatrix(): array
     {
         return [
+            [
+                [
+                    [0, 1],
+                ],
+            ],
             [
                 [
                     [0, 1],
