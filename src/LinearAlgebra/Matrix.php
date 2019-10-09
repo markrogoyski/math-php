@@ -847,7 +847,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isNilpotent(): bool
     {
-        if(!$this->isSquare() || $this->trace() !== 0) {
+        if (!$this->isSquare() || $this->trace() !== 0) {
             return false;
         }
         $m = $this->getM();
@@ -864,7 +864,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 break;
             }
             if ($A->trace() !== 0) {
-               break;
+                break;
             }
         }
         return $nilpotent;
