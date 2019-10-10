@@ -18,7 +18,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  * @property-read Matrix $Q orthogonal matrix
  * @property-read Matrix $R upper triangular matrix
  */
-class QR extends DecompositionBase
+class QR extends Decomposition
 {
     /** @var Matrix orthogonal matrix  */
     private $Q;

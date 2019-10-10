@@ -39,7 +39,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  * @property-read Matrix $LT Transpose of lower triangular matrix
  * @property-read Matrix $Lᵀ Transpose of lower triangular matrix
  */
-class Cholesky extends DecompositionBase
+class Cholesky extends Decomposition
 {
     /** @var Matrix Lower triangular matrix L of A = LLᵀ */
     private $L;

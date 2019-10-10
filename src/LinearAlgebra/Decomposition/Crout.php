@@ -20,7 +20,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  * @property-read Matrix $L Lower triangular matrix LD
  * @property-read Matrix $U Normalized upper triangular matrix
  */
-class Crout extends DecompositionBase
+class Crout extends Decomposition
 {
     /** @var Matrix Lower triangular matrix LD */
     private $L;

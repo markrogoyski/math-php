@@ -47,7 +47,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  * @property-read Matrix $U Upper triangular matrix in LUP decomposition
  * @property-read Matrix $P Permutation matrix in LUP decomposition
  */
-class LU extends DecompositionBase
+class LU extends Decomposition
 {
     /** @var Matrix Lower triangular matrix in LUP decomposition */
     private $L;
