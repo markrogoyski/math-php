@@ -605,6 +605,36 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         isNilpotent returns true for a nilpotent matrix
+     * @dataProvider dataProviderForNilpotentMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsNilpotent(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertTrue($A->isNilpotent());
+    }
+
+    /**
+     * @test         isNilpotent returns false for a non-nilpotent matrix
+     * @dataProvider dataProviderForNotNilpotentMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsNotNilpotent(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertFalse($A->isNilpotent());
+    }
+
+    /**
      * @test         isInvolutory returns true for a Involutory matrix
      * @dataProvider dataProviderForInvolutoryMatrix
      * @param        array $A
