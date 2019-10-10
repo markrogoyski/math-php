@@ -169,6 +169,8 @@ use MathPHP\Tests;
  *    - H has eigenvalues 1 and -1
  *  - Nilpotent matrix
  *    - tr(Aᵏ) = 0 for all k > 0
+ *    - det(A) = 0
+ *    - Cannot be invertible
  */
 class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 {
@@ -3145,5 +3147,41 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
             // Then
             $this->assertEquals(0, $trace);
         }
+    }
+
+    /**
+     * @test         Axiom: Nilpotent matrix - det = 0
+     * @dataProvider dataProviderForNilpotentMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testNilpotentDetIsZero(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $det = $A->det();
+
+        // Then
+        $this->assertEquals(0, $det);
+    }
+
+    /**
+     * @test         Axiom: Nilpotent matrix - Cannot be invertible
+     * @dataProvider dataProviderForNilpotentMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testNilpotentCannotBeInvertible(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $isInvertible = $A->isInvertible();
+
+        // Then
+        $this->assertFalse($isInvertible);
     }
 }
