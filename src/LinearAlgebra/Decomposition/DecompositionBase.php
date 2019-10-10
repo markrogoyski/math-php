@@ -2,6 +2,7 @@
 
 namespace MathPHP\LinearAlgebra\Decomposition;
 
+use MathPHP\Exception;
 use MathPHP\LinearAlgebra\Matrix;
 
 abstract class DecompositionBase implements \ArrayAccess
