@@ -167,6 +167,8 @@ use MathPHP\Tests;
  *    - H is involutory
  *    - H has determinant that is -1
  *    - H has eigenvalues 1 and -1
+ *  - Nilpotent matrix
+ *    - tr(Aᵏ) = 0 for all k > 0
  */
 class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 {
@@ -3122,5 +3124,26 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         );
         $this->assertEquals(1, max($eigenvalues), '', 0.00001);
         $this->assertEquals(-1, min($eigenvalues), '', 0.00001);
+    }
+
+    /**
+     * @test         Axiom: Nilpotent matrix - tr(Aᵏ) = 0 for all k > 0
+     * @dataProvider dataProviderForNilpotentMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testNilpotentTraceIsZero(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        foreach (range(1, 5) as $_) {
+            // When
+            $A     = $A->multiply($A);
+            $trace = $A->trace();
+
+            // Then
+            $this->assertEquals(0, $trace);
+        }
     }
 }

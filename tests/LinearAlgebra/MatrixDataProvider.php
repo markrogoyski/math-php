@@ -39,6 +39,8 @@ trait MatrixDataProvider
      *  - dataProviderForTwoPositiveDefiniteMatrices
      *  - dataProviderForIdempotentMatrix
      *  - dataProviderForNotIdempotentMatrix
+     *  - dataProviderForNilpotentMatrix
+     *  - dataProviderForNotNilpotentMatrix
      *  - dataProviderForInvolutoryMatrix
      *  - dataProviderForNotInvolutoryMatrix
      *  - dataProviderForSignatureMatrix
