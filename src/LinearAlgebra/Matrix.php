@@ -834,29 +834,30 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * Is the matrix nilpotent?
      *
      * A square MxM matrix is nilpotent if it becomes the
-     * zero matrix when raised to some power k<=M.
+     * zero matrix when raised to some power k ≤ M.
      *
-     * Nilpotent matricies will have a zero trace for all k
+     * Nilpotent matrices will have a zero trace for all k
      * https://en.wikipedia.org/wiki/Nilpotent_matrix
      *
      * @return boolean true if matrix is nilpotent; false otherwise
      *
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\MatrixException
-     * @throws Exception\VectorExceptio
+     * @throws Exception\MathException
      */
     public function isNilpotent(): bool
     {
         if (!$this->isSquare() || $this->trace() !== 0) {
             return false;
         }
-        $m = $this->getM();
+
+        $m    = $this->getM();
         $zero = MatrixFactory::zero($m, $m);
         if ($this->isEqual($zero)) {
             return true;
         }
-        $A = $this;
+
+        $A         = $this;
         $nilpotent = false;
+
         for ($i = 1; $i < $m; $i++) {
             $A = $A->multiply($this);
             if ($A->isEqual($zero)) {
@@ -867,6 +868,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
                 break;
             }
         }
+
         return $nilpotent;
     }
 
