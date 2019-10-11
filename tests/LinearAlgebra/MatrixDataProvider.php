@@ -29,6 +29,8 @@ trait MatrixDataProvider
      *  - dataProviderForLowerTriangularMatrix
      *  - dataProviderForDiagonalMatrix
      *  - dataProviderForNotDiagonalMatrix
+     *  - dataProviderForRectangularDiagonalMatrix
+     *  - dataProviderForNotRectangularDiagonalMatrix
      *  - dataProviderForRefMatrix
      *  - dataProviderForNotRefMatrix
      *  - dataProviderForRrefMatrix
@@ -3970,6 +3972,53 @@ trait MatrixDataProvider
                     [3, 2, 3, 2, 1, 2, 2, 1, 2],
                     [4, 3, 4, 3, 2, 3, 1, 2, 2],
                     [4, 3, 4, 3, 2, 3, 2, 2, 2],
+                ],
+            ],
+        ];
+    }
+
+    public function dataProviderForRectangularDiagonalMatrix(): array
+    {
+        return [
+            [
+                [[3, 0]],
+            ],
+            [
+                [
+                    [6, 0, 0],
+                    [0, 2, 0],
+                ],
+            ],
+            [
+                [
+                    [5, 0],
+                    [0, 9],
+                    [0, 0],
+                ],
+            ],
+        ];
+    }
+
+    public function dataProviderForNotRectangularDiagonalMatrix(): array
+    {
+        return [
+            [
+                [[1, 1]],
+            ],
+            [
+                [[0, 1]],
+            ],
+            [
+                [
+                    [1, 0, 0],
+                    [0, 1, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 0],
+                    [0, 1],
+                    [0, 2],
                 ],
             ],
         ];

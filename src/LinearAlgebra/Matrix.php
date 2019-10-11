@@ -707,6 +707,29 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Is the retangular matrix diagonal?
+     *
+     *  - All the entries below and above the main diagonal are zero
+     *
+     * https://en.wikipedia.org/wiki/Diagonal_matrix
+     *
+     * @return boolean true if rectangular diagonal
+     */
+    public function isRectangularDiagonal(): bool
+    {
+        $m = $this->m;
+        $n = $this->n;
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                if ($i !== $j && !Support::isZero($this->A[$i][$j])) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * Is the matrix in row echelon form?
      *  - All nonzero rows are above any rows of all zeroes
      *  - The leading coefficient of a nonzero row is always strictly to the right of the leading coefficient of the row above it.
