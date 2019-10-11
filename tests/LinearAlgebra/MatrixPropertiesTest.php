@@ -501,6 +501,34 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         isRectangularDiagonal returns true appropriately
+     * @dataProvider dataProviderForRectangularDiagonalMatrix
+     * @param        array $D
+     * @throws       \Exception
+     */
+    public function testIsRectangularDiagonal(array $D)
+    {
+        // Given
+        $D = MatrixFactory::create($D);
+        // Then
+        $this->assertTrue($D->isRectangularDiagonal());
+    }
+
+    /**
+     * @test         isRectangularDiagonal returns false appropriately
+     * @dataProvider dataProviderForNotRectangularDiagonalMatrix
+     * @param        array $D
+     * @throws       \Exception
+     */
+    public function testIsNotRectangularDiagonal(array $D)
+    {
+        // Given
+        $D = MatrixFactory::create($D);
+        // Then
+        $this->assertFalse($D->isRectangularDiagonal());
+    }
+
+    /**
      * @test         isRef returns true for a matrix in row echelon form
      * @dataProvider dataProviderForRefMatrix
      * @param        array $A
