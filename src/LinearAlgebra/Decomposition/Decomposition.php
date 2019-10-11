@@ -15,7 +15,6 @@ abstract class Decomposition implements \ArrayAccess
 
     /**
      * @param  mixed $i
-     * @param mixed $i
      * @return bool
      */
     abstract public function offsetExists($i): bool;
