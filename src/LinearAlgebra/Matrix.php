@@ -330,6 +330,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isRef
      *  - isRref
      *  - isIdempotent
+     *  - isNilpotent
      *  - isInvolutory
      *  - isSignature
      *  - isUpperBidiagonal
