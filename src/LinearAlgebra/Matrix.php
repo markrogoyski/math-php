@@ -325,6 +325,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isLowerTriangular
      *  - isUpperTriangular
      *  - isTriangular
+     *  - isDiagonal
+     *  - isRectangularDiagonal
      *  - isRef
      *  - isRref
      *  - isIdempotent
@@ -708,7 +710,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
     /**
      * Is the retangular matrix diagonal?
-     *
      *  - All the entries below and above the main diagonal are zero
      *
      * https://en.wikipedia.org/wiki/Diagonal_matrix

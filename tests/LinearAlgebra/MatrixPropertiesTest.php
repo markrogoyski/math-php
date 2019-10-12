@@ -510,6 +510,7 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $D = MatrixFactory::create($D);
+
         // Then
         $this->assertTrue($D->isRectangularDiagonal());
     }
@@ -524,6 +525,7 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $D = MatrixFactory::create($D);
+
         // Then
         $this->assertFalse($D->isRectangularDiagonal());
     }
