@@ -520,8 +520,8 @@ $R = $A->map($func);  // using closure
 $R = $A->map('abs');  // using callable
 
 // Map a function over each row
-$array = $A->map('array_reverse');  // using callable returns matrix-like array of arrays
-$array = $A->map('array__sum');     // using callable returns array of aggregate calculations
+$array = $A->mapRows('array_reverse');  // using callable returns matrix-like array of arrays
+$array = $A->mapRows('array__sum');     // using callable returns array of aggregate calculations
 
 // Matrix comparisons
 $bool = $A->isEqual($B);
