@@ -5,7 +5,7 @@ namespace MathPHP\Tests\LinearAlgebra;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Vector;
 
-class MatrixApplyTest extends \PHPUnit\Framework\TestCase
+class MatrixMapTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test         map with a callable
