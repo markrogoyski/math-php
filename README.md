@@ -1,4 +1,4 @@
-![MathPHP Logo](https://github.com/markrogoyski/math-php/blob/develop/docs/image/MathPHPLogo.png?raw=true)
+![MathPHP Logo](https://github.com/markrogoyski/math-php/blob/master/docs/image/MathPHPLogo.png?raw=true)
 
 ### MathPHP - Powerful Modern Math Library for PHP
 
