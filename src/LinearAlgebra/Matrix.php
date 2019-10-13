@@ -1787,30 +1787,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Map a function over all elements of the Matrix
-     *
-     * @param  callable $func takes a matrix item as input
-     *
-     * @return Matrix
-     *
-     * @throws Exception\IncorrectTypeException
-     */
-    public function map(callable $func): Matrix
-    {
-        $m = $this->m;
-        $n = $this->n;
-        $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = $func($this->A[$i][$j]);
-            }
-        }
-
-        return MatrixFactory::create($R);
-    }
-
-    /**
      * Diagonal matrix
      * Retains the elements along the main diagonal.
      * All other off-diagonal elements are zeros.
@@ -2222,6 +2198,51 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function householder(): Matrix
     {
         return Householder::transform($this);
+    }
+
+    /**************************************************************************
+     * MATRIX MAPPING
+     *  - map
+     *  - mapRows
+     **************************************************************************/
+
+    /**
+     * Map a function over all elements of the Matrix
+     *
+     * @param  callable $func takes a matrix item as input
+     *
+     * @return Matrix
+     *
+     * @throws Exception\IncorrectTypeException
+     */
+    public function map(callable $func): Matrix
+    {
+        $m = $this->m;
+        $n = $this->n;
+        $R = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $R[$i][$j] = $func($this->A[$i][$j]);
+            }
+        }
+
+        return MatrixFactory::create($R);
+    }
+
+    /**
+     * Map a function over the rows of the matrix
+     *
+     * @param callable $func
+     *
+     * @return array|array[] Depends on the function
+     */
+    public function mapRows(callable $func): array
+    {
+        return array_map(
+            $func,
+            $this->A
+        );
     }
 
     /**************************************************************************
@@ -3122,26 +3143,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return MatrixFactory::create($R);
-    }
-
-    /**************************************************************************
-     * APPLYING FUNCTIONS OVER ARRAY MARGINS - Return an array
-     *  - applyRows
-     **************************************************************************/
-
-    /**
-     * Apply a function over the rows of the matrix
-     *
-     * @param callable $func
-     *
-     * @return array|array[] Depends on the function
-     */
-    public function applyRows(callable $func): array
-    {
-        return array_map(
-            $func,
-            $this->A
-        );
     }
 
     /**************************************************************************

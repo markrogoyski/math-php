@@ -21,7 +21,7 @@ class MatrixApplyTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A);
 
         // When
-        $R = $A->applyRows($func);
+        $R = $A->mapRows($func);
 
         // Then
         $this->assertEquals($expected, $R);
@@ -194,7 +194,7 @@ class MatrixApplyTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A);
 
         // When
-        $R = $A->applyRows($func);
+        $R = $A->mapRows($func);
 
         // Then
         $this->assertEquals($expected, $R);
@@ -342,7 +342,7 @@ class MatrixApplyTest extends \PHPUnit\Framework\TestCase
         };
 
         // When
-        $R = $A->applyRows($func);
+        $R = $A->mapRows($func);
 
         // Then
         $this->assertTrue(in_array(1, $R[0]));
