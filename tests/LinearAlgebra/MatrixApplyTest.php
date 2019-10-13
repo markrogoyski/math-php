@@ -7,6 +7,30 @@ use MathPHP\LinearAlgebra\Vector;
 
 class MatrixApplyTest extends \PHPUnit\Framework\TestCase
 {
+    public function testMap()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9],
+        ]);
+        $E = MatrixFactory::create([
+            [2, 4, 6],
+            [8, 10, 12],
+            [14, 16, 18],
+        ]);
+
+        // When
+        $doubler = function ($x) {
+            return $x * 2;
+        };
+        $R = $A->map($doubler);
+
+        // Then
+        $this->assertEquals($E, $R);
+    }
+
     /**
      * @test         applyRows with a callable
      * @dataProvider dataProviderForApplyRowsCallable
