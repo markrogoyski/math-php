@@ -1,4 +1,4 @@
-<img src="https://github.com/markrogoyski/math-php/blob/develop/docs/image/MathPHPLogo.png?raw=true" alt="MathPHP Logo" />
+![MathPHP Logo](https://github.com/markrogoyski/math-php/blob/develop/docs/image/MathPHPLogo.png?raw=true)
 
 ### MathPHP - Powerful Modern Math Library for PHP
 
