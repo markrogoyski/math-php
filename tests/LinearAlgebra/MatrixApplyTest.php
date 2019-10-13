@@ -7,28 +7,133 @@ use MathPHP\LinearAlgebra\Vector;
 
 class MatrixApplyTest extends \PHPUnit\Framework\TestCase
 {
-    public function testMap()
+    /**
+     * @test         map with a callable
+     * @dataProvider dataProviderForMapCallable
+     * @param        array    $A
+     * @param        callable $func
+     * @param        array    $expected
+     * @throws       \Exception
+     */
+    public function testMapWithCallable(array $A, callable $func, array $expected)
     {
         // Given
-        $A = MatrixFactory::create([
-            [1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9],
-        ]);
-        $E = MatrixFactory::create([
-            [2, 4, 6],
-            [8, 10, 12],
-            [14, 16, 18],
-        ]);
+        $A        = MatrixFactory::create($A);
+        $expected = MatrixFactory::create($expected);
 
         // When
-        $doubler = function ($x) {
-            return $x * 2;
-        };
-        $R = $A->map($doubler);
+        $R = $A->map($func);
 
         // Then
-        $this->assertEquals($E, $R);
+        $this->assertEquals($expected, $R);
+    }
+
+    /**
+     * @return array (input, func, output)
+     */
+    public function dataProviderForMapCallable(): array
+    {
+        return [
+            'abs' => [
+                [
+                    [1, -2, 3],
+                    [-4, 5, -6],
+                    [-7, -8, 9],
+                ],
+                'abs',
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ]
+            ],
+            'round' => [
+                [
+                    [1.1, 2.2, 3.3],
+                    [4.4, 5.5, 6.6],
+                    [7.7, 8.8, 9.9],
+                ],
+                'round',
+                [
+                    [1, 2, 3],
+                    [4, 6, 7],
+                    [8, 9, 10],
+                ]
+            ],
+            'sqrt' => [
+                [
+                    [1, 4, 9],
+                    [16, 25, 36],
+                    [49, 64, 81],
+                ],
+                'sqrt',
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @test         map with a closure
+     * @dataProvider dataProviderForMapClosure
+     * @param        array    $A
+     * @param        \Closure $func
+     * @param        array    $expected
+     * @throws       \Exception
+     */
+    public function testMapWithClosure(array $A, \Closure $func, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $expected = MatrixFactory::create($expected);
+
+        // When
+        $R = $A->map($func);
+
+        // Then
+        $this->assertEquals($expected, $R);
+    }
+
+    /**
+     * @return array (input, func, output)
+     */
+    public function dataProviderForMapClosure(): array
+    {
+        return [
+            'doubler' => [
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ],
+                function ($x) {
+                    return $x * 2;
+                },
+                [
+                    [2, 4, 6],
+                    [8, 10, 12],
+                    [14, 16, 18],
+                ]
+            ],
+            'add one' => [
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ],
+                function ($x) {
+                    return $x + 1;
+                },
+                [
+                    [2, 3, 4],
+                    [5, 6, 7],
+                    [8, 9, 10],
+                ]
+            ],
+        ];
     }
 
     /**
