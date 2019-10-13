@@ -1,8 +1,6 @@
 <img src="https://github.com/markrogoyski/math-php/blob/develop/docs/image/MathPHPLogo.png?raw=true" alt="MathPHP Logo" />
 
-=====================
-
-### Powerful Modern Math Library for PHP
+### MathPHP - Powerful Modern Math Library for PHP
 
 MathPHP is the only library you need to integrate mathematical functions into your applications. It is a self-contained library in pure PHP with no external dependencies.
 
