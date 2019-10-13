@@ -512,11 +512,16 @@ $eigenvecetors = $A->eigenvectors();  // Matrix of eigenvectors
 $b = new Vector(1, 2, 3);
 $x = $A->solve($b);
 
-// Map a function over each element of the Matrix
+// Map a function over each element
 $func = function($x) {
     return $x * 2;
 };
-$R = $A->map($func);
+$R = $A->map($func);  // using closure
+$R = $A->map('abs');  // using callable
+
+// Map a function over each row
+$array = $A->map('array_reverse');  // using callable returns matrix-like array of arrays
+$array = $A->map('array__sum');     // using callable returns array of aggregate calculations
 
 // Matrix comparisons
 $bool = $A->isEqual($B);
