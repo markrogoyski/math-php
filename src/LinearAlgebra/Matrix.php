@@ -1196,7 +1196,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         // A = Aᴴ
         $Aᴴ  = $this->conjugateTranspose();
 
-        return $A->isEqual($Aᴴ);
+        return $this->isEqual($Aᴴ);
     }
     
     /**************************************************************************
