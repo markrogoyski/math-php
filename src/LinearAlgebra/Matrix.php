@@ -342,6 +342,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isOrthogonal
      *  - isNormal
      *  - isUnitary
+     *  - isHermitian
      **************************************************************************/
 
     /**
@@ -1146,7 +1147,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         // AAᴴ = AᴴA
         $Aᴴ  = $this->conjugateTranspose();
         $AAᴴ = $this->multiply($Aᴴ);
-        $AᴴA = $Aᵀ->multiply($this);
+        $AᴴA = $Aᴴ->multiply($this);
 
         return $AAᴴ->isEqual($AᴴA);
     }
@@ -1176,6 +1177,28 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         return $AAᴴ->isEqual($AᴴA) && $AAᴴ->isEqual($I);
     }
 
+    /**
+     * Is the matrix Hermitian?
+     *  - It is a square matrix
+     *  - A = Aᴴ
+     *
+     * https://en.wikipedia.org/wiki/Hermitian_matrix
+     * @return bool
+     *
+     * @throws Exception\MathException
+     */
+    public function isHermitian(): bool
+    {
+        if (!$this->isSquare()) {
+            return false;
+        }
+
+        // A = Aᴴ
+        $Aᴴ  = $this->conjugateTranspose();
+
+        return $A->isEqual($Aᴴ);
+    }
+    
     /**************************************************************************
      * MATRIX AUGMENTATION - Return a Matrix
      *  - augment
