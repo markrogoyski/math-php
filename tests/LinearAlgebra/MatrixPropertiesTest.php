@@ -1005,4 +1005,36 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertFalse($A->isUnitary());
     }
+
+    /**
+     * @test         isHermitian returns true for hermitian matrices.
+     * @dataProvider dataProviderForSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsHermitian(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertTrue($A->isHermitian());
+    }
+
+    /**
+     * @test         isHermitian returns false for nonhermitian matrices.
+     * @dataProvider dataProviderForNotSymmetricMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsHermitianWhenNotHermitian(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertFalse($A->isHermitian());
+    }
+
 }
