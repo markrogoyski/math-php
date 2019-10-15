@@ -341,6 +341,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isLowerHessenberg
      *  - isOrthogonal
      *  - isNormal
+     *  - isUnitary
      **************************************************************************/
 
     /**
@@ -1129,7 +1130,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Is the matrix normal?
      *  - It is a square matrix
-     *  - AAᵀ = AᵀA
+     *  - AAᴴ = AᴴA
      *
      * https://en.wikipedia.org/wiki/Normal_matrix
      * @return bool
@@ -1142,12 +1143,37 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             return false;
         }
 
-        // AAᵀ = AᵀA
-        $Aᵀ  = $this->transpose();
-        $AAᵀ = $this->multiply($Aᵀ);
-        $AᵀA = $Aᵀ->multiply($this);
+        // AAᴴ = AᴴA
+        $Aᴴ  = $this->conjugateTranspose();
+        $AAᴴ = $this->multiply($Aᴴ);
+        $AᴴA = $Aᵀ->multiply($this);
 
-        return $AAᵀ->isEqual($AᵀA);
+        return $AAᴴ->isEqual($AᴴA);
+    }
+
+    /**
+     * Is the matrix unitary?
+     *  - It is a square matrix
+     *  - AAᴴ = AᴴA = I
+     *
+     * https://en.wikipedia.org/wiki/Unitary_matrix
+     * @return bool
+     *
+     * @throws Exception\MathException
+     */
+    public function isUnitary(): bool
+    {
+        if (!$this->isSquare()) {
+            return false;
+        }
+
+        // AAᴴ = AᴴA = I
+        $Aᴴ  = $this->conjugateTranspose();
+        $AAᴴ = $this->multiply($Aᴴ);
+        $AᴴA = $Aᴴ->multiply($this);
+
+        $I = Matrixfactory::identity($A->getM());
+        return $AAᴴ->isEqual($AᴴA) && $AAᴴ->isEqual($I);
     }
 
     /**************************************************************************
@@ -1712,6 +1738,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**************************************************************************
      * MATRIX OPERATIONS - Return a Matrix
      *  - transpose
+     *  - conjugateTranspose
      *  - trace
      *  - map
      *  - diagonal
@@ -1755,6 +1782,18 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         $this->catalog->addTranspose(MatrixFactory::create($Aᵀ));
         return $this->catalog->getTranspose();
+    }
+
+    /**
+     * Conjugate Transpose
+     *
+     * Returns the complex conjugate of the transpose. For a real matrix, this is the same as the transpose.
+     *
+     * https://en.wikipedia.org/wiki/Conjugate_transpose
+     */
+    public function conjugateTranspose()
+    {
+        return $this->transpose();
     }
 
     /**
