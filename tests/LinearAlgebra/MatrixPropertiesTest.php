@@ -1036,5 +1036,4 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertFalse($A->isHermitian());
     }
-
 }
