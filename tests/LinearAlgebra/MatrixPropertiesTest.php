@@ -975,4 +975,34 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertFalse($A->isNormal());
     }
+
+    /**
+     * @test         isUnitary
+     * @dataProvider dataProviderForOrthogonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsUnitary(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertTrue($A->isUnitary());
+    }
+
+    /**
+     * @test         isUnitary when not unitary
+     * @dataProvider dataProviderForNonOrthogonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsUnitaryWhenNotUnitary(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertFalse($A->isUnitary());
+    }
 }
