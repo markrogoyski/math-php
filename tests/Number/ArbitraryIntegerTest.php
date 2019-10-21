@@ -46,6 +46,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             [200],
             [123456],
             [PHP_INT_MAX],
+            [PHP_INT_MIN],
             [31415],
             [-31415],
         ];
@@ -380,5 +381,22 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             // object
             [new \stdClass()],
         ];
+    }
+
+    /**
+     * @test         prepareParameter throws an exception when an object is provided
+     * @throws       \Exception
+     */
+    public function testIncorrectTypeExceptionPrepareParameter()
+    {
+        // Given
+        $number = new ArbitraryInteger(0);
+        $class = new \stdClass();
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
+        $int =  $number->add($class);
     }
 }
