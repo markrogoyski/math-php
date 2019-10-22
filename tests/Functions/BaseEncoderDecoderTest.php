@@ -91,4 +91,28 @@ class BaseEncoderDecoderTest extends \PHPUnit\Framework\TestCase
         // When
         $int =  BaseEncoderDecoder::createArbitraryInteger('123456', $base);
     }
+
+    /**
+     * @test         Function throws an exception when base>256
+     * @dataProvider dataProviderForTestInvalidCharInStringException
+     * @throws       \Exception
+     */
+    public function testInvalidCharInStringException(string $value, int $base)
+    {
+        // Given
+        
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
+        $int =  BaseEncoderDecoder::createArbitraryInteger($value, $base);
+    }
+
+    public function dataProviderForTestInvalidCharInStringException()
+    {
+        return [
+            ['12a', 10],
+            ['0x12afg', 16],
+        ];
+    }
 }

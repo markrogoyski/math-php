@@ -2,6 +2,7 @@
 
 namespace MathPHP\Functions;
 
+use MathPHP\Exception;
 use MathPHP\Number\ArbitraryInteger;
 
 /**

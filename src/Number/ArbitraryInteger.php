@@ -57,15 +57,14 @@ class ArbitraryInteger implements ObjectArithmetic
                 $this->positive = false;
                 $number = substr($number, 1);
             }
-            $offset = '0';
             $number = strtolower($number);
+            $base = 10;
             if ($number[0] == '0') {
                 if ($number == '0') {
                     $base = 10;
                 } elseif ($number[1] == 'x') {
                     $base = 16;
                     $number = substr($number, 2);
-                    $offset = '0123456789abcdef';
                 } elseif ($number[1] == 'b') {
                     $base = 2;
                     $number = substr($number, 2);
@@ -73,36 +72,8 @@ class ArbitraryInteger implements ObjectArithmetic
                     $base = 8;
                     $number = substr($number, 1);
                 }
-            } else {
-                $base = 10;
             }
-            $length = strlen($number);
-            
-            // Check that all elements are greater than the offset, and are members of the alphabet.
-            // Remove the offset.
-            // I'm duplicating the for loop instead of placing the if within the for
-            // to prevent calling the if/else on every pass.
-            if (strlen($offset) ==  1) {
-                // Subtract a constant offset from each character.
-                $offset_num = ord($offset);
-                for ($i = 0; $i < $length; $i++) {
-                    $chr = $number[$i];
-                    $number[$i] = chr(ord($chr) - $offset_num);
-                }
-            } else {
-                // Lookup the offset from the string position
-                for ($i = 0; $i < $length; $i++) {
-                    $chr = $number[$i];
-                    $number[$i] = chr(strpos($offset, $chr));
-                }
-            }
-            // Convert to base 256
-            $base256 = new ArbitraryInteger(0);
-            $length = strlen($number);
-            for ($i = 0; $i < $length; $i++) {
-                $chr = ord($number[$i]);
-                $base256 = $base256->multiply($base)->add($chr);
-            }
+            $base256 = BaseEncoderDecoder::createArbitraryInteger($number, $base);
             $this->base256 = $base256->getBinary();
         } else {
             // Not an int, and not a string
@@ -235,7 +206,7 @@ class ArbitraryInteger implements ObjectArithmetic
         if ($bytes <= 0) {
             throw new Exception\BadParameterException('Cannot produce a random number with zero or negative bytes.');
         }
-        return new ArbitraryInteger('0x' . random_bytes($bytes));
+        return self::fromBinary(random_bytes($bytes), mt_rand(0, 1) === 0);
     }
 
     /**************************************************************************
