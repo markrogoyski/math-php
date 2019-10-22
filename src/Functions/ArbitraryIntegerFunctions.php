@@ -9,13 +9,23 @@ use MathPHP\Number\ArbitraryInteger;
  */
 class ArbitraryIntegerFunctions
 {
+    
+    /**
+     * Prepare input value for construction
+     *
+     * @param  int|string|ArbitraryInteger $number
+     * @return ArbitraryInteger
+     */
     private static function prepareParameter($number): ArbitraryInteger
     {
         if (!is_object($number)) {
             return new ArbitraryInteger($number);
         }
-        // else make sure it’s a ArbitraryInteger
-        return $number;
+        $class = get_class($number);
+        if ($class == ArbitraryInteger::class) {
+            return $number;
+        }
+        throw new Exception\IncorrectTypeException("Class of type $class is not supported.");
     }
 
     /**
