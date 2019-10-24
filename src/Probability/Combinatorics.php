@@ -51,9 +51,9 @@ class Combinatorics
             throw new Exception\OutOfBoundsException('Cannot compute factorial of a negative number.');
         }
         $factorial = 1;
-        while ($n > 0) {
+        while ($n > 1) {
             $factorial *= $n;
-            $n--;
+            --$n;
         }
         return $factorial;
     }
