@@ -1,9 +1,8 @@
-MathPHP
-=====================
+![MathPHP Logo](https://github.com/markrogoyski/math-php/blob/master/docs/image/MathPHPLogo.png?raw=true)
 
-### Powerful Modern Math Library for PHP
+### MathPHP - Powerful Modern Math Library for PHP
 
-MathPHP is the only library you need to integrate mathematical functions into your applications. It is a self-contained library in pure PHP with no external dependencies.
+The only library you need to integrate mathematical functions into your applications. It is a self-contained library in pure PHP with no external dependencies.
 
 It is actively under development with development (0.y.z) releases.
 
@@ -513,11 +512,16 @@ $eigenvecetors = $A->eigenvectors();  // Matrix of eigenvectors
 $b = new Vector(1, 2, 3);
 $x = $A->solve($b);
 
-// Map a function over each element of the Matrix
+// Map a function over each element
 $func = function($x) {
     return $x * 2;
 };
-$R = $A->map($func);
+$R = $A->map($func);  // using closure
+$R = $A->map('abs');  // using callable
+
+// Map a function over each row
+$array = $A->mapRows('array_reverse');  // using callable returns matrix-like array of arrays
+$array = $A->mapRows('array__sum');     // using callable returns array of aggregate calculations
 
 // Matrix comparisons
 $bool = $A->isEqual($B);
@@ -537,6 +541,7 @@ $bool = $A->isLowerTriangular();
 $bool = $A->isUpperTriangular();
 $bool = $A->isTriangular();
 $bool = $A->isDiagonal();
+$bool = $A->isRectangularDiagonal();
 $bool = $A->isUpperBidiagonal();
 $bool = $A->isLowerBidiagonal();
 $bool = $A->isBidiagonal();
@@ -546,6 +551,7 @@ $bool = $A->isLowerHessenberg();
 $bool = $A->isOrthogonal();
 $bool = $A->isNormal();
 $bool = $A->isIdempotent();
+$bool = $A->isNilpotent();
 $bool = $A->isInvolutory();
 $bool = $A->isSignature();
 $bool = $A->isRef();

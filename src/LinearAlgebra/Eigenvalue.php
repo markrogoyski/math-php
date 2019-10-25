@@ -200,22 +200,52 @@ class Eigenvalue
     public static function powerIteration(Matrix $A, int $iterations = 1000): array
     {
         self::checkMatrix($A);
-        
-        $b    = MatrixFactory::random($A->getM(), 1);
-        $newμ = 0;
-        $μ    = -1;
 
-        while (!Support::isEqual($μ, $newμ)) {
-            if ($iterations <= 0) {
-                throw new Exception\FunctionFailedToConvergeException("Maximum number of iterations exceeded.");
+        $initial_iter = $iterations;
+        do {
+            $b = MatrixFactory::random($A->getM(), 1);
+        } while ($b->frobeniusNorm() == 0);
+        $b = $b->scalarDivide($b->frobeniusNorm());  // Scale to a unit vector
+
+        $newμ      = 0;
+        $μ         = -1;
+        $max_rerun = 2;
+        $rerun     = 0;
+        $max_ev    = 0;
+
+        while ($rerun < $max_rerun) {
+            while (!Support::isEqual($μ, $newμ)) {
+                if ($iterations <= 0) {
+                    throw new Exception\FunctionFailedToConvergeException("Maximum number of iterations exceeded.");
+                }
+
+                $μ  = $newμ;
+                $Ab = $A->multiply($b);
+                while ($Ab->frobeniusNorm() == 0) {
+                    $Ab = MatrixFactory::random($A->getM(), 1);
+                }
+
+                $b    = $Ab->scalarDivide($Ab->frobeniusNorm());
+                $newμ = $b->transpose()->multiply($A)->multiply($b)->get(0, 0);
+                $iterations--;
             }
-            $μ    = $newμ;
-            $Ab   = $A->multiply($b);
-            $b    = $Ab->scalarDivide($Ab->frobeniusNorm());
-            $newμ = $b->transpose()->multiply($A)->multiply($b)->get(0, 0) / $b->transpose()->multiply($b)->get(0, 0);
-            $iterations--;
+
+            $max_ev = abs($max_ev) > abs($newμ) ? $max_ev : $newμ;
+
+            // Perturb the eigenvector and run again to make sure the same solution is found
+            $newb = $b->getMatrix();
+            for ($i = 0; $i < count($newb); $i++) {
+                $newb[$i][0] = $newb[1][0] + rand() / 10;
+            }
+            $b    = MatrixFactory::create($newb);
+            $b    = $b->scalarDivide($b->frobeniusNorm());  // Scale to a unit vector
+            $newμ = 0;
+            $μ    = -1;
+
+            $rerun++;
+            $iterations = $initial_iter;
         }
 
-        return [$newμ];
+        return [$max_ev];
     }
 }

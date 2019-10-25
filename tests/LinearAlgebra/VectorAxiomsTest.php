@@ -575,10 +575,6 @@ class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [
-                [],
-                [],
-            ],
-            [
                 [2],
                 [-2],
             ],

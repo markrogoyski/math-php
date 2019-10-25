@@ -23,12 +23,18 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * Constructor
      *
      * @param array $A 1 x n vector
+     *
+     * @throws Exception\BadDataException if the Vector is empty
      */
     public function __construct(array $A)
     {
         $this->A = $A;
         $this->n = count($A);
         $this->i = 0;
+
+        if ($this->n === 0) {
+            throw new Exception\BadDataException('Vector cannot be empty');
+        }
     }
 
     /**************************************************************************

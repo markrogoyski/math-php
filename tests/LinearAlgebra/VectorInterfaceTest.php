@@ -98,7 +98,6 @@ class VectorInterfaceTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForCountable(): array
     {
         return [
-            [[], 0],
             [[1], 1],
             [[1, 1], 2],
             [[1, 1, 1], 3],
@@ -133,10 +132,6 @@ class VectorInterfaceTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForJsonSerializable(): array
     {
         return [
-            [
-                [],
-                '[]',
-            ],
             [
                 [1],
                 '[1]',

@@ -29,6 +29,8 @@ trait MatrixDataProvider
      *  - dataProviderForLowerTriangularMatrix
      *  - dataProviderForDiagonalMatrix
      *  - dataProviderForNotDiagonalMatrix
+     *  - dataProviderForRectangularDiagonalMatrix
+     *  - dataProviderForNotRectangularDiagonalMatrix
      *  - dataProviderForRefMatrix
      *  - dataProviderForNotRefMatrix
      *  - dataProviderForRrefMatrix
@@ -39,6 +41,8 @@ trait MatrixDataProvider
      *  - dataProviderForTwoPositiveDefiniteMatrices
      *  - dataProviderForIdempotentMatrix
      *  - dataProviderForNotIdempotentMatrix
+     *  - dataProviderForNilpotentMatrix
+     *  - dataProviderForNotNilpotentMatrix
      *  - dataProviderForInvolutoryMatrix
      *  - dataProviderForNotInvolutoryMatrix
      *  - dataProviderForSignatureMatrix
@@ -3973,6 +3977,53 @@ trait MatrixDataProvider
         ];
     }
 
+    public function dataProviderForRectangularDiagonalMatrix(): array
+    {
+        return [
+            [
+                [[3, 0]],
+            ],
+            [
+                [
+                    [6, 0, 0],
+                    [0, 2, 0],
+                ],
+            ],
+            [
+                [
+                    [5, 0],
+                    [0, 9],
+                    [0, 0],
+                ],
+            ],
+        ];
+    }
+
+    public function dataProviderForNotRectangularDiagonalMatrix(): array
+    {
+        return [
+            [
+                [[1, 1]],
+            ],
+            [
+                [[0, 1]],
+            ],
+            [
+                [
+                    [1, 0, 0],
+                    [0, 1, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 0],
+                    [0, 1],
+                    [0, 2],
+                ],
+            ],
+        ];
+    }
+
     /**
      * All ref matrices in this data provider are not in rref.
      */
@@ -5074,6 +5125,11 @@ trait MatrixDataProvider
         return [
             [
                 [
+                    [0, 1],
+                ],
+            ],
+            [
+                [
                     [3, 6],
                     [1, 2],
                 ],
@@ -5083,6 +5139,148 @@ trait MatrixDataProvider
                     [2, 2, 4],
                     [1, 3, 4],
                     [1, 2, 3],
+                ],
+            ],
+        ];
+    }
+
+    public function dataProviderForNilpotentMatrix(): array
+    {
+        return [
+            [
+                [
+                    [0],
+                ],
+            ],
+            [
+                [
+                    [0, 0],
+                    [1, 0],
+                ],
+            ],
+            [
+                [
+                    [0, 1],
+                    [0, 0],
+                ],
+            ],
+            [
+                [
+                    [2, -1],
+                    [4, -2],
+                ],
+            ],
+            [
+                [
+                    [0, 5, 2],
+                    [0, 0, 3],
+                    [0, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [5, -3, 2],
+                    [15, -9, 6],
+                    [10, -6, 4],
+                ],
+            ],
+            [
+                [
+                    [5, 5, 5],
+                    [6, 6, 6],
+                    [-11, -11, -11],
+                ],
+            ],
+            [
+                [
+                    [2, 2, -2],
+                    [5, 1, -3],
+                    [1, 5, -3],
+                ],
+            ],
+            [
+                [
+                    [0, 2, 1, 6],
+                    [0, 0, 1, 2],
+                    [0, 0, 0, 3],
+                    [0, 0, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 1, 1, 1],
+                    [2, 2, 2, 2],
+                    [4, 4, 4, 4],
+                    [-7, -7, -7, -7],
+                ],
+            ],
+            [
+                [
+                    [2, 2, 2, -3],
+                    [6, 1, 1, -4],
+                    [1, 6, 1, -4],
+                    [1, 1, 6, -4],
+                ],
+            ],
+            [
+                [
+                    [2, 2, 2, 2, -4],
+                    [7, 1, 1, 1, -5],
+                    [1, 7, 1, 1, -5],
+                    [1, 1, 7, 1, -5],
+                    [1, 1, 1, 7, -5],
+                ],
+            ],
+        ];
+    }
+
+    public function dataProviderForNotNilpotentMatrix(): array
+    {
+        return [
+            [
+                [
+                    [0, 1],
+                ],
+            ],
+            [
+                [
+                    [0, 1],
+                    [1, 0],
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [0, -1],
+                ],
+            ],
+            [
+                [
+                    [1, 2],
+                    [1, -1],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ],
+            ],
+            [
+                [
+                    [1, 1, -1],
+                    [-1, 1, -1],
+                    [1, 1, -2],
+                ],
+            ],
+            [
+                [
+                    [2, 2, 2, 2, -4],
+                    [7, 1, 1, 1, -5],
+                    [1, 7, 1, 1, -5],
+                    [1, 1, 7, 1, -5],
+                    [0, 1, 1, 7, -5],
                 ],
             ],
         ];

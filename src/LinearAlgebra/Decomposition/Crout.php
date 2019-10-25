@@ -20,7 +20,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  * @property-read Matrix $L Lower triangular matrix LD
  * @property-read Matrix $U Normalized upper triangular matrix
  */
-class Crout implements \ArrayAccess
+class Crout extends Decomposition
 {
     /** @var Matrix Lower triangular matrix LD */
     private $L;
@@ -128,33 +128,5 @@ class Crout implements \ArrayAccess
             default:
                 return false;
         }
-    }
-
-    /**
-     * @param mixed $i
-     * @return mixed
-     */
-    public function offsetGet($i)
-    {
-        return $this->$i;
-    }
-
-    /**
-     * @param  mixed $i
-     * @param  mixed $value
-     * @throws Exception\MatrixException
-     */
-    public function offsetSet($i, $value)
-    {
-        throw new Exception\MatrixException('Crout class does not allow setting values');
-    }
-
-    /**
-     * @param  mixed $i
-     * @throws Exception\MatrixException
-     */
-    public function offsetUnset($i)
-    {
-        throw new Exception\MatrixException('Crout class does not allow unsetting values');
     }
 }

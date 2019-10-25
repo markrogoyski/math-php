@@ -325,9 +325,12 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isLowerTriangular
      *  - isUpperTriangular
      *  - isTriangular
+     *  - isDiagonal
+     *  - isRectangularDiagonal
      *  - isRef
      *  - isRref
      *  - isIdempotent
+     *  - isNilpotent
      *  - isInvolutory
      *  - isSignature
      *  - isUpperBidiagonal
@@ -338,6 +341,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - isLowerHessenberg
      *  - isOrthogonal
      *  - isNormal
+     *  - isUnitary
+     *  - isHermitian
      **************************************************************************/
 
     /**
@@ -707,6 +712,28 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Is the retangular matrix diagonal?
+     *  - All the entries below and above the main diagonal are zero
+     *
+     * https://en.wikipedia.org/wiki/Diagonal_matrix
+     *
+     * @return boolean true if rectangular diagonal
+     */
+    public function isRectangularDiagonal(): bool
+    {
+        $m = $this->m;
+        $n = $this->n;
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                if ($i !== $j && !Support::isZero($this->A[$i][$j])) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * Is the matrix in row echelon form?
      *  - All nonzero rows are above any rows of all zeroes
      *  - The leading coefficient of a nonzero row is always strictly to the right of the leading coefficient of the row above it.
@@ -823,8 +850,53 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function isIdempotent(): bool
     {
+        if (!$this->isSquare()) {
+            return false;
+        }
         $A² = $this->multiply($this);
         return $this->isEqual($A²);
+    }
+
+    /**
+     * Is the matrix nilpotent?
+     *
+     * A square MxM matrix is nilpotent if it becomes the
+     * zero matrix when raised to some power k ≤ M.
+     *
+     * Nilpotent matrices will have a zero trace for all k
+     * https://en.wikipedia.org/wiki/Nilpotent_matrix
+     *
+     * @return boolean true if matrix is nilpotent; false otherwise
+     *
+     * @throws Exception\MathException
+     */
+    public function isNilpotent(): bool
+    {
+        if (!$this->isSquare() || $this->trace() !== 0) {
+            return false;
+        }
+
+        $m    = $this->getM();
+        $zero = MatrixFactory::zero($m, $m);
+        if ($this->isEqual($zero)) {
+            return true;
+        }
+
+        $A         = $this;
+        $nilpotent = false;
+
+        for ($i = 1; $i < $m; $i++) {
+            $A = $A->multiply($this);
+            if ($A->isEqual($zero)) {
+                $nilpotent = true;
+                break;
+            }
+            if ($A->trace() !== 0) {
+                break;
+            }
+        }
+
+        return $nilpotent;
     }
 
     /**
@@ -1059,7 +1131,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Is the matrix normal?
      *  - It is a square matrix
-     *  - AAᵀ = AᵀA
+     *  - AAᴴ = AᴴA
      *
      * https://en.wikipedia.org/wiki/Normal_matrix
      * @return bool
@@ -1072,14 +1144,61 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             return false;
         }
 
-        // AAᵀ = AᵀA
-        $Aᵀ  = $this->transpose();
-        $AAᵀ = $this->multiply($Aᵀ);
-        $AᵀA = $Aᵀ->multiply($this);
+        // AAᴴ = AᴴA
+        $Aᴴ  = $this->conjugateTranspose();
+        $AAᴴ = $this->multiply($Aᴴ);
+        $AᴴA = $Aᴴ->multiply($this);
 
-        return $AAᵀ->isEqual($AᵀA);
+        return $AAᴴ->isEqual($AᴴA);
     }
 
+    /**
+     * Is the matrix unitary?
+     *  - It is a square matrix
+     *  - AAᴴ = AᴴA = I
+     *
+     * https://en.wikipedia.org/wiki/Unitary_matrix
+     * @return bool
+     *
+     * @throws Exception\MathException
+     */
+    public function isUnitary(): bool
+    {
+        if (!$this->isSquare()) {
+            return false;
+        }
+
+        // AAᴴ = AᴴA = I
+        $Aᴴ  = $this->conjugateTranspose();
+        $AAᴴ = $this->multiply($Aᴴ);
+        $AᴴA = $Aᴴ->multiply($this);
+
+        $I = Matrixfactory::identity($this->m);
+        return $AAᴴ->isEqual($AᴴA) && $AAᴴ->isEqual($I);
+    }
+
+    /**
+     * Is the matrix Hermitian?
+     *  - It is a square matrix
+     *  - A = Aᴴ
+     *
+     * https://en.wikipedia.org/wiki/Hermitian_matrix
+     * @return bool
+     *
+     * @throws Exception\MathException
+     */
+    public function isHermitian(): bool
+    {
+        if (!$this->isSquare()) {
+            return false;
+        }
+
+        // A = Aᴴ
+        $Aᴴ  = $this->conjugateTranspose();
+
+        return $this->isEqual($Aᴴ);
+    }
+    
     /**************************************************************************
      * MATRIX AUGMENTATION - Return a Matrix
      *  - augment
@@ -1642,6 +1761,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     /**************************************************************************
      * MATRIX OPERATIONS - Return a Matrix
      *  - transpose
+     *  - conjugateTranspose
      *  - trace
      *  - map
      *  - diagonal
@@ -1688,6 +1808,18 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Conjugate Transpose
+     *
+     * Returns the complex conjugate of the transpose. For a real matrix, this is the same as the transpose.
+     *
+     * https://en.wikipedia.org/wiki/Conjugate_transpose
+     */
+    public function conjugateTranspose()
+    {
+        return $this->transpose();
+    }
+
+    /**
      * Trace
      * the trace of an n-by-n square matrix A is defined to be
      * the sum of the elements on the main diagonal
@@ -1714,30 +1846,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return $tr⟮A⟯;
-    }
-
-    /**
-     * Map a function over all elements of the Matrix
-     *
-     * @param  callable $func takes a matrix item as input
-     *
-     * @return Matrix
-     *
-     * @throws Exception\IncorrectTypeException
-     */
-    public function map(callable $func): Matrix
-    {
-        $m = $this->m;
-        $n = $this->n;
-        $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = $func($this->A[$i][$j]);
-            }
-        }
-
-        return MatrixFactory::create($R);
     }
 
     /**
@@ -2152,6 +2260,51 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function householder(): Matrix
     {
         return Householder::transform($this);
+    }
+
+    /**************************************************************************
+     * MATRIX MAPPING
+     *  - map
+     *  - mapRows
+     **************************************************************************/
+
+    /**
+     * Map a function over all elements of the Matrix
+     *
+     * @param  callable $func takes a matrix item as input
+     *
+     * @return Matrix
+     *
+     * @throws Exception\IncorrectTypeException
+     */
+    public function map(callable $func): Matrix
+    {
+        $m = $this->m;
+        $n = $this->n;
+        $R = [];
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $R[$i][$j] = $func($this->A[$i][$j]);
+            }
+        }
+
+        return MatrixFactory::create($R);
+    }
+
+    /**
+     * Map a function over the rows of the matrix
+     *
+     * @param callable $func
+     *
+     * @return array|array[] Depends on the function
+     */
+    public function mapRows(callable $func): array
+    {
+        return array_map(
+            $func,
+            $this->A
+        );
     }
 
     /**************************************************************************
