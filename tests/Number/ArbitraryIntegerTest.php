@@ -37,7 +37,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     {
         $obj = new ArbitraryInteger($int);
 
-        $this->assertSame($int, $obj->toInteger());
+        $this->assertSame($int, $obj->toInt());
     }
 
     public function dataProviderForIntToInt()

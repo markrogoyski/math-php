@@ -116,7 +116,7 @@ class ArbitraryInteger implements ObjectArithmetic
      *
      * @return int
      */
-    public function toInteger(): int
+    public function toInt(): int
     {
         $number = str_split(strrev($this->base256));
         $place_value = 1;
@@ -428,7 +428,7 @@ class ArbitraryInteger implements ObjectArithmetic
         $safe_bytes = new ArbitraryInteger(intdiv(PHP_INT_MAX, 256));
         $divisor = self::prepareParameter($divisor);
         if ($divisor->lessThan($safe_bytes)) {
-            $divisor = $divisor->toInteger();
+            $divisor = $divisor->toInt();
             $base_256 = $this->base256;
             $len = strlen($base_256);
             
@@ -438,7 +438,7 @@ class ArbitraryInteger implements ObjectArithmetic
                 // Grab same number of chars from $this
                 $chr_obj = self::fromBinary(substr($base_256, $i, 1), $this->positive);
                 // Convert chr into int
-                $chr = $chr_obj->toInteger();
+                $chr = $chr_obj->toInt();
                 // Calculate $int and $mod
                 $int_chr = intdiv($chr + $carry * 256, $divisor);
                 $carry = ($chr + $carry * 256) % $divisor;
@@ -539,7 +539,7 @@ class ArbitraryInteger implements ObjectArithmetic
         $shifted_string = "";
         $length = strlen($this->base256);
         list($bytes, $bits) = $bits->fullIntdiv(8);
-        $bits = $bits->toInteger();
+        $bits = $bits->toInt();
         $carry = 0;
         for ($i = 0; $i < $length; $i++) {
             $chr = ord($this->base256[$i]);
@@ -553,7 +553,7 @@ class ArbitraryInteger implements ObjectArithmetic
         $shifted_string .= chr($carry);
 
         // Pad $bytes of 0x00 on the right.
-        $shifted_string = $shifted_string . str_repeat(chr(0), $bytes->toInteger());
+        $shifted_string = $shifted_string . str_repeat(chr(0), $bytes->toInt());
 
         return self::fromBinary($shifted_string, true);
     }
