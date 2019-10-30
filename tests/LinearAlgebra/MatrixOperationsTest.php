@@ -2689,7 +2689,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
                     [-2, 0, 2],
                 ],
             ],
-            // Test data from Linear Algebra and Its Aplications (Lay)
+            // Test data from Linear Algebra and Its Applications (Lay)
             [
                 [
                     [1, 4, 7, 8],
@@ -2713,6 +2713,79 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
         ];
+    }
+
+    /**
+     * @dataProvider dataProviderForMeanDeviationColumnsAsVariables
+     */
+    public function testMeanDeviationColumnsAsVariables(array $A, array $B)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        // When
+        $meanDeviation = $A->meanDeviation('columns');
+
+        // Then
+        $this->assertEquals($B, $meanDeviation);
+    }
+
+    public function dataProviderForMeanDeviationColumnsAsVariables(): array
+    {
+        return [
+            [
+                [
+                    [3, 5, 1],
+                    [9, 1, 4],
+                ],
+                [
+                    [-3, 2, -1.5],
+                    [3, -2, 1.5],
+                ],
+            ],
+            [
+                [
+                    [4, -1, 3],
+                    [1, 3, 5],
+                ],
+                [
+                    [1.5, -2, -1],
+                    [-1.5, 2, 1],
+                ],
+            ],
+            [
+                [
+                    [1, 4, 7, 8],
+                    [2, 2, 8, 4],
+                    [1, 13, 1, 5],
+                ],
+                [
+                   [-1 / 3, -7 / 3,  5 / 3,  7 / 3],
+                   [ 2 / 3, -13 / 3,  8 / 3, -5 / 3],
+                   [-1 / 3,  20 / 3, -13 / 3,  -2 / 3],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @test   meanDeviation exception is direction is not rows or columns
+     * @throws \Exception
+     */
+    public function testMeanDeviationDirectionException()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
+        $A->meanDeviation('diagonal_direction');
     }
 
     /**

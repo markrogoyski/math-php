@@ -289,6 +289,29 @@ class MatrixGettersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test   asRowVectors returns the matrix represented as an array of Vector objects
+     * @throws \Exception
+     */
+    public function testAsRowVectors()
+    {
+        // Given
+        $A = new Matrix([
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9],
+        ]);
+
+        $expected = [
+            new Vector([1, 2, 3]),
+            new Vector([4, 5, 6]),
+            new Vector([7, 8, 9]),
+        ];
+
+        // Then
+        $this->assertEquals($expected, $A->asRowVectors());
+    }
+
+    /**
      * @test         getDiagonalElements
      * @dataProvider dataProviderForGetDiagonalElements
      * @param        array $A
