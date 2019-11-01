@@ -3,16 +3,17 @@
 namespace MathPHP\Tests\Functions;
 
 use MathPHP\Exception;
-use MathPHP\Functions\ArbitraryIntegerFunctions;
+use MathPHP\Functions\ArbitraryInteger;
+use MathPHP\Number\ArbitraryInteger as Integer;
 
-class ArbitraryIntegerFunctionsTest extends \PHPUnit\Framework\TestCase
+class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForAckermann
      */
     public function testAckermann(int $m, int $n, string $expected)
     {
-        $obj = ArbitraryIntegerFunctions::ackermann($m, $n);
+        $obj = ArbitraryInteger::ackermann($m, $n);
         $this->assertEquals($expected, (string) $obj);
     }
     public function dataProviderForAckermann()
@@ -30,6 +31,16 @@ class ArbitraryIntegerFunctionsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test Rand produces an appropriately sized random number
+     */
+    public function testRand()
+    {
+        $number = ArbitraryInteger::rand(1);
+        $this->assertInstanceOf(Integer::class, $number);
+        $this->assertTrue($number->lessThan(65536));
+    }
+
+    /**
      * @test         prepareParameter throws an exception when an object is provided
      * @throws       \Exception
      */
@@ -43,6 +54,22 @@ class ArbitraryIntegerFunctionsTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\IncorrectTypeException::class);
 
         // When
-        $int =  ArbitraryIntegerFunctions::ackermann($m, $n);
+        $int =  ArbitraryInteger::ackermann($m, $n);
+    }
+
+    /**
+     * @test     Rand throws an exception when given an int less than 1
+     * @throws   \Exception
+     */
+    public function testBadRandParameter()
+    {
+        // Given
+        $number = 0;
+
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
+        $int =  ArbitraryInteger::rand($number);
     }
 }

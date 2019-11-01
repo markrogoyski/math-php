@@ -38,7 +38,7 @@ class ArbitraryInteger implements ObjectArithmetic
                 // Since abs(PHP_INT_MIN) is PHP_INT_MAX + 1, we cannot just change the sign.
                 // This is more universal then making a single edge case for PHP_INT_MIN
                 $positive = new ArbitraryInteger(-1 * ($number + 1));
-                $this->base256 = $positive->add(1)->getBinary();
+                $this->base256 = $positive->add(1)->toBinary();
                 $this->positive = false;
             } else {
                 $int_part = intdiv($number, 256);
@@ -74,7 +74,7 @@ class ArbitraryInteger implements ObjectArithmetic
                 }
             }
             $base256 = BaseEncoderDecoder::createArbitraryInteger($number, $base);
-            $this->base256 = $base256->getBinary();
+            $this->base256 = $base256->toBinary();
         } else {
             // Not an int, and not a string
             throw new Exception\IncorrectTypeException("Number can only be an int or a string: type '" . gettype($number) . "' provided");
@@ -181,7 +181,7 @@ class ArbitraryInteger implements ObjectArithmetic
      * Return the number as a binary string
      * @return string
      */
-    public function getBinary(): string
+    public function toBinary(): string
     {
         return $this->base256;
     }
@@ -190,23 +190,9 @@ class ArbitraryInteger implements ObjectArithmetic
      * is the number positive?
      * @return bool
      */
-    public function getPositive(): bool
+    public function isPositive(): bool
     {
         return $this->positive;
-    }
-
-    /**
-     * Create a random ArbitraryInteger
-     *
-     * @param int $bytes
-     * @return ArbitraryInteger
-     */
-    public static function rand(int $bytes): ArbitraryInteger
-    {
-        if ($bytes <= 0) {
-            throw new Exception\BadParameterException('Cannot produce a random number with zero or negative bytes.');
-        }
-        return self::fromBinary(random_bytes($bytes), mt_rand(0, 1) === 0);
     }
 
     /**************************************************************************
@@ -273,13 +259,13 @@ class ArbitraryInteger implements ObjectArithmetic
     public function add($number): ArbitraryInteger
     {
         $number = self::prepareParameter($number);
-        if (!$number->getPositive()) {
+        if (!$number->isPositive()) {
             return $this->subtract($number->negate());
         }
         if (!$this->positive) {
             return $number->subtract($this->negate());
         }
-        $number = $number->getBinary();
+        $number = $number->toBinary();
         $carry = 0;
         $len = strlen($this->base256);
         $num_len = strlen($number);
@@ -313,7 +299,7 @@ class ArbitraryInteger implements ObjectArithmetic
     {
         $number = self::prepareParameter($number);
         
-        if (!$number->getPositive()) {
+        if (!$number->isPositive()) {
             return $this->add($number->negate());
         }
         if (!$this->positive) {
@@ -322,7 +308,7 @@ class ArbitraryInteger implements ObjectArithmetic
         if ($this->lessThan($number)) {
             return $number->subtract($this)->negate();
         }
-        $number = $number->getBinary();
+        $number = $number->toBinary();
         $carry = 0;
         $len = strlen($this->base256);
         $num_len = strlen($number);
@@ -358,7 +344,7 @@ class ArbitraryInteger implements ObjectArithmetic
     public function multiply($number): ArbitraryInteger
     {
         $number = self::prepareParameter($number);
-        $number = $number->getBinary();
+        $number = $number->toBinary();
         $length = strlen($number);
         $product = new ArbitraryInteger(0);
         for ($i = 1; $i <= $length; $i++) {
@@ -450,7 +436,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $mod = new ArbitraryInteger($carry);
         } else {
             $int = new ArbitraryInteger(0);
-            $divisor256 = $divisor->getBinary();
+            $divisor256 = $divisor->toBinary();
             $base256 = $this->base256;
             $length = strlen($base256);
             $mod = new ArbitraryInteger(0);
@@ -505,16 +491,13 @@ class ArbitraryInteger implements ObjectArithmetic
      *
      * Calculate the factorial of an ArbitraryInteger
      *
-     * @param int $int
-     *
      * @return ArbitraryInteger
-     * @todo should this be static or not? Is it a constructor or an operation?
      */
-    public static function fact(int $int): ArbitraryInteger
+    public function fact(): ArbitraryInteger
     {
         $result = new ArbitraryInteger(1);
         $i_obj = new ArbitraryInteger(0);
-        for ($i = 1; $i <= $int; $i++) {
+        for ($i = 1; !$this->lessThan($i); $i++) {
             $i_obj = $i_obj->add(1);
             $result = $result->multiply($i_obj);
         }
@@ -575,7 +558,7 @@ class ArbitraryInteger implements ObjectArithmetic
     public function equals($int): bool
     {
         $int = self::prepareParameter($int);
-        return $this->base256 == $int->getBinary() && $this->positive == $int->getPositive();
+        return $this->base256 == $int->toBinary() && $this->positive == $int->isPositive();
     }
 
     /**
@@ -606,11 +589,11 @@ class ArbitraryInteger implements ObjectArithmetic
     {
         $int = self::prepareParameter($int);
         $base_256 = $this->base256;
-        $int_256 = $int->getBinary();
+        $int_256 = $int->toBinary();
         $my_len = strlen($base_256);
         $int_len = strlen($int_256);
         $my_positive = $this->positive;
-        $int_positive = $int->getPositive();
+        $int_positive = $int->isPositive();
         
         // Check if signs differ
         if ($my_positive && !$int_positive) {

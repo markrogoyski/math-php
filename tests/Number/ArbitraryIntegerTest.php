@@ -73,16 +73,6 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
-     */
-    public function testRand()
-    {
-        $number = ArbitraryInteger::rand(1);
-        $this->assertInstanceOf(ArbitraryInteger::class, $number);
-        $this->assertTrue($number->lessThan(65536));
-    }
-
-    /**
-     * @test
      * @dataProvider dataProviderForTestAddition
      */
     public function testAddition(string $int1, string $int2, string $expected)
@@ -252,9 +242,10 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function testFact($int, $expected)
     {
-        $fact = ArbitraryInteger::fact($int);
+        $int = new ArbitraryInteger($int);
+        $fact = $int->fact();
         $expected_obj = new ArbitraryInteger($expected);
-        $this->assertEquals($expected_obj->getBinary(), $fact->getBinary());
+        $this->assertEquals($expected_obj->toBinary(), $fact->toBinary());
         $this->assertTrue($expected_obj->equals($fact));
         $this->assertSame($expected, (string) $fact);
     }
@@ -332,23 +323,6 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         // When
         $int =  new ArbitraryInteger($number);
     }
-
-    /**
-     * @test     Rand throws an exception when given an int less than 1
-     * @throws   \Exception
-     */
-    public function testBadRandParameter()
-    {
-        // Given
-        $number = 0;
-
-        // Then
-        $this->expectException(Exception\BadParameterException::class);
-
-        // When
-        $int =  ArbitraryInteger::rand($number);
-    }
-
 
     /**
      * @test         Constructor throws an exception when given a float

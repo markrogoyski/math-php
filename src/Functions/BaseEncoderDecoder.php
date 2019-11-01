@@ -60,7 +60,7 @@ class BaseEncoderDecoder
         if ($alphabet === null) {
             $alphabet = self::getDefaultAlphabet($base);
         }
-        $base_256 = $number->getBinary();
+        $base_256 = $number->toBinary();
         $result = '';
         while ($base_256 !== '') {
             $carry = 0;
