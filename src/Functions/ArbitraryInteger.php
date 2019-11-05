@@ -50,7 +50,7 @@ class ArbitraryInteger
      * Create a random ArbitraryInteger
      *
      * @param int $bytes
-     * 
+     *
      * @return Number\ArbitraryInteger
      *
      * @throws Exception\BadParameterException
