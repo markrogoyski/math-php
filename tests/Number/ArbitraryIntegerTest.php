@@ -8,65 +8,127 @@ use MathPHP\Exception;
 class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test         String representation
      * @dataProvider dataProviderForStringToString
+     * @param        string $int
+     * @param        string $expected
+     * @throws       \Exception
      */
     public function testStringToString(string $int, string $expected)
     {
+        // Given
         $obj = new ArbitraryInteger($int);
 
-        $this->assertSame($expected, $obj->__toString());
-        $this->assertSame($expected, (string) $obj);
+        // When
+        $stringRepresentation = (string) $obj;
+
+        // Then
+        $this->assertSame($expected, $stringRepresentation);
     }
 
-    public function dataProviderForStringToString()
+    /**
+     * @return array (numberAsString, stringRepresentation
+     */
+    public function dataProviderForStringToString(): array
     {
         return [
+            ['0', '0'],
+            ['1', '1'],
             ['200', '200'],
             ['123456789012345678901234567890', '123456789012345678901234567890'],
+            ['0b0', '0'],
+            ['0b1', '1'],
+            ['-0b1', '-1'],
             ['0b1101', '13'],
+            ['0x0', '0'],
+            ['0x1', '1'],
+            ['-0x1', '-1'],
             ['0xff', '255'],
+            ['-0xff', '-255'],
+            ['0x7fff', '32767'],
+            ['-0x7fff', '-32767'],
+            ['0x7FFF', '32767'],
+            ['-0x7FFF', '-32767'],
+            ['00', '0'],
+            ['01', '1'],
+            ['-01', '-1'],
             ['0127', '87'],
+            ['-0127', '-87'],
+            ['077777', '32767'],
+            ['-077777', '-32767'],
+            ['-1', '-1'],
             ['-31415', '-31415'],
         ];
     }
 
     /**
+     * @test         Int representation
      * @dataProvider dataProviderForIntToInt
+     * @param        int $int
+     * @throws       \Exception
      */
     public function testIntToInt(int $int)
     {
+        // Given
         $obj = new ArbitraryInteger($int);
 
-        $this->assertSame($int, $obj->toInt());
+        // When
+        $intRepresentation = $obj->toInt();
+
+        // Then
+        $this->assertSame($int, $intRepresentation);
     }
 
-    public function dataProviderForIntToInt()
+    public function dataProviderForIntToInt(): array
     {
         return [
+            [0],
+            [1],
+            [-1],
+            [2],
+            [-2],
             [200],
             [123456],
             [PHP_INT_MAX],
             [PHP_INT_MIN],
+            [32767],
+            [-32767],
             [31415],
             [-31415],
         ];
     }
 
     /**
+     * @test         Float representation
      * @dataProvider dataProviderForStringToFloat
+     * @param        string $int
+     * @param        float $float
+     * @throws       \Exception
      */
     public function testIntToFloat(string $int, float $float)
     {
+        // Given
         $obj = new ArbitraryInteger($int);
 
-        $this->assertSame($float, $obj->toFloat());
+        // When
+        $floatRepresentation = $obj->toFloat();
+
+        // Then
+        $this->assertSame($float, $floatRepresentation);
     }
 
     public function dataProviderForStringToFloat()
     {
         return [
+            ['0', 0.0],
+            ['1', 1.0],
+            ['-1', -1.0],
+            ['2', 2.0],
+            ['-2', -2.0],
             ['200', 200.0],
             ['123456', 123456.0],
+            ['32767', 32767.0],
+            ['-32767', -32767.0],
             ['9223372036854775808', 9.223372036854775808E18],
         ];
     }
