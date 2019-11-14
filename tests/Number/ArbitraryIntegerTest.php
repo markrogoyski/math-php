@@ -117,7 +117,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($float, $floatRepresentation);
     }
 
-    public function dataProviderForStringToFloat()
+    public function dataProviderForStringToFloat(): array
     {
         return [
             ['0', 0.0],
@@ -134,68 +134,109 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test
+     * @test         add
      * @dataProvider dataProviderForTestAddition
+     * @param        string $int1
+     * @param        string $int2
+     * @param        string $expected
+     * @throws       \Exception
      */
     public function testAddition(string $int1, string $int2, string $expected)
     {
+        // Given
         $int1 = new ArbitraryInteger($int1);
         $int2 = new ArbitraryInteger($int2);
-        $this->assertEquals($expected, (string) $int1->add($int2));
+
+        // When
+        $sum = $int1->add($int2);
+
+        // Then
+        $this->assertEquals($expected, (string) $sum);
     }
 
-    public function dataProviderForTestAddition()
+    public function dataProviderForTestAddition(): array
     {
         return [
+            ['1', '0', '1'],
             ['0', '1', '1'],
             ['0', '-1', '-1'],
+            ['1', '-1', '0'],
             ['-1', '0', '-1'],
             ['-1', '-2', '-3'],
             ['-2', '-1', '-3'],
+            ['32767', '48937', '81704'],
+            ['98372985472983', '73468763846876', '171841749319859'],
+            ['983759729375923795837849', '98734957979279759843798', '1082494687355203555681647'],
+            ['983759729375923795837849', '-98734957979279759843798', '885024771396644035994051'],
         ];
     }
 
     /**
-     * @test
+     * @test         subtract
      * @dataProvider dataProviderForTestSubtract
+     * @param        string $int1
+     * @param        string $int2
+     * @param        string $expected
+     * @throws       \Exception
      */
     public function testSubtract(string $int1, string $int2, string $expected)
     {
+        // Given
         $int1 = new ArbitraryInteger($int1);
         $int2 = new ArbitraryInteger($int2);
-        $this->assertEquals($expected, (string) $int1->subtract($int2));
+
+        // When
+        $difference = $int1->subtract($int2);
+
+        // Then
+        $this->assertEquals($expected, (string) $difference);
     }
 
-    public function dataProviderForTestSubtract()
+    public function dataProviderForTestSubtract(): array
     {
         return [
+            ['1', '0', '1'],
+            ['1', '1', '0'],
             ['0', '1', '-1'],
             ['0', '-1', '1'],
             ['-1', '-2', '1'],
             ['-2', '-1', '-1'],
+            ['32767', '48937', '-16170'],
+            ['98372985472983', '73468763846876', '24904221626107'],
+            ['983759729375923795837849', '98734957979279759843798', '885024771396644035994051'],
         ];
     }
 
     /**
-     * @test         Intdiv calculates the correct whole and remainder
+     * @test         intdiv calculates the correct whole and remainder
      * @dataProvider dataProviderForIntDivSmallDivisor
      * @param        string $dividend
-     * @param        int $divisor
-     * @param        string $int
-     * @param        string $mod
+     * @param        int    $divisor
+     * @param        string $expectedQuotient
+     * @param        string $expectedMod
+     * @throws       \Exception
      */
-    public function testIntDivSmallDivisor(string $dividend, int $divisor, string $int, string $mod)
+    public function testIntDivSmallDivisor(string $dividend, int $divisor, string $expectedQuotient, string $expectedMod)
     {
+        // Given
         $obj = new ArbitraryInteger($dividend);
-        $result_int =  $obj->intdiv($divisor);
-        $result_mod =  $obj->mod($divisor);
-        $this->assertEquals($int, (string) $result_int);
-        $this->assertEquals($mod, (string) $result_mod);
+
+        // When
+        $quotient = $obj->intdiv($divisor);
+        $mod      = $obj->mod($divisor);
+
+        // Then
+        $this->assertEquals($expectedQuotient, (string) $quotient);
+        $this->assertEquals($expectedMod, (string) $mod);
     }
 
-    public function dataProviderForIntDivSmallDivisor()
+    public function dataProviderForIntDivSmallDivisor(): array
     {
         return [
+            ['5', 5, '1', '0'],
+            ['10', 5, '2', '0'],
+            ['11', 5, '2', '1'],
+            ['12', 5, '2', '2'],
             ['2134567896543378631213', 2, '1067283948271689315606', '1'],
             ['2134567896543378631213', 100, '21345678965433786312', '13'],
             ['301', 300, '1', '1'],
@@ -203,23 +244,30 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         Intdiv calculates the correct whole and remainder
+     * @test         intdiv calculates the correct whole and remainder
      * @dataProvider dataProviderForIntDivLargeDivisor
      * @param        string $dividend
-     * @param        int $divisor
-     * @param        string $int
-     * @param        string $mod
+     * @param        string $divisor
+     * @param        string $expectedQuotient
+     * @param        string $expectedMod
+     * @throws       \Exception
      */
-    public function testIntDivLargeDivisor(string $dividend, string $divisor, string $int, string $mod)
+    public function testIntDivLargeDivisor(string $dividend, string $divisor, string $expectedQuotient, string $expectedMod)
     {
-        $obj = new ArbitraryInteger($dividend);
+        // Given
+        $obj     = new ArbitraryInteger($dividend);
         $divisor = new ArbitraryInteger($divisor);
-        $result_int =  $obj->intdiv($divisor);
-        $result_mod =  $obj->mod($divisor);
-        $this->assertEquals($int, (string) $result_int);
-        $this->assertEquals($mod, (string) $result_mod);
+
+        // When
+        $quotient = $obj->intdiv($divisor);
+        $mod      = $obj->mod($divisor);
+
+        // Then
+        $this->assertEquals($expectedQuotient, (string) $quotient);
+        $this->assertEquals($expectedMod, (string) $mod);
     }
-    public function dataProviderForIntDivLargeDivisor()
+
+    public function dataProviderForIntDivLargeDivisor(): array
     {
         return [
             ['2134567896543378631213', '1067283948271689315606', '2', '1'],
