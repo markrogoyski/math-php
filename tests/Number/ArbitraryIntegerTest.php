@@ -509,68 +509,60 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test     Constructor throws an exception when given an empty string
-     * @throws   \Exception
+     * @test   Constructor throws an exception when given an empty string
+     * @throws \Exception
      */
     public function testEmptyStringException()
     {
         // Given
-        $number = "";
+        $number = '';
 
         // Then
         $this->expectException(Exception\BadParameterException::class);
 
         // When
-        $int =  new ArbitraryInteger($number);
+        $int = new ArbitraryInteger($number);
     }
 
     /**
      * @test         Constructor throws an exception when given a float
-     * @dataProvider dataproviderForTestIncorrectTypeException
+     * @dataProvider dataProviderForTestIncorrectTypeException
+     * @param        mixed $number
      * @throws       \Exception
      */
     public function testIncorrectTypeException($number)
     {
-        // Given
-        // $number
-
         // Then
         $this->expectException(Exception\IncorrectTypeException::class);
 
         // When
-        $int =  new ArbitraryInteger($number);
+        $int = new ArbitraryInteger($number);
     }
 
-    public function dataproviderForTestIncorrectTypeException()
+    public function dataProviderForTestIncorrectTypeException(): array
     {
         return [
-            // float
-            [3.14],
-            // array
-            [
-                ['123', '456']
-            ],
-            // bool
-            [true],
-            // object
-            [new \stdClass()],
+            'float'  => [3.14],
+            'array'  =>[['123', '456']],
+            'bool'   => [true],
+            'object' => [new \stdClass()],
         ];
     }
 
     /**
-     * @test         prepareParameter throws an exception when an object is provided
-     * @throws       \Exception
+     * @test   prepareParameter throws an exception when an object is provided
+     * @throws \Exception
      */
     public function testIncorrectTypeExceptionPrepareParameter()
     {
         // Given
         $number = new ArbitraryInteger(0);
-        $class = new \stdClass();
+        $class  = new \stdClass();
 
         // Then
         $this->expectException(Exception\IncorrectTypeException::class);
 
         // When
-        $int =  $number->add($class);
+        $int = $number->add($class);
     }
 }
