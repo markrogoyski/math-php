@@ -208,7 +208,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         intdiv calculates the correct whole and remainder
+     * @test         intdiv and mod calculate the correct whole and remainder
      * @dataProvider dataProviderForIntDivSmallDivisor
      * @param        string $dividend
      * @param        int    $divisor
@@ -216,7 +216,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
      * @param        string $expectedMod
      * @throws       \Exception
      */
-    public function testIntDivSmallDivisor(string $dividend, int $divisor, string $expectedQuotient, string $expectedMod)
+    public function testIntDivAndModSmallDivisor(string $dividend, int $divisor, string $expectedQuotient, string $expectedMod)
     {
         // Given
         $obj = new ArbitraryInteger($dividend);
@@ -224,6 +224,28 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         // When
         $quotient = $obj->intdiv($divisor);
         $mod      = $obj->mod($divisor);
+
+        // Then
+        $this->assertEquals($expectedQuotient, (string) $quotient);
+        $this->assertEquals($expectedMod, (string) $mod);
+    }
+
+    /**
+     * @test         fullIntdiv calculates the correct whole and remainder
+     * @dataProvider dataProviderForIntDivSmallDivisor
+     * @param        string $dividend
+     * @param        int    $divisor
+     * @param        string $expectedQuotient
+     * @param        string $expectedMod
+     * @throws       \Exception
+     */
+    public function testFullIntDivSmallDivisor(string $dividend, int $divisor, string $expectedQuotient, string $expectedMod)
+    {
+        // Given
+        $obj = new ArbitraryInteger($dividend);
+
+        // When
+        list($quotient, $mod) = $obj->fullIntdiv($divisor);
 
         // Then
         $this->assertEquals($expectedQuotient, (string) $quotient);
@@ -244,7 +266,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         intdiv calculates the correct whole and remainder
+     * @test         intdiv and mod calculate the correct whole and remainder
      * @dataProvider dataProviderForIntDivLargeDivisor
      * @param        string $dividend
      * @param        string $divisor
@@ -261,6 +283,29 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         // When
         $quotient = $obj->intdiv($divisor);
         $mod      = $obj->mod($divisor);
+
+        // Then
+        $this->assertEquals($expectedQuotient, (string) $quotient);
+        $this->assertEquals($expectedMod, (string) $mod);
+    }
+
+    /**
+     * @test         fullIntdiv calculates the correct whole and remainder
+     * @dataProvider dataProviderForIntDivLargeDivisor
+     * @param        string $dividend
+     * @param        string $divisor
+     * @param        string $expectedQuotient
+     * @param        string $expectedMod
+     * @throws       \Exception
+     */
+    public function testFullIntDivLargeDivisor(string $dividend, string $divisor, string $expectedQuotient, string $expectedMod)
+    {
+        // Given
+        $obj     = new ArbitraryInteger($dividend);
+        $divisor = new ArbitraryInteger($divisor);
+
+        // When
+        list($quotient, $mod) = $obj->fullIntdiv($divisor);
 
         // Then
         $this->assertEquals($expectedQuotient, (string) $quotient);
@@ -333,6 +378,11 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
                 1000000000,
                 6,
                 '1000000000000000000000000000000000000000000000000000000',
+            ],
+            [
+                2,
+                151,
+                '2854495385411919762116571938898990272765493248',
             ],
         ];
     }
@@ -481,8 +531,57 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test     leftShift
+     * @dataProvider dataProviderForLeftShift
+     * @param string $number
+     * @param int $bits
+     * @param string $expected
+     * @throws Exception\BadParameterException
+     * @throws Exception\IncorrectTypeException
+     */
+    public function testLeftShift(string $number, int $bits, string $expected)
+    {
+        // Given
+        $int = new ArbitraryInteger($number);
+
+        // When
+        $shiftedInt = $int->leftShift($bits);
+
+        // Then
+        $this->assertEquals($expected, (string) $shiftedInt);
+    }
+
+    /**
+     * @return array (number, bits, expected number)
+     */
+    public function dataProviderForLeftShift(): array
+    {
+        return [
+            ['0', 0, '0'],
+            ['0', 1, '0'],
+            ['0', 2, '0'],
+            ['1', 1, '2'],
+            ['1', 2, '4'],
+            ['1', 3, '8'],
+            ['1', 4, '16'],
+            ['1', 5, '32'],
+            ['1', 20, '1048576'],
+            ['1', 32, '4294967296'],
+            ['1', 62, '4611686018427387904'],
+            ['2', 0, '2'],
+            ['2', 1, '4'],
+            ['2', 2, '8'],
+            ['2', 3, '16'],
+            ['2', 4, '32'],
+            ['2', 49, '1125899906842624'],
+            ['2', 99, '1267650600228229401496703205376'],
+            ['2', 150, '2854495385411919762116571938898990272765493248'],
+        ];
+    }
+
+    /**
      * @test         greaterThan
-     * @dataProvider dataProviderForTestGreaterThan
+     * @dataProvider dataProviderForGreaterThan
      * @param        string $int1
      * @param        string $int2
      * @param        bool $expected
@@ -498,13 +597,41 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $int1->greaterThan($int2));
     }
 
-    public function dataProviderForTestGreaterThan(): array
+    public function dataProviderForGreaterThan(): array
     {
         return [
             ['0', '-1', true],
             ['-1', '0', false],
             ['2432902008176640000', '123456789101112', true],
             ['123456789101112', '2432902008176640000', false]
+        ];
+    }
+
+    /**
+     * @test         lessThan
+     * @dataProvider dataProviderForLessThan
+     * @param        string $int1
+     * @param        string $int2
+     * @param        bool $expected
+     * @throws       \Exception
+     */
+    public function testLessThan(string $int1, string $int2, bool $expected)
+    {
+        // Given
+        $int1 = new ArbitraryInteger($int1);
+        $int2 = new ArbitraryInteger($int2);
+
+        // Then
+        $this->assertEquals($expected, $int1->lessThan($int2));
+    }
+
+    public function dataProviderForLessThan(): array
+    {
+        return [
+            ['0', '-1', false],
+            ['-1', '0', true],
+            ['2432902008176640000', '123456789101112', false],
+            ['123456789101112', '2432902008176640000', true]
         ];
     }
 
