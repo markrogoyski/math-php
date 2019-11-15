@@ -26,8 +26,8 @@ class ArbitraryInteger
      */
     public static function ackermann($m, $n): Number\ArbitraryInteger
     {
-        $m = self::prepareParameter($m);
-        $n = self::prepareParameter($n);
+        $m = Number\ArbitraryInteger::create($m);
+        $n = Number\ArbitraryInteger::create($n);
 
         if ($m->equals(0)) {
             return $n->add(1);
@@ -37,8 +37,7 @@ class ArbitraryInteger
             return $n->leftShift(1)->add(3);
         } elseif ($m->equals(3)) {
             $one = new Number\ArbitraryInteger(1);
-            // 2^(n+3) - 3
-            return $one->leftShift($n->add(3))->subtract(3);
+            return $one->leftShift($n->add(3))->subtract(3);  // 2^(n+3) - 3
         } elseif ($n->equals(0)) {
             return self::ackermann($m->subtract(1), 1);
         } else {
@@ -63,29 +62,5 @@ class ArbitraryInteger
         }
 
         return Number\ArbitraryInteger::fromBinary(random_bytes($bytes), mt_rand(0, 1) === 0);
-    }
-
-    /**
-     * Prepare input value for construction
-     *
-     * @param  int|string|Number\ArbitraryInteger $number
-     *
-     * @return Number\ArbitraryInteger
-     *
-     * @throws Exception\BadParameterException
-     * @throws Exception\IncorrectTypeException
-     */
-    private static function prepareParameter($number): Number\ArbitraryInteger
-    {
-        if (!is_object($number)) {
-            return new Number\ArbitraryInteger($number);
-        }
-
-        $class = get_class($number);
-        if ($class == Number\ArbitraryInteger::class) {
-            return $number;
-        }
-
-        throw new Exception\IncorrectTypeException("Class of type $class is not supported.");
     }
 }

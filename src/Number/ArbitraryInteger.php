@@ -19,7 +19,11 @@ class ArbitraryInteger implements ObjectArithmetic
     protected $base256;
 
     /** @var bool is the number positive or negative */
-    protected $positive;
+    protected $isPositive;
+
+    /* ************ *
+     * CONSTRUCTION
+     * ************ */
 
     /**
      * Constructor
@@ -34,7 +38,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function __construct($number)
     {
-        $this->positive = true;
+        $this->isPositive = true;
         
         if (is_int($number)) {
             if ($number < 0) {
@@ -42,7 +46,7 @@ class ArbitraryInteger implements ObjectArithmetic
                 // This is more universal then making a single edge case for PHP_INT_MIN
                 $positive       = new ArbitraryInteger(-1 * ($number + 1));
                 $this->base256  = $positive->add(1)->toBinary();
-                $this->positive = false;
+                $this->isPositive = false;
             } else {
                 $int_part = intdiv($number, 256);
                 $string   = chr($number % 256);
@@ -57,7 +61,7 @@ class ArbitraryInteger implements ObjectArithmetic
                 throw new Exception\BadParameterException("String cannot be empty.");
             }
             if ($number[0] == '-') {
-                $this->positive = false;
+                $this->isPositive = false;
                 $number         = substr($number, 1);
             }
             $number = strtolower($number);
@@ -82,6 +86,30 @@ class ArbitraryInteger implements ObjectArithmetic
             // Not an int, and not a string
             throw new Exception\IncorrectTypeException("Number can only be an int or a string: type '" . gettype($number) . "' provided");
         }
+    }
+
+    /**
+     * Static factory method (Prepare input value for construction)
+     *
+     * @param  int|string|ArbitraryInteger $number
+     *
+     * @return ArbitraryInteger
+     *
+     * @throws Exception\BadParameterException
+     * @throws Exception\IncorrectTypeException
+     */
+    public static function create($number): ArbitraryInteger
+    {
+        if (!is_object($number)) {
+            return new ArbitraryInteger($number);
+        }
+
+        $class = get_class($number);
+        if ($class == self::class) {
+            return $number;
+        }
+
+        throw new Exception\IncorrectTypeException("Class of type $class is not supported.");
     }
 
     /**
@@ -116,8 +144,16 @@ class ArbitraryInteger implements ObjectArithmetic
             $value = chr(0);
         }
         $this->base256  = $value;
-        $this->positive = $positive;
+        $this->isPositive = $positive;
     }
+
+    /**************************************************************************
+     * CONVERSIONS
+     *  - toInt
+     *  - toFloat
+     *  - toBinary
+     *  - toString
+     **************************************************************************/
 
     /**
      * Convert ArbitraryInteger to an int
@@ -136,7 +172,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $int         += ord($digit) * $place_value;
         }
 
-        return $int * ($this->positive ? 1 : -1);
+        return $int * ($this->isPositive ? 1 : -1);
     }
 
     /**
@@ -156,44 +192,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $float       += ord($digit) * $place_value;
         }
 
-        return floatval($float) * ($this->positive ? 1 : -1);
-    }
-
-    /**
-     * Prepare input value for construction
-     *
-     * @param  int|string|ArbitraryInteger $number
-     *
-     * @return ArbitraryInteger
-     *
-     * @throws Exception\BadParameterException
-     * @throws Exception\IncorrectTypeException
-     */
-    private static function prepareParameter($number): ArbitraryInteger
-    {
-        if (!is_object($number)) {
-            return new ArbitraryInteger($number);
-        }
-
-        $class = get_class($number);
-        if ($class == self::class) {
-            return $number;
-        }
-
-        throw new Exception\IncorrectTypeException("Class of type $class is not supported.");
-    }
-    
-    /**
-     * String representation - Display the number in base 10
-     *
-     * @return string
-     *
-     * @throws Exception\BadParameterException
-     */
-    public function __toString(): string
-    {
-        $sign = $this->positive ? '' : '-';
-        return $sign . BaseEncoderDecoder::toBase($this, 10);
+        return floatval($float) * ($this->isPositive ? 1 : -1);
     }
 
     /**
@@ -205,6 +204,24 @@ class ArbitraryInteger implements ObjectArithmetic
     {
         return $this->base256;
     }
+    
+    /**
+     * String representation - Display the number in base 10
+     *
+     * @return string
+     *
+     * @throws Exception\BadParameterException
+     */
+    public function __toString(): string
+    {
+        $sign = $this->isPositive ? '' : '-';
+        return $sign . BaseEncoderDecoder::toBase($this, 10);
+    }
+
+    /**************************************************************************
+     * UNARY FUNCTIONS
+     *  - isPositive
+     **************************************************************************/
 
     /**
      * is the number positive?
@@ -212,11 +229,15 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function isPositive(): bool
     {
-        return $this->positive;
+        return $this->isPositive;
     }
 
     /**************************************************************************
      * UNARY FUNCTIONS
+     *  - negate
+     *  - isqrt
+     *  - abs
+     *  - fact
      **************************************************************************/
 
     /**
@@ -231,7 +252,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function negate(): ArbitraryInteger
     {
-        return self::fromBinary($this->base256, $this->base256 == chr(0) ? true : !$this->positive);
+        return self::fromBinary($this->base256, $this->base256 == chr(0) ? true : !$this->isPositive);
     }
 
     /**
@@ -279,8 +300,37 @@ class ArbitraryInteger implements ObjectArithmetic
         return self::fromBinary($this->base256, true);
     }
 
+    /**
+     * Factorial
+     *
+     * Calculate the factorial of an ArbitraryInteger
+     *
+     * @return ArbitraryInteger
+     *
+     * @throws Exception\BadParameterException
+     * @throws Exception\IncorrectTypeException
+     */
+    public function fact(): ArbitraryInteger
+    {
+        $result = new ArbitraryInteger(1);
+        $i_obj  = new ArbitraryInteger(0);
+
+        for ($i = 1; !$this->lessThan($i); $i++) {
+            $i_obj  = $i_obj->add(1);
+            $result = $result->multiply($i_obj);
+        }
+
+        return $result;
+    }
+
     /**************************************************************************
      * BINARY FUNCTIONS
+     *  - add
+     *  - subtract
+     *  - multiply
+     *  - intdiv
+     *  - mod
+     *  - fullIntdiv
      **************************************************************************/
 
     /**
@@ -295,11 +345,11 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function add($number): ArbitraryInteger
     {
-        $number = self::prepareParameter($number);
+        $number = self::create($number);
         if (!$number->isPositive()) {
             return $this->subtract($number->negate());
         }
-        if (!$this->positive) {
+        if (!$this->isPositive) {
             return $number->subtract($this->negate());
         }
 
@@ -339,12 +389,12 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function subtract($number): ArbitraryInteger
     {
-        $number = self::prepareParameter($number);
+        $number = self::create($number);
         
         if (!$number->isPositive()) {
             return $this->add($number->negate());
         }
-        if (!$this->positive) {
+        if (!$this->isPositive) {
             return $this->negate()->add($number)->negate();
         }
         if ($this->lessThan($number)) {
@@ -391,7 +441,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function multiply($number): ArbitraryInteger
     {
-        $number  = self::prepareParameter($number);
+        $number  = self::create($number);
         $number  = $number->toBinary();
         $length  = strlen($number);
         $product = new ArbitraryInteger(0);
@@ -414,7 +464,7 @@ class ArbitraryInteger implements ObjectArithmetic
             }
 
             $inner_product = $inner_product . str_repeat(chr(0), $i - 1);
-            $inner_obj     = self::fromBinary($inner_product, $this->positive);
+            $inner_obj     = self::fromBinary($inner_product, $this->isPositive);
             $product       = $product->add($inner_obj);
         }
 
@@ -422,34 +472,35 @@ class ArbitraryInteger implements ObjectArithmetic
     }
 
     /**
-     * Raise an ArbitraryInteger to a power
-     * https://en.wikipedia.org/wiki/Exponentiation_by_squaring
+     * Integer division - Returns the integer quotient from integer division
      *
-     * @param int|string|ArbitraryInteger $exp
+     * @param int|string|ArbitraryInteger $divisor
      *
      * @return ArbitraryInteger
      *
      * @throws Exception\BadParameterException
      * @throws Exception\IncorrectTypeException
      */
-    public function pow($exp): ArbitraryInteger
+    public function intdiv($divisor): ArbitraryInteger
     {
-        $exp = self::prepareParameter($exp);
-        if ($exp->equals(0)) {
-            return new ArbitraryInteger(1);
-        }
-        if ($exp->equals(1)) {
-            return $this;
-        }
+        list($int, $mod) = $this->fullIntdiv($divisor);
+        return $int;
+    }
 
-        list($int, $mod) = $exp->fullIntdiv(2);
-        $square           = $this->multiply($this)->pow($int);
-
-        if ($mod->equals(1)) {
-            return $square->multiply($this);
-        }
-
-        return $square;
+    /**
+     * Mod - Returns the remainder from integer division
+     *
+     * @param int|string|ArbitraryInteger $divisor
+     *
+     * @return ArbitraryInteger
+     *
+     * @throws Exception\BadParameterException
+     * @throws Exception\IncorrectTypeException
+     */
+    public function mod($divisor): ArbitraryInteger
+    {
+        list($int, $mod) = $this->fullIntdiv($divisor);
+        return $mod;
     }
 
     /**
@@ -472,17 +523,17 @@ class ArbitraryInteger implements ObjectArithmetic
         // If the divisor is less than Int_max / 256 then
         // the native php intdiv and mod functions can be used.
         $safe_bytes = new ArbitraryInteger(intdiv(PHP_INT_MAX, 256));
-        $divisor    = self::prepareParameter($divisor);
+        $divisor    = self::create($divisor);
 
         if ($divisor->lessThan($safe_bytes)) {
             $divisor  = $divisor->toInt();
             $base_256 = $this->base256;
             $len      = strlen($base_256);
-            
+
             $carry = 0;
             $int   = '';
             for ($i = 0; $i < $len; $i++) {
-                $chr_obj = self::fromBinary(substr($base_256, $i, 1), $this->positive);  // Grab same number of chars from $this
+                $chr_obj = self::fromBinary(substr($base_256, $i, 1), $this->isPositive);  // Grab same number of chars from $this
                 $chr     = $chr_obj->toInt();
                 $int_chr = intdiv($chr + $carry * 256, $divisor);  // Calculate $int and $mod
                 $carry   = ($chr + $carry * 256) % $divisor;
@@ -491,7 +542,7 @@ class ArbitraryInteger implements ObjectArithmetic
                 }
             }
 
-            $int = self::fromBinary((string) $int, $this->positive);
+            $int = self::fromBinary((string) $int, $this->isPositive);
             $mod = new ArbitraryInteger($carry);
         } else {
             $int     = new ArbitraryInteger(0);
@@ -519,58 +570,34 @@ class ArbitraryInteger implements ObjectArithmetic
     }
 
     /**
-     * Mod - Returns the remainder from integer division
+     * Raise an ArbitraryInteger to a power
+     * https://en.wikipedia.org/wiki/Exponentiation_by_squaring
      *
-     * @param int|string|ArbitraryInteger $divisor
-     *
-     * @return ArbitraryInteger
-     *
-     * @throws Exception\BadParameterException
-     * @throws Exception\IncorrectTypeException
-     */
-    public function mod($divisor): ArbitraryInteger
-    {
-        list($int, $mod) = $this->fullIntdiv($divisor);
-        return $mod;
-    }
-
-    /**
-     * Integer division - Returns the integer quotient from integer division
-     *
-     * @param int|string|ArbitraryInteger $divisor
+     * @param int|string|ArbitraryInteger $exp
      *
      * @return ArbitraryInteger
      *
      * @throws Exception\BadParameterException
      * @throws Exception\IncorrectTypeException
      */
-    public function intdiv($divisor): ArbitraryInteger
+    public function pow($exp): ArbitraryInteger
     {
-        list($int, $mod) = $this->fullIntdiv($divisor);
-        return $int;
-    }
-
-    /**
-     * Factorial
-     *
-     * Calculate the factorial of an ArbitraryInteger
-     *
-     * @return ArbitraryInteger
-     *
-     * @throws Exception\BadParameterException
-     * @throws Exception\IncorrectTypeException
-     */
-    public function fact(): ArbitraryInteger
-    {
-        $result = new ArbitraryInteger(1);
-        $i_obj  = new ArbitraryInteger(0);
-
-        for ($i = 1; !$this->lessThan($i); $i++) {
-            $i_obj  = $i_obj->add(1);
-            $result = $result->multiply($i_obj);
+        $exp = self::create($exp);
+        if ($exp->equals(0)) {
+            return new ArbitraryInteger(1);
+        }
+        if ($exp->equals(1)) {
+            return $this;
         }
 
-        return $result;
+        list($int, $mod) = $exp->fullIntdiv(2);
+        $square           = $this->multiply($this)->pow($int);
+
+        if ($mod->equals(1)) {
+            return $square->multiply($this);
+        }
+
+        return $square;
     }
 
     /**************************************************************************
@@ -590,7 +617,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function leftShift($bits)
     {
-        $bits               = self::prepareParameter($bits);
+        $bits               = self::create($bits);
         $shifted_string     = '';
         $length             = strlen($this->base256);
         list($bytes, $bits) = $bits->fullIntdiv(8);
@@ -616,6 +643,9 @@ class ArbitraryInteger implements ObjectArithmetic
 
     /**************************************************************************
      * COMPARISON FUNCTIONS
+     *  - equals
+     *  - greaterThan
+     *  - lessThan
      **************************************************************************/
 
     /**
@@ -633,8 +663,8 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function equals($int): bool
     {
-        $int = self::prepareParameter($int);
-        return $this->base256 == $int->toBinary() && $this->positive == $int->isPositive();
+        $int = self::create($int);
+        return $this->base256 == $int->toBinary() && $this->isPositive == $int->isPositive();
     }
 
     /**
@@ -651,7 +681,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function greaterThan($int): bool
     {
-        $int = self::prepareParameter($int);
+        $int = self::create($int);
         return $int->lessThan($this);
     }
 
@@ -669,12 +699,12 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function lessThan($int): bool
     {
-        $int          = self::prepareParameter($int);
+        $int          = self::create($int);
         $base_256     = $this->base256;
         $int_256      = $int->toBinary();
         $my_len       = strlen($base_256);
         $int_len      = strlen($int_256);
-        $my_positive  = $this->positive;
+        $my_positive  = $this->isPositive;
         $int_positive = $int->isPositive();
         
         // Check if signs differ
