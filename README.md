@@ -678,11 +678,11 @@ use MathPHP\Functions;
 $bigInt = new Number\ArbitraryInteger('876937869482938749389832');
 
 // Unary functions (return ArbitraryInteger)
-$−bigInt      = $bigInt->negate();
-$√bigInt      = $bigInt->isqrt();       // Integer square root
-$│bitInt│     = $bigInt->abs();         // Absolute value
-$bigInt！     = $bigInt->fact();
-$bool         = $bigInt->isPositive();
+$−bigInt  = $bigInt->negate();
+$√bigInt  = $bigInt->isqrt();       // Integer square root
+$│bitInt│ = $bigInt->abs();         // Absolute value
+$bigInt！  = $bigInt->fact();
+$bool     = $bigInt->isPositive();
 
 // Binary functions
 $sum                  = $bigInt->add($bigInt);
