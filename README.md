@@ -25,6 +25,7 @@ Features
    - [Matrix](#linear-algebra---matrix)
    - [Vector](#linear-algebra---vector)
  * Numbers
+   - [ArbirtraryInteger](#number---arbitrary-length-integers)
    - [Complex](#number---complex-numbers)
    - [Rational](#number---rational-numbers)
  * Number Theory
@@ -666,6 +667,47 @@ $n    = count($A);                // Countable
 $json = json_encode($A);          // JsonSerializable
 $Aᵢ   = $A[$i];                   // ArrayAccess
 foreach ($A as $element) { ... }  // Iterator
+```
+
+### Number - Arbitary Length Integers
+```php
+use MathPHP\Number;
+use MathPHP\Functions;
+
+// Create arbitrary-length big integers from int or string
+$bigInt = new Number\ArbitraryInteger('876937869482938749389832');
+
+// Unary functions (return ArbitraryInteger)
+$−bigInt      = $bigInt->negate();
+$√bigInt      = $bigInt->isqrt();       // Integer square root
+$│bitInt│     = $bigInt->abs();         // Absolute value
+$bigInt！     = $bigInt->fact();
+$bool         = $bigInt->isPositive();
+
+// Binary functions
+$sum                  = $bigInt->add($bigInt);
+$difference           = $bigInt->subtract($bigInt);
+$product              = $bigInt->multiply($bigInt);
+$quotient             = $bigInt->intdiv($divisor);
+$mod                  = $bigInt->intdiv($divisor);
+list($quotient, $mod) = $bigInt->fullIntdiv($divisor);
+$pow                  = $bigInt->pow($exponent);
+$shifted              = $bigInt->leftShift(2);
+
+// Comparison functions
+$bool = $bigInt->equals($bigInt);
+$bool = $bigInt->greaterThan($bigInt);
+$bool = $bigInt->lessThan($bigInt);
+
+// Conversions
+$int    = $bigInt->toInt();
+$float  = $bigInt->toFloat();
+$binary = $bigInt->toBinary();
+$string = (string) $bigInt;
+
+// Functions
+$ackermann    = Functions\ArbitraryInteger::ackermann($bigInt);
+$randomBigInt = Functions\ArbitaryInteger::rand($intNumberOfBytes);
 ```
 
 ### Number - Complex Numbers
