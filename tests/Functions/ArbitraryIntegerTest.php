@@ -66,7 +66,6 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             $this->assertInstanceOf(Number\ArbitraryInteger::class, $number);
             $this->assertTrue($number->lessThan(65536));
         }
-
     }
 
     /**
