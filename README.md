@@ -677,7 +677,7 @@ use MathPHP\Functions;
 // Create arbitrary-length big integers from int or string
 $bigInt = new Number\ArbitraryInteger('876937869482938749389832');
 
-// Unary functions (return ArbitraryInteger)
+// Unary functions
 $−bigInt  = $bigInt->negate();
 $√bigInt  = $bigInt->isqrt();       // Integer square root
 $│bitInt│ = $bigInt->abs();         // Absolute value
@@ -689,7 +689,7 @@ $sum                  = $bigInt->add($bigInt);
 $difference           = $bigInt->subtract($bigInt);
 $product              = $bigInt->multiply($bigInt);
 $quotient             = $bigInt->intdiv($divisor);
-$mod                  = $bigInt->intdiv($divisor);
+$mod                  = $bigInt->mod($divisor);
 list($quotient, $mod) = $bigInt->fullIntdiv($divisor);
 $pow                  = $bigInt->pow($exponent);
 $shifted              = $bigInt->leftShift(2);
