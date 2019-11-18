@@ -25,7 +25,7 @@ Features
    - [Matrix](#linear-algebra---matrix)
    - [Vector](#linear-algebra---vector)
  * Numbers
-   - [Arbirtrary Integer](#number---arbitrary-length-integers)
+   - [Arbitrary Integer](#number---arbitrary-length-integers)
    - [Complex](#number---complex-numbers)
    - [Rational](#number---rational-numbers)
  * Number Theory
@@ -669,7 +669,7 @@ $Aᵢ   = $A[$i];                   // ArrayAccess
 foreach ($A as $element) { ... }  // Iterator
 ```
 
-### Number - Arbritary Length Integers
+### Number - Arbitrary Length Integers
 ```php
 use MathPHP\Number;
 use MathPHP\Functions;
