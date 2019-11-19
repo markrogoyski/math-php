@@ -265,9 +265,19 @@ class ArbitraryInteger implements ObjectArithmetic
      *
      * @throws Exception\BadParameterException
      * @throws Exception\IncorrectTypeException
+     * @throws Exception\OutOfBoundsException
      */
     public function isqrt(): ArbitraryInteger
     {
+        if ($this->lessThan(0)) {
+            throw new Exception\OutOfBoundsException('isqrt only works on numbers ≥ 0');
+        }
+
+        // √0 = 0 edge case
+        if ($this->equals(0)) {
+            return new ArbitraryInteger(0);
+        }
+
         $length = strlen($this->base256);
 
         // Start close to the value, at a number around half the digits.

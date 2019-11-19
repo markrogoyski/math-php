@@ -9,7 +9,11 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test         String representation
-     * @dataProvider dataProviderForStringToString
+     * @dataProvider dataProviderForIntToString
+     * @dataProvider dataProviderForStringIntToString
+     * @dataProvider dataProviderForBinaryToString
+     * @dataProvider dataProviderForHexToString
+     * @dataProvider dataProviderForOctalToString
      * @param        string $int
      * @param        string $expected
      * @throws       \Exception
@@ -27,37 +31,168 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array (numberAsString, stringRepresentation
+     * @return array (numberAsString, stringRepresentation)
      */
-    public function dataProviderForStringToString(): array
+    public function dataProviderForIntToString(): array
     {
         return [
+            [-1, '-1'],
+            [0, '0'],
+            [1, '1'],
+            [2, '2'],
+            [3, '3'],
+            [4, '4'],
+            [5, '5'],
+            [6, '6'],
+            [7, '7'],
+            [8, '8'],
+            [9, '9'],
+            [10, '10'],
+            [200, '200'],
+            [123456789012, '123456789012'],
+            [-200, '-200'],
+            [-31415, '-31415'],
+        ];
+    }
+
+    /**
+     * @return array (numberAsString, stringRepresentation)
+     */
+    public function dataProviderForStringIntToString(): array
+    {
+        return [
+            ['-1', '-1'],
             ['0', '0'],
             ['1', '1'],
+            ['2', '2'],
+            ['3', '3'],
+            ['4', '4'],
+            ['5', '5'],
+            ['6', '6'],
+            ['7', '7'],
+            ['8', '8'],
+            ['9', '9'],
+            ['10', '10'],
             ['200', '200'],
             ['123456789012345678901234567890', '123456789012345678901234567890'],
+            ['-200', '-200'],
+            ['-31415', '-31415'],
+        ];
+    }
+
+    /**
+     * @return array (numberAsString, stringRepresentation)
+     */
+    public function dataProviderForBinaryToString(): array
+    {
+        return [
             ['0b0', '0'],
             ['0b1', '1'],
-            ['-0b1', '-1'],
+            ['0b10', '2'],
+            ['0b11', '3'],
+            ['0b100', '4'],
+            ['0b101', '5'],
+            ['0b110', '6'],
+            ['0b111', '7'],
+            ['0b1000', '8'],
             ['0b1101', '13'],
+            ['0b10001111110000110000011101111111001101110111', '9879237948279'],
+            ['-0b1', '-1'],
+            ['-0b10', '-2'],
+            ['-0b11', '-3'],
+            ['-0b100', '-4'],
+            ['-0b101', '-5'],
+            ['-0b110', '-6'],
+            ['-0b111', '-7'],
+            ['-0b1000', '-8'],
+            ['-0b1101', '-13'],
+            ['-0b10001111110000110000011101111111001101110111', '-9879237948279'],
+        ];
+    }
+
+    /**
+     * @return array (numberAsString, stringRepresentation)
+     */
+    public function dataProviderForHexToString(): array
+    {
+        return [
             ['0x0', '0'],
             ['0x1', '1'],
+            ['0x2', '2'],
+            ['0x3', '3'],
+            ['0x4', '4'],
+            ['0x5', '5'],
+            ['0x6', '6'],
+            ['0x7', '7'],
+            ['0x8', '8'],
+            ['0x9', '9'],
+            ['0xA', '10'],
+            ['0xB', '11'],
+            ['0xC', '12'],
+            ['0xD', '13'],
+            ['0xE', '14'],
+            ['0xF', '15'],
+            ['0x10', '16'],
+            ['0x11', '17'],
             ['-0x1', '-1'],
+            ['-0x2', '-2'],
+            ['-0x3', '-3'],
+            ['-0x4', '-4'],
+            ['-0x5', '-5'],
+            ['-0x6', '-6'],
+            ['-0x7', '-7'],
+            ['-0x8', '-8'],
+            ['-0x9', '-9'],
+            ['-0xA', '-10'],
+            ['-0xB', '-11'],
+            ['-0xC', '-12'],
+            ['-0xD', '-13'],
+            ['-0xE', '-14'],
+            ['-0xF', '-15'],
+            ['-0x10', '-16'],
+            ['-0x11', '-17'],
             ['0xff', '255'],
             ['-0xff', '-255'],
             ['0x7fff', '32767'],
             ['-0x7fff', '-32767'],
             ['0x7FFF', '32767'],
             ['-0x7FFF', '-32767'],
+            ['0x8FC3077F377', '9879237948279'],
+            ['-0x8FC3077F377', '-9879237948279'],
+        ];
+    }
+
+    /**
+     * @return array (numberAsString, stringRepresentation)
+     */
+    public function dataProviderForOctalToString(): array
+    {
+        return [
             ['00', '0'],
             ['01', '1'],
+            ['02', '2'],
+            ['03', '3'],
+            ['04', '4'],
+            ['05', '5'],
+            ['06', '6'],
+            ['07', '7'],
+            ['010', '8'],
+            ['011', '9'],
+            ['012', '10'],
             ['-01', '-1'],
+            ['-02', '-2'],
+            ['-03', '-3'],
+            ['-04', '-4'],
+            ['-05', '-5'],
+            ['-06', '-6'],
+            ['-07', '-7'],
+            ['-010', '-8'],
+            ['-011', '-9'],
+            ['-012', '-10'],
             ['0127', '87'],
             ['-0127', '-87'],
             ['077777', '32767'],
             ['-077777', '-32767'],
-            ['-1', '-1'],
-            ['-31415', '-31415'],
         ];
     }
 
@@ -129,10 +264,96 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             ['123456', 123456.0],
             ['32767', 32767.0],
             ['-32767', -32767.0],
+            ['9223372036854775807', 9.223372036854775807E+18],
             ['9223372036854775808', 9.223372036854775808E18],
+            ['-9223372036854775808', -9.223372036854775808E18],
+            ['-9223372036854775809', -9.223372036854775809E+18],
         ];
     }
 
+    /**
+     * @test         Binary representation
+     * @dataProvider dataProviderForIntToInt
+     * @param        string $int
+     * @throws       \Exception
+     */
+    public function testIntToBinary(string $int)
+    {
+        // Given
+        $obj = new ArbitraryInteger($int);
+
+        // When
+        $binaryRepresentation = $obj->toBinary();
+
+        // Then
+        $this->assertNotEmpty($binaryRepresentation);
+    }
+
+    /**
+     * @test         isPositive
+     * @dataProvider dataProviderForPositiveInt
+     * @param        string|int $int
+     * @throws       \Exception
+     */
+    public function testIsPositive($int)
+    {
+        // Given
+        $obj = new ArbitraryInteger($int);
+
+        // When
+        $isPositive = $obj->isPositive();
+
+        // Then
+        $this->assertTrue($isPositive);
+    }
+
+    public function dataProviderForPositiveInt(): array
+    {
+        return [
+            [0],
+            [1],
+            [2],
+            [200],
+            [123456],
+            [PHP_INT_MAX],
+            [32767],
+            [31415],
+            ['123456789012345678901234567890'],
+        ];
+    }
+
+
+    /**
+     * @test         isPositive negative numbers
+     * @dataProvider dataProviderForNegativeInt
+     * @param        string|int $int
+     * @throws       \Exception
+     */
+    public function testIsNotPositive($int)
+    {
+        // Given
+        $obj = new ArbitraryInteger($int);
+
+        // When
+        $isPositive = $obj->isPositive();
+
+        // Then
+        $this->assertFalse($isPositive);
+    }
+
+    public function dataProviderForNegativeInt(): array
+    {
+        return [
+            [-1],
+            [-2],
+            [-200],
+            [-123456],
+            [PHP_INT_MIN],
+            [-32767],
+            [-31415],
+            ['-123456789012345678901234567890'],
+        ];
+    }
     /**
      * @test         add
      * @dataProvider dataProviderForTestAddition
@@ -415,6 +636,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             ['-12345678910', '12345678910'],
             ['12345678910', '12345678910'],
             ['-798273948792837498273948289', '798273948792837498273948289'],
+            ['798273948792837498273948289', '798273948792837498273948289'],
         ];
     }
 
@@ -440,11 +662,16 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForNegate(): array
     {
         return [
-            ['-123456789101112', '123456789101112'],
-            ['123456789101112', '-123456789101112'],
-            ['0', '0'],
             ['1', '-1'],
             ['-1', '1'],
+            ['2', '-2'],
+            ['-2', '2'],
+            ['10', '-10'],
+            ['-10', '10'],
+            ['-123456789101112', '123456789101112'],
+            ['123456789101112', '-123456789101112'],
+            ['798273948792837498273948289', '-798273948792837498273948289'],
+            ['-798273948792837498273948289', '798273948792837498273948289'],
         ];
     }
 
@@ -510,6 +737,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForIsqrt(): array
     {
         return [
+            ['0', '0'],
             ['1', '1'],
             ['2', '1'],
             ['3', '1'],
@@ -520,6 +748,16 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             ['8', '2'],
             ['9', '3'],
             ['10', '3'],
+            ['11', '3'],
+            ['12', '3'],
+            ['13', '3'],
+            ['14', '3'],
+            ['15', '3'],
+            ['16', '4'],
+            ['17', '4'],
+            ['18', '4'],
+            ['19', '4'],
+            ['20', '4'],
             ['110', '10'],
             ['64000', '252'],
             ['33600000', '5796'],
@@ -528,6 +766,22 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             ['152399026', '12345'],
             ['152399024', '12344'],
         ];
+    }
+
+    /**
+     * @test   isqrt error for negative numbers
+     * @throws \Exception
+     */
+    public function testIsqrtOutOfBoundsError()
+    {
+        // Given
+        $int = new ArbitraryInteger(-1);
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $isqrt = $int->isqrt();
     }
 
     /**
@@ -584,55 +838,150 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForGreaterThan
      * @param        string $int1
      * @param        string $int2
-     * @param        bool $expected
      * @throws       \Exception
      */
-    public function testGreaterThan(string $int1, string $int2, bool $expected)
+    public function testGreaterThan(string $int1, string $int2)
     {
         // Given
         $int1 = new ArbitraryInteger($int1);
         $int2 = new ArbitraryInteger($int2);
 
+        // When
+        $greaterThan = $int1->greaterThan($int2);
+
         // Then
-        $this->assertEquals($expected, $int1->greaterThan($int2));
+        $this->assertTrue($greaterThan);
     }
 
     public function dataProviderForGreaterThan(): array
     {
         return [
-            ['0', '-1', true],
-            ['-1', '0', false],
-            ['2432902008176640000', '123456789101112', true],
-            ['123456789101112', '2432902008176640000', false]
+            ['0', '-1'],
+            ['1', '0'],
+            ['1', '-1'],
+            ['2', '1'],
+            ['10', '4'],
+            ['10', '9'],
+            ['9839224', '8739'],
+            ['2432902008176640000', '123456789101112'],
         ];
     }
 
     /**
-     * @test         lessThan
-     * @dataProvider dataProviderForLessThan
+     * @test         not greaterThan
+     * @dataProvider dataProviderForNotGreaterThan
      * @param        string $int1
      * @param        string $int2
-     * @param        bool $expected
      * @throws       \Exception
      */
-    public function testLessThan(string $int1, string $int2, bool $expected)
+    public function testNotGreaterThan(string $int1, string $int2)
     {
         // Given
         $int1 = new ArbitraryInteger($int1);
         $int2 = new ArbitraryInteger($int2);
 
+        // When
+        $greaterThan = $int1->greaterThan($int2);
+
         // Then
-        $this->assertEquals($expected, $int1->lessThan($int2));
+        $this->assertFalse($greaterThan);
     }
 
-    public function dataProviderForLessThan(): array
+    public function dataProviderForNotGreaterThan(): array
     {
         return [
-            ['0', '-1', false],
-            ['-1', '0', true],
-            ['2432902008176640000', '123456789101112', false],
-            ['123456789101112', '2432902008176640000', true]
+            ['-1', '0'],
+            ['0', '1'],
+            ['2', '3'],
+            ['9', '10'],
+            ['8739', '9839224'],
+            ['123456789101112', '2432902008176640000']
         ];
+    }
+
+    /**
+     * @test         lessThan
+     * @dataProvider dataProviderForNotGreaterThan
+     * @param        string $int1
+     * @param        string $int2
+     * @throws       \Exception
+     */
+    public function testLessThan(string $int1, string $int2)
+    {
+        // Given
+        $int1 = new ArbitraryInteger($int1);
+        $int2 = new ArbitraryInteger($int2);
+
+        // When
+        $lessThan = $int1->lessThan($int2);
+
+        // Then
+        $this->assertTrue($lessThan);
+    }
+
+    /**
+     * @test         not lessThan
+     * @dataProvider dataProviderForGreaterThan
+     * @param        string $int1
+     * @param        string $int2
+     * @throws       \Exception
+     */
+    public function testNotLessThan(string $int1, string $int2)
+    {
+        // Given
+        $int1 = new ArbitraryInteger($int1);
+        $int2 = new ArbitraryInteger($int2);
+
+        // When
+        $lessThan = $int1->lessThan($int2);
+
+        // Then
+        $this->assertFalse($lessThan);
+    }
+
+    /**
+     * @test         equals
+     * @dataProvider dataProviderForIntToString
+     * @dataProvider dataProviderForStringIntToString
+     * @dataProvider dataProviderForBinaryToString
+     * @dataProvider dataProviderForHexToString
+     * @dataProvider dataProviderForOctalToString
+     * @param        string $int
+     * @throws       \Exception
+     */
+    public function testEquals(string $int)
+    {
+        // Given
+        $obj = new ArbitraryInteger($int);
+
+        // When
+        $equals = $obj->equals($obj);
+
+        // Then
+        $this->assertTrue($equals);
+    }
+
+    /**
+     * @test         not equals
+     * @dataProvider dataProviderForIntToString
+     * @dataProvider dataProviderForStringIntToString
+     * @dataProvider dataProviderForBinaryToString
+     * @dataProvider dataProviderForHexToString
+     * @dataProvider dataProviderForOctalToString
+     * @param        string $int
+     * @throws       \Exception
+     */
+    public function testNotEquals(string $int)
+    {
+        // Given
+        $obj1 = new ArbitraryInteger($int);
+        $obj2 = $obj1->add(1);
+
+        // When
+        $equals = $obj1->equals($obj2);
+
+        // Then
+        $this->assertFalse($equals);
     }
 
     /**
