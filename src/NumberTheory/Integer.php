@@ -120,14 +120,34 @@ class Integer
 
         $remainder = $n;
         $factors   = [];
-        $divisor   = 2;
 
-        while ($remainder > 1) {
+        foreach ([2, 3] as $divisor) {
             while ($remainder % $divisor === 0) {
                 $factors[] = $divisor;
                 $remainder = intdiv($remainder, $divisor);
             }
-            $divisor++;
+        }
+
+        $divisor = 5;
+        $√n = sqrt($remainder);
+
+        while ($divisor <= $√n) {
+            while ($remainder % $divisor === 0) {
+                $factors[] = $divisor;
+                $remainder = intdiv($remainder, $divisor);
+                $√n = sqrt($remainder);
+            }
+            $divisor += 2;
+            while ($remainder % $divisor === 0) {
+                $factors[] = $divisor;
+                $remainder = intdiv($remainder, $divisor);
+                $√n = sqrt($remainder);
+            }
+            $divisor += 4;
+        }
+
+        if ($remainder > 1) {
+            $factors[] = $remainder;
         }
 
         return $factors;
