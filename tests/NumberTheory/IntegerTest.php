@@ -297,6 +297,133 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     testRadical
+     * @dataProvider dataProviderForRadical
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testRadical(int $n, int $expected)
+    {
+        $radical= Integer::radical($n);
+        $this->assertEquals($expected, $radical);
+    }
+
+    /**
+     * A007947 the squarefree kernel of n
+     * @see    https://oeis.org/A007947
+     * @return array
+     */
+    public function dataProviderForRadical(): array
+    {
+        return [
+            [1, 1],
+            [2, 2],
+            [3, 3],
+            [4, 2],
+            [5, 5],
+            [6, 6],
+            [7, 7],
+            [8, 2],
+            [9, 3],
+            [10, 10],
+            [11, 11],
+            [12, 6],
+            [13, 13],
+            [14, 14],
+            [15, 15],
+            [16, 2],
+            [17, 17],
+            [18, 6],
+            [19, 19],
+        ];
+    }
+
+    /**
+     * @testCase     radical throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testRadicalOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::radical($n);
+    }
+
+    /**
+     * @testCase     testIsSquarefreeInteger
+     * @dataProvider dataProviderForSquarefreeIntegers
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testIsSquarefreeInteger(int $n)
+    {
+        $isSquarefreeInteger = Integer::isSquarefreeInteger($n);
+        $this->assertTrue($isSquarefreeInteger);
+    }
+
+    /**
+     * A005117 squarefree numbers: numbers that are not divisible by a square greater than 1
+     * @see    https://oeis.org/A005117
+     * @return array
+     */
+    public function dataProviderForSquarefreeIntegers(): array
+    {
+        return [
+            [1],
+            [2],
+            [3],
+            [5],
+            [6],
+            [7],
+            [10],
+            [11],
+            [13],
+            [14],
+            [15],
+            [17],
+            [19],
+            [21],
+            [22],
+            [23],
+            [26],
+            [29],
+            [30],
+            [31],
+        ];
+    }
+
+    /**
+     * @testCase     testIsNotSquarefreeInteger
+     * @dataProvider dataProviderForNonSquarefreeIntegers
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testIsNotSquarefreeInteger(int $n)
+    {
+        $isSquarefreeInteger = Integer::isSquarefreeInteger($n);
+        $this->assertFalse($isSquarefreeInteger);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForNonSquarefreeIntegers(): array
+    {
+        return [
+            [-1],
+            [0],
+            [2*2],
+            [2*2*2],
+            [2*3*3],
+            [2*3*5*7*11*13*17*17],
+        ];
+    }
+
+    /**
      * @testCase     testSumOfDivisors
      * @dataProvider dataProviderForSumOfDivisors
      * @param        int $n

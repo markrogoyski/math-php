@@ -90,6 +90,43 @@ class Integer
     }
 
     /**
+     * Radical (or squarefree kernel)
+     * The radical of a positive integer is the product of its distinct prime factors.
+     * 
+     * @see    https://en.wikipedia.org/wiki/Radical_of_an_integer
+     * @see    https://oeis.org/A007947
+     *
+     * @param  int $n
+     *
+     * @return int the radical of n
+     *
+     * @throws Exception\OutOfBoundsException if n is < 1.
+     */
+    public static function radical(int $n): int
+    {
+        return array_product(array_unique(self::primeFactorization($n)));
+    }
+
+    /**
+     * Squarefree integer
+     * A squarefree integer is an integer which is divisble by no square number other than 1.
+     * It is equal to its radical (squarefree kernel).
+     *
+     * @see    https://en.wikipedia.org/wiki/Square-free_integer
+     * @see    https://oeis.org/A005117
+     *
+     * @param  int $n
+     * @return bool true if n is a squarefree integer; false otherwise
+     */ 
+    public static function isSquarefreeInteger(int $n): bool
+    {
+        if ($n < 1) {
+            return false;
+        }
+        return $n === self::radical($n);
+    }
+
+    /**
      * Detect if an integer is a perfect power.
      * A perfect power is a positive integer that can be expressed as an integer power of another positive integer.
      * If n is a perfect power, then exists m > 1 and k > 1 such that mᵏ = n.
