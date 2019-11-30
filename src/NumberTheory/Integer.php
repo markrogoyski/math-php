@@ -110,12 +110,12 @@ class Integer
      *
      * @return array of prime factors
      *
-     * @throws Exception\OutOfBoundsException if n is < 2.
+     * @throws Exception\OutOfBoundsException if n is < 1.
      */
     public static function primeFactorization(int $n): array
     {
-        if ($n < 2) {
-            throw new Exception\OutOfBoundsException("n must be ≥ 2. ($n provided)");
+        if ($n < 1) {
+            throw new Exception\OutOfBoundsException("n must be ≥ 1. ($n provided)");
         }
 
         $remainder = $n;
@@ -148,6 +148,60 @@ class Integer
     public static function coprime(int $a, int $b): bool
     {
         return (Algebra::gcd($a, $b) === 1);
+    }
+
+    /**
+     * Number-of-divisors function
+     * 
+     * Notations:
+     * d(n)  v(n)  τ(n)  tau(n)  sigma_0(n)  σ₀(n)
+     * 
+     * @see    https://en.wikipedia.org/wiki/Divisor_function
+     * @see    https://oeis.org/A000005
+     *
+     * @param  int $n
+     * 
+     * @return int number of divisors
+     * 
+     * @throws Exception\OutOfBoundsException if n is < 1.
+     */
+    public static function numberOfDivisors(int $n): int
+    {
+        $factorization = self::primeFactorization($n);
+        $product = 1;
+        foreach (array_count_values($factorization) as $factor => $exponent) {
+            $product *= $exponent + 1;
+        }
+        return $product;
+    }
+
+    /**
+     * Sum-of-divisors function
+     *
+     * Notations:
+     * σ(n)  σ₁(n)  sigma(n)  sigma_1(n)
+     * 
+     * @see    https://en.wikipedia.org/wiki/Divisor_function
+     * @see    https://oeis.org/A000203
+     *
+     * @param  int $n
+     *
+     * @return int sum of divisors
+     *
+     * @throws Exception\OutOfBoundsException if n is < 1.
+     */
+    public static function sumOfDivisors(int $n): int
+    {
+        $factorization = self::primeFactorization($n);
+        $product = 1;
+        foreach (array_count_values($factorization) as $factor => $exponent) {
+            $sum = 1 + $factor;
+            for ($i = 2; $i <= $exponent; $i++) {
+                $sum += pow($factor, $i);
+            }
+            $product *= $sum;
+        }
+        return $product;
     }
 
     /**

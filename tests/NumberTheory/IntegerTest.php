@@ -78,6 +78,118 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+
+    /**
+     * @testCase     testSumOfDivisors
+     * @dataProvider dataProviderForSumOfDivisors
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testSumOfDivisors(int $n, int $expected)
+    {
+        // When
+        $actual = Integer::sumOfDivisors($n);
+        
+        // Then
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * A000203 the sum of the divisors of n
+     * @see    https://oeis.org/A000203
+     * @return array
+     */
+    public function dataProviderForSumOfDivisors(): array
+    {
+        return [
+            [1, 1],
+            [2, 3],
+            [3, 4],
+            [4, 7],
+            [5, 6],
+            [6, 12],
+            [7, 8],
+            [8, 15],
+            [9, 13],
+            [10, 18],
+            [11, 12],
+            [12, 28],
+            [13, 14],
+            [14, 24],
+            [15, 24],
+            [70, 144],
+            [44100, 160797],
+        ];
+    }
+
+    /**
+     * @testCase     sumOfDivisors throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testSumOfDivisorsOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::sumOfDivisors($n);
+    }
+
+    /**
+     * @testCase     testNumberOfDivisors
+     * @dataProvider dataProviderForNumberOfDivisors
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testNumberOfDivisors(int $n, int $expected)
+    {
+        // When
+        $actual = Integer::numberOfDivisors($n);
+        
+        // Then
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * A000005 the numbers of divisors of n
+     * @see    https://oeis.org/A000005
+     * @return array
+     */
+    public function dataProviderForNumberOfDivisors(): array
+    {
+        return [
+            [1, 1],
+            [2, 2],
+            [3, 2],
+            [4, 3],
+            [5, 2],
+            [6, 4],
+            [7, 2],
+            [8, 4],
+            [9, 3],
+            [10, 4],
+            [96, 12],
+            [103, 2],
+        ];
+    }
+
+    /**
+     * @testCase     numberOfDivisors throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testNumberOfDivisorsOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::numberOfDivisors($n);
+    }
+
     /**
      * @testCase     isPerfectPower returns true if n is a perfect prime.
      * @dataProvider dataProviderForIsPerfectPower
@@ -362,6 +474,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForPrimeFactorization(): array
     {
         return [
+            [1, []],
             [2, [2]],
             [3, [3]],
             [4, [2, 2]],
@@ -404,7 +517,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     primeFactorization throws an OutOfBoundsException if n is < 2.
+     * @testCase     primeFactorization throws an OutOfBoundsException if n is < 1.
      * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
      * @param        int $n
      * @throws       \Exception
@@ -424,7 +537,6 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForPrimeFactorizationOutOfBoundsException(): array
     {
         return [
-            [1],
             [0],
             [-1],
             [-2],
