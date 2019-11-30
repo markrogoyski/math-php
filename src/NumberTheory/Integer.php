@@ -11,7 +11,8 @@ class Integer
      * Detect if an integer is a perfect number.
      * A perfect number is a positive integer that is equal to the sum of its proper positive divisors,
      * that is, the sum of its positive divisors excluding the number itself
-     * @see https://en.wikipedia.org/wiki/Perfect_number
+     * 
+     * @see    https://en.wikipedia.org/wiki/Perfect_number
      *
      * @param  int $n
      *
@@ -23,16 +24,69 @@ class Integer
             return false;
         }
 
-        $∑  = 1;
-        $√n = sqrt($n);
+        return $n === self::aliquotSum($n);
+    }
 
-        for ($i = 2; $i <= $√n; $i++) {
-            if ($n % $i === 0) {
-                $∑ += $i + ($n / $i);
-            }
+    /**
+     * Detect if an integer is a deficient (defective) number.
+     * A deficient number is a positive integer that is greater than the sum of its proper divisors,
+     * that is, the sum of its positive divisors excluding the number itself
+     * 
+     * @see    https://en.wikipedia.org/wiki/Deficient_number
+     *
+     * @param  int  $n
+     *
+     * @return bool true if n is deficient; false otherwise
+     */
+    public static function isDeficientNumber(int $n): bool
+    {
+        if ($n < 1) {
+            return false;
         }
+       return $n > self::aliquotSum($n);
+    }
 
-        return $∑ === $n;
+    /**
+     * Detect if an integer is an abundant (excessive) number.
+     * An abundant number is a positive integer that is less than the sum of its proper divisors,
+     * that is, the sum of its positive divisors excluding the number itself
+     * 
+     * @see    https://en.wikipedia.org/wiki/Abundant_number
+     *
+     * @param  int  $n
+     *
+     * @return bool true if n is abundant; false otherwise
+     */
+    public static function isAbundantNumber(int $n): bool
+    {
+        if ($n < 1) {
+            return false;
+        }
+        return $n < self::aliquotSum($n);
+    }
+
+    /**
+     * Aliquot sum
+     * The aliquot sum of a positive integer is the sum of all proper divisors of n,
+     * that is, the sum of its positive divisors excluding the number itself
+     * 
+     * Notation:
+     * s(n)
+     *
+     * Formula:
+     * σ(n) − n
+     *
+     * @see    https://en.wikipedia.org/wiki/Aliquot_sum
+     *
+     * @param  int $n
+     *
+     * @return int aliquot sum of n
+     *
+     * @throws Exception\OutOfBoundsException if n is < 1.
+     */
+    public static function aliquotSum(int $n): int
+    {
+        return self::sumOfDivisors($n) - $n;
     }
 
     /**

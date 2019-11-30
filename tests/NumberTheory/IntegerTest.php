@@ -41,6 +41,9 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     /**
      * @testCase     isPerfectNumber is not a perfect number
      * @dataProvider dataProviderForNonPerfectNumbers
+     * @dataProvider dataProviderForAbundantNumbers
+     * @dataProvider dataProviderForDeficientNumbers
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
      * @param        int $n
      */
     public function testIsNotPerfectNumber(int $n)
@@ -78,6 +81,220 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @testCase     isAbundantNumber returns true if n is an abundant number
+     * @dataProvider dataProviderForAbundantNumbers
+     * @param        int   $n
+     * @throws       \Exception
+     */
+    public function testIsAbundantNumber(int $n)
+    {
+        // When
+        $isAbundantNumber = Integer::isAbundantNumber($n);
+
+        // Then
+        $this->assertTrue($isAbundantNumber);
+    }
+
+    /**
+     * A005101 abundant numbers: numbers n such that σ₁(n) > 2n
+     * @see    https://oeis.org/A005101
+     * @return array
+     */
+    public function dataProviderForAbundantNumbers(): array
+    {
+        return [
+            [12],
+            [18],
+            [20],
+            [24],
+            [30],
+            [36],
+            [40],
+            [42],
+            [48],
+            [54],
+            [56],
+            [60],
+            [66],
+            [70],
+            [72],
+            [78],
+            [80],
+            [84],
+            [88],
+            [90],
+            [96],
+            [100],
+            [102],
+            [104],
+            [270],
+        ];
+    }
+
+    /**
+     * @testCase     isNotAbundantNumber returns true if n is not an abundant number
+     * @dataProvider dataProviderForDeficientNumbers
+     * @dataProvider dataProviderForPerfectNumbers
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int   $n
+     * @throws       \Exception
+     */
+    public function testIsNotAbundantNumber(int $n)
+    {
+        // When
+        $isAbundantNumber = Integer::isAbundantNumber($n);
+
+        // Then
+        $this->assertFalse($isAbundantNumber);
+    }
+
+    /**
+     * @testCase     isDeficientNumber returns true if n is a deficient number
+     * @dataProvider dataProviderForDeficientNumbers
+     * @param        int   $n
+     * @throws       \Exception
+     */
+    public function testIsDeficientNumber(int $n)
+    {
+        // When
+        $isDeficientNumber = Integer::isDeficientNumber($n);
+
+        // Then
+        $this->assertTrue($isDeficientNumber);
+    }
+
+    /**
+     * A005100 deficient numbers: numbers n such that σ₁(n) < 2n
+     * @see    https://oeis.org/A005100
+     * @return array
+     */
+    public function dataProviderForDeficientNumbers(): array
+    {
+        return [
+            [1],
+            [2],
+            [3],
+            [4],
+            [5],
+            [7],
+            [8],
+            [9],
+            [10],
+            [11],
+            [13],
+            [14],
+            [15],
+            [16],
+            [17],
+            [19],
+            [21],
+            [22],
+            [23],
+            [25],
+            [26],
+            [27],
+            [29],
+            [31],
+            [32],
+        ];
+    }
+
+    /**
+     * @testCase     isNotDeficientNumber returns true if n is not a deficient number
+     * @dataProvider dataProviderForAbundantNumbers
+     * @dataProvider dataProviderForPerfectNumbers
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int   $n
+     * @throws       \Exception
+     */
+    public function testIsNotDeficientNumber(int $n)
+    {
+        // When
+        $isDeficientNumber = Integer::isDeficientNumber($n);
+
+        // Then
+        $this->assertFalse($isDeficientNumber);
+    }
+ 
+    /**
+     * @testCase     aliquotSum returns the sum of all proper divisors of n
+     * @dataProvider dataProviderForAliquotSums
+     * @param        int   $n
+     * @param        int   $expected
+     * @throws       \Exception
+     */
+    public function testAliquotSum(int $n, int $expected)
+    {
+        // When
+        $actual = Integer::aliquotSum($n);
+
+        // Then
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * A001065 sum of proper divisors (or aliquot parts) of n
+     * @see    https://oeis.org/A001065
+     * @return array
+     */
+    public function dataProviderForAliquotSums(): array
+    {
+        return [
+            [1, 0],
+            [2, 1],
+            [3, 1],
+            [4, 3],
+            [5, 1],
+            [6, 6],
+            [7, 1],
+            [8, 7],
+            [9, 4],
+            [10, 8],
+            [11, 1],
+            [12, 16],
+            [13, 1],
+            [14, 10],
+            [15, 9],
+            [16, 15],
+            [17, 1],
+            [18, 21],
+            [19, 1],
+            [20, 22],
+            [21, 11],
+            [22, 14],
+            [23, 1],
+            [24, 36],
+            [25, 6],
+            [26, 16],
+            [27, 13],
+            [28, 28],
+            [29, 1],
+            [30, 42],
+            [31, 1],
+            [32, 31],
+            [33, 15],
+            [34, 20],
+            [35, 13],
+            [36, 55],
+            [2*3*5*7*11, 4602],
+        ];
+    }
+
+    /**
+     * @testCase     aliquotSum throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testAliquotSumOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::aliquotSum($n);
+    }
 
     /**
      * @testCase     testSumOfDivisors
