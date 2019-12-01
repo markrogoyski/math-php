@@ -218,6 +218,148 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
  
     /**
+     * @testCase     isRefactorableNumber returns true if n is a refactorable number
+     * @dataProvider dataProviderForRefactorableNumbers
+     * @param        int   $n
+     * @throws       \Exception
+     */
+    public function testIsRefactorableNumber(int $n)
+    {
+        // When
+        $isRefactorableNumber = Integer::isRefactorableNumber($n);
+
+        // Then
+        $this->assertTrue($isRefactorableNumber);
+    }
+
+    /**
+     * A033950 Refactorable numbers: number of divisors of n divides n. Also known as tau numbers.
+     * @see    https://oeis.org/A033950
+     * @return array
+     */
+    public function dataProviderForRefactorableNumbers(): array
+    {
+        return [
+            [1],
+            [2],
+            [8],
+            [9],
+            [12],
+            [18],
+            [24],
+            [36],
+            [40],
+            [56],
+            [60],
+            [72],
+            [80],
+            [84],
+            [88],
+        ];
+    }
+
+    /**
+     * @testCase     isNotRefactorableNumber returns true if n is not a refactorable number
+     * @dataProvider dataProviderForNonRefactorableNumbers
+     * @param        int   $n
+     * @throws       \Exception
+     */
+    public function testIsNotRefactorableNumber(int $n)
+    {
+        // When
+        $isRefactorableNumber = Integer::isRefactorableNumber($n);
+
+        // Then
+        $this->assertFalse($isRefactorableNumber);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForNonRefactorableNumbers(): array
+    {
+        return [
+            [-1],
+            [0],
+            [3],
+            [10],
+            [13],
+            [17],
+        ];
+    }
+
+    /**
+     * @testCase     testIsSphericNumber
+     * @dataProvider dataProviderForSphericNumbers
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testIsSphericNumber(int $n)
+    {
+        $isSphericNumber = Integer::isSphericNumber($n);
+        $this->assertTrue($isSphericNumber);
+    }
+
+    /**
+     * A007304 Spheric numbers: products of 3 distinct primes
+     * @see    https://oeis.org/A007304
+     * @return array
+     */
+    public function dataProviderForSphericNumbers(): array
+    {
+        return [
+            [30],
+            [42],
+            [66],
+            [70],
+            [78],
+            [102],
+            [105],
+            [110],
+            [114],
+            [130],
+            [138],
+            [154],
+            [165],
+            [170],
+            [174],
+            [182],
+            [186],
+            [190],
+            [195],
+        ];
+    }
+
+    /**
+     * @testCase     testIsNotSphericNumber
+     * @dataProvider dataProviderForNonSphericNumbers
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testIsNotSphericNumber(int $n)
+    {
+        // When
+        $isSphericNumber = Integer::isSphericNumber($n);
+        
+        // Then
+        $this->assertFalse($isSphericNumber);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForNonSphericNumbers(): array
+    {
+        return [
+            [2],
+            [2 * 3],
+            [2 * 2 * 2],
+            [2 * 2 * 3 * 5],
+            [2 * 3 * 5 * 7],
+        ];
+    }
+
+    /**
      * @testCase     aliquotSum returns the sum of all proper divisors of n
      * @dataProvider dataProviderForAliquotSums
      * @param        int   $n

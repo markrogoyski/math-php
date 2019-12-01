@@ -224,6 +224,43 @@ class Integer
     }
 
     /**
+     * Refactorable (or tau) number
+     * A refactorable number is divisible by the count of its divisors σ₀(n)
+     *
+     * @see    https://en.wikipedia.org/wiki/Refactorable_number
+     * @see    https://oeis.org/A033950
+     *
+     * @param  int $n
+     *
+     * @return bool true if n is divisible by σ₀(n); false otherwise
+     */
+    public static function isRefactorableNumber(int $n): bool
+    {
+        if ($n < 1) {
+            return false;
+        }
+
+        return $n % self::numberOfDivisors($n) === 0;
+    }
+
+    /**
+     * Spheric number
+     * A spheric number is a positive integer that is the product of three distinct prime numbers.
+     *
+     * @see    https://en.wikipedia.org/wiki/Spheric_number
+     * @see    https://oeis.org/A007304
+     *
+     * @param  int $n
+     *
+     * @return bool true if n is a spheric number; false otherwise
+     */
+    public static function isSphericNumber(int $n): bool
+    {
+        $factors = self::primeFactorization($n);
+        return count($factors) === 3 && count(array_unique($factors)) === 3;
+    }
+
+    /**
      * Detect if an integer is a perfect power.
      * A perfect power is a positive integer that can be expressed as an integer power of another positive integer.
      * If n is a perfect power, then exists m > 1 and k > 1 such that mᵏ = n.
@@ -355,9 +392,9 @@ class Integer
      */
     public static function numberOfDivisors(int $n): int
     {
-        $factorization = self::primeFactorization($n);
+        $factors = self::primeFactorization($n);
         $product = 1;
-        foreach (array_count_values($factorization) as $factor => $exponent) {
+        foreach (array_count_values($factors) as $factor => $exponent) {
             $product *= $exponent + 1;
         }
         return $product;
@@ -380,9 +417,9 @@ class Integer
      */
     public static function sumOfDivisors(int $n): int
     {
-        $factorization = self::primeFactorization($n);
+        $factors = self::primeFactorization($n);
         $product = 1;
-        foreach (array_count_values($factorization) as $factor => $exponent) {
+        foreach (array_count_values($factors) as $factor => $exponent) {
             $sum = 1 + $factor;
             for ($i = 2; $i <= $exponent; $i++) {
                 $sum += pow($factor, $i);
