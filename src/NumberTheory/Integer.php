@@ -244,17 +244,17 @@ class Integer
     }
 
     /**
-     * Spheric number
-     * A spheric number is a positive integer that is the product of three distinct prime numbers.
+     * Sphenic number
+     * A sphenic number is a positive integer that is the product of three distinct prime numbers.
      *
-     * @see    https://en.wikipedia.org/wiki/Spheric_number
+     * @see    https://en.wikipedia.org/wiki/Sphenic_number
      * @see    https://oeis.org/A007304
      *
      * @param  int $n
      *
-     * @return bool true if n is a spheric number; false otherwise
+     * @return bool true if n is a sphenic number; false otherwise
      */
-    public static function isSphericNumber(int $n): bool
+    public static function isSphenicNumber(int $n): bool
     {
         $factors = self::primeFactorization($n);
         return count($factors) === 3 && count(array_unique($factors)) === 3;

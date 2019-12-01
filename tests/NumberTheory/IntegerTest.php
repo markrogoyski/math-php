@@ -289,23 +289,23 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testIsSphericNumber
-     * @dataProvider dataProviderForSphericNumbers
+     * @testCase     testIsSphenicNumber
+     * @dataProvider dataProviderForSphenicNumbers
      * @param        int $n
      * @throws       \Exception
      */
-    public function testIsSphericNumber(int $n)
+    public function testIsSphenicNumber(int $n)
     {
-        $isSphericNumber = Integer::isSphericNumber($n);
-        $this->assertTrue($isSphericNumber);
+        $isSphenicNumber = Integer::isSphenicNumber($n);
+        $this->assertTrue($isSphenicNumber);
     }
 
     /**
-     * A007304 Spheric numbers: products of 3 distinct primes
+     * A007304 Sphenic numbers: products of 3 distinct primes
      * @see    https://oeis.org/A007304
      * @return array
      */
-    public function dataProviderForSphericNumbers(): array
+    public function dataProviderForSphenicNumbers(): array
     {
         return [
             [30],
@@ -331,24 +331,24 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testIsNotSphericNumber
-     * @dataProvider dataProviderForNonSphericNumbers
+     * @testCase     testIsNotSphenicNumber
+     * @dataProvider dataProviderForNonSphenicNumbers
      * @param        int $n
      * @throws       \Exception
      */
-    public function testIsNotSphericNumber(int $n)
+    public function testIsNotSphenicNumber(int $n)
     {
         // When
-        $isSphericNumber = Integer::isSphericNumber($n);
+        $isSphenicNumber = Integer::isSphenicNumber($n);
         
         // Then
-        $this->assertFalse($isSphericNumber);
+        $this->assertFalse($isSphenicNumber);
     }
 
     /**
      * @return array
      */
-    public function dataProviderForNonSphericNumbers(): array
+    public function dataProviderForNonSphenicNumbers(): array
     {
         return [
             [2],

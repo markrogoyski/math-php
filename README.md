@@ -776,8 +776,36 @@ $n = 225;
 // Prime factorization
 $factors = Integer::primeFactorization($n);
 
-// Perfect Number
-$bool = Integer::isPerfectNumber($n);
+// Divisor function
+$int  = Integer::numberOfDivisors($n);
+$int  = Integer::sumOfDivisors($n);
+
+// Aliquot sums
+$int  = Integer::aliquotSum($n);        // sum-of-divisors - n
+$bool = Integer::isPerfectNumber($n);   // n = aliquot sum
+$bool = Integer::isDeficientNumber($n); // n > aliquot sum
+$bool = Integer::isAbundantNumber($n);  // n < aliquot sum
+
+// Totients
+$int  = Integer::totient($n);        // Jordan's totient k=1 (Euler's totient)
+$int  = Integer::totient($n, 2);     // Jordan's totient k=2
+$int  = Integer::cototient($n);      // Cototient
+$int  = Integer::reducedTotient($n); // Carmichael's function
+
+// Möbius function
+$int  = Integer::mobius($n);
+
+// Radical/squarefree kernel
+$int  = Integer::radical($n);
+
+// Squarefree integer
+$bool = Integer::isSquarefreeInteger($n);
+
+// Refactorable number
+$bool = Integer::isRefactorableNumber($n);
+
+// Sphenic number
+$bool = Integer::isSphenicNumber($n);
 
 // Perfect powers
 $bool        = Integer::isPerfectPower($n);
