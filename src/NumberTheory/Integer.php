@@ -108,6 +108,74 @@ class Integer
     }
 
     /**
+     * Totient function (Euler's totient and Jordan's totient)
+     * The number of k-tuples of positive integers that are all ≤ n that form a coprime (k+1)-tuple together with n.
+     *
+     * Notation:
+     *    Jₖ(n)
+     *
+     *    (when k=1 - Euler's totient)
+     *    ϕ(n)  φ(n)  phi(n)
+     *
+     * @see    https://en.wikipedia.org/wiki/Euler%27s_totient_function
+     * @see    https://en.wikipedia.org/wiki/Jordan%27s_totient_function
+     *
+     * @param  int $n
+     *
+     * @return int number of k-tuples of positive integers ≤ n that form a coprime (k+1)-tuple with n
+     */
+    public static function totient(int $n, int $k = 1): int
+    {
+        $J = $n ** $k;
+        $primes = array_unique(self::primeFactorization($n));
+        foreach ($primes as $prime) {
+            $J *= 1 - 1 / $prime ** $k;
+        }
+        return $J;
+    }
+
+    /**
+     * Cototient
+     * The number of positive integers ≤ n that have at least one prime factor in common with n.
+     *
+     * Algorithm:
+     *    n - φ(n)
+     *
+     * @see    https://en.wikipedia.org/wiki/Euler's_totient_function
+     * 
+     * @param  int $n
+     *
+     * @return int number of positive integers ≤ that have at least one prime factor in common with n
+     */
+    public static function cototient(int $n): int
+    {
+        return $n - self::totient($n);
+    }
+
+    /**
+     * Reduced totient function (Carmichael function, least universal exponent function)
+     * Return the exponent of the multiplicative group of integers modulo n.
+     *
+     * Notation:
+     *    λ(n)
+     *
+     * @param  int $n
+     * @return int the exponent of the multiplicative group of integers modulo n
+     */
+    public static function reducedTotient(int $n): int
+    {
+        $primes = array_count_values(self::primeFactorization($n));
+        $λ = 1;
+        if (isset($primes[2]) && $primes[2] > 2) {
+            --$primes[2];
+        }
+        foreach ($primes as $prime => $exponent) {
+            $λ = Algebra::lcm($λ, $prime ** ($exponent - 1) * ($prime - 1));
+        }
+        return $λ;
+    }
+
+    /**
      * Squarefree integer
      * A squarefree integer is an integer which is divisble by no square number other than 1.
      * It is equal to its radical (squarefree kernel).

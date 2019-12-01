@@ -353,6 +353,204 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
         Integer::radical($n);
     }
 
+
+    /**
+     * @testCase     testTotient
+     * @dataProvider dataProviderForTotient
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testTotient(int $n, int $k, int $expected)
+    {
+        $totient = Integer::totient($n, $k);
+        $this->assertEquals($expected, $totient);
+    }
+
+    /**
+     * @see    https://oeis.org/A000010 (k=1)
+     * @see    https://oeis.org/A007434 (k=2)
+     * @see    https://oeis.org/A059376 (k=3)
+     * @see    https://oeis.org/A059377 (k=4)
+     * @see    https://oeis.org/A059378 (k=5)
+     * @return array
+     */
+    public function dataProviderForTotient(): array
+    {
+        return [
+            [1,  1, 1],
+            [2,  1, 1],
+            [3,  1, 2],
+            [4,  1, 2],
+            [5,  1, 4],
+            [6,  1, 2],
+            [7,  1, 6],
+            [8,  1, 4],
+            [9,  1, 6],
+            [10, 1, 4],
+            [11, 1, 10],
+            [12, 1, 4],
+            [13, 1, 12],
+            [14, 1, 6],
+            [15, 1, 8],
+            [16, 1, 8],
+            [17, 1, 16],
+            [18, 1, 6],
+            [1,  2, 1],
+            [2,  2, 3],
+            [3,  2, 8],
+            [4,  2, 12],
+            [5,  2, 24],
+            [6,  2, 24],
+            [7,  2, 48],
+            [8,  2, 48],
+            [9,  2, 72],
+            [10, 2, 72],
+            [1,  3, 1],
+            [2,  3, 7],
+            [3,  3, 26],
+            [4,  3, 56],
+            [5,  3, 124],
+            [6,  3, 182],
+            [7,  3, 342],
+            [8,  3, 448],
+            [9,  3, 702],
+            [10, 3, 868],
+        ];
+    }
+
+    /**
+     * @testCase     totient throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testTotientOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::totient($n);
+    }
+
+    /**
+     * @testCase     testCototient
+     * @dataProvider dataProviderForCototient
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testCototient(int $n, int $expected)
+    {
+        $cototient = Integer::cototient($n);
+        $this->assertEquals($expected, $cototient);
+    }
+
+    /**
+     * A051953 n - φ(n)
+     * @see    https://oeis.org/A051953
+     * @return array
+     */
+    public function dataProviderForCototient(): array
+    {
+        return [
+            [1,  0],
+            [2,  1],
+            [3,  1],
+            [4,  2],
+            [5,  1],
+            [6,  4],
+            [7,  1],
+            [8,  4],
+            [9,  3],
+            [10, 6],
+            [11, 1],
+            [12, 8],
+            [13, 1],
+            [14, 8],
+            [15, 7],
+            [16, 8],
+            [17, 1],
+            [18, 12],
+            [19, 1],
+            [20, 12],
+            [80, 48],
+        ];
+    }
+
+    /**
+     * @testCase     cototient throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testCototientOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::cototient($n);
+    }
+
+    /**
+     * @testCase     testReducedTotient
+     * @dataProvider dataProviderForReducedTotient
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testReducedTotient(int $n, int $expected)
+    {
+        $result = Integer::reducedTotient($n);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @see    https://oeis.org/A002322
+     * @return array
+     */
+    public function dataProviderForReducedTotient(): array
+    {
+        return [
+            [1,  1],
+            [2,  1],
+            [3,  2],
+            [4,  2],
+            [5,  4],
+            [6,  2],
+            [7,  6],
+            [8,  2],
+            [9,  6],
+            [10, 4],
+            [11, 10],
+            [12, 2],
+            [13, 12],
+            [14, 6],
+            [15, 4],
+            [16, 4],
+            [17, 16],
+            [18, 6],
+            [19, 18],
+            [64, 16],
+            [80, 4],
+            [81, 54],
+        ];
+    }
+
+    /**
+     * @testCase     reducedTotient throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testReducedTotientOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::reducedTotient($n);
+    }
+
     /**
      * @testCase     testIsSquarefreeInteger
      * @dataProvider dataProviderForSquarefreeIntegers
