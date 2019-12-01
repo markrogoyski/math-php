@@ -277,7 +277,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
             [34, 20],
             [35, 13],
             [36, 55],
-            [2*3*5*7*11, 4602],
+            [2 * 3 * 5 * 7 * 11, 4602],
         ];
     }
 
@@ -304,7 +304,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function testRadical(int $n, int $expected)
     {
-        $radical= Integer::radical($n);
+        $radical = Integer::radical($n);
         $this->assertEquals($expected, $radical);
     }
 
@@ -552,6 +552,62 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     testMobius
+     * @dataProvider dataProviderForMobius
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testMobius(int $n, int $expected)
+    {
+        // When
+        $actual = Integer::mobius($n);
+        
+        // Then
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * A008683
+     * @see    https://oeis.org/A008683
+     * @return array
+     */
+    public function dataProviderForMobius(): array
+    {
+        return [
+            [1, 1],
+            [2, -1],
+            [3, -1],
+            [4, 0],
+            [5, -1],
+            [6, 1],
+            [7, -1],
+            [8, 0],
+            [9, 0],
+            [10, 1],
+            [11, -1],
+            [12, 0],
+            [13, -1],
+            [14, 1],
+            [15, 1],
+        ];
+    }
+
+    /**
+     * @testCase     mobius throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testMobiusOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::mobius($n);
+    }
+
+    /**
      * @testCase     testIsSquarefreeInteger
      * @dataProvider dataProviderForSquarefreeIntegers
      * @param        int $n
@@ -614,10 +670,10 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
         return [
             [-1],
             [0],
-            [2*2],
-            [2*2*2],
-            [2*3*3],
-            [2*3*5*7*11*13*17*17],
+            [2 * 2],
+            [2 * 2 * 2],
+            [2 * 3 * 3],
+            [2 * 3 * 5 * 7 * 11 * 13 * 17 * 17],
         ];
     }
 

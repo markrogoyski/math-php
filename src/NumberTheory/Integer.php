@@ -11,7 +11,7 @@ class Integer
      * Detect if an integer is a perfect number.
      * A perfect number is a positive integer that is equal to the sum of its proper positive divisors,
      * that is, the sum of its positive divisors excluding the number itself
-     * 
+     *
      * @see    https://en.wikipedia.org/wiki/Perfect_number
      *
      * @param  int $n
@@ -31,7 +31,7 @@ class Integer
      * Detect if an integer is a deficient (defective) number.
      * A deficient number is a positive integer that is greater than the sum of its proper divisors,
      * that is, the sum of its positive divisors excluding the number itself
-     * 
+     *
      * @see    https://en.wikipedia.org/wiki/Deficient_number
      *
      * @param  int  $n
@@ -43,14 +43,14 @@ class Integer
         if ($n < 1) {
             return false;
         }
-       return $n > self::aliquotSum($n);
+        return $n > self::aliquotSum($n);
     }
 
     /**
      * Detect if an integer is an abundant (excessive) number.
      * An abundant number is a positive integer that is less than the sum of its proper divisors,
      * that is, the sum of its positive divisors excluding the number itself
-     * 
+     *
      * @see    https://en.wikipedia.org/wiki/Abundant_number
      *
      * @param  int  $n
@@ -69,7 +69,7 @@ class Integer
      * Aliquot sum
      * The aliquot sum of a positive integer is the sum of all proper divisors of n,
      * that is, the sum of its positive divisors excluding the number itself
-     * 
+     *
      * Notation:
      * s(n)
      *
@@ -92,7 +92,7 @@ class Integer
     /**
      * Radical (or squarefree kernel)
      * The radical of a positive integer is the product of its distinct prime factors.
-     * 
+     *
      * @see    https://en.wikipedia.org/wiki/Radical_of_an_integer
      * @see    https://oeis.org/A007947
      *
@@ -142,7 +142,7 @@ class Integer
      *    n - φ(n)
      *
      * @see    https://en.wikipedia.org/wiki/Euler's_totient_function
-     * 
+     *
      * @param  int $n
      *
      * @return int number of positive integers ≤ that have at least one prime factor in common with n
@@ -176,6 +176,35 @@ class Integer
     }
 
     /**
+     * Möbius function
+     * The sum of the primitive nᵗʰ roots of unity.
+     *
+     * Notation
+     *    μ(n)  mu(n)
+     *
+     * Algorithm:
+     *    - if n is not squarefree, return 0
+     *    - return (-1)ᵏ, where k is the number of primes in n
+     *
+     * @see    https://en.wikipedia.org/wiki/M%C3%B6bius_function
+     * @see    https://oeis.org/A008683
+     *
+     * @param  int $n
+     *
+     * @return int 0 if n is not squarefree; 1 if n has an even number of prime factors; -1 if n has an odd number of prime factors
+     *
+     * @throws Exception\OutOfBoundsException if n is < 1.
+     */
+    public static function mobius(int $n): int
+    {
+        $factors = self::primeFactorization($n);
+        if ($factors !== array_unique($factors)) {
+            return 0;
+        }
+        return (-1) ** count($factors);
+    }
+
+    /**
      * Squarefree integer
      * A squarefree integer is an integer which is divisble by no square number other than 1.
      * It is equal to its radical (squarefree kernel).
@@ -185,7 +214,7 @@ class Integer
      *
      * @param  int $n
      * @return bool true if n is a squarefree integer; false otherwise
-     */ 
+     */
     public static function isSquarefreeInteger(int $n): bool
     {
         if ($n < 1) {
@@ -311,17 +340,17 @@ class Integer
 
     /**
      * Number-of-divisors function
-     * 
+     *
      * Notations:
      * d(n)  v(n)  τ(n)  tau(n)  sigma_0(n)  σ₀(n)
-     * 
+     *
      * @see    https://en.wikipedia.org/wiki/Divisor_function
      * @see    https://oeis.org/A000005
      *
      * @param  int $n
-     * 
+     *
      * @return int number of divisors
-     * 
+     *
      * @throws Exception\OutOfBoundsException if n is < 1.
      */
     public static function numberOfDivisors(int $n): int
@@ -339,7 +368,7 @@ class Integer
      *
      * Notations:
      * σ(n)  σ₁(n)  sigma(n)  sigma_1(n)
-     * 
+     *
      * @see    https://en.wikipedia.org/wiki/Divisor_function
      * @see    https://oeis.org/A000203
      *
