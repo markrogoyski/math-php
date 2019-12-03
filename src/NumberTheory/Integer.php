@@ -117,15 +117,21 @@ class Integer
      *    (when k=1 - Euler's totient)
      *    ϕ(n)  φ(n)  phi(n)
      *
-     * @see    https://en.wikipedia.org/wiki/Euler%27s_totient_function
-     * @see    https://en.wikipedia.org/wiki/Jordan%27s_totient_function
+     * @see    https://en.wikipedia.org/wiki/Euler's_totient_function
+     * @see    https://en.wikipedia.org/wiki/Jordan's_totient_function
      *
      * @param  int $n
+     * @param  int $k elements to include in a (k+1)-tuple with n
      *
      * @return int number of k-tuples of positive integers ≤ n that form a coprime (k+1)-tuple with n
+     *
+     * @throws Exception\OutOfBoundsException if n is < 1 or k < 1
      */
     public static function totient(int $n, int $k = 1): int
     {
+        if ($k < 1) {
+            throw new Exception\OutOfBoundsException("k must be ≥ 1. ($k provided)");
+        }
         $J = $n ** $k;
         $primes = array_unique(self::primeFactorization($n));
         foreach ($primes as $prime) {
@@ -146,6 +152,8 @@ class Integer
      * @param  int $n
      *
      * @return int number of positive integers ≤ that have at least one prime factor in common with n
+     *
+     * @throws Exception\OutOfBoundsException if n is < 1.
      */
     public static function cototient(int $n): int
     {
@@ -159,8 +167,13 @@ class Integer
      * Notation:
      *    λ(n)
      *
+     * @see    https://en.wikipedia.org/wiki/Carmichael_function
+     *
      * @param  int $n
+     *
      * @return int the exponent of the multiplicative group of integers modulo n
+     *
+     * @throws Exception\OutOfBoundsException if n is < 1.
      */
     public static function reducedTotient(int $n): int
     {
@@ -205,7 +218,7 @@ class Integer
     }
 
     /**
-     * Squarefree integer
+     * Squarefree
      * A squarefree integer is an integer which is divisble by no square number other than 1.
      * It is equal to its radical (squarefree kernel).
      *
@@ -215,7 +228,7 @@ class Integer
      * @param  int $n
      * @return bool true if n is a squarefree integer; false otherwise
      */
-    public static function isSquarefreeInteger(int $n): bool
+    public static function isSquarefree(int $n): bool
     {
         if ($n < 1) {
             return false;
@@ -253,6 +266,8 @@ class Integer
      * @param  int $n
      *
      * @return bool true if n is a sphenic number; false otherwise
+     *
+     * @throws Exception\OutOfBoundsException if n is < 1.
      */
     public static function isSphenicNumber(int $n): bool
     {

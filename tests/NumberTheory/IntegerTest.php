@@ -442,6 +442,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      * @testCase     testRadical
      * @dataProvider dataProviderForRadical
      * @param        int $n
+     * @param        int $expected
      * @throws       \Exception
      */
     public function testRadical(int $n, int $expected)
@@ -500,6 +501,8 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      * @testCase     testTotient
      * @dataProvider dataProviderForTotient
      * @param        int $n
+     * @param        int $k
+     * @param        int $expected
      * @throws       \Exception
      */
     public function testTotient(int $n, int $k, int $expected)
@@ -561,24 +564,44 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     totient throws an OutOfBoundsException if n is < 1.
-     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @testCase     totient throws an OutOfBoundsException if n is < 1 or k is < 1.
+     * @dataProvider dataProviderForTotientOutOfBoundsException
      * @param        int $n
+     * @param        int $k
      * @throws       \Exception
      */
-    public function testTotientOutOfBoundsException(int $n)
+    public function testTotientOutOfBoundsException(int $n, int $k)
     {
         // When
         $this->expectException(Exception\OutOfBoundsException::class);
 
         // Then
-        Integer::totient($n);
+        Integer::totient($n, $k);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForTotientOutOfBoundsException(): array
+    {
+        return [
+            [2, -1],
+            [2, 0],
+            [0, 0],
+            [0, 1],
+            [-1, -1],
+            [-1, 1],
+            [-2, 1],
+            [-100, 1],
+            [-98352299832, 1],
+        ];
     }
 
     /**
      * @testCase     testCototient
      * @dataProvider dataProviderForCototient
      * @param        int $n
+     * @param        int $expected
      * @throws       \Exception
      */
     public function testCototient(int $n, int $expected)
@@ -638,6 +661,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      * @testCase     testReducedTotient
      * @dataProvider dataProviderForReducedTotient
      * @param        int $n
+     * @param        int $expected
      * @throws       \Exception
      */
     public function testReducedTotient(int $n, int $expected)
@@ -697,6 +721,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      * @testCase     testMobius
      * @dataProvider dataProviderForMobius
      * @param        int $n
+     * @param        int $expected
      * @throws       \Exception
      */
     public function testMobius(int $n, int $expected)
@@ -750,15 +775,15 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testIsSquarefreeInteger
+     * @testCase     testIsSquarefree
      * @dataProvider dataProviderForSquarefreeIntegers
      * @param        int $n
      * @throws       \Exception
      */
-    public function testIsSquarefreeInteger(int $n)
+    public function testIsSquarefree(int $n)
     {
-        $isSquarefreeInteger = Integer::isSquarefreeInteger($n);
-        $this->assertTrue($isSquarefreeInteger);
+        $isSquarefree = Integer::isSquarefree($n);
+        $this->assertTrue($isSquarefree);
     }
 
     /**
@@ -793,15 +818,15 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testIsNotSquarefreeInteger
+     * @testCase     testIsNotSquarefree
      * @dataProvider dataProviderForNonSquarefreeIntegers
      * @param        int $n
      * @throws       \Exception
      */
-    public function testIsNotSquarefreeInteger(int $n)
+    public function testIsNotSquarefree(int $n)
     {
-        $isSquarefreeInteger = Integer::isSquarefreeInteger($n);
-        $this->assertFalse($isSquarefreeInteger);
+        $isSquarefree = Integer::isSquarefree($n);
+        $this->assertFalse($isSquarefree);
     }
 
     /**
@@ -823,6 +848,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      * @testCase     testSumOfDivisors
      * @dataProvider dataProviderForSumOfDivisors
      * @param        int $n
+     * @param        int $expected
      * @throws       \Exception
      */
     public function testSumOfDivisors(int $n, int $expected)
@@ -881,6 +907,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      * @testCase     testNumberOfDivisors
      * @dataProvider dataProviderForNumberOfDivisors
      * @param        int $n
+     * @param        int $expected
      * @throws       \Exception
      */
     public function testNumberOfDivisors(int $n, int $expected)

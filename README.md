@@ -798,8 +798,8 @@ $int  = Integer::mobius($n);
 // Radical/squarefree kernel
 $int  = Integer::radical($n);
 
-// Squarefree integer
-$bool = Integer::isSquarefreeInteger($n);
+// Squarefree
+$bool = Integer::isSquarefree($n);
 
 // Refactorable number
 $bool = Integer::isRefactorableNumber($n);
