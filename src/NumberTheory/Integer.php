@@ -104,7 +104,11 @@ class Integer
      * The prime factors of an integer.
      * https://en.wikipedia.org/wiki/Prime_factor
      *
-     * @todo   Use a better algorithm.
+     * Algorithm
+     *  1) Let n be the ongoing remainder
+     *  2) Try prime factoring n with 2 and 3
+     *  3) Try prime factoring n with increasing ℕ of the form 6𝑘±1 up through √n (all other ℕ are divisible by 2 and/or 3)
+     *  4) If n is still > 1, the remainder is a prime factor
      *
      * @param  int $n
      *
@@ -154,7 +158,7 @@ class Integer
     }
 
     /**
-     * Coprime (relatively prime, mututally prime)
+     * Coprime (relatively prime, mutually prime)
      * Two integers a and b are said to be coprime if the only positive integer that divides both of them is 1.
      * That is, the only common positive factor of the two numbers is 1.
      * This is equivalent to their greatest common divisor being 1.
