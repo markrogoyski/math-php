@@ -43,6 +43,7 @@ class Integer
         if ($n < 1) {
             return false;
         }
+
         return $n > self::aliquotSum($n);
     }
 
@@ -62,6 +63,7 @@ class Integer
         if ($n < 1) {
             return false;
         }
+
         return $n < self::aliquotSum($n);
     }
 
@@ -132,11 +134,14 @@ class Integer
         if ($k < 1) {
             throw new Exception\OutOfBoundsException("k must be ≥ 1. ($k provided)");
         }
-        $J = $n ** $k;
+
+        $J      = $n ** $k;
         $primes = array_unique(self::primeFactorization($n));
+
         foreach ($primes as $prime) {
             $J *= 1 - 1 / $prime ** $k;
         }
+
         return $J;
     }
 
@@ -178,13 +183,15 @@ class Integer
     public static function reducedTotient(int $n): int
     {
         $primes = array_count_values(self::primeFactorization($n));
-        $λ = 1;
+        $λ      = 1;
         if (isset($primes[2]) && $primes[2] > 2) {
             --$primes[2];
         }
+
         foreach ($primes as $prime => $exponent) {
             $λ = Algebra::lcm($λ, $prime ** ($exponent - 1) * ($prime - 1));
         }
+
         return $λ;
     }
 
@@ -214,6 +221,7 @@ class Integer
         if ($factors !== array_unique($factors)) {
             return 0;
         }
+
         return (-1) ** count($factors);
     }
 
@@ -226,6 +234,7 @@ class Integer
      * @see    https://oeis.org/A005117
      *
      * @param  int $n
+     *
      * @return bool true if n is a squarefree integer; false otherwise
      */
     public static function isSquarefree(int $n): bool
@@ -233,6 +242,7 @@ class Integer
         if ($n < 1) {
             return false;
         }
+
         return $n === self::radical($n);
     }
 
@@ -379,13 +389,13 @@ class Integer
             while ($remainder % $divisor === 0) {
                 $factors[] = $divisor;
                 $remainder = intdiv($remainder, $divisor);
-                $√n = sqrt($remainder);
+                $√n        = sqrt($remainder);
             }
             $divisor += 2;
             while ($remainder % $divisor === 0) {
                 $factors[] = $divisor;
                 $remainder = intdiv($remainder, $divisor);
-                $√n = sqrt($remainder);
+                $√n        = sqrt($remainder);
             }
             $divisor += 4;
         }
@@ -433,9 +443,11 @@ class Integer
     {
         $factors = self::primeFactorization($n);
         $product = 1;
+
         foreach (array_count_values($factors) as $factor => $exponent) {
             $product *= $exponent + 1;
         }
+
         return $product;
     }
 
@@ -458,6 +470,7 @@ class Integer
     {
         $factors = self::primeFactorization($n);
         $product = 1;
+
         foreach (array_count_values($factors) as $factor => $exponent) {
             $sum = 1 + $factor;
             for ($i = 2; $i <= $exponent; $i++) {
@@ -465,6 +478,7 @@ class Integer
             }
             $product *= $sum;
         }
+
         return $product;
     }
 
