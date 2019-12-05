@@ -2238,7 +2238,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     public function insert(Matrix $small, int $m, int $n): Matrix
     {
         if ($small->getM() + $m > $this->m || $small->getN() + $n > $this->n) {
-            throw new Exception\MatrixException('Inner matrix exceedes the bounds of the outer matrix');
+            throw new Exception\MatrixException('Inner matrix exceeds the bounds of the outer matrix');
         }
 
         $new_array = $this->A;
