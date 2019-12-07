@@ -2149,7 +2149,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
     /**
      * Mean deviation matrix
-     * Matrix as an array of column vectors, each subtracted by the sample mean.
+     * Matrix as an array of column vectors, where rows represent variables and columns represent samples.
+     * Each column vector is subtracted by the sample mean.
      *
      * Example:
      *      [1  4 7 8]      [5]
@@ -2186,7 +2187,8 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
     /**
      * Mean deviation matrix
-     * Matrix as an array of column vectors, each subtracted by the sample mean.
+     * Matrix as an array of row vectors, where columns represent variables and rows represent samples.
+     * Each row vector is subtracted by the sample mean.
      *
      * Example:
      *      [1  4 7 8]      [5]
@@ -2228,16 +2230,42 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * https://en.wikipedia.org/wiki/Covariance_matrix
      * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
      *
+     * Example:
+     *     [var₁  cov₁₂ cov₁₃]
+     * S = [cov₁₂ var₂  cov₂₃]
+     *     [cov₁₃ cov₂₃ var₃]
+     *
+     * @param string $direction Optional specification if to calculate along rows or columns
+     *                          'rows' (default): rows represent variables and columns represent samples
+     *                          'columns': columns represent variables and rows represent samples
+     *
+     * @return Matrix
+     *
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MatrixException
+     * @throws Exception\BadParameterException
+     * @throws Exception\VectorException
+     */
+    public function covarianceMatrix(string $direction = 'rows'): Matrix
+    {
+        $S = $direction === self::ROWS
+            ? $this->covarianceMatrixOfRowVariables()
+            : $this->covarianceMatrixOfColumnVariables();
+
+        return $S;
+    }
+
+    /**
+     * Covariance matrix (variance-covariance matrix, sample covariance matrix)
+     * where rows represent variables and columns represent samples
+     * https://en.wikipedia.org/wiki/Covariance_matrix
+     * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
+     *
      *       1
      * S = ----- BBᵀ
      *     N - 1
      *
      *  where B is the mean-deviation form
-     *
-     * Example:
-     *     [var₁  cov₁₂ cov₁₃]
-     * S = [cov₁₂ var₂  cov₂₃]
-     *     [cov₁₃ cov₂₃ var₃]
      *
      * Uses mathematical convention where matrix columns represent observation vectors.
      * Follows formula and method found in Linear Algebra and Its Applications (Lay).
@@ -2249,13 +2277,43 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\BadParameterException
      * @throws Exception\VectorException
      */
-    public function covarianceMatrix(): Matrix
+    protected function covarianceMatrixOfRowVariables(): Matrix
     {
         $n  = $this->n;
-        $B  = $this->meanDeviation();
+        $B  = $this->meanDeviationOfRowVariables();
         $Bᵀ = $B->transpose();
 
         $S = $B->multiply($Bᵀ)->scalarMultiply((1 / ($n - 1)));
+
+        return $S;
+    }
+
+    /**
+     * Covariance matrix (variance-covariance matrix, sample covariance matrix)
+     * where columns represent variables and rows represent samples
+     * https://en.wikipedia.org/wiki/Covariance_matrix
+     * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
+     *
+     *       1
+     * S = ----- BᵀB
+     *     N - 1
+     *
+     *  where B is the mean-deviation form
+     *
+     * @return Matrix
+     *
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MatrixException
+     * @throws Exception\BadParameterException
+     * @throws Exception\VectorException
+     */
+    protected function covarianceMatrixOfColumnVariables(): Matrix
+    {
+        $n  = $this->m;
+        $B  = $this->meanDeviationOfColumnVariables();
+        $Bᵀ = $B->transpose();
+
+        $S = $Bᵀ->multiply($B)->scalarMultiply((1 / ($n - 1)));
 
         return $S;
     }

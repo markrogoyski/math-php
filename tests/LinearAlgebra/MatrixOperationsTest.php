@@ -2766,6 +2766,22 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
                    [-1 / 3,  20 / 3, -13 / 3,  -2 / 3],
                 ],
             ],
+            [
+                [
+                    [90, 60, 90],
+                    [90, 90, 30],
+                    [60, 60, 60],
+                    [60, 60, 90],
+                    [30, 30, 30],
+                ],
+                [
+                    [24, 0, 30],
+                    [24, 30, -30],
+                    [-6, 0, 0],
+                    [-6, 0, 30],
+                    [-36, -30, -30],
+                ],
+            ],
         ];
     }
 
@@ -2882,6 +2898,87 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
                     [ 4.0,  0.400000,  6.4,  38.000000, 0.400000],
                     [32.5, 25.333333, 38.0, 304.166667, 1.333333],
                     [ 0.4,  2.466667,  0.4,   1.333333, 4.666667],
+                ],
+            ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForCovarianceMatrixColumnsAsVariables
+     */
+    public function testCovarianceMatrixColumnsAsVariables(array $A, array $S)
+    {
+        // Given
+        $A         = MatrixFactory::create($A);
+        $direction = Matrix::COLUMNS;
+
+        // When
+        $covarianceMatrix = $A->covarianceMatrix($direction);
+
+        // Then
+        $this->assertEquals($S, $covarianceMatrix->getMatrix(), '', 0.0001);
+    }
+
+    /**
+     * Data generated with R cov(A)
+     * @return array
+     */
+    public function dataProviderForCovarianceMatrixColumnsAsVariables(): array
+    {
+        return [
+            [
+                [
+                    [90, 60, 90],
+                    [90, 90, 30],
+                    [60, 60, 60],
+                    [60, 60, 90],
+                    [30, 30, 30],
+                ],
+                [
+                    [630, 450, 225],
+                    [450, 450, 0],
+                    [225, 0, 900],
+                ],
+            ],
+            [
+                [
+                    [2, -2],
+                    [8, -1],
+                    [6, 0],
+                    [4, 1],
+                    [10, 2],
+                ],
+                [
+                    [10, 3],
+                    [3, 2.5],
+                ],
+            ],
+            [
+                [
+                    [1, 4, 7, 8],
+                    [2, 2, 8, 4],
+                    [1, 13, 1, 5],
+                ],
+                [
+                    [0.3333333,  -2.166667,  1.333333,  -0.8333333],
+                    [-2.1666667, 34.333333, -22.166667, -1.3333333],
+                    [1.3333333,  -22.166667, 14.333333, 1.1666667],
+                    [-0.8333333, -1.333333,  1.166667,  4.3333333],
+                ],
+            ],
+            [
+                [
+                    [19, 22, 6, 3, 2, 20],
+                    [12, 6, 9, 15, 13, 5],
+                ],
+                [
+                    [ 24.5,  56, -10.5, -42, -38.5,  52.5],
+                    [ 56.0, 128, -24.0, -96, -88.0, 120.0],
+                    [-10.5, -24,   4.5,  18,  16.5, -22.5],
+                    [-42.0, -96,  18.0,  72,  66.0, -90.0],
+                    [-38.5, -88,  16.5,  66,  60.5, -82.5],
+                    [ 52.5, 120, -22.5, -90, -82.5, 112.5],
                 ],
             ],
         ];
