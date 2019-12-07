@@ -750,7 +750,12 @@ $whole       = 0;
 $numerator   = 2;
 $denominator = 3;
 
-$rational = new Rational($whole, $numerator, $denominator); // ²/₃
+$rational = new Rational($whole, $numerator, $denominator);  // ²/₃
+
+// Get individual parts
+$whole       = $rational->getWholePart();
+$numerator   = $rational->getNumerator();
+$denominator = $rational->getDenominator();
 
 // Unary functions
 $│rational│ = $rational->abs();

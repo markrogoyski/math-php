@@ -40,6 +40,30 @@ class Rational implements ObjectArithmetic
         $this->numerator   = $n;
         $this->denominator = $d;
     }
+
+    /**
+     * @return int
+     */
+    public function getWholePart(): int
+    {
+        return $this->whole;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumerator(): int
+    {
+        return $this->numerator;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDenominator(): int
+    {
+        return $this->denominator;
+    }
     
     /**
      * String representation of a rational number

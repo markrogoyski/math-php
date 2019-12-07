@@ -8,6 +8,102 @@ use MathPHP\Exception;
 class RationalTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @testCase     getWholePart
+     * @dataProvider dataProviderForData
+     * @param        int $w
+     * @param        int $n
+     * @param        int $d
+     * @param        int $expectedWholePart
+     */
+    public function testGetWholePart($w, $n, $d, $expectedWholePart)
+    {
+        // Given
+        $number = new Rational($w, $n, $d);
+
+        // when
+        $wholePart = $number->getWholePart();
+
+        // Then
+        $this->assertSame($expectedWholePart, $wholePart);
+    }
+
+    /**
+     * @testCase     getNumerator
+     * @dataProvider dataProviderForData
+     * @param        int $w
+     * @param        int $n
+     * @param        int $d
+     * @param        int $_
+     * @param        int $expectedNumerator
+     */
+    public function testGetNumerator($w, $n, $d, $_, $expectedNumerator)
+    {
+        // Given
+        $number = new Rational($w, $n, $d);
+
+        // when
+        $numerator = $number->getNumerator();
+
+        // Then
+        $this->assertSame($expectedNumerator, $numerator);
+    }
+
+    /**
+     * @testCase     getDenominator
+     * @dataProvider dataProviderForData
+     * @param        int $w
+     * @param        int $n
+     * @param        int $d
+     * @param        int $_
+     * @param        int $__
+     * @param        int $expectedDenominator
+     */
+    public function testGetDenominator($w, $n, $d, $_, $__, $expectedDenominator)
+    {
+        // Given
+        $number = new Rational($w, $n, $d);
+
+        // when
+        $denominator = $number->getDenominator();
+
+        // Then
+        $this->assertSame($expectedDenominator, $denominator);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForData(): array
+    {
+        return [
+            [0, 0, 1, 0, 0, 1],
+            [1, 0, 1, 1, 0, 1],
+            [-1, 0, 1, -1, 0, 1],
+            [0, 1, 1, 1, 0, 1],
+            [0, -1, 1, -1, 0, 1],
+            [0, 1, -1, -1, 0, 1],
+            [-5, -1, 2, -5, -1, 2],
+            [-5, 1, 2, -4, -1, 2],
+            [0, 1, 2, 0, 1, 2],
+            [0, -1, 2, 0, -1, 2],
+            [0, 2, 3, 0, 2, 3],
+            [0, 3, 4, 0, 3, 4],
+            [0, 4, 5, 0, 4, 5],
+            [0, 5, 6, 0, 5, 6],
+            [0, 6, 7, 0, 6, 7],
+            [0, 7, 8, 0, 7, 8],
+            [0, 8, 9, 0, 8, 9],
+            [0, 9, 10, 0, 9, 10],
+            [0, 10, 21, 0, 10, 21],
+            [0, 3, 2, 1, 1, 2],
+            [0, 4, 2, 2, 0, 1],
+            [0, 5, 2, 2, 1, 2],
+            [0, 10, 2, 5, 0, 1],
+            [0, 4, 3, 1, 1, 3],
+        ];
+    }
+
+    /**
      * @testCase     __toString returns the proper string representation of a rational number
      * @dataProvider dataProviderForToString
      * @param        number $w
