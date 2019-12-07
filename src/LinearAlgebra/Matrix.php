@@ -2137,14 +2137,13 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function meanDeviation(string $direction = 'rows'): Matrix
     {
-        if ($direction === self::ROWS) {
-            return $this->meanDeviationOfRowVariables();
-        }
-        if ($direction === self::COLUMNS) {
-            return $this->meanDeviationOfColumnVariables();
+        if (!in_array($direction, [self::ROWS, self::COLUMNS])) {
+            throw new Exception\BadParameterException("Direction must be rows or columns, got $direction");
         }
 
-        throw new Exception\BadParameterException("Direction must be rows or columns, got $direction");
+        return $direction === self::ROWS
+            ? $this->meanDeviationOfRowVariables()
+            : $this->meanDeviationOfColumnVariables();
     }
 
     /**
@@ -2248,6 +2247,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      */
     public function covarianceMatrix(string $direction = 'rows'): Matrix
     {
+        if (!in_array($direction, [self::ROWS, self::COLUMNS])) {
+            throw new Exception\BadParameterException("Direction must be rows or columns, got $direction");
+        }
+
         $S = $direction === self::ROWS
             ? $this->covarianceMatrixOfRowVariables()
             : $this->covarianceMatrixOfColumnVariables();

@@ -2985,6 +2985,25 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test   covarianceMatrix exception is direction is not rows or columns
+     * @throws \Exception
+     */
+    public function testCovarianceMatrixDirectionException()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+        ]);
+
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
+        $covarianceMatrix = $A->covarianceMatrix('invalid_direction');
+    }
+
+    /**
      * @testCase     adjugate returns the expected SquareMatrix
      * @dataProvider dataProviderForAdjugate
      * @param        array $A
