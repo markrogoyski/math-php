@@ -30,6 +30,10 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     // Default error/zero tolerance
     const ε = 0.00000000001;
 
+    // Matrix data direction
+    const ROWS    = 'rows';
+    const COLUMNS = 'columns';
+
     /**
      * Constructor
      *
@@ -245,7 +249,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * Vectors = [4] [5] [6]
      *           [7] [8] [9]
      *
-     * @return array of Vectors
+     * @return Vector[]
      */
     public function asVectors(): array
     {
@@ -257,6 +261,30 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return $vectors;
+    }
+
+    /**
+     * Returns an array of vectors from the columns of the matrix.
+     * Each column of the matrix becomes a vector.
+     *
+     *     [1 2 3]
+     * A = [4 5 6]
+     *     [7 8 9]
+     *
+     *           [1] [4] [7]
+     * Vectors = [2] [5] [8]
+     *           [3] [6] [9]
+     *
+     * @return Vector[]
+     */
+    public function asRowVectors(): array
+    {
+        return array_map(
+            function (array $row) {
+                return new Vector($row);
+            },
+            $this->A
+        );
     }
 
     /***************************************************************************
@@ -2101,11 +2129,47 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  B = [-2 -2  4 0]
      *      [-2  8 -4 0]
      *
+     * @param string $direction Optional specification if to calculate along rows or columns
+     *
+     * @return Matrix
+     *
+     * @throws Exception\BadParameterException if direction is not rows or columns
+     */
+    public function meanDeviation(string $direction = 'rows'): Matrix
+    {
+        if ($direction === self::ROWS) {
+            return $this->meanDeviationOfRowVariables();
+        }
+        if ($direction === self::COLUMNS) {
+            return $this->meanDeviationOfColumnVariables();
+        }
+
+        throw new Exception\BadParameterException("Direction must be rows or columns, got $direction");
+    }
+
+    /**
+     * Mean deviation matrix
+     * Matrix as an array of column vectors, where rows represent variables and columns represent samples.
+     * Each column vector is subtracted by the sample mean.
+     *
+     * Example:
+     *      [1  4 7 8]      [5]
+     *  A = [2  2 8 4]  M = [4]
+     *      [1 13 1 5]      [5]
+     *
+     *      |[1] - [5]   [4]  - [5]   [7] - [5]   [8] - [5]|
+     *  B = |[2] - [4]   [2]  - [4]   [8] - [4]   [4] - [4]|
+     *      |[1] - [5]   [13] - [5]   [1] - [5]   [5] - [5]|
+     *
+     *      [-4 -1  2 3]
+     *  B = [-2 -2  4 0]
+     *      [-2  8 -4 0]
+     *
      * @return Matrix
      *
      * @throws Exception\IncorrectTypeException
      */
-    public function meanDeviation(): Matrix
+    public function meanDeviationOfRowVariables(): Matrix
     {
         $X = $this->asVectors();
         $M = $this->rowMeans();
@@ -2122,7 +2186,78 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Mean deviation matrix
+     * Matrix as an array of row vectors, where columns represent variables and rows represent samples.
+     * Each row vector is subtracted by the sample mean.
+     *
+     * Example:
+     *      [1  4 7 8]      [5]
+     *  A = [2  2 8 4]  M = [4]
+     *      [1 13 1 5]      [5]
+     *
+     *  M = [4/3, 19/3, 16/3, 17/3]
+     *
+     *      |[1] - [4/3]  [4] - [19/3]  7 - [16/3]  [8] - [17/3]|
+     *  B = |[2] - [4/3]  [2] - [19/3]  8 - [16/3]  [4] - [17/3]|
+     *      |[1] - [4/3] [13] - [19/3]  1 - [16/3]  [5] - [17/3]|
+     *
+     *      [-1/3  -2.33   1.66  2.33]
+     *  B = [2/3   -4.33   2.66 -1.66]
+     *      [-1/3   6.66  -4.33  -2/3]
+     *
+     * @return Matrix
+     *
+     * @throws Exception\IncorrectTypeException
+     */
+    public function meanDeviationOfColumnVariables(): Matrix
+    {
+        $X = $this->asRowVectors();
+        $M = $this->columnMeans();
+
+        /** @var Vector[] $B */
+        $B = array_map(
+            function (Vector $Xᵢ) use ($M) {
+                return $Xᵢ->subtract($M);
+            },
+            $X
+        );
+
+        return MatrixFactory::createFromVectors($B)->transpose();
+    }
+
+    /**
      * Covariance matrix (variance-covariance matrix, sample covariance matrix)
+     * https://en.wikipedia.org/wiki/Covariance_matrix
+     * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
+     *
+     * Example:
+     *     [var₁  cov₁₂ cov₁₃]
+     * S = [cov₁₂ var₂  cov₂₃]
+     *     [cov₁₃ cov₂₃ var₃]
+     *
+     * @param string $direction Optional specification if to calculate along rows or columns
+     *                          'rows' (default): rows represent variables and columns represent samples
+     *                          'columns': columns represent variables and rows represent samples
+     *
+     * @return Matrix
+     *
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MatrixException
+     * @throws Exception\BadParameterException
+     * @throws Exception\VectorException
+     */
+    public function covarianceMatrix(string $direction = 'rows'): Matrix
+    {
+        $S = $direction === self::ROWS
+            ? $this->covarianceMatrixOfRowVariables()
+            : $this->covarianceMatrixOfColumnVariables();
+
+        return $S;
+    }
+
+    /**
+     * Covariance matrix (variance-covariance matrix, sample covariance matrix)
+     * where rows represent variables and columns represent samples
      * https://en.wikipedia.org/wiki/Covariance_matrix
      * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
      *
@@ -2131,11 +2266,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *     N - 1
      *
      *  where B is the mean-deviation form
-     *
-     * Example:
-     *     [var₁  cov₁₂ cov₁₃]
-     * S = [cov₁₂ var₂  cov₂₃]
-     *     [cov₁₃ cov₂₃ var₃]
      *
      * Uses mathematical convention where matrix columns represent observation vectors.
      * Follows formula and method found in Linear Algebra and Its Applications (Lay).
@@ -2147,13 +2277,43 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\BadParameterException
      * @throws Exception\VectorException
      */
-    public function covarianceMatrix(): Matrix
+    protected function covarianceMatrixOfRowVariables(): Matrix
     {
         $n  = $this->n;
-        $B  = $this->meanDeviation();
+        $B  = $this->meanDeviationOfRowVariables();
         $Bᵀ = $B->transpose();
 
         $S = $B->multiply($Bᵀ)->scalarMultiply((1 / ($n - 1)));
+
+        return $S;
+    }
+
+    /**
+     * Covariance matrix (variance-covariance matrix, sample covariance matrix)
+     * where columns represent variables and rows represent samples
+     * https://en.wikipedia.org/wiki/Covariance_matrix
+     * https://en.wikipedia.org/wiki/Sample_mean_and_covariance
+     *
+     *       1
+     * S = ----- BᵀB
+     *     N - 1
+     *
+     *  where B is the mean-deviation form
+     *
+     * @return Matrix
+     *
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MatrixException
+     * @throws Exception\BadParameterException
+     * @throws Exception\VectorException
+     */
+    protected function covarianceMatrixOfColumnVariables(): Matrix
+    {
+        $n  = $this->m;
+        $B  = $this->meanDeviationOfColumnVariables();
+        $Bᵀ = $B->transpose();
+
+        $S = $Bᵀ->multiply($B)->scalarMultiply((1 / ($n - 1)));
 
         return $S;
     }
