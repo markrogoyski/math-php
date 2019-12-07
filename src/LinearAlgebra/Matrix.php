@@ -1201,7 +1201,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         $AAᴴ = $this->multiply($Aᴴ);
         $AᴴA = $Aᴴ->multiply($this);
 
-        $I = Matrixfactory::identity($this->m);
+        $I = MatrixFactory::identity($this->m);
         return $AAᴴ->isEqual($AᴴA) && $AAᴴ->isEqual($I);
     }
 

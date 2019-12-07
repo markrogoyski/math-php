@@ -480,7 +480,7 @@ class MatrixFactory
             throw new Exception\OutOfBoundsException("m and n must be within the matrix");
         }
 
-        $G         = Matrixfactory::identity($size)->getMatrix();
+        $G         = MatrixFactory::identity($size)->getMatrix();
         $G[$m][$m] = cos($angle);
         $G[$n][$n] = cos($angle);
         $G[$m][$n] = -1 * sin($angle);

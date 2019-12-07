@@ -362,7 +362,7 @@ class Integer
      *
      * @param  int $n
      *
-     * @return array of prime factors
+     * @return int[] of prime factors
      *
      * @throws Exception\OutOfBoundsException if n is < 1.
      */

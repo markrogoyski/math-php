@@ -185,7 +185,7 @@ class MatrixCatalog
     // QR DECOMPOSITION
 
     /**
-     * @param Decomposition\LU $QR
+     * @param Decomposition\QR $QR
      */
     public function addQrDecomposition(Decomposition\QR $QR)
     {
