@@ -4,6 +4,7 @@ namespace MathPHP;
 
 use MathPHP\Number\Complex;
 use MathPHP\Functions\Map\Single;
+use MathPHP\NumberTheory\Integer;
 
 class Algebra
 {
@@ -110,10 +111,13 @@ class Algebra
      * The decomposition of a composite number into a product of smaller integers.
      * https://en.wikipedia.org/wiki/Integer_factorization
      *
-     * Method:
-     *  Iterate from 1 to √x
-     *  If x mod i = 0, it is a factor
-     *  Furthermore, x/i is a factor
+     * Algorithm:
+     * - special case: if x is 0, return [\INF]
+     * - let x be |x|
+     * - push on 1 as a factor
+     * - prime factorize x
+     * - build sets of prime powers from primes
+     * - push on the product of each set
      *
      * @param  int $x
      * @return array of factors
@@ -125,20 +129,50 @@ class Algebra
             return [\INF];
         }
 
-        $x  = abs($x);
-        $√x = floor(sqrt($x));
+        $x = abs($x);
+        $factors = [1];
 
-        $factors = [];
-        for ($i = 1; $i <= $√x; $i++) {
-            if ($x % $i === 0) {
-                $factors[] = $i;
-                if ($i !== $√x) {
-                    $factors[] = $x / $i;
+        // prime factorize x
+        $primes = Integer::primeFactorization($x);
+
+        // prime powers from primes
+        $sets = [];
+        $current = [];
+        $map = [];
+        $exponents = array_count_values($primes);
+        $limit = 1;
+        $count = 0;
+        foreach ($exponents as $prime => $exponent) {
+            $map[] = $prime;
+            $sets[$prime] = [1, $prime];
+            $primePower = $prime;
+            for ($n = 2; $n <= $exponent; ++$n) {
+                $primePower *= $prime;
+                $sets[$prime][$n] = $primePower;
+            }
+            $limit *= count($sets[$prime]);
+            if ($count === 0) { // skip 1 on the first prime
+                $current[] = next($sets[$prime]);
+            } else {
+                $current[] = 1;
+            }
+            ++$count;
+        }
+
+        // multiply distinct prime powers together
+        for ($i = 1; $i < $limit; ++$i) {
+            $factors[] = array_product($current);
+            for ($i2 = 0; $i2 < $count; ++$i2) {
+                $current[$i2] = next($sets[$map[$i2]]);
+                if ($current[$i2] !== false) {
+                    break;
                 }
+                $current[$i2] = reset($sets[$map[$i2]]);
             }
         }
 
         sort($factors);
+
         return $factors;
     }
 
