@@ -1796,6 +1796,96 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @dataProvider dataProviderForNaryCartesianProduct
+     */
+    public function testNaryCartesianProduct(array $A, array $B, array $C, array $A×B×C, Set $R)
+    {
+        $setA        = new Set($A);
+        $setB        = new Set($B);
+        $setC        = new Set($C);
+        $setA×B×C    = $setA->cartesianProduct($setB, $setC);
+        $A×B×C_array = $setA×B×C->asArray();
+
+        $this->assertEquals($R, $setA×B×C);
+        $this->assertEquals($A×B×C, $A×B×C_array);
+        $this->assertEquals(count($setA×B×C), count($A×B×C));
+        $this->assertEquals(count($setA×B×C), count($setA) * count($setB) * count($setC));
+
+        foreach ($setA×B×C as $key => $value) {
+            $this->assertInstanceOf(Set::class, $value);
+            $this->assertEquals(3, count($value));
+        }
+        foreach ($A×B×C_array as $key => $value) {
+            $this->assertInstanceOf(Set::class, $value);
+            $this->assertEquals(3, count($value));
+        }
+    }
+
+    public function dataProviderForNaryCartesianProduct()
+    {
+        return [
+            [
+                [1, 2],
+                [3, 4],
+                [5, 6],
+                [
+                    'Set{1, 3, 5}' => new Set([1, 3, 5]),
+                    'Set{1, 3, 6}' => new Set([1, 3, 6]),
+                    'Set{1, 4, 5}' => new Set([1, 4, 5]),
+                    'Set{1, 4, 6}' => new Set([1, 4, 6]),
+                    'Set{2, 3, 5}' => new Set([2, 3, 5]),
+                    'Set{2, 3, 6}' => new Set([2, 3, 6]),
+                    'Set{2, 4, 5}' => new Set([2, 4, 5]),
+                    'Set{2, 4, 6}' => new Set([2, 4, 6]),
+                ],
+                new Set([
+                    new Set([1, 3, 5]),
+                    new Set([1, 3, 6]),
+                    new Set([1, 4, 5]),
+                    new Set([1, 4, 6]),
+                    new Set([2, 3, 5]),
+                    new Set([2, 3, 6]),
+                    new Set([2, 4, 5]),
+                    new Set([2, 4, 6]),
+                ]),
+            ],
+            [
+                [1, 2],
+                ['red', 'white'],
+                ['A', 'B'],
+                [
+                    'Set{1, red, A}' => new Set([1, 'red', 'A']),
+                    'Set{1, red, B}' => new Set([1, 'red', 'B']),
+                    'Set{1, white, A}' => new Set([1, 'white', 'A']),
+                    'Set{1, white, B}' => new Set([1, 'white', 'B']),
+                    'Set{2, red, A}' => new Set([2, 'red', 'A']),
+                    'Set{2, red, B}' => new Set([2, 'red', 'B']),
+                    'Set{2, white, A}' => new Set([2, 'white', 'A']),
+                    'Set{2, white, B}' => new Set([2, 'white', 'B']),
+                ],
+                new Set([
+                    new Set([1, 'red', 'A']),
+                    new Set([1, 'red', 'B']),
+                    new Set([1, 'white', 'A']),
+                    new Set([1, 'white', 'B']),
+                    new Set([2, 'red', 'A']),
+                    new Set([2, 'red', 'B']),
+                    new Set([2, 'white', 'A']),
+                    new Set([2, 'white', 'B']),
+                ]),
+            ],
+            [
+                [1, 2],
+                [3],
+                [],
+                [],
+                new Set(),
+            ],
+        ];
+    }
+
+
+    /**
      * @dataProvider dataProviderForPowerSet
      */
     public function testPowerSet(Set $A, Set $expected)
