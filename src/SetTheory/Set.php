@@ -482,19 +482,19 @@ class Set implements \Countable, \Iterator
      *  B   = (a, b)
      *  A×B = ((1, a), (1, b), (2, a), (2, b))
      *
-     * @param  Set[] ...$Bs One or more sets
+     * @param  Set ...$Bs One or more sets
      *
      * @return Set
      */
     public function cartesianProduct(Set ...$Bs)
     {
-        $A×B = [];
-
+        $A×B     = [];
         $product = $this->length();
-        $sets = [$this->asArray()];
+        $sets    = [$this->asArray()];
+
         foreach ($Bs as $B) {
             $product *= $B->length();
-            $sets[] = $B->asArray();
+            $sets[]   = $B->asArray();
         }
 
         $l = count($sets);
@@ -507,7 +507,7 @@ class Set implements \Countable, \Iterator
 
             $A×B[] = new Set($elements);
 
-            // advance array pointers
+            // Advance array pointers
             for ($i2 = 0; $i2 < $l; ++$i2) {
                 next($sets[$i2]);
                 $key = key($sets[$i2]);
