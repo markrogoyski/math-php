@@ -385,7 +385,7 @@ class Set implements \Countable, \Iterator
      * Example:
      *  {1, 2} ∪ {2, 3} = {1, 2, 3}
      *
-     * @param  Set[] ...$Bs One or more sets
+     * @param  Set ...$Bs One or more sets
      *
      * @return Set
      */
@@ -412,7 +412,7 @@ class Set implements \Countable, \Iterator
      * Example:
      *  {1, 2} ∩ {2, 3} = {2}
      *
-     * @param  Set[] ...$Bs One or more sets
+     * @param  Set ...$Bs One or more sets
      *
      * @return Set
      */
@@ -432,7 +432,7 @@ class Set implements \Countable, \Iterator
      * Difference (relative complement) (A ∖ B) or (A - B)
      * Produces a new set with elements that are not in the other sets.
      *
-     * @param  Set[] ...$Bs One or more sets
+     * @param  Set ...$Bs One or more sets
      *
      * @return Set
      */
@@ -460,7 +460,7 @@ class Set implements \Countable, \Iterator
      *
      * @return Set
      */
-    public function symmetricDifference(Set $B)
+    public function symmetricDifference(Set $B): Set
     {
         $B_array = $B->asArray();
 
@@ -486,7 +486,7 @@ class Set implements \Countable, \Iterator
      *
      * @return Set
      */
-    public function cartesianProduct(Set ...$Bs)
+    public function cartesianProduct(Set ...$Bs): Set
     {
         $A×B     = [];
         $product = $this->length();
