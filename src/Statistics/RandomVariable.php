@@ -143,6 +143,9 @@ class RandomVariable
         $μ₂    = self::centralMoment($X, 2);
 
         $μ₂³′² = pow($μ₂, 3 / 2);
+        if ($μ₂³′² == 0) {
+            return \NAN;  // Prevents division by zero in μ₃ / μ₂³′² equation
+        }
 
         $√⟮n⟮n − 1⟯⟯ = sqrt($n * ($n - 1));
 

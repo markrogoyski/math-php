@@ -167,6 +167,35 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         sampleSkewness Nan
+     * @dataProvider dataProviderForSampleSkewnessNan
+     * @param        array $X
+     * @throws       \Exception
+     */
+    public function testSampleSkewnessNan(array $X)
+    {
+        // When
+        $skewness = RandomVariable::sampleSkewness($X);
+
+        // Then
+        $this->assertNan($skewness);
+    }
+
+    /**
+     * Generated with R (e1071) skewness(data, type=2)
+     * @return array [X, skewness]
+     */
+    public function dataProviderForSampleSkewnessNan(): array
+    {
+        return [
+            [[-1, -1, -1]],
+            [[10, 10, 10]],
+            [[0, 0, 0]],
+            [[10, 10, 10, 10]],
+        ];
+    }
+
+    /**
      * @test         alternativeSkewness
      * @dataProvider dataProviderForAlternativeSkewness
      * @param        array $X

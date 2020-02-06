@@ -678,7 +678,7 @@ class Descriptive
             'midhinge'           => self::midhinge($numbers),
             'skewness'           => $population
                 ? ($n > 0 ? RandomVariable::populationSkewness($numbers) : null)
-                : ($n >= 2 ? RandomVariable::skewness($numbers) : null),
+                : ($n >= 3 ? RandomVariable::skewness($numbers) : null),
             'ses'                => $n > 2 ? RandomVariable::ses($n) : null,
             'kurtosis'           => RandomVariable::kurtosis($numbers),
             'sek'                => $n > 3 ? RandomVariable::sek($n) : null,
