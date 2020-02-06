@@ -43,7 +43,7 @@ trait MichaelisMenten
      *
      * @return array [ V => number, K => number ]
      */
-    public static function getModelParameters(array $params): array
+    public function getModelParameters(array $params): array
     {
         return [
             'V' => $params[self::$V],
@@ -58,7 +58,7 @@ trait MichaelisMenten
      *
      * @return string
      */
-    public static function getModelEquation(array $params): string
+    public function getModelEquation(array $params): string
     {
         return sprintf('y = %fx/(%f+x)', $params[self::$V], $params[self::$K]);
     }
