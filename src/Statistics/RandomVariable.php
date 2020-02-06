@@ -151,7 +151,7 @@ class RandomVariable
 
     /**
      * Skewness (alternative method)
-     * This method tends to match most of the online skewness calculators and examples.
+     * Classic definition of skewness. This method tends to match most of the online skewness calculators and examples.
      * https://en.wikipedia.org/wiki/Skewness
      *
      *         1     ∑⟮xᵢ - μ⟯³

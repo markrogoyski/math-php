@@ -2263,10 +2263,11 @@ $Y = [2, 3, 4, 5];
 $second_central_moment = RandomVariable::centralMoment($X, 2);
 $third_central_moment  = RandomVariable::centralMoment($X, 3);
 
-// Skewness (population and sample)
-$skewness = RandomVariable::skewness($X);            // general method of calculating skewness
-$skewness = RandomVariable::populationSkewness($X);  // similar to Excel's SKEW.P
-$skewness = RandomVariable::sampleSkewness($X);      // similar to Excel's SKEW
+// Skewness (population, sample, and alternative general method)
+$skewness = RandomVariable::skewness($X);            // Optional type parameter to choose skewness type calculation. Defaults to sample skewness (similar to Excel's SKEW).
+$skewness = RandomVariable::sampleSkewness($X);      // Same as RandomVariable::skewness($X, RandomVariable::SAMPLE_SKEWNESS) - Similar to Excel's SKEW, SAS and SPSS, R (e1071) skewness type 2
+$skewness = RandomVariable::populationSkewness($X);  // Same as RandomVariable::skewness($X, RandomVariable::POPULATION_SKEWNESS) - Similar to Excel's SKEW.P, classic textbook definition, R (e1071) skewness type 1
+$skewness = RandomVariable::alternativeSkewness($X); // Same as RandomVariable::skewness($X, RandomVariable::ALTERNATIVE_SKEWNESS) - Alternative, classic definition of skewness
 $SES      = RandomVariable::ses(count($X));          // standard error of skewness
 
 // Kurtosis (excess)
