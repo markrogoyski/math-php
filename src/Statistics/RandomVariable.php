@@ -34,6 +34,10 @@ use MathPHP\Exception;
  */
 class RandomVariable
 {
+    const SAMPLE_SKEWNESS      = 'sample';
+    const POPULATION_SKEWNESS  = 'population';
+    const ALTERNATIVE_SKEWNESS = 'alternative';
+
     /**
      * n-th Central moment
      * A moment of a probability distribution of a random variable about the random variable's mean.
@@ -70,12 +74,13 @@ class RandomVariable
     }
 
     /**
-     * Popluation skewness
+     * Population skewness
      * A measure of the asymmetry of the probability distribution of a real-valued random variable about its mean.
      * https://en.wikipedia.org/wiki/Skewness
      * http://brownmath.com/stat/shape.htm
      *
      * This method tends to match Excel's SKEW.P function.
+     * R (e1071) describes it as the typical definition used in many older textbooks (skewness type 1).
      *
      *         μ₃
      * γ₁ = -------
@@ -111,6 +116,7 @@ class RandomVariable
      * http://brownmath.com/stat/shape.htm
      *
      * This method tends to match Excel's SKEW function.
+     * It also matches what is used in SAS and SPSS. In R (e1071) it is skewness type 2.
      *
      *         μ₃     √(n(n - 1))
      * γ₁ = ------- × -----------
@@ -164,7 +170,7 @@ class RandomVariable
      *
      * @throws Exception\BadDataException if the input array of numbers has less than 2 elements
      */
-    public static function skewness(array $X): float
+    public static function alternativeSkewness(array $X): float
     {
         $N  = count($X);
         if ($N < 2) {
@@ -186,6 +192,44 @@ class RandomVariable
         }
 
         return $∑⟮xᵢ − μ⟯³ / $⟮σ³ × ⟮N − 1⟯⟯;
+    }
+
+    /**
+     * Skewness
+     *
+     * Multiple algorithms exist to compute skewness.
+     * The default is sample skewness, which will match Excel's SKEW function and SAS and SPSS. In R (e1071) it is skewness type 2.
+     *
+     * To use a different skewness algorithm provide the optional type parameter:
+     *  - SAMPLE_SKEWNESS (Excel's SKEW function and SAS and SPSS)
+     *  - POPULATION_SKEWNESS (Textbook definition; Excel's SKEW.P function)
+     *  - ALTERNATIVE_SKEWNESS (Another textbook definition)
+     *
+     * @param float[] $X list of numbers (random variable X)
+     * @param string $type (optional) determines the skewness algorithm used (SAMPLE_SKEWNESS (default), POPULATION_SKEWNESS, ALTERNATIVE_SKEWNESS)
+     *
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers has less than 2 elements
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\OutOfBoundsException
+     */
+    public static function skewness(array $X, string $type = self::SAMPLE_SKEWNESS): float
+    {
+        if (!in_array($type, [self::SAMPLE_SKEWNESS, self::POPULATION_SKEWNESS, self::ALTERNATIVE_SKEWNESS])) {
+            throw new Exception\IncorrectTypeException("Type $type is not a valid skewness algorithm type");
+        }
+
+        switch ($type) {
+            case self::SAMPLE_SKEWNESS:
+                return self::sampleSkewness($X);
+
+            case self::POPULATION_SKEWNESS:
+                return self::populationSkewness($X);
+
+            case self::ALTERNATIVE_SKEWNESS:
+                return self::alternativeSkewness($X);
+        }
     }
 
     /**
