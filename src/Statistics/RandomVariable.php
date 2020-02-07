@@ -105,6 +105,9 @@ class RandomVariable
         $μ₂ = self::centralMoment($X, 2);
     
         $μ₂³′² = pow($μ₂, 3 / 2);
+        if ($μ₂³′² == 0) {
+            return \NAN;  // Prevents division by zero in μ₃ / μ₂³′² equation
+        }
 
         return ($μ₃ /  $μ₂³′²);
     }
@@ -219,10 +222,6 @@ class RandomVariable
      */
     public static function skewness(array $X, string $type = self::SAMPLE_SKEWNESS): float
     {
-        if (!in_array($type, [self::SAMPLE_SKEWNESS, self::POPULATION_SKEWNESS, self::ALTERNATIVE_SKEWNESS])) {
-            throw new Exception\IncorrectTypeException("Type $type is not a valid skewness algorithm type");
-        }
-
         switch ($type) {
             case self::SAMPLE_SKEWNESS:
                 return self::sampleSkewness($X);
@@ -232,6 +231,9 @@ class RandomVariable
 
             case self::ALTERNATIVE_SKEWNESS:
                 return self::alternativeSkewness($X);
+
+            default:
+                throw new Exception\IncorrectTypeException("Type $type is not a valid skewness algorithm type");
         }
     }
 
