@@ -122,7 +122,7 @@ $factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
 
 // Quadradic equation
 list($a, $b, $c) = [1, 2, -8]; // x² + 2x - 8
-list($x₁, $x₂)   = Algebra::quadradic($a, $b, $c);
+list($x₁, $x₂)   = Algebra::quadratic($a, $b, $c);
 
 // Cubic equation
 list($a₃, $a₂, $a₁, $a₀) = [2, 9, 3, -4]; // 2x³ + 9x² + 3x -4
