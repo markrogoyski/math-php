@@ -333,7 +333,7 @@ class RandomVariable
 
         $g₂ = self::sampleKurtosis($X);
 
-        $n = count ($X);
+        $n = count($X);
         $⟮n ＋ 1⟯g₂ ＋ 6 = ($n + 1) * $g₂ + 6;
 
         return ($⟮n ＋ 1⟯g₂ ＋ 6 * ($n - 1)) / (($n - 2) * ($n - 3));
