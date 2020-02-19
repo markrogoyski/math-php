@@ -2271,11 +2271,13 @@ $skewness = RandomVariable::alternativeSkewness($X); // Same as RandomVariable::
 $SES      = RandomVariable::ses(count($X));          // standard error of skewness
 
 // Kurtosis (excess)
-$kurtosis    = RandomVariable::kurtosis($X);
-$platykurtic = RandomVariable::isPlatykurtic($X); // true if kurtosis is less than zero
-$leptokurtic = RandomVariable::isLeptokurtic($X); // true if kurtosis is greater than zero
-$mesokurtic  = RandomVariable::isMesokurtic($X);  // true if kurtosis is zero
-$SEK         = RandomVariable::sek(count($X));    // standard error of kurtosis
+$kurtosis    = RandomVariable::kurtosis($X);           // Optional type parameter to choose kurtosis type calculation. Defaults to population kurtosis (similar to Excel's KURT).
+$kurtosis    = RandomVariable::sampleKurtosis($X);     // Same as RandomVariable::kurtosis($X, RandomVariable::SAMPLE_KURTOSIS) -  Similar to R (e1071) kurtosis type 1
+$kurtosis    = RandomVariable::populationKurtosis($X); // Same as RandomVariable::kurtosis($X, RandomVariable::POPULATION_KURTOSIS) - Similar to Excel's KURT, SAS and SPSS, R (e1071) kurtosis type 2
+$platykurtic = RandomVariable::isPlatykurtic($X);      // true if kurtosis is less than zero
+$leptokurtic = RandomVariable::isLeptokurtic($X);      // true if kurtosis is greater than zero
+$mesokurtic  = RandomVariable::isMesokurtic($X);       // true if kurtosis is zero
+$SEK         = RandomVariable::sek(count($X));         // standard error of kurtosis
 
 // Standard error of the mean (SEM)
 $sem = RandomVariable::standardErrorOfTheMean($X); // same as sem
