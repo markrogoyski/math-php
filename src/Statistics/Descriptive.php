@@ -680,7 +680,9 @@ class Descriptive
                 ? ($n > 0 ? RandomVariable::populationSkewness($numbers) : null)
                 : ($n >= 3 ? RandomVariable::skewness($numbers) : null),
             'ses'                => $n > 2 ? RandomVariable::ses($n) : null,
-            'kurtosis'           => RandomVariable::kurtosis($numbers),
+            'kurtosis'           => $population
+                ? ($n > 3 ? RandomVariable::populationKurtosis($numbers) : null)
+                : ($n > 0 ? RandomVariable::sampleKurtosis($numbers) : null),
             'sek'                => $n > 3 ? RandomVariable::sek($n) : null,
             'sem'                => RandomVariable::standardErrorOfTheMean($numbers),
             'ci_95'              => RandomVariable::confidenceInterval($μ, $n, $σ, '95'),

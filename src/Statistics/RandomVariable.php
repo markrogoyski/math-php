@@ -38,6 +38,9 @@ class RandomVariable
     const POPULATION_SKEWNESS  = 'population';
     const ALTERNATIVE_SKEWNESS = 'alternative';
 
+    const SAMPLE_KURTOSIS     = 'sample';
+    const POPULATION_KURTOSIS = 'population';
+
     /**
      * n-th Central moment
      * A moment of a probability distribution of a random variable about the random variable's mean.
@@ -264,7 +267,7 @@ class RandomVariable
     }
 
     /**
-     * Excess Kurtosis
+     * Sample Excess Kurtosis
      * A measure of the "tailedness" of the probability distribution of a real-valued random variable.
      * https://en.wikipedia.org/wiki/Kurtosis
      *
@@ -275,13 +278,15 @@ class RandomVariable
      * μ₂ is the second central moment
      * μ₄ is the fourth central moment
      *
+     * This is the typical definition used in textbooks. In R (e1071) it is kurtosis type 1.
+     *
      * @param float[] $X list of numbers (random variable X)
      *
      * @return float
      *
      * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function kurtosis(array $X): float
+    public static function sampleKurtosis(array $X): float
     {
         if (empty($X)) {
             throw new Exception\BadDataException('Cannot find the kurtosis of an empty list of numbers');
@@ -298,18 +303,92 @@ class RandomVariable
     }
 
     /**
+     * Population Excess Kurtosis
+     * A measure of the "tailedness" of the probability distribution of a real-valued random variable.
+     * https://en.wikipedia.org/wiki/Kurtosis
+     *
+     *                          (n - 1)
+     * G₂ = [(n + 1) g₂ + 6] --------------
+     *                       (n - 2)(n - 3)
+     *
+     *                                    μ₄
+     * where g₂ is the sample kurtotis = ---- − 3
+     *                                    μ₂²
+     *
+     *
+     * This is the common application version of kurtosis, used in Excel, SAS and SPSS.
+     * In R (e1071) it is kurtosis type 2. Excel's KURT function.
+     *
+     * @param float[] $X list of numbers (random variable X)
+     *
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty or has fewer than four elements
+     */
+    public static function populationKurtosis(array $X): float
+    {
+        if (count($X) < 4) {
+            throw new Exception\BadDataException('Cannot find the kurtosis of an empty list of numbers');
+        }
+
+        $g₂ = self::sampleKurtosis($X);
+
+        $n = count ($X);
+        $⟮n ＋ 1⟯g₂ ＋ 6 = ($n + 1) * $g₂ + 6;
+
+        return ($⟮n ＋ 1⟯g₂ ＋ 6 * ($n - 1)) / (($n - 2) * ($n - 3));
+    }
+
+    /**
+     * Sample Excess Kurtosis
+     * A measure of the "tailedness" of the probability distribution of a real-valued random variable.
+     * https://en.wikipedia.org/wiki/Kurtosis
+     *
+     *       μ₄
+     * γ₂ = ---- − 3
+     *       μ₂²
+     *
+     * μ₂ is the second central moment
+     * μ₄ is the fourth central moment
+     *
+     * This is the typical definition used in textbooks. In R (e1071) it is kurtosis type 1.
+     *
+     * @param float[] $X list of numbers (random variable X)
+     * @param string $type (optional) determines the kurtsosis algorithm used (POPULATION_KURTOSIS (default), SAMPLE_KURTOSIS)
+     *
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
+     * @throws Exception\IncorrectTypeException
+     */
+    public static function kurtosis(array $X, string $type = self::POPULATION_KURTOSIS): float
+    {
+        switch ($type) {
+            case self::SAMPLE_KURTOSIS:
+                return self::sampleKurtosis($X);
+
+            case self::POPULATION_KURTOSIS:
+                return self::populationKurtosis($X);
+
+            default:
+                throw new Exception\IncorrectTypeException("Type $type is not a valid kurtosis algorithm type");
+        }
+    }
+
+    /**
      * Is the kurtosis negative? (Platykurtic)
      * Indicates a flat distribution.
      *
      * @param array $X list of numbers (random variable X)
+     * @param string $type (optional) determines the kurtsosis algorithm used (POPULATION_KURTOSIS (default), SAMPLE_KURTOSIS)
      *
      * @return bool true if platykurtic
      *
      * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function isPlatykurtic(array $X): bool
+    public static function isPlatykurtic(array $X, string $type = self::POPULATION_KURTOSIS): bool
     {
-        return self::kurtosis($X) < 0;
+        return self::kurtosis($X, $type) < 0;
     }
 
     /**
@@ -317,14 +396,15 @@ class RandomVariable
      * Indicates a peaked distribution.
      *
      * @param array $X list of numbers (random variable X)
+     * @param string $type (optional) determines the kurtsosis algorithm used (POPULATION_KURTOSIS (default), SAMPLE_KURTOSIS)
      *
      * @return bool true if leptokurtic
      *
      * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function isLeptokurtic(array $X): bool
+    public static function isLeptokurtic(array $X, string $type = self::POPULATION_KURTOSIS): bool
     {
-        return self::kurtosis($X) > 0;
+        return self::kurtosis($X, $type) > 0;
     }
 
     /**
@@ -332,14 +412,15 @@ class RandomVariable
      * Indicates a normal distribution.
      *
      * @param array $X list of numbers (random variable X)
+     * @param string $type (optional) determines the kurtsosis algorithm used (POPULATION_KURTOSIS (default), SAMPLE_KURTOSIS)
      *
      * @return bool true if mesokurtic
      *
      * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function isMesokurtic(array $X): bool
+    public static function isMesokurtic(array $X, string $type = self::POPULATION_KURTOSIS): bool
     {
-        return self::kurtosis($X) == 0;
+        return self::kurtosis($X, $type) == 0;
     }
 
     /**
