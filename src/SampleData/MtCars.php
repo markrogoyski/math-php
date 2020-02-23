@@ -63,7 +63,7 @@ class MtCars
 
     /**
      * Raw data with each observation labeled
-     * 'Car Model' => ['mpg' => 21, 'cyl' => 6, 'disp' => 160, ... ]
+     * ['Car Model' => ['mpg' => 21, 'cyl' => 6, 'disp' => 160, ... ]]
      *
      * @return number[]
      */
