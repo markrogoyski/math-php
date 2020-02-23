@@ -42,6 +42,7 @@ Features
          * [Discrete](#probability---discrete-distributions)
          * [Multivariate](#probability---multivariate-distributions)
          * [Tables](#probability---distribution-tables)
+ * [Sample Data](#sample-data)
  * Sequences
      - [Basic](#sequences---basic)
      - [Advanced](#sequences---advanced)
@@ -1493,6 +1494,19 @@ $table = Table\ChiSquared::CHI_SQUARED_SCORES;
 $df    = 2;    // degrees of freedom
 $p     = 0.05; // P value
 $χ²    = $table[$df][$p];
+```
+
+### Sample Data
+```php
+use MathPHP\SampleData;
+
+// Motor Trend Car Road Tests (mtcars)
+$mtCars      = new SampleData\MtCars();
+$rawData     = $mtCars->getData();                     // [[21, 6, 160, ... ], [30.4, 4, 71.1, ... ], ... ]
+$labeledData = $mtCars->getLabeledData();              // ['Mazda RX4' => ['mpg' => 21, 'cyl' => 6, 'disp' => 160, ... ], 'Honda Civic' => [ ... ], ...]
+$modelData   = $mtCars->getModelData('Ferrari Dino');  // ['mpg' => 19.7, 'cyl' => 6, 'disp' => 145, ... ]
+$mpgs        = $mtCars->getMpg();                      // ['Mazda RX4' => 21, 'Honda civic' => 30.4, ... ]
+// Getters for Mpg, Cyl, Disp, Hp, Drat, Wt, Qsec, Vs, Am, Gear, Carb
 ```
 
 ### Sequences - Basic
