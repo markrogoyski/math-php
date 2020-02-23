@@ -5,15 +5,12 @@ namespace MathPHP\Tests\Statistics\Multivariate;
 use MathPHP\Functions\Map\Multi;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\SampleData;
 use MathPHP\Statistics\Multivariate\PCA;
 use MathPHP\Exception;
-use MathPHP\Tests\Data\SampleData;
 
 class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var array[] */
-    private static $A;
-
     /** @var PCA */
     private static $pca;
 
@@ -29,10 +26,10 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
      */
     public static function setUpBeforeClass()
     {
-        self::$A = SampleData::mtcars();
+        $mtCars = new SampleData\MtCars();
 
-        // Remove top row, left column, and categorical variables
-        self::$matrix = MatrixFactory::create(self::$A)->rowExclude(0)->columnExclude(9)->columnExclude(8)->columnExclude(0);
+        // Remove and categorical variables
+        self::$matrix = MatrixFactory::create($mtCars->getData())->columnExclude(8)->columnExclude(7);
         self::$pca = new PCA(self::$matrix, false, true);
     }
 
