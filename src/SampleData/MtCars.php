@@ -51,14 +51,14 @@ class MtCars
     ];
 
     /**
-     * Raw data labeled by car model
-     * 'Car Model' => [21, 6, 160, ... ]
+     * Raw data without labels
+     * [[21, 6, 160, ... ], [30.4, 4, 71.1, ... ], ... ]
      *
      * @return number[]
      */
     public function getData(): array
     {
-        return self::DATA;
+        return array_values(self::DATA);
     }
 
     /**
