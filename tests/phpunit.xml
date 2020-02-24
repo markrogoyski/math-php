@@ -28,6 +28,9 @@
     <testsuite name="Finance">
       <directory suffix="Test.php">Finance</directory>
     </testsuite>
+    <testsuite name="SampleData">
+      <directory suffix="Test.php">SampleData</directory>
+    </testsuite>
     <testsuite name="SetTheory">
       <directory suffix="Test.php">SetTheory</directory>
     </testsuite>
