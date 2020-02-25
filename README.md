@@ -1507,6 +1507,13 @@ $labeledData = $mtCars->getLabeledData();              // ['Mazda RX4' => ['mpg'
 $modelData   = $mtCars->getModelData('Ferrari Dino');  // ['mpg' => 19.7, 'cyl' => 6, 'disp' => 145, ... ]
 $mpgs        = $mtCars->getMpg();                      // ['Mazda RX4' => 21, 'Honda civic' => 30.4, ... ]
 // Getters for Mpg, Cyl, Disp, Hp, Drat, Wt, Qsec, Vs, Am, Gear, Carb
+
+// Edgar Anderson's Iris Data (iris)
+$iris         = new SampleData\Iris();
+$rawData      = $iris->getData();         // [[5.1, 3.5, 1.4, 0.2, 'setosa'], [4.9, 3.0, 1.4, 0.2, 'setosa'], ... ]
+$labeledData  = $iris->getLabeledData();  // [['sepalLength' => 5.11, 'sepalWidth' => 3.5, 'petalLength' => 1.4, 'petalWidth' => 0.2, 'species' => 'setosa'], ... ]
+$petalLengths = $iris->getSepalLength();  // [5.1, 4.9, 4.7, ... ]
+// Getters for SepalLength, SepalWidth, PetalLength, PetalWidth, Species
 ```
 
 ### Sequences - Basic
