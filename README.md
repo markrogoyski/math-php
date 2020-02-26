@@ -1500,6 +1500,8 @@ $χ²    = $table[$df][$p];
 ```php
 use MathPHP\SampleData;
 
+// Famous sample data sets to play with
+
 // Motor Trend Car Road Tests (mtcars)
 $mtCars      = new SampleData\MtCars();
 $rawData     = $mtCars->getData();                     // [[21, 6, 160, ... ], [30.4, 4, 71.1, ... ], ... ]
@@ -1514,6 +1516,13 @@ $rawData      = $iris->getData();         // [[5.1, 3.5, 1.4, 0.2, 'setosa'], [4
 $labeledData  = $iris->getLabeledData();  // [['sepalLength' => 5.11, 'sepalWidth' => 3.5, 'petalLength' => 1.4, 'petalWidth' => 0.2, 'species' => 'setosa'], ... ]
 $petalLengths = $iris->getSepalLength();  // [5.1, 4.9, 4.7, ... ]
 // Getters for SepalLength, SepalWidth, PetalLength, PetalWidth, Species
+
+// The Effect of Vitamin C on Tooth Growth in Guinea Pigs (ToothGrowth)
+$toothGrowth = new SampleData\ToothGrowth();
+$rawData     = $toothGrowth->getData();
+$labeledData = $toothGrowth->getLabeledData();
+$lengths     = $toothGrowth->getLen();
+// Getters for Len, Supp, Dose
 ```
 
 ### Sequences - Basic
