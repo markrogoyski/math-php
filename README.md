@@ -1519,9 +1519,9 @@ $petalLengths = $iris->getSepalLength();  // [5.1, 4.9, 4.7, ... ]
 
 // The Effect of Vitamin C on Tooth Growth in Guinea Pigs (ToothGrowth)
 $toothGrowth = new SampleData\ToothGrowth();
-$rawData     = $toothGrowth->getData();
-$labeledData = $toothGrowth->getLabeledData();
-$lengths     = $toothGrowth->getLen();
+$rawData     = $toothGrowth->getData();         // [[4.2, 'VC', 0.5], [11.5, 'VC', '0.5], ... ]
+$labeledData = $toothGrowth->getLabeledData();  // [['len' => 4.2, 'supp' => 'VC', 'dose' => 0.5], ... ]
+$lengths     = $toothGrowth->getLen();          // [4.2, 11.5, ... ]
 // Getters for Len, Supp, Dose
 ```
 
