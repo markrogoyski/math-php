@@ -11,6 +11,8 @@ namespace MathPHP\SampleData;
  *
  * 60 observations on 3 variables: tooth length, supplement type (VC or OJ), and dose in milligrams/day
  * R ToothGrowth
+ *
+ * Source: C. I. Bliss (1952) The Statistics of Bioassay. Academic Press.
  */
 class ToothGrowth
 {

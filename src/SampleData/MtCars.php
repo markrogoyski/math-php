@@ -10,6 +10,8 @@ namespace MathPHP\SampleData;
  *
  * 32 observations on 11 variables.
  * R mtcars
+ *
+ * Source: Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics, 37, 391–411.
  */
 class MtCars
 {
