@@ -29,7 +29,7 @@ class MtCarsTest extends \PHPUnit\Framework\TestCase
     /**
      * @test 11 variables
      */
-    public function testDataHas11Observations()
+    public function testDataHas11Variables()
     {
         // When
         $data = $this->mtCars->getData();

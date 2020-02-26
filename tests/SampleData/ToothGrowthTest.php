@@ -6,7 +6,7 @@ use MathPHP\SampleData;
 
 class ToothGrowthTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var SampleData\Iris */
+    /** @var SampleData\ToothGrowth */
     private $toothGrowth;
 
     public function setUp()
@@ -29,7 +29,7 @@ class ToothGrowthTest extends \PHPUnit\Framework\TestCase
     /**
      * @test 3 variables
      */
-    public function testDataHas3bservations()
+    public function testDataHas3Variables()
     {
         // When
         $data = $this->toothGrowth->getData();

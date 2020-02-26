@@ -29,7 +29,7 @@ class IrisTest extends \PHPUnit\Framework\TestCase
     /**
      * @test 5 variables
      */
-    public function testDataHas11Observations()
+    public function testDataHas5Variables()
     {
         // When
         $data = $this->iris->getData();
