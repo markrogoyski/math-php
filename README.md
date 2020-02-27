@@ -1532,8 +1532,8 @@ $weights     = $plantGrowth->getWeight();       // [4.17, 5.58, ... ]
 // Getters for Weight, Group
 
 // Violent Crime Rates by US State (USArrests)
-$usArrests = new SampleData\UsArrests();
-$rawData   = $usArrests->rawData();                // [[13.2, 236, 58, 21.2], [10.0, 263, 48, 44.5], ... ]
+$usArrests   = new SampleData\UsArrests();
+$rawData     = $usArrests->rawData();                // [[13.2, 236, 58, 21.2], [10.0, 263, 48, 44.5], ... ]
 $labeledData = $usArrests->getLabeledData();       // ['Alabama' => ['murder' => 13.2, 'assault' => 236, 'urbanPop' => 58, 'rape' => 21.2], ... ]
 $stateData   = $usArrests->getStateData('Texas');  // ['murder' => 12.7, 'assault' => 201, 'urbanPop' => 80, 'rape' => 25.5]
 $murders     = $usArrests->getMurders();           // ['Alabama' => 13.2, 'Alaska' => 10.1, ... ]
