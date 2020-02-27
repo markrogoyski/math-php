@@ -84,6 +84,21 @@ class MtCarsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         Model data
+     * @dataProvider dataProviderForLabeledData
+     * @param        string $model
+     * @param        array  $expectedData
+     */
+    public function testGetModelData(string $model, array $expectedData)
+    {
+        // When
+        $data = $this->mtCars->getModelData($model);
+
+        // Then
+        $this->assertEquals($expectedData, $data);
+    }
+
+    /**
      * @return array (model, data)
      */
     public function dataProviderForLabeledData(): array
@@ -270,20 +285,5 @@ class MtCarsTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertCount(32, $observations);
-    }
-
-    /**
-     * @test         Model data
-     * @dataProvider dataProviderForLabeledData
-     * @param        string $model
-     * @param        array  $expectedData
-     */
-    public function testGetModelData(string $model, array $expectedData)
-    {
-        // When
-        $data = $this->mtCars->getModelData($model);
-
-        // Then
-        $this->assertEquals($expectedData, $data);
     }
 }
