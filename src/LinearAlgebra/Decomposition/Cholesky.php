@@ -138,6 +138,7 @@ class Cholesky extends Decomposition
         switch ($i) {
             case 'L':
             case 'Lᵀ':
+            case 'LT':
                 return true;
 
             default:

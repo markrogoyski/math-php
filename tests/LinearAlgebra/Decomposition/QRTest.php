@@ -488,4 +488,28 @@ class QRTest extends \PHPUnit\Framework\TestCase
         // When
         unset($QR['Q']);
     }
+
+    /**
+     * @test   QR Decomposition ArrayAccess Isset
+     * @throws \Exception
+     */
+    public function testArrayAccessIsset()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [5, 3, 4, 1],
+            [5, 6, 4, 3],
+            [7, 6, 5, 3],
+            [2, 7, 4, 7],
+        ]);
+        $QR = $A->qrDecomposition();
+
+        // When
+        $Q = isset($QR['Q']);
+        $R = isset($QR['R']);
+
+        // Then
+        $this->assertTrue($Q);
+        $this->assertTrue($R);
+    }
 }

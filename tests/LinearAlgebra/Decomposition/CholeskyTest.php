@@ -294,4 +294,27 @@ class CholeskyTest extends \PHPUnit\Framework\TestCase
         // When
         unset($cholesky['L']);
     }
+
+    /**
+     * @test   Cholesky Decomposition ArrayAccess
+     * @throws \Exception
+     */
+    public function testArrayAccessIsset()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [4, 12, -16],
+            [12, 37, -43],
+            [-16, -43, 98],
+        ]);
+        $cholesky = $A->choleskyDecomposition();
+
+        // When
+        $L  = isset($cholesky['L']);
+        $LT = isset($cholesky['LT']);
+
+        // Then
+        $this->assertTrue($L);
+        $this->assertTrue($LT);
+    }
 }

@@ -259,4 +259,28 @@ class CroutTest extends \PHPUnit\Framework\TestCase
         // When
         unset($crout['L']);
     }
+
+    /**
+     * @test   Crout Decomposition ArrayAccess Isset
+     * @throws \Exception
+     */
+    public function testArrayAccessIsset()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [5, 3, 4, 1],
+            [5, 6, 4, 3],
+            [7, 6, 5, 3],
+            [2, 7, 4, 7],
+        ]);
+        $crout = $A->croutDecomposition();
+
+        // When
+        $L = isset($crout['L']);
+        $U = isset($crout['U']);
+
+        // Then
+        $this->assertTrue($L);
+        $this->assertTrue($U);
+    }
 }

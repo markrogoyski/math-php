@@ -412,4 +412,30 @@ class LUTest extends \PHPUnit\Framework\TestCase
         // When
         unset($LU['U']);
     }
+
+    /**
+     * @test   LU Decomposition ArrayAccess Isset
+     * @throws \Exception
+     */
+    public function testArrayAccessIsset()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [5, 3, 4, 1],
+            [5, 6, 4, 3],
+            [7, 6, 5, 3],
+            [2, 7, 4, 7],
+        ]);
+        $LU = $A->luDecomposition();
+
+        // When
+        $L = isset($LU['L']);
+        $U = isset($LU['U']);
+        $P = isset($LU['P']);
+
+        // Then
+        $this->assertTrue($L);
+        $this->assertTrue($U);
+        $this->assertTrue($P);
+    }
 }
