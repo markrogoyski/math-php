@@ -1523,6 +1523,13 @@ $rawData     = $toothGrowth->getData();         // [[4.2, 'VC', 0.5], [11.5, 'VC
 $labeledData = $toothGrowth->getLabeledData();  // [['len' => 4.2, 'supp' => 'VC', 'dose' => 0.5], ... ]
 $lengths     = $toothGrowth->getLen();          // [4.2, 11.5, ... ]
 // Getters for Len, Supp, Dose
+
+// Results from an Experiment on Plant Growth (PlantGrowth)
+$plantGrowth = new SampleData\PlantGrowth();
+$rawData     = $plantGrowth->getData();         // [[4.17, 'ctrl'], [5.58, 'ctrl'], ... ]
+$labeledData = $plantGrowth->getLabeledData();  // [['weight' => 4.17, 'group' => 'ctrl'], ['weight' => 5.58, 'group' => 'ctrl'], ... ]
+$weights     = $plantGrowth->getWeight();       // [4.17, 5.58, ... ]
+// Getters for Weight, Group
 ```
 
 ### Sequences - Basic
