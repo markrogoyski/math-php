@@ -11,24 +11,36 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider dataProviderForDotProduct
      */
-    public function testDotProduct(array $A, array $B, $dot_product)
+    public function testDotProduct(array $A, array $B, $expected)
     {
+        // Given
         $A  = new Vector($A);
         $B  = new Vector($B);
-        $this->assertEquals($dot_product, $A->dotProduct($B));
+
+        // When
+        $dotProduct = $A->dotProduct($B);
+
+        // Then
+        $this->assertEquals($expected, $dotProduct);
     }
 
     /**
      * @dataProvider dataProviderForDotProduct
      */
-    public function testInnerProduct(array $A, array $B, $dot_product)
+    public function testInnerProduct(array $A, array $B, $expected)
     {
+        // Given
         $A  = new Vector($A);
         $B  = new Vector($B);
-        $this->assertEquals($dot_product, $A->innerProduct($B));
+
+        // When
+        $innerProduct = $A->innerProduct($B);
+
+        // Then
+        $this->assertEquals($expected, $innerProduct);
     }
 
-    public function dataProviderForDotProduct()
+    public function dataProviderForDotProduct(): array
     {
         return [
             [ [ 1, 2, 3 ],  [ 4, -5, 6 ],  12 ],
@@ -39,10 +51,14 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
 
     public function testDotProductExceptionSizeDifference()
     {
+        // Given
         $A = new Vector([1, 2]);
         $B = new Vector([1, 2, 3]);
 
+        // Then
         $this->expectException(Exception\VectorException::class);
+
+        // When
         $A->dotProduct($B);
     }
 
@@ -51,13 +67,19 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testCrossProduct(array $A, array $B, array $R)
     {
+        // Given
         $A = new Vector($A);
         $B = new Vector($B);
         $R = new Vector($R);
-        $this->assertEquals($R, $A->crossProduct($B));
+
+        // When
+        $crossProduct = $A->crossProduct($B);
+
+        // Then
+        $this->assertEquals($R, $crossProduct);
     }
 
-    public function dataProviderForCrossProduct()
+    public function dataProviderForCrossProduct(): array
     {
         return [
             [
@@ -123,10 +145,14 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testCrossProductExceptionWrongSize(array $A, array $B)
     {
+        // Given
         $A = new Vector($A);
         $B = new Vector($B);
 
+        // Then
         $this->expectException(Exception\VectorException::class);
+
+        // When
         $A->crossProduct($B);
     }
 
@@ -149,13 +175,19 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testOuterProduct(array $A, array $B, array $R)
     {
+        // Given
         $A = new Vector($A);
         $B = new Vector($B);
         $R = new Matrix($R);
-        $this->assertEquals($R->getMatrix(), $A->outerProduct($B)->getMatrix());
+
+        // When
+        $outerProduct = $A->outerProduct($B)->getMatrix();
+
+        // Then
+        $this->assertEquals($R->getMatrix(), $outerProduct);
     }
 
-    public function dataProviderForOuterProduct()
+    public function dataProviderForOuterProduct(): array
     {
         return [
             [
@@ -225,14 +257,19 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider dataProviderForSum
      */
-    public function testSum(array $A, $sum)
+    public function testSum(array $A, $expected)
     {
+        // Given
         $A = new Vector($A);
 
-        $this->assertEquals($sum, $A->sum(), '', 0.00001);
+        // When
+        $sum = $A->sum();
+
+        // Then
+        $this->assertEquals($expected, $sum, '', 0.00001);
     }
 
-    public function dataProviderForSum()
+    public function dataProviderForSum(): array
     {
         return [
             [ [1, 2, 3], 6 ],
@@ -245,15 +282,19 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testScalarMultiply(array $A, $k, array $R)
     {
+        // Given
         $A  = new Vector($A);
-        $kA = $A->scalarMultiply($k);
         $R  = new Vector($R);
 
+        // When
+        $kA = $A->scalarMultiply($k);
+
+        // Then
         $this->assertEquals($R, $kA);
         $this->assertEquals($R->getVector(), $kA->getVector());
     }
 
-    public function dataProviderForScalarMultiply()
+    public function dataProviderForScalarMultiply(): array
     {
         return [
             [
@@ -299,15 +340,19 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testScalarDivide(array $A, $k, array $R)
     {
+        // Given
         $A    = new Vector($A);
-        $A／k = $A->scalarDivide($k);
         $R    = new Vector($R);
 
+        // When
+        $A／k = $A->scalarDivide($k);
+
+        // Then
         $this->assertEquals($R, $A／k);
         $this->assertEquals($R->getVector(), $A／k->getVector());
     }
 
-    public function dataProviderForScalarDivide()
+    public function dataProviderForScalarDivide(): array
     {
         return [
             [
@@ -353,16 +398,20 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdd(array $A, array $B, array $R)
     {
+        // Given
         $A    = new Vector($A);
         $B    = new Vector($B);
-        $A＋B = $A->add($B);
         $R    = new Vector($R);
 
+        // When
+        $A＋B = $A->add($B);
+
+        // Then
         $this->assertEquals($R, $A＋B);
         $this->assertEquals($R->getVector(), $A＋B->getVector());
     }
 
-    public function dataProviderForAdd()
+    public function dataProviderForAdd(): array
     {
         return [
             [
@@ -385,10 +434,14 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
 
     public function testAddExceptionSizeMisMatch()
     {
+        // Given
         $A = new Vector([1, 2, 3]);
         $B = new Vector([1, 2]);
 
+        // Then
         $this->expectException(Exception\VectorException::class);
+
+        // When
         $A->add($B);
     }
 
@@ -397,16 +450,20 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSubtract(array $A, array $B, array $R)
     {
+        // Given
         $A    = new Vector($A);
         $B    = new Vector($B);
-        $A−B = $A->subtract($B);
         $R    = new Vector($R);
 
+        // When
+        $A−B = $A->subtract($B);
+
+        // Then
         $this->assertEquals($R, $A−B);
         $this->assertEquals($R->getVector(), $A−B->getVector());
     }
 
-    public function dataProviderForSubtract()
+    public function dataProviderForSubtract(): array
     {
         return [
             [
@@ -429,10 +486,14 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
 
     public function testSubtractExceptionSizeMisMatch()
     {
+        // Given
         $A = new Vector([1, 2, 3]);
         $B = new Vector([1, 2]);
 
+        // Then
         $this->expectException(Exception\VectorException::class);
+
+        // When
         $A->subtract($B);
     }
 
@@ -494,7 +555,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\VectorException::class);
 
         // Then
-        $A->add($B);
+        $A->multiply($B);
     }
 
     /**
@@ -554,8 +615,8 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->expectException(Exception\VectorException::class);
 
-        // Then
-        $A->add($B);
+        // When
+        $A->divide($B);
     }
 
     /**
@@ -563,12 +624,17 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testLength(array $A, $l²norm)
     {
+        // Given
         $A = new Vector($A);
 
-        $this->assertEquals($l²norm, $A->length(), '', 0.0001);
+        // When
+        $length = $A->length();
+
+        // Then
+        $this->assertEquals($l²norm, $length, '', 0.0001);
     }
 
-    public function dataProviderForLength()
+    public function dataProviderForLength(): array
     {
         return [
             [ [1, 2, 3], 3.7416573867739413 ],
@@ -588,15 +654,19 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testNormalize(array $A, array $expected)
     {
+        // Given
         $A        = new Vector($A);
-        $Â        = $A->normalize();
         $expected = new Vector($expected);
 
+        // When
+        $Â = $A->normalize();
+
+        // Then
         $this->assertEquals($expected, $Â, '', 0.00000001);
         $this->assertEquals($expected->getVector(), $Â->getVector(), '', 0.00000001);
     }
 
-    public function dataProviderForNormalize()
+    public function dataProviderForNormalize(): array
     {
         return [
             [
@@ -615,15 +685,19 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPerpendicular(array $A, array $expected)
     {
+        // Given
         $A        = new Vector($A);
-        $A⊥       = $A->perpendicular();
         $expected = new Vector($expected);
 
+        // When
+        $A⊥ = $A->perpendicular();
+
+        // Then
         $this->assertEquals($expected, $A⊥);
         $this->assertEquals($expected->getVector(), $A⊥->getVector());
     }
 
-    public function dataProviderForPerpendicular()
+    public function dataProviderForPerpendicular(): array
     {
         return [
             [
@@ -639,9 +713,13 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
 
     public function testPerpendicularExceptionNGreaterThanTwo()
     {
+        // Given
         $A = new Vector([1, 2, 3]);
 
+        // Then
         $this->expectException(Exception\VectorException::class);
+
+        // When
         $A->perpendicular();
     }
 
@@ -650,14 +728,18 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPerpDotProduct(array $A, array $B, $expected)
     {
-        $A        = new Vector($A);
-        $B        = new Vector($B);
-        $A⊥⋅B     = $A->perpDotProduct($B);
+        // Given
+        $A = new Vector($A);
+        $B = new Vector($B);
 
+        // When
+        $A⊥⋅B = $A->perpDotProduct($B);
+
+        // Then
         $this->assertEquals($expected, $A⊥⋅B);
     }
 
-    public function dataProviderForPerpDotProduct()
+    public function dataProviderForPerpDotProduct(): array
     {
         return [
             [
@@ -675,10 +757,14 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
 
     public function testPerpDotProductExceptionNNotBothTwo()
     {
+        // Given
         $A = new Vector([1, 2, 3]);
         $B = new Vector([1, 2, 3]);
 
+        // Then
         $this->expectException(Exception\VectorException::class);
+
+        // When
         $A->perpDotProduct($B);
     }
 
@@ -687,16 +773,20 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testProjection(array $A, array $B, array $expected)
     {
+        // Given
         $A        = new Vector($A);
         $B        = new Vector($B);
-        $projₐb   = $A->projection($B);
         $expected = new Vector($expected);
 
+        // When
+        $projₐb   = $A->projection($B);
+
+        // Then
         $this->assertEquals($expected, $projₐb);
         $this->assertEquals($expected->getVector(), $projₐb->getVector());
     }
 
-    public function dataProviderForProjection()
+    public function dataProviderForProjection(): array
     {
         return [
             [
@@ -747,16 +837,20 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPerp(array $A, array $B, array $expected)
     {
+        // Given
         $A        = new Vector($A);
         $B        = new Vector($B);
-        $perpₐb   = $A->perp($B);
         $expected = new Vector($expected);
 
+        // When
+        $perpₐb = $A->perp($B);
+
+        // Then
         $this->assertEquals($expected, $perpₐb);
         $this->assertEquals($expected->getVector(), $perpₐb->getVector());
     }
 
-    public function dataProviderForPerp()
+    public function dataProviderForPerp(): array
     {
         return [
             [
@@ -772,15 +866,19 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testDirectProduct(array $A, array $B, array $expected)
     {
+        // Given
         $A        = new Vector($A);
         $B        = new Vector($B);
-        $AB       = $A->directProduct($B);
         $expected = new Matrix($expected);
 
+        // When
+        $AB = $A->directProduct($B);
+
+        // Then
         $this->assertEquals($expected->getMatrix(), $AB->getMatrix());
     }
 
-    public function dataProviderForDirectProduct()
+    public function dataProviderForDirectProduct(): array
     {
         return [
             [
@@ -856,12 +954,15 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      */
     public function testKroneckerProduct(array $A, array $B, array $expected)
     {
+        // Given
         $A = new Vector($A);
         $B = new Vector($B);
         $R = new Vector($expected);
 
+        // When
         $A⨂B = $A->kroneckerProduct($B);
 
+        // Then
         $this->assertEquals($R, $A⨂B);
     }
 
