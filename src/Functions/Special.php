@@ -608,11 +608,11 @@ class Special
             } else {
                 $α = ($a + $i - 1) * ($a + $b + $i - 1) * $i * ($b - $i) * $x ** 2 / ($a + 2 * $i - 1) ** 2;
             }
-            $β₁             = $i + $i * ($b - $i) * $x / ($a + 2 * $i - 1);
-            $β₂             = ($a + $i) * ($a - ($a + $b) * $x + 1 + $i * (2 - $x)) / ($a + 2 * $i + 1);
-            $β              = $β₁ + $β₂;
-            $α_array[]      = $α;
-            $β_array[]      = $β;
+            $β₁        = $i + $i * ($b - $i) * $x / ($a + 2 * $i - 1);
+            $β₂        = ($a + $i) * ($a - ($a + $b) * $x + 1 + $i * (2 - $x)) / ($a + 2 * $i + 1);
+            $β         = $β₁ + $β₂;
+            $α_array[] = $α;
+            $β_array[] = $β;
         }
 
         $fraction_array = [];
@@ -623,6 +623,7 @@ class Special
                 $fraction_array[$i] = $α_array[$i] / ($β_array[$i] + $fraction_array[$i + 1]);
             }
         }
+
         return $constant * $fraction_array[0];
     }
     
@@ -675,11 +676,11 @@ class Special
         }
         if ($a > 1 && $b > 1) {
             // Tolerance on evaluating the continued fraction.
-            $tol      = .000000000000001;
-            $dif      = $tol + 1; // Initialize
+            $tol = .000000000000001;
+            $dif = $tol + 1; // Initialize
             
             // We will calculate the continuous fraction with a minimum depth of 10.
-            $m        = 10;        // Counter
+            $m = 10;  // Counter
             $I = 0;
             do {
                 $I_new = self::iBetaCF($m, $x, $a, $b);

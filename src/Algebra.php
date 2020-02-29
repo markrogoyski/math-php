@@ -121,6 +121,8 @@ class Algebra
      *
      * @param  int $x
      * @return array of factors
+     *
+     * @throws Exception\OutOfBoundsException if n is < 1
      */
     public static function factors(int $x): array
     {
@@ -129,29 +131,32 @@ class Algebra
             return [\INF];
         }
 
-        $x = abs($x);
+        $x       = abs($x);
         $factors = [1];
 
-        // prime factorize x
+        // Prime factorize x
         $primes = Integer::primeFactorization($x);
 
-        // prime powers from primes
-        $sets = [];
-        $current = [];
-        $map = [];
-        $exponents = array_count_values($primes);
-        $limit = 1;
-        $count = 0;
+        // Prime powers from primes
+        $sets       = [];
+        $current    = [];
+        $map        = [];
+        $exponents  = array_count_values($primes);
+        $limit      = 1;
+        $count      = 0;
+
         foreach ($exponents as $prime => $exponent) {
-            $map[] = $prime;
+            $map[]        = $prime;
             $sets[$prime] = [1, $prime];
-            $primePower = $prime;
+            $primePower   = $prime;
+
             for ($n = 2; $n <= $exponent; ++$n) {
                 $primePower *= $prime;
                 $sets[$prime][$n] = $primePower;
             }
+
             $limit *= count($sets[$prime]);
-            if ($count === 0) { // skip 1 on the first prime
+            if ($count === 0) { // Skip 1 on the first prime
                 $current[] = next($sets[$prime]);
             } else {
                 $current[] = 1;
@@ -159,7 +164,7 @@ class Algebra
             ++$count;
         }
 
-        // multiply distinct prime powers together
+        // Multiply distinct prime powers together
         for ($i = 1; $i < $limit; ++$i) {
             $factors[] = array_product($current);
             for ($i2 = 0; $i2 < $count; ++$i2) {
@@ -172,7 +177,6 @@ class Algebra
         }
 
         sort($factors);
-
         return $factors;
     }
 
@@ -225,8 +229,8 @@ class Algebra
                 return [\NAN, \NAN];
             }
             $complex = new Number\Complex(0, sqrt(-1 * $⟮b² − 4ac⟯));
-            $x₁ = $complex->multiply(-1)->subtract($b)->divide(2 * $a);
-            $x₂ = $complex->subtract($b)->divide(2 * $a);
+            $x₁      = $complex->multiply(-1)->subtract($b)->divide(2 * $a);
+            $x₂      = $complex->subtract($b)->divide(2 * $a);
         } else {
             // Standard quadratic equation case
             $√⟮b² − 4ac⟯ = sqrt(self::discriminant($a, $b, $c));
@@ -390,9 +394,9 @@ class Algebra
             return [$z₁, \NAN, \NAN];
         }
 
-        $quad_a = 1;
-        $quad_b = $a₂ + $z₁;
-        $quad_c = $a₁ + $quad_b * $z₁;
+        $quad_a        = 1;
+        $quad_b        = $a₂ + $z₁;
+        $quad_c        = $a₁ + $quad_b * $z₁;
         $complex_roots = self::quadratic($quad_a, $quad_b, $quad_c, true);
 
         return array_merge([$z₁], $complex_roots);
@@ -473,7 +477,9 @@ class Algebra
             $discriminant2 = self::discriminant(1, -1 * sqrt(2 * $m), $p / 2 + $m + $q / 2 / sqrt(2 * $m));
             
             // sort the real roots first.
-            $sorted_results = $discriminant1 > $discriminant2 ? array_merge($roots1, $roots2) : array_merge($roots2, $roots1);
+            $sorted_results = $discriminant1 > $discriminant2
+                ? array_merge($roots1, $roots2)
+                : array_merge($roots2, $roots1);
             return $sorted_results;
         }
 
@@ -497,6 +503,7 @@ class Algebra
                 $quartic_roots[$key] = $root->subtract($a₃ / 4);
             }
         }
+
         return $quartic_roots;
     }
 }

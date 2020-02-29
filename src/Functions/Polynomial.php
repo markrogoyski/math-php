@@ -296,7 +296,7 @@ class Polynomial implements ObjectArithmetic
      *          $integral   = $polynomial->integrate();     // x³ - 8x² + 12x
      *          $sum        = $polynomial->add($integral);  // x³ - 5x² - 4x + 12
      *
-     * @param mixed $polynomial The polynomial or scaler we are adding to our current polynomial
+     * @param mixed $polynomial The polynomial or scalar we are adding to our current polynomial
      *
      * @return Polynomial The sum of our polynomial objects, also a polynomial object
      *
@@ -330,12 +330,12 @@ class Polynomial implements ObjectArithmetic
      * Return a new polynomial that is the difference of the current polynomial and an
      * input polynomial
      * Example: $polynomial = new Polynomial([3, -16, 12]);        // 3x² - 16x + 12
-     *          $integral   = $polynomial->diferentiate();         // 6x - 16
+     *          $integral   = $polynomial->differentiate();         // 6x - 16
      *          $difference = $polynomial->subtract($derivative);  // 3x² - 22x + 28
      *
-     * @param mixed $polynomial The polynomial or scaler we are subtracting from our current polynomial
+     * @param mixed $polynomial The polynomial or scalar we are subtracting from our current polynomial
      *
-     * @return Polynomial The defference of our polynomial objects, also a polynomial object
+     * @return Polynomial The difference of our polynomial objects, also a polynomial object
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
@@ -355,7 +355,7 @@ class Polynomial implements ObjectArithmetic
      *          $integral   = $polynomial->integrate();          // x² - 16x
      *          $product    = $polynomial->multiply($integral);  // 2x³ - 48x² + 256x
      *
-     * @param mixed $polynomial The polynomial or scaler we are multiplying with our current polynomial
+     * @param mixed $polynomial The polynomial or scalar we are multiplying with our current polynomial
      *
      * @return Polynomial The product of our polynomial objects, also a polynomial object
      *

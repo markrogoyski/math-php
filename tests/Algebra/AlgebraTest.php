@@ -8,7 +8,7 @@ use MathPHP\Number;
 class AlgebraTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     gcd returns the greatest common divisor of two integers.
+     * @test         gcd returns the greatest common divisor of two integers.
      * @dataProvider dataProviderForGcd
      * @param        int $a
      * @param        int $b
@@ -26,13 +26,13 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     extendedGCD returns the extended greatest common divisor of two integers.
+     * @test         extendedGCD returns the extended greatest common divisor of two integers.
      * @dataProvider dataProviderForGcd
-     * @param int $a
-     * @param int $b
-     * @param int $expected_gcd
-     * @param int $expected_alpha
-     * @param int $expected_beta
+     * @param        int $a
+     * @param        int $b
+     * @param        int $expected_gcd
+     * @param        int $expected_alpha
+     * @param        int $expected_beta
      */
     public function testExtendedGcd(int $a, int $b, int $expected_gcd, int $expected_alpha, int $expected_beta)
     {
@@ -45,7 +45,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_beta, $beta);
     }
 
-    public function dataProviderForGcd()
+    public function dataProviderForGcd(): array
     {
         return [
             [0, 0, 0, 0, 1],
@@ -69,7 +69,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     lcm returns the least-common multiple of two integers.
+     * @test         lcm returns the least-common multiple of two integers.
      * @dataProvider dataProviderForLcm
      * @param        int $a
      * @param        int $b
@@ -105,7 +105,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     factors returns the expected factors of an integer.
+     * @test         factors returns the expected factors of an integer.
      * @dataProvider dataProviderForFactors
      * @param        int $x
      * @param        array $expected_factors
@@ -139,7 +139,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     quadratic returns the expected roots.
+     * @test         quadratic returns the expected roots.
      * @dataProvider dataProviderForQuadratic
      * @param        float $a
      * @param        float $b
@@ -208,11 +208,11 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     quadratic returns the expected root for edge case where a = 0 and formula is not quadratic.
+     * @test         quadratic returns the expected root for edge case where a = 0 and formula is not quadratic.
      * @dataProvider dataProviderForQuadraticAIsZero
-     * @param        number$a
-     * @param        number$b
-     * @param        number$c
+     * @param        float $a
+     * @param        float $b
+     * @param        float $c
      * @param        array $expected_quadratic
      * @throws      \MathPHP\Exception\IncorrectTypeException
      */
@@ -239,7 +239,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     quadratic returns array of [NAN, NAN] if the discriminant is negative.
+     * @test         quadratic returns array of [NAN, NAN] if the discriminant is negative.
      * @dataProvider dataProviderForQuadraticNegativeDiscriminant
      * @param        float $a
      * @param        float $b
@@ -272,7 +272,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     quadratic returns array of Complex Number objects if the discriminant is negative.
+     * @test         quadratic returns array of Complex Number objects if the discriminant is negative.
      * @dataProvider dataProviderForQuadraticNegativeDiscriminantComplex
      * @param        float $a
      * @param        float $b
@@ -311,7 +311,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     discriminant returns the expected value.
+     * @test         discriminant returns the expected value.
      * @dataProvider dataProviderForDiscriminant
      * @param        float $a
      * @param        float $b
@@ -346,7 +346,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cubic returns the expected three real roots when D < 0 or D = 0.
+     * @test         cubic returns the expected three real roots when D < 0 or D = 0.
      * @dataProvider dataProviderForCubic
      * @param        int $a
      * @param        int $b
@@ -420,7 +420,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cubic returns the expected roots when D > 0: one root is real, 2 are complex conjugates.
+     * @test         cubic returns the expected roots when D > 0: one root is real, 2 are complex conjugates.
      * @dataProvider dataProviderForCubicOneRealRoot
      * @param        float $a
      * @param        float $b
@@ -465,7 +465,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cubic returns the expected roots when D > 0: one root is real, 2 are complex conjugates.
+     * @test         cubic returns the expected roots when D > 0: one root is real, 2 are complex conjugates.
      * @dataProvider dataProviderForCubicOneRealRootWithComplex
      * @param        int   $a
      * @param        int   $b
@@ -506,7 +506,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cubic with a₃ coefficient of z³ of 0 is the same as quadratic.
+     * @test         cubic with a₃ coefficient of z³ of 0 is the same as quadratic.
      * @dataProvider dataProviderForQuadratic
      * @param        float $b
      * @param        float $c
@@ -521,7 +521,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cubic returns array of Complex Number objects if the quadradic discriminant is negative.
+     * @test         cubic returns array of Complex Number objects if the quadradic discriminant is negative.
      * @dataProvider dataProviderForQuadraticNegativeDiscriminantComplex
      * @param        float $a₂
      * @param        float $a₁
@@ -550,7 +550,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     quartic
+     * @test         quartic
      * @dataProvider dataProviderForQuartic
      * @param        int   $a
      * @param        int   $b
@@ -597,7 +597,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     quartic with two complex roots - not set to return complex
+     * @test         quartic with two complex roots - not set to return complex
      * @dataProvider dataProviderForQuarticTwoComplex
      * @param        int $a
      * @param        int $b
@@ -620,7 +620,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     quartic with two complex roots - set to return complex
+     * @test         quartic with two complex roots - set to return complex
      * @dataProvider dataProviderForQuarticTwoComplex
      * @param        int $a
      * @param        int $b
@@ -665,7 +665,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     quartic with four complex roots - not set to return complex
+     * @test         quartic with four complex roots - not set to return complex
      * @dataProvider dataProviderForQuarticFourComplex
      * @param        int   $a
      * @param        int   $b
@@ -688,7 +688,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     quartic with four complex roots - set to return complex
+     * @test         quartic with four complex roots - set to return complex
      * @dataProvider dataProviderForQuarticFourComplex
      * @param        int   $a
      * @param        int   $b

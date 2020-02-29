@@ -171,6 +171,7 @@ class Finance
         } else {
             $interest = self::fv($rate, $period - 1, $payment, $present_value, $beginning) * $rate;
         }
+
         return self::checkZero($interest);
     }
 
@@ -207,7 +208,8 @@ class Finance
     public static function ppmt(float $rate, int $period, int $periods, float $present_value, float $future_value = 0.0, bool $beginning = false): float
     {
         $payment = self::pmt($rate, $periods, $present_value, $future_value, $beginning);
-        $ipmt = self::ipmt($rate, $period, $periods, $present_value, $future_value, $beginning);
+        $ipmt    = self::ipmt($rate, $period, $periods, $present_value, $future_value, $beginning);
+
         return $payment - $ipmt;
     }
 
@@ -250,7 +252,7 @@ class Finance
             return - ($present_value + $future_value) / $payment;
         }
 
-        $initial  = $payment * (1.0 + $rate * $when);
+        $initial = $payment * (1.0 + $rate * $when);
         return log(($initial - $future_value * $rate) / ($initial + $present_value * $rate)) / log(1.0 + $rate);
     }
 
@@ -584,9 +586,9 @@ class Finance
         }
 
         $root        = sizeof($values) - 1;
-        $pv_inflows = self::npv($reinvestment_rate, $inflows);
-        $fv_inflows = self::fv($reinvestment_rate, $root, 0, -$pv_inflows);
-        $pv_outflows  = self::npv($finance_rate, $outflows);
+        $pv_inflows  = self::npv($reinvestment_rate, $inflows);
+        $fv_inflows  = self::fv($reinvestment_rate, $root, 0, -$pv_inflows);
+        $pv_outflows = self::npv($finance_rate, $outflows);
 
         return self::checkZero(pow($fv_inflows / -$pv_outflows, 1 / $root) - 1);
     }
@@ -640,12 +642,13 @@ class Finance
             return 0.0;
         }
 
-        $sum = $values[0];
+        $sum            = $values[0];
         $payback_period = -1;
+
         for ($i = 1; $i < sizeof($values); $i++) {
-            $prevsum = $sum;
+            $prevsum         = $sum;
             $discounted_flow = $values[$i] / (1 + $rate) ** $i;
-            $sum += $discounted_flow;
+            $sum            += $discounted_flow;
             if ($sum >= 0) {
                 if ($i > $last_outflow) {
                     return ($i - 1) + (-$prevsum / $discounted_flow);
@@ -660,6 +663,7 @@ class Finance
         if ($sum >= 0) {
             return $payback_period;
         }
+
         return \NAN;
     }
 

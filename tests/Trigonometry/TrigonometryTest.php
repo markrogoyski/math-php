@@ -7,7 +7,7 @@ use MathPHP\Trigonometry;
 class TrigonometryTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     unitCircle returns points on a unit circle.
+     * @test         unitCircle returns points on a unit circle.
      * @dataProvider dataProviderForUnitCircle
      * @param        int   $points
      * @param        array $expected

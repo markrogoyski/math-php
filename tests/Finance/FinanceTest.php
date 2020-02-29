@@ -7,7 +7,7 @@ use MathPHP\Finance;
 class FinanceTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     checkZero
+     * @test         checkZero
      * @dataProvider dataProviderForcheckZero
      * @param        float $value
      * @param        float $result
@@ -54,7 +54,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     pmt
+     * @test         pmt
      * @dataProvider dataProviderForPmt
      * @param        float $rate
      * @param        int   $periods
@@ -115,7 +115,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     ipmt
+     * @test         ipmt
      * @dataProvider dataProviderForIpmt
      * @param        float $rate
      * @param        int   $period
@@ -180,7 +180,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     ipmt not a number
+     * @test         ipmt not a number
      * @dataProvider dataProviderForIpmtNan
      * @param        float $rate
      * @param        int   $period
@@ -226,7 +226,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     ppmt
+     * @test         ppmt
      * @dataProvider dataProviderForPpmt
      * @param        float $rate
      * @param        int   $period
@@ -291,7 +291,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     ppmt not a number
+     * @test         ppmt not a number
      * @dataProvider dataProviderForPpmtNan
      * @param        float $rate
      * @param        int   $period
@@ -337,7 +337,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     periods
+     * @test         periods
      * @dataProvider dataProviderForPeriods
      * @param        float $rate
      * @param        float $payment
@@ -398,7 +398,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     periods not a number
+     * @test         periods not a number
      * @dataProvider dataProviderForPeriodsNan
      * @param        float $rate
      * @param        float $payment
@@ -426,7 +426,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     aer
+     * @test         aer
      * @dataProvider dataProviderForAer
      * @param        float $nominal
      * @param        int   $periods
@@ -496,7 +496,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     nominal
+     * @test         nominal
      * @dataProvider dataProviderForNominal
      * @param        float $aer
      * @param        int   $periods
@@ -566,7 +566,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     fv
+     * @test         fv
      * @dataProvider dataProviderForFv
      * @param        float $rate
      * @param        int   $periods
@@ -645,7 +645,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     pv
+     * @test         pv
      * @dataProvider dataProviderForPv
      * @param        float $rate
      * @param        int   $periods
@@ -720,7 +720,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     npv
+     * @test         npv
      * @dataProvider dataProviderForNpv
      * @param        float $rate
      * @param        array $values
@@ -765,7 +765,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     rate
+     * @test         rate
      * @dataProvider dataProviderForRate
      * @param        float $periods
      * @param        float $payment
@@ -821,7 +821,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     rate not a number
+     * @test         rate not a number
      * @dataProvider dataProviderForRateNan
      * @param        float $periods
      * @param        float $payment
@@ -861,7 +861,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     irr
+     * @test         irr
      * @dataProvider dataProviderForIrr
      * @param        array $values
      * @param        float $initial_guess
@@ -917,7 +917,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     irr not a number
+     * @test         irr not a number
      * @dataProvider dataProviderForIrrNan
      * @param        array $values
      * @param        float $initial_guess
@@ -951,7 +951,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mirr
+     * @test         mirr
      * @dataProvider dataProviderForMirr
      * @param        array $values
      * @param        float $finance_rate
@@ -986,7 +986,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mirr not a number
+     * @test         mirr not a number
      * @dataProvider dataProviderForMirrNan
      * @param        array $values
      * @param        float $finance_rate
@@ -1016,7 +1016,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     payback
+     * @test         payback
      * @dataProvider dataProviderForPayback
      * @param        array $values
      * @param        float $rate
@@ -1070,7 +1070,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     payback not a number
+     * @test         payback not a number
      * @dataProvider dataProviderForPaybackNan
      * @param        array $values
      * @param        float $rate
@@ -1106,7 +1106,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     profitabilityIndex
+     * @test         profitabilityIndex
      * @dataProvider dataProviderForProfitabilityIndex
      * @param        array $values
      * @param        float $rate
@@ -1142,7 +1142,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     profitabilityIndex not a number
+     * @test         profitabilityIndex not a number
      * @dataProvider dataProviderForProfitabilityIndexNan
      * @param        array $values
      * @param        float $rate

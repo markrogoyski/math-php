@@ -51,6 +51,8 @@ class BaseEncoderDecoder
      * @param string $alphabet
      *
      * @return string
+     *
+     * @throws Exception\BadParameterException if the base is greater than 256
      */
     public static function toBase(ArbitraryInteger $number, int $base, $alphabet = null): string
     {
@@ -60,16 +62,19 @@ class BaseEncoderDecoder
         if ($alphabet === null) {
             $alphabet = self::getDefaultAlphabet($base);
         }
+
         $base_256 = $number->toBinary();
-        $result = '';
+        $result   = '';
+
         while ($base_256 !== '') {
-            $carry = 0;
+            $carry    = 0;
             $next_int = $base_256;
-            $len = strlen($base_256);
+            $len      = strlen($base_256);
             $base_256 = '';
+
             for ($i = 0; $i < $len; $i++) {
-                $chr = ord($next_int[$i]);
-                $int = intdiv($chr + 256 * $carry, $base);
+                $chr   = ord($next_int[$i]);
+                $int   = intdiv($chr + 256 * $carry, $base);
                 $carry = ($chr + 256 * $carry) % $base;
                 // or just trim off all leading chr(0)s
                 if ($base_256 !== '' || $int > 0) {
@@ -93,6 +98,8 @@ class BaseEncoderDecoder
      * @param string $offset
      *
      * @return ArbitraryInteger
+     *
+     * @throws Exception\BadParameterException if the string is empty or base is greater than 256
      */
     public static function createArbitraryInteger(string $number, int $base, string $offset = null): ArbitraryInteger
     {
@@ -117,7 +124,7 @@ class BaseEncoderDecoder
                 // Subtract a constant offset from each character.
                 $offset_num = ord($offset);
                 for ($i = 0; $i < $length; $i++) {
-                    $chr = $number[$i];
+                    $chr   = $number[$i];
                     $digit = ord($chr) - $offset_num;
                     // Check that all elements are greater than the offset, and are members of the alphabet.
                     if ($digit < 0 || $digit >= $base) {
@@ -139,11 +146,12 @@ class BaseEncoderDecoder
         }
         // Convert to base 256
         $base256 = new ArbitraryInteger(0);
-        $length = strlen($number);
+        $length  = strlen($number);
         for ($i = 0; $i < $length; $i++) {
             $chr = ord($number[$i]);
             $base256 = $base256->multiply($base)->add($chr);
         }
+
         return $base256;
     }
 }

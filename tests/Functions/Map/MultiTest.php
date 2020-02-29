@@ -9,14 +9,23 @@ class MultiTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
+     * @test         add two arrays
      * @dataProvider dataProviderForAddTwoArrays
+     * @param        array $xs
+     * @param        array $ys
+     * @param        array $expected
+     * @throws       \Exception
      */
-    public function testAddTwoArrays(array $xs, array $ys, array $sums)
+    public function testAddTwoArrays(array $xs, array $ys, array $expected)
     {
-        $this->assertEquals($sums, Multi::add($xs, $ys));
+        // When
+        $sums = Multi::add($xs, $ys);
+
+        // Then
+        $this->assertEquals($expected, $sums);
     }
 
-    public function dataProviderForAddTwoArrays()
+    public function dataProviderForAddTwoArrays(): array
     {
         return [
             [
@@ -33,14 +42,22 @@ class MultiTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         add multiple arrays
      * @dataProvider dataProviderForAddMulti
+     * @param        array $expected
+     * @param        array ...$arrays
+     * @throws       \Exception
      */
-    public function testAddMulti(array $sums, array ...$arrays)
+    public function testAddMulti(array $expected, array ...$arrays)
     {
-        $this->assertEquals($sums, Multi::add(...$arrays));
+        // When
+        $sums = Multi::add(...$arrays);
+
+        // Then
+        $this->assertEquals($expected, $sums);
     }
 
-    public function dataProviderForAddMulti()
+    public function dataProviderForAddMulti(): array
     {
         return [
             [
@@ -65,14 +82,23 @@ class MultiTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         subtract two arrays
      * @dataProvider dataProviderForSubtractTwoArrays
+     * @param        array $xs
+     * @param        array $ys
+     * @param        array $expected
+     * @throws       \Exception
      */
-    public function testSubtractTwoArrays(array $xs, array $ys, array $differences)
+    public function testSubtractTwoArrays(array $xs, array $ys, array $expected)
     {
-        $this->assertEquals($differences, Multi::subtract($xs, $ys));
+        // When
+        $differences = Multi::subtract($xs, $ys);
+
+        // Then
+        $this->assertEquals($expected, $differences);
     }
 
-    public function dataProviderForSubtractTwoArrays()
+    public function dataProviderForSubtractTwoArrays(): array
     {
         return [
             [
@@ -89,14 +115,22 @@ class MultiTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         subtract multiple arrays
      * @dataProvider dataProviderForSubtractMulti
+     * @param        array $expected
+     * @param        array[] $arrays
+     * @throws       \Exception
      */
-    public function testSubtractMulti(array $differences, array ...$arrays)
+    public function testSubtractMulti(array $expected, array ...$arrays)
     {
-        $this->assertEquals($differences, Multi::subtract(...$arrays));
+        // When
+        $differences = Multi::subtract(...$arrays);
+
+        // Then
+        $this->assertEquals($expected, $differences);
     }
 
-    public function dataProviderForSubtractMulti()
+    public function dataProviderForSubtractMulti(): array
     {
         return [
             [
@@ -121,14 +155,19 @@ class MultiTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         multiply two arrays
      * @dataProvider dataProviderForMultiplyTwoArrays
      */
-    public function testMultiplyTwoArrays(array $xs, array $ys, array $products)
+    public function testMultiplyTwoArrays(array $xs, array $ys, array $expected)
     {
-        $this->assertEquals($products, Multi::multiply($xs, $ys));
+        // When
+        $products = Multi::multiply($xs, $ys);
+
+        // Then
+        $this->assertEquals($expected, $products);
     }
 
-    public function dataProviderForMultiplyTwoArrays()
+    public function dataProviderForMultiplyTwoArrays(): array
     {
         return [
             [
@@ -145,14 +184,19 @@ class MultiTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         multiply multiple arrays
      * @dataProvider dataProviderForMultiplyMulti
      */
-    public function testMultiplyMulti(array $differences, array ...$arrays)
+    public function testMultiplyMulti(array $expected, array ...$arrays)
     {
-        $this->assertEquals($differences, Multi::multiply(...$arrays));
+        // When
+        $products = Multi::multiply(...$arrays);
+
+        // Then
+        $this->assertEquals($expected, $products);
     }
 
-    public function dataProviderForMultiplyMulti()
+    public function dataProviderForMultiplyMulti(): array
     {
         return [
             [
@@ -177,14 +221,23 @@ class MultiTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         divide two arrays
      * @dataProvider dataProviderForDivideTwoArrays
+     * @param        array $xs
+     * @param        array $ys
+     * @param        array $expected
+     * @throws       \Exception
      */
-    public function testDivideTwoArrays(array $xs, array $ys, array $quotients)
+    public function testDivideTwoArrays(array $xs, array $ys, array $expected)
     {
-        $this->assertEquals($quotients, Multi::divide($xs, $ys));
+        // When
+        $quotients = Multi::divide($xs, $ys);
+
+        // Then
+        $this->assertEquals($expected, $quotients);
     }
 
-    public function dataProviderForDivideTwoArrays()
+    public function dataProviderForDivideTwoArrays(): array
     {
         return [
             [
@@ -201,14 +254,22 @@ class MultiTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         divide multiple arrays
      * @dataProvider dataProviderForDivideMulti
+     * @param        array $expected
+     * @param        array[] $arrays
+     * @throws       \Exception
      */
-    public function testDivideMulti(array $quotients, array ...$arrays)
+    public function testDivideMulti(array $expected, array ...$arrays)
     {
-        $this->assertEquals($quotients, Multi::divide(...$arrays));
+        // When
+        $quotients = Multi::divide(...$arrays);
+
+        // Then
+        $this->assertEquals($expected, $quotients);
     }
 
-    public function dataProviderForDivideMulti()
+    public function dataProviderForDivideMulti(): array
     {
         return [
             [
@@ -231,14 +292,23 @@ class MultiTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         max two arrays
      * @dataProvider dataProviderForMaxTwoArrays
+     * @param        array $xs
+     * @param        array $ys
+     * @param        array $expected
+     * @throws       \Exception
      */
-    public function testMaxTwoArrays(array $xs, array $ys, array $maxes)
+    public function testMaxTwoArrays(array $xs, array $ys, array $expected)
     {
-        $this->assertEquals($maxes, Multi::max($xs, $ys));
+        // When
+        $maxes = Multi::max($xs, $ys);
+
+        // Then
+        $this->assertEquals($expected, $maxes);
     }
 
-    public function dataProviderForMaxTwoArrays()
+    public function dataProviderForMaxTwoArrays(): array
     {
         return [
             [
@@ -255,14 +325,22 @@ class MultiTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         max multiple arrays
      * @dataProvider dataProviderForMaxMulti
+     * @param        array $expected
+     * @param        array[] $arrays
+     * @throws       \Exception
      */
-    public function testMaxMulti(array $maxes, array ...$arrays)
+    public function testMaxMulti(array $expected, array ...$arrays)
     {
-        $this->assertEquals($maxes, Multi::max(...$arrays));
+        // When
+        $maxes = Multi::max(...$arrays);
+
+        // Then
+        $this->assertEquals($expected, $maxes);
     }
 
-    public function dataProviderForMaxMulti()
+    public function dataProviderForMaxMulti(): array
     {
         return [
             [
@@ -285,14 +363,23 @@ class MultiTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         min
      * @dataProvider dataProviderForMin
+     * @param        array $xs
+     * @param        array $ys
+     * @param        array $expected
+     * @throws       \Exception
      */
-    public function testMin(array $xs, array $ys, array $maxes)
+    public function testMin(array $xs, array $ys, array $expected)
     {
-        $this->assertEquals($maxes, Multi::min($xs, $ys));
+        // When
+        $mins = Multi::min($xs, $ys);
+
+        // Then
+        $this->assertEquals($expected, $mins);
     }
 
-    public function dataProviderForMin()
+    public function dataProviderForMin(): array
     {
         return [
             [
@@ -309,14 +396,22 @@ class MultiTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         min multiple arrays
      * @dataProvider dataProviderForMinMulti
+     * @param        array $expected
+     * @param        array[] $arrays
+     * @throws       \Exception
      */
-    public function testMinMulti(array $mins, array ...$arrays)
+    public function testMinMulti(array $expected, array ...$arrays)
     {
-        $this->assertEquals($mins, Multi::min(...$arrays));
+        // When
+        $mins = Multi::min(...$arrays);
+
+        // Then
+        $this->assertEquals($expected, $mins);
     }
 
-    public function dataProviderForMinMulti()
+    public function dataProviderForMinMulti(): array
     {
         return [
             [
@@ -338,18 +433,36 @@ class MultiTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   array lengths are not equal exception
+     * @throws \Exception
+     */
     public function testCheckArrayLengthsException()
     {
+        // Given
         $xs = [1, 2, 3];
         $ys = [1, 2];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Multi::add($xs, $ys);
     }
 
+    /**
+     * @test   Only one array exception
+     * @throws \Exception
+     */
     public function testCheckArrayLengthsExceptionOnlyOneArray()
     {
+        // Given
+        $xs = [1, 2];
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
-        Multi::add([1,2]);
+
+        // When
+        Multi::add($xs);
     }
 }
