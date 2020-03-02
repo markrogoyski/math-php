@@ -23,7 +23,8 @@ class BaseEncoderDecoder
      * Get the default alphabet for a given number base
      *
      * @param int $base
-     * @return string
+     *
+     * @return string offset
      */
     protected static function getDefaultAlphabet(int $base): string
     {
@@ -31,16 +32,14 @@ class BaseEncoderDecoder
             case 2:
             case 8:
             case 10:
-                $offset = '0';
-                break;
+                return '0';
+
             case 16:
-                $offset = '0123456789abcdef';
-                break;
+                return '0123456789abcdef';
+
             default:
-                $offset = chr(0);
-                break;
+                return chr(0);
         }
-        return $offset;
     }
 
     /**
