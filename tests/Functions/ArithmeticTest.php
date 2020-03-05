@@ -6,8 +6,15 @@ use MathPHP\Functions\Arithmetic;
 
 class ArithmeticTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSum()
+    /**
+     * @test         sum
+     * @dataProvider dataProviderForSum
+     * @param        int $x
+     * @param        int $expectedSum
+     */
+    public function testSum(int $x, int $expectedSum)
     {
+        // Given
         // f(x) = x⁴ + 8x³ -13x² -92x + 96
         $f = function ($x) {
             return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
@@ -19,35 +26,36 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
         };
 
         // Σ(x) = f(x) + g(x) = x⁴ + 9x³ -25x² -20x + 123
-        $sum = Arithmetic::add($f, $g);
+        $adder = Arithmetic::add($f, $g);
 
-        // Σ(0) = 123
-        $expected = 123;
-        $x = $sum(0);
-        $this->assertEquals($expected, $x);
+        // When
+        $sum = $adder($x);
 
-        // Σ(5) = 1148
-        $expected = 1148;
-        $x = $sum(5);
-        $this->assertEquals($expected, $x);
-
-        // Σ(-5) = -902
-        $expected = -902;
-        $x = $sum(-5);
-        $this->assertEquals($expected, $x);
-
-        // Σ(100) = 108748123
-        $expected = 108748123;
-        $x = $sum(100);
-        $this->assertEquals($expected, $x);
-
-        // Σ(-100) = 90752123
-        $expected = 90752123;
-        $x = $sum(-100);
-        $this->assertEquals($expected, $x);
+        // Then
+        $this->assertEquals($expectedSum, $sum);
     }
 
-    public function testProduct()
+    /**
+     * @return array
+     */
+    public function dataProviderForSum(): array
+    {
+        return [
+            'Σ(0) = 123'         => [0, 123],
+            'Σ(5) = 1148'        => [5, 1148],
+            'Σ(-5) = -902'       => [-5, -902],
+            'Σ(100) = 108748123' => [100, 108748123],
+            'Σ(-100) = 90752123' => [-100, 90752123],
+        ];
+    }
+
+    /**
+     * @test         multiply
+     * @dataProvider dataProviderForMultiply
+     * @param        int $x
+     * @param        int $expectedProduct
+     */
+    public function testMultiply(int $x, int $expectedProduct)
     {
         // f(x) = x² + 8x - 12
         $f = function ($x) {
@@ -60,66 +68,72 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
         };
 
         // Π(x) = f(x) * g(x) = x³ - x² -84x + 108
-        $product = Arithmetic::multiply($f, $g);
+        $multiplier = Arithmetic::multiply($f, $g);
 
-        // Π(0) = 108
-        $expected = 108;
-        $x = $product(0);
-        $this->assertEquals($expected, $x);
+        // When
+        $product = $multiplier($x);
 
-        // Π(5) = -212
-        $expected = -212;
-        $x = $product(5);
-        $this->assertEquals($expected, $x);
-
-        // Π(-5) = 378
-        $expected = 378;
-        $x = $product(-5);
-        $this->assertEquals($expected, $x);
-
-        // Π(100) = 981708
-        $expected = 981708;
-        $x = $product(100);
-        $this->assertEquals($expected, $x);
-
-        // Π(-100) = -1001492
-        $expected = -1001492;
-        $x = $product(-100);
-        $this->assertEquals($expected, $x);
+        // Then
+        $this->assertEquals($expectedProduct, $product);
     }
 
-    public function testMultipleSums()
+    /**
+     * @return array
+     */
+    public function dataProviderForMultiply(): array
     {
+        return [
+            'Π(0) = 108'         => [0, 108],
+            'Π(5) = -212'        => [5, -212],
+            'Π(-5) = 378'        => [-5, 378],
+            'Π(100) = 981708'    => [100, 981708],
+            'Π(-100) = -1001492' => [-100, -1001492],
+        ];
+    }
+
+    /**
+     * @test         Multiple sums
+     * @dataProvider dataProviderForMultipleSums
+     * @param        int $x
+     * @param        int $expectedSum
+     */
+    public function testMultipleSums(int $x, int $expectedSum)
+    {
+        // Given
         // f(x) = 8x³ - 13x² -92x + 96
         $f = function ($x) {
             return 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
 
-        $g = $f;
-        $h = $f;
-        $i = $f;
-        $j = $f;
+        // Σ(x) = f(x) + f(x) + f(x) + f(x) + f(x) = 5*f(x) = 40x³ - 65x² -460x + 480
+        $adder = Arithmetic::add($f, $f, $f, $f, $f);
 
-        // Σ(x) = f(x) + g(x) + h(x) + i(x) + j(x) = 5*f(x) = 40x³ - 65x² -460x + 480
-        $sum = Arithmetic::add($f, $g, $h, $i, $j);
+        // When
+        $sum = $adder($x);
 
-        // Σ(0) = 480
-        $expected = 480;
-        $x = $sum(0);
-        $this->assertEquals($expected, $x);
-
-        // Σ(5) = 1555
-        $expected = 1555;
-        $x = $sum(5);
-        $this->assertEquals($expected, $x);
-
-        // Σ(-5) = -3845
-        $expected = -3845;
-        $x = $sum(-5);
-        $this->assertEquals($expected, $x);
+        // Then
+        $this->assertEquals($expectedSum, $sum);
     }
 
-    public function testMultipleProducts()
+    /**
+     * @return array
+     */
+    public function dataProviderForMultipleSums(): array
+    {
+        return [
+            'Σ(0) = 480'    => [0, 480],
+            'Σ(5) = 1555'   => [5, 1555],
+            'Σ(-5) = -3845' => [-5, -3845],
+        ];
+    }
+
+    /**
+     * @test         Multiple products
+     * @dataProvider dataProviderForMultipleProducts
+     * @param        int $x
+     * @param        int $expectedSum
+     */
+    public function testMultipleProducts(int $x, int $expectedSum)
     {
         // f(x) = x - 9
         $f = function ($x) {
@@ -137,25 +151,34 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
         };
 
         // Π(x) = f(x) * g(x) * h(x) = x³ - 7x² -18x
-        $product = Arithmetic::multiply($f, $g, $h);
+        $multiplier = Arithmetic::multiply($f, $g, $h);
 
-        // Π(0) = 0
-        $expected = 0;
-        $x = $product(0);
-        $this->assertEquals($expected, $x);
+        // When
+        $product = $multiplier($x);
 
-        // Π(5) = -140
-        $expected = -140;
-        $x = $product(5);
-        $this->assertEquals($expected, $x);
-
-        // Π(-5) = -210
-        $expected = -210;
-        $x = $product(-5);
-        $this->assertEquals($expected, $x);
+        // Then
+        $this->assertEquals($expectedSum, $product);
     }
 
-    public function testNestedArithmetic()
+    /**
+     * @return array
+     */
+    public function dataProviderForMultipleProducts(): array
+    {
+        return [
+            'Π(0) = 0'     => [0, 0],
+            'Π(5) = -140'  => [5, -140],
+            'Π(-5) = -210' => [-5, -210],
+        ];
+    }
+
+    /**
+     * @test         Nested arithmetic
+     * @dataProvider dataProviderForNestedArithmetic
+     * @param        int $x
+     * @param        int $expected
+     */
+    public function testNestedArithmetic(int $x, int $expected)
     {
         // f(x) = x - 9
         $f = function ($x) {
@@ -173,21 +196,24 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
         };
 
         // Π(x) = $f(x) * ( g(x) + h(x) ) = (x - 9) * (2x + 2) = 2x² - 16x - 18
-        $product = Arithmetic::multiply($f, Arithmetic::add($g, $h));
+        $multiplier = Arithmetic::multiply($f, Arithmetic::add($g, $h));
 
-        // Π(0) = -18
-        $expected = -18;
-        $x = $product(0);
-        $this->assertEquals($expected, $x);
+        // When
+        $product = $multiplier($x);
 
-        // Π(5) = -48
-        $expected = -48;
-        $x = $product(5);
-        $this->assertEquals($expected, $x);
+        // Then
+        $this->assertEquals($expected, $product);
+    }
 
-        // Π(-5) = 112
-        $expected = 112;
-        $x = $product(-5);
-        $this->assertEquals($expected, $x);
+    /**
+     * @return array
+     */
+    public function dataProviderForNestedArithmetic(): array
+    {
+        return [
+            'Π(0) = -18'     => [0, -18],
+            'Π(5) = -48'  => [5, -48],
+            'Π(-5) = 112' => [-5, 112],
+        ];
     }
 }
