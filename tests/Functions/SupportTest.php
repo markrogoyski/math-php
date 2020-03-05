@@ -16,7 +16,11 @@ class SupportTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckLimitsLowerLimit(array $limits, array $params)
     {
-        $this->assertTrue(Support::checkLimits($limits, $params));
+        // When
+        $withinLimits = Support::checkLimits($limits, $params);
+
+        // Then
+        $this->assertTrue($withinLimits);
     }
 
     /**
@@ -138,7 +142,11 @@ class SupportTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckLimitsUpperLimit(array $limits, array $params)
     {
-        $this->assertTrue(Support::checkLimits($limits, $params));
+        // When
+        $withinLimits = Support::checkLimits($limits, $params);
+
+        // Then
+        $this->assertTrue($withinLimits);
     }
 
     /**
@@ -325,7 +333,11 @@ class SupportTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsZeroTrue(float $x)
     {
-        $this->assertTrue(Support::isZero($x));
+        // When
+        $isZero = Support::isZero($x);
+
+        // Then
+        $this->assertTrue($isZero);
     }
 
     /**
@@ -335,7 +347,11 @@ class SupportTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsZeroFalse(float $x)
     {
-        $this->assertFalse(Support::isZero($x));
+        // When
+        $isZero = Support::isZero($x);
+
+        // Then
+        $this->assertFalse($isZero);
     }
 
     /**
@@ -345,7 +361,11 @@ class SupportTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsNotZeroTrue(float $x)
     {
-        $this->assertTrue(Support::isNotZero($x));
+        // When
+        $isNotZero = Support::isNotZero($x);
+
+        // Then
+        $this->assertTrue($isNotZero);
     }
 
     /**
@@ -355,7 +375,11 @@ class SupportTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsNotZeroFalse(float $x)
     {
-        $this->assertFalse(Support::isNotZero($x));
+        // When
+        $isNotZero = Support::isNotZero($x);
+
+        // Then
+        $this->assertFalse($isNotZero);
     }
 
     /**
@@ -493,7 +517,11 @@ class SupportTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsEqual($x, $y)
     {
-        $this->assertTrue(Support::isEqual($x, $y));
+        // When
+        $isEqual = Support::isEqual($x, $y);
+
+        // Then
+        $this->assertTrue($isEqual);
     }
 
     /**
@@ -504,7 +532,11 @@ class SupportTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsEqualWhenNotEqual($x, $y)
     {
-        $this->assertFalse(Support::isEqual($x, $y));
+        // When
+        $isEqual = Support::isEqual($x, $y);
+
+        // Then
+        $this->assertFalse($isEqual);
     }
 
     /**
@@ -515,7 +547,11 @@ class SupportTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsNotEqual($x, $y)
     {
-        $this->assertTrue(Support::isNotEqual($x, $y));
+        // When
+        $isNotEqual = Support::isNotEqual($x, $y);
+
+        // Then
+        $this->assertTrue($isNotEqual);
     }
 
     /**
@@ -526,7 +562,11 @@ class SupportTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsNotEqualWhenEqual($x, $y)
     {
-        $this->assertFalse(Support::isNotEqual($x, $y));
+        // When
+        $isNotEqual = Support::isNotEqual($x, $y);
+
+        // Then
+        $this->assertFalse($isNotEqual);
     }
 
     /**

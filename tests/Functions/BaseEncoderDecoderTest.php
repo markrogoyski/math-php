@@ -9,16 +9,26 @@ use MathPHP\Number\ArbitraryInteger;
 class BaseEncoderDecoderTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @test
+     * @test         toBase
      * @dataProvider dataProviderForTestToBase
+     * @param        string $int
+     * @param        int    $base
+     * @param        string $expected
+     * @throws       \Exception
      */
     public function testToBase(string $int, int $base, string $expected)
     {
+        // Given
         $int = new ArbitraryInteger($int);
-        $this->assertEquals($expected, BaseEncoderDecoder::toBase($int, $base));
+
+        // When
+        $toBase = BaseEncoderDecoder::toBase($int, $base);
+
+        // Theb
+        $this->assertEquals($expected, $toBase);
     }
 
-    public function dataProviderForTestToBase()
+    public function dataProviderForTestToBase(): array
     {
         return [
            ['0xf', 16, 'f'],
@@ -27,16 +37,22 @@ class BaseEncoderDecoderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test
+     * @test         creation with string representation
      * @dataProvider dataProviderForTestCreateArbitrary
      */
     public function testCreateArbitrary(string $int, int $base, string $expected)
     {
+        // Given
         $int = BaseEncoderDecoder::createArbitraryInteger($int, $base);
-        $this->assertEquals($expected, (string) $int);
+
+        // When
+        $stringRepresentation = (string) $int;
+
+        // Then
+        $this->assertEquals($expected, $stringRepresentation);
     }
 
-    public function dataProviderForTestCreateArbitrary()
+    public function dataProviderForTestCreateArbitrary(): array
     {
         return [
             ['123', 10, '123'],
@@ -47,22 +63,24 @@ class BaseEncoderDecoderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test     toBase throws an exception when base>256
-     * @throws   BadParameterException
+     * @throws   \Exception
      */
     public function testInvalidToBaseException()
     {
         // Given
         $base = 300;
-        $int =  new ArbitraryInteger('123456');
+        $int  = new ArbitraryInteger('123456');
+
         // Then
         $this->expectException(Exception\BadParameterException::class);
+
         // When
-        $string =  BaseEncoderDecoder::toBase($int, $base);
+        $string = BaseEncoderDecoder::toBase($int, $base);
     }
 
     /**
-     * @test     Function throws an exception when given an empty string
-     * @throws   \Exception
+     * @test   Function throws an exception when given an empty string
+     * @throws \Exception
      */
     public function testEmptyStringException()
     {
@@ -73,12 +91,12 @@ class BaseEncoderDecoderTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadParameterException::class);
 
         // When
-        $int =  BaseEncoderDecoder::createArbitraryInteger($number, 10);
+        $int = BaseEncoderDecoder::createArbitraryInteger($number, 10);
     }
 
     /**
-     * @test     Function throws an exception when base>256
-     * @throws   \Exception
+     * @test   Function throws an exception when base>256
+     * @throws \Exception
      */
     public function testInvalidBaseException()
     {
@@ -89,26 +107,26 @@ class BaseEncoderDecoderTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadParameterException::class);
 
         // When
-        $int =  BaseEncoderDecoder::createArbitraryInteger('123456', $base);
+        $int = BaseEncoderDecoder::createArbitraryInteger('123456', $base);
     }
 
     /**
      * @test         Function throws an exception when base>256
      * @dataProvider dataProviderForTestInvalidCharInStringException
+     * @param        string $value
+     * @param        int    $base
      * @throws       \Exception
      */
     public function testInvalidCharInStringException(string $value, int $base)
     {
-        // Given
-        
         // Then
         $this->expectException(Exception\BadParameterException::class);
 
         // When
-        $int =  BaseEncoderDecoder::createArbitraryInteger($value, $base);
+        $int = BaseEncoderDecoder::createArbitraryInteger($value, $base);
     }
 
-    public function dataProviderForTestInvalidCharInStringException()
+    public function dataProviderForTestInvalidCharInStringException(): array
     {
         return [
             ['12a', 10],

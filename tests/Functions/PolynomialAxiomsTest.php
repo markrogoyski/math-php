@@ -35,245 +35,297 @@ use MathPHP\Functions\Polynomial;
 class PolynoialAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase Axiom: a + b = b + a
+     * @test Axiom: a + b = b + a
      * Commutativity of addition.
      * @dataProvider dataProviderForTwoPolynomials
      * @param        array $a
      * @param        array $b
+     * @throws       \Exception
      */
     public function testCommutativityOfAddition(array $a, array $b)
     {
+        // Given
         $a = new Polynomial($a);
         $b = new Polynomial($b);
 
+        // When
         $a＋b = $a->add($b);
         $b＋a = $b->add($a);
 
+        // Then
         $this->assertEquals($a＋b->getDegree(), $b＋a->getDegree());
         $this->assertEquals($a＋b->getCoefficients(), $b＋a->getCoefficients());
     }
 
     /**
-     * @testCase Axiom: ab = bc
+     * @test Axiom: ab = bc
      * Commutativity of multiplication.
      * @dataProvider dataProviderForTwoPolynomials
      * @param        array $a
      * @param        array $b
+     * @throws       \Exception
      */
     public function testCommutativityOfMultiplication(array $a, array $b)
     {
+        // Given
         $a = new Polynomial($a);
         $b = new Polynomial($b);
 
+        // When
         $ab = $a->multiply($b);
         $ba = $b->multiply($a);
 
+        // Then
         $this->assertEquals($ab->getDegree(), $ba->getDegree());
         $this->assertEquals($ab->getCoefficients(), $ba->getCoefficients());
     }
 
     /**
-     * @testCase Axiom: a + (b + c) = (a + b) + c
+     * @test Axiom: a + (b + c) = (a + b) + c
      * Associativity of addition.
      * @dataProvider dataProviderForThreePolynomials
      * @param        array $a
      * @param        array $b
      * @param        array $c
+     * @throws       \Exception
      */
     public function testAssociativityOfAddition(array $a, array $b, array $c)
     {
+        // Given
         $a = new Polynomial($a);
         $b = new Polynomial($b);
         $c = new Polynomial($c);
 
+        // When
         $a ＋ ⟮b ＋ c⟯ = $a->add($b->add($c));
         $⟮a ＋ b⟯ ＋ c = ($a->add($b))->add($c);
 
+        // Then
         $this->assertEquals($a ＋ ⟮b ＋ c⟯->getDegree(), $⟮a ＋ b⟯ ＋ c->getDegree());
         $this->assertEquals($a ＋ ⟮b ＋ c⟯->getCoefficients(), $⟮a ＋ b⟯ ＋ c->getCoefficients());
     }
 
     /**
-     * @testCase Axiom: a(bc) = (ab)c
+     * @test Axiom: a(bc) = (ab)c
      * Associativity of multiplication.
      * @dataProvider dataProviderForThreePolynomials
      * @param        array $a
      * @param        array $b
      * @param        array $c
+     * @throws       \Exception
      */
     public function testAssociativityOfMultiplication(array $a, array $b, array $c)
     {
+        // Given
         $a = new Polynomial($a);
         $b = new Polynomial($b);
         $c = new Polynomial($c);
 
+        // When
         $a⟮bc⟯ = $a->multiply($b->multiply($c));
         $⟮ab⟯c = ($a->multiply($b))->multiply($c);
 
+        // Then
         $this->assertEquals($a⟮bc⟯->getDegree(), $⟮ab⟯c->getDegree());
         $this->assertEquals($a⟮bc⟯->getCoefficients(), $⟮ab⟯c->getCoefficients());
     }
 
     /**
-     * @testCase Axiom: a ✕ (b + c) = a ✕ b + a ✕ c
+     * @test Axiom: a ✕ (b + c) = a ✕ b + a ✕ c
      * Distributive law.
      * @dataProvider dataProviderForThreePolynomials
      * @param        array $a
      * @param        array $b
      * @param        array $c
+     * @throws       \Exception
      */
     public function testDistributiveLaw1(array $a, array $b, array $c)
     {
+        // Given
         $a = new Polynomial($a);
         $b = new Polynomial($b);
         $c = new Polynomial($c);
 
+        // When
         $a⟮b ＋ c⟯   = $a->multiply($b->add($c));
         $⟮ab⟯ ＋ ⟮ac⟯ = ($a->multiply($b))->add($a->multiply($c));
 
+        // Then
         $this->assertEquals($a⟮b ＋ c⟯->getDegree(), $⟮ab⟯ ＋ ⟮ac⟯->getDegree());
         $this->assertEquals($a⟮b ＋ c⟯->getCoefficients(), $⟮ab⟯ ＋ ⟮ac⟯->getCoefficients());
     }
 
     /**
-     * @testCase Axiom: (a + b) ✕ c = a ✕ c + b ✕ c
+     * @test Axiom: (a + b) ✕ c = a ✕ c + b ✕ c
      * Distributive law.
      * @dataProvider dataProviderForThreePolynomials
      * @param        array $a
      * @param        array $b
      * @param        array $c
+     * @throws       \Exception
      */
     public function testDistributiveLaw2(array $a, array $b, array $c)
     {
+        // Given
         $a = new Polynomial($a);
         $b = new Polynomial($b);
         $c = new Polynomial($c);
 
+        // When
         $⟮a ＋ b⟯c   = ($a->add($b))->multiply($c);
         $⟮ac⟯ ＋ ⟮bc⟯ = ($a->multiply($c))->add($b->multiply($c));
 
+        // Then
         $this->assertEquals($⟮a ＋ b⟯c->getDegree(), $⟮ac⟯ ＋ ⟮bc⟯->getDegree());
         $this->assertEquals($⟮a ＋ b⟯c->getCoefficients(), $⟮ac⟯ ＋ ⟮bc⟯->getCoefficients());
     }
 
     /**
-     * @testCase Axiom: a + 0 = 0 + a = a
+     * @test Axiom: a + 0 = 0 + a = a
      * Identity of addition.
      * @dataProvider dataProviderForOnePolynomial
      * @param        array $a
+     * @throws       \Exception
      */
     public function testIdentityOfAddition(array $a)
     {
-        $a = new Polynomial($a);
+        // Given
+        $a    = new Polynomial($a);
+        $zero = new Polynomial([0]);
 
-        $zero    = new Polynomial([0]);
+        // When
         $a＋0    = $a->add($zero);
         $zero＋a = $zero->add($a);
 
+        // Then
         $this->assertEquals($a->getDegree(), $a＋0->getDegree());
         $this->assertEquals($a->getDegree(), $zero＋a->getDegree());
 
+        // And
         $this->assertEquals($a->getCoefficients(), $a＋0->getCoefficients());
         $this->assertEquals($a->getCoefficients(), $zero＋a->getCoefficients());
     }
 
     /**
-     * @testCase Axiom: a ✕ 0 = 0 ✕ a = 0
+     * @test Axiom: a ✕ 0 = 0 ✕ a = 0
      * Identity of multiplication.
      * @dataProvider dataProviderForOnePolynomial
      * @param        array $a
+     * @throws       \Exception
      */
     public function testIdentityOfMultiplication(array $a)
     {
-        $a = new Polynomial($a);
+        // Given
+        $a    = new Polynomial($a);
+        $zero = new Polynomial([0]);
 
-        $zero   = new Polynomial([0]);
+        // When
         $a✕0    = $a->multiply($zero);
         $zero✕a = $zero->multiply($a);
 
+        // Then
         $this->assertEquals($zero->getDegree(), $a✕0->getDegree());
         $this->assertEquals($zero->getDegree(), $zero✕a->getDegree());
 
+        // And
         $this->assertEquals($zero->getCoefficients(), $a✕0->getCoefficients());
         $this->assertEquals($zero->getCoefficients(), $zero✕a->getCoefficients());
     }
 
     /**
-     * @testCase Axiom: -a = a * -1
+     * @test Axiom: -a = a * -1
      * Negation is the same as multiplying by -1
      * @dataProvider dataProviderForOnePolynomial
      * @param        array $a
+     * @throws       \Exception
      */
     public function testNegateSameAsMultiplyingByNegativeOne(array $a)
     {
+        // Given
         $a = new Polynomial($a);
 
+        // When
         $−a = $a->negate();
         $a⟮−1⟯ = $a->multiply(-1);
 
+        // Then
         $this->assertEquals($−a->getDegree(), $a⟮−1⟯->getDegree());
         $this->assertEquals($−a->getCoefficients(), $a⟮−1⟯->getCoefficients());
     }
 
     /**
-     * @testCase Axiom: Sum of two polynomials is a polynomial
+     * @test Axiom: Sum of two polynomials is a polynomial
      * @dataProvider dataProviderForTwoPolynomials
      * @param        array $a
      * @param        array $b
+     * @throws       \Exception
      */
-    public function testArithmeteicAdditionProperty(array $a, array $b)
+    public function testArithmeticAdditionProperty(array $a, array $b)
     {
+        // Given
         $a = new Polynomial($a);
         $b = new Polynomial($b);
 
+        // When
         $a＋b = $a->add($b);
 
+        // Then
         $this->assertInstanceOf(Polynomial::class, $a＋b);
     }
 
     /**
-     * @testCase Axiom: Product of two polynomials is a polynomial
+     * @test Axiom: Product of two polynomials is a polynomial
      * @dataProvider dataProviderForTwoPolynomials
      * @param        array $a
      * @param        array $b
+     * @throws       \Exception
      */
-    public function testArithmeteicMultiplicationProperty(array $a, array $b)
+    public function testArithmeticMultiplicationProperty(array $a, array $b)
     {
+        // Given
         $a = new Polynomial($a);
         $b = new Polynomial($b);
 
+        // When
         $ab = $a->multiply($b);
 
+        // Then
         $this->assertInstanceOf(Polynomial::class, $ab);
     }
 
     /**
-     * @testCase Axiom: Derivative of a polynomials is a polynomial
+     * @test Axiom: Derivative of a polynomials is a polynomial
      * @dataProvider dataProviderForOnePolynomial
      * @param        array $a
-     * @param        array $b
+     * @throws       \Exception
      */
-    public function testArithmeteicDerivativeProperty(array $a)
+    public function testArithmeticDerivativeProperty(array $a)
     {
+        // Given
         $a = new Polynomial($a);
 
+        // When
         $derivative = $a->differentiate();
 
+        // Then
         $this->assertInstanceOf(Polynomial::class, $derivative);
     }
 
     /**
-     * @testCase Axiom: Integral of a polynomials is a polynomial
+     * @test Axiom: Integral of a polynomials is a polynomial
      * @dataProvider dataProviderForOnePolynomial
      * @param        array $a
-     * @param        array $b
+     * @throws       \Exception
      */
     public function testArithmeteicIntegrationProperty(array $a)
     {
+        // Given
         $a = new Polynomial($a);
 
+        // When
         $derivative = $a->integrate();
 
+        // Then
         $this->assertInstanceOf(Polynomial::class, $derivative);
     }
 
