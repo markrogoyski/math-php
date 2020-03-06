@@ -8,7 +8,7 @@ use MathPHP\Exception;
 class IntegerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     isPerfectNumber
+     * @test         isPerfectNumber
      * @dataProvider dataProviderForPerfectNumbers
      * @param        int $n
      */
@@ -39,7 +39,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isPerfectNumber is not a perfect number
+     * @test         isPerfectNumber is not a perfect number
      * @dataProvider dataProviderForNonPerfectNumbers
      * @dataProvider dataProviderForAbundantNumbers
      * @dataProvider dataProviderForDeficientNumbers
@@ -82,7 +82,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isAbundantNumber returns true if n is an abundant number
+     * @test         isAbundantNumber returns true if n is an abundant number
      * @dataProvider dataProviderForAbundantNumbers
      * @param        int   $n
      * @throws       \Exception
@@ -133,7 +133,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isNotAbundantNumber returns true if n is not an abundant number
+     * @test         isNotAbundantNumber returns true if n is not an abundant number
      * @dataProvider dataProviderForDeficientNumbers
      * @dataProvider dataProviderForPerfectNumbers
      * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
@@ -150,7 +150,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isDeficientNumber returns true if n is a deficient number
+     * @test     isDeficientNumber returns true if n is a deficient number
      * @dataProvider dataProviderForDeficientNumbers
      * @param        int   $n
      * @throws       \Exception
@@ -201,7 +201,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isNotDeficientNumber returns true if n is not a deficient number
+     * @test         isNotDeficientNumber returns true if n is not a deficient number
      * @dataProvider dataProviderForAbundantNumbers
      * @dataProvider dataProviderForPerfectNumbers
      * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
@@ -218,7 +218,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
  
     /**
-     * @testCase     isRefactorableNumber returns true if n is a refactorable number
+     * @test         isRefactorableNumber returns true if n is a refactorable number
      * @dataProvider dataProviderForRefactorableNumbers
      * @param        int   $n
      * @throws       \Exception
@@ -259,7 +259,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isNotRefactorableNumber returns true if n is not a refactorable number
+     * @test         isNotRefactorableNumber returns true if n is not a refactorable number
      * @dataProvider dataProviderForNonRefactorableNumbers
      * @param        int   $n
      * @throws       \Exception
@@ -289,14 +289,17 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testIsSphenicNumber
+     * @test         testIsSphenicNumber
      * @dataProvider dataProviderForSphenicNumbers
      * @param        int $n
      * @throws       \Exception
      */
     public function testIsSphenicNumber(int $n)
     {
+        // When
         $isSphenicNumber = Integer::isSphenicNumber($n);
+
+        // Then
         $this->assertTrue($isSphenicNumber);
     }
 
@@ -331,7 +334,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testIsNotSphenicNumber
+     * @test         testIsNotSphenicNumber
      * @dataProvider dataProviderForNonSphenicNumbers
      * @param        int $n
      * @throws       \Exception
@@ -360,7 +363,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     aliquotSum returns the sum of all proper divisors of n
+     * @test         aliquotSum returns the sum of all proper divisors of n
      * @dataProvider dataProviderForAliquotSums
      * @param        int   $n
      * @param        int   $expected
@@ -424,7 +427,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     aliquotSum throws an OutOfBoundsException if n is < 1.
+     * @test         aliquotSum throws an OutOfBoundsException if n is < 1.
      * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
      * @param        int $n
      * @throws       \Exception
@@ -439,7 +442,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testRadical
+     * @test         testRadical
      * @dataProvider dataProviderForRadical
      * @param        int $n
      * @param        int $expected
@@ -447,7 +450,10 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function testRadical(int $n, int $expected)
     {
+        // When
         $radical = Integer::radical($n);
+
+        // Then
         $this->assertEquals($expected, $radical);
     }
 
@@ -482,7 +488,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     radical throws an OutOfBoundsException if n is < 1.
+     * @test         radical throws an OutOfBoundsException if n is < 1.
      * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
      * @param        int $n
      * @throws       \Exception
@@ -498,7 +504,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
 
 
     /**
-     * @testCase     testTotient
+     * @test         testTotient
      * @dataProvider dataProviderForTotient
      * @param        int $n
      * @param        int $k
@@ -507,7 +513,10 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function testTotient(int $n, int $k, int $expected)
     {
+        // When
         $totient = Integer::totient($n, $k);
+
+        // Then
         $this->assertEquals($expected, $totient);
     }
 
@@ -564,7 +573,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     totient throws an OutOfBoundsException if n is < 1 or k is < 1.
+     * @test         totient throws an OutOfBoundsException if n is < 1 or k is < 1.
      * @dataProvider dataProviderForTotientOutOfBoundsException
      * @param        int $n
      * @param        int $k
@@ -598,7 +607,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testCototient
+     * @test         testCototient
      * @dataProvider dataProviderForCototient
      * @param        int $n
      * @param        int $expected
@@ -606,7 +615,10 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCototient(int $n, int $expected)
     {
+        // When
         $cototient = Integer::cototient($n);
+
+        // Then
         $this->assertEquals($expected, $cototient);
     }
 
@@ -643,7 +655,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cototient throws an OutOfBoundsException if n is < 1.
+     * @test         cototient throws an OutOfBoundsException if n is < 1.
      * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
      * @param        int $n
      * @throws       \Exception
@@ -658,7 +670,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testReducedTotient
+     * @test         testReducedTotient
      * @dataProvider dataProviderForReducedTotient
      * @param        int $n
      * @param        int $expected
@@ -666,7 +678,10 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function testReducedTotient(int $n, int $expected)
     {
+        // When
         $result = Integer::reducedTotient($n);
+
+        // Then
         $this->assertEquals($expected, $result);
     }
 
@@ -703,7 +718,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     reducedTotient throws an OutOfBoundsException if n is < 1.
+     * @test         reducedTotient throws an OutOfBoundsException if n is < 1.
      * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
      * @param        int $n
      * @throws       \Exception
@@ -718,7 +733,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testMobius
+     * @test         testMobius
      * @dataProvider dataProviderForMobius
      * @param        int $n
      * @param        int $expected
@@ -760,7 +775,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mobius throws an OutOfBoundsException if n is < 1.
+     * @test         mobius throws an OutOfBoundsException if n is < 1.
      * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
      * @param        int $n
      * @throws       \Exception
@@ -775,14 +790,17 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testIsSquarefree
+     * @test         testIsSquarefree
      * @dataProvider dataProviderForSquarefreeIntegers
      * @param        int $n
      * @throws       \Exception
      */
     public function testIsSquarefree(int $n)
     {
+        // When
         $isSquarefree = Integer::isSquarefree($n);
+
+        // Then
         $this->assertTrue($isSquarefree);
     }
 
@@ -818,14 +836,17 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testIsNotSquarefree
+     * @test         testIsNotSquarefree
      * @dataProvider dataProviderForNonSquarefreeIntegers
      * @param        int $n
      * @throws       \Exception
      */
     public function testIsNotSquarefree(int $n)
     {
+        // When
         $isSquarefree = Integer::isSquarefree($n);
+
+        // Then
         $this->assertFalse($isSquarefree);
     }
 
@@ -845,7 +866,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testSumOfDivisors
+     * @test         testSumOfDivisors
      * @dataProvider dataProviderForSumOfDivisors
      * @param        int $n
      * @param        int $expected
@@ -889,7 +910,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     sumOfDivisors throws an OutOfBoundsException if n is < 1.
+     * @test         sumOfDivisors throws an OutOfBoundsException if n is < 1.
      * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
      * @param        int $n
      * @throws       \Exception
@@ -904,7 +925,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testNumberOfDivisors
+     * @test         testNumberOfDivisors
      * @dataProvider dataProviderForNumberOfDivisors
      * @param        int $n
      * @param        int $expected
@@ -943,7 +964,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     numberOfDivisors throws an OutOfBoundsException if n is < 1.
+     * @test         numberOfDivisors throws an OutOfBoundsException if n is < 1.
      * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
      * @param        int $n
      * @throws       \Exception
@@ -958,7 +979,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isPerfectPower returns true if n is a perfect prime.
+     * @test         isPerfectPower returns true if n is a perfect prime.
      * @dataProvider dataProviderForIsPerfectPower
      * @param        int $n
      */
@@ -1037,7 +1058,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isPerfectPower returns false if n is not a perfect prime.
+     * @test         isPerfectPower returns false if n is not a perfect prime.
      * @dataProvider dataProviderForIsNotPerfectPower
      * @param        int $n
      */
@@ -1133,7 +1154,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     perfectPower returns m and k for n such that mᵏ = n if n is a perfect power.
+     * @test         perfectPower returns m and k for n such that mᵏ = n if n is a perfect power.
      * @dataProvider dataProviderForPerfectPower
      * @param        int $n
      * @param        int $expected_m
@@ -1184,7 +1205,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     perfectPower returns a non-empty array comtaining numeric m and k both > 1 if n is a perfect power.
+     * @test         perfectPower returns a non-empty array comtaining numeric m and k both > 1 if n is a perfect power.
      * @dataProvider dataProviderForIsPerfectPower
      * @param        int $n
      */
@@ -1206,7 +1227,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     perfectPower returns an empty array if n is not a perfect power.
+     * @test         perfectPower returns an empty array if n is not a perfect power.
      * @dataProvider dataProviderForIsNotPerfectPower
      * @param        int $n
      */
@@ -1220,7 +1241,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     primeFactorization returns an array of the prime factors of an integer n.
+     * @test         primeFactorization returns an array of the prime factors of an integer n.
      * @dataProvider dataProviderForPrimeFactorization
      * @param        int   $n
      * @param        array $expected_actors
@@ -1284,7 +1305,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     primeFactorization throws an OutOfBoundsException if n is < 1.
+     * @test         primeFactorization throws an OutOfBoundsException if n is < 1.
      * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
      * @param        int $n
      * @throws       \Exception
@@ -1313,7 +1334,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     coprime returns true if a and b are coprime
+     * @test         coprime returns true if a and b are coprime
      * @dataProvider dataProviderForCoprime
      * @param        int $a
      * @param        int $b
@@ -1405,7 +1426,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     coprime returns false if a and b are not coprime
+     * @test         coprime returns false if a and b are not coprime
      * @dataProvider dataProviderForNotCoprime
      * @param        int $a
      * @param        int $b
@@ -1475,58 +1496,78 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase isOdd returns true for an odd number
+     * @test         isOdd returns true for an odd number
+     * @dataProvider dataProviderForOddNumbers
+     * @param        int $x
      */
-    public function testIsOdd()
+    public function testIsOdd(int $x)
+    {
+        // When
+        $isOdd = Integer::isOdd($x);
+
+        // Then
+        $this->assertTrue($isOdd);
+    }
+
+    /**
+     * @test          isOdd returns false for an even number
+     * @dataProvider  dataProviderForEvenNumbers
+     * @param        int $x
+     */
+    public function testIsNotOdd(int $x)
+    {
+        // When
+        $isOdd = Integer::isOdd($x);
+
+        // Then
+        $this->assertFalse($isOdd);
+    }
+
+    /**
+     * @test         isEven returns true for an even number
+     * @dataProvider dataProviderForEvenNumbers
+     * @param        int $x
+     */
+    public function testIsEven(int $x)
+    {
+        // When
+        $isEven = Integer::isEven($x);
+
+        // Then
+        $this->assertTrue($isEven);
+    }
+
+    /**
+     * @test         isEven returns false for an odd number
+     * @dataProvider dataProviderForOddNumbers
+     * @param        int $x
+     */
+    public function testIsNotEven(int $x)
+    {
+        // When
+        $isEven = Integer::isEven($x);
+
+        // Then
+        $this->assertFalse($isEven);
+    }
+
+    /**
+     * @return \Generator
+     */
+    public function dataProviderForOddNumbers(): \Generator
     {
         foreach (range(-11, 101, 2) as $x) {
-            // When
-            $isOdd = Integer::isOdd($x);
-
-            // Then
-            $this->assertTrue($isOdd);
+            yield [$x];
         }
     }
 
     /**
-     * @testCase isOdd returns false for an even number
+     * @return \Generator
      */
-    public function testIsNotOdd()
+    public function dataProviderForEvenNumbers(): \Generator
     {
         foreach (range(-10, 100, 2) as $x) {
-            // When
-            $isOdd = Integer::isOdd($x);
-
-            // Then
-            $this->assertFalse($isOdd);
-        }
-    }
-
-    /**
-     * @testCase isEven returns true for an even number
-     */
-    public function testIsEven()
-    {
-        foreach (range(-10, 100, 2) as $x) {
-            // When
-            $isEven = Integer::isEven($x);
-
-            // Then
-            $this->assertTrue($isEven);
-        }
-    }
-
-    /**
-     * @testCase isEven returns false for an odd number
-     */
-    public function testIsNotEven()
-    {
-        foreach (range(-11, 101, 2) as $x) {
-            // When
-            $isEven = Integer::isEven($x);
-
-            // Then
-            $this->assertFalse($isEven);
+            yield [$x];
         }
     }
 }
