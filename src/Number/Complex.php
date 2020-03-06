@@ -13,6 +13,9 @@ use MathPHP\Functions\Special;
  * equation i² = −1. In this expression, a is the real part and b is the imaginary
  * part of the complex number.
  * https://en.wikipedia.org/wiki/Complex_number
+ *
+ * @property-read number $r
+ * @property-read number $i
  */
 class Complex implements ObjectArithmetic
 {
