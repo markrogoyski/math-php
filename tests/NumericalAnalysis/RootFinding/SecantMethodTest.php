@@ -11,9 +11,13 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
      * @test   Solve f(x) = x⁴ + 8x³ -13x² -92x + 96
      *         Polynomial has 4 roots: 3, 1, -8 and -4
      *         Uses \Closure object
-     * @throws \Exception
+     * @dataProvider dataProviderForPolynomial
+     * @param        int $p₀
+     * @param        int $p₁
+     * @param        int $expected
+     * @throws       \Exception
      */
-    public function testSolvePolynomialWithFourRootsUsingClosure()
+    public function testSolvePolynomialWithFourRootsUsingClosure(int $p₀, int $p₁, int $expected)
     {
         // Given
         $func = function ($x) {
@@ -21,43 +25,9 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         };
         $tol = 0.00001;
 
-        // When solving for f(x) = 0 where x is -4
-        $expected = -4;
-        $p₀       = -5;
-        $p₁       = -2;
+        // When solving for f(x) = 0 where x $expected
         $x = SecantMethod::solve($func, $p₀, $p₁, $tol);
-        // Then
-        $this->assertEquals($expected, $x, '', $tol);
 
-        // When solving for f(x) = 0 where x is -8
-        $expected = -8;
-        $p₀       = -10;
-        $p₁       = -7;
-        $x = SecantMethod::solve($func, $p₀, $p₁, $tol);
-        // Then
-        $this->assertEquals($expected, $x, '', $tol);
-
-        // When solving for f(x) = 0 where x is 3
-        $expected = 3;
-        $p₀       = 2;
-        $p₁       = 5;
-        $x = SecantMethod::solve($func, $p₀, $p₁, $tol);
-        // Then
-        $this->assertEquals($expected, $x, '', $tol);
-
-        // When solving for f(x) = 0 where x is 1
-        $expected = 1;
-        $p₀       = -1;
-        $p₁       = 2;
-        $x = SecantMethod::solve($func, $p₀, $p₁, $tol);
-        $this->assertEquals($expected, $x, '', $tol);
-
-        // Switch p₀ and p₁ and test that they get reversed properly
-        // Solve for f(x) = 0 where x is 1
-        $expected = 1;
-        $p₁       = -1;
-        $p₀       = 2;
-        $x = SecantMethod::solve($func, $p₀, $p₁, $tol);
         // Then
         $this->assertEquals($expected, $x, '', $tol);
     }
@@ -66,53 +36,37 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
      * @test   Solve f(x) = x⁴ + 8x³ -13x² -92x + 96
      *         Polynomial has 4 roots: 3, 1, -8 and -4
      *         Uses Polynomial object
-     * @throws \Exception
+     * @dataProvider dataProviderForPolynomial
+     * @param        int $p₀
+     * @param        int $p₁
+     * @param        int $expected
+     * @throws       \Exception
      */
-    public function testSolvePolynomialWithFourRootsUsingPolynomial()
+    public function testSolvePolynomialWithFourRootsUsingPolynomial(int $p₀, int $p₁, int $expected)
     {
         // Given
         $polynomial = new Polynomial([1, 8, -13, -92, 96]);
         $tol        = 0.00001;
 
-        // When solving for f(x) = 0 where x is -4
-        $expected = -4;
-        $p₀       = -5;
-        $p₁       = -2;
+        // When solving for f(x) = 0 where x is $expected
         $x = SecantMethod::solve($polynomial, $p₀, $p₁, $tol);
+
         // Then
         $this->assertEquals($expected, $x, '', $tol);
+    }
 
-        // When solving for f(x) = 0 where x is -8
-        $expected = -8;
-        $p₀       = -10;
-        $p₁       = -7;
-        $x = SecantMethod::solve($polynomial, $p₀, $p₁, $tol);
-        // Then
-        $this->assertEquals($expected, $x, '', $tol);
-
-        // When solving for f(x) = 0 where x is 3
-        $expected = 3;
-        $p₀       = 2;
-        $p₁       = 5;
-        $x = SecantMethod::solve($polynomial, $p₀, $p₁, $tol);
-        // Then
-        $this->assertEquals($expected, $x, '', $tol);
-
-        // When solving for f(x) = 0 where x is 1
-        $expected = 1;
-        $p₀       = -1;
-        $p₁       = 2;
-        $x = SecantMethod::solve($polynomial, $p₀, $p₁, $tol);
-        $this->assertEquals($expected, $x, '', $tol);
-
-        // Switch p₀ and p₁ and test that they get reversed properly
-        // Solve for f(x) = 0 where x is 1
-        $expected = 1;
-        $p₁       = -1;
-        $p₀       = 2;
-        $x = SecantMethod::solve($polynomial, $p₀, $p₁, $tol);
-        // Then
-        $this->assertEquals($expected, $x, '', $tol);
+    /**
+     * @return array (p₀, p₁, expected)
+     */
+    public function dataProviderForPolynomial(): array
+    {
+        return [
+            'solving for f(x) = 0 where x is -4' => [-5, -2, -4],
+            'solving for f(x) = 0 where x is -8' => [-10, -7, -8],
+            'solving for f(x) = 0 where x is 3'  => [2, 5, 3],
+            'solving for f(x) = 0 where x is 1'  => [-1, 2, 1],
+            'Solve for f(x) = 0 where x is 1: Switch p₀ and p₁ and test that they get reversed properly' => [-1, 2, 1],
+        ];
     }
 
     /**
@@ -126,6 +80,8 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $func = function ($x) {
             return $x ** 3 - $x + 1;
         };
+
+        // And
         $expected = -1.324717;
         $p₁       = -3;
         $p₀       = 1;
@@ -149,6 +105,8 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $func = function ($x) {
             return $x ** 2 - 5;
         };
+
+        // And
         $expected = sqrt(5);
         $p₁       = 1;
         $p₀       = 5;
@@ -172,6 +130,8 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $func = function ($x) {
             return cos($x) - 2 * $x;
         };
+
+        // And
         $expected = 0.450183;
         $p₁       = 0;
         $p₀       = 3;
@@ -194,6 +154,8 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $func = function ($x) {
             return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
+
+        // And
         $tol      = -0.00001;
         $p₀       = -1;
         $p₁       = 2;
@@ -215,6 +177,8 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $func = function ($x) {
             return $x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
+
+        // And
         $tol = 0.00001;
         $p₀  = 1;
         $p₁  = 1;

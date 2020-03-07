@@ -32,23 +32,20 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
         // change direction on [0, 2]. So, if g(2) > g(0), then 0 < g(x) < 2
         // for all x in [0, 2]. So, there is a root in [0, 2]
 
-        // When solving for f(x) = 0 where x is 1
+        // And
         $a        = 0;
         $b        = 2;
         $p        = 0;
         $expected = 1;
-        $x = FixedPointIteration::solve($func, $a, $b, $p, $tol);
-        // Then
-        $this->assertEquals($expected, $x, '', $tol);
 
-        // When switching a and b and test that they get reversed properly
-        $b        = 0;
-        $a        = 2;
-        $p        = 0;
-        $expected = 1;
-        $x = FixedPointIteration::solve($func, $a, $b, $p, $tol);
+        // When solving for f(x) = 0 where x is 1
+        // And switching a and b and test that they get reversed properly
+        $x1 = FixedPointIteration::solve($func, $a, $b, $p, $tol);
+        $x2 = FixedPointIteration::solve($func, $b, $a, $p, $tol);
+
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEquals($expected, $x1, '', $tol);
+        $this->assertEquals($expected, $x2, '', $tol);
     }
 
     /**
@@ -73,23 +70,20 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
         // change direction on [0, 2]. So, if g(2) > g(0), then 0 < g(x) < 2
         // for all x in [0, 2]. So, there is a root in [0, 2]
 
-        // When solving for f(x) = 0 where x is 1
+        // And
         $a        = 0;
         $b        = 2;
         $p        = 0;
         $expected = 1;
-        $x = FixedPointIteration::solve($polynomial, $a, $b, $p, $tol);
-        // Then
-        $this->assertEquals($expected, $x, '', $tol);
 
-        // When switching a and b and test that they get reversed properly
-        $b        = 0;
-        $a        = 2;
-        $p        = 0;
-        $expected = 1;
-        $x = FixedPointIteration::solve($polynomial, $a, $b, $p, $tol);
+        // When solving for f(x) = 0 where x is 1
+        // And switching a and b and test that they get reversed properly
+        $x1 = FixedPointIteration::solve($polynomial, $a, $b, $p, $tol);
+        $x2 = FixedPointIteration::solve($polynomial, $b, $a, $p, $tol);
+
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEquals($expected, $x1, '', $tol);
+        $this->assertEquals($expected, $x2, '', $tol);
     }
 
     /**

@@ -7,40 +7,69 @@ use MathPHP\Exception;
 
 class NumericalIntegrationTest extends \PHPUnit\Framework\TestCase
 {
-    public function testInstantiateAbstractClassException()
-    {
-        // Instantiating NumericalIntegration (an abstract class)
-        $this->expectException(\Error::class);
-        new NumericalIntegration();
-    }
 
+    /**
+     * @test   The input $source is neither a callback or a set of arrays
+     * @throws Exception\BadDataException
+     */
     public function testIncorrectInput()
     {
-        // The input $source is neither a callback or a set of arrays
-        $this->expectException(Exception\BadDataException::class);
+        // Given
         $x                 = 10;
         $incorrectFunction = $x ** 2 + 2 * $x + 1;
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
         NumericalIntegration::getPoints($incorrectFunction, [0,4,5]);
     }
 
+    /**
+     * @test   An array doesn't have precisely two numbers (coordinates)
+     * @throws Exception\BadDataException
+     */
     public function testNotCoordinatesException()
     {
-        // An array doesn't have precisely two numbers (coordinates)
+        // Given
+        $points = [[0,0], [1,2,3], [2,2]];
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
-        NumericalIntegration::validate([[0,0], [1,2,3], [2,2]]);
+
+        // When
+        NumericalIntegration::validate($points);
     }
 
+    /**
+     * @test   There are not enough arrays in the input
+     * @throws Exception\BadDataException
+     */
     public function testNotEnoughArraysException()
     {
-        // There are not enough arrays in the input
+        // Given
+        $points = [[0,0]];
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
-        NumericalIntegration::validate([[0,0]]);
+
+        // When
+        NumericalIntegration::validate($points);
     }
 
+    /**
+     * @test   Two arrays share the same first number (x-component)
+     * @throws Exception\BadDataException
+     */
     public function testNotAFunctionException()
     {
-        // Two arrays share the same first number (x-component)
+        // Given
+        $points = [[0,0], [0,5], [1,1]];
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
-        NumericalIntegration::validate([[0,0], [0,5], [1,1]]);
+
+        // When
+        NumericalIntegration::validate($points);
     }
 }
