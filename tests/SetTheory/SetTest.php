@@ -9,32 +9,37 @@ use MathPHP\LinearAlgebra\Matrix;
 class SetTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @dataProvider dataProviderForSingleSet
+     * @test interfaces
      */
-    public function testContstructor(array $members)
-    {
-        $set = new Set($members);
-        $this->assertInstanceOf(Set::class, $set);
-    }
-
     public function testInterfaces()
     {
+        // When
         $interfaces = class_implements(Set::class);
 
+        // Then
         $this->assertContains('Countable', $interfaces);
         $this->assertContains('Iterator', $interfaces);
     }
 
     /**
+     * @test         asArray
      * @dataProvider dataProviderForAsArray
+     * @param        array $members
+     * @param        array $expected
      */
-    public function testAsArray(array $members, $expected)
+    public function testAsArray(array $members, array $expected)
     {
+        // Given
         $set = new Set($members);
-        $this->assertEquals($expected, $set->asArray());
+
+        // When
+        $array = $set->asArray();
+
+        // Then
+        $this->assertEquals($expected, $array);
     }
 
-    public function dataProviderForAsArray()
+    public function dataProviderForAsArray(): array
     {
         return [
             [
@@ -109,56 +114,89 @@ class SetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         asArray
      * @dataProvider dataProviderForSingleSet
+     * @param        array $members
      */
     public function testAsArrayAnotherWay(array $members)
     {
+        // Given
         $set   = new Set($members);
-        $array = $set->asArray();
 
+        // When
+        $array = $set->asArray();
         $new_set = new Set($array);
+
+        // Then
         $this->assertEquals($new_set, $set);
     }
 
     /**
+     * @test         length
      * @dataProvider dataProviderForSingleSet
+     * @param array $members
      */
     public function testLength(array $members)
     {
-        $set = new Set($members);
+        // Given
+        $set           = new Set($members);
+        $expectedCount = count($members);
 
-        $this->assertEquals(count($members), $set->length());
+        // When
+        $length = $set->length();
+
+        // Then
+        $this->assertEquals($expectedCount, $length);
     }
 
     /**
+     * @test         isEmpty
      * @dataProvider dataProviderForSingleSet
+     * @param        array $members
      */
     public function testIsEmpty(array $members)
     {
-        $set = new Set($members);
+        // Given
+        $set               = new Set($members);
+        $expectedEmptiness = empty($members);
 
-        $this->assertEquals(empty($members), $set->isEmpty());
+        // when
+        $isEmpty = $set->isEmpty();
+
+        // Then
+        $this->assertEquals($expectedEmptiness, $isEmpty);
     }
 
     /**
+     * @test         isMember
      * @dataProvider dataProviderForSingleSetAtLeastOneMember
+     * @param        array $members
      */
     public function testIsMember(array $members)
     {
+        // Given
         $set = new Set($members);
 
         foreach ($members as $member) {
-            $this->assertTrue($set->isMember($member));
+            // When
+            $isMember = $set->isMember($member);
+
+            // Then
+            $this->assertTrue($isMember);
         }
     }
 
     /**
+     * @test         isNotMember
      * @dataProvider dataProviderForSingleSet
+     * @param        array $members
      */
     public function testIsNotMember(array $members)
     {
+        // Given
         $set = new Set($members);
 
+        // Then
         $this->assertTrue($set->isNotMember('TotallNotAMember'));
         $this->assertTrue($set->isNotMember('99999123'));
         $this->assertTrue($set->isNotMember(99999123));
@@ -236,27 +274,43 @@ class SetTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         count
      * @dataProvider dataProviderForSingleSet
+     * @param        array $A
      */
     public function testCount(array $A)
     {
+        // Given
         $set = new Set($A);
+        $expectedCount = count($A);
 
-        $this->assertEquals(count($A), count($set));
-        $this->assertEquals($set->length(), count($set));
+        // When
+        $count = count($set);
+
+        // Then
+        $this->assertEquals($expectedCount, $count);
+        $this->assertEquals($set->length(), $count);
     }
 
     /**
+     * @test         String representation
      * @dataProvider dataProviderForToString
+     * @param        array  $members
+     * @param        string $expected
      */
     public function testToString(array $members, string $expected)
     {
-        $set  = new Set($members);
+        // Given
+        $set = new Set($members);
 
-        $this->assertEquals($expected, $set->__toString());
+        // When
+        $stringRepresentation = (string) $set;
+
+        // Then
+        $this->assertSame($expected, $stringRepresentation);
     }
 
-    public function dataProviderForToString()
+    public function dataProviderForToString(): array
     {
         $vector      = new Vector([1, 2, 3]);
         $vector_hash = spl_object_hash($vector);
@@ -361,21 +415,34 @@ class SetTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test iterator interface
+     */
     public function testIteratorInterface()
     {
+        // Given
         $set = new Set([1, 2, 3, 4, 5]);
 
         $i = 1;
         foreach ($set as $key => $value) {
+            // Then
             $this->assertEquals($i, $key);
             $this->assertEquals($i, $value);
             $i++;
         }
+    }
 
+    /**
+     * @test iterator interface
+     */
+    public function testIteratorInterface2()
+    {
+        // Given
         $set = new Set([new Set([1, 2]), new Set([3, 4])]);
 
         $i = 1;
         foreach ($set as $key => $value) {
+            // Then
             if ($i === 1) {
                 $this->assertEquals(('Set{1, 2}'), $key);
                 $this->assertEquals(new Set([1, 2]), $value);
@@ -388,10 +455,16 @@ class SetTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /**
+     * @test Fluent interface
+     */
     public function testFluentInterface()
     {
+        // Given
         $A = new Set();
+        $B = new Set([3, 4, 7, new Set([1, 2, 3])]);
 
+        // When
         $A->add(1)
           ->add(2)
           ->add(3)
@@ -402,8 +475,7 @@ class SetTest extends \PHPUnit\Framework\TestCase
           ->add(new Set([1, 2, 3]))
           ->removeMulti([5, 6]);
 
-        $B = new Set([3, 4, 7, new Set([1, 2, 3])]);
-
+        // Then
         $this->assertEquals($B, $A);
     }
 }
