@@ -8,37 +8,48 @@ use MathPHP\Exception;
 class CombinatoricsTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     factorial
+     * @test         factorial
      * @dataProvider dataProviderForFactorialPermutations
      * @param        int   $n
-     * @param        float $factorial
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testFactorial(int $n, float $factorial)
+    public function testFactorial(int $n, float $expected)
     {
-        $this->assertEquals($factorial, Combinatorics::factorial($n));
+        // When
+        $factorial = Combinatorics::factorial($n);
+
+        // Then
+        $this->assertEquals($expected, $factorial);
     }
 
     /**
-     * @testCase factorial bounds exception
-     * @throws   \Exception
+     * @test   factorial bounds exception
+     * @throws \Exception
      */
     public function testFactorialBoundsException()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::factorial(-1);
     }
 
     /**
-     * @testCase     doubleFactorial
+     * @test         doubleFactorial
      * @dataProvider dataProviderForDoubleFactorial
      * @param        int   $n
-     * @param        float $factorial
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testDoubleFactorial(int $n, float $factorial)
+    public function testDoubleFactorial(int $n, float $expected)
     {
-        $this->assertEquals($factorial, Combinatorics::doubleFactorial($n));
+        // When
+        $doubleFactorial = Combinatorics::doubleFactorial($n);
+
+        // Then
+        $this->assertEquals($expected, $doubleFactorial);
     }
 
     /**
@@ -66,26 +77,33 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase doubleFactorial n less than zero
-     * @throws   \Exception
+     * @test   doubleFactorial n less than zero
+     * @throws \Exception
      */
     public function testDoubleFactorialExceptionNLessThanZero()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::doubleFactorial(-1);
     }
 
     /**
-     * @testCase     risingFactorial
+     * @test         risingFactorial
      * @dataProvider dataProviderForRisingFactorial
      * @param        int   $x
      * @param        int   $n
-     * @param        float $factorial
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testRisingFactorial(int $x, int $n, float $factorial)
+    public function testRisingFactorial(int $x, int $n, float $expected)
     {
-        $this->assertEquals($factorial, Combinatorics::risingFactorial($x, $n));
+        // When
+        $risingFactorial = Combinatorics::risingFactorial($x, $n);
+
+        // Then
+        $this->assertEquals($expected, $risingFactorial);
     }
 
     /**
@@ -105,26 +123,33 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase risingFactorial n less than zero
-     * @throws   \Exception
+     * @test   risingFactorial n less than zero
+     * @throws \Exception
      */
     public function testRisingFactorialExceptionNLessThanZero()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::risingFactorial(5, -1);
     }
 
     /**
-     * @testCase     fallingFactorial
+     * @test         fallingFactorial
      * @dataProvider dataProviderForFallingFactorial
      * @param        int   $x
      * @param        int   $n
-     * @param        float $factorial
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testFallingFactorial(int $x, int $n, float $factorial)
+    public function testFallingFactorial(int $x, int $n, float $expected)
     {
-        $this->assertEquals($factorial, Combinatorics::fallingFactorial($x, $n));
+        // When
+        $fallingFactorial = Combinatorics::fallingFactorial($x, $n);
+
+        // Then
+        $this->assertEquals($expected, $fallingFactorial);
     }
 
     /**
@@ -150,17 +175,20 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase fallingFactorial n less than zero
-     * @throws   \Exception
+     * @test   fallingFactorial n less than zero
+     * @throws \Exception
      */
     public function testFallingFactorialExceptionNLessThanZero()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::fallingFactorial(5, -1);
     }
 
     /**
-     * @testCase     subfactorial
+     * @test         subfactorial
      * @dataProvider dataProviderForSubfactorial
      * @param        int   $n
      * @param        float $！n
@@ -168,7 +196,11 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSubfactorial(int $n, float $！n)
     {
-        $this->assertEquals($！n, Combinatorics::subfactorial($n), '', 0.000000001);
+        // When
+        $subfactorial = Combinatorics::subfactorial($n);
+
+        // Then
+        $this->assertEquals($！n, $subfactorial, '', 0.000000001);
     }
 
     /**
@@ -192,34 +224,44 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase subfactorial n less than zero
-     * @throws   \Exception
+     * @test   subfactorial n less than zero
+     * @throws \Exception
      */
     public function testSubactorialExceptionNLessThanZero()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::subfactorial(-1);
     }
 
     /**
-     * @testCase     permutations
+     * @test         permutations
      * @dataProvider dataProviderForFactorialPermutations
      * @param        int   $n
-     * @param        float $permutations
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testPermutations(int $n, float $permutations)
+    public function testPermutations(int $n, float $expected)
     {
-        $this->assertEquals($permutations, Combinatorics::permutations($n));
+        // When
+        $permutations = Combinatorics::permutations($n);
+
+        // Then
+        $this->assertEquals($expected, $permutations);
     }
 
     /**
-     * @testCase permutations bounds exception
-     * @throws   \Exception
+     * @test   permutations bounds exception
+     * @throws \Exception
      */
     public function testPermutationsBoundsException()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::permutations(-1);
     }
 
@@ -253,7 +295,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     permutations choose k
+     * @test         permutations choose k
      * @dataProvider dataProviderForPermutationsChooseK
      * @param        int   $n
      * @param        int   $k
@@ -262,7 +304,11 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPermutationsChooseK(int $n, int $k, float $nPk)
     {
-        $this->assertEquals($nPk, Combinatorics::permutations($n, $k));
+        // When
+        $permutations = Combinatorics::permutations($n, $k);
+
+        // Then
+        $this->assertEquals($nPk, $permutations);
     }
 
     /**
@@ -290,36 +336,46 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase permutations choose k bounds exception
-     * @throws   \Exception
+     * @test   permutations choose k bounds exception
+     * @throws \Exception
      */
     public function testPermutationsChooseKBoundsException()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::permutations(-1, 3);
     }
 
     /**
-     * @testCase permutations choose k - k greater than n exception
-     * @throws   \Exception
+     * @test   permutations choose k - k greater than n exception
+     * @throws \Exception
      */
     public function testPermutationsChooseKKGreaterThanNException()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::permutations(3, 4);
     }
 
     /**
-     * @testCase     combinations
-     * @dataProvider dataProviderForcombinations
+     * @test         combinations
+     * @dataProvider dataProviderForCombinations
      * @param        int   $n
      * @param        int   $r
-     * @param        float $combinations
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testCombinations(int $n, int $r, float $combinations)
+    public function testCombinations(int $n, int $r, float $expected)
     {
-        $this->assertEquals($combinations, Combinatorics::combinations($n, $r));
+        // When
+        $combinations = Combinatorics::combinations($n, $r);
+
+        // Then
+        $this->assertEquals($expected, $combinations);
     }
 
     /**
@@ -347,55 +403,71 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase combinations n less than zero
-     * @throws   \Exception
+     * @test   combinations n less than zero
+     * @throws \Exception
      */
     public function testCombinationsExceptionNLessThanZero()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::combinations(-1, 2);
     }
 
     /**
-     * @testCase combinations r larger than n
-     * @throws   \Exception
+     * @test   combinations r larger than n
+     * @throws \Exception
      */
     public function testCombinationsExceptionRLargerThanN()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::combinations(1, 2);
     }
 
     /**
-     * @testCase     combinations with repetition
+     * @test         combinations with repetition
      * @dataProvider dataProviderForCombinationsWithRepetition
-     * @param        int    $n
-     * @param        int    $r
-     * @param        float $combinations
+     * @param        int   $n
+     * @param        int   $r
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testCombinationsWithRepetition(int $n, int $r, float $combinations)
+    public function testCombinationsWithRepetition(int $n, int $r, float $expected)
     {
-        $this->assertEquals($combinations, Combinatorics::combinations($n, $r, Combinatorics::REPETITION));
+        // When
+        $combinations = Combinatorics::combinations($n, $r, Combinatorics::REPETITION);
+
+        // Then
+        $this->assertEquals($expected, $combinations);
     }
 
     /**
-     * @testCase combinations with repetition bounds exception
-     * @throws   \Exception
+     * @test   combinations with repetition bounds exception
+     * @throws \Exception
      */
     public function testCombinationsWithRepetitionBoundsException()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::combinations(-1, 3, Combinatorics::REPETITION);
     }
 
     /**
-     * @testCase combinations r greater than n
-     * @throws   \Exception
+     * @test   combinations r greater than n
+     * @throws \Exception
      */
     public function testCombinationsRGreaterThanNException()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::combinations(3, 4, Combinatorics::REPETITION);
     }
 
@@ -424,7 +496,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     centralbinomialCoefficient
+     * @test         centralbinomialCoefficient
      * @dataProvider dataProviderForCentralBinomialCoefficient
      * @param        int   $n
      * @param        float $！n
@@ -432,7 +504,11 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
      */
     public function testCentralBinomialCoefficient(int $n, float $！n)
     {
-        $this->assertEquals($！n, Combinatorics::centralBinomialCoefficient($n), '', 0.000000001);
+        // When
+        $binomial = Combinatorics::centralBinomialCoefficient($n);
+
+        // Then
+        $this->assertEquals($！n, $binomial, '', 0.000000001);
     }
 
     /**
@@ -456,17 +532,20 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase centralBinomialCoefficient n less than zero
-     * @throws   \Exception
+     * @test   centralBinomialCoefficient n less than zero
+     * @throws \Exception
      */
     public function testCentralBinomialCoefficientExceptionNLessThanZero()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::centralBinomialCoefficient(-1);
     }
 
     /**
-     * @testCase     catalanNumber
+     * @test         catalanNumber
      * @dataProvider dataProviderForCatalanNumber
      * @param        int   $n
      * @param        float $！n
@@ -474,7 +553,11 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
      */
     public function testCatalanNumber(int $n, float $！n)
     {
-        $this->assertEquals($！n, Combinatorics::catalanNumber($n), '', 0.000000001);
+        // When
+        $catalanNumber = Combinatorics::catalanNumber($n);
+
+        // Then
+        $this->assertEquals($！n, $catalanNumber, '', 0.000000001);
     }
 
     /**
@@ -499,25 +582,32 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase catalanNumber n less than zero
-     * @throws   \Exception
+     * @test   catalanNumber n less than zero
+     * @throws \Exception
      */
     public function testCatalanNumberExceptionNLessThanZero()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::catalanNumber(-1);
     }
 
     /**
-     * @testCase     multinomial
+     * @test         multinomial
      * @dataProvider dataProviderForMultinomialTheorem
      * @param        array $groups
-     * @param        int   $divisions
+     * @param        int   $expected
      * @throws       \Exception
      */
-    public function testMultinomialTheorem(array $groups, int $divisions)
+    public function testMultinomialTheorem(array $groups, int $expected)
     {
-        $this->assertEquals($divisions, Combinatorics::multinomial($groups));
+        // When
+        $divisions = Combinatorics::multinomial($groups);
+
+        // Then
+        $this->assertEquals($expected, $divisions);
     }
 
     /**
@@ -536,16 +626,20 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     lahNumber
+     * @test         lahNumber
      * @dataProvider dataProviderForLahNumber
      * @param        int   $k
      * @param        int   $n
-     * @param        float $lah
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testLahNumber(int $k, int $n, float $lah)
+    public function testLahNumber(int $k, int $n, float $expected)
     {
-        $this->assertEquals($lah, Combinatorics::lahNumber($k, $n));
+        // When
+        $lahNumber = Combinatorics::lahNumber($k, $n);
+
+        // Then
+        $this->assertEquals($expected, $lahNumber);
     }
 
     /**
@@ -591,7 +685,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     lahNumber n or k less than one
+     * @test         lahNumber n or k less than one
      * @dataProvider dataProviderForLahNumberExceptionNOrKLessThanOne
      * @param        int $n
      * @param        int $k
@@ -599,7 +693,10 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
      */
     public function testLahNumberExceptionNOrKLessThanOne(int $n, int $k)
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::lahNumber($n, $k);
     }
 
@@ -616,15 +713,19 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase lahNumber n less than k
-     * @throws   \Exception
+     * @test   lahNumber n less than k
+     * @throws \Exception
      */
     public function testLahNumberExceptionNLessThanK()
     {
-        $this->expectException(Exception\OutOfBoundsException::class);
-
+        // Given
         $k = 4;
         $n = 2;
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Combinatorics::lahNumber($n, $k);
     }
 }
