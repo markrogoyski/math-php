@@ -8,7 +8,7 @@ use MathPHP\Exception;
 class UniformTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pmf returns the expected probability
+     * @test         pmf returns the expected probability
      * @dataProvider dataProviderForPmf
      * @param        int   $a
      * @param        int   $b
@@ -41,7 +41,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase constructor throws a BadDataException if b is < a
+     * @test     constructor throws a BadDataException if b is < a
      */
     public function testConstructorException()
     {
@@ -57,7 +57,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf returns the expected cumulative probability
+     * @test         cdf returns the expected cumulative probability
      * @dataProvider dataProviderForCdf
      * @param        int   $a
      * @param        int   $b
@@ -92,7 +92,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForAverage
      * @param        int   $a
      * @param        int   $b
@@ -112,7 +112,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median
+     * @test         median
      * @dataProvider dataProviderForAverage
      * @param        int   $a
      * @param        int   $b
@@ -144,7 +144,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        int   $a
      * @param        int   $b

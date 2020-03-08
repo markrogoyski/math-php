@@ -7,7 +7,7 @@ use MathPHP\Probability\Distribution\Continuous\Normal;
 class NormalTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $x
      * @param        float $μ
@@ -116,7 +116,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $μ
@@ -237,7 +237,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     between
+     * @test         between
      * @dataProvider dataProviderForBetween
      * @param        float $lower
      * @param        float $upper
@@ -269,7 +269,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     outside
+     * @test         outside
      * @dataProvider dataProviderForOutside
      * @param        float $lower
      * @param        float $upper
@@ -301,7 +301,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     above
+     * @test         above
      * @dataProvider dataProviderForAbove
      * @param        float $x
      * @param        float $μ
@@ -332,7 +332,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        float μ
      */
@@ -350,7 +350,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median
+     * @test         median
      * @dataProvider dataProviderForMean
      * @param        float μ
      */
@@ -368,7 +368,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMean
      * @param        float μ
      */
@@ -402,7 +402,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        float $μ
      * @param        float $σ
@@ -436,7 +436,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse
+     * @test         inverse
      * @dataProvider dataProviderForInverse
      * @param        float $x
      * @param        float $μ
@@ -532,7 +532,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     Inverse of CDF is x
+     * @test         Inverse of CDF is x
      * @dataProvider dataProviderForInverseOfCdf
      * @param        float $x
      * @param        float $μ
@@ -645,7 +645,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase rand
+     * @test rand
      */
     public function testRand()
     {

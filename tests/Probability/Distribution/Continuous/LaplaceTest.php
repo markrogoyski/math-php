@@ -7,7 +7,7 @@ use MathPHP\Probability\Distribution\Continuous\Laplace;
 class LaplaceTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $x
      * @param        float $μ
@@ -43,7 +43,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $μ
@@ -79,7 +79,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase mean is always μ
+     * @test     mean is always μ
      */
     public function testMean()
     {
@@ -98,7 +98,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase median is always μ
+     * @test     median is always μ
      */
     public function testMedian()
     {
@@ -117,7 +117,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase mode is always μ
+     * @test     mode is always μ
      */
     public function testMode()
     {
@@ -136,7 +136,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        float $μ
      * @param        float $b
@@ -170,7 +170,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse
+     * @test         inverse
      * @dataProvider dataProviderForInverse
      * @param        float $p
      * @param        float $μ
@@ -240,7 +240,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase rand
+     * @test rand
      */
     public function testRand()
     {

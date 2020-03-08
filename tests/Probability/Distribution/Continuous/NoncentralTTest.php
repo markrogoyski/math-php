@@ -9,7 +9,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     const ε = .000001;
 
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $t
      * @param        int   $ν degrees of freedom > 0
@@ -76,7 +76,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $t
      * @param        int   $ν degrees of freedom > 0
@@ -143,7 +143,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        int   $ν degrees of freedom > 0
      * @param        float $μ Noncentrality parameter
@@ -176,7 +176,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean not a number if ν = 1
+     * @test         mean not a number if ν = 1
      * @dataProvider dataProviderForMeanNan
      * @param        int $ν
      * @param        float $μ
@@ -206,7 +206,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median (temporary version that is just the mean)
+     * @test         median (temporary version that is just the mean)
      * @dataProvider dataProviderForMean
      * @todo         Rewrite test using actual median values once median calculation is implemented
      * @param        int   $ν degrees of freedom > 0

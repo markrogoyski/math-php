@@ -7,7 +7,7 @@ use MathPHP\Probability\Distribution\Discrete\Binomial;
 class BinomialTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pmf
+     * @test         pmf
      * @dataProvider dataProviderForPmf
      * @param        int $n
      * @param        int $r
@@ -56,7 +56,7 @@ class BinomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        int $n
      * @param        int $r
@@ -105,7 +105,7 @@ class BinomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        int   $n
      * @param        float $p
@@ -139,7 +139,7 @@ class BinomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        int   $n
      * @param        float $p

@@ -21,7 +21,7 @@ class LimitsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testDirichletParameterLimits()
     {
@@ -29,7 +29,7 @@ class LimitsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testDirichletSupportLimits()
     {

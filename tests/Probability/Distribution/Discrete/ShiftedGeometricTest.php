@@ -7,7 +7,7 @@ use MathPHP\Probability\Distribution\Discrete\ShiftedGeometric;
 class ShiftedGeometricTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pmf
+     * @test         pmf
      * @dataProvider dataProviderForPmf
      * @param        int $k
      * @param        float $p
@@ -44,7 +44,7 @@ class ShiftedGeometricTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        int $k
      * @param        float $p
@@ -81,7 +81,7 @@ class ShiftedGeometricTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        float $p
      * @param        float $μ
@@ -114,7 +114,7 @@ class ShiftedGeometricTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median
+     * @test         median
      * @dataProvider dataProviderForMedian
      * @param        float $p
      * @param        float $expected
@@ -147,7 +147,7 @@ class ShiftedGeometricTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMode
      * @param        float $p
      * @param        float $expected
@@ -180,7 +180,7 @@ class ShiftedGeometricTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        float $p
      * @param        float $σ²

@@ -8,7 +8,7 @@ use MathPHP\Probability\Distribution\Continuous\Uniform;
 class UniformTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     constructor exception b < a
+     * @test         constructor exception b < a
      * @dataProvider dataProviderForOutOfBoundsParameters
      * @param        float $a
      * @param        float $b
@@ -37,7 +37,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $a
      * @param        float $b
@@ -86,7 +86,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $a
      * @param        float $b
@@ -135,7 +135,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        float $a
      * @param        float $b
@@ -155,7 +155,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median
+     * @test         median
      * @dataProvider dataProviderForMean
      * @param        float $a
      * @param        float $b
@@ -175,7 +175,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMean
      * @param        float $a
      * @param        float $b
@@ -210,7 +210,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        float $a
      * @param        float $b

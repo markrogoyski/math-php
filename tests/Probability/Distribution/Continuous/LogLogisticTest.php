@@ -7,7 +7,7 @@ use MathPHP\Probability\Distribution\Continuous\LogLogistic;
 class LogLogisticTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $x
      * @param        float $α
@@ -62,7 +62,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $α
@@ -82,7 +82,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse of cdf is x
+     * @test         inverse of cdf is x
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $α
@@ -137,7 +137,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        float $α
      * @param        float $β
@@ -169,7 +169,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean is not a number when shape is not greater than 1
+     * @test         mean is not a number when shape is not greater than 1
      * @dataProvider dataProviderForMeanNan
      * @param        float $α
      * @param        float $β
@@ -194,7 +194,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median
+     * @test         median
      * @dataProvider dataProviderForMean
      * @param        float $α
      * @param        float $β
@@ -212,7 +212,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMode
      * @param        float $α
      * @param        float $β
@@ -246,7 +246,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        float $α
      * @param        float $β
@@ -276,7 +276,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance is not a number when β ≤ 2
+     * @test         variance is not a number when β ≤ 2
      * @dataProvider dataProviderForVarianceNan
      * @param        float $α
      * @param        float $β

@@ -7,7 +7,7 @@ use MathPHP\Probability\Distribution\Continuous\Logistic;
 class LogisticTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $x
      * @param        float $μ
@@ -70,7 +70,7 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $μ
@@ -90,7 +90,7 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse of cdf is x
+     * @test         inverse of cdf is x
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $μ
@@ -152,7 +152,7 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase mean
+     * @test     mean
      */
     public function testMean()
     {
@@ -171,7 +171,7 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase median
+     * @test     median
      */
     public function testMedian()
     {
@@ -190,7 +190,7 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase mode
+     * @test     mode
      */
     public function testMode()
     {
@@ -209,7 +209,7 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        float $μ
      * @param        float $s
@@ -241,7 +241,7 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse
+     * @test         inverse
      * @dataProvider dataProviderForInverse
      * @param        float $p
      * @param        float $μ
@@ -302,7 +302,7 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase rand
+     * @test rand
      */
     public function testRand()
     {

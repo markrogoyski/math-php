@@ -20,7 +20,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $z
      * @param        float $expected_pdf
@@ -35,7 +35,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     pdf is the same as normal pdf with μ = 0 and σ = 1
+     * @test         pdf is the same as normal pdf with μ = 0 and σ = 1
      * @dataProvider dataProviderForPdf
      * @param        float $z
      */
@@ -92,7 +92,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $z
      * @param        float $expected_cdf
@@ -107,7 +107,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf is the same as normal cdf with μ = 0 and σ = 1
+     * @test         cdf is the same as normal cdf with μ = 0 and σ = 1
      * @dataProvider dataProviderForCdf
      * @param        float $z
      */
@@ -172,7 +172,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase mean
+     * @test mean
      */
     public function testMean()
     {
@@ -184,7 +184,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase mode
+     * @test mode
      */
     public function testMode()
     {
@@ -196,7 +196,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase variance
+     * @test variance
      */
     public function testVariance()
     {
@@ -208,7 +208,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse
+     * @test         inverse
      * @dataProvider dataProviderForInverse
      * @param        float $target
      * @param        float $expected_inverse
