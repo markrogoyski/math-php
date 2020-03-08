@@ -8,12 +8,20 @@ use MathPHP\Exception;
 class BasicTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     arithmeticProgression produces the expected sequence
+     * @test         arithmeticProgression produces the expected sequence
      * @dataProvider dataProviderForArithmeticProgression
+     * @param        int   $n
+     * @param        int   $d
+     * @param        int   $a₁
+     * @param        array $expected
      */
-    public function testArithmeticProgression(int $n, int $d, int $a₁, array $progression)
+    public function testArithmeticProgression(int $n, int $d, int $a₁, array $expected)
     {
-        $this->assertEquals($progression, Basic::arithmeticProgression($n, $d, $a₁));
+        // When
+        $progression = Basic::arithmeticProgression($n, $d, $a₁);
+
+        // Then
+        $this->assertEquals($expected, $progression);
     }
 
     public function dataProviderForArithmeticProgression(): array
@@ -30,12 +38,21 @@ class BasicTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     geometricProgression produces the expected sequence
+     * @test         geometricProgression produces the expected sequence
      * @dataProvider dataProviderForGeometricProgression
+     * @param        int   $n
+     * @param        int   $a
+     * @param        float $r
+     * @param        array $expected
+     * @throws       \Exception
      */
-    public function testGeometricProgression(int $n, $a, $r, array $progression)
+    public function testGeometricProgression(int $n, int $a, float $r, array $expected)
     {
-        $this->assertEquals($progression, Basic::geometricProgression($n, $a, $r));
+        // When
+        $progression = Basic::geometricProgression($n, $a, $r);
+
+        // Then
+        $this->assertEquals($expected, $progression);
     }
 
     public function dataProviderForGeometricProgression(): array
@@ -52,22 +69,33 @@ class BasicTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase geometricProgression throws a BadParameterException when R is zero
+     * @test geometricProgression throws a BadParameterException when R is zero
      */
     public function testGeometricProgressionExceptionRIsZero()
     {
-        $this->expectException(Exception\BadParameterException::class);
+        // Given
         $r = 0;
+
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
         Basic::geometricProgression(10, 2, $r);
     }
 
     /**
-     * @testCase     squareNumber produces the expected sequence
+     * @test         squareNumber produces the expected sequence
      * @dataProvider dataProviderForSquareNumber
+     * @param        int   $n
+     * @param        array $expected
      */
-    public function testSquareNumber(int $n, array $squares)
+    public function testSquareNumber(int $n, array $expected)
     {
-        $this->assertEquals($squares, Basic::squareNumber($n));
+        // When
+        $squares = Basic::squareNumber($n);
+
+        // Then
+        $this->assertEquals($expected, $squares);
     }
 
     public function dataProviderForSquareNumber(): array
@@ -83,12 +111,18 @@ class BasicTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cubicNumber produces the expected sequence
+     * @test         cubicNumber produces the expected sequence
      * @dataProvider dataProviderForCubicNumber
+     * @param        int   $n
+     * @param        array $expected
      */
-    public function testCubicNumber(int $n, array $cubes)
+    public function testCubicNumber(int $n, array $expected)
     {
-        $this->assertEquals($cubes, Basic::cubicNumber($n));
+        // When
+        $cubes = Basic::cubicNumber($n);
+
+        // Then
+        $this->assertEquals($expected, $cubes);
     }
 
     public function dataProviderForCubicNumber(): array
@@ -104,12 +138,18 @@ class BasicTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     powersOfTwo produces the expected sequence
+     * @test         powersOfTwo produces the expected sequence
      * @dataProvider dataProviderForPowersOfTwo
+     * @param        int   $n
+     * @param        array $expected
      */
-    public function testPowersOfTwo(int $n, array $powers)
+    public function testPowersOfTwo(int $n, array $expected)
     {
-        $this->assertEquals($powers, Basic::powersOfTwo($n));
+        // When
+        $powers = Basic::powersOfTwo($n);
+
+        // Then
+        $this->assertEquals($expected, $powers);
     }
 
     public function dataProviderForPowersOfTwo(): array
@@ -125,12 +165,18 @@ class BasicTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     powersOfTen produces the expected sequence
+     * @test         powersOfTen produces the expected sequence
      * @dataProvider dataProviderForPowersOfTen
+     * @param        int   $n
+     * @param        array $expected
      */
-    public function testPowersOfTen(int $n, array $powers)
+    public function testPowersOfTen(int $n, array $expected)
     {
-        $this->assertEquals($powers, Basic::powersOfTen($n));
+        // When
+        $powers = Basic::powersOfTen($n);
+
+        // Then
+        $this->assertEquals($expected, $powers);
     }
 
     public function dataProviderForPowersOfTen(): array
@@ -146,12 +192,18 @@ class BasicTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     factorial produces the expected sequence
+     * @test         factorial produces the expected sequence
      * @dataProvider dataProviderForFactorial
+     * @param        int   $n
+     * @param        array $expected
      */
-    public function testFactorial(int $n, array $powers)
+    public function testFactorial(int $n, array $expected)
     {
-        $this->assertEquals($powers, Basic::factorial($n));
+        // When
+        $powers = Basic::factorial($n);
+
+        // Then
+        $this->assertEquals($expected, $powers);
     }
 
     public function dataProviderForFactorial(): array
@@ -167,12 +219,18 @@ class BasicTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     digitSum produces the expected sequence
+     * @test         digitSum produces the expected sequence
      * @dataProvider dataProviderForDigitSum
+     * @param        int   $n
+     * @param        array $expected
      */
-    public function testDigitSum(int $n, array $digit_sums)
+    public function testDigitSum(int $n, array $expected)
     {
-        $this->assertEquals($digit_sums, Basic::digitSum($n));
+        // When
+        $digitSums = Basic::digitSum($n);
+
+        // Then
+        $this->assertEquals($expected, $digitSums);
     }
 
     public function dataProviderForDigitSum(): array
@@ -196,12 +254,18 @@ class BasicTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     digitalRoot produces the expected sequence
+     * @test         digitalRoot produces the expected sequence
      * @dataProvider dataProviderForDigitalRoot
+     * @param        int   $n
+     * @param        array $expected
      */
-    public function testDigitalRoot(int $n, array $digital_roots)
+    public function testDigitalRoot(int $n, array $expected)
     {
-        $this->assertEquals($digital_roots, Basic::digitalRoot($n));
+        // When
+        $digitRoots = Basic::digitalRoot($n);
+
+        // Then
+        $this->assertEquals($expected, $digitRoots);
     }
 
     public function dataProviderForDigitalRoot(): array

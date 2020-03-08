@@ -9,8 +9,8 @@ class NonIntegerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         HarmonicNumber produces the expected sequence
      * @dataProvider dataProviderForHarmonicNumbers
-     * @param int   $n
-     * @param array $expectedSequence
+     * @param        int   $n
+     * @param        array $expectedSequence
      */
     public function testHarmonicNumbers(int $n, array $expectedSequence)
     {
@@ -37,9 +37,9 @@ class NonIntegerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         Hyperharmonic produces the expected sequence
      * @dataProvider dataProviderForHyperharmonicNumbers
-     * @param int   $n
-     * @param float $p
-     * @param array $expectedSequence
+     * @param        int   $n
+     * @param        float $p
+     * @param        array $expectedSequence
      */
     public function testHyperharmonicNumbers(int $n, float $p, array $expectedSequence)
     {

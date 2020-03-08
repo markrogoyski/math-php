@@ -8,7 +8,7 @@ use MathPHP\Exception;
 class AdvancedTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     fibonacci
+     * @test         fibonacci
      * @dataProvider dataProviderForFibonacci
      * @param        int $n
      * @param        array $expected_fibonacci
@@ -41,7 +41,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     lucasNumber
+     * @test         lucasNumber
      * @dataProvider dataProviderForLucasNumber
      * @param        int $n
      * @param        array $expected_lucas
@@ -74,7 +74,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     pellNumber
+     * @test         pellNumber
      * @dataProvider dataProviderForPellNumber
      * @param        int $n
      * @param        array $expected_pell
@@ -107,7 +107,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     triangularNumber
+     * @test         triangularNumber
      * @dataProvider dataProviderForTriangularNumber
      * @param        int $n
      * @param        array $expected_triangular
@@ -140,7 +140,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     pentagonalNumber
+     * @test         pentagonalNumber
      * @dataProvider dataProviderForPentagonalNumber
      * @param        int $n
      * @param        array $expected_pentagonal
@@ -173,7 +173,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     hexagonalNumber
+     * @test         hexagonalNumber
      * @dataProvider dataProviderForHexagonalNumber
      * @param        int $n
      * @param        array $expected_hexagonal
@@ -206,7 +206,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     heptagonalNumber
+     * @test         heptagonalNumber
      * @dataProvider dataProviderForHeptagonalNumber
      * @param        int $n
      * @param        array $expected_heptagonal
@@ -239,7 +239,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     lookAndSay
+     * @test         lookAndSay
      * @dataProvider dataProviderForLookAndSay
      * @param        int $n
      * @param        array $expected_look_and_say
@@ -279,7 +279,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     lazyCaterers
+     * @test         lazyCaterers
      * @dataProvider dataProviderForLazyCaterers
      * @param        int $n
      * @param        array $expected_lazy_caterers
@@ -317,7 +317,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     magicSquares
+     * @test         magicSquares
      * @dataProvider dataProviderForMagicSquares
      * @param        int $n
      * @param        array $expected_M
@@ -356,7 +356,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     perfectNumbers
+     * @test         perfectNumbers
      * @dataProvider dataProviderForPerfectNumbers
      * @param        int   $n
      * @param        array $expected_perfect_numbers
@@ -425,7 +425,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase perfectNumbers exceptionis n is too large
+     * @test     perfectNumbers exceptionis n is too large
      * @throws   \Exception
      */
     public function testPerfectNumberException()
@@ -438,7 +438,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     perfectPowers
+     * @test         perfectPowers
      * @dataProvider dataProviderForPerfectPowers
      * @param        int $n
      * @param        array $expected_perfect_powers
@@ -468,7 +468,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     not perfectPowers
+     * @test         not perfectPowers
      * @dataProvider dataProviderForNotPerfectPowers
      * @param        int $n
      * @param        array $expected_not_perfect_powers
@@ -498,7 +498,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     primesUpTo returns an array of all prime numbers up to n.
+     * @test         primesUpTo returns an array of all prime numbers up to n.
      * @dataProvider dataProviderForPimesUpTo
      * @param        int   $n
      * @param        array $expected_primes
