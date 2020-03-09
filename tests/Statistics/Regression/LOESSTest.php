@@ -8,7 +8,7 @@ use MathPHP\Exception;
 class LOESSTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     evaluate
+     * @test         evaluate
      * @dataProvider dataProviderForEvaluate
      * @param        array $points
      * @param        float $α
@@ -18,8 +18,13 @@ class LOESSTest extends \PHPUnit\Framework\TestCase
      */
     public function testEvaluate(array $points, float $α, float $λ, array $yHat)
     {
-        $loess     = new LOESS($points, $α, $λ);
+        // Given
+        $loess = new LOESS($points, $α, $λ);
+
+        // When
         $test_yHat = $loess->yHat();
+
+        // Then
         foreach ($test_yHat as $key => $value) {
             $this->assertEquals($yHat[$key], $value, '', .0000001);
         }
@@ -42,7 +47,7 @@ class LOESSTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     smoothness parameter OutOfBoundsException
+     * @test         smoothness parameter OutOfBoundsException
      * @dataProvider dataProviderForSmoothnessParameterOutOfBoundsException
      * @param        array $points
      * @param        float $α
@@ -51,7 +56,10 @@ class LOESSTest extends \PHPUnit\Framework\TestCase
      */
     public function testSmoothnessParameterOutOfBoundsException(array $points, float $α, float $λ)
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         $loess = new LOESS($points, $α, $λ);
     }
 
