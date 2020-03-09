@@ -8,21 +8,24 @@ use MathPHP\Exception;
 class ExperimentTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     riskRatio
+     * @test         riskRatio
      * @dataProvider dataProviderForRiskRatio
-     * @param        int $a
-     * @param        int $b
-     * @param        int $c
-     * @param        int $d
-     * @param        array $rr
+     * @param        int   $a
+     * @param        int   $b
+     * @param        int   $c
+     * @param        int   $d
+     * @param        array $expected
      */
-    public function testRiskRatio(int $a, int $b, int $c, int $d, array $rr)
+    public function testRiskRatio(int $a, int $b, int $c, int $d, array $expected)
     {
-        $result = Experiment::riskRatio($a, $b, $c, $d);
-        $this->assertEquals($rr['RR'], $result['RR'], '', 0.001);
-        $this->assertEquals($rr['ci_lower_bound'], $result['ci_lower_bound'], '', 0.001);
-        $this->assertEquals($rr['ci_upper_bound'], $result['ci_upper_bound'], '', 0.001);
-        $this->assertEquals($rr['p'], $result['p'], '', 0.0001);
+        // When
+        $riskRation = Experiment::riskRatio($a, $b, $c, $d);
+
+        // Then
+        $this->assertEquals($expected['RR'], $riskRation['RR'], '', 0.001);
+        $this->assertEquals($expected['ci_lower_bound'], $riskRation['ci_lower_bound'], '', 0.001);
+        $this->assertEquals($expected['ci_upper_bound'], $riskRation['ci_upper_bound'], '', 0.001);
+        $this->assertEquals($expected['p'], $riskRation['p'], '', 0.0001);
     }
 
     /**
@@ -42,21 +45,24 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     oddsRatio
+     * @test         oddsRatio
      * @dataProvider dataProviderForOddsRatio
-     * @param        int $a
-     * @param        int $b
-     * @param        int $c
-     * @param        int $d
-     * @param        array $or
+     * @param        int   $a
+     * @param        int   $b
+     * @param        int   $c
+     * @param        int   $d
+     * @param        array $expected
      */
-    public function testOddsRatio(int $a, int $b, int $c, int $d, array $or)
+    public function testOddsRatio(int $a, int $b, int $c, int $d, array $expected)
     {
-        $result = Experiment::oddsRatio($a, $b, $c, $d);
-        $this->assertEquals($or['OR'], $result['OR'], '', 0.001);
-        $this->assertEquals($or['ci_lower_bound'], $result['ci_lower_bound'], '', 0.001);
-        $this->assertEquals($or['ci_upper_bound'], $result['ci_upper_bound'], '', 0.001);
-        $this->assertEquals($or['p'], $result['p'], '', 0.0001);
+        // When
+        $oddsRatio = Experiment::oddsRatio($a, $b, $c, $d);
+
+        // Then
+        $this->assertEquals($expected['OR'], $oddsRatio['OR'], '', 0.001);
+        $this->assertEquals($expected['ci_lower_bound'], $oddsRatio['ci_lower_bound'], '', 0.001);
+        $this->assertEquals($expected['ci_upper_bound'], $oddsRatio['ci_upper_bound'], '', 0.001);
+        $this->assertEquals($expected['p'], $oddsRatio['p'], '', 0.0001);
     }
 
     /**
@@ -76,19 +82,22 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     likelihoodRatio
+     * @test         likelihoodRatio
      * @dataProvider dataProviderForLikelihoodRatio
-     * @param        int $a
-     * @param        int $b
-     * @param        int $c
-     * @param        int $d
-     * @param        array $ll
+     * @param        int   $a
+     * @param        int   $b
+     * @param        int   $c
+     * @param        int   $d
+     * @param        array $expected
      */
-    public function testLikelihoodRatio(int $a, int $b, int $c, int $d, array $ll)
+    public function testLikelihoodRatio(int $a, int $b, int $c, int $d, array $expected)
     {
-        $result = Experiment::likelihoodRatio($a, $b, $c, $d);
-        $this->assertEquals($ll['LL+'], $result['LL+'], '', 0.001);
-        $this->assertEquals($ll['LL-'], $result['LL-'], '', 0.001);
+        // When
+        $likelihoodRatio = Experiment::likelihoodRatio($a, $b, $c, $d);
+
+        // Then
+        $this->assertEquals($expected['LL+'], $likelihoodRatio['LL+'], '', 0.001);
+        $this->assertEquals($expected['LL-'], $likelihoodRatio['LL-'], '', 0.001);
     }
 
     /**
@@ -109,17 +118,20 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     likelihoodRatioSS
+     * @test         likelihoodRatioSS
      * @dataProvider dataProviderForLikelihoodRatioSS
      * @param        float $sensitivity
      * @param        float $specificity
-     * @param        array $ll
+     * @param        array $expected
      */
-    public function testLikelihoodRatioSS(float $sensitivity, float $specificity, array $ll)
+    public function testLikelihoodRatioSS(float $sensitivity, float $specificity, array $expected)
     {
-        $result = Experiment::likelihoodRatioSS($sensitivity, $specificity);
-        $this->assertEquals($ll['LL+'], $result['LL+'], '', 0.001);
-        $this->assertEquals($ll['LL-'], $result['LL-'], '', 0.001);
+        // When
+        $likelihoodRatio = Experiment::likelihoodRatioSS($sensitivity, $specificity);
+
+        // Then
+        $this->assertEquals($expected['LL+'], $likelihoodRatio['LL+'], '', 0.001);
+        $this->assertEquals($expected['LL-'], $likelihoodRatio['LL-'], '', 0.001);
     }
 
     /**
@@ -134,11 +146,18 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase likelihoodRatioSS exception if sensitivity or specificity are > 1.0
+     * @test likelihoodRatioSS exception if sensitivity or specificity are > 1.0
      */
     public function testLikelihoodRatioSSException()
     {
+        // Given
+        $sensitivity = 1.2;
+        $specificity = 1.5;
+
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
-        Experiment::likelihoodRatioSS(1.2, 1.5);
+
+        // When
+        Experiment::likelihoodRatioSS($sensitivity, $specificity);
     }
 }

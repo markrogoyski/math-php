@@ -9,7 +9,7 @@ use MathPHP\Exception;
 class DistanceTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     bhattacharyyaDistance
+     * @test         bhattacharyyaDistance
      * @dataProvider dataProviderForBhattacharyyaDistance
      * @param        array $p
      * @param        array $q
@@ -17,8 +17,10 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
      */
     public function testBhattacharyyaDistance(array $p, array $q, float $expected)
     {
+        // When
         $BD = Distance::bhattacharyyaDistance($p, $q);
 
+        // Then
         $this->assertEquals($expected, $BD, '', 0.0001);
     }
 
@@ -47,31 +49,39 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase bhattacharyyaDistance when arrays are different lengths
+     * @test bhattacharyyaDistance when arrays are different lengths
      */
     public function testBhattacharyyaDistanceExceptionArraysDifferentLength()
     {
+        // Given
         $p = [0.4, 0.5, 0.1];
         $q = [0.2, 0.8];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Distance::bhattacharyyaDistance($p, $q);
     }
 
     /**
-     * @testCase bhattacharyyaDistance when probabilities do not add up to one
+     * @test bhattacharyyaDistance when probabilities do not add up to one
      */
     public function testBhattacharyyaDistanceExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
+        // Given
         $p = [0.2, 0.2, 0.1];
         $q = [0.2, 0.4, 0.6];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Distance::bhattacharyyaDistance($p, $q);
     }
 
     /**
-     * @testCase     kullbackLeiblerDivergence
+     * @test         kullbackLeiblerDivergence
      * @dataProvider dataProviderForKullbackLeiblerDivergence
      * @param        array $p
      * @param        array $q
@@ -79,8 +89,10 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
      */
     public function testKullbackLeiblerDivergence(array $p, array $q, float $expected)
     {
+        // When
         $BD = Distance::kullbackLeiblerDivergence($p, $q);
 
+        // Then
         $this->assertEquals($expected, $BD, '', 0.0001);
     }
 
@@ -120,31 +132,39 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase kullbackLeiblerDivergence when arrays are different lengths
+     * @test kullbackLeiblerDivergence when arrays are different lengths
      */
     public function testKullbackLeiblerDivergenceExceptionArraysDifferentLength()
     {
+        // Given
         $p = [0.4, 0.5, 0.1];
         $q = [0.2, 0.8];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Distance::kullbackLeiblerDivergence($p, $q);
     }
 
     /**
-     * @testCase kullbackLeiblerDivergence when probabilities do not add up to one
+     * @test kullbackLeiblerDivergence when probabilities do not add up to one
      */
     public function testKullbackLeiblerDivergenceExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
+        // Given
         $p = [0.2, 0.2, 0.1];
         $q = [0.2, 0.4, 0.6];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Distance::kullbackLeiblerDivergence($p, $q);
     }
 
     /**
-     * @testCase     hellingerDistance
+     * @test         hellingerDistance
      * @dataProvider dataProviderForHellingerDistance
      * @param        array $p
      * @param        array $q
@@ -152,8 +172,10 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
      */
     public function testHellingerDistance(array $p, array $q, float $expected)
     {
+        // When
         $BD = Distance::hellingerDistance($p, $q);
 
+        // Then
         $this->assertEquals($expected, $BD, '', 0.0001);
     }
 
@@ -193,31 +215,39 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase hellingerDistance when the arrays are different lengths
+     * @test hellingerDistance when the arrays are different lengths
      */
     public function testHellingerDistanceExceptionArraysDifferentLength()
     {
+        // Given
         $p = [0.4, 0.5, 0.1];
         $q = [0.2, 0.8];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Distance::hellingerDistance($p, $q);
     }
 
     /**
-     * @testCase hellingerDistance when the probabilities do not add up to one
+     * @test hellingerDistance when the probabilities do not add up to one
      */
     public function testHellingerDistanceExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
+        // Given
         $p = [0.2, 0.2, 0.1];
         $q = [0.2, 0.4, 0.6];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Distance::hellingerDistance($p, $q);
     }
 
     /**
-     * @testCase     jensenShannonDivergence
+     * @test         jensenShannonDivergence
      * @dataProvider dataProviderForJensenShannonDivergence
      * @param        array $p
      * @param        array $q
@@ -225,8 +255,10 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
      */
     public function testJensenShannonDivergence(array $p, array $q, float $expected)
     {
+        // When
         $BD = Distance::jensenShannonDivergence($p, $q);
 
+        // Then
         $this->assertEquals($expected, $BD, '', 0.0001);
     }
 
@@ -264,31 +296,39 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase jensenShannonDivergence when the arrays are different lengths
+     * @test jensenShannonDivergence when the arrays are different lengths
      */
     public function testJensenShannonDivergenceExceptionArraysDifferentLength()
     {
+        // Given
         $p = [0.4, 0.5, 0.1];
         $q = [0.2, 0.8];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Distance::jensenShannonDivergence($p, $q);
     }
 
     /**
-     * @testCase jensenShannonDivergence when the probabilities do not add up to one
+     * @test jensenShannonDivergence when the probabilities do not add up to one
      */
     public function testJensenShannonDivergenceExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
+        // Given
         $p = [0.2, 0.2, 0.1];
         $q = [0.2, 0.4, 0.6];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Distance::jensenShannonDivergence($p, $q);
     }
     
     /**
-     * @testCase     Mahalanobis from a point to the center of the data
+     * @test         Mahalanobis from a point to the center of the data
      * @dataProvider dataProviderForMahalanobisCenter
      * @param        array $x
      * @param        Matrix $data
@@ -349,7 +389,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     Mahalanobis between two points
+     * @test         Mahalanobis between two points
      * @dataProvider dataProviderForMahalanobisPoint
      * @param        array $x
      * @param        array $y
@@ -417,9 +457,9 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Mahalanobis between two datasets
+     * @test   Mahalanobis between two datasets
      * https://rdrr.io/rforge/GenAlgo/man/maha.html
-     * @throws  \Exception
+     * @throws \Exception
      */
     public function testMahalanobisTwoData()
     {

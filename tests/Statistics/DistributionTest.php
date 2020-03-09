@@ -7,14 +7,18 @@ use MathPHP\Statistics\Distribution;
 class DistributionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     frequency
+     * @test         frequency
      * @dataProvider dataProviderForFrequency
      * @param        array $values
-     * @param        array $frequencies
+     * @param        array $expected
      */
-    public function testFrequency(array $values, array $frequencies)
+    public function testFrequency(array $values, array $expected)
     {
-        $this->assertEquals($frequencies, Distribution::frequency($values));
+        // When
+        $frequencies = Distribution::frequency($values);
+
+        // Then
+        $this->assertEquals($expected, $frequencies);
     }
 
     /**
@@ -43,14 +47,18 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     relativeFrequency
+     * @test         relativeFrequency
      * @dataProvider dataProviderForRelativeFrequency
      * @param        array $values
-     * @param        array $frequencies
+     * @param        array $expected
      */
-    public function testRelativeFrequency(array $values, array $frequencies)
+    public function testRelativeFrequency(array $values, array $expected)
     {
-        $this->assertEquals($frequencies, Distribution::relativeFrequency($values), '', 0.0001);
+        // When
+        $frequencies = Distribution::relativeFrequency($values);
+
+        // Then
+        $this->assertEquals($expected, $frequencies, '', 0.0001);
     }
 
     /**
@@ -79,14 +87,18 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cumulativeFrequency
+     * @test         cumulativeFrequency
      * @dataProvider dataProviderForCumulativeFrequency
      * @param        array $values
-     * @param        array $frequencies
+     * @param        array $expected
      */
-    public function testCumulativeFrequency(array $values, array $frequencies)
+    public function testCumulativeFrequency(array $values, array $expected)
     {
-        $this->assertEquals($frequencies, Distribution::cumulativeFrequency($values), '', 0.0001);
+        // When
+        $frequencies = Distribution::cumulativeFrequency($values);
+
+        // Then
+        $this->assertEquals($expected, $frequencies, '', 0.0001);
     }
 
     /**
@@ -115,14 +127,18 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cumulativeRelativeFrequency
+     * @test         cumulativeRelativeFrequency
      * @dataProvider dataProviderForCumulativeRelativeFrequency
      * @param        array $values
-     * @param        array $frequencies
+     * @param        array $expected
      */
-    public function testCumulativeRelativeFrequency(array $values, array $frequencies)
+    public function testCumulativeRelativeFrequency(array $values, array $expected)
     {
-        $this->assertEquals($frequencies, Distribution::cumulativeRelativeFrequency($values), '', 0.0001);
+        // When
+        $frequencies = Distribution::cumulativeRelativeFrequency($values);
+
+        // Then
+        $this->assertEquals($expected, $frequencies, '', 0.0001);
     }
 
     /**
@@ -151,14 +167,18 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     stemAndLeafPlot
+     * @test         stemAndLeafPlot
      * @dataProvider dataProviderForStemAndLeafPlot
      * @param        array $values
-     * @param        array $plot
+     * @param        array $expected
      */
-    public function testStemAndLeafPlot(array $values, array $plot)
+    public function testStemAndLeafPlot(array $values, array $expected)
     {
-        $this->assertEquals($plot, Distribution::stemAndLeafPlot($values));
+        // When
+        $plot = Distribution::stemAndLeafPlot($values);
+
+        // Then
+        $this->assertEquals($expected, $plot);
     }
 
     /**
@@ -175,12 +195,17 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase stemAndLeafPlot printed to standard output
+     * @test stemAndLeafPlot printed to standard output
      */
     public function testStemAndLeafPlotPrint()
     {
-        $this->expectOutputString('0 | 1 2 3' . \PHP_EOL);
+        // Given
         $print = true;
+
+        // Then
+        $this->expectOutputString('0 | 1 2 3' . \PHP_EOL);
+
+        // When
         Distribution::stemAndLeafPlot([1, 2, 3], $print);
     }
 }

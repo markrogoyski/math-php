@@ -8,29 +8,37 @@ use MathPHP\Exception;
 class CorrelationTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     covariance - population covariance
+     * @test         covariance - population covariance
      * @dataProvider dataProviderForPopulationCovariance
      * @param        array $X
      * @param        array $Y
-     * @param        float $covariance
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testCovariancePopluation(array $X, array $Y, float $covariance)
+    public function testCovariancePopulation(array $X, array $Y, float $expected)
     {
-        $this->assertEquals($covariance, Correlation::covariance($X, $Y, true), '', 0.01);
+        // When
+        $covariance = Correlation::covariance($X, $Y, true);
+
+        // Then
+        $this->assertEquals($expected, $covariance, '', 0.01);
     }
 
     /**
-     * @testCase     populationCovariance
+     * @test         populationCovariance
      * @dataProvider dataProviderForPopulationCovariance
      * @param        array $X
      * @param        array $Y
-     * @param        float $covariance
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testPopulationCovariance(array $X, array $Y, float $covariance)
+    public function testPopulationCovariance(array $X, array $Y, float $expected)
     {
-        $this->assertEquals($covariance, Correlation::populationCovariance($X, $Y), '', 0.01);
+        // When
+        $covariance = Correlation::populationCovariance($X, $Y);
+
+        // Then
+        $this->assertEquals($expected, $covariance, '', 0.01);
     }
 
     /**
@@ -47,17 +55,21 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     weightedCovariance
+     * @test         weightedCovariance
      * @dataProvider dataProviderForWeightedCovariance
      * @param        array $X
      * @param        array $Y
      * @param        array $w
-     * @param        float $covariance
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testWeightedCovariance(array $X, array $Y, array $w, float $covariance)
+    public function testWeightedCovariance(array $X, array $Y, array $w, float $expected)
     {
-        $this->assertEquals($covariance, Correlation::weightedCovariance($X, $Y, $w), '', 0.001);
+        // When
+        $covariance = Correlation::weightedCovariance($X, $Y, $w);
+
+        // Then
+        $this->assertEquals($expected, $covariance, '', 0.001);
     }
 
     /**
@@ -76,7 +88,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     weightedCovariance throws a BadDataException if the counts of any of the arrays are different
+     * @test         weightedCovariance throws a BadDataException if the counts of any of the arrays are different
      * @dataProvider dataProviderForWeightedCovarianceException
      * @param        array $X
      * @param        array $Y
@@ -85,7 +97,10 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      */
     public function testWeightedCovarianceException(array $X, array $Y, array $w)
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Correlation::weightedCovariance($X, $Y, $w);
     }
 
@@ -109,39 +124,50 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase populationCovariance when X and Y have different counts
+     * @test     populationCovariance when X and Y have different counts
      * @throws   \Exception
      */
     public function testPopulationCovarianceExceptionWhenXAndYHaveDifferentCounts()
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Correlation::populationCovariance([ 1, 2 ], [ 2, 3, 4 ]);
     }
 
     /**
-     * @testCase     covariance - sample covariance
+     * @test         covariance - sample covariance
      * @dataProvider dataProviderForSampleCovariance
      * @param        array $X
      * @param        array $Y
-     * @param        float $covariance
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testCovarianceSample(array $X, array $Y, float $covariance)
+    public function testCovarianceSample(array $X, array $Y, float $expected)
     {
-        $this->assertEquals($covariance, Correlation::covariance($X, $Y), '', 0.01);
+        // When
+        $covariance = Correlation::covariance($X, $Y);
+
+        // Then
+        $this->assertEquals($expected, $covariance, '', 0.01);
     }
 
     /**
-     * @testCase     sampleCoveriance
+     * @test         sampleCoveriance
      * @dataProvider dataProviderForSampleCovariance
      * @param        array $X
      * @param        array $Y
-     * @param        float $covariance
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testSampleCovariance(array $X, array $Y, float $covariance)
+    public function testSampleCovariance(array $X, array $Y, float $expected)
     {
-        $this->assertEquals($covariance, Correlation::sampleCovariance($X, $Y), '', 0.01);
+        // When
+        $covariance = Correlation::sampleCovariance($X, $Y);
+
+        // Then
+        $this->assertEquals($expected, $covariance, '', 0.01);
     }
 
     /**
@@ -158,39 +184,50 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase sampleCovariance when X and Y have different counts
+     * @test     sampleCovariance when X and Y have different counts
      * @throws   \Exception
      */
     public function testSampleCovarianceExceptionWhenXAndYHaveDifferentCounts()
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Correlation::sampleCovariance([ 1, 2 ], [ 2, 3, 4 ]);
     }
 
     /**
-     * @testCase     r - poluation
+     * @test         r - poluation
      * @dataProvider dataProviderForPopulationCorrelationCoefficient
      * @param        array $x
      * @param        array $y
-     * @param        float $pcc
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testRPopulation(array $x, array $y, float $pcc)
+    public function testRPopulation(array $x, array $y, float $expected)
     {
-        $this->assertEquals($pcc, Correlation::r($x, $y, true), '', 0.0001);
+        // When
+        $r = Correlation::r($x, $y, true);
+
+        // Then
+        $this->assertEquals($expected, $r, '', 0.0001);
     }
 
     /**
-     * @testCase     populationCorrelationCoefficient
+     * @test         populationCorrelationCoefficient
      * @dataProvider dataProviderForPopulationCorrelationCoefficient
      * @param        array $x
      * @param        array $y
-     * @param        float $pcc
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testPopulationCorrelationCoefficient(array $x, array $y, float $pcc)
+    public function testPopulationCorrelationCoefficient(array $x, array $y, float $expected)
     {
-        $this->assertEquals($pcc, Correlation::populationCorrelationCoefficient($x, $y), '', 0.0001);
+        // When
+        $pcc = Correlation::populationCorrelationCoefficient($x, $y);
+
+        // Then
+        $this->assertEquals($expected, $pcc, '', 0.0001);
     }
 
     /**
@@ -206,17 +243,21 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     weightedCorrelationCoefficient
+     * @test         weightedCorrelationCoefficient
      * @dataProvider dataProviderForWeightedCorrelationCoefficient
      * @param        array $x
      * @param        array $y
      * @param        array $w
-     * @param        float $wcc
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testWeightedCorrelationCoefficient(array $x, array $y, array $w, float $wcc)
+    public function testWeightedCorrelationCoefficient(array $x, array $y, array $w, float $expected)
     {
-        $this->assertEquals($wcc, Correlation::weightedCorrelationCoefficient($x, $y, $w), '', 0.00001);
+        // When
+        $wcc = Correlation::weightedCorrelationCoefficient($x, $y, $w);
+
+        // Then
+        $this->assertEquals($expected, $wcc, '', 0.00001);
     }
 
     /**
@@ -236,29 +277,37 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     r - sample
+     * @test         r - sample
      * @dataProvider dataProviderForSampleCorrelationCoefficient
      * @param        array $x
      * @param        array $y
-     * @param        float $scc
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testRSample(array $x, array $y, float $scc)
+    public function testRSample(array $x, array $y, float $expected)
     {
-        $this->assertEquals($scc, Correlation::r($x, $y), '', 0.0001);
+        // When
+        $scc = Correlation::r($x, $y);
+
+        // Then
+        $this->assertEquals($expected, $scc, '', 0.0001);
     }
 
     /**
-     * @testCase     sampleCorrelationCoefficient
+     * @test         sampleCorrelationCoefficient
      * @dataProvider dataProviderForSampleCorrelationCoefficient
      * @param        array $x
      * @param        array $y
-     * @param        float $scc
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testSampleCorrelationCoefficient(array $x, array $y, float $scc)
+    public function testSampleCorrelationCoefficient(array $x, array $y, float $expected)
     {
-        $this->assertEquals($scc, Correlation::sampleCorrelationCoefficient($x, $y), '', 0.0001);
+        // When
+        $scc = Correlation::sampleCorrelationCoefficient($x, $y);
+
+        // Then
+        $this->assertEquals($expected, $scc, '', 0.0001);
     }
 
     /**
@@ -274,29 +323,37 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     coefficientOfDetermination
+     * @test         coefficientOfDetermination
      * @dataProvider dataProviderForR2
      * @param        array $X
      * @param        array $Y
-     * @param        float $r2
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testCoefficientOfDetermination(array $X, array $Y, float $r2)
+    public function testCoefficientOfDetermination(array $X, array $Y, float $expected)
     {
-        $this->assertEquals($r2, Correlation::coefficientOfDetermination($X, $Y), '', 0.001);
+        // When
+        $r2 = Correlation::coefficientOfDetermination($X, $Y);
+
+        // Then
+        $this->assertEquals($expected, $r2, '', 0.001);
     }
 
     /**
-     * @testCase     r2
+     * @test         r2
      * @dataProvider dataProviderForR2
      * @param        array $X
      * @param        array $Y
-     * @param        float $r2
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testR2(array $X, array $Y, float $r2)
+    public function testR2(array $X, array $Y, float $expected)
     {
-        $this->assertEquals($r2, Correlation::r2($X, $Y), '', 0.001);
+        // When
+        $r2 = Correlation::r2($X, $Y);
+
+        // Then
+        $this->assertEquals($expected, $r2, '', 0.001);
     }
 
     /**
@@ -319,16 +376,20 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     kendallsTau
+     * @test         kendallsTau
      * @dataProvider dataProviderForKendallsTau
      * @param        array $X
      * @param        array $Y
-     * @param        float $τ
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testKendallsTau(array $X, array $Y, float $τ)
+    public function testKendallsTau(array $X, array $Y, float $expected)
     {
-        $this->assertEquals($τ, Correlation::kendallsTau($X, $Y), '', 0.001);
+        // When
+        $τ = Correlation::kendallsTau($X, $Y);
+
+        // Then
+        $this->assertEquals($expected, $τ, '', 0.001);
     }
 
     /**
@@ -378,29 +439,37 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase kendallsTau with different length arrays
+     * @test     kendallsTau with different length arrays
      * @throws   \Exception
      */
     public function testKendallsTauExceptionDifferentLengthArrays()
     {
+        // Given
         $X = [1, 2, 3];
         $Y = [2, 3, 4, 5];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Correlation::kendallsTau($X, $Y);
     }
 
     /**
-     * @testCase     spearmansRho
+     * @test         spearmansRho
      * @dataProvider dataProviderForSpearmansRho
      * @param        array $X
      * @param        array $Y
-     * @param        float $ρ
+     * @param        float $expected
      * @throws       \Exception
      */
-    public function testSpearmansRho(array $X, array $Y, float $ρ)
+    public function testSpearmansRho(array $X, array $Y, float $expected)
     {
-        $this->assertEquals($ρ, Correlation::spearmansRho($X, $Y), '', 0.001);
+        // When
+        $ρ = Correlation::spearmansRho($X, $Y);
+
+        // Then
+        $this->assertEquals($expected, $ρ, '', 0.001);
     }
 
     /**
@@ -438,28 +507,36 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase spearmansRho with different length arrays
+     * @test     spearmansRho with different length arrays
      * @throws   \Exception
      */
     public function testSpearmansRhoExceptionDifferentLengthArrays()
     {
+        // Given
         $X = [1, 2, 3];
         $Y = [2, 3, 4, 5];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Correlation::spearmansRho($X, $Y);
     }
 
     /**
-     * @testCase describe
+     * @test     describe
      * @throws   \Exception
      */
     public function testDescribe()
     {
+        // Given
         $X = [1, 2, 3, 4, 5];
         $Y = [2, 3, 4, 4, 6];
+
+        // When
         $stats = Correlation::describe($X, $Y);
 
+        // Then
         $this->assertTrue(is_array($stats));
         $this->assertArrayHasKey('cov', $stats);
         $this->assertArrayHasKey('r', $stats);
@@ -474,7 +551,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     confidenceEllipse
+     * @test         confidenceEllipse
      * @dataProvider dataProviderForEllipse
      * @param        array $data
      * @param        float $sd
@@ -483,7 +560,10 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
      */
     public function testEllipse(array $data, float $sd, array $results)
     {
+        // When
         $calc = Correlation::confidenceEllipse(array_column($data, 0), array_column($data, 1), $sd);
+
+        // Then
         $this->assertEquals($results, $calc, '', 0.0001);
     }
 
