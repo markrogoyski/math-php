@@ -41,9 +41,12 @@ class Hypergeometric
      */
     public function __construct(array $quantities)
     {
+        if (count($quantities) === 0) {
+            throw new Exception\BadDataException("Array cannot be empty.");
+        }
         foreach ($quantities as $K) {
             if (!is_int($K)) {
-                throw new Exception\BadDataException("Picks must be whole numbers.");
+                throw new Exception\BadDataException("Quantities must be positive integers.");
             }
             Support::checkLimits(self::PARAMETER_LIMITS, ['K' => $K]);
             $this->supportLimits['k'][] = "[0,$K]";

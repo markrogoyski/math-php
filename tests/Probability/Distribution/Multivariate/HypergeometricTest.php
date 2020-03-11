@@ -58,6 +58,9 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
             'string' => [
                 [10, 'k', 6],
             ],
+            'empty' => [
+                [],
+            ],
         ];
     }
 
