@@ -6,7 +6,7 @@ use MathPHP\Probability\Combinatorics;
 use MathPHP\Exception;
 
 /**
- * Multinomial distribution (multivariate)
+ * Multivariate Hypergeometric distribution (multivariate)
  *
  * https://en.wikipedia.org/wiki/Multinomial_distribution
  */
@@ -43,7 +43,7 @@ class Hypergeometric
      */
     public function pmf(array $picks): float
     {
-        // Must have a probability for each frequency
+        // Must have a pick for each quantity
         if (count($picks) !== count($this->quantities)) {
             throw new Exception\BadDataException('Number of quantities does not match number of picks.');
         }
@@ -52,10 +52,10 @@ class Hypergeometric
                 throw new Exception\BadDataException("Picks must be integers. $pick is not an int.");
             }
         }
+        $picks = array_values($picks);
 
-        /** @var int $n */
-        $n   = array_sum($picks);
-        $total = array_sum($this->quantities);
+        $n       = array_sum($picks);
+        $total   = array_sum($this->quantities);
         $product = 1;
 
         foreach ($picks as $i => $pick) {
