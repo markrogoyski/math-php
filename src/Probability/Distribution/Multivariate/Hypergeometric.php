@@ -4,6 +4,7 @@ namespace MathPHP\Probability\Distribution\Multivariate;
 
 use MathPHP\Probability\Combinatorics;
 use MathPHP\Exception;
+use MathPHP\Functions\Support;
 
 /**
  * Multivariate Hypergeometric distribution (multivariate)
@@ -12,24 +13,42 @@ use MathPHP\Exception;
  */
 class Hypergeometric
 {
+    /**
+     * Distribution parameter bounds limits
+     * Kᵢ ∈ [1,∞)
+     * @var array
+     */
+    const PARAMETER_LIMITS = [
+        'K' => '[1,∞)',
+    ];
+
+    /**
+     * Distribution parameter bounds limits
+     * kᵢ ∈ [0,Kᵢ]
+     * @var array
+     */
+    protected $supportLimits = [];
+
     /** @var array */
     protected $quantities;
 
     /**
-     * Multinomial constructor
+     * Multivariate Hypergeometric constructor
      *
      * @param   array $quantities
      *
-     * @throws Exception\BadDataException if the probabilities do not add up to 1
+     * @throws Exception\BadDataException if the quantities are not positive integers.
      */
     public function __construct(array $quantities)
     {
-        foreach ($quantities as $value) {
-            if (!is_int($value)) {
-                throw new Exception\BadDataException('Values must be integers.');
+        foreach ($quantities as $K) {
+            if (!is_int($K)) {
+                throw new Exception\BadDataException("Picks must be whole numbers.");
             }
-            $this->quantities[] = $value;
+            Support::checkLimits(self::PARAMETER_LIMITS, ['K' => $K]);
+            $this->supportLimits['k'][] = "[0,$K]";
         }
+        $this->quantities = $quantities;
     }
 
     /**
@@ -39,7 +58,8 @@ class Hypergeometric
      *
      * @return float
      *
-     * @throws Exception\BadDataException if the number of frequencies does not match the number of probabilities
+     * @throws Exception\BadDataException if the number of picks do not match the number of quantities.
+     * @throws Exception\BadDataException if the picks are not whole numbers or greater than the corresponding quantity.
      */
     public function pmf(array $picks): float
     {
@@ -47,20 +67,23 @@ class Hypergeometric
         if (count($picks) !== count($this->quantities)) {
             throw new Exception\BadDataException('Number of quantities does not match number of picks.');
         }
-        foreach ($picks as $pick) {
-            if (!is_int($pick)) {
-                throw new Exception\BadDataException("Picks must be integers. $pick is not an int.");
+        foreach ($picks as $i => $k) {
+            if (!is_int($k)) {
+                throw new Exception\BadDataException("Picks must be whole numbers.");
             }
+            Support::checkLimits(['k' => $this->supportLimits['k'][$i]], ['k' => $k]);
         }
-        $picks = array_values($picks);
 
         $n       = array_sum($picks);
         $total   = array_sum($this->quantities);
-        $product = 1;
 
-        foreach ($picks as $i => $pick) {
-            $product *= Combinatorics::combinations($this->quantities[$i], $pick);
-        }
+        $product = array_product(array_map(
+            function (int $quantity, int $pick) {
+                return Combinatorics::combinations($quantity, $pick);
+            },
+            $this->quantities,
+            $picks
+        ));
 
         return $product / Combinatorics::combinations($total, $n);
     }
