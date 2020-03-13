@@ -14,10 +14,12 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
     public function testHypergeometric(array $quantities, array $picks, $expected)
     {
         $dist = new Hypergeometric($quantities);
-        $this->assertEquals($expected, $dist->pmf($picks));
+        $this->assertEquals($expected, $dist->pmf($picks), '', 0.00000001);
     }
 
     /**
+     * Test data created with R (extraDistr) dmvhyper(picks, quantities, numOfPicks)
+     * Example: dmvhyper(c(2,2,2), c(5,10,15), 6)
      * @return array
      */
     public function dataProviderForTestHypergeometric()
@@ -32,6 +34,46 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
                 [5, 10, 15],
                 [2, 2, 2],
                 47250 / 593775,
+            ],
+            [
+                [5, 10, 15],
+                [2, 4, 0],
+                0.003536693,
+            ],
+            [
+                [5, 10, 15],
+                [2, 0, 4],
+                0.02298851,
+            ],
+            [
+                [5, 10, 15],
+                [4, 0, 2],
+                0.0008841733,
+            ],
+            [
+                [1, 1, 1],
+                [1, 1, 1],
+                1,
+            ],
+            [
+                [1, 1, 1],
+                [1, 1, 0],
+                1 / 3,
+            ],
+            [
+                [1, 1, 1],
+                [1, 0, 1],
+                1 / 3,
+            ],
+            [
+                [1, 1, 1],
+                [0, 1, 1],
+                1 / 3,
+            ],
+            [
+                [14, 11, 50],
+                [4, 5, 31],
+                0.004778598,
             ],
         ];
     }
