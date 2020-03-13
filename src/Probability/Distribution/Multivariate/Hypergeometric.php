@@ -7,9 +7,9 @@ use MathPHP\Exception;
 use MathPHP\Functions\Support;
 
 /**
- * Multivariate Hypergeometric distribution (multivariate)
+ * Multivariate Hypergeometric distribution
  *
- * https://en.wikipedia.org/wiki/Multinomial_distribution
+ * https://en.wikipedia.org/wiki/Hypergeometric_distribution#Multivariate_hypergeometric_distribution
  */
 class Hypergeometric
 {
