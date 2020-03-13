@@ -287,17 +287,23 @@ class Combinatorics
 
         // nC'k with repetition
         if ($repetition) {
-            $⟮n ＋ k − 1⟯！ = self::factorial($n + $k - 1);
-            $⟮n − 1⟯！k！   = self::factorial($n - 1) * self::factorial($k);
-
-            return $⟮n ＋ k − 1⟯！ / $⟮n − 1⟯！k！;
+            $max = max($n - 1, $k);
+            $min = min($n - 1, $k);
+            $numerator = 1;
+            for ($i = $max + 1; $i <= $n + $k - 1; $i++) {
+                $numerator *= $i;
+            }
+            return $numerator / self::factorial($min);
         }
 
         // nCk without repetition
-        $n！        = self::factorial($n);
-        $⟮n − k⟯！k！ = self::factorial($n - $k) * self::factorial($k);
-
-        return $n！ / $⟮n − k⟯！k！;
+        $max = max($n - $k, $k);
+        $min = min($n - $k, $k);
+        $numerator = 1;
+        for ($i = $max + 1; $i <= $n; $i++) {
+            $numerator *= $i;
+        }
+        return $numerator / self::factorial($min);
     }
 
     /**
