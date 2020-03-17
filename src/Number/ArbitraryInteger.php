@@ -275,7 +275,7 @@ class ArbitraryInteger implements ObjectArithmetic
 
         // √0 = 0 edge case
         if ($this->equals(0)) {
-            return new ArbitraryInteger(0);
+            return new static(0);
         }
 
         $length = strlen($this->base256);
@@ -594,7 +594,7 @@ class ArbitraryInteger implements ObjectArithmetic
     {
         $exp = self::create($exp);
         if ($exp->equals(0)) {
-            return new ArbitraryInteger(1);
+            return new static(1);
         }
         if ($exp->equals(1)) {
             return $this;
