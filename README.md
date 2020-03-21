@@ -1456,6 +1456,12 @@ $X      = [0.7, 1.4];
 $normal = new Multivariate\Normal($μ, $∑);
 $pdf    = $normal->pdf($X);
 
+// Hypergeometric distribution
+$quantities   = [5, 10, 15];   // Suppose there are 5 black, 10 white, and 15 red marbles in an urn.
+$choices      = [2, 2, 2];     // If six marbles are chosen without replacement, the probability that exactly two of each color are chosen is:
+$distribution = new Hypergeometric($quantities);
+$probability  = $distribution->pmf($choices);    // 0.0795756
+
 // Multinomial distribution
 $frequencies   = [7, 2, 3];
 $probabilities = [0.40, 0.35, 0.25];
