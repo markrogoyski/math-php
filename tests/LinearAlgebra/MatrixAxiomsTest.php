@@ -177,7 +177,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     use Tests\LinearAlgebra\MatrixDataProvider;
 
     /**
-     * Axiom: r(A + B) = rA + rB
+     * @test Axiom: r(A + B) = rA + rB
      * Order of scalar multiplication does not matter.
      *
      * @dataProvider dataProviderForScalarMultiplicationOrderAddition
@@ -188,18 +188,20 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testScalarMultiplicationOrderAddition(array $A, array $B, int $r)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
 
-        // r(A + B)
+        // When r(A + B)
         $A＋B = $A->add($B);
         $r⟮A＋B⟯ = $A＋B->scalarMultiply($r);
 
-        // rA + rB
+        // And rA + rB
         $rA     = $A->scalarMultiply($r);
         $rB     = $B->scalarMultiply($r);
         $rA＋rB = $rA->add($rB);
 
+        // Then
         $this->assertEquals($r⟮A＋B⟯->getMatrix(), $rA＋rB->getMatrix());
     }
 
@@ -261,7 +263,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Axiom: A + (−A) = 0
+     * @test Axiom: A + (−A) = 0
      * Adding the negate of a matrix is a zero matrix.
      *
      * @dataProvider dataProviderForNegateAdditionZeroMatrix
@@ -271,10 +273,14 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddNegateIsZeroMatrix(array $A, array $Z)
     {
+        // Given
         $A  = MatrixFactory::create($A);
-        $−A = $A->negate();
         $Z  = MatrixFactory::create($Z);
 
+        // When
+        $−A = $A->negate();
+
+        // Then
         $this->assertEquals($Z, $A->add($−A));
         $this->assertEquals($Z, $−A->add($A));
     }
@@ -331,7 +337,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Axiom: (AB)C = A(BC)
+     * @test Axiom: (AB)C = A(BC)
      * Matrix multiplication is associative
      *
      * @dataProvider dataProviderForMultiplicationIsAssociative
@@ -342,16 +348,20 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testMultiplicationIsAssociative(array $A, array $B, array $C)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
         $C = MatrixFactory::create($C);
 
+        // When
         $⟮AB⟯  = $A->multiply($B);
         $⟮AB⟯C = $⟮AB⟯->multiply($C);
 
+        // And
         $⟮BC⟯  = $B->multiply($C);
         $A⟮BC⟯ = $A->multiply($⟮BC⟯);
 
+        // Then
         $this->assertEquals($⟮AB⟯C->getMatrix(), $A⟮BC⟯->getMatrix());
     }
 
@@ -399,7 +409,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Axiom: A(B + C) = AB + AC
+     * @test Axiom: A(B + C) = AB + AC
      * Matrix multiplication is distributive
      *
      * @dataProvider dataProviderForMultiplicationIsDistributive
@@ -410,19 +420,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testMultiplicationIsDistributive(array $A, array $B, array $C)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
         $C = MatrixFactory::create($C);
 
-        // A(B + C)
+        // When A(B + C)
         $⟮B＋C⟯  = $B->add($C);
         $A⟮B＋C⟯ = $A->multiply($⟮B＋C⟯);
 
-        // AB + AC
+        // And AB + AC
         $AB     = $A->multiply($B);
         $AC     = $A->multiply($C);
         $AB＋AC = $AB->add($AC);
 
+        // Then
         $this->assertEquals($A⟮B＋C⟯->getMatrix(), $AB＋AC->getMatrix());
     }
 
@@ -484,7 +496,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Axiom: r(AB) = (rA)B = A(rB)
+     * @test Axiom: r(AB) = (rA)B = A(rB)
      * Order of scalar multiplication does not matter.
      *
      * @dataProvider dataProviderForScalarMultiplicationOrder
@@ -495,21 +507,23 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testScalarMultiplcationOrder(array $A, array $B, int $r)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
 
-        // r(AB)
+        // When r(AB)
         $AB = $A->multiply($B);
         $r⟮AB⟯ = $AB->scalarMultiply($r);
 
-        // (rA)B
+        // And (rA)B
         $rA = $A->scalarMultiply($r);
         $⟮rA⟯B = $rA->multiply($B);
 
-        // A(rB)
+        // And A(rB)
         $rB = $B->scalarMultiply($r);
         $A⟮rB⟯ = $A->multiply($rB);
 
+        // Then
         $this->assertEquals($r⟮AB⟯->getMatrix(), $⟮rA⟯B->getMatrix());
         $this->assertEquals($⟮rA⟯B->getMatrix(), $A⟮rB⟯->getMatrix());
         $this->assertEquals($r⟮AB⟯->getMatrix(), $A⟮rB⟯->getMatrix());
@@ -573,7 +587,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Axiom: AI = A = IA
+     * @test Axiom: AI = A = IA
      * Matrix multiplied with the identity matrix is the original matrix.
      *
      * @dataProvider dataProviderForSquareMatrix
@@ -582,30 +596,38 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testMatrixTimesIdentityIsOriginalMatrix(array $A)
     {
+        // Given
         $A  = MatrixFactory::create($A);
         $I  = MatrixFactory::identity($A->getN());
+
+        // When
         $AI = $A->multiply($I);
         $IA = $I->multiply($A);
 
+        // Then
         $this->assertEquals($A->getMatrix(), $AI->getMatrix());
         $this->assertEquals($A->getMatrix(), $IA->getMatrix());
     }
 
     /**
-     * @testCase Axiom: I is involutory
+     * @test Axiom: I is involutory
      * Identity matrix is involutory
      * @throws \Exception
      */
     public function testIdentityMatrixIsInvolutory()
     {
+        // Given
         foreach (range(1, 20) as $n) {
+            // When
             $A = MatrixFactory::identity($n);
+
+            // Then
             $this->assertTrue($A->isInvolutory());
         }
     }
 
     /**
-     * Axiom: AA⁻¹ = I = A⁻¹A
+     * @test Axiom: AA⁻¹ = I = A⁻¹A
      * Matrix multiplied with its inverse is the identity matrix.
      *
      * @dataProvider dataProviderForInverse
@@ -614,19 +636,23 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testMatrixTimesInverseIsIdentity(array $A)
     {
-        $A    = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $A⁻¹  = $A->inverse();
         $AA⁻¹ = $A->multiply($A⁻¹);
         $A⁻¹A = $A⁻¹->multiply($A);
         $I    = MatrixFactory::identity($A->getN());
 
+        // Then
         $this->assertEquals($I->getMatrix(), $AA⁻¹->getMatrix());
         $this->assertEquals($I->getMatrix(), $A⁻¹A->getMatrix());
         $this->assertEquals($AA⁻¹->getMatrix(), $A⁻¹A->getMatrix());
     }
 
     /**
-     * Axiom: (A⁻¹)⁻¹ = A
+     * @test Axiom: (A⁻¹)⁻¹ = A
      * Inverse of inverse is the original matrix.
      *
      * @dataProvider dataProviderForSquareMatrixGreaterThanOneWithoutOddMatrices
@@ -635,9 +661,13 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testInverseOfInverseIsOriginalMatrix(array $A)
     {
-        $A       = MatrixFactory::create($A);
-        $⟮A⁻¹⟯⁻¹  = $A->inverse()->inverse();
+        // Given
+        $A = MatrixFactory::create($A);
 
+        // When
+        $⟮A⁻¹⟯⁻¹ = $A->inverse()->inverse();
+
+        // Then
         $this->assertEquals($A->getMatrix(), $⟮A⁻¹⟯⁻¹->getMatrix());
     }
 
@@ -755,30 +785,38 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testInverseProductIsReverseProductOfInverses(array $A, array $B)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
 
+        // When
         $⟮AB⟯⁻¹ = $A->multiply($B)->inverse();
 
+        // And
         $B⁻¹ = $B->inverse();
         $A⁻¹ = $A->inverse();
         $B⁻¹A⁻¹ = $B⁻¹->multiply($A⁻¹);
 
+        // Then
         $this->assertEquals($⟮AB⟯⁻¹->getMatrix(), $B⁻¹A⁻¹->getMatrix());
     }
 
     /**
-     * @testCase Axiom: A is invertible, Aᵀ is inveritble
-     * If A is an invertible matrix, then the tranpose is also inveritble
+     * @test Axiom: A is invertible, Aᵀ is inveritble
+     * If A is an invertible matrix, then the transpose is also inveritble
      * @dataProvider dataProviderForInverse
      * @param        array $A
      * @throws       \Exception
      */
     public function testIfMatrixIsInvertibleThenTransposeIsInvertible(array $A)
     {
-        $A  = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $Aᵀ = $A->transpose();
 
+        // Then
         if ($A->isInvertible()) {
             $this->assertTrue($Aᵀ->isInvertible());
         } else {
@@ -787,7 +825,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Axiom: A is invertible, AAᵀ is inveritble
+     * @test Axiom: A is invertible, AAᵀ is inveritble
      * If A is an invertible matrix, then the product of A and tranpose of A is also inveritble
      * @dataProvider dataProviderForInverse
      * @param        array $A
@@ -795,10 +833,14 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testIfMatrixIsInvertibleThenProductOfMatrixAndTransposeIsInvertible(array $A)
     {
-        $A   = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $Aᵀ  = $A->transpose();
         $AAᵀ = $A->multiply($Aᵀ);
 
+        // then
         if ($A->isInvertible()) {
             $this->assertTrue($AAᵀ->isInvertible());
         } else {
@@ -807,7 +849,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Axiom: A is invertible, AᵀA is inveritble
+     * @test Axiom: A is invertible, AᵀA is inveritble
      * If A is an invertible matrix, then the product of transpose and A is also inveritble
      * @dataProvider dataProviderForInverse
      * @param        array $A
@@ -815,10 +857,14 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testIfMatrixIsInvertibleThenProductOfTransposeAndMatrixIsInvertible(array $A)
     {
-        $A   = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $Aᵀ  = $A->transpose();
         $AᵀA = $Aᵀ->multiply($A);
 
+        // Then
         if ($A->isInvertible()) {
             $this->assertTrue($AᵀA->isInvertible());
         } else {
@@ -884,7 +930,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * (Aᵀ)ᵀ = A
+     * @test Axiom: (Aᵀ)ᵀ = A
      * The transpose of the transpose is the original matrix.
      *
      * @dataProvider dataProviderForSquareMatrix
@@ -893,14 +939,18 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testTransposeOfTransposeIsOriginalMatrix(array $A)
     {
-        $A     = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $⟮A⁻ᵀ⟯ᵀ = $A->transpose()->transpose();
 
+        // Then
         $this->assertEquals($⟮A⁻ᵀ⟯ᵀ->getMatrix(), $A->getMatrix());
     }
 
     /**
-     * (A⁻¹)ᵀ = (Aᵀ)⁻¹
+     * @test Axiom: (A⁻¹)ᵀ = (Aᵀ)⁻¹
      * The transpose of the inverse is the inverse of the transpose.
      *
      * @dataProvider dataProviderForSquareMatrixGreaterThanOneWithoutOddMatrices
@@ -909,15 +959,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testTransposeOfInverseIsInverseOfTranspose(array $A)
     {
-        $A     = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $⟮A⁻¹⟯ᵀ = $A->inverse()->transpose();
         $⟮Aᵀ⟯⁻¹ = $A->transpose()->inverse();
 
+        // Then
         $this->assertEquals($⟮A⁻¹⟯ᵀ->getMatrix(), $⟮Aᵀ⟯⁻¹->getMatrix());
     }
 
     /**
-     * (rA)ᵀ = rAᵀ
+     * @test Axiom: (rA)ᵀ = rAᵀ
      * Scalar multiplication order does not matter for transpose
      *
      * @dataProvider dataProviderForSquareMatrix
@@ -926,17 +980,20 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testScalarMultiplicationOfTransposeOrder(array $A)
     {
-        $A     = MatrixFactory::create($A);
-        $r     = 4;
+        // Given
+        $A = MatrixFactory::create($A);
+        $r = 4;
 
+        // When
         $⟮rA⟯ᵀ = $A->scalarMultiply($r)->transpose();
         $rAᵀ  = $A->transpose()->scalarMultiply($r);
 
+        // Then
         $this->assertEquals($⟮rA⟯ᵀ->getMatrix(), $rAᵀ->getMatrix());
     }
 
     /**
-     * (AB)ᵀ = BᵀAᵀ
+     * @test Axiom: (AB)ᵀ = BᵀAᵀ
      * Transpose of a product of matrices equals the product of their transposes in reverse order.
      *
      * @dataProvider dataProviderForTwoSquareMatrices
@@ -946,22 +1003,24 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testTransposeProductIsProductOfTranposesInReverseOrder(array $A, array $B)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
 
-        // (AB)ᵀ
+        // When (AB)ᵀ
         $⟮AB⟯ᵀ = $A->multiply($B)->transpose();
 
-        // BᵀAᵀ
+        // And BᵀAᵀ
         $Bᵀ   = $B->transpose();
         $Aᵀ   = $A->transpose();
         $BᵀAᵀ = $Bᵀ->multiply($Aᵀ);
 
+        // Then
         $this->assertEquals($⟮AB⟯ᵀ->getMatrix(), $BᵀAᵀ->getMatrix());
     }
 
     /**
-     * (A + B)ᵀ = Aᵀ + Bᵀ
+     * @test Axiom: (A + B)ᵀ = Aᵀ + Bᵀ
      * Transpose of sum is the same as sum of transposes
      *
      * @dataProvider dataProviderForTwoSquareMatrices
@@ -971,22 +1030,24 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testTransposeSumIsSameAsSumOfTransposes(array $A, array $B)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
 
-        // (A + B)ᵀ
+        // When (A + B)ᵀ
         $⟮A＋B⟯ᵀ = $A->add($B)->transpose();
 
-        // Aᵀ + Bᵀ
+        // And Aᵀ + Bᵀ
         $Aᵀ     = $A->transpose();
         $Bᵀ     = $B->transpose();
         $Aᵀ＋Bᵀ = $Aᵀ->add($Bᵀ);
 
+        // Then
         $this->assertEquals($⟮A＋B⟯ᵀ->getMatrix(), $Aᵀ＋Bᵀ->getMatrix());
     }
 
     /**
-     * tr(A) = tr(Aᵀ)
+     * @test Axiom: tr(A) = tr(Aᵀ)
      * Trace is the same as the trace of the transpose
      *
      * @dataProvider dataProviderForSquareMatrix
@@ -995,17 +1056,20 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testTraceIsSameAsTraceOfTranspose(array $A)
     {
+        // Given
         $A  = MatrixFactory::create($A);
-        $Aᵀ = $A->transpose();
 
+        // When
+        $Aᵀ = $A->transpose();
         $tr⟮A⟯  = $A->trace();
         $tr⟮Aᵀ⟯ = $Aᵀ->trace();
 
+        // Then
         $this->assertEquals($tr⟮A⟯, $tr⟮Aᵀ⟯);
     }
 
     /**
-     * tr(AB) = tr(BA)
+     * @test Axiom: tr(AB) = tr(BA)
      * Trace of product does not matter the order they were multiplied
      *
      * @dataProvider dataProviderForTwoSquareMatrices
@@ -1015,17 +1079,20 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testTraceOfProductIsSameRegardlessOfOrderMultiplied(array $A, array $B)
     {
+        // Given
         $A  = MatrixFactory::create($A);
         $B  = MatrixFactory::create($B);
 
+        // When
         $tr⟮AB⟯ = $A->multiply($B)->trace();
         $tr⟮BA⟯ = $B->multiply($A)->trace();
 
+        // Then
         $this->assertEquals($tr⟮AB⟯, $tr⟮BA⟯);
     }
 
     /**
-     * det(A) = det(Aᵀ)
+     * @test Axiom: det(A) = det(Aᵀ)
      * Determinant of matrix is the same as determinant of transpose.
      *
      * @dataProvider dataProviderForSquareMatrix
@@ -1034,16 +1101,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testDeterminantSameAsDeterminantOfTranspose(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // When
         $det⟮A⟯  = $A->det();
         $det⟮Aᵀ⟯ = $A->transpose()->det();
 
+        // Then
         $this->assertEquals($det⟮A⟯, $det⟮Aᵀ⟯, '', 0.00001);
     }
 
     /**
-     * det(AB) = det(A)det(B)
+     * @test Axiom: det(AB) = det(A)det(B)
      * Determinant of product of matrices is the same as the product of determinants.
      *
      * @dataProvider dataProviderForTwoSquareMatrices
@@ -1053,22 +1123,24 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testDeterminantProductSameAsProductOfDeterminants(array $A, array $B)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
 
-        // det(AB)
+        // When det(AB)
         $det⟮AB⟯  = $A->multiply($B)->det();
 
-        // det(A)det(B)
+        // And det(A)det(B)
         $det⟮A⟯ = $A->det();
         $det⟮B⟯ = $B->det();
         $det⟮A⟯det⟮B⟯ = $det⟮A⟯ * $det⟮B⟯;
 
+        // Then
         $this->assertEquals($det⟮AB⟯, $det⟮A⟯det⟮B⟯, '', 0.000001);
     }
 
     /**
-     * PA = LU
+     * @test Axiom: PA = LU
      * Basic LU decomposition property that permutation matrix times the matrix is the product of the lower and upper decomposition matrices.
      * @dataProvider dataProviderForSquareMatrixGreaterThanOneWithoutOddMatrices
      * @dataProvider dataProviderForSymmetricMatrix
@@ -1093,7 +1165,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * A = P⁻¹LU
+     * @test Axiom: A = P⁻¹LU
      * @dataProvider dataProviderForSquareMatrixGreaterThanOneWithoutOddMatrices
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
@@ -1116,7 +1188,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * PPᵀ = I = PᵀP
+     * @test Axiom: PPᵀ = I = PᵀP
      * Permutation matrix of the LU decomposition times the transpose of the permutation matrix is the identity matrix.
      * @dataProvider dataProviderForSquareMatrix
      * @dataProvider dataProviderForSymmetricMatrix
@@ -1146,7 +1218,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * (PA)⁻¹ = (LU)⁻¹ = U⁻¹L⁻¹
+     * @test Axiom: (PA)⁻¹ = (LU)⁻¹ = U⁻¹L⁻¹
      * Inverse of the LU decomposition equation is the inverse of the other side.
      * @dataProvider dataProviderForSquareMatrixGreaterThanOneWithoutOddMatrices
      * @dataProvider dataProviderForSymmetricMatrix
@@ -1178,7 +1250,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test A = QR
+     * @test Axiom: A = QR
      * Basic QR decomposition property that A = QR
      * @dataProvider dataProviderForSquareMatrix
      * @dataProvider dataProviderForSymmetricMatrix
@@ -1200,7 +1272,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test QR.Q is orthogonal and QR.R is upper triangular
+     * @test Axiom: QR.Q is orthogonal and QR.R is upper triangular
      * QR decomposition properties Q is orthogonal and R is upper triangular
      * @dataProvider dataProviderForSquareMatrix
      * @dataProvider dataProviderForSymmetricMatrix
@@ -1221,7 +1293,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test A = LU where L = LD
+     * @test Axiom: A = LU where L = LD
      * Basic Crout decomposition property that A = (LD)U
      * @dataProvider dataProviderForSquareMatrixGreaterThanOneWithoutOddMatrices
      * @dataProvider dataProviderForSymmetricMatrix
@@ -1243,7 +1315,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test A = LLᵀ
+     * @test Axiom: A = LLᵀ
      * Basic Cholesky decomposition property that A = LLᵀ
      * @dataProvider dataProviderForPositiveDefiniteMatrix
      * @param        array $A
@@ -1264,7 +1336,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * P⁻¹ = Pᵀ
+     * @test Axiom: P⁻¹ = Pᵀ
      * Inverse of the permutation matrix equals the transpose of the permutation matrix
      *
      * @dataProvider dataProviderForSquareMatrix
@@ -1273,18 +1345,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPInverseEqualsPTranspose(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // When
         $LUP = $A->luDecomposition();
         $P   = $LUP['P'];
         $P⁻¹ = $P->inverse();
         $Pᵀ  = $P->transpose();
 
+        // Then
         $this->assertEquals($P⁻¹, $Pᵀ);
     }
 
     /**
-     * Axiom: Ax - b = 0
+     * @test Axiom: Ax - b = 0
      * Matrix multiplied with unknown x vector subtract solution b is 0
      *
      * @dataProvider dataProviderForSolve
@@ -1296,19 +1371,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSolveEquationForZero(array $A, array $b, array $x, array $zeros)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $x = new Vector($x);
         $b = (new Vector($b))->asColumnMatrix();
         $z = (new Vector($zeros))->asColumnMatrix();
 
-        // Ax - b
+        // When Ax - b
         $R = $A->multiply($x)->subtract($b);
 
+        // Then
         $this->assertEquals($z, $R, '', 0.01);
     }
 
     /**
-     * Axiom: x = A⁻¹b
+     * @test Axiom: x = A⁻¹b
      * Matrix multiplied with unknown x vector subtract solution b is 0
      *
      * @dataProvider dataProviderForSolve
@@ -1319,19 +1396,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSolveInverseBEqualsX(array $A, array $b, array $x)
     {
+        // Given
         $A   = MatrixFactory::create($A);
         $A⁻¹ = $A->inverse();
         $x = (new Vector($x))->asColumnMatrix();
         $b = new Vector($b);
 
-        // A⁻¹b
+        // When A⁻¹b
         $A⁻¹b = $A⁻¹->multiply($b);
 
+        // Then
         $this->assertEquals($x, $A⁻¹b, '', 0.001);
     }
 
     /**
-     * Axiom: Symmetric matrix is square
+     * @test Axiom: Symmetric matrix is square
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
@@ -1349,7 +1428,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Axiom: A = Aᵀ
+     * @test Axiom: A = Aᵀ
      * Symmetric matrix is the same as its transpose
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
@@ -1368,7 +1447,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Axiom: A⁻¹Aᵀ = I
+     * @test Axiom: A⁻¹Aᵀ = I
      * Symmetric matrix inverse times transpose equals identity matrix
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $A
@@ -1376,19 +1455,24 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSymmetricInverseTransposeEqualsIdentity(array $A)
     {
-        $A   = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $A⁻¹ = $A->inverse();
         $Aᵀ  = $A->transpose();
 
+        // And
         $A⁻¹Aᵀ = $A⁻¹->multiply($Aᵀ);
         $I     = MatrixFactory::identity($A->getM());
 
+        // Then
         $this->assertEquals($I, $A⁻¹Aᵀ);
         $this->assertEquals($I->getMatrix(), $A⁻¹Aᵀ->getMatrix());
     }
 
     /**
-     * @testCase Axiom: A + B is symmetric
+     * @test Axiom: A + B is symmetric
      * If A and B are symmetric matrices with the sme size, then A + B is symmetric
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $M
@@ -1396,17 +1480,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSymmetricMatricesSumIsSymmetric(array $M)
     {
-        $A    = MatrixFactory::create($M);
-        $B    = MatrixFactory::create($M);
+        // Given
+        $A  = MatrixFactory::create($M);
+        $B  = MatrixFactory::create($M);
+
+        // When
         $A＋B = $A->add($B);
 
+        // Then
         $this->assertTrue($A->isSymmetric());
         $this->assertTrue($B->isSymmetric());
         $this->assertTrue($A＋B->isSymmetric());
     }
 
     /**
-     * @testCase Axiom: A - B is symmetric
+     * @test Axiom: A - B is symmetric
      * If A and B are symmetric matrices with the sme size, then A - B is symmetric
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $M
@@ -1414,17 +1502,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSymmetricMatricesDifferenceIsSymmetric(array $M)
     {
-        $A   = MatrixFactory::create($M);
-        $B   = MatrixFactory::create($M);
+        // Given
+        $A = MatrixFactory::create($M);
+        $B = MatrixFactory::create($M);
+
+        // When
         $A−B = $A->subtract($B);
 
+        // Then
         $this->assertTrue($A->isSymmetric());
         $this->assertTrue($B->isSymmetric());
         $this->assertTrue($A−B->isSymmetric());
     }
 
     /**
-     * @testCase Axiom: kA is symmetric
+     * @test Axiom: kA is symmetric
      * If A is a symmetric matrix, kA is symmetric
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $M
@@ -1432,17 +1524,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSymmetricMatricesTimesScalarIsSymmetric(array $M)
     {
+        // Given
         $A   = MatrixFactory::create($M);
         $this->assertTrue($A->isSymmetric());
 
         foreach (range(1, 10) as $k) {
+            // When
             $kA = $A->scalarMultiply($k);
+
+            // Then
             $this->assertTrue($kA->isSymmetric());
         }
     }
 
     /**
-     * @testCase Axiom: AAᵀ is symmetric
+     * @test Axiom: AAᵀ is symmetric
      * If A is a symmetric matrix, AAᵀ is symmetric
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $M
@@ -1450,16 +1546,20 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSymmetricMatrixTimesTransposeIsSymmetric(array $M)
     {
-        $A   = MatrixFactory::create($M);
+        // Given
+        $A = MatrixFactory::create($M);
+
+        // When
         $Aᵀ  = $A->transpose();
         $AAᵀ = $A->multiply($Aᵀ);
 
+        // Then
         $this->assertTrue($A->isSymmetric());
         $this->assertTrue($AAᵀ->isSymmetric());
     }
 
     /**
-     * @testCase Axiom: AᵀA is symmetric
+     * @test Axiom: AᵀA is symmetric
      * If A is a symmetric matrix, AᵀA is symmetric
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $M
@@ -1467,16 +1567,20 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testTransposeTimesSymmetricMatrixIsSymmetric(array $M)
     {
-        $A   = MatrixFactory::create($M);
+        // Given
+        $A = MatrixFactory::create($M);
+
+        // When
         $Aᵀ  = $A->transpose();
         $AᵀA = $Aᵀ->multiply($A);
 
+        // Then
         $this->assertTrue($A->isSymmetric());
         $this->assertTrue($AᵀA->isSymmetric());
     }
 
     /**
-     * @testCase Axiom: A is invertible symmetric, A⁻¹ is symmetric
+     * @test Axiom: A is invertible symmetric, A⁻¹ is symmetric
      * If A is an invertible symmetric matrix, the inverse of A is also symmetric
      * @dataProvider dataProviderForSymmetricMatrix
      * @param        array $M
@@ -1484,21 +1588,25 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testMatrixIsInvertibleSymmetricThenInverseIsSymmetric(array $M)
     {
+        // Given
         $A   = MatrixFactory::create($M);
 
         if ($A->isInvertible() && $A->isSymmetric()) {
+            // When
             $A⁻¹ = $A->inverse();
             $A⁻¹ = $A⁻¹->map(
                 function ($x) {
                     return round($x, 5); // Floating point adjustment
                 }
             );
+
+            // Theb
             $this->assertTrue($A⁻¹->isSymmetric());
         }
     }
 
     /**
-     * @testCase     Axiom: A is skew-symmetric, det(A) ≥ 0
+     * @test Axiom: A is skew-symmetric, det(A) ≥ 0
      *               If A is a skew-symmetric matrix, the determinant is greater than zero.
      * @dataProvider dataProviderForSkewSymmetricMatrix
      * @param        array $A
@@ -1506,28 +1614,34 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testMatrixIsSkewSymmetricDeterminantGreaterThanZero(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isSkewSymmetric());
         $this->assertGreaterThanOrEqual(0, $A->det());
     }
 
     /**
-     * @testCase     Axiom: The sum of two skew-symmetric matrices is skew-symmetric
+     * @test Axiom: The sum of two skew-symmetric matrices is skew-symmetric
      * @dataProvider dataProviderForSkewSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
      */
     public function testSumOfTwoSkewSymmetricMatricesIsSkewSymmetric(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // When
         $B = $A->add($A);
+
+        // Then
         $this->assertTrue($B->isSkewSymmetric());
     }
 
     /**
-     * @testCase     Axiom: Scalar multiple of a skew-symmetric matrix is skew-symmetric
+     * @test Axiom: Scalar multiple of a skew-symmetric matrix is skew-symmetric
      * @dataProvider dataProviderForSkewSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
@@ -1541,38 +1655,50 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     Axiom: The elements on the diagonal of a skew-symmetric matrix are zero, and therefore also its trace
+     * @test         Axiom: The elements on the diagonal of a skew-symmetric matrix are zero, and therefore also its trace
      * @dataProvider dataProviderForSkewSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
      */
     public function testSkewSymmetricMatrixDiagonalElementsAreZeroAndThereforeTraceIsZero(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // When
         foreach ($A->getDiagonalElements() as $diagonal_element) {
+            // Then
             $this->assertEquals(0, $diagonal_element);
         }
-        $this->assertEquals(0, $A->trace());
+
+        // And When
+        $trace = $A->trace();
+
+        // Then
+        $this->assertEquals(0, $trace);
     }
 
     /**
-     * @testCase     Axiom: A is a real skew-symmetric matrix, then I+A is invertible, where I is the identity matrix
+     * @test         Axiom: A is a real skew-symmetric matrix, then I+A is invertible, where I is the identity matrix
      * @dataProvider dataProviderForSkewSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
      */
     public function testSkewSymmetricMatrixAddedToIdentityIsInvertible(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $I = MatrixFactory::identity($A->getN());
 
+        // When
         $I＋A = $I->add($A);
+
+        // Then
         $this->assertTrue($I＋A->isInvertible());
     }
 
     /**
-     * Axiom: A ⊗ (B + C) = A ⊗ B + A ⊗ C
+     * @test Axiom: A ⊗ (B + C) = A ⊗ B + A ⊗ C
      * Kronecker product bilinearity
      * @dataProvider dataProviderForThreeMatrices
      * @param        array $A
@@ -1582,18 +1708,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testKroneckerProductBilinearity1(array $A, array $B, array $C)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
         $C = MatrixFactory::create($C);
 
+        // When
         $A⊗⟮B＋C⟯  = $A->kroneckerProduct($B->add($C));
         $A⊗B＋A⊗C = $A->kroneckerProduct($B)->add($A->kroneckerProduct($C));
 
+        // Then
         $this->assertEquals($A⊗⟮B＋C⟯->getMatrix(), $A⊗B＋A⊗C->getMatrix());
     }
 
     /**
-     * Axiom: (A + B) ⊗ C = A ⊗ C + B ⊗ C
+     * @test Axiom: (A + B) ⊗ C = A ⊗ C + B ⊗ C
      * Kronecker product bilinearity
      * @dataProvider dataProviderForThreeMatrices
      * @param        array $A
@@ -1603,18 +1732,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testKroneckerProductBilinearity2(array $A, array $B, array $C)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
         $C = MatrixFactory::create($C);
 
+        // When
         $⟮A＋B⟯⊗C  = $A->add($B)->kroneckerProduct($C);
         $A⊗C＋B⊗C = $A->kroneckerProduct($C)->add($B->kroneckerProduct($C));
 
+        // Then
         $this->assertEquals($⟮A＋B⟯⊗C->getMatrix(), $A⊗C＋B⊗C->getMatrix());
     }
 
     /**
-     * Axiom: (A ⊗ B) ⊗ C = A ⊗ (B ⊗ C)
+     * @test Axiom: (A ⊗ B) ⊗ C = A ⊗ (B ⊗ C)
      * Kronecker product associative
      * @dataProvider dataProviderForThreeMatrices
      * @param        array $A
@@ -1624,18 +1756,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testKroneckerProductAssociativity(array $A, array $B, array $C)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
         $C = MatrixFactory::create($C);
 
+        // When
         $⟮A⊗B⟯⊗C = $A->kroneckerProduct($B)->kroneckerProduct($C);
         $A⊗⟮B⊗C⟯ = $A->kroneckerProduct($B->kroneckerProduct($C));
 
+        // Then
         $this->assertEquals($⟮A⊗B⟯⊗C->getMatrix(), $A⊗⟮B⊗C⟯->getMatrix());
     }
 
     /**
-     * @testCase     Axiom: (A ⊗ B)(C ⊗ D) = AC ⊗ BD
+     * @test         Axiom: (A ⊗ B)(C ⊗ D) = AC ⊗ BD
      *               Kronecker multiplication
      * @dataProvider dataProviderForFourMatrices
      * @param        array $A
@@ -1646,24 +1781,28 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testKroneckerProductMultiplication(array $A, array $B, array $C, array $D)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
         $C = MatrixFactory::create($C);
         $D = MatrixFactory::create($D);
 
+        // When
         $⟮A⊗B⟯ = $A->kroneckerProduct($B);
         $⟮C⊗D⟯ = $C->kroneckerProduct($D);
         $⟮A⊗B⟯⟮C⊗D⟯ = $⟮A⊗B⟯->multiply($⟮C⊗D⟯);
 
+        // And
         $AC = $A->multiply($C);
         $BD = $B->multiply($D);
         $AC⊗BD = $AC->kroneckerProduct($BD);
 
+        // Theb
         $this->assertEquals($⟮A⊗B⟯⟮C⊗D⟯->getMatrix(), $AC⊗BD->getMatrix());
     }
 
     /**
-     * Axiom: (kA) ⊗ B = A ⊗ (kB) = k(A ⊗ B)
+     * @test Axiom: (kA) ⊗ B = A ⊗ (kB) = k(A ⊗ B)
      * Kronecker product scalar multiplication
      * @dataProvider dataProviderForTwoSquareMatrices
      * @param        array $A
@@ -1672,21 +1811,24 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testKroneckerProductScalarMultiplication(array $A, array $B)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
         $k = 5;
 
+        // When
         $⟮kA⟯⊗B = $A->scalarMultiply($k)->kroneckerProduct($B);
         $A⊗⟮kB⟯ = $A->kroneckerProduct($B->scalarMultiply($k));
         $k⟮A⊗B⟯ = $A->kroneckerProduct($B)->scalarMultiply($k);
 
+        // Then
         $this->assertEquals($⟮kA⟯⊗B->getMatrix(), $A⊗⟮kB⟯->getMatrix());
         $this->assertEquals($⟮kA⟯⊗B->getMatrix(), $k⟮A⊗B⟯->getMatrix());
         $this->assertEquals($k⟮A⊗B⟯->getMatrix(), $A⊗⟮kB⟯->getMatrix());
     }
 
     /**
-     * Axiom: (A ⊗ B)⁻¹ = A⁻¹ ⊗ B⁻¹
+     * @test Axiom: (A ⊗ B)⁻¹ = A⁻¹ ⊗ B⁻¹
      * Inverse of Kronecker product
      * @dataProvider dataProviderForTwoSquareMatrices
      * @param        array $A
@@ -1695,19 +1837,22 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testKroneckerProductInverse(array $A, array $B)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
 
+        // When
         $A⁻¹     = $A->inverse();
         $B⁻¹     = $B->inverse();
         $A⁻¹⊗B⁻¹ = $A⁻¹->kroneckerProduct($B⁻¹);
         $⟮A⊗B⟯⁻¹  = $A->kroneckerProduct($B)->inverse();
 
+        // Then
         $this->assertEquals($A⁻¹⊗B⁻¹->getMatrix(), $⟮A⊗B⟯⁻¹->getMatrix());
     }
 
     /**
-     * Axiom: (A ⊗ B)ᵀ = Aᵀ ⊗ Bᵀ
+     * @test Axiom: (A ⊗ B)ᵀ = Aᵀ ⊗ Bᵀ
      * Transpose of Kronecker product
      * @dataProvider dataProviderForTwoSquareMatrices
      * @param        array $A
@@ -1716,19 +1861,22 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testKroneckerProductTranspose(array $A, array $B)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
 
+        // When
         $Aᵀ    = $A->transpose();
         $Bᵀ    = $B->transpose();
         $Aᵀ⊗Bᵀ = $Aᵀ->kroneckerProduct($Bᵀ);
         $⟮A⊗B⟯ᵀ = $A->kroneckerProduct($B)->transpose();
 
+        // Then
         $this->assertEquals($Aᵀ⊗Bᵀ->getMatrix(), $⟮A⊗B⟯ᵀ->getMatrix());
     }
 
     /**
-     * Axiom: det(A ⊗ B) = det(A)ᵐ det(B)ⁿ
+     * @test Axiom: det(A ⊗ B) = det(A)ᵐ det(B)ⁿ
      * Determinant of Kronecker product - where A is nxn matrix, and b is nxn matrix
      * @dataProvider dataProviderForKroneckerProductDeterminant
      * @param        array $A
@@ -1737,13 +1885,16 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testKroneckerProductDeterminant(array $A, array $B)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
 
+        // When
         $det⟮A⟯ᵐ  = ($A->det()) ** $B->getM();
         $det⟮B⟯ⁿ  = ($B->det()) ** $A->getN();
         $det⟮A⊗B⟯ = $A->kroneckerProduct($B)->det();
 
+        // Then
         $this->assertEquals($det⟮A⊗B⟯, $det⟮A⟯ᵐ  * $det⟮B⟯ⁿ, '', 0.0001);
     }
 
@@ -1853,7 +2004,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Axiom: Kronecker sum A⊕B = A⊗Ib + I⊗aB
+     * @test Axiom: Kronecker sum A⊕B = A⊗Ib + I⊗aB
      * Kronecker sum is the matrix product of the Kronecker product of each matrix with the other matrix's identiry matrix.
      * @dataProvider dataProviderForTwoSquareMatrices
      * @param        array $A
@@ -1862,22 +2013,24 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testKroneckerSum(array $A, array $B)
     {
+        // Given
         $A   = new SquareMatrix($A);
         $B   = new SquareMatrix($B);
         $A⊕B = $A->kroneckerSum($B);
 
-
+        // When
         $In          = MatrixFactory::identity($A->getN());
         $Im          = MatrixFactory::identity($B->getM());
         $A⊗Im        = $A->kroneckerProduct($Im);
         $In⊗B        = $In->kroneckerProduct($B);
         $A⊗Im＋In⊗B = $A⊗Im->add($In⊗B);
 
+        // Then
         $this->assertEquals($A⊕B, $A⊗Im＋In⊗B);
     }
 
     /**
-     * Axiom: Covariance matrix S = Sᵀ
+     * @test Axiom: Covariance matrix S = Sᵀ
      * Covariance matrix is symmetric so it is the same as its transpose
      * @dataProvider dataProviderForCovarianceSymmetric
      * @param        array $A
@@ -1932,7 +2085,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Axiom: Positive definiteness A is PD ⇔ -A is ND
+     * @test Axiom: Positive definiteness A is PD ⇔ -A is ND
      * If A is positive definite, then -A is negative definite.
      * @dataProvider dataProviderForPositiveDefiniteMatrix
      * @param        array $A
@@ -1940,15 +2093,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPositiveDefiniteNegativeisNegativeDefinite(array $A)
     {
-        $A  = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $−A = $A->scalarMultiply(-1);
 
+        // Then
         $this->assertTrue($A->isPositiveDefinite());
         $this->assertTrue($−A->isNegativeDefinite());
     }
 
     /**
-     * @testCase Axiom: Positive semidefiniteness A is PSD ⇔ -A is NSD
+     * @test Axiom: Positive semidefiniteness A is PSD ⇔ -A is NSD
      * If A is positive semidefinite, then -A is negative definite.
      * @dataProvider dataProviderForPositiveSemidefiniteMatrix
      * @param        array $A
@@ -1956,15 +2113,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPositiveSemidefiniteNegativeisNegativeSemidefinite(array $A)
     {
-        $A  = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $−A = $A->scalarMultiply(-1);
 
+        // Then
         $this->assertTrue($A->isPositiveSemidefinite());
         $this->assertTrue($−A->isNegativeSemidefinite());
     }
 
     /**
-     * @testCase Axiom: Positive definiteness A is PD ⇒ A is PSD
+     * @test Axiom: Positive definiteness A is PD ⇒ A is PSD
      * If A is positive definite, then A is also positive semidefinite.
      * @dataProvider dataProviderForPositiveDefiniteMatrix
      * @param        array $A
@@ -1972,14 +2133,16 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPositiveDefiniteIsAlsoPositiveSemidefinite(array $A)
     {
+        // Given
         $A  = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isPositiveDefinite());
         $this->assertTrue($A->isPositiveSemidefinite());
     }
 
     /**
-     * @testCase Axiom: Negative definiteness A is ND ⇒ A is NSD
+     * @test Axiom: Negative definiteness A is ND ⇒ A is NSD
      * If A is negative definite, then A is also negative semidefinite.
      * @dataProvider dataProviderForNegativeDefiniteMatrix
      * @param        array $A
@@ -1987,14 +2150,16 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testNegativeDefiniteIsAlsoNegativeSemidefinite(array $A)
     {
+        // Given
         $A  = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isNegativeDefinite());
         $this->assertTrue($A->isNegativeSemidefinite());
     }
 
     /**
-     * @testCase Axiom: Positive definiteness A is PD ⇔ A⁻¹ is PD
+     * @test Axiom: Positive definiteness A is PD ⇔ A⁻¹ is PD
      * If A is positive definite, then A⁻¹ is positive definite.
      * @dataProvider dataProviderForPositiveDefiniteMatrix
      * @param        array $A
@@ -2002,7 +2167,10 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPositiveDefiniteInverseIsPositiveDefinite(array $A)
     {
-        $A   = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $A⁻¹ = $A->inverse();
 
         // Floating point adjustment
@@ -2010,12 +2178,13 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
             return round($x, 7);
         });
 
+        // Then
         $this->assertTrue($A->isPositiveDefinite());
         $this->assertTrue($A⁻¹->isPositiveDefinite());
     }
 
     /**
-     * @testCase Axiom: Negative definiteness A is ND ⇔ A⁻¹ is ND
+     * @test Axiom: Negative definiteness A is ND ⇔ A⁻¹ is ND
      * If A is negative definite, then A⁻¹ is negative definite.
      * @dataProvider dataProviderForNegativeDefiniteMatrix
      * @param        array $A
@@ -2023,7 +2192,10 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testNegativeDefiniteInverseIsNegativeDefinite(array $A)
     {
-        $A   = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $A⁻¹ = $A->inverse();
 
         // Floating point adjustment
@@ -2031,12 +2203,13 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
             return round($x, 7);
         });
 
+        // Then
         $this->assertTrue($A->isNegativeDefinite());
         $this->assertTrue($A⁻¹->isNegativeDefinite());
     }
 
     /**
-     * @testCase Axiom: Positive definiteness A is PD and r > 0 ⇒ rA is PD
+     * @test Axiom: Positive definiteness A is PD and r > 0 ⇒ rA is PD
      * If A is positive definite and r > 0, then rA is positive definite.
      * @dataProvider dataProviderForPositiveDefiniteMatrix
      * @param        array $A
@@ -2044,17 +2217,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPositiveDefiniteThenScalarMultiplyWithPositiveNumberIsPositiveDefinite(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $this->assertTrue($A->isPositiveDefinite());
 
         foreach (range(1, 10) as $r) {
+            // When
             $rA = $A->scalarMultiply($r);
+
+            // Then
             $this->assertTrue($rA->isPositiveDefinite());
         }
     }
 
     /**
-     * @testCase Axiom: Positive definiteness A and B are PD ⇒ A + B is PD
+     * @test Axiom: Positive definiteness A and B are PD ⇒ A + B is PD
      * If A and B are positive definite then A + B is positive definite.
      * @dataProvider dataProviderForPositiveDefiniteMatrix
      * @param        array $M
@@ -2062,17 +2239,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPositiveDefiniteAPlusAIsPositiveDefinite(array $M)
     {
+        // Given
         $A = MatrixFactory::create($M);
         $B = MatrixFactory::create($M);
+
+        // When
         $A＋B = $A->add($B);
 
+        // Then
         $this->assertTrue($A->isPositiveDefinite());
         $this->assertTrue($B->isPositiveDefinite());
         $this->assertTrue($A＋B->isPositiveDefinite());
     }
 
     /**
-     * @testCase Axiom: Positive definiteness A and B are PD ⇒ A + B is PD
+     * @test Axiom: Positive definiteness A and B are PD ⇒ A + B is PD
      * If A and B are positive definite then A + B is positive definite.
      * @dataProvider dataProviderForTwoPositiveDefiniteMatrices
      * @param        array $A
@@ -2081,17 +2262,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPositiveDefiniteAPlusBIsPositiveDefinite(array $A, array $B)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
+
+        // When
         $A＋B = $A->add($B);
 
+        // Then
         $this->assertTrue($A->isPositiveDefinite());
         $this->assertTrue($B->isPositiveDefinite());
         $this->assertTrue($A＋B->isPositiveDefinite());
     }
 
     /**
-     * @testCase Axiom: Positive definiteness A and B are PD ⇒ ABA is PD
+     * @test Axiom: Positive definiteness A and B are PD ⇒ ABA is PD
      * If A and B are positive definite then ABA is positive definite.
      * @dataProvider dataProviderForPositiveDefiniteMatrix
      * @param        array $M
@@ -2099,17 +2284,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPositiveDefiniteAAAIsPositiveDefinite(array $M)
     {
+        // Given
         $A = MatrixFactory::create($M);
         $B = MatrixFactory::create($M);
+
+        // When
         $ABA = $A->multiply($B)->multiply($A);
 
+        // Then
         $this->assertTrue($A->isPositiveDefinite());
         $this->assertTrue($B->isPositiveDefinite());
         $this->assertTrue($ABA->isPositiveDefinite());
     }
 
     /**
-     * @testCase Axiom: Positive definiteness A and B are PD ⇒ ABA is PD
+     * @test Axiom: Positive definiteness A and B are PD ⇒ ABA is PD
      * If A and B are positive definite then ABA is positive definite.
      * @dataProvider dataProviderForTwoPositiveDefiniteMatrices
      * @param        array $A
@@ -2118,17 +2307,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPositiveDefiniteABAIsPositiveDefinite(array $A, array $B)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
+
+        // When
         $ABA = $A->multiply($B)->multiply($A);
 
+        // Then
         $this->assertTrue($A->isPositiveDefinite());
         $this->assertTrue($B->isPositiveDefinite());
         $this->assertTrue($ABA->isPositiveDefinite());
     }
 
     /**
-     * @testCase Axiom: Positive definiteness A and B are PD ⇒ BAB is PD
+     * @test Axiom: Positive definiteness A and B are PD ⇒ BAB is PD
      * If A and B are positive definite then BAB is positive definite.
      * @dataProvider dataProviderForTwoPositiveDefiniteMatrices
      * @param        array $A
@@ -2137,53 +2330,66 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testPositiveDefiniteBABIsPositiveDefinite(array $A, array $B)
     {
+        // Given
         $A = MatrixFactory::create($A);
         $B = MatrixFactory::create($B);
+
+        // When
         $BAB = $B->multiply($A)->multiply($B);
 
+        // Then
         $this->assertTrue($A->isPositiveDefinite());
         $this->assertTrue($B->isPositiveDefinite());
         $this->assertTrue($BAB->isPositiveDefinite());
     }
 
     /**
-     * @testCase Axiom: Zero matrix is lower triangular
+     * @test Axiom: Zero matrix is lower triangular
      * @throws   \Exception
      */
     public function testZeroMatrixIsLowerTriangular()
     {
         foreach (range(1, 20) as $m) {
+            // Given
             $L = MatrixFactory::zero($m, $m);
+
+            // Then
             $this->assertTrue($L->isLowerTriangular());
         }
     }
 
     /**
-     * @testCase Axiom: Zero matrix is upper triangular
+     * @test Axiom: Zero matrix is upper triangular
      * @throws   \Exception
      */
     public function testZeroMatrixIsUpperTriangular()
     {
         foreach (range(1, 20) as $m) {
+            // Given
             $L = MatrixFactory::zero($m, $m);
+
+            // Then
             $this->assertTrue($L->isUpperTriangular());
         }
     }
 
     /**
-     * @testCase Axiom: Zero matrix is diagonal
+     * @test Axiom: Zero matrix is diagonal
      * @throws   \Exception
      */
     public function testZeroMatrixIsDiagonal()
     {
         foreach (range(1, 20) as $m) {
+            // Given
             $L = MatrixFactory::zero($m, $m);
+
+            // Then
             $this->assertTrue($L->isDiagonal());
         }
     }
 
     /**
-     * @testCase Axiom: Lᵀ is upper triangular
+     * @test Axiom: Lᵀ is upper triangular
      * Transpose of a lower triangular matrix is upper triagular
      * @dataProvider dataProviderForLowerTriangularMatrix
      * @param        array $L
@@ -2191,15 +2397,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testTransposeOfLowerTriangularMatrixIsUpperTriangular(array $L)
     {
-        $L  = MatrixFactory::create($L);
+        // Given
+        $L = MatrixFactory::create($L);
+
+        // When
         $Lᵀ = $L->Transpose();
 
+        // Then
         $this->assertTrue($L->isLowerTriangular());
         $this->assertTrue($Lᵀ->isUpperTriangular());
     }
 
     /**
-     * @testCase Axiom: Uᵀ is lower triangular
+     * @test Axiom: Uᵀ is lower triangular
      * Transpose of an upper triangular matrix is lower triagular
      * @dataProvider dataProviderForUpperTriangularMatrix
      * @param        array $U
@@ -2207,15 +2417,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testTransposeOfUpperTriangularMatrixIsLowerTriangular(array $U)
     {
-        $U  = MatrixFactory::create($U);
+        // Given
+        $U = MatrixFactory::create($U);
+
+        // When
         $Uᵀ = $U->Transpose();
 
+        // Then
         $this->assertTrue($U->isUpperTriangular());
         $this->assertTrue($Uᵀ->isLowerTriangular());
     }
 
     /**
-     * @testCase Axiom: LL is lower triangular
+     * @test Axiom: LL is lower triangular
      * Product of two lower triangular matrices is lower triangular
      * @dataProvider dataProviderForLowerTriangularMatrix
      * @param        array $L
@@ -2223,15 +2437,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testProductOfTwoLowerTriangularMatricesIsLowerTriangular(array $L)
     {
-        $L  = MatrixFactory::create($L);
+        // Given
+        $L = MatrixFactory::create($L);
+
+        // When
         $LL = $L->multiply($L);
 
+        // Then
         $this->assertTrue($L->isLowerTriangular());
         $this->assertTrue($LL->isLowerTriangular());
     }
 
     /**
-     * @testCase Axiom: UU is upper triangular
+     * @test Axiom: UU is upper triangular
      * Product of two upper triangular matrices is upper triangular
      * @dataProvider dataProviderForUpperTriangularMatrix
      * @param        array $U
@@ -2239,15 +2457,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testProductOfTwoUpperTriangularMatricesIsUpperTriangular(array $U)
     {
-        $U  = MatrixFactory::create($U);
+        // Given
+        $U = MatrixFactory::create($U);
+
+        // When
         $UU = $U->multiply($U);
 
+        // Then
         $this->assertTrue($U->isUpperTriangular());
         $this->assertTrue($UU->isUpperTriangular());
     }
 
     /**
-     * @testCase Axiom: L + L is lower triangular
+     * @test Axiom: L + L is lower triangular
      * Sum of two lower triangular matrices is lower triangular
      * @dataProvider dataProviderForLowerTriangularMatrix
      * @param        array $L
@@ -2255,15 +2477,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSumOfTwoLowerTriangularMatricesIsLowerTriangular(array $L)
     {
-        $L    = MatrixFactory::create($L);
+        // Given
+        $L = MatrixFactory::create($L);
+
+        // When
         $L＋L = $L->add($L);
 
+        // Then
         $this->assertTrue($L->isLowerTriangular());
         $this->assertTrue($L＋L->isLowerTriangular());
     }
 
     /**
-     * @testCase Axiom: U + U is upper triangular
+     * @test Axiom: U + U is upper triangular
      * Sum of two upper triangular matrices is upper triangular
      * @dataProvider dataProviderForUpperTriangularMatrix
      * @param        array $U
@@ -2271,15 +2497,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSumOfTwoUpperTriangularMatricesIsUpperTriangular(array $U)
     {
-        $U    = MatrixFactory::create($U);
+        // Given
+        $U = MatrixFactory::create($U);
+
+        // When
         $U＋U = $U->add($U);
 
+        // Then
         $this->assertTrue($U->isUpperTriangular());
         $this->assertTrue($U＋U->isUpperTriangular());
     }
 
     /**
-     * @testCase Axiom: L⁻¹ is lower triangular (If L is invertible)
+     * @test Axiom: L⁻¹ is lower triangular (If L is invertible)
      * The inverse of an invertible lower triangular matrix is lower triangular
      * @dataProvider dataProviderForLowerTriangularMatrix
      * @param        array $L
@@ -2287,17 +2517,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testInverseOfInvertibleLowerTriangularMatrixIsLowerTriangular(array $L)
     {
+        // Given
         $L = MatrixFactory::create($L);
         $this->assertTrue($L->isLowerTriangular());
 
         if ($L->isInvertible()) {
+            // When
             $L⁻¹ = $L->inverse();
+
+            // Then
             $this->assertTrue($L⁻¹->isLowerTriangular());
         }
     }
 
     /**
-     * @testCase Axiom: U⁻¹ is upper triangular (If U is invertible)
+     * @test Axiom: U⁻¹ is upper triangular (If U is invertible)
      * The inverse of an invertible upper triangular matrix is upper triangular
      * @dataProvider dataProviderForUpperTriangularMatrix
      * @param        array $U
@@ -2305,17 +2539,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testInverseOfInvertibleUpperTriangularMatrixIsUpperTriangular(array $U)
     {
+        // Given
         $U = MatrixFactory::create($U);
         $this->assertTrue($U->isUpperTriangular());
 
         if ($U->isInvertible()) {
+            // When
             $U⁻¹ = $U->inverse();
+
+            // Then
             $this->assertTrue($U⁻¹->isUpperTriangular());
         }
     }
 
     /**
-     * @testCase Axiom: kL is lower triangular
+     * @test Axiom: kL is lower triangular
      * Product of a lower triangular matrix by a constant is lower triangular
      * @dataProvider dataProviderForLowerTriangularMatrix
      * @param        array $L
@@ -2323,17 +2561,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testProductOfLowerTriangularMatrixByConstantIsLowerTriangular(array $L)
     {
+        // Given
         $L = MatrixFactory::create($L);
         $this->assertTrue($L->isLowerTriangular());
 
         foreach (range(1, 10) as $k) {
+            // When
             $kL = $L->scalarMultiply($k);
+
+            // Then
             $this->assertTrue($kL->isLowerTriangular());
         }
     }
 
     /**
-     * @testCase Axiom: kU is upper triangular
+     * @test Axiom: kU is upper triangular
      * Product of a upper triangular matrix by a constant is upper triangular
      * @dataProvider dataProviderForUpperTriangularMatrix
      * @param        array $U
@@ -2341,17 +2583,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testProductOfUpperTriangularMatrixByConstantIsUpperTriangular(array $U)
     {
+        // Given
         $U = MatrixFactory::create($U);
         $this->assertTrue($U->isUpperTriangular());
 
         foreach (range(1, 10) as $k) {
+            // When
             $kU = $U->scalarMultiply($k);
+
+            // Then
             $this->assertTrue($kU->isUpperTriangular());
         }
     }
 
     /**
-     * @testCase Axiom: L is invertible iff diagonal is all non zero
+     * @test Axiom: L is invertible iff diagonal is all non zero
      * Lower triangular matrix is invertible if and only if its diagonal entries are all non zero
      * @dataProvider dataProviderForLowerTriangularMatrix
      * @param        array $L
@@ -2359,6 +2605,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testLowerTriangularMatrixIsInvertibleIfAndOnlyIfDigaonalEntriesAreAllNonZero(array $L)
     {
+        // Given
         $L = MatrixFactory::create($L);
         $this->assertTrue($L->isLowerTriangular());
 
@@ -2369,6 +2616,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
             }
         );
 
+        // Then
         if (count($zeros) == 0) {
             $this->assertTrue($L->isInvertible());
         } else {
@@ -2377,7 +2625,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Axiom: U is invertible iff diagonal is all non zero
+     * @test Axiom: U is invertible iff diagonal is all non zero
      * Upper triangular matrix is invertible if and only if its diagonal entries are all non zero
      * @dataProvider dataProviderForUpperTriangularMatrix
      * @param        array $U
@@ -2385,6 +2633,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testUpperTriangularMatrixIsInvertibleIfAndOnlyIfDigaonalEntriesAreAllNonZero(array $U)
     {
+        // Given
         $U = MatrixFactory::create($U);
         $this->assertTrue($U->isUpperTriangular());
 
@@ -2395,6 +2644,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
             }
         );
 
+        // Then
         if (count($zeros) == 0) {
             $this->assertTrue($U->isInvertible());
         } else {
@@ -2403,7 +2653,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Axiom: Dᵀ is diagonal
+     * @test Axiom: Dᵀ is diagonal
      * Transpose of a diagonal matrix is diagonal
      * @dataProvider dataProviderForDiagonalMatrix
      * @param        array $D
@@ -2411,15 +2661,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testTransposeOfDiagonalMatrixIsDiagonal(array $D)
     {
-        $D  = MatrixFactory::create($D);
+        // Given
+        $D = MatrixFactory::create($D);
+
+        // When
         $Dᵀ = $D->Transpose();
 
+        // Then
         $this->assertTrue($D->isDiagonal());
         $this->assertTrue($Dᵀ->isDiagonal());
     }
 
     /**
-     * @testCase Axiom: DD is diagonal
+     * @test Axiom: DD is diagonal
      * Product of two diagonal matrices is diagonal
      * @dataProvider dataProviderForDiagonalMatrix
      * @param        array $D
@@ -2427,15 +2681,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testProductOfTwoDiagonalMatricesIsDiagonal(array $D)
     {
-        $D  = MatrixFactory::create($D);
+        // Given
+        $D = MatrixFactory::create($D);
+
+        // When
         $DD = $D->multiply($D);
 
+        // Then
         $this->assertTrue($D->isDiagonal());
         $this->assertTrue($DD->isDiagonal());
     }
 
     /**
-     * @testCase Axiom: D + D is diagonal
+     * @test Axiom: D + D is diagonal
      * Sum of two diagonal matrices is diagonal
      * @dataProvider dataProviderForDiagonalMatrix
      * @param        array $D
@@ -2443,15 +2701,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testSumOfTwoDiagonalMatricesIsDiagonal(array $D)
     {
-        $D    = MatrixFactory::create($D);
+        // Given
+        $D = MatrixFactory::create($D);
+
+        // When
         $D＋D = $D->add($D);
 
+        // Then
         $this->assertTrue($D->isDiagonal());
         $this->assertTrue($D＋D->isDiagonal());
     }
 
     /**
-     * @testCase Axiom: D⁻¹ is diagonal (If D is invertible)
+     * @test Axiom: D⁻¹ is diagonal (If D is invertible)
      * The inverse of an invertible diagonal matrix is diagonal
      * @dataProvider dataProviderForDiagonalMatrix
      * @param        array $D
@@ -2459,17 +2721,20 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testInverseOfInvertibleDiagonalMatrixIsDiagonal(array $D)
     {
+        // Given
         $D = MatrixFactory::create($D);
         $this->assertTrue($D->isDiagonal());
 
         if ($D->isInvertible()) {
+            // When
             $D⁻¹ = $D->inverse();
+            // Then
             $this->assertTrue($D⁻¹->isDiagonal());
         }
     }
 
     /**
-     * @testCase Axiom: kD is Diagonal
+     * @test Axiom: kD is Diagonal
      * Product of a diagonal matrix by a constant is diagonal
      * @dataProvider dataProviderForDiagonalMatrix
      * @param        array $D
@@ -2477,17 +2742,20 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testProductOfDiagonalMatrixByConstantIsDiagonal(array $D)
     {
+        // Given
         $D = MatrixFactory::create($D);
         $this->assertTrue($D->isDiagonal());
 
         foreach (range(1, 10) as $k) {
+            // When
             $kD = $D->scalarMultiply($k);
+            // Then
             $this->assertTrue($kD->isDiagonal());
         }
     }
 
     /**
-     * @testCase Axiom: D is invertible iff diagonal is all non zero
+     * @test Axiom: D is invertible iff diagonal is all non zero
      * Diagonal matrix is invertible if and only if its diagonal entries are all non zero
      * @dataProvider dataProviderForDiagonalMatrix
      * @param        array $D
@@ -2495,6 +2763,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testDiagonalMatrixIsInvertibleIfAndOnlyIfDigaonalEntriesAreAllNonZero(array $D)
     {
+        // Given
         $D = MatrixFactory::create($D);
         $this->assertTrue($D->isDiagonal());
 
@@ -2505,6 +2774,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
             }
         );
 
+        // Then
         if (count($zeros) == 0) {
             $this->assertTrue($D->isInvertible());
         } else {
@@ -2513,16 +2783,20 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Axiom: Reduced row echelon form is upper triangular
+     * @test Axiom: Reduced row echelon form is upper triangular
      * @dataProvider dataProviderForSquareMatrix
      * @param        array $A
      * @throws       \Exception
      */
     public function testReducedRowEchelonFormIsUpperTriangular(array $A)
     {
-        $A    = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $rref = $A->rref();
 
+        // Then
         $this->assertTrue($rref->isUpperTriangular());
     }
 
@@ -2544,30 +2818,36 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Axiom: J⁻¹ = J
+     * @test Axiom: J⁻¹ = J
      * Inverse of an exchange matrix is itself
      * @throws \Exception
      */
     public function testInverseOfExchangeMatrix()
     {
         foreach (range(1, 20) as $n) {
+            // Given
             $J  = MatrixFactory::exchange($n);
+            // When
             $J⁻¹ = $J->inverse();
+            // Then
             $this->assertEquals($J->getMatrix(), $J⁻¹->getMatrix());
         }
     }
 
     /**
-     * @testCase Axiom: tr(J) is 1 if n is odd, and 0 if n is even
+     * @test Axiom: tr(J) is 1 if n is odd, and 0 if n is even
      * Trace of J is 1 if n is odd, and 0 is n is even.
      * @throws \Exception
      */
     public function testTraceOfExchangeMatrix()
     {
         foreach (range(1, 20) as $n) {
+            // Given
             $J    = MatrixFactory::exchange($n);
+            // When
             $tr⟮J⟯ = $J->trace();
 
+            // Then
             if (Integer::isOdd($n)) {
                 $this->assertEquals(1, $tr⟮J⟯);
             } else {
@@ -2577,45 +2857,51 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Axiom: Signature matrix is involutory
+     * @test Axiom: Signature matrix is involutory
      * @dataProvider dataProviderForSignatureMatrix
      * @param        array $A
      * @throws       \Exception
      */
     public function testSignatureMatrixIsInvolutory(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isSignature());
         $this->assertTrue($A->isInvolutory());
     }
 
     /**
-     * @testCase Axiom: Hilbert matrix is symmetric
+     * @test Axiom: Hilbert matrix is symmetric
      * @throws   \Exception
      */
     public function testHilbertMatrixIsSymmetric()
     {
         foreach (range(1, 10) as $n) {
+            // Given
             $H = MatrixFactory::hilbert($n);
+            // Then
             $this->assertTrue($H->isSymmetric());
         }
     }
 
     /**
-     * @testCase Axiom: Hilbert matrix is positive definite
+     * @test Axiom: Hilbert matrix is positive definite
      * @throws   \Exception
      */
     public function testHilbertMatrixIsPositiveDefinite()
     {
         foreach (range(1, 10) as $n) {
+            // Given
             $H = MatrixFactory::hilbert($n);
+            // Then
             $this->assertTrue($H->isPositiveDefinite());
         }
     }
 
     /**
-     * @testCase     Axiom: A = LLᵀ (Cholesky decomposition)
+     * @test         Axiom: A = LLᵀ (Cholesky decomposition)
      * @dataProvider dataProviderForPositiveDefiniteMatrix
      * @param        array $A
      * @throws       \Exception
@@ -2636,7 +2922,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     Axiom: L is lower triangular (Cholesky decomposition)
+     * @test         Axiom: L is lower triangular (Cholesky decomposition)
      * @dataProvider dataProviderForPositiveDefiniteMatrix
      * @param        array $A
      * @throws       \Exception
@@ -2654,7 +2940,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     Axiom: Lᵀ is upper triangular (Cholesky decomposition)
+     * @test         Axiom: Lᵀ is upper triangular (Cholesky decomposition)
      * @dataProvider dataProviderForPositiveDefiniteMatrix
      * @param        array $A
      * @throws       \Exception
@@ -2672,7 +2958,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     Axiom: adj⟮A⟯ = Cᵀ
+     * @test         Axiom: adj⟮A⟯ = Cᵀ
      *               Adjugate matrix equals the transpose of the cofactor matrix
      * @dataProvider dataProviderForSquareMatrixGreaterThanOne
      * @param        array $A
@@ -2680,15 +2966,19 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdjugateIsTransoseOfCofactorMatrix(array $A)
     {
-        $A     = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $adj⟮A⟯ = $A->adjugate();
         $Cᵀ    = $A->cofactorMatrix()->transpose();
 
+        // Then
         $this->assertEquals($adj⟮A⟯, $Cᵀ, '', 0.00001);
     }
 
     /**
-     * @testCase     Axiom: A adj⟮A⟯ = det⟮A⟯ I
+     * @test         Axiom: A adj⟮A⟯ = det⟮A⟯ I
      *               The product of A with its adjugate yields a diagonal matrix whose diagonal entries are det(A)
      * @dataProvider dataProviderForSquareMatrixGreaterThanOne
      * @param        array $A
@@ -2696,19 +2986,24 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdjugateTimesAIsIdentityMatrixTimesDeterminantOfA(array $A)
     {
-        $A     = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $adj⟮A⟯ = $A->adjugate();
         $Aadj⟮A⟯ = $A->multiply($adj⟮A⟯);
 
+        // And
         $I     = MatrixFactory::identity($A->getN());
         $det⟮A⟯ = $A->det();
         $det⟮A⟯I = $I->scalarMultiply($det⟮A⟯);
 
+        // Then
         $this->assertEquals($Aadj⟮A⟯, $det⟮A⟯I, '', 0.00001);
     }
 
     /**
-     * @testCase     Axiom: adj⟮A⟯ = det⟮A⟯A⁻¹
+     * @test         Axiom: adj⟮A⟯ = det⟮A⟯A⁻¹
      *               The product of A with its adjugate yields a diagonal matrix whose diagonal entries are det(A)
      * @dataProvider dataProviderForNonsingularMatrix
      * @param        array $A
@@ -2716,17 +3011,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdjugateEqualsInverseOfATimesDeterminant(array $A)
     {
-        $A     = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $A⁻¹   = $A->inverse();
         $adj⟮A⟯ = $A->adjugate();
         $det⟮A⟯ = $A->det();
         $det⟮A⟯A⁻¹ = $A⁻¹->scalarMultiply($det⟮A⟯);
 
+        // Then
         $this->assertEquals($adj⟮A⟯, $det⟮A⟯A⁻¹, '', 0.00001);
     }
 
     /**
-     * @testCase     Axiom: A⁻¹ = (1/det⟮A⟯) adj⟮A⟯
+     * @test         Axiom: A⁻¹ = (1/det⟮A⟯) adj⟮A⟯
      *               The inverse of a matrix is equals to one over the determinant multiplied by the adjugate
      * @dataProvider dataProviderForNonsingularMatrix
      * @param        array $A
@@ -2734,17 +3033,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testInverseEqualsOneOverDetTimesAdjugate(array $A)
     {
-        $A             = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $A⁻¹           = $A->inverse();
         $adj⟮A⟯         = $A->adjugate();
         $det⟮A⟯         = $A->det();
         $⟮1／det⟮A⟯⟯adj⟮A⟯ = $adj⟮A⟯->scalarMultiply(1 / $det⟮A⟯);
 
+        // Then
         $this->assertEquals($A⁻¹, $⟮1／det⟮A⟯⟯adj⟮A⟯, '', 0.00001);
     }
 
     /**
-     * @testCase     Axiom: adj⟮I⟯ = I
+     * @test         Axiom: adj⟮I⟯ = I
      *               The adjugate of identity matrix is identity matrix
      * @dataProvider dataProviderForIdentityMatrix
      * @param        array $I
@@ -2752,14 +3055,18 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdjugateOfIdenetityMatrixIsIdentity(array $I)
     {
-        $I     = MatrixFactory::create($I);
+        // Given
+        $I = MatrixFactory::create($I);
+
+        // When
         $adj⟮I⟯ = $I->adjugate();
 
+        // Then
         $this->assertEquals($adj⟮I⟯, $I, '', 0.00001);
     }
 
     /**
-     * @testCase     Axiom: adj⟮AB⟯ = adj⟮B⟯adj⟮A⟯
+     * @test         Axiom: adj⟮AB⟯ = adj⟮B⟯adj⟮A⟯
      *               The adjugate of AB equals the adjugate of B times the adjugate of A
      * @dataProvider dataProviderForTwoNonsingularMatrices
      * @param        array $A
@@ -2768,19 +3075,23 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdjugateABEqualsAdjugateBTimesAdjugateA(array $A, array $B)
     {
-        $A      = MatrixFactory::create($A);
-        $B      = MatrixFactory::create($B);
+        // Given
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        // When
         $AB     = $A->multiply($B);
         $adj⟮A⟯  = $A->adjugate();
         $adj⟮B⟯  = $B->adjugate();
         $adj⟮AB⟯ = $AB->adjugate();
         $adj⟮B⟯adj⟮A⟯ = $adj⟮B⟯->multiply($adj⟮A⟯);
 
+        // Then
         $this->assertEquals($adj⟮AB⟯, $adj⟮B⟯adj⟮A⟯, '', 0.00001);
     }
 
     /**
-     * @testCase     Axiom: adj⟮cA⟯ = cⁿ⁻¹ adj⟮A⟯
+     * @test         Axiom: adj⟮cA⟯ = cⁿ⁻¹ adj⟮A⟯
      *               The adjugate of a matrix times a scalar equals the adjugate of the matrix then times a scalar raised to n - 1
      * @dataProvider dataProviderForNonsingularMatrix
      * @param        array $A
@@ -2788,19 +3099,23 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdjugateAtimesCEqualsAdjugateATimesCRaisedToNMinusOne(array $A)
     {
-        $c             = 4;
-        $A             = MatrixFactory::create($A);
-        $cA            = $A->scalarMultiply($c);
-        $adj⟮A⟯         = $A->adjugate();
-        $adj⟮cA⟯        = $cA->adjugate();
-        $cⁿ⁻¹          = pow($c, $A->getN() - 1);
-        $cⁿ⁻¹adj⟮A⟯     = $adj⟮A⟯->scalarMultiply($cⁿ⁻¹);
+        // Given
+        $c = 4;
+        $A = MatrixFactory::create($A);
 
+        // When
+        $cA        = $A->scalarMultiply($c);
+        $adj⟮A⟯     = $A->adjugate();
+        $adj⟮cA⟯    = $cA->adjugate();
+        $cⁿ⁻¹      = pow($c, $A->getN() - 1);
+        $cⁿ⁻¹adj⟮A⟯ = $adj⟮A⟯->scalarMultiply($cⁿ⁻¹);
+
+        // Then
         $this->assertEquals($adj⟮cA⟯, $cⁿ⁻¹adj⟮A⟯, '', 0.00001);
     }
 
     /**
-     * @testCase     Axiom: adj⟮B⟯adj⟮A⟯ = det⟮B⟯B⁻¹ det⟮A⟯A⁻¹ = det⟮AB⟯⟮AB⟯⁻¹
+     * @test         Axiom: adj⟮B⟯adj⟮A⟯ = det⟮B⟯B⁻¹ det⟮A⟯A⁻¹ = det⟮AB⟯⟮AB⟯⁻¹
      *               The adjugate of B times adjugate A equals the determinant of B times inverse of B times determinant of A times inverse of A
      *               which equals the determinant of AB times the inverse of AB
      * @dataProvider dataProviderForTwoNonsingularMatrices
@@ -2810,6 +3125,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdjugateBTimesAdjugateAEqualsDetBTimesInverseBTimesDetATimesInverseAEqualsDetABTimesInverseAB(array $A, array $B)
     {
+        // Given
         $A      = MatrixFactory::create($A);
         $B      = MatrixFactory::create($B);
         $A⁻¹    = $A->inverse();
@@ -2822,20 +3138,23 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $det⟮B⟯  = $B->det();
         $det⟮AB⟯ = $AB->det();
 
+        // When
         $det⟮A⟯A⁻¹ = $A⁻¹->scalarMultiply($det⟮A⟯);
         $det⟮B⟯B⁻¹ = $B⁻¹->scalarMultiply($det⟮B⟯);
 
+        // And
         $adj⟮B⟯adj⟮A⟯       = $adj⟮B⟯->multiply($adj⟮A⟯);
         $det⟮B⟯B⁻¹det⟮A⟯A⁻¹ = $det⟮B⟯B⁻¹->multiply($det⟮A⟯A⁻¹);
         $det⟮AB⟯⟮AB⟯⁻¹      = $⟮AB⟯⁻¹->scalarMultiply($det⟮AB⟯);
 
+        // Then
         $this->assertEquals($adj⟮B⟯adj⟮A⟯, $det⟮B⟯B⁻¹det⟮A⟯A⁻¹, '', 0.001);
         $this->assertEquals($det⟮B⟯B⁻¹det⟮A⟯A⁻¹, $det⟮AB⟯⟮AB⟯⁻¹, '', 0.001);
         $this->assertEquals($adj⟮B⟯adj⟮A⟯, $det⟮AB⟯⟮AB⟯⁻¹, '', 0.001);
     }
 
     /**
-     * @testCase     Axiom: adj⟮Aᵀ⟯ = adj⟮A⟯ᵀ
+     * @test         Axiom: adj⟮Aᵀ⟯ = adj⟮A⟯ᵀ
      *               The adjugate of a matrix transpase equals the transpose of a matrix adjugate
      * @dataProvider dataProviderForNonsingularMatrix
      * @param        array $A
@@ -2843,18 +3162,21 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdjugateOfTransposeEqualsTransposeOfAdjugate(array $A)
     {
-        $A       = MatrixFactory::create($A);
-        $Aᵀ      = $A->transpose();
-        $adj⟮A⟯   = $A->adjugate();
-        $adj⟮Aᵀ⟯  = $Aᵀ->adjugate();
-        $adj⟮A⟯ᵀ  = $adj⟮A⟯->transpose();
+        // Given
+        $A = MatrixFactory::create($A);
 
+        // When
+        $Aᵀ     = $A->transpose();
+        $adj⟮A⟯  = $A->adjugate();
+        $adj⟮Aᵀ⟯ = $Aᵀ->adjugate();
+        $adj⟮A⟯ᵀ = $adj⟮A⟯->transpose();
 
+        // Then
         $this->assertEquals($adj⟮Aᵀ⟯, $adj⟮A⟯ᵀ, '', 0.00001);
     }
 
     /**
-     * @testCase     Axiom: Aadj⟮A⟯ = adj⟮A⟯A = det⟮A⟯I
+     * @test         Axiom: Aadj⟮A⟯ = adj⟮A⟯A = det⟮A⟯I
      *               A matrix times its adjugate equals the adjugate times the matrix which equals the identity matrix times the determinant
      * @dataProvider dataProviderForNonsingularMatrix
      * @param        array $A
@@ -2862,7 +3184,10 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testMatrixTimesItsAdjugateEqualsAdjugateTimesMatrixEqualsDetTimesIdentity(array $A)
     {
-        $A      = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $adj⟮A⟯  = $A->adjugate();
         $Aadj⟮A⟯ = $A->multiply($adj⟮A⟯);
         $adj⟮A⟯A = $adj⟮A⟯->multiply($A);
@@ -2870,13 +3195,14 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $I      = MatrixFactory::identity($A->getN());
         $det⟮A⟯I = $I->scalarMultiply($det⟮A⟯);
 
+        // Then
         $this->assertEquals($Aadj⟮A⟯, $adj⟮A⟯A, '', 0.0001);
         $this->assertEquals($Aadj⟮A⟯, $det⟮A⟯I, '', 0.0001);
         $this->assertEquals($adj⟮A⟯A, $det⟮A⟯I, '', 0.0001);
     }
 
     /**
-     * @testCase     Axiom: rank(A) ≤ min(m, n)
+     * @test         Axiom: rank(A) ≤ min(m, n)
      *               The rank of a matrix is less than or equal to the minimum dimension of the matrix
      * @dataProvider dataProviderForSingleMatrix
      * @param        array $A
@@ -2884,36 +3210,44 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testRankLessThanMinDimension(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertLessThanOrEqual(min($A->getM(), $A->getN()), $A->rank());
     }
 
     /**
-     * @testCase Axiom: Zero matrix has rank of 0
+     * @test Axiom: Zero matrix has rank of 0
      * @throws   \Exception
      */
     public function testZeroMatrixHasRankOfZero()
     {
         foreach (range(1, 10) as $m) {
             foreach (range(1, 10) as $n) {
+                // Given
                 $A = MatrixFactory::zero($m, $n);
+                // Then
                 $this->assertEquals(0, $A->rank());
             }
         }
     }
 
     /**
-     * @testCase     Axiom: If A is square matrix, then it is invertible only if rank = n (full rank)
+     * @test         Axiom: If A is square matrix, then it is invertible only if rank = n (full rank)
      * @dataProvider dataProviderForSquareMatrix
      * @param        array $A
      * @throws       \Exception
      */
     public function testSquareMatrixInvertibleIfFullRank(array $A)
     {
-        $A    = MatrixFactory::create($A);
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
         $rank = $A->rank();
 
+        // Then
         if ($rank === $A->getM()) {
             $this->assertTrue($A->isInvertible());
         } else {
@@ -2922,23 +3256,26 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     Axiom: rank(AᵀA) = rank(AAᵀ) = rank(A) = rank(Aᵀ)
+     * @test         Axiom: rank(AᵀA) = rank(AAᵀ) = rank(A) = rank(Aᵀ)
      * @dataProvider dataProviderForSingleMatrix
      * @param        array $A
      * @throws       \Exception
      */
     public function testRankTransposeEqualities(array $A)
     {
+        // Given
         $A   = MatrixFactory::create($A);
         $Aᵀ  = $A->transpose();
         $AᵀA = $Aᵀ->multiply($A);
         $AAᵀ = $A->multiply($Aᵀ);
 
+        // When
         $rank⟮A⟯   = $A->rank();
         $rank⟮Aᵀ⟯  = $Aᵀ->rank();
         $rank⟮AᵀA⟯ = $AᵀA->rank();
         $rank⟮AAᵀ⟯ = $AAᵀ->rank();
 
+        // Then
         $this->assertEquals($rank⟮A⟯, $rank⟮Aᵀ⟯);
         $this->assertEquals($rank⟮A⟯, $rank⟮AᵀA⟯);
         $this->assertEquals($rank⟮A⟯, $rank⟮AAᵀ⟯);
@@ -2948,43 +3285,49 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     Axiom: Lower bidiagonal matrix is upper Hessenberg
+     * @test         Axiom: Lower bidiagonal matrix is upper Hessenberg
      * @dataProvider dataProviderForLowerBidiagonalMatrix
      * @param        array $A
      * @throws       \Exception
      */
     public function testLowerBidiagonalMatrixIsUpperHessenberg(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isLowerBidiagonal());
         $this->assertTrue($A->isUpperHessenberg());
     }
 
     /**
-     * @testCase     Axiom: Upper bidiagonal matrix is lower Hessenberg
+     * @test         Axiom: Upper bidiagonal matrix is lower Hessenberg
      * @dataProvider dataProviderForUpperBidiagonalMatrix
      * @param        array $A
      * @throws       \Exception
      */
     public function testUpperBidiagonalMatrixIsLowerHessenberg(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isUpperBidiagonal());
         $this->assertTrue($A->isLowerHessenberg());
     }
 
     /**
-     * @testCase     Axiom: A matrix that is both upper Hessenberg and lower Hessenberg is a tridiagonal matrix
+     * @test         Axiom: A matrix that is both upper Hessenberg and lower Hessenberg is a tridiagonal matrix
      * @dataProvider dataProviderForTridiagonalMatrix
      * @param        array $A
      * @throws       \Exception
      */
     public function testTridiagonalMatrixIsUpperAndLowerHessenberg(array $A)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertTrue($A->isTridiagonal());
         $this->assertTrue($A->isUpperHessenberg());
         $this->assertTrue($A->isLowerHessenberg());

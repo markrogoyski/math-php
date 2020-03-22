@@ -5,21 +5,44 @@ namespace MathPHP\Tests\LinearAlgebra;
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Eigenvector;
-use MathPHP\LinearAlgebra\Eigenvalue;
 
 class EigenvectorTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     eigenvector using closedFormPolynomialRootMethod returns the expected eigenvalues
+     * @test         eigenvector using closedFormPolynomialRootMethod returns the expected eigenvalues
      * @dataProvider dataProviderForEigenvector
      * @param        array $A
      * @param        array $S
      */
     public function testEigenvectorsUsingClosedFormPolynomialRootMethod(array $A, array $S)
     {
+        // Given
         $A = MatrixFactory::create($A);
-        $this->assertEquals($S, Eigenvector::eigenvectors($A)->getMatrix(), '', 0.0001);
+
+        // When
+        $eigenvectors = Eigenvector::eigenvectors($A);
+
+        // Then
+        $this->assertEquals($S, $eigenvectors->getMatrix(), '', 0.0001);
         $this->assertEquals($S, $A->eigenvectors()->getMatrix(), '', 0.0001);
+    }
+
+    /**
+     * @test         eigenvector using closedFormPolynomialRootMethod returns the expected eigenvalues
+     * @dataProvider dataProviderForEigenvector
+     * @param        array $A
+     * @param        array $S
+     */
+    public function testEigenvectorsUsingClosedFormPolynomialRootMethodFromMatrix(array $A, array $S)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $eigenvectors = $A->eigenvectors();
+
+        // Then
+        $this->assertEquals($S, $eigenvectors->getMatrix(), '', 0.0001);
     }
 
     public function dataProviderForEigenvector(): array
@@ -109,27 +132,35 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase eigenvectors throws a BadDataException when the matrix is not square
+     * @test eigenvectors throws a BadDataException when the matrix is not square
      */
     public function testEigenvectorMatrixNotCorrectSize()
     {
+        // Given
         $A = MatrixFactory::create([[1,2]]);
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Eigenvector::eigenvectors($A, [0]);
     }
 
     /**
-     * @testCase     eigenvectors throws a BadDataException when the array of eigenvales is too long or short
+     * @test         eigenvectors throws a BadDataException when the array of eigenvales is too long or short
      * @dataProvider dataProviderForIncorrectNumberOfEigenvectors
      * @param        array $A
      * @param        array $B
      */
     public function testIncorrectNumberOfEigenvectors(array $A, array $B)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Eigenvector::eigenvectors($A, $B);
     }
 
@@ -147,16 +178,20 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     eigenvectors throws a BadDataException when there is an incorrect eigenvalue provided
+     * @test         eigenvectors throws a BadDataException when there is an incorrect eigenvalue provided
      * @dataProvider dataProviderForEigenvectorNotAnEigenvector
      * @param        array $A
      * @param        array $B
      */
     public function testEigenvectorNotAnEigenvector(array $A, array $B)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Eigenvector::eigenvectors($A, $B);
     }
 
@@ -181,10 +216,11 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Matrix eigenvectors throws a MatrixException if the eigenvalue method is not valid
+     * @test Matrix eigenvectors throws a MatrixException if the eigenvalue method is not valid
      */
     public function testMatrixEigenvectorInvalidMethodException()
     {
+        // Given
         $A = MatrixFactory::create([
             [1, 2, 3],
             [2, 3, 4],
@@ -192,7 +228,10 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
         ]);
         $invalidMethod = 'SecretMethod';
 
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $A->eigenvectors($invalidMethod);
     }
 }

@@ -11,6 +11,7 @@ use MathPHP\Exception;
 class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test         add
      * @dataProvider dataProviderForAdd
      */
     public function testAdd(array $A, array $B, array $R)
@@ -64,6 +65,10 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   add exception for rows
+     * @throws \Exception
+     */
     public function testAddExceptionRows()
     {
         // Given
@@ -82,6 +87,10 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
         $A->add($B);
     }
 
+    /**
+     * @test   add exception for columns
+     * @throws \Exception
+     */
     public function testAddExceptionColumns()
     {
         // Given
@@ -102,6 +111,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         directSum
      * @dataProvider dataProviderForDirectSum
      */
     public function testDirectSum(array $A, array $B, array $R)
@@ -141,7 +151,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     kroneckerSum returns the expected SquareMatrix
+     * @test         kroneckerSum returns the expected SquareMatrix
      * @dataProvider dataProviderKroneckerSum
      * @param        array A
      * @param        array B
@@ -237,7 +247,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase kronecerSum throws a MatrixException if one of the matrices is not square
+     * @test         kronecerSum throws a MatrixException if one of the matrices is not square
      * @dataProvider dataProviderForKroneckerSumSquareMatrixException
      * @param        array A
      * @param        array B
@@ -293,6 +303,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         subtract
      * @dataProvider dataProviderForSubtract
      */
     public function testSubtract(array $A, array $B, array $R)
@@ -346,6 +357,10 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   subtract exception for rows
+     * @throws \Exception
+     */
     public function testSubtractExceptionRows()
     {
         // Given
@@ -364,6 +379,10 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
         $A->subtract($B);
     }
 
+    /**
+     * @test   subtract exception for columns
+     * @throws \Exception
+     */
     public function testSubtractExceptionColumns()
     {
         // Given
@@ -675,6 +694,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         multiply vector
      * @dataProvider dataProviderForMultiplyVector
      */
     public function testMultiplyVector(array $A, array $B, array $R)
@@ -778,6 +798,10 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   multiple exception
+     * @throws \Exception
+     */
     public function testMultiplyExceptionDimensionsDoNotMatch()
     {
         // Given
@@ -797,6 +821,10 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
         $A->multiply($B);
     }
 
+    /**
+     * @test   multiple exception
+     * @throws \Exception
+     */
     public function testMultiplyExceptionNotMatrixOrVector()
     {
         // Given
@@ -819,6 +847,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         scalarMultiply
      * @dataProvider dataProviderForScalarMultiply
      */
     public function testScalarMultiply(array $A, $k, array $R)
@@ -881,7 +910,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     negate
+     * @test         negate
      * @dataProvider dataProviderForNegate
      * @param        array $A
      * @param        array $expected
@@ -956,6 +985,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         scalarDivide
      * @dataProvider dataProviderForScalarDivide
      */
     public function testScalarDivide(array $A, $k, array $R)
@@ -1017,6 +1047,10 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   scalarDivide by zero
+     * @throws \Exception
+     */
     public function testScalarDivideByZero()
     {
         // Given
@@ -1033,6 +1067,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         hadamardProduct
      * @dataProvider dataProviderForHadamardProduct
      */
     public function testHadamardProduct(array $A, array $B, array $expected)
@@ -1089,6 +1124,10 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   hadamardProduct dimensions don't match
+     * @throws \Exception
+     */
     public function testHadamardProductDimensionsDoNotMatch()
     {
         // Given
@@ -1109,6 +1148,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         kroneckerProduct
      * @dataProvider dataProviderForKroneckerProduct
      */
     public function testKroneckerProduct(array $A, array $B, array $expected)
