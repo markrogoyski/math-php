@@ -7,16 +7,22 @@ use MathPHP\LinearAlgebra\MatrixFactory;
 class MatrixNormsTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test         oneNorm
      * @dataProvider dataProviderForOneNorm
      */
-    public function testOneNorm(array $A, $norm)
+    public function testOneNorm(array $A, $expected)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
-        $this->assertEquals($norm, $A->oneNorm(), '', 0.0001);
+        // When
+        $norm = $A->oneNorm();
+
+        // Then
+        $this->assertEquals($expected, $norm, '', 0.0001);
     }
 
-    public function dataProviderForOneNorm()
+    public function dataProviderForOneNorm(): array
     {
         return [
             [
@@ -74,16 +80,22 @@ class MatrixNormsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         infinity norm
      * @dataProvider dataProviderForInfinityNorm
      */
-    public function testInfinityNorm(array $A, $norm)
+    public function testInfinityNorm(array $A, $expected)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
-        $this->assertEquals($norm, $A->infinityNorm(), '', 0.0001);
+        // When
+        $norm = $A->infinityNorm();
+
+        // Then
+        $this->assertEquals($expected, $norm, '', 0.0001);
     }
 
-    public function dataProviderForInfinityNorm()
+    public function dataProviderForInfinityNorm(): array
     {
         return [
             [
@@ -146,16 +158,22 @@ class MatrixNormsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         maxNorm
      * @dataProvider dataProviderForMaxNorm
      */
-    public function testMaxNorm(array $A, $norm)
+    public function testMaxNorm(array $A, $expected)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
-        $this->assertEquals($norm, $A->maxNorm(), '', 0.0001);
+        // When
+        $norm = $A->maxNorm();
+
+        // Then
+        $this->assertEquals($expected, $norm, '', 0.0001);
     }
 
-    public function dataProviderForMaxNorm()
+    public function dataProviderForMaxNorm(): array
     {
         return [
             [
@@ -218,16 +236,22 @@ class MatrixNormsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         frobeniusNorm
      * @dataProvider dataProviderForFrobeniusNorm
      */
-    public function testFrobeniusNorm(array $A, $norm)
+    public function testFrobeniusNorm(array $A, $expected)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
-        $this->assertEquals($norm, $A->frobeniusNorm(), '', 0.0001);
+        // When
+        $norm = $A->frobeniusNorm();
+
+        // Then
+        $this->assertEquals($expected, $norm, '', 0.0001);
     }
 
-    public function dataProviderForFrobeniusNorm()
+    public function dataProviderForFrobeniusNorm(): array
     {
         return [
             [

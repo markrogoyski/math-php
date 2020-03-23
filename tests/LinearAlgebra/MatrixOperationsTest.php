@@ -93,6 +93,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         trace
      * @dataProvider dataProviderForTrace
      */
     public function testTrace(array $A, $tr)
@@ -129,6 +130,9 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test trace exception - not square
+     */
     public function testTraceExceptionNotSquareMatrix()
     {
         // Given
@@ -146,6 +150,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         diagonal
      * @dataProvider dataProviderForDiagonal
      */
     public function testDiagonal(array $A, array $R)
@@ -206,6 +211,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         det
      * @dataProvider dataProviderForDet
      */
     public function testDet(array $A, $expected)
@@ -1575,6 +1581,9 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test det exception - not square
+     */
     public function testDetExceptionNotSquareMatrix()
     {
         // Given
@@ -1745,6 +1754,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         inverse exception - not square
      * @dataProvider dataProviderForInverseExceptionNotSquare
      */
     public function testInverseExceptionNotSquare(array $A)
@@ -1772,6 +1782,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         inverse exception - det is zero
      * @dataProvider dataProviderForInverseExceptionDetIsZero
      */
     public function testInverseExceptionDetIsZero(array $A)
@@ -1786,7 +1797,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $A->inverse();
     }
 
-    public function dataProviderForInverseExceptionDetIsZero()
+    public function dataProviderForInverseExceptionDetIsZero(): array
     {
         return [
             [
@@ -1800,6 +1811,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         minorMatrix
      * @dataProvider dataProviderForMinorMatrix
      */
     public function testMinorMatrix(array $A, int $mᵢ, int $nⱼ, array $Mᵢⱼ)
@@ -1929,6 +1941,9 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test minorMatrix exception - bad row
+     */
     public function testMinorMatrixExceptionBadRow()
     {
         // Given
@@ -1945,6 +1960,9 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $A->minorMatrix(4, 1);
     }
 
+    /**
+     * @test minorMatrix exception - bad column
+     */
     public function testMinorMatrixExceptionBadColumn()
     {
         // Given
@@ -1960,7 +1978,9 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         // When
         $A->minorMatrix(1, 4);
     }
-
+    /**
+     * @test minorMatrix exception - not square
+     */
     public function testMinorMatrixExceptionNotSquare()
     {
         // Given
@@ -1978,7 +1998,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     leadingPrincipalMinor returns the expected SquareMatrix
+     * @test         leadingPrincipalMinor returns the expected SquareMatrix
      * @dataProvider dataProviderForLeadingPrincipalMinor
      * @param        array $A
      * @param        int $k
@@ -2124,7 +2144,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase leadingPrincipalMinor throws an OutOfBoundsException when k is < 0.
+     * @test leadingPrincipalMinor throws an OutOfBoundsException when k is < 0.
      */
     public function testLeadingPrincipalMinorExceptionKLessThanZero()
     {
@@ -2143,7 +2163,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase leadingPrincipalMinor throws an OutOfBoundsException when k is > n.
+     * @test leadingPrincipalMinor throws an OutOfBoundsException when k is > n.
      */
     public function testLeadingPrincipalMinorExceptionKGreaterThanN()
     {
@@ -2162,7 +2182,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase leadingPrincipalMinor throws a MatrixException if the Matrix is not square.
+     * @test leadingPrincipalMinor throws a MatrixException if the Matrix is not square.
      */
     public function testLeadingPrincipalMinorExceptionMatrixNotSquare()
     {
@@ -2182,6 +2202,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         minor
      * @dataProvider dataProviderForMinor
      */
     public function testMinor(array $A, int $mᵢ, int $nⱼ, $Mᵢⱼ)
@@ -2289,6 +2310,9 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test minor exception - bad row
+     */
     public function testMinorExceptionBadRow()
     {
         // Given
@@ -2305,6 +2329,9 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $A->minor(4, 1);
     }
 
+    /**
+     * @test minor exception - bad column
+     */
     public function testMinorExceptionBadColumn()
     {
         // Given
@@ -2321,6 +2348,9 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $A->minor(1, 4);
     }
 
+    /**
+     * @test minor exception - not square
+     */
     public function testMinorExceptionNotSquare()
     {
         // Given
@@ -2338,6 +2368,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         cofactor
      * @dataProvider dataProviderForCofactor
      */
     public function testCofactor(array $A, int $mᵢ, int $nⱼ, $Cᵢⱼ)
@@ -2445,6 +2476,9 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test cofactor exception - bad row
+     */
     public function testCofactorExceptionBadRow()
     {
         // Given
@@ -2461,6 +2495,9 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $A->cofactor(4, 1);
     }
 
+    /**
+     * @test cofactor exception - bad column
+     */
     public function testCofactorExceptionBadColumn()
     {
         $A = MatrixFactory::create([
@@ -2473,6 +2510,9 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $A->cofactor(1, 4);
     }
 
+    /**
+     * @test cofactor exception - not square
+     */
     public function testCofactorExceptionNotSquare()
     {
         // Given
@@ -2490,6 +2530,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         cofactorMatrix
      * @dataProvider dataProviderForCofactorMatrix
      */
     public function testCofactorMatrix(array $A, array $R)
@@ -2629,6 +2670,9 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test cofactorMatrix exception - not square
+     */
     public function testCofactorMatrixExceptionNotSquare()
     {
         // Given
@@ -2645,6 +2689,9 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $A->cofactorMatrix();
     }
 
+    /**
+     * @test cofactorMatrix exception - too small
+     */
     public function testCofactorMatrixExceptionTooSmall()
     {
         // Given
@@ -2660,6 +2707,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         meanDeviation
      * @dataProvider dataProviderForMeanDeviation
      */
     public function testMeanDeviation(array $A, array $B)
@@ -2716,6 +2764,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         meanDeviation column as variables
      * @dataProvider dataProviderForMeanDeviationColumnsAsVariables
      */
     public function testMeanDeviationColumnsAsVariables(array $A, array $B)
@@ -2805,6 +2854,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         covarianceMatrix
      * @dataProvider dataProviderForCovarianceMatrix
      */
     public function testCovarianceMatrix(array $A, array $S)
@@ -2905,6 +2955,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         covarianceMatrix columns as variables
      * @dataProvider dataProviderForCovarianceMatrixColumnsAsVariables
      */
     public function testCovarianceMatrixColumnsAsVariables(array $A, array $S)
@@ -3004,7 +3055,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     adjugate returns the expected SquareMatrix
+     * @test         adjugate returns the expected SquareMatrix
      * @dataProvider dataProviderForAdjugate
      * @param        array $A
      * @param        array $expected
@@ -3197,7 +3248,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase adjugate throws an Exception\MatrixException if the matrix is not square
+     * @test adjugate throws an Exception\MatrixException if the matrix is not square
      */
     public function testAdjugateSquareMatrixException()
     {
@@ -3216,7 +3267,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     submatrix
+     * @test         submatrix
      * @dataProvider dataProviderForSubmatrix
      * @param        array $data
      * @param        array $params
@@ -3282,8 +3333,8 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase submatrix exception - bad row
-     * @throws   \Exception
+     * @test   submatrix exception - bad row
+     * @throws \Exception
      */
     public function testSubmatrixExceptionBadRow()
     {
@@ -3303,8 +3354,8 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase submatrix exception - bad column
-     * @throws   \Exception
+     * @test   submatrix exception - bad column
+     * @throws \Exception
      */
     public function testSubMatrixExceptionBadColumn()
     {
@@ -3324,8 +3375,8 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase submatrix exception - wrong row order
-     * @throws   \Exception
+     * @test   submatrix exception - wrong row order
+     * @throws \Exception
      */
     public function testSubMatrixWrongRowOrder()
     {
@@ -3345,8 +3396,8 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase submatrix exception - wrong column order
-     * @throws   \Exception
+     * @test   submatrix exception - wrong column order
+     * @throws \Exception
      */
     public function testSubMatrixWrongColumnOrder()
     {
@@ -3366,7 +3417,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     rank returns the expected value
+     * @test         rank returns the expected value
      * @dataProvider dataProviderForRank
      */
     public function testRank(array $A, $expected)
@@ -3582,7 +3633,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     insert returns the expected value
+     * @test         insert returns the expected value
      * @dataProvider dataProviderForInsert
      */
     public function testInsert(array $A, array $B, int $m, int $n, $expected)
@@ -3655,9 +3706,10 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
     /**
-     * @testCase insert exception - Inner matrix exceeds bounds
-     * @throws   \Exception
+     * @test   insert exception - Inner matrix exceeds bounds
+     * @throws \Exception
      */
     public function testInsertMatrixExceedsBounds()
     {
