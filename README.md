@@ -90,7 +90,7 @@ Composer will install MathPHP inside your vendor folder. Then you can add the fo
 .php files to use the library with Autoloading.
 
 ```php
-require_once(__DIR__ . '/vendor/autoload.php');
+require_once __DIR__ . '/vendor/autoload.php';
 ```
 
 Alternatively, use composer on the command line to require and install MathPHP:
