@@ -16,6 +16,7 @@ class VectorTest extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
+        // Given
         $this->A = [1, 2, 3, 4, 5];
         $this->V = new Vector($this->A);
     }
@@ -46,6 +47,7 @@ class VectorTest extends \PHPUnit\Framework\TestCase
         // When
         $n = $V->getN();
 
+        // Then
         $this->assertEquals($expected, $n);
     }
 

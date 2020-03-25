@@ -15,6 +15,7 @@ class VectorInterfaceTest extends \PHPUnit\Framework\TestCase
 
     public function setUp()
     {
+        // Given
         $this->A = [1, 2, 3, 4, 5];
         $this->V = new Vector($this->A);
     }
@@ -38,6 +39,7 @@ class VectorInterfaceTest extends \PHPUnit\Framework\TestCase
      */
     public function testArrayAccessInterfaceOffsetGet()
     {
+        // Then
         $this->assertEquals(1, $this->V[0]);
         $this->assertEquals(2, $this->V[1]);
         $this->assertEquals(3, $this->V[2]);
@@ -62,6 +64,7 @@ class VectorInterfaceTest extends \PHPUnit\Framework\TestCase
      */
     public function testArrayAccessOffsetExists()
     {
+        // Then
         $this->assertTrue($this->V->offsetExists(0));
     }
 
