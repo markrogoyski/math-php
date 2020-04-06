@@ -56,7 +56,7 @@ class MtCars
      * Raw data without labels
      * [[21, 6, 160, ... ], [30.4, 4, 71.1, ... ], ... ]
      *
-     * @return number[]
+     * @return number[][]
      */
     public function getData(): array
     {

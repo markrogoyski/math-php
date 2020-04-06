@@ -74,7 +74,7 @@ class UsArrests
      * Raw data without labels
      * [[13.2, 236, 58, 21.2], [10.0, 263, 48, 44.5], ... ]
      *
-     * @return number[]
+     * @return number[][]
      */
     public function getData(): array
     {
@@ -85,7 +85,7 @@ class UsArrests
      * Raw data with each observation labeled
      * ['Alabama' => ['murder' => 13.2, 'assault' => 236, 'urbanPop' => 58, 'rape' => 21.2], ... ]
      *
-     * @return number[]
+     * @return number[][]
      */
     public function getLabeledData(): array
     {

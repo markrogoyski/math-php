@@ -176,7 +176,7 @@ class Iris
      * Raw data without labels
      * [[5.1, 3.5, 1.4, 0.2, 'setosa'], [4.9, 3.0, 1.4, 0.2, 'setosa'], ... ]
      *
-     * @return number[]
+     * @return mixed[][]
      */
     public function getData(): array
     {
