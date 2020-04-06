@@ -9,6 +9,7 @@ use MathPHP\Exception;
 class VectorOperationsTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test         dot product
      * @dataProvider dataProviderForDotProduct
      */
     public function testDotProduct(array $A, array $B, $expected)
@@ -25,6 +26,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         inner product
      * @dataProvider dataProviderForDotProduct
      */
     public function testInnerProduct(array $A, array $B, $expected)
@@ -49,6 +51,10 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   dot product exception
+     * @throws \Exception
+     */
     public function testDotProductExceptionSizeDifference()
     {
         // Given
@@ -63,6 +69,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         cross product
      * @dataProvider dataProviderForCrossProduct
      */
     public function testCrossProduct(array $A, array $B, array $R)
@@ -141,6 +148,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         cross product exception - wrong size
      * @dataProvider dataProviderForCrossProductExceptionWrongSize
      */
     public function testCrossProductExceptionWrongSize(array $A, array $B)
@@ -156,7 +164,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         $A->crossProduct($B);
     }
 
-    public function dataProviderForCrossProductExceptionWrongSize()
+    public function dataProviderForCrossProductExceptionWrongSize(): array
     {
         return [
             [
@@ -171,6 +179,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         outer product
      * @dataProvider dataProviderForOuterProduct
      */
     public function testOuterProduct(array $A, array $B, array $R)
@@ -255,6 +264,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         sum
      * @dataProvider dataProviderForSum
      */
     public function testSum(array $A, $expected)
@@ -278,6 +288,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         scalar multiply
      * @dataProvider dataProviderForScalarMultiply
      */
     public function testScalarMultiply(array $A, $k, array $R)
@@ -336,6 +347,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         scalar divide
      * @dataProvider dataProviderForScalarDivide
      */
     public function testScalarDivide(array $A, $k, array $R)
@@ -394,6 +406,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         add
      * @dataProvider dataProviderForAdd
      */
     public function testAdd(array $A, array $B, array $R)
@@ -432,7 +445,11 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testAddExceptionSizeMisMatch()
+    /**
+     * @test   add exception - size mismatch
+     * @throws \Exception
+     */
+    public function testAddExceptionSizeMismatch()
     {
         // Given
         $A = new Vector([1, 2, 3]);
@@ -446,6 +463,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         subtract
      * @dataProvider dataProviderForSubtract
      */
     public function testSubtract(array $A, array $B, array $R)
@@ -484,7 +502,11 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testSubtractExceptionSizeMisMatch()
+    /**
+     * @test   subtract exception - size mismatch
+     * @throws \Exception
+     */
+    public function testSubtractExceptionSizeMismatch()
     {
         // Given
         $A = new Vector([1, 2, 3]);
@@ -545,7 +567,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      * @test   Multiply size mismatch
      * @throws \Exception
      */
-    public function testMultiplyExceptionSizeMisMatch()
+    public function testMultiplyExceptionSizeMismatch()
     {
         // Given
         $A = new Vector([1, 2, 3]);
@@ -606,7 +628,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
      * @test   Divide size mismatch
      * @throws \Exception
      */
-    public function testDivideExceptionSizeMisMatch()
+    public function testDivideExceptionSizeMismatch()
     {
         // Given
         $A = new Vector([1, 2, 3]);
@@ -620,6 +642,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         length
      * @dataProvider dataProviderForLength
      */
     public function testLength(array $A, $l²norm)
@@ -650,6 +673,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         normalize
      * @dataProvider dataProviderForNormalize
      */
     public function testNormalize(array $A, array $expected)
@@ -681,6 +705,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         perpendicular
      * @dataProvider dataProviderForPerpendicular
      */
     public function testPerpendicular(array $A, array $expected)
@@ -711,6 +736,10 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   perpendicular exception - n greater than two
+     * @throws \Exception
+     */
     public function testPerpendicularExceptionNGreaterThanTwo()
     {
         // Given
@@ -724,6 +753,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         perp dot product
      * @dataProvider dataProviderForPerpDotProduct
      */
     public function testPerpDotProduct(array $A, array $B, $expected)
@@ -755,6 +785,10 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   perp dot product exception - n not both two
+     * @throws \Exception
+     */
     public function testPerpDotProductExceptionNNotBothTwo()
     {
         // Given
@@ -769,6 +803,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         projection
      * @dataProvider dataProviderForProjection
      */
     public function testProjection(array $A, array $B, array $expected)
@@ -833,6 +868,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         perp
      * @dataProvider dataProviderForPerp
      */
     public function testPerp(array $A, array $B, array $expected)
@@ -862,6 +898,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         direct product
      * @dataProvider dataProviderForDirectProduct
      */
     public function testDirectProduct(array $A, array $B, array $expected)
@@ -946,7 +983,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     kroneckerProduct returns the expected Vector
+     * @test         kroneckerProduct returns the expected Vector
      * @dataProvider dataProviderForKroneckerProduct
      * @param        array $A
      * @param        array $B
