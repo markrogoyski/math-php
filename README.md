@@ -4,8 +4,6 @@
 
 The only library you need to integrate mathematical functions into your applications. It is a self-contained library in pure PHP with no external dependencies.
 
-It is actively under development with development (0.y.z) releases.
-
 [![Coverage Status](https://coveralls.io/repos/github/markrogoyski/math-php/badge.svg?branch=master)](https://coveralls.io/github/markrogoyski/math-php?branch=master)
 [![Build Status](https://travis-ci.org/markrogoyski/math-php.svg?branch=master)](https://travis-ci.org/markrogoyski/math-php)
 [![License](https://poser.pugx.org/markrogoyski/math-php/license)](https://packagist.org/packages/markrogoyski/math-php)
@@ -75,7 +73,7 @@ Setup
 ```javascript
 {
   "require": {
-      "markrogoyski/math-php": "0.*"
+      "markrogoyski/math-php": "1.*"
   }
 }
 ```
@@ -96,7 +94,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 Alternatively, use composer on the command line to require and install MathPHP:
 
 ```
-$ php composer.phar require markrogoyski/math-php:0.*
+$ php composer.phar require markrogoyski/math-php:1.*
 ```
 
 ### Minimum Requirements
