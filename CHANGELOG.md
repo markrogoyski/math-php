@@ -1,5 +1,98 @@
 # MathPHP Change Log
 
+## v1.0.0 - 2020-04-14
+
+Initial version 1.0.0 release!
+
+## v0.62.0 - 2020-04-08
+
+### Improvements
+- Internal improvements
+
+## v0.61.0 - 2020-03-22
+
+### New Features
+* Multivariate Hypergeometric distribution
+
+## v0.60.0 - 2020-02-27
+
+### New Features
+- Sample Data
+  - MtCars
+  - Iris
+  - ToothGrowth
+  - PlantGrowth
+  - UsArrests
+
+## v0.59.0 - 2020-02-19
+
+### New Features
+- Add population and sample kurtosis
+- Changed default kurtosis algorithm to the more common population kurtosis
+- kurtosis now takes an optional parameter to set the kurtosis type algorithm
+
+## v0.58.0 - 2020-02-06
+
+### Improvements
+* Changed default skewness algorithm to the more common sample skewness
+* skewness now takes an optional parameter to set the skewness type algorithm
+* Improvements to skewness algorithms
+
+## v0.57.0 - 2020-01-07
+
+### New Features
+* Number\Rational basic getters
+  * getWholePart
+  * getNumerator
+  * getDenominator
+* Set Theory n-ary Cartesian product
+
+### Improvements
+* Data direction control for Matrix meanDeviation and covarianceMatrix
+* Algebra factors performance improvement
+
+## v0.56.0 - 2019-12-03
+
+### New Features
+* Number Theory
+  * isDeficientNumber
+  * isAbundantNumber
+  * aliquotSum
+  * radical
+  * totient
+  * cototient
+  * reducedTotient
+  * mobius
+  * isSquarefree
+  * isRefactorableNumber
+  * isSphenicNumber
+  * numberOfDivisors
+  * sumOfDivisors
+
+### Improvements
+* Optimization of prime factorization algorithm
+
+## v0.55.0 - 2019-11-19
+
+### New Features
+- Arbitrary length integers
+
+### Improvements
+- Factorial optimization
+
+## v0.54.0 - 2019-10-12
+
+### New Features
+- Matrix isNilpotent
+- Matrix isRectangularDiagonal
+- Matrix mapRows
+- MathPHP logo
+
+### Improvements
+* MatrixFactory random matrix custom lower and upper bounds for random number
+* PSR-12 style compliance
+* Bugfix: powerIteration random failure - [Issue 346](https://github.com/markrogoyski/math-php/issues/346)
+
 ## v0.53.0 - 2019-09-09
 
 ### New Features
