@@ -153,6 +153,12 @@ $almostEqual = Arithmetic::almostEqual($x, $y, $ε); // true
 $magnitude = 5;
 $sign      = -3;
 $signed_magnitude = Arithmetic::copySign($magnitude, $sign); // -5
+
+// Modulo (Differs from PHP remainder (%) operator for negative numbers)
+$dividend = 12;
+$divisor  = 5;
+$modulo   = Arithmetic::modulo($dividend, $divisor);  // 2
+$modulo   = Arithmetic::modulo(-$dividend, $divisor); // 3
 ```
 
 ### Finance
