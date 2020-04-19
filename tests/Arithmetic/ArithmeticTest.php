@@ -472,4 +472,222 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
             [-0.0000000000000000044746732, -0.0000000000000000044746639325, 0.000000000000000000000000001, false],
         ];
     }
+
+    /**
+     * @test         modulo of positive dividend and divisor
+     * @dataProvider dataProviderForModuloPositiveDividendAndDivisor
+     * @param        int $a dividend
+     * @param        int $n divisor
+     * @param        int $expected
+     */
+    public function testModuloPositiveDividendAndDivisor(int $a, int $n, int $expected)
+    {
+        // When
+        $modulo = Arithmetic::modulo($a, $n);
+
+        // Then
+        $this->assertEquals($expected, $modulo);
+    }
+
+    /**
+     * Test data generated with R: a %% n
+     * @return array (dividend, divisor, expected)
+     */
+    public function dataProviderForModuloPositiveDividendAndDivisor(): array
+    {
+        return [
+            [0, 1, 0],
+            [0, 2, 0],
+            [1, 1, 0],
+            [1, 2, 1],
+            [2, 1, 0],
+            [2, 2, 0],
+            [2, 3, 2],
+            [3, 2, 1],
+            [5, 3, 2],
+            [10, 1, 0],
+            [10, 2, 0],
+            [10, 3, 1],
+            [10, 4, 2],
+            [10, 5, 0],
+            [10, 6, 4],
+            [10, 7, 3],
+            [10, 8, 2],
+            [10, 9, 1],
+            [10, 10, 0],
+            [12, 5, 2],
+            [18, 3, 0],
+            [100, 3, 1],
+            [100, 7, 2],
+            [340, 60, 40],
+        ];
+    }
+
+    /**
+     * @test Modulo is the same as the built-in remainder (%) operator when the dividend and divisor are positive
+     */
+    public function testModuloPositiveDividendAndDivisorIsSameAsBuiltInRemainderOperator()
+    {
+        // Given
+        foreach (range(0, 20) as $a) {
+            foreach (range(1, 20) as $n) {
+                // When
+                $remainder = $a % $n;
+                $modulo    = Arithmetic::modulo($a, $n);
+
+                // Then
+                $this->assertEquals($remainder, $modulo);
+            }
+        }
+    }
+
+    /**
+     * @test         modulo of negative dividend
+     * @dataProvider dataProviderForModuloNegativeDividend
+     * @param        int $a dividend
+     * @param        int $n divisor
+     * @param        int $expected
+     */
+    public function testModuloNegativeDividend(int $a, int $n, int $expected)
+    {
+        // When
+        $modulo = Arithmetic::modulo($a, $n);
+
+        // Then
+        $this->assertEquals($expected, $modulo);
+    }
+
+    /**
+     * Test data generated with R: a %% n
+     * @return array (dividend, divisor, expected)
+     */
+    public function dataProviderForModuloNegativeDividend(): array
+    {
+        return [
+            [-0, 1, 0],
+            [-0, 2, 0],
+            [-1, 1, 0],
+            [-1, 2, 1],
+            [-2, 1, 0],
+            [-2, 2, 0],
+            [-2, 3, 1],
+            [-3, 2, 1],
+            [-5, 3, 1],
+            [-10, 1, 0],
+            [-10, 2, 0],
+            [-10, 3, 2],
+            [-10, 4, 2],
+            [-10, 5, 0],
+            [-10, 6, 2],
+            [-10, 7, 4],
+            [-10, 8, 6],
+            [-10, 9, 8],
+            [-10, 10, 0],
+            [-12, 5, 3],
+            [-18, 3, 0],
+            [-100, 3, 2],
+            [-100, 7, 5],
+            [-340, 60, 20],
+        ];
+    }
+
+    /**
+     * @test         modulo of negative divisor
+     * @dataProvider dataProviderForModuloNegativeDivisor
+     * @param        int $a dividend
+     * @param        int $n divisor
+     * @param        int $expected
+     */
+    public function testModuloNegativeDivisor(int $a, int $n, int $expected)
+    {
+        // When
+        $modulo = Arithmetic::modulo($a, $n);
+
+        // Then
+        $this->assertEquals($expected, $modulo);
+    }
+
+    /**
+     * Test data generated with R: a %% n
+     * @return array (dividend, divisor, expected)
+     */
+    public function dataProviderForModuloNegativeDivisor(): array
+    {
+        return [
+            [0, -1, 0],
+            [0, -2, 0],
+            [1, -1, 0],
+            [1, -2, -1],
+            [2, -1, 0],
+            [2, -2, 0],
+            [2, -3, -1],
+            [3, -2, -1],
+            [5, -3, -1],
+            [10, -1, 0],
+            [10, -2, 0],
+            [10, -3,- 2],
+            [10, -4,- 2],
+            [10, -5, 0],
+            [10, -6, -2],
+            [10, -7, -4],
+            [10, -8, -6],
+            [10, -9, -8],
+            [10, -10, 0],
+            [12, -5, -3],
+            [18, -3, 0],
+            [100, -3, -2],
+            [100, -7, -5],
+            [340, -60, -20],
+        ];
+    }
+
+    /**
+     * @test         modulo of negative dividend and divisor
+     * @dataProvider dataProviderForModuloNegativeDividendAndDivisor
+     * @param        int $a dividend
+     * @param        int $n divisor
+     * @param        int $expected
+     */
+    public function testModuloNegativeDividendAndDivisor(int $a, int $n, int $expected)
+    {
+        // When
+        $modulo = Arithmetic::modulo($a, $n);
+
+        // Then
+        $this->assertEquals($expected, $modulo);
+    }
+
+    /**
+     * Test data generated with R: a %% n
+     * @return array (dividend, divisor, expected)
+     */
+    public function dataProviderForModuloNegativeDividendAndDivisor(): array
+    {
+        return [
+            [-0, -1, 0],
+            [-0, -2, 0],
+            [-1, -1, 0],
+            [-1, -2, -1],
+            [-2, -1, 0],
+            [-2, -2, 0],
+            [-2, -3, -2],
+            [-3, -2, -1],
+            [-5, -3, -2],
+            [-10, -1, 0],
+            [-10, -2, 0],
+            [-10, -3, -1],
+            [-10, -4, -2],
+            [-10, -5, 0],
+            [-10, -6, -4],
+            [-10, -7, -3],
+            [-10, -8, -2],
+            [-10, -9, -1],
+            [-10, -10, 0],
+            [-12, -5, -2],
+            [-18, -3, 0],
+            [-100, -3, -1],
+            [-100, -7, -2],
+            [-340, -60, -40],
+        ];
+    }
 }
