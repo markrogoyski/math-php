@@ -163,10 +163,10 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
         foreach (array_merge(range(-20, -1), range(1, 20)) as $n) {
             foreach (range(1, 5) as $ˣ) {
                 // Given
-                $nˣ = $n**$ˣ;
+                $nˣ = $n ** $ˣ;
 
                 // When
-                $nˣ mod n       = Arithmetic::modulo($nˣ, $n);
+                $nˣ mod n = Arithmetic::modulo($nˣ, $n);
 
                 // Then
                 $this->assertEquals(0, $nˣ mod n);
