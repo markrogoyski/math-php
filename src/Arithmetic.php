@@ -124,7 +124,7 @@ class Arithmetic
     }
 
     /**
-     * Modulo
+     * Modulo (Binary operation)
      *
      * Modulo is different from the remainder function.
      * The PHP % operator is the remainder function, where the result has the same sign as the dividend.
@@ -134,23 +134,29 @@ class Arithmetic
      * For negative dividends or divisors, the modulo function has different behavior than the remainder (%) operator.
      *
      * a mod n
-     *   a - n ⌊a/n⌋
+     *   a - n ⌊a/n⌋   for n ≠ 0
+     *   a             for n = 0
      * where
      *   a is the dividend (integer)
-     *   n is the divisor  (integer)
+     *   n is the divisor, also known as the modulus (integer)
      *   ⌊⌋ is the floor function
      *
      * https://en.wikipedia.org/wiki/Modulo_operation
      * https://en.wikipedia.org/wiki/Modulo_(mathematics)
      * Knuth, Donald. E. (1972). The Art of Computer Programming. Volume 1 Fundamental Algorithms. Addison-Wesley.
+     * Graham, Knuth, Patashnik (1994). Concrete Mathematics, A Foundation For Computer Science. Addison-Wesley.
      *
      * @param int $a dividend
-     * @param int $n divisor
+     * @param int $n divisor, also known as the modulus
      *
      * @return int
      */
     public static function modulo(int $a, int $n): int
     {
+        if ($n === 0) {
+            return $a;
+        }
+
         return $a - $n * floor($a / $n);
     }
 }

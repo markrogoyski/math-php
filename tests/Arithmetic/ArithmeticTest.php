@@ -690,4 +690,39 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
             [-340, -60, -40],
         ];
     }
+
+    /**
+     * @test         modulo of of zero divisor is just the dividend
+     * @dataProvider dataProviderForModuloZeroDivisor
+     * @param        int $a dividend
+     * @param        int $n divisor
+     */
+    public function testModuloZeroDivisorIsDividend(int $a, int $n)
+    {
+        // When
+        $modulo = Arithmetic::modulo($a, $n);
+
+        // Then
+        $this->assertEquals($a, $modulo);
+    }
+
+    /**
+     * @return array (dividend, divisor, expected)
+     */
+    public function dataProviderForModuloZeroDivisor(): array
+    {
+        return [
+            [-5, 0],
+            [-4, 0],
+            [-3, 0],
+            [-2, 0],
+            [-1, 0],
+            [0, 0],
+            [1, 0],
+            [2, 0],
+            [3, 0],
+            [4, 0],
+            [5, 0],
+        ];
+    }
 }

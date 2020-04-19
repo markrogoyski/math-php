@@ -24,6 +24,7 @@ use MathPHP\Arithmetic;
  *    - Inverse: [(−a mod n) + (a mod n)] mod n = 0
  *    - Distributive: (a + b) mod n = [(a mod n) + (b mod n)] mod n
  *    - Distributive: ab mod n = [(a mod n)(b mod n)] mod n
+ *    - Distributive: c(x mod y) = (cx) mod (cy)
  */
 class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
 {
@@ -143,7 +144,7 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         foreach (range(-20, 20) as $a) {
-            foreach (array_merge(range(-20, -1), range(1, 20)) as $n) {
+            foreach (range(-20, 20) as $n) {
                 // When
                 $⟮a mod n⟯ mod n = Arithmetic::modulo(Arithmetic::modulo($a, $n), $n);
                 $a mod n        = Arithmetic::modulo($a, $n);
@@ -160,7 +161,7 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testModuloIdentityOfPowers()
     {
-        foreach (array_merge(range(-20, -1), range(1, 20)) as $n) {
+        foreach (range(-20, 20) as $n) {
             foreach (range(1, 5) as $ˣ) {
                 // Given
                 $nˣ = $n ** $ˣ;
@@ -182,7 +183,7 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         foreach (range(-20, 20) as $a) {
-            foreach (array_merge(range(-20, -1), range(1, 20)) as $n) {
+            foreach (range(-20, 20) as $n) {
                 // When
                 $⟦⟮−a mod n⟯ ＋ ⟮a mod n⟯⟧ mod n = Arithmetic::modulo(
                     Arithmetic::modulo(-$a, $n) + Arithmetic::modulo($a, $n),
@@ -204,7 +205,7 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
         // Given
         foreach (range(-5, 5) as $a) {
             foreach (range(-5, 5) as $b) {
-                foreach (array_merge(range(-25, -1), range(1, 5)) as $n) {
+                foreach (range(-6, 6) as $n) {
                     // When
                     $⟮a ＋ b⟯ mod n = Arithmetic::modulo($a + $b, $n);
                     $⟦⟮a mod n⟯ ＋ ⟮b mod n⟧⟯ mod n = Arithmetic::modulo(
@@ -228,7 +229,7 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
         // Given
         foreach (range(-5, 5) as $a) {
             foreach (range(-5, 5) as $b) {
-                foreach (array_merge(range(-25, -1), range(1, 5)) as $n) {
+                foreach (range(-6, 6) as $n) {
                     // When
                     $ab mod n = Arithmetic::modulo($a * $b, $n);
                     $⟦⟮a mod n⟯⟮b mod n⟧⟯ mod n = Arithmetic::modulo(
@@ -238,6 +239,27 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
 
                     // Then
                     $this->assertEquals($ab mod n, $⟦⟮a mod n⟯⟮b mod n⟧⟯ mod n);
+                }
+            }
+        }
+    }
+
+    /**
+     * @test Axiom Distributive: c(x mod y) = (cx) mod (cy)
+     * Graham, Knuth, Patashnik (1994). Concrete Mathematics, A Foundation For Computer Science. Addison-Wesley.
+     */
+    public function testModuloDistributiveLaw()
+    {
+        // Given
+        foreach (range(-5, 5) as $x) {
+            foreach (range(-5, 5) as $y) {
+                foreach (range(-6, 6) as $c) {
+                    // When
+                    $c⟮x mod y⟯   = $c * Arithmetic::modulo($x, $y);
+                    $⟮cx⟯ mod ⟮cy⟯ = Arithmetic::modulo($c * $x, $c * $y);
+
+                    // Then
+                    $this->assertEquals($c⟮x mod y⟯, $⟮cx⟯ mod ⟮cy⟯);
                 }
             }
         }
