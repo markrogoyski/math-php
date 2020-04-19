@@ -1573,10 +1573,53 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Matrix multiplication - ikj algorithm
+     * Matrix multiplication - ijk algorithm using cache-oblivious algorithm optimization
      * https://en.wikipedia.org/wiki/Matrix_multiplication
+     * https://en.wikipedia.org/wiki/Cache-oblivious_algorithm
      *
-     * ikj is an improvement on the classic ijk algorithm by simply changing the order of the loops.
+     * Gene H. Golub and Charles F. Van Loan (2013). "Matrix Computations 4th Edition" - The Johns Hopkins University Press
+     *   - 1.1.10–15 Matrix-Matrix Multiplication
+     *   - 1.5 Vectorization and Locality (1.5.4 Blocking for Data Reuse)
+     * Park, Liuy, Prasanna, Raghavendra. "Efficient Matrix Multiplication Using Cache Conscious Data Layouts"
+     *   (http://www.cs.technion.ac.il/~itai/Courses/Cache/matrix-mult.pdf)
+     *
+     * ijk is the classic matrix multiplication algorithm using triply nested loops.
+     * Iterate the rows of A; iterate the columns of B; iterate the common dimension columns of A/rows of B.
+     *
+     * A ∈ ℝᵐˣʳ  B ∈ ℝʳˣⁿ  R ∈ ℝᵐˣ
+     * for i = 1:m
+     *   for j = 1:n
+     *     for k - 1:r
+     *       R(i,j) = R(i,j) + A(i,k)⋅B(k,j)
+     *
+     * Cache-oblivious matrix algorithms recognize the cost of thrashing data between memory to high-speed cache.
+     * Matrices are implemented using PHP arrays, as rows of arrays, representing data from each column.
+     * Transposing the matrix B and traversing it along its transposed rows rather than down columns will have fewer
+     * operations to move values between internal memory hierarchies, leading to significant performance gains for
+     * larger matrices on most computer hardware.
+     *
+     * Consider the standard way to think about matrix-matrix multiplication where each resultant matrix element
+     * is computed as the dot product:
+     *
+     *     A        B                    R
+     * [ 1  2 ] [ 5  6 ]     [ 1⋅5 + 2⋅7  1⋅6 + 2⋅8 ]
+     * [ 3  4 ] [ 7  8 ]  =  [ 3⋅5 + 4⋅7  3⋅6 + 4⋅8 ]
+     *
+     * The element of R[0][0] traverses A by row and B by column: 1⋅5 + 2⋅7
+     *    A       B                   R
+     * [ → → ] [ ↓  ]       [ (1  2) ] [ (5)  6 ]
+     * [     ] [ ↓  ]       [  3  4  ] [ (7)  8 ]
+     *
+     * To traverse B by column, a single element of each array is required. Considering that arrays are implemented
+     * with contiguous memory allocations and moved into cache in blocks, it is highly probable to have fewer memory-
+     * to-cache movement operations if we could also traverse B by row rather than by column.
+     * Therefore, if we transpose B, we will traverse both A and B by row, which may lead to fewer operations to move
+     * values between internal memory hierarchies.
+     *
+     * Then, the element of R[0][0] now traverses A by row and Bᵀ by row (which represents a column of B): 1⋅5 + 2⋅7
+     *    A       B                  R
+     * [ → → ] [ → → ]     [ (1  2) ] [ (5) (7) ]
+     * [     ] [     ]     [  3  4  ] [  6   8  ]
      *
      * @param  Matrix|Vector $B Matrix or Vector to multiply
      *
@@ -1584,7 +1627,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @throws Exception\IncorrectTypeException if parameter B is not a Matrix or Vector
      * @throws Exception\MatrixException if matrix dimensions do not match
-     * @throws Exception\VectorException
+     * @throws Exception\MathException
      */
     public function multiply($B): Matrix
     {
@@ -1598,13 +1641,14 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             throw new Exception\MatrixException("Matrix dimensions do not match");
         }
 
-        // ikj algorithm
         $R = [];
-        for ($i = 0; $i < $this->m; $i++) {
+        $Bᵀ = $B->transpose()->getMatrix();
+
+        foreach ($this->A as $i => $Aʳᵒʷ⟦i⟧) {
             $R[$i] = array_fill(0, $B->n, 0);
-            for ($k = 0; $k < $this->n; $k++) {
-                for ($j = 0; $j < $B->n; $j++) {
-                    $R[$i][$j] += $this->A[$i][$k] * $B[$k][$j];
+            foreach ($Bᵀ as $j => $Bᶜᵒˡ⟦j⟧) {
+                foreach ($Aʳᵒʷ⟦i⟧ as $k => $A⟦i⟧⟦k⟧) {
+                    $R[$i][$j] += $A⟦i⟧⟦k⟧ * $Bᶜᵒˡ⟦j⟧[$k];
                 }
             }
         }
