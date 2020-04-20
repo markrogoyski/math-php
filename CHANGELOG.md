@@ -1,5 +1,13 @@
 # MathPHP Change Log
 
+## v1.1.0 - 2020-04-19
+
+### New Features
+- Arithmetic modulo
+
+### Improvements
+- Improved matrix multiplication performance using cache-oblivious algorithm optimization
+
 ## v1.0.0 - 2020-04-14
 
 Initial version 1.0.0 release!
