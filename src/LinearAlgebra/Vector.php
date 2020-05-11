@@ -134,6 +134,8 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *  - length (magnitude)
      *  - dotProduct (innerProduct)
      *  - perpDotProduct
+     *  - radAngle
+     *  - defAngle
      **************************************************************************/
 
     /**
@@ -215,6 +217,120 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
         $A⊥ = $this->perpendicular();
 
         return $A⊥->dotProduct($B);
+    }
+
+    /**
+     * Calculates the angle between two vectors with
+     *
+     *            Σ (x_i * y_i)
+     * ----------------------------------
+     * sqrt( Σ(x_i^2) ) * sqrt( Σ(y_i)^2)
+     *
+     * @param Vector $B
+     * @return float The angle between the vectors in radians
+     * @throws Exception\VectorException
+     */
+    public function radAngle(Vector $B)
+    {
+        if (count(array_unique($this->A)) === 1 && end($this->A) === 0)
+            throw new Exception\VectorException('The this vector is the null vector');
+        else if(count(array_unique($B->A)) === 1 && end($B->A) === 0)
+            throw new Exception\VectorException('The parameter vector is the null vector');
+
+        $dotProduct = self::dotProduct($B);
+
+        $sqrtSumA = 0;
+        foreach ($this->A as $element){
+            $sqrtSumA += pow($element, 2);
+        }
+        $sqrtSumA = sqrt($sqrtSumA);
+
+        $sqrtSumB = 0;
+        foreach ($B as $element){
+            $sqrtSumB += pow($element, 2);
+        }
+        $sqrtSumB = sqrt($sqrtSumB);
+
+        return acos($dotProduct / ($sqrtSumA*$sqrtSumB));
+    }
+
+    /**
+     * Calculates the angle between two vectors with
+     *
+     *            Σ (x_i * y_i)
+     * ----------------------------------
+     * sqrt( Σ(x_i^2) ) * sqrt( Σ(y_i)^2)
+     *
+     * @param Vector $B
+     * @return float The angle between the vectors in degree
+     * @throws Exception\VectorException
+     */
+    public function degAngle(Vector $B)
+    {
+        return rad2deg(self::radAngle($B));
+    }
+
+    /**
+     * Calculates the taxicap geometry (sometimes manhatten distance) between the vectors
+     * https://en.wikipedia.org/wiki/Taxicab_geometry
+     *
+     * @param Vector $B
+     * @return float|int The manhatten
+     * @throws Exception\VectorException
+     */
+    public function manhattanDistance(Vector $B)
+    {
+        return self::generalDistance($B, 1);
+    }
+
+    /**
+     * Calculates the taxicap geometry between the vectors
+     * https://en.wikipedia.org/wiki/Taxicab_geometry
+     *
+     * @param $B
+     * @return float|int
+     * @throws Exception\VectorException
+     */
+    public function taxicabGeometry($B)
+    {
+        return self::generalDistance($B, 1);
+    }
+
+    /**
+     * Calculates the euclidean distance between the vectors
+     * https://en.wikipedia.org/wiki/Euclidean_distance
+     *
+     * @param Vector $B
+     * @return float|int The euclidean distance between the vectors
+     * @throws Exception\VectorException
+     */
+    public function euclideanDistance(Vector $B)
+    {
+        return self::generalDistance($B, 2);
+    }
+
+    /**
+     * Calculates the general distance between vectors with
+     *
+     * ( Σ|x_i - y_i|^p )^1/p
+     *
+     * @param Vector $B
+     * @param int $p
+     * @return float|int
+     * @throws Exception\VectorException
+     */
+    public function generalDistance(Vector $B, int $p)
+    {
+        if ($B->getN() !== $this->n) {
+            throw new Exception\VectorException('The vectors have a different number of elements');
+        }
+
+        $sum = 0;
+        for($i = 0; $i < $this->n; $i++){
+            $sum += pow(abs($this->A[$i] - $B->A[$i]), $p);
+        }
+
+        return pow($sum, 1/$p);
     }
 
     /**************************************************************************

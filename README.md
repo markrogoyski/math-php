@@ -635,10 +635,16 @@ $item = $A->get(1);
 
 // Vector numeric operations - return a value
 $sum  = $A->sum();
-$│A│  = $A->length();           // same as l2Norm
-$A⋅B  = $A->dotProduct($B);     // same as innerProduct
-$A⋅B  = $A->innerProduct($B);   // same as dotProduct
+$│A│  = $A->length();                           // same as l2Norm
+$A⋅B  = $A->dotProduct($B);                     // same as innerProduct
+$A⋅B  = $A->innerProduct($B);                   // same as dotProduct
 $A⊥⋅B = $A->perpDotProduct($B);
+$radAngle = $A->radAngle($B);
+$degAngle = $A->degAngle($B);
+$manDistance = $A->manhattanDistance($B);       // same as generalDistance($B, 1)
+$taxiDistance = $A->taxicabGeometry($B);        // same as generalDistance($B, 1)
+$euclidDistance = $A->euclideanDistance($B);    // same as generalDistance($B, 2)
+$genDistance = $A->generalDistance($B, p); 
 
 // Vector arithmetic operations - return a Vector
 $A＋B  = $A->add($B);
