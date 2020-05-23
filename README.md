@@ -639,12 +639,11 @@ $│A│  = $A->length();                           // same as l2Norm
 $A⋅B  = $A->dotProduct($B);                     // same as innerProduct
 $A⋅B  = $A->innerProduct($B);                   // same as dotProduct
 $A⊥⋅B = $A->perpDotProduct($B);
-$radAngle = $A->radAngle($B);
+$radAngle = $A->cosineSimilarity($B);
 $degAngle = $A->degAngle($B);
-$manDistance = $A->manhattanDistance($B);       // same as generalDistance($B, 1)
-$taxiDistance = $A->taxicabGeometry($B);        // same as generalDistance($B, 1)
-$euclidDistance = $A->euclideanDistance($B);    // same as generalDistance($B, 2)
-$genDistance = $A->generalDistance($B, p); 
+$taxicabDistance = $A->l1Distance($B);          // same as generalDistance($B, 1)
+$euclidDistance = $A->l2Distance($B);           // same as generalDistance($B, 2)
+$minkowskiDistance = $A->minkowskiDistance($B, p); 
 
 // Vector arithmetic operations - return a Vector
 $A＋B  = $A->add($B);

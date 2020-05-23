@@ -222,44 +222,33 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     /**
      * Calculates the angle between two vectors with
      *
-     *            Σ (x_i * y_i)
-     * ----------------------------------
-     * sqrt( Σ(x_i^2) ) * sqrt( Σ(y_i)^2)
+     *           A⋅B
+     * cos α = -------
+     *         |A|⋅|B|
      *
      * @param Vector $B
      * @return float The angle between the vectors in radians
      * @throws Exception\VectorException
      */
-    public function radAngle(Vector $B)
+    public function cosineSimilarity(Vector $B)
     {
         if (count(array_unique($this->A)) === 1 && end($this->A) === 0)
             throw new Exception\VectorException('The this vector is the null vector');
         else if(count(array_unique($B->A)) === 1 && end($B->A) === 0)
             throw new Exception\VectorException('The parameter vector is the null vector');
 
-        $dotProduct = self::dotProduct($B);
+        $A⋅B     = $this->dotProduct($B);
+        $│A│⋅│B│ = $this->l2Norm() * $B->l2Norm();
 
-        $sqrtSumA = 0;
-        foreach ($this->A as $element){
-            $sqrtSumA += pow($element, 2);
-        }
-        $sqrtSumA = sqrt($sqrtSumA);
-
-        $sqrtSumB = 0;
-        foreach ($B as $element){
-            $sqrtSumB += pow($element, 2);
-        }
-        $sqrtSumB = sqrt($sqrtSumB);
-
-        return acos($dotProduct / ($sqrtSumA*$sqrtSumB));
+        return acos($A⋅B / $│A│⋅│B│);
     }
 
     /**
      * Calculates the angle between two vectors with
      *
-     *            Σ (x_i * y_i)
-     * ----------------------------------
-     * sqrt( Σ(x_i^2) ) * sqrt( Σ(y_i)^2)
+     *           A⋅B
+     * cos α = -------
+     *         |A|⋅|B|
      *
      * @param Vector $B
      * @return float The angle between the vectors in degree
@@ -267,7 +256,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function degAngle(Vector $B)
     {
-        return rad2deg(self::radAngle($B));
+        return rad2deg(self::cosineSimilarity($B));
     }
 
     /**
@@ -275,25 +264,12 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * https://en.wikipedia.org/wiki/Taxicab_geometry
      *
      * @param Vector $B
-     * @return float|int The manhatten
-     * @throws Exception\VectorException
-     */
-    public function manhattanDistance(Vector $B)
-    {
-        return self::generalDistance($B, 1);
-    }
-
-    /**
-     * Calculates the taxicap geometry between the vectors
-     * https://en.wikipedia.org/wiki/Taxicab_geometry
-     *
-     * @param $B
      * @return float|int
      * @throws Exception\VectorException
      */
-    public function taxicabGeometry($B)
+    public function l1Distance(Vector $B)
     {
-        return self::generalDistance($B, 1);
+        return self::minkowskiDistance($B, 1);
     }
 
     /**
@@ -304,13 +280,13 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * @return float|int The euclidean distance between the vectors
      * @throws Exception\VectorException
      */
-    public function euclideanDistance(Vector $B)
+    public function l2Distance(Vector $B)
     {
-        return self::generalDistance($B, 2);
+        return self::minkowskiDistance($B, 2);
     }
 
     /**
-     * Calculates the general distance between vectors with
+     * Calculates the minkowski distance between vectors with
      *
      * ( Σ|x_i - y_i|^p )^1/p
      *
@@ -319,7 +295,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * @return float|int
      * @throws Exception\VectorException
      */
-    public function generalDistance(Vector $B, int $p)
+    public function minkowskiDistance(Vector $B, int $p)
     {
         if ($B->getN() !== $this->n) {
             throw new Exception\VectorException('The vectors have a different number of elements');

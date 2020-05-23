@@ -50,8 +50,8 @@ class VectorAngleTest extends TestCase
         $B = new Vector($B);
 
         //When
-        $angle1 = $A->radAngle($B);
-        $angle2 = $B->radAngle($A);
+        $angle1 = $A->cosineSimilarity($B);
+        $angle2 = $B->cosineSimilarity($A);
 
         //Then
         $this->assertEquals($expected, $angle1);
