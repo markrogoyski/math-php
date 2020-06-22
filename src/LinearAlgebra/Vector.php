@@ -233,10 +233,12 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function cosineSimilarity(Vector $B, bool $returnDegrees = false)
     {
-        if (count(array_unique($this->A)) === 1 && end($this->A) === 0)
+        if (count(array_unique($this->A)) === 1 && end($this->A) === 0) {
             throw new Exception\VectorException('The this vector is the null vector');
-        else if(count(array_unique($B->A)) === 1 && end($B->A) === 0)
+        }
+        elseif (count(array_unique($B->A)) === 1 && end($B->A) === 0) {
             throw new Exception\VectorException('The parameter vector is the null vector');
+        }
 
         $A⋅B     = $this->dotProduct($B);
         $│A│⋅│B│ = $this->l2Norm() * $B->l2Norm();
@@ -292,11 +294,11 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
         }
 
         $sum = 0;
-        for($i = 0; $i < $this->n; $i++){
+        for ($i = 0; $i < $this->n; $i++) {
             $sum += pow(abs($this->A[$i] - $B->A[$i]), $p);
         }
 
-        return pow($sum, 1/$p);
+        return pow($sum, 1 / $p);
     }
 
     /**************************************************************************

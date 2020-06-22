@@ -25,7 +25,7 @@ class VectorDistanceTest extends TestCase
         //Exception
     }
 
-    public function dataProviderForDifferentVectors() : array
+    public function dataProviderForDifferentVectors(): array
     {
         return [
             [ [1, 2, 3], [0, 0]],
@@ -54,7 +54,7 @@ class VectorDistanceTest extends TestCase
         $this->assertEquals($expection, $distance2);
     }
 
-    public function dataProviderForL1Distance() : array
+    public function dataProviderForL1Distance(): array
     {
         return [
             [ [1, 2, 3], [0, 0, 0], 6],
@@ -82,7 +82,7 @@ class VectorDistanceTest extends TestCase
         $this->assertEquals($expection, $distance2);
     }
 
-    public function dataProviderForL2Distance() : array
+    public function dataProviderForL2Distance(): array
     {
         return [
             [ [1, 2, 3], [0, 0, 0], sqrt(14)],

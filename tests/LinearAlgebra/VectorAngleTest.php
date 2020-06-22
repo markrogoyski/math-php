@@ -32,11 +32,11 @@ class VectorAngleTest extends TestCase
     public function dataProviderForDegAngle(): array
     {
         return [
-            [ [1, 2, 3], [3, 2, 1], rad2deg(acos(5/7)) ],
+            [ [1, 2, 3], [3, 2, 1], rad2deg(acos(5 / 7)) ],
             [ [1, 0, 0], [0, 0, 1], rad2deg(acos(0)) ],
             [ [1, 0, 0], [1, 0, 0], rad2deg(acos(1)) ],
-            [ [-1, 1, 0], [0, 1, -1], rad2deg(acos(1/2)) ],
-            [ [23, 41, 33], [31,56,21], rad2deg(acos(1851*sqrt(2/7485431))) ],
+            [ [-1, 1, 0], [0, 1, -1], rad2deg(acos(1 / 2)) ],
+            [ [23, 41, 33], [31,56,21], rad2deg(acos(1851 * sqrt(2/7485431))) ],
         ];
     }
 
@@ -61,11 +61,11 @@ class VectorAngleTest extends TestCase
     public function dataProviderForRadAngle(): array
     {
         return [
-            [ [1, 2, 3], [3, 2, 1], acos(5/7) ],
+            [ [1, 2, 3], [3, 2, 1], acos(5 / 7) ],
             [ [1, 0, 0], [0, 0, 1], acos(0) ],
             [ [1, 0, 0], [1, 0, 0], acos(1) ],
-            [ [-1, 1, 0], [0, 1, -1], acos(1/2) ],
-            [ [23, 41, 33], [31,56,21], acos(1851*sqrt(2/7485431)) ],
+            [ [-1, 1, 0], [0, 1, -1], acos(1 / 2) ],
+            [ [23, 41, 33], [31,56,21], acos(1851 * sqrt(2/7485431)) ],
         ];
     }
 
@@ -86,7 +86,7 @@ class VectorAngleTest extends TestCase
         //Exception
     }
 
-    public function dataProviderForExceptionRadAngle() : array
+    public function dataProviderForExceptionRadAngle(): array
     {
         return [
             [ [1, 2, 3], [0, 0, 0]],
