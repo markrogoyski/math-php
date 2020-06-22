@@ -227,10 +227,11 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *         |A|⋅|B|
      *
      * @param Vector $B
+     * @param bool $returnDegrees Determines whether the angle should be returned in degrees or in rad
      * @return float The angle between the vectors in radians
      * @throws Exception\VectorException
      */
-    public function cosineSimilarity(Vector $B)
+    public function cosineSimilarity(Vector $B, bool $returnDegrees = false)
     {
         if (count(array_unique($this->A)) === 1 && end($this->A) === 0)
             throw new Exception\VectorException('The this vector is the null vector');
@@ -240,23 +241,12 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
         $A⋅B     = $this->dotProduct($B);
         $│A│⋅│B│ = $this->l2Norm() * $B->l2Norm();
 
-        return acos($A⋅B / $│A│⋅│B│);
-    }
+        $result = acos($A⋅B / $│A│⋅│B│);
 
-    /**
-     * Calculates the angle between two vectors with
-     *
-     *           A⋅B
-     * cos α = -------
-     *         |A|⋅|B|
-     *
-     * @param Vector $B
-     * @return float The angle between the vectors in degree
-     * @throws Exception\VectorException
-     */
-    public function degAngle(Vector $B)
-    {
-        return rad2deg(self::cosineSimilarity($B));
+        if(!$returnDegrees)
+            return $result;
+        else
+            return rad2deg($result);
     }
 
     /**

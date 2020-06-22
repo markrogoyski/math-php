@@ -21,8 +21,8 @@ class VectorAngleTest extends TestCase
         $B = new Vector($B);
 
         //When
-        $angle1 = $A->degAngle($B);
-        $angle2 = $B->degAngle($A);
+        $angle1 = $A->cosineSimilarity($B, true);
+        $angle2 = $B->cosineSimilarity($A, true);
 
         //Then
         $this->assertEquals($expected, $angle1);
@@ -80,7 +80,7 @@ class VectorAngleTest extends TestCase
         $B = new Vector($B);
 
         //When
-        $A->degAngle($B);
+        $A->cosineSimilarity($B);
 
         //Then
         //Exception
