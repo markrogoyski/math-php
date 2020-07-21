@@ -104,6 +104,45 @@ class Distribution
     }
 
     /**
+     * Assign a ranking to data.
+     * https://en.wikipedia.org/wiki/Ranking
+     *
+     * Similar to R: rank(values, ties.method'average')
+     *
+     * @param array $values to be ranked
+     *
+     * @return array Rankings of the data in the same order the values were input
+     */
+    public static function rank(array $values): array
+    {
+        $Xs = $values;
+        sort($Xs);
+
+        // Determine ranks - some items might show up multiple times, so record each successive rank.
+        $ordinalRanking⟮X⟯ = [];
+        foreach ($Xs as $rank => $xᵢ) {
+            $ordinalRanking⟮X⟯[$xᵢ][] = $rank + 1;
+        }
+
+        // Determine average rank of each value. Necessary when values show up multiple times.
+        // Rank will not change if value only shows up once.
+        $rg⟮X⟯ = array_map(
+            function (array $x) {
+                return array_sum($x) / count($x);
+            },
+            $ordinalRanking⟮X⟯
+        );
+
+        // Map ranks to values in order they were originally input
+        return array_map(
+            function ($value) use ($rg⟮X⟯) {
+                return $rg⟮X⟯[$value];
+            },
+            $values
+        );
+    }
+
+    /**
      * Stem and leaf plot
      * Device for presenting quantitative data in a graphical format, similar to a histogram,
      * to assist in visualizing the shape of a distribution.

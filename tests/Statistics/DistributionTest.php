@@ -167,6 +167,151 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         rank
+     * @dataProvider dataProviderForRank
+     * @param        array $values
+     * @param        array $expected
+     */
+    public function testRank(array $values, array $expected)
+    {
+        // When
+        $sampleRank = Distribution::rank($values);
+
+        // Then
+        $this->assertEquals($expected, $sampleRank);
+    }
+
+    /**
+     * @test         rank: Sum of all assigned ranks is ½n(n + 1)
+     * @dataProvider dataProviderForRank
+     * @param        array $values
+     */
+    public function testRankDistributionSumOfAllRanks(array $values)
+    {
+        // Given
+        $n = count($values);
+        $expectedSumOfAssignedRanks = ($n * ($n + 1)) / 2;
+
+        // When
+        $sampleRank = Distribution::rank($values);
+
+        // Then
+        $sumOfAssignedRanks = array_sum($sampleRank);
+        $this->assertEquals($expectedSumOfAssignedRanks, $sumOfAssignedRanks);
+    }
+
+    /**
+     * Data generated with R: rank(c(1, 2, 3, 4, 5))
+     * @return array
+     */
+    public function dataProviderForRank(): array
+    {
+        return [
+            [
+                [0],
+                [1],
+            ],
+            [
+                [1],
+                [1],
+            ],
+            [
+                [-1],
+                [1],
+            ],
+            [
+                [5],
+                [1],
+            ],
+            [
+                [1, 5],
+                [1, 2],
+            ],
+            [
+                [2, 5],
+                [1, 2],
+            ],
+            [
+                [1, 2, 3, 4, 5],
+                [1, 2, 3, 4, 5],
+            ],
+            [
+                [5, 2],
+                [2, 1],
+            ],
+            [
+                [5, 4, 3, 2, 1],
+                [5, 4, 3, 2, 1],
+            ],
+            [
+                [5, 3, 1, 2, 4],
+                [5, 3, 1, 2, 4],
+            ],
+            [
+                [1, 3, 5, 7, 9],
+                [1, 2, 3, 4, 5],
+            ],
+            [
+                [9, 7, 5, 3, 1],
+                [5, 4, 3, 2, 1],
+            ],
+            [
+                [3, 1, 4, 15, 92],
+                [2, 1, 3, 4, 5],
+            ],
+            [
+                [8, 4, 10, 3, 5, 32, 1, 98, 43],
+                [5, 3, 6, 2, 4, 7, 1, 9, 8],
+            ],
+            [
+                [1, 2, 4, 5],
+                [1, 2, 3, 4],
+            ],
+            [
+                [1, 2, 3, 3, 4, 5],
+                [1, 2, 3.5, 3.5, 5, 6],
+            ],
+            [
+                [1, 2, 3, 3, 3, 4, 5],
+                [1, 2, 4, 4, 4, 6, 7],
+
+            ],
+            [
+                [1, 1],
+                [1.5, 1.5],
+            ],
+            [
+                [0, 0],
+                [1.5, 1.5],
+            ],
+            [
+                [-1, -1],
+                [1.5, 1.5],
+            ],
+            [
+                [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5],
+                [4.5, 1.5, 6.0, 1.5, 8.0, 11.0, 3.0, 10.0, 8.0, 4.5, 8.0],
+            ],
+            [
+                [1.0, 1.0, 2.0, 3.0, 3.0, 4.0, 5.0, 5.0, 5.0],
+                [1.5, 1.5, 3, 4.5, 4.5, 6, 8, 8, 8],
+            ],
+            [
+                [-3, -2, -1, 0, 1, 2, 3],
+                [1, 2, 3, 4, 5, 6, 7],
+            ],
+            [
+                [-3, -2, -2, -1, -1, 0, 1, 2, 3],
+                [1, 2.5, 2.5, 4.5, 4.5, 6, 7, 8, 9],
+            ],
+            [
+                [-1, 5, 7, -1],
+                [1.5, 3, 4, 1.5],
+            ],
+        ];
+    }
+
+    /**
      * @test         stemAndLeafPlot
      * @dataProvider dataProviderForStemAndLeafPlot
      * @param        array $values
