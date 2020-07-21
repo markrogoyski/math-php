@@ -104,10 +104,10 @@ class Distribution
     }
 
     /**
-     * Assign a ranking to data.
+     * Assign a fractional average ranking to data - ("1 2.5 2.5 4" ranking)
      * https://en.wikipedia.org/wiki/Ranking
      *
-     * Similar to R: rank(values, ties.method'average')
+     * Similar to R: rank(values, ties.method='average')
      *
      * @param array $values to be ranked
      *
@@ -137,6 +137,41 @@ class Distribution
         return array_map(
             function ($value) use ($rg⟮X⟯) {
                 return $rg⟮X⟯[$value];
+            },
+            $values
+        );
+    }
+
+    /**
+     * Assign a standard competitive ranking to data - ("1224" ranking)
+     * https://en.wikipedia.org/wiki/Ranking
+     *
+     * Similar to R: rank(values, ties.method'min')
+     *
+     * @param array $values to be ranked
+     *
+     * @return array Rankings of the data in the same order the values were input
+     */
+    public static function standardCompetitionRanking(array $values): array
+    {
+        $count = count($values);
+        $Xs    = $values;
+        sort($Xs);
+
+        $ranking⟮X⟯    = [];
+        $ranking⟮X⟯[0] = 1;
+        for ($i = 1; $i < $count; $i++) {
+            $ranking⟮X⟯[$i] = $Xs[$i] == $Xs[$i - 1]
+                ? $ranking⟮X⟯[$i - 1]
+                : $i + 1;
+        }
+
+        $ranking⟮X⟯ = array_combine($Xs, $ranking⟮X⟯);
+
+        // Map ranks to values in order they were originally input
+        return array_map(
+            function ($value) use ($ranking⟮X⟯) {
+                return $ranking⟮X⟯[$value];
             },
             $values
         );
