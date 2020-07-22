@@ -167,35 +167,35 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         rank
+     * @test         fractionalRanking
      * @dataProvider dataProviderForRankingWithoutTies
-     * @dataProvider dataProviderForRank
+     * @dataProvider dataProviderForFractionalRank
      * @param        array $values
      * @param        array $expected
      */
-    public function testRank(array $values, array $expected)
+    public function testFractionalRanking(array $values, array $expected)
     {
         // When
-        $sampleRank = Distribution::rank($values);
+        $sampleRank = Distribution::fractionalRanking($values);
 
         // Then
         $this->assertEquals($expected, $sampleRank);
     }
 
     /**
-     * @test         rank: Sum of all assigned ranks is ½n(n + 1)
+     * @test         fractionalRanking: Sum of all assigned ranks is ½n(n + 1)
      * @dataProvider dataProviderForRankingWithoutTies
-     * @dataProvider dataProviderForRank
+     * @dataProvider dataProviderForFractionalRank
      * @param        array $values
      */
-    public function testRankDistributionSumOfAllRanks(array $values)
+    public function testFractionalRankingDistributionSumOfAllRanks(array $values)
     {
         // Given
         $n = count($values);
         $expectedSumOfAssignedRanks = ($n * ($n + 1)) / 2;
 
         // When
-        $sampleRank = Distribution::rank($values);
+        $sampleRank = Distribution::fractionalRanking($values);
 
         // Then
         $sumOfAssignedRanks = array_sum($sampleRank);
@@ -206,7 +206,7 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
      * Data generated with R: rank(c(1, 2, 3, 4, 5), ties.method='average')
      * @return array
      */
-    public function dataProviderForRank(): array
+    public function dataProviderForFractionalRank(): array
     {
         return [
             [

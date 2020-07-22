@@ -113,7 +113,7 @@ class Distribution
      *
      * @return array Rankings of the data in the same order the values were input
      */
-    public static function rank(array $values): array
+    public static function fractionalRanking(array $values): array
     {
         $Xs = $values;
         sort($Xs);
