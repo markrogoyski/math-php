@@ -194,8 +194,8 @@ class Distribution
         sort($Xs);
 
         $ranking⟮X⟯            = [];
-        $ranking⟮X⟯[$count -1] = $count;
-        for ($i = $count -2; $i >= 0; $i--) {
+        $ranking⟮X⟯[$count - 1] = $count;
+        for ($i = $count - 2; $i >= 0; $i--) {
             $ranking⟮X⟯[$i] = $Xs[$i] == $Xs[$i + 1]
                 ? $ranking⟮X⟯[$i + 1]
                 : $i + 1;
