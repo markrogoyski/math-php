@@ -206,123 +206,6 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
      * Data generated with R: rank(c(1, 2, 3, 4, 5), ties.method='average')
      * @return array
      */
-    public function dataProviderForFractionalRank(): array
-    {
-        return [
-            [
-                [1, 2, 2, 3],
-                [1, 2.5, 2.5, 4],
-            ],
-            [
-                [1, 2, 3, 3, 4, 5],
-                [1, 2, 3.5, 3.5, 5, 6],
-            ],
-            [
-                [1, 2, 3, 3, 3, 4, 5],
-                [1, 2, 4, 4, 4, 6, 7],
-
-            ],
-            [
-                [1, 1],
-                [1.5, 1.5],
-            ],
-            [
-                [0, 0],
-                [1.5, 1.5],
-            ],
-            [
-                [-1, -1],
-                [1.5, 1.5],
-            ],
-            [
-                [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5],
-                [4.5, 1.5, 6.0, 1.5, 8.0, 11.0, 3.0, 10.0, 8.0, 4.5, 8.0],
-            ],
-            [
-                [1.0, 1.0, 2.0, 3.0, 3.0, 4.0, 5.0, 5.0, 5.0],
-                [1.5, 1.5, 3, 4.5, 4.5, 6, 8, 8, 8],
-            ],
-            [
-                [-3, -2, -2, -1, -1, 0, 1, 2, 3],
-                [1, 2.5, 2.5, 4.5, 4.5, 6, 7, 8, 9],
-            ],
-            [
-                [-1, 5, 7, -1],
-                [1.5, 3, 4, 1.5],
-            ],
-        ];
-    }
-
-    /**
-     * @test         standardCompetitionRanking
-     * @dataProvider dataProviderForRankingWithoutTies
-     * @param        array $values
-     * @param        array $expected
-     */
-    public function testStandardCompetitionRanking(array $values, array $expected)
-    {
-        // When
-        $ranking = Distribution::standardCompetitionRanking($values);
-
-        // Then
-        $this->assertEquals($expected, $ranking);
-    }
-
-    /**
-     * Data generated with R: rank(c(1, 2, 3, 4, 5), ties.method='min')
-     * @return array
-     */
-    public function dataProviderForStandardCompetitionRanking(): array
-    {
-        return [
-            [
-                [1, 2, 2, 3],
-                [1, 2, 2, 4],
-            ],
-            [
-                [1, 2, 3, 3, 4, 5],
-                [1, 2, 3, 3, 5, 6],
-            ],
-            [
-                [1, 2, 3, 3, 3, 4, 5],
-                [1, 2, 3, 3, 3, 6, 7],
-
-            ],
-            [
-                [1, 1],
-                [1, 1],
-            ],
-            [
-                [0, 0],
-                [1, 1],
-            ],
-            [
-                [-1, -1],
-                [1, 1],
-            ],
-            [
-                [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5],
-                [4, 1, 6, 1, 7, 11, 3, 10, 7, 4, 7],
-            ],
-            [
-                [1.0, 1.0, 2.0, 3.0, 3.0, 4.0, 5.0, 5.0, 5.0],
-                [1, 1, 3, 4, 4, 6, 7, 7, 7],
-            ],
-            [
-                [-3, -2, -2, -1, -1, 0, 1, 2, 3],
-                [1, 2, 2, 4, 4, 6, 7, 8, 9],
-            ],
-            [
-                [-1, 5, 7, -1],
-                [1, 3, 4, 1],
-            ],
-        ];
-    }
-
-    /**
-     * Data generated with R: rank(c(1, 2, 3, 4, 5), ties.method='average')
-     * @return array
-     */
     public function dataProviderForRankingWithoutTies(): array
     {
         return [
@@ -389,6 +272,203 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
             [
                 [-3, -2, -1, 0, 1, 2, 3],
                 [1, 2, 3, 4, 5, 6, 7],
+            ],
+        ];
+    }
+
+    /**
+     * Data generated with R: rank(c(1, 2, 3, 4, 5), ties.method='average')
+     * @return array
+     */
+    public function dataProviderForFractionalRank(): array
+    {
+        return [
+            [
+                [1, 2, 2, 3],
+                [1, 2.5, 2.5, 4],
+            ],
+            [
+                [3, 2, 2, 1],
+                [4, 2.5, 2.5, 1],
+            ],
+            [
+                [1, 2, 3, 3, 4, 5],
+                [1, 2, 3.5, 3.5, 5, 6],
+            ],
+            [
+                [1, 2, 3, 3, 3, 4, 5],
+                [1, 2, 4, 4, 4, 6, 7],
+
+            ],
+            [
+                [1, 1],
+                [1.5, 1.5],
+            ],
+            [
+                [0, 0],
+                [1.5, 1.5],
+            ],
+            [
+                [-1, -1],
+                [1.5, 1.5],
+            ],
+            [
+                [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5],
+                [4.5, 1.5, 6.0, 1.5, 8.0, 11.0, 3.0, 10.0, 8.0, 4.5, 8.0],
+            ],
+            [
+                [1.0, 1.0, 2.0, 3.0, 3.0, 4.0, 5.0, 5.0, 5.0],
+                [1.5, 1.5, 3, 4.5, 4.5, 6, 8, 8, 8],
+            ],
+            [
+                [-3, -2, -2, -1, -1, 0, 1, 2, 3],
+                [1, 2.5, 2.5, 4.5, 4.5, 6, 7, 8, 9],
+            ],
+            [
+                [-1, 5, 7, -1],
+                [1.5, 3, 4, 1.5],
+            ],
+        ];
+    }
+
+    /**
+     * @test         standardCompetitionRanking
+     * @dataProvider dataProviderForRankingWithoutTies
+     * @dataProvider dataProviderForStandardCompetitionRanking
+     * @param        array $values
+     * @param        array $expected
+     */
+    public function testStandardCompetitionRanking(array $values, array $expected)
+    {
+        // When
+        $ranking = Distribution::standardCompetitionRanking($values);
+
+        // Then
+        $this->assertEquals($expected, $ranking);
+    }
+
+    /**
+     * Data generated with R: rank(c(1, 2, 3, 4, 5), ties.method='min')
+     * @return array
+     */
+    public function dataProviderForStandardCompetitionRanking(): array
+    {
+        return [
+            [
+                [1, 2, 2, 3],
+                [1, 2, 2, 4],
+            ],
+            [
+                [3, 2, 2, 1],
+                [4, 2, 2, 1],
+            ],
+            [
+                [1, 2, 3, 3, 4, 5],
+                [1, 2, 3, 3, 5, 6],
+            ],
+            [
+                [1, 2, 3, 3, 3, 4, 5],
+                [1, 2, 3, 3, 3, 6, 7],
+
+            ],
+            [
+                [1, 1],
+                [1, 1],
+            ],
+            [
+                [0, 0],
+                [1, 1],
+            ],
+            [
+                [-1, -1],
+                [1, 1],
+            ],
+            [
+                [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5],
+                [4, 1, 6, 1, 7, 11, 3, 10, 7, 4, 7],
+            ],
+            [
+                [1.0, 1.0, 2.0, 3.0, 3.0, 4.0, 5.0, 5.0, 5.0],
+                [1, 1, 3, 4, 4, 6, 7, 7, 7],
+            ],
+            [
+                [-3, -2, -2, -1, -1, 0, 1, 2, 3],
+                [1, 2, 2, 4, 4, 6, 7, 8, 9],
+            ],
+            [
+                [-1, 5, 7, -1],
+                [1, 3, 4, 1],
+            ],
+        ];
+    }
+
+    /**
+     * @test         modifiedCompetitionRanking
+     * @dataProvider dataProviderForRankingWithoutTies
+     * @dataProvider dataProviderForModifiedCompetitionRanking
+     * @param        array $values
+     * @param        array $expected
+     */
+    public function testModifiedCompetitionRanking(array $values, array $expected)
+    {
+        // When
+        $ranking = Distribution::modifiedCompetitionRanking($values);
+
+        // Then
+        $this->assertEquals($expected, $ranking);
+    }
+
+    /**
+     * Data generated with R: rank(c(1, 2, 3, 4, 5), ties.method='max')
+     * @return array
+     */
+    public function dataProviderForModifiedCompetitionRanking(): array
+    {
+        return [
+            [
+                [1, 2, 2, 3],
+                [1, 3, 3, 4],
+            ],
+            [
+                [3, 2, 2, 1],
+                [4, 3, 3, 1],
+            ],
+            [
+                [1, 2, 3, 3, 4, 5],
+                [1, 2, 4, 4, 5, 6],
+            ],
+            [
+                [1, 2, 3, 3, 3, 4, 5],
+                [1, 2, 5, 5, 5, 6, 7],
+
+            ],
+            [
+                [1, 1],
+                [2, 2],
+            ],
+            [
+                [0, 0],
+                [2, 2],
+            ],
+            [
+                [-1, -1],
+                [2, 2],
+            ],
+            [
+                [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5],
+                [5, 2, 6, 2, 9, 11, 3, 10, 9, 5, 9],
+            ],
+            [
+                [1.0, 1.0, 2.0, 3.0, 3.0, 4.0, 5.0, 5.0, 5.0],
+                [2, 2, 3, 5, 5, 6, 9, 9, 9],
+            ],
+            [
+                [-3, -2, -2, -1, -1, 0, 1, 2, 3],
+                [1, 3, 3, 5, 5, 6, 7, 8, 9],
+            ],
+            [
+                [-1, 5, 7, -1],
+                [2, 3, 4, 2],
             ],
         ];
     }
