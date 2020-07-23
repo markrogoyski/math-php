@@ -121,7 +121,7 @@ class Distribution
         // Determine ranks - some items might show up multiple times, so record each successive rank.
         $ordinalRanking⟮X⟯ = [];
         foreach ($Xs as $rank => $xᵢ) {
-            $ordinalRanking⟮X⟯[$xᵢ][] = $rank + 1;
+            $ordinalRanking⟮X⟯[strval($xᵢ)][] = $rank + 1;
         }
 
         // Determine average rank of each value. Necessary when values show up multiple times.
@@ -136,7 +136,7 @@ class Distribution
         // Map ranks to values in order they were originally input
         return array_map(
             function ($value) use ($rg⟮X⟯) {
-                return $rg⟮X⟯[$value];
+                return $rg⟮X⟯[strval($value)];
             },
             $values
         );
@@ -166,12 +166,12 @@ class Distribution
                 : $i + 1;
         }
 
-        $ranking⟮X⟯ = array_combine($Xs, $ranking⟮X⟯);
+        $ranking⟮X⟯ = array_combine(array_map('strval', $Xs), $ranking⟮X⟯);
 
         // Map ranks to values in order they were originally input
         return array_map(
             function ($value) use ($ranking⟮X⟯) {
-                return $ranking⟮X⟯[$value];
+                return $ranking⟮X⟯[strval($value)];
             },
             $values
         );
@@ -201,12 +201,12 @@ class Distribution
                 : $i + 1;
         }
         sort($ranking⟮X⟯);
-        $ranking⟮X⟯ = array_combine($Xs, $ranking⟮X⟯);
+        $ranking⟮X⟯ = array_combine(array_map('strval', $Xs), $ranking⟮X⟯);
 
         // Map ranks to values in order they were originally input
         return array_map(
             function ($value) use ($ranking⟮X⟯) {
-                return $ranking⟮X⟯[$value];
+                return $ranking⟮X⟯[strval($value)];
             },
             $values
         );
@@ -229,13 +229,13 @@ class Distribution
 
         $ranking⟮X⟯ = [];
         foreach ($Xs as $i => $x) {
-            $ranking⟮X⟯[$x][] = $i + 1;
+            $ranking⟮X⟯[strval($x)][] = $i + 1;
         }
 
         // Map ranks to values in order they were originally input
         $rankedValues = [];
         foreach ($values as $value) {
-            $rankedValues[] = array_shift($ranking⟮X⟯[$value]);
+            $rankedValues[] = array_shift($ranking⟮X⟯[strval($value)]);
         }
         return $rankedValues;
     }
