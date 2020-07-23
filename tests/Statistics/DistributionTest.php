@@ -474,6 +474,77 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         ordinalRanking
+     * @dataProvider dataProviderForRankingWithoutTies
+     * @dataProvider dataProviderForOrdinalRanking
+     * @param        array $values
+     * @param        array $expected
+     */
+    public function testOrdinalRanking(array $values, array $expected)
+    {
+        // When
+        $ranking = Distribution::ordinalRanking($values);
+
+        // Then
+        $this->assertEquals($expected, $ranking);
+    }
+
+    /**
+     * Data generated with R: rank(c(1, 2, 3, 4, 5), ties.method='first')
+     * @return array
+     */
+    public function dataProviderForOrdinalRanking(): array
+    {
+        return [
+            [
+                [1, 2, 2, 3],
+                [1, 2, 3, 4],
+            ],
+            [
+                [3, 2, 2, 1],
+                [4, 2, 3, 1],
+            ],
+            [
+                [1, 2, 3, 3, 4, 5],
+                [1, 2, 3, 4, 5, 6],
+            ],
+            [
+                [1, 2, 3, 3, 3, 4, 5],
+                [1, 2, 3, 4, 5, 6, 7],
+
+            ],
+            [
+                [1, 1],
+                [1, 2],
+            ],
+            [
+                [0, 0],
+                [1, 2],
+            ],
+            [
+                [-1, -1],
+                [1, 2],
+            ],
+            [
+                [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5],
+                [4, 1, 6, 2, 7, 11, 3, 10, 8, 5, 9],
+            ],
+            [
+                [1.0, 1.0, 2.0, 3.0, 3.0, 4.0, 5.0, 5.0, 5.0],
+                [1, 2, 3, 4, 5, 6, 7, 8, 9],
+            ],
+            [
+                [-3, -2, -2, -1, -1, 0, 1, 2, 3],
+                [1, 2, 3, 4, 5, 6, 7, 8, 9],
+            ],
+            [
+                [-1, 5, 7, -1],
+                [1, 3, 4, 2],
+            ],
+        ];
+    }
+
+    /**
      * @test         stemAndLeafPlot
      * @dataProvider dataProviderForStemAndLeafPlot
      * @param        array $values

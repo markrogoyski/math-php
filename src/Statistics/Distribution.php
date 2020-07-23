@@ -213,6 +213,34 @@ class Distribution
     }
 
     /**
+     * Assign an ordinal ranking to data - ("1234" ranking)
+     * https://en.wikipedia.org/wiki/Ranking
+     *
+     * Similar to R: rank(values, ties.method='first')
+     *
+     * @param array $values to be ranked
+     *
+     * @return array Rankings of the data in the same order the values were input
+     */
+    public static function ordinalRanking(array $values): array
+    {
+        $Xs = $values;
+        sort($Xs);
+
+        $ranking⟮X⟯ = [];
+        foreach ($Xs as $i => $x) {
+            $ranking⟮X⟯[$x][] = $i + 1;
+        }
+
+        // Map ranks to values in order they were originally input
+        $rankedValues = [];
+        foreach ($values as $value) {
+            $rankedValues[] = array_shift($ranking⟮X⟯[$value]);
+        }
+        return $rankedValues;
+    }
+
+    /**
      * Stem and leaf plot
      * Device for presenting quantitative data in a graphical format, similar to a histogram,
      * to assist in visualizing the shape of a distribution.
