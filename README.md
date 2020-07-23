@@ -2137,6 +2137,13 @@ $relative_frequencies = Distribution::relativeFrequency($grades); // [ A => 0.2,
 $cumulative_frequencies          = Distribution::cumulativeFrequency($grades);         // [ A => 2,   B => 6,   C => 8,   D => 9,   F => 10  ]
 $cumulative_relative_frequencies = Distribution::cumulativeRelativeFrequency($grades); // [ A => 0.2, B => 0.6, C => 0.8, D => 0.9, F => 1   ]
 
+// Ranking of data
+$values                       = [1, 2, 2, 3];
+$ordinal_ranking              = Distribution::ordinalRanking($values);              // 1, 2, 3, 4
+$standard_competition_ranking = Distribution::standardCompetitionRanking($values);  // 1, 2, 2, 4
+$modified_competition_ranking = Distribution::modifiedCompetitionRanking($values);  // 1, 3, 3, 4
+$fractional_ranking           = Distribution::fractionalRanking($values);           // 1, 2.5, 2.5, 4
+
 // Stem and leaf plot
 // Return value is array where keys are the stems, values are the leaves
 $values             = [44, 46, 47, 49, 63, 64, 66, 68, 68, 72, 72, 75, 76, 81, 84, 88, 106];
