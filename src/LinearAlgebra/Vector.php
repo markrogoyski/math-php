@@ -134,6 +134,8 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *  - length (magnitude)
      *  - dotProduct (innerProduct)
      *  - perpDotProduct
+     *  - radAngle
+     *  - defAngle
      **************************************************************************/
 
     /**
@@ -215,6 +217,88 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
         $A⊥ = $this->perpendicular();
 
         return $A⊥->dotProduct($B);
+    }
+
+    /**
+     * Calculates the angle between two vectors with
+     *
+     *           A⋅B
+     * cos α = -------
+     *         |A|⋅|B|
+     *
+     * @param Vector $B
+     * @param bool $returnDegrees Determines whether the angle should be returned in degrees or in rad
+     * @return float The angle between the vectors in radians
+     * @throws Exception\VectorException
+     */
+    public function cosineSimilarity(Vector $B, bool $returnDegrees = false)
+    {
+        if (count(array_unique($this->A)) === 1 && end($this->A) === 0) {
+            throw new Exception\VectorException('The this vector is the null vector');
+        }
+        elseif (count(array_unique($B->A)) === 1 && end($B->A) === 0) {
+            throw new Exception\VectorException('The parameter vector is the null vector');
+        }
+
+        $A⋅B     = $this->dotProduct($B);
+        $│A│⋅│B│ = $this->l2Norm() * $B->l2Norm();
+
+        $result = acos($A⋅B / $│A│⋅│B│);
+
+        if(!$returnDegrees)
+            return $result;
+        else
+            return rad2deg($result);
+    }
+
+    /**
+     * Calculates the taxicap geometry (sometimes manhatten distance) between the vectors
+     * https://en.wikipedia.org/wiki/Taxicab_geometry
+     *
+     * @param Vector $B
+     * @return float|int
+     * @throws Exception\VectorException
+     */
+    public function l1Distance(Vector $B)
+    {
+        return self::minkowskiDistance($B, 1);
+    }
+
+    /**
+     * Calculates the euclidean distance between the vectors
+     * https://en.wikipedia.org/wiki/Euclidean_distance
+     *
+     * @param Vector $B
+     * @return float|int The euclidean distance between the vectors
+     * @throws Exception\VectorException
+     */
+    public function l2Distance(Vector $B)
+    {
+        return self::minkowskiDistance($B, 2);
+    }
+
+    /**
+     * Calculates the minkowski distance between vectors with
+     *
+     * ( Σ|x_i - y_i|^p )^1/p
+     *
+     * @param Vector $B
+     * @param int $p
+     * @return float|int
+     * @throws Exception\VectorException
+     */
+    public function minkowskiDistance(Vector $B, int $p)
+    {
+        if ($B->getN() !== $this->n) {
+            throw new Exception\VectorException('The vectors have a different number of elements');
+        }
+
+        $sum = 0;
+        for ($i = 0; $i < $this->n; $i++) {
+            $sum += pow(abs($this->A[$i] - $B->A[$i]), $p);
+        }
+
+        return pow($sum, 1 / $p);
     }
 
     /**************************************************************************
