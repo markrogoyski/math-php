@@ -341,7 +341,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $x_m = new Matrix($x);
 
         // When
-        $distance = Distance::Mahalanobis($x_m, $data);
+        $distance = Distance::mahalanobis($x_m, $data);
 
         // Then
         $this->assertEquals($expectedDistance, $distance, '', 0.0001);
@@ -404,7 +404,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $y_m = new Matrix($y);
 
         // when
-        $distance = Distance::Mahalanobis($x_m, $data, $y_m);
+        $distance = Distance::mahalanobis($x_m, $data, $y_m);
 
         // Then
         $this->assertEquals($expectedDistance, $distance, '', 0.0001);
@@ -474,7 +474,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         ]);
 
         // When
-        $distance = Distance::Mahalanobis($data2, $data1);
+        $distance = Distance::mahalanobis($data2, $data1);
 
         // Then
         $this->assertEquals(0.1863069, $distance, '', 0.0001);

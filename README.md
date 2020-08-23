@@ -2119,9 +2119,9 @@ $otherData = new Matrix([
     [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
 ]);
 $y = new Matrix([[2], [2]]);
-$D = Distance::Mahalanobis($x, $data);          // Mahalanobis distance from x to the centroid of the data.
-$D = Distance::Mahalanobis($x, $data, $y);      // Mahalanobis distance between $x and $y using the data.
-$D = Distance::Mahalanobis($data, $otherData);  // Mahalanobis distance between the centroids of two sets of data.
+$D = Distance::mahalanobis($x, $data);          // Mahalanobis distance from x to the centroid of the data.
+$D = Distance::mahalanobis($x, $data, $y);      // Mahalanobis distance between $x and $y using the data.
+$D = Distance::mahalanobis($data, $otherData);  // Mahalanobis distance between the centroids of two sets of data.
 
 // Divergences
 $Dkl⟮P‖Q⟯ = Distance::kullbackLeiblerDivergence($p, $q);

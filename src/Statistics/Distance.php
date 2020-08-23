@@ -271,7 +271,7 @@ class Distance
      * @throws Exception\OutOfBoundsException
      * @throws Exception\VectorException
      */
-    public static function Mahalanobis(Matrix $x, Matrix $data, Matrix $y = null): float
+    public static function mahalanobis(Matrix $x, Matrix $data, Matrix $y = null): float
     {
         $Centroid = $data->rowMeans()->asColumnMatrix();
         $Nx       = $x->getN();
