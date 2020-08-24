@@ -491,10 +491,12 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     public function testMinkowski(array $x, array $y, int $p, float $expected)
     {
         // When
-        $distance = Distance::minkowski($x, $y, $p);
+        $distanceXy = Distance::minkowski($x, $y, $p);
+        $distanceYx = Distance::minkowski($y, $x, $p);
 
         // Then
-        $this->assertEquals($expected, $distance, '', 0.0000000001);
+        $this->assertEquals($expected, $distanceXy, '', 0.0000000001);
+        $this->assertEquals($expected, $distanceYx, '', 0.0000000001);
     }
 
     /**
