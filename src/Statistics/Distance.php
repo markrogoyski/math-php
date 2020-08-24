@@ -376,7 +376,7 @@ class Distance
     }
 
     /**
-     * Cosine difference
+     * Cosine distance
      *
      *        A⋅B
      * 1 - ---------
@@ -387,7 +387,7 @@ class Distance
      *    ‖A‖₂ is the L² norm of A
      *    ‖B‖₂ is the L² norm of B
      *
-     * Similar to Python scipy.spatial.distance.cosine(u, v, w=None)
+     * Similar to Python: scipy.spatial.distance.cosine(u, v, w=None)
      *
      * @param float[] $A
      * @param float[] $B
@@ -413,5 +413,35 @@ class Distance
         $‖A‖₂⋅‖B‖₂ = $A->l2Norm() * $B->l2Norm();
 
         return 1 - ($A⋅B / $‖A‖₂⋅‖B‖₂);
+    }
+
+    /**
+     * Cosine similarity
+     * A measure of similarity between two non-zero vectors of an inner product space.
+     * Defined to equal the cosine of the angle between them, which is also the same as the inner product of the same
+     * vectors normalized to both have length 1.
+     *
+     *            A⋅B
+     * cos α = ---------
+     *         ‖A‖₂⋅‖B‖₂
+     *
+     *  where
+     *    A⋅B is the dot product of A and B
+     *    ‖A‖₂ is the L² norm of A
+     *    ‖B‖₂ is the L² norm of B
+     *
+     * Similar to Python: 1 - scipy.spatial.distance.cosine(u, v, w=None)
+     *
+     * @param float[] $A
+     * @param float[] $B
+     *
+     * @return float
+     *
+     * @throws Exception\BadDataException if null vector passed in
+     * @throws Exception\VectorException
+     */
+    public static function cosineSimilarity(array $A, array $B): float
+    {
+        return 1 - self::cosine($A, $B);
     }
 }

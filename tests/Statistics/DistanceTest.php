@@ -839,16 +839,6 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
                 0.29289321881345254,
             ],
             [
-                [1, 0, 0],
-                [0, 1, 0],
-                1,
-            ],
-            [
-                [1, 1, 0],
-                [0, 1, 0],
-                0.29289321881345254,
-            ],
-            [
                 [1, 1, 1],
                 [1, 1, 1],
                 0,
@@ -890,6 +880,131 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
      * @return array
      */
     public function dataProviderForCosineDistanceException(): array
+    {
+        return [
+            [
+                [1, 2, 3],
+                [0, 0, 0],
+            ],
+            [
+                [0, 0, 0],
+                [1, 2, 3],
+            ],
+            [
+                [0, 0, 0],
+                [0, 0, 0],
+            ],
+
+        ];
+    }
+
+    /**
+     * @test         cosineSimilarity
+     * @dataProvider dataProviderForCosineSimilarity
+     * @param        array $A
+     * @param        array $B
+     * @param        float $expected
+     */
+    public function testCosineSimilarity(array $A, array $B, float $expected)
+    {
+        // When
+        $distance = Distance::cosineSimilarity($A, $B);
+
+        // Then
+        $this->assertEquals($expected, $distance, '', 0.0000000001);
+    }
+
+    /**
+     * Test data created using Python: from scipy.spatial import distance
+     * 1 - distance.cosine(x, y)
+     * Cross referenced with online calculator: https://www.emathhelp.net/calculators/linear-algebra/angle-between-two-vectors-calculator
+     * @return array
+     */
+    public function dataProviderForCosineSimilarity(): array
+    {
+        return [
+            [
+                [1, 2, 3],
+                [3, 2, 1],
+                0.7142857142857143,
+            ],
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                0,
+            ],
+            [
+                [1, 0, 0],
+                [0, 0, 1],
+                0,
+            ],
+            [
+                [1, 0, 0],
+                [1, 0, 0],
+                1,
+            ],
+            [
+                [100, 0, 0],
+                [0, 1, 0],
+                0,
+            ],
+            [
+                [1, 1, 0],
+                [0, 1, 0],
+                0.7071067811865475,
+            ],
+            [
+                [1, 1, 1],
+                [1, 1, 1],
+                1,
+            ],
+            [
+                [2, 2, 2],
+                [2, 2, 2],
+                1,
+            ],
+            [
+                [1, 1, 1],
+                [2, 2, 2],
+                1,
+            ],
+            [
+                [56, 26, 83],
+                [11, 82, 95],
+                0.8159342590749833,
+            ],
+            [
+                [-1, 1, 0],
+                [0, 1, -1],
+                0.5,
+            ],
+            [
+                [23, 41, 33],
+                [31, 56, 21],
+                0.9567820320723087,
+            ],
+        ];
+    }
+
+    /**
+     * @test         cosineSimilarity exception for null vector
+     * @dataProvider dataProviderForCosineSimilarityException
+     * @param        array $A
+     * @param        array $B
+     */
+    public function testCosineSimilarityException(array $A, array $B)
+    {
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $distance = Distance::cosineSimilarity($A, $B);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForCosineSimilarityException(): array
     {
         return [
             [
