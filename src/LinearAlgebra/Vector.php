@@ -221,7 +221,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Calculates the angle between two vectors (cosign similarity)
+     * Angle between two vectors (cosine similarity)
      *
      *           A⋅B
      * cos α = -------
@@ -233,8 +233,9 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * @return float The angle between the vectors in radians (or degrees if specified)
      *
      * @throws Exception\BadDataException
+     * @throws Exception\VectorException
      */
-    public function cosineSimilarity(Vector $B, bool $inDegrees = false)
+    public function angleBetween(Vector $B, bool $inDegrees = false)
     {
         $cos⟮α⟯ = Distance::cosineSimilarity($this->getVector(), $B->getVector());
         $angle = acos($cos⟮α⟯);

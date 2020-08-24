@@ -15,15 +15,15 @@ class VectorAngleTest extends TestCase
      * @param        array $B
      * @param        float $expected
      */
-    public function testGetDegAngle(array $A, array $B, float $expected)
+    public function testAngleBetweenDegrees(array $A, array $B, float $expected)
     {
         // Given
         $A = new Vector($A);
         $B = new Vector($B);
 
         // When
-        $angle1 = $A->cosineSimilarity($B, true);
-        $angle2 = $B->cosineSimilarity($A, true);
+        $angle1 = $A->angleBetween($B, true);
+        $angle2 = $B->angleBetween($A, true);
 
         // Then
         $this->assertEquals($expected, $angle1, '', 00000000001);
@@ -68,6 +68,16 @@ class VectorAngleTest extends TestCase
                 0
             ],
             [
+                [1, 0, 0],
+                [0, 1, 0],
+                rad2deg(acos(0)),
+            ],
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                90
+            ],
+            [
                 [-1, 1, 0],
                 [0, 1, -1],
                 rad2deg(acos(1 / 2)),
@@ -76,6 +86,16 @@ class VectorAngleTest extends TestCase
                 [-1, 1, 0],
                 [0, 1, -1],
                 60,
+            ],
+            [
+                [1, 0, 0],
+                [-1, 0, 0],
+                rad2deg(acos(-1)),
+            ],
+            [
+                [1, 0, 0],
+                [-1, 0, 0],
+                180
             ],
             [
                 [23, 41, 33],
@@ -97,15 +117,15 @@ class VectorAngleTest extends TestCase
      * @param        array $B
      * @param        float $expected
      */
-    public function testGetRadAngle(array $A, array $B, float $expected)
+    public function testAngleBetweenRadians(array $A, array $B, float $expected)
     {
         // Given
         $A = new Vector($A);
         $B = new Vector($B);
 
         // When
-        $angle1 = $A->cosineSimilarity($B);
-        $angle2 = $B->cosineSimilarity($A);
+        $angle1 = $A->angleBetween($B);
+        $angle2 = $B->angleBetween($A);
 
         // Then
         $this->assertEquals($expected, $angle1, '', 00000000001);
@@ -141,6 +161,16 @@ class VectorAngleTest extends TestCase
             ],
             [
                 [1, 0, 0],
+                [0, 1, 0],
+                acos(0),
+            ],
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                1.5707963267949
+            ],
+            [
+                [1, 0, 0],
                 [1, 0, 0],
                 acos(1),
             ],
@@ -158,6 +188,16 @@ class VectorAngleTest extends TestCase
                 [-1, 1, 0],
                 [0, 1, -1],
                 1.0471975511966,
+            ],
+            [
+                [1, 0, 0],
+                [-1, 0, 0],
+                acos(-1),
+            ],
+            [
+                [1, 0, 0],
+                [-1, 0, 0],
+                \M_PI
             ],
             [
                 [23, 41, 33],
@@ -188,7 +228,7 @@ class VectorAngleTest extends TestCase
         $this->expectException(BadDataException::class);
 
         // When
-        $A->cosineSimilarity($B);
+        $A->angleBetween($B);
     }
 
     /**
