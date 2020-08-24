@@ -292,4 +292,85 @@ class Distance
         $D   = $diff->transpose()->multiply($S⁻¹)->multiply($diff);
         return sqrt($D[0][0]);
     }
+
+    /**
+     * Minkowski distance
+     *
+     * https://en.wikipedia.org/wiki/Minkowski_distance
+     *
+     * (Σ|xᵢ - yᵢ|ᵖ)¹/ᵖ
+     *
+     * @param float[] $xs input array
+     * @param float[] $ys input array
+     * @param int     $p  order of the norm of the difference
+     *
+     * @return float
+     *
+     * @throws Exception\BadDataException if p and q do not have the same number of elements
+     */
+    public static function minkowski(array $xs, array $ys, int $p): float
+    {
+        // Arrays must have the same number of elements
+        $n = count($xs);
+        if ($n !== count($ys)) {
+            throw new Exception\BadDataException('x and y must have the same number of elements');
+        }
+        if ($p < 1) {
+            throw new Exception\BadDataException("p must be ≥ 1. Given $p");
+        }
+
+
+        $∑｜xᵢ − yᵢ⟯ᵖ = array_sum(array_map(
+            function ($x, $y) use ($p) {
+                return abs($x - $y)**$p;
+            },
+            $xs,
+            $ys
+        ));
+
+        return $∑｜xᵢ − yᵢ⟯ᵖ**(1/$p);
+    }
+
+    /**
+     * Euclidean distance
+     *
+     * https://en.wikipedia.org/wiki/Euclidean_distance
+     *
+     * A generalized term for the Euclidean norm is the L² norm or L² distance.
+     *
+     * (Σ|xᵢ - yᵢ|²)¹/²
+     *
+     * @param float[] $xs input array
+     * @param float[] $ys input array
+     *
+     * @return float
+     *
+     * @throws Exception\BadDataException if p and q do not have the same number of elements
+     */
+    public static function euclidean(array $xs, array $ys): float
+    {
+        return self::minkowski($xs, $ys, 2);
+    }
+
+    /**
+     * Manhattan distance (Taxicab geometry)
+     *
+     * https://en.wikipedia.org/wiki/Taxicab_geometry
+     *
+     * The taxicab metric is also known as rectilinear distance, L₁ distance, L¹ distance , snake distance, city block
+     * distance, Manhattan distance or Manhattan length, with corresponding variations in the name of the geometry.
+     *
+     * Σ|xᵢ - yᵢ|
+     *
+     * @param float[] $xs input array
+     * @param float[] $ys input array
+     *
+     * @return float
+     *
+     * @throws Exception\BadDataException if p and q do not have the same number of elements
+     */
+    public static function manhattan(array $xs, array $ys): float
+    {
+        return self::minkowski($xs, $ys, 1);
+    }
 }

@@ -479,4 +479,320 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertEquals(0.1863069, $distance, '', 0.0001);
     }
+
+    /**
+     * @test         Minkowski distance
+     * @dataProvider dataProviderForMinkowskiDistance
+     * @param        float[] $x
+     * @param        float[] $y
+     * @param        int     $p
+     * @param        float   $expected
+     */
+    public function testMinkowski(array $x, array $y, int $p, float $expected)
+    {
+        // When
+        $distance = Distance::minkowski($x, $y, $p);
+
+        // Then
+        $this->assertEquals($expected, $distance, '', 0.0000000001);
+    }
+
+    /**
+     * Test data created using Python: from scipy.spatial import distance
+     * distance.minkowski(x, y, p)
+     * @return array
+     */
+    public function dataProviderForMinkowskiDistance(): array
+    {
+        return [
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                1,
+                2,
+            ],
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                2,
+                1.4142135623730951,
+            ],
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                3,
+                1.2599210498948732,
+            ],
+            [
+                [1, 1, 0],
+                [0, 1, 0],
+                1,
+                1,
+            ],
+            [
+                [1, 1, 0],
+                [0, 1, 0],
+                2,
+                1,
+            ],
+            [
+                [1, 1, 0],
+                [0, 1, 0],
+                3,
+                1,
+            ],
+            [
+                [1, 2, 3],
+                [0, 0, 0],
+                1,
+                6,
+            ],
+            [
+                [1, 2, 3],
+                [0, 0, 0],
+                2,
+                3.7416573867739413,
+            ],
+            [
+                [1, 2, 3],
+                [0, 0, 0],
+                3,
+                3.3019272488946263,
+            ],
+            [
+                [0, 0, 0],
+                [0, 0, 0],
+                1,
+                0,
+            ],
+            [
+                [0, 0, 0],
+                [0, 0, 0],
+                2,
+                0,
+            ],
+            [
+                [0, 0, 0],
+                [0, 0, 0],
+                3,
+                0,
+            ],
+            [
+                [1, 1, 1],
+                [1, 1, 1],
+                1,
+                0,
+            ],
+            [
+                [1, 1, 1],
+                [1, 1, 1],
+                2,
+                0,
+            ],
+            [
+                [1, 1, 1],
+                [1, 1, 1],
+                3,
+                0,
+            ],
+            [
+                [56, 26, 83],
+                [11, 82, 95],
+                1,
+                113,
+            ],
+            [
+                [56, 26, 83],
+                [11, 82, 95],
+                2,
+                72.83543093852057,
+            ],
+            [
+                [56, 26, 83],
+                [11, 82, 95],
+                3,
+                64.51064463863402,
+            ],
+        ];
+    }
+
+    /**
+     * @test minkowski error when vectors are of different sizes
+     */
+    public function testMinkowskiErrorDifferentSizedVectors()
+    {
+        // Given
+        $x                   = [1, 2, 3];
+        $y                   = [1, 2];
+        $irrelevantValueForP = 1;
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $distance = Distance::minkowski($x, $y, $irrelevantValueForP);
+    }
+
+    /**
+     * @test minkowski error p value is < 1
+     */
+    public function testMinkowskiErrorPLessThanOne()
+    {
+        // Given
+        $x = [1, 2, 3];
+        $y = [1, 2, 3];
+        $p = 0;
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $distance = Distance::minkowski($x, $y, $p);
+    }
+
+    /**
+     * @test         Euclidean distance
+     * @dataProvider dataProviderForEuclideanDistance
+     * @param        float[] $x
+     * @param        float[] $y
+     * @param        float   $expected
+     */
+    public function testEuclidean(array $x, array $y, float $expected)
+    {
+        // When
+        $distance = Distance::euclidean($x, $y);
+
+        // Then
+        $this->assertEquals($expected, $distance, '', 0.0000000001);
+    }
+
+    /**
+     * Test data created using Python: from scipy.spatial import distance
+     * distance.euclidean(x, y)
+     * @return array
+     */
+    public function dataProviderForEuclideanDistance(): array
+    {
+        return [
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                1.4142135623730951,
+            ],
+            [
+                [1, 1, 0],
+                [0, 1, 0],
+                1,
+            ],
+            [
+                [1, 2, 3],
+                [0, 0, 0],
+                3.7416573867739413,
+            ],
+            [
+                [0, 0, 0],
+                [0, 0, 0],
+                0,
+            ],
+            [
+                [1, 1, 1],
+                [1, 1, 1],
+                0,
+            ],
+            [
+                [56, 26, 83],
+                [11, 82, 95],
+                72.83543093852057,
+            ],
+        ];
+    }
+
+    /**
+     * @test euclidean error when vectors are of different sizes
+     */
+    public function testEuclideanErrorDifferentSizedVectors()
+    {
+        // Given
+        $x = [1, 2, 3];
+        $y = [1, 2];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $distance = Distance::euclidean($x, $y);
+    }
+
+    /**
+     * @test         Manhattan distance
+     * @dataProvider dataProviderForManhattanDistance
+     * @param        float[] $x
+     * @param        float[] $y
+     * @param        float   $expected
+     */
+    public function testManhattan(array $x, array $y, float $expected)
+    {
+        // When
+        $distance = Distance::manhattan($x, $y);
+
+        // Then
+        $this->assertEquals($expected, $distance, '', 0.0000000001);
+    }
+
+    /**
+     * Test data created using Python: from scipy.spatial import distance
+     * distance.minkowski(x, y, 1)
+     * @return array
+     */
+    public function dataProviderForManhattanDistance(): array
+    {
+        return [
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                2,
+            ],
+            [
+                [1, 1, 0],
+                [0, 1, 0],
+                1,
+            ],
+            [
+                [1, 2, 3],
+                [0, 0, 0],
+                6,
+            ],
+            [
+                [0, 0, 0],
+                [0, 0, 0],
+                0,
+            ],
+            [
+                [1, 1, 1],
+                [1, 1, 1],
+                0,
+            ],
+            [
+                [56, 26, 83],
+                [11, 82, 95],
+                113,
+            ],
+        ];
+    }
+
+    /**
+     * @test manhattan error when vectors are of different sizes
+     */
+    public function testManhattanErrorDifferentSizedVectors()
+    {
+        // Given
+        $x = [1, 2, 3];
+        $y = [1, 2];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $distance = Distance::manhattan($x, $y);
+    }
 }
