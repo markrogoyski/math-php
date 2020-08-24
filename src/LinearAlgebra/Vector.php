@@ -221,35 +221,27 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Calculates the angle between two vectors with
+     * Calculates the angle between two vectors (cosign similarity)
      *
      *           A⋅B
      * cos α = -------
      *         |A|⋅|B|
      *
      * @param Vector $B
-     * @param bool $returnDegrees Determines whether the angle should be returned in degrees or in rad
-     * @return float The angle between the vectors in radians
-     * @throws Exception\VectorException
+     * @param bool   $inDegrees Determines whether the angle should be returned in degrees or in rad
+     *
+     * @return float The angle between the vectors in radians (or degrees if specified)
+     *
+     * @throws Exception\BadDataException
      */
-    public function cosineSimilarity(Vector $B, bool $returnDegrees = false)
+    public function cosineSimilarity(Vector $B, bool $inDegrees = false)
     {
-        if (count(array_unique($this->A)) === 1 && end($this->A) === 0) {
-            throw new Exception\VectorException('The this vector is the null vector');
-        }
-        elseif (count(array_unique($B->A)) === 1 && end($B->A) === 0) {
-            throw new Exception\VectorException('The parameter vector is the null vector');
-        }
+        $cos⟮α⟯ = Distance::cosineSimilarity($this->getVector(), $B->getVector());
+        $angle = acos($cos⟮α⟯);
 
-        $A⋅B     = $this->dotProduct($B);
-        $│A│⋅│B│ = $this->l2Norm() * $B->l2Norm();
-
-        $result = acos($A⋅B / $│A│⋅│B│);
-
-        if(!$returnDegrees)
-            return $result;
-        else
-            return rad2deg($result);
+        return $inDegrees
+            ? rad2deg($angle)
+            : $angle;
     }
 
     /**
