@@ -4,6 +4,7 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Functions\Map;
 use MathPHP\Exception;
+use MathPHP\Statistics\Distance;
 
 /**
  * 1 x n Vector
@@ -252,53 +253,53 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Calculates the taxicap geometry (sometimes manhatten distance) between the vectors
+     * L1 distance
+     * Calculates the taxicap geometry (sometimes Manhatten distance) between the vectors
      * https://en.wikipedia.org/wiki/Taxicab_geometry
      *
      * @param Vector $B
+     *
      * @return float|int
-     * @throws Exception\VectorException
+     *
+     * @throws Exception\BadDataException
      */
-    public function l1Distance(Vector $B)
+    public function l1Distance(Vector $B): float
     {
-        return self::minkowskiDistance($B, 1);
+        return Distance::manhattan($this->getVector(), $B->getVector());
     }
 
     /**
+     * L2 distance
      * Calculates the euclidean distance between the vectors
      * https://en.wikipedia.org/wiki/Euclidean_distance
      *
      * @param Vector $B
+     *
      * @return float|int The euclidean distance between the vectors
-     * @throws Exception\VectorException
+     *
+     * @throws Exception\BadDataException
      */
-    public function l2Distance(Vector $B)
+    public function l2Distance(Vector $B): float
     {
-        return self::minkowskiDistance($B, 2);
+        return Distance::euclidean($this->getVector(), $B->getVector());
     }
 
     /**
      * Calculates the minkowski distance between vectors with
+     * https://en.wikipedia.org/wiki/Minkowski_distance
      *
-     * ( Σ|x_i - y_i|^p )^1/p
+     * (Σ|xᵢ - yᵢ|ᵖ)¹/ᵖ
      *
      * @param Vector $B
-     * @param int $p
+     * @param int    $p
+     *
      * @return float|int
-     * @throws Exception\VectorException
+     *
+     * @throws Exception\BadDataException
      */
-    public function minkowskiDistance(Vector $B, int $p)
+    public function minkowskiDistance(Vector $B, int $p): float
     {
-        if ($B->getN() !== $this->n) {
-            throw new Exception\VectorException('The vectors have a different number of elements');
-        }
-
-        $sum = 0;
-        for ($i = 0; $i < $this->n; $i++) {
-            $sum += pow(abs($this->A[$i] - $B->A[$i]), $p);
-        }
-
-        return pow($sum, 1 / $p);
+        return Distance::minkowski($this->getVector(), $B->getVector(), $p);
     }
 
     /**************************************************************************

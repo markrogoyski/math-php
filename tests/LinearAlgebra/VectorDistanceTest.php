@@ -2,7 +2,7 @@
 
 namespace MathPHP\Tests\LinearAlgebra;
 
-use MathPHP\Exception\VectorException;
+use MathPHP\Exception\BadDataException;
 use MathPHP\LinearAlgebra\Vector;
 
 class VectorDistanceTest extends \PHPUnit\Framework\TestCase
@@ -20,7 +20,7 @@ class VectorDistanceTest extends \PHPUnit\Framework\TestCase
         $B = new Vector($B);
 
         // Then
-        $this->expectException(VectorException::class);
+        $this->expectException(BadDataException::class);
 
         //When
         $A->minkowskiDistance($B, 2);
