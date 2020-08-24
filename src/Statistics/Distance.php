@@ -5,6 +5,7 @@ namespace MathPHP\Statistics;
 use MathPHP\Functions\Map;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\Exception;
+use MathPHP\LinearAlgebra\Vector;
 
 /**
  * Functions dealing with statistical distance and divergence.
@@ -372,5 +373,45 @@ class Distance
     public static function manhattan(array $xs, array $ys): float
     {
         return self::minkowski($xs, $ys, 1);
+    }
+
+    /**
+     * Cosine difference
+     *
+     *        A⋅B
+     * 1 - ---------
+     *     ‖A‖₂⋅‖B‖₂
+     *
+     *  where
+     *    A⋅B is the dot product of A and B
+     *    ‖A‖₂ is the L² norm of A
+     *    ‖B‖₂ is the L² norm of B
+     *
+     * Similar to Python scipy.spatial.distance.cosine(u, v, w=None)
+     *
+     * @param float[] $A
+     * @param float[] $B
+     *
+     * @return float
+     *
+     * @throws Exception\BadDataException if null vector passed in
+     * @throws Exception\VectorException
+     */
+    public static function cosine(array $A, array $B): float
+    {
+        if (count(array_unique($A)) === 1 && end($A) == 0) {
+            throw new Exception\BadDataException('A is the null vector');
+        }
+        if (count(array_unique($B)) === 1 && end($B) == 0) {
+            throw new Exception\BadDataException('B is the null vector');
+        }
+
+        $A = new Vector($A);
+        $B = new Vector($B);
+
+        $A⋅B       = $A->dotProduct($B);
+        $‖A‖₂⋅‖B‖₂ = $A->l2Norm() * $B->l2Norm();
+
+        return 1 - ($A⋅B / $‖A‖₂⋅‖B‖₂);
     }
 }

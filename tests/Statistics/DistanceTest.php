@@ -3,6 +3,7 @@
 namespace MathPHP\Tests\Statistics;
 
 use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Statistics\Distance;
 use MathPHP\Exception;
 
@@ -796,5 +797,114 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
 
         // When
         $distance = Distance::manhattan($x, $y);
+    }
+
+    /**
+     * @test         cosine distance
+     * @dataProvider dataProviderForCosineDistance
+     * @param        array $A
+     * @param        array $B
+     * @param        float $expected
+     */
+    public function testCosineDistance(array $A, array $B, float $expected)
+    {
+        // When
+        $distance = Distance::cosine($A, $B);
+
+        // Then
+        $this->assertEquals($expected, $distance, '', 0.0000000001);
+    }
+
+    /**
+     * Test data created using Python: from scipy.spatial import distance
+     * distance.cosine(x, y)
+     * @return array
+     */
+    public function dataProviderForCosineDistance(): array
+    {
+        return [
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                1,
+            ],
+            [
+                [100, 0, 0],
+                [0, 1, 0],
+                1,
+            ],
+            [
+                [1, 1, 0],
+                [0, 1, 0],
+                0.29289321881345254,
+            ],
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                1,
+            ],
+            [
+                [1, 1, 0],
+                [0, 1, 0],
+                0.29289321881345254,
+            ],
+            [
+                [1, 1, 1],
+                [1, 1, 1],
+                0,
+            ],
+            [
+                [2, 2, 2],
+                [2, 2, 2],
+                0,
+            ],
+            [
+                [1, 1, 1],
+                [2, 2, 2],
+                0,
+            ],
+            [
+                [56, 26, 83],
+                [11, 82, 95],
+                0.1840657409250167,
+            ],
+        ];
+    }
+
+    /**
+     * @test         cosine distance exception for null vector
+     * @dataProvider dataProviderForCosineDistanceException
+     * @param        array $A
+     * @param        array $B
+     */
+    public function testCosineDistanceException(array $A, array $B)
+    {
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $distance = Distance::cosine($A, $B);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForCosineDistanceException(): array
+    {
+        return [
+            [
+                [1, 2, 3],
+                [0, 0, 0],
+            ],
+            [
+                [0, 0, 0],
+                [1, 2, 3],
+            ],
+            [
+                [0, 0, 0],
+                [0, 0, 0],
+            ],
+
+        ];
     }
 }
