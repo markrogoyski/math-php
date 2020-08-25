@@ -634,16 +634,16 @@ $M     = $A->asRowMatrix();    // Vector as a 1xn matrix
 $item = $A->get(1);
 
 // Vector numeric operations - return a value
-$sum  = $A->sum();
-$│A│  = $A->length();                           // same as l2Norm
-$A⋅B  = $A->dotProduct($B);                     // same as innerProduct
-$A⋅B  = $A->innerProduct($B);                   // same as dotProduct
-$A⊥⋅B = $A->perpDotProduct($B);
-$radAngle = $A->angleBetween($B); 
-$radAngle = $A->angleBetween($B, true);     // returns the angle in degrees
-$taxicabDistance = $A->l1Distance($B);          // same as minkowskiDistance($B, 1)
-$euclidDistance = $A->l2Distance($B);           // same as minkowskiDistance($B, 2)
-$minkowskiDistance = $A->minkowskiDistance($B, p); 
+$sum               = $A->sum();
+$│A│               = $A->length();                            // same as l2Norm
+$A⋅B               = $A->dotProduct($B);                      // same as innerProduct
+$A⋅B               = $A->innerProduct($B);                    // same as dotProduct
+$A⊥⋅B              = $A->perpDotProduct($B);
+$radAngle          = $A->angleBetween($B);                    // angle in radians
+$degAngle          = $A->angleBetween($B, $inDegrees = true); // angle in degrees
+$taxicabDistance   = $A->l1Distance($B);                      // same as minkowskiDistance($B, 1)
+$euclidDistance    = $A->l2Distance($B);                      // same as minkowskiDistance($B, 2)
+$minkowskiDistance = $A->minkowskiDistance($B, $p = 2);
 
 // Vector arithmetic operations - return a Vector
 $A＋B  = $A->add($B);
@@ -2101,12 +2101,17 @@ $summary = Descriptive::fiveNumberSummary($numbers);
 use MathPHP\Statistics\Distance;
 
 // Probability distributions
-$p = [0.2, 0.5, 0.3];
-$q = [0.1, 0.4, 0.5];
+$X = [0.2, 0.5, 0.3];
+$Y = [0.1, 0.4, 0.5];
 
 // Distances
-$DB⟮p、q⟯ = Distance::bhattacharyyaDistance($p, $q);
-$H⟮p、q⟯  = Distance::hellingerDistance($p, $q);
+$DB⟮X、Y⟯ = Distance::bhattacharyyaDistance($X, $Y);
+$H⟮X、Y⟯  = Distance::hellingerDistance($X, $Y);
+$D⟮X、Y⟯  = Distance::minkowski($X, $Y, $p = 2);
+$d⟮X、Y⟯  = Distance::euclidean($X, $Y);               // L² distance
+$d₁⟮X、Y⟯ = Distance::manhattan($X, $Y);               // L¹ distance, taxicab geometry, city block distance
+$cosine = Distance::cosine($X, $Y);
+$cos⟮α⟯  = Distance::cosineSimilarity($X, $Y);
 
 // Mahalanobis distance
 $x    = new Matrix([[6], [5]]);
@@ -2124,8 +2129,8 @@ $D = Distance::mahalanobis($x, $data, $y);      // Mahalanobis distance between 
 $D = Distance::mahalanobis($data, $otherData);  // Mahalanobis distance between the centroids of two sets of data.
 
 // Divergences
-$Dkl⟮P‖Q⟯ = Distance::kullbackLeiblerDivergence($p, $q);
-$JSD⟮P‖Q⟯ = Distance::jensenShannonDivergence($p, $q);
+$Dkl⟮X‖Y⟯ = Distance::kullbackLeiblerDivergence($X, $Y);
+$JSD⟮X‖Y⟯ = Distance::jensenShannonDivergence($X, $Y);
 ```
 
 ### Statistics - Distributions
