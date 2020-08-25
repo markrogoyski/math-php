@@ -202,7 +202,7 @@ class VectorAngleTest extends TestCase
             [
                 [23, 41, 33],
                 [31, 56, 21],
-                acos(1851 * sqrt(2/7485431)),
+                acos(1851 * sqrt(2 / 7485431)),
             ],
             [
                 [23, 41, 33],
