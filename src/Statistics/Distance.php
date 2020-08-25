@@ -323,14 +323,14 @@ class Distance
         $∑｜xᵢ − yᵢ⟯ᵖ = array_sum(
             array_map(
                 function ($x, $y) use ($p) {
-                    return abs($x - $y)**$p;
+                    return abs($x - $y) ** $p;
                 },
                 $xs,
                 $ys
             )
         );
 
-        return $∑｜xᵢ − yᵢ⟯ᵖ**(1/$p);
+        return $∑｜xᵢ − yᵢ⟯ᵖ ** (1 / $p);
     }
 
     /**
