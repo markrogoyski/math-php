@@ -135,8 +135,10 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *  - length (magnitude)
      *  - dotProduct (innerProduct)
      *  - perpDotProduct
-     *  - radAngle
-     *  - defAngle
+     *  - angleBetween
+     *  - l1Distance
+     *  - l2Distance
+     *  - minkowskiDistance
      **************************************************************************/
 
     /**
