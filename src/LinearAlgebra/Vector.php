@@ -230,7 +230,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *         |A|⋅|B|
      *
      * @param Vector $B
-     * @param bool   $inDegrees Determines whether the angle should be returned in degrees or in rad
+     * @param bool   $inDegrees Determines whether the angle should be returned in degrees or in radians
      *
      * @return float The angle between the vectors in radians (or degrees if specified)
      *
@@ -280,7 +280,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Calculates the minkowski distance between vectors with
+     * Calculates the minkowski distance between vectors
      * https://en.wikipedia.org/wiki/Minkowski_distance
      *
      * (Σ|xᵢ - yᵢ|ᵖ)¹/ᵖ
