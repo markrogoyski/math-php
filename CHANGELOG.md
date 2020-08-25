@@ -1,5 +1,32 @@
 # MathPHP Change Log
 
+## 1.3.0 - 2020-08-24
+
+### New Features
+* LinearAlgebra\Vector
+  * Angle between two vectors
+  * L¹ distance of two vectors
+  * L² distance of two vectors
+  * Minkowski distance of two vectors
+* Statistics\Distance
+  * Minkowski distance
+  * Euclidean distance (L² distance)
+  * Manhattan distance (Taxicab geometry, L¹ distance, etc.)
+  * Cosine distance
+  * Cosine similarity
+
+## v1.2.0 - 2020-07-24
+
+### New Features
+* Ranking
+  * Ordinal ranking
+  * Standard competition ranking
+  * Modified competition ranking
+  * Fractional ranking
+
+### Improvements
+* (Issue 380) Fixed Spearman's Rho calculation when there are rank ties
+
 ## v1.1.0 - 2020-04-19
 
 ### New Features
