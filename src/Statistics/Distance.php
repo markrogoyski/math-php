@@ -95,43 +95,12 @@ class Distance
      *
      * @throws Exception\BadDataException if p and q do not have the same number of elements
      * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
+     *
+     * @deprecated Use Divergence::kullbackLeibler
      */
     public static function kullbackLeiblerDivergence(array $p, array $q): float
     {
-        // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
-            throw new Exception\BadDataException('p and q must have the same number of elements');
-        }
-
-        // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
-            throw new Exception\BadDataException('Distributions p and q must add up to 1');
-        }
-
-        // Defensive measures against taking the log of 0 which would be -∞ or dividing by 0
-        $p = array_map(
-            function ($pᵢ) {
-                return $pᵢ == 0 ? 1e-15 : $pᵢ;
-            },
-            $p
-        );
-        $q = array_map(
-            function ($qᵢ) {
-                return $qᵢ == 0 ? 1e-15 : $qᵢ;
-            },
-            $q
-        );
-
-        // ∑ P(i) log(P(i)/Q(i))
-        $Dkl⟮P‖Q⟯ = array_sum(array_map(
-            function ($P, $Q) {
-                return $P * log($P / $Q);
-            },
-            $p,
-            $q
-        ));
-
-        return $Dkl⟮P‖Q⟯;
+        return Divergence::kullbackLeibler($p, $q);
     }
 
     /**
@@ -214,31 +183,12 @@ class Distance
      *
      * @throws Exception\BadDataException if p and q do not have the same number of elements
      * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
+     *
+     * @deprecated Use Divergence::jensenShannon
      */
     public static function jensenShannonDivergence(array $p, array $q): float
     {
-        // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
-            throw new Exception\BadDataException('p and q must have the same number of elements');
-        }
-
-        // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
-            throw new Exception\BadDataException('Distributions p and q must add up to 1');
-        }
-
-        $M = array_map(
-            function ($pᵢ, $qᵢ) {
-                return ($pᵢ + $qᵢ) / 2;
-            },
-            $p,
-            $q
-        );
-
-        $½D⟮P‖M⟯ = self::kullbackLeiblerDivergence($p, $M) / 2;
-        $½D⟮Q‖M⟯ = self::kullbackLeiblerDivergence($q, $M) / 2;
-
-        return $½D⟮P‖M⟯ + $½D⟮Q‖M⟯;
+        return Divergence::jensenShannon($p, $q);
     }
 
     /**

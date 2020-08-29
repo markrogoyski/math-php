@@ -3,7 +3,6 @@
 namespace MathPHP\Tests\Statistics;
 
 use MathPHP\LinearAlgebra\Matrix;
-use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Statistics\Distance;
 use MathPHP\Exception;
 
