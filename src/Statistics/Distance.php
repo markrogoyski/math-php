@@ -192,6 +192,35 @@ class Distance
     }
 
     /**
+     * Jensen-Shannon distance
+     * Square root of the Jensen-Shannon divergence
+     * https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence
+     *
+     *        _____________________
+     *       / 1          1
+     *  \   /  - D(P‖M) + - D(Q‖M)
+     *   \/    2          2
+     *
+     *           1
+     * where M = - (P + Q)
+     *           2
+     *
+     * D(P‖Q) = Kullback-Leibler divergence
+     *
+     * @param array $p distribution p
+     * @param array $q distribution q
+     *
+     * @return float
+     *
+     * @throws Exception\BadDataException if p and q do not have the same number of elements
+     * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
+     */
+    public static function jensenShannon(array $p, array $q): float
+    {
+        return sqrt(Divergence::jensenShannon($p, $q));
+    }
+
+    /**
      * Mahalanobis distance
      *
      * https://en.wikipedia.org/wiki/Mahalanobis_distance

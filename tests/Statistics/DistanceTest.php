@@ -326,7 +326,86 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         // When
         Distance::jensenShannonDivergence($p, $q);
     }
-    
+
+    /**
+     * @test         jensenShannon
+     * @dataProvider dataProviderForJensenShannon
+     * @param        array $p
+     * @param        array $q
+     * @param        float $expected
+     */
+    public function testJensenShannon(array $p, array $q, float $expected)
+    {
+        // When
+        $BD = Distance::jensenShannon($p, $q);
+
+        // Then
+        $this->assertEquals($expected, $BD, '', 0.0001);
+    }
+
+    /**
+     * Test data created with Python scipy.spatial.distance.jensenshannon
+     * distance.jensenshannon(p, q)
+     * @return array [p, q, distance]
+     */
+    public function dataProviderForJensenShannon(): array
+    {
+        return [
+            [
+                [0.4, 0.6],
+                [0.5, 0.5],
+                0.07112938864483229,
+            ],
+            [
+                [0.1, 0.2, 0.2, 0.2, 0.2, 0.1],
+                [0.0, 0.1, 0.4, 0.4, 0.1, 0.0],
+                0.346820456568833
+            ],
+            [
+                [0.25, 0.5, 0.25],
+                [0.5, 0.3, 0.2],
+                0.18778369857844396,
+            ],
+            [
+                [0.5, 0.3, 0.2],
+                [0.25, 0.5, 0.25],
+                0.18778369857844396,
+            ],
+        ];
+    }
+
+    /**
+     * @test jensenShannon when the arrays are different lengths
+     */
+    public function testJensenShannonExceptionArraysDifferentLength()
+    {
+        // Given
+        $p = [0.4, 0.5, 0.1];
+        $q = [0.2, 0.8];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Distance::jensenShannon($p, $q);
+    }
+
+    /**
+     * @test jensenShannon when the probabilities do not add up to one
+     */
+    public function testJensenShannonExceptionNotProbabilityDistributionThatAddsUpToOne()
+    {
+        // Given
+        $p = [0.2, 0.2, 0.1];
+        $q = [0.2, 0.4, 0.6];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Distance::jensenShannon($p, $q);
+    }
+
     /**
      * @test         Mahalanobis from a point to the center of the data
      * @dataProvider dataProviderForMahalanobisCenter
