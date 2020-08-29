@@ -52,8 +52,9 @@ Features
      - [Circular](#statistics---circular)
      - [Correlation](#statistics---correlation)
      - [Descriptive](#statistics---descriptive)
-     - [Distance and Divergence](#statistics---distance-and-divergence)
+     - [Distance](#statistics---distance)
      - [Distributions](#statistics---distributions)
+     - [Divergence](#statistics---divergence)
      - [Effect Size](#statistics---effect-size)
      - [Experiments](#statistics---experiments)
      - [Kernel Density Estimation](#statistics---kernel-density-estimation)
@@ -2096,7 +2097,7 @@ $summary = Descriptive::fiveNumberSummary($numbers);
 // [min, Q1, median, Q3, max]
 ```
 
-### Statistics - Distance and Divergence
+### Statistics - Distance
 ```php
 use MathPHP\Statistics\Distance;
 
@@ -2110,8 +2111,9 @@ $H⟮X、Y⟯  = Distance::hellingerDistance($X, $Y);
 $D⟮X、Y⟯  = Distance::minkowski($X, $Y, $p = 2);
 $d⟮X、Y⟯  = Distance::euclidean($X, $Y);               // L² distance
 $d₁⟮X、Y⟯ = Distance::manhattan($X, $Y);               // L¹ distance, taxicab geometry, city block distance
-$cosine = Distance::cosine($X, $Y);
-$cos⟮α⟯  = Distance::cosineSimilarity($X, $Y);
+$JSD⟮X‖Y⟯ = Distance::jensenShannon($X, $Y);
+$cosine  = Distance::cosine($X, $Y);
+$cos⟮α⟯   = Distance::cosineSimilarity($X, $Y);
 
 // Mahalanobis distance
 $x    = new Matrix([[6], [5]]);
@@ -2127,10 +2129,6 @@ $y = new Matrix([[2], [2]]);
 $D = Distance::mahalanobis($x, $data);          // Mahalanobis distance from x to the centroid of the data.
 $D = Distance::mahalanobis($x, $data, $y);      // Mahalanobis distance between $x and $y using the data.
 $D = Distance::mahalanobis($data, $otherData);  // Mahalanobis distance between the centroids of two sets of data.
-
-// Divergences
-$Dkl⟮X‖Y⟯ = Distance::kullbackLeiblerDivergence($X, $Y);
-$JSD⟮X‖Y⟯ = Distance::jensenShannonDivergence($X, $Y);
 ```
 
 ### Statistics - Distributions
@@ -2171,6 +2169,19 @@ Distribution::stemAndLeafPlot($values, Distribution::PRINT);
  9 |
 10 | 6
 */
+```
+
+### Statistics - Divergence
+```php
+use MathPHP\Statistics\Divergence;
+
+// Probability distributions
+$X = [0.2, 0.5, 0.3];
+$Y = [0.1, 0.4, 0.5];
+
+// Divergences
+$Dkl⟮X‖Y⟯ = Divergence::kullbackLeibler($X, $Y);
+$JSD⟮X‖Y⟯ = Divergence::jensenShannon($X, $Y);
 ```
 
 ### Statistics - Effect Size
