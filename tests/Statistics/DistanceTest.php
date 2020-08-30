@@ -1100,4 +1100,149 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
 
         ];
     }
+
+    /**
+     * @test         brayCurtis
+     * @dataProvider dataProviderForBrayCurtis
+     * @param        array $u
+     * @param        array $v
+     * @param        float $expected
+     */
+    public function testBrayCurtis(array $u, array $v, float $expected)
+    {
+        // When
+        $distance = Distance::brayCurtis($u, $v);
+
+        // Then
+        $this->assertEquals($expected, $distance, '', 0.0001);
+    }
+
+    /**
+     * Test data created with Python scipy.spatial.distance.braycurtis
+     * distance.braycurtis(u, v)
+     * @return array [u, v, distance]
+     */
+    public function dataProviderForBrayCurtis(): array
+    {
+        return [
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                1,
+            ],
+            [
+                [1, 1, 0],
+                [0, 1, 0],
+                0.33333333333333331,
+            ],
+            [
+                [1, 2, 3],
+                [1, 2, 3],
+                0,
+            ],
+            [
+                [1, 2, 3],
+                [3, 2, 1],
+                0.3333333333333333,
+            ],
+            [
+                [0.4, 0.6],
+                [0.5, 0.5],
+                0.09999999999999998,
+            ],
+            [
+                [0.1, 0.2, 0.2, 0.2, 0.2, 0.1],
+                [0.0, 0.1, 0.4, 0.4, 0.1, 0.0],
+                0.4
+            ],
+            [
+                [0.25, 0.5, 0.25],
+                [0.5, 0.3, 0.2],
+                0.25,
+            ],
+            [
+                [0.5, 0.3, 0.2],
+                [0.25, 0.5, 0.25],
+                0.25,
+            ],
+            [
+                [1],
+                [0],
+                1,
+            ],
+            [
+                [0],
+                [1],
+                1,
+            ],
+            [
+                [1],
+                [1],
+                0,
+            ],
+            [
+                [-1],
+                [-1],
+                0,
+            ],
+            [
+                [-2],
+                [-3],
+                0.2,
+            ],
+        ];
+    }
+
+    /**
+     * @test         brayCurtis NAN
+     * @dataProvider dataProviderForBrayCurtisNan
+     * @param        array $u
+     * @param        array $v
+     */
+    public function testBrayCurtisNan(array $u, array $v)
+    {
+        // When
+        $distance = Distance::brayCurtis($u, $v);
+
+        // Then
+        $this->assertNan($distance);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForBrayCurtisNan(): array
+    {
+        return [
+            'both zero ' => [
+                [0],
+                [0],
+            ],
+            '∑｜uᵢ + vᵢ｜ denominator is zero (1)' => [
+                [1],
+                [-1],
+            ],
+            '∑｜uᵢ + vᵢ｜ demoninator is zero (2)' => [
+                [1, 2],
+                [-1, -2],
+            ],
+        ];
+    }
+
+    /**
+     * @test   brayCurtis exception when inputs are different lengths
+     * @throws Exception\BadDataException
+     */
+    public function testBrayCurtisExceptionDifferentNumberElements()
+    {
+        // Given
+        $u = [1, 2, 3];
+        $v = [2, 3];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $distance = Distance::brayCurtis($u, $v);
+    }
 }

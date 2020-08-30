@@ -424,4 +424,51 @@ class Distance
     {
         return 1 - self::cosine($A, $B);
     }
+
+    /**
+     * Bray Curtis Distance
+     *
+     * https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.braycurtis.html#scipy.spatial.distance.braycurtis
+     *
+     *  ∑｜uᵢ − vᵢ｜
+     *  -----------
+     *  ∑｜uᵢ + vᵢ｜
+     *
+     * @param array $u
+     * @param array $v
+     *
+     * @return float
+     */
+    public static function brayCurtis(array $u, array $v): float
+    {
+        if (count($u) !== count($v)) {
+            throw new Exception\BadDataException('u and v must have the same number of elements');
+        }
+        $uZero = count(array_unique($u)) === 1 && end($u) == 0;
+        $vZero = count(array_unique($u)) === 1 && end($v) == 0;
+        if ($uZero && $vZero) {
+            return \NAN;
+        }
+
+        $∑｜uᵢ − vᵢ｜ = array_sum(array_map(
+            function (float $uᵢ, float $vᵢ) {
+                return abs($uᵢ - $vᵢ);
+            },
+            $u,
+            $v
+        ));
+        $∑｜uᵢ ＋ vᵢ｜ = array_sum(array_map(
+            function (float $uᵢ, float $vᵢ) {
+                return abs($uᵢ + $vᵢ);
+            },
+            $u,
+            $v
+        ));
+
+        if ($∑｜uᵢ ＋ vᵢ｜ == 0) {
+            return \NAN;
+        }
+
+        return $∑｜uᵢ − vᵢ｜ / $∑｜uᵢ ＋ vᵢ｜;
+    }
 }

@@ -2106,14 +2106,15 @@ $X = [0.2, 0.5, 0.3];
 $Y = [0.1, 0.4, 0.5];
 
 // Distances
-$DB⟮X、Y⟯ = Distance::bhattacharyyaDistance($X, $Y);
-$H⟮X、Y⟯  = Distance::hellingerDistance($X, $Y);
-$D⟮X、Y⟯  = Distance::minkowski($X, $Y, $p = 2);
-$d⟮X、Y⟯  = Distance::euclidean($X, $Y);               // L² distance
-$d₁⟮X、Y⟯ = Distance::manhattan($X, $Y);               // L¹ distance, taxicab geometry, city block distance
-$JSD⟮X‖Y⟯ = Distance::jensenShannon($X, $Y);
-$cosine  = Distance::cosine($X, $Y);
-$cos⟮α⟯   = Distance::cosineSimilarity($X, $Y);
+$DB⟮X、Y⟯   = Distance::bhattacharyyaDistance($X, $Y);
+$H⟮X、Y⟯    = Distance::hellingerDistance($X, $Y);
+$D⟮X、Y⟯    = Distance::minkowski($X, $Y, $p = 2);
+$d⟮X、Y⟯    = Distance::euclidean($X, $Y);               // L² distance
+$d₁⟮X、Y⟯   = Distance::manhattan($X, $Y);               // L¹ distance, taxicab geometry, city block distance
+$JSD⟮X‖Y⟯   = Distance::jensenShannon($X, $Y);
+brayCurtis = Distance::brayCurtis($X, $Y);
+$cosine    = Distance::cosine($X, $Y);
+$cos⟮α⟯     = Distance::cosineSimilarity($X, $Y);
 
 // Mahalanobis distance
 $x    = new Matrix([[6], [5]]);
