@@ -2112,6 +2112,7 @@ $D⟮X、Y⟯    = Distance::minkowski($X, $Y, $p = 2);
 $d⟮X、Y⟯    = Distance::euclidean($X, $Y);               // L² distance
 $d₁⟮X、Y⟯   = Distance::manhattan($X, $Y);               // L¹ distance, taxicab geometry, city block distance
 $JSD⟮X‖Y⟯   = Distance::jensenShannon($X, $Y);
+$d⟮X、Y⟯    = Distance::canberra($X, Y);
 brayCurtis = Distance::brayCurtis($X, $Y);
 $cosine    = Distance::cosine($X, $Y);
 $cos⟮α⟯     = Distance::cosineSimilarity($X, $Y);

@@ -1245,4 +1245,175 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         // When
         $distance = Distance::brayCurtis($u, $v);
     }
+
+    /**
+     * @test         canberra
+     * @dataProvider dataProviderForCanberra
+     * @param        array $p
+     * @param        array $q
+     * @param        float $expected
+     */
+    public function testCanberra(array $p, array $q, float $expected)
+    {
+        // When
+        $distance = Distance::canberra($p, $q);
+
+        // Then
+        $this->assertEquals($expected, $distance, '', 0.0001);
+    }
+
+    /**
+     * Test data created with Python scipy.spatial.distance.canberra
+     * distance.canberra(p, q)
+     * @return array [p, q, distance]
+     */
+    public function dataProviderForCanberra(): array
+    {
+        return [
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                2,
+            ],
+            [
+                [1, 1, 0],
+                [0, 1, 0],
+                1,
+            ],
+            [
+                [1, 2, 3],
+                [1, 2, 3],
+                0,
+            ],
+            [
+                [1, 2, 3],
+                [3, 2, 1],
+                1,
+            ],
+            [
+                [0.4, 0.6],
+                [0.5, 0.5],
+                0.20202020202020196,
+            ],
+            [
+                [0.1, 0.2, 0.2, 0.2, 0.2, 0.1],
+                [0.0, 0.1, 0.4, 0.4, 0.1, 0.0],
+                3.333333333333333
+            ],
+            [
+                [0.25, 0.5, 0.25],
+                [0.5, 0.3, 0.2],
+                0.6944444444444443,
+            ],
+            [
+                [0.5, 0.3, 0.2],
+                [0.25, 0.5, 0.25],
+                0.6944444444444443,
+            ],
+            [
+                [1],
+                [0],
+                1,
+            ],
+            [
+                [0],
+                [1],
+                1,
+            ],
+            [
+                [1],
+                [1],
+                0,
+            ],
+            [
+                [-1],
+                [-1],
+                0,
+            ],
+            [
+                [-2],
+                [-3],
+                0.2,
+            ],
+            [
+                [1, 1, 1],
+                [1, 1, 0],
+                1,
+            ],
+            [
+                [1, 1, 0],
+                [1, 1, 1],
+                1,
+            ],
+            [
+                [1, 1, 1],
+                [10, 5, 0],
+                2.484848484848485,
+            ],
+            [
+                [10, 5, 0],
+                [1, 1, 1],
+                2.484848484848485,
+            ],
+            [
+                [10, 10, 10],
+                [11, 11, 11],
+                0.14285714285714285,
+            ],
+            [
+                [11, 11, 11],
+                [10, 10, 10],
+                0.14285714285714285,
+            ],
+        ];
+    }
+
+    /**
+     * @test         canberra NAN
+     * @dataProvider dataProviderForCanberraNan
+     * @param        array $u
+     * @param        array $v
+     */
+    public function testCanberraNan(array $u, array $v)
+    {
+        // When
+        $distance = Distance::canberra($u, $v);
+
+        // Then
+        $this->assertNan($distance);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForCanberraNan(): array
+    {
+        return [
+            'both zero ' => [
+                [0],
+                [0],
+            ],
+            'all zeros' => [
+                [0, 0, 0],
+                [0, 0, 0],
+            ],
+        ];
+    }
+
+    /**
+     * @test   canberra exception when inputs are different lengths
+     * @throws Exception\BadDataException
+     */
+    public function testCanberraExceptionDifferentNumberElements()
+    {
+        // Given
+        $p = [1, 2, 3];
+        $q = [2, 3];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $distance = Distance::canberra($p, $q);
+    }
 }

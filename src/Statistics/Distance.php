@@ -471,4 +471,64 @@ class Distance
 
         return $∑｜uᵢ − vᵢ｜ / $∑｜uᵢ ＋ vᵢ｜;
     }
+
+    /**
+     * Canberra Distance
+     * A numerical measure of the distance between pairs of points in a vector space
+     * It is a weighted version of L₁ (Manhattan) distance.
+     *
+     * https://en.wikipedia.org/wiki/Canberra_distance
+     * http://www.code10.info/index.php?option=com_content&view=article&id=49:article_canberra-distance&catid=38:cat_coding_algorithms_data-similarity&Itemid=57
+     *
+     *              ｜pᵢ − qᵢ｜
+     * d(p,q) = ∑ --------------
+     *            ｜pᵢ｜ + ｜qᵢ｜
+     *
+     * @param array $p
+     * @param array $q
+     *
+     * @return float
+     */
+    public static function canberra(array $p, array $q): float
+    {
+        if (count($p) !== count($q)) {
+            throw new Exception\BadDataException('p and q must have the same number of elements');
+        }
+        $pZero = count(array_unique($p)) === 1 && end($p) == 0;
+        $qZero = count(array_unique($p)) === 1 && end($q) == 0;
+        if ($pZero && $qZero) {
+            return \NAN;
+        }
+
+        // Numerators ｜pᵢ − qᵢ｜
+        $｜p − q｜ = array_map(
+            function (float $pᵢ, float $qᵢ) {
+                return abs($pᵢ - $qᵢ);
+            },
+            $p,
+            $q
+        );
+        // Denominators ｜pᵢ｜ + ｜qᵢ｜
+        $｜p｜ ＋ ｜q｜ = array_map(
+            function (float $p, float $q) {
+                return abs($p) + abs($q);
+            },
+            $p,
+            $q
+        );
+
+        // Sum of quotients with non-zero denominators
+        //    ｜pᵢ − qᵢ｜
+        // ∑ --------------
+        //   ｜pᵢ｜ + ｜qᵢ｜
+        return array_sum(array_map(
+            function (float $｜pᵢ − qᵢ｜, float $｜pᵢ｜ ＋ ｜qᵢ｜) {
+                return $｜pᵢ｜ ＋ ｜qᵢ｜ == 0
+                    ? 0
+                    : $｜pᵢ − qᵢ｜ / $｜pᵢ｜ ＋ ｜qᵢ｜;
+            },
+            $｜p − q｜,
+            $｜p｜ ＋ ｜q｜
+        ));
+    }
 }
