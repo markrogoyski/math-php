@@ -221,7 +221,6 @@ class RegularGridInterpolator
     private function searchSorted(array $haystack, $needle)
     {
         $index = -1;
-        sort($haystack);
         foreach ($haystack as $key => $val) {
             if ($val <= $needle) {
                 $index = $key;
