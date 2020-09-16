@@ -119,7 +119,7 @@ class RegularGridInterpolator
         $values = 0.;
         foreach ($edges as $edge_indices) {
             $weight = 1.;
-            foreach ($this->multipleIterator($edge_indices, $indices, $normDistances) as [$ei, $i, $yi]) {
+            foreach ($this->multipleIterator($edge_indices, $indices, $normDistances) as list($ei, $i, $yi)) {
                 $weight *= ($ei == $i) ? 1 - $yi : $yi;
             }
             $values += ($this->flatCall($this->values, $edge_indices) * $weight);
