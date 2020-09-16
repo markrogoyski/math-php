@@ -2,9 +2,6 @@
 
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
-use Generator;
-use InvalidArgumentException;
-use MultipleIterator;
 use MathPHP\Exception;
 
 /**
@@ -18,15 +15,16 @@ use MathPHP\Exception;
  */
 class RegularGridInterpolator
 {
-    const METHOD_LINEAR = 'linear';
+    const METHOD_LINEAR  = 'linear';
     const METHOD_NEAREST = 'nearest';
 
+    /** @var string */
     private $method;
+
     /** @var array[] */
     private $grid;
-    /**
-     * @var array
-     */
+
+    /** @var array */
     private $values;
 
     private function countdim($array)
@@ -40,23 +38,27 @@ class RegularGridInterpolator
         return $return;
     }
 
-    public function __construct(
-        array $points,
-        array $values,
-        $method = 'linear'
-    ) {
+    /**
+     * @param array  $points
+     * @param array  $values
+     * @param string $method
+     *
+     * @throws Exception\BadDataException
+     */
+    public function __construct(array $points, array $values, string $method = 'linear')
+    {
         if (!\in_array($method, [self::METHOD_LINEAR, self::METHOD_NEAREST])) {
             throw new Exception\BadDataException("Method '{$method}' is not defined");
         }
-        $this->method = $method;
+        $this->method    = $method;
         $valuesDimension = $this->countdim($values);
-        $pointsCount = \count($points);
+        $pointsCount     = \count($points);
 
         if ($pointsCount > $valuesDimension) {
             throw new Exception\BadDataException(sprintf('There are %d point arrays, but values has %d ' . 'dimensions', $pointsCount, $valuesDimension));
         }
 
-        $this->grid = $points;
+        $this->grid   = $points;
         $this->values = $values;
     }
 
@@ -75,29 +77,37 @@ class RegularGridInterpolator
         return new self($points, $values, $method);
     }
 
-    public function __invoke(array $xi, $method = null): float
+    /**
+     * @param  array $xi
+     * @param  string|null  $method
+     * @return float
+     * @throws Exception\BadDataException
+     */
+    public function __invoke(array $xi, string $method = null): float
     {
         $method = $method ?? $this->method;
         if (!\in_array($method, [self::METHOD_LINEAR, self::METHOD_NEAREST])) {
             throw new Exception\BadDataException("Method '{$method}' is not defined");
         }
-        $gridDimension = \count($this->grid);
+
+        $gridDimension  = \count($this->grid);
         $pointDimension = \count($xi);
         if (\count($xi) != $gridDimension) {
             throw new Exception\BadDataException('The requested sample points xi have dimension ' . "{$pointDimension}, but this RegularGridInterpolator has " . "dimension {$gridDimension}");
         }
+
         list($indices, $normDistances) = $this->findIndices($xi);
 
-        $result = null;
-        if (self::METHOD_LINEAR == $method) {
-            $result = $this->evaluateLinear($indices, $normDistances);
-        } elseif (self::METHOD_NEAREST == $method) {
-            $result = $this->evaluateNearest($indices, $normDistances);
-        }
-
-        return $result;
+        return $method === self::METHOD_LINEAR
+            ? $this->evaluateLinear($indices, $normDistances)
+            : $this->evaluateNearest($indices, $normDistances);
     }
 
+    /**
+     * @param $indices
+     * @param $normDistances
+     * @return float|int
+     */
     private function evaluateLinear($indices, $normDistances)
     {
         foreach ($indices as $i) {
@@ -105,6 +115,7 @@ class RegularGridInterpolator
         }
         $edges[] = 1; // pass last argument (repeat)
         $edges = $this->product(...$edges); // create many to many links
+
         $values = 0.;
         foreach ($edges as $edge_indices) {
             $weight = 1.;
@@ -117,6 +128,11 @@ class RegularGridInterpolator
         return $values;
     }
 
+    /**
+     * @param $indices
+     * @param $normDistances
+     * @return array|mixed
+     */
     private function evaluateNearest($indices, $normDistances)
     {
         $idxRes = [];
@@ -166,6 +182,8 @@ class RegularGridInterpolator
     /**
      * Dynamically accessing multidimensional array value.
      *
+     * @param array $data
+     * @param array $keys
      * @return array|mixed
      */
     private function flatCall(array $data, array $keys)
@@ -184,7 +202,7 @@ class RegularGridInterpolator
      *
      * @param mixed ...$args
      *
-     * @return Generator
+     * @return \Generator
      */
     private function product(/*...$iterables[, $repeat]*/ ...$args)
     {
@@ -214,7 +232,8 @@ class RegularGridInterpolator
     /**
      * Python port np.searchsorted.
      *
-     * @param $needle
+     * @param array $haystack
+     * @param float $needle
      *
      * @return int
      */
@@ -232,6 +251,10 @@ class RegularGridInterpolator
         return $index;
     }
 
+    /**
+     * @param $var
+     * @return \ArrayIterator|\IteratorIterator
+     */
     private static function iter($var)
     {
         switch (true) {
@@ -246,7 +269,7 @@ class RegularGridInterpolator
 
             default:
                 $type = \gettype($var);
-                throw new InvalidArgumentException("'{$type}' type is not iterable");
+                throw new \InvalidArgumentException("'{$type}' type is not iterable");
         }
     }
 
@@ -255,11 +278,11 @@ class RegularGridInterpolator
      *
      * @param mixed ...$iterables
      *
-     * @return MultipleIterator
+     * @return \MultipleIterator
      */
-    private function multipleIterator(...$iterables)
+    private function multipleIterator(...$iterables): \MultipleIterator
     {
-        $multipleIterator = new MultipleIterator();
+        $multipleIterator = new \MultipleIterator();
         foreach ($iterables as $iterable) {
             $multipleIterator->attachIterator(self::iter($iterable));
         }

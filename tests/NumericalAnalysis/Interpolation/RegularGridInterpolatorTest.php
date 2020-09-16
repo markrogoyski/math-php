@@ -108,8 +108,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $zs = [110, 111, 112, 113, 114, 115, 116, 117, 118, 119];
 
         // And
-        $func = function ($x, $y, $z)
-        {
+        $func = function ($x, $y, $z) {
             return 2 * $x + 3 * $y - $z;
         };
 
@@ -156,8 +155,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $zs = [110, 111, 112, 113, 114, 115, 116, 117, 118, 119];
 
         // And
-        $func = function ($x, $y, $z)
-        {
+        $func = function ($x, $y, $z) {
             return 2 * $x + 3 * $y - $z;
         };
 
@@ -211,9 +209,8 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
             9.];
 
         // And
-        $func = function ($x, $y, $z)
-        {
-            return 2 * $x**3 + 3 * $y**2 - $z;
+        $func = function ($x, $y, $z) {
+            return 2 * $x ** 3 + 3 * $y ** 2 - $z;
         };
 
         // And
@@ -266,9 +263,8 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
             9.];
 
         // And
-        $func = function ($x, $y, $z)
-        {
-            return 2 * $x**3 + 3 * $y**2 - $z;
+        $func = function ($x, $y, $z) {
+            return 2 * $x ** 3 + 3 * $y ** 2 - $z;
         };
 
         // And
@@ -316,8 +312,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $zs = [1, 2, 3];
 
         // And
-        $func = function ($x, $y, $z)
-        {
+        $func = function ($x, $y, $z) {
             return 2 * $x + 3 * $y - $z;
         };
 
@@ -400,8 +395,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $zs = [1, 2, 3];
 
         // And
-        $func = function ($x, $y, $z)
-        {
+        $func = function ($x, $y, $z) {
             return 2 * $x + 3 * $y - $z;
         };
 
