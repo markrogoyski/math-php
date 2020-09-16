@@ -136,7 +136,7 @@ class RegularGridInterpolator
     private function evaluateNearest($indices, $normDistances)
     {
         $idxRes = [];
-        foreach ($this->multipleIterator($indices, $normDistances) as [$i, $yi]) {
+        foreach ($this->multipleIterator($indices, $normDistances) as list($i, $yi)) {
             $idxRes[] = $yi <= .5 ? $i : $i + 1;
         }
 
