@@ -3,6 +3,7 @@
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
 use MathPHP\Exception;
+use MathPHP\Util;
 
 /**
  * Interpolation on a regular grid in arbitrary dimensions
@@ -160,7 +161,8 @@ class RegularGridInterpolator
             $x = $xi[$xInd];
             // $grid - 1nd array, example all x values (or all y..)
             // $x float, search point: x or y or z...
-            $i = $this->searchSorted($grid, $x); // min match index
+            $i = Util\Search::sorted($grid, $x) - 1; // min match index
+
             $gridSize = \count($grid); //Column count
             if ($i < 0) {
                 $i = 0;
@@ -227,28 +229,6 @@ class RegularGridInterpolator
         foreach ($result as $prod) {
             yield $prod;
         }
-    }
-
-    /**
-     * Python port np.searchsorted.
-     *
-     * @param array $haystack
-     * @param float $needle
-     *
-     * @return int
-     */
-    private function searchSorted(array $haystack, $needle)
-    {
-        $index = -1;
-        foreach ($haystack as $key => $val) {
-            if ($val <= $needle) {
-                $index = $key;
-            } else {
-                return $index;
-            }
-        }
-
-        return $index;
     }
 
     /**
