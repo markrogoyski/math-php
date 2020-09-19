@@ -61,7 +61,7 @@ class Search
         $nanPresent = array_filter(
             $values,
             function ($value) {
-                return is_nan($value);
+                return is_float($value) && is_nan($value);
             }
         );
         if (count($nanPresent) > 0) {

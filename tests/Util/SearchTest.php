@@ -160,6 +160,62 @@ class SearchTest extends \PHPUnit\Framework\TestCase
             [[0, \NAN, 1, 2, 3], 1],
             [[\NAN, 0, 1, 2, 3], 0],
             [[\NAN, 0, \NAN, 1, 2, 3], 0],
+
+            [
+                [
+                    [new \DateTimeImmutable('1979-01-01 00:00:00')],
+                    [new \DateTimeImmutable('1989-01-01 00:00:00')],
+                    [new \DateTimeImmutable('1999-01-01 00:00:00')],
+                    [new \DateTimeImmutable('2009-01-01 00:00:00')],
+                    [new \DateTimeImmutable('2019-01-01 00:00:00')],
+                ],
+                4
+            ],
+            [
+                [
+                    [new \DateTimeImmutable('1979-01-01 00:00:00')],
+                    [new \DateTimeImmutable('1989-01-01 00:00:00')],
+                    [new \DateTimeImmutable('1999-01-01 00:00:00')],
+                    [new \DateTimeImmutable('2019-01-01 00:00:00')],
+                    [new \DateTimeImmutable('2009-01-01 00:00:00')],
+                ],
+                3
+            ],
+            [
+                [
+                    [new \DateTimeImmutable('1979-01-01 00:00:00')],
+                    [new \DateTimeImmutable('1989-01-01 00:00:00')],
+                    [new \DateTimeImmutable('2019-01-01 00:00:00')],
+                    [new \DateTimeImmutable('1999-01-01 00:00:00')],
+                    [new \DateTimeImmutable('2009-01-01 00:00:00')],
+                ],
+                2
+            ],
+            [
+                [
+                    [new \DateTimeImmutable('1979-01-01 00:00:00')],
+                    [new \DateTimeImmutable('2019-01-01 00:00:00')],
+                    [new \DateTimeImmutable('1989-01-01 00:00:00')],
+                    [new \DateTimeImmutable('1999-01-01 00:00:00')],
+                    [new \DateTimeImmutable('2009-01-01 00:00:00')],
+                ],
+                1
+            ],
+            [
+                [
+                    [new \DateTimeImmutable('2019-01-01 00:00:00')],
+                    [new \DateTimeImmutable('1979-01-01 00:00:00')],
+                    [new \DateTimeImmutable('1989-01-01 00:00:00')],
+                    [new \DateTimeImmutable('1999-01-01 00:00:00')],
+                    [new \DateTimeImmutable('2009-01-01 00:00:00')],
+                ],
+                0
+            ],
+
+            [[false, false, false, false, true], 4],
+            [[false, false, false, true, false], 3],
+            [[true, false, false, false, false], 0],
+            [[true, false, true, false, false], 0],
         ];
     }
 
