@@ -89,6 +89,7 @@ class SearchTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         argMax
      * @dataProvider dataProviderForArgMax
+     * @dataProvider dataProviderForArgMaxWithNans
      * @param        array $values
      * @param        int   $expected
      */
@@ -154,6 +155,17 @@ class SearchTest extends \PHPUnit\Framework\TestCase
             [[1, 2, 3, 5, 5], 3],
 
             [[1.1, 1.2, 1.3, 1.4, 1.5], 4],
+            [[92830482039, 980983209480923, 823094802943, \INF], 3],
+        ];
+    }
+
+    /**
+     * Test data created with Python NumPy argmax
+     * @return array
+     */
+    public function dataProviderForArgMaxWithNans(): array
+    {
+        return [
             [[0, 1, 2, 3, \NAN], 4],
             [[0, 1, 2, \NAN, 3], 3],
             [[0, 1, \NAN, 2, 3], 2],
@@ -161,61 +173,8 @@ class SearchTest extends \PHPUnit\Framework\TestCase
             [[\NAN, 0, 1, 2, 3], 0],
             [[\NAN, 0, \NAN, 1, 2, 3], 0],
 
-            [
-                [
-                    [new \DateTimeImmutable('1979-01-01 00:00:00')],
-                    [new \DateTimeImmutable('1989-01-01 00:00:00')],
-                    [new \DateTimeImmutable('1999-01-01 00:00:00')],
-                    [new \DateTimeImmutable('2009-01-01 00:00:00')],
-                    [new \DateTimeImmutable('2019-01-01 00:00:00')],
-                ],
-                4
-            ],
-            [
-                [
-                    [new \DateTimeImmutable('1979-01-01 00:00:00')],
-                    [new \DateTimeImmutable('1989-01-01 00:00:00')],
-                    [new \DateTimeImmutable('1999-01-01 00:00:00')],
-                    [new \DateTimeImmutable('2019-01-01 00:00:00')],
-                    [new \DateTimeImmutable('2009-01-01 00:00:00')],
-                ],
-                3
-            ],
-            [
-                [
-                    [new \DateTimeImmutable('1979-01-01 00:00:00')],
-                    [new \DateTimeImmutable('1989-01-01 00:00:00')],
-                    [new \DateTimeImmutable('2019-01-01 00:00:00')],
-                    [new \DateTimeImmutable('1999-01-01 00:00:00')],
-                    [new \DateTimeImmutable('2009-01-01 00:00:00')],
-                ],
-                2
-            ],
-            [
-                [
-                    [new \DateTimeImmutable('1979-01-01 00:00:00')],
-                    [new \DateTimeImmutable('2019-01-01 00:00:00')],
-                    [new \DateTimeImmutable('1989-01-01 00:00:00')],
-                    [new \DateTimeImmutable('1999-01-01 00:00:00')],
-                    [new \DateTimeImmutable('2009-01-01 00:00:00')],
-                ],
-                1
-            ],
-            [
-                [
-                    [new \DateTimeImmutable('2019-01-01 00:00:00')],
-                    [new \DateTimeImmutable('1979-01-01 00:00:00')],
-                    [new \DateTimeImmutable('1989-01-01 00:00:00')],
-                    [new \DateTimeImmutable('1999-01-01 00:00:00')],
-                    [new \DateTimeImmutable('2009-01-01 00:00:00')],
-                ],
-                0
-            ],
-
-            [[false, false, false, false, true], 4],
-            [[false, false, false, true, false], 3],
-            [[true, false, false, false, false], 0],
-            [[true, false, true, false, false], 0],
+            [[\NAN, \INF], 0],
+            [[\INF, \NAN], 1],
         ];
     }
 
@@ -232,5 +191,55 @@ class SearchTest extends \PHPUnit\Framework\TestCase
 
         // When
         $index = Search::argMax($values);
+    }
+
+    /**
+     * @test         nanArgMax
+     * @dataProvider dataProviderForArgMax
+     * @dataProvider dataProviderForNanArgMaxWithNans
+     * @param        array $values
+     * @param        int   $expected
+     */
+    public function testNanArgMax(array $values, int $expected)
+    {
+        // When
+        $indexOfMax = Search::nanArgMax($values);
+
+        // Then
+        $this->assertSame($expected, $indexOfMax);
+    }
+
+    /**
+     * Test data created with Python NumPy argmax
+     * @return array
+     */
+    public function dataProviderForNanArgMaxWithNans(): array
+    {
+        return [
+            [[0, 1, 2, 3, \NAN], 3],
+            [[0, 1, 2, \NAN, 3], 4],
+            [[0, 1, \NAN, 2, 3], 4],
+            [[0, \NAN, 1, 2, 3], 4],
+            [[\NAN, 0, 1, 2, 3], 4],
+            [[\NAN, 0, \NAN, 1, 2, 3], 5],
+
+            [[\NAN, \INF], 1],
+            [[\INF, \NAN], 0],
+        ];
+    }
+
+    /**
+     * @test nanArgMax error when the input array is empty
+     */
+    public function testNanArgMaxErrorOnEmptyArray()
+    {
+        // Given
+        $values = [];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $index = Search::nanArgMax($values);
     }
 }

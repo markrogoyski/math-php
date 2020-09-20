@@ -45,7 +45,7 @@ class Search
      * In case of the maximum value appearing multiple times, the index of the first occurrence is returned.
      * In the case NAN is present, the index of the first NAN is returned.
      *
-     * @param array $values
+     * @param float[]|int[] $values
      *
      * @return int Index of the first occurrence of the maximum value
      *
@@ -73,6 +73,53 @@ class Search
         }
 
         // Standard case: Find max and return index
+        return self::baseArgMax($values);
+    }
+
+    /**
+     * NanArgMax
+     * Find the array index of the maximum value, ignoring NANs
+     *
+     * In case of the maximum value appearing multiple times, the index of the first occurrence is returned.
+     *
+     * @param float[]|int[] $values
+     *
+     * @return int Index of the first occurrence of the maximum value
+     *
+     * @throws Exception\BadDataException if the array of values is empty
+     * @throws Exception\BadDataException if the array only contains NANs
+     */
+    public static function nanArgMax(array $values): int
+    {
+        if (empty($values)) {
+            throw new Exception\BadDataException('Cannot find the argMax of an empty array');
+        }
+
+        $valuesWithoutNans = array_filter(
+            $values,
+            function ($value) {
+                return !is_nan($value);
+            }
+        );
+        if (count($valuesWithoutNans) === 0) {
+            throw new Exception\BadDataException('Array of all NANs has no nanArgMax');
+        }
+
+        return self::baseArgMax($valuesWithoutNans);
+    }
+
+    /**
+     * Base argMax calculation
+     * Find the array index of the maximum value.
+     *
+     * In case of the maximum value appearing multiple times, the index of the first occurrence is returned.
+     *
+     * @param float[]|int[] $values
+     *
+     * @return int Index of the first occurrence of the maximum value
+     */
+    private static function baseArgMax(array $values): int
+    {
         $max = max($values);
         foreach ($values as $i => $v) {
             if ($v === $max) {
