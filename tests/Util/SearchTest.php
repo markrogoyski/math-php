@@ -210,7 +210,7 @@ class SearchTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test data created with Python NumPy argmax
+     * Test data created with Python NumPy nanargmax
      * @return array
      */
     public function dataProviderForNanArgMaxWithNans(): array
@@ -241,5 +241,192 @@ class SearchTest extends \PHPUnit\Framework\TestCase
 
         // When
         $index = Search::nanArgMax($values);
+    }
+
+    /**
+     * @test nanArgMax error when the input array is empty
+     */
+    public function testNanArgMaxErrorOnArrayOfAllNans()
+    {
+        // Given
+        $values = [\NAN, \NAN, \NAN];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $index = Search::nanArgMax($values);
+    }
+
+    /**
+     * @test         argMin
+     * @dataProvider dataProviderForArgMin
+     * @dataProvider dataProviderForArgMinWithNans
+     * @param        array $values
+     * @param        int   $expected
+     */
+    public function testArgMin(array $values, int $expected)
+    {
+        // When
+        $indexOfMax = Search::argMin($values);
+
+        // Then
+        $this->assertSame($expected, $indexOfMax);
+    }
+
+    /**
+     * Test data created with Python NumPy argmax
+     * @return array
+     */
+    public function dataProviderForArgMin(): array
+    {
+        return [
+            [[-100], 0],
+            [[-1], 0],
+            [[0], 0],
+            [[1], 0],
+            [[2], 0],
+            [[100], 0],
+
+            [[-100.43], 0],
+            [[-1.3], 0],
+            [[0.0], 0],
+            [[0.0000003829], 0],
+            [[1.5], 0],
+            [[2.2], 0],
+            [[100.4089], 0],
+
+            [[0, 1], 0],
+            [[1, 2], 0],
+            [[3, 6], 0],
+            [[94, 95], 0],
+            [[9384935, 900980398049], 0],
+
+            [[0.0, 0.1], 0],
+            [[0.00004, 0.00005], 0],
+            [[39.34, 39.35], 0],
+            [[-4, -3], 0],
+            [[-0.00001, 0], 0],
+
+            [[-1, -1], 0],
+            [[0, 0], 0],
+            [[1, 1], 0],
+            [[1.7, 1.7], 0],
+            [[34535, 34535], 0],
+
+            [[1, 2, 3, 4, 5], 0],
+            [[2, 1, 3, 4, 5], 1],
+            [[3, 4, 2, 5, 6], 2],
+            [[2, 3, 4, 1, 5], 3],
+            [[2, 3, 4, 5, 1], 4],
+
+            [[1, 2, 3, 4, 1], 0],
+            [[2, 1, 3, 4, 1], 1],
+            [[3, 4, 2, 1, 5], 3],
+            [[2, 3, 4, 1, 1], 3],
+            [[2, 3, 4, 5, 1], 4],
+
+            [[1.1, 1.2, 1.3, 1.4, 1.5], 0],
+            [[-92830482039, -980983209480923, -823094802943, -\INF], 3],
+        ];
+    }
+
+    /**
+     * Test data created with Python NumPy argmax
+     * @return array
+     */
+    public function dataProviderForArgMinWithNans(): array
+    {
+        return [
+            [[0, 1, 2, 3, \NAN], 4],
+            [[0, 1, 2, \NAN, 3], 3],
+            [[0, 1, \NAN, 2, 3], 2],
+            [[0, \NAN, 1, 2, 3], 1],
+            [[\NAN, 0, 1, 2, 3], 0],
+            [[\NAN, 0, \NAN, 1, 2, 3], 0],
+
+            [[\NAN, -\INF], 0],
+            [[-\INF, \NAN], 1],
+        ];
+    }
+
+    /**
+     * @test argMin error when the input array is empty
+     */
+    public function testArgMinErrorOnEmptyArray()
+    {
+        // Given
+        $values = [];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $index = Search::argMin($values);
+    }
+
+    /**
+     * @test         nanArgMin
+     * @dataProvider dataProviderForArgMin
+     * @dataProvider dataProviderForNanArgMinWithNans
+     * @param        array $values
+     * @param        int   $expected
+     */
+    public function testNanArgMin(array $values, int $expected)
+    {
+        // When
+        $indexOfMax = Search::nanArgMin($values);
+
+        // Then
+        $this->assertSame($expected, $indexOfMax);
+    }
+
+    /**
+     * Test data created with Python NumPy nanargmin
+     * @return array
+     */
+    public function dataProviderForNanArgMinWithNans(): array
+    {
+        return [
+            [[0, 1, 2, 3, \NAN], 0],
+            [[0, 1, 2, \NAN, 3], 0],
+            [[0, 1, \NAN, 2, 3], 0],
+            [[0, \NAN, 1, 2, 3], 0],
+            [[\NAN, 0, 1, 2, 3], 1],
+            [[\NAN, 0, \NAN, 1, 2, 3], 1],
+
+            [[\NAN, -\INF], 1],
+            [[-\INF, \NAN], 0],
+        ];
+    }
+
+    /**
+     * @test nanArgMin error when the input array is empty
+     */
+    public function testNanArgMinErrorOnEmptyArray()
+    {
+        // Given
+        $values = [];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $index = Search::nanArgMin($values);
+    }
+
+    /**
+     * @test nanArgMin error when the input array is empty
+     */
+    public function testNanArgMinErrorOnArrayOfAllNans()
+    {
+        // Given
+        $values = [\NAN, \NAN, \NAN];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $index = Search::nanArgMin($values);
     }
 }

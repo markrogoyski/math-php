@@ -13,7 +13,8 @@ class Search
     /**
      * Search Sorted
      * Find the array indices where items should be inserted to maintain sorted order.
-     * Similar to Python NumPy's searchsorted
+     *
+     * Inspired by and similar to Python NumPy's searchsorted
      *
      * @param float[]|int[] $haystack Sorted array with standard increasing numerical array keys
      * @param float         $needle   Item wanting to insert
@@ -44,6 +45,8 @@ class Search
      *
      * In case of the maximum value appearing multiple times, the index of the first occurrence is returned.
      * In the case NAN is present, the index of the first NAN is returned.
+     *
+     * Inspired by and similar to Python NumPy's argmax
      *
      * @param float[]|int[] $values
      *
@@ -81,6 +84,8 @@ class Search
      * Find the array index of the maximum value, ignoring NANs
      *
      * In case of the maximum value appearing multiple times, the index of the first occurrence is returned.
+     *
+     * Inspired by and similar to Python NumPy's nanargmax
      *
      * @param float[]|int[] $values
      *
@@ -121,6 +126,100 @@ class Search
     private static function baseArgMax(array $values): int
     {
         $max = max($values);
+        foreach ($values as $i => $v) {
+            if ($v === $max) {
+                return $i;
+            }
+        }
+    }
+
+    /**
+     * ArgMin
+     * Find the array index of the minimum value.
+     *
+     * In case of the minimum value appearing multiple times, the index of the first occurrence is returned.
+     * In the case NAN is present, the index of the first NAN is returned.
+     *
+     * Inspired by and similar to Python NumPy's argmin
+     *
+     * @param float[]|int[] $values
+     *
+     * @return int Index of the first occurrence of the minimum value
+     *
+     * @throws Exception\BadDataException if the array of values is empty
+     */
+    public static function argMin(array $values): int
+    {
+        if (empty($values)) {
+            throw new Exception\BadDataException('Cannot find the argMin of an empty array');
+        }
+
+        // Special case: NAN wins if present
+        $nanPresent = array_filter(
+            $values,
+            function ($value) {
+                return is_float($value) && is_nan($value);
+            }
+        );
+        if (count($nanPresent) > 0) {
+            foreach ($values as $i => $v) {
+                if (is_nan($v)) {
+                    return $i;
+                }
+            }
+        }
+
+        // Standard case: Find max and return index
+        return self::baseArgMin($values);
+    }
+
+    /**
+     * NanArgMin
+     * Find the array index of the minimum value, ignoring NANs
+     *
+     * In case of the minimum value appearing multiple times, the index of the first occurrence is returned.
+     *
+     * Inspired by and similar to Python NumPy's nanargin
+     *
+     * @param float[]|int[] $values
+     *
+     * @return int Index of the first occurrence of the minimum value
+     *
+     * @throws Exception\BadDataException if the array of values is empty
+     * @throws Exception\BadDataException if the array only contains NANs
+     */
+    public static function nanArgMin(array $values): int
+    {
+        if (empty($values)) {
+            throw new Exception\BadDataException('Cannot find the nanArgMin of an empty array');
+        }
+
+        $valuesWithoutNans = array_filter(
+            $values,
+            function ($value) {
+                return !is_nan($value);
+            }
+        );
+        if (count($valuesWithoutNans) === 0) {
+            throw new Exception\BadDataException('Array of all NANs has no nanArgMax');
+        }
+
+        return self::baseArgMin($valuesWithoutNans);
+    }
+
+    /**
+     * Base argMin calculation
+     * Find the array index of the minimum value.
+     *
+     * In case of the maximum value appearing multiple times, the index of the first occurrence is returned.
+     *
+     * @param float[]|int[] $values
+     *
+     * @return int Index of the first occurrence of the minimum value
+     */
+    private static function baseArgMin(array $values): int
+    {
+        $max = min($values);
         foreach ($values as $i => $v) {
             if ($v === $max) {
                 return $i;
