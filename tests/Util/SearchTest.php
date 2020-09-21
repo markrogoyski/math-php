@@ -429,4 +429,136 @@ class SearchTest extends \PHPUnit\Framework\TestCase
         // When
         $index = Search::nanArgMin($values);
     }
+
+    /**
+     * @test         nonZero
+     * @dataProvider dataProviderForNonZero
+     * @param        array $values
+     * @param        array $expected
+     */
+    public function testNonZero(array $values, array $expected)
+    {
+        // When
+        $indices = Search::nonZero($values);
+
+        // Then
+        $this->assertEquals($expected, $indices);
+    }
+
+    /**
+     * @return array (values, expected)
+     */
+    public function dataProviderForNonZero(): array
+    {
+        return [
+            [
+                [],
+                [],
+            ],
+            [
+                [0],
+                [],
+            ],
+            [
+                [0, 0, 0],
+                [],
+            ],
+            [
+                [0.0],
+                [],
+            ],
+            [
+                [0.0],
+                [],
+            ],
+            [
+                [0, -0, 0.0, -0.0, '0', '-0', '0.0', '-0.0', false],
+                [],
+            ],
+            [
+                [1],
+                [0],
+            ],
+            [
+                [-1],
+                [0],
+            ],
+            [
+                [1],
+                [0],
+            ],
+            [
+                [1.1],
+                [0],
+            ],
+            [
+                [-1.1],
+                [0],
+            ],
+            [
+                [98273492837],
+                [0],
+            ],
+            [
+                [-90273402738049],
+                [0],
+            ],
+            [
+                [0.0000005],
+                [0],
+            ],
+            [
+                [-0.0000005],
+                [0],
+            ],
+            [
+                [\INF],
+                [0],
+            ],
+            [
+                [-\INF],
+                [0],
+            ],
+            [
+                [\NAN],
+                [0],
+            ],
+            [
+                [1, 2, 3],
+                [0, 1, 2],
+            ],
+            [
+                [1, -1, 0.1, -0.1, 83928, -8939823, \INF, \NAN],
+                [0, 1, 2, 3, 4, 5, 6, 7],
+            ],
+            [
+                [0, 1, 0, 1, 0],
+                [1, 3],
+            ],
+            [
+                [0, 0, 0, 0, 1, 1, 1, 1],
+                [4, 5, 6, 7],
+            ],
+            [
+                [1, 1, 1, 1, 0, 0, 0, 0],
+                [0, 1, 2, 3],
+            ],
+            [
+                [0.0, -0.0, 0.000000000000001, -0.000000000000001],
+                [2, 3],
+            ],
+            [
+                ['0', '1', '0.0'],
+                [1],
+            ],
+            [
+                [true, false, true, false],
+                [0, 2],
+            ],
+            [
+                [1, 2, [], [], new \stdClass(), new \stdClass(), 0, 1, 2],
+                [0, 1, 7, 8],
+            ],
+        ];
+    }
 }

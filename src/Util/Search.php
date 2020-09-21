@@ -226,4 +226,35 @@ class Search
             }
         }
     }
+
+    /**
+     * NonZero
+     * Find the array indices of the scalar values that are non-zero.
+     *
+     * Considered 0:
+     *  int 0, -0
+     *  float 0.0, -0.0
+     *  string 0, -0, 0.0, -0.0
+     *  bool false
+     *
+     * Inspired by Python NumPy's nonzero
+     *
+     * @param float[]|int[] $values
+     *
+     * @return int[]
+     */
+    public static function nonZero(array $values): array
+    {
+        $indices = [];
+        foreach ($values as $i => $v) {
+            if (!is_scalar($v)) {
+                continue;
+            }
+            if ($v != 0) {
+                $indices[] = $i;
+            }
+        }
+
+        return $indices;
+    }
 }
