@@ -115,11 +115,11 @@ class PLS
             $F = $F->subtract($t->multiply($c->transpose())->scalarMultiply($d));
 
             // Add each of these columns to the overall matrices
-            $this->W = is_null($this->W) ? $w : $W->augmentRight($w);
-            $this->T = is_null($this->T) ? $t : $T->augmentRight($t);
-            $this->U = is_null($this->U) ? $u : $U->augmentRight($u);
-            $this->C = is_null($this->C) ? $c : $C->augmentRight($c);
-            $this->P = is_null($this->P) ? $p : $P->augmentRight($p);
+            $this->W = is_null($this->W) ? $w : $this->W->augmentRight($w);
+            $this->T = is_null($this->T) ? $t : $this->T->augmentRight($t);
+            $this->U = is_null($this->U) ? $u : $this->U->augmentRight($u);
+            $this->C = is_null($this->C) ? $c : $this->C->augmentRight($c);
+            $this->P = is_null($this->P) ? $p : $this->P->augmentRight($p);
         }
        
         // Calculate R or Wstar
