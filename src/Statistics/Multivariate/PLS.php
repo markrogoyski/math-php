@@ -110,7 +110,7 @@ class PLS
             $u = $new_u;
             $p = self::RTO($E, $t);
             $q = self::RTO($F, $u);
-            $d = self::RTO($u, $t)->getValue(0, 0);
+            $d = self::RTO($u, $t)->get(0, 0);
             $E = $E->subtract($t->multiply($p->transpose()));
             $F = $F->subtract($t->multiply($c->transpose())->scalarMultiply($d));
 
@@ -218,6 +218,6 @@ class PLS
      */
     private static function RTO(Matrix $X, Matrix $Y)
     {
-        return $X->transpose()->multiply($Y)->scalarDivide($Y->transpose()->multiply($Y)->getValue(0, 0));
+        return $X->transpose()->multiply($Y)->scalarDivide($Y->transpose()->multiply($Y)->get(0, 0));
     }
 }
