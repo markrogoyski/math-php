@@ -15,6 +15,8 @@ use MathPHP\Statistics\Descriptive;
 /**
  * Partial Least Squares Regression
  *
+ * Using the NIPALS PLS1 or PLS2 algorithms 
+ *
  * https://en.wikipedia.org/wiki/Partial_least_squares_regression
  */
 class PLS
