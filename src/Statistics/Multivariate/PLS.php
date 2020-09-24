@@ -16,6 +16,8 @@ use MathPHP\Statistics\Descriptive;
  * Partial Least Squares Regression
  *
  * Using the NIPALS PLS1 or PLS2 algorithms
+ *  PLS1 for univariate Y regression
+ *  PLS2 for multivariate Y regression
  *
  * https://en.wikipedia.org/wiki/Partial_least_squares_regression
  */
