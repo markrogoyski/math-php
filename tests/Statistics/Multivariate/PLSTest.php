@@ -11,7 +11,13 @@ class PLSTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PLS */
     private static $pls;
-    
+
+    /** @var Matrix */
+    private static $X;
+
+    /** @var Matrix */
+    private static $Y;
+
     /**
      * R code for expected values:
      *   library(chemometrics)
