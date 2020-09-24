@@ -148,7 +148,7 @@ class PLS
      */
     private function checkNewData(Matrix $newData)
     {
-        if ($newData->getN() !== $this->X->getN()) {
+        if ($newData->getN() !== $this->Xcenter->getN()) {
             throw new Exception\BadDataException('Data does not have the same number of columns');
         }
     }
