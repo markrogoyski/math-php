@@ -137,6 +137,20 @@ class PLS
     }
 
     /**
+     * Verify that the matrix has the same number of columns as the original data
+     *
+     * @param Matrix $newData
+     *
+     * @throws Exception\BadDataException if the matrix is not square
+     */
+    private function checkNewData(Matrix $newData)
+    {
+        if ($newData->getN() !== $this->X->getN()) {
+            throw new Exception\BadDataException('Data does not have the same number of columns');
+        }
+    }
+
+    /**
      * Standardize the data
      * Use the object $Xcenter and $Xscale Vectors to transform the provided data
      *
