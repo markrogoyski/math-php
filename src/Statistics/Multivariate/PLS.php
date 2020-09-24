@@ -70,7 +70,7 @@ class PLS
      *
      * @throws Exception\BadDataException if any rows have a different column count
      */
-    public function __construct(Matrix $X, Matrix $Y, bool $scale = FALSE)
+    public function __construct(Matrix $X, Matrix $Y, bool $scale = false)
     {
         // Check that X and Y have the same amount of data.
         if ($X->getM() !== $Y->getM()) {
@@ -88,7 +88,7 @@ class PLS
             $this->Yscale = new Vector(array_fill(0, $Y->getN(), 1));
         }
         
-        $E = $this->standardizeData();
+        $E = $this->standardizeData($X);
         $F = $this->standardizeData($Y, $this->Ycenter, $this->Yscale);
 
         $new_u = MatrixFactory::random();
@@ -162,14 +162,11 @@ class PLS
      *
      * @throws Exception\MathException
      */
-    private function standardizeData(Matrix $new_data = null, Vector $center = null, Vector $scale = null): Matrix
+    private function standardizeData(Matrix $new_data, Vector $center = null, Vector $scale = null): Matrix
     {
-        if ($new_data === null) {
-            $X = $this->X;
-        } else {
-            $this->checkNewData($new_data);
-            $X = $new_data;
-        }
+        $this->checkNewData($new_data);
+        $X = $new_data;
+
         $ones_column = MatrixFactory::one($X->getM(), 1);
         
         // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
