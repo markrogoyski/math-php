@@ -37,14 +37,23 @@ class PLS
     /** @var Vector Scale */
     private $Yscale;
 
-    /** @var Matrix $W X Loadings*/
+    /** @var Matrix $W X Weights*/
+    private $W = null;
+
+    /** @var Matrix $T X Scores*/
     private $T = null;
-
-    /** @var Matrix $C */
+    
+    /** @var Matrix $C Y Loadings*/
     private $C = null;
 
-    /** @var Matrix $C */
-    private $C = null;
+    /** @var Matrix $U Y Scores*/
+    private $U = null;
+
+    /** @var Matrix $P X Loadings*/
+    private $P = null;
+
+    /** @var Matrix $Q */
+    private $Q = null;
 
     /**
      * Constructor
@@ -53,9 +62,8 @@ class PLS
      * @param Matrix $Y each row is a sample, each column is a variable
      *
      * @throws Exception\BadDataException if any rows have a different column count
-     * @throws Exception\MathException
      */
-    public function __construct(Matrix $X, Matrix $Y, int $components) {
+    public function __construct(Matrix $X, Matrix $Y) {
         // Check that X and Y have the same amount of data.
         if ($X->getM() !== $Y->getM()) {
             throw new Exception\BadDataException('X and Y must have the same number of rows.');
@@ -74,7 +82,12 @@ class PLS
         for ($i = 0; $i < $Y->getN(); $i++) {
             do {
                 $u = $new_u;
+
+                // $w is a unit vector
                 $w = $E->transpose()->multiply($u);
+                $abs_w = $w->frobeniusNorm();
+                $w = $w->scalarDivide($abs_w);
+
                 $t = $E->multiply($w);
                 $c = self::RTO($F, $t);
                 $new_u = $F->multiply($c);
@@ -85,11 +98,12 @@ class PLS
             $d = self::RTO($u, $t)->getValue(0,0);
             $E = $E->subtract($t->multiply($p->transpose()));
             $F = $F->subtract($t->multiply($c->transpose())->scalarMultiply($d));
-
             // Add each of these columns to the overall matrices
         }
        
-
+        // Calculate R or Wstar
+        $R = $W->multiply($P->transpose()->multiply($W)->inverse());
+        $B = $R->multiply($C->transpose());
     }
 
     /**
