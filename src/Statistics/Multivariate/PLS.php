@@ -107,6 +107,7 @@ class PLS
                 $new_u = $F->multiply($c);
                 $diff = $new_u->subtract($u)->frobeniusNorm();
             } while ($diff > $tol);
+            $u = $new_u;
             $p = self::RTO($E, $t);
             $q = self::RTO($F, $u);
             $d = self::RTO($u, $t)->getValue(0, 0);
