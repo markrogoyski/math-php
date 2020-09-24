@@ -103,12 +103,23 @@ class PLS
             $d = self::RTO($u, $t)->getValue(0, 0);
             $E = $E->subtract($t->multiply($p->transpose()));
             $F = $F->subtract($t->multiply($c->transpose())->scalarMultiply($d));
+
             // Add each of these columns to the overall matrices
+            $this->W = $this->W ?? $w : $W->augmentRight($w);
+            $this->T = $this->T ?? $t : $T->augmentRight($t);
+            $this->U = $this->U ?? $u : $U->augmentRight($u);
+            $this->C = $this->C ?? $c : $C->augmentRight($c);
+            $this->P = $this->P ?? $p : $P->augmentRight($p);
         }
        
         // Calculate R or Wstar
         $R = $W->multiply($P->transpose()->multiply($W)->inverse());
-        $B = $R->multiply($C->transpose());
+        $this->B = $R->multiply($C->transpose());
+    }
+
+    public function getB()
+    {
+        return $this->B;
     }
 
     /**
