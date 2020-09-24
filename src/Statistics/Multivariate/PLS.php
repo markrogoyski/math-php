@@ -55,6 +55,8 @@ class PLS
     /** @var Matrix $Q */
     private $Q = null;
 
+    /** @var Matrix $B */
+    private $B = null;
     /**
      * Constructor
      *
@@ -63,7 +65,8 @@ class PLS
      *
      * @throws Exception\BadDataException if any rows have a different column count
      */
-    public function __construct(Matrix $X, Matrix $Y) {
+    public function __construct(Matrix $X, Matrix $Y)
+    {
         // Check that X and Y have the same amount of data.
         if ($X->getM() !== $Y->getM()) {
             throw new Exception\BadDataException('X and Y must have the same number of rows.');
@@ -92,10 +95,10 @@ class PLS
                 $c = self::RTO($F, $t);
                 $new_u = $F->multiply($c);
                 $diff = $new_u->subtract($u)->frobeniusNorm();
-            } while ($diff>$tol);
+            } while ($diff > $tol);
             $p = self::RTO($E, $t);
             $q = self::RTO($F, $u);
-            $d = self::RTO($u, $t)->getValue(0,0);
+            $d = self::RTO($u, $t)->getValue(0, 0);
             $E = $E->subtract($t->multiply($p->transpose()));
             $F = $F->subtract($t->multiply($c->transpose())->scalarMultiply($d));
             // Add each of these columns to the overall matrices
@@ -134,7 +137,8 @@ class PLS
         return $X->subtract($center_matrix)->multiply($scale_matrix);
     }
 
-    private static function columnStdevs(Matrix $M) {
+    private static function columnStdevs(Matrix $M)
+    {
         $scaleArray = [];
         for ($i = 0; $i < $M->getN(); $i++) {
             $scaleArray[] = Descriptive::standardDeviation($M->getColumn($i));
@@ -145,7 +149,8 @@ class PLS
     /**
      * Regression Through the Origin
      */
-    private static function RTO(Matrix $X, Matrix $Y) {
-        return $X->transpose()->multiply($Y)->scalarDivide($Y->transpose->multiply($Y)->getValue(0,0));
+    private static function RTO(Matrix $X, Matrix $Y)
+    {
+        return $X->transpose()->multiply($Y)->scalarDivide($Y->transpose->multiply($Y)->getValue(0, 0));
     }
 }
