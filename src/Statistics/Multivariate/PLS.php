@@ -88,7 +88,7 @@ class PLS
             $this->Yscale = new Vector(array_fill(0, $Y->getN(), 1));
         }
         
-        $E = $this->standardizeData($X);
+        $E = $this->standardizeData($X, $this->Xcenter, $this->Xscale);
         $F = $this->standardizeData($Y, $this->Ycenter, $this->Yscale);
 
         $new_u = MatrixFactory::random();
@@ -134,7 +134,7 @@ class PLS
 
     public function predict(Matrix $X)
     {
-        $E = $this->standardizeData($X);
+        $E = $this->standardizeData($X, $this->Xcenter, $this->Xscale);
         $F = $E->multiply($this->B);
         return $this->unstandardizeData($F);
     }
@@ -165,16 +165,15 @@ class PLS
      *
      * @throws Exception\MathException
      */
-    private function standardizeData(Matrix $new_data, Vector $center = null, Vector $scale = null): Matrix
+    private function standardizeData(Matrix $new_data, Vector $center, Vector $scale): Matrix
     {
-        $this->checkNewData($new_data);
         $X = $new_data;
 
         $ones_column = MatrixFactory::one($X->getM(), 1);
         
         // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
-        $center_matrix = $center_matrix ?? $ones_column->multiply(MatrixFactory::create([$this->Xcenter->getVector()]));
-        $scale_matrix = $scale_matrix ?? MatrixFactory::diagonal($this->Xscale->getVector())->inverse();
+        $center_matrix = $center_matrix ?? $ones_column->multiply(MatrixFactory::create([$center->getVector()]));
+        $scale_matrix = MatrixFactory::diagonal($scale->getVector())->inverse();
 
         // scaled data: ($X - μ) / σ
         return $X->subtract($center_matrix)->multiply($scale_matrix);
