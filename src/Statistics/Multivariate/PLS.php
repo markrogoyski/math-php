@@ -218,6 +218,6 @@ class PLS
      */
     private static function RTO(Matrix $X, Matrix $Y)
     {
-        return $X->transpose()->multiply($Y)->scalarDivide($Y->transpose->multiply($Y)->getValue(0, 0));
+        return $X->transpose()->multiply($Y)->scalarDivide($Y->transpose()->multiply($Y)->getValue(0, 0));
     }
 }
