@@ -122,6 +122,13 @@ class PLS
         return $this->B;
     }
 
+    public function predict(Matrix $X)
+    {
+        $E = $this->standardizeData($X);
+        $F = $E->multiply($this->B);
+        return $this->unstandardizeData($F);
+    }
+
     /**
      * Standardize the data
      * Use the object $Xcenter and $Xscale Vectors to transform the provided data
@@ -132,7 +139,7 @@ class PLS
      *
      * @throws Exception\MathException
      */
-    public function standardizeData(Matrix $new_data = null, Vector $center = null, Vector $scale = null): Matrix
+    private function standardizeData(Matrix $new_data = null, Vector $center = null, Vector $scale = null): Matrix
     {
         if ($new_data === null) {
             $X = $this->Xdata;
@@ -148,6 +155,31 @@ class PLS
 
         // scaled data: ($X - μ) / σ
         return $X->subtract($center_matrix)->multiply($scale_matrix);
+    }
+
+    /**
+     * Standardize the data
+     * Use the object $Xcenter and $Xscale Vectors to transform the provided data
+     *
+     * @param Matrix $new_data - An optional Matrix of new data which is standardized against the original data
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MathException
+     */
+    private function unstandardizeData(Matrix $new_data): Matrix
+    {
+        $this->checkNewData($new_data);
+        $Y = $new_data;
+
+        $ones_column = MatrixFactory::one($Y->getM(), 1);
+        
+        // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
+        $center_matrix = $ones_column->multiply(MatrixFactory::create([$this->Ycenter->getVector()]));
+        $scale_matrix = MatrixFactory::diagonal($this->Yscale->getVector());
+
+        // unscaled data: $Y * σ + μ
+        return $X->multiply($scale_matrix)->add($center_matrix);
     }
 
     private static function columnStdevs(Matrix $M)
