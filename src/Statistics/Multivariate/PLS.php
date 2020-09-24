@@ -62,12 +62,13 @@ class PLS
     /**
      * Constructor
      *
-     * @param Matrix $X each row is a sample, each column is a variable
-     * @param Matrix $Y each row is a sample, each column is a variable
+     * @param Matrix  $X each row is a sample, each column is a variable
+     * @param Matrix  $Y each row is a sample, each column is a variable
+     * @param boolean $scale standardize each column?
      *
      * @throws Exception\BadDataException if any rows have a different column count
      */
-    public function __construct(Matrix $X, Matrix $Y)
+    public function __construct(Matrix $X, Matrix $Y, boolean $scale = FALSE)
     {
         // Check that X and Y have the same amount of data.
         if ($X->getM() !== $Y->getM()) {
@@ -77,8 +78,14 @@ class PLS
         // Standardize X and Y
         $this->Xcenter = $X->columnMeans();
         $this->Ycenter = $Y->columnMeans();
-        $this->Xscale = self::columnStdevs($X);
-        $this->Yscale = self::columnStdevs($Y);
+        if ($scale === true) {
+            $this->Xscale = self::columnStdevs($X);
+            $this->Yscale = self::columnStdevs($Y);
+        } else {
+            $this->Xscale = new Vector(array_fill(0, $X->getN(), 1));
+            $this->Yscale = new Vector(array_fill(0, $Y->getN(), 1));
+        }
+        
         $E = $this->standardizeData();
         $F = $this->standardizeData($Y, $this->Ycenter, $this->Yscale);
 
