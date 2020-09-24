@@ -5,7 +5,7 @@ namespace MathPHP\Tests\Statistics\Multivariate;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\SampleData;
-use MathPHP\Statistics\Multivariate\PCA;
+use MathPHP\Statistics\Multivariate\PLS;
 
 class PLSTest extends \PHPUnit\Framework\TestCase
 {
