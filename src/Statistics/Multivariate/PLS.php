@@ -91,7 +91,7 @@ class PLS
         $E = $this->standardizeData($X, $this->Xcenter, $this->Xscale);
         $F = $this->standardizeData($Y, $this->Ycenter, $this->Yscale);
 
-        $new_u = MatrixFactory::random();
+        $new_u = MatrixFactory::random($X->getM(), 1, -2, 2)->scalarDivide(2);
         $tol = 1E-6;
         for ($i = 0; $i < $Y->getN(); $i++) {
             do {
