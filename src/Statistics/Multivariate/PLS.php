@@ -142,7 +142,7 @@ class PLS
     private function standardizeData(Matrix $new_data = null, Vector $center = null, Vector $scale = null): Matrix
     {
         if ($new_data === null) {
-            $X = $this->Xdata;
+            $X = $this->X;
         } else {
             $this->checkNewData($new_data);
             $X = $new_data;
