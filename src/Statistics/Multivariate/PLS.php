@@ -15,7 +15,7 @@ use MathPHP\Statistics\Descriptive;
 /**
  * Partial Least Squares Regression
  *
- * Using the NIPALS PLS1 or PLS2 algorithms 
+ * Using the NIPALS PLS1 or PLS2 algorithms
  *
  * https://en.wikipedia.org/wiki/Partial_least_squares_regression
  */
@@ -132,8 +132,8 @@ class PLS
         $ones_column = MatrixFactory::one($X->getM(), 1);
         
         // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
-        $center_matrix ??= $ones_column->multiply(MatrixFactory::create([$this->Xcenter->getVector()]));
-        $scale_matrix  ??= MatrixFactory::diagonal($this->Xscale->getVector())->inverse();
+        $center_matrix = $center_matrix ?? $ones_column->multiply(MatrixFactory::create([$this->Xcenter->getVector()]));
+        $scale_matrix = $scale_matrix ?? MatrixFactory::diagonal($this->Xscale->getVector())->inverse();
 
         // scaled data: ($X - μ) / σ
         return $X->subtract($center_matrix)->multiply($scale_matrix);
