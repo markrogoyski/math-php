@@ -23,7 +23,7 @@ class PLSTest extends \PHPUnit\Framework\TestCase
      *   library(chemometrics)
      *   X = mtcars[,c(2:3, 5:7, 10:11)]
      *   Y = mtcars[,c(1,4)]
-     *   pls.model = pls2_nipals(X, Y, 2)
+     *   pls.model = pls2_nipals(X, Y, 2, scale=true)
      *
      * @throws Exception\MathException
      */
@@ -45,7 +45,7 @@ class PLSTest extends \PHPUnit\Framework\TestCase
             ->columnExclude(4)
             ->columnExclude(3)
             ->columnExclude(1);
-        self::$pls = new PLS(self::$X, self::$Y);
+        self::$pls = new PLS(self::$X, self::$Y, TRUE);
     }
 
     /**
@@ -55,10 +55,10 @@ class PLSTest extends \PHPUnit\Framework\TestCase
     public function testConstruction()
     {
         // When
-        $pls = new PLS(self::$X, self::$Y);
+        $pls = new PLS(self::$X, self::$Y, TRUE);
 
         // Then
-        $this->assertInstanceOf(PLS::class, $pLS);
+        $this->assertInstanceOf(PLS::class, $pls);
     }
 
     /**
