@@ -70,7 +70,7 @@ class PLS
      *
      * @throws Exception\BadDataException if any rows have a different column count
      */
-    public function __construct(Matrix $X, Matrix $Y, boolean $scale = FALSE)
+    public function __construct(Matrix $X, Matrix $Y, bool $scale = FALSE)
     {
         // Check that X and Y have the same amount of data.
         if ($X->getM() !== $Y->getM()) {
