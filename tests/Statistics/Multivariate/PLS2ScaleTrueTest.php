@@ -47,7 +47,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
             ->columnExclude(4)
             ->columnExclude(3)
             ->columnExclude(1);
-        self::$pls = new PLS(self::$X, self::$Y, TRUE);
+        self::$pls = new PLS(self::$X, self::$Y, true);
     }
 
     /**
@@ -57,7 +57,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
     public function testConstruction()
     {
         // When
-        $pls = new PLS(self::$X, self::$Y, TRUE);
+        $pls = new PLS(self::$X, self::$Y, true);
 
         // Then
         $this->assertInstanceOf(PLS::class, $pls);
@@ -107,6 +107,20 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertEquals($expected, $W, '', .00001);
-    
+    }
+
+    public function getC()
+    {
+        // Given.
+        $expected = [
+            [ 0.454770, 0.03737499],
+            [-0.430135, 0.25598916],
+        ];
+
+        // When
+        $C = self::$pls->getC()->getMatrix();
+
+        // Then
+        $this->assertEquals($expected, $C, '', .00001);
     }
 }
