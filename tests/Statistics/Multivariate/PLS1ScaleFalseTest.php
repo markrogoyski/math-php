@@ -38,10 +38,12 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
         // exclude mpg and hp.
         self::$X = $continuous->columnExclude(0);
         
-        // mpg and hp.
+        // mpg. Just grab column 0.
         self::$Y = $continuous
             ->columnExclude(8)
             ->columnExclude(7)
+            ->columnExclude(6)
+            ->columnExclude(5)
             ->columnExclude(4)
             ->columnExclude(3)
             ->columnExclude(2)
