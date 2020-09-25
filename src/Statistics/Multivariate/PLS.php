@@ -3,32 +3,20 @@
 namespace MathPHP\Statistics\Multivariate;
 
 use MathPHP\Exception;
-use MathPHP\Functions\Map\Single;
-use MathPHP\LinearAlgebra\Eigenvalue;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Vector;
-use MathPHP\Probability\Distribution\Continuous\F;
-use MathPHP\Probability\Distribution\Continuous\StandardNormal;
 use MathPHP\Statistics\Descriptive;
 
 /**
  * Partial Least Squares Regression
  *
- * Using the NIPALS PLS1 or PLS2 algorithms
- *  PLS1 for univariate Y regression
- *  PLS2 for multivariate Y regression
+ * Using the NIPALS PLS2 algorithm
  *
  * https://en.wikipedia.org/wiki/Partial_least_squares_regression
  */
 class PLS
 {
-    /** @var Matrix Dataset */
-    private $X;
- 
-    /** @var Matrix Dataset */
-    private $Y;
-
     /** @var Vector Means */
     private $Xcenter;
 
@@ -44,23 +32,26 @@ class PLS
     /** @var Matrix $W X Weights*/
     private $W = null;
 
-    /** @var Matrix $T X Scores*/
+    /** @var Matrix $T */
     private $T = null;
     
-    /** @var Matrix $C Y Loadings*/
+    /** @var Matrix $C */
     private $C = null;
 
-    /** @var Matrix $U Y Scores*/
+    /** @var Matrix $U */
     private $U = null;
 
-    /** @var Matrix $P X Loadings*/
+    /** @var Matrix $P */
     private $P = null;
 
     /** @var Matrix $Q */
     private $Q = null;
 
-    /** @var Matrix $B */
+    /** @var Matrix $B Regression Coefficients*/
     private $B = null;
+
+    /** @var array $D */
+    private $D = [];
     /**
      * Constructor
      *
@@ -94,25 +85,30 @@ class PLS
 
         $tol = 1E-8;
         for ($i = 0; $i < $ncomp; $i++) {
-            //$new_u = MatrixFactory::random($X->getM(), 1, -2, 2)->scalarDivide(2);
+            // Several sources suggest using a random initial u. This can lead to inconsistent
+            // results due to some columns then being multiplyed by -1 some of the time.
+            // $new_u = MatrixFactory::random($X->getM(), 1, -20000, 20000)->scalarDivide(20000);
             $new_u = $F->submatrix(0, 0, $F->getM() - 1, 0);
             do {
                 $u = $new_u;
 
                 // $w is a unit vector
                 $w = $E->transpose()->multiply($u);
-                $abs_w = $w->frobeniusNorm();
-                $w = $w->scalarDivide($abs_w);
+                $w = $w->scalarDivide($w->frobeniusNorm());
 
                 $t = $E->multiply($w);
-                $c = self::RTO($F, $t);
+                $c = $F->transpose()->multiply($t)->scalarDivide($t->frobeniusNorm() ** 2);
                 $new_u = $F->multiply($c);
                 $diff = $new_u->subtract($u)->frobeniusNorm();
             } while ($diff > $tol);
             $u = $new_u;
-            $p = self::RTO($E, $t);
-            $q = self::RTO($F, $u);
-            $d = self::RTO($u, $t)->get(0, 0);
+
+            // Least squares regression on a slope-only model
+            $p = $E->transpose()->multiply($t)->scalarDivide($t->frobeniusNorm() ** 2);
+            $q = $F->transpose()->multiply($u)->scalarDivide($u->frobeniusNorm() ** 2);
+            $d = $u->transpose()->multiply($t)->scalarDivide($t->frobeniusNorm() ** 2)->get(0, 0);
+
+            // Deflate the data matrices
             $E = $E->subtract($t->multiply($p->transpose()));
             $F = $F->subtract($t->multiply($c->transpose())->scalarMultiply($d));
 
@@ -122,13 +118,25 @@ class PLS
             $this->U = is_null($this->U) ? $u : $this->U->augment($u);
             $this->C = is_null($this->C) ? $c : $this->C->augment($c);
             $this->P = is_null($this->P) ? $p : $this->P->augment($p);
+            $this->D[] = $d;
         }
        
-        // Calculate R or Wstar
+        // Calculate R (or W*)
         $R = $this->W->multiply($this->P->transpose()->multiply($this->W)->inverse());
         $this->B = $R->multiply($this->C->transpose());
     }
 
+    /**************************************************************************
+     * BASIC GETTERS
+     *  - getB
+     *  - getC
+     *  - getD
+     *  - getP
+     *  - getQ
+     *  - getT
+     *  - getU
+     *  - getW
+     **************************************************************************/
     public function getB()
     {
         return $this->B;
@@ -144,6 +152,21 @@ class PLS
         return $this->P;
     }
 
+    public function getQ()
+    {
+        return $this->Q;
+    }
+
+    public function getT()
+    {
+        return $this->T;
+    }
+
+    public function getU()
+    {
+        return $this->U;
+    }
+
     public function getW()
     {
         return $this->W;
@@ -151,9 +174,17 @@ class PLS
 
     public function predict(Matrix $X)
     {
+        $ones_column = MatrixFactory::one($Y->getM(), 1);
+        
+        // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
+        $Ycenter_matrix = $ones_column->multiply(MatrixFactory::create([$this->Ycenter->getVector()]));
+
+        // Create a diagonal matrix of column standard deviations.
+        $Yscale_matrix = MatrixFactory::diagonal($this->Yscale->getVector());
+        
         $E = $this->standardizeData($X, $this->Xcenter, $this->Xscale);
         $F = $E->multiply($this->B);
-        return $this->unstandardizeData($F);
+        return $F->multiply($Yscale_matrix)->add($Ycenter_matrix);
     }
 
     /**
@@ -196,31 +227,6 @@ class PLS
         return $X->subtract($center_matrix)->multiply($scale_matrix);
     }
 
-    /**
-     * Standardize the data
-     * Use the object $Xcenter and $Xscale Vectors to transform the provided data
-     *
-     * @param Matrix $new_data - An optional Matrix of new data which is standardized against the original data
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MathException
-     */
-    private function unstandardizeData(Matrix $new_data): Matrix
-    {
-        $this->checkNewData($new_data);
-        $Y = $new_data;
-
-        $ones_column = MatrixFactory::one($Y->getM(), 1);
-        
-        // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
-        $center_matrix = $ones_column->multiply(MatrixFactory::create([$this->Ycenter->getVector()]));
-        $scale_matrix = MatrixFactory::diagonal($this->Yscale->getVector());
-
-        // unscaled data: $Y * σ + μ
-        return $X->multiply($scale_matrix)->add($center_matrix);
-    }
-
     private static function columnStdevs(Matrix $M)
     {
         $scaleArray = [];
@@ -228,13 +234,5 @@ class PLS
             $scaleArray[] = Descriptive::standardDeviation($M->getColumn($i));
         }
         return new Vector($scaleArray);
-    }
-
-    /**
-     * Regression Through the Origin
-     */
-    private static function RTO(Matrix $X, Matrix $Y)
-    {
-        return $X->transpose()->multiply($Y)->scalarDivide($Y->transpose()->multiply($Y)->get(0, 0));
     }
 }
