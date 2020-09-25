@@ -35,19 +35,12 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
         $continuous = MatrixFactory::create($mtCars->getData())
             ->columnExclude(8)
             ->columnExclude(7);
-        // exclude mpg and hp.
+        // Exclude mpg.
         self::$X = $continuous->columnExclude(0);
         
-        // mpg. Just grab column 0.
-        self::$Y = $continuous
-            ->columnExclude(8)
-            ->columnExclude(7)
-            ->columnExclude(6)
-            ->columnExclude(5)
-            ->columnExclude(4)
-            ->columnExclude(3)
-            ->columnExclude(2)
-            ->columnExclude(1);
+        // Just grab column 0.
+        self::$Y = $continuous->submatrix(0, 0, $continuous->getM(), 0);
+
         self::$pls = new PLS(self::$X, self::$Y, false);
     }
 
