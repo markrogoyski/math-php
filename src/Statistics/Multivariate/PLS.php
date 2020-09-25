@@ -132,6 +132,11 @@ class PLS
         return $this->B;
     }
 
+    public function getW()
+    {
+        return $this->W;
+    }
+
     public function predict(Matrix $X)
     {
         $E = $this->standardizeData($X, $this->Xcenter, $this->Xscale);
