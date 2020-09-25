@@ -123,4 +123,24 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertEquals($expected, $C, '', .00001);
     }
+
+    public function getP()
+    {
+        // Given.
+        $expected = [
+            [-0.4830909  0.008542336],
+            [-0.4731801 -0.101398021],
+            [ 0.3706942  0.362571565],
+            [-0.4418500 -0.185442628],
+            [ 0.2779994 -0.501504936],
+            [ 0.2450876  0.576659047],
+            [-0.2948947  0.495757659],
+        ];
+
+        // When
+        $P = self::$pls->getP()->getMatrix();
+
+        // Then
+        $this->assertEquals($expected, $P, '', .00001);
+    }
 }
