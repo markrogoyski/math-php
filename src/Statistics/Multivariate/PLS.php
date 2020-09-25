@@ -172,11 +172,18 @@ class PLS
         return $this->W;
     }
 
+    /**
+     * Predict Values
+     *
+     * Use the regression model to predict new values of Y given values for X.
+     * Y = (X - μ) ∗ σ⁻¹ ∗ B ∗ σ + μ
+     */
     public function predict(Matrix $X)
     {
-        $ones_column = MatrixFactory::one($Y->getM(), 1);
+        $this->checkNewData($X);
         
         // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
+        $ones_column = MatrixFactory::one($Y->getM(), 1);
         $Ycenter_matrix = $ones_column->multiply(MatrixFactory::create([$this->Ycenter->getVector()]));
 
         // Create a diagonal matrix of column standard deviations.
@@ -184,6 +191,7 @@ class PLS
         
         $E = $this->standardizeData($X, $this->Xcenter, $this->Xscale);
         $F = $E->multiply($this->B);
+        // Y = F ∗ σ + μ
         return $F->multiply($Yscale_matrix)->add($Ycenter_matrix);
     }
 
@@ -205,9 +213,11 @@ class PLS
 
     /**
      * Standardize the data
-     * Use the object $Xcenter and $Xscale Vectors to transform the provided data
+     * Use provided $center and $scale Vectors to transform the provided data
      *
-     * @param Matrix $new_data - An optional Matrix of new data which is standardized against the original data
+     * @param Matrix $new_data - A Matrix of new data which is standardized against the original data
+     * @param Vector $center -  A list of values to center the data against
+     * @param Vector $scale  - A list of standard deviations to scale the data with.
      *
      * @return Matrix
      *
@@ -215,16 +225,14 @@ class PLS
      */
     private function standardizeData(Matrix $new_data, Vector $center, Vector $scale): Matrix
     {
-        $X = $new_data;
-
-        $ones_column = MatrixFactory::one($X->getM(), 1);
+        $ones_column = MatrixFactory::one($new_data->getM(), 1);
         
         // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
         $center_matrix = $center_matrix ?? $ones_column->multiply(MatrixFactory::create([$center->getVector()]));
         $scale_matrix = MatrixFactory::diagonal($scale->getVector())->inverse();
 
-        // scaled data: ($X - μ) / σ
-        return $X->subtract($center_matrix)->multiply($scale_matrix);
+        // scaled data: ($X - μ) ∗ σ⁻¹
+        return $new_data->subtract($center_matrix)->multiply($scale_matrix);
     }
 
     private static function columnStdevs(Matrix $M)
