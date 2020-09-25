@@ -89,7 +89,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $B, '', .00001);
     }
 
-    public function getW()
+    public function testW()
     {
         // Given.
         $expected = [
@@ -109,7 +109,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $W, '', .00001);
     }
 
-    public function getC()
+    public function testC()
     {
         // Given.
         $expected = [
@@ -124,7 +124,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $C, '', .00001);
     }
 
-    public function getP()
+    public function testP()
     {
         // Given.
         $expected = [
