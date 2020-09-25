@@ -86,26 +86,6 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $B, '', .00001);
     }
 
-    public function testW()
-    {
-        // Given.
-        $expected = [
-            [-0.4770668,  0.01413703],
-            [-0.4643040, -0.03817455],
-            [ 0.3217142,  0.37286624],
-            [ -0.4337710, -0.21556426],
-            [ 0.3167445, -0.48216394],
-            [ 0.1743495,  0.59339427],
-            [-0.3666701,  0.47775186],
-        ];
-
-        // When
-        $W = self::$pls->getW()->getMatrix();
-
-        // Then
-        $this->assertEquals($expected, $W, '', .00001);
-    }
-
     public function testC()
     {
         // Given.
@@ -139,5 +119,65 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertEquals($expected, $P, '', .00001);
+    }
+
+    public function testT()
+    {
+        // Given.
+        $expected = [
+            [-0.4830909,  0.008542336],
+            [-0.4731801, -0.101398021],
+            [ 0.3706942,  0.362571565],
+            [-0.4418500, -0.185442628],
+            [ 0.2779994, -0.501504936],
+            [ 0.2450876,  0.576659047],
+            [-0.2948947,  0.495757659],
+        ];
+
+        // When
+        $T = self::$pls->getT()->getMatrix();
+
+        // Then
+        $this->assertEquals($expected, $T, '', .00001);
+    }
+
+    public function testU()
+    {
+        // Given.
+        $expected = [
+            [-0.4830909,  0.008542336],
+            [-0.4731801, -0.101398021],
+            [ 0.3706942,  0.362571565],
+            [-0.4418500, -0.185442628],
+            [ 0.2779994, -0.501504936],
+            [ 0.2450876,  0.576659047],
+            [-0.2948947,  0.495757659],
+        ];
+
+        // When
+        $U = self::$pls->getU()->getMatrix();
+
+        // Then
+        $this->assertEquals($expected, $U, '', .00001);
+    }
+ 
+    public function testW()
+    {
+        // Given.
+        $expected = [
+            [-0.4770668,  0.01413703],
+            [-0.4643040, -0.03817455],
+            [ 0.3217142,  0.37286624],
+            [ -0.4337710, -0.21556426],
+            [ 0.3167445, -0.48216394],
+            [ 0.1743495,  0.59339427],
+            [-0.3666701,  0.47775186],
+        ];
+
+        // When
+        $W = self::$pls->getW()->getMatrix();
+
+        // Then
+        $this->assertEquals($expected, $W, '', .00001);
     }
 }
