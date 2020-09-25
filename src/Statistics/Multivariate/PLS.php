@@ -180,7 +180,9 @@ class PLS
      */
     public function predict(Matrix $X)
     {
-        $this->checkNewData($X);
+        if ($X->getN() !== $this->Xcenter->getN();) {
+            throw new Exception\BadDataException("Data does not have the same number of columns. Expecting {$expecting}, given $given");
+        }
         
         // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
         $ones_column = MatrixFactory::one($Y->getM(), 1);
@@ -193,22 +195,6 @@ class PLS
         $F = $E->multiply($this->B);
         // Y = F ∗ σ + μ
         return $F->multiply($Yscale_matrix)->add($Ycenter_matrix);
-    }
-
-    /**
-     * Verify that the matrix has the same number of columns as the original data
-     *
-     * @param Matrix $newData
-     *
-     * @throws Exception\BadDataException if the matrix is not square
-     */
-    private function checkNewData(Matrix $newData)
-    {
-        $given = $newData->getN();
-        $expecting = $this->Xcenter->getN();
-        if ($given !== $expecting) {
-            throw new Exception\BadDataException("Data does not have the same number of columns. Expecting {$expecting}, given $given");
-        }
     }
 
     /**
@@ -225,10 +211,11 @@ class PLS
      */
     private function standardizeData(Matrix $new_data, Vector $center, Vector $scale): Matrix
     {
-        $ones_column = MatrixFactory::one($new_data->getM(), 1);
-        
         // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
+        $ones_column = MatrixFactory::one($new_data->getM(), 1);
         $center_matrix = $center_matrix ?? $ones_column->multiply(MatrixFactory::create([$center->getVector()]));
+
+        // Create a diagonal matrix of the inverse of each column standard deviation.
         $scale_matrix = MatrixFactory::diagonal($scale->getVector())->inverse();
 
         // scaled data: ($X - μ) ∗ σ⁻¹
