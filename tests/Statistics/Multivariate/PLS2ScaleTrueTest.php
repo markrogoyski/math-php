@@ -43,7 +43,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         self::$Y = $continuous
             ->columnExclude(2)
             ->columnExclude(1)
-            ->submatrix(0, 0, $continuous->getM() - 1, 2);
+            ->submatrix(0, 0, $continuous->getM() - 1, 1);
         self::$pls = new PLS(self::$X, self::$Y, true);
     }
 
