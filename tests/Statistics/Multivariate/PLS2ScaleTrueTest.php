@@ -45,7 +45,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
             ->columnExclude(6)
             ->columnExclude(5)
             ->columnExclude(4)
-            ->columnExclude(3)
+            ->columnExclude(2)
             ->columnExclude(1);
         self::$pls = new PLS(self::$X, self::$Y, true);
     }
