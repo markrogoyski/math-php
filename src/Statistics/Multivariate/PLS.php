@@ -123,8 +123,8 @@ class PLS
         }
        
         // Calculate R or Wstar
-        $R = $W->multiply($P->transpose()->multiply($W)->inverse());
-        $this->B = $R->multiply($C->transpose());
+        $R = $this->W->multiply($this->P->transpose()->multiply($this->W)->inverse());
+        $this->B = $R->multiply($this->C->transpose());
     }
 
     public function getB()
