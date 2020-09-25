@@ -23,7 +23,7 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
      *   library(chemometrics)
      *   X = mtcars[,c(2:7, 10:11)]
      *   Y = mtcars[,c(1)]
-     *   pls.model = pls2_nipals(X, Y)
+     *   pls.model = pls2_nipals(X, Y, 1)
      *
      * @throws Exception\MathException
      */
@@ -41,7 +41,7 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
         // Just grab column 0.
         self::$Y = $continuous->submatrix(0, 0, $continuous->getM() - 1, 0);
 
-        self::$pls = new PLS(self::$X, self::$Y, false);
+        self::$pls = new PLS(self::$X, self::$Y, 1, false);
     }
 
     /**
