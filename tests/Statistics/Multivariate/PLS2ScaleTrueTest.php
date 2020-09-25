@@ -44,7 +44,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
             ->columnExclude(2)
             ->columnExclude(1)
             ->submatrix(0, 0, $continuous->getM() - 1, 1);
-        self::$pls = new PLS(self::$X, self::$Y, true);
+        self::$pls = new PLS(self::$X, self::$Y, 2, true);
     }
 
     /**
@@ -54,7 +54,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
     public function testConstruction()
     {
         // When
-        $pls = new PLS(self::$X, self::$Y, true);
+        $pls = new PLS(self::$X, self::$Y, 2, true);
 
         // Then
         $this->assertInstanceOf(PLS::class, $pls);
