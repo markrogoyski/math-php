@@ -180,7 +180,7 @@ class PLS
      */
     public function predict(Matrix $X)
     {
-        if ($X->getN() !== $this->Xcenter->getN();) {
+        if ($X->getN() !== $this->Xcenter->getN()) {
             throw new Exception\BadDataException("Data does not have the same number of columns. Expecting {$expecting}, given $given");
         }
         
