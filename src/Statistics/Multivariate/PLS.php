@@ -17,41 +17,36 @@ use MathPHP\Statistics\Descriptive;
  */
 class PLS
 {
-    /** @var Vector Means */
+    /** @var Vector X Means */
     private $Xcenter;
 
-    /** @var Vector Means */
+    /** @var Vector Y Means */
     private $Ycenter;
  
-    /** @var Vector Scale */
+    /** @var Vector X Scale */
     private $Xscale;
 
-    /** @var Vector Scale */
+    /** @var Vector Y Scale */
     private $Yscale;
-
-    /** @var Matrix $W X Weights*/
-    private $W = null;
-
-    /** @var Matrix $T */
-    private $T = null;
-    
-    /** @var Matrix $C */
-    private $C = null;
-
-    /** @var Matrix $U */
-    private $U = null;
-
-    /** @var Matrix $P */
-    private $P = null;
-
-    /** @var Matrix $Q */
-    private $Q = null;
 
     /** @var Matrix $B Regression Coefficients*/
     private $B = null;
 
-    /** @var array $D */
-    private $D = [];
+    /** @var Matrix $C  Y Loadings*/
+    private $C = null;
+
+    /** @var Matrix $P Projection of X to X scores*/
+    private $P = null;
+
+    /** @var Matrix $T X Scores*/
+    private $T = null;
+
+    /** @var Matrix $U Y Scores*/
+    private $U = null;
+
+    /** @var Matrix $W X Weights*/
+    private $W = null;
+
     /**
      * Constructor
      *
@@ -113,11 +108,11 @@ class PLS
             $F = $F->subtract($t->multiply($c->transpose())->scalarMultiply($d));
 
             // Add each of these columns to the overall matrices
-            $this->W = is_null($this->W) ? $w : $this->W->augment($w);
-            $this->T = is_null($this->T) ? $t : $this->T->augment($t);
-            $this->U = is_null($this->U) ? $u : $this->U->augment($u);
             $this->C = is_null($this->C) ? $c : $this->C->augment($c);
             $this->P = is_null($this->P) ? $p : $this->P->augment($p);
+            $this->T = is_null($this->T) ? $t : $this->T->augment($t);
+            $this->U = is_null($this->U) ? $u : $this->U->augment($u);
+            $this->W = is_null($this->W) ? $w : $this->W->augment($w);
             $this->D[] = $d;
         }
        
@@ -130,9 +125,7 @@ class PLS
      * BASIC GETTERS
      *  - getB
      *  - getC
-     *  - getD
      *  - getP
-     *  - getQ
      *  - getT
      *  - getU
      *  - getW
@@ -150,11 +143,6 @@ class PLS
     public function getP()
     {
         return $this->P;
-    }
-
-    public function getQ()
-    {
-        return $this->Q;
     }
 
     public function getT()
