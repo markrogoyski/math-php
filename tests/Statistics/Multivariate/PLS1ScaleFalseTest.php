@@ -48,7 +48,7 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
             ->columnExclude(3)
             ->columnExclude(2)
             ->columnExclude(1);
-        self::$pls = new PLS(self::$X, self::$Y, FALSE);
+        self::$pls = new PLS(self::$X, self::$Y, false);
     }
 
     /**
@@ -58,7 +58,7 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
     public function testConstruction()
     {
         // When
-        $pls = new PLS(self::$X, self::$Y, FALSE);
+        $pls = new PLS(self::$X, self::$Y, false);
 
         // Then
         $this->assertInstanceOf(PLS::class, $pls);
