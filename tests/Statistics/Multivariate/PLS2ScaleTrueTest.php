@@ -81,7 +81,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         ];
 
         // When
-        $B = self::$pls->getB();
+        $B = self::$pls->getB()->getMatrix();
 
         // Then
         $this->assertEquals($expected, $B, '', .00001);
