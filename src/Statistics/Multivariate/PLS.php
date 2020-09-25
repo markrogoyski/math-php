@@ -66,11 +66,12 @@ class PLS
      *
      * @param Matrix  $X each row is a sample, each column is a variable
      * @param Matrix  $Y each row is a sample, each column is a variable
+     * @param int     $ncomp number of components to use in the model
      * @param boolean $scale standardize each column?
      *
      * @throws Exception\BadDataException if any rows have a different column count
      */
-    public function __construct(Matrix $X, Matrix $Y, bool $scale = false)
+    public function __construct(Matrix $X, Matrix $Y, int $ncomp, bool $scale = false)
     {
         // Check that X and Y have the same amount of data.
         if ($X->getM() !== $Y->getM()) {
@@ -91,10 +92,10 @@ class PLS
         $E = $this->standardizeData($X, $this->Xcenter, $this->Xscale);
         $F = $this->standardizeData($Y, $this->Ycenter, $this->Yscale);
 
-        //$new_u = MatrixFactory::random($X->getM(), 1, -2, 2)->scalarDivide(2);
-        $new_u = $F->submatrix(0, 0, $F->getM() - 1, 0);
         $tol = 1E-8;
-        for ($i = 0; $i < $Y->getN(); $i++) {
+        for ($i = 0; $i < $ncomp; $i++) {
+            //$new_u = MatrixFactory::random($X->getM(), 1, -2, 2)->scalarDivide(2);
+            $new_u = $F->submatrix(0, 0, $F->getM() - 1, 0);
             do {
                 $u = $new_u;
 
