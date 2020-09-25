@@ -23,7 +23,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
      *   library(chemometrics)
      *   X = mtcars[,c(2:3, 5:7, 10:11)]
      *   Y = mtcars[,c(1,4)]
-     *   pls.model = pls2_nipals(X, Y, 2, scale=true)
+     *   pls.model = pls2_nipals(X, Y, 2, scale=TRUE)
      *
      * @throws Exception\MathException
      */
@@ -87,5 +87,26 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertEquals($expected, $B, '', .00001);
+    }
+
+    public function getW()
+    {
+        // Given.
+        $expected = [
+            [-0.4770668,  0.01413703],
+            [-0.4643040, -0.03817455],
+            [ 0.3217142,  0.37286624],
+            [ -0.4337710, -0.21556426],
+            [ 0.3167445, -0.48216394],
+            [ 0.1743495,  0.59339427],
+            [-0.3666701,  0.47775186],
+        ];
+
+        // When
+        $W = self::$pls->getW()->getMatrix();
+
+        // Then
+        $this->assertEquals($expected, $W, '', .00001);
+    
     }
 }
