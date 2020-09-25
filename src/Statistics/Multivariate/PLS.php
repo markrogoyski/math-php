@@ -132,14 +132,19 @@ class PLS
         return $this->B;
     }
 
-    public function getW()
+    public function getC()
     {
-        return $this->W;
+        return $this->C;
     }
 
     public function getP()
     {
         return $this->P;
+    }
+
+    public function getW()
+    {
+        return $this->W;
     }
 
     public function predict(Matrix $X)
