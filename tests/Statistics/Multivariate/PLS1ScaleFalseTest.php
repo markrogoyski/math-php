@@ -39,7 +39,7 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
         self::$X = $continuous->columnExclude(0);
         
         // Just grab column 0.
-        self::$Y = $continuous->submatrix(0, 0, $continuous->getM() - 1, 0);
+        self::$Y = MatrixFactory::create([$continuous->getColumn(0)])->transpose();
 
         self::$pls = new PLS(self::$X, self::$Y, false);
     }
