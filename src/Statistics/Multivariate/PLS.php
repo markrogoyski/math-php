@@ -92,7 +92,7 @@ class PLS
         $F = $this->standardizeData($Y, $this->Ycenter, $this->Yscale);
 
         //$new_u = MatrixFactory::random($X->getM(), 1, -2, 2)->scalarDivide(2);
-        $new_u = MatrixFactory::create($F->getColumn(0));
+        $new_u = MatrixFactory::create([$F->getColumn(0)])->transpose();
         $tol = 1E-8;
         for ($i = 0; $i < $Y->getN(); $i++) {
             do {
