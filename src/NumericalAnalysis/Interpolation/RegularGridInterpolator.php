@@ -4,6 +4,7 @@ namespace MathPHP\NumericalAnalysis\Interpolation;
 
 use MathPHP\Exception;
 use MathPHP\Util;
+use MathPHP\Util\Iter;
 
 /**
  * Interpolation on a regular grid in arbitrary dimensions
@@ -120,7 +121,7 @@ class RegularGridInterpolator
         $values = 0.;
         foreach ($edges as $edge_indices) {
             $weight = 1.;
-            foreach ($this->multipleIterator($edge_indices, $indices, $normDistances) as list($ei, $i, $yi)) {
+            foreach (Iter::zip($edge_indices, $indices, $normDistances) as list($ei, $i, $yi)) {
                 $weight *= ($ei == $i) ? 1 - $yi : $yi;
             }
             $values += ($this->flatCall($this->values, $edge_indices) * $weight);
@@ -137,7 +138,7 @@ class RegularGridInterpolator
     private function evaluateNearest($indices, $normDistances)
     {
         $idxRes = [];
-        foreach ($this->multipleIterator($indices, $normDistances) as list($i, $yi)) {
+        foreach (Iter::zip($indices, $normDistances) as list($i, $yi)) {
             $idxRes[] = $yi <= .5 ? $i : $i + 1;
         }
 
@@ -251,22 +252,5 @@ class RegularGridInterpolator
                 $type = \gettype($var);
                 throw new \InvalidArgumentException("'{$type}' type is not iterable");
         }
-    }
-
-    /**
-     * Python port zip.
-     *
-     * @param mixed ...$iterables
-     *
-     * @return \MultipleIterator
-     */
-    private function multipleIterator(...$iterables): \MultipleIterator
-    {
-        $multipleIterator = new \MultipleIterator();
-        foreach ($iterables as $iterable) {
-            $multipleIterator->attachIterator(self::iter($iterable));
-        }
-
-        return $multipleIterator;
     }
 }
