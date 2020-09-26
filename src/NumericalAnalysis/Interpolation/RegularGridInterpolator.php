@@ -65,21 +65,6 @@ class RegularGridInterpolator
     }
 
     /**
-     * @param array $points The points defining the regular grid in n dimensions.
-     * @param array $values The data on the regular grid in n dimensions.
-     * @param string $method The method of interpolation to perform. Supported are “linear” and “nearest”
-     * @return static
-     * @throws Exception\BadDataException
-     */
-    public static function interpolate(
-        array $points,
-        array $values,
-        $method = self::METHOD_LINEAR
-    ): callable {
-        return new self($points, $values, $method);
-    }
-
-    /**
      * @param  array $xi
      * @param  string|null  $method
      * @return float

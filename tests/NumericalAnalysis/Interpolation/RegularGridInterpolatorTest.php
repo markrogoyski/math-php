@@ -20,7 +20,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         list($points, $values) = $this->getSample4d();
 
         // And
-        $p = RegularGridInterpolator::interpolate($points, $values);
+        $p = new RegularGridInterpolator($points, $values);
 
         // When
         $evaluated = $p($point);
@@ -60,7 +60,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         list($points, $values) = $this->getSample4d();
 
         // And
-        $p = RegularGridInterpolator::interpolate($points, $values, RegularGridInterpolator::METHOD_NEAREST);
+        $p = new RegularGridInterpolator($points, $values, RegularGridInterpolator::METHOD_NEAREST);
 
         // When
         $evaluated = $p($point);
@@ -525,7 +525,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $this->expectException(BadDataException::class);
 
         // When
-        RegularGridInterpolator::interpolate([0], [0], $invalidMethod);
+        $rgi = new RegularGridInterpolator([0], [0], $invalidMethod);
     }
 
     /**
@@ -542,7 +542,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $this->expectException(BadDataException::class);
 
         // When
-        RegularGridInterpolator::interpolate($points, $values);
+        $rgi = new RegularGridInterpolator($points, $values);
     }
 
     /**
@@ -553,7 +553,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $invalidMethod = 'methodDoesNotExist';
-        $interp = RegularGridInterpolator::interpolate([0], [0]);
+        $interp = new RegularGridInterpolator([0], [0]);
 
         // Then
         $this->expectException(BadDataException::class);
@@ -569,7 +569,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
     public function testInvokeBadPointDimensionException()
     {
         // Given
-        $interp = RegularGridInterpolator::interpolate([0], [0]);
+        $interp = new RegularGridInterpolator([0], [0]);
 
         // Then
         $this->expectException(BadDataException::class);
