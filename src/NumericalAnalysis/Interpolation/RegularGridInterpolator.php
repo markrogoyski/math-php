@@ -188,7 +188,7 @@ class RegularGridInterpolator
             if ($i < 0) {
                 $i = 0;
             }
-            if ($i > $gridSize - 2) {print("grid size - 2");
+            if ($i > $gridSize - 2) {
                 $i = $gridSize - 2;
             }
 
