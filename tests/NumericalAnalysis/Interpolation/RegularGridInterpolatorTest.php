@@ -183,7 +183,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
      *
      * from scipy.interpolate import RegularGridInterpolator
      * def f(x, y, z):
-     * return 2 * x**3 + 3 * y**2 - z
+     *   return 2 * x**3 + 3 * y**2 - z
      * x = np.linspace(1, 4, 11)
      * y = np.linspace(4, 7, 22)
      * z = np.linspace(7, 9, 33)
@@ -241,7 +241,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
      *
      * from scipy.interpolate import RegularGridInterpolator
      * def f(x, y, z):
-     * return 2 * x**3 + 3 * y**2 - z
+     *   return 2 * x**3 + 3 * y**2 - z
      * x = np.linspace(1, 4, 11)
      * y = np.linspace(4, 7, 22)
      * z = np.linspace(7, 9, 33)
@@ -249,7 +249,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
      * my_interpolating_function = RegularGridInterpolator((x, y, z), data)
      * pts = np.array([[3.3, 5.2, 7.1]])
      * my_interpolating_function(pts)
-     * array([ 125.80469388,  146.30069388])
+     * array([146.30069388])
      */
     public function testSciPyExample2()
     {
@@ -291,6 +291,66 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertEquals(146.30069388, $result, '', 0.00001);
+    }
+
+    /**
+     * @test Interpolated point values are outside the domain of the input data grid. Values outside the domain are extrapolated.
+     *       This test will hit the condition in the findIndices method where i is > gridSize.
+     *
+     * https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html#scipy.interpolate.RegularGridInterpolator
+     *
+     * from scipy.interpolate import RegularGridInterpolator
+     * def f(x, y, z):
+     *   return 2 * x**3 + 3 * y**2 - z
+     * x = np.linspace(1, 4, 11)
+     * y = np.linspace(4, 7, 22)
+     * z = np.linspace(7, 9, 33)
+     * data = f(*np.meshgrid(x, y, z, indexing='ij', sparse=True))
+     * my_interpolating_function = RegularGridInterpolator((x, y, z), data, method='linear', bounds_error=False, fill_value=None)
+     * pts = np.array([[3.3, 7.2, 7.1]]) # 7.2 is outside the bounds of the grid
+     * my_interpolating_function(pts)
+     * array([220.48028571])
+     */
+    public function testInterpolatedPointValuesOutsideDomainOfInputDataGridAreExtrapolated()
+    {
+        // Given
+        $xs = [1. , 1.3, 1.6, 1.9, 2.2, 2.5, 2.8, 3.1, 3.4, 3.7, 4.];
+        $ys = [
+            4.        , 4.14285714, 4.28571429, 4.42857143, 4.57142857,
+            4.71428571, 4.85714286, 5.        , 5.14285714, 5.28571429,
+            5.42857143, 5.57142857, 5.71428571, 5.85714286, 6.        ,
+            6.14285714, 6.28571429, 6.42857143, 6.57142857, 6.71428571,
+            6.85714286, 7.
+        ];
+        $zs = [
+            7.    , 7.0625, 7.125 , 7.1875, 7.25  , 7.3125, 7.375 , 7.4375,
+            7.5   , 7.5625, 7.625 , 7.6875, 7.75  , 7.8125, 7.875 , 7.9375,
+            8.    , 8.0625, 8.125 , 8.1875, 8.25  , 8.3125, 8.375 , 8.4375,
+            8.5   , 8.5625, 8.625 , 8.6875, 8.75  , 8.8125, 8.875 , 8.9375,
+            9.
+        ];
+
+        // And
+        $func = function ($x, $y, $z) {
+            return 2 * $x ** 3 + 3 * $y ** 2 - $z;
+        };
+
+        // And
+        $data = [];
+        foreach ($xs as $i => $x) {
+            foreach ($ys as $j => $y) {
+                foreach ($zs as $k => $z) {
+                    $data[$i][$j][$k] = $func($x, $y, $z);
+                }
+            }
+        }
+
+        // When
+        $interp = new RegularGridInterpolator([$xs, $ys, $zs], $data, 'linear');
+        $result = $interp([3.3, 7.2, 7.1]);
+
+        // Then
+        $this->assertEquals(220.48028571, $result, '', 0.00001);
     }
 
     /**
