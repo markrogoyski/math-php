@@ -14,7 +14,7 @@ use MathPHP\Util\Iter;
  * Data is defined on a regular grid. Grid spacing is predetermined, but not necessarily uniform.
  * Methods:
  *  - Linear
- *  - nearest neighbor
+ *  - Nearest neighbor
  *
  * Implementation inspired by SciPy
  * https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html
@@ -138,13 +138,15 @@ class RegularGridInterpolator
             $edges[] = [$i, $i + 1];
         }
         $edges[] = 1; // pass last argument (repeat)
-        $edges = $this->product(...$edges); // create many to many links
+        $edges   = $this->product(...$edges); // create many to many links
 
-        $values = 0.;
+        $values = 0;
         foreach ($edges as $edge_indices) {
-            $weight = 1.;
+            $weight = 1;
             foreach (Iter::zip($edge_indices, $indices, $normDistances) as list($ei, $i, $yi)) {
-                $weight *= ($ei == $i) ? 1 - $yi : $yi;
+                $weight *= ($ei == $i)
+                    ? 1 - $yi
+                    : $yi;
             }
             $values += ($this->flatCall($this->values, $edge_indices) * $weight);
         }
