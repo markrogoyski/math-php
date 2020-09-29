@@ -108,7 +108,7 @@ class RegularGridInterpolator
      *
      * @return float
      *
-     * @throws Exception\BadDataException
+     * @throws Exception\BadDataException if dimensions do not match
      */
     public function __invoke(array $xi): float
     {
@@ -162,16 +162,20 @@ class RegularGridInterpolator
     {
         $idxRes = [];
         foreach (Iter::zip($indices, $normDistances) as list($i, $yi)) {
-            $idxRes[] = $yi <= .5 ? $i : $i + 1;
+            $idxRes[] = $yi <= 0.5
+                ? $i
+                : $i + 1;
         }
 
         return $this->flatCall($this->values, $idxRes);
     }
 
     /**
+     * Find the indicies and norm distances for search point
+     *
      * @param float[] $xi 1-dimensional array ( search point = [x,y,z ....] )
      *
-     * @return array[] (indices, normDistances)
+     * @return array[] (indices in grid for search point, normDistances for search point)
      */
     private function findIndices($xi): array
     {
@@ -179,12 +183,11 @@ class RegularGridInterpolator
         $normDistances = [];  // Compute distance to lower edge in unity units
 
         // Iterate through dimensions x-y-z-...>
+        // $grid - 1nd array, example all x values (or all y..)
+        // $x float, search point: x or y or z...
         foreach (Iter::zip($xi, $this->grid) as list($x, $grid)) {
-            // $grid - 1nd array, example all x values (or all y..)
-            // $x float, search point: x or y or z...
-            $i = Util\Search::sorted($grid, $x) - 1; // min match index
-
-            $gridSize = \count($grid); // Column count
+            $gridSize = \count($grid);                       // Column count
+            $i        = Util\Search::sorted($grid, $x) - 1;  // Min match index
             if ($i < 0) {
                 $i = 0;
             }
@@ -197,8 +200,7 @@ class RegularGridInterpolator
             $greaterValue    = $grid[$i + 1];
             $normDistances[] = ($x - $lessValue) / ($greaterValue - $lessValue);
         }
-        // $indices - indices in grid, for search point
-        // $normDistances - norm distance, for search point
+
         return [$indices, $normDistances];
     }
 
@@ -221,14 +223,14 @@ class RegularGridInterpolator
     }
 
     /**
-     * Is used to find the cartesian product from the given iterator,
-     * output is lexicographic ordered
+     * Find the cartesian product from the given iterator.
+     * Output is lexicographic ordered
      *
-     * @param mixed ...$args
-     *
+     * @param mixed ...$args ...$iterables[, $repeat]
+*
      * @return \Generator
      */
-    private function product(/*...$iterables[, $repeat]*/ ...$args): \Generator
+    private function product(...$args): \Generator
     {
         $repeat = array_pop($args);
         $pools  = array_merge(...array_fill(0, $repeat, $args));

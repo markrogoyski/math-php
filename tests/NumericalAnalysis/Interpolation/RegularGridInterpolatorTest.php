@@ -178,7 +178,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * SciPy documentation example 1
+     * @test SciPy documentation example 1
      * https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html#scipy.interpolate.RegularGridInterpolator
      *
      * from scipy.interpolate import RegularGridInterpolator
@@ -236,7 +236,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * SciPy documentation example 2
+     * @test SciPy documentation example 2
      * https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html#scipy.interpolate.RegularGridInterpolator
      *
      * from scipy.interpolate import RegularGridInterpolator
@@ -295,7 +295,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test Interpolated point values are outside the domain of the input data grid. Values outside the domain are extrapolated.
-     *       This test will hit the condition in the findIndices method where i is > gridSize.
+     *       This test will hit the condition in the findIndices method where i > gridSize - 2.
      *
      * https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html#scipy.interpolate.RegularGridInterpolator
      *
@@ -347,7 +347,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
 
         // When
         $interp = new RegularGridInterpolator([$xs, $ys, $zs], $data, 'linear');
-        $result = $interp([3.3, 7.2, 7.1]);
+        $result = $interp([3.3, 7.2, 7.1]);  // 7.2 is outside the bounds of the grid
 
         // Then
         $this->assertEquals(220.48028571, $result, '', 0.00001);
