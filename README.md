@@ -904,8 +904,36 @@ list($start, $end, $n) = [0, 3, 4];
 $p = Interpolation\ClampedCubicSpline::interpolate($points);                // input as a set of points
 $p = Interpolation\ClampedCubicSpline::interpolate($f⟮x⟯, $f’⟮x⟯, $start, $end, $n); // input as a callback function
 
-$p(0) // 1
-$p(3) // 16
+$p(0); // 1
+$p(3); // 16
+
+// Regular Grid Interpolation
+// Returns a scalar
+
+// Points defining the regular grid
+$xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+$ys = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+$zs = [110, 111, 112, 113, 114, 115, 116, 117, 118, 119];
+
+// Data on the regular grid in n dimensions
+$data = [];
+$func = function ($x, $y, $z) {
+    return 2 * $x + 3 * $y - $z;
+};
+foreach ($xs as $i => $x) {
+    foreach ($ys as $j => $y) {
+        foreach ($zs as $k => $z) {
+            $data[$i][$j][$k] = $func($x, $y, $z);
+        }
+    }
+}
+
+// Constructing a RegularGridInterpolator
+$rgi = new Interpolation\RegularGridInterpolator([$xs, $ys, $zs], $data, 'linear');  // 'nearest' method also available
+
+// Interpolating coordinates on the regular grid
+$coordinates   = [2.21, 12.1, 115.9];
+$interpolation = $rgi($coordinates);  // -75.18
 ```
 
 ### Numerical Analysis - Numerical Differentiation
