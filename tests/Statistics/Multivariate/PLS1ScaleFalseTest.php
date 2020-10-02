@@ -78,7 +78,7 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
         ];
 
         // When
-        $B = self::$pls->getB()->getMatrix();
+        $B = self::$pls->getCoefficients()->getMatrix();
 
         // Then
         $this->assertEquals($expected, $B, '', .00001);

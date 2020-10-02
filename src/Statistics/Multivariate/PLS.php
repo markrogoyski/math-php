@@ -98,7 +98,7 @@ class PLS
             } while ($diff > $tol);
             $u = $new_u;
 
-            // Least squares regression on a slope-only model
+            // Least squares regression on a slope-only model: 𝜷ᵢ = Σ(xᵢyᵢ) / Σ(xᵢ²)
             $p = $E->transpose()->multiply($t)->scalarDivide($t->frobeniusNorm() ** 2);
             $q = $F->transpose()->multiply($u)->scalarDivide($u->frobeniusNorm() ** 2);
             $d = $u->transpose()->multiply($t)->scalarDivide($t->frobeniusNorm() ** 2)->get(0, 0);
@@ -130,32 +130,63 @@ class PLS
      *  - getU
      *  - getW
      **************************************************************************/
-    public function getB()
+
+    /**
+     * Get the regression coefficients
+     *
+     * The matrix that best transforms E into F
+     */
+    public function getCoefficients()
     {
         return $this->B;
     }
 
-    public function getC()
+    /**
+     * Get the loadings for Y
+     *
+     * Each loading column transforms F to U
+     */
+    public function getYLoadings()
     {
         return $this->C;
     }
 
-    public function getP()
+    /**
+     * Get the projection matrix
+     *
+     * Each projection column transforms T into Ê
+     */
+    public function getProjection()
     {
         return $this->P;
     }
 
-    public function getT()
+    /**
+     * Get the scores for the X values
+     *
+     * The latent variables of X
+     */
+    public function getXScores()
     {
         return $this->T;
     }
 
-    public function getU()
+    /**
+     * Get the scores for the Y values
+     *
+     * The latent variables of Y
+     */
+    public function getYScores()
     {
         return $this->U;
     }
 
-    public function getW()
+    /**
+     * Get the loadings for the X values
+     *
+     * Each loading column transforms E into T
+     */
+    public function getXLoadings()
     {
         return $this->W;
     }
@@ -164,16 +195,16 @@ class PLS
      * Predict Values
      *
      * Use the regression model to predict new values of Y given values for X.
-     * Y = (X - μ) ∗ σ⁻¹ ∗ B ∗ σ + μ
+     * Y = (X - μₓ) ∗ σₓ⁻¹ ∗ B ∗ σ + μ
      */
     public function predict(Matrix $X)
     {
         if ($X->getN() !== $this->Xcenter->getN()) {
-            throw new Exception\BadDataException("Data does not have the same number of columns. Expecting {$expecting}, given $given");
+            throw new Exception\BadDataException('Data does not have the correct number of columns.');
         }
         
-        // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
-        $ones_column = MatrixFactory::one($Y->getM(), 1);
+        // Create a matrix the same dimensions as $X, each element is the average of that column in the original data.
+        $ones_column = MatrixFactory::one($X->getM(), 1);
         $Ycenter_matrix = $ones_column->multiply(MatrixFactory::create([$this->Ycenter->getVector()]));
 
         // Create a diagonal matrix of column standard deviations.

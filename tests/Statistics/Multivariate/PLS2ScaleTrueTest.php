@@ -80,7 +80,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         ];
 
         // When
-        $B = self::$pls->getB()->getMatrix();
+        $B = self::$pls->getCoefficients()->getMatrix();
 
         // Then
         $this->assertEquals($expected, $B, '', .00001);
@@ -95,7 +95,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         ];
 
         // When
-        $C = self::$pls->getC()->getMatrix();
+        $C = self::$pls->getYLoadings()->getMatrix();
 
         // Then
         $this->assertEquals($expected, $C, '', .00001);
@@ -115,7 +115,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         ];
 
         // When
-        $P = self::$pls->getP()->getMatrix();
+        $P = self::$pls->getProjection()->getMatrix();
 
         // Then
         $this->assertEquals($expected, $P, '', .00001);
@@ -160,7 +160,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         ];
 
         // When
-        $T = self::$pls->getT()->getMatrix();
+        $T = self::$pls->getXScores()->getMatrix();
 
         // Then
         $this->assertEquals($expected, $T, '', .00001);
@@ -205,7 +205,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         ];
 
         // When
-        $U = self::$pls->getU()->getMatrix();
+        $U = self::$pls->getYScores()->getMatrix();
 
         // Then
         $this->assertEquals($expected, $U, '', .00001);
@@ -225,9 +225,45 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         ];
 
         // When
-        $W = self::$pls->getW()->getMatrix();
+        $W = self::$pls->getXLoadings()->getMatrix();
 
         // Then
         $this->assertEquals($expected, $W, '', .00001);
+    }
+
+    /**
+     * R code for expected values:
+     *   ones = matrix(1L, nrow = dim(X)[1], ncol = 1)
+     *   scale(X) %*% pls.model$B %*% diag(apply(Y, 2, sd)) + ones %*% colMeans(Y)
+     *
+     * @test         predict Y values from X
+     * @dataProvider dataProviderForRegression
+     * @param        array $X
+     * @param        array $Y
+     */
+    public function testRegression($X, $expected)
+    {
+        // Given.
+        $input = MatrixFactory::create($X);
+
+        // When
+        $actual = self::$pls->predict($input)->getMatrix();
+
+        // Then
+        $this->assertEquals($expected, $actual, '', .00001);
+    }
+    
+    public function dataProviderForRegression()
+    {
+        return [
+            [
+                [[6, 160, 3.9, 2.62, 16.46, 4, 4]],
+                [[21.26274, 160.12058]],
+            ],
+            [
+                [[6, 160, 3.9, 2.875, 17.02, 4, 4]],
+                [[21.17862, 156.91689]],
+            ]
+        ];
     }
 }
