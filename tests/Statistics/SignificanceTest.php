@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Statistics;
 
 use MathPHP\Statistics\Average;
@@ -9,16 +10,20 @@ use MathPHP\Exception;
 class SignificanceTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     zScore table value
+     * @test         zScore table value
      * @dataProvider dataProviderForZScore
      * @param        float $μ
      * @param        float $σ
      * @param        float $M
-     * @param        float $z
+     * @param        float $expected
      */
-    public function testZScore(float $μ, float $σ, float $M, float $z)
+    public function testZScore(float $μ, float $σ, float $M, float $expected)
     {
-        $this->assertEquals($z, Significance::zScore($M, $μ, $σ, Significance::Z_TABLE_VALUE), '', 0.001);
+        // When
+        $z = Significance::zScore($M, $μ, $σ, Significance::Z_TABLE_VALUE);
+
+        // Then
+        $this->assertEquals($expected, $z, '', 0.001);
     }
 
     /**
@@ -38,16 +43,20 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     zScore raw value
+     * @test         zScore raw value
      * @dataProvider dataProviderForZScoreRaw
      * @param        float $μ
      * @param        float $σ
      * @param        float $M
-     * @param        float $z
+     * @param        float $expected
      */
-    public function testZScoreRaw(float $μ, float $σ, float $M, float $z)
+    public function testZScoreRaw(float $μ, float $σ, float $M, float $expected)
     {
-        $this->assertEquals($z, Significance::zScore($M, $μ, $σ, Significance::Z_RAW_VALUE), '', 0.01);
+        // When
+        $z = Significance::zScore($M, $μ, $σ, Significance::Z_RAW_VALUE);
+
+        // Then
+        $this->assertEquals($expected, $z, '', 0.01);
     }
 
     /**
@@ -67,15 +76,19 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     sem
+     * @test         sem
      * @dataProvider dataProviderForSem
      * @param        float $σ
      * @param        int   $n
-     * @param        float $sem
+     * @param        float $expected
      */
-    public function testSem(float $σ, int $n, float $sem)
+    public function testSem(float $σ, int $n, float $expected)
     {
-        $this->assertEquals($sem, Significance::sem($σ, $n), '', 0.0001);
+        // When
+        $sem = Significance::sem($σ, $n);
+
+        // Then
+        $this->assertEquals($expected, $sem, '', 0.0001);
     }
 
     /**
@@ -91,17 +104,21 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     zTestOneSample
+     * @test         zTestOneSample
      * @dataProvider dataProviderForZTestOneSample
      * @param        float $Hₐ
      * @param        int   $n
      * @param        float $H₀
      * @param        float $σ
-     * @param        array $ztest
+     * @param        array $expected
      */
-    public function testZTestOneSample(float $Hₐ, int $n, float $H₀, float $σ, array $ztest)
+    public function testZTestOneSample(float $Hₐ, int $n, float $H₀, float $σ, array $expected)
     {
-        $this->assertEquals($ztest, Significance::zTest($Hₐ, $n, $H₀, $σ), '', 0.001);
+        // When
+        $zTest = Significance::zTest($Hₐ, $n, $H₀, $σ);
+
+        // Then
+        $this->assertEquals($expected, $zTest, '', 0.001);
     }
 
     /**
@@ -125,7 +142,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     zTestTwoSample
+     * @test         zTestTwoSample
      * @dataProvider dataProviderForZTestTwoSample
      * @param        float $μ₁
      * @param        float $μ₂
@@ -134,11 +151,15 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
      * @param        float $σ₁
      * @param        float $σ₂
      * @param        float $Δ
-     * @param        array $ztest
+     * @param        array $expected
      */
-    public function testZTestTwoSample(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, float $Δ, array $ztest)
+    public function testZTestTwoSample(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, float $Δ, array $expected)
     {
-        $this->assertEquals($ztest, Significance::zTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂, $Δ), '', 0.001);
+        // When
+        $zTest = Significance::zTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂, $Δ);
+
+        // Then
+        $this->assertEquals($expected, $zTest, '', 0.001);
     }
 
     /**
@@ -158,17 +179,21 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     tScore
+     * @test         tScore
      * @dataProvider dataProviderForTScore
      * @param        float $Hₐ
      * @param        float $s
      * @param        int   $n
      * @param        float $H₀
-     * @param        float $t
+     * @param        float $expected
      */
-    public function testTScore(float $Hₐ, float $s, int $n, float $H₀, float $t)
+    public function testTScore(float $Hₐ, float $s, int $n, float $H₀, float $expected)
     {
-        $this->assertEquals($t, Significance::tScore($Hₐ, $s, $n, $H₀), '', 0.001);
+        // When
+        $t = Significance::tScore($Hₐ, $s, $n, $H₀);
+
+        // Then
+        $this->assertEquals($expected, $t, '', 0.001);
     }
 
     /**
@@ -183,7 +208,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     tTest one sample
+     * @test         tTest one sample
      * @dataProvider dataProviderForTTestOneSample
      * @param        array $a
      * @param        float $H₀
@@ -192,7 +217,10 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
      */
     public function testTTestWithOneSampleData(array $a, float $H₀, array $expected)
     {
+        // When
         $tTest = Significance::tTest($a, $H₀);
+
+        // Then
         $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
         $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
         $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
@@ -202,7 +230,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     tTestOneSample
+     * @test         tTestOneSample
      * @dataProvider dataProviderForTTestOneSample
      * @param        array $a
      * @param        float $H₀
@@ -210,7 +238,10 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
      */
     public function testTTestOneSample(array $a, float $H₀, array $expected)
     {
+        // When
         $tTest = Significance::tTestOneSample($a, $H₀);
+
+        // Then
         $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
         $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
         $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
@@ -220,7 +251,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     tTestOneSampleFromSummaryData
+     * @test         tTestOneSampleFromSummaryData
      * @dataProvider dataProviderForTTestOneSample
      * @param        array $a
      * @param        float $H₀
@@ -228,11 +259,15 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
      */
     public function testTTestOneSampleFromSummaryData(array $a, float $H₀, array $expected)
     {
+        // Given
         $Hₐ    = Average::mean($a);
         $s     = Descriptive::standardDeviation($a, Descriptive::SAMPLE);
         $n     = count($a);
+
+        // When
         $tTest = Significance::tTestOneSampleFromSummaryData($Hₐ, $s, $n, $H₀);
 
+        // Then
         $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
         $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
         $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
@@ -328,17 +363,21 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     testTestFromSummaryData more tests
+     * @test         testTestFromSummaryData more tests
      * @dataProvider dataProviderForTTestOneSampleFromSummaryData
      * @param        float $Hₐ
      * @param        float $s
      * @param        int   $n
      * @param        float $H₀
-     * @param        array $ttest
+     * @param        array $expected
      */
-    public function testTTestOneSampleFromSummaryData2(float $Hₐ, float $s, int $n, float $H₀, array $ttest)
+    public function testTTestOneSampleFromSummaryData2(float $Hₐ, float $s, int $n, float $H₀, array $expected)
     {
-        $this->assertEquals($ttest, Significance::tTestOneSampleFromSummaryData($Hₐ, $s, $n, $H₀), '', 0.001);
+        // When
+        $tTest = Significance::tTestOneSampleFromSummaryData($Hₐ, $s, $n, $H₀);
+
+        // Then
+        $this->assertEquals($expected, $tTest, '', 0.001);
     }
 
     /**
@@ -355,7 +394,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     tTest for two samples
+     * @test         tTest for two samples
      * @dataProvider dataProviderFortTestTwoSampleDataSet
      * @param        array $x₁
      * @param        array $x₂
@@ -370,7 +409,10 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
      */
     public function testtTestWithTwoSamples(array $x₁, array $x₂, float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, array $expected)
     {
+        // When
         $tTest = Significance::tTest($x₁, $x₂);
+
+        // Then
         $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
         $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
         $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
@@ -382,7 +424,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     tTestTwoSample
+     * @test         tTestTwoSample
      * @dataProvider dataProviderFortTestTwoSampleDataSet
      * @param        array $x₁
      * @param        array $x₂
@@ -396,7 +438,10 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
      */
     public function testtTestTwoSample(array $x₁, array $x₂, float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, array $expected)
     {
+        // When
         $tTest = Significance::tTestTwoSample($x₁, $x₂);
+
+        // Then
         $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
         $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
         $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
@@ -408,7 +453,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     tTestTwoSampleFromSummaryData
+     * @test         tTestTwoSampleFromSummaryData
      * @dataProvider dataProviderFortTestTwoSampleDataSet
      * @param        array $x₁
      * @param        array $x₂
@@ -422,7 +467,10 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
      */
     public function testtTestTwoSampleFromSummaryData(array $x₁, array $x₂, float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, array $expected)
     {
+        // When
         $tTest = Significance::tTestTwoSampleFromSummaryData($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂);
+
+        // Then
         $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
         $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
         $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
@@ -503,7 +551,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     tTestTwoSampleFromSummaryData regressions
+     * @test         tTestTwoSampleFromSummaryData regressions
      * @dataProvider dataProviderForTTestTwoSampleFromSummaryData
      * @param        float $μ₁ Sample mean of population 1
      * @param        float $μ₂ Sample mean of population 2
@@ -515,7 +563,10 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
      */
     public function testTTestTwoSampleFromSummaryDataRegression(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, array $expected)
     {
+        // When
         $tTest = Significance::tTestTwoSampleFromSummaryData($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂);
+
+        // Then
         $this->assertEquals($expected['t'], $tTest['t'], '', 0.0001);
         $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
         $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
@@ -541,19 +592,23 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase tTest throws an Exception\BadParameterException if the second argument is neither a number nor a string
+     * @test tTest throws an Exception\BadParameterException if the second argument is neither a number nor a string
      */
     public function testTTestBadParameterException()
     {
+        // Given
         $a = [1, 2, 3];
         $b = 'string';
 
+        // Then
         $this->expectException(Exception\BadParameterException::class);
+
+        // When
         $tTest = Significance::tTest($a, $b);
     }
 
     /**
-     * @testCase     chiSquaredTest
+     * @test         chiSquaredTest
      * @dataProvider dataProviderForChiSquaredTest
      * @param        array $observed
      * @param        array $expected
@@ -563,8 +618,10 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
      */
     public function testChiSquaredTest(array $observed, array $expected, float $χ², float $p)
     {
+        // When
         $chi = Significance::chiSquaredTest($observed, $expected);
 
+        // Then
         $this->assertEquals($χ², $chi['chi-square'], '', 0.0001);
         $this->assertEquals($p, $chi['p'], '', 0.0001);
     }
@@ -605,14 +662,18 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase chiSquaredTest BadDataException
+     * @test     chiSquaredTest BadDataException
      */
     public function testChiSquaredTestExceptionCountsDiffer()
     {
+        // Given
         $observed = [1, 2, 3, 4];
         $expected = [1, 2, 3];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Significance::chiSquaredTest($observed, $expected);
     }
 }

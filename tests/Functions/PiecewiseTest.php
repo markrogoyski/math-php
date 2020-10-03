@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Functions;
 
 use MathPHP\Functions\Piecewise;
@@ -21,7 +22,7 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     Piecewise __invoke evaluates the expected function to get the expected result
+     * @test         Piecewise __invoke evaluates the expected function to get the expected result
      * @dataProvider dataProviderForEval
      * @param        array $intervals
      * @param        array $polynomial_args
@@ -30,10 +31,12 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
      */
     public function testEval(array $intervals, array $polynomial_args, array $inputs, array $expected)
     {
+        // Precondition
         if (count($inputs) !== count($expected)) {
             $this->fail('Number of inputs and expected outputs must match');
         }
 
+        // Given
         $functions = array_map(
             function ($args) {
                 return new Polynomial($args);
@@ -44,7 +47,11 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
 
         $n = count($inputs);
         for ($i = 0; $i < $n; $i++) {
-            $this->assertEquals($expected[$i], $piecewise($inputs[$i]));
+            // When
+            $evaluated = $piecewise($inputs[$i]);
+
+            // Then
+            $this->assertEquals($expected[$i], $evaluated);
         }
     }
 
@@ -262,6 +269,7 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
 
     public function testSubintervalsShareClosedPointException()
     {
+        // Given
         $intervals = [
           [-100, -2],                    // f interval: [-100, -2]
           [-2, 2],                       // g interval: [-2, 2]
@@ -273,12 +281,16 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $piecewise = new Piecewise($intervals, $functions);
     }
 
     public function testSubintervalsOverlapException()
     {
+        // Given
         $intervals = [
           [-100, -2],                    // f interval: [-100, -2]
           [-5, 1],                       // g interval: [-2, 1]
@@ -290,12 +302,16 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $piecewise = new Piecewise($intervals, $functions);
     }
 
     public function testSubintervalDecreasingException()
     {
+        // Given
         $intervals = [
           [-100, -2],                    // f interval: [-100, -2]
           [2, -2, true, true],           // g interval: (-2, 2)
@@ -307,12 +323,16 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $piecewise = new Piecewise($intervals, $functions);
     }
 
     public function testSubintervalContainsMoreThanTwoPoints()
     {
+        // Given
         $intervals = [
           [-100, -2, false, true],      // f interval: [-100, -2)
           [0, 2, 3],                    // g interval: [0, 3]
@@ -324,12 +344,16 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $piecewise = new Piecewise($intervals, $functions);
     }
 
     public function testSubintervalContainsOnePoints()
     {
+        // Given
         $intervals = [
           [-100, -2, false, true],      // f interval: [-100, -2)
           [-2],                         // g interval: [-2, -2]
@@ -341,12 +365,16 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $piecewise = new Piecewise($intervals, $functions);
     }
 
     public function testSubintervalContainsOpenPoint()
     {
+        // Given
         $intervals = [
           [-100, -2, false, true],      // f interval: [-100, -2)
           [-2, -2, true, true],         // g interval: (-2, 2)
@@ -358,12 +386,16 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $piecewise = new Piecewise($intervals, $functions);
     }
 
     public function testInputFunctionsAreNotCallableException()
     {
+        // Given
         $intervals = [
           [-100, -2, false, true],          // f interval: [-100, -2)
           [-2, 2],                          // g interval: [-2, 2]
@@ -375,12 +407,16 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $piecewise = new Piecewise($intervals, $functions);
     }
 
     public function testNumberOfIntervalsAndFunctionsUnequalException()
     {
+        // Given
         $intervals = [
           [-100, -2, false, true],      // f interval: [-100, -2)
           [0, 2],                       // g interval: [0, 2]
@@ -391,12 +427,16 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
           new Polynomial([2]),          // g(x) = 2
         ];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $piecewise = new Piecewise($intervals, $functions);
     }
 
     public function testEvaluationNotInDomainException()
     {
+        // Given
         $intervals = [
           [-100, -2, false, true],      // f interval: [-100, -2)
           [0, 2],                       // g interval: [0, 2]
@@ -407,14 +447,18 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
           new Polynomial([2]),          // g(x) = 2
           new Polynomial([1, 0])        // h(x) = x
         ];
-
-        $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
         $evaluation = $piecewise(-1);
     }
 
     public function testEvaluatedAtOpenPointException()
     {
+        // Given
         $intervals = [
           [-100, -2, true, true],      // f interval: (-100, -2)
           [-2, 2, true, true],         // g interval: (0, 2)
@@ -425,14 +469,18 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
           new Polynomial([2]),          // g(x) = 2
           new Polynomial([1, 0])        // h(x) = x
         ];
-
-        $this->expectException(Exception\BadDataException::class);
         $piecewise = new Piecewise($intervals, $functions);
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
         $evaluation = $piecewise(2);
     }
 
     public function testDuplicatedIntervalException()
     {
+        // Given
         $intervals = [
           [-100, -2, true, true],      // f interval: (-100, -2)
           [-100, -2, true, true],      // g interval: [-100, -2)
@@ -444,15 +492,19 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
           new Polynomial([1, 0])        // h(x) = x
         ];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $piecewise = new Piecewise($intervals, $functions);
     }
 
     /**
-     * @testCase preconditionExceptions throws an Exception\BadDataException if intervals and functions do not have the same number of elements
+     * @test     preconditionExceptions throws an Exception\BadDataException if intervals and functions do not have the same number of elements
      */
     public function testConstructorPreconditionCountException()
     {
+        // Given
         $intervals = [
             [1, 2],
             [2, 3],
@@ -461,18 +513,23 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
             new Polynomial([2])
         ];
 
+        // And
         $preconditions = new \ReflectionMethod(Piecewise::class, 'constructorPreconditions');
         $preconditions->setAccessible(true);
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $preconditions->invokeArgs($this->piecewise, [$intervals, $functions]);
     }
 
     /**
-     * @testCase preconditionExceptions throws an Exception\BadDataException if the functions are not callable
+     * @test     preconditionExceptions throws an Exception\BadDataException if the functions are not callable
      */
     public function testConstructorPreconditionCallableException()
     {
+        // Given
         $intervals = [
             [1, 2],
             [2, 3],
@@ -482,71 +539,95 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
             'certainly not callable',
         ];
 
+        // And
         $preconditions = new \ReflectionMethod(Piecewise::class, 'constructorPreconditions');
         $preconditions->setAccessible(true);
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $preconditions->invokeArgs($this->piecewise, [$intervals, $functions]);
     }
 
     /**
-     * @testCase checkAsAndBs throws an Exception\BadDataException if a point is not closed
+     * @test     checkAsAndBs throws an Exception\BadDataException if a point is not closed
      */
     public function testCheckAsAndBsExceptionPointNotClosed()
     {
+        // Given
         list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [1, 1, null, null, null, true, true];
 
+        // And
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
         $checkAsAndBs->setAccessible(true);
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $checkAsAndBs->invokeArgs($this->piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
     }
 
     /**
-     * @testCase checkAsAndBs throws an Exception\BadDataException if interval not increasing
+     * @test     checkAsAndBs throws an Exception\BadDataException if interval not increasing
      */
     public function testCheckAsAndBsExceptionIntervalNotIncreasing()
     {
+        // Given
         list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [2, 1, null, null, null, true, true];
 
+        // And
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
         $checkAsAndBs->setAccessible(true);
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $checkAsAndBs->invokeArgs($this->piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
     }
 
     /**
-     * @testCase checkAsAndBs throws an Exception\BadDataException if two intervals share a point that is closed at both ends
+     * @test     checkAsAndBs throws an Exception\BadDataException if two intervals share a point that is closed at both ends
      */
     public function testCheckAsAndBsExceptionTwoIntervalsSharePointNotClosedAtBothEnds()
     {
+        // Given
         list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [1, 2, null, 1, false, false, true];
 
+        // And
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
         $checkAsAndBs->setAccessible(true);
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $checkAsAndBs->invokeArgs($this->piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
     }
 
     /**
-     * @testCase checkAsAndBs throws an Exception\BadDataException if one interval starts or ends inside another interval
+     * @test     checkAsAndBs throws an Exception\BadDataException if one interval starts or ends inside another interval
      */
     public function testCheckAsAndBsExceptionOverlappingIntervals()
     {
+        // Given
         list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [3, 4, 2, 4, true, true, true];
 
+        // And
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
         $checkAsAndBs->setAccessible(true);
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $checkAsAndBs->invokeArgs($this->piecewise, [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen]);
     }
 
     /**
-     * @testCase     openOpen interval
+     * @test         openOpen interval
      * @dataProvider dataProviderForOpenOpen
      * @param        bool $aOpen
      * @param        bool $bOpen
@@ -554,10 +635,15 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
      */
     public function testOpenOpen(bool $aOpen, bool $bOpen, bool $expected)
     {
+        // Given
         $openOpen = new \ReflectionMethod(Piecewise::class, 'openOpen');
         $openOpen->setAccessible(true);
 
-        $this->assertSame($expected, $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]));
+        // When
+        $result = $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]);
+
+        // Then
+        $this->assertSame($expected, $result);
     }
 
     public function dataProviderForOpenOpen(): array
@@ -571,7 +657,7 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     openClosed interval
+     * @test         openClosed interval
      * @dataProvider dataProviderForOpenClosed
      * @param        bool $aOpen
      * @param        bool $bOpen
@@ -579,10 +665,15 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
      */
     public function testOpenClosed(bool $aOpen, bool $bOpen, bool $expected)
     {
+        // Given
         $openOpen = new \ReflectionMethod(Piecewise::class, 'openClosed');
         $openOpen->setAccessible(true);
 
-        $this->assertSame($expected, $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]));
+        // When
+        $result = $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]);
+
+        // Then
+        $this->assertSame($expected, $result);
     }
 
     public function dataProviderForOpenClosed(): array
@@ -596,7 +687,7 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     closedOpen interval
+     * @test         closedOpen interval
      * @dataProvider dataProviderForClosedOpen
      * @param        bool $aOpen
      * @param        bool $bOpen
@@ -604,10 +695,14 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
      */
     public function testClosedOpen(bool $aOpen, bool $bOpen, bool $expected)
     {
+        // Given
         $openOpen = new \ReflectionMethod(Piecewise::class, 'closedOpen');
         $openOpen->setAccessible(true);
 
-        $this->assertSame($expected, $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]));
+        $result = $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]);
+
+        // Then
+        $this->assertSame($expected, $result);
     }
 
     public function dataProviderForClosedOpen(): array
@@ -621,7 +716,7 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     closedClosed interval
+     * @test         closedClosed interval
      * @dataProvider dataProviderForClosedClosed
      * @param        bool $aOpen
      * @param        bool $bOpen
@@ -629,10 +724,15 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
      */
     public function testClosedClosed(bool $aOpen, bool $bOpen, bool $expected)
     {
+        // Given
         $openOpen = new \ReflectionMethod(Piecewise::class, 'closedClosed');
         $openOpen->setAccessible(true);
 
-        $this->assertSame($expected, $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]));
+        // When
+        $result = $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]);
+
+        // Then
+        $this->assertSame($expected, $result);
     }
 
     public function dataProviderForClosedClosed(): array

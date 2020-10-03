@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\RootFinding;
 
 use MathPHP\Exception;
@@ -38,8 +39,8 @@ class SecantMethod
         do {
             $q₀    = $function($p₀);
             $q₁    = $function($p₁);
-            $slope = ($q₁ - $q₀)/($p₁ - $p₀);
-            $p     = $p₁ - ($q₁/$slope);
+            $slope = ($q₁ - $q₀) / ($p₁ - $p₀);
+            $p     = $p₁ - ($q₁ / $slope);
             $dif   = abs($p - $p₁);
             $p₀    = $p₁;
             $p₁    = $p;

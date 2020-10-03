@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Statistics\Regression;
 
 use MathPHP\Statistics\Regression\PowerLaw;
@@ -6,24 +7,32 @@ use MathPHP\Statistics\Regression\PowerLaw;
 class PowerLawTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase constructor
+     * @test constructor
      */
     public function testConstructor()
     {
+        // Given
         $points = [ [ 83, 183 ], [ 71, 168 ], [ 64, 171 ], [ 69, 178 ], [ 69, 176 ], [ 64, 172 ], [ 68, 165 ], [ 59, 158 ], [ 81, 183 ], [ 91, 182 ], [ 57, 163 ], [ 65, 175 ], [ 58, 164 ], [ 62, 175 ] ];
+
+        // When
         $regression = new PowerLaw($points);
+
+        // Then
         $this->assertInstanceOf(\MathPHP\Statistics\Regression\Regression::class, $regression);
         $this->assertInstanceOf(\MathPHP\Statistics\Regression\PowerLaw::class, $regression);
     }
 
     /**
-     * @testCase     getEquation - Equation matches pattern y = axᵇ
+     * @test         getEquation - Equation matches pattern y = axᵇ
      * @dataProvider dataProviderForEquation
      * @param        array $points
      */
     public function testGetEquation(array $points)
     {
+        // Given
         $regression = new PowerLaw($points);
+
+        // Then
         $this->assertRegExp('/^y = \d+[.]\d+x\^\d+[.]\d+$/', $regression->getEquation());
     }
 
@@ -40,7 +49,7 @@ class PowerLawTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     getParameters
+     * @test         getParameters
      * @dataProvider dataProviderForParameters
      * @param        array $points
      * @param        float $a
@@ -48,8 +57,13 @@ class PowerLawTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetParameters(array $points, float $a, float $b)
     {
+        // Given
         $regression = new PowerLaw($points);
+
+        // When
         $parameters = $regression->getParameters();
+
+        // Then
         $this->assertEquals($a, $parameters['a'], '', 0.0001);
         $this->assertEquals($b, $parameters['b'], '', 0.0001);
     }
@@ -68,7 +82,7 @@ class PowerLawTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     evaluate
+     * @test         evaluate
      * @dataProvider dataProviderForEvaluate
      * @param        array $points
      * @param        float $x
@@ -76,7 +90,10 @@ class PowerLawTest extends \PHPUnit\Framework\TestCase
      */
     public function testEvaluate(array $points, float $x, float $y)
     {
+        // Given
         $regression = new PowerLaw($points);
+
+        // Then
         $this->assertEquals($y, $regression->evaluate($x), '', 0.0001);
     }
 

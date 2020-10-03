@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\SquareMatrix;
@@ -7,11 +8,13 @@ use MathPHP\Exception;
 
 class SquareMatrixTest extends \PHPUnit\Framework\TestCase
 {
-    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+    use MatrixDataProvider;
 
     /**
-     * @testCase     Constructor constructs a proper SquareMatrix
+     * @test         Constructor constructs a proper SquareMatrix
      * @dataProvider dataProviderForSquareMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testConstructor(array $A)
     {
@@ -32,7 +35,7 @@ class SquareMatrixTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase SquareMatrix throws a MatrixException if the input is not a square array.
+     * @test SquareMatrix throws a MatrixException if the input is not a square array.
      */
     public function testConstructorExceptionNotSquareMatrix()
     {
@@ -46,8 +49,10 @@ class SquareMatrixTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     getMatrix returns the expected matrix.
+     * @test         getMatrix returns the expected matrix.
      * @dataProvider dataProviderForSquareMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testGetMatrix(array $A)
     {
@@ -58,8 +63,10 @@ class SquareMatrixTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     isSquare always returns true for a SquareMatrix
+     * @test         isSquare always returns true for a SquareMatrix
      * @dataProvider dataProviderForSquareMatrix
+     * @param        array $A
+     * @throws       \Exception
      */
     public function testIsSquare(array $A)
     {

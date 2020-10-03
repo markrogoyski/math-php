@@ -1,6 +1,8 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
+use MathPHP\Exception;
 use MathPHP\Functions\Polynomial;
 
 /**
@@ -36,10 +38,10 @@ class NewtonPolynomialForward extends Interpolation
      *
      * @return callable              The interpolating polynomial p(x)
      *
-     * @throws \MathPHP\Exception\BadDataException
-     * @throws \MathPHP\Exception\IncorrectTypeException
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      */
-    public static function interpolate($source, ... $args): callable
+    public static function interpolate($source, ...$args): callable
     {
         // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
@@ -66,9 +68,9 @@ class NewtonPolynomialForward extends Interpolation
             for ($j = 1; $j <= $i; $j++) {
                 $xᵢ₋ⱼ        = $sorted[$i - $j][$x];
                 $xᵢ          = $sorted[$i][$x];
-                $Q₍ᵢ₎₍ⱼ₋₁₎   = $Q[$i][$j-1];
-                $Q₍ᵢ₋₁₎₍ⱼ₋₁₎ = $Q[$i-1][$j-1];
-                $Q[$i][$j]   = ($Q₍ᵢ₎₍ⱼ₋₁₎ - $Q₍ᵢ₋₁₎₍ⱼ₋₁₎)/($xᵢ - $xᵢ₋ⱼ);
+                $Q₍ᵢ₎₍ⱼ₋₁₎   = $Q[$i][$j - 1];
+                $Q₍ᵢ₋₁₎₍ⱼ₋₁₎ = $Q[$i - 1][$j - 1];
+                $Q[$i][$j]   = ($Q₍ᵢ₎₍ⱼ₋₁₎ - $Q₍ᵢ₋₁₎₍ⱼ₋₁₎) / ($xᵢ - $xᵢ₋ⱼ);
             }
         }
 
@@ -81,10 +83,7 @@ class NewtonPolynomialForward extends Interpolation
 
             for ($j = 1; $j <= $i; $j++) {
                 // generate the (x - xⱼ₋₁) term for each j
-                //$term = function ($t) use ($sorted, $x, $i, $j) {
-                //    return ($t - $sorted[$j-1][$x]);
-                //};
-                $term = new Polynomial([1, -$sorted[$j-1][$x]]);
+                $term = new Polynomial([1, -$sorted[$j - 1][$x]]);
                 // multiply the term and our cumulative product
                 $product = $product->multiply($term);
             }

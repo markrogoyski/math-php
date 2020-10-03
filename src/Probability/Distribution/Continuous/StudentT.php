@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 use MathPHP\Functions\Special;
@@ -66,14 +67,14 @@ class StudentT extends Continuous
 
         // Numerator
         $Γ⟮⟮ν＋1⟯∕2⟯ = Special::gamma(($ν + 1) / 2);
-        $⟮1＋t²∕ν⟯ = 1 + ($t**2 / $ν);
+        $⟮1＋t²∕ν⟯ = 1 + ($t ** 2 / $ν);
         $−⟮ν＋1⟯∕2 = -($ν + 1) / 2;
 
         // Denominator
         $√⟮νπ⟯  = sqrt($ν * $π);
         $Γ⟮ν∕2⟯ = Special::gamma($ν / 2);
         
-        return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋t²∕ν⟯**$−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);
+        return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋t²∕ν⟯ ** $−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);
     }
     
     /**
@@ -101,7 +102,7 @@ class StudentT extends Continuous
             return .5;
         }
 
-        $x⟮t⟯  = $ν / ($t**2 + $ν);
+        $x⟮t⟯  = $ν / ($t ** 2 + $ν);
         $ν／2 = $ν / 2;
         $½    = .5;
         $Iₓ   = Special::regularizedIncompleteBeta($x⟮t⟯, $ν／2, $½);

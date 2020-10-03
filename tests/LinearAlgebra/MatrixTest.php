@@ -1,13 +1,22 @@
 <?php
+
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Matrix;
-use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
 class MatrixTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var array */
+    private $A;
+
+    /** @var Matrix */
+    private $matrix;
+
+    /**
+     * @throws \Exception
+     */
     public function setUp()
     {
         $this->A = [
@@ -15,19 +24,12 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
             [2, 3, 4],
             [4, 5, 6],
         ];
-        $this->matrix = MatrixFactory::create($this->A);
+        $this->matrix = new Matrix($this->A);
     }
 
     /**
-     * @testCase constructor
-     */
-    public function testConstructor()
-    {
-        $this->assertInstanceOf(Matrix::class, $this->matrix);
-    }
-
-    /**
-     * @testCase Implemented interfaces
+     * @test   Implemented interfaces
+     * @throws \Exception
      */
     public function testInterfaces()
     {
@@ -36,262 +38,52 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase constructor throws Exception\MatrixException if the number of columns is not consistent
+     * @test   constructor throws Exception\MatrixException if the number of columns is not consistent
+     * @throws \Exception
      */
     public function testConstructorExceptionNCountDiffers()
     {
+        // Given
         $A = [
             [1, 2, 3],
             [2, 3, 4, 5],
             [3, 4, 5],
         ];
+
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         $matrix = MatrixFactory::create($A);
     }
 
     /**
-     * @testCase constructor throws Exception\BadDataException if the number of columns is not consistent
-     * @return [type] [description]
+     * @test   constructor throws Exception\BadDataException if the number of columns is not consistent
+     * @throws \Exception
      */
     public function testRawConstructorExceptionNCountDiffers()
     {
+        // Given
         $A = [
             [1, 2, 3],
             [2, 3, 4, 5],
             [3, 4, 5],
         ];
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $matrix = new Matrix($A);
     }
 
     /**
-     * @testCase getMatrix returns the expected array representation of the matrix
-     */
-    public function testGetMatrix()
-    {
-        $this->assertEquals($this->A, $this->matrix->getMatrix());
-    }
-
-    /**
-     * @testCase     getM returns the number of rows
-     * @dataProvider dataProviderForGetM
-     * @param        array $A
-     * @param        int   $m
-     */
-    public function testGetM(array $A, int $m)
-    {
-        $matrix = MatrixFactory::create($A);
-        $this->assertEquals($m, $matrix->getM());
-    }
-
-    public function dataProviderForGetM(): array
-    {
-        return [
-            [
-                [[1]], 1
-            ],
-            [
-                [
-                    [1, 2],
-                    [2, 3],
-                ], 2
-            ],
-            [
-                [
-                    [1, 2],
-                    [2, 3],
-                    [3, 4],
-                ], 3
-            ],
-            [
-                [
-                    [1, 2],
-                    [2, 3],
-                    [3, 4],
-                    [4, 5],
-                ], 4
-            ],
-            [
-                [
-                    [1, 2, 0],
-                    [2, 3, 0],
-                    [3, 4, 0],
-                    [4, 5, 0],
-                ], 4
-            ],
-        ];
-    }
-
-    /**
-     * @testCase     getN returns the number of columns
-     * @dataProvider dataProviderForGetN
-     * @param        array $A
-     * @param        int   $n
-     */
-    public function testGetN(array $A, int $n)
-    {
-        $matrix = MatrixFactory::create($A);
-        $this->assertEquals($n, $matrix->getN());
-    }
-
-    public function dataProviderForGetN(): array
-    {
-        return [
-            [
-                [[1]], 1
-            ],
-            [
-                [
-                    [1, 2],
-                    [2, 3],
-                ], 2
-            ],
-            [
-                [
-                    [1, 2],
-                    [2, 3],
-                    [3, 4],
-                ], 2
-            ],
-            [
-                [
-                    [1, 2],
-                    [2, 3],
-                    [3, 4],
-                    [4, 5],
-                ], 2
-            ],
-            [
-                [
-                    [1, 2, 0],
-                    [2, 3, 0],
-                    [3, 4, 0],
-                    [4, 5, 0],
-                ], 3
-            ],
-        ];
-    }
-
-    /**
-     * @testCase getRow returns the expected row as an array
-     */
-    public function testGetRow()
-    {
-        $A = [
-            [1, 2, 3],
-            [2, 3, 4],
-            [4, 5, 6],
-        ];
-        $matrix = MatrixFactory::create($A);
-
-        $this->assertEquals([1, 2, 3], $matrix->getRow(0));
-        $this->assertEquals([2, 3, 4], $matrix->getRow(1));
-        $this->assertEquals([4, 5, 6], $matrix->getRow(2));
-    }
-
-    /**
-     * @testCase getRow throws Exception\MatrixException if the row does not exist
-     */
-    public function testGetRowException()
-    {
-        $this->expectException(Exception\MatrixException::class);
-        $this->matrix->getRow(8);
-    }
-
-    /**
-     * @testCase getColumn returns the expected column as an array
-     */
-    public function testGetColumn()
-    {
-        $A = [
-            [1, 2, 3],
-            [2, 3, 4],
-            [4, 5, 6],
-        ];
-        $matrix = MatrixFactory::create($A);
-
-        $this->assertEquals([1, 2, 4], $matrix->getColumn(0));
-        $this->assertEquals([2, 3, 5], $matrix->getColumn(1));
-        $this->assertEquals([3, 4, 6], $matrix->getColumn(2));
-    }
-
-    /**
-     * @testCase getColumn throws Exception\MatrixException if the column does not exist
-     */
-    public function testGetColumnException()
-    {
-        $this->expectException(Exception\MatrixException::class);
-        $this->matrix->getColumn(8);
-    }
-
-    /**
-     * @testCase get returns the expected element as a scalar
-     */
-    public function testGet()
-    {
-        $A = [
-            [1, 2, 3],
-            [2, 3, 4],
-            [4, 5, 6],
-        ];
-        $matrix = MatrixFactory::create($A);
-
-        $this->assertEquals(1, $matrix->get(0, 0));
-        $this->assertEquals(2, $matrix->get(0, 1));
-        $this->assertEquals(3, $matrix->get(0, 2));
-
-        $this->assertEquals(2, $matrix->get(1, 0));
-        $this->assertEquals(3, $matrix->get(1, 1));
-        $this->assertEquals(4, $matrix->get(1, 2));
-
-        $this->assertEquals(4, $matrix->get(2, 0));
-        $this->assertEquals(5, $matrix->get(2, 1));
-        $this->assertEquals(6, $matrix->get(2, 2));
-    }
-
-    /**
-     * @testCase get throws Exception\MatrixException if the row does not exist
-     */
-    public function testGetExceptionRow()
-    {
-        $this->expectException(Exception\MatrixException::class);
-        $this->matrix->get(8, 1);
-    }
-
-    /**
-     * @testCase get throws Exception\MatrixException if the column does not exist
-     */
-    public function testGetExceptionColumn()
-    {
-        $this->expectException(Exception\MatrixException::class);
-        $this->matrix->get(1, 8);
-    }
-
-    /**
-     * @testCase asVectors returns the matrix represented as an array of Vector objects
-     */
-    public function testAsVectors()
-    {
-        $A = new Matrix([
-            [1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9],
-        ]);
-
-        $expected = [
-            new Vector([1, 4, 7]),
-            new Vector([2, 5, 8]),
-            new Vector([3, 6, 9]),
-        ];
-
-        $this->assertEquals($expected, $A->asVectors());
-    }
-
-    /**
-     * @testCase Matrix implements \ArrayAccess
+     * @test   Matrix implements \ArrayAccess
+     * @throws \Exception
      */
     public function testArrayAccessInterfaceOffsetGet()
     {
+        // Given
         $A = [
             [1, 2, 3],
             [2, 3, 4],
@@ -299,6 +91,7 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
         ];
         $matrix = MatrixFactory::create($A);
 
+        // Then
         $this->assertInstanceOf(\ArrayAccess::class, $matrix);
 
         $this->assertEquals([1, 2, 3], $matrix[0]);
@@ -319,17 +112,23 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Matrix implements \ArrayAccess
+     * @test Matrix implements \ArrayAccess
      */
     public function testArrayAccessInterfaceOffsetSet()
     {
-        $this->expectException(Exception\MatrixException::class);
-        $this->matrix[0] = [4, 3, 5];
+        // Given
         $this->assertTrue($this->matrix->offsetExists(0));
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $this->matrix[0] = [4, 3, 5];
     }
 
     /**
-     * @testCase Matrix implements \ArrayAccess
+     * @test   Matrix implements \ArrayAccess
+     * @throws \Exception
      */
     public function testArrayAccessInterfaceOffExists()
     {
@@ -337,20 +136,28 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Matrix implements \ArrayAccess
+     * @test   Matrix implements \ArrayAccess
+     * @throws \Exception
      */
     public function testArrayAccessOffsetUnsetException()
     {
+        // Then
         $this->expectException(Exception\MatrixException::class);
+
+        // When
         unset($this->matrix[0]);
     }
 
     /**
-     * @testCase __toStrint returns the expected string representation of the matrix
+     * @test   __toString returns the expected string representation of the matrix
+     * @throws \Exception
      */
     public function testToString()
     {
+        // When
         $string = $this->matrix->__toString();
+
+        // Then
         $this->assertTrue(is_string($string));
         $this->assertEquals(
             "[1, 2, 3]\n[2, 3, 4]\n[4, 5, 6]",
@@ -359,212 +166,18 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     getDiagonalElements
-     * @dataProvider dataProviderForGetDiagonalElements
-     * @param        array $A
-     * @param        array $R
-     */
-    public function testGetDiagonalElements(array $A, array $R)
-    {
-        $A = MatrixFactory::create($A);
-
-        $this->assertEquals($R, $A->getDiagonalElements());
-    }
-
-    public function dataProviderForGetDiagonalElements(): array
-    {
-        return [
-            [
-                [
-                    [1, 2]
-                ],
-                [1],
-            ],
-            [
-                [
-                    [1],
-                    [2],
-                ],
-                [1],
-            ],
-            [
-                [[1]],
-                [1],
-            ],
-            [
-                [
-                    [1, 2],
-                    [2, 3],
-                ],
-                [1, 3],
-            ],
-            [
-                [
-                    [1, 2, 3],
-                    [2, 3, 4],
-                    [3, 4, 5],
-                ],
-                [1, 3, 5],
-            ],
-            [
-                [
-                    [1, 2, 3, 4],
-                    [2, 3, 4, 5],
-                    [3, 4, 5, 6],
-                    [4, 5, 6, 7],
-                ],
-                [1, 3, 5, 7],
-            ],
-            [
-                [
-                    [1, 2, 3, 4],
-                    [2, 3, 4, 5],
-                    [3, 4, 5, 6],
-                ],
-                [1, 3, 5],
-            ],
-            [
-                [
-                    [1, 2, 3],
-                    [2, 3, 4],
-                    [3, 4, 5],
-                    [4, 5, 6],
-                ],
-                [1, 3, 5],
-            ],
-        ];
-    }
-
-    /**
-     * @testCase     getSuperdiagonalElements
-     * @dataProvider dataProviderForGetSuperdiagonalElements
-     * @param        array $A
-     * @param        array $R
-     */
-    public function testGetSuperdiagonalElements(array $A, array $R)
-    {
-        $A = MatrixFactory::create($A);
-
-        $this->assertEquals($R, $A->getSuperdiagonalElements());
-    }
-
-    public function dataProviderForGetSuperdiagonalElements(): array
-    {
-        return [
-            [
-                [
-                    [1, 2]
-                ],
-                [],
-            ],
-            [
-                [
-                    [1],
-                    [2],
-                ],
-                [],
-            ],
-            [
-                [[1]],
-                [],
-            ],
-            [
-                [
-                    [1, 2],
-                    [4, 3],
-                ],
-                [2],
-            ],
-            [
-                [
-                    [1, 2, 3],
-                    [2, 3, 4],
-                    [4, 5, 6],
-                ],
-                [2, 4],
-            ],
-            [
-                [
-                    [1, 2, 3, 4],
-                    [2, 3, 4, 5],
-                    [4, 5, 6, 7],
-                    [3, 4, 5, 6],
-                ],
-                [2, 4, 7],
-            ],
-        ];
-    }
-
-    /**
-     * @testCase     getSubdiagonalElements
-     * @dataProvider dataProviderForGetSubdiagonalElements
-     * @param        array $A
-     * @param        array $R
-     */
-    public function testGetSubdiagonalElements(array $A, array $R)
-    {
-        $A = MatrixFactory::create($A);
-
-        $this->assertEquals($R, $A->getSubdiagonalElements());
-    }
-
-    public function dataProviderForGetSubdiagonalElements(): array
-    {
-        return [
-            [
-                [
-                    [1, 2]
-                ],
-                [],
-            ],
-            [
-                [
-                    [1],
-                    [2],
-                ],
-                [],
-            ],
-            [
-                [[1]],
-                [],
-            ],
-            [
-                [
-                    [1, 2],
-                    [4, 3],
-                ],
-                [4],
-            ],
-            [
-                [
-                    [1, 2, 3],
-                    [2, 3, 4],
-                    [4, 5, 6],
-                ],
-                [2, 5],
-            ],
-            [
-                [
-                    [1, 2, 3, 4],
-                    [2, 3, 4, 5],
-                    [4, 5, 6, 7],
-                    [3, 4, 5, 6],
-                ],
-                [2, 5, 5],
-            ],
-        ];
-    }
-
-    /**
-     * @testCase     Matrix implements \JsonSerializable
+     * @test         Matrix implements \JsonSerializable
      * @dataProvider dataProviderForJsonSerialize
      * @param        array $A
      * @param        string $json
+     * @throws      \Exception
      */
     public function testJsonSerialize(array $A, string $json)
     {
+        // Given
         $A = MatrixFactory::create($A);
 
+        // Then
         $this->assertEquals($json, json_encode($A));
     }
 
@@ -586,25 +199,5 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
                 '[[1]]',
             ],
         ];
-    }
-
-    /**
-     * @test   Object type of numeric matrix
-     * @throws \Exception
-     */
-    public function testGetObjectType()
-    {
-        // Given
-        $A = MatrixFactory::create([
-            [1, 2, 3],
-            [2, 3, 4],
-            [3, 4, 5],
-        ]);
-
-        // When
-        $objectType = $A->getObjectType();
-
-        // Then
-        $this->assertSame('number', $objectType);
     }
 }

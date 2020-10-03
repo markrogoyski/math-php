@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution implements ContinuousDistribution

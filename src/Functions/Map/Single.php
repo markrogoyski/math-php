@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Functions\Map;
 
 use MathPHP\Exception;
@@ -91,7 +92,7 @@ class Single
     {
         return array_map(
             function ($x) {
-                return $x**2;
+                return $x ** 2;
             },
             $xs
         );
@@ -108,7 +109,7 @@ class Single
     {
         return array_map(
             function ($x) {
-                return $x**3;
+                return $x ** 3;
             },
             $xs
         );
@@ -156,7 +157,7 @@ class Single
     {
         return array_map(
             function ($x) use ($n) {
-                return $x**$n;
+                return $x ** $n;
             },
             $xs
         );

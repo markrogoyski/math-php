@@ -1,34 +1,41 @@
 <?php
+
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Functions\Map;
 use MathPHP\Exception;
+use MathPHP\Statistics\Distance;
 
 /**
  * 1 x n Vector
  */
-class Vector implements \Countable, \ArrayAccess, \JsonSerializable
+class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
 {
-    /**
-     * Number of elements
-     * @var int
-     */
+    /** @var int Number of elements */
     private $n;
 
-    /**
-     * Vector
-     * @var array
-     */
+    /** @var array of numbers */
     private $A;
+
+    /** @var int Iterator position */
+    private $i;
 
     /**
      * Constructor
+     *
      * @param array $A 1 x n vector
+     *
+     * @throws Exception\BadDataException if the Vector is empty
      */
     public function __construct(array $A)
     {
         $this->A = $A;
         $this->n = count($A);
+        $this->i = 0;
+
+        if ($this->n === 0) {
+            throw new Exception\BadDataException('Vector cannot be empty');
+        }
     }
 
     /**************************************************************************
@@ -42,7 +49,8 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
 
     /**
      * Get matrix
-     * @return array of arrays
+     *
+     * @return array
      */
     public function getVector(): array
     {
@@ -51,6 +59,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
 
     /**
      * Get item count (n)
+     *
      * @return int number of items
      */
     public function getN(): int
@@ -87,13 +96,17 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *      [3]
      *
      * @return Matrix
+     *
+     * @throws Exception\MathException
      */
     public function asColumnMatrix()
     {
-        $matrix = [];
-        foreach ($this->A as $element) {
-            $matrix[] = [$element];
-        }
+        $matrix = array_map(
+            function ($element) {
+                return [$element];
+            },
+            $this->A
+        );
 
         return new Matrix($matrix);
     }
@@ -108,6 +121,8 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *  ]
      *
      * @return Matrix
+     *
+     * @throws Exception\MathException
      */
     public function asRowMatrix()
     {
@@ -115,11 +130,15 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     }
 
     /**************************************************************************
-     * VECTOR OPERATIONS - Return a number
+     * VECTOR NUMERIC OPERATIONS - Return a number
      *  - sum
      *  - length (magnitude)
      *  - dotProduct (innerProduct)
      *  - perpDotProduct
+     *  - angleBetween
+     *  - l1Distance
+     *  - l2Distance
+     *  - minkowskiDistance
      **************************************************************************/
 
     /**
@@ -203,18 +222,88 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
         return $A⊥->dotProduct($B);
     }
 
+    /**
+     * Angle between two vectors (cosine similarity)
+     *
+     *           A⋅B
+     * cos α = -------
+     *         |A|⋅|B|
+     *
+     * @param Vector $B
+     * @param bool   $inDegrees Determines whether the angle should be returned in degrees or in radians
+     *
+     * @return float The angle between the vectors in radians (or degrees if specified)
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\VectorException
+     */
+    public function angleBetween(Vector $B, bool $inDegrees = false)
+    {
+        $cos⟮α⟯ = Distance::cosineSimilarity($this->getVector(), $B->getVector());
+        $angle = acos($cos⟮α⟯);
+
+        return $inDegrees
+            ? rad2deg($angle)
+            : $angle;
+    }
+
+    /**
+     * L1 distance
+     * Calculates the taxicap geometry (sometimes Manhatten distance) between the vectors
+     * https://en.wikipedia.org/wiki/Taxicab_geometry
+     *
+     * @param Vector $B
+     *
+     * @return float|int
+     *
+     * @throws Exception\BadDataException
+     */
+    public function l1Distance(Vector $B): float
+    {
+        return Distance::manhattan($this->getVector(), $B->getVector());
+    }
+
+    /**
+     * L2 distance
+     * Calculates the euclidean distance between the vectors
+     * https://en.wikipedia.org/wiki/Euclidean_distance
+     *
+     * @param Vector $B
+     *
+     * @return float|int The euclidean distance between the vectors
+     *
+     * @throws Exception\BadDataException
+     */
+    public function l2Distance(Vector $B): float
+    {
+        return Distance::euclidean($this->getVector(), $B->getVector());
+    }
+
+    /**
+     * Calculates the minkowski distance between vectors
+     * https://en.wikipedia.org/wiki/Minkowski_distance
+     *
+     * (Σ|xᵢ - yᵢ|ᵖ)¹/ᵖ
+     *
+     * @param Vector $B
+     * @param int    $p
+     *
+     * @return float|int
+     *
+     * @throws Exception\BadDataException
+     */
+    public function minkowskiDistance(Vector $B, int $p): float
+    {
+        return Distance::minkowski($this->getVector(), $B->getVector(), $p);
+    }
+
     /**************************************************************************
      * VECTOR OPERATIONS - Return a Vector or Matrix
      *  - add
      *  - subtract
+     *  - multiply
+     *  - divide
      *  - scalarMultiply
-     *  - outerProduct
-     *  - directProduct (dyadic)
-     *  - crossProduct
-     *  - normalize
-     *  - perpendicular
-     *  - projection
-     *  - kroneckerProduct
      **************************************************************************/
 
     /**
@@ -229,6 +318,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      * @return Vector
      *
      * @throws Exception\VectorException
+     * @throws Exception\BadDataException
      */
     public function add(Vector $B): Vector
     {
@@ -264,6 +354,54 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Multiply (A * B)
+     *
+     * A = [a₁, a₂, a₃]
+     * B = [b₁, b₂, b₃]
+     * A * B = [a₁ * b₁, a₂ * b₂, a₃ * b₃]
+     *
+     * @param Vector $B
+     *
+     * @return Vector
+     *
+     * @throws Exception\VectorException
+     * @throws Exception\BadDataException
+     */
+    public function multiply(Vector $B): Vector
+    {
+        if ($B->getN() !== $this->n) {
+            throw new Exception\VectorException('Vectors must be the same length for multiplication');
+        }
+
+        $R = Map\Multi::multiply($this->A, $B->getVector());
+        return new Vector($R);
+    }
+
+    /**
+     * Divide (A / B)
+     *
+     * A = [a₁, a₂, a₃]
+     * B = [b₁, b₂, b₃]
+     * A / B = [a₁ / b₁, a₂ / b₂, a₃ / b₃]
+     *
+     * @param Vector $B
+     *
+     * @return Vector
+     *
+     * @throws Exception\VectorException
+     * @throws Exception\BadDataException
+     */
+    public function divide(Vector $B): Vector
+    {
+        if ($B->getN() !== $this->n) {
+            throw new Exception\VectorException('Vectors must be the same length for division');
+        }
+
+        $R = Map\Multi::divide($this->A, $B->getVector());
+        return new Vector($R);
+    }
+
+    /**
      * Scalar multiplication (scale)
      * kA = [k * a₁, k * a₂, k * a₃ ...]
      *
@@ -288,6 +426,17 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     {
         return new Vector(Map\Single::divide($this->A, $k));
     }
+
+    /**************************************************************************
+     * VECTOR ADVANCED OPERATIONS - Return a Vector or Matrix
+     *  - outerProduct
+     *  - directProduct (dyadic)
+     *  - crossProduct
+     *  - normalize
+     *  - perpendicular
+     *  - projection
+     *  - kroneckerProduct
+     **************************************************************************/
 
     /**
      * Outer product (A⨂B)
@@ -352,7 +501,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      *
      * @throws Exception\VectorException
      */
-    public function crossProduct(Vector $B)
+    public function crossProduct(Vector $B): Vector
     {
         if ($B->getN() !== 3 || $this->n !== 3) {
             throw new Exception\VectorException('Vectors must have 3 items');
@@ -424,7 +573,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function projection(Vector $B): Vector
     {
         $A⋅B  = $this->dotProduct($B);
-        $│B│² = ($B->l2Norm())**2;
+        $│B│² = ($B->l2Norm()) ** 2;
 
         return $B->scalarMultiply($A⋅B / $│B│²);
     }
@@ -444,7 +593,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function perp(Vector $B): Vector
     {
         $A⋅B⊥ = $B->perpDotProduct($this);
-        $│B│² = ($B->l2Norm())**2;
+        $│B│² = ($B->l2Norm()) ** 2;
         $B⊥   = $B->perpendicular();
 
         return $B⊥->scalarMultiply($A⋅B⊥ / $│B│²);
@@ -527,7 +676,7 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
      */
     public function pNorm($p)
     {
-        return array_sum(Map\Single::pow(Map\Single::abs($this->A), $p))**(1/$p);
+        return array_sum(Map\Single::pow(Map\Single::abs($this->A), $p)) ** (1 / $p);
     }
 
     /**
@@ -622,5 +771,37 @@ class Vector implements \Countable, \ArrayAccess, \JsonSerializable
     public function jsonSerialize()
     {
         return $this->A;
+    }
+
+    /**************************************************************************
+     * Iterator INTERFACE
+     **************************************************************************/
+
+    public function rewind()
+    {
+        $this->i = 0;
+    }
+
+    public function current()
+    {
+        return $this->A[$this->i];
+    }
+
+    public function key()
+    {
+        return $this->i;
+    }
+
+    public function next()
+    {
+        ++$this->i;
+    }
+
+    /**
+     * @return bool
+     */
+    public function valid(): bool
+    {
+        return isset($this->A[$this->i]);
     }
 }

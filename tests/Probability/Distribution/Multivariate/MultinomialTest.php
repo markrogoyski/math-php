@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Multivariate;
 
 use MathPHP\Probability\Distribution\Multivariate\Multinomial;
@@ -7,7 +8,7 @@ use MathPHP\Exception;
 class MultinomialTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pmf
+     * @test         pmf
      * @dataProvider dataProviderForPmf
      * @param        array $frequencies
      * @param        array $probabilities
@@ -42,7 +43,7 @@ class MultinomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase pmf throws Exception\BadDataException if the number of frequencies does not match the number of probabilities
+     * @test     pmf throws Exception\BadDataException if the number of frequencies does not match the number of probabilities
      * @throws   \Exception
      */
     public function testPmfExceptionCountFrequenciesAndProbabilitiesDoNotMatch()
@@ -60,7 +61,7 @@ class MultinomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase pmf throws Exception\BadDataException if one of the frequencies is not an int
+     * @test     pmf throws Exception\BadDataException if one of the frequencies is not an int
      * @throws   \Exception
      */
     public function testPmfExceptionFrequenciesAreNotAllIntegers()
@@ -78,7 +79,7 @@ class MultinomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase constructor throws Exception\BadDataException if the probabilities do not add up to 1
+     * @test     constructor throws Exception\BadDataException if the probabilities do not add up to 1
      * @throws   \Exception
      */
     public function testPMFExceptionProbabilitiesDoNotAddUpToOne()

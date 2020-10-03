@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Statistics\Regression;
 
 use MathPHP\Exception;
@@ -26,7 +27,8 @@ use MathPHP\Exception;
  */
 class Linear extends ParametricRegression
 {
-    use Methods\LeastSquares, Models\LinearModel;
+    use Methods\LeastSquares;
+    use Models\LinearModel;
 
     /**
      * Average of x

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\NumericalAnalysis\Interpolation;
 
 use MathPHP\NumericalAnalysis\Interpolation\ClampedCubicSpline;
@@ -9,7 +10,7 @@ class ClampedCubicSplineTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test         Interpolated piecewise function computes expected values: p(x) = expected
-     * @dataProvider dataProviderForPiecewiseForPolynomialAgrees
+     * @dataProvider dataProviderForPolynomialAgrees
      * @param        int $x
      * @param        int $expected
      * @throws       \Exception
@@ -32,7 +33,7 @@ class ClampedCubicSplineTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array (x, expected)
      */
-    public function dataProviderForPiecewiseForPolynomialAgrees(): array
+    public function dataProviderForPolynomialAgrees(): array
     {
         return [
             [0, 0],    // p(0) = 0
@@ -112,8 +113,8 @@ class ClampedCubicSplineTest extends \PHPUnit\Framework\TestCase
         $n = 51;
 
         // And
-        $h        = ($b-$a)/($n-1);
-        $tol      = (5/384) * ($h**4) * $f⁽⁴⁾(0);
+        $h        = ($b - $a) / ($n - 1);
+        $tol      = (5 / 384) * ($h ** 4) * $f⁽⁴⁾(0);
         $roundoff = 0.000001; // round off error
 
         // And
@@ -151,7 +152,7 @@ class ClampedCubicSplineTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $x                 = 10;
-        $incorrectFunction = $x**2 + 2 * $x + 1;
+        $incorrectFunction = $x ** 2 + 2 * $x + 1;
 
         // Then
         $this->expectException(Exception\BadDataException::class);

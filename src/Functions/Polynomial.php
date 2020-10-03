@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Functions;
 
 use MathPHP\Algebra;
@@ -144,7 +145,7 @@ class Polynomial implements ObjectArithmetic
 
         // Cleanup front and back; drop redundant ¹ and ⁰ terms from monomials
         $polynomial = trim(str_replace([$variable . '¹ ', $variable . '⁰ '], $variable . ' ', $polynomial), '+ ');
-        $polynomial = preg_replace('/^\-\s/', '-', $polynomial);
+        $polynomial = preg_replace('/^-\s/', '-', $polynomial);
 
         $polynomial = ($polynomial !== '') ? $polynomial : '0';
 
@@ -158,7 +159,7 @@ class Polynomial implements ObjectArithmetic
      *          echo $polynomial(4);
      *          // prints -13
      *
-     * @param number $x₀ The value at which we are evaluting our polynomial
+     * @param number $x₀ The value at which we are evaluating our polynomial
      *
      * @return float The result of our polynomial evaluated at $x₀
      */
@@ -177,7 +178,7 @@ class Polynomial implements ObjectArithmetic
         for ($i = 0; $i < $degree + 1; $i++) {
             // Create a callback function for the current term
             $term = function ($x) use ($degree, $coefficients, $i) {
-                return $coefficients[$i] * $x**($degree - $i);
+                return $coefficients[$i] * $x ** ($degree - $i);
             };
             // Add the new term to the polynomial
             $polynomial = Arithmetic::add($polynomial, $term);
@@ -295,10 +296,11 @@ class Polynomial implements ObjectArithmetic
      *          $integral   = $polynomial->integrate();     // x³ - 8x² + 12x
      *          $sum        = $polynomial->add($integral);  // x³ - 5x² - 4x + 12
      *
-     * @param mixed $polynomial The polynomial or scaler we are adding to our current polynomial
+     * @param mixed $polynomial The polynomial or scalar we are adding to our current polynomial
      *
      * @return Polynomial The sum of our polynomial objects, also a polynomial object
      *
+     * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
      */
     public function add($polynomial): Polynomial
@@ -328,13 +330,14 @@ class Polynomial implements ObjectArithmetic
      * Return a new polynomial that is the difference of the current polynomial and an
      * input polynomial
      * Example: $polynomial = new Polynomial([3, -16, 12]);        // 3x² - 16x + 12
-     *          $integral   = $polynomial->diferentiate();         // 6x - 16
+     *          $integral   = $polynomial->differentiate();         // 6x - 16
      *          $difference = $polynomial->subtract($derivative);  // 3x² - 22x + 28
      *
-     * @param mixed $polynomial The polynomial or scaler we are subtracting from our current polynomial
+     * @param mixed $polynomial The polynomial or scalar we are subtracting from our current polynomial
      *
-     * @return Polynomial The defference of our polynomial objects, also a polynomial object
+     * @return Polynomial The difference of our polynomial objects, also a polynomial object
      *
+     * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
      */
     public function subtract($polynomial): Polynomial
@@ -352,7 +355,7 @@ class Polynomial implements ObjectArithmetic
      *          $integral   = $polynomial->integrate();          // x² - 16x
      *          $product    = $polynomial->multiply($integral);  // 2x³ - 48x² + 256x
      *
-     * @param mixed $polynomial The polynomial or scaler we are multiplying with our current polynomial
+     * @param mixed $polynomial The polynomial or scalar we are multiplying with our current polynomial
      *
      * @return Polynomial The product of our polynomial objects, also a polynomial object
      *
@@ -369,13 +372,13 @@ class Polynomial implements ObjectArithmetic
         $coefficientsB = array_reverse($polynomial->coefficients);
 
         // Start with an array of coefficients that all equal 0
-        $productCoefficients = array_fill(0, $productDegree+1, 0);
+        $productCoefficients = array_fill(0, $productDegree + 1, 0);
 
         // Iterate through the product of terms component-wise
         for ($i = 0; $i < $this->degree + 1; $i++) {
             for ($j = 0; $j < $polynomial->degree + 1; $j++) {
                 // Calculate the degree of the current product
-                $degree = $productDegree-($i+$j);
+                $degree = $productDegree - ($i + $j);
 
                 // Calculate the product of the coefficients
                 $product = $coefficientsA[$i] * $coefficientsB[$j];

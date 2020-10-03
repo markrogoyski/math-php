@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\RowVector;
@@ -7,13 +8,21 @@ use MathPHP\LinearAlgebra\Matrix;
 class RowVectorTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test         construction
      * @dataProvider dataProviderForConstructor
+     * @param        array $M
+     * @param        array $V
+     * @throws       \Exception
      */
     public function testConstructor(array $M, array $V)
     {
+        // Given
         $R = new RowVector($M);
+
+        // When
         $V = new Matrix($V);
 
+        // Then
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\RowVector::class, $R);
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $R);
 
@@ -23,7 +32,7 @@ class RowVectorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(count($M), $V->getN());
     }
 
-    public function dataProviderForConstructor()
+    public function dataProviderForConstructor(): array
     {
         return [
             [
@@ -38,13 +47,20 @@ class RowVectorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         transpose
      * @dataProvider dataProviderForTranspose
+     * @param        array $M
+     * @throws       \Exception
      */
     public function testTranspose(array $M)
     {
-        $R  = new RowVector($M);
+        // Given
+        $R = new RowVector($M);
+
+        // When
         $Rᵀ = $R->transpose();
 
+        // Then
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\ColumnVector::class, $Rᵀ);
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $Rᵀ);
 
@@ -56,7 +72,7 @@ class RowVectorTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function dataProviderForTranspose()
+    public function dataProviderForTranspose(): array
     {
         return [
             [

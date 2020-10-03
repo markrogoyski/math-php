@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\Exception\MatrixException;
@@ -159,15 +160,34 @@ class DiagonalMatrixTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test   Construction error
+     * @test   Construction error - square matrix
      * @throws MatrixException
      */
-    public function testConstructionException()
+    public function testConstructionExceptionNotSquare()
     {
         // Given
         $A = [
             [1, 0, 0],
             [0, 2, 0],
+        ];
+
+        // Then
+        $this->expectException(MatrixException::class);
+
+        // When
+        $matrix = new DiagonalMatrix($A);
+    }
+
+    /**
+     * @test   Construction error - not diagonal matrix
+     * @throws MatrixException
+     */
+    public function testConstructionExceptionNotDiagonal()
+    {
+        // Given
+        $A = [
+            [1, 1],
+            [3, 2],
         ];
 
         // Then

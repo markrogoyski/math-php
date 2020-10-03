@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 
 use MathPHP\Exception;
@@ -46,7 +47,7 @@ abstract class NumericalDifferentiation
     public static function getPoints($source, array $args = []): array
     {
         // Guard clause - source must be callable or array of points
-        if (!is_callable($source) && !is_array($source)) {
+        if (!(is_callable($source) || is_array($source))) {
             throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
 
@@ -78,10 +79,10 @@ abstract class NumericalDifferentiation
     protected static function functionToPoints(callable $function, $start, $end, $n): array
     {
         $points = [];
-        $h      = ($end-$start)/($n-1);
+        $h      = ($end - $start) / ($n - 1);
 
         for ($i = 0; $i < $n; $i++) {
-            $xᵢ         = $start + $i*$h;
+            $xᵢ         = $start + $i * $h;
             $f⟮xᵢ⟯       = $function($xᵢ);
             $points[$i] = [$xᵢ, $f⟮xᵢ⟯];
         }
@@ -151,10 +152,10 @@ abstract class NumericalDifferentiation
     {
         $x       = self::X;
         $length  = count($sorted);
-        $spacing = ($sorted[$length-1][$x] - $sorted[0][$x]) / ($length-1);
+        $spacing = ($sorted[$length - 1][$x] - $sorted[0][$x]) / ($length - 1);
 
         for ($i = 1; $i < $length - 1; $i++) {
-            if ($sorted[$i+1][$x] - $sorted[$i][$x] !== $spacing) {
+            if ($sorted[$i + 1][$x] - $sorted[$i][$x] !== $spacing) {
                 throw new Exception\BadDataException('The size of each subinterval must be the same. Provide points with constant spacing.');
             }
         }

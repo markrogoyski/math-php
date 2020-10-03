@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\InformationTheory;
 
 use MathPHP\Functions\Map;
@@ -289,6 +290,6 @@ class Entropy
         // ∑ pᵢlog₂(pᵢ)
         $H⟮p⟯ = self::shannonEntropy($p);
 
-        return 2**$H⟮p⟯;
+        return 2 ** $H⟮p⟯;
     }
 }

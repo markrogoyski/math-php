@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\Gamma;
@@ -6,7 +7,7 @@ use MathPHP\Probability\Distribution\Continuous\Gamma;
 class GammaTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $x   x ∈ (0,1)
      * @param        float $k   shape parameter α > 0
@@ -56,7 +57,7 @@ class GammaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $x   x ∈ (0,1)
      * @param        float $k   shape parameter α > 0
@@ -106,7 +107,7 @@ class GammaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean returns the expected average
+     * @test         mean returns the expected average
      * @dataProvider dataProviderForMean
      * @param        float $k
      * @param        float $θ
@@ -139,7 +140,7 @@ class GammaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median returns the expected approximation of the average
+     * @test         median returns the expected approximation of the average
      * @dataProvider dataProviderForMedian
      * @param        float $k
      * @param        float $θ
@@ -172,7 +173,7 @@ class GammaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMode
      * @param        float $k
      * @param        float $θ
@@ -209,7 +210,7 @@ class GammaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode is not a number if k < 1
+     * @test         mode is not a number if k < 1
      * @dataProvider dataProviderForModeNan
      * @param        float $k
      * @param        float $θ
@@ -240,7 +241,7 @@ class GammaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        float $k
      * @param        float $θ

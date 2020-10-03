@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Table;
 
 use MathPHP\Probability\Distribution\Table\ChiSquared;
@@ -7,23 +8,38 @@ use MathPHP\Exception;
 class ChiSquaredlTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test         values from constant
      * @dataProvider dataProviderForTable
+     * @param        int   $df
+     * @param        float $p
+     * @param        float $χ²
      */
     public function testChiSquaredValuesFromConstant(int $df, float $p, float $χ²)
     {
+        // Given
         $p = sprintf('%1.3f', $p);
-        $this->assertEquals($χ², ChiSquared::CHI_SQUARED_SCORES[$df][$p]);
+
+        // When
+        $value = ChiSquared::CHI_SQUARED_SCORES[$df][$p];
+
+        // Then
+        $this->assertEquals($χ², $value);
     }
 
     /**
+     * @test         values from function
      * @dataProvider dataProviderForTable
      */
     public function testChiSquaredValuesFromFunction(int $df, float $p, float $χ²)
     {
-        $this->assertEquals($χ², ChiSquared::getChiSquareValue($df, $p));
+        // When
+        $value = ChiSquared::getChiSquareValue($df, $p);
+
+        // Then
+        $this->assertEquals($χ², $value);
     }
 
-    public function dataProviderForTable()
+    public function dataProviderForTable(): array
     {
         return [
             [1, 0.995, 0.0000393],
@@ -35,12 +51,20 @@ class ChiSquaredlTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test   exception
+     * @throws Exception\BadDataException
+     */
     public function testChiSquaredException()
     {
-        $this->expectException(Exception\BadDataException::class);
-
+        // Given
         $df = 88474;
         $p  = 0.44;
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
         ChiSquared::getChiSquareValue($df, $p);
     }
 }

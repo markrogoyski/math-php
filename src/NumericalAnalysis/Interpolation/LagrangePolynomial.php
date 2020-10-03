@@ -1,6 +1,8 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
+use MathPHP\Exception;
 use MathPHP\Functions\Polynomial;
 
 /**
@@ -41,8 +43,8 @@ class LagrangePolynomial extends Interpolation
      *
      * @return Polynomial        The lagrange polynomial p(x)
      *
-     * @throws \MathPHP\Exception\BadDataException
-     * @throws \MathPHP\Exception\IncorrectTypeException
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      */
     public static function interpolate($source, ...$args): Polynomial
     {
@@ -74,7 +76,7 @@ class LagrangePolynomial extends Interpolation
                 }
                 $xᵢ   = $sorted[$i][$x];
                 $xⱼ   = $sorted[$j][$x];
-                $Lᵢ⟮t⟯ = new Polynomial([1/($xᵢ - $xⱼ), -$xⱼ/($xᵢ - $xⱼ)]);
+                $Lᵢ⟮t⟯ = new Polynomial([1 / ($xᵢ - $xⱼ), -$xⱼ / ($xᵢ - $xⱼ)]);
                 $pᵢ⟮t⟯ = $pᵢ⟮t⟯->multiply($Lᵢ⟮t⟯);
             }
             $p⟮t⟯ = $p⟮t⟯->add($pᵢ⟮t⟯);

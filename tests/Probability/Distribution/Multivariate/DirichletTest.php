@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Multivariate;
 
 use MathPHP\Probability\Distribution\Multivariate\Dirichlet;
@@ -7,16 +8,23 @@ use MathPHP\Exception;
 class DirichletTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase pdf works as expected
+     * @test         pdf works as expected
      * @dataProvider dataProviderForPDF
      * @param        array $xs
      * @param        array $αs
-     * @param        float $pdf
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testPdf(array $xs, array $αs, $pdf)
+    public function testPdf(array $xs, array $αs, $expected)
     {
+        // Given
         $dirichlet = new Dirichlet($αs);
-        $this->assertEquals($pdf, $dirichlet->pdf($xs), '', 0.00001);
+
+        // When
+        $pdf = $dirichlet->pdf($xs);
+
+        // Then
+        $this->assertEquals($expected, $pdf, '', 0.00001);
     }
 
     /**
@@ -100,15 +108,20 @@ class DirichletTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase pdf throws a BadDataException if the xs and αs do not have the same number of elements
+     * @test    pdf throws a BadDataException if the xs and αs do not have the same number of elements
+     * @throws \Exception
      */
     public function testPdfArraysNotSameLengthException()
     {
+        // Given
         $xs = [0.1, 0.2];
         $αs = [1, 2, 3];
-
-        $this->expectException(Exception\BadDataException::class);
         $dirichlet = new Dirichlet($αs);
-        $pdf       = $dirichlet->pdf($xs);
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $pdf = $dirichlet->pdf($xs);
     }
 }

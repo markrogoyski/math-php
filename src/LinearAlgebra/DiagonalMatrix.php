@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception\MatrixException;
@@ -19,7 +20,7 @@ class DiagonalMatrix extends SquareMatrix
     {
         parent::__construct($A);
 
-        if (!parent::isDiagonal()) {
+        if (!parent::isLowerTriangular() || !parent::isUpperTriangular()) {
             throw new MatrixException('Trying to construct DiagonalMatrix with non-diagonal elements: ' . print_r($this->A, true));
         }
     }

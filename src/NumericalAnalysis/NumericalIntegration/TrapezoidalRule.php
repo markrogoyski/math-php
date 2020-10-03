@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\NumericalIntegration;
 
 use MathPHP\Exception;
@@ -73,7 +74,7 @@ class TrapezoidalRule extends NumericalIntegration
      * @throws Exception\BadDataException
      * @throws \MathPHP\Exception\IncorrectTypeException
      */
-    public static function approximate($source, ... $args): float
+    public static function approximate($source, ...$args): float
     {
         // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
@@ -100,9 +101,9 @@ class TrapezoidalRule extends NumericalIntegration
          */
         for ($i = 0; $i < $steps; $i++) {
             $xᵢ             = $sorted[$i][$x];
-            $xᵢ₊₁           = $sorted[$i+1][$x];
+            $xᵢ₊₁           = $sorted[$i + 1][$x];
             $f⟮xᵢ⟯           = $sorted[$i][$y];    // yᵢ
-            $f⟮xᵢ₊₁⟯         = $sorted[$i+1][$y];  // yᵢ₊₁
+            $f⟮xᵢ₊₁⟯         = $sorted[$i + 1][$y];  // yᵢ₊₁
             $lagrange       = LagrangePolynomial::interpolate([[$xᵢ, $f⟮xᵢ⟯], [$xᵢ₊₁, $f⟮xᵢ₊₁⟯]]);
             $integral       = $lagrange->integrate();
             $approximation += $integral($xᵢ₊₁) - $integral($xᵢ); // definite integral of lagrange polynomial

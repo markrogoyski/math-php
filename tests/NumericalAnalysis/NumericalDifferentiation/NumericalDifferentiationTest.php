@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\NumericalAnalysis\NumericalDifferentiation;
 
 use MathPHP\NumericalAnalysis\NumericalDifferentiation\NumericalDifferentiation;
@@ -14,7 +15,7 @@ class NumericalDifferentiationTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $x                 = 10;
-        $incorrectFunction = $x**2 + 2 * $x + 1;
+        $incorrectFunction = $x ** 2 + 2 * $x + 1;
 
         // Then
         $this->expectException(Exception\BadDataException::class);

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Statistics\Regression\Models;
 
 trait LinearModel
@@ -34,7 +35,7 @@ trait LinearModel
      *
      * @return array [ m => number, b => number ]
      */
-    public static function getModelParameters(array $params): array
+    public function getModelParameters(array $params): array
     {
         return [
             'm' => $params[self::$M],
@@ -49,7 +50,7 @@ trait LinearModel
      *
      * @return string
      */
-    public static function getModelEquation(array $params): string
+    public function getModelEquation(array $params): string
     {
         return sprintf('y = %fx + %f', $params[self::$M], $params[self::$B]);
     }

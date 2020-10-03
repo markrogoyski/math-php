@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\Weibull;
@@ -6,7 +7,7 @@ use MathPHP\Probability\Distribution\Continuous\Weibull;
 class WeibullTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $x
      * @param        float $k
@@ -66,7 +67,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $k
@@ -169,7 +170,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse of cdf is x
+     * @test         inverse of cdf is x
      * @dataProvider dataProviderForInverseOfCdf
      * @param        float $x
      * @param        float $k
@@ -221,7 +222,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        float $k
      * @param        float $λ
@@ -254,7 +255,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median
+     * @test         median
      * @dataProvider dataProviderForMedian
      * @param        float $k
      * @param        float $λ
@@ -288,7 +289,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMode
      * @param        float $k
      * @param        float $λ
@@ -323,7 +324,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase rand
+     * @test rand
      */
     public function testRand()
     {

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Functions;
 
 use MathPHP\Probability\Combinatorics;
@@ -92,7 +93,7 @@ class Special
              * √π ---------
              *       2ⁿ
              */
-            return $√π * ($⟮2n−1⟯‼︎ / 2**$x);
+            return $√π * ($⟮2n−1⟯‼︎ / 2 ** $x);
         }
 
         // Generic real number case
@@ -250,7 +251,7 @@ class Special
         $√2π                    = sqrt(2 * \M_PI);
         $ℯ⁻ⁿ                    = exp(-$n);
         $√1／n                  = sqrt(1 / $n);
-        $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ = pow($n + 1 / (12*$n - 1/(10*$n)), $n);
+        $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ = pow($n + 1 / (12 * $n - 1 / (10 * $n)), $n);
 
         /**
          * Put it all together:
@@ -402,7 +403,7 @@ class Special
         }
 
         $p  = 0.3275911;
-        $t  = 1 / ( 1 + $p*abs($x) );
+        $t  = 1 / ( 1 + $p * abs($x) );
 
         $a₁ = 0.254829592;
         $a₂ = -0.284496736;
@@ -410,7 +411,7 @@ class Special
         $a₄ = -1.453152027;
         $a₅ = 1.061405429;
 
-        $error = 1 - ( $a₁*$t + $a₂*$t**2 + $a₃*$t**3 + $a₄*$t**4 + $a₅*$t**5 ) * exp(-abs($x)**2);
+        $error = 1 - ( $a₁ * $t + $a₂ * $t ** 2 + $a₃ * $t ** 3 + $a₄ * $t ** 4 + $a₅ * $t ** 5 ) * exp(-abs($x) ** 2);
 
         return ( $x > 0 ) ? $error : -$error;
     }
@@ -596,7 +597,7 @@ class Special
         Support::checkLimits($limits, ['x' => $x, 'a' => $a, 'b' => $b]);
 
         $beta     = self::beta($a, $b);
-        $constant = $x**$a * (1 - $x)**$b / $beta;
+        $constant = $x ** $a * (1 - $x) ** $b / $beta;
 
         $α_array = [];
         $β_array = [];
@@ -605,13 +606,13 @@ class Special
             if ($i == 0) {
                 $α = 1;
             } else {
-                $α = ($a + $i - 1) * ($a + $b + $i - 1) * $i * ($b - $i) * $x**2 / ($a + 2 * $i - 1)**2;
+                $α = ($a + $i - 1) * ($a + $b + $i - 1) * $i * ($b - $i) * $x ** 2 / ($a + 2 * $i - 1) ** 2;
             }
-            $β₁             = $i + $i * ($b - $i) * $x / ($a + 2 * $i - 1);
-            $β₂             = ($a + $i) * ($a - ($a + $b) * $x + 1 + $i * (2 - $x)) / ($a + 2 * $i + 1);
-            $β              = $β₁ + $β₂;
-            $α_array[]      = $α;
-            $β_array[]      = $β;
+            $β₁        = $i + $i * ($b - $i) * $x / ($a + 2 * $i - 1);
+            $β₂        = ($a + $i) * ($a - ($a + $b) * $x + 1 + $i * (2 - $x)) / ($a + 2 * $i + 1);
+            $β         = $β₁ + $β₂;
+            $α_array[] = $α;
+            $β_array[] = $β;
         }
 
         $fraction_array = [];
@@ -619,9 +620,10 @@ class Special
             if ($i == $m - 1) {
                 $fraction_array[$i] = $α_array[$i] / $β_array[$i];
             } else {
-                $fraction_array[$i] = $α_array[$i] / ($β_array[$i]+ $fraction_array[$i+1]);
+                $fraction_array[$i] = $α_array[$i] / ($β_array[$i] + $fraction_array[$i + 1]);
             }
         }
+
         return $constant * $fraction_array[0];
     }
     
@@ -674,11 +676,11 @@ class Special
         }
         if ($a > 1 && $b > 1) {
             // Tolerance on evaluating the continued fraction.
-            $tol      = .000000000000001;
-            $dif      = $tol + 1; // Initialize
+            $tol = .000000000000001;
+            $dif = $tol + 1; // Initialize
             
             // We will calculate the continuous fraction with a minimum depth of 10.
-            $m        = 10;        // Counter
+            $m = 10;  // Counter
             $I = 0;
             do {
                 $I_new = self::iBetaCF($m, $x, $a, $b);
@@ -692,11 +694,11 @@ class Special
         } else {
             if ($a <= 1) {
                 // We shift a up by one, to the region that the continuous fraction works best.
-                $offset = $x**$a * (1 - $x)**$b / $a / self::beta($a, $b);
+                $offset = $x ** $a * (1 - $x) ** $b / $a / self::beta($a, $b);
                 return self::regularizedIncompleteBeta($x, $a + 1, $b) + $offset;
             } else { // $b <= 1
                 // We shift a up by one, to the region that the continuous fraction works best.
-                $offset = $x**$a * (1 - $x)**$b / $b / self::beta($a, $b);
+                $offset = $x ** $a * (1 - $x) ** $b / $b / self::beta($a, $b);
                 return self::regularizedIncompleteBeta($x, $a, $b + 1) - $offset;
             }
         }
@@ -841,14 +843,14 @@ class Special
 
         $∑ᴷℯᶻᵢ = array_sum(array_map(
             function ($z) use ($ℯ) {
-                return $ℯ**$z;
+                return $ℯ ** $z;
             },
             $𝐳
         ));
 
         $σ⟮𝐳⟯ⱼ = array_map(
             function ($z) use ($ℯ, $∑ᴷℯᶻᵢ) {
-                return ($ℯ**$z) / $∑ᴷℯᶻᵢ;
+                return ($ℯ ** $z) / $∑ᴷℯᶻᵢ;
             },
             $𝐳
         );

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\NumericalAnalysis\NumericalDifferentiation;
 
 use MathPHP\NumericalAnalysis\NumericalDifferentiation\ThreePointFormula;
@@ -35,7 +36,7 @@ class ThreePointFormulaTest extends \PHPUnit\Framework\TestCase
     {
         // Given f(x) = 13x² -92x + 96
         $f = function ($x) {
-            return 13 * $x**2 - 92 * $x + 96;
+            return 13 * $x ** 2 - 92 * $x + 96;
         };
 
         // And f’(x) = 26x - 92
@@ -100,12 +101,12 @@ class ThreePointFormulaTest extends \PHPUnit\Framework\TestCase
     {
         // Given f(x) = x³ - 13x² -92x + 96
         $f = function ($x) {
-            return $x**3 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 3 - 13 * $x ** 2 - 92 * $x + 96;
         };
 
         // And
         $f’ = function ($x) {
-            return 3 * $x**2 - 26 * $x - 92;
+            return 3 * $x ** 2 - 26 * $x - 92;
         };
         $expected = $f’($x);
 
@@ -163,7 +164,7 @@ class ThreePointFormulaTest extends \PHPUnit\Framework\TestCase
     {
         // Given f(x) = 13x² -92x + 96
         $f = function ($x) {
-            return 13 * $x**2 - 92 * $x + 96;
+            return 13 * $x ** 2 - 92 * $x + 96;
         };
         $points = [[0, $f(0)], [2, $f(2)], [4, $f(4)]];
 

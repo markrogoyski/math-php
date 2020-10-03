@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\NumericalAnalysis\RootFinding;
 
 use MathPHP\Functions\Polynomial;
@@ -20,7 +21,7 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
         // Rewrite f(x) = 0 as (x⁴ + 8x³ -13x² + 96)/92 = x
         // Thus, g(x) = (x⁴ + 8x³ -13x² + 96)/92
         $func = function ($x) {
-            return ($x**4 + 8 * $x**3 - 13 * $x**2 + 96)/92;
+            return ($x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 + 96) / 92;
         };
         $tol = 0.00001;
 
@@ -31,23 +32,20 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
         // change direction on [0, 2]. So, if g(2) > g(0), then 0 < g(x) < 2
         // for all x in [0, 2]. So, there is a root in [0, 2]
 
-        // When solving for f(x) = 0 where x is 1
+        // And
         $a        = 0;
         $b        = 2;
         $p        = 0;
         $expected = 1;
-        $x = FixedPointIteration::solve($func, $a, $b, $p, $tol);
-        // Then
-        $this->assertEquals($expected, $x, '', $tol);
 
-        // When switching a and b and test that they get reversed properly
-        $b        = 0;
-        $a        = 2;
-        $p        = 0;
-        $expected = 1;
-        $x = FixedPointIteration::solve($func, $a, $b, $p, $tol);
+        // When solving for f(x) = 0 where x is 1
+        // And switching a and b and test that they get reversed properly
+        $x1 = FixedPointIteration::solve($func, $a, $b, $p, $tol);
+        $x2 = FixedPointIteration::solve($func, $b, $a, $p, $tol);
+
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEquals($expected, $x1, '', $tol);
+        $this->assertEquals($expected, $x2, '', $tol);
     }
 
     /**
@@ -62,7 +60,7 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
         // Note that f(x) has a root at 1
         // Rewrite f(x) = 0 as (x⁴ + 8x³ -13x² + 96)/92 = x
         // Thus, g(x) = (x⁴ + 8x³ -13x² + 96)/92
-        $polynomial = new Polynomial([1/92, 8/92, -13/92, 96/92]);
+        $polynomial = new Polynomial([1 / 92, 8 / 92, -13 / 92, 96 / 92]);
         $tol        = 0.00001;
 
         // g(0)  = 96/92, where 0 < 96/92 < 2
@@ -72,23 +70,20 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
         // change direction on [0, 2]. So, if g(2) > g(0), then 0 < g(x) < 2
         // for all x in [0, 2]. So, there is a root in [0, 2]
 
-        // When solving for f(x) = 0 where x is 1
+        // And
         $a        = 0;
         $b        = 2;
         $p        = 0;
         $expected = 1;
-        $x = FixedPointIteration::solve($polynomial, $a, $b, $p, $tol);
-        // Then
-        $this->assertEquals($expected, $x, '', $tol);
 
-        // When switching a and b and test that they get reversed properly
-        $b        = 0;
-        $a        = 2;
-        $p        = 0;
-        $expected = 1;
-        $x = FixedPointIteration::solve($polynomial, $a, $b, $p, $tol);
+        // When solving for f(x) = 0 where x is 1
+        // And switching a and b and test that they get reversed properly
+        $x1 = FixedPointIteration::solve($polynomial, $a, $b, $p, $tol);
+        $x2 = FixedPointIteration::solve($polynomial, $b, $a, $p, $tol);
+
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEquals($expected, $x1, '', $tol);
+        $this->assertEquals($expected, $x2, '', $tol);
     }
 
     /**
@@ -99,7 +94,7 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return ($x**4 + 8 * $x**3 - 13 * $x**2 + 96)/92;
+            return ($x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 + 96) / 92;
         };
         $tol = -0.00001;
         $a   = 0;
@@ -121,7 +116,7 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return ($x**4 + 8 * $x**3 - 13 * $x**2 + 96)/92;
+            return ($x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 + 96) / 92;
         };
         $tol = 0.00001;
         $a   = 3;
@@ -143,7 +138,7 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return ($x**4 + 8 * $x**3 - 13 * $x**2 + 96)/92;
+            return ($x ** 4 + 8 * $x ** 3 - 13 * $x ** 2 + 96) / 92;
         };
         $tol = 0.00001;
         $a   = 0;

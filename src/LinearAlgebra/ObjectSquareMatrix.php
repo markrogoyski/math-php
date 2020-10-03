@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
@@ -120,9 +121,6 @@ class ObjectSquareMatrix extends SquareMatrix
         if ((!$B instanceof Matrix) && (!$B instanceof Vector)) {
             throw new Exception\IncorrectTypeException('Can only do matrix multiplication with a Matrix or Vector');
         }
-        if ($B instanceof Vector) {
-            $B = $B->asColumnMatrix();
-        }
         if ($B->getM() !== $this->n) {
             throw new Exception\MatrixException("Matrix dimensions do not match");
         }
@@ -167,12 +165,13 @@ class ObjectSquareMatrix extends SquareMatrix
      */
     public function det()
     {
-        if (isset($this->det)) {
-            return $this->det;
+        if ($this->catalog->hasDeterminant()) {
+            return $this->catalog->getDeterminant();
         }
+
         $m = $this->m;
-        $n = $this->n;
         $R = MatrixFactory::create($this->A);
+
         /*
          * 1x1 matrix
          *  A = [a]
@@ -180,8 +179,7 @@ class ObjectSquareMatrix extends SquareMatrix
          * |A| = a
          */
         if ($m === 1) {
-            $this->det = $R[0][0];
-            return $this->det;
+            $det = $R[0][0];
         } else {
             // Calculate the cofactors of the top row of the matrix
             $row_of_cofactors = [];
@@ -202,9 +200,10 @@ class ObjectSquareMatrix extends SquareMatrix
                     $det = $det->add($R[0][$key]->multiply($value));
                 }
             }
-            $this->det = $det;
-            return $this->det;
         }
+
+        $this->catalog->addDeterminant($det);
+        return $det;
     }
 
     /**
@@ -214,7 +213,7 @@ class ObjectSquareMatrix extends SquareMatrix
     {
         /** @var ObjectArithmetic $Mᵢⱼ */
         $Mᵢⱼ    = $this->minor($mᵢ, $nⱼ);
-        $⟮−1⟯ⁱ⁺ʲ = (-1)**($mᵢ + $nⱼ);
+        $⟮−1⟯ⁱ⁺ʲ = (-1) ** ($mᵢ + $nⱼ);
 
         return $Mᵢⱼ->multiply($⟮−1⟯ⁱ⁺ʲ);
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
@@ -35,6 +36,18 @@ class Eigenvector
         if (!$A->isSquare()) {
             throw new Exception\BadDataException('Matrix must be square');
         }
+        // Scale the whole matrix by the max absolute value
+        // to ensure computability.
+        $max_abs = 0;
+        $matrix = $A->getMatrix();
+        for ($i = 0; $i < $A->getM(); $i++) {
+            for ($j = 0; $j < $A->getN(); $j++) {
+                $max_abs = $matrix[$i][$j] > $max_abs ? $matrix[$i][$j] : $max_abs;
+            }
+        }
+        $A = $A->scalarDivide($max_abs);
+        $eig = new Vector($eigenvalues);
+        $eigenvalues = $eig->scalarDivide($max_abs)->getVector();
         $number = count($eigenvalues);
         
         // There cannot be more eigenvalues than the size of A, nor can there be zero.
@@ -48,9 +61,6 @@ class Eigenvector
         // pull them out in the same order as the eigenvalues array.
         $solution_array = [];
         foreach ($eigenvalues as $eigenvalue) {
-            if (!is_numeric($eigenvalue)) {
-                throw new Exception\BadDataException('Eigenvalue must be a number');
-            }
             // If this is a duplicate eigenvalue, and this is the second instance, the first
             // pass already found all the vectors.
             $key = array_search($eigenvalue, array_column($solution_array, 'eigenvalue'));
@@ -102,12 +112,12 @@ class Eigenvector
                         // Make sure that removing column $i does not leave behind a row of zeros
                         $column_can_be_used = true;
                         for ($j = 0; $j <= $i && $j < $rref->getM() && $column_can_be_used; $j++) {
-                            if ($matrix->columnExclude($i-count($forced_variables))->getRow($j) == array_fill(0, $matrix->getN() - 1, 0)) {
+                            if ($matrix->columnExclude($i - count($forced_variables))->getRow($j) == array_fill(0, $matrix->getN() - 1, 0)) {
                                 $column_can_be_used = false;
                             }
                         }
                         if ($column_can_be_used) {
-                            $matrix             = $matrix->columnExclude($i-count($forced_variables));
+                            $matrix             = $matrix->columnExclude($i - count($forced_variables));
                             $forced_variables[] = $i;
                             $new_column         = new Vector($rref->getColumn($i));
                             $solution           = $solution->subtract($new_column);

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Statistics;
 
 /**
@@ -67,8 +68,8 @@ class Circular
             $angles
         ));
 
-        $S² = $S**2;
-        $C² = $C**2;
+        $S² = $S ** 2;
+        $C² = $C ** 2;
         $R² = $S² + $C²;
         $R  = sqrt($R²);
 

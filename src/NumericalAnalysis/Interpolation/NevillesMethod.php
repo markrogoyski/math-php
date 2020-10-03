@@ -1,6 +1,8 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
+use MathPHP\Exception;
 use MathPHP\Functions\Polynomial;
 
 /**
@@ -38,8 +40,8 @@ class NevillesMethod extends Interpolation
      *
      * @return float                  The interpolated value at our target
      *
-     * @throws \MathPHP\Exception\BadDataException
-     * @throws \MathPHP\Exception\IncorrectTypeException
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      */
     public static function interpolate(float $target, $source, ...$args): float
     {
@@ -55,8 +57,8 @@ class NevillesMethod extends Interpolation
         $y = self::Y;
 
         // Initialize
-        $n   = count($sorted);
-        $Q   = [];
+        $n = count($sorted);
+        $Q = [];
 
         // Build our 0th-degree Lagrange polynomials: Q₍ᵢ₎₍₀₎ = yᵢ for all i < n
         for ($i = 0; $i < $n; $i++) {
@@ -68,13 +70,13 @@ class NevillesMethod extends Interpolation
             for ($j = 1; $j <= $i; $j++) {
                 $xᵢ₋ⱼ        = $sorted[$i - $j][$x];
                 $xᵢ          = $sorted[$i][$x];
-                $Q₍ᵢ₎₍ⱼ₋₁₎   = $Q[$i][$j-1]($target);
-                $Q₍ᵢ₋₁₎₍ⱼ₋₁₎ = $Q[$i-1][$j-1]($target);
+                $Q₍ᵢ₎₍ⱼ₋₁₎   = $Q[$i][$j - 1]($target);
+                $Q₍ᵢ₋₁₎₍ⱼ₋₁₎ = $Q[$i - 1][$j - 1]($target);
                 $Q[$i][$j]   = LagrangePolynomial::interpolate([[$xᵢ₋ⱼ,$Q₍ᵢ₋₁₎₍ⱼ₋₁₎],[$xᵢ,$Q₍ᵢ₎₍ⱼ₋₁₎]]);
             }
         }
 
         // Return our (n-1)th-degree Lagrange polynomial evaluated at $target
-        return $Q[$n-1][$n-1]($target);
+        return $Q[$n - 1][$n - 1]($target);
     }
 }

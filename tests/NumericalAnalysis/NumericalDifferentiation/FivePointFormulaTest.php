@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\NumericalAnalysis\NumericalDifferentiation;
 
 use MathPHP\NumericalAnalysis\NumericalDifferentiation\FivePointFormula;
@@ -37,7 +38,7 @@ class FivePointFormulaTest extends \PHPUnit\Framework\TestCase
     {
         // Given f(x) = 13x² -92x + 96
         $f = function ($x) {
-            return 13 * $x**2 - 92 * $x + 96;
+            return 13 * $x ** 2 - 92 * $x + 96;
         };
 
         // And f’(x) = 26x - 92
@@ -104,12 +105,12 @@ class FivePointFormulaTest extends \PHPUnit\Framework\TestCase
     {
         // Given f(x) = x⁵ - 13x² -92x + 96
         $f = function ($x) {
-            return $x**5 - 13 * $x**2 - 92 * $x + 96;
+            return $x ** 5 - 13 * $x ** 2 - 92 * $x + 96;
         };
 
         // And f’(x) = 5x⁴ -26x - 92
         $f’ = function ($x) {
-            return 5 * $x**4 - 26 * $x - 92;
+            return 5 * $x ** 4 - 26 * $x - 92;
         };
         $expected = $f’($x);
 
@@ -169,7 +170,7 @@ class FivePointFormulaTest extends \PHPUnit\Framework\TestCase
     {
         // Given f(x) = 13x² -92x + 96
         $f = function ($x) {
-            return 13 * $x**2 - 92 * $x + 96;
+            return 13 * $x ** 2 - 92 * $x + 96;
         };
         $points = [[0, $f(0)], [1, $f(1)], [2, $f(2)], [3, $f(3)], [4, $f(4)]];
 

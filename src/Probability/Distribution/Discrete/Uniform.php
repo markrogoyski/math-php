@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Discrete;
 
 use MathPHP\Exception;
@@ -151,6 +152,6 @@ class Uniform extends Discrete
         $a = $this->a;
         $b = $this->b;
 
-        return (($b - $a + 1)**2 - 1) / 12;
+        return (($b - $a + 1) ** 2 - 1) / 12;
     }
 }

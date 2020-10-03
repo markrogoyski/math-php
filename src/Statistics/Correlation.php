@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Statistics;
 
 use MathPHP\Exception;
@@ -462,12 +463,13 @@ class Correlation
      *
      * https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient
      *
-     *          6 ∑ dᵢ²
-     * ρ = 1 - ---------
-     *         n(n² − 1)
+     *     cov(rgᵪ, rgᵧ)
+     * ρ = ------------
+     *        σᵣᵪσᵣᵧ
      *
-     *  Where
-     *   dᵢ: the difference between the two ranks of each observation
+     *   Where
+     *    cov(rgᵪ, rgᵧ): covariance of the rank variables
+     *    σᵣᵪ and σᵣᵧ:   standard deviations of the rank variables
      *
      * @param array $X values for random variable X
      * @param array $Y values for random variable Y
@@ -475,76 +477,21 @@ class Correlation
      * @return float
      *
      * @throws Exception\BadDataException if both random variables do not have the same number of elements
+     * @throws Exception\OutOfBoundsException if one of the random variables is empty
      */
     public static function spearmansRho(array $X, array $Y): float
     {
         if (count($X) !== count($Y)) {
-            throw new Exception\BadDataException('Both random variables must have the same number of elements');
+            throw new Exception\BadDataException('Both random variables for spearmansRho must have the same number of elements');
         }
 
-        $n = count($X);
+        $rgᵪ         = Distribution::fractionalRanking($X);
+        $rgᵧ         = Distribution::fractionalRanking($Y);
+        $cov⟮rgᵪ、rgᵧ⟯ = Correlation::covariance($rgᵪ, $rgᵧ);
+        $σᵣᵪ         = Descriptive::sd($rgᵪ);
+        $σᵣᵧ         = Descriptive::sd($rgᵧ);
 
-        // Sorted Xs and Ys
-        $Xs = $X;
-        $Ys = $Y;
-        rsort($Xs);
-        rsort($Ys);
-
-        // Determine ranks of each X and Y
-        // Some items might show up multiple times, so record each successive rank.
-        $rg⟮X⟯ = [];
-        $rg⟮Y⟯ = [];
-        foreach ($Xs as $rank => $xᵢ) {
-            if (!isset($rg⟮X⟯[$xᵢ])) {
-                $rg⟮X⟯[$xᵢ] = [];
-            }
-            $rg⟮X⟯[$xᵢ][] = $rank;
-        }
-        foreach ($Ys as $rank => $yᵢ) {
-            if (!isset($rg⟮Y⟯[$yᵢ])) {
-                $rg⟮Y⟯[$yᵢ] = [];
-            }
-            $rg⟮Y⟯[$yᵢ][] = $rank;
-        }
-
-        // Determine average rank of each X and Y
-        // Rank will not change if value only shows up once.
-        // Average is for when values show up multiple times.
-        $rg⟮X⟯ = array_map(
-            function ($x) {
-                return array_sum($x) / count($x);
-            },
-            $rg⟮X⟯
-        );
-        $rg⟮Y⟯ = array_map(
-            function ($y) {
-                return array_sum($y) / count($y);
-            },
-            $rg⟮Y⟯
-        );
-
-        // Difference between the two ranks of each observation
-        $d = array_map(
-            function ($x, $y) use ($rg⟮X⟯, $rg⟮Y⟯) {
-                return abs($rg⟮X⟯[$x] - $rg⟮Y⟯[$y]);
-            },
-            $X,
-            $Y
-        );
-
-        // Numerator: 6 ∑ dᵢ²
-        $d²  = Map\Single::square($d);
-        $∑d² = array_sum($d²);
-
-        // Denominator: n(n² − 1)
-        $n⟮n² − 1⟯ = $n * ($n**2 - 1);
-
-        /*
-         *          6 ∑ dᵢ²
-         * ρ = 1 - ---------
-         *         n(n² − 1)
-         */
-        return 1 - ((6 * $∑d²) / $n⟮n² − 1⟯);
+        return $cov⟮rgᵪ、rgᵧ⟯  / ($σᵣᵪ * $σᵣᵧ);
     }
 
     /**

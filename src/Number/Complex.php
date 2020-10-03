@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Number;
 
 use MathPHP\Exception;
@@ -12,6 +13,9 @@ use MathPHP\Functions\Special;
  * equation i² = −1. In this expression, a is the real part and b is the imaginary
  * part of the complex number.
  * https://en.wikipedia.org/wiki/Complex_number
+ *
+ * @property-read number $r
+ * @property-read number $i
  */
 class Complex implements ObjectArithmetic
 {
@@ -114,7 +118,7 @@ class Complex implements ObjectArithmetic
      */
     public function abs()
     {
-        return sqrt($this->r**2 + $this->i**2);
+        return sqrt($this->r ** 2 + $this->i ** 2);
     }
     
     /**

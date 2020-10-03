@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Distribution\Discrete\Poisson;
@@ -6,7 +7,7 @@ use MathPHP\Probability\Distribution\Discrete\Poisson;
 class PoissonTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pmf
+     * @test         pmf
      * @dataProvider dataProviderForPmf
      * @param        int $k
      * @param        float $λ
@@ -39,7 +40,7 @@ class PoissonTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        int $k
      * @param        float $λ
@@ -72,7 +73,7 @@ class PoissonTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        float $λ
      * @param        float $μ
@@ -104,7 +105,7 @@ class PoissonTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median
+     * @test         median
      * @dataProvider dataProviderForMedian
      * @param        float $λ
      * @param        float $expected
@@ -136,7 +137,7 @@ class PoissonTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMode
      * @param        float $λ
      * @param        array $expected
@@ -168,7 +169,7 @@ class PoissonTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        float $λ
      * @param        float $σ²

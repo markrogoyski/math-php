@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\StudentT;
@@ -6,7 +7,7 @@ use MathPHP\Probability\Distribution\Continuous\StudentT;
 class StudentTTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $t
      * @param        float $ν
@@ -70,7 +71,7 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $t
      * @param        float $ν
@@ -139,7 +140,7 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        float $ν
      * @param        float $μ
@@ -168,7 +169,7 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase mean is not a number when ν is less than or equal to 1
+     * @test     mean is not a number when ν is less than or equal to 1
      */
     public function testMeanNan()
     {
@@ -184,7 +185,7 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median
+     * @test         median
      * @dataProvider dataProviderForMedianAndMode
      * @param        float $ν
      * @param        float $expected
@@ -202,7 +203,7 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMedianAndMode
      * @param        float $ν
      * @param        float $expected
@@ -233,7 +234,7 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        float $ν
      * @param        float $expected
@@ -261,12 +262,12 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
             [2, \INF],
             [3, 3],
             [4, 2],
-            [5, 5/3],
+            [5, 5 / 3],
         ];
     }
 
     /**
-     * @testCase     variance is not a number when ν ≤ 1
+     * @test         variance is not a number when ν ≤ 1
      * @dataProvider dataProviderForVarianceNan
      * @param        float $ν
      */
@@ -296,7 +297,7 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse
+     * @test         inverse
      * @dataProvider dataProviderForInverse
      * @param        float $p
      * @param        float $ν

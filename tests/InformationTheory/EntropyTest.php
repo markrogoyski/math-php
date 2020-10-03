@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\InformationTheory;
 
 use MathPHP\InformationTheory\Entropy;
@@ -11,12 +12,14 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
      */
     public function testShannonEntropy(array $p, $expected)
     {
+        // When
         $H = Entropy::shannonEntropy($p);
 
+        // Then
         $this->assertEquals($expected, $H, '', 0.001);
     }
 
-    public function dataProviderForShannonEntropy()
+    public function dataProviderForShannonEntropy(): array
     {
         return [
             // Test data created from: http://www.shannonentropy.netmark.pl/
@@ -38,7 +41,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
             ],
             // Test data from: http://www.csun.edu/~twang/595DM/Slides/Information%20&%20Entropy.pdf
             [
-                [4/9, 3/9, 2/9],
+                [4 / 9, 3 / 9, 2 / 9],
                 1.5304755,
             ],
             // Test data from: http://www.cs.rochester.edu/u/james/CSC248/Lec6.pdf
@@ -48,17 +51,21 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
             ],
             // Other
             [
-                [1/2, 1/4, 1/4, 0],
-                3/2,
+                [1 / 2, 1 / 4, 1 / 4, 0],
+                3 / 2,
             ],
         ];
     }
 
     public function testShannonEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
+        // Given
         $p = [0.2, 0.2, 0.1];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Entropy::shannonEntropy($p);
     }
 
@@ -67,12 +74,14 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
      */
     public function testShannonNatEntropy(array $p, $expected)
     {
+        // When
         $H = Entropy::shannonNatEntropy($p);
 
+        // Then
         $this->assertEquals($expected, $H, '', 0.000001);
     }
 
-    public function dataProviderForShannonNatEntropy()
+    public function dataProviderForShannonNatEntropy(): array
     {
         return [
             [
@@ -92,7 +101,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
                 1.2661221087912,
             ],
             [
-                [4/9, 3/9, 2/9],
+                [4 / 9, 3 / 9, 2 / 9],
                 1.06085694715802,
             ],
         ];
@@ -100,9 +109,13 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
 
     public function testShannonNatEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
+        // Given
         $p = [0.2, 0.2, 0.1];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Entropy::shannonNatEntropy($p);
     }
 
@@ -111,12 +124,14 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
      */
     public function testShannonHartleyEntropy(array $p, $expected)
     {
+        // When
         $H = Entropy::shannonHartleyEntropy($p);
 
+        // Then
         $this->assertEquals($expected, $H, '', 0.000001);
     }
 
-    public function dataProviderForShannonHartleyEntropy()
+    public function dataProviderForShannonHartleyEntropy(): array
     {
         return [
             [
@@ -136,7 +151,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
                 0.54986984526372,
             ],
             [
-                [4/9, 3/9, 2/9],
+                [4 / 9, 3 / 9, 2 / 9],
                 0.46072431823946,
             ],
         ];
@@ -144,9 +159,13 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
 
     public function testShannonHartleyEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
+        // Given
         $p = [0.2, 0.2, 0.1];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Entropy::shannonHartleyEntropy($p);
     }
 
@@ -155,12 +174,14 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
      */
     public function testCrossEntropy(array $p, array $q, $expected)
     {
+        // When
         $BD = Entropy::crossEntropy($p, $q);
 
+        // Then
         $this->assertEquals($expected, $BD, '', 0.01);
     }
 
-    public function dataProviderForCrossEntropy()
+    public function dataProviderForCrossEntropy(): array
     {
         return [
             // Test data from: http://www.cs.rochester.edu/u/james/CSC248/Lec6.pdf
@@ -179,19 +200,27 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
 
     public function testCrossEntropyExceptionArraysDifferentLength()
     {
+        // Given
         $p = [0.4, 0.5, 0.1];
         $q = [0.2, 0.8];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Entropy::crossEntropy($p, $q);
     }
 
     public function testCrossEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
+        // Given
         $p = [0.2, 0.2, 0.1];
         $q = [0.2, 0.4, 0.6];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Entropy::crossEntropy($p, $q);
     }
 
@@ -200,16 +229,22 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
      */
     public function testJointEntropy(array $p, $expected)
     {
+        // When
         $H = Entropy::jointEntropy($p);
 
+        // Then
         $this->assertEquals($expected, $H, '', 0.001);
     }
 
     public function testJointEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
+        // Given
         $p = [0.2, 0.2, 0.1];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Entropy::jointEntropy($p);
     }
 
@@ -218,12 +253,14 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
      */
     public function testRenyiEntropy(array $p, $α, $expected)
     {
+        // When
         $H = Entropy::renyiEntropy($p, $α);
 
+        // Then
         $this->assertEquals($expected, $H, '', 0.001);
     }
 
-    public function dataProviderForRenyiEntropy()
+    public function dataProviderForRenyiEntropy(): array
     {
         return [
             [
@@ -235,29 +272,41 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
 
     public function testRenyiEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
+        // Given
         $p = [0.2, 0.2, 0.1];
         $α = 0.5;
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Entropy::renyiEntropy($p, $α);
     }
 
 
     public function testRenyiEntropyExceptionAlphaOutOfBounds()
     {
+        // Given
         $p = [0.4, 0.4, 0.2];
         $α = -3;
 
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Entropy::renyiEntropy($p, $α);
     }
 
     public function testRenyiEntropyExceptionAlphaEqualsOne()
     {
+        // Given
         $p = [0.4, 0.4, 0.2];
         $α = 1;
 
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Entropy::renyiEntropy($p, $α);
     }
 
@@ -266,16 +315,18 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
      */
     public function testPerplexity(array $p, $expected)
     {
+        // When
         $H = Entropy::perplexity($p);
 
+        // Then
         $this->assertEquals($expected, $H, '', 0.001);
     }
 
-    public function dataProviderForPerplexity()
+    public function dataProviderForPerplexity(): array
     {
         return [
             [
-                [1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10, 1/10],
+                [1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10, 1 / 10],
                 10
             ],
             [
@@ -295,11 +346,11 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
                 3.546141242991336,
             ],
             [
-                [4/9, 3/9, 2/9],
+                [4 / 9, 3 / 9, 2 / 9],
                 2.888810361450759,
             ],
             [
-                [1/2, 1/4, 1/4, 0],
+                [1 / 2, 1 / 4, 1 / 4, 0],
                 2.82842712474619,
             ],
         ];
@@ -307,9 +358,13 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
 
     public function testPerplexityExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
+        // Given
         $p = [0.2, 0.2, 0.1];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         Entropy::perplexity($p);
     }
 }

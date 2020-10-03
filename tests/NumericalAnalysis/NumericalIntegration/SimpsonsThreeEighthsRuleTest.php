@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\NumericalAnalysis\NumericalIntegration;
 
 use MathPHP\Functions\Polynomial;
@@ -98,7 +99,7 @@ class SimpsonsThreeEighthsRuleTest extends \PHPUnit\Framework\TestCase
     {
         // Given x² + 2x + 1
         $func = $func = function ($x) {
-            return $x**2 + 2 * $x + 1;
+            return $x ** 2 + 2 * $x + 1;
         };
         $start    = 0;
         $end      = 3;

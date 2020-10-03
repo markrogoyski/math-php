@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Multivariate;
 
 use MathPHP\Probability\Distribution\Multivariate;
@@ -12,7 +13,7 @@ class LimitsTest extends \PHPUnit\Framework\TestCase
      *  (a,b]
      *  [a,b]
      */
-    private function limitTest($limits)
+    private function limitTest(array $limits)
     {
         foreach ($limits as $parameter => $limit) {
             $this->assertRegExp('/^ ([[(]) (.+) , (.+?) ([])]) $/x', $limit);
@@ -20,7 +21,7 @@ class LimitsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testDirichletParameterLimits()
     {
@@ -28,10 +29,18 @@ class LimitsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testDirichletSupportLimits()
     {
         $this->limitTest(Multivariate\Dirichlet::SUPPORT_LIMITS);
+    }
+
+    /**
+     * @test Limits constant is correct format
+     */
+    public function testHypergeometricParameterLimits()
+    {
+        $this->limitTest(Multivariate\Hypergeometric::PARAMETER_LIMITS);
     }
 }

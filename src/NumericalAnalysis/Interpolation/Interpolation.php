@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
 use MathPHP\Exception;
@@ -36,7 +37,7 @@ abstract class Interpolation
     public static function getPoints($source, array $args = []): array
     {
         // Guard clause - source must be callable or array of points
-        if (!is_callable($source) && !is_array($source)) {
+        if (!(is_callable($source) || is_array($source))) {
             throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
 
@@ -68,10 +69,10 @@ abstract class Interpolation
     protected static function functionToPoints(callable $function, float $start, float $end, int $n): array
     {
         $points = [];
-        $h      = ($end-$start)/($n-1);
+        $h      = ($end - $start) / ($n - 1);
 
         for ($i = 0; $i < $n; $i++) {
-            $xᵢ         = $start + $i*$h;
+            $xᵢ         = $start + $i * $h;
             $f⟮xᵢ⟯       = $function($xᵢ);
             $points[$i] = [$xᵢ, $f⟮xᵢ⟯];
         }

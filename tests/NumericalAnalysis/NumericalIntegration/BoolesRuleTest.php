@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\NumericalAnalysis\NumericalIntegration;
 
 use MathPHP\Functions\Polynomial;
@@ -98,7 +99,7 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
     {
         // Given x³ + 2x + 1
         $func = function ($x) {
-            return $x**3 + 2 * $x + 1;
+            return $x ** 3 + 2 * $x + 1;
         };
         $start    = 0;
         $end      = 4;
@@ -182,7 +183,7 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
     {
         // Given 1 + e^-x sin(8x^2/3)
         $func = function ($x) {
-            return 1 + M_E**-$x * sin(8*$x**(2/3));
+            return 1 + M_E ** -$x * sin(8 * $x ** (2 / 3));
         };
         $start    = 0;
         $end      = 2;

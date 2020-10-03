@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\NumericalAnalysis\RootFinding;
 
 use MathPHP\Exception;
@@ -55,11 +56,11 @@ class ValidationTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         Interval has different points
      * @dataProvider dataProviderForValidInterval
-     * @param        number $a
-     * @param        number$b
+     * @param        float $a
+     * @param        float$b
      * @throws       Exception\BadDataException
      */
-    public function testIntervalNotTheSame($a, $b)
+    public function testIntervalNotTheSame(float $a, float $b)
     {
         // When
         Validation::interval($a, $b);
@@ -95,7 +96,7 @@ class ValidationTest extends \PHPUnit\Framework\TestCase
         $b = 3.5;
 
         // Then
-        $this->expectException(Exception\OutOfBoundsException::class);
+        $this->expectException(Exception\BadDataException::class);
 
         // When
         Validation::interval($a, $b);

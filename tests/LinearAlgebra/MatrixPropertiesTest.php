@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
@@ -6,7 +7,7 @@ use MathPHP\LinearAlgebra\Matrix;
 
 class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
 {
-    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+    use MatrixDataProvider;
 
     /**
      * @test         isSquare returns true for square matrices.
@@ -500,6 +501,36 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         isRectangularDiagonal returns true appropriately
+     * @dataProvider dataProviderForRectangularDiagonalMatrix
+     * @param        array $D
+     * @throws       \Exception
+     */
+    public function testIsRectangularDiagonal(array $D)
+    {
+        // Given
+        $D = MatrixFactory::create($D);
+
+        // Then
+        $this->assertTrue($D->isRectangularDiagonal());
+    }
+
+    /**
+     * @test         isRectangularDiagonal returns false appropriately
+     * @dataProvider dataProviderForNotRectangularDiagonalMatrix
+     * @param        array $D
+     * @throws       \Exception
+     */
+    public function testIsNotRectangularDiagonal(array $D)
+    {
+        // Given
+        $D = MatrixFactory::create($D);
+
+        // Then
+        $this->assertFalse($D->isRectangularDiagonal());
+    }
+
+    /**
      * @test         isRef returns true for a matrix in row echelon form
      * @dataProvider dataProviderForRefMatrix
      * @param        array $A
@@ -571,6 +602,66 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertFalse($A->isRref());
+    }
+
+/**
+     * @test         isIdempotent returns true for an Idempotent matrix
+     * @dataProvider dataProviderForIdempotentMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsIdempotent(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertTrue($A->isIdempotent());
+    }
+
+    /**
+     * @test         isIdempotent returns false for a non-Idempotent matrix
+     * @dataProvider dataProviderForNotIdempotentMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsNotIdempotent(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertFalse($A->isIdempotent());
+    }
+
+    /**
+     * @test         isNilpotent returns true for a nilpotent matrix
+     * @dataProvider dataProviderForNilpotentMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsNilpotent(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertTrue($A->isNilpotent());
+    }
+
+    /**
+     * @test         isNilpotent returns false for a non-nilpotent matrix
+     * @dataProvider dataProviderForNotNilpotentMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsNotNilpotent(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertFalse($A->isNilpotent());
     }
 
     /**
@@ -883,5 +974,66 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertFalse($A->isNormal());
+    }
+
+    /**
+     * @test         isUnitary
+     * @dataProvider dataProviderForOrthogonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsUnitary(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertTrue($A->isUnitary());
+    }
+
+    /**
+     * @test         isUnitary when not unitary
+     * @dataProvider dataProviderForNonOrthogonalMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsUnitaryWhenNotUnitary(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertFalse($A->isUnitary());
+    }
+
+    /**
+     * @test         isHermitian returns true for hermitian matrices.
+     * @dataProvider dataProviderForSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsHermitian(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertTrue($A->isHermitian());
+    }
+
+    /**
+     * @test         isHermitian returns false for nonhermitian matrices.
+     * @dataProvider dataProviderForNotSymmetricMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testIsHermitianWhenNotHermitian(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertFalse($A->isHermitian());
     }
 }

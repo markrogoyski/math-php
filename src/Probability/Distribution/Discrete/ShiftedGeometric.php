@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Discrete;
 
 use MathPHP\Functions\Support;
@@ -141,6 +142,6 @@ class ShiftedGeometric extends Discrete
      */
     public function variance(): float
     {
-        return (1 - $this->p) / $this->p**2;
+        return (1 - $this->p) / $this->p ** 2;
     }
 }

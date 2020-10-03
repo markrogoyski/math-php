@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 
 use MathPHP\Exception;
@@ -100,7 +101,7 @@ class FivePointFormula extends NumericalDifferentiation
             $f⟮x₀⧾h⟯     = $sorted[3][$y];
             $f⟮x₀⧾2h⟯    = $sorted[4][$y];
 
-            $derivative = ($f⟮x₀⧿2h⟯ - 8*$f⟮x₀⧿h⟯ + 8*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯) / (12*$h);
+            $derivative = ($f⟮x₀⧿2h⟯ - 8 * $f⟮x₀⧿h⟯ + 8 * $f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯) / (12 * $h);
 
             return $derivative;
         }
@@ -130,7 +131,7 @@ class FivePointFormula extends NumericalDifferentiation
             $f⟮x₀⧾4h⟯ = $sorted[0][$y];
         }
 
-        $derivative = (-25*$f⟮x₀⟯ + 48*$f⟮x₀⧾h⟯ - 36*$f⟮x₀⧾2h⟯ + 16*$f⟮x₀⧾3h⟯ - 3*$f⟮x₀⧾4h⟯) / (12*$h);
+        $derivative = (-25 * $f⟮x₀⟯ + 48 * $f⟮x₀⧾h⟯ - 36 * $f⟮x₀⧾2h⟯ + 16 * $f⟮x₀⧾3h⟯ - 3 * $f⟮x₀⧾4h⟯) / (12 * $h);
 
         return $derivative;
     }

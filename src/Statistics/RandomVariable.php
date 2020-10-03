@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Statistics;
 
 use MathPHP\Probability\Distribution\Table;
@@ -33,6 +34,13 @@ use MathPHP\Exception;
  */
 class RandomVariable
 {
+    const SAMPLE_SKEWNESS      = 'sample';
+    const POPULATION_SKEWNESS  = 'population';
+    const ALTERNATIVE_SKEWNESS = 'alternative';
+
+    const SAMPLE_KURTOSIS     = 'sample';
+    const POPULATION_KURTOSIS = 'population';
+
     /**
      * n-th Central moment
      * A moment of a probability distribution of a random variable about the random variable's mean.
@@ -69,12 +77,13 @@ class RandomVariable
     }
 
     /**
-     * Popluation skewness
+     * Population skewness
      * A measure of the asymmetry of the probability distribution of a real-valued random variable about its mean.
      * https://en.wikipedia.org/wiki/Skewness
      * http://brownmath.com/stat/shape.htm
      *
      * This method tends to match Excel's SKEW.P function.
+     * R (e1071) describes it as the typical definition used in many older textbooks (skewness type 1).
      *
      *         μ₃
      * γ₁ = -------
@@ -98,7 +107,10 @@ class RandomVariable
         $μ₃ = self::centralMoment($X, 3);
         $μ₂ = self::centralMoment($X, 2);
     
-        $μ₂³′² = pow($μ₂, 3/2);
+        $μ₂³′² = pow($μ₂, 3 / 2);
+        if ($μ₂³′² == 0) {
+            return \NAN;  // Prevents division by zero in μ₃ / μ₂³′² equation
+        }
 
         return ($μ₃ /  $μ₂³′²);
     }
@@ -110,6 +122,7 @@ class RandomVariable
      * http://brownmath.com/stat/shape.htm
      *
      * This method tends to match Excel's SKEW function.
+     * It also matches what is used in SAS and SPSS. In R (e1071) it is skewness type 2.
      *
      *         μ₃     √(n(n - 1))
      * γ₁ = ------- × -----------
@@ -135,7 +148,10 @@ class RandomVariable
         $μ₃    = self::centralMoment($X, 3);
         $μ₂    = self::centralMoment($X, 2);
 
-        $μ₂³′² = pow($μ₂, 3/2);
+        $μ₂³′² = pow($μ₂, 3 / 2);
+        if ($μ₂³′² == 0) {
+            return \NAN;  // Prevents division by zero in μ₃ / μ₂³′² equation
+        }
 
         $√⟮n⟮n − 1⟯⟯ = sqrt($n * ($n - 1));
 
@@ -144,7 +160,7 @@ class RandomVariable
 
     /**
      * Skewness (alternative method)
-     * This method tends to match most of the online skewness calculators and examples.
+     * Classic definition of skewness. This method tends to match most of the online skewness calculators and examples.
      * https://en.wikipedia.org/wiki/Skewness
      *
      *         1     ∑⟮xᵢ - μ⟯³
@@ -163,7 +179,7 @@ class RandomVariable
      *
      * @throws Exception\BadDataException if the input array of numbers has less than 2 elements
      */
-    public static function skewness(array $X): float
+    public static function alternativeSkewness(array $X): float
     {
         $N  = count($X);
         if ($N < 2) {
@@ -185,6 +201,43 @@ class RandomVariable
         }
 
         return $∑⟮xᵢ − μ⟯³ / $⟮σ³ × ⟮N − 1⟯⟯;
+    }
+
+    /**
+     * Skewness
+     *
+     * Multiple algorithms exist to compute skewness.
+     * The default is sample skewness, which will match Excel's SKEW function and SAS and SPSS. In R (e1071) it is skewness type 2.
+     *
+     * To use a different skewness algorithm provide the optional type parameter:
+     *  - SAMPLE_SKEWNESS (Excel's SKEW function and SAS and SPSS)
+     *  - POPULATION_SKEWNESS (Textbook definition; Excel's SKEW.P function)
+     *  - ALTERNATIVE_SKEWNESS (Another textbook definition)
+     *
+     * @param float[] $X list of numbers (random variable X)
+     * @param string $type (optional) determines the skewness algorithm used (SAMPLE_SKEWNESS (default), POPULATION_SKEWNESS, ALTERNATIVE_SKEWNESS)
+     *
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers has less than 2 elements
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\OutOfBoundsException
+     */
+    public static function skewness(array $X, string $type = self::SAMPLE_SKEWNESS): float
+    {
+        switch ($type) {
+            case self::SAMPLE_SKEWNESS:
+                return self::sampleSkewness($X);
+
+            case self::POPULATION_SKEWNESS:
+                return self::populationSkewness($X);
+
+            case self::ALTERNATIVE_SKEWNESS:
+                return self::alternativeSkewness($X);
+
+            default:
+                throw new Exception\IncorrectTypeException("Type $type is not a valid skewness algorithm type");
+        }
     }
 
     /**
@@ -214,7 +267,7 @@ class RandomVariable
     }
 
     /**
-     * Excess Kurtosis
+     * Sample Excess Kurtosis
      * A measure of the "tailedness" of the probability distribution of a real-valued random variable.
      * https://en.wikipedia.org/wiki/Kurtosis
      *
@@ -225,13 +278,15 @@ class RandomVariable
      * μ₂ is the second central moment
      * μ₄ is the fourth central moment
      *
+     * This is the typical definition used in textbooks. In R (e1071) it is kurtosis type 1.
+     *
      * @param float[] $X list of numbers (random variable X)
      *
      * @return float
      *
      * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function kurtosis(array $X): float
+    public static function sampleKurtosis(array $X): float
     {
         if (empty($X)) {
             throw new Exception\BadDataException('Cannot find the kurtosis of an empty list of numbers');
@@ -248,18 +303,92 @@ class RandomVariable
     }
 
     /**
+     * Population Excess Kurtosis
+     * A measure of the "tailedness" of the probability distribution of a real-valued random variable.
+     * https://en.wikipedia.org/wiki/Kurtosis
+     *
+     *                          (n - 1)
+     * G₂ = [(n + 1) g₂ + 6] --------------
+     *                       (n - 2)(n - 3)
+     *
+     *                                    μ₄
+     * where g₂ is the sample kurtotis = ---- − 3
+     *                                    μ₂²
+     *
+     *
+     * This is the common application version of kurtosis, used in Excel, SAS and SPSS.
+     * In R (e1071) it is kurtosis type 2. Excel's KURT function.
+     *
+     * @param float[] $X list of numbers (random variable X)
+     *
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty or has fewer than four elements
+     */
+    public static function populationKurtosis(array $X): float
+    {
+        if (count($X) < 4) {
+            throw new Exception\BadDataException('Cannot find the kurtosis of an empty list of numbers');
+        }
+
+        $g₂ = self::sampleKurtosis($X);
+
+        $n = count($X);
+        $⟮n ＋ 1⟯g₂ ＋ 6 = ($n + 1) * $g₂ + 6;
+
+        return ($⟮n ＋ 1⟯g₂ ＋ 6 * ($n - 1)) / (($n - 2) * ($n - 3));
+    }
+
+    /**
+     * Sample Excess Kurtosis
+     * A measure of the "tailedness" of the probability distribution of a real-valued random variable.
+     * https://en.wikipedia.org/wiki/Kurtosis
+     *
+     *       μ₄
+     * γ₂ = ---- − 3
+     *       μ₂²
+     *
+     * μ₂ is the second central moment
+     * μ₄ is the fourth central moment
+     *
+     * This is the typical definition used in textbooks. In R (e1071) it is kurtosis type 1.
+     *
+     * @param float[] $X list of numbers (random variable X)
+     * @param string $type (optional) determines the kurtsosis algorithm used (POPULATION_KURTOSIS (default), SAMPLE_KURTOSIS)
+     *
+     * @return float
+     *
+     * @throws Exception\BadDataException if the input array of numbers is empty
+     * @throws Exception\IncorrectTypeException
+     */
+    public static function kurtosis(array $X, string $type = self::POPULATION_KURTOSIS): float
+    {
+        switch ($type) {
+            case self::SAMPLE_KURTOSIS:
+                return self::sampleKurtosis($X);
+
+            case self::POPULATION_KURTOSIS:
+                return self::populationKurtosis($X);
+
+            default:
+                throw new Exception\IncorrectTypeException("Type $type is not a valid kurtosis algorithm type");
+        }
+    }
+
+    /**
      * Is the kurtosis negative? (Platykurtic)
      * Indicates a flat distribution.
      *
      * @param array $X list of numbers (random variable X)
+     * @param string $type (optional) determines the kurtsosis algorithm used (POPULATION_KURTOSIS (default), SAMPLE_KURTOSIS)
      *
      * @return bool true if platykurtic
      *
      * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function isPlatykurtic(array $X): bool
+    public static function isPlatykurtic(array $X, string $type = self::POPULATION_KURTOSIS): bool
     {
-        return self::kurtosis($X) < 0;
+        return self::kurtosis($X, $type) < 0;
     }
 
     /**
@@ -267,14 +396,15 @@ class RandomVariable
      * Indicates a peaked distribution.
      *
      * @param array $X list of numbers (random variable X)
+     * @param string $type (optional) determines the kurtsosis algorithm used (POPULATION_KURTOSIS (default), SAMPLE_KURTOSIS)
      *
      * @return bool true if leptokurtic
      *
      * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function isLeptokurtic(array $X): bool
+    public static function isLeptokurtic(array $X, string $type = self::POPULATION_KURTOSIS): bool
     {
-        return self::kurtosis($X) > 0;
+        return self::kurtosis($X, $type) > 0;
     }
 
     /**
@@ -282,14 +412,15 @@ class RandomVariable
      * Indicates a normal distribution.
      *
      * @param array $X list of numbers (random variable X)
+     * @param string $type (optional) determines the kurtsosis algorithm used (POPULATION_KURTOSIS (default), SAMPLE_KURTOSIS)
      *
      * @return bool true if mesokurtic
      *
      * @throws Exception\BadDataException if the input array of numbers is empty
      */
-    public static function isMesokurtic(array $X): bool
+    public static function isMesokurtic(array $X, string $type = self::POPULATION_KURTOSIS): bool
     {
-        return self::kurtosis($X) == 0;
+        return self::kurtosis($X, $type) == 0;
     }
 
     /**
@@ -313,7 +444,7 @@ class RandomVariable
         }
 
         $２⟮SES⟯        = 2 * self::ses($n);
-        $⟮n² − 1⟯       = $n**2 - 1;
+        $⟮n² − 1⟯       = $n ** 2 - 1;
         $⟮n − 3⟯⟮n ＋ 5⟯ = ($n - 3) * ($n + 5);
 
         return $２⟮SES⟯ * sqrt($⟮n² − 1⟯ / $⟮n − 3⟯⟮n ＋ 5⟯);

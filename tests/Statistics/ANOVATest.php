@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Statistics;
 
 use MathPHP\Statistics\ANOVA;
@@ -7,7 +8,7 @@ use MathPHP\Exception;
 class ANOVATest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     oneWay with three samples
+     * @test         oneWay with three samples
      * @dataProvider dataProviderForOneWayWithThreeSamples
      * @param        array $sample1
      * @param        array $sample2
@@ -16,8 +17,10 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
      */
     public function testOneWayWithThreeSamples(array $sample1, array $sample2, array $sample3, array $expected)
     {
+        // When
         $anova = ANOVA::oneWay($sample1, $sample2, $sample3);
 
+        // Then
         $this->assertEquals($expected, $anova, '', 0.0001);
     }
 
@@ -157,7 +160,7 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     oneWay with four samples
+     * @test         oneWay with four samples
      * @dataProvider dataProviderForOneWayWithFourSamples
      * @param        array $sample1
      * @param        array $sample2
@@ -167,8 +170,10 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
      */
     public function testOneWayWithFourSamples(array $sample1, array $sample2, array $sample3, array $sample4, array $expected)
     {
+        // When
         $anova = ANOVA::oneWay($sample1, $sample2, $sample3, $sample4);
 
+        // Then
         $this->assertEquals($expected, $anova, '', 0.0001);
     }
 
@@ -255,32 +260,40 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase oneWay throws a BadDataException if there are fewer than three samples
+     * @test oneWay throws a BadDataException if there are fewer than three samples
      */
     public function testOneWayExceptionLessThanThreeSamples()
     {
+        // Given
         $sample1 = [1, 2, 3];
         $sample2 = [3, 4, 5];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         ANOVA::oneWay($sample1, $sample2);
     }
 
     /**
-     * @testCase oneWay throws a BadDataException if the samples of different sample sizes
+     * @test oneWay throws a BadDataException if the samples of different sample sizes
      */
     public function testOneWayExceptionDifferentSampleSizes()
     {
+        // Given
         $sample1 = [1, 2, 3];
         $sample2 = [3, 4, 5, 6];
         $sample3 = [5, 6, 7, 8, 9];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         ANOVA::oneWay($sample1, $sample2, $sample3);
     }
 
     /**
-     * @testCase     Axioms of one-way ANOVA results using three samples
+     * @test         Axioms of one-way ANOVA results using three samples
      * @dataProvider dataProviderForOneWayAxiomsThreeSamples
      * @param        array $sample1
      * @param        array $sample2
@@ -288,15 +301,16 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
      */
     public function testOneWayAxiomsThreeSamples(array $sample1, array $sample2, array $sample3)
     {
+        // When
         $anova = ANOVA::oneWay($sample1, $sample2, $sample3);
 
-        // SST = SSB + SSW
+        // Then SST = SSB + SSW
         $SST = $anova['ANOVA']['total']['SS'];
         $SSB = $anova['ANOVA']['treatment']['SS'];
         $SSW = $anova['ANOVA']['error']['SS'];
         $this->assertEquals($SST, $SSB + $SSW);
 
-        // dfT = dfB + dfW
+        // And dfT = dfB + dfW
         $dfT = $anova['ANOVA']['total']['df'];
         $dfB = $anova['ANOVA']['treatment']['df'];
         $dfW = $anova['ANOVA']['error']['df'];
@@ -328,7 +342,7 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     Axioms of one-way ANOVA results using five samples
+     * @test         Axioms of one-way ANOVA results using five samples
      * @dataProvider dataProviderForOneWayAxiomsFiveSamples
      * @param        array $sample1
      * @param        array $sample2
@@ -338,15 +352,16 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
      */
     public function testOneWayAxiomsFiveSamples(array $sample1, array $sample2, array $sample3, array $sample4, array $sample5)
     {
+        // When
         $anova = ANOVA::oneWay($sample1, $sample2, $sample3, $sample4, $sample5);
 
-        // SST = SSB + SSW
+        // Then SST = SSB + SSW
         $SST = $anova['ANOVA']['total']['SS'];
         $SSB = $anova['ANOVA']['treatment']['SS'];
         $SSW = $anova['ANOVA']['error']['SS'];
         $this->assertEquals($SST, $SSB + $SSW);
 
-        // dfT = dfB + dfW
+        // And dfT = dfB + dfW
         $dfT = $anova['ANOVA']['total']['df'];
         $dfB = $anova['ANOVA']['treatment']['df'];
         $dfW = $anova['ANOVA']['error']['df'];
@@ -384,7 +399,7 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     twoWay using two sample sets
+     * @test         twoWay using two sample sets
      * @dataProvider dataProviderForTwoWayTwoAs
      * @param        array $A₁
      * @param        array $A₂
@@ -392,8 +407,10 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
      */
     public function testTwoWayTwoAs(array $A₁, array $A₂, array $expected)
     {
+        // When
         $anova = ANOVA::twoWay($A₁, $A₂);
 
+        // Then
         $this->assertEquals($expected, $anova['ANOVA'], '', 0.001);
     }
 
@@ -502,7 +519,7 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     twoWay using three sample sets
+     * @test         twoWay using three sample sets
      * @dataProvider dataProviderForTwoWayThreeAs
      * @param        array $A₁
      * @param        array $A₂
@@ -511,8 +528,10 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
      */
     public function testTwoWayThreeAs(array $A₁, array $A₂, array $A₃, array $expected)
     {
+        // When
         $anova = ANOVA::twoWay($A₁, $A₂, $A₃);
 
+        // Then
         $this->assertEquals($expected, $anova['ANOVA'], '', 0.001);
     }
 
@@ -638,21 +657,26 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase twoWay throws a BadDataException if there are fewer than two sample sets
+     * @test twoWay throws a BadDataException if there are fewer than two sample sets
      */
     public function testTwoWayExceptionLessThanTwoAs()
     {
+        // Given
         $A₁ = [1, 2, 3];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         ANOVA::twoWay($A₁);
     }
 
     /**
-     * @testCase twoWay throws a BadDataException if the sample sets have unequal factors
+     * @test twoWay throws a BadDataException if the sample sets have unequal factors
      */
     public function testTwoWAyExceptionDifferentNumbersOfFactorBs()
     {
+        // Given
         $A₁ = [
             [106, 110], // Factor B₁
             [95, 100],  // Factor B₂
@@ -663,15 +687,19 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
             [95, 100],  // Factor B₃!
         ];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // Then
         ANOVA::twoWay($A₁, $A₂);
     }
 
     /**
-     * @testCase twoWay throws a BadDataException if the sample sets have factors with unequal elements
+     * @test twoWay throws a BadDataException if the sample sets have factors with unequal elements
      */
     public function testTwoWAyExceptionDifferentNumbersOfFactorElements()
     {
+        // Given
         $A₁ = [
             [106, 110], // Factor B₁
             [95, 100],  // Factor B₂
@@ -681,7 +709,10 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
             [95, 100],       // Factor B₂
         ];
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         ANOVA::twoWay($A₁, $A₂);
     }
 }

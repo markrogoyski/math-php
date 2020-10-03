@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Number;
 
 use MathPHP\Number\Rational;
@@ -7,7 +8,103 @@ use MathPHP\Exception;
 class RationalTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     __toString returns the proper string representation of a rational number
+     * @test         getWholePart
+     * @dataProvider dataProviderForData
+     * @param        int $w
+     * @param        int $n
+     * @param        int $d
+     * @param        int $expectedWholePart
+     */
+    public function testGetWholePart($w, $n, $d, $expectedWholePart)
+    {
+        // Given
+        $number = new Rational($w, $n, $d);
+
+        // When
+        $wholePart = $number->getWholePart();
+
+        // Then
+        $this->assertSame($expectedWholePart, $wholePart);
+    }
+
+    /**
+     * @test         getNumerator
+     * @dataProvider dataProviderForData
+     * @param        int $w
+     * @param        int $n
+     * @param        int $d
+     * @param        int $_
+     * @param        int $expectedNumerator
+     */
+    public function testGetNumerator($w, $n, $d, $_, $expectedNumerator)
+    {
+        // Given
+        $number = new Rational($w, $n, $d);
+
+        // When
+        $numerator = $number->getNumerator();
+
+        // Then
+        $this->assertSame($expectedNumerator, $numerator);
+    }
+
+    /**
+     * @test         getDenominator
+     * @dataProvider dataProviderForData
+     * @param        int $w
+     * @param        int $n
+     * @param        int $d
+     * @param        int $_
+     * @param        int $__
+     * @param        int $expectedDenominator
+     */
+    public function testGetDenominator($w, $n, $d, $_, $__, $expectedDenominator)
+    {
+        // Given
+        $number = new Rational($w, $n, $d);
+
+        // When
+        $denominator = $number->getDenominator();
+
+        // Then
+        $this->assertSame($expectedDenominator, $denominator);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForData(): array
+    {
+        return [
+            [0, 0, 1, 0, 0, 1],
+            [1, 0, 1, 1, 0, 1],
+            [-1, 0, 1, -1, 0, 1],
+            [0, 1, 1, 1, 0, 1],
+            [0, -1, 1, -1, 0, 1],
+            [0, 1, -1, -1, 0, 1],
+            [-5, -1, 2, -5, -1, 2],
+            [-5, 1, 2, -4, -1, 2],
+            [0, 1, 2, 0, 1, 2],
+            [0, -1, 2, 0, -1, 2],
+            [0, 2, 3, 0, 2, 3],
+            [0, 3, 4, 0, 3, 4],
+            [0, 4, 5, 0, 4, 5],
+            [0, 5, 6, 0, 5, 6],
+            [0, 6, 7, 0, 6, 7],
+            [0, 7, 8, 0, 7, 8],
+            [0, 8, 9, 0, 8, 9],
+            [0, 9, 10, 0, 9, 10],
+            [0, 10, 21, 0, 10, 21],
+            [0, 3, 2, 1, 1, 2],
+            [0, 4, 2, 2, 0, 1],
+            [0, 5, 2, 2, 1, 2],
+            [0, 10, 2, 5, 0, 1],
+            [0, 4, 3, 1, 1, 3],
+        ];
+    }
+
+    /**
+     * @test         __toString returns the proper string representation of a rational number
      * @dataProvider dataProviderForToString
      * @param        number $w
      * @param        number $n
@@ -19,7 +116,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
         // Given
         $number = new Rational($w, $n, $d);
 
-        // when
+        // When
         $stringRepresentation = (string) $number;
 
         // Then
@@ -60,7 +157,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
     
     /**
-     * @testCase     toFloat returns the correct floating point number
+     * @test         toFloat returns the correct floating point number
      * @dataProvider dataProviderForToFloat
      * @param        number $w
      * @param        number $n
@@ -99,7 +196,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
     
     /**
-     * @testCase normalization throws an Exception\BadDataException if the denominator is zero
+     * @test normalization throws an Exception\BadDataException if the denominator is zero
      */
     public function testNormalizeException()
     {
@@ -111,7 +208,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     abs returns the correct number
+     * @test         abs returns the correct number
      * @dataProvider dataProviderForAbs
      * @param        number $w
      * @param        number $n
@@ -150,7 +247,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     add returns the correct number
+     * @test         add returns the correct number
      * @dataProvider dataProviderForAdd
      * @param        array $rn1
      * @param        array $rn2
@@ -188,7 +285,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     subtract returns the correct number
+     * @test         subtract returns the correct number
      * @dataProvider dataProviderForSubtract
      * @param        array $rn1
      * @param        array $rn2
@@ -226,7 +323,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     multiply returns the correct number
+     * @test         multiply returns the correct number
      * @dataProvider dataProviderForMultiply
      * @param        array $rn1
      * @param        array $rn2
@@ -264,7 +361,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     divide returns the correct number
+     * @test         divide returns the correct number
      * @dataProvider dataProviderForDivide
      * @param        array $rn1
      * @param        array $rn2
@@ -273,7 +370,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      */
     public function testDivide(array $rn1, array $rn2, array $expected)
     {
-        // given
+        // Given
         $rational_number_1 = new Rational($rn1[0], $rn1[1], $rn1[2]);
         $rational_number_2 = new Rational($rn2[0], $rn2[1], $rn2[2]);
         $expected_rn       = new Rational(...$expected);
@@ -302,7 +399,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     add int returns the correct number
+     * @test         add int returns the correct number
      * @dataProvider dataProviderForAddInt
      * @param        array $rn
      * @param        int   $int
@@ -337,7 +434,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     subtract int returns the correct number
+     * @test         subtract int returns the correct number
      * @dataProvider dataProviderForSubtractInt
      * @param        array $rn
      * @param        int   $int
@@ -372,7 +469,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     multiply int returns the correct number
+     * @test         multiply int returns the correct number
      * @dataProvider dataProviderForMultiplyInt
      * @param        array $rn
      * @param        int   $int
@@ -407,7 +504,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     divide int returns the correct number
+     * @test         divide int returns the correct number
      * @dataProvider dataProviderForDivideInt
      * @param        array $rn
      * @param        int   $int
@@ -416,7 +513,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      */
     public function testDivideInt(array $rn, int $int, array $result)
     {
-        // given
+        // Given
         $rational_number = new Rational(...$rn);
         $result_rn       = new Rational(...$result);
 
@@ -442,7 +539,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Adding a float throws an exception
+     * @test     Adding a float throws an exception
      * @throws   \Exception
      */
     public function testAddException()
@@ -453,7 +550,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Subtracting a float throws an exception
+     * @test     Subtracting a float throws an exception
      * @throws   \Exception
      */
     public function testSubtractException()
@@ -469,8 +566,8 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Multiplying a float throws an exception
-     * @throws   \Exception
+     * @test   Multiplying a float throws an exception
+     * @throws \Exception
      */
     public function testMultiplyException()
     {
@@ -485,7 +582,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Dividing a float throws an exception
+     * @test     Dividing a float throws an exception
      * @throws   \Exception
      */
     public function testDivideException()

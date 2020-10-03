@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\NumericalIntegration;
 
 use MathPHP\NumericalAnalysis\Interpolation\LagrangePolynomial;
@@ -96,7 +97,7 @@ class BoolesRule extends NumericalIntegration
         $n             = count($sorted);
         $subIntervals  = $n - 1;
         $a             = $sorted[0][$x];
-        $b             = $sorted[$n-1][$x];
+        $b             = $sorted[$n - 1][$x];
         $h             = ($b - $a) / $subIntervals;
         $approximation = 0;
 
@@ -106,17 +107,17 @@ class BoolesRule extends NumericalIntegration
          *   ⁱ⁼¹   45
          *  where h = (xn - x₁) / (n - 1)
          */
-        for ($i = 1; $i < ($subIntervals/4) + 1; $i++) {
-            $x₄ᵢ₋₃          = $sorted[(4*$i)-4][$x];
-            $x₄ᵢ₋₂          = $sorted[(4*$i)-3][$x];
-            $x₄ᵢ₋₁          = $sorted[(4*$i)-2][$x];
-            $x₄ᵢ            = $sorted[(4*$i)-1][$x];
-            $x₄ᵢ₊₁          = $sorted[(4*$i)][$x];
-            $f⟮x₄ᵢ₋₃⟯        = $sorted[(4*$i)-4][$y]; // y₄ᵢ₋₃
-            $f⟮x₄ᵢ₋₂⟯        = $sorted[(4*$i)-3][$y]; // y₄ᵢ₋₂
-            $f⟮x₄ᵢ₋₁⟯        = $sorted[(4*$i)-2][$y]; // y₄ᵢ₋₁
-            $f⟮x₄ᵢ⟯          = $sorted[(4*$i)-1][$y]; // y₄ᵢ
-            $f⟮x₄ᵢ₊₁⟯        = $sorted[(4*$i)][$y];   // y₄ᵢ₊₁
+        for ($i = 1; $i < ($subIntervals / 4) + 1; $i++) {
+            $x₄ᵢ₋₃          = $sorted[(4 * $i) - 4][$x];
+            $x₄ᵢ₋₂          = $sorted[(4 * $i) - 3][$x];
+            $x₄ᵢ₋₁          = $sorted[(4 * $i) - 2][$x];
+            $x₄ᵢ            = $sorted[(4 * $i) - 1][$x];
+            $x₄ᵢ₊₁          = $sorted[(4 * $i)][$x];
+            $f⟮x₄ᵢ₋₃⟯        = $sorted[(4 * $i) - 4][$y]; // y₄ᵢ₋₃
+            $f⟮x₄ᵢ₋₂⟯        = $sorted[(4 * $i) - 3][$y]; // y₄ᵢ₋₂
+            $f⟮x₄ᵢ₋₁⟯        = $sorted[(4 * $i) - 2][$y]; // y₄ᵢ₋₁
+            $f⟮x₄ᵢ⟯          = $sorted[(4 * $i) - 1][$y]; // y₄ᵢ
+            $f⟮x₄ᵢ₊₁⟯        = $sorted[(4 * $i)][$y];   // y₄ᵢ₊₁
             $lagrange       = LagrangePolynomial::interpolate([[$x₄ᵢ₋₃, $f⟮x₄ᵢ₋₃⟯], [$x₄ᵢ₋₂, $f⟮x₄ᵢ₋₂⟯], [$x₄ᵢ₋₁, $f⟮x₄ᵢ₋₁⟯], [$x₄ᵢ, $f⟮x₄ᵢ⟯], [$x₄ᵢ₊₁, $f⟮x₄ᵢ₊₁⟯]]);
             $integral       = $lagrange->integrate();
             $approximation += $integral($x₄ᵢ₊₁) - $integral($x₄ᵢ₋₃); // definite integral of lagrange polynomial

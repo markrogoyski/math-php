@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 
 use MathPHP\Exception;
@@ -97,7 +98,7 @@ class ThreePointFormula extends NumericalDifferentiation
         if ($sorted[1][$x] == $target) {
             $f⟮x₀⧿h⟯     = $sorted[0][$y];
             $f⟮x₀⧾h⟯     = $sorted[2][$y];
-            $derivative = ($f⟮x₀⧾h⟯ - $f⟮x₀⧿h⟯) / (2*$h);
+            $derivative = ($f⟮x₀⧾h⟯ - $f⟮x₀⧿h⟯) / (2 * $h);
 
             return $derivative;
         }
@@ -123,7 +124,7 @@ class ThreePointFormula extends NumericalDifferentiation
             $f⟮x₀⧾2h⟯ = $sorted[0][$y];
         }
 
-        $derivative = (-3*$f⟮x₀⟯ + 4*$f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯) / (2*$h);
+        $derivative = (-3 * $f⟮x₀⟯ + 4 * $f⟮x₀⧾h⟯ - $f⟮x₀⧾2h⟯) / (2 * $h);
 
         return $derivative;
     }

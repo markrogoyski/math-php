@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\Vector;
@@ -6,16 +7,22 @@ use MathPHP\LinearAlgebra\Vector;
 class VectorNormsTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test         l1 norm
      * @dataProvider dataProviderForL1Norm
      */
-    public function testL1Norm(array $A, $l₁norm)
+    public function testL1Norm(array $A, $expected)
     {
+        // Given
         $A = new Vector($A);
 
-        $this->assertEquals($l₁norm, $A->l1Norm(), '', 0.0001);
+        // When
+        $l₁norm = $A->l1Norm();
+
+        // Then
+        $this->assertEquals($expected, $l₁norm, '', 0.0001);
     }
 
-    public function dataProviderForL1Norm()
+    public function dataProviderForL1Norm(): array
     {
         return [
             [ [1, 2, 3], 6 ],
@@ -24,16 +31,22 @@ class VectorNormsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         l2 norm
      * @dataProvider dataProviderForL2Norm
      */
-    public function testL2Norm(array $A, $l²norm)
+    public function testL2Norm(array $A, $expected)
     {
+        // Given
         $A = new Vector($A);
 
-        $this->assertEquals($l²norm, $A->l2Norm(), '', 0.0001);
+        // When
+        $l²norm = $A->l2Norm();
+
+        // Then
+        $this->assertEquals($expected, $l²norm, '', 0.0001);
     }
 
-    public function dataProviderForL2Norm()
+    public function dataProviderForL2Norm(): array
     {
         return [
             [ [1, 2, 3], 3.7416573867739413 ],
@@ -49,16 +62,22 @@ class VectorNormsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         p norm
      * @dataProvider dataProviderForPNorm
      */
-    public function testPNorm(array $A, $p, $pnorm)
+    public function testPNorm(array $A, $p, $expected)
     {
+        // Given
         $A = new Vector($A);
 
-        $this->assertEquals($pnorm, $A->pNorm($p), '', 0.0001);
+        // When
+        $pnorm = $A->pNorm($p);
+
+        // Then
+        $this->assertEquals($expected, $pnorm, '', 0.0001);
     }
 
-    public function dataProviderForPNorm()
+    public function dataProviderForPNorm(): array
     {
         return [
             [ [1, 2, 3], 2, 3.74165738677 ],
@@ -69,16 +88,22 @@ class VectorNormsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         max norm
      * @dataProvider dataProviderForMaxNorm
      */
-    public function testMaxNorm(array $A, $maxnorm)
+    public function testMaxNorm(array $A, $expected)
     {
+        // Given
         $A = new Vector($A);
 
-        $this->assertEquals($maxnorm, $A->maxNorm(), '', 0.0001);
+        // When
+        $maxnorm = $A->maxNorm();
+
+        // Then
+        $this->assertEquals($expected, $maxnorm, '', 0.0001);
     }
 
-    public function dataProviderForMaxNorm()
+    public function dataProviderForMaxNorm(): array
     {
         return [
             [ [1, 2, 3], 3 ],

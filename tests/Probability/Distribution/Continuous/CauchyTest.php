@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\Cauchy;
@@ -6,7 +7,7 @@ use MathPHP\Probability\Distribution\Continuous\Cauchy;
 class CauchyTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $x
      * @param        float $x₀
@@ -64,7 +65,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $x₀
@@ -84,7 +85,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse of CDF is original support x
+     * @test         inverse of CDF is original support x
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $x₀
@@ -182,7 +183,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean is not a number
+     * @test         mean is not a number
      * @dataProvider dataProviderForAverages
      * @param        float $x₀
      * @param        float $γ
@@ -200,7 +201,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median is $x₀
+     * @test         median is $x₀
      * @dataProvider dataProviderForAverages
      * @param        float $x₀
      * @param        float $γ
@@ -218,7 +219,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode is $x₀
+     * @test         mode is $x₀
      * @dataProvider dataProviderForAverages
      * @param        float $x₀
      * @param        float $γ
@@ -236,7 +237,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance is not a number
+     * @test         variance is not a number
      * @dataProvider dataProviderForAverages
      * @param        float $x₀
      * @param        float $γ
@@ -274,7 +275,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase rand
+     * @test rand
      */
     public function testRand()
     {

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Statistics\Regression;
 
 use MathPHP\Statistics\Regression\LineweaverBurk;
@@ -6,13 +7,16 @@ use MathPHP\Statistics\Regression\LineweaverBurk;
 class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     getEquation - Equation matches pattern y = V * X / (K + x)
+     * @test         getEquation - Equation matches pattern y = V * X / (K + x)
      * @dataProvider dataProviderForEquation
      * @param        array $points
      */
     public function testGetEquation(array $points)
     {
+        // Given
         $regression = new LineweaverBurk($points);
+
+        // Then
         $this->assertRegExp('/^y = \d+[.]\d+x\/\(\d+[.]\d+\+x\)$/', $regression->getEquation());
     }
 
@@ -29,7 +33,7 @@ class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     getParameters
+     * @test         getParameters
      * @dataProvider dataProviderForParameters
      * @param        array $points
      * @param        float $V
@@ -37,8 +41,13 @@ class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetParameters(array $points, float $V, float $K)
     {
+        // Given
         $regression = new LineweaverBurk($points);
+
+        // When
         $parameters = $regression->getParameters();
+
+        // Then
         $this->assertEquals($V, $parameters['V'], '', 0.0001);
         $this->assertEquals($K, $parameters['K'], '', 0.0001);
     }
@@ -57,7 +66,7 @@ class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     evaluate
+     * @test         evaluate
      * @dataProvider dataProviderForEvaluate
      * @param        array $points
      * @param        float $x
@@ -65,7 +74,10 @@ class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
      */
     public function testEvaluate(array $points, float $x, float $y)
     {
+        // Given
         $regression = new LineweaverBurk($points);
+
+        // Then
         $this->assertEquals($y, $regression->evaluate($x), '', 0.0001);
     }
 

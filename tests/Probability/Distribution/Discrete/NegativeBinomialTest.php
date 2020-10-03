@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Distribution\Discrete\NegativeBinomial;
@@ -6,7 +7,7 @@ use MathPHP\Probability\Distribution\Discrete\NegativeBinomial;
 class NegativeBinomialTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pmf
+     * @test         pmf
      * @dataProvider dataProviderForPmf
      * @param        int   $r
      * @param        float $p
@@ -46,7 +47,7 @@ class NegativeBinomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        int   $r
      * @param        float $p
@@ -87,7 +88,7 @@ class NegativeBinomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        int   $r
      * @param        float $p
@@ -117,7 +118,7 @@ class NegativeBinomialTest extends \PHPUnit\Framework\TestCase
 
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMode
      * @param        int   $r
      * @param        float $p
@@ -152,7 +153,7 @@ class NegativeBinomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        int   $r
      * @param        float $p

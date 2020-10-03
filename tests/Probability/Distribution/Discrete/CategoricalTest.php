@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Distribution\Discrete\Categorical;
@@ -7,7 +8,7 @@ use MathPHP\Exception;
 class CategoricalTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     Constructor throws a BadParameterException if k is <= 0
+     * @test         Constructor throws a BadParameterException if k is <= 0
      * @dataProvider dataProviderForBadK
      * @param        int $k
      * @throws       \Exception
@@ -34,7 +35,7 @@ class CategoricalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Constructor throws a BadDataException if there are no exactly k probabilities
+     * @test     Constructor throws a BadDataException if there are no exactly k probabilities
      * @throws   \Exception
      */
     public function testBadCount()
@@ -51,7 +52,7 @@ class CategoricalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase Constructor throws a BadDataException if the probabilities do not add up to 1
+     * @test     Constructor throws a BadDataException if the probabilities do not add up to 1
      * @throws   \Exception
      */
     public function testBadProbabilities()
@@ -68,7 +69,7 @@ class CategoricalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     pmf returns the expected probability for the category x
+     * @test         pmf returns the expected probability for the category x
      * @dataProvider dataProviderForPmf
      * @param        int    $k
      * @param        array  $probabilities
@@ -134,7 +135,7 @@ class CategoricalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase pmf throws a BadDataException if x is not a valid category
+     * @test     pmf throws a BadDataException if x is not a valid category
      */
     public function testPmfException()
     {
@@ -151,7 +152,7 @@ class CategoricalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode returns the expected category name
+     * @test         mode returns the expected category name
      * @dataProvider dataProviderForMode
      * @param        int    $k
      * @param        array  $probabilities
@@ -200,7 +201,7 @@ class CategoricalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase __get returns the expected attributes
+     * @test     __get returns the expected attributes
      * @throws   \Exception
      */
     public function testGet()
@@ -220,7 +221,7 @@ class CategoricalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase __get throws a BadDataException if the attribute does not exist
+     * @test     __get throws a BadDataException if the attribute does not exist
      * @throws   \Exception
      */
     public function testGetException()

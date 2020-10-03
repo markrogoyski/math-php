@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
@@ -359,6 +360,8 @@ class MatrixFactory
      * @param array $D elements of the diagonal
      *
      * @return DiagonalMatrix
+     *
+     * @throws Exception\MatrixException
      */
     public static function diagonal(array $D): DiagonalMatrix
     {
@@ -413,7 +416,7 @@ class MatrixFactory
         $H = [];
         for ($i = 1; $i <= $n; $i++) {
             for ($j = 1; $j <= $n; $j++) {
-                $H[$i-1][$j-1] = 1 / ($i + $j - 1);
+                $H[$i - 1][$j - 1] = 1 / ($i + $j - 1);
             }
         }
 
@@ -448,50 +451,65 @@ class MatrixFactory
    /**
     * Construct a Givens rotation matrix
     *
-    *               [  1 ⋯ 0 ⋯ 0 ⋯ 0 ]
-    *               [  ⋮ ⋱ ⋮    ⋮    ⋮  ]
-    *               [  0 ⋯ c ⋯-s ⋯ 0 ]
-    * G (𝒾,𝒿,θ) =    [  ⋮   ⋮  ⋱ ⋮    ⋮ ]
-    *               [  0 ⋯ s ⋯ c ⋯ 0 ]
-    *               [  ⋮    ⋮    ⋮  ⋱ ⋮ ]
+    *               [  1 ⋯ 0 ⋯ 0 ⋯ 0  ]
+    *               [  ⋮ ⋱ ⋮   ⋮   ⋮   ]
+    *               [  0 ⋯ c ⋯-s ⋯ 0  ]
+    * G (𝒾,𝒿,θ) =   [  ⋮   ⋮  ⋱ ⋮  ⋮  ]
+    *               [  0 ⋯ s ⋯ c ⋯ 0  ]
+    *               [  ⋮    ⋮   ⋮ ⋱ ⋮ ]
     *               [  0 ⋯ 0 ⋯ 0 ⋯ 1 ]
     *
     * https://en.wikipedia.org/wiki/Givens_rotation
     *
-    * @param int $m The row in G in which the top of the roatation lies
-    * @param int $n The column in G in which the left of the roatation lies
+    * @param int   $m The row in G in which the top of the rotation lies
+    * @param int   $n The column in G in which the left of the rotation lies
     * @param float $angle The angle to use in the trigonometric functions
-    * @param int $size The total number of rows in G
+    * @param int   $size The total number of rows in G
     *
     * @return Matrix
+    *
+    * @throws Exception\BadDataException
+    * @throws Exception\IncorrectTypeException
+    * @throws Exception\MathException
+    * @throws Exception\MatrixException
+    * @throws Exception\OutOfBoundsException
     */
-    public static function givens(int $m, int $n, float $angle, int $size) : Matrix
+    public static function givens(int $m, int $n, float $angle, int $size): Matrix
     {
         if ($m >= $size || $n >= $size || $m < 0 || $n < 0) {
             throw new Exception\OutOfBoundsException("m and n must be within the matrix");
         }
-        $G = Matrixfactory::identity($size)->getMatrix();
+
+        $G         = MatrixFactory::identity($size)->getMatrix();
         $G[$m][$m] = cos($angle);
         $G[$n][$n] = cos($angle);
         $G[$m][$n] = -1 * sin($angle);
         $G[$n][$m] = sin($angle);
+
         return MatrixFactory::create($G);
     }
 
     /**
      * Create a Matrix of random numbers
      *
-     * @param int $m number of rows
-     * @param int $n number of columns
+     * @param int $m   number of rows
+     * @param int $n   number of columns
+     * @param int $min lower bound for the random number (optional - default: 0)
+     * @param int $max upper bound for the random number (optional - default: 20)
      *
      * @return Matrix
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MathException
+     * @throws Exception\MatrixException
      */
-    public static function random(int $m, int $n): Matrix
+    public static function random(int $m, int $n, int $min = 0, int $max = 20): Matrix
     {
         $A = [];
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                $A[$i][$j] = rand();
+                $A[$i][$j] = rand($min, $max);
             }
         }
         return self::create($A);

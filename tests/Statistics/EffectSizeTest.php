@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Statistics;
 
 use MathPHP\Statistics\EffectSize;
@@ -7,7 +8,7 @@ use MathPHP\Exception;
 class EffectSizeTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     etaSquared
+     * @test         etaSquared
      * @dataProvider dataProviderForEtaSquared
      * @param        float $SSt
      * @param        float $SST
@@ -15,8 +16,10 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
      */
     public function testEtaSquared(float $SSt, float $SST, float $expected)
     {
+        // When
         $η² = EffectSize::etaSquared($SSt, $SST);
 
+        // Then
         $this->assertEquals($expected, $η², '', 0.0000000001);
     }
 
@@ -43,7 +46,7 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     partialEtaSquared
+     * @test         partialEtaSquared
      * @dataProvider dataProviderForPartialEtaSquared
      * @param        float $SSt
      * @param        float $SSE
@@ -51,8 +54,10 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
      */
     public function testPartialEtaSquared(float $SSt, float $SSE, float $expected)
     {
+        // When
         $η²p = EffectSize::partialEtaSquared($SSt, $SSE);
 
+        // Then
         $this->assertEquals($expected, $η²p, '', 0.000000001);
     }
 
@@ -84,8 +89,10 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
      */
     public function testOmegaSquared(float $SSt, int $dft, float $SST, float $MSE, float $expected)
     {
+        // When
         $ω² = EffectSize::omegaSquared($SSt, $dft, $SST, $MSE);
 
+        // Then
         $this->assertEquals($expected, $ω², '', 0.000001);
     }
 
@@ -103,15 +110,17 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cohensF
+     * @test         cohensF
      * @dataProvider dataProviderForCohensF
      * @param        float $measure_of_variance_explained
      * @param        float $expected
      */
     public function testCohensF(float $measure_of_variance_explained, float $expected)
     {
+        // When
         $ƒ² = EffectSize::cohensF($measure_of_variance_explained);
 
+        // Then
         $this->assertEquals($expected, $ƒ², '', 0.0000001);
     }
 
@@ -132,7 +141,7 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cohensQ
+     * @test         cohensQ
      * @dataProvider dataProviderForCohensQ
      * @param        float $r₁
      * @param        float $r₂
@@ -140,8 +149,10 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
      */
     public function testCohensQ(float $r₁, float $r₂, float $expected)
     {
+        // When
         $q = EffectSize::cohensQ($r₁, $r₂);
 
+        // Then
         $this->assertEquals($expected, $q, '', 0.001);
     }
 
@@ -163,17 +174,19 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase cohensQ R out of bounds
+     * @test     cohensQ R out of bounds
      */
     public function testCohensQExceptionROutOfBounds()
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
 
+        // When
         EffectSize::cohensQ(0.1, 2);
     }
 
     /**
-     * @testCase     cohensD
+     * @test         cohensD
      * @dataProvider dataProviderForCohensD
      * @param        float $μ₁
      * @param        float $μ₂
@@ -183,8 +196,10 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
      */
     public function testCohensD(float $μ₁, float $μ₂, float $s₁, float $s₂, float $expected)
     {
+        // When
         $d = EffectSize::cohensD($μ₁, $μ₂, $s₁, $s₂);
 
+        // Then
         $this->assertEquals($expected, $d, '', 0.00001);
     }
 
@@ -206,7 +221,7 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     hedgesG
+     * @test         hedgesG
      * @dataProvider dataProviderForHedgesG
      * @param        float $μ₁
      * @param        float $μ₂
@@ -218,8 +233,10 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
      */
     public function testHedgesG(float $μ₁, float $μ₂, float $s₁, float $s₂, int $n₁, int $n₂, float $expected)
     {
+        // When
         $g = EffectSize::hedgesG($μ₁, $μ₂, $s₁, $s₂, $n₁, $n₂);
 
+        // Then
         $this->assertEquals($expected, $g, '', 0.00001);
     }
 
@@ -243,7 +260,7 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     glassDelta
+     * @test         glassDelta
      * @dataProvider dataProviderForGlassDelta
      * @param        float $μ₁
      * @param        float $μ₂
@@ -252,8 +269,10 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
      */
     public function testGlassDelta(float $μ₁, float $μ₂, float $s₂, float $expected)
     {
+        // When
         $Δ = EffectSize::glassDelta($μ₁, $μ₂, $s₂);
 
+        // Then
         $this->assertEquals($expected, $Δ, '', 0.00001);
     }
 

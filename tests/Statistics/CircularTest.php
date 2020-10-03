@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Statistics;
 
 use MathPHP\Statistics\Circular;
@@ -6,14 +7,18 @@ use MathPHP\Statistics\Circular;
 class CircularTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        array $angles
-     * @param        float $mean
+     * @param        float $expected
      */
-    public function testMean(array $angles, float $mean)
+    public function testMean(array $angles, float $expected)
     {
-        $this->assertEquals($mean, Circular::mean($angles), '', 0.000001);
+        // When
+        $mean = Circular::mean($angles);
+
+        // Then
+        $this->assertEquals($expected, $mean, '', 0.000001);
     }
 
     /**
@@ -29,9 +34,9 @@ class CircularTest extends \PHPUnit\Framework\TestCase
             [[0, 2 * $π], 0],
             [[0, 0.5 * $π], 0.7853982],
             [[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], 0.5],
-            [[0*$π, 0.1*$π, 0.2*$π, 0.3*$π, 0.4*$π, 0.5*$π, 0.6*$π, 0.7*$π, 0.8*$π, 0.9*$π, 1*$π], 1.570796],
+            [[0 * $π, 0.1 * $π, 0.2 * $π, 0.3 * $π, 0.4 * $π, 0.5 * $π, 0.6 * $π, 0.7 * $π, 0.8 * $π, 0.9 * $π, 1 * $π], 1.570796],
             [[0, 0, 90], .5226276],
-            [[1.4*$π, 1.7*$π, 1.75*$π, 2.54*$π, 4.32*$π], -0.4242655],
+            [[1.4 * $π, 1.7 * $π, 1.75 * $π, 2.54 * $π, 4.32 * $π], -0.4242655],
             [[5, 60, 340], -1.423654],
             [[5, 50, 150, 250], -0.9253517],
             [[10, 20, 30], -1.991149],
@@ -52,14 +57,18 @@ class CircularTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     resultantLength
+     * @test         resultantLength
      * @dataProvider dataProviderForResultantLength
      * @param        array $angles
-     * @param        float $length
+     * @param        float $expected
      */
-    public function testResultantLength(array $angles, float $length)
+    public function testResultantLength(array $angles, float $expected)
     {
-        $this->assertEquals($length, Circular::resultantLength($angles), '', 0.00001);
+        // When
+        $length = Circular::resultantLength($angles);
+
+        // Then
+        $this->assertEquals($expected, $length, '', 0.00001);
     }
 
     /**
@@ -82,9 +91,9 @@ class CircularTest extends \PHPUnit\Framework\TestCase
             [[0, 2 * $π], 2],
             [[0, 0.5 * $π], 1.414214],
             [[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], 10.4581],
-            [[0*$π, 0.1*$π, 0.2*$π, 0.3*$π, 0.4*$π, 0.5*$π, 0.6*$π, 0.7*$π, 0.8*$π, 0.9*$π, 1*$π], 6.313752],
+            [[0 * $π, 0.1 * $π, 0.2 * $π, 0.3 * $π, 0.4 * $π, 0.5 * $π, 0.6 * $π, 0.7 * $π, 0.8 * $π, 0.9 * $π, 1 * $π], 6.313752],
             [[0, 0, 90], 1.791007],
-            [[1.4*$π, 1.7*$π, 1.75*$π, 2.54*$π, 4.32*$π], 1.532213],
+            [[1.4 * $π, 1.7 * $π, 1.75 * $π, 2.54 * $π, 4.32 * $π], 1.532213],
             [[5, 60, 340], 0.6201251],
             [[5, 50, 150, 250], 3.63869],
             [[10, 20, 30], 0.6781431],
@@ -93,14 +102,18 @@ class CircularTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     meanResultantLength
+     * @test         meanResultantLength
      * @dataProvider dataProviderForMeanResultantLength
      * @param        array $angles
-     * @param        float $length
+     * @param        float $expected
      */
-    public function testMeanResultantLength(array $angles, float $length)
+    public function testMeanResultantLength(array $angles, float $expected)
     {
-        $this->assertEquals($length, Circular::meanResultantLength($angles), '', 0.000001);
+        // When
+        $length = Circular::meanResultantLength($angles);
+
+        // Then
+        $this->assertEquals($expected, $length, '', 0.000001);
     }
 
     /**
@@ -124,9 +137,9 @@ class CircularTest extends \PHPUnit\Framework\TestCase
             [[0, 2 * $π], 1],
             [[0, 0.5 * $π], 0.7071068],
             [[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], 0.9507365],
-            [[0*$π, 0.1*$π, 0.2*$π, 0.3*$π, 0.4*$π, 0.5*$π, 0.6*$π, 0.7*$π, 0.8*$π, 0.9*$π, 1*$π], 0.5739774],
+            [[0 * $π, 0.1 * $π, 0.2 * $π, 0.3 * $π, 0.4 * $π, 0.5 * $π, 0.6 * $π, 0.7 * $π, 0.8 * $π, 0.9 * $π, 1 * $π], 0.5739774],
             [[0, 0, 90], 0.5970023],
-            [[1.4*$π, 1.7*$π, 1.75*$π, 2.54*$π, 4.32*$π], 0.3064425],
+            [[1.4 * $π, 1.7 * $π, 1.75 * $π, 2.54 * $π, 4.32 * $π], 0.3064425],
             [[5, 60, 340], 0.2067084],
             [[5, 50, 150, 250], 0.9096725],
             [[10, 20, 30], 0.2260477],
@@ -135,14 +148,18 @@ class CircularTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        array $angles
-     * @param        float $variance
+     * @param        float $expected
      */
-    public function testVariance(array $angles, float $variance)
+    public function testVariance(array $angles, float $expected)
     {
-        $this->assertEquals($variance, Circular::variance($angles), '', 0.000001);
+        // When
+        $variance = Circular::variance($angles);
+
+        // Then
+        $this->assertEquals($expected, $variance, '', 0.000001);
     }
 
     /**
@@ -160,9 +177,9 @@ class CircularTest extends \PHPUnit\Framework\TestCase
             [[0, 2 * $π], 0],
             [[0, 0.5 * $π], 0.2928932],
             [[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], 0.04926349],
-            [[0*$π, 0.1*$π, 0.2*$π, 0.3*$π, 0.4*$π, 0.5*$π, 0.6*$π, 0.7*$π, 0.8*$π, 0.9*$π, 1*$π], 0.4260226],
+            [[0 * $π, 0.1 * $π, 0.2 * $π, 0.3 * $π, 0.4 * $π, 0.5 * $π, 0.6 * $π, 0.7 * $π, 0.8 * $π, 0.9 * $π, 1 * $π], 0.4260226],
             [[0, 0, 90], 0.4029977],
-            [[1.4*$π, 1.7*$π, 1.75*$π, 2.54*$π, 4.32*$π], 0.6935575],
+            [[1.4 * $π, 1.7 * $π, 1.75 * $π, 2.54 * $π, 4.32 * $π], 0.6935575],
             [[5, 60, 340], 0.7932916],
             [[5, 50, 150, 250], 0.09032747],
             [[10, 20, 30], 0.7739523],
@@ -171,14 +188,18 @@ class CircularTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     standardDeviation
+     * @test         standardDeviation
      * @dataProvider dataProviderForStandardDeviation
      * @param        array $angles
-     * @param        float $sd
+     * @param        float $expected
      */
-    public function testStandardDeviation(array $angles, float $sd)
+    public function testStandardDeviation(array $angles, float $expected)
     {
-        $this->assertEquals($sd, Circular::standardDeviation($angles), '', 0.000001);
+        // When
+        $sd = Circular::standardDeviation($angles);
+
+        // Then
+        $this->assertEquals($expected, $sd, '', 0.000001);
     }
 
     /**
@@ -196,9 +217,9 @@ class CircularTest extends \PHPUnit\Framework\TestCase
             [[0, 2 * $π], 0],
             [[0, 0.5 * $π], 0.8325546],
             [[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], 0.3178626],
-            [[0*$π, 0.1*$π, 0.2*$π, 0.3*$π, 0.4*$π, 0.5*$π, 0.6*$π, 0.7*$π, 0.8*$π, 0.9*$π, 1*$π], 1.053722],
+            [[0 * $π, 0.1 * $π, 0.2 * $π, 0.3 * $π, 0.4 * $π, 0.5 * $π, 0.6 * $π, 0.7 * $π, 0.8 * $π, 0.9 * $π, 1 * $π], 1.053722],
             [[0, 0, 90], 1.015711],
-            [[1.4*$π, 1.7*$π, 1.75*$π, 2.54*$π, 4.32*$π], 1.538002],
+            [[1.4 * $π, 1.7 * $π, 1.75 * $π, 2.54 * $π, 4.32 * $π], 1.538002],
             [[5, 60, 340], 1.775639],
             [[5, 50, 150, 250], 0.4351335],
             [[10, 20, 30], 1.724534],
@@ -207,12 +228,17 @@ class CircularTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase describe
+     * @test describe
      */
     public function testDescribe()
     {
-        $stats = Circular::describe([5, 15, 355]);
+        // Given
+        $values = [5, 15, 355];
 
+        // When
+        $stats = Circular::describe($values);
+
+        // Then
         $this->assertTrue(is_array($stats));
         $this->assertArrayHasKey('n', $stats);
         $this->assertArrayHasKey('mean', $stats);
@@ -221,6 +247,7 @@ class CircularTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('variance', $stats);
         $this->assertArrayHasKey('sd', $stats);
 
+        // And
         $this->assertTrue(is_int($stats['n']));
         $this->assertTrue(is_float($stats['mean']));
         $this->assertTrue(is_float($stats['resultant_length']));

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Distribution\Discrete\Hypergeometric;
@@ -6,7 +7,7 @@ use MathPHP\Probability\Distribution\Discrete\Hypergeometric;
 class HypergeometricTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pmf returns expected probability
+     * @test         pmf returns expected probability
      * @dataProvider dataProviderForPmf
      * @param  int   $N population size
      * @param  int   $K number of success states in the population
@@ -45,7 +46,7 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf returns expected probability
+     * @test         cdf returns expected probability
      * @dataProvider dataProviderForCdf
      * @param  int   $N population size
      * @param  int   $K number of success states in the population
@@ -82,7 +83,7 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean returns expected average
+     * @test         mean returns expected average
      * @dataProvider dataProviderForMean
      * @param  int   $N population size
      * @param  int   $K number of success states in the population
@@ -116,7 +117,7 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMode
      * @param  int   $N population size
      * @param  int   $K number of success states in the population
@@ -149,7 +150,7 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param  int   $N population size
      * @param  int   $K number of success states in the population

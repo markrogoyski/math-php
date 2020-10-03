@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Exception;
@@ -7,7 +8,7 @@ use MathPHP\Probability\Distribution\Continuous\Beta;
 class BetaTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $x
      * @param        float $α
@@ -261,7 +262,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     Constructor throws an Exception\OutOfBoundsException if alpha or beta is less than or equal to zero
+     * @test         Constructor throws an Exception\OutOfBoundsException if alpha or beta is less than or equal to zero
      * @dataProvider dataProviderForPdfAlphaBetaOutOfBoundsException
      * @param        float $α
      * @param        float $β
@@ -293,7 +294,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     pdf throws an Exception\OutOfBoundsException if the support x is less than 0 or greater than 1
+     * @test         pdf throws an Exception\OutOfBoundsException if the support x is less than 0 or greater than 1
      * @dataProvider dataProviderForPdfSupportOutOfBoundsException
      * @param        float $x
      */
@@ -327,7 +328,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $α
@@ -764,7 +765,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        float $α
      * @param        float $β
@@ -795,7 +796,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median
+     * @test         median
      * @dataProvider dataProviderForMedian
      * @param        float $α
      * @param        float $β
@@ -850,7 +851,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median when it is approximated
+     * @test         median when it is approximated
      * @dataProvider dataProviderForMedianApproximation
      * @param        float $α
      * @param        float $β
@@ -891,7 +892,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMode
      * @param        float $α
      * @param        float $β
@@ -927,7 +928,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        float $α
      * @param        float $β
@@ -963,7 +964,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse
+     * @test         inverse
      * @dataProvider dataProviderForInverse
      * @param        float $α
      * @param        float $β
@@ -1054,8 +1055,8 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase inverse throws an exception if it fails to converge on a guess within the tolerance
-     * @throws   Exception\MathException
+     * @test   inverse throws an exception if it fails to converge on a guess within the tolerance
+     * @throws Exception\MathException
      */
     public function testInverseFailToConvergeException()
     {
@@ -1073,7 +1074,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase rand
+     * @test rand
      */
     public function testRand()
     {

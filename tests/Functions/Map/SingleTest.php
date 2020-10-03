@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Functions\Map;
 
 use MathPHP\Functions\Map\Single;
@@ -7,14 +8,21 @@ use MathPHP\Exception;
 class SingleTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test         square
      * @dataProvider dataProviderForSquare
+     * @param        array $xs
+     * @param        array $expected
      */
-    public function testSquare(array $xs, array $squares)
+    public function testSquare(array $xs, array $expected)
     {
-        $this->assertEquals($squares, Single::square($xs));
+        // When
+        $squares = Single::square($xs);
+
+        // Then
+        $this->assertEquals($expected, $squares);
     }
 
-    public function dataProviderForSquare()
+    public function dataProviderForSquare(): array
     {
         return [
             [
@@ -29,14 +37,21 @@ class SingleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         cube
      * @dataProvider dataProviderForCube
+     * @param        array $xs
+     * @param        array $expected
      */
-    public function testCube(array $xs, array $cubes)
+    public function testCube(array $xs, array $expected)
     {
-        $this->assertEquals($cubes, Single::cube($xs));
+        // When
+        $cubes = Single::cube($xs);
+
+        // Then
+        $this->assertEquals($expected, $cubes);
     }
 
-    public function dataProviderForCube()
+    public function dataProviderForCube(): array
     {
         return [
             [
@@ -51,14 +66,22 @@ class SingleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         pow
      * @dataProvider dataProviderForPow
+     * @param        array $xs
+     * @param        int   $n
+     * @param        array $expected
      */
-    public function testPow(array $xs, $n, array $pows)
+    public function testPow(array $xs, int $n, array $expected)
     {
-        $this->assertEquals($pows, Single::pow($xs, $n));
+        // When
+        $pows = Single::pow($xs, $n);
+
+        // Then
+        $this->assertEquals($expected, $pows);
     }
 
-    public function dataProviderForPow()
+    public function dataProviderForPow(): array
     {
         return [
             [
@@ -73,14 +96,21 @@ class SingleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         equals
      * @dataProvider dataProviderForSqrt
+     * @param        array $xs
+     * @param        array $expected
      */
-    public function testSqrt(array $xs, array $sqrts)
+    public function testSqrt(array $xs, array $expected)
     {
-        $this->assertEquals($sqrts, Single::sqrt($xs));
+        // When
+        $sqrts = Single::sqrt($xs);
+
+        // Then
+        $this->assertEquals($expected, $sqrts);
     }
 
-    public function dataProviderForSqrt()
+    public function dataProviderForSqrt(): array
     {
         return [
             [
@@ -95,14 +125,21 @@ class SingleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         equals
      * @dataProvider dataProviderForAbs
+     * @param        array $xs
+     * @param        array $expected
      */
-    public function testAbs(array $xs, array $abs)
+    public function testAbs(array $xs, array $expected)
     {
-        $this->assertEquals($abs, Single::abs($xs));
+        // When
+        $abs = Single::abs($xs);
+
+        // Then
+        $this->assertEquals($expected, $abs);
     }
 
-    public function dataProviderForAbs()
+    public function dataProviderForAbs(): array
     {
         return [
             [
@@ -121,14 +158,22 @@ class SingleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         add
      * @dataProvider dataProviderForAdd
+     * @param        array $xs
+     * @param        mixed $k
+     * @param        array $expected
      */
-    public function testAdd(array $xs, $k, array $sums)
+    public function testAdd(array $xs, $k, array $expected)
     {
-        $this->assertEquals($sums, Single::add($xs, $k));
+        // When
+        $sums = Single::add($xs, $k);
+
+        // Then
+        $this->assertEquals($expected, $sums);
     }
 
-    public function dataProviderForAdd()
+    public function dataProviderForAdd(): array
     {
         return [
             [ [1, 2, 3, 4, 5], 4, [5, 6, 7, 8, 9] ],
@@ -137,14 +182,22 @@ class SingleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         subtract
      * @dataProvider dataProviderForSubtract
+     * @param        array $xs
+     * @param        int   $k
+     * @param        array $expected
      */
-    public function testSubtract(array $xs, $k, array $differences)
+    public function testSubtract(array $xs, int $k, array $expected)
     {
-        $this->assertEquals($differences, Single::subtract($xs, $k));
+        // When
+        $differences = Single::subtract($xs, $k);
+
+        // Then
+        $this->assertEquals($expected, $differences);
     }
 
-    public function dataProviderForSubtract()
+    public function dataProviderForSubtract(): array
     {
         return [
             [ [1, 2, 3, 4, 5], 1, [0, 1, 2, 3, 4] ],
@@ -153,14 +206,22 @@ class SingleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         multiply
      * @dataProvider dataProviderForMultiply
+     * @param        array $xs
+     * @param        int   $k
+     * @param        array $expected
      */
-    public function testMultiply(array $xs, $k, array $products)
+    public function testMultiply(array $xs, int $k, array $expected)
     {
-        $this->assertEquals($products, Single::multiply($xs, $k));
+        // When
+        $products = Single::multiply($xs, $k);
+
+        // Then
+        $this->assertEquals($expected, $products);
     }
 
-    public function dataProviderForMultiply()
+    public function dataProviderForMultiply(): array
     {
         return [
             [ [1, 2, 3, 4, 5], 4, [4, 8, 12, 16, 20] ],
@@ -169,14 +230,22 @@ class SingleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         multiply
      * @dataProvider dataProviderForDivide
+     * @param        array $xs
+     * @param        int   $k
+     * @param        array $expected
      */
-    public function testDivide(array $xs, $k, array $quotients)
+    public function testDivide(array $xs, int $k, array $expected)
     {
-        $this->assertEquals($quotients, Single::divide($xs, $k));
+        // When
+        $quotients = Single::divide($xs, $k);
+
+        // Then
+        $this->assertEquals($expected, $quotients);
     }
 
-    public function dataProviderForDivide()
+    public function dataProviderForDivide(): array
     {
         return [
             [ [1, 2, 3, 4, 5], 2, [0.5, 1, 1.5, 2, 2.5] ],
@@ -185,14 +254,22 @@ class SingleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         max
      * @dataProvider dataProviderForMax
+     * @param        array $xs
+     * @param        mixed $value
+     * @param        array $expected
      */
-    public function testMax(array $xs, $value, array $maxes)
+    public function testMax(array $xs, $value, array $expected)
     {
-        $this->assertEquals($maxes, Single::max($xs, $value));
+        // When
+        $maxes = Single::max($xs, $value);
+
+        // Then
+        $this->assertEquals($expected, $maxes);
     }
 
-    public function dataProviderForMax()
+    public function dataProviderForMax(): array
     {
         return [
             [[1, 2, 3, 4, 5], 0, [1, 2, 3, 4, 5]],
@@ -206,14 +283,22 @@ class SingleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         min
      * @dataProvider dataProviderForMin
+     * @param        array $xs
+     * @param        mixed $value
+     * @param        array $expected
      */
-    public function testMin(array $xs, $value, array $mins)
+    public function testMin(array $xs, $value, array $expected)
     {
-        $this->assertEquals($mins, Single::min($xs, $value));
+        // When
+        $mins = Single::min($xs, $value);
+
+        // Then
+        $this->assertEquals($expected, $mins);
     }
 
-    public function dataProviderForMin()
+    public function dataProviderForMin(): array
     {
         return [
             [[1, 2, 3, 4, 5], 0, [0, 0, 0, 0, 0]],
@@ -250,15 +335,15 @@ class SingleTest extends \PHPUnit\Framework\TestCase
         return [
             [
                 [1, 2, 3, 4],
-                [1/1, 1/2, 1/3, 1/4],
+                [1 / 1, 1 / 2, 1 / 3, 1 / 4],
             ],
             [
                 [7, 8, 9, 10],
-                [1/7, 1/8, 1/9, 1/10],
+                [1 / 7, 1 / 8, 1 / 9, 1 / 10],
             ],
             [
                 [-2, -1, 1.1, 2.5, 6.73],
-                [-1/2, -1/1, 1/1.1, 1/2.5, 1/6.73],
+                [-1 / 2, -1 / 1, 1 / 1.1, 1 / 2.5, 1 / 6.73],
             ]
         ];
     }

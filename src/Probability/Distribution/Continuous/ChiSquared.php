@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 use MathPHP\Functions\Special;
@@ -61,11 +62,11 @@ class ChiSquared extends Continuous
         $k = $this->k;
 
         // Numerator
-        $x⁽ᵏ／²⁾⁻¹ = $x**(($k / 2) - 1);
+        $x⁽ᵏ／²⁾⁻¹ = $x ** (($k / 2) - 1);
         $ℯ⁻⁽ˣ／²⁾  = exp(-($x / 2));
 
         // Denominator
-        $２ᵏ／²  = 2**($k / 2);
+        $２ᵏ／²  = 2 ** ($k / 2);
         $Γ⟮k／2⟯ = Special::Γ($k / 2);
 
         return ($x⁽ᵏ／²⁾⁻¹ * $ℯ⁻⁽ˣ／²⁾) / ($２ᵏ／² * $Γ⟮k／2⟯);
@@ -127,9 +128,9 @@ class ChiSquared extends Continuous
     public function median(): float
     {
         $k          = $this->k;
-        $⟮1 − 2／9k⟯ = 1 - (2 /(9 * $k));
+        $⟮1 − 2／9k⟯ = 1 - (2 / (9 * $k));
 
-        return $k * $⟮1 − 2／9k⟯**3;
+        return $k * $⟮1 − 2／9k⟯ ** 3;
     }
 
     /**

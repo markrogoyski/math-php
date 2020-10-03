@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Statistics\Regression;
 
 use MathPHP\Statistics\Regression\TheilSen;
@@ -6,54 +7,77 @@ use MathPHP\Statistics\Regression\TheilSen;
 class TheilSenTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase constructor
+     * @test constructor
      */
     public function testConstructor()
     {
+        // Given
         $points = [ [1,2], [2,3], [4,5], [5,7], [6,8] ];
+
+        // When
         $regression = new TheilSen($points);
+
+        // Then
         $this->assertInstanceOf(\MathPHP\Statistics\Regression\Regression::class, $regression);
         $this->assertInstanceOf(\MathPHP\Statistics\Regression\TheilSen::class, $regression);
     }
 
     /**
-     * @testCase getPoints
+     * @test getPoints
      */
     public function testGetPoints()
     {
+        // Given
         $points = [ [1,2], [2,3], [4,5], [5,7], [6,8] ];
+
+        // When
         $regression = new TheilSen($points);
+
+        // Then
         $this->assertEquals($points, $regression->getPoints());
     }
 
     /**
-     * @testCase getXs
+     * @test getXs
      */
     public function testGetXs()
     {
+        // Given
         $points = [ [1,2], [2,3], [4,5], [5,7], [6,8] ];
+
+        // When
         $regression = new TheilSen($points);
+
+        // Then
         $this->assertEquals([1,2,4,5,6], $regression->getXs());
     }
 
     /**
-     * @testCase getYs
+     * @test getYs
      */
     public function testGetYs()
     {
+        // Given
         $points = [ [1,2], [2,3], [4,5], [5,7], [6,8] ];
+
+        // When
         $regression = new TheilSen($points);
+
+        // Then
         $this->assertEquals([2,3,5,7,8], $regression->getYs());
     }
 
     /**
-     * @testCase     getEquation - Equation matches pattern y = mx + b
+     * @test     getEquation - Equation matches pattern y = mx + b
      * @dataProvider dataProviderForEquation
      * @param        array $points
      */
     public function testGetEquation(array $points)
     {
+        // Given
         $regression = new TheilSen($points);
+
+        // Then
         $this->assertRegExp('/^y = \d+[.]\d+x [+] \d+[.]\d+$/', $regression->getEquation());
     }
 
@@ -68,7 +92,7 @@ class TheilSenTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     getParameters
+     * @test         getParameters
      * @dataProvider dataProviderForParameters
      * @param        array $points
      * @param        float $m
@@ -76,8 +100,13 @@ class TheilSenTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetParameters(array $points, float $m, float $b)
     {
+        // Given
         $regression = new TheilSen($points);
+
+        // When
         $parameters = $regression->getParameters();
+
+        // Then
         $this->assertEquals($m, $parameters['m'], '', 0.0001);
         $this->assertEquals($b, $parameters['b'], '', 0.0001);
     }
@@ -96,14 +125,17 @@ class TheilSenTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     getSampleSize
+     * @test         getSampleSize
      * @dataProvider dataProviderForSampleSize
      * @param        array $points
      * @param        int   $n
      */
     public function testGetSampleSize(array $points, int $n)
     {
+        // Given
         $regression = new TheilSen($points);
+
+        // Then
         $this->assertEquals($n, $regression->getSampleSize());
     }
 
@@ -120,7 +152,7 @@ class TheilSenTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     evaluate
+     * @test         evaluate
      * @dataProvider dataProviderForEvaluate
      * @param        array $points
      * @param        float $x
@@ -128,7 +160,10 @@ class TheilSenTest extends \PHPUnit\Framework\TestCase
      */
     public function testEvaluate(array $points, float $x, float $y)
     {
+        // Given
         $regression = new TheilSen($points);
+
+        // Then
         $this->assertEquals($y, $regression->evaluate($x));
     }
 

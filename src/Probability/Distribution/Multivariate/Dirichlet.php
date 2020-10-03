@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Multivariate;
 
 use MathPHP\Functions\Map;
@@ -81,7 +82,7 @@ class Dirichlet
         $∏xᵢ = array_product(
             array_map(
                 function ($xᵢ, $αᵢ) {
-                    return $xᵢ**($αᵢ - 1);
+                    return $xᵢ ** ($αᵢ - 1);
                 },
                 $xs,
                 $this->αs

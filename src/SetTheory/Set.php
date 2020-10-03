@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\SetTheory;
 
 /**
@@ -384,7 +385,7 @@ class Set implements \Countable, \Iterator
      * Example:
      *  {1, 2} ∪ {2, 3} = {1, 2, 3}
      *
-     * @param  Set[] ...$Bs One or more sets
+     * @param  Set ...$Bs One or more sets
      *
      * @return Set
      */
@@ -411,7 +412,7 @@ class Set implements \Countable, \Iterator
      * Example:
      *  {1, 2} ∩ {2, 3} = {2}
      *
-     * @param  Set[] ...$Bs One or more sets
+     * @param  Set ...$Bs One or more sets
      *
      * @return Set
      */
@@ -431,7 +432,7 @@ class Set implements \Countable, \Iterator
      * Difference (relative complement) (A ∖ B) or (A - B)
      * Produces a new set with elements that are not in the other sets.
      *
-     * @param  Set[] ...$Bs One or more sets
+     * @param  Set ...$Bs One or more sets
      *
      * @return Set
      */
@@ -459,7 +460,7 @@ class Set implements \Countable, \Iterator
      *
      * @return Set
      */
-    public function symmetricDifference(Set $B)
+    public function symmetricDifference(Set $B): Set
     {
         $B_array = $B->asArray();
 
@@ -474,24 +475,46 @@ class Set implements \Countable, \Iterator
     /**
      * Cartesian product (A×B)
      * Produces a new set by associating every element of the set with every
-     * element of the other set.
+     * element of the other set(s).
      *
      * Example:
      *  A   = (1, 2)
      *  B   = (a, b)
-     *  A×B = ((1, a), (1, b), (2, 1), (2, b))
+     *  A×B = ((1, a), (1, b), (2, a), (2, b))
      *
-     * @param  Set $B
+     * @param  Set ...$Bs One or more sets
      *
      * @return Set
      */
-    public function cartesianProduct(Set $B)
+    public function cartesianProduct(Set ...$Bs): Set
     {
-        $A×B = [];
+        $A×B     = [];
+        $product = $this->length();
+        $sets    = [$this->asArray()];
 
-        foreach ($this->A as $x) {
-            foreach ($B->asArray() as $y) {
-                $A×B[] = new Set([$x, $y]);
+        foreach ($Bs as $B) {
+            $product *= $B->length();
+            $sets[]   = $B->asArray();
+        }
+
+        $l = count($sets);
+
+        for ($i = 0; $i < $product; ++$i) {
+            $elements = [];
+            for ($i2 = 0; $i2 < $l; ++$i2) {
+                $elements[] = current($sets[$i2]);
+            }
+
+            $A×B[] = new Set($elements);
+
+            // Advance array pointers
+            for ($i2 = 0; $i2 < $l; ++$i2) {
+                next($sets[$i2]);
+                $key = key($sets[$i2]);
+                if ($key !== null) {
+                    break;
+                }
+                reset($sets[$i2]);
             }
         }
 

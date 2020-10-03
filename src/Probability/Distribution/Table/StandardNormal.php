@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Table;
 
 use MathPHP\Exception;

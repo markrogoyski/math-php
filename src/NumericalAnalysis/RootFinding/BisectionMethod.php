@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\RootFinding;
 
 use MathPHP\Functions\Special;
@@ -42,7 +43,7 @@ class BisectionMethod
 
         do {
             $f⟮a⟯ = $function($a);
-            $p   = ($a + $b)/2;     // construct the midpoint
+            $p   = ($a + $b) / 2;     // construct the midpoint
             $f⟮p⟯ = $function($p);
             $dif = abs($f⟮p⟯);       // the magnitude of our function at the midpoint
             if (Special::sgn($f⟮p⟯) !== Special::sgn($f⟮a⟯)) {

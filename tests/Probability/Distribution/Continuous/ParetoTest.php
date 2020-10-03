@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\Pareto;
@@ -6,7 +7,7 @@ use MathPHP\Probability\Distribution\Continuous\Pareto;
 class ParetoTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $x
      * @param        float $a
@@ -71,7 +72,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $a
@@ -136,7 +137,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse
+     * @test         inverse
      * @dataProvider dataProviderForInverse
      * @param        float $p
      * @param        float $a
@@ -196,7 +197,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse of CDF is x
+     * @test         inverse of CDF is x
      * @dataProvider dataProviderForInverseOfCdf
      * @param        float $x
      * @param        float $a
@@ -250,7 +251,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        float $a
      * @param        float $b
@@ -284,7 +285,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median
+     * @test         median
      * @dataProvider dataProviderForMedian
      * @param        float $a
      * @param        float $b
@@ -316,7 +317,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMode
      * @param        float $a
      * @param        float $b
@@ -348,7 +349,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        float $a
      * @param        float $b

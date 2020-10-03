@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP;
 
 class Arithmetic
@@ -20,10 +21,10 @@ class Arithmetic
     public static function root(float $x, int $nᵗʰ): float
     {
         if ($x >= 0 || $nᵗʰ % 2 === 0) {
-            return pow($x, 1/$nᵗʰ);
+            return pow($x, 1 / $nᵗʰ);
         }
 
-        return -pow(abs($x), 1/$nᵗʰ);
+        return -pow(abs($x), 1 / $nᵗʰ);
     }
 
     /**
@@ -63,7 +64,7 @@ class Arithmetic
         $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ = 0;
 
         for ($n = 0; $n <= $logx; $n++) {
-            $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ += intdiv(($x % pow($b, $n+1)) - ($x % $b**$n), ($b**$n));
+            $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ += intdiv(($x % pow($b, $n + 1)) - ($x % $b ** $n), ($b ** $n));
         }
 
         return $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯;
@@ -120,5 +121,42 @@ class Arithmetic
         return $sign >= 0
             ? abs($magnitude)
             : -abs($magnitude);
+    }
+
+    /**
+     * Modulo (Binary operation)
+     *
+     * Modulo is different from the remainder function.
+     * The PHP % operator is the remainder function, where the result has the same sign as the dividend.
+     * The mod function's result has the same sign as the divisor.
+     *
+     * For positive dividends and divisors, the modulo function is the same as the remainder (%) operator.
+     * For negative dividends or divisors, the modulo function has different behavior than the remainder (%) operator.
+     *
+     * a mod n
+     *   a - n ⌊a/n⌋   for n ≠ 0
+     *   a             for n = 0
+     * where
+     *   a is the dividend (integer)
+     *   n is the divisor, also known as the modulus (integer)
+     *   ⌊⌋ is the floor function
+     *
+     * https://en.wikipedia.org/wiki/Modulo_operation
+     * https://en.wikipedia.org/wiki/Modulo_(mathematics)
+     * Knuth, Donald. E. (1972). The Art of Computer Programming. Volume 1 Fundamental Algorithms. Addison-Wesley.
+     * Graham, Knuth, Patashnik (1994). Concrete Mathematics, A Foundation For Computer Science. Addison-Wesley.
+     *
+     * @param int $a dividend
+     * @param int $n divisor, also known as the modulus
+     *
+     * @return int
+     */
+    public static function modulo(int $a, int $n): int
+    {
+        if ($n === 0) {
+            return $a;
+        }
+
+        return $a - $n * floor($a / $n);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Sequence;
 
 use MathPHP\Arithmetic;
@@ -87,7 +88,7 @@ class Basic
         }
 
         for ($i = 0; $i < $n; $i++) {
-            $progression[] = $a * $r**$i;
+            $progression[] = $a * $r ** $i;
         }
 
         return $progression;
@@ -117,7 +118,7 @@ class Basic
         }
 
         for ($i = 0; $i < $n; $i++) {
-            $squares[] = $i**2;
+            $squares[] = $i ** 2;
         }
 
         return $squares;
@@ -147,7 +148,7 @@ class Basic
         }
 
         for ($i = 0; $i < $n; $i++) {
-            $cubes[] = $i**3;
+            $cubes[] = $i ** 3;
         }
 
         return $cubes;
@@ -177,7 +178,7 @@ class Basic
         }
 
         for ($i = 0; $i < $n; $i++) {
-            $powers_of_2[] = 2**$i;
+            $powers_of_2[] = 2 ** $i;
         }
 
         return $powers_of_2;
@@ -205,7 +206,7 @@ class Basic
         }
 
         for ($i = 0; $i < $n; $i++) {
-            $powers_of_10[] = 10**$i;
+            $powers_of_10[] = 10 ** $i;
         }
 
         return $powers_of_10;

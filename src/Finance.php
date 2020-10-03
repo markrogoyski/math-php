@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP;
 
 /**
@@ -90,7 +91,7 @@ class Finance
 
         return - ($future_value + ($present_value * pow(1 + $rate, $periods)))
             /
-            ((1 + $rate*$when) / $rate * (pow(1 + $rate, $periods) - 1));
+            ((1 + $rate * $when) / $rate * (pow(1 + $rate, $periods) - 1));
     }
 
     /**
@@ -170,6 +171,7 @@ class Finance
         } else {
             $interest = self::fv($rate, $period - 1, $payment, $present_value, $beginning) * $rate;
         }
+
         return self::checkZero($interest);
     }
 
@@ -206,7 +208,8 @@ class Finance
     public static function ppmt(float $rate, int $period, int $periods, float $present_value, float $future_value = 0.0, bool $beginning = false): float
     {
         $payment = self::pmt($rate, $periods, $present_value, $future_value, $beginning);
-        $ipmt = self::ipmt($rate, $period, $periods, $present_value, $future_value, $beginning);
+        $ipmt    = self::ipmt($rate, $period, $periods, $present_value, $future_value, $beginning);
+
         return $payment - $ipmt;
     }
 
@@ -249,8 +252,8 @@ class Finance
             return - ($present_value + $future_value) / $payment;
         }
 
-        $initial  = $payment * (1.0 + $rate * $when);
-        return log(($initial - $future_value*$rate) / ($initial + $present_value*$rate)) / log(1.0 + $rate);
+        $initial = $payment * (1.0 + $rate * $when);
+        return log(($initial - $future_value * $rate) / ($initial + $present_value * $rate)) / log(1.0 + $rate);
     }
 
     /**
@@ -314,7 +317,7 @@ class Finance
             return $aer;
         }
 
-        return (pow($aer + 1, 1/$periods) - 1) * $periods;
+        return (pow($aer + 1, 1 / $periods) - 1) * $periods;
     }
 
     /**
@@ -455,7 +458,7 @@ class Finance
         $result = 0.0;
 
         for ($i = 0; $i < count($values); ++$i) {
-            $result += $values[$i] / (1 + $rate)**$i;
+            $result += $values[$i] / (1 + $rate) ** $i;
         }
 
         return $result;
@@ -495,7 +498,7 @@ class Finance
         $when = $beginning ? 1 : 0;
 
         $func = function ($x, $periods, $payment, $present_value, $future_value, $when) {
-            return $future_value + $present_value*(1+$x)**$periods + $payment*(1+$x*$when)/$x * ((1+$x)**$periods - 1);
+            return $future_value + $present_value * (1 + $x) ** $periods + $payment * (1 + $x * $when) / $x * ((1 + $x) ** $periods - 1);
         };
 
         return self::checkZero(NumericalAnalysis\RootFinding\NewtonsMethod::solve($func, [$initial_guess, $periods, $payment, $present_value, $future_value, $when], 0, self::EPSILON, 0));
@@ -583,11 +586,11 @@ class Finance
         }
 
         $root        = sizeof($values) - 1;
-        $pv_inflows = self::npv($reinvestment_rate, $inflows);
-        $fv_inflows = self::fv($reinvestment_rate, $root, 0, -$pv_inflows);
-        $pv_outflows  = self::npv($finance_rate, $outflows);
+        $pv_inflows  = self::npv($reinvestment_rate, $inflows);
+        $fv_inflows  = self::fv($reinvestment_rate, $root, 0, -$pv_inflows);
+        $pv_outflows = self::npv($finance_rate, $outflows);
 
-        return self::checkZero(pow($fv_inflows / -$pv_outflows, 1/$root) - 1);
+        return self::checkZero(pow($fv_inflows / -$pv_outflows, 1 / $root) - 1);
     }
 
     /**
@@ -639,12 +642,13 @@ class Finance
             return 0.0;
         }
 
-        $sum = $values[0];
+        $sum            = $values[0];
         $payback_period = -1;
+
         for ($i = 1; $i < sizeof($values); $i++) {
-            $prevsum = $sum;
-            $discounted_flow = $values[$i] / (1 + $rate)**$i;
-            $sum += $discounted_flow;
+            $prevsum         = $sum;
+            $discounted_flow = $values[$i] / (1 + $rate) ** $i;
+            $sum            += $discounted_flow;
             if ($sum >= 0) {
                 if ($i > $last_outflow) {
                     return ($i - 1) + (-$prevsum / $discounted_flow);
@@ -659,6 +663,7 @@ class Finance
         if ($sum >= 0) {
             return $payback_period;
         }
+
         return \NAN;
     }
 

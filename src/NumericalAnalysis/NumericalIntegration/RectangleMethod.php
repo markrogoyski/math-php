@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\NumericalIntegration;
 
 use MathPHP\NumericalAnalysis\Interpolation\LagrangePolynomial;
@@ -99,7 +100,7 @@ class RectangleMethod extends NumericalIntegration
          */
         for ($i = 0; $i < $steps; $i++) {
             $xᵢ             = $sorted[$i][$x];
-            $xᵢ₊₁           = $sorted[$i+1][$x];
+            $xᵢ₊₁           = $sorted[$i + 1][$x];
             $f⟮xᵢ⟯           = $sorted[$i][$y];   // yᵢ
             $lagrange       = LagrangePolynomial::interpolate([[$xᵢ, $f⟮xᵢ⟯]]);
             $integral       = $lagrange->integrate();

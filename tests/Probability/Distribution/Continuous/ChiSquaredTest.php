@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\ChiSquared;
@@ -6,7 +7,7 @@ use MathPHP\Probability\Distribution\Continuous\ChiSquared;
 class ChiSquaredTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $x
      * @param        int $k
@@ -79,7 +80,7 @@ class ChiSquaredTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        int $k
@@ -153,7 +154,7 @@ class ChiSquaredTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase mean is k
+     * @test     mean is k
      */
     public function testMean()
     {
@@ -169,7 +170,7 @@ class ChiSquaredTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median
+     * @test         median
      * @dataProvider dataProviderForMedian
      * @param        float $k
      * @param        float $expected
@@ -202,7 +203,7 @@ class ChiSquaredTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMode
      * @param        float $k
      * @param        float $expected
@@ -235,7 +236,7 @@ class ChiSquaredTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        float $k
      * @param        float $expected

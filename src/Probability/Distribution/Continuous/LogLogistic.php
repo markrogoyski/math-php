@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 use MathPHP\Functions\Support;
@@ -67,7 +68,7 @@ class LogLogistic extends Continuous
         $β = $this->β;
 
         $⟮β／α⟯⟮x／α⟯ᵝ⁻¹  = ($β / $α) * pow($x / $α, $β - 1);
-        $⟮1 ＋ ⟮x／α⟯ᵝ⟯² = pow(1 + ($x / $α)**$β, 2);
+        $⟮1 ＋ ⟮x／α⟯ᵝ⟯² = pow(1 + ($x / $α) ** $β, 2);
         return $⟮β／α⟯⟮x／α⟯ᵝ⁻¹ / $⟮1 ＋ ⟮x／α⟯ᵝ⟯²;
     }
 
@@ -111,7 +112,7 @@ class LogLogistic extends Continuous
         $α = $this->α;
         $β = $this->β;
 
-        return $α * ($p / (1 - $p))**(1/$β);
+        return $α * ($p / (1 - $p)) ** (1 / $β);
     }
     
     /**
@@ -168,7 +169,7 @@ class LogLogistic extends Continuous
             return 0;
         }
 
-        return $α * pow(($β - 1) / ($β + 1), 1/$β);
+        return $α * pow(($β - 1) / ($β + 1), 1 / $β);
     }
 
     /**
@@ -189,12 +190,12 @@ class LogLogistic extends Continuous
             return \NAN;
         }
 
-        $α²    = $α**2;
-        $β²    = $β**2;
+        $α²    = $α ** 2;
+        $β²    = $β ** 2;
         $２β   = 2 * $β;
         $sin2β = sin($２β);
-        $sin²β = sin($β)**2;
+        $sin²β = sin($β) ** 2;
 
-        return $α² * (($２β/$sin2β) - ($β²/$sin²β));
+        return $α² * (($２β / $sin2β) - ($β² / $sin²β));
     }
 }

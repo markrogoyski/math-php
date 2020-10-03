@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\LogNormal;
@@ -6,7 +7,7 @@ use MathPHP\Probability\Distribution\Continuous\LogNormal;
 class LogNormalTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $x
      * @param        float $μ
@@ -47,7 +48,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $μ
@@ -88,7 +89,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        float $μ
      * @param        float $σ
@@ -120,7 +121,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median
+     * @test         median
      * @dataProvider dataProviderForMedian
      * @param        float $μ
      * @param        float $σ
@@ -152,7 +153,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMode
      * @param        float $μ
      * @param        float $σ
@@ -186,7 +187,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        float $μ
      * @param        float $σ
@@ -221,7 +222,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
 
 
     /**
-     * @testCase     inverse
+     * @test         inverse
      * @dataProvider dataProviderForInverse
      * @param        float $p
      * @param        float $μ
@@ -283,7 +284,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse of CDF is original x
+     * @test         inverse of CDF is original x
      * @dataProvider dataProviderForCdf
      * @param        float $x
      * @param        float $μ
@@ -303,7 +304,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase rand
+     * @test rand
      */
     public function testRand()
     {

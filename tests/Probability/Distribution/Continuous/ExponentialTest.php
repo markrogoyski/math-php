@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\Exponential;
@@ -7,7 +8,7 @@ use MathPHP\Exception\OutOfBoundsException;
 class ExponentialTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     pdf
+     * @test         pdf
      * @dataProvider dataProviderForPdf
      * @param        float $λ
      * @param        float $x
@@ -68,7 +69,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     cdf
+     * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param number $λ
      * @param number $x
@@ -126,14 +127,14 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
             [2, 2, 0.9816844],
             [2, 3, 0.9975212],
 
-            [1/3, 2, 0.4865829],
-            [1/3, 4, 0.7364029],
-            [1/5, 4, 0.550671],
+            [1 / 3, 2, 0.4865829],
+            [1 / 3, 4, 0.7364029],
+            [1 / 5, 4, 0.550671],
         ];
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
      * @param        number $λ
      * @param        number $μ
@@ -164,7 +165,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     median
+     * @test         median
      * @dataProvider dataProviderForMedian
      * @param        number $λ
      * @param        number $expectedMedian
@@ -195,7 +196,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mode
+     * @test         mode
      * @dataProvider dataProviderForMedian
      * @param        number $λ
      */
@@ -212,7 +213,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     variance
+     * @test         variance
      * @dataProvider dataProviderForVariance
      * @param        number $λ
      * @param        number $expectedVariance
@@ -243,7 +244,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse of cdf is x
+     * @test         inverse of cdf is x
      * @dataProvider dataProviderForInverse
      * @param        float $λ
      * @param        float $p
@@ -263,7 +264,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse of cdf is original p
+     * @test         inverse of cdf is original p
      * @dataProvider dataProviderForInverse
      * @param        float $λ
      * @param        float $p
@@ -313,13 +314,13 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
             [2, 0.9, 1.151293],
             [2, 1, \INF],
 
-            [1/3, 0, 0],
-            [1/3, 0.1, 0.3160815],
-            [1/3, 0.3, 1.070025],
-            [1/3, 0.5, 2.079442],
-            [1/3, 0.7, 3.611918],
-            [1/3, 0.9, 6.907755],
-            [1/3, 1, \INF],
+            [1 / 3, 0, 0],
+            [1 / 3, 0.1, 0.3160815],
+            [1 / 3, 0.3, 1.070025],
+            [1 / 3, 0.5, 2.079442],
+            [1 / 3, 0.7, 3.611918],
+            [1 / 3, 0.9, 6.907755],
+            [1 / 3, 1, \INF],
 
 
             [4, 0, 0],
@@ -333,7 +334,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     inverse throws OutOfBounds exceptions for bad p values
+     * @test         inverse throws OutOfBounds exceptions for bad p values
      * @dataProvider dataProviderForInverseOutOfBoundsP
      * @param        float $p
      * @throws       \Exception
@@ -365,7 +366,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase rand
+     * @test rand
      */
     public function testRand()
     {

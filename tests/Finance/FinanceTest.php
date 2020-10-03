@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Finance;
 
 use MathPHP\Finance;
@@ -6,7 +7,7 @@ use MathPHP\Finance;
 class FinanceTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     checkZero
+     * @test         checkZero
      * @dataProvider dataProviderForcheckZero
      * @param        float $value
      * @param        float $result
@@ -53,7 +54,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     pmt
+     * @test         pmt
      * @dataProvider dataProviderForPmt
      * @param        float $rate
      * @param        int   $periods
@@ -90,31 +91,31 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
             [0.05, 30, -250000, 0, false, 16262.858770069148],
             [0.05, 30, 250000, 0, true, -15488.436923875368],
             [0.05, 30, -250000, 0, true, 15488.436923875368],
-            [0.04/12, 12*30, 85000, 0, false, -405.80300114563494],
-            [0.04/12, 12*30, -85000, 0, false, 405.80300114563494],
-            [0.04/12, 12*30, 85000, 0, true, -404.45481841757629],
-            [0.04/12, 12*30, -85000, 0, true, 404.45481841757629],
-            [0.035/12, 12*30, 475000, 0, false, -2132.9622670919189],
-            [0.035/12, 12*30, -475000, 0, false, 2132.9622670919189],
-            [0.035/12, 12*30, 475000, 0, true, -2126.7592193687524],
-            [0.035/12, 12*30, -475000, 0, true, 2126.7592193687524],
-            [0.035/12, 12*30, 475000, 100000, false, -2290.3402882340679],
-            [0.035/12, 12*30, -475000, -100000, false, 2290.3402882340679],
-            [0.035/12, 12*30, 475000, 100000, true, -2283.6795561951658],
-            [0.035/12, 12*30, -475000, -100000, true, 2283.6795561951658],
-            [0.10/4, 5*4, 0, 50000, false, -1957.3564367237279],
-            [0.10/4, 5*4, 0, -50000, false, 1957.3564367237279],
-            [0.10/4, 5*4, 0, 50000, true, -1909.6160358280276],
-            [0.10/4, 5*4, 0, -50000, true, 1909.6160358280276],
-            [0.035/12, 30*12, 265000, 0, false, -1189.9684226933862],
-            [0.035/12, 5*12, 265000, 265000/2, false, -6844.7602923435943],
-            [0.01/52, 3*52, -1500, 10000, false, -53.390735324685636],
-            [0.04/4, 20*4, 1000000, 0, false, -18218.850112732187],
+            [0.04 / 12, 12 * 30, 85000, 0, false, -405.80300114563494],
+            [0.04 / 12, 12 * 30, -85000, 0, false, 405.80300114563494],
+            [0.04 / 12, 12 * 30, 85000, 0, true, -404.45481841757629],
+            [0.04 / 12, 12 * 30, -85000, 0, true, 404.45481841757629],
+            [0.035 / 12, 12 * 30, 475000, 0, false, -2132.9622670919189],
+            [0.035 / 12, 12 * 30, -475000, 0, false, 2132.9622670919189],
+            [0.035 / 12, 12 * 30, 475000, 0, true, -2126.7592193687524],
+            [0.035 / 12, 12 * 30, -475000, 0, true, 2126.7592193687524],
+            [0.035 / 12, 12 * 30, 475000, 100000, false, -2290.3402882340679],
+            [0.035 / 12, 12 * 30, -475000, -100000, false, 2290.3402882340679],
+            [0.035 / 12, 12 * 30, 475000, 100000, true, -2283.6795561951658],
+            [0.035 / 12, 12 * 30, -475000, -100000, true, 2283.6795561951658],
+            [0.10 / 4, 5 * 4, 0, 50000, false, -1957.3564367237279],
+            [0.10 / 4, 5 * 4, 0, -50000, false, 1957.3564367237279],
+            [0.10 / 4, 5 * 4, 0, 50000, true, -1909.6160358280276],
+            [0.10 / 4, 5 * 4, 0, -50000, true, 1909.6160358280276],
+            [0.035 / 12, 30 * 12, 265000, 0, false, -1189.9684226933862],
+            [0.035 / 12, 5 * 12, 265000, 265000 / 2, false, -6844.7602923435943],
+            [0.01 / 52, 3 * 52, -1500, 10000, false, -53.390735324685636],
+            [0.04 / 4, 20 * 4, 1000000, 0, false, -18218.850112732187],
         ];
     }
 
     /**
-     * @testCase     ipmt
+     * @test         ipmt
      * @dataProvider dataProviderForIpmt
      * @param        float $rate
      * @param        int   $period
@@ -151,12 +152,12 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
             [0.05, 1, 3, 10, 0, false, -0.5],
             [0.05, 2, 3, 10, 0, false, -0.34139571768437743],
             [0.05, 3, 3, 10, 0, false, -0.17486122125297401],
-            [0.035/12, 1, 360, 475000, 0, false, -1385.4166666666667],
-            [0.035/12, 2, 360, 475000, 0, false, -1383.2363253320932],
-            [0.035/12, 3, 360, 475000, 0, false, -1381.0496246686268],
-            [0.035/12, 358, 360, 475000, 0, false, -18.555076810964287],
-            [0.035/12, 359, 360, 475000, 0, false, -12.388055839311468],
-            [0.035/12, 360, 360, 475000, 0, false, -6.203047723157991],
+            [0.035 / 12, 1, 360, 475000, 0, false, -1385.4166666666667],
+            [0.035 / 12, 2, 360, 475000, 0, false, -1383.2363253320932],
+            [0.035 / 12, 3, 360, 475000, 0, false, -1381.0496246686268],
+            [0.035 / 12, 358, 360, 475000, 0, false, -18.555076810964287],
+            [0.035 / 12, 359, 360, 475000, 0, false, -12.388055839311468],
+            [0.035 / 12, 360, 360, 475000, 0, false, -6.203047723157991],
             [0.0, 1, 1, 0, 0, true, 0.0],
             [0.0, 1, 2, 0, 0, true, 0.0],
             [0.0, 2, 2, 0, 0, true, 0.0],
@@ -169,17 +170,17 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
             [0.05, 1, 3, 10, 0, true, 0.0],
             [0.05, 2, 3, 10, 0, true, -0.32513877874702635],
             [0.05, 3, 3, 10, 0, true, -0.16653449643140378],
-            [0.035/12, 1, 360, 475000, 0, true, 0.0],
-            [0.035/12, 2, 360, 475000, 0, true, -1379.213618943508],
-            [0.035/12, 3, 360, 475000, 0, true, -1377.0332776089344],
-            [0.035/12, 358, 360, 475000, 0, true, -18.50111522489313],
-            [0.035/12, 359, 360, 475000, 0, true, -12.352029087806763],
-            [0.035/12, 360, 360, 475000, 0, true, -6.1850081161539432],
+            [0.035 / 12, 1, 360, 475000, 0, true, 0.0],
+            [0.035 / 12, 2, 360, 475000, 0, true, -1379.213618943508],
+            [0.035 / 12, 3, 360, 475000, 0, true, -1377.0332776089344],
+            [0.035 / 12, 358, 360, 475000, 0, true, -18.50111522489313],
+            [0.035 / 12, 359, 360, 475000, 0, true, -12.352029087806763],
+            [0.035 / 12, 360, 360, 475000, 0, true, -6.1850081161539432],
         ];
     }
 
     /**
-     * @testCase     ipmt not a number
+     * @test         ipmt not a number
      * @dataProvider dataProviderForIpmtNan
      * @param        float $rate
      * @param        int   $period
@@ -225,7 +226,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     ppmt
+     * @test         ppmt
      * @dataProvider dataProviderForPpmt
      * @param        float $rate
      * @param        int   $period
@@ -262,12 +263,12 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
             [0.05, 1, 3, 10, 0, false, -3.172085646312448],
             [0.05, 2, 3, 10, 0, false, -3.3306899286280705],
             [0.05, 3, 3, 10, 0, false, -3.497224425059474],
-            [0.035/12, 1, 360, 475000, 0, false, -747.54560042525213],
-            [0.035/12, 2, 360, 475000, 0, false, -749.72594175982567],
-            [0.035/12, 3, 360, 475000, 0, false, -751.91264242329203],
-            [0.035/12, 358, 360, 475000, 0, false, -2114.4071902809546],
-            [0.035/12, 359, 360, 475000, 0, false, -2120.5742112526073],
-            [0.035/12, 360, 360, 475000, 0, false, -2126.759219368761],
+            [0.035 / 12, 1, 360, 475000, 0, false, -747.54560042525213],
+            [0.035 / 12, 2, 360, 475000, 0, false, -749.72594175982567],
+            [0.035 / 12, 3, 360, 475000, 0, false, -751.91264242329203],
+            [0.035 / 12, 358, 360, 475000, 0, false, -2114.4071902809546],
+            [0.035 / 12, 359, 360, 475000, 0, false, -2120.5742112526073],
+            [0.035 / 12, 360, 360, 475000, 0, false, -2126.759219368761],
             [0.0, 1, 1, 0, 0, true, 0.0],
             [0.0, 1, 2, 0, 0, true, 0.0],
             [0.0, 2, 2, 0, 0, true, 0.0],
@@ -280,17 +281,17 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
             [0.05, 1, 3, 10, 0, true, -3.497224425059474],
             [0.05, 2, 3, 10, 0, true, -3.1720856463124476],
             [0.05, 3, 3, 10, 0, true, -3.33068992862807],
-            [0.035/12, 1, 360, 475000, 0, true, -2126.7592193687524],
-            [0.035/12, 2, 360, 475000, 0, true, -747.54560042525168],
-            [0.035/12, 3, 360, 475000, 0, true, -749.72594175982522],
-            [0.035/12, 358, 360, 475000, 0, true, -2108.2581041438666],
-            [0.035/12, 359, 360, 475000, 0, true, -2114.4071902809528],
-            [0.035/12, 360, 360, 475000, 0, true, -2120.5742112526059],
+            [0.035 / 12, 1, 360, 475000, 0, true, -2126.7592193687524],
+            [0.035 / 12, 2, 360, 475000, 0, true, -747.54560042525168],
+            [0.035 / 12, 3, 360, 475000, 0, true, -749.72594175982522],
+            [0.035 / 12, 358, 360, 475000, 0, true, -2108.2581041438666],
+            [0.035 / 12, 359, 360, 475000, 0, true, -2114.4071902809528],
+            [0.035 / 12, 360, 360, 475000, 0, true, -2120.5742112526059],
         ];
     }
 
     /**
-     * @testCase     ppmt not a number
+     * @test         ppmt not a number
      * @dataProvider dataProviderForPpmtNan
      * @param        float $rate
      * @param        int   $period
@@ -336,7 +337,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     periods
+     * @test         periods
      * @dataProvider dataProviderForPeriods
      * @param        float $rate
      * @param        float $payment
@@ -387,17 +388,17 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
             [0.00001, -100, 5000, 0, false, 50.012754230013776],
             [0.000001, -100, 5000, 0, false, 50.001275046275666],
             [0.0, -100, 5000, 0, false, 50.0],
-            [0.035/12.0, -2132, 475000, 0, false, 360.28732845118219],
-            [0.035/12.0, -2132.9622670919111, 475000, 0, false, 360.0],
-            [0.035/12.0, -2126.7592193687524, 475000, 0, false, 361.86102291347339],
-            [0.035/12.0, -2126.7592193687524, 475000, 0, true, 360.0],
+            [0.035 / 12.0, -2132, 475000, 0, false, 360.28732845118219],
+            [0.035 / 12.0, -2132.9622670919111, 475000, 0, false, 360.0],
+            [0.035 / 12.0, -2126.7592193687524, 475000, 0, false, 361.86102291347339],
+            [0.035 / 12.0, -2126.7592193687524, 475000, 0, true, 360.0],
             [0.05, -1000.0, 0, 19600, false, 14.000708059400562],
             [0.05, -1000.0, 0, 19600, true, 13.511855106593261],
         ];
     }
 
     /**
-     * @testCase     periods not a number
+     * @test         periods not a number
      * @dataProvider dataProviderForPeriodsNan
      * @param        float $rate
      * @param        float $payment
@@ -425,7 +426,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     aer
+     * @test         aer
      * @dataProvider dataProviderForAer
      * @param        float $nominal
      * @param        int   $periods
@@ -495,13 +496,13 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     nominal
+     * @test         nominal
      * @dataProvider dataProviderForNominal
      * @param        float $aer
      * @param        int   $periods
      * @param        float $rate
      */
-    public function testNominal(float$aer, int $periods, float $rate)
+    public function testNominal(float $aer, int $periods, float $rate)
     {
         // When
         $nominal = Finance::nominal($aer, $periods);
@@ -565,7 +566,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     fv
+     * @test         fv
      * @dataProvider dataProviderForFv
      * @param        float $rate
      * @param        int   $periods
@@ -631,20 +632,20 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
             [0.1, 1, 1, 0, true, -1.1],
             [0.1, 1, 0, 1, true, -1.1],
             [0.1, 1, 1, 1, true, -2.2],
-            [0.05/12, 120, -100, -100, false, 15692.928894335892],
-            [0.035/12, 360, 2132.9622670919189, 475000, false, -2710622.8069359586],
-            [0.035/12, 360, -2132.9622670919189, 475000, false, 0.0],
-            [0.035/12, 360, 2132.9622670919189, -475000, false, 0.0],
-            [0.035/12, 360, -2132.9622670919189, -475000, false, 2710622.8069359586],
-            [0.035/12, 360, 2132.9622670919189, 475000, true, -2714575.798529407],
-            [0.035/12, 360, -2132.9622670919189, 475000, true, 3952.9915934484452],
-            [0.035/12, 360, 2132.9622670919189, -475000, true, -3952.9915934484452],
-            [0.035/12, 360, -2132.9622670919189, -475000, true, 2714575.798529407],
+            [0.05 / 12, 120, -100, -100, false, 15692.928894335892],
+            [0.035 / 12, 360, 2132.9622670919189, 475000, false, -2710622.8069359586],
+            [0.035 / 12, 360, -2132.9622670919189, 475000, false, 0.0],
+            [0.035 / 12, 360, 2132.9622670919189, -475000, false, 0.0],
+            [0.035 / 12, 360, -2132.9622670919189, -475000, false, 2710622.8069359586],
+            [0.035 / 12, 360, 2132.9622670919189, 475000, true, -2714575.798529407],
+            [0.035 / 12, 360, -2132.9622670919189, 475000, true, 3952.9915934484452],
+            [0.035 / 12, 360, 2132.9622670919189, -475000, true, -3952.9915934484452],
+            [0.035 / 12, 360, -2132.9622670919189, -475000, true, 2714575.798529407],
         ];
     }
 
     /**
-     * @testCase     pv
+     * @test         pv
      * @dataProvider dataProviderForPv
      * @param        float $rate
      * @param        int   $periods
@@ -710,16 +711,16 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
             [0.1, 1, 1, 0, true, -1.0],
             [0.1, 1, 0, 1, true, -0.90909090909090906],
             [0.1, 1, 1, 1, true, -1.9090909090909098],
-            [0.035/12, 5*12, 0, -1000, false, 839.67086876847554],
-            [0.035/12, 5*12, 0, -1000, true, 839.67086876847554],
+            [0.035 / 12, 5 * 12, 0, -1000, false, 839.67086876847554],
+            [0.035 / 12, 5 * 12, 0, -1000, true, 839.67086876847554],
             [0.05, 5, -70, -1000, false, 1086.5895334126164],
             [0.05, 5, -70, -1000, true, 1101.7427017598243],
-            [0.035/12, 12*30, -2132.9622670919189, 0, false, 475000],
+            [0.035 / 12, 12 * 30, -2132.9622670919189, 0, false, 475000],
         ];
     }
 
     /**
-     * @testCase     npv
+     * @test         npv
      * @dataProvider dataProviderForNpv
      * @param        float $rate
      * @param        array $values
@@ -764,7 +765,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     rate
+     * @test         rate
      * @dataProvider dataProviderForRate
      * @param        float $periods
      * @param        float $payment
@@ -820,7 +821,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     rate not a number
+     * @test         rate not a number
      * @dataProvider dataProviderForRateNan
      * @param        float $periods
      * @param        float $payment
@@ -860,7 +861,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     irr
+     * @test         irr
      * @dataProvider dataProviderForIrr
      * @param        array $values
      * @param        float $initial_guess
@@ -904,14 +905,19 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
             [[-10, 21, -11], 0.01, 0.0],
             [[-10, 21, -11], 0.001, 0.0],
             [[-10, 21, -11], -0.001, 0.0],
+            [[-1, 1, 2, 0, 1], 0.1, 1.075483],
+            [[-1, 1, 0, 2, 1], 0.1, 0.7943097],
             [[-1000000, 300000, 300000, 300000, 300000, 300000], 0.1, 0.15238237116630671],
             [[-1000000, 10000000, -10000000, 0, 0, 0], 0.1, 0.12701665379258315],
             [[-1000000, 10000000, -10000000, 0, 0, 0], 0.633, 0.12701665379258315],
+            [[-1000000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000], 0.1, 0.29999921673],
+            [[-1000000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000], 0.1, 0.30],
+            [[-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,250010], 0.01, 0.05090132749],
         ];
     }
 
     /**
-     * @testCase     irr not a number
+     * @test         irr not a number
      * @dataProvider dataProviderForIrrNan
      * @param        array $values
      * @param        float $initial_guess
@@ -945,7 +951,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mirr
+     * @test         mirr
      * @dataProvider dataProviderForMirr
      * @param        array $values
      * @param        float $finance_rate
@@ -980,7 +986,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     mirr not a number
+     * @test         mirr not a number
      * @dataProvider dataProviderForMirrNan
      * @param        array $values
      * @param        float $finance_rate
@@ -1010,7 +1016,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     payback
+     * @test         payback
      * @dataProvider dataProviderForPayback
      * @param        array $values
      * @param        float $rate
@@ -1064,7 +1070,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     payback not a number
+     * @test         payback not a number
      * @dataProvider dataProviderForPaybackNan
      * @param        array $values
      * @param        float $rate
@@ -1100,7 +1106,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     profitabilityIndex
+     * @test         profitabilityIndex
      * @dataProvider dataProviderForProfitabilityIndex
      * @param        array $values
      * @param        float $rate
@@ -1136,7 +1142,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @testCase     profitabilityIndex not a number
+     * @test         profitabilityIndex not a number
      * @dataProvider dataProviderForProfitabilityIndexNan
      * @param        array $values
      * @param        float $rate
