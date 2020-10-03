@@ -1,9 +1,9 @@
 <?php
 
-namespace MathPHP\Tests\Util;
+namespace MathPHP\Tests\Search;
 
 use MathPHP\Exception;
-use MathPHP\Util\Search;
+use MathPHP\Search;
 
 class SearchTest extends \PHPUnit\Framework\TestCase
 {

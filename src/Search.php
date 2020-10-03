@@ -1,6 +1,6 @@
 <?php
 
-namespace MathPHP\Util;
+namespace MathPHP;
 
 use MathPHP\Exception;
 
