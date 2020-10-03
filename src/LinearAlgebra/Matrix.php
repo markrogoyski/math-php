@@ -12,6 +12,12 @@ use MathPHP\LinearAlgebra\Reduction;
  */
 class Matrix extends MatrixBase implements MatrixInterface
 {
+    /** @var float Error/zero tolerance */
+    protected $ε;
+
+    // Default error/zero tolerance
+    const ε = 0.00000000001;
+
     // Matrix data direction
     const ROWS    = 'rows';
     const COLUMNS = 'columns';
@@ -46,6 +52,37 @@ class Matrix extends MatrixBase implements MatrixInterface
                 throw new Exception\BadDataException("Row $i has a different column count: " . count($row) . "; was expecting {$this->n}.");
             }
         }
+    }
+
+    /**************************************************************************
+     * BASIC MATRIX GETTERS
+     *  - getError
+     **************************************************************************/
+
+    /**
+     * Get error / zero tolerance
+     * @return float
+     */
+    public function getError(): float
+    {
+        return $this->ε;
+    }
+
+    /***************************************************************************
+     * SETTERS
+     *  - setError
+     **************************************************************************/
+
+    /**
+     * Set the error/zero tolerance for matrix values
+     *  - Used to determine tolerance for equality
+     *  - Used to determine if a value is zero
+     *
+     * @param float $ε
+     */
+    public function setError(float $ε)
+    {
+        $this->ε = $ε;
     }
 
     /**************************************************************************
@@ -951,7 +988,7 @@ class Matrix extends MatrixBase implements MatrixInterface
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
      */
-    public function add(Matrix $B): Matrix
+    public function add($B): Matrix
     {
         if ($B->getM() !== $this->m) {
             throw new Exception\MatrixException('Matrices have different number of rows');
@@ -1871,33 +1908,6 @@ class Matrix extends MatrixBase implements MatrixInterface
     }
 
     /**
-     * Insert
-     * Insert a smaller matrix within a larger matrix starting at a specified position
-     *
-     * @param Matrix $small the smaller matrix to embed
-     * @param int $m Starting row
-     * @param int $n Starting column
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException
-     */
-    public function insert(Matrix $small, int $m, int $n): Matrix
-    {
-        if ($small->getM() + $m > $this->m || $small->getN() + $n > $this->n) {
-            throw new Exception\MatrixException('Inner matrix exceeds the bounds of the outer matrix');
-        }
-
-        $new_array = $this->A;
-        for ($i = 0; $i < $small->getM(); $i++) {
-            for ($j = 0; $j < $small->getN(); $j++) {
-                $new_array[$i + $m][$j + $n] = $small[$i][$j];
-            }
-        }
-        return MatrixFactory::create($new_array);
-    }
-
-    /**
      * Householder matrix transformation
      *
      * @return Matrix
@@ -1907,51 +1917,6 @@ class Matrix extends MatrixBase implements MatrixInterface
     public function householder(): Matrix
     {
         return Householder::transform($this);
-    }
-
-    /**************************************************************************
-     * MATRIX MAPPING
-     *  - map
-     *  - mapRows
-     **************************************************************************/
-
-    /**
-     * Map a function over all elements of the Matrix
-     *
-     * @param  callable $func takes a matrix item as input
-     *
-     * @return Matrix
-     *
-     * @throws Exception\IncorrectTypeException
-     */
-    public function map(callable $func): Matrix
-    {
-        $m = $this->m;
-        $n = $this->n;
-        $R = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                $R[$i][$j] = $func($this->A[$i][$j]);
-            }
-        }
-
-        return MatrixFactory::create($R);
-    }
-
-    /**
-     * Map a function over the rows of the matrix
-     *
-     * @param callable $func
-     *
-     * @return array|array[] Depends on the function
-     */
-    public function mapRows(callable $func): array
-    {
-        return array_map(
-            $func,
-            $this->A
-        );
     }
 
     /**************************************************************************

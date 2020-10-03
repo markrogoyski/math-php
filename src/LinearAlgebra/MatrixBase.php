@@ -2,6 +2,7 @@
 
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Functions\Support;
 use MathPHP\Exception;
 
 /**
@@ -586,7 +587,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @throws Exception\MatrixException
      */
-    public function insert(Matrix $small, int $m, int $n): Matrix
+    public function insert(Matrix $small, int $m, int $n): MatrixInterface
     {
         if ($small->getM() + $m > $this->m || $small->getN() + $n > $this->n) {
             throw new Exception\MatrixException('Inner matrix exceeds the bounds of the outer matrix');
@@ -616,7 +617,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @throws Exception\IncorrectTypeException
      */
-    public function map(callable $func): Matrix
+    public function map(callable $func): MatrixInterface
     {
         $m = $this->m;
         $n = $this->n;
@@ -666,7 +667,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if row to interchange does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowInterchange(int $mᵢ, int $mⱼ): Matrix
+    public function rowInterchange(int $mᵢ, int $mⱼ): MatrixInterface
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to interchange does not exist');
@@ -701,7 +702,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if row to exclude does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowExclude(int $mᵢ): Matrix
+    public function rowExclude(int $mᵢ): MatrixInterface
     {
         if ($mᵢ >= $this->m || $mᵢ < 0) {
             throw new Exception\MatrixException('Row to exclude does not exist');
@@ -740,7 +741,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if column to interchange does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function columnInterchange(int $nᵢ, int $nⱼ): Matrix
+    public function columnInterchange(int $nᵢ, int $nⱼ): MatrixInterface
     {
         if ($nᵢ >= $this->n || $nⱼ >= $this->n) {
             throw new Exception\MatrixException('Column to interchange does not exist');
@@ -778,7 +779,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if column to exclude does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function columnExclude(int $nᵢ): Matrix
+    public function columnExclude(int $nᵢ): MatrixInterface
     {
         if ($nᵢ >= $this->n || $nᵢ < 0) {
             throw new Exception\MatrixException('Column to exclude does not exist');
