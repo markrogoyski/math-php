@@ -1,6 +1,25 @@
 # MathPHP Change Log
 
-## 1.3.0 - 2020-08-24
+## v1.4.0 - 2020-10-02
+
+### New Features
+* Multivariate Regular Grid Interpolation
+* Jensen-Shannon Distance
+* Canberra Distance
+* Search Sorted
+* Search ArgMax
+* Search NanArgMax
+* Search ArgMin
+* Serach NanArgMin
+* Search NonZero
+
+### Improvements
+ * Divergence factored out of Distance into new Divergence class
+
+### Backwards Incompatible Changes
+ * Legacy Distance divergences marked as deprecated (To be removed in v2.0.0)
+
+## v1.3.0 - 2020-08-24
 
 ### New Features
 * LinearAlgebra\Vector
