@@ -64,15 +64,6 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Get error / zero tolerance
-     * @return float
-     */
-    public function getError(): float
-    {
-        return $this->ε;
-    }
-
-    /**
      * Get single row from the matrix
      *
      * @param  int    $i row index (from 0 to m - 1)
@@ -241,23 +232,6 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
             },
             $this->A
         );
-    }
-
-    /***************************************************************************
-     * SETTERS
-     *  - setError
-     **************************************************************************/
-
-    /**
-     * Set the error/zero tolerance for matrix values
-     *  - Used to determine tolerance for equality
-     *  - Used to determine if a value is zero
-     *
-     * @param float $ε
-     */
-    public function setError(float $ε)
-    {
-        $this->ε = $ε;
     }
 
     /***************************************************************************
