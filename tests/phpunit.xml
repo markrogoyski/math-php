@@ -34,6 +34,9 @@
     <testsuite name="SampleData">
       <directory suffix="Test.php">SampleData</directory>
     </testsuite>
+    <testsuite name="Search">
+      <directory suffix="Test.php">Search</directory>
+    </testsuite>
     <testsuite name="Sequence">
       <directory suffix="Test.php">Sequence</directory>
     </testsuite>
@@ -45,6 +48,9 @@
     </testsuite>
     <testsuite name="Trigonometry">
       <directory suffix="Test.php">Trigonometry</directory>
+    </testsuite>
+    <testsuite name="Util">
+      <directory suffix="Test.php">Util</directory>
     </testsuite>
   </testsuites>
   <filter>
