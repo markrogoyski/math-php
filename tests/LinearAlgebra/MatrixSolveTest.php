@@ -99,7 +99,9 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * Test cases generated using various online sources and various applications.
+     * For example, SciPy scipy.linalg.solve(a,b)
+     * @return array (A, b, x) for Ax = b
      */
     public function dataProviderForSolve(): array
     {
@@ -271,6 +273,23 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
                 [4, 20, -15, -3, 16, -27],
                 [1, -2, 3, 4, 2, -1],
             ],
+            [
+                [
+                    [1, 20],
+                    [-30, 4],
+                ],
+                [1, 0],
+                [0.00662252, 0.04966887],
+            ],
+            [
+                [
+                    [3, 2, 0],
+                    [1, -1, 0],
+                    [0, 5, 1]
+                ],
+                [2, 4, -1],
+                [2, -2, 9],
+            ],
         ];
     }
 
@@ -344,5 +363,28 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         // And as an extra check, solve the original matrix and compare the result.
         $solved_x = $A->solve($b);
         $this->assertEquals($x, $solved_x->getVector(), '', 0.00001);
+    }
+
+    /**
+     * @test         After solving, multiplying Ax = b
+     *               In Python you could do numpy.dot(A, x) == b for this verification
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @throws       \Exception
+     */
+    public function testAxEqualsBAfterSolving(array $A, array $b)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // And
+        $x = $A->solve($b);
+
+        // When Ax
+        $Ax = $A->multiply($x);
+
+        // Then Ax = b
+        $this->assertEquals($b, $Ax->asVectors()[0]->getVector(), '', 0.001);
     }
 }
