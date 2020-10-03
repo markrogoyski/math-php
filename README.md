@@ -41,6 +41,7 @@ Features
          * [Multivariate](#probability---multivariate-distributions)
          * [Tables](#probability---distribution-tables)
  * [Sample Data](#sample-data)
+ * [Search](#search)
  * Sequences
      - [Basic](#sequences---basic)
      - [Advanced](#sequences---advanced)
@@ -1582,6 +1583,22 @@ $labeledData = $usArrests->getLabeledData();       // ['Alabama' => ['murder' =>
 $stateData   = $usArrests->getStateData('Texas');  // ['murder' => 12.7, 'assault' => 201, 'urbanPop' => 80, 'rape' => 25.5]
 $murders     = $usArrests->getMurders();           // ['Alabama' => 13.2, 'Alaska' => 10.1, ... ]
 // Getters for Murder, Assault, UrbanPop, Rape
+```
+
+### Search
+```php
+use MathPHP\Search;
+
+// Search lists of numbers to find specific indexes
+
+$list = [1, 2, 3, 4, 5];
+
+$index   = Search::sorted($list, 2);   // Find the array index where an item should be inserted to maintain sorted order
+$index   = Search::argMax($list);      // Find the array index of the maximum value
+$index   = Search::nanArgMax($list);   // Find the array index of the maximum value, ignoring NANs
+$index   = Search::argMin($list);      // Find the array index of the minimum value
+$index   = Search::nanArgMin($list);   // Find the array index of the minimum value, ignoring NANs
+$indices = Search::nonZero($list);     // Find the array indices of the scalar values that are non-zero
 ```
 
 ### Sequences - Basic
