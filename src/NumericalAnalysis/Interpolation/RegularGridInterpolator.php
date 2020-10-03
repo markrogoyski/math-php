@@ -3,7 +3,7 @@
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
 use MathPHP\Exception;
-use MathPHP\Util;
+use MathPHP\Search;
 use MathPHP\Util\Iter;
 
 /**
@@ -189,7 +189,7 @@ class RegularGridInterpolator
         // $x float, search point: x or y or z...
         foreach (Iter::zip($xi, $this->grid) as list($x, $grid)) {
             $gridSize = \count($grid);                       // Column count
-            $i        = Util\Search::sorted($grid, $x) - 1;  // Min match index
+            $i        = Search::sorted($grid, $x) - 1;  // Min match index
             if ($i < 0) {
                 $i = 0;
             }
