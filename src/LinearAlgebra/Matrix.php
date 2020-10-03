@@ -71,6 +71,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      *  - getMatrix
      *  - getM
      *  - getN
+     *  - getError
      *  - getRow
      *  - getColumn
      *  - get
