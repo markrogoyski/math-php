@@ -8,7 +8,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Vector;
 
 /**
- * LU Decomposition (Doolittle decomposition) with pivoting via permutation matrix
+ * LU Decomposition (Doolittle decomposition) with partial pivoting via permutation matrix
  *
  * A matrix has an LU-factorization if it can be expressed as the product of a
  * lower-triangular matrix L and an upper-triangular matrix U. If A is a nonsingular
@@ -130,7 +130,7 @@ class LU extends Decomposition
     }
 
     /**
-     * Pivotize creates the permutation matrix P for the LU decomposition.
+     * Pivotize creates the permutation matrix P for the LU decomposition using partial pivoting.
      * The permutation matrix is an identity matrix with rows possibly interchanged.
      *
      * The product PA results in a new matrix whose rows consist of the rows of A
