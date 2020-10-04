@@ -3,12 +3,12 @@
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\Matrix;
-use MathPHP\LinearAlgebra\SquareMatrix;
 use MathPHP\Exception;
 
 class MatrixDeterminantTest extends \PHPUnit\Framework\TestCase
 {
+    use MatrixDataProvider;
+
     /**
      * @test         det
      * @dataProvider dataProviderForDet
@@ -25,6 +25,9 @@ class MatrixDeterminantTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $det, '', 0.000001);
     }
 
+    /**
+     * @return array (A, det)
+     */
     public function dataProviderForDet(): array
     {
         return [
@@ -168,6 +171,30 @@ class MatrixDeterminantTest extends \PHPUnit\Framework\TestCase
                     [4, 3],
                     [3, 2],
                 ], -1
+            ],
+            [
+                [
+                    [1, 2],
+                    [3, 4],
+                ], -2
+            ],
+            [
+                [
+                    [1, 2],
+                    [3, 4],
+                ], -2
+            ],
+            [
+                [
+                    [1, 2],
+                    [2, 1],
+                ], -3
+            ],
+            [
+                [
+                    [1, 3],
+                    [3, 1],
+                ], -8
             ],
             [
                 [
@@ -1393,5 +1420,39 @@ class MatrixDeterminantTest extends \PHPUnit\Framework\TestCase
 
         // When
         $A->det();
+    }
+
+    /**
+     * @test         det
+     * @dataProvider dataProviderForSingularMatrix
+     * @param        array $A
+     */
+    public function testDetOfSingularMatrixIsZero(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $det = $A->det();
+
+        // Then
+        $this->assertEquals(0, $det, '', 0.000001);
+    }
+
+    /**
+     * @test         det
+     * @dataProvider dataProviderForNonSingularMatrix
+     * @param        array $A
+     */
+    public function testDetOfNonSingularMatrixIsNonZero(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $det = $A->det();
+
+        // Then
+        $this->assertNotEquals(0, $det, '', 0.000001);
     }
 }
