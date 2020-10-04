@@ -27,7 +27,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b);
 
         // Then
-        $this->assertEquals($expected, $x, '', 0.001);
+        $this->assertEquals($expected, $x, '', 0.00001);
     }
 
     /**
@@ -49,7 +49,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b);
 
         // Then
-        $this->assertEquals($expected, $x, '', 0.001);
+        $this->assertEquals($expected, $x, '', 0.00001);
     }
 
     /**
@@ -72,7 +72,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b);
 
         // Then
-        $this->assertEquals($expected, $x, '', 0.001);
+        $this->assertEquals($expected, $x, '', 0.00001);
     }
 
     /**
@@ -95,7 +95,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b);
 
         // Then
-        $this->assertEquals($expected, $x, '', 0.001);
+        $this->assertEquals($expected, $x, '', 0.00001);
     }
 
     /**
@@ -222,6 +222,33 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 [
+                    [3, 2, 0],
+                    [1, -1, 0],
+                    [0, 5, 1],
+                ],
+                [2, 4, -1],
+                [2, -2, 9],
+            ],
+            [
+                [
+                    [4, 1, 0],
+                    [1, 4, 1],
+                    [0, 1, 4],
+                ],
+                [1, 4, 1],
+                [0, 1, 0],
+            ],
+            [
+                [
+                    [6, 4, 24],
+                    [1, -1, 0],
+                    [0, 5, 1]
+                ],
+                [2, 4, -1],
+                [3.98181818, -0.01818182, -0.90909091],
+            ],
+            [
+                [
                     [4, 2, -1, 3],
                     [3, -4, 2, 5],
                     [-2, 6, -5, -2],
@@ -238,7 +265,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
                     [5, 1, 6, -3],
                 ],
                 [-12, 34, 27, -19],
-                [-101.485, 101.242, 115.727, 102.394],
+                [-101.48484848,  101.24242424,  115.72727273,  102.39393939],
             ],
             [
                 [
@@ -259,7 +286,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
                     [ 1, -2,  3,  -4,  5],
                 ],
                 [-16, 20, -4, -10,  3],
-                [-15.354, 15.813, -1.770, -22.148, -6.660],
+                [-15.35406699, 15.81339713, -1.77033493, -22.14832536, -6.66028708],
             ],
             [
                 [
@@ -273,6 +300,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
                 [4, 20, -15, -3, 16, -27],
                 [1, -2, 3, 4, 2, -1],
             ],
+            // SciPy test cases - scipy.linalg.solve(a, b)
             [
                 [
                     [1, 20],
@@ -283,12 +311,71 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 [
-                    [3, 2, 0],
-                    [1, -1, 0],
-                    [0, 5, 1]
+                    [1, 20],
+                    [-30, 4],
                 ],
-                [2, 4, -1],
-                [2, -2, 9],
+                [0, 1],
+                [-0.03311258,  0.00165563],
+            ],
+            [
+                [
+                    [1, 20],
+                    [-30, 4],
+                ],
+                [2, 1],
+                [-0.01986755,  0.10099338],
+            ],
+            [
+                [
+                    [1, 20],
+                    [-30, 4],
+                ],
+                [-30, 4],
+                [-0.33112583, -1.48344371],
+            ],
+            [
+                [
+                    [2, 3],
+                    [3, 5],
+                ],
+                [1, 0],
+                [5, -3],
+            ],
+            [
+                [
+                    [2, 3],
+                    [3, 5],
+                ],
+                [0, 1],
+                [-3, 2],
+            ],
+            [
+                [
+                    [1.80, 2.88, 2.05, -0.89],
+                    [525.00, -295.00, -95.00, -380.00],
+                    [1.58, -2.69, -2.90, -1.04],
+                    [-1.11, -0.66, -0.59, 0.80],
+                ],
+                [9.52, 2435, .77, -6.22],
+                [1, -1, 3, -5],
+            ],
+            [
+                [
+                    [1.80, 2.88, 2.05, -0.89],
+                    [525.00, -295.00, -95.00, -380.00],
+                    [1.58, -2.69, -2.90, -1.04],
+                    [-1.11, -0.66, -0.59, 0.80],
+                ],
+                [18.47, 225, -13.28, -6.21],
+                [3., 2., 4., 1.],
+            ],
+            [
+                [
+                    [1, 0],
+                    [1, 2],
+                ],
+                [1, 1],
+                [1, 0],
             ],
         ];
     }
@@ -358,7 +445,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         }
 
         // Then
-        $this->assertEquals($expected_x, $x, '', 0.001);
+        $this->assertEquals($expected_x, $x, '', 0.00001);
 
         // And as an extra check, solve the original matrix and compare the result.
         $solved_x = $A->solve($b);
@@ -385,6 +472,6 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $Ax = $A->multiply($x);
 
         // Then Ax = b
-        $this->assertEquals($b, $Ax->asVectors()[0]->getVector(), '', 0.001);
+        $this->assertEquals($b, $Ax->asVectors()[0]->getVector(), '', 0.00001);
     }
 }
