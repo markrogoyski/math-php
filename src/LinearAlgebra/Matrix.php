@@ -467,7 +467,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     {
         $│A│ = $this->det();
 
-        if ($│A│ == 0) {
+        if (Support::isZero($│A│, $this->ε)) {
             return true;
         }
 
