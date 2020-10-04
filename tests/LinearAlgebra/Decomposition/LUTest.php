@@ -4,9 +4,13 @@ namespace MathPHP\Tests\LinearAlgebra\Decomposition;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Exception;
+use MathPHP\LinearAlgebra\Vector;
+use MathPHP\Tests\LinearAlgebra\MatrixSolveDataProvider;
 
 class LUTest extends \PHPUnit\Framework\TestCase
 {
+    use MatrixSolveDataProvider;
+
     /**
      * @test         LU decomposition
      * @dataProvider dataProviderForLUDecomposition
@@ -437,5 +441,29 @@ class LUTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($L);
         $this->assertTrue($U);
         $this->assertTrue($P);
+    }
+
+    /**
+     * @test         Solve
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolve(array $A, array $b, array $expected)
+    {
+        // Given
+        $A  = MatrixFactory::create($A);
+        $LU = $A->luDecomposition();
+
+        // And
+        $expected = new Vector($expected);
+
+        // When
+        $x = $LU->solve($b);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.00001);
     }
 }

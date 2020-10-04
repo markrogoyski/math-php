@@ -3594,29 +3594,6 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * Otherwise, it is more efficient to decompose and then solve.
      * Use LU Decomposition and solve Ax = b.
      *
-     * LU Decomposition:
-     *  - Equation to solve: Ax = b
-     *  - LU Decomposition produces: PA = LU
-     *  - Substitute: LUx = Pb, or Pb = LUx
-     *  - Can rewrite as Pb = L(Ux)
-     *  - Can say y = Ux
-     *  - Then can rewrite as Pb = Ly
-     *  - Solve for y (we know Pb and L)
-     *  - Solve for x in y = Ux once we know y
-     *
-     * Solving triangular systems Ly = Pb and Ux = y
-     *  - Solve for Ly = Pb using forward substitution
-     *
-     *         1   /    ᵢ₋₁      \
-     *   yᵢ = --- | bᵢ - ∑ Lᵢⱼyⱼ |
-     *        Lᵢᵢ  \    ʲ⁼¹      /
-     *
-     *  - Solve for Ux = y using back substitution
-     *
-     *         1   /     m       \
-     *   xᵢ = --- | yᵢ - ∑ Uᵢⱼxⱼ |
-     *        Uᵢᵢ  \   ʲ⁼ⁱ⁺¹     /
-     *
      * @param Vector|array $b solution to Ax = b
      *
      * @return Vector x
@@ -3658,46 +3635,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
         // No inverse or RREF pre-computed.
         // Use LU Decomposition.
         $lu = $this->luDecomposition();
-        $L  = $lu->L;
-        $U  = $lu->U;
-        $P  = $lu->P;
-        $m  = $this->m;
-
-        // Pivot solution vector b with permutation matrix: Pb
-        $Pb = $P->multiply($b);
-
-        /* Solve for Ly = Pb using forward substitution
-         *         1   /    ᵢ₋₁      \
-         *   yᵢ = --- | bᵢ - ∑ Lᵢⱼyⱼ |
-         *        Lᵢᵢ  \    ʲ⁼¹      /
-         */
-        $y    = [];
-        $y[0] = $Pb[0][0] / $L[0][0];
-        for ($i = 1; $i < $m; $i++) {
-            $sum = 0;
-            for ($j = 0; $j <= $i - 1; $j++) {
-                $sum += $L[$i][$j] * $y[$j];
-            }
-            $y[$i] = ($Pb[$i][0] - $sum) / $L[$i][$i];
-        }
-
-        /* Solve for Ux = y using back substitution
-         *         1   /     m       \
-         *   xᵢ = --- | yᵢ - ∑ Uᵢⱼxⱼ |
-         *        Uᵢᵢ  \   ʲ⁼ⁱ⁺¹     /
-         */
-        $x         = [];
-        $x[$m - 1] = $y[$m - 1] / $U[$m - 1][$m - 1];
-        for ($i = $m - 2; $i >= 0; $i--) {
-            $sum = 0;
-            for ($j = $i + 1; $j < $m; $j++) {
-                $sum += $U[$i][$j] * $x[$j];
-            }
-            $x[$i] = ($y[$i] - $sum) / $U[$i][$i];
-        }
-
-        // Return unknown xs as Vector
-        return new Vector(array_reverse($x));
+        return $lu->solve($b);
     }
 
     /**************************************************************************
