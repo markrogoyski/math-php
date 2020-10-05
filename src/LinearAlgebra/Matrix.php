@@ -34,6 +34,13 @@ class Matrix implements \ArrayAccess, \JsonSerializable
     const ROWS    = 'rows';
     const COLUMNS = 'columns';
 
+    // Matrix solve methods
+    const LU      = 'LU';
+    const QR      = 'QR';
+    const INVERSE = 'Inverse';
+    const RREF    = 'RREF';
+    const DEFAULT = 'Default';
+
     /**
      * Constructor
      *
@@ -3595,6 +3602,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * Use LU Decomposition and solve Ax = b.
      *
      * @param Vector|array $b solution to Ax = b
+     * @param string       $method (optional) Force a specific solve method - defaults to DEFAULT where various methods are tried
      *
      * @return Vector x
      *
@@ -3604,7 +3612,7 @@ class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\OutOfBoundsException
      * @throws Exception\BadParameterException
      */
-    public function solve($b)
+    public function solve($b, string $method = self::DEFAULT)
     {
         // Input must be a Vector or array.
         if (!($b instanceof Vector || is_array($b))) {
@@ -3614,45 +3622,64 @@ class Matrix implements \ArrayAccess, \JsonSerializable
             $b = new Vector($b);
         }
 
-        // If inverse is already calculated, solve: x = A⁻¹b
-        if ($this->catalog->hasInverse()) {
-            return new Vector($this->catalog->getInverse()->multiply($b)->getColumn(0));
-        }
+        switch ($method) {
+            case self::LU:
+                $lu = $this->luDecomposition();
+                return $lu->solve($b);
 
-        // If 2x2, just compute the inverse and solve: x = A⁻¹b
-        if ($this->m === 2 && $this->n === 2) {
-            $A⁻¹ = $this->inverse();
-            return new Vector($A⁻¹->multiply($b)->getColumn(0));
-        }
+            case self::QR:
+                $qr = $this->qrDecomposition();
+                return $qr->solve($b);
 
-        // For 3x3 or higher, check if the RREF is already computed.
-        // If so, just compute the inverse and solve: x = A⁻¹b
-        if ($this->catalog->hasReducedRowEchelonForm()) {
-            $A⁻¹ = $this->inverse();
-            return new Vector($A⁻¹->multiply($b)->getColumn(0));
-        }
+            case self::INVERSE:
+                $A⁻¹ = $this->inverse();
+                return new Vector($A⁻¹->multiply($b)->getColumn(0));
 
-        // No inverse or RREF pre-computed.
-        // Use LU Decomposition.
-        try {
-            $lu = $this->luDecomposition();
-            return $lu->solve($b);
-        } catch (Exception\DivisionByZeroException $e) {
-            // Not solvable via LU decomposition
-        }
+            case self::RREF:
+                $Ab   = $this->augment($b->asColumnMatrix());
+                $rref = $Ab->rref();
+                return new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
 
-        // LU failed, use QR Decomposition.
-        try {
-            $qr = $this->qrDecomposition();
-            return $qr->solve($b);
-        } catch (Exception\MatrixException $e) {
-            // Not solvable via QR decomposition
-        }
+            default:
+                // If inverse is already calculated, solve: x = A⁻¹b
+                if ($this->catalog->hasInverse()) {
+                    return new Vector($this->catalog->getInverse()->multiply($b)->getColumn(0));
+                }
 
-        // Last resort, augment A with B and solve RREF. x is the rightmost column.
-        $Ab   = $this->augment($b->asColumnMatrix());
-        $rref = $Ab->rref();
-        return new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
+                // If 2x2, just compute the inverse and solve: x = A⁻¹b
+                if ($this->m === 2 && $this->n === 2) {
+                    $A⁻¹ = $this->inverse();
+                    return new Vector($A⁻¹->multiply($b)->getColumn(0));
+                }
+
+                // For 3x3 or higher, check if the RREF is already computed.
+                // If so, just compute the inverse and solve: x = A⁻¹b
+                if ($this->catalog->hasReducedRowEchelonForm()) {
+                    $A⁻¹ = $this->inverse();
+                    return new Vector($A⁻¹->multiply($b)->getColumn(0));
+                }
+
+                try {
+                    $lu = $this->luDecomposition();
+                    return $lu->solve($b);
+                } catch (Exception\DivisionByZeroException $e) {
+                    // Not solvable via LU decomposition
+                }
+
+                // LU failed, use QR Decomposition.
+                try {
+                    $qr = $this->qrDecomposition();
+                    return $qr->solve($b);
+                } catch (Exception\MatrixException $e) {
+                    // Not solvable via QR decomposition
+                }
+
+                // Last resort, augment A with b (Ab) and solve RREF.
+                // x is the rightmost column.
+                $Ab   = $this->augment($b->asColumnMatrix());
+                $rref = $Ab->rref();
+                return new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
+        }
     }
 
     /**************************************************************************

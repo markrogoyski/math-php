@@ -101,6 +101,94 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         Solve forcing LU method
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolveForcingLuMethod(array $A, array $b, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $b        = new Vector($b);
+        $expected = new Vector($expected);
+
+        // When
+        $x = $A->solve($b, Matrix::LU);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.00001);
+    }
+
+    /**
+     * @test         Solve forcing QR method
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolveForcingQrMethod(array $A, array $b, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $b        = new Vector($b);
+        $expected = new Vector($expected);
+
+        // When
+        $x = $A->solve($b, Matrix::QR);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.00001);
+    }
+
+    /**
+     * @test         Solve forcing Inverse method
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolveForcingInverseMethod(array $A, array $b, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $b        = new Vector($b);
+        $expected = new Vector($expected);
+
+        // When
+        $x = $A->solve($b, Matrix::INVERSE);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.00001);
+    }
+
+    /**
+     * @test         Solve forcing RREF method
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolveForcingRrefMethod(array $A, array $b, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $b        = new Vector($b);
+        $expected = new Vector($expected);
+
+        // When
+        $x = $A->solve($b, Matrix::RREF);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.00001);
+    }
+
+    /**
      * @test         solve exception
      * @dataProvider dataProviderForSolveExceptionNotVectorOrArray
      * @throws       \Exception
