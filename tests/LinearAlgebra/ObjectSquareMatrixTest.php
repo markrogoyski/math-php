@@ -1,6 +1,6 @@
 <?php
 
-namespace MathPHP\LinearAlgebra;
+namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\Functions\Polynomial;
 use MathPHP\Number\Complex;
