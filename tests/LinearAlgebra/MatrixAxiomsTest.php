@@ -54,6 +54,9 @@ use MathPHP\Tests;
  *  - QR Decomposition (A = QR)
  *    - A = QR
  *    - Q is orthogonal, R is upper triangular
+ *    - QᵀQ = I
+ *    - R = QᵀA
+ *    - Qᵀ = Q⁻¹
  *  - Crout Decomposition (A = LU)
  *    - A = LU where L = LD
  *  - Cholesky Decomposition (A = LLᵀ)
@@ -1253,7 +1256,9 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @test Axiom: A = QR
      * Basic QR decomposition property that A = QR
      * @dataProvider dataProviderForSquareMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
      * @dataProvider dataProviderForSymmetricMatrix
+     * @dataProvider dataProviderForNotSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -1290,6 +1295,81 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         // Then Q is orthogonal and R is upper triangular
         $this->assertTrue($qr->Q->isOrthogonal());
         $this->assertTrue($qr->R->isUpperTriangular());
+    }
+
+    /**
+     * @test         Axiom QᵀQ = I
+     *               QR decomposition property orthonormal matrix Q has the property QᵀQ = I
+     * @dataProvider dataProviderForSquareMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
+     * @dataProvider dataProviderForSymmetricMatrix
+     * @dataProvider dataProviderForNotSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testQrDecompositionOrthonormalMatrixQPropertyQTransposeQIsIdentity(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $I = MatrixFactory::identity(min($A->getM(), $A->getN()));
+
+        // And
+        $qr = $A->qrDecomposition();
+
+        // When
+        $QᵀQ = $qr->Q->transpose()->multiply($qr->Q);
+
+        // Then QᵀQ = I
+        $this->assertEquals($I->getMatrix(), $QᵀQ->getMatrix(), '', 0.000001);
+    }
+
+    /**
+     * @test         Axiom R = QᵀA
+     *               QR decomposition property R = QᵀA
+     * @dataProvider dataProviderForSquareMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
+     * @dataProvider dataProviderForSymmetricMatrix
+     * @dataProvider dataProviderForNotSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testQrDecompositionPropertyREqualsQTransposeA(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // And
+        $qrDecomposition = $A->qrDecomposition();
+
+        // When
+        $QᵀA = $qrDecomposition->Q->transpose()->multiply($A);
+
+        // Then R = QᵀA
+        $this->assertEquals($qrDecomposition->R->getMatrix(), $QᵀA->getMatrix(), '', 0.00001);
+    }
+
+    /**
+     * @test         Axiom Qᵀ = Q⁻¹
+     *               QR decomposition property Qᵀ = Q⁻¹
+     * @dataProvider dataProviderForSquareMatrix
+     * @dataProvider dataProviderForSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testQrDecompositionPropertyQTransposeEqualsQInverse(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // And
+        $Q = $A->qrDecomposition()->Q;
+
+        // When
+        $Qᵀ  = $Q->transpose();
+        $Q⁻¹ = $Q->inverse();
+
+        // Then Qᵀ = Q⁻¹
+        $this->assertEquals($Qᵀ->getMatrix(), $Q⁻¹->getMatrix(), '', 0.00001);
     }
 
     /**
