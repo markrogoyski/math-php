@@ -4,9 +4,13 @@ namespace MathPHP\Tests\LinearAlgebra\Decomposition;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Exception;
+use MathPHP\LinearAlgebra\Vector;
+use MathPHP\Tests\LinearAlgebra\MatrixSolveDataProvider;
 
 class QRTest extends \PHPUnit\Framework\TestCase
 {
+    use MatrixSolveDataProvider;
+
     /**
      * @test         qrDecomposition property A = QR
      * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
@@ -511,5 +515,29 @@ class QRTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertTrue($Q);
         $this->assertTrue($R);
+    }
+
+    /**
+     * @test         Solve
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolve(array $A, array $b, array $expected)
+    {
+        // Given
+        $A  = MatrixFactory::create($A);
+        $QR = $A->qrDecomposition();
+
+        // And
+        $expected = new Vector($expected);
+
+        // When
+        $x = $QR->solve($b);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.00001);
     }
 }
