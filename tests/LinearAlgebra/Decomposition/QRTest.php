@@ -23,13 +23,14 @@ class QRTest extends \PHPUnit\Framework\TestCase
         // Given
         $A = MatrixFactory::create($A);
 
+        // And
+        $qrDecomposition = $A->qrDecomposition();
+
         // When
-        $qr  = $A->qrDecomposition();
-        $qrQ = $qr->Q;
-        $qrR = $qr->R;
+        $QR = $qrDecomposition->Q->multiply($qrDecomposition->R);
 
         // Then A = QR
-        $this->assertEquals($A->getMatrix(), $qrQ->multiply($qrR)->getMatrix(), '', 0.00001);
+        $this->assertEquals($A->getMatrix(), $QR->getMatrix(), '', 0.00001);
     }
 
     /**
@@ -76,6 +77,73 @@ class QRTest extends \PHPUnit\Framework\TestCase
         // And Q and R are expected solution to QR decomposition
         $this->assertEquals($R->getMatrix(), $qrR->getMatrix(), '', 0.00001);
         $this->assertEquals($Q->getMatrix(), $qrQ->getMatrix(), '', 0.00001);
+    }
+
+    /**
+     * @test         Orthonormal matrix Q has the property QᵀQ = I
+     * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
+     * @dataProvider dataProviderForQrDecompositionNonSquareMatricesWithSpecificResults
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testQrDecompositionOrthonormalMatrixQPropertyQTransposeQIsIdentity(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $I = MatrixFactory::identity(min($A->getM(), $A->getN()));
+
+        // And
+        $qr = $A->qrDecomposition();
+
+        // When
+        $QᵀQ = $qr->Q->transpose()->multiply($qr->Q);
+
+        // Then QᵀQ = I
+        $this->assertEquals($I->getMatrix(), $QᵀQ->getMatrix(), '', 0.000001);
+    }
+
+    /**
+     * @test         qrDecomposition property R = QᵀA
+     * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
+     * @dataProvider dataProviderForQrDecompositionNonSquareMatricesWithSpecificResults
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testQrDecompositionPropertyREqualsQTransposeA(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // And
+        $qrDecomposition = $A->qrDecomposition();
+
+        // When
+        $QᵀA = $qrDecomposition->Q->transpose()->multiply($A);
+
+        // Then R = QᵀA
+        $this->assertEquals($qrDecomposition->R->getMatrix(), $QᵀA->getMatrix(), '', 0.00001);
+    }
+
+    /**
+     * @test         qrDecomposition property Qᵀ = Q⁻¹
+     * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testQrDecompositionPropertyQTransposeEqualsQInverse(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // And
+        $Q = $A->qrDecomposition()->Q;
+
+        // When
+        $Qᵀ  = $Q->transpose();
+        $Q⁻¹ = $Q->inverse();
+
+        // Then Qᵀ = Q⁻¹
+        $this->assertEquals($Qᵀ->getMatrix(), $Q⁻¹->getMatrix(), '', 0.00001);
     }
 
     /**
