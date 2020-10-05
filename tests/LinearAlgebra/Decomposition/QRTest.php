@@ -5,11 +5,11 @@ namespace MathPHP\Tests\LinearAlgebra\Decomposition;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\Vector;
-use MathPHP\Tests\LinearAlgebra\MatrixSolveDataProvider;
+use MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
 
 class QRTest extends \PHPUnit\Framework\TestCase
 {
-    use MatrixSolveDataProvider;
+    use MatrixDataProvider;
 
     /**
      * @test         qrDecomposition property A = QR

@@ -5,6 +5,7 @@ namespace MathPHP\Tests\LinearAlgebra;
 trait MatrixSolveDataProvider
 {
     /**
+     * Solving a system of lineary equations
      * Test cases generated using various online sources and various applications.
      * For example, SciPy scipy.linalg.solve(a,b)
      * @return array (A, b, x) for Ax = b

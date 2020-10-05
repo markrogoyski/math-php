@@ -1449,16 +1449,17 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @param        array $A
      * @param        array $b
      * @param        array $x
-     * @param        array $zeros
      * @throws       \Exception
      */
-    public function testSolveEquationForZero(array $A, array $b, array $x, array $zeros)
+    public function testSolveEquationForZero(array $A, array $b, array $x)
     {
         // Given
         $A = MatrixFactory::create($A);
         $x = new Vector($x);
         $b = (new Vector($b))->asColumnMatrix();
-        $z = (new Vector($zeros))->asColumnMatrix();
+
+        // And zeros
+        $z = (new Vector(array_fill(0, count($x), 0)))->asColumnMatrix();
 
         // When Ax - b
         $R = $A->multiply($x)->subtract($b);

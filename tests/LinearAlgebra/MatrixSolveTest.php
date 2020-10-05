@@ -9,7 +9,7 @@ use MathPHP\Exception;
 
 class MatrixSolveTest extends \PHPUnit\Framework\TestCase
 {
-    use MatrixSolveDataProvider;
+    use MatrixDataProvider;
 
     /**
      * @test         Solve array
