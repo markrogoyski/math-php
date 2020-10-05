@@ -3634,8 +3634,25 @@ class Matrix implements \ArrayAccess, \JsonSerializable
 
         // No inverse or RREF pre-computed.
         // Use LU Decomposition.
-        $lu = $this->luDecomposition();
-        return $lu->solve($b);
+        try {
+            $lu = $this->luDecomposition();
+            return $lu->solve($b);
+        } catch (Exception\DivisionByZeroException $e) {
+            // Not solvable via LU decomposition
+        }
+
+        // LU failed, use QR Decomposition.
+        try {
+            $qr = $this->qrDecomposition();
+            return $qr->solve($b);
+        } catch (Exception\MatrixException $e) {
+            // Not solvable via QR decomposition
+        }
+
+        // Last resort, augment A with B and solve RREF. x is the rightmost column.
+        $Ab   = $this->augment($b->asColumnMatrix());
+        $rref = $Ab->rref();
+        return new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
     }
 
     /**************************************************************************

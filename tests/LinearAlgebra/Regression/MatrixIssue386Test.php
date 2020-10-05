@@ -310,6 +310,24 @@ class MatrixIssue386Test extends \PHPUnit\Framework\TestCase
         $this->assertEquals(self::X, $x->getVector(), '', 0.00000001);
     }
 
+    /**
+     * @test   Solve (bug that was reported)
+     *         Original implementation of Matrix->solve($b) would use LU decomposition and fail by division by zero for this matrix.
+     * @throws \Exception
+     */
+    public function testSolve()
+    {
+        // Given
+        $A = MatrixFactory::create(self::MATRIX);
+        $b = new Vector(self::B);
+
+        // When
+        $x = $A->solve($b);
+
+        // Then
+        $this->assertEquals(self::X, $x->getVector(), '', 0.00000001);
+    }
+
     /*
      * R code to create the matrix (for verification purposes)
      *  > A = rbind(c(1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),

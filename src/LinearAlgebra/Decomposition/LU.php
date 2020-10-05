@@ -272,6 +272,9 @@ class LU extends Decomposition
             for ($j = $i + 1; $j < $m; $j++) {
                 $sum += $U[$i][$j] * $x[$j];
             }
+            if ($U[$i][$i] == 0) {
+                throw new Exception\DivisionByZeroException("Uᵢᵢ (U[$i][$i]) is 0 during solve for Ux = y using back substitution in LU solve for Ax = b");
+            }
             $x[$i] = ($y[$i] - $sum) / $U[$i][$i];
         }
 
