@@ -3,6 +3,8 @@
 namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\Functions\Polynomial;
+use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Number\Complex;
 use MathPHP\Exception;
 
