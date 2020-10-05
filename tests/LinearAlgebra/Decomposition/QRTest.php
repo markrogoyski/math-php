@@ -15,6 +15,8 @@ class QRTest extends \PHPUnit\Framework\TestCase
      * @test         qrDecomposition property A = QR
      * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
      * @dataProvider dataProviderForQrDecompositionNonSquareMatricesWithSpecificResults
+     * @dataProvider dataProviderForSingularMatrix
+     * @dataProvider dataProviderForNonsingularMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -36,6 +38,8 @@ class QRTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         qrDecomposition properties Q is orthogonal and R is upper triangular
      * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
+     * @dataProvider dataProviderForSingularMatrix
+     * @dataProvider dataProviderForNonsingularMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -83,6 +87,8 @@ class QRTest extends \PHPUnit\Framework\TestCase
      * @test         Orthonormal matrix Q has the property QᵀQ = I
      * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
      * @dataProvider dataProviderForQrDecompositionNonSquareMatricesWithSpecificResults
+     * @dataProvider dataProviderForSingularMatrix
+     * @dataProvider dataProviderForNonsingularMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -106,6 +112,8 @@ class QRTest extends \PHPUnit\Framework\TestCase
      * @test         qrDecomposition property R = QᵀA
      * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
      * @dataProvider dataProviderForQrDecompositionNonSquareMatricesWithSpecificResults
+     * @dataProvider dataProviderForSingularMatrix
+     * @dataProvider dataProviderForNonsingularMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -127,6 +135,8 @@ class QRTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         qrDecomposition property Qᵀ = Q⁻¹
      * @dataProvider dataProviderForQrDecompositionSquareMatricesWithSpecificResults
+     * @dataProvider dataProviderForSingularMatrix
+     * @dataProvider dataProviderForNonsingularMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -144,6 +154,30 @@ class QRTest extends \PHPUnit\Framework\TestCase
 
         // Then Qᵀ = Q⁻¹
         $this->assertEquals($Qᵀ->getMatrix(), $Q⁻¹->getMatrix(), '', 0.00001);
+    }
+
+    /**
+     * @test         Solve
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolve(array $A, array $b, array $expected)
+    {
+        // Given
+        $A  = MatrixFactory::create($A);
+        $QR = $A->qrDecomposition();
+
+        // And
+        $expected = new Vector($expected);
+
+        // When
+        $x = $QR->solve($b);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.00001);
     }
 
     /**
@@ -583,29 +617,5 @@ class QRTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertTrue($Q);
         $this->assertTrue($R);
-    }
-
-    /**
-     * @test         Solve
-     * @dataProvider dataProviderForSolve
-     * @param        array $A
-     * @param        array $b
-     * @param        array $expected
-     * @throws       \Exception
-     */
-    public function testSolve(array $A, array $b, array $expected)
-    {
-        // Given
-        $A  = MatrixFactory::create($A);
-        $QR = $A->qrDecomposition();
-
-        // And
-        $expected = new Vector($expected);
-
-        // When
-        $x = $QR->solve($b);
-
-        // Then
-        $this->assertEquals($expected, $x, '', 0.00001);
     }
 }

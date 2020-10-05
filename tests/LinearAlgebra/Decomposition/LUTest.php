@@ -77,6 +77,76 @@ class LUTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         Solve
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolve(array $A, array $b, array $expected)
+    {
+        // Given
+        $A  = MatrixFactory::create($A);
+        $LU = $A->luDecomposition();
+
+        // And
+        $expected = new Vector($expected);
+
+        // When
+        $x = $LU->solve($b);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.00001);
+    }
+
+    /**
+     * @test LU decomposition with small pivots
+     *       (http://buzzard.ups.edu/courses/2014spring/420projects/math420-UPS-spring-2014-reid-LU-pivoting.pdf)
+     *       Results computed with SciPy scipy.linalg.lu(A)
+     * @throws \Exception
+     */
+    public function testLuDecompositionSmallPivots()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [10e-20, 1],
+            [1, 2],
+        ]);
+
+        // And
+        $L = MatrixFactory::create([
+            [1, 0],
+            [1e-19, 1],
+        ]);
+        $U = MatrixFactory::create([
+            [1, 2],
+            [0, 1],
+        ]);
+        $P = MatrixFactory::create([
+            [0, 1],
+            [1, 0],
+        ]);
+
+        // When
+        $LU = $A->luDecomposition();
+
+        // Then
+        $this->assertEquals($L, $LU->L, '', 1e-20);
+        $this->assertEquals($U, $LU->U, '', 1e-20);
+        $this->assertEquals($P, $LU->P, '', 1e-20);
+
+        // And
+        $this->assertTrue($LU->L->isLowerTriangular());
+        $this->assertTrue($LU->U->isUpperTriangular());
+
+        // And PA = LU;
+        $PA = $LU->P->multiply($A);
+        $LU = $LU->L->multiply($LU->U);
+        $this->assertEquals($PA->getMatrix(), $LU->getMatrix(), '', 0.01);
+    }
+
+    /**
      * Test data from various sources:
      *   SciPy scipy.linalg.lu(A)
      *   Online calculator: https://www.easycalculation.com/matrix/lu-decomposition-matrix.php
@@ -581,75 +651,5 @@ class LUTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($L);
         $this->assertTrue($U);
         $this->assertTrue($P);
-    }
-
-    /**
-     * @test         Solve
-     * @dataProvider dataProviderForSolve
-     * @param        array $A
-     * @param        array $b
-     * @param        array $expected
-     * @throws       \Exception
-     */
-    public function testSolve(array $A, array $b, array $expected)
-    {
-        // Given
-        $A  = MatrixFactory::create($A);
-        $LU = $A->luDecomposition();
-
-        // And
-        $expected = new Vector($expected);
-
-        // When
-        $x = $LU->solve($b);
-
-        // Then
-        $this->assertEquals($expected, $x, '', 0.00001);
-    }
-
-    /**
-     * @test LU decomposition with small pivots
-     *       (http://buzzard.ups.edu/courses/2014spring/420projects/math420-UPS-spring-2014-reid-LU-pivoting.pdf)
-     *       Results computed with SciPy scipy.linalg.lu(A)
-     * @throws \Exception
-     */
-    public function testLuDecompositionSmallPivots()
-    {
-        // Given
-        $A = MatrixFactory::create([
-            [10e-20, 1],
-            [1, 2],
-        ]);
-
-        // And
-        $L = MatrixFactory::create([
-            [1, 0],
-            [1e-19, 1],
-        ]);
-        $U = MatrixFactory::create([
-            [1, 2],
-            [0, 1],
-        ]);
-        $P = MatrixFactory::create([
-            [0, 1],
-            [1, 0],
-        ]);
-
-        // When
-        $LU = $A->luDecomposition();
-
-        // Then
-        $this->assertEquals($L, $LU->L, '', 1e-20);
-        $this->assertEquals($U, $LU->U, '', 1e-20);
-        $this->assertEquals($P, $LU->P, '', 1e-20);
-
-        // And
-        $this->assertTrue($LU->L->isLowerTriangular());
-        $this->assertTrue($LU->U->isUpperTriangular());
-
-        // And PA = LU;
-        $PA = $LU->P->multiply($A);
-        $LU = $LU->L->multiply($LU->U);
-        $this->assertEquals($PA->getMatrix(), $LU->getMatrix(), '', 0.01);
     }
 }
