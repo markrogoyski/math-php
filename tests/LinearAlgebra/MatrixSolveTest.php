@@ -9,6 +9,8 @@ use MathPHP\Exception;
 
 class MatrixSolveTest extends \PHPUnit\Framework\TestCase
 {
+    use MatrixDataProvider;
+
     /**
      * @test         Solve array
      * @dataProvider dataProviderForSolve
@@ -27,7 +29,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b);
 
         // Then
-        $this->assertEquals($expected, $x, '', 0.001);
+        $this->assertEquals($expected, $x, '', 0.00001);
     }
 
     /**
@@ -49,7 +51,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b);
 
         // Then
-        $this->assertEquals($expected, $x, '', 0.001);
+        $this->assertEquals($expected, $x, '', 0.00001);
     }
 
     /**
@@ -72,7 +74,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b);
 
         // Then
-        $this->assertEquals($expected, $x, '', 0.001);
+        $this->assertEquals($expected, $x, '', 0.00001);
     }
 
     /**
@@ -95,183 +97,95 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b);
 
         // Then
-        $this->assertEquals($expected, $x, '', 0.001);
+        $this->assertEquals($expected, $x, '', 0.00001);
     }
 
     /**
-     * @return array
+     * @test         Solve forcing LU method
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
      */
-    public function dataProviderForSolve(): array
+    public function testSolveForcingLuMethod(array $A, array $b, array $expected)
     {
-        return [
-            [
-                [
-                    [3, 4],
-                    [2, -1],
-                ],
-                [5, 7],
-                [3, -1],
-            ],
-            [
-                [
-                    [3, 1],
-                    [2, -1],
-                ],
-                [5, 0],
-                [1, 2],
-            ],
-            [
-                [
-                    [3, 4],
-                    [5, 3],
-                ],
-                [-2, 4],
-                [2, -2],
-            ],
-            [
-                [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [0, 0, 1],
-                ],
-                [2, 3, -4],
-                [2, 3, -4],
-            ],
-            [
-                [
-                    [1, 1, -1],
-                    [3, 1, 1],
-                    [1, -1, 4],
-                ],
-                [1, 9, 8],
-                [3, -1, 1],
-            ],
-            [
-                [
-                    [2, 4, 1],
-                    [4, -10, 2],
-                    [1, 2, 4],
-                ],
-                [5, -8, 13],
-                [-1, 1, 3],
-            ],
-            [
-                [
-                    [1, 1, 1],
-                    [0, 2, 5],
-                    [2, 5, -1],
-                ],
-                [6, -4, 27],
-                [5, 3, -2],
-            ],
-            [
-                [
-                    [1, 2, 3],
-                    [2, -1, 1],
-                    [3, 0, -1],
-                ],
-                [9, 8, 3],
-                [2, -1, 3],
-            ],
-            [
-                [
-                    [2, 1, -3],
-                    [4, -2, 1],
-                    [3, 5, -2],
-                ],
-                [-4, 9, 5],
-                [2, 1, 3],
-            ],
-            [
-                [
-                    [4, 9, 0],
-                    [8, 0, 6],
-                    [0, 6, 6],
-                ],
-                [8, -1, -1],
-                [1 / 2, 2 / 3, -5 / 6],
-            ],
-            [
-                [
-                    [1, 1, 1],
-                    [1, -2, 2],
-                    [1, 2, -1],
-                ],
-                [0, 4, 2],
-                [4, -2, -2],
-            ],
-            [
-                [
-                    [3, 3, 4],
-                    [3, 5, 9],
-                    [5, 9, 17],
-                ],
-                [1, 2, 4],
-                [1, -2, 1],
-            ],
-            [
-                [
-                    [2, 1, 1],
-                    [-1, 1, -1],
-                    [1, 2, 3],
-                ],
-                [2, 3, -10],
-                [3, 1, -5],
-            ],
-            [
-                [
-                    [4, 2, -1, 3],
-                    [3, -4, 2, 5],
-                    [-2, 6, -5, -2],
-                    [5, 1, 6, -3],
-                ],
-                [16.9, -14, 25, 9.4],
-                [4.5, 1.6, -3.8, -2.7],
-            ],
-            [
-                [
-                    [4, 2, -1, 3],
-                    [3, -4, 2, 5],
-                    [-2, 6, -5, -2],
-                    [5, 1, 6, -3],
-                ],
-                [-12, 34, 27, -19],
-                [-101.485, 101.242, 115.727, 102.394],
-            ],
-            [
-                [
-                    [ 4,  1,  2,  -3],
-                    [-3,  3, -1,   4],
-                    [-1,  2,  5,   1],
-                    [ 5,  4,  3,  -1],
-                ],
-                [-16, 20, -4, -10],
-                [-1, 1, -2, 3],
-            ],
-            [
-                [
-                    [ 4,  1,  2,  -3,  5],
-                    [-3,  3, -1,   4, -2],
-                    [-1,  2,  5,   1,  3],
-                    [ 5,  4,  3,  -1,  2],
-                    [ 1, -2,  3,  -4,  5],
-                ],
-                [-16, 20, -4, -10,  3],
-                [-15.354, 15.813, -1.770, -22.148, -6.660],
-            ],
-            [
-                [
-                    [1, 1, -2, 1, 3, -1],
-                    [2, -1, 1, 2, 1, -3],
-                    [1, 3, -3, -1, 2, 1],
-                    [5, 2, -1, -1, 2, 1],
-                    [-3, -1, 2, 3, 1, 3],
-                    [4, 3, 1, -6, -3, -2],
-                ],
-                [4, 20, -15, -3, 16, -27],
-                [1, -2, 3, 4, 2, -1],
-            ],
-        ];
+        // Given
+        $A        = MatrixFactory::create($A);
+        $b        = new Vector($b);
+        $expected = new Vector($expected);
+
+        // When
+        $x = $A->solve($b, Matrix::LU);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.00001);
+    }
+
+    /**
+     * @test         Solve forcing QR method
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolveForcingQrMethod(array $A, array $b, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $b        = new Vector($b);
+        $expected = new Vector($expected);
+
+        // When
+        $x = $A->solve($b, Matrix::QR);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.00001);
+    }
+
+    /**
+     * @test         Solve forcing Inverse method
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolveForcingInverseMethod(array $A, array $b, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $b        = new Vector($b);
+        $expected = new Vector($expected);
+
+        // When
+        $x = $A->solve($b, Matrix::INVERSE);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.00001);
+    }
+
+    /**
+     * @test         Solve forcing RREF method
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolveForcingRrefMethod(array $A, array $b, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $b        = new Vector($b);
+        $expected = new Vector($expected);
+
+        // When
+        $x = $A->solve($b, Matrix::RREF);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.00001);
     }
 
     /**
@@ -339,10 +253,33 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         }
 
         // Then
-        $this->assertEquals($expected_x, $x, '', 0.001);
+        $this->assertEquals($expected_x, $x, '', 0.00001);
 
         // And as an extra check, solve the original matrix and compare the result.
         $solved_x = $A->solve($b);
         $this->assertEquals($x, $solved_x->getVector(), '', 0.00001);
+    }
+
+    /**
+     * @test         After solving, multiplying Ax = b
+     *               In Python you could do numpy.dot(A, x) == b for this verification
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @throws       \Exception
+     */
+    public function testAxEqualsBAfterSolving(array $A, array $b)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // And
+        $x = $A->solve($b);
+
+        // When Ax
+        $Ax = $A->multiply($x);
+
+        // Then Ax = b
+        $this->assertEquals($b, $Ax->asVectors()[0]->getVector(), '', 0.00001);
     }
 }

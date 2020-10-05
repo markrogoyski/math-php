@@ -6,6 +6,7 @@ use MathPHP\Exception;
 use MathPHP\LinearAlgebra\Householder;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\Vector;
 
 /**
  * QR Decomposition using Householder reflections
@@ -97,6 +98,51 @@ class QR extends Decomposition
             $Q->submatrix(0, 0, $m - 1, min($m, $n) - 1),
             $R->submatrix(0, 0, min($m, $n) - 1, $n - 1)
         );
+    }
+
+    /**
+     * Solve linear system of equations
+     * Ax = b
+     *  where:
+     *   A: Matrix
+     *   x: unknown to solve for
+     *   b: solution to linear system of equations (input to function)
+     *
+     * Use QR Decomposition and solve Ax = b.
+     *
+     * QR Decomposition:
+     *  - Equation to solve: Ax = b
+     *  - QR Decomposition produces: A = QR
+     *  - Substitute to get QRx = b
+     *  - Multiply both sides by Qᵀ to get QᵀQRx = Qᵀb
+     *  - QᵀQ = I, so we get Rx = Qᵀb
+     *  - Multiply both sides by R⁻¹ to get R⁻¹Rx = R⁻¹Qᵀb
+     *  - R⁻¹R = I, so we get x = R⁻¹Qᵀb
+     * Solve x = R⁻¹Qᵀb
+     *
+     * @param Vector|array $b solution to Ax = b
+     *
+     * @return Vector x
+     *
+     * @throws Exception\IncorrectTypeException if b is not a Vector or array
+     */
+    public function solve($b): Vector
+    {
+        // Input must be a Vector or array.
+        if (!($b instanceof Vector || is_array($b))) {
+            throw new Exception\IncorrectTypeException('b in Ax = b must be a Vector or array');
+        }
+        if (is_array($b)) {
+            $b = new Vector($b);
+        }
+
+        $Qᵀ  = $this->Q->transpose();
+        $Qᵀb = $Qᵀ->multiply($b);
+
+        $R⁻¹ = $this->R->inverse();
+        $x   = $R⁻¹->multiply($Qᵀb);
+
+        return new Vector($x->getColumn(0));
     }
 
     /**

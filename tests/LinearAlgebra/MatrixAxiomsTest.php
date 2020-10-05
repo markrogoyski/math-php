@@ -54,6 +54,9 @@ use MathPHP\Tests;
  *  - QR Decomposition (A = QR)
  *    - A = QR
  *    - Q is orthogonal, R is upper triangular
+ *    - QᵀQ = I
+ *    - R = QᵀA
+ *    - Qᵀ = Q⁻¹
  *  - Crout Decomposition (A = LU)
  *    - A = LU where L = LD
  *  - Cholesky Decomposition (A = LLᵀ)
@@ -61,6 +64,9 @@ use MathPHP\Tests;
  *  - System of linear equations (Ax = b)
  *    - Ax - b = 0
  *    - x = A⁻¹b
+ *    - LU: Ly = Pb and Ux = y
+ *    - QR: x = R⁻¹Qᵀb
+ *    - RREF of A augmented with B provides a solution to Ax = b
  *  - Symmetric matrix
  *    - A is square
  *    - A = Aᵀ
@@ -1253,7 +1259,9 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @test Axiom: A = QR
      * Basic QR decomposition property that A = QR
      * @dataProvider dataProviderForSquareMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
      * @dataProvider dataProviderForSymmetricMatrix
+     * @dataProvider dataProviderForNotSymmetricMatrix
      * @param        array $A
      * @throws       \Exception
      */
@@ -1290,6 +1298,81 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         // Then Q is orthogonal and R is upper triangular
         $this->assertTrue($qr->Q->isOrthogonal());
         $this->assertTrue($qr->R->isUpperTriangular());
+    }
+
+    /**
+     * @test         Axiom QᵀQ = I
+     *               QR decomposition property orthonormal matrix Q has the property QᵀQ = I
+     * @dataProvider dataProviderForSquareMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
+     * @dataProvider dataProviderForSymmetricMatrix
+     * @dataProvider dataProviderForNotSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testQrDecompositionOrthonormalMatrixQPropertyQTransposeQIsIdentity(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $I = MatrixFactory::identity(min($A->getM(), $A->getN()));
+
+        // And
+        $qr = $A->qrDecomposition();
+
+        // When
+        $QᵀQ = $qr->Q->transpose()->multiply($qr->Q);
+
+        // Then QᵀQ = I
+        $this->assertEquals($I->getMatrix(), $QᵀQ->getMatrix(), '', 0.000001);
+    }
+
+    /**
+     * @test         Axiom R = QᵀA
+     *               QR decomposition property R = QᵀA
+     * @dataProvider dataProviderForSquareMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
+     * @dataProvider dataProviderForSymmetricMatrix
+     * @dataProvider dataProviderForNotSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testQrDecompositionPropertyREqualsQTransposeA(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // And
+        $qrDecomposition = $A->qrDecomposition();
+
+        // When
+        $QᵀA = $qrDecomposition->Q->transpose()->multiply($A);
+
+        // Then R = QᵀA
+        $this->assertEquals($qrDecomposition->R->getMatrix(), $QᵀA->getMatrix(), '', 0.00001);
+    }
+
+    /**
+     * @test         Axiom Qᵀ = Q⁻¹
+     *               QR decomposition property Qᵀ = Q⁻¹
+     * @dataProvider dataProviderForSquareMatrix
+     * @dataProvider dataProviderForSymmetricMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testQrDecompositionPropertyQTransposeEqualsQInverse(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // And
+        $Q = $A->qrDecomposition()->Q;
+
+        // When
+        $Qᵀ  = $Q->transpose();
+        $Q⁻¹ = $Q->inverse();
+
+        // Then Qᵀ = Q⁻¹
+        $this->assertEquals($Qᵀ->getMatrix(), $Q⁻¹->getMatrix(), '', 0.00001);
     }
 
     /**
@@ -1366,16 +1449,17 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @param        array $A
      * @param        array $b
      * @param        array $x
-     * @param        array $zeros
      * @throws       \Exception
      */
-    public function testSolveEquationForZero(array $A, array $b, array $x, array $zeros)
+    public function testSolveEquationForZero(array $A, array $b, array $x)
     {
         // Given
         $A = MatrixFactory::create($A);
         $x = new Vector($x);
         $b = (new Vector($b))->asColumnMatrix();
-        $z = (new Vector($zeros))->asColumnMatrix();
+
+        // And zeros
+        $z = (new Vector(array_fill(0, count($x), 0)))->asColumnMatrix();
 
         // When Ax - b
         $R = $A->multiply($x)->subtract($b);
@@ -1386,7 +1470,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test Axiom: x = A⁻¹b
-     * Matrix multiplied with unknown x vector subtract solution b is 0
+     * Inverse of A multiplied with b is a solution to x
      *
      * @dataProvider dataProviderForSolve
      * @param        array $A
@@ -1407,6 +1491,86 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertEquals($x, $A⁻¹b, '', 0.001);
+    }
+
+    /**
+     * @test Axiom: LU: Ly = Pb and Ux = y
+     * LU decomposition provides a solution to Ax = b
+     *
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolveLuDecomposition(array $A, array $b, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $expected = new Vector($expected);
+
+        // And
+        $LU = $A->luDecomposition();
+
+        // When Ly = Pb and Ux = y
+        $x = $LU->solve($b);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.001);
+    }
+
+    /**
+     * @test Axiom: QR: x = R⁻¹Qᵀb
+     * QR decomposition provides a solution to Ax = b
+     *
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolveQrDecomposition(array $A, array $b, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $expected = new Vector($expected);
+
+        // And
+        $QR = $A->qrDecomposition();
+
+        // When x = R⁻¹Qᵀb
+        $x = $QR->solve($b);
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.001);
+    }
+
+    /**
+     * @test Axiom: RREF of A augmented with B provides a solution to Ax = b
+     *
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolveRref(array $A, array $b, array $expected)
+    {
+        // Given
+        $A        = MatrixFactory::create($A);
+        $b        = new Vector($b);
+        $expected = new Vector($expected);
+
+        // And
+        $QR = $A->qrDecomposition();
+
+        // When RREF
+        $Ab   = $A->augment($b->asColumnMatrix());
+        $rref = $Ab->rref();
+        $x    = new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
+
+        // Then
+        $this->assertEquals($expected, $x, '', 0.001);
     }
 
     /**

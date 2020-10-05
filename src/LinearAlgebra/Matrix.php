@@ -22,6 +22,13 @@ class Matrix extends MatrixBase implements MatrixInterface
     const ROWS    = 'rows';
     const COLUMNS = 'columns';
 
+    // Matrix solve methods
+    const LU      = 'LU';
+    const QR      = 'QR';
+    const INVERSE = 'Inverse';
+    const RREF    = 'RREF';
+    const DEFAULT = 'Default';
+
     /**
      * Constructor
      *
@@ -200,7 +207,7 @@ class Matrix extends MatrixBase implements MatrixInterface
     {
         $│A│ = $this->det();
 
-        if ($│A│ == 0) {
+        if (Support::isZero($│A│, $this->ε)) {
             return true;
         }
 
@@ -2844,30 +2851,8 @@ class Matrix extends MatrixBase implements MatrixInterface
      * Otherwise, it is more efficient to decompose and then solve.
      * Use LU Decomposition and solve Ax = b.
      *
-     * LU Decomposition:
-     *  - Equation to solve: Ax = b
-     *  - LU Decomposition produces: PA = LU
-     *  - Substitute: LUx = Pb, or Pb = LUx
-     *  - Can rewrite as Pb = L(Ux)
-     *  - Can say y = Ux
-     *  - Then can rewrite as Pb = Ly
-     *  - Solve for y (we know Pb and L)
-     *  - Solve for x in y = Ux once we know y
-     *
-     * Solving triangular systems Ly = Pb and Ux = y
-     *  - Solve for Ly = Pb using forward substitution
-     *
-     *         1   /    ᵢ₋₁      \
-     *   yᵢ = --- | bᵢ - ∑ Lᵢⱼyⱼ |
-     *        Lᵢᵢ  \    ʲ⁼¹      /
-     *
-     *  - Solve for Ux = y using back substitution
-     *
-     *         1   /     m       \
-     *   xᵢ = --- | yᵢ - ∑ Uᵢⱼxⱼ |
-     *        Uᵢᵢ  \   ʲ⁼ⁱ⁺¹     /
-     *
      * @param Vector|array $b solution to Ax = b
+     * @param string       $method (optional) Force a specific solve method - defaults to DEFAULT where various methods are tried
      *
      * @return Vector x
      *
@@ -2877,7 +2862,7 @@ class Matrix extends MatrixBase implements MatrixInterface
      * @throws Exception\OutOfBoundsException
      * @throws Exception\BadParameterException
      */
-    public function solve($b)
+    public function solve($b, string $method = self::DEFAULT)
     {
         // Input must be a Vector or array.
         if (!($b instanceof Vector || is_array($b))) {
@@ -2887,67 +2872,64 @@ class Matrix extends MatrixBase implements MatrixInterface
             $b = new Vector($b);
         }
 
-        // If inverse is already calculated, solve: x = A⁻¹b
-        if ($this->catalog->hasInverse()) {
-            return new Vector($this->catalog->getInverse()->multiply($b)->getColumn(0));
+        switch ($method) {
+            case self::LU:
+                $lu = $this->luDecomposition();
+                return $lu->solve($b);
+
+            case self::QR:
+                $qr = $this->qrDecomposition();
+                return $qr->solve($b);
+
+            case self::INVERSE:
+                $A⁻¹ = $this->inverse();
+                return new Vector($A⁻¹->multiply($b)->getColumn(0));
+
+            case self::RREF:
+                $Ab   = $this->augment($b->asColumnMatrix());
+                $rref = $Ab->rref();
+                return new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
+
+            default:
+                // If inverse is already calculated, solve: x = A⁻¹b
+                if ($this->catalog->hasInverse()) {
+                    return new Vector($this->catalog->getInverse()->multiply($b)->getColumn(0));
+                }
+
+                // If 2x2, just compute the inverse and solve: x = A⁻¹b
+                if ($this->m === 2 && $this->n === 2) {
+                    $A⁻¹ = $this->inverse();
+                    return new Vector($A⁻¹->multiply($b)->getColumn(0));
+                }
+
+                // For 3x3 or higher, check if the RREF is already computed.
+                // If so, just compute the inverse and solve: x = A⁻¹b
+                if ($this->catalog->hasReducedRowEchelonForm()) {
+                    $A⁻¹ = $this->inverse();
+                    return new Vector($A⁻¹->multiply($b)->getColumn(0));
+                }
+
+                try {
+                    $lu = $this->luDecomposition();
+                    return $lu->solve($b);
+                } catch (Exception\DivisionByZeroException $e) {
+                    // Not solvable via LU decomposition
+                }
+
+                // LU failed, use QR Decomposition.
+                try {
+                    $qr = $this->qrDecomposition();
+                    return $qr->solve($b);
+                } catch (Exception\MatrixException $e) {
+                    // Not solvable via QR decomposition
+                }
+
+                // Last resort, augment A with b (Ab) and solve RREF.
+                // x is the rightmost column.
+                $Ab   = $this->augment($b->asColumnMatrix());
+                $rref = $Ab->rref();
+                return new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
         }
-
-        // If 2x2, just compute the inverse and solve: x = A⁻¹b
-        if ($this->m === 2 && $this->n === 2) {
-            $A⁻¹ = $this->inverse();
-            return new Vector($A⁻¹->multiply($b)->getColumn(0));
-        }
-
-        // For 3x3 or higher, check if the RREF is already computed.
-        // If so, just compute the inverse and solve: x = A⁻¹b
-        if ($this->catalog->hasReducedRowEchelonForm()) {
-            $A⁻¹ = $this->inverse();
-            return new Vector($A⁻¹->multiply($b)->getColumn(0));
-        }
-
-        // No inverse or RREF pre-computed.
-        // Use LU Decomposition.
-        $lu = $this->luDecomposition();
-        $L  = $lu->L;
-        $U  = $lu->U;
-        $P  = $lu->P;
-        $m  = $this->m;
-
-        // Pivot solution vector b with permutation matrix: Pb
-        $Pb = $P->multiply($b);
-
-        /* Solve for Ly = Pb using forward substitution
-         *         1   /    ᵢ₋₁      \
-         *   yᵢ = --- | bᵢ - ∑ Lᵢⱼyⱼ |
-         *        Lᵢᵢ  \    ʲ⁼¹      /
-         */
-        $y    = [];
-        $y[0] = $Pb[0][0] / $L[0][0];
-        for ($i = 1; $i < $m; $i++) {
-            $sum = 0;
-            for ($j = 0; $j <= $i - 1; $j++) {
-                $sum += $L[$i][$j] * $y[$j];
-            }
-            $y[$i] = ($Pb[$i][0] - $sum) / $L[$i][$i];
-        }
-
-        /* Solve for Ux = y using back substitution
-         *         1   /     m       \
-         *   xᵢ = --- | yᵢ - ∑ Uᵢⱼxⱼ |
-         *        Uᵢᵢ  \   ʲ⁼ⁱ⁺¹     /
-         */
-        $x         = [];
-        $x[$m - 1] = $y[$m - 1] / $U[$m - 1][$m - 1];
-        for ($i = $m - 2; $i >= 0; $i--) {
-            $sum = 0;
-            for ($j = $i + 1; $j < $m; $j++) {
-                $sum += $U[$i][$j] * $x[$j];
-            }
-            $x[$i] = ($y[$i] - $sum) / $U[$i][$i];
-        }
-
-        // Return unknown xs as Vector
-        return new Vector(array_reverse($x));
     }
 
     /**************************************************************************

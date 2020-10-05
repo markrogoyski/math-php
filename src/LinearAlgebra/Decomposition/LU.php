@@ -5,9 +5,10 @@ namespace MathPHP\LinearAlgebra\Decomposition;
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\Vector;
 
 /**
- * LU Decomposition (Doolittle decomposition) with pivoting via permutation matrix
+ * LU Decomposition (Doolittle decomposition) with partial pivoting via permutation matrix
  *
  * A matrix has an LU-factorization if it can be expressed as the product of a
  * lower-triangular matrix L and an upper-triangular matrix U. If A is a nonsingular
@@ -129,7 +130,7 @@ class LU extends Decomposition
     }
 
     /**
-     * Pivotize creates the permutation matrix P for the LU decomposition.
+     * Pivotize creates the permutation matrix P for the LU decomposition using partial pivoting.
      * The permutation matrix is an identity matrix with rows possibly interchanged.
      *
      * The product PA results in a new matrix whose rows consist of the rows of A
@@ -181,6 +182,104 @@ class LU extends Decomposition
             }
         }
         return $P;
+    }
+
+    /**
+     * Solve linear system of equations
+     * Ax = b
+     *  where:
+     *   A: Matrix
+     *   x: unknown to solve for
+     *   b: solution to linear system of equations (input to function)
+     *
+     * Use LU Decomposition and solve Ax = b.
+     *
+     * LU Decomposition:
+     *  - Equation to solve: Ax = b
+     *  - LU Decomposition produces: PA = LU
+     *  - Substitute: LUx = Pb, or Pb = LUx
+     *  - Can rewrite as Pb = L(Ux)
+     *  - Can say y = Ux
+     *  - Then can rewrite as Pb = Ly
+     *  - Solve for y (we know Pb and L)
+     *  - Solve for x in y = Ux once we know y
+     *
+     * Solving triangular systems Ly = Pb and Ux = y
+     *  - Solve for Ly = Pb using forward substitution
+     *
+     *         1   /    ᵢ₋₁      \
+     *   yᵢ = --- | bᵢ - ∑ Lᵢⱼyⱼ |
+     *        Lᵢᵢ  \    ʲ⁼¹      /
+     *
+     *  - Solve for Ux = y using back substitution
+     *
+     *         1   /     m       \
+     *   xᵢ = --- | yᵢ - ∑ Uᵢⱼxⱼ |
+     *        Uᵢᵢ  \   ʲ⁼ⁱ⁺¹     /
+     *
+     * @param Vector|array $b solution to Ax = b
+     *
+     * @return Vector x
+     *
+     * @throws Exception\IncorrectTypeException if b is not a Vector or array
+     * @throws Exception\MatrixException
+     * @throws Exception\VectorException
+     * @throws Exception\OutOfBoundsException
+     * @throws Exception\BadParameterException
+     */
+    public function solve($b): Vector
+    {
+        // Input must be a Vector or array.
+        if (!($b instanceof Vector || is_array($b))) {
+            throw new Exception\IncorrectTypeException('b in Ax = b must be a Vector or array');
+        }
+        if (is_array($b)) {
+            $b = new Vector($b);
+        }
+
+        $L  = $this->L;
+        $U  = $this->U;
+        $P  = $this->P;
+        $m  = $this->L->getM();
+
+        // Pivot solution vector b with permutation matrix: Pb
+        $Pb = $P->multiply($b);
+
+        /* Solve for Ly = Pb using forward substitution
+         *         1   /    ᵢ₋₁      \
+         *   yᵢ = --- | bᵢ - ∑ Lᵢⱼyⱼ |
+         *        Lᵢᵢ  \    ʲ⁼¹      /
+         */
+        $y    = [];
+        $y[0] = $Pb[0][0] / $L[0][0];
+        for ($i = 1; $i < $m; $i++) {
+            $sum = 0;
+            for ($j = 0; $j <= $i - 1; $j++) {
+                $sum += $L[$i][$j] * $y[$j];
+            }
+            $y[$i] = ($Pb[$i][0] - $sum) / $L[$i][$i];
+        }
+
+        /* Solve for Ux = y using back substitution
+         *         1   /     m       \
+         *   xᵢ = --- | yᵢ - ∑ Uᵢⱼxⱼ |
+         *        Uᵢᵢ  \   ʲ⁼ⁱ⁺¹     /
+         */
+        $x         = [];
+        $x[$m - 1] = $y[$m - 1] / $U[$m - 1][$m - 1];
+        for ($i = $m - 2; $i >= 0; $i--) {
+            $sum = 0;
+            for ($j = $i + 1; $j < $m; $j++) {
+                $sum += $U[$i][$j] * $x[$j];
+            }
+            if ($U[$i][$i] == 0) {
+                throw new Exception\DivisionByZeroException("Uᵢᵢ (U[$i][$i]) is 0 during solve for Ux = y using back substitution in LU solve for Ax = b");
+            }
+            $x[$i] = ($y[$i] - $sum) / $U[$i][$i];
+        }
+
+        // Return unknown xs as Vector
+        return new Vector(array_reverse($x));
     }
 
     /**
