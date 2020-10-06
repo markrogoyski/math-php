@@ -440,7 +440,8 @@ class ArbitraryInteger implements ObjectArithmetic
     /**
      * Multiply
      * Return the result of multiplying two ArbitraryIntegers, or an ArbitraryInteger and an integer.
-     * @todo use Karatsuba algorithm
+     * Using the Karatsuba Algorithm.
+     * https://en.wikipedia.org/wiki/Karatsuba_algorithm
      *
      * @param int|string|ArbitraryInteger $number
      *
@@ -469,6 +470,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $big_length = $number_length;
         }
         if ($karatsuba) {
+            // Reduce the number of multiplication operations.
             $m = min($this_length, $number_length);
             $m2 = (int) floor($m / 2);
             $high1 = self::fromBinary(substr($this->base256, 0, -1 * $m2), true);
@@ -485,6 +487,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $product = $part1->add($part2)->add($z0);
             return ($this->isPositive ^ $number_obj->isPositive()) ? $product->negate() : $product;
         }
+        // Traditional Long Division.
         $carry = 0;
         $product = '';
         for ($i = 1; $i <= $big_length; $i++) {
