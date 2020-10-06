@@ -453,31 +453,57 @@ class ArbitraryInteger implements ObjectArithmetic
     {
         $number_obj  = self::create($number);
         $number  = $number_obj->toBinary();
-        $length  = strlen($number);
+        $number_length  = strlen($number);
         $product = new ArbitraryInteger(0);
-
-        for ($i = 1; $i <= $length; $i++) {
-            $this_len      = strlen($this->base256);
-            $base_digit    = ord(substr($number, -1 * $i, 1));
-            $carry         = 0;
-            $inner_product = '';
-
-            for ($j = 1; $j <= $this_len; $j++) {
-                $digit         = ord(substr($this->base256, -1 * $j, 1));
-                $step_product  = $digit * $base_digit + $carry;
-                $mod           = $step_product % 256;
-                $carry         = intdiv($step_product, 256);
-                $inner_product = chr($mod) . $inner_product;
-            }
-            if ($carry > 0) {
-                $inner_product = chr($carry) . $inner_product;
-            }
-
-            $inner_product = $inner_product . str_repeat(chr(0), $i - 1);
-            $inner_obj     = self::fromBinary($inner_product, true);
-            $product       = $product->add($inner_obj);
+        $this_length = strlen($this->base256);
+        $karatsuba = true;
+        if ($number_length == 1) {
+            $karatsuba = false;
+            $small = $number;
+            $big = $this->base256;
+            $big_length = $this_length;
+        } elseif ($this_length == 1) {
+            $karatsuba = false;
+            $big = $number;
+            $small = $this->base256;
+            $big_length = $number_length;
         }
-        
+        if ($karatsuba) {
+            for ($i = 1; $i <= $number_length; $i++) {
+                $base_digit    = ord(substr($number, -1 * $i, 1));
+                $carry         = 0;
+                $inner_product = '';
+
+                for ($j = 1; $j <= $this_length; $j++) {
+                    $digit         = ord(substr($this->base256, -1 * $j, 1));
+                    $step_product  = $digit * $base_digit + $carry;
+                    $mod           = $step_product % 256;
+                    $carry         = intdiv($step_product, 256);
+                    $inner_product = chr($mod) . $inner_product;
+                }
+                if ($carry > 0) {
+                    $inner_product = chr($carry) . $inner_product;
+                }
+                $inner_product = $inner_product . str_repeat(chr(0), $i - 1);
+                $inner_obj     = self::fromBinary($inner_product, true);
+                $product       = $product->add($inner_obj);
+            }
+            return ($this->isPositive ^ $number_obj->isPositive()) ? $product->negate() : $product;
+        }
+        $carry = 0;
+        $product = '';
+        for ($i = 1; $i <= $big_length; $i++) {
+            $base_digit    = ord($small);
+            $digit         = ord(substr($big, -1 * $i, 1));
+            $step_product  = $digit * $base_digit + $carry;
+            $mod           = $step_product % 256;
+            $carry         = intdiv($step_product, 256);
+            $product       = chr($mod) . $product;
+        }
+        if ($carry > 0) {
+            $product = chr($carry) . $product;
+        }
+        $product = self::fromBinary($product, true);
         return ($this->isPositive ^ $number_obj->isPositive()) ? $product->negate() : $product;
     }
 
