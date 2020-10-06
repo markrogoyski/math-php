@@ -158,7 +158,7 @@ class Combinatorics
     public static function fallingFactorial(float $x, int $n): float
     {
         if ($n < 0) {
-            throw new Exception\OutOfBoundsException('Cannot compute rising factorial of a negative number.');
+            throw new Exception\OutOfBoundsException('Cannot compute falling factorial of a negative number.');
         }
 
         if ($n > $x) {
