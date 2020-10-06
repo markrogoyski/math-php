@@ -474,11 +474,11 @@ class ArbitraryInteger implements ObjectArithmetic
             }
 
             $inner_product = $inner_product . str_repeat(chr(0), $i - 1);
-            $inner_obj     = self::fromBinary($inner_product, $this->isPositive ^ $number_obj->isPositive());
+            $inner_obj     = self::fromBinary($inner_product, true);
             $product       = $product->add($inner_obj);
         }
-
-        return $product;
+        
+        return (!$this->isPositive ^ !$number_obj->isPositive()) ? $product->negate() : $product;
     }
 
     /**
