@@ -469,25 +469,20 @@ class ArbitraryInteger implements ObjectArithmetic
             $big_length = $number_length;
         }
         if ($karatsuba) {
-            for ($i = 1; $i <= $number_length; $i++) {
-                $base_digit    = ord(substr($number, -1 * $i, 1));
-                $carry         = 0;
-                $inner_product = '';
+            $m = min($this_length, $number_length);
+            $m2 = (int) floor($m / 2);
+            $high1 = self::fromBinary(substr($this->base256, 0, $m2), true);
+            $low1  = self::fromBinary(substr($this->base256, $m2), true);
+            $high2 = self::fromBinary(substr($number, 0, $m2), true);
+            $low2  = self::fromBinary(substr($number, $m2), true);
 
-                for ($j = 1; $j <= $this_length; $j++) {
-                    $digit         = ord(substr($this->base256, -1 * $j, 1));
-                    $step_product  = $digit * $base_digit + $carry;
-                    $mod           = $step_product % 256;
-                    $carry         = intdiv($step_product, 256);
-                    $inner_product = chr($mod) . $inner_product;
-                }
-                if ($carry > 0) {
-                    $inner_product = chr($carry) . $inner_product;
-                }
-                $inner_product = $inner_product . str_repeat(chr(0), $i - 1);
-                $inner_obj     = self::fromBinary($inner_product, true);
-                $product       = $product->add($inner_obj);
-            }
+            $z0 = $low1->multiply($low2);
+            $z1 = $low1->add($high1)->multiply($low2->add($high2));
+            $z2 = $high1->multiply($high2);
+
+            $part1 = $z2->leftShift(16 * $m2);
+            $part2 = $z1->subtract($z2)->subtract($z0)->leftShift(8 * $m2);
+            $product = $part1->add($part2)->add(z0);
             return ($this->isPositive ^ $number_obj->isPositive()) ? $product->negate() : $product;
         }
         $carry = 0;
