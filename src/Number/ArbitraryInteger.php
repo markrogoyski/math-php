@@ -471,10 +471,10 @@ class ArbitraryInteger implements ObjectArithmetic
         if ($karatsuba) {
             $m = min($this_length, $number_length);
             $m2 = (int) floor($m / 2);
-            $high1 = self::fromBinary(substr($this->base256, 0, $m2), true);
-            $low1  = self::fromBinary(substr($this->base256, $m2), true);
-            $high2 = self::fromBinary(substr($number, 0, $m2), true);
-            $low2  = self::fromBinary(substr($number, $m2), true);
+            $high1 = self::fromBinary(substr($this->base256, 0, -1 * $m2), true);
+            $low1  = self::fromBinary(substr($this->base256, -1 * $m2), true);
+            $high2 = self::fromBinary(substr($number, 0, -1 * $m2), true);
+            $low2  = self::fromBinary(substr($number, -1 * $m2), true);
 
             $z0 = $low1->multiply($low2);
             $z1 = $low1->add($high1)->multiply($low2->add($high2));
