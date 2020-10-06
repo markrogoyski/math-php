@@ -482,7 +482,7 @@ class ArbitraryInteger implements ObjectArithmetic
 
             $part1 = $z2->leftShift(16 * $m2);
             $part2 = $z1->subtract($z2)->subtract($z0)->leftShift(8 * $m2);
-            $product = $part1->add($part2)->add(z0);
+            $product = $part1->add($part2)->add($z0);
             return ($this->isPositive ^ $number_obj->isPositive()) ? $product->negate() : $product;
         }
         $carry = 0;
