@@ -429,6 +429,41 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         multiply
+     * @dataProvider dataProviderForTestMultiplication
+     * @param        string $int1
+     * @param        string $int2
+     * @param        string $expected
+     * @throws       \Exception
+     */
+    public function testMultiplication(string $int1, string $int2, string $expected)
+    {
+        // Given
+        $int1 = new ArbitraryInteger($int1);
+        $int2 = new ArbitraryInteger($int2);
+
+        // When
+        $sum = $int1->add($int2);
+
+        // Then
+        $this->assertEquals($expected, (string) $sum);
+    }
+
+    public function dataProviderForTestMultiplication(): array
+    {
+        return [
+            ['1', '1', '1'],
+            ['-1', '1', '-1'],
+            ['1', '-1', '-1'],
+            ['2', '-1', '-2'],
+            ['-1', '2', '-2'],
+            ['-100', '-2', '200'],
+            ['-2', '-1', '-3'],
+            ['983759729375923795837849', '10000000000', '9837597293759237958378490000000000'],
+        ];
+    }
+
+    /**
      * @test         intdiv and mod calculate the correct whole and remainder
      * @dataProvider dataProviderForIntDivSmallDivisor
      * @param        string $dividend
