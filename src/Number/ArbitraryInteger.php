@@ -451,8 +451,8 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function multiply($number): ArbitraryInteger
     {
-        $number  = self::create($number);
-        $number  = $number->toBinary();
+        $number_obj  = self::create($number);
+        $number  = $number_obj->toBinary();
         $length  = strlen($number);
         $product = new ArbitraryInteger(0);
 
@@ -474,7 +474,7 @@ class ArbitraryInteger implements ObjectArithmetic
             }
 
             $inner_product = $inner_product . str_repeat(chr(0), $i - 1);
-            $inner_obj     = self::fromBinary($inner_product, $this->isPositive);
+            $inner_obj     = self::fromBinary($inner_product, $this->isPositive ^ $number_obj->isPositive());
             $product       = $product->add($inner_obj);
         }
 
