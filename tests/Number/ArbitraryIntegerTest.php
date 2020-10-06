@@ -443,7 +443,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         $int2 = new ArbitraryInteger($int2);
 
         // When
-        $sum = $int1->add($int2);
+        $sum = $int1->multiply($int2);
 
         // Then
         $this->assertEquals($expected, (string) $sum);
