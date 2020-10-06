@@ -478,7 +478,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $product       = $product->add($inner_obj);
         }
         
-        return (!$this->isPositive ^ !$number_obj->isPositive()) ? $product->negate() : $product;
+        return ($this->isPositive ^ $number_obj->isPositive()) ? $product->negate() : $product;
     }
 
     /**
