@@ -362,19 +362,29 @@ class ArbitraryInteger implements ObjectArithmetic
         if (!$this->isPositive) {
             return $number->subtract($this->negate());
         }
+        $sum = self::str_add($this->base256, $number->toBinary());
 
-        $number   = $number->toBinary();
-        $carry    = 0;
-        $len      = strlen($this->base256);
-        $num_len  = strlen($number);
-        $max_len  = max($len, $num_len);
-        $base_256 = str_pad($this->base256, $max_len, chr(0), STR_PAD_LEFT);
-        $number   = str_pad($number, $max_len, chr(0), STR_PAD_LEFT);
-        $result   = '';
+        return self::fromBinary($sum, true);
+    }
+
+    /**
+     * Add two base 256 strings.
+     *
+     * @return string
+     */
+    private static function str_add($s1, $s2)
+    {
+        $carry   = 0;
+        $s1_len  = strlen($s1);
+        $s2_len  = strlen($s2);
+        $max_len = max($s1_len, $s2_len);
+        $s1      = str_pad($s1, $max_len, chr(0), STR_PAD_LEFT);
+        $s2      = str_pad($s2, $max_len, chr(0), STR_PAD_LEFT);
+        $result  = '';
 
         for ($i = 0; $i < $max_len; $i++) {
-            $base_chr = ord($base_256[$max_len - $i - 1]);
-            $num_chr  = ord($number[$max_len - $i - 1]);
+            $base_chr = ord($s1[$max_len - $i - 1]);
+            $num_chr  = ord($s2[$max_len - $i - 1]);
             $sum      = $base_chr + $num_chr + $carry;
             $carry    = intdiv($sum, 256);
             $result   = chr($sum % 256) . $result;
@@ -382,8 +392,7 @@ class ArbitraryInteger implements ObjectArithmetic
         if ($carry > 0) {
             $result = chr($carry) . $result;
         }
-
-        return self::fromBinary($result, true);
+        return $result;
     }
 
     /**
@@ -410,20 +419,30 @@ class ArbitraryInteger implements ObjectArithmetic
         if ($this->lessThan($number)) {
             return $number->subtract($this)->negate();
         }
+        $difference = self::str_subtract($this->base256, $number->toBinary());
 
-        $number   = $number->toBinary();
-        $carry    = 0;
-        $len      = strlen($this->base256);
-        $num_len  = strlen($number);
-        $max_len  = max($len, $num_len);
-        $base_256 = str_pad($this->base256, $max_len, chr(0), STR_PAD_LEFT);
-        $number   = str_pad($number, $max_len, chr(0), STR_PAD_LEFT);
-        $result   = '';
+        return self::fromBinary($difference, true);
+    }
+
+    /**
+     * Subtract a base 256 string from another.
+     *
+     * @return string
+     */
+    private static function str_subtract(string $d1, string $d2)
+    {
+        $carry   = 0;
+        $d1_len  = strlen($d1);
+        $d2_len  = strlen($d2);
+        $max_len = max($d1_len, $d2_len);
+        $d1      = str_pad($d1, $max_len, chr(0), STR_PAD_LEFT);
+        $d2      = str_pad($d2, $max_len, chr(0), STR_PAD_LEFT);
+        $result  = '';
 
         for ($i = 0; $i < $max_len; $i++) {
-            $base_chr = ord($base_256[$max_len - $i - 1]) - $carry;
+            $base_chr = ord($d1[$max_len - $i - 1]) - $carry;
             $carry    = 0;
-            $num_chr  = ord($number[$max_len - $i - 1]);
+            $num_chr  = ord($d2[$max_len - $i - 1]);
 
             if ($num_chr > $base_chr) {
                 $base_chr += 256;
@@ -433,8 +452,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $difference = $base_chr - $num_chr;
             $result     = chr($difference) . $result;
         }
-
-        return self::fromBinary($result, true);
+        return $result;
     }
 
     /**
@@ -455,38 +473,58 @@ class ArbitraryInteger implements ObjectArithmetic
         $number_obj  = self::create($number);
         $number  = $number_obj->toBinary();
         $number_length  = strlen($number);
-        $product = new ArbitraryInteger(0);
         $this_length = strlen($this->base256);
-        $karatsuba = true;
         if ($number_length == 1) {
-            $karatsuba = false;
-            $small = $number;
-            $big = $this->base256;
-            $big_length = $this_length;
+            $product = self::longMultiplySingleDigit($this->base256, $number);
         } elseif ($this_length == 1) {
-            $karatsuba = false;
-            $big = $number;
-            $small = $this->base256;
-            $big_length = $number_length;
+            $product = self::longMultiplySingleDigit($number, $this->base256);
+        } else {
+            $product = self::karatsuba($this->base256, $number);
         }
-        if ($karatsuba) {
-            // Reduce the number of multiplication operations.
-            $m = min($this_length, $number_length);
-            $m2 = (int) floor($m / 2);
-            $high1 = self::fromBinary(substr($this->base256, 0, -1 * $m2), true);
-            $low1  = self::fromBinary(substr($this->base256, -1 * $m2), true);
-            $high2 = self::fromBinary(substr($number, 0, -1 * $m2), true);
-            $low2  = self::fromBinary(substr($number, -1 * $m2), true);
+        $product = self::fromBinary($product, true);
+        return ($this->isPositive ^ $number_obj->isPositive()) ? $product->negate() : $product;
+    }
 
-            $z0 = $low1->multiply($low2);
-            $z1 = $low1->add($high1)->multiply($low2->add($high2));
-            $z2 = $high1->multiply($high2);
-
-            $part1 = $z2->leftShift(16 * $m2);
-            $part2 = $z1->subtract($z2)->subtract($z0)->leftShift(8 * $m2);
-            $product = $part1->add($part2)->add($z0);
-            return ($this->isPositive ^ $number_obj->isPositive()) ? $product->negate() : $product;
+    /**
+     * Multiply two base 256 numbers together.
+     *
+     * @return string
+     */
+    private static function karatsuba(string $p1, string $p2)
+    {
+        $p1_length  = strlen($p1);
+        if ($p1_length == 1) {
+            return self::longMultiplySingleDigit($p2, $p1);
         }
+        $p2_length = strlen($p2);
+        if ($p2_length == 1) {
+            return self::longMultiplySingleDigit($p1, $p2);
+        }
+        $m = min($p1_length, $p2_length);
+        $m2 = (int) floor($m / 2);
+        $high1 = substr($p1, 0, -1 * $m2);
+        $low1  = substr($p1, -1 * $m2);
+        $high2 = substr($p2, 0, -1 * $m2);
+        $low2  = substr($p2, -1 * $m2);
+
+        $z0 = self::karatsuba($low1, $low2);
+        $z1 = self::karatsuba(self::str_add($low1, $high1), self::str_add($low2, $high2));
+        $z2 = self::karatsuba($high1, $high2);
+
+        $part1 = $z2 . str_repeat(chr(0), 2 * $m2);
+        $part2 = self::str_subtract(self::str_subtract($z1, $z2), $z0) . str_repeat(chr(0), $m2);
+        $product = self::str_add(self::str_add($part1, $part2), $z0);
+        return $product;
+    }
+
+    /**
+     * Multiply a base 256 number by a single digit base 256 number.
+     *
+     * @return string
+     */
+    private static function longMultiplySingleDigit(string $big, string $small)
+    {
+        $big_length = strlen($big);
         // Traditional Long Division.
         $carry = 0;
         $product = '';
@@ -501,8 +539,7 @@ class ArbitraryInteger implements ObjectArithmetic
         if ($carry > 0) {
             $product = chr($carry) . $product;
         }
-        $product = self::fromBinary($product, true);
-        return ($this->isPositive ^ $number_obj->isPositive()) ? $product->negate() : $product;
+        return $product;
     }
 
     /**
@@ -658,17 +695,20 @@ class ArbitraryInteger implements ObjectArithmetic
         $bits               = $bits->toInt();
         $carry              = 0;
 
-        for ($i = 0; $i < $length; $i++) {
-            $chr = ord($this->base256[$i]);
-            // If $shifted string is empty, don’t add 0x00.
-            $new_value = chr($carry + intdiv($chr << $bits, 256));
-            if ($shifted_string !== "" || $new_value !== chr(0)) {
-                $shifted_string .= $new_value;
+        if ($bits > 0) {
+            for ($i = 0; $i < $length; $i++) {
+                $chr = ord($this->base256[$i]);
+                // If $shifted string is empty, don’t add 0x00.
+                $new_value = chr($carry + intdiv($chr << $bits, 256));
+                if ($shifted_string !== "" || $new_value !== chr(0)) {
+                    $shifted_string .= $new_value;
+                }
+                $carry = ($chr << $bits) % 256;
             }
-            $carry = ($chr << $bits) % 256;
+            $shifted_string .= chr($carry);
+        } else {
+            $shifted_string = $this->base256;
         }
-        $shifted_string .= chr($carry);
-
         // Pad $bytes of 0x00 on the right.
         $shifted_string = $shifted_string . str_repeat(chr(0), $bytes->toInt());
 
