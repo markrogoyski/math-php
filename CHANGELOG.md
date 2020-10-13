@@ -1,5 +1,16 @@
 # MathPHP Change Log
 
+## v1.5.0 - 2020-10-12
+
+### New Features
+* Matrix LU solve
+* Matrix QR solve
+
+### Improvements
+* Bugfix (Issue 386) Matrix solve improvements
+* Matrix solve has optional method parameter to force a solve method
+* Bugfix ArbitraryInteger multiplication sign not taken into account
+
 ## v1.4.0 - 2020-10-02
 
 ### New Features
