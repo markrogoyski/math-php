@@ -310,6 +310,23 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         multivariateBeta returns the expected value
+     * @dataProvider dataProviderForBeta
+     * @param        float $x
+     * @param        float $y
+     * @param        float $expected
+     * @throws       \Exception
+     */
+    public function testMultivariateBeta(float $x, float $y, float $expected)
+    {
+        // When
+        $beta = Special::multivariateBeta([$x, $y]);
+
+        // Then
+        $this->assertEquals($expected, $beta, '', 0.0000001);
+    }
+
+    /**
      * @test         logistic returns the expected value
      * @dataProvider dataProviderForLogistic
      * @param        float $x₀

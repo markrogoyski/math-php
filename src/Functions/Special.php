@@ -322,6 +322,12 @@ class Special
      */
     public static function multivariateBeta(array $αs): float
     {
+        foreach ($αs as $α) {
+            if ($α == 0) {
+                return \INF;
+            }
+        }
+
         $∏Γ⟮α⟯ = 1;
         foreach ($αs as $α) {
             $∏Γ⟮α⟯ *= self::Γ($α);
