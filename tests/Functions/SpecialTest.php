@@ -355,6 +355,62 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [3, 4, 5, 2, 0.0267714036971],
             [3, 4, 5, 6, 3.99999877639],
             [2.1, 3.2, 1.5, 0.6, 0.305118287677],
+            // Test data created with R (sigmoid) logistic(x, k, x₀) where L = 1
+            [0, 1, 1, 0, 0.5],
+            [0, 1, 1, 1, 0.7310586],
+            [1, 1, 1, 0, 0.2689414],
+
+        ];
+    }
+
+    /**
+     * @test         sigmoid
+     * @dataProvider dataProviderForSigmoid
+     * @param        float $x
+     * @param        float $expected
+     */
+    public function testSigmoid(float $x, float $expected)
+    {
+        // When
+        $sigmoid = Special::sigmoid($x);
+
+        // Then
+        $this->assertEquals($expected, $sigmoid, '', 0.0000001);
+    }
+
+    /**
+     * Test data created with R (sigmoid) sigmoid(x)
+     * @return array (x, sigmoid)
+     */
+    public function dataProviderForSigmoid(): array
+    {
+        return [
+            [0, 0.5],
+            [1, 0.7310586],
+            [2, 0.8807971],
+            [3, 0.9525741],
+            [4, 0.9820138],
+            [5, 0.9933071],
+            [6, 0.9975274],
+            [10, 0.9999546],
+            [13, 0.9999977],
+            [15, 0.9999997],
+            [16, 0.9999999],
+            [17, 1],
+            [20, 1],
+            [-1, 0.2689414],
+            [-2, 0.1192029],
+            [-3, 0.04742587],
+            [-4, 0.01798621],
+            [-5, 0.006692851],
+            [-6, 0.002472623],
+            [-10, 4.539787e-05],
+            [-15, 3.059022e-07],
+            [-20, 2.061154e-09],
+            [0.5, 0.6224593],
+            [5.5, 0.9959299],
+            [-0.5, 0.3775407],
+            [-5.5, 0.004070138],
         ];
     }
 
@@ -362,7 +418,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
      * @test sigmoid returns the expected value
      * Sigmoid is just a special case of the logistic function.
      */
-    public function testSigmoid()
+    public function testSigmoidSpecialCaseOfLogisitic()
     {
         $this->assertEquals(Special::logistic(1, 1, 1, 2), Special::sigmoid(1));
         $this->assertEquals(Special::logistic(1, 1, 2, 2), Special::sigmoid(2));
