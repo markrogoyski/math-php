@@ -129,6 +129,40 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         gamma of large values
+     * @dataProvider dataProviderForGammaLargeValues
+     * @param        $z
+     * @param        $Γ
+     * @param        float $ε
+     * @throws       \Exception
+     */
+    public function testGammaLargeValues($z, $Γ, float $ε)
+    {
+        // When
+        $gamma = Special::gamma($z);
+
+        // Then
+        $this->assertEquals($Γ, $gamma, '', $ε);
+    }
+
+    /**
+     * Test data created with high-precision online calculator: https://keisan.casio.com/exec/system/1180573444
+     * @return array (z, Γ, ε)
+     */
+    public function dataProviderForGammaLargeValues(): array
+    {
+        return [
+            [15, 87178291200, 0.000001],
+            [20, 121645100408832000, 0.000001],
+            [50, 6.082818640342675608723E+62, 1e50],
+            [100, 9.33262154439441526817E+155, 1e140],
+            [100.6, 1.477347552911177316693E+157, 1e145],
+            [171, 7.257415615307998967397E+306, 1e295],
+            [200, 3.943289336823952517762E+372, 1e360],
+        ];
+    }
+
+    /**
      * @test         gammaLanczos returns the expected value
      * @dataProvider dataProviderForGammaLanczos
      * @param        $z
