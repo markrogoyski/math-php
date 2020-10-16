@@ -669,6 +669,48 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         regularizedLowerIncompleteGamma
+     * @dataProvider dataProviderForRegularizedLowerIncompleteGamma
+     * @param        float $s
+     * @param        float $x
+     * @param        float $expected
+     * @throws       \Exception
+     */
+    public function testRegularizedLowerIncompleteGamma(float $s, float $x, float $expected)
+    {
+        // When
+        $gammainc = Special::regularizedLowerIncompleteGamma($s, $x);
+
+        // Then
+        $this->assertEquals($expected, $gammainc, '', 0.00001);
+    }
+
+    public function dataProviderForRegularizedLowerIncompleteGamma(): array
+    {
+        return [
+            [0.0001, 1, 0.9999781],
+
+            [1, 1, 0.6321206],
+            [1, 2, 0.8646647],
+            [2, 2, 0.5939942],
+            [3, 2.5, 0.4561869],
+            [3.5, 2, 0.2202226],
+            [4.6, 2, 0.08009603],
+            [4, 2.6, 0.2639984],
+            [2.7, 2.6, 0.5569785],
+            [1.5, 2.5, 0.8282029],
+            [0.5, 4, 0.995322265],
+            [2, 3, 0.8008517],
+            [4.5, 2.3, 0.1323083],
+            [7, 9.55, 0.8388367],
+            [1, 3, 0.95021293],
+            [0.5, 0.5, 0.6826895],
+            [0.5, 1, 0.8427008],
+            [0.5, 4, 0.995322265],
+        ];
+    }
+
+    /**
      * @test         regularizedIncompleteBeta returns the expected value
      * @dataProvider dataProviderForRegularizedIncompleteBeta
      * @param        float $x

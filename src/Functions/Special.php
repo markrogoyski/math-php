@@ -481,11 +481,11 @@ class Special
     }
      
     /**
-     * Lower incomplete gamma function - γ(s, t)
+     * Lower incomplete gamma function - γ(s,t)
      * https://en.wikipedia.org/wiki/Incomplete_gamma_function#Lower_incomplete_Gamma_function
      *
      * This function is exact for all integer multiples of .5
-     * using the recurrance relation: γ⟮s+1,x⟯= s*γ⟮s,x⟯-xˢ*eˣ
+     * using the recurrence relation: γ⟮s+1,x⟯= s*γ⟮s,x⟯-xˢ*e⁻ˣ
      *
      * The function can be evaluated at other points using the series:
      *              zˢ     /      x          x²             x³            \
@@ -538,14 +538,40 @@ class Special
      * γ - Convenience method for lower incomplete gamma function
      * https://en.wikipedia.org/wiki/Incomplete_gamma_function#Lower_incomplete_Gamma_function
      *
-     * @param float $s
-     * @param float $x
+     * @param float $s > 0
+     * @param float $x ≥ 0
      *
      * @return float
      */
     public static function γ(float $s, float $x): float
     {
         return self::lowerIncompleteGamma($s, $x);
+    }
+
+    /**
+     * Regularized lower incomplete gamma function - P(s,x)
+     * https://en.wikipedia.org/wiki/Incomplete_gamma_function#Regularized_Gamma_functions_and_Poisson_random_variables
+     *
+     *          γ(s,x)
+     * P(s,x) = ------
+     *           Γ(s)
+     *
+     * P(s,x) is the cumulative distribution function for Gamma random variables with shape parameter s and scale parameter 1
+     *
+     *
+     * @param float $s > 0
+     * @param float $x ≥ 0
+     *
+     * @return float
+     *
+     * @throws Exception\OutOfBoundsException
+     */
+    public static function regularizedLowerIncompleteGamma(float $s, float $x): float
+    {
+        $γ⟮s、x⟯ = self::lowerIncompleteGamma($s, $x);
+        $Γ⟮s⟯    = self::gamma($s);
+
+        return $γ⟮s、x⟯ / $Γ⟮s⟯;
     }
 
     /**
