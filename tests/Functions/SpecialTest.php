@@ -359,7 +359,6 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [0, 1, 1, 0, 0.5],
             [0, 1, 1, 1, 0.7310586],
             [1, 1, 1, 0, 0.2689414],
-
         ];
     }
 
@@ -529,17 +528,143 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $lowerIncompleteGamma = Special::lowerIncompleteGamma($s, $x);
 
         // Then
-        $this->assertEquals($lig, $lowerIncompleteGamma, '', 0.001);
+        $this->assertEquals($lig, $lowerIncompleteGamma, '', 0.00001);
     }
 
+    /**
+     * Test data created with R (pracma) gammainc(x, a)
+     * @return array (s, x, gamma)
+     */
     public function dataProviderForLowerIncompleteGamma(): array
     {
         return [
-            [1, 2, 0.864664716763387308106],
-            [0.5, 4, 1.764162781524843359935],
-            [2, 3, 0.800851726528544228083],
-            [4.5, 2.3, 1.538974541742516805669],
-            [7, 9.55, 603.9624331483414852868],
+            [0.0001, 1, 9999.2034895],
+            [1, 1, 0.6321206],
+            [1, 2, 0.8646647],
+            [2, 2, 0.5939942],
+            [3, 2.5, 0.9123738],
+            [3.5, 2, 0.7318770],
+            [4.6, 2, 1.07178785],
+            [4, 2.6, 1.5839901],
+            [2.7, 2.6, 0.8603568],
+            [1.5, 2.5, 0.7339757],
+            [0.5, 4, 1.764162782],
+            [2, 3, 0.8008517],
+            [4.5, 2.3, 1.5389745],
+            [7, 9.55, 603.9624331],
+            [1, 3, 0.95021293],
+            [0.5, 0.5, 1.2100356],
+            [0.5, 1, 1.4936483],
+            [0.5, 4, 1.764162782],
+            // Negative x it not officially supported, but sometimes works.
+            // Other times it gets NAN.
+            [1, -1, -1.718282],
+            [1, -2, -6.389056],
+            [2, -2, 8.389056],
+            [3, -2.5, -37.59311],
+            [4, -2.6, 98.84594],
+            [2, -3, 41.17107],
+            [1, -3, -19.08554],
+        ];
+    }
+
+    /**
+     * @test         lowerIncompleteGamma returns 0 for x = 0, and s and x = 0
+     * @dataProvider dataProviderForLowerIncompleteGammaZeroBoundary
+     * @param        float $s
+     * @param        float $x
+     */
+    public function testLowerIncompleteGammaZeroBoundary(float $s, float $x)
+    {
+        // When
+        $lowerIncompleteGamma = Special::lowerIncompleteGamma($s, $x);
+
+        // Then
+        $this->assertEquals(0, $lowerIncompleteGamma, '', 0.00001);
+    }
+
+    /**
+     * @return array (s, x)
+     */
+    public function dataProviderForLowerIncompleteGammaZeroBoundary(): array
+    {
+        return [
+            [0, 0],
+            [1, 0],
+            [2, 0],
+            [100, 0]
+        ];
+    }
+
+    /**
+     * @test         lowerIncompleteGamma returns NAN for x = 0 and x nonzero
+     * @dataProvider dataProviderForLowerIncompleteGammaNanBoundary
+     * @param        float $s
+     * @param        float $x
+     */
+    public function testLowerIncompleteGammaNanBoundary(float $s, float $x)
+    {
+        // When
+        $lowerIncompleteGamma = Special::lowerIncompleteGamma($s, $x);
+
+        // Then
+        $this->assertNan($lowerIncompleteGamma);
+    }
+
+    /**
+     * @return array (s, x)
+     */
+    public function dataProviderForLowerIncompleteGammaNanBoundary(): array
+    {
+        return [
+            [0, 1],
+            [0, 2],
+            [0, 10],
+            [0, 1000]
+        ];
+    }
+
+    /**
+     * @test         upperIncompleteGamma returns the expected value
+     * @dataProvider dataProviderForUpperIncompleteGamma
+     * @param        float $s
+     * @param        float $x
+     * @param        float $uig
+     * @throws       \Exception
+     */
+    public function testUpperIncompleteGamma(float $s, float $x, float $uig)
+    {
+        // When
+        $upperIncompleteGamma = Special::upperIncompleteGamma($s, $x);
+
+        // Then
+        $this->assertEquals($uig, $upperIncompleteGamma, '', 0.00001);
+    }
+
+    /**
+     * Test data created with R (pracma) gammainc(x, a)
+     * @return array (s, x, gamma)
+     */
+    public function dataProviderForUpperIncompleteGamma(): array
+    {
+        return [
+            [0.0001, 1, 0.21939372],
+            [1, 1, 0.3678794],
+            [1, 2, 0.1353353],
+            [2, 2, 0.40600585],
+            [3, 2.5, 1.08762623],
+            [3.5, 2, 2.59147401],
+            [4.6, 2, 12.30949802],
+            [4, 2.6, 4.41600987],
+            [2.7, 2.6, 0.68432904],
+            [1.5, 2.5, 0.15225125],
+            [0.5, 4, 0.008291069],
+            [2, 3, 0.1991483],
+            [4.5, 2.3, 10.0927539],
+            [7, 9.55, 116.0375669],
+            [0.5, 0.5, 0.5624182],
+            [0.5, 1, 0.2788056],
+            [0.5, 4, 0.008291069],
         ];
     }
 
@@ -661,39 +786,6 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [0.55, 2.5, 2, 0.05448257245698492387678],
             [0.55, 3.5, 2, 0.0201727956188770976315],
             [0.73, 3.5, 5, 0.00553077297647439276549],
-        ];
-    }
-
-    /**
-     * @test         upperIncompleteGamma returns the expected value
-     * @dataProvider dataProviderForUpperIncompleteGamma
-     * @param        float $s
-     * @param        float $x
-     * @param        float $uig
-     * @throws       \Exception
-     */
-    public function testUpperIncompleteGamma(float $s, float $x, float $uig)
-    {
-        // When
-        $upperIncompleteGamma = Special::upperIncompleteGamma($s, $x);
-
-        // Then
-        $this->assertEquals($uig, $upperIncompleteGamma, '', 0.0001);
-    }
-
-    public function dataProviderForUpperIncompleteGamma(): array
-    {
-        return [
-            [0.0001, 1, 0.21939372],
-            [1, 1, 0.3678794411714423215955],
-            [1, 2, 0.135335283236612691894],
-            [2, 2, 0.40600585],
-            [3, 2.5, 1.08762623],
-            [3.5, 2, 2.59147401],
-            [4.6, 2, 12.30949802],
-            [4, 2.6, 4.41600987],
-            [2.7, 2.6, 0.68432904],
-            [1.5, 2.5, 0.15225125],
         ];
     }
 

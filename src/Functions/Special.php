@@ -470,7 +470,7 @@ class Special
      *
      * @return float
      *
-     * @throws Exception\OutOfBoundsException if s is <= 0
+     * @throws Exception\OutOfBoundsException if s is ≤ 0
      */
     public static function upperIncompleteGamma(float $s, float $x): float
     {
@@ -492,13 +492,21 @@ class Special
      * γ(s,x) =  -------- | 1 + ----- + ---------- + --------------- + ... |
      *            s * eˣ   \     s+1    (s+1)(s+2)   (s+1)(s+2)(s+3)      /
      *
-     * @param float $s
-     * @param float $x
+     * @param float $s > 0
+     * @param float $x ≥ 0
      *
      * @return float
      */
     public static function lowerIncompleteGamma(float $s, float $x): float
     {
+        if ($x == 0) {
+            return 0;
+        }
+        if ($s == 0) {
+            return \NAN;
+        }
+
+
         if ($s == 1) {
             return 1 - exp(-1 * $x);
         }
