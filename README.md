@@ -316,16 +316,15 @@ $Γ = Special::gamma($z);          // Uses gamma definition for integers and hal
 $Γ = Special::gammaLanczos($z);   // Lanczos approximation
 $Γ = Special::gammaStirling($z);  // Stirling approximation
 
-// Incomplete gamma functions - γ(s,t), Γ(s,x)
+// Incomplete gamma functions - γ(s,t), Γ(s,x), P(s,x)
 list($x, $s) = [1, 2];
-$γ = Special::lowerIncompleteGamma($x, $s); // same as γ
-$γ = Special::γ($x, $s);                    // same as lowerIncompleteGamma
+$γ = Special::lowerIncompleteGamma($x, $s);
 $Γ = Special::upperIncompleteGamma($x, $s);
+$P = Special::regularizedLowerIncompleteGamma($x, $s);
 
 // Beta function
 list($x, $y) = [1, 2];
-$β = Special::beta($x, $y); // same as β
-$β = Special::β($x, $y);    // same as beta
+$β = Special::beta($x, $y);
 
 // Incomplete beta functions
 list($x, $a, $b) = [0.4, 2, 3];
