@@ -725,9 +725,13 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $regularizedIncompleteBeta = Special::regularizedIncompleteBeta($x, $a, $b);
 
         // Then
-        $this->assertEquals($rib, $regularizedIncompleteBeta, '', 0.00001);
+        $this->assertEquals($rib, $regularizedIncompleteBeta, '', 0.0000001);
     }
 
+    /**
+     * Test data created with Python scipy.special.betainc(a, b, x) and online calculator https://keisan.casio.com/exec/system/1180573396
+     * @return array (x, a, b, beta)
+     */
     public function dataProviderForRegularizedIncompleteBeta(): array
     {
         return [
@@ -751,6 +755,32 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [0.55, 2.5, 2, 0.47672251],
             [0.55, 3.5, 2, 0.31772153],
             [0.73, 3.5, 5, 0.97317839],
+            [0, 1, 1, 0],
+            [0.1, 1, 1, 0.1],
+            [0.2, 1, 1, 0.2],
+            [0.3, 1, 1, 0.3],
+            [0.4, 1, 1, 0.4],
+            [0.5, 1, 1, 0.5],
+            [0.6, 1, 1, 0.6],
+            [0.7, 1, 1, 0.7],
+            [0.8, 1, 1, 0.8],
+            [0.9, 1, 1, 0.9],
+            [1, 1, 1, 1],
+            [0, 2, 2, 0],
+            [0.1, 2, 2, 0.028000000000000004],
+            [0.2, 2, 2, 0.10400000000000002],
+            [0.3, 2, 2, 0.21600000000000003],
+            [0.4, 2, 2, 0.3520000000000001],
+            [0.5, 2, 2, 0.5],
+            [0.6, 2, 2, 0.6479999999999999],
+            [0.7, 2, 2, 0.7839999999999999],
+            [0.8, 2, 2, 0.896],
+            [0.9, 2, 2, 0.972],
+            [1, 2, 2, 1],
+            // SciPy examples - https://docs.scipy.org/doc/scipy/reference/generated/scipy.special.betainc.html#scipy.special.betainc
+            [1, 0.2, 3.5, 1],
+            [0.5, 1.4, 3.1, 0.8148904036225296],
+            [0.4, 2.2, 3.1, 0.49339638807619446],
         ];
     }
 

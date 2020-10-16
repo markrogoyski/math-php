@@ -691,11 +691,10 @@ class Special
     public static function regularizedIncompleteBeta(float $x, float $a, float $b): float
     {
         $limits = [
-        'x'  => '[0, 1]',
-        'a'  => '(0,∞)',
-        'b'  => '(0,∞)',
+            'x' => '[0, 1]',
+            'a' => '(0,∞)',
+            'b' => '(0,∞)',
         ];
-        
         Support::checkLimits($limits, ['x' => $x, 'a' => $a, 'b' => $b]);
 
         if ($x == 1 || $x == 0) {
