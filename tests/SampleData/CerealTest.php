@@ -20,14 +20,16 @@ class CerealTest extends \PHPUnit\Framework\TestCase
     public function testDataObservations()
     {
         // When
-        $X   = $this->cereal->getXData();
-        $Y   = $this->cereal->getYData();
-        $Ysc = $this->cereal->getYscData();
+        $X     = $this->cereal->getXData();
+        $Y     = $this->cereal->getYData();
+        $Ysc   = $this->cereal->getYscData();
+        $names = $this->cereal->getCereals();
 
         // Then
         $this->assertCount(15, $X);
         $this->assertCount(15, $Y);
-        $this->assertCount(15, $Y);
+        $this->assertCount(15, $Ysc);
+        $this->assertCount(15, $names);
     }
 
     /**
