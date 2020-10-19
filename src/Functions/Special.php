@@ -697,7 +697,7 @@ class Special
                 $offset = $x ** $a * (1 - $x) ** $b / $a / self::beta($a, $b);
                 return self::regularizedIncompleteBeta($x, $a + 1, $b) + $offset;
             } else { // $b <= 1
-                // We shift a up by one, to the region that the continuous fraction works best.
+                // We shift b up by one, to the region that the continuous fraction works best.
                 $offset = $x ** $a * (1 - $x) ** $b / $b / self::beta($a, $b);
                 return self::regularizedIncompleteBeta($x, $a, $b + 1) - $offset;
             }

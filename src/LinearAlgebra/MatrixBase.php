@@ -236,36 +236,30 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
 
     /***************************************************************************
      * MATRIX COMPARISONS
-     *  - isEqual
+     *  - isEqualSizeAndType
      ***************************************************************************/
 
     /**
-     * Is this matrix equal to some other matrix?
+     * Is this matrix the same size and type as some other matrix?
      *
      * @param Matrix $B
      *
      * @return bool
      */
-    public function isEqual(MatrixInterface $B): bool
+    public function isEqualSizeAndType(MatrixInterface $B): bool
     {
+        if ($this->getObjectType() !== $B->getObjectType()) {
+            return false;
+        }
+        
         $m = $this->m;
         $n = $this->n;
-        $ε = $this->ε;
 
         // Same dimensions
         if ($m != $B->m || $n != $B->n) {
             return false;
         }
-
-        // All elements are the same
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = 0; $j < $n; $j++) {
-                if (Support::isNotEqual($this->A[$i][$j], $B[$i][$j], $ε)) {
-                    return false;
-                }
-            }
-        }
-
+        
         return true;
     }
 

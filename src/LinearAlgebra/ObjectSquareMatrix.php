@@ -61,6 +61,38 @@ class ObjectSquareMatrix extends SquareMatrix
         return $this->object_type;
     }
 
+/***************************************************************************
+     * MATRIX COMPARISONS
+     *  - isEqual
+     ***************************************************************************/
+
+    /**
+     * Is this matrix equal to some other matrix?
+     *
+     * @param Matrix $B
+     *
+     * @return bool
+     */
+    public function isEqual(MatrixInterface $B): bool
+    {
+        if (!$this->isEqualSizeAndType($B)) {
+            return false;
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+        // All elements are the same
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                if (A[$i][$j] !== $B[$i][$j]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Check that the matricies are the same size and of the same type
      *
