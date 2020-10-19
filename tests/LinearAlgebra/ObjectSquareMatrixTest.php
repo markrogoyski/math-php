@@ -140,7 +140,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $comparison = $A->isEqual($B);
 
         // Then
-        $this->assertEquals($comparison, $expected);
+        $this->assertEquals($expected, $comparison);
     }
 
     /**
@@ -193,7 +193,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $sum = $A->add($B);
 
         // Then
-        $this->assertEquals($sum, $expected);
+        $this->assertEquals($expected, $sum);
     }
 
     /**
@@ -252,7 +252,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $difference = $A->subtract($B);
 
         // Then
-        $this->assertEquals($difference, $expected);
+        $this->assertEquals($expected, $difference);
     }
 
     /**
@@ -313,7 +313,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $sum = $A->multiply($B);
 
         // Then
-        $this->assertEquals($sum, $expected);
+        $this->assertEquals($expected, $sum);
     }
 
     /**
@@ -363,7 +363,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $B = new Vector($B);
         $sum = $A->multiply($B);
         $expected = matrixFactory::create($expected);
-        $this->assertEquals($sum, $expected);
+        $this->assertEquals($expected, $sum);
     }
 
     public function dataProviderMultiplyVector()
@@ -405,7 +405,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $det = $A->det();
 
         // Then
-        $this->assertEquals($det, $expected);
+        $this->assertEquals($expected, $det);
     }
 
     /**
