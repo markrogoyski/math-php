@@ -2,6 +2,7 @@
 
 namespace MathPHP\Tests\LinearAlgebra;
 
+use MathPHP\Functions\Polynomial;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\Exception;
@@ -604,5 +605,73 @@ class MatrixAugmentationTest extends \PHPUnit\Framework\TestCase
 
         $this->expectException(Exception\MatrixException::class);
         $A->augmentLeft($B);
+    }
+
+    /**
+     * @test         augment
+     * @throws       \Exception
+     */
+    public function testAugmentExceptionTypeMismatch()
+    {
+        // Given
+        $A    = MatrixFactory::create([[1]]);
+        $B    = MatrixFactory::create([[new Polynomial([1,1])]]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $augmented = $A->augment($B);
+    }
+    
+    /**
+     * @test         augmentLeft
+     * @throws       \Exception
+     */
+    public function testAugmentLeftExceptionTypeMismatch()
+    {
+        // Given
+        $A    = MatrixFactory::create([[1]]);
+        $B    = MatrixFactory::create([[new Polynomial([1,1])]]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $augmented = $A->augmentLeft($B);
+    }
+    
+    /**
+     * @test         augmentAbove
+     * @throws       \Exception
+     */
+    public function testAugmentAboveExceptionTypeMismatch()
+    {
+        // Given
+        $A    = MatrixFactory::create([[1]]);
+        $B    = MatrixFactory::create([[new Polynomial([1,1])]]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $augmented = $A->augmentAbove($B);
+    }
+    
+    /**
+     * @test         augmentBelow
+     * @throws       \Exception
+     */
+    public function testAugmentBelowExceptionTypeMismatch()
+    {
+        // Given
+        $A    = MatrixFactory::create([[1]]);
+        $B    = MatrixFactory::create([[new Polynomial([1,1])]]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $augmented = $A->augmentBelow($B);
     }
 }
