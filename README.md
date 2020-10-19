@@ -206,16 +206,16 @@ $npv    = Finance::npv($rate, $values);
 
 // Interest rate per period of an annuity
 $beginning = false; // Adjust the payment to the beginning or end of the period
-$rate      = rate($periods, $payment, $present_value, $future_value, $beginning);
+$rate      = Finance::rate($periods, $payment, $present_value, $future_value, $beginning);
 
 // Internal rate of return
 $values = [-100, 50, 40, 30];
-$irr    = Finance:irr($values); // Rate of return of an initial investment of $100 with returns of $50, $40, and $30
+$irr    = Finance::irr($values); // Rate of return of an initial investment of $100 with returns of $50, $40, and $30
 
 // Modified internal rate of return
 $finance_rate      = 0.05; // 5% financing
 $reinvestment_rate = 0.10; // reinvested at 10%
-$mirr              = Finance:mirr($values, $finance_rate); // rate of return of an initial investment of $100 at 5% financing with returns of $50, $40, and $30 reinvested at 10%
+$mirr              = Finance::mirr($values, $finance_rate); // rate of return of an initial investment of $100 at 5% financing with returns of $50, $40, and $30 reinvested at 10%
 
 // Discounted payback of an investment
 $values  = [-1000, 100, 200, 300, 400, 500];
@@ -224,7 +224,7 @@ $payback = Finance::payback($values, $rate); // The payback period of an investm
 
 // Profitability index
 $values              = [-100, 50, 50, 50];
-$profitability_index = profitabilityIndex($values, $rate); // The profitability index of an initial $100 investment with future returns of $50, $50, $50 with a 10% discount rate
+$profitability_index = Finance::profitabilityIndex($values, $rate); // The profitability index of an initial $100 investment with future returns of $50, $50, $50 with a 10% discount rate
 ```
 
 ### Functions - Map - Single Array
