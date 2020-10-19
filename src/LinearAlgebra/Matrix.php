@@ -1002,6 +1002,39 @@ class Matrix extends MatrixBase implements MatrixInterface
     }
 
     /**************************************************************************
+     * MATRIX AUGMENTATION - Return a Matrix
+     *  - augmentIdentity
+     **************************************************************************/
+
+    /**
+     * Augment a matrix with its identity matrix
+     *
+     *     [1, 2, 3]
+     * C = [2, 3, 4]
+     *     [3, 4, 5]
+     *
+     *         [1, 2, 3 | 1, 0, 0]
+     * (C|I) = [2, 3, 4 | 0, 1, 0]
+     *         [3, 4, 5 | 0, 0, 1]
+     *
+     * C must be a square matrix
+     *
+     * @return Matrix
+     *
+     * @throws Exception\MatrixException if matrix is not square
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\OutOfBoundsException
+     */
+    public function augmentIdentity(): Matrix
+    {
+        if (!$this->isSquare()) {
+            throw new Exception\MatrixException('Matrix is not square; cannot augment with the identity matrix');
+        }
+
+        return $this->augment(MatrixFactory::identity($this->getM()));
+    }
+
+    /**************************************************************************
      * MATRIX ARITHMETIC OPERATIONS - Return a Matrix
      *  - add
      *  - directSum

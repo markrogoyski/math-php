@@ -282,7 +282,6 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
     /**************************************************************************
      * MATRIX AUGMENTATION - Return a Matrix
      *  - augment
-     *  - augmentIdentity
      *  - augmentBelow
      *  - augmentAbove
      *  - augmentLeft
@@ -330,34 +329,6 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Augment a matrix with its identity matrix
-     *
-     *     [1, 2, 3]
-     * C = [2, 3, 4]
-     *     [3, 4, 5]
-     *
-     *         [1, 2, 3 | 1, 0, 0]
-     * (C|I) = [2, 3, 4 | 0, 1, 0]
-     *         [3, 4, 5 | 0, 0, 1]
-     *
-     * C must be a square matrix
-     *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException if matrix is not square
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\OutOfBoundsException
-     */
-    public function augmentIdentity(): MatrixInterface
-    {
-        if (!$this->isSquare()) {
-            throw new Exception\MatrixException('Matrix is not square; cannot augment with the identity matrix');
-        }
-
-        return $this->augment(MatrixFactory::identity($this->getM()));
-    }
-
-    /**
      * Augment a matrix on the left
      * An augmented matrix is a matrix obtained by preprending the columns of two given matrices
      *
@@ -382,6 +353,9 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      */
     public function augmentLeft(MatrixInterface $B): MatrixInterface
     {
+        if ($this->getObjectType() !== $B->getObjectType()) {
+            throw new Exception\MatrixException('Matrices must be the same type.');
+        }
         if ($B->getM() !== $this->m) {
             throw new Exception\MatrixException('Matrices to augment do not have the same number of rows');
         }
@@ -422,6 +396,9 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      */
     public function augmentBelow(MatrixInterface $B): MatrixInterface
     {
+        if ($this->getObjectType() !== $B->getObjectType()) {
+            throw new Exception\MatrixException('Matrices must be the same type.');
+        }
         if ($B->getN() !== $this->n) {
             throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
         }
@@ -457,6 +434,9 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      */
     public function augmentAbove(MatrixInterface $B): MatrixInterface
     {
+        if ($this->getObjectType() !== $B->getObjectType()) {
+            throw new Exception\MatrixException('Matrices must be the same type.');
+        }
         if ($B->getN() !== $this->n) {
             throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
         }
@@ -555,8 +535,11 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @throws Exception\MatrixException
      */
-    public function insert(Matrix $small, int $m, int $n): MatrixInterface
+    public function insert(MatrixInterface $small, int $m, int $n): MatrixInterface
     {
+        if ($this->getObjectType() !== $small->getObjectType()) {
+            throw new Exception\MatrixException('Matrices must be the same type.');
+        }
         if ($small->getM() + $m > $this->m || $small->getN() + $n > $this->n) {
             throw new Exception\MatrixException('Inner matrix exceeds the bounds of the outer matrix');
         }
