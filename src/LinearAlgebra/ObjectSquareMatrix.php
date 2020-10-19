@@ -84,7 +84,7 @@ class ObjectSquareMatrix extends SquareMatrix
         // All elements are the same
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                if (A[$i][$j] !== $B[$i][$j]) {
+                if ($this->A[$i][$j] !== $B[$i][$j]) {
                     return false;
                 }
             }
