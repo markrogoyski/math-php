@@ -100,7 +100,7 @@ class Cereal
     ];
 
     /**
-     * Car model names
+     * Cereal names
      *
      * @return string[]
      */
