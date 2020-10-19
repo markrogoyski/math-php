@@ -312,6 +312,9 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      */
     public function augment(MatrixInterface $B): MatrixInterface
     {
+        if ($this->getObjectType() !== $B->getObjectType()) {
+            throw new Exception\MatrixException('Matrices must be the same type.');
+        }
         if ($B->getM() !== $this->m) {
             throw new Exception\MatrixException('Matrices to augment do not have the same number of rows');
         }
