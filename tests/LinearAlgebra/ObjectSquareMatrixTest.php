@@ -123,6 +123,56 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         isEqual
+     * @dataProvider dataProviderisEqual
+     * @param        array $A
+     * @param        array $B
+     * @param        bool $expected
+     * @throws       \Exception
+     */
+    public function testIsEqual(array $A, array $B, bool $expected)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        // When
+        $comparison = $A->isEqual($B);
+
+        // Then
+        $this->assertEquals($comparison, $expected);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderisEqual()
+    {
+        return [
+            'same' => [
+                [[new Polynomial([1, 0])]],
+                [[new Polynomial([1, 0])]],
+                true,
+            ],
+            'different types' => [
+                [[new Polynomial([1, 0])]],
+                [[1]],
+                false,
+            ],
+            'different contents' => [
+                [[new Polynomial([1, 0])]],
+                [[new Polynomial([1, 1])]],
+                false,
+            ],
+            'different shapes' => [
+                [[new Polynomial([1, 0]), new Polynomial([1, 0])]],
+                [[new Polynomial([1, 0])], [new Polynomial([1, 0])]],
+                false,
+            ],
+        ];
+    }
+
+    /**
      * @test         add
      * @dataProvider dataProviderAdd
      * @param        array $A
