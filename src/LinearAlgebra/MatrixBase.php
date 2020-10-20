@@ -246,7 +246,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @return bool
      */
-    public function isEqualSizeAndType(MatrixInterface $B): bool
+    protected function isEqualSizeAndType(MatrixInterface $B): bool
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             return false;
