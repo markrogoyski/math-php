@@ -9,7 +9,7 @@ interface MatrixInterface extends ObjectArithmetic
     /**
      * What type of data does the matrix contain
      *
-     * @return the type of data in the Matrix
+     * @return string the type of data in the Matrix
      */
     public function getObjectType(): string;
 }
