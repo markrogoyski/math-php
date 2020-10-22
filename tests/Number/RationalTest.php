@@ -254,7 +254,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      * @param        number $d
      * @param        array $result
      */
-    public function testAbs($w, $n, $d, array $result)
+    public function testInverse($w, $n, $d, array $result)
     {
         // Given
         $number = new Rational($w, $n, $d);
