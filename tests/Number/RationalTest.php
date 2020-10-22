@@ -247,6 +247,44 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         inverse returns the correct number
+     * @dataProvider dataProviderForInverse
+     * @param        number $w
+     * @param        number $n
+     * @param        number $d
+     * @param        array $result
+     */
+    public function testAbs($w, $n, $d, array $result)
+    {
+        // Given
+        $number = new Rational($w, $n, $d);
+
+        // When
+        $result_rn = new Rational(...$result);
+
+        // Then
+        $this->assertTrue($number->inverse()->equals($result_rn));
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForInverse(): array
+    {
+        return [
+            [1, 0, 1, [1, 0, 1]],
+            [-1, 0, 1, [-1, 0, 1]],
+            [0, 1, 1, [1, 0, 1]],
+            [0, -1, 1, [-1, 0, 1]],
+            [0, 1, -1, [-1, 0, 1]],
+            [-5, -1, 2, [0, -2, 11]],
+            [-5, 1, 2, [0, -2, 9]],
+            [0, 1, 2, [2, 0, 1]],
+            [0, -1, 2, [-2, 0, 1]],
+        ];
+    }
+
+    /**
      * @test         add returns the correct number
      * @dataProvider dataProviderForAdd
      * @param        array $rn1
