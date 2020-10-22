@@ -181,6 +181,34 @@ class Algebra
     }
 
     /**
+     * Linear equation of one variable
+     * An equation having the form: ax + b = 0
+     * where x represents an unknown, or the root of the equation, and a and b represent known numbers.
+     * https://en.wikipedia.org/wiki/Linear_equation#One_variable
+     *
+     * ax + b = 0
+     *
+     *     -b
+     * x = --
+     *      a
+     *
+     * No root exists for a = 0, as a(0) + b = b
+     *
+     * @param float $a a of ax + b = 0
+     * @param float $b b of ax + b = 0
+     *
+     * @return float|null Root of the linear equation: x = -b / a
+     */
+    public static function linear(float $a, float $b)
+    {
+        if ($a == 0) {
+            return null;
+        }
+
+        return -$b / $a;
+    }
+
+    /**
      * Quadratic equation
      * An equation having the form: ax² + bx + c = 0
      * where x represents an unknown, or the root(s) of the equation,

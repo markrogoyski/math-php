@@ -139,6 +139,95 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         linear returns the expected root
+     * @dataProvider dataProviderForLinear
+     * @param        float $a
+     * @param        float $b
+     * @param        float $expected
+     */
+    public function testLinear(float $a, float $b, float $expected)
+    {
+        // When
+        $root = Algebra::linear($a, $b);
+
+        // Then
+        $this->assertEquals($expected, $root, '', 0.00001);
+    }
+
+    /**
+     * Test data created with Python numpy.roots([a, b])
+     * @return array (a, b, root)
+     */
+    public function dataProviderForLinear(): array
+    {
+        return [
+            [-1, 0, 0],
+            [1, 0, 0],
+            [5, 0, 0],
+            [1, 1, -1],
+            [-1, 1, 1],
+            [1, -1, 1],
+            [-1, -1, -1],
+            [1, 2, -2],
+            [-1, 2, 2],
+            [1, -2, 2],
+            [-1, -2, -2],
+            [2, 4, -2],
+            [-2, 4, 2],
+            [2, -4, 2],
+            [-2, -4, -2],
+            [0.5, 1, -2],
+            [-0.5, 1, 2],
+            [0.5, -1, 2],
+            [-0.5, -1, -2],
+            [1, 0.5, -0.5],
+            [-1, 0.5, 0.5],
+            [1, -0.5, 0.5],
+            [-1, -0.5, -0.5],
+            [1, -3, 3],
+            [35, 8, -0.22857143],
+            [8, 35, -4.375],
+            [82376, 984398, -11.95005827],
+            [3.2, 2, -0.625],
+            [6.2, 8.7, -1.40322581],
+            [8.7, 6.2, -0.71264368],
+            [0.001, 3, -3000],
+        ];
+    }
+
+    /**
+     * @test         linear returns the no root when a = 0
+     * @dataProvider dataProviderForLinearNoRoot
+     * @param        float $a
+     * @param        float $b
+     */
+    public function testLinearNoRoot(float $a, float $b)
+    {
+        // When
+        $root = Algebra::linear($a, $b);
+
+        // Then
+        $this->assertNull($root);
+    }
+
+    /**
+     * @return array (a, b)
+     */
+    public function dataProviderForLinearNoRoot(): array
+    {
+        return [
+            [0, 0],
+            [0, 1],
+            [0, 5],
+            [0, -1],
+            [0, -5],
+            [-0, 1],
+            [0.0, 1],
+            [-0.0, 1],
+        ];
+    }
+
+    /**
      * @test         quadratic returns the expected roots.
      * @dataProvider dataProviderForQuadratic
      * @param        float $a
@@ -333,6 +422,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForDiscriminant(): array
     {
         return [
+            [2, 3, 4, -23],
             [2, 4, -4, 48],
             [1, -3, -4, 25],
             [1, 1, -4, 17],
