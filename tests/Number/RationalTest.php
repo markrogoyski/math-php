@@ -577,6 +577,44 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         pow returns the correct number
+     * @dataProvider dataProviderForPow
+     * @param        array $rn
+     * @param        int   $int
+     * @param        array $result
+     * @throws       \Exception
+     */
+    public function testPow(array $rn, int $int, array $result)
+    {
+        // Given
+        $rational_number = new Rational(...$rn);
+        $result_rn       = new Rational(...$result);
+
+        // When
+        $powResult = $rational_number->pow($int);
+
+        // Then
+        $this->assertTrue($powResult->equals($result_rn));
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForPow(): array
+    {
+        return [
+            [[1, 0, 1], -1, [1, 0, 1]],
+            [[1, 0, 1], 0, [1, 0, 1]],
+            [[1, 0, 1], 1, [1, 0, 1]],
+            [[1, 0, 1], 2, [1, 0, 1]],
+            [[0, 0, 1], 0, [1, 0, 1]],
+            [[0, 0, 1], 10, [0, 0, 1]],
+            [[4, 5, 2], -2, [0, 52, 169]],
+            [[3, 5, 2], 5, [5032, 27, 32]],
+        ];
+    }
+
+    /**
      * @test     Adding a float throws an exception
      * @throws   \Exception
      */
