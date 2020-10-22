@@ -415,8 +415,10 @@ class Polynomial implements ObjectArithmetic
     public function roots(): array
     {
         switch ($this->degree) {
+            case 0:
+                return [null];
             case 1:
-                return [-1 * $this->coefficients[1] / $this->coefficients[0]];
+                return [Algebra::linear(...$this->coefficients)];
             case 2:
                 return Algebra::quadratic(...$this->coefficients);
             case 3:

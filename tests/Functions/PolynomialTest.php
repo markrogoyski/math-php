@@ -1030,18 +1030,39 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForRoots(): array
     {
         return [
+            // Degree 0
+            [
+                [0],
+                [null],
+            ],
+            [
+                [3],
+                [null],
+            ],
+            [
+                [0, -3],
+                [null],
+            ],
+            // Degree 1
             [
                 [1, -3],
                 [3],
             ],
             [
+                [2, 0],
+                [0],
+            ],
+            // Degree 2
+            [
                 [1, -3, -4],
                 [-1, 4],
             ],
+            // Degree 3
             [
                 [1, -6, 11, -6],
                 [3, 1, 2],
             ],
+            // Degree 4
             [
                 [1, -10, 35, -50, 24],
                 [4, 1, 3, 2],
@@ -1050,7 +1071,7 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         roots NAN
+     * @test         roots NAN - Closed form solutions don't exist for degrees 5 or higher - no implementation
      * @dataProvider dataProviderForRootsNAN
      * @param        array $polynomialA
      * @throws       \Exception
@@ -1064,6 +1085,7 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
         $roots = $polynomialA->roots();
 
         // Then
+        $this->assertCount(1, $roots);
         $this->assertNan($roots[0]);
     }
 
@@ -1073,8 +1095,11 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForRootsNAN(): array
     {
         return [
-            [
+            'degree 5' => [
                 [1, -3, -4, 5, 5, 5],
+            ],
+            'degree 6' => [
+                [1, 2, 3, 4, 5, 6, 7],
             ],
         ];
     }
