@@ -618,7 +618,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
      * @test     The inverse of zero throws an exception.
      * @throws   \Exception
      */
-    public function testPowException()
+    public function testInverseException()
     {
         // Given
         $number = new Rational(0, 0, 1);
