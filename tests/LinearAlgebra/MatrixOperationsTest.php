@@ -2,6 +2,7 @@
 
 namespace MathPHP\Tests\LinearAlgebra;
 
+use MathPHP\Functions\Polynomial;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\SquareMatrix;
@@ -2341,5 +2342,22 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\MatrixException::class);
         // When
         $A->insert($B, 1, 1);
+    }
+
+    /**
+     * @test         insert exception - matrix is not the same type.
+     * @throws       \Exception
+     */
+    public function testInsertExceptionTypeMismatch()
+    {
+        // Given
+        $A    = MatrixFactory::create([[1]]);
+        $B    = MatrixFactory::create([[new Polynomial([1,1])]]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $A->insert($B, 0, 0);
     }
 }

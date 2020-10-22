@@ -61,6 +61,38 @@ class ObjectSquareMatrix extends SquareMatrix
         return $this->object_type;
     }
 
+/***************************************************************************
+     * MATRIX COMPARISONS
+     *  - isEqual
+     ***************************************************************************/
+
+    /**
+     * Is this matrix equal to some other matrix?
+     *
+     * @param Matrix $B
+     *
+     * @return bool
+     */
+    public function isEqual(MatrixInterface $B): bool
+    {
+        if (!$this->isEqualSizeAndType($B)) {
+            return false;
+        }
+
+        $m = $this->m;
+        $n = $this->n;
+        // All elements are the same
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                if ($this->A[$i][$j] != $B[$i][$j]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Check that the matricies are the same size and of the same type
      *
@@ -80,8 +112,11 @@ class ObjectSquareMatrix extends SquareMatrix
     /**
      * {@inheritDoc}
      */
-    public function add(Matrix $B): Matrix
+    public function add($B): Matrix
     {
+        if (!$B instanceof Matrix) {
+            throw new Exception\IncorrectTypeException('Can only do matrix addition with a Matrix');
+        }
         $this->checkEqualSizes($B);
         $R = [];
         for ($i = 0; $i < $this->m; $i++) {
@@ -95,8 +130,11 @@ class ObjectSquareMatrix extends SquareMatrix
     /**
      * {@inheritDoc}
      */
-    public function subtract(Matrix $B): Matrix
+    public function subtract($B): Matrix
     {
+        if (!$B instanceof Matrix) {
+            throw new Exception\IncorrectTypeException('Can only do matrix subtraction with a Matrix');
+        }
         $this->checkEqualSizes($B);
         $R = [];
         for ($i = 0; $i < $this->m; $i++) {
@@ -114,6 +152,9 @@ class ObjectSquareMatrix extends SquareMatrix
     {
         if ((!$B instanceof Matrix) && (!$B instanceof Vector)) {
             throw new Exception\IncorrectTypeException('Can only do matrix multiplication with a Matrix or Vector');
+        }
+        if ($B instanceof Vector) {
+            $B = $B->asColumnMatrix();
         }
         if ($B->getM() !== $this->n) {
             throw new Exception\MatrixException("Matrix dimensions do not match");

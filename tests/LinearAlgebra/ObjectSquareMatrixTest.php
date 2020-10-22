@@ -4,6 +4,7 @@ namespace MathPHP\Tests\LinearAlgebra;
 
 use MathPHP\Functions\Polynomial;
 use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\ObjectSquareMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Number\Complex;
 use MathPHP\Exception;
@@ -11,158 +12,83 @@ use MathPHP\Exception;
 class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @test   add exception of unequal sizes
-     * @throws \Exception
+     * @test The constructor throws the proper exceptions
+     * @dataProvider dataProviderConstructorException
      */
-    public function testMatrixException()
+    public function testMatrixConstructorException(array $A, $exception)
     {
-        // Given
-        $A = MatrixFactory::create([
-            [new Polynomial([1, 2]), new Polynomial([2, 1])],
-            [new Polynomial([2, 2]), new Polynomial([2, 0])],
-        ]);
-        $B = MatrixFactory::create([
-            [new Polynomial([1, 2])],
-        ]);
+        $this->expectException($exception);
+        $A = new ObjectSquareMatrix($A);
+    }
 
-        // Then
-        $this->expectException(Exception\MatrixException::class);
-
-        // When
-        $sum = $A->add($B);
+    public function dataProviderConstructorException()
+    {
+        return [
+            [
+                [[new \stdClass()]],
+                Exception\IncorrectTypeException::class,
+            ],
+            [
+                [[new \stdClass(), new Polynomial([1, 2, 3])],
+                [new \stdClass(), new Polynomial([1, 2, 3])]],
+                Exception\IncorrectTypeException::class,
+            ],
+        ];
     }
 
     /**
-     * @test   add exception of unequal sizes - object
-     * @throws \Exception
+     * @test Addition throws the proper exceptions
+     * @dataProvider dataProviderForArithmaticExceptions
      */
-    public function testMatrixExceptionObject()
+    public function testMatrixAddException($A, $B, $exception)
     {
-        // Given
-        $A = MatrixFactory::create([
-            [new Complex(1, 4), new Complex(1, 4)],
-            [new Complex(1, 4), new Complex(1, 4)],
-        ]);
-        $B = MatrixFactory::create([
-            [new Complex(1, 4)],
-        ]);
-
-        // Then
-        $this->expectException(Exception\MatrixException::class);
-
-        // When
-        $sum = $A->add($B);
-    }
-
-    /**
-     * @test   Cannot construct ObjectMatrix with object that does not implement ObjectArithmetic
-     * @throws \Exception
-     */
-    public function testMatrixConstructException()
-    {
-        // Given
-        $object = new Vector([1, 4, 7]);
-
-        // Then
-        $this->expectException(Exception\IncorrectTypeException::class);
-
-        // When
-        $A = MatrixFactory::create([[$object]]);
-    }
-
-    /**
-     * @test   Cannot add two matrices of different object types
-     * @throws \Exception
-     */
-    public function testMatrixAddException()
-    {
-        // Given
-        $polynomial = new Polynomial([1, 4, 7]);
-        $complex    = new Complex(1, 4);
-
-        // And
-        $A = MatrixFactory::create([[$polynomial]]);
-        $B = MatrixFactory::create([[$complex]]);
-
-        // Then
-        $this->expectException(Exception\IncorrectTypeException::class);
-
-        // When
+        $A = MatrixFactory::create($A);
+        $this->expectException($exception);
         $C = $A->add($B);
     }
 
     /**
-     * @test   Cannot multiply two matrices of different dimensions
-     * @throws \Exception
+     * @test Subtraction throws the proper exceptions
+     * @dataProvider dataProviderForArithmaticExceptions
      */
-    public function testMatrixMulSizeException()
+    public function testMatrixSubtractException($A, $B, $exception)
     {
-        // Given
-        $polynomial = new Polynomial([1, 4, 7]);
+        $A = MatrixFactory::create($A);
+        $this->expectException($exception);
+        $C = $A->subtract($B);
+    }
 
-        // And
-        $A = MatrixFactory::create([[$polynomial, $polynomial], [$polynomial, $polynomial]]);
-        $B = MatrixFactory::create([[$polynomial]]);
-
-        // Then
-        $this->expectException(Exception\MatrixException::class);
-
-        // When
+    /**
+     * @test Subtraction throws the proper exceptions
+     * @dataProvider dataProviderForArithmaticExceptions
+     */
+    public function testMatrixMultiplyException($A, $B, $exception)
+    {
+        $A = new ObjectSquareMatrix($A);
+        $this->expectException($exception);
         $C = $A->multiply($B);
     }
 
-    /**
-     * @test   Cannot multiply two matrices of different dimensions - object
-     * @throws \Exception
-     */
-    public function testMatrixMulSizeExceptionObject()
+    public function dataProviderForArithmaticExceptions()
     {
-        // Given
-        $complex = new Complex(1, 7);
-
-        // And
-        $A = MatrixFactory::create([[$complex, $complex], [$complex, $complex]]);
-        $B = MatrixFactory::create([[$complex]]);
-
-        // Then
-        $this->expectException(Exception\MatrixException::class);
-
-        // When
-        $C = $A->multiply($B);
-    }
-
-    /**
-     * @test   Can only do matrix multiplication with a scalar
-     * @throws \Exception
-     */
-    public function testMatrixMulTypeException()
-    {
-        // Given
-        $polynomial = new Polynomial([1, 4, 7]);
-        $A          = MatrixFactory::create([[$polynomial, $polynomial]]);
-
-        // Then
-        $this->expectException(Exception\IncorrectTypeException::class);
-
-        // When
-        $C = $A->multiply(21);
-    }
-
-    /**
-     * @test   Can only do matrix multiplication with a scalar - object
-     * @throws \Exception
-     */
-    public function testMatrixMulTypeExceptionObject()
-    {
-        // Given
-        $complex = new Complex(1, 4);
-        $A          = MatrixFactory::create([[$complex, $complex], [$complex, $complex]]);
-
-        // Then
-        $this->expectException(Exception\IncorrectTypeException::class);
-
-        // When
-        $C = $A->multiply(21);
+        return[
+            [ // Different Sizes
+                [[new Polynomial([1, 2, 3]), new Polynomial([1, 2, 3])],
+                [new Polynomial([1, 2, 3]), new Polynomial([1, 2, 3])]],
+                MatrixFactory::create([[new Polynomial([1, 2, 3])]]),
+                Exception\MatrixException::class,
+            ],
+            [ // Different Types
+                [[new Polynomial([1, 2, 3])]],
+                new ObjectSquareMatrix([[new Complex(1, 2)]]),
+                Exception\IncorrectTypeException::class,
+            ],
+            [ // Not a Matrix
+                [[new Polynomial([1, 2, 3])]],
+                new Complex(1, 2),
+                Exception\IncorrectTypeException::class,
+            ],
+        ];
     }
     
     /**
@@ -197,6 +123,56 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         isEqual
+     * @dataProvider dataProviderisEqual
+     * @param        array $A
+     * @param        array $B
+     * @param        bool $expected
+     * @throws       \Exception
+     */
+    public function testIsEqual(array $A, array $B, bool $expected)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        // When
+        $comparison = $A->isEqual($B);
+
+        // Then
+        $this->assertEquals($expected, $comparison);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderisEqual()
+    {
+        return [
+            'same' => [
+                [[new Polynomial([1, 0])]],
+                [[new Polynomial([1, 0])]],
+                true,
+            ],
+            'different types' => [
+                [[new Polynomial([1, 0])]],
+                [[1]],
+                false,
+            ],
+            'different contents' => [
+                [[new Polynomial([1, 0])]],
+                [[new Polynomial([1, 1])]],
+                false,
+            ],
+            'different shapes' => [
+                [[new Polynomial([1, 0]), new Polynomial([1, 0])]],
+                [[new Polynomial([1, 0])], [new Polynomial([1, 0])]],
+                false,
+            ],
+        ];
+    }
+
+    /**
      * @test         add
      * @dataProvider dataProviderAdd
      * @param        array $A
@@ -217,7 +193,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $sum = $A->add($B);
 
         // Then
-        $this->assertEquals($sum, $expected);
+        $this->assertEquals($expected, $sum);
     }
 
     /**
@@ -276,7 +252,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $difference = $A->subtract($B);
 
         // Then
-        $this->assertEquals($difference, $expected);
+        $this->assertEquals($expected, $difference);
     }
 
     /**
@@ -337,7 +313,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $sum = $A->multiply($B);
 
         // Then
-        $this->assertEquals($sum, $expected);
+        $this->assertEquals($expected, $sum);
     }
 
     /**
@@ -378,6 +354,36 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test Matrix can be multiplied by a vector
+     * @dataProvider dataProviderMultiplyVector
+     */
+    public function testMultiplyVector(array $A, array $B, array $expected)
+    {
+        $A = MatrixFactory::create($A);
+        $B = new Vector($B);
+        $sum = $A->multiply($B);
+        $expected = matrixFactory::create($expected);
+        $this->assertEquals($expected, $sum);
+    }
+
+    public function dataProviderMultiplyVector()
+    {
+        return [
+            [
+                [
+                    [new Polynomial([1, 0]), new Polynomial([0, 0])],
+                    [new Polynomial([0, 0]), new Polynomial([1, 0])],
+                ],
+                [new Polynomial([1, 0]), new Polynomial([1, 1])],
+                [
+                    [new Polynomial([1, 0, 0])],
+                    [new Polynomial([1, 1, 0])],
+                ],
+            ],
+        ];
+    }
+
+    /**
      * @test         det
      * @dataProvider dataProviderDet
      * @param        array $A
@@ -399,7 +405,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $det = $A->det();
 
         // Then
-        $this->assertEquals($det, $expected);
+        $this->assertEquals($expected, $det);
     }
 
     /**
