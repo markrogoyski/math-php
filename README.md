@@ -1577,11 +1577,19 @@ $weights     = $plantGrowth->getWeight();       // [4.17, 5.58, ... ]
 
 // Violent Crime Rates by US State (USArrests)
 $usArrests   = new SampleData\UsArrests();
-$rawData     = $usArrests->rawData();                // [[13.2, 236, 58, 21.2], [10.0, 263, 48, 44.5], ... ]
+$rawData     = $usArrests->rawData();              // [[13.2, 236, 58, 21.2], [10.0, 263, 48, 44.5], ... ]
 $labeledData = $usArrests->getLabeledData();       // ['Alabama' => ['murder' => 13.2, 'assault' => 236, 'urbanPop' => 58, 'rape' => 21.2], ... ]
 $stateData   = $usArrests->getStateData('Texas');  // ['murder' => 12.7, 'assault' => 201, 'urbanPop' => 80, 'rape' => 25.5]
 $murders     = $usArrests->getMurders();           // ['Alabama' => 13.2, 'Alaska' => 10.1, ... ]
 // Getters for Murder, Assault, UrbanPop, Rape
+
+// Data from Cereals (cereal)
+$cereal  = new SampleData\Cereal();
+$cereals = $getCereals();            // ['B1', 'B2', 'B3', 'M1', 'M2', ... ]
+$X       = $getXData();              // [[0.002682755, 0.003370673, 0.004085942, ... ], [0.002781597, 0.003474863, 0.004191472, ... ], ... ]
+$Y       = $getYData();              // [[18373, 41.61500, 6.565000, ... ], [18536, 41.40500, 6.545000, ... ], ... ]
+$Ysc     = $getYscData();            // [[-0.1005049, 0.6265746, -1.1716630, ... ], [0.9233889, 0.1882929, -1.3185289, ... ], ... ]
+// Labeled data: getLabeledXData(), getLabeledYData(), getLabeledYscData()
 ```
 
 ### Search
