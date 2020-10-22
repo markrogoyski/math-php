@@ -175,6 +175,8 @@ class Rational implements ObjectArithmetic
      * Inverse of a rational number
      *
      * @return Rational
+     *
+     * @throws Exception\DivisionByZeroException if R is zero
      */
     public function inverse(): Rational
     {
@@ -183,7 +185,7 @@ class Rational implements ObjectArithmetic
         $d = $this->denominator;
 
         if ($w == 0 && $n == 0) {
-            throw new Exception\DivisionByZeroException('Cannnot take the inverse of zero.');
+            throw new Exception\DivisionByZeroException('Cannot take the inverse of zero.');
         }
         return new Rational(0, $d, $d * $w + $n);
     }
@@ -396,6 +398,8 @@ class Rational implements ObjectArithmetic
      * @param int $p The exponent
      *
      * @return Rational
+     *
+     * @throws Exception\DivisionByZeroException if R is 0 and it is raised to a negative power
      */
     public function pow(int $p): Rational
     {
@@ -404,7 +408,7 @@ class Rational implements ObjectArithmetic
         $d = $this->denominator;
         if ($p < 0) {
             if ($w == 0 && $n == 0) {
-                throw new Exception\DivisionByZeroException('Cannnot raise zero to a negative exponent.');
+                throw new Exception\DivisionByZeroException('Cannot raise zero to a negative exponent.');
             }
             $p = abs($p);
             return new Rational(0, $d ** $p, ($d * $w + $n) ** $p);
