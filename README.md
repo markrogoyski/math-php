@@ -778,12 +778,14 @@ $denominator = $rational->getDenominator();
 
 // Unary functions
 $│rational│ = $rational->abs();
+$inverse    = $rational->inverse();
 
 // Binary functions
-$sum      = $rational->add($rational);
-$diff     = $rational->subtract($rational);
-$product  = $rational->multiply($rational);
-$quotient = $rational->divide($rational);
+$sum            = $rational->add($rational);
+$diff           = $rational->subtract($rational);
+$product        = $rational->multiply($rational);
+$quotient       = $rational->divide($rational);
+$exponentiation = $rational->pow(2);
 
 // Other functions
 $bool   = $rational->equals($rational);

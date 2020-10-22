@@ -397,7 +397,7 @@ class Rational implements ObjectArithmetic
      *
      * @param int $p The exponent
      *
-     * @return Rational
+     * @return Rational Exponentiation
      *
      * @throws Exception\DivisionByZeroException if R is 0 and it is raised to a negative power
      */
