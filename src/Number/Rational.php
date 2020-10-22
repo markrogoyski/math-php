@@ -171,6 +171,23 @@ class Rational implements ObjectArithmetic
         return new Rational(abs($this->whole), abs($this->numerator), abs($this->denominator));
     }
 
+    /**
+     * Inverse of a rational number
+     *
+     * @return Rational
+     */
+    public function inverse(): Rational
+    {
+        $w = $this->whole;
+        $n = $this->numerator;
+        $d = $this->denominator;
+
+        if ($w == 0 && $n == 0) {
+            throw new Exception\DivisionByZeroException('Cannnot take the inverse of zero.');
+        }
+        return new Rational(0, $d, $d * $w + $n);
+    }
+
     /**************************************************************************
      * BINARY FUNCTIONS
      **************************************************************************/
@@ -371,6 +388,29 @@ class Rational implements ObjectArithmetic
         $new_d = $d * ($w2 * $d2 + $n2);
 
         return new Rational($new_w, $new_n, $new_d);
+    }
+
+    /**
+     * A rational number raised to an integer exponent
+     *
+     * @param int $p The exponent
+     *
+     * @return Rational
+     */
+    public function pow(int $p): Rational
+    {
+        $w = $this->whole;
+        $n = $this->numerator;
+        $d = $this->denominator;
+        if ($p < 0) {
+            if ($w == 0 && $n == 0) {
+                throw new Exception\DivisionByZeroException('Cannnot raise zero to a negative exponent.');
+            }
+            $p = abs($p);
+            return new Rational(0, $d ** $p, ($d * $w + $n) ** $p);
+        } else {
+            return new Rational(0, ($d * $w + $n) ** $p, $d ** $p);
+        }
     }
 
     /**************************************************************************
