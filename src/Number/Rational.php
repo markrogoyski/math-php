@@ -182,6 +182,9 @@ class Rational implements ObjectArithmetic
         $n = $this->numerator;
         $d = $this->denominator;
 
+        if ($w == 0 && $n == 0) {
+            throw new Exception\DivisionByZeroException('Cannnot take the inverse of zero.');
+        }
         return new Rational(0, $d, $d * $w + $n);
     }
 
@@ -399,8 +402,10 @@ class Rational implements ObjectArithmetic
         $w = $this->whole;
         $n = $this->numerator;
         $d = $this->denominator;
-
         if ($p < 0) {
+            if ($w == 0 && $n == 0) {
+                throw new Exception\DivisionByZeroException('Cannnot raise zero to a negative exponent.');
+            }
             $p = abs($p);
             return new Rational(0, $d ** $p, ($d * $w + $n) ** $p);
         } else {
