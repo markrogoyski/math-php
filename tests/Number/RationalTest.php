@@ -615,6 +615,22 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test     The inverse of zero throws an exception.
+     * @throws   \Exception
+     */
+    public function testPowException()
+    {
+        // Given
+        $number = new Rational(0, 0, 1);
+
+        // Then
+        $this->expectException(Exception\DivisionByZeroException::class);
+
+        // When
+        $number->inverse();
+    }
+
+    /**
      * @test     Adding a float throws an exception
      * @throws   \Exception
      */
@@ -671,5 +687,21 @@ class RationalTest extends \PHPUnit\Framework\TestCase
 
         // When
         $number->divide(1.5);
+    }
+
+    /**
+     * @test     Raising zero to a negative exponent throws an exception.
+     * @throws   \Exception
+     */
+    public function testPowException()
+    {
+        // Given
+        $number = new Rational(0, 0, 1);
+
+        // Then
+        $this->expectException(Exception\DivisionByZeroException::class);
+
+        // When
+        $number->pow(-2);
     }
 }
