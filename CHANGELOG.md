@@ -1,5 +1,14 @@
 # MathPHP Change Log
 
+## v1.6.0 - 2020-10-22
+
+### New Features
+* Special function regularized lower incomplete gamma
+* Cereal sample data set
+
+### Improvements
+* Define boundary condition for lower incomplete gamma function
+
 ## v1.5.0 - 2020-10-12
 
 ### New Features
