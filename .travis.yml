@@ -12,6 +12,7 @@ install:
 
 script: 
   - mkdir -p build/logs
+  - vendor/bin/parallel-lint src tests
   - vendor/bin/phpunit --configuration tests/phpunit.xml --coverage-clover build/logs/clover.xml
   - vendor/bin/phpcs --ignore=vendor --standard=coding_standard.xml -s .
 

@@ -16,7 +16,8 @@
       "squizlabs/php_codesniffer": "3.*",
       "phpstan/phpstan": "*",
       "phpmd/phpmd": "^2.6",
-      "phploc/phploc": "*"
+      "phploc/phploc": "*",
+      "php-parallel-lint/php-parallel-lint": "^1.2"
   },
   "autoload-dev": {
     "psr-4": { "MathPHP\\Tests\\": "tests/" }
