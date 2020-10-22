@@ -435,6 +435,8 @@ class Algebra
      * An equation having the form: a₄z⁴ + a₃z³ + a₂z² + a₁z + a₀ = 0
      * https://en.wikipedia.org/wiki/Quartic_function
      *
+     * Sometimes this is referred to as a biquadratic equation.
+     *
      * @param  float $a₄ z⁴          coefficient
      * @param  float $a₃ z³          coefficient
      * @param  float $a₂ z²          coefficient
