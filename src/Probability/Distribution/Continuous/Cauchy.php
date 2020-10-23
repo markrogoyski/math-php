@@ -70,7 +70,7 @@ class Cauchy extends Continuous
 
         return 1 / ($π * $γ * (1 + (($x - $x₀) / $γ) ** 2));
     }
-    
+
     /**
      * Cumulative distribution function
      * Calculate the cumulative value value up to a point, left tail.
@@ -110,7 +110,7 @@ class Cauchy extends Continuous
 
         return $x₀ + $γ * tan($π * ($p - .5));
     }
-    
+
     /**
      * Mean of the distribution (undefined)
      *
@@ -122,7 +122,7 @@ class Cauchy extends Continuous
     {
         return \NAN;
     }
-        
+
     /**
      * Median of the distribution
      *
@@ -132,7 +132,7 @@ class Cauchy extends Continuous
     {
         return $this->x₀;
     }
-    
+
     /**
      * Mode of the distribution
      *

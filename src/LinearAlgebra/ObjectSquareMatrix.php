@@ -184,7 +184,7 @@ class ObjectSquareMatrix extends SquareMatrix
         }
         return MatrixFactory::create($R);
     }
-    
+
     /**
      * Determinant
      *

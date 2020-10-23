@@ -7347,7 +7347,6 @@ trait MatrixDataProvider
         ];
     }
 
-    
     public function dataProviderForNonNormalMatrix(): array
     {
         return [
@@ -7374,7 +7373,7 @@ trait MatrixDataProvider
             ],
         ];
     }
-    
+
     public function dataProviderForMatrixWithWeirdNumbers(): array
     {
         return [

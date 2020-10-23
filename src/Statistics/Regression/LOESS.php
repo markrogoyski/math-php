@@ -48,7 +48,7 @@ class LOESS extends NonParametricRegression
     {
         $this->α = $α;
         $this->λ = $λ;
-        
+
         parent::__construct($points);
 
         // α ∈ ((λ + 1) / n, 1]
@@ -85,7 +85,7 @@ class LOESS extends NonParametricRegression
         $Δx    = Single::abs(Single::subtract($this->xs, $x));
         $αᵗʰΔx = Average::kthSmallest($Δx, $this->number_of_points - 1);
         $arg   = Single::min(Single::divide($Δx, $αᵗʰΔx * max($α, 1)), 1);
-        
+
         // Kernel function: tricube = (1-arg³)³
         $tricube = Single::cube(Single::multiply(Single::subtract(Single::cube($arg), 1), -1));
         $weights = $tricube;

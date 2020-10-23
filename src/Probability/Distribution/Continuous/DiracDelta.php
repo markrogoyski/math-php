@@ -77,7 +77,7 @@ class DiracDelta extends Continuous
         }
         return 0;
     }
-    
+
     /**
      * The inverse of the CDF function
      *

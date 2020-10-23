@@ -68,7 +68,7 @@ class Experiment
         // Standard error of the log relative risk
         $ln⟮RR⟯     = log($RR);
         $SS｛ln⟮RR⟯｝ = sqrt((1 / $a) + (1 / $c) - (1 / ($a + $b)) - (1 / ($c + $d)));
-        
+
         // Z score for 95% confidence interval
         $z = 1.96;
 

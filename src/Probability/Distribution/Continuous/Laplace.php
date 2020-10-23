@@ -113,7 +113,7 @@ class Laplace extends Continuous
 
         return parent::inverse($p);
     }
-    
+
     /**
      * Mean of the distribution
      *

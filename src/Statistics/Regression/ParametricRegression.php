@@ -22,7 +22,7 @@ abstract class ParametricRegression extends Regression
     }
 
     abstract public function calculate();
-    
+
     /**
      * Return the model as a string
      */

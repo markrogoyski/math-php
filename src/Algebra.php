@@ -466,7 +466,7 @@ class Algebra
         if ($a₀ == 0) {
             return array_merge([0.0], self::cubic($a₄, $a₃, $a₂, $a₁, $return_complex));
         }
-        
+
         // Is Biquadratic
         if ($a₃ == 0 && $a₁ == 0) {
             $quadratic_roots = self::quadratic($a₄, $a₂, $a₀, $return_complex);
@@ -488,7 +488,7 @@ class Algebra
 
             return [$z₁, $z₂, $z₃, $z₄];
         }
-        
+
         // Is a depressed quartic
         // y⁴ + py² + qy + r = 0
         if ($a₃ == 0) {
@@ -498,14 +498,14 @@ class Algebra
             // Create the resolvent cubic.
             // 8m³ + 8pm² + (2p² - 8r)m - q² = 0
             $cubic_roots = self::cubic(8, 8 * $p, 2 * $p ** 2 - 8 * $r, -1 * $q ** 2, $return_complex);
-            
+
             // $z₁ will always be a real number, so select it.
             $m             = $cubic_roots[0];
             $roots1        = self::quadratic(1, sqrt(2 * $m), $p / 2 + $m - $q / 2 / sqrt(2 * $m), $return_complex);
             $roots2        = self::quadratic(1, -1 * sqrt(2 * $m), $p / 2 + $m + $q / 2 / sqrt(2 * $m), $return_complex);
             $discriminant1 = self::discriminant(1, sqrt(2 * $m), $p / 2 + $m - $q / 2 / sqrt(2 * $m));
             $discriminant2 = self::discriminant(1, -1 * sqrt(2 * $m), $p / 2 + $m + $q / 2 / sqrt(2 * $m));
-            
+
             // sort the real roots first.
             $sorted_results = $discriminant1 > $discriminant2
                 ? array_merge($roots1, $roots2)
@@ -517,9 +517,9 @@ class Algebra
         $p = $a₂ - (3 * $a₃ ** 2 / 8);
         $q = $a₁ + $a₃ ** 3 / 8 - $a₃ * $a₂ / 2;
         $r = $a₀ - 3 * $a₃ ** 4 / 256 + $a₃ ** 2 * $a₂ / 16 - $a₃ * $a₁ / 4;
-        
+
         $depressed_quartic_roots = self::quartic(1, 0, $p, $q, $r, $return_complex);
-        
+
         // The roots for this polynomial are the roots of the depressed polynomial minus a₃/4.
         if (!$return_complex) {
             return Single::subtract($depressed_quartic_roots, $a₃ / 4);

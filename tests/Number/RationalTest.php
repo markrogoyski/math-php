@@ -155,7 +155,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
             [0, 4, 3, '1 ¹/₃'],
         ];
     }
-    
+
     /**
      * @test         toFloat returns the correct floating point number
      * @dataProvider dataProviderForToFloat
@@ -194,7 +194,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
             [0, -1, 2, -.5],
         ];
     }
-    
+
     /**
      * @test normalization throws an Exception\BadDataException if the denominator is zero
      */

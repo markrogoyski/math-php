@@ -216,7 +216,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertFalse($isDeficientNumber);
     }
- 
+
     /**
      * @test         isRefactorableNumber returns true if n is a refactorable number
      * @dataProvider dataProviderForRefactorableNumbers
@@ -343,7 +343,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     {
         // When
         $isSphenicNumber = Integer::isSphenicNumber($n);
-        
+
         // Then
         $this->assertFalse($isSphenicNumber);
     }
@@ -743,7 +743,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     {
         // When
         $actual = Integer::mobius($n);
-        
+
         // Then
         $this->assertEquals($expected, $actual);
     }
@@ -876,7 +876,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     {
         // When
         $actual = Integer::sumOfDivisors($n);
-        
+
         // Then
         $this->assertEquals($expected, $actual);
     }
@@ -935,7 +935,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     {
         // When
         $actual = Integer::numberOfDivisors($n);
-        
+
         // Then
         $this->assertEquals($expected, $actual);
     }

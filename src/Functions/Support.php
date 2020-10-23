@@ -41,13 +41,13 @@ class Support
         foreach ($params as $variable => $value) {
             // Remove the first character: ( or [
             $lower_endpoint = substr($limits[$variable], 0, 1);
-            
+
             // Remove the last character: ) or ]
             $upper_endpoint = substr($limits[$variable], -1, 1);
-            
+
             // Set the lower and upper limits: #,#
             list($lower_limit, $upper_limit) = explode(',', substr($limits[$variable], 1, -1));
-            
+
             // If the lower limit is -∞, we are always in bounds.
             if ($lower_limit != "-∞") {
                 switch ($lower_endpoint) {
@@ -65,7 +65,7 @@ class Support
                         throw new Exception\BadDataException("Unknown lower endpoint character: {$lower_limit}");
                 }
             }
-            
+
             // If the upper limit is ∞, we are always in bounds.
             if ($upper_limit != "∞") {
                 switch ($upper_endpoint) {

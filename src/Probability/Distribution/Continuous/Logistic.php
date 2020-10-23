@@ -32,7 +32,7 @@ class Logistic extends Continuous
 
     /** @var float Location Parameter */
     protected $μ;
-    
+
     /** @var float Scale Parameter */
     protected $s;
 

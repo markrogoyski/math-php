@@ -785,7 +785,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->expectException(Exception\MatrixException::class);
-        
+
         // When
         $A->eigenvalues();
     }

@@ -112,9 +112,9 @@ class BaseEncoderDecoder
         if ($offset === null) {
             $offset = self::getDefaultAlphabet($base);
         }
-        
+
         $length = strlen($number);
-        
+
         // Remove the offset.
         if ($offset !== chr(0)) {
             // I'm duplicating the for loop instead of placing the if within the for

@@ -77,7 +77,7 @@ class Correlation
         }
         $μₓ = Average::mean($X);
         $μy = Average::mean($Y);
-    
+
         $∑⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ = array_sum(array_map(
             function ($xᵢ, $yᵢ) use ($μₓ, $μy) {
                 return ( $xᵢ - $μₓ ) * ( $yᵢ - $μy );
@@ -117,7 +117,7 @@ class Correlation
         }
         $x = Average::mean($X);
         $y = Average::mean($Y);
-    
+
         $∑⟮xᵢ − x⟯⟮yᵢ − y⟯ = array_sum(array_map(
             function ($xᵢ, $yᵢ) use ($x, $y) {
                 return ( $xᵢ - $x ) * ( $yᵢ - $y );
@@ -155,7 +155,7 @@ class Correlation
 
         $μₓ = Average::weightedMean($X, $w);
         $μy = Average::weightedMean($Y, $w);
-    
+
         $∑wᵢ⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ = array_sum(array_map(
             function ($xᵢ, $yᵢ, $wᵢ) use ($μₓ, $μy) {
                 return $wᵢ * ( $xᵢ - $μₓ ) * ( $yᵢ - $μy );
@@ -164,7 +164,7 @@ class Correlation
             $Y,
             $w
         ));
-        
+
         $∑wᵢ = array_sum($w);
 
         return $∑wᵢ⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ / $∑wᵢ;
@@ -438,7 +438,7 @@ class Correlation
 
         // Numerator: (number of concordant pairs) - (number of discordant pairs)
         $⟮nc − nd⟯ = $nc - $nd;
-       
+
         /* tau-a (no rank ties):
          *
          *        nc - nd
@@ -550,11 +550,11 @@ class Correlation
         $data_array[] = $X;
         $data_array[] = $Y;
         $data_matrix  = new Matrix($data_array);
-        
-        $covarience_matrix = $data_matrix->covarianceMatrix();
-        
+
+        $covariance_matrix = $data_matrix->covarianceMatrix();
+
         // Scale the data by the confidence interval
-        $cov         = $covarience_matrix->scalarMultiply($χ²);
+        $cov         = $covariance_matrix->scalarMultiply($χ²);
         $eigenvalues = Eigenvalue::closedFormPolynomialRootMethod($cov);
 
         // Sort the eigenvalues from highest to lowest
@@ -565,22 +565,22 @@ class Correlation
         $D = MatrixFactory::diagonal($eigenvalues);
         $D = $D->map('sqrt');
         $transformation_matrix = $V->multiply($D);
-        
+
         $x_bar = Average::mean($X);
         $y_bar = Average::mean($Y);
         $translation_matrix = new Matrix([[$x_bar],[$y_bar]]);
-        
+
         // We add a row to allow the transformation matrix to also traslate the ellipse to a different location
         $transformation_matrix = $transformation_matrix->augment($translation_matrix);
-        
+
         $unit_circle = new Matrix(Trigonometry::unitCircle($num_points));
-        
+
         // We add a column of ones to allow us to translate the ellipse
         $unit_circle_with_ones = $unit_circle->augment(MatrixFactory::one($num_points, 1));
-        
+
         // The unit circle is rotated, stretched, and translated to the appropriate ellipse by the translation matrix.
         $ellipse = $transformation_matrix->multiply($unit_circle_with_ones->transpose())->transpose();
-        
+
         return $ellipse->getMatrix();
     }
 }

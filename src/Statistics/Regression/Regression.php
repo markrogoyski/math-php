@@ -30,7 +30,7 @@ abstract class Regression
      * @var int
      */
     protected $n;
-    
+
     /**
      * Constructor - Prepares the data arrays for regression analysis
      *
@@ -100,7 +100,7 @@ abstract class Regression
     {
         return $this->n;
     }
-    
+
     /**
      * Ŷ (yhat)
      * A list of the predicted values of Y given the regression.

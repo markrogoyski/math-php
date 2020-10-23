@@ -110,7 +110,7 @@ class F extends Continuous
 
         return Special::regularizedIncompleteBeta($ᵈ¹ˣ／d₁x＋d₂, $d₁ / 2, $d₂ / 2);
     }
-    
+
     /**
      * Mean of the distribution
      *

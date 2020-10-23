@@ -151,28 +151,28 @@ class Average
 
         // Reset the array key indexes because we don't know what might be passed in
         $numbers = array_values($numbers);
-        
+
         // If the array is 5 elements or smaller, use quicksort and return the element of interest.
         if ($n <= 5) {
             sort($numbers);
             return $numbers[$k];
         }
-        
+
         // Otherwise, we are going to slice $numbers into 5-element slices and find the median of each.
         $num_slices = ceil($n / 5);
         $median_array = [];
         for ($i = 0; $i < $num_slices; $i++) {
             $median_array[] = self::median(array_slice($numbers, 5 * $i, 5));
         }
-        
+
         // Then we find the median of the medians.
         $median_of_medians = self::median($median_array);
-        
+
         // Next we walk the array and separate it into values that are greater than or less than this "median of medians".
         $lower_upper   = self::splitAtValue($numbers, $median_of_medians);
         $lower_number = count($lower_upper['lower']);
         $equal_number = $lower_upper['equal'];
-        
+
         // Lastly, we find which group of values our value of interest is in, and find it in the smaller array.
         if ($k < $lower_number) {
             return self::kthSmallest($lower_upper['lower'], $k);
@@ -182,7 +182,7 @@ class Average
             return self::kthSmallest($lower_upper['upper'], $k - $lower_number - $equal_number);
         }
     }
-    
+
     /**
      * Given an array and a value, separate the array into two groups,
      * those values which are greater than the value, and those that are less
@@ -215,7 +215,7 @@ class Average
             'equal' => $number_equal,
         ];
     }
-    
+
     /**
      * Calculate the mode average of a list of numbers
      * If multiple modes (bimodal, trimodal, etc.), all modes will be returned.

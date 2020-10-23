@@ -73,10 +73,10 @@ class StudentT extends Continuous
         // Denominator
         $√⟮νπ⟯  = sqrt($ν * $π);
         $Γ⟮ν∕2⟯ = Special::gamma($ν / 2);
-        
+
         return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋t²∕ν⟯ ** $−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);
     }
-    
+
     /**
      * Cumulative distribution function
      * Calculate the cumulative t value up to a point, left tail.
@@ -129,7 +129,7 @@ class StudentT extends Continuous
 
         return $this->inverse(1 - $p / 2);
     }
-    
+
     /**
      * Mean of the distribution
      *
@@ -146,7 +146,7 @@ class StudentT extends Continuous
 
         return \NAN;
     }
-    
+
     /**
      * Median of the distribution
      *

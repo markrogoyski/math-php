@@ -114,7 +114,7 @@ class LogLogistic extends Continuous
 
         return $α * ($p / (1 - $p)) ** (1 / $β);
     }
-    
+
     /**
      * Mean of the distribution
      *

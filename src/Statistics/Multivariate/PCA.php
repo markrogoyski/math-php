@@ -23,10 +23,10 @@ class PCA
 {
     /** @var Matrix Dataset */
     private $data;
- 
+
     /** @var Vector Means */
     private $center;
- 
+
     /** @var Vector Scale */
     private $scale;
 
@@ -72,7 +72,7 @@ class PCA
 
         // Center and scale the data as needed
         $this->data = $this->standardizeData();
-        
+
         // Create the correlation / variance-covarience Matrix
         $samples       = $M->getM();
         $corrCovMatrix = $this->data->transpose()->multiply($this->data)->scalarDivide($samples - 1);
@@ -115,7 +115,7 @@ class PCA
             $X = $new_data;
         }
         $ones_column = MatrixFactory::one($X->getM(), 1);
-        
+
         // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
         $center_matrix = $ones_column->multiply(MatrixFactory::create([$this->center->getVector()]));
         $scale_matrix  = MatrixFactory::diagonal($this->scale->getVector())->inverse();
@@ -123,7 +123,7 @@ class PCA
         // scaled data: ($X - μ) / σ
         return $X->subtract($center_matrix)->multiply($scale_matrix);
     }
-    
+
     /**
      * The loadings are the unit eigenvectors of the correlation matrix
      *
@@ -228,7 +228,7 @@ class PCA
             $this->checkNewData($new_data);
             $X = $this->standardizeData($new_data);
         }
-        
+
         $X′ = $X->transpose();
         $I  = MatrixFactory::identity($vars);
 
@@ -247,7 +247,7 @@ class PCA
 
         return $Q;
     }
-    
+
     /**
      * Get the T² Distance
      *

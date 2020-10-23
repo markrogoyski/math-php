@@ -75,7 +75,7 @@ class NegativeBinomial extends Discrete
         $ₓ₊ᵣ₋₁Cₓ = Combinatorics::combinations($x + $r - 1, $x);
         $⟮1 − p⟯ˣ = pow(1 - $p, $x);
         $pʳ      = pow($p, $r);
-    
+
         return $ₓ₊ᵣ₋₁Cₓ * $⟮1 − p⟯ˣ * $pʳ;
     }
 

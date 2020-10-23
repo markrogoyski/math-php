@@ -106,7 +106,7 @@ class Exponential extends Continuous
 
         return -log(1 - $p) / $this->λ;
     }
-    
+
     /**
      * Mean of the distribution
      *

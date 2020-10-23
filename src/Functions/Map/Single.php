@@ -196,7 +196,7 @@ class Single
             $xs
         );
     }
-    
+
     /**
      * Map min value
      * Each element in array is compared against the value,
@@ -216,7 +216,7 @@ class Single
             $xs
         );
     }
-    
+
     /**
      * Map max value
      * Each element in the array is compared against the value,

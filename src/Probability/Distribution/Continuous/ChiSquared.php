@@ -103,7 +103,7 @@ class ChiSquared extends Continuous
 
         return $γ⟮k／2、x／2⟯ / $Γ⟮k／2⟯;
     }
-    
+
     /**
      * Mean of the distribution
      *

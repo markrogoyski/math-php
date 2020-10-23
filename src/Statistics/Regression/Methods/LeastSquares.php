@@ -172,7 +172,7 @@ trait LeastSquares
     {
         return $this->reg_P;
     }
-    
+
     /**
      * Regression Leverages
      * A measure of how far away the independent variable values of an observation are from those of the other observations.
@@ -189,7 +189,7 @@ trait LeastSquares
     {
         return $this->reg_P->getDiagonalElements();
     }
-    
+
     /**************************************************************************
      * Sum Of Squares
      *************************************************************************/
@@ -328,7 +328,7 @@ trait LeastSquares
 
         return $MSTO;
     }
-    
+
     /**
      * Error Standard Deviation
      *
@@ -340,7 +340,7 @@ trait LeastSquares
     {
         return sqrt($this->meanSquareResidual());
     }
-     
+
     /**
      * The degrees of freedom of the regression
      *
@@ -350,7 +350,7 @@ trait LeastSquares
     {
         return $this->ν;
     }
-     
+
     /**
      * Standard error of the regression parameters (coefficients)
      *
@@ -382,7 +382,7 @@ trait LeastSquares
 
         $standard_error_matrix = $⟮XᵀX⟯⁻¹->scalarMultiply($σ²);
         $standard_error_array  = Single::sqrt($standard_error_matrix->getDiagonalElements());
-        
+
         return [
             'm' => $standard_error_array[1],
             'b' => $standard_error_array[0],
@@ -407,7 +407,7 @@ trait LeastSquares
 
         return $M[0][0];
     }
-    
+
     /**
      * Get the regression residuals
      * eᵢ = yᵢ - ŷᵢ
@@ -420,7 +420,7 @@ trait LeastSquares
     {
         return Multi::subtract($this->reg_ys, $this->reg_Yhat);
     }
-    
+
     /**
      * Cook's Distance
      * A measures of the influence of each data point on the regression.
@@ -453,7 +453,7 @@ trait LeastSquares
             $h
         );
     }
-    
+
     /**
      * DFFITS
      * Measures the effect on the regression if each data point is excluded.
@@ -535,7 +535,7 @@ trait LeastSquares
 
         return $DFFITS;
     }
-    
+
     /**
      * R - correlation coefficient (Pearson's r)
      *
@@ -591,7 +591,7 @@ trait LeastSquares
     {
         return $this->coefficientOfDetermination();
     }
-    
+
     /**
      * The t values associated with each of the regression parameters (coefficients)
      *
@@ -724,11 +724,11 @@ trait LeastSquares
     {
         $V  = $this->regressionVariance($x);
         $σ² = $this->meanSquareResidual();
-        
+
         // The t-value
         $studentT = new StudentT($this->ν);
         $t = $studentT->inverse2Tails($p);
-        
+
         return $t * sqrt($σ² * $V);
     }
 
@@ -763,11 +763,11 @@ trait LeastSquares
     {
         $V  = $this->regressionVariance($x) + 1 / $q;
         $σ² = $this->meanSquareResidual();
-     
+
         // The t-value
         $studentT = new StudentT($this->ν);
         $t = $studentT->inverse2Tails($p);
-        
+
         return $t * sqrt($σ² * $V);
     }
 }

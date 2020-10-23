@@ -382,7 +382,7 @@ class Special
 
         return 1 / (1 + $ℯ⁻ᵗ);
     }
-    
+
     /**
      * Error function (Gauss error function)
      * https://en.wikipedia.org/wiki/Error_function
@@ -479,7 +479,7 @@ class Special
         }
         return self::gamma($s) - self::lowerIncompleteGamma($s, $x);
     }
-     
+
     /**
      * Lower incomplete gamma function - γ(s,t)
      * https://en.wikipedia.org/wiki/Incomplete_gamma_function#Lower_incomplete_Gamma_function
@@ -666,7 +666,7 @@ class Special
 
         return $constant * $fraction_array[0];
     }
-    
+
     /**
      * Regularized incomplete beta function - Iₓ(a, b)
      *
@@ -717,7 +717,7 @@ class Special
             // Tolerance on evaluating the continued fraction.
             $tol = .000000000000001;
             $dif = $tol + 1; // Initialize
-            
+
             // We will calculate the continuous fraction with a minimum depth of 10.
             $m = 10;  // Counter
             $I = 0;
@@ -742,7 +742,7 @@ class Special
             }
         }
     }
-    
+
     /**
      * Generalized Hypergeometric Function
      *

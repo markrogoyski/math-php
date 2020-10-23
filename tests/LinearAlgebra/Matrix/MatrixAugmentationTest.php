@@ -623,7 +623,7 @@ class MatrixAugmentationTest extends \PHPUnit\Framework\TestCase
         // When
         $augmented = $A->augment($B);
     }
-    
+
     /**
      * @test         augmentLeft
      * @throws       \Exception
@@ -640,7 +640,7 @@ class MatrixAugmentationTest extends \PHPUnit\Framework\TestCase
         // When
         $augmented = $A->augmentLeft($B);
     }
-    
+
     /**
      * @test         augmentAbove
      * @throws       \Exception
@@ -657,7 +657,7 @@ class MatrixAugmentationTest extends \PHPUnit\Framework\TestCase
         // When
         $augmented = $A->augmentAbove($B);
     }
-    
+
     /**
      * @test         augmentBelow
      * @throws       \Exception

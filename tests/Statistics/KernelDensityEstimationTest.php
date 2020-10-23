@@ -82,7 +82,7 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
             [ $this->data, $h, -1, 0.232226496 ],
         ];
     }
-    
+
     /**
      * @test         Custom kernel function and custom h
      * @dataProvider dataProviderForKernelDensityCustomBoth
@@ -158,7 +158,6 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
             [KernelDensityEstimation::UNIFORM, 1, .25],
             [KernelDensityEstimation::TRIANGULAR, 1, .235],
             [KernelDensityEstimation::EPANECHNIKOV, 1, .2401905],
-            
         ];
     }
 

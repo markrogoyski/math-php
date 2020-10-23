@@ -39,7 +39,7 @@ class ArbitraryInteger implements ObjectArithmetic
     public function __construct($number)
     {
         $this->isPositive = true;
-        
+
         if (is_int($number)) {
             if ($number < 0) {
                 // Since abs(PHP_INT_MIN) is PHP_INT_MAX + 1, we cannot just change the sign.
@@ -204,7 +204,7 @@ class ArbitraryInteger implements ObjectArithmetic
     {
         return $this->base256;
     }
-    
+
     /**
      * String representation - Display the number in base 10
      *
@@ -400,7 +400,7 @@ class ArbitraryInteger implements ObjectArithmetic
     public function subtract($number): ArbitraryInteger
     {
         $number = self::create($number);
-        
+
         if (!$number->isPositive()) {
             return $this->add($number->negate());
         }
@@ -477,7 +477,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $inner_obj     = self::fromBinary($inner_product, true);
             $product       = $product->add($inner_obj);
         }
-        
+
         return ($this->isPositive ^ $number_obj->isPositive()) ? $product->negate() : $product;
     }
 
@@ -716,7 +716,7 @@ class ArbitraryInteger implements ObjectArithmetic
         $int_len      = strlen($int_256);
         $my_positive  = $this->isPositive;
         $int_positive = $int->isPositive();
-        
+
         // Check if signs differ
         if ($my_positive && !$int_positive) {
             return false;
@@ -724,7 +724,7 @@ class ArbitraryInteger implements ObjectArithmetic
         if ($int_positive && !$my_positive) {
             return true;
         }
-        
+
         // If one number has more digits, its absolute value is larger.
         if ($my_len > $int_len) {
             return !$my_positive;

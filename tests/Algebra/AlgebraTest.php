@@ -591,7 +591,6 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
             // D > 0: one root is real, 2 are complex conjugates.
             [1, 0, 1, 0, [0, ['r' => 0, 'i' => -1], ['r' => 0, 'i' => 1]]],
             [1, -1, 1, -1, [1, ['r' => 0, 'i' => -1], ['r' => 0, 'i' => 1]]],
-            
         ];
     }
 
@@ -668,13 +667,13 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
             [3, 6, -123, -126, 1080, [5, -6, 3, -4]],
             [1, -10, 35, -50, 24, [4, 1, 3, 2]],
             [1, -4, 6, -4, 1, [1, 1, 1, 1]],
-            
+
             // Actually a cubic
             [0, 1, -6, 11, -6, [3, 1, 2]],
-            
+
             // Zero Root
             [1, -6, 11, -6, 0, [0, 3, 1, 2]],
-            
+
             // Biquadratic
             [1, 0, -5, 0, 4, [2, -2, 1, -1]],
 
@@ -748,7 +747,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
             // And is a depressed quartic. (sum of roots=0)
             [1, 0, 5 / 8, -5 / 8, -51 / 256, [-.25, .75, ['r' => -.25, 'i' => -1], ['r' => -.25, 'i' => 1]]],
             [1, 0, -5, 10, -6, [-3, 1, ['r' => 1, 'i' => -1], ['r' => 1, 'i' => 1]]],
-            
+
             // Biquadratic with two complex roots
             [1, 0, -5, 0, -36, [3, -3, ['r' => 0, 'i' => 2], ['r' => 0, 'i' => -2]]],
          ];

@@ -49,7 +49,7 @@ class Eigenvector
         $eig = new Vector($eigenvalues);
         $eigenvalues = $eig->scalarDivide($max_abs)->getVector();
         $number = count($eigenvalues);
-        
+
         // There cannot be more eigenvalues than the size of A, nor can there be zero.
         if ($number > $A->getM()) {
             throw new Exception\BadDataException('Improper number of eigenvalues provided');

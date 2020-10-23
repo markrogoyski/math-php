@@ -25,7 +25,7 @@ class Uniform extends Continuous
     const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',
     ];
-    
+
     /** @var float Lower Bound Parameter */
     protected $a;
 
@@ -74,7 +74,7 @@ class Uniform extends Continuous
 
         return 1 / ($b - $a);
     }
-    
+
     /**
      * Continuous uniform distribution - cumulative distribution function
      * https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
@@ -105,7 +105,7 @@ class Uniform extends Continuous
 
         return ($x - $a) / ($b - $a);
     }
-    
+
     /**
      * Mean of the distribution
      *

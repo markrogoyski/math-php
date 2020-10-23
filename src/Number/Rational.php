@@ -18,13 +18,13 @@ class Rational implements ObjectArithmetic
 {
     /** @var int Whole part of the number */
     protected $whole;
-    
+
     /** @var int Numerator part of the fractional part */
     protected $numerator;
-    
+
     /** @var int Denominator part of the fractional part */
     protected $denominator;
-    
+
     /**
      * Constructor
      *
@@ -64,7 +64,7 @@ class Rational implements ObjectArithmetic
     {
         return $this->denominator;
     }
-    
+
     /**
      * String representation of a rational number
      * 5 6/7, 456079/13745859, etc.
@@ -156,11 +156,11 @@ class Rational implements ObjectArithmetic
         $sum  = $this->whole + $frac;
         return $sum;
     }
-    
+
     /**************************************************************************
      * UNARY FUNCTIONS
      **************************************************************************/
- 
+
     /**
      * The absolute value of a rational number
      *
@@ -193,7 +193,7 @@ class Rational implements ObjectArithmetic
     /**************************************************************************
      * BINARY FUNCTIONS
      **************************************************************************/
- 
+
     /**
      * Addition
      *

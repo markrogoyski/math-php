@@ -33,7 +33,7 @@ class HanesWoolf extends ParametricRegression
 
         // Perform Least Squares Fit
         $linear_parameters = $this->leastSquares($y’, $this->xs)->getColumn(0);
-        
+
         $V = 1 / $linear_parameters[1];
         $K = $linear_parameters[0] * $V;
 

@@ -74,7 +74,7 @@ class Normal extends Continuous
 
         return ( 1 / $σ√⟮2π⟯ ) * $ℯ＾−⟮x − μ⟯²∕2σ²;
     }
-  
+
     /**
      * Cumulative distribution function
      * Probability of being below X.
@@ -116,7 +116,7 @@ class Normal extends Continuous
 
         return parent::inverse($p);
     }
-    
+
     /**
      * Mean of the distribution
      *
@@ -164,7 +164,7 @@ class Normal extends Continuous
     {
         return $this->σ ** 2;
     }
-    
+
     /**
      * Random number - Box–Muller transform
      *

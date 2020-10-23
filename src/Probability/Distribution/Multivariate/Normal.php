@@ -16,7 +16,7 @@ class Normal
 {
     /** @var array location */
     protected $μ;
-    
+
     /** @var Matrix covariance matrix */
     protected $∑;
 

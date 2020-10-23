@@ -118,7 +118,7 @@ class Weibull extends Continuous
 
         return $λ * (-1 * log(1 - $p)) ** (1 / $k);
     }
-    
+
     /**
      * Mean of the distribution
      *

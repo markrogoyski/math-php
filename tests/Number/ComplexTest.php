@@ -85,7 +85,7 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         // When
         $z = $complex->z;
     }
-    
+
     /**
      * @test         complexConjugate returns the expected Complex number
      * @dataProvider dataProviderForComplexConjugate

@@ -76,7 +76,7 @@ class Outlier
 
         throw new Exception\BadParameterException("{$typeOfTest} is not a valid Grubbs; test");
     }
-    
+
     /**
      * The critical Grubbs Value
      *

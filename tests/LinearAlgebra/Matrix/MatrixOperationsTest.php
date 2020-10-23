@@ -2263,7 +2263,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertEquals($expected, $matrixWithInsertion->getMatrix());
     }
-    
+
     public function dataProviderForInsert(): array
     {
         return [

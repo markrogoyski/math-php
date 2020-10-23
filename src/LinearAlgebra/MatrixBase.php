@@ -12,10 +12,10 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
 {
     /** @var int Number of rows */
     protected $m;
-    
+
     /** @var int Number of columns */
     protected $n;
-    
+
     /** @var array Matrix array of arrays */
     protected $A;
 
@@ -263,7 +263,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
         if ($this->getObjectType() !== $B->getObjectType()) {
             return false;
         }
-        
+
         $m = $this->m;
         $n = $this->n;
 
@@ -271,7 +271,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
         if ($m != $B->m || $n != $B->n) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -775,7 +775,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
     /**************************************************************************
      * ArrayAccess INTERFACE
      **************************************************************************/
-     
+
     /**
      * @param mixed $i
      * @return bool
@@ -812,7 +812,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
     {
         throw new Exception\MatrixException('Matrix class does not allow unsetting values');
     }
-    
+
     /**************************************************************************
      * JsonSerializable INTERFACE
      **************************************************************************/

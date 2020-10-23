@@ -9,7 +9,7 @@ trait PowerModel
 
     /** @var int a parameter index */
     protected static $A = 0;
-    
+
    /**
     * Evaluate the power curve equation from power law regression parameters for a value of x
     * y = axᵇ

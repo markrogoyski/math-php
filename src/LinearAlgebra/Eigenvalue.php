@@ -74,7 +74,7 @@ class Eigenvalue
         if ($m < 2 || $m > 4) {
             throw new Exception\BadDataException("Matrix must be 2x2, 3x3, or 4x4. $m x $m given");
         }
-        
+
         // Convert the numerical matrix into an ObjectMatrix
         $B_array = [];
         for ($i = 0; $i < $m; $i++) {

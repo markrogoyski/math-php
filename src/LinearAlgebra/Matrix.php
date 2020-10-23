@@ -1616,7 +1616,7 @@ class Matrix extends MatrixBase
             $this->catalog->addInverse($A⁻¹);
             return $A⁻¹;
         }
-        
+
         // nxn matrix 3x3 or larger
         $R   = $this->augmentIdentity()->rref();
         $A⁻¹ = [];
@@ -3070,7 +3070,7 @@ class Matrix extends MatrixBase
         if ($method === null) {
             return Eigenvector::eigenvectors($this, $this->eigenvalues());
         }
-        
+
         return Eigenvector::eigenvectors($this, $this->eigenvalues($method));
     }
 

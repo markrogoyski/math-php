@@ -56,7 +56,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
         }
         return $guess;
     }
-  
+
     /**
      * CDF between - probability of being between two points, x₁ and x₂
      * The area under a continuous distribution, that lies between two specified points.
@@ -74,7 +74,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
         $lower_area = $this->cdf($x₁);
         return $upper_area - $lower_area;
     }
-  
+
     /**
      * CDF outside - Probability of being below x₁ and above x₂.
      * The area under a continuous distribution, that lies above and below two points.
@@ -105,7 +105,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
     {
         return 1 - $this->cdf($x);
     }
-    
+
     /**
      * Produce a random number with a particular distribution
      *

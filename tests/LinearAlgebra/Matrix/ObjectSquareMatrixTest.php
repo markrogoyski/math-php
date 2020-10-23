@@ -90,7 +90,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
-    
+
     /**
      * @test         Cannot compute the determinant of a non-square matrix
      * @dataProvider dataProviderDetException

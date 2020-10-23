@@ -23,10 +23,10 @@ class KernelDensityEstimation
 
     /** @var int number of data points */
     protected $n;
-    
+
     /** @var float bandwidth */
     protected $h;
-    
+
     /** @var callable kernel function */
     protected $kernel;
 

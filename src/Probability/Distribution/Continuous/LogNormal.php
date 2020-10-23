@@ -122,7 +122,7 @@ class LogNormal extends Continuous
 
         return exp($μ + $σ * $standard_normal->inverse($p));
     }
-    
+
     /**
      * Mean of the distribution
      *

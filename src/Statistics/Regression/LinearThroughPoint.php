@@ -65,7 +65,7 @@ class LinearThroughPoint extends ParametricRegression
     {
         $v = $this->v;
         $w = $this->w;
-        
+
         $x’ = Single::subtract($this->xs, $v);
         $y’ = Single::subtract($this->ys, $w);
 

@@ -101,7 +101,7 @@ class Descriptive
         }
 
         $∑⟮xᵢ − μ⟯² = RandomVariable::sumOfSquaresDeviations($numbers);
-    
+
         return $∑⟮xᵢ − μ⟯² / $ν;
     }
 

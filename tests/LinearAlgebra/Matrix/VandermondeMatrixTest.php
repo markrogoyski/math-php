@@ -18,7 +18,7 @@ class VandermondeMatrixTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $V = MatrixFactory::create($V);
-        
+
         // When
         $M = MatrixFactory::vandermonde($M, $n);
 

@@ -83,10 +83,10 @@ class QR extends Decomposition
         for ($i = 0; $i < $numReflections; $i++) {
             // Remove the leftmost $i columns and upper $i rows
             $A = $HA->submatrix($i, $i, $m - 1, $n - 1);
-            
+
             // Create the householder matrix
             $innerH = Householder::transform($A);
-            
+
             // Embed the smaller matrix within a full rank Identity matrix
             $H  = $FullI->insert($innerH, $i, $i);
             $Q  = $Q->multiply($H);
