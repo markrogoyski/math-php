@@ -9,7 +9,7 @@ use MathPHP\Tests;
 
 class RowEchelonFormTest extends \PHPUnit\Framework\TestCase
 {
-    use Tests\LinearAlgebra\MatrixDataProvider;
+    use Tests\LinearAlgebra\Fixture\MatrixDataProvider;
 
     /**
      * @test         isRef on ref matrix should return true

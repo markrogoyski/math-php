@@ -9,7 +9,7 @@ use MathPHP\Tests;
 
 class ReducedRowEchelonFormTest extends \PHPUnit\Framework\TestCase
 {
-    use Tests\LinearAlgebra\MatrixDataProvider;
+    use Tests\LinearAlgebra\Fixture\MatrixDataProvider;
 
     /**
      * @test         RREF

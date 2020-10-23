@@ -5,7 +5,7 @@ namespace MathPHP\Tests\LinearAlgebra\Decomposition;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\Vector;
-use MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+use MathPHP\Tests\LinearAlgebra\Fixture\MatrixDataProvider;
 
 class LUTest extends \PHPUnit\Framework\TestCase
 {
