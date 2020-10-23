@@ -73,7 +73,7 @@ class ObjectSquareMatrix extends SquareMatrix
      *
      * @return bool
      */
-    public function isEqual(MatrixInterface $B): bool
+    public function isEqual(Matrix $B): bool
     {
         if (!$this->isEqualSizeAndType($B)) {
             return false;

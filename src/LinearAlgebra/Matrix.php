@@ -10,7 +10,7 @@ use MathPHP\LinearAlgebra\Reduction;
 /**
  * m x n Matrix
  */
-class Matrix extends MatrixBase implements MatrixInterface
+class Matrix extends MatrixBase
 {
     /** @var float Error/zero tolerance */
     protected $ε;
@@ -104,7 +104,7 @@ class Matrix extends MatrixBase implements MatrixInterface
      *
      * @return bool
      */
-    public function isEqual(MatrixInterface $B): bool
+    public function isEqual(Matrix $B): bool
     {
         if (!$this->isEqualSizeAndType($B)) {
             return false;

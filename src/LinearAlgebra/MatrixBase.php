@@ -23,6 +23,18 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
     protected $catalog;
 
     /**************************************************************************
+     * ABSTRACT METHODS
+     *  - getObjectType
+     **************************************************************************/
+
+    /**
+     * What type of data does the matrix contain
+     *
+     * @return string the type of data in the Matrix
+     */
+    abstract public function getObjectType(): string;
+
+    /**************************************************************************
      * BASIC MATRIX GETTERS
      *  - getMatrix
      *  - getM
@@ -246,7 +258,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @return bool
      */
-    protected function isEqualSizeAndType(MatrixInterface $B): bool
+    protected function isEqualSizeAndType(Matrix $B): bool
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             return false;
@@ -310,7 +322,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if matrices do not have the same number of rows
      * @throws Exception\IncorrectTypeException
      */
-    public function augment(MatrixInterface $B): MatrixInterface
+    public function augment(Matrix $B): Matrix
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -354,7 +366,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if matrices do not have the same number of rows
      * @throws Exception\IncorrectTypeException
      */
-    public function augmentLeft(MatrixInterface $B): MatrixInterface
+    public function augmentLeft(Matrix $B): Matrix
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -397,7 +409,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if matrices do not have the same number of columns
      * @throws Exception\IncorrectTypeException
      */
-    public function augmentBelow(MatrixInterface $B): MatrixInterface
+    public function augmentBelow(Matrix $B): Matrix
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -435,7 +447,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MathException
      * @throws Exception\MatrixException
      */
-    public function augmentAbove(MatrixInterface $B): MatrixInterface
+    public function augmentAbove(Matrix $B): Matrix
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -501,7 +513,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @throws Exception\MatrixException
      */
-    public function submatrix(int $m₁, int $n₁, int $m₂, int $n₂): MatrixInterface
+    public function submatrix(int $m₁, int $n₁, int $m₂, int $n₂): Matrix
     {
         if ($m₁ >= $this->m || $m₁ < 0 || $m₂ >= $this->m || $m₂ < 0) {
             throw new Exception\MatrixException('Specified Matrix row does not exist');
@@ -538,7 +550,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @throws Exception\MatrixException
      */
-    public function insert(MatrixInterface $small, int $m, int $n): MatrixInterface
+    public function insert(Matrix $small, int $m, int $n): Matrix
     {
         if ($this->getObjectType() !== $small->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -571,7 +583,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @throws Exception\IncorrectTypeException
      */
-    public function map(callable $func): MatrixInterface
+    public function map(callable $func): Matrix
     {
         $m = $this->m;
         $n = $this->n;
@@ -621,7 +633,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if row to interchange does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowInterchange(int $mᵢ, int $mⱼ): MatrixInterface
+    public function rowInterchange(int $mᵢ, int $mⱼ): Matrix
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to interchange does not exist');
@@ -656,7 +668,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if row to exclude does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowExclude(int $mᵢ): MatrixInterface
+    public function rowExclude(int $mᵢ): Matrix
     {
         if ($mᵢ >= $this->m || $mᵢ < 0) {
             throw new Exception\MatrixException('Row to exclude does not exist');
@@ -695,7 +707,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if column to interchange does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function columnInterchange(int $nᵢ, int $nⱼ): MatrixInterface
+    public function columnInterchange(int $nᵢ, int $nⱼ): Matrix
     {
         if ($nᵢ >= $this->n || $nⱼ >= $this->n) {
             throw new Exception\MatrixException('Column to interchange does not exist');
@@ -733,7 +745,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException if column to exclude does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function columnExclude(int $nᵢ): MatrixInterface
+    public function columnExclude(int $nᵢ): Matrix
     {
         if ($nᵢ >= $this->n || $nᵢ < 0) {
             throw new Exception\MatrixException('Column to exclude does not exist');
@@ -759,8 +771,6 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
 
         return MatrixFactory::create($R);
     }
-
-    abstract public function getObjectType(): string;
 
     /**************************************************************************
      * ArrayAccess INTERFACE
