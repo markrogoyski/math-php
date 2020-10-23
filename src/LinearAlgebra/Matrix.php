@@ -61,6 +61,16 @@ class Matrix extends MatrixBase
         }
     }
 
+    /**
+     * Get the type of objects that are stored in the matrix
+     *
+     * @return string The class of the objects
+     */
+    public function getObjectType(): string
+    {
+        return 'number';
+    }
+
     /**************************************************************************
      * BASIC MATRIX GETTERS
      *  - getError
@@ -3089,15 +3099,5 @@ class Matrix extends MatrixBase
         ), function ($A, $mᵢ) {
             return $A . \PHP_EOL . $mᵢ;
         }));
-    }
-
-    /**
-     * Get the type of objects that are stored in the matrix
-     *
-     * @return string The class of the objects
-     */
-    public function getObjectType(): string
-    {
-        return 'number';
     }
 }
