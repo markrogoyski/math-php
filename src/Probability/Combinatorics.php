@@ -289,8 +289,14 @@ class Combinatorics
         if ($repetition) {
             $max = max($n - 1, $k);
             $min = min($n - 1, $k);
-            
-            return self::fallingFactorial($n, $max) / self::factorial($min);
+
+            // The internal falling factorial implementation always returns a float.
+            // Here we maintain precision as much as possible.
+            $falling_factorial = 1;
+            for ($i = $max + 1; $i <= $n + $k - 1; $i++) {
+                $falling_factorial *= $i;
+            }
+            return $falling_factorial / self::factorial($min);
         }
 
         // nCk without repetition
