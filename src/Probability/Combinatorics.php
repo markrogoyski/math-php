@@ -287,10 +287,10 @@ class Combinatorics
 
         // nC'k with repetition
         if ($repetition) {
-            $⟮n ＋ k − 1⟯！ = self::factorial($n + $k - 1);
-            $⟮n − 1⟯！k！   = self::factorial($n - 1) * self::factorial($k);
-
-            return $⟮n ＋ k − 1⟯！ / $⟮n − 1⟯！k！;
+            $max = max($n - 1, $k);
+            $min = min($n - 1, $k);
+            
+            return self::fallingFactorial($n, $max) / self::factorial($min);
         }
 
         // nCk without repetition
