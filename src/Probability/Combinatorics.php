@@ -284,7 +284,7 @@ class Combinatorics
         if ($k > $n) {
             throw new Exception\OutOfBoundsException('k cannot be larger than n.');
         }
-        
+
         if ($repetition) {
             // nC'k with repetition
             $denominator = $n - 1;
