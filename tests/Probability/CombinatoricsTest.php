@@ -379,6 +379,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test data produced with Python scipy.special.comb(n, k, exact=True, repetition=False)
      * @return array [n, r, combinations]
      */
     public function dataProviderForCombinations(): array
@@ -400,6 +401,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
             [16,  3,        560],
             [20,  3,       1140],
             [35, 20, 3247943160],
+            [35, 25,  183579396],
         ];
     }
 
@@ -473,32 +475,35 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test data produced with Python scipy.special.comb(n, k, exact=True, repetition=True)
      * @return array [n, r, combinations]
      */
     public function dataProviderForCombinationsWithRepetition(): array
     {
         return [
-            [10,  0,            1],
-            [10,  1,           10],
-            [10,  2,           55],
-            [10,  3,          220],
-            [10,  4,          715],
-            [10,  5,         2002],
-            [10,  6,         5005],
-            [10,  7,        11440],
-            [10,  8,        24310],
-            [10,  9,        48620],
-            [10, 10,        92378],
-            [5,   3,           35],
-            [6,   4,          126],
-            [16,  3,          816],
-            [20,  3,         1540],
-            [21, 20, 137846528820],
+            [10,  0,                  1],
+            [10,  1,                 10],
+            [10,  2,                 55],
+            [10,  3,                220],
+            [10,  4,                715],
+            [10,  5,               2002],
+            [10,  6,               5005],
+            [10,  7,              11440],
+            [10,  8,              24310],
+            [10,  9,              48620],
+            [10, 10,              92378],
+            [5,   3,                 35],
+            [6,   4,                126],
+            [16,  3,                816],
+            [20,  3,               1540],
+            [21, 20,       137846528820],
+            [35, 25,  30284005485024837],
+
         ];
     }
 
     /**
-     * @test         centralbinomialCoefficient
+     * @test         centralBinomialCoefficient
      * @dataProvider dataProviderForCentralBinomialCoefficient
      * @param        int   $n
      * @param        float $！n
