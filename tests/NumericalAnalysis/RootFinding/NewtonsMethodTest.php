@@ -259,7 +259,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return $x ** (1/3);
+            return $x ** (1 / 3);
         };
 
         // And
