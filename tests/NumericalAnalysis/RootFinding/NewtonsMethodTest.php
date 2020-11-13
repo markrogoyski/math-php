@@ -35,8 +35,6 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $x, '', $tol);
     }
 
-
-
     /**
      * @test   Solve f(x) = x⁴ + 8x³ -13x² -92x + 96
      *         Polynomial has 4 roots: 3, 1, -8 and -4
@@ -250,5 +248,30 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertNan($x);
+    }
+
+    /**
+     * @test   Solve f(x) = ³√x for ³√x = 0
+     *         Has no solution
+     * @throws \Exception
+     */
+    public function testNoSolutionCubeRootX()
+    {
+        // Given
+        $func = function ($x) {
+            return $x ** (1/3);
+        };
+
+        // And
+        $args     = [1];
+        $target   = 0;
+        $position = 0;
+        $tol      = 0.00001;
+
+        // When
+        $root = NewtonsMethod::solve($func, $args, $target, $tol, $position);
+
+        // Then
+        $this->assertNan($root);
     }
 }
