@@ -267,6 +267,19 @@ class Combinatorics
      *         (k)    (n - 1)!k!
      *
      * http://mathworld.wolfram.com/BinomialCoefficient.html
+     * The above formulas are inefficient and can quickly result in floating point overflow.
+     * Instead, we use the multiplicative formula.
+     *
+     *        (n)   nᵏ    n(n - 1)(n - 2)⋯(n - (k - 1)     _ᵏ_  n + 1 - i
+     *  nCk = ( ) = -- =  ----------------------------   = | |  ---------
+     *        (k)   k!        k(k - 1)(k - 2)⋯1            ⁱ⁼¹      i
+     *
+     * Where the numerator nᵏ is expressed as a falling factorial.
+     * The numerator gives the number of ways to select a sequence of k distinct objects, retaining the order of selection, from a set of n objects.
+     * The denominator counts the number of distinct sequences that define the same k-combination when order is disregarded.
+     * Due to the symmetry of the binomial coefficient with regard to k and n − k,
+     * calculation may be optimised by setting the upper limit of the product above to the smaller of k and n − k.
+     * https://en.wikipedia.org/wiki/Binomial_coefficient#Multiplicative_formula
      *
      * @param  int  $n
      * @param  int  $k
@@ -285,17 +298,15 @@ class Combinatorics
             throw new Exception\OutOfBoundsException('k cannot be larger than n.');
         }
 
-        if ($repetition) {
-            // nC'k with repetition
+        if ($repetition) { // nC'k with repetition
             $denominator = $n - 1;
-            $numerator = $n + $k - 1;
-        } else {
-            // nCk without repetition
+            $numerator   = $n + $k - 1;
+        } else { // nCk without repetition
             $denominator = $n - $k;
-            $numerator = $n;
+            $numerator   = $n;
         }
 
-        // The internal falling factorial implementation always returns a float.
+        // The internal self::fallingFactorial() implementation always returns a float.
         // Here we maintain int precision as much as possible.
         $max = max($denominator, $k);
         $min = min($denominator, $k);
