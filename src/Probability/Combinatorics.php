@@ -285,19 +285,25 @@ class Combinatorics
             throw new Exception\OutOfBoundsException('k cannot be larger than n.');
         }
 
-        // nC'k with repetition
         if ($repetition) {
-            $⟮n ＋ k − 1⟯！ = self::factorial($n + $k - 1);
-            $⟮n − 1⟯！k！   = self::factorial($n - 1) * self::factorial($k);
-
-            return $⟮n ＋ k − 1⟯！ / $⟮n − 1⟯！k！;
+            // nC'k with repetition
+            $denominator = $n - 1;
+            $numerator = $n + $k - 1;
+        } else {
+            // nCk without repetition
+            $denominator = $n - $k;
+            $numerator = $n;
         }
 
-        // nCk without repetition
-        $n！        = self::factorial($n);
-        $⟮n − k⟯！k！ = self::factorial($n - $k) * self::factorial($k);
-
-        return $n！ / $⟮n − k⟯！k！;
+        // The internal falling factorial implementation always returns a float.
+        // Here we maintain int precision as much as possible.
+        $max = max($denominator, $k);
+        $min = min($denominator, $k);
+        $falling_factorial = 1;
+        for ($i = $max + 1; $i <= $numerator; $i++) {
+            $falling_factorial *= $i;
+        }
+        return $falling_factorial / self::factorial($min);
     }
 
     /**
