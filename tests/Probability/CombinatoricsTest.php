@@ -406,6 +406,36 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         combinations with large floating point overflow result
+     * @dataProvider dataProviderForCombinationsWithLargeFloatingPointOverflowResult
+     * @param        int   $n
+     * @param        int   $r
+     * @param        float $expected
+     * @param        float ε
+     * @throws       \Exception
+     */
+    public function testCombinationsWithLargeFloatingPointOverflowResult(int $n, int $r, float $expected, float $ε)
+    {
+        // When
+        $combinations = Combinatorics::combinations($n, $r);
+
+        // Then
+        $this->assertEquals($expected, $combinations, '', $ε);
+    }
+
+    /**
+     * Test data produced with Python scipy.special.comb(n, k, exact=False, repetition=False)
+     * @return array [n, r, combinations, ε]
+     */
+    public function dataProviderForCombinationsWithLargeFloatingPointOverflowResult(): array
+    {
+        return [
+            [70, 30, 5.534774005814348e+19, 0],
+            [100, 50, 1.0089134454556415e+29, 1e14],
+        ];
+    }
+
+    /**
      * @test   combinations n less than zero
      * @throws \Exception
      */
@@ -499,6 +529,36 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
             [21, 20,       137846528820],
             [35, 25,  30284005485024837],
 
+        ];
+    }
+
+    /**
+     * @test         combinations with repetition with large floating point overflow result
+     * @dataProvider dataProviderForCombinationsWithRepetitionWithLargeFloatingPointOverflowResult
+     * @param        int   $n
+     * @param        int   $r
+     * @param        float $expected
+     * @param        float ε
+     * @throws       \Exception
+     */
+    public function testCombinationsWithRepetitionWithLargeFloatingPointOverflowResult(int $n, int $r, float $expected, float $ε)
+    {
+        // When
+        $combinations = Combinatorics::combinations($n, $r, Combinatorics::REPETITION);
+
+        // Then
+        $this->assertEquals($expected, $combinations, '', $ε);
+    }
+
+    /**
+     * Test data produced with Python scipy.special.comb(n, k, exact=False, repetition=True)
+     * @return array [n, r, combinations, ε]
+     */
+    public function dataProviderForCombinationsWithRepetitionWithLargeFloatingPointOverflowResult(): array
+    {
+        return [
+            [70, 30, 2.0560637875127662e+25, 1e10],
+            [100, 50, 1.341910727315462e+40, 1e25],
         ];
     }
 
