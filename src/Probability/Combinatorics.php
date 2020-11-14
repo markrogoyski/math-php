@@ -294,7 +294,7 @@ class Combinatorics
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative combinations.');
         }
-        if ($k > $n) {
+        if (!repetition && $k > $n) {
             throw new Exception\OutOfBoundsException('k cannot be larger than n.');
         }
 
