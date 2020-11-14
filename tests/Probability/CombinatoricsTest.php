@@ -492,19 +492,6 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test   combinations r greater than n
-     * @throws \Exception
-     */
-    public function testCombinationsRGreaterThanNException()
-    {
-        // Then
-        $this->expectException(Exception\OutOfBoundsException::class);
-
-        // When
-        Combinatorics::combinations(3, 4, Combinatorics::REPETITION);
-    }
-
-    /**
      * Test data produced with Python scipy.special.comb(n, k, exact=True, repetition=True)
      * @return array [n, r, combinations]
      */
