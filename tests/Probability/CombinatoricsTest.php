@@ -523,6 +523,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
             [10,  9,              48620],
             [10, 10,              92378],
             [5,   3,                 35],
+            [5,   7,                330],
             [6,   4,                126],
             [16,  3,                816],
             [20,  3,               1540],
