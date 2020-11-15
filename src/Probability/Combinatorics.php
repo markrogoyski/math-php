@@ -241,7 +241,7 @@ class Combinatorics
 
         // nPn: permutations of n things, taken n at a time
         if (is_null($k)) {
-            return $self::factorial($n);
+            return self::factorial($n);
         }
 
         // nPk: Permutations of n things taking only k of them
