@@ -1,5 +1,16 @@
 # MathPHP Change Log
 
+## v1.7.0 - 2020-11-15
+
+### New Features
+* Algebra linear equation of one variable
+* Rational number inverse
+* Rational number pow
+
+### Improvements
+* Improve combinations algorithm to be more efficient and more numerically stable
+* Internal Matrix class reorganization
+
 ## v1.6.0 - 2020-10-22
 
 ### New Features
@@ -30,7 +41,7 @@
 * Search ArgMax
 * Search NanArgMax
 * Search ArgMin
-* Serach NanArgMin
+* Search NanArgMin
 * Search NonZero
 
 ### Improvements
