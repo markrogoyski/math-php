@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\Probability\Distribution\Multivariate;
 
 use MathPHP\Probability\Distribution\Multivariate\Normal;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Exception;
 use MathPHP\Tests;
 
@@ -23,7 +23,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     public function testPdf(array $x, array $μ, array $∑, float $expected)
     {
         // Given
-        $∑      = new Matrix($∑);
+        $∑      = MatrixFactory::create($∑);
         $normal = new Normal($μ, $∑);
 
         // When
@@ -200,7 +200,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $μ = [0, 0];
-        $∑ = new Matrix($M);
+        $∑ = MatrixFactory::create($M);
 
         // Then
         $this->expectException(Exception\BadDataException::class);
@@ -217,7 +217,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $μ = [0, 0];
-        $∑ = new Matrix([
+        $∑ = MatrixFactory::create([
             [1, 0],
             [0, 1],
         ]);
@@ -239,7 +239,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $μ = [0, 0];
-        $∑ = new Matrix([
+        $∑ = MatrixFactory::create([
             [1, 0, 0],
             [0, 1, 0],
         ]);
