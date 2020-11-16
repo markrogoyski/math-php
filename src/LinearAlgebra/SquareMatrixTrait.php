@@ -185,5 +185,4 @@ trait SquareMatrixTrait
 
         return MatrixFactory::create($R);
     }
-
 }
