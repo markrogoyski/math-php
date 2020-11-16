@@ -11,6 +11,8 @@ use MathPHP\Exception;
  */
 class SquareMatrix extends Matrix
 {
+    use SquareMatrixTrait;
+
     /**
      * Constructor
      *
