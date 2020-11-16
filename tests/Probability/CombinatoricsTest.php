@@ -332,6 +332,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
             [ 6,  4,     360],
             [16,  3,    3360],
             [20,  3,    6840],
+            [23,  5, 4037880],
         ];
     }
 

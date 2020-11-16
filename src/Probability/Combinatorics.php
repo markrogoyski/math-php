@@ -239,16 +239,17 @@ class Combinatorics
             throw new Exception\OutOfBoundsException('k cannot be larger than n.');
         }
 
-        $n！ = self::factorial($n);
-
         // nPn: permutations of n things, taken n at a time
         if (is_null($k)) {
-            return $n！;
+            return self::factorial($n);
         }
 
         // nPk: Permutations of n things taking only k of them
-        $⟮n − k⟯！ = self::factorial($n - $k);
-        return $n！ / $⟮n − k⟯！;
+        $falling_factorial = 1;
+        for ($i = $n - $k + 1; $i <= $n; $i++) {
+            $falling_factorial *= $i;
+        }
+        return $falling_factorial;
     }
 
     /**
