@@ -5,13 +5,12 @@ on:
   - pull_request
 
 jobs:
-  build:
-    name: Build
+  test-and-static-analysis:
+    name: Test and Static Analysis
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 10
       matrix:
-        php: ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0']
+        php: ['7.0']
 
     steps:
       - name: Set up PHP
