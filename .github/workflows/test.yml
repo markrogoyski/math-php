@@ -37,7 +37,7 @@ jobs:
       - name: Unit tests
         run: |
           mkdir -p build/logs
-          ./vendor/bin/phpunit --configuration tests/phpunit.xml
+          ./vendor/bin/phpunit --configuration tests/phpunit.xml --coverage-clover build/logs/clover.xml
 
       - name: PHP Code Sniffer
         run: ./vendor/bin/phpcs --ignore=vendor --standard=coding_standard.xml -s .
