@@ -1,0 +1,41 @@
+name: Test and Static Analysis
+
+on:
+  - push
+  - pull_request
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 10
+      matrix:
+        php: ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0']
+
+    steps:
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer:v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run composer
+        run: composer install --no-interaction
+
+      - name: PHP Lint
+        run: ./vendor/bin/parallel-lint src tests
+
+      - name: Unit tests
+        run: ./vendor/bin/phpunit --configuration tests/phpunit.xml
+
+      - name: PHP Code Sniffer
+        run: ./vendor/bin/phpcs --ignore=vendor --standard=coding_standard.xml -s .
