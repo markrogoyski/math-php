@@ -17,15 +17,13 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          coverage: none
+          coverage: pcov
           tools: composer:v2
 
       - name: Set up Node
         uses: actions/setup-node@v1
         with:
           node-version: '14.x'
-          extensions: libxml
-          coverage: pcov
 
       - name: Checkout code
         uses: actions/checkout@v2
