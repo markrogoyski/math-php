@@ -25,6 +25,7 @@ jobs:
         with:
           node-version: '14.x'
           extensions: libxml
+          coverage: pcov
 
       - name: Checkout code
         uses: actions/checkout@v2
