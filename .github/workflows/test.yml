@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['7.0', '7.1', '7.2', '7.3', '7.4']
+        php: ['7.0']
 
     steps:
       - name: Set up PHP
@@ -35,7 +35,12 @@ jobs:
         run: ./vendor/bin/parallel-lint src tests
 
       - name: Unit tests
-        run: ./vendor/bin/phpunit --configuration tests/phpunit.xml
+        run: |
+          mkdir -p build/logs
+          ./vendor/bin/phpunit --configuration tests/phpunit.xml
 
       - name: PHP Code Sniffer
         run: ./vendor/bin/phpcs --ignore=vendor --standard=coding_standard.xml -s .
+
+      - name: Code Coverage (Coveralls)
+        run: php vendor/bin/php-coveralls -v
