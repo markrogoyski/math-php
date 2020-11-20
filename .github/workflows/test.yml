@@ -24,11 +24,15 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.x'
+          extensions: libxml
 
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run composer
+      - name: Validate Composer JSON
+        run: composer validate
+
+      - name: Run Composer
         run: composer install --no-interaction
 
       - name: PHP Lint
