@@ -17,8 +17,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          coverage: pcov
-          tools: composer:v2, xdebug
+          coverage: xdebug
+          tools: composer:v2
 
       - name: Set up Node
         uses: actions/setup-node@v1
