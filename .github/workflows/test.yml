@@ -18,7 +18,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: pcov
-          tools: composer:v2
+          tools: composer:v2, xdebug
 
       - name: Set up Node
         uses: actions/setup-node@v1
