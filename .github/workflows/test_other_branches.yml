@@ -2,9 +2,9 @@ name: Test and Static Analysis (Other Branches)
 
 on:
   - push:
-      - branches-ignore:
-          - develop
-          - master
+      branches-ignore:
+        - develop
+        - master
 
 jobs:
   test-and-static-analysis:
