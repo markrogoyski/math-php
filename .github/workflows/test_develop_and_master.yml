@@ -1,11 +1,11 @@
 name: Test and Static Analysis (Develop and Master)
 
 on:
-  - push:
-      branches:
-        - develop
-        - master
-  - pull_request
+  push:
+    branches:
+      - develop
+      - master
+  pull_request
 
 jobs:
   test-and-static-analysis:
