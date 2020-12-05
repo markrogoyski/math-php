@@ -1,8 +1,10 @@
-name: Test and Static Analysis
+name: Test and Static Analysis (Other Branches)
 
 on:
-  - push
-  - pull_request
+  - push:
+      - branches-ignore:
+          - develop
+          - master
 
 jobs:
   test-and-static-analysis:
@@ -17,7 +19,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          coverage: xdebug
           tools: composer:v2
 
       - name: Set up Node
@@ -44,8 +45,3 @@ jobs:
 
       - name: PHP Code Sniffer
         run: ./vendor/bin/phpcs --ignore=vendor --standard=coding_standard.xml -s .
-
-      - name: Code Coverage (Coveralls)
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: php vendor/bin/php-coveralls -v
