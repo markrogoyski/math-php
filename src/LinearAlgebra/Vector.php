@@ -148,7 +148,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function sum()
     {
-        return array_sum($this->A);
+        return \array_sum($this->A);
     }
 
     /**
@@ -178,7 +178,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
             throw new Exception\VectorException('Vectors have different number of items');
         }
 
-        return array_sum(array_map(
+        return \array_sum(array_map(
             function ($a, $b) {
                 return $a * $b;
             },
@@ -642,7 +642,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function l1Norm()
     {
-        return array_sum(Map\Single::abs($this->A));
+        return \array_sum(Map\Single::abs($this->A));
     }
 
     /**
@@ -659,7 +659,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function l2Norm()
     {
-        return \sqrt(array_sum(Map\Single::square($this->A)));
+        return \sqrt(\array_sum(Map\Single::square($this->A)));
     }
 
     /**
@@ -676,7 +676,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function pNorm($p)
     {
-        return array_sum(Map\Single::pow(Map\Single::abs($this->A), $p)) ** (1 / $p);
+        return \array_sum(Map\Single::pow(Map\Single::abs($this->A), $p)) ** (1 / $p);
     }
 
     /**

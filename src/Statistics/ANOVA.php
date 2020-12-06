@@ -137,7 +137,7 @@ class ANOVA
         foreach ($samples as $i => $sample) {
             $summary_data[$i]             = [];
             $summary_data[$i]['n']        = $n;
-            $summary_data[$i]['sum']      = array_sum($sample);
+            $summary_data[$i]['sum']      = \array_sum($sample);
             $summary_data[$i]['mean']     = Average::mean($sample);
             $summary_data[$i]['SS']       = RandomVariable::sumOfSquares($sample);
             $summary_data[$i]['variance'] = Descriptive::sampleVariance($sample);
@@ -156,7 +156,7 @@ class ANOVA
         $μ     = Average::mean($all_elements);
         $total = [
             'n'        => \count($all_elements),
-            'sum'      => array_sum($all_elements),
+            'sum'      => \array_sum($all_elements),
             'mean'     => $μ,
             'SS'       => RandomVariable::sumOfSquares($all_elements),
             'variance' => Descriptive::sampleVariance($all_elements),
@@ -166,13 +166,13 @@ class ANOVA
 
         // ANOVA sum of squares
         $SST = RandomVariable::sumOfSquaresDeviations($all_elements);
-        $SSB = array_sum(array_map(
+        $SSB = \array_sum(array_map(
             function ($sample) use ($n, $μ) {
                 return $n * (Average::mean($sample) - $μ) ** 2;
             },
             $samples
         ));
-        $SSW = array_sum(array_map(
+        $SSW = \array_sum(array_map(
             'MathPHP\Statistics\RandomVariable::sumOfSquaresDeviations',
             $samples
         ));
@@ -430,7 +430,7 @@ class ANOVA
                 // AB summary
                 $summary_AB[$A][$B]             = [];
                 $summary_AB[$A][$B]['n']        = $c;
-                $summary_AB[$A][$B]['sum']      = array_sum($values);
+                $summary_AB[$A][$B]['sum']      = \array_sum($values);
                 $summary_AB[$A][$B]['mean']     = Average::mean($values);
                 $summary_AB[$A][$B]['SS']       = RandomVariable::sumOfSquares($values);
                 $summary_AB[$A][$B]['variance'] = Descriptive::sampleVariance($values);
@@ -451,7 +451,7 @@ class ANOVA
         foreach ($A_elements as $A => $elements) {
             $summary_A[$A]             = [];
             $summary_A[$A]['n']        = \count($elements);
-            $summary_A[$A]['sum']      = array_sum($elements);
+            $summary_A[$A]['sum']      = \array_sum($elements);
             $summary_A[$A]['mean']     = Average::mean($elements);
             $summary_A[$A]['SS']       = RandomVariable::sumOfSquares($elements);
             $summary_A[$A]['variance'] = Descriptive::sampleVariance($elements);
@@ -463,7 +463,7 @@ class ANOVA
         foreach ($B_elements as $B => $elements) {
             $summary_B[$B]             = [];
             $summary_B[$B]['n']        = \count($elements);
-            $summary_B[$B]['sum']      = array_sum($elements);
+            $summary_B[$B]['sum']      = \array_sum($elements);
             $summary_B[$B]['mean']     = Average::mean($elements);
             $summary_B[$B]['SS']       = RandomVariable::sumOfSquares($elements);
             $summary_B[$B]['variance'] = Descriptive::sampleVariance($elements);
@@ -475,7 +475,7 @@ class ANOVA
         $μ             = Average::mean($all_elements);
         $summary_total = [
             'n'        => \count($all_elements),
-            'sum'      => array_sum($all_elements),
+            'sum'      => \array_sum($all_elements),
             'mean'     => $μ,
             'SS'       => RandomVariable::sumOfSquares($all_elements),
             'variance' => Descriptive::sampleVariance($all_elements),
@@ -484,7 +484,7 @@ class ANOVA
         ];
 
         // Sum of squares factor A
-        $SSA = array_sum(array_map(
+        $SSA = \array_sum(array_map(
             function ($f1) use ($μ) {
                 return $f1['n'] * ($f1['mean'] - $μ) ** 2;
             },
@@ -492,7 +492,7 @@ class ANOVA
         ));
 
         // Sum of squares factor B
-        $SSB = array_sum(array_map(
+        $SSB = \array_sum(array_map(
             function ($B) use ($μ) {
                 return $B['n'] * ($B['mean'] - $μ) ** 2;
             },

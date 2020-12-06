@@ -71,7 +71,7 @@ class Weibull extends Continuous
 
         $k／λ      = $k / $λ;
         $⟮x／λ⟯ᵏ⁻¹  = \pow($x / $λ, $k - 1);
-        $ℯ⁻⁽x／λ⁾ᵏ = exp(- \pow($x / $λ, $k));
+        $ℯ⁻⁽x／λ⁾ᵏ = \exp(- \pow($x / $λ, $k));
         return $k／λ * $⟮x／λ⟯ᵏ⁻¹ * $ℯ⁻⁽x／λ⁾ᵏ;
     }
 
@@ -97,7 +97,7 @@ class Weibull extends Continuous
         $k = $this->k;
         $λ = $this->λ;
 
-        $ℯ⁻⁽x／λ⁾ᵏ = exp(- \pow($x / $λ, $k));
+        $ℯ⁻⁽x／λ⁾ᵏ = \exp(- \pow($x / $λ, $k));
         return 1 - $ℯ⁻⁽x／λ⁾ᵏ;
     }
 

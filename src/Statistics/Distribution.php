@@ -128,7 +128,7 @@ class Distribution
         // Rank will not change if value only shows up once.
         $rg⟮X⟯ = array_map(
             function (array $x) {
-                return array_sum($x) / \count($x);
+                return \array_sum($x) / \count($x);
             },
             $ordinalRanking⟮X⟯
         );

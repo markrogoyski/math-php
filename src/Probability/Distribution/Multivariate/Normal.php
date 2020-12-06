@@ -48,7 +48,7 @@ class Normal
     /**
      * Probability density function
      *
-     *                 exp(−½(x − μ)ᵀ∑⁻¹(x − μ))
+     *                 \exp(−½(x − μ)ᵀ∑⁻¹(x − μ))
      * fx(x₁,...,xk) = -------------------------
      *                        √(2π)ᵏ│∑│
      *
@@ -81,7 +81,7 @@ class Normal
         $⟮x − μ⟯ᵀ = new RowVector($Δ);
         $∑⁻¹     = $∑->inverse();
 
-        $exp⟮−½⟮x − μ⟯ᵀ∑⁻¹⟮x − μ⟯⟯ = exp(
+        $exp⟮−½⟮x − μ⟯ᵀ∑⁻¹⟮x − μ⟯⟯ = \exp(
             $⟮x − μ⟯ᵀ->scalarDivide(-2)
                 ->multiply($∑⁻¹)
                 ->multiply($⟮x − μ⟯)

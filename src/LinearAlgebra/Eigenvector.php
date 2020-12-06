@@ -135,7 +135,7 @@ class Eigenvector
 
                     // Scale it to be a unit vector.
                     $sign               = (Special::sgn($eigenvector_scaled[0]) == 1) ? 1 : -1;
-                    $scale_factor       = $sign / \sqrt(array_sum(Single::square($eigenvector_scaled)));
+                    $scale_factor       = $sign / \sqrt(\array_sum(Single::square($eigenvector_scaled)));
                     $eigenvector_scaled = Single::multiply($eigenvector_scaled, $scale_factor);
                     $solution_array[]   = ['eigenvalue' => $eigenvalue, 'vector' => $eigenvector_scaled];
                     $vectors_found++;

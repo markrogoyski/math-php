@@ -63,7 +63,7 @@ class Poisson extends Discrete
 
         $λ = $this->λ;
 
-        $λᵏℯ＾−λ = \pow($λ, $k) * exp(-$λ);
+        $λᵏℯ＾−λ = \pow($λ, $k) * \exp(-$λ);
         $k！     = Combinatorics::factorial($k);
 
         return $λᵏℯ＾−λ / $k！;
@@ -86,7 +86,7 @@ class Poisson extends Discrete
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['k' => $k]);
 
-        return array_sum(array_map(
+        return \array_sum(array_map(
             function ($k) {
                 return $this->pmf($k);
             },

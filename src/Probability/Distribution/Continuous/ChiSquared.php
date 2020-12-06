@@ -63,7 +63,7 @@ class ChiSquared extends Continuous
 
         // Numerator
         $x⁽ᵏ／²⁾⁻¹ = $x ** (($k / 2) - 1);
-        $ℯ⁻⁽ˣ／²⁾  = exp(-($x / 2));
+        $ℯ⁻⁽ˣ／²⁾  = \exp(-($x / 2));
 
         // Denominator
         $２ᵏ／²  = 2 ** ($k / 2);

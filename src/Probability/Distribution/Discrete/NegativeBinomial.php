@@ -96,7 +96,7 @@ class NegativeBinomial extends Discrete
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
-        return array_sum(
+        return \array_sum(
             array_map(
                 [$this, 'pmf'],
                 range(0, $x)

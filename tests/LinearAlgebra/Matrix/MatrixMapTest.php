@@ -343,7 +343,7 @@ class MatrixMapTest extends \PHPUnit\Framework\TestCase
                     [7, 8, 9],
                 ],
                 function (array $row) {
-                    return array_sum($row) + 1;
+                    return \array_sum($row) + 1;
                 },
                 [
                     7,

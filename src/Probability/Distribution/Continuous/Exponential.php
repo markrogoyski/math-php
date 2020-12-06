@@ -59,7 +59,7 @@ class Exponential extends Continuous
 
         $λ = $this->λ;
 
-        return $λ * exp(-$λ * $x);
+        return $λ * \exp(-$λ * $x);
     }
     /**
      * Cumulative distribution function
@@ -79,7 +79,7 @@ class Exponential extends Continuous
 
         $λ = $this->λ;
 
-        return 1 - exp(-$λ * $x);
+        return 1 - \exp(-$λ * $x);
     }
 
     /**

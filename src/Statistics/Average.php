@@ -32,7 +32,7 @@ class Average
         if (empty($numbers)) {
             throw new Exception\BadDataException('Cannot find the average of an empty list of numbers');
         }
-        return array_sum($numbers) / \count($numbers);
+        return \array_sum($numbers) / \count($numbers);
     }
 
     /**
@@ -63,14 +63,14 @@ class Average
             throw new Exception\BadDataException('Numbers and weights must have the same number of elements.');
         }
 
-        $∑⟮xᵢwᵢ⟯ = array_sum(array_map(
+        $∑⟮xᵢwᵢ⟯ = \array_sum(array_map(
             function ($xᵢ, $wᵢ) {
                 return $xᵢ * $wᵢ;
             },
             $numbers,
             $weights
         ));
-        $∑⟮wᵢ⟯ = array_sum($weights);
+        $∑⟮wᵢ⟯ = \array_sum($weights);
 
         return $∑⟮xᵢwᵢ⟯ / $∑⟮wᵢ⟯;
     }
@@ -320,7 +320,7 @@ class Average
         }
 
         $n      = \count($numbers);
-        $∑1／xᵢ = array_sum(Map\Single::reciprocal($numbers));
+        $∑1／xᵢ = \array_sum(Map\Single::reciprocal($numbers));
 
         return $n / $∑1／xᵢ;
     }
@@ -363,7 +363,7 @@ class Average
         }
 
         $n = \count($numbers);
-        $x₁²＋x₂²＋⋯ = array_sum(array_map(
+        $x₁²＋x₂²＋⋯ = \array_sum(array_map(
             function ($x) {
                 return $x ** 2;
             },
@@ -468,7 +468,7 @@ class Average
         }
 
         $n    = \count($numbers);
-        $∑xᵢ³ = array_sum(Map\Single::cube($numbers));
+        $∑xᵢ³ = \array_sum(Map\Single::cube($numbers));
 
         return \pow($∑xᵢ³ / $n, 1 / 3);
     }
@@ -555,8 +555,8 @@ class Average
         }
 
         // Standard case for non-infinite p
-        $∑xᵢᵖ   = array_sum(Map\Single::pow($numbers, $p));
-        $∑xᵢᵖ⁻¹ = array_sum(Map\Single::pow($numbers, $p - 1));
+        $∑xᵢᵖ   = \array_sum(Map\Single::pow($numbers, $p));
+        $∑xᵢᵖ⁻¹ = \array_sum(Map\Single::pow($numbers, $p - 1));
 
         return $∑xᵢᵖ / $∑xᵢᵖ⁻¹;
     }
@@ -606,7 +606,7 @@ class Average
 
         // Standard case for non-infinite p
         $n    = \count($numbers);
-        $∑xᵢᵖ = array_sum(Map\Single::pow($numbers, $p));
+        $∑xᵢᵖ = \array_sum(Map\Single::pow($numbers, $p));
 
         return \pow($∑xᵢᵖ / $n, 1 / $p);
     }
@@ -659,7 +659,7 @@ class Average
         $yesterday = 0;  // Yesterday's SMA
 
         // Base case: initial average
-        $SMA[] = array_sum(array_slice($numbers, 0, $n)) / $n;
+        $SMA[] = \array_sum(array_slice($numbers, 0, $n)) / $n;
 
         // Calculating successive values: New value comes in; old value drops out
         while ($new < $m) {
@@ -728,11 +728,11 @@ class Average
         }
 
         $m   = \count($numbers);
-        $∑w  = array_sum($weights);
+        $∑w  = \array_sum($weights);
         $WMA = [];
 
         for ($i = 0; $i <= $m - $n; $i++) {
-            $∑wp   = array_sum(Map\Multi::multiply(array_slice($numbers, $i, $n), $weights));
+            $∑wp   = \array_sum(Map\Multi::multiply(array_slice($numbers, $i, $n), $weights));
             $WMA[] = $∑wp / $∑w;
         }
 

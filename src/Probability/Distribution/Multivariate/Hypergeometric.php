@@ -77,8 +77,8 @@ class Hypergeometric
             Support::checkLimits(['k' => $this->supportLimits['k'][$i]], ['k' => $k]);
         }
 
-        $n       = array_sum($picks);
-        $total   = array_sum($this->quantities);
+        $n       = \array_sum($picks);
+        $total   = \array_sum($this->quantities);
 
         $product = array_product(array_map(
             function (int $quantity, int $pick) {

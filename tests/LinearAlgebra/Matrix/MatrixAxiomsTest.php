@@ -3271,7 +3271,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $cA        = $A->scalarMultiply($c);
         $adj⟮A⟯     = $A->adjugate();
         $adj⟮cA⟯    = $cA->adjugate();
-        $cⁿ⁻¹      = pow($c, $A->getN() - 1);
+        $cⁿ⁻¹      = \pow($c, $A->getN() - 1);
         $cⁿ⁻¹adj⟮A⟯ = $adj⟮A⟯->scalarMultiply($cⁿ⁻¹);
 
         // Then

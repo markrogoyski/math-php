@@ -425,7 +425,7 @@ class Combinatorics
     public static function multinomial(array $groups): float
     {
         /** @var int $n */
-        $n            = array_sum($groups);
+        $n            = \array_sum($groups);
         $n！          = self::factorial($n);
         $k₁！k₂！⋯km！ = array_product(array_map([Combinatorics::class, 'factorial'], $groups));
 

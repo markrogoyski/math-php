@@ -216,7 +216,7 @@ trait LeastSquares
         if ($this->fit_constant == 1) {
             return RandomVariable::sumOfSquaresDeviations($this->yHat());
         }
-        return array_sum(Single::square($this->reg_Yhat));
+        return \array_sum(Single::square($this->reg_Yhat));
     }
 
     /**
@@ -238,7 +238,7 @@ trait LeastSquares
     public function sumOfSquaresResidual(): float
     {
         $Ŷ = $this->reg_Yhat;
-        return array_sum(array_map(
+        return \array_sum(array_map(
             function ($yᵢ, $ŷᵢ) {
                 return ($yᵢ - $ŷᵢ) ** 2;
             },

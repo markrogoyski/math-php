@@ -78,7 +78,7 @@ class Correlation
         $μₓ = Average::mean($X);
         $μy = Average::mean($Y);
 
-        $∑⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ = array_sum(array_map(
+        $∑⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ = \array_sum(array_map(
             function ($xᵢ, $yᵢ) use ($μₓ, $μy) {
                 return ( $xᵢ - $μₓ ) * ( $yᵢ - $μy );
             },
@@ -118,7 +118,7 @@ class Correlation
         $x = Average::mean($X);
         $y = Average::mean($Y);
 
-        $∑⟮xᵢ − x⟯⟮yᵢ − y⟯ = array_sum(array_map(
+        $∑⟮xᵢ − x⟯⟮yᵢ − y⟯ = \array_sum(array_map(
             function ($xᵢ, $yᵢ) use ($x, $y) {
                 return ( $xᵢ - $x ) * ( $yᵢ - $y );
             },
@@ -156,7 +156,7 @@ class Correlation
         $μₓ = Average::weightedMean($X, $w);
         $μy = Average::weightedMean($Y, $w);
 
-        $∑wᵢ⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ = array_sum(array_map(
+        $∑wᵢ⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ = \array_sum(array_map(
             function ($xᵢ, $yᵢ, $wᵢ) use ($μₓ, $μy) {
                 return $wᵢ * ( $xᵢ - $μₓ ) * ( $yᵢ - $μy );
             },
@@ -165,7 +165,7 @@ class Correlation
             $w
         ));
 
-        $∑wᵢ = array_sum($w);
+        $∑wᵢ = \array_sum($w);
 
         return $∑wᵢ⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ / $∑wᵢ;
     }

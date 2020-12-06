@@ -65,7 +65,7 @@ class RandomVariable
         }
 
         $μ         = Average::mean($X);
-        $∑⟮xᵢ − μ⟯ⁿ = array_sum(array_map(
+        $∑⟮xᵢ − μ⟯ⁿ = \array_sum(array_map(
             function ($xᵢ) use ($μ, $n) {
                 return \pow(($xᵢ - $μ), $n);
             },
@@ -187,7 +187,7 @@ class RandomVariable
         }
 
         $μ         = Average::mean($X);
-        $∑⟮xᵢ − μ⟯³ = array_sum(array_map(
+        $∑⟮xᵢ − μ⟯³ = \array_sum(array_map(
             function ($xᵢ) use ($μ) {
                 return \pow(($xᵢ - $μ), 3);
             },
@@ -554,7 +554,7 @@ class RandomVariable
             throw new Exception\BadDataException('Cannot find the sum of squares of an empty list of numbers');
         }
 
-         $∑⟮xᵢ⟯² = array_sum(Map\Single::square($numbers));
+         $∑⟮xᵢ⟯² = \array_sum(Map\Single::square($numbers));
 
          return $∑⟮xᵢ⟯²;
     }
@@ -577,7 +577,7 @@ class RandomVariable
         }
 
         $μ         = Average::mean($numbers);
-        $∑⟮xᵢ − μ⟯² = array_sum(array_map(
+        $∑⟮xᵢ − μ⟯² = \array_sum(array_map(
             function ($xᵢ) use ($μ) {
                 return \pow(($xᵢ - $μ), 2);
             },

@@ -73,8 +73,8 @@ class Experiment
         $z = 1.96;
 
         // Confidence interval
-        $ci_lower_bound = exp($ln⟮RR⟯ - ($z * $SS｛ln⟮RR⟯｝));
-        $ci_upper_bound = exp($ln⟮RR⟯ + ($z * $SS｛ln⟮RR⟯｝));
+        $ci_lower_bound = \exp($ln⟮RR⟯ - ($z * $SS｛ln⟮RR⟯｝));
+        $ci_upper_bound = \exp($ln⟮RR⟯ + ($z * $SS｛ln⟮RR⟯｝));
 
         // P-value (significance level)
         $est = log($RR);                   // estimate of effect
@@ -82,7 +82,7 @@ class Experiment
         $u   = log($ci_upper_bound);       // ln CI upper bound
         $SE  = ($u - $l) / (2 * self::Z);  // standard error
         $z   = \abs($est / $SE);            // test statistic z
-        $p   = exp((self::NORMAL_LOWER_TAIL_PROBABILITY * $z) - (self::NORMAL_UPPER_TAIL_PROBABILITY * $z ** 2));
+        $p   = \exp((self::NORMAL_LOWER_TAIL_PROBABILITY * $z) - (self::NORMAL_UPPER_TAIL_PROBABILITY * $z ** 2));
 
         return [
             'RR'             => $RR,
@@ -132,8 +132,8 @@ class Experiment
         $SS｛ln⟮OR⟯｝ = \sqrt((1 / $a) + (1 / $b) + (1 / $c) + (1 / $d));
 
         // Confidence interval
-        $ci_lower_bound = exp($ln⟮OR⟯ - (self::Z * $SS｛ln⟮OR⟯｝));
-        $ci_upper_bound = exp($ln⟮OR⟯ + (self::Z * $SS｛ln⟮OR⟯｝));
+        $ci_lower_bound = \exp($ln⟮OR⟯ - (self::Z * $SS｛ln⟮OR⟯｝));
+        $ci_upper_bound = \exp($ln⟮OR⟯ + (self::Z * $SS｛ln⟮OR⟯｝));
 
         // P-value (significance level)
         $est = log($OR);                   // estimate of effect
@@ -141,7 +141,7 @@ class Experiment
         $u   = log($ci_upper_bound);       // ln CI upper bound
         $SE  = ($u - $l) / (2 * self::Z);  // standard error
         $z   = \abs($est / $SE);            // test statistic z
-        $p   = exp((self::NORMAL_LOWER_TAIL_PROBABILITY * $z) - (self::NORMAL_UPPER_TAIL_PROBABILITY * $z ** 2));
+        $p   = \exp((self::NORMAL_LOWER_TAIL_PROBABILITY * $z) - (self::NORMAL_UPPER_TAIL_PROBABILITY * $z ** 2));
 
         return [
             'OR'             => $OR,

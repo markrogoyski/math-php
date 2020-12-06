@@ -200,7 +200,7 @@ class Special
         // Compute parts of equation
         $√2π = \sqrt(2 * $π);
         $⟮z ＋ g ＋½⟯ᶻ⁺½ = \pow($z + $g + 0.5, $z + 0.5);
-        $ℯ＾−⟮z ＋ g ＋½⟯ = exp(-($z + $g + 0.5));
+        $ℯ＾−⟮z ＋ g ＋½⟯ = \exp(-($z + $g + 0.5));
 
         /**
          * Put it all together:
@@ -249,7 +249,7 @@ class Special
 
         // Compute parts of equation
         $√2π                    = \sqrt(2 * \M_PI);
-        $ℯ⁻ⁿ                    = exp(-$n);
+        $ℯ⁻ⁿ                    = \exp(-$n);
         $√1／n                  = \sqrt(1 / $n);
         $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ = \pow($n + 1 / (12 * $n - 1 / (10 * $n)), $n);
 
@@ -333,7 +333,7 @@ class Special
             $∏Γ⟮α⟯ *= self::Γ($α);
         }
 
-        $Γ⟮∑α⟯ = self::Γ(array_sum($αs));
+        $Γ⟮∑α⟯ = self::Γ(\array_sum($αs));
 
         return $∏Γ⟮α⟯ / $Γ⟮∑α⟯;
     }
@@ -357,7 +357,7 @@ class Special
      */
     public static function logistic(float $x₀, float $L, float $k, float $x): float
     {
-        $ℯ⁻ᵏ⁽ˣ⁻ˣ⁰⁾ = exp(-$k * ($x - $x₀));
+        $ℯ⁻ᵏ⁽ˣ⁻ˣ⁰⁾ = \exp(-$k * ($x - $x₀));
 
         return $L / (1 + $ℯ⁻ᵏ⁽ˣ⁻ˣ⁰⁾);
     }
@@ -378,7 +378,7 @@ class Special
      */
     public static function sigmoid(float $t): float
     {
-        $ℯ⁻ᵗ = exp(-$t);
+        $ℯ⁻ᵗ = \exp(-$t);
 
         return 1 / (1 + $ℯ⁻ᵗ);
     }
@@ -417,7 +417,7 @@ class Special
         $a₄ = -1.453152027;
         $a₅ = 1.061405429;
 
-        $error = 1 - ( $a₁ * $t + $a₂ * $t ** 2 + $a₃ * $t ** 3 + $a₄ * $t ** 4 + $a₅ * $t ** 5 ) * exp(-\abs($x) ** 2);
+        $error = 1 - ( $a₁ * $t + $a₂ * $t ** 2 + $a₃ * $t ** 3 + $a₄ * $t ** 4 + $a₅ * $t ** 5 ) * \exp(-\abs($x) ** 2);
 
         return ( $x > 0 ) ? $error : -$error;
     }
@@ -508,7 +508,7 @@ class Special
 
 
         if ($s == 1) {
-            return 1 - exp(-1 * $x);
+            return 1 - \exp(-1 * $x);
         }
         if ($s == .5) {
             $√π = \sqrt(\M_PI);
@@ -516,11 +516,11 @@ class Special
             return $√π * self::erf($√x);
         }
         if (\round($s * 2, 0) == $s * 2) {
-            return ($s - 1) * self::lowerIncompleteGamma($s - 1, $x) - $x ** ($s - 1) * exp(-1 * $x);
+            return ($s - 1) * self::lowerIncompleteGamma($s - 1, $x) - $x ** ($s - 1) * \exp(-1 * $x);
         }
 
         $tol       = .000000000001;
-        $xˢ∕s∕eˣ   = $x ** $s / exp($x) / $s;
+        $xˢ∕s∕eˣ   = $x ** $s / \exp($x) / $s;
         $sum       = 1;
         $fractions = [];
         $element   = 1 + $tol;
@@ -880,7 +880,7 @@ class Special
     {
         $ℯ = \M_E;
 
-        $∑ᴷℯᶻᵢ = array_sum(array_map(
+        $∑ᴷℯᶻᵢ = \array_sum(array_map(
             function ($z) use ($ℯ) {
                 return $ℯ ** $z;
             },

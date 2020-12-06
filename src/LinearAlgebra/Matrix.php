@@ -2031,7 +2031,7 @@ class Matrix extends MatrixBase
 
         $R = [];
         for ($i = 0; $i < $m; $i++) {
-            $R[$i] = array_sum(Map\Multi::multiply($this->getRow($i), $B));
+            $R[$i] = \array_sum(Map\Multi::multiply($this->getRow($i), $B));
         }
 
         return new Vector($R);
@@ -2046,7 +2046,7 @@ class Matrix extends MatrixBase
     {
         $sums = array_map(
             function (array $row) {
-                return array_sum($row);
+                return \array_sum($row);
             },
             $this->A
         );
@@ -2084,7 +2084,7 @@ class Matrix extends MatrixBase
 
         $means = array_map(
             function (array $row) use ($n) {
-                return array_sum($row) / $n;
+                return \array_sum($row) / $n;
             },
             $this->A
         );
@@ -2101,7 +2101,7 @@ class Matrix extends MatrixBase
     {
         $sums = [];
         for ($i = 0; $i < $this->n; $i++) {
-            $sums[] = array_sum(array_column($this->A, $i));
+            $sums[] = \array_sum(array_column($this->A, $i));
         }
 
         return new Vector($sums);
@@ -2139,7 +2139,7 @@ class Matrix extends MatrixBase
 
         $means = [];
         for ($i = 0; $i < $n; $i++) {
-            $means[] = array_sum(array_column($this->A, $i)) / $m;
+            $means[] = \array_sum(array_column($this->A, $i)) / $m;
         }
 
         return new Vector($means);
@@ -2166,10 +2166,10 @@ class Matrix extends MatrixBase
     public function oneNorm()
     {
         $n = $this->n;
-        $‖A‖₁ = array_sum(Map\Single::abs(array_column($this->A, 0)));
+        $‖A‖₁ = \array_sum(Map\Single::abs(array_column($this->A, 0)));
 
         for ($j = 1; $j < $n; $j++) {
-            $‖A‖₁ = max($‖A‖₁, array_sum(Map\Single::abs(array_column($this->A, $j))));
+            $‖A‖₁ = max($‖A‖₁, \array_sum(Map\Single::abs(array_column($this->A, $j))));
         }
 
         return $‖A‖₁;
@@ -2212,10 +2212,10 @@ class Matrix extends MatrixBase
     public function infinityNorm()
     {
         $m = $this->m;
-        $‖A‖∞ = array_sum(Map\Single::abs($this->A[0]));
+        $‖A‖∞ = \array_sum(Map\Single::abs($this->A[0]));
 
         for ($i = 1; $i < $m; $i++) {
-            $‖A‖∞ = max($‖A‖∞, array_sum(Map\Single::abs($this->A[$i])));
+            $‖A‖∞ = max($‖A‖∞, \array_sum(Map\Single::abs($this->A[$i])));
         }
 
         return $‖A‖∞;

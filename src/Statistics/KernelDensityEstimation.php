@@ -223,7 +223,7 @@ class KernelDensityEstimation
             $this->data
         );
         $K       = array_map($this->kernel, $scale);
-        $density = array_sum($K) / ($n * $h);
+        $density = \array_sum($K) / ($n * $h);
 
         return $density;
     }

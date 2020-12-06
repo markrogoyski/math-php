@@ -40,8 +40,8 @@ class Entropy
     public static function shannonEntropy(array $p)
     {
         // Probability distribution must add up to 1.0
-        if (\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
-            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . \array_sum($p));
         }
 
         // Defensive measure against taking the log of 0 which would be -∞
@@ -53,7 +53,7 @@ class Entropy
         );
 
         // ∑ pᵢlog₂(pᵢ)
-        $∑pᵢlog₂⟮pᵢ⟯ = array_sum(array_map(
+        $∑pᵢlog₂⟮pᵢ⟯ = \array_sum(array_map(
             function ($pᵢ) {
                 return $pᵢ * log($pᵢ, 2);
             },
@@ -83,8 +83,8 @@ class Entropy
     public static function shannonNatEntropy(array $p)
     {
         // Probability distribution must add up to 1.0
-        if (\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
-            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . \array_sum($p));
         }
 
         // Defensive measure against taking the log of 0 which would be -∞
@@ -96,7 +96,7 @@ class Entropy
         );
 
         // ∑ pᵢln(pᵢ)
-        $∑pᵢln⟮pᵢ⟯ = array_sum(array_map(
+        $∑pᵢln⟮pᵢ⟯ = \array_sum(array_map(
             function ($pᵢ) {
                 return $pᵢ * log($pᵢ);
             },
@@ -126,8 +126,8 @@ class Entropy
     public static function shannonHartleyEntropy(array $p)
     {
         // Probability distribution must add up to 1.0
-        if (\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
-            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . \array_sum($p));
         }
 
         // Defensive measure against taking the log of 0 which would be -∞
@@ -139,7 +139,7 @@ class Entropy
         );
 
         // ∑ pᵢlog₁₀(pᵢ)
-        $∑pᵢlog₁₀⟮pᵢ⟯ = array_sum(array_map(
+        $∑pᵢlog₁₀⟮pᵢ⟯ = \array_sum(array_map(
             function ($pᵢ) {
                 return $pᵢ * log10($pᵢ);
             },
@@ -174,7 +174,7 @@ class Entropy
         }
 
         // Probability distributions must add up to 1.0
-        if ((\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+        if ((\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(\array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
@@ -187,7 +187,7 @@ class Entropy
         );
 
         // ∑ p(x) log₂ q(x)
-        $∑plog₂⟮q⟯ = array_sum(array_map(
+        $∑plog₂⟮q⟯ = \array_sum(array_map(
             function ($pᵢ, $qᵢ) {
                 return $pᵢ * log($qᵢ, 2);
             },
@@ -247,8 +247,8 @@ class Entropy
     public static function renyiEntropy(array $p, $α)
     {
         // Probability distribution must add up to 1.0
-        if (\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
-            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . \array_sum($p));
         }
 
         // α ≥ 0; α ≠ 1
@@ -257,7 +257,7 @@ class Entropy
         }
 
         // (1 / 1 - α) log (∑ pᵢᵃ)
-        $Hₐ⟮X⟯ = (1 / (1 - $α)) * log(array_sum(Map\Single::pow($p, $α)), 2);
+        $Hₐ⟮X⟯ = (1 / (1 - $α)) * log(\array_sum(Map\Single::pow($p, $α)), 2);
 
         return $Hₐ⟮X⟯;
     }
@@ -283,8 +283,8 @@ class Entropy
     public static function perplexity(array $p)
     {
         // Probability distribution must add up to 1.0
-        if (\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
-            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . \array_sum($p));
         }
 
         // ∑ pᵢlog₂(pᵢ)
