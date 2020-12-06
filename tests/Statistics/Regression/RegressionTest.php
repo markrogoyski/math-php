@@ -106,7 +106,7 @@ class RegressionTest extends \PHPUnit\Framework\TestCase
         $regression = new Linear([[1,2],[3,3],[3,4],[4,6]]);
 
         // Then
-        $this->assertTrue(is_string($regression->__toString()));
+        $this->assertTrue(\is_string($regression->__toString()));
     }
 
     /**

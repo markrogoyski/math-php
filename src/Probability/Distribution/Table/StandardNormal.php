@@ -157,7 +157,7 @@ class StandardNormal
      */
     public static function getZScoreForConfidenceInterval(string $cl): float
     {
-        if (!array_key_exists($cl, self::Z_SCORES_FOR_CONFIDENCE_INTERVALS)) {
+        if (!\array_key_exists($cl, self::Z_SCORES_FOR_CONFIDENCE_INTERVALS)) {
             throw new Exception\BadDataException('Not a valid confidence level');
         }
         return self::Z_SCORES_FOR_CONFIDENCE_INTERVALS[$cl];

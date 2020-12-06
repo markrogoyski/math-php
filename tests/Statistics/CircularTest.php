@@ -249,10 +249,10 @@ class CircularTest extends \PHPUnit\Framework\TestCase
 
         // And
         $this->assertTrue(\is_int($stats['n']));
-        $this->assertTrue(is_float($stats['mean']));
-        $this->assertTrue(is_float($stats['resultant_length']));
-        $this->assertTrue(is_float($stats['mean_resultant_length']));
-        $this->assertTrue(is_float($stats['variance']));
-        $this->assertTrue(is_float($stats['sd']));
+        $this->assertTrue(\is_float($stats['mean']));
+        $this->assertTrue(\is_float($stats['resultant_length']));
+        $this->assertTrue(\is_float($stats['mean_resultant_length']));
+        $this->assertTrue(\is_float($stats['variance']));
+        $this->assertTrue(\is_float($stats['sd']));
     }
 }

@@ -56,7 +56,7 @@ class ArbitraryInteger implements ObjectArithmetic
                 }
                 $this->base256 = $string;
             }
-        } elseif (is_string($number)) {
+        } elseif (\is_string($number)) {
             if ($number == '') {
                 throw new Exception\BadParameterException("String cannot be empty.");
             }

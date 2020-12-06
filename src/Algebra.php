@@ -527,7 +527,7 @@ class Algebra
 
         $quartic_roots = [];
         foreach ($depressed_quartic_roots as $key => $root) {
-            if (is_float($root)) {
+            if (\is_float($root)) {
                 $quartic_roots[$key] = $root - $a₃ / 4;
             } else {
                 $quartic_roots[$key] = $root->subtract($a₃ / 4);

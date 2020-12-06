@@ -122,7 +122,7 @@ class KernelDensityEstimation
     {
         if ($kernel === null) {
             $this->kernel = $this->getKernelFunctionFromLibrary(self::STANDARD_NORMAL);
-        } elseif (is_string($kernel)) {
+        } elseif (\is_string($kernel)) {
             $this->kernel = $this->getKernelFunctionFromLibrary($kernel);
         } elseif (\is_callable($kernel)) {
             $this->kernel = $kernel;

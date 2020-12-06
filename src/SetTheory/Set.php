@@ -147,7 +147,7 @@ class Set implements \Countable, \Iterator
      */
     public function isMember($x): bool
     {
-        return array_key_exists($this->getKey($x), $this->A);
+        return \array_key_exists($this->getKey($x), $this->A);
     }
 
     /**
@@ -160,7 +160,7 @@ class Set implements \Countable, \Iterator
      */
     public function isNotMember($x): bool
     {
-        return !array_key_exists($this->getKey($x), $this->A);
+        return !\array_key_exists($this->getKey($x), $this->A);
     }
 
     /**************************************************************************
@@ -253,13 +253,13 @@ class Set implements \Countable, \Iterator
      */
     protected function getKey($x)
     {
-        if (\is_int($x) || is_float($x) || is_string($x) || $x instanceof Set) {
+        if (\is_int($x) || \is_float($x) || \is_string($x) || $x instanceof Set) {
             return "$x";
         } elseif (\is_object($x)) {
             return \get_class($x) . '(' . \spl_object_hash($x) . ')';
         } elseif (\is_array($x)) {
             return 'Array(' . serialize($x) . ')';
-        } elseif (is_resource($x)) {
+        } elseif (\is_resource($x)) {
             return 'Resource(' . strval($x) . ')';
         }
 
@@ -289,7 +289,7 @@ class Set implements \Countable, \Iterator
      */
     public function isDisjoint(Set $other): bool
     {
-        return empty(array_intersect_key($this->A, $other->asArray()));
+        return empty(\array_intersect_key($this->A, $other->asArray()));
     }
 
     /**
@@ -305,7 +305,7 @@ class Set implements \Countable, \Iterator
     {
         $B_array  = $B->asArray();
 
-        $A∩B = array_intersect_key($this->A, $B_array);
+        $A∩B = \array_intersect_key($this->A, $B_array);
         $A∖B = \array_diff_key($this->A, $B_array);
 
         return (\count($A∩B) === \count($this->A)) && (empty($A∖B));
@@ -325,7 +325,7 @@ class Set implements \Countable, \Iterator
     {
         $B_array  = $B->asArray();
 
-        $A∩B = array_intersect_key($this->A, $B_array);
+        $A∩B = \array_intersect_key($this->A, $B_array);
         $A∖B = \array_diff_key($this->A, $B_array);
 
         return (\count($A∩B) === \count($this->A)) && (empty($A∖B)) && (\count($this->A) === \count($B));
@@ -344,7 +344,7 @@ class Set implements \Countable, \Iterator
     {
         $B_array  = $B->asArray();
 
-        $A∩B = array_intersect_key($this->A, $B_array);
+        $A∩B = \array_intersect_key($this->A, $B_array);
         $A∖B = \array_diff_key($B_array, $this->A);
 
         return (\count($A∩B) === $B->length()) && (empty($A∖B));
@@ -364,7 +364,7 @@ class Set implements \Countable, \Iterator
     {
         $B_array  = $B->asArray();
 
-        $A∩B = array_intersect_key($this->A, $B_array);
+        $A∩B = \array_intersect_key($this->A, $B_array);
         $A∖B = \array_diff_key($B_array, $this->A);
 
         return (\count($A∩B) === $B->length()) && (empty($A∖B)) && ($this != $B);
@@ -423,7 +423,7 @@ class Set implements \Countable, \Iterator
             $B_members[] = $B->asArray();
         }
 
-        $intersection = array_intersect_key($this->A, ...$B_members);
+        $intersection = \array_intersect_key($this->A, ...$B_members);
 
         return new Set($intersection);
     }
@@ -464,7 +464,7 @@ class Set implements \Countable, \Iterator
     {
         $B_array = $B->asArray();
 
-        $A∪B = array_intersect_key($this->A, $B_array);
+        $A∪B = \array_intersect_key($this->A, $B_array);
 
         $A∖B = \array_diff_key($this->A, $A∪B);
         $B∖A = \array_diff_key($B_array, $A∪B);
@@ -502,7 +502,7 @@ class Set implements \Countable, \Iterator
         for ($i = 0; $i < $product; ++$i) {
             $elements = [];
             for ($i2 = 0; $i2 < $l; ++$i2) {
-                $elements[] = current($sets[$i2]);
+                $elements[] = \current($sets[$i2]);
             }
 
             $A×B[] = new Set($elements);

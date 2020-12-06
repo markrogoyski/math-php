@@ -158,7 +158,7 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
         $string = $this->matrix->__toString();
 
         // Then
-        $this->assertTrue(is_string($string));
+        $this->assertTrue(\is_string($string));
         $this->assertEquals(
             "[1, 2, 3]\n[2, 3, 4]\n[4, 5, 6]",
             $string
