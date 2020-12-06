@@ -87,8 +87,8 @@ class Binomial extends Discrete
         $n = $this->n;
         $p = $this->p;
         $nCr       = Combinatorics::combinations($n, $r);
-        $pʳ        = pow($p, $r);
-        $⟮1 − p⟯ⁿ⁻ʳ = pow(1 - $p, $n - $r);
+        $pʳ        = \pow($p, $r);
+        $⟮1 − p⟯ⁿ⁻ʳ = \pow(1 - $p, $n - $r);
 
         return $nCr * $pʳ * $⟮1 − p⟯ⁿ⁻ʳ;
     }

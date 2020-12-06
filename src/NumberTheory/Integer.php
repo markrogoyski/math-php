@@ -474,7 +474,7 @@ class Integer
         foreach (array_count_values($factors) as $factor => $exponent) {
             $sum = 1 + $factor;
             for ($i = 2; $i <= $exponent; $i++) {
-                $sum += pow($factor, $i);
+                $sum += \pow($factor, $i);
             }
             $product *= $sum;
         }

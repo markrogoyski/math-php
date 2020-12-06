@@ -67,8 +67,8 @@ class LogLogistic extends Continuous
         $α = $this->α;
         $β = $this->β;
 
-        $⟮β／α⟯⟮x／α⟯ᵝ⁻¹  = ($β / $α) * pow($x / $α, $β - 1);
-        $⟮1 ＋ ⟮x／α⟯ᵝ⟯² = pow(1 + ($x / $α) ** $β, 2);
+        $⟮β／α⟯⟮x／α⟯ᵝ⁻¹  = ($β / $α) * \pow($x / $α, $β - 1);
+        $⟮1 ＋ ⟮x／α⟯ᵝ⟯² = \pow(1 + ($x / $α) ** $β, 2);
         return $⟮β／α⟯⟮x／α⟯ᵝ⁻¹ / $⟮1 ＋ ⟮x／α⟯ᵝ⟯²;
     }
 
@@ -90,7 +90,7 @@ class LogLogistic extends Continuous
         $α = $this->α;
         $β = $this->β;
 
-        $⟮x／α⟯⁻ᵝ = pow($x / $α, -$β);
+        $⟮x／α⟯⁻ᵝ = \pow($x / $α, -$β);
         return 1 / (1 + $⟮x／α⟯⁻ᵝ);
     }
 
@@ -120,7 +120,7 @@ class LogLogistic extends Continuous
      *
      *      απ / β
      * μ = --------  if β > 1, else undefined
-     *      \sin(π/β)
+     *      sin(π/β)
      *
      * @return float
      */
@@ -131,7 +131,7 @@ class LogLogistic extends Continuous
         $π = \M_PI;
 
         if ($β > 1) {
-            return (($α * $π) / $β) /  \sin($π / $β);
+            return (($α * $π) / $β) / \sin($π / $β);
         }
 
         return \NAN;
@@ -169,7 +169,7 @@ class LogLogistic extends Continuous
             return 0;
         }
 
-        return $α * pow(($β - 1) / ($β + 1), 1 / $β);
+        return $α * \pow(($β - 1) / ($β + 1), 1 / $β);
     }
 
     /**
@@ -193,8 +193,8 @@ class LogLogistic extends Continuous
         $α²    = $α ** 2;
         $β²    = $β ** 2;
         $２β   = 2 * $β;
-        $sin2β =  \sin($２β);
-        $sin²β =  \sin($β) ** 2;
+        $sin2β = \sin($２β);
+        $sin²β = \sin($β) ** 2;
 
         return $α² * (($２β / $sin2β) - ($β² / $sin²β));
     }

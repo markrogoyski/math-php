@@ -21,15 +21,15 @@ class Arithmetic
     public static function root(float $x, int $nᵗʰ): float
     {
         if ($x >= 0 || $nᵗʰ % 2 === 0) {
-            return pow($x, 1 / $nᵗʰ);
+            return \pow($x, 1 / $nᵗʰ);
         }
 
-        return -pow(\abs($x), 1 / $nᵗʰ);
+        return - \pow(\abs($x), 1 / $nᵗʰ);
     }
 
     /**
      * Cube root ³√x
-     * This function is necessary because pow($x, 1/3) returns NAN for negative values.
+     * This function is necessary because  pow($x, 1/3) returns NAN for negative values.
      * PHP does not have the cbrt built-in function.
      *
      * @param  float $x
@@ -64,7 +64,7 @@ class Arithmetic
         $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ = 0;
 
         for ($n = 0; $n <= $logx; $n++) {
-            $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ += \intdiv(($x % pow($b, $n + 1)) - ($x % $b ** $n), ($b ** $n));
+            $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ += \intdiv(($x % \pow($b, $n + 1)) - ($x % $b ** $n), ($b ** $n));
         }
 
         return $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯;

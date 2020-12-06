@@ -67,7 +67,7 @@ class RandomVariable
         $μ         = Average::mean($X);
         $∑⟮xᵢ − μ⟯ⁿ = array_sum(array_map(
             function ($xᵢ) use ($μ, $n) {
-                return pow(($xᵢ - $μ), $n);
+                return \pow(($xᵢ - $μ), $n);
             },
             $X
         ));
@@ -107,7 +107,7 @@ class RandomVariable
         $μ₃ = self::centralMoment($X, 3);
         $μ₂ = self::centralMoment($X, 2);
 
-        $μ₂³′² = pow($μ₂, 3 / 2);
+        $μ₂³′² = \pow($μ₂, 3 / 2);
         if ($μ₂³′² == 0) {
             return \NAN;  // Prevents division by zero in μ₃ / μ₂³′² equation
         }
@@ -148,7 +148,7 @@ class RandomVariable
         $μ₃    = self::centralMoment($X, 3);
         $μ₂    = self::centralMoment($X, 2);
 
-        $μ₂³′² = pow($μ₂, 3 / 2);
+        $μ₂³′² = \pow($μ₂, 3 / 2);
         if ($μ₂³′² == 0) {
             return \NAN;  // Prevents division by zero in μ₃ / μ₂³′² equation
         }
@@ -189,11 +189,11 @@ class RandomVariable
         $μ         = Average::mean($X);
         $∑⟮xᵢ − μ⟯³ = array_sum(array_map(
             function ($xᵢ) use ($μ) {
-                return pow(($xᵢ - $μ), 3);
+                return \pow(($xᵢ - $μ), 3);
             },
             $X
         ));
-        $σ³ = pow(Descriptive::standardDeviation($X, Descriptive::SAMPLE), 3);
+        $σ³ = \pow(Descriptive::standardDeviation($X, Descriptive::SAMPLE), 3);
 
         $⟮σ³ × ⟮N − 1⟯⟯ = ($σ³ * ($N - 1));
         if ($⟮σ³ × ⟮N − 1⟯⟯ == 0) {
@@ -293,7 +293,7 @@ class RandomVariable
         }
 
         $μ₄  = self::centralMoment($X, 4);
-        $μ₂² = pow(self::centralMoment($X, 2), 2);
+        $μ₂² = \pow(self::centralMoment($X, 2), 2);
 
         if ($μ₂² == 0) {
             return \NAN;
@@ -579,7 +579,7 @@ class RandomVariable
         $μ         = Average::mean($numbers);
         $∑⟮xᵢ − μ⟯² = array_sum(array_map(
             function ($xᵢ) use ($μ) {
-                return pow(($xᵢ - $μ), 2);
+                return \pow(($xᵢ - $μ), 2);
             },
             $numbers
         ));

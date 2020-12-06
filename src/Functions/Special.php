@@ -199,7 +199,7 @@ class Special
 
         // Compute parts of equation
         $√2π = \sqrt(2 * $π);
-        $⟮z ＋ g ＋½⟯ᶻ⁺½ = pow($z + $g + 0.5, $z + 0.5);
+        $⟮z ＋ g ＋½⟯ᶻ⁺½ = \pow($z + $g + 0.5, $z + 0.5);
         $ℯ＾−⟮z ＋ g ＋½⟯ = exp(-($z + $g + 0.5));
 
         /**
@@ -251,7 +251,7 @@ class Special
         $√2π                    = \sqrt(2 * \M_PI);
         $ℯ⁻ⁿ                    = exp(-$n);
         $√1／n                  = \sqrt(1 / $n);
-        $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ = pow($n + 1 / (12 * $n - 1 / (10 * $n)), $n);
+        $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ = \pow($n + 1 / (12 * $n - 1 / (10 * $n)), $n);
 
         /**
          * Put it all together:

@@ -285,7 +285,7 @@ class Correlation
      */
     public static function r2(array $X, array $Y, bool $popluation = false): float
     {
-        return pow(self::r($X, $Y, $popluation), 2);
+        return \pow(self::r($X, $Y, $popluation), 2);
     }
 
     /**
@@ -307,7 +307,7 @@ class Correlation
      */
     public static function coefficientOfDetermination(array $X, array $Y, bool $popluation = false): float
     {
-        return pow(self::r($X, $Y, $popluation), 2);
+        return \pow(self::r($X, $Y, $popluation), 2);
     }
 
     /**

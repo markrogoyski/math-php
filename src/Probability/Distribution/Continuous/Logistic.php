@@ -70,7 +70,7 @@ class Logistic extends Continuous
         $s = $this->s;
 
         $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
-        return $ℯ＾⁻⁽x⁻μ⁾／s / ($s * pow(1 + $ℯ＾⁻⁽x⁻μ⁾／s, 2));
+        return $ℯ＾⁻⁽x⁻μ⁾／s / ($s * \pow(1 + $ℯ＾⁻⁽x⁻μ⁾／s, 2));
     }
     /**
      * Cumulative distribution function

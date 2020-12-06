@@ -560,7 +560,7 @@ class Set implements \Countable, \Iterator
     {
         // Setup
         $n   = \count($this->A);         // Size of the original set
-        $２ⁿ = pow(2, $n);              // Size of the power set
+        $２ⁿ = \pow(2, $n);              // Size of the power set
         $A   = \array_values($this->A); //  Original set as an array with numbered indices
         $P⟮S⟯ = new Set();              //  Power set to be created
 

@@ -241,7 +241,7 @@ class Complex implements ObjectArithmetic
         $r = $this->abs();
         $θ = $this->arg();
 
-        return new Complex($r * cos($θ), $r *  \sin($θ));
+        return new Complex($r * cos($θ), $r * \sin($θ));
     }
 
     /**************************************************************************

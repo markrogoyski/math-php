@@ -278,7 +278,7 @@ class Average
             },
             1
         );
-        $ⁿ√a₀a₁a₂⋯ = pow($a₀a₁a₂⋯, 1 / $n);
+        $ⁿ√a₀a₁a₂⋯ = \pow($a₀a₁a₂⋯, 1 / $n);
 
         return $ⁿ√a₀a₁a₂⋯;
     }
@@ -470,7 +470,7 @@ class Average
         $n    = \count($numbers);
         $∑xᵢ³ = array_sum(Map\Single::cube($numbers));
 
-        return pow($∑xᵢ³ / $n, 1 / 3);
+        return \pow($∑xᵢ³ / $n, 1 / 3);
     }
 
     /**
@@ -608,7 +608,7 @@ class Average
         $n    = \count($numbers);
         $∑xᵢᵖ = array_sum(Map\Single::pow($numbers, $p));
 
-        return pow($∑xᵢᵖ / $n, 1 / $p);
+        return \pow($∑xᵢᵖ / $n, 1 / $p);
     }
 
     /**
@@ -904,7 +904,7 @@ class Average
         $xˣ = $x ** $x;
         $yʸ = $y ** $y;
 
-        return 1 / $ℯ * pow($xˣ / $yʸ, 1 / ($x - $y));
+        return 1 / $ℯ * \pow($xˣ / $yʸ, 1 / ($x - $y));
     }
 
     /**

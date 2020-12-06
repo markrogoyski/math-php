@@ -67,7 +67,7 @@ class LogNormal extends Continuous
         $π = \M_PI;
 
         $xσ√2π      = $x * $σ * \sqrt(2 * $π);
-        $⟮ln x − μ⟯² = pow(log($x) - $μ, 2);
+        $⟮ln x − μ⟯² = \pow(log($x) - $μ, 2);
         $σ²         = $σ ** 2;
 
         return (1 / $xσ√2π) * exp(-($⟮ln x − μ⟯² / (2 * $σ²)));

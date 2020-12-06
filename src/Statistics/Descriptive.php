@@ -196,7 +196,7 @@ class Descriptive
         $μw           = Average::weightedMean($numbers, $weights);
         $∑wᵢ⟮xᵢ − μw⟯² = array_sum(array_map(
             function ($xᵢ, $wᵢ) use ($μw) {
-                return $wᵢ * pow(($xᵢ - $μw), 2);
+                return $wᵢ * \pow(($xᵢ - $μw), 2);
             },
             $numbers,
             $weights

@@ -89,9 +89,9 @@ class Finance
             return - ($future_value + $present_value) / $periods;
         }
 
-        return - ($future_value + ($present_value * pow(1 + $rate, $periods)))
+        return - ($future_value + ($present_value * \pow(1 + $rate, $periods)))
             /
-            ((1 + $rate * $when) / $rate * (pow(1 + $rate, $periods) - 1));
+            ((1 + $rate * $when) / $rate * (\pow(1 + $rate, $periods) - 1));
     }
 
     /**
@@ -285,7 +285,7 @@ class Finance
             return $nominal;
         }
 
-        return pow(1 + ($nominal / $periods), $periods) - 1;
+        return \pow(1 + ($nominal / $periods), $periods) - 1;
     }
 
     /**
@@ -317,7 +317,7 @@ class Finance
             return $aer;
         }
 
-        return (pow($aer + 1, 1 / $periods) - 1) * $periods;
+        return ( \pow($aer + 1, 1 / $periods) - 1) * $periods;
     }
 
     /**
@@ -365,7 +365,7 @@ class Finance
         }
 
         $initial  = 1 + ($rate * $when);
-        $compound = pow(1 + $rate, $periods);
+        $compound = \pow(1 + $rate, $periods);
         $fv       = - (($present_value * $compound) + (($payment * $initial * ($compound - 1)) / $rate));
 
         return self::checkZero($fv);
@@ -419,7 +419,7 @@ class Finance
         }
 
         $initial  = 1 + ($rate * $when);
-        $compound = pow(1 + $rate, $periods);
+        $compound = \pow(1 + $rate, $periods);
         $pv       = (-$future_value - (($payment * $initial * ($compound - 1)) / $rate)) / $compound;
 
         return self::checkZero($pv);
@@ -590,7 +590,7 @@ class Finance
         $fv_inflows  = self::fv($reinvestment_rate, $root, 0, -$pv_inflows);
         $pv_outflows = self::npv($finance_rate, $outflows);
 
-        return self::checkZero(pow($fv_inflows / -$pv_outflows, 1 / $root) - 1);
+        return self::checkZero( \pow($fv_inflows / -$pv_outflows, 1 / $root) - 1);
     }
 
     /**

@@ -159,6 +159,6 @@ class Uniform extends Continuous
      */
     public function variance(): float
     {
-        return pow($this->b - $this->a, 2) / 12;
+        return \pow($this->b - $this->a, 2) / 12;
     }
 }

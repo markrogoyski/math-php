@@ -63,7 +63,7 @@ class ShiftedGeometric extends Discrete
 
         $p = $this->p;
 
-        $⟮1 − p⟯ᵏ⁻¹ = pow(1 - $p, $k - 1);
+        $⟮1 − p⟯ᵏ⁻¹ = \pow(1 - $p, $k - 1);
         return $⟮1 − p⟯ᵏ⁻¹ * $p;
     }
 
@@ -84,7 +84,7 @@ class ShiftedGeometric extends Discrete
 
         $p = $this->p;
 
-        $⟮1 − p⟯ᵏ = pow(1 - $p, $k);
+        $⟮1 − p⟯ᵏ = \pow(1 - $p, $k);
         return 1 - $⟮1 − p⟯ᵏ;
     }
 
