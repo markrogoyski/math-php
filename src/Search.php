@@ -61,7 +61,7 @@ class Search
         }
 
         // Special case: NAN wins if present
-        $nanPresent = array_filter(
+        $nanPresent = \array_filter(
             $values,
             function ($value) {
                 return is_float($value) && is_nan($value);
@@ -100,7 +100,7 @@ class Search
             throw new Exception\BadDataException('Cannot find the argMax of an empty array');
         }
 
-        $valuesWithoutNans = array_filter(
+        $valuesWithoutNans = \array_filter(
             $values,
             function ($value) {
                 return !is_nan($value);
@@ -155,7 +155,7 @@ class Search
         }
 
         // Special case: NAN wins if present
-        $nanPresent = array_filter(
+        $nanPresent = \array_filter(
             $values,
             function ($value) {
                 return is_float($value) && is_nan($value);
@@ -194,7 +194,7 @@ class Search
             throw new Exception\BadDataException('Cannot find the nanArgMin of an empty array');
         }
 
-        $valuesWithoutNans = array_filter(
+        $valuesWithoutNans = \array_filter(
             $values,
             function ($value) {
                 return !is_nan($value);

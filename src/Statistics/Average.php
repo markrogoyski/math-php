@@ -95,7 +95,7 @@ class Average
         }
 
         // Reset the array key indexes because we don't know what might be passed in
-        $numbers = array_values($numbers);
+        $numbers = \array_values($numbers);
 
         // For odd number of numbers, take the middle indexed number
         if (\count($numbers) % 2 == 1) {
@@ -150,7 +150,7 @@ class Average
         }
 
         // Reset the array key indexes because we don't know what might be passed in
-        $numbers = array_values($numbers);
+        $numbers = \array_values($numbers);
 
         // If the array is 5 elements or smaller, use quicksort and return the element of interest.
         if ($n <= 5) {
@@ -309,7 +309,7 @@ class Average
             throw new Exception\BadDataException('Cannot find the harmonic mean of an empty list of numbers');
         }
 
-        $negativeValues = array_filter(
+        $negativeValues = \array_filter(
             $numbers,
             function ($x) {
                 return $x < 0;

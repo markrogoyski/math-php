@@ -329,7 +329,7 @@ class Integer
     public static function perfectPower(int $n): array
     {
         $√n = sqrt($n);
-        $ms = array_filter(
+        $ms = \array_filter(
             Algebra::factors($n),
             function ($m) use ($√n) {
                 return ($m > 1 && $m <= $√n);

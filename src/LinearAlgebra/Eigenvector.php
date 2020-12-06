@@ -152,7 +152,7 @@ class Eigenvector
             $M[] = $solution_array[$key]['vector'];
             unset($solution_array[$key]);
             // Reset the array keys.
-            $solution_array = array_values($solution_array);
+            $solution_array = \array_values($solution_array);
         }
         $matrix = MatrixFactory::create($M);
         return $matrix->transpose();

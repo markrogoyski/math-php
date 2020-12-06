@@ -562,7 +562,7 @@ class Matrix extends MatrixBase
 
         // All nonzero rows are above any rows of all zeroes
         for ($i = $m - 1; $i >= 0; $i--) {
-            $zero_row = \count(array_filter(
+            $zero_row = \count(\array_filter(
                 $this->A[$i],
                 function ($x) {
                     return $x != 0;
@@ -636,7 +636,7 @@ class Matrix extends MatrixBase
         // Leading coefficients are the only nonzero entry in its column
         foreach ($lcs as $j) {
             $column  = $this->getColumn($j);
-            $entries = array_filter($column);
+            $entries = \array_filter($column);
             if (\count($entries) !== 1) {
                 return false;
             }

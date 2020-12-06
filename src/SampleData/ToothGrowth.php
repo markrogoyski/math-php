@@ -89,7 +89,7 @@ class ToothGrowth
      */
     public function getData(): array
     {
-        return array_values(self::DATA);
+        return \array_values(self::DATA);
     }
 
     /**

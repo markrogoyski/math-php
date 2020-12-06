@@ -117,7 +117,7 @@ class Cereal
      */
     public function getXData(): array
     {
-        return array_values(self::X_DATA);
+        return \array_values(self::X_DATA);
     }
 
     /**
@@ -144,7 +144,7 @@ class Cereal
      */
     public function getYData(): array
     {
-        return array_values(self::Y_DATA);
+        return \array_values(self::Y_DATA);
     }
 
     /**
@@ -171,7 +171,7 @@ class Cereal
      */
     public function getYscData(): array
     {
-        return array_values(self::YSC_DATA);
+        return \array_values(self::YSC_DATA);
     }
 
     /**

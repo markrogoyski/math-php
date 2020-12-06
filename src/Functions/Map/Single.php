@@ -127,7 +127,7 @@ class Single
      */
     public static function reciprocal(array $xs): array
     {
-        $zeros = array_filter(
+        $zeros = \array_filter(
             $xs,
             function (float $x) {
                 return $x == 0;

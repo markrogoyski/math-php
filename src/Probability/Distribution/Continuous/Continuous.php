@@ -43,7 +43,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
                 ? $guess_history["$guess"] + 1
                 : 0;
             if ($guess_history["$guess"] > self::GUESS_THRESHOLD) {
-                $repeated_guesses = array_filter(
+                $repeated_guesses = \array_filter(
                     $guess_history,
                     function ($repeated_guess) {
                         return $repeated_guess > self::GUESS_ALLOWANCE;

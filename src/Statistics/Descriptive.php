@@ -581,7 +581,7 @@ class Descriptive
         }
 
         $x    = ($P / 100) * ($N - 1) + 1;
-        $⌊x⌋  = intval($x);
+        $⌊x⌋  = \intval($x);
         $x％1 = $x - $⌊x⌋;
         $νₓ   = $numbers[$⌊x⌋ - 1];
         $νₓ₊₁ = $numbers[$⌊x⌋];

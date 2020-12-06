@@ -594,6 +594,6 @@ class Advanced
             }
         }
 
-        return array_keys(array_filter($primes));
+        return array_keys(\array_filter($primes));
     }
 }

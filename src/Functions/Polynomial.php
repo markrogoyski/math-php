@@ -83,7 +83,7 @@ class Polynomial implements ObjectArithmetic
         }
 
         // If coefficients remain, re-index them. Otherwise return [0] for p(x) = 0
-        $coefficients       = ($coefficients != []) ? array_values($coefficients) : [0];
+        $coefficients       = ($coefficients != []) ? \array_values($coefficients) : [0];
 
         $this->degree       = \count($coefficients) - 1;
         $this->coefficients = $coefficients;
@@ -117,7 +117,7 @@ class Polynomial implements ObjectArithmetic
             // Build the exponent of our string as a unicode character
             $exponent = '';
             for ($j = 0; $j < \strlen(strval($power)); $j++) {
-                $digit     = intval(strval($power)[$j]); // The j-th digit of $power
+                $digit     = \intval(strval($power)[$j]); // The j-th digit of $power
                 $exponent .= self::SYMBOLS[$digit];      // The corresponding unicode character
             };
 

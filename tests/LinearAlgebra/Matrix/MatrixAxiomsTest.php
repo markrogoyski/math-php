@@ -2773,7 +2773,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $L = MatrixFactory::create($L);
         $this->assertTrue($L->isLowerTriangular());
 
-        $zeros = array_filter(
+        $zeros = \array_filter(
             $L->getDiagonalElements(),
             function ($x) {
                 return $x == 0;
@@ -2801,7 +2801,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $U = MatrixFactory::create($U);
         $this->assertTrue($U->isUpperTriangular());
 
-        $zeros = array_filter(
+        $zeros = \array_filter(
             $U->getDiagonalElements(),
             function ($x) {
                 return $x == 0;
@@ -2931,7 +2931,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $D = MatrixFactory::create($D);
         $this->assertTrue($D->isDiagonal());
 
-        $zeros = array_filter(
+        $zeros = \array_filter(
             $D->getDiagonalElements(),
             function ($x) {
                 return $x == 0;
@@ -3625,7 +3625,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $H = $A->householder();
 
         // Then
-        $eigenvalues = array_filter(
+        $eigenvalues = \array_filter(
             $H->eigenvalues(),
             function ($x) {
                 return !is_nan($x);

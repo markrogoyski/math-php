@@ -684,7 +684,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
             $R[$i] = $this->A[$i];
         }
 
-        return MatrixFactory::create(array_values($R));
+        return MatrixFactory::create(\array_values($R));
     }
 
     /**************************************************************************
@@ -766,7 +766,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
 
         // Reset column indexes
         for ($i = 0; $i < $m; $i++) {
-            $R[$i] = array_values($R[$i]);
+            $R[$i] = \array_values($R[$i]);
         }
 
         return MatrixFactory::create($R);

@@ -478,8 +478,8 @@ class Significance
         }
 
         // Reset array indexes and initialize
-        $O  = array_values($observed);
-        $E  = array_values($expected);
+        $O  = \array_values($observed);
+        $E  = \array_values($expected);
         $n  = \count($observed);        // number of terms
         $k  = $n - 1;                  // degrees of freedom
         $χ² = 0;
