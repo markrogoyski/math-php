@@ -127,7 +127,7 @@ class KernelDensityEstimation
         } elseif (\is_callable($kernel)) {
             $this->kernel = $kernel;
         } else {
-            throw new Exception\BadParameterException('Kernel must be a callable or a string. Type is: ' . gettype($kernel));
+            throw new Exception\BadParameterException('Kernel must be a callable or a string. Type is: ' . \gettype($kernel));
         }
     }
 

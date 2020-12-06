@@ -702,8 +702,8 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
 
         // Then
-        $this->assertEquals($quartic[0], floatval($z₁), '', 0.00000001);
-        $this->assertEquals($quartic[1], floatval($z₂), '', 0.00000001);
+        $this->assertEquals($quartic[0], \floatval($z₁), '', 0.00000001);
+        $this->assertEquals($quartic[1], \floatval($z₂), '', 0.00000001);
         $this->assertNan($z₃, '');
         $this->assertNan($z₄, '');
     }
@@ -729,8 +729,8 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
 
         // Then
-        $this->assertEquals($quartic[0], floatval($z₁), '', 0.00000001);
-        $this->assertEquals($quartic[1], floatval($z₂), '', 0.00000001);
+        $this->assertEquals($quartic[0], \floatval($z₁), '', 0.00000001);
+        $this->assertEquals($quartic[1], \floatval($z₂), '', 0.00000001);
         $this->assertTrue($z₃->equals($complex0), "Expecting $complex0 but saw $z₃, complex conjugate is $z₄");
         $this->assertTrue($z₄->equals($complex1), "Expecting $complex1 but saw $z₄, complex conjugate is $z₃");
     }

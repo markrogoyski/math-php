@@ -243,7 +243,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
         $angle = \acos($cos⟮α⟯);
 
         return $inDegrees
-            ? rad2deg($angle)
+            ? \rad2deg($angle)
             : $angle;
     }
 

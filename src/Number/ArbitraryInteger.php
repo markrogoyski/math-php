@@ -84,7 +84,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $this->base256 = $base256->toBinary();
         } else {
             // Not an int, and not a string
-            throw new Exception\IncorrectTypeException("Number can only be an int or a string: type '" . gettype($number) . "' provided");
+            throw new Exception\IncorrectTypeException("Number can only be an int or a string: type '" . \gettype($number) . "' provided");
         }
     }
 
@@ -162,7 +162,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function toInt(): int
     {
-        $number      = str_split(strrev($this->base256));
+        $number      = \str_split(\strrev($this->base256));
         $place_value = 1;
         $int         = \ord($number[0]);
         unset($number[0]);
@@ -182,7 +182,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function toFloat(): float
     {
-        $number      = str_split(strrev($this->base256));
+        $number      = \str_split(\strrev($this->base256));
         $place_value = 1;
         $float       = \ord($number[0]);
         unset($number[0]);
@@ -192,7 +192,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $float       += \ord($digit) * $place_value;
         }
 
-        return floatval($float) * ($this->isPositive ? 1 : -1);
+        return \floatval($float) * ($this->isPositive ? 1 : -1);
     }
 
     /**
@@ -368,8 +368,8 @@ class ArbitraryInteger implements ObjectArithmetic
         $len      = \strlen($this->base256);
         $num_len  = \strlen($number);
         $max_len  = \max($len, $num_len);
-        $base_256 = str_pad($this->base256, $max_len, \chr(0), STR_PAD_LEFT);
-        $number   = str_pad($number, $max_len, \chr(0), STR_PAD_LEFT);
+        $base_256 = \str_pad($this->base256, $max_len, \chr(0), STR_PAD_LEFT);
+        $number   = \str_pad($number, $max_len, \chr(0), STR_PAD_LEFT);
         $result   = '';
 
         for ($i = 0; $i < $max_len; $i++) {
@@ -416,8 +416,8 @@ class ArbitraryInteger implements ObjectArithmetic
         $len      = \strlen($this->base256);
         $num_len  = \strlen($number);
         $max_len  = \max($len, $num_len);
-        $base_256 = str_pad($this->base256, $max_len, \chr(0), STR_PAD_LEFT);
-        $number   = str_pad($number, $max_len, \chr(0), STR_PAD_LEFT);
+        $base_256 = \str_pad($this->base256, $max_len, \chr(0), STR_PAD_LEFT);
+        $number   = \str_pad($number, $max_len, \chr(0), STR_PAD_LEFT);
         $result   = '';
 
         for ($i = 0; $i < $max_len; $i++) {
@@ -473,7 +473,7 @@ class ArbitraryInteger implements ObjectArithmetic
                 $inner_product = \chr($carry) . $inner_product;
             }
 
-            $inner_product = $inner_product . str_repeat(\chr(0), $i - 1);
+            $inner_product = $inner_product . \str_repeat(\chr(0), $i - 1);
             $inner_obj     = self::fromBinary($inner_product, true);
             $product       = $product->add($inner_obj);
         }
@@ -646,7 +646,7 @@ class ArbitraryInteger implements ObjectArithmetic
         $shifted_string .= \chr($carry);
 
         // Pad $bytes of 0x00 on the right.
-        $shifted_string = $shifted_string . str_repeat(\chr(0), $bytes->toInt());
+        $shifted_string = $shifted_string . \str_repeat(\chr(0), $bytes->toInt());
 
         return self::fromBinary($shifted_string, true);
     }
