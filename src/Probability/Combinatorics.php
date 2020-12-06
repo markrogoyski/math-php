@@ -427,7 +427,7 @@ class Combinatorics
         /** @var int $n */
         $n            = \array_sum($groups);
         $n！          = self::factorial($n);
-        $k₁！k₂！⋯km！ = array_product(array_map([Combinatorics::class, 'factorial'], $groups));
+        $k₁！k₂！⋯km！ = \array_product(array_map([Combinatorics::class, 'factorial'], $groups));
 
         return $n！ / $k₁！k₂！⋯km！;
     }

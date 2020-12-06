@@ -409,11 +409,11 @@ class Descriptive
         $length = \count($numbers);
 
         if ($length % 2 == 0) {
-            $lower_half = array_slice($numbers, 0, $length / 2);
-            $upper_half = array_slice($numbers, $length / 2);
+            $lower_half = \array_slice($numbers, 0, $length / 2);
+            $upper_half = \array_slice($numbers, $length / 2);
         } else {
-            $lower_half = array_slice($numbers, 0, \intdiv($length, 2));
-            $upper_half = array_slice($numbers, \intdiv($length, 2) + 1);
+            $lower_half = \array_slice($numbers, 0, \intdiv($length, 2));
+            $upper_half = \array_slice($numbers, \intdiv($length, 2) + 1);
         }
 
         $lower_quartile = Average::median($lower_half);
@@ -469,11 +469,11 @@ class Descriptive
         $length = \count($numbers);
 
         if ($length % 2 == 0) {
-            $lower_half = array_slice($numbers, 0, $length / 2);
-            $upper_half = array_slice($numbers, $length / 2);
+            $lower_half = \array_slice($numbers, 0, $length / 2);
+            $upper_half = \array_slice($numbers, $length / 2);
         } else {
-            $lower_half = array_slice($numbers, 0, \intdiv($length, 2));
-            $upper_half = array_slice($numbers, \intdiv($length, 2) + 1);
+            $lower_half = \array_slice($numbers, 0, \intdiv($length, 2));
+            $upper_half = \array_slice($numbers, \intdiv($length, 2) + 1);
 
             // Add median to both halves
             $median = Average::median($numbers);

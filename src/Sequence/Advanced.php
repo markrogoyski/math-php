@@ -474,7 +474,7 @@ class Advanced
         }
 
         if ($n <= 10) {
-            return array_slice(self::PERFECT_NUMBERS, 0, $n);
+            return \array_slice(self::PERFECT_NUMBERS, 0, $n);
         }
 
         throw new OutOfBoundsException("Perfect numbers beyond the tenth are too large to compute");

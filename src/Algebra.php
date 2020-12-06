@@ -166,7 +166,7 @@ class Algebra
 
         // Multiply distinct prime powers together
         for ($i = 1; $i < $limit; ++$i) {
-            $factors[] = array_product($current);
+            $factors[] = \array_product($current);
             for ($i2 = 0; $i2 < $count; ++$i2) {
                 $current[$i2] = next($sets[$map[$i2]]);
                 if ($current[$i2] !== false) {

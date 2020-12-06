@@ -277,14 +277,14 @@ class PCA
         // Initial element with initialization of result matrix
         $P    = $this->EVec->submatrix(0, 0, $vars - 1, 0); // // Get the first column of the loading matrix
         $P′   = $P->transpose();
-        $Λⱼ⁻¹ = MatrixFactory::diagonal(array_slice($this->EVal->getVector(), 0, 0 + 1))->inverse();
+        $Λⱼ⁻¹ = MatrixFactory::diagonal(\array_slice($this->EVal->getVector(), 0, 0 + 1))->inverse();
         $T²   = MatrixFactory::create([$X->multiply($P)->multiply($Λⱼ⁻¹)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
 
         for ($i = 1; $i < $this->data->getN(); $i++) {
             // Get the first $i+1 columns of the loading matrix
             $P    = $this->EVec->submatrix(0, 0, $vars - 1, $i);
             $P′   = $P->transpose();
-            $Λⱼ⁻¹ = MatrixFactory::diagonal(array_slice($this->EVal->getVector(), 0, $i + 1))->inverse();
+            $Λⱼ⁻¹ = MatrixFactory::diagonal(\array_slice($this->EVal->getVector(), 0, $i + 1))->inverse();
             $Tᵢ²  = MatrixFactory::create([$X->multiply($P)->multiply($Λⱼ⁻¹)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
             $T²   = $T²->augment($Tᵢ²);
         }
@@ -329,7 +329,7 @@ class PCA
         $QCritical = [];
 
         for ($i = 0; $i < $vars - 1; $i++) {
-            $evals = array_slice($this->getEigenvalues()->getVector(), $i + 1);
+            $evals = \array_slice($this->getEigenvalues()->getVector(), $i + 1);
 
             $t1 = \array_sum($evals);
             $t2 = \array_sum(Single::square($evals));

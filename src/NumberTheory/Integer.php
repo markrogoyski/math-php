@@ -106,7 +106,7 @@ class Integer
      */
     public static function radical(int $n): int
     {
-        return array_product(array_unique(self::primeFactorization($n)));
+        return \array_product(array_unique(self::primeFactorization($n)));
     }
 
     /**

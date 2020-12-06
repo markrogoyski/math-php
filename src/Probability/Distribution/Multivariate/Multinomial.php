@@ -63,12 +63,12 @@ class Multinomial
         $n   = \array_sum($frequencies);
         $n！ = Combinatorics::factorial($n);
 
-        $x₁！⋯xk！ = array_product(array_map(
+        $x₁！⋯xk！ = \array_product(array_map(
             'MathPHP\Probability\Combinatorics::factorial',
             $frequencies
         ));
 
-        $p₁ˣ¹⋯pkˣᵏ = array_product(array_map(
+        $p₁ˣ¹⋯pkˣᵏ = \array_product(array_map(
             function ($x, $p) {
                 return $p ** $x;
             },

@@ -1622,7 +1622,7 @@ class Matrix extends MatrixBase
         $A⁻¹ = [];
 
         for ($i = 0; $i < $n; $i++) {
-            $A⁻¹[$i] = array_slice($R[$i], $n);
+            $A⁻¹[$i] = \array_slice($R[$i], $n);
         }
 
         $A⁻¹ = MatrixFactory::create($A⁻¹);

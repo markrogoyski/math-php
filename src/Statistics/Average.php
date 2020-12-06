@@ -162,7 +162,7 @@ class Average
         $num_slices = ceil($n / 5);
         $median_array = [];
         for ($i = 0; $i < $num_slices; $i++) {
-            $median_array[] = self::median(array_slice($numbers, 5 * $i, 5));
+            $median_array[] = self::median(\array_slice($numbers, 5 * $i, 5));
         }
 
         // Then we find the median of the medians.
@@ -659,7 +659,7 @@ class Average
         $yesterday = 0;  // Yesterday's SMA
 
         // Base case: initial average
-        $SMA[] = \array_sum(array_slice($numbers, 0, $n)) / $n;
+        $SMA[] = \array_sum(\array_slice($numbers, 0, $n)) / $n;
 
         // Calculating successive values: New value comes in; old value drops out
         while ($new < $m) {
@@ -732,7 +732,7 @@ class Average
         $WMA = [];
 
         for ($i = 0; $i <= $m - $n; $i++) {
-            $∑wp   = \array_sum(Map\Multi::multiply(array_slice($numbers, $i, $n), $weights));
+            $∑wp   = \array_sum(Map\Multi::multiply(\array_slice($numbers, $i, $n), $weights));
             $WMA[] = $∑wp / $∑w;
         }
 
