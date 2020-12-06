@@ -184,7 +184,7 @@ class Significance
      */
     public static function tTest(array $a, $b): array
     {
-        if (is_numeric($b)) {
+        if (\is_numeric($b)) {
             return self::tTestOneSample($a, $b);
         }
         if (is_array($b)) {

@@ -1087,7 +1087,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
                     $random = $beta->rand();
 
                     // Then
-                    $this->assertTrue(is_numeric($random));
+                    $this->assertTrue(\is_numeric($random));
                 }
             }
         }

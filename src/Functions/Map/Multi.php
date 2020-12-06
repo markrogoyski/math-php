@@ -26,7 +26,7 @@ class Multi
 
         $number_of_arrays = \count($arrays);
         $length_of_arrays = \count($arrays[0]);
-        $sums             = array_fill(0, $length_of_arrays, 0);
+        $sums             = \array_fill(0, $length_of_arrays, 0);
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 0; $j < $number_of_arrays; $j++) {
@@ -87,7 +87,7 @@ class Multi
 
         $number_of_arrays = \count($arrays);
         $length_of_arrays = \count($arrays[0]);
-        $products         = array_fill(0, $length_of_arrays, 1);
+        $products         = \array_fill(0, $length_of_arrays, 1);
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 0; $j < $number_of_arrays; $j++) {

@@ -89,7 +89,7 @@ class Eigenvector
 
                  // A column of all zeroes means that a vector in that direction is a solution.
                 foreach ($zero_columns as $column) {
-                    $solution          = array_fill(0, $number, 0);
+                    $solution          = \array_fill(0, $number, 0);
                     $solution[$column] = 1;
                     $solution_array[]  = ['eigenvalue' => $eigenvalue, 'vector' => $solution];
                     // Add the solution to rref.
@@ -106,13 +106,13 @@ class Eigenvector
                     $forced_variables = [];
                     $n                = $rref->getN();
                     // The solution vector is a column vector.
-                    $solution = new Vector(array_fill(0, $n - $number_to_force, 0));
+                    $solution = new Vector(\array_fill(0, $n - $number_to_force, 0));
                     $matrix   = $rref;
                     for ($i = 0; $i < $n && \count($forced_variables) < $number_to_force; $i++) {
                         // Make sure that removing column $i does not leave behind a row of zeros
                         $column_can_be_used = true;
                         for ($j = 0; $j <= $i && $j < $rref->getM() && $column_can_be_used; $j++) {
-                            if ($matrix->columnExclude($i - \count($forced_variables))->getRow($j) == array_fill(0, $matrix->getN() - 1, 0)) {
+                            if ($matrix->columnExclude($i - \count($forced_variables))->getRow($j) == \array_fill(0, $matrix->getN() - 1, 0)) {
                                 $column_can_be_used = false;
                             }
                         }
@@ -175,7 +175,7 @@ class Eigenvector
         // We will count the number of rows with all zeros, starting at the bottom.
         for ($i = $m - 1; $i >= 0 && $more_solutions; $i--) {
             // Every row of zeros is a degree of freedom (a solution) with that eigenvalue
-            if ($M->getRow($i) == array_fill(0, $m, 0)) {
+            if ($M->getRow($i) == \array_fill(0, $m, 0)) {
                 $number_of_solutions++;
             } else {
                  // Once we find a row with nonzero values, there are no more.
@@ -197,7 +197,7 @@ class Eigenvector
         $m = $M->getM();
         $zero_columns = [];
         for ($i = 0; $i < $M->getN(); $i++) {
-            if ($M->getColumn($i) == array_fill(0, $m, 0)) {
+            if ($M->getColumn($i) == \array_fill(0, $m, 0)) {
                 $zero_columns[] = $i;
             }
         }

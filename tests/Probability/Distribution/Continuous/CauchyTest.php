@@ -288,7 +288,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
                     $random = $cauchy->rand();
 
                     // Then
-                    $this->assertTrue(is_numeric($random));
+                    $this->assertTrue(\is_numeric($random));
                 }
             }
         }

@@ -315,7 +315,7 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
                 $rand = $logistic->rand();
 
                 // Then
-                $this->assertTrue(is_numeric($rand));
+                $this->assertTrue(\is_numeric($rand));
             }
         }
     }

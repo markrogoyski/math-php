@@ -1465,15 +1465,15 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('trimean', $averages);
         $this->assertArrayHasKey('iqm', $averages);
         $this->assertArrayHasKey('cubic_mean', $averages);
-        $this->assertTrue(is_numeric($averages['mean']));
-        $this->assertTrue(is_numeric($averages['median']));
+        $this->assertTrue(\is_numeric($averages['mean']));
+        $this->assertTrue(\is_numeric($averages['median']));
         $this->assertTrue(is_array($averages['mode']));
-        $this->assertTrue(is_numeric($averages['geometric_mean']));
-        $this->assertTrue(is_numeric($averages['harmonic_mean']));
-        $this->assertTrue(is_numeric($averages['contraharmonic_mean']));
-        $this->assertTrue(is_numeric($averages['quadratic_mean']));
-        $this->assertTrue(is_numeric($averages['trimean']));
-        $this->assertTrue(is_numeric($averages['iqm']));
-        $this->assertTrue(is_numeric($averages['cubic_mean']));
+        $this->assertTrue(\is_numeric($averages['geometric_mean']));
+        $this->assertTrue(\is_numeric($averages['harmonic_mean']));
+        $this->assertTrue(\is_numeric($averages['contraharmonic_mean']));
+        $this->assertTrue(\is_numeric($averages['quadratic_mean']));
+        $this->assertTrue(\is_numeric($averages['trimean']));
+        $this->assertTrue(\is_numeric($averages['iqm']));
+        $this->assertTrue(\is_numeric($averages['cubic_mean']));
     }
 }

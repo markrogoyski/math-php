@@ -251,7 +251,7 @@ class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $A    = new Vector($A);
-        $zero = new Vector(array_fill(0, $A->getN(), 0));
+        $zero = new Vector(\array_fill(0, $A->getN(), 0));
 
         // When
         $Ax0 = $A->crossProduct($zero);
@@ -597,7 +597,7 @@ class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // When
         $０A  = $A->scalarMultiply(0);
-        $zero = new Vector(array_fill(0, $A->getN(), 0));
+        $zero = new Vector(\array_fill(0, $A->getN(), 0));
 
         // Then
         $this->assertEquals($zero, $０A);

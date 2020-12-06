@@ -1459,7 +1459,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $b = (new Vector($b))->asColumnMatrix();
 
         // And zeros
-        $z = (new Vector(array_fill(0, count($x), 0)))->asColumnMatrix();
+        $z = (new Vector(\array_fill(0, count($x), 0)))->asColumnMatrix();
 
         // When Ax - b
         $R = $A->multiply($x)->subtract($b);

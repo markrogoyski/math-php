@@ -139,7 +139,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     protected function setVariables(string $value, bool $positive)
     {
-        $value = ltrim($value, \chr(0));
+        $value = \ltrim($value, \chr(0));
         if ($value == '') {
             $value = \chr(0);
         }

@@ -317,7 +317,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
                 $random = $log_normal->rand();
 
                 // Then
-                $this->assertTrue(is_numeric($random));
+                $this->assertTrue(\is_numeric($random));
             }
         }
     }

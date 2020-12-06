@@ -144,8 +144,8 @@ class Polynomial implements ObjectArithmetic
         }
 
         // Cleanup front and back; drop redundant ¹ and ⁰ terms from monomials
-        $polynomial = trim(str_replace([$variable . '¹ ', $variable . '⁰ '], $variable . ' ', $polynomial), '+ ');
-        $polynomial = preg_replace('/^-\s/', '-', $polynomial);
+        $polynomial = \trim(\str_replace([$variable . '¹ ', $variable . '⁰ '], $variable . ' ', $polynomial), '+ ');
+        $polynomial = \preg_replace('/^-\s/', '-', $polynomial);
 
         $polynomial = ($polynomial !== '') ? $polynomial : '0';
 
@@ -199,7 +199,7 @@ class Polynomial implements ObjectArithmetic
     {
         if ($input instanceof Polynomial) {
             return $input;
-        } elseif (is_numeric($input)) {
+        } elseif (\is_numeric($input)) {
             return new Polynomial([$input]);
         } else {
             throw new Exception\IncorrectTypeException('Input must be a Polynomial or a number');
@@ -313,7 +313,7 @@ class Polynomial implements ObjectArithmetic
         // If degrees are unequal, make coefficient array sizes equal so we can do component-wise addition
         $degreeDifference = $this->getDegree() - $polynomial->getDegree();
         if ($degreeDifference !== 0) {
-            $zeroArray = array_fill(0, \abs($degreeDifference), 0);
+            $zeroArray = \array_fill(0, \abs($degreeDifference), 0);
             if ($degreeDifference < 0) {
                 $coefficientsA = \array_merge($zeroArray, $coefficientsA);
             } else {
@@ -368,11 +368,11 @@ class Polynomial implements ObjectArithmetic
         $productDegree = $this->degree + $polynomial->degree;
 
         // Reverse the coefficients arrays so you can multiply component-wise
-        $coefficientsA = array_reverse($this->coefficients);
-        $coefficientsB = array_reverse($polynomial->coefficients);
+        $coefficientsA = \array_reverse($this->coefficients);
+        $coefficientsB = \array_reverse($polynomial->coefficients);
 
         // Start with an array of coefficients that all equal 0
-        $productCoefficients = array_fill(0, $productDegree + 1, 0);
+        $productCoefficients = \array_fill(0, $productDegree + 1, 0);
 
         // Iterate through the product of terms component-wise
         for ($i = 0; $i < $this->degree + 1; $i++) {

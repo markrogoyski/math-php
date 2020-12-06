@@ -262,7 +262,7 @@ class Complex implements ObjectArithmetic
      */
     public function add($c): Complex
     {
-        if (is_numeric($c)) {
+        if (\is_numeric($c)) {
             $r = $this->r + $c;
             $i = $this->i;
         } elseif ($c instanceof Complex) {
@@ -289,7 +289,7 @@ class Complex implements ObjectArithmetic
      */
     public function subtract($c): Complex
     {
-        if (is_numeric($c)) {
+        if (\is_numeric($c)) {
             $r = $this->r - $c;
             $i = $this->i;
         } elseif ($c instanceof Complex) {
@@ -316,7 +316,7 @@ class Complex implements ObjectArithmetic
      */
     public function multiply($c): Complex
     {
-        if (is_numeric($c)) {
+        if (\is_numeric($c)) {
             $r = $c * $this->r;
             $i = $c * $this->i;
         } elseif ($c instanceof Complex) {
@@ -342,7 +342,7 @@ class Complex implements ObjectArithmetic
      */
     public function divide($c): Complex
     {
-        if (is_numeric($c)) {
+        if (\is_numeric($c)) {
             $r = $this->r / $c;
             $i = $this->i / $c;
             return new Complex($r, $i);

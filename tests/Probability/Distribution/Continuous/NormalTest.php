@@ -658,7 +658,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
                 $random = $normal->rand();
 
                 // Then
-                $this->assertTrue(is_numeric($random));
+                $this->assertTrue(\is_numeric($random));
             }
         }
     }

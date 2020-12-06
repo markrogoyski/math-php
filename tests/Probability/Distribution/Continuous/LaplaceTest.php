@@ -253,7 +253,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
                 $random = $laplace->rand();
 
                 // Then
-                $this->assertTrue(is_numeric($random));
+                $this->assertTrue(\is_numeric($random));
             }
         }
     }

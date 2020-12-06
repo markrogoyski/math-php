@@ -379,7 +379,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
                 $random = $exponential->rand();
 
                 // Then
-                $this->assertTrue(is_numeric($random));
+                $this->assertTrue(\is_numeric($random));
             }
         }
     }

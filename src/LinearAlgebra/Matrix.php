@@ -1275,7 +1275,7 @@ class Matrix extends MatrixBase
         $Bᵀ = $B->transpose()->getMatrix();
 
         foreach ($this->A as $i => $Aʳᵒʷ⟦i⟧) {
-            $R[$i] = array_fill(0, $B->n, 0);
+            $R[$i] = \array_fill(0, $B->n, 0);
             foreach ($Bᵀ as $j => $Bᶜᵒˡ⟦j⟧) {
                 foreach ($Aʳᵒʷ⟦i⟧ as $k => $A⟦i⟧⟦k⟧) {
                     $R[$i][$j] += $A⟦i⟧⟦k⟧ * $Bᶜᵒˡ⟦j⟧[$k];
@@ -3091,7 +3091,7 @@ class Matrix extends MatrixBase
      */
     public function __toString()
     {
-        return trim(array_reduce(array_map(
+        return \trim(array_reduce(array_map(
             function ($mᵢ) {
                 return '[' . implode(', ', $mᵢ) . ']';
             },
