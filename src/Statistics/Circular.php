@@ -145,7 +145,7 @@ class Circular
     public static function standardDeviation(array $angles): float
     {
         $ρ       = self::meanResultantLength($angles);
-        $√⟮−2ln⟮R⟯⟯ = \sqrt(-2 * log($ρ));
+        $√⟮−2ln⟮R⟯⟯ = \sqrt(-2 * \log($ρ));
 
         return $√⟮−2ln⟮R⟯⟯;
     }

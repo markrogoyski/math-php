@@ -73,7 +73,7 @@ class Distance
         // ∑ √(p(x) q(x))
         $BC⟮p、q⟯ = \array_sum(Map\Single::sqrt(Map\Multi::multiply($p, $q)));
 
-        return -log($BC⟮p、q⟯);
+        return -\log($BC⟮p、q⟯);
     }
 
     /**

@@ -118,7 +118,7 @@ class Logistic extends Continuous
             return \INF;
         }
 
-        return $μ + $s * log($p / (1 - $p));
+        return $μ + $s * \log($p / (1 - $p));
     }
 
     /**

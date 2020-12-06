@@ -66,7 +66,7 @@ class Experiment
         $RR = ($a / ($a + $b)) / ($c / ($c + $d));
 
         // Standard error of the log relative risk
-        $ln⟮RR⟯     = log($RR);
+        $ln⟮RR⟯     = \log($RR);
         $SS｛ln⟮RR⟯｝ = \sqrt((1 / $a) + (1 / $c) - (1 / ($a + $b)) - (1 / ($c + $d)));
 
         // Z score for 95% confidence interval
@@ -77,9 +77,9 @@ class Experiment
         $ci_upper_bound = \exp($ln⟮RR⟯ + ($z * $SS｛ln⟮RR⟯｝));
 
         // P-value (significance level)
-        $est = log($RR);                   // estimate of effect
-        $l   = log($ci_lower_bound);       // ln CI lower bound
-        $u   = log($ci_upper_bound);       // ln CI upper bound
+        $est = \log($RR);                   // estimate of effect
+        $l   = \log($ci_lower_bound);       // ln CI lower bound
+        $u   = \log($ci_upper_bound);       // ln CI upper bound
         $SE  = ($u - $l) / (2 * self::Z);  // standard error
         $z   = \abs($est / $SE);            // test statistic z
         $p   = \exp((self::NORMAL_LOWER_TAIL_PROBABILITY * $z) - (self::NORMAL_UPPER_TAIL_PROBABILITY * $z ** 2));
@@ -128,7 +128,7 @@ class Experiment
         $OR = ($a / $b) / ($c / $d);
 
         // Standard error of the log odds ratio
-        $ln⟮OR⟯     = log($OR);
+        $ln⟮OR⟯     = \log($OR);
         $SS｛ln⟮OR⟯｝ = \sqrt((1 / $a) + (1 / $b) + (1 / $c) + (1 / $d));
 
         // Confidence interval
@@ -136,9 +136,9 @@ class Experiment
         $ci_upper_bound = \exp($ln⟮OR⟯ + (self::Z * $SS｛ln⟮OR⟯｝));
 
         // P-value (significance level)
-        $est = log($OR);                   // estimate of effect
-        $l   = log($ci_lower_bound);       // ln CI lower bound
-        $u   = log($ci_upper_bound);       // ln CI upper bound
+        $est = \log($OR);                   // estimate of effect
+        $l   = \log($ci_lower_bound);       // ln CI lower bound
+        $u   = \log($ci_upper_bound);       // ln CI upper bound
         $SE  = ($u - $l) / (2 * self::Z);  // standard error
         $z   = \abs($est / $SE);            // test statistic z
         $p   = \exp((self::NORMAL_LOWER_TAIL_PROBABILITY * $z) - (self::NORMAL_UPPER_TAIL_PROBABILITY * $z ** 2));

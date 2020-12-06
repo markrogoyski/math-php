@@ -220,11 +220,11 @@ class Finance
      * Same as the =NPER() function in most spreadsheet software.
      *
      * Solving the basic annuity formula for number of periods:
-     *        log(PMT - FV*r)
+     *        \log(PMT - FV*r)
      *        ---------------
-     *        log(PMT + PV*r)
+     *        \log(PMT + PV*r)
      * n = --------------------
-     *          log(1 + r)
+     *          \log(1 + r)
      *
      * The (1+r*when) factor adjusts the payment to the beginning or end
      * of the period. In the common case of a payment at the end of a period,
@@ -253,7 +253,7 @@ class Finance
         }
 
         $initial = $payment * (1.0 + $rate * $when);
-        return log(($initial - $future_value * $rate) / ($initial + $present_value * $rate)) / log(1.0 + $rate);
+        return \log(($initial - $future_value * $rate) / ($initial + $present_value * $rate)) / \log(1.0 + $rate);
     }
 
     /**

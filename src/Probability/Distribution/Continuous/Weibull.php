@@ -116,7 +116,7 @@ class Weibull extends Continuous
         $k = $this->k;
         $λ = $this->λ;
 
-        return $λ * (-1 * log(1 - $p)) ** (1 / $k);
+        return $λ * (-1 * \log(1 - $p)) ** (1 / $k);
     }
 
     /**
@@ -146,7 +146,7 @@ class Weibull extends Continuous
         $k = $this->k;
         $λ = $this->λ;
 
-        $⟮ln 2⟯¹ᐟᵏ = \pow(log(2), 1 / $k);
+        $⟮ln 2⟯¹ᐟᵏ = \pow(\log(2), 1 / $k);
 
         return $λ * $⟮ln 2⟯¹ᐟᵏ;
     }

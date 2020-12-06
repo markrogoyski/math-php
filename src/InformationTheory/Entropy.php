@@ -55,7 +55,7 @@ class Entropy
         // ∑ pᵢlog₂(pᵢ)
         $∑pᵢlog₂⟮pᵢ⟯ = \array_sum(\array_map(
             function ($pᵢ) {
-                return $pᵢ * log($pᵢ, 2);
+                return $pᵢ * \log($pᵢ, 2);
             },
             $p
         ));
@@ -98,7 +98,7 @@ class Entropy
         // ∑ pᵢln(pᵢ)
         $∑pᵢln⟮pᵢ⟯ = \array_sum(\array_map(
             function ($pᵢ) {
-                return $pᵢ * log($pᵢ);
+                return $pᵢ * \log($pᵢ);
             },
             $p
         ));
@@ -189,7 +189,7 @@ class Entropy
         // ∑ p(x) log₂ q(x)
         $∑plog₂⟮q⟯ = \array_sum(\array_map(
             function ($pᵢ, $qᵢ) {
-                return $pᵢ * log($qᵢ, 2);
+                return $pᵢ * \log($qᵢ, 2);
             },
             $p,
             $q
@@ -257,7 +257,7 @@ class Entropy
         }
 
         // (1 / 1 - α) log (∑ pᵢᵃ)
-        $Hₐ⟮X⟯ = (1 / (1 - $α)) * log(\array_sum(Map\Single::pow($p, $α)), 2);
+        $Hₐ⟮X⟯ = (1 / (1 - $α)) * \log(\array_sum(Map\Single::pow($p, $α)), 2);
 
         return $Hₐ⟮X⟯;
     }

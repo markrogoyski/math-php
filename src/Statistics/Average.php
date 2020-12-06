@@ -853,7 +853,7 @@ class Average
             return $x;
         }
 
-        return ($y - $x) / (log($y) - log($x));
+        return ($y - $x) / (\log($y) - \log($x));
     }
 
     /**

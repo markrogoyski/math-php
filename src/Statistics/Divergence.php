@@ -76,7 +76,7 @@ class Divergence
         // ∑ P(i) log(P(i)/Q(i))
         $Dkl⟮P‖Q⟯ = \array_sum(\array_map(
             function ($P, $Q) {
-                return $P * log($P / $Q);
+                return $P * \log($P / $Q);
             },
             $p,
             $q

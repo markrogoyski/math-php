@@ -60,7 +60,7 @@ class Arithmetic
      */
     public static function digitSum(int $x, int $b = 10): int
     {
-        $logx                        = log($x, $b);
+        $logx                        = \log($x, $b);
         $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ = 0;
 
         for ($n = 0; $n <= $logx; $n++) {

@@ -335,7 +335,7 @@ class Integer
                 return ($m > 1 && $m <= $√n);
             }
         );
-        $max_k = ceil(log($n, 2));
+        $max_k = ceil(\log($n, 2));
 
         foreach ($ms as $m) {
             foreach (range(2, $max_k) as $k) {
