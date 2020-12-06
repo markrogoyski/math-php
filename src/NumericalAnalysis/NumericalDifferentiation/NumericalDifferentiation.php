@@ -171,7 +171,7 @@ abstract class NumericalDifferentiation
      */
     public static function isTargetInPoints($target, array $sorted)
     {
-        $xComponents = array_map(
+        $xComponents = \array_map(
             function (array $point) {
                 return $point[self::X];
             },

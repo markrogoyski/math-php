@@ -79,7 +79,7 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     public function testCreateArrayOfVectors(array $vectors, array $expected)
     {
         // Given
-        $vectors = array_map(
+        $vectors = \array_map(
             function ($vector) {
                 return new Vector($vector);
             },

@@ -166,13 +166,13 @@ class ANOVA
 
         // ANOVA sum of squares
         $SST = RandomVariable::sumOfSquaresDeviations($all_elements);
-        $SSB = \array_sum(array_map(
+        $SSB = \array_sum(\array_map(
             function ($sample) use ($n, $μ) {
                 return $n * (Average::mean($sample) - $μ) ** 2;
             },
             $samples
         ));
-        $SSW = \array_sum(array_map(
+        $SSW = \array_sum(\array_map(
             'MathPHP\Statistics\RandomVariable::sumOfSquaresDeviations',
             $samples
         ));
@@ -484,7 +484,7 @@ class ANOVA
         ];
 
         // Sum of squares factor A
-        $SSA = \array_sum(array_map(
+        $SSA = \array_sum(\array_map(
             function ($f1) use ($μ) {
                 return $f1['n'] * ($f1['mean'] - $μ) ** 2;
             },
@@ -492,7 +492,7 @@ class ANOVA
         ));
 
         // Sum of squares factor B
-        $SSB = \array_sum(array_map(
+        $SSB = \array_sum(\array_map(
             function ($B) use ($μ) {
                 return $B['n'] * ($B['mean'] - $μ) ** 2;
             },

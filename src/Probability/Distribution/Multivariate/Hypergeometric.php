@@ -80,7 +80,7 @@ class Hypergeometric
         $n       = \array_sum($picks);
         $total   = \array_sum($this->quantities);
 
-        $product = \array_product(array_map(
+        $product = \array_product(\array_map(
             function (int $quantity, int $pick) {
                 return Combinatorics::combinations($quantity, $pick);
             },

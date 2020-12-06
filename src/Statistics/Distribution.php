@@ -95,7 +95,7 @@ class Distribution
     {
         $sample_size            = \count($values);
         $cumulative_frequencies = self::cumulativeFrequency($values);
-        return array_map(
+        return \array_map(
             function ($frequency) use ($sample_size) {
                 return $frequency / $sample_size;
             },
@@ -126,7 +126,7 @@ class Distribution
 
         // Determine average rank of each value. Necessary when values show up multiple times.
         // Rank will not change if value only shows up once.
-        $rg⟮X⟯ = array_map(
+        $rg⟮X⟯ = \array_map(
             function (array $x) {
                 return \array_sum($x) / \count($x);
             },
@@ -134,7 +134,7 @@ class Distribution
         );
 
         // Map ranks to values in order they were originally input
-        return array_map(
+        return \array_map(
             function ($value) use ($rg⟮X⟯) {
                 return $rg⟮X⟯[strval($value)];
             },
@@ -166,10 +166,10 @@ class Distribution
                 : $i + 1;
         }
 
-        $ranking⟮X⟯ = array_combine(array_map('strval', $Xs), $ranking⟮X⟯);
+        $ranking⟮X⟯ = array_combine(\array_map('strval', $Xs), $ranking⟮X⟯);
 
         // Map ranks to values in order they were originally input
-        return array_map(
+        return \array_map(
             function ($value) use ($ranking⟮X⟯) {
                 return $ranking⟮X⟯[strval($value)];
             },
@@ -201,10 +201,10 @@ class Distribution
                 : $i + 1;
         }
         sort($ranking⟮X⟯);
-        $ranking⟮X⟯ = array_combine(array_map('strval', $Xs), $ranking⟮X⟯);
+        $ranking⟮X⟯ = array_combine(\array_map('strval', $Xs), $ranking⟮X⟯);
 
         // Map ranks to values in order they were originally input
-        return array_map(
+        return \array_map(
             function ($value) use ($ranking⟮X⟯) {
                 return $ranking⟮X⟯[strval($value)];
             },
@@ -290,7 +290,7 @@ class Distribution
 
         // Optionally print the stem and leaf plot
         if ($print === true) {
-            $length = max(array_map(function ($stem) {
+            $length = max(\array_map(function ($stem) {
                 return \strlen($stem);
             }, array_keys($plot)));
             foreach ($plot as $stem => $leaves) {

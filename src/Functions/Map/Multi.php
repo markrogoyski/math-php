@@ -54,7 +54,7 @@ class Multi
 
         $number_of_arrays = \count($arrays);
         $length_of_arrays = \count($arrays[0]);
-        $differences      = array_map(
+        $differences      = \array_map(
             function ($x) {
                 return $x;
             },
@@ -115,7 +115,7 @@ class Multi
 
         $number_of_arrays = \count($arrays);
         $length_of_arrays = \count($arrays[0]);
-        $quotients        = array_map(
+        $quotients        = \array_map(
             function ($x) {
                 return $x;
             },
@@ -148,7 +148,7 @@ class Multi
 
         $number_of_arrays = \count($arrays);
         $length_of_arrays = \count($arrays[0]);
-        $maxes            = array_map(
+        $maxes            = \array_map(
             function ($x) {
                 return $x;
             },
@@ -181,7 +181,7 @@ class Multi
 
         $number_of_arrays = \count($arrays);
         $length_of_arrays = \count($arrays[0]);
-        $mins             = array_map(
+        $mins             = \array_map(
             function ($x) {
                 return $x;
             },

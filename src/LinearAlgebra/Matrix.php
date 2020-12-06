@@ -1814,7 +1814,7 @@ class Matrix extends MatrixBase
         $M = $this->rowMeans();
 
         /** @var Vector[] $B */
-        $B = array_map(
+        $B = \array_map(
             function (Vector $Xᵢ) use ($M) {
                 return $Xᵢ->subtract($M);
             },
@@ -1854,7 +1854,7 @@ class Matrix extends MatrixBase
         $M = $this->columnMeans();
 
         /** @var Vector[] $B */
-        $B = array_map(
+        $B = \array_map(
             function (Vector $Xᵢ) use ($M) {
                 return $Xᵢ->subtract($M);
             },
@@ -2044,7 +2044,7 @@ class Matrix extends MatrixBase
      */
     public function rowSums(): Vector
     {
-        $sums = array_map(
+        $sums = \array_map(
             function (array $row) {
                 return \array_sum($row);
             },
@@ -2082,7 +2082,7 @@ class Matrix extends MatrixBase
     {
         $n = $this->n;
 
-        $means = array_map(
+        $means = \array_map(
             function (array $row) use ($n) {
                 return \array_sum($row) / $n;
             },
@@ -3091,7 +3091,7 @@ class Matrix extends MatrixBase
      */
     public function __toString()
     {
-        return \trim(array_reduce(array_map(
+        return \trim(array_reduce(\array_map(
             function ($mᵢ) {
                 return '[' . implode(', ', $mᵢ) . ']';
             },

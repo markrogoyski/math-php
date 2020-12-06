@@ -44,10 +44,10 @@ abstract class Regression
         // Get list of x points and y points.
         // This will be fine for linear or polynomial regression, where there is only one x,
         // but if expanding to multiple linear, the format will have to change.
-        $this->xs = array_map(function ($point) {
+        $this->xs = \array_map(function ($point) {
             return $point[0];
         }, $points);
-        $this->ys = array_map(function ($point) {
+        $this->ys = \array_map(function ($point) {
             return $point[1];
         }, $points);
     }
@@ -109,6 +109,6 @@ abstract class Regression
      */
     public function yHat(): array
     {
-        return array_map([$this, 'evaluate'], $this->xs);
+        return \array_map([$this, 'evaluate'], $this->xs);
     }
 }

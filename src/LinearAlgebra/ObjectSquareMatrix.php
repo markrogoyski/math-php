@@ -167,7 +167,7 @@ class ObjectSquareMatrix extends SquareMatrix
                 $VA        = $this->getRow($i);
                 $VB        = $B->getColumn($j);
                 $R[$i][$j] = array_reduce(
-                    array_map(
+                    \array_map(
                         function (ObjectArithmetic $a, ObjectArithmetic $b) {
                             return $a->multiply($b);
                         },

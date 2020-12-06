@@ -60,13 +60,13 @@ class Divergence
         }
 
         // Defensive measures against taking the log of 0 which would be -∞ or dividing by 0
-        $p = array_map(
+        $p = \array_map(
             function ($pᵢ) {
                 return $pᵢ == 0 ? 1e-15 : $pᵢ;
             },
             $p
         );
-        $q = array_map(
+        $q = \array_map(
             function ($qᵢ) {
                 return $qᵢ == 0 ? 1e-15 : $qᵢ;
             },
@@ -74,7 +74,7 @@ class Divergence
         );
 
         // ∑ P(i) log(P(i)/Q(i))
-        $Dkl⟮P‖Q⟯ = \array_sum(array_map(
+        $Dkl⟮P‖Q⟯ = \array_sum(\array_map(
             function ($P, $Q) {
                 return $P * log($P / $Q);
             },
@@ -123,7 +123,7 @@ class Divergence
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
-        $M = array_map(
+        $M = \array_map(
             function ($pᵢ, $qᵢ) {
                 return ($pᵢ + $qᵢ) / 2;
             },

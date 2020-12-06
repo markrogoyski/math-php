@@ -238,7 +238,7 @@ trait LeastSquares
     public function sumOfSquaresResidual(): float
     {
         $Ŷ = $this->reg_Yhat;
-        return \array_sum(array_map(
+        return \array_sum(\array_map(
             function ($yᵢ, $ŷᵢ) {
                 return ($yᵢ - $ŷᵢ) ** 2;
             },
@@ -445,7 +445,7 @@ trait LeastSquares
         $mse = $this->meanSquareResidual();
         $p   = $this->p + $this->fit_constant;
 
-        return array_map(
+        return \array_map(
             function ($eᵢ, $hᵢ) use ($mse, $p) {
                 return ($eᵢ ** 2 / $mse / $p) * ($hᵢ / (1 - $hᵢ) ** 2);
             },
@@ -507,7 +507,7 @@ trait LeastSquares
         $MSₑ = $this->meanSquareResidual();
 
         // Mean square residuals with the the i-th observation removed
-        $MSₑ₍ᵢ₎ = array_map(
+        $MSₑ₍ᵢ₎ = \array_map(
             function ($eᵢ, $hᵢ) use ($MSₑ, $ν) {
                 return ($MSₑ - ($eᵢ ** 2 / ((1 - $hᵢ) * $ν))) * ($ν / ($ν - 1));
             },
@@ -516,7 +516,7 @@ trait LeastSquares
         );
 
         // Studentized residual with the i-th observation removed
-        $s = array_map(
+        $s = \array_map(
             function ($eᵢ, $mseᵢ, $hᵢ) {
                 return $eᵢ / \sqrt($mseᵢ * (1 - $hᵢ));
             },
@@ -525,7 +525,7 @@ trait LeastSquares
             $h
         );
 
-        $DFFITS = array_map(
+        $DFFITS = \array_map(
             function ($s₍ᵢ₎, $hᵢ) {
                 return $s₍ᵢ₎ * \sqrt($hᵢ / (1 - $hᵢ));
             },

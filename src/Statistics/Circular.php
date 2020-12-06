@@ -23,13 +23,13 @@ class Circular
      */
     public static function mean(array $angles): float
     {
-        $∑sinαⱼ = \array_sum(array_map(
+        $∑sinαⱼ = \array_sum(\array_map(
             function ($αⱼ) {
                 return \sin($αⱼ);
             },
             $angles
         ));
-        $∑cosαⱼ = \array_sum(array_map(
+        $∑cosαⱼ = \array_sum(\array_map(
             function ($αⱼ) {
                 return cos($αⱼ);
             },
@@ -55,13 +55,13 @@ class Circular
      */
     public static function resultantLength(array $angles): float
     {
-        $S = \array_sum(array_map(
+        $S = \array_sum(\array_map(
             function ($θᵢ) {
                 return \sin($θᵢ);
             },
             $angles
         ));
-        $C = \array_sum(array_map(
+        $C = \array_sum(\array_map(
             function ($θᵢ) {
                 return cos($θᵢ);
             },

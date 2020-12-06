@@ -80,7 +80,7 @@ class Dirichlet
          * ⁱ⁼ⁱ
          */
         $∏xᵢ = \array_product(
-            array_map(
+            \array_map(
                 function ($xᵢ, $αᵢ) {
                     return $xᵢ ** ($αᵢ - 1);
                 },

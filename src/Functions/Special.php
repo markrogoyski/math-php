@@ -880,14 +880,14 @@ class Special
     {
         $ℯ = \M_E;
 
-        $∑ᴷℯᶻᵢ = \array_sum(array_map(
+        $∑ᴷℯᶻᵢ = \array_sum(\array_map(
             function ($z) use ($ℯ) {
                 return $ℯ ** $z;
             },
             $𝐳
         ));
 
-        $σ⟮𝐳⟯ⱼ = array_map(
+        $σ⟮𝐳⟯ⱼ = \array_map(
             function ($z) use ($ℯ, $∑ᴷℯᶻᵢ) {
                 return ($ℯ ** $z) / $∑ᴷℯᶻᵢ;
             },

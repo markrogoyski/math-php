@@ -306,7 +306,7 @@ class Set implements \Countable, \Iterator
         $B_array  = $B->asArray();
 
         $A∩B = array_intersect_key($this->A, $B_array);
-        $A∖B = array_diff_key($this->A, $B_array);
+        $A∖B = \array_diff_key($this->A, $B_array);
 
         return (\count($A∩B) === \count($this->A)) && (empty($A∖B));
     }
@@ -326,7 +326,7 @@ class Set implements \Countable, \Iterator
         $B_array  = $B->asArray();
 
         $A∩B = array_intersect_key($this->A, $B_array);
-        $A∖B = array_diff_key($this->A, $B_array);
+        $A∖B = \array_diff_key($this->A, $B_array);
 
         return (\count($A∩B) === \count($this->A)) && (empty($A∖B)) && (\count($this->A) === \count($B));
     }
@@ -345,7 +345,7 @@ class Set implements \Countable, \Iterator
         $B_array  = $B->asArray();
 
         $A∩B = array_intersect_key($this->A, $B_array);
-        $A∖B = array_diff_key($B_array, $this->A);
+        $A∖B = \array_diff_key($B_array, $this->A);
 
         return (\count($A∩B) === $B->length()) && (empty($A∖B));
     }
@@ -365,7 +365,7 @@ class Set implements \Countable, \Iterator
         $B_array  = $B->asArray();
 
         $A∩B = array_intersect_key($this->A, $B_array);
-        $A∖B = array_diff_key($B_array, $this->A);
+        $A∖B = \array_diff_key($B_array, $this->A);
 
         return (\count($A∩B) === $B->length()) && (empty($A∖B)) && ($this != $B);
     }
@@ -395,7 +395,7 @@ class Set implements \Countable, \Iterator
         $new_members = [];
 
         foreach ($Bs as $B) {
-            $new_members += array_diff_key($B->asArray(), $union);
+            $new_members += \array_diff_key($B->asArray(), $union);
         }
 
         foreach ($new_members as $member => $value) {
@@ -443,7 +443,7 @@ class Set implements \Countable, \Iterator
             $B_members += $B->asArray();
         }
 
-        $difference = array_diff_key($this->A, $B_members);
+        $difference = \array_diff_key($this->A, $B_members);
 
         return new Set($difference);
     }
@@ -466,8 +466,8 @@ class Set implements \Countable, \Iterator
 
         $A∪B = array_intersect_key($this->A, $B_array);
 
-        $A∖B = array_diff_key($this->A, $A∪B);
-        $B∖A = array_diff_key($B_array, $A∪B);
+        $A∖B = \array_diff_key($this->A, $A∪B);
+        $B∖A = \array_diff_key($B_array, $A∪B);
 
         return new Set($A∖B + $B∖A);
     }

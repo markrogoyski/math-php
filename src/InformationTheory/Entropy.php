@@ -45,7 +45,7 @@ class Entropy
         }
 
         // Defensive measure against taking the log of 0 which would be -∞
-        $p = array_map(
+        $p = \array_map(
             function ($pᵢ) {
                 return $pᵢ == 0 ? 1e-15 : $pᵢ;
             },
@@ -53,7 +53,7 @@ class Entropy
         );
 
         // ∑ pᵢlog₂(pᵢ)
-        $∑pᵢlog₂⟮pᵢ⟯ = \array_sum(array_map(
+        $∑pᵢlog₂⟮pᵢ⟯ = \array_sum(\array_map(
             function ($pᵢ) {
                 return $pᵢ * log($pᵢ, 2);
             },
@@ -88,7 +88,7 @@ class Entropy
         }
 
         // Defensive measure against taking the log of 0 which would be -∞
-        $p = array_map(
+        $p = \array_map(
             function ($pᵢ) {
                 return $pᵢ == 0 ? 1e-15 : $pᵢ;
             },
@@ -96,7 +96,7 @@ class Entropy
         );
 
         // ∑ pᵢln(pᵢ)
-        $∑pᵢln⟮pᵢ⟯ = \array_sum(array_map(
+        $∑pᵢln⟮pᵢ⟯ = \array_sum(\array_map(
             function ($pᵢ) {
                 return $pᵢ * log($pᵢ);
             },
@@ -131,7 +131,7 @@ class Entropy
         }
 
         // Defensive measure against taking the log of 0 which would be -∞
-        $p = array_map(
+        $p = \array_map(
             function ($pᵢ) {
                 return $pᵢ == 0 ? 1e-15 : $pᵢ;
             },
@@ -139,7 +139,7 @@ class Entropy
         );
 
         // ∑ pᵢlog₁₀(pᵢ)
-        $∑pᵢlog₁₀⟮pᵢ⟯ = \array_sum(array_map(
+        $∑pᵢlog₁₀⟮pᵢ⟯ = \array_sum(\array_map(
             function ($pᵢ) {
                 return $pᵢ * log10($pᵢ);
             },
@@ -179,7 +179,7 @@ class Entropy
         }
 
         // Defensive measure against taking the log of 0 which would be -∞
-        $q = array_map(
+        $q = \array_map(
             function ($qᵢ) {
                 return $qᵢ == 0 ? 1e-15 : $qᵢ;
             },
@@ -187,7 +187,7 @@ class Entropy
         );
 
         // ∑ p(x) log₂ q(x)
-        $∑plog₂⟮q⟯ = \array_sum(array_map(
+        $∑plog₂⟮q⟯ = \array_sum(\array_map(
             function ($pᵢ, $qᵢ) {
                 return $pᵢ * log($qᵢ, 2);
             },

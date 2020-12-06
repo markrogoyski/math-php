@@ -133,13 +133,13 @@ class Distance
         }
 
         // Defensive measures against taking the log of 0 which would be -∞ or dividing by 0
-        $p = array_map(
+        $p = \array_map(
             function ($pᵢ) {
                 return $pᵢ == 0 ? 1e-15 : $pᵢ;
             },
             $p
         );
-        $q = array_map(
+        $q = \array_map(
             function ($qᵢ) {
                 return $qᵢ == 0 ? 1e-15 : $qᵢ;
             },
@@ -147,7 +147,7 @@ class Distance
         );
 
         // √ ∑ (√pᵢ - √qᵢ)²
-        $√∑⟮√pᵢ − √qᵢ⟯² = \sqrt(\array_sum(array_map(
+        $√∑⟮√pᵢ − √qᵢ⟯² = \sqrt(\array_sum(\array_map(
             function ($pᵢ, $qᵢ) {
                 return (\sqrt($pᵢ) - \sqrt($qᵢ)) ** 2;
             },
@@ -300,7 +300,7 @@ class Distance
         }
 
         $∑｜xᵢ − yᵢ⟯ᵖ = \array_sum(
-            array_map(
+            \array_map(
                 function ($x, $y) use ($p) {
                     return \abs($x - $y) ** $p;
                 },
@@ -450,14 +450,14 @@ class Distance
             return \NAN;
         }
 
-        $∑｜uᵢ − vᵢ｜ = \array_sum(array_map(
+        $∑｜uᵢ − vᵢ｜ = \array_sum(\array_map(
             function (float $uᵢ, float $vᵢ) {
                 return \abs($uᵢ - $vᵢ);
             },
             $u,
             $v
         ));
-        $∑｜uᵢ ＋ vᵢ｜ = \array_sum(array_map(
+        $∑｜uᵢ ＋ vᵢ｜ = \array_sum(\array_map(
             function (float $uᵢ, float $vᵢ) {
                 return \abs($uᵢ + $vᵢ);
             },
@@ -501,7 +501,7 @@ class Distance
         }
 
         // Numerators ｜pᵢ − qᵢ｜
-        $｜p − q｜ = array_map(
+        $｜p − q｜ = \array_map(
             function (float $pᵢ, float $qᵢ) {
                 return \abs($pᵢ - $qᵢ);
             },
@@ -509,7 +509,7 @@ class Distance
             $q
         );
         // Denominators ｜pᵢ｜ + ｜qᵢ｜
-        $｜p｜ ＋ ｜q｜ = array_map(
+        $｜p｜ ＋ ｜q｜ = \array_map(
             function (float $p, float $q) {
                 return \abs($p) + \abs($q);
             },
@@ -521,7 +521,7 @@ class Distance
         //    ｜pᵢ − qᵢ｜
         // ∑ --------------
         //   ｜pᵢ｜ + ｜qᵢ｜
-        return \array_sum(array_map(
+        return \array_sum(\array_map(
             function (float $｜pᵢ − qᵢ｜, float $｜pᵢ｜ ＋ ｜qᵢ｜) {
                 return $｜pᵢ｜ ＋ ｜qᵢ｜ == 0
                     ? 0

@@ -101,7 +101,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function asColumnMatrix()
     {
-        $matrix = array_map(
+        $matrix = \array_map(
             function ($element) {
                 return [$element];
             },
@@ -178,7 +178,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
             throw new Exception\VectorException('Vectors have different number of items');
         }
 
-        return \array_sum(array_map(
+        return \array_sum(\array_map(
             function ($a, $b) {
                 return $a * $b;
             },

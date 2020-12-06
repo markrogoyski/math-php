@@ -194,7 +194,7 @@ class Descriptive
         }
 
         $μw           = Average::weightedMean($numbers, $weights);
-        $∑wᵢ⟮xᵢ − μw⟯² = \array_sum(array_map(
+        $∑wᵢ⟮xᵢ − μw⟯² = \array_sum(\array_map(
             function ($xᵢ, $wᵢ) use ($μw) {
                 return $wᵢ * \pow(($xᵢ - $μw), 2);
             },
@@ -286,7 +286,7 @@ class Descriptive
         }
 
         $x         = Average::mean($numbers);
-        $∑│xᵢ − x│ = \array_sum(array_map(
+        $∑│xᵢ − x│ = \array_sum(\array_map(
             function ($xᵢ) use ($x) {
                 return \abs($xᵢ - $x);
             },
@@ -322,7 +322,7 @@ class Descriptive
         }
 
         $x = Average::median($numbers);
-        return Average::median(array_map(
+        return Average::median(\array_map(
             function ($xᵢ) use ($x) {
                 return \abs($xᵢ - $x);
             },

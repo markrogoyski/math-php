@@ -216,13 +216,13 @@ class KernelDensityEstimation
         $h = $this->h;
         $n = $this->n;
 
-        $scale = array_map(
+        $scale = \array_map(
             function ($xᵢ) use ($x, $h) {
                 return ($x - $xᵢ) / $h;
             },
             $this->data
         );
-        $K       = array_map($this->kernel, $scale);
+        $K       = \array_map($this->kernel, $scale);
         $density = \array_sum($K) / ($n * $h);
 
         return $density;

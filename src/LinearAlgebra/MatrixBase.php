@@ -238,7 +238,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      */
     public function asRowVectors(): array
     {
-        return array_map(
+        return \array_map(
             function (array $row) {
                 return new Vector($row);
             },
@@ -607,7 +607,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      */
     public function mapRows(callable $func): array
     {
-        return array_map(
+        return \array_map(
             $func,
             $this->A
         );

@@ -63,7 +63,7 @@ class Average
             throw new Exception\BadDataException('Numbers and weights must have the same number of elements.');
         }
 
-        $∑⟮xᵢwᵢ⟯ = \array_sum(array_map(
+        $∑⟮xᵢwᵢ⟯ = \array_sum(\array_map(
             function ($xᵢ, $wᵢ) {
                 return $xᵢ * $wᵢ;
             },
@@ -236,7 +236,7 @@ class Average
         // Count how many times each number occurs.
         // Determine the max any number occurs.
         // Find all numbers that occur max times.
-        $number_strings = array_map('strval', $numbers);
+        $number_strings = \array_map('strval', $numbers);
         $number_counts  = array_count_values($number_strings);
         $max            = max($number_counts);
         $modes          = array();
@@ -247,7 +247,7 @@ class Average
         }
 
         // Cast back to numbers
-        return array_map('floatval', $modes);
+        return \array_map('floatval', $modes);
     }
 
     /**
@@ -363,7 +363,7 @@ class Average
         }
 
         $n = \count($numbers);
-        $x₁²＋x₂²＋⋯ = \array_sum(array_map(
+        $x₁²＋x₂²＋⋯ = \array_sum(\array_map(
             function ($x) {
                 return $x ** 2;
             },

@@ -71,7 +71,7 @@ class MtCars
      */
     public function getLabeledData(): array
     {
-        return array_map(
+        return \array_map(
             function (array $data) {
                 return array_combine(self::LABELS, $data);
             },

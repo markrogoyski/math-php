@@ -19,7 +19,7 @@ class Single
      */
     public static function add(array $xs, $k): array
     {
-        return array_map(
+        return \array_map(
             function ($x) use ($k) {
                 return $x + $k;
             },
@@ -37,7 +37,7 @@ class Single
      */
     public static function subtract(array $xs, $k): array
     {
-        return array_map(
+        return \array_map(
             function ($x) use ($k) {
                 return $x - $k;
             },
@@ -55,7 +55,7 @@ class Single
      */
     public static function multiply(array $xs, $k): array
     {
-        return array_map(
+        return \array_map(
             function ($x) use ($k) {
                 return $x * $k;
             },
@@ -73,7 +73,7 @@ class Single
      */
     public static function divide(array $xs, $k): array
     {
-        return array_map(
+        return \array_map(
             function ($x) use ($k) {
                 return $x / $k;
             },
@@ -90,7 +90,7 @@ class Single
      */
     public static function square(array $xs): array
     {
-        return array_map(
+        return \array_map(
             function ($x) {
                 return $x ** 2;
             },
@@ -107,7 +107,7 @@ class Single
      */
     public static function cube(array $xs): array
     {
-        return array_map(
+        return \array_map(
             function ($x) {
                 return $x ** 3;
             },
@@ -137,7 +137,7 @@ class Single
             throw new Exception\BadDataException('Cannot compute the reciprocal of 0');
         }
 
-        return array_map(
+        return \array_map(
             function ($x) {
                 return 1 / $x;
             },
@@ -155,7 +155,7 @@ class Single
      */
     public static function pow(array $xs, $n): array
     {
-        return array_map(
+        return \array_map(
             function ($x) use ($n) {
                 return $x ** $n;
             },
@@ -172,7 +172,7 @@ class Single
      */
     public static function sqrt(array $xs): array
     {
-        return array_map(
+        return \array_map(
             function ($x) {
                 return \sqrt($x);
             },
@@ -189,7 +189,7 @@ class Single
      */
     public static function abs(array $xs): array
     {
-        return array_map(
+        return \array_map(
             function ($x) {
                 return \abs($x);
             },
@@ -209,7 +209,7 @@ class Single
      */
     public static function min(array $xs, $value): array
     {
-        return array_map(
+        return \array_map(
             function ($x) use ($value) {
                 return min($x, $value);
             },
@@ -229,7 +229,7 @@ class Single
      */
     public static function max(array $xs, $value): array
     {
-        return array_map(
+        return \array_map(
             function ($x) use ($value) {
                 return max($x, $value);
             },

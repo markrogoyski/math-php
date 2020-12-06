@@ -33,9 +33,9 @@ class Support
     public static function checkLimits(array $limits, array $params)
     {
         // All parameters should have limit bounds defined
-        $undefined_limits = array_diff_key($params, $limits);
+        $undefined_limits = \array_diff_key($params, $limits);
         if (!empty($undefined_limits)) {
-            throw new Exception\BadParameterException('Parameter without bounds limit defined: ' . print_r($undefined_limits, true));
+            throw new Exception\BadParameterException('Parameter without bounds limit defined: ' . \print_r($undefined_limits, true));
         }
 
         foreach ($params as $variable => $value) {
