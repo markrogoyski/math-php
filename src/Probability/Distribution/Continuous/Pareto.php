@@ -144,7 +144,7 @@ class Pareto extends Continuous
         $b = $this->b;
 
         if ($a <= 1) {
-            return INF;
+            return \INF;
         }
 
         return $a * $b / ($a - 1);

@@ -133,7 +133,7 @@ class Complex implements ObjectArithmetic
      */
     public function arg()
     {
-        return atan2($this->i, $this->r);
+        return \atan2($this->i, $this->r);
     }
 
     /**

@@ -532,7 +532,7 @@ class ArbitraryInteger implements ObjectArithmetic
 
         // If the divisor is less than Int_max / 256 then
         // the native php intdiv and mod functions can be used.
-        $safe_bytes = new ArbitraryInteger(intdiv(PHP_INT_MAX, 256));
+        $safe_bytes = new ArbitraryInteger(\intdiv(\PHP_INT_MAX, 256));
         $divisor    = self::create($divisor);
 
         if ($divisor->lessThan($safe_bytes)) {

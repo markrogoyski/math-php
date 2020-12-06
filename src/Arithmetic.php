@@ -157,6 +157,6 @@ class Arithmetic
             return $a;
         }
 
-        return $a - $n * floor($a / $n);
+        return $a - $n * \floor($a / $n);
     }
 }

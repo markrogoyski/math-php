@@ -36,7 +36,7 @@ class Circular
             $angles
         ));
 
-        return atan2($∑sinαⱼ, $∑cosαⱼ);
+        return \atan2($∑sinαⱼ, $∑cosαⱼ);
     }
 
     /**

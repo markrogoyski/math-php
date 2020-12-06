@@ -507,7 +507,7 @@ class Average
         }
 
         $n          = \count($numbers);
-        $trim_count = floor($n * ($trim_percent / 100));
+        $trim_count = \floor($n * ($trim_percent / 100));
 
         sort($numbers);
         for ($i = 1; $i <= $trim_count; $i++) {

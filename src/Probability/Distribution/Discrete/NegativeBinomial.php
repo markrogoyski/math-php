@@ -138,7 +138,7 @@ class NegativeBinomial extends Discrete
         $r = $this->r;
         $p = $this->p;
 
-        return floor(($p * ($r - 1)) / (1 - $p));
+        return \floor(($p * ($r - 1)) / (1 - $p));
     }
 
     /**

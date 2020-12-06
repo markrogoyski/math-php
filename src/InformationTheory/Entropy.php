@@ -141,7 +141,7 @@ class Entropy
         // ∑ pᵢlog₁₀(pᵢ)
         $∑pᵢlog₁₀⟮pᵢ⟯ = \array_sum(\array_map(
             function ($pᵢ) {
-                return $pᵢ * log10($pᵢ);
+                return $pᵢ * \log10($pᵢ);
             },
             $p
         ));

@@ -190,7 +190,7 @@ class Hypergeometric extends Discrete
 
         return [
             ceil((($n + 1) * ($K + 1)) / ($N + 2)) - 1,
-            floor((($n + 1) * ($K + 1)) / ($N + 2)),
+            \floor((($n + 1) * ($K + 1)) / ($N + 2)),
         ];
     }
 

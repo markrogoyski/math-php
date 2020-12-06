@@ -115,7 +115,7 @@ class Poisson extends Discrete
      */
     public function median(): float
     {
-        return floor($this->λ + 1 / 3 - 0.02 / $this->λ);
+        return \floor($this->λ + 1 / 3 - 0.02 / $this->λ);
     }
 
     /**
@@ -129,7 +129,7 @@ class Poisson extends Discrete
     {
         return [
             ceil($this->λ - 1),
-            floor($this->λ),
+            \floor($this->λ),
         ];
     }
 

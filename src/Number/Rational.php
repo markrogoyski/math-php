@@ -134,7 +134,7 @@ class Rational implements ObjectArithmetic
     private function toSuperOrSubscript(int $i, array $chars): string
     {
         $return_string   = '';
-        $number_of_chars = floor(log10($i) + 1);
+        $number_of_chars = \floor(\log10($i) + 1);
         $working_value   = $i;
 
         for ($j = $number_of_chars - 1; $j >= 0; $j--) {
