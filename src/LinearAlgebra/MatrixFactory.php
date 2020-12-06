@@ -509,7 +509,7 @@ class MatrixFactory
         $A = [];
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                $A[$i][$j] = rand($min, $max);
+                $A[$i][$j] = \rand($min, $max);
             }
         }
         return self::create($A);

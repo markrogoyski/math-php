@@ -235,7 +235,7 @@ class Eigenvalue
             // Perturb the eigenvector and run again to make sure the same solution is found
             $newb = $b->getMatrix();
             for ($i = 0; $i < \count($newb); $i++) {
-                $newb[$i][0] = $newb[1][0] + rand() / 10;
+                $newb[$i][0] = $newb[1][0] + \rand() / 10;
             }
             $b    = MatrixFactory::create($newb);
             $b    = $b->scalarDivide($b->frobeniusNorm());  // Scale to a unit vector
