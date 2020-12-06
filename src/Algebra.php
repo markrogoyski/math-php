@@ -103,7 +103,7 @@ class Algebra
             return 0;
         }
 
-        return abs($a * $b) / Algebra::gcd($a, $b);
+        return \abs($a * $b) / Algebra::gcd($a, $b);
     }
 
     /**
@@ -131,7 +131,7 @@ class Algebra
             return [\INF];
         }
 
-        $x       = abs($x);
+        $x       = \abs($x);
         $factors = [1];
 
         // Prime factorize x

@@ -160,7 +160,7 @@ class KernelDensityEstimation
 
             case self::UNIFORM:
                 return function ($x) {
-                    if (abs($x) > 1) {
+                    if (\abs($x) > 1) {
                         return 0;
                     } else {
                         return .5;
@@ -169,16 +169,16 @@ class KernelDensityEstimation
 
             case self::TRIANGULAR:
                 return function ($x) {
-                    if (abs($x) > 1) {
+                    if (\abs($x) > 1) {
                         return 0;
                     } else {
-                        return 1 - abs($x);
+                        return 1 - \abs($x);
                     }
                 };
 
             case self::EPANECHNIKOV:
                 return function ($x) {
-                    if (abs($x) > 1) {
+                    if (\abs($x) > 1) {
                         return 0;
                     } else {
                         return .75 * (1 - $x ** 2);
@@ -187,10 +187,10 @@ class KernelDensityEstimation
 
             case self::TRICUBE:
                 return function ($x) {
-                    if (abs($x) > 1) {
+                    if (\abs($x) > 1) {
                         return 0;
                     } else {
-                        return 70 / 81 * ((1 - abs($x) ** 3) ** 3);
+                        return 70 / 81 * ((1 - \abs($x) ** 3) ** 3);
                     }
                 };
 

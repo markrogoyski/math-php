@@ -867,7 +867,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $median = $beta->median();
 
         // Then
-        $ε = abs($expected - $median);
+        $ε = \abs($expected - $median);
         $η = $ε / $expected;
         $this->assertLessThan($expectedError, $η);
     }

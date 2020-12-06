@@ -191,7 +191,7 @@ class Single
     {
         return array_map(
             function ($x) {
-                return abs($x);
+                return \abs($x);
             },
             $xs
         );

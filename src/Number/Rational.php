@@ -81,7 +81,7 @@ class Rational implements ObjectArithmetic
             $sign = '-';
         }
         if ($this->whole !== 0) {
-            $whole = abs($this->whole);
+            $whole = \abs($this->whole);
         }
         if ($this->numerator !== 0) {
             if ($this->whole !== 0) {
@@ -105,7 +105,7 @@ class Rational implements ObjectArithmetic
     private function numeratorToSuperscript(): string
     {
         return $this->toSuperOrSubscript(
-            abs($this->numerator),
+            \abs($this->numerator),
             ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹']
         );
     }
@@ -168,7 +168,7 @@ class Rational implements ObjectArithmetic
      */
     public function abs(): Rational
     {
-        return new Rational(abs($this->whole), abs($this->numerator), abs($this->denominator));
+        return new Rational(\abs($this->whole), \abs($this->numerator), \abs($this->denominator));
     }
 
     /**
@@ -410,7 +410,7 @@ class Rational implements ObjectArithmetic
             if ($w == 0 && $n == 0) {
                 throw new Exception\DivisionByZeroException('Cannot raise zero to a negative exponent.');
             }
-            $p = abs($p);
+            $p = \abs($p);
             return new Rational(0, $d ** $p, ($d * $w + $n) ** $p);
         } else {
             return new Rational(0, ($d * $w + $n) ** $p, $d ** $p);
@@ -463,13 +463,13 @@ class Rational implements ObjectArithmetic
         }
 
         // Reduce the fraction
-        if (abs($n) >= $d) {
+        if (\abs($n) >= $d) {
             $w += \intdiv($n, $d);
             $n = $n % $d;
         }
         $gcd = 0;
         while ($gcd != 1 && $n !== 0) {
-            $gcd = abs(Algebra::gcd($n, $d));
+            $gcd = \abs(Algebra::gcd($n, $d));
             $n /= $gcd;
             $d /= $gcd;
         }
@@ -477,7 +477,7 @@ class Rational implements ObjectArithmetic
         // Make the signs of $n and $w match
         if (Special::sgn($w) !== Special::sgn($n) && $w !== 0 && $n !== 0) {
             $w = $w - Special::sgn($w);
-            $n = ($d - abs($n)) * Special::sgn($w);
+            $n = ($d - \abs($n)) * Special::sgn($w);
         }
 
         if ($n == 0) {

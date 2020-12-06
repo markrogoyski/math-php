@@ -125,7 +125,7 @@ class Polynomial implements ObjectArithmetic
             $sign = ($coefficient > 0) ? '+' : '-';
 
             // Drop the sign from the coefficient, as it is handled by $sign
-            $coefficient = abs($coefficient);
+            $coefficient = \abs($coefficient);
 
             // Drop coefficients that equal 1 (and -1) if they are not the 0th-degree term
             if ($coefficient == 1 and $this->degree - $i != 0) {
@@ -313,7 +313,7 @@ class Polynomial implements ObjectArithmetic
         // If degrees are unequal, make coefficient array sizes equal so we can do component-wise addition
         $degreeDifference = $this->getDegree() - $polynomial->getDegree();
         if ($degreeDifference !== 0) {
-            $zeroArray = array_fill(0, abs($degreeDifference), 0);
+            $zeroArray = array_fill(0, \abs($degreeDifference), 0);
             if ($degreeDifference < 0) {
                 $coefficientsA = \array_merge($zeroArray, $coefficientsA);
             } else {

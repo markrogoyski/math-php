@@ -55,7 +55,7 @@ class Divergence
         }
 
         // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+        if ((\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
@@ -119,7 +119,7 @@ class Divergence
         }
 
         // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+        if ((\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 

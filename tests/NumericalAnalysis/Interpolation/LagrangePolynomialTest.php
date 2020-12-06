@@ -119,7 +119,7 @@ class LagrangePolynomialTest extends \PHPUnit\Framework\TestCase
         $x₁ = 3;
         $x₂ = 6;
         $x₃ = 9;
-        $tol = abs(($x - $x₀) * ($x - $x₁) * ($x - $x₂) * ($x - $x₃));
+        $tol = \abs(($x - $x₀) * ($x - $x₁) * ($x - $x₂) * ($x - $x₃));
 
         // And
         $p        = LagrangePolynomial::interpolate($f, $a, $b, $n);

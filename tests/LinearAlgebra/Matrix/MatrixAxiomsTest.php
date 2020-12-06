@@ -3571,7 +3571,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $det⟮A⟯ = $A->det();
 
         // Then
-        $this->assertEquals(1, abs($det⟮A⟯));
+        $this->assertEquals(1, \abs($det⟮A⟯));
     }
 
     /**

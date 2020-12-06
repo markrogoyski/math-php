@@ -44,7 +44,7 @@ class FixedPointIteration
 
         do {
             $g⟮p⟯ = $function($p);
-            $dif = abs($g⟮p⟯ - $p);
+            $dif = \abs($g⟮p⟯ - $p);
             $p   = $g⟮p⟯;
         } while ($dif > $tol);
 

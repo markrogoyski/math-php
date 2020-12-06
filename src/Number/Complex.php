@@ -65,7 +65,7 @@ class Complex implements ObjectArithmetic
         } elseif ($this->i > 0) {
             return "$this->r" . ' + ' . "$this->i" . 'i';
         } else {
-            return "$this->r" . ' - ' . (string) abs($this->i) . 'i';
+            return "$this->r" . ' - ' . (string) \abs($this->i) . 'i';
         }
     }
 
@@ -369,6 +369,6 @@ class Complex implements ObjectArithmetic
      */
     public function equals(Complex $c): bool
     {
-        return abs($this->r - $c->r) < self::EPSILON && abs($this->i - $c->i) < self::EPSILON;
+        return \abs($this->r - $c->r) < self::EPSILON && \abs($this->i - $c->i) < self::EPSILON;
     }
 }

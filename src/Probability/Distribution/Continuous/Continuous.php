@@ -52,7 +52,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
                 return array_sum(array_keys($repeated_guesses)) / \count($repeated_guesses);
             }
 
-            $dif = abs($del_y);
+            $dif = \abs($del_y);
         }
         return $guess;
     }

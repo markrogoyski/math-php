@@ -68,11 +68,11 @@ class Special
             return \INF;
         }
         // Negative integer, or negative int as a float (Ex: from beta(-0.1, -0.9) since it will call Γ(x + y))
-        if ((abs($n - round($n)) < 0.00001) && $n < 0) {
+        if ((\abs($n - round($n)) < 0.00001) && $n < 0) {
             return -\INF;
         }
         // Positive integer, or positive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
-        if ((abs($n - round($n)) < 0.00001) && $n > 0) {
+        if ((\abs($n - round($n)) < 0.00001) && $n > 0) {
             return Combinatorics::factorial((int) round($n) - 1);
         }
 
@@ -154,11 +154,11 @@ class Special
             return \INF;
         }
         // Negative integer, or negative int as a float
-        if ((abs($z - round($z)) < 0.00001) && $z < 0) {
+        if ((\abs($z - round($z)) < 0.00001) && $z < 0) {
             return -\INF;
         }
         // Positive integer, or positive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
-        if ((abs($z - round($z)) < 0.00001) && $z > 0) {
+        if ((\abs($z - round($z)) < 0.00001) && $z > 0) {
             return Combinatorics::factorial((int) round($z) - 1);
         }
 
@@ -239,11 +239,11 @@ class Special
             return \INF;
         }
         // Negative integer, or negative int as a float
-        if ((abs($n - round($n)) < 0.00001) && $n < 0) {
+        if ((\abs($n - round($n)) < 0.00001) && $n < 0) {
             return -\INF;
         }
         // Positive integer, or postive int as a float
-        if ((abs($n - round($n)) < 0.00001) && $n > 0) {
+        if ((\abs($n - round($n)) < 0.00001) && $n > 0) {
             return Combinatorics::factorial((int) round($n) - 1);
         }
 
@@ -409,7 +409,7 @@ class Special
         }
 
         $p  = 0.3275911;
-        $t  = 1 / ( 1 + $p * abs($x) );
+        $t  = 1 / ( 1 + $p * \abs($x) );
 
         $a₁ = 0.254829592;
         $a₂ = -0.284496736;
@@ -417,7 +417,7 @@ class Special
         $a₄ = -1.453152027;
         $a₅ = 1.061405429;
 
-        $error = 1 - ( $a₁ * $t + $a₂ * $t ** 2 + $a₃ * $t ** 3 + $a₄ * $t ** 4 + $a₅ * $t ** 5 ) * exp(-abs($x) ** 2);
+        $error = 1 - ( $a₁ * $t + $a₂ * $t ** 2 + $a₃ * $t ** 3 + $a₄ * $t ** 4 + $a₅ * $t ** 5 ) * exp(-\abs($x) ** 2);
 
         return ( $x > 0 ) ? $error : -$error;
     }
@@ -724,7 +724,7 @@ class Special
             do {
                 $I_new = self::iBetaCF($m, $x, $a, $b);
                 if ($m > 10) {
-                    $dif = abs(($I - $I_new) / $I_new);
+                    $dif = \abs(($I - $I_new) / $I_new);
                 }
                 $I = $I_new;
                 $m++;
@@ -852,8 +852,8 @@ class Special
      */
     public static function hypergeometric(float $a, float $b, float $c, float $z): float
     {
-        if (abs($z) >= 1) {
-             throw new Exception\OutOfBoundsException('|z| must be < 1. |z| = ' . abs($z));
+        if (\abs($z) >= 1) {
+             throw new Exception\OutOfBoundsException('|z| must be < 1. |z| = ' . \abs($z));
         }
 
         return self::generalizedHypergeometric(2, 1, $a, $b, $c, $z);

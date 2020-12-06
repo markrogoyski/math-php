@@ -40,7 +40,7 @@ class Entropy
     public static function shannonEntropy(array $p)
     {
         // Probability distribution must add up to 1.0
-        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
+        if (\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
             throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
         }
 
@@ -83,7 +83,7 @@ class Entropy
     public static function shannonNatEntropy(array $p)
     {
         // Probability distribution must add up to 1.0
-        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
+        if (\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
             throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
         }
 
@@ -126,7 +126,7 @@ class Entropy
     public static function shannonHartleyEntropy(array $p)
     {
         // Probability distribution must add up to 1.0
-        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
+        if (\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
             throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
         }
 
@@ -174,7 +174,7 @@ class Entropy
         }
 
         // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+        if ((\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
@@ -247,7 +247,7 @@ class Entropy
     public static function renyiEntropy(array $p, $α)
     {
         // Probability distribution must add up to 1.0
-        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
+        if (\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
             throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
         }
 
@@ -283,7 +283,7 @@ class Entropy
     public static function perplexity(array $p)
     {
         // Probability distribution must add up to 1.0
-        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
+        if (\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
             throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
         }
 

@@ -78,7 +78,7 @@ class Significance
         } else {
             $p1 = $standardNormal->above($z);
         }
-        $p2 = $standardNormal->outside(-abs($z), abs($z));
+        $p2 = $standardNormal->outside(-\abs($z), \abs($z));
 
         return [
             'z'  => $z,
@@ -136,8 +136,8 @@ class Significance
 
         $standardNormal = new StandardNormal();
         // One- and two-tailed P values
-        $p1 = $standardNormal->above(abs($z));
-        $p2 = $standardNormal->outside(-abs($z), abs($z));
+        $p1 = $standardNormal->above(\abs($z));
+        $p2 = $standardNormal->outside(-\abs($z), \abs($z));
 
         return [
             'z'  => $z,
@@ -272,7 +272,7 @@ class Significance
         } else {
             $p1 = $studentT->above($t);
         }
-        $p2 = $studentT->outside(-abs($t), abs($t));
+        $p2 = $studentT->outside(-\abs($t), \abs($t));
 
         return [
             't'    => $t,
@@ -412,8 +412,8 @@ class Significance
 
         // One- and two-tailed P values
         $studentT = new StudentT($ν);
-        $p1 = $studentT->above(abs($t));
-        $p2 = $studentT->outside(-abs($t), abs($t));
+        $p1 = $studentT->above(\abs($t));
+        $p2 = $studentT->outside(-\abs($t), \abs($t));
 
         return [
             't'  => $t,

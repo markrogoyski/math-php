@@ -81,7 +81,7 @@ class Experiment
         $l   = log($ci_lower_bound);       // ln CI lower bound
         $u   = log($ci_upper_bound);       // ln CI upper bound
         $SE  = ($u - $l) / (2 * self::Z);  // standard error
-        $z   = abs($est / $SE);            // test statistic z
+        $z   = \abs($est / $SE);            // test statistic z
         $p   = exp((self::NORMAL_LOWER_TAIL_PROBABILITY * $z) - (self::NORMAL_UPPER_TAIL_PROBABILITY * $z ** 2));
 
         return [
@@ -140,7 +140,7 @@ class Experiment
         $l   = log($ci_lower_bound);       // ln CI lower bound
         $u   = log($ci_upper_bound);       // ln CI upper bound
         $SE  = ($u - $l) / (2 * self::Z);  // standard error
-        $z   = abs($est / $SE);            // test statistic z
+        $z   = \abs($est / $SE);            // test statistic z
         $p   = exp((self::NORMAL_LOWER_TAIL_PROBABILITY * $z) - (self::NORMAL_UPPER_TAIL_PROBABILITY * $z ** 2));
 
         return [

@@ -491,7 +491,7 @@ class Integer
      */
     public static function isOdd(int $x): bool
     {
-        return (abs($x) % 2) === 1;
+        return (\abs($x) % 2) === 1;
     }
 
     /**
@@ -503,6 +503,6 @@ class Integer
      */
     public static function isEven(int $x): bool
     {
-        return (abs($x) % 2) === 0;
+        return (\abs($x) % 2) === 0;
     }
 }

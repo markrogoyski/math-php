@@ -288,7 +288,7 @@ class Descriptive
         $x         = Average::mean($numbers);
         $∑│xᵢ − x│ = array_sum(array_map(
             function ($xᵢ) use ($x) {
-                return abs($xᵢ - $x);
+                return \abs($xᵢ - $x);
             },
             $numbers
         ));
@@ -324,7 +324,7 @@ class Descriptive
         $x = Average::median($numbers);
         return Average::median(array_map(
             function ($xᵢ) use ($x) {
-                return abs($xᵢ - $x);
+                return \abs($xᵢ - $x);
             },
             $numbers
         ));

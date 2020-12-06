@@ -66,7 +66,7 @@ class Distance
         }
 
         // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+        if ((\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
@@ -128,7 +128,7 @@ class Distance
         }
 
         // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+        if ((\abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
@@ -302,7 +302,7 @@ class Distance
         $∑｜xᵢ − yᵢ⟯ᵖ = array_sum(
             array_map(
                 function ($x, $y) use ($p) {
-                    return abs($x - $y) ** $p;
+                    return \abs($x - $y) ** $p;
                 },
                 $xs,
                 $ys
@@ -452,14 +452,14 @@ class Distance
 
         $∑｜uᵢ − vᵢ｜ = array_sum(array_map(
             function (float $uᵢ, float $vᵢ) {
-                return abs($uᵢ - $vᵢ);
+                return \abs($uᵢ - $vᵢ);
             },
             $u,
             $v
         ));
         $∑｜uᵢ ＋ vᵢ｜ = array_sum(array_map(
             function (float $uᵢ, float $vᵢ) {
-                return abs($uᵢ + $vᵢ);
+                return \abs($uᵢ + $vᵢ);
             },
             $u,
             $v
@@ -503,7 +503,7 @@ class Distance
         // Numerators ｜pᵢ − qᵢ｜
         $｜p − q｜ = array_map(
             function (float $pᵢ, float $qᵢ) {
-                return abs($pᵢ - $qᵢ);
+                return \abs($pᵢ - $qᵢ);
             },
             $p,
             $q
@@ -511,7 +511,7 @@ class Distance
         // Denominators ｜pᵢ｜ + ｜qᵢ｜
         $｜p｜ ＋ ｜q｜ = array_map(
             function (float $p, float $q) {
-                return abs($p) + abs($q);
+                return \abs($p) + \abs($q);
             },
             $p,
             $q

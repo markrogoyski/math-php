@@ -796,7 +796,7 @@ class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
         $projᵇA⊥ = $A->projection($B)->perpendicular();
         $perpᵇA  = $A->perp($B);
 
-        $projᵇA⊥⋅perpᵇA = abs($projᵇA⊥->dotProduct($perpᵇA));
+        $projᵇA⊥⋅perpᵇA = \abs($projᵇA⊥->dotProduct($perpᵇA));
         $│projᵇA│       = $projᵇA->length();
         $│perpᵇA│       = $perpᵇA->length();
 

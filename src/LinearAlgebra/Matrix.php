@@ -2231,11 +2231,11 @@ class Matrix extends MatrixBase
     {
         $m   = $this->m;
         $n   = $this->n;
-        $max = abs($this->A[0][0]);
+        $max = \abs($this->A[0][0]);
 
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                $max = max($max, abs($this->A[$i][$j]));
+                $max = max($max, \abs($this->A[$i][$j]));
             }
         }
 
@@ -3035,7 +3035,7 @@ class Matrix extends MatrixBase
             if ($this->isTriangular()) {
                 $diagonal = $this->getDiagonalElements();
                 usort($diagonal, function ($a, $b) {
-                    return abs($b) <=> abs($a);
+                    return \abs($b) <=> \abs($a);
                 });
                 return $diagonal;
             }

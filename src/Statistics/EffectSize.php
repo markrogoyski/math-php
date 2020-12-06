@@ -153,7 +153,7 @@ class EffectSize
 
         $½ = 0.5;
 
-        return abs(($½ * log((1 + $r₁) / (1 - $r₁))) - ($½ * log((1 + $r₂) / (1 - $r₂))));
+        return \abs(($½ * log((1 + $r₁) / (1 - $r₁))) - ($½ * log((1 + $r₂) / (1 - $r₂))));
     }
 
     /**

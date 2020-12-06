@@ -24,7 +24,7 @@ class Arithmetic
             return pow($x, 1 / $nᵗʰ);
         }
 
-        return -pow(abs($x), 1 / $nᵗʰ);
+        return -pow(\abs($x), 1 / $nᵗʰ);
     }
 
     /**
@@ -105,7 +105,7 @@ class Arithmetic
      */
     public static function almostEqual(float $x, float $y, $ε = 0.000000000001): bool
     {
-        return abs($x - $y) <= $ε;
+        return \abs($x - $y) <= $ε;
     }
 
     /**
@@ -119,8 +119,8 @@ class Arithmetic
     public static function copySign(float $magnitude, float $sign): float
     {
         return $sign >= 0
-            ? abs($magnitude)
-            : -abs($magnitude);
+            ? \abs($magnitude)
+            : -\abs($magnitude);
     }
 
     /**

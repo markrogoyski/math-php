@@ -28,7 +28,7 @@ class Finance
      */
     private static function checkZero(float $value, float $epsilon = self::EPSILON): float
     {
-        return abs($value) < $epsilon ? 0.0 : $value;
+        return \abs($value) < $epsilon ? 0.0 : $value;
     }
 
     /**
