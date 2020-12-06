@@ -1078,11 +1078,11 @@ class BetaTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(1, 10) as $α) {
-            foreach (range(1, 10) as $β) {
+        foreach (\range(1, 10) as $α) {
+            foreach (\range(1, 10) as $β) {
                 // Given
                 $beta = new Beta($α, $β);
-                foreach (range(1, 3) as $_) {
+                foreach (\range(1, 3) as $_) {
                     // When
                     $random = $beta->rand();
 

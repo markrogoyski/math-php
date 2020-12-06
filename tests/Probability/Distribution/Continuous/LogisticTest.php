@@ -156,8 +156,8 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
      */
     public function testMean()
     {
-        foreach (range(-3, 3) as $μ) {
-            foreach (range(1, 3) as $s) {
+        foreach (\range(-3, 3) as $μ) {
+            foreach (\range(1, 3) as $s) {
                 // Given
                 $logistic = new Logistic($μ, $s);
 
@@ -175,8 +175,8 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
      */
     public function testMedian()
     {
-        foreach (range(-3, 3) as $μ) {
-            foreach (range(1, 3) as $s) {
+        foreach (\range(-3, 3) as $μ) {
+            foreach (\range(1, 3) as $s) {
                 // Given
                 $logistic = new Logistic($μ, $s);
 
@@ -194,8 +194,8 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
      */
     public function testMode()
     {
-        foreach (range(-3, 3) as $μ) {
-            foreach (range(1, 3) as $s) {
+        foreach (\range(-3, 3) as $μ) {
+            foreach (\range(1, 3) as $s) {
                 // Given
                 $logistic = new Logistic($μ, $s);
 
@@ -306,8 +306,8 @@ class LogisticTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(-3, 3) as $μ) {
-            foreach (range(1, 3) as $s) {
+        foreach (\range(-3, 3) as $μ) {
+            foreach (\range(1, 3) as $s) {
                 // Given
                 $logistic = new Logistic($μ, $s);
 

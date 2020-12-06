@@ -279,11 +279,11 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(-5, 5) as $x₀) {
-            foreach (range(1, 10) as $γ) {
+        foreach (\range(-5, 5) as $x₀) {
+            foreach (\range(1, 10) as $γ) {
                 // Given
                 $cauchy = new Cauchy($x₀, $γ);
-                foreach (range(1, 3) as $_) {
+                foreach (\range(1, 3) as $_) {
                     // When
                     $random = $cauchy->rand();
 

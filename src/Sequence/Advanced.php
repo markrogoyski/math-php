@@ -582,8 +582,8 @@ class Advanced
             return [];
         }
 
-        $primes = \array_fill_keys(range(2, $n), true);
-        $√n     = ceil(\sqrt($n));
+        $primes = \array_fill_keys(\range(2, $n), true);
+        $√n     = \ceil(\sqrt($n));
 
         for ($i = 2; $i <= $√n; $i++) {
             if ($primes[$i] === true) {

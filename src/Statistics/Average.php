@@ -159,7 +159,7 @@ class Average
         }
 
         // Otherwise, we are going to slice $numbers into 5-element slices and find the median of each.
-        $num_slices = ceil($n / 5);
+        $num_slices = \ceil($n / 5);
         $median_array = [];
         for ($i = 0; $i < $num_slices; $i++) {
             $median_array[] = self::median(\array_slice($numbers, 5 * $i, 5));
@@ -237,7 +237,7 @@ class Average
         // Determine the max any number occurs.
         // Find all numbers that occur max times.
         $number_strings = \array_map('strval', $numbers);
-        $number_counts  = array_count_values($number_strings);
+        $number_counts  = \array_count_values($number_strings);
         $max            = \max($number_counts);
         $modes          = array();
         foreach ($number_counts as $number => $count) {

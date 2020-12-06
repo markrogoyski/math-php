@@ -116,7 +116,7 @@ class Geometric extends Discrete
     {
         $log₂⟮1 − p⟯ = \log(1 - $this->p, 2);
 
-        return ceil(-1 / $log₂⟮1 − p⟯) - 1;
+        return \ceil(-1 / $log₂⟮1 − p⟯) - 1;
     }
 
     /**

@@ -99,7 +99,7 @@ class NegativeBinomial extends Discrete
         return \array_sum(
             \array_map(
                 [$this, 'pmf'],
-                range(0, $x)
+                \range(0, $x)
             )
         );
     }

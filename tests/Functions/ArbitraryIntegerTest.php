@@ -58,7 +58,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(1, 10) as $_) {
+        foreach (\range(1, 10) as $_) {
             // When
             $number = ArbitraryInteger::rand(1);
 

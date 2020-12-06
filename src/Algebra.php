@@ -141,7 +141,7 @@ class Algebra
         $sets       = [];
         $current    = [];
         $map        = [];
-        $exponents  = array_count_values($primes);
+        $exponents  = \array_count_values($primes);
         $limit      = 1;
         $count      = 0;
 

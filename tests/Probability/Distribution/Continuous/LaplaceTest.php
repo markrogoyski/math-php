@@ -83,8 +83,8 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
      */
     public function testMean()
     {
-        foreach (range(-5, 5) as $μ) {
-            foreach (range(1, 3) as $b) {
+        foreach (\range(-5, 5) as $μ) {
+            foreach (\range(1, 3) as $b) {
                 // Given
                 $laplace = new Laplace($μ, $b);
 
@@ -102,8 +102,8 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
      */
     public function testMedian()
     {
-        foreach (range(-5, 5) as $μ) {
-            foreach (range(1, 3) as $b) {
+        foreach (\range(-5, 5) as $μ) {
+            foreach (\range(1, 3) as $b) {
                 // Given
                 $laplace = new Laplace($μ, $b);
 
@@ -121,8 +121,8 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
      */
     public function testMode()
     {
-        foreach (range(-5, 5) as $μ) {
-            foreach (range(1, 3) as $b) {
+        foreach (\range(-5, 5) as $μ) {
+            foreach (\range(1, 3) as $b) {
                 // Given
                 $laplace = new Laplace($μ, $b);
 
@@ -244,8 +244,8 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(-3, 3) as $μ) {
-            foreach (range(1, 3) as $b) {
+        foreach (\range(-3, 3) as $μ) {
+            foreach (\range(1, 3) as $b) {
                 // Given
                 $laplace = new Laplace($μ, $b);
 

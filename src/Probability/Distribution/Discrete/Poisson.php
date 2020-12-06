@@ -90,7 +90,7 @@ class Poisson extends Discrete
             function ($k) {
                 return $this->pmf($k);
             },
-            range(0, $k)
+            \range(0, $k)
         ));
     }
 
@@ -128,7 +128,7 @@ class Poisson extends Discrete
     public function mode(): array
     {
         return [
-            ceil($this->λ - 1),
+            \ceil($this->λ - 1),
             \floor($this->λ),
         ];
     }

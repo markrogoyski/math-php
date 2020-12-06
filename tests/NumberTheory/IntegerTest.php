@@ -1556,7 +1556,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function dataProviderForOddNumbers(): \Generator
     {
-        foreach (range(-11, 101, 2) as $x) {
+        foreach (\range(-11, 101, 2) as $x) {
             yield [$x];
         }
     }
@@ -1566,7 +1566,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function dataProviderForEvenNumbers(): \Generator
     {
-        foreach (range(-10, 100, 2) as $x) {
+        foreach (\range(-10, 100, 2) as $x) {
             yield [$x];
         }
     }
