@@ -128,7 +128,7 @@ class UsArrests
      */
     public function getMurder(): array
     {
-        return array_combine($this->getStates(), array_column(self::DATA, 0));
+        return array_combine($this->getStates(), \array_column(self::DATA, 0));
     }
 
     /**
@@ -139,7 +139,7 @@ class UsArrests
      */
     public function getAssault(): array
     {
-        return array_combine($this->getStates(), array_column(self::DATA, 1));
+        return array_combine($this->getStates(), \array_column(self::DATA, 1));
     }
 
     /**
@@ -150,7 +150,7 @@ class UsArrests
      */
     public function getUrbanPop(): array
     {
-        return array_combine($this->getStates(), array_column(self::DATA, 2));
+        return array_combine($this->getStates(), \array_column(self::DATA, 2));
     }
 
     /**
@@ -161,6 +161,6 @@ class UsArrests
      */
     public function getRape(): array
     {
-        return array_combine($this->getStates(), array_column(self::DATA, 3));
+        return array_combine($this->getStates(), \array_column(self::DATA, 3));
     }
 }

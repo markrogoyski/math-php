@@ -2101,7 +2101,7 @@ class Matrix extends MatrixBase
     {
         $sums = [];
         for ($i = 0; $i < $this->n; $i++) {
-            $sums[] = \array_sum(array_column($this->A, $i));
+            $sums[] = \array_sum(\array_column($this->A, $i));
         }
 
         return new Vector($sums);
@@ -2139,7 +2139,7 @@ class Matrix extends MatrixBase
 
         $means = [];
         for ($i = 0; $i < $n; $i++) {
-            $means[] = \array_sum(array_column($this->A, $i)) / $m;
+            $means[] = \array_sum(\array_column($this->A, $i)) / $m;
         }
 
         return new Vector($means);
@@ -2166,10 +2166,10 @@ class Matrix extends MatrixBase
     public function oneNorm()
     {
         $n = $this->n;
-        $‖A‖₁ = \array_sum(Map\Single::abs(array_column($this->A, 0)));
+        $‖A‖₁ = \array_sum(Map\Single::abs(\array_column($this->A, 0)));
 
         for ($j = 1; $j < $n; $j++) {
-            $‖A‖₁ = \max($‖A‖₁, \array_sum(Map\Single::abs(array_column($this->A, $j))));
+            $‖A‖₁ = \max($‖A‖₁, \array_sum(Map\Single::abs(\array_column($this->A, $j))));
         }
 
         return $‖A‖₁;
@@ -2964,7 +2964,7 @@ class Matrix extends MatrixBase
             case self::RREF:
                 $Ab   = $this->augment($b->asColumnMatrix());
                 $rref = $Ab->rref();
-                return new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
+                return new Vector(\array_column($rref->getMatrix(), $rref->getN() - 1));
 
             default:
                 // If inverse is already calculated, solve: x = A⁻¹b
@@ -3004,7 +3004,7 @@ class Matrix extends MatrixBase
                 // x is the rightmost column.
                 $Ab   = $this->augment($b->asColumnMatrix());
                 $rref = $Ab->rref();
-                return new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
+                return new Vector(\array_column($rref->getMatrix(), $rref->getN() - 1));
         }
     }
 

@@ -63,7 +63,7 @@ class Eigenvector
         foreach ($eigenvalues as $eigenvalue) {
             // If this is a duplicate eigenvalue, and this is the second instance, the first
             // pass already found all the vectors.
-            $key = array_search($eigenvalue, array_column($solution_array, 'eigenvalue'));
+            $key = \array_search($eigenvalue, \array_column($solution_array, 'eigenvalue'));
             if (!$key) {
                 $Iλ = MatrixFactory::identity($number)->scalarMultiply($eigenvalue);
                 $T = $A->subtract($Iλ);
@@ -128,7 +128,7 @@ class Eigenvector
 
                     // Set all the forced variables to 1.
                     foreach ($forced_variables as $column) {
-                        array_splice($eigenvector, $column, 0, 1);
+                        \array_splice($eigenvector, $column, 0, 1);
                     }
 
                     $eigenvector_scaled = $eigenvector;
@@ -147,7 +147,7 @@ class Eigenvector
                         $rref = $rref->augmentBelow(MatrixFactory::create([$eigenvector]))->rref();
                     }
                 }
-                $key = array_search($eigenvalue, array_column($solution_array, 'eigenvalue'));
+                $key = \array_search($eigenvalue, \array_column($solution_array, 'eigenvalue'));
             }
             $M[] = $solution_array[$key]['vector'];
             unset($solution_array[$key]);

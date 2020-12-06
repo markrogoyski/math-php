@@ -84,7 +84,7 @@ class PlantGrowth
      */
     public function getWeight(): array
     {
-        return array_column(self::DATA, 0);
+        return \array_column(self::DATA, 0);
     }
 
     /**
@@ -94,6 +94,6 @@ class PlantGrowth
      */
     public function getGroup(): array
     {
-        return array_column(self::DATA, 0);
+        return \array_column(self::DATA, 0);
     }
 }

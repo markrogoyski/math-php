@@ -106,7 +106,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
             throw new Exception\MatrixException("Column $j does not exist");
         }
 
-        return array_column($this->A, $j);
+        return \array_column($this->A, $j);
     }
 
     /**
@@ -216,7 +216,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
         $vectors = [];
 
         for ($j = 0; $j < $n; $j++) {
-            $vectors[] = new Vector(array_column($this->A, $j));
+            $vectors[] = new Vector(\array_column($this->A, $j));
         }
 
         return $vectors;

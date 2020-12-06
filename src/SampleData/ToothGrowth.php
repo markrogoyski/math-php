@@ -115,7 +115,7 @@ class ToothGrowth
      */
     public function getLen(): array
     {
-        return array_column(self::DATA, 0);
+        return \array_column(self::DATA, 0);
     }
 
     /**
@@ -125,7 +125,7 @@ class ToothGrowth
      */
     public function getSupp(): array
     {
-        return array_column(self::DATA, 0);
+        return \array_column(self::DATA, 0);
     }
 
     /**
@@ -135,6 +135,6 @@ class ToothGrowth
      */
     public function getDose(): array
     {
-        return array_column(self::DATA, 0);
+        return \array_column(self::DATA, 0);
     }
 }

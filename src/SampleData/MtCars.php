@@ -110,7 +110,7 @@ class MtCars
      */
     public function getMpg(): array
     {
-        return array_combine($this->getModels(), array_column(self::DATA, 0));
+        return array_combine($this->getModels(), \array_column(self::DATA, 0));
     }
 
     /**
@@ -121,7 +121,7 @@ class MtCars
      */
     public function getCyl(): array
     {
-        return array_column(self::DATA, 1);
+        return \array_column(self::DATA, 1);
     }
 
     /**
@@ -132,7 +132,7 @@ class MtCars
      */
     public function getDisp(): array
     {
-        return array_column(self::DATA, 2);
+        return \array_column(self::DATA, 2);
     }
 
     /**
@@ -143,7 +143,7 @@ class MtCars
      */
     public function getHp(): array
     {
-        return array_column(self::DATA, 3);
+        return \array_column(self::DATA, 3);
     }
 
     /**
@@ -154,7 +154,7 @@ class MtCars
      */
     public function getDrat(): array
     {
-        return array_column(self::DATA, 4);
+        return \array_column(self::DATA, 4);
     }
 
     /**
@@ -165,7 +165,7 @@ class MtCars
      */
     public function getWt(): array
     {
-        return array_column(self::DATA, 5);
+        return \array_column(self::DATA, 5);
     }
 
     /**
@@ -176,7 +176,7 @@ class MtCars
      */
     public function getQsec(): array
     {
-        return array_column(self::DATA, 6);
+        return \array_column(self::DATA, 6);
     }
 
     /**
@@ -187,7 +187,7 @@ class MtCars
      */
     public function getVs(): array
     {
-        return array_column(self::DATA, 7);
+        return \array_column(self::DATA, 7);
     }
 
     /**
@@ -198,7 +198,7 @@ class MtCars
      */
     public function getAm(): array
     {
-        return array_column(self::DATA, 8);
+        return \array_column(self::DATA, 8);
     }
 
     /**
@@ -209,7 +209,7 @@ class MtCars
      */
     public function getGear(): array
     {
-        return array_column(self::DATA, 9);
+        return \array_column(self::DATA, 9);
     }
 
     /**
@@ -220,6 +220,6 @@ class MtCars
      */
     public function getCarb(): array
     {
-        return array_column(self::DATA, 10);
+        return \array_column(self::DATA, 10);
     }
 }

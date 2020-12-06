@@ -1567,7 +1567,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         // When RREF
         $Ab   = $A->augment($b->asColumnMatrix());
         $rref = $Ab->rref();
-        $x    = new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
+        $x    = new Vector(\array_column($rref->getMatrix(), $rref->getN() - 1));
 
         // Then
         $this->assertEquals($expected, $x, '', 0.001);

@@ -304,7 +304,7 @@ class MatrixIssue386Test extends \PHPUnit\Framework\TestCase
         // When
         $Ab   = $A->augment($b->asColumnMatrix());
         $rref = $Ab->rref();
-        $x    = new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
+        $x    = new Vector(\array_column($rref->getMatrix(), $rref->getN() - 1));
 
         // Then
         $this->assertEquals(self::X, $x->getVector(), '', 0.00000001);
