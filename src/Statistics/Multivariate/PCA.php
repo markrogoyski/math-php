@@ -343,7 +343,7 @@ class PCA
             $normal = new StandardNormal();
             $ca     = $normal->inverse(1 - $alpha);
 
-            $h1 = $ca * sqrt(2 * $t2 * $h0 ** 2) / $t1;
+            $h1 = $ca * \sqrt(2 * $t2 * $h0 ** 2) / $t1;
             $h2 = $t2 * $h0 * ($h0 - 1) / $t1 ** 2;
 
             $QCritical[] = $t1 * (1 + $h1 + $h2) ** (1 / $h0);

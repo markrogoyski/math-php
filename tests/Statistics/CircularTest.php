@@ -76,7 +76,7 @@ class CircularTest extends \PHPUnit\Framework\TestCase
      * resultantLength <- function(x) {
      *     sinSum = sum(sin(x))
      *     cosSum = sum(cos(x))
-     *     R      = sqrt(sinSum^2 + cosSum^2)
+     *     R      = \sqrt(sinSum^2 + cosSum^2)
      *     return(R)
      * }
      * @return array [angles, length]
@@ -122,7 +122,7 @@ class CircularTest extends \PHPUnit\Framework\TestCase
      *     n      = length(x)
      *     sinSum = sum(sin(x))
      *     cosSum = sum(cos(x))
-     *     rho    = sqrt(sinSum^2 + cosSum^2) / n
+     *     rho    = \sqrt(sinSum^2 + cosSum^2) / n
      *     return(rho)
      * }
      * @return array [angles, length]

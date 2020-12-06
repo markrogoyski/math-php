@@ -153,7 +153,7 @@ class RandomVariable
             return \NAN;  // Prevents division by zero in μ₃ / μ₂³′² equation
         }
 
-        $√⟮n⟮n − 1⟯⟯ = sqrt($n * ($n - 1));
+        $√⟮n⟮n − 1⟯⟯ = \sqrt($n * ($n - 1));
 
         return ($μ₃ / $μ₂³′²) * ( $√⟮n⟮n − 1⟯⟯ / ($n - 2) );
     }
@@ -263,7 +263,7 @@ class RandomVariable
         $６n⟮n − 1⟯           = 6 * $n * ($n - 1);
         $⟮n − 2⟯⟮n ＋ 1⟯⟮n ＋ 2⟯ = ($n - 2) * ($n + 1) * ($n + 3);
 
-        return sqrt($６n⟮n − 1⟯ / $⟮n − 2⟯⟮n ＋ 1⟯⟮n ＋ 2⟯);
+        return \sqrt($６n⟮n − 1⟯ / $⟮n − 2⟯⟮n ＋ 1⟯⟮n ＋ 2⟯);
     }
 
     /**
@@ -447,7 +447,7 @@ class RandomVariable
         $⟮n² − 1⟯       = $n ** 2 - 1;
         $⟮n − 3⟯⟮n ＋ 5⟯ = ($n - 3) * ($n + 5);
 
-        return $２⟮SES⟯ * sqrt($⟮n² − 1⟯ / $⟮n − 3⟯⟮n ＋ 5⟯);
+        return $２⟮SES⟯ * \sqrt($⟮n² − 1⟯ / $⟮n − 3⟯⟮n ＋ 5⟯);
     }
 
     /**
@@ -476,7 +476,7 @@ class RandomVariable
         }
 
         $s  = Descriptive::standardDeviation($X, Descriptive::SAMPLE);
-        $√n = sqrt(\count($X));
+        $√n = \sqrt(\count($X));
         return $s / $√n;
     }
 
@@ -525,7 +525,7 @@ class RandomVariable
 
         $z = Table\StandardNormal::getZScoreForConfidenceInterval($cl);
 
-        $ci = $z * ($σ / sqrt($n));
+        $ci = $z * ($σ / \sqrt($n));
 
         $lower_bound = $μ - $ci;
         $upper_bound = $μ + $ci;

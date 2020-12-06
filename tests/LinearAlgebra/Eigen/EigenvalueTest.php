@@ -158,8 +158,8 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [1, -2],
                     [-2, 0],
                 ],
-                [(1 + sqrt(17)) / 2, (1 - sqrt(17)) / 2],
-                (1 + sqrt(17)) / 2,
+                [(1 + \sqrt(17)) / 2, (1 - \sqrt(17)) / 2],
+                (1 + \sqrt(17)) / 2,
             ],
             [
                 [
@@ -202,8 +202,8 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                     [4, 5, 6],
                     [7, 8, 9],
                 ],
-                [(3 * (5 + sqrt(33))) / 2, (-3 * (sqrt(33) - 5)) / 2, 0],
-                3 * (5 + sqrt(33)) / 2,
+                [(3 * (5 + \sqrt(33))) / 2, (-3 * (sqrt(33) - 5)) / 2, 0],
+                3 * (5 + \sqrt(33)) / 2,
             ],
             [
                 [

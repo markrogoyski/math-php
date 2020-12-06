@@ -345,7 +345,7 @@ class Correlation
         $sxw         = Descriptive::weightedSampleVariance($X, $w, true);
         $syw         = Descriptive::weightedSampleVariance($Y, $w, true);
 
-        return $cov⟮X，Y，w⟯ / sqrt($sxw * $syw);
+        return $cov⟮X，Y，w⟯ / \sqrt($sxw * $syw);
     }
 
     /**
@@ -455,7 +455,7 @@ class Correlation
          *   τ = -----------------------------
          *       √(nc + nd + X₀)(nc + nd + Y₀)
          */
-        return $⟮nc − nd⟯ / sqrt(($nc + $nd + $ties_x) * ($nc + $nd + $ties_y));
+        return $⟮nc − nd⟯ / \sqrt(($nc + $nd + $ties_x) * ($nc + $nd + $ties_y));
     }
 
     /**

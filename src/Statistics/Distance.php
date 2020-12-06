@@ -147,15 +147,15 @@ class Distance
         );
 
         // √ ∑ (√pᵢ - √qᵢ)²
-        $√∑⟮√pᵢ − √qᵢ⟯² = sqrt(array_sum(array_map(
+        $√∑⟮√pᵢ − √qᵢ⟯² = \sqrt(array_sum(array_map(
             function ($pᵢ, $qᵢ) {
-                return (sqrt($pᵢ) - sqrt($qᵢ)) ** 2;
+                return (\sqrt($pᵢ) - \sqrt($qᵢ)) ** 2;
             },
             $p,
             $q
         )));
 
-        return (1 / sqrt(2)) * $√∑⟮√pᵢ − √qᵢ⟯²;
+        return (1 / \sqrt(2)) * $√∑⟮√pᵢ − √qᵢ⟯²;
     }
 
     /**
@@ -217,7 +217,7 @@ class Distance
      */
     public static function jensenShannon(array $p, array $q): float
     {
-        return sqrt(Divergence::jensenShannon($p, $q));
+        return \sqrt(Divergence::jensenShannon($p, $q));
     }
 
     /**
@@ -270,7 +270,7 @@ class Distance
 
         $S⁻¹ = $S->inverse();
         $D   = $diff->transpose()->multiply($S⁻¹)->multiply($diff);
-        return sqrt($D[0][0]);
+        return \sqrt($D[0][0]);
     }
 
     /**

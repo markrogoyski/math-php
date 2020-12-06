@@ -2200,7 +2200,7 @@ class Matrix extends MatrixBase
             }
         }
 
-        return sqrt($ΣΣaᵢⱼ²);
+        return \sqrt($ΣΣaᵢⱼ²);
     }
 
     /**

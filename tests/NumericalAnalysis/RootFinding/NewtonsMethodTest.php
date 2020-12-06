@@ -113,7 +113,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         };
 
         // And
-        $expected = sqrt(5);
+        $expected = \sqrt(5);
         $args     = [2];
         $target   = 0;
         $position = 0;

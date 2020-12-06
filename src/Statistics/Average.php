@@ -370,7 +370,7 @@ class Average
             $numbers
         ));
 
-        return sqrt($x₁²＋x₂²＋⋯ / $n);
+        return \sqrt($x₁²＋x₂²＋⋯ / $n);
     }
 
     /**
@@ -869,7 +869,7 @@ class Average
      */
     public static function heronianMean(float $A, float $B): float
     {
-        return 1 / 3 * ($A + sqrt($A * $B) + $B);
+        return 1 / 3 * ($A + \sqrt($A * $B) + $B);
     }
 
     /**

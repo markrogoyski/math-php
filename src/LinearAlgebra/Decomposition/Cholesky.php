@@ -90,7 +90,7 @@ class Cholesky extends Decomposition
                     $∑lⱼₓlᵢₓ += $L[$j][$x] * $L[$i][$x];
                 }
                 $L[$j][$i] = ($j === $i)
-                    ? sqrt($A[$j][$j] - $∑lⱼₓlᵢₓ)
+                    ? \sqrt($A[$j][$j] - $∑lⱼₓlᵢₓ)
                     : (1 / $L[$i][$i] * ($A[$j][$i] - $∑lⱼₓlᵢₓ));
             }
         }

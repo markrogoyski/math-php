@@ -387,8 +387,8 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForStandardDeviationUsingPopulationVariance(): array
     {
         return [
-            [ [ -10, 0, 10, 20, 30 ], 10 * sqrt(2) ],
-            [ [ 8, 9, 10, 11, 12 ], sqrt(2) ],
+            [ [ -10, 0, 10, 20, 30 ], 10 * \sqrt(2) ],
+            [ [ 8, 9, 10, 11, 12 ], \sqrt(2) ],
             [ [ 600, 470, 170, 430, 300], 147.32 ],
             [ [ -5, 1, 8, 7, 2], 4.67 ],
             [ [ 3, 7, 34, 25, 46, 7754, 3, 6 ], 2558.580063 ],

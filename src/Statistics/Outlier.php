@@ -111,7 +111,7 @@ class Outlier
             ? $studentT->inverse($𝛼 / $n)
             : $studentT->inverse($𝛼 / (2 * $n));
 
-        return (($n - 1) / sqrt($n)) * sqrt($T ** 2 / ($n - 2 + $T ** 2));
+        return (($n - 1) / \sqrt($n)) * \sqrt($T ** 2 / ($n - 2 + $T ** 2));
     }
 
     /* ********************** *

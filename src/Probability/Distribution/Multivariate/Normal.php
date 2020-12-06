@@ -74,7 +74,7 @@ class Normal
 
         $π = \M_PI;
         $│∑│      = $∑->det();
-        $√⟮2π⟯ᵏ│∑│ = sqrt((2 * $π) ** $k * $│∑│);
+        $√⟮2π⟯ᵏ│∑│ = \sqrt((2 * $π) ** $k * $│∑│);
 
         $Δ       = Map\Multi::subtract($X, $μ);
         $⟮x − μ⟯  = new Vector($Δ);

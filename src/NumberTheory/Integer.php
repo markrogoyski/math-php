@@ -328,7 +328,7 @@ class Integer
      */
     public static function perfectPower(int $n): array
     {
-        $√n = sqrt($n);
+        $√n = \sqrt($n);
         $ms = \array_filter(
             Algebra::factors($n),
             function ($m) use ($√n) {
@@ -383,19 +383,19 @@ class Integer
         }
 
         $divisor = 5;
-        $√n = sqrt($remainder);
+        $√n = \sqrt($remainder);
 
         while ($divisor <= $√n) {
             while ($remainder % $divisor === 0) {
                 $factors[] = $divisor;
                 $remainder = \intdiv($remainder, $divisor);
-                $√n        = sqrt($remainder);
+                $√n        = \sqrt($remainder);
             }
             $divisor += 2;
             while ($remainder % $divisor === 0) {
                 $factors[] = $divisor;
                 $remainder = \intdiv($remainder, $divisor);
-                $√n        = sqrt($remainder);
+                $√n        = \sqrt($remainder);
             }
             $divisor += 4;
         }

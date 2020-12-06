@@ -118,7 +118,7 @@ class Complex implements ObjectArithmetic
      */
     public function abs()
     {
-        return sqrt($this->r ** 2 + $this->i ** 2);
+        return \sqrt($this->r ** 2 + $this->i ** 2);
     }
 
     /**
@@ -187,8 +187,8 @@ class Complex implements ObjectArithmetic
     public function roots(): array
     {
         $sgn = Special::sgn($this->i) >= 0 ? 1 : -1;
-        $γ   = sqrt(($this->r + $this->abs()) / 2);
-        $δ   = $sgn * sqrt((-$this->r + $this->abs()) / 2);
+        $γ   = \sqrt(($this->r + $this->abs()) / 2);
+        $δ   = $sgn * \sqrt((-$this->r + $this->abs()) / 2);
 
         $z₁ = new Complex($γ, $δ);
         $z₂ = new Complex(-$γ, -$δ);

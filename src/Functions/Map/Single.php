@@ -174,7 +174,7 @@ class Single
     {
         return array_map(
             function ($x) {
-                return sqrt($x);
+                return \sqrt($x);
             },
             $xs
         );

@@ -1760,7 +1760,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
             $A⁻¹ = $A->inverse();
             $A⁻¹ = $A⁻¹->map(
                 function ($x) {
-                    return round($x, 5); // Floating point adjustment
+                    return \round($x, 5); // Floating point adjustment
                 }
             );
 
@@ -2339,7 +2339,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // Floating point adjustment
         $A⁻¹ = $A⁻¹->map(function ($x) {
-            return round($x, 7);
+            return \round($x, 7);
         });
 
         // Then
@@ -2364,7 +2364,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // Floating point adjustment
         $A⁻¹ = $A⁻¹->map(function ($x) {
-            return round($x, 7);
+            return \round($x, 7);
         });
 
         // Then

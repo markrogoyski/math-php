@@ -107,7 +107,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         };
 
         // And
-        $expected = sqrt(5);
+        $expected = \sqrt(5);
         $p₁       = 1;
         $p₀       = 5;
         $tol      = 0.00001;

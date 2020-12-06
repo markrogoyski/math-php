@@ -51,7 +51,7 @@ class Categorical extends Discrete
         }
 
         // Probabilities must add up to 1
-        if (round(array_sum($probabilities), 1) != 1) {
+        if (\round(array_sum($probabilities), 1) != 1) {
             throw new Exception\BadDataException('Probabilities do not add up to 1.');
         }
 

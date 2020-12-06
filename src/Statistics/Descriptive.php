@@ -237,8 +237,8 @@ class Descriptive
         }
 
         return $SD＋
-            ? sqrt(self::populationVariance($numbers))
-            : sqrt(self::sampleVariance($numbers));
+            ? \sqrt(self::populationVariance($numbers))
+            : \sqrt(self::sampleVariance($numbers));
     }
 
     /**

@@ -68,20 +68,20 @@ class Special
             return \INF;
         }
         // Negative integer, or negative int as a float (Ex: from beta(-0.1, -0.9) since it will call Γ(x + y))
-        if ((\abs($n - round($n)) < 0.00001) && $n < 0) {
+        if ((\abs($n - \round($n)) < 0.00001) && $n < 0) {
             return -\INF;
         }
         // Positive integer, or positive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
-        if ((\abs($n - round($n)) < 0.00001) && $n > 0) {
-            return Combinatorics::factorial((int) round($n) - 1);
+        if ((\abs($n - \round($n)) < 0.00001) && $n > 0) {
+            return Combinatorics::factorial((int) \round($n) - 1);
         }
 
         // Half integer cases (determine if int + 0.5)
-        if ((round($n * 2) / 2 / $n) == 1) {
+        if ((\round($n * 2) / 2 / $n) == 1) {
             // Compute parts of equation
             $π     = \M_PI;
-            $x     = (int) round($n - 0.5, 0);
-            $√π    = sqrt($π);
+            $x     = (int) \round($n - 0.5, 0);
+            $√π    = \sqrt($π);
             if ($x == 0) {
                 return $√π;
             }
@@ -154,12 +154,12 @@ class Special
             return \INF;
         }
         // Negative integer, or negative int as a float
-        if ((\abs($z - round($z)) < 0.00001) && $z < 0) {
+        if ((\abs($z - \round($z)) < 0.00001) && $z < 0) {
             return -\INF;
         }
         // Positive integer, or positive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
-        if ((\abs($z - round($z)) < 0.00001) && $z > 0) {
-            return Combinatorics::factorial((int) round($z) - 1);
+        if ((\abs($z - \round($z)) < 0.00001) && $z > 0) {
+            return Combinatorics::factorial((int) \round($z) - 1);
         }
 
         // p coefficients: g = 7, n = 9
@@ -198,7 +198,7 @@ class Special
         }
 
         // Compute parts of equation
-        $√2π = sqrt(2 * $π);
+        $√2π = \sqrt(2 * $π);
         $⟮z ＋ g ＋½⟯ᶻ⁺½ = pow($z + $g + 0.5, $z + 0.5);
         $ℯ＾−⟮z ＋ g ＋½⟯ = exp(-($z + $g + 0.5));
 
@@ -239,18 +239,18 @@ class Special
             return \INF;
         }
         // Negative integer, or negative int as a float
-        if ((\abs($n - round($n)) < 0.00001) && $n < 0) {
+        if ((\abs($n - \round($n)) < 0.00001) && $n < 0) {
             return -\INF;
         }
         // Positive integer, or postive int as a float
-        if ((\abs($n - round($n)) < 0.00001) && $n > 0) {
-            return Combinatorics::factorial((int) round($n) - 1);
+        if ((\abs($n - \round($n)) < 0.00001) && $n > 0) {
+            return Combinatorics::factorial((int) \round($n) - 1);
         }
 
         // Compute parts of equation
-        $√2π                    = sqrt(2 * \M_PI);
+        $√2π                    = \sqrt(2 * \M_PI);
         $ℯ⁻ⁿ                    = exp(-$n);
-        $√1／n                  = sqrt(1 / $n);
+        $√1／n                  = \sqrt(1 / $n);
         $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ = pow($n + 1 / (12 * $n - 1 / (10 * $n)), $n);
 
         /**
@@ -511,11 +511,11 @@ class Special
             return 1 - exp(-1 * $x);
         }
         if ($s == .5) {
-            $√π = sqrt(\M_PI);
-            $√x = sqrt($x);
+            $√π = \sqrt(\M_PI);
+            $√x = \sqrt($x);
             return $√π * self::erf($√x);
         }
-        if (round($s * 2, 0) == $s * 2) {
+        if (\round($s * 2, 0) == $s * 2) {
             return ($s - 1) * self::lowerIncompleteGamma($s - 1, $x) - $x ** ($s - 1) * exp(-1 * $x);
         }
 

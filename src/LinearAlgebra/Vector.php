@@ -659,7 +659,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function l2Norm()
     {
-        return sqrt(array_sum(Map\Single::square($this->A)));
+        return \sqrt(array_sum(Map\Single::square($this->A)));
     }
 
     /**

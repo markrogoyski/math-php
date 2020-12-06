@@ -66,7 +66,7 @@ class LogNormal extends Continuous
         $σ = $this->σ;
         $π = \M_PI;
 
-        $xσ√2π      = $x * $σ * sqrt(2 * $π);
+        $xσ√2π      = $x * $σ * \sqrt(2 * $π);
         $⟮ln x − μ⟯² = pow(log($x) - $μ, 2);
         $σ²         = $σ ** 2;
 
@@ -93,7 +93,7 @@ class LogNormal extends Continuous
         $σ = $this->σ;
 
         $⟮ln x − μ⟯ = log($x) - $μ;
-        $√2σ       = sqrt(2) * $σ;
+        $√2σ       = \sqrt(2) * $σ;
 
         return 1 / 2 + 1 / 2 * Special::erf($⟮ln x − μ⟯ / $√2σ);
     }

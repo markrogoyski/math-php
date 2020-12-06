@@ -256,12 +256,12 @@ class Algebra
             if (!$return_complex) {
                 return [\NAN, \NAN];
             }
-            $complex = new Number\Complex(0, sqrt(-1 * $⟮b² − 4ac⟯));
+            $complex = new Number\Complex(0, \sqrt(-1 * $⟮b² − 4ac⟯));
             $x₁      = $complex->multiply(-1)->subtract($b)->divide(2 * $a);
             $x₂      = $complex->subtract($b)->divide(2 * $a);
         } else {
             // Standard quadratic equation case
-            $√⟮b² − 4ac⟯ = sqrt(self::discriminant($a, $b, $c));
+            $√⟮b² − 4ac⟯ = \sqrt(self::discriminant($a, $b, $c));
             $x₁         = (-$b - $√⟮b² − 4ac⟯) / (2 * $a);
             $x₂         = (-$b + $√⟮b² − 4ac⟯) / (2 * $a);
         }
@@ -391,8 +391,8 @@ class Algebra
 
         // All roots are real and unequal
         if ($D < 0) {
-            $θ     = acos($R / sqrt((-$Q) ** 3));
-            $２√−Q = 2 * sqrt(-$Q);
+            $θ     = acos($R / \sqrt((-$Q) ** 3));
+            $２√−Q = 2 * \sqrt(-$Q);
             $π     = \M_PI;
 
             $z₁    = $２√−Q * cos($θ / 3) - ($a₂ / 3);
@@ -403,8 +403,8 @@ class Algebra
         }
 
         // Intermediate calculations
-        $S = Arithmetic::cubeRoot($R + sqrt($D));
-        $T = Arithmetic::cubeRoot($R - sqrt($D));
+        $S = Arithmetic::cubeRoot($R + \sqrt($D));
+        $T = Arithmetic::cubeRoot($R - \sqrt($D));
 
         // All roots are real, and at least two are equal
         if ($D == 0 || ($D > -self::ZERO_TOLERANCE && $D < self::ZERO_TOLERANCE)) {
@@ -476,14 +476,14 @@ class Algebra
             $z₊ = $quadratic_roots[0];
             $z₋ = $quadratic_roots[1];
             if (!$return_complex) {
-                return [sqrt($z₊), -1 * sqrt($z₊), sqrt($z₋), -1 * sqrt($z₋)];
+                return [\sqrt($z₊), -1 * \sqrt($z₊), \sqrt($z₋), -1 * \sqrt($z₋)];
             }
 
             $Cz₊ = new Complex($z₊, 0);
             $Cz₋ = new Complex($z₋, 0);
-            $z₁  = $z₊ < 0 ? $Cz₊->sqrt()  : sqrt($z₊);
+            $z₁  = $z₊ < 0 ? $Cz₊->sqrt()  : \sqrt($z₊);
             $z₂  = $z₊ < 0 ? $z₁->negate() : $z₁ * -1;
-            $z₃  = $z₋ < 0 ? $Cz₋->sqrt()  : sqrt($z₋);
+            $z₃  = $z₋ < 0 ? $Cz₋->sqrt()  : \sqrt($z₋);
             $z₄  = $z₋ < 0 ? $z₃->negate() : $z₃ * -1;
 
             return [$z₁, $z₂, $z₃, $z₄];
@@ -501,10 +501,10 @@ class Algebra
 
             // $z₁ will always be a real number, so select it.
             $m             = $cubic_roots[0];
-            $roots1        = self::quadratic(1, sqrt(2 * $m), $p / 2 + $m - $q / 2 / sqrt(2 * $m), $return_complex);
-            $roots2        = self::quadratic(1, -1 * sqrt(2 * $m), $p / 2 + $m + $q / 2 / sqrt(2 * $m), $return_complex);
-            $discriminant1 = self::discriminant(1, sqrt(2 * $m), $p / 2 + $m - $q / 2 / sqrt(2 * $m));
-            $discriminant2 = self::discriminant(1, -1 * sqrt(2 * $m), $p / 2 + $m + $q / 2 / sqrt(2 * $m));
+            $roots1        = self::quadratic(1, \sqrt(2 * $m), $p / 2 + $m - $q / 2 / \sqrt(2 * $m), $return_complex);
+            $roots2        = self::quadratic(1, -1 * \sqrt(2 * $m), $p / 2 + $m + $q / 2 / \sqrt(2 * $m), $return_complex);
+            $discriminant1 = self::discriminant(1, \sqrt(2 * $m), $p / 2 + $m - $q / 2 / \sqrt(2 * $m));
+            $discriminant2 = self::discriminant(1, -1 * \sqrt(2 * $m), $p / 2 + $m + $q / 2 / \sqrt(2 * $m));
 
             // sort the real roots first.
             $sorted_results = $discriminant1 > $discriminant2

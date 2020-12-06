@@ -132,7 +132,7 @@ class Significance
     public static function zTestTwoSample(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, float $Δ = 0.0): array
     {
         // Calculate z score (test statistic)
-        $z = ($μ₁ - $μ₂ - $Δ) / sqrt((($σ₁ ** 2) / $n₁) + (($σ₂ ** 2) / $n₂));
+        $z = ($μ₁ - $μ₂ - $Δ) / \sqrt((($σ₁ ** 2) / $n₁) + (($σ₂ ** 2) / $n₂));
 
         $standardNormal = new StandardNormal();
         // One- and two-tailed P values
@@ -166,7 +166,7 @@ class Significance
         $z = ($M - $μ) / $σ;
 
         return $table_value
-            ? round($z, 2)
+            ? \round($z, 2)
             : $z;
     }
 
@@ -403,7 +403,7 @@ class Significance
     public static function tTestTwoSampleFromSummaryData(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂): array
     {
         // Calculate t score (test statistic)
-        $t = ($μ₁ - $μ₂) / sqrt((($σ₁ ** 2) / $n₁) + (($σ₂ ** 2) / $n₂));
+        $t = ($μ₁ - $μ₂) / \sqrt((($σ₁ ** 2) / $n₁) + (($σ₂ ** 2) / $n₂));
 
         // Degrees of freedom
         $ν = ((($σ₁ ** 2) / $n₁) + (($σ₂ ** 2) / $n₂)) ** 2
@@ -443,7 +443,7 @@ class Significance
      */
     public static function tScore(float $Hₐ, float $s, int $n, float $H₀): float
     {
-        return ($Hₐ - $H₀) / ($s / sqrt($n));
+        return ($Hₐ - $H₀) / ($s / \sqrt($n));
     }
 
     /**
@@ -519,6 +519,6 @@ class Significance
      */
     public static function sem(float $σ, int $n): float
     {
-        return $σ / sqrt($n);
+        return $σ / \sqrt($n);
     }
 }

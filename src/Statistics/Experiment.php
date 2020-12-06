@@ -67,7 +67,7 @@ class Experiment
 
         // Standard error of the log relative risk
         $ln⟮RR⟯     = log($RR);
-        $SS｛ln⟮RR⟯｝ = sqrt((1 / $a) + (1 / $c) - (1 / ($a + $b)) - (1 / ($c + $d)));
+        $SS｛ln⟮RR⟯｝ = \sqrt((1 / $a) + (1 / $c) - (1 / ($a + $b)) - (1 / ($c + $d)));
 
         // Z score for 95% confidence interval
         $z = 1.96;
@@ -129,7 +129,7 @@ class Experiment
 
         // Standard error of the log odds ratio
         $ln⟮OR⟯     = log($OR);
-        $SS｛ln⟮OR⟯｝ = sqrt((1 / $a) + (1 / $b) + (1 / $c) + (1 / $d));
+        $SS｛ln⟮OR⟯｝ = \sqrt((1 / $a) + (1 / $b) + (1 / $c) + (1 / $d));
 
         // Confidence interval
         $ci_lower_bound = exp($ln⟮OR⟯ - (self::Z * $SS｛ln⟮OR⟯｝));
