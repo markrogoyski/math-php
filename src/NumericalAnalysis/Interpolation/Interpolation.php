@@ -121,7 +121,7 @@ abstract class Interpolation
      */
     protected static function sort(array $points): array
     {
-        usort($points, function (array $a, array $b) {
+        \usort($points, function (array $a, array $b) {
             return $a[self::X] <=> $b[self::X];
         });
 

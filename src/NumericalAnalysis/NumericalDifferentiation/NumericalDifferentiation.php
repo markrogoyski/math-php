@@ -132,7 +132,7 @@ abstract class NumericalDifferentiation
      */
     protected static function sort(array $points): array
     {
-        usort($points, function ($a, $b) {
+        \usort($points, function ($a, $b) {
             return $a[self::X] <=> $b[self::X];
         });
 

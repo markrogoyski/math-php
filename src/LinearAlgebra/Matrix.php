@@ -3034,7 +3034,7 @@ class Matrix extends MatrixBase
         if ($method === null) {
             if ($this->isTriangular()) {
                 $diagonal = $this->getDiagonalElements();
-                usort($diagonal, function ($a, $b) {
+                \usort($diagonal, function ($a, $b) {
                     return \abs($b) <=> \abs($a);
                 });
                 return $diagonal;

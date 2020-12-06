@@ -60,7 +60,7 @@ class Piecewise
         $unsortedIntervals = $intervals;
 
         // Sort intervals such that start of intervals is increasing
-        usort($intervals, function ($a, $b) {
+        \usort($intervals, function ($a, $b) {
             return $a[0] <=> $b[0];
         });
 

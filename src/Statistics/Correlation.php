@@ -403,7 +403,7 @@ class Correlation
             $X,
             $Y
         );
-        usort($xy, function ($a, $b) {
+        \usort($xy, function ($a, $b) {
             return $a[0] <=> $b[0];
         });
 
