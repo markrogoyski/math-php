@@ -705,7 +705,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function __toString()
     {
-        return '[' . implode(', ', $this->A) . ']';
+        return '[' . \implode(', ', $this->A) . ']';
     }
 
     /**************************************************************************

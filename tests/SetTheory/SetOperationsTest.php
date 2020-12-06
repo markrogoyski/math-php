@@ -135,13 +135,13 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
         foreach ($set as $key => $value) {
             if ($value instanceof \MathPHP\LinearAlgebra\Vector) {
                 $objects++;
-                $vector_key = get_class($value) . '(' . spl_object_hash($vector) . ')';
+                $vector_key = \get_class($value) . '(' . spl_object_hash($vector) . ')';
                 $this->assertEquals($vector_key, $key);
                 $this->assertEquals($vector, $value);
             }
             if ($value instanceof \MathPHP\LinearAlgebra\Matrix) {
                 $objects++;
-                $matrix_key = get_class($value) . '(' . spl_object_hash($matrix) . ')';
+                $matrix_key = \get_class($value) . '(' . spl_object_hash($matrix) . ')';
                 $this->assertEquals($matrix_key, $key);
                 $this->assertEquals($matrix, $value);
             }
@@ -214,7 +214,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
         foreach ($set as $key => $value) {
             if ($value instanceof \MathPHP\LinearAlgebra\Vector) {
                 $objects++;
-                $vector_key = get_class($value) . '(' . spl_object_hash($vector) . ')';
+                $vector_key = \get_class($value) . '(' . spl_object_hash($vector) . ')';
                 $this->assertEquals($vector_key, $key);
                 $this->assertEquals($vector, $value);
             }

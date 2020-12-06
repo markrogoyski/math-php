@@ -294,7 +294,7 @@ class Distribution
                 return \strlen($stem);
             }, \array_keys($plot)));
             foreach ($plot as $stem => $leaves) {
-                printf("%{$length}d | %s\n", $stem, implode(' ', $leaves));
+                printf("%{$length}d | %s\n", $stem, \implode(' ', $leaves));
             }
         }
 

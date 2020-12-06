@@ -200,7 +200,7 @@ class MatrixFactory
         $I = self::identity($n)->getMatrix();
 
         $bottom_row = \array_pop($I);
-        array_unshift($I, $bottom_row);
+        \array_unshift($I, $bottom_row);
 
         return self::create($I);
     }
@@ -562,7 +562,7 @@ class MatrixFactory
         // Square Matrices have the same number of rows (m) and columns (n)
         if ($m === $n) {
             // closures are objects, so we need to separate them out.
-            if (is_object($A[0][0])) {
+            if (\is_object($A[0][0])) {
                 if ($A[0][0] instanceof \Closure) {
                     return 'function_square';
                 } else {
@@ -578,7 +578,7 @@ class MatrixFactory
             return 'unknown';
         }
         // Then check remaining matrix types
-        if (is_callable($A[0][0])) {
+        if (\is_callable($A[0][0])) {
             return 'function';
         }
 

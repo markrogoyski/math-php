@@ -100,11 +100,11 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public static function create($number): ArbitraryInteger
     {
-        if (!is_object($number)) {
+        if (!\is_object($number)) {
             return new ArbitraryInteger($number);
         }
 
-        $class = get_class($number);
+        $class = \get_class($number);
         if ($class == self::class) {
             return $number;
         }

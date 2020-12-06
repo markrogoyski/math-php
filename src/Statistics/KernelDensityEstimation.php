@@ -124,7 +124,7 @@ class KernelDensityEstimation
             $this->kernel = $this->getKernelFunctionFromLibrary(self::STANDARD_NORMAL);
         } elseif (is_string($kernel)) {
             $this->kernel = $this->getKernelFunctionFromLibrary($kernel);
-        } elseif (is_callable($kernel)) {
+        } elseif (\is_callable($kernel)) {
             $this->kernel = $kernel;
         } else {
             throw new Exception\BadParameterException('Kernel must be a callable or a string. Type is: ' . gettype($kernel));

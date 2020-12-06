@@ -478,7 +478,7 @@ class Descriptive
             // Add median to both halves
             $median = Average::median($numbers);
             array_push($lower_half, $median);
-            array_unshift($upper_half, $median);
+            \array_unshift($upper_half, $median);
         }
 
         $lower_quartile = Average::median($lower_half);

@@ -3093,7 +3093,7 @@ class Matrix extends MatrixBase
     {
         return \trim(\array_reduce(\array_map(
             function ($mᵢ) {
-                return '[' . implode(', ', $mᵢ) . ']';
+                return '[' . \implode(', ', $mᵢ) . ']';
             },
             $this->A
         ), function ($A, $mᵢ) {
