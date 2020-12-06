@@ -32,7 +32,7 @@ class BaseEncoderDecoderTest extends \PHPUnit\Framework\TestCase
     {
         return [
            ['0xf', 16, 'f'],
-           ['100', 256, chr(100)],
+           ['100', 256, \chr(100)],
         ];
     }
 
@@ -57,7 +57,7 @@ class BaseEncoderDecoderTest extends \PHPUnit\Framework\TestCase
         return [
             ['123', 10, '123'],
             ['7b', 16, '123'],
-            [chr(123), 256, '123'],
+            [\chr(123), 256, '123'],
         ];
     }
 

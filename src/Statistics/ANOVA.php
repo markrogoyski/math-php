@@ -149,7 +149,7 @@ class ANOVA
         $all_elements = array_reduce(
             $samples,
             function ($merged, $sample) {
-                return array_merge($merged, $sample);
+                return \array_merge($merged, $sample);
             },
             array()
         );
@@ -424,8 +424,8 @@ class ANOVA
             $A_elements[$A] = [];
             foreach ($Bs as $B => $values) {
                 // Aggregates
-                $all_elements   = array_merge($all_elements, $values);
-                $A_elements[$A] = array_merge($A_elements[$A], $values);
+                $all_elements   = \array_merge($all_elements, $values);
+                $A_elements[$A] = \array_merge($A_elements[$A], $values);
 
                 // AB summary
                 $summary_AB[$A][$B]             = [];
@@ -443,7 +443,7 @@ class ANOVA
         for ($B = 0; $B < $c; $B++) {
             $B_elements[$B] = [];
             foreach ($data as $factor1s) {
-                $B_elements[$B] = array_merge($B_elements[$B], $factor1s[$B]);
+                $B_elements[$B] = \array_merge($B_elements[$B], $factor1s[$B]);
             }
         }
 

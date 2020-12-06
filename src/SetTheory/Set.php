@@ -253,7 +253,7 @@ class Set implements \Countable, \Iterator
      */
     protected function getKey($x)
     {
-        if (is_int($x) || is_float($x) || is_string($x) || $x instanceof Set) {
+        if (\is_int($x) || is_float($x) || is_string($x) || $x instanceof Set) {
             return "$x";
         } elseif (is_object($x)) {
             return get_class($x) . '(' . spl_object_hash($x) . ')';

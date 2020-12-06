@@ -61,6 +61,6 @@ class ArbitraryInteger
             throw new Exception\BadParameterException('Cannot produce a random number with zero or negative bytes.');
         }
 
-        return Number\ArbitraryInteger::fromBinary(random_bytes($bytes), mt_rand(0, 1) === 0);
+        return Number\ArbitraryInteger::fromBinary(\random_bytes($bytes), mt_rand(0, 1) === 0);
     }
 }

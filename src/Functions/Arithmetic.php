@@ -26,7 +26,7 @@ class Arithmetic
         };
 
         return function ($x) use ($args, $sum) {
-            return $sum(...array_merge([$x], $args));
+            return $sum(...\array_merge([$x], $args));
         };
     }
 
@@ -49,7 +49,7 @@ class Arithmetic
         };
 
         return function ($x) use ($args, $product) {
-            return $product(...array_merge([$x], $args));
+            return $product(...\array_merge([$x], $args));
         };
     }
 }

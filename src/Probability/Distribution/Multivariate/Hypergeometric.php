@@ -45,7 +45,7 @@ class Hypergeometric
             throw new Exception\BadDataException("Array cannot be empty.");
         }
         foreach ($quantities as $K) {
-            if (!is_int($K)) {
+            if (!\is_int($K)) {
                 throw new Exception\BadDataException("Quantities must be positive integers.");
             }
             Support::checkLimits(self::PARAMETER_LIMITS, ['K' => $K]);
@@ -71,7 +71,7 @@ class Hypergeometric
             throw new Exception\BadDataException('Number of quantities does not match number of picks.');
         }
         foreach ($picks as $i => $k) {
-            if (!is_int($k)) {
+            if (!\is_int($k)) {
                 throw new Exception\BadDataException("Picks must be whole numbers.");
             }
             Support::checkLimits(['k' => $this->supportLimits['k'][$i]], ['k' => $k]);

@@ -54,7 +54,7 @@ class Multinomial
             throw new Exception\BadDataException('Number of frequencies does not match number of probabilities.');
         }
         foreach ($frequencies as $frequency) {
-            if (!is_int($frequency)) {
+            if (!\is_int($frequency)) {
                 throw new Exception\BadDataException("Frequencies must be integers. $frequency is not an int.");
             }
         }

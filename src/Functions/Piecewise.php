@@ -66,8 +66,8 @@ class Piecewise
 
         foreach ($intervals as $interval) {
             // Store values from previous interval
-            $lastA     = $a ?? -INF;
-            $lastB     = $b ?? -INF;
+            $lastA     = $a ?? -\INF;
+            $lastB     = $b ?? -\INF;
             $lastBOpen = $bOpen ?? false;
 
             if (count(array_filter($interval, 'is_numeric')) !== 2) {

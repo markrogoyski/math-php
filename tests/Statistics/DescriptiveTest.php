@@ -1113,7 +1113,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('sem', $stats);
         $this->assertArrayHasKey('ci_95', $stats);
         $this->assertArrayHasKey('ci_99', $stats);
-        $this->assertTrue(is_int($stats['n']));
+        $this->assertTrue(\is_int($stats['n']));
         $this->assertTrue(is_numeric($stats['min']));
         $this->assertTrue(is_numeric($stats['max']));
         $this->assertTrue(is_numeric($stats['mean']));
@@ -1171,7 +1171,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('sem', $stats);
         $this->assertArrayHasKey('ci_95', $stats);
         $this->assertArrayHasKey('ci_99', $stats);
-        $this->assertTrue(is_int($stats['n']));
+        $this->assertTrue(\is_int($stats['n']));
         $this->assertTrue(is_numeric($stats['min']));
         $this->assertTrue(is_numeric($stats['max']));
         $this->assertTrue(is_numeric($stats['mean']));

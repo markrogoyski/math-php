@@ -337,7 +337,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
         $⟮A∣B⟯ = [];
 
         for ($i = 0; $i < $m; $i++) {
-            $⟮A∣B⟯[$i] = array_merge($A[$i], $B[$i]);
+            $⟮A∣B⟯[$i] = \array_merge($A[$i], $B[$i]);
         }
 
         return MatrixFactory::create($⟮A∣B⟯);
@@ -381,7 +381,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
         $⟮B∣A⟯ = [];
 
         for ($i = 0; $i < $m; $i++) {
-            $⟮B∣A⟯[$i] = array_merge($B[$i], $A[$i]);
+            $⟮B∣A⟯[$i] = \array_merge($B[$i], $A[$i]);
         }
 
         return MatrixFactory::create($⟮B∣A⟯);
@@ -418,7 +418,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
             throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
         }
 
-        $⟮A∣B⟯ = array_merge($this->A, $B->getMatrix());
+        $⟮A∣B⟯ = \array_merge($this->A, $B->getMatrix());
 
         return MatrixFactory::create($⟮A∣B⟯);
     }
@@ -456,7 +456,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
             throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
         }
 
-        $⟮A∣B⟯ = array_merge($B->getMatrix(), $this->A);
+        $⟮A∣B⟯ = \array_merge($B->getMatrix(), $this->A);
 
         return MatrixFactory::create($⟮A∣B⟯);
     }

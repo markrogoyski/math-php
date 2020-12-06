@@ -116,7 +116,7 @@ class Polynomial implements ObjectArithmetic
 
             // Build the exponent of our string as a unicode character
             $exponent = '';
-            for ($j = 0; $j < strlen(strval($power)); $j++) {
+            for ($j = 0; $j < \strlen(strval($power)); $j++) {
                 $digit     = intval(strval($power)[$j]); // The j-th digit of $power
                 $exponent .= self::SYMBOLS[$digit];      // The corresponding unicode character
             };
@@ -315,9 +315,9 @@ class Polynomial implements ObjectArithmetic
         if ($degreeDifference !== 0) {
             $zeroArray = array_fill(0, abs($degreeDifference), 0);
             if ($degreeDifference < 0) {
-                $coefficientsA = array_merge($zeroArray, $coefficientsA);
+                $coefficientsA = \array_merge($zeroArray, $coefficientsA);
             } else {
-                $coefficientsB = array_merge($zeroArray, $coefficientsB);
+                $coefficientsB = \array_merge($zeroArray, $coefficientsB);
             }
         }
 

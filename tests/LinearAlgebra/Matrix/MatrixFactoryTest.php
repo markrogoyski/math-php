@@ -940,7 +940,7 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
 
                 // And
                 $A->map(function ($element) {
-                    $this->assertTrue(is_int($element));
+                    $this->assertTrue(\is_int($element));
                 });
             }
         }

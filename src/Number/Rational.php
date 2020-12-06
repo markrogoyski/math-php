@@ -138,7 +138,7 @@ class Rational implements ObjectArithmetic
         $working_value   = $i;
 
         for ($j = $number_of_chars - 1; $j >= 0; $j--) {
-            $int = intdiv($working_value, 10 ** $j);
+            $int = \intdiv($working_value, 10 ** $j);
             $return_string .= $chars[$int];
             $working_value -= $int * 10 ** $j;
         }
@@ -205,7 +205,7 @@ class Rational implements ObjectArithmetic
      */
     public function add($r): Rational
     {
-        if (is_int($r)) {
+        if (\is_int($r)) {
             return $this->addInt($r);
         } elseif ($r instanceof Rational) {
             return $this->addRational($r);
@@ -247,7 +247,7 @@ class Rational implements ObjectArithmetic
         $w += $rw;
 
         $lcm = Algebra::lcm($d, $rd);
-        $n = $n * intdiv($lcm, $d) + $rn * intdiv($lcm, $rd);
+        $n = $n * \intdiv($lcm, $d) + $rn * \intdiv($lcm, $rd);
         $d = $lcm;
 
         return new Rational($w, $n, $d);
@@ -264,7 +264,7 @@ class Rational implements ObjectArithmetic
      */
     public function subtract($r): Rational
     {
-        if (is_int($r)) {
+        if (\is_int($r)) {
             return $this->add(-1 * $r);
         } elseif ($r instanceof Rational) {
             return $this->add($r->multiply(-1));
@@ -285,7 +285,7 @@ class Rational implements ObjectArithmetic
      */
     public function multiply($r): Rational
     {
-        if (is_int($r)) {
+        if (\is_int($r)) {
             return $this->multiplyInt($r);
         } elseif ($r instanceof Rational) {
             return $this->multiplyRational($r);
@@ -344,7 +344,7 @@ class Rational implements ObjectArithmetic
      */
     public function divide($r): Rational
     {
-        if (is_int($r)) {
+        if (\is_int($r)) {
             return $this->divideInt($r);
         } elseif ($r instanceof Rational) {
             return $this->divideRational($r);
@@ -464,7 +464,7 @@ class Rational implements ObjectArithmetic
 
         // Reduce the fraction
         if (abs($n) >= $d) {
-            $w += intdiv($n, $d);
+            $w += \intdiv($n, $d);
             $n = $n % $d;
         }
         $gcd = 0;

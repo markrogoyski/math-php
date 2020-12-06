@@ -145,7 +145,7 @@ trait LeastSquares
      */
     public function createDesignMatrix($xs): Matrix
     {
-        if (is_int($xs) || is_float($xs)) {
+        if (\is_int($xs) || is_float($xs)) {
             $xs = [$xs];
         }
 

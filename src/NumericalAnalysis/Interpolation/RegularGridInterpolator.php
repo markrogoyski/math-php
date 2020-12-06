@@ -235,14 +235,14 @@ class RegularGridInterpolator
     private function product(...$args): \Generator
     {
         $repeat = array_pop($args);
-        $pools  = array_merge(...array_fill(0, $repeat, $args));
+        $pools  = \array_merge(...array_fill(0, $repeat, $args));
         $result = [[]];
 
         foreach ($pools as $pool) {
             $result_inner = [];
             foreach ($result as $x) {
                 foreach ($pool as $y) {
-                    $result_inner[] = array_merge($x, [$y]);
+                    $result_inner[] = \array_merge($x, [$y]);
                 }
             }
             $result = $result_inner;

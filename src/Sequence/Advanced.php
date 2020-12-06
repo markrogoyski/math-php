@@ -351,7 +351,7 @@ class Advanced
         for ($i = 2; $i <= $n; $i++) {
             $sequence = "";
             $count    = 1;
-            $len      = strlen($previous);
+            $len      = \strlen($previous);
 
             for ($j = 1; $j < $len; $j++) {
                 if (substr($previous, $j, 1) === substr($previous, $j - 1, 1)) {

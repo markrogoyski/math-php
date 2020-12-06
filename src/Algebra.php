@@ -66,7 +66,7 @@ class Algebra
         $y₁ = 1;
 
         while ($b > 0) {
-            $q  = intdiv($a, $b);
+            $q  = \intdiv($a, $b);
             $r  = $a % $b;
             $x  = $x₂ - ($q * $x₁);
             $y  = $y₂ - ($q * $y₁);
@@ -427,7 +427,7 @@ class Algebra
         $quad_c        = $a₁ + $quad_b * $z₁;
         $complex_roots = self::quadratic($quad_a, $quad_b, $quad_c, true);
 
-        return array_merge([$z₁], $complex_roots);
+        return \array_merge([$z₁], $complex_roots);
     }
 
     /**
@@ -464,7 +464,7 @@ class Algebra
 
         // Has a zero root.
         if ($a₀ == 0) {
-            return array_merge([0.0], self::cubic($a₄, $a₃, $a₂, $a₁, $return_complex));
+            return \array_merge([0.0], self::cubic($a₄, $a₃, $a₂, $a₁, $return_complex));
         }
 
         // Is Biquadratic
@@ -508,8 +508,8 @@ class Algebra
 
             // sort the real roots first.
             $sorted_results = $discriminant1 > $discriminant2
-                ? array_merge($roots1, $roots2)
-                : array_merge($roots2, $roots1);
+                ? \array_merge($roots1, $roots2)
+                : \array_merge($roots2, $roots1);
             return $sorted_results;
         }
 

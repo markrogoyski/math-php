@@ -99,12 +99,12 @@ class Average
 
         // For odd number of numbers, take the middle indexed number
         if (count($numbers) % 2 == 1) {
-            $middle_index = intdiv(count($numbers), 2);
+            $middle_index = \intdiv(count($numbers), 2);
             return self::kthSmallest($numbers, $middle_index);
         }
 
         // For even number of items, take the mean of the middle two indexed numbers
-        $left_middle_index  = intdiv(count($numbers), 2) - 1;
+        $left_middle_index  = \intdiv(count($numbers), 2) - 1;
         $left_median        = self::kthSmallest($numbers, $left_middle_index);
         $right_middle_index = $left_middle_index + 1;
         $right_median       = self::kthSmallest($numbers, $right_middle_index);

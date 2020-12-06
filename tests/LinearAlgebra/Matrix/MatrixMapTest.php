@@ -412,7 +412,7 @@ class MatrixMapTest extends \PHPUnit\Framework\TestCase
                     [7, 8, 9],
                 ],
                 function (array $row) {
-                    return array_merge($row, [9, 9, 9]);
+                    return \array_merge($row, [9, 9, 9]);
                 },
                 [
                     [1, 2, 3, 9, 9, 9],
