@@ -1218,8 +1218,8 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($perfect_power);
 
         // And
-        $m = array_shift($perfect_power);
-        $k = array_shift($perfect_power);
+        $m = \array_shift($perfect_power);
+        $k = \array_shift($perfect_power);
         $this->assertTrue(\is_numeric($m));
         $this->assertTrue(\is_numeric($k));
         $this->assertGreaterThan(1, $m);

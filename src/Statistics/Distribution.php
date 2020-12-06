@@ -235,7 +235,7 @@ class Distribution
         // Map ranks to values in order they were originally input
         $rankedValues = [];
         foreach ($values as $value) {
-            $rankedValues[] = array_shift($ranking⟮X⟯[strval($value)]);
+            $rankedValues[] = \array_shift($ranking⟮X⟯[strval($value)]);
         }
         return $rankedValues;
     }

@@ -199,7 +199,7 @@ class MatrixFactory
     {
         $I = self::identity($n)->getMatrix();
 
-        $bottom_row = array_pop($I);
+        $bottom_row = \array_pop($I);
         array_unshift($I, $bottom_row);
 
         return self::create($I);

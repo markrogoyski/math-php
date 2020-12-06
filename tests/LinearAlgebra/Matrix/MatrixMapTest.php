@@ -374,8 +374,8 @@ class MatrixMapTest extends \PHPUnit\Framework\TestCase
                     [7, 8, 9],
                 ],
                 function (array $row) {
-                    array_shift($row);
-                    array_pop($row);
+                    \array_shift($row);
+                    \array_pop($row);
                     return $row;
                 },
                 [

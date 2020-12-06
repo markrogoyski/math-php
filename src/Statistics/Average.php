@@ -91,7 +91,7 @@ class Average
             throw new Exception\BadDataException('Cannot find the median of an empty list of numbers');
         }
         if (\count($numbers) === 1) {
-            return array_pop($numbers);
+            return \array_pop($numbers);
         }
 
         // Reset the array key indexes because we don't know what might be passed in
@@ -511,8 +511,8 @@ class Average
 
         sort($numbers);
         for ($i = 1; $i <= $trim_count; $i++) {
-            array_shift($numbers);
-            array_pop($numbers);
+            \array_shift($numbers);
+            \array_pop($numbers);
         }
         return self::mean($numbers);
     }

@@ -394,7 +394,7 @@ class Descriptive
             throw new Exception\BadDataException('Cannot find the quartiles of an empty list of numbers');
         }
         if (\count($numbers) === 1) {
-            $number = array_pop($numbers);
+            $number = \array_pop($numbers);
             return [
                 '0%'   => $number,
                 'Q1'   => $number,
@@ -571,7 +571,7 @@ class Descriptive
 
         $N = \count($numbers);
         if ($N === 1) {
-            return array_shift($numbers);
+            return \array_shift($numbers);
         }
 
         sort($numbers);

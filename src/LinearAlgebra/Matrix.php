@@ -640,7 +640,7 @@ class Matrix extends MatrixBase
             if (\count($entries) !== 1) {
                 return false;
             }
-            $entry = array_shift($entries);
+            $entry = \array_shift($entries);
             if ($entry != 1) {
                 return false;
             }
@@ -1437,7 +1437,7 @@ class Matrix extends MatrixBase
         // Augment each aᵢ₁ to aᵢn block
         $matrices = [];
         foreach ($arrays as $row) {
-            $initial_matrix = array_shift($row);
+            $initial_matrix = \array_shift($row);
             $matrices[] = array_reduce(
                 $row,
                 function (Matrix $augmented_matrix, Matrix $matrix) {
@@ -1448,7 +1448,7 @@ class Matrix extends MatrixBase
         }
 
         // Augment below each row block a₁ to am
-        $initial_matrix = array_shift($matrices);
+        $initial_matrix = \array_shift($matrices);
         $A⊗B            = array_reduce(
             $matrices,
             function (Matrix $augmented_matrix, Matrix $matrix) {

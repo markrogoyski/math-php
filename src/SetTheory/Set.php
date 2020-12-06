@@ -652,7 +652,7 @@ class Set implements \Countable, \Iterator
     public function rewind()
     {
         $this->iterator_keys     = array_keys($this->A);
-        $this->iterator_position = array_shift($this->iterator_keys);
+        $this->iterator_position = \array_shift($this->iterator_keys);
     }
 
     /**
@@ -686,6 +686,6 @@ class Set implements \Countable, \Iterator
      */
     public function next()
     {
-        $this->iterator_position = array_shift($this->iterator_keys);
+        $this->iterator_position = \array_shift($this->iterator_keys);
     }
 }

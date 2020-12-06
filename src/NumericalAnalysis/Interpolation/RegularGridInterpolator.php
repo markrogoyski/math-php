@@ -234,7 +234,7 @@ class RegularGridInterpolator
      */
     private function product(...$args): \Generator
     {
-        $repeat = array_pop($args);
+        $repeat = \array_pop($args);
         $pools  = \array_merge(...\array_fill(0, $repeat, $args));
         $result = [[]];
 
