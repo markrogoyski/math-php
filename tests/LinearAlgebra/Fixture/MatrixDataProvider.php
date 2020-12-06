@@ -7398,9 +7398,9 @@ trait MatrixDataProvider
             [
                 [
                     [cos(1), cos(0), cos(1.4)],
-                    [sin(1), sin(0), sin(1.4)],
+                    [ \sin(1),  \sin(0),  \sin(1.4)],
                     [tan(1), tan(0), tan(1.4)],
-                    [sin(\M_PI), cos(\M_PI), tan(\M_PI)],
+                    [ \sin(\M_PI), cos(\M_PI), tan(\M_PI)],
                 ]
             ],
             [

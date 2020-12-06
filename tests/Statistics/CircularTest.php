@@ -43,7 +43,7 @@ class CircularTest extends \PHPUnit\Framework\TestCase
             [[355, 5, 15], -2.935443],
 
             // In this test case, we end up with
-            // sin(0) + sin(π) = 0 + 0 = 0
+            //  sin(0) +  sin(π) = 0 + 0 = 0
             // cos(0) + cos(π) = 1 - 1 = 0
             // So it seems like it should end up as atan2(0, 0),
             // but since the sum of sins isn't perfectly 0, it is a very small floating point number,
@@ -76,7 +76,7 @@ class CircularTest extends \PHPUnit\Framework\TestCase
      * resultantLength <- function(x) {
      *     sinSum = sum(sin(x))
      *     cosSum = sum(cos(x))
-     *     R      = \sqrt(sinSum^2 + cosSum^2)
+     *     R      = sqrt(sinSum^2 + cosSum^2)
      *     return(R)
      * }
      * @return array [angles, length]
@@ -122,7 +122,7 @@ class CircularTest extends \PHPUnit\Framework\TestCase
      *     n      = length(x)
      *     sinSum = sum(sin(x))
      *     cosSum = sum(cos(x))
-     *     rho    = \sqrt(sinSum^2 + cosSum^2) / n
+     *     rho    = sqrt(sinSum^2 + cosSum^2) / n
      *     return(rho)
      * }
      * @return array [angles, length]

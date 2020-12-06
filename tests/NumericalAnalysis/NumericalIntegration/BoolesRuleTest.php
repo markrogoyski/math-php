@@ -181,9 +181,9 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
      */
     public function testApproximatePolynomialCallback3(int $n, float $expected)
     {
-        // Given 1 + e^-x sin(8x^2/3)
+        // Given 1 + e^-x  sin(8x^2/3)
         $func = function ($x) {
-            return 1 + M_E ** -$x * sin(8 * $x ** (2 / 3));
+            return 1 + M_E ** -$x *  \sin(8 * $x ** (2 / 3));
         };
         $start    = 0;
         $end      = 2;

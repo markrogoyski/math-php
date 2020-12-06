@@ -185,7 +185,7 @@ class Special
          */
         if ($z < 0.5) {
             $Γ⟮1 − z⟯ = self::gammaLanczos(1 - $z);
-            return $π / (sin($π * $z) * $Γ⟮1 − z⟯);
+            return $π / ( \sin($π * $z) * $Γ⟮1 − z⟯);
         }
 
         // Standard Lanczos formula when z ≥ 0.5

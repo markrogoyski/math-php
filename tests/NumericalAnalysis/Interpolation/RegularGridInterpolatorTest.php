@@ -594,7 +594,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
      * [0. , 0.5, 1. ]]])
      * >>>
      * >>>
-     * >>> vals = np.sin(X) + np.cos(Y) + np.tan(Z)
+     * >>> vals = np. sin(X) + np.cos(Y) + np.tan(Z)
      * >>> vals
      * array([[[1.        , 1.54630249, 2.55740772],
      * [0.87758256, 1.42388505, 2.43499029],

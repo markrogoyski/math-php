@@ -25,7 +25,7 @@ class Circular
     {
         $∑sinαⱼ = array_sum(array_map(
             function ($αⱼ) {
-                return sin($αⱼ);
+                return  \sin($αⱼ);
             },
             $angles
         ));
@@ -57,7 +57,7 @@ class Circular
     {
         $S = array_sum(array_map(
             function ($θᵢ) {
-                return sin($θᵢ);
+                return  \sin($θᵢ);
             },
             $angles
         ));

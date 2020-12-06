@@ -25,7 +25,7 @@ class FunctionMatrixTest extends \PHPUnit\Framework\TestCase
                 function ($params) {
                     $x = $params['x'];
                     $y = $params['y'];
-                    return 5 * $x + sin($y);
+                    return 5 * $x +  \sin($y);
                 }
             ],
         ];

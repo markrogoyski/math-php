@@ -120,7 +120,7 @@ class LogLogistic extends Continuous
      *
      *      απ / β
      * μ = --------  if β > 1, else undefined
-     *     sin(π/β)
+     *      \sin(π/β)
      *
      * @return float
      */
@@ -131,7 +131,7 @@ class LogLogistic extends Continuous
         $π = \M_PI;
 
         if ($β > 1) {
-            return (($α * $π) / $β) / sin($π / $β);
+            return (($α * $π) / $β) /  \sin($π / $β);
         }
 
         return \NAN;
@@ -193,8 +193,8 @@ class LogLogistic extends Continuous
         $α²    = $α ** 2;
         $β²    = $β ** 2;
         $２β   = 2 * $β;
-        $sin2β = sin($２β);
-        $sin²β = sin($β) ** 2;
+        $sin2β =  \sin($２β);
+        $sin²β =  \sin($β) ** 2;
 
         return $α² * (($２β / $sin2β) - ($β² / $sin²β));
     }

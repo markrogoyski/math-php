@@ -229,7 +229,7 @@ class Complex implements ObjectArithmetic
      * Polar form
      * https://en.wikipedia.org/wiki/Complex_number#Polar_form
      *
-     * z = a + bi = r(cos(θ) + i sin(θ))
+     * z = a + bi = r(cos(θ) + i  sin(θ))
      * Where
      *  r = |z|
      *  θ = arg(z) (in radians)
@@ -241,7 +241,7 @@ class Complex implements ObjectArithmetic
         $r = $this->abs();
         $θ = $this->arg();
 
-        return new Complex($r * cos($θ), $r * sin($θ));
+        return new Complex($r * cos($θ), $r *  \sin($θ));
     }
 
     /**************************************************************************

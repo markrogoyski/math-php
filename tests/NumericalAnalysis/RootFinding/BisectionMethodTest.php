@@ -129,9 +129,9 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
      */
     public function testSolveEToNegativeXTimesSomeStuff()
     {
-        // Given f(x) = e⁻ˣ (3.2sin(x) - 0.5cos(x))
+        // Given f(x) = e⁻ˣ (3.2 sin(x) - 0.5cos(x))
         $func = function ($x) {
-            return exp(-$x) * ((3.2 * sin($x)) - (0.5 * cos($x)));
+            return exp(-$x) * ((3.2 *  \sin($x)) - (0.5 * cos($x)));
         };
         $tol = 0.0001;
 
