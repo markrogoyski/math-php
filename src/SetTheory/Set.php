@@ -614,7 +614,7 @@ class Set implements \Countable, \Iterator
         if ($this->isEmpty()) {
             return 'Ø';
         }
-        return 'Set{' . implode(', ', array_keys($this->A)) . '}';
+        return 'Set{' . implode(', ', \array_keys($this->A)) . '}';
     }
 
     /**************************************************************************
@@ -651,7 +651,7 @@ class Set implements \Countable, \Iterator
      */
     public function rewind()
     {
-        $this->iterator_keys     = array_keys($this->A);
+        $this->iterator_keys     = \array_keys($this->A);
         $this->iterator_position = \array_shift($this->iterator_keys);
     }
 

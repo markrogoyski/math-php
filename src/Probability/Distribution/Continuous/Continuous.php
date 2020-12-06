@@ -49,7 +49,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
                         return $repeated_guess > self::GUESS_ALLOWANCE;
                     }
                 );
-                return \array_sum(array_keys($repeated_guesses)) / \count($repeated_guesses);
+                return \array_sum(\array_keys($repeated_guesses)) / \count($repeated_guesses);
             }
 
             $dif = \abs($del_y);

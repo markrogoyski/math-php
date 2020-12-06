@@ -1438,7 +1438,7 @@ class Matrix extends MatrixBase
         $matrices = [];
         foreach ($arrays as $row) {
             $initial_matrix = \array_shift($row);
-            $matrices[] = array_reduce(
+            $matrices[] = \array_reduce(
                 $row,
                 function (Matrix $augmented_matrix, Matrix $matrix) {
                     return $augmented_matrix->augment($matrix);
@@ -1449,7 +1449,7 @@ class Matrix extends MatrixBase
 
         // Augment below each row block a₁ to am
         $initial_matrix = \array_shift($matrices);
-        $A⊗B            = array_reduce(
+        $A⊗B            = \array_reduce(
             $matrices,
             function (Matrix $augmented_matrix, Matrix $matrix) {
                 return $augmented_matrix->augmentBelow($matrix);
@@ -3091,7 +3091,7 @@ class Matrix extends MatrixBase
      */
     public function __toString()
     {
-        return \trim(array_reduce(\array_map(
+        return \trim(\array_reduce(\array_map(
             function ($mᵢ) {
                 return '[' . implode(', ', $mᵢ) . ']';
             },

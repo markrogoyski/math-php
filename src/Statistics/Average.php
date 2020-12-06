@@ -271,7 +271,7 @@ class Average
         }
 
         $n       = \count($numbers);
-        $a₀a₁a₂⋯ = array_reduce(
+        $a₀a₁a₂⋯ = \array_reduce(
             $numbers,
             function ($carry, $a) {
                 return $carry * $a;

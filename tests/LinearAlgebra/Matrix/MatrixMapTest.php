@@ -391,7 +391,7 @@ class MatrixMapTest extends \PHPUnit\Framework\TestCase
                     [7, 8, 9],
                 ],
                 function (array $row) {
-                    return array_reduce(
+                    return \array_reduce(
                         $row,
                         function ($carry, $item) {
                             return $carry * $carry + $item;

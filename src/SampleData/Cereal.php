@@ -130,7 +130,7 @@ class Cereal
     {
         return \array_map(
             function (array $data) {
-                return array_combine(self::X_LABELS, $data);
+                return \array_combine(self::X_LABELS, $data);
             },
             self::X_DATA
         );
@@ -157,7 +157,7 @@ class Cereal
     {
         return \array_map(
             function (array $data) {
-                return array_combine(self::Y_LABELS, $data);
+                return \array_combine(self::Y_LABELS, $data);
             },
             self::Y_DATA
         );
@@ -184,7 +184,7 @@ class Cereal
     {
         return \array_map(
             function (array $data) {
-                return array_combine(self::YSC_LABELS, $data);
+                return \array_combine(self::YSC_LABELS, $data);
             },
             self::YSC_DATA
         );

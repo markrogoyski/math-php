@@ -582,7 +582,7 @@ class Advanced
             return [];
         }
 
-        $primes = array_fill_keys(range(2, $n), true);
+        $primes = \array_fill_keys(range(2, $n), true);
         $√n     = ceil(\sqrt($n));
 
         for ($i = 2; $i <= $√n; $i++) {
@@ -594,6 +594,6 @@ class Advanced
             }
         }
 
-        return array_keys(\array_filter($primes));
+        return \array_keys(\array_filter($primes));
     }
 }

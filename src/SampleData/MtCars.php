@@ -73,7 +73,7 @@ class MtCars
     {
         return \array_map(
             function (array $data) {
-                return array_combine(self::LABELS, $data);
+                return \array_combine(self::LABELS, $data);
             },
             self::DATA
         );
@@ -86,7 +86,7 @@ class MtCars
      */
     public function getModels(): array
     {
-        return array_keys(self::DATA);
+        return \array_keys(self::DATA);
     }
 
     /**
@@ -99,7 +99,7 @@ class MtCars
      */
     public function getModelData(string $model): array
     {
-        return array_combine(self::LABELS, self::DATA[$model]);
+        return \array_combine(self::LABELS, self::DATA[$model]);
     }
 
     /**
@@ -110,7 +110,7 @@ class MtCars
      */
     public function getMpg(): array
     {
-        return array_combine($this->getModels(), \array_column(self::DATA, 0));
+        return \array_combine($this->getModels(), \array_column(self::DATA, 0));
     }
 
     /**

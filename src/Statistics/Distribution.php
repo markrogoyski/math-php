@@ -166,7 +166,7 @@ class Distribution
                 : $i + 1;
         }
 
-        $ranking⟮X⟯ = array_combine(\array_map('strval', $Xs), $ranking⟮X⟯);
+        $ranking⟮X⟯ = \array_combine(\array_map('strval', $Xs), $ranking⟮X⟯);
 
         // Map ranks to values in order they were originally input
         return \array_map(
@@ -201,7 +201,7 @@ class Distribution
                 : $i + 1;
         }
         sort($ranking⟮X⟯);
-        $ranking⟮X⟯ = array_combine(\array_map('strval', $Xs), $ranking⟮X⟯);
+        $ranking⟮X⟯ = \array_combine(\array_map('strval', $Xs), $ranking⟮X⟯);
 
         // Map ranks to values in order they were originally input
         return \array_map(
@@ -279,8 +279,8 @@ class Distribution
         }
 
         // Fill in any empty keys in the distribution we had no stem/leaves for
-        $min = \min(array_keys($plot));
-        $max = \max(array_keys($plot));
+        $min = \min(\array_keys($plot));
+        $max = \max(\array_keys($plot));
         for ($stem = $min; $stem <= $max; $stem++) {
             if (!isset($plot[$stem])) {
                 $plot[$stem] = array();
@@ -292,7 +292,7 @@ class Distribution
         if ($print === true) {
             $length = \max(\array_map(function ($stem) {
                 return \strlen($stem);
-            }, array_keys($plot)));
+            }, \array_keys($plot)));
             foreach ($plot as $stem => $leaves) {
                 printf("%{$length}d | %s\n", $stem, implode(' ', $leaves));
             }

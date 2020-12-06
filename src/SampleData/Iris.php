@@ -193,7 +193,7 @@ class Iris
     {
         return \array_map(
             function (array $data) {
-                return array_combine(self::LABELS, $data);
+                return \array_combine(self::LABELS, $data);
             },
             self::DATA
         );

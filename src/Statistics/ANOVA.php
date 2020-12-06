@@ -146,7 +146,7 @@ class ANOVA
         }
 
         // Totals summary
-        $all_elements = array_reduce(
+        $all_elements = \array_reduce(
             $samples,
             function ($merged, $sample) {
                 return \array_merge($merged, $sample);
