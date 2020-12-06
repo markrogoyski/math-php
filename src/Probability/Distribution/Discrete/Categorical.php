@@ -84,7 +84,7 @@ class Categorical extends Discrete
     /**
      * Mode of the distribution
      *
-     * i such that pᵢ = max(p₁, ... pk)
+     * i such that pᵢ = \max(p₁, ... pk)
      *
      * @return mixed Category name/number. Only returns one category in case on multimodal scenario.
      */

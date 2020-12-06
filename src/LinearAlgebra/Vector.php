@@ -688,7 +688,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function maxNorm()
     {
-        return max(Map\Single::abs($this->A));
+        return \max(Map\Single::abs($this->A));
     }
 
     /**************************************************************************

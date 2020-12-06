@@ -2169,7 +2169,7 @@ class Matrix extends MatrixBase
         $‖A‖₁ = \array_sum(Map\Single::abs(array_column($this->A, 0)));
 
         for ($j = 1; $j < $n; $j++) {
-            $‖A‖₁ = max($‖A‖₁, \array_sum(Map\Single::abs(array_column($this->A, $j))));
+            $‖A‖₁ = \max($‖A‖₁, \array_sum(Map\Single::abs(array_column($this->A, $j))));
         }
 
         return $‖A‖₁;
@@ -2215,7 +2215,7 @@ class Matrix extends MatrixBase
         $‖A‖∞ = \array_sum(Map\Single::abs($this->A[0]));
 
         for ($i = 1; $i < $m; $i++) {
-            $‖A‖∞ = max($‖A‖∞, \array_sum(Map\Single::abs($this->A[$i])));
+            $‖A‖∞ = \max($‖A‖∞, \array_sum(Map\Single::abs($this->A[$i])));
         }
 
         return $‖A‖∞;
@@ -2235,7 +2235,7 @@ class Matrix extends MatrixBase
 
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                $max = max($max, \abs($this->A[$i][$j]));
+                $max = \max($max, \abs($this->A[$i][$j]));
             }
         }
 

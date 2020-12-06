@@ -279,8 +279,8 @@ class Distribution
         }
 
         // Fill in any empty keys in the distribution we had no stem/leaves for
-        $min = min(array_keys($plot));
-        $max = max(array_keys($plot));
+        $min = \min(array_keys($plot));
+        $max = \max(array_keys($plot));
         for ($stem = $min; $stem <= $max; $stem++) {
             if (!isset($plot[$stem])) {
                 $plot[$stem] = array();
@@ -290,7 +290,7 @@ class Distribution
 
         // Optionally print the stem and leaf plot
         if ($print === true) {
-            $length = max(\array_map(function ($stem) {
+            $length = \max(\array_map(function ($stem) {
                 return \strlen($stem);
             }, array_keys($plot)));
             foreach ($plot as $stem => $leaves) {

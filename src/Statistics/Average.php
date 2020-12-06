@@ -238,7 +238,7 @@ class Average
         // Find all numbers that occur max times.
         $number_strings = \array_map('strval', $numbers);
         $number_counts  = array_count_values($number_strings);
-        $max            = max($number_counts);
+        $max            = \max($number_counts);
         $modes          = array();
         foreach ($number_counts as $number => $count) {
             if ($count === $max) {
@@ -548,10 +548,10 @@ class Average
 
         // Special cases for infinite p
         if ($p == -\INF) {
-            return min($numbers);
+            return \min($numbers);
         }
         if ($p == \INF) {
-            return max($numbers);
+            return \max($numbers);
         }
 
         // Standard case for non-infinite p
@@ -570,7 +570,7 @@ class Average
      *          \ n ⁱ⁼¹   /
      *
      * Special cases:
-     *  M-∞(x) is min(x)
+     *  M-∞(x) is \min(x)
      *  M₋₁(x) is the harmonic mean
      *  M₀(x) is the geometric mean
      *  M₁(x) is the arithmetic mean
@@ -593,10 +593,10 @@ class Average
 
         // Special cases for infinite p
         if ($p == -\INF) {
-            return min($numbers);
+            return \min($numbers);
         }
         if ($p == \INF) {
-            return max($numbers);
+            return \max($numbers);
         }
 
         // Special case for p = 0 (geometric mean)

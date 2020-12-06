@@ -33,7 +33,7 @@ class Descriptive
         if (empty($numbers)) {
             throw new Exception\BadDataException('Cannot find the range of an empty list of numbers');
         }
-        return max($numbers) - min($numbers);
+        return \max($numbers) - \min($numbers);
     }
 
     /**
@@ -56,7 +56,7 @@ class Descriptive
         if (empty($numbers)) {
             throw new Exception\BadDataException('Cannot find the midrange of an empty list of numbers');
         }
-        return Average::mean([min($numbers), max($numbers)]);
+        return Average::mean([\min($numbers), \max($numbers)]);
     }
 
     /**
@@ -420,11 +420,11 @@ class Descriptive
         $upper_quartile = Average::median($upper_half);
 
         return [
-            '0%'   => min($numbers),
+            '0%'   => \min($numbers),
             'Q1'   => $lower_quartile,
             'Q2'   => Average::median($numbers),
             'Q3'   => $upper_quartile,
-            '100%' => max($numbers),
+            '100%' => \max($numbers),
             'IQR'  => $upper_quartile - $lower_quartile,
         ];
     }
@@ -485,11 +485,11 @@ class Descriptive
         $upper_quartile = Average::median($upper_half);
 
         return [
-            '0%'   => min($numbers),
+            '0%'   => \min($numbers),
             'Q1'   => $lower_quartile,
             'Q2'   => Average::median($numbers),
             'Q3'   => $upper_quartile,
-            '100%' => max($numbers),
+            '100%' => \max($numbers),
             'IQR'  => $upper_quartile - $lower_quartile,
         ];
     }
@@ -662,8 +662,8 @@ class Descriptive
 
         return [
             'n'                  => $n,
-            'min'                => min($numbers),
-            'max'                => max($numbers),
+            'min'                => \min($numbers),
+            'max'                => \max($numbers),
             'mean'               => $μ,
             'median'             => Average::median($numbers),
             'mode'               => Average::mode($numbers),
@@ -713,11 +713,11 @@ class Descriptive
         $quartiles = self::quartiles($numbers);
 
         return [
-            'min'    => min($numbers),
+            'min'    => \min($numbers),
             'Q1'     => $quartiles['Q1'],
             'median' => Average::median($numbers),
             'Q3'     => $quartiles['Q3'],
-            'max'    => max($numbers),
+            'max'    => \max($numbers),
         ];
     }
 }

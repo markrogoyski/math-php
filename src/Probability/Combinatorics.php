@@ -309,8 +309,8 @@ class Combinatorics
 
         // The internal self::fallingFactorial() implementation always returns a float.
         // Here we maintain int precision as much as possible.
-        $max = max($denominator, $k);
-        $min = min($denominator, $k);
+        $max = \max($denominator, $k);
+        $min = \min($denominator, $k);
         $falling_factorial = 1;
         for ($i = $max + 1; $i <= $numerator; $i++) {
             $falling_factorial *= $i;

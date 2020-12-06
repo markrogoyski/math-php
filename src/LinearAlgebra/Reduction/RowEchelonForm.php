@@ -122,7 +122,7 @@ class RowEchelonForm extends Matrix
     {
         $m     = $A->getM();
         $n     = $A->getN();
-        $size  = min($m, $n);
+        $size  = \min($m, $n);
         $R     = $A->getMatrix();
         $swaps = 0;
         $ε     = $A->getError();

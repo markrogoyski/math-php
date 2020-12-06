@@ -1314,7 +1314,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $A = MatrixFactory::create($A);
-        $I = MatrixFactory::identity(min($A->getM(), $A->getN()));
+        $I = MatrixFactory::identity(\min($A->getM(), $A->getN()));
 
         // And
         $qr = $A->qrDecomposition();
@@ -3378,7 +3378,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A);
 
         // Then
-        $this->assertLessThanOrEqual(min($A->getM(), $A->getN()), $A->rank());
+        $this->assertLessThanOrEqual(\min($A->getM(), $A->getN()), $A->rank());
     }
 
     /**
@@ -3632,7 +3632,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
             }
         );
         $this->assertEquals(1, max($eigenvalues), '', 0.00001);
-        $this->assertEquals(-1, min($eigenvalues), '', 0.00001);
+        $this->assertEquals(-1, \min($eigenvalues), '', 0.00001);
     }
 
     /**

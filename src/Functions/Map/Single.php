@@ -211,7 +211,7 @@ class Single
     {
         return \array_map(
             function ($x) use ($value) {
-                return min($x, $value);
+                return \min($x, $value);
             },
             $xs
         );
@@ -231,7 +231,7 @@ class Single
     {
         return \array_map(
             function ($x) use ($value) {
-                return max($x, $value);
+                return \max($x, $value);
             },
             $xs
         );

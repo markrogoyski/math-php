@@ -367,7 +367,7 @@ class ArbitraryInteger implements ObjectArithmetic
         $carry    = 0;
         $len      = \strlen($this->base256);
         $num_len  = \strlen($number);
-        $max_len  = max($len, $num_len);
+        $max_len  = \max($len, $num_len);
         $base_256 = str_pad($this->base256, $max_len, \chr(0), STR_PAD_LEFT);
         $number   = str_pad($number, $max_len, \chr(0), STR_PAD_LEFT);
         $result   = '';
@@ -415,7 +415,7 @@ class ArbitraryInteger implements ObjectArithmetic
         $carry    = 0;
         $len      = \strlen($this->base256);
         $num_len  = \strlen($number);
-        $max_len  = max($len, $num_len);
+        $max_len  = \max($len, $num_len);
         $base_256 = str_pad($this->base256, $max_len, \chr(0), STR_PAD_LEFT);
         $number   = str_pad($number, $max_len, \chr(0), STR_PAD_LEFT);
         $result   = '';

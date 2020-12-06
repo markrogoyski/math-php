@@ -157,7 +157,7 @@ class Multi
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 1; $j < $number_of_arrays; $j++) {
-                $maxes[$i] = max($maxes[$i], $arrays[$j][$i]);
+                $maxes[$i] = \max($maxes[$i], $arrays[$j][$i]);
             }
         }
 
@@ -190,7 +190,7 @@ class Multi
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 1; $j < $number_of_arrays; $j++) {
-                $mins[$i] = min($mins[$i], $arrays[$j][$i]);
+                $mins[$i] = \min($mins[$i], $arrays[$j][$i]);
             }
         }
 

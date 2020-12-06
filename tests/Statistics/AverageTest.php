@@ -816,7 +816,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::lehmerMean($numbers, $p);
 
         // Then
-        $this->assertEquals(min($numbers), $mean);
+        $this->assertEquals(\min($numbers), $mean);
     }
 
     /**
@@ -832,7 +832,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::lehmerMean($numbers, $p);
 
         // Then
-        $this->assertEquals(max($numbers), $mean);
+        $this->assertEquals(\max($numbers), $mean);
     }
 
     /**
@@ -966,7 +966,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::generalizedMean($numbers, $p);
 
         // Then
-        $this->assertEquals(min($numbers), $mean);
+        $this->assertEquals(\min($numbers), $mean);
     }
 
     /**
@@ -983,7 +983,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::generalizedMean($numbers, $p);
 
         // Then
-        $this->assertEquals(max($numbers), $mean);
+        $this->assertEquals(\max($numbers), $mean);
     }
 
     /**

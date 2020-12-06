@@ -136,13 +136,13 @@ class ChiSquared extends Continuous
     /**
      * Mode of the distribution
      *
-     * max(k - 2, 0)
+     * \max(k - 2, 0)
      *
      * @return float
      */
     public function mode(): float
     {
-        return max($this->k - 2, 0);
+        return \max($this->k - 2, 0);
     }
 
     /**

@@ -60,17 +60,17 @@ class Outlier
         $σ = Descriptive::standardDeviation($data);
 
         if ($typeOfTest === self::TWO_SIDED) {
-            $max❘Yᵢ − μ❘ = max(Single::abs(Single::subtract($data, $μ)));
+            $max❘Yᵢ − μ❘ = \max(Single::abs(Single::subtract($data, $μ)));
             return $max❘Yᵢ − μ❘ / $σ;
         }
 
         if ($typeOfTest === self::ONE_SIDED_LOWER) {
-            $yMin = min($data);
+            $yMin = \min($data);
             return ($μ - $yMin) / $σ;
         }
 
         if ($typeOfTest === self::ONE_SIDED_UPPER) {
-            $yMax = max($data);
+            $yMax = \max($data);
             return ($yMax - $μ) / $σ;
         }
 

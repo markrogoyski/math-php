@@ -143,7 +143,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
     public function getDiagonalElements(): array
     {
         $diagonal = [];
-        for ($i = 0; $i < min($this->m, $this->n); $i++) {
+        for ($i = 0; $i < \min($this->m, $this->n); $i++) {
             $diagonal[] = $this->A[$i][$i];
         }
 

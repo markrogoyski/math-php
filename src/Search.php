@@ -54,7 +54,7 @@ class Search
      *
      * @throws Exception\BadDataException if the array of values is empty
      */
-    public static function argMax(array $values): int
+    public static function argmax(array $values): int
     {
         if (empty($values)) {
             throw new Exception\BadDataException('Cannot find the argMax of an empty array');
@@ -76,7 +76,7 @@ class Search
         }
 
         // Standard case: Find max and return index
-        return self::baseArgMax($values);
+        return self::baseArgmax($values);
     }
 
     /**
@@ -94,7 +94,7 @@ class Search
      * @throws Exception\BadDataException if the array of values is empty
      * @throws Exception\BadDataException if the array only contains NANs
      */
-    public static function nanArgMax(array $values): int
+    public static function nanArgmax(array $values): int
     {
         if (empty($values)) {
             throw new Exception\BadDataException('Cannot find the argMax of an empty array');
@@ -110,7 +110,7 @@ class Search
             throw new Exception\BadDataException('Array of all NANs has no nanArgMax');
         }
 
-        return self::baseArgMax($valuesWithoutNans);
+        return self::baseArgmax($valuesWithoutNans);
     }
 
     /**
@@ -123,9 +123,9 @@ class Search
      *
      * @return int Index of the first occurrence of the maximum value
      */
-    private static function baseArgMax(array $values): int
+    private static function baseArgmax(array $values): int
     {
-        $max = max($values);
+        $max = \max($values);
         foreach ($values as $i => $v) {
             if ($v === $max) {
                 return $i;
@@ -148,7 +148,7 @@ class Search
      *
      * @throws Exception\BadDataException if the array of values is empty
      */
-    public static function argMin(array $values): int
+    public static function argmin(array $values): int
     {
         if (empty($values)) {
             throw new Exception\BadDataException('Cannot find the argMin of an empty array');
@@ -170,7 +170,7 @@ class Search
         }
 
         // Standard case: Find max and return index
-        return self::baseArgMin($values);
+        return self::baseArgmin($values);
     }
 
     /**
@@ -188,7 +188,7 @@ class Search
      * @throws Exception\BadDataException if the array of values is empty
      * @throws Exception\BadDataException if the array only contains NANs
      */
-    public static function nanArgMin(array $values): int
+    public static function nanArgmin(array $values): int
     {
         if (empty($values)) {
             throw new Exception\BadDataException('Cannot find the nanArgMin of an empty array');
@@ -204,7 +204,7 @@ class Search
             throw new Exception\BadDataException('Array of all NANs has no nanArgMax');
         }
 
-        return self::baseArgMin($valuesWithoutNans);
+        return self::baseArgmin($valuesWithoutNans);
     }
 
     /**
@@ -217,9 +217,9 @@ class Search
      *
      * @return int Index of the first occurrence of the minimum value
      */
-    private static function baseArgMin(array $values): int
+    private static function baseArgmin(array $values): int
     {
-        $max = min($values);
+        $max = \min($values);
         foreach ($values as $i => $v) {
             if ($v === $max) {
                 return $i;
