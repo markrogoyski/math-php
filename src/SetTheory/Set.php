@@ -257,7 +257,7 @@ class Set implements \Countable, \Iterator
             return "$x";
         } elseif (is_object($x)) {
             return get_class($x) . '(' . spl_object_hash($x) . ')';
-        } elseif (is_array($x)) {
+        } elseif (\is_array($x)) {
             return 'Array(' . serialize($x) . ')';
         } elseif (is_resource($x)) {
             return 'Resource(' . strval($x) . ')';

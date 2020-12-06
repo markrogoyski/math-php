@@ -230,10 +230,10 @@ class LU extends Decomposition
     public function solve($b): Vector
     {
         // Input must be a Vector or array.
-        if (!($b instanceof Vector || is_array($b))) {
+        if (!($b instanceof Vector || \is_array($b))) {
             throw new Exception\IncorrectTypeException('b in Ax = b must be a Vector or array');
         }
-        if (is_array($b)) {
+        if (\is_array($b)) {
             $b = new Vector($b);
         }
 

@@ -35,7 +35,7 @@ abstract class Decomposition implements \ArrayAccess
      */
     public function offsetSet($i, $value)
     {
-        throw new Exception\MatrixException(get_called_class() . ' class does not allow setting values');
+        throw new Exception\MatrixException(\get_called_class() . ' class does not allow setting values');
     }
 
     /**
@@ -44,6 +44,6 @@ abstract class Decomposition implements \ArrayAccess
      */
     public function offsetUnset($i)
     {
-        throw new Exception\MatrixException(get_called_class() . ' class does not allow unsetting values');
+        throw new Exception\MatrixException(\get_called_class() . ' class does not allow unsetting values');
     }
 }

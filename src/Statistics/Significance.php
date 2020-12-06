@@ -187,7 +187,7 @@ class Significance
         if (\is_numeric($b)) {
             return self::tTestOneSample($a, $b);
         }
-        if (is_array($b)) {
+        if (\is_array($b)) {
             return self::tTestTwoSample($a, $b);
         }
 

@@ -244,7 +244,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
 
         $arrays = 0;
         foreach ($set as $key => $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $arrays++;
                 $this->assertEquals([1, 2, 3], $value);
                 $this->assertEquals(3, count($value));
@@ -278,7 +278,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
 
         $arrays = 0;
         foreach ($set as $key => $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $arrays++;
                 $this->assertEquals(3, count($value));
             }

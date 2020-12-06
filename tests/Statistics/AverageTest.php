@@ -1454,7 +1454,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $averages = Average::describe($numbers);
 
         // Then
-        $this->assertTrue(is_array($averages));
+        $this->assertTrue(\is_array($averages));
         $this->assertArrayHasKey('mean', $averages);
         $this->assertArrayHasKey('median', $averages);
         $this->assertArrayHasKey('mode', $averages);
@@ -1467,7 +1467,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('cubic_mean', $averages);
         $this->assertTrue(\is_numeric($averages['mean']));
         $this->assertTrue(\is_numeric($averages['median']));
-        $this->assertTrue(is_array($averages['mode']));
+        $this->assertTrue(\is_array($averages['mode']));
         $this->assertTrue(\is_numeric($averages['geometric_mean']));
         $this->assertTrue(\is_numeric($averages['harmonic_mean']));
         $this->assertTrue(\is_numeric($averages['contraharmonic_mean']));

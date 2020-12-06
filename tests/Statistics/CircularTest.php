@@ -239,7 +239,7 @@ class CircularTest extends \PHPUnit\Framework\TestCase
         $stats = Circular::describe($values);
 
         // Then
-        $this->assertTrue(is_array($stats));
+        $this->assertTrue(\is_array($stats));
         $this->assertArrayHasKey('n', $stats);
         $this->assertArrayHasKey('mean', $stats);
         $this->assertArrayHasKey('resultant_length', $stats);

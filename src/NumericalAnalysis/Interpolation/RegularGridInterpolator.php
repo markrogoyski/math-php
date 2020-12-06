@@ -92,7 +92,7 @@ class RegularGridInterpolator
      */
     private function countDimensions(array $array): int
     {
-        if (is_array(reset($array))) {
+        if (\is_array(reset($array))) {
             $return = $this->countDimensions(reset($array)) + 1;
         } else {
             $return = 1;

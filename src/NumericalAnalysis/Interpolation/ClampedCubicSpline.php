@@ -165,12 +165,12 @@ class ClampedCubicSpline extends Interpolation
     public static function getSplinePoints($source, array $args = []): array
     {
         // Guard clause - source must be callable or array of points
-        if (!(is_callable($source) || is_array($source))) {
+        if (!(is_callable($source) || \is_array($source))) {
             throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
 
         // Source is already an array: nothing to do
-        if (is_array($source)) {
+        if (\is_array($source)) {
             return $source;
         }
 

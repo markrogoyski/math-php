@@ -1090,7 +1090,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $stats = Descriptive::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], $population);
 
         // Then
-        $this->assertTrue(is_array($stats));
+        $this->assertTrue(\is_array($stats));
         $this->assertArrayHasKey('n', $stats);
         $this->assertArrayHasKey('min', $stats);
         $this->assertArrayHasKey('max', $stats);
@@ -1118,7 +1118,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(\is_numeric($stats['max']));
         $this->assertTrue(\is_numeric($stats['mean']));
         $this->assertTrue(\is_numeric($stats['median']));
-        $this->assertTrue(is_array($stats['mode']));
+        $this->assertTrue(\is_array($stats['mode']));
         $this->assertTrue(\is_numeric($stats['range']));
         $this->assertTrue(\is_numeric($stats['midrange']));
         $this->assertTrue(\is_numeric($stats['variance']));
@@ -1126,15 +1126,15 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(\is_numeric($stats['cv']));
         $this->assertTrue(\is_numeric($stats['mean_mad']));
         $this->assertTrue(\is_numeric($stats['median_mad']));
-        $this->assertTrue(is_array($stats['quartiles']));
+        $this->assertTrue(\is_array($stats['quartiles']));
         $this->assertTrue(\is_numeric($stats['midhinge']));
         $this->assertTrue(\is_numeric($stats['skewness']));
         $this->assertTrue(\is_numeric($stats['ses']));
         $this->assertTrue(\is_numeric($stats['kurtosis']));
         $this->assertTrue(\is_numeric($stats['sek']));
         $this->assertTrue(\is_numeric($stats['sem']));
-        $this->assertTrue(is_array($stats['ci_95']));
-        $this->assertTrue(is_array($stats['ci_99']));
+        $this->assertTrue(\is_array($stats['ci_95']));
+        $this->assertTrue(\is_array($stats['ci_99']));
     }
 
     /**
@@ -1150,7 +1150,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $stats = Descriptive::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], $population);
 
         // Then
-        $this->assertTrue(is_array($stats));
+        $this->assertTrue(\is_array($stats));
         $this->assertArrayHasKey('n', $stats);
         $this->assertArrayHasKey('min', $stats);
         $this->assertArrayHasKey('max', $stats);
@@ -1176,21 +1176,21 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(\is_numeric($stats['max']));
         $this->assertTrue(\is_numeric($stats['mean']));
         $this->assertTrue(\is_numeric($stats['median']));
-        $this->assertTrue(is_array($stats['mode']));
+        $this->assertTrue(\is_array($stats['mode']));
         $this->assertTrue(\is_numeric($stats['range']));
         $this->assertTrue(\is_numeric($stats['midrange']));
         $this->assertTrue(\is_numeric($stats['variance']));
         $this->assertTrue(\is_numeric($stats['sd']));
         $this->assertTrue(\is_numeric($stats['cv']));
-        $this->assertTrue(is_array($stats['quartiles']));
+        $this->assertTrue(\is_array($stats['quartiles']));
         $this->assertTrue(\is_numeric($stats['midhinge']));
         $this->assertTrue(\is_numeric($stats['skewness']));
         $this->assertTrue(\is_numeric($stats['ses']));
         $this->assertTrue(\is_numeric($stats['kurtosis']));
         $this->assertTrue(\is_numeric($stats['sek']));
         $this->assertTrue(\is_numeric($stats['sem']));
-        $this->assertTrue(is_array($stats['ci_95']));
-        $this->assertTrue(is_array($stats['ci_99']));
+        $this->assertTrue(\is_array($stats['ci_95']));
+        $this->assertTrue(\is_array($stats['ci_99']));
     }
 
     /**

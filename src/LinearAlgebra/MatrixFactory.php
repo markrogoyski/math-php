@@ -535,7 +535,7 @@ class MatrixFactory
             throw new Exception\BadDataException('Array data not provided for Matrix creation');
         }
 
-        if (isset($A[0]) && is_array($A[0])) {
+        if (isset($A[0]) && \is_array($A[0])) {
             $column_count = \count($A[0]);
             foreach ($A as $i => $row) {
                 if (\count($row) !== $column_count) {
@@ -574,7 +574,7 @@ class MatrixFactory
 
         // Non square Matrices
         // First check to make sure it isn't something strange
-        if (is_array($A[0][0])) {
+        if (\is_array($A[0][0])) {
             return 'unknown';
         }
         // Then check remaining matrix types
