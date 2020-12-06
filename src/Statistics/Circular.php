@@ -31,7 +31,7 @@ class Circular
         ));
         $∑cosαⱼ = \array_sum(\array_map(
             function ($αⱼ) {
-                return cos($αⱼ);
+                return \cos($αⱼ);
             },
             $angles
         ));
@@ -63,7 +63,7 @@ class Circular
         ));
         $C = \array_sum(\array_map(
             function ($θᵢ) {
-                return cos($θᵢ);
+                return \cos($θᵢ);
             },
             $angles
         ));

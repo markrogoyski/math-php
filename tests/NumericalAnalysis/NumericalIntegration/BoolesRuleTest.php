@@ -157,9 +157,9 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
      */
     public function testApproximatePolynomialCallback2()
     {
-        // Given 2 + cos(2√x)
+        // Given 2 + \cos(2√x)
         $func = function ($x) {
-            return 2 + cos(2 * \sqrt($x));
+            return 2 + \cos(2 * \sqrt($x));
         };
         $start    = 0;
         $end      = 2;

@@ -236,7 +236,7 @@ class ClampedCubicSpline extends Interpolation
             }
 
             $x_component = $point[self::X];
-            if (in_array($x_component, $x_coordinates)) {
+            if (\in_array($x_component, $x_coordinates)) {
                 throw new Exception\BadDataException('Not a function. Your input array contains more than one coordinate with the same x-component.');
             }
             $x_coordinates[] = $x_component;

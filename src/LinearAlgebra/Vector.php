@@ -240,7 +240,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     public function angleBetween(Vector $B, bool $inDegrees = false)
     {
         $cos⟮α⟯ = Distance::cosineSimilarity($this->getVector(), $B->getVector());
-        $angle = acos($cos⟮α⟯);
+        $angle = \acos($cos⟮α⟯);
 
         return $inDegrees
             ? rad2deg($angle)

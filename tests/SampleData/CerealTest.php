@@ -57,7 +57,7 @@ class CerealTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertCount(15, $X);
         foreach ($X as $label => $observation) {
-            $this->assertTrue(in_array($label, SampleData\Cereal::CEREALS));
+            $this->assertTrue(\in_array($label, SampleData\Cereal::CEREALS));
             $this->assertCount(145, $observation);
         }
     }
@@ -87,7 +87,7 @@ class CerealTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertCount(15, $Y);
         foreach ($Y as $label => $observation) {
-            $this->assertTrue(in_array($label, SampleData\Cereal::CEREALS));
+            $this->assertTrue(\in_array($label, SampleData\Cereal::CEREALS));
             $this->assertCount(6, $observation);
         }
     }
@@ -117,7 +117,7 @@ class CerealTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertCount(15, $Ysc);
         foreach ($Ysc as $label => $observation) {
-            $this->assertTrue(in_array($label, SampleData\Cereal::CEREALS));
+            $this->assertTrue(\in_array($label, SampleData\Cereal::CEREALS));
             $this->assertCount(6, $observation);
         }
     }

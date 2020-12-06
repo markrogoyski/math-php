@@ -474,14 +474,14 @@ class MatrixMapTest extends \PHPUnit\Framework\TestCase
         $R = $A->mapRows($func);
 
         // Then
-        $this->assertTrue(in_array(1, $R[0]));
-        $this->assertTrue(in_array(2, $R[0]));
-        $this->assertTrue(in_array(3, $R[0]));
-        $this->assertTrue(in_array(4, $R[1]));
-        $this->assertTrue(in_array(5, $R[1]));
-        $this->assertTrue(in_array(6, $R[1]));
-        $this->assertTrue(in_array(7, $R[2]));
-        $this->assertTrue(in_array(8, $R[2]));
-        $this->assertTrue(in_array(9, $R[2]));
+        $this->assertTrue(\in_array(1, $R[0]));
+        $this->assertTrue(\in_array(2, $R[0]));
+        $this->assertTrue(\in_array(3, $R[0]));
+        $this->assertTrue(\in_array(4, $R[1]));
+        $this->assertTrue(\in_array(5, $R[1]));
+        $this->assertTrue(\in_array(6, $R[1]));
+        $this->assertTrue(\in_array(7, $R[2]));
+        $this->assertTrue(\in_array(8, $R[2]));
+        $this->assertTrue(\in_array(9, $R[2]));
     }
 }

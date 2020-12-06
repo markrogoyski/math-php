@@ -745,7 +745,7 @@ class Matrix extends MatrixBase
         for ($i = 0; $i < $this->m; $i++) {
             for ($j = 0; $j < $this->n; $j++) {
                 if ($i == $j) {
-                    if (!in_array($this->A[$i][$j], [-1, 1])) {
+                    if (!\in_array($this->A[$i][$j], [-1, 1])) {
                         return false;
                     }
                 } else {
@@ -1777,7 +1777,7 @@ class Matrix extends MatrixBase
      */
     public function meanDeviation(string $direction = 'rows'): Matrix
     {
-        if (!in_array($direction, [self::ROWS, self::COLUMNS])) {
+        if (!\in_array($direction, [self::ROWS, self::COLUMNS])) {
             throw new Exception\BadParameterException("Direction must be rows or columns, got $direction");
         }
 
@@ -1887,7 +1887,7 @@ class Matrix extends MatrixBase
      */
     public function covarianceMatrix(string $direction = 'rows'): Matrix
     {
-        if (!in_array($direction, [self::ROWS, self::COLUMNS])) {
+        if (!\in_array($direction, [self::ROWS, self::COLUMNS])) {
             throw new Exception\BadParameterException("Direction must be rows or columns, got $direction");
         }
 

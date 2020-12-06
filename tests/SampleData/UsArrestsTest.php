@@ -64,7 +64,7 @@ class UsArrestsTest extends \PHPUnit\Framework\TestCase
         // When
         foreach ($sampleOfStateNames as $state) {
             // Then
-            $this->assertTrue(in_array($state, $states));
+            $this->assertTrue(\in_array($state, $states));
         }
     }
 

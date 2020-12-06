@@ -27,7 +27,7 @@ class Eigenvalue
      */
     public static function isAvailableMethod(string $method): bool
     {
-        return in_array($method, self::METHODS);
+        return \in_array($method, self::METHODS);
     }
 
     /**
@@ -157,7 +157,7 @@ class Eigenvalue
             $j     = $pivot['j'];
             $angle = ($D[$i][$i] == $D[$j][$j])
                 ? ($D[$i][$i] > 0 ? 1 : -1) * \M_PI / 4
-                : atan(2 * $D[$i][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
+                : \atan(2 * $D[$i][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
 
             $G = MatrixFactory::givens($i, $j, $angle, $m);
             $D = $G->transpose()->multiply($D)->multiply($G);

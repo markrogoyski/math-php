@@ -481,8 +481,8 @@ class MatrixFactory
         }
 
         $G         = MatrixFactory::identity($size)->getMatrix();
-        $G[$m][$m] = cos($angle);
-        $G[$n][$n] = cos($angle);
+        $G[$m][$m] = \cos($angle);
+        $G[$n][$n] = \cos($angle);
         $G[$m][$n] = -1 * \sin($angle);
         $G[$n][$m] = \sin($angle);
 

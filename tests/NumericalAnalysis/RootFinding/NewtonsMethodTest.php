@@ -127,7 +127,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test   Solve cos(x) - 2x
+     * @test   Solve \cos(x) - 2x
      *         Has a root of approximately 0.450183
      * @throws \Exception
      */
@@ -135,7 +135,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return cos($x) - 2 * $x;
+            return \cos($x) - 2 * $x;
         };
 
         // And
@@ -153,7 +153,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test   Solve cos(x) = x
+     * @test   Solve \cos(x) = x
      *         Has a root of approximately 0.7390851332
      * @throws \Exception
      */
@@ -161,7 +161,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return cos($x);
+            return \cos($x);
         };
 
         // And

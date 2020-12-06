@@ -127,7 +127,7 @@ class Outlier
      */
     private static function validateGrubbsCriticalValueTestType(string $typeOfTest)
     {
-        if (!in_array($typeOfTest, [self::ONE_SIDED, self::TWO_SIDED])) {
+        if (!\in_array($typeOfTest, [self::ONE_SIDED, self::TWO_SIDED])) {
             throw new Exception\BadParameterException("{$typeOfTest} is not a valid Grubbs' test");
         }
     }
