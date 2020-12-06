@@ -55,7 +55,7 @@ class NewtonPolynomialForward extends Interpolation
         $y = self::Y;
 
         // Initialize
-        $n   = count($sorted);
+        $n   = \count($sorted);
         $Q   = [];
 
         // Build first column of divided differences table

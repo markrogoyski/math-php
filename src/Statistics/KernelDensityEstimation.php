@@ -51,7 +51,7 @@ class KernelDensityEstimation
      */
     public function __construct(array $data, float $h = null, $kernel = null)
     {
-        $this->n = count($data);
+        $this->n = \count($data);
         if ($this->n === 0) {
             throw new Exception\BadDataException('Dataset cannot be empty.');
         }

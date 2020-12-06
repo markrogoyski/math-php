@@ -41,7 +41,7 @@ class Dirichlet
      */
     public function __construct(array $αs)
     {
-        $n = count($αs);
+        $n = \count($αs);
         for ($i = 0; $i < $n; $i++) {
             Support::checkLimits(self::PARAMETER_LIMITS, ['α' => $αs[$i]]);
         }
@@ -65,11 +65,11 @@ class Dirichlet
      */
     public function pdf(array $xs): float
     {
-        if (count($xs) !== count($this->αs)) {
+        if (\count($xs) !== \count($this->αs)) {
             throw new Exception\BadDataException('xs and αs must have the same number of elements');
         }
 
-        $n = count($xs);
+        $n = \count($xs);
         for ($i = 0; $i < $n; $i++) {
             Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $xs[$i]]);
         }

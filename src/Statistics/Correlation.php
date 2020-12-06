@@ -72,7 +72,7 @@ class Correlation
      */
     public static function populationCovariance(array $X, array $Y): float
     {
-        if (count($X) !== count($Y)) {
+        if (\count($X) !== \count($Y)) {
             throw new Exception\BadDataException('X and Y must have the same number of elements.');
         }
         $μₓ = Average::mean($X);
@@ -85,7 +85,7 @@ class Correlation
             $X,
             $Y
         ));
-        $N = count($X);
+        $N = \count($X);
 
         return $∑⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ / $N;
     }
@@ -112,7 +112,7 @@ class Correlation
      */
     public static function sampleCovariance(array $X, array $Y): float
     {
-        if (count($X) !== count($Y)) {
+        if (\count($X) !== \count($Y)) {
             throw new Exception\BadDataException('X and Y must have the same number of elements.');
         }
         $x = Average::mean($X);
@@ -125,7 +125,7 @@ class Correlation
             $X,
             $Y
         ));
-        $n = count($X);
+        $n = \count($X);
 
         return $∑⟮xᵢ − x⟯⟮yᵢ − y⟯ / ($n - 1);
     }
@@ -149,7 +149,7 @@ class Correlation
      */
     public static function weightedCovariance(array $X, array $Y, array $w): float
     {
-        if (count($X) !== count($Y) || count($X) !== count($w)) {
+        if (\count($X) !== \count($Y) || \count($X) !== \count($w)) {
             throw new Exception\BadDataException('X, Y and w must have the same number of elements.');
         }
 
@@ -389,11 +389,11 @@ class Correlation
      */
     public static function kendallsTau(array $X, array $Y): float
     {
-        if (count($X) !== count($Y)) {
+        if (\count($X) !== \count($Y)) {
             throw new Exception\BadDataException('Both random variables must have the same number of elements');
         }
 
-        $n = count($X);
+        $n = \count($X);
 
         // Match X and Y pairs and sort by X rank
         $xy = array_map(
@@ -481,7 +481,7 @@ class Correlation
      */
     public static function spearmansRho(array $X, array $Y): float
     {
-        if (count($X) !== count($Y)) {
+        if (\count($X) !== \count($Y)) {
             throw new Exception\BadDataException('Both random variables for spearmansRho must have the same number of elements');
         }
 

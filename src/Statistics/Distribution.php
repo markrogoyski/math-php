@@ -49,7 +49,7 @@ class Distribution
      */
     public static function relativeFrequency(array $values): array
     {
-        $sample_size          = count($values);
+        $sample_size          = \count($values);
         $relative_frequencies = array();
         foreach (self::frequency($values) as $subject => $frequency) {
             $relative_frequencies[$subject] = $frequency / $sample_size;
@@ -93,7 +93,7 @@ class Distribution
      */
     public static function cumulativeRelativeFrequency(array $values): array
     {
-        $sample_size            = count($values);
+        $sample_size            = \count($values);
         $cumulative_frequencies = self::cumulativeFrequency($values);
         return array_map(
             function ($frequency) use ($sample_size) {
@@ -128,7 +128,7 @@ class Distribution
         // Rank will not change if value only shows up once.
         $rg⟮X⟯ = array_map(
             function (array $x) {
-                return array_sum($x) / count($x);
+                return array_sum($x) / \count($x);
             },
             $ordinalRanking⟮X⟯
         );
@@ -154,7 +154,7 @@ class Distribution
      */
     public static function standardCompetitionRanking(array $values): array
     {
-        $count = count($values);
+        $count = \count($values);
         $Xs    = $values;
         sort($Xs);
 
@@ -189,7 +189,7 @@ class Distribution
      */
     public static function modifiedCompetitionRanking(array $values): array
     {
-        $count = count($values);
+        $count = \count($values);
         $Xs    = $values;
         sort($Xs);
 

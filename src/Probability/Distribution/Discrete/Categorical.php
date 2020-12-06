@@ -46,8 +46,8 @@ class Categorical extends Discrete
         }
 
         // Must have k number of probabilities
-        if (count($probabilities) != $k) {
-            throw new Exception\BadDataException("Must have $k probabilities. Given " . count($probabilities));
+        if (\count($probabilities) != $k) {
+            throw new Exception\BadDataException("Must have $k probabilities. Given " . \count($probabilities));
         }
 
         // Probabilities must add up to 1

@@ -99,7 +99,7 @@ class Circular
      */
     public static function meanResultantLength(array $angles): float
     {
-        $n = count($angles);
+        $n = \count($angles);
         $R = self::resultantLength($angles);
         $ρ = $R / $n;
 
@@ -161,7 +161,7 @@ class Circular
     public static function describe(array $angles): array
     {
         return [
-            'n'                     => count($angles),
+            'n'                     => \count($angles),
             'mean'                  => self::mean($angles),
             'resultant_length'      => self::resultantLength($angles),
             'mean_resultant_length' => self::meanResultantLength($angles),

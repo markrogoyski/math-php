@@ -50,7 +50,7 @@ class Divergence
     public static function kullbackLeibler(array $p, array $q): float
     {
         // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
+        if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
         }
 
@@ -114,7 +114,7 @@ class Divergence
     public static function jensenShannon(array $p, array $q): float
     {
         // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
+        if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
         }
 

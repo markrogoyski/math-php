@@ -118,7 +118,7 @@ class Set implements \Countable, \Iterator
      */
     public function length(): int
     {
-        return count($this->A);
+        return \count($this->A);
     }
 
     /**************************************************************************
@@ -308,7 +308,7 @@ class Set implements \Countable, \Iterator
         $A∩B = array_intersect_key($this->A, $B_array);
         $A∖B = array_diff_key($this->A, $B_array);
 
-        return (count($A∩B) === count($this->A)) && (empty($A∖B));
+        return (\count($A∩B) === \count($this->A)) && (empty($A∖B));
     }
 
     /**
@@ -328,7 +328,7 @@ class Set implements \Countable, \Iterator
         $A∩B = array_intersect_key($this->A, $B_array);
         $A∖B = array_diff_key($this->A, $B_array);
 
-        return (count($A∩B) === count($this->A)) && (empty($A∖B)) && (count($this->A) === count($B));
+        return (\count($A∩B) === \count($this->A)) && (empty($A∖B)) && (\count($this->A) === \count($B));
     }
 
     /**
@@ -347,7 +347,7 @@ class Set implements \Countable, \Iterator
         $A∩B = array_intersect_key($this->A, $B_array);
         $A∖B = array_diff_key($B_array, $this->A);
 
-        return (count($A∩B) === $B->length()) && (empty($A∖B));
+        return (\count($A∩B) === $B->length()) && (empty($A∖B));
     }
 
     /**
@@ -367,7 +367,7 @@ class Set implements \Countable, \Iterator
         $A∩B = array_intersect_key($this->A, $B_array);
         $A∖B = array_diff_key($B_array, $this->A);
 
-        return (count($A∩B) === $B->length()) && (empty($A∖B)) && ($this != $B);
+        return (\count($A∩B) === $B->length()) && (empty($A∖B)) && ($this != $B);
     }
 
     /**************************************************************************
@@ -497,7 +497,7 @@ class Set implements \Countable, \Iterator
             $sets[]   = $B->asArray();
         }
 
-        $l = count($sets);
+        $l = \count($sets);
 
         for ($i = 0; $i < $product; ++$i) {
             $elements = [];
@@ -559,7 +559,7 @@ class Set implements \Countable, \Iterator
     public function powerSet(): Set
     {
         // Setup
-        $n   = count($this->A);         // Size of the original set
+        $n   = \count($this->A);         // Size of the original set
         $２ⁿ = pow(2, $n);              // Size of the power set
         $A   = array_values($this->A); //  Original set as an array with numbered indices
         $P⟮S⟯ = new Set();              //  Power set to be created
@@ -631,7 +631,7 @@ class Set implements \Countable, \Iterator
      */
     public function count(): int
     {
-        return count($this->A);
+        return \count($this->A);
     }
 
     /**

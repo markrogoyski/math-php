@@ -223,7 +223,7 @@ class Significance
      */
     public static function tTestOneSample(array $a, float $H₀): array
     {
-        $n  = count($a);
+        $n  = \count($a);
         $Hₐ = Average::mean($a);
         $σ  = Descriptive::standardDeviation($a, Descriptive::SAMPLE);
 
@@ -336,8 +336,8 @@ class Significance
      */
     public static function tTestTwoSample(array $x₁, array $x₂): array
     {
-        $n₁ = count($x₁);
-        $n₂ = count($x₂);
+        $n₁ = \count($x₁);
+        $n₂ = \count($x₂);
 
         $μ₁ = Average::mean($x₁);
         $μ₂ = Average::mean($x₂);
@@ -473,14 +473,14 @@ class Significance
     public static function chiSquaredTest(array $observed, array $expected): array
     {
         // Arrays must have the same number of elements
-        if (count($observed) !== count($expected)) {
+        if (\count($observed) !== \count($expected)) {
             throw new Exception\BadDataException('Observed and expected must have the same number of elements');
         }
 
         // Reset array indexes and initialize
         $O  = array_values($observed);
         $E  = array_values($expected);
-        $n  = count($observed);        // number of terms
+        $n  = \count($observed);        // number of terms
         $k  = $n - 1;                  // degrees of freedom
         $χ² = 0;
 

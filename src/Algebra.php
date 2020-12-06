@@ -155,7 +155,7 @@ class Algebra
                 $sets[$prime][$n] = $primePower;
             }
 
-            $limit *= count($sets[$prime]);
+            $limit *= \count($sets[$prime]);
             if ($count === 0) { // Skip 1 on the first prime
                 $current[] = next($sets[$prime]);
             } else {

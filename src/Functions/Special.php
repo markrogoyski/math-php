@@ -193,7 +193,7 @@ class Special
         // Compute A(z)
         $z--;
         $A⟮z⟯ = $p[0];
-        for ($i = 1; $i < count($p); $i++) {
+        for ($i = 1; $i < \count($p); $i++) {
             $A⟮z⟯ += $p[$i] / ($z + $i);
         }
 
@@ -778,7 +778,7 @@ class Special
      */
     public static function generalizedHypergeometric(int $p, int $q, float ...$params): float
     {
-        $n = count($params);
+        $n = \count($params);
         if ($n !== $p + $q + 1) {
             $expected_num_params = $p + $q + 1;
             throw new Exception\BadParameterException("Number of parameters is incorrect. Expected $expected_num_params; got $n");

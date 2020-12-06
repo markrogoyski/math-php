@@ -50,7 +50,7 @@ class Multinomial
     public function pmf(array $frequencies): float
     {
         // Must have a probability for each frequency
-        if (count($frequencies) !== count($this->probabilities)) {
+        if (\count($frequencies) !== \count($this->probabilities)) {
             throw new Exception\BadDataException('Number of frequencies does not match number of probabilities.');
         }
         foreach ($frequencies as $frequency) {

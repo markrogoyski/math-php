@@ -16,8 +16,8 @@ class FunctionSquareMatrix extends SquareMatrix
      */
     public function __construct(array $A)
     {
-        $n = count($A);
-        $m = count($A[0]);
+        $n = \count($A);
+        $m = \count($A[0]);
 
         if ($m !== $n) {
             throw new Exception\BadDataException("n must equal m for square Function Matrix. n = $n, m = $m");

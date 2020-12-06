@@ -67,7 +67,7 @@ class Search
                 return is_float($value) && is_nan($value);
             }
         );
-        if (count($nanPresent) > 0) {
+        if (\count($nanPresent) > 0) {
             foreach ($values as $i => $v) {
                 if (is_nan($v)) {
                     return $i;
@@ -106,7 +106,7 @@ class Search
                 return !is_nan($value);
             }
         );
-        if (count($valuesWithoutNans) === 0) {
+        if (\count($valuesWithoutNans) === 0) {
             throw new Exception\BadDataException('Array of all NANs has no nanArgMax');
         }
 
@@ -161,7 +161,7 @@ class Search
                 return is_float($value) && is_nan($value);
             }
         );
-        if (count($nanPresent) > 0) {
+        if (\count($nanPresent) > 0) {
             foreach ($values as $i => $v) {
                 if (is_nan($v)) {
                     return $i;
@@ -200,7 +200,7 @@ class Search
                 return !is_nan($value);
             }
         );
-        if (count($valuesWithoutNans) === 0) {
+        if (\count($valuesWithoutNans) === 0) {
             throw new Exception\BadDataException('Array of all NANs has no nanArgMax');
         }
 

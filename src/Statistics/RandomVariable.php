@@ -71,7 +71,7 @@ class RandomVariable
             },
             $X
         ));
-        $N = count($X);
+        $N = \count($X);
 
         return $∑⟮xᵢ − μ⟯ⁿ / $N;
     }
@@ -140,7 +140,7 @@ class RandomVariable
      */
     public static function sampleSkewness(array $X): float
     {
-        $n = count($X);
+        $n = \count($X);
         if ($n < 3) {
             throw new Exception\BadDataException('Cannot find the sample skewness of less than three numbers');
         }
@@ -181,7 +181,7 @@ class RandomVariable
      */
     public static function alternativeSkewness(array $X): float
     {
-        $N  = count($X);
+        $N  = \count($X);
         if ($N < 2) {
             throw new Exception\BadDataException('Cannot find the skewness of less than two numbers');
         }
@@ -327,13 +327,13 @@ class RandomVariable
      */
     public static function populationKurtosis(array $X): float
     {
-        if (count($X) < 4) {
+        if (\count($X) < 4) {
             throw new Exception\BadDataException('Cannot find the kurtosis of an empty list of numbers');
         }
 
         $g₂ = self::sampleKurtosis($X);
 
-        $n = count($X);
+        $n = \count($X);
         $⟮n ＋ 1⟯g₂ ＋ 6 = ($n + 1) * $g₂ + 6;
 
         return ($⟮n ＋ 1⟯g₂ ＋ 6 * ($n - 1)) / (($n - 2) * ($n - 3));
@@ -476,7 +476,7 @@ class RandomVariable
         }
 
         $s  = Descriptive::standardDeviation($X, Descriptive::SAMPLE);
-        $√n = sqrt(count($X));
+        $√n = sqrt(\count($X));
         return $s / $√n;
     }
 

@@ -125,7 +125,7 @@ class Descriptive
      */
     public static function populationVariance(array $numbers): float
     {
-        $N = count($numbers);
+        $N = \count($numbers);
         return self::variance($numbers, $N);
     }
 
@@ -149,11 +149,11 @@ class Descriptive
      */
     public static function sampleVariance(array $numbers): float
     {
-        if (count($numbers) == 1) {
+        if (\count($numbers) == 1) {
             return 0;
         }
 
-        $n = count($numbers);
+        $n = \count($numbers);
         return self::variance($numbers, $n - 1);
     }
 
@@ -186,10 +186,10 @@ class Descriptive
      */
     public static function weightedSampleVariance(array $numbers, array $weights, bool $biased = false): float
     {
-        if (count($numbers) === 1) {
+        if (\count($numbers) === 1) {
             return 0;
         }
-        if (count($numbers) !== count($weights)) {
+        if (\count($numbers) !== \count($weights)) {
             throw new Exception\BadDataException('Numbers and weights must have the same number of elements.');
         }
 
@@ -292,7 +292,7 @@ class Descriptive
             },
             $numbers
         ));
-        $N = count($numbers);
+        $N = \count($numbers);
 
         return $∑│xᵢ − x│ / $N;
     }
@@ -393,7 +393,7 @@ class Descriptive
         if (empty($numbers)) {
             throw new Exception\BadDataException('Cannot find the quartiles of an empty list of numbers');
         }
-        if (count($numbers) === 1) {
+        if (\count($numbers) === 1) {
             $number = array_pop($numbers);
             return [
                 '0%'   => $number,
@@ -406,7 +406,7 @@ class Descriptive
         }
 
         sort($numbers);
-        $length = count($numbers);
+        $length = \count($numbers);
 
         if ($length % 2 == 0) {
             $lower_half = array_slice($numbers, 0, $length / 2);
@@ -466,7 +466,7 @@ class Descriptive
         }
 
         sort($numbers);
-        $length = count($numbers);
+        $length = \count($numbers);
 
         if ($length % 2 == 0) {
             $lower_half = array_slice($numbers, 0, $length / 2);
@@ -569,7 +569,7 @@ class Descriptive
             throw new Exception\OutOfBoundsException('Percentile P must be between 0 and 100.');
         }
 
-        $N = count($numbers);
+        $N = \count($numbers);
         if ($N === 1) {
             return array_shift($numbers);
         }
@@ -656,7 +656,7 @@ class Descriptive
      */
     public static function describe(array $numbers, bool $population = false): array
     {
-        $n = count($numbers);
+        $n = \count($numbers);
         $μ = Average::mean($numbers);
         $σ = self::standardDeviation($numbers, $population);
 

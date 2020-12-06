@@ -222,7 +222,7 @@ class Integer
             return 0;
         }
 
-        return (-1) ** count($factors);
+        return (-1) ** \count($factors);
     }
 
     /**
@@ -282,7 +282,7 @@ class Integer
     public static function isSphenicNumber(int $n): bool
     {
         $factors = self::primeFactorization($n);
-        return count($factors) === 3 && count(array_unique($factors)) === 3;
+        return \count($factors) === 3 && \count(array_unique($factors)) === 3;
     }
 
     /**

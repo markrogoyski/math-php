@@ -119,15 +119,15 @@ class ANOVA
     public static function oneWay(array ...$samples): array
     {
         // Must have at least three samples
-        $m = count($samples);
+        $m = \count($samples);
         if ($m < 3) {
             throw new Exception\BadDataException('Must have at least three samples');
         }
 
         // All samples must have the same number of items
-        $n = count($samples[0]);
+        $n = \count($samples[0]);
         for ($i = 1; $i < $m; $i++) {
-            if (count($samples[$i]) !== $n) {
+            if (\count($samples[$i]) !== $n) {
                 throw new Exception\BadDataException('All samples must have the same number of values');
             }
         }
@@ -155,7 +155,7 @@ class ANOVA
         );
         $μ     = Average::mean($all_elements);
         $total = [
-            'n'        => count($all_elements),
+            'n'        => \count($all_elements),
             'sum'      => array_sum($all_elements),
             'mean'     => $μ,
             'SS'       => RandomVariable::sumOfSquares($all_elements),
@@ -385,24 +385,24 @@ class ANOVA
     public static function twoWay(array ...$data): array
     {
         // Must have at least two rows (two types of factor A)
-        $r = count($data);
+        $r = \count($data);
         if ($r < 2) {
             throw new Exception\BadDataException('Must have at least two rows (two types of factor A)');
         }
 
         // All samples must have the same number the second factor B
-        $c = count($data[0]);
+        $c = \count($data[0]);
         for ($i = 1; $i < $r; $i++) {
-            if (count($data[$i]) !== $c) {
+            if (\count($data[$i]) !== $c) {
                 throw new Exception\BadDataException('All samples must have the same number of the second factor B');
             }
         }
 
         // Each AB factor interaction must have the same number of values
-        $v = count($data[0][0]);
+        $v = \count($data[0][0]);
         for ($i = 0; $i < $r; $i++) {
             for ($j = 0; $j < $c; $j++) {
-                if (count($data[$i][$j]) !== $v) {
+                if (\count($data[$i][$j]) !== $v) {
                     throw new Exception\BadDataException('Each AB factor interaction must have the same number of values');
                 }
             }
@@ -450,7 +450,7 @@ class ANOVA
         // Factor A summary
         foreach ($A_elements as $A => $elements) {
             $summary_A[$A]             = [];
-            $summary_A[$A]['n']        = count($elements);
+            $summary_A[$A]['n']        = \count($elements);
             $summary_A[$A]['sum']      = array_sum($elements);
             $summary_A[$A]['mean']     = Average::mean($elements);
             $summary_A[$A]['SS']       = RandomVariable::sumOfSquares($elements);
@@ -462,7 +462,7 @@ class ANOVA
         // Factor B summary
         foreach ($B_elements as $B => $elements) {
             $summary_B[$B]             = [];
-            $summary_B[$B]['n']        = count($elements);
+            $summary_B[$B]['n']        = \count($elements);
             $summary_B[$B]['sum']      = array_sum($elements);
             $summary_B[$B]['mean']     = Average::mean($elements);
             $summary_B[$B]['SS']       = RandomVariable::sumOfSquares($elements);
@@ -474,7 +474,7 @@ class ANOVA
         // Totals summary
         $μ             = Average::mean($all_elements);
         $summary_total = [
-            'n'        => count($all_elements),
+            'n'        => \count($all_elements),
             'sum'      => array_sum($all_elements),
             'mean'     => $μ,
             'SS'       => RandomVariable::sumOfSquares($all_elements),

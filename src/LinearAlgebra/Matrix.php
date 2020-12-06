@@ -39,8 +39,8 @@ class Matrix extends MatrixBase
     public function __construct(array $A)
     {
         $this->A       = $A;
-        $this->m       = count($A);
-        $this->n       = $this->m > 0 ? count($A[0]) : 0;
+        $this->m       = \count($A);
+        $this->n       = $this->m > 0 ? \count($A[0]) : 0;
         $this->ε       = self::ε;
         $this->catalog = new MatrixCatalog();
 
@@ -55,8 +55,8 @@ class Matrix extends MatrixBase
     protected function validateMatrixDimensions()
     {
         foreach ($this->A as $i => $row) {
-            if (count($row) !== $this->n) {
-                throw new Exception\BadDataException("Row $i has a different column count: " . count($row) . "; was expecting {$this->n}.");
+            if (\count($row) !== $this->n) {
+                throw new Exception\BadDataException("Row $i has a different column count: " . \count($row) . "; was expecting {$this->n}.");
             }
         }
     }
@@ -562,7 +562,7 @@ class Matrix extends MatrixBase
 
         // All nonzero rows are above any rows of all zeroes
         for ($i = $m - 1; $i >= 0; $i--) {
-            $zero_row = count(array_filter(
+            $zero_row = \count(array_filter(
                 $this->A[$i],
                 function ($x) {
                     return $x != 0;
@@ -637,7 +637,7 @@ class Matrix extends MatrixBase
         foreach ($lcs as $j) {
             $column  = $this->getColumn($j);
             $entries = array_filter($column);
-            if (count($entries) !== 1) {
+            if (\count($entries) !== 1) {
                 return false;
             }
             $entry = array_shift($entries);
@@ -2022,7 +2022,7 @@ class Matrix extends MatrixBase
     public function vectorMultiply(Vector $B): Vector
     {
         $B = $B->getVector();
-        $n = count($B);
+        $n = \count($B);
         $m = $this->m;
 
         if ($n !== $this->n) {

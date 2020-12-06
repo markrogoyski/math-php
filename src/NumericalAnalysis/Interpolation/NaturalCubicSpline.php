@@ -63,7 +63,7 @@ class NaturalCubicSpline extends Interpolation
         $y = self::Y;
 
         // Initialize
-        $n     = count($sorted);
+        $n     = \count($sorted);
         $k     = $n - 1;
         $h     = [];
         $a     = [];

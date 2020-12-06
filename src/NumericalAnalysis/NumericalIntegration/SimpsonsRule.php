@@ -93,7 +93,7 @@ class SimpsonsRule extends NumericalIntegration
         $y = self::Y;
 
         // Initialize
-        $n             = count($sorted);
+        $n             = \count($sorted);
         $subintervals  = $n - 1;
         $a             = $sorted[0][$x];
         $b             = $sorted[$n - 1][$x];

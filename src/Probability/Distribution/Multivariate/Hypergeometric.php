@@ -41,7 +41,7 @@ class Hypergeometric
      */
     public function __construct(array $quantities)
     {
-        if (count($quantities) === 0) {
+        if (\count($quantities) === 0) {
             throw new Exception\BadDataException("Array cannot be empty.");
         }
         foreach ($quantities as $K) {
@@ -67,7 +67,7 @@ class Hypergeometric
     public function pmf(array $picks): float
     {
         // Must have a pick for each quantity
-        if (count($picks) !== count($this->quantities)) {
+        if (\count($picks) !== \count($this->quantities)) {
             throw new Exception\BadDataException('Number of quantities does not match number of picks.');
         }
         foreach ($picks as $i => $k) {

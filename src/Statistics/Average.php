@@ -32,7 +32,7 @@ class Average
         if (empty($numbers)) {
             throw new Exception\BadDataException('Cannot find the average of an empty list of numbers');
         }
-        return array_sum($numbers) / count($numbers);
+        return array_sum($numbers) / \count($numbers);
     }
 
     /**
@@ -59,7 +59,7 @@ class Average
         if (empty($weights)) {
             return Average::mean($numbers);
         }
-        if (count($numbers) !== count($weights)) {
+        if (\count($numbers) !== \count($weights)) {
             throw new Exception\BadDataException('Numbers and weights must have the same number of elements.');
         }
 
@@ -90,7 +90,7 @@ class Average
         if (empty($numbers)) {
             throw new Exception\BadDataException('Cannot find the median of an empty list of numbers');
         }
-        if (count($numbers) === 1) {
+        if (\count($numbers) === 1) {
             return array_pop($numbers);
         }
 
@@ -98,13 +98,13 @@ class Average
         $numbers = array_values($numbers);
 
         // For odd number of numbers, take the middle indexed number
-        if (count($numbers) % 2 == 1) {
-            $middle_index = \intdiv(count($numbers), 2);
+        if (\count($numbers) % 2 == 1) {
+            $middle_index = \intdiv(\count($numbers), 2);
             return self::kthSmallest($numbers, $middle_index);
         }
 
         // For even number of items, take the mean of the middle two indexed numbers
-        $left_middle_index  = \intdiv(count($numbers), 2) - 1;
+        $left_middle_index  = \intdiv(\count($numbers), 2) - 1;
         $left_median        = self::kthSmallest($numbers, $left_middle_index);
         $right_middle_index = $left_middle_index + 1;
         $right_median       = self::kthSmallest($numbers, $right_middle_index);
@@ -141,7 +141,7 @@ class Average
      */
     public static function kthSmallest(array $numbers, int $k): float
     {
-        $n = count($numbers);
+        $n = \count($numbers);
         if ($n === 0) {
             throw new Exception\BadDataException('Cannot find the k-th smallest of an empty list of numbers');
         }
@@ -170,7 +170,7 @@ class Average
 
         // Next we walk the array and separate it into values that are greater than or less than this "median of medians".
         $lower_upper   = self::splitAtValue($numbers, $median_of_medians);
-        $lower_number = count($lower_upper['lower']);
+        $lower_number = \count($lower_upper['lower']);
         $equal_number = $lower_upper['equal'];
 
         // Lastly, we find which group of values our value of interest is in, and find it in the smaller array.
@@ -270,7 +270,7 @@ class Average
             throw new Exception\BadDataException('Cannot find the geometric mean of an empty list of numbers');
         }
 
-        $n       = count($numbers);
+        $n       = \count($numbers);
         $a₀a₁a₂⋯ = array_reduce(
             $numbers,
             function ($carry, $a) {
@@ -319,7 +319,7 @@ class Average
             throw new Exception\BadDataException('Harmonic mean cannot be computed for negative values.');
         }
 
-        $n      = count($numbers);
+        $n      = \count($numbers);
         $∑1／xᵢ = array_sum(Map\Single::reciprocal($numbers));
 
         return $n / $∑1／xᵢ;
@@ -362,7 +362,7 @@ class Average
             throw new Exception\BadDataException('Cannot find the root mean square of an empty list of numbers');
         }
 
-        $n = count($numbers);
+        $n = \count($numbers);
         $x₁²＋x₂²＋⋯ = array_sum(array_map(
             function ($x) {
                 return $x ** 2;
@@ -467,7 +467,7 @@ class Average
             throw new Exception\BadDataException('Cannot find the cubic mean of an empty list of numbers');
         }
 
-        $n    = count($numbers);
+        $n    = \count($numbers);
         $∑xᵢ³ = array_sum(Map\Single::cube($numbers));
 
         return pow($∑xᵢ³ / $n, 1 / 3);
@@ -506,7 +506,7 @@ class Average
             throw new Exception\OutOfBoundsException('Trim percent must be between 0 and 99.');
         }
 
-        $n          = count($numbers);
+        $n          = \count($numbers);
         $trim_count = floor($n * ($trim_percent / 100));
 
         sort($numbers);
@@ -605,7 +605,7 @@ class Average
         }
 
         // Standard case for non-infinite p
-        $n    = count($numbers);
+        $n    = \count($numbers);
         $∑xᵢᵖ = array_sum(Map\Single::pow($numbers, $p));
 
         return pow($∑xᵢᵖ / $n, 1 / $p);
@@ -650,7 +650,7 @@ class Average
      */
     public static function simpleMovingAverage(array $numbers, int $n): array
     {
-        $m   = count($numbers);
+        $m   = \count($numbers);
         $SMA = [];
 
         // Counters
@@ -691,7 +691,7 @@ class Average
      */
     public static function cumulativeMovingAverage(array $numbers): array
     {
-        $m   = count($numbers);
+        $m   = \count($numbers);
         $CMA = [];
 
         // Base case: first average is just itself
@@ -723,11 +723,11 @@ class Average
      */
     public static function weightedMovingAverage(array $numbers, int $n, array $weights): array
     {
-        if (count($weights) !== $n) {
+        if (\count($weights) !== $n) {
             throw new Exception\BadDataException('Number of weights must equal number of n-points');
         }
 
-        $m   = count($numbers);
+        $m   = \count($numbers);
         $∑w  = array_sum($weights);
         $WMA = [];
 
@@ -756,7 +756,7 @@ class Average
      */
     public static function exponentialMovingAverage(array $numbers, int $n): array
     {
-        $m   = count($numbers);
+        $m   = \count($numbers);
         $α   = 2 / ($n + 1);
         $EMA = [];
 

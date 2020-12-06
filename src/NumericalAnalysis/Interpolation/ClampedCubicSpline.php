@@ -69,7 +69,7 @@ class ClampedCubicSpline extends Interpolation
         $y’ = self::Y’;
 
         // Initialize
-        $n     = count($sorted);
+        $n     = \count($sorted);
         $k     = $n - 1;
         $x₀    = $sorted[0][$x];
         $x₁    = $sorted[1][$x];
@@ -225,13 +225,13 @@ class ClampedCubicSpline extends Interpolation
      */
     public static function validateSpline(array $points, int $degree = 2)
     {
-        if (count($points) < $degree) {
+        if (\count($points) < $degree) {
             throw new Exception\BadDataException('You need to have at least $degree sets of coordinates (arrays) for this technique');
         }
 
         $x_coordinates = [];
         foreach ($points as $point) {
-            if (count($point) !== 3) {
+            if (\count($point) !== 3) {
                 throw new Exception\BadDataException('Each array needs to have have precisely three numbers, representing x, y, and y-prime');
             }
 

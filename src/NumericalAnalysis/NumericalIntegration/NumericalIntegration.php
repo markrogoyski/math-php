@@ -103,13 +103,13 @@ abstract class NumericalIntegration
      */
     public static function validate(array $points, int $degree = 2)
     {
-        if (count($points) < $degree) {
+        if (\count($points) < $degree) {
             throw new Exception\BadDataException("You need to have at least $degree sets of coordinates (arrays) for this technique");
         }
 
         $x_coordinates = [];
         foreach ($points as $point) {
-            if (count($point) !== 2) {
+            if (\count($point) !== 2) {
                 throw new Exception\BadDataException('Each array needs to have have precisely two numbers, an x- and y-component');
             }
 

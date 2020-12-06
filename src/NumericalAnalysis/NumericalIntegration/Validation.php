@@ -20,7 +20,7 @@ class Validation
      */
     public static function isSpacingConstant(array $sorted)
     {
-        $length  = count($sorted);
+        $length  = \count($sorted);
         if ($length <= 2) {
             return;
         }
@@ -46,7 +46,7 @@ class Validation
      */
     public static function isSubintervalsMultiple(array $points, int $m)
     {
-        if ((count($points) - 1) % $m !== 0) {
+        if ((\count($points) - 1) % $m !== 0) {
             throw new Exception\BadDataException(
                 'The number of subintervals must be a multiple of m. Your input must either be a set of n points, where n-1 is a multiple of m, or a callback function evaluated at an n points, where n-1 is a multiple of m'
             );

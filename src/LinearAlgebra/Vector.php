@@ -30,7 +30,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     public function __construct(array $A)
     {
         $this->A = $A;
-        $this->n = count($A);
+        $this->n = \count($A);
         $this->i = 0;
 
         if ($this->n === 0) {
@@ -717,7 +717,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function count(): int
     {
-        return count($this->A);
+        return \count($this->A);
     }
 
     /**************************************************************************

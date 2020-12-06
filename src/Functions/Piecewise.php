@@ -70,7 +70,7 @@ class Piecewise
             $lastB     = $b ?? -\INF;
             $lastBOpen = $bOpen ?? false;
 
-            if (count(array_filter($interval, 'is_numeric')) !== 2) {
+            if (\count(array_filter($interval, 'is_numeric')) !== 2) {
                 throw new Exception\BadDataException('Each interval must contain two numbers.');
             }
 
@@ -208,11 +208,11 @@ class Piecewise
      */
     private function constructorPreconditions(array $intervals, array $functions)
     {
-        if (count($intervals) !== count($functions)) {
+        if (\count($intervals) !== \count($functions)) {
             throw new Exception\BadDataException('For a piecewise function you must provide the same number of intervals as functions.');
         }
 
-        if (count(array_filter($functions, 'is_callable')) !== count($intervals)) {
+        if (\count(array_filter($functions, 'is_callable')) !== \count($intervals)) {
             throw new Exception\BadDataException('Not every function provided is valid. Ensure that each function is callable.');
         }
     }

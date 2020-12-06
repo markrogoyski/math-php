@@ -104,13 +104,13 @@ abstract class NumericalDifferentiation
      */
     public static function validate(array $points, int $degree)
     {
-        if (count($points) != $degree) {
+        if (\count($points) != $degree) {
             throw new Exception\BadDataException("You need to have $degree sets of coordinates (arrays) for this technique");
         }
 
         $x_coordinates = [];
         foreach ($points as $point) {
-            if (count($point) !== 2) {
+            if (\count($point) !== 2) {
                 throw new Exception\BadDataException('Each array needs to have have precisely two numbers, an x- and y-component');
             }
 
@@ -151,7 +151,7 @@ abstract class NumericalDifferentiation
     public static function isSpacingConstant(array $sorted)
     {
         $x       = self::X;
-        $length  = count($sorted);
+        $length  = \count($sorted);
         $spacing = ($sorted[$length - 1][$x] - $sorted[0][$x]) / ($length - 1);
 
         for ($i = 1; $i < $length - 1; $i++) {

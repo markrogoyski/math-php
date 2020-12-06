@@ -39,7 +39,7 @@ abstract class Regression
     public function __construct(array $points)
     {
         $this->points = $points;
-        $this->n      = count($points);
+        $this->n      = \count($points);
 
         // Get list of x points and y points.
         // This will be fine for linear or polynomial regression, where there is only one x,
