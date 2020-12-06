@@ -62,7 +62,7 @@ class ArbitraryInteger implements ObjectArithmetic
             }
             if ($number[0] == '-') {
                 $this->isPositive = false;
-                $number         = substr($number, 1);
+                $number         = \substr($number, 1);
             }
             $number = strtolower($number);
             $base    = 10;
@@ -71,13 +71,13 @@ class ArbitraryInteger implements ObjectArithmetic
                     $base = 10;
                 } elseif ($number[1] == 'x') {
                     $base   = 16;
-                    $number = substr($number, 2);
+                    $number = \substr($number, 2);
                 } elseif ($number[1] == 'b') {
                     $base   = 2;
-                    $number = substr($number, 2);
+                    $number = \substr($number, 2);
                 } else {
                     $base   = 8;
-                    $number = substr($number, 1);
+                    $number = \substr($number, 1);
                 }
             }
             $base256       = BaseEncoderDecoder::createArbitraryInteger($number, $base);
@@ -281,7 +281,7 @@ class ArbitraryInteger implements ObjectArithmetic
         $length = \strlen($this->base256);
 
         // Start close to the value, at a number around half the digits.
-        $X        = self::fromBinary(substr($this->base256, 0, \intdiv($length, 2) + 1), true);
+        $X        = self::fromBinary(\substr($this->base256, 0, \intdiv($length, 2) + 1), true);
         $lastX    = $X;
         $converge = false;
         while (!$converge) {
@@ -458,12 +458,12 @@ class ArbitraryInteger implements ObjectArithmetic
 
         for ($i = 1; $i <= $length; $i++) {
             $this_len      = \strlen($this->base256);
-            $base_digit    = \ord(substr($number, -1 * $i, 1));
+            $base_digit    = \ord(\substr($number, -1 * $i, 1));
             $carry         = 0;
             $inner_product = '';
 
             for ($j = 1; $j <= $this_len; $j++) {
-                $digit         = \ord(substr($this->base256, -1 * $j, 1));
+                $digit         = \ord(\substr($this->base256, -1 * $j, 1));
                 $step_product  = $digit * $base_digit + $carry;
                 $mod           = $step_product % 256;
                 $carry         = \intdiv($step_product, 256);
@@ -543,7 +543,7 @@ class ArbitraryInteger implements ObjectArithmetic
             $carry = 0;
             $int   = '';
             for ($i = 0; $i < $len; $i++) {
-                $chr_obj = self::fromBinary(substr($base_256, $i, 1), $this->isPositive);  // Grab same number of chars from $this
+                $chr_obj = self::fromBinary(\substr($base_256, $i, 1), $this->isPositive);  // Grab same number of chars from $this
                 $chr     = $chr_obj->toInt();
                 $int_chr = \intdiv($chr + $carry * 256, $divisor);  // Calculate $int and $mod
                 $carry   = ($chr + $carry * 256) % $divisor;

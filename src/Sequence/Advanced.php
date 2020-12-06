@@ -354,15 +354,15 @@ class Advanced
             $len      = \strlen($previous);
 
             for ($j = 1; $j < $len; $j++) {
-                if (substr($previous, $j, 1) === substr($previous, $j - 1, 1)) {
+                if (\substr($previous, $j, 1) === \substr($previous, $j - 1, 1)) {
                     $count++;
                 } else {
-                    $sequence .= $count . substr($previous, $j - 1, 1);
+                    $sequence .= $count . \substr($previous, $j - 1, 1);
                     $count = 1;
                 }
             }
 
-            $sequence .= $count . substr($previous, $j - 1, 1);
+            $sequence .= $count . \substr($previous, $j - 1, 1);
             $previous = $sequence;
             $list[$i] = $sequence;
         }
