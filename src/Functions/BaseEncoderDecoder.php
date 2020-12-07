@@ -75,7 +75,7 @@ class BaseEncoderDecoder
                 $chr   = \ord($next_int[$i]);
                 $int   = \intdiv($chr + 256 * $carry, $base);
                 $carry = ($chr + 256 * $carry) % $base;
-                // or just trim off all leading \chr(0)s
+                // or just trim off all leading chr(0)s
                 if ($base_256 !== '' || $int > 0) {
                     $base_256 .= \chr($int);
                 }

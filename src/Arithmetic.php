@@ -29,7 +29,7 @@ class Arithmetic
 
     /**
      * Cube root ³√x
-     * This function is necessary because  pow($x, 1/3) returns NAN for negative values.
+     * This function is necessary because pow($x, 1/3) returns NAN for negative values.
      * PHP does not have the cbrt built-in function.
      *
      * @param  float $x

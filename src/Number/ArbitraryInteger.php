@@ -42,7 +42,7 @@ class ArbitraryInteger implements ObjectArithmetic
 
         if (\is_int($number)) {
             if ($number < 0) {
-                // Since \abs(PHP_INT_MIN) is PHP_INT_MAX + 1, we cannot just change the sign.
+                // Since abs(PHP_INT_MIN) is PHP_INT_MAX + 1, we cannot just change the sign.
                 // This is more universal then making a single edge case for PHP_INT_MIN
                 $positive       = new ArbitraryInteger(-1 * ($number + 1));
                 $this->base256  = $positive->add(1)->toBinary();

@@ -120,7 +120,7 @@ class LogLogistic extends Continuous
      *
      *      απ / β
      * μ = --------  if β > 1, else undefined
-     *      sin(π/β)
+     *     sin(π/β)
      *
      * @return float
      */

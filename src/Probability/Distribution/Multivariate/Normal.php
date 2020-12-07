@@ -48,7 +48,7 @@ class Normal
     /**
      * Probability density function
      *
-     *                 \exp(−½(x − μ)ᵀ∑⁻¹(x − μ))
+     *                 exp(−½(x − μ)ᵀ∑⁻¹(x − μ))
      * fx(x₁,...,xk) = -------------------------
      *                        √(2π)ᵏ│∑│
      *
