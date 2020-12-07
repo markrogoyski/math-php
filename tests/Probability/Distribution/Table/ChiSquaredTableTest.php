@@ -17,7 +17,7 @@ class ChiSquaredlTest extends \PHPUnit\Framework\TestCase
     public function testChiSquaredValuesFromConstant(int $df, float $p, float $χ²)
     {
         // Given
-        $p = sprintf('%1.3f', $p);
+        $p = \sprintf('%1.3f', $p);
 
         // When
         $value = ChiSquared::CHI_SQUARED_SCORES[$df][$p];

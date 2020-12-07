@@ -76,7 +76,7 @@ class RegularGridInterpolator
         $pointsCount     = \count($points);
 
         if ($pointsCount > $valuesDimension) {
-            throw new Exception\BadDataException(sprintf('There are %d point arrays, but values has %d dimensions', $pointsCount, $valuesDimension));
+            throw new Exception\BadDataException(\sprintf('There are %d point arrays, but values has %d dimensions', $pointsCount, $valuesDimension));
         }
 
         $this->grid   = $points;

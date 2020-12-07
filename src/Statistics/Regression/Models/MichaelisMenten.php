@@ -60,6 +60,6 @@ trait MichaelisMenten
      */
     public function getModelEquation(array $params): string
     {
-        return sprintf('y = %fx/(%f+x)', $params[self::$V], $params[self::$K]);
+        return \sprintf('y = %fx/(%f+x)', $params[self::$V], $params[self::$K]);
     }
 }

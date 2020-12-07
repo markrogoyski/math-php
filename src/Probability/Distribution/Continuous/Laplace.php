@@ -63,7 +63,7 @@ class Laplace extends Continuous
         $μ = $this->μ;
         $b = $this->b;
 
-        return (1 / (2 * $b)) * \exp(-( \abs($x - $μ) / $b ));
+        return (1 / (2 * $b)) * \exp(-(\abs($x - $μ) / $b));
     }
     /**
      * Laplace distribution - cumulative distribution function

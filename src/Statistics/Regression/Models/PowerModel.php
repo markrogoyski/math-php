@@ -51,6 +51,6 @@ trait PowerModel
      */
     public function getModelEquation(array $params): string
     {
-        return sprintf('y = %fx^%f', $params[self::$A], $params[self::$B]);
+        return \sprintf('y = %fx^%f', $params[self::$A], $params[self::$B]);
     }
 }

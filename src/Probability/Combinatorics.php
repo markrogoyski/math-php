@@ -235,12 +235,12 @@ class Combinatorics
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative permutations.');
         }
-        if (!is_null($k) && $k > $n) {
+        if (!\is_null($k) && $k > $n) {
             throw new Exception\OutOfBoundsException('k cannot be larger than n.');
         }
 
         // nPn: permutations of n things, taken n at a time
-        if (is_null($k)) {
+        if (\is_null($k)) {
             return self::factorial($n);
         }
 

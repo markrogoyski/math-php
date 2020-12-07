@@ -345,7 +345,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($roots);
         $this->assertEquals(2, count($roots));
         foreach ($roots as $root) {
-            $this->assertTrue(is_nan($root));
+            $this->assertTrue(\is_nan($root));
         }
     }
 

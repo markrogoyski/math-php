@@ -115,7 +115,7 @@ class StandardNormal
      */
     public static function getZScoreProbability(float $Z): float
     {
-        if (!preg_match('/^ (\-? \d [.] \d) (\d) $/x', sprintf('%1.2f', $Z), $matches)) {
+        if (!preg_match('/^ (\-? \d [.] \d) (\d) $/x', \sprintf('%1.2f', $Z), $matches)) {
             throw new Exception\BadParameterException("Z does not match format X.XX: $Z");
         }
         list( $z, $＋0．0x ) = [ $matches[1], $matches[2] ];

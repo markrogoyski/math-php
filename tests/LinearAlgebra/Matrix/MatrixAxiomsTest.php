@@ -3628,7 +3628,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $eigenvalues = \array_filter(
             $H->eigenvalues(),
             function ($x) {
-                return !is_nan($x);
+                return !\is_nan($x);
             }
         );
         $this->assertEquals(1, max($eigenvalues), '', 0.00001);

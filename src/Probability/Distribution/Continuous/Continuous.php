@@ -21,7 +21,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
     public function inverse(float $target)
     {
         $initial = $this->mean();
-        if (is_nan($initial)) {
+        if (\is_nan($initial)) {
             $initial = $this->median();
         }
 
@@ -115,7 +115,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      */
     public function rand()
     {
-        return $this->inverse(random_int(0, \PHP_INT_MAX) / \PHP_INT_MAX);
+        return $this->inverse(\random_int(0, \PHP_INT_MAX) / \PHP_INT_MAX);
     }
 
     abstract public function median();
