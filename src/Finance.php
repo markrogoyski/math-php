@@ -317,7 +317,7 @@ class Finance
             return $aer;
         }
 
-        return ( \pow($aer + 1, 1 / $periods) - 1) * $periods;
+        return (\pow($aer + 1, 1 / $periods) - 1) * $periods;
     }
 
     /**
@@ -567,7 +567,7 @@ class Finance
         $inflows  = array();
         $outflows = array();
 
-        for ($i = 0; $i < sizeof($values); $i++) {
+        for ($i = 0; $i < \count($values); $i++) {
             if ($values[$i] >= 0) {
                 $inflows[]  = $values[$i];
                 $outflows[] = 0;
@@ -581,11 +581,11 @@ class Finance
             return $x != 0;
         };
 
-        if (sizeof(\array_filter($inflows, $nonzero)) == 0 || sizeof(\array_filter($outflows, $nonzero)) == 0) {
+        if (\count(\array_filter($inflows, $nonzero)) == 0 || \count(\array_filter($outflows, $nonzero)) == 0) {
             return \NAN;
         }
 
-        $root        = sizeof($values) - 1;
+        $root        = \count($values) - 1;
         $pv_inflows  = self::npv($reinvestment_rate, $inflows);
         $fv_inflows  = self::fv($reinvestment_rate, $root, 0, -$pv_inflows);
         $pv_outflows = self::npv($finance_rate, $outflows);
@@ -632,7 +632,7 @@ class Finance
     public static function payback(array $values, float $rate = 0.0): float
     {
         $last_outflow = -1;
-        for ($i = 0; $i < sizeof($values); $i++) {
+        for ($i = 0; $i < \count($values); $i++) {
             if ($values[$i] < 0) {
                 $last_outflow = $i;
             }
@@ -645,7 +645,7 @@ class Finance
         $sum            = $values[0];
         $payback_period = -1;
 
-        for ($i = 1; $i < sizeof($values); $i++) {
+        for ($i = 1; $i < \count($values); $i++) {
             $prevsum         = $sum;
             $discounted_flow = $values[$i] / (1 + $rate) ** $i;
             $sum            += $discounted_flow;
@@ -700,7 +700,7 @@ class Finance
         $inflows  = array();
         $outflows = array();
 
-        for ($i = 0; $i < sizeof($values); $i++) {
+        for ($i = 0; $i < \count($values); $i++) {
             if ($values[$i] >= 0) {
                 $inflows[]  = $values[$i];
                 $outflows[] = 0;
@@ -714,7 +714,7 @@ class Finance
             return $x != 0;
         };
 
-        if (sizeof(\array_filter($outflows, $nonzero)) == 0) {
+        if (\count(\array_filter($outflows, $nonzero)) == 0) {
             return \NAN;
         }
 

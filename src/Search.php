@@ -247,7 +247,7 @@ class Search
     {
         $indices = [];
         foreach ($values as $i => $v) {
-            if (!is_scalar($v)) {
+            if (!\is_scalar($v)) {
                 continue;
             }
             if ($v != 0) {
