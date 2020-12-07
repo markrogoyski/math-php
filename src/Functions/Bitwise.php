@@ -33,8 +33,8 @@ class Bitwise
      *         and the signed int.
      *         The values of $a and $b have to be shifted towards zero to prevent the
      *         signed int from overflowing. We are removing the most significant
-     *         bit from the ints by subtractingPHP_INT_MIN to prevent overflow.
-     *         $a = 1001, $b = 1010, return [true, '0011] because \PHP_INT_MIN = 1000,
+     *         bit from the ints by subtracting PHP_INT_MIN to prevent overflow.
+     *         $a = 1001, $b = 1010, return [true, '0011] because PHP_INT_MIN = 1000,
      *         Giving $a - 1000 = 0001, $b - 1000 = 0010.
      *
      * @param int $a

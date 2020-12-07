@@ -46,7 +46,7 @@ class NewtonsMethod
             $slope            = ($y_at_xplusdelx - $y) / $tol;
             $del_y            = $target - $y;
             if (\abs($slope) < $tol) {
-                return NAN;
+                return \NAN;
             }
             $guess            = $del_y / $slope + $guess;
             $dif              = \abs($del_y);
@@ -54,7 +54,7 @@ class NewtonsMethod
         } while ($dif > $tol && $i < $iterations);
 
         if ($dif > $tol) {
-            return NAN;
+            return \NAN;
         }
         return $guess;
     }
