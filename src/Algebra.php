@@ -157,7 +157,7 @@ class Algebra
 
             $limit *= \count($sets[$prime]);
             if ($count === 0) { // Skip 1 on the first prime
-                $current[] = next($sets[$prime]);
+                $current[] = \next($sets[$prime]);
             } else {
                 $current[] = 1;
             }
@@ -168,11 +168,11 @@ class Algebra
         for ($i = 1; $i < $limit; ++$i) {
             $factors[] = \array_product($current);
             for ($i2 = 0; $i2 < $count; ++$i2) {
-                $current[$i2] = next($sets[$map[$i2]]);
+                $current[$i2] = \next($sets[$map[$i2]]);
                 if ($current[$i2] !== false) {
                     break;
                 }
-                $current[$i2] = reset($sets[$map[$i2]]);
+                $current[$i2] = \reset($sets[$map[$i2]]);
             }
         }
 

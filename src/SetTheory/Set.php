@@ -509,12 +509,12 @@ class Set implements \Countable, \Iterator
 
             // Advance array pointers
             for ($i2 = 0; $i2 < $l; ++$i2) {
-                next($sets[$i2]);
+                \next($sets[$i2]);
                 $key = key($sets[$i2]);
                 if ($key !== null) {
                     break;
                 }
-                reset($sets[$i2]);
+                \reset($sets[$i2]);
             }
         }
 
