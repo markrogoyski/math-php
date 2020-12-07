@@ -405,7 +405,7 @@ class Descriptive
             ];
         }
 
-        sort($numbers);
+        \sort($numbers);
         $length = \count($numbers);
 
         if ($length % 2 == 0) {
@@ -465,7 +465,7 @@ class Descriptive
             throw new Exception\BadDataException('Cannot find the quartiles of an empty list of numbers');
         }
 
-        sort($numbers);
+        \sort($numbers);
         $length = \count($numbers);
 
         if ($length % 2 == 0) {
@@ -477,7 +477,7 @@ class Descriptive
 
             // Add median to both halves
             $median = Average::median($numbers);
-            array_push($lower_half, $median);
+            \array_push($lower_half, $median);
             \array_unshift($upper_half, $median);
         }
 
@@ -574,7 +574,7 @@ class Descriptive
             return \array_shift($numbers);
         }
 
-        sort($numbers);
+        \sort($numbers);
 
         if ($P == 100) {
             return  $numbers[$N - 1];

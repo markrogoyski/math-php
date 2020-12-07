@@ -558,12 +558,12 @@ class Correlation
         $eigenvalues = Eigenvalue::closedFormPolynomialRootMethod($cov);
 
         // Sort the eigenvalues from highest to lowest
-        rsort($eigenvalues);
+        \rsort($eigenvalues);
         $V = Eigenvector::eigenvectors($cov, $eigenvalues);
 
         // Make ia diagonal matrix of the eigenvalues
         $D = MatrixFactory::diagonal($eigenvalues);
-        $D = $D->map('sqrt');
+        $D = $D->map('\sqrt');
         $transformation_matrix = $V->multiply($D);
 
         $x_bar = Average::mean($X);

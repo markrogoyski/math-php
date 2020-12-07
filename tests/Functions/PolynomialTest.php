@@ -19,7 +19,7 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
         $polynomial = new Polynomial($coefficients);
 
         // When
-        $string = strval($polynomial);
+        $string = \strval($polynomial);
 
         // Then
         $this->assertEquals($expected, $string);
@@ -128,7 +128,7 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
         $polynomial   = new Polynomial($coefficients, $variable);
 
         // When
-        $string = strval($polynomial);
+        $string = \strval($polynomial);
 
         // Then
         $this->assertEquals($expected, $string);
@@ -582,7 +582,7 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $result);
 
         $expected = "x³ + x² + x + 1";
-        $result   = strval($polynomial);
+        $result   = \strval($polynomial);
         $this->assertEquals($expected, $result);
 
         // Given we switch variable to Φ
@@ -592,7 +592,7 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $result);
 
         $expected = "Φ³ + Φ² + Φ + 1";
-        $result   = strval($polynomial);
+        $result   = \strval($polynomial);
         $this->assertEquals($expected, $result);
 
         // Given we switch variable back to x
@@ -602,7 +602,7 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $result);
 
         $expected = "x³ + x² + x + 1";
-        $result   = strval($polynomial);
+        $result   = \strval($polynomial);
         $this->assertEquals($expected, $result);
     }
 

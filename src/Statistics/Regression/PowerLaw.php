@@ -50,8 +50,8 @@ class PowerLaw extends ParametricRegression
     public function calculate()
     {
         // Linearize the relationship by taking the log of both sides.
-        $x’ = \array_map('log', $this->xs);
-        $y’ = \array_map('log', $this->ys);
+        $x’ = \array_map('\log', $this->xs);
+        $y’ = \array_map('\log', $this->ys);
 
         // Perform Least Squares Fit
         $linearized_parameters = $this->leastSquares($y’, $x’)->getColumn(0);

@@ -116,8 +116,8 @@ class Polynomial implements ObjectArithmetic
 
             // Build the exponent of our string as a unicode character
             $exponent = '';
-            for ($j = 0; $j < \strlen(strval($power)); $j++) {
-                $digit     = \intval(strval($power)[$j]); // The j-th digit of $power
+            for ($j = 0; $j < \strlen(\strval($power)); $j++) {
+                $digit     = \intval(\strval($power)[$j]); // The j-th digit of $power
                 $exponent .= self::SYMBOLS[$digit];      // The corresponding unicode character
             };
 

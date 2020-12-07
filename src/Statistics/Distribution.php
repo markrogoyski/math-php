@@ -116,12 +116,12 @@ class Distribution
     public static function fractionalRanking(array $values): array
     {
         $Xs = $values;
-        sort($Xs);
+        \sort($Xs);
 
         // Determine ranks - some items might show up multiple times, so record each successive rank.
         $ordinalRanking⟮X⟯ = [];
         foreach ($Xs as $rank => $xᵢ) {
-            $ordinalRanking⟮X⟯[strval($xᵢ)][] = $rank + 1;
+            $ordinalRanking⟮X⟯[\strval($xᵢ)][] = $rank + 1;
         }
 
         // Determine average rank of each value. Necessary when values show up multiple times.
@@ -136,7 +136,7 @@ class Distribution
         // Map ranks to values in order they were originally input
         return \array_map(
             function ($value) use ($rg⟮X⟯) {
-                return $rg⟮X⟯[strval($value)];
+                return $rg⟮X⟯[\strval($value)];
             },
             $values
         );
@@ -156,7 +156,7 @@ class Distribution
     {
         $count = \count($values);
         $Xs    = $values;
-        sort($Xs);
+        \sort($Xs);
 
         $ranking⟮X⟯    = [];
         $ranking⟮X⟯[0] = 1;
@@ -166,12 +166,12 @@ class Distribution
                 : $i + 1;
         }
 
-        $ranking⟮X⟯ = \array_combine(\array_map('strval', $Xs), $ranking⟮X⟯);
+        $ranking⟮X⟯ = \array_combine(\array_map('\strval', $Xs), $ranking⟮X⟯);
 
         // Map ranks to values in order they were originally input
         return \array_map(
             function ($value) use ($ranking⟮X⟯) {
-                return $ranking⟮X⟯[strval($value)];
+                return $ranking⟮X⟯[\strval($value)];
             },
             $values
         );
@@ -191,7 +191,7 @@ class Distribution
     {
         $count = \count($values);
         $Xs    = $values;
-        sort($Xs);
+        \sort($Xs);
 
         $ranking⟮X⟯            = [];
         $ranking⟮X⟯[$count - 1] = $count;
@@ -200,13 +200,13 @@ class Distribution
                 ? $ranking⟮X⟯[$i + 1]
                 : $i + 1;
         }
-        sort($ranking⟮X⟯);
-        $ranking⟮X⟯ = \array_combine(\array_map('strval', $Xs), $ranking⟮X⟯);
+        \sort($ranking⟮X⟯);
+        $ranking⟮X⟯ = \array_combine(\array_map('\strval', $Xs), $ranking⟮X⟯);
 
         // Map ranks to values in order they were originally input
         return \array_map(
             function ($value) use ($ranking⟮X⟯) {
-                return $ranking⟮X⟯[strval($value)];
+                return $ranking⟮X⟯[\strval($value)];
             },
             $values
         );
@@ -225,17 +225,17 @@ class Distribution
     public static function ordinalRanking(array $values): array
     {
         $Xs = $values;
-        sort($Xs);
+        \sort($Xs);
 
         $ranking⟮X⟯ = [];
         foreach ($Xs as $i => $x) {
-            $ranking⟮X⟯[strval($x)][] = $i + 1;
+            $ranking⟮X⟯[\strval($x)][] = $i + 1;
         }
 
         // Map ranks to values in order they were originally input
         $rankedValues = [];
         foreach ($values as $value) {
-            $rankedValues[] = \array_shift($ranking⟮X⟯[strval($value)]);
+            $rankedValues[] = \array_shift($ranking⟮X⟯[\strval($value)]);
         }
         return $rankedValues;
     }
@@ -267,7 +267,7 @@ class Distribution
     public static function stemAndLeafPlot(array $values, bool $print = false): array
     {
         // Split each value into stem and leaf
-        sort($values);
+        \sort($values);
         $plot = array();
         foreach ($values as $value) {
             $stem = $value / 10;
@@ -286,7 +286,7 @@ class Distribution
                 $plot[$stem] = array();
             }
         }
-        ksort($plot);
+        \ksort($plot);
 
         // Optionally print the stem and leaf plot
         if ($print === true) {
@@ -294,7 +294,7 @@ class Distribution
                 return \strlen($stem);
             }, \array_keys($plot)));
             foreach ($plot as $stem => $leaves) {
-                printf("%{$length}d | %s\n", $stem, \implode(' ', $leaves));
+                \printf("%{$length}d | %s\n", $stem, \implode(' ', $leaves));
             }
         }
 

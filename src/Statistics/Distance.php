@@ -379,10 +379,10 @@ class Distance
      */
     public static function cosine(array $A, array $B): float
     {
-        if (\count(\array_unique($A)) === 1 && end($A) == 0) {
+        if (\count(\array_unique($A)) === 1 && \end($A) == 0) {
             throw new Exception\BadDataException('A is the null vector');
         }
-        if (\count(\array_unique($B)) === 1 && end($B) == 0) {
+        if (\count(\array_unique($B)) === 1 && \end($B) == 0) {
             throw new Exception\BadDataException('B is the null vector');
         }
 
@@ -444,8 +444,8 @@ class Distance
         if (\count($u) !== \count($v)) {
             throw new Exception\BadDataException('u and v must have the same number of elements');
         }
-        $uZero = \count(\array_unique($u)) === 1 && end($u) == 0;
-        $vZero = \count(\array_unique($u)) === 1 && end($v) == 0;
+        $uZero = \count(\array_unique($u)) === 1 && \end($u) == 0;
+        $vZero = \count(\array_unique($u)) === 1 && \end($v) == 0;
         if ($uZero && $vZero) {
             return \NAN;
         }
@@ -494,8 +494,8 @@ class Distance
         if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
         }
-        $pZero = \count(\array_unique($p)) === 1 && end($p) == 0;
-        $qZero = \count(\array_unique($p)) === 1 && end($q) == 0;
+        $pZero = \count(\array_unique($p)) === 1 && \end($p) == 0;
+        $qZero = \count(\array_unique($p)) === 1 && \end($q) == 0;
         if ($pZero && $qZero) {
             return \NAN;
         }

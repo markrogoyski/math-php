@@ -154,7 +154,7 @@ class Average
 
         // If the array is 5 elements or smaller, use quicksort and return the element of interest.
         if ($n <= 5) {
-            sort($numbers);
+            \sort($numbers);
             return $numbers[$k];
         }
 
@@ -236,7 +236,7 @@ class Average
         // Count how many times each number occurs.
         // Determine the max any number occurs.
         // Find all numbers that occur max times.
-        $number_strings = \array_map('strval', $numbers);
+        $number_strings = \array_map('\strval', $numbers);
         $number_counts  = \array_count_values($number_strings);
         $max            = \max($number_counts);
         $modes          = array();
@@ -247,7 +247,7 @@ class Average
         }
 
         // Cast back to numbers
-        return \array_map('floatval', $modes);
+        return \array_map('\floatval', $modes);
     }
 
     /**
@@ -509,7 +509,7 @@ class Average
         $n          = \count($numbers);
         $trim_count = \floor($n * ($trim_percent / 100));
 
-        sort($numbers);
+        \sort($numbers);
         for ($i = 1; $i <= $trim_count; $i++) {
             \array_shift($numbers);
             \array_pop($numbers);

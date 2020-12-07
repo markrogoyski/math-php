@@ -310,7 +310,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
         foreach ($set as $key => $value) {
             if (\is_resource($value)) {
                 $resources++;
-                $vector_key = 'Resource(' . strval($value) . ')';
+                $vector_key = 'Resource(' . \strval($value) . ')';
                 $this->assertEquals($vector_key, $key);
                 $this->assertEquals($fh, $value);
             }

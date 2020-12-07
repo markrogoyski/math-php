@@ -176,7 +176,7 @@ class Algebra
             }
         }
 
-        sort($factors);
+        \sort($factors);
         return $factors;
     }
 
@@ -472,7 +472,7 @@ class Algebra
             $quadratic_roots = self::quadratic($a₄, $a₂, $a₀, $return_complex);
 
             // Sort so any complex roots are at the end of the array.
-            rsort($quadratic_roots);
+            \rsort($quadratic_roots);
             $z₊ = $quadratic_roots[0];
             $z₋ = $quadratic_roots[1];
             if (!$return_complex) {
