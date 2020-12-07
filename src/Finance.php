@@ -590,7 +590,7 @@ class Finance
         $fv_inflows  = self::fv($reinvestment_rate, $root, 0, -$pv_inflows);
         $pv_outflows = self::npv($finance_rate, $outflows);
 
-        return self::checkZero( \pow($fv_inflows / -$pv_outflows, 1 / $root) - 1);
+        return self::checkZero(\pow($fv_inflows / -$pv_outflows, 1 / $root) - 1);
     }
 
     /**
