@@ -57,7 +57,7 @@ class LOESS extends NonParametricRegression
         }
 
         // Number of points considered in the local regression
-        $this->number_of_points = \min((int) ceil($this->α * $this->n), $this->n);
+        $this->number_of_points = \min((int) \ceil($this->α * $this->n), $this->n);
     }
 
     /**
