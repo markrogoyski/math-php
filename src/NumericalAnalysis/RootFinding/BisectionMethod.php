@@ -45,7 +45,7 @@ class BisectionMethod
             $f⟮a⟯ = $function($a);
             $p   = ($a + $b) / 2;     // construct the midpoint
             $f⟮p⟯ = $function($p);
-            $dif = abs($f⟮p⟯);       // the magnitude of our function at the midpoint
+            $dif = \abs($f⟮p⟯);       // the magnitude of our function at the midpoint
             if (Special::sgn($f⟮p⟯) !== Special::sgn($f⟮a⟯)) {
                 $b = $p;            // the new endpoint is our original midpoint
             } else {

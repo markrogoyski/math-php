@@ -135,13 +135,13 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
         foreach ($set as $key => $value) {
             if ($value instanceof \MathPHP\LinearAlgebra\Vector) {
                 $objects++;
-                $vector_key = get_class($value) . '(' . spl_object_hash($vector) . ')';
+                $vector_key = \get_class($value) . '(' . spl_object_hash($vector) . ')';
                 $this->assertEquals($vector_key, $key);
                 $this->assertEquals($vector, $value);
             }
             if ($value instanceof \MathPHP\LinearAlgebra\Matrix) {
                 $objects++;
-                $matrix_key = get_class($value) . '(' . spl_object_hash($matrix) . ')';
+                $matrix_key = \get_class($value) . '(' . spl_object_hash($matrix) . ')';
                 $this->assertEquals($matrix_key, $key);
                 $this->assertEquals($matrix, $value);
             }
@@ -214,7 +214,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
         foreach ($set as $key => $value) {
             if ($value instanceof \MathPHP\LinearAlgebra\Vector) {
                 $objects++;
-                $vector_key = get_class($value) . '(' . spl_object_hash($vector) . ')';
+                $vector_key = \get_class($value) . '(' . spl_object_hash($vector) . ')';
                 $this->assertEquals($vector_key, $key);
                 $this->assertEquals($vector, $value);
             }
@@ -244,7 +244,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
 
         $arrays = 0;
         foreach ($set as $key => $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $arrays++;
                 $this->assertEquals([1, 2, 3], $value);
                 $this->assertEquals(3, count($value));
@@ -278,7 +278,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
 
         $arrays = 0;
         foreach ($set as $key => $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $arrays++;
                 $this->assertEquals(3, count($value));
             }
@@ -308,9 +308,9 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
 
         $resources = 0;
         foreach ($set as $key => $value) {
-            if (is_resource($value)) {
+            if (\is_resource($value)) {
                 $resources++;
-                $vector_key = 'Resource(' . strval($value) . ')';
+                $vector_key = 'Resource(' . \strval($value) . ')';
                 $this->assertEquals($vector_key, $key);
                 $this->assertEquals($fh, $value);
             }

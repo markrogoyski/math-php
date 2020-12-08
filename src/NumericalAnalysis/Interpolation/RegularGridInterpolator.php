@@ -76,7 +76,7 @@ class RegularGridInterpolator
         $pointsCount     = \count($points);
 
         if ($pointsCount > $valuesDimension) {
-            throw new Exception\BadDataException(sprintf('There are %d point arrays, but values has %d dimensions', $pointsCount, $valuesDimension));
+            throw new Exception\BadDataException(\sprintf('There are %d point arrays, but values has %d dimensions', $pointsCount, $valuesDimension));
         }
 
         $this->grid   = $points;
@@ -92,8 +92,8 @@ class RegularGridInterpolator
      */
     private function countDimensions(array $array): int
     {
-        if (is_array(reset($array))) {
-            $return = $this->countDimensions(reset($array)) + 1;
+        if (\is_array(\reset($array))) {
+            $return = $this->countDimensions(\reset($array)) + 1;
         } else {
             $return = 1;
         }
@@ -234,15 +234,15 @@ class RegularGridInterpolator
      */
     private function product(...$args): \Generator
     {
-        $repeat = array_pop($args);
-        $pools  = array_merge(...array_fill(0, $repeat, $args));
+        $repeat = \array_pop($args);
+        $pools  = \array_merge(...\array_fill(0, $repeat, $args));
         $result = [[]];
 
         foreach ($pools as $pool) {
             $result_inner = [];
             foreach ($result as $x) {
                 foreach ($pool as $y) {
-                    $result_inner[] = array_merge($x, [$y]);
+                    $result_inner[] = \array_merge($x, [$y]);
                 }
             }
             $result = $result_inner;

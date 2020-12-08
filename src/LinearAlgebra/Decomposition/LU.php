@@ -97,7 +97,7 @@ class LU extends Decomposition
         $n = $A->getN();
 
         // Initialize L as diagonal ones matrix, and U as zero matrix
-        $L = MatrixFactory::diagonal(array_fill(0, $n, 1))->getMatrix();
+        $L = MatrixFactory::diagonal(\array_fill(0, $n, 1))->getMatrix();
         $U = MatrixFactory::zero($n, $n)->getMatrix();
 
         // Create permutation matrix P and pivoted PA
@@ -230,10 +230,10 @@ class LU extends Decomposition
     public function solve($b): Vector
     {
         // Input must be a Vector or array.
-        if (!($b instanceof Vector || is_array($b))) {
+        if (!($b instanceof Vector || \is_array($b))) {
             throw new Exception\IncorrectTypeException('b in Ax = b must be a Vector or array');
         }
-        if (is_array($b)) {
+        if (\is_array($b)) {
             $b = new Vector($b);
         }
 
@@ -279,7 +279,7 @@ class LU extends Decomposition
         }
 
         // Return unknown xs as Vector
-        return new Vector(array_reverse($x));
+        return new Vector(\array_reverse($x));
     }
 
     /**

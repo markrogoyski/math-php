@@ -235,12 +235,12 @@ class Combinatorics
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative permutations.');
         }
-        if (!is_null($k) && $k > $n) {
+        if (!\is_null($k) && $k > $n) {
             throw new Exception\OutOfBoundsException('k cannot be larger than n.');
         }
 
         // nPn: permutations of n things, taken n at a time
-        if (is_null($k)) {
+        if (\is_null($k)) {
             return self::factorial($n);
         }
 
@@ -309,8 +309,8 @@ class Combinatorics
 
         // The internal self::fallingFactorial() implementation always returns a float.
         // Here we maintain int precision as much as possible.
-        $max = max($denominator, $k);
-        $min = min($denominator, $k);
+        $max = \max($denominator, $k);
+        $min = \min($denominator, $k);
         $falling_factorial = 1;
         for ($i = $max + 1; $i <= $numerator; $i++) {
             $falling_factorial *= $i;
@@ -425,9 +425,9 @@ class Combinatorics
     public static function multinomial(array $groups): float
     {
         /** @var int $n */
-        $n            = array_sum($groups);
+        $n            = \array_sum($groups);
         $n！          = self::factorial($n);
-        $k₁！k₂！⋯km！ = array_product(array_map([Combinatorics::class, 'factorial'], $groups));
+        $k₁！k₂！⋯km！ = \array_product(\array_map([Combinatorics::class, 'factorial'], $groups));
 
         return $n！ / $k₁！k₂！⋯km！;
     }

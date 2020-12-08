@@ -68,7 +68,7 @@ class MatrixFactory
     {
         // Check that all vectors are the same length
         $m = $A[0]->getN();
-        $n = count($A);
+        $n = \count($A);
         for ($j = 1; $j < $n; $j++) {
             if ($A[$j]->getN() !== $m) {
                 throw new Exception\MatrixException('Vectors being combined into matrix have different lengths');
@@ -199,8 +199,8 @@ class MatrixFactory
     {
         $I = self::identity($n)->getMatrix();
 
-        $bottom_row = array_pop($I);
-        array_unshift($I, $bottom_row);
+        $bottom_row = \array_pop($I);
+        \array_unshift($I, $bottom_row);
 
         return self::create($I);
     }
@@ -365,7 +365,7 @@ class MatrixFactory
      */
     public static function diagonal(array $D): DiagonalMatrix
     {
-        $m = count($D);
+        $m = \count($D);
 
         $A = [];
         for ($i = 0; $i < $m; $i++) {
@@ -481,10 +481,10 @@ class MatrixFactory
         }
 
         $G         = MatrixFactory::identity($size)->getMatrix();
-        $G[$m][$m] = cos($angle);
-        $G[$n][$n] = cos($angle);
-        $G[$m][$n] = -1 * sin($angle);
-        $G[$n][$m] = sin($angle);
+        $G[$m][$m] = \cos($angle);
+        $G[$n][$n] = \cos($angle);
+        $G[$m][$n] = -1 * \sin($angle);
+        $G[$n][$m] = \sin($angle);
 
         return MatrixFactory::create($G);
     }
@@ -509,7 +509,7 @@ class MatrixFactory
         $A = [];
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                $A[$i][$j] = rand($min, $max);
+                $A[$i][$j] = \rand($min, $max);
             }
         }
         return self::create($A);
@@ -535,11 +535,11 @@ class MatrixFactory
             throw new Exception\BadDataException('Array data not provided for Matrix creation');
         }
 
-        if (isset($A[0]) && is_array($A[0])) {
-            $column_count = count($A[0]);
+        if (isset($A[0]) && \is_array($A[0])) {
+            $column_count = \count($A[0]);
             foreach ($A as $i => $row) {
-                if (count($row) !== $column_count) {
-                    throw new Exception\MatrixException("Row $i has a different column count: " . count($row) . "; was expecting $column_count.");
+                if (\count($row) !== $column_count) {
+                    throw new Exception\MatrixException("Row $i has a different column count: " . \count($row) . "; was expecting $column_count.");
                 }
             }
         }
@@ -556,13 +556,13 @@ class MatrixFactory
      */
     private static function determineMatrixType(array $A): string
     {
-        $m = count($A);
-        $n = count($A[0]);
+        $m = \count($A);
+        $n = \count($A[0]);
 
         // Square Matrices have the same number of rows (m) and columns (n)
         if ($m === $n) {
             // closures are objects, so we need to separate them out.
-            if (is_object($A[0][0])) {
+            if (\is_object($A[0][0])) {
                 if ($A[0][0] instanceof \Closure) {
                     return 'function_square';
                 } else {
@@ -574,11 +574,11 @@ class MatrixFactory
 
         // Non square Matrices
         // First check to make sure it isn't something strange
-        if (is_array($A[0][0])) {
+        if (\is_array($A[0][0])) {
             return 'unknown';
         }
         // Then check remaining matrix types
-        if (is_callable($A[0][0])) {
+        if (\is_callable($A[0][0])) {
             return 'function';
         }
 

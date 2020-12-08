@@ -57,7 +57,7 @@ class LOESS extends NonParametricRegression
         }
 
         // Number of points considered in the local regression
-        $this->number_of_points = min((int) ceil($this->α * $this->n), $this->n);
+        $this->number_of_points = \min((int) \ceil($this->α * $this->n), $this->n);
     }
 
     /**
@@ -84,7 +84,7 @@ class LOESS extends NonParametricRegression
         // The number of points considered in the local regression
         $Δx    = Single::abs(Single::subtract($this->xs, $x));
         $αᵗʰΔx = Average::kthSmallest($Δx, $this->number_of_points - 1);
-        $arg   = Single::min(Single::divide($Δx, $αᵗʰΔx * max($α, 1)), 1);
+        $arg   = Single::min(Single::divide($Δx, $αᵗʰΔx * \max($α, 1)), 1);
 
         // Kernel function: tricube = (1-arg³)³
         $tricube = Single::cube(Single::multiply(Single::subtract(Single::cube($arg), 1), -1));

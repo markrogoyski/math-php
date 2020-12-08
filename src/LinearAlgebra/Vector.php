@@ -30,7 +30,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     public function __construct(array $A)
     {
         $this->A = $A;
-        $this->n = count($A);
+        $this->n = \count($A);
         $this->i = 0;
 
         if ($this->n === 0) {
@@ -101,7 +101,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function asColumnMatrix()
     {
-        $matrix = array_map(
+        $matrix = \array_map(
             function ($element) {
                 return [$element];
             },
@@ -148,7 +148,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function sum()
     {
-        return array_sum($this->A);
+        return \array_sum($this->A);
     }
 
     /**
@@ -178,7 +178,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
             throw new Exception\VectorException('Vectors have different number of items');
         }
 
-        return array_sum(array_map(
+        return \array_sum(\array_map(
             function ($a, $b) {
                 return $a * $b;
             },
@@ -240,10 +240,10 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     public function angleBetween(Vector $B, bool $inDegrees = false)
     {
         $cos⟮α⟯ = Distance::cosineSimilarity($this->getVector(), $B->getVector());
-        $angle = acos($cos⟮α⟯);
+        $angle = \acos($cos⟮α⟯);
 
         return $inDegrees
-            ? rad2deg($angle)
+            ? \rad2deg($angle)
             : $angle;
     }
 
@@ -642,7 +642,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function l1Norm()
     {
-        return array_sum(Map\Single::abs($this->A));
+        return \array_sum(Map\Single::abs($this->A));
     }
 
     /**
@@ -659,7 +659,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function l2Norm()
     {
-        return sqrt(array_sum(Map\Single::square($this->A)));
+        return \sqrt(\array_sum(Map\Single::square($this->A)));
     }
 
     /**
@@ -676,7 +676,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function pNorm($p)
     {
-        return array_sum(Map\Single::pow(Map\Single::abs($this->A), $p)) ** (1 / $p);
+        return \array_sum(Map\Single::pow(Map\Single::abs($this->A), $p)) ** (1 / $p);
     }
 
     /**
@@ -688,7 +688,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function maxNorm()
     {
-        return max(Map\Single::abs($this->A));
+        return \max(Map\Single::abs($this->A));
     }
 
     /**************************************************************************
@@ -705,7 +705,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function __toString()
     {
-        return '[' . implode(', ', $this->A) . ']';
+        return '[' . \implode(', ', $this->A) . ']';
     }
 
     /**************************************************************************
@@ -717,7 +717,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      */
     public function count(): int
     {
-        return count($this->A);
+        return \count($this->A);
     }
 
     /**************************************************************************

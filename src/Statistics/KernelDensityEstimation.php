@@ -51,7 +51,7 @@ class KernelDensityEstimation
      */
     public function __construct(array $data, float $h = null, $kernel = null)
     {
-        $this->n = count($data);
+        $this->n = \count($data);
         if ($this->n === 0) {
             throw new Exception\BadDataException('Dataset cannot be empty.');
         }
@@ -122,12 +122,12 @@ class KernelDensityEstimation
     {
         if ($kernel === null) {
             $this->kernel = $this->getKernelFunctionFromLibrary(self::STANDARD_NORMAL);
-        } elseif (is_string($kernel)) {
+        } elseif (\is_string($kernel)) {
             $this->kernel = $this->getKernelFunctionFromLibrary($kernel);
-        } elseif (is_callable($kernel)) {
+        } elseif (\is_callable($kernel)) {
             $this->kernel = $kernel;
         } else {
-            throw new Exception\BadParameterException('Kernel must be a callable or a string. Type is: ' . gettype($kernel));
+            throw new Exception\BadParameterException('Kernel must be a callable or a string. Type is: ' . \gettype($kernel));
         }
     }
 
@@ -160,7 +160,7 @@ class KernelDensityEstimation
 
             case self::UNIFORM:
                 return function ($x) {
-                    if (abs($x) > 1) {
+                    if (\abs($x) > 1) {
                         return 0;
                     } else {
                         return .5;
@@ -169,16 +169,16 @@ class KernelDensityEstimation
 
             case self::TRIANGULAR:
                 return function ($x) {
-                    if (abs($x) > 1) {
+                    if (\abs($x) > 1) {
                         return 0;
                     } else {
-                        return 1 - abs($x);
+                        return 1 - \abs($x);
                     }
                 };
 
             case self::EPANECHNIKOV:
                 return function ($x) {
-                    if (abs($x) > 1) {
+                    if (\abs($x) > 1) {
                         return 0;
                     } else {
                         return .75 * (1 - $x ** 2);
@@ -187,10 +187,10 @@ class KernelDensityEstimation
 
             case self::TRICUBE:
                 return function ($x) {
-                    if (abs($x) > 1) {
+                    if (\abs($x) > 1) {
                         return 0;
                     } else {
-                        return 70 / 81 * ((1 - abs($x) ** 3) ** 3);
+                        return 70 / 81 * ((1 - \abs($x) ** 3) ** 3);
                     }
                 };
 
@@ -216,14 +216,14 @@ class KernelDensityEstimation
         $h = $this->h;
         $n = $this->n;
 
-        $scale = array_map(
+        $scale = \array_map(
             function ($xᵢ) use ($x, $h) {
                 return ($x - $xᵢ) / $h;
             },
             $this->data
         );
-        $K       = array_map($this->kernel, $scale);
-        $density = array_sum($K) / ($n * $h);
+        $K       = \array_map($this->kernel, $scale);
+        $density = \array_sum($K) / ($n * $h);
 
         return $density;
     }

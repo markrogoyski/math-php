@@ -198,7 +198,7 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
         $sampleRank = Distribution::fractionalRanking($values);
 
         // Then
-        $sumOfAssignedRanks = array_sum($sampleRank);
+        $sumOfAssignedRanks = \array_sum($sampleRank);
         $this->assertEquals($expectedSumOfAssignedRanks, $sumOfAssignedRanks);
     }
 

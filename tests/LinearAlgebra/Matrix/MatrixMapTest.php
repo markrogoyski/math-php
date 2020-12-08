@@ -343,7 +343,7 @@ class MatrixMapTest extends \PHPUnit\Framework\TestCase
                     [7, 8, 9],
                 ],
                 function (array $row) {
-                    return array_sum($row) + 1;
+                    return \array_sum($row) + 1;
                 },
                 [
                     7,
@@ -374,8 +374,8 @@ class MatrixMapTest extends \PHPUnit\Framework\TestCase
                     [7, 8, 9],
                 ],
                 function (array $row) {
-                    array_shift($row);
-                    array_pop($row);
+                    \array_shift($row);
+                    \array_pop($row);
                     return $row;
                 },
                 [
@@ -391,7 +391,7 @@ class MatrixMapTest extends \PHPUnit\Framework\TestCase
                     [7, 8, 9],
                 ],
                 function (array $row) {
-                    return array_reduce(
+                    return \array_reduce(
                         $row,
                         function ($carry, $item) {
                             return $carry * $carry + $item;
@@ -412,7 +412,7 @@ class MatrixMapTest extends \PHPUnit\Framework\TestCase
                     [7, 8, 9],
                 ],
                 function (array $row) {
-                    return array_merge($row, [9, 9, 9]);
+                    return \array_merge($row, [9, 9, 9]);
                 },
                 [
                     [1, 2, 3, 9, 9, 9],
@@ -474,14 +474,14 @@ class MatrixMapTest extends \PHPUnit\Framework\TestCase
         $R = $A->mapRows($func);
 
         // Then
-        $this->assertTrue(in_array(1, $R[0]));
-        $this->assertTrue(in_array(2, $R[0]));
-        $this->assertTrue(in_array(3, $R[0]));
-        $this->assertTrue(in_array(4, $R[1]));
-        $this->assertTrue(in_array(5, $R[1]));
-        $this->assertTrue(in_array(6, $R[1]));
-        $this->assertTrue(in_array(7, $R[2]));
-        $this->assertTrue(in_array(8, $R[2]));
-        $this->assertTrue(in_array(9, $R[2]));
+        $this->assertTrue(\in_array(1, $R[0]));
+        $this->assertTrue(\in_array(2, $R[0]));
+        $this->assertTrue(\in_array(3, $R[0]));
+        $this->assertTrue(\in_array(4, $R[1]));
+        $this->assertTrue(\in_array(5, $R[1]));
+        $this->assertTrue(\in_array(6, $R[1]));
+        $this->assertTrue(\in_array(7, $R[2]));
+        $this->assertTrue(\in_array(8, $R[2]));
+        $this->assertTrue(\in_array(9, $R[2]));
     }
 }

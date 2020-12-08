@@ -649,8 +649,8 @@ class NormalTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(-3, 3) as $μ) {
-            foreach (range(1, 3) as $σ) {
+        foreach (\range(-3, 3) as $μ) {
+            foreach (\range(1, 3) as $σ) {
                 // Given
                 $normal = new Normal($μ, $σ);
 
@@ -658,7 +658,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
                 $random = $normal->rand();
 
                 // Then
-                $this->assertTrue(is_numeric($random));
+                $this->assertTrue(\is_numeric($random));
             }
         }
     }

@@ -46,12 +46,12 @@ class Categorical extends Discrete
         }
 
         // Must have k number of probabilities
-        if (count($probabilities) != $k) {
-            throw new Exception\BadDataException("Must have $k probabilities. Given " . count($probabilities));
+        if (\count($probabilities) != $k) {
+            throw new Exception\BadDataException("Must have $k probabilities. Given " . \count($probabilities));
         }
 
         // Probabilities must add up to 1
-        if (round(array_sum($probabilities), 1) != 1) {
+        if (\round(\array_sum($probabilities), 1) != 1) {
             throw new Exception\BadDataException('Probabilities do not add up to 1.');
         }
 
@@ -84,7 +84,7 @@ class Categorical extends Discrete
     /**
      * Mode of the distribution
      *
-     * i such that pᵢ = max(p₁, ... pk)
+     * i such that pᵢ = \max(p₁, ... pk)
      *
      * @return mixed Category name/number. Only returns one category in case on multimodal scenario.
      */

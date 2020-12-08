@@ -45,16 +45,16 @@ class NewtonsMethod
             $y_at_xplusdelx   = $function(...$args1);
             $slope            = ($y_at_xplusdelx - $y) / $tol;
             $del_y            = $target - $y;
-            if (abs($slope) < $tol) {
-                return NAN;
+            if (\abs($slope) < $tol) {
+                return \NAN;
             }
             $guess            = $del_y / $slope + $guess;
-            $dif              = abs($del_y);
+            $dif              = \abs($del_y);
             $i++;
         } while ($dif > $tol && $i < $iterations);
 
         if ($dif > $tol) {
-            return NAN;
+            return \NAN;
         }
         return $guess;
     }

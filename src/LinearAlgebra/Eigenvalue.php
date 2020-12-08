@@ -27,7 +27,7 @@ class Eigenvalue
      */
     public static function isAvailableMethod(string $method): bool
     {
-        return in_array($method, self::METHODS);
+        return \in_array($method, self::METHODS);
     }
 
     /**
@@ -107,8 +107,8 @@ class Eigenvalue
 
         // Calculate the roots of the determinant.
         $eigenvalues = $det->roots();
-        usort($eigenvalues, function ($a, $b) {
-            return abs($b) <=> abs($a);
+        \usort($eigenvalues, function ($a, $b) {
+            return \abs($b) <=> \abs($a);
         });
         return $eigenvalues;
     }
@@ -145,7 +145,7 @@ class Eigenvalue
             $pivot = ['value' => 0, 'i' => 0, 'j' => 0];
             for ($i = 0; $i < $m - 1; $i++) {
                 for ($j = $i + 1; $j < $m; $j++) {
-                    if (abs($D[$i][$j]) > abs($pivot['value'])) {
+                    if (\abs($D[$i][$j]) > \abs($pivot['value'])) {
                         $pivot['value'] = $D[$i][$j];
                         $pivot['i']     = $i;
                         $pivot['j']     = $j;
@@ -157,7 +157,7 @@ class Eigenvalue
             $j     = $pivot['j'];
             $angle = ($D[$i][$i] == $D[$j][$j])
                 ? ($D[$i][$i] > 0 ? 1 : -1) * \M_PI / 4
-                : atan(2 * $D[$i][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
+                : \atan(2 * $D[$i][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
 
             $G = MatrixFactory::givens($i, $j, $angle, $m);
             $D = $G->transpose()->multiply($D)->multiply($G);
@@ -165,8 +165,8 @@ class Eigenvalue
         }
 
         $eigenvalues = $D->getDiagonalElements();
-        usort($eigenvalues, function ($a, $b) {
-            return abs($b) <=> abs($a);
+        \usort($eigenvalues, function ($a, $b) {
+            return \abs($b) <=> \abs($a);
         });
         return $eigenvalues;
     }
@@ -230,12 +230,12 @@ class Eigenvalue
                 $iterations--;
             }
 
-            $max_ev = abs($max_ev) > abs($newμ) ? $max_ev : $newμ;
+            $max_ev = \abs($max_ev) > \abs($newμ) ? $max_ev : $newμ;
 
             // Perturb the eigenvector and run again to make sure the same solution is found
             $newb = $b->getMatrix();
-            for ($i = 0; $i < count($newb); $i++) {
-                $newb[$i][0] = $newb[1][0] + rand() / 10;
+            for ($i = 0; $i < \count($newb); $i++) {
+                $newb[$i][0] = $newb[1][0] + \rand() / 10;
             }
             $b    = MatrixFactory::create($newb);
             $b    = $b->scalarDivide($b->frobeniusNorm());  // Scale to a unit vector

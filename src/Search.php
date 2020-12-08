@@ -61,15 +61,15 @@ class Search
         }
 
         // Special case: NAN wins if present
-        $nanPresent = array_filter(
+        $nanPresent = \array_filter(
             $values,
             function ($value) {
-                return is_float($value) && is_nan($value);
+                return \is_float($value) && \is_nan($value);
             }
         );
-        if (count($nanPresent) > 0) {
+        if (\count($nanPresent) > 0) {
             foreach ($values as $i => $v) {
-                if (is_nan($v)) {
+                if (\is_nan($v)) {
                     return $i;
                 }
             }
@@ -100,13 +100,13 @@ class Search
             throw new Exception\BadDataException('Cannot find the argMax of an empty array');
         }
 
-        $valuesWithoutNans = array_filter(
+        $valuesWithoutNans = \array_filter(
             $values,
             function ($value) {
-                return !is_nan($value);
+                return !\is_nan($value);
             }
         );
-        if (count($valuesWithoutNans) === 0) {
+        if (\count($valuesWithoutNans) === 0) {
             throw new Exception\BadDataException('Array of all NANs has no nanArgMax');
         }
 
@@ -125,7 +125,7 @@ class Search
      */
     private static function baseArgMax(array $values): int
     {
-        $max = max($values);
+        $max = \max($values);
         foreach ($values as $i => $v) {
             if ($v === $max) {
                 return $i;
@@ -155,15 +155,15 @@ class Search
         }
 
         // Special case: NAN wins if present
-        $nanPresent = array_filter(
+        $nanPresent = \array_filter(
             $values,
             function ($value) {
-                return is_float($value) && is_nan($value);
+                return \is_float($value) && \is_nan($value);
             }
         );
-        if (count($nanPresent) > 0) {
+        if (\count($nanPresent) > 0) {
             foreach ($values as $i => $v) {
-                if (is_nan($v)) {
+                if (\is_nan($v)) {
                     return $i;
                 }
             }
@@ -194,13 +194,13 @@ class Search
             throw new Exception\BadDataException('Cannot find the nanArgMin of an empty array');
         }
 
-        $valuesWithoutNans = array_filter(
+        $valuesWithoutNans = \array_filter(
             $values,
             function ($value) {
-                return !is_nan($value);
+                return !\is_nan($value);
             }
         );
-        if (count($valuesWithoutNans) === 0) {
+        if (\count($valuesWithoutNans) === 0) {
             throw new Exception\BadDataException('Array of all NANs has no nanArgMax');
         }
 
@@ -219,7 +219,7 @@ class Search
      */
     private static function baseArgMin(array $values): int
     {
-        $max = min($values);
+        $max = \min($values);
         foreach ($values as $i => $v) {
             if ($v === $max) {
                 return $i;
@@ -247,7 +247,7 @@ class Search
     {
         $indices = [];
         foreach ($values as $i => $v) {
-            if (!is_scalar($v)) {
+            if (!\is_scalar($v)) {
                 continue;
             }
             if ($v != 0) {

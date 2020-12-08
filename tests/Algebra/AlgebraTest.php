@@ -256,12 +256,12 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForQuadratic(): array
     {
         return [
-            [2, 4, -4, [-1 - sqrt(3), -1 + sqrt(3)]],
+            [2, 4, -4, [-1 - \sqrt(3), -1 + \sqrt(3)]],
             [1, -3, -4, [-1, 4]],
             [1, 1, -4, [-2.56155281280883, 1.56155281280883]],
             [1, 0, -4, [-2, 2]],
             [6, 11, -35, [-7 / 2, 5 / 3]],
-            [1, 0, -48, [-4 * sqrt(3), 4 * sqrt(3)]],
+            [1, 0, -48, [-4 * \sqrt(3), 4 * \sqrt(3)]],
             [1, -7, 0, [0, 7]],
             [5, 6, 1, [-1, -0.2]],
             [1, 2, -8, [-4, 2]],
@@ -280,9 +280,9 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
             [1, 1, 0, [-1, 0]],
             [3, 4, 0, [-4 / 3, 0]],
             [2, -1, 0, [0, 1 / 2]],
-            [1, 0, -3, [-sqrt(3), sqrt(3)]],
+            [1, 0, -3, [-sqrt(3), \sqrt(3)]],
             [1, 0, -25, [-5, 5]],
-            [1, 0, -10, [-sqrt(10), sqrt(10)]],
+            [1, 0, -10, [-sqrt(10), \sqrt(10)]],
             [1, -5, 6, [2, 3]],
             [1, -8, 12, [2, 6]],
             [3, 1, -10, [-2, 5 / 3]],
@@ -345,7 +345,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($roots);
         $this->assertEquals(2, count($roots));
         foreach ($roots as $root) {
-            $this->assertTrue(is_nan($root));
+            $this->assertTrue(\is_nan($root));
         }
     }
 
@@ -394,8 +394,8 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForQuadraticNegativeDiscriminantComplex(): array
     {
         return [
-            [10, 1, 1, [[-.05, -1 * sqrt(39) / 20], [-.05, sqrt(39) / 20]]],
-            [3, 4, 20, [[-2 / 3, -1 * sqrt(14) * 2 / 3], [-2 / 3, sqrt(14) * 2 / 3]]],
+            [10, 1, 1, [[-.05, -1 * \sqrt(39) / 20], [-.05, \sqrt(39) / 20]]],
+            [3, 4, 20, [[-2 / 3, -1 * \sqrt(14) * 2 / 3], [-2 / 3, \sqrt(14) * 2 / 3]]],
         ];
     }
 
@@ -702,8 +702,8 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
 
         // Then
-        $this->assertEquals($quartic[0], floatval($z₁), '', 0.00000001);
-        $this->assertEquals($quartic[1], floatval($z₂), '', 0.00000001);
+        $this->assertEquals($quartic[0], \floatval($z₁), '', 0.00000001);
+        $this->assertEquals($quartic[1], \floatval($z₂), '', 0.00000001);
         $this->assertNan($z₃, '');
         $this->assertNan($z₄, '');
     }
@@ -729,8 +729,8 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
 
         // Then
-        $this->assertEquals($quartic[0], floatval($z₁), '', 0.00000001);
-        $this->assertEquals($quartic[1], floatval($z₂), '', 0.00000001);
+        $this->assertEquals($quartic[0], \floatval($z₁), '', 0.00000001);
+        $this->assertEquals($quartic[1], \floatval($z₂), '', 0.00000001);
         $this->assertTrue($z₃->equals($complex0), "Expecting $complex0 but saw $z₃, complex conjugate is $z₄");
         $this->assertTrue($z₄->equals($complex1), "Expecting $complex1 but saw $z₄, complex conjugate is $z₃");
     }

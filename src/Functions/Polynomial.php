@@ -74,7 +74,7 @@ class Polynomial implements ObjectArithmetic
     public function __construct(array $coefficients, string $variable = "x")
     {
         // Remove coefficients that are leading zeros
-        $initial_count = count($coefficients);
+        $initial_count = \count($coefficients);
         for ($i = 0; $i < $initial_count; $i++) {
             if ($coefficients[$i] != 0) {
                 break;
@@ -83,9 +83,9 @@ class Polynomial implements ObjectArithmetic
         }
 
         // If coefficients remain, re-index them. Otherwise return [0] for p(x) = 0
-        $coefficients       = ($coefficients != []) ? array_values($coefficients) : [0];
+        $coefficients       = ($coefficients != []) ? \array_values($coefficients) : [0];
 
-        $this->degree       = count($coefficients) - 1;
+        $this->degree       = \count($coefficients) - 1;
         $this->coefficients = $coefficients;
         $this->variable     = $variable;
     }
@@ -116,8 +116,8 @@ class Polynomial implements ObjectArithmetic
 
             // Build the exponent of our string as a unicode character
             $exponent = '';
-            for ($j = 0; $j < strlen(strval($power)); $j++) {
-                $digit     = intval(strval($power)[$j]); // The j-th digit of $power
+            for ($j = 0; $j < \strlen(\strval($power)); $j++) {
+                $digit     = \intval(\strval($power)[$j]); // The j-th digit of $power
                 $exponent .= self::SYMBOLS[$digit];      // The corresponding unicode character
             };
 
@@ -125,7 +125,7 @@ class Polynomial implements ObjectArithmetic
             $sign = ($coefficient > 0) ? '+' : '-';
 
             // Drop the sign from the coefficient, as it is handled by $sign
-            $coefficient = abs($coefficient);
+            $coefficient = \abs($coefficient);
 
             // Drop coefficients that equal 1 (and -1) if they are not the 0th-degree term
             if ($coefficient == 1 and $this->degree - $i != 0) {
@@ -144,8 +144,8 @@ class Polynomial implements ObjectArithmetic
         }
 
         // Cleanup front and back; drop redundant ¹ and ⁰ terms from monomials
-        $polynomial = trim(str_replace([$variable . '¹ ', $variable . '⁰ '], $variable . ' ', $polynomial), '+ ');
-        $polynomial = preg_replace('/^-\s/', '-', $polynomial);
+        $polynomial = \trim(\str_replace([$variable . '¹ ', $variable . '⁰ '], $variable . ' ', $polynomial), '+ ');
+        $polynomial = \preg_replace('/^-\s/', '-', $polynomial);
 
         $polynomial = ($polynomial !== '') ? $polynomial : '0';
 
@@ -199,7 +199,7 @@ class Polynomial implements ObjectArithmetic
     {
         if ($input instanceof Polynomial) {
             return $input;
-        } elseif (is_numeric($input)) {
+        } elseif (\is_numeric($input)) {
             return new Polynomial([$input]);
         } else {
             throw new Exception\IncorrectTypeException('Input must be a Polynomial or a number');
@@ -313,11 +313,11 @@ class Polynomial implements ObjectArithmetic
         // If degrees are unequal, make coefficient array sizes equal so we can do component-wise addition
         $degreeDifference = $this->getDegree() - $polynomial->getDegree();
         if ($degreeDifference !== 0) {
-            $zeroArray = array_fill(0, abs($degreeDifference), 0);
+            $zeroArray = \array_fill(0, \abs($degreeDifference), 0);
             if ($degreeDifference < 0) {
-                $coefficientsA = array_merge($zeroArray, $coefficientsA);
+                $coefficientsA = \array_merge($zeroArray, $coefficientsA);
             } else {
-                $coefficientsB = array_merge($zeroArray, $coefficientsB);
+                $coefficientsB = \array_merge($zeroArray, $coefficientsB);
             }
         }
 
@@ -368,11 +368,11 @@ class Polynomial implements ObjectArithmetic
         $productDegree = $this->degree + $polynomial->degree;
 
         // Reverse the coefficients arrays so you can multiply component-wise
-        $coefficientsA = array_reverse($this->coefficients);
-        $coefficientsB = array_reverse($polynomial->coefficients);
+        $coefficientsA = \array_reverse($this->coefficients);
+        $coefficientsB = \array_reverse($polynomial->coefficients);
 
         // Start with an array of coefficients that all equal 0
-        $productCoefficients = array_fill(0, $productDegree + 1, 0);
+        $productCoefficients = \array_fill(0, $productDegree + 1, 0);
 
         // Iterate through the product of terms component-wise
         for ($i = 0; $i < $this->degree + 1; $i++) {

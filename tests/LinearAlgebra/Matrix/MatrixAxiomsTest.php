@@ -623,7 +623,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     public function testIdentityMatrixIsInvolutory()
     {
         // Given
-        foreach (range(1, 20) as $n) {
+        foreach (\range(1, 20) as $n) {
             // When
             $A = MatrixFactory::identity($n);
 
@@ -1314,7 +1314,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $A = MatrixFactory::create($A);
-        $I = MatrixFactory::identity(min($A->getM(), $A->getN()));
+        $I = MatrixFactory::identity(\min($A->getM(), $A->getN()));
 
         // And
         $qr = $A->qrDecomposition();
@@ -1459,7 +1459,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $b = (new Vector($b))->asColumnMatrix();
 
         // And zeros
-        $z = (new Vector(array_fill(0, count($x), 0)))->asColumnMatrix();
+        $z = (new Vector(\array_fill(0, count($x), 0)))->asColumnMatrix();
 
         // When Ax - b
         $R = $A->multiply($x)->subtract($b);
@@ -1567,7 +1567,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         // When RREF
         $Ab   = $A->augment($b->asColumnMatrix());
         $rref = $Ab->rref();
-        $x    = new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
+        $x    = new Vector(\array_column($rref->getMatrix(), $rref->getN() - 1));
 
         // Then
         $this->assertEquals($expected, $x, '', 0.001);
@@ -1692,7 +1692,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $A   = MatrixFactory::create($M);
         $this->assertTrue($A->isSymmetric());
 
-        foreach (range(1, 10) as $k) {
+        foreach (\range(1, 10) as $k) {
             // When
             $kA = $A->scalarMultiply($k);
 
@@ -1760,7 +1760,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
             $A⁻¹ = $A->inverse();
             $A⁻¹ = $A⁻¹->map(
                 function ($x) {
-                    return round($x, 5); // Floating point adjustment
+                    return \round($x, 5); // Floating point adjustment
                 }
             );
 
@@ -2339,7 +2339,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // Floating point adjustment
         $A⁻¹ = $A⁻¹->map(function ($x) {
-            return round($x, 7);
+            return \round($x, 7);
         });
 
         // Then
@@ -2364,7 +2364,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // Floating point adjustment
         $A⁻¹ = $A⁻¹->map(function ($x) {
-            return round($x, 7);
+            return \round($x, 7);
         });
 
         // Then
@@ -2385,7 +2385,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A);
         $this->assertTrue($A->isPositiveDefinite());
 
-        foreach (range(1, 10) as $r) {
+        foreach (\range(1, 10) as $r) {
             // When
             $rA = $A->scalarMultiply($r);
 
@@ -2513,7 +2513,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testZeroMatrixIsLowerTriangular()
     {
-        foreach (range(1, 20) as $m) {
+        foreach (\range(1, 20) as $m) {
             // Given
             $L = MatrixFactory::zero($m, $m);
 
@@ -2528,7 +2528,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testZeroMatrixIsUpperTriangular()
     {
-        foreach (range(1, 20) as $m) {
+        foreach (\range(1, 20) as $m) {
             // Given
             $L = MatrixFactory::zero($m, $m);
 
@@ -2543,7 +2543,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testZeroMatrixIsDiagonal()
     {
-        foreach (range(1, 20) as $m) {
+        foreach (\range(1, 20) as $m) {
             // Given
             $L = MatrixFactory::zero($m, $m);
 
@@ -2729,7 +2729,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $L = MatrixFactory::create($L);
         $this->assertTrue($L->isLowerTriangular());
 
-        foreach (range(1, 10) as $k) {
+        foreach (\range(1, 10) as $k) {
             // When
             $kL = $L->scalarMultiply($k);
 
@@ -2751,7 +2751,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $U = MatrixFactory::create($U);
         $this->assertTrue($U->isUpperTriangular());
 
-        foreach (range(1, 10) as $k) {
+        foreach (\range(1, 10) as $k) {
             // When
             $kU = $U->scalarMultiply($k);
 
@@ -2773,7 +2773,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $L = MatrixFactory::create($L);
         $this->assertTrue($L->isLowerTriangular());
 
-        $zeros = array_filter(
+        $zeros = \array_filter(
             $L->getDiagonalElements(),
             function ($x) {
                 return $x == 0;
@@ -2801,7 +2801,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $U = MatrixFactory::create($U);
         $this->assertTrue($U->isUpperTriangular());
 
-        $zeros = array_filter(
+        $zeros = \array_filter(
             $U->getDiagonalElements(),
             function ($x) {
                 return $x == 0;
@@ -2910,7 +2910,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $D = MatrixFactory::create($D);
         $this->assertTrue($D->isDiagonal());
 
-        foreach (range(1, 10) as $k) {
+        foreach (\range(1, 10) as $k) {
             // When
             $kD = $D->scalarMultiply($k);
             // Then
@@ -2931,7 +2931,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $D = MatrixFactory::create($D);
         $this->assertTrue($D->isDiagonal());
 
-        $zeros = array_filter(
+        $zeros = \array_filter(
             $D->getDiagonalElements(),
             function ($x) {
                 return $x == 0;
@@ -2971,7 +2971,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testTransposeOfExchangeMatrix()
     {
-        foreach (range(1, 20) as $n) {
+        foreach (\range(1, 20) as $n) {
             // Given
             $J  = MatrixFactory::exchange($n);
             // When
@@ -2988,7 +2988,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testInverseOfExchangeMatrix()
     {
-        foreach (range(1, 20) as $n) {
+        foreach (\range(1, 20) as $n) {
             // Given
             $J  = MatrixFactory::exchange($n);
             // When
@@ -3005,7 +3005,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testTraceOfExchangeMatrix()
     {
-        foreach (range(1, 20) as $n) {
+        foreach (\range(1, 20) as $n) {
             // Given
             $J    = MatrixFactory::exchange($n);
             // When
@@ -3042,7 +3042,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testHilbertMatrixIsSymmetric()
     {
-        foreach (range(1, 10) as $n) {
+        foreach (\range(1, 10) as $n) {
             // Given
             $H = MatrixFactory::hilbert($n);
             // Then
@@ -3056,7 +3056,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testHilbertMatrixIsPositiveDefinite()
     {
-        foreach (range(1, 10) as $n) {
+        foreach (\range(1, 10) as $n) {
             // Given
             $H = MatrixFactory::hilbert($n);
             // Then
@@ -3271,7 +3271,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $cA        = $A->scalarMultiply($c);
         $adj⟮A⟯     = $A->adjugate();
         $adj⟮cA⟯    = $cA->adjugate();
-        $cⁿ⁻¹      = pow($c, $A->getN() - 1);
+        $cⁿ⁻¹      = \pow($c, $A->getN() - 1);
         $cⁿ⁻¹adj⟮A⟯ = $adj⟮A⟯->scalarMultiply($cⁿ⁻¹);
 
         // Then
@@ -3378,7 +3378,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A);
 
         // Then
-        $this->assertLessThanOrEqual(min($A->getM(), $A->getN()), $A->rank());
+        $this->assertLessThanOrEqual(\min($A->getM(), $A->getN()), $A->rank());
     }
 
     /**
@@ -3387,8 +3387,8 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testZeroMatrixHasRankOfZero()
     {
-        foreach (range(1, 10) as $m) {
-            foreach (range(1, 10) as $n) {
+        foreach (\range(1, 10) as $m) {
+            foreach (\range(1, 10) as $n) {
                 // Given
                 $A = MatrixFactory::zero($m, $n);
                 // Then
@@ -3571,7 +3571,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $det⟮A⟯ = $A->det();
 
         // Then
-        $this->assertEquals(1, abs($det⟮A⟯));
+        $this->assertEquals(1, \abs($det⟮A⟯));
     }
 
     /**
@@ -3625,14 +3625,14 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $H = $A->householder();
 
         // Then
-        $eigenvalues = array_filter(
+        $eigenvalues = \array_filter(
             $H->eigenvalues(),
             function ($x) {
-                return !is_nan($x);
+                return !\is_nan($x);
             }
         );
         $this->assertEquals(1, max($eigenvalues), '', 0.00001);
-        $this->assertEquals(-1, min($eigenvalues), '', 0.00001);
+        $this->assertEquals(-1, \min($eigenvalues), '', 0.00001);
     }
 
     /**
@@ -3646,7 +3646,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         // Given
         $A = MatrixFactory::create($A);
 
-        foreach (range(1, 5) as $_) {
+        foreach (\range(1, 5) as $_) {
             // When
             $A     = $A->multiply($A);
             $trace = $A->trace();

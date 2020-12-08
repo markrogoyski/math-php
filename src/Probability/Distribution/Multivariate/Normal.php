@@ -31,7 +31,7 @@ class Normal
      */
     public function __construct(array $μ, Matrix $∑)
     {
-        $k = count($μ);
+        $k = \count($μ);
         if ($∑->getM() !== $k || $∑->getN() !== $k) {
             throw new Exception\BadDataException(
                 'Covariance matrix ∑ must have the the same number of rows and columns as there are X elements. ' .
@@ -64,24 +64,24 @@ class Normal
      */
     public function pdf(array $X): float
     {
-        $k = count($X);
+        $k = \count($X);
         $μ = $this->μ;
         $∑ = $this->∑;
 
-        if (count($μ) !== $k) {
-            throw new Exception\BadDataException("X and μ must have the same number of elements. X has $k and μ has " . count($μ));
+        if (\count($μ) !== $k) {
+            throw new Exception\BadDataException("X and μ must have the same number of elements. X has $k and μ has " . \count($μ));
         }
 
         $π = \M_PI;
         $│∑│      = $∑->det();
-        $√⟮2π⟯ᵏ│∑│ = sqrt((2 * $π) ** $k * $│∑│);
+        $√⟮2π⟯ᵏ│∑│ = \sqrt((2 * $π) ** $k * $│∑│);
 
         $Δ       = Map\Multi::subtract($X, $μ);
         $⟮x − μ⟯  = new Vector($Δ);
         $⟮x − μ⟯ᵀ = new RowVector($Δ);
         $∑⁻¹     = $∑->inverse();
 
-        $exp⟮−½⟮x − μ⟯ᵀ∑⁻¹⟮x − μ⟯⟯ = exp(
+        $exp⟮−½⟮x − μ⟯ᵀ∑⁻¹⟮x − μ⟯⟯ = \exp(
             $⟮x − μ⟯ᵀ->scalarDivide(-2)
                 ->multiply($∑⁻¹)
                 ->multiply($⟮x − μ⟯)

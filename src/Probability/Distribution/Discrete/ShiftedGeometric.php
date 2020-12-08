@@ -63,7 +63,7 @@ class ShiftedGeometric extends Discrete
 
         $p = $this->p;
 
-        $⟮1 − p⟯ᵏ⁻¹ = pow(1 - $p, $k - 1);
+        $⟮1 − p⟯ᵏ⁻¹ = \pow(1 - $p, $k - 1);
         return $⟮1 − p⟯ᵏ⁻¹ * $p;
     }
 
@@ -84,7 +84,7 @@ class ShiftedGeometric extends Discrete
 
         $p = $this->p;
 
-        $⟮1 − p⟯ᵏ = pow(1 - $p, $k);
+        $⟮1 − p⟯ᵏ = \pow(1 - $p, $k);
         return 1 - $⟮1 − p⟯ᵏ;
     }
 
@@ -114,9 +114,9 @@ class ShiftedGeometric extends Discrete
      */
     public function median(): float
     {
-        $log₂⟮1 − p⟯ = log(1 - $this->p, 2);
+        $log₂⟮1 − p⟯ = \log(1 - $this->p, 2);
 
-        return ceil(-1 / $log₂⟮1 − p⟯);
+        return \ceil(-1 / $log₂⟮1 − p⟯);
     }
 
     /**

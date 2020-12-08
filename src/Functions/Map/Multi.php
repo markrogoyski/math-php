@@ -24,9 +24,9 @@ class Multi
     {
         self::checkArrayLengths($arrays);
 
-        $number_of_arrays = count($arrays);
-        $length_of_arrays = count($arrays[0]);
-        $sums             = array_fill(0, $length_of_arrays, 0);
+        $number_of_arrays = \count($arrays);
+        $length_of_arrays = \count($arrays[0]);
+        $sums             = \array_fill(0, $length_of_arrays, 0);
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 0; $j < $number_of_arrays; $j++) {
@@ -52,9 +52,9 @@ class Multi
     {
         self::checkArrayLengths($arrays);
 
-        $number_of_arrays = count($arrays);
-        $length_of_arrays = count($arrays[0]);
-        $differences      = array_map(
+        $number_of_arrays = \count($arrays);
+        $length_of_arrays = \count($arrays[0]);
+        $differences      = \array_map(
             function ($x) {
                 return $x;
             },
@@ -85,9 +85,9 @@ class Multi
     {
         self::checkArrayLengths($arrays);
 
-        $number_of_arrays = count($arrays);
-        $length_of_arrays = count($arrays[0]);
-        $products         = array_fill(0, $length_of_arrays, 1);
+        $number_of_arrays = \count($arrays);
+        $length_of_arrays = \count($arrays[0]);
+        $products         = \array_fill(0, $length_of_arrays, 1);
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 0; $j < $number_of_arrays; $j++) {
@@ -113,9 +113,9 @@ class Multi
     {
         self::checkArrayLengths($arrays);
 
-        $number_of_arrays = count($arrays);
-        $length_of_arrays = count($arrays[0]);
-        $quotients        = array_map(
+        $number_of_arrays = \count($arrays);
+        $length_of_arrays = \count($arrays[0]);
+        $quotients        = \array_map(
             function ($x) {
                 return $x;
             },
@@ -146,9 +146,9 @@ class Multi
     {
         self::checkArrayLengths($arrays);
 
-        $number_of_arrays = count($arrays);
-        $length_of_arrays = count($arrays[0]);
-        $maxes            = array_map(
+        $number_of_arrays = \count($arrays);
+        $length_of_arrays = \count($arrays[0]);
+        $maxes            = \array_map(
             function ($x) {
                 return $x;
             },
@@ -157,7 +157,7 @@ class Multi
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 1; $j < $number_of_arrays; $j++) {
-                $maxes[$i] = max($maxes[$i], $arrays[$j][$i]);
+                $maxes[$i] = \max($maxes[$i], $arrays[$j][$i]);
             }
         }
 
@@ -179,9 +179,9 @@ class Multi
     {
         self::checkArrayLengths($arrays);
 
-        $number_of_arrays = count($arrays);
-        $length_of_arrays = count($arrays[0]);
-        $mins             = array_map(
+        $number_of_arrays = \count($arrays);
+        $length_of_arrays = \count($arrays[0]);
+        $mins             = \array_map(
             function ($x) {
                 return $x;
             },
@@ -190,7 +190,7 @@ class Multi
 
         for ($i = 0; $i < $length_of_arrays; $i++) {
             for ($j = 1; $j < $number_of_arrays; $j++) {
-                $mins[$i] = min($mins[$i], $arrays[$j][$i]);
+                $mins[$i] = \min($mins[$i], $arrays[$j][$i]);
             }
         }
 
@@ -213,13 +213,13 @@ class Multi
      */
     private static function checkArrayLengths(array $arrays): bool
     {
-        if (count($arrays) < 2) {
+        if (\count($arrays) < 2) {
             throw new Exception\BadDataException('Need at least two arrays to map over');
         }
 
-        $n = count($arrays[0]);
+        $n = \count($arrays[0]);
         foreach ($arrays as $array) {
-            if (count($array) !== $n) {
+            if (\count($array) !== $n) {
                 throw new Exception\BadDataException('Lengths of arrays are not equal');
             }
         }

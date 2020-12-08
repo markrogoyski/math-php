@@ -39,8 +39,8 @@ class Matrix extends MatrixBase
     public function __construct(array $A)
     {
         $this->A       = $A;
-        $this->m       = count($A);
-        $this->n       = $this->m > 0 ? count($A[0]) : 0;
+        $this->m       = \count($A);
+        $this->n       = $this->m > 0 ? \count($A[0]) : 0;
         $this->ε       = self::ε;
         $this->catalog = new MatrixCatalog();
 
@@ -55,8 +55,8 @@ class Matrix extends MatrixBase
     protected function validateMatrixDimensions()
     {
         foreach ($this->A as $i => $row) {
-            if (count($row) !== $this->n) {
-                throw new Exception\BadDataException("Row $i has a different column count: " . count($row) . "; was expecting {$this->n}.");
+            if (\count($row) !== $this->n) {
+                throw new Exception\BadDataException("Row $i has a different column count: " . \count($row) . "; was expecting {$this->n}.");
             }
         }
     }
@@ -562,7 +562,7 @@ class Matrix extends MatrixBase
 
         // All nonzero rows are above any rows of all zeroes
         for ($i = $m - 1; $i >= 0; $i--) {
-            $zero_row = count(array_filter(
+            $zero_row = \count(\array_filter(
                 $this->A[$i],
                 function ($x) {
                     return $x != 0;
@@ -636,11 +636,11 @@ class Matrix extends MatrixBase
         // Leading coefficients are the only nonzero entry in its column
         foreach ($lcs as $j) {
             $column  = $this->getColumn($j);
-            $entries = array_filter($column);
-            if (count($entries) !== 1) {
+            $entries = \array_filter($column);
+            if (\count($entries) !== 1) {
                 return false;
             }
-            $entry = array_shift($entries);
+            $entry = \array_shift($entries);
             if ($entry != 1) {
                 return false;
             }
@@ -745,7 +745,7 @@ class Matrix extends MatrixBase
         for ($i = 0; $i < $this->m; $i++) {
             for ($j = 0; $j < $this->n; $j++) {
                 if ($i == $j) {
-                    if (!in_array($this->A[$i][$j], [-1, 1])) {
+                    if (!\in_array($this->A[$i][$j], [-1, 1])) {
                         return false;
                     }
                 } else {
@@ -1275,7 +1275,7 @@ class Matrix extends MatrixBase
         $Bᵀ = $B->transpose()->getMatrix();
 
         foreach ($this->A as $i => $Aʳᵒʷ⟦i⟧) {
-            $R[$i] = array_fill(0, $B->n, 0);
+            $R[$i] = \array_fill(0, $B->n, 0);
             foreach ($Bᵀ as $j => $Bᶜᵒˡ⟦j⟧) {
                 foreach ($Aʳᵒʷ⟦i⟧ as $k => $A⟦i⟧⟦k⟧) {
                     $R[$i][$j] += $A⟦i⟧⟦k⟧ * $Bᶜᵒˡ⟦j⟧[$k];
@@ -1437,8 +1437,8 @@ class Matrix extends MatrixBase
         // Augment each aᵢ₁ to aᵢn block
         $matrices = [];
         foreach ($arrays as $row) {
-            $initial_matrix = array_shift($row);
-            $matrices[] = array_reduce(
+            $initial_matrix = \array_shift($row);
+            $matrices[] = \array_reduce(
                 $row,
                 function (Matrix $augmented_matrix, Matrix $matrix) {
                     return $augmented_matrix->augment($matrix);
@@ -1448,8 +1448,8 @@ class Matrix extends MatrixBase
         }
 
         // Augment below each row block a₁ to am
-        $initial_matrix = array_shift($matrices);
-        $A⊗B            = array_reduce(
+        $initial_matrix = \array_shift($matrices);
+        $A⊗B            = \array_reduce(
             $matrices,
             function (Matrix $augmented_matrix, Matrix $matrix) {
                 return $augmented_matrix->augmentBelow($matrix);
@@ -1622,7 +1622,7 @@ class Matrix extends MatrixBase
         $A⁻¹ = [];
 
         for ($i = 0; $i < $n; $i++) {
-            $A⁻¹[$i] = array_slice($R[$i], $n);
+            $A⁻¹[$i] = \array_slice($R[$i], $n);
         }
 
         $A⁻¹ = MatrixFactory::create($A⁻¹);
@@ -1777,7 +1777,7 @@ class Matrix extends MatrixBase
      */
     public function meanDeviation(string $direction = 'rows'): Matrix
     {
-        if (!in_array($direction, [self::ROWS, self::COLUMNS])) {
+        if (!\in_array($direction, [self::ROWS, self::COLUMNS])) {
             throw new Exception\BadParameterException("Direction must be rows or columns, got $direction");
         }
 
@@ -1814,7 +1814,7 @@ class Matrix extends MatrixBase
         $M = $this->rowMeans();
 
         /** @var Vector[] $B */
-        $B = array_map(
+        $B = \array_map(
             function (Vector $Xᵢ) use ($M) {
                 return $Xᵢ->subtract($M);
             },
@@ -1854,7 +1854,7 @@ class Matrix extends MatrixBase
         $M = $this->columnMeans();
 
         /** @var Vector[] $B */
-        $B = array_map(
+        $B = \array_map(
             function (Vector $Xᵢ) use ($M) {
                 return $Xᵢ->subtract($M);
             },
@@ -1887,7 +1887,7 @@ class Matrix extends MatrixBase
      */
     public function covarianceMatrix(string $direction = 'rows'): Matrix
     {
-        if (!in_array($direction, [self::ROWS, self::COLUMNS])) {
+        if (!\in_array($direction, [self::ROWS, self::COLUMNS])) {
             throw new Exception\BadParameterException("Direction must be rows or columns, got $direction");
         }
 
@@ -2022,7 +2022,7 @@ class Matrix extends MatrixBase
     public function vectorMultiply(Vector $B): Vector
     {
         $B = $B->getVector();
-        $n = count($B);
+        $n = \count($B);
         $m = $this->m;
 
         if ($n !== $this->n) {
@@ -2031,7 +2031,7 @@ class Matrix extends MatrixBase
 
         $R = [];
         for ($i = 0; $i < $m; $i++) {
-            $R[$i] = array_sum(Map\Multi::multiply($this->getRow($i), $B));
+            $R[$i] = \array_sum(Map\Multi::multiply($this->getRow($i), $B));
         }
 
         return new Vector($R);
@@ -2044,9 +2044,9 @@ class Matrix extends MatrixBase
      */
     public function rowSums(): Vector
     {
-        $sums = array_map(
+        $sums = \array_map(
             function (array $row) {
-                return array_sum($row);
+                return \array_sum($row);
             },
             $this->A
         );
@@ -2082,9 +2082,9 @@ class Matrix extends MatrixBase
     {
         $n = $this->n;
 
-        $means = array_map(
+        $means = \array_map(
             function (array $row) use ($n) {
-                return array_sum($row) / $n;
+                return \array_sum($row) / $n;
             },
             $this->A
         );
@@ -2101,7 +2101,7 @@ class Matrix extends MatrixBase
     {
         $sums = [];
         for ($i = 0; $i < $this->n; $i++) {
-            $sums[] = array_sum(array_column($this->A, $i));
+            $sums[] = \array_sum(\array_column($this->A, $i));
         }
 
         return new Vector($sums);
@@ -2139,7 +2139,7 @@ class Matrix extends MatrixBase
 
         $means = [];
         for ($i = 0; $i < $n; $i++) {
-            $means[] = array_sum(array_column($this->A, $i)) / $m;
+            $means[] = \array_sum(\array_column($this->A, $i)) / $m;
         }
 
         return new Vector($means);
@@ -2166,10 +2166,10 @@ class Matrix extends MatrixBase
     public function oneNorm()
     {
         $n = $this->n;
-        $‖A‖₁ = array_sum(Map\Single::abs(array_column($this->A, 0)));
+        $‖A‖₁ = \array_sum(Map\Single::abs(\array_column($this->A, 0)));
 
         for ($j = 1; $j < $n; $j++) {
-            $‖A‖₁ = max($‖A‖₁, array_sum(Map\Single::abs(array_column($this->A, $j))));
+            $‖A‖₁ = \max($‖A‖₁, \array_sum(Map\Single::abs(\array_column($this->A, $j))));
         }
 
         return $‖A‖₁;
@@ -2200,7 +2200,7 @@ class Matrix extends MatrixBase
             }
         }
 
-        return sqrt($ΣΣaᵢⱼ²);
+        return \sqrt($ΣΣaᵢⱼ²);
     }
 
     /**
@@ -2212,10 +2212,10 @@ class Matrix extends MatrixBase
     public function infinityNorm()
     {
         $m = $this->m;
-        $‖A‖∞ = array_sum(Map\Single::abs($this->A[0]));
+        $‖A‖∞ = \array_sum(Map\Single::abs($this->A[0]));
 
         for ($i = 1; $i < $m; $i++) {
-            $‖A‖∞ = max($‖A‖∞, array_sum(Map\Single::abs($this->A[$i])));
+            $‖A‖∞ = \max($‖A‖∞, \array_sum(Map\Single::abs($this->A[$i])));
         }
 
         return $‖A‖∞;
@@ -2231,11 +2231,11 @@ class Matrix extends MatrixBase
     {
         $m   = $this->m;
         $n   = $this->n;
-        $max = abs($this->A[0][0]);
+        $max = \abs($this->A[0][0]);
 
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                $max = max($max, abs($this->A[$i][$j]));
+                $max = \max($max, \abs($this->A[$i][$j]));
             }
         }
 
@@ -2941,10 +2941,10 @@ class Matrix extends MatrixBase
     public function solve($b, string $method = self::DEFAULT)
     {
         // Input must be a Vector or array.
-        if (!($b instanceof Vector || is_array($b))) {
+        if (!($b instanceof Vector || \is_array($b))) {
             throw new Exception\IncorrectTypeException('b in Ax = b must be a Vector or array');
         }
-        if (is_array($b)) {
+        if (\is_array($b)) {
             $b = new Vector($b);
         }
 
@@ -2964,7 +2964,7 @@ class Matrix extends MatrixBase
             case self::RREF:
                 $Ab   = $this->augment($b->asColumnMatrix());
                 $rref = $Ab->rref();
-                return new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
+                return new Vector(\array_column($rref->getMatrix(), $rref->getN() - 1));
 
             default:
                 // If inverse is already calculated, solve: x = A⁻¹b
@@ -3004,7 +3004,7 @@ class Matrix extends MatrixBase
                 // x is the rightmost column.
                 $Ab   = $this->augment($b->asColumnMatrix());
                 $rref = $Ab->rref();
-                return new Vector(array_column($rref->getMatrix(), $rref->getN() - 1));
+                return new Vector(\array_column($rref->getMatrix(), $rref->getN() - 1));
         }
     }
 
@@ -3034,8 +3034,8 @@ class Matrix extends MatrixBase
         if ($method === null) {
             if ($this->isTriangular()) {
                 $diagonal = $this->getDiagonalElements();
-                usort($diagonal, function ($a, $b) {
-                    return abs($b) <=> abs($a);
+                \usort($diagonal, function ($a, $b) {
+                    return \abs($b) <=> \abs($a);
                 });
                 return $diagonal;
             }
@@ -3091,9 +3091,9 @@ class Matrix extends MatrixBase
      */
     public function __toString()
     {
-        return trim(array_reduce(array_map(
+        return \trim(\array_reduce(\array_map(
             function ($mᵢ) {
-                return '[' . implode(', ', $mᵢ) . ']';
+                return '[' . \implode(', ', $mᵢ) . ']';
             },
             $this->A
         ), function ($A, $mᵢ) {

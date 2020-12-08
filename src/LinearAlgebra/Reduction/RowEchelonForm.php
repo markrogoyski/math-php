@@ -122,7 +122,7 @@ class RowEchelonForm extends Matrix
     {
         $m     = $A->getM();
         $n     = $A->getN();
-        $size  = min($m, $n);
+        $size  = \min($m, $n);
         $R     = $A->getMatrix();
         $swaps = 0;
         $ε     = $A->getError();
@@ -131,7 +131,7 @@ class RowEchelonForm extends Matrix
             // Find column max
             $i_max = $k;
             for ($i = $k; $i < $m; $i++) {
-                if (abs($R[$i][$k]) > abs($R[$i_max][$k])) {
+                if (\abs($R[$i][$k]) > \abs($R[$i_max][$k])) {
                     $i_max = $i;
                 }
             }

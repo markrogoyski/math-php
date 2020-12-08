@@ -20,7 +20,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $noncentral_t = new NoncentralT($ν, $μ);
-        $tol          = abs(self::ε * $expected);
+        $tol          = \abs(self::ε * $expected);
 
         // When
         $pdf = $noncentral_t->pdf($t);
@@ -87,7 +87,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $noncentral_t = new NoncentralT($ν, $μ);
-        $tol          = abs(self::ε * $expected);
+        $tol          = \abs(self::ε * $expected);
 
         // When
         $cdf = $noncentral_t->cdf($t);
@@ -153,7 +153,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $noncentral_t = new NoncentralT($ν, $μ);
-        $tol          = abs(self::ε * $expected);
+        $tol          = \abs(self::ε * $expected);
 
         // When
         $mean = $noncentral_t->mean();
@@ -217,7 +217,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $noncentral_t = new NoncentralT($ν, $μ);
-        $tol          = abs(self::ε * $expected);
+        $tol          = \abs(self::ε * $expected);
 
         // When
         $median = $noncentral_t->median();

@@ -89,7 +89,7 @@ class DiracDeltaTest extends \PHPUnit\Framework\TestCase
         // Given
         $diracDelta = new DiracDelta();
 
-        foreach (range(-10, 10, 0.5) as $p) {
+        foreach (\range(-10, 10, 0.5) as $p) {
             // When
             $inverse = $diracDelta->inverse($p);
 
@@ -106,7 +106,7 @@ class DiracDeltaTest extends \PHPUnit\Framework\TestCase
         // Given
         $diracDelta = new DiracDelta();
 
-        foreach (range(-10, 10, 0.5) as $_) {
+        foreach (\range(-10, 10, 0.5) as $_) {
             // When
             $rand = $diracDelta->rand();
 
@@ -123,7 +123,7 @@ class DiracDeltaTest extends \PHPUnit\Framework\TestCase
         // Given
         $diracDelta = new DiracDelta();
 
-        foreach (range(-10, 10, 0.5) as $_) {
+        foreach (\range(-10, 10, 0.5) as $_) {
             // When
             $mean = $diracDelta->mean();
 
@@ -140,7 +140,7 @@ class DiracDeltaTest extends \PHPUnit\Framework\TestCase
         // Given
         $diracDelta = new DiracDelta();
 
-        foreach (range(-10, 10, 0.5) as $_) {
+        foreach (\range(-10, 10, 0.5) as $_) {
             // When
             $median = $diracDelta->median();
 
@@ -157,7 +157,7 @@ class DiracDeltaTest extends \PHPUnit\Framework\TestCase
         // Given
         $diracDelta = new DiracDelta();
 
-        foreach (range(-10, 10, 0.5) as $_) {
+        foreach (\range(-10, 10, 0.5) as $_) {
             // When
             $mode = $diracDelta->mode();
 

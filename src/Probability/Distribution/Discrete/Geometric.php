@@ -61,7 +61,7 @@ class Geometric extends Discrete
         Support::checkLimits(self::SUPPORT_LIMITS, ['k' => $k]);
         $p = $this->p;
 
-        $⟮1 − p⟯ᵏ = pow(1 - $p, $k);
+        $⟮1 − p⟯ᵏ = \pow(1 - $p, $k);
         return $⟮1 − p⟯ᵏ * $p;
     }
 
@@ -84,7 +84,7 @@ class Geometric extends Discrete
         Support::checkLimits(self::SUPPORT_LIMITS, ['k' => $k]);
         $p = $this->p;
 
-        $⟮1 − p⟯ᵏ⁺¹ = pow(1 - $p, $k + 1);
+        $⟮1 − p⟯ᵏ⁺¹ = \pow(1 - $p, $k + 1);
         return 1 - $⟮1 − p⟯ᵏ⁺¹;
     }
 
@@ -114,9 +114,9 @@ class Geometric extends Discrete
      */
     public function median(): float
     {
-        $log₂⟮1 − p⟯ = log(1 - $this->p, 2);
+        $log₂⟮1 − p⟯ = \log(1 - $this->p, 2);
 
-        return ceil(-1 / $log₂⟮1 − p⟯) - 1;
+        return \ceil(-1 / $log₂⟮1 − p⟯) - 1;
     }
 
     /**

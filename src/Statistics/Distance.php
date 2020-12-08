@@ -61,19 +61,19 @@ class Distance
     public static function bhattacharyyaDistance(array $p, array $q): float
     {
         // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
+        if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
         }
 
         // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+        if ((\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(\array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
         // ∑ √(p(x) q(x))
-        $BC⟮p、q⟯ = array_sum(Map\Single::sqrt(Map\Multi::multiply($p, $q)));
+        $BC⟮p、q⟯ = \array_sum(Map\Single::sqrt(Map\Multi::multiply($p, $q)));
 
-        return -log($BC⟮p、q⟯);
+        return -\log($BC⟮p、q⟯);
     }
 
     /**
@@ -123,23 +123,23 @@ class Distance
     public static function hellingerDistance(array $p, array $q): float
     {
         // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
+        if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
         }
 
         // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+        if ((\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(\array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
         // Defensive measures against taking the log of 0 which would be -∞ or dividing by 0
-        $p = array_map(
+        $p = \array_map(
             function ($pᵢ) {
                 return $pᵢ == 0 ? 1e-15 : $pᵢ;
             },
             $p
         );
-        $q = array_map(
+        $q = \array_map(
             function ($qᵢ) {
                 return $qᵢ == 0 ? 1e-15 : $qᵢ;
             },
@@ -147,15 +147,15 @@ class Distance
         );
 
         // √ ∑ (√pᵢ - √qᵢ)²
-        $√∑⟮√pᵢ − √qᵢ⟯² = sqrt(array_sum(array_map(
+        $√∑⟮√pᵢ − √qᵢ⟯² = \sqrt(\array_sum(\array_map(
             function ($pᵢ, $qᵢ) {
-                return (sqrt($pᵢ) - sqrt($qᵢ)) ** 2;
+                return (\sqrt($pᵢ) - \sqrt($qᵢ)) ** 2;
             },
             $p,
             $q
         )));
 
-        return (1 / sqrt(2)) * $√∑⟮√pᵢ − √qᵢ⟯²;
+        return (1 / \sqrt(2)) * $√∑⟮√pᵢ − √qᵢ⟯²;
     }
 
     /**
@@ -217,7 +217,7 @@ class Distance
      */
     public static function jensenShannon(array $p, array $q): float
     {
-        return sqrt(Divergence::jensenShannon($p, $q));
+        return \sqrt(Divergence::jensenShannon($p, $q));
     }
 
     /**
@@ -270,7 +270,7 @@ class Distance
 
         $S⁻¹ = $S->inverse();
         $D   = $diff->transpose()->multiply($S⁻¹)->multiply($diff);
-        return sqrt($D[0][0]);
+        return \sqrt($D[0][0]);
     }
 
     /**
@@ -291,18 +291,18 @@ class Distance
     public static function minkowski(array $xs, array $ys, int $p): float
     {
         // Arrays must have the same number of elements
-        $n = count($xs);
-        if ($n !== count($ys)) {
+        $n = \count($xs);
+        if ($n !== \count($ys)) {
             throw new Exception\BadDataException('x and y must have the same number of elements');
         }
         if ($p < 1) {
             throw new Exception\BadDataException("p must be ≥ 1. Given $p");
         }
 
-        $∑｜xᵢ − yᵢ⟯ᵖ = array_sum(
-            array_map(
+        $∑｜xᵢ − yᵢ⟯ᵖ = \array_sum(
+            \array_map(
                 function ($x, $y) use ($p) {
-                    return abs($x - $y) ** $p;
+                    return \abs($x - $y) ** $p;
                 },
                 $xs,
                 $ys
@@ -379,10 +379,10 @@ class Distance
      */
     public static function cosine(array $A, array $B): float
     {
-        if (count(array_unique($A)) === 1 && end($A) == 0) {
+        if (\count(\array_unique($A)) === 1 && \end($A) == 0) {
             throw new Exception\BadDataException('A is the null vector');
         }
-        if (count(array_unique($B)) === 1 && end($B) == 0) {
+        if (\count(\array_unique($B)) === 1 && \end($B) == 0) {
             throw new Exception\BadDataException('B is the null vector');
         }
 
@@ -441,25 +441,25 @@ class Distance
      */
     public static function brayCurtis(array $u, array $v): float
     {
-        if (count($u) !== count($v)) {
+        if (\count($u) !== \count($v)) {
             throw new Exception\BadDataException('u and v must have the same number of elements');
         }
-        $uZero = count(array_unique($u)) === 1 && end($u) == 0;
-        $vZero = count(array_unique($u)) === 1 && end($v) == 0;
+        $uZero = \count(\array_unique($u)) === 1 && \end($u) == 0;
+        $vZero = \count(\array_unique($u)) === 1 && \end($v) == 0;
         if ($uZero && $vZero) {
             return \NAN;
         }
 
-        $∑｜uᵢ − vᵢ｜ = array_sum(array_map(
+        $∑｜uᵢ − vᵢ｜ = \array_sum(\array_map(
             function (float $uᵢ, float $vᵢ) {
-                return abs($uᵢ - $vᵢ);
+                return \abs($uᵢ - $vᵢ);
             },
             $u,
             $v
         ));
-        $∑｜uᵢ ＋ vᵢ｜ = array_sum(array_map(
+        $∑｜uᵢ ＋ vᵢ｜ = \array_sum(\array_map(
             function (float $uᵢ, float $vᵢ) {
-                return abs($uᵢ + $vᵢ);
+                return \abs($uᵢ + $vᵢ);
             },
             $u,
             $v
@@ -491,27 +491,27 @@ class Distance
      */
     public static function canberra(array $p, array $q): float
     {
-        if (count($p) !== count($q)) {
+        if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
         }
-        $pZero = count(array_unique($p)) === 1 && end($p) == 0;
-        $qZero = count(array_unique($p)) === 1 && end($q) == 0;
+        $pZero = \count(\array_unique($p)) === 1 && \end($p) == 0;
+        $qZero = \count(\array_unique($p)) === 1 && \end($q) == 0;
         if ($pZero && $qZero) {
             return \NAN;
         }
 
         // Numerators ｜pᵢ − qᵢ｜
-        $｜p − q｜ = array_map(
+        $｜p − q｜ = \array_map(
             function (float $pᵢ, float $qᵢ) {
-                return abs($pᵢ - $qᵢ);
+                return \abs($pᵢ - $qᵢ);
             },
             $p,
             $q
         );
         // Denominators ｜pᵢ｜ + ｜qᵢ｜
-        $｜p｜ ＋ ｜q｜ = array_map(
+        $｜p｜ ＋ ｜q｜ = \array_map(
             function (float $p, float $q) {
-                return abs($p) + abs($q);
+                return \abs($p) + \abs($q);
             },
             $p,
             $q
@@ -521,7 +521,7 @@ class Distance
         //    ｜pᵢ − qᵢ｜
         // ∑ --------------
         //   ｜pᵢ｜ + ｜qᵢ｜
-        return array_sum(array_map(
+        return \array_sum(\array_map(
             function (float $｜pᵢ − qᵢ｜, float $｜pᵢ｜ ＋ ｜qᵢ｜) {
                 return $｜pᵢ｜ ＋ ｜qᵢ｜ == 0
                     ? 0

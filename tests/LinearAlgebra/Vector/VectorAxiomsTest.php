@@ -251,7 +251,7 @@ class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $A    = new Vector($A);
-        $zero = new Vector(array_fill(0, $A->getN(), 0));
+        $zero = new Vector(\array_fill(0, $A->getN(), 0));
 
         // When
         $Ax0 = $A->crossProduct($zero);
@@ -597,7 +597,7 @@ class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // When
         $０A  = $A->scalarMultiply(0);
-        $zero = new Vector(array_fill(0, $A->getN(), 0));
+        $zero = new Vector(\array_fill(0, $A->getN(), 0));
 
         // Then
         $this->assertEquals($zero, $０A);
@@ -796,7 +796,7 @@ class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
         $projᵇA⊥ = $A->projection($B)->perpendicular();
         $perpᵇA  = $A->perp($B);
 
-        $projᵇA⊥⋅perpᵇA = abs($projᵇA⊥->dotProduct($perpᵇA));
+        $projᵇA⊥⋅perpᵇA = \abs($projᵇA⊥->dotProduct($perpᵇA));
         $│projᵇA│       = $projᵇA->length();
         $│perpᵇA│       = $perpᵇA->length();
 

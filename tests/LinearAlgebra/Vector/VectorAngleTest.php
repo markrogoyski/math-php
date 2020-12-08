@@ -40,7 +40,7 @@ class VectorAngleTest extends TestCase
             [
                 [1, 2, 3],
                 [3, 2, 1],
-                rad2deg(acos(5 / 7)),
+                \rad2deg(acos(5 / 7)),
             ],
             [
                 [1, 2, 3],
@@ -50,7 +50,7 @@ class VectorAngleTest extends TestCase
             [
                 [1, 0, 0],
                 [0, 0, 1],
-                rad2deg(acos(0)),
+                \rad2deg(acos(0)),
             ],
             [
                 [1, 0, 0],
@@ -60,7 +60,7 @@ class VectorAngleTest extends TestCase
             [
                 [1, 0, 0],
                 [1, 0, 0],
-                rad2deg(acos(1)),
+                \rad2deg(acos(1)),
             ],
             [
                 [1, 0, 0],
@@ -70,7 +70,7 @@ class VectorAngleTest extends TestCase
             [
                 [1, 0, 0],
                 [0, 1, 0],
-                rad2deg(acos(0)),
+                \rad2deg(acos(0)),
             ],
             [
                 [1, 0, 0],
@@ -80,7 +80,7 @@ class VectorAngleTest extends TestCase
             [
                 [-1, 1, 0],
                 [0, 1, -1],
-                rad2deg(acos(1 / 2)),
+                \rad2deg(acos(1 / 2)),
             ],
             [
                 [-1, 1, 0],
@@ -90,7 +90,7 @@ class VectorAngleTest extends TestCase
             [
                 [1, 0, 0],
                 [-1, 0, 0],
-                rad2deg(acos(-1)),
+                \rad2deg(acos(-1)),
             ],
             [
                 [1, 0, 0],
@@ -100,7 +100,7 @@ class VectorAngleTest extends TestCase
             [
                 [23, 41, 33],
                 [31, 56, 21],
-                rad2deg(acos(1851 * sqrt(2 / 7485431))),
+                \rad2deg(acos(1851 * \sqrt(2 / 7485431))),
             ],
             [
                 [23, 41, 33],
@@ -202,7 +202,7 @@ class VectorAngleTest extends TestCase
             [
                 [23, 41, 33],
                 [31, 56, 21],
-                acos(1851 * sqrt(2 / 7485431)),
+                acos(1851 * \sqrt(2 / 7485431)),
             ],
             [
                 [23, 41, 33],

@@ -78,7 +78,7 @@ class UsArrests
      */
     public function getData(): array
     {
-        return array_values(self::DATA);
+        return \array_values(self::DATA);
     }
 
     /**
@@ -89,9 +89,9 @@ class UsArrests
      */
     public function getLabeledData(): array
     {
-        return array_map(
+        return \array_map(
             function (array $data) {
-                return array_combine(self::LABELS, $data);
+                return \array_combine(self::LABELS, $data);
             },
             self::DATA
         );
@@ -104,7 +104,7 @@ class UsArrests
      */
     public function getStates(): array
     {
-        return array_keys(self::DATA);
+        return \array_keys(self::DATA);
     }
 
     /**
@@ -117,7 +117,7 @@ class UsArrests
      */
     public function getStateData(string $state): array
     {
-        return array_combine(self::LABELS, self::DATA[$state]);
+        return \array_combine(self::LABELS, self::DATA[$state]);
     }
 
     /**
@@ -128,7 +128,7 @@ class UsArrests
      */
     public function getMurder(): array
     {
-        return array_combine($this->getStates(), array_column(self::DATA, 0));
+        return \array_combine($this->getStates(), \array_column(self::DATA, 0));
     }
 
     /**
@@ -139,7 +139,7 @@ class UsArrests
      */
     public function getAssault(): array
     {
-        return array_combine($this->getStates(), array_column(self::DATA, 1));
+        return \array_combine($this->getStates(), \array_column(self::DATA, 1));
     }
 
     /**
@@ -150,7 +150,7 @@ class UsArrests
      */
     public function getUrbanPop(): array
     {
-        return array_combine($this->getStates(), array_column(self::DATA, 2));
+        return \array_combine($this->getStates(), \array_column(self::DATA, 2));
     }
 
     /**
@@ -161,6 +161,6 @@ class UsArrests
      */
     public function getRape(): array
     {
-        return array_combine($this->getStates(), array_column(self::DATA, 3));
+        return \array_combine($this->getStates(), \array_column(self::DATA, 3));
     }
 }

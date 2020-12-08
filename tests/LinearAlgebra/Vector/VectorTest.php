@@ -100,7 +100,7 @@ class VectorTest extends \PHPUnit\Framework\TestCase
         $string = $A->__toString();
 
         // Then
-        $this->assertTrue(is_string($string));
+        $this->assertTrue(\is_string($string));
         $this->assertEquals('[1, 2, 3]', $string);
     }
 

@@ -117,7 +117,7 @@ class Cereal
      */
     public function getXData(): array
     {
-        return array_values(self::X_DATA);
+        return \array_values(self::X_DATA);
     }
 
     /**
@@ -128,9 +128,9 @@ class Cereal
      */
     public function getLabeledXData(): array
     {
-        return array_map(
+        return \array_map(
             function (array $data) {
-                return array_combine(self::X_LABELS, $data);
+                return \array_combine(self::X_LABELS, $data);
             },
             self::X_DATA
         );
@@ -144,7 +144,7 @@ class Cereal
      */
     public function getYData(): array
     {
-        return array_values(self::Y_DATA);
+        return \array_values(self::Y_DATA);
     }
 
     /**
@@ -155,9 +155,9 @@ class Cereal
      */
     public function getLabeledYData(): array
     {
-        return array_map(
+        return \array_map(
             function (array $data) {
-                return array_combine(self::Y_LABELS, $data);
+                return \array_combine(self::Y_LABELS, $data);
             },
             self::Y_DATA
         );
@@ -171,7 +171,7 @@ class Cereal
      */
     public function getYscData(): array
     {
-        return array_values(self::YSC_DATA);
+        return \array_values(self::YSC_DATA);
     }
 
     /**
@@ -182,9 +182,9 @@ class Cereal
      */
     public function getLabeledYscData(): array
     {
-        return array_map(
+        return \array_map(
             function (array $data) {
-                return array_combine(self::YSC_LABELS, $data);
+                return \array_combine(self::YSC_LABELS, $data);
             },
             self::YSC_DATA
         );

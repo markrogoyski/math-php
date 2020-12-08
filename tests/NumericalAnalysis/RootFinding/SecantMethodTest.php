@@ -107,7 +107,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         };
 
         // And
-        $expected = sqrt(5);
+        $expected = \sqrt(5);
         $p₁       = 1;
         $p₀       = 5;
         $tol      = 0.00001;
@@ -120,7 +120,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test   Solve cos(x) - 2x
+     * @test   Solve \cos(x) - 2x
      *         Has a root of approximately 0.450183
      * @throws \Exception
      */
@@ -128,7 +128,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return cos($x) - 2 * $x;
+            return \cos($x) - 2 * $x;
         };
 
         // And

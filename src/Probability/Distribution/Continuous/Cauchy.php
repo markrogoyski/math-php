@@ -87,7 +87,7 @@ class Cauchy extends Continuous
         $γ  = $this->γ;
         $π  = \M_PI;
 
-        return 1 / $π * atan(($x - $x₀) / $γ) + .5;
+        return 1 / $π * \atan(($x - $x₀) / $γ) + .5;
     }
 
     /**
@@ -108,7 +108,7 @@ class Cauchy extends Continuous
 
         $π = \M_PI;
 
-        return $x₀ + $γ * tan($π * ($p - .5));
+        return $x₀ + $γ * \tan($π * ($p - .5));
     }
 
     /**

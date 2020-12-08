@@ -1007,7 +1007,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertEquals($expected, $σ⟮𝐳⟯ⱼ, '', 0.00001);
-        $this->assertEquals(1, array_sum($σ⟮𝐳⟯ⱼ));
+        $this->assertEquals(1, \array_sum($σ⟮𝐳⟯ⱼ));
     }
 
     public function dataProviderForSoftmax(): array

@@ -72,16 +72,16 @@ class NoncentralT extends Continuous
         $ν = $this->ν;
         $μ = $this->μ;
 
-        $part1 =  $ν ** ($ν / 2) * Special::gamma($ν + 1) * exp(-1 * $μ ** 2 / 2) / 2 ** $ν / ($ν + $x ** 2) ** ($ν / 2) / Special::gamma($ν / 2);
+        $part1 =  $ν ** ($ν / 2) * Special::gamma($ν + 1) * \exp(-1 * $μ ** 2 / 2) / 2 ** $ν / ($ν + $x ** 2) ** ($ν / 2) / Special::gamma($ν / 2);
 
         $F1 = $ν / 2 + 1;
         $F2 = 3 / 2;
         $F3 = $μ ** 2 * $x ** 2 / 2 / ($ν + $x ** 2);
-        $inner_part1 = sqrt(2) * $μ * $x * Special::confluentHypergeometric($F1, $F2, $F3) / ($ν + $x ** 2) / Special::gamma(($ν + 1) / 2);
+        $inner_part1 = \sqrt(2) * $μ * $x * Special::confluentHypergeometric($F1, $F2, $F3) / ($ν + $x ** 2) / Special::gamma(($ν + 1) / 2);
 
         $F1 = ($ν + 1) / 2;
         $F2 = 1 / 2;
-        $inner_part2 = Special::confluentHypergeometric($F1, $F2, $F3) / sqrt($ν + $x ** 2) / Special::gamma($ν / 2 + 1);
+        $inner_part2 = Special::confluentHypergeometric($F1, $F2, $F3) / \sqrt($ν + $x ** 2) / Special::gamma($ν / 2 + 1);
 
         return $part1 * ($inner_part1 + $inner_part2);
     }
@@ -153,9 +153,9 @@ class NoncentralT extends Continuous
         $j   = 0;
 
         do {
-            $exp = exp(-1 * $μ ** 2 / 2) * ($μ ** 2 / 2) ** $j;
+            $exp = \exp(-1 * $μ ** 2 / 2) * ($μ ** 2 / 2) ** $j;
             $pⱼ  = 1 / Combinatorics::factorial($j) * $exp;
-            $qⱼ  = $μ / sqrt(2) / Special::gamma($j + 3 / 2) * $exp;
+            $qⱼ  = $μ / \sqrt(2) / Special::gamma($j + 3 / 2) * $exp;
             $I1  = Special::regularizedIncompleteBeta($y, $j + 1 / 2, $ν / 2);
             $I2  = Special::regularizedIncompleteBeta($y, $j + 1, $ν / 2);
 
@@ -186,7 +186,7 @@ class NoncentralT extends Continuous
         if ($ν == 1) {
             return \NAN;
         }
-        return $μ * sqrt($ν / 2) * Special::gamma(($ν - 1) / 2) / Special::gamma($ν / 2);
+        return $μ * \sqrt($ν / 2) * Special::gamma(($ν - 1) / 2) / Special::gamma($ν / 2);
     }
 
     /**

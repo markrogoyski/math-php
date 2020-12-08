@@ -48,7 +48,7 @@ class Eigenvector
         $A = $A->scalarDivide($max_abs);
         $eig = new Vector($eigenvalues);
         $eigenvalues = $eig->scalarDivide($max_abs)->getVector();
-        $number = count($eigenvalues);
+        $number = \count($eigenvalues);
 
         // There cannot be more eigenvalues than the size of A, nor can there be zero.
         if ($number > $A->getM()) {
@@ -63,7 +63,7 @@ class Eigenvector
         foreach ($eigenvalues as $eigenvalue) {
             // If this is a duplicate eigenvalue, and this is the second instance, the first
             // pass already found all the vectors.
-            $key = array_search($eigenvalue, array_column($solution_array, 'eigenvalue'));
+            $key = \array_search($eigenvalue, \array_column($solution_array, 'eigenvalue'));
             if (!$key) {
                 $Iλ = MatrixFactory::identity($number)->scalarMultiply($eigenvalue);
                 $T = $A->subtract($Iλ);
@@ -89,7 +89,7 @@ class Eigenvector
 
                  // A column of all zeroes means that a vector in that direction is a solution.
                 foreach ($zero_columns as $column) {
-                    $solution          = array_fill(0, $number, 0);
+                    $solution          = \array_fill(0, $number, 0);
                     $solution[$column] = 1;
                     $solution_array[]  = ['eigenvalue' => $eigenvalue, 'vector' => $solution];
                     // Add the solution to rref.
@@ -106,18 +106,18 @@ class Eigenvector
                     $forced_variables = [];
                     $n                = $rref->getN();
                     // The solution vector is a column vector.
-                    $solution = new Vector(array_fill(0, $n - $number_to_force, 0));
+                    $solution = new Vector(\array_fill(0, $n - $number_to_force, 0));
                     $matrix   = $rref;
-                    for ($i = 0; $i < $n && count($forced_variables) < $number_to_force; $i++) {
+                    for ($i = 0; $i < $n && \count($forced_variables) < $number_to_force; $i++) {
                         // Make sure that removing column $i does not leave behind a row of zeros
                         $column_can_be_used = true;
                         for ($j = 0; $j <= $i && $j < $rref->getM() && $column_can_be_used; $j++) {
-                            if ($matrix->columnExclude($i - count($forced_variables))->getRow($j) == array_fill(0, $matrix->getN() - 1, 0)) {
+                            if ($matrix->columnExclude($i - \count($forced_variables))->getRow($j) == \array_fill(0, $matrix->getN() - 1, 0)) {
                                 $column_can_be_used = false;
                             }
                         }
                         if ($column_can_be_used) {
-                            $matrix             = $matrix->columnExclude($i - count($forced_variables));
+                            $matrix             = $matrix->columnExclude($i - \count($forced_variables));
                             $forced_variables[] = $i;
                             $new_column         = new Vector($rref->getColumn($i));
                             $solution           = $solution->subtract($new_column);
@@ -128,14 +128,14 @@ class Eigenvector
 
                     // Set all the forced variables to 1.
                     foreach ($forced_variables as $column) {
-                        array_splice($eigenvector, $column, 0, 1);
+                        \array_splice($eigenvector, $column, 0, 1);
                     }
 
                     $eigenvector_scaled = $eigenvector;
 
                     // Scale it to be a unit vector.
                     $sign               = (Special::sgn($eigenvector_scaled[0]) == 1) ? 1 : -1;
-                    $scale_factor       = $sign / sqrt(array_sum(Single::square($eigenvector_scaled)));
+                    $scale_factor       = $sign / \sqrt(\array_sum(Single::square($eigenvector_scaled)));
                     $eigenvector_scaled = Single::multiply($eigenvector_scaled, $scale_factor);
                     $solution_array[]   = ['eigenvalue' => $eigenvalue, 'vector' => $eigenvector_scaled];
                     $vectors_found++;
@@ -147,12 +147,12 @@ class Eigenvector
                         $rref = $rref->augmentBelow(MatrixFactory::create([$eigenvector]))->rref();
                     }
                 }
-                $key = array_search($eigenvalue, array_column($solution_array, 'eigenvalue'));
+                $key = \array_search($eigenvalue, \array_column($solution_array, 'eigenvalue'));
             }
             $M[] = $solution_array[$key]['vector'];
             unset($solution_array[$key]);
             // Reset the array keys.
-            $solution_array = array_values($solution_array);
+            $solution_array = \array_values($solution_array);
         }
         $matrix = MatrixFactory::create($M);
         return $matrix->transpose();
@@ -175,7 +175,7 @@ class Eigenvector
         // We will count the number of rows with all zeros, starting at the bottom.
         for ($i = $m - 1; $i >= 0 && $more_solutions; $i--) {
             // Every row of zeros is a degree of freedom (a solution) with that eigenvalue
-            if ($M->getRow($i) == array_fill(0, $m, 0)) {
+            if ($M->getRow($i) == \array_fill(0, $m, 0)) {
                 $number_of_solutions++;
             } else {
                  // Once we find a row with nonzero values, there are no more.
@@ -197,7 +197,7 @@ class Eigenvector
         $m = $M->getM();
         $zero_columns = [];
         for ($i = 0; $i < $M->getN(); $i++) {
-            if ($M->getColumn($i) == array_fill(0, $m, 0)) {
+            if ($M->getColumn($i) == \array_fill(0, $m, 0)) {
                 $zero_columns[] = $i;
             }
         }

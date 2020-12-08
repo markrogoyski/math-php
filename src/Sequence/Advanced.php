@@ -351,18 +351,18 @@ class Advanced
         for ($i = 2; $i <= $n; $i++) {
             $sequence = "";
             $count    = 1;
-            $len      = strlen($previous);
+            $len      = \strlen($previous);
 
             for ($j = 1; $j < $len; $j++) {
-                if (substr($previous, $j, 1) === substr($previous, $j - 1, 1)) {
+                if (\substr($previous, $j, 1) === \substr($previous, $j - 1, 1)) {
                     $count++;
                 } else {
-                    $sequence .= $count . substr($previous, $j - 1, 1);
+                    $sequence .= $count . \substr($previous, $j - 1, 1);
                     $count = 1;
                 }
             }
 
-            $sequence .= $count . substr($previous, $j - 1, 1);
+            $sequence .= $count . \substr($previous, $j - 1, 1);
             $previous = $sequence;
             $list[$i] = $sequence;
         }
@@ -474,7 +474,7 @@ class Advanced
         }
 
         if ($n <= 10) {
-            return array_slice(self::PERFECT_NUMBERS, 0, $n);
+            return \array_slice(self::PERFECT_NUMBERS, 0, $n);
         }
 
         throw new OutOfBoundsException("Perfect numbers beyond the tenth are too large to compute");
@@ -582,8 +582,8 @@ class Advanced
             return [];
         }
 
-        $primes = array_fill_keys(range(2, $n), true);
-        $√n     = ceil(sqrt($n));
+        $primes = \array_fill_keys(\range(2, $n), true);
+        $√n     = \ceil(\sqrt($n));
 
         for ($i = 2; $i <= $√n; $i++) {
             if ($primes[$i] === true) {
@@ -594,6 +594,6 @@ class Advanced
             }
         }
 
-        return array_keys(array_filter($primes));
+        return \array_keys(\array_filter($primes));
     }
 }

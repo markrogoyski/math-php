@@ -43,8 +43,8 @@ class CircularTest extends \PHPUnit\Framework\TestCase
             [[355, 5, 15], -2.935443],
 
             // In this test case, we end up with
-            // sin(0) + sin(π) = 0 + 0 = 0
-            // cos(0) + cos(π) = 1 - 1 = 0
+            //  sin(0) +  sin(π) = 0 + 0 = 0
+            // \cos(0) + \cos(π) = 1 - 1 = 0
             // So it seems like it should end up as atan2(0, 0),
             // but since the sum of sins isn't perfectly 0, it is a very small floating point number,
             // like atan2(1.2246467991474E-16, 0),
@@ -239,7 +239,7 @@ class CircularTest extends \PHPUnit\Framework\TestCase
         $stats = Circular::describe($values);
 
         // Then
-        $this->assertTrue(is_array($stats));
+        $this->assertTrue(\is_array($stats));
         $this->assertArrayHasKey('n', $stats);
         $this->assertArrayHasKey('mean', $stats);
         $this->assertArrayHasKey('resultant_length', $stats);
@@ -248,11 +248,11 @@ class CircularTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('sd', $stats);
 
         // And
-        $this->assertTrue(is_int($stats['n']));
-        $this->assertTrue(is_float($stats['mean']));
-        $this->assertTrue(is_float($stats['resultant_length']));
-        $this->assertTrue(is_float($stats['mean_resultant_length']));
-        $this->assertTrue(is_float($stats['variance']));
-        $this->assertTrue(is_float($stats['sd']));
+        $this->assertTrue(\is_int($stats['n']));
+        $this->assertTrue(\is_float($stats['mean']));
+        $this->assertTrue(\is_float($stats['resultant_length']));
+        $this->assertTrue(\is_float($stats['mean_resultant_length']));
+        $this->assertTrue(\is_float($stats['variance']));
+        $this->assertTrue(\is_float($stats['sd']));
     }
 }

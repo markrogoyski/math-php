@@ -60,14 +60,14 @@ class HouseholderTest extends \PHPUnit\Framework\TestCase
         $H = Householder::transform($A);
 
         // Then
-        $eigenvalues = array_filter(
+        $eigenvalues = \array_filter(
             $H->eigenvalues(),
             function ($x) {
-                return !is_nan($x);
+                return !\is_nan($x);
             }
         );
         $this->assertEquals(1, max($eigenvalues), '', 0.00001);
-        $this->assertEquals(-1, min($eigenvalues), '', 0.00001);
+        $this->assertEquals(-1, \min($eigenvalues), '', 0.00001);
     }
 
     /**

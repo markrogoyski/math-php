@@ -38,13 +38,13 @@ class ObjectSquareMatrix extends SquareMatrix
         parent::__construct($A);
 
         if ($A[0][0] instanceof ObjectArithmetic) {
-            $this->object_type = get_class($A[0][0]);
+            $this->object_type = \get_class($A[0][0]);
         } else {
             throw new Exception\IncorrectTypeException("The object must implement the interface.");
         }
         foreach ($A as $i => $row) {
             foreach ($row as $object) {
-                if (get_class($object) != $this->object_type) {
+                if (\get_class($object) != $this->object_type) {
                     throw new Exception\IncorrectTypeException("All elements in the matrix must be of the same type.");
                 }
             }
@@ -166,8 +166,8 @@ class ObjectSquareMatrix extends SquareMatrix
             for ($j = 0; $j < $n; $j++) {
                 $VA        = $this->getRow($i);
                 $VB        = $B->getColumn($j);
-                $R[$i][$j] = array_reduce(
-                    array_map(
+                $R[$i][$j] = \array_reduce(
+                    \array_map(
                         function (ObjectArithmetic $a, ObjectArithmetic $b) {
                             return $a->multiply($b);
                         },

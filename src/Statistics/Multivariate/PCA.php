@@ -55,7 +55,7 @@ class PCA
 
         $this->center = $center === true
             ? $this->center = $M->columnMeans()
-            : $this->center = new Vector(array_fill(0, $M->getN(), 0));
+            : $this->center = new Vector(\array_fill(0, $M->getN(), 0));
 
         if ($scale === true) {
             $scaleArray = [];
@@ -64,7 +64,7 @@ class PCA
             }
             $this->scale = new Vector($scaleArray);
         } else {
-            $this->scale = new Vector(array_fill(0, $M->getN(), 1));
+            $this->scale = new Vector(\array_fill(0, $M->getN(), 1));
         }
 
         // Save the source data to the class
@@ -277,14 +277,14 @@ class PCA
         // Initial element with initialization of result matrix
         $P    = $this->EVec->submatrix(0, 0, $vars - 1, 0); // // Get the first column of the loading matrix
         $P′   = $P->transpose();
-        $Λⱼ⁻¹ = MatrixFactory::diagonal(array_slice($this->EVal->getVector(), 0, 0 + 1))->inverse();
+        $Λⱼ⁻¹ = MatrixFactory::diagonal(\array_slice($this->EVal->getVector(), 0, 0 + 1))->inverse();
         $T²   = MatrixFactory::create([$X->multiply($P)->multiply($Λⱼ⁻¹)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
 
         for ($i = 1; $i < $this->data->getN(); $i++) {
             // Get the first $i+1 columns of the loading matrix
             $P    = $this->EVec->submatrix(0, 0, $vars - 1, $i);
             $P′   = $P->transpose();
-            $Λⱼ⁻¹ = MatrixFactory::diagonal(array_slice($this->EVal->getVector(), 0, $i + 1))->inverse();
+            $Λⱼ⁻¹ = MatrixFactory::diagonal(\array_slice($this->EVal->getVector(), 0, $i + 1))->inverse();
             $Tᵢ²  = MatrixFactory::create([$X->multiply($P)->multiply($Λⱼ⁻¹)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
             $T²   = $T²->augment($Tᵢ²);
         }
@@ -329,11 +329,11 @@ class PCA
         $QCritical = [];
 
         for ($i = 0; $i < $vars - 1; $i++) {
-            $evals = array_slice($this->getEigenvalues()->getVector(), $i + 1);
+            $evals = \array_slice($this->getEigenvalues()->getVector(), $i + 1);
 
-            $t1 = array_sum($evals);
-            $t2 = array_sum(Single::square($evals));
-            $t3 = array_sum(Single::pow($evals, 3));
+            $t1 = \array_sum($evals);
+            $t2 = \array_sum(Single::square($evals));
+            $t3 = \array_sum(Single::pow($evals, 3));
 
             $h0 = 1 - 2 * $t1 * $t3 / 3 / $t2 ** 2;
             if ($h0 < .001) {
@@ -343,7 +343,7 @@ class PCA
             $normal = new StandardNormal();
             $ca     = $normal->inverse(1 - $alpha);
 
-            $h1 = $ca * sqrt(2 * $t2 * $h0 ** 2) / $t1;
+            $h1 = $ca * \sqrt(2 * $t2 * $h0 ** 2) / $t1;
             $h2 = $t2 * $h0 * ($h0 - 1) / $t1 ** 2;
 
             $QCritical[] = $t1 * (1 + $h1 + $h2) ** (1 / $h0);

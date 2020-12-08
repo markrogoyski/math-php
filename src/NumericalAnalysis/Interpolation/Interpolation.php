@@ -37,12 +37,12 @@ abstract class Interpolation
     public static function getPoints($source, array $args = []): array
     {
         // Guard clause - source must be callable or array of points
-        if (!(is_callable($source) || is_array($source))) {
+        if (!(\is_callable($source) || \is_array($source))) {
             throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
 
         // Source is already an array: nothing to do
-        if (is_array($source)) {
+        if (\is_array($source)) {
             return $source;
         }
 
@@ -93,18 +93,18 @@ abstract class Interpolation
      */
     public static function validate(array $points, int $degree = 2)
     {
-        if (count($points) < $degree) {
+        if (\count($points) < $degree) {
             throw new Exception\BadDataException('You need to have at least $degree sets of coordinates (arrays) for this technique');
         }
 
         $x_coordinates = [];
         foreach ($points as $point) {
-            if (count($point) !== 2) {
+            if (\count($point) !== 2) {
                 throw new Exception\BadDataException('Each array needs to have have precisely two numbers, an x- and y-component');
             }
 
             $x_component = $point[self::X];
-            if (in_array($x_component, $x_coordinates)) {
+            if (\in_array($x_component, $x_coordinates)) {
                 throw new Exception\BadDataException('Not a function. Your input array contains more than one coordinate with the same x-component.');
             }
             $x_coordinates[] = $x_component;
@@ -121,7 +121,7 @@ abstract class Interpolation
      */
     protected static function sort(array $points): array
     {
-        usort($points, function (array $a, array $b) {
+        \usort($points, function (array $a, array $b) {
             return $a[self::X] <=> $b[self::X];
         });
 

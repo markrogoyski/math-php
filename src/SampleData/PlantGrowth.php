@@ -58,7 +58,7 @@ class PlantGrowth
      */
     public function getData(): array
     {
-        return array_values(self::DATA);
+        return \array_values(self::DATA);
     }
 
     /**
@@ -69,9 +69,9 @@ class PlantGrowth
      */
     public function getLabeledData(): array
     {
-        return array_map(
+        return \array_map(
             function (array $data) {
-                return array_combine(self::LABELS, $data);
+                return \array_combine(self::LABELS, $data);
             },
             self::DATA
         );
@@ -84,7 +84,7 @@ class PlantGrowth
      */
     public function getWeight(): array
     {
-        return array_column(self::DATA, 0);
+        return \array_column(self::DATA, 0);
     }
 
     /**
@@ -94,6 +94,6 @@ class PlantGrowth
      */
     public function getGroup(): array
     {
-        return array_column(self::DATA, 0);
+        return \array_column(self::DATA, 0);
     }
 }

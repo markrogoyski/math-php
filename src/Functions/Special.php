@@ -68,20 +68,20 @@ class Special
             return \INF;
         }
         // Negative integer, or negative int as a float (Ex: from beta(-0.1, -0.9) since it will call Γ(x + y))
-        if ((abs($n - round($n)) < 0.00001) && $n < 0) {
+        if ((\abs($n - \round($n)) < 0.00001) && $n < 0) {
             return -\INF;
         }
         // Positive integer, or positive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
-        if ((abs($n - round($n)) < 0.00001) && $n > 0) {
-            return Combinatorics::factorial((int) round($n) - 1);
+        if ((\abs($n - \round($n)) < 0.00001) && $n > 0) {
+            return Combinatorics::factorial((int) \round($n) - 1);
         }
 
         // Half integer cases (determine if int + 0.5)
-        if ((round($n * 2) / 2 / $n) == 1) {
+        if ((\round($n * 2) / 2 / $n) == 1) {
             // Compute parts of equation
             $π     = \M_PI;
-            $x     = (int) round($n - 0.5, 0);
-            $√π    = sqrt($π);
+            $x     = (int) \round($n - 0.5, 0);
+            $√π    = \sqrt($π);
             if ($x == 0) {
                 return $√π;
             }
@@ -154,12 +154,12 @@ class Special
             return \INF;
         }
         // Negative integer, or negative int as a float
-        if ((abs($z - round($z)) < 0.00001) && $z < 0) {
+        if ((\abs($z - \round($z)) < 0.00001) && $z < 0) {
             return -\INF;
         }
         // Positive integer, or positive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
-        if ((abs($z - round($z)) < 0.00001) && $z > 0) {
-            return Combinatorics::factorial((int) round($z) - 1);
+        if ((\abs($z - \round($z)) < 0.00001) && $z > 0) {
+            return Combinatorics::factorial((int) \round($z) - 1);
         }
 
         // p coefficients: g = 7, n = 9
@@ -185,7 +185,7 @@ class Special
          */
         if ($z < 0.5) {
             $Γ⟮1 − z⟯ = self::gammaLanczos(1 - $z);
-            return $π / (sin($π * $z) * $Γ⟮1 − z⟯);
+            return $π / ( \sin($π * $z) * $Γ⟮1 − z⟯);
         }
 
         // Standard Lanczos formula when z ≥ 0.5
@@ -193,14 +193,14 @@ class Special
         // Compute A(z)
         $z--;
         $A⟮z⟯ = $p[0];
-        for ($i = 1; $i < count($p); $i++) {
+        for ($i = 1; $i < \count($p); $i++) {
             $A⟮z⟯ += $p[$i] / ($z + $i);
         }
 
         // Compute parts of equation
-        $√2π = sqrt(2 * $π);
-        $⟮z ＋ g ＋½⟯ᶻ⁺½ = pow($z + $g + 0.5, $z + 0.5);
-        $ℯ＾−⟮z ＋ g ＋½⟯ = exp(-($z + $g + 0.5));
+        $√2π = \sqrt(2 * $π);
+        $⟮z ＋ g ＋½⟯ᶻ⁺½ = \pow($z + $g + 0.5, $z + 0.5);
+        $ℯ＾−⟮z ＋ g ＋½⟯ = \exp(-($z + $g + 0.5));
 
         /**
          * Put it all together:
@@ -239,19 +239,19 @@ class Special
             return \INF;
         }
         // Negative integer, or negative int as a float
-        if ((abs($n - round($n)) < 0.00001) && $n < 0) {
+        if ((\abs($n - \round($n)) < 0.00001) && $n < 0) {
             return -\INF;
         }
         // Positive integer, or postive int as a float
-        if ((abs($n - round($n)) < 0.00001) && $n > 0) {
-            return Combinatorics::factorial((int) round($n) - 1);
+        if ((\abs($n - \round($n)) < 0.00001) && $n > 0) {
+            return Combinatorics::factorial((int) \round($n) - 1);
         }
 
         // Compute parts of equation
-        $√2π                    = sqrt(2 * \M_PI);
-        $ℯ⁻ⁿ                    = exp(-$n);
-        $√1／n                  = sqrt(1 / $n);
-        $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ = pow($n + 1 / (12 * $n - 1 / (10 * $n)), $n);
+        $√2π                    = \sqrt(2 * \M_PI);
+        $ℯ⁻ⁿ                    = \exp(-$n);
+        $√1／n                  = \sqrt(1 / $n);
+        $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ = \pow($n + 1 / (12 * $n - 1 / (10 * $n)), $n);
 
         /**
          * Put it all together:
@@ -333,7 +333,7 @@ class Special
             $∏Γ⟮α⟯ *= self::Γ($α);
         }
 
-        $Γ⟮∑α⟯ = self::Γ(array_sum($αs));
+        $Γ⟮∑α⟯ = self::Γ(\array_sum($αs));
 
         return $∏Γ⟮α⟯ / $Γ⟮∑α⟯;
     }
@@ -357,7 +357,7 @@ class Special
      */
     public static function logistic(float $x₀, float $L, float $k, float $x): float
     {
-        $ℯ⁻ᵏ⁽ˣ⁻ˣ⁰⁾ = exp(-$k * ($x - $x₀));
+        $ℯ⁻ᵏ⁽ˣ⁻ˣ⁰⁾ = \exp(-$k * ($x - $x₀));
 
         return $L / (1 + $ℯ⁻ᵏ⁽ˣ⁻ˣ⁰⁾);
     }
@@ -378,7 +378,7 @@ class Special
      */
     public static function sigmoid(float $t): float
     {
-        $ℯ⁻ᵗ = exp(-$t);
+        $ℯ⁻ᵗ = \exp(-$t);
 
         return 1 / (1 + $ℯ⁻ᵗ);
     }
@@ -409,7 +409,7 @@ class Special
         }
 
         $p  = 0.3275911;
-        $t  = 1 / ( 1 + $p * abs($x) );
+        $t  = 1 / ( 1 + $p * \abs($x) );
 
         $a₁ = 0.254829592;
         $a₂ = -0.284496736;
@@ -417,7 +417,7 @@ class Special
         $a₄ = -1.453152027;
         $a₅ = 1.061405429;
 
-        $error = 1 - ( $a₁ * $t + $a₂ * $t ** 2 + $a₃ * $t ** 3 + $a₄ * $t ** 4 + $a₅ * $t ** 5 ) * exp(-abs($x) ** 2);
+        $error = 1 - ( $a₁ * $t + $a₂ * $t ** 2 + $a₃ * $t ** 3 + $a₄ * $t ** 4 + $a₅ * $t ** 5 ) * \exp(-\abs($x) ** 2);
 
         return ( $x > 0 ) ? $error : -$error;
     }
@@ -508,26 +508,26 @@ class Special
 
 
         if ($s == 1) {
-            return 1 - exp(-1 * $x);
+            return 1 - \exp(-1 * $x);
         }
         if ($s == .5) {
-            $√π = sqrt(\M_PI);
-            $√x = sqrt($x);
+            $√π = \sqrt(\M_PI);
+            $√x = \sqrt($x);
             return $√π * self::erf($√x);
         }
-        if (round($s * 2, 0) == $s * 2) {
-            return ($s - 1) * self::lowerIncompleteGamma($s - 1, $x) - $x ** ($s - 1) * exp(-1 * $x);
+        if (\round($s * 2, 0) == $s * 2) {
+            return ($s - 1) * self::lowerIncompleteGamma($s - 1, $x) - $x ** ($s - 1) * \exp(-1 * $x);
         }
 
         $tol       = .000000000001;
-        $xˢ∕s∕eˣ   = $x ** $s / exp($x) / $s;
+        $xˢ∕s∕eˣ   = $x ** $s / \exp($x) / $s;
         $sum       = 1;
         $fractions = [];
         $element   = 1 + $tol;
 
         while ($element > $tol) {
             $fractions[] = $x / ++$s;
-            $element     = array_product($fractions);
+            $element     = \array_product($fractions);
             $sum        += $element;
         }
 
@@ -724,7 +724,7 @@ class Special
             do {
                 $I_new = self::iBetaCF($m, $x, $a, $b);
                 if ($m > 10) {
-                    $dif = abs(($I - $I_new) / $I_new);
+                    $dif = \abs(($I - $I_new) / $I_new);
                 }
                 $I = $I_new;
                 $m++;
@@ -778,14 +778,14 @@ class Special
      */
     public static function generalizedHypergeometric(int $p, int $q, float ...$params): float
     {
-        $n = count($params);
+        $n = \count($params);
         if ($n !== $p + $q + 1) {
             $expected_num_params = $p + $q + 1;
             throw new Exception\BadParameterException("Number of parameters is incorrect. Expected $expected_num_params; got $n");
         }
 
-        $a       = array_slice($params, 0, $p);
-        $b       = array_slice($params, $p, $q);
+        $a       = \array_slice($params, 0, $p);
+        $b       = \array_slice($params, $p, $q);
         $z       = $params[$n - 1];
         $tol     = .00000001;
         $n       = 1;
@@ -794,8 +794,8 @@ class Special
 
         do {
             $sum     += $product;
-            $a_sum    = array_product(Single::add($a, $n - 1));
-            $b_sum    = array_product(Single::add($b, $n - 1));
+            $a_sum    = \array_product(Single::add($a, $n - 1));
+            $b_sum    = \array_product(Single::add($b, $n - 1));
             $product *= $a_sum * $z / $b_sum / $n;
             $n++;
         } while ($product / $sum > $tol);
@@ -852,8 +852,8 @@ class Special
      */
     public static function hypergeometric(float $a, float $b, float $c, float $z): float
     {
-        if (abs($z) >= 1) {
-             throw new Exception\OutOfBoundsException('|z| must be < 1. |z| = ' . abs($z));
+        if (\abs($z) >= 1) {
+             throw new Exception\OutOfBoundsException('|z| must be < 1. |z| = ' . \abs($z));
         }
 
         return self::generalizedHypergeometric(2, 1, $a, $b, $c, $z);
@@ -880,14 +880,14 @@ class Special
     {
         $ℯ = \M_E;
 
-        $∑ᴷℯᶻᵢ = array_sum(array_map(
+        $∑ᴷℯᶻᵢ = \array_sum(\array_map(
             function ($z) use ($ℯ) {
                 return $ℯ ** $z;
             },
             $𝐳
         ));
 
-        $σ⟮𝐳⟯ⱼ = array_map(
+        $σ⟮𝐳⟯ⱼ = \array_map(
             function ($z) use ($ℯ, $∑ᴷℯᶻᵢ) {
                 return ($ℯ ** $z) / $∑ᴷℯᶻᵢ;
             },

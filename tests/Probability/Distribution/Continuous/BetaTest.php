@@ -867,7 +867,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $median = $beta->median();
 
         // Then
-        $ε = abs($expected - $median);
+        $ε = \abs($expected - $median);
         $η = $ε / $expected;
         $this->assertLessThan($expectedError, $η);
     }
@@ -1078,16 +1078,16 @@ class BetaTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(1, 10) as $α) {
-            foreach (range(1, 10) as $β) {
+        foreach (\range(1, 10) as $α) {
+            foreach (\range(1, 10) as $β) {
                 // Given
                 $beta = new Beta($α, $β);
-                foreach (range(1, 3) as $_) {
+                foreach (\range(1, 3) as $_) {
                     // When
                     $random = $beta->rand();
 
                     // Then
-                    $this->assertTrue(is_numeric($random));
+                    $this->assertTrue(\is_numeric($random));
                 }
             }
         }

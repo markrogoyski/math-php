@@ -73,7 +73,7 @@ class Pareto extends Continuous
         }
 
         $abᵃ  = $a * $b ** $a;
-        $xᵃ⁺¹ = pow($x, $a + 1);
+        $xᵃ⁺¹ = \pow($x, $a + 1);
         return $abᵃ / $xᵃ⁺¹;
     }
     /**
@@ -98,7 +98,7 @@ class Pareto extends Continuous
         if ($x < $b) {
             return 0;
         }
-        return 1 - pow($b / $x, $a);
+        return 1 - \pow($b / $x, $a);
     }
 
     /**
@@ -144,7 +144,7 @@ class Pareto extends Continuous
         $b = $this->b;
 
         if ($a <= 1) {
-            return INF;
+            return \INF;
         }
 
         return $a * $b / ($a - 1);

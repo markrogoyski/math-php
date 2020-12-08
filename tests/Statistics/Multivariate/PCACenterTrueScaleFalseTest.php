@@ -100,7 +100,7 @@ class PCACenterTrueScaleFalseTest extends \PHPUnit\Framework\TestCase
         $quotiant = Multi::divide($expected[1], $load_array[1]);
 
         // Convert to exactly one or negative one. Cannot be zero.
-        $signum = array_map(
+        $signum = \array_map(
             function ($x) {
                 return $x <=> 0;
             },
@@ -173,7 +173,7 @@ class PCACenterTrueScaleFalseTest extends \PHPUnit\Framework\TestCase
         $quotiant = Multi::divide($expected[1], $score_array[1]);
 
         // Convert to exactly one or negative one. Cannot be zero.
-        $signum = array_map(
+        $signum = \array_map(
             function ($x) {
                 return $x <=> 0;
             },

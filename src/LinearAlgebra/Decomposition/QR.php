@@ -76,7 +76,7 @@ class QR extends Decomposition
         $m  = $A->getM();  // rows
         $HA = $A;
 
-        $numReflections = min($m - 1, $n);
+        $numReflections = \min($m - 1, $n);
         $FullI          = MatrixFactory::identity($m);
         $Q              = $FullI;
 
@@ -95,8 +95,8 @@ class QR extends Decomposition
 
         $R = $HA;
         return new QR(
-            $Q->submatrix(0, 0, $m - 1, min($m, $n) - 1),
-            $R->submatrix(0, 0, min($m, $n) - 1, $n - 1)
+            $Q->submatrix(0, 0, $m - 1, \min($m, $n) - 1),
+            $R->submatrix(0, 0, \min($m, $n) - 1, $n - 1)
         );
     }
 
@@ -129,10 +129,10 @@ class QR extends Decomposition
     public function solve($b): Vector
     {
         // Input must be a Vector or array.
-        if (!($b instanceof Vector || is_array($b))) {
+        if (!($b instanceof Vector || \is_array($b))) {
             throw new Exception\IncorrectTypeException('b in Ax = b must be a Vector or array');
         }
-        if (is_array($b)) {
+        if (\is_array($b)) {
             $b = new Vector($b);
         }
 

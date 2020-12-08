@@ -1218,10 +1218,10 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($perfect_power);
 
         // And
-        $m = array_shift($perfect_power);
-        $k = array_shift($perfect_power);
-        $this->assertTrue(is_numeric($m));
-        $this->assertTrue(is_numeric($k));
+        $m = \array_shift($perfect_power);
+        $k = \array_shift($perfect_power);
+        $this->assertTrue(\is_numeric($m));
+        $this->assertTrue(\is_numeric($k));
         $this->assertGreaterThan(1, $m);
         $this->assertGreaterThan(1, $k);
     }
@@ -1556,7 +1556,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function dataProviderForOddNumbers(): \Generator
     {
-        foreach (range(-11, 101, 2) as $x) {
+        foreach (\range(-11, 101, 2) as $x) {
             yield [$x];
         }
     }
@@ -1566,7 +1566,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function dataProviderForEvenNumbers(): \Generator
     {
-        foreach (range(-10, 100, 2) as $x) {
+        foreach (\range(-10, 100, 2) as $x) {
             yield [$x];
         }
     }

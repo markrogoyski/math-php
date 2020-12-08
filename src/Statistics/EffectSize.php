@@ -153,7 +153,7 @@ class EffectSize
 
         $½ = 0.5;
 
-        return abs(($½ * log((1 + $r₁) / (1 - $r₁))) - ($½ * log((1 + $r₂) / (1 - $r₂))));
+        return \abs(($½ * \log((1 + $r₁) / (1 - $r₁))) - ($½ * \log((1 + $r₂) / (1 - $r₂))));
     }
 
     /**
@@ -194,7 +194,7 @@ class EffectSize
         $s₂² = $s₂ * $s₂;
 
         // Pooled standard deviation
-        $s = sqrt(($s₁² + $s₂²) / 2);
+        $s = \sqrt(($s₁² + $s₂²) / 2);
 
         // d
         return ($μ₁ - $μ₂) / $s;
@@ -250,7 +250,7 @@ class EffectSize
         // Pooled standard deviation
         $⟮n₁ − 1⟯s₁² ＋ ⟮n₂ − 1⟯s₂²   = (($n₁ - 1) * $s₁²) + (($n₂ - 1) * $s₂²);
         $⟮n₁ ＋ n₂ − 2⟯              = $n₁ + $n₂ - 2;
-        $s＊                        = sqrt($⟮n₁ − 1⟯s₁² ＋ ⟮n₂ − 1⟯s₂² / $⟮n₁ ＋ n₂ − 2⟯);
+        $s＊                        = \sqrt($⟮n₁ − 1⟯s₁² ＋ ⟮n₂ − 1⟯s₂² / $⟮n₁ ＋ n₂ − 2⟯);
 
         // g
         $g = ($μ₁ - $μ₂) / $s＊;

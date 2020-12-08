@@ -145,7 +145,7 @@ trait LeastSquares
      */
     public function createDesignMatrix($xs): Matrix
     {
-        if (is_int($xs) || is_float($xs)) {
+        if (\is_int($xs) || \is_float($xs)) {
             $xs = [$xs];
         }
 
@@ -216,7 +216,7 @@ trait LeastSquares
         if ($this->fit_constant == 1) {
             return RandomVariable::sumOfSquaresDeviations($this->yHat());
         }
-        return array_sum(Single::square($this->reg_Yhat));
+        return \array_sum(Single::square($this->reg_Yhat));
     }
 
     /**
@@ -238,7 +238,7 @@ trait LeastSquares
     public function sumOfSquaresResidual(): float
     {
         $Ŷ = $this->reg_Yhat;
-        return array_sum(array_map(
+        return \array_sum(\array_map(
             function ($yᵢ, $ŷᵢ) {
                 return ($yᵢ - $ŷᵢ) ** 2;
             },
@@ -338,7 +338,7 @@ trait LeastSquares
      */
     public function errorSd(): float
     {
-        return sqrt($this->meanSquareResidual());
+        return \sqrt($this->meanSquareResidual());
     }
 
     /**
@@ -445,7 +445,7 @@ trait LeastSquares
         $mse = $this->meanSquareResidual();
         $p   = $this->p + $this->fit_constant;
 
-        return array_map(
+        return \array_map(
             function ($eᵢ, $hᵢ) use ($mse, $p) {
                 return ($eᵢ ** 2 / $mse / $p) * ($hᵢ / (1 - $hᵢ) ** 2);
             },
@@ -507,7 +507,7 @@ trait LeastSquares
         $MSₑ = $this->meanSquareResidual();
 
         // Mean square residuals with the the i-th observation removed
-        $MSₑ₍ᵢ₎ = array_map(
+        $MSₑ₍ᵢ₎ = \array_map(
             function ($eᵢ, $hᵢ) use ($MSₑ, $ν) {
                 return ($MSₑ - ($eᵢ ** 2 / ((1 - $hᵢ) * $ν))) * ($ν / ($ν - 1));
             },
@@ -516,18 +516,18 @@ trait LeastSquares
         );
 
         // Studentized residual with the i-th observation removed
-        $s = array_map(
+        $s = \array_map(
             function ($eᵢ, $mseᵢ, $hᵢ) {
-                return $eᵢ / sqrt($mseᵢ * (1 - $hᵢ));
+                return $eᵢ / \sqrt($mseᵢ * (1 - $hᵢ));
             },
             $e,
             $MSₑ₍ᵢ₎,
             $h
         );
 
-        $DFFITS = array_map(
+        $DFFITS = \array_map(
             function ($s₍ᵢ₎, $hᵢ) {
-                return $s₍ᵢ₎ * sqrt($hᵢ / (1 - $hᵢ));
+                return $s₍ᵢ₎ * \sqrt($hᵢ / (1 - $hᵢ));
             },
             $s,
             $h
@@ -552,7 +552,7 @@ trait LeastSquares
      */
     public function correlationCoefficient(): float
     {
-        return sqrt($this->coefficientOfDetermination());
+        return \sqrt($this->coefficientOfDetermination());
     }
 
     /**
@@ -729,7 +729,7 @@ trait LeastSquares
         $studentT = new StudentT($this->ν);
         $t = $studentT->inverse2Tails($p);
 
-        return $t * sqrt($σ² * $V);
+        return $t * \sqrt($σ² * $V);
     }
 
     /**
@@ -768,6 +768,6 @@ trait LeastSquares
         $studentT = new StudentT($this->ν);
         $t = $studentT->inverse2Tails($p);
 
-        return $t * sqrt($σ² * $V);
+        return $t * \sqrt($σ² * $V);
     }
 }

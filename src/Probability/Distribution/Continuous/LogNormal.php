@@ -66,11 +66,11 @@ class LogNormal extends Continuous
         $σ = $this->σ;
         $π = \M_PI;
 
-        $xσ√2π      = $x * $σ * sqrt(2 * $π);
-        $⟮ln x − μ⟯² = pow(log($x) - $μ, 2);
+        $xσ√2π      = $x * $σ * \sqrt(2 * $π);
+        $⟮ln x − μ⟯² = \pow(\log($x) - $μ, 2);
         $σ²         = $σ ** 2;
 
-        return (1 / $xσ√2π) * exp(-($⟮ln x − μ⟯² / (2 * $σ²)));
+        return (1 / $xσ√2π) * \exp(-($⟮ln x − μ⟯² / (2 * $σ²)));
     }
     /**
      * Log normal distribution - cumulative distribution function
@@ -92,8 +92,8 @@ class LogNormal extends Continuous
         $μ = $this->μ;
         $σ = $this->σ;
 
-        $⟮ln x − μ⟯ = log($x) - $μ;
-        $√2σ       = sqrt(2) * $σ;
+        $⟮ln x − μ⟯ = \log($x) - $μ;
+        $√2σ       = \sqrt(2) * $σ;
 
         return 1 / 2 + 1 / 2 * Special::erf($⟮ln x − μ⟯ / $√2σ);
     }
@@ -120,7 +120,7 @@ class LogNormal extends Continuous
         $σ = $this->σ;
         $standard_normal = new StandardNormal();
 
-        return exp($μ + $σ * $standard_normal->inverse($p));
+        return \exp($μ + $σ * $standard_normal->inverse($p));
     }
 
     /**
@@ -135,7 +135,7 @@ class LogNormal extends Continuous
         $μ = $this->μ;
         $σ = $this->σ;
 
-        return exp($μ + ($σ ** 2 / 2));
+        return \exp($μ + ($σ ** 2 / 2));
     }
 
     /**
@@ -147,7 +147,7 @@ class LogNormal extends Continuous
      */
     public function median(): float
     {
-        return exp($this->μ);
+        return \exp($this->μ);
     }
 
     /**
@@ -159,7 +159,7 @@ class LogNormal extends Continuous
      */
     public function mode(): float
     {
-        return exp($this->μ - $this->σ ** 2);
+        return \exp($this->μ - $this->σ ** 2);
     }
 
     /**
@@ -177,6 +177,6 @@ class LogNormal extends Continuous
         $σ²  = $σ ** 2;
         $２μ = 2 * $μ;
 
-        return (exp($σ²) - 1) * exp($２μ + $σ²);
+        return (\exp($σ²) - 1) * \exp($２μ + $σ²);
     }
 }

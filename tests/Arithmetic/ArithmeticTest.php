@@ -529,8 +529,8 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     public function testModuloPositiveDividendAndDivisorIsSameAsBuiltInRemainderOperator()
     {
         // Given
-        foreach (range(0, 20) as $a) {
-            foreach (range(1, 20) as $n) {
+        foreach (\range(0, 20) as $a) {
+            foreach (\range(1, 20) as $n) {
                 // When
                 $remainder = $a % $n;
                 $modulo    = Arithmetic::modulo($a, $n);

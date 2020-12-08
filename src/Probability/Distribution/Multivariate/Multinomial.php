@@ -25,7 +25,7 @@ class Multinomial
     public function __construct(array $probabilities)
     {
         // Probabilities must add up to 1
-        if (round(array_sum($probabilities), 1) != 1) {
+        if (\round(\array_sum($probabilities), 1) != 1) {
             throw new Exception\BadDataException('Probabilities do not add up to 1.');
         }
 
@@ -50,25 +50,25 @@ class Multinomial
     public function pmf(array $frequencies): float
     {
         // Must have a probability for each frequency
-        if (count($frequencies) !== count($this->probabilities)) {
+        if (\count($frequencies) !== \count($this->probabilities)) {
             throw new Exception\BadDataException('Number of frequencies does not match number of probabilities.');
         }
         foreach ($frequencies as $frequency) {
-            if (!is_int($frequency)) {
+            if (!\is_int($frequency)) {
                 throw new Exception\BadDataException("Frequencies must be integers. $frequency is not an int.");
             }
         }
 
         /** @var int $n */
-        $n   = array_sum($frequencies);
+        $n   = \array_sum($frequencies);
         $n！ = Combinatorics::factorial($n);
 
-        $x₁！⋯xk！ = array_product(array_map(
+        $x₁！⋯xk！ = \array_product(\array_map(
             'MathPHP\Probability\Combinatorics::factorial',
             $frequencies
         ));
 
-        $p₁ˣ¹⋯pkˣᵏ = array_product(array_map(
+        $p₁ˣ¹⋯pkˣᵏ = \array_product(\array_map(
             function ($x, $p) {
                 return $p ** $x;
             },

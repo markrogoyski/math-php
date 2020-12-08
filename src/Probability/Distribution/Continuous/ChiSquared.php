@@ -63,7 +63,7 @@ class ChiSquared extends Continuous
 
         // Numerator
         $x⁽ᵏ／²⁾⁻¹ = $x ** (($k / 2) - 1);
-        $ℯ⁻⁽ˣ／²⁾  = exp(-($x / 2));
+        $ℯ⁻⁽ˣ／²⁾  = \exp(-($x / 2));
 
         // Denominator
         $２ᵏ／²  = 2 ** ($k / 2);
@@ -136,13 +136,13 @@ class ChiSquared extends Continuous
     /**
      * Mode of the distribution
      *
-     * max(k - 2, 0)
+     * \max(k - 2, 0)
      *
      * @return float
      */
     public function mode(): float
     {
-        return max($this->k - 2, 0);
+        return \max($this->k - 2, 0);
     }
 
     /**

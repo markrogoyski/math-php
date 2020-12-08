@@ -116,10 +116,10 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
 
         // Tricube
         $kernel = function ($x) {
-            if (abs($x) > 1) {
+            if (\abs($x) > 1) {
                 return 0;
             } else {
-                return 70 / 81 * ((1 - abs($x) ** 3) ** 3);
+                return 70 / 81 * ((1 - \abs($x) ** 3) ** 3);
             }
         };
 

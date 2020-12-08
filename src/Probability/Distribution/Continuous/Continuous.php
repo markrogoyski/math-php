@@ -21,7 +21,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
     public function inverse(float $target)
     {
         $initial = $this->mean();
-        if (is_nan($initial)) {
+        if (\is_nan($initial)) {
             $initial = $this->median();
         }
 
@@ -43,16 +43,16 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
                 ? $guess_history["$guess"] + 1
                 : 0;
             if ($guess_history["$guess"] > self::GUESS_THRESHOLD) {
-                $repeated_guesses = array_filter(
+                $repeated_guesses = \array_filter(
                     $guess_history,
                     function ($repeated_guess) {
                         return $repeated_guess > self::GUESS_ALLOWANCE;
                     }
                 );
-                return array_sum(array_keys($repeated_guesses)) / count($repeated_guesses);
+                return \array_sum(\array_keys($repeated_guesses)) / \count($repeated_guesses);
             }
 
-            $dif = abs($del_y);
+            $dif = \abs($del_y);
         }
         return $guess;
     }
@@ -115,7 +115,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      */
     public function rand()
     {
-        return $this->inverse(random_int(0, \PHP_INT_MAX) / \PHP_INT_MAX);
+        return $this->inverse(\random_int(0, \PHP_INT_MAX) / \PHP_INT_MAX);
     }
 
     abstract public function median();

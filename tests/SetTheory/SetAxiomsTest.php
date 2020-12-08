@@ -725,7 +725,7 @@ class SetAxiomsTest extends \PHPUnit\Framework\TestCase
         $n   = count($A);
 
         // Then
-        $this->assertEquals(pow(2, $n), count($P⟮S⟯));
-        $this->assertEquals(pow(2, $n), count($P⟮S⟯->asArray()));
+        $this->assertEquals(\pow(2, $n), count($P⟮S⟯));
+        $this->assertEquals(\pow(2, $n), count($P⟮S⟯->asArray()));
     }
 }

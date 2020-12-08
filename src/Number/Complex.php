@@ -65,7 +65,7 @@ class Complex implements ObjectArithmetic
         } elseif ($this->i > 0) {
             return "$this->r" . ' + ' . "$this->i" . 'i';
         } else {
-            return "$this->r" . ' - ' . (string) abs($this->i) . 'i';
+            return "$this->r" . ' - ' . (string) \abs($this->i) . 'i';
         }
     }
 
@@ -118,7 +118,7 @@ class Complex implements ObjectArithmetic
      */
     public function abs()
     {
-        return sqrt($this->r ** 2 + $this->i ** 2);
+        return \sqrt($this->r ** 2 + $this->i ** 2);
     }
 
     /**
@@ -133,7 +133,7 @@ class Complex implements ObjectArithmetic
      */
     public function arg()
     {
-        return atan2($this->i, $this->r);
+        return \atan2($this->i, $this->r);
     }
 
     /**
@@ -187,8 +187,8 @@ class Complex implements ObjectArithmetic
     public function roots(): array
     {
         $sgn = Special::sgn($this->i) >= 0 ? 1 : -1;
-        $γ   = sqrt(($this->r + $this->abs()) / 2);
-        $δ   = $sgn * sqrt((-$this->r + $this->abs()) / 2);
+        $γ   = \sqrt(($this->r + $this->abs()) / 2);
+        $δ   = $sgn * \sqrt((-$this->r + $this->abs()) / 2);
 
         $z₁ = new Complex($γ, $δ);
         $z₂ = new Complex(-$γ, -$δ);
@@ -229,7 +229,7 @@ class Complex implements ObjectArithmetic
      * Polar form
      * https://en.wikipedia.org/wiki/Complex_number#Polar_form
      *
-     * z = a + bi = r(cos(θ) + i sin(θ))
+     * z = a + bi = r(cos(θ) + i  sin(θ))
      * Where
      *  r = |z|
      *  θ = arg(z) (in radians)
@@ -241,7 +241,7 @@ class Complex implements ObjectArithmetic
         $r = $this->abs();
         $θ = $this->arg();
 
-        return new Complex($r * cos($θ), $r * sin($θ));
+        return new Complex($r * \cos($θ), $r * \sin($θ));
     }
 
     /**************************************************************************
@@ -262,7 +262,7 @@ class Complex implements ObjectArithmetic
      */
     public function add($c): Complex
     {
-        if (is_numeric($c)) {
+        if (\is_numeric($c)) {
             $r = $this->r + $c;
             $i = $this->i;
         } elseif ($c instanceof Complex) {
@@ -289,7 +289,7 @@ class Complex implements ObjectArithmetic
      */
     public function subtract($c): Complex
     {
-        if (is_numeric($c)) {
+        if (\is_numeric($c)) {
             $r = $this->r - $c;
             $i = $this->i;
         } elseif ($c instanceof Complex) {
@@ -316,7 +316,7 @@ class Complex implements ObjectArithmetic
      */
     public function multiply($c): Complex
     {
-        if (is_numeric($c)) {
+        if (\is_numeric($c)) {
             $r = $c * $this->r;
             $i = $c * $this->i;
         } elseif ($c instanceof Complex) {
@@ -342,7 +342,7 @@ class Complex implements ObjectArithmetic
      */
     public function divide($c): Complex
     {
-        if (is_numeric($c)) {
+        if (\is_numeric($c)) {
             $r = $this->r / $c;
             $i = $this->i / $c;
             return new Complex($r, $i);
@@ -369,6 +369,6 @@ class Complex implements ObjectArithmetic
      */
     public function equals(Complex $c): bool
     {
-        return abs($this->r - $c->r) < self::EPSILON && abs($this->i - $c->i) < self::EPSILON;
+        return \abs($this->r - $c->r) < self::EPSILON && \abs($this->i - $c->i) < self::EPSILON;
     }
 }

@@ -71,7 +71,7 @@ class StudentT extends Continuous
         $−⟮ν＋1⟯∕2 = -($ν + 1) / 2;
 
         // Denominator
-        $√⟮νπ⟯  = sqrt($ν * $π);
+        $√⟮νπ⟯  = \sqrt($ν * $π);
         $Γ⟮ν∕2⟯ = Special::gamma($ν / 2);
 
         return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋t²∕ν⟯ ** $−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);

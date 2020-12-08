@@ -72,20 +72,20 @@ class Correlation
      */
     public static function populationCovariance(array $X, array $Y): float
     {
-        if (count($X) !== count($Y)) {
+        if (\count($X) !== \count($Y)) {
             throw new Exception\BadDataException('X and Y must have the same number of elements.');
         }
         $μₓ = Average::mean($X);
         $μy = Average::mean($Y);
 
-        $∑⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ = array_sum(array_map(
+        $∑⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ = \array_sum(\array_map(
             function ($xᵢ, $yᵢ) use ($μₓ, $μy) {
                 return ( $xᵢ - $μₓ ) * ( $yᵢ - $μy );
             },
             $X,
             $Y
         ));
-        $N = count($X);
+        $N = \count($X);
 
         return $∑⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ / $N;
     }
@@ -112,20 +112,20 @@ class Correlation
      */
     public static function sampleCovariance(array $X, array $Y): float
     {
-        if (count($X) !== count($Y)) {
+        if (\count($X) !== \count($Y)) {
             throw new Exception\BadDataException('X and Y must have the same number of elements.');
         }
         $x = Average::mean($X);
         $y = Average::mean($Y);
 
-        $∑⟮xᵢ − x⟯⟮yᵢ − y⟯ = array_sum(array_map(
+        $∑⟮xᵢ − x⟯⟮yᵢ − y⟯ = \array_sum(\array_map(
             function ($xᵢ, $yᵢ) use ($x, $y) {
                 return ( $xᵢ - $x ) * ( $yᵢ - $y );
             },
             $X,
             $Y
         ));
-        $n = count($X);
+        $n = \count($X);
 
         return $∑⟮xᵢ − x⟯⟮yᵢ − y⟯ / ($n - 1);
     }
@@ -149,14 +149,14 @@ class Correlation
      */
     public static function weightedCovariance(array $X, array $Y, array $w): float
     {
-        if (count($X) !== count($Y) || count($X) !== count($w)) {
+        if (\count($X) !== \count($Y) || \count($X) !== \count($w)) {
             throw new Exception\BadDataException('X, Y and w must have the same number of elements.');
         }
 
         $μₓ = Average::weightedMean($X, $w);
         $μy = Average::weightedMean($Y, $w);
 
-        $∑wᵢ⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ = array_sum(array_map(
+        $∑wᵢ⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ = \array_sum(\array_map(
             function ($xᵢ, $yᵢ, $wᵢ) use ($μₓ, $μy) {
                 return $wᵢ * ( $xᵢ - $μₓ ) * ( $yᵢ - $μy );
             },
@@ -165,7 +165,7 @@ class Correlation
             $w
         ));
 
-        $∑wᵢ = array_sum($w);
+        $∑wᵢ = \array_sum($w);
 
         return $∑wᵢ⟮xᵢ − μₓ⟯⟮yᵢ − μy⟯ / $∑wᵢ;
     }
@@ -285,7 +285,7 @@ class Correlation
      */
     public static function r2(array $X, array $Y, bool $popluation = false): float
     {
-        return pow(self::r($X, $Y, $popluation), 2);
+        return \pow(self::r($X, $Y, $popluation), 2);
     }
 
     /**
@@ -307,7 +307,7 @@ class Correlation
      */
     public static function coefficientOfDetermination(array $X, array $Y, bool $popluation = false): float
     {
-        return pow(self::r($X, $Y, $popluation), 2);
+        return \pow(self::r($X, $Y, $popluation), 2);
     }
 
     /**
@@ -345,7 +345,7 @@ class Correlation
         $sxw         = Descriptive::weightedSampleVariance($X, $w, true);
         $syw         = Descriptive::weightedSampleVariance($Y, $w, true);
 
-        return $cov⟮X，Y，w⟯ / sqrt($sxw * $syw);
+        return $cov⟮X，Y，w⟯ / \sqrt($sxw * $syw);
     }
 
     /**
@@ -389,21 +389,21 @@ class Correlation
      */
     public static function kendallsTau(array $X, array $Y): float
     {
-        if (count($X) !== count($Y)) {
+        if (\count($X) !== \count($Y)) {
             throw new Exception\BadDataException('Both random variables must have the same number of elements');
         }
 
-        $n = count($X);
+        $n = \count($X);
 
         // Match X and Y pairs and sort by X rank
-        $xy = array_map(
+        $xy = \array_map(
             function ($x, $y) {
                 return [$x, $y];
             },
             $X,
             $Y
         );
-        usort($xy, function ($a, $b) {
+        \usort($xy, function ($a, $b) {
             return $a[0] <=> $b[0];
         });
 
@@ -455,7 +455,7 @@ class Correlation
          *   τ = -----------------------------
          *       √(nc + nd + X₀)(nc + nd + Y₀)
          */
-        return $⟮nc − nd⟯ / sqrt(($nc + $nd + $ties_x) * ($nc + $nd + $ties_y));
+        return $⟮nc − nd⟯ / \sqrt(($nc + $nd + $ties_x) * ($nc + $nd + $ties_y));
     }
 
     /**
@@ -481,7 +481,7 @@ class Correlation
      */
     public static function spearmansRho(array $X, array $Y): float
     {
-        if (count($X) !== count($Y)) {
+        if (\count($X) !== \count($Y)) {
             throw new Exception\BadDataException('Both random variables for spearmansRho must have the same number of elements');
         }
 
@@ -558,12 +558,12 @@ class Correlation
         $eigenvalues = Eigenvalue::closedFormPolynomialRootMethod($cov);
 
         // Sort the eigenvalues from highest to lowest
-        rsort($eigenvalues);
+        \rsort($eigenvalues);
         $V = Eigenvector::eigenvectors($cov, $eigenvalues);
 
         // Make ia diagonal matrix of the eigenvalues
         $D = MatrixFactory::diagonal($eigenvalues);
-        $D = $D->map('sqrt');
+        $D = $D->map('\sqrt');
         $transformation_matrix = $V->multiply($D);
 
         $x_bar = Average::mean($X);

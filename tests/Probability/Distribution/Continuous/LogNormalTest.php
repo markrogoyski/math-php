@@ -308,8 +308,8 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(-3, 3) as $μ) {
-            foreach (range(1, 3) as $σ) {
+        foreach (\range(-3, 3) as $μ) {
+            foreach (\range(1, 3) as $σ) {
                 // Given
                 $log_normal = new LogNormal($μ, $σ);
 
@@ -317,7 +317,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
                 $random = $log_normal->rand();
 
                 // Then
-                $this->assertTrue(is_numeric($random));
+                $this->assertTrue(\is_numeric($random));
             }
         }
     }

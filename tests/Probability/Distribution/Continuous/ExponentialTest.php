@@ -370,8 +370,8 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(1, 4) as $λ) {
-            foreach (range(1, 20) as $_) {
+        foreach (\range(1, 4) as $λ) {
+            foreach (\range(1, 20) as $_) {
                 // Given
                 $exponential = new Exponential($λ);
 
@@ -379,7 +379,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
                 $random = $exponential->rand();
 
                 // Then
-                $this->assertTrue(is_numeric($random));
+                $this->assertTrue(\is_numeric($random));
             }
         }
     }

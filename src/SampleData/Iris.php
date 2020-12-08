@@ -180,7 +180,7 @@ class Iris
      */
     public function getData(): array
     {
-        return array_values(self::DATA);
+        return \array_values(self::DATA);
     }
 
     /**
@@ -191,9 +191,9 @@ class Iris
      */
     public function getLabeledData(): array
     {
-        return array_map(
+        return \array_map(
             function (array $data) {
-                return array_combine(self::LABELS, $data);
+                return \array_combine(self::LABELS, $data);
             },
             self::DATA
         );
@@ -206,7 +206,7 @@ class Iris
      */
     public function getSepalLength(): array
     {
-        return array_column(self::DATA, 0);
+        return \array_column(self::DATA, 0);
     }
 
     /**
@@ -216,7 +216,7 @@ class Iris
      */
     public function getSepalWidth(): array
     {
-        return array_column(self::DATA, 1);
+        return \array_column(self::DATA, 1);
     }
 
     /**
@@ -226,7 +226,7 @@ class Iris
      */
     public function getPetalLength(): array
     {
-        return array_column(self::DATA, 2);
+        return \array_column(self::DATA, 2);
     }
 
     /**
@@ -236,7 +236,7 @@ class Iris
      */
     public function getPetalWidth(): array
     {
-        return array_column(self::DATA, 3);
+        return \array_column(self::DATA, 3);
     }
 
     /**
@@ -246,6 +246,6 @@ class Iris
      */
     public function getSpecies(): array
     {
-        return array_column(self::DATA, 4);
+        return \array_column(self::DATA, 4);
     }
 }

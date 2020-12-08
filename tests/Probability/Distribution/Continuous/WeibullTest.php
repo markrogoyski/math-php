@@ -328,16 +328,16 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(1, 10) as $k) {
-            foreach (range(1, 10) as $λ) {
+        foreach (\range(1, 10) as $k) {
+            foreach (\range(1, 10) as $λ) {
                 // Given
                 $weibull = new Weibull($k, $λ);
-                foreach (range(1, 3) as $_) {
+                foreach (\range(1, 3) as $_) {
                     // When
                     $random = $weibull->rand();
 
                     // Then
-                    $this->assertTrue(is_numeric($random));
+                    $this->assertTrue(\is_numeric($random));
                 }
             }
         }

@@ -60,7 +60,7 @@ class LagrangePolynomial extends Interpolation
         $y = self::Y;
 
         // Initialize
-        $n   = count($sorted);
+        $n   = \count($sorted);
         $p⟮t⟯ = new Polynomial([0]);
 
         /*         n      n

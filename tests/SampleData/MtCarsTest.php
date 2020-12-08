@@ -64,7 +64,7 @@ class MtCarsTest extends \PHPUnit\Framework\TestCase
         // When
         foreach ($sampleOfModelNames as $model) {
             // Then
-            $this->assertTrue(in_array($model, $models));
+            $this->assertTrue(\in_array($model, $models));
         }
     }
 

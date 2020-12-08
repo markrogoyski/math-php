@@ -749,17 +749,17 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $stats = Correlation::describe($X, $Y);
 
         // Then
-        $this->assertTrue(is_array($stats));
+        $this->assertTrue(\is_array($stats));
         $this->assertArrayHasKey('cov', $stats);
         $this->assertArrayHasKey('r', $stats);
         $this->assertArrayHasKey('r2', $stats);
         $this->assertArrayHasKey('tau', $stats);
         $this->assertArrayHasKey('rho', $stats);
-        $this->assertTrue(is_numeric($stats['cov']));
-        $this->assertTrue(is_numeric($stats['r']));
-        $this->assertTrue(is_numeric($stats['r2']));
-        $this->assertTrue(is_numeric($stats['tau']));
-        $this->assertTrue(is_numeric($stats['rho']));
+        $this->assertTrue(\is_numeric($stats['cov']));
+        $this->assertTrue(\is_numeric($stats['r']));
+        $this->assertTrue(\is_numeric($stats['r2']));
+        $this->assertTrue(\is_numeric($stats['tau']));
+        $this->assertTrue(\is_numeric($stats['rho']));
     }
 
     /**
@@ -773,7 +773,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     public function testEllipse(array $data, float $sd, array $results)
     {
         // When
-        $calc = Correlation::confidenceEllipse(array_column($data, 0), array_column($data, 1), $sd);
+        $calc = Correlation::confidenceEllipse(\array_column($data, 0), \array_column($data, 1), $sd);
 
         // Then
         $this->assertEquals($results, $calc, '', 0.0001);
