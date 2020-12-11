@@ -9,7 +9,7 @@ lint :
 	vendor/bin/parallel-lint src tests
 
 style :
-	vendor/bin/phpcs --standard=coding_standard.xml --ignore=vendor -s .
+	vendor/bin/phpcs --standard=tests/coding_standard.xml --ignore=vendor -s .
 
 phpstan :
 	vendor/bin/phpstan analyze --level max src/
