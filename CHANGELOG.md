@@ -1,5 +1,12 @@
 # MathPHP Change Log
 
+## v1.8.0 - 2020-12-11
+
+### Improvements
+* Improve permutations algorithm to be more efficient and more numerically stable
+* Qualify PHP function names with root namespace
+* Move CI to Github Actions
+
 ## v1.7.0 - 2020-11-15
 
 ### New Features
