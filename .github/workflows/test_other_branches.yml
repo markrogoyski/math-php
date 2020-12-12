@@ -31,6 +31,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: PHP Version Check
+        run: php -v
+
       - name: Validate Composer JSON
         run: composer validate
 
@@ -43,6 +46,7 @@ jobs:
       - name: Unit tests
         run: |
           mkdir -p build/logs
+          ./vendor/bin/phpunit --version
           ./vendor/bin/phpunit --configuration tests/phpunit.xml --coverage-clover build/logs/clover.xml
 
       - name: PHP Code Sniffer
