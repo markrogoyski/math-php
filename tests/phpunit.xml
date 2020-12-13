@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="bootstrap.php" colors="true">
+  <php>
+    <ini name="memory_limit" value="512M" />
+  </php>
   <testsuites>
     <testsuite name="Algebra">
       <directory suffix="Test.php">Algebra</directory>
