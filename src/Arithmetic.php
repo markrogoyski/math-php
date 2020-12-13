@@ -42,6 +42,23 @@ class Arithmetic
     }
 
     /**
+     * Integer square root |_√x_|
+     * The positive integer which is the greatest integer less than or equal to the square root
+     * https://en.wikipedia.org/wiki/Integer_square_root
+     *
+     * @param float $x
+     *
+     * @return int
+     */
+    public static function isqrt(float $x): int
+    {
+        if ($x < 0) {
+            throw new Exception\BadParameterException("x must be non-negative for isqrt - got $x");
+        }
+        return \floor(\sqrt($x));
+    }
+
+    /**
      * Digit sum
      * Sum of all an integer's digits.
      * https://en.wikipedia.org/wiki/Digit_sum
