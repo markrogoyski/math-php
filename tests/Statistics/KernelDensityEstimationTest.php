@@ -180,7 +180,7 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
         $estimate = $KDE->evaluate($x);
 
         // Then
-        $this->assertEquals($expected, $estimate, "Evaluate x = $x", 0.00001);
+        $this->assertEqualsWithDelta($expected, $estimate, 0.00001, "Evaluate x = $x");
     }
 
     /**
