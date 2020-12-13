@@ -341,7 +341,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $roots = Algebra::quadratic($a, $b, $c);
 
         // Then
-        $this->assertInternalType('array', $roots);
+        $this->assertIsArray($roots);
         $this->assertNotEmpty($roots);
         $this->assertEquals(2, count($roots));
         foreach ($roots as $root) {
@@ -379,7 +379,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $roots = Algebra::quadratic($a, $b, $c, true);
 
         // Then
-        $this->assertInternalType('array', $roots);
+        $this->assertIsArray($roots);
         $this->assertInstanceOf(Number\Complex::class, $roots[0]);
         $this->assertInstanceOf(Number\Complex::class, $roots[1]);
         $this->assertNotEmpty($roots);
@@ -629,7 +629,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $roots = Algebra::cubic($a₃, $a₂, $a₁, $a₀, true);
 
         // Then
-        $this->assertInternalType('array', $roots);
+        $this->assertIsArray($roots);
         $this->assertInstanceOf(Number\Complex::class, $roots[0]);
         $this->assertInstanceOf(Number\Complex::class, $roots[1]);
         $this->assertNotEmpty($roots);
