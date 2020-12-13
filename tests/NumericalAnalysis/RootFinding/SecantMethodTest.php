@@ -29,7 +29,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $x = SecantMethod::solve($func, $p₀, $p₁, $tol);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -52,7 +52,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $x = SecantMethod::solve($polynomial, $p₀, $p₁, $tol);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -91,7 +91,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $root = SecantMethod::solve($func, $p₀, $p₁, $tol);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $root, $tol);;
+        $this->assertEqualsWithDelta($expected, $root, $tol);
     }
 
     /**
@@ -116,7 +116,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $root = SecantMethod::solve($func, $p₀, $p₁, $tol);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $root, $tol);;
+        $this->assertEqualsWithDelta($expected, $root, $tol);
     }
 
     /**
@@ -141,7 +141,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $root = SecantMethod::solve($func, $p₀, $p₁, $tol);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $root, $tol);;
+        $this->assertEqualsWithDelta($expected, $root, $tol);
     }
 
     /**

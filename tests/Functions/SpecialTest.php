@@ -54,7 +54,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $gamma = Special::gamma($z);
 
         // Then
-        $this->assertEqualsWithDelta($Γ, $gamma, 0.001);;
+        $this->assertEqualsWithDelta($Γ, $gamma, 0.001);
     }
 
     /**
@@ -142,7 +142,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $gamma = Special::gamma($z);
 
         // Then
-        $this->assertEqualsWithDelta($Γ, $gamma, $ε);;
+        $this->assertEqualsWithDelta($Γ, $gamma, $ε);
     }
 
     /**
@@ -175,7 +175,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $gammaLanczos = Special::gammaLanczos($z);
 
         // Then
-        $this->assertEqualsWithDelta($Γ, $gammaLanczos, 0.001);;
+        $this->assertEqualsWithDelta($Γ, $gammaLanczos, 0.001);
     }
 
     public function dataProviderForGammaLanczos(): array
@@ -239,7 +239,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $gammaSterling = Special::gammaStirling($n);
 
         // Then
-        $this->assertEqualsWithDelta($Γ, $gammaSterling, 0.01);;
+        $this->assertEqualsWithDelta($Γ, $gammaSterling, 0.01);
     }
 
     public function dataProviderForGammaStirling(): array
@@ -280,8 +280,8 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $β    = Special::β($y, $x);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $beta, 0.0000001);;
-        $this->assertEqualsWithDelta($expected, $β, 0.0000001);;
+        $this->assertEqualsWithDelta($expected, $beta, 0.0000001);
+        $this->assertEqualsWithDelta($expected, $β, 0.0000001);
     }
 
     /**
@@ -357,7 +357,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $beta = Special::multivariateBeta([$x, $y]);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $beta, 0.0000001);;
+        $this->assertEqualsWithDelta($expected, $beta, 0.0000001);
     }
 
     /**
@@ -375,7 +375,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $logistic = Special::logistic($x₀, $L, $k, $x);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $logistic, 0.001);;
+        $this->assertEqualsWithDelta($expected, $logistic, 0.001);
     }
 
     public function dataProviderForLogistic(): array
@@ -408,7 +408,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $sigmoid = Special::sigmoid($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $sigmoid, 0.0000001);;
+        $this->assertEqualsWithDelta($expected, $sigmoid, 0.0000001);
     }
 
     /**
@@ -474,8 +474,8 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $erf           = Special::erf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $errorFunction, 0.0001);;
-        $this->assertEqualsWithDelta($expected, $erf, 0.0001);;
+        $this->assertEqualsWithDelta($expected, $errorFunction, 0.0001);
+        $this->assertEqualsWithDelta($expected, $erf, 0.0001);
     }
 
     /**
@@ -518,8 +518,8 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $efc                        = Special::erfc($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $complementaryErrorFunction, 0.0001);;
-        $this->assertEqualsWithDelta($expected, $efc, 0.0001);;
+        $this->assertEqualsWithDelta($expected, $complementaryErrorFunction, 0.0001);
+        $this->assertEqualsWithDelta($expected, $efc, 0.0001);
     }
 
     /**
@@ -562,7 +562,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $lowerIncompleteGamma = Special::lowerIncompleteGamma($s, $x);
 
         // Then
-        $this->assertEqualsWithDelta($lig, $lowerIncompleteGamma, 0.00001);;
+        $this->assertEqualsWithDelta($lig, $lowerIncompleteGamma, 0.00001);
     }
 
     /**
@@ -614,7 +614,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $lowerIncompleteGamma = Special::lowerIncompleteGamma($s, $x);
 
         // Then
-        $this->assertEqualsWithDelta(0, $lowerIncompleteGamma, 0.00001);;
+        $this->assertEqualsWithDelta(0, $lowerIncompleteGamma, 0.00001);
     }
 
     /**
@@ -672,7 +672,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $upperIncompleteGamma = Special::upperIncompleteGamma($s, $x);
 
         // Then
-        $this->assertEqualsWithDelta($uig, $upperIncompleteGamma, 0.00001);;
+        $this->assertEqualsWithDelta($uig, $upperIncompleteGamma, 0.00001);
     }
 
     /**
@@ -716,7 +716,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $gammainc = Special::regularizedLowerIncompleteGamma($s, $x);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $gammainc, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $gammainc, 0.00001);
     }
 
     public function dataProviderForRegularizedLowerIncompleteGamma(): array
@@ -759,7 +759,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $regularizedIncompleteBeta = Special::regularizedIncompleteBeta($x, $a, $b);
 
         // Then
-        $this->assertEqualsWithDelta($rib, $regularizedIncompleteBeta, 0.0000001);;
+        $this->assertEqualsWithDelta($rib, $regularizedIncompleteBeta, 0.0000001);
     }
 
     /**
@@ -863,7 +863,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $incompleteBeta = Special::incompleteBeta($x, $a, $b);
 
         // Then
-        $this->assertEqualsWithDelta($ib, $incompleteBeta, 0.0001);;
+        $this->assertEqualsWithDelta($ib, $incompleteBeta, 0.0001);
     }
 
     public function dataProviderForIncompleteBeta(): array
@@ -937,7 +937,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $actual = Special::confluentHypergeometric($a, $b, $z);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $actual, $tol);;
+        $this->assertEqualsWithDelta($expected, $actual, $tol);
     }
 
     public function dataProviderForConfluentHypergeometric(): array
@@ -969,7 +969,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $actual = Special::hypergeometric($a, $b, $c, $z);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $actual, $tol);;
+        $this->assertEqualsWithDelta($expected, $actual, $tol);
     }
 
     public function dataProviderForHypergeometric(): array
@@ -1006,7 +1006,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $σ⟮𝐳⟯ⱼ = Special::softmax($𝐳);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $σ⟮𝐳⟯ⱼ, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $σ⟮𝐳⟯ⱼ, 0.00001);
         $this->assertEquals(1, \array_sum($σ⟮𝐳⟯ⱼ));
     }
 

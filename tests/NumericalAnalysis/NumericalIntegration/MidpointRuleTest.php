@@ -38,7 +38,7 @@ class MidpointRuleTest extends \PHPUnit\Framework\TestCase
         $x = MidpointRule::approximate($endpoints);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -72,7 +72,7 @@ class MidpointRuleTest extends \PHPUnit\Framework\TestCase
         $x = MidpointRule::approximate($points);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -106,7 +106,7 @@ class MidpointRuleTest extends \PHPUnit\Framework\TestCase
         $x = MidpointRule::approximate($points);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -140,7 +140,7 @@ class MidpointRuleTest extends \PHPUnit\Framework\TestCase
         $x = MidpointRule::approximate($points);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -178,7 +178,7 @@ class MidpointRuleTest extends \PHPUnit\Framework\TestCase
         $x = MidpointRule::approximate($func, $start, $end, $n);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -214,6 +214,6 @@ class MidpointRuleTest extends \PHPUnit\Framework\TestCase
         $x = MidpointRule::approximate($polynomial, $start, $end, $n);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 }

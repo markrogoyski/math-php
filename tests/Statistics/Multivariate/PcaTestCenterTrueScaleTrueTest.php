@@ -49,7 +49,7 @@ class PcaTestCenterTrueScaleTrueTest extends \PHPUnit\Framework\TestCase
         $R2 = self::$pca->getR2();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $R2, .00001);;
+        $this->assertEqualsWithDelta($expected, $R2, .00001);
     }
 
     /**
@@ -67,7 +67,7 @@ class PcaTestCenterTrueScaleTrueTest extends \PHPUnit\Framework\TestCase
         $cumR2 = self::$pca->getCumR2();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $cumR2, .00001);;
+        $this->assertEqualsWithDelta($expected, $cumR2, .00001);
     }
 
     /**
@@ -113,7 +113,7 @@ class PcaTestCenterTrueScaleTrueTest extends \PHPUnit\Framework\TestCase
         $sign_adjusted = $loadings->multiply($sign_change);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $sign_adjusted->getMatrix(), .00001);;
+        $this->assertEqualsWithDelta($expected, $sign_adjusted->getMatrix(), .00001);
     }
 
     /**
@@ -185,7 +185,7 @@ class PcaTestCenterTrueScaleTrueTest extends \PHPUnit\Framework\TestCase
         $sign_adjusted = $scores->multiply($signature);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $sign_adjusted->getMatrix(), .00001);;
+        $this->assertEqualsWithDelta($expected, $sign_adjusted->getMatrix(), .00001);
 
         // And Given
         $expected = MatrixFactory::create([[0.1257286, 7.899684, 2.327884, -0.366373, 1.284736, -5.869623, -3.59103, -1.97999, 1.738207]]);
@@ -195,7 +195,7 @@ class PcaTestCenterTrueScaleTrueTest extends \PHPUnit\Framework\TestCase
         $scores = self::$pca->getScores(MatrixFactory::create([[1,2,3,4,5,6,7,8,9]]));
 
         // Then
-        $this->assertEqualsWithDelta($sign_adjusted->getMatrix(), $scores->getMatrix(), .00001);;
+        $this->assertEqualsWithDelta($sign_adjusted->getMatrix(), $scores->getMatrix(), .00001);
     }
 
     /**
@@ -213,7 +213,7 @@ class PcaTestCenterTrueScaleTrueTest extends \PHPUnit\Framework\TestCase
         $eigenvalues = self::$pca->getEigenvalues()->getVector();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $eigenvalues, .00001);;
+        $this->assertEqualsWithDelta($expected, $eigenvalues, .00001);
     }
 
     /**
@@ -231,7 +231,7 @@ class PcaTestCenterTrueScaleTrueTest extends \PHPUnit\Framework\TestCase
         $criticalT2 = self::$pca->getCriticalT2();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $criticalT2, .00001);;
+        $this->assertEqualsWithDelta($expected, $criticalT2, .00001);
     }
 
     /**
@@ -249,7 +249,7 @@ class PcaTestCenterTrueScaleTrueTest extends \PHPUnit\Framework\TestCase
         $criticalQ = self::$pca->getCriticalQ();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $criticalQ, .00001);;
+        $this->assertEqualsWithDelta($expected, $criticalQ, .00001);
     }
 
     /**
@@ -302,7 +302,7 @@ class PcaTestCenterTrueScaleTrueTest extends \PHPUnit\Framework\TestCase
         $T²Distances = self::$pca->getT2Distances()->getMatrix();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $T²Distances, .00001);;
+        $this->assertEqualsWithDelta($expected, $T²Distances, .00001);
     }
 
     /**
@@ -325,7 +325,7 @@ class PcaTestCenterTrueScaleTrueTest extends \PHPUnit\Framework\TestCase
         $T²Distances = self::$pca->getT2Distances($newdata)->getMatrix();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $T²Distances, .0001);;
+        $this->assertEqualsWithDelta($expected, $T²Distances, .0001);
     }
 
     /**
@@ -378,7 +378,7 @@ class PcaTestCenterTrueScaleTrueTest extends \PHPUnit\Framework\TestCase
         $qResiduals = self::$pca->getQResiduals()->getMatrix();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $qResiduals, .00001);;
+        $this->assertEqualsWithDelta($expected, $qResiduals, .00001);
     }
 
     /**
@@ -401,6 +401,6 @@ class PcaTestCenterTrueScaleTrueTest extends \PHPUnit\Framework\TestCase
         $qResiduals = self::$pca->getQResiduals($newData)->getMatrix();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $qResiduals, .0001);;
+        $this->assertEqualsWithDelta($expected, $qResiduals, .0001);
     }
 }

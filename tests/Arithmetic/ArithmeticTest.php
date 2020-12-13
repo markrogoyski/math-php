@@ -65,7 +65,7 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
         $root = Arithmetic::root($x, $n);
 
         // Then
-        $this->assertEqualsWithDelta($expected_root, $root, 0.000000001);;
+        $this->assertEqualsWithDelta($expected_root, $root, 0.000000001);
     }
 
     /**
@@ -116,7 +116,7 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
         $cube_root = Arithmetic::cubeRoot($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected_cube_root, $cube_root, 0.000000001);;
+        $this->assertEqualsWithDelta($expected_cube_root, $cube_root, 0.000000001);
     }
 
     /**

@@ -151,7 +151,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $root = Algebra::linear($a, $b);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $root, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $root, 0.00001);
     }
 
     /**
@@ -246,8 +246,8 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         list($r1, $r2) = Algebra::quadratic($a, $b, $c);
 
         // Then
-        $this->assertEqualsWithDelta($expected_r1, $r1, 0.00000001);;
-        $this->assertEqualsWithDelta($expected_r2, $r2, 0.00000001);;
+        $this->assertEqualsWithDelta($expected_r1, $r1, 0.00000001);
+        $this->assertEqualsWithDelta($expected_r2, $r2, 0.00000001);
     }
 
     /**
@@ -311,7 +311,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $quadratic = Algebra::quadratic($a, $b, $c);
 
         // Then
-        $this->assertEqualsWithDelta($expected_quadratic, $quadratic, 0.00000001);;
+        $this->assertEqualsWithDelta($expected_quadratic, $quadratic, 0.00000001);
     }
 
     /**
@@ -413,7 +413,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $discriminant = Algebra::discriminant($a, $b, $c);
 
         // Then
-        $this->assertEqualsWithDelta($expected_discriminant, $discriminant, 0.00000001);;
+        $this->assertEqualsWithDelta($expected_discriminant, $discriminant, 0.00000001);
     }
 
     /**
@@ -451,7 +451,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $cubic = Algebra::cubic($a, $b, $c, $d);
 
         // Then
-        $this->assertEqualsWithDelta($expected_cubic, $cubic, 0.00000001);;
+        $this->assertEqualsWithDelta($expected_cubic, $cubic, 0.00000001);
     }
 
     /**
@@ -525,7 +525,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         list($z₁, $z₂, $z₃) = Algebra::cubic($a, $b, $c, $d);
 
         // Then
-        $this->assertEqualsWithDelta($real_root, $z₁, 0.00000001);;
+        $this->assertEqualsWithDelta($real_root, $z₁, 0.00000001);
         $this->assertNan($z₂);
         $this->assertNan($z₃);
     }
@@ -575,7 +575,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         list($z₁, $z₂, $z₃) = Algebra::cubic($a, $b, $c, $d, true);
 
         // Then
-        $this->assertEqualsWithDelta($real_root, $z₁, 0.00000001);;
+        $this->assertEqualsWithDelta($real_root, $z₁, 0.00000001);
         $this->assertInstanceOf(Number\Complex::class, $z₂);
         $this->assertInstanceOf(Number\Complex::class, $z₃);
         $this->assertTrue($z₂->equals($complex0), "Expecting $complex0 but saw $z₂");
@@ -606,7 +606,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function testCubicCubeCoefficientZeroSameAsQuadratic(float $b, float $c, float $d, array $quadratic)
     {
         $a = 0;
-        $this->assertEqualsWithDelta($quadratic, Algebra::cubic($a, $b, $c, $d), 0.00000001);;
+        $this->assertEqualsWithDelta($quadratic, Algebra::cubic($a, $b, $c, $d), 0.00000001);
     }
 
     /**
@@ -655,7 +655,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $quartic = Algebra::quartic($a, $b, $c, $d, $e);
 
         // Then
-        $this->assertEqualsWithDelta($expected_quartic, $quartic, 0.00000001);;
+        $this->assertEqualsWithDelta($expected_quartic, $quartic, 0.00000001);
     }
 
     /**
@@ -702,8 +702,8 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
 
         // Then
-        $this->assertEqualsWithDelta($quartic[0], \floatval($z₁), 0.00000001);;
-        $this->assertEqualsWithDelta($quartic[1], \floatval($z₂), 0.00000001);;
+        $this->assertEqualsWithDelta($quartic[0], \floatval($z₁), 0.00000001);
+        $this->assertEqualsWithDelta($quartic[1], \floatval($z₂), 0.00000001);
         $this->assertNan($z₃, '');
         $this->assertNan($z₄, '');
     }
@@ -729,8 +729,8 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
 
         // Then
-        $this->assertEqualsWithDelta($quartic[0], \floatval($z₁), 0.00000001);;
-        $this->assertEqualsWithDelta($quartic[1], \floatval($z₂), 0.00000001);;
+        $this->assertEqualsWithDelta($quartic[0], \floatval($z₁), 0.00000001);
+        $this->assertEqualsWithDelta($quartic[1], \floatval($z₂), 0.00000001);
         $this->assertTrue($z₃->equals($complex0), "Expecting $complex0 but saw $z₃, complex conjugate is $z₄");
         $this->assertTrue($z₄->equals($complex1), "Expecting $complex1 but saw $z₄, complex conjugate is $z₃");
     }

@@ -28,7 +28,7 @@ class ReducedRowEchelonFormTest extends \PHPUnit\Framework\TestCase
         $rref = $A->rref();
 
         // Then
-        $this->assertEqualsWithDelta($R->getMatrix(), $rref->getMatrix(), 0.000001);;
+        $this->assertEqualsWithDelta($R->getMatrix(), $rref->getMatrix(), 0.000001);
         $this->assertTrue($rref->isRref());
         $this->assertTrue($rref->isRef());
     }
@@ -50,7 +50,7 @@ class ReducedRowEchelonFormTest extends \PHPUnit\Framework\TestCase
         $rref = Reduction\ReducedRowEchelonForm::reduce($A);
 
         // Then
-        $this->assertEqualsWithDelta($R->getMatrix(), $rref->getMatrix(), 0.000001);;
+        $this->assertEqualsWithDelta($R->getMatrix(), $rref->getMatrix(), 0.000001);
         $this->assertTrue($rref->isRref());
         $this->assertTrue($rref->isRef());
     }

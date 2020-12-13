@@ -21,7 +21,7 @@ class StandardNormalTableTest extends \PHPUnit\Framework\TestCase
         $score = StandardNormal::getZScoreProbability($Z);
 
         // Then
-        $this->assertEqualsWithDelta($Φ, $score, 0.0001);;
+        $this->assertEqualsWithDelta($Φ, $score, 0.0001);
     }
 
     public function dataProviderForZScores(): array
@@ -62,7 +62,7 @@ class StandardNormalTableTest extends \PHPUnit\Framework\TestCase
         $score = StandardNormal::getZScoreForConfidenceInterval($cl);
 
         // Then
-        $this->assertEqualsWithDelta($Z, $score, 0.01);;
+        $this->assertEqualsWithDelta($Z, $score, 0.01);
     }
 
     public function dataProviderForZScoresForConfidenceInterval(): array

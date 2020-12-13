@@ -22,7 +22,7 @@ class ShiftedGeometricTest extends \PHPUnit\Framework\TestCase
         $pmf = $shiftedGeometric->pmf($k);
 
         // Then
-        $this->assertEqualsWithDelta($expectedPmf, $pmf, 0.001);;
+        $this->assertEqualsWithDelta($expectedPmf, $pmf, 0.001);
     }
 
     /**
@@ -59,7 +59,7 @@ class ShiftedGeometricTest extends \PHPUnit\Framework\TestCase
         $cdf = $shiftedGeometric->cdf($k);
 
         // Then
-        $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.001);;
+        $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.001);
     }
 
     /**
@@ -95,7 +95,7 @@ class ShiftedGeometricTest extends \PHPUnit\Framework\TestCase
         $mean = $shiftedGeometric->mean();
 
         // Then
-        $this->assertEqualsWithDelta($μ, $mean, 0.000001);;
+        $this->assertEqualsWithDelta($μ, $mean, 0.000001);
     }
 
     /**
@@ -128,7 +128,7 @@ class ShiftedGeometricTest extends \PHPUnit\Framework\TestCase
         $median = $shiftedGeometric->median();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $median, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $median, 0.000001);
     }
 
     /**
@@ -161,7 +161,7 @@ class ShiftedGeometricTest extends \PHPUnit\Framework\TestCase
         $mode = $shiftedGeometric->mode();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $mode, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $mode, 0.000001);
     }
 
     /**
@@ -194,7 +194,7 @@ class ShiftedGeometricTest extends \PHPUnit\Framework\TestCase
         $mode = $shiftedGeometric->variance();
 
         // Then
-        $this->assertEqualsWithDelta($σ², $mode, 0.000001);;
+        $this->assertEqualsWithDelta($σ², $mode, 0.000001);
     }
 
     /**

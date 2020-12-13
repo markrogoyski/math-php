@@ -20,7 +20,7 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
         $η² = EffectSize::etaSquared($SSt, $SST);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $η², 0.0000000001);;
+        $this->assertEqualsWithDelta($expected, $η², 0.0000000001);
     }
 
     /**
@@ -58,7 +58,7 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
         $η²p = EffectSize::partialEtaSquared($SSt, $SSE);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $η²p, 0.000000001);;
+        $this->assertEqualsWithDelta($expected, $η²p, 0.000000001);
     }
 
     /**
@@ -93,7 +93,7 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
         $ω² = EffectSize::omegaSquared($SSt, $dft, $SST, $MSE);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $ω², 0.000001);;
+        $this->assertEqualsWithDelta($expected, $ω², 0.000001);
     }
 
     /**
@@ -121,7 +121,7 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
         $ƒ² = EffectSize::cohensF($measure_of_variance_explained);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $ƒ², 0.0000001);;
+        $this->assertEqualsWithDelta($expected, $ƒ², 0.0000001);
     }
 
     /**
@@ -153,7 +153,7 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
         $q = EffectSize::cohensQ($r₁, $r₂);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $q, 0.001);;
+        $this->assertEqualsWithDelta($expected, $q, 0.001);
     }
 
     /**
@@ -200,7 +200,7 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
         $d = EffectSize::cohensD($μ₁, $μ₂, $s₁, $s₂);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $d, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $d, 0.00001);
     }
 
     /**
@@ -237,7 +237,7 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
         $g = EffectSize::hedgesG($μ₁, $μ₂, $s₁, $s₂, $n₁, $n₂);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $g, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $g, 0.00001);
     }
 
     /**
@@ -273,7 +273,7 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
         $Δ = EffectSize::glassDelta($μ₁, $μ₂, $s₂);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $Δ, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $Δ, 0.00001);
     }
 
     /**

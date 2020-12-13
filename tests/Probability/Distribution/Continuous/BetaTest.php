@@ -24,7 +24,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $pdf = $beta->pdf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.0000001);;
+        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.0000001);
     }
 
     /**
@@ -344,7 +344,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $cdf = $beta->cdf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.000001);;
+        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.000001);
     }
 
     /**
@@ -780,7 +780,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $mean = $beta->mean();
 
         // Then
-        $this->assertEqualsWithDelta($μ, $mean, 0.000001);;
+        $this->assertEqualsWithDelta($μ, $mean, 0.000001);
     }
 
     /**
@@ -811,7 +811,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $median = $beta->median();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $median, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $median, 0.000001);
     }
 
     /**
@@ -907,7 +907,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $mode = $beta->mode();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $mode, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $mode, 0.000001);
     }
 
     /**
@@ -943,7 +943,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $variance = $beta->variance();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $variance, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $variance, 0.000001);
     }
 
     /**
@@ -981,7 +981,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $inverse = $beta->inverse($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.0000001);;
+        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.0000001);
     }
 
     /**

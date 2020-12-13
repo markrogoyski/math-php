@@ -22,7 +22,7 @@ class ChiSquaredTest extends \PHPUnit\Framework\TestCase
         $pdf = $chiSquared->pdf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expectedPdf, $pdf, 0.00000001);;
+        $this->assertEqualsWithDelta($expectedPdf, $pdf, 0.00000001);
     }
 
     /**
@@ -95,7 +95,7 @@ class ChiSquaredTest extends \PHPUnit\Framework\TestCase
         $cdf = $chiSquared->cdf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.000001);;
+        $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.000001);
     }
 
     /**
@@ -184,7 +184,7 @@ class ChiSquaredTest extends \PHPUnit\Framework\TestCase
         $median = $chiSquared->median();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $median, 0.00000001);;
+        $this->assertEqualsWithDelta($expected, $median, 0.00000001);
     }
 
     /**
@@ -217,7 +217,7 @@ class ChiSquaredTest extends \PHPUnit\Framework\TestCase
         $mode = $chiSquared->mode();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $mode, 0.00000001);;
+        $this->assertEqualsWithDelta($expected, $mode, 0.00000001);
     }
 
     /**
@@ -250,7 +250,7 @@ class ChiSquaredTest extends \PHPUnit\Framework\TestCase
         $variance = $chiSquared->variance();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $variance, 0.00000001);;
+        $this->assertEqualsWithDelta($expected, $variance, 0.00000001);
     }
 
     /**

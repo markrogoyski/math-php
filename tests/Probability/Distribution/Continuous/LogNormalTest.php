@@ -23,7 +23,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $pdf = $log_normal->pdf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.000001);;
+        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.000001);
     }
 
     /**
@@ -64,7 +64,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $cdf = $log_normal->cdf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected_pdf, $cdf, 0.000001);;
+        $this->assertEqualsWithDelta($expected_pdf, $cdf, 0.000001);
     }
 
     /**
@@ -104,7 +104,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $mean = $log_normal->mean();
 
         // Then
-        $this->assertEqualsWithDelta($expected_mean, $mean, 0.000001);;
+        $this->assertEqualsWithDelta($expected_mean, $mean, 0.000001);
     }
 
     /**
@@ -136,7 +136,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $median = $log_normal->median();
 
         // Then
-        $this->assertEqualsWithDelta($expected_median, $median, 0.000001);;
+        $this->assertEqualsWithDelta($expected_median, $median, 0.000001);
     }
 
     /**
@@ -168,7 +168,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $mode = $log_normal->mode();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $mode, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $mode, 0.000001);
     }
 
     /**
@@ -202,7 +202,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $variance = $log_normal->variance();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $variance, 0.001);;
+        $this->assertEqualsWithDelta($expected, $variance, 0.001);
     }
 
     /**
@@ -238,7 +238,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $inverse = $log_normal->inverse($p);
 
         // Then
-        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.001);;
+        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.001);
     }
 
     /**
@@ -300,7 +300,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $inverse_of_cdf = $log_normal->inverse($cdf);
 
         // Then
-        $this->assertEqualsWithDelta($x, $inverse_of_cdf, 0.001);;
+        $this->assertEqualsWithDelta($x, $inverse_of_cdf, 0.001);
     }
 
     /**

@@ -23,8 +23,8 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
         $eigenvectors = Eigenvector::eigenvectors($A);
 
         // Then
-        $this->assertEqualsWithDelta($S, $eigenvectors->getMatrix(), 0.0001);;
-        $this->assertEqualsWithDelta($S, $A->eigenvectors()->getMatrix(), 0.0001);;
+        $this->assertEqualsWithDelta($S, $eigenvectors->getMatrix(), 0.0001);
+        $this->assertEqualsWithDelta($S, $A->eigenvectors()->getMatrix(), 0.0001);
     }
 
     /**
@@ -42,7 +42,7 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
         $eigenvectors = $A->eigenvectors();
 
         // Then
-        $this->assertEqualsWithDelta($S, $eigenvectors->getMatrix(), 0.0001);;
+        $this->assertEqualsWithDelta($S, $eigenvectors->getMatrix(), 0.0001);
     }
 
     public function dataProviderForEigenvector(): array

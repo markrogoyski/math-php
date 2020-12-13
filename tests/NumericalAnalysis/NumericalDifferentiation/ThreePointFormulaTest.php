@@ -119,7 +119,7 @@ class ThreePointFormulaTest extends \PHPUnit\Framework\TestCase
         $actual = ThreePointFormula::differentiate($x, $f, $a, $b, $n);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $actual, $tol);;
+        $this->assertEqualsWithDelta($expected, $actual, $tol);
     }
 
     /**

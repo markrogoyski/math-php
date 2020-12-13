@@ -16,7 +16,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
         $H = Entropy::shannonEntropy($p);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $H, 0.001);;
+        $this->assertEqualsWithDelta($expected, $H, 0.001);
     }
 
     public function dataProviderForShannonEntropy(): array
@@ -78,7 +78,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
         $H = Entropy::shannonNatEntropy($p);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $H, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $H, 0.000001);
     }
 
     public function dataProviderForShannonNatEntropy(): array
@@ -128,7 +128,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
         $H = Entropy::shannonHartleyEntropy($p);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $H, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $H, 0.000001);
     }
 
     public function dataProviderForShannonHartleyEntropy(): array
@@ -178,7 +178,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
         $BD = Entropy::crossEntropy($p, $q);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $BD, 0.01);;
+        $this->assertEqualsWithDelta($expected, $BD, 0.01);
     }
 
     public function dataProviderForCrossEntropy(): array
@@ -233,7 +233,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
         $H = Entropy::jointEntropy($p);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $H, 0.001);;
+        $this->assertEqualsWithDelta($expected, $H, 0.001);
     }
 
     public function testJointEntropyExceptionNotProbabilityDistributionThatAddsUpToOne()
@@ -257,7 +257,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
         $H = Entropy::renyiEntropy($p, $α);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $H, 0.001);;
+        $this->assertEqualsWithDelta($expected, $H, 0.001);
     }
 
     public function dataProviderForRenyiEntropy(): array
@@ -319,7 +319,7 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
         $H = Entropy::perplexity($p);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $H, 0.001);;
+        $this->assertEqualsWithDelta($expected, $H, 0.001);
     }
 
     public function dataProviderForPerplexity(): array

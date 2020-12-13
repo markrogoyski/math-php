@@ -18,7 +18,7 @@ class CircularTest extends \PHPUnit\Framework\TestCase
         $mean = Circular::mean($angles);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $mean, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $mean, 0.000001);
     }
 
     /**
@@ -68,7 +68,7 @@ class CircularTest extends \PHPUnit\Framework\TestCase
         $length = Circular::resultantLength($angles);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $length, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $length, 0.00001);
     }
 
     /**
@@ -113,7 +113,7 @@ class CircularTest extends \PHPUnit\Framework\TestCase
         $length = Circular::meanResultantLength($angles);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $length, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $length, 0.000001);
     }
 
     /**
@@ -159,7 +159,7 @@ class CircularTest extends \PHPUnit\Framework\TestCase
         $variance = Circular::variance($angles);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $variance, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $variance, 0.000001);
     }
 
     /**
@@ -199,7 +199,7 @@ class CircularTest extends \PHPUnit\Framework\TestCase
         $sd = Circular::standardDeviation($angles);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $sd, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $sd, 0.000001);
     }
 
     /**

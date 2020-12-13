@@ -20,7 +20,7 @@ class DivergenceTest extends \PHPUnit\Framework\TestCase
         $BD = Divergence::kullbackLeibler($p, $q);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $BD, 0.0001);;
+        $this->assertEqualsWithDelta($expected, $BD, 0.0001);
     }
 
     /**
@@ -103,7 +103,7 @@ class DivergenceTest extends \PHPUnit\Framework\TestCase
         $BD = Divergence::jensenShannon($p, $q);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $BD, 0.0001);;
+        $this->assertEqualsWithDelta($expected, $BD, 0.0001);
     }
 
     /**

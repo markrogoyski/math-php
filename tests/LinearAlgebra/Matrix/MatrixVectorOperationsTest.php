@@ -258,7 +258,7 @@ class MatrixVectorOperations extends \PHPUnit\Framework\TestCase
         $R = $A->columnSums();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $R, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $R, 0.000001);
     }
 
     /**
@@ -325,7 +325,7 @@ class MatrixVectorOperations extends \PHPUnit\Framework\TestCase
         $R = $A->columnMeans();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $R, 0.000001);;
+        $this->assertEqualsWithDelta($expected, $R, 0.000001);
     }
 
     /**

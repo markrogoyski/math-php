@@ -20,7 +20,7 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
         $G = Outlier::grubbsStatistic($data, 'two');
 
         // Then
-        $this->assertEqualsWithDelta($expectedG, $G, 0.0001);;
+        $this->assertEqualsWithDelta($expectedG, $G, 0.0001);
     }
 
     /**
@@ -58,7 +58,7 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
         $G = Outlier::grubbsStatistic($data, 'lower');
 
         // Then
-        $this->assertEqualsWithDelta($expectedG, $G, 0.0001);;
+        $this->assertEqualsWithDelta($expectedG, $G, 0.0001);
     }
 
     /**
@@ -96,7 +96,7 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
         $G = Outlier::grubbsStatistic($data, 'upper');
 
         // Then
-        $this->assertEqualsWithDelta($expectedG, $G, 0.0001);;
+        $this->assertEqualsWithDelta($expectedG, $G, 0.0001);
     }
 
     /**
@@ -138,7 +138,7 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
         $criticalValue = Outlier::grubbsCriticalValue($𝛼, $n, $oneSided);
 
         // Then
-        $this->assertEqualsWithDelta($expectedCriticalValue, $criticalValue, 0.001);;
+        $this->assertEqualsWithDelta($expectedCriticalValue, $criticalValue, 0.001);
     }
 
     /**
@@ -239,7 +239,7 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
         $criticalValue = Outlier::grubbsCriticalValue($𝛼, $n, $twoSided);
 
         // Then
-        $this->assertEqualsWithDelta($expectedCriticalValue, $criticalValue, 0.001);;
+        $this->assertEqualsWithDelta($expectedCriticalValue, $criticalValue, 0.001);
     }
 
     /**

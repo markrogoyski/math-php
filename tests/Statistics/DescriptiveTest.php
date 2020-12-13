@@ -20,7 +20,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $range = Descriptive::range($numbers);
 
         // Then
-        $this->assertEqualsWithDelta($expectedRange, $range, 0.01);;
+        $this->assertEqualsWithDelta($expectedRange, $range, 0.01);
     }
 
     /**
@@ -73,7 +73,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $midrange = Descriptive::midrange($numbers);
 
         // Then
-        $this->assertEqualsWithDelta($expectedMidrange, $midrange, 0.01);;
+        $this->assertEqualsWithDelta($expectedMidrange, $midrange, 0.01);
     }
 
     /**
@@ -126,7 +126,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $variance = Descriptive::populationVariance($numbers);
 
         // Then
-        $this->assertEqualsWithDelta($expectedVariance, $variance, 0.01);;
+        $this->assertEqualsWithDelta($expectedVariance, $variance, 0.01);
     }
 
     /**
@@ -175,7 +175,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $variance = Descriptive::sampleVariance($numbers);
 
         // Then
-        $this->assertEqualsWithDelta($expectedVariance, $variance, 0.01);;
+        $this->assertEqualsWithDelta($expectedVariance, $variance, 0.01);
     }
 
     /**
@@ -259,7 +259,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $variance = Descriptive::weightedSampleVariance($numbers, $weights);
 
         // Then
-        $this->assertEqualsWithDelta($expectedVariance, $variance, 0.00001);;
+        $this->assertEqualsWithDelta($expectedVariance, $variance, 0.00001);
     }
 
      /**
@@ -294,7 +294,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $variance = Descriptive::weightedSampleVariance($numbers, $weights, $biased);
 
         // Then
-        $this->assertEqualsWithDelta($expectedVariance, $variance, 0.1);;
+        $this->assertEqualsWithDelta($expectedVariance, $variance, 0.1);
     }
 
     /**
@@ -361,7 +361,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $sd = Descriptive::standardDeviation($numbers, true);
 
         // Then
-        $this->assertEqualsWithDelta($expectedStandardDeviation, $sd, 0.01);;
+        $this->assertEqualsWithDelta($expectedStandardDeviation, $sd, 0.01);
     }
 
     /**
@@ -377,7 +377,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $sd = Descriptive::sd($numbers, true);
 
         // Then
-        $this->assertEqualsWithDelta($expectedStandardDeviation, $sd, 0.01);;
+        $this->assertEqualsWithDelta($expectedStandardDeviation, $sd, 0.01);
     }
 
     /**
@@ -410,7 +410,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $sd = Descriptive::standardDeviation($numbers);
 
         // Then
-        $this->assertEqualsWithDelta($expectedStandardDeviation, $sd, 0.01);;
+        $this->assertEqualsWithDelta($expectedStandardDeviation, $sd, 0.01);
     }
 
     /**
@@ -426,7 +426,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $sd = Descriptive::sd($numbers);
 
         // Then
-        $this->assertEqualsWithDelta($expectedStandardDeviation, $sd, 0.01);;
+        $this->assertEqualsWithDelta($expectedStandardDeviation, $sd, 0.01);
     }
 
     /**
@@ -488,7 +488,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $mad = Descriptive::meanAbsoluteDeviation($numbers);
 
         // Then
-        $this->assertEqualsWithDelta($expectedMad, $mad, 0.01);;
+        $this->assertEqualsWithDelta($expectedMad, $mad, 0.01);
     }
 
     /**
@@ -532,7 +532,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $mad = Descriptive::medianAbsoluteDeviation($numbers);
 
         // Then
-        $this->assertEqualsWithDelta($expectedMad, $mad, 0.01);;
+        $this->assertEqualsWithDelta($expectedMad, $mad, 0.01);
     }
 
     /**
@@ -796,7 +796,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $value = Descriptive::percentile($numbers, $percentile);
 
         // Then
-        $this->assertEqualsWithDelta($expectedValue, $value, 0.0000001);;
+        $this->assertEqualsWithDelta($expectedValue, $value, 0.0000001);
     }
 
     /**
@@ -1017,7 +1017,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $midhinge = Descriptive::midhinge($numbers);
 
         // Then
-        $this->assertEqualsWithDelta($expectedMidhinge, $midhinge, 0.01);;
+        $this->assertEqualsWithDelta($expectedMidhinge, $midhinge, 0.01);
     }
 
     /**
@@ -1059,7 +1059,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $cv = Descriptive::coefficientOfVariation($numbers);
 
         // Then
-        $this->assertEqualsWithDelta($expectedCv, $cv, 0.0001);;
+        $this->assertEqualsWithDelta($expectedCv, $cv, 0.0001);
     }
 
     /**
@@ -1311,7 +1311,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $summary = Descriptive::fiveNumberSummary($numbers);
 
         // Then
-        $this->assertEqualsWithDelta($expectedSummary, $summary, 0.0001);;
+        $this->assertEqualsWithDelta($expectedSummary, $summary, 0.0001);
     }
 
     /**

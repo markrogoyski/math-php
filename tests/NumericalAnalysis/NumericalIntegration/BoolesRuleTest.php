@@ -38,7 +38,7 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
         $x = BoolesRule::approximate($sortedPoints);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -72,7 +72,7 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
         $x = BoolesRule::approximate($nonSortedPoints);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -111,7 +111,7 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
         $x = BoolesRule::approximate($func, $start, $end, $n);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -148,7 +148,7 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
         $x = BoolesRule::approximate($polynomial, $start, $end, $n);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -171,7 +171,7 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
         $x = BoolesRule::approximate($func, $start, $end, $n);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -193,7 +193,7 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
         $x = BoolesRule::approximate($func, $start, $end, $n);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**

@@ -23,7 +23,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
         $pdf = $pareto->pdf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.00001);;
+        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.00001);
     }
 
     /**
@@ -88,7 +88,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
         $cdf = $pareto->cdf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.00001);;
+        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.00001);
     }
 
     /**
@@ -153,7 +153,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
         $inverse = $pareto->inverse($p);
 
         // Then
-        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.00001);;
+        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.00001);
     }
 
     /**
@@ -213,7 +213,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
         $inverse_of_cdf = $pareto->inverse($cdf);
 
         // Then
-        $this->assertEqualsWithDelta($x, $inverse_of_cdf, 0.000001);;
+        $this->assertEqualsWithDelta($x, $inverse_of_cdf, 0.000001);
     }
 
     /**
@@ -266,7 +266,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
         $mean = $pareto->mean();
 
         // Then
-        $this->assertEqualsWithDelta($μ, $mean, 0.0001);;
+        $this->assertEqualsWithDelta($μ, $mean, 0.0001);
     }
 
     /**
@@ -300,7 +300,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
         $median = $pareto->median();
 
         // Then
-        $this->assertEqualsWithDelta($expected_median, $median, 0.0000001);;
+        $this->assertEqualsWithDelta($expected_median, $median, 0.0000001);
     }
 
     /**
@@ -332,7 +332,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
         $mode = $pareto->mode();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $mode, 0.0000001);;
+        $this->assertEqualsWithDelta($expected, $mode, 0.0000001);
     }
 
     /**
@@ -364,7 +364,7 @@ class ParetoTest extends \PHPUnit\Framework\TestCase
         $variance = $pareto->variance();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $variance, 0.0000001);;
+        $this->assertEqualsWithDelta($expected, $variance, 0.0000001);
     }
 
     /**

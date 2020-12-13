@@ -38,7 +38,7 @@ class SimpsonsThreeEighthsRuleTest extends \PHPUnit\Framework\TestCase
         $x = SimpsonsThreeEighthsRule::approximate($points);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -72,7 +72,7 @@ class SimpsonsThreeEighthsRuleTest extends \PHPUnit\Framework\TestCase
         $x = SimpsonsThreeEighthsRule::approximate($points);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -111,7 +111,7 @@ class SimpsonsThreeEighthsRuleTest extends \PHPUnit\Framework\TestCase
         $x = SimpsonsThreeEighthsRule::approximate($func, $start, $end, $n);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -148,7 +148,7 @@ class SimpsonsThreeEighthsRuleTest extends \PHPUnit\Framework\TestCase
         $x = SimpsonsThreeEighthsRule::approximate($polynomial, $start, $end, $n);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**

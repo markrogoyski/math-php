@@ -35,7 +35,7 @@ class FunctionMatrixTest extends \PHPUnit\Framework\TestCase
         $ME = $M->evaluate(['x' => 1, 'y' => 2]);
 
         // Then
-        $this->assertEqualsWithDelta(2, $ME->get(0, 0), 0.000001);;
-        $this->assertEqualsWithDelta(5.90929742683, $ME->get(1, 0), 0.000001);;
+        $this->assertEqualsWithDelta(2, $ME->get(0, 0), 0.000001);
+        $this->assertEqualsWithDelta(5.90929742683, $ME->get(1, 0), 0.000001);
     }
 }

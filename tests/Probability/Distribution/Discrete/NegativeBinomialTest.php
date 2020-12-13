@@ -24,7 +24,7 @@ class NegativeBinomialTest extends \PHPUnit\Framework\TestCase
         $pmf = $negativeBinomial->pmf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expectedPmf, $pmf, 0.00000001);;
+        $this->assertEqualsWithDelta($expectedPmf, $pmf, 0.00000001);
     }
 
     /**
@@ -64,7 +64,7 @@ class NegativeBinomialTest extends \PHPUnit\Framework\TestCase
         $cdf = $negativeBinomial->cdf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.0000001);;
+        $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.0000001);
     }
 
     /**
@@ -103,7 +103,7 @@ class NegativeBinomialTest extends \PHPUnit\Framework\TestCase
         $mean = $negativeBinomial->mean();
 
         // Then
-        $this->assertEqualsWithDelta($μ, $mean, 0.00000001);;
+        $this->assertEqualsWithDelta($μ, $mean, 0.00000001);
     }
 
     /**
@@ -133,7 +133,7 @@ class NegativeBinomialTest extends \PHPUnit\Framework\TestCase
         $mode = $negativeBinomial->mode();
 
         // Then
-        $this->assertEqualsWithDelta($expected, $mode, 0.00000001);;
+        $this->assertEqualsWithDelta($expected, $mode, 0.00000001);
     }
 
     /**
@@ -168,7 +168,7 @@ class NegativeBinomialTest extends \PHPUnit\Framework\TestCase
         $variance = $negativeBinomial->variance();
 
         // Then
-        $this->assertEqualsWithDelta($σ², $variance, 0.00000001);;
+        $this->assertEqualsWithDelta($σ², $variance, 0.00000001);
     }
 
     /**

@@ -29,7 +29,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $x, 0.00001);
     }
 
     /**
@@ -51,7 +51,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $x, 0.00001);
     }
 
     /**
@@ -74,7 +74,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $x, 0.00001);
     }
 
     /**
@@ -97,7 +97,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $x, 0.00001);
     }
 
     /**
@@ -119,7 +119,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b, Matrix::LU);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $x, 0.00001);
     }
 
     /**
@@ -141,7 +141,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b, Matrix::QR);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $x, 0.00001);
     }
 
     /**
@@ -163,7 +163,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b, Matrix::INVERSE);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $x, 0.00001);
     }
 
     /**
@@ -185,7 +185,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b, Matrix::RREF);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $x, 0.00001);
     }
 
     /**
@@ -253,11 +253,11 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         }
 
         // Then
-        $this->assertEqualsWithDelta($expected_x, $x, 0.00001);;
+        $this->assertEqualsWithDelta($expected_x, $x, 0.00001);
 
         // And as an extra check, solve the original matrix and compare the result.
         $solved_x = $A->solve($b);
-        $this->assertEqualsWithDelta($x, $solved_x->getVector(), 0.00001);;
+        $this->assertEqualsWithDelta($x, $solved_x->getVector(), 0.00001);
     }
 
     /**
@@ -280,6 +280,6 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $Ax = $A->multiply($x);
 
         // Then Ax = b
-        $this->assertEqualsWithDelta($b, $Ax->asVectors()[0]->getVector(), 0.00001);;
+        $this->assertEqualsWithDelta($b, $Ax->asVectors()[0]->getVector(), 0.00001);
     }
 }

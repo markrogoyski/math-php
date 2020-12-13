@@ -32,7 +32,7 @@ class QRTest extends \PHPUnit\Framework\TestCase
         $QR = $qrDecomposition->Q->multiply($qrDecomposition->R);
 
         // Then A = QR
-        $this->assertEqualsWithDelta($A->getMatrix(), $QR->getMatrix(), 0.00001);;
+        $this->assertEqualsWithDelta($A->getMatrix(), $QR->getMatrix(), 0.00001);
     }
 
     /**
@@ -79,8 +79,8 @@ class QRTest extends \PHPUnit\Framework\TestCase
         $qrR = $qr->R;
 
         // And Q and R are expected solution to QR decomposition
-        $this->assertEqualsWithDelta($R->getMatrix(), $qrR->getMatrix(), 0.00001);;
-        $this->assertEqualsWithDelta($Q->getMatrix(), $qrQ->getMatrix(), 0.00001);;
+        $this->assertEqualsWithDelta($R->getMatrix(), $qrR->getMatrix(), 0.00001);
+        $this->assertEqualsWithDelta($Q->getMatrix(), $qrQ->getMatrix(), 0.00001);
     }
 
     /**
@@ -105,7 +105,7 @@ class QRTest extends \PHPUnit\Framework\TestCase
         $QᵀQ = $qr->Q->transpose()->multiply($qr->Q);
 
         // Then QᵀQ = I
-        $this->assertEqualsWithDelta($I->getMatrix(), $QᵀQ->getMatrix(), 0.000001);;
+        $this->assertEqualsWithDelta($I->getMatrix(), $QᵀQ->getMatrix(), 0.000001);
     }
 
     /**
@@ -129,7 +129,7 @@ class QRTest extends \PHPUnit\Framework\TestCase
         $QᵀA = $qrDecomposition->Q->transpose()->multiply($A);
 
         // Then R = QᵀA
-        $this->assertEqualsWithDelta($qrDecomposition->R->getMatrix(), $QᵀA->getMatrix(), 0.00001);;
+        $this->assertEqualsWithDelta($qrDecomposition->R->getMatrix(), $QᵀA->getMatrix(), 0.00001);
     }
 
     /**
@@ -153,7 +153,7 @@ class QRTest extends \PHPUnit\Framework\TestCase
         $Q⁻¹ = $Q->inverse();
 
         // Then Qᵀ = Q⁻¹
-        $this->assertEqualsWithDelta($Qᵀ->getMatrix(), $Q⁻¹->getMatrix(), 0.00001);;
+        $this->assertEqualsWithDelta($Qᵀ->getMatrix(), $Q⁻¹->getMatrix(), 0.00001);
     }
 
     /**
@@ -177,7 +177,7 @@ class QRTest extends \PHPUnit\Framework\TestCase
         $x = $QR->solve($b);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, 0.00001);;
+        $this->assertEqualsWithDelta($expected, $x, 0.00001);
     }
 
     /**

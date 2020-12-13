@@ -80,7 +80,7 @@ class ClampedCubicSplineTest extends \PHPUnit\Framework\TestCase
         $evaluated = $p($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $evaluated, $tol + $roundoff);;
+        $this->assertEqualsWithDelta($expected, $evaluated, $tol + $roundoff);
     }
 
     /**
@@ -125,7 +125,7 @@ class ClampedCubicSplineTest extends \PHPUnit\Framework\TestCase
         $evaluated = $p($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $evaluated, $tol + $roundoff);;
+        $this->assertEqualsWithDelta($expected, $evaluated, $tol + $roundoff);
     }
 
     /**

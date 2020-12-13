@@ -58,7 +58,7 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
         $frequencies = Distribution::relativeFrequency($values);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $frequencies, 0.0001);;
+        $this->assertEqualsWithDelta($expected, $frequencies, 0.0001);
     }
 
     /**
@@ -98,7 +98,7 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
         $frequencies = Distribution::cumulativeFrequency($values);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $frequencies, 0.0001);;
+        $this->assertEqualsWithDelta($expected, $frequencies, 0.0001);
     }
 
     /**
@@ -138,7 +138,7 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
         $frequencies = Distribution::cumulativeRelativeFrequency($values);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $frequencies, 0.0001);;
+        $this->assertEqualsWithDelta($expected, $frequencies, 0.0001);
     }
 
     /**

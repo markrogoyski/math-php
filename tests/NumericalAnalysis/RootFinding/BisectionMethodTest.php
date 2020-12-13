@@ -31,7 +31,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
         $x = BisectionMethod::solve($func, $a, $b, $tol);
 
         // The
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -55,7 +55,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
         $x = BisectionMethod::solve($polynomial, $a, $b, $tol);
 
         // The
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -94,7 +94,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
         $x = BisectionMethod::solve($func, $a, $b, $tol);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -119,7 +119,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
         $x = BisectionMethod::solve($func, $a, $b, $tol);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -144,7 +144,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
         $x = BisectionMethod::solve($func, $a, $b, $tol);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x, $tol);;
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**

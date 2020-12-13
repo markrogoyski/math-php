@@ -26,8 +26,8 @@ class VectorAngleTest extends TestCase
         $angle2 = $B->angleBetween($A, true);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $angle1, 00000000001);;
-        $this->assertEqualsWithDelta($expected, $angle2, 00000000001);;
+        $this->assertEqualsWithDelta($expected, $angle1, 00000000001);
+        $this->assertEqualsWithDelta($expected, $angle2, 00000000001);
     }
 
     /**
@@ -128,8 +128,8 @@ class VectorAngleTest extends TestCase
         $angle2 = $B->angleBetween($A);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $angle1, 00000000001);;
-        $this->assertEqualsWithDelta($expected, $angle2, 00000000001);;
+        $this->assertEqualsWithDelta($expected, $angle1, 00000000001);
+        $this->assertEqualsWithDelta($expected, $angle2, 00000000001);
     }
 
     /**

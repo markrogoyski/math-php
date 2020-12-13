@@ -99,7 +99,7 @@ class SecondDerivativeMidpointFormulaTest extends \PHPUnit\Framework\TestCase
         $actual = SecondDerivativeMidpointFormula::differentiate($target, $f, $a, $b, $n);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $actual, $tol);;
+        $this->assertEqualsWithDelta($expected, $actual, $tol);
     }
 
     /**

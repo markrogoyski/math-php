@@ -287,7 +287,7 @@ class MatrixIssue386Test extends \PHPUnit\Framework\TestCase
         $det = $A->det();
 
         // Then
-        $this->assertEqualsWithDelta(1.001788e-19, $det, 1e-25);;
+        $this->assertEqualsWithDelta(1.001788e-19, $det, 1e-25);
     }
 
     /**
@@ -307,7 +307,7 @@ class MatrixIssue386Test extends \PHPUnit\Framework\TestCase
         $x    = new Vector(\array_column($rref->getMatrix(), $rref->getN() - 1));
 
         // Then
-        $this->assertEqualsWithDelta(self::X, $x->getVector(), 0.00000001);;
+        $this->assertEqualsWithDelta(self::X, $x->getVector(), 0.00000001);
     }
 
     /**
@@ -325,7 +325,7 @@ class MatrixIssue386Test extends \PHPUnit\Framework\TestCase
         $x = $A->solve($b);
 
         // Then
-        $this->assertEqualsWithDelta(self::X, $x->getVector(), 0.00000001);;
+        $this->assertEqualsWithDelta(self::X, $x->getVector(), 0.00000001);
     }
 
     /*

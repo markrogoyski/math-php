@@ -69,7 +69,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $pmt = Finance::pmt($rate, $periods, $pv, $fv, $beginning);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $pmt, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($expected, $pmt, Finance::EPSILON);
     }
 
     /**
@@ -131,7 +131,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $ipmt = Finance::ipmt($rate, $period, $periods, $pv, $fv, $beginning);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $ipmt, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($expected, $ipmt, Finance::EPSILON);
     }
 
     /**
@@ -242,7 +242,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $ppmt = Finance::ppmt($rate, $period, $periods, $pv, $fv, $beginning);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $ppmt, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($expected, $ppmt, Finance::EPSILON);
     }
 
     /**
@@ -352,7 +352,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $periods = Finance::periods($rate, $payment, $pv, $fv, $beginning);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $periods, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($expected, $periods, Finance::EPSILON);
     }
 
     /**
@@ -438,7 +438,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $aer = Finance::aer($nominal, $periods);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $aer, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($expected, $aer, Finance::EPSILON);
     }
 
     /**
@@ -508,7 +508,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $nominal = Finance::nominal($aer, $periods);
 
         // Then
-        $this->assertEqualsWithDelta($rate, $nominal, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($rate, $nominal, Finance::EPSILON);
     }
 
     /**
@@ -581,7 +581,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $fv = Finance::fv($rate, $periods, $pmt, $pv, $beginning);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $fv, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($expected, $fv, Finance::EPSILON);
     }
 
     /**
@@ -660,7 +660,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $pv = Finance::pv($rate, $periods, $pmt, $fv, $beginning);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $pv, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($expected, $pv, Finance::EPSILON);
     }
 
     /**
@@ -732,7 +732,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $npv = Finance::npv($rate, $values);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $npv, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($expected, $npv, Finance::EPSILON);
     }
 
     /**
@@ -781,7 +781,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $rate = Finance::rate($periods, $payment, $present_value, $future_value, $beginning, $initial_guess, $expected);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $rate, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($expected, $rate, Finance::EPSILON);
     }
 
     /**
@@ -873,7 +873,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $irr = Finance::irr($values, $initial_guess);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $irr, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($expected, $irr, Finance::EPSILON);
     }
 
     /**
@@ -964,7 +964,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $mirr = Finance::mirr($values, $finance_rate, $reinvestment_rate);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $mirr, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($expected, $mirr, Finance::EPSILON);
     }
 
     /**
@@ -1028,7 +1028,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $payback = Finance::payback($values, $rate);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $payback, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($expected, $payback, Finance::EPSILON);
     }
 
     /**
@@ -1118,7 +1118,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $profitabilityIndex = Finance::profitabilityIndex($values, $rate);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $profitabilityIndex, Finance::EPSILON);;
+        $this->assertEqualsWithDelta($expected, $profitabilityIndex, Finance::EPSILON);
     }
 
     /**

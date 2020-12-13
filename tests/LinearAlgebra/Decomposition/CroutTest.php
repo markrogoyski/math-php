@@ -25,8 +25,8 @@ class CroutTest extends \PHPUnit\Framework\TestCase
         $lu = $A->croutDecomposition();
 
         // Then
-        $this->assertEqualsWithDelta($L->getMatrix(), $lu->L->getMatrix(), 0.00001);;
-        $this->assertEqualsWithDelta($U->getMatrix(), $lu->U->getMatrix(), 0.00001);;
+        $this->assertEqualsWithDelta($L->getMatrix(), $lu->L->getMatrix(), 0.00001);
+        $this->assertEqualsWithDelta($U->getMatrix(), $lu->U->getMatrix(), 0.00001);
     }
 
     /**

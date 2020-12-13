@@ -44,8 +44,8 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
         $x2 = FixedPointIteration::solve($func, $b, $a, $p, $tol);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x1, $tol);;
-        $this->assertEqualsWithDelta($expected, $x2, $tol);;
+        $this->assertEqualsWithDelta($expected, $x1, $tol);
+        $this->assertEqualsWithDelta($expected, $x2, $tol);
     }
 
     /**
@@ -82,8 +82,8 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
         $x2 = FixedPointIteration::solve($polynomial, $b, $a, $p, $tol);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $x1, $tol);;
-        $this->assertEqualsWithDelta($expected, $x2, $tol);;
+        $this->assertEqualsWithDelta($expected, $x1, $tol);
+        $this->assertEqualsWithDelta($expected, $x2, $tol);
     }
 
     /**

@@ -30,7 +30,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
         $pdf = $normal->pdf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $pdf, 0.00000000000001);;
+        $this->assertEqualsWithDelta($expected, $pdf, 0.00000000000001);
     }
 
     /**

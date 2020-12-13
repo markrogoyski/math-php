@@ -23,7 +23,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
         $pdf = $weibull->pdf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.0000001);;
+        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.0000001);
     }
 
     /**
@@ -83,7 +83,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
         $cdf = $weibull->cdf($x);
 
         // Then
-        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.0000001);;
+        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.0000001);
     }
 
     /**
@@ -141,7 +141,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
         $inverse = $weibull->inverse($p);
 
         // Then
-        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.000001);;
+        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.000001);
     }
 
     /**
@@ -186,7 +186,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
         $inverse_of_cdf = $weibull->inverse($cdf);
 
         // Then
-        $this->assertEqualsWithDelta($x, $inverse_of_cdf, 0.000001);;
+        $this->assertEqualsWithDelta($x, $inverse_of_cdf, 0.000001);
     }
 
     /**
@@ -237,7 +237,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
         $mean = $weibull->mean();
 
         // Then
-        $this->assertEqualsWithDelta($μ, $mean, 0.0001);;
+        $this->assertEqualsWithDelta($μ, $mean, 0.0001);
     }
 
     /**
@@ -270,7 +270,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
         $median = $weibull->median();
 
         // Then
-        $this->assertEqualsWithDelta($μ, $median, 0.0001);;
+        $this->assertEqualsWithDelta($μ, $median, 0.0001);
     }
 
     /**
@@ -304,7 +304,7 @@ class WeibullTest extends \PHPUnit\Framework\TestCase
         $mode = $weibull->mode();
 
         // Then
-        $this->assertEqualsWithDelta($μ, $mode, 0.0001);;
+        $this->assertEqualsWithDelta($μ, $mode, 0.0001);
     }
 
     /**
