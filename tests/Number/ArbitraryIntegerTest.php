@@ -14,11 +14,11 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForBinaryToString
      * @dataProvider dataProviderForHexToString
      * @dataProvider dataProviderForOctalToString
-     * @param        string $int
+     * @param        mixed $int
      * @param        string $expected
      * @throws       \Exception
      */
-    public function testStringToString(string $int, string $expected)
+    public function testStringToString($int, string $expected)
     {
         // Given
         $obj = new ArbitraryInteger($int);
@@ -274,10 +274,10 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         Binary representation
      * @dataProvider dataProviderForIntToInt
-     * @param        string $int
+     * @param        int $int
      * @throws       \Exception
      */
-    public function testIntToBinary(string $int)
+    public function testIntToBinary(int $int)
     {
         // Given
         $obj = new ArbitraryInteger($int);
@@ -645,11 +645,11 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         abs() returns the proper result
      * @dataProvider dataProviderForAbs
-     * @param        string $int
+     * @param        mixed $int
      * @param        string $expected
      * @throws       \Exception
      */
-    public function testAbs(string $int, string $expected)
+    public function testAbs($int, string $expected)
     {
         // Given
         $int = new ArbitraryInteger($int);
@@ -980,10 +980,10 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForBinaryToString
      * @dataProvider dataProviderForHexToString
      * @dataProvider dataProviderForOctalToString
-     * @param        string $int
+     * @param        mixed $int
      * @throws       \Exception
      */
-    public function testEquals(string $int)
+    public function testEquals($int)
     {
         // Given
         $obj = new ArbitraryInteger($int);
@@ -1002,10 +1002,10 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForBinaryToString
      * @dataProvider dataProviderForHexToString
      * @dataProvider dataProviderForOctalToString
-     * @param        string $int
+     * @param        mixed $int
      * @throws       \Exception
      */
-    public function testNotEquals(string $int)
+    public function testNotEquals($int)
     {
         // Given
         $obj1 = new ArbitraryInteger($int);
