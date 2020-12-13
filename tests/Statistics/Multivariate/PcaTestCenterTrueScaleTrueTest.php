@@ -25,7 +25,7 @@ class PcaTestCenterTrueScaleTrueTest extends \PHPUnit\Framework\TestCase
      *
      * @throws Exception\MathException
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $mtCars = new SampleData\MtCars();
 

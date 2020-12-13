@@ -18,7 +18,7 @@ class MatrixAugmentationTest extends \PHPUnit\Framework\TestCase
     /**
      * @throws \Exception
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->A = [
             [1, 2, 3],

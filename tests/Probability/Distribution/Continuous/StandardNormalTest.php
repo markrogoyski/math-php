@@ -13,7 +13,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
     const μ = 0;
     const σ = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         // Given
         $this->standardNormal = new StandardNormal();

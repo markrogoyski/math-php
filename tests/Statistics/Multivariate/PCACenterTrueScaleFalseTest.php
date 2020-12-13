@@ -24,7 +24,7 @@ class PCACenterTrueScaleFalseTest extends \PHPUnit\Framework\TestCase
      *   model = pca(data, center=TRUE, scale=FALSE)
      * @throws Exception\MathException
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $mtCars = new SampleData\MtCars();
 

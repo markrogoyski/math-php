@@ -14,7 +14,7 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
     /**
      * Set up mock Piecewise
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->piecewise = $this->getMockBuilder(Piecewise::class)
             ->disableOriginalConstructor()

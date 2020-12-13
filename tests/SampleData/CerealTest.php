@@ -9,7 +9,7 @@ class CerealTest extends \PHPUnit\Framework\TestCase
     /** @var SampleData\Cereal */
     private $cereal;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->cereal = new SampleData\Cereal();
     }

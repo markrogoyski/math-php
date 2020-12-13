@@ -13,7 +13,7 @@ class VectorInterfaceTest extends \PHPUnit\Framework\TestCase
     /** @var Vector */
     private $V;
 
-    public function setUp()
+    public function setUp(): void
     {
         // Given
         $this->A = [1, 2, 3, 4, 5];

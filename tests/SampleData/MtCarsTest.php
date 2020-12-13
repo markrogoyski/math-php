@@ -9,7 +9,7 @@ class MtCarsTest extends \PHPUnit\Framework\TestCase
     /** @var SampleData\MtCars */
     private $mtCars;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mtCars = new SampleData\MtCars();
     }
