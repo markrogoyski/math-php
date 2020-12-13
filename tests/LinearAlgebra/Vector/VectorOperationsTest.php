@@ -1038,4 +1038,114 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @test         max
+     * @dataProvider dataProviderForMax
+     * @param array  $A
+     * @param number $expected
+     */
+    public function testMax(array $A, $expected)
+    {
+        // Given
+        $A = new Vector($A);
+
+        // When
+        $max = $A->max();
+
+        // Then
+        $this->assertEquals($expected, $max);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForMax(): array
+    {
+        return [
+            [
+                [0],
+                0,
+            ],
+            [
+                [1],
+                1,
+            ],
+            [
+                [-1],
+                -1,
+            ],
+            [
+                [0, 1, 2, 3],
+                3,
+            ],
+            [
+                [3, 2, 1, 0],
+                3,
+            ],
+            [
+                [0, 1, 2, 3, -4, 55, -66],
+                55,
+            ],
+            [
+                [0.0, 1.1, 2.2, 3.3],
+                3.3,
+            ],
+        ];
+    }
+
+    /**
+     * @test         min
+     * @dataProvider dataProviderForMin
+     * @param array  $A
+     * @param number $expected
+     */
+    public function testMin(array $A, $expected)
+    {
+        // Given
+        $A = new Vector($A);
+
+        // When
+        $min = $A->min();
+
+        // Then
+        $this->assertEquals($expected, $min);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForMin(): array
+    {
+        return [
+            [
+                [0],
+                0,
+            ],
+            [
+                [1],
+                1,
+            ],
+            [
+                [-1],
+                -1,
+            ],
+            [
+                [0, 1, 2, 3],
+                0,
+            ],
+            [
+                [3, 2, 1, 0],
+                0,
+            ],
+            [
+                [0, 1, 2, 3, -4, 55, -66],
+                -66,
+            ],
+            [
+                [1.1, 2.2, 3.3],
+                1.1,
+            ],
+        ];
+    }
 }

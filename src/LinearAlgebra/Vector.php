@@ -133,6 +133,8 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * VECTOR NUMERIC OPERATIONS - Return a number
      *  - sum
      *  - length (magnitude)
+     *  - max
+     *  - min
      *  - dotProduct (innerProduct)
      *  - perpDotProduct
      *  - angleBetween
@@ -160,6 +162,26 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     public function length()
     {
         return $this->l2Norm();
+    }
+
+    /**
+     * Max of all the elements
+     *
+     * @return number
+     */
+    public function max()
+    {
+        return \max($this->A);
+    }
+
+    /**
+     * Min of all the elements
+     *
+     * @return number
+     */
+    public function min()
+    {
+        return \min($this->A);
     }
 
     /**
