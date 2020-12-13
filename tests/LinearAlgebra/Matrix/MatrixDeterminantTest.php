@@ -1453,6 +1453,6 @@ class MatrixDeterminantTest extends \PHPUnit\Framework\TestCase
         $det = $A->det();
 
         // Then
-        $this->assertNotEquals(0, $det, '', 0.000001);
+        $this->assertNotEqualsWithDelta(0, $det, 0.000001, '');
     }
 }
