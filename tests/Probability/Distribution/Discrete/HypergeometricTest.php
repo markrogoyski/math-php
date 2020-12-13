@@ -24,7 +24,7 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
         $pmf = $hypergeometric->pmf($k);
 
         // Then
-        $this->assertEquals($expectedPmf, $pmf, '', 0.0000001);
+        $this->assertEqualsWithDelta($expectedPmf, $pmf, 0.0000001);;
     }
 
     /**
@@ -63,7 +63,7 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
         $cdf = $hypergeometric->cdf($k);
 
         // Then
-        $this->assertEquals($expectedCdf, $cdf, '', 0.0000001);
+        $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.0000001);;
     }
 
     /**
@@ -99,7 +99,7 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
         $mean = $hypergeometric->mean();
 
         // Then
-        $this->assertEquals($μ, $mean, '', 0.0000001);
+        $this->assertEqualsWithDelta($μ, $mean, 0.0000001);;
     }
 
     /**
@@ -133,7 +133,7 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
         $mode = $hypergeometric->mode();
 
         // Then
-        $this->assertEquals($expectedMode, $mode, '', 0.0000001);
+        $this->assertEqualsWithDelta($expectedMode, $mode, 0.0000001);;
     }
 
     /**
@@ -166,7 +166,7 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
         $variance = $hypergeometric->variance();
 
         // Then
-        $this->assertEquals($σ², $variance, '', 0.0000001);
+        $this->assertEqualsWithDelta($σ², $variance, 0.0000001);;
     }
 
     /**

@@ -23,7 +23,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $z = Significance::zScore($M, $μ, $σ, Significance::Z_TABLE_VALUE);
 
         // Then
-        $this->assertEquals($expected, $z, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $z, 0.001);;
     }
 
     /**
@@ -56,7 +56,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $z = Significance::zScore($M, $μ, $σ, Significance::Z_RAW_VALUE);
 
         // Then
-        $this->assertEquals($expected, $z, '', 0.01);
+        $this->assertEqualsWithDelta($expected, $z, 0.01);;
     }
 
     /**
@@ -88,7 +88,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $sem = Significance::sem($σ, $n);
 
         // Then
-        $this->assertEquals($expected, $sem, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $sem, 0.0001);;
     }
 
     /**
@@ -118,7 +118,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $zTest = Significance::zTest($Hₐ, $n, $H₀, $σ);
 
         // Then
-        $this->assertEquals($expected, $zTest, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $zTest, 0.001);;
     }
 
     /**
@@ -159,7 +159,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $zTest = Significance::zTestTwoSample($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂, $Δ);
 
         // Then
-        $this->assertEquals($expected, $zTest, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $zTest, 0.001);;
     }
 
     /**
@@ -193,7 +193,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $t = Significance::tScore($Hₐ, $s, $n, $H₀);
 
         // Then
-        $this->assertEquals($expected, $t, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $t, 0.001);;
     }
 
     /**
@@ -221,12 +221,12 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $tTest = Significance::tTest($a, $H₀);
 
         // Then
-        $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
-        $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
-        $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
-        $this->assertEquals($expected['p2'], $tTest['p2'], '', 0.00001);
-        $this->assertEquals($expected['mean'], $tTest['mean'], '', 0.00001);
-        $this->assertEquals($expected['sd'], $tTest['sd'], '', 0.00001);
+        $this->assertEqualsWithDelta($expected['t'], $tTest['t'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['df'], $tTest['df'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['p1'], $tTest['p1'], 0.0001);;
+        $this->assertEqualsWithDelta($expected['p2'], $tTest['p2'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['mean'], $tTest['mean'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['sd'], $tTest['sd'], 0.00001);;
     }
 
     /**
@@ -242,12 +242,12 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $tTest = Significance::tTestOneSample($a, $H₀);
 
         // Then
-        $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
-        $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
-        $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
-        $this->assertEquals($expected['p2'], $tTest['p2'], '', 0.00001);
-        $this->assertEquals($expected['mean'], $tTest['mean'], '', 0.00001);
-        $this->assertEquals($expected['sd'], $tTest['sd'], '', 0.00001);
+        $this->assertEqualsWithDelta($expected['t'], $tTest['t'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['df'], $tTest['df'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['p1'], $tTest['p1'], 0.0001);;
+        $this->assertEqualsWithDelta($expected['p2'], $tTest['p2'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['mean'], $tTest['mean'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['sd'], $tTest['sd'], 0.00001);;
     }
 
     /**
@@ -268,12 +268,12 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $tTest = Significance::tTestOneSampleFromSummaryData($Hₐ, $s, $n, $H₀);
 
         // Then
-        $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
-        $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
-        $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
-        $this->assertEquals($expected['p2'], $tTest['p2'], '', 0.00001);
-        $this->assertEquals($expected['mean'], $tTest['mean'], '', 0.00001);
-        $this->assertEquals($expected['sd'], $tTest['sd'], '', 0.00001);
+        $this->assertEqualsWithDelta($expected['t'], $tTest['t'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['df'], $tTest['df'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['p1'], $tTest['p1'], 0.0001);;
+        $this->assertEqualsWithDelta($expected['p2'], $tTest['p2'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['mean'], $tTest['mean'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['sd'], $tTest['sd'], 0.00001);;
     }
 
     /**
@@ -377,7 +377,7 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $tTest = Significance::tTestOneSampleFromSummaryData($Hₐ, $s, $n, $H₀);
 
         // Then
-        $this->assertEquals($expected, $tTest, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $tTest, 0.001);;
     }
 
     /**
@@ -413,14 +413,14 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $tTest = Significance::tTest($x₁, $x₂);
 
         // Then
-        $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
-        $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
-        $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
-        $this->assertEquals($expected['p2'], $tTest['p2'], '', 0.00001);
-        $this->assertEquals($μ₁, $tTest['mean1'], '', 0.00001);
-        $this->assertEquals($μ₂, $tTest['mean2'], '', 0.00001);
-        $this->assertEquals($σ₁, $tTest['sd1'], '', 0.00001);
-        $this->assertEquals($σ₂, $tTest['sd2'], '', 0.00001);
+        $this->assertEqualsWithDelta($expected['t'], $tTest['t'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['df'], $tTest['df'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['p1'], $tTest['p1'], 0.0001);;
+        $this->assertEqualsWithDelta($expected['p2'], $tTest['p2'], 0.00001);;
+        $this->assertEqualsWithDelta($μ₁, $tTest['mean1'], 0.00001);;
+        $this->assertEqualsWithDelta($μ₂, $tTest['mean2'], 0.00001);;
+        $this->assertEqualsWithDelta($σ₁, $tTest['sd1'], 0.00001);;
+        $this->assertEqualsWithDelta($σ₂, $tTest['sd2'], 0.00001);;
     }
 
     /**
@@ -442,14 +442,14 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $tTest = Significance::tTestTwoSample($x₁, $x₂);
 
         // Then
-        $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
-        $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
-        $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
-        $this->assertEquals($expected['p2'], $tTest['p2'], '', 0.00001);
-        $this->assertEquals($μ₁, $tTest['mean1'], '', 0.00001);
-        $this->assertEquals($μ₂, $tTest['mean2'], '', 0.00001);
-        $this->assertEquals($σ₁, $tTest['sd1'], '', 0.00001);
-        $this->assertEquals($σ₂, $tTest['sd2'], '', 0.00001);
+        $this->assertEqualsWithDelta($expected['t'], $tTest['t'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['df'], $tTest['df'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['p1'], $tTest['p1'], 0.0001);;
+        $this->assertEqualsWithDelta($expected['p2'], $tTest['p2'], 0.00001);;
+        $this->assertEqualsWithDelta($μ₁, $tTest['mean1'], 0.00001);;
+        $this->assertEqualsWithDelta($μ₂, $tTest['mean2'], 0.00001);;
+        $this->assertEqualsWithDelta($σ₁, $tTest['sd1'], 0.00001);;
+        $this->assertEqualsWithDelta($σ₂, $tTest['sd2'], 0.00001);;
     }
 
     /**
@@ -471,14 +471,14 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $tTest = Significance::tTestTwoSampleFromSummaryData($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂);
 
         // Then
-        $this->assertEquals($expected['t'], $tTest['t'], '', 0.00001);
-        $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
-        $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
-        $this->assertEquals($expected['p2'], $tTest['p2'], '', 0.00001);
-        $this->assertEquals($μ₁, $tTest['mean1'], '', 0.00001);
-        $this->assertEquals($μ₂, $tTest['mean2'], '', 0.00001);
-        $this->assertEquals($σ₁, $tTest['sd1'], '', 0.00001);
-        $this->assertEquals($σ₂, $tTest['sd2'], '', 0.00001);
+        $this->assertEqualsWithDelta($expected['t'], $tTest['t'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['df'], $tTest['df'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['p1'], $tTest['p1'], 0.0001);;
+        $this->assertEqualsWithDelta($expected['p2'], $tTest['p2'], 0.00001);;
+        $this->assertEqualsWithDelta($μ₁, $tTest['mean1'], 0.00001);;
+        $this->assertEqualsWithDelta($μ₂, $tTest['mean2'], 0.00001);;
+        $this->assertEqualsWithDelta($σ₁, $tTest['sd1'], 0.00001);;
+        $this->assertEqualsWithDelta($σ₂, $tTest['sd2'], 0.00001);;
     }
 
     /**
@@ -567,14 +567,14 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $tTest = Significance::tTestTwoSampleFromSummaryData($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂);
 
         // Then
-        $this->assertEquals($expected['t'], $tTest['t'], '', 0.0001);
-        $this->assertEquals($expected['df'], $tTest['df'], '', 0.00001);
-        $this->assertEquals($expected['p1'], $tTest['p1'], '', 0.0001);
-        $this->assertEquals($expected['p2'], $tTest['p2'], '', 0.0001);
-        $this->assertEquals($μ₁, $tTest['mean1'], '', 0.00001);
-        $this->assertEquals($μ₂, $tTest['mean2'], '', 0.00001);
-        $this->assertEquals($σ₁, $tTest['sd1'], '', 0.00001);
-        $this->assertEquals($σ₂, $tTest['sd2'], '', 0.00001);
+        $this->assertEqualsWithDelta($expected['t'], $tTest['t'], 0.0001);;
+        $this->assertEqualsWithDelta($expected['df'], $tTest['df'], 0.00001);;
+        $this->assertEqualsWithDelta($expected['p1'], $tTest['p1'], 0.0001);;
+        $this->assertEqualsWithDelta($expected['p2'], $tTest['p2'], 0.0001);;
+        $this->assertEqualsWithDelta($μ₁, $tTest['mean1'], 0.00001);;
+        $this->assertEqualsWithDelta($μ₂, $tTest['mean2'], 0.00001);;
+        $this->assertEqualsWithDelta($σ₁, $tTest['sd1'], 0.00001);;
+        $this->assertEqualsWithDelta($σ₂, $tTest['sd2'], 0.00001);;
     }
 
     /**
@@ -622,8 +622,8 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         $chi = Significance::chiSquaredTest($observed, $expected);
 
         // Then
-        $this->assertEquals($χ², $chi['chi-square'], '', 0.0001);
-        $this->assertEquals($p, $chi['p'], '', 0.0001);
+        $this->assertEqualsWithDelta($χ², $chi['chi-square'], 0.0001);;
+        $this->assertEqualsWithDelta($p, $chi['p'], 0.0001);;
     }
 
     /**

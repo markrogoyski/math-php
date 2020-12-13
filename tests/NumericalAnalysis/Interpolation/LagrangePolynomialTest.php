@@ -78,7 +78,7 @@ class LagrangePolynomialTest extends \PHPUnit\Framework\TestCase
         $evaluated = $p($x);
 
         // Then
-        $this->assertEquals($expected, $evaluated, '', $roundoff);
+        $this->assertEqualsWithDelta($expected, $evaluated, $roundoff);;
     }
 
     /**
@@ -129,7 +129,7 @@ class LagrangePolynomialTest extends \PHPUnit\Framework\TestCase
         $evaluated = $p($x);
 
         // Then
-        $this->assertEquals($expected, $evaluated, '', $tol + $roundoff);
+        $this->assertEqualsWithDelta($expected, $evaluated, $tol + $roundoff);;
     }
 
     /**

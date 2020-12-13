@@ -46,10 +46,10 @@ class FunctionSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $ME = $M->evaluate(['x' => 1, 'y' => 2]);
 
         // Then
-        $this->assertEquals(3, $ME[0][0], '', 0.000001);
-        $this->assertEquals(-1, $ME[0][1], '', 0.000001);
-        $this->assertEquals(2, $ME[1][0], '', 0.000001);
-        $this->assertEquals(1 / 2, $ME[1][1], '', 0.000001);
+        $this->assertEqualsWithDelta(3, $ME[0][0], 0.000001);;
+        $this->assertEqualsWithDelta(-1, $ME[0][1], 0.000001);;
+        $this->assertEqualsWithDelta(2, $ME[1][0], 0.000001);;
+        $this->assertEqualsWithDelta(1 / 2, $ME[1][1], 0.000001);;
     }
 
     /**

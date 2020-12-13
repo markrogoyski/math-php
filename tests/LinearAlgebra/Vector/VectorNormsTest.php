@@ -19,7 +19,7 @@ class VectorNormsTest extends \PHPUnit\Framework\TestCase
         $l₁norm = $A->l1Norm();
 
         // Then
-        $this->assertEquals($expected, $l₁norm, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $l₁norm, 0.0001);;
     }
 
     public function dataProviderForL1Norm(): array
@@ -43,7 +43,7 @@ class VectorNormsTest extends \PHPUnit\Framework\TestCase
         $l²norm = $A->l2Norm();
 
         // Then
-        $this->assertEquals($expected, $l²norm, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $l²norm, 0.0001);;
     }
 
     public function dataProviderForL2Norm(): array
@@ -74,7 +74,7 @@ class VectorNormsTest extends \PHPUnit\Framework\TestCase
         $pnorm = $A->pNorm($p);
 
         // Then
-        $this->assertEquals($expected, $pnorm, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $pnorm, 0.0001);;
     }
 
     public function dataProviderForPNorm(): array
@@ -100,7 +100,7 @@ class VectorNormsTest extends \PHPUnit\Framework\TestCase
         $maxnorm = $A->maxNorm();
 
         // Then
-        $this->assertEquals($expected, $maxnorm, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $maxnorm, 0.0001);;
     }
 
     public function dataProviderForMaxNorm(): array

@@ -23,7 +23,7 @@ class NevillesMethodTest extends \PHPUnit\Framework\TestCase
         $interpolated = NevillesMethod::interpolate($x, $points);
 
         // Then
-        $this->assertEquals($expected, $interpolated, '', $roundoff);
+        $this->assertEqualsWithDelta($expected, $interpolated, $roundoff);;
     }
 
     /**
@@ -75,7 +75,7 @@ class NevillesMethodTest extends \PHPUnit\Framework\TestCase
         $actual = NevillesMethod::interpolate($x, $f, $a, $b, $n);
 
         // Then
-        $this->assertEquals($expected, $actual, '', $roundoff);
+        $this->assertEqualsWithDelta($expected, $actual, $roundoff);;
     }
 
     /**
@@ -125,7 +125,7 @@ class NevillesMethodTest extends \PHPUnit\Framework\TestCase
         $actual = NevillesMethod::interpolate($x, $f, $a, $b, $n);
 
         // Then
-        $this->assertEquals($expected, $actual, '', $tol + $roundoff);
+        $this->assertEqualsWithDelta($expected, $actual, $tol + $roundoff);;
     }
 
     /**

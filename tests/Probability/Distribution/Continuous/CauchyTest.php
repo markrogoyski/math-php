@@ -23,7 +23,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
         $pdf = $cauchy->pdf($x);
 
         // Then
-        $this->assertEquals($expected_pdf, $pdf, '', 0.000000001);
+        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.000000001);;
     }
 
     /**
@@ -81,7 +81,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
         $cdf = $cauchy->cdf($x);
 
         // Then
-        $this->assertEquals($expected_cdf, $cdf, '', 0.000000001);
+        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.000000001);;
     }
 
     /**
@@ -101,7 +101,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
         $inverse_of_cdf = $cauchy->inverse($cdf);
 
         // Then
-        $this->assertEquals($x, $inverse_of_cdf, '', 0.000000001);
+        $this->assertEqualsWithDelta($x, $inverse_of_cdf, 0.000000001);;
     }
 
     /**
@@ -158,7 +158,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
         $inverse = $cauchy->inverse($p);
 
         // Then
-        $this->assertEquals($expected_inverse, $inverse, '', 0.000001);
+        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.000001);;
     }
 
     /**

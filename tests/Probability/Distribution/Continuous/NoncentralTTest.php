@@ -26,7 +26,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
         $pdf = $noncentral_t->pdf($t);
 
         // Then
-        $this->assertEquals($expected, $pdf, '', $tol);
+        $this->assertEqualsWithDelta($expected, $pdf, $tol);;
     }
 
     /**
@@ -93,7 +93,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
         $cdf = $noncentral_t->cdf($t);
 
         // Then
-        $this->assertEquals($expected, $cdf, '', $tol);
+        $this->assertEqualsWithDelta($expected, $cdf, $tol);;
     }
 
     /**
@@ -159,7 +159,7 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
         $mean = $noncentral_t->mean();
 
         // Then
-        $this->assertEquals($expected, $mean, '', $tol);
+        $this->assertEqualsWithDelta($expected, $mean, $tol);;
     }
 
     /**
@@ -223,6 +223,6 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
         $median = $noncentral_t->median();
 
         // Then
-        $this->assertEquals($expected, $median, '', $tol);
+        $this->assertEqualsWithDelta($expected, $median, $tol);;
     }
 }

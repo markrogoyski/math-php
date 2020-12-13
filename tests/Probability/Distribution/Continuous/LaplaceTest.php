@@ -23,7 +23,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
         $pdf = $laplace->pdf($x);
 
         // Then
-        $this->assertEquals($expected_pdf, $pdf, '', 0.000001);
+        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.000001);;
     }
 
     /**
@@ -59,7 +59,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
         $cdf = $laplace->cdf($x);
 
         // Then
-        $this->assertEquals($expected_cdf, $cdf, '', 0.000001);
+        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.000001);;
     }
 
     /**
@@ -151,7 +151,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
         $variance = $laplace->variance();
 
         // Then
-        $this->assertEquals($expected, $variance, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $variance, 0.000001);;
     }
 
     /**
@@ -186,7 +186,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
         $inverse = $laplace->inverse($p);
 
         // Then
-        $this->assertEquals($expected_inverse, $inverse, '', 0.00001);
+        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.00001);;
     }
 
     /**

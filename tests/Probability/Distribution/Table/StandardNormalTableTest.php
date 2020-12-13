@@ -21,7 +21,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
         $score = StandardNormal::getZScoreProbability($Z);
 
         // Then
-        $this->assertEquals($Φ, $score, '', 0.0001);
+        $this->assertEqualsWithDelta($Φ, $score, 0.0001);;
     }
 
     public function dataProviderForZScores(): array
@@ -62,7 +62,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
         $score = StandardNormal::getZScoreForConfidenceInterval($cl);
 
         // Then
-        $this->assertEquals($Z, $score, '', 0.01);
+        $this->assertEqualsWithDelta($Z, $score, 0.01);;
     }
 
     public function dataProviderForZScoresForConfidenceInterval(): array

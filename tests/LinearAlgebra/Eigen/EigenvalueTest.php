@@ -24,8 +24,8 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $eigenvalues = Eigenvalue::closedFormPolynomialRootMethod($A);
 
         // Then
-        $this->assertEquals($S, $eigenvalues, '', 0.0001);
-        $this->assertEquals($S, $A->eigenvalues(Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD), '', 0.0001);
+        $this->assertEqualsWithDelta($S, $eigenvalues, 0.0001);;
+        $this->assertEqualsWithDelta($S, $A->eigenvalues(Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD), 0.0001);;
     }
 
     /**
@@ -44,7 +44,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $eigenvalues = $A->eigenvalues(Eigenvalue::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD);
 
         // Then
-        $this->assertEquals($S, $eigenvalues, '', 0.0001);
+        $this->assertEqualsWithDelta($S, $eigenvalues, 0.0001);;
     }
 
     /**
@@ -64,7 +64,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $eigenvalues = Eigenvalue::jacobiMethod($A);
 
         // Then
-        $this->assertEquals($S, $eigenvalues, '', 0.0001);
+        $this->assertEqualsWithDelta($S, $eigenvalues, 0.0001);;
     }
 
     /**
@@ -84,7 +84,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $eigenvalues = $A->eigenvalues(Eigenvalue::JACOBI_METHOD);
 
         // Then
-        $this->assertEquals($S, $eigenvalues, '', 0.0001);
+        $this->assertEqualsWithDelta($S, $eigenvalues, 0.0001);;
     }
 
     /**
@@ -106,7 +106,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $eigenvalues = Eigenvalue::powerIteration($A);
 
         // Then
-        $this->assertEquals([$max_abs_eigenvalue], $eigenvalues, '', 0.0001);
+        $this->assertEqualsWithDelta([$max_abs_eigenvalue], $eigenvalues, 0.0001);;
     }
 
     /**
@@ -128,7 +128,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $eigenvalues = $A->eigenvalues(Eigenvalue::POWER_ITERATION);
 
         // Then
-        $this->assertEquals([$max_abs_eigenvalue], $eigenvalues, '', 0.0001);
+        $this->assertEqualsWithDelta([$max_abs_eigenvalue], $eigenvalues, 0.0001);;
     }
 
     /**
@@ -735,7 +735,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $eigenvalues = $A->eigenvalues();
 
         // Then
-        $this->assertEquals($S, $eigenvalues, '', 0.0001);
+        $this->assertEqualsWithDelta($S, $eigenvalues, 0.0001);;
     }
 
     /**

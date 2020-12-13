@@ -276,7 +276,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         $sum = $A->sum();
 
         // Then
-        $this->assertEquals($expected, $sum, '', 0.00001);
+        $this->assertEqualsWithDelta($expected, $sum, 0.00001);;
     }
 
     public function dataProviderForSum(): array
@@ -654,7 +654,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         $length = $A->length();
 
         // Then
-        $this->assertEquals($l²norm, $length, '', 0.0001);
+        $this->assertEqualsWithDelta($l²norm, $length, 0.0001);;
     }
 
     public function dataProviderForLength(): array
@@ -686,8 +686,8 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         $Â = $A->normalize();
 
         // Then
-        $this->assertEquals($expected, $Â, '', 0.00000001);
-        $this->assertEquals($expected->getVector(), $Â->getVector(), '', 0.00000001);
+        $this->assertEqualsWithDelta($expected, $Â, 0.00000001);;
+        $this->assertEqualsWithDelta($expected->getVector(), $Â->getVector(), 0.00000001);;
     }
 
     public function dataProviderForNormalize(): array

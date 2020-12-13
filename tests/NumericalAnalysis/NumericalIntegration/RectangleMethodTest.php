@@ -36,7 +36,7 @@ class RectangleMethodTest extends \PHPUnit\Framework\TestCase
         $x = RectangleMethod::approximate($endpoints);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -69,7 +69,7 @@ class RectangleMethodTest extends \PHPUnit\Framework\TestCase
         $x = RectangleMethod::approximate($points);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -102,7 +102,7 @@ class RectangleMethodTest extends \PHPUnit\Framework\TestCase
         $x = RectangleMethod::approximate($points);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -135,7 +135,7 @@ class RectangleMethodTest extends \PHPUnit\Framework\TestCase
         $x = RectangleMethod::approximate($points);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -170,7 +170,7 @@ class RectangleMethodTest extends \PHPUnit\Framework\TestCase
         $x = RectangleMethod::approximate($func, $start, $end, $n);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -203,6 +203,6 @@ class RectangleMethodTest extends \PHPUnit\Framework\TestCase
         $x = RectangleMethod::approximate($polynomial, $start, $end, $n);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 }

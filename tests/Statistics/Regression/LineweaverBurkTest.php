@@ -48,8 +48,8 @@ class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
         $parameters = $regression->getParameters();
 
         // Then
-        $this->assertEquals($V, $parameters['V'], '', 0.0001);
-        $this->assertEquals($K, $parameters['K'], '', 0.0001);
+        $this->assertEqualsWithDelta($V, $parameters['V'], 0.0001);;
+        $this->assertEqualsWithDelta($K, $parameters['K'], 0.0001);;
     }
 
     /**
@@ -78,7 +78,7 @@ class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
         $regression = new LineweaverBurk($points);
 
         // Then
-        $this->assertEquals($y, $regression->evaluate($x), '', 0.0001);
+        $this->assertEqualsWithDelta($y, $regression->evaluate($x), 0.0001);;
     }
 
     /**

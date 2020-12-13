@@ -200,7 +200,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
         $subfactorial = Combinatorics::subfactorial($n);
 
         // Then
-        $this->assertEquals($！n, $subfactorial, '', 0.000000001);
+        $this->assertEqualsWithDelta($！n, $subfactorial, 0.000000001);;
     }
 
     /**
@@ -421,7 +421,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
         $combinations = Combinatorics::combinations($n, $r);
 
         // Then
-        $this->assertEquals($expected, $combinations, '', $ε);
+        $this->assertEqualsWithDelta($expected, $combinations, $ε);;
     }
 
     /**
@@ -536,7 +536,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
         $combinations = Combinatorics::combinations($n, $r, Combinatorics::REPETITION);
 
         // Then
-        $this->assertEquals($expected, $combinations, '', $ε);
+        $this->assertEqualsWithDelta($expected, $combinations, $ε);;
     }
 
     /**
@@ -564,7 +564,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
         $binomial = Combinatorics::centralBinomialCoefficient($n);
 
         // Then
-        $this->assertEquals($！n, $binomial, '', 0.000000001);
+        $this->assertEqualsWithDelta($！n, $binomial, 0.000000001);;
     }
 
     /**
@@ -613,7 +613,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
         $catalanNumber = Combinatorics::catalanNumber($n);
 
         // Then
-        $this->assertEquals($！n, $catalanNumber, '', 0.000000001);
+        $this->assertEqualsWithDelta($！n, $catalanNumber, 0.000000001);;
     }
 
     /**

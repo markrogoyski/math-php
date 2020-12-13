@@ -22,7 +22,7 @@ class MatrixDeterminantTest extends \PHPUnit\Framework\TestCase
         $det = $A->det();
 
         // Then
-        $this->assertEquals($expected, $det, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $det, 0.000001);;
     }
 
     /**
@@ -1436,7 +1436,7 @@ class MatrixDeterminantTest extends \PHPUnit\Framework\TestCase
         $det = $A->det();
 
         // Then
-        $this->assertEquals(0, $det, '', 0.000001);
+        $this->assertEqualsWithDelta(0, $det, 0.000001);;
     }
 
     /**

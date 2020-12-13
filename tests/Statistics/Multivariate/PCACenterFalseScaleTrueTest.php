@@ -48,7 +48,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $R2 = self::$pca->getR2();
 
         // Then
-        $this->assertEquals($expected, $R2, '', .00001);
+        $this->assertEqualsWithDelta($expected, $R2, .00001);;
     }
 
     /**
@@ -66,7 +66,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $cumR2 = self::$pca->getCumR2();
 
         // Then
-        $this->assertEquals($expected, $cumR2, '', .00001);
+        $this->assertEqualsWithDelta($expected, $cumR2, .00001);;
     }
 
     /**
@@ -112,7 +112,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $sign_adjusted = $loadings->multiply($sign_change);
 
         // Then
-        $this->assertEquals($expected, $sign_adjusted->getMatrix(), '', .00001);
+        $this->assertEqualsWithDelta($expected, $sign_adjusted->getMatrix(), .00001);;
     }
 
 
@@ -185,7 +185,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $sign_adjusted = $scores->multiply($signature);
 
         // Then
-        $this->assertEquals($expected, $sign_adjusted->getMatrix(), '', .00001);
+        $this->assertEqualsWithDelta($expected, $sign_adjusted->getMatrix(), .00001);;
 
         // And Given
         $expected = MatrixFactory::create([[-13.01415, 0.0006325086, 7.995322, 4.104522, -2.536586, 3.716645, 3.300201, 2.357735, -1.860735]]);
@@ -195,7 +195,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $scores = self::$pca->getScores(MatrixFactory::create([[1,2,3,4,5,6,7,8,9]]));
 
         // Then
-        $this->assertEquals($sign_adjusted->getMatrix(), $scores->getMatrix(), '', .00001);
+        $this->assertEqualsWithDelta($sign_adjusted->getMatrix(), $scores->getMatrix(), .00001);;
     }
 
     /**
@@ -213,7 +213,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $eigenvalues = self::$pca->getEigenvalues()->getVector();
 
         // Then
-        $this->assertEquals($expected, $eigenvalues, '', .00001);
+        $this->assertEqualsWithDelta($expected, $eigenvalues, .00001);;
     }
 
     /**
@@ -231,7 +231,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $criticalT2 = self::$pca->getCriticalT2();
 
         // Then
-        $this->assertEquals($expected, $criticalT2, '', .00001);
+        $this->assertEqualsWithDelta($expected, $criticalT2, .00001);;
     }
 
     /**
@@ -249,7 +249,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $criticalQ = self::$pca->getCriticalQ();
 
         // Then
-        $this->assertEquals($expected, $criticalQ, '', .00001);
+        $this->assertEqualsWithDelta($expected, $criticalQ, .00001);;
     }
 
     /**
@@ -302,7 +302,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $T²Distances = self::$pca->getT2Distances()->getMatrix();
 
         // Then
-        $this->assertEquals($expected, $T²Distances, '', .00001);
+        $this->assertEqualsWithDelta($expected, $T²Distances, .00001);;
     }
 
     /**
@@ -325,7 +325,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $T²Distances = self::$pca->getT2Distances($newdata)->getMatrix();
 
         // Then
-        $this->assertEquals($expected, $T²Distances, '', .0001);
+        $this->assertEqualsWithDelta($expected, $T²Distances, .0001);;
     }
 
     /**
@@ -378,7 +378,7 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $qResiduals = self::$pca->getQResiduals()->getMatrix();
 
         // Then
-        $this->assertEquals($expected, $qResiduals, '', .00001);
+        $this->assertEqualsWithDelta($expected, $qResiduals, .00001);;
     }
 
     /**
@@ -401,6 +401,6 @@ class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
         $qResiduals = self::$pca->getQResiduals($newData)->getMatrix();
 
         // Then
-        $this->assertEquals($expected, $qResiduals, '', .0001);
+        $this->assertEqualsWithDelta($expected, $qResiduals, .0001);;
     }
 }

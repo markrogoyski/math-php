@@ -229,8 +229,8 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $inverseAgain = $A->inverse();
 
         // Then
-        $this->assertEquals($A⁻¹, $inverse, '', 0.001); // Test calculation
-        $this->assertEquals($A⁻¹, $inverseAgain, '', 0.001); // Test class attribute
+        $this->assertEqualsWithDelta($A⁻¹, $inverse, 0.001);; // Test calculation
+        $this->assertEqualsWithDelta($A⁻¹, $inverseAgain, 0.001);; // Test class attribute
     }
 
     /**
@@ -1158,7 +1158,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $cofactor = $A->cofactorMatrix();
 
         // Then
-        $this->assertEquals($R, $cofactor, '', 0.00000001);
+        $this->assertEqualsWithDelta($R, $cofactor, 0.00000001);;
     }
 
     public function dataProviderForCofactorMatrix(): array
@@ -1481,7 +1481,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $covarianceMatrix = $A->covarianceMatrix();
 
         // Then
-        $this->assertEquals($S, $covarianceMatrix->getMatrix(), '', 0.0001);
+        $this->assertEqualsWithDelta($S, $covarianceMatrix->getMatrix(), 0.0001);;
     }
 
     public function dataProviderForCovarianceMatrix(): array
@@ -1583,7 +1583,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $covarianceMatrix = $A->covarianceMatrix($direction);
 
         // Then
-        $this->assertEquals($S, $covarianceMatrix->getMatrix(), '', 0.0001);
+        $this->assertEqualsWithDelta($S, $covarianceMatrix->getMatrix(), 0.0001);;
     }
 
     /**

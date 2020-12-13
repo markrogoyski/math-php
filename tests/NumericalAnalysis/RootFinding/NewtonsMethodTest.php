@@ -32,7 +32,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $x = NewtonsMethod::solve($func, $args, $target, $tol, $position);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -58,7 +58,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $x = NewtonsMethod::solve($polynomial, $args, $target, $tol, $position);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -97,7 +97,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $root = NewtonsMethod::solve($func, $args, $target, $tol, $position);
 
         // Then
-        $this->assertEquals($expected, $root, '', $tol);
+        $this->assertEqualsWithDelta($expected, $root, $tol);;
     }
 
     /**
@@ -123,7 +123,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $root = NewtonsMethod::solve($func, $args, $target, $tol, $position);
 
         // Then
-        $this->assertEquals($expected, $root, '', $tol);
+        $this->assertEqualsWithDelta($expected, $root, $tol);;
     }
 
     /**
@@ -149,7 +149,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $root = NewtonsMethod::solve($func, $args, $target, $tol, $position);
 
         // Then
-        $this->assertEquals($expected, $root, '', $tol);
+        $this->assertEqualsWithDelta($expected, $root, $tol);;
     }
 
     /**
@@ -175,7 +175,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $root = NewtonsMethod::solve($func, $args, $target, $tol, $position);
 
         // Then
-        $this->assertEquals($x, $root, '', $tol);
+        $this->assertEqualsWithDelta($x, $root, $tol);;
     }
 
     /**

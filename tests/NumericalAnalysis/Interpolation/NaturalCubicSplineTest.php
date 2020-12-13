@@ -78,7 +78,7 @@ class NaturalCubicSplineTest extends \PHPUnit\Framework\TestCase
         $evaluated = $p($x);
 
         // Then
-        $this->assertEquals($expected, $evaluated, '', $tol + $roundoff);
+        $this->assertEqualsWithDelta($expected, $evaluated, $tol + $roundoff);;
     }
 
     /**
@@ -124,7 +124,7 @@ class NaturalCubicSplineTest extends \PHPUnit\Framework\TestCase
         $evaluated = $p($x);
 
         // Then
-        $this->assertEquals($expected, $evaluated, '', $tol + $roundoff);
+        $this->assertEqualsWithDelta($expected, $evaluated, $tol + $roundoff);;
     }
 
     /**

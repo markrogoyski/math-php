@@ -19,7 +19,7 @@ class MatrixNormsTest extends \PHPUnit\Framework\TestCase
         $norm = $A->oneNorm();
 
         // Then
-        $this->assertEquals($expected, $norm, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $norm, 0.0001);;
     }
 
     public function dataProviderForOneNorm(): array
@@ -92,7 +92,7 @@ class MatrixNormsTest extends \PHPUnit\Framework\TestCase
         $norm = $A->infinityNorm();
 
         // Then
-        $this->assertEquals($expected, $norm, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $norm, 0.0001);;
     }
 
     public function dataProviderForInfinityNorm(): array
@@ -170,7 +170,7 @@ class MatrixNormsTest extends \PHPUnit\Framework\TestCase
         $norm = $A->maxNorm();
 
         // Then
-        $this->assertEquals($expected, $norm, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $norm, 0.0001);;
     }
 
     public function dataProviderForMaxNorm(): array
@@ -248,7 +248,7 @@ class MatrixNormsTest extends \PHPUnit\Framework\TestCase
         $norm = $A->frobeniusNorm();
 
         // Then
-        $this->assertEquals($expected, $norm, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $norm, 0.0001);;
     }
 
     public function dataProviderForFrobeniusNorm(): array

@@ -38,7 +38,7 @@ class SimpsonsRuleTest extends \PHPUnit\Framework\TestCase
         $x = SimpsonsRule::approximate($points);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -72,7 +72,7 @@ class SimpsonsRuleTest extends \PHPUnit\Framework\TestCase
         $x = SimpsonsRule::approximate($points);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -108,7 +108,7 @@ class SimpsonsRuleTest extends \PHPUnit\Framework\TestCase
         $x = SimpsonsRule::approximate($func, $start, $end, $n);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -142,7 +142,7 @@ class SimpsonsRuleTest extends \PHPUnit\Framework\TestCase
         $x = SimpsonsRule::approximate($polynomial, $start, $end, $n);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**

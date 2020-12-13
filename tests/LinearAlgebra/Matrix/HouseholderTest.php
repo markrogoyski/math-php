@@ -42,7 +42,7 @@ class HouseholderTest extends \PHPUnit\Framework\TestCase
         $H = Householder::transform($A);
 
         // Then
-        $this->assertEquals(-1, $H->det(), '', 0.000001);
+        $this->assertEqualsWithDelta(-1, $H->det(), 0.000001);;
     }
 
     /**
@@ -66,8 +66,8 @@ class HouseholderTest extends \PHPUnit\Framework\TestCase
                 return !\is_nan($x);
             }
         );
-        $this->assertEquals(1, max($eigenvalues), '', 0.00001);
-        $this->assertEquals(-1, \min($eigenvalues), '', 0.00001);
+        $this->assertEqualsWithDelta(1, max($eigenvalues), 0.00001);;
+        $this->assertEqualsWithDelta(-1, \min($eigenvalues), 0.00001);;
     }
 
     /**

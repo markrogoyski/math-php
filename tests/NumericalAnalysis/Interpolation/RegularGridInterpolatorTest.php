@@ -127,7 +127,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp([2.21, 12.1, 115.9]);
 
         // Then
-        $this->assertEquals(-75.18, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(-75.18, $result, 0.00001);;
     }
 
     /**
@@ -174,7 +174,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp([2.21, 12.1, 115.9]);
 
         // Then
-        $this->assertEquals(-76, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(-76, $result, 0.00001);;
     }
 
     /**
@@ -232,7 +232,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp([2.1, 6.2, 8.3]);
 
         // Then
-        $this->assertEquals(125.80469388, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(125.80469388, $result, 0.00001);;
     }
 
     /**
@@ -290,7 +290,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp([3.3, 5.2, 7.1]);
 
         // Then
-        $this->assertEquals(146.30069388, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(146.30069388, $result, 0.00001);;
     }
 
     /**
@@ -351,7 +351,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp([3.3, 7.2, 7.1]);  // 7.2 is outside the bounds of the grid
 
         // Then
-        $this->assertEquals(220.48028571, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(220.48028571, $result, 0.00001);;
     }
 
     /**
@@ -412,7 +412,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp([3.3, 7.2, 7.1]);  // 7.2 is outside the bounds of the grid
 
         // Then
-        $this->assertEquals(218.483, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(218.483, $result, 0.00001);;
     }
 
     /**
@@ -461,7 +461,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp($point);
 
         // Then
-        $this->assertEquals($expected, $result, '', 0.00001);
+        $this->assertEqualsWithDelta($expected, $result, 0.00001);;
     }
 
     /**
@@ -544,7 +544,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp([1, 1, 2]);
 
         // Then
-        $this->assertEquals(13, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(13, $result, 0.00001);;
     }
 
     /**
@@ -644,7 +644,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $rgi($tst);
 
         // Then
-        $this->assertEquals(1.93765972, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(1.93765972, $result, 0.00001);;
     }
 
     /**

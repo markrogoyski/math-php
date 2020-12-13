@@ -27,8 +27,8 @@ class CholeskyTest extends \PHPUnit\Framework\TestCase
         $Lᵀ       = $cholesky->LT;
 
         // Then
-        $this->assertEquals($expected_L->getMatrix(), $L->getMatrix(), '', 0.00001);
-        $this->assertEquals($expected_Lᵀ->getMatrix(), $Lᵀ->getMatrix(), '', 0.00001);
+        $this->assertEqualsWithDelta($expected_L->getMatrix(), $L->getMatrix(), 0.00001);;
+        $this->assertEqualsWithDelta($expected_Lᵀ->getMatrix(), $Lᵀ->getMatrix(), 0.00001);;
 
         // And LLᵀ = A
         $LLᵀ = $L->multiply($Lᵀ);

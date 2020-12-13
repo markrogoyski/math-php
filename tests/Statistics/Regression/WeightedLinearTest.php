@@ -23,8 +23,8 @@ class WeightedLinearTest extends \PHPUnit\Framework\TestCase
         $parameters = $regression->getParameters();
 
         // Then
-        $this->assertEquals($m, $parameters['m'], '', 0.0001);
-        $this->assertEquals($b, $parameters['b'], '', 0.0001);
+        $this->assertEqualsWithDelta($m, $parameters['m'], 0.0001);;
+        $this->assertEqualsWithDelta($b, $parameters['b'], 0.0001);;
     }
 
     /**
@@ -63,7 +63,7 @@ class WeightedLinearTest extends \PHPUnit\Framework\TestCase
         $y = $regression->evaluate($x);
 
         // Then
-        $this->assertEquals($expected_y, $y, '', 0.0001);
+        $this->assertEqualsWithDelta($expected_y, $y, 0.0001);;
     }
 
     /**

@@ -169,7 +169,7 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $arg = $c->arg();
 
         // Then
-        $this->assertEquals($expected, $arg, '', 0.00000001);
+        $this->assertEqualsWithDelta($expected, $arg, 0.00000001);;
     }
 
     public function dataProviderForArg(): array
@@ -208,8 +208,8 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $sqrt = $c->sqrt();
 
         // Then
-        $this->assertEquals($expected_r, $sqrt->r, '', 0.00001);
-        $this->assertEquals($expected_i, $sqrt->i, '', 0.00001);
+        $this->assertEqualsWithDelta($expected_r, $sqrt->r, 0.00001);;
+        $this->assertEqualsWithDelta($expected_i, $sqrt->i, 0.00001);;
     }
 
     public function dataProviderForSqrt(): array
@@ -245,10 +245,10 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $roots = $c->roots();
 
         // Then
-        $this->assertEquals($z₁['r'], $roots[0]->r, '', 0.00001);
-        $this->assertEquals($z₁['i'], $roots[0]->i, '', 0.00001);
-        $this->assertEquals($z₂['r'], $roots[1]->r, '', 0.00001);
-        $this->assertEquals($z₂['i'], $roots[1]->i, '', 0.00001);
+        $this->assertEqualsWithDelta($z₁['r'], $roots[0]->r, 0.00001);;
+        $this->assertEqualsWithDelta($z₁['i'], $roots[0]->i, 0.00001);;
+        $this->assertEqualsWithDelta($z₂['r'], $roots[1]->r, 0.00001);;
+        $this->assertEqualsWithDelta($z₂['i'], $roots[1]->i, 0.00001);;
     }
 
     public function dataProviderForRoots(): array
@@ -322,8 +322,8 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $polar_form = $c->polarForm();
 
         // Then
-        $this->assertEquals($expected->r, $polar_form->r, '', 0.00001);
-        $this->assertEquals($expected->i, $polar_form->i, '', 0.00001);
+        $this->assertEqualsWithDelta($expected->r, $polar_form->r, 0.00001);;
+        $this->assertEqualsWithDelta($expected->i, $polar_form->i, 0.00001);;
     }
 
     /**

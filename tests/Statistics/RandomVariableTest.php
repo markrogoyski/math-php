@@ -21,7 +21,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $centralMoment = RandomVariable::centralMoment($X, $n);
 
         // Then
-        $this->assertEquals($expected, $centralMoment, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $centralMoment, 0.0001);;
     }
 
     /**
@@ -62,7 +62,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $populationSkewness = RandomVariable::populationSkewness($X);
 
         // Then
-        $this->assertEquals($expected, $populationSkewness, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $populationSkewness, 0.000001);;
     }
 
     /**
@@ -114,7 +114,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $skewness = RandomVariable::sampleSkewness($X);
 
         // Then
-        $this->assertEquals($expected, $skewness, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $skewness, 0.000001);;
     }
 
     /**
@@ -238,7 +238,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $skewness = RandomVariable::alternativeSkewness($X);
 
         // Then
-        $this->assertEquals($expected, $skewness, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $skewness, 0.000001);;
     }
 
     /**
@@ -285,7 +285,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $skewness = RandomVariable::skewness($X, $type);
 
         // Then
-        $this->assertEquals($expected, $skewness, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $skewness, 0.000001);;
     }
 
     /**
@@ -346,7 +346,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $skewness = RandomVariable::skewness($X);
 
         // Then
-        $this->assertEquals($expected, $skewness, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $skewness, 0.000001);;
     }
 
     /**
@@ -392,7 +392,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $ses = RandomVariable::ses($n);
 
         // Then
-        $this->assertEquals($expected, $ses, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $ses, 0.001);;
     }
 
     /**
@@ -451,7 +451,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $kurtosis = RandomVariable::sampleKurtosis($X);
 
         // Then
-        $this->assertEquals($expected, $kurtosis, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $kurtosis, 0.000001);;
     }
 
     /**
@@ -512,7 +512,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $kurtosis = RandomVariable::populationKurtosis($X);
 
         // Then
-        $this->assertEquals($expected, $kurtosis, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $kurtosis, 0.000001);;
     }
 
     /**
@@ -605,7 +605,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $kurtosis = RandomVariable::kurtosis($X, $type);
 
         // Then
-        $this->assertEquals($expected, $kurtosis, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $kurtosis, 0.000001);;
     }
 
     /**
@@ -647,7 +647,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $kurtosis = RandomVariable::kurtosis($X);
 
         // Then
-        $this->assertEquals($expected, $kurtosis, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $kurtosis, 0.000001);;
     }
 
     /**
@@ -778,7 +778,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $sek = RandomVariable::sek($n);
 
         // Then
-        $this->assertEquals($expected, $sek, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $sek, 0.001);;
     }
 
     /**
@@ -838,7 +838,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $sem = RandomVariable::standardErrorOfTheMean($X);
 
         // Then
-        $this->assertEquals($expected, $sem, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $sem, 0.0001);;
     }
 
     /**
@@ -854,7 +854,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $sem = RandomVariable::sem($X);
 
         // Then
-        $this->assertEquals($expected, $sem, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $sem, 0.0001);;
     }
 
     /**
@@ -899,7 +899,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $ci = RandomVariable::confidenceInterval($μ, $n, $σ, $cl);
 
         // Then
-        $this->assertEquals($expected, $ci, '', 0.1);
+        $this->assertEqualsWithDelta($expected, $ci, 0.1);;
     }
 
     /**
@@ -932,7 +932,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $sos = RandomVariable::sumOfSquares($numbers);
 
         // Then
-        $this->assertEquals($expected, $sos, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $sos, 0.001);;
     }
 
     /**
@@ -975,7 +975,7 @@ class RandomVariableTest extends \PHPUnit\Framework\TestCase
         $sosDeviations = RandomVariable::sumOfSquaresDeviations($numbers);
 
         // Then
-        $this->assertEquals($expected, $sosDeviations, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $sosDeviations, 0.001);;
     }
 
     /**

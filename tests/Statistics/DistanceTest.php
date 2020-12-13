@@ -21,7 +21,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $BD = Distance::bhattacharyyaDistance($p, $q);
 
         // Then
-        $this->assertEquals($expected, $BD, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $BD, 0.0001);;
     }
 
     /**
@@ -93,7 +93,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $BD = Distance::kullbackLeiblerDivergence($p, $q);
 
         // Then
-        $this->assertEquals($expected, $BD, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $BD, 0.0001);;
     }
 
     /**
@@ -176,7 +176,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $BD = Distance::hellingerDistance($p, $q);
 
         // Then
-        $this->assertEquals($expected, $BD, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $BD, 0.0001);;
     }
 
     /**
@@ -259,7 +259,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $BD = Distance::jensenShannonDivergence($p, $q);
 
         // Then
-        $this->assertEquals($expected, $BD, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $BD, 0.0001);;
     }
 
     /**
@@ -340,7 +340,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $BD = Distance::jensenShannon($p, $q);
 
         // Then
-        $this->assertEquals($expected, $BD, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $BD, 0.0001);;
     }
 
     /**
@@ -423,7 +423,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::mahalanobis($x_m, $data);
 
         // Then
-        $this->assertEquals($expectedDistance, $distance, '', 0.0001);
+        $this->assertEqualsWithDelta($expectedDistance, $distance, 0.0001);;
     }
 
     /**
@@ -486,7 +486,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::mahalanobis($x_m, $data, $y_m);
 
         // Then
-        $this->assertEquals($expectedDistance, $distance, '', 0.0001);
+        $this->assertEqualsWithDelta($expectedDistance, $distance, 0.0001);;
     }
 
     /**
@@ -556,7 +556,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::mahalanobis($data2, $data1);
 
         // Then
-        $this->assertEquals(0.1863069, $distance, '', 0.0001);
+        $this->assertEqualsWithDelta(0.1863069, $distance, 0.0001);;
     }
 
     /**
@@ -574,8 +574,8 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distanceYx = Distance::minkowski($y, $x, $p);
 
         // Then
-        $this->assertEquals($expected, $distanceXy, '', 0.0000000001);
-        $this->assertEquals($expected, $distanceYx, '', 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distanceXy, 0.0000000001);;
+        $this->assertEqualsWithDelta($expected, $distanceYx, 0.0000000001);;
     }
 
     /**
@@ -744,7 +744,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::euclidean($x, $y);
 
         // Then
-        $this->assertEquals($expected, $distance, '', 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distance, 0.0000000001);;
     }
 
     /**
@@ -817,7 +817,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::manhattan($x, $y);
 
         // Then
-        $this->assertEquals($expected, $distance, '', 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distance, 0.0000000001);;
     }
 
     /**
@@ -890,7 +890,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::cosine($A, $B);
 
         // Then
-        $this->assertEquals($expected, $distance, '', 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distance, 0.0000000001);;
     }
 
     /**
@@ -989,7 +989,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::cosineSimilarity($A, $B);
 
         // Then
-        $this->assertEquals($expected, $distance, '', 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distance, 0.0000000001);;
     }
 
     /**
@@ -1114,7 +1114,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::brayCurtis($u, $v);
 
         // Then
-        $this->assertEquals($expected, $distance, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $distance, 0.0001);;
     }
 
     /**
@@ -1259,7 +1259,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::canberra($p, $q);
 
         // Then
-        $this->assertEquals($expected, $distance, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $distance, 0.0001);;
     }
 
     /**

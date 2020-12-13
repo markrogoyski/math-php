@@ -32,9 +32,9 @@ class LUTest extends \PHPUnit\Framework\TestCase
         $LU = $A->luDecomposition();
 
         // Then
-        $this->assertEquals($L, $LU->L, '', 0.001);
-        $this->assertEquals($U, $LU->U, '', 0.001);
-        $this->assertEquals($P, $LU->P, '', 0.001);
+        $this->assertEqualsWithDelta($L, $LU->L, 0.001);;
+        $this->assertEqualsWithDelta($U, $LU->U, 0.001);;
+        $this->assertEqualsWithDelta($P, $LU->P, 0.001);;
     }
 
     /**
@@ -54,7 +54,7 @@ class LUTest extends \PHPUnit\Framework\TestCase
         // Then PA = LU;
         $PA = $LU->P->multiply($A);
         $LU = $LU->L->multiply($LU->U);
-        $this->assertEquals($PA->getMatrix(), $LU->getMatrix(), '', 0.01);
+        $this->assertEqualsWithDelta($PA->getMatrix(), $LU->getMatrix(), 0.01);;
     }
 
     /**
@@ -97,7 +97,7 @@ class LUTest extends \PHPUnit\Framework\TestCase
         $x = $LU->solve($b);
 
         // Then
-        $this->assertEquals($expected, $x, '', 0.00001);
+        $this->assertEqualsWithDelta($expected, $x, 0.00001);;
     }
 
     /**
@@ -132,9 +132,9 @@ class LUTest extends \PHPUnit\Framework\TestCase
         $LU = $A->luDecomposition();
 
         // Then
-        $this->assertEquals($L, $LU->L, '', 1e-20);
-        $this->assertEquals($U, $LU->U, '', 1e-20);
-        $this->assertEquals($P, $LU->P, '', 1e-20);
+        $this->assertEqualsWithDelta($L, $LU->L, 1e-20);;
+        $this->assertEqualsWithDelta($U, $LU->U, 1e-20);;
+        $this->assertEqualsWithDelta($P, $LU->P, 1e-20);;
 
         // And
         $this->assertTrue($LU->L->isLowerTriangular());
@@ -143,7 +143,7 @@ class LUTest extends \PHPUnit\Framework\TestCase
         // And PA = LU;
         $PA = $LU->P->multiply($A);
         $LU = $LU->L->multiply($LU->U);
-        $this->assertEquals($PA->getMatrix(), $LU->getMatrix(), '', 0.01);
+        $this->assertEqualsWithDelta($PA->getMatrix(), $LU->getMatrix(), 0.01);;
     }
 
     /**

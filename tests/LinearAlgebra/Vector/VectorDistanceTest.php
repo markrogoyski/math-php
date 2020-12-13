@@ -58,8 +58,8 @@ class VectorDistanceTest extends \PHPUnit\Framework\TestCase
         $distance2 = $B->l1Distance($A);
 
         // Then
-        $this->assertEquals($expected, $distance1, '', 0.0000000001);
-        $this->assertEquals($expected, $distance2, '', 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distance1, 0.0000000001);;
+        $this->assertEqualsWithDelta($expected, $distance2, 0.0000000001);;
     }
 
     /**
@@ -119,8 +119,8 @@ class VectorDistanceTest extends \PHPUnit\Framework\TestCase
         $distance2 = $B->l2Distance($A);
 
         // Then
-        $this->assertEquals($expected, $distance1, '', 0.0000000001);
-        $this->assertEquals($expected, $distance2, '', 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distance1, 0.0000000001);;
+        $this->assertEqualsWithDelta($expected, $distance2, 0.0000000001);;
     }
 
     /**
@@ -181,8 +181,8 @@ class VectorDistanceTest extends \PHPUnit\Framework\TestCase
         $distance2 = $B->minkowskiDistance($A, $p);
 
         // Then
-        $this->assertEquals($expected, $distance1, '', 0.0000000001);
-        $this->assertEquals($expected, $distance2, '', 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distance1, 0.0000000001);;
+        $this->assertEqualsWithDelta($expected, $distance2, 0.0000000001);;
     }
 
     /**

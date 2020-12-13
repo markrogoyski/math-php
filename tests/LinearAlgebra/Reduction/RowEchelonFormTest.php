@@ -69,7 +69,7 @@ class RowEchelonFormTest extends \PHPUnit\Framework\TestCase
         $ref = MatrixFactory::create($ref);
 
         // Then
-        $this->assertEquals($R->getMatrix(), $ref->getMatrix(), '', 0.000001);
+        $this->assertEqualsWithDelta($R->getMatrix(), $ref->getMatrix(), 0.000001);;
         $this->assertTrue($ref->isRef());
     }
 

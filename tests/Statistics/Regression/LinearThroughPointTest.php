@@ -117,8 +117,8 @@ class LinearThroughPointTest extends \PHPUnit\Framework\TestCase
         $parameters = $regression->getParameters();
 
         // Then
-        $this->assertEquals($m, $parameters['m'], '', 0.0001);
-        $this->assertEquals($b, $parameters['b'], '', 0.0001);
+        $this->assertEqualsWithDelta($m, $parameters['m'], 0.0001);;
+        $this->assertEqualsWithDelta($b, $parameters['b'], 0.0001);;
     }
 
     /**
@@ -195,7 +195,7 @@ class LinearThroughPointTest extends \PHPUnit\Framework\TestCase
         $regression = new LinearThroughPoint($points, $force);
 
         // Then
-        $this->assertEquals($y, $regression->evaluate($x), '', 0.0001);
+        $this->assertEqualsWithDelta($y, $regression->evaluate($x), 0.0001);;
     }
 
     /**
@@ -242,7 +242,7 @@ class LinearThroughPointTest extends \PHPUnit\Framework\TestCase
         $regression = new LinearThroughPoint($points);
 
         // Then
-        $this->assertEquals($ci, $regression->ci($x, $p), '', .0000001);
+        $this->assertEqualsWithDelta($ci, $regression->ci($x, $p), .0000001);;
     }
 
     /**
@@ -282,7 +282,7 @@ class LinearThroughPointTest extends \PHPUnit\Framework\TestCase
         $regression = new LinearThroughPoint($points);
 
         // Then
-        $this->assertEquals($pi, $regression->pi($x, $p, $q), '', .0000001);
+        $this->assertEqualsWithDelta($pi, $regression->pi($x, $p, $q), .0000001);;
     }
 
     /**
@@ -319,9 +319,9 @@ class LinearThroughPointTest extends \PHPUnit\Framework\TestCase
         $regression = new LinearThroughPoint($points, $force);
 
         // Then
-        $this->assertEquals($sums['sse'], $regression->sumOfSquaresResidual(), '', .0000001);
-        $this->assertEquals($sums['ssr'], $regression->sumOfSquaresRegression(), '', .0000001);
-        $this->assertEquals($sums['sst'], $regression->sumOfSquaresTotal(), '', .0000001);
+        $this->assertEqualsWithDelta($sums['sse'], $regression->sumOfSquaresResidual(), .0000001);;
+        $this->assertEqualsWithDelta($sums['ssr'], $regression->sumOfSquaresRegression(), .0000001);;
+        $this->assertEqualsWithDelta($sums['sst'], $regression->sumOfSquaresTotal(), .0000001);;
     }
 
     /**

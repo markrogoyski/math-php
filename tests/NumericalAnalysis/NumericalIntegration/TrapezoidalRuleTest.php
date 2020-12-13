@@ -37,7 +37,7 @@ class TrapezoidalRuleTest extends \PHPUnit\Framework\TestCase
         $x = TrapezoidalRule::approximate($points);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -70,7 +70,7 @@ class TrapezoidalRuleTest extends \PHPUnit\Framework\TestCase
         $x = TrapezoidalRule::approximate($points);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -103,7 +103,7 @@ class TrapezoidalRuleTest extends \PHPUnit\Framework\TestCase
         $x = TrapezoidalRule::approximate($points);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -136,7 +136,7 @@ class TrapezoidalRuleTest extends \PHPUnit\Framework\TestCase
         $x = TrapezoidalRule::approximate($points);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -171,7 +171,7 @@ class TrapezoidalRuleTest extends \PHPUnit\Framework\TestCase
         $x = TrapezoidalRule::approximate($func, $start, $end, $n);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -195,7 +195,7 @@ class TrapezoidalRuleTest extends \PHPUnit\Framework\TestCase
         $x = TrapezoidalRule::approximate($func, $start, $end, $n);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 
     /**
@@ -244,6 +244,6 @@ class TrapezoidalRuleTest extends \PHPUnit\Framework\TestCase
         $x = TrapezoidalRule::approximate($polynomial, $start, $end, $n);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);;
     }
 }

@@ -54,7 +54,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
         $pdf = $uniform->pdf($x);
 
         // Then
-        $this->assertEquals($expected, $pdf, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $pdf, 0.001);;
     }
 
     /**
@@ -103,7 +103,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
         $cdf = $uniform->cdf($x);
 
         // Then
-        $this->assertEquals($expected, $cdf, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $cdf, 0.001);;
     }
 
     /**
@@ -151,7 +151,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
         $mean = $uniform->mean();
 
         // Then
-        $this->assertEquals($μ, $mean, '', 0.00001);
+        $this->assertEqualsWithDelta($μ, $mean, 0.00001);;
     }
 
     /**
@@ -171,7 +171,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
         $median = $uniform->median();
 
         // Then
-        $this->assertEquals($μ, $median, '', 0.00001);
+        $this->assertEqualsWithDelta($μ, $median, 0.00001);;
     }
 
     /**
@@ -226,7 +226,7 @@ class UniformTest extends \PHPUnit\Framework\TestCase
         $variance = $uniform->variance();
 
         // Then
-        $this->assertEquals($expected, $variance, '', 0.00001);
+        $this->assertEqualsWithDelta($expected, $variance, 0.00001);;
     }
 
     /**

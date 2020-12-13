@@ -127,7 +127,7 @@ class NewtonPolynomialForwardTest extends \PHPUnit\Framework\TestCase
         $actual = $p($x);
 
         // Then
-        $this->assertEquals($expected, $actual, '', $tol);
+        $this->assertEqualsWithDelta($expected, $actual, $tol);;
     }
 
     /**
