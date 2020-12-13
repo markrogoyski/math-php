@@ -10,9 +10,9 @@
     <testsuite name="Arithmetic">
       <directory suffix="Test.php">Arithmetic</directory>
     </testsuite>
-    <!--<testsuite name="Exception">
+    <testsuite name="Exception">
       <directory suffix="Test.php">Exception</directory>
-    </testsuite>-->
+    </testsuite>
     <testsuite name="Finance">
       <directory suffix="Test.php">Finance</directory>
     </testsuite>
