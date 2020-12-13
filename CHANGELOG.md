@@ -1,5 +1,15 @@
 # MathPHP Change Log
 
+## 1.9.0 - 2020-12-13
+
+### New Features
+* Vector min and max
+* Arithmetic isqrt (integer square root)
+
+### Improvements
+* Remove Travis CI (Moved CI to Github Actions in v1.8.0 release)
+* Rearrange non-code files
+
 ## v1.8.0 - 2020-12-11
 
 ### Improvements
