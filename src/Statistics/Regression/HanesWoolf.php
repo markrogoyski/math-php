@@ -26,7 +26,7 @@ class HanesWoolf extends ParametricRegression
      * @throws Exception\MatrixException
      * @throws Exception\MathException
      */
-    public function calculate()
+    public function calculate(): void
     {
         // Linearize the relationship by dividing x by y
         $y’ = Multi::divide($this->xs, $this->ys);

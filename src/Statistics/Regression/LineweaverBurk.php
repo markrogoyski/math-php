@@ -27,7 +27,7 @@ class LineweaverBurk extends ParametricRegression
      * @throws Exception\MatrixException
      * @throws Exception\MathException
      */
-    public function calculate()
+    public function calculate(): void
     {
         // Linearize the relationship by taking the inverse of both x and y
         $x’ = Single::pow($this->xs, -1);

@@ -251,7 +251,7 @@ class Set implements \Countable, \Iterator
      *
      * @return string|null
      */
-    protected function getKey($x)
+    protected function getKey($x): ?string
     {
         if (\is_int($x) || \is_float($x) || \is_string($x) || $x instanceof Set) {
             return "$x";

@@ -21,7 +21,7 @@ abstract class ParametricRegression extends Regression
         $this->calculate();
     }
 
-    abstract public function calculate();
+    abstract public function calculate(): void;
 
     /**
      * Return the model as a string

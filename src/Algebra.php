@@ -199,7 +199,7 @@ class Algebra
      *
      * @return float|null Root of the linear equation: x = -b / a
      */
-    public static function linear(float $a, float $b)
+    public static function linear(float $a, float $b): ?float
     {
         if ($a == 0) {
             return null;

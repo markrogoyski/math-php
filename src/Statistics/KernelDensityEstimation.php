@@ -68,7 +68,7 @@ class KernelDensityEstimation
      *
      * @throws Exception\OutOfBoundsException if h ≤ 0
      */
-    public function setBandwidth(float $h = null)
+    public function setBandwidth(float $h = null): void
     {
         if ($h === null) {
             $this->h = $this->getDefaultBandwidth();
@@ -118,7 +118,7 @@ class KernelDensityEstimation
      * @throws Exception\BadDataException
      * @throws Exception\OutOfBoundsException
      */
-    public function setKernelFunction($kernel = null)
+    public function setKernelFunction($kernel = null): void
     {
         if ($kernel === null) {
             $this->kernel = $this->getKernelFunctionFromLibrary(self::STANDARD_NORMAL);

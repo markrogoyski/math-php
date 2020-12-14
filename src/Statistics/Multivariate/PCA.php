@@ -89,7 +89,7 @@ class PCA
      *
      * @throws Exception\BadDataException if the matrix is not square
      */
-    private function checkNewData(Matrix $newData)
+    private function checkNewData(Matrix $newData): void
     {
         if ($newData->getN() !== $this->data->getN()) {
             throw new Exception\BadDataException('Data does not have the same number of columns');

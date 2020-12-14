@@ -99,7 +99,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @throws Exception\MathException
      */
-    public function asColumnMatrix()
+    public function asColumnMatrix(): Matrix
     {
         $matrix = \array_map(
             function ($element) {
@@ -124,7 +124,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @throws Exception\MathException
      */
-    public function asRowMatrix()
+    public function asRowMatrix(): Matrix
     {
         return new Matrix([$this->A]);
     }
@@ -431,7 +431,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @return Vector
      */
-    public function scalarMultiply($k)
+    public function scalarMultiply($k): Vector
     {
         return new Vector(Map\Single::multiply($this->A, $k));
     }
@@ -444,7 +444,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @return Vector
      */
-    public function scalarDivide($k)
+    public function scalarDivide($k): Vector
     {
         return new Vector(Map\Single::divide($this->A, $k));
     }
@@ -725,7 +725,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return '[' . \implode(', ', $this->A) . ']';
     }
@@ -790,7 +790,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     /**
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->A;
     }
@@ -799,7 +799,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * Iterator INTERFACE
      **************************************************************************/
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->i = 0;
     }
@@ -814,7 +814,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
         return $this->i;
     }
 
-    public function next()
+    public function next(): void
     {
         ++$this->i;
     }
