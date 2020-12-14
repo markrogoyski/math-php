@@ -121,24 +121,24 @@ $lcm = Algebra::lcm(5, 2);
 $factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
 
 // Linear equation of one variable: ax + b = 0
-list($a, $b) = [2, 4]; // 2x + 4 = 0
-$x           = Algebra::linear($a, $b);
+[$a, $b] = [2, 4]; // 2x + 4 = 0
+$x       = Algebra::linear($a, $b);
 
 // Quadratic equation: ax² + bx + c = 0
-list($a, $b, $c) = [1, 2, -8]; // x² + 2x - 8
-list($x₁, $x₂)   = Algebra::quadratic($a, $b, $c);
+[$a, $b, $c] = [1, 2, -8]; // x² + 2x - 8
+[$x₁, $x₂]   = Algebra::quadratic($a, $b, $c);
 
 // Discriminant: Δ = b² - 4ac
-list($a, $b, $c) = [2, 3, 4]; // 3² - 4(2)(4)
-$Δ               = Algebra::discriminant($a, $b, $c);
+[$a, $b, $c] = [2, 3, 4]; // 3² - 4(2)(4)
+$Δ           = Algebra::discriminant($a, $b, $c);
 
 // Cubic equation: z³ + a₂z² + a₁z + a₀ = 0
-list($a₃, $a₂, $a₁, $a₀) = [2, 9, 3, -4]; // 2x³ + 9x² + 3x -4
-list($x₁, $x₂, $x₃)      = Algebra::cubic($a₃, $a₂, $a₁, $a₀);
+[$a₃, $a₂, $a₁, $a₀] = [2, 9, 3, -4]; // 2x³ + 9x² + 3x -4
+[$x₁, $x₂, $x₃]      = Algebra::cubic($a₃, $a₂, $a₁, $a₀);
 
 // Quartic equation: a₄z⁴ + a₃z³ + a₂z² + a₁z + a₀ = 0
-list($a₄, $a₃, $a₂, $a₁, $a₀) = [1, -10, 35, -50, 24]; // z⁴ - 10z³ + 35z² - 50z + 24 = 0
-list($z₁, $z₂, $z₃, $z₄)      = Algebra::quartic($a₄, $a₃, $a₂, $a₁, $a₀);
+[$a₄, $a₃, $a₂, $a₁, $a₀] = [1, -10, 35, -50, 24]; // z⁴ - 10z³ + 35z² - 50z + 24 = 0
+[$z₁, $z₂, $z₃, $z₄]      = Algebra::quartic($a₄, $a₃, $a₂, $a₁, $a₀);
 ```
 
 ### Arithmetic
@@ -325,17 +325,17 @@ $Γ = Special::gammaLanczos($z);   // Lanczos approximation
 $Γ = Special::gammaStirling($z);  // Stirling approximation
 
 // Incomplete gamma functions - γ(s,t), Γ(s,x), P(s,x)
-list($x, $s) = [1, 2];
+[$x, $s] = [1, 2];
 $γ = Special::lowerIncompleteGamma($x, $s);
 $Γ = Special::upperIncompleteGamma($x, $s);
 $P = Special::regularizedLowerIncompleteGamma($x, $s);
 
 // Beta function
-list($x, $y) = [1, 2];
+[$x, $y] = [1, 2];
 $β = Special::beta($x, $y);
 
 // Incomplete beta functions
-list($x, $a, $b) = [0.4, 2, 3];
+[$x, $a, $b] = [0.4, 2, 3];
 $B  = Special::incompleteBeta($x, $a, $b);
 $Iₓ = Special::regularizedIncompleteBeta($x, $a, $b);
 
@@ -428,14 +428,14 @@ $Aᵢⱼ = $A->get(2, 2);
 $Aᵢⱼ = $A[2][2];
 
 // Row operations
-list($mᵢ, $mⱼ, $k) = [1, 2, 5];
+[$mᵢ, $mⱼ, $k] = [1, 2, 5];
 $R = $A->rowInterchange($mᵢ, $mⱼ);
 $R = $A->rowMultiply($mᵢ, $k);     // Multiply row mᵢ by k
 $R = $A->rowAdd($mᵢ, $mⱼ, $k);     // Add k * row mᵢ to row mⱼ
 $R = $A->rowExclude($mᵢ);          // Exclude row $mᵢ
 
 // Column operations
-list($nᵢ, $nⱼ, $k) = [1, 2, 5];
+[$nᵢ, $nⱼ, $k] = [1, 2, 5];
 $R = $A->columnInterchange($nᵢ, $nⱼ);
 $R = $A->columnMultiply($nᵢ, $k);     // Multiply column nᵢ by k
 $R = $A->columnAdd($nᵢ, $nⱼ, $k);     // Add k * column nᵢ to column nⱼ
@@ -610,19 +610,19 @@ $X₃ = new Vector([3, 6, 9]);
 $A  = MatrixFactory::createFromVectors([$X₁, $X₂, $X₃]);
 
 // Specialized matrices
-list($m, $n, $k, $angle, $size) = [4, 4, 2, 3.14159, 2];
-$identity_matrix                = MatrixFactory::identity($n);                   // Ones on the main diagonal
-$zero_matrix                    = MatrixFactory::zero($m, $n);                   // All zeros
-$ones_matrix                    = MatrixFactory::one($m, $n);                    // All ones
-$eye_matrix                     = MatrixFactory::eye($m, $n, $k);                // Ones (or other value) on the k-th diagonal
-$exchange_matrix                = MatrixFactory::exchange($n);                   // Ones on the reverse diagonal
-$downshift_permutation_matrix   = MatrixFactory::downshiftPermutation($n);       // Permutation matrix that pushes the components of a vector down one notch with wraparound
-$upshift_permutation_matrix     = MatrixFactory::upshiftPermutation($n);         // Permutation matrix that pushes the components of a vector up one notch with wraparound
-$diagonal_matrix                = MatrixFactory::diagonal([1, 2, 3]);            // 3 x 3 diagonal matrix with zeros above and below the diagonal
-$hilbert_matrix                 = MatrixFactory::hilbert($n);                    // Square matrix with entries being the unit fractions
-$vandermonde_matrix             = MatrixFactory::vandermonde([1, 2, 3], 4);      // 4 x 3 Vandermonde matrix
-$random_matrix                  = MatrixFactory::random($m, $n);                 // m x n matrix of random integers
-$givens_matrix                  = MatrixFactory::givens($m, $n, $angle, $size);  // givens rotation matrix
+[$m, $n, $k, $angle, $size]   = [4, 4, 2, 3.14159, 2];
+$identity_matrix              = MatrixFactory::identity($n);                   // Ones on the main diagonal
+$zero_matrix                  = MatrixFactory::zero($m, $n);                   // All zeros
+$ones_matrix                  = MatrixFactory::one($m, $n);                    // All ones
+$eye_matrix                   = MatrixFactory::eye($m, $n, $k);                // Ones (or other value) on the k-th diagonal
+$exchange_matrix              = MatrixFactory::exchange($n);                   // Ones on the reverse diagonal
+$downshift_permutation_matrix = MatrixFactory::downshiftPermutation($n);       // Permutation matrix that pushes the components of a vector down one notch with wraparound
+$upshift_permutation_matrix   = MatrixFactory::upshiftPermutation($n);         // Permutation matrix that pushes the components of a vector up one notch with wraparound
+$diagonal_matrix              = MatrixFactory::diagonal([1, 2, 3]);            // 3 x 3 diagonal matrix with zeros above and below the diagonal
+$hilbert_matrix               = MatrixFactory::hilbert($n);                    // Square matrix with entries being the unit fractions
+$vandermonde_matrix           = MatrixFactory::vandermonde([1, 2, 3], 4);      // 4 x 3 Vandermonde matrix
+$random_matrix                = MatrixFactory::random($m, $n);                 // m x n matrix of random integers
+$givens_matrix                = MatrixFactory::givens($m, $n, $angle, $size);  // givens rotation matrix
 ```
 
 ### Linear Algebra - Vector
@@ -706,14 +706,14 @@ $bigInt！  = $bigInt->fact();
 $bool     = $bigInt->isPositive();
 
 // Binary functions
-$sum                  = $bigInt->add($bigInt);
-$difference           = $bigInt->subtract($bigInt);
-$product              = $bigInt->multiply($bigInt);
-$quotient             = $bigInt->intdiv($divisor);
-$mod                  = $bigInt->mod($divisor);
-list($quotient, $mod) = $bigInt->fullIntdiv($divisor);
-$pow                  = $bigInt->pow($exponent);
-$shifted              = $bigInt->leftShift(2);
+$sum              = $bigInt->add($bigInt);
+$difference       = $bigInt->subtract($bigInt);
+$product          = $bigInt->multiply($bigInt);
+$quotient         = $bigInt->intdiv($divisor);
+$mod              = $bigInt->mod($divisor);
+[$quotient, $mod] = $bigInt->fullIntdiv($divisor);
+$pow              = $bigInt->pow($exponent);
+$shifted          = $bigInt->leftShift(2);
 
 // Comparison functions
 $bool = $bigInt->equals($bigInt);
@@ -735,22 +735,22 @@ $randomBigInt = Functions\ArbitaryInteger::rand($intNumberOfBytes);
 ```php
 use MathPHP\Number\Complex;
 
-list($r, $i) = [2, 4];
-$complex     = new Complex($r, $i);
+[$r, $i] = [2, 4];
+$complex = new Complex($r, $i);
 
 // Accessors
 $r = $complex->r;
 $i = $complex->i;
 
 // Unary functions
-$conjugate     = $complex->complexConjugate();
-$│c│           = $complex->abs();     // absolute value (modulus)
-$arg⟮c⟯         = $complex->arg();     // argument (phase)
-$√c            = $complex->sqrt();    // positive square root
-list($z₁, $z₂) = $complex->roots();
-$c⁻¹           = $complex->inverse();
-$−c            = $complex->negate();
-$polar         = $complex->polarForm();
+$conjugate = $complex->complexConjugate();
+$│c│       = $complex->abs();     // absolute value (modulus)
+$arg⟮c⟯     = $complex->arg();     // argument (phase)
+$√c        = $complex->sqrt();    // positive square root
+[$z₁, $z₂] = $complex->roots();
+$c⁻¹       = $complex->inverse();
+$−c        = $complex->negate();
+$polar     = $complex->polarForm();
 
 // Binary functions
 $c＋c = $complex->add($complex);
@@ -836,8 +836,8 @@ $bool = Integer::isRefactorableNumber($n);
 $bool = Integer::isSphenicNumber($n);
 
 // Perfect powers
-$bool        = Integer::isPerfectPower($n);
-list($m, $k) = Integer::perfectPower($n);
+$bool    = Integer::isPerfectPower($n);
+[$m, $k] = Integer::perfectPower($n);
 
 // Coprime
 $bool = Integer::coprime(4, 35);
@@ -865,7 +865,7 @@ $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 3, 4];
+[$start, $end, $n] = [0, 3, 4];
 
 // Lagrange Polynomial
 // Returns a function p(x) of x
@@ -911,7 +911,7 @@ $f⟮x⟯ = function ($x) {
 $f’⟮x⟯ = function ($x) {
     return 2*$x + 2;
 };
-list($start, $end, $n) = [0, 3, 4];
+[$start, $end, $n] = [0, 3, 4];
 
 $p = Interpolation\ClampedCubicSpline::interpolate($points);                // input as a set of points
 $p = Interpolation\ClampedCubicSpline::interpolate($f⟮x⟯, $f’⟮x⟯, $start, $end, $n); // input as a callback function
@@ -970,7 +970,7 @@ $f⟮x⟯ = function ($x) {
 $points = [[0, 1], [1, 4], [2, 9]];
 
 $target = 0;
-list($start, $end, $n) = [0, 2, 3];
+[$start, $end, $n] = [0, 2, 3];
 $derivative = NumericalDifferentiation\ThreePointFormula::differentiate($target, $points);                // input as a set of points
 $derivative = NumericalDifferentiation\ThreePointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
 
@@ -981,7 +981,7 @@ $derivative = NumericalDifferentiation\ThreePointFormula::differentiate($target,
 $points = [[0, 1], [1, 4], [2, 9], [3, 16], [4, 25]];
 
 $target = 0;
-list($start, $end, $n) = [0, 4, 5];
+[$start, $end, $n] = [0, 4, 5];
 $derivative = NumericalDifferentiation\FivePointFormula::differentiate($target, $points);                // input as a set of points
 $derivative = NumericalDifferentiation\FivePointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
 
@@ -992,7 +992,7 @@ $derivative = NumericalDifferentiation\FivePointFormula::differentiate($target, 
 $points = [[0, 1], [1, 4], [2, 9];
 
 $target = 1;
-list($start, $end, $n) = [0, 2, 3];
+[$start, $end, $n] = [0, 2, 3];
 $derivative = NumericalDifferentiation\SecondDerivativeMidpointFormula::differentiate($target, $points);                // input as a set of points
 $derivative = NumericalDifferentiation\SecondDerivativeMidpointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
 ```
@@ -1014,7 +1014,7 @@ $∫f⟮x⟯dx = NumericalIntegration\TrapezoidalRule::approximate($points); // 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 3, 4];
+[$start, $end, $n] = [0, 3, 4];
 $∫f⟮x⟯dx = NumericalIntegration\TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Simpsons Rule (closed Newton-Cotes formula)
@@ -1024,7 +1024,7 @@ $∫f⟮x⟯dx = NumericalIntegration\SimpsonsRule::approximate($points); // inp
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 3, 5];
+[$start, $end, $n] = [0, 3, 5];
 $∫f⟮x⟯dx = NumericalIntegration\SimpsonsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Simpsons 3/8 Rule (closed Newton-Cotes formula)
@@ -1034,7 +1034,7 @@ $∫f⟮x⟯dx = NumericalIntegration\SimpsonsThreeEighthsRule::approximate($poi
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 3, 5];
+[$start, $end, $n] = [0, 3, 5];
 $∫f⟮x⟯dx = NumericalIntegration\SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Booles Rule (closed Newton-Cotes formula)
@@ -1044,7 +1044,7 @@ $∫f⟮x⟯dx = NumericalIntegration\BoolesRule::approximate($points); // input
 $f⟮x⟯ = function ($x) {
     return $x**3 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 4, 5];
+[$start, $end, $n] = [0, 4, 5];
 $∫f⟮x⟯dx = NumericalIntegration\BoolesRuleRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Rectangle Method (open Newton-Cotes formula)
@@ -1054,7 +1054,7 @@ $∫f⟮x⟯dx = NumericalIntegration\RectangleMethod::approximate($points); // 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 3, 4];
+[$start, $end, $n] = [0, 3, 4];
 $∫f⟮x⟯dx = NumericalIntegration\RectangleMethod::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Midpoint Rule (open Newton-Cotes formula)
@@ -1064,7 +1064,7 @@ $∫f⟮x⟯dx = NumericalIntegration\MidpointRule::approximate($points); // inp
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 3, 4];
+[$start, $end, $n] = [0, 3, 4];
 $∫f⟮x⟯dx = NumericalIntegration\MidpointRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 ```
 
@@ -1116,7 +1116,7 @@ $x   = RootFinding\FixedPointIteration::solve($g⟮x⟯, $a, $b, $p, $tol); // S
 ```php
 use MathPHP\Probability\Combinatorics;
 
-list($n, $x, $k) = [10, 3, 4];
+[$n, $x, $k] = [10, 3, 4];
 
 // Factorials
 $n！  = Combinatorics::factorial($n);
@@ -1963,7 +1963,7 @@ $WMA     = Average::weightedMovingAverage($numbers, $n, $weights);
 $EPA     = Average::exponentialMovingAverage($numbers, $n);
 
 // Means of two numbers
-list($x, $y) = [24, 6];
+[$x, $y]       = [24, 6];
 $agm           = Average::arithmeticGeometricMean($x, $y); // same as agm
 $agm           = Average::agm($x, $y);                     // same as arithmeticGeometricMean
 $log_mean      = Average::logarithmicMean($x, $y);
@@ -2273,17 +2273,17 @@ $ƒ² = EffectSize::cohensF($ω²);
 $ƒ² = EffectSize::cohensF($R²);
 
 // Cohen's q
-list($r₁, $r₂) = [0.1, 0.2];
+[$r₁, $r₂] = [0.1, 0.2];
 $q = EffectSize::cohensQ($r₁, $r₂);
 
 // Cohen's d
-list($μ₁, $σ₁) = [6.7, 1.2];
-list($μ₂, $σ₂) = [6, 1];
+[$μ₁, $σ₁] = [6.7, 1.2];
+[$μ₂, $σ₂] = [6, 1];
 $d = EffectSize::cohensD($μ₁, $μ₂, $σ₁, $σ₂);
 
 // Hedges' g
-list($μ₁, $σ₁, $n₁) = [6.7, 1.2, 15];
-list($μ₂, $σ₂, $n₂) = [6, 1, 15];
+[$μ₁, $σ₁, $n₁] = [6.7, 1.2, 15];
+[$μ₂, $σ₂, $n₂] = [6, 1, 15];
 $g = EffectSize::hedgesG($μ₁, $μ₂, $σ₁, $σ₂, $n₁, $n₂);
 
 // Glass' Δ
