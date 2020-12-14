@@ -12,7 +12,7 @@ class Uniform extends Continuous
      * b ∈ (-∞,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'a' => '(-∞,∞)',
         'b' => '(-∞,∞)',
     ];
@@ -22,7 +22,7 @@ class Uniform extends Continuous
      * x ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',
     ];
 

@@ -17,7 +17,7 @@ class F extends Continuous
      * d₂ ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'd₁' => '(0,∞)',
         'd₂' => '(0,∞)',
     ];
@@ -27,7 +27,7 @@ class F extends Continuous
      * x  ∈ [0,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x'  => '[0,∞)',
     ];
 

@@ -16,7 +16,7 @@ class StudentT extends Continuous
      * ν ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'ν' => '(0,∞)',
     ];
 
@@ -25,7 +25,7 @@ class StudentT extends Continuous
      * t ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         't' => '(-∞,∞)',
     ];
 

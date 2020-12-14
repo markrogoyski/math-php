@@ -18,7 +18,7 @@ class NoncentralT extends Continuous
      * μ ∈ (-∞,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'ν' => '(0,∞)',
         'μ' => '(-∞,∞)',
     ];
@@ -28,7 +28,7 @@ class NoncentralT extends Continuous
      * x ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',
     ];
 

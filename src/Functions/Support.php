@@ -6,7 +6,7 @@ use MathPHP\Exception;
 
 class Support
 {
-    const ε = 0.00000000001;
+    private const ε = 0.00000000001;
 
     /**
      * Checks that the values of the parameters passed

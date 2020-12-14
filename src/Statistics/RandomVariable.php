@@ -34,12 +34,12 @@ use MathPHP\Exception;
  */
 class RandomVariable
 {
-    const SAMPLE_SKEWNESS      = 'sample';
-    const POPULATION_SKEWNESS  = 'population';
-    const ALTERNATIVE_SKEWNESS = 'alternative';
+    public const SAMPLE_SKEWNESS      = 'sample';
+    public const POPULATION_SKEWNESS  = 'population';
+    public const ALTERNATIVE_SKEWNESS = 'alternative';
 
-    const SAMPLE_KURTOSIS     = 'sample';
-    const POPULATION_KURTOSIS = 'population';
+    public const SAMPLE_KURTOSIS     = 'sample';
+    public const POPULATION_KURTOSIS = 'population';
 
     /**
      * n-th Central moment

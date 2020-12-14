@@ -47,8 +47,8 @@ use MathPHP\Util\Iter;
  */
 class RegularGridInterpolator
 {
-    const METHOD_LINEAR  = 'linear';
-    const METHOD_NEAREST = 'nearest';
+    public const METHOD_LINEAR  = 'linear';
+    public const METHOD_NEAREST = 'nearest';
 
     /** @var string Interpolation method (linear or nearest) */
     private $method;

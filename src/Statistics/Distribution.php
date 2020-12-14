@@ -4,7 +4,7 @@ namespace MathPHP\Statistics;
 
 class Distribution
 {
-    const PRINT = true;
+    public const PRINT = true;
 
     /**
      * Frequency distribution

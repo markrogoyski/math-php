@@ -19,7 +19,7 @@ class Binomial extends Discrete
      * p ∈ [0,1]
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'n' => '[0,∞)',
         'p' => '[0,1]',
     ];
@@ -29,7 +29,7 @@ class Binomial extends Discrete
      * r ∈ [0,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'r' => '[0,∞)',
     ];
 

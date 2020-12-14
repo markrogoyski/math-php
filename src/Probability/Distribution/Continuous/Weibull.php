@@ -13,7 +13,7 @@ class Weibull extends Continuous
      * k ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'k' => '(0,∞)',
         'λ' => '(0,∞)',
     ];
@@ -23,7 +23,7 @@ class Weibull extends Continuous
      * x ∈ [0,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',
     ];
 

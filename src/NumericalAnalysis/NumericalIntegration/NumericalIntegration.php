@@ -17,10 +17,10 @@ use MathPHP\Exception;
 abstract class NumericalIntegration
 {
     /** @var int Index of x */
-    const X = 0;
+    protected const X = 0;
 
     /** @var int Index of y */
-    const Y = 1;
+    protected const Y = 1;
 
     abstract public static function approximate($source, ...$args);
 

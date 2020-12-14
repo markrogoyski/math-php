@@ -16,18 +16,18 @@ class Matrix extends MatrixBase
     protected $ε;
 
     // Default error/zero tolerance
-    const ε = 0.00000000001;
+    protected const ε = 0.00000000001;
 
     // Matrix data direction
-    const ROWS    = 'rows';
-    const COLUMNS = 'columns';
+    public const ROWS    = 'rows';
+    public const COLUMNS = 'columns';
 
     // Matrix solve methods
-    const LU      = 'LU';
-    const QR      = 'QR';
-    const INVERSE = 'Inverse';
-    const RREF    = 'RREF';
-    const DEFAULT = 'Default';
+    public const LU      = 'LU';
+    public const QR      = 'QR';
+    public const INVERSE = 'Inverse';
+    public const RREF    = 'RREF';
+    public const DEFAULT = 'Default';
 
     /**
      * Constructor

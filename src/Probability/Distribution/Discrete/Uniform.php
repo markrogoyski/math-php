@@ -16,7 +16,7 @@ class Uniform extends Discrete
      * b ∈ (-∞,∞)  b > a
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'a' => '(-∞,∞)',
         'b' => '(-∞,∞)',
     ];
@@ -26,7 +26,7 @@ class Uniform extends Discrete
      * k ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'k' => '(-∞,∞)',
     ];
 

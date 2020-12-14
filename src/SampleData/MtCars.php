@@ -15,9 +15,9 @@ namespace MathPHP\SampleData;
  */
 class MtCars
 {
-    const LABELS = ['mpg', 'cyl', 'disp', 'hp', 'drat', 'wt', 'qsec', 'vs', 'am', 'gear', 'carb'];
+    private const LABELS = ['mpg', 'cyl', 'disp', 'hp', 'drat', 'wt', 'qsec', 'vs', 'am', 'gear', 'carb'];
 
-    const DATA = [
+    private const DATA = [
         'Mazda RX4'           => [21, 6, 160, 110, 3.9, 2.62, 16.46, 0, 1, 4, 4],
         'Mazda RX4 Wag'       => [21, 6, 160, 110, 3.9, 2.875, 17.02, 0, 1, 4, 4],
         'Datsun 710'          => [22.8, 4, 108, 93, 3.85, 2.32, 18.61, 1, 1, 4, 1],

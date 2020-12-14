@@ -10,10 +10,10 @@ use MathPHP\Exception;
 abstract class Interpolation
 {
     /** @var int Index of x */
-    const X = 0;
+    protected const X = 0;
 
     /** @var int Index of y */
-    const Y = 1;
+    protected const Y = 1;
 
     /**
      * Determine where the input $source argument is a callback function, a set

@@ -31,12 +31,12 @@ class KernelDensityEstimation
     protected $kernel;
 
     // Available built-in kernel functions
-    const STANDARD_NORMAL = 'StandardNormal';
-    const NORMAL          = 'Normal';
-    const UNIFORM         = 'Uniform';
-    const TRIANGULAR      = 'Triangular';
-    const EPANECHNIKOV    = 'Epanechnikov';
-    const TRICUBE         = 'Tricube';
+    public const STANDARD_NORMAL = 'StandardNormal';
+    public const NORMAL          = 'Normal';
+    public const UNIFORM         = 'Uniform';
+    public const TRIANGULAR      = 'Triangular';
+    public const EPANECHNIKOV    = 'Epanechnikov';
+    public const TRICUBE         = 'Tricube';
 
     /**
      * Constructor

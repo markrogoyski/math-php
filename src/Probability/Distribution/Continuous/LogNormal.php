@@ -13,7 +13,7 @@ class LogNormal extends Continuous
      * σ ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
         'σ' => '(0,∞)',
     ];
@@ -23,7 +23,7 @@ class LogNormal extends Continuous
      * x ∈ (0,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(0,∞)',
     ];
 

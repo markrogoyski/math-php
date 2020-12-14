@@ -8,7 +8,7 @@ use MathPHP\NumberTheory\Integer;
 
 class Algebra
 {
-    const ZERO_TOLERANCE = 0.000000000001;
+    private const ZERO_TOLERANCE = 0.000000000001;
 
     /**
      * Greatest common divisor - recursive Euclid's algorithm

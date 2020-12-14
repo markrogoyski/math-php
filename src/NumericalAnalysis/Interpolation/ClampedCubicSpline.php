@@ -32,7 +32,7 @@ use MathPHP\Exception;
 class ClampedCubicSpline extends Interpolation
 {
     /** @var int Index of y’ (y-prime) */
-    const Y’ = 2;
+    private const Y’ = 2;
 
     /**
      * Interpolate

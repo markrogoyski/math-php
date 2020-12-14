@@ -18,7 +18,7 @@ class Dirichlet
      * α ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'α' => '(0,∞)',
     ];
 
@@ -27,7 +27,7 @@ class Dirichlet
      * x ∈ (0,1)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(0,1)',
     ];
 

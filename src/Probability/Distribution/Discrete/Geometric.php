@@ -16,7 +16,7 @@ class Geometric extends Discrete
      * p ∈ (0,1]
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'p' => '(0,1]',
     ];
 
@@ -25,7 +25,7 @@ class Geometric extends Discrete
      * k ∈ [1,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'k' => '[1,∞)',
     ];
 

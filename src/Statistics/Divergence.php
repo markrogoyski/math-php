@@ -25,7 +25,7 @@ use MathPHP\Exception;
  */
 class Divergence
 {
-    const ONE_TOLERANCE = 0.010001;
+    private const ONE_TOLERANCE = 0.010001;
 
     /**
      * Kullback-Leibler divergence

@@ -8,11 +8,11 @@ use MathPHP\Functions\Support;
 
 class Eigenvalue
 {
-    const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
-    const POWER_ITERATION                    = 'powerIteration';
-    const JACOBI_METHOD                      = 'jacobiMethod';
+    public const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
+    public const POWER_ITERATION                    = 'powerIteration';
+    public const JACOBI_METHOD                      = 'jacobiMethod';
 
-    const METHODS = [
+    private const METHODS = [
         self::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD,
         self::POWER_ITERATION,
         self::JACOBI_METHOD,

@@ -33,7 +33,7 @@ use MathPHP\LinearAlgebra\Vector;
  */
 class Distance
 {
-    const ONE_TOLERANCE = 0.010001;
+    private const ONE_TOLERANCE = 0.010001;
 
     /**
      * Bhattacharyya distance

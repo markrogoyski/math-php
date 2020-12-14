@@ -21,7 +21,7 @@ class Hypergeometric extends Discrete
      * k ∈ [\max(0, n + K - N),min(n, K)]
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'N' => '[0,∞)',
         'K' => '[0,∞]', // Dynamically checked in constructor
         'n' => '[0,∞]', // Dynamically checked in constructor

@@ -15,9 +15,9 @@ namespace MathPHP\SampleData;
  */
 class PlantGrowth
 {
-    const LABELS = ['weight', 'group'];
+    private const LABELS = ['weight', 'group'];
 
-    const DATA = [
+    private const DATA = [
         [4.17, 'ctrl'],
         [5.58, 'ctrl'],
         [5.18, 'ctrl'],

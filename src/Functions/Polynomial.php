@@ -60,7 +60,7 @@ class Polynomial implements ObjectArithmetic
     /**
      * @var array Unicode characters for exponents
      */
-    const SYMBOLS = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
+    private const SYMBOLS = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
 
     /**
      * When a polynomial is instantiated, set the coefficients and degree of

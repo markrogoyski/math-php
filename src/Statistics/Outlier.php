@@ -12,10 +12,10 @@ use MathPHP\Probability\Distribution\Continuous\StudentT;
  */
 class Outlier
 {
-    const ONE_SIDED       = 'one';
-    const TWO_SIDED       = 'two';
-    const ONE_SIDED_LOWER = 'lower';
-    const ONE_SIDED_UPPER = 'upper';
+    public const ONE_SIDED       = 'one';
+    public const TWO_SIDED       = 'two';
+    public const ONE_SIDED_LOWER = 'lower';
+    public const ONE_SIDED_UPPER = 'upper';
 
     /**
      * The Grubbs' Statistic (G) of a series of data

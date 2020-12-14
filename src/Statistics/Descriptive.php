@@ -11,8 +11,8 @@ use MathPHP\Exception;
  */
 class Descriptive
 {
-    const POPULATION = true;
-    const SAMPLE     = false;
+    public const POPULATION = true;
+    public const SAMPLE     = false;
 
     /**
      * Range - the difference between the largest and smallest values

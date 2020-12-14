@@ -4,8 +4,8 @@ namespace MathPHP\Probability\Distribution\Continuous;
 
 abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution implements ContinuousDistribution
 {
-    const GUESS_THRESHOLD = 10;
-    const GUESS_ALLOWANCE = 8;
+    protected const GUESS_THRESHOLD = 10;
+    protected const GUESS_ALLOWANCE = 8;
 
     /**
      * The Inverse CDF of the distribution

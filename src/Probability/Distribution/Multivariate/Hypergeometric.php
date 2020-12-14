@@ -18,7 +18,7 @@ class Hypergeometric
      * Kᵢ ∈ [1,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'K' => '[1,∞)',
     ];
 

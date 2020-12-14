@@ -18,8 +18,8 @@ use MathPHP\Exception;
  */
 class Significance
 {
-    const Z_TABLE_VALUE = true;
-    const Z_RAW_VALUE   = false;
+    public const Z_TABLE_VALUE = true;
+    public const Z_RAW_VALUE   = false;
 
     /**
      * One-sample Z-test

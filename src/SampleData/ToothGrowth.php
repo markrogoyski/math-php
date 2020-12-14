@@ -16,9 +16,9 @@ namespace MathPHP\SampleData;
  */
 class ToothGrowth
 {
-    const LABELS = ['len', 'supp', 'dose'];
+    private const LABELS = ['len', 'supp', 'dose'];
 
-    const DATA = [
+    private const DATA = [
         [4.2, 'VC', 0.5],
         [11.5, 'VC', 0.5],
         [7.3, 'VC', 0.5],

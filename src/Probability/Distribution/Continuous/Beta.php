@@ -18,7 +18,7 @@ class Beta extends Continuous
      * β ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'α' => '(0,∞)',
         'β' => '(0,∞)',
     ];
@@ -28,7 +28,7 @@ class Beta extends Continuous
      * x ∈ [0,1]
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '[0,1]',
     ];
 

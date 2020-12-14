@@ -14,7 +14,7 @@ use MathPHP\Exception;
  */
 class Categorical extends Discrete
 {
-    const PARAMETER_LIMITS = [];
+    public const PARAMETER_LIMITS = [];
 
     /** @var int number of categories */
     private $k;

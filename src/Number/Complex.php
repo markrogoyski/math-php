@@ -34,7 +34,7 @@ class Complex implements ObjectArithmetic
     /**
      * Floating-point range near zero to consider insignificant.
      */
-    const EPSILON = 1e-6;
+    private const EPSILON = 1e-6;
 
     /**
      * Constructor

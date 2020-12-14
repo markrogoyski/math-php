@@ -35,7 +35,7 @@ class StandardNormal
      * Positive z-score - value is to the right of the mean.
      * @var array
      */
-    const Z_SCORES = [
+    public const Z_SCORES = [
     '-3.4' => [ 9 => 0.0002, 8 => 0.0003, 7 => 0.0003, 6 => 0.0003, 5 => 0.0003, 4 => 0.0003, 3 => 0.0003, 2 => 0.0003, 1 => 0.0003, 0 => 0.0003 ],
     '-3.3' => [ 9 => 0.0003, 8 => 0.0004, 7 => 0.0004, 6 => 0.0004, 5 => 0.0004, 4 => 0.0004, 3 => 0.0004, 2 => 0.0005, 1 => 0.0005, 0 => 0.0005 ],
     '-3.2' => [ 9 => 0.0005, 8 => 0.0005, 7 => 0.0005, 6 => 0.0006, 5 => 0.0006, 4 => 0.0006, 3 => 0.0006, 2 => 0.0006, 1 => 0.0007, 0 => 0.0007 ],
@@ -128,7 +128,7 @@ class StandardNormal
      * Value: Z score
      * @var array
      */
-    const Z_SCORES_FOR_CONFIDENCE_INTERVALS = [
+    private const Z_SCORES_FOR_CONFIDENCE_INTERVALS = [
         50     => 0.67449,
         70     => 1.04,
         75     => 1.15035,

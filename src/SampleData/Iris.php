@@ -17,9 +17,9 @@ namespace MathPHP\SampleData;
  */
 class Iris
 {
-    const LABELS = ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'];
+    private const LABELS = ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'];
 
-    const DATA = [
+    private const DATA = [
         [5.1, 3.5, 1.4, 0.2, 'setosa'],
         [4.9, 3.0, 1.4, 0.2, 'setosa'],
         [4.7, 3.2, 1.3, 0.2, 'setosa'],

@@ -16,7 +16,7 @@ class Cauchy extends Continuous
      * γ  ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'x₀' => '(-∞,∞)',
         'γ'  => '(0,∞)',
     ];
@@ -26,7 +26,7 @@ class Cauchy extends Continuous
      * x  ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x'  => '(-∞,∞)',
     ];
 

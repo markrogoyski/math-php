@@ -13,7 +13,7 @@ class DiracDelta extends Continuous
      *
      * @var array
      */
-    const PARAMETER_LIMITS = [];
+    public const PARAMETER_LIMITS = [];
 
     /**
      * Distribution support bounds limits
@@ -21,7 +21,7 @@ class DiracDelta extends Continuous
      *
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x'  => '(-∞,∞)',
     ];
 

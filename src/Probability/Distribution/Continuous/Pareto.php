@@ -16,7 +16,7 @@ class Pareto extends Continuous
      * b ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'a' => '(0,∞)',
         'b' => '(0,∞)',
     ];
@@ -26,7 +26,7 @@ class Pareto extends Continuous
      * x ∈ (0,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(0,∞)',
         'a' => '(0,∞)',
         'b' => '(0,∞)',

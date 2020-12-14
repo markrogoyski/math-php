@@ -14,7 +14,7 @@ class Finance
     /**
      * Floating-point range near zero to consider insignificant.
      */
-    const EPSILON = 1e-6;
+    public const EPSILON = 1e-6;
 
     /**
      * Consider any floating-point value less than epsilon from zero as zero,

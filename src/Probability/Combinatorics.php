@@ -25,10 +25,8 @@ use MathPHP\Exception;
  */
 class Combinatorics
 {
-    /**
-     * @var bool Combinations with repetition
-     */
-    const REPETITION = true;
+    /** @var bool Combinations with repetition */
+    public const REPETITION = true;
 
     /**************************************************************************
      * Factorials

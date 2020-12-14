@@ -16,19 +16,19 @@ class Experiment
      * Z score for 95% confidence interval
      * @var float
      */
-    const Z = 1.96;
+    private const Z = 1.96;
 
     /**
      * Normal lower tail probability for calculating P value
      * @var float
      */
-    const NORMAL_LOWER_TAIL_PROBABILITY = -0.717;
+    private const NORMAL_LOWER_TAIL_PROBABILITY = -0.717;
 
     /**
      * Normal upper tail probability for calculating P value
      * @var float
      */
-    const NORMAL_UPPER_TAIL_PROBABILITY = 0.416;
+    private const NORMAL_UPPER_TAIL_PROBABILITY = 0.416;
 
     /**
      * Risk ratio (relative risk) - RR

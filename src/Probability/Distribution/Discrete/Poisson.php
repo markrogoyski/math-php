@@ -20,7 +20,7 @@ class Poisson extends Discrete
      * λ ∈ [0,1]
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'λ' => '(0,∞)',
     ];
 
@@ -29,7 +29,7 @@ class Poisson extends Discrete
      * k ∈ [0,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'k' => '[0,∞)',
     ];
 

@@ -15,9 +15,9 @@ namespace MathPHP\SampleData;
  */
 class UsArrests
 {
-    const LABELS = ['murder', 'assault', 'urbanPop', 'rape'];
+    private const LABELS = ['murder', 'assault', 'urbanPop', 'rape'];
 
-    const DATA = [
+    private const DATA = [
         'Alabama'        => [13.2, 236, 58, 21.2],
         'Alaska'         => [10.0, 263, 48, 44.5],
         'Arizona'        => [8.1, 294, 80, 31.0],

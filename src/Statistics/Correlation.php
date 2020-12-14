@@ -23,8 +23,8 @@ use MathPHP\Trigonometry;
  */
 class Correlation
 {
-    const X = 0;
-    const Y = 1;
+    private const X = 0;
+    private const Y = 1;
 
     /**
      * Covariance
