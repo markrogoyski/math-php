@@ -2,20 +2,19 @@
 
 namespace MathPHP\Tests\Util;
 
-use MathPHP\Exception;
 use MathPHP\Util\Iter;
 
 class IterZipErrorTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @test         Zipping a non-iterable is an error
+     * @test         Zipping a non-iterable is a type error
      * @dataProvider dataProviderForNonIterables
      * @param        mixed $nonIterable
      */
     public function testNonIterableTypeError($nonIterable)
     {
         // Then
-        $this->expectException(Exception\BadDataException::class);
+        $this->expectException(\TypeError::class);
 
         // When
         Iter::zip($nonIterable);
