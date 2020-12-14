@@ -10,8 +10,8 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
     /** @var StandardNormal */
     private $standardNormal;
 
-    const μ = 0;
-    const σ = 1;
+    private const μ = 0;
+    private const σ = 1;
 
     public function setUp(): void
     {

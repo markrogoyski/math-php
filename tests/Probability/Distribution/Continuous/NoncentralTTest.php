@@ -6,7 +6,7 @@ use MathPHP\Probability\Distribution\Continuous\NoncentralT;
 
 class NoncentralTTest extends \PHPUnit\Framework\TestCase
 {
-    const ε = .000001;
+    private const ε = .000001;
 
     /**
      * @test         pdf
