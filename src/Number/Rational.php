@@ -35,7 +35,7 @@ class Rational implements ObjectArithmetic
      */
     public function __construct(int $w, int $n, int $d)
     {
-        list($w, $n, $d)   = self::normalize($w, $n, $d);
+        [$w, $n, $d]       = self::normalize($w, $n, $d);
         $this->whole       = $w;
         $this->numerator   = $n;
         $this->denominator = $d;

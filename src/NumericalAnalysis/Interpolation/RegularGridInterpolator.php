@@ -118,7 +118,7 @@ class RegularGridInterpolator
             throw new Exception\BadDataException('The requested sample points xi have dimension ' . "{$pointDimension}, but this RegularGridInterpolator has " . "dimension {$gridDimension}");
         }
 
-        list($indices, $normDistances) = $this->findIndices($xi);
+        [$indices, $normDistances] = $this->findIndices($xi);
 
         return $this->method === self::METHOD_LINEAR
             ? $this->evaluateLinear($indices, $normDistances)
@@ -163,7 +163,7 @@ class RegularGridInterpolator
     private function evaluateNearest(array $indices, array $normDistances)
     {
         $idxRes = [];
-        foreach (Iter::zip($indices, $normDistances) as list($i, $yi)) {
+        foreach (Iter::zip($indices, $normDistances) as [$i, $yi]) {
             $idxRes[] = $yi <= 0.5
                 ? $i
                 : $i + 1;

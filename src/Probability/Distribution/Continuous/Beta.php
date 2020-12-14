@@ -106,7 +106,7 @@ class Beta extends Continuous
      */
     public function inverse(float $x, float $tolerance = 1.0e-15, int $max_iterations = 200): float
     {
-        list($a, $b) = [0, 2];
+        [$a, $b] = [0, 2];
 
         for ($i = 0; $i < $max_iterations; $i++) {
             $guess = ($a + $b) / 2;

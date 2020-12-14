@@ -493,7 +493,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function intdiv($divisor): ArbitraryInteger
     {
-        list($int, $mod) = $this->fullIntdiv($divisor);
+        [$int, $mod] = $this->fullIntdiv($divisor);
         return $int;
     }
 
@@ -600,7 +600,7 @@ class ArbitraryInteger implements ObjectArithmetic
             return $this;
         }
 
-        list($int, $mod) = $exp->fullIntdiv(2);
+        [$int, $mod] = $exp->fullIntdiv(2);
         $square           = $this->multiply($this)->pow($int);
 
         if ($mod->equals(1)) {

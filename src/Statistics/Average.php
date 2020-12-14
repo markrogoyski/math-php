@@ -805,9 +805,9 @@ class Average
         }
 
         // Standard case x and y > 0
-        list($a, $g) = [$x, $y];
+        [$a, $g] = [$x, $y];
         for ($i = 0; $i <= 10; $i++) {
-            list($a, $g) = [self::mean([$a, $g]), self::geometricMean([$a, $g])];
+            [$a, $g] = [self::mean([$a, $g]), self::geometricMean([$a, $g])];
         }
         return $a;
     }

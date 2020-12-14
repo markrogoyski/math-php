@@ -73,7 +73,7 @@ class FixedPointIteration
         Validation::interval($a, $b);
 
         if ($a > $b) {
-            list($a, $b) = [$b, $a];
+            [$a, $b] = [$b, $a];
         }
 
         if ($p < $a || $p > $b) {

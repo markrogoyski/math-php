@@ -46,7 +46,7 @@ class Support
             $upper_endpoint = \substr($limits[$variable], -1, 1);
 
             // Set the lower and upper limits: #,#
-            list($lower_limit, $upper_limit) = \explode(',', \substr($limits[$variable], 1, -1));
+            [$lower_limit, $upper_limit] = \explode(',', \substr($limits[$variable], 1, -1));
 
             // If the lower limit is -∞, we are always in bounds.
             if ($lower_limit != "-∞") {

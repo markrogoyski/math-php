@@ -116,7 +116,7 @@ class Binomial extends Discrete
             return $this->multiplicationMethod($n - $r, $n, 1 - $p);
         }
 
-        list($j₀, $j₁, $j₂) = [0, 0, 0];
+        [$j₀, $j₁, $j₂] = [0, 0, 0];
         $f = 1;
 
         while (($j₀ < $r) | ($j₁ < $r) | ($j₂ < $n - $r)) {

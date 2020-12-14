@@ -80,9 +80,9 @@ class RowEchelonForm extends Matrix
     public static function reduce(Matrix $A): RowEchelonForm
     {
         try {
-            list($R, $ref_swaps) = self::gaussianElimination($A);
+            [$R, $ref_swaps] = self::gaussianElimination($A);
         } catch (Exception\SingularMatrixException $e) {
-            list($R, $ref_swaps) = self::rowReductionToEchelonForm($A);
+            [$R, $ref_swaps] = self::rowReductionToEchelonForm($A);
         }
 
         $ref = new RowEchelonForm($R, $ref_swaps);
