@@ -500,7 +500,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         $obj = new ArbitraryInteger($dividend);
 
         // When
-        list($quotient, $mod) = $obj->fullIntdiv($divisor);
+        [$quotient, $mod] = $obj->fullIntdiv($divisor);
 
         // Then
         $this->assertEquals($expectedQuotient, (string) $quotient);
@@ -560,7 +560,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         $divisor = new ArbitraryInteger($divisor);
 
         // When
-        list($quotient, $mod) = $obj->fullIntdiv($divisor);
+        [$quotient, $mod] = $obj->fullIntdiv($divisor);
 
         // Then
         $this->assertEquals($expectedQuotient, (string) $quotient);

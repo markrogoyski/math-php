@@ -20,7 +20,7 @@ class IterZipMixedTest extends \PHPUnit\Framework\TestCase
         $result = [];
 
         // When
-        foreach (Iter::zip($array, $iter, $traversable) as list($value1, $value2, $value3)) {
+        foreach (Iter::zip($array, $iter, $traversable) as [$value1, $value2, $value3]) {
             $result[] = [$value1, $value2, $value3];
         }
 
@@ -81,7 +81,7 @@ class IterZipMixedTest extends \PHPUnit\Framework\TestCase
         $result = [];
 
         // When
-        foreach (Iter::zip($array, $iter, $traversable) as list($value1, $value2, $value3)) {
+        foreach (Iter::zip($array, $iter, $traversable) as [$value1, $value2, $value3]) {
             $result[] = [$value1, $value2, $value3];
         }
 

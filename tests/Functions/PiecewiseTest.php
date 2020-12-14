@@ -556,7 +556,7 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
     public function testCheckAsAndBsExceptionPointNotClosed()
     {
         // Given
-        list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [1, 1, null, null, null, true, true];
+        [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen] = [1, 1, null, null, null, true, true];
 
         // And
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
@@ -575,7 +575,7 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
     public function testCheckAsAndBsExceptionIntervalNotIncreasing()
     {
         // Given
-        list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [2, 1, null, null, null, true, true];
+        [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen] = [2, 1, null, null, null, true, true];
 
         // And
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
@@ -594,7 +594,7 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
     public function testCheckAsAndBsExceptionTwoIntervalsSharePointNotClosedAtBothEnds()
     {
         // Given
-        list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [1, 2, null, 1, false, false, true];
+        [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen] = [1, 2, null, 1, false, false, true];
 
         // And
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
@@ -613,7 +613,7 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
     public function testCheckAsAndBsExceptionOverlappingIntervals()
     {
         // Given
-        list($a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen) = [3, 4, 2, 4, true, true, true];
+        [$a, $b, $lastA, $lastB, $lastBOpen, $aOpen, $bOpen] = [3, 4, 2, 4, true, true, true];
 
         // And
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');

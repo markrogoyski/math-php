@@ -509,7 +509,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function mod($divisor): ArbitraryInteger
     {
-        list($int, $mod) = $this->fullIntdiv($divisor);
+        [$int, $mod] = $this->fullIntdiv($divisor);
         return $mod;
     }
 
@@ -627,12 +627,12 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function leftShift($bits)
     {
-        $bits               = self::create($bits);
-        $shifted_string     = '';
-        $length             = \strlen($this->base256);
-        list($bytes, $bits) = $bits->fullIntdiv(8);
-        $bits               = $bits->toInt();
-        $carry              = 0;
+        $bits           = self::create($bits);
+        $shifted_string = '';
+        $length         = \strlen($this->base256);
+        [$bytes, $bits] = $bits->fullIntdiv(8);
+        $bits           = $bits->toInt();
+        $carry          = 0;
 
         for ($i = 0; $i < $length; $i++) {
             $chr = \ord($this->base256[$i]);

@@ -142,7 +142,7 @@ class RowEchelonForm extends Matrix
 
             // Swap rows k and i_max (column max)
             if ($k != $i_max) {
-                list($R[$k], $R[$i_max]) = [$R[$i_max], $R[$k]];
+                [$R[$k], $R[$i_max]] = [$R[$i_max], $R[$k]];
                 $swaps++;
             }
 

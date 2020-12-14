@@ -143,7 +143,7 @@ class RegularGridInterpolator
         $values = 0;
         foreach ($edges as $edge_indices) {
             $weight = 1;
-            foreach (Iter::zip($edge_indices, $indices, $normDistances) as list($ei, $i, $yi)) {
+            foreach (Iter::zip($edge_indices, $indices, $normDistances) as [$ei, $i, $yi]) {
                 $weight *= ($ei == $i)
                     ? 1 - $yi
                     : $yi;
@@ -187,7 +187,7 @@ class RegularGridInterpolator
         // Iterate through dimensions x-y-z-...>
         // $grid - 1nd array, example all x values (or all y..)
         // $x float, search point: x or y or z...
-        foreach (Iter::zip($xi, $this->grid) as list($x, $grid)) {
+        foreach (Iter::zip($xi, $this->grid) as [$x, $grid]) {
             $gridSize = \count($grid);                       // Column count
             $i        = Search::sorted($grid, $x) - 1;  // Min match index
             if ($i < 0) {

@@ -17,7 +17,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
     public function testRegularGridAgrees(array $point, float $expected)
     {
         // Given
-        list($points, $values) = $this->getSample4d();
+        [$points, $values] = $this->getSample4d();
 
         // And
         $p = new RegularGridInterpolator($points, $values);
@@ -57,7 +57,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
     public function testRegularGridNearestAgrees(array $point, $expected)
     {
         // Given
-        list($points, $values) = $this->getSample4d();
+        [$points, $values] = $this->getSample4d();
 
         // And
         $p = new RegularGridInterpolator($points, $values, RegularGridInterpolator::METHOD_NEAREST);

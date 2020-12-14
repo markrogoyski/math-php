@@ -37,7 +37,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function testExtendedGcd(int $a, int $b, int $expected_gcd, int $expected_alpha, int $expected_beta)
     {
         // When
-        list($gcd, $alpha, $beta) = Algebra::extendedGcd($a, $b);
+        [$gcd, $alpha, $beta] = Algebra::extendedGcd($a, $b);
 
         // Then
         $this->assertEquals($expected_gcd, $gcd);
@@ -243,7 +243,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $expected_r2 = $expected_quadratic[1];
 
         // When
-        list($r1, $r2) = Algebra::quadratic($a, $b, $c);
+        [$r1, $r2] = Algebra::quadratic($a, $b, $c);
 
         // Then
         $this->assertEqualsWithDelta($expected_r1, $r1, 0.00000001);
@@ -522,7 +522,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function testCubicOneRealRoot(float $a, float $b, float $c, float $d, float $real_root)
     {
         // When
-        list($z₁, $z₂, $z₃) = Algebra::cubic($a, $b, $c, $d);
+        [$z₁, $z₂, $z₃] = Algebra::cubic($a, $b, $c, $d);
 
         // Then
         $this->assertEqualsWithDelta($real_root, $z₁, 0.00000001);
@@ -572,7 +572,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $complex1 = new Number\Complex($roots[2]['r'], $roots[2]['i']);
 
         // When
-        list($z₁, $z₂, $z₃) = Algebra::cubic($a, $b, $c, $d, true);
+        [$z₁, $z₂, $z₃] = Algebra::cubic($a, $b, $c, $d, true);
 
         // Then
         $this->assertEqualsWithDelta($real_root, $z₁, 0.00000001);
@@ -699,7 +699,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function testQuarticTwoComplexNotSetToReturnComplex($a, $b, $c, $d, $e, $quartic)
     {
         // When
-        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
+        [$z₁, $z₂, $z₃, $z₄] = Algebra::quartic($a, $b, $c, $d, $e);
 
         // Then
         $this->assertEqualsWithDelta($quartic[0], \floatval($z₁), 0.00000001);
@@ -726,7 +726,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $complex1 = new Number\Complex($quartic[3]['r'], $quartic[3]['i']);
 
         // When
-        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
+        [$z₁, $z₂, $z₃, $z₄] = Algebra::quartic($a, $b, $c, $d, $e, true);
 
         // Then
         $this->assertEqualsWithDelta($quartic[0], \floatval($z₁), 0.00000001);
@@ -767,7 +767,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function testQuarticFourComplexReturnsNansIfNotSetToReturnComplex(int $a, int $b, int $c, int $d, int $e, array $quartic)
     {
         // When
-        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
+        [$z₁, $z₂, $z₃, $z₄] = Algebra::quartic($a, $b, $c, $d, $e);
 
         // Then
         $this->assertNan($z₁);
@@ -796,7 +796,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $complex3 = new Number\Complex($quartic[3]['r'], $quartic[3]['i']);
 
         // When
-        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
+        [$z₁, $z₂, $z₃, $z₄] = Algebra::quartic($a, $b, $c, $d, $e, true);
 
         // Then
         $this->assertTrue($z₁->equals($complex0), "Expecting $complex0 but saw $z₁");

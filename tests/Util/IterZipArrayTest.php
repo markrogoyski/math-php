@@ -19,7 +19,7 @@ class IterZipArrayTest extends \PHPUnit\Framework\TestCase
         $result = [];
 
         // When
-        foreach (Iter::zip($array1, $array2) as list($value1, $value2)) {
+        foreach (Iter::zip($array1, $array2) as [$value1, $value2]) {
             $result[] = [$value1, $value2];
         }
 
@@ -73,7 +73,7 @@ class IterZipArrayTest extends \PHPUnit\Framework\TestCase
         // Given
         $result = [];
 
-        foreach (Iter::zip($array1, $array2) as list($value1, $value2)) {
+        foreach (Iter::zip($array1, $array2) as [$value1, $value2]) {
             $result[] = [$value1, $value2];
         }
 
@@ -144,7 +144,7 @@ class IterZipArrayTest extends \PHPUnit\Framework\TestCase
         $result = [];
 
         // When
-        foreach (Iter::zip($array1, $array2, $array3) as list($value1, $value2, $value3)) {
+        foreach (Iter::zip($array1, $array2, $array3) as [$value1, $value2, $value3]) {
             $result[] = [$value1, $value2, $value3];
         }
 
@@ -166,7 +166,7 @@ class IterZipArrayTest extends \PHPUnit\Framework\TestCase
         $result = [];
 
         // When
-        foreach (Iter::zip(...[$array1, $array2, $array3]) as list($value1, $value2, $value3)) {
+        foreach (Iter::zip(...[$array1, $array2, $array3]) as [$value1, $value2, $value3]) {
             $result[] = [$value1, $value2, $value3];
         }
 
@@ -227,7 +227,7 @@ class IterZipArrayTest extends \PHPUnit\Framework\TestCase
         $result = [];
 
         // When
-        foreach (Iter::zip($array1, $array2, $array3) as list($value1, $value2, $value3)) {
+        foreach (Iter::zip($array1, $array2, $array3) as [$value1, $value2, $value3]) {
             $result[] = [$value1, $value2, $value3];
         }
 

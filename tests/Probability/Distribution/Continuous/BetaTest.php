@@ -301,7 +301,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     public function testPdfExceptionXOutOfBounds(float $x)
     {
         // Given
-        list($α, $β) = [1, 1];
+        [$α, $β] = [1, 1];
         $beta = new Beta($α, $β);
 
         // Then
@@ -1061,7 +1061,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     public function testInverseFailToConvergeException()
     {
         // Given
-        list($α, $β, $x) = [2, 5, 0.6];
+        [$α, $β, $x]     = [2, 5, 0.6];
         $tolerance       = 1.0e-15;
         $max_iterations  = 2;
         $beta            = new Beta($α, $β);

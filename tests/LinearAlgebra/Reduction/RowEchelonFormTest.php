@@ -65,7 +65,7 @@ class RowEchelonFormTest extends \PHPUnit\Framework\TestCase
         $R   = MatrixFactory::create($R);
 
         // When
-        list($ref, $swaps) = Reduction\RowEchelonForm::rowReductionToEchelonForm($A);
+        [$ref, $swaps] = Reduction\RowEchelonForm::rowReductionToEchelonForm($A);
         $ref = MatrixFactory::create($ref);
 
         // Then

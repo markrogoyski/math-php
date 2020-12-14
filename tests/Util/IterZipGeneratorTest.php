@@ -19,7 +19,7 @@ class IterZipGeneratorTest extends \PHPUnit\Framework\TestCase
         $result = [];
 
         // When
-        foreach (Iter::zip($generator1, $generator2) as list($value1, $value2)) {
+        foreach (Iter::zip($generator1, $generator2) as [$value1, $value2]) {
             $result[] = [$value1, $value2];
         }
 

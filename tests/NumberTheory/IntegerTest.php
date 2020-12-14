@@ -1163,7 +1163,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     public function testPerfectPower(int $n, int $expected_m, int $expected_k)
     {
         // When
-        list($m, $k) = Integer::perfectPower($n);
+        [$m, $k] = Integer::perfectPower($n);
 
         // Then
         $this->assertEquals($expected_m, $m);

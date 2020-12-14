@@ -19,7 +19,7 @@ class IterZipIteratorTest extends \PHPUnit\Framework\TestCase
         $result = [];
 
         // When
-        foreach (Iter::zip($iter1, $iter2) as list($value1, $value2)) {
+        foreach (Iter::zip($iter1, $iter2) as [$value1, $value2]) {
             $result[] = [$value1, $value2];
         }
 
@@ -73,7 +73,7 @@ class IterZipIteratorTest extends \PHPUnit\Framework\TestCase
         // Given
         $result = [];
 
-        foreach (Iter::zip($iter1, $iter2) as list($value1, $value2)) {
+        foreach (Iter::zip($iter1, $iter2) as [$value1, $value2]) {
             $result[] = [$value1, $value2];
         }
 
