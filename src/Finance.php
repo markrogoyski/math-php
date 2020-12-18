@@ -391,7 +391,7 @@ class Finance
      * an "annuity due" with an immediate payment.
      *
      * Examples:
-     * The present value of a band's $1000 face value paid in 5 year's time
+     * The present value of a bond's $1000 face value paid in 5 year's time
      * with a constant discount rate of 3.5% compounded monthly:
      *   pv(0.035/12, 5*12, 0, -1000, false)
      *
@@ -533,7 +533,60 @@ class Finance
             return Finance::npv($x, $values);
         };
 
-        return self::checkZero(NumericalAnalysis\RootFinding\NewtonsMethod::solve($func, [$initial_guess, $values], 0, self::EPSILON, 0));
+        if (\count($values) <= 1) {
+            return NAN;
+        }
+
+        $root = NumericalAnalysis\RootFinding\NewtonsMethod::solve($func, [$initial_guess, $values], 0, self::EPSILON, 0);
+        if (!\is_nan($root)) {
+            return self::CheckZero($root);
+        }
+        return self::checkZero(self::irr2($values));
+    }
+
+    /**
+     * Alternate IRR implementation.
+     *
+     * A more numerically stable implementation that converges to only
+     * one value.
+     *
+     * Based off of:
+     * https://github.com/better/irr
+     *
+     * @param  array $values
+     *
+     * @return float
+     */
+    public static function irr2(array $values): float
+    {
+        $rate = 0.0;
+        $sign  = $values[0] <=> 0;
+        for ($iter = 0; $iter < 100; $iter++) {
+            $m = -1000;
+            for ($i = 0; $i < \count($values); $i++) {
+                $m = max($m, -$rate * $i);
+            }
+            $f = array();
+            for ($i = 0; $i < \count($values); $i++) {
+                $f[$i] = \exp(-$rate * $i - $m);
+            }
+            $t = 0;
+            for ($i = 0; $i < \count($values); $i++) {
+              $t += $f[$i] * $values[$i];
+            }
+            if (\abs($t) < (self::EPSILON * \exp($m))) {
+                break;
+            }
+            $u = 0;
+            for ($i = 0; $i < \count($values); $i++) {
+              $u += $f[$i] * $i * $values[$i];
+            }
+            if ($u == 0) {
+                return NAN;
+            }
+            $rate += $t / $u;
+        }
+        return \exp($rate) - 1;
     }
 
     /**
