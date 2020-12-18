@@ -572,14 +572,14 @@ class Finance
             }
             $t = 0;
             for ($i = 0; $i < \count($values); $i++) {
-              $t += $f[$i] * $values[$i];
+                $t += $f[$i] * $values[$i];
             }
             if (\abs($t) < (self::EPSILON * \exp($m))) {
                 break;
             }
             $u = 0;
             for ($i = 0; $i < \count($values); $i++) {
-              $u += $f[$i] * $i * $values[$i];
+                $u += $f[$i] * $i * $values[$i];
             }
             if ($u == 0) {
                 return NAN;
