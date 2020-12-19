@@ -1,5 +1,10 @@
 # MathPHP Change Log
 
+## v1.10.0 - 2020-12-19
+
+### Improvements
+* Bugfix (Issue 356): Fix Finance IRR NANs
+
 ## 1.9.0 - 2020-12-13
 
 ### New Features
