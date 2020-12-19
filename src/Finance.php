@@ -534,39 +534,36 @@ class Finance
         };
 
         if (\count($values) <= 1) {
-            return NAN;
+            return \NAN;
         }
 
         $root = NumericalAnalysis\RootFinding\NewtonsMethod::solve($func, [$initial_guess, $values], 0, self::EPSILON, 0);
         if (!\is_nan($root)) {
             return self::CheckZero($root);
         }
-        return self::checkZero(self::irr2($values));
+        return self::checkZero(self::alternateIrr($values));
     }
 
     /**
      * Alternate IRR implementation.
      *
-     * A more numerically stable implementation that converges to only
-     * one value.
+     * A more numerically stable implementation that converges to only one value.
      *
-     * Based off of:
-     * https://github.com/better/irr
+     * Based off of Better: https://github.com/better/irr
      *
      * @param  array $values
      *
      * @return float
      */
-    public static function irr2(array $values): float
+    private static function alternateIrr(array $values): float
     {
         $rate = 0.0;
-        $sign  = $values[0] <=> 0;
         for ($iter = 0; $iter < 100; $iter++) {
             $m = -1000;
             for ($i = 0; $i < \count($values); $i++) {
-                $m = max($m, -$rate * $i);
+                $m = \max($m, -$rate * $i);
             }
-            $f = array();
+            $f = [];
             for ($i = 0; $i < \count($values); $i++) {
                 $f[$i] = \exp(-$rate * $i - $m);
             }
@@ -582,7 +579,7 @@ class Finance
                 $u += $f[$i] * $i * $values[$i];
             }
             if ($u == 0) {
-                return NAN;
+                return \NAN;
             }
             $rate += $t / $u;
         }
