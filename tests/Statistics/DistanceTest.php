@@ -9,7 +9,7 @@ use MathPHP\Exception;
 class DistanceTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @test         bhattacharyyaDistance
+     * @test         bhattacharyya
      * @dataProvider dataProviderForBhattacharyyaDistance
      * @param        array $p
      * @param        array $q
@@ -18,7 +18,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     public function testBhattacharyyaDistance(array $p, array $q, float $expected)
     {
         // When
-        $BD = Distance::bhattacharyyaDistance($p, $q);
+        $BD = Distance::bhattacharyya($p, $q);
 
         // Then
         $this->assertEqualsWithDelta($expected, $BD, 0.0001);
@@ -49,7 +49,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test bhattacharyyaDistance when arrays are different lengths
+     * @test bhattacharyya when arrays are different lengths
      */
     public function testBhattacharyyaDistanceExceptionArraysDifferentLength()
     {
@@ -61,11 +61,11 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadDataException::class);
 
         // When
-        Distance::bhattacharyyaDistance($p, $q);
+        Distance::bhattacharyya($p, $q);
     }
 
     /**
-     * @test bhattacharyyaDistance when probabilities do not add up to one
+     * @test bhattacharyya when probabilities do not add up to one
      */
     public function testBhattacharyyaDistanceExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
@@ -77,11 +77,11 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadDataException::class);
 
         // When
-        Distance::bhattacharyyaDistance($p, $q);
+        Distance::bhattacharyya($p, $q);
     }
 
     /**
-     * @test         hellingerDistance
+     * @test         hellinger
      * @dataProvider dataProviderForHellingerDistance
      * @param        array $p
      * @param        array $q
@@ -90,7 +90,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     public function testHellingerDistance(array $p, array $q, float $expected)
     {
         // When
-        $BD = Distance::hellingerDistance($p, $q);
+        $BD = Distance::hellinger($p, $q);
 
         // Then
         $this->assertEqualsWithDelta($expected, $BD, 0.0001);
@@ -132,7 +132,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test hellingerDistance when the arrays are different lengths
+     * @test hellinger when the arrays are different lengths
      */
     public function testHellingerDistanceExceptionArraysDifferentLength()
     {
@@ -144,11 +144,11 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadDataException::class);
 
         // When
-        Distance::hellingerDistance($p, $q);
+        Distance::hellinger($p, $q);
     }
 
     /**
-     * @test hellingerDistance when the probabilities do not add up to one
+     * @test hellinger when the probabilities do not add up to one
      */
     public function testHellingerDistanceExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
@@ -160,7 +160,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadDataException::class);
 
         // When
-        Distance::hellingerDistance($p, $q);
+        Distance::hellinger($p, $q);
     }
 
     /**

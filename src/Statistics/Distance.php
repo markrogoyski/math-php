@@ -57,7 +57,7 @@ class Distance
      * @throws Exception\BadDataException if p and q do not have the same number of elements
      * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
      */
-    public static function bhattacharyyaDistance(array $p, array $q): float
+    public static function bhattacharyya(array $p, array $q): float
     {
         // Arrays must have the same number of elements
         if (\count($p) !== \count($q)) {
@@ -92,7 +92,7 @@ class Distance
      * @throws Exception\BadDataException if p and q do not have the same number of elements
      * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
      */
-    public static function hellingerDistance(array $p, array $q): float
+    public static function hellinger(array $p, array $q): float
     {
         // Arrays must have the same number of elements
         if (\count($p) !== \count($q)) {
