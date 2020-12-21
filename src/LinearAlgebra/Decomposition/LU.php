@@ -303,25 +303,4 @@ class LU extends Decomposition
                 throw new Exception\MatrixException("LU class does not have a gettable property: $name");
         }
     }
-
-    /**************************************************************************
-     * ArrayAccess INTERFACE
-     **************************************************************************/
-
-    /**
-     * @param mixed $i
-     * @return bool
-     */
-    public function offsetExists($i): bool
-    {
-        switch ($i) {
-            case 'L':
-            case 'U':
-            case 'P':
-                return true;
-
-            default:
-                return false;
-        }
-    }
 }

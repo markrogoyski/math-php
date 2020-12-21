@@ -165,24 +165,4 @@ class QR extends Decomposition
                 throw new Exception\MatrixException("QR class does not have a gettable property: $name");
         }
     }
-
-    /**************************************************************************
-     * ArrayAccess INTERFACE
-     **************************************************************************/
-
-    /**
-     * @param mixed $i
-     * @return bool
-     */
-    public function offsetExists($i): bool
-    {
-        switch ($i) {
-            case 'Q':
-            case 'R':
-                return true;
-
-            default:
-                return false;
-        }
-    }
 }

@@ -1433,7 +1433,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // When
         $LUP = $A->luDecomposition();
-        $P   = $LUP['P'];
+        $P   = $LUP->P;
         $P⁻¹ = $P->inverse();
         $Pᵀ  = $P->transpose();
 
@@ -3075,8 +3075,8 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         // Given
         $A        = MatrixFactory::create($A);
         $cholesky = $A->choleskyDecomposition();
-        $L        = $cholesky['L'];
-        $Lᵀ       = $cholesky['LT'];
+        $L        = $cholesky->L;
+        $Lᵀ       = $cholesky->LT;
 
         // When
         $LLᵀ = $L->multiply($Lᵀ);
@@ -3100,7 +3100,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $cholesky = $A->choleskyDecomposition();
 
         // Then
-        $this->assertTrue($cholesky['L']->isLowerTriangular());
+        $this->assertTrue($cholesky->L->isLowerTriangular());
     }
 
     /**
@@ -3118,7 +3118,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $cholesky = $A->choleskyDecomposition();
 
         // Then
-        $this->assertTrue($cholesky['LT']->isUpperTriangular());
+        $this->assertTrue($cholesky->LT->isUpperTriangular());
     }
 
     /**

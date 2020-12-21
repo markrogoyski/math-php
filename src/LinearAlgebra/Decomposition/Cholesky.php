@@ -124,25 +124,4 @@ class Cholesky extends Decomposition
                 throw new Exception\MatrixException("Cholesky class does not have a gettable property: $name");
         }
     }
-
-    /**************************************************************************
-     * ArrayAccess INTERFACE
-     **************************************************************************/
-
-    /**
-     * @param mixed $i
-     * @return bool
-     */
-    public function offsetExists($i): bool
-    {
-        switch ($i) {
-            case 'L':
-            case 'Lᵀ':
-            case 'LT':
-                return true;
-
-            default:
-                return false;
-        }
-    }
 }
