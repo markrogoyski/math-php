@@ -9,12 +9,8 @@ use MathPHP\Exception;
  * Related to probability and information theory and entropy.
  *
  * - Divergences
- *   - Kullback-Leibler divergence
- *   - Jensen-Shannon divergence
- *
- * In statistics, probability theory, and information theory, a statistical distance quantifies the distance between
- * two statistical objects, which can be two random variables, or two probability distributions or samples, or the
- * distance can be between an individual sample point and a population or a wider sample of points.
+ *   - Kullback-Leibler
+ *   - Jensen-Shannon
  *
  * In statistics and information geometry, divergence or a contrast function is a function which establishes the "distance"
  * of one probability distribution to the other on a statistical manifold. The divergence is a weaker notion than that of

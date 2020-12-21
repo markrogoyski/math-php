@@ -8,28 +8,27 @@ use MathPHP\Exception;
 use MathPHP\LinearAlgebra\Vector;
 
 /**
- * Functions dealing with statistical distance and divergence.
+ * Functions dealing with statistical distance.
  * Related to probability and information theory and entropy.
  *
  * - Distances
- *   - Bhattacharyya distance
- *   - Hellinger distance
- *   - Mahalanobis distance
- * - Divergences
- *   - Kullback-Leibler divergence
- *   - Jensen-Shannon divergence
+ *   - Bhattacharyya
+ *   - Hellinger
+ *   - Mahalanobis
+ *   - Jensen-Shannon
+ *   - Minkowski
+ *   - Euclidean
+ *   - Manhattan
+ *   - Cosine
+ *   - Cosine similarity
+ *   - Bray Curtis
+ *   - Canberra
  *
  * In statistics, probability theory, and information theory, a statistical distance quantifies the distance between
  * two statistical objects, which can be two random variables, or two probability distributions or samples, or the
  * distance can be between an individual sample point and a population or a wider sample of points.
  *
- * In statistics and information geometry, divergence or a contrast function is a function which establishes the "distance"
- * of one probability distribution to the other on a statistical manifold. The divergence is a weaker notion than that of
- * the distance, in particular the divergence need not be symmetric (that is, in general the divergence from p to q is not
- * equal to the divergence from q to p), and need not satisfy the triangle inequality.
- *
  * https://en.wikipedia.org/wiki/Statistical_distance
- * https://en.wikipedia.org/wiki/Divergence_(statistics)
  */
 class Distance
 {
@@ -74,33 +73,6 @@ class Distance
         $BC⟮p、q⟯ = \array_sum(Map\Single::sqrt(Map\Multi::multiply($p, $q)));
 
         return -\log($BC⟮p、q⟯);
-    }
-
-    /**
-     * Kullback-Leibler divergence
-     * (also known as: discrimination information, information divergence, information gain, relative entropy, KLIC, KL divergence)
-     * A measure of the difference between two probability distributions P and Q.
-     * https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence
-     *
-     *                       P(i)
-     * Dkl(P‖Q) = ∑ P(i) log ----
-     *            ⁱ          Q(i)
-     *
-     *
-     *
-     * @param  array  $p distribution p
-     * @param  array  $q distribution q
-     *
-     * @return float difference between distributions
-     *
-     * @throws Exception\BadDataException if p and q do not have the same number of elements
-     * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
-     *
-     * @deprecated Use Divergence::kullbackLeibler
-     */
-    public static function kullbackLeiblerDivergence(array $p, array $q): float
-    {
-        return Divergence::kullbackLeibler($p, $q);
     }
 
     /**
@@ -156,39 +128,6 @@ class Distance
         )));
 
         return (1 / \sqrt(2)) * $√∑⟮√pᵢ − √qᵢ⟯²;
-    }
-
-    /**
-     * Jensen-Shannon divergence
-     * Also known as: information radius (IRad) or total divergence to the average.
-     * A method of measuring the similarity between two probability distributions.
-     * It is based on the Kullback–Leibler divergence, with some notable (and useful) differences,
-     * including that it is symmetric and it is always a finite value.
-     * https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence
-     *
-     *            1          1
-     * JSD(P‖Q) = - D(P‖M) + - D(Q‖M)
-     *            2          2
-     *
-     *           1
-     * where M = - (P + Q)
-     *           2
-     *
-     *       D(P‖Q) = Kullback-Leibler divergence
-     *
-     * @param array $p distribution p
-     * @param array $q distribution q
-     *
-     * @return float difference between distributions
-     *
-     * @throws Exception\BadDataException if p and q do not have the same number of elements
-     * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
-     *
-     * @deprecated Use Divergence::jensenShannon
-     */
-    public static function jensenShannonDivergence(array $p, array $q): float
-    {
-        return Divergence::jensenShannon($p, $q);
     }
 
     /**
