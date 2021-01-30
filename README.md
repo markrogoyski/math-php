@@ -75,7 +75,7 @@ Setup
 ```javascript
 {
   "require": {
-      "markrogoyski/math-php": "1.*"
+      "markrogoyski/math-php": "2.*"
   }
 }
 ```
@@ -96,11 +96,13 @@ require_once __DIR__ . '/vendor/autoload.php';
 Alternatively, use composer on the command line to require and install MathPHP:
 
 ```
-$ php composer.phar require markrogoyski/math-php:1.*
+$ php composer.phar require markrogoyski/math-php:2.*
 ```
 
 ### Minimum Requirements
- * PHP 7
+ * PHP 7.2
+
+ Note: For PHP 7.0 and 7.1, use v1.0 (`markrogoyski/math-php:1.*`)
 
 Usage
 -----
