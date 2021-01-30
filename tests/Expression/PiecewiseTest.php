@@ -1,8 +1,8 @@
 <?php
 
-namespace MathPHP\Tests\Functions;
+namespace MathPHP\Tests\Expression;
 
-use MathPHP\Functions\Piecewise;
+use MathPHP\Expression\Piecewise;
 use MathPHP\Expression\Polynomial;
 use MathPHP\Exception;
 

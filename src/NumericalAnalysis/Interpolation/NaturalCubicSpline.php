@@ -4,7 +4,7 @@ namespace MathPHP\NumericalAnalysis\Interpolation;
 
 use MathPHP\Exception;
 use MathPHP\Expression\Polynomial;
-use MathPHP\Functions\Piecewise;
+use MathPHP\Expression\Piecewise;;
 
 /**
  * Natural Cubic Spline Interpolating Polynomial

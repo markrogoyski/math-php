@@ -1,6 +1,6 @@
 <?php
 
-namespace MathPHP\Functions;
+namespace MathPHP\Expression;
 
 use MathPHP\Exception;
 
