@@ -11,10 +11,11 @@ Features
 --------
  * [Algebra](#algebra)
  * [Arithmetic](#arithmetic)
+ * Expression
+   - [Polynomial](#expression---polynomial)
  * [Finance](#finance)
  * Functions
    - [Map](#functions---map---single-array)
-   - [Polynomial](#functions---polynomial)
    - [Special Functions](#functions---special-functions)
  * Information Theory
    - [Entropy](#information-theory---entropy)
@@ -171,6 +172,43 @@ $modulo   = Arithmetic::modulo($dividend, $divisor);  // 2
 $modulo   = Arithmetic::modulo(-$dividend, $divisor); // 3
 ```
 
+### Expression - Polynomial
+```php
+use MathPHP\Expression\Polynomial;
+
+// Polynomial x² + 2x + 3
+$coefficients = [1, 2, 3]
+$polynomial   = new Polynomial($coefficients);
+
+// Evaluate for x = 3
+$x = 3;
+$y = $polynomial($x);  // 18: 3² + 2*3 + 3
+
+// Calculus
+$derivative = $polynomial->differentiate();  // Polynomial 2x + 2
+$integral   = $polynomial->integrate();      // Polynomial ⅓x³ + x² + 3x
+
+// Arithmetic
+$sum        = $polynomial->add($polynomial);       // Polynomial 2x² + 4x + 6
+$sum        = $polynomial->add(2);                 // Polynomial x² + 2x + 5
+$difference = $polynomial->subtract($polynomial);  // Polynomial 0
+$difference = $polynomial->subtract(2);            // Polynomial x² + 2x + 1
+$product    = $polynomial->multiply($polynomial);  // Polynomial x⁴ + 4x³ + 10x² + 12x + 9
+$product    = $polynomial->multiply(2);            // Polynomial 2x² + 4x + 6
+$negated    = $polynomial->negate();               // Polynomial -x² - 2x - 3
+
+// Data
+$degree       = $polynomial->getDegree();        // 2
+$coefficients = $polynomial->getCoefficients();  // [1, 2, 3]
+
+// String representation
+print($polynomial);  // x² + 2x + 3
+
+// Roots
+$polynomial = new Polynomial([1, -3, -4]);
+$roots      = $polynomial->roots();         // [-1, 4]
+```
+
 ### Finance
 ```php
 use MathPHP\Finance;
@@ -275,43 +313,6 @@ $x    = [10, 10, 10, 10];
 $y    = [1,   2,  5, 10];
 $z    = [4,   5,  6,  7];
 $sums = Map\Multi::add($x, $y, $z); // [15, 17, 21, 27]
-```
-
-### Functions - Polynomial
-```php
-use MathPHP\Functions\Polynomial;
-
-// Polynomial x² + 2x + 3
-$coefficients = [1, 2, 3]
-$polynomial   = new Polynomial($coefficients);
-
-// Evaluate for x = 3
-$x = 3;
-$y = $polynomial($x);  // 18: 3² + 2*3 + 3
-
-// Calculus
-$derivative = $polynomial->differentiate();  // Polynomial 2x + 2
-$integral   = $polynomial->integrate();      // Polynomial ⅓x³ + x² + 3x
-
-// Arithmetic
-$sum        = $polynomial->add($polynomial);       // Polynomial 2x² + 4x + 6
-$sum        = $polynomial->add(2);                 // Polynomial x² + 2x + 5
-$difference = $polynomial->subtract($polynomial);  // Polynomial 0
-$difference = $polynomial->subtract(2);            // Polynomial x² + 2x + 1
-$product    = $polynomial->multiply($polynomial);  // Polynomial x⁴ + 4x³ + 10x² + 12x + 9
-$product    = $polynomial->multiply(2);            // Polynomial 2x² + 4x + 6
-$negated    = $polynomial->negate();               // Polynomial -x² - 2x - 3
-
-// Data
-$degree       = $polynomial->getDegree();        // 2
-$coefficients = $polynomial->getCoefficients();  // [1, 2, 3]
-
-// String representation
-print($polynomial);  // x² + 2x + 3
-
-// Roots
-$polynomial = new Polynomial([1, -3, -4]);
-$roots      = $polynomial->roots();         // [-1, 4]
 ```
 
 ### Functions - Special Functions
