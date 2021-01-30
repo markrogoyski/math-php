@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\NumericalAnalysis\Interpolation;
 
 use MathPHP\NumericalAnalysis\Interpolation\NaturalCubicSpline;
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 
 class NaturalCubicSplineTest extends \PHPUnit\Framework\TestCase
 {

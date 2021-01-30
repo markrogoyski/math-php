@@ -1,10 +1,11 @@
 <?php
 
-namespace MathPHP\Functions;
+namespace MathPHP\Expression;
 
 use MathPHP\Algebra;
 use MathPHP\Exception;
 use MathPHP\Number\ObjectArithmetic;
+use MathPHP\Functions\Arithmetic;
 use MathPHP\Functions\Map;
 
 /**

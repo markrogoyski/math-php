@@ -2,7 +2,7 @@
 
 namespace MathPHP\Tests\NumericalAnalysis\RootFinding;
 
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 use MathPHP\NumericalAnalysis\RootFinding\FixedPointIteration;
 use MathPHP\Exception;
 

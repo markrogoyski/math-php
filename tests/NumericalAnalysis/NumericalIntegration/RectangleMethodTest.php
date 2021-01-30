@@ -2,7 +2,7 @@
 
 namespace MathPHP\Tests\NumericalAnalysis\NumericalIntegration;
 
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 use MathPHP\NumericalAnalysis\NumericalIntegration\RectangleMethod;
 
 class RectangleMethodTest extends \PHPUnit\Framework\TestCase

@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\Functions;
 
 use MathPHP\Functions\Piecewise;
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 use MathPHP\Exception;
 
 class PiecewiseTest extends \PHPUnit\Framework\TestCase

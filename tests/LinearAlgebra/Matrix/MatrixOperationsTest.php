@@ -2,7 +2,7 @@
 
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\SquareMatrix;

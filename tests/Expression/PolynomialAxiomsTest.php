@@ -1,8 +1,8 @@
 <?php
 
-namespace MathPHP\Tests\Functions;
+namespace MathPHP\Tests\Expression;
 
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 
 /**
  * Tests of polynomial axioms

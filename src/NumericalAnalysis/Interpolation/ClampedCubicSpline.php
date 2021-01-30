@@ -2,7 +2,7 @@
 
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 use MathPHP\Functions\Piecewise;
 use MathPHP\Exception;
 

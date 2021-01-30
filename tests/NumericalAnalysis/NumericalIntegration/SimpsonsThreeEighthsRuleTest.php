@@ -2,7 +2,7 @@
 
 namespace MathPHP\Tests\NumericalAnalysis\NumericalIntegration;
 
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 use MathPHP\NumericalAnalysis\NumericalIntegration\SimpsonsThreeEighthsRule;
 
 class SimpsonsThreeEighthsRuleTest extends \PHPUnit\Framework\TestCase
