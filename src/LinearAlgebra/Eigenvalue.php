@@ -33,11 +33,11 @@ class Eigenvalue
     /**
      * Verify that the matrix can have eigenvalues
      *
-     * @param Matrix $A
+     * @param NumericMatrix $A
      *
      * @throws Exception\BadDataException if the matrix is not square
      */
-    private static function checkMatrix(Matrix $A)
+    private static function checkMatrix(NumericMatrix $A)
     {
         if (!$A->isSquare()) {
             throw new Exception\BadDataException('Matrix must be square');
@@ -58,7 +58,7 @@ class Eigenvalue
      * is produced when computing the determinant of the matrix. The determinant
      * polynomial is calculated using polynomial arithmetic.
      *
-     * @param Matrix $A
+     * @param NumericMatrix $A
      *
      * @return float[] of eigenvalues
      *
@@ -66,7 +66,7 @@ class Eigenvalue
      * @throws Exception\BadDataException if the matrix is not 2x2, 3x3, or 4x4
      * @throws Exception\MathException
      */
-    public static function closedFormPolynomialRootMethod(Matrix $A): array
+    public static function closedFormPolynomialRootMethod(NumericMatrix $A): array
     {
         self::checkMatrix($A);
 
@@ -118,7 +118,7 @@ class Eigenvalue
      *
      * https://en.wikipedia.org/wiki/Jacobi_eigenvalue_algorithm
      *
-     * @param Matrix $A
+     * @param NumericMatrix $A
      *
      * @return float[] of eigenvalues
      *
@@ -126,7 +126,7 @@ class Eigenvalue
      * @throws Exception\BadDataException if the matrix is 1x1
      * @throws Exception\MathException
      */
-    public static function jacobiMethod(Matrix $A): array
+    public static function jacobiMethod(NumericMatrix $A): array
     {
         if (!$A->isSymmetric()) {
             throw new Exception\BadDataException('Matrix must be symmetric');
@@ -189,15 +189,15 @@ class Eigenvalue
      *
      * https://en.wikipedia.org/wiki/Power_iteration
      *
-     * @param Matrix $A
-     * @param int $iterations max number of iterations to perform
+     * @param NumericMatrix $A
+     * @param int           $iterations max number of iterations to perform
      *
      * @return float[] most extreme eigenvalue
      *
      * @throws Exception\BadDataException if the matrix is not square
      * @throws Exception\MathException
      */
-    public static function powerIteration(Matrix $A, int $iterations = 1000): array
+    public static function powerIteration(NumericMatrix $A, int $iterations = 1000): array
     {
         self::checkMatrix($A);
 

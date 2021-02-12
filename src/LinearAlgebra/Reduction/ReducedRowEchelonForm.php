@@ -4,7 +4,7 @@ namespace MathPHP\LinearAlgebra\Reduction;
 
 use MathPHP\Exception;
 use MathPHP\Functions\Support;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 
 /**
  * Matrix reduced to reduced row echelon form (row canonical form) - REF
@@ -24,7 +24,7 @@ use MathPHP\LinearAlgebra\Matrix;
  *       so there are no non-zero elements in the pivot column in rows above the pivot
  *   (5) Repeat from 2 from the next row and column
  */
-class ReducedRowEchelonForm extends Matrix
+class ReducedRowEchelonForm extends NumericMatrix
 {
     /**
      * ReducedRowEchelonForm constructor
@@ -42,7 +42,7 @@ class ReducedRowEchelonForm extends Matrix
      * Reduce a matrix to reduced row echelon form (row canonical form) - RREF
      * Factory method to create ReducedRowEchelonForm from any Matrix.
      *
-     * @param Matrix $A
+     * @param NumericMatrix $A
      *
      * @return ReducedRowEchelonForm
      *
@@ -51,7 +51,7 @@ class ReducedRowEchelonForm extends Matrix
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException
      */
-    public static function reduce(Matrix $A): ReducedRowEchelonForm
+    public static function reduce(NumericMatrix $A): ReducedRowEchelonForm
     {
         return self::reduceFromRowEchelonForm($A->ref());
     }

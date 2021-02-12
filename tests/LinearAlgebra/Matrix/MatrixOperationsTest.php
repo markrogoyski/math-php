@@ -4,8 +4,8 @@ namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\Expression\Polynomial;
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\Matrix;
-use MathPHP\LinearAlgebra\SquareMatrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
+use MathPHP\LinearAlgebra\NumericSquareMatrix;
 use MathPHP\Exception;
 
 class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
@@ -1152,7 +1152,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $A = MatrixFactory::create($A);
-        $R = new SquareMatrix($R);
+        $R = new NumericSquareMatrix($R);
 
         // When
         $cofactor = $A->cofactorMatrix();
@@ -1577,7 +1577,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $A         = MatrixFactory::create($A);
-        $direction = Matrix::COLUMNS;
+        $direction = NumericMatrix::COLUMNS;
 
         // When
         $covarianceMatrix = $A->covarianceMatrix($direction);
@@ -1892,8 +1892,8 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     public function testSubmatrix(array $data, array $params, array $result)
     {
         // Given
-        $M = new Matrix($data);
-        $expectedMatrix = new Matrix($result);
+        $M = new NumericMatrix($data);
+        $expectedMatrix = new NumericMatrix($result);
 
         // When
         $R = $M->submatrix(...$params);

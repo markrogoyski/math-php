@@ -11,7 +11,7 @@ namespace MathPHP\LinearAlgebra;
  *     [⋮ ]
  *     [xm]
  */
-class ColumnVector extends Matrix
+class ColumnVector extends NumericMatrix
 {
     /**
      * Allows the creation of a ColumnVector (m × 1 Matrix) from an array

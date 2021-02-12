@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\SquareMatrix;
+use MathPHP\LinearAlgebra\NumericSquareMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\NumberTheory\Integer;
 use MathPHP\Tests;
@@ -2178,8 +2178,8 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
     public function testKroneckerSum(array $A, array $B)
     {
         // Given
-        $A   = new SquareMatrix($A);
-        $B   = new SquareMatrix($B);
+        $A   = new NumericSquareMatrix($A);
+        $B   = new NumericSquareMatrix($B);
         $A⊕B = $A->kroneckerSum($B);
 
         // When

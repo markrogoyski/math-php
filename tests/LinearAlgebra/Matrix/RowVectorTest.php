@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\LinearAlgebra\RowVector;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 
 class RowVectorTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,11 +20,11 @@ class RowVectorTest extends \PHPUnit\Framework\TestCase
         $R = new RowVector($M);
 
         // When
-        $V = new Matrix($V);
+        $V = new NumericMatrix($V);
 
         // Then
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\RowVector::class, $R);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $R);
+        $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericMatrix::class, $R);
 
         $this->assertEquals($V[0], $R[0]);
 
@@ -62,7 +62,7 @@ class RowVectorTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\ColumnVector::class, $Rᵀ);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $Rᵀ);
+        $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericMatrix::class, $Rᵀ);
 
         $this->assertEquals(count($M), $Rᵀ->getM());
         $this->assertEquals(1, $Rᵀ->getN());

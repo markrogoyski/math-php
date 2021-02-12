@@ -3,8 +3,8 @@
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\Matrix;
-use MathPHP\LinearAlgebra\SquareMatrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
+use MathPHP\LinearAlgebra\NumericSquareMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
@@ -160,9 +160,9 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
     public function testKroneckerSum(array $A, array $B, array $expected)
     {
         // Given
-        $A   = new SquareMatrix($A);
-        $B   = new SquareMatrix($B);
-        $R   = new SquareMatrix($expected);
+        $A   = new NumericSquareMatrix($A);
+        $B   = new NumericSquareMatrix($B);
+        $R   = new NumericSquareMatrix($expected);
 
         // When
         $A⊕B = $A->kroneckerSum($B);
@@ -170,7 +170,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertEquals($R, $A⊕B);
         $this->assertEquals($R->getMatrix(), $A⊕B->getMatrix());
-        $this->assertInstanceOf(SquareMatrix::class, $A⊕B);
+        $this->assertInstanceOf(NumericSquareMatrix::class, $A⊕B);
     }
 
     public function dataProviderKroneckerSum(): array
@@ -255,8 +255,8 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
     public function testKroneckerSumSquareMatrixException($A, $B)
     {
         // Given
-        $A   = new Matrix($A);
-        $B   = new Matrix($B);
+        $A   = new NumericMatrix($A);
+        $B   = new NumericMatrix($B);
 
         // Then
         $this->expectException(Exception\MatrixException::class);
@@ -1292,9 +1292,9 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
     public function testKroneckerProduct(array $A, array $B, array $expected)
     {
         // Given
-        $A        = new Matrix($A);
-        $B        = new Matrix($B);
-        $expected = new Matrix($expected);
+        $A        = new NumericMatrix($A);
+        $B        = new NumericMatrix($B);
+        $expected = new NumericMatrix($expected);
 
         // When
         $A⊗B = $A->kroneckerProduct($B);

@@ -20,15 +20,15 @@ class Eigenvector
      * If a eigenvalue appears multiple times, the eigenvectors in this space
      * will be orthoganal.
      *
-     * @param Matrix  $A           a square matrix.
-     * @param float[] $eigenvalues an array of eigenvalues for this matrix
+     * @param NumericMatrix $A           a square matrix.
+     * @param float[]       $eigenvalues an array of eigenvalues for this matrix
      *
-     * @return Matrix of eigenvectors
+     * @return NumericMatrix of eigenvectors
      *
      * @throws Exception\BadDataException if the matrix is not square; improper number of eigenvalues;
      *                                    eigenvalue is not a number; eigenvalue is not an eigenvalue of the matrix
      */
-    public static function eigenvectors(Matrix $A, array $eigenvalues = []): Matrix
+    public static function eigenvectors(NumericMatrix $A, array $eigenvalues = []): NumericMatrix
     {
         if (empty($eigenvalues)) {
             $eigenvalues = Eigenvalue::closedFormPolynomialRootMethod($A);
@@ -162,11 +162,11 @@ class Eigenvector
      * Count the number of rows that contain all zeroes, starting at the bottom.
      * In reduced row echelon form, all the rows of zero will be on the bottom.
      *
-     * @param Matrix $M
+     * @param NumericMatrix $M
      *
      * @return int
      */
-    private static function countSolutions(Matrix $M): int
+    private static function countSolutions(NumericMatrix $M): int
     {
         $number_of_solutions = 0;
         // There are solutions to be found.
@@ -188,11 +188,11 @@ class Eigenvector
     /**
      * Find the zero columns
      *
-     * @param  Matrix $M
+     * @param  NumericMatrix $M
      *
      * @return array
      */
-    private static function findZeroColumns(Matrix $M): array
+    private static function findZeroColumns(NumericMatrix $M): array
     {
         $m = $M->getM();
         $zero_columns = [];

@@ -4,7 +4,7 @@ namespace MathPHP\Tests\SetTheory;
 
 use MathPHP\SetTheory\Set;
 use MathPHP\LinearAlgebra\Vector;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 
 class SetOperationsTest extends \PHPUnit\Framework\TestCase
 {
@@ -121,7 +121,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
         // Given
         $set    = new Set([1, 2, 3]);
         $vector = new Vector([1, 2, 3]);
-        $matrix = new Matrix([[1,2,3],[2,3,4]]);
+        $matrix = new NumericMatrix([[1,2,3],[2,3,4]]);
 
         // When
         $set->add($vector);
@@ -139,7 +139,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
                 $this->assertEquals($vector_key, $key);
                 $this->assertEquals($vector, $value);
             }
-            if ($value instanceof \MathPHP\LinearAlgebra\Matrix) {
+            if ($value instanceof \MathPHP\LinearAlgebra\NumericMatrix) {
                 $objects++;
                 $matrix_key = \get_class($value) . '(' . spl_object_hash($matrix) . ')';
                 $this->assertEquals($matrix_key, $key);
@@ -158,7 +158,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
         $vector1 = new Vector([1, 2, 3]);
         $vector2 = new Vector([1, 2, 3]);
         $vector3 = new Vector([4, 5, 6]);
-        $matrix  = new Matrix([[1,2,3],[2,3,4]]);
+        $matrix  = new NumericMatrix([[1,2,3],[2,3,4]]);
         $std1    = new \StdClass();
         $std2    = new \StdClass();
         $std3    = $std2; // Same object so this wont get added
@@ -182,9 +182,9 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
                 $objects++;
                 $this->assertInstanceOf(\MathPHP\LinearAlgebra\Vector::class, $value);
             }
-            if ($value instanceof \MathPHP\LinearAlgebra\Matrix) {
+            if ($value instanceof \MathPHP\LinearAlgebra\NumericMatrix) {
                 $objects++;
-                $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $value);
+                $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericMatrix::class, $value);
             }
             if ($value instanceof \StdClass) {
                 $objects++;

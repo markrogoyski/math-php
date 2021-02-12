@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\LinearAlgebra\Vector;
 
 use MathPHP\LinearAlgebra\Vector;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\Exception;
 
 class VectorOperationsTest extends \PHPUnit\Framework\TestCase
@@ -187,7 +187,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         // Given
         $A = new Vector($A);
         $B = new Vector($B);
-        $R = new Matrix($R);
+        $R = new NumericMatrix($R);
 
         // When
         $outerProduct = $A->outerProduct($B)->getMatrix();
@@ -906,7 +906,7 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         // Given
         $A        = new Vector($A);
         $B        = new Vector($B);
-        $expected = new Matrix($expected);
+        $expected = new NumericMatrix($expected);
 
         // When
         $AB = $A->directProduct($B);

@@ -2,9 +2,9 @@
 
 namespace MathPHP\LinearAlgebra\Decomposition;
 
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 
 abstract class Decomposition
 {
-    abstract public static function decompose(Matrix $M);
+    abstract public static function decompose(NumericMatrix $M);
 }

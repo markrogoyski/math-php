@@ -2,7 +2,7 @@
 
 namespace MathPHP\Tests\Statistics\Multivariate;
 
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\SampleData;
 use MathPHP\Statistics\Multivariate\PCA;
@@ -13,7 +13,7 @@ class PCATest extends \PHPUnit\Framework\TestCase
     /** @var PCA */
     private static $pca;
 
-    /** @var Matrix  */
+    /** @var NumericMatrix  */
     private static $matrix;
 
     /**

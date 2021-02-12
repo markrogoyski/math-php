@@ -9,7 +9,7 @@ use MathPHP\Exception;
  * Number of rows = number of columns
  * 1x1, 2x2, 3x3, etc.
  */
-class SquareMatrix extends Matrix
+class NumericSquareMatrix extends NumericMatrix
 {
     /**
      * Constructor

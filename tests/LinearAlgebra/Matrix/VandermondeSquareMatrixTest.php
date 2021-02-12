@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\SquareMatrix;
+use MathPHP\LinearAlgebra\NumericSquareMatrix;
 
 class VandermondeSquareMatrixTest extends \PHPUnit\Framework\TestCase
 {
@@ -29,7 +29,7 @@ class VandermondeSquareMatrixTest extends \PHPUnit\Framework\TestCase
 
         // And
         $this->assertTrue($M->isSquare());
-        $this->assertInstanceOf(SquareMatrix::class, $M);
+        $this->assertInstanceOf(NumericSquareMatrix::class, $M);
     }
 
     /**

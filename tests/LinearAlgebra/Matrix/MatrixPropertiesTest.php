@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 
 class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
 {
@@ -334,7 +334,7 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     public function testNonSquareMatrixIsNotAnyDefinite()
     {
         // Given
-        $A = new Matrix([
+        $A = new NumericMatrix([
             [1, 2, 3],
             [2, 3, 4],
         ]);
@@ -353,7 +353,7 @@ class MatrixPropertiesTest extends \PHPUnit\Framework\TestCase
     public function testNonSymmetricSquareMatrixIsNotAnyDefinite()
     {
         // Given
-        $A = new Matrix([
+        $A = new NumericMatrix([
             [1, 2, 3],
             [9, 8, 4],
             [6, 2, 5],

@@ -2,9 +2,9 @@
 
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\SquareMatrix;
+use MathPHP\LinearAlgebra\NumericSquareMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
@@ -22,8 +22,8 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::diagonal($A);
 
         // Then
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\DiagonalMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $A);
+        $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericDiagonalMatrix::class, $A);
+        $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericMatrix::class, $A);
     }
 
     public function dataProviderForDiagonalMatrix()
@@ -46,8 +46,8 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A);
 
         // Then
-        $this->assertInstanceOf(SquareMatrix::class, $A);
-        $this->assertInstanceOf(Matrix::class, $A);
+        $this->assertInstanceOf(NumericSquareMatrix::class, $A);
+        $this->assertInstanceOf(NumericMatrix::class, $A);
     }
 
     public function dataProviderForSquareMatrix(): array
@@ -90,7 +90,7 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::createFromVectors($vectors);
 
         // Then
-        $this->assertInstanceOf(Matrix::class, $A);
+        $this->assertInstanceOf(NumericMatrix::class, $A);
         $this->assertEquals($expected, $A->getMatrix());
     }
 
@@ -170,8 +170,8 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A);
 
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\FunctionSquareMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\SquareMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $A);
+        $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericSquareMatrix::class, $A);
+        $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericMatrix::class, $A);
     }
 
     public function dataProviderForFunctionSquareMatrix(): array
@@ -213,7 +213,7 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\FunctionMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $A);
+        $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericMatrix::class, $A);
     }
 
     public function dataProviderForFunctionMatrix(): array
@@ -256,12 +256,12 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A);
 
         // Then
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\Matrix::class, $A);
+        $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericMatrix::class, $A);
 
         // And
-        $this->assertNotInstanceOf(\MathPHP\LinearAlgebra\SquareMatrix::class, $A);
+        $this->assertNotInstanceOf(\MathPHP\LinearAlgebra\NumericSquareMatrix::class, $A);
         $this->assertNotInstanceOf(\MathPHP\LinearAlgebra\FunctionMatrix::class, $A);
-        $this->assertNotInstanceOf(\MathPHP\LinearAlgebra\DiagonalMatrix::class, $A);
+        $this->assertNotInstanceOf(\MathPHP\LinearAlgebra\NumericDiagonalMatrix::class, $A);
     }
 
     public function dataProviderForMatrix(): array
@@ -329,7 +329,7 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     public function testIdentity(int $n, array $R)
     {
         // Given
-        $R = new SquareMatrix($R);
+        $R = new NumericSquareMatrix($R);
 
         // When
         $I = MatrixFactory::identity($n);
@@ -380,7 +380,7 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testDownshiftPermutation(int $n, array $R)
     {
-        $R = new SquareMatrix($R);
+        $R = new NumericSquareMatrix($R);
         $this->assertEquals($R, MatrixFactory::downshiftPermutation($n));
     }
 
@@ -432,7 +432,7 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
      */
     public function testUpshiftPermutation(int $n, array $R)
     {
-        $R = new SquareMatrix($R);
+        $R = new NumericSquareMatrix($R);
         $this->assertEquals($R, MatrixFactory::upshiftPermutation($n));
     }
 
@@ -501,7 +501,7 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     public function testExchange(int $n, array $R)
     {
         // Given
-        $R = new SquareMatrix($R);
+        $R = new NumericSquareMatrix($R);
 
         // When
         $E = MatrixFactory::exchange($n);

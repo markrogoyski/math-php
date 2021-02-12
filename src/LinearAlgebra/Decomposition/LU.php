@@ -3,7 +3,7 @@
 namespace MathPHP\LinearAlgebra\Decomposition;
 
 use MathPHP\Exception;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Vector;
 
@@ -44,29 +44,29 @@ use MathPHP\LinearAlgebra\Vector;
  * L = [0.5  1 0]  U = [0 1 1.5]
  *     [0.5 -1 1]      [0 0  -2]
  *
- * @property-read Matrix $L Lower triangular matrix in LUP decomposition
- * @property-read Matrix $U Upper triangular matrix in LUP decomposition
- * @property-read Matrix $P Permutation matrix in LUP decomposition
+ * @property-read NumericMatrix $L Lower triangular matrix in LUP decomposition
+ * @property-read NumericMatrix $U Upper triangular matrix in LUP decomposition
+ * @property-read NumericMatrix $P Permutation matrix in LUP decomposition
  */
 class LU extends Decomposition
 {
-    /** @var Matrix Lower triangular matrix in LUP decomposition */
+    /** @var NumericMatrix Lower triangular matrix in LUP decomposition */
     private $L;
 
-    /** @var Matrix Upper triangular matrix in LUP decomposition */
+    /** @var NumericMatrix Upper triangular matrix in LUP decomposition */
     private $U;
 
-    /** @var Matrix Permutation matrix in LUP decomposition */
+    /** @var NumericMatrix Permutation matrix in LUP decomposition */
     private $P;
 
     /**
      * LU constructor
      *
-     * @param Matrix $L Lower triangular matrix
-     * @param Matrix $U Upper triangular matrix
-     * @param Matrix $P Permutation matrix
+     * @param NumericMatrix $L Lower triangular matrix
+     * @param NumericMatrix $U Upper triangular matrix
+     * @param NumericMatrix $P Permutation matrix
      */
-    private function __construct(Matrix $L, Matrix $U, Matrix $P)
+    private function __construct(NumericMatrix $L, NumericMatrix $U, NumericMatrix $P)
     {
         $this->L = $L;
         $this->U = $U;
@@ -77,7 +77,7 @@ class LU extends Decomposition
      * Decompose a matrix into an LU Decomposition (using Doolittle decomposition) with pivoting via permutation matrix
      * Factory method to create LU objects.
      *
-     * @param Matrix $A
+     * @param NumericMatrix $A
      *
      * @return LU
      *
@@ -88,7 +88,7 @@ class LU extends Decomposition
      * @throws Exception\OutOfBoundsException
      * @throws Exception\VectorException
      */
-    public static function decompose(Matrix $A): LU
+    public static function decompose(NumericMatrix $A): LU
     {
         if (!$A->isSquare()) {
             throw new Exception\MatrixException('LU decomposition only works on square matrices');
@@ -150,7 +150,7 @@ class LU extends Decomposition
      * PA = [α₁₁ α₁₂ α₁₃] / interchanged
      *      [α₃₁ α₃₂ α₃₃]
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
@@ -158,7 +158,7 @@ class LU extends Decomposition
      * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException
      */
-    protected static function pivotize(Matrix $A): Matrix
+    protected static function pivotize(NumericMatrix $A): NumericMatrix
     {
         $n = $A->getN();
         $P = MatrixFactory::identity($n);
@@ -287,11 +287,11 @@ class LU extends Decomposition
      *
      * @param string $name
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException
      */
-    public function __get(string $name): Matrix
+    public function __get(string $name): NumericMatrix
     {
         switch ($name) {
             case 'L':

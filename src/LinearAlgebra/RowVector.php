@@ -8,7 +8,7 @@ namespace MathPHP\LinearAlgebra;
  *
  * x = [x₁ x₂ ⋯ xn]
  */
-class RowVector extends Matrix
+class RowVector extends NumericMatrix
 {
     /**
      * Allows the creation of a RowVector (1 × n Matrix) from an array

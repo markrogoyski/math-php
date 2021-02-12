@@ -254,11 +254,11 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
     /**
      * Is this matrix the same size and type as some other matrix?
      *
-     * @param Matrix $B
+     * @param NumericMatrix $B
      *
      * @return bool
      */
-    protected function isEqualSizeAndType(Matrix $B): bool
+    protected function isEqualSizeAndType(NumericMatrix $B): bool
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             return false;
@@ -315,14 +315,14 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * (A|B) = [2, 3, 4 | 5]
      *         [3, 4, 5 | 6]
      *
-     * @param  Matrix $B Matrix columns to add to matrix A
+     * @param  NumericMatrix $B Matrix columns to add to matrix A
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if matrices do not have the same number of rows
      * @throws Exception\IncorrectTypeException
      */
-    public function augment(Matrix $B): Matrix
+    public function augment(NumericMatrix $B): NumericMatrix
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -359,14 +359,14 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * (A|B) = [5 | 2, 3, 4]
      *         [6 | 3, 4, 5]
      *
-     * @param  Matrix $B Matrix columns to add to matrix A
+     * @param  NumericMatrix $B Matrix columns to add to matrix A
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if matrices do not have the same number of rows
      * @throws Exception\IncorrectTypeException
      */
-    public function augmentLeft(Matrix $B): Matrix
+    public function augmentLeft(NumericMatrix $B): NumericMatrix
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -402,14 +402,14 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *         [3, 4, 5]
      *         [4, 5, 6]
      *
-     * @param  Matrix $B Matrix rows to add to matrix A
+     * @param  NumericMatrix $B Matrix rows to add to matrix A
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if matrices do not have the same number of columns
      * @throws Exception\IncorrectTypeException
      */
-    public function augmentBelow(Matrix $B): Matrix
+    public function augmentBelow(NumericMatrix $B): NumericMatrix
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -438,16 +438,16 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * (A_B) = [2, 3, 4]
      *         [3, 4, 5]
      *
-     * @param  Matrix $B Matrix rows to add to matrix A
+     * @param  NumericMatrix $B Matrix rows to add to matrix A
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
      * @throws Exception\MatrixException
      */
-    public function augmentAbove(Matrix $B): Matrix
+    public function augmentAbove(NumericMatrix $B): NumericMatrix
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -479,7 +479,7 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * If A is an m × n matrix then Aᵀ is an n × m matrix.
      * https://en.wikipedia.org/wiki/Transpose
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException
      * @throws Exception\IncorrectTypeException
@@ -509,11 +509,11 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @param int $m₂ Ending row
      * @param int $n₂ Ending column
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException
      */
-    public function submatrix(int $m₁, int $n₁, int $m₂, int $n₂): Matrix
+    public function submatrix(int $m₁, int $n₁, int $m₂, int $n₂): NumericMatrix
     {
         if ($m₁ >= $this->m || $m₁ < 0 || $m₂ >= $this->m || $m₂ < 0) {
             throw new Exception\MatrixException('Specified Matrix row does not exist');
@@ -542,15 +542,15 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * Insert
      * Insert a smaller matrix within a larger matrix starting at a specified position
      *
-     * @param Matrix $small the smaller matrix to embed
-     * @param int $m Starting row
-     * @param int $n Starting column
+     * @param NumericMatrix $small the smaller matrix to embed
+     * @param int           $m     Starting row
+     * @param int           $n     Starting column
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException
      */
-    public function insert(Matrix $small, int $m, int $n): Matrix
+    public function insert(NumericMatrix $small, int $m, int $n): NumericMatrix
     {
         if ($this->getObjectType() !== $small->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -579,11 +579,11 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @param  callable $func takes a matrix item as input
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\IncorrectTypeException
      */
-    public function map(callable $func): Matrix
+    public function map(callable $func): NumericMatrix
     {
         $m = $this->m;
         $n = $this->n;
@@ -628,12 +628,12 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @param int $mᵢ Row to swap into row position mⱼ
      * @param int $mⱼ Row to swap into row position mᵢ
      *
-     * @return Matrix with rows mᵢ and mⱼ interchanged
+     * @return NumericMatrix with rows mᵢ and mⱼ interchanged
      *
      * @throws Exception\MatrixException if row to interchange does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowInterchange(int $mᵢ, int $mⱼ): Matrix
+    public function rowInterchange(int $mᵢ, int $mⱼ): NumericMatrix
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to interchange does not exist');
@@ -663,12 +663,12 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @param int $mᵢ Row to exclude
      *
-     * @return Matrix with row mᵢ excluded
+     * @return NumericMatrix with row mᵢ excluded
      *
      * @throws Exception\MatrixException if row to exclude does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowExclude(int $mᵢ): Matrix
+    public function rowExclude(int $mᵢ): NumericMatrix
     {
         if ($mᵢ >= $this->m || $mᵢ < 0) {
             throw new Exception\MatrixException('Row to exclude does not exist');
@@ -702,12 +702,12 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      * @param int $nᵢ Column to swap into column position nⱼ
      * @param int $nⱼ Column to swap into column position nᵢ
      *
-     * @return Matrix with columns nᵢ and nⱼ interchanged
+     * @return NumericMatrix with columns nᵢ and nⱼ interchanged
      *
      * @throws Exception\MatrixException if column to interchange does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function columnInterchange(int $nᵢ, int $nⱼ): Matrix
+    public function columnInterchange(int $nᵢ, int $nⱼ): NumericMatrix
     {
         if ($nᵢ >= $this->n || $nⱼ >= $this->n) {
             throw new Exception\MatrixException('Column to interchange does not exist');
@@ -740,12 +740,12 @@ abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
      *
      * @param int $nᵢ Column to exclude
      *
-     * @return Matrix with column nᵢ excluded
+     * @return NumericMatrix with column nᵢ excluded
      *
      * @throws Exception\MatrixException if column to exclude does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function columnExclude(int $nᵢ): Matrix
+    public function columnExclude(int $nᵢ): NumericMatrix
     {
         if ($nᵢ >= $this->n || $nᵢ < 0) {
             throw new Exception\MatrixException('Column to exclude does not exist');

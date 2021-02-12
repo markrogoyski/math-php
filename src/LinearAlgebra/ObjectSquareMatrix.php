@@ -12,7 +12,7 @@ use MathPHP\Number\ObjectArithmetic;
  * The object must implement the MatrixArithmetic interface to prove
  * compatibility. It extends the SquareMatrix in order to use Matrix::minor().
  */
-class ObjectSquareMatrix extends SquareMatrix
+class ObjectSquareMatrix extends NumericSquareMatrix
 {
     /**
      * The type of object that is being stored in this Matrix
@@ -69,11 +69,11 @@ class ObjectSquareMatrix extends SquareMatrix
     /**
      * Is this matrix equal to some other matrix?
      *
-     * @param Matrix $B
+     * @param NumericMatrix $B
      *
      * @return bool
      */
-    public function isEqual(Matrix $B): bool
+    public function isEqual(NumericMatrix $B): bool
     {
         if (!$this->isEqualSizeAndType($B)) {
             return false;
@@ -99,7 +99,7 @@ class ObjectSquareMatrix extends SquareMatrix
      * @throws Exception\MatrixException if matrices have a different number of rows or columns
      * @throws Exception\IncorrectTypeException if the two matricies are not the same class
      */
-    private function checkEqualSizes(Matrix $B)
+    private function checkEqualSizes(NumericMatrix $B)
     {
         if ($B->getM() !== $this->m || $B->getN() !== $this->n) {
             throw new Exception\MatrixException('Matrices are different sizes');
@@ -112,9 +112,9 @@ class ObjectSquareMatrix extends SquareMatrix
     /**
      * {@inheritDoc}
      */
-    public function add($B): Matrix
+    public function add($B): NumericMatrix
     {
-        if (!$B instanceof Matrix) {
+        if (!$B instanceof NumericMatrix) {
             throw new Exception\IncorrectTypeException('Can only do matrix addition with a Matrix');
         }
         $this->checkEqualSizes($B);
@@ -130,9 +130,9 @@ class ObjectSquareMatrix extends SquareMatrix
     /**
      * {@inheritDoc}
      */
-    public function subtract($B): Matrix
+    public function subtract($B): NumericMatrix
     {
-        if (!$B instanceof Matrix) {
+        if (!$B instanceof NumericMatrix) {
             throw new Exception\IncorrectTypeException('Can only do matrix subtraction with a Matrix');
         }
         $this->checkEqualSizes($B);
@@ -148,9 +148,9 @@ class ObjectSquareMatrix extends SquareMatrix
     /**
      * {@inheritDoc}
      */
-    public function multiply($B): Matrix
+    public function multiply($B): NumericMatrix
     {
-        if ((!$B instanceof Matrix) && (!$B instanceof Vector)) {
+        if ((!$B instanceof NumericMatrix) && (!$B instanceof Vector)) {
             throw new Exception\IncorrectTypeException('Can only do matrix multiplication with a Matrix or Vector');
         }
         if ($B instanceof Vector) {

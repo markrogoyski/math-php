@@ -6,7 +6,7 @@ use MathPHP\Exception;
 use MathPHP\Functions\Map;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\LinearAlgebra\RowVector;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 
 /**
  * Normal distribution
@@ -17,19 +17,19 @@ class Normal
     /** @var array location */
     protected $μ;
 
-    /** @var Matrix covariance matrix */
+    /** @var NumericMatrix covariance matrix */
     protected $∑;
 
     /**
      * Constructor
      *
-     * @param array  $μ ∈ Rᵏ   location
-     * @param Matrix $∑ ∈ Rᵏˣᵏ covariance matrix
+     * @param array         $μ ∈ Rᵏ   location
+     * @param NumericMatrix $∑ ∈ Rᵏˣᵏ covariance matrix
      *
      * @throws Exception\BadDataException if the covariance matrix does not have the same number of rows and columns as number of elements in μ
      * @throws Exception\BadDataException if the covariance matrix is not positive definite
      */
-    public function __construct(array $μ, Matrix $∑)
+    public function __construct(array $μ, NumericMatrix $∑)
     {
         $k = \count($μ);
         if ($∑->getM() !== $k || $∑->getN() !== $k) {

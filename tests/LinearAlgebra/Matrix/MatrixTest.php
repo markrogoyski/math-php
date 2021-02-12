@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\Exception;
 
 class MatrixTest extends \PHPUnit\Framework\TestCase
@@ -11,7 +11,7 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
     /** @var array */
     private $A;
 
-    /** @var Matrix */
+    /** @var NumericMatrix */
     private $matrix;
 
     /**
@@ -24,7 +24,7 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
             [2, 3, 4],
             [4, 5, 6],
         ];
-        $this->matrix = new Matrix($this->A);
+        $this->matrix = new NumericMatrix($this->A);
     }
 
     /**
@@ -74,7 +74,7 @@ class MatrixTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadDataException::class);
 
         // When
-        $matrix = new Matrix($A);
+        $matrix = new NumericMatrix($A);
     }
 
     /**

@@ -10,7 +10,7 @@ use MathPHP\LinearAlgebra\Reduction;
 /**
  * m x n Matrix
  */
-class Matrix extends MatrixBase
+class NumericMatrix extends MatrixBase
 {
     /** @var float Error/zero tolerance */
     protected $ε;
@@ -110,11 +110,11 @@ class Matrix extends MatrixBase
     /**
      * Is this matrix equal to some other matrix?
      *
-     * @param Matrix $B
+     * @param NumericMatrix $B
      *
      * @return bool
      */
-    public function isEqual(Matrix $B): bool
+    public function isEqual(NumericMatrix $B): bool
     {
         if (!$this->isEqualSizeAndType($B)) {
             return false;
@@ -1029,13 +1029,13 @@ class Matrix extends MatrixBase
      *
      * C must be a square matrix
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if matrix is not square
      * @throws Exception\IncorrectTypeException
      * @throws Exception\OutOfBoundsException
      */
-    public function augmentIdentity(): Matrix
+    public function augmentIdentity(): NumericMatrix
     {
         if (!$this->isSquare()) {
             throw new Exception\MatrixException('Matrix is not square; cannot augment with the identity matrix');
@@ -1063,15 +1063,15 @@ class Matrix extends MatrixBase
      * Returns a new matrix.
      * https://en.wikipedia.org/wiki/Matrix_addition#Entrywise_sum
      *
-     * @param Matrix $B Matrix to add to this matrix
+     * @param NumericMatrix $B Matrix to add to this matrix
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if matrices have a different number of rows or columns
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
      */
-    public function add($B): Matrix
+    public function add($B): NumericMatrix
     {
         if ($B->getM() !== $this->m) {
             throw new Exception\MatrixException('Matrices have different number of rows');
@@ -1097,13 +1097,13 @@ class Matrix extends MatrixBase
      * is a matrix of size (m + p) × (n + q)
      * https://en.wikipedia.org/wiki/Matrix_addition#Direct_sum
      *
-     * @param  Matrix $B Matrix to add to this matrix
+     * @param  NumericMatrix $B Matrix to add to this matrix
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\IncorrectTypeException
      */
-    public function directSum(Matrix $B): Matrix
+    public function directSum(NumericMatrix $B): NumericMatrix
     {
         $m = $this->m + $B->getM();
         $n = $this->n + $B->getN();
@@ -1141,16 +1141,16 @@ class Matrix extends MatrixBase
      * https://en.wikipedia.org/wiki/Matrix_addition#Kronecker_sum
      * http://mathworld.wolfram.com/KroneckerSum.html
      *
-     * @param Matrix $B Square matrix
+     * @param NumericMatrix $B Square matrix
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if either matrix is not a square matrix
      * @throws Exception\OutOfBoundsException
      * @throws Exception\IncorrectTypeException
      * @throws Exception\BadDataException
      */
-    public function kroneckerSum(Matrix $B): Matrix
+    public function kroneckerSum(NumericMatrix $B): NumericMatrix
     {
         if (!$this->isSquare() || !$B->isSquare()) {
             throw new Exception\MatrixException('Matrices A and B must both be square for kroneckerSum');
@@ -1176,14 +1176,14 @@ class Matrix extends MatrixBase
      * Returns a new matrix.
      * https://en.wikipedia.org/wiki/Matrix_addition#Entrywise_sum
      *
-     * @param Matrix $B Matrix to subtract from this matrix
+     * @param NumericMatrix $B Matrix to subtract from this matrix
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if matrices have a different number of rows or columns
      * @throws Exception\IncorrectTypeException
      */
-    public function subtract($B): Matrix
+    public function subtract($B): NumericMatrix
     {
         if ($B->getM() !== $this->m) {
             throw new Exception\MatrixException('Matrices have different number of rows');
@@ -1251,17 +1251,17 @@ class Matrix extends MatrixBase
      * [ → → ] [ → → ]     [ (1  2) ] [ (5) (7) ]
      * [     ] [     ]     [  3  4  ] [  6   8  ]
      *
-     * @param  Matrix|Vector $B Matrix or Vector to multiply
+     * @param  NumericMatrix|Vector $B Matrix or Vector to multiply
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\IncorrectTypeException if parameter B is not a Matrix or Vector
      * @throws Exception\MatrixException if matrix dimensions do not match
      * @throws Exception\MathException
      */
-    public function multiply($B): Matrix
+    public function multiply($B): NumericMatrix
     {
-        if ((!$B instanceof Matrix) && (!$B instanceof Vector)) {
+        if ((!$B instanceof NumericMatrix) && (!$B instanceof Vector)) {
             throw new Exception\IncorrectTypeException('Can only do matrix multiplication with a Matrix or Vector');
         }
         if ($B instanceof Vector) {
@@ -1292,12 +1292,12 @@ class Matrix extends MatrixBase
      *
      * @param  float $λ
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\BadParameterException if λ is not a number
      * @throws Exception\IncorrectTypeException
      */
-    public function scalarMultiply(float $λ): Matrix
+    public function scalarMultiply(float $λ): NumericMatrix
     {
         $R = [];
 
@@ -1314,12 +1314,12 @@ class Matrix extends MatrixBase
      * Negate a matrix
      * −A = −1A
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\BadParameterException
      * @throws Exception\IncorrectTypeException
      */
-    public function negate(): Matrix
+    public function negate(): NumericMatrix
     {
         return $this->scalarMultiply(-1);
     }
@@ -1329,13 +1329,13 @@ class Matrix extends MatrixBase
      *
      * @param  float $λ
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\BadParameterException if λ is not a number
      * @throws Exception\BadParameterException if λ is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function scalarDivide(float $λ): Matrix
+    public function scalarDivide(float $λ): NumericMatrix
     {
         if ($λ == 0) {
             throw new Exception\BadParameterException('Parameter λ cannot equal 0');
@@ -1363,14 +1363,14 @@ class Matrix extends MatrixBase
      *
      * (A∘B)ᵢⱼ = (A)ᵢⱼ(B)ᵢⱼ
      *
-     * @param Matrix $B
+     * @param NumericMatrix $B
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if matrices are not the same dimensions
      * @throws Exception\IncorrectTypeException
      */
-    public function hadamardProduct(Matrix $B): Matrix
+    public function hadamardProduct(NumericMatrix $B): NumericMatrix
     {
         if ($B->getM() !== $this->m || $B->getN() !== $this->n) {
             throw new Exception\MatrixException('Matrices are not the same dimensions');
@@ -1410,13 +1410,13 @@ class Matrix extends MatrixBase
      *
      * https://en.wikipedia.org/wiki/Kronecker_product
      *
-     * @param Matrix $B
+     * @param NumericMatrix $B
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\BadDataException
      */
-    public function kroneckerProduct(Matrix $B): Matrix
+    public function kroneckerProduct(NumericMatrix $B): NumericMatrix
     {
         // Compute each element of the block matrix
         $arrays = [];
@@ -1429,7 +1429,7 @@ class Matrix extends MatrixBase
                         $R[$p][$q] = $this->A[$m][$n] * $B[$p][$q];
                     }
                 }
-                $row[] = new Matrix($R);
+                $row[] = new NumericMatrix($R);
             }
             $arrays[] = $row;
         }
@@ -1440,7 +1440,7 @@ class Matrix extends MatrixBase
             $initial_matrix = \array_shift($row);
             $matrices[] = \array_reduce(
                 $row,
-                function (Matrix $augmented_matrix, Matrix $matrix) {
+                function (NumericMatrix $augmented_matrix, NumericMatrix $matrix) {
                     return $augmented_matrix->augment($matrix);
                 },
                 $initial_matrix
@@ -1451,7 +1451,7 @@ class Matrix extends MatrixBase
         $initial_matrix = \array_shift($matrices);
         $A⊗B            = \array_reduce(
             $matrices,
-            function (Matrix $augmented_matrix, Matrix $matrix) {
+            function (NumericMatrix $augmented_matrix, NumericMatrix $matrix) {
                 return $augmented_matrix->augmentBelow($matrix);
             },
             $initial_matrix
@@ -1521,11 +1521,11 @@ class Matrix extends MatrixBase
      * Retains the elements along the main diagonal.
      * All other off-diagonal elements are zeros.
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\IncorrectTypeException
      */
-    public function diagonal(): Matrix
+    public function diagonal(): NumericMatrix
     {
         $m = $this->m;
         $n = $this->n;
@@ -1558,7 +1558,7 @@ class Matrix extends MatrixBase
      * For a 3x3 matrix or larger:
      * Augment with identity matrix and calculate reduced row echelon form.
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if not a square matrix
      * @throws Exception\MatrixException if singular matrix
@@ -1566,7 +1566,7 @@ class Matrix extends MatrixBase
      * @throws Exception\BadParameterException
      * @throws Exception\OutOfBoundsException
      */
-    public function inverse(): Matrix
+    public function inverse(): NumericMatrix
     {
         if ($this->catalog->hasInverse()) {
             return $this->catalog->getInverse();
@@ -1639,14 +1639,14 @@ class Matrix extends MatrixBase
      * @param int $mᵢ Row to exclude
      * @param int $nⱼ Column to exclude
      *
-     * @return Matrix with row mᵢ and column nⱼ removed
+     * @return NumericMatrix with row mᵢ and column nⱼ removed
      *
      * @throws Exception\MatrixException if matrix is not square
      * @throws Exception\MatrixException if row to exclude for minor matrix does not exist
      * @throws Exception\MatrixException if column to exclude for minor matrix does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function minorMatrix(int $mᵢ, int $nⱼ): Matrix
+    public function minorMatrix(int $mᵢ, int $nⱼ): NumericMatrix
     {
         if (!$this->isSquare()) {
             throw new Exception\MatrixException('Matrix is not square; cannot get minor Matrix of a non-square matrix');
@@ -1683,14 +1683,14 @@ class Matrix extends MatrixBase
      *
      * @param  int $k Order of the leading principal minor
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\OutOfBoundsException if k ≤ 0
      * @throws Exception\OutOfBoundsException if k > n
      * @throws Exception\MatrixException if matrix is not square
      * @throws Exception\IncorrectTypeException
      */
-    public function leadingPrincipalMinor(int $k): Matrix
+    public function leadingPrincipalMinor(int $k): NumericMatrix
     {
         if ($k <= 0) {
             throw new Exception\OutOfBoundsException("k is ≤ 0: $k");
@@ -1724,13 +1724,13 @@ class Matrix extends MatrixBase
      * CM = [C₁₀ C₁₁ C₁₂]
      *      [C₂₀ C₂₁ C₂₂]
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if matrix is not square
      * @throws Exception\IncorrectTypeException
      * @throws Exception\BadParameterException
      */
-    public function cofactorMatrix(): Matrix
+    public function cofactorMatrix(): NumericMatrix
     {
         if (!$this->isSquare()) {
             throw new Exception\MatrixException('Matrix is not square; cannot get cofactor Matrix of a non-square matrix');
@@ -1771,11 +1771,11 @@ class Matrix extends MatrixBase
      *
      * @param string $direction Optional specification if to calculate along rows or columns
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\BadParameterException if direction is not rows or columns
      */
-    public function meanDeviation(string $direction = 'rows'): Matrix
+    public function meanDeviation(string $direction = 'rows'): NumericMatrix
     {
         if (!\in_array($direction, [self::ROWS, self::COLUMNS])) {
             throw new Exception\BadParameterException("Direction must be rows or columns, got $direction");
@@ -1804,11 +1804,11 @@ class Matrix extends MatrixBase
      *  B = [-2 -2  4 0]
      *      [-2  8 -4 0]
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\IncorrectTypeException
      */
-    public function meanDeviationOfRowVariables(): Matrix
+    public function meanDeviationOfRowVariables(): NumericMatrix
     {
         $X = $this->asVectors();
         $M = $this->rowMeans();
@@ -1844,11 +1844,11 @@ class Matrix extends MatrixBase
      *  B = [2/3   -4.33   2.66 -1.66]
      *      [-1/3   6.66  -4.33  -2/3]
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\IncorrectTypeException
      */
-    public function meanDeviationOfColumnVariables(): Matrix
+    public function meanDeviationOfColumnVariables(): NumericMatrix
     {
         $X = $this->asRowVectors();
         $M = $this->columnMeans();
@@ -1878,14 +1878,14 @@ class Matrix extends MatrixBase
      *                          'rows' (default): rows represent variables and columns represent samples
      *                          'columns': columns represent variables and rows represent samples
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException
      * @throws Exception\BadParameterException
      * @throws Exception\VectorException
      */
-    public function covarianceMatrix(string $direction = 'rows'): Matrix
+    public function covarianceMatrix(string $direction = 'rows'): NumericMatrix
     {
         if (!\in_array($direction, [self::ROWS, self::COLUMNS])) {
             throw new Exception\BadParameterException("Direction must be rows or columns, got $direction");
@@ -1913,14 +1913,14 @@ class Matrix extends MatrixBase
      * Uses mathematical convention where matrix columns represent observation vectors.
      * Follows formula and method found in Linear Algebra and Its Applications (Lay).
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException
      * @throws Exception\BadParameterException
      * @throws Exception\VectorException
      */
-    protected function covarianceMatrixOfRowVariables(): Matrix
+    protected function covarianceMatrixOfRowVariables(): NumericMatrix
     {
         $n  = $this->n;
         $B  = $this->meanDeviationOfRowVariables();
@@ -1943,14 +1943,14 @@ class Matrix extends MatrixBase
      *
      *  where B is the mean-deviation form
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException
      * @throws Exception\BadParameterException
      * @throws Exception\VectorException
      */
-    protected function covarianceMatrixOfColumnVariables(): Matrix
+    protected function covarianceMatrixOfColumnVariables(): NumericMatrix
     {
         $n  = $this->m;
         $B  = $this->meanDeviationOfColumnVariables();
@@ -1966,13 +1966,13 @@ class Matrix extends MatrixBase
      * The transpose of its cofactor matrix.
      * https://en.wikipedia.org/wiki/Adjugate_matrix
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException is matrix is not square
      * @throws Exception\IncorrectTypeException
      * @throws Exception\BadParameterException
      */
-    public function adjugate(): Matrix
+    public function adjugate(): NumericMatrix
     {
         if (!$this->isSquare()) {
             throw new Exception\MatrixException('Matrix is not square; cannot get adjugate Matrix of a non-square matrix');
@@ -1990,11 +1990,11 @@ class Matrix extends MatrixBase
     /**
      * Householder matrix transformation
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MathException
      */
-    public function householder(): Matrix
+    public function householder(): NumericMatrix
     {
         return Householder::transform($this);
     }
@@ -2509,12 +2509,12 @@ class Matrix extends MatrixBase
      * @param int   $mᵢ Row to multiply
      * @param float $k Multiplier
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if row to multiply does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowMultiply(int $mᵢ, float $k): Matrix
+    public function rowMultiply(int $mᵢ, float $k): NumericMatrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to multiply does not exist');
@@ -2538,13 +2538,13 @@ class Matrix extends MatrixBase
      * @param int   $mᵢ Row to multiply
      * @param float $k divisor
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if row to multiply does not exist
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function rowDivide(int $mᵢ, float $k): Matrix
+    public function rowDivide(int $mᵢ, float $k): NumericMatrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to multiply does not exist');
@@ -2570,13 +2570,13 @@ class Matrix extends MatrixBase
      * @param int   $mⱼ Row that will have row mⱼ * k added to it
      * @param float $k Multiplier
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if row to add does not exist
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function rowAdd(int $mᵢ, int $mⱼ, float $k): Matrix
+    public function rowAdd(int $mᵢ, int $mⱼ, float $k): NumericMatrix
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to add does not exist');
@@ -2603,12 +2603,12 @@ class Matrix extends MatrixBase
      * @param int   $mᵢ Row to add k to
      * @param float $k scalar
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if row to add does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowAddScalar(int $mᵢ, float $k): Matrix
+    public function rowAddScalar(int $mᵢ, float $k): NumericMatrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to add does not exist');
@@ -2631,12 +2631,12 @@ class Matrix extends MatrixBase
      * @param int   $mⱼ Row that will have row mⱼ * k subtracted to it
      * @param float $k Multiplier
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if row to subtract does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowSubtract(int $mᵢ, int $mⱼ, float $k): Matrix
+    public function rowSubtract(int $mᵢ, int $mⱼ, float $k): NumericMatrix
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to subtract does not exist');
@@ -2660,12 +2660,12 @@ class Matrix extends MatrixBase
      * @param int   $mᵢ Row to add k to
      * @param float $k scalar
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if row to subtract does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowSubtractScalar(int $mᵢ, float $k): Matrix
+    public function rowSubtractScalar(int $mᵢ, float $k): NumericMatrix
     {
         if ($mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to subtract does not exist');
@@ -2695,12 +2695,12 @@ class Matrix extends MatrixBase
      * @param int   $nᵢ Column to multiply
      * @param float $k Multiplier
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if column to multiply does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function columnMultiply(int $nᵢ, float $k): Matrix
+    public function columnMultiply(int $nᵢ, float $k): NumericMatrix
     {
         if ($nᵢ >= $this->n) {
             throw new Exception\MatrixException('Column to multiply does not exist');
@@ -2723,13 +2723,13 @@ class Matrix extends MatrixBase
      * @param int   $nⱼ Column that will have column nⱼ * k added to it
      * @param float $k Multiplier
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if column to add does not exist
      * @throws Exception\BadParameterException if k is 0
      * @throws Exception\IncorrectTypeException
      */
-    public function columnAdd(int $nᵢ, int $nⱼ, float $k): Matrix
+    public function columnAdd(int $nᵢ, int $nⱼ, float $k): NumericMatrix
     {
         if ($nᵢ >= $this->n || $nⱼ >= $this->n) {
             throw new Exception\MatrixException('Column to add does not exist');
@@ -3060,12 +3060,12 @@ class Matrix extends MatrixBase
      *
      * @param string $method Algorithm used to compute the eigenvalues
      *
-     * @return Matrix of eigenvectors
+     * @return NumericMatrix of eigenvectors
      *
      * @throws Exception\MatrixException if method is not a valid eigenvalue method
      * @throws Exception\MathException
      */
-    public function eigenvectors(string $method = null): Matrix
+    public function eigenvectors(string $method = null): NumericMatrix
     {
         if ($method === null) {
             return Eigenvector::eigenvectors($this, $this->eigenvalues());

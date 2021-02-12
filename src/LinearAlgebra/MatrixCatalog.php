@@ -4,10 +4,10 @@ namespace MathPHP\LinearAlgebra;
 
 class MatrixCatalog
 {
-    /** @var Matrix transpose */
+    /** @var NumericMatrix transpose */
     private $Aᵀ;
 
-    /** @var Matrix inverse */
+    /** @var NumericMatrix inverse */
     private $A⁻¹;
 
     /** @var Reduction\RowEchelonForm */
@@ -40,9 +40,9 @@ class MatrixCatalog
     // TRANSPOSE
 
     /**
-     * @param Matrix $Aᵀ
+     * @param NumericMatrix $Aᵀ
      */
-    public function addTranspose(Matrix $Aᵀ)
+    public function addTranspose(NumericMatrix $Aᵀ)
     {
         $this->Aᵀ = $Aᵀ;
     }
@@ -56,9 +56,9 @@ class MatrixCatalog
     }
 
     /**
-     * @return Matrix
+     * @return NumericMatrix
      */
-    public function getTranspose(): Matrix
+    public function getTranspose(): NumericMatrix
     {
         return $this->Aᵀ;
     }
@@ -66,9 +66,9 @@ class MatrixCatalog
     // INVERSE
 
     /**
-     * @param Matrix $A⁻¹
+     * @param NumericMatrix $A⁻¹
      */
-    public function addInverse(Matrix $A⁻¹)
+    public function addInverse(NumericMatrix $A⁻¹)
     {
         $this->A⁻¹ = $A⁻¹;
     }
@@ -82,9 +82,9 @@ class MatrixCatalog
     }
 
     /**
-     * @return Matrix
+     * @return NumericMatrix
      */
-    public function getInverse(): Matrix
+    public function getInverse(): NumericMatrix
     {
         return $this->A⁻¹;
     }

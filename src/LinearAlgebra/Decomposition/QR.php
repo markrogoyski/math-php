@@ -4,7 +4,7 @@ namespace MathPHP\LinearAlgebra\Decomposition;
 
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\Householder;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Vector;
 
@@ -16,24 +16,24 @@ use MathPHP\LinearAlgebra\Vector;
  * Q is an orthogonal matrix
  * R is an upper triangular matrix
  *
- * @property-read Matrix $Q orthogonal matrix
- * @property-read Matrix $R upper triangular matrix
+ * @property-read NumericMatrix $Q orthogonal matrix
+ * @property-read NumericMatrix $R upper triangular matrix
  */
 class QR extends Decomposition
 {
-    /** @var Matrix orthogonal matrix  */
+    /** @var NumericMatrix orthogonal matrix  */
     private $Q;
 
-    /** @var Matrix upper triangular matrix */
+    /** @var NumericMatrix upper triangular matrix */
     private $R;
 
     /**
      * QR constructor
      *
-     * @param Matrix $Q Orthogonal matrix
-     * @param Matrix $R Upper triangular matrix
+     * @param NumericMatrix $Q Orthogonal matrix
+     * @param NumericMatrix $R Upper triangular matrix
      */
-    private function __construct(Matrix $Q, Matrix $R)
+    private function __construct(NumericMatrix $Q, NumericMatrix $R)
     {
         $this->Q = $Q;
         $this->R = $R;
@@ -59,7 +59,7 @@ class QR extends Decomposition
      *
      *  This is because on a 1x1 matrix uuᵀ = uᵀu, so I - [[2]] = [[-1]]
      *
-     * @param Matrix $A source Matrix
+     * @param NumericMatrix $A source Matrix
      *
      * @return QR
      *
@@ -70,7 +70,7 @@ class QR extends Decomposition
      * @throws Exception\OutOfBoundsException
      * @throws Exception\VectorException
      */
-    public static function decompose(Matrix $A): QR
+    public static function decompose(NumericMatrix $A): QR
     {
         $n  = $A->getN();  // columns
         $m  = $A->getM();  // rows
@@ -150,11 +150,11 @@ class QR extends Decomposition
      *
      * @param string $name
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException
      */
-    public function __get(string $name): Matrix
+    public function __get(string $name): NumericMatrix
     {
         switch ($name) {
             case 'Q':

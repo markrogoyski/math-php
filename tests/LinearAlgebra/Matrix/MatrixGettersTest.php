@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
@@ -12,7 +12,7 @@ class MatrixGettersTest extends \PHPUnit\Framework\TestCase
     /** @var array */
     private $A;
 
-    /** @var Matrix */
+    /** @var NumericMatrix */
     private $matrix;
 
     /**
@@ -272,7 +272,7 @@ class MatrixGettersTest extends \PHPUnit\Framework\TestCase
     public function testAsVectors()
     {
         // Given
-        $A = new Matrix([
+        $A = new NumericMatrix([
             [1, 2, 3],
             [4, 5, 6],
             [7, 8, 9],
@@ -295,7 +295,7 @@ class MatrixGettersTest extends \PHPUnit\Framework\TestCase
     public function testAsRowVectors()
     {
         // Given
-        $A = new Matrix([
+        $A = new NumericMatrix([
             [1, 2, 3],
             [4, 5, 6],
             [7, 8, 9],

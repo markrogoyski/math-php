@@ -8,7 +8,7 @@ use MathPHP\Functions\Map\Single;
 use MathPHP\Functions\Map\Multi;
 use MathPHP\Probability\Distribution\Continuous\F;
 use MathPHP\Probability\Distribution\Continuous\StudentT;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\ColumnVector;
 use MathPHP\Exception;
 
@@ -40,7 +40,8 @@ trait LeastSquares
     /**
      * Projection Matrix
      * https://en.wikipedia.org/wiki/Projection_matrix
-     * @var Matrix
+     *
+     * @var NumericMatrix
      */
     private $reg_P;
 
@@ -53,7 +54,7 @@ trait LeastSquares
     /** @var int Degrees of freedom */
     private $ν;
 
-    /** @var Matrix */
+    /** @var NumericMatrix */
     private $⟮XᵀX⟯⁻¹;
 
     /**
@@ -97,11 +98,11 @@ trait LeastSquares
      * @param  int   $order The order of the polynomial. 1 = linear, 2 = x², etc
      * @param  int   $fit_constant '1' if we are fitting a constant to the regression.
      *
-     * @return Matrix [[m], [b]]
+     * @return NumericMatrix [[m], [b]]
      *
      * @throws Exception\MathException
      */
-    public function leastSquares(array $ys, array $xs, int $order = 1, int $fit_constant = 1): Matrix
+    public function leastSquares(array $ys, array $xs, int $order = 1, int $fit_constant = 1): NumericMatrix
     {
         $this->reg_ys = $ys;
         $this->reg_xs = $xs;
@@ -136,14 +137,14 @@ trait LeastSquares
      *
      * @param mixed $xs
      *
-     * @return Matrix (Vandermonde)
+     * @return NumericMatrix (Vandermonde)
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
      * @throws Exception\MatrixException
      */
-    public function createDesignMatrix($xs): Matrix
+    public function createDesignMatrix($xs): NumericMatrix
     {
         if (\is_int($xs) || \is_float($xs)) {
             $xs = [$xs];
@@ -166,9 +167,9 @@ trait LeastSquares
      * H = X⟮XᵀX⟯⁻¹Xᵀ
      *   where X is the design matrix
      *
-     * @return Matrix
+     * @return NumericMatrix
      */
-    public function getProjectionMatrix(): Matrix
+    public function getProjectionMatrix(): NumericMatrix
     {
         return $this->reg_P;
     }

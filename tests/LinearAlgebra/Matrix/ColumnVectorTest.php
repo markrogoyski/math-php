@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\LinearAlgebra\ColumnVector;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 
 class ColumnVectorTest extends \PHPUnit\Framework\TestCase
 {
@@ -15,11 +15,11 @@ class ColumnVectorTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $C = new ColumnVector($M);
-        $V = new Matrix($V);
+        $V = new NumericMatrix($V);
 
         // Then
         $this->assertInstanceOf(ColumnVector::class, $C);
-        $this->assertInstanceOf(Matrix::class, $C);
+        $this->assertInstanceOf(NumericMatrix::class, $C);
 
         // And
         foreach ($M as $row => $value) {
@@ -64,7 +64,7 @@ class ColumnVectorTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\RowVector::class, $Cᵀ);
-        $this->assertInstanceOf(Matrix::class, $Cᵀ);
+        $this->assertInstanceOf(NumericMatrix::class, $Cᵀ);
 
         $this->assertEquals(1, $Cᵀ->getM());
         $this->assertEquals(count($M), $Cᵀ->getN());

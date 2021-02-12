@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
@@ -116,7 +116,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $expected = new Vector($expected);
 
         // When
-        $x = $A->solve($b, Matrix::LU);
+        $x = $A->solve($b, NumericMatrix::LU);
 
         // Then
         $this->assertEqualsWithDelta($expected, $x, 0.00001);
@@ -138,7 +138,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $expected = new Vector($expected);
 
         // When
-        $x = $A->solve($b, Matrix::QR);
+        $x = $A->solve($b, NumericMatrix::QR);
 
         // Then
         $this->assertEqualsWithDelta($expected, $x, 0.00001);
@@ -160,7 +160,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $expected = new Vector($expected);
 
         // When
-        $x = $A->solve($b, Matrix::INVERSE);
+        $x = $A->solve($b, NumericMatrix::INVERSE);
 
         // Then
         $this->assertEqualsWithDelta($expected, $x, 0.00001);
@@ -182,7 +182,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $expected = new Vector($expected);
 
         // When
-        $x = $A->solve($b, Matrix::RREF);
+        $x = $A->solve($b, NumericMatrix::RREF);
 
         // Then
         $this->assertEqualsWithDelta($expected, $x, 0.00001);
@@ -196,7 +196,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
     public function testSolveExceptionNotVectorOrArray($b)
     {
         // Given
-        $A = new Matrix([
+        $A = new NumericMatrix([
             [1, 2, 3],
             [2, 3, 4],
             [3, 4, 5],
@@ -216,7 +216,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForSolveExceptionNotVectorOrArray(): array
     {
         return [
-            [new Matrix([[1], [2], [3]])],
+            [new NumericMatrix([[1], [2], [3]])],
             [25],
         ];
     }

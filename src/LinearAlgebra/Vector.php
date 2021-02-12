@@ -95,11 +95,11 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *  R = [2]
      *      [3]
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MathException
      */
-    public function asColumnMatrix(): Matrix
+    public function asColumnMatrix(): NumericMatrix
     {
         $matrix = \array_map(
             function ($element) {
@@ -108,7 +108,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
             $this->A
         );
 
-        return new Matrix($matrix);
+        return new NumericMatrix($matrix);
     }
 
     /**
@@ -120,13 +120,13 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *   [1, 2, 3]
      *  ]
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MathException
      */
-    public function asRowMatrix(): Matrix
+    public function asRowMatrix(): NumericMatrix
     {
-        return new Matrix([$this->A]);
+        return new NumericMatrix([$this->A]);
     }
 
     /**************************************************************************
@@ -467,9 +467,9 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @param Vector $B
      *
-     * @return Matrix
+     * @return NumericMatrix
      */
-    public function outerProduct(Vector $B): Matrix
+    public function outerProduct(Vector $B): NumericMatrix
     {
         $m = $this->n;
         $n = $B->getN();
@@ -497,9 +497,9 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @param Vector $B
      *
-     * @return Matrix
+     * @return NumericMatrix
      */
-    public function directProduct(Vector $B): Matrix
+    public function directProduct(Vector $B): NumericMatrix
     {
         $A  = $this->asColumnMatrix();
         $Bᵀ = $B->asRowMatrix();

@@ -4,7 +4,7 @@ namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\Expression\Polynomial;
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\Exception;
 
 class MatrixAugmentationTest extends \PHPUnit\Framework\TestCase
@@ -12,7 +12,7 @@ class MatrixAugmentationTest extends \PHPUnit\Framework\TestCase
     /** @var array */
     private $A;
 
-    /** @var Matrix */
+    /** @var NumericMatrix */
     private $matrix;
 
     /**

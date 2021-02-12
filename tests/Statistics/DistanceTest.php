@@ -2,7 +2,7 @@
 
 namespace MathPHP\Tests\Statistics;
 
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\Statistics\Distance;
 use MathPHP\Exception;
 
@@ -245,15 +245,15 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         Mahalanobis from a point to the center of the data
      * @dataProvider dataProviderForMahalanobisCenter
-     * @param        array $x
-     * @param        Matrix $data
-     * @param        float $expectedDistance
+     * @param        array         $x
+     * @param        NumericMatrix $data
+     * @param        float         $expectedDistance
      * @throws       \Exception
      */
-    public function testMahalanobisCenter(array $x, Matrix $data, float $expectedDistance)
+    public function testMahalanobisCenter(array $x, NumericMatrix $data, float $expectedDistance)
     {
         // Given
-        $x_m = new Matrix($x);
+        $x_m = new NumericMatrix($x);
 
         // When
         $distance = Distance::mahalanobis($x_m, $data);
@@ -272,7 +272,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
             [4, 4, 5, 2, 3, 6, 9, 7, 4, 5],
             [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
         ];
-        $data_matrix = new Matrix($data);
+        $data_matrix = new NumericMatrix($data);
 
         return [
             [
@@ -306,17 +306,17 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         Mahalanobis between two points
      * @dataProvider dataProviderForMahalanobisPoint
-     * @param        array $x
-     * @param        array $y
-     * @param        Matrix $data
-     * @param        float $expectedDistance
+     * @param        array         $x
+     * @param        array         $y
+     * @param        NumericMatrix $data
+     * @param        float         $expectedDistance
      * @throws       \Exception
      */
-    public function testMahalanobisPoint(array $x, array $y, Matrix $data, float $expectedDistance)
+    public function testMahalanobisPoint(array $x, array $y, NumericMatrix $data, float $expectedDistance)
     {
         // Given
-        $x_m = new Matrix($x);
-        $y_m = new Matrix($y);
+        $x_m = new NumericMatrix($x);
+        $y_m = new NumericMatrix($y);
 
         // when
         $distance = Distance::mahalanobis($x_m, $data, $y_m);
@@ -335,7 +335,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
             [4, 4, 5, 2, 3, 6, 9, 7, 4, 5],
             [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
         ];
-        $data_matrix = new Matrix($data);
+        $data_matrix = new NumericMatrix($data);
 
         return [
             [
@@ -379,11 +379,11 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     public function testMahalanobisTwoData()
     {
         // Given
-        $data1 = new Matrix([
+        $data1 = new NumericMatrix([
             [4, 4, 5, 2, 3, 6, 9, 7, 4, 5],
             [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
         ]);
-        $data2 = new Matrix([
+        $data2 = new NumericMatrix([
             [5, 3, 6, 3, 9],
             [7, 6, 1, 2, 9],
         ]);

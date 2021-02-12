@@ -6,7 +6,7 @@ use MathPHP\Exception;
 use MathPHP\Functions\Map;
 use MathPHP\LinearAlgebra\Eigenvalue;
 use MathPHP\LinearAlgebra\Eigenvector;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Probability\Distribution\Continuous\ChiSquared;
 use MathPHP\Probability\Distribution\Continuous\StandardNormal;
@@ -549,7 +549,7 @@ class Correlation
 
         $data_array[] = $X;
         $data_array[] = $Y;
-        $data_matrix  = new Matrix($data_array);
+        $data_matrix  = new NumericMatrix($data_array);
 
         $covariance_matrix = $data_matrix->covarianceMatrix();
 
@@ -568,12 +568,12 @@ class Correlation
 
         $x_bar = Average::mean($X);
         $y_bar = Average::mean($Y);
-        $translation_matrix = new Matrix([[$x_bar],[$y_bar]]);
+        $translation_matrix = new NumericMatrix([[$x_bar],[$y_bar]]);
 
         // We add a row to allow the transformation matrix to also traslate the ellipse to a different location
         $transformation_matrix = $transformation_matrix->augment($translation_matrix);
 
-        $unit_circle = new Matrix(Trigonometry::unitCircle($num_points));
+        $unit_circle = new NumericMatrix(Trigonometry::unitCircle($num_points));
 
         // We add a column of ones to allow us to translate the ellipse
         $unit_circle_with_ones = $unit_circle->augment(MatrixFactory::one($num_points, 1));

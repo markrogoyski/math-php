@@ -9,7 +9,7 @@ use MathPHP\Exception\MatrixException;
  * Elements along the main diagonal are the only non-zero elements (may also be zero).
  * The off-diagonal elements are all zero
  */
-class DiagonalMatrix extends SquareMatrix
+class NumericDiagonalMatrix extends NumericSquareMatrix
 {
     /**
      * Constructor

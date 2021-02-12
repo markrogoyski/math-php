@@ -3,7 +3,7 @@
 namespace MathPHP\Statistics;
 
 use MathPHP\Functions\Map;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\Vector;
 
@@ -178,9 +178,9 @@ class Distance
      * If x has more than one column, the combined data covariance matrix is used, and the distance
      * will be calculated between the centroids of each data set.
      *
-     * @param Matrix      $x    a vector in the vector space. ie [[1],[2],[4]] or a matrix of data
-     * @param Matrix      $data an array of data. i.e. [[1,2,3,4],[6,2,8,1],[0,4,8,1]]
-     * @param Matrix|null $y    a vector in the vector space
+     * @param NumericMatrix      $x    a vector in the vector space. ie [[1],[2],[4]] or a matrix of data
+     * @param NumericMatrix      $data an array of data. i.e. [[1,2,3,4],[6,2,8,1],[0,4,8,1]]
+     * @param NumericMatrix|null $y    a vector in the vector space
      *
      * @return float Mahalanobis Distance
      *
@@ -190,7 +190,7 @@ class Distance
      * @throws Exception\OutOfBoundsException
      * @throws Exception\VectorException
      */
-    public static function mahalanobis(Matrix $x, Matrix $data, Matrix $y = null): float
+    public static function mahalanobis(NumericMatrix $x, NumericMatrix $data, NumericMatrix $y = null): float
     {
         $Centroid = $data->rowMeans()->asColumnMatrix();
         $Nx       = $x->getN();

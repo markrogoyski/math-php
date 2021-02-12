@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\LinearAlgebra\Vector;
 
 use MathPHP\LinearAlgebra\Vector;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 
 /**
  * Tests of Vector axioms
@@ -479,7 +479,7 @@ class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // When Matrix multiplication ABᵀ
         $Am = $Av->asColumnMatrix();
-        $Bᵀ  = new Matrix([
+        $Bᵀ  = new NumericMatrix([
             $Bv->getVector()
         ]);
         $ABᵀ = $Am->multiply($Bᵀ);

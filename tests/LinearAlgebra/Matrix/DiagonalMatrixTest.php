@@ -3,8 +3,8 @@
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\Exception\MatrixException;
-use MathPHP\LinearAlgebra\DiagonalMatrix;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericDiagonalMatrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 
 class DiagonalMatrixTest extends \PHPUnit\Framework\TestCase
@@ -19,13 +19,13 @@ class DiagonalMatrixTest extends \PHPUnit\Framework\TestCase
     public function testConstructor(array $A, array $R)
     {
         // Given
-        $R = new Matrix($R);
+        $R = new NumericMatrix($R);
 
         // When
         $D = MatrixFactory::diagonal($A);
 
         // Then
-        $this->assertInstanceOf(DiagonalMatrix::class, $D);
+        $this->assertInstanceOf(NumericDiagonalMatrix::class, $D);
         $this->assertTrue($R->isEqual($D));
         $this->assertTrue($D->isEqual($R));
     }
@@ -175,7 +175,7 @@ class DiagonalMatrixTest extends \PHPUnit\Framework\TestCase
         $this->expectException(MatrixException::class);
 
         // When
-        $matrix = new DiagonalMatrix($A);
+        $matrix = new NumericDiagonalMatrix($A);
     }
 
     /**
@@ -194,6 +194,6 @@ class DiagonalMatrixTest extends \PHPUnit\Framework\TestCase
         $this->expectException(MatrixException::class);
 
         // When
-        $matrix = new DiagonalMatrix($A);
+        $matrix = new NumericDiagonalMatrix($A);
     }
 }

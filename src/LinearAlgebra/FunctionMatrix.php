@@ -4,21 +4,21 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
 
-class FunctionMatrix extends Matrix
+class FunctionMatrix extends NumericMatrix
 {
     /**
      * Evaluate
      *
      * @param array $params
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
      * @throws Exception\MatrixException
      */
-    public function evaluate(array $params): Matrix
+    public function evaluate(array $params): NumericMatrix
     {
         $m = $this->m;
         $n = $this->n;

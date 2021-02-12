@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\LinearAlgebra\Reduction;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\Reduction;
 use MathPHP\Tests;
 
@@ -1074,7 +1074,7 @@ class ReducedRowEchelonFormTest extends \PHPUnit\Framework\TestCase
     public function testRrefAlreadyComputed()
     {
         // Given
-        $A = new Matrix([
+        $A = new NumericMatrix([
             [ 4,  1,  2,  -3],
             [-3,  3, -1,   4],
             [-1,  2,  5,   1],

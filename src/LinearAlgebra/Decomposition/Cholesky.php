@@ -3,7 +3,7 @@
 namespace MathPHP\LinearAlgebra\Decomposition;
 
 use MathPHP\Exception;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 
 /**
@@ -35,25 +35,25 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  * lⱼᵢ = --- |  aⱼᵢ - ∑lⱼₓlᵢₓ |
  *       lᵢᵢ  \      ˣ⁼¹     /
  *
- * @property-read Matrix $L  Lower triangular matrix
- * @property-read Matrix $LT Transpose of lower triangular matrix
- * @property-read Matrix $Lᵀ Transpose of lower triangular matrix
+ * @property-read NumericMatrix $L  Lower triangular matrix
+ * @property-read NumericMatrix $LT Transpose of lower triangular matrix
+ * @property-read NumericMatrix $Lᵀ Transpose of lower triangular matrix
  */
 class Cholesky extends Decomposition
 {
-    /** @var Matrix Lower triangular matrix L of A = LLᵀ */
+    /** @var NumericMatrix Lower triangular matrix L of A = LLᵀ */
     private $L;
 
-    /** @var Matrix Transpose of lower triangular matrix of A = LLᵀ */
+    /** @var NumericMatrix Transpose of lower triangular matrix of A = LLᵀ */
     private $Lᵀ;
 
     /**
      * Cholesky constructor
      *
-     * @param Matrix $L  Lower triangular matrix
-     * @param Matrix $Lᵀ Transpose of lower triangular matrix
+     * @param NumericMatrix $L  Lower triangular matrix
+     * @param NumericMatrix $Lᵀ Transpose of lower triangular matrix
      */
-    private function __construct(Matrix $L, Matrix $Lᵀ)
+    private function __construct(NumericMatrix $L, NumericMatrix $Lᵀ)
     {
         $this->L  = $L;
         $this->Lᵀ = $Lᵀ;
@@ -63,7 +63,7 @@ class Cholesky extends Decomposition
      * Decompose a matrix into Cholesky decomposition
      * Factory method to create Cholesky decomposition.
      *
-     * @param Matrix $A
+     * @param NumericMatrix $A
      *
      * @return Cholesky Lower triangular matrix L and transpose Lᵀ of A = LLᵀ
      *
@@ -74,7 +74,7 @@ class Cholesky extends Decomposition
      * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException
      */
-    public static function decompose(Matrix $A): Cholesky
+    public static function decompose(NumericMatrix $A): Cholesky
     {
         if (!$A->isPositiveDefinite()) {
             throw new Exception\MatrixException('Matrix must be positive definite for Cholesky decomposition');
@@ -106,11 +106,11 @@ class Cholesky extends Decomposition
      *
      * @param string $name
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException
      */
-    public function __get(string $name): Matrix
+    public function __get(string $name): NumericMatrix
     {
         switch ($name) {
             case 'L':

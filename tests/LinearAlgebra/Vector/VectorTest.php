@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\LinearAlgebra\Vector;
 
 use MathPHP\LinearAlgebra\Vector;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\Exception;
 
 class VectorTest extends \PHPUnit\Framework\TestCase
@@ -115,7 +115,7 @@ class VectorTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $A = new Vector($A);
-        $R = new Matrix($R);
+        $R = new NumericMatrix($R);
 
         // When
         $M = $A->asColumnMatrix();
@@ -171,7 +171,7 @@ class VectorTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $A = new Vector($A);
-        $R = new Matrix($R);
+        $R = new NumericMatrix($R);
 
         // When
         $M = $A->asRowMatrix();

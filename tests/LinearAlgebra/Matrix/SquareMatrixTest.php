@@ -2,8 +2,8 @@
 
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
-use MathPHP\LinearAlgebra\SquareMatrix;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericSquareMatrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\Exception;
 
 class SquareMatrixTest extends \PHPUnit\Framework\TestCase
@@ -18,11 +18,11 @@ class SquareMatrixTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructor(array $A)
     {
-        $S = new SquareMatrix($A);
-        $M = new Matrix($A);
+        $S = new NumericSquareMatrix($A);
+        $M = new NumericMatrix($A);
 
-        $this->assertInstanceOf(SquareMatrix::class, $S);
-        $this->assertInstanceOf(Matrix::class, $S);
+        $this->assertInstanceOf(NumericSquareMatrix::class, $S);
+        $this->assertInstanceOf(NumericMatrix::class, $S);
 
         $m = $S->getM();
         for ($i = 0; $i < $m; $i++) {
@@ -45,7 +45,7 @@ class SquareMatrixTest extends \PHPUnit\Framework\TestCase
         ];
 
         $this->expectException(Exception\MatrixException::class);
-        $M = new SquareMatrix($A);
+        $M = new NumericSquareMatrix($A);
     }
 
     /**
@@ -56,8 +56,8 @@ class SquareMatrixTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetMatrix(array $A)
     {
-        $S = new SquareMatrix($A);
-        $M = new Matrix($A);
+        $S = new NumericSquareMatrix($A);
+        $M = new NumericMatrix($A);
 
         $this->assertEquals($M->getMatrix(), $S->getMatrix());
     }
@@ -70,8 +70,8 @@ class SquareMatrixTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsSquare(array $A)
     {
-        $S = new SquareMatrix($A);
-        $M = new Matrix($A);
+        $S = new NumericSquareMatrix($A);
+        $M = new NumericMatrix($A);
 
         $this->assertTrue($S->isSquare());
     }
