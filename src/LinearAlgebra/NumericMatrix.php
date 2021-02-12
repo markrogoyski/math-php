@@ -10,7 +10,7 @@ use MathPHP\LinearAlgebra\Reduction;
 /**
  * m x n Matrix
  */
-class NumericMatrix extends MatrixBase
+class NumericMatrix extends Matrix
 {
     /** @var float Error/zero tolerance */
     protected $ε;

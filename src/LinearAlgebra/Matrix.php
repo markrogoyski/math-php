@@ -8,7 +8,7 @@ use MathPHP\Exception;
 /**
  * m x n Matrix
  */
-abstract class MatrixBase implements \ArrayAccess, \JsonSerializable
+abstract class Matrix implements \ArrayAccess, \JsonSerializable
 {
     /** @var int Number of rows */
     protected $m;
