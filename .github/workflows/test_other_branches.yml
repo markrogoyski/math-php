@@ -48,7 +48,10 @@ jobs:
         run: |
           mkdir -p build/logs
           ./vendor/bin/phpunit --version
-          ./vendor/bin/phpunit --configuration tests/phpunit.xml --coverage-clover build/logs/clover.xml
+          echo "Test suite AllButLinearAlgebra"
+          ./vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=AllButLinearAlgebra
+          echo "Test suite Linear Algebra"
+          ./vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=LinearAlgebra
 
       - name: PHP Code Sniffer
         run: ./vendor/bin/phpcs --ignore=vendor --standard=tests/coding_standard.xml -s .
