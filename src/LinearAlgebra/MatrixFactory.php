@@ -15,14 +15,14 @@ class MatrixFactory
      *
      * @param  array[] $A 2-dimensional array of Matrix data
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
      * @throws Exception\MatrixException
      */
-    public static function create(array $A): NumericMatrix
+    public static function create(array $A): Matrix
     {
         self::checkParams($A);
 
@@ -54,13 +54,13 @@ class MatrixFactory
      *
      * @param  Vector[] $A array of Vectors
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\MatrixException if the Vectors are not all the same length
      * @throws Exception\IncorrectTypeException
      * @throws Exception\BadDataException
      */
-    public static function createFromVectors(array $A): NumericMatrix
+    public static function createFromVectors(array $A): Matrix
     {
         // Check that all vectors are the same length
         $m = $A[0]->getN();
@@ -125,15 +125,12 @@ class MatrixFactory
      *
      * @param int   $n size of matrix
      *
-     * @return NumericMatrix
+     * @return NumericSquareMatrix
      *
-     * @throws Exception\BadDataException
-     * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
-     * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function identity(int $n): NumericMatrix
+    public static function identity(int $n): NumericSquareMatrix
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException("n must be ≥ 0. n = $n");
@@ -146,7 +143,7 @@ class MatrixFactory
             }
         }
 
-        return self::create($R);
+        return new NumericSquareMatrix($R);
     }
 
     /**
@@ -163,7 +160,7 @@ class MatrixFactory
      *
      * @param int $n size of matrix
      *
-     * @return NumericMatrix
+     * @return NumericSquareMatrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
@@ -171,7 +168,7 @@ class MatrixFactory
      * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function exchange(int $n): NumericMatrix
+    public static function exchange(int $n): NumericSquareMatrix
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException("n must be ≥ 0. n = $n");
@@ -186,7 +183,7 @@ class MatrixFactory
             $one--;
         }
 
-        return self::create($R);
+        return new NumericSquareMatrix($R);
     }
 
     /**
@@ -200,7 +197,7 @@ class MatrixFactory
      *
      * @param  int $n
      *
-     * @return NumericMatrix
+     * @return NumericSquareMatrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
@@ -208,14 +205,14 @@ class MatrixFactory
      * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function downshiftPermutation(int $n): NumericMatrix
+    public static function downshiftPermutation(int $n): NumericSquareMatrix
     {
         $I = self::identity($n)->getMatrix();
 
         $bottom_row = \array_pop($I);
         \array_unshift($I, $bottom_row);
 
-        return self::create($I);
+        return new NumericSquareMatrix($I);
     }
 
     /**
@@ -224,7 +221,7 @@ class MatrixFactory
      *
      * @param  int $n
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
@@ -232,7 +229,7 @@ class MatrixFactory
      * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException
      */
-    public static function upshiftPermutation(int $n): NumericMatrix
+    public static function upshiftPermutation(int $n): Matrix
     {
         return self::downshiftPermutation($n)->transpose();
     }
@@ -250,15 +247,13 @@ class MatrixFactory
      * @param int $m rows
      * @param int $n columns
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\BadDataException
-     * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
-     * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if m < 1 or n < 1
      */
-    public static function zero(int $m, int $n): NumericMatrix
+    public static function zero(int $m, int $n): Matrix
     {
         if ($m < 1 || $n < 1) {
             throw new Exception\OutOfBoundsException("m and n must be > 0. m = $m, n = $n");
@@ -288,15 +283,13 @@ class MatrixFactory
      * @param int $m rows
      * @param int $n columns
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\BadDataException
-     * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
-     * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if m or n < 1
      */
-    public static function one(int $m, int $n): NumericMatrix
+    public static function one(int $m, int $n): Matrix
     {
         if ($m < 1 || $n < 1) {
             throw new Exception\OutOfBoundsException("m and n must be > 0. m = $m, n = $n");
@@ -330,15 +323,13 @@ class MatrixFactory
      * @param int   $k Diagonal to fill with xs
      * @param float $x (optional; default 1)
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\BadDataException
-     * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
-     * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException if m, n, or k are < 0; if k >= n
      */
-    public static function eye(int $m, int $n, int $k, float $x = null): NumericMatrix
+    public static function eye(int $m, int $n, int $k, float $x = null): Matrix
     {
         if ($n < 0 || $m < 0 || $k < 0) {
             throw new Exception\OutOfBoundsException("m, n and k must be ≥ 0. m = $m, n = $n, k = $k");
@@ -415,9 +406,7 @@ class MatrixFactory
      * @return NumericMatrix
      *
      * @throws Exception\BadDataException
-     * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
-     * @throws Exception\MatrixException
      * @throws Exception\OutOfBoundsException
      */
     public static function hilbert(int $n): NumericMatrix
@@ -433,7 +422,7 @@ class MatrixFactory
             }
         }
 
-        return self::create($H);
+        return new NumericSquareMatrix($H);
     }
 
     /**
@@ -442,14 +431,14 @@ class MatrixFactory
      * @param array $M (α₁, α₂, α₃ ⋯ αm)
      * @param int   $n
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
      * @throws Exception\MatrixException
      */
-    public static function vandermonde(array $M, int $n): NumericMatrix
+    public static function vandermonde(array $M, int $n): Matrix
     {
         $A = [];
         foreach ($M as $row => $α) {
@@ -479,15 +468,13 @@ class MatrixFactory
     * @param float $angle The angle to use in the trigonometric functions
     * @param int   $size The total number of rows in G
     *
-    * @return NumericMatrix
+    * @return Matrix
     *
     * @throws Exception\BadDataException
-    * @throws Exception\IncorrectTypeException
     * @throws Exception\MathException
-    * @throws Exception\MatrixException
     * @throws Exception\OutOfBoundsException
     */
-    public static function givens(int $m, int $n, float $angle, int $size): NumericMatrix
+    public static function givens(int $m, int $n, float $angle, int $size): Matrix
     {
         if ($m >= $size || $n >= $size || $m < 0 || $n < 0) {
             throw new Exception\OutOfBoundsException("m and n must be within the matrix");
@@ -499,7 +486,7 @@ class MatrixFactory
         $G[$m][$n] = -1 * \sin($angle);
         $G[$n][$m] = \sin($angle);
 
-        return MatrixFactory::create($G);
+        return self::create($G);
     }
 
     /**
@@ -510,14 +497,12 @@ class MatrixFactory
      * @param int $min lower bound for the random number (optional - default: 0)
      * @param int $max upper bound for the random number (optional - default: 20)
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\BadDataException
-     * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
-     * @throws Exception\MatrixException
      */
-    public static function random(int $m, int $n, int $min = 0, int $max = 20): NumericMatrix
+    public static function random(int $m, int $n, int $min = 0, int $max = 20): Matrix
     {
         $A = [];
         for ($i = 0; $i < $m; $i++) {

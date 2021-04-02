@@ -1462,30 +1462,16 @@ class NumericMatrix extends Matrix
 
     /**************************************************************************
      * MATRIX OPERATIONS - Return a Matrix
-     *  - conjugateTranspose
      *  - trace
      *  - map
      *  - diagonal
      *  - inverse
-     *  - minorMatrix
      *  - cofactorMatrix
      *  - meanDeviation
      *  - covarianceMatrix
      *  - adjugate
      *  - householder
      **************************************************************************/
-
-    /**
-     * Conjugate Transpose
-     *
-     * Returns the complex conjugate of the transpose. For a real matrix, this is the same as the transpose.
-     *
-     * https://en.wikipedia.org/wiki/Conjugate_transpose
-     */
-    public function conjugateTranspose()
-    {
-        return $this->transpose();
-    }
 
     /**
      * Trace
@@ -1629,36 +1615,6 @@ class NumericMatrix extends Matrix
 
         $this->catalog->addInverse($A⁻¹);
         return $A⁻¹;
-    }
-
-    /**
-     * Minor matrix
-     * Submatrix formed by deleting the iᵗʰ row and jᵗʰ column.
-     * Used in computing the minor Mᵢⱼ.
-     *
-     * @param int $mᵢ Row to exclude
-     * @param int $nⱼ Column to exclude
-     *
-     * @return NumericMatrix with row mᵢ and column nⱼ removed
-     *
-     * @throws Exception\MatrixException if matrix is not square
-     * @throws Exception\MatrixException if row to exclude for minor matrix does not exist
-     * @throws Exception\MatrixException if column to exclude for minor matrix does not exist
-     * @throws Exception\IncorrectTypeException
-     */
-    public function minorMatrix(int $mᵢ, int $nⱼ): NumericMatrix
-    {
-        if (!$this->isSquare()) {
-            throw new Exception\MatrixException('Matrix is not square; cannot get minor Matrix of a non-square matrix');
-        }
-        if ($mᵢ >= $this->m || $mᵢ < 0) {
-            throw new Exception\MatrixException('Row to exclude for minor Matrix does not exist');
-        }
-        if ($nⱼ >= $this->n || $nⱼ < 0) {
-            throw new Exception\MatrixException('Column to exclude for minor Matrix does not exist');
-        }
-
-        return $this->rowExclude($mᵢ)->columnExclude($nⱼ);
     }
 
     /**
@@ -2152,7 +2108,6 @@ class NumericMatrix extends Matrix
      *  - infinityNorm
      *  - maxNorm
      *  - det
-     *  - minor
      *  - cofactor
      *  - rank
      **************************************************************************/
@@ -2373,46 +2328,6 @@ class NumericMatrix extends Matrix
         $det = (-1) ** $ⁿ * $│ref⟮A⟯│;
         $this->catalog->addDeterminant($det);
         return $det;
-    }
-
-    /**
-     * Minor (first minor)
-     * The determinant of some smaller square matrix, cut down from A by removing one of its rows and columns.
-     *
-     *        [1 4  7]
-     * If A = [3 0  5]
-     *        [1 9 11]
-     *
-     *                [1 4 -]       [1 4]
-     * Then M₁₂ = det [- - -] = det [1 9] = 13
-     *                [1 9 -]
-     *
-     * https://en.wikipedia.org/wiki/Minor_(linear_algebra)
-     *
-     * @param int $mᵢ Row to exclude
-     * @param int $nⱼ Column to exclude
-     *
-     * @return number
-     *
-     * @throws Exception\MatrixException if matrix is not square
-     * @throws Exception\MatrixException if row to exclude for minor does not exist
-     * @throws Exception\MatrixException if column to exclude for minor does not exist
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\BadParameterException
-     */
-    public function minor(int $mᵢ, int $nⱼ)
-    {
-        if (!$this->isSquare()) {
-            throw new Exception\MatrixException('Matrix is not square; cannot get minor of a non-square matrix');
-        }
-        if ($mᵢ >= $this->m || $mᵢ < 0) {
-            throw new Exception\MatrixException('Row to exclude for minor does not exist');
-        }
-        if ($nⱼ >= $this->n || $nⱼ < 0) {
-            throw new Exception\MatrixException('Column to exclude for minor does not exist');
-        }
-
-        return $this->minorMatrix($mᵢ, $nⱼ)->det();
     }
 
     /**

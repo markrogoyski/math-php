@@ -38,7 +38,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test Addition throws the proper exceptions
-     * @dataProvider dataProviderForArithmaticExceptions
+     * @dataProvider dataProviderForArithmeticExceptions
      */
     public function testMatrixAddException($A, $B, $exception)
     {
@@ -49,7 +49,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test Subtraction throws the proper exceptions
-     * @dataProvider dataProviderForArithmaticExceptions
+     * @dataProvider dataProviderForArithmeticExceptions
      */
     public function testMatrixSubtractException($A, $B, $exception)
     {
@@ -60,7 +60,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test Subtraction throws the proper exceptions
-     * @dataProvider dataProviderForArithmaticExceptions
+     * @dataProvider dataProviderForArithmeticExceptions
      */
     public function testMatrixMultiplyException($A, $B, $exception)
     {
@@ -69,7 +69,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $C = $A->multiply($B);
     }
 
-    public function dataProviderForArithmaticExceptions()
+    public function dataProviderForArithmeticExceptions()
     {
         return[
             [ // Different Sizes

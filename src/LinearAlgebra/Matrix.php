@@ -253,11 +253,11 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Is this matrix the same size and type as some other matrix?
      *
-     * @param NumericMatrix $B
+     * @param Matrix $B
      *
      * @return bool
      */
-    protected function isEqualSizeAndType(NumericMatrix $B): bool
+    protected function isEqualSizeAndType(Matrix $B): bool
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             return false;
@@ -314,14 +314,14 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * (A|B) = [2, 3, 4 | 5]
      *         [3, 4, 5 | 6]
      *
-     * @param  NumericMatrix $B Matrix columns to add to matrix A
+     * @param  Matrix $B Matrix columns to add to matrix A
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\MatrixException if matrices do not have the same number of rows
      * @throws Exception\IncorrectTypeException
      */
-    public function augment(NumericMatrix $B): NumericMatrix
+    public function augment(Matrix $B): Matrix
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -358,14 +358,14 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * (A|B) = [5 | 2, 3, 4]
      *         [6 | 3, 4, 5]
      *
-     * @param  NumericMatrix $B Matrix columns to add to matrix A
+     * @param  Matrix $B Matrix columns to add to matrix A
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\MatrixException if matrices do not have the same number of rows
      * @throws Exception\IncorrectTypeException
      */
-    public function augmentLeft(NumericMatrix $B): NumericMatrix
+    public function augmentLeft(Matrix $B): Matrix
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -401,14 +401,14 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *         [3, 4, 5]
      *         [4, 5, 6]
      *
-     * @param  NumericMatrix $B Matrix rows to add to matrix A
+     * @param  Matrix $B Matrix rows to add to matrix A
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\MatrixException if matrices do not have the same number of columns
      * @throws Exception\IncorrectTypeException
      */
-    public function augmentBelow(NumericMatrix $B): NumericMatrix
+    public function augmentBelow(Matrix $B): Matrix
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -437,16 +437,16 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * (A_B) = [2, 3, 4]
      *         [3, 4, 5]
      *
-     * @param  NumericMatrix $B Matrix rows to add to matrix A
+     * @param  Matrix $B Matrix rows to add to matrix A
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
      * @throws Exception\MatrixException
      */
-    public function augmentAbove(NumericMatrix $B): NumericMatrix
+    public function augmentAbove(Matrix $B): Matrix
     {
         if ($this->getObjectType() !== $B->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -478,7 +478,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * If A is an m × n matrix then Aᵀ is an n × m matrix.
      * https://en.wikipedia.org/wiki/Transpose
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\MatrixException
      * @throws Exception\IncorrectTypeException
@@ -508,11 +508,11 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * @param int $m₂ Ending row
      * @param int $n₂ Ending column
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\MatrixException
      */
-    public function submatrix(int $m₁, int $n₁, int $m₂, int $n₂): NumericMatrix
+    public function submatrix(int $m₁, int $n₁, int $m₂, int $n₂): Matrix
     {
         if ($m₁ >= $this->m || $m₁ < 0 || $m₂ >= $this->m || $m₂ < 0) {
             throw new Exception\MatrixException('Specified Matrix row does not exist');
@@ -541,15 +541,15 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * Insert
      * Insert a smaller matrix within a larger matrix starting at a specified position
      *
-     * @param NumericMatrix $small the smaller matrix to embed
-     * @param int           $m     Starting row
-     * @param int           $n     Starting column
+     * @param Matrix $small the smaller matrix to embed
+     * @param int    $m     Starting row
+     * @param int    $n     Starting column
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\MatrixException
      */
-    public function insert(NumericMatrix $small, int $m, int $n): NumericMatrix
+    public function insert(Matrix $small, int $m, int $n): Matrix
     {
         if ($this->getObjectType() !== $small->getObjectType()) {
             throw new Exception\MatrixException('Matrices must be the same type.');
@@ -578,11 +578,11 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param  callable $func takes a matrix item as input
      *
-     * @return NumericMatrix
+     * @return Matrix
      *
      * @throws Exception\IncorrectTypeException
      */
-    public function map(callable $func): NumericMatrix
+    public function map(callable $func): Matrix
     {
         $m = $this->m;
         $n = $this->n;
@@ -627,12 +627,12 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * @param int $mᵢ Row to swap into row position mⱼ
      * @param int $mⱼ Row to swap into row position mᵢ
      *
-     * @return NumericMatrix with rows mᵢ and mⱼ interchanged
+     * @return Matrix with rows mᵢ and mⱼ interchanged
      *
      * @throws Exception\MatrixException if row to interchange does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowInterchange(int $mᵢ, int $mⱼ): NumericMatrix
+    public function rowInterchange(int $mᵢ, int $mⱼ): Matrix
     {
         if ($mᵢ >= $this->m || $mⱼ >= $this->m) {
             throw new Exception\MatrixException('Row to interchange does not exist');
@@ -662,12 +662,12 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param int $mᵢ Row to exclude
      *
-     * @return NumericMatrix with row mᵢ excluded
+     * @return Matrix with row mᵢ excluded
      *
      * @throws Exception\MatrixException if row to exclude does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function rowExclude(int $mᵢ): NumericMatrix
+    public function rowExclude(int $mᵢ): Matrix
     {
         if ($mᵢ >= $this->m || $mᵢ < 0) {
             throw new Exception\MatrixException('Row to exclude does not exist');
@@ -701,12 +701,12 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * @param int $nᵢ Column to swap into column position nⱼ
      * @param int $nⱼ Column to swap into column position nᵢ
      *
-     * @return NumericMatrix with columns nᵢ and nⱼ interchanged
+     * @return Matrix with columns nᵢ and nⱼ interchanged
      *
      * @throws Exception\MatrixException if column to interchange does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function columnInterchange(int $nᵢ, int $nⱼ): NumericMatrix
+    public function columnInterchange(int $nᵢ, int $nⱼ): Matrix
     {
         if ($nᵢ >= $this->n || $nⱼ >= $this->n) {
             throw new Exception\MatrixException('Column to interchange does not exist');
@@ -739,12 +739,12 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param int $nᵢ Column to exclude
      *
-     * @return NumericMatrix with column nᵢ excluded
+     * @return Matrix with column nᵢ excluded
      *
      * @throws Exception\MatrixException if column to exclude does not exist
      * @throws Exception\IncorrectTypeException
      */
-    public function columnExclude(int $nᵢ): NumericMatrix
+    public function columnExclude(int $nᵢ): Matrix
     {
         if ($nᵢ >= $this->n || $nᵢ < 0) {
             throw new Exception\MatrixException('Column to exclude does not exist');
@@ -769,6 +769,101 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return MatrixFactory::create($R);
+    }
+
+    /**************************************************************************
+     * MATRIX OPERATIONS - Return a Matrix
+     *  - conjugateTranspose
+     *  - minorMatrix
+     **************************************************************************/
+
+    /**
+     * Conjugate Transpose
+     *
+     * Returns the complex conjugate of the transpose. For a real matrix, this is the same as the transpose.
+     *
+     * https://en.wikipedia.org/wiki/Conjugate_transpose
+     *
+     * @return Matrix
+     */
+    public function conjugateTranspose(): Matrix
+    {
+        return $this->transpose();
+    }
+
+    /**
+     * Minor matrix
+     * Submatrix formed by deleting the iᵗʰ row and jᵗʰ column.
+     * Used in computing the minor Mᵢⱼ.
+     *
+     * @param int $mᵢ Row to exclude
+     * @param int $nⱼ Column to exclude
+     *
+     * @return Matrix with row mᵢ and column nⱼ removed
+     *
+     * @throws Exception\MatrixException if matrix is not square
+     * @throws Exception\MatrixException if row to exclude for minor matrix does not exist
+     * @throws Exception\MatrixException if column to exclude for minor matrix does not exist
+     * @throws Exception\IncorrectTypeException
+     */
+    public function minorMatrix(int $mᵢ, int $nⱼ): Matrix
+    {
+        if (!$this->isSquare()) {
+            throw new Exception\MatrixException('Matrix is not square; cannot get minor Matrix of a non-square matrix');
+        }
+        if ($mᵢ >= $this->m || $mᵢ < 0) {
+            throw new Exception\MatrixException('Row to exclude for minor Matrix does not exist');
+        }
+        if ($nⱼ >= $this->n || $nⱼ < 0) {
+            throw new Exception\MatrixException('Column to exclude for minor Matrix does not exist');
+        }
+
+        return $this->rowExclude($mᵢ)->columnExclude($nⱼ);
+    }
+
+    /**************************************************************************
+     * MATRIX OPERATIONS - Return a value
+     *  - minor
+     **************************************************************************/
+
+    /**
+     * Minor (first minor)
+     * The determinant of some smaller square matrix, cut down from A by removing one of its rows and columns.
+     *
+     *        [1 4  7]
+     * If A = [3 0  5]
+     *        [1 9 11]
+     *
+     *                [1 4 -]       [1 4]
+     * Then M₁₂ = det [- - -] = det [1 9] = 13
+     *                [1 9 -]
+     *
+     * https://en.wikipedia.org/wiki/Minor_(linear_algebra)
+     *
+     * @param int $mᵢ Row to exclude
+     * @param int $nⱼ Column to exclude
+     *
+     * @return number
+     *
+     * @throws Exception\MatrixException if matrix is not square
+     * @throws Exception\MatrixException if row to exclude for minor does not exist
+     * @throws Exception\MatrixException if column to exclude for minor does not exist
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\BadParameterException
+     */
+    public function minor(int $mᵢ, int $nⱼ)
+    {
+        if (!$this->isSquare()) {
+            throw new Exception\MatrixException('Matrix is not square; cannot get minor of a non-square matrix');
+        }
+        if ($mᵢ >= $this->m || $mᵢ < 0) {
+            throw new Exception\MatrixException('Row to exclude for minor does not exist');
+        }
+        if ($nⱼ >= $this->n || $nⱼ < 0) {
+            throw new Exception\MatrixException('Column to exclude for minor does not exist');
+        }
+
+        return $this->minorMatrix($mᵢ, $nⱼ)->det();
     }
 
     /**************************************************************************

@@ -12,7 +12,7 @@ use MathPHP\Number\ObjectArithmetic;
  * The object must implement the MatrixArithmetic interface to prove
  * compatibility. It extends the SquareMatrix in order to use Matrix::minor().
  */
-class ObjectSquareMatrix extends NumericSquareMatrix
+class ObjectSquareMatrix extends Matrix
 {
     /**
      * The type of object that is being stored in this Matrix
@@ -35,18 +35,39 @@ class ObjectSquareMatrix extends NumericSquareMatrix
      */
     public function __construct(array $A)
     {
-        parent::__construct($A);
+        $this->A       = $A;
+        $this->m       = \count($A);
+        $this->n       = $this->m > 0 ? \count($A[0]) : 0;
+        $this->catalog = new MatrixCatalog();
 
-        if ($A[0][0] instanceof ObjectArithmetic) {
-            $this->object_type = \get_class($A[0][0]);
+        $this->validateMatrixData();
+    }
+
+    /**
+     * Validate the matrix is entirely m x n
+     *
+     * @throws Exception\BadDataException if any rows have a different column count
+     * @throws Exception\IncorrectTypeException if all elements are not the same class
+     * @throws Exception\IncorrectTypeException if The class does not implement the ObjectArithmetic interface
+     * @throws Exception\MathException
+     */
+    protected function validateMatrixData()
+    {
+        if ($this->A[0][0] instanceof ObjectArithmetic) {
+            $this->object_type = \get_class($this->A[0][0]);
         } else {
             throw new Exception\IncorrectTypeException("The object must implement the interface.");
         }
-        foreach ($A as $i => $row) {
+        foreach ($this->A as $i => $row) {
             foreach ($row as $object) {
                 if (\get_class($object) != $this->object_type) {
                     throw new Exception\IncorrectTypeException("All elements in the matrix must be of the same type.");
                 }
+            }
+        }
+        foreach ($this->A as $i => $row) {
+            if (\count($row) !== $this->n) {
+                throw new Exception\BadDataException("Row $i has a different column count: " . \count($row) . "; was expecting {$this->n}.");
             }
         }
     }
@@ -69,11 +90,11 @@ class ObjectSquareMatrix extends NumericSquareMatrix
     /**
      * Is this matrix equal to some other matrix?
      *
-     * @param NumericMatrix $B
+     * @param Matrix $B
      *
      * @return bool
      */
-    public function isEqual(NumericMatrix $B): bool
+    public function isEqual(Matrix $B): bool
     {
         if (!$this->isEqualSizeAndType($B)) {
             return false;
@@ -99,7 +120,7 @@ class ObjectSquareMatrix extends NumericSquareMatrix
      * @throws Exception\MatrixException if matrices have a different number of rows or columns
      * @throws Exception\IncorrectTypeException if the two matricies are not the same class
      */
-    private function checkEqualSizes(NumericMatrix $B)
+    private function checkEqualSizes(Matrix $B)
     {
         if ($B->getM() !== $this->m || $B->getN() !== $this->n) {
             throw new Exception\MatrixException('Matrices are different sizes');
@@ -112,9 +133,9 @@ class ObjectSquareMatrix extends NumericSquareMatrix
     /**
      * {@inheritDoc}
      */
-    public function add($B): NumericMatrix
+    public function add($B): Matrix
     {
-        if (!$B instanceof NumericMatrix) {
+        if (!$B instanceof Matrix) {
             throw new Exception\IncorrectTypeException('Can only do matrix addition with a Matrix');
         }
         $this->checkEqualSizes($B);
@@ -130,9 +151,9 @@ class ObjectSquareMatrix extends NumericSquareMatrix
     /**
      * {@inheritDoc}
      */
-    public function subtract($B): NumericMatrix
+    public function subtract($B): Matrix
     {
-        if (!$B instanceof NumericMatrix) {
+        if (!$B instanceof Matrix) {
             throw new Exception\IncorrectTypeException('Can only do matrix subtraction with a Matrix');
         }
         $this->checkEqualSizes($B);
@@ -148,9 +169,9 @@ class ObjectSquareMatrix extends NumericSquareMatrix
     /**
      * {@inheritDoc}
      */
-    public function multiply($B): NumericMatrix
+    public function multiply($B): Matrix
     {
-        if ((!$B instanceof NumericMatrix) && (!$B instanceof Vector)) {
+        if ((!$B instanceof Matrix) && (!$B instanceof Vector)) {
             throw new Exception\IncorrectTypeException('Can only do matrix multiplication with a Matrix or Vector');
         }
         if ($B instanceof Vector) {
