@@ -58,6 +58,47 @@
     <testsuite name="Util">
       <directory suffix="Test.php">Util</directory>
     </testsuite>
+
+    <testsuite name="All">
+      <directory suffix="Test.php">Algebra</directory>
+      <directory suffix="Test.php">Arithmetic</directory>
+      <directory suffix="Test.php">Exception</directory>
+      <directory suffix="Test.php">Finance</directory>
+      <directory suffix="Test.php">Functions</directory>
+      <directory suffix="Test.php">InformationTheory</directory>
+      <directory suffix="Test.php">LinearAlgebra</directory>
+      <directory suffix="Test.php">Number</directory>
+      <directory suffix="Test.php">NumberTheory</directory>
+      <directory suffix="Test.php">NumericalAnalysis</directory>
+      <directory suffix="Test.php">Probability</directory>
+      <directory suffix="Test.php">SampleData</directory>
+      <directory suffix="Test.php">Search</directory>
+      <directory suffix="Test.php">Sequence</directory>
+      <directory suffix="Test.php">SetTheory</directory>
+      <directory suffix="Test.php">Statistics</directory>
+      <directory suffix="Test.php">Trigonometry</directory>
+      <directory suffix="Test.php">Util</directory>
+    </testsuite>
+
+    <testsuite name="AllButLinearAlgebra">
+      <directory suffix="Test.php">Algebra</directory>
+      <directory suffix="Test.php">Arithmetic</directory>
+      <directory suffix="Test.php">Exception</directory>
+      <directory suffix="Test.php">Finance</directory>
+      <directory suffix="Test.php">Functions</directory>
+      <directory suffix="Test.php">InformationTheory</directory>
+      <directory suffix="Test.php">Number</directory>
+      <directory suffix="Test.php">NumberTheory</directory>
+      <directory suffix="Test.php">NumericalAnalysis</directory>
+      <directory suffix="Test.php">Probability</directory>
+      <directory suffix="Test.php">SampleData</directory>
+      <directory suffix="Test.php">Search</directory>
+      <directory suffix="Test.php">Sequence</directory>
+      <directory suffix="Test.php">SetTheory</directory>
+      <directory suffix="Test.php">Statistics</directory>
+      <directory suffix="Test.php">Trigonometry</directory>
+      <directory suffix="Test.php">Util</directory>
+    </testsuite>
   </testsuites>
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
