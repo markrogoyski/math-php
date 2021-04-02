@@ -24,7 +24,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $checkedZero = $method->invokeArgs(null, [$value]);
 
         // Then
-        $this->assertEquals($result, $checkedZero);
+        $this->assertNotEquals($result, $checkedZero);
     }
 
     /**
