@@ -1,5 +1,7 @@
 # MathPHP Change Log
 
+## v2.0.0
+
 ## v1.10.0 - 2020-12-19
 
 ### Improvements
