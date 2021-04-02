@@ -47,7 +47,7 @@ jobs:
         run: |
           mkdir -p build/logs
           ./vendor/bin/phpunit --version
-          echo "Test suite AllButLearnAlgebra"
+          echo "Test suite AllButLinearAlgebra"
           ./vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=AllButLinearAlgebra
           echo "Test suite Linear Algebra"
           ./vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=LinearAlgebra
