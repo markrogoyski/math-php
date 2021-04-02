@@ -23,8 +23,8 @@ class ObjectSquareMatrix extends NumericSquareMatrix
     /**
      * Constructor
      *
-     * The constuctor follows performs all the same checks as the parent, but also checks that
-     * all of the elements in the arry are of the same data type.
+     * The constructor follows performs all the same checks as the parent, but also checks that
+     * all of the elements in the array are of the same data type.
      *
      * @param array[] $A m x n matrix
      *
@@ -193,7 +193,7 @@ class ObjectSquareMatrix extends NumericSquareMatrix
      * for the first row of the matrix, perform element-wise multiplication, and
      * add the results of that row.
      *
-     * This implementation also uses the same algorithm for 2x2 matricies. Adding
+     * This implementation also uses the same algorithm for 2x2 matrices. Adding
      * a special case may quicken code execution.
      *
      * @return ObjectArithmetic
