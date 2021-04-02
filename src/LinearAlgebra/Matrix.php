@@ -2,7 +2,6 @@
 
 namespace MathPHP\LinearAlgebra;
 
-use MathPHP\Functions\Support;
 use MathPHP\Exception;
 
 /**

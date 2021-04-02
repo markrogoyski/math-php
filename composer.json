@@ -5,7 +5,8 @@
   "keywords": ["math", "mathematics", "probability", "combinatorics", "statistics", "distributions", "regressions", "linear algebra", "matrix", "algebra", "numerical analysis"],
   "homepage": "https://github.com/markrogoyski/math-php/",
   "require": {
-    "php": ">=7.2.0"
+    "php": ">=7.2.0",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": { "MathPHP\\": "src/" }
