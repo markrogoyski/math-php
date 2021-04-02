@@ -16,7 +16,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var int Number of columns */
     protected $n;
 
-    /** @var array Matrix array of arrays */
+    /** @var array[] Matrix array of arrays */
     protected $A;
 
     /** @var MatrixCatalog */

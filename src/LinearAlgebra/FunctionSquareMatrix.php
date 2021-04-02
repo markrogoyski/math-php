@@ -4,7 +4,7 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
 
-class FunctionSquareMatrix extends NumericSquareMatrix
+class FunctionSquareMatrix
 {
     /**
      * FunctionSquareMatrix constructor.
@@ -23,7 +23,21 @@ class FunctionSquareMatrix extends NumericSquareMatrix
             throw new Exception\BadDataException("n must equal m for square Function Matrix. n = $n, m = $m");
         }
 
-        parent::__construct($A);
+        $this->validateMatrixDimensions();
+    }
+
+    /**
+     * Validate the matrix is entirely m x n
+     *
+     * @throws Exception\BadDataException
+     */
+    protected function validateMatrixDimensions()
+    {
+        foreach ($this->A as $i => $row) {
+            if (\count($row) !== $this->n) {
+                throw new Exception\BadDataException("Row $i has a different column count: " . \count($row) . "; was expecting {$this->n}.");
+            }
+        }
     }
 
     /**

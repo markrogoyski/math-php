@@ -4,8 +4,45 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
 
-class FunctionMatrix extends NumericMatrix
+class FunctionMatrix
 {
+    /** @var int Number of rows */
+    protected $m;
+
+    /** @var int Number of columns */
+    protected $n;
+
+    /** @var array[] Matrix array of arrays */
+    protected $A;
+
+    /**
+     * @param array[] $A of arrays $A m x n matrix
+     *
+     * @throws Exception\BadDataException if any rows have a different column count
+     */
+    public function __construct(array $A)
+    {
+        $this->A       = $A;
+        $this->m       = \count($A);
+        $this->n       = $this->m > 0 ? \count($A[0]) : 0;
+
+        $this->validateMatrixDimensions();
+    }
+
+    /**
+     * Validate the matrix is entirely m x n
+     *
+     * @throws Exception\BadDataException
+     */
+    protected function validateMatrixDimensions()
+    {
+        foreach ($this->A as $i => $row) {
+            if (\count($row) !== $this->n) {
+                throw new Exception\BadDataException("Row $i has a different column count: " . \count($row) . "; was expecting {$this->n}.");
+            }
+        }
+    }
+
     /**
      * Evaluate
      *

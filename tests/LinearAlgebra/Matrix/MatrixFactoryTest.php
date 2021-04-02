@@ -162,16 +162,16 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test
+     * @test         createFunctionMatrix
      * @dataProvider dataProviderForFunctionSquareMatrix
      */
     public function testCreateFunctionSquareMatrix(array $A)
     {
-        $A = MatrixFactory::create($A);
+        // When
+        $A = MatrixFactory::createFunctionMatrix($A);
 
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\FunctionSquareMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericSquareMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericMatrix::class, $A);
+        // Then
+        $this->assertInstanceOf(\MathPHP\LinearAlgebra\FunctionMatrix::class, $A);
     }
 
     public function dataProviderForFunctionSquareMatrix(): array
@@ -203,17 +203,16 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         create function matrix
+     * @test         createFunctionMatrix
      * @dataProvider dataProviderForFunctionMatrix
      */
     public function testCreateFunctionMatrix(array $A)
     {
         // When
-        $A = MatrixFactory::create($A);
+        $A = MatrixFactory::createFunctionMatrix($A);
 
         // Then
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\FunctionMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericMatrix::class, $A);
     }
 
     public function dataProviderForFunctionMatrix(): array
@@ -244,6 +243,25 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
         ];
+    }
+
+    /**
+     * @test createFunctionMatrix error when matrix not made of functions
+     */
+    public function testCreateFunctionMatrixErrorNotMadeOfFunctions()
+    {
+        // Given
+        $A = [
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $A = MatrixFactory::createFunctionMatrix($A);
     }
 
     /**

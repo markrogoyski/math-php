@@ -33,10 +33,6 @@ class MatrixFactory
                 return new NumericMatrix($A);
             case 'square':
                 return new NumericSquareMatrix($A);
-            case 'function':
-                return new FunctionMatrix($A);
-            case 'function_square':
-                return new FunctionSquareMatrix($A);
             case 'object_square':
                 return new ObjectSquareMatrix($A);
         }
@@ -83,6 +79,23 @@ class MatrixFactory
 
         // Transpose to create matrix from the vector columns
         return (new NumericMatrix($R))->transpose();
+    }
+
+    /**
+     * Factory method
+     *
+     * @param  array[] $A 2-dimensional array of Matrix data
+     *
+     * @return FunctionMatrix
+     */
+    public static function createFunctionMatrix(array $A): FunctionMatrix
+    {
+        self::checkParams($A);
+        if (!is_callable($A[0][0])) {
+            throw new Exception\BadDataException('FunctionMatrix must be made of functions - got ' . gettype($A[0][0]));
+        }
+
+        return new FunctionMatrix($A);
     }
 
     /**************************************************************************
@@ -563,11 +576,7 @@ class MatrixFactory
         if ($m === $n) {
             // closures are objects, so we need to separate them out.
             if (\is_object($A[0][0])) {
-                if ($A[0][0] instanceof \Closure) {
-                    return 'function_square';
-                } else {
-                    return 'object_square';
-                }
+                return 'object_square';
             }
             return 'square';
         }
@@ -576,10 +585,6 @@ class MatrixFactory
         // First check to make sure it isn't something strange
         if (\is_array($A[0][0])) {
             return 'unknown';
-        }
-        // Then check remaining matrix types
-        if (\is_callable($A[0][0])) {
-            return 'function';
         }
 
         // Numeric matrix
