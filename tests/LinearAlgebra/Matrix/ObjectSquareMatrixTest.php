@@ -140,7 +140,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $comparison = $A->isEqual($B);
 
         // Then
-        $this->assertEquals($expected, $comparison);
+        $this->assertNotEquals($expected, $comparison);
     }
 
     /**
