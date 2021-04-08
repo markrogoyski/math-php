@@ -2,6 +2,8 @@
 
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Exception;
+
 /**
  * Column vector (column matrix)
  * m × 1 matrix consisting of a single column of m elements.
@@ -21,12 +23,30 @@ class ColumnVector extends NumericMatrix
      */
     public function __construct(array $M)
     {
+        $this->validateColumnVectorDimensions($M);
+
         $A = [];
         foreach ($M as $value) {
             $A[] = [$value];
         }
 
         parent::__construct($A);
+    }
+
+    /**
+     * Validate the matrix is provided as a one-dimensional array
+     *
+     * @param array $N
+     *
+     * @throws Exception\BadDataException
+     */
+    protected function validateColumnVectorDimensions(array $M)
+    {
+        foreach ($M as $item) {
+            if (\is_array($item)) {
+                throw new Exception\BadDataException('Row vector data must be a one-dimensional array');
+            }
+        }
     }
 
     /**

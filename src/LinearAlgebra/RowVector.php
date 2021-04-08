@@ -29,7 +29,7 @@ class RowVector extends NumericMatrix
     }
 
     /**
-     * Validate the matrix is entirely m x n
+     * Validate the matrix is provided as a one-dimensional array
      *
      * @param array $N
      *

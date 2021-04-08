@@ -2,6 +2,7 @@
 
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
+use MathPHP\Exception;
 use MathPHP\LinearAlgebra\ColumnVector;
 use MathPHP\LinearAlgebra\NumericMatrix;
 
@@ -48,6 +49,24 @@ class ColumnVectorTest extends \PHPUnit\Framework\TestCase
                 ]
             ],
         ];
+    }
+
+    /**
+     * @test Construction failure due to not being a row vector
+     */
+    public function testConstructionFailure()
+    {
+        // Given
+        $A = [
+            [1, 2, 3],
+            [2, 3, 4],
+        ];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $R = new ColumnVector($A);
     }
 
     /**
