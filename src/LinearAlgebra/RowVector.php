@@ -38,7 +38,7 @@ class RowVector extends NumericMatrix
     protected function validateRowVectorDimensions(array $N)
     {
         foreach ($N as $item) {
-            if (is_array($item)) {
+            if (\is_array($item)) {
                 throw new Exception\BadDataException('Row vector data must be a one-dimensional array');
             }
         }
