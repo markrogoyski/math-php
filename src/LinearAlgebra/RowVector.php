@@ -2,6 +2,8 @@
 
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Exception;
+
 /**
  * Row vector (row matrix)
  * 1 × n matrix consisting of a single row of n elements.
@@ -15,11 +17,31 @@ class RowVector extends NumericMatrix
      * instead of an array of arrays.
      *
      * @param array $N 1-dimensional array of vector values
+     *
+     * @throws Exception\BadDataException
      */
     public function __construct(array $N)
     {
+        $this->validateRowVectorDimensions($N);
+
         $A = [$N];
         parent::__construct($A);
+    }
+
+    /**
+     * Validate the matrix is entirely m x n
+     *
+     * @param array $N
+     *
+     * @throws Exception\BadDataException
+     */
+    protected function validateRowVectorDimensions(array $N)
+    {
+        foreach ($N as $item) {
+            if (is_array($item)) {
+                throw new Exception\BadDataException('Row vector data must be a one-dimensional array');
+            }
+        }
     }
 
     /**

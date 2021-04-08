@@ -2,6 +2,7 @@
 
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
+use MathPHP\Exception;
 use MathPHP\LinearAlgebra\RowVector;
 use MathPHP\LinearAlgebra\NumericMatrix;
 
@@ -26,8 +27,10 @@ class RowVectorTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\RowVector::class, $R);
         $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericMatrix::class, $R);
 
+        // And
         $this->assertEquals($V[0], $R[0]);
 
+        // And
         $this->assertEquals(1, $V->getM());
         $this->assertEquals(count($M), $V->getN());
     }
@@ -44,6 +47,24 @@ class RowVectorTest extends \PHPUnit\Framework\TestCase
                 [ [1] ],
             ],
         ];
+    }
+
+    /**
+     * @test Construction failure due to not being a row vector
+     */
+    public function testConstructionFailure()
+    {
+        // Given
+        $A = [
+            [1, 2, 3],
+            [2, 3, 4],
+        ];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $R = new RowVector($A);
     }
 
     /**
