@@ -2,6 +2,7 @@
 
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
+use MathPHP\LinearAlgebra\NumericDiagonalMatrix;
 use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
@@ -16,6 +17,24 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     use \MathPHP\Tests\LinearAlgebra\Fixture\MatrixDataProvider;
 
     /**
+     * @test         create numeric matrix
+     * @dataProvider dataProviderForSquareMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
+     * @dataProvider dataProviderForSingularMatrix
+     * @dataProvider dataProviderForNonsingularMatrix
+     * @dataProvider dataProviderForMatrixWithWeirdNumbers
+     */
+    public function testCreateNumericMatrix(array $A)
+    {
+        // When
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertInstanceOf(NumericMatrix::class, $A);
+        $this->assertInstanceOf(Matrix::class, $A);
+    }
+
+    /**
      * @test         create diagonal matrix
      * @dataProvider dataProviderForDiagonalMatrix
      */
@@ -25,8 +44,9 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::diagonal($A);
 
         // Then
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericDiagonalMatrix::class, $A);
-        $this->assertInstanceOf(\MathPHP\LinearAlgebra\NumericMatrix::class, $A);
+        $this->assertInstanceOf(NumericDiagonalMatrix::class, $A);
+        $this->assertInstanceOf(NumericMatrix::class, $A);
+        $this->assertInstanceOf(Matrix::class, $A);
     }
 
     public function dataProviderForDiagonalMatrix()
@@ -51,28 +71,7 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertInstanceOf(NumericSquareMatrix::class, $A);
         $this->assertInstanceOf(NumericMatrix::class, $A);
-    }
-
-    public function dataProviderForSquareMatrix(): array
-    {
-        return [
-            [
-                [[1]]
-            ],
-            [
-                [
-                    [1, 2],
-                    [2, 3],
-                ],
-            ],
-            [
-                [
-                    [1, 2, 3],
-                    [3, 4, 5],
-                    [5, 6, 7],
-                ],
-            ],
-        ];
+        $this->assertInstanceOf(Matrix::class, $A);
     }
 
     /**
