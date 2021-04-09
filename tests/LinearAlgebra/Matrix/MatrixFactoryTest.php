@@ -3,8 +3,11 @@
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\LinearAlgebra\NumericMatrix;
+use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\NumericSquareMatrix;
+use MathPHP\LinearAlgebra\ObjectMatrix;
+use MathPHP\LinearAlgebra\ObjectSquareMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
@@ -957,10 +960,25 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
                 $this->assertEquals($n, $A->getN());
 
                 // And
-                $A->map(function ($element) {
+                $A->walk(function ($element) {
                     $this->assertTrue(\is_int($element));
                 });
             }
         }
+    }
+
+    /**
+     * @test create ObjectMatrix
+     * @dataProvider dataProviderForObjectMatrix
+     * @param        array $A
+     */
+    public function testCreateObjectMatrix(array $A)
+    {
+        // When
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertInstanceOf(ObjectMatrix::class, $A);
+        $this->assertInstanceOf(Matrix::class, $A);
     }
 }

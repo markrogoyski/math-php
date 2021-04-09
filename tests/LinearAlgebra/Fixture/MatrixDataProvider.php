@@ -2,6 +2,8 @@
 
 namespace MathPHP\Tests\LinearAlgebra\Fixture;
 
+use MathPHP\Expression\Polynomial;
+
 trait MatrixDataProvider
 {
     /**************************************************************************
@@ -7488,5 +7490,27 @@ trait MatrixDataProvider
         foreach ($this->dataProviderForMatrixWithWeirdNumbers() as $matrix) {
             yield $matrix;
         }
+    }
+
+    public function dataProviderForObjectMatrix(): array
+    {
+        return [
+            [
+                [
+                    [new Polynomial([1, 0])]
+                ],
+            ],
+            [
+                [
+                    [new Polynomial([1, 0]), new Polynomial([1, 0])]
+                ]
+            ],
+            [
+                [
+                    [new Polynomial([1, 0]), new Polynomial([0, 0])],
+                    [new Polynomial([0, 0]), new Polynomial([1, 0])],
+                ]
+            ],
+        ];
     }
 }

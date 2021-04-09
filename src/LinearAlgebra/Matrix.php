@@ -612,6 +612,18 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
         );
     }
 
+    public function walk(callable $func): void
+    {
+        $m = $this->m;
+        $n = $this->n;
+
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $func($this->A[$i][$j]);
+            }
+        }
+    }
+
     /**************************************************************************
      * ROW OPERATIONS - Return a Matrix
      *  - rowInterchange

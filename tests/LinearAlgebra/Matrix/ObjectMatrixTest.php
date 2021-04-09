@@ -4,13 +4,13 @@ namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\Expression\Polynomial;
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\ObjectSquareMatrix;
+use MathPHP\LinearAlgebra\ObjectMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Number\Complex;
 use MathPHP\Exception;
 use MathPHP\Number\ObjectArithmetic;
 
-class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
+class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test         The constructor throws the proper exceptions
@@ -24,26 +24,20 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         $this->expectException($exception);
 
         // When
-        $A = new ObjectSquareMatrix($A);
+        $A = new ObjectMatrix($A);
     }
 
     public function dataProviderConstructorException(): array
     {
         return [
-            'rows have different types' => [
+            [
                 [[new \stdClass()]],
                 Exception\IncorrectTypeException::class,
             ],
-            'columns have different types' => [
+            [
                 [[new \stdClass(), new Polynomial([1, 2, 3])],
-                [new \stdClass(), new Polynomial([1, 2, 3])]],
+                    [new \stdClass(), new Polynomial([1, 2, 3])]],
                 Exception\IncorrectTypeException::class,
-            ],
-            'not square' => [
-                [
-                    [new Polynomial([1, 2]), new Polynomial([2, 1])],
-                ],
-                Exception\MatrixException::class,
             ],
         ];
     }
@@ -58,7 +52,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
     public function testMatrixAddException(array $A, ObjectArithmetic $B, string $exception)
     {
         // Given
-        $A = new ObjectSquareMatrix($A);
+        $A = new ObjectMatrix($A);
 
         // Then
         $this->expectException($exception);
@@ -77,7 +71,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
     public function testMatrixSubtractException(array $A, ObjectArithmetic $B, string $exception)
     {
         // Given
-        $A = new ObjectSquareMatrix($A);
+        $A = new ObjectMatrix($A);
 
         // Then
         $this->expectException($exception);
@@ -96,7 +90,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
     public function testMatrixMultiplyException(array $A, ObjectArithmetic $B, string $exception)
     {
         // Given
-        $A = new ObjectSquareMatrix($A);
+        $A = new ObjectMatrix($A);
 
         // Then
         $this->expectException($exception);
@@ -110,19 +104,50 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
         return[
             [ // Different Sizes
                 [[new Polynomial([1, 2, 3]), new Polynomial([1, 2, 3])],
-                [new Polynomial([1, 2, 3]), new Polynomial([1, 2, 3])]],
+                    [new Polynomial([1, 2, 3]), new Polynomial([1, 2, 3])]],
                 MatrixFactory::create([[new Polynomial([1, 2, 3])]]),
                 Exception\MatrixException::class,
             ],
             [ // Different Types
                 [[new Polynomial([1, 2, 3])]],
-                new ObjectSquareMatrix([[new Complex(1, 2)]]),
+                new ObjectMatrix([[new Complex(1, 2)]]),
                 Exception\IncorrectTypeException::class,
             ],
             [ // Not a Matrix
                 [[new Polynomial([1, 2, 3])]],
                 new Complex(1, 2),
                 Exception\IncorrectTypeException::class,
+            ],
+        ];
+    }
+
+    /**
+     * @test         Cannot compute the determinant of a non-square matrix
+     * @dataProvider dataProviderDetException
+     * @param        array $A
+     */
+    public function testMatrixDetException(array $A)
+    {
+        // Given
+        $A = new ObjectMatrix($A);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $det = $A->det();
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderDetException(): array
+    {
+        return [
+            [
+                [
+                    [new Polynomial([1, 2]), new Polynomial([2, 1])],
+                ],
             ],
         ];
     }
@@ -188,8 +213,8 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
     public function testAdd(array $A, array $B, array $expected)
     {
         // Given
-        $A = new ObjectSquareMatrix($A);
-        $B = new ObjectSquareMatrix($B);
+        $A = new ObjectMatrix($A);
+        $B = new ObjectMatrix($B);
 
         // And
         $expected = matrixFactory::create($expected);
@@ -249,15 +274,15 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
     public function testSubtract(array $A, array $B, array $expected)
     {
         // Given
-        $A        = new ObjectSquareMatrix($A);
-        $B        = new ObjectSquareMatrix($B);
-        $expected = new ObjectSquareMatrix($expected);
+        $A        = new ObjectMatrix($A);
+        $B        = new ObjectMatrix($B);
+        $expected = new ObjectMatrix($expected);
 
         // When
         $difference = $A->subtract($B);
 
         // Then
-        $this->assertEquals($expected, $difference);
+        $this->assertEquals($expected->getMatrix(), $difference->getMatrix());
     }
 
     /**
@@ -307,8 +332,8 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
     public function testMul(array $A, array $B, array $expected)
     {
         // Given
-        $A = new ObjectSquareMatrix($A);
-        $B = new ObjectSquareMatrix($B);
+        $A = new ObjectMatrix($A);
+        $B = new ObjectMatrix($B);
 
         // And
         $expected = matrixFactory::create($expected);
@@ -367,7 +392,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
     public function testMultiplyVector(array $A, array $B, array $expected)
     {
         // Given
-        $A = new ObjectSquareMatrix($A);
+        $A = new ObjectMatrix($A);
         $B = new Vector($B);
 
         // When
@@ -404,7 +429,7 @@ class ObjectSquareMatrixTest extends \PHPUnit\Framework\TestCase
     public function testDet(array $A, Polynomial $expected)
     {
         // Given
-        $A = new ObjectSquareMatrix($A);
+        $A = new ObjectMatrix($A);
 
         // When
         $det = $A->det();

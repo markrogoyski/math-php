@@ -29,15 +29,17 @@ class MatrixFactory
         $matrix_type = self::determineMatrixType($A);
 
         switch ($matrix_type) {
-            case 'matrix':
+            case 'numeric':
                 return new NumericMatrix($A);
-            case 'square':
+            case 'numeric_square':
                 return new NumericSquareMatrix($A);
+            case 'object':
+                return new ObjectMatrix($A);
             case 'object_square':
                 return new ObjectSquareMatrix($A);
         }
 
-        throw new Exception\IncorrectTypeException('Unknown matrix type');
+        throw new Exception\IncorrectTypeException('Unknown matrix type: ' . print_r($A, true));
     }
 
     /**
@@ -572,22 +574,21 @@ class MatrixFactory
         $m = \count($A);
         $n = \count($A[0]);
 
-        // Square Matrices have the same number of rows (m) and columns (n)
-        if ($m === $n) {
-            // closures are objects, so we need to separate them out.
-            if (\is_object($A[0][0])) {
-                return 'object_square';
-            }
-            return 'square';
-        }
-
-        // Non square Matrices
-        // First check to make sure it isn't something strange
-        if (\is_array($A[0][0])) {
-            return 'unknown';
+        // Object (closure) matrices
+        if (\is_object($A[0][0])) {
+            return $m === $n
+                ? 'object_square'
+                : 'object';
         }
 
         // Numeric matrix
-        return 'matrix';
+        if (\is_numeric($A[0][0])) {
+            return $m === $n
+                ? 'numeric_square'
+                : 'numeric';
+        }
+
+        // Unknown or bad data
+        return 'unknown';
     }
 }
