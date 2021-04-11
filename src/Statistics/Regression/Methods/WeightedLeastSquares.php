@@ -4,7 +4,6 @@ namespace MathPHP\Statistics\Regression\Methods;
 
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\NumericMatrix;
-use MathPHP\LinearAlgebra\ColumnVector;
 use MathPHP\LinearAlgebra\MatrixFactory;
 
 trait WeightedLeastSquares
@@ -58,7 +57,7 @@ trait WeightedLeastSquares
     {
         // y = Xa
         $X = MatrixFactory::vandermonde($xs, $order + 1);
-        $y = new ColumnVector($ys);
+        $y = MatrixFactory::createFromColumnVector($ys);
         $W = MatrixFactory::diagonal($ws);
 
         // a = (XᵀWX)⁻¹XᵀWy

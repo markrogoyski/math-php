@@ -4,6 +4,7 @@ namespace MathPHP\Probability\Distribution\Multivariate;
 
 use MathPHP\Exception;
 use MathPHP\Functions\Map;
+use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\LinearAlgebra\RowVector;
 use MathPHP\LinearAlgebra\NumericMatrix;
@@ -78,7 +79,7 @@ class Normal
 
         $Δ       = Map\Multi::subtract($X, $μ);
         $⟮x − μ⟯  = new Vector($Δ);
-        $⟮x − μ⟯ᵀ = new RowVector($Δ);
+        $⟮x − μ⟯ᵀ = MatrixFactory::createFromRowVector($Δ);
         $∑⁻¹     = $∑->inverse();
 
         $exp⟮−½⟮x − μ⟯ᵀ∑⁻¹⟮x − μ⟯⟯ = \exp(

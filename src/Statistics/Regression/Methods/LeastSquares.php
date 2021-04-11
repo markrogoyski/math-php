@@ -9,7 +9,6 @@ use MathPHP\Functions\Map\Multi;
 use MathPHP\Probability\Distribution\Continuous\F;
 use MathPHP\Probability\Distribution\Continuous\StudentT;
 use MathPHP\LinearAlgebra\NumericMatrix;
-use MathPHP\LinearAlgebra\ColumnVector;
 use MathPHP\Exception;
 
 trait LeastSquares
@@ -116,7 +115,7 @@ trait LeastSquares
 
         // y = Xa
         $X = $this->createDesignMatrix($xs);
-        $y = new ColumnVector($ys);
+        $y = MatrixFactory::createFromColumnVector($ys);
 
         // a = (XᵀX)⁻¹Xᵀy
         $Xᵀ           = $X->transpose();
