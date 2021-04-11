@@ -6,7 +6,6 @@ use MathPHP\Exception;
 use MathPHP\Functions\Map;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Vector;
-use MathPHP\LinearAlgebra\RowVector;
 use MathPHP\LinearAlgebra\NumericMatrix;
 
 /**
