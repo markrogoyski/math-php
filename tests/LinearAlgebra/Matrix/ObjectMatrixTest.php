@@ -6,6 +6,7 @@ use MathPHP\Expression\Polynomial;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\ObjectMatrix;
 use MathPHP\LinearAlgebra\Vector;
+use MathPHP\Number\ArbitraryInteger;
 use MathPHP\Number\Complex;
 use MathPHP\Exception;
 use MathPHP\Number\ObjectArithmetic;
@@ -30,14 +31,30 @@ class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
     public function dataProviderConstructorException(): array
     {
         return [
-            [
+            'object does not implement ObjectArithmetic' => [
                 [[new \stdClass()]],
                 Exception\IncorrectTypeException::class,
             ],
-            [
-                [[new \stdClass(), new Polynomial([1, 2, 3])],
-                    [new \stdClass(), new Polynomial([1, 2, 3])]],
+            'multiple objects do not implement ObjectArithmetic' => [
+                [
+                    [new \stdClass(), new Polynomial([1, 2, 3])],
+                    [new \stdClass(), new Polynomial([1, 2, 3])]
+                ],
                 Exception\IncorrectTypeException::class,
+            ],
+            'objects are not the same type' => [
+                [
+                    [new ArbitraryInteger(5), new Polynomial([1, 2, 3])],
+                    [new ArbitraryInteger(5), new Polynomial([1, 2, 3])]
+                ],
+                Exception\IncorrectTypeException::class
+            ],
+            'different row counts' => [
+                [
+                    [new Polynomial([1, 2, 3]), new Polynomial([1, 2, 3])],
+                    [new Polynomial([1, 2, 3])]
+                ],
+                Exception\BadDataException::class
             ],
         ];
     }
