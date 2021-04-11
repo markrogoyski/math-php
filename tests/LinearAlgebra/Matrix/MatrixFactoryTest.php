@@ -967,7 +967,7 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test create ObjectMatrix
+     * @test         create ObjectMatrix
      * @dataProvider dataProviderForObjectMatrix
      * @param        array $A
      */
@@ -977,6 +977,22 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::create($A);
 
         // Then
+        $this->assertInstanceOf(ObjectMatrix::class, $A);
+        $this->assertInstanceOf(Matrix::class, $A);
+    }
+
+    /**
+     * @test         create ObjectSquareMatrix
+     * @dataProvider dataProviderForObjectSquareMatrix
+     * @param        array $A
+     */
+    public function testCreateObjectSquareMatrix(array $A)
+    {
+        // When
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertInstanceOf(ObjectSquareMatrix::class, $A);
         $this->assertInstanceOf(ObjectMatrix::class, $A);
         $this->assertInstanceOf(Matrix::class, $A);
     }

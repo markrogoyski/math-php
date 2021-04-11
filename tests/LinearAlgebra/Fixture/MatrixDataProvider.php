@@ -68,6 +68,8 @@ trait MatrixDataProvider
      *  - dataProviderForNonOrthogonalMatrix
      *  - dataProviderForNonNormalMatrix
      *  - dataProviderForMatrixWithWeirdNumbers
+     *  - dataProviderForObjectMatrix
+     *  - dataProviderForObjectSquareMatrix
      **************************************************************************/
 
     public function dataProviderForSquareMatrix(): array
@@ -7509,6 +7511,30 @@ trait MatrixDataProvider
                 [
                     [new Polynomial([1, 0]), new Polynomial([0, 0])],
                     [new Polynomial([0, 0]), new Polynomial([1, 0])],
+                ]
+            ],
+        ];
+    }
+
+    public function dataProviderForObjectSquareMatrix(): array
+    {
+        return [
+            [
+                [
+                    [new Polynomial([1, 0])]
+                ],
+            ],
+            [
+                [
+                    [new Polynomial([1, 0]), new Polynomial([0, 0])],
+                    [new Polynomial([0, 0]), new Polynomial([1, 0])],
+                ]
+            ],
+            [
+                [
+                    [new Polynomial([1, 0]), new Polynomial([0, 0]), new Polynomial([1, 1])],
+                    [new Polynomial([0, 0]), new Polynomial([1, 0]), new Polynomial([1, 1])],
+                    [new Polynomial([0, 0]), new Polynomial([1, 0]), new Polynomial([1, 1])],
                 ]
             ],
         ];
