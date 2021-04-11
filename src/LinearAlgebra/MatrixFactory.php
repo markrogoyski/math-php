@@ -103,6 +103,57 @@ class MatrixFactory
     }
 
     /**
+     * Column vector (column matrix)
+     * m × 1 matrix consisting of a single column of m elements.
+     *
+     *     [x₁]
+     * x = [x₂]
+     *     [⋮ ]
+     *     [xm]
+     *
+     * @param array $A m × 1 vector representing the matrix
+     *
+     * @return Matrix
+     */
+    public static function createFromColumnVector(array $A): Matrix
+    {
+        foreach ($A as $item) {
+            if (\is_array($item)) {
+                throw new Exception\BadDataException('Column vector data must be a one-dimensional array');
+            }
+        }
+
+        $R = [];
+        foreach ($A as $value) {
+            $R[] = [$value];
+        }
+
+        return self::create($R);
+    }
+
+    /**
+     * Row vector (row matrix)
+     * 1 × n matrix consisting of a single row of n elements.
+     *
+     * x = [x₁ x₂ ⋯ xn]
+     *
+     * @param array $A 1 × n vector representing the matrix
+     *
+     * @return Matrix
+     */
+    public static function createFromRowVector(array $A): Matrix
+    {
+        foreach ($A as $item) {
+            if (\is_array($item)) {
+                throw new Exception\BadDataException('Row vector data must be a one-dimensional array');
+            }
+        }
+
+        $R = [$A];
+        return self::create($R);
+    }
+
+    /**
      * Factory method
      *
      * @param  array[] $A 2-dimensional array of Matrix data

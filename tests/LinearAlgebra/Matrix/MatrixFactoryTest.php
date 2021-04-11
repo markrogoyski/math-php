@@ -996,4 +996,117 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(ObjectMatrix::class, $A);
         $this->assertInstanceOf(Matrix::class, $A);
     }
+
+    /**
+     * @test         createFromColumnVector
+     * @dataProvider dataProviderForCreateFromColumnVector
+     * @param        array $V
+     * @param        array $expected
+     */
+    public function testConstructor(array $V, array $expected)
+    {
+        // Given
+        $expected = new NumericMatrix($expected);
+
+        // When
+        $A = MatrixFactory::createFromColumnVector($V);
+
+        // Then
+        $this->assertInstanceOf(NumericMatrix::class, $A);
+
+        // And
+        $this->assertEquals($expected->getMatrix(), $A->getMatrix());
+    }
+
+    public function dataProviderForCreateFromColumnVector(): array
+    {
+        return [
+            [
+                [1, 2, 3, 4],
+                [
+                    [1],
+                    [2],
+                    [3],
+                    [4],
+                ]
+            ],
+            [
+                [1],
+                [
+                    [1],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @test createFromColumnVector failure due to not being a column vector
+     */
+    public function testConstructionFailure()
+    {
+        // Given
+        $A = [
+            [1, 2, 3],
+            [2, 3, 4],
+        ];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $R = MatrixFactory::createFromColumnVector($A);
+    }
+
+    /**
+     * @test         createFromRowVector
+     * @dataProvider dataProviderForConstructor
+     * @param        array $V
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testCreateFromRowVector(array $V, array $expected)
+    {
+        // Given
+        $expected = new NumericMatrix($expected);
+
+        $A = MatrixFactory::createFromRowVector($V);
+
+        // Then
+        $this->assertInstanceOf(NumericMatrix::class, $A);
+
+        // And
+        $this->assertEquals($expected->getMatrix(), $A->getMatrix());
+    }
+
+    public function dataProviderForConstructor(): array
+    {
+        return [
+            [
+                [1, 2, 3, 4],
+                [ [1, 2, 3, 4] ],
+            ],
+            [
+                [1],
+                [ [1] ],
+            ],
+        ];
+    }
+
+    /**
+     * @test createFromRowVector failure due to not being a row vector
+     */
+    public function testCreateFromRowVectorFailure()
+    {
+        // Given
+        $A = [
+            [1, 2, 3],
+            [2, 3, 4],
+        ];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $R = MatrixFactory::createFromRowVector($A);
+    }
 }
