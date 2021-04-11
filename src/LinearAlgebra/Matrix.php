@@ -574,7 +574,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      **************************************************************************/
 
     /**
-     * Map a function over all elements of the Matrix
+     * Map a function over all elements of the matrix
      *
      * @param  callable $func takes a matrix item as input
      *
@@ -612,6 +612,11 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
         );
     }
 
+    /**
+     * Walk a function over all elements of the matrix
+     *
+     * @param callable $func
+     */
     public function walk(callable $func): void
     {
         $m = $this->m;

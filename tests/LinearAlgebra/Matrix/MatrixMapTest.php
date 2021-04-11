@@ -484,4 +484,26 @@ class MatrixMapTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(\in_array(8, $R[2]));
         $this->assertTrue(\in_array(9, $R[2]));
     }
+
+    /**
+     * @test walk
+     */
+    public function testWalk()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9],
+        ]);
+
+        // Then
+        $func = function ($item) {
+            $this->assertTrue(\is_int($item));
+            $this->assertFalse(\is_float($item));
+        };
+
+        // When
+        $A->walk($func);
+    }
 }
