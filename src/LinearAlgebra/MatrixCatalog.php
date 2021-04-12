@@ -40,9 +40,9 @@ class MatrixCatalog
     // TRANSPOSE
 
     /**
-     * @param NumericMatrix $Aᵀ
+     * @param Matrix $Aᵀ
      */
-    public function addTranspose(NumericMatrix $Aᵀ)
+    public function addTranspose(Matrix $Aᵀ): void
     {
         $this->Aᵀ = $Aᵀ;
     }
@@ -50,15 +50,15 @@ class MatrixCatalog
     /**
      * @return bool
      */
-    public function hasTranspose()
+    public function hasTranspose(): bool
     {
         return isset($this->Aᵀ);
     }
 
     /**
-     * @return NumericMatrix
+     * @return Matrix
      */
-    public function getTranspose(): NumericMatrix
+    public function getTranspose(): Matrix
     {
         return $this->Aᵀ;
     }
@@ -66,9 +66,9 @@ class MatrixCatalog
     // INVERSE
 
     /**
-     * @param NumericMatrix $A⁻¹
+     * @param Matrix $A⁻¹
      */
-    public function addInverse(NumericMatrix $A⁻¹)
+    public function addInverse(Matrix $A⁻¹): void
     {
         $this->A⁻¹ = $A⁻¹;
     }
@@ -76,15 +76,15 @@ class MatrixCatalog
     /**
      * @return bool
      */
-    public function hasInverse()
+    public function hasInverse(): bool
     {
         return isset($this->A⁻¹);
     }
 
     /**
-     * @return NumericMatrix
+     * @return Matrix
      */
-    public function getInverse(): NumericMatrix
+    public function getInverse(): Matrix
     {
         return $this->A⁻¹;
     }
@@ -100,7 +100,7 @@ class MatrixCatalog
     /**
      * @param Reduction\RowEchelonForm $REF
      */
-    public function addRowEchelonForm(Reduction\RowEchelonForm $REF)
+    public function addRowEchelonForm(Reduction\RowEchelonForm $REF): void
     {
         $this->REF = $REF;
     }
@@ -108,7 +108,7 @@ class MatrixCatalog
     /**
      * @return bool
      */
-    public function hasRowEchelonForm()
+    public function hasRowEchelonForm(): bool
     {
         return isset($this->REF);
     }
@@ -126,7 +126,7 @@ class MatrixCatalog
     /**
      * @param Reduction\ReducedRowEchelonForm $RREF
      */
-    public function addReducedRowEchelonForm(Reduction\ReducedRowEchelonForm $RREF)
+    public function addReducedRowEchelonForm(Reduction\ReducedRowEchelonForm $RREF): void
     {
         $this->RREF = $RREF;
     }
@@ -134,7 +134,7 @@ class MatrixCatalog
     /**
      * @return bool
      */
-    public function hasReducedRowEchelonForm()
+    public function hasReducedRowEchelonForm(): bool
     {
         return isset($this->RREF);
     }
@@ -161,7 +161,7 @@ class MatrixCatalog
     /**
      * @param Decomposition\LU $LU
      */
-    public function addLuDecomposition(Decomposition\LU $LU)
+    public function addLuDecomposition(Decomposition\LU $LU): void
     {
         $this->LU = $LU;
     }
@@ -169,7 +169,7 @@ class MatrixCatalog
     /**
      * @return bool
      */
-    public function hasLuDecomposition()
+    public function hasLuDecomposition(): bool
     {
         return isset($this->LU);
     }
@@ -187,7 +187,7 @@ class MatrixCatalog
     /**
      * @param Decomposition\QR $QR
      */
-    public function addQrDecomposition(Decomposition\QR $QR)
+    public function addQrDecomposition(Decomposition\QR $QR): void
     {
         $this->QR = $QR;
     }
@@ -195,7 +195,7 @@ class MatrixCatalog
     /**
      * @return bool
      */
-    public function hasQrDecomposition()
+    public function hasQrDecomposition(): bool
     {
         return isset($this->QR);
     }
@@ -213,7 +213,7 @@ class MatrixCatalog
     /**
      * @param Decomposition\Cholesky $cholesky
      */
-    public function addCholeskyDecomposition(Decomposition\Cholesky $cholesky)
+    public function addCholeskyDecomposition(Decomposition\Cholesky $cholesky): void
     {
         $this->cholesky = $cholesky;
     }
@@ -221,7 +221,7 @@ class MatrixCatalog
     /**
      * @return bool
      */
-    public function hasCholeskyDecomposition()
+    public function hasCholeskyDecomposition(): bool
     {
         return isset($this->cholesky);
     }
@@ -239,7 +239,7 @@ class MatrixCatalog
     /**
      * @param Decomposition\Crout $crout
      */
-    public function addCroutDecomposition(Decomposition\Crout $crout)
+    public function addCroutDecomposition(Decomposition\Crout $crout): void
     {
         $this->crout = $crout;
     }
@@ -247,7 +247,7 @@ class MatrixCatalog
     /**
      * @return bool
      */
-    public function hasCroutDecomposition()
+    public function hasCroutDecomposition(): bool
     {
         return isset($this->crout);
     }
@@ -270,7 +270,7 @@ class MatrixCatalog
     /**
      * @param number $det
      */
-    public function addDeterminant($det)
+    public function addDeterminant($det): void
     {
         $this->det = $det;
     }
@@ -278,7 +278,7 @@ class MatrixCatalog
     /**
      * @return bool
      */
-    public function hasDeterminant()
+    public function hasDeterminant(): bool
     {
         return isset($this->det);
     }

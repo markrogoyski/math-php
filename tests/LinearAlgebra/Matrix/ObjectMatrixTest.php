@@ -494,7 +494,7 @@ class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
     public function testCofactor(array $A, int $mᵢ, int $nⱼ, ArbitraryInteger $Cᵢⱼ)
     {
         // Given
-        $A = MatrixFactory::create($A);
+        $A = new ObjectMatrix($A);
 
         // When
         $cofactor = $A->cofactor($mᵢ, $nⱼ);
@@ -516,5 +516,27 @@ class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
                 0, 0, new ArbitraryInteger(-45)
             ],
         ];
+    }
+
+    public function testTranspose()
+    {
+        // Given
+        $A = [
+            [new ArbitraryInteger(1), new ArbitraryInteger(4)],
+            [new ArbitraryInteger(3), new ArbitraryInteger(0)],
+        ];
+        $A = new ObjectMatrix($A);
+
+        // And
+        $expected = [
+            [new ArbitraryInteger(1), new ArbitraryInteger(3)],
+            [new ArbitraryInteger(4), new ArbitraryInteger(0)],
+        ];
+
+        // When
+        $Aᵀ = $A->transpose();
+
+        // Then
+        $this->assertEquals($expected, $Aᵀ->getMatrix());
     }
 }
