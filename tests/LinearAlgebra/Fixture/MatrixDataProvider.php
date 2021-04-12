@@ -3,6 +3,7 @@
 namespace MathPHP\Tests\LinearAlgebra\Fixture;
 
 use MathPHP\Expression\Polynomial;
+use MathPHP\Number\Complex;
 
 trait MatrixDataProvider
 {
@@ -70,6 +71,7 @@ trait MatrixDataProvider
      *  - dataProviderForMatrixWithWeirdNumbers
      *  - dataProviderForObjectMatrix
      *  - dataProviderForObjectSquareMatrix
+     *  - dataProviderForComplexObjectMatrix
      **************************************************************************/
 
     public function dataProviderForSquareMatrix(): array
@@ -7535,6 +7537,30 @@ trait MatrixDataProvider
                     [new Polynomial([1, 0]), new Polynomial([0, 0]), new Polynomial([1, 1])],
                     [new Polynomial([0, 0]), new Polynomial([1, 0]), new Polynomial([1, 1])],
                     [new Polynomial([0, 0]), new Polynomial([1, 0]), new Polynomial([1, 1])],
+                ]
+            ],
+        ];
+    }
+
+    public function dataProviderForComplexObjectMatrix(): array
+    {
+        return [
+            [
+                [
+                    [new Complex(1, 1)]
+                ],
+            ],
+            [
+                [
+                    [new Complex(1, 0), new Complex(0, 0)],
+                    [new Complex(1, 1), new Complex(2, -3)],
+                ]
+            ],
+            [
+                [
+                    [new Complex(1, 0), new Complex(0, 0), new Complex(1, 1)],
+                    [new Complex(0, 0), new Complex(1, 0), new Complex(1, 1)],
+                    [new Complex(0, 0), new Complex(1, 0), new Complex(1, 1)],
                 ]
             ],
         ];

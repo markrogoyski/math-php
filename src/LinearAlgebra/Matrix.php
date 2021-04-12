@@ -795,7 +795,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      **************************************************************************/
 
     /**
-     * Conjugate Transpose
+     * Conjugate Transpose - Aᴴ, also denoted as A*
      *
      * Returns the complex conjugate of the transpose. For a real matrix, this is the same as the transpose.
      *
