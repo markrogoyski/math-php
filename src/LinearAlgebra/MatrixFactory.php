@@ -3,6 +3,7 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
+use MathPHP\Number\Complex;
 
 /**
  * Matrix factory to create matrices of all types.
@@ -33,6 +34,8 @@ class MatrixFactory
                 return new NumericMatrix($A);
             case 'numeric_square':
                 return new NumericSquareMatrix($A);
+            case 'complex':
+                return new ComplexMatrix($A);
             case 'object':
                 return new ObjectMatrix($A);
             case 'object_square':
@@ -627,6 +630,9 @@ class MatrixFactory
 
         // Object (closure) matrices
         if (\is_object($A[0][0])) {
+            if ($A[0][0] instanceof Complex) {
+                return 'complex';
+            }
             return $m === $n
                 ? 'object_square'
                 : 'object';

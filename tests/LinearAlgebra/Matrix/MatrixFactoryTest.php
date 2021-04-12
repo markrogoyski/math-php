@@ -2,6 +2,7 @@
 
 namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
+use MathPHP\LinearAlgebra\ComplexMatrix;
 use MathPHP\LinearAlgebra\NumericDiagonalMatrix;
 use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\Matrix;
@@ -1108,5 +1109,21 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
 
         // When
         $R = MatrixFactory::createFromRowVector($A);
+    }
+
+    /**
+     * @test         create ComplexMatrix
+     * @dataProvider dataProviderForComplexObjectMatrix
+     * @param        array $A
+     */
+    public function testCreateComplexObjectMatrix(array $A)
+    {
+        // When
+        $A = MatrixFactory::create($A);
+
+        // Then
+        $this->assertInstanceOf(ComplexMatrix::class, $A);
+        $this->assertInstanceOf(ObjectMatrix::class, $A);
+        $this->assertInstanceOf(Matrix::class, $A);
     }
 }
