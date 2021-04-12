@@ -482,4 +482,39 @@ class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @test         cofactor
+     * @dataProvider dataProviderForCofactor
+     * @param        array            $A
+     * @param        int              $mᵢ
+     * @param        int              $nⱼ
+     * @param        ArbitraryInteger $Cᵢⱼ
+     */
+    public function testCofactor(array $A, int $mᵢ, int $nⱼ, ArbitraryInteger $Cᵢⱼ)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $cofactor = $A->cofactor($mᵢ, $nⱼ);
+
+        // Then
+        $this->assertEquals($Cᵢⱼ, $cofactor);
+        $this->assertEquals($Cᵢⱼ->toInt(), $cofactor->toInt());
+    }
+
+    public function dataProviderForCofactor(): array
+    {
+        return [
+            [
+                [
+                    [new ArbitraryInteger(1), new ArbitraryInteger(4), new ArbitraryInteger(7)],
+                    [new ArbitraryInteger(3), new ArbitraryInteger(0), new ArbitraryInteger(5)],
+                    [new ArbitraryInteger(-1), new ArbitraryInteger(9), new ArbitraryInteger(11)],
+                ],
+                0, 0, new ArbitraryInteger(-45)
+            ],
+        ];
+    }
 }
