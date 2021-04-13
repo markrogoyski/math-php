@@ -92,6 +92,16 @@ class Polynomial implements ObjectArithmetic
     }
 
     /**
+     * Zero value: 0
+     *
+     * @return Polynomial
+     */
+    public static function createZeroValue(): ObjectArithmetic
+    {
+        return new Polynomial([0]);
+    }
+
+    /**
      * When a polynomial is to be treated as a string, return it in a readable format.
      * Example: $polynomial = new Polynomial([1, -8, 12, 3]);
      *          echo $polynomial;

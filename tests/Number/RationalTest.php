@@ -8,6 +8,20 @@ use MathPHP\Exception;
 class RationalTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test createZeroValue
+     */
+    public function testCreateZeroValue()
+    {
+        // Given
+        $zero = Rational::createZeroValue();
+
+        // Then
+        $this->assertEquals(0, $zero->getWholePart());
+        $this->assertEquals(0, $zero->getNumerator());
+        $this->assertEquals(1, $zero->getDenominator());
+    }
+
+    /**
      * @test         getWholePart
      * @dataProvider dataProviderForData
      * @param        int $w

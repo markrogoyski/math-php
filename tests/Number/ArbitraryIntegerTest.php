@@ -8,6 +8,18 @@ use MathPHP\Exception;
 class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test createZeroValue
+     */
+    public function testCreateZeroValue()
+    {
+        // Given
+        $zero = ArbitraryInteger::createZeroValue();
+
+        // Then
+        $this->assertEquals(0, $zero->toInt());
+    }
+
+    /**
      * @test         String representation
      * @dataProvider dataProviderForIntToString
      * @dataProvider dataProviderForStringIntToString

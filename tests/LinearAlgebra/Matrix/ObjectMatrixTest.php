@@ -594,4 +594,21 @@ class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
         ]);
         $this->assertEquals($expected->getMatrix(), $λA->getMatrix());
     }
+
+    /**
+     * @test createZeroValue
+     */
+    public function testCreateZeroValue()
+    {
+        // Given
+        $zeroMatrix = ObjectMatrix::createZeroValue();
+
+        // And
+        $expected = [
+            [new ArbitraryInteger(0)]
+        ];
+
+        // Then
+        $this->assertEquals($expected, $zeroMatrix->getMatrix());
+    }
 }

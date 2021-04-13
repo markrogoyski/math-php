@@ -4,6 +4,7 @@ namespace MathPHP\Tests\LinearAlgebra\Matrix;
 
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\ComplexMatrix;
+use MathPHP\LinearAlgebra\ObjectMatrix;
 use MathPHP\Number\ArbitraryInteger;
 use MathPHP\Number\Complex;
 use MathPHP\Tests\LinearAlgebra\Fixture\MatrixDataProvider;
@@ -42,6 +43,23 @@ class ComplexMatrixTest extends \PHPUnit\Framework\TestCase
 
         // When
         $A = new ComplexMatrix($A);
+    }
+
+    /**
+     * @test createZeroValue
+     */
+    public function testCreateZeroValue()
+    {
+        // Given
+        $zeroMatrix = ComplexMatrix::createZeroValue();
+
+        // And
+        $expected = [
+            [new Complex(0, 0)]
+        ];
+
+        // Then
+        $this->assertEquals($expected, $zeroMatrix->getMatrix());
     }
 
     /**

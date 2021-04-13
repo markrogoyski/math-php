@@ -49,6 +49,16 @@ class Complex implements ObjectArithmetic
     }
 
     /**
+     * Creates 0 + 0i
+     *
+     * @return Complex
+     */
+    public static function createZeroValue(): ObjectArithmetic
+    {
+        return new Complex(0, 0);
+    }
+
+    /**
      * String representation of a complex number
      * a + bi, a - bi, etc.
      *

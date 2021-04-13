@@ -126,5 +126,23 @@ class ComplexMatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($‾det⟮A⟯‾, $det⟮Aᴴ⟯);
     }
 
+    /**
+     * @test tr(Aᴴ) = ‾tr(A)‾
+     * If A is a square matrix, then trace of conjugate transpose is the same as the complex conjugate of the trace
+     *
+     * @dataProvider dataProviderForComplexSquareObjectMatrix
+     * @array        $A
+     */
+    public function testConjugateTransposeTrace(array $A)
+    {
+        // Given
+        $A = new ComplexMatrix($A);
 
+        // When
+        $tr⟮Aᴴ⟯  = $A->conjugateTranspose()->trace();
+        $‾tr⟮A⟯‾ = $A->trace()->complexConjugate();
+
+        // Then
+        $this->assertEquals($‾tr⟮A⟯‾, $tr⟮Aᴴ⟯);
+    }
 }

@@ -8,6 +8,18 @@ use MathPHP\Exception;
 class PolynomialTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test createZeroValue
+     */
+    public function testCreateZeroValue()
+    {
+        // Given
+        $zero = Polynomial::createZeroValue();
+
+        // Then
+        $this->assertEquals([0], $zero->getCoefficients());
+    }
+
+    /**
      * @test         String representation
      * @dataProvider dataProviderForString
      * @param        array $coefficients

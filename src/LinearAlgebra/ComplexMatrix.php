@@ -4,6 +4,7 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
 use MathPHP\Number\Complex;
+use MathPHP\Number\ObjectArithmetic;
 
 class ComplexMatrix extends ObjectMatrix
 {
@@ -31,6 +32,16 @@ class ComplexMatrix extends ObjectMatrix
                 }
             }
         }
+    }
+
+    /**
+     * Zero value: [[0 + 0i]]
+     *
+     * @return ComplexMatrix
+     */
+    public static function createZeroValue(): ObjectArithmetic
+    {
+        return new ObjectMatrix([[new Complex(0,0)]]);
     }
 
     /**

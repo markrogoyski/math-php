@@ -42,6 +42,16 @@ class Rational implements ObjectArithmetic
     }
 
     /**
+     * Zero value: 0/1
+     *
+     * @return Rational
+     */
+    public static function createZeroValue(): ObjectArithmetic
+    {
+        return new Rational(0, 0, 1);
+    }
+
+    /**
      * @return int
      */
     public function getWholePart(): int

@@ -132,6 +132,16 @@ class ArbitraryInteger implements ObjectArithmetic
     }
 
     /**
+     * Zero value: 0
+     *
+     * @return ArbitraryInteger
+     */
+    public static function createZeroValue(): ObjectArithmetic
+    {
+        return new ArbitraryInteger(0);
+    }
+
+    /**
      * Directly set the class properties
      *
      * @param string $value

@@ -30,4 +30,11 @@ interface ObjectArithmetic
      * @return ObjectArithmetic product.
      */
     public function multiply($object_or_scalar);
+
+    /**
+     * Factory method to create the zero value of the object
+     *
+     * @return ObjectArithmetic
+     */
+    public static function createZeroValue(): ObjectArithmetic;
 }

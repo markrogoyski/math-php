@@ -7588,6 +7588,14 @@ trait MatrixDataProvider
                     [new Complex(0, 0), new Complex(1, 0), new Complex(1, 1)],
                 ]
             ],
+            [
+                [
+                    [new Complex(1, 0), new Complex(0, 0), new Complex(1, 1), new Complex(-3, 2)],
+                    [new Complex(0, 3), new Complex(1, 0), new Complex(4, 5), new Complex(7, -2)],
+                    [new Complex(3, 0), new Complex(1, 0), new Complex(1, -6), new Complex(4, -8)],
+                    [new Complex(5, -1), new Complex(4, 4), new Complex(2, 1), new Complex(-3, 2)],
+                ]
+            ],
         ];
     }
 }

@@ -4,9 +4,32 @@ namespace MathPHP\Tests\Number;
 
 use MathPHP\Number\Complex;
 use MathPHP\Exception;
+use MathPHP\Number\ObjectArithmetic;
 
 class ComplexTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @test Interfaces
+     */
+    public function testObjectArithmeticInterface()
+    {
+        // Given
+        $c = new Complex(1, 2);
+
+        // Then
+        $this->assertInstanceOf(ObjectArithmetic::class, $c);
+    }
+
+    public function testZeroValue()
+    {
+        // Given
+        $c = Complex::createZeroValue();
+
+        // Then
+        $this->assertEquals(0, $c->r);
+        $this->assertEquals(0, $c->i);
+    }
+
     /**
      * @test         __toString returns the proper string representation of a complex number
      * @dataProvider dataProviderForToString

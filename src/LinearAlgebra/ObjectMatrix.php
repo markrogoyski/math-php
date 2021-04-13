@@ -3,6 +3,7 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
+use MathPHP\Number\ArbitraryInteger;
 use MathPHP\Number\ObjectArithmetic;
 
 /**
@@ -78,6 +79,16 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
     public function getObjectType(): string
     {
         return $this->object_type;
+    }
+
+    /**
+     * Zero value: [[0]]
+     *
+     * @return ObjectMatrix
+     */
+    public static function createZeroValue(): ObjectArithmetic
+    {
+        return new ObjectMatrix([[new ArbitraryInteger(0)]]);
     }
 
     /***************************************************************************
@@ -298,5 +309,28 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
         $⟮−1⟯ⁱ⁺ʲ = (-1) ** ($mᵢ + $nⱼ);
 
         return $Mᵢⱼ->multiply($⟮−1⟯ⁱ⁺ʲ);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return number
+     *
+     * @throws Exception\MatrixException if the matrix is not a square matrix
+     */
+    public function trace()
+    {
+        if (!$this->isSquare()) {
+            throw new Exception\MatrixException('trace only works on a square matrix');
+        }
+
+        $m    = $this->m;
+        $tr⟮A⟯ = $this->getObjectType()::createZeroValue();
+
+        for ($i = 0; $i < $m; $i++) {
+            $tr⟮A⟯ = $tr⟮A⟯->add($this->A[$i][$i]);
+        }
+
+        return $tr⟮A⟯;
     }
 }
