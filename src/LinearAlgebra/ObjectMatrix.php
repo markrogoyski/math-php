@@ -205,6 +205,30 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
     }
 
     /**
+     * Scalar matrix multiplication
+     * https://en.wikipedia.org/wiki/Matrix_multiplication#Scalar_multiplication
+     *
+     * @param  float $λ
+     *
+     * @return Matrix
+     *
+     * @throws Exception\BadParameterException if λ is not a number
+     * @throws Exception\IncorrectTypeException
+     */
+    public function scalarMultiply($λ): Matrix
+    {
+        $R = [];
+
+        for ($i = 0; $i < $this->m; $i++) {
+            for ($j = 0; $j < $this->n; $j++) {
+                $R[$i][$j] = $this->A[$i][$j]->multiply($λ);
+            }
+        }
+
+        return MatrixFactory::create($R);
+    }
+
+    /**
      * Determinant
      *
      * This implementation is simpler than that of the parent. Instead of

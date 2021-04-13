@@ -1463,7 +1463,6 @@ class NumericMatrix extends Matrix
     /**************************************************************************
      * MATRIX OPERATIONS - Return a Matrix
      *  - trace
-     *  - map
      *  - diagonal
      *  - inverse
      *  - cofactorMatrix

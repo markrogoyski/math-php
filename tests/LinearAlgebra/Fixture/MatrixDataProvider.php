@@ -72,6 +72,7 @@ trait MatrixDataProvider
      *  - dataProviderForObjectMatrix
      *  - dataProviderForObjectSquareMatrix
      *  - dataProviderForComplexObjectMatrix
+     *  - dataProviderForComplexSquareObjectMatrix
      **************************************************************************/
 
     public function dataProviderForSquareMatrix(): array
@@ -7543,6 +7544,30 @@ trait MatrixDataProvider
     }
 
     public function dataProviderForComplexObjectMatrix(): array
+    {
+        return [
+            [
+                [
+                    [new Complex(1, 1)]
+                ],
+            ],
+            [
+                [
+                    [new Complex(1, 0), new Complex(0, 0)],
+                    [new Complex(1, 1), new Complex(2, -3)],
+                ]
+            ],
+            [
+                [
+                    [new Complex(1, 0), new Complex(0, 0), new Complex(1, 1)],
+                    [new Complex(0, 0), new Complex(1, 0), new Complex(1, 1)],
+                    [new Complex(0, 0), new Complex(1, 0), new Complex(1, 1)],
+                ]
+            ],
+        ];
+    }
+
+    public function dataProviderForComplexSquareObjectMatrix(): array
     {
         return [
             [

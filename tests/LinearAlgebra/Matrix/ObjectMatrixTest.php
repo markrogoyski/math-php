@@ -518,6 +518,9 @@ class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    /**
+     * @test transpose
+     */
     public function testTranspose()
     {
         // Given
@@ -538,5 +541,57 @@ class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertEquals($expected, $Aᵀ->getMatrix());
+    }
+
+    /**
+     * @test scalarMultiply
+     */
+    public function testScalarMultiply()
+    {
+        // Given
+        $A = [
+            [new ArbitraryInteger(1), new ArbitraryInteger(4)],
+            [new ArbitraryInteger(-3), new ArbitraryInteger(0)],
+        ];
+        $A = new ObjectMatrix($A);
+
+        // And
+        $λ = 2;
+
+        // When
+        $λA = $A->scalarMultiply($λ);
+
+        // Then
+        $expected = new ObjectMatrix([
+            [new ArbitraryInteger(2), new ArbitraryInteger(8)],
+            [new ArbitraryInteger(-6), new ArbitraryInteger(0)],
+        ]);
+        $this->assertEquals($expected->getMatrix(), $λA->getMatrix());
+    }
+
+    /**
+     * @test scalarMultiply by an object
+     */
+    public function testScalarMultiplyByObject()
+    {
+        // Given
+        $A = [
+            [new ArbitraryInteger(1), new ArbitraryInteger(4)],
+            [new ArbitraryInteger(-3), new ArbitraryInteger(0)],
+        ];
+        $A = new ObjectMatrix($A);
+
+        // And
+        $λ = new ArbitraryInteger(2);
+
+        // When
+        $λA = $A->scalarMultiply($λ);
+
+        // Then
+        $expected = new ObjectMatrix([
+            [new ArbitraryInteger(2), new ArbitraryInteger(8)],
+            [new ArbitraryInteger(-6), new ArbitraryInteger(0)],
+        ]);
+        $this->assertEquals($expected->getMatrix(), $λA->getMatrix());
     }
 }
