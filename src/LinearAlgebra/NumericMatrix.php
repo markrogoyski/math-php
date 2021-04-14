@@ -1088,7 +1088,7 @@ class NumericMatrix extends Matrix
             }
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -1129,7 +1129,7 @@ class NumericMatrix extends Matrix
             }
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -1199,7 +1199,7 @@ class NumericMatrix extends Matrix
                 $R[$i][$j] = $this->A[$i][$j] - $B[$i][$j];
             }
         }
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -1283,7 +1283,7 @@ class NumericMatrix extends Matrix
             }
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -1307,7 +1307,7 @@ class NumericMatrix extends Matrix
             }
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -1349,7 +1349,7 @@ class NumericMatrix extends Matrix
             }
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -1388,7 +1388,7 @@ class NumericMatrix extends Matrix
             }
         }
 
-        return MatrixFactory::create($A∘B);
+        return MatrixFactory::createNumeric($A∘B);
     }
 
     /**
@@ -1492,7 +1492,7 @@ class NumericMatrix extends Matrix
             }
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -1542,7 +1542,7 @@ class NumericMatrix extends Matrix
          // 1x1 matrix: A⁻¹ = [1 / a]
         if ($m === 1) {
             $a   = $A[0][0];
-            $A⁻¹ = MatrixFactory::create([[1 / $a]]);
+            $A⁻¹ = MatrixFactory::createNumeric([[1 / $a]]);
             $this->catalog->addInverse($A⁻¹);
             return $A⁻¹;
         }
@@ -1562,7 +1562,7 @@ class NumericMatrix extends Matrix
             $c = $A[1][0];
             $d = $A[1][1];
 
-            $R = MatrixFactory::create([
+            $R = MatrixFactory::createNumeric([
                 [$d, -$b],
                 [-$c, $a],
             ]);
@@ -1580,7 +1580,7 @@ class NumericMatrix extends Matrix
             $A⁻¹[$i] = \array_slice($R[$i], $n);
         }
 
-        $A⁻¹ = MatrixFactory::create($A⁻¹);
+        $A⁻¹ = MatrixFactory::createNumeric($A⁻¹);
 
         $this->catalog->addInverse($A⁻¹);
         return $A⁻¹;
@@ -1634,7 +1634,7 @@ class NumericMatrix extends Matrix
             }
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -1674,7 +1674,7 @@ class NumericMatrix extends Matrix
             }
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -1904,7 +1904,7 @@ class NumericMatrix extends Matrix
         }
 
         if ($this->n === 1) {
-            return MatrixFactory::create([[1]]);
+            return MatrixFactory::createNumeric([[1]]);
         }
 
         $adj⟮A⟯ = $this->cofactorMatrix()->transpose();
@@ -2441,7 +2441,7 @@ class NumericMatrix extends Matrix
             $R[$mᵢ][$j] *= $k;
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -2474,7 +2474,7 @@ class NumericMatrix extends Matrix
             $R[$mᵢ][$j] /= $k;
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -2506,7 +2506,7 @@ class NumericMatrix extends Matrix
             $R[$mⱼ][$j] += $R[$mᵢ][$j] * $k;
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -2535,7 +2535,7 @@ class NumericMatrix extends Matrix
             $R[$mᵢ][$j] += $k;
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -2563,7 +2563,7 @@ class NumericMatrix extends Matrix
             $R[$mⱼ][$j] -= $R[$mᵢ][$j] * $k;
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -2592,7 +2592,7 @@ class NumericMatrix extends Matrix
             $R[$mᵢ][$j] -= $k;
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**************************************************************************
@@ -2627,7 +2627,7 @@ class NumericMatrix extends Matrix
             $R[$i][$nᵢ] *= $k;
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**
@@ -2659,7 +2659,7 @@ class NumericMatrix extends Matrix
             $R[$i][$nⱼ] += $R[$i][$nᵢ] * $k;
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::createNumeric($R);
     }
 
     /**************************************************************************
@@ -2852,7 +2852,7 @@ class NumericMatrix extends Matrix
      * @throws Exception\OutOfBoundsException
      * @throws Exception\BadParameterException
      */
-    public function solve($b, string $method = self::DEFAULT)
+    public function solve($b, string $method = self::DEFAULT): Vector
     {
         // Input must be a Vector or array.
         if (!($b instanceof Vector || \is_array($b))) {

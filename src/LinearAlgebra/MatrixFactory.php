@@ -53,7 +53,7 @@ class MatrixFactory
      * @throws Exception\BadDataException
      * @throws Exception\MathException
      */
-    private static function createNumeric(array $A): NumericMatrix
+    public static function createNumeric(array $A): NumericMatrix
     {
         $m = \count($A);
         $n = \count($A[0]);
