@@ -611,4 +611,67 @@ class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertEquals($expected, $zeroMatrix->getMatrix());
     }
+
+    /**
+     * @test         trace
+     * @dataProvider dataProviderForTrace
+     * @param        array            $A
+     * @param        ObjectArithmetic $tr
+     */
+    public function testTrace(array $A, ObjectArithmetic $tr)
+    {
+        // Given
+        $A = new ObjectMatrix($A);
+
+        // When
+        $trace = $A->trace();
+
+        // Then
+        $this->assertEquals($tr, $trace);
+    }
+
+    public function dataProviderForTrace(): array
+    {
+        return [
+            [
+                [
+                    [new ArbitraryInteger(1)]
+                ],
+                new ArbitraryInteger(1)
+            ],
+            [
+                [
+                    [new ArbitraryInteger(1), new ArbitraryInteger(2)],
+                    [new ArbitraryInteger(2), new ArbitraryInteger(3)],
+                ],
+                new ArbitraryInteger(4)
+            ],
+            [
+                [
+                    [new ArbitraryInteger(1), new ArbitraryInteger(2), new ArbitraryInteger(3)],
+                    [new ArbitraryInteger(4), new ArbitraryInteger(5), new ArbitraryInteger(6)],
+                    [new ArbitraryInteger(7), new ArbitraryInteger(8), new ArbitraryInteger(9)],
+                ],
+                new ArbitraryInteger(15)
+            ],
+        ];
+    }
+
+    /**
+     * @test trace error when matrix not square
+     */
+    public function testTraceNotSquare()
+    {
+        // Given
+        $A = new ObjectMatrix([
+            [new ArbitraryInteger(1), new ArbitraryInteger(2)]
+        ]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $tr = $A->trace();
+    }
+
 }
