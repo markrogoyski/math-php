@@ -673,5 +673,4 @@ class ObjectMatrixTest extends \PHPUnit\Framework\TestCase
         // When
         $tr = $A->trace();
     }
-
 }
