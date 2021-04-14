@@ -1462,7 +1462,6 @@ class NumericMatrix extends Matrix
 
     /**************************************************************************
      * MATRIX OPERATIONS - Return a Matrix
-     *  - trace
      *  - diagonal
      *  - inverse
      *  - cofactorMatrix
@@ -1471,35 +1470,6 @@ class NumericMatrix extends Matrix
      *  - adjugate
      *  - householder
      **************************************************************************/
-
-    /**
-     * Trace
-     * the trace of an n-by-n square matrix A is defined to be
-     * the sum of the elements on the main diagonal
-     * (the diagonal from the upper left to the lower right).
-     * https://en.wikipedia.org/wiki/Trace_(linear_algebra)
-     *
-     * tr(A) = a₁₁ + a₂₂ + ... ann
-     *
-     * @return number
-     *
-     * @throws Exception\MatrixException if the matrix is not a square matrix
-     */
-    public function trace()
-    {
-        if (!$this->isSquare()) {
-            throw new Exception\MatrixException('trace only works on a square matrix');
-        }
-
-        $m    = $this->m;
-        $tr⟮A⟯ = 0;
-
-        for ($i = 0; $i < $m; $i++) {
-            $tr⟮A⟯ += $this->A[$i][$i];
-        }
-
-        return $tr⟮A⟯;
-    }
 
     /**
      * Diagonal matrix
@@ -2102,6 +2072,7 @@ class NumericMatrix extends Matrix
 
     /**************************************************************************
      * MATRIX OPERATIONS - Return a value
+     *  - trace
      *  - oneNorm
      *  - frobeniusNorm
      *  - infinityNorm
@@ -2110,6 +2081,35 @@ class NumericMatrix extends Matrix
      *  - cofactor
      *  - rank
      **************************************************************************/
+
+    /**
+     * Trace
+     * the trace of an n-by-n square matrix A is defined to be
+     * the sum of the elements on the main diagonal
+     * (the diagonal from the upper left to the lower right).
+     * https://en.wikipedia.org/wiki/Trace_(linear_algebra)
+     *
+     * tr(A) = a₁₁ + a₂₂ + ... ann
+     *
+     * @return number
+     *
+     * @throws Exception\MatrixException if the matrix is not a square matrix
+     */
+    public function trace()
+    {
+        if (!$this->isSquare()) {
+            throw new Exception\MatrixException('trace only works on a square matrix');
+        }
+
+        $m    = $this->m;
+        $tr⟮A⟯ = 0;
+
+        for ($i = 0; $i < $m; $i++) {
+            $tr⟮A⟯ += $this->A[$i][$i];
+        }
+
+        return $tr⟮A⟯;
+    }
 
     /**
      * 1-norm (‖A‖₁)

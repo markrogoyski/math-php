@@ -124,7 +124,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
     }
 
     /**
-     * Check that the matricies are the same size and of the same type
+     * Check that the matrices are the same size and of the same type
      *
      * @throws Exception\MatrixException if matrices have a different number of rows or columns
      * @throws Exception\IncorrectTypeException if the two matricies are not the same class
@@ -138,6 +138,14 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
             throw new Exception\IncorrectTypeException('Matrices must contain the same object types');
         }
     }
+
+    /**************************************************************************
+     * MATRIX ARITHMETIC OPERATIONS - Return a Matrix
+     *  - add
+     *  - subtract
+     *  - multiply
+     *  - scalarMultiply
+     **************************************************************************/
 
     /**
      * {@inheritDoc}
@@ -239,6 +247,36 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
         return MatrixFactory::create($R);
     }
 
+    /**************************************************************************
+     * MATRIX OPERATIONS - Return a value
+     *  - trace
+     *  - det
+     *  - cofactor
+     **************************************************************************/
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return number
+     *
+     * @throws Exception\MatrixException if the matrix is not a square matrix
+     */
+    public function trace()
+    {
+        if (!$this->isSquare()) {
+            throw new Exception\MatrixException('trace only works on a square matrix');
+        }
+
+        $m    = $this->m;
+        $tr⟮A⟯ = $this->getObjectType()::createZeroValue();
+
+        for ($i = 0; $i < $m; $i++) {
+            $tr⟮A⟯ = $tr⟮A⟯->add($this->A[$i][$i]);
+        }
+
+        return $tr⟮A⟯;
+    }
+
     /**
      * Determinant
      *
@@ -299,6 +337,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
         return $det;
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -309,28 +348,5 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
         $⟮−1⟯ⁱ⁺ʲ = (-1) ** ($mᵢ + $nⱼ);
 
         return $Mᵢⱼ->multiply($⟮−1⟯ⁱ⁺ʲ);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return number
-     *
-     * @throws Exception\MatrixException if the matrix is not a square matrix
-     */
-    public function trace()
-    {
-        if (!$this->isSquare()) {
-            throw new Exception\MatrixException('trace only works on a square matrix');
-        }
-
-        $m    = $this->m;
-        $tr⟮A⟯ = $this->getObjectType()::createZeroValue();
-
-        for ($i = 0; $i < $m; $i++) {
-            $tr⟮A⟯ = $tr⟮A⟯->add($this->A[$i][$i]);
-        }
-
-        return $tr⟮A⟯;
     }
 }
