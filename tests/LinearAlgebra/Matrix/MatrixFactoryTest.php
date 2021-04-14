@@ -36,6 +36,24 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         createNumeric
+     * @dataProvider dataProviderForSquareMatrix
+     * @dataProvider dataProviderForNotSquareMatrix
+     * @dataProvider dataProviderForSingularMatrix
+     * @dataProvider dataProviderForNonsingularMatrix
+     * @dataProvider dataProviderForMatrixWithWeirdNumbers
+     */
+    public function testSpecificallyCreateNumericMatrix(array $A)
+    {
+        // When
+        $A = MatrixFactory::createNumeric($A);
+
+        // Then
+        $this->assertInstanceOf(NumericMatrix::class, $A);
+        $this->assertInstanceOf(Matrix::class, $A);
+    }
+
+    /**
      * @test         create diagonal matrix
      * @dataProvider dataProviderForDiagonalMatrix
      */
