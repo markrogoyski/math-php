@@ -1,6 +1,6 @@
 <?php
 
-namespace MathPHP\Tests\LinearAlgebra\Matrix;
+namespace MathPHP\Tests\LinearAlgebra\Matrix\Complex;
 
 use MathPHP\LinearAlgebra\ComplexMatrix;
 use MathPHP\Number\Complex;

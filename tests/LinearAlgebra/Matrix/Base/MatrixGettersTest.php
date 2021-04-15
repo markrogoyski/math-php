@@ -1,6 +1,6 @@
 <?php
 
-namespace MathPHP\Tests\LinearAlgebra\Matrix;
+namespace MathPHP\Tests\LinearAlgebra\Matrix\Base;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\NumericMatrix;
@@ -515,25 +515,5 @@ class MatrixGettersTest extends \PHPUnit\Framework\TestCase
                 [2, 5, 5],
             ],
         ];
-    }
-
-    /**
-     * @test   Object type of numeric matrix
-     * @throws \Exception
-     */
-    public function testGetObjectType()
-    {
-        // Given
-        $A = MatrixFactory::create([
-            [1, 2, 3],
-            [2, 3, 4],
-            [3, 4, 5],
-        ]);
-
-        // When
-        $objectType = $A->getObjectType();
-
-        // Then
-        $this->assertSame('number', $objectType);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace MathPHP\Tests\LinearAlgebra\Matrix;
+namespace MathPHP\Tests\LinearAlgebra\Matrix\Numeric;
 
 use MathPHP\LinearAlgebra\NumericSquareMatrix;
 use MathPHP\LinearAlgebra\NumericMatrix;

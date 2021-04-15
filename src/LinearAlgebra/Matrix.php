@@ -792,6 +792,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * MATRIX OPERATIONS - Return a Matrix
      *  - conjugateTranspose
      *  - minorMatrix
+     *  - leadingPrincipalMinor
      **************************************************************************/
 
     /**
@@ -836,6 +837,57 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
         }
 
         return $this->rowExclude($mᵢ)->columnExclude($nⱼ);
+    }
+
+    /**
+     * Leading principal minor
+     * The leading principal minor of A of order k is the minor of order k
+     * obtained by deleting the last n − k rows and columns.
+     *
+     * Example:
+     *
+     *     [1 2 3]
+     * A = [4 5 6]
+     *     [7 8 9]
+     *
+     * 1st order (k = 1): [1]
+     *
+     *                    [1 2]
+     * 2nd order (k = 2): [4 5]
+     *
+     *                    [1 2 3]
+     * 3rd order (k = 3): [4 5 6]
+     *                    [7 8 9]
+     *
+     * @param  int $k Order of the leading principal minor
+     *
+     * @return Matrix
+     *
+     * @throws Exception\OutOfBoundsException if k ≤ 0
+     * @throws Exception\OutOfBoundsException if k > n
+     * @throws Exception\MatrixException if matrix is not square
+     * @throws Exception\IncorrectTypeException
+     */
+    public function leadingPrincipalMinor(int $k): Matrix
+    {
+        if ($k <= 0) {
+            throw new Exception\OutOfBoundsException("k is ≤ 0: $k");
+        }
+        if ($k > $this->n) {
+            throw new Exception\OutOfBoundsException("k ($k) leading principal minor is larger than size of Matrix: " . $this->n);
+        }
+        if (!$this->isSquare()) {
+            throw new Exception\MatrixException('Matrix is not square; cannot get leading principal minor Matrix of a non-square matrix');
+        }
+
+        $R = [];
+        for ($i = 0; $i < $k; $i++) {
+            for ($j = 0; $j < $k; $j++) {
+                $R[$i][$j] = $this->A[$i][$j];
+            }
+        }
+
+        return MatrixFactory::create($R);
     }
 
     /**************************************************************************

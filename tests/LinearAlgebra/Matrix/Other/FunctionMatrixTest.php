@@ -1,6 +1,6 @@
 <?php
 
-namespace MathPHP\Tests\LinearAlgebra\Matrix;
+namespace MathPHP\Tests\LinearAlgebra\Matrix\Other;
 
 use MathPHP\LinearAlgebra\FunctionMatrix;
 

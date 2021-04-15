@@ -1,10 +1,11 @@
 <?php
 
-namespace MathPHP\Tests\LinearAlgebra\Matrix;
+namespace MathPHP\Tests\LinearAlgebra\Matrix\Other;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\NumericSquareMatrix;
 
-class VandermondeMatrixTest extends \PHPUnit\Framework\TestCase
+class VandermondeSquareMatrixTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test         Vandermonde matrix is constructed correctly
@@ -25,6 +26,10 @@ class VandermondeMatrixTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertTrue($V->isEqual($M));
         $this->assertTrue($M->isEqual($V));
+
+        // And
+        $this->assertTrue($M->isSquare());
+        $this->assertInstanceOf(NumericSquareMatrix::class, $M);
     }
 
     /**

@@ -1,10 +1,9 @@
 <?php
 
-namespace MathPHP\Tests\LinearAlgebra\Matrix;
+namespace MathPHP\Tests\LinearAlgebra\Matrix\Complex;
 
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\ComplexMatrix;
-use MathPHP\LinearAlgebra\ObjectMatrix;
 use MathPHP\Number\ArbitraryInteger;
 use MathPHP\Number\Complex;
 use MathPHP\Tests\LinearAlgebra\Fixture\MatrixDataProvider;
