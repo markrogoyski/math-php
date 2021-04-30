@@ -140,6 +140,7 @@ class Eigenvalue
         $D = $A;
         $S = MatrixFactory::identity($m);
 
+        $iterations = 0; // For infinitely oscillating edge cases between very small positive and negative numbers that don't converge
         while (!$D->isDiagonal()) {
             // Find the largest off-diagonal element in $D
             $pivot = ['value' => 0, 'i' => 0, 'j' => 0];
@@ -162,6 +163,12 @@ class Eigenvalue
             $G = MatrixFactory::givens($i, $j, $angle, $m);
             $D = $G->transpose()->multiply($D)->multiply($G);
             $S = $S->multiply($G);
+
+            // To prevent infinite looping when zero-like oscillations don't converge
+            $iterations++;
+            if ($iterations > 200) {
+                break;
+            }
         }
 
         $eigenvalues = $D->getDiagonalElements();
