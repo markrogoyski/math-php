@@ -14,7 +14,8 @@ class MatrixFactory
     /**
      * Factory method
      *
-     * @param  array[] $A 2-dimensional array of Matrix data
+     * @param  number[][] $A 2-dimensional array of Matrix data
+     * @param float|null $ε Optional error tolerance
      *
      * @return Matrix
      *
@@ -23,7 +24,7 @@ class MatrixFactory
      * @throws Exception\MathException
      * @throws Exception\MatrixException
      */
-    public static function create(array $A): Matrix
+    public static function create(array $A, ?float $ε = null): Matrix
     {
         self::checkParams($A);
 
@@ -31,9 +32,8 @@ class MatrixFactory
 
         switch ($matrix_type) {
             case 'numeric':
-                return new NumericMatrix($A);
             case 'numeric_square':
-                return new NumericSquareMatrix($A);
+                return self::createNumeric($A, $ε);
             case 'complex':
                 return new ComplexMatrix($A);
             case 'object':
@@ -46,22 +46,28 @@ class MatrixFactory
     }
 
     /**
-     * @param array $A
+     * @param number[][] $A
+     * @param float|null $ε Optional error tolerance
      *
      * @return NumericMatrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\MathException
      */
-    public static function createNumeric(array $A): NumericMatrix
+    public static function createNumeric(array $A, ?float $ε = null): NumericMatrix
     {
         $m = \count($A);
         $n = \count($A[0]);
 
         if ($m === $n) {
-            return new NumericSquareMatrix($A);
+            $A = new NumericSquareMatrix($A);
+            $A->setError($ε);
+            return $A;
         }
-        return new NumericMatrix($A);
+
+        $A = new NumericMatrix($A);
+        $A->setError($ε);
+        return $A;
     }
 
     /**
@@ -77,6 +83,7 @@ class MatrixFactory
      *       [1 13 1 5]
      *
      * @param  Vector[] $A array of Vectors
+     * @param float|null $ε Optional error tolerance
      *
      * @return Matrix
      *
@@ -84,7 +91,7 @@ class MatrixFactory
      * @throws Exception\IncorrectTypeException
      * @throws Exception\BadDataException
      */
-    public static function createFromVectors(array $A): Matrix
+    public static function createFromVectors(array $A, ?float $ε = null): NumericMatrix
     {
         // Check that all vectors are the same length
         $m = $A[0]->getN();
@@ -102,7 +109,7 @@ class MatrixFactory
         }
 
         // Transpose to create matrix from the vector columns
-        return (new NumericMatrix($R))->transpose();
+        return (self::createNumeric($R, $ε))->transpose();
     }
 
     /**

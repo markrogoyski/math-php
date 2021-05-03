@@ -21,6 +21,9 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var MatrixCatalog */
     protected $catalog;
 
+    /** @var float|null Error/zero tolerance */
+    protected $ε;
+
     /**************************************************************************
      * ABSTRACT METHODS
      *  - getObjectType
@@ -339,7 +342,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $⟮A∣B⟯[$i] = \array_merge($A[$i], $B[$i]);
         }
 
-        return MatrixFactory::create($⟮A∣B⟯);
+        return MatrixFactory::create($⟮A∣B⟯, $this->ε);
     }
 
     /**
@@ -383,7 +386,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $⟮B∣A⟯[$i] = \array_merge($B[$i], $A[$i]);
         }
 
-        return MatrixFactory::create($⟮B∣A⟯);
+        return MatrixFactory::create($⟮B∣A⟯, $this->ε);
     }
 
     /**
@@ -419,7 +422,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
 
         $⟮A∣B⟯ = \array_merge($this->A, $B->getMatrix());
 
-        return MatrixFactory::create($⟮A∣B⟯);
+        return MatrixFactory::create($⟮A∣B⟯, $this->ε);
     }
 
     /**
@@ -457,7 +460,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
 
         $⟮A∣B⟯ = \array_merge($B->getMatrix(), $this->A);
 
-        return MatrixFactory::create($⟮A∣B⟯);
+        return MatrixFactory::create($⟮A∣B⟯, $this->ε);
     }
 
     /**************************************************************************
@@ -483,7 +486,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * @throws Exception\MatrixException
      * @throws Exception\IncorrectTypeException
      */
-    public function transpose()
+    public function transpose(): Matrix
     {
         if ($this->catalog->hasTranspose()) {
             return $this->catalog->getTranspose();
@@ -494,7 +497,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $Aᵀ[$i] = $this->getColumn($i);
         }
 
-        $this->catalog->addTranspose(MatrixFactory::create($Aᵀ));
+        $this->catalog->addTranspose(MatrixFactory::create($Aᵀ, $this->ε));
         return $this->catalog->getTranspose();
     }
 
@@ -534,7 +537,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return MatrixFactory::create($A);
+        return MatrixFactory::create($A, $this->ε);
     }
 
     /**
@@ -564,7 +567,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
                 $new_array[$i + $m][$j + $n] = $small[$i][$j];
             }
         }
-        return MatrixFactory::create($new_array);
+        return MatrixFactory::create($new_array, $this->ε);
     }
 
     /**************************************************************************
@@ -594,7 +597,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::create($R, $this->ε);
     }
 
     /**
@@ -671,7 +674,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::create($R, $this->ε);
     }
 
     /**
@@ -700,7 +703,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$i] = $this->A[$i];
         }
 
-        return MatrixFactory::create(\array_values($R));
+        return MatrixFactory::create(\array_values($R), $this->ε);
     }
 
     /**************************************************************************
@@ -748,7 +751,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::create($R, $this->ε);
     }
 
     /**
@@ -785,7 +788,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$i] = \array_values($R[$i]);
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::create($R, $this->ε);
     }
 
     /**************************************************************************
@@ -887,7 +890,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
-        return MatrixFactory::create($R);
+        return MatrixFactory::create($R, $this->ε);
     }
 
     /**************************************************************************
