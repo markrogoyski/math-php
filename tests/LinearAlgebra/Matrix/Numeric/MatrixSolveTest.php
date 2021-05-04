@@ -282,4 +282,115 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         // Then Ax = b
         $this->assertEqualsWithDelta($b, $Ax->asVectors()[0]->getVector(), 0.00001);
     }
+
+    /**
+     * @test Issue 413 solving a singular matrix with RREF - Solve with RREF
+     *
+     * For the matrix
+     *   [1, 0, 0, 0, 0, 0]
+     *   [0, 1, 0, 0, 1, 0]
+     *   [0, 0, 1, 0, 0, 1]
+     *   [0, 0, 0, 0, 0, 0]
+     *   [0, 0, -180.92, 0, 0, -854.14]
+     *   [0, 180.92, 0, 0, 854.14, 0]
+     * The RREF ends up being
+     *   [1, 0, 0, 0, 0, 0, 1.457]
+     *   [0, 1, 0, 0, 0, 0, -1.2294375984077]
+     *   [0, 0, 1, 0, 0, 0, -4.7787483437806]
+     *   [0, 0, 0, 0, 1, 0, -0.22756240159235]
+     *   [0, 0, 0, 0, 0, 1, -0.88525165621936]
+     *   [0, 0, 0, 0, 0, 0, 0]
+     *
+     * If we solve by just taking the augmented column on the right, the values are in the wrong order.
+     * This is because the ones are not on the diagonal because the zero row at the bottom.
+     * Expect x to be [1.4577, -1.230246179417, -4.778633012290, 0, -0.22745382058, -0.88526698770]
+     * But intead ends up being [1.4577, -1.230246179417, -4.778633012290, -0.22745382058, -0.88526698770, 0]
+     *
+     * The fix checks if the matrix is singular, and if so, rearranges the x vector using the ones to order the values.
+     */
+    public function testSingularMatrixIssue413WhenSpecifyingSolveByRref()
+    {
+        // Given
+        $data = [
+            [1, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 1, 0],
+            [0, 0, 1, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, -180.92, 0, 0, -854.14],
+            [0, 180.92, 0, 0, 854.14, 0],
+        ];
+
+        // And
+        $A = MatrixFactory::create($data);
+        $b = [1.457, -1.457, -5.664, 0, 1620.7, -416.8];
+
+        // When
+        $x = $A->solve($b, NumericMatrix::RREF);
+
+        // Then x has expected values
+        $expected = [1.4577, -1.230246179417, -4.778633012290, 0, -0.22745382058, -0.88526698770];
+        $this->assertEqualsWithDelta($expected, $x->getVector(), 0.001);
+
+        // And when Ax
+        $Ax = $A->multiply($x);
+
+        // Then Ax =  b
+        $this->assertEqualsWithDelta($b, $Ax->getColumn(0), 0.00001);
+    }
+
+    /**
+     * @test Issue 413 solving a singular matrix with RREF - Solve without specifying method
+     * @link https://github.com/markrogoyski/math-php/issues/413
+     *
+     * For the matrix
+     *   [1, 0, 0, 0, 0, 0]
+     *   [0, 1, 0, 0, 1, 0]
+     *   [0, 0, 1, 0, 0, 1]
+     *   [0, 0, 0, 0, 0, 0]
+     *   [0, 0, -180.92, 0, 0, -854.14]
+     *   [0, 180.92, 0, 0, 854.14, 0]
+     * The RREF ends up being
+     *   [1, 0, 0, 0, 0, 0, 1.457]
+     *   [0, 1, 0, 0, 0, 0, -1.2294375984077]
+     *   [0, 0, 1, 0, 0, 0, -4.7787483437806]
+     *   [0, 0, 0, 0, 1, 0, -0.22756240159235]
+     *   [0, 0, 0, 0, 0, 1, -0.88525165621936]
+     *   [0, 0, 0, 0, 0, 0, 0]
+     *
+     * If we solve by just taking the augmented column on the right, the values are in the wrong order.
+     * This is because the ones are not on the diagonal because the zero row at the bottom.
+     * Expect x to be [1.4577, -1.230246179417, -4.778633012290, 0, -0.22745382058, -0.88526698770]
+     * But instead ends up being [1.4577, -1.230246179417, -4.778633012290, -0.22745382058, -0.88526698770, 0]
+     *
+     * The fix checks if the matrix is singular, and if so, rearranges the x vector using the ones to order the values.
+     */
+    public function testSingularMatrixIssue413WhenSpecifyingSolveWithoutSpecifyingMethod()
+    {
+        // Given
+        $data = [
+            [1, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 1, 0],
+            [0, 0, 1, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, -180.92, 0, 0, -854.14],
+            [0, 180.92, 0, 0, 854.14, 0],
+        ];
+
+        // And
+        $A = MatrixFactory::create($data);
+        $b = [1.457, -1.457, -5.664, 0, 1620.7, -416.8];
+
+        // When
+        $x = $A->solve($b);
+
+        // Then x has expected values
+        $expected = [1.4577, -1.230246179417, -4.778633012290, 0, -0.22745382058, -0.88526698770];
+        $this->assertEqualsWithDelta($expected, $x->getVector(), 0.001);
+
+        // And when Ax
+        $Ax = $A->multiply($x);
+
+        // Then Ax =  b
+        $this->assertEqualsWithDelta($b, $Ax->getColumn(0), 0.00001);
+    }
 }
