@@ -1,5 +1,54 @@
 # MathPHP Change Log
 
+## v2.0.0 - ...
+
+### New Features
+* Matrix Improvements
+  * `walk` method to map a function to all values without mutation or returning a value
+  * `MatrixFactory` creates more matrix types
+  * `MatrixFactory::createNumeric` to create `NumericMatrix` types
+  * `MatrixFactory::createFromRowVector`
+  * `MatrixFactory::createFromColumnVector`
+  * Internal `ObjectMatrix` improvements
+    * Add `trace`
+    * Add `scalarMultiply`
+  * Add initial `ComplexMatrix`
+* Sample data People
+
+### Improvements
+* Bug fixes
+  * Issue 414 fixed - PCA/Eigenvalue convergence
+  * Issue 413 fixed - matrix solve with singular matrix using RREF
+
+## Upgrading to v2.0 from v1.0
+* PHP minimum version now 7.2 (was 7.0)
+* Deprecated code removed (backwards-incompatible change)
+  * `MathPHP\Statistics\Distance::kullbackLeiblerDivergence` removed (Use `MathPHP\Statistics\Divergence::kullbackLeibler` instead)
+  * `MathPHP\Statistics\Distance::jensenShannonDivergence` removed (Use `MathPHP\Statistics\Divergence::jensenShannon` instead)
+  * Matrix Decompositions no longer implement `\ArrayAccess` interface to access decomposition matrixes. Use properties instead.
+    * `MathPHP\LinearAlgebra\Decomposition\Cholesky`
+      * `$cholesky['L']`, `$cholesky['Lᵀ']`, `$cholesky['LT']` removed, use `$cholesky->L`, `$cholesky->Lᵀ`, `$cholesky->LT` instead.
+    * `MathPHP\LinearAlgebra\Decomposition\Crout`
+      * `$crout['L']`, `$crout['U']` removed, use `$crout->L`, `$crout->U` instead.
+    * `MathPHP\LinearAlgebra\Decomposition\LU`
+      * `$LU['L']`, `LU['U']`, `LU['P']` removed, use `$LU->L`, `$LU->U`, `$LU->P` instead.
+    * `MathPHP\LinearAlgebra\Decomposition\QR`
+      * `$QR['Q']`, `$QR['R']` removed, use `$QR->Q`, `$QR->R` instead.
+* Methods renamed (backwards-incompatible change)
+  * `MathPHP\Statistics\Distance::bhattacharyyaDistance` renamed to `MathPHP\Statistics\Distance::bhattacharyya`
+  * `MathPHP\Statistics\Distance::hellingerDistance` renamed to `MathPHP\Statistics\Distance::hellinger`
+* Moved Functionality (backwards-incompatible change)
+  * `MathPHP\Functions\Polynomial` moved to `MathPHP\Expression\Polynomial`
+  * `MathPHP\Functions\Piecewise` moved to `MathPHP\Expression\Piecewise`
+* Matrix internal refactoring
+  * Note: These changes will not affect any client code as long as matrices were created using `MatrixFactory`.
+  * `Matrix` is not a base abstract class for all matrix classes to extend
+  * `Matrix` renamed `NumericMatrix`
+  * `Matrix` base method `createZeroValue`
+    * Use case is various `ObjectMatrix` classes that implement `ObjectArithmetic`
+  * `RowVector` removed. Use `MatrixFactory::createFromRowVector` instead
+  * `ColumnVector` removed. Use `MatrixFactory::createFromColumnVector` instead
+
 ## v1.10.0 - 2020-12-19
 
 ### Improvements
