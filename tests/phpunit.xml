@@ -13,6 +13,9 @@
     <testsuite name="Exception">
       <directory suffix="Test.php">Exception</directory>
     </testsuite>
+    <testsuite name="Expression">
+      <directory suffix="Test.php">Expression</directory>
+    </testsuite>
     <testsuite name="Finance">
       <directory suffix="Test.php">Finance</directory>
     </testsuite>
@@ -63,6 +66,7 @@
       <directory suffix="Test.php">Algebra</directory>
       <directory suffix="Test.php">Arithmetic</directory>
       <directory suffix="Test.php">Exception</directory>
+      <directory suffix="Test.php">Expression</directory>
       <directory suffix="Test.php">Finance</directory>
       <directory suffix="Test.php">Functions</directory>
       <directory suffix="Test.php">InformationTheory</directory>
@@ -84,6 +88,7 @@
       <directory suffix="Test.php">Algebra</directory>
       <directory suffix="Test.php">Arithmetic</directory>
       <directory suffix="Test.php">Exception</directory>
+      <directory suffix="Test.php">Expression</directory>
       <directory suffix="Test.php">Finance</directory>
       <directory suffix="Test.php">Functions</directory>
       <directory suffix="Test.php">InformationTheory</directory>
