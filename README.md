@@ -1613,7 +1613,7 @@ $Y       = $cereal->getYData();      // [[18373, 41.61500, 6.565000, ... ], [185
 $Ysc     = $cereal->getYscData();    // [[-0.1005049, 0.6265746, -1.1716630, ... ], [0.9233889, 0.1882929, -1.3185289, ... ], ... ]
 // Labeled data: getLabeledXData(), getLabeledYData(), getLabeledYscData()
 
-// Data from People
+// Data from People (people)
 $people      = new SampleData\People();
 $rawData     = $people->getData();         // [198, 92, -1, ... ], [184, 84, -1, ... ], ... ]
 $labeledData = $people->getLabeledData();  // ['Lars' => ['height' => 198, 'weight' => 92, 'hairLength' => -1, ... ]]
