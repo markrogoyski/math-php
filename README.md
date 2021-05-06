@@ -2187,7 +2187,7 @@ $X = [0.2, 0.5, 0.3];
 $Y = [0.1, 0.4, 0.5];
 
 // Distances
-$DB⟮X、Y⟯   = Distance::bhattachary($X, $Y);
+$DB⟮X、Y⟯   = Distance::bhattacharyya($X, $Y);
 $H⟮X、Y⟯    = Distance::hellinger($X, $Y);
 $D⟮X、Y⟯    = Distance::minkowski($X, $Y, $p = 2);
 $d⟮X、Y⟯    = Distance::euclidean($X, $Y);          // L² distance
