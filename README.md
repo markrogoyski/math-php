@@ -541,6 +541,9 @@ $R = $A->map('abs');  // using callable
 $array = $A->mapRows('array_reverse');  // using callable returns matrix-like array of arrays
 $array = $A->mapRows('array_sum');     // using callable returns array of aggregate calculations
 
+// Walk maps a function to all values without mutation or returning a value
+$A->walk($func);
+
 // Matrix comparisons
 $bool = $A->isEqual($B);
 
@@ -611,6 +614,10 @@ $X₁ = new Vector([1, 4, 7]);
 $X₂ = new Vector([2, 5, 8]);
 $X₃ = new Vector([3, 6, 9]);
 $A  = MatrixFactory::createFromVectors([$X₁, $X₂, $X₃]);
+
+// Create from row or column vector
+$A = MatrixFactory::createFromRowVector([1, 2, 3]);    // 1 × n matrix consisting of a single row of n elements
+$A = MatrixFactory::createFromColumnVector([1, 2, 3]); // m × 1 matrix consisting of a single column of m elements
 
 // Specialized matrices
 [$m, $n, $k, $angle, $size]   = [4, 4, 2, 3.14159, 2];
@@ -1605,6 +1612,13 @@ $X       = $cereal->getXData();      // [[0.002682755, 0.003370673, 0.004085942,
 $Y       = $cereal->getYData();      // [[18373, 41.61500, 6.565000, ... ], [18536, 41.40500, 6.545000, ... ], ... ]
 $Ysc     = $cereal->getYscData();    // [[-0.1005049, 0.6265746, -1.1716630, ... ], [0.9233889, 0.1882929, -1.3185289, ... ], ... ]
 // Labeled data: getLabeledXData(), getLabeledYData(), getLabeledYscData()
+
+// Data from People
+$people = new SampleData\People();
+$rawData = $people->getData();             // [198, 92, -1, ... ], [184, 84, -1, ... ], ... ]
+$labeledData = $people->getLabeledData();  // ['Lars' => ['height' => 198, 'weight' => 92, 'hairLength' => -1, ... ]]
+$names       = $people->getNames();
+// Getters for names, height, weight, hairLength, shoeSize, age, income, beer, wine, sex, swim, region, iq
 ```
 
 ### Search
