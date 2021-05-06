@@ -1614,8 +1614,8 @@ $Ysc     = $cereal->getYscData();    // [[-0.1005049, 0.6265746, -1.1716630, ...
 // Labeled data: getLabeledXData(), getLabeledYData(), getLabeledYscData()
 
 // Data from People
-$people = new SampleData\People();
-$rawData = $people->getData();             // [198, 92, -1, ... ], [184, 84, -1, ... ], ... ]
+$people      = new SampleData\People();
+$rawData     = $people->getData();         // [198, 92, -1, ... ], [184, 84, -1, ... ], ... ]
 $labeledData = $people->getLabeledData();  // ['Lars' => ['height' => 198, 'weight' => 92, 'hairLength' => -1, ... ]]
 $names       = $people->getNames();
 // Getters for names, height, weight, hairLength, shoeSize, age, income, beer, wine, sex, swim, region, iq
