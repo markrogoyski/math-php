@@ -139,6 +139,14 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         return [
             [
                 [
+                    [0, 0],
+                    [0, 0],
+                ],
+                [0, 0],
+                0,
+            ],
+            [
+                [
                     [0, 1],
                     [-2, -3],
                 ],
