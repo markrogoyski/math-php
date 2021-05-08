@@ -507,4 +507,28 @@ class QRTest extends \PHPUnit\Framework\TestCase
         // When
         $doesNotExist = $qr->doesNotExist;
     }
+
+    /**
+     * @test   QR Decomposition solve incorrect type exception
+     * @throws \Exception
+     */
+    public function testQRDecompositionSolveIncorrectTypeException()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [4, 1, -1],
+            [1, 2, 1],
+            [-1, 1, 2],
+        ]);
+        $qr = $A->qrDecomposition();
+
+        // And
+        $b = new \stdClass();
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
+        $qr->solve($b);
+    }
 }

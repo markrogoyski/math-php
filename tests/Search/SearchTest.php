@@ -87,6 +87,22 @@ class SearchTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test sorted on empty list
+     */
+    public function testSearchSortedEmptyList()
+    {
+        // Given
+        $haystack = [];
+        $needle   = 5;
+
+        // When
+        $insertionPoint = Search::sorted($haystack, $needle);
+
+        // Then
+        $this->assertSame(0, $insertionPoint);
+    }
+
+    /**
      * @test         argMax
      * @dataProvider dataProviderForArgMax
      * @dataProvider dataProviderForArgMaxWithNans

@@ -537,4 +537,29 @@ class LUTest extends \PHPUnit\Framework\TestCase
         // When
         $doesNotExist = $LU->doesNotExist;
     }
+
+    /**
+     * @test   LU Decomposition solve incorrect type on b
+     * @throws \Exception
+     */
+    public function testLUDecompositionSolveIncorrectTypeError()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [5, 3, 4, 1],
+            [5, 6, 4, 3],
+            [7, 6, 5, 3],
+            [2, 7, 4, 7],
+        ]);
+        $LU = $A->luDecomposition();
+
+        // And
+        $b = new \stdClass();
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
+        $LU->solve($b);
+    }
 }

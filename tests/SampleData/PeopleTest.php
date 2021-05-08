@@ -130,7 +130,35 @@ class PeopleTest extends \PHPUnit\Framework\TestCase
     /**
      * @test 16 height observations
      */
-    public function testNumberOfMpgs()
+    public function testNumberOfPersonData()
+    {
+        // Given
+        $expected = [
+            'height'     => 198,
+            'weight'     => 92,
+            'hairLength' => -1,
+            'shoeSize'   => 48,
+            'age'        => 48,
+            'income'     => 45000,
+            'beer'       => 420,
+            'wine'       => 115,
+            'sex'        => -1,
+            'swim'       => 98,
+            'region'     => -1,
+            'iq'         => 100,
+        ];
+
+        // When
+        $observation = $this->people->getPersonData('Lars');
+
+        // Then
+        $this->assertEquals($expected, $observation);
+    }
+
+    /**
+     * @test 16 height observations
+     */
+    public function testNumberOfHeight()
     {
         // When
         $observations = $this->people->getHeight();

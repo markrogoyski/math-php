@@ -13,9 +13,9 @@ class ComplexMatrix extends ObjectMatrix
 
     public function __construct(array $A)
     {
-        parent::__construct($A);
+        $this->validateComplexData($A);
 
-        $this->validateComplexData();
+        parent::__construct($A);
     }
 
     /**
@@ -23,9 +23,9 @@ class ComplexMatrix extends ObjectMatrix
      *
      * @throws Exception\IncorrectTypeException if all elements are not complex
      */
-    protected function validateComplexData()
+    protected function validateComplexData(array $A)
     {
-        foreach ($this->A as $i => $row) {
+        foreach ($A as $i => $row) {
             foreach ($row as $object) {
                 if (!$object instanceof Complex) {
                     throw new Exception\IncorrectTypeException("All elements in the complex matrix must be complex. Got " . \get_class($object));
