@@ -853,7 +853,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
         $eigenvalues = Eigenvalue::jacobiMethod($A);
 
         // Then
-        $this->assertEqualsWithDelta($expected[0], $eigenvalues[0], 0.5);
-        $this->assertEqualsWithDelta($expected[1], $eigenvalues[1], 0.0000001);
+        $this->assertEquals($expected[0], $eigenvalues[0], '', 0.5);
+        $this->assertEquals($expected[1], $eigenvalues[1], '', 0.0000001);
     }
 }

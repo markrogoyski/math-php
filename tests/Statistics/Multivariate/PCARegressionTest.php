@@ -87,6 +87,6 @@ class PCARegressionTest extends \PHPUnit\Framework\TestCase
         $sign_adjusted = $loadings->multiply($sign_change);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $sign_adjusted->getMatrix(), .00001);
+        $this->assertEquals($expected, $sign_adjusted->getMatrix(), '', .00001);
     }
 }
