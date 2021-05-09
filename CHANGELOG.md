@@ -1,6 +1,6 @@
 # MathPHP Change Log
 
-## v2.0.0 - ...
+## v2.0.0 - 2021-05-09
 
 ### New Features
 * Matrix Improvements
@@ -20,7 +20,7 @@
   * Issue 414 fixed - PCA/Eigenvalue convergence
   * Issue 413 fixed - matrix solve with singular matrix using RREF
 
-## Upgrading to v2.0 from v1.0
+## Migration - Upgrading to v2.0 from v1.0
 * PHP minimum version now 7.2 (was 7.0)
 * Deprecated code removed (backwards-incompatible change)
   * `MathPHP\Statistics\Distance::kullbackLeiblerDivergence` removed (Use `MathPHP\Statistics\Divergence::kullbackLeibler` instead)
@@ -48,6 +48,12 @@
     * Use case is various `ObjectMatrix` classes that implement `ObjectArithmetic`
   * `RowVector` removed. Use `MatrixFactory::createFromRowVector` instead
   * `ColumnVector` removed. Use `MatrixFactory::createFromColumnVector` instead
+
+## v1.11.0 - 2021-05-09
+
+### Improvements
+* Bugfix (Issue 413): Matrix solve with singular matrix using RREF
+* Bugfix (Issue 414): PCA/Eigenvalue convergence
 
 ## v1.10.0 - 2020-12-19
 
