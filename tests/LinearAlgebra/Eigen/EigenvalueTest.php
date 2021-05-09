@@ -810,4 +810,50 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @test Bug Issue 414 - Jacobi method does not converge on highly correlated data and goes into infinite loop
+     *       Test for eigenvalues
+     * @link https://github.com/markrogoyski/math-php/issues/414
+     *
+     * Test data from Python Numpy
+     * > import numpy
+     * > A = [[11090.868109438, 2292930.5298083], [2292930.5298083, 474044636.63249]]
+     * > eig = numpy.linalg.eig(A)
+     * > eig
+     *  (array([7.62112141e-02, 4.74055727e+08]),
+     *   array([[-0.9999883 , -0.00483689],
+     *          [ 0.00483689, -0.9999883 ]]))
+     *
+     * For reference, R result:
+     * > A = rbind(c(11090.868109438, 2292930.5298083), c(2292930.5298083, 474044636.63249))
+     * > ev <- eigen(A)
+     * > ev
+     * eigen() decomposition
+     * $values
+     * [1] 4.740557e+08 7.621119e-02
+     *
+     * $vectors
+     * [,1]         [,2]
+     * [1,] 0.004836894 -0.999988302
+     * [2,] 0.999988302  0.004836894
+     */
+    public function testJocobiMethodBugIssue414Eigenvalues()
+    {
+        // Given
+        $A = MatrixFactory::createNumeric([
+            [11090.868109438, 2292930.5298083],
+            [2292930.5298083, 474044636.63249],
+        ]);
+
+        // And
+        $expected = [4.74055727e+08, 7.62112141e-02];
+
+        // When
+        $eigenvalues = Eigenvalue::jacobiMethod($A);
+
+        // Then
+        $this->assertEqualsWithDelta($expected[0], $eigenvalues[0], 0.5);
+        $this->assertEqualsWithDelta($expected[1], $eigenvalues[1], 0.0000001);
+    }
 }
