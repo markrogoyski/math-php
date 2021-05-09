@@ -336,7 +336,7 @@ class MatrixSolveTest extends \PHPUnit\Framework\TestCase
         $Ax = $A->multiply($x);
 
         // Then Ax =  b
-        $this->assertEquals($b, $Ax->getColumn(0), '',  0.00001);
+        $this->assertEquals($b, $Ax->getColumn(0), '', 0.00001);
     }
 
     /**
