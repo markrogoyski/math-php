@@ -60,7 +60,7 @@
 ### Improvements
 * Bugfix (Issue 356): Fix Finance IRR NANs
 
-## 1.9.0 - 2020-12-13
+## v1.9.0 - 2020-12-13
 
 ### New Features
 * Vector min and max
