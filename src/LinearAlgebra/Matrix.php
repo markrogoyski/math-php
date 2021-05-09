@@ -2962,9 +2962,7 @@ class Matrix extends MatrixBase
                 return new Vector($A⁻¹->multiply($b)->getColumn(0));
 
             case self::RREF:
-                $Ab   = $this->augment($b->asColumnMatrix());
-                $rref = $Ab->rref();
-                return new Vector(\array_column($rref->getMatrix(), $rref->getN() - 1));
+                return $this->solveRref($b);
 
             default:
                 // If inverse is already calculated, solve: x = A⁻¹b
@@ -3002,10 +3000,47 @@ class Matrix extends MatrixBase
 
                 // Last resort, augment A with b (Ab) and solve RREF.
                 // x is the rightmost column.
-                $Ab   = $this->augment($b->asColumnMatrix());
-                $rref = $Ab->rref();
-                return new Vector(\array_column($rref->getMatrix(), $rref->getN() - 1));
+                return $this->solveRref($b);
         }
+    }
+
+    /**
+     * Solve Ax = b using RREF
+     *
+     * As an augmented matrix Ab, the RREF has the x solution to Ax = b as the rightmost column.
+     *
+     * Edge case: If the matrix is singular, there may be one or more rows of zeros at the bottom. This leads to
+     * the ones not being on the diagonal. In this case, the rightmost column will not have the values in the correct
+     * order. To deal with this, we look at where the ones are and reorder the column vector.
+     *
+     * @param Vector $b
+     * @return Vector
+     */
+    private function solveRref(Vector $b): Vector
+    {
+        $Ab   = $this->augment($b->asColumnMatrix());
+        $rref = $Ab->rref();
+
+        // Edge case if singular matrix
+        if ($this->isSingular()) {
+            $x = [];
+            $i = 0;
+            $j = 0;
+            while ($i < $this->m && $j < $this->n) {
+                if ($rref[$i][$j] == 1) {
+                    $x[] = $rref[$i][$this->n];
+                    $i++;
+                    $j++;
+                } else {
+                    $x[] = 0;
+                    $j++;
+                }
+            }
+            return new Vector($x);
+        }
+
+        // Standard case - rightmost column is the solution
+        return new Vector(\array_column($rref->getMatrix(), $rref->getN() - 1));
     }
 
     /**************************************************************************
