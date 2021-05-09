@@ -841,7 +841,7 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     public function testJocobiMethodBugIssue414Eigenvalues()
     {
         // Given
-        $A = MatrixFactory::createNumeric([
+        $A = MatrixFactory::create([
             [11090.868109438, 2292930.5298083],
             [2292930.5298083, 474044636.63249],
         ]);
