@@ -1,5 +1,11 @@
 # MathPHP Change Log
 
+## v1.11.0 - 2021-05-09
+
+### Improvements
+* Bugfix (Issue 413): Matrix solve with singular matrix using RREF
+* Bugfix (Issue 414): PCA/Eigenvalue convergence-
+
 ## v1.10.0 - 2020-12-19
 
 ### Improvements
