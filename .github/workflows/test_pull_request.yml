@@ -81,7 +81,7 @@ jobs:
         run: composer install --no-interaction
 
       - name: Update PHPUnit for Code Coverage
-        run: composer require phpunit/phpunit:^9.5
+        run: composer require phpunit/phpunit:^9.5 --with-all-dependencies
 
       - name: PHP Lint
         run: ./vendor/bin/parallel-lint src tests
