@@ -292,7 +292,8 @@ class Quaternion implements ObjectArithmetic
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or quaternion');
         }
-        return new Quaternion($a * $e - $b * $f - $c * $g - $d * $h,
+        return new Quaternion(
+            $a * $e - $b * $f - $c * $g - $d * $h,
             $b * $e + $a * $f + $c * $h - $d * $g,
             $a * $g - $b * $h + $c * $e + $d * $f,
             $a * $h + $b * $g - $c * $f + $d * $e
