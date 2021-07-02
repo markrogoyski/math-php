@@ -54,6 +54,9 @@ class Quaternion implements ObjectArithmetic
      */
     public function __construct($r, $i, $j, $k)
     {
+        if (!\is_numeric($r) || !\is_numeric($i) || !\is_numeric($j) || !\is_numeric($k)) {
+            throw new Exception\BadDataException('Values must be real numbers.');
+        }
         $this->r = $r;
         $this->i = $i;
         $this->j = $j;
@@ -78,40 +81,13 @@ class Quaternion implements ObjectArithmetic
      */
     public function __toString(): string
     {
-
         if ($this->r == 0 & $this->i == 0 & $this->j == 0 & $this->k == 0) {
             return '0';
-        } else {
-            $i_neg = false;
-            $j_neg = false;
-            $k_neg = false;
-
-            $tr = "$this->r";
-            $ti = "$this->i" . 'i';
-            $tj = "$this->j" . 'j';
-            $tk = "$this->k" . 'k';
-
-            $chk0 = function ($q) {
-                if ($q == 0) {
-                    return "";
-                } else {
-                    return "$q";
-                }
-            };
-
-            $chk0i = function ($q, $unit) {
-                if ($q == 0) {
-                    return "";
-                } else {
-                    if ($q > 0) {
-                        return ' + ' . "$q" . $unit;
-                    } else {
-                        return ' - ' . (string) \abs($q) . $unit;
-                    }
-                }
-            };
-            return $chk0($this->r) . $chk0i($this->i, 'i') . $chk0i($this->j, 'j') . $chk0i($this->k, 'k');
-        }
+        } 
+        $string = stringifyNumberPart($this->r);
+        $string = stringifyNumberPart($this->i, 'i', $string);
+        $string = stringifyNumberPart($this->j, 'j', $string);
+        return stringifyNumberPart($this->k, 'k', $string);
     }
 
     /**
@@ -343,5 +319,24 @@ class Quaternion implements ObjectArithmetic
     {
         return \abs($this->r - $q->r) < self::EPSILON && \abs($this->i - $q->i) < self::EPSILON
             && \abs($this->j - $q->j) < self::EPSILON && \abs($this->k - $q->k) < self::EPSILON;
+    }
+
+    /**************************************************************************
+     * PRIVATE FUNCTIONS
+     **************************************************************************/
+
+    /**
+     * Stringify an additional part of the quaternion
+     */
+    private function stringifyNumberPart ($q, string $unit = '', string $string = '')
+    {
+        if ($q == 0) {
+            return $string;
+        }
+        if ($q > 0) {
+            $plus = $string == '' ? '' : ' + ';
+            return $string . $plus . "$q" . $unit;
+        }
+        return $string . ' - ' . (string) \abs($q) . $unit;
     }
 }
