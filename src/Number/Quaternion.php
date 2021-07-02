@@ -1,6 +1,4 @@
-<?php
-
-namespace MathPHP\Number;
+<?php namespace MathPHP\Number;
 
 use MathPHP\Exception;
 use MathPHP\Functions\Special;
