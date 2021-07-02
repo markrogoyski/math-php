@@ -41,7 +41,7 @@ class QuaternionNumberAxiomsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($z->r, $z＋0->r);
         $this->assertEquals($z->i, $z＋0->i);
         $this->assertEquals($z->j, $z＋0->j);
-        $this->assertEquals($z->j, $z＋0->k);
+        $this->assertEquals($z->k, $z＋0->k);
     }
 
     /**
