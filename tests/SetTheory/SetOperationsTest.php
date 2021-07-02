@@ -1058,7 +1058,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             if ($value instanceof Set) {
                 $this->assertEquals($value, $union_array["$value"]);
             } else {
-                $this->assertContains((string) $value, $union_array);
+                $this->assertContains($value, $union_array);
             }
         }
     }
@@ -1168,13 +1168,13 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $union);
         $this->assertEquals(count($A∪B∪C), count($union));
         foreach ($A∪B∪C as $member) {
-            $this->assertArrayHasKey("$member", $union_array);
+            $this->assertArrayHasKey((string) $member, $union_array);
         }
         foreach ($A∪B∪C as $_ => $value) {
             if ($value instanceof Set) {
                 $this->assertEquals($value, $union_array["$value"]);
             } else {
-                $this->assertContains("$value", $union_array);
+                $this->assertContains($value, $union_array);
             }
         }
     }
@@ -1291,9 +1291,8 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             $this->assertArrayHasKey("$member", $intersection_array);
             $this->assertArrayHasKey("$member", $setA->asArray());
             $this->assertArrayHasKey("$member", $setB->asArray());
-            $member = is_object($member) ? "$member" : $member;
-            $this->assertContains($member, $A);
-            $this->assertContains($member, $B);
+            $this->assertContains((string) $member, $A, 'A does not contain '. $member);
+            $this->assertContains((string) $member, $B, 'B does not contain '. $member);
         }
         foreach ($A∩B as $_ => $value) {
             if ($value instanceof Set) {
