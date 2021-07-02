@@ -1,42 +1,74 @@
 <?php
-namespace MathPHP\NumericalAnalysis\Interpolation;
 
-class InterpolationTest extends \PHPUnit_Framework_TestCase
+namespace MathPHP\Tests\NumericalAnalysis\Interpolation;
+
+use MathPHP\NumericalAnalysis\Interpolation\Interpolation;
+use MathPHP\Exception;
+
+class InterpolationTest extends \PHPUnit\Framework\TestCase
 {
-    public function testInstantiateAbstractClassException()
-    {
-        // Instantiating Interpolation (an abstract class)
-        $this->setExpectedException('\Error');
-        new Interpolation;
-    }
-
+    /**
+     * @test   getPoints with incorrect type - source is neither a callback nor a set of arrays
+     * @throws \Exception
+     */
     public function testIncorrectInput()
     {
-        // The input $source is neither a callback or a set of arrays
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        // Given
         $x                 = 10;
-        $incorrectFunction = $x**2 + 2 * $x + 1;
+        $incorrectFunction = $x ** 2 + 2 * $x + 1;
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
         Interpolation::getPoints($incorrectFunction, [0,4,5]);
     }
 
+    /**
+     * @test   validate array doesn't have precisely two numbers (coordinates)
+     * @throws \Exception
+     */
     public function testNotCoordinatesException()
     {
-        // An array doesn't have precisely two numbers (coordinates)
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
-        Interpolation::validate([[0,0], [1,2,3], [2,2]]);
+        // Given
+        $points = [[0,0], [1,2,3], [2,2]];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Interpolation::validate($points);
     }
 
+    /**
+     * @test   validate - not enough arrays in the input
+     * @throws \Exception
+     */
     public function testNotEnoughArraysException()
     {
-        // There are not enough arrays in the input
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
-        Interpolation::validate([[0,0]]);
+        // Given
+        $points = [[0,0]];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Interpolation::validate($points);
     }
 
+    /**
+     * @test   validate - two arrays share the same first number (x component)
+     * @throws \Exception
+     */
     public function testNotAFunctionException()
     {
-        // Two arrays share the same first number (x-component)
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
-        Interpolation::validate([[0,0], [0,5], [1,1]]);
+        // Given
+        $points = [[0,0], [0,5], [1,1]];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Interpolation::validate($points);
     }
 }

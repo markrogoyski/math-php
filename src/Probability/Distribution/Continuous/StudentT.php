@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 use MathPHP\Functions\Special;
@@ -12,16 +13,34 @@ class StudentT extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x ∈ (-∞,∞)
      * ν ∈ (0,∞)
+     * @var array
+     */
+    public const PARAMETER_LIMITS = [
+        'ν' => '(0,∞)',
+    ];
+
+    /**
+     * Distribution support bounds limits
      * t ∈ (-∞,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '(-∞,∞)',
-        'ν' => '(0,∞)',
+    public const SUPPORT_LIMITS = [
         't' => '(-∞,∞)',
     ];
+
+    /** @var float Degrees of Freedom Parameter */
+    protected $ν;
+
+    /**
+     * Constructor
+     *
+     * @param float $ν degrees of freedom ν > 0
+     */
+    public function __construct(float $ν)
+    {
+        parent::__construct($ν);
+    }
 
     /**
      * Probability density function
@@ -35,27 +54,29 @@ class StudentT extends Continuous
      *         \ 2 /
      *
      *
-     * @param number $x percentile
-     * @param int    $ν degrees of freedom > 0
+     * @param float $t t score
+     *
+     * @return float
      */
-    public static function PDF($x, int $ν)
+    public function pdf(float $t): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
 
+        $ν = $this->ν;
         $π = \M_PI;
 
         // Numerator
         $Γ⟮⟮ν＋1⟯∕2⟯ = Special::gamma(($ν + 1) / 2);
-        $⟮1＋x²∕ν⟯ = 1 + ($x**2 / $ν);
+        $⟮1＋t²∕ν⟯ = 1 + ($t ** 2 / $ν);
         $−⟮ν＋1⟯∕2 = -($ν + 1) / 2;
 
         // Denominator
-        $√⟮νπ⟯  = sqrt($ν * $π);
+        $√⟮νπ⟯  = \sqrt($ν * $π);
         $Γ⟮ν∕2⟯ = Special::gamma($ν / 2);
-        
-        return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋x²∕ν⟯**$−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);
+
+        return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋t²∕ν⟯ ** $−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);
     }
-    
+
     /**
      * Cumulative distribution function
      * Calculate the cumulative t value up to a point, left tail.
@@ -68,18 +89,20 @@ class StudentT extends Continuous
      *
      *        Iₓ₍t₎(ν/2, ½) is the regularized incomplete beta function
      *
-     * @param number $t t score
-     * @param int    $ν degrees of freedom > 0
+     * @param float $t t score
+     *
+     * @return float
      */
-    public static function CDF($t, int $ν)
+    public function cdf(float $t): float
     {
-        Support::checkLimits(self::LIMITS, ['t' => $t, 'ν' => $ν]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
 
+        $ν = $this->ν;
         if ($t == 0) {
             return .5;
         }
 
-        $x⟮t⟯  = $ν / ($t**2 + $ν);
+        $x⟮t⟯  = $ν / ($t ** 2 + $ν);
         $ν／2 = $ν / 2;
         $½    = .5;
         $Iₓ   = Special::regularizedIncompleteBeta($x⟮t⟯, $ν／2, $½);
@@ -96,49 +119,84 @@ class StudentT extends Continuous
      * Inverse 2 tails
      * Find t such that the area greater than t and the area beneath -t is p.
      *
-     * @param number $p Proportion of area
-     * @param number $ν Degrees of freedom
+     * @param float $p Proportion of area
      *
-     * @return number t-score
+     * @return float t-score
      */
-    public static function inverse2Tails($p, $ν)
+    public function inverse2Tails(float $p): float
     {
-        Support::checkLimits(self::LIMITS, ['ν' => $ν]);
-        return self::inverse(1 - $p / 2, $ν);
+        Support::checkLimits(['p'  => '[0,1]'], ['p' => $p]);
+
+        return $this->inverse(1 - $p / 2);
     }
-    
+
     /**
      * Mean of the distribution
      *
      * μ = 0 if ν > 1
      * otherwise undefined
      *
-     * @param number $ν Degrees of freedom
-     *
-     * @return number
+     * @return float
      */
-    public static function mean($ν)
+    public function mean(): float
     {
-        Support::checkLimits(self::LIMITS, ['ν' => $ν]);
-        if ($ν > 1) {
+        if ($this->ν > 1) {
             return 0;
         }
 
         return \NAN;
     }
-    
+
     /**
      * Median of the distribution
      *
      * μ = 0
      *
-     * @param number $ν Degrees of freedom
-     *
-     * @return number
+     * @return float
      */
-    public static function median($ν)
+    public function median(): float
     {
-        Support::checkLimits(self::LIMITS, ['ν' => $ν]);
         return 0;
+    }
+
+
+    /**
+     * Mode of the distribution
+     *
+     * μ = 0
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        return 0;
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     *        ν
+     * σ² = -----    ν > 2
+     *      ν - 2
+     *
+     * σ² = ∞        1 < ν ≤ 2
+     *
+     * σ² is undefined otherwise
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $ν = $this->ν;
+
+        if ($ν > 2) {
+            return $ν / ($ν - 2);
+        }
+
+        if ($ν > 1) {
+            return \INF;
+        }
+
+        return \NAN;
     }
 }

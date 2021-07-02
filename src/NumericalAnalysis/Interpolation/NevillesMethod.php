@@ -1,7 +1,9 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
-use MathPHP\Functions\Polynomial;
+use MathPHP\Exception;
+use MathPHP\Expression\Polynomial;
 
 /**
  * Nevilles Method
@@ -25,22 +27,25 @@ class NevillesMethod extends Interpolation
     /**
      * Interpolate
      *
-     * @param          $target   The point at which we are interpolation
-     * @param          $source   The source of our approximation. Should be either
-     *                           a callback function or a set of arrays. Each array
-     *                           (point) contains precisely two numbers, an x and y.
-     *                           Example array: [[1,2], [2,3], [3,4]].
-     *                           Example callback: function($x) {return $x**2;}
-     * @param numbers  ... $args The arguments of our callback function: start,
-     *                           end, and n. Example: approximate($source, 0, 8, 5).
-     *                           If $source is a set of points, do not input any
-     *                           $args. Example: approximate($source).
+     * @param float          $target  The point at which we are interpolation
+     * @param callable|array $source  The source of our approximation. Should be either
+     *                                a callback function or a set of arrays. Each array
+     *                                (point) contains precisely two numbers, an x and y.
+     *                                Example array: [[1,2], [2,3], [3,4]].
+     *                                Example callback: function($x) {return $x**2;}
+     * @param float[]        ...$args The arguments of our callback function: start,
+     *                                end, and n. Example: approximate($source, 0, 8, 5).
+     *                                If $source is a set of points, do not input any
+     *                                $args. Example: approximate($source).
      *
-     * @return number            The interpolated value at our target
+     * @return float                  The interpolated value at our target
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      */
-    public static function interpolate($target, $source, ... $args)
+    public static function interpolate(float $target, $source, ...$args): float
     {
-        // get an array of points from our $source argument
+        // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
         // Validate input and sort points
@@ -52,8 +57,8 @@ class NevillesMethod extends Interpolation
         $y = self::Y;
 
         // Initialize
-        $n   = count($sorted);
-        $Q   = [];
+        $n = \count($sorted);
+        $Q = [];
 
         // Build our 0th-degree Lagrange polynomials: Q₍ᵢ₎₍₀₎ = yᵢ for all i < n
         for ($i = 0; $i < $n; $i++) {
@@ -65,13 +70,13 @@ class NevillesMethod extends Interpolation
             for ($j = 1; $j <= $i; $j++) {
                 $xᵢ₋ⱼ        = $sorted[$i - $j][$x];
                 $xᵢ          = $sorted[$i][$x];
-                $Q₍ᵢ₎₍ⱼ₋₁₎   = $Q[$i][$j-1]($target);
-                $Q₍ᵢ₋₁₎₍ⱼ₋₁₎ = $Q[$i-1][$j-1]($target);
+                $Q₍ᵢ₎₍ⱼ₋₁₎   = $Q[$i][$j - 1]($target);
+                $Q₍ᵢ₋₁₎₍ⱼ₋₁₎ = $Q[$i - 1][$j - 1]($target);
                 $Q[$i][$j]   = LagrangePolynomial::interpolate([[$xᵢ₋ⱼ,$Q₍ᵢ₋₁₎₍ⱼ₋₁₎],[$xᵢ,$Q₍ᵢ₎₍ⱼ₋₁₎]]);
             }
         }
 
         // Return our (n-1)th-degree Lagrange polynomial evaluated at $target
-        return $Q[$n-1][$n-1]($target);
+        return $Q[$n - 1][$n - 1]($target);
     }
 }

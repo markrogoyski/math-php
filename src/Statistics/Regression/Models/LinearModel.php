@@ -1,21 +1,25 @@
 <?php
+
 namespace MathPHP\Statistics\Regression\Models;
 
 trait LinearModel
 {
-    protected static $B = 0; // b parameter index
-    protected static $M = 1; // m parameter index
-    
+    /** @var int b parameter index */
+    protected static $B = 0;
+
+    /** @var int m parameter index */
+    protected static $M = 1;
+
     /**
      * Evaluate the model given all the model parameters
      * y = mx + b
      *
-     * @param number $x
-     * @param array  $params
+     * @param float $x
+     * @param array $params
      *
-     * @return number y evaluated
+     * @return float y evaluated
      */
-    public static function evaluateModel($x, $params)
+    public static function evaluateModel(float $x, array $params): float
     {
         $m = $params[self::$M];
         $b = $params[self::$B];
@@ -31,14 +35,14 @@ trait LinearModel
      *
      * @return array [ m => number, b => number ]
      */
-    public static function getModelParameters($params): array
+    public function getModelParameters(array $params): array
     {
         return [
             'm' => $params[self::$M],
             'b' => $params[self::$B],
         ];
     }
-    
+
     /**
      * Get regression equation (y = mx + b)
      *
@@ -46,8 +50,8 @@ trait LinearModel
      *
      * @return string
      */
-    public static function getModelEquation($params): string
+    public function getModelEquation(array $params): string
     {
-        return sprintf('y = %fx + %f', $params[self::$M], $params[self::$B]);
+        return \sprintf('y = %fx + %f', $params[self::$M], $params[self::$B]);
     }
 }

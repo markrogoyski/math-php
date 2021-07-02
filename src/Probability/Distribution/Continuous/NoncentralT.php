@@ -1,10 +1,10 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 use MathPHP\Functions\Special;
 use MathPHP\Functions\Support;
 use MathPHP\Probability\Combinatorics;
-use MathPHP\Probability\Distribution\Continuous\StandardNormal;
 
 /**
  * Noncentral t-distribution
@@ -14,18 +14,40 @@ class NoncentralT extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x ∈ (-∞,∞)
      * ν ∈ (0,∞)
-     * t ∈ (-∞,∞)
      * μ ∈ (-∞,∞)
      * @var array
      */
-    const LIMITS = [
-        'x' => '(-∞,∞)',
+    public const PARAMETER_LIMITS = [
         'ν' => '(0,∞)',
-        't' => '(-∞,∞)',
         'μ' => '(-∞,∞)',
     ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ (-∞,∞)
+     * @var array
+     */
+    public const SUPPORT_LIMITS = [
+        'x' => '(-∞,∞)',
+    ];
+
+    /** @var int degrees of freedom > 0 */
+    protected $ν;
+
+    /** @var float Noncentrality parameter */
+    protected $μ;
+
+    /**
+     * Constructor
+     *
+     * @param int   $ν degrees of freedom > 0
+     * @param float $μ Noncentrality parameter
+     */
+    public function __construct(int $ν, float $μ)
+    {
+        parent::__construct($ν, $μ);
+    }
 
     /**
      * Probability density function
@@ -39,25 +61,27 @@ class NoncentralT extends Continuous
      * 2  * (ν + x²)         * Γ(ν / 2)      |           (ν + x²) * Γ|  ------ |          √(ν + x²) * Γ|  - + 1 |         |
      *                                        \                       \   2   /                         \ 2    /         /
      *
-     * @param number $x percentile
-     * @param int    $ν degrees of freedom > 0
+     * @param float $x percentile
      *
-     * @return number
+     * @return float
      */
-    public static function PDF($x, int $ν, $μ)
+    public function pdf(float $x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν, 'μ' => $μ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
-        $part1 =  $ν ** ($ν / 2) * Special::gamma($ν + 1) * exp(-1 * $μ**2 / 2) / 2**$ν / ($ν + $x**2)**($ν / 2) / Special::gamma($ν / 2);
+        $ν = $this->ν;
+        $μ = $this->μ;
+
+        $part1 =  $ν ** ($ν / 2) * Special::gamma($ν + 1) * \exp(-1 * $μ ** 2 / 2) / 2 ** $ν / ($ν + $x ** 2) ** ($ν / 2) / Special::gamma($ν / 2);
 
         $F1 = $ν / 2 + 1;
         $F2 = 3 / 2;
-        $F3 = $μ**2 * $x**2 / 2 / ($ν + $x**2);
-        $inner_part1 = sqrt(2) * $μ * $x * Special::confluentHypergeometric($F1, $F2, $F3) / ($ν + $x**2) / Special::gamma(($ν + 1) / 2);
+        $F3 = $μ ** 2 * $x ** 2 / 2 / ($ν + $x ** 2);
+        $inner_part1 = \sqrt(2) * $μ * $x * Special::confluentHypergeometric($F1, $F2, $F3) / ($ν + $x ** 2) / Special::gamma(($ν + 1) / 2);
 
         $F1 = ($ν + 1) / 2;
         $F2 = 1 / 2;
-        $inner_part2 = Special::confluentHypergeometric($F1, $F2, $F3) / sqrt($ν + $x**2) / Special::gamma($ν / 2 + 1);
+        $inner_part2 = Special::confluentHypergeometric($F1, $F2, $F3) / \sqrt($ν + $x ** 2) / Special::gamma($ν / 2 + 1);
 
         return $part1 * ($inner_part1 + $inner_part2);
     }
@@ -68,22 +92,25 @@ class NoncentralT extends Continuous
      * Fᵥ,ᵤ(x) = Fᵥ,ᵤ(x),      if x ≥ 0
      *         = 1 - Fᵥ,₋ᵤ(x)  if x < 0
      *
-     * @param number $x
-     * @param int    $ν Degrees of freedom
-     * @param number $μ Noncentrality parameter
+     * @param float $x
      *
-     * @return number
+     * @return float
      */
-    public static function CDF($x, int $ν, $μ)
+    public function cdf(float $x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν, 'μ' => $μ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $ν = $this->ν;
+        $μ = $this->μ;
+
         if ($μ == 0) {
-            return StudentT::CDF($x, $ν);
+            $studentT = new StudentT($ν);
+            return $studentT->cdf($x);
         }
         if ($x >= 0) {
-            return self::F($x, $ν, $μ);
+            return $this->f($x, $ν, $μ);
         }
-        return 1 - self::F($x, $ν, -$μ);
+        return 1 - $this->f($x, $ν, -$μ);
     }
 
     /**
@@ -109,27 +136,26 @@ class NoncentralT extends Continuous
      *   qⱼ = ------------ exp| - -   | |  -   |
      *        √2Γ(j + 3/2)     \  2  /   \ 2  /
      *
-     * @param number $x
-     * @param int    $ν Degrees of freedom
-     * @param number $μ Noncentrality parameter
+     * @param float $x
+     * @param int   $ν
+     * @param float $μ
      *
-     * @return number
+     * @return float
      */
-    private static function F($x, int $ν, $μ)
+    private function f(float $x, int $ν, float $μ): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'ν' => $ν, 'μ' => $μ]);
-
-        $Φ = StandardNormal::CDF(-$μ);
-        $y = $x**2/($x**2 + $ν);
+        $standardNormal = new StandardNormal();
+        $Φ = $standardNormal->cdf(-$μ);
+        $y = $x ** 2 / ($x ** 2 + $ν);
 
         $sum = $Φ;
         $tol = .00000001;
         $j   = 0;
 
         do {
-            $exp = exp(-1 * $μ**2 / 2) * ($μ**2 / 2)**$j;
+            $exp = \exp(-1 * $μ ** 2 / 2) * ($μ ** 2 / 2) ** $j;
             $pⱼ  = 1 / Combinatorics::factorial($j) * $exp;
-            $qⱼ  = $μ / sqrt(2) / Special::gamma($j + 3 / 2) * $exp;
+            $qⱼ  = $μ / \sqrt(2) / Special::gamma($j + 3 / 2) * $exp;
             $I1  = Special::regularizedIncompleteBeta($y, $j + 1 / 2, $ν / 2);
             $I2  = Special::regularizedIncompleteBeta($y, $j + 1, $ν / 2);
 
@@ -150,17 +176,28 @@ class NoncentralT extends Continuous
      *
      *      = Does not exist        if ν ≤ 1
      *
-     * @param int    $ν Degrees of freedom
-     * @param number $μ Noncentrality parameter
-     *
-     * @return number
+     * @return float
      */
-    public static function mean(int $ν, $μ)
+    public function mean(): float
     {
-        Support::checkLimits(self::LIMITS, ['ν' => $ν, 'μ' => $μ]);
+        $ν = $this->ν;
+        $μ = $this->μ;
+
         if ($ν == 1) {
             return \NAN;
         }
-        return $μ * sqrt($ν / 2) * Special::gamma(($ν - 1) / 2) / Special::gamma($ν / 2);
+        return $μ * \sqrt($ν / 2) * Special::gamma(($ν - 1) / 2) / Special::gamma($ν / 2);
+    }
+
+    /**
+     * Median of the distribution
+     * @note: This is probably not correct and should be updated.
+     * @todo: Replace with actual median calculation.
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        return $this->mean();
     }
 }

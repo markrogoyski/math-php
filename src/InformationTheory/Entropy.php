@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\InformationTheory;
 
 use MathPHP\Functions\Map;
@@ -19,7 +20,7 @@ use MathPHP\Exception;
  */
 class Entropy
 {
-    const ONE_TOLERANCE = 0.010001;
+    private const ONE_TOLERANCE = 0.010001;
 
     /**
      * Shannon entropy (bit entropy)
@@ -34,17 +35,17 @@ class Entropy
      *
      * @return float average minimum number of bits
      *
-     * @throws BadDataException if probability distribution p does not add up to 1
+     * @throws Exception\BadDataException if probability distribution p does not add up to 1
      */
     public static function shannonEntropy(array $p)
     {
         // Probability distribution must add up to 1.0
-        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
-            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . \array_sum($p));
         }
 
         // Defensive measure against taking the log of 0 which would be -∞
-        $p = array_map(
+        $p = \array_map(
             function ($pᵢ) {
                 return $pᵢ == 0 ? 1e-15 : $pᵢ;
             },
@@ -52,9 +53,9 @@ class Entropy
         );
 
         // ∑ pᵢlog₂(pᵢ)
-        $∑pᵢlog₂⟮pᵢ⟯ = array_sum(array_map(
+        $∑pᵢlog₂⟮pᵢ⟯ = \array_sum(\array_map(
             function ($pᵢ) {
-                return $pᵢ * log($pᵢ, 2);
+                return $pᵢ * \log($pᵢ, 2);
             },
             $p
         ));
@@ -77,17 +78,17 @@ class Entropy
      *
      * @return float average minimum number of nats
      *
-     * @throws BadDataException if probability distribution p does not add up to 1
+     * @throws Exception\BadDataException if probability distribution p does not add up to 1
      */
     public static function shannonNatEntropy(array $p)
     {
         // Probability distribution must add up to 1.0
-        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
-            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . \array_sum($p));
         }
 
         // Defensive measure against taking the log of 0 which would be -∞
-        $p = array_map(
+        $p = \array_map(
             function ($pᵢ) {
                 return $pᵢ == 0 ? 1e-15 : $pᵢ;
             },
@@ -95,9 +96,9 @@ class Entropy
         );
 
         // ∑ pᵢln(pᵢ)
-        $∑pᵢln⟮pᵢ⟯ = array_sum(array_map(
+        $∑pᵢln⟮pᵢ⟯ = \array_sum(\array_map(
             function ($pᵢ) {
-                return $pᵢ * log($pᵢ);
+                return $pᵢ * \log($pᵢ);
             },
             $p
         ));
@@ -120,17 +121,17 @@ class Entropy
      *
      * @return float average minimum number of hartleys
      *
-     * @throws BadDataException if probability distribution p does not add up to 1
+     * @throws Exception\BadDataException if probability distribution p does not add up to 1
      */
     public static function shannonHartleyEntropy(array $p)
     {
         // Probability distribution must add up to 1.0
-        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
-            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . \array_sum($p));
         }
 
         // Defensive measure against taking the log of 0 which would be -∞
-        $p = array_map(
+        $p = \array_map(
             function ($pᵢ) {
                 return $pᵢ == 0 ? 1e-15 : $pᵢ;
             },
@@ -138,9 +139,9 @@ class Entropy
         );
 
         // ∑ pᵢlog₁₀(pᵢ)
-        $∑pᵢlog₁₀⟮pᵢ⟯ = array_sum(array_map(
+        $∑pᵢlog₁₀⟮pᵢ⟯ = \array_sum(\array_map(
             function ($pᵢ) {
-                return $pᵢ * log10($pᵢ);
+                return $pᵢ * \log10($pᵢ);
             },
             $p
         ));
@@ -162,23 +163,23 @@ class Entropy
      *
      * @return float entropy between distributions
      *
-     * @throws BadDataException if p and q do not have the same number of elements
-     * @throws BadDataException if p and q are not probability distributions that add up to 1
+     * @throws Exception\BadDataException if p and q do not have the same number of elements
+     * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
      */
     public static function crossEntropy(array $p, array $q)
     {
         // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
+        if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
         }
 
         // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+        if ((\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(\array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
         // Defensive measure against taking the log of 0 which would be -∞
-        $q = array_map(
+        $q = \array_map(
             function ($qᵢ) {
                 return $qᵢ == 0 ? 1e-15 : $qᵢ;
             },
@@ -186,9 +187,9 @@ class Entropy
         );
 
         // ∑ p(x) log₂ q(x)
-        $∑plog₂⟮q⟯ = array_sum(array_map(
+        $∑plog₂⟮q⟯ = \array_sum(\array_map(
             function ($pᵢ, $qᵢ) {
-                return $pᵢ * log($qᵢ, 2);
+                return $pᵢ * \log($qᵢ, 2);
             },
             $p,
             $q
@@ -216,7 +217,7 @@ class Entropy
      *
      * @return float uncertainty
      *
-     * @throws BadDataException if probability distribution $P⟮x、y⟯ does not add up to 1
+     * @throws Exception\BadDataException if probability distribution $P⟮x、y⟯ does not add up to 1
      */
     public static function jointEntropy(array $P⟮x、y⟯)
     {
@@ -240,14 +241,14 @@ class Entropy
      *
      * @return float
      *
-     * @throws BadDataException if probability distribution p does not add up to 1
-     * @throws OutOfBoundsException if α < 0 or α = 1
+     * @throws Exception\BadDataException if probability distribution p does not add up to 1
+     * @throws Exception\OutOfBoundsException if α < 0 or α = 1
      */
     public static function renyiEntropy(array $p, $α)
     {
         // Probability distribution must add up to 1.0
-        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
-            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . \array_sum($p));
         }
 
         // α ≥ 0; α ≠ 1
@@ -256,7 +257,7 @@ class Entropy
         }
 
         // (1 / 1 - α) log (∑ pᵢᵃ)
-        $Hₐ⟮X⟯ = (1 / (1 - $α)) * log(array_sum(Map\Single::pow($p, $α)), 2);
+        $Hₐ⟮X⟯ = (1 / (1 - $α)) * \log(\array_sum(Map\Single::pow($p, $α)), 2);
 
         return $Hₐ⟮X⟯;
     }
@@ -277,18 +278,18 @@ class Entropy
      *
      * @return float perplexity
      *
-     * @throws BadDataException if probability distribution p does not add up to 1
+     * @throws Exception\BadDataException if probability distribution p does not add up to 1
      */
     public static function perplexity(array $p)
     {
         // Probability distribution must add up to 1.0
-        if (abs(array_sum($p) - 1) > self::ONE_TOLERANCE) {
-            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . array_sum($p));
+        if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
+            throw new Exception\BadDataException('Probability distribution p must add up to 1; p adds up to: ' . \array_sum($p));
         }
 
         // ∑ pᵢlog₂(pᵢ)
         $H⟮p⟯ = self::shannonEntropy($p);
 
-        return 2**$H⟮p⟯;
+        return 2 ** $H⟮p⟯;
     }
 }

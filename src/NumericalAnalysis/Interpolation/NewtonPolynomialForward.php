@@ -1,14 +1,16 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
-use MathPHP\Functions\Polynomial;
+use MathPHP\Exception;
+use MathPHP\Expression\Polynomial;
 
 /**
- * Newton (Forward) Interpolting Polynomials
+ * Newton (Forward) Interpolating Polynomials
  *
  * Newton Polynomials are used for polynomial interpolation.
  *
- * Newton (Forward) Interpolting Polynomial belongs to a class of techniques called
+ * Newton (Forward) Interpolating Polynomial belongs to a class of techniques called
  * Newton Polynomials. These techniques are used to generate an interpolating
  * polynomial for a given set of points (or a function). We can either directly
  * supply a set of inputs and their corresponding outputs for said function, or
@@ -24,21 +26,24 @@ class NewtonPolynomialForward extends Interpolation
     /**
      * Interpolate
      *
-     * @param          $source   The source of our approximation. Should be either
-     *                           a callback function or a set of arrays. Each array
-     *                           (point) contains precisely two numbers, an x and y.
-     *                           Example array: [[1,2], [2,3], [3,4]].
-     *                           Example callback: function($x) {return $x**2;}
-     * @param numbers  ... $args The arguments of our callback function: start,
-     *                           end, and n. Example: approximate($source, 0, 8, 5).
-     *                           If $source is a set of points, do not input any
-     *                           $args. Example: approximate($source).
+     * @param callable|array $source The source of our approximation. Should be either
+     *                               a callback function or a set of arrays. Each array
+     *                               (point) contains precisely two numbers, an x and y.
+     *                               Example array: [[1,2], [2,3], [3,4]].
+     *                               Example callback: function($x) {return $x**2;}
+     * @param number        ...$args The arguments of our callback function: start,
+     *                               end, and n. Example: approximate($source, 0, 8, 5).
+     *                               If $source is a set of points, do not input any
+     *                               $args. Example: approximate($source).
      *
-     * @return callable          The interpolating polynomial p(x)
+     * @return callable              The interpolating polynomial p(x)
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      */
-    public static function interpolate($source, ... $args)
+    public static function interpolate($source, ...$args): callable
     {
-        // get an array of points from our $source argument
+        // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
         // Validate input and sort points
@@ -50,7 +55,7 @@ class NewtonPolynomialForward extends Interpolation
         $y = self::Y;
 
         // Initialize
-        $n   = count($sorted);
+        $n   = \count($sorted);
         $Q   = [];
 
         // Build first column of divided differences table
@@ -63,9 +68,9 @@ class NewtonPolynomialForward extends Interpolation
             for ($j = 1; $j <= $i; $j++) {
                 $xᵢ₋ⱼ        = $sorted[$i - $j][$x];
                 $xᵢ          = $sorted[$i][$x];
-                $Q₍ᵢ₎₍ⱼ₋₁₎   = $Q[$i][$j-1];
-                $Q₍ᵢ₋₁₎₍ⱼ₋₁₎ = $Q[$i-1][$j-1];
-                $Q[$i][$j]   = ($Q₍ᵢ₎₍ⱼ₋₁₎ - $Q₍ᵢ₋₁₎₍ⱼ₋₁₎)/($xᵢ - $xᵢ₋ⱼ);
+                $Q₍ᵢ₎₍ⱼ₋₁₎   = $Q[$i][$j - 1];
+                $Q₍ᵢ₋₁₎₍ⱼ₋₁₎ = $Q[$i - 1][$j - 1];
+                $Q[$i][$j]   = ($Q₍ᵢ₎₍ⱼ₋₁₎ - $Q₍ᵢ₋₁₎₍ⱼ₋₁₎) / ($xᵢ - $xᵢ₋ⱼ);
             }
         }
 
@@ -73,15 +78,12 @@ class NewtonPolynomialForward extends Interpolation
         $polynomial = new Polynomial([0]);
 
         for ($i = 0; $i < $n; $i++) {
-            // start each product with the upper diagonal from our divideded differences table
+            // start each product with the upper diagonal from our divided differences table
             $product = new Polynomial([$Q[$i][$i]]);
 
             for ($j = 1; $j <= $i; $j++) {
                 // generate the (x - xⱼ₋₁) term for each j
-                //$term = function ($t) use ($sorted, $x, $i, $j) {
-                //    return ($t - $sorted[$j-1][$x]);
-                //};
-                $term = new Polynomial([1, -$sorted[$j-1][$x]]);
+                $term = new Polynomial([1, -$sorted[$j - 1][$x]]);
                 // multiply the term and our cumulative product
                 $product = $product->multiply($term);
             }

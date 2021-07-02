@@ -1,5 +1,8 @@
 <?php
-namespace MathPHP\Number;
+
+namespace MathPHP\Tests\Number;
+
+use MathPHP\Number\Complex;
 
 /**
  * Tests of complex number axioms
@@ -23,22 +26,25 @@ namespace MathPHP\Number;
  *  - Inverse
  *    - (∀a)(∃b) a + b = 0
  */
-class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
+class ComplexNumberAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase Axiom: z + w = w + z
+     * @test Axiom: z + w = w + z
      * Commutativity of addition.
      * @dataProvider dataProviderForTwoComplexNumbers
-     * @param        number $r₁
-     * @param        number $i₁
-     * @param        number $r₂
-     * @param        number $i₂
+     * @param        int $r₁
+     * @param        int $i₁
+     * @param        int $r₂
+     * @param        int $i₂
+     * @throws       \Exception
      */
-    public function testCommutativityOfAddition($r₁, $i₁, $r₂, $i₂)
+    public function testCommutativityOfAddition(int $r₁, int $i₁, int $r₂, int $i₂)
     {
+        // Given
         $z = new Complex($r₁, $i₁);
         $w = new Complex($r₂, $i₂);
 
+        // When
         $z＋w = $z->add($w);
         $w＋z = $w->add($z);
 
@@ -49,19 +55,22 @@ class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Axiom: zw = wz
+     * @test Axiom: zw = wz
      * Commutativity of multiplication.
      * @dataProvider dataProviderForTwoComplexNumbers
-     * @param        number $r₁
-     * @param        number $i₁
-     * @param        number $r₂
-     * @param        number $i₂
+     * @param        int $r₁
+     * @param        int $i₁
+     * @param        int $r₂
+     * @param        int $i₂
+     * @throws       \Exception
      */
-    public function testCommutativityOfMultiplication($r₁, $i₁, $r₂, $i₂)
+    public function testCommutativityOfMultiplication(int $r₁, int $i₁, int $r₂, int $i₂)
     {
+        // Given
         $z = new Complex($r₁, $i₁);
         $w = new Complex($r₂, $i₂);
 
+        // When
         $zw = $z->multiply($w);
         $wz = $w->multiply($z);
 
@@ -72,22 +81,25 @@ class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Axiom: z + (u + v) = (z + u) + v
+     * @test Axiom: z + (u + v) = (z + u) + v
      * Associativity of Addition.
      * @dataProvider dataProviderForThreeComplexNumbers
-     * @param        number $r₁
-     * @param        number $i₁
-     * @param        number $r₂
-     * @param        number $i₂
-     * @param        number $r₃
-     * @param        number $i₃
+     * @param        int $r₁
+     * @param        int $i₁
+     * @param        int $r₂
+     * @param        int $i₂
+     * @param        int $r₃
+     * @param        int $i₃
+     * @throws       \Exception
      */
-    public function testAssociativityOfAddition($r₁, $i₁, $r₂, $i₂, $r₃, $i₃)
+    public function testAssociativityOfAddition(int $r₁, int $i₁, int $r₂, int $i₂, int $r₃, int $i₃)
     {
+        // Given
         $z = new Complex($r₁, $i₁);
         $u = new Complex($r₂, $i₂);
         $v = new Complex($r₃, $i₃);
 
+        // When
         $z⟮u ＋ v⟯ = $z->add($u->add($v));
         $⟮z ＋ u⟯v = $z->add($u)->add($v);
 
@@ -98,22 +110,25 @@ class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Axiom: z(uv) = (zu)v
+     * @test Axiom: z(uv) = (zu)v
      * Associativity of Multiplication.
      * @dataProvider dataProviderForThreeComplexNumbers
-     * @param        number $r₁
-     * @param        number $i₁
-     * @param        number $r₂
-     * @param        number $i₂
-     * @param        number $r₃
-     * @param        number $i₃
+     * @param        int $r₁
+     * @param        int $i₁
+     * @param        int $r₂
+     * @param        int $i₂
+     * @param        int $r₃
+     * @param        int $i₃
+     * @throws       \Exception
      */
-    public function testAssociativityOfMultiplication($r₁, $i₁, $r₂, $i₂, $r₃, $i₃)
+    public function testAssociativityOfMultiplication(int $r₁, int $i₁, int $r₂, int $i₂, int $r₃, int $i₃)
     {
+        // Given
         $z = new Complex($r₁, $i₁);
         $u = new Complex($r₂, $i₂);
         $v = new Complex($r₃, $i₃);
 
+        // When
         $z⟮uv⟯ = $z->multiply($u->multiply($v));
         $⟮zu⟯v = $z->multiply($u)->multiply($v);
 
@@ -124,22 +139,25 @@ class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Axiom: z(u + v) = zu + zv
+     * @test Axiom: z(u + v) = zu + zv
      * Distributed Law.
      * @dataProvider dataProviderForThreeComplexNumbers
-     * @param        number $r₁
-     * @param        number $i₁
-     * @param        number $r₂
-     * @param        number $i₂
-     * @param        number $r₃
-     * @param        number $i₃
+     * @param        int $r₁
+     * @param        int $i₁
+     * @param        int $r₂
+     * @param        int $i₂
+     * @param        int $r₃
+     * @param        int $i₃
+     * @throws       \Exception
      */
-    public function testDistributedLaw($r₁, $i₁, $r₂, $i₂, $r₃, $i₃)
+    public function testDistributedLaw(int $r₁, int $i₁, int $r₂, int $i₂, int $r₃, int $i₃)
     {
+        // Given
         $z = new Complex($r₁, $i₁);
         $u = new Complex($r₂, $i₂);
         $v = new Complex($r₃, $i₃);
 
+        // When
         $z⟮u ＋ v⟯ = $z->multiply($u->add($v));
         $zu ＋ zv = $z->multiply($u)->add($z->multiply($v));
 
@@ -150,16 +168,19 @@ class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Axiom: z + 0 = z
+     * @test Axiom: z + 0 = z
      * Additive identity
      * @dataProvider dataProviderForOneComplexNumber
-     * @param        number $r
-     * @param        number $i
+     * @param        int $r
+     * @param        int $i
+     * @throws       \Exception
      */
-    public function testAdditiveIdentity($r, $i)
+    public function testAdditiveIdentity(int $r, int $i)
     {
+        // Given
         $z = new Complex($r, $i);
 
+        // When
         $z＋0 = $z->add(0);
 
         $this->assertTrue($z＋0->equals($z));
@@ -169,16 +190,19 @@ class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Axiom: z * 1 = z
+     * @test Axiom: z * 1 = z
      * Multiplicative identity
      * @dataProvider dataProviderForOneComplexNumber
-     * @param        number $r
-     * @param        number $i
+     * @param        int $r
+     * @param        int $i
+     * @throws       \Exception
      */
-    public function testMlutiplicativeIdentity($r, $i)
+    public function testMultiplicativeIdentity(int $r, int $i)
     {
+        // Given
         $z = new Complex($r, $i);
 
+        // When
         $z1 = $z->multiply(1);
 
         $this->assertTrue($z1->equals($z));
@@ -188,17 +212,20 @@ class ComplexNumberAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Axiom: (∀a)(∃b) a + b = 0
+     * @test Axiom: (∀a)(∃b) a + b = 0
      * Additive inverse.
      * @dataProvider dataProviderForOneComplexNumber
-     * @param        number $r₁
-     * @param        number $i₁
+     * @param        int $r
+     * @param        int $i
+     * @throws       \Exception
      */
-    public function testAdditiveInverse($r, $i)
+    public function testAdditiveInverse(int $r, int $i)
     {
+        // Given
         $a = new Complex($r, $i);
         $b = new Complex(-$r, -$i);
 
+        // When
         $a＋b = $a->add($b);
 
         $this->assertEquals(0, $a＋b->r);

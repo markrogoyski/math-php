@@ -3,7 +3,7 @@
 namespace MathPHP\NumericalAnalysis\NumericalIntegration;
 
 use MathPHP\NumericalAnalysis\Interpolation\LagrangePolynomial;
-use MathPHP\Functions\Polynomial;
+use MathPHP\Exception;
 
 /**
  * Rectangle Method
@@ -28,7 +28,7 @@ use MathPHP\Functions\Polynomial;
 class RectangleMethod extends NumericalIntegration
 {
     /**
-     * Use the Rectangle Method to aproximate the definite integral of a
+     * Use the Rectangle Method to approximate the definite integral of a
      * function f(x). Our input can support either a set of arrays, or a callback
      * function with arguments (to produce a set of arrays). Each array in our
      * input contains two numbers which correspond to coordinates (x, y) or
@@ -58,21 +58,24 @@ class RectangleMethod extends NumericalIntegration
      *
      *  where h = xᵢ₊₁ - xᵢ
      *  note: this implementation does not compute the error term.
-     * @param          $source   The source of our approximation. Should be either
-     *                           a callback function or a set of arrays. Each array
-     *                           (point) contains precisely two numbers, an x and y.
-     *                           Example array: [[1,2], [2,3], [3,4]].
-     *                           Example callback: function($x) {return $x**2;}
-     * @param numbers  ... $args The arguments of our callback function: start,
-     *                           end, and n. Example: approximate($source, 0, 8, 5).
-     *                           If $source is a set of points, do not input any
-     *                           $args. Example: approximate($source).
+     * @param callable|array $source  The source of our approximation. Should be either
+     *                                a callback function or a set of arrays. Each array
+     *                                (point) contains precisely two numbers, an x and y.
+     *                                Example array: [[1,2], [2,3], [3,4]].
+     *                                Example callback: function($x) {return $x**2;}
+     * @param number         ...$args The arguments of our callback function: start,
+     *                                end, and n. Example: approximate($source, 0, 8, 5).
+     *                                If $source is a set of points, do not input any
+     *                                $args. Example: approximate($source).
      *
-     * @return number            The approximation to the integral of f(x)
+     * @return float                  The approximation to the integral of f(x)
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      */
-    public static function approximate($source, ... $args)
+    public static function approximate($source, ...$args): float
     {
-        // get an array of points from our $source argument
+        // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
         // Validate input and sort points
@@ -84,7 +87,7 @@ class RectangleMethod extends NumericalIntegration
         $y = self::Y;
 
         // Initialize
-        $n             = count($sorted);
+        $n             = \count($sorted);
         $steps         = $n - 1;
         $approximation = 0;
 
@@ -97,7 +100,7 @@ class RectangleMethod extends NumericalIntegration
          */
         for ($i = 0; $i < $steps; $i++) {
             $xᵢ             = $sorted[$i][$x];
-            $xᵢ₊₁           = $sorted[$i+1][$x];
+            $xᵢ₊₁           = $sorted[$i + 1][$x];
             $f⟮xᵢ⟯           = $sorted[$i][$y];   // yᵢ
             $lagrange       = LagrangePolynomial::interpolate([[$xᵢ, $f⟮xᵢ⟯]]);
             $integral       = $lagrange->integrate();

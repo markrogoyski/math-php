@@ -1,6 +1,8 @@
 <?php
+
 namespace MathPHP\Sequence;
 
+use MathPHP\Exception\OutOfBoundsException;
 use MathPHP\NumberTheory\Integer;
 
 /**
@@ -227,7 +229,7 @@ class Advanced
 
         // Standard case for pn: (3n² - n) / 2
         for ($i = 1; $i <= $n; $i++) {
-            $pentagonal[$i] = (3*($i**2) - $i) / 2;
+            $pentagonal[$i] = (3 * ($i ** 2) - $i) / 2;
         }
 
         return $pentagonal;
@@ -297,7 +299,7 @@ class Advanced
 
         // Standard case for Hn: (5n² - 3n) / 2
         for ($i = 1; $i <= $n; $i++) {
-            $heptagonal[$i] = ((5 * $i**2) - (3 * $i)) / 2;
+            $heptagonal[$i] = ((5 * $i ** 2) - (3 * $i)) / 2;
         }
 
         return $heptagonal;
@@ -349,18 +351,18 @@ class Advanced
         for ($i = 2; $i <= $n; $i++) {
             $sequence = "";
             $count    = 1;
-            $len      = strlen($previous);
+            $len      = \strlen($previous);
 
             for ($j = 1; $j < $len; $j++) {
-                if (substr($previous, $j, 1) === substr($previous, $j - 1, 1)) {
+                if (\substr($previous, $j, 1) === \substr($previous, $j - 1, 1)) {
                     $count++;
                 } else {
-                    $sequence .= $count . substr($previous, $j - 1, 1);
+                    $sequence .= $count . \substr($previous, $j - 1, 1);
                     $count = 1;
                 }
             }
 
-            $sequence .= $count . substr($previous, $j - 1, 1);
+            $sequence .= $count . \substr($previous, $j - 1, 1);
             $previous = $sequence;
             $list[$i] = $sequence;
         }
@@ -404,7 +406,7 @@ class Advanced
         $p = [];
 
         for ($i = 0; $i < $n; $i++) {
-            $p[] = ($i**2 + $i + 2) / 2;
+            $p[] = ($i ** 2 + $i + 2) / 2;
         }
 
         return $p;
@@ -440,10 +442,42 @@ class Advanced
         $M = [];
 
         for ($i = 0; $i < $n; $i++) {
-            $M[] = ($i * ($i**2 + 1)) / 2;
+            $M[] = ($i * ($i ** 2 + 1)) / 2;
         }
 
         return $M;
+    }
+
+    private const PERFECT_NUMBERS = [
+        6, 28, 496, 8128, 33550336, 8589869056, 137438691328, 2305843008139952128, 2658455991569831744654692615953842176, 191561942608236107294793378084303638130997321548169216
+    ];
+
+    /**
+     * Perfect numbers
+     * @see https://oeis.org/A000396
+     *
+     * Example
+     *  n = 5
+     *  Sequence:    6, 28, 496, 8128, 33550336
+     *  Array index: 0, 1,  2,   3,    4
+     *
+     * @param  int $n
+     *
+     * @return array
+     *
+     * @throws OutOfBoundsException
+     */
+    public static function perfectNumbers(int $n): array
+    {
+        if ($n <= 0) {
+            return [];
+        }
+
+        if ($n <= 10) {
+            return \array_slice(self::PERFECT_NUMBERS, 0, $n);
+        }
+
+        throw new OutOfBoundsException("Perfect numbers beyond the tenth are too large to compute");
     }
 
     /**
@@ -548,18 +582,18 @@ class Advanced
             return [];
         }
 
-        $primes = array_fill_keys(range(2, $n), true);
-        $√n     = ceil(sqrt($n));
+        $primes = \array_fill_keys(\range(2, $n), true);
+        $√n     = \ceil(\sqrt($n));
 
         for ($i = 2; $i <= $√n; $i++) {
             if ($primes[$i] === true) {
-                $i² = $i**2;
+                $i² = $i ** 2;
                 for ($j = $i²; $j <= $n; $j += $i) {
                     $primes[$j] = false;
                 }
             }
         }
 
-        return array_keys(array_filter($primes));
+        return \array_keys(\array_filter($primes));
     }
 }

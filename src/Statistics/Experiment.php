@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Statistics;
 
 use MathPHP\Exception;
@@ -15,19 +16,19 @@ class Experiment
      * Z score for 95% confidence interval
      * @var float
      */
-    const Z = 1.96;
+    private const Z = 1.96;
 
     /**
      * Normal lower tail probability for calculating P value
      * @var float
      */
-    const NORMAL_LOWER_TAIL_PROBABILITY = -0.717;
+    private const NORMAL_LOWER_TAIL_PROBABILITY = -0.717;
 
     /**
      * Normal upper tail probability for calculating P value
      * @var float
      */
-    const NORMAL_UPPER_TAIL_PROBABILITY = 0.416;
+    private const NORMAL_UPPER_TAIL_PROBABILITY = 0.416;
 
     /**
      * Risk ratio (relative risk) - RR
@@ -65,23 +66,23 @@ class Experiment
         $RR = ($a / ($a + $b)) / ($c / ($c + $d));
 
         // Standard error of the log relative risk
-        $ln⟮RR⟯     = log($RR);
-        $SS｛ln⟮RR⟯｝= sqrt((1/$a) + (1/$c) - (1/($a+$b)) - (1/($c+$d)));
-        
+        $ln⟮RR⟯     = \log($RR);
+        $SS｛ln⟮RR⟯｝ = \sqrt((1 / $a) + (1 / $c) - (1 / ($a + $b)) - (1 / ($c + $d)));
+
         // Z score for 95% confidence interval
         $z = 1.96;
 
         // Confidence interval
-        $ci_lower_bound = exp($ln⟮RR⟯ - ($z * $SS｛ln⟮RR⟯｝));
-        $ci_upper_bound = exp($ln⟮RR⟯ + ($z * $SS｛ln⟮RR⟯｝));
+        $ci_lower_bound = \exp($ln⟮RR⟯ - ($z * $SS｛ln⟮RR⟯｝));
+        $ci_upper_bound = \exp($ln⟮RR⟯ + ($z * $SS｛ln⟮RR⟯｝));
 
         // P-value (significance level)
-        $est = log($RR);                   // estimate of effect
-        $l   = log($ci_lower_bound);       // ln CI lower bound
-        $u   = log($ci_upper_bound);       // ln CI upper bound
+        $est = \log($RR);                   // estimate of effect
+        $l   = \log($ci_lower_bound);       // ln CI lower bound
+        $u   = \log($ci_upper_bound);       // ln CI upper bound
         $SE  = ($u - $l) / (2 * self::Z);  // standard error
-        $z   = abs($est / $SE);            // test statistic z
-        $p   = exp((self::NORMAL_LOWER_TAIL_PROBABILITY * $z) - (self::NORMAL_UPPER_TAIL_PROBABILITY * $z**2));
+        $z   = \abs($est / $SE);            // test statistic z
+        $p   = \exp((self::NORMAL_LOWER_TAIL_PROBABILITY * $z) - (self::NORMAL_UPPER_TAIL_PROBABILITY * $z ** 2));
 
         return [
             'RR'             => $RR,
@@ -127,20 +128,20 @@ class Experiment
         $OR = ($a / $b) / ($c / $d);
 
         // Standard error of the log odds ratio
-        $ln⟮OR⟯     = log($OR);
-        $SS｛ln⟮OR⟯｝= sqrt((1/$a) + (1/$b) + (1/$c) + (1/$d));
+        $ln⟮OR⟯     = \log($OR);
+        $SS｛ln⟮OR⟯｝ = \sqrt((1 / $a) + (1 / $b) + (1 / $c) + (1 / $d));
 
         // Confidence interval
-        $ci_lower_bound = exp($ln⟮OR⟯ - (self::Z * $SS｛ln⟮OR⟯｝));
-        $ci_upper_bound = exp($ln⟮OR⟯ + (self::Z * $SS｛ln⟮OR⟯｝));
+        $ci_lower_bound = \exp($ln⟮OR⟯ - (self::Z * $SS｛ln⟮OR⟯｝));
+        $ci_upper_bound = \exp($ln⟮OR⟯ + (self::Z * $SS｛ln⟮OR⟯｝));
 
         // P-value (significance level)
-        $est = log($OR);                   // estimate of effect
-        $l   = log($ci_lower_bound);       // ln CI lower bound
-        $u   = log($ci_upper_bound);       // ln CI upper bound
+        $est = \log($OR);                   // estimate of effect
+        $l   = \log($ci_lower_bound);       // ln CI lower bound
+        $u   = \log($ci_upper_bound);       // ln CI upper bound
         $SE  = ($u - $l) / (2 * self::Z);  // standard error
-        $z   = abs($est / $SE);            // test statistic z
-        $p   = exp((self::NORMAL_LOWER_TAIL_PROBABILITY * $z) - (self::NORMAL_UPPER_TAIL_PROBABILITY * $z**2));
+        $z   = \abs($est / $SE);            // test statistic z
+        $p   = \exp((self::NORMAL_LOWER_TAIL_PROBABILITY * $z) - (self::NORMAL_UPPER_TAIL_PROBABILITY * $z ** 2));
 
         return [
             'OR'             => $OR,
@@ -206,7 +207,7 @@ class Experiment
      *
      * @return array [ LL+, LL- ]
      *
-     * @throws OutOfBoundsException if sensitivity or specificity are > 1.0
+     * @throws Exception\OutOfBoundsException if sensitivity or specificity are > 1.0
      */
     public static function likelihoodRatioSS(float $sensitivity, float $specificity): array
     {

@@ -1,5 +1,8 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\NumericalIntegration;
+
+use MathPHP\Exception;
 
 /**
  * Midpoint rule
@@ -22,7 +25,7 @@ namespace MathPHP\NumericalAnalysis\NumericalIntegration;
 class MidpointRule extends NumericalIntegration
 {
     /**
-     * Use the Midpoint rule to aproximate the definite integral of a
+     * Use the Midpoint rule to approximate the definite integral of a
      * function f(x). Our input can support either a set of arrays, or a callback
      * function with arguments (to produce a set of arrays). Each array in our
      * input contains two numbers which correspond to coordinates (x, y) or
@@ -52,21 +55,23 @@ class MidpointRule extends NumericalIntegration
      *
      *  where h = xᵢ₊₁ - xᵢ
      *  note: this implementation does not compute the error term.
-     * @param          $source   The source of our approximation. Should be either
-     *                           a callback function or a set of arrays. Each array
-     *                           (point) contains precisely two numbers, an x and y.
-     *                           Example array: [[1,2], [2,3], [3,4]].
-     *                           Example callback: function($x) {return $x**2;}
-     * @param numbers  ... $args The arguments of our callback function: start,
-     *                           end, and n. Example: approximate($source, 0, 8, 5).
-     *                           If $source is a set of points, do not input any
-     *                           $args. Example: approximate($source).
+     * @param callable|array $source The source of our approximation. Should be either
+     *                               a callback function or a set of arrays. Each array
+     *                               (point) contains precisely two numbers, an x and y.
+     *                               Example array: [[1,2], [2,3], [3,4]].
+     *                               Example callback: function($x) {return $x**2;}
+     * @param number        ...$args The arguments of our callback function: start,
+     *                               end, and n. Example: approximate($source, 0, 8, 5).
+     *                               If $source is a set of points, do not input any
+     *                               $args. Example: approximate($source).
      *
-     * @return number            The approximation to the integral of f(x)
+     * @return float                 The approximation to the integral of f(x)
+     *
+     * @throws Exception\BadDataException
      */
-    public static function approximate($source, ... $args)
+    public static function approximate($source, ...$args): float
     {
-        // get an array of points from our $source argument
+        // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
         // Validate input and sort points
@@ -78,7 +83,7 @@ class MidpointRule extends NumericalIntegration
         $y = self::Y;
 
         // Initialize
-        $n             = count($sorted);
+        $n             = \count($sorted);
         $steps         = $n - 1;
         $approximation = 0;
 
@@ -91,10 +96,10 @@ class MidpointRule extends NumericalIntegration
          */
         for ($i = 0; $i < $steps; $i++) {
             $xᵢ             = $sorted[$i][$x];
-            $xᵢ₊₁           = $sorted[$i+1][$x];
+            $xᵢ₊₁           = $sorted[$i + 1][$x];
             $f⟮xᵢ⟯           = $sorted[$i][$y];     // yᵢ
-            $f⟮xᵢ₊₁⟯         = $sorted[$i+1][$y];   // yᵢ₊₁
-            $midpoint       = ($f⟮xᵢ⟯+$f⟮xᵢ₊₁⟯) / 2;
+            $f⟮xᵢ₊₁⟯         = $sorted[$i + 1][$y];   // yᵢ₊₁
+            $midpoint       = ($f⟮xᵢ⟯ + $f⟮xᵢ₊₁⟯) / 2;
             $h              = $xᵢ₊₁ - $xᵢ;
             $approximation += $h * $midpoint;
         }

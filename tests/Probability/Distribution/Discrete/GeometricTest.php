@@ -1,17 +1,34 @@
 <?php
-namespace MathPHP\Probability\Distribution\Discrete;
 
-class GeometricTest extends \PHPUnit_Framework_TestCase
+namespace MathPHP\Tests\Probability\Distribution\Discrete;
+
+use MathPHP\Probability\Distribution\Discrete\Geometric;
+
+class GeometricTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @dataProvider dataProviderForPMF
+     * @test         pmf
+     * @dataProvider dataProviderForPmf
+     * @param        int   $k
+     * @param        float $p
+     * @param        float $expectedPmf
      */
-    public function testPMF(int $k, float $p, float $pmf)
+    public function testPmf(int $k, float $p, float $expectedPmf)
     {
-        $this->assertEquals($pmf, Geometric::PMF($k, $p), '', 0.001);
+        // Given
+        $geometric = new Geometric($p);
+
+        // When
+        $pmf = $geometric->pmf($k);
+
+        // Then
+        $this->assertEqualsWithDelta($expectedPmf, $pmf, 0.001);
     }
 
-    public function dataProviderForPMF()
+    /**
+     * @return array
+     */
+    public function dataProviderForPmf(): array
     {
         return [
             [ 5, 0.1, 0.059049 ],
@@ -27,14 +44,28 @@ class GeometricTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForCDF
+     * @test         cdf
+     * @dataProvider dataProviderForCdf
+     * @param        int   $k
+     * @param        float $p
+     * @param        float $expectedCdf
      */
-    public function testCDF(int $k, float $p, float $cdf)
+    public function testCdf(int $k, float $p, float $expectedCdf)
     {
-        $this->assertEquals($cdf, Geometric::CDF($k, $p), '', 0.001);
+        // Given
+        $geometric = new Geometric($p);
+
+        // When
+        $cdf = $geometric->cdf($k);
+
+        // Then
+        $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.001);
     }
 
-    public function dataProviderForCDF()
+    /**
+     * @return array
+     */
+    public function dataProviderForCdf(): array
     {
         return [
             [ 5, 0.1, 0.468559 ],
@@ -46,6 +77,138 @@ class GeometricTest extends \PHPUnit_Framework_TestCase
             [ 5, 0.09, 0.432130747959 ],
             [ 1, 1, 1 ],
             [ 2, 1, 1 ],
+        ];
+    }
+
+    /**
+     * @test         mean
+     * @dataProvider dataProviderForMean
+     * @param        float $p
+     * @param        float $μ
+     */
+    public function testMean(float $p, float $μ)
+    {
+        // Given
+        $geometric = new Geometric($p);
+
+        // When
+        $mean = $geometric->mean();
+
+        // Then
+        $this->assertEqualsWithDelta($μ, $mean, 0.000001);
+    }
+
+    /**
+     * @return array [p, μ]
+     */
+    public function dataProviderForMean(): array
+    {
+        return [
+            [0.1, 9],
+            [0.2, 4],
+            [0.5, 1],
+            [0.8, 0.25],
+            [0.9, 0.11111111111111],
+            [1, 0],
+        ];
+    }
+
+    /**
+     * @test         median
+     * @dataProvider dataProviderForMedian
+     * @param        float $p
+     * @param        float $expected
+     */
+    public function testMedian(float $p, float $expected)
+    {
+        // Given
+        $geometric = new Geometric($p);
+
+        // When
+        $median = $geometric->median();
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $median, 0.000001);
+    }
+
+    /**
+     * @return array [p, median]
+     */
+    public function dataProviderForMedian(): array
+    {
+        return [
+            [0.1, 6],
+            [0.2, 3],
+            [0.5, 0],
+            [0.8, 0],
+            [0.9, 0],
+            [1, -1],
+        ];
+    }
+
+    /**
+     * @test         mode
+     * @dataProvider dataProviderForMode
+     * @param        float $p
+     * @param        float $expected
+     */
+    public function testMode(float $p, float $expected)
+    {
+        // Given
+        $geometric = new Geometric($p);
+
+        // When
+        $mode = $geometric->mode();
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $mode, 0.000001);
+    }
+
+    /**
+     * @return array [p, mode]
+     */
+    public function dataProviderForMode(): array
+    {
+        return [
+            [0.1, 0],
+            [0.2, 0],
+            [0.5, 0],
+            [0.8, 0],
+            [0.9, 0],
+            [1, 0],
+        ];
+    }
+
+    /**
+     * @test         variance
+     * @dataProvider dataProviderForVariance
+     * @param        float $p
+     * @param        float $σ²
+     */
+    public function testVariance(float $p, float $σ²)
+    {
+        // Given
+        $geometric = new Geometric($p);
+
+        // When
+        $mode = $geometric->variance();
+
+        // Then
+        $this->assertEqualsWithDelta($σ², $mode, 0.000001);
+    }
+
+    /**
+     * @return array [p, variance]
+     */
+    public function dataProviderForVariance(): array
+    {
+        return [
+            [0.1, 90],
+            [0.2, 20],
+            [0.5, 2],
+            [0.8, 0.3125],
+            [0.9, 0.12345679012346],
+            [1, 0],
         ];
     }
 }

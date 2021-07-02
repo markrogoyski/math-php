@@ -1,43 +1,75 @@
 <?php
 
-namespace MathPHP\NumericalAnalysis\NumericalIntegration;
+namespace MathPHP\Tests\NumericalAnalysis\NumericalIntegration;
 
-class NumbericalIntegrationTest extends \PHPUnit_Framework_TestCase
+use MathPHP\NumericalAnalysis\NumericalIntegration\NumericalIntegration;
+use MathPHP\Exception;
+
+class NumericalIntegrationTest extends \PHPUnit\Framework\TestCase
 {
-    public function testInstantiateAbstractClassException()
-    {
-        // Instantiating NumericalIntegration (an abstract class)
-        $this->setExpectedException('\Error');
-        new NumericalIntegration;
-    }
 
+    /**
+     * @test   The input $source is neither a callback or a set of arrays
+     * @throws Exception\BadDataException
+     */
     public function testIncorrectInput()
     {
-        // The input $source is neither a callback or a set of arrays
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        // Given
         $x                 = 10;
-        $incorrectFunction = $x**2 + 2 * $x + 1;
+        $incorrectFunction = $x ** 2 + 2 * $x + 1;
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
         NumericalIntegration::getPoints($incorrectFunction, [0,4,5]);
     }
 
+    /**
+     * @test   An array doesn't have precisely two numbers (coordinates)
+     * @throws Exception\BadDataException
+     */
     public function testNotCoordinatesException()
     {
-        // An array doesn't have precisely two numbers (coordinates)
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
-        NumericalIntegration::validate([[0,0], [1,2,3], [2,2]]);
+        // Given
+        $points = [[0,0], [1,2,3], [2,2]];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        NumericalIntegration::validate($points);
     }
 
+    /**
+     * @test   There are not enough arrays in the input
+     * @throws Exception\BadDataException
+     */
     public function testNotEnoughArraysException()
     {
-        // There are not enough arrays in the input
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
-        NumericalIntegration::validate([[0,0]]);
+        // Given
+        $points = [[0,0]];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        NumericalIntegration::validate($points);
     }
 
+    /**
+     * @test   Two arrays share the same first number (x-component)
+     * @throws Exception\BadDataException
+     */
     public function testNotAFunctionException()
     {
-        // Two arrays share the same first number (x-component)
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
-        NumericalIntegration::validate([[0,0], [0,5], [1,1]]);
+        // Given
+        $points = [[0,0], [0,5], [1,1]];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        NumericalIntegration::validate($points);
     }
 }

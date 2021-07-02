@@ -1,22 +1,53 @@
 <?php
-namespace MathPHP\Number;
 
+namespace MathPHP\Tests\Number;
+
+use MathPHP\Number\Complex;
 use MathPHP\Exception;
+use MathPHP\Number\ObjectArithmetic;
 
-class ComplexTest extends \PHPUnit_Framework_TestCase
+class ComplexTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     __toString returns the proper string representation of a complex number
+     * @test Interfaces
+     */
+    public function testObjectArithmeticInterface()
+    {
+        // Given
+        $c = new Complex(1, 2);
+
+        // Then
+        $this->assertInstanceOf(ObjectArithmetic::class, $c);
+    }
+
+    public function testZeroValue()
+    {
+        // Given
+        $c = Complex::createZeroValue();
+
+        // Then
+        $this->assertEquals(0, $c->r);
+        $this->assertEquals(0, $c->i);
+    }
+
+    /**
+     * @test         __toString returns the proper string representation of a complex number
      * @dataProvider dataProviderForToString
      * @param        number $r
      * @param        number $i
-     * @param        string $string
+     * @param        string $expected
      */
-    public function testToString($r, $i, string $string)
+    public function testToString($r, $i, string $expected)
     {
+        // Given
         $complex = new Complex($r, $i);
-        $this->assertEquals($string, $complex->__toString());
-        $this->assertEquals($string, (string) $complex);
+
+        // When
+        $string = $complex->__toString();
+
+        // Then
+        $this->assertEquals($expected, $string);
+        $this->assertEquals($expected, (string) $complex);
     }
 
     public function dataProviderForToString(): array
@@ -47,42 +78,52 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase __get returns r and i
+     * @test __get returns r and i
      */
     public function testGet()
     {
+        // Given
         $r       = 1;
         $i       = 2;
         $complex = new Complex($r, $i);
 
+        // Then
         $this->assertEquals($r, $complex->r);
         $this->assertEquals($i, $complex->i);
     }
 
     /**
-     * @testCase __get throws an Exception\BadParameterException if a property other than r or i is attempted
+     * @test __get throws an Exception\BadParameterException if a property other than r or i is attempted
      */
     public function testGetException()
     {
+        // Given
         $r       = 1;
         $i       = 2;
         $complex = new Complex($r, $i);
 
-        $this->setExpectedException(Exception\BadParameterException::class);
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
         $z = $complex->z;
     }
-    
+
     /**
-     * @testCase     complexConjugate returns the expected Complex number
+     * @test         complexConjugate returns the expected Complex number
      * @dataProvider dataProviderForComplexConjugate
      * @param        number $r
      * @param        number $i
      */
     public function testComplexConjugate($r, $i)
     {
-        $c  = new Complex($r, $i);
+        // Given
+        $c = new Complex($r, $i);
+
+        // When
         $cc = $c->complexConjugate();
 
+        // Then
         $this->assertEquals($c->r, $cc->r);
         $this->assertEquals($c->i, -1 * $cc->i);
     }
@@ -100,7 +141,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     abs returns the expected value
+     * @test         abs returns the expected value
      * @dataProvider dataProviderForAbs
      * @param        number $r
      * @param        number $i
@@ -108,8 +149,14 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
      */
     public function testAbs($r, $i, $expected)
     {
+        // Given
         $c = new Complex($r, $i);
-        $this->assertEquals($expected, $c->abs());
+
+        // When
+        $abs = $c->abs();
+
+        // Then
+        $this->assertEquals($expected, $abs);
     }
 
     public function dataProviderForAbs(): array
@@ -118,19 +165,19 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
             [0, 0, 0],
             [1, 0, 1],
             [0, 1, 1],
-            [1, 2, sqrt(5)],
-            [2, 1, sqrt(5)],
-            [2, 2, sqrt(8)],
+            [1, 2, \sqrt(5)],
+            [2, 1, \sqrt(5)],
+            [2, 2, \sqrt(8)],
             [-1, 0, 1],
             [0, -1, 1],
-            [-1, 2, sqrt(5)],
-            [2, -1, sqrt(5)],
-            [-2, -2, sqrt(8)],
+            [-1, 2, \sqrt(5)],
+            [2, -1, \sqrt(5)],
+            [-2, -2, \sqrt(8)],
         ];
     }
 
     /**
-     * @testCase     arg returns the expected value
+     * @test         arg returns the expected value
      * @dataProvider dataProviderForArg
      * @param        number $r
      * @param        number $i
@@ -138,9 +185,14 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
      */
     public function testArg($r, $i, $expected)
     {
+        // Given
         $c = new Complex($r, $i);
 
-        $this->assertEquals($expected, $c->arg(), '', 0.00000001);
+        // When
+        $arg = $c->arg();
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $arg, 0.00000001);
     }
 
     public function dataProviderForArg(): array
@@ -163,7 +215,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     sqrt returns the expected positive Complex root
+     * @test         sqrt returns the expected positive Complex root
      * @dataProvider dataProviderForSqrt
      * @param        number $r
      * @param        number $i
@@ -172,18 +224,22 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
      */
     public function testSqrt($r, $i, $expected_r, $expected_i)
     {
-        $c    = new Complex($r, $i);
+        // Given
+        $c = new Complex($r, $i);
+
+        // When
         $sqrt = $c->sqrt();
 
-        $this->assertEquals($expected_r, $sqrt->r, '', 0.00001);
-        $this->assertEquals($expected_i, $sqrt->i, '', 0.00001);
+        // Then
+        $this->assertEqualsWithDelta($expected_r, $sqrt->r, 0.00001);
+        $this->assertEqualsWithDelta($expected_i, $sqrt->i, 0.00001);
     }
 
     public function dataProviderForSqrt(): array
     {
         return [
             [8, -6, 3, -1],
-            [9, 4, sqrt((9 + sqrt(97))/2), 2 * (sqrt(2/(9 + sqrt(97))))],
+            [9, 4, \sqrt((9 + \sqrt(97)) / 2), 2 * (sqrt(2 / (9 + \sqrt(97))))],
             [-4, -6, 1.2671, -2.3676],
             [0, 9, 2.1213203, 2.1213203],
             [10, -6, 3.2910412, -0.9115656],
@@ -196,7 +252,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     roots returns the expected array of two Complex roots
+     * @test         roots returns the expected array of two Complex roots
      * @dataProvider dataProviderForRoots
      * @param        number $r
      * @param        number $i
@@ -205,20 +261,24 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoots($r, $i, array $z₁, array $z₂)
     {
-        $c     = new Complex($r, $i);
+        // Given
+        $c = new Complex($r, $i);
+
+        // When
         $roots = $c->roots();
 
-        $this->assertEquals($z₁['r'], $roots[0]->r, '', 0.00001);
-        $this->assertEquals($z₁['i'], $roots[0]->i, '', 0.00001);
-        $this->assertEquals($z₂['r'], $roots[1]->r, '', 0.00001);
-        $this->assertEquals($z₂['i'], $roots[1]->i, '', 0.00001);
+        // Then
+        $this->assertEqualsWithDelta($z₁['r'], $roots[0]->r, 0.00001);
+        $this->assertEqualsWithDelta($z₁['i'], $roots[0]->i, 0.00001);
+        $this->assertEqualsWithDelta($z₂['r'], $roots[1]->r, 0.00001);
+        $this->assertEqualsWithDelta($z₂['i'], $roots[1]->i, 0.00001);
     }
 
     public function dataProviderForRoots(): array
     {
         return [
             [8, -6, ['r' => 3, 'i' => -1], ['r' => -3, 'i' => 1]],
-            [9, 4, ['r' => sqrt((9 + sqrt(97))/2), 'i' => 2 * (sqrt(2/(9 + sqrt(97))))], ['r' => -sqrt((9 + sqrt(97))/2), 'i' => -2 * (sqrt(2/(9 + sqrt(97))))]],
+            [9, 4, ['r' => \sqrt((9 + \sqrt(97)) / 2), 'i' => 2 * (sqrt(2 / (9 + \sqrt(97))))], ['r' => -sqrt((9 + \sqrt(97)) / 2), 'i' => -2 * (sqrt(2 / (9 + \sqrt(97))))]],
             [-4, -6, ['r' => 1.2671, 'i' => -2.3676], ['r' => -1.2671, 'i' => 2.3676]],
             [0, 9, ['r' => 2.1213203, 'i' => 2.1213203], ['r' => -2.1213203, 'i' => -2.1213203]],
             [10, -6, ['r' => 3.2910412, 'i' => -0.9115656], ['r' => -3.2910412, 'i' => 0.9115656]],
@@ -232,7 +292,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     negate returns the expected complex number with signs negated
+     * @test         negate returns the expected complex number with signs negated
      * @dataProvider dataProviderForNegate
      * @param        number $r₁
      * @param        number $i₁
@@ -241,10 +301,14 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
      */
     public function testNegate($r₁, $i₁, $r₂, $i₂)
     {
+        // Given
         $c        = new Complex($r₁, $i₁);
         $expected = new Complex($r₂, $i₂);
-        $negated  = $c->negate();
 
+        // When
+        $negated = $c->negate();
+
+        // Then
         $this->assertTrue($negated->equals($expected));
         $this->assertEquals($expected->r, $negated->r);
         $this->assertEquals($expected->i, $negated->i);
@@ -264,7 +328,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     polarForm returns the expected complex number
+     * @test         polarForm returns the expected complex number
      * @dataProvider dataProviderForPolarForm
      * @param        number $r₁
      * @param        number $i₁
@@ -273,12 +337,16 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
      */
     public function testPolarForm($r₁, $i₁, $r₂, $i₂)
     {
-        $c          = new Complex($r₁, $i₁);
-        $expected   = new Complex($r₂, $i₂);
+        // Given
+        $c        = new Complex($r₁, $i₁);
+        $expected = new Complex($r₂, $i₂);
+
+        // When
         $polar_form = $c->polarForm();
 
-        $this->assertEquals($expected->r, $polar_form->r, '', 0.00001);
-        $this->assertEquals($expected->i, $polar_form->i, '', 0.00001);
+        // Then
+        $this->assertEqualsWithDelta($expected->r, $polar_form->r, 0.00001);
+        $this->assertEqualsWithDelta($expected->i, $polar_form->i, 0.00001);
     }
 
     /**
@@ -288,21 +356,21 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForPolarForm(): array
     {
         return [
-            [5, 2, 5.3851648071 * cos(0.3805063771), 5.3851648071 * sin(0.3805063771)],
-            [49.90, 25.42, 56.0016642610 * cos(0.4711542561), 56.0016642610 * sin(0.4711542561)],
-            [-1, -1, 1.4142135624 * cos(-2.3561944902), 1.41421 * sin(-2.3561944902)],
-            [1, 0, 1 * cos(0), 1 * sin(0)],
-            [0, 1, 1 * cos(1.5707963268), 1 * sin(1.5707963268)],
+            [5, 2, 5.3851648071 * \cos(0.3805063771), 5.3851648071 *  \sin(0.3805063771)],
+            [49.90, 25.42, 56.0016642610 * \cos(0.4711542561), 56.0016642610 *  \sin(0.4711542561)],
+            [-1, -1, 1.4142135624 * \cos(-2.3561944902), 1.41421 *  \sin(-2.3561944902)],
+            [1, 0, 1 * \cos(0), 1 *  \sin(0)],
+            [0, 1, 1 * \cos(1.5707963268), 1 *  \sin(1.5707963268)],
             [0, 0, 0, 0],
-            [\M_PI, 2, 3.7241917782 * cos(0.5669115049), 3.7241917782 * sin(0.5669115049)],
-            [8, 9, 12.0415945788 * cos(0.8441539861), 12.0415945788 * sin(0.8441539861)],
-            [814, -54, 815.7891884550 * cos(-0.0662420059), 815.7891884550 * sin(-0.0662420059)],
-            [-5, -3, 5.8309518948 * cos(-2.6011731533), 5.8309518948 * sin(-2.6011731533)],
+            [\M_PI, 2, 3.7241917782 * \cos(0.5669115049), 3.7241917782 *  \sin(0.5669115049)],
+            [8, 9, 12.0415945788 * \cos(0.8441539861), 12.0415945788 *  \sin(0.8441539861)],
+            [814, -54, 815.7891884550 * \cos(-0.0662420059), 815.7891884550 *  \sin(-0.0662420059)],
+            [-5, -3, 5.8309518948 * \cos(-2.6011731533), 5.8309518948 *  \sin(-2.6011731533)],
         ];
     }
 
     /**
-     * @testCase     add of two complex numbers returns the expected complex number
+     * @test         add of two complex numbers returns the expected complex number
      * @dataProvider dataProviderForAdd
      * @param        array  $complex1
      * @param        array  $complex2
@@ -310,10 +378,14 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd(array $complex1, array $complex2, array $expected)
     {
-        $c1     = new Complex($complex1['r'], $complex1['i']);
-        $c2     = new Complex($complex2['r'], $complex2['i']);
+        // Given
+        $c1 = new Complex($complex1['r'], $complex1['i']);
+        $c2 = new Complex($complex2['r'], $complex2['i']);
+
+        // When
         $result = $c1->add($c2);
 
+        // Then
         $this->assertEquals($expected['r'], $result->r);
         $this->assertEquals($expected['i'], $result->i);
     }
@@ -345,14 +417,18 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     add of real numbers returns the expected complex number
+     * @test         add of real numbers returns the expected complex number
      * @dataProvider dataProviderForAddReal
      */
     public function testAddReal($complex, $real, $expected)
     {
-        $c      = new Complex($complex['r'], $complex['i']);
+        // Given
+        $c = new Complex($complex['r'], $complex['i']);
+
+        // When
         $result = $c->add($real);
 
+        // Then
         $this->assertEquals($expected['r'], $result->r);
         $this->assertEquals($expected['i'], $result->i);
     }
@@ -379,7 +455,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     subtract of two complex numbers returns the expected complex number
+     * @test         subtract of two complex numbers returns the expected complex number
      * @dataProvider dataProviderForSubtract
      * @param        array  $complex1
      * @param        array  $complex2
@@ -387,10 +463,14 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
      */
     public function testSubtract(array $complex1, array $complex2, array $expected)
     {
-        $c1     = new Complex($complex1['r'], $complex1['i']);
-        $c2     = new Complex($complex2['r'], $complex2['i']);
+        // Given
+        $c1 = new Complex($complex1['r'], $complex1['i']);
+        $c2 = new Complex($complex2['r'], $complex2['i']);
+
+        // When
         $result = $c1->subtract($c2);
 
+        // Then
         $this->assertEquals($expected['r'], $result->r);
         $this->assertEquals($expected['i'], $result->i);
     }
@@ -428,19 +508,23 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @testCase     subtract of real numbers returns the expected complex number
+     * @test         subtract of real numbers returns the expected complex number
      * @dataProvider dataProviderForSubtractReal
      */
     public function testSubtractReal($complex, $real, $expected)
     {
-        $c      = new Complex($complex['r'], $complex['i']);
+        // Given
+        $c = new Complex($complex['r'], $complex['i']);
+
+        // When
         $result = $c->subtract($real);
 
+        // Then
         $this->assertEquals($expected['r'], $result->r);
         $this->assertEquals($expected['i'], $result->i);
     }
 
-    public function dataProviderForSubtractReal()
+    public function dataProviderForSubtractReal(): array
     {
         return [
             [
@@ -462,7 +546,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     multiply of two complex numbers returns the expected complex number
+     * @test         multiply of two complex numbers returns the expected complex number
      * @dataProvider dataProviderForMultiply
      * @param        array  $complex1
      * @param        array  $complex2
@@ -470,10 +554,14 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
      */
     public function testMultiply(array $complex1, array $complex2, array $expected)
     {
-        $c1     = new Complex($complex1['r'], $complex1['i']);
-        $c2     = new Complex($complex2['r'], $complex2['i']);
+        // Given
+        $c1 = new Complex($complex1['r'], $complex1['i']);
+        $c2 = new Complex($complex2['r'], $complex2['i']);
+
+        // When
         $result = $c1->multiply($c2);
 
+        // Then
         $this->assertEquals($expected['r'], $result->r);
         $this->assertEquals($expected['i'], $result->i);
     }
@@ -505,14 +593,18 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     multiply of real numbers returns the expected complex number
+     * @test         multiply of real numbers returns the expected complex number
      * @dataProvider dataProviderForMultiplyReal
      */
     public function testMultiplyReal($complex, $real, $expected)
     {
-        $c      = new Complex($complex['r'], $complex['i']);
+        // Given
+        $c = new Complex($complex['r'], $complex['i']);
+
+        // When
         $result = $c->multiply($real);
 
+        // Then
         $this->assertEquals($expected['r'], $result->r);
         $this->assertEquals($expected['i'], $result->i);
     }
@@ -534,7 +626,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     divide of two complex numbers returns the expected complex number
+     * @test         divide of two complex numbers returns the expected complex number
      * @dataProvider dataProviderForDivide
      * @param        array  $complex1
      * @param        array  $complex2
@@ -542,10 +634,14 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
      */
     public function testDivide(array $complex1, array $complex2, array $expected)
     {
-        $c1     = new Complex($complex1['r'], $complex1['i']);
-        $c2     = new Complex($complex2['r'], $complex2['i']);
+        // Given
+        $c1 = new Complex($complex1['r'], $complex1['i']);
+        $c2 = new Complex($complex2['r'], $complex2['i']);
+
+        // When
         $result = $c1->divide($c2);
 
+        // Then
         $this->assertEquals($expected['r'], $result->r);
         $this->assertEquals($expected['i'], $result->i);
     }
@@ -561,30 +657,34 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
             [
                 ['r' => 5, 'i' => 5],
                 ['r' => 6, 'i' => 2],
-                ['r' => 1, 'i' => 1/2],
+                ['r' => 1, 'i' => 1 / 2],
             ],
             [
                 ['r' => 6, 'i' => 2],
                 ['r' => 7, 'i' => -7],
-                ['r' => 2/7, 'i' => 4/7],
+                ['r' => 2 / 7, 'i' => 4 / 7],
             ],
             [
                 ['r' => -56, 'i' => 3],
                 ['r' => -84, 'i' => -4],
-                ['r' => 69/104, 'i' => -7/104],
+                ['r' => 69 / 104, 'i' => -7 / 104],
             ],
         ];
     }
 
     /**
-     * @testCase     divide of real numbers returns the expected complex number
+     * @test         divide of real numbers returns the expected complex number
      * @dataProvider dataProviderForDivideReal
      */
     public function testDivideReal($complex, $real, $expected)
     {
-        $c      = new Complex($complex['r'], $complex['i']);
+        // Given
+        $c = new Complex($complex['r'], $complex['i']);
+
+        // When
         $result = $c->divide($real);
 
+        // Then
         $this->assertEquals($expected['r'], $result->r);
         $this->assertEquals($expected['i'], $result->i);
     }
@@ -595,7 +695,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
             [
                 ['r' => 4, 'i' => 1],
                 2,
-                ['r' => 2, 'i' => 1/2],
+                ['r' => 2, 'i' => 1 / 2],
             ],
             [
                 ['r' => 60, 'i' => 9],
@@ -606,51 +706,67 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase add throws an Exception\IncorrectTypeException when the argument is not a number or complex number
-     * @return [type] [description]
+     * @test add throws an Exception\IncorrectTypeException when the argument is not a number or complex number
      */
     public function testComplexAddException()
     {
+        // Given
         $complex = new Complex(1, 1);
-        $this->setExpectedException(Exception\IncorrectTypeException::class);
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
         $complex->add("string");
     }
 
     /**
-     * @testCase subtract throws an Exception\IncorrectTypeException when the argument is not a number or complex number
-     * @return [type] [description]
+     * @test subtract throws an Exception\IncorrectTypeException when the argument is not a number or complex number
      */
     public function testComplexSubtractException()
     {
+        // Given
         $complex = new Complex(1, 1);
-        $this->setExpectedException(Exception\IncorrectTypeException::class);
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
         $complex->subtract("string");
     }
 
     /**
-     * @testCase multiply throws an Exception\IncorrectTypeException when the argument is not a number or complex number
-     * @return [type] [description]
+     * @test multiply throws an Exception\IncorrectTypeException when the argument is not a number or complex number
      */
     public function testComplexMultiplyException()
     {
+        // Given
         $complex = new Complex(1, 1);
-        $this->setExpectedException(Exception\IncorrectTypeException::class);
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
         $complex->multiply("string");
     }
 
     /**
-     * @testCase divide throws an Exception\IncorrectTypeException when the argument is not a number or complex number
-     * @return [type] [description]
+     * @test divide throws an Exception\IncorrectTypeException when the argument is not a number or complex number
      */
     public function testComplexDivideException()
     {
+        // Given
         $complex = new Complex(1, 1);
-        $this->setExpectedException(Exception\IncorrectTypeException::class);
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
         $complex->divide("string");
     }
 
     /**
-     * @testCase     inverse returns the expected complex number
+     * @test         inverse returns the expected complex number
      * @dataProvider dataProviderForInverse
      * @param        number $r
      * @param        number $i
@@ -659,9 +775,13 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
      */
     public function testInverse($r, $i, $expected_r, $expected_i)
     {
-        $c       = new Complex($r, $i);
+        // Given
+        $c = new Complex($r, $i);
+
+        // When
         $inverse = $c->inverse();
 
+        // Then
         $this->assertEquals($expected_r, $inverse->r);
         $this->assertEquals($expected_i, $inverse->i);
     }
@@ -671,50 +791,65 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
         return [
             [1, 0, 1, 0],
             [0, 1, 0, -1],
-            [1, 1, 1/2, -1/2],
-            [4, 6, 1/13, -3/26],
-            [-4, 6, -1/13, -3/26],
-            [4, -6, 1/13, 3/26],
-            [-4, -6, -1/13, 3/26],
+            [1, 1, 1 / 2, -1 / 2],
+            [4, 6, 1 / 13, -3 / 26],
+            [-4, 6, -1 / 13, -3 / 26],
+            [4, -6, 1 / 13, 3 / 26],
+            [-4, -6, -1 / 13, 3 / 26],
         ];
     }
 
     /**
-     * @testCase inverse throws an Exception\BadDataException when value is 0 + 0i
+     * @test inverse throws an Exception\BadDataException when value is 0 + 0i
      */
     public function testInverseException()
     {
+        // Given
         $complex = new Complex(0, 0);
-        $this->setExpectedException(Exception\BadDataException::class);
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
         $complex->inverse();
     }
 
     /**
-     * @testCase     equals returns true if the complex numbers are the same
+     * @test         equals returns true if the complex numbers are the same
      * @dataProvider dataProviderForComplexNumbers
      * @param        number $r
      * @param        number $i
      */
     public function testEqualsTrue($r, $i)
     {
+        // Given
         $c1 = new Complex($r, $i);
         $c2 = new Complex($r, $i);
 
-        $this->assertTrue($c1->Equals($c2));
+        // When
+        $isEqual = $c1->Equals($c2);
+
+        // Then
+        $this->assertTrue($isEqual);
     }
 
     /**
-     * @testCase     equals returns false if the complex numbers are different
+     * @test         equals returns false if the complex numbers are different
      * @dataProvider dataProviderForComplexNumbers
      * @param        number $r
      * @param        number $i
      */
     public function testEqualsFalse($r, $i)
     {
+        // Given
         $c1 = new Complex($r, $i);
         $c2 = new Complex($r + 1, $i - 1);
 
-        $this->assertFalse($c1->Equals($c2));
+        // When
+        $isNotEqual = $c1->Equals($c2);
+
+        // Then
+        $this->assertFalse($isNotEqual);
     }
 
     public function dataProviderForComplexNumbers(): array

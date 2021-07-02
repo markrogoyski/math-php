@@ -1,18 +1,30 @@
 <?php
-namespace MathPHP\Probability\Distribution\Table;
 
-class StandardNormalTest extends \PHPUnit_Framework_TestCase
+namespace MathPHP\Tests\Probability\Distribution\Table;
+
+use MathPHP\Probability\Distribution\Table\StandardNormal;
+use MathPHP\Exception;
+
+class StandardNormalTableTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
+     * @test         z score
      * @dataProvider dataProviderForZScores
+     * @param        float $Z
+     * @param        float $Φ
+     * @throws       \Exception
      */
-    public function testGetZScoreProbability($Z, $Φ)
+    public function testGetZScoreProbability(float $Z, float $Φ)
     {
-        $this->assertEquals($Φ, StandardNormal::getZScoreProbability($Z), '', 0.0001);
+        // When
+        $score = StandardNormal::getZScoreProbability($Z);
+
+        // Then
+        $this->assertEqualsWithDelta($Φ, $score, 0.0001);
     }
 
-    public function dataProviderForZScores()
+    public function dataProviderForZScores(): array
     {
         return [
             [ 0, 0.5000 ], [ 0.01, 0.5040 ], [ 0.02, 0.5080 ],
@@ -24,21 +36,36 @@ class StandardNormalTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @test   bad format exception
+     * @throws \Exception
+     */
     public function testGetZScoreProbabilityExceptionZBadFormat()
     {
-        $this->setExpectedException('MathPHP\Exception\BadParameterException');
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
         StandardNormal::getZScoreProbability('12.34');
     }
 
     /**
+     * @test         confidence interval score
      * @dataProvider dataProviderForZScoresForConfidenceInterval
+     * @param        mixed $cl
+     * @param        float  $Z
+     * @throws       \Exception
      */
-    public function testGetZScoreForConfidenceInterval(string $cl, float $Z)
+    public function testGetZScoreForConfidenceInterval($cl, float $Z)
     {
-        $this->assertEquals($Z, StandardNormal::getZScoreForConfidenceInterval($cl), '', 0.01);
+        // When
+        $score = StandardNormal::getZScoreForConfidenceInterval($cl);
+
+        // Then
+        $this->assertEqualsWithDelta($Z, $score, 0.01);
     }
 
-    public function dataProviderForZScoresForConfidenceInterval()
+    public function dataProviderForZScoresForConfidenceInterval(): array
     {
         return [
             [50, 0.67449],
@@ -49,9 +76,16 @@ class StandardNormalTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @test   confidence interval invalid exception
+     * @throws \Exception
+     */
     public function testGetZScoreForConfidenceIntervalInvalidConfidenceLevel()
     {
-        $this->setExpectedException('MathPHP\Exception\BadDataException');
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
         StandardNormal::getZScoreForConfidenceInterval(12);
     }
 }

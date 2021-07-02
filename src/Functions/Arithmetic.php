@@ -11,13 +11,13 @@ class Arithmetic
      * Adds any number of single variable (callback) functions {f(x)}. Returns
      * the sum as a callback function.
      *
-     * @param callable ... $args Two or more single-variable callback functions
+     * @param callable ...$args Two or more single-variable callback functions
      *
-     * @return callable          Sum of the input functions
+     * @return callable         Sum of the input functions
      */
-    public static function add(callable ...$args)
+    public static function add(callable ...$args): callable
     {
-        $sum = function ($x, ... $args) {
+        $sum = function ($x, ...$args) {
             $function = 0;
             foreach ($args as $arg) {
                 $function += $arg($x);
@@ -26,7 +26,7 @@ class Arithmetic
         };
 
         return function ($x) use ($args, $sum) {
-            return call_user_func_array($sum, array_merge([$x], $args));
+            return $sum(...\array_merge([$x], $args));
         };
     }
 
@@ -34,13 +34,13 @@ class Arithmetic
      * Multiplies any number of single variable (callback) functions {f(x)}.
      * Returns the product as a callback function.
      *
-     * @param callable ... $args Two or more single-variable callback functions
+     * @param callable ...$args Two or more single-variable callback functions
      *
-     * @return callable          Product of the input functions
+     * @return callable         Product of the input functions
      */
-    public static function multiply(callable ...$args)
+    public static function multiply(callable ...$args): callable
     {
-        $product = function ($x, ... $args) {
+        $product = function ($x, ...$args) {
             $function = 1;
             foreach ($args as $arg) {
                 $function *= $arg($x);
@@ -49,7 +49,7 @@ class Arithmetic
         };
 
         return function ($x) use ($args, $product) {
-            return call_user_func_array($product, array_merge([$x], $args));
+            return $product(...\array_merge([$x], $args));
         };
     }
 }

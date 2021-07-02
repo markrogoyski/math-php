@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 use MathPHP\Functions\Support;
@@ -11,18 +12,40 @@ class Logistic extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x ∈ (-∞,∞)
      * μ ∈ (-∞,∞)
      * s ∈ (0,∞)
-     * p ∈ [0,1]
      * @var array
      */
-    const LIMITS = [
-        'x' => '(-∞,∞)',
+    public const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
         's' => '(0,∞)',
-        'p' => '[0,1]',
     ];
+
+    /**
+     * Distribution support bounds limits
+     * x ∈ (-∞,∞)
+     * @var array
+     */
+    public const SUPPORT_LIMITS = [
+        'x' => '(-∞,∞)',
+    ];
+
+    /** @var float Location Parameter */
+    protected $μ;
+
+    /** @var float Scale Parameter */
+    protected $s;
+
+    /**
+     * Constructor
+     *
+     * @param float $μ shape parameter
+     * @param float $s shape parameter s > 0
+     */
+    public function __construct(float $μ, float $s)
+    {
+        parent::__construct($μ, $s);
+    }
 
     /**
      * Probability density function
@@ -35,18 +58,19 @@ class Logistic extends Continuous
      *              s| 1 + exp| - -----  | |
      *                \        \    s   / /
      *
-     * @param number $x
-     * @param number $μ location parameter
-     * @param number $s scale parameter > 0
+     * @param float $x
      *
      * @return float
      */
-    public static function PDF($x, $μ, $s)
+    public function pdf(float $x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
-        $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
-        return $ℯ＾⁻⁽x⁻μ⁾／s / ($s * pow(1 + $ℯ＾⁻⁽x⁻μ⁾／s, 2));
+        $μ = $this->μ;
+        $s = $this->s;
+
+        $ℯ＾⁻⁽x⁻μ⁾／s = \exp(-($x - $μ) / $s);
+        return $ℯ＾⁻⁽x⁻μ⁾／s / ($s * \pow(1 + $ℯ＾⁻⁽x⁻μ⁾／s, 2));
     }
     /**
      * Cumulative distribution function
@@ -58,37 +82,21 @@ class Logistic extends Continuous
      *              1 + exp| - -----  |
      *                      \    s   /
      *
-     * @param number $μ location parameter
-     * @param number $s scale parameter
-     * @param number $x
+     * @param float $x
      *
      * @return float
      */
-    public static function CDF($x, $μ, $s)
+    public function cdf(float $x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'μ' => $μ, 's' => $s]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
-        $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
+        $μ = $this->μ;
+        $s = $this->s;
+
+        $ℯ＾⁻⁽x⁻μ⁾／s = \exp(-($x - $μ) / $s);
         return 1 / (1 + $ℯ＾⁻⁽x⁻μ⁾／s);
     }
-    
-    /**
-     * Mean of the distribution
-     *
-     * μ = μ
-     *
-     * @param number $μ location parameter
-     * @param number $s scale parameter
-     *
-     * @return μ
-     */
-    public static function mean($μ, $s)
-    {
-        Support::checkLimits(self::LIMITS, ['μ' => $μ, 's' => $s]);
 
-        return $μ;
-    }
-    
     /**
      * Inverse CDF (quantile function)
      *
@@ -96,18 +104,73 @@ class Logistic extends Continuous
      * Q(p;μ,s) = μ + s ln|  -----  |
      *                     \ 1 - p /
      *
-     * @param number $p
-     * @param number $μ
-     * @param number $s
+     * @param float $p
      *
-     * @return number
+     * @return float
      */
-    public static function inverse($p, ...$params)
+    public function inverse(float $p): float
     {
-        $μ = $params[0];
-        $s = $params[1];
-        Support::checkLimits(self::LIMITS, ['μ' => $μ, 's' => $s, 'p' => $p]);
+        Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
+        $μ = $this->μ;
+        $s = $this->s;
 
-        return $μ + $s * log($p / (1 - $p));
+        if ($p == 1) {
+            return \INF;
+        }
+
+        return $μ + $s * \log($p / (1 - $p));
+    }
+
+    /**
+     * Mean of the distribution
+     *
+     * μ = μ
+     *
+     * @return float μ
+     */
+    public function mean(): float
+    {
+        return $this->μ;
+    }
+
+    /**
+     * Median of the distribution
+     *
+     * median = μ
+     *
+     * @return float μ
+     */
+    public function median(): float
+    {
+        return $this->μ;
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     * mode = μ
+     *
+     * @return float μ
+     */
+    public function mode(): float
+    {
+        return $this->μ;
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     *          s²π²
+     * var[X] = ----
+     *           3
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $s² = $this->s ** 2;
+        $π² = \M_PI ** 2;
+
+        return ($s² * $π²) / 3;
     }
 }

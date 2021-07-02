@@ -1,0 +1,95 @@
+name: Test and Static Analysis (Develop and Master)
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+
+jobs:
+  test-and-static-analysis:
+    name: Test and Static Analysis
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['7.2', '7.3', '7.4', '8.0']
+
+    steps:
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+          tools: composer:v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: PHP Version Check
+        run: php -v
+
+      - name: Validate Composer JSON
+        run: composer validate
+
+      - name: Run Composer
+        run: composer install --no-interaction
+
+      - name: PHP Lint
+        run: ./vendor/bin/parallel-lint src tests
+
+      - name: Unit tests
+        run: |
+          mkdir -p build/logs
+          ./vendor/bin/phpunit --version
+          echo "Test suite AllButLinearAlgebra"
+          ./vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=AllButLinearAlgebra
+          echo "Test suite Linear Algebra"
+          ./vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=LinearAlgebra
+
+      - name: PHP Code Sniffer
+        run: ./vendor/bin/phpcs --ignore=vendor --standard=tests/coding_standard.xml -s .
+
+  code-coverage:
+    name: Code coverage
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['7.4']
+
+    steps:
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+          tools: composer:v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Run Composer
+        run: composer install --no-interaction
+
+      - name: Unit tests
+        run: |
+          mkdir -p build/logs
+          ./vendor/bin/phpunit --configuration tests/phpunit.xml --coverage-clover build/logs/clover.xml
+
+      - name: Code Coverage (Coveralls)
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: php vendor/bin/php-coveralls -v

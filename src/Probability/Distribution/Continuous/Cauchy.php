@@ -1,7 +1,7 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
-use MathPHP\Functions\Special;
 use MathPHP\Functions\Support;
 
 /**
@@ -12,18 +12,40 @@ class Cauchy extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * p  ∈ [0,1]
-     * x  ∈ (-∞,∞)
      * x₀ ∈ (-∞,∞)
      * γ  ∈ (0,∞)
      * @var array
      */
-    const LIMITS = [
-        'x'  => '(-∞,∞)',
+    public const PARAMETER_LIMITS = [
         'x₀' => '(-∞,∞)',
         'γ'  => '(0,∞)',
-        'p'  => '[0,1]',
     ];
+
+    /**
+     * Distribution support bounds limits
+     * x  ∈ (-∞,∞)
+     * @var array
+     */
+    public const SUPPORT_LIMITS = [
+        'x'  => '(-∞,∞)',
+    ];
+
+    /** @var number Location Parameter */
+    protected $x₀;
+
+    /** @var number Scale Parameter */
+    protected $γ;
+
+    /**
+     * Constructor
+     *
+     * @param float $x₀ location parameter
+     * @param float $γ  scale parameter γ > 0
+     */
+    public function __construct(float $x₀, float $γ)
+    {
+        parent::__construct($x₀, $γ);
+    }
 
     /**
      * Probability density function
@@ -34,98 +56,100 @@ class Cauchy extends Continuous
      *    πγ | 1  +  | ---------|  |
      *       └        \    γ   /   ┘
      *
-     * @param number $x
-     * @param number $x₀ location
-     * @param int    $γ  scale
+     * @param float $x
      *
-     * @return number
+     * @return float
      */
-    public static function PDF($x, $x₀, $γ)
+    public function pdf(float $x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'x₀' => $x₀, 'γ' => $γ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
-        $π = \M_PI;
+        $x₀ = $this->x₀;
+        $γ  = $this->γ;
+        $π  = \M_PI;
+
         return 1 / ($π * $γ * (1 + (($x - $x₀) / $γ) ** 2));
     }
-    
+
     /**
      * Cumulative distribution function
      * Calculate the cumulative value value up to a point, left tail.
      *
-     * @param number $x
-     * @param number $x₀ location
-     * @param int    $γ  scale
+     * @param float $x
      *
-     * @return number
+     * @return float
      */
-    public static function CDF($x, $x₀, $γ)
+    public function cdf(float $x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'x₀' => $x₀, 'γ' => $γ]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
-        $π = \M_PI;
-        return 1 / $π * atan(($x - $x₀) / $γ) + .5;
+        $x₀ = $this->x₀;
+        $γ  = $this->γ;
+        $π  = \M_PI;
+
+        return 1 / $π * \atan(($x - $x₀) / $γ) + .5;
     }
-    
-    /**
-     * Mean of the distribution (undefined)
-     *
-     * μ is undefined
-     *
-     * @param number $x₀ location
-     * @param int    $γ  scale
-     *
-     * @return null
-     */
-    public static function mean($x₀, $γ)
-    {
-        return \NAN;
-    }
-        
-    /**
-     * Meadian of the distribution
-     *
-     * @param number $x₀ location
-     * @param int    $γ  scale
-     *
-     * @return x₀
-     */
-    public static function median($x₀, $γ)
-    {
-        return $x₀;
-    }
-    
-    /**
-     * Mode of the distribution
-     *
-     * @param number $x₀ location
-     * @param int    $γ  scale
-     *
-     * @return x₀
-     */
-    public static function mode($x₀, $γ)
-    {
-        return $x₀;
-    }
-    
+
     /**
      * Inverse CDF (Quantile function)
      *
      * Q(p;x₀,γ) = x₀ + γ tan[π(p - ½)]
      *
-     * @param number $p
-     * @param number $x₀
-     * @param number $γ
+     * @param float $p
      *
-     * @return number
+     * @return float
      */
-    public static function inverse($p, ...$params)
+    public function inverse(float $p): float
     {
-        $x₀ = $params[0];
-        $γ  = $params[1];
-        Support::checkLimits(self::LIMITS, ['x₀' => $x₀, 'γ' => $γ, 'p' => $p]);
+        Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
+
+        $x₀ = $this->x₀;
+        $γ  = $this->γ;
 
         $π = \M_PI;
 
-        return $x₀ + $γ * tan($π * ($p - .5));
+        return $x₀ + $γ * \tan($π * ($p - .5));
+    }
+
+    /**
+     * Mean of the distribution (undefined)
+     *
+     * μ is undefined
+     *
+     * @return float \NAN
+     */
+    public function mean(): float
+    {
+        return \NAN;
+    }
+
+    /**
+     * Median of the distribution
+     *
+     * @return float x₀
+     */
+    public function median(): float
+    {
+        return $this->x₀;
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     * @return float x₀
+     */
+    public function mode(): float
+    {
+        return $this->x₀;
+    }
+
+    /**
+     * Variance of the distribution (undefined)
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        return \NAN;
     }
 }

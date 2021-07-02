@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 use MathPHP\Functions\Special;
@@ -12,16 +13,40 @@ class F extends Continuous
 {
     /**
      * Distribution parameter bounds limits
-     * x  ∈ [0,∞)
      * d₁ ∈ (0,∞)
      * d₂ ∈ (0,∞)
      * @var array
      */
-    const LIMITS = [
-        'x'  => '[0,∞)',
+    public const PARAMETER_LIMITS = [
         'd₁' => '(0,∞)',
         'd₂' => '(0,∞)',
     ];
+
+    /**
+     * Distribution Support bounds limits
+     * x  ∈ [0,∞)
+     * @var array
+     */
+    public const SUPPORT_LIMITS = [
+        'x'  => '[0,∞)',
+    ];
+
+    /** @var float Degree of Freedom Parameter */
+    protected $d₁;
+
+    /** @var float Degree of Freedom Parameter */
+    protected $d₂;
+
+    /**
+     * Constructor
+     *
+     * @param float $d₁ degree of freedom parameter d₁ > 0
+     * @param float $d₂ degree of freedom parameter d₂ > 0
+     */
+    public function __construct(float $d₁, float $d₂)
+    {
+        parent::__construct($d₁, $d₂);
+    }
 
     /**
      * Probability density function
@@ -35,22 +60,23 @@ class F extends Continuous
      *      x B |  --, --  |
      *           \ 2   2  /
      *
-     * @param number $x  percentile ≥ 0
-     * @param int    $d₁ degree of freedom v1 > 0
-     * @param int    $d₂ degree of freedom v2 > 0
+     * @param float $x  percentile ≥ 0
      *
      * @todo how to handle x = 0
      *
-     * @return number probability
+     * @return float probability
      */
-    public static function PDF($x, int $d₁, int $d₂)
+    public function pdf(float $x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'd₁' => $d₁, 'd₂' => $d₂]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $d₁ = $this->d₁;
+        $d₂ = $this->d₂;
 
         // Numerator
-        $⟮d₁x⟯ᵈ¹d₂ᵈ²                = ($d₁ * $x)**$d₁ * $d₂**$d₂;
-        $⟮d₁x＋d₂⟯ᵈ¹⁺ᵈ²             = ($d₁ * $x + $d₂)**($d₁ + $d₂);
-        $√⟮d₁x⟯ᵈ¹d₂ᵈ²／⟮d₁x＋d₂⟯ᵈ¹⁺ᵈ² = sqrt($⟮d₁x⟯ᵈ¹d₂ᵈ² / $⟮d₁x＋d₂⟯ᵈ¹⁺ᵈ²);
+        $⟮d₁x⟯ᵈ¹d₂ᵈ²                = ($d₁ * $x) ** $d₁ * $d₂ ** $d₂;
+        $⟮d₁x＋d₂⟯ᵈ¹⁺ᵈ²             = ($d₁ * $x + $d₂) ** ($d₁ + $d₂);
+        $√⟮d₁x⟯ᵈ¹d₂ᵈ²／⟮d₁x＋d₂⟯ᵈ¹⁺ᵈ² = \sqrt($⟮d₁x⟯ᵈ¹d₂ᵈ² / $⟮d₁x＋d₂⟯ᵈ¹⁺ᵈ²);
 
         // Denominator
         $xB⟮d₁／2、d₂／2⟯ = $x * Special::beta($d₁ / 2, $d₂ / 2);
@@ -69,21 +95,22 @@ class F extends Continuous
      *
      * Where I is the regularized incomplete beta function.
      *
-     * @param number $x  percentile ≥ 0
-     * @param int    $d₁ degree of freedom v1 > 0
-     * @param int    $d₂ degree of freedom v2 > 0
+     * @param float $x  percentile ≥ 0
      *
-     * @return number
+     * @return float
      */
-    public static function CDF($x, int $d₁, int $d₂)
+    public function cdf(float $x): float
     {
-        Support::checkLimits(self::LIMITS, ['x' => $x, 'd₁' => $d₁, 'd₂' => $d₂]);
+        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
+
+        $d₁ = $this->d₁;
+        $d₂ = $this->d₂;
 
         $ᵈ¹ˣ／d₁x＋d₂ = ($d₁ * $x) / ($d₁ * $x + $d₂);
 
-        return Special::regularizedIncompleteBeta($ᵈ¹ˣ／d₁x＋d₂, $d₁/2, $d₂/2);
+        return Special::regularizedIncompleteBeta($ᵈ¹ˣ／d₁x＋d₂, $d₁ / 2, $d₂ / 2);
     }
-    
+
     /**
      * Mean of the distribution
      *
@@ -91,17 +118,73 @@ class F extends Continuous
      * μ = ------  for d₂ > 2
      *     d₂ - 2
      *
-     * @param int $d₁ degree of freedom v1 > 0
-     * @param int $d₂ degree of freedom v2 > 0
-     *
-     * @return number
+     * @return float
      */
-    public static function mean(int $d₁, int $d₂)
+    public function mean(): float
     {
+        $d₂ = $this->d₂;
+
         if ($d₂ > 2) {
             return $d₂ / ($d₂ - 2);
         }
 
         return \NAN;
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     *        d₁ - 2   d₂
+     * mode = ------ ------     d₁ > 2
+     *          d₁   d₂ + 2
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        $d₁ = $this->d₁;
+        $d₂ = $this->d₂;
+
+        if ($d₁ <= 2) {
+            return \NAN;
+        }
+
+        return (($d₁ - 2) / $d₁) * ($d₂ / ($d₂ + 2));
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     *          2d₂²(d₁ + d₂ - 2)
+     * var[X] = -------------------   d₂ > 4
+     *          d₁(d₂ - 2)²(d₂ - 4)
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $d₁ = $this->d₁;
+        $d₂ = $this->d₂;
+
+        if ($d₂ <= 4) {
+            return \NAN;
+        }
+
+        $２d₂²⟮d₁ ＋ d₂ − 2⟯ = (2 * $d₂ ** 2) * ($d₁ + $d₂ - 2);
+        $d₁⟮d₂ − 2⟯²⟮d₂ − 4⟯  = ($d₁ * ($d₂ - 2) ** 2) * ($d₂ - 4);
+
+        return $２d₂²⟮d₁ ＋ d₂ − 2⟯ / $d₁⟮d₂ − 2⟯²⟮d₂ − 4⟯;
+    }
+
+    /**
+     * Median of the distribution
+     * @note: This is probably not correct and should be updated.
+     * @todo: Replace with actual median calculation.
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        return $this->mean();
     }
 }
