@@ -91,7 +91,7 @@ class Quaternion implements ObjectArithmetic
             $tj = "$this->j" . 'j';
             $tk = "$this->k" . 'k';
 
-            $chk0 = function($q) {
+            $chk0 = function ($q) {
                 if ($q == 0) {
                     return "";
                 } else {
@@ -99,7 +99,7 @@ class Quaternion implements ObjectArithmetic
                 }
             };
 
-            $chk0i = function($q, $unit) {
+            $chk0i = function ($q, $unit) {
                 if ($q == 0) {
                     return "";
                 } else {
@@ -165,7 +165,7 @@ class Quaternion implements ObjectArithmetic
      */
     public function abs()
     {
-        return sqrt($this->r**2 + $this->i**2 + $this->j**2 + $this->k**2);
+        return sqrt($this->r ** 2 + $this->i ** 2 + $this->j ** 2 + $this->k ** 2);
     }
 
     /**
@@ -195,33 +195,6 @@ class Quaternion implements ObjectArithmetic
     public function negate(): Quaternion
     {
         return new Quaternion(-$this->r, -$this->i , -$this->j, -$this->k);
-    }
-
-    /**
-     * Polar form
-     * https://en.wikipedia.org/wiki/Complex_number#Polar_form
-     *
-     * z = a + bi = r(cos(θ) + i sin(θ))
-     * Where
-     *  r = |z|
-     *  θ = arg(z) (in radians)
-     *
-     * @return Quaternion
-     */
-    public function polarForm(): Quaternion
-    {
-        global $B;
-        $A = $this->abs();
-        $B = Math.sqrt($A**2 - $this->r**2);
-        $θ = Math.acos($this->r / $A);
-        $cosθ = $this->r / $A;
-        $cosPhi = function ($q) {
-            global $B;
-            return $q / $B;
-        };
-
-        return new Quaternion($A*$cosθ, $A * Math.sin($θ)*$cosPhi($this->i), $A * Math.sin($θ)*$cosPhi($this->j),
-            $A * Math.sin($θ)*$cosPhi($this->k));
     }
 
     /**************************************************************************
