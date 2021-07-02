@@ -1058,7 +1058,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             if ($value instanceof Set) {
                 $this->assertEquals($value, $union_array["$value"]);
             } else {
-                $this->assertContains("$value", $union_array);
+                $this->assertContains((string) $value, $union_array);
             }
         }
     }
