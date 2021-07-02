@@ -234,24 +234,24 @@ class Quaternion implements ObjectArithmetic
      *
      * (a + bi + cj + dk) - (e + fi + gj + hk) = (a + e) + (b + f)i + (c + g)j + (d + h)k
      *
-     * @param mixed $c
+     * @param mixed $q
      *
      * @return Quaternion
      *
      * @throws Exception\IncorrectTypeException if the argument is not numeric or Complex.
      */
-    public function add($c): Quaternion
+    public function add($q): Quaternion
     {
-        if (is_numeric($c)) {
-            $r = $this->r + $c;
+        if (is_numeric($q)) {
+            $r = $this->r + $q;
             $i = $this->i;
             $j = $this->j;
             $k = $this->k;
-        } elseif ($c instanceof Quaternion) {
-            $r = $this->r + $c->r;
-            $i = $this->i + $c->i;
-            $j = $this->j + $c->j;
-            $k = $this->k + $c->k;
+        } elseif ($q instanceof Quaternion) {
+            $r = $this->r + $q->r;
+            $i = $this->i + $q->i;
+            $j = $this->j + $q->j;
+            $k = $this->k + $q->k;
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or quaternion');
         }
@@ -265,24 +265,24 @@ class Quaternion implements ObjectArithmetic
      *
      * (a + bi + cj + dk) - (e + fi + gj + hk) = (a - e) + (b - f)i + (c - g)j + (d - h)k
      *
-     * @param mixed $c
+     * @param mixed $q
      *
      * @return Quaternion
      *
      * @throws Exception\IncorrectTypeException if the argument is not numeric or Complex.
      */
-    public function subtract($c): Quaternion
+    public function subtract($q): Quaternion
     {
-        if (is_numeric($c)) {
-            $r = $this->r - $c;
+        if (is_numeric($q)) {
+            $r = $this->r - $q;
             $i = $this->i;
             $j = $this->j;
             $k = $this->k;
-        } elseif ($c instanceof Quaternion) {
-            $r = $this->r - $c->r;
-            $i = $this->i - $c->i;
-            $j = $this->j - $c->j;
-            $k = $this->k - $c->k;
+        } elseif ($q instanceof Quaternion) {
+            $r = $this->r - $q->r;
+            $i = $this->i - $q->i;
+            $j = $this->j - $q->j;
+            $k = $this->k - $q->k;
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or quaternion');
         }
@@ -295,28 +295,28 @@ class Quaternion implements ObjectArithmetic
      *
      * Quaternion multiplication is not commutative.
      *
-     * @param mixed $c
+     * @param mixed $q
      *
      * @return Quaternion
      *
      * @throws Exception\IncorrectTypeException if the argument is not numeric or Complex.
      */
-    public function multiply($c): Quaternion
+    public function multiply($q): Quaternion
     {
         $a = $this->r;
         $b = $this->i;
         $c = $this->j;
         $d = $this->k;
-        if (is_numeric($c)) {
-            $e = $c;
+        if (is_numeric($q)) {
+            $e = $q;
             $f = 0;
             $g = 0;
             $h = 0;
         } elseif ($c instanceof Quaternion) {
-            $e = $c->r;
-            $f = $c->i;
-            $g = $c->j;
-            $h = $c->k;
+            $e = $q->r;
+            $f = $q->i;
+            $g = $q->j;
+            $h = $q->k;
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or quaternion');
         }
@@ -329,22 +329,22 @@ class Quaternion implements ObjectArithmetic
      * Dividing two quaternions is accomplished by multiplying the first by the inverse of the second
      * This is not commutative!
      *
-     * @param mixed $c
+     * @param mixed $q
      *
      * @return Quaternion
      *
      * @throws Exception\IncorrectTypeException if the argument is not numeric or Complex.
      */
-    public function divide($c): Quaternion
+    public function divide($q): Quaternion
     {
-        if (is_numeric($c)) {
-            $r = $this->r / $c;
-            $i = $this->i / $c;
-            $j = $this->j / $c;
-            $k = $this->k / $c;
+        if (is_numeric($q)) {
+            $r = $this->r / $q;
+            $i = $this->i / $q;
+            $j = $this->j / $q;
+            $k = $this->k / $q;
             return new Quaternion($r, $i, $j, $k);
-        } elseif ($c instanceof Quaternion) {
-            return $this->multiply($c->inverse());
+        } elseif ($q instanceof Quaternion) {
+            return $this->multiply($q->inverse());
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or quaternion');
         }
@@ -359,13 +359,13 @@ class Quaternion implements ObjectArithmetic
      * Two quaternions are equal if and only if both their real and imaginary parts are equal.
      *
      *
-     * @param Quaternion $c
+     * @param Quaternion $q
      *
      * @return bool
      */
-    public function equals(Quaternion $c): bool
+    public function equals(Quaternion $q): bool
     {
-        return \abs($this->r - $c->r) < self::EPSILON && \abs($this->i - $c->i) < self::EPSILON
-            && \abs($this->j - $c->j) < self::EPSILON && \abs($this->k - $c->k) < self::EPSILON;
+        return \abs($this->r - $q->r) < self::EPSILON && \abs($this->i - $q->i) < self::EPSILON
+            && \abs($this->j - $q->j) < self::EPSILON && \abs($this->k - $q->k) < self::EPSILON;
     }
 }
