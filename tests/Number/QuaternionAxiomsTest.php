@@ -28,10 +28,10 @@ class QuaternionNumberAxiomsTest extends \PHPUnit\Framework\TestCase
      * @param        int $i
      * @throws       \Exception
      */
-    public function testAdditiveIdentity(int $r, int $i)
+    public function testAdditiveIdentity(int $r, int $i, int $j, int $k)
     {
         // Given
-        $z = new Quaternion($r, $i);
+        $z = new Quaternion($r, $i, $j, $k);
 
         // When
         $z＋0 = $z->add(0);
@@ -40,6 +40,8 @@ class QuaternionNumberAxiomsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($z->equals($z＋0));
         $this->assertEquals($z->r, $z＋0->r);
         $this->assertEquals($z->i, $z＋0->i);
+        $this->assertEquals($z->j, $z＋0->j);
+        $this->assertEquals($z->j, $z＋0->k);
     }
 
     /**
@@ -50,10 +52,10 @@ class QuaternionNumberAxiomsTest extends \PHPUnit\Framework\TestCase
      * @param        int $i
      * @throws       \Exception
      */
-    public function testMultiplicativeIdentity(int $r, int $i)
+    public function testMultiplicativeIdentity(int $r, int $i, int $j, int $k)
     {
         // Given
-        $z = new Quaternion($r, $i);
+        $z = new Quaternion($r, $i, $j, $k);
 
         // When
         $z1 = $z->multiply(1);
@@ -62,6 +64,8 @@ class QuaternionNumberAxiomsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($z->equals($z1));
         $this->assertEquals($z->r, $z1->r);
         $this->assertEquals($z->i, $z1->i);
+        $this->assertEquals($z->j, $z1->j);
+        $this->assertEquals($z->k, $z1->k);
     }
 
     /**
@@ -72,7 +76,7 @@ class QuaternionNumberAxiomsTest extends \PHPUnit\Framework\TestCase
      * @param        int $i
      * @throws       \Exception
      */
-    public function testAdditiveInverse(int $r, int $i,int $j, int $k)
+    public function testAdditiveInverse(int $r, int $i, int $j, int $k)
     {
         // Given
         $a = new Quaternion($r, $i, $j, $k);
