@@ -1291,6 +1291,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             $this->assertArrayHasKey("$member", $intersection_array);
             $this->assertArrayHasKey("$member", $setA->asArray());
             $this->assertArrayHasKey("$member", $setB->asArray());
+            $member = is_object($member) ? "$member" : $member;
             $this->assertContains($member, $A);
             $this->assertContains($member, $B);
         }
@@ -1424,15 +1425,16 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             $this->assertArrayHasKey("$member", $setA->asArray());
             $this->assertArrayHasKey("$member", $setB->asArray());
             $this->assertArrayHasKey("$member", $setC->asArray());
-            $this->assertContains("$member", $A);
-            $this->assertContains("$member", $B);
-            $this->assertContains("$member", $C);
+            $member = is_object($member) ? "$member" : $member;
+            $this->assertContains($member, $A);
+            $this->assertContains($member, $B);
+            $this->assertContains($member, $C);
         }
         foreach ($A∩B∩C as $_ => $value) {
             if ($value instanceof Set) {
                 $this->assertEquals($value, $intersection_array["$value"]);
             } else {
-                $this->assertContains("$value", $intersection_array);
+                $this->assertContains($value, $intersection_array);
             }
         }
     }
@@ -1546,14 +1548,15 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             $this->assertArrayHasKey("$member", $difference_array);
             $this->assertArrayHasKey("$member", $setA->asArray());
             $this->assertArrayNotHasKey("$member", $setB->asArray());
-            $this->assertContains("$member", $A);
-            $this->assertNotContains("$member", $B);
+            $member = is_object($member) ? "$member" : $member;
+            $this->assertContains($member, $A);
+            $this->assertNotContains($member, $B);
         }
         foreach ($diff as $_ => $value) {
             if ($value instanceof Set) {
                 $this->assertEquals($value, $difference_array["$value"]);
             } else {
-                $this->assertContains("$value", $difference_array);
+                $this->assertContains($value, $difference_array);
             }
         }
     }
@@ -1668,15 +1671,16 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             $this->assertArrayHasKey("$member", $setA->asArray());
             $this->assertArrayNotHasKey("$member", $setB->asArray());
             $this->assertArrayNotHasKey("$member", $setC->asArray());
-            $this->assertContains("$member", $A);
-            $this->assertNotContains("$member", $B);
-            $this->assertNotContains("$member", $C);
+            $member = is_object($member) ? "$member" : $member;
+            $this->assertContains($member, $A);
+            $this->assertNotContains($member, $B);
+            $this->assertNotContains($member, $C);
         }
         foreach ($diff as $_ => $value) {
             if ($value instanceof Set) {
                 $this->assertEquals($value, $difference_array["$value"]);
             } else {
-                $this->assertContains("$value", $difference_array);
+                $this->assertContains($value, $difference_array);
             }
         }
     }
