@@ -1282,23 +1282,23 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($R, $intersection);
         $this->assertEquals($expected, $intersection);
         $this->assertEquals(count($A∩B), count($intersection));
-        foreach ($A∩B as $member) {
-            $this->assertArrayHasKey("$member", $intersection_array);
-            $this->assertArrayHasKey("$member", $setA->asArray());
-            $this->assertArrayHasKey("$member", $setB->asArray());
-            $this->assertContains("$member", $A);
-            $this->assertContains("$member", $B);
-        }
         $this->assertArrayNotHasKey('NotInSet', $intersection_array);
         $this->assertArrayNotHasKey('NotInSet', $setA->asArray());
         $this->assertArrayNotHasKey('NotInSet', $setB->asArray());
         $this->assertNotContains('NotInSet', $A);
         $this->assertNotContains('NotInSet', $B);
+        foreach ($A∩B as $member) {
+            $this->assertArrayHasKey("$member", $intersection_array);
+            $this->assertArrayHasKey("$member", $setA->asArray());
+            $this->assertArrayHasKey("$member", $setB->asArray());
+            $this->assertContains($member, $A);
+            $this->assertContains($member, $B);
+        }
         foreach ($A∩B as $_ => $value) {
             if ($value instanceof Set) {
                 $this->assertEquals($value, $intersection_array["$value"]);
             } else {
-                $this->assertContains("$value", $intersection_array);
+                $this->assertContains($value, $intersection_array);
             }
         }
     }
