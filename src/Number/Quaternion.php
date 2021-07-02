@@ -194,7 +194,7 @@ class Quaternion implements ObjectArithmetic
      */
     public function negate(): Quaternion
     {
-        return new Quaternion(-$this->r, -$this->i , -$this->j, -$this->k);
+        return new Quaternion(-$this->r, -$this->i, -$this->j, -$this->k);
     }
 
     /**************************************************************************
@@ -228,8 +228,7 @@ class Quaternion implements ObjectArithmetic
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or quaternion');
         }
-
-    return new Quaternion($r, $i, $j, $k);
+        return new Quaternion($r, $i, $j, $k);
     }
 
     /**
@@ -293,8 +292,11 @@ class Quaternion implements ObjectArithmetic
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or quaternion');
         }
-        return new Quaternion($a * $e - $b * $f - $c * $g - $d * $h, $b * $e + $a * $f + $c * $h - $d * $g, $a * $g - $b * $h + $c * $e + $d * $f,
-            $a * $h + $b * $g - $c * $f + $d * $e);
+        return new Quaternion($a * $e - $b * $f - $c * $g - $d * $h,
+            $b * $e + $a * $f + $c * $h - $d * $g,
+            $a * $g - $b * $h + $c * $e + $d * $f,
+            $a * $h + $b * $g - $c * $f + $d * $e
+        );
     }
 
     /**
