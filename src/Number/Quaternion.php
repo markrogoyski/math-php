@@ -365,7 +365,7 @@ class Quaternion implements ObjectArithmetic
      */
     public function equals(Quaternion $c): bool
     {
-        return Math.abs($this->r - $c->r) < self::EPSILON && Math.abs($this->i - $c->i) < self::EPSILON
-            && Math.abs($this->j - $c->j) < self::EPSILON && Math.abs($this->k - $c->k) < self::EPSILON;
+        return \abs($this->r - $c->r) < self::EPSILON && \abs($this->i - $c->i) < self::EPSILON
+            && \abs($this->j - $c->j) < self::EPSILON && \abs($this->k - $c->k) < self::EPSILON;
     }
 }
