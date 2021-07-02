@@ -80,6 +80,9 @@ jobs:
       - name: Run Composer
         run: composer install --no-interaction
 
+      - name: Update PHPUnit for Code Coverage
+        run: composer require phpunit/phpunit:^9.5
+
       - name: PHP Lint
         run: ./vendor/bin/parallel-lint src tests
 
