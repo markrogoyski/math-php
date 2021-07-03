@@ -84,10 +84,10 @@ class Quaternion implements ObjectArithmetic
         if ($this->r == 0 & $this->i == 0 & $this->j == 0 & $this->k == 0) {
             return '0';
         }
-        $string = stringifyNumberPart($this->r);
-        $string = stringifyNumberPart($this->i, 'i', $string);
-        $string = stringifyNumberPart($this->j, 'j', $string);
-        return stringifyNumberPart($this->k, 'k', $string);
+        $string = self::stringifyNumberPart($this->r);
+        $string = self::stringifyNumberPart($this->i, 'i', $string);
+        $string = self::stringifyNumberPart($this->j, 'j', $string);
+        return self::stringifyNumberPart($this->k, 'k', $string);
     }
 
     /**
@@ -328,7 +328,7 @@ class Quaternion implements ObjectArithmetic
     /**
      * Stringify an additional part of the quaternion
      */
-    private function stringifyNumberPart($q, string $unit = '', string $string = '')
+    private static function stringifyNumberPart($q, string $unit = '', string $string = '')
     {
         if ($q == 0) {
             return $string;
