@@ -33,7 +33,7 @@ class PowerLawTest extends \PHPUnit\Framework\TestCase
         $regression = new PowerLaw($points);
 
         // Then
-        $this->assertMatchesRegularExpression('/^y = \d+[.]\d+x\^\d+[.]\d+$/', $regression->getEquation());
+        $this->assertRegExp('/^y = \d+[.]\d+x\^\d+[.]\d+$/', $regression->getEquation());
     }
 
     /**

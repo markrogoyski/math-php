@@ -78,7 +78,7 @@ class TheilSenTest extends \PHPUnit\Framework\TestCase
         $regression = new TheilSen($points);
 
         // Then
-        $this->assertMatchesRegularExpression('/^y = \d+[.]\d+x [+] \d+[.]\d+$/', $regression->getEquation());
+        $this->assertRegExp('/^y = \d+[.]\d+x [+] \d+[.]\d+$/', $regression->getEquation());
     }
 
     /**

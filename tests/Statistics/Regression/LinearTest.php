@@ -72,7 +72,7 @@ class LinearTest extends \PHPUnit\Framework\TestCase
         $regression = new Linear($points);
 
         // Then
-        $this->assertMatchesRegularExpression('/^y = -?\d+[.]\d+x [+] -?\d+[.]\d+$/', $regression->getEquation());
+        $this->assertRegExp('/^y = -?\d+[.]\d+x [+] -?\d+[.]\d+$/', $regression->getEquation());
     }
 
     /**
