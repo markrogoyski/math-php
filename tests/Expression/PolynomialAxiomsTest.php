@@ -32,7 +32,7 @@ use MathPHP\Expression\Polynomial;
  *    - Derivative of a polynomial is a polynomial
  *    - Integral of a polynomial is a polynomial
  */
-class PolynoialAxiomsTest extends \PHPUnit\Framework\TestCase
+class PolynomialAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test Axiom: a + b = b + a

@@ -16,7 +16,7 @@ use MathPHP\Algebra;
  *  - Coprime
  *    - lcm(a, b) = ab
  */
-class NumberTheoryAxiomsTest extends \PHPUnit\Framework\TestCase
+class IntegerAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Axiom: If a and b are coprime ⇒ lcm(a, b) = ab

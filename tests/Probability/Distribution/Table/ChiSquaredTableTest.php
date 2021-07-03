@@ -5,7 +5,7 @@ namespace MathPHP\Tests\Probability\Distribution\Table;
 use MathPHP\Probability\Distribution\Table\ChiSquared;
 use MathPHP\Exception;
 
-class ChiSquaredlTest extends \PHPUnit\Framework\TestCase
+class ChiSquaredTableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test         values from constant

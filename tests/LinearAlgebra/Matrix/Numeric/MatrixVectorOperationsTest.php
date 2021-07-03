@@ -6,7 +6,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Exception;
 
-class MatrixVectorOperations extends \PHPUnit\Framework\TestCase
+class MatrixVectorOperationsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataProviderForVectorMultiply

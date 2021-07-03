@@ -5,7 +5,7 @@ namespace MathPHP\Tests\Probability\Distribution\Table;
 use MathPHP\Probability\Distribution\Table\TDistribution;
 use MathPHP\Exception;
 
-class TDistributionTest extends \PHPUnit\Framework\TestCase
+class TDistributionTableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test         one-sided T value from confidence level
