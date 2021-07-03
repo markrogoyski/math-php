@@ -337,7 +337,7 @@ class Quaternion implements ObjectArithmetic
             $plus = $string == '' ? '' : ' + ';
             return $string . $plus . "$q" . $unit;
         }
-        $minuc = $string == '' ? '-' : ' - ';
+        $minus = $string == '' ? '-' : ' - ';
         return $string . $minus . (string) \abs($q) . $unit;
     }
 }
