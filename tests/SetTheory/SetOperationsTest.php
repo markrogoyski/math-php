@@ -1282,17 +1282,12 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($R, $intersection);
         $this->assertEquals($expected, $intersection);
         $this->assertEquals(count($A∩B), count($intersection));
-        $this->assertArrayNotHasKey('NotInSet', $intersection_array);
-        $this->assertArrayNotHasKey('NotInSet', $setA->asArray());
-        $this->assertArrayNotHasKey('NotInSet', $setB->asArray());
-        $this->assertNotContains('NotInSet', $A);
-        $this->assertNotContains('NotInSet', $B);
         foreach ($A∩B as $member) {
             $this->assertArrayHasKey("$member", $intersection_array);
             $this->assertArrayHasKey("$member", $setA->asArray());
             $this->assertArrayHasKey("$member", $setB->asArray());
-            $this->assertContains((string) $member, $A, 'A does not contain '. $member);
-            $this->assertContains((string) $member, $B, 'B does not contain '. $member);
+            $this->assertContains($member, $A);
+            $this->assertContains($member, $B);
         }
         foreach ($A∩B as $_ => $value) {
             if ($value instanceof Set) {
