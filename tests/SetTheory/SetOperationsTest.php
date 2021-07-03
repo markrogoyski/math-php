@@ -1174,7 +1174,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             if ($value instanceof Set) {
                 $this->assertEquals($value, $union_array["$value"]);
             } else {
-                $this->assertContains($value, $union_array);
+                $this->assertArrayHasKey((string) $value, $union_array);
             }
         }
     }
@@ -1808,7 +1808,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             if ($value instanceof Set) {
                 $this->assertEquals($value, $difference_array["$value"]);
             } else {
-                $this->assertContains("$value", $difference_array);
+                $this->assertArrayHasKey((string) $value, $difference_array);
             }
         }
     }
