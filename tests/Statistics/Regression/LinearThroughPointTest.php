@@ -85,7 +85,7 @@ class LinearThroughPointTest extends \PHPUnit\Framework\TestCase
         $regression = new LinearThroughPoint($points, $force);
 
         // Then
-        $this->assertRegExp('/^y = [-]?\d+[.]\d+x [+\-] \d+[.]\d+$/', $regression->getEquation());
+        $this->assertMatchesRegularExpression('/^y = [-]?\d+[.]\d+x [+\-] \d+[.]\d+$/', $regression->getEquation());
     }
 
     /**

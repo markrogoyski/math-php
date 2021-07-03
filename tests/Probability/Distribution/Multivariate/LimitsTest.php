@@ -16,7 +16,7 @@ class LimitsTest extends \PHPUnit\Framework\TestCase
     private function limitTest(array $limits)
     {
         foreach ($limits as $parameter => $limit) {
-            $this->assertRegExp('/^ ([[(]) (.+) , (.+?) ([])]) $/x', $limit);
+            $this->assertMatchesRegularExpression('/^ ([[(]) (.+) , (.+?) ([])]) $/x', $limit);
         }
     }
 

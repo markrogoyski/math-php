@@ -17,7 +17,7 @@ class LineweaverBurkTest extends \PHPUnit\Framework\TestCase
         $regression = new LineweaverBurk($points);
 
         // Then
-        $this->assertRegExp('/^y = \d+[.]\d+x\/\(\d+[.]\d+\+x\)$/', $regression->getEquation());
+        $this->assertMatchesRegularExpression('/^y = \d+[.]\d+x\/\(\d+[.]\d+\+x\)$/', $regression->getEquation());
     }
 
     /**
