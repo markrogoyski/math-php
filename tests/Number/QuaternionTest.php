@@ -72,7 +72,7 @@ class QuaternionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test __get returns r and i
+     * @test __get returns r, i, j, and k
      */
     public function testGet()
     {
@@ -107,5 +107,79 @@ class QuaternionTest extends \PHPUnit\Framework\TestCase
 
         // When
         $z = $c->z;
+    }
+
+    /**
+     * @test         complexConjugate returns the expected Quaternion
+     * @dataProvider dataProviderForComplexConjugate
+     * @param        number $r
+     * @param        number $i
+     * @param        number $j
+     * @param        number $k
+     */
+    public function testComplexConjugate($r, $i, $j, $k)
+    {
+        // Given
+        $c = new Quaternion($r, $i , $j, $k);
+
+        // When
+        $cc = $c->complexConjugate();
+
+        // Then
+        $this->assertEquals($c->r, $cc->r);
+        $this->assertEquals($c->i, -1 * $cc->i);
+        $this->assertEquals($c->j, -1 * $cc->j);
+        $this->assertEquals($c->k, -1 * $cc->k);
+    }
+
+    public function dataProviderForComplexConjugate(): array
+    {
+        return [
+            [0, 0, 0, 0],
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 1, 1, 1],
+            [1, 1, -1, -1],
+            [1, 2, 3, 4],
+            [3, 7, 11, -13],
+        ];
+    }
+
+    /**
+     * @test         abs returns the expected value
+     * @dataProvider dataProviderForAbs
+     * @param        number $r
+     * @param        number $i
+     * @param        number $j
+     * @param        number $k
+     * @param        number $expected
+     */
+    public function testAbs($r, $i, $j, $k, $expected)
+    {
+        // Given
+        $c = new Quaternion($r, $i , $j, $k);
+
+        // When
+        $abs = $c->abs();
+
+        // Then
+        $this->assertEquals($expected, $abs);
+    }
+
+    public function dataProviderForAbs(): array
+    {
+        return [
+            [0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 1],
+            [0, 1, 0, 0, 1],
+            [0, 0, 1, 0, 1],
+            [0, 0, 0, 1, 1],
+            [1, 2, 3, 4, \sqrt(30)],
+            [2, 1, \sqrt(5)],
+            [2, 2, \sqrt(8)],
+            [-1, 0, 0, 0, 1],
+            [0, -1, 0, 0, 1],
+            [-1, 2, -3, 4, \sqrt(30)],
+        ];
     }
 }
