@@ -6,7 +6,7 @@ use MathPHP\Number\Quaternion;
 use MathPHP\Exception;
 use MathPHP\Number\ObjectArithmetic;
 
-class ComplexTest extends \PHPUnit\Framework\TestCase
+class QuaternionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test Interfaces
