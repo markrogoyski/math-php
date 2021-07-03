@@ -58,7 +58,7 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForToString(): array
     {
         return [
-            [0, 0, 0, 0'0'],
+            [0, 0, 0, 0, '0'],
             [1, 0, 0, 0, '1'],
             [-1, 0, 0, 0, '-1'],
             [0, 1, 0, 0, '1i'],
