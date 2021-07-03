@@ -1058,13 +1058,15 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             if ($value instanceof Set) {
                 $this->assertEquals($value, $union_array["$value"]);
             } else {
-                $this->assertContains("$value", $union_array);
+                $this->assertContains($value, $union_array);
             }
         }
     }
 
     public function dataProviderForUnion(): array
     {
+        $setOneTwo = new Set([1, 2]);
+
         return [
             [
                 [],
@@ -1121,28 +1123,28 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
                 new Set([1, 2, 3, 'a', 'b', 'k']),
             ],
             [
-                [1, 2, 3, 'a', 'b', new Set([1, 2])],
+                [1, 2, 3, 'a', 'b', $setOneTwo],
                 [1, 'a', 'k'],
-                [1, 2, 3, 'a', 'b', 'k', new Set([1, 2])],
-                new Set([1, 2, 3, 'a', 'b', 'k', new Set([1, 2])]),
+                [1, 2, 3, 'a', 'b', 'k', $setOneTwo],
+                new Set([1, 2, 3, 'a', 'b', 'k', $setOneTwo]),
             ],
             [
                 [1, 2, 3, 'a', 'b'],
-                [1, 'a', 'k', new Set([1, 2])],
-                [1, 2, 3, 'a', 'b', 'k', new Set([1, 2])],
-                new Set([1, 2, 3, 'a', 'b', 'k', new Set([1, 2])]),
+                [1, 'a', 'k', $setOneTwo],
+                [1, 2, 3, 'a', 'b', 'k', $setOneTwo],
+                new Set([1, 2, 3, 'a', 'b', 'k', $setOneTwo]),
             ],
             [
                 [1, 2, 3, 'a', 'b', new Set()],
-                [1, 'a', 'k', new Set([1, 2])],
-                [1, 2, 3, 'a', 'b', 'k', new Set([1, 2]), new Set()],
-                new Set([1, 2, 3, 'a', 'b', 'k', new Set([1, 2]), new Set()]),
+                [1, 'a', 'k', $setOneTwo],
+                [1, 2, 3, 'a', 'b', 'k', $setOneTwo, new Set()],
+                new Set([1, 2, 3, 'a', 'b', 'k', $setOneTwo, new Set()]),
             ],
             [
-                [1, 2, 3, 'a', 'b', new Set([1, 2])],
-                [1, 'a', 'k', -2, '2.4', 3.5, new Set([1, 2])],
-                [1, 2, 3, 'a', 'b', 'k', -2, '2.4', 3.5, new Set([1, 2])],
-                new Set([1, 2, 3, 'a', 'b', 'k', -2, '2.4', 3.5, new Set([1, 2])]),
+                [1, 2, 3, 'a', 'b', $setOneTwo],
+                [1, 'a', 'k', -2, '2.4', 3.5, $setOneTwo],
+                [1, 2, 3, 'a', 'b', 'k', -2, '2.4', 3.5, $setOneTwo],
+                new Set([1, 2, 3, 'a', 'b', 'k', -2, '2.4', 3.5, $setOneTwo]),
             ],
         ];
     }
@@ -1174,7 +1176,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             if ($value instanceof Set) {
                 $this->assertEquals($value, $union_array["$value"]);
             } else {
-                $this->assertContains("$value", $union_array);
+                $this->assertContains($value, $union_array);
             }
         }
     }
@@ -1286,20 +1288,22 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             $this->assertArrayHasKey("$member", $intersection_array);
             $this->assertArrayHasKey("$member", $setA->asArray());
             $this->assertArrayHasKey("$member", $setB->asArray());
-            $this->assertContains("$member", $A);
-            $this->assertContains("$member", $B);
+            $this->assertContains($member, $A);
+            $this->assertContains($member, $B);
         }
         foreach ($A∩B as $_ => $value) {
             if ($value instanceof Set) {
                 $this->assertEquals($value, $intersection_array["$value"]);
             } else {
-                $this->assertContains("$value", $intersection_array);
+                $this->assertContains($value, $intersection_array);
             }
         }
     }
 
     public function dataProviderForIntersect(): array
     {
+        $setOneTwo = new Set([1, 2]);
+
         return [
             [
                 [],
@@ -1374,22 +1378,22 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
                 new Set([1, 'a']),
             ],
             [
-                [1, 2, 3, 'a', 'b', new Set([1, 2])],
-                [1, 'a', 'k', new Set([1, 2])],
-                [1, 'a', new Set([1, 2])],
-                new Set([1, 'a', new Set([1, 2])]),
+                [1, 2, 3, 'a', 'b', $setOneTwo],
+                [1, 'a', 'k', $setOneTwo],
+                [1, 'a', $setOneTwo],
+                new Set([1, 'a', $setOneTwo]),
             ],
             [
                 [1, 2, 3, 'a', 'b', new Set()],
-                [1, 'a', 'k', new Set([1, 2])],
+                [1, 'a', 'k', $setOneTwo],
                 [1, 'a'],
                 new Set([1, 'a']),
             ],
             [
-                [1, 2, 3, 'a', 'b', new Set([1, 2])],
-                [1, 'a', 'k', -2, '2.4', 3.5, new Set([1, 2])],
-                [1, 'a', new Set([1, 2])],
-                new Set([1, 'a', new Set([1, 2])]),
+                [1, 2, 3, 'a', 'b', $setOneTwo],
+                [1, 'a', 'k', -2, '2.4', 3.5, $setOneTwo],
+                [1, 'a', $setOneTwo],
+                new Set([1, 'a', $setOneTwo]),
             ],
         ];
     }
@@ -1419,21 +1423,23 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             $this->assertArrayHasKey("$member", $setA->asArray());
             $this->assertArrayHasKey("$member", $setB->asArray());
             $this->assertArrayHasKey("$member", $setC->asArray());
-            $this->assertContains("$member", $A);
-            $this->assertContains("$member", $B);
-            $this->assertContains("$member", $C);
+            $this->assertContains($member, $A);
+            $this->assertContains($member, $B);
+            $this->assertContains($member, $C);
         }
         foreach ($A∩B∩C as $_ => $value) {
             if ($value instanceof Set) {
                 $this->assertEquals($value, $intersection_array["$value"]);
             } else {
-                $this->assertContains("$value", $intersection_array);
+                $this->assertContains($value, $intersection_array);
             }
         }
     }
 
     public function dataProviderForIntersectMultipleSets(): array
     {
+        $setOneTwo = new Set([1, 2]);
+
         return [
             [
                 [1, 2, 3, 4],
@@ -1443,11 +1449,11 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
                 new Set([3, 4]),
             ],
             [
-                [1, 2, 3, 4, new Set([1, 2])],
-                [2, 3, 4, 5, new Set([1, 2])],
-                [3, 4, 5, 6, new Set([1, 2])],
-                [3, 4, new Set([1, 2])],
-                new Set([3, 4, new Set([1, 2])]),
+                [1, 2, 3, 4, $setOneTwo],
+                [2, 3, 4, 5, $setOneTwo],
+                [3, 4, 5, 6, $setOneTwo],
+                [3, 4, $setOneTwo],
+                new Set([3, 4, $setOneTwo]),
             ],
         ];
     }
@@ -1541,20 +1547,23 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             $this->assertArrayHasKey("$member", $difference_array);
             $this->assertArrayHasKey("$member", $setA->asArray());
             $this->assertArrayNotHasKey("$member", $setB->asArray());
-            $this->assertContains("$member", $A);
+            $this->assertContains($member, $A);
             $this->assertNotContains("$member", $B);
         }
         foreach ($diff as $_ => $value) {
             if ($value instanceof Set) {
                 $this->assertEquals($value, $difference_array["$value"]);
             } else {
-                $this->assertContains("$value", $difference_array);
+                $this->assertContains($value, $difference_array);
             }
         }
     }
 
     public function dataProviderForDifference(): array
     {
+        $emptySet  = new Set();
+        $setOneTwo = new Set([1, 2]);
+
         return [
             [
                 [],
@@ -1593,10 +1602,10 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
                 new Set([2, 3, 'b']),
             ],
             [
-                [1, 2, 3, 'a', 'b', new Set([1, 2])],
+                [1, 2, 3, 'a', 'b', $setOneTwo],
                 [1, 'a', 'k'],
-                [2, 3, 'b',new Set([1, 2])],
-                new Set([2, 3, 'b',new Set([1, 2])]),
+                [2, 3, 'b',$setOneTwo],
+                new Set([2, 3, 'b', $setOneTwo]),
             ],
             [
                 [1, 2, 3, 'a', 'b'],
@@ -1605,10 +1614,10 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
                 new Set([2, 3, 'b']),
             ],
             [
-                [1, 2, 3, 'a', 'b', new Set()],
+                [1, 2, 3, 'a', 'b', $emptySet],
                 [1, 'a', 'k', new Set([1, 2])],
-                [2, 3, 'b', new Set()],
-                new Set([2, 3, 'b', new Set()]),
+                [2, 3, 'b', $emptySet],
+                new Set([2, 3, 'b', $emptySet]),
             ],
             [
                 [1, 2, 3, 'a', 'b', new Set([1, 2])],
@@ -1663,7 +1672,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             $this->assertArrayHasKey("$member", $setA->asArray());
             $this->assertArrayNotHasKey("$member", $setB->asArray());
             $this->assertArrayNotHasKey("$member", $setC->asArray());
-            $this->assertContains("$member", $A);
+            $this->assertContains($member, $A);
             $this->assertNotContains("$member", $B);
             $this->assertNotContains("$member", $C);
         }
@@ -1671,40 +1680,41 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             if ($value instanceof Set) {
                 $this->assertEquals($value, $difference_array["$value"]);
             } else {
-                $this->assertContains("$value", $difference_array);
+                $this->assertContains($value, $difference_array);
             }
         }
     }
 
     public function dataProviderForDifferenceMultiSet(): array
     {
+        $setOneTwo = new Set([1, 2]);
         return [
             [
-                [1, 2, 3, 4],
-                [2, 3, 4, 5],
-                [3, 4, 5, 6],
-                [1],
+                ['1', '2', '3', '4'],
+                ['2', '3', '4', '5'],
+                ['3', '4', '5', '6'],
+                ['1'],
                 new Set([1]),
             ],
             [
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                [2, 4, 6, 8, 10],
-                [5, 10],
-                [1, 3, 7, 9],
+                ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                ['2', '4', '6', '8', '10'],
+                ['5', '10'],
+                ['1', '3', '7', '9'],
                 new Set([1, 3, 7, 9]),
             ],
             [
-                [1, 2, 3, 4, new Set([1, 2])],
-                [2, 3, 4, 5],
-                [3, 4, 5, 6],
-                [1, new Set([1, 2])],
-                new Set([1, new Set([1, 2])]),
+                ['1', '2', '3', '4', $setOneTwo],
+                ['2', '3', '4', '5'],
+                ['3', '4', '5', '6'],
+                ['1', $setOneTwo],
+                new Set([1, $setOneTwo]),
             ],
             [
-                [1, 2, 3, 4, new Set([1, 2])],
-                [2, 3, 4, 5],
-                [3, 4, 5, 6, new Set([1, 2])],
-                [1],
+                ['1', '2', '3', '4', new Set([1, 2])],
+                ['2', '3', '4', '5'],
+                ['3', '4', '5', '6', new Set([1, 2])],
+                ['1'],
                 new Set([1]),
             ],
         ];
@@ -1802,7 +1812,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
             if ($value instanceof Set) {
                 $this->assertEquals($value, $difference_array["$value"]);
             } else {
-                $this->assertContains("$value", $difference_array);
+                $this->assertContains($value, $difference_array);
             }
         }
     }
