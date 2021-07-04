@@ -175,8 +175,6 @@ class QuaternionTest extends \PHPUnit\Framework\TestCase
             [0, 0, 1, 0, 1],
             [0, 0, 0, 1, 1],
             [1, 2, 3, 4, \sqrt(30)],
-            [2, 1, \sqrt(5)],
-            [2, 2, \sqrt(8)],
             [-1, 0, 0, 0, 1],
             [0, -1, 0, 0, 1],
             [-1, 2, -3, 4, \sqrt(30)],
