@@ -120,7 +120,7 @@ class QuaternionTest extends \PHPUnit\Framework\TestCase
     public function testComplexConjugate($r, $i, $j, $k)
     {
         // Given
-        $c = new Quaternion($r, $i , $j, $k);
+        $c = new Quaternion($r, $i, $j, $k);
 
         // When
         $cc = $c->complexConjugate();
@@ -157,7 +157,7 @@ class QuaternionTest extends \PHPUnit\Framework\TestCase
     public function testAbs($r, $i, $j, $k, $expected)
     {
         // Given
-        $c = new Quaternion($r, $i , $j, $k);
+        $c = new Quaternion($r, $i, $j, $k);
 
         // When
         $abs = $c->abs();
