@@ -180,4 +180,40 @@ class QuaternionTest extends \PHPUnit\Framework\TestCase
             [-1, 2, -3, 4, \sqrt(30)],
         ];
     }
+
+    /**
+     * @test         negate returns the expected quaternion with signs negated
+     * @dataProvider dataProviderForNegate
+     * @param        number $r₁
+     * @param        number $i₁
+     * @param        number $r₂
+     * @param        number $i₂
+     */
+    public function testNegate($r₁, $i₁, $j₁, $k₁, $r₂, $i₂, $j₂, $k₂)
+    {
+        // Given
+        $c        = new Quaternion($r₁, $i₁, $j₁, $k₁);
+        $expected = new Quaternion($r₂, $i₂, $j₂, $k₂);
+
+        // When
+        $negated = $c->negate();
+
+        // Then
+        $this->assertTrue($negated->equals($expected));
+        $this->assertEquals($expected->r, $negated->r);
+        $this->assertEquals($expected->i, $negated->i);
+        $this->assertEquals($expected->j, $negated->j);
+        $this->assertEquals($expected->k, $negated->k);
+    }
+
+    public function dataProviderForNegate(): array
+    {
+        return [
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, -1, 0, 0, 0],
+            [0, 1, 1, 1, 0, -1, -1, -1],
+            [1, 2, -1, -2, -1, -2, 1, 2],
+            [3, 4, 3, 4, -3, -4, -3, -4],
+        ];
+    }
 }
