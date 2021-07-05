@@ -216,4 +216,71 @@ class QuaternionTest extends \PHPUnit\Framework\TestCase
             [3, 4, 3, 4, -3, -4, -3, -4],
         ];
     }
+
+    /**
+     * @test   Constructor throws an exception when given non-numeric
+     * @dataProvider dataProviderForConstructorException
+     * @throws \Exception
+     */
+    public function testConstructorException($r, $i, $j, $k)
+    {
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $c = new Quaternion($r, $i, $j, $k);
+    }
+
+    public function dataProviderForConstructorException(): array
+    {
+        return [
+            ['a', 1, 1, 1],
+            [1, true, 1, 1],
+            [1, 1, new \stdClass(), 1],
+            [1, 1, 1, [1]],
+        ];
+    }
+
+    /**
+     * @test         add of two complex numbers returns the expected complex number
+     * @dataProvider dataProviderForAdd
+     * @param        array  $complex1
+     * @param        array  $complex2
+     * @param        array  $expected
+     */
+    public function testAdd(array $complex1, array $complex2, array $expected)
+    {
+        // Given
+        $c1 = new Quaternion($complex1['r'], $complex1['i'], $complex1['j'], $complex1['k']);
+        $c2 = new Quaternion($complex2['r'], $complex2['i'], $complex2['j'], $complex2['k']);
+
+        // When
+        $result = $c1->add($c2);
+
+        // Then
+        $this->assertEquals($expected['r'], $result->r);
+        $this->assertEquals($expected['i'], $result->i);
+        $this->assertEquals($expected['j'], $result->j);
+        $this->assertEquals($expected['k'], $result->k);
+
+        // When
+        $result = $c1->subtract($c2->negate());
+
+        // Then
+        $this->assertEquals($expected['r'], $result->r);
+        $this->assertEquals($expected['i'], $result->i);
+        $this->assertEquals($expected['j'], $result->j);
+        $this->assertEquals($expected['k'], $result->k);
+    }
+
+    public function dataProviderForAdd(): array
+    {
+        return [
+            [
+                ['r' => 3, 'i' => 2, 'j' => 1, 'k' => -1],
+                ['r' => 4, 'i' => -3, 'j' => -2, 'k' => -5],
+                ['r' => 7, 'i' => -1, 'j' => -1, 'k' => -6],
+            ],
+        ];
+    }
 }
