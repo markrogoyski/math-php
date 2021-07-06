@@ -242,6 +242,50 @@ class QuaternionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     inverse returns the expected quaternion
+     * @dataProvider dataProviderForInverse
+     * @param        number $r
+     * @param        number $i
+     * @param        number $j
+     * @param        number $k
+     * @param        number $expected_r
+     * @param        number $expected_i
+     * @param        number $expected_j
+     * @param        number $expected_k
+     */
+    public function testInverse($r, $i, $j, $k, $expected_r, $expected_i, $expected_j, $expected_k)
+    {
+        $q       = new Quaternion($r, $i, $j, $k);
+        $inverse = $q->inverse();
+
+        $this->assertEquals($expected_r, $inverse->r);
+        $this->assertEquals($expected_i, $inverse->i);
+        $this->assertEquals($expected_j, $inverse->j);
+        $this->assertEquals($expected_k, $inverse->k);
+    }
+
+    public function dataProviderForInverse(): array
+    {
+        return [
+            [1, 0, 0, 0, 1, 0, 0, 0],
+            [0, 1, 0, 0, 0, -1, 0, 0],
+            [0, 0, 1, 0, 0, 0, -1, 0],
+            [0, 0, 0, 1, 0, 0, 0, -1],
+            [1, -1, -1, -1, .25, .25, .25, .25],
+        ];
+    }
+
+    /**
+     * @testCase inverse throws an Exception\BadDataException when value is 0 + 0i + 0j + 0k
+     */
+    public function testInverseException()
+    {
+        $q = new Quaternion(0, 0, 0, 0);
+        $this->expectException(Exception\BadDataException::class);
+        $q->inverse();
+    }
+
+    /**
      * @test         add of two complex numbers returns the expected complex number
      * @dataProvider dataProviderForAdd
      * @param        array  $complex1
@@ -251,20 +295,11 @@ class QuaternionTest extends \PHPUnit\Framework\TestCase
     public function testAdd(array $complex1, array $complex2, array $expected)
     {
         // Given
-        $c1 = new Quaternion($complex1['r'], $complex1['i'], $complex1['j'], $complex1['k']);
-        $c2 = new Quaternion($complex2['r'], $complex2['i'], $complex2['j'], $complex2['k']);
+        $q1 = new Quaternion($complex1['r'], $complex1['i'], $complex1['j'], $complex1['k']);
+        $q2 = new Quaternion($complex2['r'], $complex2['i'], $complex2['j'], $complex2['k']);
 
         // When
-        $result = $c1->add($c2);
-
-        // Then
-        $this->assertEquals($expected['r'], $result->r);
-        $this->assertEquals($expected['i'], $result->i);
-        $this->assertEquals($expected['j'], $result->j);
-        $this->assertEquals($expected['k'], $result->k);
-
-        // When
-        $result = $c1->subtract($c2->negate());
+        $result = $q1->add($q2);
 
         // Then
         $this->assertEquals($expected['r'], $result->r);
@@ -282,5 +317,179 @@ class QuaternionTest extends \PHPUnit\Framework\TestCase
                 ['r' => 7, 'i' => -1, 'j' => -1, 'k' => -6],
             ],
         ];
+    }
+
+    /**
+     * @test         subtract of two quaternions returns the expected quaternion
+     * @dataProvider dataProviderForSubtract
+     * @param        array  $complex1
+     * @param        array  $complex2
+     * @param        array  $expected
+     */
+    public function testSubtract(array $complex1, array $complex2, array $expected)
+    {
+        // Given
+        $q1 = new Quaternion($complex1['r'], $complex1['i'], $complex1['j'], $complex1['k']);
+        $q2 = new Quaternion($complex2['r'], $complex2['i'], $complex2['j'], $complex2['k']);
+
+        // When
+        $result = $q1->subtract($q2);
+
+        // Then
+        $this->assertEquals($expected['r'], $result->r);
+        $this->assertEquals($expected['i'], $result->i);
+        $this->assertEquals($expected['j'], $result->j);
+        $this->assertEquals($expected['k'], $result->k);
+    }
+
+    public function dataProviderForSubtract(): array
+    {
+        return [
+            [
+                ['r' => 3, 'i' => 2, 'j' => 1, 'k' => -1],
+                ['r' => -4, 'i' => 3, 'j' => 2, 'k' => 5],
+                ['r' => 7, 'i' => -1, 'j' => -1, 'k' => -6],
+            ],
+        ];
+    }
+
+    /**
+     * @test         add of real numbers returns the expected quaternion
+     * @dataProvider dataProviderForAddReal
+     */
+    public function testAddReal($complex, $real, $expected)
+    {
+        // Given
+        $q = new Quaternion($complex['r'], $complex['i'], $complex['j'], $complex['k']);
+
+        // When
+        $result = $q->add($real);
+
+        // Then
+        $this->assertEquals($expected['r'], $result->r);
+        $this->assertEquals($expected['i'], $result->i);
+        $this->assertEquals($expected['j'], $result->j);
+        $this->assertEquals($expected['k'], $result->k);
+    }
+
+    public function dataProviderForAddReal()
+    {
+        return [
+            [
+                ['r' => 3, 'i' => 2, 'j' => 1, 'k' => -1],
+                5,
+                ['r' => 8, 'i' => 2, 'j' => 1, 'k' => -1],
+            ],
+            [
+                ['r' => 0, 'i' => 0, 'j' => 0, 'k' => 0],
+                5,
+                ['r' => 5, 'i' => 0, 'j' => 0, 'k' => 0],
+            ],
+            [
+                ['r' => 3, 'i' => 2, 'j' => 1, 'k' => -1],
+                -2,
+                ['r' => 1, 'i' => 2, 'j' => 1, 'k' => -1],
+            ],
+        ];
+    }
+
+    /**
+     * @test         subtract of real numbers returns the expected quaternion
+     * @dataProvider dataProviderForSubtractReal
+     */
+    public function testSubtractReal($complex, $real, $expected)
+    {
+        // Given
+        $q = new Quaternion($complex['r'], $complex['i'], $complex['j'], $complex['k']);
+
+        // When
+        $result = $q->subtract($real);
+
+        // Then
+        $this->assertEquals($expected['r'], $result->r);
+        $this->assertEquals($expected['i'], $result->i);
+        $this->assertEquals($expected['j'], $result->j);
+        $this->assertEquals($expected['k'], $result->k);
+    }
+
+    public function dataProviderForSubtractReal()
+    {
+        return [
+            [
+                ['r' => 3, 'i' => 2, 'j' => 1, 'k' => -1],
+                -5,
+                ['r' => 8, 'i' => 2, 'j' => 1, 'k' => -1],
+            ],
+            [
+                ['r' => 0, 'i' => 0, 'j' => 0, 'k' => 0],
+                -5,
+                ['r' => 5, 'i' => 0, 'j' => 0, 'k' => 0],
+            ],
+            [
+                ['r' => 3, 'i' => 2, 'j' => 1, 'k' => -1],
+                2,
+                ['r' => 1, 'i' => 2, 'j' => 1, 'k' => -1],
+            ],
+        ];
+    }
+
+    /**
+     * @test add throws an Exception\IncorrectTypeException when the argument is not a number or quaternion
+     */
+    public function testQuaternionAddException()
+    {
+        // Given
+        $q = new Quaternion(1, 1, 1, 1);
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
+        $q->add("string");
+    }
+
+    /**
+     * @test subtract throws an Exception\IncorrectTypeException when the argument is not a number or quaternion
+     */
+    public function testQuaternionSubtractException()
+    {
+        // Given
+        $q = new Quaternion(1, 1, 1, 1);
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
+        $q->subtract("string");
+    }
+
+    /**
+     * @test multiply throws an Exception\IncorrectTypeException when the argument is not a number or quaternion
+     */
+    public function tesQuaternionMultiplyException()
+    {
+        // Given
+        $q = new Quaternion(1, 1, 1, 1);
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
+        $q->multiply("string");
+    }
+
+    /**
+     * @test divide throws an Exception\IncorrectTypeException when the argument is not a number or quaternion
+     */
+    public function testQuaternionDivideException()
+    {
+        // Given
+        $q = new Quaternion(1, 1, 1, 1);
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
+        $q->divide("string");
     }
 }
