@@ -434,6 +434,79 @@ class QuaternionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         multiply of two quaternions returns the expected quaternion
+     * @dataProvider dataProviderForMultiply
+     * @param        array  $complex1
+     * @param        array  $complex2
+     * @param        array  $expected
+     */
+    public function testMultiply(array $complex1, array $complex2, array $expected)
+    {
+        // Given
+        $q1 = new Quaternion($complex1['r'], $complex1['i'], $complex1['j'], $complex1['k']);
+        $q2 = new Quaternion($complex2['r'], $complex2['i'], $complex2['j'], $complex2['k']);
+
+        // When
+        $result = $q1->multiply($q2);
+
+        // Then
+        $this->assertEquals($expected['r'], $result->r);
+        $this->assertEquals($expected['i'], $result->i);
+        $this->assertEquals($expected['j'], $result->j);
+        $this->assertEquals($expected['k'], $result->k);
+    }
+
+    public function dataProviderForMultiply(): array
+    {
+        return [
+            [
+                ['r' => 3, 'i' => 2, 'j' => 1, 'k' => -1],
+                ['r' => 1, 'i' => 4, 'j' => 3, 'k' => 2],
+                ['r' => -6, 'i' => 19, 'j' => 2, 'k' => 7],
+            ],
+            [
+                ['r' => 3, 'i' => 13, 'j' => 5, 'k' => 7],
+                ['r' => 19, 'i' => 17, 'j' => -11, 'k' => 2],
+                ['r' => -123, 'i' => 385,  'j' => 155,  'k' => -89],
+            ],
+        ];
+    }
+
+    /**
+     * @test         divide of two cquaternions returns the expected quaternion
+     * @dataProvider dataProviderForDivide
+     * @param        array  $complex1
+     * @param        array  $complex2
+     * @param        array  $expected
+     */
+    public function testDivide(array $complex1, array $complex2, array $expected)
+    {
+        // Given
+        $q1 = new Quaternion($complex1['r'], $complex1['i'], $complex1['j'], $complex1['k']);
+        $q2 = new Quaternion($complex2['r'], $complex2['i'], $complex2['j'], $complex2['k']);
+
+        // When
+        $result = $q1->divide($q2);
+
+        // Then
+        $this->assertEquals($expected['r'], $result->r);
+        $this->assertEquals($expected['i'], $result->i);
+        $this->assertEquals($expected['j'], $result->j);
+        $this->assertEquals($expected['k'], $result->k);
+    }
+
+    public function dataProviderForDivide(): array
+    {
+        return [
+            [
+                ['r' => 3, 'i' => 2, 'j' => 1, 'k' => -1],
+                ['r' => 1, 'i' => 4, 'j' => 3, 'k' => 2],
+                ['r' => 2 / 5, 'i' => -1 / 2, 'j' => 0, 'k' => -3 / 10],
+            ],
+        ];
+    }
+
+    /**
      * @test add throws an Exception\IncorrectTypeException when the argument is not a number or quaternion
      */
     public function testQuaternionAddException()
