@@ -18,7 +18,7 @@ use MathPHP\Number\Quaternion;
  *  - Inverse
  *    - (∀a)(∃b) a + b = 0
  */
-class QuaternionNumberAxiomsTest extends \PHPUnit\Framework\TestCase
+class QuaternionAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test Axiom: z + 0 = z

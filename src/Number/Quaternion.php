@@ -191,19 +191,20 @@ class Quaternion implements ObjectArithmetic
      */
     public function add($q): Quaternion
     {
+        if (!is_numeric($q) && ! $q instanceof Quaternion) {
+            throw new Exception\IncorrectTypeException('Argument must be real or quaternion' . print_r($q, true));
+        }
+
         if (is_numeric($q)) {
             $r = $this->r + $q;
-            $i = $this->i;
-            $j = $this->j;
-            $k = $this->k;
-        } elseif ($q instanceof Quaternion) {
-            $r = $this->r + $q->r;
-            $i = $this->i + $q->i;
-            $j = $this->j + $q->j;
-            $k = $this->k + $q->k;
-        } else {
-            throw new Exception\IncorrectTypeException('Argument must be real or quaternion');
+            return new Quaternion($r, $this->i, $this->j, $this->k);
         }
+
+        $r = $this->r + $q->r;
+        $i = $this->i + $q->i;
+        $j = $this->j + $q->j;
+        $k = $this->k + $q->k;
+
         return new Quaternion($r, $i, $j, $k);
     }
 
@@ -221,19 +222,17 @@ class Quaternion implements ObjectArithmetic
      */
     public function subtract($q): Quaternion
     {
+        if (!is_numeric($q) && ! $q instanceof Quaternion) {
+            throw new Exception\IncorrectTypeException('Argument must be real or quaternion' . print_r($q, true));
+        }
         if (is_numeric($q)) {
             $r = $this->r - $q;
-            $i = $this->i;
-            $j = $this->j;
-            $k = $this->k;
-        } elseif ($q instanceof Quaternion) {
-            $r = $this->r - $q->r;
-            $i = $this->i - $q->i;
-            $j = $this->j - $q->j;
-            $k = $this->k - $q->k;
-        } else {
-            throw new Exception\IncorrectTypeException('Argument must be real or quaternion');
+            return new Quaternion($r, $this->i, $this->j, $this->k);
         }
+        $r = $this->r - $q->r;
+        $i = $this->i - $q->i;
+        $j = $this->j - $q->j;
+        $k = $this->k - $q->k;
 
         return new Quaternion($r, $i, $j, $k);
     }
@@ -251,28 +250,26 @@ class Quaternion implements ObjectArithmetic
      */
     public function multiply($q): Quaternion
     {
+        if (!is_numeric($q) && ! $q instanceof Quaternion) {
+            throw new Exception\IncorrectTypeException('Argument must be real or quaternion' . print_r($q, true));
+        }
+        if (is_numeric($q)) {
+            return new Quaternion($this->r * $q, $this->i * $q, $this->j * $q, $this->k * $q);
+        }
         $a = $this->r;
         $b = $this->i;
         $c = $this->j;
         $d = $this->k;
-        if (is_numeric($q)) {
-            $e = $q;
-            $f = 0;
-            $g = 0;
-            $h = 0;
-        } elseif ($c instanceof Quaternion) {
-            $e = $q->r;
-            $f = $q->i;
-            $g = $q->j;
-            $h = $q->k;
-        } else {
-            throw new Exception\IncorrectTypeException('Argument must be real or quaternion');
-        }
+
+        $e = $q->r;
+        $f = $q->i;
+        $g = $q->j;
+        $h = $q->k;
         return new Quaternion(
-            $a * $e - $b * $f - $c * $g - $d * $h,
-            $b * $e + $a * $f + $c * $h - $d * $g,
-            $a * $g - $b * $h + $c * $e + $d * $f,
-            $a * $h + $b * $g - $c * $f + $d * $e
+            $a*$e - $b*$f - $c*$g - $d*$h,
+            $b*$e + $a*$f + $c*$h - $d*$g,
+            $a*$g - $b*$h + $c*$e + $d*$f,
+            $a*$h + $b*$g - $c*$f + $d*$e
         );
     }
 
@@ -289,17 +286,17 @@ class Quaternion implements ObjectArithmetic
      */
     public function divide($q): Quaternion
     {
+        if (!is_numeric($q) && ! $q instanceof Quaternion) {
+            throw new Exception\IncorrectTypeException('Argument must be real or quaternion' . print_r($q, true));
+        }
         if (is_numeric($q)) {
             $r = $this->r / $q;
             $i = $this->i / $q;
             $j = $this->j / $q;
             $k = $this->k / $q;
             return new Quaternion($r, $i, $j, $k);
-        } elseif ($q instanceof Quaternion) {
-            return $this->multiply($q->inverse());
-        } else {
-            throw new Exception\IncorrectTypeException('Argument must be real or quaternion');
         }
+        return $this->multiply($q->inverse());
     }
 
     /**************************************************************************
