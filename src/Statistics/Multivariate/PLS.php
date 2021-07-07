@@ -22,7 +22,7 @@ class PLS
 
     /** @var Vector Y Means */
     private $Ycenter;
- 
+
     /** @var Vector X Scale */
     private $Xscale;
 
@@ -74,7 +74,7 @@ class PLS
             $this->Xscale = new Vector(array_fill(0, $X->getN(), 1));
             $this->Yscale = new Vector(array_fill(0, $Y->getN(), 1));
         }
-        
+
         $E = $this->standardizeData($X, $this->Xcenter, $this->Xscale);
         $F = $this->standardizeData($Y, $this->Ycenter, $this->Yscale);
 
@@ -114,7 +114,7 @@ class PLS
             $this->U = is_null($this->U) ? $u : $this->U->augment($u);
             $this->W = is_null($this->W) ? $w : $this->W->augment($w);
         }
-       
+
         // Calculate R (or W*)
         $R = $this->W->multiply($this->P->transpose()->multiply($this->W)->inverse());
         $this->B = $R->multiply($this->C->transpose());
@@ -201,14 +201,14 @@ class PLS
         if ($X->getN() !== $this->Xcenter->getN()) {
             throw new Exception\BadDataException('Data does not have the correct number of columns.');
         }
-        
+
         // Create a matrix the same dimensions as $X, each element is the average of that column in the original data.
         $ones_column = MatrixFactory::one($X->getM(), 1);
         $Ycenter_matrix = $ones_column->multiply(MatrixFactory::create([$this->Ycenter->getVector()]));
 
         // Create a diagonal matrix of column standard deviations.
         $Yscale_matrix = MatrixFactory::diagonal($this->Yscale->getVector());
-        
+
         $E = $this->standardizeData($X, $this->Xcenter, $this->Xscale);
         $F = $E->multiply($this->B);
         // Y = F ∗ σ + μ

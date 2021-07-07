@@ -37,7 +37,7 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
             ->columnExclude(7);
         // Exclude mpg.
         self::$X = $continuous->columnExclude(0);
-        
+
         // Just grab column 0.
         self::$Y = $continuous->submatrix(0, 0, $continuous->getM() - 1, 0);
 

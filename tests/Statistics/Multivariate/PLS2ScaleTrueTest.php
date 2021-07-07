@@ -35,10 +35,10 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         $continuous = MatrixFactory::create($mtCars->getData())
             ->columnExclude(8)
             ->columnExclude(7);
-        
+
         // exclude mpg and hp.
         self::$X = $continuous->columnExclude(3)->columnExclude(0);
-        
+
         // mpg and hp, columns 0 and 3.
         self::$Y = $continuous
             ->columnExclude(2)
@@ -225,7 +225,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertEquals($expected, $U, '', .00001);
     }
- 
+
     public function testW()
     {
         // Given.
@@ -267,7 +267,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertEquals($expected, $actual, '', .00001);
     }
-    
+
     public function dataProviderForRegression()
     {
         return [
@@ -296,5 +296,4 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         // When
         $prediction = self::$pls->predict($X);
     }
-    
 }
