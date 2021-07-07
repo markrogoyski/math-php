@@ -113,7 +113,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         $C = self::$pls->getYLoadings()->getMatrix();
 
         // Then
-        $this->assertEquals($expected, $C, '', .00001);
+        $this->assertEqualsWithDelta($expected, $C, .00001, '');
     }
 
     public function testP()
@@ -133,7 +133,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         $P = self::$pls->getProjection()->getMatrix();
 
         // Then
-        $this->assertEquals($expected, $P, '', .00001);
+        $this->assertEqualsWithDelta($expected, $P, .00001, '');
     }
 
     public function testT()
@@ -178,7 +178,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         $T = self::$pls->getXScores()->getMatrix();
 
         // Then
-        $this->assertEquals($expected, $T, '', .00001);
+        $this->assertEqualsWithDelta($expected, $T, .00001, '');
     }
 
     public function testU()
@@ -223,7 +223,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         $U = self::$pls->getYScores()->getMatrix();
 
         // Then
-        $this->assertEquals($expected, $U, '', .00001);
+        $this->assertEqualsWithDelta($expected, $U, .00001, '');
     }
 
     public function testW()
@@ -243,7 +243,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         $W = self::$pls->getXLoadings()->getMatrix();
 
         // Then
-        $this->assertEquals($expected, $W, '', .00001);
+        $this->assertEqualsWithDelta($expected, $W, .00001, '');
     }
 
     /**
@@ -265,7 +265,7 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
         $actual = self::$pls->predict($input)->getMatrix();
 
         // Then
-        $this->assertEquals($expected, $actual, '', .00001);
+        $this->assertEqualsWithDelta($expected, $actual, .00001, '');
     }
 
     public function dataProviderForRegression()
