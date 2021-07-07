@@ -61,6 +61,21 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test Construction error - row mismatch
+     */
+    public function testConstructionFailureXAndYRowMismatch()
+    {
+        // Given
+        $Y = self::$Y->rowExclude(0);
+
+        // Then
+        $this->expectException(\MathPHP\Exception\BadDataException::class);
+
+        // When
+        $pls = new PLS(self::$X, $Y, 2, true);
+    }
+
+    /**
      * @test The class returns the correct values for B
      *
      * R code for expected values:
@@ -266,4 +281,20 @@ class PLS2ScaleTrueTest extends \PHPUnit\Framework\TestCase
             ]
         ];
     }
+
+    /**
+     * @test predict error if the input X columns do not match
+     */
+    public function testPredictDataColumnMisMatch()
+    {
+        // Given
+        $X = MatrixFactory::create([[6, 160, 3.9, 2.62, 16.46]]);
+
+        // Then
+        $this->expectException(\MathPHP\Exception\BadDataException::class);
+
+        // When
+        $prediction = self::$pls->predict($X);
+    }
+    
 }

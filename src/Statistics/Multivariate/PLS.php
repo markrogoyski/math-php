@@ -30,22 +30,22 @@ class PLS
     private $Yscale;
 
     /** @var Matrix $B Regression Coefficients*/
-    private $B = null;
+    private $B;
 
     /** @var Matrix $C  Y Loadings*/
-    private $C = null;
+    private $C;
 
     /** @var Matrix $P Projection of X to X scores*/
-    private $P = null;
+    private $P;
 
     /** @var Matrix $T X Scores*/
-    private $T = null;
+    private $T;
 
     /** @var Matrix $U Y Scores*/
-    private $U = null;
+    private $U;
 
     /** @var Matrix $W X Weights*/
-    private $W = null;
+    private $W;
 
     /**
      * Constructor
@@ -100,7 +100,7 @@ class PLS
 
             // Least squares regression on a slope-only model: 𝜷ᵢ = Σ(xᵢyᵢ) / Σ(xᵢ²)
             $p = $E->transpose()->multiply($t)->scalarDivide($t->frobeniusNorm() ** 2);
-            $q = $F->transpose()->multiply($u)->scalarDivide($u->frobeniusNorm() ** 2);
+            // $q = $F->transpose()->multiply($u)->scalarDivide($u->frobeniusNorm() ** 2);
             $d = $u->transpose()->multiply($t)->scalarDivide($t->frobeniusNorm() ** 2)->get(0, 0);
 
             // Deflate the data matrices
@@ -113,7 +113,6 @@ class PLS
             $this->T = is_null($this->T) ? $t : $this->T->augment($t);
             $this->U = is_null($this->U) ? $u : $this->U->augment($u);
             $this->W = is_null($this->W) ? $w : $this->W->augment($w);
-            $this->D[] = $d;
         }
        
         // Calculate R (or W*)
@@ -136,7 +135,7 @@ class PLS
      *
      * The matrix that best transforms E into F
      */
-    public function getCoefficients()
+    public function getCoefficients(): Matrix
     {
         return $this->B;
     }
@@ -146,7 +145,7 @@ class PLS
      *
      * Each loading column transforms F to U
      */
-    public function getYLoadings()
+    public function getYLoadings(): Matrix
     {
         return $this->C;
     }
@@ -156,7 +155,7 @@ class PLS
      *
      * Each projection column transforms T into Ê
      */
-    public function getProjection()
+    public function getProjection(): Matrix
     {
         return $this->P;
     }
@@ -166,7 +165,7 @@ class PLS
      *
      * The latent variables of X
      */
-    public function getXScores()
+    public function getXScores(): Matrix
     {
         return $this->T;
     }
@@ -176,7 +175,7 @@ class PLS
      *
      * The latent variables of Y
      */
-    public function getYScores()
+    public function getYScores(): Matrix
     {
         return $this->U;
     }
@@ -186,7 +185,7 @@ class PLS
      *
      * Each loading column transforms E into T
      */
-    public function getXLoadings()
+    public function getXLoadings(): Matrix
     {
         return $this->W;
     }
@@ -221,8 +220,8 @@ class PLS
      * Use provided $center and $scale Vectors to transform the provided data
      *
      * @param Matrix $new_data - A Matrix of new data which is standardized against the original data
-     * @param Vector $center -  A list of values to center the data against
-     * @param Vector $scale  - A list of standard deviations to scale the data with.
+     * @param Vector $center   - A list of values to center the data against
+     * @param Vector $scale    - A list of standard deviations to scale the data with.
      *
      * @return Matrix
      *
@@ -241,7 +240,15 @@ class PLS
         return $new_data->subtract($center_matrix)->multiply($scale_matrix);
     }
 
-    private static function columnStdevs(Matrix $M)
+    /**
+     * Column Standard Deviations
+     * Create a Vector with the standard deviations of each column of the supplied matrix
+     *
+     * @param Matrix $M - A Matrix of which to calculate the standard deviations.
+     *
+     * @return Vector
+     */
+    private static function columnStdevs(Matrix $M): Vector
     {
         $scaleArray = [];
         for ($i = 0; $i < $M->getN(); $i++) {
