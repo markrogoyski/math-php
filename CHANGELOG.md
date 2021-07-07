@@ -1,5 +1,10 @@
 # MathPHP Change Log
 
+## v2.1.0 - 2021-07-07
+
+### New Features
+* Quaternion numbers
+
 ## v2.0.0 - 2021-05-09
 
 ### New Features
