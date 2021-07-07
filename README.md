@@ -25,6 +25,7 @@ Features
  * Numbers
    - [Arbitrary Integer](#number---arbitrary-length-integers)
    - [Complex](#number---complex-numbers)
+   - [Quaternion](#number---quaternion)
    - [Rational](#number---rational-numbers)
  * Number Theory
    - [Integers](#number-theory---integers)
@@ -771,6 +772,36 @@ $c／c = $complex->divide($complex);
 // Other functions
 $bool   = $complex->equals($complex);
 $string = (string) $complex;
+```
+
+### Number - Quaternion
+```php
+Use MathPHP\Number\Quaternion;
+
+$r = 4;
+$i = 1;
+$j = 2;
+$k = 3;
+
+$quaternion = new Quaternion($r, $i, $j, $k);
+
+// Get individual parts
+[$r, $i, $j, $k] = [$quaternion->r, $quaternion->i, $quaternion->j, $quaternion->k];
+
+// Unary functions
+$conjugate    = $quaternion->complexConjugate();
+$│q│          = $quaternion->abs();  // absolute value (magnitude)
+$quaternion⁻¹ = $quaternion->inverse();
+$−q           = $quaternion->negate();
+
+// Binary functions
+$q＋q = $quaternion->add($quaternion);
+$q−q  = $quaternion->subtract($quaternion);
+$q×q  = $quaternion->multiply($quaternion);
+$q／q = $quaternion->divide($quaternion);
+
+// Other functions
+$bool = $quaternion->equals($quaternion);
 ```
 
 ### Number - Rational Numbers

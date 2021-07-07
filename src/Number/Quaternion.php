@@ -102,8 +102,9 @@ class Quaternion implements ObjectArithmetic
 
     /**
      * The conjugate of a quaternion
-     *
      * https://en.wikipedia.org/wiki/Quaternion#Conjugation.2C_the_norm.2C_and_reciprocal
+     *
+     * q* = a - bi - cj -dk
      *
      * @return Quaternion
      */
@@ -131,6 +132,10 @@ class Quaternion implements ObjectArithmetic
      * The inverse of a quaternion (reciprocal)
      *
      * https://en.wikipedia.org/wiki/Quaternion#Conjugation.2C_the_norm.2C_and_reciprocal
+     *
+     *                                1
+     * (a + bi + cj + dk)⁻¹ = ----------------- (a - bi - cj -dk)
+     *                        a² + b² + c² + d²
      *
      * @return Quaternion
      *
