@@ -79,6 +79,7 @@ class PLS
         $F = $this->standardizeData($Y, $this->Ycenter, $this->Yscale);
 
         $tol = 1E-8;
+        $iterations = 50;
         for ($i = 0; $i < $ncomp; $i++) {
             // Several sources suggest using a random initial u. This can lead to inconsistent
             // results due to some columns then being multiplyed by -1 some of the time.
@@ -95,7 +96,8 @@ class PLS
                 $c = $F->transpose()->multiply($t)->scalarDivide($t->frobeniusNorm() ** 2);
                 $new_u = $F->multiply($c);
                 $diff = $new_u->subtract($u)->frobeniusNorm();
-            } while ($diff > $tol);
+                --$iterations;
+            } while ($diff > $tol && $iterations > 0);
             $u = $new_u;
 
             // Least squares regression on a slope-only model: 𝜷ᵢ = Σ(xᵢyᵢ) / Σ(xᵢ²)
