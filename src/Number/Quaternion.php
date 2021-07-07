@@ -3,7 +3,6 @@
 namespace MathPHP\Number;
 
 use MathPHP\Exception;
-use MathPHP\Functions\Special;
 
 /**
  * Quaternionic Numbers
@@ -15,38 +14,22 @@ use MathPHP\Functions\Special;
  */
 class Quaternion implements ObjectArithmetic
 {
-    /**
-     * Real part of the quaternionic number
-     * @var number
-     */
+    /** @var number Real part of the quaternionic number */
     protected $r;
 
-    /**
-     * First Imaginary part of the quaternionic number
-     * @var number
-     */
+    /** @var number First Imaginary part of the quaternionic number */
     protected $i;
 
-    /**
-     * Second Imaginary part of the quaternionic number
-     * @var number
-     */
+    /** @var number Second Imaginary part of the quaternionic number */
     protected $j;
 
-    /**
-     * Third Imaginary part of the quaternionic number
-     * @var number
-     */
+    /** @var number Third Imaginary part of the quaternionic number */
     protected $k;
 
-    /**
-     * Floating-point range near zero to consider insignificant.
-     */
+    /** Floating-point range near zero to consider insignificant */
     const EPSILON = 1e-6;
 
     /**
-     * Constructor
-     *
      * @param number $r Real part
      * @param number $i Imaginary part
      * @param number $j Imaginary part
@@ -66,7 +49,7 @@ class Quaternion implements ObjectArithmetic
     /**
      * Creates 0 + 0i
      *
-     * @return Complex
+     * @return Quaternion
      */
     public static function createZeroValue(): ObjectArithmetic
     {
@@ -126,7 +109,7 @@ class Quaternion implements ObjectArithmetic
      */
     public function complexConjugate(): Quaternion
     {
-        return new Quaternion($this->r, -1 * $this->i, -1 * $this->j, -1 * $this->k);
+        return new Quaternion($this->r, -$this->i, -$this->j, -$this->k);
     }
 
     /**
@@ -141,7 +124,7 @@ class Quaternion implements ObjectArithmetic
      */
     public function abs()
     {
-        return sqrt($this->r ** 2 + $this->i ** 2 + $this->j ** 2 + $this->k ** 2);
+        return sqrt($this->r**2 + $this->i**2 + $this->j**2 + $this->k**2);
     }
 
     /**
@@ -194,7 +177,6 @@ class Quaternion implements ObjectArithmetic
         if (!is_numeric($q) && ! $q instanceof Quaternion) {
             throw new Exception\IncorrectTypeException('Argument must be real or quaternion' . print_r($q, true));
         }
-
         if (is_numeric($q)) {
             $r = $this->r + $q;
             return new Quaternion($r, $this->i, $this->j, $this->k);
@@ -229,6 +211,7 @@ class Quaternion implements ObjectArithmetic
             $r = $this->r - $q;
             return new Quaternion($r, $this->i, $this->j, $this->k);
         }
+
         $r = $this->r - $q->r;
         $i = $this->i - $q->i;
         $j = $this->j - $q->j;
@@ -238,9 +221,16 @@ class Quaternion implements ObjectArithmetic
     }
 
     /**
-     * Quaternion multiplication
+     * Quaternion multiplication (Hamilton product)
      *
-     * Quaternion multiplication is not commutative.
+     * (a₁ + b₁i - c₁j - d₁k)(a₂ + b₂i + c₂j + d₂k)
+     *
+     *      a₁a₂ - b₁b₂ - c₁c₂ - d₁d₂
+     *   + (b₁a₂ + a₁b₂ + c₁d₂ - d₁c₂)i
+     *   + (a₁c₂ - b₁d₂ + c₁a₂ + d₁b₂)k
+     *   + (a₁d₂ + b₁c₂ - c₁b₂ + d₁a₂)k
+     *
+     * Note: Quaternion multiplication is not commutative.
      *
      * @param mixed $q
      *
@@ -256,20 +246,15 @@ class Quaternion implements ObjectArithmetic
         if (is_numeric($q)) {
             return new Quaternion($this->r * $q, $this->i * $q, $this->j * $q, $this->k * $q);
         }
-        $a = $this->r;
-        $b = $this->i;
-        $c = $this->j;
-        $d = $this->k;
 
-        $e = $q->r;
-        $f = $q->i;
-        $g = $q->j;
-        $h = $q->k;
+        [$a₁, $b₁, $c₁, $d₁] = [$this->r, $this->i, $this->j, $this->k];
+        [$a₂, $b₂, $c₂, $d₂] = [$q->r, $q->i, $q->j, $q->k];
+
         return new Quaternion(
-            $a*$e - $b*$f - $c*$g - $d*$h,
-            $b*$e + $a*$f + $c*$h - $d*$g,
-            $a*$g - $b*$h + $c*$e + $d*$f,
-            $a*$h + $b*$g - $c*$f + $d*$e
+            $a₁*$a₂ - $b₁*$b₂ - $c₁*$c₂ - $d₁*$d₂,
+            $b₁*$a₂ + $a₁*$b₂ + $c₁*$d₂ - $d₁*$c₂,
+            $a₁*$c₂ - $b₁*$d₂ + $c₁*$a₂ + $d₁*$b₂,
+            $a₁*$d₂ + $b₁*$c₂ - $c₁*$b₂ + $d₁*$a₂
         );
     }
 
@@ -289,6 +274,7 @@ class Quaternion implements ObjectArithmetic
         if (!is_numeric($q) && ! $q instanceof Quaternion) {
             throw new Exception\IncorrectTypeException('Argument must be real or quaternion' . print_r($q, true));
         }
+
         if (is_numeric($q)) {
             $r = $this->r / $q;
             $i = $this->i / $q;
@@ -296,6 +282,7 @@ class Quaternion implements ObjectArithmetic
             $k = $this->k / $q;
             return new Quaternion($r, $i, $j, $k);
         }
+
         return $this->multiply($q->inverse());
     }
 
@@ -324,8 +311,10 @@ class Quaternion implements ObjectArithmetic
 
     /**
      * Stringify an additional part of the quaternion
+     *
+     * @return string
      */
-    private static function stringifyNumberPart($q, string $unit = '', string $string = '')
+    private static function stringifyNumberPart($q, string $unit = '', string $string = ''): string
     {
         if ($q == 0) {
             return $string;
