@@ -84,7 +84,7 @@ class PLS
             // Several sources suggest using a random initial u. This can lead to inconsistent
             // results due to some columns then being multiplyed by -1 some of the time.
             // $new_u = MatrixFactory::random($X->getM(), 1, -20000, 20000)->scalarDivide(20000);
-            $u = $F->getColumn(0)->asColumnMatrix();
+            $u = $F->asVectors()[0]->asColumnMatrix();
             $end = false;
             while(!$end) {
                 ++$iterations;
