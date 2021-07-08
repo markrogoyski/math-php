@@ -20,7 +20,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $range = Descriptive::range($numbers);
 
         // Then
-        $this->assertEquals($expectedRange, $range, '', 0.01);
+        $this->assertEqualsWithDelta($expectedRange, $range, 0.01);
     }
 
     /**
@@ -73,7 +73,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $midrange = Descriptive::midrange($numbers);
 
         // Then
-        $this->assertEquals($expectedMidrange, $midrange, '', 0.01);
+        $this->assertEqualsWithDelta($expectedMidrange, $midrange, 0.01);
     }
 
     /**
@@ -126,7 +126,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $variance = Descriptive::populationVariance($numbers);
 
         // Then
-        $this->assertEquals($expectedVariance, $variance, '', 0.01);
+        $this->assertEqualsWithDelta($expectedVariance, $variance, 0.01);
     }
 
     /**
@@ -175,7 +175,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $variance = Descriptive::sampleVariance($numbers);
 
         // Then
-        $this->assertEquals($expectedVariance, $variance, '', 0.01);
+        $this->assertEqualsWithDelta($expectedVariance, $variance, 0.01);
     }
 
     /**
@@ -259,7 +259,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $variance = Descriptive::weightedSampleVariance($numbers, $weights);
 
         // Then
-        $this->assertEquals($expectedVariance, $variance, '', 0.00001);
+        $this->assertEqualsWithDelta($expectedVariance, $variance, 0.00001);
     }
 
      /**
@@ -294,7 +294,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $variance = Descriptive::weightedSampleVariance($numbers, $weights, $biased);
 
         // Then
-        $this->assertEquals($expectedVariance, $variance, '', 0.1);
+        $this->assertEqualsWithDelta($expectedVariance, $variance, 0.1);
     }
 
     /**
@@ -361,7 +361,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $sd = Descriptive::standardDeviation($numbers, true);
 
         // Then
-        $this->assertEquals($expectedStandardDeviation, $sd, '', 0.01);
+        $this->assertEqualsWithDelta($expectedStandardDeviation, $sd, 0.01);
     }
 
     /**
@@ -377,7 +377,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $sd = Descriptive::sd($numbers, true);
 
         // Then
-        $this->assertEquals($expectedStandardDeviation, $sd, '', 0.01);
+        $this->assertEqualsWithDelta($expectedStandardDeviation, $sd, 0.01);
     }
 
     /**
@@ -387,8 +387,8 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForStandardDeviationUsingPopulationVariance(): array
     {
         return [
-            [ [ -10, 0, 10, 20, 30 ], 10 * sqrt(2) ],
-            [ [ 8, 9, 10, 11, 12 ], sqrt(2) ],
+            [ [ -10, 0, 10, 20, 30 ], 10 * \sqrt(2) ],
+            [ [ 8, 9, 10, 11, 12 ], \sqrt(2) ],
             [ [ 600, 470, 170, 430, 300], 147.32 ],
             [ [ -5, 1, 8, 7, 2], 4.67 ],
             [ [ 3, 7, 34, 25, 46, 7754, 3, 6 ], 2558.580063 ],
@@ -410,7 +410,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $sd = Descriptive::standardDeviation($numbers);
 
         // Then
-        $this->assertEquals($expectedStandardDeviation, $sd, '', 0.01);
+        $this->assertEqualsWithDelta($expectedStandardDeviation, $sd, 0.01);
     }
 
     /**
@@ -426,7 +426,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $sd = Descriptive::sd($numbers);
 
         // Then
-        $this->assertEquals($expectedStandardDeviation, $sd, '', 0.01);
+        $this->assertEqualsWithDelta($expectedStandardDeviation, $sd, 0.01);
     }
 
     /**
@@ -488,7 +488,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $mad = Descriptive::meanAbsoluteDeviation($numbers);
 
         // Then
-        $this->assertEquals($expectedMad, $mad, '', 0.01);
+        $this->assertEqualsWithDelta($expectedMad, $mad, 0.01);
     }
 
     /**
@@ -532,7 +532,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $mad = Descriptive::medianAbsoluteDeviation($numbers);
 
         // Then
-        $this->assertEquals($expectedMad, $mad, '', 0.01);
+        $this->assertEqualsWithDelta($expectedMad, $mad, 0.01);
     }
 
     /**
@@ -796,7 +796,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $value = Descriptive::percentile($numbers, $percentile);
 
         // Then
-        $this->assertEquals($expectedValue, $value, '', 0.0000001);
+        $this->assertEqualsWithDelta($expectedValue, $value, 0.0000001);
     }
 
     /**
@@ -1017,7 +1017,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $midhinge = Descriptive::midhinge($numbers);
 
         // Then
-        $this->assertEquals($expectedMidhinge, $midhinge, '', 0.01);
+        $this->assertEqualsWithDelta($expectedMidhinge, $midhinge, 0.01);
     }
 
     /**
@@ -1059,7 +1059,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $cv = Descriptive::coefficientOfVariation($numbers);
 
         // Then
-        $this->assertEquals($expectedCv, $cv, '', 0.0001);
+        $this->assertEqualsWithDelta($expectedCv, $cv, 0.0001);
     }
 
     /**
@@ -1090,7 +1090,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $stats = Descriptive::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], $population);
 
         // Then
-        $this->assertTrue(is_array($stats));
+        $this->assertTrue(\is_array($stats));
         $this->assertArrayHasKey('n', $stats);
         $this->assertArrayHasKey('min', $stats);
         $this->assertArrayHasKey('max', $stats);
@@ -1113,28 +1113,28 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('sem', $stats);
         $this->assertArrayHasKey('ci_95', $stats);
         $this->assertArrayHasKey('ci_99', $stats);
-        $this->assertTrue(is_int($stats['n']));
-        $this->assertTrue(is_numeric($stats['min']));
-        $this->assertTrue(is_numeric($stats['max']));
-        $this->assertTrue(is_numeric($stats['mean']));
-        $this->assertTrue(is_numeric($stats['median']));
-        $this->assertTrue(is_array($stats['mode']));
-        $this->assertTrue(is_numeric($stats['range']));
-        $this->assertTrue(is_numeric($stats['midrange']));
-        $this->assertTrue(is_numeric($stats['variance']));
-        $this->assertTrue(is_numeric($stats['sd']));
-        $this->assertTrue(is_numeric($stats['cv']));
-        $this->assertTrue(is_numeric($stats['mean_mad']));
-        $this->assertTrue(is_numeric($stats['median_mad']));
-        $this->assertTrue(is_array($stats['quartiles']));
-        $this->assertTrue(is_numeric($stats['midhinge']));
-        $this->assertTrue(is_numeric($stats['skewness']));
-        $this->assertTrue(is_numeric($stats['ses']));
-        $this->assertTrue(is_numeric($stats['kurtosis']));
-        $this->assertTrue(is_numeric($stats['sek']));
-        $this->assertTrue(is_numeric($stats['sem']));
-        $this->assertTrue(is_array($stats['ci_95']));
-        $this->assertTrue(is_array($stats['ci_99']));
+        $this->assertTrue(\is_int($stats['n']));
+        $this->assertTrue(\is_numeric($stats['min']));
+        $this->assertTrue(\is_numeric($stats['max']));
+        $this->assertTrue(\is_numeric($stats['mean']));
+        $this->assertTrue(\is_numeric($stats['median']));
+        $this->assertTrue(\is_array($stats['mode']));
+        $this->assertTrue(\is_numeric($stats['range']));
+        $this->assertTrue(\is_numeric($stats['midrange']));
+        $this->assertTrue(\is_numeric($stats['variance']));
+        $this->assertTrue(\is_numeric($stats['sd']));
+        $this->assertTrue(\is_numeric($stats['cv']));
+        $this->assertTrue(\is_numeric($stats['mean_mad']));
+        $this->assertTrue(\is_numeric($stats['median_mad']));
+        $this->assertTrue(\is_array($stats['quartiles']));
+        $this->assertTrue(\is_numeric($stats['midhinge']));
+        $this->assertTrue(\is_numeric($stats['skewness']));
+        $this->assertTrue(\is_numeric($stats['ses']));
+        $this->assertTrue(\is_numeric($stats['kurtosis']));
+        $this->assertTrue(\is_numeric($stats['sek']));
+        $this->assertTrue(\is_numeric($stats['sem']));
+        $this->assertTrue(\is_array($stats['ci_95']));
+        $this->assertTrue(\is_array($stats['ci_99']));
     }
 
     /**
@@ -1150,7 +1150,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $stats = Descriptive::describe([ 13, 18, 13, 14, 13, 16, 14, 21, 13 ], $population);
 
         // Then
-        $this->assertTrue(is_array($stats));
+        $this->assertTrue(\is_array($stats));
         $this->assertArrayHasKey('n', $stats);
         $this->assertArrayHasKey('min', $stats);
         $this->assertArrayHasKey('max', $stats);
@@ -1171,26 +1171,26 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('sem', $stats);
         $this->assertArrayHasKey('ci_95', $stats);
         $this->assertArrayHasKey('ci_99', $stats);
-        $this->assertTrue(is_int($stats['n']));
-        $this->assertTrue(is_numeric($stats['min']));
-        $this->assertTrue(is_numeric($stats['max']));
-        $this->assertTrue(is_numeric($stats['mean']));
-        $this->assertTrue(is_numeric($stats['median']));
-        $this->assertTrue(is_array($stats['mode']));
-        $this->assertTrue(is_numeric($stats['range']));
-        $this->assertTrue(is_numeric($stats['midrange']));
-        $this->assertTrue(is_numeric($stats['variance']));
-        $this->assertTrue(is_numeric($stats['sd']));
-        $this->assertTrue(is_numeric($stats['cv']));
-        $this->assertTrue(is_array($stats['quartiles']));
-        $this->assertTrue(is_numeric($stats['midhinge']));
-        $this->assertTrue(is_numeric($stats['skewness']));
-        $this->assertTrue(is_numeric($stats['ses']));
-        $this->assertTrue(is_numeric($stats['kurtosis']));
-        $this->assertTrue(is_numeric($stats['sek']));
-        $this->assertTrue(is_numeric($stats['sem']));
-        $this->assertTrue(is_array($stats['ci_95']));
-        $this->assertTrue(is_array($stats['ci_99']));
+        $this->assertTrue(\is_int($stats['n']));
+        $this->assertTrue(\is_numeric($stats['min']));
+        $this->assertTrue(\is_numeric($stats['max']));
+        $this->assertTrue(\is_numeric($stats['mean']));
+        $this->assertTrue(\is_numeric($stats['median']));
+        $this->assertTrue(\is_array($stats['mode']));
+        $this->assertTrue(\is_numeric($stats['range']));
+        $this->assertTrue(\is_numeric($stats['midrange']));
+        $this->assertTrue(\is_numeric($stats['variance']));
+        $this->assertTrue(\is_numeric($stats['sd']));
+        $this->assertTrue(\is_numeric($stats['cv']));
+        $this->assertTrue(\is_array($stats['quartiles']));
+        $this->assertTrue(\is_numeric($stats['midhinge']));
+        $this->assertTrue(\is_numeric($stats['skewness']));
+        $this->assertTrue(\is_numeric($stats['ses']));
+        $this->assertTrue(\is_numeric($stats['kurtosis']));
+        $this->assertTrue(\is_numeric($stats['sek']));
+        $this->assertTrue(\is_numeric($stats['sem']));
+        $this->assertTrue(\is_array($stats['ci_95']));
+        $this->assertTrue(\is_array($stats['ci_99']));
     }
 
     /**
@@ -1311,7 +1311,7 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
         $summary = Descriptive::fiveNumberSummary($numbers);
 
         // Then
-        $this->assertEquals($expectedSummary, $summary, '', 0.0001);
+        $this->assertEqualsWithDelta($expectedSummary, $summary, 0.0001);
     }
 
     /**

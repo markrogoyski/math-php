@@ -18,10 +18,10 @@ class Hypergeometric extends Discrete
      * N ∈ [0,∞)
      * K ∈ [0,N]
      * n ∈ [0,N]
-     * k ∈ [max(0, n + K - N),min(n, K)]
+     * k ∈ [\max(0, n + K - N),min(n, K)]
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'N' => '[0,∞)',
         'K' => '[0,∞]', // Dynamically checked in constructor
         'n' => '[0,∞]', // Dynamically checked in constructor
@@ -60,7 +60,7 @@ class Hypergeometric extends Discrete
         ];
         Support::checkLimits($dynamic_parameter_limits, ['K' => $K, 'n' => $n]);
 
-        $this->support_limit = ['k' => '[' . max(0, $n + $K - $N) . ',' . min($n, $K) . ']'];
+        $this->support_limit = ['k' => '[' . \max(0, $n + $K - $N) . ',' . \min($n, $K) . ']'];
     }
 
     /**
@@ -189,8 +189,8 @@ class Hypergeometric extends Discrete
         $n = $this->n;
 
         return [
-            ceil((($n + 1) * ($K + 1)) / ($N + 2)) - 1,
-            floor((($n + 1) * ($K + 1)) / ($N + 2)),
+            \ceil((($n + 1) * ($K + 1)) / ($N + 2)) - 1,
+            \floor((($n + 1) * ($K + 1)) / ($N + 2)),
         ];
     }
 

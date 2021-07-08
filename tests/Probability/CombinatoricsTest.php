@@ -200,7 +200,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
         $subfactorial = Combinatorics::subfactorial($n);
 
         // Then
-        $this->assertEquals($！n, $subfactorial, '', 0.000000001);
+        $this->assertEqualsWithDelta($！n, $subfactorial, 0.000000001);
     }
 
     /**
@@ -271,26 +271,26 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForFactorialPermutations(): array
     {
         return [
-            [ 1,  1 ],
-            [ 2,  2 ],
-            [ 3,  6 ],
-            [ 4,  24 ],
-            [ 5,  120 ],
-            [ 6,  720 ],
-            [ 7,  5040 ],
-            [ 8,  40320 ],
-            [ 9,  362880 ],
-            [ 10, 3628800 ],
-            [ 11, 39916800 ],
-            [ 12, 479001600 ],
-            [ 13, 6227020800 ],
-            [ 14, 87178291200 ],
-            [ 15, 1307674368000 ],
-            [ 16, 20922789888000 ],
-            [ 17, 355687428096000 ],
-            [ 18, 6402373705728000 ],
-            [ 19, 121645100408832000 ],
-            [ 20, 2432902008176640000 ],
+            [1,  1],
+            [2,  2],
+            [3,  6],
+            [4,  24],
+            [5,  120],
+            [6,  720],
+            [7,  5040],
+            [8,  40320],
+            [9,  362880],
+            [10, 3628800],
+            [11, 39916800],
+            [12, 479001600],
+            [13, 6227020800],
+            [14, 87178291200],
+            [15, 1307674368000],
+            [16, 20922789888000],
+            [17, 355687428096000],
+            [18, 6402373705728000],
+            [19, 121645100408832000],
+            [20, 2432902008176640000],
         ];
     }
 
@@ -317,21 +317,22 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForPermutationsChooseK(): array
     {
         return [
-            [ 10,  0,       1 ],
-            [ 10,  1,      10 ],
-            [ 10,  2,      90 ],
-            [ 10,  3,     720 ],
-            [ 10,  4,    5040 ],
-            [ 10,  5,   30240 ],
-            [ 10,  6,  151200 ],
-            [ 10,  7,  604800 ],
-            [ 10,  8, 1814400 ],
-            [ 10,  9, 3628800 ],
-            [ 10, 10, 3628800 ],
-            [  5,  3,      60 ],
-            [  6,  4,     360 ],
-            [ 16,  3,    3360 ],
-            [ 20,  3,    6840 ],
+            [10,  0,       1],
+            [10,  1,      10],
+            [10,  2,      90],
+            [10,  3,     720],
+            [10,  4,    5040],
+            [10,  5,   30240],
+            [10,  6,  151200],
+            [10,  7,  604800],
+            [10,  8, 1814400],
+            [10,  9, 3628800],
+            [10, 10, 3628800],
+            [ 5,  3,      60],
+            [ 6,  4,     360],
+            [16,  3,    3360],
+            [20,  3,    6840],
+            [23,  5, 4037880],
         ];
     }
 
@@ -379,26 +380,59 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test data produced with Python scipy.special.comb(n, k, exact=True, repetition=False)
      * @return array [n, r, combinations]
      */
     public function dataProviderForCombinations(): array
     {
         return [
-            [ 10,  0,    1 ],
-            [ 10,  1,   10 ],
-            [ 10,  2,   45 ],
-            [ 10,  3,  120 ],
-            [ 10,  4,  210 ],
-            [ 10,  5,  252 ],
-            [ 10,  6,  210 ],
-            [ 10,  7,  120 ],
-            [ 10,  8,   45 ],
-            [ 10,  9,   10 ],
-            [ 10, 10,    1 ],
-            [  5,  3,   10 ],
-            [  6,  4,   15 ],
-            [ 16,  3,  560 ],
-            [ 20,  3, 1140 ],
+            [10,  0,          1],
+            [10,  1,         10],
+            [10,  2,         45],
+            [10,  3,        120],
+            [10,  4,        210],
+            [10,  5,        252],
+            [10,  6,        210],
+            [10,  7,        120],
+            [10,  8,         45],
+            [10,  9,         10],
+            [10, 10,          1],
+            [ 5,  3,         10],
+            [ 6,  4,         15],
+            [16,  3,        560],
+            [20,  3,       1140],
+            [35, 20, 3247943160],
+            [35, 25,  183579396],
+        ];
+    }
+
+    /**
+     * @test         combinations with large floating point overflow result
+     * @dataProvider dataProviderForCombinationsWithLargeFloatingPointOverflowResult
+     * @param        int   $n
+     * @param        int   $r
+     * @param        float $expected
+     * @param        float ε
+     * @throws       \Exception
+     */
+    public function testCombinationsWithLargeFloatingPointOverflowResult(int $n, int $r, float $expected, float $ε)
+    {
+        // When
+        $combinations = Combinatorics::combinations($n, $r);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $combinations, $ε);
+    }
+
+    /**
+     * Test data produced with Python scipy.special.comb(n, k, exact=False, repetition=False)
+     * @return array [n, r, combinations, ε]
+     */
+    public function dataProviderForCombinationsWithLargeFloatingPointOverflowResult(): array
+    {
+        return [
+            [70, 30, 5.534774005814348e+19, 0],
+            [100, 50, 1.0089134454556415e+29, 1e14],
         ];
     }
 
@@ -459,44 +493,66 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test   combinations r greater than n
-     * @throws \Exception
-     */
-    public function testCombinationsRGreaterThanNException()
-    {
-        // Then
-        $this->expectException(Exception\OutOfBoundsException::class);
-
-        // When
-        Combinatorics::combinations(3, 4, Combinatorics::REPETITION);
-    }
-
-    /**
+     * Test data produced with Python scipy.special.comb(n, k, exact=True, repetition=True)
      * @return array [n, r, combinations]
      */
     public function dataProviderForCombinationsWithRepetition(): array
     {
         return [
-            [ 10,  0,     1 ],
-            [ 10,  1,    10 ],
-            [ 10,  2,    55 ],
-            [ 10,  3,   220 ],
-            [ 10,  4,   715 ],
-            [ 10,  5,  2002 ],
-            [ 10,  6,  5005 ],
-            [ 10,  7, 11440 ],
-            [ 10,  8, 24310 ],
-            [ 10,  9, 48620 ],
-            [ 10, 10, 92378 ],
-            [ 5,   3,    35 ],
-            [ 6,   4,   126 ],
-            [ 16,  3,   816 ],
-            [ 20,  3,  1540 ],
+            [10,  0,                  1],
+            [10,  1,                 10],
+            [10,  2,                 55],
+            [10,  3,                220],
+            [10,  4,                715],
+            [10,  5,               2002],
+            [10,  6,               5005],
+            [10,  7,              11440],
+            [10,  8,              24310],
+            [10,  9,              48620],
+            [10, 10,              92378],
+            [5,   3,                 35],
+            [5,   7,                330],
+            [6,   4,                126],
+            [16,  3,                816],
+            [20,  3,               1540],
+            [21, 20,       137846528820],
+            [35, 25,  30284005485024837],
+
         ];
     }
 
     /**
-     * @test         centralbinomialCoefficient
+     * @test         combinations with repetition with large floating point overflow result
+     * @dataProvider dataProviderForCombinationsWithRepetitionWithLargeFloatingPointOverflowResult
+     * @param        int   $n
+     * @param        int   $r
+     * @param        float $expected
+     * @param        float ε
+     * @throws       \Exception
+     */
+    public function testCombinationsWithRepetitionWithLargeFloatingPointOverflowResult(int $n, int $r, float $expected, float $ε)
+    {
+        // When
+        $combinations = Combinatorics::combinations($n, $r, Combinatorics::REPETITION);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $combinations, $ε);
+    }
+
+    /**
+     * Test data produced with Python scipy.special.comb(n, k, exact=False, repetition=True)
+     * @return array [n, r, combinations, ε]
+     */
+    public function dataProviderForCombinationsWithRepetitionWithLargeFloatingPointOverflowResult(): array
+    {
+        return [
+            [70, 30, 2.0560637875127662e+25, 1e10],
+            [100, 50, 1.341910727315462e+40, 1e25],
+        ];
+    }
+
+    /**
+     * @test         centralBinomialCoefficient
      * @dataProvider dataProviderForCentralBinomialCoefficient
      * @param        int   $n
      * @param        float $！n
@@ -508,7 +564,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
         $binomial = Combinatorics::centralBinomialCoefficient($n);
 
         // Then
-        $this->assertEquals($！n, $binomial, '', 0.000000001);
+        $this->assertEqualsWithDelta($！n, $binomial, 0.000000001);
     }
 
     /**
@@ -557,7 +613,7 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
         $catalanNumber = Combinatorics::catalanNumber($n);
 
         // Then
-        $this->assertEquals($！n, $catalanNumber, '', 0.000000001);
+        $this->assertEqualsWithDelta($！n, $catalanNumber, 0.000000001);
     }
 
     /**
@@ -616,12 +672,12 @@ class CombinatoricsTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForMultinomialTheorem(): array
     {
         return [
-            [ [2, 0, 1], 3],
-            [ [1, 1, 1], 6],
-            [ [ 5, 2, 3 ], 2520 ],
-            [ [ 5, 5 ],     252 ],
-            [ [ 1, 4, 4, 2 ], 34650 ],
-            [ [3, 4, 5, 8], 3491888400],
+            [[2, 0, 1], 3],
+            [[1, 1, 1], 6],
+            [[ 5, 2, 3 ], 2520],
+            [[ 5, 5 ],     252],
+            [[ 1, 4, 4, 2 ], 34650],
+            [[3, 4, 5, 8], 3491888400],
         ];
     }
 

@@ -16,7 +16,7 @@ class Cauchy extends Continuous
      * γ  ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'x₀' => '(-∞,∞)',
         'γ'  => '(0,∞)',
     ];
@@ -26,7 +26,7 @@ class Cauchy extends Continuous
      * x  ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x'  => '(-∞,∞)',
     ];
 
@@ -70,7 +70,7 @@ class Cauchy extends Continuous
 
         return 1 / ($π * $γ * (1 + (($x - $x₀) / $γ) ** 2));
     }
-    
+
     /**
      * Cumulative distribution function
      * Calculate the cumulative value value up to a point, left tail.
@@ -87,7 +87,7 @@ class Cauchy extends Continuous
         $γ  = $this->γ;
         $π  = \M_PI;
 
-        return 1 / $π * atan(($x - $x₀) / $γ) + .5;
+        return 1 / $π * \atan(($x - $x₀) / $γ) + .5;
     }
 
     /**
@@ -108,9 +108,9 @@ class Cauchy extends Continuous
 
         $π = \M_PI;
 
-        return $x₀ + $γ * tan($π * ($p - .5));
+        return $x₀ + $γ * \tan($π * ($p - .5));
     }
-    
+
     /**
      * Mean of the distribution (undefined)
      *
@@ -122,7 +122,7 @@ class Cauchy extends Continuous
     {
         return \NAN;
     }
-        
+
     /**
      * Median of the distribution
      *
@@ -132,7 +132,7 @@ class Cauchy extends Continuous
     {
         return $this->x₀;
     }
-    
+
     /**
      * Mode of the distribution
      *

@@ -16,7 +16,7 @@ class StudentT extends Continuous
      * ν ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'ν' => '(0,∞)',
     ];
 
@@ -25,7 +25,7 @@ class StudentT extends Continuous
      * t ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         't' => '(-∞,∞)',
     ];
 
@@ -71,12 +71,12 @@ class StudentT extends Continuous
         $−⟮ν＋1⟯∕2 = -($ν + 1) / 2;
 
         // Denominator
-        $√⟮νπ⟯  = sqrt($ν * $π);
+        $√⟮νπ⟯  = \sqrt($ν * $π);
         $Γ⟮ν∕2⟯ = Special::gamma($ν / 2);
-        
+
         return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋t²∕ν⟯ ** $−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);
     }
-    
+
     /**
      * Cumulative distribution function
      * Calculate the cumulative t value up to a point, left tail.
@@ -129,7 +129,7 @@ class StudentT extends Continuous
 
         return $this->inverse(1 - $p / 2);
     }
-    
+
     /**
      * Mean of the distribution
      *
@@ -146,7 +146,7 @@ class StudentT extends Continuous
 
         return \NAN;
     }
-    
+
     /**
      * Median of the distribution
      *

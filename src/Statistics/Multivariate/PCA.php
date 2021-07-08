@@ -5,7 +5,7 @@ namespace MathPHP\Statistics\Multivariate;
 use MathPHP\Exception;
 use MathPHP\Functions\Map\Single;
 use MathPHP\LinearAlgebra\Eigenvalue;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Probability\Distribution\Continuous\F;
@@ -21,32 +21,32 @@ use MathPHP\Statistics\Descriptive;
  */
 class PCA
 {
-    /** @var Matrix Dataset */
+    /** @var NumericMatrix Dataset */
     private $data;
- 
+
     /** @var Vector Means */
     private $center;
- 
+
     /** @var Vector Scale */
     private $scale;
 
     /** @var Vector $EVal Eigenvalues of the correlation Matrix - Also the Loading Matrix for the PCA */
     private $EVal = null;
 
-    /** @var Matrix $EVec Eigenvectors of the correlation matrix */
+    /** @var NumericMatrix $EVec Eigenvectors of the correlation matrix */
     private $EVec = null;
 
     /**
      * Constructor
      *
-     * @param Matrix $M each row is a sample, each column is a variable
-     * @param bool $center - Sets if the columns are to be centered to μ = 0
-     * @param bool $scale - Sets if the columns are to be scaled to σ  = 1
+     * @param NumericMatrix $M      each row is a sample, each column is a variable
+     * @param bool          $center - Sets if the columns are to be centered to μ = 0
+     * @param bool          $scale  - Sets if the columns are to be scaled to σ  = 1
      *
      * @throws Exception\BadDataException if any rows have a different column count
      * @throws Exception\MathException
      */
-    public function __construct(Matrix $M, bool $center = true, bool $scale = true)
+    public function __construct(NumericMatrix $M, bool $center = true, bool $scale = true)
     {
         // Check that there is enough data: at least two columns and rows
         if (!($M->getM() > 1) || !($M->getN() > 1)) {
@@ -55,7 +55,7 @@ class PCA
 
         $this->center = $center === true
             ? $this->center = $M->columnMeans()
-            : $this->center = new Vector(array_fill(0, $M->getN(), 0));
+            : $this->center = new Vector(\array_fill(0, $M->getN(), 0));
 
         if ($scale === true) {
             $scaleArray = [];
@@ -64,7 +64,7 @@ class PCA
             }
             $this->scale = new Vector($scaleArray);
         } else {
-            $this->scale = new Vector(array_fill(0, $M->getN(), 1));
+            $this->scale = new Vector(\array_fill(0, $M->getN(), 1));
         }
 
         // Save the source data to the class
@@ -72,7 +72,7 @@ class PCA
 
         // Center and scale the data as needed
         $this->data = $this->standardizeData();
-        
+
         // Create the correlation / variance-covarience Matrix
         $samples       = $M->getM();
         $corrCovMatrix = $this->data->transpose()->multiply($this->data)->scalarDivide($samples - 1);
@@ -85,11 +85,11 @@ class PCA
     /**
      * Verify that the matrix has the same number of columns as the original data
      *
-     * @param Matrix $newData
+     * @param NumericMatrix $newData
      *
      * @throws Exception\BadDataException if the matrix is not square
      */
-    private function checkNewData(Matrix $newData)
+    private function checkNewData(NumericMatrix $newData): void
     {
         if ($newData->getN() !== $this->data->getN()) {
             throw new Exception\BadDataException('Data does not have the same number of columns');
@@ -100,13 +100,13 @@ class PCA
      * Standardize the data
      * Use the object $center and $scale Vectors to transform the provided data
      *
-     * @param Matrix $new_data - An optional Matrix of new data which is standardized against the original data
+     * @param NumericMatrix $new_data - An optional Matrix of new data which is standardized against the original data
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MathException
      */
-    public function standardizeData(Matrix $new_data = null): Matrix
+    public function standardizeData(NumericMatrix $new_data = null): NumericMatrix
     {
         if ($new_data === null) {
             $X = $this->data;
@@ -115,7 +115,7 @@ class PCA
             $X = $new_data;
         }
         $ones_column = MatrixFactory::one($X->getM(), 1);
-        
+
         // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
         $center_matrix = $ones_column->multiply(MatrixFactory::create([$this->center->getVector()]));
         $scale_matrix  = MatrixFactory::diagonal($this->scale->getVector())->inverse();
@@ -123,13 +123,13 @@ class PCA
         // scaled data: ($X - μ) / σ
         return $X->subtract($center_matrix)->multiply($scale_matrix);
     }
-    
+
     /**
      * The loadings are the unit eigenvectors of the correlation matrix
      *
-     * @return Matrix
+     * @return NumericMatrix
      */
-    public function getLoadings(): Matrix
+    public function getLoadings(): NumericMatrix
     {
         return $this->EVec;
     }
@@ -156,13 +156,13 @@ class PCA
      *
      * Transform the standardized data with the loadings matrix
      *
-     * @param Matrix|null $new_data
+     * @param NumericMatrix|null $new_data
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MathException
      */
-    public function getScores(Matrix $new_data = null): Matrix
+    public function getScores(NumericMatrix $new_data = null): NumericMatrix
     {
         if ($new_data === null) {
             $scaled_data = $this->data;
@@ -212,13 +212,13 @@ class PCA
      * For each row (i) in the data Matrix x, and retained components (j):
      * Qᵢ = eᵢ'eᵢ = xᵢ(I-PⱼPⱼ')xᵢ'
      *
-     * @param Matrix $new_data - An optional Matrix of new data which is standardized against the original data
+     * @param NumericMatrix $new_data - An optional Matrix of new data which is standardized against the original data
      *
-     * @return Matrix of Q residuals
+     * @return NumericMatrix of Q residuals
      *
      * @throws Exception\MathException
      */
-    public function getQResiduals(Matrix $new_data = null): Matrix
+    public function getQResiduals(NumericMatrix $new_data = null): NumericMatrix
     {
         $vars = $this->data->getN();
 
@@ -228,7 +228,7 @@ class PCA
             $this->checkNewData($new_data);
             $X = $this->standardizeData($new_data);
         }
-        
+
         $X′ = $X->transpose();
         $I  = MatrixFactory::identity($vars);
 
@@ -247,7 +247,7 @@ class PCA
 
         return $Q;
     }
-    
+
     /**
      * Get the T² Distance
      *
@@ -255,13 +255,13 @@ class PCA
      * For each row (i) in the data matrix, and retained componenets (j)
      * Tᵢ² = XᵢPⱼΛⱼ⁻¹Pⱼ'Xᵢ'
      *
-     * @param Matrix $new_data - An optional Matrix of new data which is standardized against the original data
+     * @param NumericMatrix $new_data - An optional Matrix of new data which is standardized against the original data
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MathException
      */
-    public function getT2Distances(Matrix $new_data = null): Matrix
+    public function getT2Distances(NumericMatrix $new_data = null): NumericMatrix
     {
         $vars = $this->data->getN();
 
@@ -277,14 +277,14 @@ class PCA
         // Initial element with initialization of result matrix
         $P    = $this->EVec->submatrix(0, 0, $vars - 1, 0); // // Get the first column of the loading matrix
         $P′   = $P->transpose();
-        $Λⱼ⁻¹ = MatrixFactory::diagonal(array_slice($this->EVal->getVector(), 0, 0 + 1))->inverse();
+        $Λⱼ⁻¹ = MatrixFactory::diagonal(\array_slice($this->EVal->getVector(), 0, 0 + 1))->inverse();
         $T²   = MatrixFactory::create([$X->multiply($P)->multiply($Λⱼ⁻¹)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
 
         for ($i = 1; $i < $this->data->getN(); $i++) {
             // Get the first $i+1 columns of the loading matrix
             $P    = $this->EVec->submatrix(0, 0, $vars - 1, $i);
             $P′   = $P->transpose();
-            $Λⱼ⁻¹ = MatrixFactory::diagonal(array_slice($this->EVal->getVector(), 0, $i + 1))->inverse();
+            $Λⱼ⁻¹ = MatrixFactory::diagonal(\array_slice($this->EVal->getVector(), 0, $i + 1))->inverse();
             $Tᵢ²  = MatrixFactory::create([$X->multiply($P)->multiply($Λⱼ⁻¹)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
             $T²   = $T²->augment($Tᵢ²);
         }
@@ -329,11 +329,11 @@ class PCA
         $QCritical = [];
 
         for ($i = 0; $i < $vars - 1; $i++) {
-            $evals = array_slice($this->getEigenvalues()->getVector(), $i + 1);
+            $evals = \array_slice($this->getEigenvalues()->getVector(), $i + 1);
 
-            $t1 = array_sum($evals);
-            $t2 = array_sum(Single::square($evals));
-            $t3 = array_sum(Single::pow($evals, 3));
+            $t1 = \array_sum($evals);
+            $t2 = \array_sum(Single::square($evals));
+            $t3 = \array_sum(Single::pow($evals, 3));
 
             $h0 = 1 - 2 * $t1 * $t3 / 3 / $t2 ** 2;
             if ($h0 < .001) {
@@ -343,7 +343,7 @@ class PCA
             $normal = new StandardNormal();
             $ca     = $normal->inverse(1 - $alpha);
 
-            $h1 = $ca * sqrt(2 * $t2 * $h0 ** 2) / $t1;
+            $h1 = $ca * \sqrt(2 * $t2 * $h0 ** 2) / $t1;
             $h2 = $t2 * $h0 * ($h0 - 1) / $t1 ** 2;
 
             $QCritical[] = $t1 * (1 + $h1 + $h2) ** (1 / $h0);

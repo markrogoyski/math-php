@@ -119,15 +119,15 @@ class ANOVA
     public static function oneWay(array ...$samples): array
     {
         // Must have at least three samples
-        $m = count($samples);
+        $m = \count($samples);
         if ($m < 3) {
             throw new Exception\BadDataException('Must have at least three samples');
         }
 
         // All samples must have the same number of items
-        $n = count($samples[0]);
+        $n = \count($samples[0]);
         for ($i = 1; $i < $m; $i++) {
-            if (count($samples[$i]) !== $n) {
+            if (\count($samples[$i]) !== $n) {
                 throw new Exception\BadDataException('All samples must have the same number of values');
             }
         }
@@ -137,7 +137,7 @@ class ANOVA
         foreach ($samples as $i => $sample) {
             $summary_data[$i]             = [];
             $summary_data[$i]['n']        = $n;
-            $summary_data[$i]['sum']      = array_sum($sample);
+            $summary_data[$i]['sum']      = \array_sum($sample);
             $summary_data[$i]['mean']     = Average::mean($sample);
             $summary_data[$i]['SS']       = RandomVariable::sumOfSquares($sample);
             $summary_data[$i]['variance'] = Descriptive::sampleVariance($sample);
@@ -146,17 +146,17 @@ class ANOVA
         }
 
         // Totals summary
-        $all_elements = array_reduce(
+        $all_elements = \array_reduce(
             $samples,
             function ($merged, $sample) {
-                return array_merge($merged, $sample);
+                return \array_merge($merged, $sample);
             },
             array()
         );
         $μ     = Average::mean($all_elements);
         $total = [
-            'n'        => count($all_elements),
-            'sum'      => array_sum($all_elements),
+            'n'        => \count($all_elements),
+            'sum'      => \array_sum($all_elements),
             'mean'     => $μ,
             'SS'       => RandomVariable::sumOfSquares($all_elements),
             'variance' => Descriptive::sampleVariance($all_elements),
@@ -166,13 +166,13 @@ class ANOVA
 
         // ANOVA sum of squares
         $SST = RandomVariable::sumOfSquaresDeviations($all_elements);
-        $SSB = array_sum(array_map(
+        $SSB = \array_sum(\array_map(
             function ($sample) use ($n, $μ) {
                 return $n * (Average::mean($sample) - $μ) ** 2;
             },
             $samples
         ));
-        $SSW = array_sum(array_map(
+        $SSW = \array_sum(\array_map(
             'MathPHP\Statistics\RandomVariable::sumOfSquaresDeviations',
             $samples
         ));
@@ -385,24 +385,24 @@ class ANOVA
     public static function twoWay(array ...$data): array
     {
         // Must have at least two rows (two types of factor A)
-        $r = count($data);
+        $r = \count($data);
         if ($r < 2) {
             throw new Exception\BadDataException('Must have at least two rows (two types of factor A)');
         }
 
         // All samples must have the same number the second factor B
-        $c = count($data[0]);
+        $c = \count($data[0]);
         for ($i = 1; $i < $r; $i++) {
-            if (count($data[$i]) !== $c) {
+            if (\count($data[$i]) !== $c) {
                 throw new Exception\BadDataException('All samples must have the same number of the second factor B');
             }
         }
 
         // Each AB factor interaction must have the same number of values
-        $v = count($data[0][0]);
+        $v = \count($data[0][0]);
         for ($i = 0; $i < $r; $i++) {
             for ($j = 0; $j < $c; $j++) {
-                if (count($data[$i][$j]) !== $v) {
+                if (\count($data[$i][$j]) !== $v) {
                     throw new Exception\BadDataException('Each AB factor interaction must have the same number of values');
                 }
             }
@@ -424,13 +424,13 @@ class ANOVA
             $A_elements[$A] = [];
             foreach ($Bs as $B => $values) {
                 // Aggregates
-                $all_elements   = array_merge($all_elements, $values);
-                $A_elements[$A] = array_merge($A_elements[$A], $values);
+                $all_elements   = \array_merge($all_elements, $values);
+                $A_elements[$A] = \array_merge($A_elements[$A], $values);
 
                 // AB summary
                 $summary_AB[$A][$B]             = [];
                 $summary_AB[$A][$B]['n']        = $c;
-                $summary_AB[$A][$B]['sum']      = array_sum($values);
+                $summary_AB[$A][$B]['sum']      = \array_sum($values);
                 $summary_AB[$A][$B]['mean']     = Average::mean($values);
                 $summary_AB[$A][$B]['SS']       = RandomVariable::sumOfSquares($values);
                 $summary_AB[$A][$B]['variance'] = Descriptive::sampleVariance($values);
@@ -443,15 +443,15 @@ class ANOVA
         for ($B = 0; $B < $c; $B++) {
             $B_elements[$B] = [];
             foreach ($data as $factor1s) {
-                $B_elements[$B] = array_merge($B_elements[$B], $factor1s[$B]);
+                $B_elements[$B] = \array_merge($B_elements[$B], $factor1s[$B]);
             }
         }
 
         // Factor A summary
         foreach ($A_elements as $A => $elements) {
             $summary_A[$A]             = [];
-            $summary_A[$A]['n']        = count($elements);
-            $summary_A[$A]['sum']      = array_sum($elements);
+            $summary_A[$A]['n']        = \count($elements);
+            $summary_A[$A]['sum']      = \array_sum($elements);
             $summary_A[$A]['mean']     = Average::mean($elements);
             $summary_A[$A]['SS']       = RandomVariable::sumOfSquares($elements);
             $summary_A[$A]['variance'] = Descriptive::sampleVariance($elements);
@@ -462,8 +462,8 @@ class ANOVA
         // Factor B summary
         foreach ($B_elements as $B => $elements) {
             $summary_B[$B]             = [];
-            $summary_B[$B]['n']        = count($elements);
-            $summary_B[$B]['sum']      = array_sum($elements);
+            $summary_B[$B]['n']        = \count($elements);
+            $summary_B[$B]['sum']      = \array_sum($elements);
             $summary_B[$B]['mean']     = Average::mean($elements);
             $summary_B[$B]['SS']       = RandomVariable::sumOfSquares($elements);
             $summary_B[$B]['variance'] = Descriptive::sampleVariance($elements);
@@ -474,8 +474,8 @@ class ANOVA
         // Totals summary
         $μ             = Average::mean($all_elements);
         $summary_total = [
-            'n'        => count($all_elements),
-            'sum'      => array_sum($all_elements),
+            'n'        => \count($all_elements),
+            'sum'      => \array_sum($all_elements),
             'mean'     => $μ,
             'SS'       => RandomVariable::sumOfSquares($all_elements),
             'variance' => Descriptive::sampleVariance($all_elements),
@@ -484,7 +484,7 @@ class ANOVA
         ];
 
         // Sum of squares factor A
-        $SSA = array_sum(array_map(
+        $SSA = \array_sum(\array_map(
             function ($f1) use ($μ) {
                 return $f1['n'] * ($f1['mean'] - $μ) ** 2;
             },
@@ -492,7 +492,7 @@ class ANOVA
         ));
 
         // Sum of squares factor B
-        $SSB = array_sum(array_map(
+        $SSB = \array_sum(\array_map(
             function ($B) use ($μ) {
                 return $B['n'] * ($B['mean'] - $μ) ** 2;
             },

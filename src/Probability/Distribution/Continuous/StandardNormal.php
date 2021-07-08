@@ -15,13 +15,13 @@ class StandardNormal extends Normal
      * Mean is always 0
      * @var int
      */
-    const μ = 0;
+    protected const μ = 0;
 
     /**
      * Standard deviation is always 1
      * @var int
      */
-    const σ = 1;
+    protected const σ = 1;
 
     /**
      * Distribution parameter bounds limits
@@ -29,7 +29,7 @@ class StandardNormal extends Normal
      * σ ∈ [1,1]
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'μ' => '[-0,0]',
         'σ' => '[1,1]',
     ];
@@ -39,7 +39,7 @@ class StandardNormal extends Normal
      * z ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'z' => '(-∞,∞)',
     ];
 

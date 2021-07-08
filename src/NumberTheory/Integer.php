@@ -106,7 +106,7 @@ class Integer
      */
     public static function radical(int $n): int
     {
-        return array_product(array_unique(self::primeFactorization($n)));
+        return \array_product(\array_unique(self::primeFactorization($n)));
     }
 
     /**
@@ -136,7 +136,7 @@ class Integer
         }
 
         $J      = $n ** $k;
-        $primes = array_unique(self::primeFactorization($n));
+        $primes = \array_unique(self::primeFactorization($n));
 
         foreach ($primes as $prime) {
             $J *= 1 - 1 / $prime ** $k;
@@ -182,7 +182,7 @@ class Integer
      */
     public static function reducedTotient(int $n): int
     {
-        $primes = array_count_values(self::primeFactorization($n));
+        $primes = \array_count_values(self::primeFactorization($n));
         $λ      = 1;
         if (isset($primes[2]) && $primes[2] > 2) {
             --$primes[2];
@@ -218,11 +218,11 @@ class Integer
     public static function mobius(int $n): int
     {
         $factors = self::primeFactorization($n);
-        if ($factors !== array_unique($factors)) {
+        if ($factors !== \array_unique($factors)) {
             return 0;
         }
 
-        return (-1) ** count($factors);
+        return (-1) ** \count($factors);
     }
 
     /**
@@ -282,7 +282,7 @@ class Integer
     public static function isSphenicNumber(int $n): bool
     {
         $factors = self::primeFactorization($n);
-        return count($factors) === 3 && count(array_unique($factors)) === 3;
+        return \count($factors) === 3 && \count(\array_unique($factors)) === 3;
     }
 
     /**
@@ -328,17 +328,17 @@ class Integer
      */
     public static function perfectPower(int $n): array
     {
-        $√n = sqrt($n);
-        $ms = array_filter(
+        $√n = \sqrt($n);
+        $ms = \array_filter(
             Algebra::factors($n),
             function ($m) use ($√n) {
                 return ($m > 1 && $m <= $√n);
             }
         );
-        $max_k = ceil(log($n, 2));
+        $max_k = \ceil(\log($n, 2));
 
         foreach ($ms as $m) {
-            foreach (range(2, $max_k) as $k) {
+            foreach (\range(2, $max_k) as $k) {
                 $mᵏ = $m ** $k;
                 if ($mᵏ == $n) {
                     return [$m, $k];
@@ -378,24 +378,24 @@ class Integer
         foreach ([2, 3] as $divisor) {
             while ($remainder % $divisor === 0) {
                 $factors[] = $divisor;
-                $remainder = intdiv($remainder, $divisor);
+                $remainder = \intdiv($remainder, $divisor);
             }
         }
 
         $divisor = 5;
-        $√n = sqrt($remainder);
+        $√n = \sqrt($remainder);
 
         while ($divisor <= $√n) {
             while ($remainder % $divisor === 0) {
                 $factors[] = $divisor;
-                $remainder = intdiv($remainder, $divisor);
-                $√n        = sqrt($remainder);
+                $remainder = \intdiv($remainder, $divisor);
+                $√n        = \sqrt($remainder);
             }
             $divisor += 2;
             while ($remainder % $divisor === 0) {
                 $factors[] = $divisor;
-                $remainder = intdiv($remainder, $divisor);
-                $√n        = sqrt($remainder);
+                $remainder = \intdiv($remainder, $divisor);
+                $√n        = \sqrt($remainder);
             }
             $divisor += 4;
         }
@@ -444,7 +444,7 @@ class Integer
         $factors = self::primeFactorization($n);
         $product = 1;
 
-        foreach (array_count_values($factors) as $factor => $exponent) {
+        foreach (\array_count_values($factors) as $factor => $exponent) {
             $product *= $exponent + 1;
         }
 
@@ -471,10 +471,10 @@ class Integer
         $factors = self::primeFactorization($n);
         $product = 1;
 
-        foreach (array_count_values($factors) as $factor => $exponent) {
+        foreach (\array_count_values($factors) as $factor => $exponent) {
             $sum = 1 + $factor;
             for ($i = 2; $i <= $exponent; $i++) {
-                $sum += pow($factor, $i);
+                $sum += \pow($factor, $i);
             }
             $product *= $sum;
         }
@@ -491,7 +491,7 @@ class Integer
      */
     public static function isOdd(int $x): bool
     {
-        return (abs($x) % 2) === 1;
+        return (\abs($x) % 2) === 1;
     }
 
     /**
@@ -503,6 +503,6 @@ class Integer
      */
     public static function isEven(int $x): bool
     {
-        return (abs($x) % 2) === 0;
+        return (\abs($x) % 2) === 0;
     }
 }

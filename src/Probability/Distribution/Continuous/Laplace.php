@@ -12,7 +12,7 @@ class Laplace extends Continuous
      * b ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
         'b' => '(0,∞)',
     ];
@@ -22,7 +22,7 @@ class Laplace extends Continuous
      * x ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',
     ];
 
@@ -63,7 +63,7 @@ class Laplace extends Continuous
         $μ = $this->μ;
         $b = $this->b;
 
-        return (1 / (2 * $b)) * exp(-( abs($x - $μ) / $b ));
+        return (1 / (2 * $b)) * \exp(-(\abs($x - $μ) / $b));
     }
     /**
      * Laplace distribution - cumulative distribution function
@@ -90,9 +90,9 @@ class Laplace extends Continuous
         $b = $this->b;
 
         if ($x < $μ) {
-            return (1 / 2) * exp(($x - $μ) / $b);
+            return (1 / 2) * \exp(($x - $μ) / $b);
         }
-        return 1 - (1 / 2) * exp(-($x - $μ) / $b);
+        return 1 - (1 / 2) * \exp(-($x - $μ) / $b);
     }
 
     /**
@@ -113,7 +113,7 @@ class Laplace extends Continuous
 
         return parent::inverse($p);
     }
-    
+
     /**
      * Mean of the distribution
      *

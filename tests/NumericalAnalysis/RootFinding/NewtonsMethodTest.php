@@ -2,7 +2,7 @@
 
 namespace MathPHP\Tests\NumericalAnalysis\RootFinding;
 
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 use MathPHP\NumericalAnalysis\RootFinding\NewtonsMethod;
 
 class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
@@ -32,10 +32,8 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $x = NewtonsMethod::solve($func, $args, $target, $tol, $position);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
-
-
 
     /**
      * @test   Solve f(x) = x⁴ + 8x³ -13x² -92x + 96
@@ -60,7 +58,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $x = NewtonsMethod::solve($polynomial, $args, $target, $tol, $position);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -99,7 +97,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $root = NewtonsMethod::solve($func, $args, $target, $tol, $position);
 
         // Then
-        $this->assertEquals($expected, $root, '', $tol);
+        $this->assertEqualsWithDelta($expected, $root, $tol);
     }
 
     /**
@@ -115,7 +113,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         };
 
         // And
-        $expected = sqrt(5);
+        $expected = \sqrt(5);
         $args     = [2];
         $target   = 0;
         $position = 0;
@@ -125,11 +123,11 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $root = NewtonsMethod::solve($func, $args, $target, $tol, $position);
 
         // Then
-        $this->assertEquals($expected, $root, '', $tol);
+        $this->assertEqualsWithDelta($expected, $root, $tol);
     }
 
     /**
-     * @test   Solve cos(x) - 2x
+     * @test   Solve \cos(x) - 2x
      *         Has a root of approximately 0.450183
      * @throws \Exception
      */
@@ -137,7 +135,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return cos($x) - 2 * $x;
+            return \cos($x) - 2 * $x;
         };
 
         // And
@@ -151,11 +149,11 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $root = NewtonsMethod::solve($func, $args, $target, $tol, $position);
 
         // Then
-        $this->assertEquals($expected, $root, '', $tol);
+        $this->assertEqualsWithDelta($expected, $root, $tol);
     }
 
     /**
-     * @test   Solve cos(x) = x
+     * @test   Solve \cos(x) = x
      *         Has a root of approximately 0.7390851332
      * @throws \Exception
      */
@@ -163,7 +161,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return cos($x);
+            return \cos($x);
         };
 
         // And
@@ -177,7 +175,7 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
         $root = NewtonsMethod::solve($func, $args, $target, $tol, $position);
 
         // Then
-        $this->assertEquals($x, $root, '', $tol);
+        $this->assertEqualsWithDelta($x, $root, $tol);
     }
 
     /**
@@ -250,5 +248,30 @@ class NewtonsMethodTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertNan($x);
+    }
+
+    /**
+     * @test   Solve f(x) = ³√x for ³√x = 0
+     *         Has no solution
+     * @throws \Exception
+     */
+    public function testNoSolutionCubeRootX()
+    {
+        // Given
+        $func = function ($x) {
+            return $x ** (1 / 3);
+        };
+
+        // And
+        $args     = [1];
+        $target   = 0;
+        $position = 0;
+        $tol      = 0.00001;
+
+        // When
+        $root = NewtonsMethod::solve($func, $args, $target, $tol, $position);
+
+        // Then
+        $this->assertNan($root);
     }
 }

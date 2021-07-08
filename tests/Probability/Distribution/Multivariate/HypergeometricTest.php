@@ -14,7 +14,7 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
     public function testHypergeometric(array $quantities, array $picks, $expected)
     {
         $dist = new Hypergeometric($quantities);
-        $this->assertEquals($expected, $dist->pmf($picks), '', 0.00000001);
+        $this->assertEqualsWithDelta($expected, $dist->pmf($picks), 0.00000001);
     }
 
     /**

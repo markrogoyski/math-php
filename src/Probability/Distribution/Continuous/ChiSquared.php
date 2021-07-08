@@ -16,7 +16,7 @@ class ChiSquared extends Continuous
      * k ∈ [1,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'k' => '[1,∞)',
     ];
 
@@ -25,7 +25,7 @@ class ChiSquared extends Continuous
      * x ∈ [0,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '[0,∞)',
     ];
 
@@ -63,7 +63,7 @@ class ChiSquared extends Continuous
 
         // Numerator
         $x⁽ᵏ／²⁾⁻¹ = $x ** (($k / 2) - 1);
-        $ℯ⁻⁽ˣ／²⁾  = exp(-($x / 2));
+        $ℯ⁻⁽ˣ／²⁾  = \exp(-($x / 2));
 
         // Denominator
         $２ᵏ／²  = 2 ** ($k / 2);
@@ -103,7 +103,7 @@ class ChiSquared extends Continuous
 
         return $γ⟮k／2、x／2⟯ / $Γ⟮k／2⟯;
     }
-    
+
     /**
      * Mean of the distribution
      *
@@ -136,13 +136,13 @@ class ChiSquared extends Continuous
     /**
      * Mode of the distribution
      *
-     * max(k - 2, 0)
+     * \max(k - 2, 0)
      *
      * @return float
      */
     public function mode(): float
     {
-        return max($this->k - 2, 0);
+        return \max($this->k - 2, 0);
     }
 
     /**

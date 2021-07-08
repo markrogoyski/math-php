@@ -22,8 +22,8 @@ class HanesWoolfTest extends \PHPUnit\Framework\TestCase
         $parameters = $regression->getParameters();
 
         // Then
-        $this->assertEquals($V, $parameters['V'], '', 0.0001);
-        $this->assertEquals($K, $parameters['K'], '', 0.0001);
+        $this->assertEqualsWithDelta($V, $parameters['V'], 0.0001);
+        $this->assertEqualsWithDelta($K, $parameters['K'], 0.0001);
     }
 
     /**
@@ -55,7 +55,7 @@ class HanesWoolfTest extends \PHPUnit\Framework\TestCase
         $y = $regression->evaluate($x);
 
         // Then
-        $this->assertEquals($expected_y, $y, '', 0.0001);
+        $this->assertEqualsWithDelta($expected_y, $y, 0.0001);
     }
 
     /**

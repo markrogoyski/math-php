@@ -61,11 +61,11 @@ class LinearThroughPoint extends ParametricRegression
      * @throws \MathPHP\Exception\MatrixException
      * @throws \MathPHP\Exception\MathException
      */
-    public function calculate()
+    public function calculate(): void
     {
         $v = $this->v;
         $w = $this->w;
-        
+
         $x’ = Single::subtract($this->xs, $v);
         $y’ = Single::subtract($this->ys, $w);
 

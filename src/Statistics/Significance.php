@@ -18,8 +18,8 @@ use MathPHP\Exception;
  */
 class Significance
 {
-    const Z_TABLE_VALUE = true;
-    const Z_RAW_VALUE   = false;
+    public const Z_TABLE_VALUE = true;
+    public const Z_RAW_VALUE   = false;
 
     /**
      * One-sample Z-test
@@ -78,7 +78,7 @@ class Significance
         } else {
             $p1 = $standardNormal->above($z);
         }
-        $p2 = $standardNormal->outside(-abs($z), abs($z));
+        $p2 = $standardNormal->outside(-\abs($z), \abs($z));
 
         return [
             'z'  => $z,
@@ -132,12 +132,12 @@ class Significance
     public static function zTestTwoSample(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂, float $Δ = 0.0): array
     {
         // Calculate z score (test statistic)
-        $z = ($μ₁ - $μ₂ - $Δ) / sqrt((($σ₁ ** 2) / $n₁) + (($σ₂ ** 2) / $n₂));
+        $z = ($μ₁ - $μ₂ - $Δ) / \sqrt((($σ₁ ** 2) / $n₁) + (($σ₂ ** 2) / $n₂));
 
         $standardNormal = new StandardNormal();
         // One- and two-tailed P values
-        $p1 = $standardNormal->above(abs($z));
-        $p2 = $standardNormal->outside(-abs($z), abs($z));
+        $p1 = $standardNormal->above(\abs($z));
+        $p2 = $standardNormal->outside(-\abs($z), \abs($z));
 
         return [
             'z'  => $z,
@@ -166,7 +166,7 @@ class Significance
         $z = ($M - $μ) / $σ;
 
         return $table_value
-            ? round($z, 2)
+            ? \round($z, 2)
             : $z;
     }
 
@@ -184,10 +184,10 @@ class Significance
      */
     public static function tTest(array $a, $b): array
     {
-        if (is_numeric($b)) {
+        if (\is_numeric($b)) {
             return self::tTestOneSample($a, $b);
         }
-        if (is_array($b)) {
+        if (\is_array($b)) {
             return self::tTestTwoSample($a, $b);
         }
 
@@ -223,7 +223,7 @@ class Significance
      */
     public static function tTestOneSample(array $a, float $H₀): array
     {
-        $n  = count($a);
+        $n  = \count($a);
         $Hₐ = Average::mean($a);
         $σ  = Descriptive::standardDeviation($a, Descriptive::SAMPLE);
 
@@ -272,7 +272,7 @@ class Significance
         } else {
             $p1 = $studentT->above($t);
         }
-        $p2 = $studentT->outside(-abs($t), abs($t));
+        $p2 = $studentT->outside(-\abs($t), \abs($t));
 
         return [
             't'    => $t,
@@ -336,8 +336,8 @@ class Significance
      */
     public static function tTestTwoSample(array $x₁, array $x₂): array
     {
-        $n₁ = count($x₁);
-        $n₂ = count($x₂);
+        $n₁ = \count($x₁);
+        $n₂ = \count($x₂);
 
         $μ₁ = Average::mean($x₁);
         $μ₂ = Average::mean($x₂);
@@ -403,7 +403,7 @@ class Significance
     public static function tTestTwoSampleFromSummaryData(float $μ₁, float $μ₂, int $n₁, int $n₂, float $σ₁, float $σ₂): array
     {
         // Calculate t score (test statistic)
-        $t = ($μ₁ - $μ₂) / sqrt((($σ₁ ** 2) / $n₁) + (($σ₂ ** 2) / $n₂));
+        $t = ($μ₁ - $μ₂) / \sqrt((($σ₁ ** 2) / $n₁) + (($σ₂ ** 2) / $n₂));
 
         // Degrees of freedom
         $ν = ((($σ₁ ** 2) / $n₁) + (($σ₂ ** 2) / $n₂)) ** 2
@@ -412,8 +412,8 @@ class Significance
 
         // One- and two-tailed P values
         $studentT = new StudentT($ν);
-        $p1 = $studentT->above(abs($t));
-        $p2 = $studentT->outside(-abs($t), abs($t));
+        $p1 = $studentT->above(\abs($t));
+        $p2 = $studentT->outside(-\abs($t), \abs($t));
 
         return [
             't'  => $t,
@@ -443,7 +443,7 @@ class Significance
      */
     public static function tScore(float $Hₐ, float $s, int $n, float $H₀): float
     {
-        return ($Hₐ - $H₀) / ($s / sqrt($n));
+        return ($Hₐ - $H₀) / ($s / \sqrt($n));
     }
 
     /**
@@ -473,15 +473,15 @@ class Significance
     public static function chiSquaredTest(array $observed, array $expected): array
     {
         // Arrays must have the same number of elements
-        if (count($observed) !== count($expected)) {
+        if (\count($observed) !== \count($expected)) {
             throw new Exception\BadDataException('Observed and expected must have the same number of elements');
         }
 
         // Reset array indexes and initialize
-        $O  = array_values($observed);
-        $E  = array_values($expected);
-        $n  = count($observed);        // number of terms
-        $k  = $n - 1;                  // degrees of freedom
+        $O  = \array_values($observed);
+        $E  = \array_values($expected);
+        $n  = \count($observed);        // number of terms
+        $k  = $n - 1;                   // degrees of freedom
         $χ² = 0;
 
         /*
@@ -519,6 +519,6 @@ class Significance
      */
     public static function sem(float $σ, int $n): float
     {
-        return $σ / sqrt($n);
+        return $σ / \sqrt($n);
     }
 }

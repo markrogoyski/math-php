@@ -2,7 +2,7 @@
 
 namespace MathPHP\Tests\NumericalAnalysis\RootFinding;
 
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 use MathPHP\NumericalAnalysis\RootFinding\FixedPointIteration;
 use MathPHP\Exception;
 
@@ -44,8 +44,8 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
         $x2 = FixedPointIteration::solve($func, $b, $a, $p, $tol);
 
         // Then
-        $this->assertEquals($expected, $x1, '', $tol);
-        $this->assertEquals($expected, $x2, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x1, $tol);
+        $this->assertEqualsWithDelta($expected, $x2, $tol);
     }
 
     /**
@@ -82,8 +82,8 @@ class FixedPointIterationTest extends \PHPUnit\Framework\TestCase
         $x2 = FixedPointIteration::solve($polynomial, $b, $a, $p, $tol);
 
         // Then
-        $this->assertEquals($expected, $x1, '', $tol);
-        $this->assertEquals($expected, $x2, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x1, $tol);
+        $this->assertEqualsWithDelta($expected, $x2, $tol);
     }
 
     /**

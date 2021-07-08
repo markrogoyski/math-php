@@ -21,7 +21,7 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
         $anova = ANOVA::oneWay($sample1, $sample2, $sample3);
 
         // Then
-        $this->assertEquals($expected, $anova, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $anova, 0.0001);
     }
 
     /**
@@ -174,7 +174,7 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
         $anova = ANOVA::oneWay($sample1, $sample2, $sample3, $sample4);
 
         // Then
-        $this->assertEquals($expected, $anova, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $anova, 0.0001);
     }
 
     /**
@@ -411,7 +411,7 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
         $anova = ANOVA::twoWay($A₁, $A₂);
 
         // Then
-        $this->assertEquals($expected, $anova['ANOVA'], '', 0.001);
+        $this->assertEqualsWithDelta($expected, $anova['ANOVA'], 0.001);
     }
 
     /**
@@ -532,7 +532,7 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
         $anova = ANOVA::twoWay($A₁, $A₂, $A₃);
 
         // Then
-        $this->assertEquals($expected, $anova['ANOVA'], '', 0.001);
+        $this->assertEqualsWithDelta($expected, $anova['ANOVA'], 0.001);
     }
 
     /**

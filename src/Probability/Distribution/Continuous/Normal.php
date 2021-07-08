@@ -17,7 +17,7 @@ class Normal extends Continuous
      * σ ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
         'σ' => '(0,∞)',
     ];
@@ -27,7 +27,7 @@ class Normal extends Continuous
      * x ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',
     ];
 
@@ -66,15 +66,15 @@ class Normal extends Continuous
         $μ     = $this->μ;
         $σ     = $this->σ;
         $π     = \M_PI;
-        $σ√⟮2π⟯ = $σ * sqrt(2 * $π);
+        $σ√⟮2π⟯ = $σ * \sqrt(2 * $π);
 
-        $⟮x − μ⟯²∕2σ² = pow(($x - $μ), 2) / (2 * $σ ** 2);
+        $⟮x − μ⟯²∕2σ² = \pow(($x - $μ), 2) / (2 * $σ ** 2);
 
-        $ℯ＾−⟮x − μ⟯²∕2σ² = exp(-$⟮x − μ⟯²∕2σ²);
+        $ℯ＾−⟮x − μ⟯²∕2σ² = \exp(-$⟮x − μ⟯²∕2σ²);
 
         return ( 1 / $σ√⟮2π⟯ ) * $ℯ＾−⟮x − μ⟯²∕2σ²;
     }
-  
+
     /**
      * Cumulative distribution function
      * Probability of being below X.
@@ -95,7 +95,7 @@ class Normal extends Continuous
         $μ = $this->μ;
         $σ = $this->σ;
 
-        return 1 / 2 * ( 1 + Special::erf(($x - $μ) / ($σ * sqrt(2))) );
+        return 1 / 2 * ( 1 + Special::erf(($x - $μ) / ($σ * \sqrt(2))) );
     }
 
     /**
@@ -116,7 +116,7 @@ class Normal extends Continuous
 
         return parent::inverse($p);
     }
-    
+
     /**
      * Mean of the distribution
      *
@@ -164,7 +164,7 @@ class Normal extends Continuous
     {
         return $this->σ ** 2;
     }
-    
+
     /**
      * Random number - Box–Muller transform
      *
@@ -172,8 +172,8 @@ class Normal extends Continuous
      */
     public function rand()
     {
-        $rand1 = random_int(0, \PHP_INT_MAX) / \PHP_INT_MAX;
-        $rand2 = random_int(0, \PHP_INT_MAX) / \PHP_INT_MAX;
-        return sqrt(-2 * log($rand1)) * cos(2 * pi() * $rand2) * $this->σ + $this->μ;
+        $rand1 = \random_int(0, \PHP_INT_MAX) / \PHP_INT_MAX;
+        $rand2 = \random_int(0, \PHP_INT_MAX) / \PHP_INT_MAX;
+        return \sqrt(-2 * \log($rand1)) * \cos(2 * pi() * $rand2) * $this->σ + $this->μ;
     }
 }

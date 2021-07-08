@@ -216,7 +216,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertFalse($isDeficientNumber);
     }
- 
+
     /**
      * @test         isRefactorableNumber returns true if n is a refactorable number
      * @dataProvider dataProviderForRefactorableNumbers
@@ -343,7 +343,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     {
         // When
         $isSphenicNumber = Integer::isSphenicNumber($n);
-        
+
         // Then
         $this->assertFalse($isSphenicNumber);
     }
@@ -743,7 +743,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     {
         // When
         $actual = Integer::mobius($n);
-        
+
         // Then
         $this->assertEquals($expected, $actual);
     }
@@ -876,7 +876,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     {
         // When
         $actual = Integer::sumOfDivisors($n);
-        
+
         // Then
         $this->assertEquals($expected, $actual);
     }
@@ -935,7 +935,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     {
         // When
         $actual = Integer::numberOfDivisors($n);
-        
+
         // Then
         $this->assertEquals($expected, $actual);
     }
@@ -1163,7 +1163,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
     public function testPerfectPower(int $n, int $expected_m, int $expected_k)
     {
         // When
-        list($m, $k) = Integer::perfectPower($n);
+        [$m, $k] = Integer::perfectPower($n);
 
         // Then
         $this->assertEquals($expected_m, $m);
@@ -1218,10 +1218,10 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($perfect_power);
 
         // And
-        $m = array_shift($perfect_power);
-        $k = array_shift($perfect_power);
-        $this->assertTrue(is_numeric($m));
-        $this->assertTrue(is_numeric($k));
+        $m = \array_shift($perfect_power);
+        $k = \array_shift($perfect_power);
+        $this->assertTrue(\is_numeric($m));
+        $this->assertTrue(\is_numeric($k));
         $this->assertGreaterThan(1, $m);
         $this->assertGreaterThan(1, $k);
     }
@@ -1556,7 +1556,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function dataProviderForOddNumbers(): \Generator
     {
-        foreach (range(-11, 101, 2) as $x) {
+        foreach (\range(-11, 101, 2) as $x) {
             yield [$x];
         }
     }
@@ -1566,7 +1566,7 @@ class IntegerTest extends \PHPUnit\Framework\TestCase
      */
     public function dataProviderForEvenNumbers(): \Generator
     {
-        foreach (range(-10, 100, 2) as $x) {
+        foreach (\range(-10, 100, 2) as $x) {
             yield [$x];
         }
     }

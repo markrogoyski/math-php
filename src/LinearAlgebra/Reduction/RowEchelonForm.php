@@ -4,7 +4,7 @@ namespace MathPHP\LinearAlgebra\Reduction;
 
 use MathPHP\Exception;
 use MathPHP\Functions\Support;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 
 /**
  * Matrix reduced to row echelon form - REF
@@ -17,7 +17,7 @@ use MathPHP\LinearAlgebra\Matrix;
  *  - the leading coefficient (the first nonzero number from the left, also called the pivot)
  *    of a nonzero row is always strictly to the right of the leading coefficient of the row above it
  */
-class RowEchelonForm extends Matrix
+class RowEchelonForm extends NumericMatrix
 {
     /** @var int Number of row swaps when computing REF */
     protected $swaps;
@@ -68,7 +68,7 @@ class RowEchelonForm extends Matrix
      * First tries Guassian elimination.
      * If that fails (singular matrix), uses custom row reduction algorithm
      *
-     * @param Matrix $A
+     * @param NumericMatrix $A
      *
      * @return RowEchelonForm
      *
@@ -77,12 +77,12 @@ class RowEchelonForm extends Matrix
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException
      */
-    public static function reduce(Matrix $A): RowEchelonForm
+    public static function reduce(NumericMatrix $A): RowEchelonForm
     {
         try {
-            list($R, $ref_swaps) = self::gaussianElimination($A);
+            [$R, $ref_swaps] = self::gaussianElimination($A);
         } catch (Exception\SingularMatrixException $e) {
-            list($R, $ref_swaps) = self::rowReductionToEchelonForm($A);
+            [$R, $ref_swaps] = self::rowReductionToEchelonForm($A);
         }
 
         $ref = new RowEchelonForm($R, $ref_swaps);
@@ -112,17 +112,17 @@ class RowEchelonForm extends Matrix
      *
      * https://en.wikipedia.org/wiki/Gaussian_elimination
      *
-     * @param Matrix $A
+     * @param NumericMatrix $A
      *
      * @return array - matrix in row echelon form and number of row swaps
      *
      * @throws Exception\SingularMatrixException if the matrix is singular
      */
-    public static function gaussianElimination(Matrix $A): array
+    public static function gaussianElimination(NumericMatrix $A): array
     {
         $m     = $A->getM();
         $n     = $A->getN();
-        $size  = min($m, $n);
+        $size  = \min($m, $n);
         $R     = $A->getMatrix();
         $swaps = 0;
         $ε     = $A->getError();
@@ -131,7 +131,7 @@ class RowEchelonForm extends Matrix
             // Find column max
             $i_max = $k;
             for ($i = $k; $i < $m; $i++) {
-                if (abs($R[$i][$k]) > abs($R[$i_max][$k])) {
+                if (\abs($R[$i][$k]) > \abs($R[$i_max][$k])) {
                     $i_max = $i;
                 }
             }
@@ -142,7 +142,7 @@ class RowEchelonForm extends Matrix
 
             // Swap rows k and i_max (column max)
             if ($k != $i_max) {
-                list($R[$k], $R[$i_max]) = [$R[$i_max], $R[$k]];
+                [$R[$k], $R[$i_max]] = [$R[$i_max], $R[$k]];
                 $swaps++;
             }
 
@@ -177,7 +177,7 @@ class RowEchelonForm extends Matrix
      *
      *   (Extra) Keep track of number of row swaps (used for computing determinant)
      *
-     * @param Matrix $A
+     * @param NumericMatrix $A
      *
      * @return array - matrix in row echelon form and number of row swaps
      *
@@ -185,7 +185,7 @@ class RowEchelonForm extends Matrix
      * @throws Exception\MatrixException
      * @throws Exception\BadParameterException
      */
-    public static function rowReductionToEchelonForm(Matrix $A): array
+    public static function rowReductionToEchelonForm(NumericMatrix $A): array
     {
         $m    = $A->m;
         $n    = $A->n;

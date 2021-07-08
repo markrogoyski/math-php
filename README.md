@@ -5,17 +5,17 @@
 The only library you need to integrate mathematical functions into your applications. It is a self-contained library in pure PHP with no external dependencies.
 
 [![Coverage Status](https://coveralls.io/repos/github/markrogoyski/math-php/badge.svg?branch=master)](https://coveralls.io/github/markrogoyski/math-php?branch=master)
-[![Build Status](https://travis-ci.org/markrogoyski/math-php.svg?branch=master)](https://travis-ci.org/markrogoyski/math-php)
 [![License](https://poser.pugx.org/markrogoyski/math-php/license)](https://packagist.org/packages/markrogoyski/math-php)
 
 Features
 --------
  * [Algebra](#algebra)
  * [Arithmetic](#arithmetic)
+ * Expression
+   - [Polynomial](#expression---polynomial)
  * [Finance](#finance)
  * Functions
    - [Map](#functions---map---single-array)
-   - [Polynomial](#functions---polynomial)
    - [Special Functions](#functions---special-functions)
  * Information Theory
    - [Entropy](#information-theory---entropy)
@@ -25,6 +25,7 @@ Features
  * Numbers
    - [Arbitrary Integer](#number---arbitrary-length-integers)
    - [Complex](#number---complex-numbers)
+   - [Quaternion](#number---quaternion)
    - [Rational](#number---rational-numbers)
  * Number Theory
    - [Integers](#number-theory---integers)
@@ -41,6 +42,7 @@ Features
          * [Multivariate](#probability---multivariate-distributions)
          * [Tables](#probability---distribution-tables)
  * [Sample Data](#sample-data)
+ * [Search](#search)
  * Sequences
      - [Basic](#sequences---basic)
      - [Advanced](#sequences---advanced)
@@ -74,7 +76,7 @@ Setup
 ```javascript
 {
   "require": {
-      "markrogoyski/math-php": "1.*"
+      "markrogoyski/math-php": "2.*"
   }
 }
 ```
@@ -95,11 +97,13 @@ require_once __DIR__ . '/vendor/autoload.php';
 Alternatively, use composer on the command line to require and install MathPHP:
 
 ```
-$ php composer.phar require markrogoyski/math-php:1.*
+$ php composer.phar require markrogoyski/math-php:2.*
 ```
 
 ### Minimum Requirements
- * PHP 7
+ * PHP 7.2
+
+ Note: For PHP 7.0 and 7.1, use v1.0 (`markrogoyski/math-php:1.*`)
 
 Usage
 -----
@@ -120,23 +124,32 @@ $lcm = Algebra::lcm(5, 2);
 // Factors of an integer
 $factors = Algebra::factors(12); // returns [1, 2, 3, 4, 6, 12]
 
-// Quadradic equation
-list($a, $b, $c) = [1, 2, -8]; // x² + 2x - 8
-list($x₁, $x₂)   = Algebra::quadratic($a, $b, $c);
+// Linear equation of one variable: ax + b = 0
+[$a, $b] = [2, 4]; // 2x + 4 = 0
+$x       = Algebra::linear($a, $b);
 
-// Cubic equation
-list($a₃, $a₂, $a₁, $a₀) = [2, 9, 3, -4]; // 2x³ + 9x² + 3x -4
-list($x₁, $x₂, $x₃)      = Algebra::cubic($a₃, $a₂, $a₁, $a₀);
+// Quadratic equation: ax² + bx + c = 0
+[$a, $b, $c] = [1, 2, -8]; // x² + 2x - 8
+[$x₁, $x₂]   = Algebra::quadratic($a, $b, $c);
 
-// Quartic equation
-list($a₄, $a₃, $a₂, $a₁, $a₀) = [1, -10, 35, -50, 24]; // z⁴ - 10z³ + 35z² - 50z + 24 = 0
-list($z₁, $z₂, $z₃, $z₄)      = Algebra::quartic($a₄, $a₃, $a₂, $a₁, $a₀);
+// Discriminant: Δ = b² - 4ac
+[$a, $b, $c] = [2, 3, 4]; // 3² - 4(2)(4)
+$Δ           = Algebra::discriminant($a, $b, $c);
+
+// Cubic equation: z³ + a₂z² + a₁z + a₀ = 0
+[$a₃, $a₂, $a₁, $a₀] = [2, 9, 3, -4]; // 2x³ + 9x² + 3x -4
+[$x₁, $x₂, $x₃]      = Algebra::cubic($a₃, $a₂, $a₁, $a₀);
+
+// Quartic equation: a₄z⁴ + a₃z³ + a₂z² + a₁z + a₀ = 0
+[$a₄, $a₃, $a₂, $a₁, $a₀] = [1, -10, 35, -50, 24]; // z⁴ - 10z³ + 35z² - 50z + 24 = 0
+[$z₁, $z₂, $z₃, $z₄]      = Algebra::quartic($a₄, $a₃, $a₂, $a₁, $a₀);
 ```
 
 ### Arithmetic
 ```php
 use MathPHP\Arithmetic;
 
+$√x  = Arithmetic::isqrt(8);     // 2 Integer square root
 $³√x = Arithmetic::cubeRoot(-8); // -2
 $ⁿ√x = Arithmetic::root(81, 4);  // nᵗʰ root (4ᵗʰ): 3
 
@@ -160,6 +173,43 @@ $dividend = 12;
 $divisor  = 5;
 $modulo   = Arithmetic::modulo($dividend, $divisor);  // 2
 $modulo   = Arithmetic::modulo(-$dividend, $divisor); // 3
+```
+
+### Expression - Polynomial
+```php
+use MathPHP\Expression\Polynomial;
+
+// Polynomial x² + 2x + 3
+$coefficients = [1, 2, 3]
+$polynomial   = new Polynomial($coefficients);
+
+// Evaluate for x = 3
+$x = 3;
+$y = $polynomial($x);  // 18: 3² + 2*3 + 3
+
+// Calculus
+$derivative = $polynomial->differentiate();  // Polynomial 2x + 2
+$integral   = $polynomial->integrate();      // Polynomial ⅓x³ + x² + 3x
+
+// Arithmetic
+$sum        = $polynomial->add($polynomial);       // Polynomial 2x² + 4x + 6
+$sum        = $polynomial->add(2);                 // Polynomial x² + 2x + 5
+$difference = $polynomial->subtract($polynomial);  // Polynomial 0
+$difference = $polynomial->subtract(2);            // Polynomial x² + 2x + 1
+$product    = $polynomial->multiply($polynomial);  // Polynomial x⁴ + 4x³ + 10x² + 12x + 9
+$product    = $polynomial->multiply(2);            // Polynomial 2x² + 4x + 6
+$negated    = $polynomial->negate();               // Polynomial -x² - 2x - 3
+
+// Data
+$degree       = $polynomial->getDegree();        // 2
+$coefficients = $polynomial->getCoefficients();  // [1, 2, 3]
+
+// String representation
+print($polynomial);  // x² + 2x + 3
+
+// Roots
+$polynomial = new Polynomial([1, -3, -4]);
+$roots      = $polynomial->roots();         // [-1, 4]
 ```
 
 ### Finance
@@ -205,16 +255,16 @@ $npv    = Finance::npv($rate, $values);
 
 // Interest rate per period of an annuity
 $beginning = false; // Adjust the payment to the beginning or end of the period
-$rate      = rate($periods, $payment, $present_value, $future_value, $beginning);
+$rate      = Finance::rate($periods, $payment, $present_value, $future_value, $beginning);
 
 // Internal rate of return
 $values = [-100, 50, 40, 30];
-$irr    = Finance:irr($values); // Rate of return of an initial investment of $100 with returns of $50, $40, and $30
+$irr    = Finance::irr($values); // Rate of return of an initial investment of $100 with returns of $50, $40, and $30
 
 // Modified internal rate of return
 $finance_rate      = 0.05; // 5% financing
 $reinvestment_rate = 0.10; // reinvested at 10%
-$mirr              = Finance:mirr($values, $finance_rate); // rate of return of an initial investment of $100 at 5% financing with returns of $50, $40, and $30 reinvested at 10%
+$mirr              = Finance::mirr($values, $finance_rate); // rate of return of an initial investment of $100 at 5% financing with returns of $50, $40, and $30 reinvested at 10%
 
 // Discounted payback of an investment
 $values  = [-1000, 100, 200, 300, 400, 500];
@@ -223,7 +273,7 @@ $payback = Finance::payback($values, $rate); // The payback period of an investm
 
 // Profitability index
 $values              = [-100, 50, 50, 50];
-$profitability_index = profitabilityIndex($values, $rate); // The profitability index of an initial $100 investment with future returns of $50, $50, $50 with a 10% discount rate
+$profitability_index = Finance::profitabilityIndex($values, $rate); // The profitability index of an initial $100 investment with future returns of $50, $50, $50 with a 10% discount rate
 ```
 
 ### Functions - Map - Single Array
@@ -268,43 +318,6 @@ $z    = [4,   5,  6,  7];
 $sums = Map\Multi::add($x, $y, $z); // [15, 17, 21, 27]
 ```
 
-### Functions - Polynomial
-```php
-use MathPHP\Functions\Polynomial;
-
-// Polynomial x² + 2x + 3
-$coefficients = [1, 2, 3]
-$polynomial   = new Polynomial($coefficients);
-
-// Evaluate for x = 3
-$x = 3;
-$y = $polynomial($x);  // 18: 3² + 2*3 + 3
-
-// Calculus
-$derivative = $polynomial->differentiate();  // Polynomial 2x + 2
-$integral   = $polynomial->integrate();      // Polynomial ⅓x³ + x² + 3x
-
-// Arithmetic
-$sum        = $polynomial->add($polynomial);       // Polynomial 2x² + 4x + 6
-$sum        = $polynomial->add(2);                 // Polynomial x² + 2x + 5
-$difference = $polynomial->subtract($polynomial);  // Polynomial 0
-$difference = $polynomial->subtract(2);            // Polynomial x² + 2x + 1
-$product    = $polynomial->multiply($polynomial);  // Polynomial x⁴ + 4x³ + 10x² + 12x + 9
-$product    = $polynomial->multiply(2);            // Polynomial 2x² + 4x + 6
-$negated    = $polynomial->negate();               // Polynomial -x² - 2x - 3
-
-// Data
-$degree       = $polynomial->getDegree();        // 2
-$coefficients = $polynomial->getCoefficients();  // [1, 2, 3]
-
-// String representation
-print($polynomial);  // x² + 2x + 3
-
-// Roots
-$polynomial = new Polynomial([1, -3, -4]);
-$roots      = $polynomial->roots();         // [-1, 4]
-```
-
 ### Functions - Special Functions
 ```php
 use MathPHP\Functions\Special;
@@ -315,19 +328,18 @@ $Γ = Special::gamma($z);          // Uses gamma definition for integers and hal
 $Γ = Special::gammaLanczos($z);   // Lanczos approximation
 $Γ = Special::gammaStirling($z);  // Stirling approximation
 
-// Incomplete gamma functions - γ(s,t), Γ(s,x)
-list($x, $s) = [1, 2];
-$γ = Special::lowerIncompleteGamma($x, $s); // same as γ
-$γ = Special::γ($x, $s);                    // same as lowerIncompleteGamma
+// Incomplete gamma functions - γ(s,t), Γ(s,x), P(s,x)
+[$x, $s] = [1, 2];
+$γ = Special::lowerIncompleteGamma($x, $s);
 $Γ = Special::upperIncompleteGamma($x, $s);
+$P = Special::regularizedLowerIncompleteGamma($x, $s);
 
 // Beta function
-list($x, $y) = [1, 2];
-$β = Special::beta($x, $y); // same as β
-$β = Special::β($x, $y);    // same as beta
+[$x, $y] = [1, 2];
+$β = Special::beta($x, $y);
 
 // Incomplete beta functions
-list($x, $a, $b) = [0.4, 2, 3];
+[$x, $a, $b] = [0.4, 2, 3];
 $B  = Special::incompleteBeta($x, $a, $b);
 $Iₓ = Special::regularizedIncompleteBeta($x, $a, $b);
 
@@ -420,14 +432,14 @@ $Aᵢⱼ = $A->get(2, 2);
 $Aᵢⱼ = $A[2][2];
 
 // Row operations
-list($mᵢ, $mⱼ, $k) = [1, 2, 5];
+[$mᵢ, $mⱼ, $k] = [1, 2, 5];
 $R = $A->rowInterchange($mᵢ, $mⱼ);
 $R = $A->rowMultiply($mᵢ, $k);     // Multiply row mᵢ by k
 $R = $A->rowAdd($mᵢ, $mⱼ, $k);     // Add k * row mᵢ to row mⱼ
 $R = $A->rowExclude($mᵢ);          // Exclude row $mᵢ
 
 // Column operations
-list($nᵢ, $nⱼ, $k) = [1, 2, 5];
+[$nᵢ, $nⱼ, $k] = [1, 2, 5];
 $R = $A->columnInterchange($nᵢ, $nⱼ);
 $R = $A->columnMultiply($nᵢ, $k);     // Multiply column nᵢ by k
 $R = $A->columnAdd($nᵢ, $nⱼ, $k);     // Add k * column nᵢ to column nⱼ
@@ -530,6 +542,9 @@ $R = $A->map('abs');  // using callable
 $array = $A->mapRows('array_reverse');  // using callable returns matrix-like array of arrays
 $array = $A->mapRows('array_sum');     // using callable returns array of aggregate calculations
 
+// Walk maps a function to all values without mutation or returning a value
+$A->walk($func);
+
 // Matrix comparisons
 $bool = $A->isEqual($B);
 
@@ -601,20 +616,24 @@ $X₂ = new Vector([2, 5, 8]);
 $X₃ = new Vector([3, 6, 9]);
 $A  = MatrixFactory::createFromVectors([$X₁, $X₂, $X₃]);
 
+// Create from row or column vector
+$A = MatrixFactory::createFromRowVector([1, 2, 3]);    // 1 × n matrix consisting of a single row of n elements
+$A = MatrixFactory::createFromColumnVector([1, 2, 3]); // m × 1 matrix consisting of a single column of m elements
+
 // Specialized matrices
-list($m, $n, $k, $angle, $size) = [4, 4, 2, 3.14159, 2];
-$identity_matrix                = MatrixFactory::identity($n);                   // Ones on the main diagonal
-$zero_matrix                    = MatrixFactory::zero($m, $n);                   // All zeros
-$ones_matrix                    = MatrixFactory::one($m, $n);                    // All ones
-$eye_matrix                     = MatrixFactory::eye($m, $n, $k);                // Ones (or other value) on the k-th diagonal
-$exchange_matrix                = MatrixFactory::exchange($n);                   // Ones on the reverse diagonal
-$downshift_permutation_matrix   = MatrixFactory::downshiftPermutation($n);       // Permutation matrix that pushes the components of a vector down one notch with wraparound
-$upshift_permutation_matrix     = MatrixFactory::upshiftPermutation($n);         // Permutation matrix that pushes the components of a vector up one notch with wraparound
-$diagonal_matrix                = MatrixFactory::diagonal([1, 2, 3]);            // 3 x 3 diagonal matrix with zeros above and below the diagonal
-$hilbert_matrix                 = MatrixFactory::hilbert($n);                    // Square matrix with entries being the unit fractions
-$vandermonde_matrix             = MatrixFactory::vandermonde([1, 2, 3], 4);      // 4 x 3 Vandermonde matrix
-$random_matrix                  = MatrixFactory::random($m, $n);                 // m x n matrix of random integers
-$givens_matrix                  = MatrixFactory::givens($m, $n, $angle, $size);  // givens rotation matrix
+[$m, $n, $k, $angle, $size]   = [4, 4, 2, 3.14159, 2];
+$identity_matrix              = MatrixFactory::identity($n);                   // Ones on the main diagonal
+$zero_matrix                  = MatrixFactory::zero($m, $n);                   // All zeros
+$ones_matrix                  = MatrixFactory::one($m, $n);                    // All ones
+$eye_matrix                   = MatrixFactory::eye($m, $n, $k);                // Ones (or other value) on the k-th diagonal
+$exchange_matrix              = MatrixFactory::exchange($n);                   // Ones on the reverse diagonal
+$downshift_permutation_matrix = MatrixFactory::downshiftPermutation($n);       // Permutation matrix that pushes the components of a vector down one notch with wraparound
+$upshift_permutation_matrix   = MatrixFactory::upshiftPermutation($n);         // Permutation matrix that pushes the components of a vector up one notch with wraparound
+$diagonal_matrix              = MatrixFactory::diagonal([1, 2, 3]);            // 3 x 3 diagonal matrix with zeros above and below the diagonal
+$hilbert_matrix               = MatrixFactory::hilbert($n);                    // Square matrix with entries being the unit fractions
+$vandermonde_matrix           = MatrixFactory::vandermonde([1, 2, 3], 4);      // 4 x 3 Vandermonde matrix
+$random_matrix                = MatrixFactory::random($m, $n);                 // m x n matrix of random integers
+$givens_matrix                = MatrixFactory::givens($m, $n, $angle, $size);  // givens rotation matrix
 ```
 
 ### Linear Algebra - Vector
@@ -637,6 +656,8 @@ $item = $A->get(1);
 // Vector numeric operations - return a value
 $sum               = $A->sum();
 $│A│               = $A->length();                            // same as l2Norm
+$max               = $A->max();
+$min               = $A->min();
 $A⋅B               = $A->dotProduct($B);                      // same as innerProduct
 $A⋅B               = $A->innerProduct($B);                    // same as dotProduct
 $A⊥⋅B              = $A->perpDotProduct($B);
@@ -696,14 +717,14 @@ $bigInt！  = $bigInt->fact();
 $bool     = $bigInt->isPositive();
 
 // Binary functions
-$sum                  = $bigInt->add($bigInt);
-$difference           = $bigInt->subtract($bigInt);
-$product              = $bigInt->multiply($bigInt);
-$quotient             = $bigInt->intdiv($divisor);
-$mod                  = $bigInt->mod($divisor);
-list($quotient, $mod) = $bigInt->fullIntdiv($divisor);
-$pow                  = $bigInt->pow($exponent);
-$shifted              = $bigInt->leftShift(2);
+$sum              = $bigInt->add($bigInt);
+$difference       = $bigInt->subtract($bigInt);
+$product          = $bigInt->multiply($bigInt);
+$quotient         = $bigInt->intdiv($divisor);
+$mod              = $bigInt->mod($divisor);
+[$quotient, $mod] = $bigInt->fullIntdiv($divisor);
+$pow              = $bigInt->pow($exponent);
+$shifted          = $bigInt->leftShift(2);
 
 // Comparison functions
 $bool = $bigInt->equals($bigInt);
@@ -725,22 +746,22 @@ $randomBigInt = Functions\ArbitaryInteger::rand($intNumberOfBytes);
 ```php
 use MathPHP\Number\Complex;
 
-list($r, $i) = [2, 4];
-$complex     = new Complex($r, $i);
+[$r, $i] = [2, 4];
+$complex = new Complex($r, $i);
 
 // Accessors
 $r = $complex->r;
 $i = $complex->i;
 
 // Unary functions
-$conjugate     = $complex->complexConjugate();
-$│c│           = $complex->abs();     // absolute value (modulus)
-$arg⟮c⟯         = $complex->arg();     // argument (phase)
-$√c            = $complex->sqrt();    // positive square root
-list($z₁, $z₂) = $complex->roots();
-$c⁻¹           = $complex->inverse();
-$−c            = $complex->negate();
-$polar         = $complex->polarForm();
+$conjugate = $complex->complexConjugate();
+$│c│       = $complex->abs();     // absolute value (modulus)
+$arg⟮c⟯     = $complex->arg();     // argument (phase)
+$√c        = $complex->sqrt();    // positive square root
+[$z₁, $z₂] = $complex->roots();
+$c⁻¹       = $complex->inverse();
+$−c        = $complex->negate();
+$polar     = $complex->polarForm();
 
 // Binary functions
 $c＋c = $complex->add($complex);
@@ -751,6 +772,36 @@ $c／c = $complex->divide($complex);
 // Other functions
 $bool   = $complex->equals($complex);
 $string = (string) $complex;
+```
+
+### Number - Quaternion
+```php
+Use MathPHP\Number\Quaternion;
+
+$r = 4;
+$i = 1;
+$j = 2;
+$k = 3;
+
+$quaternion = new Quaternion($r, $i, $j, $k);
+
+// Get individual parts
+[$r, $i, $j, $k] = [$quaternion->r, $quaternion->i, $quaternion->j, $quaternion->k];
+
+// Unary functions
+$conjugate    = $quaternion->complexConjugate();
+$│q│          = $quaternion->abs();  // absolute value (magnitude)
+$quaternion⁻¹ = $quaternion->inverse();
+$−q           = $quaternion->negate();
+
+// Binary functions
+$q＋q = $quaternion->add($quaternion);
+$q−q  = $quaternion->subtract($quaternion);
+$q×q  = $quaternion->multiply($quaternion);
+$q／q = $quaternion->divide($quaternion);
+
+// Other functions
+$bool = $quaternion->equals($quaternion);
 ```
 
 ### Number - Rational Numbers
@@ -770,12 +821,14 @@ $denominator = $rational->getDenominator();
 
 // Unary functions
 $│rational│ = $rational->abs();
+$inverse    = $rational->inverse();
 
 // Binary functions
-$sum      = $rational->add($rational);
-$diff     = $rational->subtract($rational);
-$product  = $rational->multiply($rational);
-$quotient = $rational->divide($rational);
+$sum            = $rational->add($rational);
+$diff           = $rational->subtract($rational);
+$product        = $rational->multiply($rational);
+$quotient       = $rational->divide($rational);
+$exponentiation = $rational->pow(2);
 
 // Other functions
 $bool   = $rational->equals($rational);
@@ -824,8 +877,8 @@ $bool = Integer::isRefactorableNumber($n);
 $bool = Integer::isSphenicNumber($n);
 
 // Perfect powers
-$bool        = Integer::isPerfectPower($n);
-list($m, $k) = Integer::perfectPower($n);
+$bool    = Integer::isPerfectPower($n);
+[$m, $k] = Integer::perfectPower($n);
 
 // Coprime
 $bool = Integer::coprime(4, 35);
@@ -853,7 +906,7 @@ $points = [[0, 1], [1, 4], [2, 9], [3, 16]];
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 3, 4];
+[$start, $end, $n] = [0, 3, 4];
 
 // Lagrange Polynomial
 // Returns a function p(x) of x
@@ -899,13 +952,41 @@ $f⟮x⟯ = function ($x) {
 $f’⟮x⟯ = function ($x) {
     return 2*$x + 2;
 };
-list($start, $end, $n) = [0, 3, 4];
+[$start, $end, $n] = [0, 3, 4];
 
 $p = Interpolation\ClampedCubicSpline::interpolate($points);                // input as a set of points
 $p = Interpolation\ClampedCubicSpline::interpolate($f⟮x⟯, $f’⟮x⟯, $start, $end, $n); // input as a callback function
 
-$p(0) // 1
-$p(3) // 16
+$p(0); // 1
+$p(3); // 16
+
+// Regular Grid Interpolation
+// Returns a scalar
+
+// Points defining the regular grid
+$xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+$ys = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+$zs = [110, 111, 112, 113, 114, 115, 116, 117, 118, 119];
+
+// Data on the regular grid in n dimensions
+$data = [];
+$func = function ($x, $y, $z) {
+    return 2 * $x + 3 * $y - $z;
+};
+foreach ($xs as $i => $x) {
+    foreach ($ys as $j => $y) {
+        foreach ($zs as $k => $z) {
+            $data[$i][$j][$k] = $func($x, $y, $z);
+        }
+    }
+}
+
+// Constructing a RegularGridInterpolator
+$rgi = new Interpolation\RegularGridInterpolator([$xs, $ys, $zs], $data, 'linear');  // 'nearest' method also available
+
+// Interpolating coordinates on the regular grid
+$coordinates   = [2.21, 12.1, 115.9];
+$interpolation = $rgi($coordinates);  // -75.18
 ```
 
 ### Numerical Analysis - Numerical Differentiation
@@ -930,7 +1011,7 @@ $f⟮x⟯ = function ($x) {
 $points = [[0, 1], [1, 4], [2, 9]];
 
 $target = 0;
-list($start, $end, $n) = [0, 2, 3];
+[$start, $end, $n] = [0, 2, 3];
 $derivative = NumericalDifferentiation\ThreePointFormula::differentiate($target, $points);                // input as a set of points
 $derivative = NumericalDifferentiation\ThreePointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
 
@@ -941,7 +1022,7 @@ $derivative = NumericalDifferentiation\ThreePointFormula::differentiate($target,
 $points = [[0, 1], [1, 4], [2, 9], [3, 16], [4, 25]];
 
 $target = 0;
-list($start, $end, $n) = [0, 4, 5];
+[$start, $end, $n] = [0, 4, 5];
 $derivative = NumericalDifferentiation\FivePointFormula::differentiate($target, $points);                // input as a set of points
 $derivative = NumericalDifferentiation\FivePointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
 
@@ -952,7 +1033,7 @@ $derivative = NumericalDifferentiation\FivePointFormula::differentiate($target, 
 $points = [[0, 1], [1, 4], [2, 9];
 
 $target = 1;
-list($start, $end, $n) = [0, 2, 3];
+[$start, $end, $n] = [0, 2, 3];
 $derivative = NumericalDifferentiation\SecondDerivativeMidpointFormula::differentiate($target, $points);                // input as a set of points
 $derivative = NumericalDifferentiation\SecondDerivativeMidpointFormula::differentiate($target, $f⟮x⟯, $start, $end, $n); // input as a callback function
 ```
@@ -974,7 +1055,7 @@ $∫f⟮x⟯dx = NumericalIntegration\TrapezoidalRule::approximate($points); // 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 3, 4];
+[$start, $end, $n] = [0, 3, 4];
 $∫f⟮x⟯dx = NumericalIntegration\TrapezoidalRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Simpsons Rule (closed Newton-Cotes formula)
@@ -984,7 +1065,7 @@ $∫f⟮x⟯dx = NumericalIntegration\SimpsonsRule::approximate($points); // inp
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 3, 5];
+[$start, $end, $n] = [0, 3, 5];
 $∫f⟮x⟯dx = NumericalIntegration\SimpsonsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Simpsons 3/8 Rule (closed Newton-Cotes formula)
@@ -994,7 +1075,7 @@ $∫f⟮x⟯dx = NumericalIntegration\SimpsonsThreeEighthsRule::approximate($poi
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 3, 5];
+[$start, $end, $n] = [0, 3, 5];
 $∫f⟮x⟯dx = NumericalIntegration\SimpsonsThreeEighthsRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Booles Rule (closed Newton-Cotes formula)
@@ -1004,7 +1085,7 @@ $∫f⟮x⟯dx = NumericalIntegration\BoolesRule::approximate($points); // input
 $f⟮x⟯ = function ($x) {
     return $x**3 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 4, 5];
+[$start, $end, $n] = [0, 4, 5];
 $∫f⟮x⟯dx = NumericalIntegration\BoolesRuleRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Rectangle Method (open Newton-Cotes formula)
@@ -1014,7 +1095,7 @@ $∫f⟮x⟯dx = NumericalIntegration\RectangleMethod::approximate($points); // 
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 3, 4];
+[$start, $end, $n] = [0, 3, 4];
 $∫f⟮x⟯dx = NumericalIntegration\RectangleMethod::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 
 // Midpoint Rule (open Newton-Cotes formula)
@@ -1024,7 +1105,7 @@ $∫f⟮x⟯dx = NumericalIntegration\MidpointRule::approximate($points); // inp
 $f⟮x⟯ = function ($x) {
     return $x**2 + 2 * $x + 1;
 };
-list($start, $end, $n) = [0, 3, 4];
+[$start, $end, $n] = [0, 3, 4];
 $∫f⟮x⟯dx = NumericalIntegration\MidpointRule::approximate($f⟮x⟯, $start, $end, $n); // input as a callback function
 ```
 
@@ -1076,7 +1157,7 @@ $x   = RootFinding\FixedPointIteration::solve($g⟮x⟯, $a, $b, $p, $tol); // S
 ```php
 use MathPHP\Probability\Combinatorics;
 
-list($n, $x, $k) = [10, 3, 4];
+[$n, $x, $k] = [10, 3, 4];
 
 // Factorials
 $n！  = Combinatorics::factorial($n);
@@ -1549,11 +1630,42 @@ $weights     = $plantGrowth->getWeight();       // [4.17, 5.58, ... ]
 
 // Violent Crime Rates by US State (USArrests)
 $usArrests   = new SampleData\UsArrests();
-$rawData     = $usArrests->rawData();                // [[13.2, 236, 58, 21.2], [10.0, 263, 48, 44.5], ... ]
+$rawData     = $usArrests->rawData();              // [[13.2, 236, 58, 21.2], [10.0, 263, 48, 44.5], ... ]
 $labeledData = $usArrests->getLabeledData();       // ['Alabama' => ['murder' => 13.2, 'assault' => 236, 'urbanPop' => 58, 'rape' => 21.2], ... ]
 $stateData   = $usArrests->getStateData('Texas');  // ['murder' => 12.7, 'assault' => 201, 'urbanPop' => 80, 'rape' => 25.5]
 $murders     = $usArrests->getMurders();           // ['Alabama' => 13.2, 'Alaska' => 10.1, ... ]
 // Getters for Murder, Assault, UrbanPop, Rape
+
+// Data from Cereals (cereal)
+$cereal  = new SampleData\Cereal();
+$cereals = $cereal->getCereals();    // ['B1', 'B2', 'B3', 'M1', 'M2', ... ]
+$X       = $cereal->getXData();      // [[0.002682755, 0.003370673, 0.004085942, ... ], [0.002781597, 0.003474863, 0.004191472, ... ], ... ]
+$Y       = $cereal->getYData();      // [[18373, 41.61500, 6.565000, ... ], [18536, 41.40500, 6.545000, ... ], ... ]
+$Ysc     = $cereal->getYscData();    // [[-0.1005049, 0.6265746, -1.1716630, ... ], [0.9233889, 0.1882929, -1.3185289, ... ], ... ]
+// Labeled data: getLabeledXData(), getLabeledYData(), getLabeledYscData()
+
+// Data from People (people)
+$people      = new SampleData\People();
+$rawData     = $people->getData();         // [198, 92, -1, ... ], [184, 84, -1, ... ], ... ]
+$labeledData = $people->getLabeledData();  // ['Lars' => ['height' => 198, 'weight' => 92, 'hairLength' => -1, ... ]]
+$names       = $people->getNames();
+// Getters for names, height, weight, hairLength, shoeSize, age, income, beer, wine, sex, swim, region, iq
+```
+
+### Search
+```php
+use MathPHP\Search;
+
+// Search lists of numbers to find specific indexes
+
+$list = [1, 2, 3, 4, 5];
+
+$index   = Search::sorted($list, 2);   // Find the array index where an item should be inserted to maintain sorted order
+$index   = Search::argMax($list);      // Find the array index of the maximum value
+$index   = Search::nanArgMax($list);   // Find the array index of the maximum value, ignoring NANs
+$index   = Search::argMin($list);      // Find the array index of the minimum value
+$index   = Search::nanArgMin($list);   // Find the array index of the minimum value, ignoring NANs
+$indices = Search::nonZero($list);     // Find the array indices of the scalar values that are non-zero
 ```
 
 ### Sequences - Basic
@@ -1899,7 +2011,7 @@ $WMA     = Average::weightedMovingAverage($numbers, $n, $weights);
 $EPA     = Average::exponentialMovingAverage($numbers, $n);
 
 // Means of two numbers
-list($x, $y) = [24, 6];
+[$x, $y]       = [24, 6];
 $agm           = Average::arithmeticGeometricMean($x, $y); // same as agm
 $agm           = Average::agm($x, $y);                     // same as arithmeticGeometricMean
 $log_mean      = Average::logarithmicMean($x, $y);
@@ -2106,11 +2218,11 @@ $X = [0.2, 0.5, 0.3];
 $Y = [0.1, 0.4, 0.5];
 
 // Distances
-$DB⟮X、Y⟯   = Distance::bhattacharyyaDistance($X, $Y);
-$H⟮X、Y⟯    = Distance::hellingerDistance($X, $Y);
+$DB⟮X、Y⟯   = Distance::bhattacharyya($X, $Y);
+$H⟮X、Y⟯    = Distance::hellinger($X, $Y);
 $D⟮X、Y⟯    = Distance::minkowski($X, $Y, $p = 2);
-$d⟮X、Y⟯    = Distance::euclidean($X, $Y);               // L² distance
-$d₁⟮X、Y⟯   = Distance::manhattan($X, $Y);               // L¹ distance, taxicab geometry, city block distance
+$d⟮X、Y⟯    = Distance::euclidean($X, $Y);          // L² distance
+$d₁⟮X、Y⟯   = Distance::manhattan($X, $Y);          // L¹ distance, taxicab geometry, city block distance
 $JSD⟮X‖Y⟯   = Distance::jensenShannon($X, $Y);
 $d⟮X、Y⟯    = Distance::canberra($X, Y);
 brayCurtis = Distance::brayCurtis($X, $Y);
@@ -2209,17 +2321,17 @@ $ƒ² = EffectSize::cohensF($ω²);
 $ƒ² = EffectSize::cohensF($R²);
 
 // Cohen's q
-list($r₁, $r₂) = [0.1, 0.2];
+[$r₁, $r₂] = [0.1, 0.2];
 $q = EffectSize::cohensQ($r₁, $r₂);
 
 // Cohen's d
-list($μ₁, $σ₁) = [6.7, 1.2];
-list($μ₂, $σ₂) = [6, 1];
+[$μ₁, $σ₁] = [6.7, 1.2];
+[$μ₂, $σ₂] = [6, 1];
 $d = EffectSize::cohensD($μ₁, $μ₂, $σ₁, $σ₂);
 
 // Hedges' g
-list($μ₁, $σ₁, $n₁) = [6.7, 1.2, 15];
-list($μ₂, $σ₂, $n₂) = [6, 1, 15];
+[$μ₁, $σ₁, $n₁] = [6.7, 1.2, 15];
+[$μ₂, $σ₂, $n₂] = [6, 1, 15];
 $g = EffectSize::hedgesG($μ₁, $μ₂, $σ₁, $σ₂, $n₁, $n₂);
 
 // Glass' Δ
@@ -2602,7 +2714,6 @@ $ phpunit
 ```
 
 [![Coverage Status](https://coveralls.io/repos/github/markrogoyski/math-php/badge.svg?branch=master)](https://coveralls.io/github/markrogoyski/math-php?branch=master)
-[![Build Status](https://travis-ci.org/markrogoyski/math-php.svg?branch=master)](https://travis-ci.org/markrogoyski/math-php)
 
 Standards
 ---------

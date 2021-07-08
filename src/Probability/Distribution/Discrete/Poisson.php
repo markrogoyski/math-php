@@ -20,7 +20,7 @@ class Poisson extends Discrete
      * λ ∈ [0,1]
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'λ' => '(0,∞)',
     ];
 
@@ -29,7 +29,7 @@ class Poisson extends Discrete
      * k ∈ [0,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'k' => '[0,∞)',
     ];
 
@@ -63,7 +63,7 @@ class Poisson extends Discrete
 
         $λ = $this->λ;
 
-        $λᵏℯ＾−λ = pow($λ, $k) * exp(-$λ);
+        $λᵏℯ＾−λ = \pow($λ, $k) * \exp(-$λ);
         $k！     = Combinatorics::factorial($k);
 
         return $λᵏℯ＾−λ / $k！;
@@ -86,11 +86,11 @@ class Poisson extends Discrete
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['k' => $k]);
 
-        return array_sum(array_map(
+        return \array_sum(\array_map(
             function ($k) {
                 return $this->pmf($k);
             },
-            range(0, $k)
+            \range(0, $k)
         ));
     }
 
@@ -115,7 +115,7 @@ class Poisson extends Discrete
      */
     public function median(): float
     {
-        return floor($this->λ + 1 / 3 - 0.02 / $this->λ);
+        return \floor($this->λ + 1 / 3 - 0.02 / $this->λ);
     }
 
     /**
@@ -128,8 +128,8 @@ class Poisson extends Discrete
     public function mode(): array
     {
         return [
-            ceil($this->λ - 1),
-            floor($this->λ),
+            \ceil($this->λ - 1),
+            \floor($this->λ),
         ];
     }
 

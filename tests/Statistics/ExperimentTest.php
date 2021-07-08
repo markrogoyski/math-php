@@ -22,10 +22,10 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
         $riskRation = Experiment::riskRatio($a, $b, $c, $d);
 
         // Then
-        $this->assertEquals($expected['RR'], $riskRation['RR'], '', 0.001);
-        $this->assertEquals($expected['ci_lower_bound'], $riskRation['ci_lower_bound'], '', 0.001);
-        $this->assertEquals($expected['ci_upper_bound'], $riskRation['ci_upper_bound'], '', 0.001);
-        $this->assertEquals($expected['p'], $riskRation['p'], '', 0.0001);
+        $this->assertEqualsWithDelta($expected['RR'], $riskRation['RR'], 0.001);
+        $this->assertEqualsWithDelta($expected['ci_lower_bound'], $riskRation['ci_lower_bound'], 0.001);
+        $this->assertEqualsWithDelta($expected['ci_upper_bound'], $riskRation['ci_upper_bound'], 0.001);
+        $this->assertEqualsWithDelta($expected['p'], $riskRation['p'], 0.0001);
     }
 
     /**
@@ -59,10 +59,10 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
         $oddsRatio = Experiment::oddsRatio($a, $b, $c, $d);
 
         // Then
-        $this->assertEquals($expected['OR'], $oddsRatio['OR'], '', 0.001);
-        $this->assertEquals($expected['ci_lower_bound'], $oddsRatio['ci_lower_bound'], '', 0.001);
-        $this->assertEquals($expected['ci_upper_bound'], $oddsRatio['ci_upper_bound'], '', 0.001);
-        $this->assertEquals($expected['p'], $oddsRatio['p'], '', 0.0001);
+        $this->assertEqualsWithDelta($expected['OR'], $oddsRatio['OR'], 0.001);
+        $this->assertEqualsWithDelta($expected['ci_lower_bound'], $oddsRatio['ci_lower_bound'], 0.001);
+        $this->assertEqualsWithDelta($expected['ci_upper_bound'], $oddsRatio['ci_upper_bound'], 0.001);
+        $this->assertEqualsWithDelta($expected['p'], $oddsRatio['p'], 0.0001);
     }
 
     /**
@@ -96,8 +96,8 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
         $likelihoodRatio = Experiment::likelihoodRatio($a, $b, $c, $d);
 
         // Then
-        $this->assertEquals($expected['LL+'], $likelihoodRatio['LL+'], '', 0.001);
-        $this->assertEquals($expected['LL-'], $likelihoodRatio['LL-'], '', 0.001);
+        $this->assertEqualsWithDelta($expected['LL+'], $likelihoodRatio['LL+'], 0.001);
+        $this->assertEqualsWithDelta($expected['LL-'], $likelihoodRatio['LL-'], 0.001);
     }
 
     /**
@@ -130,8 +130,8 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
         $likelihoodRatio = Experiment::likelihoodRatioSS($sensitivity, $specificity);
 
         // Then
-        $this->assertEquals($expected['LL+'], $likelihoodRatio['LL+'], '', 0.001);
-        $this->assertEquals($expected['LL-'], $likelihoodRatio['LL-'], '', 0.001);
+        $this->assertEqualsWithDelta($expected['LL+'], $likelihoodRatio['LL+'], 0.001);
+        $this->assertEqualsWithDelta($expected['LL-'], $likelihoodRatio['LL-'], 0.001);
     }
 
     /**

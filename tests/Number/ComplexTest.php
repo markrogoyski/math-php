@@ -4,9 +4,32 @@ namespace MathPHP\Tests\Number;
 
 use MathPHP\Number\Complex;
 use MathPHP\Exception;
+use MathPHP\Number\ObjectArithmetic;
 
 class ComplexTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @test Interfaces
+     */
+    public function testObjectArithmeticInterface()
+    {
+        // Given
+        $c = new Complex(1, 2);
+
+        // Then
+        $this->assertInstanceOf(ObjectArithmetic::class, $c);
+    }
+
+    public function testZeroValue()
+    {
+        // Given
+        $c = Complex::createZeroValue();
+
+        // Then
+        $this->assertEquals(0, $c->r);
+        $this->assertEquals(0, $c->i);
+    }
+
     /**
      * @test         __toString returns the proper string representation of a complex number
      * @dataProvider dataProviderForToString
@@ -85,7 +108,7 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         // When
         $z = $complex->z;
     }
-    
+
     /**
      * @test         complexConjugate returns the expected Complex number
      * @dataProvider dataProviderForComplexConjugate
@@ -142,14 +165,14 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
             [0, 0, 0],
             [1, 0, 1],
             [0, 1, 1],
-            [1, 2, sqrt(5)],
-            [2, 1, sqrt(5)],
-            [2, 2, sqrt(8)],
+            [1, 2, \sqrt(5)],
+            [2, 1, \sqrt(5)],
+            [2, 2, \sqrt(8)],
             [-1, 0, 1],
             [0, -1, 1],
-            [-1, 2, sqrt(5)],
-            [2, -1, sqrt(5)],
-            [-2, -2, sqrt(8)],
+            [-1, 2, \sqrt(5)],
+            [2, -1, \sqrt(5)],
+            [-2, -2, \sqrt(8)],
         ];
     }
 
@@ -169,7 +192,7 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $arg = $c->arg();
 
         // Then
-        $this->assertEquals($expected, $arg, '', 0.00000001);
+        $this->assertEqualsWithDelta($expected, $arg, 0.00000001);
     }
 
     public function dataProviderForArg(): array
@@ -208,15 +231,15 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $sqrt = $c->sqrt();
 
         // Then
-        $this->assertEquals($expected_r, $sqrt->r, '', 0.00001);
-        $this->assertEquals($expected_i, $sqrt->i, '', 0.00001);
+        $this->assertEqualsWithDelta($expected_r, $sqrt->r, 0.00001);
+        $this->assertEqualsWithDelta($expected_i, $sqrt->i, 0.00001);
     }
 
     public function dataProviderForSqrt(): array
     {
         return [
             [8, -6, 3, -1],
-            [9, 4, sqrt((9 + sqrt(97)) / 2), 2 * (sqrt(2 / (9 + sqrt(97))))],
+            [9, 4, \sqrt((9 + \sqrt(97)) / 2), 2 * (sqrt(2 / (9 + \sqrt(97))))],
             [-4, -6, 1.2671, -2.3676],
             [0, 9, 2.1213203, 2.1213203],
             [10, -6, 3.2910412, -0.9115656],
@@ -245,17 +268,17 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $roots = $c->roots();
 
         // Then
-        $this->assertEquals($z₁['r'], $roots[0]->r, '', 0.00001);
-        $this->assertEquals($z₁['i'], $roots[0]->i, '', 0.00001);
-        $this->assertEquals($z₂['r'], $roots[1]->r, '', 0.00001);
-        $this->assertEquals($z₂['i'], $roots[1]->i, '', 0.00001);
+        $this->assertEqualsWithDelta($z₁['r'], $roots[0]->r, 0.00001);
+        $this->assertEqualsWithDelta($z₁['i'], $roots[0]->i, 0.00001);
+        $this->assertEqualsWithDelta($z₂['r'], $roots[1]->r, 0.00001);
+        $this->assertEqualsWithDelta($z₂['i'], $roots[1]->i, 0.00001);
     }
 
     public function dataProviderForRoots(): array
     {
         return [
             [8, -6, ['r' => 3, 'i' => -1], ['r' => -3, 'i' => 1]],
-            [9, 4, ['r' => sqrt((9 + sqrt(97)) / 2), 'i' => 2 * (sqrt(2 / (9 + sqrt(97))))], ['r' => -sqrt((9 + sqrt(97)) / 2), 'i' => -2 * (sqrt(2 / (9 + sqrt(97))))]],
+            [9, 4, ['r' => \sqrt((9 + \sqrt(97)) / 2), 'i' => 2 * (sqrt(2 / (9 + \sqrt(97))))], ['r' => -sqrt((9 + \sqrt(97)) / 2), 'i' => -2 * (sqrt(2 / (9 + \sqrt(97))))]],
             [-4, -6, ['r' => 1.2671, 'i' => -2.3676], ['r' => -1.2671, 'i' => 2.3676]],
             [0, 9, ['r' => 2.1213203, 'i' => 2.1213203], ['r' => -2.1213203, 'i' => -2.1213203]],
             [10, -6, ['r' => 3.2910412, 'i' => -0.9115656], ['r' => -3.2910412, 'i' => 0.9115656]],
@@ -322,8 +345,8 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $polar_form = $c->polarForm();
 
         // Then
-        $this->assertEquals($expected->r, $polar_form->r, '', 0.00001);
-        $this->assertEquals($expected->i, $polar_form->i, '', 0.00001);
+        $this->assertEqualsWithDelta($expected->r, $polar_form->r, 0.00001);
+        $this->assertEqualsWithDelta($expected->i, $polar_form->i, 0.00001);
     }
 
     /**
@@ -333,16 +356,16 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForPolarForm(): array
     {
         return [
-            [5, 2, 5.3851648071 * cos(0.3805063771), 5.3851648071 * sin(0.3805063771)],
-            [49.90, 25.42, 56.0016642610 * cos(0.4711542561), 56.0016642610 * sin(0.4711542561)],
-            [-1, -1, 1.4142135624 * cos(-2.3561944902), 1.41421 * sin(-2.3561944902)],
-            [1, 0, 1 * cos(0), 1 * sin(0)],
-            [0, 1, 1 * cos(1.5707963268), 1 * sin(1.5707963268)],
+            [5, 2, 5.3851648071 * \cos(0.3805063771), 5.3851648071 *  \sin(0.3805063771)],
+            [49.90, 25.42, 56.0016642610 * \cos(0.4711542561), 56.0016642610 *  \sin(0.4711542561)],
+            [-1, -1, 1.4142135624 * \cos(-2.3561944902), 1.41421 *  \sin(-2.3561944902)],
+            [1, 0, 1 * \cos(0), 1 *  \sin(0)],
+            [0, 1, 1 * \cos(1.5707963268), 1 *  \sin(1.5707963268)],
             [0, 0, 0, 0],
-            [\M_PI, 2, 3.7241917782 * cos(0.5669115049), 3.7241917782 * sin(0.5669115049)],
-            [8, 9, 12.0415945788 * cos(0.8441539861), 12.0415945788 * sin(0.8441539861)],
-            [814, -54, 815.7891884550 * cos(-0.0662420059), 815.7891884550 * sin(-0.0662420059)],
-            [-5, -3, 5.8309518948 * cos(-2.6011731533), 5.8309518948 * sin(-2.6011731533)],
+            [\M_PI, 2, 3.7241917782 * \cos(0.5669115049), 3.7241917782 *  \sin(0.5669115049)],
+            [8, 9, 12.0415945788 * \cos(0.8441539861), 12.0415945788 *  \sin(0.8441539861)],
+            [814, -54, 815.7891884550 * \cos(-0.0662420059), 815.7891884550 *  \sin(-0.0662420059)],
+            [-5, -3, 5.8309518948 * \cos(-2.6011731533), 5.8309518948 *  \sin(-2.6011731533)],
         ];
     }
 

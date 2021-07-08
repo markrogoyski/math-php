@@ -9,7 +9,7 @@ class PlantGrowthTest extends \PHPUnit\Framework\TestCase
     /** @var SampleData\PlantGrowth */
     private $plantGrowth;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->plantGrowth = new SampleData\PlantGrowth();
     }

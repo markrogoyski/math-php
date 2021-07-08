@@ -3,16 +3,16 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 use MathPHP\Functions\Support;
 
 class Eigenvalue
 {
-    const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
-    const POWER_ITERATION                    = 'powerIteration';
-    const JACOBI_METHOD                      = 'jacobiMethod';
+    public const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
+    public const POWER_ITERATION                    = 'powerIteration';
+    public const JACOBI_METHOD                      = 'jacobiMethod';
 
-    const METHODS = [
+    private const METHODS = [
         self::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD,
         self::POWER_ITERATION,
         self::JACOBI_METHOD,
@@ -27,17 +27,17 @@ class Eigenvalue
      */
     public static function isAvailableMethod(string $method): bool
     {
-        return in_array($method, self::METHODS);
+        return \in_array($method, self::METHODS);
     }
 
     /**
      * Verify that the matrix can have eigenvalues
      *
-     * @param Matrix $A
+     * @param NumericMatrix $A
      *
      * @throws Exception\BadDataException if the matrix is not square
      */
-    private static function checkMatrix(Matrix $A)
+    private static function checkMatrix(NumericMatrix $A)
     {
         if (!$A->isSquare()) {
             throw new Exception\BadDataException('Matrix must be square');
@@ -58,7 +58,7 @@ class Eigenvalue
      * is produced when computing the determinant of the matrix. The determinant
      * polynomial is calculated using polynomial arithmetic.
      *
-     * @param Matrix $A
+     * @param NumericMatrix $A
      *
      * @return float[] of eigenvalues
      *
@@ -66,7 +66,7 @@ class Eigenvalue
      * @throws Exception\BadDataException if the matrix is not 2x2, 3x3, or 4x4
      * @throws Exception\MathException
      */
-    public static function closedFormPolynomialRootMethod(Matrix $A): array
+    public static function closedFormPolynomialRootMethod(NumericMatrix $A): array
     {
         self::checkMatrix($A);
 
@@ -74,7 +74,7 @@ class Eigenvalue
         if ($m < 2 || $m > 4) {
             throw new Exception\BadDataException("Matrix must be 2x2, 3x3, or 4x4. $m x $m given");
         }
-        
+
         // Convert the numerical matrix into an ObjectMatrix
         $B_array = [];
         for ($i = 0; $i < $m; $i++) {
@@ -107,8 +107,8 @@ class Eigenvalue
 
         // Calculate the roots of the determinant.
         $eigenvalues = $det->roots();
-        usort($eigenvalues, function ($a, $b) {
-            return abs($b) <=> abs($a);
+        \usort($eigenvalues, function ($a, $b) {
+            return \abs($b) <=> \abs($a);
         });
         return $eigenvalues;
     }
@@ -118,7 +118,7 @@ class Eigenvalue
      *
      * https://en.wikipedia.org/wiki/Jacobi_eigenvalue_algorithm
      *
-     * @param Matrix $A
+     * @param NumericMatrix $A
      *
      * @return float[] of eigenvalues
      *
@@ -126,7 +126,7 @@ class Eigenvalue
      * @throws Exception\BadDataException if the matrix is 1x1
      * @throws Exception\MathException
      */
-    public static function jacobiMethod(Matrix $A): array
+    public static function jacobiMethod(NumericMatrix $A): array
     {
         if (!$A->isSymmetric()) {
             throw new Exception\BadDataException('Matrix must be symmetric');
@@ -140,12 +140,13 @@ class Eigenvalue
         $D = $A;
         $S = MatrixFactory::identity($m);
 
+        $iterations = 0; // For infinitely oscillating edge cases between very small positive and negative numbers that don't converge
         while (!$D->isDiagonal()) {
             // Find the largest off-diagonal element in $D
             $pivot = ['value' => 0, 'i' => 0, 'j' => 0];
             for ($i = 0; $i < $m - 1; $i++) {
                 for ($j = $i + 1; $j < $m; $j++) {
-                    if (abs($D[$i][$j]) > abs($pivot['value'])) {
+                    if (\abs($D[$i][$j]) > \abs($pivot['value'])) {
                         $pivot['value'] = $D[$i][$j];
                         $pivot['i']     = $i;
                         $pivot['j']     = $j;
@@ -157,16 +158,22 @@ class Eigenvalue
             $j     = $pivot['j'];
             $angle = ($D[$i][$i] == $D[$j][$j])
                 ? ($D[$i][$i] > 0 ? 1 : -1) * \M_PI / 4
-                : atan(2 * $D[$i][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
+                : \atan(2 * $D[$i][$j] / ($D[$i][$i] - $D[$j][$j])) / 2;
 
             $G = MatrixFactory::givens($i, $j, $angle, $m);
             $D = $G->transpose()->multiply($D)->multiply($G);
             $S = $S->multiply($G);
+
+            // To prevent infinite looping when zero-like oscillations don't converge
+            $iterations++;
+            if ($iterations > 200) {
+                break;
+            }
         }
 
         $eigenvalues = $D->getDiagonalElements();
-        usort($eigenvalues, function ($a, $b) {
-            return abs($b) <=> abs($a);
+        \usort($eigenvalues, function ($a, $b) {
+            return \abs($b) <=> \abs($a);
         });
         return $eigenvalues;
     }
@@ -189,15 +196,15 @@ class Eigenvalue
      *
      * https://en.wikipedia.org/wiki/Power_iteration
      *
-     * @param Matrix $A
-     * @param int $iterations max number of iterations to perform
+     * @param NumericMatrix $A
+     * @param int           $iterations max number of iterations to perform
      *
      * @return float[] most extreme eigenvalue
      *
      * @throws Exception\BadDataException if the matrix is not square
      * @throws Exception\MathException
      */
-    public static function powerIteration(Matrix $A, int $iterations = 1000): array
+    public static function powerIteration(NumericMatrix $A, int $iterations = 1000): array
     {
         self::checkMatrix($A);
 
@@ -230,12 +237,12 @@ class Eigenvalue
                 $iterations--;
             }
 
-            $max_ev = abs($max_ev) > abs($newμ) ? $max_ev : $newμ;
+            $max_ev = \abs($max_ev) > \abs($newμ) ? $max_ev : $newμ;
 
             // Perturb the eigenvector and run again to make sure the same solution is found
             $newb = $b->getMatrix();
-            for ($i = 0; $i < count($newb); $i++) {
-                $newb[$i][0] = $newb[1][0] + rand() / 10;
+            for ($i = 0; $i < \count($newb); $i++) {
+                $newb[$i][0] = $newb[1][0] + \rand() / 10;
             }
             $b    = MatrixFactory::create($newb);
             $b    = $b->scalarDivide($b->frobeniusNorm());  // Scale to a unit vector

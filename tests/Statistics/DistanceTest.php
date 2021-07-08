@@ -2,14 +2,14 @@
 
 namespace MathPHP\Tests\Statistics;
 
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\Statistics\Distance;
 use MathPHP\Exception;
 
 class DistanceTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @test         bhattacharyyaDistance
+     * @test         bhattacharyya
      * @dataProvider dataProviderForBhattacharyyaDistance
      * @param        array $p
      * @param        array $q
@@ -18,10 +18,10 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     public function testBhattacharyyaDistance(array $p, array $q, float $expected)
     {
         // When
-        $BD = Distance::bhattacharyyaDistance($p, $q);
+        $BD = Distance::bhattacharyya($p, $q);
 
         // Then
-        $this->assertEquals($expected, $BD, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $BD, 0.0001);
     }
 
     /**
@@ -49,7 +49,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test bhattacharyyaDistance when arrays are different lengths
+     * @test bhattacharyya when arrays are different lengths
      */
     public function testBhattacharyyaDistanceExceptionArraysDifferentLength()
     {
@@ -61,11 +61,11 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadDataException::class);
 
         // When
-        Distance::bhattacharyyaDistance($p, $q);
+        Distance::bhattacharyya($p, $q);
     }
 
     /**
-     * @test bhattacharyyaDistance when probabilities do not add up to one
+     * @test bhattacharyya when probabilities do not add up to one
      */
     public function testBhattacharyyaDistanceExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
@@ -77,94 +77,11 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadDataException::class);
 
         // When
-        Distance::bhattacharyyaDistance($p, $q);
+        Distance::bhattacharyya($p, $q);
     }
 
     /**
-     * @test         kullbackLeiblerDivergence
-     * @dataProvider dataProviderForKullbackLeiblerDivergence
-     * @param        array $p
-     * @param        array $q
-     * @param        float $expected
-     */
-    public function testKullbackLeiblerDivergence(array $p, array $q, float $expected)
-    {
-        // When
-        $BD = Distance::kullbackLeiblerDivergence($p, $q);
-
-        // Then
-        $this->assertEquals($expected, $BD, '', 0.0001);
-    }
-
-    /**
-     * Test data created using Python's scipi.stats.Distance
-     * @return array [p, q, distance]
-     */
-    public function dataProviderForKullbackLeiblerDivergence(): array
-    {
-        return [
-            [
-                [0.5, 0.5],
-                [0.75, 0.25],
-                0.14384103622589045,
-            ],
-            [
-                [0.75, 0.25],
-                [0.5, 0.5],
-                0.13081203594113694,
-            ],
-            [
-                [0.2, 0.5, 0.3],
-                [0.1, 0.4, 0.5],
-                0.096953524639296684,
-            ],
-            [
-                [0.4, 0.6],
-                [0.3, 0.7],
-                0.022582421084357374
-            ],
-            [
-                [0.9, 0.1],
-                [0.1, 0.9],
-                1.7577796618689758
-            ],
-        ];
-    }
-
-    /**
-     * @test kullbackLeiblerDivergence when arrays are different lengths
-     */
-    public function testKullbackLeiblerDivergenceExceptionArraysDifferentLength()
-    {
-        // Given
-        $p = [0.4, 0.5, 0.1];
-        $q = [0.2, 0.8];
-
-        // Then
-        $this->expectException(Exception\BadDataException::class);
-
-        // When
-        Distance::kullbackLeiblerDivergence($p, $q);
-    }
-
-    /**
-     * @test kullbackLeiblerDivergence when probabilities do not add up to one
-     */
-    public function testKullbackLeiblerDivergenceExceptionNotProbabilityDistributionThatAddsUpToOne()
-    {
-        // Given
-        $p = [0.2, 0.2, 0.1];
-        $q = [0.2, 0.4, 0.6];
-
-        // Then
-        $this->expectException(Exception\BadDataException::class);
-
-        // When
-        Distance::kullbackLeiblerDivergence($p, $q);
-    }
-
-    /**
-     * @test         hellingerDistance
+     * @test         hellinger
      * @dataProvider dataProviderForHellingerDistance
      * @param        array $p
      * @param        array $q
@@ -173,10 +90,10 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     public function testHellingerDistance(array $p, array $q, float $expected)
     {
         // When
-        $BD = Distance::hellingerDistance($p, $q);
+        $BD = Distance::hellinger($p, $q);
 
         // Then
-        $this->assertEquals($expected, $BD, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $BD, 0.0001);
     }
 
     /**
@@ -215,7 +132,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test hellingerDistance when the arrays are different lengths
+     * @test hellinger when the arrays are different lengths
      */
     public function testHellingerDistanceExceptionArraysDifferentLength()
     {
@@ -227,11 +144,11 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadDataException::class);
 
         // When
-        Distance::hellingerDistance($p, $q);
+        Distance::hellinger($p, $q);
     }
 
     /**
-     * @test hellingerDistance when the probabilities do not add up to one
+     * @test hellinger when the probabilities do not add up to one
      */
     public function testHellingerDistanceExceptionNotProbabilityDistributionThatAddsUpToOne()
     {
@@ -243,88 +160,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadDataException::class);
 
         // When
-        Distance::hellingerDistance($p, $q);
-    }
-
-    /**
-     * @test         jensenShannonDivergence
-     * @dataProvider dataProviderForJensenShannonDivergence
-     * @param        array $p
-     * @param        array $q
-     * @param        float $expected
-     */
-    public function testJensenShannonDivergence(array $p, array $q, float $expected)
-    {
-        // When
-        $BD = Distance::jensenShannonDivergence($p, $q);
-
-        // Then
-        $this->assertEquals($expected, $BD, '', 0.0001);
-    }
-
-    /**
-     * Test data created with Python's numpy/scipi where p and q are numpy.arrays:
-     * def jsd(p, q):
-     *     M = (p + q) / 2
-     *     return (scipy.stats.Distance(p, M) + scipy.stats.Distance(q, M)) / 2
-     * @return array [p, q, distance]
-     */
-    public function dataProviderForJensenShannonDivergence(): array
-    {
-        return [
-            [
-                [0.4, 0.6],
-                [0.5, 0.5],
-                0.0050593899289876343,
-            ],
-            [
-                [0.1, 0.2, 0.2, 0.2, 0.2, 0.1],
-                [0.0, 0.1, 0.4, 0.4, 0.1, 0.0],
-                0.12028442909461383
-            ],
-            [
-                [0.25, 0.5, 0.25],
-                [0.5, 0.3, 0.2],
-                0.035262717451799902,
-            ],
-            [
-                [0.5, 0.3, 0.2],
-                [0.25, 0.5, 0.25],
-                0.035262717451799902,
-            ],
-        ];
-    }
-
-    /**
-     * @test jensenShannonDivergence when the arrays are different lengths
-     */
-    public function testJensenShannonDivergenceExceptionArraysDifferentLength()
-    {
-        // Given
-        $p = [0.4, 0.5, 0.1];
-        $q = [0.2, 0.8];
-
-        // Then
-        $this->expectException(Exception\BadDataException::class);
-
-        // When
-        Distance::jensenShannonDivergence($p, $q);
-    }
-
-    /**
-     * @test jensenShannonDivergence when the probabilities do not add up to one
-     */
-    public function testJensenShannonDivergenceExceptionNotProbabilityDistributionThatAddsUpToOne()
-    {
-        // Given
-        $p = [0.2, 0.2, 0.1];
-        $q = [0.2, 0.4, 0.6];
-
-        // Then
-        $this->expectException(Exception\BadDataException::class);
-
-        // When
-        Distance::jensenShannonDivergence($p, $q);
+        Distance::hellinger($p, $q);
     }
 
     /**
@@ -340,7 +176,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $BD = Distance::jensenShannon($p, $q);
 
         // Then
-        $this->assertEquals($expected, $BD, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $BD, 0.0001);
     }
 
     /**
@@ -409,21 +245,21 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         Mahalanobis from a point to the center of the data
      * @dataProvider dataProviderForMahalanobisCenter
-     * @param        array $x
-     * @param        Matrix $data
-     * @param        float $expectedDistance
+     * @param        array         $x
+     * @param        NumericMatrix $data
+     * @param        float         $expectedDistance
      * @throws       \Exception
      */
-    public function testMahalanobisCenter(array $x, Matrix $data, float $expectedDistance)
+    public function testMahalanobisCenter(array $x, NumericMatrix $data, float $expectedDistance)
     {
         // Given
-        $x_m = new Matrix($x);
+        $x_m = new NumericMatrix($x);
 
         // When
         $distance = Distance::mahalanobis($x_m, $data);
 
         // Then
-        $this->assertEquals($expectedDistance, $distance, '', 0.0001);
+        $this->assertEqualsWithDelta($expectedDistance, $distance, 0.0001);
     }
 
     /**
@@ -436,7 +272,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
             [4, 4, 5, 2, 3, 6, 9, 7, 4, 5],
             [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
         ];
-        $data_matrix = new Matrix($data);
+        $data_matrix = new NumericMatrix($data);
 
         return [
             [
@@ -470,23 +306,23 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         Mahalanobis between two points
      * @dataProvider dataProviderForMahalanobisPoint
-     * @param        array $x
-     * @param        array $y
-     * @param        Matrix $data
-     * @param        float $expectedDistance
+     * @param        array         $x
+     * @param        array         $y
+     * @param        NumericMatrix $data
+     * @param        float         $expectedDistance
      * @throws       \Exception
      */
-    public function testMahalanobisPoint(array $x, array $y, Matrix $data, float $expectedDistance)
+    public function testMahalanobisPoint(array $x, array $y, NumericMatrix $data, float $expectedDistance)
     {
         // Given
-        $x_m = new Matrix($x);
-        $y_m = new Matrix($y);
+        $x_m = new NumericMatrix($x);
+        $y_m = new NumericMatrix($y);
 
         // when
         $distance = Distance::mahalanobis($x_m, $data, $y_m);
 
         // Then
-        $this->assertEquals($expectedDistance, $distance, '', 0.0001);
+        $this->assertEqualsWithDelta($expectedDistance, $distance, 0.0001);
     }
 
     /**
@@ -499,7 +335,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
             [4, 4, 5, 2, 3, 6, 9, 7, 4, 5],
             [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
         ];
-        $data_matrix = new Matrix($data);
+        $data_matrix = new NumericMatrix($data);
 
         return [
             [
@@ -543,11 +379,11 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
     public function testMahalanobisTwoData()
     {
         // Given
-        $data1 = new Matrix([
+        $data1 = new NumericMatrix([
             [4, 4, 5, 2, 3, 6, 9, 7, 4, 5],
             [3, 7, 5, 7, 9, 5, 6, 2, 2, 7],
         ]);
-        $data2 = new Matrix([
+        $data2 = new NumericMatrix([
             [5, 3, 6, 3, 9],
             [7, 6, 1, 2, 9],
         ]);
@@ -556,7 +392,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::mahalanobis($data2, $data1);
 
         // Then
-        $this->assertEquals(0.1863069, $distance, '', 0.0001);
+        $this->assertEqualsWithDelta(0.1863069, $distance, 0.0001);
     }
 
     /**
@@ -574,8 +410,8 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distanceYx = Distance::minkowski($y, $x, $p);
 
         // Then
-        $this->assertEquals($expected, $distanceXy, '', 0.0000000001);
-        $this->assertEquals($expected, $distanceYx, '', 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distanceXy, 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distanceYx, 0.0000000001);
     }
 
     /**
@@ -744,7 +580,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::euclidean($x, $y);
 
         // Then
-        $this->assertEquals($expected, $distance, '', 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distance, 0.0000000001);
     }
 
     /**
@@ -817,7 +653,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::manhattan($x, $y);
 
         // Then
-        $this->assertEquals($expected, $distance, '', 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distance, 0.0000000001);
     }
 
     /**
@@ -890,7 +726,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::cosine($A, $B);
 
         // Then
-        $this->assertEquals($expected, $distance, '', 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distance, 0.0000000001);
     }
 
     /**
@@ -989,7 +825,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::cosineSimilarity($A, $B);
 
         // Then
-        $this->assertEquals($expected, $distance, '', 0.0000000001);
+        $this->assertEqualsWithDelta($expected, $distance, 0.0000000001);
     }
 
     /**
@@ -1114,7 +950,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::brayCurtis($u, $v);
 
         // Then
-        $this->assertEquals($expected, $distance, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $distance, 0.0001);
     }
 
     /**
@@ -1259,7 +1095,7 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         $distance = Distance::canberra($p, $q);
 
         // Then
-        $this->assertEquals($expected, $distance, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $distance, 0.0001);
     }
 
     /**

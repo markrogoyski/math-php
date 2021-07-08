@@ -12,10 +12,10 @@ use MathPHP\Probability\Distribution\Continuous\StudentT;
  */
 class Outlier
 {
-    const ONE_SIDED       = 'one';
-    const TWO_SIDED       = 'two';
-    const ONE_SIDED_LOWER = 'lower';
-    const ONE_SIDED_UPPER = 'upper';
+    public const ONE_SIDED       = 'one';
+    public const TWO_SIDED       = 'two';
+    public const ONE_SIDED_LOWER = 'lower';
+    public const ONE_SIDED_UPPER = 'upper';
 
     /**
      * The Grubbs' Statistic (G) of a series of data
@@ -60,23 +60,23 @@ class Outlier
         $σ = Descriptive::standardDeviation($data);
 
         if ($typeOfTest === self::TWO_SIDED) {
-            $max❘Yᵢ − μ❘ = max(Single::abs(Single::subtract($data, $μ)));
+            $max❘Yᵢ − μ❘ = \max(Single::abs(Single::subtract($data, $μ)));
             return $max❘Yᵢ − μ❘ / $σ;
         }
 
         if ($typeOfTest === self::ONE_SIDED_LOWER) {
-            $yMin = min($data);
+            $yMin = \min($data);
             return ($μ - $yMin) / $σ;
         }
 
         if ($typeOfTest === self::ONE_SIDED_UPPER) {
-            $yMax = max($data);
+            $yMax = \max($data);
             return ($yMax - $μ) / $σ;
         }
 
         throw new Exception\BadParameterException("{$typeOfTest} is not a valid Grubbs; test");
     }
-    
+
     /**
      * The critical Grubbs Value
      *
@@ -111,7 +111,7 @@ class Outlier
             ? $studentT->inverse($𝛼 / $n)
             : $studentT->inverse($𝛼 / (2 * $n));
 
-        return (($n - 1) / sqrt($n)) * sqrt($T ** 2 / ($n - 2 + $T ** 2));
+        return (($n - 1) / \sqrt($n)) * \sqrt($T ** 2 / ($n - 2 + $T ** 2));
     }
 
     /* ********************** *
@@ -127,7 +127,7 @@ class Outlier
      */
     private static function validateGrubbsCriticalValueTestType(string $typeOfTest)
     {
-        if (!in_array($typeOfTest, [self::ONE_SIDED, self::TWO_SIDED])) {
+        if (!\in_array($typeOfTest, [self::ONE_SIDED, self::TWO_SIDED])) {
             throw new Exception\BadParameterException("{$typeOfTest} is not a valid Grubbs' test");
         }
     }

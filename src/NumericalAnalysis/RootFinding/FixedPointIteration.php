@@ -44,7 +44,7 @@ class FixedPointIteration
 
         do {
             $g⟮p⟯ = $function($p);
-            $dif = abs($g⟮p⟯ - $p);
+            $dif = \abs($g⟮p⟯ - $p);
             $p   = $g⟮p⟯;
         } while ($dif > $tol);
 
@@ -73,7 +73,7 @@ class FixedPointIteration
         Validation::interval($a, $b);
 
         if ($a > $b) {
-            list($a, $b) = [$b, $a];
+            [$a, $b] = [$b, $a];
         }
 
         if ($p < $a || $p > $b) {

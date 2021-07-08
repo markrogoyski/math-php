@@ -6,7 +6,7 @@ use MathPHP\Probability\Distribution\Continuous\NoncentralT;
 
 class NoncentralTTest extends \PHPUnit\Framework\TestCase
 {
-    const ε = .000001;
+    private const ε = .000001;
 
     /**
      * @test         pdf
@@ -20,13 +20,13 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $noncentral_t = new NoncentralT($ν, $μ);
-        $tol          = abs(self::ε * $expected);
+        $tol          = \abs(self::ε * $expected);
 
         // When
         $pdf = $noncentral_t->pdf($t);
 
         // Then
-        $this->assertEquals($expected, $pdf, '', $tol);
+        $this->assertEqualsWithDelta($expected, $pdf, $tol);
     }
 
     /**
@@ -87,13 +87,13 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $noncentral_t = new NoncentralT($ν, $μ);
-        $tol          = abs(self::ε * $expected);
+        $tol          = \abs(self::ε * $expected);
 
         // When
         $cdf = $noncentral_t->cdf($t);
 
         // Then
-        $this->assertEquals($expected, $cdf, '', $tol);
+        $this->assertEqualsWithDelta($expected, $cdf, $tol);
     }
 
     /**
@@ -153,13 +153,13 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $noncentral_t = new NoncentralT($ν, $μ);
-        $tol          = abs(self::ε * $expected);
+        $tol          = \abs(self::ε * $expected);
 
         // When
         $mean = $noncentral_t->mean();
 
         // Then
-        $this->assertEquals($expected, $mean, '', $tol);
+        $this->assertEqualsWithDelta($expected, $mean, $tol);
     }
 
     /**
@@ -217,12 +217,12 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $noncentral_t = new NoncentralT($ν, $μ);
-        $tol          = abs(self::ε * $expected);
+        $tol          = \abs(self::ε * $expected);
 
         // When
         $median = $noncentral_t->median();
 
         // Then
-        $this->assertEquals($expected, $median, '', $tol);
+        $this->assertEqualsWithDelta($expected, $median, $tol);
     }
 }

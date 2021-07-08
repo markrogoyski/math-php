@@ -3,37 +3,36 @@
 namespace MathPHP\Statistics;
 
 use MathPHP\Functions\Map;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\Vector;
 
 /**
- * Functions dealing with statistical distance and divergence.
+ * Functions dealing with statistical distance.
  * Related to probability and information theory and entropy.
  *
  * - Distances
- *   - Bhattacharyya distance
- *   - Hellinger distance
- *   - Mahalanobis distance
- * - Divergences
- *   - Kullback-Leibler divergence
- *   - Jensen-Shannon divergence
+ *   - Bhattacharyya
+ *   - Hellinger
+ *   - Mahalanobis
+ *   - Jensen-Shannon
+ *   - Minkowski
+ *   - Euclidean
+ *   - Manhattan
+ *   - Cosine
+ *   - Cosine similarity
+ *   - Bray Curtis
+ *   - Canberra
  *
  * In statistics, probability theory, and information theory, a statistical distance quantifies the distance between
  * two statistical objects, which can be two random variables, or two probability distributions or samples, or the
  * distance can be between an individual sample point and a population or a wider sample of points.
  *
- * In statistics and information geometry, divergence or a contrast function is a function which establishes the "distance"
- * of one probability distribution to the other on a statistical manifold. The divergence is a weaker notion than that of
- * the distance, in particular the divergence need not be symmetric (that is, in general the divergence from p to q is not
- * equal to the divergence from q to p), and need not satisfy the triangle inequality.
- *
  * https://en.wikipedia.org/wiki/Statistical_distance
- * https://en.wikipedia.org/wiki/Divergence_(statistics)
  */
 class Distance
 {
-    const ONE_TOLERANCE = 0.010001;
+    private const ONE_TOLERANCE = 0.010001;
 
     /**
      * Bhattacharyya distance
@@ -58,49 +57,22 @@ class Distance
      * @throws Exception\BadDataException if p and q do not have the same number of elements
      * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
      */
-    public static function bhattacharyyaDistance(array $p, array $q): float
+    public static function bhattacharyya(array $p, array $q): float
     {
         // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
+        if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
         }
 
         // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+        if ((\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(\array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
         // ∑ √(p(x) q(x))
-        $BC⟮p、q⟯ = array_sum(Map\Single::sqrt(Map\Multi::multiply($p, $q)));
+        $BC⟮p、q⟯ = \array_sum(Map\Single::sqrt(Map\Multi::multiply($p, $q)));
 
-        return -log($BC⟮p、q⟯);
-    }
-
-    /**
-     * Kullback-Leibler divergence
-     * (also known as: discrimination information, information divergence, information gain, relative entropy, KLIC, KL divergence)
-     * A measure of the difference between two probability distributions P and Q.
-     * https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence
-     *
-     *                       P(i)
-     * Dkl(P‖Q) = ∑ P(i) log ----
-     *            ⁱ          Q(i)
-     *
-     *
-     *
-     * @param  array  $p distribution p
-     * @param  array  $q distribution q
-     *
-     * @return float difference between distributions
-     *
-     * @throws Exception\BadDataException if p and q do not have the same number of elements
-     * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
-     *
-     * @deprecated Use Divergence::kullbackLeibler
-     */
-    public static function kullbackLeiblerDivergence(array $p, array $q): float
-    {
-        return Divergence::kullbackLeibler($p, $q);
+        return -\log($BC⟮p、q⟯);
     }
 
     /**
@@ -120,26 +92,26 @@ class Distance
      * @throws Exception\BadDataException if p and q do not have the same number of elements
      * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
      */
-    public static function hellingerDistance(array $p, array $q): float
+    public static function hellinger(array $p, array $q): float
     {
         // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
+        if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
         }
 
         // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+        if ((\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(\array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
         // Defensive measures against taking the log of 0 which would be -∞ or dividing by 0
-        $p = array_map(
+        $p = \array_map(
             function ($pᵢ) {
                 return $pᵢ == 0 ? 1e-15 : $pᵢ;
             },
             $p
         );
-        $q = array_map(
+        $q = \array_map(
             function ($qᵢ) {
                 return $qᵢ == 0 ? 1e-15 : $qᵢ;
             },
@@ -147,48 +119,15 @@ class Distance
         );
 
         // √ ∑ (√pᵢ - √qᵢ)²
-        $√∑⟮√pᵢ − √qᵢ⟯² = sqrt(array_sum(array_map(
+        $√∑⟮√pᵢ − √qᵢ⟯² = \sqrt(\array_sum(\array_map(
             function ($pᵢ, $qᵢ) {
-                return (sqrt($pᵢ) - sqrt($qᵢ)) ** 2;
+                return (\sqrt($pᵢ) - \sqrt($qᵢ)) ** 2;
             },
             $p,
             $q
         )));
 
-        return (1 / sqrt(2)) * $√∑⟮√pᵢ − √qᵢ⟯²;
-    }
-
-    /**
-     * Jensen-Shannon divergence
-     * Also known as: information radius (IRad) or total divergence to the average.
-     * A method of measuring the similarity between two probability distributions.
-     * It is based on the Kullback–Leibler divergence, with some notable (and useful) differences,
-     * including that it is symmetric and it is always a finite value.
-     * https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence
-     *
-     *            1          1
-     * JSD(P‖Q) = - D(P‖M) + - D(Q‖M)
-     *            2          2
-     *
-     *           1
-     * where M = - (P + Q)
-     *           2
-     *
-     *       D(P‖Q) = Kullback-Leibler divergence
-     *
-     * @param array $p distribution p
-     * @param array $q distribution q
-     *
-     * @return float difference between distributions
-     *
-     * @throws Exception\BadDataException if p and q do not have the same number of elements
-     * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
-     *
-     * @deprecated Use Divergence::jensenShannon
-     */
-    public static function jensenShannonDivergence(array $p, array $q): float
-    {
-        return Divergence::jensenShannon($p, $q);
+        return (1 / \sqrt(2)) * $√∑⟮√pᵢ − √qᵢ⟯²;
     }
 
     /**
@@ -217,7 +156,7 @@ class Distance
      */
     public static function jensenShannon(array $p, array $q): float
     {
-        return sqrt(Divergence::jensenShannon($p, $q));
+        return \sqrt(Divergence::jensenShannon($p, $q));
     }
 
     /**
@@ -239,9 +178,9 @@ class Distance
      * If x has more than one column, the combined data covariance matrix is used, and the distance
      * will be calculated between the centroids of each data set.
      *
-     * @param Matrix      $x    a vector in the vector space. ie [[1],[2],[4]] or a matrix of data
-     * @param Matrix      $data an array of data. i.e. [[1,2,3,4],[6,2,8,1],[0,4,8,1]]
-     * @param Matrix|null $y    a vector in the vector space
+     * @param NumericMatrix      $x    a vector in the vector space. ie [[1],[2],[4]] or a matrix of data
+     * @param NumericMatrix      $data an array of data. i.e. [[1,2,3,4],[6,2,8,1],[0,4,8,1]]
+     * @param NumericMatrix|null $y    a vector in the vector space
      *
      * @return float Mahalanobis Distance
      *
@@ -251,7 +190,7 @@ class Distance
      * @throws Exception\OutOfBoundsException
      * @throws Exception\VectorException
      */
-    public static function mahalanobis(Matrix $x, Matrix $data, Matrix $y = null): float
+    public static function mahalanobis(NumericMatrix $x, NumericMatrix $data, NumericMatrix $y = null): float
     {
         $Centroid = $data->rowMeans()->asColumnMatrix();
         $Nx       = $x->getN();
@@ -270,7 +209,7 @@ class Distance
 
         $S⁻¹ = $S->inverse();
         $D   = $diff->transpose()->multiply($S⁻¹)->multiply($diff);
-        return sqrt($D[0][0]);
+        return \sqrt($D[0][0]);
     }
 
     /**
@@ -291,18 +230,18 @@ class Distance
     public static function minkowski(array $xs, array $ys, int $p): float
     {
         // Arrays must have the same number of elements
-        $n = count($xs);
-        if ($n !== count($ys)) {
+        $n = \count($xs);
+        if ($n !== \count($ys)) {
             throw new Exception\BadDataException('x and y must have the same number of elements');
         }
         if ($p < 1) {
             throw new Exception\BadDataException("p must be ≥ 1. Given $p");
         }
 
-        $∑｜xᵢ − yᵢ⟯ᵖ = array_sum(
-            array_map(
+        $∑｜xᵢ − yᵢ⟯ᵖ = \array_sum(
+            \array_map(
                 function ($x, $y) use ($p) {
-                    return abs($x - $y) ** $p;
+                    return \abs($x - $y) ** $p;
                 },
                 $xs,
                 $ys
@@ -379,10 +318,10 @@ class Distance
      */
     public static function cosine(array $A, array $B): float
     {
-        if (count(array_unique($A)) === 1 && end($A) == 0) {
+        if (\count(\array_unique($A)) === 1 && \end($A) == 0) {
             throw new Exception\BadDataException('A is the null vector');
         }
-        if (count(array_unique($B)) === 1 && end($B) == 0) {
+        if (\count(\array_unique($B)) === 1 && \end($B) == 0) {
             throw new Exception\BadDataException('B is the null vector');
         }
 
@@ -441,25 +380,25 @@ class Distance
      */
     public static function brayCurtis(array $u, array $v): float
     {
-        if (count($u) !== count($v)) {
+        if (\count($u) !== \count($v)) {
             throw new Exception\BadDataException('u and v must have the same number of elements');
         }
-        $uZero = count(array_unique($u)) === 1 && end($u) == 0;
-        $vZero = count(array_unique($u)) === 1 && end($v) == 0;
+        $uZero = \count(\array_unique($u)) === 1 && \end($u) == 0;
+        $vZero = \count(\array_unique($u)) === 1 && \end($v) == 0;
         if ($uZero && $vZero) {
             return \NAN;
         }
 
-        $∑｜uᵢ − vᵢ｜ = array_sum(array_map(
+        $∑｜uᵢ − vᵢ｜ = \array_sum(\array_map(
             function (float $uᵢ, float $vᵢ) {
-                return abs($uᵢ - $vᵢ);
+                return \abs($uᵢ - $vᵢ);
             },
             $u,
             $v
         ));
-        $∑｜uᵢ ＋ vᵢ｜ = array_sum(array_map(
+        $∑｜uᵢ ＋ vᵢ｜ = \array_sum(\array_map(
             function (float $uᵢ, float $vᵢ) {
-                return abs($uᵢ + $vᵢ);
+                return \abs($uᵢ + $vᵢ);
             },
             $u,
             $v
@@ -491,27 +430,27 @@ class Distance
      */
     public static function canberra(array $p, array $q): float
     {
-        if (count($p) !== count($q)) {
+        if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
         }
-        $pZero = count(array_unique($p)) === 1 && end($p) == 0;
-        $qZero = count(array_unique($p)) === 1 && end($q) == 0;
+        $pZero = \count(\array_unique($p)) === 1 && \end($p) == 0;
+        $qZero = \count(\array_unique($p)) === 1 && \end($q) == 0;
         if ($pZero && $qZero) {
             return \NAN;
         }
 
         // Numerators ｜pᵢ − qᵢ｜
-        $｜p − q｜ = array_map(
+        $｜p − q｜ = \array_map(
             function (float $pᵢ, float $qᵢ) {
-                return abs($pᵢ - $qᵢ);
+                return \abs($pᵢ - $qᵢ);
             },
             $p,
             $q
         );
         // Denominators ｜pᵢ｜ + ｜qᵢ｜
-        $｜p｜ ＋ ｜q｜ = array_map(
+        $｜p｜ ＋ ｜q｜ = \array_map(
             function (float $p, float $q) {
-                return abs($p) + abs($q);
+                return \abs($p) + \abs($q);
             },
             $p,
             $q
@@ -521,7 +460,7 @@ class Distance
         //    ｜pᵢ − qᵢ｜
         // ∑ --------------
         //   ｜pᵢ｜ + ｜qᵢ｜
-        return array_sum(array_map(
+        return \array_sum(\array_map(
             function (float $｜pᵢ − qᵢ｜, float $｜pᵢ｜ ＋ ｜qᵢ｜) {
                 return $｜pᵢ｜ ＋ ｜qᵢ｜ == 0
                     ? 0

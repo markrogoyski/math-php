@@ -5,17 +5,17 @@ namespace MathPHP\Tests\Probability\Distribution\Table;
 use MathPHP\Probability\Distribution\Table\TDistribution;
 use MathPHP\Exception;
 
-class TDistributionTest extends \PHPUnit\Framework\TestCase
+class TDistributionTableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test         one-sided T value from confidence level
      * @dataProvider dataProviderForOneSidedCL
-     * @param        string $ν
-     * @param        string $cl
+     * @param        mixed $ν
+     * @param        mixed $cl
      * @param        float  $t
      * @throws       \Exception
      */
-    public function testGetOneSidedTValueFromConfidenceLevel(string $ν, string $cl, float $t)
+    public function testGetOneSidedTValueFromConfidenceLevel($ν, $cl, float $t)
     {
         // When
         $value = TDistribution::getOneSidedTValueFromConfidenceLevel($ν, $cl);
@@ -49,12 +49,12 @@ class TDistributionTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         two-sided T value from confidence level
      * @dataProvider dataProviderForTwoSidedCL
-     * @param        string $ν
-     * @param        string $cl
+     * @param        mixed $ν
+     * @param        mixed $cl
      * @param        float  $t
      * @throws       \Exception
      */
-    public function testGetTwoSidedTValueFromConfidenceLevel(string $ν, string $cl, float $t)
+    public function testGetTwoSidedTValueFromConfidenceLevel($ν, $cl, float $t)
     {
         // When
         $value = TDistribution::getTwoSidedTValueFromConfidenceLevel($ν, $cl);
@@ -88,12 +88,12 @@ class TDistributionTest extends \PHPUnit\Framework\TestCase
     /**
      * @test          one-sided value from alpha
      * @dataProvider  dataProviderForOneSidedAlpha
-     * @param         string $ν
-     * @param         string $α
+     * @param         mixed $ν
+     * @param         mixed $α
      * @param         float  $t
      * @throws        \Exception
      */
-    public function testGetOneSidedTValueFromAlpha(string $ν, string $α, float $t)
+    public function testGetOneSidedTValueFromAlpha($ν, $α, float $t)
     {
         // When
         $value = TDistribution::getOneSidedTValueFromAlpha($ν, $α);
@@ -127,12 +127,12 @@ class TDistributionTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         two-sided value from alpha
      * @dataProvider dataProviderForTwoSidedAlpha
-     * @param        string $ν
-     * @param        string $α
+     * @param        mixed $ν
+     * @param        mixed $α
      * @param        float  $t
      * @throws       \Exception
      */
-    public function testGetTwoSidedTValueFromAlpha(string $ν, string $α, float $t)
+    public function testGetTwoSidedTValueFromAlpha($ν, $α, float $t)
     {
         // When
         $value = TDistribution::getTwoSidedTValueFromAlpha($ν, $α);

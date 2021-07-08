@@ -45,7 +45,7 @@ class WeightedLinear extends ParametricRegression
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MathException
      */
-    public function calculate()
+    public function calculate(): void
     {
         $this->parameters = $this->leastSquares($this->ys, $this->xs, $this->ws)->getColumn(0);
     }

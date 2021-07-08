@@ -23,7 +23,7 @@ class GammaTest extends \PHPUnit\Framework\TestCase
         $pdf = $gamma->pdf($x);
 
         // Then
-        $this->assertEquals($expectedPdf, $pdf, '', 0.00000001);
+        $this->assertEqualsWithDelta($expectedPdf, $pdf, 0.00000001);
     }
 
     /**
@@ -73,7 +73,7 @@ class GammaTest extends \PHPUnit\Framework\TestCase
         $cdf = $gamma->cdf($x);
 
         // Then
-        $this->assertEquals($expectedCdf, $cdf, '', 0.000001);
+        $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.000001);
     }
 
     /**
@@ -122,7 +122,7 @@ class GammaTest extends \PHPUnit\Framework\TestCase
         $mean = $gamma->mean();
 
         // Then
-        $this->assertEquals($μ, $mean, '', 0.0001);
+        $this->assertEqualsWithDelta($μ, $mean, 0.0001);
     }
 
     /**
@@ -155,7 +155,7 @@ class GammaTest extends \PHPUnit\Framework\TestCase
         $median = $gamma->median();
 
         // Then
-        $this->assertEquals($expectedApproximation, $median, '', 0.000001);
+        $this->assertEqualsWithDelta($expectedApproximation, $median, 0.000001);
     }
 
     /**
@@ -188,7 +188,7 @@ class GammaTest extends \PHPUnit\Framework\TestCase
         $mode = $gamma->mode();
 
         // Then
-        $this->assertEquals($expected, $mode, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $mode, 0.000001);
     }
 
     /**
@@ -256,7 +256,7 @@ class GammaTest extends \PHPUnit\Framework\TestCase
         $variance = $gamma->variance();
 
         // Then
-        $this->assertEquals($expected, $variance, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $variance, 0.000001);
     }
 
     /**

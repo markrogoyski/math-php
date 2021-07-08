@@ -3,13 +3,13 @@
 namespace MathPHP\Tests\LinearAlgebra\Reduction;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\Reduction;
 use MathPHP\Tests;
 
 class RowEchelonFormTest extends \PHPUnit\Framework\TestCase
 {
-    use Tests\LinearAlgebra\MatrixDataProvider;
+    use Tests\LinearAlgebra\Fixture\MatrixDataProvider;
 
     /**
      * @test         isRef on ref matrix should return true
@@ -36,7 +36,7 @@ class RowEchelonFormTest extends \PHPUnit\Framework\TestCase
     public function testRefAlreadyComputed()
     {
         // Given
-        $A = new Matrix([
+        $A = new NumericMatrix([
             [ 4,  1,  2,  -3],
             [-3,  3, -1,   4],
             [-1,  2,  5,   1],
@@ -65,11 +65,11 @@ class RowEchelonFormTest extends \PHPUnit\Framework\TestCase
         $R   = MatrixFactory::create($R);
 
         // When
-        list($ref, $swaps) = Reduction\RowEchelonForm::rowReductionToEchelonForm($A);
+        [$ref, $swaps] = Reduction\RowEchelonForm::rowReductionToEchelonForm($A);
         $ref = MatrixFactory::create($ref);
 
         // Then
-        $this->assertEquals($R->getMatrix(), $ref->getMatrix(), '', 0.000001);
+        $this->assertEqualsWithDelta($R->getMatrix(), $ref->getMatrix(), 0.000001);
         $this->assertTrue($ref->isRef());
     }
 

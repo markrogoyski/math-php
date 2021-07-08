@@ -40,7 +40,7 @@ class CombinatoricsAxiomsTest extends \PHPUnit\Framework\TestCase
             $L⟮n、k⟯       = Combinatorics::lahNumber($n, $k);
             $∑L⟮n、k⟯x₍k₎ += $L⟮n、k⟯ * $x₍k₎;
         }
-    
+
         $this->assertEquals($x⁽ⁿ⁾, $∑L⟮n、k⟯x₍k₎);
     }
 
@@ -64,7 +64,7 @@ class CombinatoricsAxiomsTest extends \PHPUnit\Framework\TestCase
             $x⁽ᵏ⁾              = Combinatorics::risingFactorial($x, $k);
             $∑⟮−1⟯ⁿ⁻ᵏL⟮n、k⟯x₍k₎ += $⟮−1⟯ⁿ⁻ᵏ * $L⟮n、k⟯ * $x⁽ᵏ⁾;
         }
-    
+
         $this->assertEquals($x₍n₎, $∑⟮−1⟯ⁿ⁻ᵏL⟮n、k⟯x₍k₎);
     }
 

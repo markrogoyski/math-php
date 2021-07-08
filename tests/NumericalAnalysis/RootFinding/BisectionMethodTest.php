@@ -2,7 +2,7 @@
 
 namespace MathPHP\Tests\NumericalAnalysis\RootFinding;
 
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 use MathPHP\NumericalAnalysis\RootFinding\BisectionMethod;
 use MathPHP\Exception;
 
@@ -31,7 +31,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
         $x = BisectionMethod::solve($func, $a, $b, $tol);
 
         // The
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -55,7 +55,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
         $x = BisectionMethod::solve($polynomial, $a, $b, $tol);
 
         // The
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -94,7 +94,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
         $x = BisectionMethod::solve($func, $a, $b, $tol);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -119,7 +119,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
         $x = BisectionMethod::solve($func, $a, $b, $tol);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -129,9 +129,9 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
      */
     public function testSolveEToNegativeXTimesSomeStuff()
     {
-        // Given f(x) = e⁻ˣ (3.2sin(x) - 0.5cos(x))
+        // Given f(x) = e⁻ˣ (3.2 sin(x) - 0.5\cos(x))
         $func = function ($x) {
-            return exp(-$x) * ((3.2 * sin($x)) - (0.5 * cos($x)));
+            return \exp(-$x) * ((3.2 *  \sin($x)) - (0.5 * \cos($x)));
         };
         $tol = 0.0001;
 
@@ -144,7 +144,7 @@ class BisectionMethodTest extends \PHPUnit\Framework\TestCase
         $x = BisectionMethod::solve($func, $a, $b, $tol);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**

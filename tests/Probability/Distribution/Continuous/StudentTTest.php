@@ -22,7 +22,7 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
         $pdf = $studentT->pdf($t);
 
         // Then
-        $this->assertEquals($expected, $pdf, '', 0.0000001);
+        $this->assertEqualsWithDelta($expected, $pdf, 0.0000001);
     }
 
     /**
@@ -86,7 +86,7 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
         $cdf = $studentT->cdf($t);
 
         // Then
-        $this->assertEquals($expected, $cdf, '', 0.0000001);
+        $this->assertEqualsWithDelta($expected, $cdf, 0.0000001);
     }
 
     /**
@@ -312,7 +312,7 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
         $inverse = $studentT->inverse($p);
 
         // Then
-        $this->assertEquals($x, $inverse, '', 0.00001);
+        $this->assertEqualsWithDelta($x, $inverse, 0.00001);
     }
 
     /**

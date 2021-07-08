@@ -37,7 +37,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function testExtendedGcd(int $a, int $b, int $expected_gcd, int $expected_alpha, int $expected_beta)
     {
         // When
-        list($gcd, $alpha, $beta) = Algebra::extendedGcd($a, $b);
+        [$gcd, $alpha, $beta] = Algebra::extendedGcd($a, $b);
 
         // Then
         $this->assertEquals($expected_gcd, $gcd);
@@ -139,6 +139,95 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         linear returns the expected root
+     * @dataProvider dataProviderForLinear
+     * @param        float $a
+     * @param        float $b
+     * @param        float $expected
+     */
+    public function testLinear(float $a, float $b, float $expected)
+    {
+        // When
+        $root = Algebra::linear($a, $b);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $root, 0.00001);
+    }
+
+    /**
+     * Test data created with Python numpy.roots([a, b])
+     * @return array (a, b, root)
+     */
+    public function dataProviderForLinear(): array
+    {
+        return [
+            [-1, 0, 0],
+            [1, 0, 0],
+            [5, 0, 0],
+            [1, 1, -1],
+            [-1, 1, 1],
+            [1, -1, 1],
+            [-1, -1, -1],
+            [1, 2, -2],
+            [-1, 2, 2],
+            [1, -2, 2],
+            [-1, -2, -2],
+            [2, 4, -2],
+            [-2, 4, 2],
+            [2, -4, 2],
+            [-2, -4, -2],
+            [0.5, 1, -2],
+            [-0.5, 1, 2],
+            [0.5, -1, 2],
+            [-0.5, -1, -2],
+            [1, 0.5, -0.5],
+            [-1, 0.5, 0.5],
+            [1, -0.5, 0.5],
+            [-1, -0.5, -0.5],
+            [1, -3, 3],
+            [35, 8, -0.22857143],
+            [8, 35, -4.375],
+            [82376, 984398, -11.95005827],
+            [3.2, 2, -0.625],
+            [6.2, 8.7, -1.40322581],
+            [8.7, 6.2, -0.71264368],
+            [0.001, 3, -3000],
+        ];
+    }
+
+    /**
+     * @test         linear returns the no root when a = 0
+     * @dataProvider dataProviderForLinearNoRoot
+     * @param        float $a
+     * @param        float $b
+     */
+    public function testLinearNoRoot(float $a, float $b)
+    {
+        // When
+        $root = Algebra::linear($a, $b);
+
+        // Then
+        $this->assertNull($root);
+    }
+
+    /**
+     * @return array (a, b)
+     */
+    public function dataProviderForLinearNoRoot(): array
+    {
+        return [
+            [0, 0],
+            [0, 1],
+            [0, 5],
+            [0, -1],
+            [0, -5],
+            [-0, 1],
+            [0.0, 1],
+            [-0.0, 1],
+        ];
+    }
+
+    /**
      * @test         quadratic returns the expected roots.
      * @dataProvider dataProviderForQuadratic
      * @param        float $a
@@ -154,11 +243,11 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $expected_r2 = $expected_quadratic[1];
 
         // When
-        list($r1, $r2) = Algebra::quadratic($a, $b, $c);
+        [$r1, $r2] = Algebra::quadratic($a, $b, $c);
 
         // Then
-        $this->assertEquals($expected_r1, $r1, '', 0.00000001);
-        $this->assertEquals($expected_r2, $r2, '', 0.00000001);
+        $this->assertEqualsWithDelta($expected_r1, $r1, 0.00000001);
+        $this->assertEqualsWithDelta($expected_r2, $r2, 0.00000001);
     }
 
     /**
@@ -167,12 +256,12 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForQuadratic(): array
     {
         return [
-            [2, 4, -4, [-1 - sqrt(3), -1 + sqrt(3)]],
+            [2, 4, -4, [-1 - \sqrt(3), -1 + \sqrt(3)]],
             [1, -3, -4, [-1, 4]],
             [1, 1, -4, [-2.56155281280883, 1.56155281280883]],
             [1, 0, -4, [-2, 2]],
             [6, 11, -35, [-7 / 2, 5 / 3]],
-            [1, 0, -48, [-4 * sqrt(3), 4 * sqrt(3)]],
+            [1, 0, -48, [-4 * \sqrt(3), 4 * \sqrt(3)]],
             [1, -7, 0, [0, 7]],
             [5, 6, 1, [-1, -0.2]],
             [1, 2, -8, [-4, 2]],
@@ -191,9 +280,9 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
             [1, 1, 0, [-1, 0]],
             [3, 4, 0, [-4 / 3, 0]],
             [2, -1, 0, [0, 1 / 2]],
-            [1, 0, -3, [-sqrt(3), sqrt(3)]],
+            [1, 0, -3, [-sqrt(3), \sqrt(3)]],
             [1, 0, -25, [-5, 5]],
-            [1, 0, -10, [-sqrt(10), sqrt(10)]],
+            [1, 0, -10, [-sqrt(10), \sqrt(10)]],
             [1, -5, 6, [2, 3]],
             [1, -8, 12, [2, 6]],
             [3, 1, -10, [-2, 5 / 3]],
@@ -222,7 +311,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $quadratic = Algebra::quadratic($a, $b, $c);
 
         // Then
-        $this->assertEquals($expected_quadratic, $quadratic, '', 0.00000001);
+        $this->assertEqualsWithDelta($expected_quadratic, $quadratic, 0.00000001);
     }
 
     /**
@@ -252,11 +341,11 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $roots = Algebra::quadratic($a, $b, $c);
 
         // Then
-        $this->assertInternalType('array', $roots);
+        $this->assertIsArray($roots);
         $this->assertNotEmpty($roots);
         $this->assertEquals(2, count($roots));
         foreach ($roots as $root) {
-            $this->assertTrue(is_nan($root));
+            $this->assertTrue(\is_nan($root));
         }
     }
 
@@ -290,7 +379,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $roots = Algebra::quadratic($a, $b, $c, true);
 
         // Then
-        $this->assertInternalType('array', $roots);
+        $this->assertIsArray($roots);
         $this->assertInstanceOf(Number\Complex::class, $roots[0]);
         $this->assertInstanceOf(Number\Complex::class, $roots[1]);
         $this->assertNotEmpty($roots);
@@ -305,8 +394,8 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForQuadraticNegativeDiscriminantComplex(): array
     {
         return [
-            [10, 1, 1, [[-.05, -1 * sqrt(39) / 20], [-.05, sqrt(39) / 20]]],
-            [3, 4, 20, [[-2 / 3, -1 * sqrt(14) * 2 / 3], [-2 / 3, sqrt(14) * 2 / 3]]],
+            [10, 1, 1, [[-.05, -1 * \sqrt(39) / 20], [-.05, \sqrt(39) / 20]]],
+            [3, 4, 20, [[-2 / 3, -1 * \sqrt(14) * 2 / 3], [-2 / 3, \sqrt(14) * 2 / 3]]],
         ];
     }
 
@@ -324,7 +413,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $discriminant = Algebra::discriminant($a, $b, $c);
 
         // Then
-        $this->assertEquals($expected_discriminant, $discriminant, '', 0.00000001);
+        $this->assertEqualsWithDelta($expected_discriminant, $discriminant, 0.00000001);
     }
 
     /**
@@ -333,6 +422,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForDiscriminant(): array
     {
         return [
+            [2, 3, 4, -23],
             [2, 4, -4, 48],
             [1, -3, -4, 25],
             [1, 1, -4, 17],
@@ -361,7 +451,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $cubic = Algebra::cubic($a, $b, $c, $d);
 
         // Then
-        $this->assertEquals($expected_cubic, $cubic, '', 0.00000001);
+        $this->assertEqualsWithDelta($expected_cubic, $cubic, 0.00000001);
     }
 
     /**
@@ -432,10 +522,10 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function testCubicOneRealRoot(float $a, float $b, float $c, float $d, float $real_root)
     {
         // When
-        list($z₁, $z₂, $z₃) = Algebra::cubic($a, $b, $c, $d);
+        [$z₁, $z₂, $z₃] = Algebra::cubic($a, $b, $c, $d);
 
         // Then
-        $this->assertEquals($real_root, $z₁, '', 0.00000001);
+        $this->assertEqualsWithDelta($real_root, $z₁, 0.00000001);
         $this->assertNan($z₂);
         $this->assertNan($z₃);
     }
@@ -482,10 +572,10 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $complex1 = new Number\Complex($roots[2]['r'], $roots[2]['i']);
 
         // When
-        list($z₁, $z₂, $z₃) = Algebra::cubic($a, $b, $c, $d, true);
+        [$z₁, $z₂, $z₃] = Algebra::cubic($a, $b, $c, $d, true);
 
         // Then
-        $this->assertEquals($real_root, $z₁, '', 0.00000001);
+        $this->assertEqualsWithDelta($real_root, $z₁, 0.00000001);
         $this->assertInstanceOf(Number\Complex::class, $z₂);
         $this->assertInstanceOf(Number\Complex::class, $z₃);
         $this->assertTrue($z₂->equals($complex0), "Expecting $complex0 but saw $z₂");
@@ -501,7 +591,6 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
             // D > 0: one root is real, 2 are complex conjugates.
             [1, 0, 1, 0, [0, ['r' => 0, 'i' => -1], ['r' => 0, 'i' => 1]]],
             [1, -1, 1, -1, [1, ['r' => 0, 'i' => -1], ['r' => 0, 'i' => 1]]],
-            
         ];
     }
 
@@ -517,7 +606,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function testCubicCubeCoefficientZeroSameAsQuadratic(float $b, float $c, float $d, array $quadratic)
     {
         $a = 0;
-        $this->assertEquals($quadratic, Algebra::cubic($a, $b, $c, $d), '', 0.00000001);
+        $this->assertEqualsWithDelta($quadratic, Algebra::cubic($a, $b, $c, $d), 0.00000001);
     }
 
     /**
@@ -540,7 +629,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $roots = Algebra::cubic($a₃, $a₂, $a₁, $a₀, true);
 
         // Then
-        $this->assertInternalType('array', $roots);
+        $this->assertIsArray($roots);
         $this->assertInstanceOf(Number\Complex::class, $roots[0]);
         $this->assertInstanceOf(Number\Complex::class, $roots[1]);
         $this->assertNotEmpty($roots);
@@ -566,7 +655,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $quartic = Algebra::quartic($a, $b, $c, $d, $e);
 
         // Then
-        $this->assertEquals($expected_quartic, $quartic, '', 0.00000001);
+        $this->assertEqualsWithDelta($expected_quartic, $quartic, 0.00000001);
     }
 
     /**
@@ -578,13 +667,13 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
             [3, 6, -123, -126, 1080, [5, -6, 3, -4]],
             [1, -10, 35, -50, 24, [4, 1, 3, 2]],
             [1, -4, 6, -4, 1, [1, 1, 1, 1]],
-            
+
             // Actually a cubic
             [0, 1, -6, 11, -6, [3, 1, 2]],
-            
+
             // Zero Root
             [1, -6, 11, -6, 0, [0, 3, 1, 2]],
-            
+
             // Biquadratic
             [1, 0, -5, 0, 4, [2, -2, 1, -1]],
 
@@ -610,11 +699,11 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function testQuarticTwoComplexNotSetToReturnComplex($a, $b, $c, $d, $e, $quartic)
     {
         // When
-        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
+        [$z₁, $z₂, $z₃, $z₄] = Algebra::quartic($a, $b, $c, $d, $e);
 
         // Then
-        $this->assertEquals($quartic[0], floatval($z₁), '', 0.00000001);
-        $this->assertEquals($quartic[1], floatval($z₂), '', 0.00000001);
+        $this->assertEqualsWithDelta($quartic[0], \floatval($z₁), 0.00000001);
+        $this->assertEqualsWithDelta($quartic[1], \floatval($z₂), 0.00000001);
         $this->assertNan($z₃, '');
         $this->assertNan($z₄, '');
     }
@@ -637,11 +726,11 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $complex1 = new Number\Complex($quartic[3]['r'], $quartic[3]['i']);
 
         // When
-        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
+        [$z₁, $z₂, $z₃, $z₄] = Algebra::quartic($a, $b, $c, $d, $e, true);
 
         // Then
-        $this->assertEquals($quartic[0], floatval($z₁), '', 0.00000001);
-        $this->assertEquals($quartic[1], floatval($z₂), '', 0.00000001);
+        $this->assertEqualsWithDelta($quartic[0], \floatval($z₁), 0.00000001);
+        $this->assertEqualsWithDelta($quartic[1], \floatval($z₂), 0.00000001);
         $this->assertTrue($z₃->equals($complex0), "Expecting $complex0 but saw $z₃, complex conjugate is $z₄");
         $this->assertTrue($z₄->equals($complex1), "Expecting $complex1 but saw $z₄, complex conjugate is $z₃");
     }
@@ -658,7 +747,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
             // And is a depressed quartic. (sum of roots=0)
             [1, 0, 5 / 8, -5 / 8, -51 / 256, [-.25, .75, ['r' => -.25, 'i' => -1], ['r' => -.25, 'i' => 1]]],
             [1, 0, -5, 10, -6, [-3, 1, ['r' => 1, 'i' => -1], ['r' => 1, 'i' => 1]]],
-            
+
             // Biquadratic with two complex roots
             [1, 0, -5, 0, -36, [3, -3, ['r' => 0, 'i' => 2], ['r' => 0, 'i' => -2]]],
          ];
@@ -678,7 +767,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
     public function testQuarticFourComplexReturnsNansIfNotSetToReturnComplex(int $a, int $b, int $c, int $d, int $e, array $quartic)
     {
         // When
-        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e);
+        [$z₁, $z₂, $z₃, $z₄] = Algebra::quartic($a, $b, $c, $d, $e);
 
         // Then
         $this->assertNan($z₁);
@@ -707,7 +796,7 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
         $complex3 = new Number\Complex($quartic[3]['r'], $quartic[3]['i']);
 
         // When
-        list($z₁, $z₂, $z₃, $z₄) = Algebra::quartic($a, $b, $c, $d, $e, true);
+        [$z₁, $z₂, $z₃, $z₄] = Algebra::quartic($a, $b, $c, $d, $e, true);
 
         // Then
         $this->assertTrue($z₁->equals($complex0), "Expecting $complex0 but saw $z₁");

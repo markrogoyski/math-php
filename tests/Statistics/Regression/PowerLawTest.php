@@ -64,8 +64,8 @@ class PowerLawTest extends \PHPUnit\Framework\TestCase
         $parameters = $regression->getParameters();
 
         // Then
-        $this->assertEquals($a, $parameters['a'], '', 0.0001);
-        $this->assertEquals($b, $parameters['b'], '', 0.0001);
+        $this->assertEqualsWithDelta($a, $parameters['a'], 0.0001);
+        $this->assertEqualsWithDelta($b, $parameters['b'], 0.0001);
     }
 
     /**
@@ -94,7 +94,7 @@ class PowerLawTest extends \PHPUnit\Framework\TestCase
         $regression = new PowerLaw($points);
 
         // Then
-        $this->assertEquals($y, $regression->evaluate($x), '', 0.0001);
+        $this->assertEqualsWithDelta($y, $regression->evaluate($x), 0.0001);
     }
 
     /**

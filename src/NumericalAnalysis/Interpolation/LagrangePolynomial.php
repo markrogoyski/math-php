@@ -3,7 +3,7 @@
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
 use MathPHP\Exception;
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 
 /**
  * Lagrange Interpolating Polynomial
@@ -60,7 +60,7 @@ class LagrangePolynomial extends Interpolation
         $y = self::Y;
 
         // Initialize
-        $n   = count($sorted);
+        $n   = \count($sorted);
         $p⟮t⟯ = new Polynomial([0]);
 
         /*         n      n

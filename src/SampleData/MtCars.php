@@ -15,9 +15,9 @@ namespace MathPHP\SampleData;
  */
 class MtCars
 {
-    const LABELS = ['mpg', 'cyl', 'disp', 'hp', 'drat', 'wt', 'qsec', 'vs', 'am', 'gear', 'carb'];
+    private const LABELS = ['mpg', 'cyl', 'disp', 'hp', 'drat', 'wt', 'qsec', 'vs', 'am', 'gear', 'carb'];
 
-    const DATA = [
+    private const DATA = [
         'Mazda RX4'           => [21, 6, 160, 110, 3.9, 2.62, 16.46, 0, 1, 4, 4],
         'Mazda RX4 Wag'       => [21, 6, 160, 110, 3.9, 2.875, 17.02, 0, 1, 4, 4],
         'Datsun 710'          => [22.8, 4, 108, 93, 3.85, 2.32, 18.61, 1, 1, 4, 1],
@@ -60,7 +60,7 @@ class MtCars
      */
     public function getData(): array
     {
-        return array_values(self::DATA);
+        return \array_values(self::DATA);
     }
 
     /**
@@ -71,9 +71,9 @@ class MtCars
      */
     public function getLabeledData(): array
     {
-        return array_map(
+        return \array_map(
             function (array $data) {
-                return array_combine(self::LABELS, $data);
+                return \array_combine(self::LABELS, $data);
             },
             self::DATA
         );
@@ -86,7 +86,7 @@ class MtCars
      */
     public function getModels(): array
     {
-        return array_keys(self::DATA);
+        return \array_keys(self::DATA);
     }
 
     /**
@@ -99,7 +99,7 @@ class MtCars
      */
     public function getModelData(string $model): array
     {
-        return array_combine(self::LABELS, self::DATA[$model]);
+        return \array_combine(self::LABELS, self::DATA[$model]);
     }
 
     /**
@@ -110,7 +110,7 @@ class MtCars
      */
     public function getMpg(): array
     {
-        return array_combine($this->getModels(), array_column(self::DATA, 0));
+        return \array_combine($this->getModels(), \array_column(self::DATA, 0));
     }
 
     /**
@@ -121,7 +121,7 @@ class MtCars
      */
     public function getCyl(): array
     {
-        return array_column(self::DATA, 1);
+        return \array_column(self::DATA, 1);
     }
 
     /**
@@ -132,7 +132,7 @@ class MtCars
      */
     public function getDisp(): array
     {
-        return array_column(self::DATA, 2);
+        return \array_column(self::DATA, 2);
     }
 
     /**
@@ -143,7 +143,7 @@ class MtCars
      */
     public function getHp(): array
     {
-        return array_column(self::DATA, 3);
+        return \array_column(self::DATA, 3);
     }
 
     /**
@@ -154,7 +154,7 @@ class MtCars
      */
     public function getDrat(): array
     {
-        return array_column(self::DATA, 4);
+        return \array_column(self::DATA, 4);
     }
 
     /**
@@ -165,7 +165,7 @@ class MtCars
      */
     public function getWt(): array
     {
-        return array_column(self::DATA, 5);
+        return \array_column(self::DATA, 5);
     }
 
     /**
@@ -176,7 +176,7 @@ class MtCars
      */
     public function getQsec(): array
     {
-        return array_column(self::DATA, 6);
+        return \array_column(self::DATA, 6);
     }
 
     /**
@@ -187,7 +187,7 @@ class MtCars
      */
     public function getVs(): array
     {
-        return array_column(self::DATA, 7);
+        return \array_column(self::DATA, 7);
     }
 
     /**
@@ -198,7 +198,7 @@ class MtCars
      */
     public function getAm(): array
     {
-        return array_column(self::DATA, 8);
+        return \array_column(self::DATA, 8);
     }
 
     /**
@@ -209,7 +209,7 @@ class MtCars
      */
     public function getGear(): array
     {
-        return array_column(self::DATA, 9);
+        return \array_column(self::DATA, 9);
     }
 
     /**
@@ -220,6 +220,6 @@ class MtCars
      */
     public function getCarb(): array
     {
-        return array_column(self::DATA, 10);
+        return \array_column(self::DATA, 10);
     }
 }

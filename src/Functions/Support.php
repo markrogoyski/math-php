@@ -6,7 +6,7 @@ use MathPHP\Exception;
 
 class Support
 {
-    const ε = 0.00000000001;
+    private const ε = 0.00000000001;
 
     /**
      * Checks that the values of the parameters passed
@@ -33,21 +33,21 @@ class Support
     public static function checkLimits(array $limits, array $params)
     {
         // All parameters should have limit bounds defined
-        $undefined_limits = array_diff_key($params, $limits);
+        $undefined_limits = \array_diff_key($params, $limits);
         if (!empty($undefined_limits)) {
-            throw new Exception\BadParameterException('Parameter without bounds limit defined: ' . print_r($undefined_limits, true));
+            throw new Exception\BadParameterException('Parameter without bounds limit defined: ' . \print_r($undefined_limits, true));
         }
 
         foreach ($params as $variable => $value) {
             // Remove the first character: ( or [
-            $lower_endpoint = substr($limits[$variable], 0, 1);
-            
+            $lower_endpoint = \substr($limits[$variable], 0, 1);
+
             // Remove the last character: ) or ]
-            $upper_endpoint = substr($limits[$variable], -1, 1);
-            
+            $upper_endpoint = \substr($limits[$variable], -1, 1);
+
             // Set the lower and upper limits: #,#
-            list($lower_limit, $upper_limit) = explode(',', substr($limits[$variable], 1, -1));
-            
+            [$lower_limit, $upper_limit] = \explode(',', \substr($limits[$variable], 1, -1));
+
             // If the lower limit is -∞, we are always in bounds.
             if ($lower_limit != "-∞") {
                 switch ($lower_endpoint) {
@@ -65,7 +65,7 @@ class Support
                         throw new Exception\BadDataException("Unknown lower endpoint character: {$lower_limit}");
                 }
             }
-            
+
             // If the upper limit is ∞, we are always in bounds.
             if ($upper_limit != "∞") {
                 switch ($upper_endpoint) {
@@ -98,7 +98,7 @@ class Support
      */
     public static function isZero(float $x, float $ε = self::ε): bool
     {
-        return ($x == 0 || abs($x) <= $ε);
+        return ($x == 0 || \abs($x) <= $ε);
     }
 
     /**
@@ -111,7 +111,7 @@ class Support
      */
     public static function isNotZero(float $x, float $ε = self::ε): bool
     {
-        return ($x != 0 && abs($x) > $ε);
+        return ($x != 0 && \abs($x) > $ε);
     }
 
     /**
@@ -124,7 +124,7 @@ class Support
      */
     public static function isEqual(float $x, float $y, float $ε = self::ε): bool
     {
-        return $x == $y || abs($x - $y) < $ε;
+        return $x == $y || \abs($x - $y) < $ε;
     }
 
     /**
@@ -137,6 +137,6 @@ class Support
      */
     public static function isNotEqual(float $x, float $y, float $ε = self::ε): bool
     {
-        return $x != $y && abs($x - $y) >= $ε;
+        return $x != $y && \abs($x - $y) >= $ε;
     }
 }

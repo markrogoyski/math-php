@@ -3,13 +3,13 @@
 namespace MathPHP\Tests\LinearAlgebra\Reduction;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\Reduction;
 use MathPHP\Tests;
 
 class ReducedRowEchelonFormTest extends \PHPUnit\Framework\TestCase
 {
-    use Tests\LinearAlgebra\MatrixDataProvider;
+    use Tests\LinearAlgebra\Fixture\MatrixDataProvider;
 
     /**
      * @test         RREF
@@ -28,7 +28,7 @@ class ReducedRowEchelonFormTest extends \PHPUnit\Framework\TestCase
         $rref = $A->rref();
 
         // Then
-        $this->assertEquals($R->getMatrix(), $rref->getMatrix(), '', 0.000001);
+        $this->assertEqualsWithDelta($R->getMatrix(), $rref->getMatrix(), 0.000001);
         $this->assertTrue($rref->isRref());
         $this->assertTrue($rref->isRef());
     }
@@ -50,7 +50,7 @@ class ReducedRowEchelonFormTest extends \PHPUnit\Framework\TestCase
         $rref = Reduction\ReducedRowEchelonForm::reduce($A);
 
         // Then
-        $this->assertEquals($R->getMatrix(), $rref->getMatrix(), '', 0.000001);
+        $this->assertEqualsWithDelta($R->getMatrix(), $rref->getMatrix(), 0.000001);
         $this->assertTrue($rref->isRref());
         $this->assertTrue($rref->isRef());
     }
@@ -1074,7 +1074,7 @@ class ReducedRowEchelonFormTest extends \PHPUnit\Framework\TestCase
     public function testRrefAlreadyComputed()
     {
         // Given
-        $A = new Matrix([
+        $A = new NumericMatrix([
             [ 4,  1,  2,  -3],
             [-3,  3, -1,   4],
             [-1,  2,  5,   1],

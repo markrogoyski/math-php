@@ -20,7 +20,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::mean($numbers);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.01);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.01);
     }
 
     /**
@@ -73,7 +73,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::weightedMean($numbers, $weights);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.0001);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.0001);
     }
 
     /**
@@ -128,7 +128,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::weightedMean($numbers, []);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.01);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.01);
     }
 
     /**
@@ -161,7 +161,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $median = Average::median($numbers);
 
         // Then
-        $this->assertEquals($expectedMedian, $median, '', 0.01);
+        $this->assertEqualsWithDelta($expectedMedian, $median, 0.01);
     }
 
     /**
@@ -378,7 +378,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::geometricMean($numbers);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.01);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.01);
     }
 
     /**
@@ -429,7 +429,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::harmonicMean($numbers);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.01);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.01);
     }
 
     /**
@@ -497,7 +497,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $rms = Average::rootMeanSquare($numbers);
 
         // Then
-        $this->assertEquals($expectedRms, $rms, '', 0.01);
+        $this->assertEqualsWithDelta($expectedRms, $rms, 0.01);
     }
 
     /**
@@ -512,7 +512,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $rms = Average::quadraticMean($numbers);
 
         // Then
-        $this->assertEquals($expectedRms, $rms, '', 0.01);
+        $this->assertEqualsWithDelta($expectedRms, $rms, 0.01);
     }
 
     /**
@@ -573,7 +573,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $trimean = Average::trimean($numbers);
 
         // Then
-        $this->assertEquals($expectedTrimean, $trimean, '', 0.1);
+        $this->assertEqualsWithDelta($expectedTrimean, $trimean, 0.1);
     }
 
     /**
@@ -603,7 +603,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::truncatedMean($numbers, $trim_percent);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.01);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.01);
     }
 
     /**
@@ -683,7 +683,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $iqm = Average::interquartileMean($numbers);
 
         // Then
-        $this->assertEquals($expectedIqm, $iqm, '', 0.01);
+        $this->assertEqualsWithDelta($expectedIqm, $iqm, 0.01);
     }
 
     /**
@@ -699,7 +699,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $iqm = Average::iqm($numbers);
 
         // Then
-        $this->assertEquals($expectedIqm, $iqm, '', 0.01);
+        $this->assertEqualsWithDelta($expectedIqm, $iqm, 0.01);
     }
 
     /**
@@ -724,7 +724,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::cubicMean($numbers);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.001);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.001);
     }
 
     /**
@@ -767,7 +767,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::lehmerMean($numbers, $p);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.01);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.01);
     }
 
     /**
@@ -816,7 +816,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::lehmerMean($numbers, $p);
 
         // Then
-        $this->assertEquals(min($numbers), $mean);
+        $this->assertEquals(\min($numbers), $mean);
     }
 
     /**
@@ -832,7 +832,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::lehmerMean($numbers, $p);
 
         // Then
-        $this->assertEquals(max($numbers), $mean);
+        $this->assertEquals(\max($numbers), $mean);
     }
 
     /**
@@ -900,7 +900,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::generalizedMean($numbers, $p);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.001);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.001);
     }
 
     /**
@@ -933,7 +933,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::powerMean($numbers, $p);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.001);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.001);
     }
 
     /**
@@ -966,7 +966,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::generalizedMean($numbers, $p);
 
         // Then
-        $this->assertEquals(min($numbers), $mean);
+        $this->assertEquals(\min($numbers), $mean);
     }
 
     /**
@@ -983,7 +983,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::generalizedMean($numbers, $p);
 
         // Then
-        $this->assertEquals(max($numbers), $mean);
+        $this->assertEquals(\max($numbers), $mean);
     }
 
     /**
@@ -1077,7 +1077,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::contraharmonicMean($numbers);
 
         // Then
-        $this->assertEquals(6.133, $mean, '', 0.01);
+        $this->assertEqualsWithDelta(6.133, $mean, 0.01);
     }
 
     /**
@@ -1093,7 +1093,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $sma = Average::simpleMovingAverage($numbers, $n);
 
         // Then
-        $this->assertEquals($expectedSma, $sma, '', 0.0001);
+        $this->assertEqualsWithDelta($expectedSma, $sma, 0.0001);
     }
 
     /**
@@ -1141,7 +1141,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $cma = Average::cumulativeMovingAverage($numbers);
 
         // Then
-        $this->assertEquals($expectredCma, $cma, '', 0.001);
+        $this->assertEqualsWithDelta($expectredCma, $cma, 0.001);
     }
 
     /**
@@ -1180,7 +1180,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $wma = Average::weightedMovingAverage($numbers, $n, $weights);
 
         // Then
-        $this->assertEquals($expectedWma, $wma, '', 0.001);
+        $this->assertEqualsWithDelta($expectedWma, $wma, 0.001);
     }
 
     /**
@@ -1241,7 +1241,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $ema = Average::exponentialMovingAverage($numbers, $n);
 
         // Then
-        $this->assertEquals($expectedEma, $ema, '', 0.01);
+        $this->assertEqualsWithDelta($expectedEma, $ema, 0.01);
     }
 
     /**
@@ -1290,7 +1290,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::arithmeticGeometricMean($x, $y);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.00001);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.00001);
     }
 
     /**
@@ -1306,7 +1306,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::agm($x, $y);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.00001);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.00001);
     }
 
     /**
@@ -1348,7 +1348,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::logarithmicMean($x, $y);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.01);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.01);
     }
 
     /**
@@ -1407,7 +1407,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::identricMean($x, $y);
 
         // Then
-        $this->assertEquals($expectedMean, $mean, '', 0.001);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.001);
     }
 
     /**
@@ -1454,7 +1454,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $averages = Average::describe($numbers);
 
         // Then
-        $this->assertTrue(is_array($averages));
+        $this->assertTrue(\is_array($averages));
         $this->assertArrayHasKey('mean', $averages);
         $this->assertArrayHasKey('median', $averages);
         $this->assertArrayHasKey('mode', $averages);
@@ -1465,15 +1465,15 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey('trimean', $averages);
         $this->assertArrayHasKey('iqm', $averages);
         $this->assertArrayHasKey('cubic_mean', $averages);
-        $this->assertTrue(is_numeric($averages['mean']));
-        $this->assertTrue(is_numeric($averages['median']));
-        $this->assertTrue(is_array($averages['mode']));
-        $this->assertTrue(is_numeric($averages['geometric_mean']));
-        $this->assertTrue(is_numeric($averages['harmonic_mean']));
-        $this->assertTrue(is_numeric($averages['contraharmonic_mean']));
-        $this->assertTrue(is_numeric($averages['quadratic_mean']));
-        $this->assertTrue(is_numeric($averages['trimean']));
-        $this->assertTrue(is_numeric($averages['iqm']));
-        $this->assertTrue(is_numeric($averages['cubic_mean']));
+        $this->assertTrue(\is_numeric($averages['mean']));
+        $this->assertTrue(\is_numeric($averages['median']));
+        $this->assertTrue(\is_array($averages['mode']));
+        $this->assertTrue(\is_numeric($averages['geometric_mean']));
+        $this->assertTrue(\is_numeric($averages['harmonic_mean']));
+        $this->assertTrue(\is_numeric($averages['contraharmonic_mean']));
+        $this->assertTrue(\is_numeric($averages['quadratic_mean']));
+        $this->assertTrue(\is_numeric($averages['trimean']));
+        $this->assertTrue(\is_numeric($averages['iqm']));
+        $this->assertTrue(\is_numeric($averages['cubic_mean']));
     }
 }

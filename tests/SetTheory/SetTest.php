@@ -4,7 +4,7 @@ namespace MathPHP\Tests\SetTheory;
 
 use MathPHP\SetTheory\Set;
 use MathPHP\LinearAlgebra\Vector;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 
 class SetTest extends \PHPUnit\Framework\TestCase
 {

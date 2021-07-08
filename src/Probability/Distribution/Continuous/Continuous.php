@@ -4,8 +4,8 @@ namespace MathPHP\Probability\Distribution\Continuous;
 
 abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution implements ContinuousDistribution
 {
-    const GUESS_THRESHOLD = 10;
-    const GUESS_ALLOWANCE = 8;
+    protected const GUESS_THRESHOLD = 10;
+    protected const GUESS_ALLOWANCE = 8;
 
     /**
      * The Inverse CDF of the distribution
@@ -21,7 +21,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
     public function inverse(float $target)
     {
         $initial = $this->mean();
-        if (is_nan($initial)) {
+        if (\is_nan($initial)) {
             $initial = $this->median();
         }
 
@@ -43,20 +43,20 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
                 ? $guess_history["$guess"] + 1
                 : 0;
             if ($guess_history["$guess"] > self::GUESS_THRESHOLD) {
-                $repeated_guesses = array_filter(
+                $repeated_guesses = \array_filter(
                     $guess_history,
                     function ($repeated_guess) {
                         return $repeated_guess > self::GUESS_ALLOWANCE;
                     }
                 );
-                return array_sum(array_keys($repeated_guesses)) / count($repeated_guesses);
+                return \array_sum(\array_keys($repeated_guesses)) / \count($repeated_guesses);
             }
 
-            $dif = abs($del_y);
+            $dif = \abs($del_y);
         }
         return $guess;
     }
-  
+
     /**
      * CDF between - probability of being between two points, x₁ and x₂
      * The area under a continuous distribution, that lies between two specified points.
@@ -74,7 +74,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
         $lower_area = $this->cdf($x₁);
         return $upper_area - $lower_area;
     }
-  
+
     /**
      * CDF outside - Probability of being below x₁ and above x₂.
      * The area under a continuous distribution, that lies above and below two points.
@@ -105,7 +105,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
     {
         return 1 - $this->cdf($x);
     }
-    
+
     /**
      * Produce a random number with a particular distribution
      *
@@ -115,7 +115,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      */
     public function rand()
     {
-        return $this->inverse(random_int(0, \PHP_INT_MAX) / \PHP_INT_MAX);
+        return $this->inverse(\random_int(0, \PHP_INT_MAX) / \PHP_INT_MAX);
     }
 
     abstract public function median();

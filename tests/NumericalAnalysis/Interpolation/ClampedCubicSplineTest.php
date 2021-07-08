@@ -3,7 +3,7 @@
 namespace MathPHP\Tests\NumericalAnalysis\Interpolation;
 
 use MathPHP\NumericalAnalysis\Interpolation\ClampedCubicSpline;
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 use MathPHP\Exception;
 
 class ClampedCubicSplineTest extends \PHPUnit\Framework\TestCase
@@ -80,7 +80,7 @@ class ClampedCubicSplineTest extends \PHPUnit\Framework\TestCase
         $evaluated = $p($x);
 
         // Then
-        $this->assertEquals($expected, $evaluated, '', $tol + $roundoff);
+        $this->assertEqualsWithDelta($expected, $evaluated, $tol + $roundoff);
     }
 
     /**
@@ -125,7 +125,7 @@ class ClampedCubicSplineTest extends \PHPUnit\Framework\TestCase
         $evaluated = $p($x);
 
         // Then
-        $this->assertEquals($expected, $evaluated, '', $tol + $roundoff);
+        $this->assertEqualsWithDelta($expected, $evaluated, $tol + $roundoff);
     }
 
     /**

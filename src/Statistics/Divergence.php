@@ -9,12 +9,8 @@ use MathPHP\Exception;
  * Related to probability and information theory and entropy.
  *
  * - Divergences
- *   - Kullback-Leibler divergence
- *   - Jensen-Shannon divergence
- *
- * In statistics, probability theory, and information theory, a statistical distance quantifies the distance between
- * two statistical objects, which can be two random variables, or two probability distributions or samples, or the
- * distance can be between an individual sample point and a population or a wider sample of points.
+ *   - Kullback-Leibler
+ *   - Jensen-Shannon
  *
  * In statistics and information geometry, divergence or a contrast function is a function which establishes the "distance"
  * of one probability distribution to the other on a statistical manifold. The divergence is a weaker notion than that of
@@ -25,7 +21,7 @@ use MathPHP\Exception;
  */
 class Divergence
 {
-    const ONE_TOLERANCE = 0.010001;
+    private const ONE_TOLERANCE = 0.010001;
 
     /**
      * Kullback-Leibler divergence
@@ -50,23 +46,23 @@ class Divergence
     public static function kullbackLeibler(array $p, array $q): float
     {
         // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
+        if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
         }
 
         // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+        if ((\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(\array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
         // Defensive measures against taking the log of 0 which would be -∞ or dividing by 0
-        $p = array_map(
+        $p = \array_map(
             function ($pᵢ) {
                 return $pᵢ == 0 ? 1e-15 : $pᵢ;
             },
             $p
         );
-        $q = array_map(
+        $q = \array_map(
             function ($qᵢ) {
                 return $qᵢ == 0 ? 1e-15 : $qᵢ;
             },
@@ -74,9 +70,9 @@ class Divergence
         );
 
         // ∑ P(i) log(P(i)/Q(i))
-        $Dkl⟮P‖Q⟯ = array_sum(array_map(
+        $Dkl⟮P‖Q⟯ = \array_sum(\array_map(
             function ($P, $Q) {
-                return $P * log($P / $Q);
+                return $P * \log($P / $Q);
             },
             $p,
             $q
@@ -114,16 +110,16 @@ class Divergence
     public static function jensenShannon(array $p, array $q): float
     {
         // Arrays must have the same number of elements
-        if (count($p) !== count($q)) {
+        if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
         }
 
         // Probability distributions must add up to 1.0
-        if ((abs(array_sum($p) - 1) > self::ONE_TOLERANCE) || (abs(array_sum($q) - 1) > self::ONE_TOLERANCE)) {
+        if ((\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) || (\abs(\array_sum($q) - 1) > self::ONE_TOLERANCE)) {
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
-        $M = array_map(
+        $M = \array_map(
             function ($pᵢ, $qᵢ) {
                 return ($pᵢ + $qᵢ) / 2;
             },

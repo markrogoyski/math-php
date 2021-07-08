@@ -23,7 +23,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $pdf = $log_normal->pdf($x);
 
         // Then
-        $this->assertEquals($expected_pdf, $pdf, '', 0.000001);
+        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.000001);
     }
 
     /**
@@ -64,7 +64,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $cdf = $log_normal->cdf($x);
 
         // Then
-        $this->assertEquals($expected_pdf, $cdf, '', 0.000001);
+        $this->assertEqualsWithDelta($expected_pdf, $cdf, 0.000001);
     }
 
     /**
@@ -104,7 +104,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $mean = $log_normal->mean();
 
         // Then
-        $this->assertEquals($expected_mean, $mean, '', 0.000001);
+        $this->assertEqualsWithDelta($expected_mean, $mean, 0.000001);
     }
 
     /**
@@ -136,7 +136,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $median = $log_normal->median();
 
         // Then
-        $this->assertEquals($expected_median, $median, '', 0.000001);
+        $this->assertEqualsWithDelta($expected_median, $median, 0.000001);
     }
 
     /**
@@ -168,7 +168,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $mode = $log_normal->mode();
 
         // Then
-        $this->assertEquals($expected, $mode, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $mode, 0.000001);
     }
 
     /**
@@ -202,7 +202,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $variance = $log_normal->variance();
 
         // Then
-        $this->assertEquals($expected, $variance, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $variance, 0.001);
     }
 
     /**
@@ -238,7 +238,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $inverse = $log_normal->inverse($p);
 
         // Then
-        $this->assertEquals($expected_inverse, $inverse, '', 0.001);
+        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.001);
     }
 
     /**
@@ -300,7 +300,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
         $inverse_of_cdf = $log_normal->inverse($cdf);
 
         // Then
-        $this->assertEquals($x, $inverse_of_cdf, '', 0.001);
+        $this->assertEqualsWithDelta($x, $inverse_of_cdf, 0.001);
     }
 
     /**
@@ -308,8 +308,8 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(-3, 3) as $μ) {
-            foreach (range(1, 3) as $σ) {
+        foreach (\range(-3, 3) as $μ) {
+            foreach (\range(1, 3) as $σ) {
                 // Given
                 $log_normal = new LogNormal($μ, $σ);
 
@@ -317,7 +317,7 @@ class LogNormalTest extends \PHPUnit\Framework\TestCase
                 $random = $log_normal->rand();
 
                 // Then
-                $this->assertTrue(is_numeric($random));
+                $this->assertTrue(\is_numeric($random));
             }
         }
     }

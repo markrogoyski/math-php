@@ -4,13 +4,16 @@ namespace MathPHP\Tests\LinearAlgebra\Decomposition;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Exception;
+use MathPHP\LinearAlgebra\Vector;
+use MathPHP\Tests\LinearAlgebra\Fixture\MatrixDataProvider;
 
 class LUTest extends \PHPUnit\Framework\TestCase
 {
+    use MatrixDataProvider;
+
     /**
-     * @test         LU decomposition
+     * @test         LU decomposition - expected values for L, U, and P
      * @dataProvider dataProviderForLUDecomposition
-     * Unit test data created from online calculator: https://www.easycalculation.com/matrix/lu-decomposition-matrix.php
      * @param        array $A
      * @param        array $L
      * @param        array $U
@@ -29,17 +32,126 @@ class LUTest extends \PHPUnit\Framework\TestCase
         $LU = $A->luDecomposition();
 
         // Then
-        $this->assertEquals($L, $LU->L, '', 0.001);
-        $this->assertEquals($U, $LU->U, '', 0.001);
-        $this->assertEquals($P, $LU->P, '', 0.001);
+        $this->assertEqualsWithDelta($L, $LU->L, 0.001);
+        $this->assertEqualsWithDelta($U, $LU->U, 0.001);
+        $this->assertEqualsWithDelta($P, $LU->P, 0.001);
+    }
 
-        // And
+    /**
+     * @test         LU decomposition - PA = LU
+     * @dataProvider dataProviderForLUDecomposition
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testLUDecompositionPaEqualsLu(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $LU = $A->luDecomposition();
+
+        // Then PA = LU;
+        $PA = $LU->P->multiply($A);
+        $LU = $LU->L->multiply($LU->U);
+        $this->assertEqualsWithDelta($PA->getMatrix(), $LU->getMatrix(), 0.01);
+    }
+
+    /**
+     * @test         LU decomposition - L and U properties
+     * @dataProvider dataProviderForLUDecomposition
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testLUDecompositionLAndUProperties(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $LU = $A->luDecomposition();
+
+        // Then
         $this->assertTrue($LU->L->isLowerTriangular());
         $this->assertTrue($LU->U->isUpperTriangular());
     }
 
     /**
-     * @return array
+     * @test         Solve
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @param        array $expected
+     * @throws       \Exception
+     */
+    public function testSolve(array $A, array $b, array $expected)
+    {
+        // Given
+        $A  = MatrixFactory::create($A);
+        $LU = $A->luDecomposition();
+
+        // And
+        $expected = new Vector($expected);
+
+        // When
+        $x = $LU->solve($b);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $x, 0.00001);
+    }
+
+    /**
+     * @test LU decomposition with small pivots
+     *       (http://buzzard.ups.edu/courses/2014spring/420projects/math420-UPS-spring-2014-reid-LU-pivoting.pdf)
+     *       Results computed with SciPy scipy.linalg.lu(A)
+     * @throws \Exception
+     */
+    public function testLuDecompositionSmallPivots()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [10e-20, 1],
+            [1, 2],
+        ]);
+
+        // And
+        $L = MatrixFactory::create([
+            [1, 0],
+            [1e-19, 1],
+        ]);
+        $U = MatrixFactory::create([
+            [1, 2],
+            [0, 1],
+        ]);
+        $P = MatrixFactory::create([
+            [0, 1],
+            [1, 0],
+        ]);
+
+        // When
+        $LU = $A->luDecomposition();
+
+        // Then
+        $this->assertEqualsWithDelta($L, $LU->L, 1e-20);
+        $this->assertEqualsWithDelta($U, $LU->U, 1e-20);
+        $this->assertEqualsWithDelta($P, $LU->P, 1e-20);
+
+        // And
+        $this->assertTrue($LU->L->isLowerTriangular());
+        $this->assertTrue($LU->U->isUpperTriangular());
+
+        // And PA = LU;
+        $PA = $LU->P->multiply($A);
+        $LU = $LU->L->multiply($LU->U);
+        $this->assertEqualsWithDelta($PA->getMatrix(), $LU->getMatrix(), 0.01);
+    }
+
+    /**
+     * Test data from various sources:
+     *   SciPy scipy.linalg.lu(A)
+     *   Online calculator: https://www.easycalculation.com/matrix/lu-decomposition-matrix.php
+     *   Various other sources.
+     * @return array (A, L, U, P)
      */
     public function dataProviderForLuDecomposition(): array
     {
@@ -55,6 +167,63 @@ class LUTest extends \PHPUnit\Framework\TestCase
                 ],
                 [
                     [6, 3],
+                    [0, 1],
+                ],
+                [
+                    [0, 1],
+                    [1, 0],
+                ],
+            ],
+            // Matrix Computations 3.4 Pivoting example - pivoting prevents large entries in the triangular factors L and U
+            [
+                [
+                    [.0001, 1],
+                    [1, 1],
+                ],
+                [
+                    [1, 0],
+                    [0.0001, 1],
+                ],
+                [
+                    [1, 1],
+                    [0, 0.999],
+                ],
+                [
+                    [0, 1],
+                    [1, 0],
+                ],
+            ],
+            // Zero at first pivot element would cause a divide by zero error without pivoting (http://buzzard.ups.edu/courses/2014spring/420projects/math420-UPS-spring-2014-reid-LU-pivoting.pdf)
+            [
+                [
+                    [0, 1],
+                    [1, 2],
+                ],
+                [
+                    [1, 0],
+                    [0, 1],
+                ],
+                [
+                    [1, 2],
+                    [0, 1],
+                ],
+                [
+                    [0, 1],
+                    [1, 0],
+                ],
+            ],
+            // Small pivots
+            [
+                [
+                    [10e-20, 1],
+                    [1, 2],
+                ],
+                [
+                    [1, 0],
+                    [1e-19, 1],
+                ],
+                [
+                    [1, 2],
                     [0, 1],
                 ],
                 [
@@ -126,6 +295,51 @@ class LUTest extends \PHPUnit\Framework\TestCase
                     [1, 0, 0],
                     [0, 0, 1],
                     [0, 1, 0],
+                ],
+            ],
+            // Partial pivoting example - (http://buzzard.ups.edu/courses/2014spring/420projects/math420-UPS-spring-2014-reid-LU-pivoting.pdf)
+            [
+                [
+                    [1, 2, 4],
+                    [2, 1, 3],
+                    [3, 2, 4],
+                ],
+                [
+                    [1, 0, 0],
+                    [1 / 3, 1, 0],
+                    [2 / 3, -1 / 4, 1],
+                ],
+                [
+                    [3, 2, 4],
+                    [0, 4 / 3, 8 / 3],
+                    [0, 0, 1]
+                ],
+                [
+                    [0, 0, 1],
+                    [1, 0, 0],
+                    [0, 1, 0],
+                ],
+            ],
+            [
+                [
+                    [2, 3, 4],
+                    [4, 7, 5],
+                    [4, 9, 5],
+                ],
+                [
+                    [1, 0, 0],
+                    [1, 1, 0],
+                    [0.5, -0.25, 1],
+                ],
+                [
+                    [4, 7, 5],
+                    [0, 2, 0],
+                    [0, 0, 1.5]
+                ],
+                [
+                    [0, 1, 0],
+                    [0, 0, 1],
+                    [1, 0, 0],
                 ],
             ],
             [
@@ -325,10 +539,10 @@ class LUTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test   LU Decomposition ArrayAccess
+     * @test   LU Decomposition solve incorrect type on b
      * @throws \Exception
      */
-    public function testLUDecompositionArrayAccess()
+    public function testLUDecompositionSolveIncorrectTypeError()
     {
         // Given
         $A = MatrixFactory::create([
@@ -338,104 +552,14 @@ class LUTest extends \PHPUnit\Framework\TestCase
             [2, 7, 4, 7],
         ]);
         $LU = $A->luDecomposition();
+
+        // And
+        $b = new \stdClass();
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
 
         // When
-        $L = $LU['L'];
-        $U = $LU['U'];
-        $P = $LU['P'];
-
-        // Then
-        $this->assertEquals($LU->L, $L);
-        $this->assertEquals($LU->U, $U);
-        $this->assertEquals($LU->P, $P);
-    }
-
-    /**
-     * @test   LU Decomposition ArrayAccess invalid offset
-     * @throws \Exception
-     */
-    public function testLUDecompositionArrayAccessInvalidOffset()
-    {
-        // Given
-        $A = MatrixFactory::create([
-            [5, 3, 4, 1],
-            [5, 6, 4, 3],
-            [7, 6, 5, 3],
-            [2, 7, 4, 7],
-        ]);
-        $LU = $A->luDecomposition();
-
-        // Then
-        $this->assertFalse(isset($LU['doesNotExist']));
-    }
-
-    /**
-     * @test   LU Decomposition ArrayAccess set disabled
-     * @throws \Exception
-     */
-    public function testLUDecompositionArrayAccessSetDisabled()
-    {
-        // Given
-        $A = MatrixFactory::create([
-            [5, 3, 4, 1],
-            [5, 6, 4, 3],
-            [7, 6, 5, 3],
-            [2, 7, 4, 7],
-        ]);
-        $LU = $A->luDecomposition();
-
-        // Then
-        $this->expectException(Exception\MatrixException::class);
-
-        // When
-        $LU['U'] = $A;
-    }
-
-    /**
-     * @test   LU Decomposition ArrayAccess unset disabled
-     * @throws \Exception
-     */
-    public function testLUDecompositionArrayAccessUnsetDisabled()
-    {
-        // Given
-        $A = MatrixFactory::create([
-            [5, 3, 4, 1],
-            [5, 6, 4, 3],
-            [7, 6, 5, 3],
-            [2, 7, 4, 7],
-        ]);
-        $LU = $A->luDecomposition();
-
-        // Then
-        $this->expectException(Exception\MatrixException::class);
-
-        // When
-        unset($LU['U']);
-    }
-
-    /**
-     * @test   LU Decomposition ArrayAccess Isset
-     * @throws \Exception
-     */
-    public function testArrayAccessIsset()
-    {
-        // Given
-        $A = MatrixFactory::create([
-            [5, 3, 4, 1],
-            [5, 6, 4, 3],
-            [7, 6, 5, 3],
-            [2, 7, 4, 7],
-        ]);
-        $LU = $A->luDecomposition();
-
-        // When
-        $L = isset($LU['L']);
-        $U = isset($LU['U']);
-        $P = isset($LU['P']);
-
-        // Then
-        $this->assertTrue($L);
-        $this->assertTrue($U);
-        $this->assertTrue($P);
+        $LU->solve($b);
     }
 }

@@ -9,7 +9,7 @@ class IrisTest extends \PHPUnit\Framework\TestCase
     /** @var SampleData\Iris */
     private $iris;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->iris = new SampleData\Iris();
     }

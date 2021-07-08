@@ -9,7 +9,7 @@ trait LinearModel
 
     /** @var int m parameter index */
     protected static $M = 1;
-    
+
     /**
      * Evaluate the model given all the model parameters
      * y = mx + b
@@ -42,7 +42,7 @@ trait LinearModel
             'b' => $params[self::$B],
         ];
     }
-    
+
     /**
      * Get regression equation (y = mx + b)
      *
@@ -52,6 +52,6 @@ trait LinearModel
      */
     public function getModelEquation(array $params): string
     {
-        return sprintf('y = %fx + %f', $params[self::$M], $params[self::$B]);
+        return \sprintf('y = %fx + %f', $params[self::$M], $params[self::$B]);
     }
 }

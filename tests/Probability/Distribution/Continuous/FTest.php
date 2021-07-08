@@ -23,7 +23,7 @@ class FTest extends \PHPUnit\Framework\TestCase
         $pdf = $f->pdf($x);
 
         // Then
-        $this->assertEquals($expectedPdf, $pdf, '', 0.00001);
+        $this->assertEqualsWithDelta($expectedPdf, $pdf, 0.00001);
     }
 
     /**
@@ -85,7 +85,7 @@ class FTest extends \PHPUnit\Framework\TestCase
         $cdf = $f->cdf($x);
 
         // Then
-        $this->assertEquals($expectedCdf, $cdf, '', 0.00001);
+        $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.00001);
     }
 
     /**
@@ -152,7 +152,7 @@ class FTest extends \PHPUnit\Framework\TestCase
         $mean = $f->mean();
 
         // Then
-        $this->assertEquals($μ, $mean, '', 0.0001);
+        $this->assertEqualsWithDelta($μ, $mean, 0.0001);
     }
 
     /**
@@ -213,7 +213,7 @@ class FTest extends \PHPUnit\Framework\TestCase
         $mode = $f->mode();
 
         // Then
-        $this->assertEquals($μ, $mode, '', 0.0001);
+        $this->assertEqualsWithDelta($μ, $mode, 0.0001);
     }
 
     /**
@@ -278,7 +278,7 @@ class FTest extends \PHPUnit\Framework\TestCase
         $variance = $f->variance();
 
         // Then
-        $this->assertEquals($expected, $variance, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $variance, 0.0001);
     }
 
     /**
@@ -346,6 +346,6 @@ class FTest extends \PHPUnit\Framework\TestCase
         $mean = $f->median();
 
         // Then
-        $this->assertEquals($μ, $mean, '', 0.0001);
+        $this->assertEqualsWithDelta($μ, $mean, 0.0001);
     }
 }

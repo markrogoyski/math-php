@@ -47,17 +47,17 @@ class PowerLaw extends ParametricRegression
      * @throws Exception\MatrixException
      * @throws Exception\MathException
      */
-    public function calculate()
+    public function calculate(): void
     {
         // Linearize the relationship by taking the log of both sides.
-        $x’ = array_map('log', $this->xs);
-        $y’ = array_map('log', $this->ys);
-        
+        $x’ = \array_map('\log', $this->xs);
+        $y’ = \array_map('\log', $this->ys);
+
         // Perform Least Squares Fit
         $linearized_parameters = $this->leastSquares($y’, $x’)->getColumn(0);
 
         // Translate the linearized parameters back.
-        $this->a = exp($linearized_parameters[0]);
+        $this->a = \exp($linearized_parameters[0]);
         $this->b = $linearized_parameters[1];
 
         $this->parameters = [$this->a, $this->b];

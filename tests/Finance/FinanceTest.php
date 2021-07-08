@@ -69,7 +69,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $pmt = Finance::pmt($rate, $periods, $pv, $fv, $beginning);
 
         // Then
-        $this->assertEquals($expected, $pmt, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($expected, $pmt, Finance::EPSILON);
     }
 
     /**
@@ -131,7 +131,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $ipmt = Finance::ipmt($rate, $period, $periods, $pv, $fv, $beginning);
 
         // Then
-        $this->assertEquals($expected, $ipmt, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($expected, $ipmt, Finance::EPSILON);
     }
 
     /**
@@ -242,7 +242,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $ppmt = Finance::ppmt($rate, $period, $periods, $pv, $fv, $beginning);
 
         // Then
-        $this->assertEquals($expected, $ppmt, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($expected, $ppmt, Finance::EPSILON);
     }
 
     /**
@@ -352,7 +352,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $periods = Finance::periods($rate, $payment, $pv, $fv, $beginning);
 
         // Then
-        $this->assertEquals($expected, $periods, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($expected, $periods, Finance::EPSILON);
     }
 
     /**
@@ -438,7 +438,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $aer = Finance::aer($nominal, $periods);
 
         // Then
-        $this->assertEquals($expected, $aer, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($expected, $aer, Finance::EPSILON);
     }
 
     /**
@@ -508,7 +508,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $nominal = Finance::nominal($aer, $periods);
 
         // Then
-        $this->assertEquals($rate, $nominal, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($rate, $nominal, Finance::EPSILON);
     }
 
     /**
@@ -581,7 +581,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $fv = Finance::fv($rate, $periods, $pmt, $pv, $beginning);
 
         // Then
-        $this->assertEquals($expected, $fv, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($expected, $fv, Finance::EPSILON);
     }
 
     /**
@@ -660,7 +660,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $pv = Finance::pv($rate, $periods, $pmt, $fv, $beginning);
 
         // Then
-        $this->assertEquals($expected, $pv, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($expected, $pv, Finance::EPSILON);
     }
 
     /**
@@ -732,7 +732,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $npv = Finance::npv($rate, $values);
 
         // Then
-        $this->assertEquals($expected, $npv, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($expected, $npv, Finance::EPSILON);
     }
 
     /**
@@ -781,7 +781,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $rate = Finance::rate($periods, $payment, $present_value, $future_value, $beginning, $initial_guess, $expected);
 
         // Then
-        $this->assertEquals($expected, $rate, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($expected, $rate, Finance::EPSILON);
     }
 
     /**
@@ -873,7 +873,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $irr = Finance::irr($values, $initial_guess);
 
         // Then
-        $this->assertEquals($expected, $irr, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($expected, $irr, Finance::EPSILON);
     }
 
     /**
@@ -907,9 +907,15 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
             [[-10, 21, -11], -0.001, 0.0],
             [[-1, 1, 2, 0, 1], 0.1, 1.075483],
             [[-1, 1, 0, 2, 1], 0.1, 0.7943097],
+            [[-14574.6, 3015.43], 0.1, -0.7931037558492171],
+            [[-14574.6, -14574.6, 9737.3], 0.1, -0.5418243019770277],
+            [[-14574.6, -14574.6, -14574.6, 19316.3], 0.1, -0.3561376092499646],
+            [[-14574.6, -14574.6, -14574.6, -14574.6, 31192.3], 0.1, -2.464614995326259],
+            [[-14574.6, -14574.6, -14574.6, -14574.6, 31192.3], 0.2, -0.2350375548009601],
             [[-1000000, 300000, 300000, 300000, 300000, 300000], 0.1, 0.15238237116630671],
             [[-1000000, 10000000, -10000000, 0, 0, 0], 0.1, 0.12701665379258315],
             [[-1000000, 10000000, -10000000, 0, 0, 0], 0.633, 0.12701665379258315],
+            [[-1000000, 10000000, -10000000, 0, 0, 0], 0.634, 0.12701665379258315],
             [[-1000000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000], 0.1, 0.29999921673],
             [[-1000000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000, 300000], 0.1, 0.30],
             [[-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,-1607,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,250010], 0.01, 0.05090132749],
@@ -946,7 +952,6 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
             [[1, 3], 0.1],
             [[-1, -1], 0.1],
             [[-1, 0], 0.1],
-            [[-1000000, 10000000, -10000000, 0, 0, 0], 0.634],
         ];
     }
 
@@ -964,7 +969,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $mirr = Finance::mirr($values, $finance_rate, $reinvestment_rate);
 
         // Then
-        $this->assertEquals($expected, $mirr, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($expected, $mirr, Finance::EPSILON);
     }
 
     /**
@@ -1028,7 +1033,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $payback = Finance::payback($values, $rate);
 
         // Then
-        $this->assertEquals($expected, $payback, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($expected, $payback, Finance::EPSILON);
     }
 
     /**
@@ -1118,7 +1123,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         $profitabilityIndex = Finance::profitabilityIndex($values, $rate);
 
         // Then
-        $this->assertEquals($expected, $profitabilityIndex, '', Finance::EPSILON);
+        $this->assertEqualsWithDelta($expected, $profitabilityIndex, Finance::EPSILON);
     }
 
     /**

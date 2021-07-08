@@ -21,13 +21,13 @@ class Householder
      *
      * https://en.wikipedia.org/wiki/Householder_transformation
      *
-     * @param Matrix $A source Matrix
+     * @param NumericMatrix $A source Matrix
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MathException
      */
-    public static function transform(Matrix $A): Matrix
+    public static function transform(NumericMatrix $A): NumericMatrix
     {
         $m = $A->getM();
         $I = MatrixFactory::identity($m);

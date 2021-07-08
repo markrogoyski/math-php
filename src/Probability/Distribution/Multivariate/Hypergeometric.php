@@ -18,7 +18,7 @@ class Hypergeometric
      * Kᵢ ∈ [1,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'K' => '[1,∞)',
     ];
 
@@ -41,11 +41,11 @@ class Hypergeometric
      */
     public function __construct(array $quantities)
     {
-        if (count($quantities) === 0) {
+        if (\count($quantities) === 0) {
             throw new Exception\BadDataException("Array cannot be empty.");
         }
         foreach ($quantities as $K) {
-            if (!is_int($K)) {
+            if (!\is_int($K)) {
                 throw new Exception\BadDataException("Quantities must be positive integers.");
             }
             Support::checkLimits(self::PARAMETER_LIMITS, ['K' => $K]);
@@ -67,20 +67,20 @@ class Hypergeometric
     public function pmf(array $picks): float
     {
         // Must have a pick for each quantity
-        if (count($picks) !== count($this->quantities)) {
+        if (\count($picks) !== \count($this->quantities)) {
             throw new Exception\BadDataException('Number of quantities does not match number of picks.');
         }
         foreach ($picks as $i => $k) {
-            if (!is_int($k)) {
+            if (!\is_int($k)) {
                 throw new Exception\BadDataException("Picks must be whole numbers.");
             }
             Support::checkLimits(['k' => $this->supportLimits['k'][$i]], ['k' => $k]);
         }
 
-        $n       = array_sum($picks);
-        $total   = array_sum($this->quantities);
+        $n       = \array_sum($picks);
+        $total   = \array_sum($this->quantities);
 
-        $product = array_product(array_map(
+        $product = \array_product(\array_map(
             function (int $quantity, int $pick) {
                 return Combinatorics::combinations($quantity, $pick);
             },

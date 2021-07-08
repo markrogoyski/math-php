@@ -23,7 +23,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
         $pdf = $normal->pdf($x);
 
         // Then
-        $this->assertEquals($expected_pdf, $pdf, '', 0.0000001);
+        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.0000001);
     }
 
     /**
@@ -132,7 +132,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
         $cdf = $normal->cdf($x);
 
         // Then
-        $this->assertEquals($expected_cdf, $cdf, '', 0.0000001);
+        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.0000001);
     }
 
     /**
@@ -254,7 +254,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
         $between = $normal->between($lower, $upper);
 
         // Then
-        $this->assertEquals($probability, $between, '', 0.00001);
+        $this->assertEqualsWithDelta($probability, $between, 0.00001);
     }
 
     /**
@@ -286,7 +286,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
         $outside = $normal->outside($lower, $upper);
 
         // Then
-        $this->assertEquals($probability, $outside, '', 0.00001);
+        $this->assertEqualsWithDelta($probability, $outside, 0.00001);
     }
 
     /**
@@ -317,7 +317,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
         $above = $normal->above($x);
 
         // Then
-        $this->assertEquals($probability, $above, '', 0.00001);
+        $this->assertEqualsWithDelta($probability, $above, 0.00001);
     }
 
     /**
@@ -446,7 +446,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     public function testInverse(float $μ, float $σ, float $x, float $inverse)
     {
         $normal = new Normal($μ, $σ);
-        $this->assertEquals($inverse, $normal->inverse($x), '', 0.00001);
+        $this->assertEqualsWithDelta($inverse, $normal->inverse($x), 0.00001);
     }
 
     /**
@@ -548,7 +548,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
         $inverse_of_cdf = $normal->inverse($cdf);
 
         // Then
-        $this->assertEquals($x, $inverse_of_cdf, '', 0.00001);
+        $this->assertEqualsWithDelta($x, $inverse_of_cdf, 0.00001);
     }
 
     /**
@@ -649,8 +649,8 @@ class NormalTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(-3, 3) as $μ) {
-            foreach (range(1, 3) as $σ) {
+        foreach (\range(-3, 3) as $μ) {
+            foreach (\range(1, 3) as $σ) {
                 // Given
                 $normal = new Normal($μ, $σ);
 
@@ -658,7 +658,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
                 $random = $normal->rand();
 
                 // Then
-                $this->assertTrue(is_numeric($random));
+                $this->assertTrue(\is_numeric($random));
             }
         }
     }

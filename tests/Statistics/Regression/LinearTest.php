@@ -103,8 +103,8 @@ class LinearTest extends \PHPUnit\Framework\TestCase
         $parameters = $regression->getParameters();
 
         // Then
-        $this->assertEquals($m, $parameters['m'], '', 0.0001);
-        $this->assertEquals($b, $parameters['b'], '', 0.0001);
+        $this->assertEqualsWithDelta($m, $parameters['m'], 0.0001);
+        $this->assertEqualsWithDelta($b, $parameters['b'], 0.0001);
     }
 
     /**
@@ -189,7 +189,7 @@ class LinearTest extends \PHPUnit\Framework\TestCase
         $regression = new Linear($points);
 
         // Then
-        $this->assertEquals($y, $regression->evaluate($x), '', 0.01);
+        $this->assertEqualsWithDelta($y, $regression->evaluate($x), 0.01);
     }
 
     /**
@@ -241,7 +241,7 @@ class LinearTest extends \PHPUnit\Framework\TestCase
         $regression = new Linear($points);
 
         // Then
-        $this->assertEquals($ci, $regression->ci($x, $p), '', .0000001);
+        $this->assertEqualsWithDelta($ci, $regression->ci($x, $p), .0000001);
     }
 
     /**
@@ -281,7 +281,7 @@ class LinearTest extends \PHPUnit\Framework\TestCase
         $regression = new Linear($points);
 
         // Then
-        $this->assertEquals($pi, $regression->pi($x, $p, $q), '', .0000001);
+        $this->assertEqualsWithDelta($pi, $regression->pi($x, $p, $q), .0000001);
     }
 
     /**
@@ -320,7 +320,7 @@ class LinearTest extends \PHPUnit\Framework\TestCase
         $Fprob = $regression->fProbability();
 
         // Then
-        $this->assertEquals($probability, $Fprob, '', .0000001);
+        $this->assertEqualsWithDelta($probability, $Fprob, .0000001);
     }
 
     /**
@@ -352,8 +352,8 @@ class LinearTest extends \PHPUnit\Framework\TestCase
         $Tprob = $regression->tProbability();
 
         // Then
-        $this->assertEquals($beta0, $Tprob['m'], '', .0000001);
-        $this->assertEquals($beta1, $Tprob['b'], '', .0000001);
+        $this->assertEqualsWithDelta($beta0, $Tprob['m'], .0000001);
+        $this->assertEqualsWithDelta($beta1, $Tprob['b'], .0000001);
     }
 
     /**
@@ -385,7 +385,7 @@ class LinearTest extends \PHPUnit\Framework\TestCase
 
         // Then
         foreach ($leverages as $key => $value) {
-            $this->assertEquals($value, $test_leverages[$key], '', .0000001);
+            $this->assertEqualsWithDelta($value, $test_leverages[$key], .0000001);
         }
     }
 
@@ -414,7 +414,7 @@ class LinearTest extends \PHPUnit\Framework\TestCase
         $regression = new Linear($points);
 
         // Then
-        $this->assertEquals($df, $regression->degreesOfFreedom(), '', .0000001);
+        $this->assertEqualsWithDelta($df, $regression->degreesOfFreedom(), .0000001);
     }
 
     /**
@@ -447,7 +447,7 @@ class LinearTest extends \PHPUnit\Framework\TestCase
         // Then
         foreach ($P as $row_num => $row) {
             foreach ($row as $column_num => $value) {
-                $this->assertEquals($value, $test_P[$row_num][$column_num], '', .0000001);
+                $this->assertEqualsWithDelta($value, $test_P[$row_num][$column_num], .0000001);
             }
         }
     }
@@ -481,10 +481,10 @@ class LinearTest extends \PHPUnit\Framework\TestCase
         $regression = new Linear($points);
 
         // Then
-        $this->assertEquals($sums['mse'], $regression->meanSquareResidual(), '', .0000001);
-        $this->assertEquals($sums['msr'], $regression->meanSquareRegression(), '', .0000001);
-        $this->assertEquals($sums['mst'], $regression->meanSquareTotal(), '', .0000001);
-        $this->assertEquals($sums['sd'], $regression->errorSd(), '', .0000001);
+        $this->assertEqualsWithDelta($sums['mse'], $regression->meanSquareResidual(), .0000001);
+        $this->assertEqualsWithDelta($sums['msr'], $regression->meanSquareRegression(), .0000001);
+        $this->assertEqualsWithDelta($sums['mst'], $regression->meanSquareTotal(), .0000001);
+        $this->assertEqualsWithDelta($sums['sd'], $regression->errorSd(), .0000001);
     }
 
     /**
@@ -523,10 +523,10 @@ class LinearTest extends \PHPUnit\Framework\TestCase
 
         // Then
         foreach ($test_cook as $key => $value) {
-            $this->assertEquals($value, $cook[$key], '', .0000001);
+            $this->assertEqualsWithDelta($value, $cook[$key], .0000001);
         }
         foreach ($test_dffits as $key => $value) {
-            $this->assertEquals($value, $DFFITS[$key], '', .0000001);
+            $this->assertEqualsWithDelta($value, $DFFITS[$key], .0000001);
         }
     }
 

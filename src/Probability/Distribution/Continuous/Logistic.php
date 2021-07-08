@@ -16,7 +16,7 @@ class Logistic extends Continuous
      * s ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
         's' => '(0,∞)',
     ];
@@ -26,13 +26,13 @@ class Logistic extends Continuous
      * x ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',
     ];
 
     /** @var float Location Parameter */
     protected $μ;
-    
+
     /** @var float Scale Parameter */
     protected $s;
 
@@ -69,8 +69,8 @@ class Logistic extends Continuous
         $μ = $this->μ;
         $s = $this->s;
 
-        $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
-        return $ℯ＾⁻⁽x⁻μ⁾／s / ($s * pow(1 + $ℯ＾⁻⁽x⁻μ⁾／s, 2));
+        $ℯ＾⁻⁽x⁻μ⁾／s = \exp(-($x - $μ) / $s);
+        return $ℯ＾⁻⁽x⁻μ⁾／s / ($s * \pow(1 + $ℯ＾⁻⁽x⁻μ⁾／s, 2));
     }
     /**
      * Cumulative distribution function
@@ -93,7 +93,7 @@ class Logistic extends Continuous
         $μ = $this->μ;
         $s = $this->s;
 
-        $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
+        $ℯ＾⁻⁽x⁻μ⁾／s = \exp(-($x - $μ) / $s);
         return 1 / (1 + $ℯ＾⁻⁽x⁻μ⁾／s);
     }
 
@@ -118,7 +118,7 @@ class Logistic extends Continuous
             return \INF;
         }
 
-        return $μ + $s * log($p / (1 - $p));
+        return $μ + $s * \log($p / (1 - $p));
     }
 
     /**

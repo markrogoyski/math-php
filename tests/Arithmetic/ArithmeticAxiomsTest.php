@@ -143,8 +143,8 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
     public function testModuloIdentity()
     {
         // Given
-        foreach (range(-20, 20) as $a) {
-            foreach (range(-20, 20) as $n) {
+        foreach (\range(-20, 20) as $a) {
+            foreach (\range(-20, 20) as $n) {
                 // When
                 $⟮a mod n⟯ mod n = Arithmetic::modulo(Arithmetic::modulo($a, $n), $n);
                 $a mod n        = Arithmetic::modulo($a, $n);
@@ -161,8 +161,8 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
      */
     public function testModuloIdentityOfPowers()
     {
-        foreach (range(-20, 20) as $n) {
-            foreach (range(1, 5) as $ˣ) {
+        foreach (\range(-20, 20) as $n) {
+            foreach (\range(1, 5) as $ˣ) {
                 // Given
                 $nˣ = $n ** $ˣ;
 
@@ -182,8 +182,8 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
     public function testModuloInverse()
     {
         // Given
-        foreach (range(-20, 20) as $a) {
-            foreach (range(-20, 20) as $n) {
+        foreach (\range(-20, 20) as $a) {
+            foreach (\range(-20, 20) as $n) {
                 // When
                 $⟦⟮−a mod n⟯ ＋ ⟮a mod n⟯⟧ mod n = Arithmetic::modulo(
                     Arithmetic::modulo(-$a, $n) + Arithmetic::modulo($a, $n),
@@ -203,9 +203,9 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
     public function testModuloDistributiveAdditionProperty()
     {
         // Given
-        foreach (range(-5, 5) as $a) {
-            foreach (range(-5, 5) as $b) {
-                foreach (range(-6, 6) as $n) {
+        foreach (\range(-5, 5) as $a) {
+            foreach (\range(-5, 5) as $b) {
+                foreach (\range(-6, 6) as $n) {
                     // When
                     $⟮a ＋ b⟯ mod n = Arithmetic::modulo($a + $b, $n);
                     $⟦⟮a mod n⟯ ＋ ⟮b mod n⟧⟯ mod n = Arithmetic::modulo(
@@ -227,9 +227,9 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
     public function testModuloDistributiveMultiplicationProperty()
     {
         // Given
-        foreach (range(-5, 5) as $a) {
-            foreach (range(-5, 5) as $b) {
-                foreach (range(-6, 6) as $n) {
+        foreach (\range(-5, 5) as $a) {
+            foreach (\range(-5, 5) as $b) {
+                foreach (\range(-6, 6) as $n) {
                     // When
                     $ab mod n = Arithmetic::modulo($a * $b, $n);
                     $⟦⟮a mod n⟯⟮b mod n⟧⟯ mod n = Arithmetic::modulo(
@@ -251,9 +251,9 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
     public function testModuloDistributiveLaw()
     {
         // Given
-        foreach (range(-5, 5) as $x) {
-            foreach (range(-5, 5) as $y) {
-                foreach (range(-6, 6) as $c) {
+        foreach (\range(-5, 5) as $x) {
+            foreach (\range(-5, 5) as $y) {
+                foreach (\range(-6, 6) as $c) {
                     // When
                     $c⟮x mod y⟯   = $c * Arithmetic::modulo($x, $y);
                     $⟮cx⟯ mod ⟮cy⟯ = Arithmetic::modulo($c * $x, $c * $y);

@@ -43,7 +43,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test         gamma returns the expected value
-     * @dataProvider dataProviderForGammaLanczos
+     * @dataProvider dataProviderForGamma
      * @param        $z
      * @param        $Γ
      * @throws       \Exception
@@ -54,7 +54,112 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $gamma = Special::gamma($z);
 
         // Then
-        $this->assertEquals($Γ, $gamma, '', 0.001);
+        $this->assertEqualsWithDelta($Γ, $gamma, 0.001);
+    }
+
+    /**
+     * Test data created with R gamma(z) and online calculator https://keisan.casio.com/exec/system/1180573444
+     * @return array (z, Γ)
+     */
+    public function dataProviderForGamma(): array
+    {
+        return [
+            [0.1, 9.51350769866873183629],
+            [0.2, 4.5908437119988030532],
+            [0.3, 2.99156898768759062831],
+            [0.4, 2.21815954375768822306],
+            [0.5, 1.772453850905516027298],
+            [0.6, 1.489192248812817102394],
+            [0.7, 1.29805533264755778568],
+            [0.8, 1.16422971372530337364],
+            [0.9, 1.0686287021193193549],
+            [1,   1],
+            [1.0, 1],
+            [1.1, 0.951350769866873183629],
+            [1.2, 0.91816874239976061064],
+            [1.3, 0.89747069630627718849],
+            [1.4, 0.88726381750307528922],
+            [1.5, 0.88622692545275801365],
+            [1.6, 0.89351534928769026144],
+            [1.7, 0.90863873285329044998],
+            [1.8, 0.9313837709802426989091],
+            [1.9, 0.96176583190738741941],
+            [2,   1],
+            [2.0, 1],
+            [3,   2],
+            [3.0, 2],
+            [4,   6],
+            [4.0, 6],
+            [5,   24],
+            [5.0, 24],
+            [6,   120],
+            [6.0, 120],
+            [7, 720],
+            [8, 5040],
+            [9, 40320],
+            [10, 362880],
+            [11, 3628800],
+            [12, 39916800],
+            [13, 479001600],
+            [14, 6227020800],
+            [15, 87178291200],
+            [16, 1307674368000],
+            [17, 20922789888000],
+            [18, 355687428096000],
+            [19, 6402373705728000],
+            [20, 121645100408832000],
+            [2.5, 1.32934038817913702047],
+            [5.324, 39.54287866273389258523],
+            [10.2, 570499.02784103598123],
+            [0, \INF],
+            [0.0, \INF],
+            [-1, -\INF],
+            [-2, -\INF],
+            [-0.1, -10.686287021193193549],
+            [-0.4, -3.72298062203204275599],
+            [-1.1, 9.7148063829029032263],
+            [-1.2, 4.8509571405220973902],
+            [-1.9, 5.563455],
+            [-1.99, 50.47083],
+            [-1.999, 500.4623],
+            [-1.9999, 5000.461],
+            [-1.99999, 50000.4614015337837734],
+            [-2.0, -\INF],
+        ];
+    }
+
+    /**
+     * @test         gamma of large values
+     * @dataProvider dataProviderForGammaLargeValues
+     * @param        $z
+     * @param        $Γ
+     * @param        float $ε
+     * @throws       \Exception
+     */
+    public function testGammaLargeValues($z, $Γ, float $ε)
+    {
+        // When
+        $gamma = Special::gamma($z);
+
+        // Then
+        $this->assertEqualsWithDelta($Γ, $gamma, $ε);
+    }
+
+    /**
+     * Test data created with high-precision online calculator: https://keisan.casio.com/exec/system/1180573444
+     * @return array (z, Γ, ε)
+     */
+    public function dataProviderForGammaLargeValues(): array
+    {
+        return [
+            [15, 87178291200, 0.000001],
+            [20, 121645100408832000, 0.000001],
+            [50, 6.082818640342675608723E+62, 1e50],
+            [100, 9.33262154439441526817E+155, 1e140],
+            [100.6, 1.477347552911177316693E+157, 1e145],
+            [171, 7.257415615307998967397E+306, 1e295],
+            [200, 3.943289336823952517762E+372, 1e360],
+        ];
     }
 
     /**
@@ -70,7 +175,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $gammaLanczos = Special::gammaLanczos($z);
 
         // Then
-        $this->assertEquals($Γ, $gammaLanczos, '', 0.001);
+        $this->assertEqualsWithDelta($Γ, $gammaLanczos, 0.001);
     }
 
     public function dataProviderForGammaLanczos(): array
@@ -134,7 +239,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $gammaSterling = Special::gammaStirling($n);
 
         // Then
-        $this->assertEquals($Γ, $gammaSterling, '', 0.01);
+        $this->assertEqualsWithDelta($Γ, $gammaSterling, 0.01);
     }
 
     public function dataProviderForGammaStirling(): array
@@ -172,31 +277,87 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     {
         // When
         $beta = Special::beta($x, $y);
-        $β    = Special::β($x, $y);
+        $β    = Special::β($y, $x);
 
         // Then
-        $this->assertEquals($expected, $beta, '', 0.001);
-        $this->assertEquals($expected, $β, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $beta, 0.0000001);
+        $this->assertEqualsWithDelta($expected, $β, 0.0000001);
     }
 
+    /**
+     * Test data created with R beta (x, y) and online calculator https://keisan.casio.com/exec/system/1180573394
+     * @return array (x, y, β)
+     */
     public function dataProviderForBeta(): array
     {
         return [
-            [ 1.5, 0, \INF ],
-            [ 0, 1.5, \INF ],
-            [ 0, 0, \INF ],
-            [ 1, 1, 1 ],
-            [ 1, 2, 0.5 ],
-            [ 2, 1, 0.5 ],
-            [ 1, 3, 0.33333 ],
-            [ 3, 1, 0.33333 ],
-            [ 1.5, 0.2, 4.4776093743471688104 ],
-            [ 0.2, 1.5, 4.4776093743471688104 ],
-            [ 0.1, 0.9, 10.16641 ],
-            [ 0.9, 0.1, 10.16641 ],
-            [ 3, 9, 0.002020202 ],
-            [ 9, 3, 0.002020202 ],
+            [1.5, 0, \INF],
+            [0, 1.5, \INF],
+            [0, 0, \INF],
+            [1, 1, 1],
+            [1, 2, 0.5],
+            [1, 3, 0.3333333333],
+            [1, 4, 0.25],
+            [1, 5, 0.2],
+            [1, 6, 0.1666667],
+            [1, 7, 0.1428571],
+            [1, 8, 0.125],
+            [1, 9, 0.1111111],
+            [1, 10, 0.1],
+            [1, 11, 0.09090909],
+            [1, 20, 0.05],
+            [2, 0, \INF],
+            [2, 1, 0.5],
+            [2, 2, 0.1666667],
+            [2, 3, 0.08333333],
+            [2, 4, 0.05],
+            [2, 5, 0.03333333],
+            [2, 6, 0.02380952],
+            [2, 7, 0.01785714],
+            [2, 8, 0.01388889],
+            [2, 9, 0.01111111],
+            [2, 10, 0.009090909],
+            [2, 11, 0.007575758],
+            [2, 20, 0.002380952],
+            [3, 0, \INF],
+            [3, 1, 0.3333333],
+            [3, 2, 0.08333333],
+            [3, 3, 0.03333333],
+            [3, 4, 0.01666667],
+            [3, 5, 0.00952381],
+            [3, 6, 0.005952381],
+            [3, 7, 0.003968254],
+            [3, 8, 0.002777778],
+            [3, 9, 0.002020202],
+            [3, 10, 0.001515152],
+            [3, 11, 0.001165501],
+            [3, 20, 0.0002164502],
+            [1.5, 0.2, 4.4776093743471688104],
+            [0.2, 1.5, 4.4776093743471688104],
+            [0.1, 0.9, 10.16640738463051963162],
+            [0.9, 0.1, 10.16640738463051963162],
+            [3, 9, 0.002020202],
+            [9, 3, 0.002020202],
+            [10, 10, 1.082509e-06],
+            [20, 20, 7.254445e-13],
         ];
+    }
+
+    /**
+     * @test         multivariateBeta returns the expected value
+     * @dataProvider dataProviderForBeta
+     * @param        float $x
+     * @param        float $y
+     * @param        float $expected
+     * @throws       \Exception
+     */
+    public function testMultivariateBeta(float $x, float $y, float $expected)
+    {
+        // When
+        $beta = Special::multivariateBeta([$x, $y]);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $beta, 0.0000001);
     }
 
     /**
@@ -214,7 +375,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $logistic = Special::logistic($x₀, $L, $k, $x);
 
         // Then
-        $this->assertEquals($expected, $logistic, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $logistic, 0.001);
     }
 
     public function dataProviderForLogistic(): array
@@ -228,6 +389,61 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [3, 4, 5, 2, 0.0267714036971],
             [3, 4, 5, 6, 3.99999877639],
             [2.1, 3.2, 1.5, 0.6, 0.305118287677],
+            // Test data created with R (sigmoid) logistic(x, k, x₀) where L = 1
+            [0, 1, 1, 0, 0.5],
+            [0, 1, 1, 1, 0.7310586],
+            [1, 1, 1, 0, 0.2689414],
+        ];
+    }
+
+    /**
+     * @test         sigmoid
+     * @dataProvider dataProviderForSigmoid
+     * @param        float $x
+     * @param        float $expected
+     */
+    public function testSigmoid(float $x, float $expected)
+    {
+        // When
+        $sigmoid = Special::sigmoid($x);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $sigmoid, 0.0000001);
+    }
+
+    /**
+     * Test data created with R (sigmoid) sigmoid(x)
+     * @return array (x, sigmoid)
+     */
+    public function dataProviderForSigmoid(): array
+    {
+        return [
+            [0, 0.5],
+            [1, 0.7310586],
+            [2, 0.8807971],
+            [3, 0.9525741],
+            [4, 0.9820138],
+            [5, 0.9933071],
+            [6, 0.9975274],
+            [10, 0.9999546],
+            [13, 0.9999977],
+            [15, 0.9999997],
+            [16, 0.9999999],
+            [17, 1],
+            [20, 1],
+            [-1, 0.2689414],
+            [-2, 0.1192029],
+            [-3, 0.04742587],
+            [-4, 0.01798621],
+            [-5, 0.006692851],
+            [-6, 0.002472623],
+            [-10, 4.539787e-05],
+            [-15, 3.059022e-07],
+            [-20, 2.061154e-09],
+            [0.5, 0.6224593],
+            [5.5, 0.9959299],
+            [-0.5, 0.3775407],
+            [-5.5, 0.004070138],
         ];
     }
 
@@ -235,7 +451,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
      * @test sigmoid returns the expected value
      * Sigmoid is just a special case of the logistic function.
      */
-    public function testSigmoid()
+    public function testSigmoidSpecialCaseOfLogisitic()
     {
         $this->assertEquals(Special::logistic(1, 1, 1, 2), Special::sigmoid(1));
         $this->assertEquals(Special::logistic(1, 1, 2, 2), Special::sigmoid(2));
@@ -258,21 +474,34 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $erf           = Special::erf($x);
 
         // Then
-        $this->assertEquals($expected, $errorFunction, '', 0.0001);
-        $this->assertEquals($expected, $erf, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $errorFunction, 0.0001);
+        $this->assertEqualsWithDelta($expected, $erf, 0.0001);
     }
 
+    /**
+     * Test data created with R (VGAM) erf(x) and online calculator https://keisan.casio.com/exec/system/1180573449
+     * @return array (x, erf)
+     */
     public function dataProviderForErrorFunction(): array
     {
         return [
-            [ 0, 0 ],
-            [ 1, 0.8427007929497148693412 ],
-            [ -1, -0.8427007929497148693412 ],
-            [ 2, 0.9953222650189527341621 ],
-            [ 3.4, 0.9999984780066371377146 ],
-            [ 0.154, 0.1724063976196591819236 ],
-            [ -2.31, -0.9989124231037000500402 ],
-            [ -1.034, -0.856340111375020118952 ],
+            [0, 0],
+            [1, 0.8427007929497148693412],
+            [-1, -0.8427007929497148693412],
+            [2, 0.9953222650189527341621],
+            [3.4, 0.9999984780066371377146],
+            [0.154, 0.1724063976196591819236],
+            [-2.31, -0.9989124231037000500402],
+            [-1.034, -0.856340111375020118952],
+            [3, 0.9999779],
+            [4, 1],
+            [5, 1],
+            [10, 1],
+            [-2, -0.9953223],
+            [-3, -0.9999779],
+            [-4, -1],
+            [-5, -1],
+            [-10, -1],
         ];
     }
 
@@ -289,21 +518,34 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $efc                        = Special::erfc($x);
 
         // Then
-        $this->assertEquals($expected, $complementaryErrorFunction, '', 0.0001);
-        $this->assertEquals($expected, $efc, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $complementaryErrorFunction, 0.0001);
+        $this->assertEqualsWithDelta($expected, $efc, 0.0001);
     }
 
+    /**
+     * Test data created with R (VGAM) erfc and online calculator https://keisan.casio.com/exec/system/1180573449
+     * @return array (x, erfc)
+     */
     public function dataProviderForComplementaryErrorFunction(): array
     {
         return [
-            [ 0, 1 ],
-            [ 1, 0.1572992070502851306588 ],
-            [ -1, 1.842700792949714869341 ],
-            [ 2, 0.004677734981047265837931 ],
-            [ 3.4, 1.521993362862285361757E-6 ],
-            [ 0.154, 0.8275936023803408180764 ],
-            [ -2.31, 1.99891242310370005004 ],
-            [ -1.034, 1.856340111375020118952 ],
+            [0, 1],
+            [1, 0.1572992070502851306588],
+            [-1, 1.842700792949714869341],
+            [2, 0.004677734981047265837931],
+            [3.4, 1.521993362862285361757E-6],
+            [0.154, 0.8275936023803408180764],
+            [-2.31, 1.99891242310370005004],
+            [-1.034, 1.856340111375020118952],
+            [3, 2.20905e-05],
+            [4, 1.541726e-08],
+            [5, 1.53746e-12],
+            [10, 2.088488e-45],
+            [-2, 1.995322],
+            [-3, 1.999978],
+            [-4, 2],
+            [-5, 2],
+            [-10, 2],
         ];
     }
 
@@ -320,17 +562,185 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $lowerIncompleteGamma = Special::lowerIncompleteGamma($s, $x);
 
         // Then
-        $this->assertEquals($lig, $lowerIncompleteGamma, '', 0.001);
+        $this->assertEqualsWithDelta($lig, $lowerIncompleteGamma, 0.00001);
     }
 
+    /**
+     * Test data created with R (pracma) gammainc(x, a)
+     * @return array (s, x, gamma)
+     */
     public function dataProviderForLowerIncompleteGamma(): array
     {
         return [
-            [1, 2, 0.864664716763387308106],
-            [0.5, 4, 1.764162781524843359935],
-            [2, 3, 0.800851726528544228083],
-            [4.5, 2.3, 1.538974541742516805669],
-            [7, 9.55, 603.9624331483414852868],
+            [0.0001, 1, 9999.2034895],
+            [1, 1, 0.6321206],
+            [1, 2, 0.8646647],
+            [2, 2, 0.5939942],
+            [3, 2.5, 0.9123738],
+            [3.5, 2, 0.7318770],
+            [4.6, 2, 1.07178785],
+            [4, 2.6, 1.5839901],
+            [2.7, 2.6, 0.8603568],
+            [1.5, 2.5, 0.7339757],
+            [0.5, 4, 1.764162782],
+            [2, 3, 0.8008517],
+            [4.5, 2.3, 1.5389745],
+            [7, 9.55, 603.9624331],
+            [1, 3, 0.95021293],
+            [0.5, 0.5, 1.2100356],
+            [0.5, 1, 1.4936483],
+            [0.5, 4, 1.764162782],
+            // Negative x it not officially supported, but sometimes works.
+            // Other times it gets NAN.
+            [1, -1, -1.718282],
+            [1, -2, -6.389056],
+            [2, -2, 8.389056],
+            [3, -2.5, -37.59311],
+            [4, -2.6, 98.84594],
+            [2, -3, 41.17107],
+            [1, -3, -19.08554],
+        ];
+    }
+
+    /**
+     * @test         lowerIncompleteGamma returns 0 for x = 0, and s and x = 0
+     * @dataProvider dataProviderForLowerIncompleteGammaZeroBoundary
+     * @param        float $s
+     * @param        float $x
+     */
+    public function testLowerIncompleteGammaZeroBoundary(float $s, float $x)
+    {
+        // When
+        $lowerIncompleteGamma = Special::lowerIncompleteGamma($s, $x);
+
+        // Then
+        $this->assertEqualsWithDelta(0, $lowerIncompleteGamma, 0.00001);
+    }
+
+    /**
+     * @return array (s, x)
+     */
+    public function dataProviderForLowerIncompleteGammaZeroBoundary(): array
+    {
+        return [
+            [0, 0],
+            [1, 0],
+            [2, 0],
+            [100, 0]
+        ];
+    }
+
+    /**
+     * @test         lowerIncompleteGamma returns NAN for x = 0 and x nonzero
+     * @dataProvider dataProviderForLowerIncompleteGammaNanBoundary
+     * @param        float $s
+     * @param        float $x
+     */
+    public function testLowerIncompleteGammaNanBoundary(float $s, float $x)
+    {
+        // When
+        $lowerIncompleteGamma = Special::lowerIncompleteGamma($s, $x);
+
+        // Then
+        $this->assertNan($lowerIncompleteGamma);
+    }
+
+    /**
+     * @return array (s, x)
+     */
+    public function dataProviderForLowerIncompleteGammaNanBoundary(): array
+    {
+        return [
+            [0, 1],
+            [0, 2],
+            [0, 10],
+            [0, 1000]
+        ];
+    }
+
+    /**
+     * @test         upperIncompleteGamma returns the expected value
+     * @dataProvider dataProviderForUpperIncompleteGamma
+     * @param        float $s
+     * @param        float $x
+     * @param        float $uig
+     * @throws       \Exception
+     */
+    public function testUpperIncompleteGamma(float $s, float $x, float $uig)
+    {
+        // When
+        $upperIncompleteGamma = Special::upperIncompleteGamma($s, $x);
+
+        // Then
+        $this->assertEqualsWithDelta($uig, $upperIncompleteGamma, 0.00001);
+    }
+
+    /**
+     * Test data created with R (pracma) gammainc(x, a)
+     * @return array (s, x, gamma)
+     */
+    public function dataProviderForUpperIncompleteGamma(): array
+    {
+        return [
+            [0.0001, 1, 0.21939372],
+            [1, 1, 0.3678794],
+            [1, 2, 0.1353353],
+            [2, 2, 0.40600585],
+            [3, 2.5, 1.08762623],
+            [3.5, 2, 2.59147401],
+            [4.6, 2, 12.30949802],
+            [4, 2.6, 4.41600987],
+            [2.7, 2.6, 0.68432904],
+            [1.5, 2.5, 0.15225125],
+            [0.5, 4, 0.008291069],
+            [2, 3, 0.1991483],
+            [4.5, 2.3, 10.0927539],
+            [7, 9.55, 116.0375669],
+            [0.5, 0.5, 0.5624182],
+            [0.5, 1, 0.2788056],
+            [0.5, 4, 0.008291069],
+        ];
+    }
+
+    /**
+     * @test         regularizedLowerIncompleteGamma
+     * @dataProvider dataProviderForRegularizedLowerIncompleteGamma
+     * @param        float $s
+     * @param        float $x
+     * @param        float $expected
+     * @throws       \Exception
+     */
+    public function testRegularizedLowerIncompleteGamma(float $s, float $x, float $expected)
+    {
+        // When
+        $gammainc = Special::regularizedLowerIncompleteGamma($s, $x);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $gammainc, 0.00001);
+    }
+
+    public function dataProviderForRegularizedLowerIncompleteGamma(): array
+    {
+        return [
+            [0.0001, 1, 0.9999781],
+
+            [1, 1, 0.6321206],
+            [1, 2, 0.8646647],
+            [2, 2, 0.5939942],
+            [3, 2.5, 0.4561869],
+            [3.5, 2, 0.2202226],
+            [4.6, 2, 0.08009603],
+            [4, 2.6, 0.2639984],
+            [2.7, 2.6, 0.5569785],
+            [1.5, 2.5, 0.8282029],
+            [0.5, 4, 0.995322265],
+            [2, 3, 0.8008517],
+            [4.5, 2.3, 0.1323083],
+            [7, 9.55, 0.8388367],
+            [1, 3, 0.95021293],
+            [0.5, 0.5, 0.6826895],
+            [0.5, 1, 0.8427008],
+            [0.5, 4, 0.995322265],
         ];
     }
 
@@ -349,9 +759,13 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $regularizedIncompleteBeta = Special::regularizedIncompleteBeta($x, $a, $b);
 
         // Then
-        $this->assertEquals($rib, $regularizedIncompleteBeta, '', 0.00001);
+        $this->assertEqualsWithDelta($rib, $regularizedIncompleteBeta, 0.0000001);
     }
 
+    /**
+     * Test data created with Python scipy.special.betainc(a, b, x) and online calculator https://keisan.casio.com/exec/system/1180573396
+     * @return array (x, a, b, beta)
+     */
     public function dataProviderForRegularizedIncompleteBeta(): array
     {
         return [
@@ -375,6 +789,32 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [0.55, 2.5, 2, 0.47672251],
             [0.55, 3.5, 2, 0.31772153],
             [0.73, 3.5, 5, 0.97317839],
+            [0, 1, 1, 0],
+            [0.1, 1, 1, 0.1],
+            [0.2, 1, 1, 0.2],
+            [0.3, 1, 1, 0.3],
+            [0.4, 1, 1, 0.4],
+            [0.5, 1, 1, 0.5],
+            [0.6, 1, 1, 0.6],
+            [0.7, 1, 1, 0.7],
+            [0.8, 1, 1, 0.8],
+            [0.9, 1, 1, 0.9],
+            [1, 1, 1, 1],
+            [0, 2, 2, 0],
+            [0.1, 2, 2, 0.028000000000000004],
+            [0.2, 2, 2, 0.10400000000000002],
+            [0.3, 2, 2, 0.21600000000000003],
+            [0.4, 2, 2, 0.3520000000000001],
+            [0.5, 2, 2, 0.5],
+            [0.6, 2, 2, 0.6479999999999999],
+            [0.7, 2, 2, 0.7839999999999999],
+            [0.8, 2, 2, 0.896],
+            [0.9, 2, 2, 0.972],
+            [1, 2, 2, 1],
+            // SciPy examples - https://docs.scipy.org/doc/scipy/reference/generated/scipy.special.betainc.html#scipy.special.betainc
+            [1, 0.2, 3.5, 1],
+            [0.5, 1.4, 3.1, 0.8148904036225296],
+            [0.4, 2.2, 3.1, 0.49339638807619446],
         ];
     }
 
@@ -423,7 +863,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $incompleteBeta = Special::incompleteBeta($x, $a, $b);
 
         // Then
-        $this->assertEquals($ib, $incompleteBeta, '', 0.0001);
+        $this->assertEqualsWithDelta($ib, $incompleteBeta, 0.0001);
     }
 
     public function dataProviderForIncompleteBeta(): array
@@ -452,39 +892,6 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [0.55, 2.5, 2, 0.05448257245698492387678],
             [0.55, 3.5, 2, 0.0201727956188770976315],
             [0.73, 3.5, 5, 0.00553077297647439276549],
-        ];
-    }
-
-    /**
-     * @test         upperIncompleteGamma returns the expected value
-     * @dataProvider dataProviderForUpperIncompleteGamma
-     * @param        float $s
-     * @param        float $x
-     * @param        float $uig
-     * @throws       \Exception
-     */
-    public function testUpperIncompleteGamma(float $s, float $x, float $uig)
-    {
-        // When
-        $upperIncompleteGamma = Special::upperIncompleteGamma($s, $x);
-
-        // Then
-        $this->assertEquals($uig, $upperIncompleteGamma, '', 0.0001);
-    }
-
-    public function dataProviderForUpperIncompleteGamma(): array
-    {
-        return [
-            [0.0001, 1, 0.21939372],
-            [1, 1, 0.3678794411714423215955],
-            [1, 2, 0.135335283236612691894],
-            [2, 2, 0.40600585],
-            [3, 2.5, 1.08762623],
-            [3.5, 2, 2.59147401],
-            [4.6, 2, 12.30949802],
-            [4, 2.6, 4.41600987],
-            [2.7, 2.6, 0.68432904],
-            [1.5, 2.5, 0.15225125],
         ];
     }
 
@@ -530,7 +937,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $actual = Special::confluentHypergeometric($a, $b, $z);
 
         // Then
-        $this->assertEquals($expected, $actual, '', $tol);
+        $this->assertEqualsWithDelta($expected, $actual, $tol);
     }
 
     public function dataProviderForConfluentHypergeometric(): array
@@ -562,7 +969,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $actual = Special::hypergeometric($a, $b, $c, $z);
 
         // Then
-        $this->assertEquals($expected, $actual, '', $tol);
+        $this->assertEqualsWithDelta($expected, $actual, $tol);
     }
 
     public function dataProviderForHypergeometric(): array
@@ -599,8 +1006,8 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $σ⟮𝐳⟯ⱼ = Special::softmax($𝐳);
 
         // Then
-        $this->assertEquals($expected, $σ⟮𝐳⟯ⱼ, '', 0.00001);
-        $this->assertEquals(1, array_sum($σ⟮𝐳⟯ⱼ));
+        $this->assertEqualsWithDelta($expected, $σ⟮𝐳⟯ⱼ, 0.00001);
+        $this->assertEquals(1, \array_sum($σ⟮𝐳⟯ⱼ));
     }
 
     public function dataProviderForSoftmax(): array

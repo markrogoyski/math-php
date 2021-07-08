@@ -3,6 +3,7 @@
 namespace MathPHP\Tests\Arithmetic;
 
 use MathPHP\Arithmetic;
+use MathPHP\Exception;
 
 class ArithmeticTest extends \PHPUnit\Framework\TestCase
 {
@@ -64,7 +65,7 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
         $root = Arithmetic::root($x, $n);
 
         // Then
-        $this->assertEquals($expected_root, $root, '', 0.000000001);
+        $this->assertEqualsWithDelta($expected_root, $root, 0.000000001);
     }
 
     /**
@@ -115,7 +116,7 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
         $cube_root = Arithmetic::cubeRoot($x);
 
         // Then
-        $this->assertEquals($expected_cube_root, $cube_root, '', 0.000000001);
+        $this->assertEqualsWithDelta($expected_cube_root, $cube_root, 0.000000001);
     }
 
     /**
@@ -529,8 +530,8 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
     public function testModuloPositiveDividendAndDivisorIsSameAsBuiltInRemainderOperator()
     {
         // Given
-        foreach (range(0, 20) as $a) {
-            foreach (range(1, 20) as $n) {
+        foreach (\range(0, 20) as $a) {
+            foreach (\range(1, 20) as $n) {
                 // When
                 $remainder = $a % $n;
                 $modulo    = Arithmetic::modulo($a, $n);
@@ -724,5 +725,54 @@ class ArithmeticTest extends \PHPUnit\Framework\TestCase
             [4, 0],
             [5, 0],
         ];
+    }
+
+    /**
+     * @test         isqrt
+     * @dataProvider dataProviderForIsqrt
+     * @param        float $x
+     * @param        int   $expected
+     */
+    public function testIsqrt(float $x, int $expected)
+    {
+        // When
+        $isqrt = Arithmetic::isqrt($x);
+
+        // Then
+        $this->assertEquals($expected, $isqrt);
+    }
+
+    public function dataProviderForIsqrt(): array
+    {
+        return [
+            [0, 0],
+            [0.5, 0],
+            [1, 1],
+            [2, 1],
+            [3, 1],
+            [3.99, 1],
+            [4, 2],
+            [5, 2],
+            [8, 2],
+            [8.9939, 2],
+            [9, 3],
+            [25, 5],
+            [27, 5],
+        ];
+    }
+
+    /**
+     * @test isqrt error when value is negative
+     */
+    public function testIsqrtNegativeNumberIsBadParameterError()
+    {
+        // Given
+        $x = -1;
+
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
+        Arithmetic::isqrt($x);
     }
 }

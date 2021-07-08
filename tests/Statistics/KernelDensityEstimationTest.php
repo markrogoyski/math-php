@@ -34,7 +34,7 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
         $estimate = $KDE->evaluate($x);
 
         // Then
-        $this->assertEquals($expected, $estimate, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $estimate, 0.0001);
     }
 
     /**
@@ -67,7 +67,7 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
         $estimate = $KDE->evaluate($x);
 
         // Then
-        $this->assertEquals($expected, $estimate, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $estimate, 0.0001);
     }
 
     /**
@@ -82,7 +82,7 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
             [ $this->data, $h, -1, 0.232226496 ],
         ];
     }
-    
+
     /**
      * @test         Custom kernel function and custom h
      * @dataProvider dataProviderForKernelDensityCustomBoth
@@ -103,8 +103,8 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
         $estimate2 = $KDE2->evaluate($x);
 
         // Then
-        $this->assertEquals($expected, $estimate1, '', 0.0001);
-        $this->assertEquals($expected, $estimate2, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $estimate1, 0.0001);
+        $this->assertEqualsWithDelta($expected, $estimate2, 0.0001);
     }
 
     /**
@@ -116,10 +116,10 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
 
         // Tricube
         $kernel = function ($x) {
-            if (abs($x) > 1) {
+            if (\abs($x) > 1) {
                 return 0;
             } else {
-                return 70 / 81 * ((1 - abs($x) ** 3) ** 3);
+                return 70 / 81 * ((1 - \abs($x) ** 3) ** 3);
             }
         };
 
@@ -146,7 +146,7 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
         $estimate = $KDE->evaluate($x);
 
         // Then
-        $this->assertEquals($expected, $estimate, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $estimate, 0.0001);
     }
 
     /**
@@ -158,7 +158,6 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
             [KernelDensityEstimation::UNIFORM, 1, .25],
             [KernelDensityEstimation::TRIANGULAR, 1, .235],
             [KernelDensityEstimation::EPANECHNIKOV, 1, .2401905],
-            
         ];
     }
 
@@ -181,7 +180,7 @@ class KernelDensityEstimationTest extends \PHPUnit\Framework\TestCase
         $estimate = $KDE->evaluate($x);
 
         // Then
-        $this->assertEquals($expected, $estimate, "Evaluate x = $x", 0.00001);
+        $this->assertEqualsWithDelta($expected, $estimate, 0.00001, "Evaluate x = $x");
     }
 
     /**

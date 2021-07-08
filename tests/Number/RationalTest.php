@@ -8,6 +8,20 @@ use MathPHP\Exception;
 class RationalTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test createZeroValue
+     */
+    public function testCreateZeroValue()
+    {
+        // Given
+        $zero = Rational::createZeroValue();
+
+        // Then
+        $this->assertEquals(0, $zero->getWholePart());
+        $this->assertEquals(0, $zero->getNumerator());
+        $this->assertEquals(1, $zero->getDenominator());
+    }
+
+    /**
      * @test         getWholePart
      * @dataProvider dataProviderForData
      * @param        int $w
@@ -155,7 +169,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
             [0, 4, 3, '1 ¹/₃'],
         ];
     }
-    
+
     /**
      * @test         toFloat returns the correct floating point number
      * @dataProvider dataProviderForToFloat
@@ -194,7 +208,7 @@ class RationalTest extends \PHPUnit\Framework\TestCase
             [0, -1, 2, -.5],
         ];
     }
-    
+
     /**
      * @test normalization throws an Exception\BadDataException if the denominator is zero
      */
@@ -243,6 +257,44 @@ class RationalTest extends \PHPUnit\Framework\TestCase
             [-5, 1, 2, [4, 1, 2]],
             [0, 1, 2, [0, 1, 2]],
             [0, -1, 2, [0, 1, 2]],
+        ];
+    }
+
+    /**
+     * @test         inverse returns the correct number
+     * @dataProvider dataProviderForInverse
+     * @param        number $w
+     * @param        number $n
+     * @param        number $d
+     * @param        array $result
+     */
+    public function testInverse($w, $n, $d, array $result)
+    {
+        // Given
+        $number = new Rational($w, $n, $d);
+
+        // When
+        $result_rn = new Rational(...$result);
+
+        // Then
+        $this->assertTrue($number->inverse()->equals($result_rn));
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForInverse(): array
+    {
+        return [
+            [1, 0, 1, [1, 0, 1]],
+            [-1, 0, 1, [-1, 0, 1]],
+            [0, 1, 1, [1, 0, 1]],
+            [0, -1, 1, [-1, 0, 1]],
+            [0, 1, -1, [-1, 0, 1]],
+            [-5, -1, 2, [0, -2, 11]],
+            [-5, 1, 2, [0, -2, 9]],
+            [0, 1, 2, [2, 0, 1]],
+            [0, -1, 2, [-2, 0, 1]],
         ];
     }
 
@@ -539,6 +591,65 @@ class RationalTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         pow returns the correct number
+     * @dataProvider dataProviderForPow
+     * @param        array $rn
+     * @param        int   $int
+     * @param        array $result
+     * @throws       \Exception
+     */
+    public function testPow(array $rn, int $int, array $result)
+    {
+        // Given
+        $rational_number = new Rational(...$rn);
+        $result_rn       = new Rational(...$result);
+
+        // When
+        $powResult = $rational_number->pow($int);
+
+        // Then
+        $this->assertTrue($powResult->equals($result_rn));
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForPow(): array
+    {
+        return [
+            [[1, 0, 1], -1, [1, 0, 1]],
+            [[1, 0, 1], 0, [1, 0, 1]],
+            [[1, 0, 1], 1, [1, 0, 1]],
+            [[1, 0, 1], 2, [1, 0, 1]],
+            [[0, 0, 1], 0, [1, 0, 1]],
+            [[0, 0, 1], 10, [0, 0, 1]],
+            [[0, 1, 2], 0, [0, 1, 1]],
+            [[1, 0, 1], 0, [1, 0, 1]],
+            [[0, 1, 1], 0, [0, 1, 1]],
+            [[0, 1, 2], -1, [0, 2, 1]],
+            [[0, 1, 2], -2, [0, 4, 1]],
+            [[4, 5, 2], -2, [0, 4, 169]],
+            [[3, 5, 2], 5, [5032, 27, 32]],
+        ];
+    }
+
+    /**
+     * @test     The inverse of zero throws an exception.
+     * @throws   \Exception
+     */
+    public function testInverseException()
+    {
+        // Given
+        $number = new Rational(0, 0, 1);
+
+        // Then
+        $this->expectException(Exception\DivisionByZeroException::class);
+
+        // When
+        $number->inverse();
+    }
+
+    /**
      * @test     Adding a float throws an exception
      * @throws   \Exception
      */
@@ -595,5 +706,21 @@ class RationalTest extends \PHPUnit\Framework\TestCase
 
         // When
         $number->divide(1.5);
+    }
+
+    /**
+     * @test     Raising zero to a negative exponent throws an exception.
+     * @throws   \Exception
+     */
+    public function testPowException()
+    {
+        // Given
+        $number = new Rational(0, 0, 1);
+
+        // Then
+        $this->expectException(Exception\DivisionByZeroException::class);
+
+        // When
+        $number->pow(-2);
     }
 }

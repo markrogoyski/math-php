@@ -35,11 +35,11 @@ class TheilSen extends ParametricRegression
      * @throws \MathPHP\Exception\BadDataException
      * @throws \MathPHP\Exception\OutOfBoundsException
      */
-    public function calculate()
+    public function calculate(): void
     {
         // The slopes array will be a list of slopes between all pairs of points
         $slopes = [];
-        $n      = count($this->points);
+        $n      = \count($this->points);
         for ($i = 0; $i < $n; $i++) {
             for ($j = $i + 1; $j < $n; $j++) {
                 $pointi = $this->points[$i];

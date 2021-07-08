@@ -23,7 +23,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
         $pdf = $logLogistic->pdf($x);
 
         // Then
-        $this->assertEquals($expectedPdf, $pdf, '', 0.000001);
+        $this->assertEqualsWithDelta($expectedPdf, $pdf, 0.000001);
     }
 
     /**
@@ -78,7 +78,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
         $cdf = $logLogistic->cdf($x);
 
         // Then
-        $this->assertEquals($expectedPdf, $cdf, '', 0.000001);
+        $this->assertEqualsWithDelta($expectedPdf, $cdf, 0.000001);
     }
 
     /**
@@ -98,7 +98,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
         $inverseOfCdf = $logLogistic->inverse($cdf);
 
         // Then
-        $this->assertEquals($x, $inverseOfCdf, '', 0.000001);
+        $this->assertEqualsWithDelta($x, $inverseOfCdf, 0.000001);
     }
 
     /**
@@ -152,7 +152,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
         $mean = $logLogistic->mean();
 
         // Then
-        $this->assertEquals($μ, $mean, '', 0.00001);
+        $this->assertEqualsWithDelta($μ, $mean, 0.00001);
     }
 
     /**
@@ -208,7 +208,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
         $median = $logLogistic->median();
 
         // Then
-        $this->assertEquals($α, $median, '', 0.00001);
+        $this->assertEqualsWithDelta($α, $median, 0.00001);
     }
 
     /**
@@ -227,7 +227,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
         $mode = $logLogistic->mode();
 
         // Then
-        $this->assertEquals($expected, $mode, '', 0.00001);
+        $this->assertEqualsWithDelta($expected, $mode, 0.00001);
     }
 
     /**
@@ -261,7 +261,7 @@ class LogLogisticTest extends \PHPUnit\Framework\TestCase
         $variance = $logLogistic->variance();
 
         // Then
-        $this->assertEquals($expected, $variance, '', 0.00001);
+        $this->assertEqualsWithDelta($expected, $variance, 0.00001);
     }
 
     /**

@@ -18,7 +18,7 @@ class Beta extends Continuous
      * β ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'α' => '(0,∞)',
         'β' => '(0,∞)',
     ];
@@ -28,7 +28,7 @@ class Beta extends Continuous
      * x ∈ [0,1]
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '[0,1]',
     ];
 
@@ -67,8 +67,8 @@ class Beta extends Continuous
         $α = $this->α;
         $β = $this->β;
 
-        $xᵃ⁻¹ = pow($x, $α - 1);
-        $⟮1 − x⟯ᵝ⁻¹ = pow(1 - $x, $β - 1);
+        $xᵃ⁻¹ = \pow($x, $α - 1);
+        $⟮1 − x⟯ᵝ⁻¹ = \pow(1 - $x, $β - 1);
         $B⟮α、β⟯ = Special::beta($α, $β);
         return ($xᵃ⁻¹ * $⟮1 − x⟯ᵝ⁻¹) / $B⟮α、β⟯;
     }
@@ -106,7 +106,7 @@ class Beta extends Continuous
      */
     public function inverse(float $x, float $tolerance = 1.0e-15, int $max_iterations = 200): float
     {
-        list($a, $b) = [0, 2];
+        [$a, $b] = [0, 2];
 
         for ($i = 0; $i < $max_iterations; $i++) {
             $guess = ($a + $b) / 2;

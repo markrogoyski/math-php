@@ -17,7 +17,7 @@ class Gamma extends Continuous
      * θ ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'k' => '(0,∞)',
         'θ' => '(0,∞)',
     ];
@@ -27,7 +27,7 @@ class Gamma extends Continuous
      * x ∈ (0,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(0,∞)',
     ];
 

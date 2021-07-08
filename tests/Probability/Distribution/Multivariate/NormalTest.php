@@ -3,13 +3,13 @@
 namespace MathPHP\Tests\Probability\Distribution\Multivariate;
 
 use MathPHP\Probability\Distribution\Multivariate\Normal;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Exception;
 use MathPHP\Tests;
 
 class NormalTest extends \PHPUnit\Framework\TestCase
 {
-    use Tests\LinearAlgebra\MatrixDataProvider;
+    use Tests\LinearAlgebra\Fixture\MatrixDataProvider;
 
     /**
      * @test         pdf returns the expected density
@@ -23,14 +23,14 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     public function testPdf(array $x, array $μ, array $∑, float $expected)
     {
         // Given
-        $∑      = new Matrix($∑);
+        $∑      = MatrixFactory::create($∑);
         $normal = new Normal($μ, $∑);
 
         // When
         $pdf = $normal->pdf($x);
 
         // Then
-        $this->assertEquals($expected, $pdf, '', 0.00000000000001);
+        $this->assertEqualsWithDelta($expected, $pdf, 0.00000000000001);
     }
 
     /**
@@ -200,7 +200,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $μ = [0, 0];
-        $∑ = new Matrix($M);
+        $∑ = MatrixFactory::create($M);
 
         // Then
         $this->expectException(Exception\BadDataException::class);
@@ -217,7 +217,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $μ = [0, 0];
-        $∑ = new Matrix([
+        $∑ = MatrixFactory::create([
             [1, 0],
             [0, 1],
         ]);
@@ -239,7 +239,7 @@ class NormalTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $μ = [0, 0];
-        $∑ = new Matrix([
+        $∑ = MatrixFactory::create([
             [1, 0, 0],
             [0, 1, 0],
         ]);

@@ -4,8 +4,9 @@ namespace MathPHP\LinearAlgebra\Decomposition;
 
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\Householder;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\Vector;
 
 /**
  * QR Decomposition using Householder reflections
@@ -15,24 +16,24 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  * Q is an orthogonal matrix
  * R is an upper triangular matrix
  *
- * @property-read Matrix $Q orthogonal matrix
- * @property-read Matrix $R upper triangular matrix
+ * @property-read NumericMatrix $Q orthogonal matrix
+ * @property-read NumericMatrix $R upper triangular matrix
  */
 class QR extends Decomposition
 {
-    /** @var Matrix orthogonal matrix  */
+    /** @var NumericMatrix orthogonal matrix  */
     private $Q;
 
-    /** @var Matrix upper triangular matrix */
+    /** @var NumericMatrix upper triangular matrix */
     private $R;
 
     /**
      * QR constructor
      *
-     * @param Matrix $Q Orthogonal matrix
-     * @param Matrix $R Upper triangular matrix
+     * @param NumericMatrix $Q Orthogonal matrix
+     * @param NumericMatrix $R Upper triangular matrix
      */
-    private function __construct(Matrix $Q, Matrix $R)
+    private function __construct(NumericMatrix $Q, NumericMatrix $R)
     {
         $this->Q = $Q;
         $this->R = $R;
@@ -58,7 +59,7 @@ class QR extends Decomposition
      *
      *  This is because on a 1x1 matrix uuᵀ = uᵀu, so I - [[2]] = [[-1]]
      *
-     * @param Matrix $A source Matrix
+     * @param NumericMatrix $A source Matrix
      *
      * @return QR
      *
@@ -69,23 +70,23 @@ class QR extends Decomposition
      * @throws Exception\OutOfBoundsException
      * @throws Exception\VectorException
      */
-    public static function decompose(Matrix $A): QR
+    public static function decompose(NumericMatrix $A): QR
     {
         $n  = $A->getN();  // columns
         $m  = $A->getM();  // rows
         $HA = $A;
 
-        $numReflections = min($m - 1, $n);
+        $numReflections = \min($m - 1, $n);
         $FullI          = MatrixFactory::identity($m);
         $Q              = $FullI;
 
         for ($i = 0; $i < $numReflections; $i++) {
             // Remove the leftmost $i columns and upper $i rows
             $A = $HA->submatrix($i, $i, $m - 1, $n - 1);
-            
+
             // Create the householder matrix
             $innerH = Householder::transform($A);
-            
+
             // Embed the smaller matrix within a full rank Identity matrix
             $H  = $FullI->insert($innerH, $i, $i);
             $Q  = $Q->multiply($H);
@@ -94,9 +95,54 @@ class QR extends Decomposition
 
         $R = $HA;
         return new QR(
-            $Q->submatrix(0, 0, $m - 1, min($m, $n) - 1),
-            $R->submatrix(0, 0, min($m, $n) - 1, $n - 1)
+            $Q->submatrix(0, 0, $m - 1, \min($m, $n) - 1),
+            $R->submatrix(0, 0, \min($m, $n) - 1, $n - 1)
         );
+    }
+
+    /**
+     * Solve linear system of equations
+     * Ax = b
+     *  where:
+     *   A: Matrix
+     *   x: unknown to solve for
+     *   b: solution to linear system of equations (input to function)
+     *
+     * Use QR Decomposition and solve Ax = b.
+     *
+     * QR Decomposition:
+     *  - Equation to solve: Ax = b
+     *  - QR Decomposition produces: A = QR
+     *  - Substitute to get QRx = b
+     *  - Multiply both sides by Qᵀ to get QᵀQRx = Qᵀb
+     *  - QᵀQ = I, so we get Rx = Qᵀb
+     *  - Multiply both sides by R⁻¹ to get R⁻¹Rx = R⁻¹Qᵀb
+     *  - R⁻¹R = I, so we get x = R⁻¹Qᵀb
+     * Solve x = R⁻¹Qᵀb
+     *
+     * @param Vector|array $b solution to Ax = b
+     *
+     * @return Vector x
+     *
+     * @throws Exception\IncorrectTypeException if b is not a Vector or array
+     */
+    public function solve($b): Vector
+    {
+        // Input must be a Vector or array.
+        if (!($b instanceof Vector || \is_array($b))) {
+            throw new Exception\IncorrectTypeException('b in Ax = b must be a Vector or array');
+        }
+        if (\is_array($b)) {
+            $b = new Vector($b);
+        }
+
+        $Qᵀ  = $this->Q->transpose();
+        $Qᵀb = $Qᵀ->multiply($b);
+
+        $R⁻¹ = $this->R->inverse();
+        $x   = $R⁻¹->multiply($Qᵀb);
+
+        return new Vector($x->getColumn(0));
     }
 
     /**
@@ -104,11 +150,11 @@ class QR extends Decomposition
      *
      * @param string $name
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException
      */
-    public function __get(string $name): Matrix
+    public function __get(string $name): NumericMatrix
     {
         switch ($name) {
             case 'Q':
@@ -117,26 +163,6 @@ class QR extends Decomposition
 
             default:
                 throw new Exception\MatrixException("QR class does not have a gettable property: $name");
-        }
-    }
-
-    /**************************************************************************
-     * ArrayAccess INTERFACE
-     **************************************************************************/
-
-    /**
-     * @param mixed $i
-     * @return bool
-     */
-    public function offsetExists($i): bool
-    {
-        switch ($i) {
-            case 'Q':
-            case 'R':
-                return true;
-
-            default:
-                return false;
         }
     }
 }

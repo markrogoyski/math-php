@@ -23,7 +23,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
         $pdf = $laplace->pdf($x);
 
         // Then
-        $this->assertEquals($expected_pdf, $pdf, '', 0.000001);
+        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.000001);
     }
 
     /**
@@ -59,7 +59,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
         $cdf = $laplace->cdf($x);
 
         // Then
-        $this->assertEquals($expected_cdf, $cdf, '', 0.000001);
+        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.000001);
     }
 
     /**
@@ -83,8 +83,8 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
      */
     public function testMean()
     {
-        foreach (range(-5, 5) as $μ) {
-            foreach (range(1, 3) as $b) {
+        foreach (\range(-5, 5) as $μ) {
+            foreach (\range(1, 3) as $b) {
                 // Given
                 $laplace = new Laplace($μ, $b);
 
@@ -102,8 +102,8 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
      */
     public function testMedian()
     {
-        foreach (range(-5, 5) as $μ) {
-            foreach (range(1, 3) as $b) {
+        foreach (\range(-5, 5) as $μ) {
+            foreach (\range(1, 3) as $b) {
                 // Given
                 $laplace = new Laplace($μ, $b);
 
@@ -121,8 +121,8 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
      */
     public function testMode()
     {
-        foreach (range(-5, 5) as $μ) {
-            foreach (range(1, 3) as $b) {
+        foreach (\range(-5, 5) as $μ) {
+            foreach (\range(1, 3) as $b) {
                 // Given
                 $laplace = new Laplace($μ, $b);
 
@@ -151,7 +151,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
         $variance = $laplace->variance();
 
         // Then
-        $this->assertEquals($expected, $variance, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $variance, 0.000001);
     }
 
     /**
@@ -186,7 +186,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
         $inverse = $laplace->inverse($p);
 
         // Then
-        $this->assertEquals($expected_inverse, $inverse, '', 0.00001);
+        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.00001);
     }
 
     /**
@@ -244,8 +244,8 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(-3, 3) as $μ) {
-            foreach (range(1, 3) as $b) {
+        foreach (\range(-3, 3) as $μ) {
+            foreach (\range(1, 3) as $b) {
                 // Given
                 $laplace = new Laplace($μ, $b);
 
@@ -253,7 +253,7 @@ class LaplaceTest extends \PHPUnit\Framework\TestCase
                 $random = $laplace->rand();
 
                 // Then
-                $this->assertTrue(is_numeric($random));
+                $this->assertTrue(\is_numeric($random));
             }
         }
     }

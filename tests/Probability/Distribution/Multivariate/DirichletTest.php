@@ -24,7 +24,7 @@ class DirichletTest extends \PHPUnit\Framework\TestCase
         $pdf = $dirichlet->pdf($xs);
 
         // Then
-        $this->assertEquals($expected, $pdf, '', 0.00001);
+        $this->assertEqualsWithDelta($expected, $pdf, 0.00001);
     }
 
     /**

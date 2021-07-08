@@ -8,7 +8,7 @@ use MathPHP\NumberTheory\Integer;
 
 class Algebra
 {
-    const ZERO_TOLERANCE = 0.000000000001;
+    private const ZERO_TOLERANCE = 0.000000000001;
 
     /**
      * Greatest common divisor - recursive Euclid's algorithm
@@ -66,7 +66,7 @@ class Algebra
         $y₁ = 1;
 
         while ($b > 0) {
-            $q  = intdiv($a, $b);
+            $q  = \intdiv($a, $b);
             $r  = $a % $b;
             $x  = $x₂ - ($q * $x₁);
             $y  = $y₂ - ($q * $y₁);
@@ -103,7 +103,7 @@ class Algebra
             return 0;
         }
 
-        return abs($a * $b) / Algebra::gcd($a, $b);
+        return \abs($a * $b) / Algebra::gcd($a, $b);
     }
 
     /**
@@ -131,7 +131,7 @@ class Algebra
             return [\INF];
         }
 
-        $x       = abs($x);
+        $x       = \abs($x);
         $factors = [1];
 
         // Prime factorize x
@@ -141,7 +141,7 @@ class Algebra
         $sets       = [];
         $current    = [];
         $map        = [];
-        $exponents  = array_count_values($primes);
+        $exponents  = \array_count_values($primes);
         $limit      = 1;
         $count      = 0;
 
@@ -155,9 +155,9 @@ class Algebra
                 $sets[$prime][$n] = $primePower;
             }
 
-            $limit *= count($sets[$prime]);
+            $limit *= \count($sets[$prime]);
             if ($count === 0) { // Skip 1 on the first prime
-                $current[] = next($sets[$prime]);
+                $current[] = \next($sets[$prime]);
             } else {
                 $current[] = 1;
             }
@@ -166,18 +166,46 @@ class Algebra
 
         // Multiply distinct prime powers together
         for ($i = 1; $i < $limit; ++$i) {
-            $factors[] = array_product($current);
+            $factors[] = \array_product($current);
             for ($i2 = 0; $i2 < $count; ++$i2) {
-                $current[$i2] = next($sets[$map[$i2]]);
+                $current[$i2] = \next($sets[$map[$i2]]);
                 if ($current[$i2] !== false) {
                     break;
                 }
-                $current[$i2] = reset($sets[$map[$i2]]);
+                $current[$i2] = \reset($sets[$map[$i2]]);
             }
         }
 
-        sort($factors);
+        \sort($factors);
         return $factors;
+    }
+
+    /**
+     * Linear equation of one variable
+     * An equation having the form: ax + b = 0
+     * where x represents an unknown, or the root of the equation, and a and b represent known numbers.
+     * https://en.wikipedia.org/wiki/Linear_equation#One_variable
+     *
+     * ax + b = 0
+     *
+     *     -b
+     * x = --
+     *      a
+     *
+     * No root exists for a = 0, as a(0) + b = b
+     *
+     * @param float $a a of ax + b = 0
+     * @param float $b b of ax + b = 0
+     *
+     * @return float|null Root of the linear equation: x = -b / a
+     */
+    public static function linear(float $a, float $b): ?float
+    {
+        if ($a == 0) {
+            return null;
+        }
+
+        return -$b / $a;
     }
 
     /**
@@ -228,12 +256,12 @@ class Algebra
             if (!$return_complex) {
                 return [\NAN, \NAN];
             }
-            $complex = new Number\Complex(0, sqrt(-1 * $⟮b² − 4ac⟯));
+            $complex = new Number\Complex(0, \sqrt(-1 * $⟮b² − 4ac⟯));
             $x₁      = $complex->multiply(-1)->subtract($b)->divide(2 * $a);
             $x₂      = $complex->subtract($b)->divide(2 * $a);
         } else {
             // Standard quadratic equation case
-            $√⟮b² − 4ac⟯ = sqrt(self::discriminant($a, $b, $c));
+            $√⟮b² − 4ac⟯ = \sqrt(self::discriminant($a, $b, $c));
             $x₁         = (-$b - $√⟮b² − 4ac⟯) / (2 * $a);
             $x₂         = (-$b + $√⟮b² − 4ac⟯) / (2 * $a);
         }
@@ -363,20 +391,20 @@ class Algebra
 
         // All roots are real and unequal
         if ($D < 0) {
-            $θ     = acos($R / sqrt((-$Q) ** 3));
-            $２√−Q = 2 * sqrt(-$Q);
+            $θ     = \acos($R / \sqrt((-$Q) ** 3));
+            $２√−Q = 2 * \sqrt(-$Q);
             $π     = \M_PI;
 
-            $z₁    = $２√−Q * cos($θ / 3) - ($a₂ / 3);
-            $z₂    = $２√−Q * cos(($θ + 2 * $π) / 3) - ($a₂ / 3);
-            $z₃    = $２√−Q * cos(($θ + 4 * $π) / 3) - ($a₂ / 3);
+            $z₁    = $２√−Q * \cos($θ / 3) - ($a₂ / 3);
+            $z₂    = $２√−Q * \cos(($θ + 2 * $π) / 3) - ($a₂ / 3);
+            $z₃    = $２√−Q * \cos(($θ + 4 * $π) / 3) - ($a₂ / 3);
 
             return [$z₁, $z₂, $z₃];
         }
 
         // Intermediate calculations
-        $S = Arithmetic::cubeRoot($R + sqrt($D));
-        $T = Arithmetic::cubeRoot($R - sqrt($D));
+        $S = Arithmetic::cubeRoot($R + \sqrt($D));
+        $T = Arithmetic::cubeRoot($R - \sqrt($D));
 
         // All roots are real, and at least two are equal
         if ($D == 0 || ($D > -self::ZERO_TOLERANCE && $D < self::ZERO_TOLERANCE)) {
@@ -399,13 +427,15 @@ class Algebra
         $quad_c        = $a₁ + $quad_b * $z₁;
         $complex_roots = self::quadratic($quad_a, $quad_b, $quad_c, true);
 
-        return array_merge([$z₁], $complex_roots);
+        return \array_merge([$z₁], $complex_roots);
     }
 
     /**
      * Quartic equation
      * An equation having the form: a₄z⁴ + a₃z³ + a₂z² + a₁z + a₀ = 0
      * https://en.wikipedia.org/wiki/Quartic_function
+     *
+     * Sometimes this is referred to as a biquadratic equation.
      *
      * @param  float $a₄ z⁴          coefficient
      * @param  float $a₃ z³          coefficient
@@ -434,31 +464,31 @@ class Algebra
 
         // Has a zero root.
         if ($a₀ == 0) {
-            return array_merge([0.0], self::cubic($a₄, $a₃, $a₂, $a₁, $return_complex));
+            return \array_merge([0.0], self::cubic($a₄, $a₃, $a₂, $a₁, $return_complex));
         }
-        
+
         // Is Biquadratic
         if ($a₃ == 0 && $a₁ == 0) {
             $quadratic_roots = self::quadratic($a₄, $a₂, $a₀, $return_complex);
 
             // Sort so any complex roots are at the end of the array.
-            rsort($quadratic_roots);
+            \rsort($quadratic_roots);
             $z₊ = $quadratic_roots[0];
             $z₋ = $quadratic_roots[1];
             if (!$return_complex) {
-                return [sqrt($z₊), -1 * sqrt($z₊), sqrt($z₋), -1 * sqrt($z₋)];
+                return [\sqrt($z₊), -1 * \sqrt($z₊), \sqrt($z₋), -1 * \sqrt($z₋)];
             }
 
             $Cz₊ = new Complex($z₊, 0);
             $Cz₋ = new Complex($z₋, 0);
-            $z₁  = $z₊ < 0 ? $Cz₊->sqrt()  : sqrt($z₊);
+            $z₁  = $z₊ < 0 ? $Cz₊->sqrt()  : \sqrt($z₊);
             $z₂  = $z₊ < 0 ? $z₁->negate() : $z₁ * -1;
-            $z₃  = $z₋ < 0 ? $Cz₋->sqrt()  : sqrt($z₋);
+            $z₃  = $z₋ < 0 ? $Cz₋->sqrt()  : \sqrt($z₋);
             $z₄  = $z₋ < 0 ? $z₃->negate() : $z₃ * -1;
 
             return [$z₁, $z₂, $z₃, $z₄];
         }
-        
+
         // Is a depressed quartic
         // y⁴ + py² + qy + r = 0
         if ($a₃ == 0) {
@@ -468,18 +498,18 @@ class Algebra
             // Create the resolvent cubic.
             // 8m³ + 8pm² + (2p² - 8r)m - q² = 0
             $cubic_roots = self::cubic(8, 8 * $p, 2 * $p ** 2 - 8 * $r, -1 * $q ** 2, $return_complex);
-            
+
             // $z₁ will always be a real number, so select it.
             $m             = $cubic_roots[0];
-            $roots1        = self::quadratic(1, sqrt(2 * $m), $p / 2 + $m - $q / 2 / sqrt(2 * $m), $return_complex);
-            $roots2        = self::quadratic(1, -1 * sqrt(2 * $m), $p / 2 + $m + $q / 2 / sqrt(2 * $m), $return_complex);
-            $discriminant1 = self::discriminant(1, sqrt(2 * $m), $p / 2 + $m - $q / 2 / sqrt(2 * $m));
-            $discriminant2 = self::discriminant(1, -1 * sqrt(2 * $m), $p / 2 + $m + $q / 2 / sqrt(2 * $m));
-            
+            $roots1        = self::quadratic(1, \sqrt(2 * $m), $p / 2 + $m - $q / 2 / \sqrt(2 * $m), $return_complex);
+            $roots2        = self::quadratic(1, -1 * \sqrt(2 * $m), $p / 2 + $m + $q / 2 / \sqrt(2 * $m), $return_complex);
+            $discriminant1 = self::discriminant(1, \sqrt(2 * $m), $p / 2 + $m - $q / 2 / \sqrt(2 * $m));
+            $discriminant2 = self::discriminant(1, -1 * \sqrt(2 * $m), $p / 2 + $m + $q / 2 / \sqrt(2 * $m));
+
             // sort the real roots first.
             $sorted_results = $discriminant1 > $discriminant2
-                ? array_merge($roots1, $roots2)
-                : array_merge($roots2, $roots1);
+                ? \array_merge($roots1, $roots2)
+                : \array_merge($roots2, $roots1);
             return $sorted_results;
         }
 
@@ -487,9 +517,9 @@ class Algebra
         $p = $a₂ - (3 * $a₃ ** 2 / 8);
         $q = $a₁ + $a₃ ** 3 / 8 - $a₃ * $a₂ / 2;
         $r = $a₀ - 3 * $a₃ ** 4 / 256 + $a₃ ** 2 * $a₂ / 16 - $a₃ * $a₁ / 4;
-        
+
         $depressed_quartic_roots = self::quartic(1, 0, $p, $q, $r, $return_complex);
-        
+
         // The roots for this polynomial are the roots of the depressed polynomial minus a₃/4.
         if (!$return_complex) {
             return Single::subtract($depressed_quartic_roots, $a₃ / 4);
@@ -497,7 +527,7 @@ class Algebra
 
         $quartic_roots = [];
         foreach ($depressed_quartic_roots as $key => $root) {
-            if (is_float($root)) {
+            if (\is_float($root)) {
                 $quartic_roots[$key] = $root - $a₃ / 4;
             } else {
                 $quartic_roots[$key] = $root->subtract($a₃ / 4);

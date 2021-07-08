@@ -9,7 +9,7 @@ class ToothGrowthTest extends \PHPUnit\Framework\TestCase
     /** @var SampleData\ToothGrowth */
     private $toothGrowth;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->toothGrowth = new SampleData\ToothGrowth();
     }

@@ -21,7 +21,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $covariance = Correlation::covariance($X, $Y, true);
 
         // Then
-        $this->assertEquals($expected, $covariance, '', 0.01);
+        $this->assertEqualsWithDelta($expected, $covariance, 0.01);
     }
 
     /**
@@ -38,7 +38,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $covariance = Correlation::populationCovariance($X, $Y);
 
         // Then
-        $this->assertEquals($expected, $covariance, '', 0.01);
+        $this->assertEqualsWithDelta($expected, $covariance, 0.01);
     }
 
     /**
@@ -69,7 +69,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $covariance = Correlation::weightedCovariance($X, $Y, $w);
 
         // Then
-        $this->assertEquals($expected, $covariance, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $covariance, 0.001);
     }
 
     /**
@@ -150,7 +150,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $covariance = Correlation::covariance($X, $Y);
 
         // Then
-        $this->assertEquals($expected, $covariance, '', 0.01);
+        $this->assertEqualsWithDelta($expected, $covariance, 0.01);
     }
 
     /**
@@ -167,7 +167,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $covariance = Correlation::sampleCovariance($X, $Y);
 
         // Then
-        $this->assertEquals($expected, $covariance, '', 0.01);
+        $this->assertEqualsWithDelta($expected, $covariance, 0.01);
     }
 
     /**
@@ -210,7 +210,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $r = Correlation::r($x, $y, true);
 
         // Then
-        $this->assertEquals($expected, $r, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $r, 0.000001);
     }
 
     /**
@@ -227,7 +227,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $pcc = Correlation::populationCorrelationCoefficient($x, $y);
 
         // Then
-        $this->assertEquals($expected, $pcc, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $pcc, 0.000001);
     }
 
     /**
@@ -330,7 +330,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $wcc = Correlation::weightedCorrelationCoefficient($x, $y, $w);
 
         // Then
-        $this->assertEquals($expected, $wcc, '', 0.00001);
+        $this->assertEqualsWithDelta($expected, $wcc, 0.00001);
     }
 
     /**
@@ -363,7 +363,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $scc = Correlation::r($x, $y);
 
         // Then
-        $this->assertEquals($expected, $scc, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $scc, 0.0001);
     }
 
     /**
@@ -380,7 +380,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $scc = Correlation::sampleCorrelationCoefficient($x, $y);
 
         // Then
-        $this->assertEquals($expected, $scc, '', 0.0001);
+        $this->assertEqualsWithDelta($expected, $scc, 0.0001);
     }
 
     /**
@@ -409,7 +409,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $r2 = Correlation::coefficientOfDetermination($X, $Y);
 
         // Then
-        $this->assertEquals($expected, $r2, '', 0.001);
+        $this->assertEqualsWithDelta($expected, $r2, 0.001);
     }
 
     /**
@@ -426,7 +426,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $r2 = Correlation::r2($X, $Y);
 
         // Then
-        $this->assertEquals($expected, $r2, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $r2, 0.000001);
     }
 
     /**
@@ -498,7 +498,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $τ = Correlation::kendallsTau($X, $Y);
 
         // Then
-        $this->assertEquals($expected, $τ, '', 0.00001);
+        $this->assertEqualsWithDelta($expected, $τ, 0.00001);
     }
 
     /**
@@ -609,7 +609,7 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $ρ = Correlation::spearmansRho($X, $Y);
 
         // Then
-        $this->assertEquals($expected, $ρ, '', 0.00001);
+        $this->assertEqualsWithDelta($expected, $ρ, 0.00001);
     }
 
     /**
@@ -749,17 +749,17 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
         $stats = Correlation::describe($X, $Y);
 
         // Then
-        $this->assertTrue(is_array($stats));
+        $this->assertTrue(\is_array($stats));
         $this->assertArrayHasKey('cov', $stats);
         $this->assertArrayHasKey('r', $stats);
         $this->assertArrayHasKey('r2', $stats);
         $this->assertArrayHasKey('tau', $stats);
         $this->assertArrayHasKey('rho', $stats);
-        $this->assertTrue(is_numeric($stats['cov']));
-        $this->assertTrue(is_numeric($stats['r']));
-        $this->assertTrue(is_numeric($stats['r2']));
-        $this->assertTrue(is_numeric($stats['tau']));
-        $this->assertTrue(is_numeric($stats['rho']));
+        $this->assertTrue(\is_numeric($stats['cov']));
+        $this->assertTrue(\is_numeric($stats['r']));
+        $this->assertTrue(\is_numeric($stats['r2']));
+        $this->assertTrue(\is_numeric($stats['tau']));
+        $this->assertTrue(\is_numeric($stats['rho']));
     }
 
     /**
@@ -773,10 +773,10 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
     public function testEllipse(array $data, float $sd, array $results)
     {
         // When
-        $calc = Correlation::confidenceEllipse(array_column($data, 0), array_column($data, 1), $sd);
+        $calc = Correlation::confidenceEllipse(\array_column($data, 0), \array_column($data, 1), $sd);
 
         // Then
-        $this->assertEquals($results, $calc, '', 0.0001);
+        $this->assertEqualsWithDelta($results, $calc, 0.0001);
     }
 
     /**

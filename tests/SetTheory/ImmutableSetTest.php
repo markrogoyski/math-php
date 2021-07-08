@@ -156,7 +156,7 @@ class ImmutableSetTest extends \PHPUnit\Framework\TestCase
         ]), $A->cartesianProduct($B));
 
         $this->assertEquals($A, $A->copy());
-        $this->assertEquals('Set{1, 2, 3}', strval($A));
+        $this->assertEquals('Set{1, 2, 3}', \strval($A));
 
         $this->assertEquals(3, count($A));
         $this->assertEquals(3, count($B));

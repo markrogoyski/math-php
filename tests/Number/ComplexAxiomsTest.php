@@ -26,7 +26,7 @@ use MathPHP\Number\Complex;
  *  - Inverse
  *    - (∀a)(∃b) a + b = 0
  */
-class ComplexNumberAxiomsTest extends \PHPUnit\Framework\TestCase
+class ComplexAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test Axiom: z + w = w + z

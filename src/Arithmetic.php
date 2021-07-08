@@ -21,10 +21,10 @@ class Arithmetic
     public static function root(float $x, int $nᵗʰ): float
     {
         if ($x >= 0 || $nᵗʰ % 2 === 0) {
-            return pow($x, 1 / $nᵗʰ);
+            return \pow($x, 1 / $nᵗʰ);
         }
 
-        return -pow(abs($x), 1 / $nᵗʰ);
+        return - \pow(\abs($x), 1 / $nᵗʰ);
     }
 
     /**
@@ -39,6 +39,23 @@ class Arithmetic
     public static function cubeRoot(float $x): float
     {
         return self::root($x, 3);
+    }
+
+    /**
+     * Integer square root |_√x_|
+     * The positive integer which is the greatest integer less than or equal to the square root
+     * https://en.wikipedia.org/wiki/Integer_square_root
+     *
+     * @param float $x
+     *
+     * @return int
+     */
+    public static function isqrt(float $x): int
+    {
+        if ($x < 0) {
+            throw new Exception\BadParameterException("x must be non-negative for isqrt - got $x");
+        }
+        return \floor(\sqrt($x));
     }
 
     /**
@@ -60,11 +77,11 @@ class Arithmetic
      */
     public static function digitSum(int $x, int $b = 10): int
     {
-        $logx                        = log($x, $b);
+        $logx                        = \log($x, $b);
         $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ = 0;
 
         for ($n = 0; $n <= $logx; $n++) {
-            $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ += intdiv(($x % pow($b, $n + 1)) - ($x % $b ** $n), ($b ** $n));
+            $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯ += \intdiv(($x % \pow($b, $n + 1)) - ($x % $b ** $n), ($b ** $n));
         }
 
         return $∑1／bⁿ⟮x mod bⁿ⁺¹ − x mod bⁿ⟯;
@@ -105,7 +122,7 @@ class Arithmetic
      */
     public static function almostEqual(float $x, float $y, $ε = 0.000000000001): bool
     {
-        return abs($x - $y) <= $ε;
+        return \abs($x - $y) <= $ε;
     }
 
     /**
@@ -119,8 +136,8 @@ class Arithmetic
     public static function copySign(float $magnitude, float $sign): float
     {
         return $sign >= 0
-            ? abs($magnitude)
-            : -abs($magnitude);
+            ? \abs($magnitude)
+            : -\abs($magnitude);
     }
 
     /**
@@ -157,6 +174,6 @@ class Arithmetic
             return $a;
         }
 
-        return $a - $n * floor($a / $n);
+        return $a - $n * \floor($a / $n);
     }
 }

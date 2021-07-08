@@ -5,7 +5,7 @@ namespace MathPHP\Tests\Probability\Distribution\Table;
 use MathPHP\Probability\Distribution\Table\ChiSquared;
 use MathPHP\Exception;
 
-class ChiSquaredlTest extends \PHPUnit\Framework\TestCase
+class ChiSquaredTableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test         values from constant
@@ -17,7 +17,7 @@ class ChiSquaredlTest extends \PHPUnit\Framework\TestCase
     public function testChiSquaredValuesFromConstant(int $df, float $p, float $χ²)
     {
         // Given
-        $p = sprintf('%1.3f', $p);
+        $p = \sprintf('%1.3f', $p);
 
         // When
         $value = ChiSquared::CHI_SQUARED_SCORES[$df][$p];

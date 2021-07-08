@@ -3,7 +3,7 @@
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
 use MathPHP\Exception;
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 
 /**
  * Nevilles Method
@@ -57,7 +57,7 @@ class NevillesMethod extends Interpolation
         $y = self::Y;
 
         // Initialize
-        $n = count($sorted);
+        $n = \count($sorted);
         $Q = [];
 
         // Build our 0th-degree Lagrange polynomials: Q₍ᵢ₎₍₀₎ = yᵢ for all i < n

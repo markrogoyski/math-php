@@ -62,7 +62,7 @@ class Linear extends ParametricRegression
      * @throws Exception\MatrixException
      * @throws Exception\MathException
      */
-    public function calculate()
+    public function calculate(): void
     {
         $this->parameters = $this->leastSquares($this->ys, $this->xs)->getColumn(0);
     }

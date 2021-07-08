@@ -17,10 +17,10 @@ use MathPHP\Exception;
 abstract class NumericalDifferentiation
 {
     /** @var int Index of x */
-    const X = 0;
+    protected const X = 0;
 
     /** @var int Index of y */
-    const Y = 1;
+    protected const Y = 1;
 
     abstract public static function differentiate(float $target, $source, ...$args);
 
@@ -47,12 +47,12 @@ abstract class NumericalDifferentiation
     public static function getPoints($source, array $args = []): array
     {
         // Guard clause - source must be callable or array of points
-        if (!(is_callable($source) || is_array($source))) {
+        if (!(\is_callable($source) || \is_array($source))) {
             throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
 
         // Source is already an array: nothing to do
-        if (is_array($source)) {
+        if (\is_array($source)) {
             return $source;
         }
 
@@ -104,18 +104,18 @@ abstract class NumericalDifferentiation
      */
     public static function validate(array $points, int $degree)
     {
-        if (count($points) != $degree) {
+        if (\count($points) != $degree) {
             throw new Exception\BadDataException("You need to have $degree sets of coordinates (arrays) for this technique");
         }
 
         $x_coordinates = [];
         foreach ($points as $point) {
-            if (count($point) !== 2) {
+            if (\count($point) !== 2) {
                 throw new Exception\BadDataException('Each array needs to have have precisely two numbers, an x- and y-component');
             }
 
             $x_component = $point[self::X];
-            if (in_array($x_component, $x_coordinates)) {
+            if (\in_array($x_component, $x_coordinates)) {
                 throw new Exception\BadDataException('Not a function. Your input array contains more than one coordinate with the same x-component.');
             }
             $x_coordinates[] = $x_component;
@@ -132,7 +132,7 @@ abstract class NumericalDifferentiation
      */
     protected static function sort(array $points): array
     {
-        usort($points, function ($a, $b) {
+        \usort($points, function ($a, $b) {
             return $a[self::X] <=> $b[self::X];
         });
 
@@ -151,7 +151,7 @@ abstract class NumericalDifferentiation
     public static function isSpacingConstant(array $sorted)
     {
         $x       = self::X;
-        $length  = count($sorted);
+        $length  = \count($sorted);
         $spacing = ($sorted[$length - 1][$x] - $sorted[0][$x]) / ($length - 1);
 
         for ($i = 1; $i < $length - 1; $i++) {
@@ -171,14 +171,14 @@ abstract class NumericalDifferentiation
      */
     public static function isTargetInPoints($target, array $sorted)
     {
-        $xComponents = array_map(
+        $xComponents = \array_map(
             function (array $point) {
                 return $point[self::X];
             },
             $sorted
         );
 
-        if (!in_array($target, $xComponents)) {
+        if (!\in_array($target, $xComponents)) {
             throw new Exception\BadDataException('Your target point must be the x-component of one of the points you supplied.');
         }
     }

@@ -8,17 +8,29 @@ use MathPHP\Exception;
 class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test createZeroValue
+     */
+    public function testCreateZeroValue()
+    {
+        // Given
+        $zero = ArbitraryInteger::createZeroValue();
+
+        // Then
+        $this->assertEquals(0, $zero->toInt());
+    }
+
+    /**
      * @test         String representation
      * @dataProvider dataProviderForIntToString
      * @dataProvider dataProviderForStringIntToString
      * @dataProvider dataProviderForBinaryToString
      * @dataProvider dataProviderForHexToString
      * @dataProvider dataProviderForOctalToString
-     * @param        string $int
+     * @param        mixed $int
      * @param        string $expected
      * @throws       \Exception
      */
-    public function testStringToString(string $int, string $expected)
+    public function testStringToString($int, string $expected)
     {
         // Given
         $obj = new ArbitraryInteger($int);
@@ -274,10 +286,10 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         Binary representation
      * @dataProvider dataProviderForIntToInt
-     * @param        string $int
+     * @param        int $int
      * @throws       \Exception
      */
-    public function testIntToBinary(string $int)
+    public function testIntToBinary(int $int)
     {
         // Given
         $obj = new ArbitraryInteger($int);
@@ -429,6 +441,40 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         multiply
+     * @dataProvider dataProviderForTestMultiplication
+     * @param        string $int1
+     * @param        string $int2
+     * @param        string $expected
+     * @throws       \Exception
+     */
+    public function testMultiplication(string $int1, string $int2, string $expected)
+    {
+        // Given
+        $int1 = new ArbitraryInteger($int1);
+        $int2 = new ArbitraryInteger($int2);
+
+        // When
+        $sum = $int1->multiply($int2);
+
+        // Then
+        $this->assertEquals($expected, (string) $sum);
+    }
+
+    public function dataProviderForTestMultiplication(): array
+    {
+        return [
+            ['1', '1', '1'],
+            ['-1', '1', '-1'],
+            ['1', '-1', '-1'],
+            ['2', '-1', '-2'],
+            ['-1', '2', '-2'],
+            ['-300', '-400', '120000'],
+            ['983759729375923795837849', '10000000000', '9837597293759237958378490000000000'],
+        ];
+    }
+
+    /**
      * @test         intdiv and mod calculate the correct whole and remainder
      * @dataProvider dataProviderForIntDivSmallDivisor
      * @param        string $dividend
@@ -466,7 +512,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         $obj = new ArbitraryInteger($dividend);
 
         // When
-        list($quotient, $mod) = $obj->fullIntdiv($divisor);
+        [$quotient, $mod] = $obj->fullIntdiv($divisor);
 
         // Then
         $this->assertEquals($expectedQuotient, (string) $quotient);
@@ -526,7 +572,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         $divisor = new ArbitraryInteger($divisor);
 
         // When
-        list($quotient, $mod) = $obj->fullIntdiv($divisor);
+        [$quotient, $mod] = $obj->fullIntdiv($divisor);
 
         // Then
         $this->assertEquals($expectedQuotient, (string) $quotient);
@@ -611,11 +657,11 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         abs() returns the proper result
      * @dataProvider dataProviderForAbs
-     * @param        string $int
+     * @param        mixed $int
      * @param        string $expected
      * @throws       \Exception
      */
-    public function testAbs(string $int, string $expected)
+    public function testAbs($int, string $expected)
     {
         // Given
         $int = new ArbitraryInteger($int);
@@ -946,10 +992,10 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForBinaryToString
      * @dataProvider dataProviderForHexToString
      * @dataProvider dataProviderForOctalToString
-     * @param        string $int
+     * @param        mixed $int
      * @throws       \Exception
      */
-    public function testEquals(string $int)
+    public function testEquals($int)
     {
         // Given
         $obj = new ArbitraryInteger($int);
@@ -968,10 +1014,10 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForBinaryToString
      * @dataProvider dataProviderForHexToString
      * @dataProvider dataProviderForOctalToString
-     * @param        string $int
+     * @param        mixed $int
      * @throws       \Exception
      */
-    public function testNotEquals(string $int)
+    public function testNotEquals($int)
     {
         // Given
         $obj1 = new ArbitraryInteger($int);

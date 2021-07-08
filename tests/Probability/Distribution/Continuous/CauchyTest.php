@@ -23,7 +23,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
         $pdf = $cauchy->pdf($x);
 
         // Then
-        $this->assertEquals($expected_pdf, $pdf, '', 0.000000001);
+        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.000000001);
     }
 
     /**
@@ -81,7 +81,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
         $cdf = $cauchy->cdf($x);
 
         // Then
-        $this->assertEquals($expected_cdf, $cdf, '', 0.000000001);
+        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.000000001);
     }
 
     /**
@@ -101,7 +101,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
         $inverse_of_cdf = $cauchy->inverse($cdf);
 
         // Then
-        $this->assertEquals($x, $inverse_of_cdf, '', 0.000000001);
+        $this->assertEqualsWithDelta($x, $inverse_of_cdf, 0.000000001);
     }
 
     /**
@@ -158,7 +158,7 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
         $inverse = $cauchy->inverse($p);
 
         // Then
-        $this->assertEquals($expected_inverse, $inverse, '', 0.000001);
+        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.000001);
     }
 
     /**
@@ -279,16 +279,16 @@ class CauchyTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(-5, 5) as $x₀) {
-            foreach (range(1, 10) as $γ) {
+        foreach (\range(-5, 5) as $x₀) {
+            foreach (\range(1, 10) as $γ) {
                 // Given
                 $cauchy = new Cauchy($x₀, $γ);
-                foreach (range(1, 3) as $_) {
+                foreach (\range(1, 3) as $_) {
                     // When
                     $random = $cauchy->rand();
 
                     // Then
-                    $this->assertTrue(is_numeric($random));
+                    $this->assertTrue(\is_numeric($random));
                 }
             }
         }

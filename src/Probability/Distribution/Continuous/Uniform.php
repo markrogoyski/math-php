@@ -12,7 +12,7 @@ class Uniform extends Continuous
      * b ∈ (-∞,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'a' => '(-∞,∞)',
         'b' => '(-∞,∞)',
     ];
@@ -22,10 +22,10 @@ class Uniform extends Continuous
      * x ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',
     ];
-    
+
     /** @var float Lower Bound Parameter */
     protected $a;
 
@@ -74,7 +74,7 @@ class Uniform extends Continuous
 
         return 1 / ($b - $a);
     }
-    
+
     /**
      * Continuous uniform distribution - cumulative distribution function
      * https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
@@ -105,7 +105,7 @@ class Uniform extends Continuous
 
         return ($x - $a) / ($b - $a);
     }
-    
+
     /**
      * Mean of the distribution
      *
@@ -159,6 +159,6 @@ class Uniform extends Continuous
      */
     public function variance(): float
     {
-        return pow($this->b - $this->a, 2) / 12;
+        return \pow($this->b - $this->a, 2) / 12;
     }
 }

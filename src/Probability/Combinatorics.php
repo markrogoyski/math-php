@@ -25,10 +25,8 @@ use MathPHP\Exception;
  */
 class Combinatorics
 {
-    /**
-     * @var bool Combinations with repetition
-     */
-    const REPETITION = true;
+    /** @var bool Combinations with repetition */
+    public const REPETITION = true;
 
     /**************************************************************************
      * Factorials
@@ -158,7 +156,7 @@ class Combinatorics
     public static function fallingFactorial(float $x, int $n): float
     {
         if ($n < 0) {
-            throw new Exception\OutOfBoundsException('Cannot compute rising factorial of a negative number.');
+            throw new Exception\OutOfBoundsException('Cannot compute falling factorial of a negative number.');
         }
 
         if ($n > $x) {
@@ -235,20 +233,21 @@ class Combinatorics
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative permutations.');
         }
-        if (!is_null($k) && $k > $n) {
+        if (!\is_null($k) && $k > $n) {
             throw new Exception\OutOfBoundsException('k cannot be larger than n.');
         }
 
-        $n！ = self::factorial($n);
-
         // nPn: permutations of n things, taken n at a time
-        if (is_null($k)) {
-            return $n！;
+        if (\is_null($k)) {
+            return self::factorial($n);
         }
 
         // nPk: Permutations of n things taking only k of them
-        $⟮n − k⟯！ = self::factorial($n - $k);
-        return $n！ / $⟮n − k⟯！;
+        $falling_factorial = 1;
+        for ($i = $n - $k + 1; $i <= $n; $i++) {
+            $falling_factorial *= $i;
+        }
+        return $falling_factorial;
     }
 
     /**
@@ -267,6 +266,19 @@ class Combinatorics
      *         (k)    (n - 1)!k!
      *
      * http://mathworld.wolfram.com/BinomialCoefficient.html
+     * The above formulas are inefficient and can quickly result in floating point overflow.
+     * Instead, we use the multiplicative formula.
+     *
+     *        (n)   nᵏ    n(n - 1)(n - 2)⋯(n - (k - 1)     _ᵏ_  n + 1 - i
+     *  nCk = ( ) = -- =  ----------------------------   = | |  ---------
+     *        (k)   k!        k(k - 1)(k - 2)⋯1            ⁱ⁼¹      i
+     *
+     * Where the numerator nᵏ is expressed as a falling factorial.
+     * The numerator gives the number of ways to select a sequence of k distinct objects, retaining the order of selection, from a set of n objects.
+     * The denominator counts the number of distinct sequences that define the same k-combination when order is disregarded.
+     * Due to the symmetry of the binomial coefficient with regard to k and n − k,
+     * calculation may be optimised by setting the upper limit of the product above to the smaller of k and n − k.
+     * https://en.wikipedia.org/wiki/Binomial_coefficient#Multiplicative_formula
      *
      * @param  int  $n
      * @param  int  $k
@@ -281,23 +293,27 @@ class Combinatorics
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative combinations.');
         }
-        if ($k > $n) {
+        if (!$repetition && $k > $n) {
             throw new Exception\OutOfBoundsException('k cannot be larger than n.');
         }
 
-        // nC'k with repetition
-        if ($repetition) {
-            $⟮n ＋ k − 1⟯！ = self::factorial($n + $k - 1);
-            $⟮n − 1⟯！k！   = self::factorial($n - 1) * self::factorial($k);
-
-            return $⟮n ＋ k − 1⟯！ / $⟮n − 1⟯！k！;
+        if ($repetition) { // nC'k with repetition
+            $denominator = $n - 1;
+            $numerator   = $n + $k - 1;
+        } else { // nCk without repetition
+            $denominator = $n - $k;
+            $numerator   = $n;
         }
 
-        // nCk without repetition
-        $n！        = self::factorial($n);
-        $⟮n − k⟯！k！ = self::factorial($n - $k) * self::factorial($k);
-
-        return $n！ / $⟮n − k⟯！k！;
+        // The internal self::fallingFactorial() implementation always returns a float.
+        // Here we maintain int precision as much as possible.
+        $max = \max($denominator, $k);
+        $min = \min($denominator, $k);
+        $falling_factorial = 1;
+        for ($i = $max + 1; $i <= $numerator; $i++) {
+            $falling_factorial *= $i;
+        }
+        return $falling_factorial / self::factorial($min);
     }
 
     /**
@@ -407,9 +423,9 @@ class Combinatorics
     public static function multinomial(array $groups): float
     {
         /** @var int $n */
-        $n            = array_sum($groups);
+        $n            = \array_sum($groups);
         $n！          = self::factorial($n);
-        $k₁！k₂！⋯km！ = array_product(array_map([Combinatorics::class, 'factorial'], $groups));
+        $k₁！k₂！⋯km！ = \array_product(\array_map([Combinatorics::class, 'factorial'], $groups));
 
         return $n！ / $k₁！k₂！⋯km！;
     }

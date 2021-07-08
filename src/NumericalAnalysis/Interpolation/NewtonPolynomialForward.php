@@ -3,7 +3,7 @@
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
 use MathPHP\Exception;
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 
 /**
  * Newton (Forward) Interpolating Polynomials
@@ -55,7 +55,7 @@ class NewtonPolynomialForward extends Interpolation
         $y = self::Y;
 
         // Initialize
-        $n   = count($sorted);
+        $n   = \count($sorted);
         $Q   = [];
 
         // Build first column of divided differences table

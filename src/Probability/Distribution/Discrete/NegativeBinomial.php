@@ -18,7 +18,7 @@ class NegativeBinomial extends Discrete
      * p ∈ [0,1]
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'r' => '[0,∞)',
         'p' => '[0,1]',
     ];
@@ -28,7 +28,7 @@ class NegativeBinomial extends Discrete
      * x ∈ [0,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '[0,∞)',
     ];
 
@@ -73,9 +73,9 @@ class NegativeBinomial extends Discrete
         $p = $this->p;
 
         $ₓ₊ᵣ₋₁Cₓ = Combinatorics::combinations($x + $r - 1, $x);
-        $⟮1 − p⟯ˣ = pow(1 - $p, $x);
-        $pʳ      = pow($p, $r);
-    
+        $⟮1 − p⟯ˣ = \pow(1 - $p, $x);
+        $pʳ      = \pow($p, $r);
+
         return $ₓ₊ᵣ₋₁Cₓ * $⟮1 − p⟯ˣ * $pʳ;
     }
 
@@ -96,10 +96,10 @@ class NegativeBinomial extends Discrete
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
-        return array_sum(
-            array_map(
+        return \array_sum(
+            \array_map(
                 [$this, 'pmf'],
-                range(0, $x)
+                \range(0, $x)
             )
         );
     }
@@ -138,7 +138,7 @@ class NegativeBinomial extends Discrete
         $r = $this->r;
         $p = $this->p;
 
-        return floor(($p * ($r - 1)) / (1 - $p));
+        return \floor(($p * ($r - 1)) / (1 - $p));
     }
 
     /**

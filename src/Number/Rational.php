@@ -18,13 +18,13 @@ class Rational implements ObjectArithmetic
 {
     /** @var int Whole part of the number */
     protected $whole;
-    
+
     /** @var int Numerator part of the fractional part */
     protected $numerator;
-    
+
     /** @var int Denominator part of the fractional part */
     protected $denominator;
-    
+
     /**
      * Constructor
      *
@@ -35,10 +35,20 @@ class Rational implements ObjectArithmetic
      */
     public function __construct(int $w, int $n, int $d)
     {
-        list($w, $n, $d)   = self::normalize($w, $n, $d);
+        [$w, $n, $d]       = self::normalize($w, $n, $d);
         $this->whole       = $w;
         $this->numerator   = $n;
         $this->denominator = $d;
+    }
+
+    /**
+     * Zero value: 0/1
+     *
+     * @return Rational
+     */
+    public static function createZeroValue(): ObjectArithmetic
+    {
+        return new Rational(0, 0, 1);
     }
 
     /**
@@ -64,7 +74,7 @@ class Rational implements ObjectArithmetic
     {
         return $this->denominator;
     }
-    
+
     /**
      * String representation of a rational number
      * 5 6/7, 456079/13745859, etc.
@@ -81,7 +91,7 @@ class Rational implements ObjectArithmetic
             $sign = '-';
         }
         if ($this->whole !== 0) {
-            $whole = abs($this->whole);
+            $whole = \abs($this->whole);
         }
         if ($this->numerator !== 0) {
             if ($this->whole !== 0) {
@@ -105,7 +115,7 @@ class Rational implements ObjectArithmetic
     private function numeratorToSuperscript(): string
     {
         return $this->toSuperOrSubscript(
-            abs($this->numerator),
+            \abs($this->numerator),
             ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹']
         );
     }
@@ -134,11 +144,11 @@ class Rational implements ObjectArithmetic
     private function toSuperOrSubscript(int $i, array $chars): string
     {
         $return_string   = '';
-        $number_of_chars = floor(log10($i) + 1);
+        $number_of_chars = \floor(\log10($i) + 1);
         $working_value   = $i;
 
         for ($j = $number_of_chars - 1; $j >= 0; $j--) {
-            $int = intdiv($working_value, 10 ** $j);
+            $int = \intdiv($working_value, 10 ** $j);
             $return_string .= $chars[$int];
             $working_value -= $int * 10 ** $j;
         }
@@ -156,11 +166,11 @@ class Rational implements ObjectArithmetic
         $sum  = $this->whole + $frac;
         return $sum;
     }
-    
+
     /**************************************************************************
      * UNARY FUNCTIONS
      **************************************************************************/
- 
+
     /**
      * The absolute value of a rational number
      *
@@ -168,13 +178,32 @@ class Rational implements ObjectArithmetic
      */
     public function abs(): Rational
     {
-        return new Rational(abs($this->whole), abs($this->numerator), abs($this->denominator));
+        return new Rational(\abs($this->whole), \abs($this->numerator), \abs($this->denominator));
+    }
+
+    /**
+     * Inverse of a rational number
+     *
+     * @return Rational
+     *
+     * @throws Exception\DivisionByZeroException if R is zero
+     */
+    public function inverse(): Rational
+    {
+        $w = $this->whole;
+        $n = $this->numerator;
+        $d = $this->denominator;
+
+        if ($w == 0 && $n == 0) {
+            throw new Exception\DivisionByZeroException('Cannot take the inverse of zero.');
+        }
+        return new Rational(0, $d, $d * $w + $n);
     }
 
     /**************************************************************************
      * BINARY FUNCTIONS
      **************************************************************************/
- 
+
     /**
      * Addition
      *
@@ -186,7 +215,7 @@ class Rational implements ObjectArithmetic
      */
     public function add($r): Rational
     {
-        if (is_int($r)) {
+        if (\is_int($r)) {
             return $this->addInt($r);
         } elseif ($r instanceof Rational) {
             return $this->addRational($r);
@@ -228,7 +257,7 @@ class Rational implements ObjectArithmetic
         $w += $rw;
 
         $lcm = Algebra::lcm($d, $rd);
-        $n = $n * intdiv($lcm, $d) + $rn * intdiv($lcm, $rd);
+        $n = $n * \intdiv($lcm, $d) + $rn * \intdiv($lcm, $rd);
         $d = $lcm;
 
         return new Rational($w, $n, $d);
@@ -245,7 +274,7 @@ class Rational implements ObjectArithmetic
      */
     public function subtract($r): Rational
     {
-        if (is_int($r)) {
+        if (\is_int($r)) {
             return $this->add(-1 * $r);
         } elseif ($r instanceof Rational) {
             return $this->add($r->multiply(-1));
@@ -266,7 +295,7 @@ class Rational implements ObjectArithmetic
      */
     public function multiply($r): Rational
     {
-        if (is_int($r)) {
+        if (\is_int($r)) {
             return $this->multiplyInt($r);
         } elseif ($r instanceof Rational) {
             return $this->multiplyRational($r);
@@ -325,7 +354,7 @@ class Rational implements ObjectArithmetic
      */
     public function divide($r): Rational
     {
-        if (is_int($r)) {
+        if (\is_int($r)) {
             return $this->divideInt($r);
         } elseif ($r instanceof Rational) {
             return $this->divideRational($r);
@@ -371,6 +400,31 @@ class Rational implements ObjectArithmetic
         $new_d = $d * ($w2 * $d2 + $n2);
 
         return new Rational($new_w, $new_n, $new_d);
+    }
+
+    /**
+     * A rational number raised to an integer exponent
+     *
+     * @param int $p The exponent
+     *
+     * @return Rational Exponentiation
+     *
+     * @throws Exception\DivisionByZeroException if R is 0 and it is raised to a negative power
+     */
+    public function pow(int $p): Rational
+    {
+        $w = $this->whole;
+        $n = $this->numerator;
+        $d = $this->denominator;
+        if ($p < 0) {
+            if ($w == 0 && $n == 0) {
+                throw new Exception\DivisionByZeroException('Cannot raise zero to a negative exponent.');
+            }
+            $p = \abs($p);
+            return new Rational(0, $d ** $p, ($d * $w + $n) ** $p);
+        } else {
+            return new Rational(0, ($d * $w + $n) ** $p, $d ** $p);
+        }
     }
 
     /**************************************************************************
@@ -419,13 +473,13 @@ class Rational implements ObjectArithmetic
         }
 
         // Reduce the fraction
-        if (abs($n) >= $d) {
-            $w += intdiv($n, $d);
+        if (\abs($n) >= $d) {
+            $w += \intdiv($n, $d);
             $n = $n % $d;
         }
         $gcd = 0;
         while ($gcd != 1 && $n !== 0) {
-            $gcd = abs(Algebra::gcd($n, $d));
+            $gcd = \abs(Algebra::gcd($n, $d));
             $n /= $gcd;
             $d /= $gcd;
         }
@@ -433,7 +487,7 @@ class Rational implements ObjectArithmetic
         // Make the signs of $n and $w match
         if (Special::sgn($w) !== Special::sgn($n) && $w !== 0 && $n !== 0) {
             $w = $w - Special::sgn($w);
-            $n = ($d - abs($n)) * Special::sgn($w);
+            $n = ($d - \abs($n)) * Special::sgn($w);
         }
 
         if ($n == 0) {

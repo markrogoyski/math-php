@@ -24,7 +24,7 @@ class MultinomialTest extends \PHPUnit\Framework\TestCase
         $pmf = $multinomial->pmf($frequencies);
 
         // Then
-        $this->assertEquals($expectedPmf, $pmf, '', 0.001);
+        $this->assertEqualsWithDelta($expectedPmf, $pmf, 0.001);
     }
 
     /**

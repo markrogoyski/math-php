@@ -23,7 +23,7 @@ class BinomialTest extends \PHPUnit\Framework\TestCase
         $pdf = $binomial->pmf($r);
 
         // Then
-        $this->assertEquals($expectedPmf, $pdf, '', 0.0000001);
+        $this->assertEqualsWithDelta($expectedPmf, $pdf, 0.0000001);
     }
 
     /**
@@ -72,7 +72,7 @@ class BinomialTest extends \PHPUnit\Framework\TestCase
         $cdf = $binomial->cdf($r);
 
         // Then
-        $this->assertEquals($expectedCdf, $cdf, '', 0.0000001);
+        $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.0000001);
     }
 
     /**
@@ -120,7 +120,7 @@ class BinomialTest extends \PHPUnit\Framework\TestCase
         $mean = $binomial->mean();
 
         // Then
-        $this->assertEquals($μ, $mean, '', 0.000001);
+        $this->assertEqualsWithDelta($μ, $mean, 0.000001);
     }
 
     /**
@@ -154,7 +154,7 @@ class BinomialTest extends \PHPUnit\Framework\TestCase
         $variance = $binomial->variance();
 
         // Then
-        $this->assertEquals($σ², $variance, '', 0.000001);
+        $this->assertEqualsWithDelta($σ², $variance, 0.000001);
     }
 
     /**

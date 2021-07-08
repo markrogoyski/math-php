@@ -23,7 +23,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
         $pdf = $exponential->pdf($x);
 
         // Then
-        $this->assertEquals($expected_pdf, $pdf, '', 0.000001);
+        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.000001);
     }
 
     /**
@@ -84,7 +84,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
         $cdf = $exponential->cdf($x);
 
         // Then
-        $this->assertEquals($expected_cdf, $cdf, '', 0.0000001);
+        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.0000001);
     }
 
     /**
@@ -148,7 +148,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
         $mean = $exponential->mean();
 
         // then
-        $this->assertEquals($μ, $mean, '', 0.0001);
+        $this->assertEqualsWithDelta($μ, $mean, 0.0001);
     }
 
     /**
@@ -179,7 +179,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
         $median = $exponential->median();
 
         // then
-        $this->assertEquals($expectedMedian, $median, '', 0.0000001);
+        $this->assertEqualsWithDelta($expectedMedian, $median, 0.0000001);
     }
 
     /**
@@ -227,7 +227,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
         $variance = $exponential->variance();
 
         // then
-        $this->assertEquals($expectedVariance, $variance, '', 0.0000001);
+        $this->assertEqualsWithDelta($expectedVariance, $variance, 0.0000001);
     }
 
     /**
@@ -260,7 +260,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
         $inverse = $exponential->inverse($p);
 
         // Then
-        $this->assertEquals($expectedInverse, $inverse, '', 0.00001);
+        $this->assertEqualsWithDelta($expectedInverse, $inverse, 0.00001);
     }
 
     /**
@@ -280,7 +280,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
         $inverse_of_cdf = $exponential->inverse($cdf);
 
         // Then
-        $this->assertEquals($p, $inverse_of_cdf, '', 0.000001);
+        $this->assertEqualsWithDelta($p, $inverse_of_cdf, 0.000001);
     }
 
     /**
@@ -370,8 +370,8 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(1, 4) as $λ) {
-            foreach (range(1, 20) as $_) {
+        foreach (\range(1, 4) as $λ) {
+            foreach (\range(1, 20) as $_) {
                 // Given
                 $exponential = new Exponential($λ);
 
@@ -379,7 +379,7 @@ class ExponentialTest extends \PHPUnit\Framework\TestCase
                 $random = $exponential->rand();
 
                 // Then
-                $this->assertTrue(is_numeric($random));
+                $this->assertTrue(\is_numeric($random));
             }
         }
     }

@@ -3,8 +3,8 @@
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
 use MathPHP\Exception;
-use MathPHP\Functions\Polynomial;
-use MathPHP\Functions\Piecewise;
+use MathPHP\Expression\Polynomial;
+use MathPHP\Expression\Piecewise;
 
 /**
  * Natural Cubic Spline Interpolating Polynomial
@@ -63,7 +63,7 @@ class NaturalCubicSpline extends Interpolation
         $y = self::Y;
 
         // Initialize
-        $n     = count($sorted);
+        $n     = \count($sorted);
         $k     = $n - 1;
         $h     = [];
         $a     = [];

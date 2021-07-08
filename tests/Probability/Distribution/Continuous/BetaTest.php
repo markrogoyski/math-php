@@ -24,7 +24,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $pdf = $beta->pdf($x);
 
         // Then
-        $this->assertEquals($expected_pdf, $pdf, '', 0.0000001);
+        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.0000001);
     }
 
     /**
@@ -301,7 +301,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     public function testPdfExceptionXOutOfBounds(float $x)
     {
         // Given
-        list($α, $β) = [1, 1];
+        [$α, $β] = [1, 1];
         $beta = new Beta($α, $β);
 
         // Then
@@ -344,7 +344,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $cdf = $beta->cdf($x);
 
         // Then
-        $this->assertEquals($expected_cdf, $cdf, '', 0.000001);
+        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.000001);
     }
 
     /**
@@ -780,7 +780,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $mean = $beta->mean();
 
         // Then
-        $this->assertEquals($μ, $mean, '', 0.000001);
+        $this->assertEqualsWithDelta($μ, $mean, 0.000001);
     }
 
     /**
@@ -811,7 +811,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $median = $beta->median();
 
         // Then
-        $this->assertEquals($expected, $median, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $median, 0.000001);
     }
 
     /**
@@ -867,7 +867,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $median = $beta->median();
 
         // Then
-        $ε = abs($expected - $median);
+        $ε = \abs($expected - $median);
         $η = $ε / $expected;
         $this->assertLessThan($expectedError, $η);
     }
@@ -907,7 +907,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $mode = $beta->mode();
 
         // Then
-        $this->assertEquals($expected, $mode, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $mode, 0.000001);
     }
 
     /**
@@ -943,7 +943,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $variance = $beta->variance();
 
         // Then
-        $this->assertEquals($expected, $variance, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $variance, 0.000001);
     }
 
     /**
@@ -981,7 +981,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
         $inverse = $beta->inverse($x);
 
         // Then
-        $this->assertEquals($expected_inverse, $inverse, '', 0.0000001);
+        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.0000001);
     }
 
     /**
@@ -1061,7 +1061,7 @@ class BetaTest extends \PHPUnit\Framework\TestCase
     public function testInverseFailToConvergeException()
     {
         // Given
-        list($α, $β, $x) = [2, 5, 0.6];
+        [$α, $β, $x]     = [2, 5, 0.6];
         $tolerance       = 1.0e-15;
         $max_iterations  = 2;
         $beta            = new Beta($α, $β);
@@ -1078,16 +1078,16 @@ class BetaTest extends \PHPUnit\Framework\TestCase
      */
     public function testRand()
     {
-        foreach (range(1, 10) as $α) {
-            foreach (range(1, 10) as $β) {
+        foreach (\range(1, 10) as $α) {
+            foreach (\range(1, 10) as $β) {
                 // Given
                 $beta = new Beta($α, $β);
-                foreach (range(1, 3) as $_) {
+                foreach (\range(1, 3) as $_) {
                     // When
                     $random = $beta->rand();
 
                     // Then
-                    $this->assertTrue(is_numeric($random));
+                    $this->assertTrue(\is_numeric($random));
                 }
             }
         }

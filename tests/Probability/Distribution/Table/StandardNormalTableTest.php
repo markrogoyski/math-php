@@ -5,7 +5,7 @@ namespace MathPHP\Tests\Probability\Distribution\Table;
 use MathPHP\Probability\Distribution\Table\StandardNormal;
 use MathPHP\Exception;
 
-class StandardNormalTest extends \PHPUnit\Framework\TestCase
+class StandardNormalTableTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -21,7 +21,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
         $score = StandardNormal::getZScoreProbability($Z);
 
         // Then
-        $this->assertEquals($Φ, $score, '', 0.0001);
+        $this->assertEqualsWithDelta($Φ, $score, 0.0001);
     }
 
     public function dataProviderForZScores(): array
@@ -52,17 +52,17 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         confidence interval score
      * @dataProvider dataProviderForZScoresForConfidenceInterval
-     * @param        string $cl
+     * @param        mixed $cl
      * @param        float  $Z
      * @throws       \Exception
      */
-    public function testGetZScoreForConfidenceInterval(string $cl, float $Z)
+    public function testGetZScoreForConfidenceInterval($cl, float $Z)
     {
         // When
         $score = StandardNormal::getZScoreForConfidenceInterval($cl);
 
         // Then
-        $this->assertEquals($Z, $score, '', 0.01);
+        $this->assertEqualsWithDelta($Z, $score, 0.01);
     }
 
     public function dataProviderForZScoresForConfidenceInterval(): array

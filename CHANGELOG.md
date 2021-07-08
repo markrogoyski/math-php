@@ -1,6 +1,138 @@
 # MathPHP Change Log
 
-## 1.3.0 - 2020-08-24
+## v2.1.0 - 2021-07-07
+
+### New Features
+* Quaternion numbers
+
+## v2.0.0 - 2021-05-09
+
+### New Features
+* Matrix Improvements
+  * `walk` method to map a function to all values without mutation or returning a value
+  * `MatrixFactory` creates more matrix types
+  * `MatrixFactory::createNumeric` to create `NumericMatrix` types
+  * `MatrixFactory::createFromRowVector`
+  * `MatrixFactory::createFromColumnVector`
+  * Internal `ObjectMatrix` improvements
+    * Add `trace`
+    * Add `scalarMultiply`
+  * Add initial `ComplexMatrix`
+* Sample data People
+
+### Improvements
+* Bug fixes
+  * Issue 414 fixed - PCA/Eigenvalue convergence
+  * Issue 413 fixed - matrix solve with singular matrix using RREF
+
+## Migration - Upgrading to v2.0 from v1.0
+* PHP minimum version now 7.2 (was 7.0)
+* Deprecated code removed (backwards-incompatible change)
+  * `MathPHP\Statistics\Distance::kullbackLeiblerDivergence` removed (Use `MathPHP\Statistics\Divergence::kullbackLeibler` instead)
+  * `MathPHP\Statistics\Distance::jensenShannonDivergence` removed (Use `MathPHP\Statistics\Divergence::jensenShannon` instead)
+  * Matrix Decompositions no longer implement `\ArrayAccess` interface to access decomposition matrixes. Use properties instead.
+    * `MathPHP\LinearAlgebra\Decomposition\Cholesky`
+      * `$cholesky['L']`, `$cholesky['Lᵀ']`, `$cholesky['LT']` removed, use `$cholesky->L`, `$cholesky->Lᵀ`, `$cholesky->LT` instead.
+    * `MathPHP\LinearAlgebra\Decomposition\Crout`
+      * `$crout['L']`, `$crout['U']` removed, use `$crout->L`, `$crout->U` instead.
+    * `MathPHP\LinearAlgebra\Decomposition\LU`
+      * `$LU['L']`, `LU['U']`, `LU['P']` removed, use `$LU->L`, `$LU->U`, `$LU->P` instead.
+    * `MathPHP\LinearAlgebra\Decomposition\QR`
+      * `$QR['Q']`, `$QR['R']` removed, use `$QR->Q`, `$QR->R` instead.
+* Methods renamed (backwards-incompatible change)
+  * `MathPHP\Statistics\Distance::bhattacharyyaDistance` renamed to `MathPHP\Statistics\Distance::bhattacharyya`
+  * `MathPHP\Statistics\Distance::hellingerDistance` renamed to `MathPHP\Statistics\Distance::hellinger`
+* Moved Functionality (backwards-incompatible change)
+  * `MathPHP\Functions\Polynomial` moved to `MathPHP\Expression\Polynomial`
+  * `MathPHP\Functions\Piecewise` moved to `MathPHP\Expression\Piecewise`
+* Matrix internal refactoring
+  * Note: These changes will not affect any client code as long as matrices were created using `MatrixFactory`.
+  * `Matrix` is not a base abstract class for all matrix classes to extend
+  * `Matrix` renamed `NumericMatrix`
+  * `Matrix` base method `createZeroValue`
+    * Use case is various `ObjectMatrix` classes that implement `ObjectArithmetic`
+  * `RowVector` removed. Use `MatrixFactory::createFromRowVector` instead
+  * `ColumnVector` removed. Use `MatrixFactory::createFromColumnVector` instead
+
+## v1.11.0 - 2021-05-09
+
+### Improvements
+* Bugfix (Issue 413): Matrix solve with singular matrix using RREF
+* Bugfix (Issue 414): PCA/Eigenvalue convergence
+
+## v1.10.0 - 2020-12-19
+
+### Improvements
+* Bugfix (Issue 356): Fix Finance IRR NANs
+
+## v1.9.0 - 2020-12-13
+
+### New Features
+* Vector min and max
+* Arithmetic isqrt (integer square root)
+
+### Improvements
+* Remove Travis CI (Moved CI to Github Actions in v1.8.0 release)
+* Rearrange non-code files
+
+## v1.8.0 - 2020-12-11
+
+### Improvements
+* Improve permutations algorithm to be more efficient and more numerically stable
+* Qualify PHP function names with root namespace
+* Move CI to Github Actions
+
+## v1.7.0 - 2020-11-15
+
+### New Features
+* Algebra linear equation of one variable
+* Rational number inverse
+* Rational number pow
+
+### Improvements
+* Improve combinations algorithm to be more efficient and more numerically stable
+* Internal Matrix class reorganization
+
+## v1.6.0 - 2020-10-22
+
+### New Features
+* Special function regularized lower incomplete gamma
+* Cereal sample data set
+
+### Improvements
+* Define boundary condition for lower incomplete gamma function
+
+## v1.5.0 - 2020-10-12
+
+### New Features
+* Matrix LU solve
+* Matrix QR solve
+
+### Improvements
+* Bugfix (Issue 386) Matrix solve improvements
+* Matrix solve has optional method parameter to force a solve method
+* Bugfix ArbitraryInteger multiplication sign not taken into account
+
+## v1.4.0 - 2020-10-02
+
+### New Features
+* Multivariate Regular Grid Interpolation
+* Jensen-Shannon Distance
+* Canberra Distance
+* Search Sorted
+* Search ArgMax
+* Search NanArgMax
+* Search ArgMin
+* Search NanArgMin
+* Search NonZero
+
+### Improvements
+ * Divergence factored out of Distance into new Divergence class
+
+### Backwards Incompatible Changes
+ * Legacy Distance divergences marked as deprecated (To be removed in v2.0.0)
+
+## v1.3.0 - 2020-08-24
 
 ### New Features
 * LinearAlgebra\Vector

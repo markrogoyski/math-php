@@ -17,10 +17,10 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
     public function testRegularGridAgrees(array $point, float $expected)
     {
         // Given
-        list($points, $values) = $this->getSample4d();
+        [$points, $values] = $this->getSample4d();
 
         // And
-        $p = RegularGridInterpolator::interpolate($points, $values);
+        $p = new RegularGridInterpolator($points, $values);
 
         // When
         $evaluated = $p($point);
@@ -37,12 +37,12 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForRegularGridAgrees(): array
     {
         return [
-            //test_linear_xi3d
+            // test_linear_xi3d
             [[0.1, 0.1, 1., .9], 1001.1],
             [[0.2, 0.1, .45, .8], 846.2],
             [[0.5, 0.5, .5, .5], 555.5],
 
-            //test_linear_edges
+            // test_linear_edges
             [[0., 0., 0., 0.], 0.],
             [[1., 1., 1., 1.], 1111.],
         ];
@@ -57,10 +57,10 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
     public function testRegularGridNearestAgrees(array $point, $expected)
     {
         // Given
-        list($points, $values) = $this->getSample4d();
+        [$points, $values] = $this->getSample4d();
 
         // And
-        $p = RegularGridInterpolator::interpolate($points, $values, RegularGridInterpolator::METHOD_NEAREST);
+        $p = new RegularGridInterpolator($points, $values, RegularGridInterpolator::METHOD_NEAREST);
 
         // When
         $evaluated = $p($point);
@@ -127,7 +127,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp([2.21, 12.1, 115.9]);
 
         // Then
-        $this->assertEquals(-75.18, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(-75.18, $result, 0.00001);
     }
 
     /**
@@ -174,16 +174,16 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp([2.21, 12.1, 115.9]);
 
         // Then
-        $this->assertEquals(-76, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(-76, $result, 0.00001);
     }
 
     /**
-     * SciPy documentation example 1
+     * @test SciPy documentation example 1
      * https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html#scipy.interpolate.RegularGridInterpolator
      *
      * from scipy.interpolate import RegularGridInterpolator
      * def f(x, y, z):
-     * return 2 * x**3 + 3 * y**2 - z
+     *   return 2 * x**3 + 3 * y**2 - z
      * x = np.linspace(1, 4, 11)
      * y = np.linspace(4, 7, 22)
      * z = np.linspace(7, 9, 33)
@@ -197,16 +197,20 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $xs = [1. , 1.3, 1.6, 1.9, 2.2, 2.5, 2.8, 3.1, 3.4, 3.7, 4.];
-        $ys = [4.        , 4.14285714, 4.28571429, 4.42857143, 4.57142857,
+        $ys = [
+            4.        , 4.14285714, 4.28571429, 4.42857143, 4.57142857,
             4.71428571, 4.85714286, 5.        , 5.14285714, 5.28571429,
             5.42857143, 5.57142857, 5.71428571, 5.85714286, 6.        ,
             6.14285714, 6.28571429, 6.42857143, 6.57142857, 6.71428571,
-            6.85714286, 7.];
-        $zs = [7.    , 7.0625, 7.125 , 7.1875, 7.25  , 7.3125, 7.375 , 7.4375,
+            6.85714286, 7.
+        ];
+        $zs = [
+            7.    , 7.0625, 7.125 , 7.1875, 7.25  , 7.3125, 7.375 , 7.4375,
             7.5   , 7.5625, 7.625 , 7.6875, 7.75  , 7.8125, 7.875 , 7.9375,
             8.    , 8.0625, 8.125 , 8.1875, 8.25  , 8.3125, 8.375 , 8.4375,
             8.5   , 8.5625, 8.625 , 8.6875, 8.75  , 8.8125, 8.875 , 8.9375,
-            9.];
+            9.
+        ];
 
         // And
         $func = function ($x, $y, $z) {
@@ -228,16 +232,16 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp([2.1, 6.2, 8.3]);
 
         // Then
-        $this->assertEquals(125.80469388, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(125.80469388, $result, 0.00001);
     }
 
     /**
-     * SciPy documentation example 2
+     * @test SciPy documentation example 2
      * https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html#scipy.interpolate.RegularGridInterpolator
      *
      * from scipy.interpolate import RegularGridInterpolator
      * def f(x, y, z):
-     * return 2 * x**3 + 3 * y**2 - z
+     *   return 2 * x**3 + 3 * y**2 - z
      * x = np.linspace(1, 4, 11)
      * y = np.linspace(4, 7, 22)
      * z = np.linspace(7, 9, 33)
@@ -245,22 +249,26 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
      * my_interpolating_function = RegularGridInterpolator((x, y, z), data)
      * pts = np.array([[3.3, 5.2, 7.1]])
      * my_interpolating_function(pts)
-     * array([ 125.80469388,  146.30069388])
+     * array([146.30069388])
      */
     public function testSciPyExample2()
     {
         // Given
         $xs = [1. , 1.3, 1.6, 1.9, 2.2, 2.5, 2.8, 3.1, 3.4, 3.7, 4.];
-        $ys = [4.        , 4.14285714, 4.28571429, 4.42857143, 4.57142857,
+        $ys = [
+            4.        , 4.14285714, 4.28571429, 4.42857143, 4.57142857,
             4.71428571, 4.85714286, 5.        , 5.14285714, 5.28571429,
             5.42857143, 5.57142857, 5.71428571, 5.85714286, 6.        ,
             6.14285714, 6.28571429, 6.42857143, 6.57142857, 6.71428571,
-            6.85714286, 7.];
-        $zs = [7.    , 7.0625, 7.125 , 7.1875, 7.25  , 7.3125, 7.375 , 7.4375,
+            6.85714286, 7.
+        ];
+        $zs = [
+            7.    , 7.0625, 7.125 , 7.1875, 7.25  , 7.3125, 7.375 , 7.4375,
             7.5   , 7.5625, 7.625 , 7.6875, 7.75  , 7.8125, 7.875 , 7.9375,
             8.    , 8.0625, 8.125 , 8.1875, 8.25  , 8.3125, 8.375 , 8.4375,
             8.5   , 8.5625, 8.625 , 8.6875, 8.75  , 8.8125, 8.875 , 8.9375,
-            9.];
+            9.
+        ];
 
         // And
         $func = function ($x, $y, $z) {
@@ -282,7 +290,129 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp([3.3, 5.2, 7.1]);
 
         // Then
-        $this->assertEquals(146.30069388, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(146.30069388, $result, 0.00001);
+    }
+
+    /**
+     * @test Interpolated point values are outside the domain of the input data grid. Values outside the domain are extrapolated.
+     *       Linear method.
+     *       This test will hit the condition in the findIndices method where i > gridSize - 2.
+     *
+     * https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html#scipy.interpolate.RegularGridInterpolator
+     *
+     * from scipy.interpolate import RegularGridInterpolator
+     * def f(x, y, z):
+     *   return 2 * x**3 + 3 * y**2 - z
+     * x = np.linspace(1, 4, 11)
+     * y = np.linspace(4, 7, 22)
+     * z = np.linspace(7, 9, 33)
+     * data = f(*np.meshgrid(x, y, z, indexing='ij', sparse=True))
+     * my_interpolating_function = RegularGridInterpolator((x, y, z), data, method='linear', bounds_error=False, fill_value=None)
+     * pts = np.array([[3.3, 7.2, 7.1]]) # 7.2 is outside the bounds of the grid
+     * my_interpolating_function(pts)
+     * array([220.48028571])
+     */
+    public function testInterpolatedPointValuesOutsideDomainOfInputDataGridAreExtrapolatedLinear()
+    {
+        // Given
+        $xs = [1. , 1.3, 1.6, 1.9, 2.2, 2.5, 2.8, 3.1, 3.4, 3.7, 4.];
+        $ys = [
+            4.        , 4.14285714, 4.28571429, 4.42857143, 4.57142857,
+            4.71428571, 4.85714286, 5.        , 5.14285714, 5.28571429,
+            5.42857143, 5.57142857, 5.71428571, 5.85714286, 6.        ,
+            6.14285714, 6.28571429, 6.42857143, 6.57142857, 6.71428571,
+            6.85714286, 7.
+        ];
+        $zs = [
+            7.    , 7.0625, 7.125 , 7.1875, 7.25  , 7.3125, 7.375 , 7.4375,
+            7.5   , 7.5625, 7.625 , 7.6875, 7.75  , 7.8125, 7.875 , 7.9375,
+            8.    , 8.0625, 8.125 , 8.1875, 8.25  , 8.3125, 8.375 , 8.4375,
+            8.5   , 8.5625, 8.625 , 8.6875, 8.75  , 8.8125, 8.875 , 8.9375,
+            9.
+        ];
+
+        // And
+        $func = function ($x, $y, $z) {
+            return 2 * $x ** 3 + 3 * $y ** 2 - $z;
+        };
+
+        // And
+        $data = [];
+        foreach ($xs as $i => $x) {
+            foreach ($ys as $j => $y) {
+                foreach ($zs as $k => $z) {
+                    $data[$i][$j][$k] = $func($x, $y, $z);
+                }
+            }
+        }
+
+        // When
+        $interp = new RegularGridInterpolator([$xs, $ys, $zs], $data, 'linear');
+        $result = $interp([3.3, 7.2, 7.1]);  // 7.2 is outside the bounds of the grid
+
+        // Then
+        $this->assertEqualsWithDelta(220.48028571, $result, 0.00001);
+    }
+
+    /**
+     * @test Interpolated point values are outside the domain of the input data grid. Values outside the domain are extrapolated.
+     *       Nearest method.
+     *       This test will hit the condition in the findIndices method where i > gridSize - 2.
+     *
+     * https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html#scipy.interpolate.RegularGridInterpolator
+     *
+     * from scipy.interpolate import RegularGridInterpolator
+     * def f(x, y, z):
+     *   return 2 * x**3 + 3 * y**2 - z
+     * x = np.linspace(1, 4, 11)
+     * y = np.linspace(4, 7, 22)
+     * z = np.linspace(7, 9, 33)
+     * data = f(*np.meshgrid(x, y, z, indexing='ij', sparse=True))
+     * my_interpolating_function = RegularGridInterpolator((x, y, z), data, method='nearest', bounds_error=False, fill_value=None)
+     * pts = np.array([[3.3, 7.2, 7.1]]) # 7.2 is outside the bounds of the grid
+     * my_interpolating_function(pts)
+     * array([220.48028571])
+     */
+    public function testInterpolatedPointValuesOutsideDomainOfInputDataGridAreExtrapolatedNearest()
+    {
+        // Given
+        $xs = [1. , 1.3, 1.6, 1.9, 2.2, 2.5, 2.8, 3.1, 3.4, 3.7, 4.];
+        $ys = [
+            4.        , 4.14285714, 4.28571429, 4.42857143, 4.57142857,
+            4.71428571, 4.85714286, 5.        , 5.14285714, 5.28571429,
+            5.42857143, 5.57142857, 5.71428571, 5.85714286, 6.        ,
+            6.14285714, 6.28571429, 6.42857143, 6.57142857, 6.71428571,
+            6.85714286, 7.
+        ];
+        $zs = [
+            7.    , 7.0625, 7.125 , 7.1875, 7.25  , 7.3125, 7.375 , 7.4375,
+            7.5   , 7.5625, 7.625 , 7.6875, 7.75  , 7.8125, 7.875 , 7.9375,
+            8.    , 8.0625, 8.125 , 8.1875, 8.25  , 8.3125, 8.375 , 8.4375,
+            8.5   , 8.5625, 8.625 , 8.6875, 8.75  , 8.8125, 8.875 , 8.9375,
+            9.
+        ];
+
+        // And
+        $func = function ($x, $y, $z) {
+            return 2 * $x ** 3 + 3 * $y ** 2 - $z;
+        };
+
+        // And
+        $data = [];
+        foreach ($xs as $i => $x) {
+            foreach ($ys as $j => $y) {
+                foreach ($zs as $k => $z) {
+                    $data[$i][$j][$k] = $func($x, $y, $z);
+                }
+            }
+        }
+
+        // When
+        $interp = new RegularGridInterpolator([$xs, $ys, $zs], $data, 'nearest');
+        $result = $interp([3.3, 7.2, 7.1]);  // 7.2 is outside the bounds of the grid
+
+        // Then
+        $this->assertEqualsWithDelta(218.483, $result, 0.00001);
     }
 
     /**
@@ -331,7 +461,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp($point);
 
         // Then
-        $this->assertEquals($expected, $result, '', 0.00001);
+        $this->assertEqualsWithDelta($expected, $result, 0.00001);
     }
 
     /**
@@ -414,7 +544,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $interp([1, 1, 2]);
 
         // Then
-        $this->assertEquals(13, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(13, $result, 0.00001);
     }
 
     /**
@@ -464,7 +594,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
      * [0. , 0.5, 1. ]]])
      * >>>
      * >>>
-     * >>> vals = np.sin(X) + np.cos(Y) + np.tan(Z)
+     * >>> vals = np. sin(X) + np.\cos(Y) + np.tan(Z)
      * >>> vals
      * array([[[1.        , 1.54630249, 2.55740772],
      * [0.87758256, 1.42388505, 2.43499029],
@@ -489,17 +619,22 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $x = [0., 0.5, 1.];
 
         // And
-        $vals = [[[1.        , 1.54630249, 2.55740772],
-            [0.87758256, 1.42388505, 2.43499029],
-            [0.54030231, 1.0866048 , 2.09771003]],
-
-            [[1.47942554, 2.02572803, 3.03683326],
+        $vals = [
+            [
+                [1.        , 1.54630249, 2.55740772],
+                [0.87758256, 1.42388505, 2.43499029],
+                [0.54030231, 1.0866048 , 2.09771003]
+            ],
+            [
+                [1.47942554, 2.02572803, 3.03683326],
                 [1.3570081 , 1.90331059, 2.91441583],
                 [1.01972784, 1.56603033, 2.57713557]],
-
-            [[1.84147098, 2.38777347, 3.39887871],
+            [
+                [1.84147098, 2.38777347, 3.39887871],
                 [1.71905355, 2.26535604, 3.27646127],
-                [1.38177329, 1.92807578, 2.93918102]]];
+                [1.38177329, 1.92807578, 2.93918102]
+            ]
+        ];
 
         // And
         $tst = [0.47, 0.49, 0.53];
@@ -509,7 +644,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $result = $rgi($tst);
 
         // Then
-        $this->assertEquals(1.93765972, $result, '', 0.00001);
+        $this->assertEqualsWithDelta(1.93765972, $result, 0.00001);
     }
 
     /**
@@ -525,7 +660,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $this->expectException(BadDataException::class);
 
         // When
-        RegularGridInterpolator::interpolate([0], [0], $invalidMethod);
+        $rgi = new RegularGridInterpolator([0], [0], $invalidMethod);
     }
 
     /**
@@ -542,24 +677,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $this->expectException(BadDataException::class);
 
         // When
-        RegularGridInterpolator::interpolate($points, $values);
-    }
-
-    /**
-     * @test   Bad method (not defined)
-     * @throws BadDataException
-     */
-    public function testInvokeBadMethodException()
-    {
-        // Given
-        $invalidMethod = 'methodDoesNotExist';
-        $interp = RegularGridInterpolator::interpolate([0], [0]);
-
-        // Then
-        $this->expectException(BadDataException::class);
-
-        // When
-        $interp([0], $invalidMethod);
+        $rgi = new RegularGridInterpolator($points, $values);
     }
 
     /**
@@ -569,7 +687,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
     public function testInvokeBadPointDimensionException()
     {
         // Given
-        $interp = RegularGridInterpolator::interpolate([0], [0]);
+        $interp = new RegularGridInterpolator([0], [0]);
 
         // Then
         $this->expectException(BadDataException::class);

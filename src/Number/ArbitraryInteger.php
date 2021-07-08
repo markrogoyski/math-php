@@ -39,8 +39,8 @@ class ArbitraryInteger implements ObjectArithmetic
     public function __construct($number)
     {
         $this->isPositive = true;
-        
-        if (is_int($number)) {
+
+        if (\is_int($number)) {
             if ($number < 0) {
                 // Since abs(PHP_INT_MIN) is PHP_INT_MAX + 1, we cannot just change the sign.
                 // This is more universal then making a single edge case for PHP_INT_MIN
@@ -48,21 +48,21 @@ class ArbitraryInteger implements ObjectArithmetic
                 $this->base256  = $positive->add(1)->toBinary();
                 $this->isPositive = false;
             } else {
-                $int_part = intdiv($number, 256);
-                $string   = chr($number % 256);
+                $int_part = \intdiv($number, 256);
+                $string   = \chr($number % 256);
                 while ($int_part > 0) {
-                    $string   = chr($int_part % 256) . $string;
-                    $int_part = intdiv($int_part, 256);
+                    $string   = \chr($int_part % 256) . $string;
+                    $int_part = \intdiv($int_part, 256);
                 }
                 $this->base256 = $string;
             }
-        } elseif (is_string($number)) {
+        } elseif (\is_string($number)) {
             if ($number == '') {
                 throw new Exception\BadParameterException("String cannot be empty.");
             }
             if ($number[0] == '-') {
                 $this->isPositive = false;
-                $number         = substr($number, 1);
+                $number         = \substr($number, 1);
             }
             $number = strtolower($number);
             $base    = 10;
@@ -71,20 +71,20 @@ class ArbitraryInteger implements ObjectArithmetic
                     $base = 10;
                 } elseif ($number[1] == 'x') {
                     $base   = 16;
-                    $number = substr($number, 2);
+                    $number = \substr($number, 2);
                 } elseif ($number[1] == 'b') {
                     $base   = 2;
-                    $number = substr($number, 2);
+                    $number = \substr($number, 2);
                 } else {
                     $base   = 8;
-                    $number = substr($number, 1);
+                    $number = \substr($number, 1);
                 }
             }
             $base256       = BaseEncoderDecoder::createArbitraryInteger($number, $base);
             $this->base256 = $base256->toBinary();
         } else {
             // Not an int, and not a string
-            throw new Exception\IncorrectTypeException("Number can only be an int or a string: type '" . gettype($number) . "' provided");
+            throw new Exception\IncorrectTypeException("Number can only be an int or a string: type '" . \gettype($number) . "' provided");
         }
     }
 
@@ -100,11 +100,11 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public static function create($number): ArbitraryInteger
     {
-        if (!is_object($number)) {
+        if (!\is_object($number)) {
             return new ArbitraryInteger($number);
         }
 
-        $class = get_class($number);
+        $class = \get_class($number);
         if ($class == self::class) {
             return $number;
         }
@@ -132,6 +132,16 @@ class ArbitraryInteger implements ObjectArithmetic
     }
 
     /**
+     * Zero value: 0
+     *
+     * @return ArbitraryInteger
+     */
+    public static function createZeroValue(): ObjectArithmetic
+    {
+        return new ArbitraryInteger(0);
+    }
+
+    /**
      * Directly set the class properties
      *
      * @param string $value
@@ -139,9 +149,9 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     protected function setVariables(string $value, bool $positive)
     {
-        $value = ltrim($value, chr(0));
+        $value = \ltrim($value, \chr(0));
         if ($value == '') {
-            $value = chr(0);
+            $value = \chr(0);
         }
         $this->base256  = $value;
         $this->isPositive = $positive;
@@ -162,14 +172,14 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function toInt(): int
     {
-        $number      = str_split(strrev($this->base256));
+        $number      = \str_split(\strrev($this->base256));
         $place_value = 1;
-        $int         = ord($number[0]);
+        $int         = \ord($number[0]);
         unset($number[0]);
 
         foreach ($number as $digit) {
             $place_value *= 256;
-            $int         += ord($digit) * $place_value;
+            $int         += \ord($digit) * $place_value;
         }
 
         return $int * ($this->isPositive ? 1 : -1);
@@ -182,17 +192,17 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function toFloat(): float
     {
-        $number      = str_split(strrev($this->base256));
+        $number      = \str_split(\strrev($this->base256));
         $place_value = 1;
-        $float       = ord($number[0]);
+        $float       = \ord($number[0]);
         unset($number[0]);
 
         foreach ($number as $digit) {
             $place_value *= 256;
-            $float       += ord($digit) * $place_value;
+            $float       += \ord($digit) * $place_value;
         }
 
-        return floatval($float) * ($this->isPositive ? 1 : -1);
+        return \floatval($float) * ($this->isPositive ? 1 : -1);
     }
 
     /**
@@ -204,7 +214,7 @@ class ArbitraryInteger implements ObjectArithmetic
     {
         return $this->base256;
     }
-    
+
     /**
      * String representation - Display the number in base 10
      *
@@ -252,7 +262,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function negate(): ArbitraryInteger
     {
-        return self::fromBinary($this->base256, $this->base256 == chr(0) ? true : !$this->isPositive);
+        return self::fromBinary($this->base256, $this->base256 == \chr(0) ? true : !$this->isPositive);
     }
 
     /**
@@ -278,10 +288,10 @@ class ArbitraryInteger implements ObjectArithmetic
             return new static(0);
         }
 
-        $length = strlen($this->base256);
+        $length = \strlen($this->base256);
 
         // Start close to the value, at a number around half the digits.
-        $X        = self::fromBinary(substr($this->base256, 0, intdiv($length, 2) + 1), true);
+        $X        = self::fromBinary(\substr($this->base256, 0, \intdiv($length, 2) + 1), true);
         $lastX    = $X;
         $converge = false;
         while (!$converge) {
@@ -365,22 +375,22 @@ class ArbitraryInteger implements ObjectArithmetic
 
         $number   = $number->toBinary();
         $carry    = 0;
-        $len      = strlen($this->base256);
-        $num_len  = strlen($number);
-        $max_len  = max($len, $num_len);
-        $base_256 = str_pad($this->base256, $max_len, chr(0), STR_PAD_LEFT);
-        $number   = str_pad($number, $max_len, chr(0), STR_PAD_LEFT);
+        $len      = \strlen($this->base256);
+        $num_len  = \strlen($number);
+        $max_len  = \max($len, $num_len);
+        $base_256 = \str_pad($this->base256, $max_len, \chr(0), STR_PAD_LEFT);
+        $number   = \str_pad($number, $max_len, \chr(0), STR_PAD_LEFT);
         $result   = '';
 
         for ($i = 0; $i < $max_len; $i++) {
-            $base_chr = ord($base_256[$max_len - $i - 1]);
-            $num_chr  = ord($number[$max_len - $i - 1]);
+            $base_chr = \ord($base_256[$max_len - $i - 1]);
+            $num_chr  = \ord($number[$max_len - $i - 1]);
             $sum      = $base_chr + $num_chr + $carry;
-            $carry    = intdiv($sum, 256);
-            $result   = chr($sum % 256) . $result;
+            $carry    = \intdiv($sum, 256);
+            $result   = \chr($sum % 256) . $result;
         }
         if ($carry > 0) {
-            $result = chr($carry) . $result;
+            $result = \chr($carry) . $result;
         }
 
         return self::fromBinary($result, true);
@@ -400,7 +410,7 @@ class ArbitraryInteger implements ObjectArithmetic
     public function subtract($number): ArbitraryInteger
     {
         $number = self::create($number);
-        
+
         if (!$number->isPositive()) {
             return $this->add($number->negate());
         }
@@ -413,17 +423,17 @@ class ArbitraryInteger implements ObjectArithmetic
 
         $number   = $number->toBinary();
         $carry    = 0;
-        $len      = strlen($this->base256);
-        $num_len  = strlen($number);
-        $max_len  = max($len, $num_len);
-        $base_256 = str_pad($this->base256, $max_len, chr(0), STR_PAD_LEFT);
-        $number   = str_pad($number, $max_len, chr(0), STR_PAD_LEFT);
+        $len      = \strlen($this->base256);
+        $num_len  = \strlen($number);
+        $max_len  = \max($len, $num_len);
+        $base_256 = \str_pad($this->base256, $max_len, \chr(0), STR_PAD_LEFT);
+        $number   = \str_pad($number, $max_len, \chr(0), STR_PAD_LEFT);
         $result   = '';
 
         for ($i = 0; $i < $max_len; $i++) {
-            $base_chr = ord($base_256[$max_len - $i - 1]) - $carry;
+            $base_chr = \ord($base_256[$max_len - $i - 1]) - $carry;
             $carry    = 0;
-            $num_chr  = ord($number[$max_len - $i - 1]);
+            $num_chr  = \ord($number[$max_len - $i - 1]);
 
             if ($num_chr > $base_chr) {
                 $base_chr += 256;
@@ -431,7 +441,7 @@ class ArbitraryInteger implements ObjectArithmetic
             }
 
             $difference = $base_chr - $num_chr;
-            $result     = chr($difference) . $result;
+            $result     = \chr($difference) . $result;
         }
 
         return self::fromBinary($result, true);
@@ -451,34 +461,34 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function multiply($number): ArbitraryInteger
     {
-        $number  = self::create($number);
-        $number  = $number->toBinary();
-        $length  = strlen($number);
+        $number_obj  = self::create($number);
+        $number  = $number_obj->toBinary();
+        $length  = \strlen($number);
         $product = new ArbitraryInteger(0);
 
         for ($i = 1; $i <= $length; $i++) {
-            $this_len      = strlen($this->base256);
-            $base_digit    = ord(substr($number, -1 * $i, 1));
+            $this_len      = \strlen($this->base256);
+            $base_digit    = \ord(\substr($number, -1 * $i, 1));
             $carry         = 0;
             $inner_product = '';
 
             for ($j = 1; $j <= $this_len; $j++) {
-                $digit         = ord(substr($this->base256, -1 * $j, 1));
+                $digit         = \ord(\substr($this->base256, -1 * $j, 1));
                 $step_product  = $digit * $base_digit + $carry;
                 $mod           = $step_product % 256;
-                $carry         = intdiv($step_product, 256);
-                $inner_product = chr($mod) . $inner_product;
+                $carry         = \intdiv($step_product, 256);
+                $inner_product = \chr($mod) . $inner_product;
             }
             if ($carry > 0) {
-                $inner_product = chr($carry) . $inner_product;
+                $inner_product = \chr($carry) . $inner_product;
             }
 
-            $inner_product = $inner_product . str_repeat(chr(0), $i - 1);
-            $inner_obj     = self::fromBinary($inner_product, $this->isPositive);
+            $inner_product = $inner_product . \str_repeat(\chr(0), $i - 1);
+            $inner_obj     = self::fromBinary($inner_product, true);
             $product       = $product->add($inner_obj);
         }
 
-        return $product;
+        return ($this->isPositive ^ $number_obj->isPositive()) ? $product->negate() : $product;
     }
 
     /**
@@ -493,7 +503,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function intdiv($divisor): ArbitraryInteger
     {
-        list($int, $mod) = $this->fullIntdiv($divisor);
+        [$int, $mod] = $this->fullIntdiv($divisor);
         return $int;
     }
 
@@ -509,7 +519,7 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function mod($divisor): ArbitraryInteger
     {
-        list($int, $mod) = $this->fullIntdiv($divisor);
+        [$int, $mod] = $this->fullIntdiv($divisor);
         return $mod;
     }
 
@@ -532,23 +542,23 @@ class ArbitraryInteger implements ObjectArithmetic
 
         // If the divisor is less than Int_max / 256 then
         // the native php intdiv and mod functions can be used.
-        $safe_bytes = new ArbitraryInteger(intdiv(PHP_INT_MAX, 256));
+        $safe_bytes = new ArbitraryInteger(\intdiv(\PHP_INT_MAX, 256));
         $divisor    = self::create($divisor);
 
         if ($divisor->lessThan($safe_bytes)) {
             $divisor  = $divisor->toInt();
             $base_256 = $this->base256;
-            $len      = strlen($base_256);
+            $len      = \strlen($base_256);
 
             $carry = 0;
             $int   = '';
             for ($i = 0; $i < $len; $i++) {
-                $chr_obj = self::fromBinary(substr($base_256, $i, 1), $this->isPositive);  // Grab same number of chars from $this
+                $chr_obj = self::fromBinary(\substr($base_256, $i, 1), $this->isPositive);  // Grab same number of chars from $this
                 $chr     = $chr_obj->toInt();
-                $int_chr = intdiv($chr + $carry * 256, $divisor);  // Calculate $int and $mod
+                $int_chr = \intdiv($chr + $carry * 256, $divisor);  // Calculate $int and $mod
                 $carry   = ($chr + $carry * 256) % $divisor;
                 if ($int !== '' || $int_chr !== 0) {
-                    $int .= chr($int_chr);
+                    $int .= \chr($int_chr);
                 }
             }
 
@@ -557,7 +567,7 @@ class ArbitraryInteger implements ObjectArithmetic
         } else {
             $int     = new ArbitraryInteger(0);
             $base256 = $this->base256;
-            $length  = strlen($base256);
+            $length  = \strlen($base256);
             $mod     = new ArbitraryInteger(0);
 
             // Pop a char of the left of $base256 onto the right of $mod
@@ -600,7 +610,7 @@ class ArbitraryInteger implements ObjectArithmetic
             return $this;
         }
 
-        list($int, $mod) = $exp->fullIntdiv(2);
+        [$int, $mod] = $exp->fullIntdiv(2);
         $square           = $this->multiply($this)->pow($int);
 
         if ($mod->equals(1)) {
@@ -627,26 +637,26 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function leftShift($bits)
     {
-        $bits               = self::create($bits);
-        $shifted_string     = '';
-        $length             = strlen($this->base256);
-        list($bytes, $bits) = $bits->fullIntdiv(8);
-        $bits               = $bits->toInt();
-        $carry              = 0;
+        $bits           = self::create($bits);
+        $shifted_string = '';
+        $length         = \strlen($this->base256);
+        [$bytes, $bits] = $bits->fullIntdiv(8);
+        $bits           = $bits->toInt();
+        $carry          = 0;
 
         for ($i = 0; $i < $length; $i++) {
-            $chr = ord($this->base256[$i]);
+            $chr = \ord($this->base256[$i]);
             // If $shifted string is empty, don’t add 0x00.
-            $new_value = chr($carry + intdiv($chr << $bits, 256));
-            if ($shifted_string !== "" || $new_value !== chr(0)) {
+            $new_value = \chr($carry + \intdiv($chr << $bits, 256));
+            if ($shifted_string !== "" || $new_value !== \chr(0)) {
                 $shifted_string .= $new_value;
             }
             $carry = ($chr << $bits) % 256;
         }
-        $shifted_string .= chr($carry);
+        $shifted_string .= \chr($carry);
 
         // Pad $bytes of 0x00 on the right.
-        $shifted_string = $shifted_string . str_repeat(chr(0), $bytes->toInt());
+        $shifted_string = $shifted_string . \str_repeat(\chr(0), $bytes->toInt());
 
         return self::fromBinary($shifted_string, true);
     }
@@ -712,11 +722,11 @@ class ArbitraryInteger implements ObjectArithmetic
         $int          = self::create($int);
         $base_256     = $this->base256;
         $int_256      = $int->toBinary();
-        $my_len       = strlen($base_256);
-        $int_len      = strlen($int_256);
+        $my_len       = \strlen($base_256);
+        $int_len      = \strlen($int_256);
         $my_positive  = $this->isPositive;
         $int_positive = $int->isPositive();
-        
+
         // Check if signs differ
         if ($my_positive && !$int_positive) {
             return false;
@@ -724,7 +734,7 @@ class ArbitraryInteger implements ObjectArithmetic
         if ($int_positive && !$my_positive) {
             return true;
         }
-        
+
         // If one number has more digits, its absolute value is larger.
         if ($my_len > $int_len) {
             return !$my_positive;
@@ -734,7 +744,7 @@ class ArbitraryInteger implements ObjectArithmetic
             // Test each digit from most significant to least.
             for ($i = 0; $i < $my_len; $i++) {
                 if ($base_256[$i] !== $int_256[$i]) {
-                    $test = ord($base_256[$i]) < ord($int_256[$i]);
+                    $test = \ord($base_256[$i]) < \ord($int_256[$i]);
                     return $my_positive ? $test : !$test;
                 }
             }

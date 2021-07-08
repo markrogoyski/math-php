@@ -25,8 +25,8 @@ class CroutTest extends \PHPUnit\Framework\TestCase
         $lu = $A->croutDecomposition();
 
         // Then
-        $this->assertEquals($L->getMatrix(), $lu->L->getMatrix(), '', 0.00001);
-        $this->assertEquals($U->getMatrix(), $lu->U->getMatrix(), '', 0.00001);
+        $this->assertEqualsWithDelta($L->getMatrix(), $lu->L->getMatrix(), 0.00001);
+        $this->assertEqualsWithDelta($U->getMatrix(), $lu->U->getMatrix(), 0.00001);
     }
 
     /**
@@ -171,116 +171,5 @@ class CroutTest extends \PHPUnit\Framework\TestCase
 
         // When
         $doesNotExist = $crout->doesNotExist;
-    }
-
-    /**
-     * @test   Crout Decomposition ArrayAccess
-     * @throws \Exception
-     */
-    public function testCroutDecompositionArrayAccess()
-    {
-        // Given
-        $A = MatrixFactory::create([
-            [5, 3, 4, 1],
-            [5, 6, 4, 3],
-            [7, 6, 5, 3],
-            [2, 7, 4, 7],
-        ]);
-        $crout = $A->croutDecomposition();
-
-        // When
-        $L = $crout['L'];
-        $U = $crout['U'];
-
-        // Then
-        $this->assertEquals($crout->L, $L);
-        $this->assertEquals($crout->U, $U);
-    }
-
-    /**
-     * @test   Crout Decomposition ArrayAccess invalid offset
-     * @throws \Exception
-     */
-    public function testCroutDecompositionArrayAccessInvalidOffset()
-    {
-        // Given
-        $A = MatrixFactory::create([
-            [5, 3, 4, 1],
-            [5, 6, 4, 3],
-            [7, 6, 5, 3],
-            [2, 7, 4, 7],
-        ]);
-        $crout = $A->croutDecomposition();
-
-        // Then
-        $this->assertFalse(isset($crout['doesNotExist']));
-    }
-
-    /**
-     * @test   Crout Decomposition ArrayAccess set disabled
-     * @throws \Exception
-     */
-    public function testCroutDecompositionArrayAccessSetDisabled()
-    {
-        // Given
-        $A = MatrixFactory::create([
-            [5, 3, 4, 1],
-            [5, 6, 4, 3],
-            [7, 6, 5, 3],
-            [2, 7, 4, 7],
-        ]);
-        $crout = $A->croutDecomposition();
-
-        // Then
-        $this->expectException(Exception\MatrixException::class);
-
-        // When
-        $crout['L'] = $A;
-    }
-
-    /**
-     * @test   Crout Decomposition ArrayAccess unset disabled
-     * @throws \Exception
-     */
-    public function testCroutDecompositionArrayAccessUnsetDisabled()
-    {
-        // Given
-        $A = MatrixFactory::create([
-            [5, 3, 4, 1],
-            [5, 6, 4, 3],
-            [7, 6, 5, 3],
-            [2, 7, 4, 7],
-        ]);
-        $crout = $A->croutDecomposition();
-
-        // Then
-        $this->expectException(Exception\MatrixException::class);
-
-        // When
-        unset($crout['L']);
-    }
-
-    /**
-     * @test   Crout Decomposition ArrayAccess Isset
-     * @throws \Exception
-     */
-    public function testArrayAccessIsset()
-    {
-        // Given
-        $A = MatrixFactory::create([
-            [5, 3, 4, 1],
-            [5, 6, 4, 3],
-            [7, 6, 5, 3],
-            [2, 7, 4, 7],
-        ]);
-        $crout = $A->croutDecomposition();
-
-        // When
-        $L = isset($crout['L']);
-        $U = isset($crout['U']);
-
-        // Then
-        $this->assertTrue($L);
-        $this->assertTrue($U);
     }
 }

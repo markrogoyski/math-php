@@ -3,7 +3,7 @@
 namespace MathPHP\LinearAlgebra\Decomposition;
 
 use MathPHP\Exception;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 
 /**
@@ -17,24 +17,24 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  *  - D = diagonal matrix
  *  - U = normalised upper triangular matrix
  *
- * @property-read Matrix $L Lower triangular matrix LD
- * @property-read Matrix $U Normalized upper triangular matrix
+ * @property-read NumericMatrix $L Lower triangular matrix LD
+ * @property-read NumericMatrix $U Normalized upper triangular matrix
  */
 class Crout extends Decomposition
 {
-    /** @var Matrix Lower triangular matrix LD */
+    /** @var NumericMatrix Lower triangular matrix LD */
     private $L;
 
-    /** @var Matrix Normalized upper triangular matrix */
+    /** @var NumericMatrix Normalized upper triangular matrix */
     private $U;
 
     /**
      * Crout constructor
      *
-     * @param Matrix $L Lower triangular matrix LD
-     * @param Matrix $U Normalized upper triangular matrix
+     * @param NumericMatrix $L Lower triangular matrix LD
+     * @param NumericMatrix $U Normalized upper triangular matrix
      */
-    private function __construct(Matrix $L, Matrix $U)
+    private function __construct(NumericMatrix $L, NumericMatrix $U)
     {
         $this->L = $L;
         $this->U = $U;
@@ -44,7 +44,7 @@ class Crout extends Decomposition
      * Decompose a matrix into Crout decomposition
      * Factory method to create Crout decomposition
      *
-     * @param Matrix $A
+     * @param NumericMatrix $A
      *
      * @return Crout
      *
@@ -54,7 +54,7 @@ class Crout extends Decomposition
      * @throws Exception\MatrixException if there is division by 0 because of a 0-value determinant
      * @throws Exception\OutOfBoundsException
      */
-    public static function decompose(Matrix $A): Crout
+    public static function decompose(NumericMatrix $A): Crout
     {
         $m   = $A->getM();
         $n   = $A->getN();
@@ -94,11 +94,11 @@ class Crout extends Decomposition
      *
      * @param string $name
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException
      */
-    public function __get(string $name): Matrix
+    public function __get(string $name): NumericMatrix
     {
         switch ($name) {
             case 'L':
@@ -107,26 +107,6 @@ class Crout extends Decomposition
 
             default:
                 throw new Exception\MatrixException("Crout class does not have a gettable property: $name");
-        }
-    }
-
-    /**************************************************************************
-     * ArrayAccess INTERFACE
-     **************************************************************************/
-
-    /**
-     * @param mixed $i
-     * @return bool
-     */
-    public function offsetExists($i): bool
-    {
-        switch ($i) {
-            case 'L':
-            case 'U':
-                return true;
-
-            default:
-                return false;
         }
     }
 }

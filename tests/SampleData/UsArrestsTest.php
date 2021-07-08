@@ -9,7 +9,7 @@ class UsArrestsTest extends \PHPUnit\Framework\TestCase
     /** @var SampleData\UsArrests */
     private $usArrests;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->usArrests = new SampleData\UsArrests();
     }
@@ -64,7 +64,7 @@ class UsArrestsTest extends \PHPUnit\Framework\TestCase
         // When
         foreach ($sampleOfStateNames as $state) {
             // Then
-            $this->assertTrue(in_array($state, $states));
+            $this->assertTrue(\in_array($state, $states));
         }
     }
 

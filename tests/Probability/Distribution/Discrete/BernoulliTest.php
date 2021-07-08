@@ -23,7 +23,7 @@ class BernoulliTest extends \PHPUnit\Framework\TestCase
         $pmf = $bernoulli->pmf($k);
 
         // Then
-        $this->assertEquals($expectedPmf, $pmf, '', 0.000001);
+        $this->assertEqualsWithDelta($expectedPmf, $pmf, 0.000001);
     }
 
     /**
@@ -71,7 +71,7 @@ class BernoulliTest extends \PHPUnit\Framework\TestCase
         $cdf = $bernoulli->cdf($k);
 
         // Then
-        $this->assertEquals($expectedCdf, $cdf, '', 0.000001);
+        $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.000001);
     }
 
     /**

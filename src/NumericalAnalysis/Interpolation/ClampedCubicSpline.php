@@ -2,8 +2,8 @@
 
 namespace MathPHP\NumericalAnalysis\Interpolation;
 
-use MathPHP\Functions\Polynomial;
-use MathPHP\Functions\Piecewise;
+use MathPHP\Expression\Polynomial;
+use MathPHP\Expression\Piecewise;
 use MathPHP\Exception;
 
 /**
@@ -32,7 +32,7 @@ use MathPHP\Exception;
 class ClampedCubicSpline extends Interpolation
 {
     /** @var int Index of y’ (y-prime) */
-    const Y’ = 2;
+    private const Y’ = 2;
 
     /**
      * Interpolate
@@ -69,7 +69,7 @@ class ClampedCubicSpline extends Interpolation
         $y’ = self::Y’;
 
         // Initialize
-        $n     = count($sorted);
+        $n     = \count($sorted);
         $k     = $n - 1;
         $x₀    = $sorted[0][$x];
         $x₁    = $sorted[1][$x];
@@ -165,12 +165,12 @@ class ClampedCubicSpline extends Interpolation
     public static function getSplinePoints($source, array $args = []): array
     {
         // Guard clause - source must be callable or array of points
-        if (!(is_callable($source) || is_array($source))) {
+        if (!(\is_callable($source) || \is_array($source))) {
             throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
 
         // Source is already an array: nothing to do
-        if (is_array($source)) {
+        if (\is_array($source)) {
             return $source;
         }
 
@@ -225,18 +225,18 @@ class ClampedCubicSpline extends Interpolation
      */
     public static function validateSpline(array $points, int $degree = 2)
     {
-        if (count($points) < $degree) {
+        if (\count($points) < $degree) {
             throw new Exception\BadDataException('You need to have at least $degree sets of coordinates (arrays) for this technique');
         }
 
         $x_coordinates = [];
         foreach ($points as $point) {
-            if (count($point) !== 3) {
+            if (\count($point) !== 3) {
                 throw new Exception\BadDataException('Each array needs to have have precisely three numbers, representing x, y, and y-prime');
             }
 
             $x_component = $point[self::X];
-            if (in_array($x_component, $x_coordinates)) {
+            if (\in_array($x_component, $x_coordinates)) {
                 throw new Exception\BadDataException('Not a function. Your input array contains more than one coordinate with the same x-component.');
             }
             $x_coordinates[] = $x_component;

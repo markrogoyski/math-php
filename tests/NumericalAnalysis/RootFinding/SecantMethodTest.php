@@ -2,7 +2,7 @@
 
 namespace MathPHP\Tests\NumericalAnalysis\RootFinding;
 
-use MathPHP\Functions\Polynomial;
+use MathPHP\Expression\Polynomial;
 use MathPHP\NumericalAnalysis\RootFinding\SecantMethod;
 
 class SecantMethodTest extends \PHPUnit\Framework\TestCase
@@ -29,7 +29,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $x = SecantMethod::solve($func, $p₀, $p₁, $tol);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -52,7 +52,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $x = SecantMethod::solve($polynomial, $p₀, $p₁, $tol);
 
         // Then
-        $this->assertEquals($expected, $x, '', $tol);
+        $this->assertEqualsWithDelta($expected, $x, $tol);
     }
 
     /**
@@ -91,7 +91,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $root = SecantMethod::solve($func, $p₀, $p₁, $tol);
 
         // Then
-        $this->assertEquals($expected, $root, '', $tol);
+        $this->assertEqualsWithDelta($expected, $root, $tol);
     }
 
     /**
@@ -107,7 +107,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         };
 
         // And
-        $expected = sqrt(5);
+        $expected = \sqrt(5);
         $p₁       = 1;
         $p₀       = 5;
         $tol      = 0.00001;
@@ -116,11 +116,11 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $root = SecantMethod::solve($func, $p₀, $p₁, $tol);
 
         // Then
-        $this->assertEquals($expected, $root, '', $tol);
+        $this->assertEqualsWithDelta($expected, $root, $tol);
     }
 
     /**
-     * @test   Solve cos(x) - 2x
+     * @test   Solve \cos(x) - 2x
      *         Has a root of approximately 0.450183
      * @throws \Exception
      */
@@ -128,7 +128,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $func = function ($x) {
-            return cos($x) - 2 * $x;
+            return \cos($x) - 2 * $x;
         };
 
         // And
@@ -141,7 +141,7 @@ class SecantMethodTest extends \PHPUnit\Framework\TestCase
         $root = SecantMethod::solve($func, $p₀, $p₁, $tol);
 
         // Then
-        $this->assertEquals($expected, $root, '', $tol);
+        $this->assertEqualsWithDelta($expected, $root, $tol);
     }
 
     /**

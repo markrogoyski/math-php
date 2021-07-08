@@ -22,7 +22,7 @@ class GeometricTest extends \PHPUnit\Framework\TestCase
         $pmf = $geometric->pmf($k);
 
         // Then
-        $this->assertEquals($expectedPmf, $pmf, '', 0.001);
+        $this->assertEqualsWithDelta($expectedPmf, $pmf, 0.001);
     }
 
     /**
@@ -59,7 +59,7 @@ class GeometricTest extends \PHPUnit\Framework\TestCase
         $cdf = $geometric->cdf($k);
 
         // Then
-        $this->assertEquals($expectedCdf, $cdf, '', 0.001);
+        $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.001);
     }
 
     /**
@@ -95,7 +95,7 @@ class GeometricTest extends \PHPUnit\Framework\TestCase
         $mean = $geometric->mean();
 
         // Then
-        $this->assertEquals($μ, $mean, '', 0.000001);
+        $this->assertEqualsWithDelta($μ, $mean, 0.000001);
     }
 
     /**
@@ -128,7 +128,7 @@ class GeometricTest extends \PHPUnit\Framework\TestCase
         $median = $geometric->median();
 
         // Then
-        $this->assertEquals($expected, $median, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $median, 0.000001);
     }
 
     /**
@@ -161,7 +161,7 @@ class GeometricTest extends \PHPUnit\Framework\TestCase
         $mode = $geometric->mode();
 
         // Then
-        $this->assertEquals($expected, $mode, '', 0.000001);
+        $this->assertEqualsWithDelta($expected, $mode, 0.000001);
     }
 
     /**
@@ -194,7 +194,7 @@ class GeometricTest extends \PHPUnit\Framework\TestCase
         $mode = $geometric->variance();
 
         // Then
-        $this->assertEquals($σ², $mode, '', 0.000001);
+        $this->assertEqualsWithDelta($σ², $mode, 0.000001);
     }
 
     /**

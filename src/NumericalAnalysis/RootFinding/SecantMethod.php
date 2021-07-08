@@ -41,7 +41,7 @@ class SecantMethod
             $q₁    = $function($p₁);
             $slope = ($q₁ - $q₀) / ($p₁ - $p₀);
             $p     = $p₁ - ($q₁ / $slope);
-            $dif   = abs($p - $p₁);
+            $dif   = \abs($p - $p₁);
             $p₀    = $p₁;
             $p₁    = $p;
         } while ($dif > $tol);

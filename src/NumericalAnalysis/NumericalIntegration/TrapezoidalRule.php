@@ -88,7 +88,7 @@ class TrapezoidalRule extends NumericalIntegration
         $y = self::Y;
 
         // Initialize
-        $n             = count($sorted);
+        $n             = \count($sorted);
         $steps         = $n - 1;
         $approximation = 0;
 

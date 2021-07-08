@@ -10,10 +10,10 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
     /** @var StandardNormal */
     private $standardNormal;
 
-    const μ = 0;
-    const σ = 1;
+    private const μ = 0;
+    private const σ = 1;
 
-    public function setUp()
+    public function setUp(): void
     {
         // Given
         $this->standardNormal = new StandardNormal();
@@ -31,7 +31,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
         $pdf = $this->standardNormal->pdf($z);
 
         // Then
-        $this->assertEquals($expected_pdf, $pdf, '', 0.0000001);
+        $this->assertEqualsWithDelta($expected_pdf, $pdf, 0.0000001);
     }
 
     /**
@@ -49,7 +49,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
         $pdf = $this->standardNormal->pdf($z);
 
         // Then
-        $this->assertEquals($normal_pdf, $pdf, '', 0.0000001);
+        $this->assertEqualsWithDelta($normal_pdf, $pdf, 0.0000001);
     }
 
     /**
@@ -103,7 +103,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
         $cdf = $this->standardNormal->cdf($z);
 
         // Then
-        $this->assertEquals($expected_cdf, $cdf, '', 0.0000001);
+        $this->assertEqualsWithDelta($expected_cdf, $cdf, 0.0000001);
     }
 
     /**
@@ -121,7 +121,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
         $cdf = $this->standardNormal->cdf($z);
 
         // Then
-        $this->assertEquals($normal_cdf, $cdf, '', 0.0000001);
+        $this->assertEqualsWithDelta($normal_cdf, $cdf, 0.0000001);
     }
 
     /**
@@ -219,7 +219,7 @@ class StandardNormalTest extends \PHPUnit\Framework\TestCase
         $inverse = $this->standardNormal->inverse($target);
 
         // Then
-        $this->assertEquals($expected_inverse, $inverse, '', 0.000001);
+        $this->assertEqualsWithDelta($expected_inverse, $inverse, 0.000001);
     }
 
     /**

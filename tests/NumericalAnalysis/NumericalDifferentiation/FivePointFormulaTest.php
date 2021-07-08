@@ -123,7 +123,7 @@ class FivePointFormulaTest extends \PHPUnit\Framework\TestCase
         $actual = FivePointFormula::differentiate($x, $f, $a, $b, $n);
 
         // Then
-        $this->assertEquals($expected, $actual, '', $tol);
+        $this->assertEqualsWithDelta($expected, $actual, $tol);
     }
 
     /**
