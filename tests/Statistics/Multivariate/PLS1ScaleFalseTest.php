@@ -28,9 +28,9 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        $cereal = new SampleData\Cereal();
-        $X      = MatrixFactory::create($cereal->getXData());
-        $Y      = MatrixFactory::create($cereal->getYData());
+        $cereal   = new SampleData\Cereal();
+        self::$X  = MatrixFactory::create($cereal->getXData());
+        self::$Y  = MatrixFactory::create($cereal->getYData());
 
         self::$pls = new PLS(self::$X, self::$Y, 5, false);
     }
