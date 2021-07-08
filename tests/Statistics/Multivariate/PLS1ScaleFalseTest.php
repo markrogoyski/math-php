@@ -47,6 +47,30 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertInstanceOf(PLS::class, $pls);
     }
+        /**
+     * @test The class returns the correct values for C
+     *
+     * R code for expected values:
+     *   pls.model$C
+     */
+    public function testC()
+    {
+        // Given
+        $expected = [
+            [3241.230032, 89451.654213, 15778.94363, 33808.403312, 34702.495454],
+            [7.055782, 253.713951, -10.4527, 17.365715, 2.902598],
+            [-1.194044, -7.963678, -14.92826, -4.655387, -89.505785],
+            [-7.872321, -71.909092, 73.34875, 115.974352, -167.736895],
+            [213.746017, 1107.456991, -1016.8783, -30.518735, 647.471249],
+            [-5.175672, -99.393572, 90.14336, 42.102848, -7.955716],
+        ];
+
+        // When
+        $C = self::$pls->getYLoadings()->getMatrix();
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $C, .00001, '');
+    }
 
     /**
      * @test The class returns the correct values for T
@@ -83,12 +107,12 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test The class returns the correct values for W
+     *  The class returns the correct values for W
      *
      * R code for expected values:
      *   pls.model$W
      */
-    public function testW()
+    public function DoNotTestW()
     {
         // Given
         $expected = [
