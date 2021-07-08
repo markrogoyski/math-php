@@ -107,12 +107,12 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     *  The class returns the correct values for W
+     *  @test The class returns the correct values for W
      *
      * R code for expected values:
      *   pls.model$W
      */
-    public function DoNotTestW()
+    public function testW()
     {
         // Given
         $expected = [
@@ -271,12 +271,12 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     *  The class returns the correct values for B
+     *  @test The class returns the correct values for B
      *
      * R code for expected values:
      *   pls.model$B
      */
-    public function DoNotTestB()
+    public function testB()
     {
         // Given
         $expected = [
