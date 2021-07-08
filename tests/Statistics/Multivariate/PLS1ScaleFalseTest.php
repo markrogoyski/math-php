@@ -42,7 +42,7 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
     public function testConstruction()
     {
         // When
-        $pls = new PLS(self::$X, self::$Y, 1, false);
+        $pls = new PLS(self::$X, self::$Y, 5, false);
 
         // Then
         $this->assertInstanceOf(PLS::class, $pls);
