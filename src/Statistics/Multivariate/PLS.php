@@ -86,7 +86,7 @@ class PLS
             // $new_u = MatrixFactory::random($X->getM(), 1, -20000, 20000)->scalarDivide(20000);
             $u = $F->asVectors()[0]->asColumnMatrix();
             $end = false;
-            while(!$end) {
+            while (!$end) {
                 ++$iterations;
 
                 // $w is a unit vector
@@ -97,7 +97,7 @@ class PLS
                 $c = $F->transpose()->multiply($t)->scalarDivide($t->frobeniusNorm() ** 2);
                 $new_u = $F->multiply($c);
                 $diff = $new_u->subtract($u)->frobeniusNorm();
-                
+
                 if ($diff < $tol || $iterations > 50) {
                     $end = true;
                 }

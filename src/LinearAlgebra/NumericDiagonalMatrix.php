@@ -2,6 +2,7 @@
 
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Functions\Map\Single;
 use MathPHP\Exception\MatrixException;
 
 /**
@@ -68,5 +69,10 @@ class NumericDiagonalMatrix extends NumericSquareMatrix
     public function isDiagonal(): bool
     {
         return true;
+    }
+
+    public function inverse(): NumericMatrix
+    {
+        return MatrixFactory::diagonal(Single::reciprocal($this->getDiagonalElements()));
     }
 }
