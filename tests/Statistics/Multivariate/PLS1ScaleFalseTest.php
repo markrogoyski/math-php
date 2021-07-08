@@ -83,7 +83,7 @@ class PLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test The class returns the correct values for B
+     *  The class returns the correct values for B
      *
      * R code for expected values:
      *   pls.model$B
