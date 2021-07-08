@@ -79,12 +79,12 @@ class PLS
         $F = $this->standardizeData($Y, $this->Ycenter, $this->Yscale);
 
         $tol = 1E-8;
-        $iterations = 0;
         for ($i = 0; $i < $ncomp; $i++) {
+            $iterations = 0;
             // Several sources suggest using a random initial u. This can lead to inconsistent
             // results due to some columns then being multiplyed by -1 some of the time.
             // $new_u = MatrixFactory::random($X->getM(), 1, -20000, 20000)->scalarDivide(20000);
-            $u = $F->submatrix(0, 0, $F->getM() - 1, 0);
+            $u = $F->getColumn(0)->asColumnMatrix();
             $end = false;
             while(!$end) {
                 ++$iterations;
@@ -103,7 +103,6 @@ class PLS
                 }
                 $u = $new_u;
             }
-            $u = $new_u;
 
             // Least squares regression on a slope-only model: 𝜷ᵢ = Σ(xᵢyᵢ) / Σ(xᵢ²)
             $p = $E->transpose()->multiply($t)->scalarDivide($t->frobeniusNorm() ** 2);
