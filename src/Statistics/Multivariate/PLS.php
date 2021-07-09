@@ -128,12 +128,12 @@ class PLS
 
     /**************************************************************************
      * BASIC GETTERS
-     *  - getB
-     *  - getC
-     *  - getP
-     *  - getT
-     *  - getU
-     *  - getW
+     *  - getCoefficients
+     *  - getYLoadings
+     *  - getProjection
+     *  - getXScores
+     *  - getYScores
+     *  - getXLoadings
      **************************************************************************/
 
     /**
