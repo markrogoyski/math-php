@@ -1,6 +1,6 @@
 <?php
 
-namespace MathPHP\Tests\Statistics\Multivariate;
+namespace MathPHP\Tests\Statistics\Multivariate\PLS;
 
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
