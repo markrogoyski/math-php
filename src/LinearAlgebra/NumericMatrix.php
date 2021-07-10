@@ -2981,6 +2981,7 @@ class NumericMatrix extends Matrix
     /**************************************************************************
      * PHP MAGIC METHODS
      *  - __toString
+     *  - __debugInfo
      **************************************************************************/
 
     /**
@@ -2993,7 +2994,7 @@ class NumericMatrix extends Matrix
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return \trim(\array_reduce(\array_map(
             function ($mᵢ) {
@@ -3003,5 +3004,26 @@ class NumericMatrix extends Matrix
         ), function ($A, $mᵢ) {
             return $A . \PHP_EOL . $mᵢ;
         }));
+    }
+
+    /**
+     * Debug info
+     * Ex:
+     *   [matrix] => 3x4
+     *   [data] =>
+     *     [1, 2, 3, 4]
+     *     [2, 3, 4, 5]
+     *     [3, 4, 5, 6]
+     *   [ε] => 1.0E-11
+     *
+     * @return array
+     */
+    public function __debugInfo(): array
+    {
+        return [
+            'matrix' => sprintf('%dx%d', $this->m, $this->n),
+            'data'   => \PHP_EOL . (string) $this,
+            'ε'      => $this->ε,
+        ];
     }
 }

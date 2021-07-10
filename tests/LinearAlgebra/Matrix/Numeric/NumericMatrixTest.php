@@ -46,4 +46,25 @@ class NumericMatrixTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertEquals($expected, $stringRepresentation);
     }
+
+    /**
+     * @test debug Info
+     */
+    public function testDebugInfo()
+    {
+        // Given
+        $A = new NumericMatrix([
+            [1, 2, 3, 4],
+            [2, 3, 4, 5],
+            [3, 4, 5, 6],
+        ]);
+
+        // When
+        $debugInfo = $A->__debugInfo();
+
+        // Then
+        $this->assertEquals('3x4', $debugInfo['matrix']);
+        $this->assertEquals(\PHP_EOL . (string) $A, $debugInfo['data']);
+        $this->assertEquals($A->getError(), $debugInfo['ε']);
+    }
 }
