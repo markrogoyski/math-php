@@ -71,6 +71,11 @@ class NumericDiagonalMatrix extends NumericSquareMatrix
         return true;
     }
 
+    /**
+     * Inverse of a diagonal matrix is the reciprocals of the diagonal elements
+     *
+     * @return NumericMatrix
+     */
     public function inverse(): NumericMatrix
     {
         return MatrixFactory::diagonal(Single::reciprocal($this->getDiagonalElements()));
