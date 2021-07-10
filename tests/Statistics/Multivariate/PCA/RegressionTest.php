@@ -14,7 +14,7 @@ use MathPHP\Statistics\Multivariate\PCA;
  * The issue was construction the PCA with highly correlated data, calculating the eigenvalues would not converge,
  * resulting in an infinite loop.
  */
-class PCARegressionTest extends \PHPUnit\Framework\TestCase
+class RegressionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test PCA center false and scale false

@@ -9,7 +9,7 @@ use MathPHP\SampleData;
 use MathPHP\Statistics\Multivariate\PCA;
 use MathPHP\Exception;
 
-class PCACenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
+class CenterFalseScaleTrueTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PCA */
     private static $pca;
