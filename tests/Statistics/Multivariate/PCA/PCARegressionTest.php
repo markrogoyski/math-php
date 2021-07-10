@@ -1,6 +1,6 @@
 <?php
 
-namespace MathPHP\Tests\Statistics\Multivariate;
+namespace MathPHP\Tests\Statistics\Multivariate\PCA;
 
 use MathPHP\Functions\Map\Multi;
 use MathPHP\LinearAlgebra\MatrixFactory;
