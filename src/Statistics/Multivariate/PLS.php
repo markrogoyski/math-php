@@ -195,9 +195,6 @@ class PLS
     }
 
     /**
-
-     */
-    /**
      * Predict Values
      *
      * Use the regression model to predict new values of Y given values for X.

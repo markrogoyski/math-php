@@ -62,6 +62,7 @@ Features
      - [Kernel Density Estimation](#statistics---kernel-density-estimation)
      - Multivariate
         * [PCA (Principal Component Analysis)](#statistics---multivariate---principal-component-analysis)
+        * [PLS (Partial Least Squares Regression)](#statistic---multivariate---partial-least-squares-regression)
      - [Outlier](#statistics---outlier)
      - [Random Variables](#statistics---random-variables)
      - [Regressions](#statistics---regressions)
@@ -2426,6 +2427,34 @@ $Q          = $model->getQResiduals();   // Matrix of Q residuals
 $T²         = $model->getT2Distances();  // Matrix of T² distances
 $T²Critical = $model->getCriticalT2();   // array of critical limits of T²
 $QCritical  = $model->getCriticalQ();    // array of critical limits of Q
+```
+
+### Statistics - Multivariate - Partial Least Squares Regression
+```php
+use MathPHP\Statistics\Multivariate\PLS;
+use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\SampleData;
+
+// Given
+$cereal = new SampleData\Cereal();
+$X      = MatrixFactory::createNumeric($cereal->getXData());
+$Y      = MatrixFactory::createNumeric($cereal->getYData());
+
+// Build a partial least squares regression to explore
+$numberOfComponents = 5;
+$scale = true;
+$pls = new PLS(self::$X, self::$Y, 5, true);
+
+// PLS model data
+$C = $pls->getYLoadings();     // Loadings for Y values (each loading column transforms F to U)
+$W = $pls->getXLoadings();     // Loadings for X values (each loading column transforms E into T)
+$T = $pls->getXScores();       // Scores for the X values (latent variables of X)
+$U = $pls->getYScores();       // Scores for the Y values (latent variables of Y)
+$B = $pls->getCoefficients();  // Regression coefficients (matrix that best transforms E into F)
+$P = $pls->getProjections();   // Projection matrix (each projection column transforms T into Ê)
+
+// Predict values (use regression model to predict new values of Y given values for X)
+$yPredictions = $pls->predict($xMatrix);
 ```
 
 ### Statistics - Outlier
