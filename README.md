@@ -62,7 +62,7 @@ Features
      - [Kernel Density Estimation](#statistics---kernel-density-estimation)
      - Multivariate
         * [PCA (Principal Component Analysis)](#statistics---multivariate---principal-component-analysis)
-        * [PLS (Partial Least Squares Regression)](#statistic---multivariate---partial-least-squares-regression)
+        * [PLS (Partial Least Squares Regression)](#statistics---multivariate---partial-least-squares-regression)
      - [Outlier](#statistics---outlier)
      - [Random Variables](#statistics---random-variables)
      - [Regressions](#statistics---regressions)
