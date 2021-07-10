@@ -48,12 +48,10 @@ class PLS
     private $W;
 
     /**
-     * Constructor
-     *
-     * @param Matrix  $X each row is a sample, each column is a variable
-     * @param Matrix  $Y each row is a sample, each column is a variable
-     * @param int     $ncomp number of components to use in the model
-     * @param boolean $scale standardize each column?
+     * @param Matrix $X each row is a sample, each column is a variable
+     * @param Matrix $Y each row is a sample, each column is a variable
+     * @param int    $ncomp number of components to use in the model
+     * @param bool   $scale standardize each column?
      *
      * @throws Exception\BadDataException if any rows have a different column count
      */
@@ -105,8 +103,8 @@ class PLS
             }
 
             // Least squares regression on a slope-only model: 𝜷ᵢ = Σ(xᵢyᵢ) / Σ(xᵢ²)
-            $p = $E->transpose()->multiply($t)->scalarDivide($t->frobeniusNorm() ** 2);
             // $q = $F->transpose()->multiply($u)->scalarDivide($u->frobeniusNorm() ** 2);
+            $p = $E->transpose()->multiply($t)->scalarDivide($t->frobeniusNorm() ** 2);
             $d = $u->transpose()->multiply($t)->scalarDivide($t->frobeniusNorm() ** 2)->get(0, 0);
 
             // Deflate the data matrices
@@ -197,12 +195,19 @@ class PLS
     }
 
     /**
+
+     */
+    /**
      * Predict Values
      *
      * Use the regression model to predict new values of Y given values for X.
      * Y = (X - μₓ) ∗ σₓ⁻¹ ∗ B ∗ σ + μ
+     *
+     * @param Matrix $X
+     *
+     * @return Matrix
      */
-    public function predict(Matrix $X)
+    public function predict(Matrix $X): Matrix
     {
         if ($X->getN() !== $this->Xcenter->getN()) {
             throw new Exception\BadDataException('Data does not have the correct number of columns.');
@@ -210,7 +215,7 @@ class PLS
 
         // Create a matrix the same dimensions as $X, each element is the average of that column in the original data.
         $ones_column = MatrixFactory::one($X->getM(), 1);
-        $Ycenter_matrix = $ones_column->multiply(MatrixFactory::create([$this->Ycenter->getVector()]));
+        $Ycenter_matrix = $ones_column->multiply(MatrixFactory::createNumeric([$this->Ycenter->getVector()]));
 
         // Create a diagonal matrix of column standard deviations.
         $Yscale_matrix = MatrixFactory::diagonal($this->Yscale->getVector());
@@ -237,7 +242,7 @@ class PLS
     {
         // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
         $ones_column = MatrixFactory::one($new_data->getM(), 1);
-        $center_matrix = $center_matrix ?? $ones_column->multiply(MatrixFactory::create([$center->getVector()]));
+        $center_matrix = $center_matrix ?? $ones_column->multiply(MatrixFactory::createNumeric([$center->getVector()]));
 
         // Create a diagonal matrix of the inverse of each column standard deviation.
         $scale_matrix = MatrixFactory::diagonal($scale->getVector())->inverse();
