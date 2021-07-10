@@ -2442,8 +2442,8 @@ $Y      = MatrixFactory::createNumeric($cereal->getYData());
 
 // Build a partial least squares regression to explore
 $numberOfComponents = 5;
-$scale = true;
-$pls = new PLS(self::$X, self::$Y, 5, true);
+$scale              = true;
+$pls                = new PLS($X, $Y, $numberOfComponents, $scale);
 
 // PLS model data
 $C = $pls->getYLoadings();     // Loadings for Y values (each loading column transforms F to U)
