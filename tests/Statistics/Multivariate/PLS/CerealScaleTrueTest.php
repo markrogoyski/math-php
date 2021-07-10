@@ -7,7 +7,7 @@ use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\SampleData;
 use MathPHP\Statistics\Multivariate\PLS;
 
-class PLSScaleTrueTest extends \PHPUnit\Framework\TestCase
+class CerealScaleTrueTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PLS */
     private static $pls;
