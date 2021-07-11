@@ -1,5 +1,13 @@
 # MathPHP Change Log
 
+## v2.2.0 - 2021-07-11
+
+### New Features
+* PLS (Partial Least Squares Regression)
+
+### Improvements
+* Add custom `__debugInfo` to `NumericMatrix`
+
 ## v2.1.0 - 2021-07-07
 
 ### New Features
