@@ -1257,4 +1257,77 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @test         Test that the proper companion matrix is calulated from a polynomial
+     * @dataProvider dataProviderForTestCompanionMatrix
+     * @param array  $poly the polynomial
+     * @param array  $companion_matrix the expected companion matrix
+     */
+    public function testCompanionMatrix(array $poly, array $expected_matrix)
+    {
+        // Create a polynomial
+        $poly = new Polynomial($poly);
+
+        $companion = $poly->companionMatrix();
+        $this->assertEquals($expected_matrix, $companion->getMatrix(), '', .0000001);
+    }
+
+    public function dataProviderForTestCompanionMatrix()
+    {
+        return [
+            [
+                [1, -21, 175, -735, 1624, -1764, 720],
+                [
+                    [0, 0, 0, 0, 0, -720],
+                    [1, 0, 0, 0, 0, 1764],
+                    [0, 1, 0, 0, 0, -1624],
+                    [0, 0, 1, 0, 0, 735],
+                    [0, 0, 0, 1, 0, -175],
+                    [0, 0, 0, 0, 1, 21],
+                ],
+            ],
+            [
+                [2, -42, 350, -1470, 3248, -3528, 1440],
+                [
+                    [0, 0, 0, 0, 0, -720],
+                    [1, 0, 0, 0, 0, 1764],
+                    [0, 1, 0, 0, 0, -1624],
+                    [0, 0, 1, 0, 0, 735],
+                    [0, 0, 0, 1, 0, -175],
+                    [0, 0, 0, 0, 1, 21],
+                ],
+            ],
+            [
+                [1, -1, -30],
+                [
+                    [0, 30],
+                    [1, 1],
+                ],
+            ],
+            [
+                [1, 5, 0],
+                [
+                    [0, 0],
+                    [1, -5],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @test   companionMatrix - OutOfBoundsException if the polynomial is degree 0.
+     * @throws \Exception
+     */
+    public function testCompanionException()
+    {
+        // Given
+        $poly   = new Polynomial([2]);
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $matrix = $poly->companionMatrix();
+    }
 }

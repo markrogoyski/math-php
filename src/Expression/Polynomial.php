@@ -4,9 +4,12 @@ namespace MathPHP\Expression;
 
 use MathPHP\Algebra;
 use MathPHP\Exception;
-use MathPHP\Number\ObjectArithmetic;
 use MathPHP\Functions\Arithmetic;
 use MathPHP\Functions\Map;
+use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\NumericSquareMatrix;
+use MathPHP\LinearAlgebra\Vector;
+use MathPHP\Number\ObjectArithmetic;
 
 /**
  * A convenience class for one-dimension polynomials.
@@ -439,5 +442,25 @@ class Polynomial implements ObjectArithmetic
             default:
                 return [\NAN];
         }
+    }
+
+    /**
+     * The companion matrix for a polynomial
+     *
+     * https://en.wikipedia.org/wiki/Companion_matrix
+     */
+    public function companionMatrix(): NumericSquareMatrix
+    {
+        if ($this->degree === 0) {
+            throw new Exception\OutOfBoundsException('Polynomial must be 1st degree or greater.');
+        }
+        $coefficients = $this->getCoefficients();
+        $reversed_coefficients = new Vector(array_reverse($coefficients));
+
+        // Make a column matrix without the largest factor, after setting it to 1
+        $column_matrix = Matrixfactory::createFromVectors([$reversed_coefficients])->scalarDivide(-1 * $coefficients[0])->rowExclude($this->getDegree());
+        $zero_row = MatrixFactory::zero(1, $column_matrix->getM() - 1);
+        $companion = MatrixFactory::identity($column_matrix->getM() - 1)->augmentAbove($zero_row)->augment($column_matrix);
+        return $companion;
     }
 }
