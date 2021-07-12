@@ -7,6 +7,7 @@ use MathPHP\Exception;
 use MathPHP\Functions\Arithmetic;
 use MathPHP\Functions\Map;
 use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\NumericSquareMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Number\ObjectArithmetic;
 
@@ -448,7 +449,7 @@ class Polynomial implements ObjectArithmetic
      *
      * https://en.wikipedia.org/wiki/Companion_matrix
      */
-    public function CompanionMatrix(): NumericMatrix
+    public function CompanionMatrix(): NumericSquareMatrix
     {
         $coefficients = $this->getCoefficients();
         $reversed_coefficients = new Vector(array_reverse($coefficients));
