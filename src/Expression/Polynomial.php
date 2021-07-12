@@ -4,9 +4,11 @@ namespace MathPHP\Expression;
 
 use MathPHP\Algebra;
 use MathPHP\Exception;
-use MathPHP\Number\ObjectArithmetic;
 use MathPHP\Functions\Arithmetic;
 use MathPHP\Functions\Map;
+use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\Vector;
+use MathPHP\Number\ObjectArithmetic;
 
 /**
  * A convenience class for one-dimension polynomials.
