@@ -137,7 +137,8 @@ class SVDTest extends \PHPUnit\Framework\TestCase
                 [0.44721359549996, -0.89442719099992, -0.89442719099992, -0.89442719099992, 0],
             ];
             $this->assertEqualsWithDelta($V, $svd->getV()->getMatrix(), 0.00001, '');
+        } else {
+            $this->assertTrue($svd->getV()->isOrthogonal());
         }
-        $this->assertTrue($svd->getV()->isOrthogonal());
     }
 }
