@@ -3,7 +3,6 @@
 namespace MathPHP\LinearAlgebra\Decomposition;
 
 use MathPHP\Exception;
-use MathPHP\Functions\Map\Single;
 use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Vector;
@@ -13,27 +12,30 @@ use MathPHP\LinearAlgebra\Vector;
  *
  * The generalization of the eigendecomposition of a square matrix to an m x n matrix
  * https://en.wikipedia.org/wiki/Singular_value_decomposition
+ *
+ * @property-read NumericMatrix  $S m x n diagonal matrix
+ * @property-read NumericMatrix  $V n x n orthogonal matrix
+ * @property-read NumericMatrix  $U m x m orthogonal matrix
+ * @property-read Vector<number> $D diagonal elements from S
  */
 class SVD extends Decomposition
 {
-    /** @var Matrix m x m orthogonal matrix  */
+    /** @var NumericMatrix m x m orthogonal matrix  */
     private $U;
 
-    /** @var Matrix n x n orthogonal matrix  */
+    /** @var NumericMatrix n x n orthogonal matrix  */
     private $V;
 
-    /** @var Matrix m x n diagonal matrix  */
+    /** @var NumericMatrix m x n diagonal matrix  */
     private $S;
 
-    /** @var Vector diagonal elements from $S  */
+    /** @var Vector<number> diagonal elements from S  */
     private $D;
 
     /**
-     * SVD constructor
-     *
-     * @param Matrix $U Orthogonal matrix
-     * @param Matrix $S Rectangular Diagonal matrix
-     * @param Matrix $V Orthogonal matrix
+     * @param NumericMatrix $U Orthogonal matrix
+     * @param NumericMatrix $S Rectangular Diagonal matrix
+     * @param NumericMatrix $V Orthogonal matrix
      */
     private function __construct(NumericMatrix $U, NumericMatrix $S, NumericMatrix $V)
     {
@@ -46,7 +48,7 @@ class SVD extends Decomposition
     /**
      * Get U
      *
-     * @return Matrix
+     * @return NumericMatrix
      */
     public function getU(): NumericMatrix
     {
@@ -56,7 +58,7 @@ class SVD extends Decomposition
     /**
      * Get S
      *
-     * @return Matrix
+     * @return NumericMatrix
      */
     public function getS(): NumericMatrix
     {
@@ -66,7 +68,7 @@ class SVD extends Decomposition
     /**
      * Get V
      *
-     * @return Matrix
+     * @return NumericMatrix
      */
     public function getV(): NumericMatrix
     {
@@ -76,24 +78,31 @@ class SVD extends Decomposition
     /**
      * Get D
      *
-     * @return Vector
+     * @return Vector<number>
      */
     public function getD(): Vector
     {
         return $this->D;
     }
 
+    /**
+     * Generate the Singlue Value Decomposition of the matrix
+     *
+     * @param NumericMatrix $M
+     *
+     * @return SVD
+     */
     public static function decompose(NumericMatrix $M): SVD
     {
-        $Mt = $M->transpose();
-        $MMt = $M->multiply($Mt);
-        $MtM = $Mt->multiply($M);
+        $Mᵀ  = $M->transpose();
+        $MMᵀ = $M->multiply($Mᵀ);
+        $MᵀM = $Mᵀ->multiply($M);
 
         // m x m orthoganol matrix
-        $U = $MMt->eigenvectors();
+        $U = $MMᵀ->eigenvectors();
 
         // n x n orthoganol matrix
-        $V = $MtM->eigenvectors();
+        $V = $MᵀM->eigenvectors();
 
         // A rectangular diagonal matrix
         $S = $U->transpose()->multiply($M)->multiply($V);
@@ -110,17 +119,16 @@ class SVD extends Decomposition
             $U = $U->multiply($signature);
             $S = $signature->multiply($S);
         }
+
         return new SVD($U, $S, $V);
     }
 
     /**
-     * Get U, S, or V matrix
+     * Get U, S, or V matrix, or D vector
      *
      * @param string $name
      *
-     * @return Matrix
-     *
-     * @throws Exception\MatrixException
+     * @return NumericMatrix|Vector<number>
      */
     public function __get(string $name)
     {

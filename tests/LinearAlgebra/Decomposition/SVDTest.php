@@ -4,6 +4,7 @@ namespace MathPHP\Tests\LinearAlgebra\Decomposition;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Exception;
+use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Tests\LinearAlgebra\Fixture\MatrixDataProvider;
 
@@ -22,11 +23,13 @@ class SVDTest extends \PHPUnit\Framework\TestCase
     public function testSVD(array $A, array $expected)
     {
         // Given
-        $A = MatrixFactory::create($A);
-        $S = MatrixFactory::create($expected['S']);
+        $A = MatrixFactory::createNumeric($A);
+        $S = MatrixFactory::createNumeric($expected['S']);
 
         // When
         $svd = $A->SVD();
+
+        // And
         $svdU = $svd->U;
         $svdS = $svd->S;
         $svdV = $svd->V;
@@ -100,6 +103,155 @@ class SVDTest extends \PHPUnit\Framework\TestCase
                     'S' => [[0]],
                 ],
             ],
+            [
+                [[1]],
+                [
+                    'S' => [[1]],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ],
+                [
+                    'S' => [
+                        [1.684810e+01, 0, 0],
+                        [0, 1.068370e+00, 0],
+                        [0, 0, 4.418425e-16],
+                    ],
+                ],
+            ],
+            [
+                [
+                    [2, 2, 2],
+                    [2, 2, 2],
+                    [2, 2, 2],
+                ],
+                [
+                    'S' => [
+                        [6, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                    ],
+                ],
+            ],
+            [
+                [
+                    [-2, -2, -2],
+                    [-2, -2, -2],
+                    [-2, -2, -2],
+                ],
+                [
+                    'S' => [
+                        [6, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                    ],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [0, 4, 5],
+                    [0, 0, 6],
+                ],
+                [
+                    'S' => [
+                        [9.0125424, 0, 0],
+                        [0, 2.9974695, 0],
+                        [0, 0, 0.8884012],
+                    ],
+                ],
+            ],
+            [
+                [
+                    [1, 0, 0],
+                    [2, 3, 0],
+                    [4, 5, 6],
+                ],
+                [
+                    'S' => [
+                        [9.2000960, 0, 0],
+                        [0, 2.3843001, 0],
+                        [0, 0, 0.8205768],
+                    ],
+                ],
+            ],
+            // Singular
+            [
+                [
+                    [1, 0],
+                    [0, 0],
+                ],
+                [
+                    'S' => [
+                        [1, 0],
+                        [0, 0],
+                    ],
+                ],
+            ],
+            // Singular
+            [
+                [
+                    [1, 0, 1],
+                    [0, 1, -1],
+                    [0, 0, 0],
+                ],
+                [
+                    'S' => [
+                        [1.732051, 0, 0],
+                        [0, 1.000000, 0],
+                        [0, 0, 0.0],
+                    ],
+                ],
+            ],
+            // Idempotent
+            [
+                [
+                    [1, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 1],
+                ],
+                [
+                    'S' => [
+                        [1, 0, 0],
+                        [0, 1, 0],
+                        [0, 0, 0],
+                    ],
+                ],
+            ],
+            // Idempotent
+            [
+                [
+                    [2, -2, -4],
+                    [-1, 3, 4],
+                    [1, -2, -3],
+                ],
+                [
+                    'S' => [
+                        [7.937254, 0, 0],
+                        [0, 1, 0],
+                        [0, 0, 2.198569e-17],
+                    ],
+                ],
+            ],
+            // Floating point
+            [
+                [
+                    [2.5, 6.3, 9.1],
+                    [-1.4, 3.0, 4.45],
+                    [1.01, 8.5, -3.334],
+                ],
+                [
+                    'S' => [
+                        [12.786005, 0, 0],
+                        [0, 8.663327, 0],
+                        [0, 0, 2.315812],
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -135,7 +287,7 @@ class SVDTest extends \PHPUnit\Framework\TestCase
     public function testSVDProperties(array $A)
     {
         // Given
-        $A = MatrixFactory::create($A);
+        $A = MatrixFactory::createNumeric($A);
 
         // When
         $svd = $A->SVD();
@@ -156,7 +308,7 @@ class SVDTest extends \PHPUnit\Framework\TestCase
     public function testLesserRankSVDProperties(array $A)
     {
         // Given
-        $A = MatrixFactory::create($A);
+        $A = MatrixFactory::createNumeric($A);
 
         // When
         $svd = $A->SVD();
@@ -168,13 +320,12 @@ class SVDTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test   SVD invalid property
-     * @throws \Exception
+     * @test   SVD get properties
      */
-    public function testSVDInvalidProperty()
+    public function testSVDGetProperties()
     {
         // Given
-        $A = MatrixFactory::create([
+        $A = MatrixFactory::createNumeric([
             [4, 1, -1],
             [1, 2, 1],
             [-1, 1, 2],
@@ -186,5 +337,31 @@ class SVDTest extends \PHPUnit\Framework\TestCase
 
         // When
         $doesNotExist = $svd->doesNotExist;
+    }
+
+    /**
+     * @test   SVD invalid property
+     */
+    public function testSVDInvalidProperty()
+    {
+        // Given
+        $A = MatrixFactory::createNumeric([
+            [4, 1, -1],
+            [1, 2, 1],
+            [-1, 1, 2],
+        ]);
+        $svd = $A->SVD();
+
+        // When
+        $S = $svd->S;
+        $V = $svd->V;
+        $D = $svd->D;
+        $U = $svd->U;
+
+        // Then
+        $this->assertInstanceOf(NumericMatrix::class, $S);
+        $this->assertInstanceOf(NumericMatrix::class, $V);
+        $this->assertInstanceOf(NumericMatrix::class, $U);
+        $this->assertInstanceOf(Vector::class, $D);
     }
 }
