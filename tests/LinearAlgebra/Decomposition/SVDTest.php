@@ -30,7 +30,6 @@ class SVDTest extends \PHPUnit\Framework\TestCase
         $svdU = $svd->U;
         $svdS = $svd->S;
         $svdV = $svd->V;
-        $svdD = $svd->D;
 
         // Then A = USVᵀ
         $this->assertEqualsWithDelta($A->getMatrix(), $svdU->multiply($svdS)->multiply($svdV->transpose())->getMatrix(), 0.00001, '');
@@ -165,7 +164,7 @@ class SVDTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertTrue($svd->getU()->isOrthogonal());
         $this->assertTrue($svd->getS()->isRectangularDiagonal());
-        $this->assertEqualsWithDelta($svd->getD()->getVector(), $svd->getS()->getDiagonalElements(), 0.00001, '');
+        $this->assertEqualsWithDelta($svd->D->getVector(), $svd->getS()->getDiagonalElements(), 0.00001, '');
     }
 
     /**
