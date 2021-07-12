@@ -1259,21 +1259,15 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         Test that the proper companion matrix is calulated from a polynomial with given roots
+     * @test         Test that the proper companion matrix is calulated from a polynomial
      * @dataProvider dataProviderForTestCompanionMatrix
-     * @param array  $roots the roots of the polynomial
+     * @param array  $poly the polynomial
      * @param array  $companion_matrix the expected companion matrix
      */
-    public function testCompanionMatrix(array $roots, array $expected_matrix)
+    public function testCompanionMatrix(array $poly, array $expected_matrix)
     {
-        // Initialize a polynomial to 1
-        $poly = new Polynomial([1]);
-
-        // Generate the polynomial with the provided roots
-        foreach ($roots as $root) {
-            $factor = new Polynomial([1, -1 * $root]);
-            $poly = $poly->multiply($factor);
-        }
+        // Create a polynomial
+        $poly = new Polynomial($poly);
 
         $companion = $poly->companionMatrix();
         $this->assertEquals($expected_matrix, $companion->getMatrix(), '', .0000001);
@@ -1283,7 +1277,7 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [
-                [6, 5, 4, 3, 2, 1],
+                [1, -21, 175, -735, 1624, -1764, 720],
                 [
                     [0, 0, 0, 0, 0, -720],
                     [1, 0, 0, 0, 0, 1764],
@@ -1294,19 +1288,46 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             [
-                [6, -5],
+                [2, -42, 350, -1470, 3248, -3528, 1440],
+                [
+                    [0, 0, 0, 0, 0, -720],
+                    [1, 0, 0, 0, 0, 1764],
+                    [0, 1, 0, 0, 0, -1624],
+                    [0, 0, 1, 0, 0, 735],
+                    [0, 0, 0, 1, 0, -175],
+                    [0, 0, 0, 0, 1, 21],
+                ],
+            ],
+            [
+                [1, -1, -30],
                 [
                     [0, 30],
                     [1, 1],
                 ],
             ],
             [
-                [0, -5],
+                [1, 5, 0],
                 [
                     [0, 0],
                     [1, -5],
                 ],
             ],
         ];
+    }
+
+    /**
+     * @test   companionMatrix - OutOfBoundsException if the polynomial is degree 0.
+     * @throws \Exception
+     */
+    public function testCompanionException()
+    {
+        // Given
+        $poly   = new Polynomial([2]);
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $matrix = $poly->companionMatrix();
     }
 }

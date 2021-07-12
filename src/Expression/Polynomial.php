@@ -449,8 +449,11 @@ class Polynomial implements ObjectArithmetic
      *
      * https://en.wikipedia.org/wiki/Companion_matrix
      */
-    public function CompanionMatrix(): NumericSquareMatrix
+    public function companionMatrix(): NumericSquareMatrix
     {
+        if ($this->degree === 0) {
+            throw new Exception\OutOfBoundsException('Polynomial must be 1st degree or greater.');
+        }
         $coefficients = $this->getCoefficients();
         $reversed_coefficients = new Vector(array_reverse($coefficients));
 
