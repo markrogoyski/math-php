@@ -10,6 +10,7 @@ use MathPHP\Tests\LinearAlgebra\Fixture\MatrixDataProvider;
 class SVDTest extends \PHPUnit\Framework\TestCase
 {
     use MatrixDataProvider;
+
     /**
      * @test         SVD returns the expected array of U, S, and Vt factorized matrices
      * @dataProvider dataProviderForSVD
@@ -105,12 +106,11 @@ class SVDTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $A = MatrixFactory::create($A);
-        
+
         // When
         $svd = $A->SVD();
-        
+
         // Then
-        $this->assertTrue(isset($svd['U']) && isset($svd['S']) && isset($svd['V']) && isset($svd['D']));
         $this->assertTrue($svd->getU()->isOrthogonal());
         $this->assertTrue($svd->getS()->isRectangularDiagonal());
         $this->assertTrue($svd->getV()->isOrthogonal());

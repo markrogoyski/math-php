@@ -2668,6 +2668,7 @@ class NumericMatrix extends Matrix
      *  - QR decomposition
      *  - Cholesky decomposition
      *  - Crout decomposition
+     *  - Singular value decomposition (SVD)
      ********************************************************************************/
 
     /**
@@ -2767,6 +2768,28 @@ class NumericMatrix extends Matrix
         }
 
         return $this->catalog->getCroutDecomposition();
+    }
+
+    /**
+     * Singular Value Decomposition
+     *
+     * A = USVᵀ
+     *
+     * U is an orthogonal matrix
+     * S is a diagonal matrix
+     * V is an orthogonal matrix
+     *
+     * @return Decomposition\SVD
+     *
+     * @throws Exception\MathException
+     */
+    public function SVD(): Decomposition\SVD
+    {
+        if (!$this->catalog->hasSVD()) {
+            $this->catalog->addSVD(Decomposition\SVD::decompose($this));
+        }
+
+        return $this->catalog->getSVD();
     }
 
     /**************************************************************************
