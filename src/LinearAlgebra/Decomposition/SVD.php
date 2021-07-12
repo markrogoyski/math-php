@@ -106,7 +106,7 @@ class SVD extends Decomposition
             foreach ($diag as $key => $value) {
                 $sig[$key][$key] = $value >= 0 ? 1 : -1;
             }
-            $signature = MatrixFactory::create($sig);
+            $signature = MatrixFactory::createNumeric($sig);
             $U = $U->multiply($signature);
             $S = $signature->multiply($S);
         }

@@ -14,6 +14,7 @@ class SVDTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         SVD returns the expected array of U, S, and Vt factorized matrices
      * @dataProvider dataProviderForSVD
+     * @dataProvider dataProviderForLesserRankSVD
      * @param        array $A
      * @param        array $expected
      * @throws       \Exception
@@ -95,6 +96,21 @@ class SVDTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             [
+                [[0]],
+                [
+                    'S' => [[0]],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForLesserRankSVD(): array
+    {
+        return [
+            [
                 [
                     [1, 1, 1, 1, 1],
                     [1, 1, 1, 1, 1],
@@ -128,9 +144,27 @@ class SVDTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertTrue($svd->getU()->isOrthogonal());
         $this->assertTrue($svd->getS()->isRectangularDiagonal());
-        if ($A->rank() == $A->getM()) {
-            $this->assertTrue($svd->getV()->isOrthogonal());
-        }
+        $this->assertTrue($svd->getV()->isOrthogonal());
+        $this->assertEqualsWithDelta($svd->getD()->getVector(), $svd->getS()->getDiagonalElements(), 0.00001, '');
+    }
+
+    /**
+     * @test         SVD properties of less than full rank matrices
+     * @dataProvider dataProviderForLesserRankSVD
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testLesserRankSVDProperties(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $svd = $A->SVD();
+
+        // Then
+        $this->assertTrue($svd->getU()->isOrthogonal());
+        $this->assertTrue($svd->getS()->isRectangularDiagonal());
         $this->assertEqualsWithDelta($svd->getD()->getVector(), $svd->getS()->getDiagonalElements(), 0.00001, '');
     }
 

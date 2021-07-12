@@ -45,6 +45,8 @@ class Eigenvector
                 $max_abs = $matrix[$i][$j] > $max_abs ? $matrix[$i][$j] : $max_abs;
             }
         }
+        // Prevwmt divide by zero errors
+        $max_abs = $max_abs === 0 ? 1 : $max_abs;
         $A = $A->scalarDivide($max_abs);
         $eig = new Vector($eigenvalues);
         $eigenvalues = $eig->scalarDivide($max_abs)->getVector();
