@@ -127,7 +127,7 @@ class SVDTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertTrue($svd->getU()->isOrthogonal());
         $this->assertTrue($svd->getS()->isRectangularDiagonal());
-        $this->assertTrue($svd->getV()->isOrthogonal());
+        
         if (abs($svd->getS()->getMatrix()->get(0, 0) - 3.872983) < .01) {
             $V = [
                 [0.44721359549996, 0.22360679774998, 0.22360679774998, 0.22360679774998, 0.28867513459481],
@@ -138,5 +138,6 @@ class SVDTest extends \PHPUnit\Framework\TestCase
             ];
             $this->assertEqualsWithDelta($V, $svd->getV()->getMatrix(), 0.00001, '');
         }
+        $this->assertTrue($svd->getV()->isOrthogonal());
     }
 }
