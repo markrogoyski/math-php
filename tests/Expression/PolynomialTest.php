@@ -1275,7 +1275,7 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
             $poly = $poly->multiply($factor);
         }
 
-        $companion = MatrixFactory::companionMatrix($poly);
+        $companion = $poly->companionMatrix();
         $this->assertEquals($expected_matrix, $companion->getMatrix(), '', .0000001);
     }
 
