@@ -28,6 +28,9 @@ class MatrixCatalog
     /** @var Decomposition\Crout */
     private $crout;
 
+    /** @var Decomposition\SVD */
+    private $SVD;
+
     /** @var float determinant */
     private $det;
 
@@ -153,6 +156,7 @@ class MatrixCatalog
      *  - QR decomposition
      *  - Cholesky decomposition
      *  - Crout decomposition
+     *  - SVD
      **************************************************************************/
 
 
@@ -260,6 +264,31 @@ class MatrixCatalog
         return $this->crout;
     }
 
+    // SVD
+
+    /**
+     * @param Decomposition\SVD $SVD
+     */
+    public function addSVD(Decomposition\SVD $SVD)
+    {
+        $this->SVD = $SVD;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasSVD()
+    {
+        return isset($this->SVD);
+    }
+
+    /**
+     * @return Decomposition\SVD
+     */
+    public function getSVD(): Decomposition\SVD
+    {
+        return $this->SVD;
+    }
     /**************************************************************************
      * DERIVED DATA
      *  - determinant
