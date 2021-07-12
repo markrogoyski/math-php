@@ -514,6 +514,13 @@ $QR = $A->qrDecomposition();
 $Q  = $QR->Q;  // orthogonal matrix
 $R  = $QR->R;  // upper triangular matrix
 
+// SVD (Singular Value Decomposition)
+$SVD = $A->SVD();
+$U   = $A->U;  // m x m orthogonal matrix
+$V   = $A->V;  // n x n orthogonal matrix
+$S   = $A->S;  // m x n diagonal matrix of singular values
+$D   = $A->D;  // Vector of diagonal elements from S
+
 // Crout decomposition
 $LU = $A->croutDecomposition();
 $L  = $LU->L;  // lower triangular matrix

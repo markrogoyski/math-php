@@ -2668,7 +2668,7 @@ class NumericMatrix extends Matrix
      *  - QR decomposition
      *  - Cholesky decomposition
      *  - Crout decomposition
-     *  - Singular value decomposition (SVD)
+     *  - SVD (Singular Value Decomposition)
      ********************************************************************************/
 
     /**
@@ -2771,7 +2771,7 @@ class NumericMatrix extends Matrix
     }
 
     /**
-     * Singular Value Decomposition
+     * Singular Value Decomposition (SVD)
      *
      * A = USVᵀ
      *
