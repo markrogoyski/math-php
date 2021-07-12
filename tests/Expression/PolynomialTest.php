@@ -1293,6 +1293,20 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
                     [0, 0, 0, 0, 1, 21],
                 ],
             ],
+            [
+                [6, -5],
+                [
+                    [0, 30],
+                    [1, 1],
+                ],
+            ],
+            [
+                [0, -5],
+                [
+                    [0, 0],
+                    [1, -5],
+                ],
+            ],
         ];
     }
 }
