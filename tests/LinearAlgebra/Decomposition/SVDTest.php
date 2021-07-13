@@ -313,7 +313,12 @@ class SVDTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta($D->getVector(), $S->getDiagonalElements(), 0.00001, '');
 
         // And the number of non-zero singular values is equal to the rank of M
-        $nonZeroSingularValues = array_filter($D->getVector(), function ($singularValue) { return Support::isNotZero($singularValue); });
+        $nonZeroSingularValues = array_filter(
+            $D->getVector(),
+            function ($singularValue) {
+                return Support::isNotZero($singularValue);
+            }
+        );
         $this->assertEquals($A->rank(), count($nonZeroSingularValues));
 
         // And UUᵀ = I
