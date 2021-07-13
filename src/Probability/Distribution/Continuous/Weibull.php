@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 use MathPHP\Functions\Special;
@@ -12,7 +13,7 @@ class Weibull extends Continuous
      * k ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'k' => '(0,∞)',
         'λ' => '(0,∞)',
     ];
@@ -22,23 +23,23 @@ class Weibull extends Continuous
      * x ∈ [0,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',
     ];
 
-    /** @var number Shape Parameter */
+    /** @var float Shape Parameter */
     protected $k;
 
-    /** @var number Scale Parameter */
+    /** @var float Scale Parameter */
     protected $λ;
 
     /**
      * Constructor
      *
-     * @param number $k shape parameter k > 0
-     * @param number $λ scale parameter λ > 0
+     * @param float $k shape parameter k > 0
+     * @param float $λ scale parameter λ > 0
      */
-    public function __construct($k, $λ)
+    public function __construct(float $k, float $λ)
     {
         parent::__construct($k, $λ);
     }
@@ -55,9 +56,10 @@ class Weibull extends Continuous
      * f(x) = 0                    for x < 0
      *
      * @param float $x percentile (value to evaluate)
+     *
      * @return float
      */
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
         if ($x < 0) {
@@ -68,8 +70,8 @@ class Weibull extends Continuous
         $λ = $this->λ;
 
         $k／λ      = $k / $λ;
-        $⟮x／λ⟯ᵏ⁻¹  = pow($x / $λ, $k - 1);
-        $ℯ⁻⁽x／λ⁾ᵏ = exp(-pow($x / $λ, $k));
+        $⟮x／λ⟯ᵏ⁻¹  = \pow($x / $λ, $k - 1);
+        $ℯ⁻⁽x／λ⁾ᵏ = \exp(- \pow($x / $λ, $k));
         return $k／λ * $⟮x／λ⟯ᵏ⁻¹ * $ℯ⁻⁽x／λ⁾ᵏ;
     }
 
@@ -82,9 +84,10 @@ class Weibull extends Continuous
      * f(x) = 0           for x < 0
      *
      * @param float $x percentile (value to evaluate)
+     *
      * @return float
      */
-    public function cdf(float $x)
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
         if ($x < 0) {
@@ -94,25 +97,10 @@ class Weibull extends Continuous
         $k = $this->k;
         $λ = $this->λ;
 
-        $ℯ⁻⁽x／λ⁾ᵏ = exp(-pow($x / $λ, $k));
+        $ℯ⁻⁽x／λ⁾ᵏ = \exp(-\pow($x / $λ, $k));
         return 1 - $ℯ⁻⁽x／λ⁾ᵏ;
     }
-    
-    /**
-     * Mean of the distribution
-     *
-     * μ = λΓ(1 + 1/k)
-     *
-     * @return number
-     */
-    public function mean()
-    {
-        $k = $this->k;
-        $λ = $this->λ;
 
-        return $λ * Special::gamma(1 + 1 / $k);
-    }
-    
     /**
      * Inverse CDF (Quantile function)
      *
@@ -120,14 +108,71 @@ class Weibull extends Continuous
      *
      * @param float $p
      *
-     * @return number
+     * @return float
      */
-    public function inverse(float $p)
+    public function inverse(float $p): float
     {
         Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
         $k = $this->k;
         $λ = $this->λ;
 
-        return $λ * (-1 * log(1 - $p))**(1/$k);
+        return $λ * (-1 * \log(1 - $p)) ** (1 / $k);
+    }
+
+    /**
+     * Mean of the distribution
+     *
+     * μ = λΓ(1 + 1/k)
+     *
+     * @return float
+     */
+    public function mean(): float
+    {
+        $k = $this->k;
+        $λ = $this->λ;
+
+        return $λ * Special::gamma(1 + 1 / $k);
+    }
+
+    /**
+     * Median of the distribution
+     *
+     * median = λ(ln 2)¹ᐟᵏ
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        $k = $this->k;
+        $λ = $this->λ;
+
+        $⟮ln 2⟯¹ᐟᵏ = \pow(\log(2), 1 / $k);
+
+        return $λ * $⟮ln 2⟯¹ᐟᵏ;
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     *    / k - 1  \¹ᐟᵏ
+     * λ |  -----  |
+     *    \   k    /
+     *
+     * 0  k ≤ 1
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        $k = $this->k;
+        $λ = $this->λ;
+
+        if ($k <= 1) {
+            return 0;
+        }
+
+        $⟮⟮k − 1⟯／k⟯¹ᐟᵏ = \pow(($k - 1) / $k, 1 / $k);
+
+        return $λ * $⟮⟮k − 1⟯／k⟯¹ᐟᵏ;
     }
 }

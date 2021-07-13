@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 use MathPHP\Functions\Support;
@@ -15,7 +16,7 @@ class Cauchy extends Continuous
      * γ  ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'x₀' => '(-∞,∞)',
         'γ'  => '(0,∞)',
     ];
@@ -25,7 +26,7 @@ class Cauchy extends Continuous
      * x  ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x'  => '(-∞,∞)',
     ];
 
@@ -38,10 +39,10 @@ class Cauchy extends Continuous
     /**
      * Constructor
      *
-     * @param number $x₀ location parameter
-     * @param number $γ  scale parameter γ > 0
+     * @param float $x₀ location parameter
+     * @param float $γ  scale parameter γ > 0
      */
-    public function __construct($x₀, $γ)
+    public function __construct(float $x₀, float $γ)
     {
         parent::__construct($x₀, $γ);
     }
@@ -57,9 +58,9 @@ class Cauchy extends Continuous
      *
      * @param float $x
      *
-     * @return number
+     * @return float
      */
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -69,16 +70,16 @@ class Cauchy extends Continuous
 
         return 1 / ($π * $γ * (1 + (($x - $x₀) / $γ) ** 2));
     }
-    
+
     /**
      * Cumulative distribution function
      * Calculate the cumulative value value up to a point, left tail.
      *
      * @param float $x
      *
-     * @return number
+     * @return float
      */
-    public function cdf(float $x)
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -86,41 +87,9 @@ class Cauchy extends Continuous
         $γ  = $this->γ;
         $π  = \M_PI;
 
-        return 1 / $π * atan(($x - $x₀) / $γ) + .5;
+        return 1 / $π * \atan(($x - $x₀) / $γ) + .5;
     }
-    
-    /**
-     * Mean of the distribution (undefined)
-     *
-     * μ is undefined
-     *
-     * @return null
-     */
-    public function mean()
-    {
-        return \NAN;
-    }
-        
-    /**
-     * Meadian of the distribution
-     *
-     * @return number x₀
-     */
-    public function median()
-    {
-        return $this->x₀;
-    }
-    
-    /**
-     * Mode of the distribution
-     *
-     * @return number x₀
-     */
-    public function mode()
-    {
-        return $this->x₀;
-    }
-    
+
     /**
      * Inverse CDF (Quantile function)
      *
@@ -128,17 +97,59 @@ class Cauchy extends Continuous
      *
      * @param float $p
      *
-     * @return number
+     * @return float
      */
-    public function inverse(float $p)
+    public function inverse(float $p): float
     {
         Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
 
         $x₀ = $this->x₀;
-        $γ = $this->γ;
+        $γ  = $this->γ;
 
         $π = \M_PI;
 
-        return $x₀ + $γ * tan($π * ($p - .5));
+        return $x₀ + $γ * \tan($π * ($p - .5));
+    }
+
+    /**
+     * Mean of the distribution (undefined)
+     *
+     * μ is undefined
+     *
+     * @return float \NAN
+     */
+    public function mean(): float
+    {
+        return \NAN;
+    }
+
+    /**
+     * Median of the distribution
+     *
+     * @return float x₀
+     */
+    public function median(): float
+    {
+        return $this->x₀;
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     * @return float x₀
+     */
+    public function mode(): float
+    {
+        return $this->x₀;
+    }
+
+    /**
+     * Variance of the distribution (undefined)
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        return \NAN;
     }
 }

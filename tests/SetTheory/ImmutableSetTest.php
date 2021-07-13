@@ -1,44 +1,62 @@
 <?php
+
 namespace MathPHP\Tests\SetTheory;
 
 use MathPHP\SetTheory\ImmutableSet;
 use MathPHP\SetTheory\Set;
 
-class ImmutableSetTest extends \PHPUnit_Framework_TestCase
+class ImmutableSetTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @test add does nothing
+     */
     public function testAddDoesNothing()
     {
+        // Given
         $A = new ImmutableSet([1, 2, 3, 4]);
         $B = $A->copy();
 
+        // When
         $A->add(5);
         $A->add(6);
         $A->add([7, 8, 9]);
         $A->add(new Set(['a', 'b']));
 
+        // Then
         $this->assertEquals($B, $A);
         $this->assertEquals($B->asArray(), $A->asArray());
     }
 
+    /**
+     * @test addMulti does nothing
+     */
     public function testAddMultiDoesNothing()
     {
+        // Given
         $A = new ImmutableSet([1, 2, 3, 4]);
         $B = $A->copy();
 
+        // When
         $A->addMulti([5]);
         $A->addMulti([6, 7, 8]);
         $A->addMulti([7, 8, 9]);
         $A->addMulti([new Set(['a', 'b'])]);
 
+        // Then
         $this->assertEquals($B, $A);
         $this->assertEquals($B->asArray(), $A->asArray());
     }
 
+    /**
+     * @test remove does nothing
+     */
     public function testRemoveDoesNothing()
     {
+        // Given
         $A = new ImmutableSet([1, 2, 3, 4]);
         $B = $A->copy();
 
+        // When
         $A->remove(1);
         $A->remove([2, 3]);
 
@@ -46,11 +64,16 @@ class ImmutableSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($B->asArray(), $A->asArray());
     }
 
+    /**
+     * @test removeMulti does nothing
+     */
     public function testRemoveMultiDoesNothing()
     {
+        // Given
         $A = new ImmutableSet([1, 2, 3, 4]);
         $B = $A->copy();
 
+        // When
         $A->removeMulti([1]);
         $A->removeMulti([2, 3]);
 
@@ -58,26 +81,39 @@ class ImmutableSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($B->asArray(), $A->asArray());
     }
 
+    /**
+     * @test clear does nothing
+     */
     public function testClearDoesNothing()
     {
+        // Given
         $A = new ImmutableSet([1, 2, 3, 4]);
         $B = $A->copy();
 
+        // When
         $A->clear();
 
         $this->assertEquals($B, $A);
         $this->assertEquals($B->asArray(), $A->asArray());
     }
 
+    /**
+     * @test set
+     */
     public function testIsASet()
     {
+        // Given
         $A = new ImmutableSet([1, 2, 3, 4]);
 
         $this->assertInstanceOf(Set::class, $A);
     }
 
+    /**
+     * @test acts like a set
+     */
     public function testActsLikeASet()
     {
+        // Given
         $A = new ImmutableSet([1, 2, 3]);
         $B = new ImmutableSet([3, 4, 5]);
 
@@ -120,7 +156,7 @@ class ImmutableSetTest extends \PHPUnit_Framework_TestCase
         ]), $A->cartesianProduct($B));
 
         $this->assertEquals($A, $A->copy());
-        $this->assertEquals('Set{1, 2, 3}', strval($A));
+        $this->assertEquals('Set{1, 2, 3}', \strval($A));
 
         $this->assertEquals(3, count($A));
         $this->assertEquals(3, count($B));

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 use MathPHP\Functions\Special;
@@ -15,7 +16,7 @@ class StudentT extends Continuous
      * ν ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'ν' => '(0,∞)',
     ];
 
@@ -24,19 +25,19 @@ class StudentT extends Continuous
      * t ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         't' => '(-∞,∞)',
     ];
 
-    /** @var number Degrees of Freedom Parameter */
+    /** @var float Degrees of Freedom Parameter */
     protected $ν;
 
     /**
      * Constructor
      *
-     * @param number $ν degrees of freedom ν > 0
+     * @param float $ν degrees of freedom ν > 0
      */
-    public function __construct($ν)
+    public function __construct(float $ν)
     {
         parent::__construct($ν);
     }
@@ -55,9 +56,9 @@ class StudentT extends Continuous
      *
      * @param float $t t score
      *
-     * @return number
+     * @return float
      */
-    public function pdf(float $t)
+    public function pdf(float $t): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
 
@@ -66,16 +67,16 @@ class StudentT extends Continuous
 
         // Numerator
         $Γ⟮⟮ν＋1⟯∕2⟯ = Special::gamma(($ν + 1) / 2);
-        $⟮1＋t²∕ν⟯ = 1 + ($t**2 / $ν);
+        $⟮1＋t²∕ν⟯ = 1 + ($t ** 2 / $ν);
         $−⟮ν＋1⟯∕2 = -($ν + 1) / 2;
 
         // Denominator
-        $√⟮νπ⟯  = sqrt($ν * $π);
+        $√⟮νπ⟯  = \sqrt($ν * $π);
         $Γ⟮ν∕2⟯ = Special::gamma($ν / 2);
-        
-        return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋t²∕ν⟯**$−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);
+
+        return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋t²∕ν⟯ ** $−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);
     }
-    
+
     /**
      * Cumulative distribution function
      * Calculate the cumulative t value up to a point, left tail.
@@ -90,9 +91,9 @@ class StudentT extends Continuous
      *
      * @param float $t t score
      *
-     * @return number
+     * @return float
      */
-    public function cdf(float $t)
+    public function cdf(float $t): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
 
@@ -101,7 +102,7 @@ class StudentT extends Continuous
             return .5;
         }
 
-        $x⟮t⟯  = $ν / ($t**2 + $ν);
+        $x⟮t⟯  = $ν / ($t ** 2 + $ν);
         $ν／2 = $ν / 2;
         $½    = .5;
         $Iₓ   = Special::regularizedIncompleteBeta($x⟮t⟯, $ν／2, $½);
@@ -118,26 +119,26 @@ class StudentT extends Continuous
      * Inverse 2 tails
      * Find t such that the area greater than t and the area beneath -t is p.
      *
-     * @param number $p Proportion of area
+     * @param float $p Proportion of area
      *
-     * @return number t-score
+     * @return float t-score
      */
-    public function inverse2Tails($p)
+    public function inverse2Tails(float $p): float
     {
         Support::checkLimits(['p'  => '[0,1]'], ['p' => $p]);
-        $ν = $this->ν;
-        return self::inverse(1 - $p / 2, $ν);
+
+        return $this->inverse(1 - $p / 2);
     }
-    
+
     /**
      * Mean of the distribution
      *
      * μ = 0 if ν > 1
      * otherwise undefined
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
         if ($this->ν > 1) {
             return 0;
@@ -145,16 +146,57 @@ class StudentT extends Continuous
 
         return \NAN;
     }
-    
+
     /**
      * Median of the distribution
      *
      * μ = 0
      *
-     * @return number
+     * @return float
      */
-    public function median()
+    public function median(): float
     {
         return 0;
+    }
+
+
+    /**
+     * Mode of the distribution
+     *
+     * μ = 0
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        return 0;
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     *        ν
+     * σ² = -----    ν > 2
+     *      ν - 2
+     *
+     * σ² = ∞        1 < ν ≤ 2
+     *
+     * σ² is undefined otherwise
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $ν = $this->ν;
+
+        if ($ν > 2) {
+            return $ν / ($ν - 2);
+        }
+
+        if ($ν > 1) {
+            return \INF;
+        }
+
+        return \NAN;
     }
 }

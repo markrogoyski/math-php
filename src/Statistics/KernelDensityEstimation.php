@@ -1,9 +1,9 @@
 <?php
+
 namespace MathPHP\Statistics;
 
 use MathPHP\Exception;
 use MathPHP\Probability\Distribution\Continuous;
-use MathPHP\Statistics\Descriptive;
 
 /**
  * Kernel Density Estimate
@@ -18,36 +18,40 @@ use MathPHP\Statistics\Descriptive;
  */
 class KernelDensityEstimation
 {
+    /** @var array Data used for the esimtation */
+    protected $data;
+
     /** @var int number of data points */
     protected $n;
-    
+
     /** @var float bandwidth */
     protected $h;
-    
+
     /** @var callable kernel function */
     protected $kernel;
 
     // Available built-in kernel functions
-    const STANDARD_NORMAL = 'StandardNormal';
-    const NORMAL          = 'Normal';
-    const UNIFORM         = 'Uniform';
-    const TRIANGULAR      = 'Triangular';
-    const EPANECHNIKOV    = 'Epanechnikov';
-    const TRICUBE         = 'Tricube';
+    public const STANDARD_NORMAL = 'StandardNormal';
+    public const NORMAL          = 'Normal';
+    public const UNIFORM         = 'Uniform';
+    public const TRIANGULAR      = 'Triangular';
+    public const EPANECHNIKOV    = 'Epanechnikov';
+    public const TRICUBE         = 'Tricube';
 
     /**
      * Constructor
      *
-     * @param array                $data data used for the estimation
-     * @param float|null           $h the bandwidth
+     * @param array $data data used for the estimation
+     * @param float|null $h the bandwidth
      * @param callable|string|null $kernel a function used to generate the KDE
      *
-     * @throws BadDataException     if data set is empty
-     * @throws OutOfBoundsException h ≤ 0
+     * @throws Exception\BadDataException     if data set is empty
+     * @throws Exception\OutOfBoundsException h ≤ 0
+     * @throws Exception\BadParameterException
      */
     public function __construct(array $data, float $h = null, $kernel = null)
     {
-        $this->n = count($data);
+        $this->n = \count($data);
         if ($this->n === 0) {
             throw new Exception\BadDataException('Dataset cannot be empty.');
         }
@@ -62,9 +66,9 @@ class KernelDensityEstimation
      *
      * @param float|null $h the bandwidth
      *
-     * @throws OutOfBoundsException if h ≤ 0
+     * @throws Exception\OutOfBoundsException if h ≤ 0
      */
-    public function setBandwidth(float $h = null)
+    public function setBandwidth(float $h = null): void
     {
         if ($h === null) {
             $this->h = $this->getDefaultBandwidth();
@@ -90,10 +94,12 @@ class KernelDensityEstimation
      *
      *
      * @return float
+     *
+     * @throws Exception\OutOfBoundsException
      */
     private function getDefaultBandwidth(): float
     {
-        $４σ⁵ = 4 * Descriptive::standardDeviation($this->data)**5;
+        $４σ⁵ = 4 * Descriptive::standardDeviation($this->data) ** 5;
         $３n  = 3 * $this->n;
         $⅕    = 0.2;
 
@@ -108,18 +114,20 @@ class KernelDensityEstimation
      *
      * @param callable|string|null $kernel
      *
-     * @throws BadParameterException if $kernel is not a string or callable
+     * @throws Exception\BadParameterException if $kernel is not a string or callable
+     * @throws Exception\BadDataException
+     * @throws Exception\OutOfBoundsException
      */
-    public function setKernelFunction($kernel = null)
+    public function setKernelFunction($kernel = null): void
     {
         if ($kernel === null) {
             $this->kernel = $this->getKernelFunctionFromLibrary(self::STANDARD_NORMAL);
-        } elseif (is_string($kernel)) {
+        } elseif (\is_string($kernel)) {
             $this->kernel = $this->getKernelFunctionFromLibrary($kernel);
-        } elseif (is_callable($kernel)) {
+        } elseif (\is_callable($kernel)) {
             $this->kernel = $kernel;
         } else {
-            throw new Exception\BadParameterException('Kernel must be a callable or a string. Type is: ' . gettype($kernel));
+            throw new Exception\BadParameterException('Kernel must be a callable or a string. Type is: ' . \gettype($kernel));
         }
     }
 
@@ -130,7 +138,8 @@ class KernelDensityEstimation
      *
      * @return callable kernel function
      *
-     * @throws BadDataException if the name of the kernel function is not one of the built-in functions
+     * @throws Exception\BadDataException if the name of the kernel function is not one of the built-in functions
+     * @throws Exception\OutOfBoundsException
      */
     private function getKernelFunctionFromLibrary(string $kernel): callable
     {
@@ -151,7 +160,7 @@ class KernelDensityEstimation
 
             case self::UNIFORM:
                 return function ($x) {
-                    if (abs($x) > 1) {
+                    if (\abs($x) > 1) {
                         return 0;
                     } else {
                         return .5;
@@ -160,16 +169,16 @@ class KernelDensityEstimation
 
             case self::TRIANGULAR:
                 return function ($x) {
-                    if (abs($x) > 1) {
+                    if (\abs($x) > 1) {
                         return 0;
                     } else {
-                        return 1 - abs($x);
+                        return 1 - \abs($x);
                     }
                 };
 
             case self::EPANECHNIKOV:
                 return function ($x) {
-                    if (abs($x) > 1) {
+                    if (\abs($x) > 1) {
                         return 0;
                     } else {
                         return .75 * (1 - $x ** 2);
@@ -178,10 +187,10 @@ class KernelDensityEstimation
 
             case self::TRICUBE:
                 return function ($x) {
-                    if (abs($x) > 1) {
+                    if (\abs($x) > 1) {
                         return 0;
                     } else {
-                        return 70 / 81 * ((1 - abs($x) ** 3) ** 3);
+                        return 70 / 81 * ((1 - \abs($x) ** 3) ** 3);
                     }
                 };
 
@@ -207,14 +216,14 @@ class KernelDensityEstimation
         $h = $this->h;
         $n = $this->n;
 
-        $scale = array_map(
+        $scale = \array_map(
             function ($xᵢ) use ($x, $h) {
                 return ($x - $xᵢ) / $h;
             },
             $this->data
         );
-        $K       = array_map($this->kernel, $scale);
-        $density = array_sum($K) / ($n * $h);
+        $K       = \array_map($this->kernel, $scale);
+        $density = \array_sum($K) / ($n * $h);
 
         return $density;
     }

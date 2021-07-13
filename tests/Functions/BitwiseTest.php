@@ -1,11 +1,13 @@
 <?php
+
 namespace MathPHP\Tests\Functions;
 
 use MathPHP\Functions\Bitwise;
 
-class BitwiseTest extends \PHPUnit_Framework_TestCase
+class BitwiseTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test         add
      * @dataProvider dataProviderForBitwiseAdd
      * @param        int   $a
      * @param        int   $b
@@ -13,8 +15,11 @@ class BitwiseTest extends \PHPUnit_Framework_TestCase
      */
     public function testBitwiseAdd(int $a, int $b, array $expected)
     {
-        $results = Bitwise::add($a, $b);
-        $this->assertEquals($expected, $results);
+        // When
+        $sum = Bitwise::add($a, $b);
+
+        // Then
+        $this->assertEquals($expected, $sum);
     }
 
     public function dataProviderForBitwiseAdd(): array

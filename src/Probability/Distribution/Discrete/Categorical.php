@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Discrete;
 
 use MathPHP\Exception;
@@ -13,6 +14,8 @@ use MathPHP\Exception;
  */
 class Categorical extends Discrete
 {
+    public const PARAMETER_LIMITS = [];
+
     /** @var int number of categories */
     private $k;
 
@@ -33,7 +36,7 @@ class Categorical extends Discrete
      *
      * @throws Exception\BadParameterException if k does not indicate at least one category
      * @throws Exception\BadDataException      if there are not k probabilities
-     * @throws Exception\BadaDataException     if the probabilities do not add up to 1
+     * @throws Exception\BadDataException      if the probabilities do not add up to 1
      */
     public function __construct(int $k, array $probabilities)
     {
@@ -43,17 +46,19 @@ class Categorical extends Discrete
         }
 
         // Must have k number of probabilities
-        if (count($probabilities) != $k) {
-            throw new Exception\BadDataException("Must have $k probabilities. Given " . count($probabilities));
+        if (\count($probabilities) != $k) {
+            throw new Exception\BadDataException("Must have $k probabilities. Given " . \count($probabilities));
         }
 
         // Probabilities must add up to 1
-        if (round(array_sum($probabilities), 1) != 1) {
+        if (\round(\array_sum($probabilities), 1) != 1) {
             throw new Exception\BadDataException('Probabilities do not add up to 1.');
         }
 
         $this->k             = $k;
         $this->probabilities = $probabilities;
+
+        parent::__construct();
     }
 
     /**
@@ -77,9 +82,9 @@ class Categorical extends Discrete
     }
 
     /**
-     * Mode
+     * Mode of the distribution
      *
-     * i such that pᵢ = max(p₁, ... pk)
+     * i such that pᵢ = \max(p₁, ... pk)
      *
      * @return mixed Category name/number. Only returns one category in case on multimodal scenario.
      */

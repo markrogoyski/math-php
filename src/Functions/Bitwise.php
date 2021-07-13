@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Functions;
 
 class Bitwise
@@ -32,8 +33,8 @@ class Bitwise
      *         and the signed int.
      *         The values of $a and $b have to be shifted towards zero to prevent the
      *         signed int from overflowing. We are removing the most significant
-     *         bit from the ints by subtractingPHP_INT_MIN to prevent overflow.
-     *         $a = 1001, $b = 1010, return [true, '0011] because \PHP_INT_MIN = 1000,
+     *         bit from the ints by subtracting PHP_INT_MIN to prevent overflow.
+     *         $a = 1001, $b = 1010, return [true, '0011] because PHP_INT_MIN = 1000,
      *         Giving $a - 1000 = 0001, $b - 1000 = 0010.
      *
      * @param int $a
@@ -45,8 +46,10 @@ class Bitwise
      */
     public static function add(int $a, int $b): array
     {
-        if (is_int($a + $b)) {
-            $sum      = $a + $b;
+        /** @var int|float due to potential overflow */
+        $sum = $a + $b;
+
+        if (\is_int($sum)) {
             $overflow = (($a < 0 || $b < 0) && $sum >= 0) || ($a < 0 && $b < 0);
         } elseif ($a > 0 && $b > 0) {
             $sum      = $a - \PHP_INT_MAX + $b - 1 + \PHP_INT_MIN;

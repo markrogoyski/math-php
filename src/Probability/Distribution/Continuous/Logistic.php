@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 use MathPHP\Functions\Support;
@@ -15,7 +16,7 @@ class Logistic extends Continuous
      * s ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
         's' => '(0,∞)',
     ];
@@ -25,23 +26,23 @@ class Logistic extends Continuous
      * x ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',
     ];
 
-    /** @var number Location Parameter */
+    /** @var float Location Parameter */
     protected $μ;
-    
-    /** @var number Scale Parameter */
+
+    /** @var float Scale Parameter */
     protected $s;
 
     /**
      * Constructor
      *
-     * @param number $μ shape parameter
-     * @param number $s shape parameter s > 0
+     * @param float $μ shape parameter
+     * @param float $s shape parameter s > 0
      */
-    public function __construct($μ, $s)
+    public function __construct(float $μ, float $s)
     {
         parent::__construct($μ, $s);
     }
@@ -61,15 +62,15 @@ class Logistic extends Continuous
      *
      * @return float
      */
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $μ = $this->μ;
         $s = $this->s;
 
-        $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
-        return $ℯ＾⁻⁽x⁻μ⁾／s / ($s * pow(1 + $ℯ＾⁻⁽x⁻μ⁾／s, 2));
+        $ℯ＾⁻⁽x⁻μ⁾／s = \exp(-($x - $μ) / $s);
+        return $ℯ＾⁻⁽x⁻μ⁾／s / ($s * \pow(1 + $ℯ＾⁻⁽x⁻μ⁾／s, 2));
     }
     /**
      * Cumulative distribution function
@@ -85,29 +86,17 @@ class Logistic extends Continuous
      *
      * @return float
      */
-    public function cdf(float $x)
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $μ = $this->μ;
         $s = $this->s;
 
-        $ℯ＾⁻⁽x⁻μ⁾／s = exp(-($x - $μ) / $s);
+        $ℯ＾⁻⁽x⁻μ⁾／s = \exp(-($x - $μ) / $s);
         return 1 / (1 + $ℯ＾⁻⁽x⁻μ⁾／s);
     }
-    
-    /**
-     * Mean of the distribution
-     *
-     * μ = μ
-     *
-     * @return number μ
-     */
-    public function mean()
-    {
-        return $this->μ;
-    }
-    
+
     /**
      * Inverse CDF (quantile function)
      *
@@ -117,14 +106,71 @@ class Logistic extends Continuous
      *
      * @param float $p
      *
-     * @return number
+     * @return float
      */
-    public function inverse(float $p)
+    public function inverse(float $p): float
     {
         Support::checkLimits(['p' => '[0,1]'], ['p' => $p]);
         $μ = $this->μ;
         $s = $this->s;
 
-        return $μ + $s * log($p / (1 - $p));
+        if ($p == 1) {
+            return \INF;
+        }
+
+        return $μ + $s * \log($p / (1 - $p));
+    }
+
+    /**
+     * Mean of the distribution
+     *
+     * μ = μ
+     *
+     * @return float μ
+     */
+    public function mean(): float
+    {
+        return $this->μ;
+    }
+
+    /**
+     * Median of the distribution
+     *
+     * median = μ
+     *
+     * @return float μ
+     */
+    public function median(): float
+    {
+        return $this->μ;
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     * mode = μ
+     *
+     * @return float μ
+     */
+    public function mode(): float
+    {
+        return $this->μ;
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     *          s²π²
+     * var[X] = ----
+     *           3
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $s² = $this->s ** 2;
+        $π² = \M_PI ** 2;
+
+        return ($s² * $π²) / 3;
     }
 }

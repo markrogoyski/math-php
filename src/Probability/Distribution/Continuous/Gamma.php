@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 use MathPHP\Functions\Special;
@@ -16,7 +17,7 @@ class Gamma extends Continuous
      * θ ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'k' => '(0,∞)',
         'θ' => '(0,∞)',
     ];
@@ -26,23 +27,23 @@ class Gamma extends Continuous
      * x ∈ (0,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(0,∞)',
     ];
 
-    /** @var number shape parameter k > 0 */
+    /** @var float shape parameter k > 0 */
     protected $k;
 
-    /** @var number shape parameter θ > 0 */
+    /** @var float shape parameter θ > 0 */
     protected $θ;
 
     /**
      * Constructor
      *
-     * @param number $k shape parameter k > 0
-     * @param number $θ scale parameter θ > 0
+     * @param float $k shape parameter k > 0
+     * @param float $θ scale parameter θ > 0
      */
-    public function __construct($k, $θ)
+    public function __construct(float $k, float $θ)
     {
         parent::__construct($k, $θ);
     }
@@ -67,11 +68,11 @@ class Gamma extends Continuous
         $θ = $this->θ;
 
         $Γ⟮k⟯   = Special::Γ($k);
-        $θᵏ    = $θ**$k;
+        $θᵏ    = $θ ** $k;
         $Γ⟮k⟯θᵏ = $Γ⟮k⟯ * $θᵏ;
 
-        $xᵏ⁻¹ = $x**($k - 1);
-        $e    = \M_E**(-$x / $θ);
+        $xᵏ⁻¹ = $x ** ($k - 1);
+        $e    = \M_E ** (-$x / $θ);
 
         return ($xᵏ⁻¹ * $e) / $Γ⟮k⟯θᵏ;
     }
@@ -105,10 +106,56 @@ class Gamma extends Continuous
      *
      * μ = k θ
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
         return $this->k * $this->θ;
+    }
+
+    /**
+     * Approximation of the median of the distribution
+     * https://en.wikipedia.org/wiki/Gamma_distribution#Median_calculation
+     *
+     *       3k - 0.8
+     * υ ≈ μ --------
+     *       3k + 0.2
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        $μ   = $this->mean();
+        $３k = 3 * $this->k;
+
+        return $μ * (($３k - 0.8) / ($３k + 0.2));
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     * mode = (k - 1)θ   k ≥ 1
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        if ($this->k < 1) {
+            return \NAN;
+        }
+
+        return ($this->k - 1) * $this->θ;
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     * var[X] = kθ²
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        return $this->k * $this->θ ** 2;
     }
 }

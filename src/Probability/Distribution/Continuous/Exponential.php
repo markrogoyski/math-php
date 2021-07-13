@@ -1,7 +1,8 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
-use MathPHP\Functions\Support;
+use MathPHP\Exception\OutOfBoundsException;
 
 /**
  * Exponential distribution
@@ -14,7 +15,7 @@ class Exponential extends Continuous
      * λ ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'λ' => '(0,∞)',
     ];
 
@@ -23,7 +24,7 @@ class Exponential extends Continuous
      * x ∈ [0,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '[0,∞)',
     ];
 
@@ -55,11 +56,10 @@ class Exponential extends Continuous
         if ($x < 0) {
             return 0;
         }
-        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $λ = $this->λ;
 
-        return $λ * exp(-$λ * $x);
+        return $λ * \exp(-$λ * $x);
     }
     /**
      * Cumulative distribution function
@@ -76,22 +76,86 @@ class Exponential extends Continuous
         if ($x < 0) {
             return 0;
         }
-        Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $λ = $this->λ;
 
-        return 1 - exp(-$λ * $x);
+        return 1 - \exp(-$λ * $x);
     }
-    
+
+    /**
+     * Inverse cumulative distribution function (quantile function)
+     *
+     *            −ln(1 − p)
+     * F⁻¹(p;λ) = ----------    0 ≤ p < 1
+     *                λ
+     *
+     * @param float $p
+     *
+     * @return float
+     *
+     * @throws OutOfBoundsException
+     */
+    public function inverse(float $p): float
+    {
+        if ($p < 0 || $p > 1) {
+            throw new OutOfBoundsException("p must be between 0 and 1; given a p of $p");
+        }
+        if ($p == 1) {
+            return \INF;
+        }
+
+        return -\log(1 - $p) / $this->λ;
+    }
+
     /**
      * Mean of the distribution
      *
      * μ = λ⁻¹
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
         return 1 / $this->λ;
+    }
+
+    /**
+     * Median of the distribution
+     *
+     *          ln(2)
+     * median = -----
+     *            λ
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        return \log(2) / $this->λ;
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     * mode = 0
+     *
+     * @return float
+     */
+    public function mode(): float
+    {
+        return 0;
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     *           1
+     * var[X] = --
+     *          λ²
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        return 1 / ($this->λ ** 2);
     }
 }

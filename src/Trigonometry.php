@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP;
 
 /**
@@ -13,16 +14,18 @@ class Trigonometry
      * For example: unitCircle(5) would return the array:
      * [[1, 0], [0, 1], [-1, 0], [0, -1], [1, 0]]
      *
-     * @param int $numpoints
+     * @param int $points number of points
+     *
+     * @return array
      */
-    public static function unitCircle(int $numpoints = 11): array
+    public static function unitCircle(int $points = 11): array
     {
-        $n           = $numpoints - 1;
+        $n           = $points - 1;
         $unit_circle = [];
 
         for ($i = 0; $i <= $n; $i++) {
-            $x = cos(2 * pi() * $i / ($n));
-            $y = sin(2 * pi() * $i / ($n));
+            $x = \cos(2 * pi() * $i / ($n));
+            $y = \sin(2 * pi() * $i / ($n));
             $unit_circle[] = [$x, $y];
         }
 

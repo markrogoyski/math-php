@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability;
 
 use MathPHP\Exception;
@@ -24,10 +25,8 @@ use MathPHP\Exception;
  */
 class Combinatorics
 {
-    /**
-     * @var bool Combinations with repetition
-     */
-    const REPETITION = true;
+    /** @var bool Combinations with repetition */
+    public const REPETITION = true;
 
     /**************************************************************************
      * Factorials
@@ -40,25 +39,25 @@ class Combinatorics
      *
      * @param  int $n
      *
-     * @return int number of permutations of n
+     * @return float number of permutations of n
      *
-     * @throws OutOfBoundsException if n < 0
+     * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function factorial(int $n)
+    public static function factorial(int $n): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute factorial of a negative number.');
         }
         $factorial = 1;
-        while ($n > 0) {
+        while ($n > 1) {
             $factorial *= $n;
-            $n--;
+            --$n;
         }
         return $factorial;
     }
 
     /**
-     * Double facatorial (iterative)
+     * Double factorial (iterative)
      * Also known as semifactorial
      *
      * The product of all the integers from 1 up to some non-negative integer n
@@ -80,11 +79,11 @@ class Combinatorics
      *
      * @param  int $n
      *
-     * @return int
+     * @return float
      *
-     * @throws OutOfBoundsException if n < 0
+     * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function doubleFactorial(int $n)
+    public static function doubleFactorial(int $n): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute double factorial of a negative number.');
@@ -118,13 +117,14 @@ class Combinatorics
      *
      * x⁽ⁿ⁾ = x * (x + 1) * (x + 2) ... (x + n - 1)
      *
-     * @param  number $x
-     * @param  int    $n
-     * @return number
+     * @param  float $x
+     * @param  int   $n
      *
-     * @throws OutOfBoundsException if n < 0
+     * @return float
+     *
+     * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function risingFactorial($x, int $n)
+    public static function risingFactorial(float $x, int $n): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute rising factorial of a negative number.');
@@ -146,16 +146,17 @@ class Combinatorics
      *
      * x₍ᵢ₎ = x * (x - 1) * (x - 2) ... (x - i + 1)
      *
-     * @param  number $x
-     * @param  int    $n
-     * @return number
+     * @param  float $x
+     * @param  int   $n
      *
-     * @throws OutOfBoundsException if n < 0
+     * @return float
+     *
+     * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function fallingFactorial($x, int $n)
+    public static function fallingFactorial(float $x, int $n): float
     {
         if ($n < 0) {
-            throw new Exception\OutOfBoundsException('Cannot compute rising factorial of a negative number.');
+            throw new Exception\OutOfBoundsException('Cannot compute falling factorial of a negative number.');
         }
 
         if ($n > $x) {
@@ -184,21 +185,22 @@ class Combinatorics
      *
      * @param  int $n
      *
-     * @return int number of permutations of n
-     * @throws OutOfBoundsException if n < 0
+     * @return float number of permutations of n
+     *
+     * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function subfactorial(int $n)
+    public static function subfactorial(int $n): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute subfactorial of a negative number.');
         }
 
-        $n！= self::factorial($n);
+        $n！ = self::factorial($n);
         $∑  = 0;
 
         for ($i = 0; $i <= $n; $i++) {
             $i！ = self::factorial($i);
-            $∑  += ((-1)**$i) / $i！;
+            $∑  += ((-1) ** $i) / $i！;
         }
         return $n！ * $∑;
     }
@@ -222,29 +224,30 @@ class Combinatorics
      * @param int $n
      * @param int $k (Optional) for nPk permutations
      *
-     * @return int number of permutations of n
+     * @return float number of permutations of n
      *
-     * @throws OutOfBoundsException if n is negative or k is larger than n
+     * @throws Exception\OutOfBoundsException if n is negative or k is larger than n
      */
-    public static function permutations(int $n, int $k = null)
+    public static function permutations(int $n, int $k = null): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative permutations.');
         }
-        if (!is_null($k) && $k > $n) {
+        if (!\is_null($k) && $k > $n) {
             throw new Exception\OutOfBoundsException('k cannot be larger than n.');
         }
 
-        $n！ = self::factorial($n);
-
         // nPn: permutations of n things, taken n at a time
-        if (is_null($k)) {
-            return $n！;
+        if (\is_null($k)) {
+            return self::factorial($n);
         }
 
         // nPk: Permutations of n things taking only k of them
-        $⟮n − k⟯！ = self::factorial($n - $k);
-        return $n！ / $⟮n − k⟯！;
+        $falling_factorial = 1;
+        for ($i = $n - $k + 1; $i <= $n; $i++) {
+            $falling_factorial *= $i;
+        }
+        return $falling_factorial;
     }
 
     /**
@@ -263,37 +266,54 @@ class Combinatorics
      *         (k)    (n - 1)!k!
      *
      * http://mathworld.wolfram.com/BinomialCoefficient.html
+     * The above formulas are inefficient and can quickly result in floating point overflow.
+     * Instead, we use the multiplicative formula.
+     *
+     *        (n)   nᵏ    n(n - 1)(n - 2)⋯(n - (k - 1)     _ᵏ_  n + 1 - i
+     *  nCk = ( ) = -- =  ----------------------------   = | |  ---------
+     *        (k)   k!        k(k - 1)(k - 2)⋯1            ⁱ⁼¹      i
+     *
+     * Where the numerator nᵏ is expressed as a falling factorial.
+     * The numerator gives the number of ways to select a sequence of k distinct objects, retaining the order of selection, from a set of n objects.
+     * The denominator counts the number of distinct sequences that define the same k-combination when order is disregarded.
+     * Due to the symmetry of the binomial coefficient with regard to k and n − k,
+     * calculation may be optimised by setting the upper limit of the product above to the smaller of k and n − k.
+     * https://en.wikipedia.org/wiki/Binomial_coefficient#Multiplicative_formula
      *
      * @param  int  $n
      * @param  int  $k
      * @param  bool $repetition Whether to do n choose k with or without repetitions
      *
-     * @return int number of possible combinations of n objects taken k at a time
+     * @return float number of possible combinations of n objects taken k at a time
      *
-     * @throws OutOfBoundsException if n is negative; if k is larger than n
+     * @throws Exception\OutOfBoundsException if n is negative; if k is larger than n
      */
-    public static function combinations(int $n, int $k, bool $repetition = false)
+    public static function combinations(int $n, int $k, bool $repetition = false): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative combinations.');
         }
-        if ($k > $n) {
+        if (!$repetition && $k > $n) {
             throw new Exception\OutOfBoundsException('k cannot be larger than n.');
         }
 
-        // nC'k with repetition
-        if ($repetition) {
-            $⟮n ＋ k − 1⟯！ = self::factorial($n + $k - 1);
-            $⟮n − 1⟯！k！   = self::factorial($n - 1) * self::factorial($k);
-
-            return $⟮n ＋ k − 1⟯！ / $⟮n − 1⟯！k！;
+        if ($repetition) { // nC'k with repetition
+            $denominator = $n - 1;
+            $numerator   = $n + $k - 1;
+        } else { // nCk without repetition
+            $denominator = $n - $k;
+            $numerator   = $n;
         }
 
-        // nCk without repetition
-        $n！        = self::factorial($n);
-        $⟮n − k⟯！k！ = self::factorial($n - $k) * self::factorial($k);
-
-        return $n！ / $⟮n − k⟯！k！;
+        // The internal self::fallingFactorial() implementation always returns a float.
+        // Here we maintain int precision as much as possible.
+        $max = \max($denominator, $k);
+        $min = \min($denominator, $k);
+        $falling_factorial = 1;
+        for ($i = $max + 1; $i <= $numerator; $i++) {
+            $falling_factorial *= $i;
+        }
+        return $falling_factorial / self::factorial($min);
     }
 
     /**
@@ -307,18 +327,18 @@ class Combinatorics
      *
      * @param  int $n
      *
-     * @return int number
+     * @return float number
      *
-     * @throws OutOfBoundsException if n < 0
+     * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function centralBinomialCoefficient(int $n)
+    public static function centralBinomialCoefficient(int $n): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative central binomial coefficient.');
         }
 
         $⟮2n⟯！ = self::factorial(2 * $n);
-        $⟮n！⟯² = (self::factorial($n))**2;
+        $⟮n！⟯² = (self::factorial($n)) ** 2;
 
         return $⟮2n⟯！ / $⟮n！⟯²;
     }
@@ -338,11 +358,11 @@ class Combinatorics
      *
      * @param  int $n
      *
-     * @return int number
+     * @return float number
      *
-     * @throws OutOfBoundsException if n < 0
+     * @throws Exception\OutOfBoundsException if n < 0
      */
-    public static function catalanNumber(int $n)
+    public static function catalanNumber(int $n): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative catalan number.');
@@ -363,11 +383,11 @@ class Combinatorics
      * @param int $n
      * @param int $k
      *
-     * @return number
+     * @return float
      *
-     * @throws OutOfBoundsException if n or k < 1 or n < k
+     * @throws Exception\OutOfBoundsException if n or k < 1 or n < k
      */
-    public static function lahNumber(int $n, int $k)
+    public static function lahNumber(int $n, int $k): float
     {
         if ($n < 1 || $k < 1) {
             throw new Exception\OutOfBoundsException("n and k must be < 1 for Lah Numbers");
@@ -394,15 +414,18 @@ class Combinatorics
      * http://mathworld.wolfram.com/MultinomialCoefficient.html
      * https://en.wikipedia.org/wiki/Multinomial_theorem
      *
-     * @param  array $groups Sizes of each subgroup
+     * @param  int[] $groups Sizes of each subgroup
      *
-     * @return int Number of divisions of n items into r distinct nonoverlapping subgroups
+     * @return float Number of divisions of n items into r distinct nonoverlapping subgroups
+     *
+     * @throws Exception\OutOfBoundsException
      */
-    public static function multinomial(array $groups)
+    public static function multinomial(array $groups): float
     {
-        $n            = array_sum($groups);
+        /** @var int $n */
+        $n            = \array_sum($groups);
         $n！          = self::factorial($n);
-        $k₁！k₂！⋯km！ = array_product(array_map('self::factorial', $groups));
+        $k₁！k₂！⋯km！ = \array_product(\array_map([Combinatorics::class, 'factorial'], $groups));
 
         return $n！ / $k₁！k₂！⋯km！;
     }

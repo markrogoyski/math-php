@@ -1,7 +1,7 @@
 <?php
+
 namespace MathPHP\Statistics\Regression;
 
-class NonParametricRegression extends Regression
+abstract class NonParametricRegression extends Regression
 {
-  
 }

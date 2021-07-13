@@ -1,27 +1,36 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Multivariate;
 
 use MathPHP\Probability\Distribution\Multivariate\Normal;
-use MathPHP\LinearAlgebra\Matrix;
+use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Exception;
+use MathPHP\Tests;
 
-class NormalTest extends \PHPUnit_Framework_TestCase
+class NormalTest extends \PHPUnit\Framework\TestCase
 {
-    use \MathPHP\Tests\LinearAlgebra\MatrixDataProvider;
+    use Tests\LinearAlgebra\Fixture\MatrixDataProvider;
 
     /**
-     * @testCase     pdf returns the expected density
+     * @test         pdf returns the expected density
      * @dataProvider dataProviderForPdf
      * @param        array $x
      * @param        array $μ
      * @param        array $∑
-     * @param        float $pdf
+     * @param        float $expected
+     * @throws       \Exception
      */
-    public function testPdf(array $x, array $μ, array $∑, float $pdf)
+    public function testPdf(array $x, array $μ, array $∑, float $expected)
     {
-        $∑ = new Matrix($∑);
+        // Given
+        $∑      = MatrixFactory::create($∑);
         $normal = new Normal($μ, $∑);
-        $this->assertEquals($pdf, $normal->pdf($x), '', 0.00000000000001);
+
+        // When
+        $pdf = $normal->pdf($x);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $pdf, 0.00000000000001);
     }
 
     /**
@@ -182,47 +191,63 @@ class NormalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     pdf throws an Exception\BadDataException if the covariance matrix is not positive definite
+     * @test         pdf throws an Exception\BadDataException if the covariance matrix is not positive definite
      * @dataProvider dataProviderForNotPositiveDefiniteMatrix
      * @param        array $M Non-positive definite matrix
+     * @throws       \Exception
      */
     public function testPdfCovarianceMatrixNotPositiveDefiniteException(array $M)
     {
+        // Given
         $μ = [0, 0];
-        $∑ = new Matrix($M);
+        $∑ = MatrixFactory::create($M);
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $normal = new Normal($μ, $∑);
     }
 
     /**
-     * @testCase pdf throws an Exception\BadDataException if x and μ don't have the same number of elements
+     * @test    pdf throws an Exception\BadDataException if x and μ don't have the same number of elements
+     * @throws \Exception
      */
     public function testPdfXAndMuDifferentNumberOfElementsException()
     {
+        // Given
         $μ = [0, 0];
-        $∑ = new Matrix([
+        $∑ = MatrixFactory::create([
             [1, 0],
             [0, 1],
         ]);
-        $x = [0, 0, 0];
+        $x      = [0, 0, 0];
         $normal = new Normal($μ, $∑);
+
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $pdf = $normal->pdf($x);
     }
 
     /**
-     * @testCase pdf throws an Exception\BadDataException if the covariance matrix has a different number of elements.
+     * @test    pdf throws an Exception\BadDataException if the covariance matrix has a different number of elements.
+     * @throws \Exception
      */
     public function testPdfCovarianceMatrixDifferentNumberOfElementsException()
     {
+        // Given
         $μ = [0, 0];
-        $∑ = new Matrix([
+        $∑ = MatrixFactory::create([
             [1, 0, 0],
             [0, 1, 0],
         ]);
 
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         $normal = new Normal($μ, $∑);
     }
 }

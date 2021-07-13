@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Number;
 
 interface ObjectArithmetic
@@ -10,7 +11,7 @@ interface ObjectArithmetic
      *
      * @return ObjectArithmetic sum.
      */
-    public function add($object_or_scaler);
+    public function add($object_or_scalar);
 
     /*
      * Subtract one objects from another
@@ -19,7 +20,7 @@ interface ObjectArithmetic
      *
      * @return ObjectArithmetic result.
      */
-    public function subtract($object_or_scaler);
+    public function subtract($object_or_scalar);
 
     /*
      * Multiply two objects together
@@ -28,5 +29,12 @@ interface ObjectArithmetic
      *
      * @return ObjectArithmetic product.
      */
-    public function multiply($object_or_scaler);
+    public function multiply($object_or_scalar);
+
+    /**
+     * Factory method to create the zero value of the object
+     *
+     * @return ObjectArithmetic
+     */
+    public static function createZeroValue(): ObjectArithmetic;
 }

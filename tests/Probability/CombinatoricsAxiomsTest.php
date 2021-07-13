@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\Probability;
 
 use MathPHP\Probability\Combinatorics;
@@ -18,15 +19,18 @@ use MathPHP\Probability\Combinatorics;
  *   - L(n,2) = (n - 1)n! / 2
  *   - L(n,n) = 1
  */
-class CombinatoricsAxiomsTest extends \PHPUnit_Framework_TestCase
+class CombinatoricsAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Axiom: x⁽ⁿ⁾ = L⟮n,k⟯ x₍k₎
+     * @testCase Axiom: x⁽ⁿ⁾ = L⟮n,k⟯ x₍k₎
      * Rising factorial can be represented as the summation of Lah numbers and falling factorials
      *
      * @dataProvider dataProivderForLahNumbers
+     * @param        int $x
+     * @param        int $n
+     * @throws       \Exception
      */
-    public function testRisingFactorialAsLahNumberAndFallingFactorial(int $x, $n)
+    public function testRisingFactorialAsLahNumberAndFallingFactorial(int $x, int $n)
     {
         $x⁽ⁿ⁾  = Combinatorics::risingFactorial($x, $n);
 
@@ -36,36 +40,41 @@ class CombinatoricsAxiomsTest extends \PHPUnit_Framework_TestCase
             $L⟮n、k⟯       = Combinatorics::lahNumber($n, $k);
             $∑L⟮n、k⟯x₍k₎ += $L⟮n、k⟯ * $x₍k₎;
         }
-    
+
         $this->assertEquals($x⁽ⁿ⁾, $∑L⟮n、k⟯x₍k₎);
     }
 
     /**
-     * Axiom: x₍n₎ = ∑ (-1)ⁿ⁻ᵏ L(n,k) x⁽ᵏ⁾
+     * @testCase Axiom: x₍n₎ = ∑ (-1)ⁿ⁻ᵏ L(n,k) x⁽ᵏ⁾
      * Falling factorial can be represented as the summation of Lah numbers and rising factorials
      *
      * @dataProvider dataProivderForLahNumbers
+     * @param        int $x
+     * @param        int $n
+     * @throws       \Exception
      */
-    public function testFallingFactorialAsLahNumberAndRisingFactorial(int $x, $n)
+    public function testFallingFactorialAsLahNumberAndRisingFactorial(int $x, int $n)
     {
         $x₍n₎ = Combinatorics::fallingFactorial($x, $n);
 
         $∑⟮−1⟯ⁿ⁻ᵏL⟮n、k⟯x₍k₎ = 0;
         for ($k = 1; $k <= $n; $k++) {
-            $⟮−1⟯ⁿ⁻ᵏ            = (-1)**($n - $k);
+            $⟮−1⟯ⁿ⁻ᵏ            = (-1) ** ($n - $k);
             $L⟮n、k⟯             = Combinatorics::lahNumber($n, $k);
             $x⁽ᵏ⁾              = Combinatorics::risingFactorial($x, $k);
             $∑⟮−1⟯ⁿ⁻ᵏL⟮n、k⟯x₍k₎ += $⟮−1⟯ⁿ⁻ᵏ * $L⟮n、k⟯ * $x⁽ᵏ⁾;
         }
-    
+
         $this->assertEquals($x₍n₎, $∑⟮−1⟯ⁿ⁻ᵏL⟮n、k⟯x₍k₎);
     }
 
     /**
-     * Axiom: L(n,1) = n!
+     * @testCase Axiom: L(n,1) = n!
      * Lah number identity when k is 1
      *
      * @dataProvider dataProivderForLahNumberIdentities
+     * @param        int $n
+     * @throws       \Exception
      */
     public function testLahNumberIdentityKEqualsOne(int $n)
     {
@@ -76,18 +85,15 @@ class CombinatoricsAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Axiom: L(n,2) = (n - 1)n! / 2
+     * @testCase Axiom: L(n,2) = (n - 1)n! / 2
      * Lah number identity when k is 2
      *
-     * @dataProvider dataProivderForLahNumberIdentities
+     * @dataProvider dataProivderForLahNumberIdentitiesGreaterThanOne
+     * @param        int $n
+     * @throws       \Exception
      */
     public function testLahNumberIdentityKEqualsTwo(int $n)
     {
-        // Skip exception where n < k
-        if ($n === 1) {
-            return;
-        }
-
         $L⟮n、1⟯     = Combinatorics::lahNumber($n, 2);
         $⟮n−1⟯n！／2 = (($n - 1) * Combinatorics::factorial($n)) / 2;
 
@@ -95,10 +101,12 @@ class CombinatoricsAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Axiom: L(n,n) = 1
+     * @testCase Axiom: L(n,n) = 1
      * Lah number identity when n = n
      *
      * @dataProvider dataProivderForLahNumberIdentities
+     * @param        int $n
+     * @throws       \Exception
      */
     public function testLahNumberIdentityNNEqualsOne(int $n)
     {
@@ -107,7 +115,10 @@ class CombinatoricsAxiomsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $L⟮n、n⟯);
     }
 
-    public function dataProivderForLahNumbers()
+    /**
+     * @return array [n, k]
+     */
+    public function dataProivderForLahNumbers(): array
     {
         return [
             [1, 1],
@@ -153,10 +164,31 @@ class CombinatoricsAxiomsTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function dataProivderForLahNumberIdentities()
+    /**
+     * @return array [n]
+     */
+    public function dataProivderForLahNumberIdentities(): array
     {
         return [
             [1],
+            [2],
+            [3],
+            [4],
+            [5],
+            [6],
+            [7],
+            [8],
+            [9],
+            [12],
+        ];
+    }
+
+    /**
+     * @return array [n]
+     */
+    public function dataProivderForLahNumberIdentitiesGreaterThanOne(): array
+    {
+        return [
             [2],
             [3],
             [4],

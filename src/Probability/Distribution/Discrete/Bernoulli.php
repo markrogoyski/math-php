@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Discrete;
 
 use MathPHP\Functions\Support;
@@ -15,8 +16,9 @@ class Bernoulli extends Discrete
      * p ∈ (0,1)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'p' => '(0,1)',
+        'q' => '[0,1)',
     ];
 
     /**
@@ -25,12 +27,15 @@ class Bernoulli extends Discrete
      * p ∈ (0,1)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'k' => '[0,1]',
     ];
 
-    /** @var number probability of success */
+    /** @var float probability of success */
     protected $p;
+
+    /** @var float */
+    protected $q;
 
     /**
      * Constructor
@@ -39,25 +44,26 @@ class Bernoulli extends Discrete
      */
     public function __construct(float $p)
     {
-        parent::__construct($p);
+        $q = 1 - $p;
+        parent::__construct($p, $q);
     }
 
     /**
      * Probability mass function
      *
      * q = (1 - p)  for k = 0
-     * q = p        for k = 1
+     * p            for k = 1
      *
-     * @param  int   $k number of successes  k ∈ {0, 1}
+     * @param  int $k number of successes  k ∈ {0, 1}
      *
-     * @return  float
+     * @return float
      */
     public function pmf(int $k): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['k' => $k]);
 
         if ($k === 0) {
-            return 1 - $this->p;
+            return $this->q;
         } else {
             return $this->p;
         }
@@ -71,7 +77,7 @@ class Bernoulli extends Discrete
      *
      * @param  int $k number of successes  k ∈ {0, 1}
      *
-     * @return  float
+     * @return float
      */
     public function cdf(int $k): float
     {
@@ -82,5 +88,75 @@ class Bernoulli extends Discrete
             return 1 - $this->p;
         }
         return 1;
+    }
+
+    /**
+     * Mean of the distribution
+     *
+     * μ = p
+     *
+     * @return float
+     */
+    public function mean(): float
+    {
+        return $this->p;
+    }
+
+    /**
+     * Median of the distribution
+     *
+     * 0    for p < ½
+     * ½    for p = ½
+     * 1    for p > ½
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        $p = $this->p;
+        $½ = 0.5;
+
+        if ($p < $½) {
+            return 0;
+        }
+        if ($p == $½) {
+            return $½;
+        }
+        return 1;
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     * 0    for p < ½
+     * 0,1  for p = ½
+     * 1    for p > ½
+     *
+     * @return float[]
+     */
+    public function mode(): array
+    {
+        $p = $this->p;
+        $½ = 0.5;
+
+        if ($p < $½) {
+            return [0];
+        }
+        if ($p == $½) {
+            return [0, 1];
+        }
+        return [1];
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     * σ² = p(1 - p) = pq
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        return $this->p * $this->q;
     }
 }

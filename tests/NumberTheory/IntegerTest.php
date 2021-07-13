@@ -1,24 +1,1000 @@
 <?php
+
 namespace MathPHP\Tests\NumberTheory;
 
 use MathPHP\NumberTheory\Integer;
 use MathPHP\Exception;
 
-class IntegerTest extends \PHPUnit_Framework_TestCase
+class IntegerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @testCase     isPerfectPower returns true if n is a perfect prime.
+     * @test         isPerfectNumber
+     * @dataProvider dataProviderForPerfectNumbers
+     * @param        int $n
+     */
+    public function testIsPerfectNumber(int $n)
+    {
+        // When
+        $isPerfectNumber = Integer::isPerfectNumber($n);
+
+        // Then
+        $this->assertTrue($isPerfectNumber);
+    }
+
+    /**
+     * @see    https://oeis.org/A000396
+     * @return array
+     */
+    public function dataProviderForPerfectNumbers(): array
+    {
+        return [
+            [6],
+            [28],
+            [496],
+            [8128],
+            [33550336],
+            [8589869056],
+            [137438691328],
+        ];
+    }
+
+    /**
+     * @test         isPerfectNumber is not a perfect number
+     * @dataProvider dataProviderForNonPerfectNumbers
+     * @dataProvider dataProviderForAbundantNumbers
+     * @dataProvider dataProviderForDeficientNumbers
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     */
+    public function testIsNotPerfectNumber(int $n)
+    {
+        // When
+        $isPerfectNumber = Integer::isPerfectNumber($n);
+
+        // Then
+        $this->assertFalse($isPerfectNumber);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForNonPerfectNumbers(): array
+    {
+        return [
+            [-1],
+            [0],
+            [1],
+            [2],
+            [3],
+            [4],
+            [5],
+            [7],
+            [8],
+            [9],
+            [10],
+            [26],
+            [498],
+            [8124],
+            [23550336],
+            [2589869056],
+            [133438691328],
+        ];
+    }
+
+    /**
+     * @test         isAbundantNumber returns true if n is an abundant number
+     * @dataProvider dataProviderForAbundantNumbers
+     * @param        int   $n
+     * @throws       \Exception
+     */
+    public function testIsAbundantNumber(int $n)
+    {
+        // When
+        $isAbundantNumber = Integer::isAbundantNumber($n);
+
+        // Then
+        $this->assertTrue($isAbundantNumber);
+    }
+
+    /**
+     * A005101 abundant numbers: numbers n such that σ₁(n) > 2n
+     * @see    https://oeis.org/A005101
+     * @return array
+     */
+    public function dataProviderForAbundantNumbers(): array
+    {
+        return [
+            [12],
+            [18],
+            [20],
+            [24],
+            [30],
+            [36],
+            [40],
+            [42],
+            [48],
+            [54],
+            [56],
+            [60],
+            [66],
+            [70],
+            [72],
+            [78],
+            [80],
+            [84],
+            [88],
+            [90],
+            [96],
+            [100],
+            [102],
+            [104],
+            [270],
+        ];
+    }
+
+    /**
+     * @test         isNotAbundantNumber returns true if n is not an abundant number
+     * @dataProvider dataProviderForDeficientNumbers
+     * @dataProvider dataProviderForPerfectNumbers
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int   $n
+     * @throws       \Exception
+     */
+    public function testIsNotAbundantNumber(int $n)
+    {
+        // When
+        $isAbundantNumber = Integer::isAbundantNumber($n);
+
+        // Then
+        $this->assertFalse($isAbundantNumber);
+    }
+
+    /**
+     * @test     isDeficientNumber returns true if n is a deficient number
+     * @dataProvider dataProviderForDeficientNumbers
+     * @param        int   $n
+     * @throws       \Exception
+     */
+    public function testIsDeficientNumber(int $n)
+    {
+        // When
+        $isDeficientNumber = Integer::isDeficientNumber($n);
+
+        // Then
+        $this->assertTrue($isDeficientNumber);
+    }
+
+    /**
+     * A005100 deficient numbers: numbers n such that σ₁(n) < 2n
+     * @see    https://oeis.org/A005100
+     * @return array
+     */
+    public function dataProviderForDeficientNumbers(): array
+    {
+        return [
+            [1],
+            [2],
+            [3],
+            [4],
+            [5],
+            [7],
+            [8],
+            [9],
+            [10],
+            [11],
+            [13],
+            [14],
+            [15],
+            [16],
+            [17],
+            [19],
+            [21],
+            [22],
+            [23],
+            [25],
+            [26],
+            [27],
+            [29],
+            [31],
+            [32],
+        ];
+    }
+
+    /**
+     * @test         isNotDeficientNumber returns true if n is not a deficient number
+     * @dataProvider dataProviderForAbundantNumbers
+     * @dataProvider dataProviderForPerfectNumbers
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int   $n
+     * @throws       \Exception
+     */
+    public function testIsNotDeficientNumber(int $n)
+    {
+        // When
+        $isDeficientNumber = Integer::isDeficientNumber($n);
+
+        // Then
+        $this->assertFalse($isDeficientNumber);
+    }
+
+    /**
+     * @test         isRefactorableNumber returns true if n is a refactorable number
+     * @dataProvider dataProviderForRefactorableNumbers
+     * @param        int   $n
+     * @throws       \Exception
+     */
+    public function testIsRefactorableNumber(int $n)
+    {
+        // When
+        $isRefactorableNumber = Integer::isRefactorableNumber($n);
+
+        // Then
+        $this->assertTrue($isRefactorableNumber);
+    }
+
+    /**
+     * A033950 Refactorable numbers: number of divisors of n divides n. Also known as tau numbers.
+     * @see    https://oeis.org/A033950
+     * @return array
+     */
+    public function dataProviderForRefactorableNumbers(): array
+    {
+        return [
+            [1],
+            [2],
+            [8],
+            [9],
+            [12],
+            [18],
+            [24],
+            [36],
+            [40],
+            [56],
+            [60],
+            [72],
+            [80],
+            [84],
+            [88],
+        ];
+    }
+
+    /**
+     * @test         isNotRefactorableNumber returns true if n is not a refactorable number
+     * @dataProvider dataProviderForNonRefactorableNumbers
+     * @param        int   $n
+     * @throws       \Exception
+     */
+    public function testIsNotRefactorableNumber(int $n)
+    {
+        // When
+        $isRefactorableNumber = Integer::isRefactorableNumber($n);
+
+        // Then
+        $this->assertFalse($isRefactorableNumber);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForNonRefactorableNumbers(): array
+    {
+        return [
+            [-1],
+            [0],
+            [3],
+            [10],
+            [13],
+            [17],
+        ];
+    }
+
+    /**
+     * @test         testIsSphenicNumber
+     * @dataProvider dataProviderForSphenicNumbers
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testIsSphenicNumber(int $n)
+    {
+        // When
+        $isSphenicNumber = Integer::isSphenicNumber($n);
+
+        // Then
+        $this->assertTrue($isSphenicNumber);
+    }
+
+    /**
+     * A007304 Sphenic numbers: products of 3 distinct primes
+     * @see    https://oeis.org/A007304
+     * @return array
+     */
+    public function dataProviderForSphenicNumbers(): array
+    {
+        return [
+            [30],
+            [42],
+            [66],
+            [70],
+            [78],
+            [102],
+            [105],
+            [110],
+            [114],
+            [130],
+            [138],
+            [154],
+            [165],
+            [170],
+            [174],
+            [182],
+            [186],
+            [190],
+            [195],
+        ];
+    }
+
+    /**
+     * @test         testIsNotSphenicNumber
+     * @dataProvider dataProviderForNonSphenicNumbers
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testIsNotSphenicNumber(int $n)
+    {
+        // When
+        $isSphenicNumber = Integer::isSphenicNumber($n);
+
+        // Then
+        $this->assertFalse($isSphenicNumber);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForNonSphenicNumbers(): array
+    {
+        return [
+            [2],
+            [2 * 3],
+            [2 * 2 * 2],
+            [2 * 2 * 3 * 5],
+            [2 * 3 * 5 * 7],
+        ];
+    }
+
+    /**
+     * @test         aliquotSum returns the sum of all proper divisors of n
+     * @dataProvider dataProviderForAliquotSums
+     * @param        int   $n
+     * @param        int   $expected
+     * @throws       \Exception
+     */
+    public function testAliquotSum(int $n, int $expected)
+    {
+        // When
+        $actual = Integer::aliquotSum($n);
+
+        // Then
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * A001065 sum of proper divisors (or aliquot parts) of n
+     * @see    https://oeis.org/A001065
+     * @return array
+     */
+    public function dataProviderForAliquotSums(): array
+    {
+        return [
+            [1, 0],
+            [2, 1],
+            [3, 1],
+            [4, 3],
+            [5, 1],
+            [6, 6],
+            [7, 1],
+            [8, 7],
+            [9, 4],
+            [10, 8],
+            [11, 1],
+            [12, 16],
+            [13, 1],
+            [14, 10],
+            [15, 9],
+            [16, 15],
+            [17, 1],
+            [18, 21],
+            [19, 1],
+            [20, 22],
+            [21, 11],
+            [22, 14],
+            [23, 1],
+            [24, 36],
+            [25, 6],
+            [26, 16],
+            [27, 13],
+            [28, 28],
+            [29, 1],
+            [30, 42],
+            [31, 1],
+            [32, 31],
+            [33, 15],
+            [34, 20],
+            [35, 13],
+            [36, 55],
+            [2 * 3 * 5 * 7 * 11, 4602],
+        ];
+    }
+
+    /**
+     * @test         aliquotSum throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testAliquotSumOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::aliquotSum($n);
+    }
+
+    /**
+     * @test         testRadical
+     * @dataProvider dataProviderForRadical
+     * @param        int $n
+     * @param        int $expected
+     * @throws       \Exception
+     */
+    public function testRadical(int $n, int $expected)
+    {
+        // When
+        $radical = Integer::radical($n);
+
+        // Then
+        $this->assertEquals($expected, $radical);
+    }
+
+    /**
+     * A007947 the squarefree kernel of n
+     * @see    https://oeis.org/A007947
+     * @return array
+     */
+    public function dataProviderForRadical(): array
+    {
+        return [
+            [1, 1],
+            [2, 2],
+            [3, 3],
+            [4, 2],
+            [5, 5],
+            [6, 6],
+            [7, 7],
+            [8, 2],
+            [9, 3],
+            [10, 10],
+            [11, 11],
+            [12, 6],
+            [13, 13],
+            [14, 14],
+            [15, 15],
+            [16, 2],
+            [17, 17],
+            [18, 6],
+            [19, 19],
+        ];
+    }
+
+    /**
+     * @test         radical throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testRadicalOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::radical($n);
+    }
+
+
+    /**
+     * @test         testTotient
+     * @dataProvider dataProviderForTotient
+     * @param        int $n
+     * @param        int $k
+     * @param        int $expected
+     * @throws       \Exception
+     */
+    public function testTotient(int $n, int $k, int $expected)
+    {
+        // When
+        $totient = Integer::totient($n, $k);
+
+        // Then
+        $this->assertEquals($expected, $totient);
+    }
+
+    /**
+     * @see    https://oeis.org/A000010 (k=1)
+     * @see    https://oeis.org/A007434 (k=2)
+     * @see    https://oeis.org/A059376 (k=3)
+     * @see    https://oeis.org/A059377 (k=4)
+     * @see    https://oeis.org/A059378 (k=5)
+     * @return array
+     */
+    public function dataProviderForTotient(): array
+    {
+        return [
+            [1,  1, 1],
+            [2,  1, 1],
+            [3,  1, 2],
+            [4,  1, 2],
+            [5,  1, 4],
+            [6,  1, 2],
+            [7,  1, 6],
+            [8,  1, 4],
+            [9,  1, 6],
+            [10, 1, 4],
+            [11, 1, 10],
+            [12, 1, 4],
+            [13, 1, 12],
+            [14, 1, 6],
+            [15, 1, 8],
+            [16, 1, 8],
+            [17, 1, 16],
+            [18, 1, 6],
+            [1,  2, 1],
+            [2,  2, 3],
+            [3,  2, 8],
+            [4,  2, 12],
+            [5,  2, 24],
+            [6,  2, 24],
+            [7,  2, 48],
+            [8,  2, 48],
+            [9,  2, 72],
+            [10, 2, 72],
+            [1,  3, 1],
+            [2,  3, 7],
+            [3,  3, 26],
+            [4,  3, 56],
+            [5,  3, 124],
+            [6,  3, 182],
+            [7,  3, 342],
+            [8,  3, 448],
+            [9,  3, 702],
+            [10, 3, 868],
+        ];
+    }
+
+    /**
+     * @test         totient throws an OutOfBoundsException if n is < 1 or k is < 1.
+     * @dataProvider dataProviderForTotientOutOfBoundsException
+     * @param        int $n
+     * @param        int $k
+     * @throws       \Exception
+     */
+    public function testTotientOutOfBoundsException(int $n, int $k)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::totient($n, $k);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForTotientOutOfBoundsException(): array
+    {
+        return [
+            [2, -1],
+            [2, 0],
+            [0, 0],
+            [0, 1],
+            [-1, -1],
+            [-1, 1],
+            [-2, 1],
+            [-100, 1],
+            [-98352299832, 1],
+        ];
+    }
+
+    /**
+     * @test         testCototient
+     * @dataProvider dataProviderForCototient
+     * @param        int $n
+     * @param        int $expected
+     * @throws       \Exception
+     */
+    public function testCototient(int $n, int $expected)
+    {
+        // When
+        $cototient = Integer::cototient($n);
+
+        // Then
+        $this->assertEquals($expected, $cototient);
+    }
+
+    /**
+     * A051953 n - φ(n)
+     * @see    https://oeis.org/A051953
+     * @return array
+     */
+    public function dataProviderForCototient(): array
+    {
+        return [
+            [1,  0],
+            [2,  1],
+            [3,  1],
+            [4,  2],
+            [5,  1],
+            [6,  4],
+            [7,  1],
+            [8,  4],
+            [9,  3],
+            [10, 6],
+            [11, 1],
+            [12, 8],
+            [13, 1],
+            [14, 8],
+            [15, 7],
+            [16, 8],
+            [17, 1],
+            [18, 12],
+            [19, 1],
+            [20, 12],
+            [80, 48],
+        ];
+    }
+
+    /**
+     * @test         cototient throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testCototientOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::cototient($n);
+    }
+
+    /**
+     * @test         testReducedTotient
+     * @dataProvider dataProviderForReducedTotient
+     * @param        int $n
+     * @param        int $expected
+     * @throws       \Exception
+     */
+    public function testReducedTotient(int $n, int $expected)
+    {
+        // When
+        $result = Integer::reducedTotient($n);
+
+        // Then
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @see    https://oeis.org/A002322
+     * @return array
+     */
+    public function dataProviderForReducedTotient(): array
+    {
+        return [
+            [1,  1],
+            [2,  1],
+            [3,  2],
+            [4,  2],
+            [5,  4],
+            [6,  2],
+            [7,  6],
+            [8,  2],
+            [9,  6],
+            [10, 4],
+            [11, 10],
+            [12, 2],
+            [13, 12],
+            [14, 6],
+            [15, 4],
+            [16, 4],
+            [17, 16],
+            [18, 6],
+            [19, 18],
+            [64, 16],
+            [80, 4],
+            [81, 54],
+        ];
+    }
+
+    /**
+     * @test         reducedTotient throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testReducedTotientOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::reducedTotient($n);
+    }
+
+    /**
+     * @test         testMobius
+     * @dataProvider dataProviderForMobius
+     * @param        int $n
+     * @param        int $expected
+     * @throws       \Exception
+     */
+    public function testMobius(int $n, int $expected)
+    {
+        // When
+        $actual = Integer::mobius($n);
+
+        // Then
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * A008683
+     * @see    https://oeis.org/A008683
+     * @return array
+     */
+    public function dataProviderForMobius(): array
+    {
+        return [
+            [1, 1],
+            [2, -1],
+            [3, -1],
+            [4, 0],
+            [5, -1],
+            [6, 1],
+            [7, -1],
+            [8, 0],
+            [9, 0],
+            [10, 1],
+            [11, -1],
+            [12, 0],
+            [13, -1],
+            [14, 1],
+            [15, 1],
+        ];
+    }
+
+    /**
+     * @test         mobius throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testMobiusOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::mobius($n);
+    }
+
+    /**
+     * @test         testIsSquarefree
+     * @dataProvider dataProviderForSquarefreeIntegers
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testIsSquarefree(int $n)
+    {
+        // When
+        $isSquarefree = Integer::isSquarefree($n);
+
+        // Then
+        $this->assertTrue($isSquarefree);
+    }
+
+    /**
+     * A005117 squarefree numbers: numbers that are not divisible by a square greater than 1
+     * @see    https://oeis.org/A005117
+     * @return array
+     */
+    public function dataProviderForSquarefreeIntegers(): array
+    {
+        return [
+            [1],
+            [2],
+            [3],
+            [5],
+            [6],
+            [7],
+            [10],
+            [11],
+            [13],
+            [14],
+            [15],
+            [17],
+            [19],
+            [21],
+            [22],
+            [23],
+            [26],
+            [29],
+            [30],
+            [31],
+        ];
+    }
+
+    /**
+     * @test         testIsNotSquarefree
+     * @dataProvider dataProviderForNonSquarefreeIntegers
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testIsNotSquarefree(int $n)
+    {
+        // When
+        $isSquarefree = Integer::isSquarefree($n);
+
+        // Then
+        $this->assertFalse($isSquarefree);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForNonSquarefreeIntegers(): array
+    {
+        return [
+            [-1],
+            [0],
+            [2 * 2],
+            [2 * 2 * 2],
+            [2 * 3 * 3],
+            [2 * 3 * 5 * 7 * 11 * 13 * 17 * 17],
+        ];
+    }
+
+    /**
+     * @test         testSumOfDivisors
+     * @dataProvider dataProviderForSumOfDivisors
+     * @param        int $n
+     * @param        int $expected
+     * @throws       \Exception
+     */
+    public function testSumOfDivisors(int $n, int $expected)
+    {
+        // When
+        $actual = Integer::sumOfDivisors($n);
+
+        // Then
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * A000203 the sum of the divisors of n
+     * @see    https://oeis.org/A000203
+     * @return array
+     */
+    public function dataProviderForSumOfDivisors(): array
+    {
+        return [
+            [1, 1],
+            [2, 3],
+            [3, 4],
+            [4, 7],
+            [5, 6],
+            [6, 12],
+            [7, 8],
+            [8, 15],
+            [9, 13],
+            [10, 18],
+            [11, 12],
+            [12, 28],
+            [13, 14],
+            [14, 24],
+            [15, 24],
+            [70, 144],
+            [44100, 160797],
+        ];
+    }
+
+    /**
+     * @test         sumOfDivisors throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testSumOfDivisorsOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::sumOfDivisors($n);
+    }
+
+    /**
+     * @test         testNumberOfDivisors
+     * @dataProvider dataProviderForNumberOfDivisors
+     * @param        int $n
+     * @param        int $expected
+     * @throws       \Exception
+     */
+    public function testNumberOfDivisors(int $n, int $expected)
+    {
+        // When
+        $actual = Integer::numberOfDivisors($n);
+
+        // Then
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * A000005 the numbers of divisors of n
+     * @see    https://oeis.org/A000005
+     * @return array
+     */
+    public function dataProviderForNumberOfDivisors(): array
+    {
+        return [
+            [1, 1],
+            [2, 2],
+            [3, 2],
+            [4, 3],
+            [5, 2],
+            [6, 4],
+            [7, 2],
+            [8, 4],
+            [9, 3],
+            [10, 4],
+            [96, 12],
+            [103, 2],
+        ];
+    }
+
+    /**
+     * @test         numberOfDivisors throws an OutOfBoundsException if n is < 1.
+     * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
+     * @param        int $n
+     * @throws       \Exception
+     */
+    public function testNumberOfDivisorsOutOfBoundsException(int $n)
+    {
+        // When
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // Then
+        Integer::numberOfDivisors($n);
+    }
+
+    /**
+     * @test         isPerfectPower returns true if n is a perfect prime.
      * @dataProvider dataProviderForIsPerfectPower
      * @param        int $n
      */
     public function testIsPerfectPower(int $n)
     {
-        $this->assertTrue(Integer::isPerfectPower($n));
+        // When
+        $isPerfectPower = Integer::isPerfectPower($n);
+
+        // Then
+        $this->assertTrue($isPerfectPower);
     }
 
     /**
      * A001597 Perfect powers: m^k where m > 0 and k >= 2.
-     * https://oeis.org/A001597
+     * @see    https://oeis.org/A001597
      * @return array
      */
     public function dataProviderForIsPerfectPower(): array
@@ -82,18 +1058,22 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     isPerfectPower returns false if n is not a perfect prime.
+     * @test         isPerfectPower returns false if n is not a perfect prime.
      * @dataProvider dataProviderForIsNotPerfectPower
      * @param        int $n
      */
     public function testIsNotPerfectPower(int $n)
     {
-        $this->assertFalse(Integer::isPerfectPower($n));
+        // When
+        $isPerfectPower = Integer::isPerfectPower($n);
+
+        // Then
+        $this->assertFalse($isPerfectPower);
     }
 
     /**
      * A007916 Numbers that are not perfect powers.
-     * https://oeis.org/A007916
+     * @see    https://oeis.org/A007916
      * @return array
      */
     public function dataProviderForIsNotPerfectPower(): array
@@ -174,15 +1154,18 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     perfectPower returns m and k for n such that mᵏ = n if n is a perfect power.
+     * @test         perfectPower returns m and k for n such that mᵏ = n if n is a perfect power.
      * @dataProvider dataProviderForPerfectPower
      * @param        int $n
-     * @param        int $m
-     * @param        int $k
+     * @param        int $expected_m
+     * @param        int $expected_k
      */
     public function testPerfectPower(int $n, int $expected_m, int $expected_k)
     {
-        list($m, $k) = Integer::perfectPower($n);
+        // When
+        [$m, $k] = Integer::perfectPower($n);
+
+        // Then
         $this->assertEquals($expected_m, $m);
         $this->assertEquals($expected_k, $k);
     }
@@ -222,47 +1205,64 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     perfectPower returns a non-empty array comtaining numeric m and k both > 1 if n is a perfect power.
+     * @test         perfectPower returns a non-empty array comtaining numeric m and k both > 1 if n is a perfect power.
      * @dataProvider dataProviderForIsPerfectPower
      * @param        int $n
      */
     public function testPerfectPowerArray(int $n)
     {
+        // When
         $perfect_power = Integer::perfectPower($n);
+
+        // Then
         $this->assertNotEmpty($perfect_power);
 
-        $m = array_shift($perfect_power);
-        $k = array_shift($perfect_power);
-        $this->assertTrue(is_numeric($m));
-        $this->assertTrue(is_numeric($k));
+        // And
+        $m = \array_shift($perfect_power);
+        $k = \array_shift($perfect_power);
+        $this->assertTrue(\is_numeric($m));
+        $this->assertTrue(\is_numeric($k));
         $this->assertGreaterThan(1, $m);
         $this->assertGreaterThan(1, $k);
     }
 
     /**
-     * @testCase     perfectPower returns an empty array if n is not a perfect power.
+     * @test         perfectPower returns an empty array if n is not a perfect power.
      * @dataProvider dataProviderForIsNotPerfectPower
      * @param        int $n
      */
     public function testEmptyPerfectPower(int $n)
     {
-        $this->assertEmpty(Integer::perfectPower($n));
+        // When
+        $empty = Integer::perfectPower($n);
+
+        // Then
+        $this->assertEmpty($empty);
     }
 
     /**
-     * @testCase     primeFactorization returns an array of the prime factors of an integer n.
+     * @test         primeFactorization returns an array of the prime factors of an integer n.
      * @dataProvider dataProviderForPrimeFactorization
-     * @param  int   $n
-     * @param  array $factors
+     * @param        int   $n
+     * @param        array $expected_actors
+     * @throws       \Exception
      */
-    public function testPrimeFactorization(int $n, array $factors)
+    public function testPrimeFactorization(int $n, array $expected_actors)
     {
-        $this->assertEquals($factors, Integer::primeFactorization($n));
+        // When
+        $factors = Integer::primeFactorization($n);
+
+        // Then
+        $this->assertEquals($expected_actors, $factors);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForPrimeFactorization(): array
     {
         return [
+            [1, []],
             [2, [2]],
             [3, [3]],
             [4, [2, 2]],
@@ -299,26 +1299,32 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
             [87534987, [3, 23, 1268623]],
             [123456789, [3, 3, 3607, 3803]],
             [8654893156, [2, 2, 7, 13, 157, 269, 563]],
-            [2*3*5*7, [2, 3, 5, 7]],
-            [2*2*2*5*7*7*7*13, [2, 2, 2, 5, 7, 7, 7, 13]],
+            [2 * 3 * 5 * 7, [2, 3, 5, 7]],
+            [2 * 2 * 2 * 5 * 7 * 7 * 7 * 13, [2, 2, 2, 5, 7, 7, 7, 13]],
         ];
     }
 
     /**
-     * @testCase     primeFactorization throws an OutOfBoundsException if n is < 2.
+     * @test         primeFactorization throws an OutOfBoundsException if n is < 1.
      * @dataProvider dataProviderForPrimeFactorizationOutOfBoundsException
      * @param        int $n
+     * @throws       \Exception
      */
     public function testPrimeFactorizationOutOfBoundsException(int $n)
     {
+        // Then
         $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
         Integer::primeFactorization($n);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForPrimeFactorizationOutOfBoundsException(): array
     {
         return [
-            [1],
             [0],
             [-1],
             [-2],
@@ -328,16 +1334,23 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     coprime returns true if a and b are coprime
+     * @test         coprime returns true if a and b are coprime
      * @dataProvider dataProviderForCoprime
      * @param        int $a
      * @param        int $b
      */
     public function testCoprime(int $a, int $b)
     {
-        $this->assertTrue(Integer::coprime($a, $b));
+        // When
+        $coprime = Integer::coprime($a, $b);
+
+        // Then
+        $this->assertTrue($coprime);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForCoprime(): array
     {
         return [
@@ -413,16 +1426,23 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     coprime returns false if a and b are not coprime
+     * @test         coprime returns false if a and b are not coprime
      * @dataProvider dataProviderForNotCoprime
      * @param        int $a
      * @param        int $b
      */
     public function testNotCoprime(int $a, int $b)
     {
-        $this->assertFalse(Integer::coprime($a, $b));
+        // When
+        $coprime = Integer::coprime($a, $b);
+
+        // Then
+        $this->assertFalse($coprime);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForNotCoprime(): array
     {
         return [
@@ -476,42 +1496,78 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase isOdd returns true for an odd number
+     * @test         isOdd returns true for an odd number
+     * @dataProvider dataProviderForOddNumbers
+     * @param        int $x
      */
-    public function testIsOdd()
+    public function testIsOdd(int $x)
     {
-        foreach (range(-11, 101, 2) as $x) {
-            $this->assertTrue(Integer::isOdd($x));
+        // When
+        $isOdd = Integer::isOdd($x);
+
+        // Then
+        $this->assertTrue($isOdd);
+    }
+
+    /**
+     * @test          isOdd returns false for an even number
+     * @dataProvider  dataProviderForEvenNumbers
+     * @param        int $x
+     */
+    public function testIsNotOdd(int $x)
+    {
+        // When
+        $isOdd = Integer::isOdd($x);
+
+        // Then
+        $this->assertFalse($isOdd);
+    }
+
+    /**
+     * @test         isEven returns true for an even number
+     * @dataProvider dataProviderForEvenNumbers
+     * @param        int $x
+     */
+    public function testIsEven(int $x)
+    {
+        // When
+        $isEven = Integer::isEven($x);
+
+        // Then
+        $this->assertTrue($isEven);
+    }
+
+    /**
+     * @test         isEven returns false for an odd number
+     * @dataProvider dataProviderForOddNumbers
+     * @param        int $x
+     */
+    public function testIsNotEven(int $x)
+    {
+        // When
+        $isEven = Integer::isEven($x);
+
+        // Then
+        $this->assertFalse($isEven);
+    }
+
+    /**
+     * @return \Generator
+     */
+    public function dataProviderForOddNumbers(): \Generator
+    {
+        foreach (\range(-11, 101, 2) as $x) {
+            yield [$x];
         }
     }
 
     /**
-     * @testCase isOdd returns false for an even number
+     * @return \Generator
      */
-    public function testIsNotOdd()
+    public function dataProviderForEvenNumbers(): \Generator
     {
-        foreach (range(-10, 100, 2) as $x) {
-            $this->assertFalse(Integer::isOdd($x));
-        }
-    }
-
-    /**
-     * @testCase isEven returns true for an even number
-     */
-    public function testIsEven()
-    {
-        foreach (range(-10, 100, 2) as $x) {
-            $this->assertTrue(Integer::isEven($x));
-        }
-    }
-
-    /**
-     * @testCase isEven returns false for an odd number
-     */
-    public function testIsNotEven()
-    {
-        foreach (range(-11, 101, 2) as $x) {
-            $this->assertFalse(Integer::isEven($x));
+        foreach (\range(-10, 100, 2) as $x) {
+            yield [$x];
         }
     }
 }

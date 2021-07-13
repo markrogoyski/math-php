@@ -1,9 +1,8 @@
 <?php
+
 namespace MathPHP\Statistics\Regression;
 
-use MathPHP\Statistics\Average;
-use MathPHP\Statistics\RandomVariable;
-use MathPHP\Probability\Distribution\Continuous\StudentT;
+use MathPHP\Exception;
 
 /**
  * Simple linear regression - least squares method
@@ -28,7 +27,8 @@ use MathPHP\Probability\Distribution\Continuous\StudentT;
  */
 class Linear extends ParametricRegression
 {
-    use Methods\LeastSquares, Models\LinearModel;
+    use Methods\LeastSquares;
+    use Models\LinearModel;
 
     /**
      * Average of x
@@ -56,9 +56,27 @@ class Linear extends ParametricRegression
 
     /**
      * Calculates the regression parameters.
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MatrixException
+     * @throws Exception\MathException
      */
-    public function calculate()
+    public function calculate(): void
     {
         $this->parameters = $this->leastSquares($this->ys, $this->xs)->getColumn(0);
+    }
+
+    /**
+     * Evaluate the regression equation at x
+     * Uses the instance model's evaluateModel method.
+     *
+     * @param  float $x
+     *
+     * @return float
+     */
+    public function evaluate(float $x): float
+    {
+        return $this->evaluateModel($x, $this->parameters);
     }
 }

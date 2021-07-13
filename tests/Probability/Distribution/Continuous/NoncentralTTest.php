@@ -1,32 +1,38 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous\NoncentralT;
 
-class NoncentralTTest extends \PHPUnit_Framework_TestCase
+class NoncentralTTest extends \PHPUnit\Framework\TestCase
 {
-    const ε = .000001;
+    private const ε = .000001;
 
     /**
-     * @testCase     pdf
-     * @dataProvider dataProviderForPDF
-     * @param number $t
-     * @param int    $ν degrees of freedom > 0
-     * @param number $μ Noncentrality parameter
-     * @param number $expected
+     * @test         pdf
+     * @dataProvider dataProviderForPdf
+     * @param        float $t
+     * @param        int   $ν degrees of freedom > 0
+     * @param        float $μ Noncentrality parameter
+     * @param        float $expected
      */
-    public function testPDF($t, $ν, $μ, $expected)
+    public function testPdf(float $t, int $ν, float $μ, float $expected)
     {
+        // Given
         $noncentral_t = new NoncentralT($ν, $μ);
-        $actual = $noncentral_t->pdf($t);
-        $tol = abs(self::ε * $expected);
-        $this->assertEquals($expected, $actual, '', $tol);
+        $tol          = \abs(self::ε * $expected);
+
+        // When
+        $pdf = $noncentral_t->pdf($t);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $pdf, $tol);
     }
 
     /**
-     * @return array
+     * @return array [t, ν, μ, pdf]
      */
-    public function dataProviderForPDF(): array
+    public function dataProviderForPdf(): array
     {
         return [
             [0, 25, -2, 0.053453889],
@@ -70,25 +76,30 @@ class NoncentralTTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     cdf
-     * @dataProvider dataProviderForCDF
-     * @param number $t
-     * @param int    $ν degrees of freedom > 0
-     * @param number $μ Noncentrality parameter
-     * @param number $expected
+     * @test         cdf
+     * @dataProvider dataProviderForCdf
+     * @param        float $t
+     * @param        int   $ν degrees of freedom > 0
+     * @param        float $μ Noncentrality parameter
+     * @param        float $expected
      */
-    public function testCDF($t, $ν, $μ, $expected)
+    public function testCdf(float $t, int $ν, float $μ, float $expected)
     {
+        // Given
         $noncentral_t = new NoncentralT($ν, $μ);
-        $actual = $noncentral_t->cdf($t);
-        $tol = abs(self::ε * $expected);
-        $this->assertEquals($expected, $actual, '', $tol);
+        $tol          = \abs(self::ε * $expected);
+
+        // When
+        $cdf = $noncentral_t->cdf($t);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $cdf, $tol);
     }
 
     /**
-     * @return array
+     * @return array [t, ν, μ, cdf]
      */
-    public function dataProviderForCDF(): array
+    public function dataProviderForCdf(): array
     {
         return [
             [0, 25, -2, 0.97724986805],
@@ -132,22 +143,27 @@ class NoncentralTTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase     mean
+     * @test         mean
      * @dataProvider dataProviderForMean
-     * @param int    $ν degrees of freedom > 0
-     * @param number $μ Noncentrality parameter
-     * @param number $expected
+     * @param        int   $ν degrees of freedom > 0
+     * @param        float $μ Noncentrality parameter
+     * @param        float $expected
      */
-    public function testMean($ν, $μ, $expected)
+    public function testMean(int $ν, float $μ, float $expected)
     {
+        // Given
         $noncentral_t = new NoncentralT($ν, $μ);
-        $actual = $noncentral_t->mean();
-        $tol = abs(self::ε * $expected);
-        $this->assertEquals($expected, $actual, '', $tol);
+        $tol          = \abs(self::ε * $expected);
+
+        // When
+        $mean = $noncentral_t->mean();
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $mean, $tol);
     }
 
     /**
-     * @return array
+     * @return array [ν, μ, mean]
      */
     public function dataProviderForMean(): array
     {
@@ -160,18 +176,25 @@ class NoncentralTTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test         mean not a number if ν = 1
      * @dataProvider dataProviderForMeanNan
-     * @param $ν
-     * @param $μ
+     * @param        int $ν
+     * @param        float $μ
      */
-    public function testMeanNAN($ν, $μ)
+    public function testMeanNAN(int $ν, float $μ)
     {
+        // Given
         $noncentral_t = new NoncentralT($ν, $μ);
-        $this->assertNan($noncentral_t->mean());
+
+        // When
+        $mean = $noncentral_t->mean();
+
+        // Then
+        $this->assertNan($mean);
     }
 
     /**
-     * @return array
+     * @return array [ν, μ]
      */
     public function dataProviderForMeanNan(): array
     {
@@ -180,5 +203,26 @@ class NoncentralTTest extends \PHPUnit_Framework_TestCase
             [1, 2],
             [1, -1],
         ];
+    }
+
+    /**
+     * @test         median (temporary version that is just the mean)
+     * @dataProvider dataProviderForMean
+     * @todo         Rewrite test using actual median values once median calculation is implemented
+     * @param        int   $ν degrees of freedom > 0
+     * @param        float $μ Noncentrality parameter
+     * @param        float $expected
+     */
+    public function testMedianTemporaryValue(int $ν, float $μ, float $expected)
+    {
+        // Given
+        $noncentral_t = new NoncentralT($ν, $μ);
+        $tol          = \abs(self::ε * $expected);
+
+        // When
+        $median = $noncentral_t->median();
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $median, $tol);
     }
 }

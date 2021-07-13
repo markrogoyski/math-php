@@ -1,10 +1,10 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Continuous;
 
 use MathPHP\Functions\Special;
 use MathPHP\Functions\Support;
 use MathPHP\Probability\Combinatorics;
-use MathPHP\Probability\Distribution\Continuous\StandardNormal;
 
 /**
  * Noncentral t-distribution
@@ -18,7 +18,7 @@ class NoncentralT extends Continuous
      * μ ∈ (-∞,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'ν' => '(0,∞)',
         'μ' => '(-∞,∞)',
     ];
@@ -28,7 +28,7 @@ class NoncentralT extends Continuous
      * x ∈ (-∞,∞)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',
     ];
 
@@ -41,10 +41,10 @@ class NoncentralT extends Continuous
     /**
      * Constructor
      *
-     * @param int    $ν degrees of freedom > 0
-     * @param number $μ Noncentrality parameter
+     * @param int   $ν degrees of freedom > 0
+     * @param float $μ Noncentrality parameter
      */
-    public function __construct(int $ν, $μ)
+    public function __construct(int $ν, float $μ)
     {
         parent::__construct($ν, $μ);
     }
@@ -63,25 +63,25 @@ class NoncentralT extends Continuous
      *
      * @param float $x percentile
      *
-     * @return number
+     * @return float
      */
-    public function pdf(float $x)
+    public function pdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
         $ν = $this->ν;
         $μ = $this->μ;
 
-        $part1 =  $ν ** ($ν / 2) * Special::gamma($ν + 1) * exp(-1 * $μ**2 / 2) / 2**$ν / ($ν + $x**2)**($ν / 2) / Special::gamma($ν / 2);
+        $part1 =  $ν ** ($ν / 2) * Special::gamma($ν + 1) * \exp(-1 * $μ ** 2 / 2) / 2 ** $ν / ($ν + $x ** 2) ** ($ν / 2) / Special::gamma($ν / 2);
 
         $F1 = $ν / 2 + 1;
         $F2 = 3 / 2;
-        $F3 = $μ**2 * $x**2 / 2 / ($ν + $x**2);
-        $inner_part1 = sqrt(2) * $μ * $x * Special::confluentHypergeometric($F1, $F2, $F3) / ($ν + $x**2) / Special::gamma(($ν + 1) / 2);
+        $F3 = $μ ** 2 * $x ** 2 / 2 / ($ν + $x ** 2);
+        $inner_part1 = \sqrt(2) * $μ * $x * Special::confluentHypergeometric($F1, $F2, $F3) / ($ν + $x ** 2) / Special::gamma(($ν + 1) / 2);
 
         $F1 = ($ν + 1) / 2;
         $F2 = 1 / 2;
-        $inner_part2 = Special::confluentHypergeometric($F1, $F2, $F3) / sqrt($ν + $x**2) / Special::gamma($ν / 2 + 1);
+        $inner_part2 = Special::confluentHypergeometric($F1, $F2, $F3) / \sqrt($ν + $x ** 2) / Special::gamma($ν / 2 + 1);
 
         return $part1 * ($inner_part1 + $inner_part2);
     }
@@ -94,9 +94,9 @@ class NoncentralT extends Continuous
      *
      * @param float $x
      *
-     * @return number
+     * @return float
      */
-    public function cdf(float $x)
+    public function cdf(float $x): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $x]);
 
@@ -136,24 +136,26 @@ class NoncentralT extends Continuous
      *   qⱼ = ------------ exp| - -   | |  -   |
      *        √2Γ(j + 3/2)     \  2  /   \ 2  /
      *
-     * @param number $x
+     * @param float $x
+     * @param int   $ν
+     * @param float $μ
      *
-     * @return number
+     * @return float
      */
-    private function f($x, int $ν, $μ)
+    private function f(float $x, int $ν, float $μ): float
     {
         $standardNormal = new StandardNormal();
         $Φ = $standardNormal->cdf(-$μ);
-        $y = $x**2/($x**2 + $ν);
+        $y = $x ** 2 / ($x ** 2 + $ν);
 
         $sum = $Φ;
         $tol = .00000001;
         $j   = 0;
 
         do {
-            $exp = exp(-1 * $μ**2 / 2) * ($μ**2 / 2)**$j;
+            $exp = \exp(-1 * $μ ** 2 / 2) * ($μ ** 2 / 2) ** $j;
             $pⱼ  = 1 / Combinatorics::factorial($j) * $exp;
-            $qⱼ  = $μ / sqrt(2) / Special::gamma($j + 3 / 2) * $exp;
+            $qⱼ  = $μ / \sqrt(2) / Special::gamma($j + 3 / 2) * $exp;
             $I1  = Special::regularizedIncompleteBeta($y, $j + 1 / 2, $ν / 2);
             $I2  = Special::regularizedIncompleteBeta($y, $j + 1, $ν / 2);
 
@@ -174,9 +176,9 @@ class NoncentralT extends Continuous
      *
      *      = Does not exist        if ν ≤ 1
      *
-     * @return number
+     * @return float
      */
-    public function mean()
+    public function mean(): float
     {
         $ν = $this->ν;
         $μ = $this->μ;
@@ -184,6 +186,18 @@ class NoncentralT extends Continuous
         if ($ν == 1) {
             return \NAN;
         }
-        return $μ * sqrt($ν / 2) * Special::gamma(($ν - 1) / 2) / Special::gamma($ν / 2);
+        return $μ * \sqrt($ν / 2) * Special::gamma(($ν - 1) / 2) / Special::gamma($ν / 2);
+    }
+
+    /**
+     * Median of the distribution
+     * @note: This is probably not correct and should be updated.
+     * @todo: Replace with actual median calculation.
+     *
+     * @return float
+     */
+    public function median(): float
+    {
+        return $this->mean();
     }
 }

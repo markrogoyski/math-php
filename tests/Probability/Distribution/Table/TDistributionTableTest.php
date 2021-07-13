@@ -1,20 +1,30 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Table;
 
 use MathPHP\Probability\Distribution\Table\TDistribution;
 use MathPHP\Exception;
 
-class TDistributionTest extends \PHPUnit_Framework_TestCase
+class TDistributionTableTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @test         one-sided T value from confidence level
      * @dataProvider dataProviderForOneSidedCL
+     * @param        mixed $ν
+     * @param        mixed $cl
+     * @param        float  $t
+     * @throws       \Exception
      */
-    public function testGetOneSidedTValueFromConfidenceLevel(string $ν, string $cl, $t)
+    public function testGetOneSidedTValueFromConfidenceLevel($ν, $cl, float $t)
     {
-        $this->assertEquals($t, TDistribution::getOneSidedTValueFromConfidenceLevel($ν, $cl));
+        // When
+        $value = TDistribution::getOneSidedTValueFromConfidenceLevel($ν, $cl);
+
+        // Then
+        $this->assertEquals($t, $value);
     }
 
-    public function dataProviderForOneSidedCL()
+    public function dataProviderForOneSidedCL(): array
     {
         return [
             [ 1, 0, 0 ],
@@ -37,14 +47,23 @@ class TDistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test         two-sided T value from confidence level
      * @dataProvider dataProviderForTwoSidedCL
+     * @param        mixed $ν
+     * @param        mixed $cl
+     * @param        float  $t
+     * @throws       \Exception
      */
-    public function testGetTwoSidedTValueFromConfidenceLevel(string $ν, string $cl, $t)
+    public function testGetTwoSidedTValueFromConfidenceLevel($ν, $cl, float $t)
     {
-        $this->assertEquals($t, TDistribution::getTwoSidedTValueFromConfidenceLevel($ν, $cl));
+        // When
+        $value = TDistribution::getTwoSidedTValueFromConfidenceLevel($ν, $cl);
+
+        // Then
+        $this->assertEquals($t, $value);
     }
 
-    public function dataProviderForTwoSidedCL()
+    public function dataProviderForTwoSidedCL(): array
     {
         return [
             [ 1, 0, 0 ],
@@ -67,14 +86,23 @@ class TDistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderForOneSidedAlpha
+     * @test          one-sided value from alpha
+     * @dataProvider  dataProviderForOneSidedAlpha
+     * @param         mixed $ν
+     * @param         mixed $α
+     * @param         float  $t
+     * @throws        \Exception
      */
-    public function testGetOneSidedTValueFromAlpha(string $ν, string $α, $t)
+    public function testGetOneSidedTValueFromAlpha($ν, $α, float $t)
     {
-        $this->assertEquals($t, TDistribution::getOneSidedTValueFromAlpha($ν, $α));
+        // When
+        $value = TDistribution::getOneSidedTValueFromAlpha($ν, $α);
+
+        // Then
+        $this->assertEquals($t, $value);
     }
 
-    public function dataProviderForOneSidedAlpha()
+    public function dataProviderForOneSidedAlpha(): array
     {
         return [
             [ 1, '0.50', 0 ],
@@ -97,14 +125,23 @@ class TDistributionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test         two-sided value from alpha
      * @dataProvider dataProviderForTwoSidedAlpha
+     * @param        mixed $ν
+     * @param        mixed $α
+     * @param        float  $t
+     * @throws       \Exception
      */
-    public function testGetTwoSidedTValueFromAlpha(string $ν, string $α, $t)
+    public function testGetTwoSidedTValueFromAlpha($ν, $α, float $t)
     {
-        $this->assertEquals($t, TDistribution::getTwoSidedTValueFromAlpha($ν, $α));
+        // When
+        $value = TDistribution::getTwoSidedTValueFromAlpha($ν, $α);
+
+        // Then
+        $this->assertEquals($t, $value);
     }
 
-    public function dataProviderForTwoSidedAlpha()
+    public function dataProviderForTwoSidedAlpha(): array
     {
         return [
             [ 1, '1.00', 0 ],
@@ -126,51 +163,107 @@ class TDistributionTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function testGetOneSidedTValueFromConfidenceLevelExceptionBadDF()
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         TDistribution::getOneSidedTValueFromConfidenceLevel(1234, 99);
     }
 
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function testGetTwoSidedTValueFromConfidenceLevelExceptionBadDF()
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         TDistribution::getTwoSidedTValueFromConfidenceLevel(1234, 99);
     }
 
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function testGetOneSidedTValueFromAlphaExceptionBadDF()
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         TDistribution::getOneSidedTValueFromAlpha(1234, 0.05);
     }
 
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function testGetTwoSidedTValueFromAlphaExceptionBadDF()
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         TDistribution::getTwoSidedTValueFromAlpha(1234, 0.05);
     }
 
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function testGetOneSidedTValueFromConfidenceLevelExceptionBadCL()
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         TDistribution::getOneSidedTValueFromConfidenceLevel(1, 155);
     }
 
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function testGetTwoSidedTValueFromConfidenceLevelExceptionBadCL()
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         TDistribution::getTwoSidedTValueFromConfidenceLevel(1, 155);
     }
 
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function testGetOneSidedTValueFromAlphaExceptionBadAlpha()
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         TDistribution::getOneSidedTValueFromAlpha(1, 999);
     }
 
+    /**
+     * @test
+     * @throws \Exception
+     */
     public function testGetTwoSidedTValueFromAlphaExceptionBadAlpha()
     {
+        // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
         TDistribution::getTwoSidedTValueFromAlpha(1, 999);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Tests\SetTheory;
 
 use MathPHP\SetTheory\Set;
@@ -45,44 +46,57 @@ use MathPHP\SetTheory\Set;
  *  - Power set
  *    - |S| = n, then |P(S)| = 2ⁿ
  */
-class SetAxiomsTest extends \PHPUnit_Framework_TestCase
+class SetAxiomsTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Axiom: Ø ⊆ A
+     * @test Axiom: Ø ⊆ A
      * The empty set is a subset of every set
      * @dataProvider dataProviderForSingleSet
      */
     public function testEmptySetSubsetOfEverySet(Set $A)
     {
+        // Given
         $Ø = new Set();
 
-        $this->assertTrue($Ø->isSubset($A));
+        // When
+        $isSubset = $Ø->isSubset($A);
+
+        // Then
+        $this->assertTrue($isSubset);
     }
 
     /**
-     * Axiom: A ⊆ A
+     * @test Axiom: A ⊆ A
      * Every set is a subset of itself
      * @dataProvider dataProviderForSingleSet
      */
     public function testSetIsSubsetOfItself(Set $A)
     {
-        $this->assertTrue($A->isSubset($A));
+        // When
+        $isSubset = $A->isSubset($A);
+
+        // Then
+        $this->assertTrue($isSubset);
     }
 
 
     /**
-     * Axiom: A = B iff A ⊆ B and B ⊆ A
+     * @test Axiom: A = B iff A ⊆ B and B ⊆ A
      * Sets are equal if and only if they are both subsets of each other.
      * @dataProvider dataProviderForSingleSet
      */
     public function testEqualSetsAreSubsetsInBothDirections(Set $A)
     {
+        // Given
+        $B = $A;
         $this->assertEquals($A, $A);
-        $this->assertTrue($A->isSubset($A));
-        $this->assertTrue($A->isSubset($A));
+
+        // Then
+        $this->assertTrue($A->isSubset($B));
+        $this->assertTrue($B->isSubset($A));
     }
 
-    public function dataProviderForSingleSet()
+    public function dataProviderForSingleSet(): array
     {
         return [
             [new Set([])],
@@ -107,20 +121,25 @@ class SetAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Axiom: A ∪ B = B ∪ A
+     * @test Axiom: A ∪ B = B ∪ A
      * Union is commutative
+     *
      * @dataProvider dataProviderForTwoSets
+     * @param        Set $A
+     * @param        Set $B
      */
     public function testUnionCommutative(Set $A, Set $B)
     {
+        // Given
         $A∪B = $A->union($B);
         $B∪A = $B->union($A);
 
+        // Then
         $this->assertEquals($A∪B, $B∪A);
         $this->assertEquals($A∪B->asArray(), $B∪A->asArray());
     }
 
-    public function dataProviderForTwoSets()
+    public function dataProviderForTwoSets(): array
     {
         return [
             [
@@ -179,101 +198,136 @@ class SetAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Axiom: A ∪ (B ∪ C) = (A ∪ B) ∪ C
+     * @test Axiom: A ∪ (B ∪ C) = (A ∪ B) ∪ C
      * Unsion is associative
+     *
      * @dataProvider dataProviderForThreeSets
+     * @param        Set $A
+     * @param        Set $B
+     * @param        Set $C
      */
     public function testUnsionAssociative(Set $A, Set $B, Set $C)
     {
+        // Given
         $A∪⟮B∪C⟯ = $A->union($B->union($C));
         $⟮A∪B⟯∪C = $A->union($B)->union($C);
 
+        // Then
         $this->assertEquals($A∪⟮B∪C⟯, $⟮A∪B⟯∪C);
         $this->assertEquals($A∪⟮B∪C⟯->asArray(), $⟮A∪B⟯∪C->asArray());
     }
 
     /**
-     * Axiom: A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C)
+     * @test Axiom: A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C)
      * Union is distributive
+     *
      * @dataProvider dataProviderForThreeSets
+     * @param        Set $A
+     * @param        Set $B
+     * @param        Set $C
      */
     public function testUnionDistributive(Set $A, Set $B, Set $C)
     {
+        // Given
         $A∪⟮B∩C⟯    = $A->union($B->intersect($C));
         $⟮A∪B⟯∩⟮A∪C⟯ = $A->union($B)->intersect($A->union($C));
 
+        // Then
         $this->assertEquals($A∪⟮B∩C⟯, $⟮A∪B⟯∩⟮A∪C⟯);
         $this->assertEquals($A∪⟮B∩C⟯->asArray(), $⟮A∪B⟯∩⟮A∪C⟯->asArray());
     }
 
     /**
-     * Axiom: A ∪ (A ∩ B) = A
+     * @test Axiom: A ∪ (A ∩ B) = A
      * Union absorbtion law
+     *
      * @dataProvider dataProviderForTwoSets
+     * @param        Set $A
+     * @param        Set $B
      */
     public function testUnionAbsorbtion(Set $A, Set $B)
     {
+        // Given
         $A∪⟮B∩C⟯ = $A->union($A->intersect($B));
 
+        // Then
         $this->assertEquals($A, $A∪⟮B∩C⟯);
         $this->assertEquals($A->asArray(), $A∪⟮B∩C⟯->asArray());
     }
 
     /**
-     * Axiom: A ⊆ (A ∪ B)
+     * @test Axiom: A ⊆ (A ∪ B)
      * A is a subset of A union B
+     *
      * @dataProvider dataProviderForTwoSets
+     * @param        Set $A
+     * @param        Set $B
      */
     public function testAIsSubsetOfAUnionB(Set $A, Set $B)
     {
+        // Given
         $A∪B = $A->union($B);
 
+        // Then
         $this->assertTrue($A->isSubset($A∪B));
         $this->assertTrue($B->isSubset($A∪B));
     }
 
     /**
-     * Axiom: A ∪ A = A
+     * @test Axiom: A ∪ A = A
      * A union A equals A
+     *
      * @dataProvider dataProviderForSingleSet
+     * @param       Set $A
      */
     public function testAUnionAEqualsA(Set $A)
     {
+        // Given
         $A∪A = $A->union($A);
 
+        // Then
         $this->assertEquals($A, $A∪A);
         $this->assertEquals($A->asArray(), $A∪A->asArray());
     }
 
     /**
-     * Axiom: A ∪ Ø = A
+     * @test Axiom: A ∪ Ø = A
      * A union empty set is A
+     *
      * @dataProvider dataProviderForSingleSet
+     * @param        Set $A
      */
     public function testAUnionEmptySetEqualsA(Set $A)
     {
+        // Given
         $Ø   = new Set();
         $A∪Ø = $A->union($Ø);
 
+        // Then
         $this->assertEquals($A, $A∪Ø);
         $this->assertEquals($A->asArray(), $A∪Ø->asArray());
     }
 
     /**
-     * Axiom: |A ∪ B| = |A| + |B| - |A ∩ B|
+     * @test Axiom: |A ∪ B| = |A| + |B| - |A ∩ B|
      * The cardinality (count) of unsion of A and B is equal to the cardinality of A + B minus the cardinality of A intersection B
+     *
      * @dataProvider dataProviderForTwoSets
+     * @param        Set $A
+     * @param        Set $B
      */
     public function testCardinalityOfUnion(Set $A, Set $B)
     {
+        // Given
         $A∪B = $A->union($B);
         $A∩B = $A->intersect($B);
 
+        // Then
         $this->assertEquals(count($A) + count($B) - count($A∩B), count($A∪B));
         $this->assertEquals(count($A->asArray()) + count($B->asArray()) - count($A∩B->asArray()), count($A∪B->asArray()));
     }
 
-    public function dataProviderForThreeSets()
+    public function dataProviderForThreeSets(): array
     {
         return [
             [
@@ -345,115 +399,155 @@ class SetAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Axiom: A ∩ B = B ∩ A
+     * @test Axiom: A ∩ B = B ∩ A
      * Intersection is commutative
+     *
      * @dataProvider dataProviderForTwoSets
+     * @param        Set $A
+     * @param        Set $B
      */
     public function testIntersectionCommutative(Set $A, Set $B)
     {
+        // Given
         $A∩B = $A->intersect($B);
         $B∩A = $B->intersect($A);
 
+        // Then
         $this->assertEquals($A∩B, $B∩A);
         $this->assertEquals($A∩B->asArray(), $B∩A->asArray());
     }
 
     /**
-     * Axiom: A ∩ (B ∩ C) = (A ∩ B) ∩ C
+     * @test Axiom: A ∩ (B ∩ C) = (A ∩ B) ∩ C
      * Intersection is associative
+     *
      * @dataProvider dataProviderForThreeSets
+     * @param        Set $A
+     * @param        Set $B
+     * @param        Set $C
      */
     public function testIntersectionAssociative(Set $A, Set $B, Set $C)
     {
+        // Given
         $A∩⟮B∩C⟯ = $A->intersect($B->intersect($C));
         $⟮A∩B⟯∩C = $A->intersect($B)->intersect($C);
 
+        // Then
         $this->assertEquals($A∩⟮B∩C⟯, $⟮A∩B⟯∩C);
         $this->assertEquals($A∩⟮B∩C⟯->asArray(), $⟮A∩B⟯∩C->asArray());
     }
 
     /**
-     * Axiom: A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)
+     * @test Axiom: A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)
      * Intersection is distributive
+     *
      * @dataProvider dataProviderForThreeSets
+     * @param        Set $A
+     * @param        Set $B
+     * @param        Set $C
      */
     public function testIntersectionDistributive(Set $A, Set $B, Set $C)
     {
+        // Given
         $A∩⟮B∪C⟯    = $A->intersect($B->union($C));
         $⟮A∩B⟯∪⟮A∩C⟯ = $A->intersect($B)->union($A->intersect($C));
 
+        // Then
         $this->assertEquals($A∩⟮B∪C⟯, $⟮A∩B⟯∪⟮A∩C⟯);
         $this->assertEquals($A∩⟮B∪C⟯->asArray(), $⟮A∩B⟯∪⟮A∩C⟯->asArray());
     }
 
     /**
-     * Axiom: A ∩ (A ∪ B) = A
+     * @test Axiom: A ∩ (A ∪ B) = A
      * Intersection absorbtion law
+     *
      * @dataProvider dataProviderForTwoSets
+     * @param        Set $A
+     * @param        Set $B
      */
     public function testIntersectionAbsorbtion(Set $A, Set $B)
     {
+        // Given
         $A∩⟮B∪C⟯ = $A->intersect($A->union($B));
 
+        // Then
         $this->assertEquals($A, $A∩⟮B∪C⟯);
         $this->assertEquals($A->asArray(), $A∩⟮B∪C⟯->asArray());
     }
 
     /**
-     * Axiom: (A ∩ B) ⊆ A
+     * @test Axiom: (A ∩ B) ⊆ A
      * A intersect B is a subset of A
+     *
      * @dataProvider dataProviderForTwoSets
+     * @param        Set $A
+     * @param        Set $B
      */
     public function testAIntersectionBIsSubsetOfA(Set $A, Set $B)
     {
+        // Given
         $A∩B = $A->intersect($B);
 
+        // Then
         $this->assertTrue($A∩B->isSubset($A));
         $this->assertTrue($A∩B->isSubset($B));
     }
 
     /**
-     * Axiom: A ∩ A = A
+     * @test Axiom: A ∩ A = A
      * A intersection A equals A
+     *
      * @dataProvider dataProviderForSingleSet
+     * @param        Set $A
      */
     public function testAIntersectionAEqualsA(Set $A)
     {
+        // Given
         $A∩A = $A->intersect($A);
 
+        // Then
         $this->assertEquals($A, $A∩A);
         $this->assertEquals($A->asArray(), $A∩A->asArray());
     }
 
     /**
-     * Axiom: A ∩ Ø = Ø
+     * @test Axiom: A ∩ Ø = Ø
      * A union empty set is A
+     *
      * @dataProvider dataProviderForSingleSet
+     * @param        Set $A
      */
     public function testAIntersectionEmptySetIsEmptySet(Set $A)
     {
+        // Given
         $Ø   = new Set();
         $A∩Ø = $A->intersect($Ø);
 
+        // Then
         $this->assertEquals($Ø, $A∩Ø);
         $this->assertEquals($Ø->asArray(), $A∩Ø->asArray());
     }
 
     /**
-     * Axiom: A ∖ B ≠ B ∖ A for A ≠ B
+     * @test Axiom: A ∖ B ≠ B ∖ A for A ≠ B
      * A diff B does not equal B diff A if A and B are different sets
+     *
      * @dataProvider dataProviderForTwoSetsDifferent
+     * @param        Set $A
+     * @param        Set $B
      */
     public function testADiffBDifferentFromBDiffAWhenNotEqual(Set $A, Set $B)
     {
+        // Given
         $A∖B = $A->difference($B);
         $B∖A = $B->difference($A);
 
+        // Then
         $this->assertNotEquals($A∖B, $B∖A);
         $this->assertNotEquals($A∖B->asArray(), $B∖A->asArray());
     }
 
-    public function dataProviderForTwoSetsDifferent()
+    public function dataProviderForTwoSetsDifferent(): array
     {
         return [
             [
@@ -504,100 +598,134 @@ class SetAxiomsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Axiom: A ∖ A = Ø
+     * @test Axiom: A ∖ A = Ø
      * A diff itself is the empty set
+     *
      * @dataProvider dataProviderForSingleSet
+     * @param        Set $A
      */
     public function testADiffItselfIsEmptySet(Set $A)
     {
+        // Given
         $Ø   = new Set();
         $A∖A = $A->difference($A);
 
+        // Then
         $this->assertEquals($Ø, $A∖A);
         $this->assertEquals($Ø->asArray(), $A∖A->asArray());
     }
 
     /**
-     * Axiom: A Δ B = (A ∖ B) ∪ (B ∖ A)
+     * @test Axiom: A Δ B = (A ∖ B) ∪ (B ∖ A)
      * A symmetric different B equals union of A diff B and B diff A
+     *
      * @dataProvider dataProviderForTwoSets
+     * @param        Set $A
+     * @param        Set $B
      */
     public function testASymmetricDifferentBEqualsUnionADiffBAndBDiffA(Set $A, Set $B)
     {
+        // Given
         $AΔB       = $A->symmetricDifference($B);
         $A∖B       = $A->difference($B);
         $B∖A       = $B->difference($A);
         $⟮A∖B⟯∪⟮B∖A⟯ = $A∖B->union($B∖A);
 
+        // Then
         $this->assertEquals($AΔB, $⟮A∖B⟯∪⟮B∖A⟯);
         $this->assertEquals($AΔB->asArray(), $⟮A∖B⟯∪⟮B∖A⟯->asArray());
     }
 
     /**
-     * Axiom: A × Ø = Ø
+     * @test Axiom: A × Ø = Ø
      * A cartesian product with empty set is the empty set
+     *
      * @dataProvider dataProviderForSingleSet
+     * @param        Set $A
      */
     public function testACartesianProductWithEmptySetIsEmptySet(Set $A)
     {
+        // Given
         $Ø   = new Set();
         $A×Ø = $A->cartesianProduct($Ø);
 
+        // Then
         $this->assertEquals($Ø, $A×Ø);
     }
 
     /**
-     * Axiom: A × (B ∪ C) = (A × B) ∪ (A × C)
+     * @test Axiom: A × (B ∪ C) = (A × B) ∪ (A × C)
      * A cross union of B and C is the union of A cross B and A cross C
+     *
      * @dataProvider dataProviderForThreeSets
+     * @param        Set $A
+     * @param        Set $B
+     * @param        Set $C
      */
-    public function testACrossUnsionBCEqualsACrossBUnionACrossC(Set $A, Set $B, Set $C)
+    public function testACrossUnionBCEqualsACrossBUnionACrossC(Set $A, Set $B, Set $C)
     {
+        // Given
         $A×⟮B∪C⟯ = $A->cartesianProduct($B->union($C));
         $⟮A×B⟯∪⟮A×C⟯ = $A->cartesianProduct($B)->union($A->cartesianProduct($C));
 
+        // Then
         $this->assertEquals($A×⟮B∪C⟯, $⟮A×B⟯∪⟮A×C⟯);
         $this->assertEquals($A×⟮B∪C⟯->asArray(), $⟮A×B⟯∪⟮A×C⟯->asArray());
     }
 
     /**
-     * Axiom: (A ∪ B) × C = (A × C) ∪ (B × C)
+     * @test Axiom: (A ∪ B) × C = (A × C) ∪ (B × C)
      * A union B cross C is the union of A cross C and B cross C
+     *
      * @dataProvider dataProviderForThreeSets
+     * @param        Set $A
+     * @param        Set $B
+     * @param        Set $C
      */
-    public function testAUnsionBCrossCEqualsUnsionOfACRossCAndBCrossC(Set $A, Set $B, Set $C)
+    public function testAUnionBCrossCEqualsUnsionOfACRossCAndBCrossC(Set $A, Set $B, Set $C)
     {
+        // Given
         $⟮A∪B⟯×C = $A->union($B)->cartesianProduct($C);
         $⟮A×C⟯∪⟮B×C⟯ = $A->cartesianProduct($C)->union($B->cartesianProduct($C));
 
+        // Then
         $this->assertEquals($⟮A∪B⟯×C, $⟮A×C⟯∪⟮B×C⟯);
         $this->assertEquals($⟮A∪B⟯×C->asArray(), $⟮A×C⟯∪⟮B×C⟯->asArray());
     }
 
     /**
-     * Axiom: |A × B| - |A| * |B|
+     * @test Axiom: |A × B| - |A| * |B|
      * The cardinality (count) of the cartesian product is the product of the cardinality of A and B
+     *
      * @dataProvider dataProviderForTwoSets
+     * @param        Set $A
+     * @param        Set $B
      */
     public function testCardinalityOfCartesianProduct(Set $A, Set $B)
     {
+        // Given
         $A×B = $A->cartesianProduct($B);
 
+        // Then
         $this->assertEquals(count($A) * count($B), count($A×B));
         $this->assertEquals(count($A->asArray()) * count($B->asArray()), count($A×B->asArray()));
     }
 
     /**
-     * Axiom: |S| = n, then |P(S)| = 2ⁿ
+     * @test Axiom: |S| = n, then |P(S)| = 2ⁿ
      * The cardinality (count) of a power set of S is 2ⁿ if the cardinality of S is n.
+     *
      * @dataProvider dataProviderForSingleSet
+     * @param        Set $A
      */
     public function testCardinalityOfPowerSet(Set $A)
     {
+        // Given
         $P⟮S⟯ = $A->powerSet();
         $n   = count($A);
 
-        $this->assertEquals(pow(2, $n), count($P⟮S⟯));
-        $this->assertEquals(pow(2, $n), count($P⟮S⟯->asArray()));
+        // Then
+        $this->assertEquals(\pow(2, $n), count($P⟮S⟯));
+        $this->assertEquals(\pow(2, $n), count($P⟮S⟯->asArray()));
     }
 }

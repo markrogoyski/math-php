@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Discrete;
 
 use MathPHP\Functions\Special;
@@ -17,24 +18,26 @@ class Hypergeometric extends Discrete
      * N ∈ [0,∞)
      * K ∈ [0,N]
      * n ∈ [0,N]
-     * k ∈ [max(0, n + K - N),min(n, K)]
+     * k ∈ [\max(0, n + K - N),min(n, K)]
      * @var array
      */
-    const PARMAETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'N' => '[0,∞)',
+        'K' => '[0,∞]', // Dynamically checked in constructor
+        'n' => '[0,∞]', // Dynamically checked in constructor
     ];
 
     /** @var array */
-    private $support_limit;
+    protected $support_limit;
 
     /** @var int */
-    private $N;
+    protected $N;
 
     /** @var int */
-    private $K;
+    protected $K;
 
     /** @var int */
-    private $n;
+    protected $n;
 
     /**
      * Constructor
@@ -49,19 +52,15 @@ class Hypergeometric extends Discrete
      */
     public function __construct(int $N, int $K, int $n)
     {
-        $parameter_limits = [
-            'N' => '[0,∞)',
+        parent::__construct($N, $K, $n);
+
+        $dynamic_parameter_limits = [
             'K' => "[0, $N]",
             'n' => "[0, $N]",
         ];
-        Support::checkLimits($parameter_limits, ['N' => $N, 'K' => $K, 'n' => $n]);
+        Support::checkLimits($dynamic_parameter_limits, ['K' => $K, 'n' => $n]);
 
-        $this->support_limit = ['k' => '[' . max(0, $n + $K - $N) . ',' . min($n, $K) . ']'];
-
-
-        $this->N = $N;
-        $this->K = $K;
-        $this->n = $n;
+        $this->support_limit = ['k' => '[' . \max(0, $n + $K - $N) . ',' . \min($n, $K) . ']'];
     }
 
     /**
@@ -153,9 +152,9 @@ class Hypergeometric extends Discrete
     /**
      * Distribution mean
      *
-     *          K
-     * mean = n -
-     *          N
+     *       K
+     * μ = n -
+     *       N
      *
      * N is the population size,
      * K is the number of success states in the population,
@@ -166,12 +165,50 @@ class Hypergeometric extends Discrete
      * n ∈ {0, 1, 2, ..., N}
      * k ∈ {max(0, n + K - N), ..., min(n, K)}
      *
-     * @param  int $k number of observed successes
-     *
      * @return float
      */
     public function mean(): float
     {
         return $this->n * ($this->K / $this->N);
+    }
+
+    /**
+     * Mode of the distribution
+     *
+     *         _              _
+     *        | (n + 1)(K + 1) |       | (n + 1)(K + 1) |
+     * mode = | -------------- | - 1,  | -------------- |
+     *        |    (N + 2)     |       |_    (N + 2)   _|
+     *
+     * @return float[]
+     */
+    public function mode(): array
+    {
+        $N = $this->N;
+        $K = $this->K;
+        $n = $this->n;
+
+        return [
+            \ceil((($n + 1) * ($K + 1)) / ($N + 2)) - 1,
+            \floor((($n + 1) * ($K + 1)) / ($N + 2)),
+        ];
+    }
+
+    /**
+     * Variance of the distribution
+     *
+     *        K (N - K) N - n
+     * σ² = n - ------- -----
+     *        N    N    N - 1
+     *
+     * @return float
+     */
+    public function variance(): float
+    {
+        $N = $this->N;
+        $K = $this->K;
+        $n = $this->n;
+
+        return $n * ($K / $N) * (($N - $K) / $N) * (($N - $n) / ($N - 1));
     }
 }

@@ -1,9 +1,10 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Continuous;
 
 use MathPHP\Probability\Distribution\Continuous;
 
-class LimitsTest extends \PHPUnit_Framework_TestCase
+class LimitsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Limits should look like:
@@ -20,7 +21,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testBetaParameterLimits()
     {
@@ -28,7 +29,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testBetaSupportLimits()
     {
@@ -36,7 +37,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testCauchyParameterLimits()
     {
@@ -44,7 +45,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testCauchySupportLimits()
     {
@@ -52,7 +53,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testChiSquaredParameterLimits()
     {
@@ -60,7 +61,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testChiSquaredSupportLimits()
     {
@@ -68,15 +69,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
-     */
-    public function testDiracDeltaParameterLimits()
-    {
-        $this->limitTest(Continuous\DiracDelta::PARAMETER_LIMITS);
-    }
-
-    /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testDiracDeltaSupportLimits()
     {
@@ -84,7 +77,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testExponentialParameterLimits()
     {
@@ -92,7 +85,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testExponentialSupportLimits()
     {
@@ -100,7 +93,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testFParameterLimits()
     {
@@ -108,7 +101,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testFSupportLimits()
     {
@@ -116,7 +109,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testGammaParameterLimits()
     {
@@ -124,7 +117,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testGammaSupportLimits()
     {
@@ -132,7 +125,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testLaplaceParameterLimits()
     {
@@ -140,7 +133,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testLaplaceSupportLimits()
     {
@@ -148,7 +141,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testLogisticParameterLimits()
     {
@@ -156,7 +149,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testLogisticSupportLimits()
     {
@@ -164,7 +157,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testLogLogisticParameterLimits()
     {
@@ -172,7 +165,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testLogLogisticSupportLimits()
     {
@@ -180,7 +173,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testLogNormalParameterLimits()
     {
@@ -188,7 +181,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testLogNormalSupportLimits()
     {
@@ -196,7 +189,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testNoncentralTParameterLimits()
     {
@@ -204,7 +197,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testNoncentralTSupportLimits()
     {
@@ -212,7 +205,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testNormalParameterLimits()
     {
@@ -220,7 +213,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testNormalSupportLimits()
     {
@@ -228,7 +221,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testParetoParameterLimits()
     {
@@ -236,7 +229,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testParetoSupportLimits()
     {
@@ -244,15 +237,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
-     */
-    public function testStandardNormalParameterLimits()
-    {
-        $this->limitTest(Continuous\StandardNormal::PARAMETER_LIMITS);
-    }
-
-    /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testStandardNormalSupportLimits()
     {
@@ -260,7 +245,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testStudentTParameterLimits()
     {
@@ -268,7 +253,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testStudentTSupportLimits()
     {
@@ -276,7 +261,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testUniformParameterLimits()
     {
@@ -284,7 +269,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testUniformSupportLimits()
     {
@@ -292,7 +277,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testWeibullParameterLimits()
     {
@@ -300,7 +285,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testWeibullSupportLimits()
     {

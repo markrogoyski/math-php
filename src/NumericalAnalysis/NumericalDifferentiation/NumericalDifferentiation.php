@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\NumericalDifferentiation;
 
 use MathPHP\Exception;
@@ -15,17 +16,13 @@ use MathPHP\Exception;
  */
 abstract class NumericalDifferentiation
 {
-    /**
-     * @var int Index of x
-     */
-    const X = 0;
+    /** @var int Index of x */
+    protected const X = 0;
 
-    /**
-     * @var int Index of y
-     */
-    const Y = 1;
+    /** @var int Index of y */
+    protected const Y = 1;
 
-    abstract public static function differentiate($target, $source, ...$args);
+    abstract public static function differentiate(float $target, $source, ...$args);
 
     /**
      * Determine where the input $source argument is a callback function, a set
@@ -38,30 +35,34 @@ abstract class NumericalDifferentiation
      * @todo  Add method to verify input arguments are valid.
      *        Verify $start and $end are numbers, $end > $start, and $points is an integer > 1
      *
-     * @param          $source The source of our approximation. Should be either
+     * @param  callable|array  $source The source of our approximation. Should be either
      *                         a callback function or a set of arrays.
      * @param  array   $args   The arguments of our callback function: start,
      *                         end, and n. Example: [0, 8, 5]. If $source is a
      *                         set of arrays, $args will default to [].
      *
      * @return array
-     * @throws Exception if $source is not callable or a set of arrays
+     * @throws Exception\BadDataException if $source is not callable or a set of arrays
      */
     public static function getPoints($source, array $args = []): array
     {
-        if (is_callable($source)) {
-            $function = $source;
-            $start    = $args[0];
-            $end      = $args[1];
-            $n        = $args[2];
-            $points   = self::functionToPoints($function, $start, $end, $n);
-        } elseif (is_array($source)) {
-            $points   = $source;
-        } else {
+        // Guard clause - source must be callable or array of points
+        if (!(\is_callable($source) || \is_array($source))) {
             throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
 
-        return $points;
+        // Source is already an array: nothing to do
+        if (\is_array($source)) {
+            return $source;
+        }
+
+        // Construct points from callable function
+        $function = $source;
+        $start    = $args[0];
+        $end      = $args[1];
+        $n        = $args[2];
+
+        return self::functionToPoints($function, $start, $end, $n);
     }
 
     /**
@@ -73,18 +74,19 @@ abstract class NumericalDifferentiation
      * @param  number   $end      the end of the interval
      * @param  number   $n        the number of function evaluations
      *
-     * @return array
+     * @return array[]
      */
     protected static function functionToPoints(callable $function, $start, $end, $n): array
     {
         $points = [];
-        $h      = ($end-$start)/($n-1);
+        $h      = ($end - $start) / ($n - 1);
 
         for ($i = 0; $i < $n; $i++) {
-            $xᵢ         = $start + $i*$h;
+            $xᵢ         = $start + $i * $h;
             $f⟮xᵢ⟯       = $function($xᵢ);
             $points[$i] = [$xᵢ, $f⟮xᵢ⟯];
         }
+
         return $points;
     }
 
@@ -93,49 +95,45 @@ abstract class NumericalDifferentiation
      * has precisely two numbers, and that no two points share the same first number
      * (x-component)
      *
-     * @param  array  $points Array of arrays (points)
-     * @param  number $degree The number of input arrays
+     * @param  array $points Array of arrays (points)
+     * @param  int   $degree The number of input arrays
      *
-     * @return bool
-     * @throws Exception if there are not enough input arrays
-     * @throws Exception if any point does not contain two numbers
-     * @throws Exception if two points share the same first number (x-component)
+     * @throws Exception\BadDataException if there are not enough input arrays
+     * @throws Exception\BadDataException if any point does not contain two numbers
+     * @throws Exception\BadDataException if two points share the same first number (x-component)
      */
-    public static function validate(array $points, $degree): bool
+    public static function validate(array $points, int $degree)
     {
-        if (count($points) != $degree) {
+        if (\count($points) != $degree) {
             throw new Exception\BadDataException("You need to have $degree sets of coordinates (arrays) for this technique");
         }
 
         $x_coordinates = [];
         foreach ($points as $point) {
-            if (count($point) !== 2) {
+            if (\count($point) !== 2) {
                 throw new Exception\BadDataException('Each array needs to have have precisely two numbers, an x- and y-component');
             }
 
             $x_component = $point[self::X];
-            if (in_array($x_component, $x_coordinates)) {
+            if (\in_array($x_component, $x_coordinates)) {
                 throw new Exception\BadDataException('Not a function. Your input array contains more than one coordinate with the same x-component.');
             }
-            array_push($x_coordinates, $x_component);
+            $x_coordinates[] = $x_component;
         }
-
-        return true;
     }
 
     /**
      * Sorts our coordinates (arrays) by their x-component (first number) such
      * that consecutive coordinates have an increasing x-component.
      *
-     * @param  array $points
+     * @param array[] $points
      *
-     * @return array
+     * @return array[]
      */
     protected static function sort(array $points): array
     {
-        $x = self::X;
-        usort($points, function ($a, $b) use ($x) {
-            return $a[$x] <=> $b[$x];
+        \usort($points, function ($a, $b) {
+            return $a[self::X] <=> $b[self::X];
         });
 
         return $points;
@@ -145,19 +143,19 @@ abstract class NumericalDifferentiation
      * Ensures that the length of each subinterval is equal, or equivalently,
      * that the spacing between each point is equal
      *
-     * @param  array $sorted Points sorted by (increasing) x-component
+     * @param  array[] $sorted Points sorted by (increasing) x-component
      *
-     * @throws Exception if the spacing between any two points is not equal
+     * @throws Exception\BadDataException if the spacing between any two points is not equal
      *         to the average spacing between every point
      */
     public static function isSpacingConstant(array $sorted)
     {
-        $x       = 0;
-        $length  = count($sorted);
-        $spacing = ($sorted[$length-1][$x]-$sorted[0][$x])/($length-1);
+        $x       = self::X;
+        $length  = \count($sorted);
+        $spacing = ($sorted[$length - 1][$x] - $sorted[0][$x]) / ($length - 1);
 
         for ($i = 1; $i < $length - 1; $i++) {
-            if ($sorted[$i+1][$x] - $sorted[$i][$x] !== $spacing) {
+            if ($sorted[$i + 1][$x] - $sorted[$i][$x] !== $spacing) {
                 throw new Exception\BadDataException('The size of each subinterval must be the same. Provide points with constant spacing.');
             }
         }
@@ -169,19 +167,18 @@ abstract class NumericalDifferentiation
      * @param  number $target The value at which we are approximating the derivative
      * @param  array  $sorted Points sorted by (increasing) x-component
      *
-     * @throws Exception if $target is not contained in the array of our x-components
+     * @throws Exception\BadDataException if $target is not contained in the array of our x-components
      */
     public static function isTargetInPoints($target, array $sorted)
     {
-        $x       = 0;
-        $length  = count($sorted);
+        $xComponents = \array_map(
+            function (array $point) {
+                return $point[self::X];
+            },
+            $sorted
+        );
 
-        // construct array of x-components
-        for ($i = 0; $i < $length; $i++) {
-            $xcomponents[] = $sorted[$i][$x];
-        }
-
-        if (!in_array($target, $xcomponents)) {
+        if (!\in_array($target, $xComponents)) {
             throw new Exception\BadDataException('Your target point must be the x-component of one of the points you supplied.');
         }
     }

@@ -1,5 +1,8 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\RootFinding;
+
+use MathPHP\Exception;
 
 /**
  * Secant Method (also known as the Newton–Raphson method)
@@ -18,46 +21,31 @@ class SecantMethod
      * the average change between our initial approximations and moving our
      * approximations closer to the root.
      *
-     * @param Callable $function f(x) callback function
+     * @param callable $function f(x) callback function
      * @param number   $p₀       First initial approximation
      * @param number   $p₁       Second initial approximation
      * @param number   $tol      Tolerance; How close to the actual solution we would like.
+     *
      * @return number
+     *
+     * @throws Exception\OutOfBoundsException if $tol (the tolerance) is negative
+     * @throws Exception\BadDataException if $p₀ = $p₁
      */
     public static function solve(callable $function, $p₀, $p₁, $tol)
     {
-        // Validate input arguments
-        self::validate($p₀, $p₁, $tol);
+        Validation::tolerance($tol);
+        Validation::interval($p₀, $p₁);
 
         do {
             $q₀    = $function($p₀);
             $q₁    = $function($p₁);
-            $slope = ($q₁ - $q₀)/($p₁ - $p₀);
-            $p     = $p₁ - ($q₁/$slope);
-            $dif   = abs($p - $p₁);
+            $slope = ($q₁ - $q₀) / ($p₁ - $p₀);
+            $p     = $p₁ - ($q₁ / $slope);
+            $dif   = \abs($p - $p₁);
             $p₀    = $p₁;
             $p₁    = $p;
         } while ($dif > $tol);
 
         return $p;
-    }
-
-    /**
-     * Verify the input arguments are valid for correct use of the secant method
-     * If the tolerance is less than zero, an Exception will be thrown. If
-     * $p₀ = $p₁, then we cannot run our loop because the slope with be
-     * undefined, so we throw an Exception.
-     *
-     * @param number   $p₀       First initial approximation
-     * @param number   $p₁       Second initial approximation
-     * @param number   $tol      Tolerance; How close to the actual solution we would like.
-     *
-     * @throws Exception if $tol (the tolerance) is negative
-     * @throws Exception if $p₀ = $p₁
-     */
-    private static function validate($p₀, $p₁, $tol)
-    {
-        Validation::tolerance($tol);
-        Validation::interval($p₀, $p₁);
     }
 }

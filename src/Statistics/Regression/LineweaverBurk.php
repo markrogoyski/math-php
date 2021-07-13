@@ -1,6 +1,8 @@
 <?php
+
 namespace MathPHP\Statistics\Regression;
 
+use MathPHP\Exception;
 use MathPHP\Functions\Map\Single;
 
 /**
@@ -13,13 +15,19 @@ use MathPHP\Functions\Map\Single;
  */
 class LineweaverBurk extends ParametricRegression
 {
-    use Models\MichaelisMenten, Methods\LeastSquares;
+    use Models\MichaelisMenten;
+    use Methods\LeastSquares;
 
     /**
      * Calculate the regression parameters by least squares on linearized data
      * y⁻¹ = K * V⁻¹ * x⁻¹ + V⁻¹
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
+     * @throws Exception\MatrixException
+     * @throws Exception\MathException
      */
-    public function calculate()
+    public function calculate(): void
     {
         // Linearize the relationship by taking the inverse of both x and y
         $x’ = Single::pow($this->xs, -1);
@@ -33,5 +41,18 @@ class LineweaverBurk extends ParametricRegression
         $K = $linearized_parameters[1] * $V;
 
         $this->parameters = [$V, $K];
+    }
+
+    /**
+     * Evaluate the regression equation at x
+     * Uses the instance model's evaluateModel method.
+     *
+     * @param  float $x
+     *
+     * @return float
+     */
+    public function evaluate(float $x): float
+    {
+        return $this->evaluateModel($x, $this->parameters);
     }
 }

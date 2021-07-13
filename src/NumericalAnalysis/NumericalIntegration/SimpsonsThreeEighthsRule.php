@@ -1,8 +1,9 @@
 <?php
+
 namespace MathPHP\NumericalAnalysis\NumericalIntegration;
 
+use MathPHP\Exception;
 use MathPHP\NumericalAnalysis\Interpolation\LagrangePolynomial;
-use MathPHP\Functions\Polynomial;
 
 /**
  * Simpsons 3/8 Rule
@@ -62,21 +63,24 @@ class SimpsonsThreeEighthsRule extends NumericalIntegration
      *           ⁱ⁼¹   8
      * where h = (xn - x₁) / (n - 1)
      *
-     * @param          $source   The source of our approximation. Should be either
-     *                           a callback function or a set of arrays. Each array
-     *                           (point) contains precisely two numbers, an x and y.
-     *                           Example array: [[1,2], [2,3], [3,4], [4,5]].
-     *                           Example callback: function($x) {return $x**2;}
-     * @param numbers  ... $args The arguments of our callback function: start,
-     *                           end, and n. Example: approximate($source, 0, 8, 4).
-     *                           If $source is a set of points, do not input any
-     *                           $args. Example: approximate($source).
+     * @param callable|array $source   The source of our approximation. Should be either
+     *                                 a callback function or a set of arrays. Each array
+     *                                 (point) contains precisely two numbers, an x and y.
+     *                                 Example array: [[1,2], [2,3], [3,4], [4,5]].
+     *                                 Example callback: function($x) {return $x**2;}
+     * @param number          ...$args The arguments of our callback function: start,
+     *                                 end, and n. Example: approximate($source, 0, 8, 4).
+     *                                 If $source is a set of points, do not input any
+     *                                 $args. Example: approximate($source).
      *
-     * @return number            The approximation to the integral of f(x)
+     * @return float                   The approximation to the integral of f(x)
+     *
+     * @throws Exception\BadDataException
+     * @throws Exception\IncorrectTypeException
      */
-    public static function approximate($source, ... $args)
+    public static function approximate($source, ...$args): float
     {
-        // get an array of points from our $source argument
+        // Get an array of points from our $source argument
         $points = self::getPoints($source, $args);
 
         // Validate input and sort points
@@ -90,11 +94,11 @@ class SimpsonsThreeEighthsRule extends NumericalIntegration
         $y = self::Y;
 
         // Initialize
-        $n             = count($sorted);
+        $n             = \count($sorted);
         $subintervals  = $n - 1;
         $a             = $sorted[0][$x];
-        $b             = $sorted[$n-1][$x];
-        $h             = ($b - $a)/$subintervals;
+        $b             = $sorted[$n - 1][$x];
+        $h             = ($b - $a) / $subintervals;
         $approximation = 0;
 
         /*
@@ -103,15 +107,15 @@ class SimpsonsThreeEighthsRule extends NumericalIntegration
          *   ⁱ⁼¹   8
          *  where h = (xn - x₁) / (n - 1)
          */
-        for ($i = 1; $i < ($subintervals/3) + 1; $i++) {
-            $x₂ᵢ₋₁          = $sorted[(2*$i)-2][$x];
-            $x₂ᵢ            = $sorted[(2*$i)-1][$x];
-            $x₂ᵢ₊₁          = $sorted[(2*$i)][$x];
-            $x₂ᵢ₊₂          = $sorted[(2*$i)+1][$x];
-            $f⟮x₂ᵢ₋₁⟯        = $sorted[(2*$i)-2][$y]; // y₂₋₁
-            $f⟮x₂ᵢ⟯          = $sorted[(2*$i)-1][$y]; // y₂ᵢ
-            $f⟮x₂ᵢ₊₁⟯        = $sorted[(2*$i)][$y];   // y₂ᵢ₊₁
-            $f⟮x₂ᵢ₊₂⟯        = $sorted[(2*$i)+1][$y]; // y₂ᵢ₊₂
+        for ($i = 1; $i < ($subintervals / 3) + 1; $i++) {
+            $x₂ᵢ₋₁          = $sorted[(2 * $i) - 2][$x];
+            $x₂ᵢ            = $sorted[(2 * $i) - 1][$x];
+            $x₂ᵢ₊₁          = $sorted[(2 * $i)][$x];
+            $x₂ᵢ₊₂          = $sorted[(2 * $i) + 1][$x];
+            $f⟮x₂ᵢ₋₁⟯        = $sorted[(2 * $i) - 2][$y]; // y₂₋₁
+            $f⟮x₂ᵢ⟯          = $sorted[(2 * $i) - 1][$y]; // y₂ᵢ
+            $f⟮x₂ᵢ₊₁⟯        = $sorted[(2 * $i)][$y];   // y₂ᵢ₊₁
+            $f⟮x₂ᵢ₊₂⟯        = $sorted[(2 * $i) + 1][$y]; // y₂ᵢ₊₂
             $lagrange       = LagrangePolynomial::interpolate([[$x₂ᵢ₋₁, $f⟮x₂ᵢ₋₁⟯], [$x₂ᵢ, $f⟮x₂ᵢ⟯], [$x₂ᵢ₊₁, $f⟮x₂ᵢ₊₁⟯], [$x₂ᵢ₊₂, $f⟮x₂ᵢ₊₂⟯]]);
             $integral       = $lagrange->integrate();
             $approximation += $integral($x₂ᵢ₊₂) - $integral($x₂ᵢ₋₁); // definite integral of lagrange polynomial

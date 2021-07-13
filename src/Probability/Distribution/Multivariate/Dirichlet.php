@@ -1,4 +1,5 @@
 <?php
+
 namespace MathPHP\Probability\Distribution\Multivariate;
 
 use MathPHP\Functions\Map;
@@ -17,7 +18,7 @@ class Dirichlet
      * α ∈ (0,∞)
      * @var array
      */
-    const PARAMETER_LIMITS = [
+    public const PARAMETER_LIMITS = [
         'α' => '(0,∞)',
     ];
 
@@ -26,7 +27,7 @@ class Dirichlet
      * x ∈ (0,1)
      * @var array
      */
-    const SUPPORT_LIMITS = [
+    public const SUPPORT_LIMITS = [
         'x' => '(0,1)',
     ];
 
@@ -36,11 +37,11 @@ class Dirichlet
     /**
      * Constructor
      *
-     * @param loat[] $αs
+     * @param float[] $αs
      */
     public function __construct(array $αs)
     {
-        $n = count($αs);
+        $n = \count($αs);
         for ($i = 0; $i < $n; $i++) {
             Support::checkLimits(self::PARAMETER_LIMITS, ['α' => $αs[$i]]);
         }
@@ -56,7 +57,7 @@ class Dirichlet
      *
      * where B(α) is the multivariate Beta function
      *
-     * @param array float[] $xs
+     * @param float[] $xs
      *
      * @return float
      *
@@ -64,11 +65,11 @@ class Dirichlet
      */
     public function pdf(array $xs): float
     {
-        if (count($xs) !== count($this->αs)) {
+        if (\count($xs) !== \count($this->αs)) {
             throw new Exception\BadDataException('xs and αs must have the same number of elements');
         }
 
-        $n = count($xs);
+        $n = \count($xs);
         for ($i = 0; $i < $n; $i++) {
             Support::checkLimits(self::SUPPORT_LIMITS, ['x' => $xs[$i]]);
         }
@@ -78,10 +79,10 @@ class Dirichlet
          *  ∏ xᵢ
          * ⁱ⁼ⁱ
          */
-        $∏xᵢ = array_product(
-            array_map(
+        $∏xᵢ = \array_product(
+            \array_map(
                 function ($xᵢ, $αᵢ) {
-                    return $xᵢ**($αᵢ - 1);
+                    return $xᵢ ** ($αᵢ - 1);
                 },
                 $xs,
                 $this->αs

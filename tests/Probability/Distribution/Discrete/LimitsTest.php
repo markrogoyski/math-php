@@ -1,9 +1,10 @@
 <?php
+
 namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Distribution\Discrete;
 
-class LimitsTest extends \PHPUnit_Framework_TestCase
+class LimitsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Limits should look like:
@@ -20,7 +21,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testBernoulliParameterLimits()
     {
@@ -28,7 +29,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testBernoulliSupportLimits()
     {
@@ -36,7 +37,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testBinomialParameterLimits()
     {
@@ -44,7 +45,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testBinomialSupportLimits()
     {
@@ -52,7 +53,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testGeometricParameterLimits()
     {
@@ -60,7 +61,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testGeometricSupportLimits()
     {
@@ -68,7 +69,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testShiftedGeometricLimits()
     {
@@ -77,7 +78,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testNegativeBinomialLimits()
     {
@@ -86,7 +87,7 @@ class LimitsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testCase Limits constant is correct format
+     * @test Limits constant is correct format
      */
     public function testPoissonLimits()
     {
