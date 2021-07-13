@@ -83,7 +83,7 @@ class NonInteger
     public static function hyperharmonic(int $n, int $r, $rational = false): array
     {
         if ($r < 0) {
-            throw new Exception\OutOfBoundsException('Recursion depth must be greater than 0');
+            throw new Exception\OutOfBoundsException('Recursion depth cannot be less than 0');
         }
         if ($n <= 0) {
             return [];
@@ -102,11 +102,15 @@ class NonInteger
                 $sequence[$k] = $∑;
             }
         }
-        if (!$rational) {
-            for ($k = 1; $k <= $n; $k++) {
-                $sequence[$k] = $sequence[$k]->toFloat();
-            }
+        if ($rational == true) {
+            return $sequence;
         }
-        return $sequence;
+
+        return array_map(
+            function (Rational $r) {
+                return $r->toFloat();
+            },
+            $sequence
+        );
     }
 }
