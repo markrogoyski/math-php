@@ -1273,7 +1273,11 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_matrix, $companion->getMatrix(), '', .0000001);
     }
 
-    public function dataProviderForTestCompanionMatrix()
+    /**
+     * Data cross referenced with numpy.polynomial.polynomial.polycompanion(c)
+     * @return array[]
+     */
+    public function dataProviderForTestCompanionMatrix(): array
     {
         return [
             [

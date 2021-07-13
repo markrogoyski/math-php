@@ -43,6 +43,9 @@ class SVDTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test data created with:
+     *  R: svd(A)
+     *  Python: scipy.linalg.svd(A)
      * @return array
      */
     public function dataProviderForSVD(): array

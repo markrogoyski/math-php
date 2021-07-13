@@ -1531,7 +1531,7 @@ class NumericMatrix extends Matrix
         }
 
         if (!$this->isSquare()) {
-            throw new Exception\MatrixException('Not a sqaure matrix (required for determinant)');
+            throw new Exception\MatrixException('Not a square matrix (required for determinant)');
         }
         if ($this->isSingular()) {
             throw new Exception\MatrixException('Singular matrix (determinant = 0); not invertible');
