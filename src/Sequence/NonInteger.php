@@ -2,9 +2,12 @@
 
 namespace MathPHP\Sequence;
 
+use MathPHP\Number\Rational;
+
 /**
  * Non-integer sequences
  *  - Harmonic
+ *  - Generalized Harmonic
  *  - Hyperharmonic
  *
  * All sequences return an array of numbers in the sequence.
@@ -25,7 +28,7 @@ class NonInteger
      *
      * @return array
      */
-    public static function Harmonic(int $n): array
+    public static function harmonic(int $n): array
     {
         return self::generalizedHarmonic($n, 1);
     }
@@ -58,6 +61,51 @@ class NonInteger
             $sequence[$i] = $∑;
         }
 
+        return $sequence;
+    }
+
+    /**
+     * Hyperharmonic Numbers
+     *
+     *         ₙ
+     * Hₙ⁽ʳ⁾ = ∑  Hₖ⁽ʳ⁻¹⁾
+     *        ᵏ⁼¹
+     *
+     * https://en.wikipedia.org/wiki/Hyperharmonic_number
+     *
+     * @param int $n the length of the sequence to calculate
+     * @param int $r the depth of recursion
+     * @param int $rational return results as a Rational object
+     *
+     * @return array
+     */
+    public static function hyperharmonic(int $n, int $r, $rational = false): array
+    {
+        if ($r < 0) {
+            throw new Exception\OutOfBoundsException('Recursion depth must be greater than 0');
+        }
+        if ($n <= 0) {
+            return [];
+        }
+        $sequence = [];
+
+        if ($r == 0) {
+            for ($k = 1; $k <= $n; $k++) {
+                $sequence[$k] = new Rational(0, 1, $k);
+            }
+        } else {
+            $array = self::hyperharmonic($n, $r - 1, true);
+            $∑     = Rational::createZeroValue();
+            for ($k = 1; $k <= $n; $k++) {
+                $∑ = $∑->add($array[$k]);
+                $sequence[$k] = $∑;
+            }
+        }
+        if (!$rational) {
+            for ($k = 1; $k <= $n; $k++) {
+                $sequence[$k] = $sequence[$k]->toFloat();
+            }
+        }
         return $sequence;
     }
 }
