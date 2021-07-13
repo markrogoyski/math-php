@@ -2,6 +2,7 @@
 
 namespace MathPHP\Sequence;
 
+use MathPHP\Exception;
 use MathPHP\Number\Rational;
 
 /**

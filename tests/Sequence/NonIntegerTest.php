@@ -2,6 +2,7 @@
 
 namespace MathPHP\Tests\Sequence;
 
+use MathPHP\Exception;
 use MathPHP\Sequence\NonInteger;
 
 class NonIntegerTest extends \PHPUnit\Framework\TestCase
@@ -92,5 +93,20 @@ class NonIntegerTest extends \PHPUnit\Framework\TestCase
             [10, 1, [1 => 1, 3/2, 11/6, 25/12, 137/60, 49/20, 363/140, 761/280, 7129/2520, 7381/2520]],
             [10, 2, [1 => 1, 5/2, 26/6, 77/12, 87/10, 223/20, 481/35, 4609/280, 4861/252, 55991/2520]],
         ];
+    }
+
+    /**
+     * @test hyperharmonic throws a OutOfBoundsException when r is less than zero
+     */
+    public function testHyperharmonicSeriesException()
+    {
+        // Given
+        $r = -1;
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        NonInteger::hyperharmonic(10, $r);
     }
 }
