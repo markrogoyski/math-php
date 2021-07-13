@@ -26,10 +26,10 @@ class SVD extends Decomposition
     /** @var NumericMatrix n x n orthogonal matrix  */
     private $V;
 
-    /** @var NumericMatrix m x n diagonal matrix  */
+    /** @var NumericMatrix m x n diagonal matrix containing the singular values  */
     private $S;
 
-    /** @var Vector<number> diagonal elements from S  */
+    /** @var Vector<number> diagonal elements from S that are the singular values  */
     private $D;
 
     /**

@@ -2,6 +2,7 @@
 
 namespace MathPHP\Tests\LinearAlgebra\Decomposition;
 
+use MathPHP\Functions\Support;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Exception;
 use MathPHP\LinearAlgebra\NumericMatrix;
@@ -35,10 +36,10 @@ class SVDTest extends \PHPUnit\Framework\TestCase
         $V = $svd->V;
 
         // Then A = USVᵀ
-        $this->assertEqualsWithDelta($A->getMatrix(), $U->multiply($S)->multiply($V->transpose())->getMatrix(), 0.00001, '');
+        $this->assertEqualsWithDelta($A->getMatrix(), $U->multiply($S)->multiply($V->transpose())->getMatrix(), 0.00001);
 
         // And S is expected solution to SVD
-        $this->assertEqualsWithDelta($expected_S->getMatrix(), $S->getMatrix(), 0.00001, '');
+        $this->assertEqualsWithDelta($expected_S->getMatrix(), $S->getMatrix(), 0.00001);
     }
 
     /**
@@ -292,11 +293,34 @@ class SVDTest extends \PHPUnit\Framework\TestCase
         // When
         $svd = $A->SVD();
 
-        // Then
+        // And
+        $U = $svd->U;
+        $S = $svd->S;
+        $V = $svd->V;
+        $D = $svd->D;
+
+        // Then U and V are orthogonal
         $this->assertTrue($svd->getU()->isOrthogonal());
-        $this->assertTrue($svd->getS()->isRectangularDiagonal());
         $this->assertTrue($svd->getV()->isOrthogonal());
-        $this->assertEqualsWithDelta($svd->getD()->getVector(), $svd->getS()->getDiagonalElements(), 0.00001, '');
+
+        // And S is rectangular diagonal with non-negative real numbers on the diagonal
+        $this->assertTrue($S->isRectangularDiagonal());
+        foreach ($S->getDiagonalElements() as $diagonalElement) {
+            $this->assertTrue($diagonalElement >= 0);
+        }
+
+        // And D contains the diagonal elements of S
+        $this->assertEqualsWithDelta($D->getVector(), $S->getDiagonalElements(), 0.00001, '');
+
+        // And the number of non-zero singular values is equal to the rank of M
+        $nonZeroSingularValues = array_filter($D->getVector(), function ($singularValue) { return Support::isNotZero($singularValue); });
+        $this->assertEquals($A->rank(), count($nonZeroSingularValues));
+
+        // And UUᵀ = I
+        $this->assertEqualsWithDelta(MatrixFactory::identity($U->getM())->getMatrix(), $U->multiply($U->transpose())->getMatrix(), 0.00001);
+
+        // And VVᵀ = I
+        $this->assertEqualsWithDelta(MatrixFactory::identity($V->getM())->getMatrix(), $V->multiply($V->transpose())->getMatrix(), 0.00001);
     }
 
     /**
