@@ -24,21 +24,21 @@ class SVDTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $A = MatrixFactory::createNumeric($A);
-        $S = MatrixFactory::createNumeric($expected['S']);
+        $expected_S = MatrixFactory::createNumeric($expected['S']);
 
         // When
         $svd = $A->SVD();
 
         // And
-        $svdU = $svd->U;
-        $svdS = $svd->S;
-        $svdV = $svd->V;
+        $U = $svd->U;
+        $S = $svd->S;
+        $V = $svd->V;
 
         // Then A = USVᵀ
-        $this->assertEqualsWithDelta($A->getMatrix(), $svdU->multiply($svdS)->multiply($svdV->transpose())->getMatrix(), 0.00001, '');
+        $this->assertEqualsWithDelta($A->getMatrix(), $U->multiply($S)->multiply($V->transpose())->getMatrix(), 0.00001, '');
 
         // And S is expected solution to SVD
-        $this->assertEqualsWithDelta($S->getMatrix(), $svdS->getMatrix(), 0.00001, '');
+        $this->assertEqualsWithDelta($expected_S->getMatrix(), $S->getMatrix(), 0.00001, '');
     }
 
     /**
@@ -320,29 +320,9 @@ class SVDTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test   SVD get properties
+     * @test SVD get properties
      */
     public function testSVDGetProperties()
-    {
-        // Given
-        $A = MatrixFactory::createNumeric([
-            [4, 1, -1],
-            [1, 2, 1],
-            [-1, 1, 2],
-        ]);
-        $svd = $A->SVD();
-
-        // Then
-        $this->expectException(Exception\MathException::class);
-
-        // When
-        $doesNotExist = $svd->doesNotExist;
-    }
-
-    /**
-     * @test   SVD invalid property
-     */
-    public function testSVDInvalidProperty()
     {
         // Given
         $A = MatrixFactory::createNumeric([
@@ -363,5 +343,31 @@ class SVDTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(NumericMatrix::class, $V);
         $this->assertInstanceOf(NumericMatrix::class, $U);
         $this->assertInstanceOf(Vector::class, $D);
+
+        // And
+        $this->assertEquals($svd->getS(), $S);
+        $this->assertEquals($svd->getV(), $V);
+        $this->assertEquals($svd->getD(), $D);
+        $this->assertEquals($svd->getU(), $U);
+    }
+
+    /**
+     * @test SVD invalid property
+     */
+    public function testSVDInvalidProperty()
+    {
+        // Given
+        $A = MatrixFactory::createNumeric([
+            [4, 1, -1],
+            [1, 2, 1],
+            [-1, 1, 2],
+        ]);
+        $svd = $A->SVD();
+
+        // Then
+        $this->expectException(Exception\MathException::class);
+
+        // When
+        $doesNotExist = $svd->doesNotExist;
     }
 }
