@@ -116,6 +116,9 @@ class Zipf extends Discrete
      */
     public function mean()
     {
+        $s = $this->s;
+        $N = $this->N;
+
         $num_series = NonInteger::generalizedHarmonic($N, $s - 1);
         $numerator = array_pop($num_series);
         $den_series = NonInteger::generalizedHarmonic($N, $s);

@@ -2,6 +2,7 @@
 
 namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
+use MathPHP\Exception;
 use MathPHP\Probability\Distribution\Discrete\Zipf;
 
 class ZipfTest extends \PHPUnit\Framework\TestCase
@@ -9,29 +10,29 @@ class ZipfTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         pmf
      * @dataProvider dataProviderForPmf
-     * @param        int $x
-     * @param        int $s
-     * @param        float $N
-     * @param        float $expectedPmf
+     * @param        int    $k
+     * @param        number $s
+     * @param        int    $N
+     * @param        float  $expectedPmf
      *
      * R code to replicate:
      * library(sads)
-     * dzipf(x=x, N=N, s=s)
+     * dzipf(x=k, N=N, s=s)
      */
-    public function testPmf(int $x, int $s, float $N, float $expectedPmf)
+    public function testPmf(int $k, $s, int $N, float $expectedPmf)
     {
         // Given
         $zipf = new Zipf($s, $N);
 
         // When
-        $pmf = $zipf->pmf($x);
+        $pmf = $zipf->pmf($k);
 
         // Then
         $this->assertEqualsWithDelta($expectedPmf, $pmf, 0.001);
     }
 
     /**
-     * @return array [x, s, N, pmf]
+     * @return array [k, s, N, pmf]
      */
     public function dataProviderForPmf(): array
     {
@@ -47,30 +48,65 @@ class ZipfTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test     pmfthrows a BadDataException if k > N
+     * @throws   \Exception
+     */
+    public function testBadPmfK()
+    {
+        // Given
+        $k    = 11;
+        $zipf = new Zipf(3, 10);
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $pmf = $zipf->pmf($k);
+    }
+
+    /**
      * @test         cdf
      * @dataProvider dataProviderForCdf
-     * @param        int $k
-     * @param        float $λ
-     * @param        float $expectedCdf
+     * @param        int    $k
+     * @param        number $s
+     * @param        int    $N
+     * @param        float  $expectedCdf
      *
      * R code to replicate:
      * library(sads)
      * pzipf(q=x, N=N, s=s)
      */
-    public function testCdf(int $x, int $s, float $N, float $expectedCdf)
+    public function testCdf(int $k, $s, int $N, float $expectedCdf)
     {
         // Given
         $zipf = new Zipf($s, $N);
 
         // When
-        $cdf = $zipf->cdf($x);
+        $cdf = $zipf->cdf($k);
 
         // Then
         $this->assertEqualsWithDelta($expectedCdf, $cdf, 0.001);
     }
 
     /**
-     * @return array[x, s, N, cdf]
+     * @test     pmfthrows a BadDataException if k > N
+     * @throws   \Exception
+     */
+    public function testBadCdfK()
+    {
+        // Given
+        $k    = 11;
+        $zipf = new Zipf(3, 10);
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $pmf = $zipf->cdf($k);
+    }
+
+    /**
+     * @return array[k, s, N, cdf]
      */
     public function dataProviderForCdf(): array
     {
@@ -88,10 +124,11 @@ class ZipfTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         mode
      * @dataProvider dataProviderForMode
-     * @param        int $s
-     * @param        int $N
+     * @param        number $s
+     * @param        int    $N
+     * @param        int    $expected_mode
      */
-    public function testMode(int $s, int $N, int $expected_mode)
+    public function testMode($s, int $N, int $expected_mode)
     {
         // Given
         $zipf = new Zipf($s, $N);
@@ -119,24 +156,25 @@ class ZipfTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         mean
      * @dataProvider dataProviderForMean
-     * @param        int $s
-     * @param        int $N
+     * @param        number $s
+     * @param        int    $N
+     * @param        float  $expected_mean
      *
      * R code to replicate:
      * library(sads)
-     * x <- 1:N
-     * sum(dzipf(x=x, N=N, s=s) * x)
+     * k <- 1:N
+     * sum(dzipf(x=k, N=N, s=s) * k)
      */
-    public function testMean(int $s, int $N, float $mean)
+    public function testMean($s, int $N, float $expected_mean)
     {
         // Given
         $zipf = new Zipf($s, $N);
 
         // When
-        $mode = $zipf->mode();
+        $mean = $zipf->mean();
 
         // Then
-        $this->assertEquals(1, $mode);
+        $this->assertEqualsWithDelta($expected_mean, $mean, .001);
     }
 
     /**
