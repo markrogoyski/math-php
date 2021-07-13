@@ -211,6 +211,9 @@ print($polynomial);  // x² + 2x + 3
 // Roots
 $polynomial = new Polynomial([1, -3, -4]);
 $roots      = $polynomial->roots();         // [-1, 4]
+
+// Companion matrix
+$companion = $polynomial->companionMatrix();
 ```
 
 ### Finance
