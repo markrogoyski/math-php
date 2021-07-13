@@ -4,7 +4,7 @@ namespace MathPHP\Tests\Probability\Distribution\Discrete;
 
 use MathPHP\Probability\Distribution\Discrete\Zipf;
 
-class PoissonTest extends \PHPUnit\Framework\TestCase
+class ZipfTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test         pmf
@@ -82,6 +82,73 @@ class PoissonTest extends \PHPUnit\Framework\TestCase
             [4, 2, 10, 0.9185964],
             [4, 1, 10, 0.7112857],
             [4, 1, 8, 0.7665353],
+        ];
+    }
+
+    /**
+     * @test         mode
+     * @dataProvider dataProviderForMode
+     * @param        int $s
+     * @param        int $N
+     */
+    public function testMode(int $s, int $N, int $expected_mode)
+    {
+        // Given
+        $zipf = new Zipf($s, $N);
+
+        // When
+        $mode = $zipf->mode();
+
+        // Then
+        $this->assertEquals($expected_mode, $mode);
+    }
+
+    /**
+     * @return array[s, N, mode]
+     */
+    public function dataProviderForMode(): array
+    {
+        return [
+            [3, 10, 1],
+            [2, 10, 1],
+            [1, 10, 1],
+            [1, 8, 1],
+        ];
+    }
+
+    /**
+     * @test         mean
+     * @dataProvider dataProviderForMean
+     * @param        int $s
+     * @param        int $N
+     *
+     * R code to replicate:
+     * library(sads)
+     * x <- 1:N
+     * sum(dzipf(x=x, N=N, s=s) * x)
+     */
+    public function testMean(int $s, int $N, float $mean)
+    {
+        // Given
+        $zipf = new Zipf($s, $N);
+
+        // When
+        $mode = $zipf->mode();
+
+        // Then
+        $this->assertEquals(1, $mode);
+    }
+
+    /**
+     * @return array[s, N, mean]
+     */
+    public function dataProviderForMean(): array
+    {
+        return [
+            [3, 10, 1.294135],
+            [2, 10, 1.88994],
+            [1, 10, 3.414172],
+            [1, 8, 2.943495],
         ];
     }
 }

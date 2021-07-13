@@ -27,25 +27,24 @@ class NonInteger
      */
     public static function Harmonic(int $n): array
     {
-        return self::Hyperharmonic($n, 1);
+        return self::generalizedHarmonic($n, 1);
     }
 
     /**
-     * Hyperharmonic Numbers (p-series)
+     * Generalized Harmonic Numbers
      *
-     *       n  1
-     * Hᵢp = ∑  --
-     *      ⁱ⁼¹ iᵖ
+     *       ₙ  1
+     * Hₙₘ = ∑  --
+     *      ⁱ⁼¹ iᵐ
      *
-     * https://en.wikipedia.org/wiki/Harmonic_series_(mathematics)#p-series
-     * https://en.wikipedia.org/wiki/Hyperharmonic_number
+     * https://en.wikipedia.org/wiki/Harmonic_number#Generalized_harmonic_numbers
      *
      * @param int   $n the length of the sequence to calculate
-     * @param float $p the exponent
+     * @param float $m the exponent
      *
      * @return array
      */
-    public static function Hyperharmonic(int $n, float $p): array
+    public static function generalizedHarmonic(int $n, float $m): array
     {
         if ($n <= 0) {
             return [];
@@ -55,7 +54,7 @@ class NonInteger
         $∑        = 0;
 
         for ($i = 1; $i <= $n; $i++) {
-            $∑ += 1 / $i ** $p;
+            $∑ += 1 / $i ** $m;
             $sequence[$i] = $∑;
         }
 
