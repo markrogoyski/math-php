@@ -445,22 +445,63 @@ class Polynomial implements ObjectArithmetic
     }
 
     /**
-     * The companion matrix for a polynomial
+     * Companion matrix (Frobenius companion matrix of the monic polynomial)
      *
      * https://en.wikipedia.org/wiki/Companion_matrix
+     *
+     * p(t) = c₀ + c₁t + ⋯ + cᶰ₋₁tⁿ⁻¹ + tⁿ
+     *
+     *
+     *        | 0 0 ⋯ 0   -c₀ |
+     *        | 1 0 ⋯ 0   -c₁ |
+     * C(p) = | 0 1 ⋯ 0   -c₂ |
+     *        | ⋮ ⋮  ⋱ ⋮    ⋮   |
+     *        | 0 0 ⋯ 1 -cᶰ₋₁ |
+     *
+     * @return NumericSquareMatrix
      */
     public function companionMatrix(): NumericSquareMatrix
     {
         if ($this->degree === 0) {
             throw new Exception\OutOfBoundsException('Polynomial must be 1st degree or greater.');
         }
-        $coefficients = $this->getCoefficients();
-        $reversed_coefficients = new Vector(array_reverse($coefficients));
 
-        // Make a column matrix without the largest factor, after setting it to 1
-        $column_matrix = Matrixfactory::createFromVectors([$reversed_coefficients])->scalarDivide(-1 * $coefficients[0])->rowExclude($this->getDegree());
-        $zero_row = MatrixFactory::zero(1, $column_matrix->getM() - 1);
-        $companion = MatrixFactory::identity($column_matrix->getM() - 1)->augmentAbove($zero_row)->augment($column_matrix);
+        $coefficients         = $this->getCoefficients();
+        $reversedCoefficients = new Vector(array_reverse($coefficients));
+
+        /* Make a column matrix without the largest factor, after setting it to 1
+         *  |  -c₀  |
+         *  |  -c₁  |
+         *  |  -c₂  |
+         *  |   ⋮   |
+         *  | -cᶰ₋₁ |
+         */
+        $columnMatrix = Matrixfactory::createFromVectors([$reversedCoefficients])
+            ->scalarDivide(-1 * $coefficients[0])
+            ->rowExclude($this->getDegree());
+
+        /* Identity matrix with one fewer row and column than there are coefficients
+         *  | 1 0 ⋯ 0 |
+         *  | 0 1 ⋯ 0 |
+         *  | ⋮ ⋮  ⋱ ⋮ |
+         *  | 0 0 ⋯ 1 |
+         */
+        $identityMatrix = MatrixFactory::identity($columnMatrix->getM() - 1);
+
+        // Zero row to augment above identity matrix | 0 0 ⋯ 0 |
+        $zero_row = MatrixFactory::zero(1, $columnMatrix->getM() - 1);
+
+        /** Companion matrix is identity augmented above with the zero matrix and augmented to the right with the column matrix of coefficients
+         *  | 0 0 ⋯ 0   -c₀ |
+         *  | 1 0 ⋯ 0   -c₁ |
+         *  | 0 1 ⋯ 0   -c₂ |
+         *  | ⋮ ⋮  ⋱ ⋮    ⋮   |
+         *  | 0 0 ⋯ 1 -cᶰ₋₁ |
+         * @var NumericSquareMatrix $companion
+         */
+        $companion = $identityMatrix
+            ->augmentAbove($zero_row)
+            ->augment($columnMatrix);
         return $companion;
     }
 }
