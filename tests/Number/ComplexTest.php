@@ -398,7 +398,7 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForExp(): array
     {
         return [
-            [0, \pi(), 0, -1],
+            [0, \pi(), -1, 0],
             [1, 2, -1.13120438375681363843125525551079471062886799582652575021772191, 2.47172667200481892761693089355166453273619036924100818420075883],
             [5, 0, \exp(5), 0],
         ];
