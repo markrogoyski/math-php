@@ -836,6 +836,11 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
                 0,
                 ['r' => 1, 'i' => 0],
             ],
+            [
+                ['r' => 0, 'i' => 0],
+                0,
+                ['r' => 1, 'i' => 0],
+            ],
         ];
     }
 
@@ -862,6 +867,8 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
 
     /**
      * https://www.wolframalpha.com/input/?i=%281%2B2*i%29%5E%283%2B4*i%29
+     * R: complex(real=1, imaginary=2)**complex(real=3, imaginary=4)
+     * Python: complex(1,2)**complex(3,4)
      */
     public function dataProviderForPow(): array
     {
@@ -880,6 +887,16 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
                 ['r' => 1, 'i' => 2],
                 ['r' => 0, 'i' => 0],
                 ['r' => 1, 'i' => 0],
+            ],
+            [
+                ['r' => -2, 'i' => -2],
+                ['r' => -2, 'i' => -2],
+                ['r' => -9.807565e-04, 'i' => 5.468516e-04],
+            ],
+            [
+                ['r' => 83, 'i' => 24],
+                ['r' => 4, 'i' => 6],
+                ['r' => -9503538.518957876, 'i' => 3956277.4270916637],
             ],
         ];
     }
