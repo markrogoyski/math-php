@@ -932,6 +932,24 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test pow IncorrectTypeException
+     */
+    public function testComplexPowTypeError()
+    {
+        // Given
+        $c = new Complex(1, 2);
+
+        // And
+        $nonNumber = 'KaPoW!';
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
+        $c->pow($nonNumber);
+    }
+
+    /**
      * @test         inverse returns the expected complex number
      * @dataProvider dataProviderForInverse
      * @param        number $r
