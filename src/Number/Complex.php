@@ -377,6 +377,35 @@ class Complex implements ObjectArithmetic
         }
     }
 
+    /**
+     * Complex exponentiation
+     * Raise a complex number to a power.
+     * https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_division
+     *
+     * @param mixed $c
+     *
+     * @return Complex
+     *
+     * @throws Exception\IncorrectTypeException if the argument is not numeric or Complex.
+     */
+    public function pow($c): Complex
+    {
+        if (\is_numeric($c)) {
+            $tmp = new Complex(0, $c * $this->arg());
+            return $tmp->exp()->multiply($this->abs() ** $c);
+        } elseif ($c instanceof Complex) {
+            $r = $this->abs();
+            $θ = $this->arg();
+            $real = $r ** $c->r * exp(-1 * $θ * $c->i);
+            $inner = $c->i * log($r) + $c->r * $θ;
+            $new_r = $real * \cos($inner);
+            $new_i = $real * \sin($inner);
+            return new Complex($new_r, $new_i);
+        } else {
+            throw new Exception\IncorrectTypeException('Argument must be real or complex number');
+        }
+    }
+
     /**************************************************************************
      * COMPARISON FUNCTIONS
      **************************************************************************/

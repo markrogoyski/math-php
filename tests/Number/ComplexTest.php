@@ -801,6 +801,90 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         pow of complex numbers raised to a number returns the expected complex number
+     * @dataProvider dataProviderForPowNumber
+     * @param        array   $complex1
+     * @param        number  $number
+     * @param        array   $expected
+     */
+    public function testPowNumber(array $complex1, $number, array $expected)
+    {
+        // Given
+        $c1 = new Complex($complex1['r'], $complex1['i']);
+
+        // When
+        $result = $c1->pow($number);
+
+        // Then
+        $this->assertEquals($expected['r'], $result->r);
+        $this->assertEquals($expected['i'], $result->i);
+    }
+
+    /**
+     * https://www.wolframalpha.com/input/?i=%281%2B2*i%29%5E%283%2B4*i%29
+     */
+    public function dataProviderForPowNumber(): array
+    {
+        return [
+            [
+                ['r' => 1, 'i' => 2],
+                5,
+                ['r' => 41, 'i' => -38],
+            ],
+            [
+                ['r' => 7, 'i' => 13],
+                0,
+                ['r' => 1, 'i' => 0],
+            ],
+        ];
+    }
+
+    /**
+     * @test         pow of two complex numbers returns the expected complex number
+     * @dataProvider dataProviderForPow
+     * @param        array  $complex1
+     * @param        array  $complex2
+     * @param        array  $expected
+     */
+    public function testPow(array $complex1, array $complex2, array $expected)
+    {
+        // Given
+        $c1 = new Complex($complex1['r'], $complex1['i']);
+        $c2 = new Complex($complex2['r'], $complex2['i']);
+
+        // When
+        $result = $c1->pow($c2);
+
+        // Then
+        $this->assertEquals($expected['r'], $result->r);
+        $this->assertEquals($expected['i'], $result->i);
+    }
+
+    /**
+     * https://www.wolframalpha.com/input/?i=%281%2B2*i%29%5E%283%2B4*i%29
+     */
+    public function dataProviderForPow(): array
+    {
+        return [
+            [
+                ['r' => 1, 'i' => 2],
+                ['r' => 3, 'i' => 4],
+                ['r' => 0.12900959407446689407705233965244724409184546447229472777070039, 'i' => 0.033924092905170126697617854622547901540547320222677608399651655],
+            ],
+            [
+                ['r' => 1, 'i' => 2],
+                ['r' => 5, 'i' => 0],
+                ['r' => 41, 'i' => -38],
+            ],
+            [
+                ['r' => 1, 'i' => 2],
+                ['r' => 0, 'i' => 0],
+                ['r' => 1, 'i' => 0],
+            ],
+        ];
+    }
+
+    /**
      * @test         inverse returns the expected complex number
      * @dataProvider dataProviderForInverse
      * @param        number $r
