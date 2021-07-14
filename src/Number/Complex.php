@@ -396,9 +396,10 @@ class Complex implements ObjectArithmetic
         } elseif ($c instanceof Complex) {
             $r = $this->abs();
             $θ = $this->arg();
-            $tmp = new Complex(0, $c->r * $θ);
-            $real = exp(-1 * $c->i * $θ) * $r ** 2;
-            return $tmp->exp()->multiply($real);
+            $real = $r ** $c->r;
+            $new_r = $real * \cos($c->i * ln($r) + $c->r * $θ);
+            $new_i = $real * \sin($c->i * ln($r) + $c->r * $θ)
+            return new Complex($new_r, $new_i);
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or complex number');
         }
