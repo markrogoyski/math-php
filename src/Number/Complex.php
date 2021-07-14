@@ -397,8 +397,9 @@ class Complex implements ObjectArithmetic
             $r = $this->abs();
             $θ = $this->arg();
             $real = $r ** $c->r;
-            $new_r = $real * \cos($c->i * ln($r) + $c->r * $θ);
-            $new_i = $real * \sin($c->i * ln($r) + $c->r * $θ);
+            $inner = $c->i * log($r) + $c->r * $θ;
+            $new_r = $real * \cos($inner);
+            $new_i = $real * \sin($inner);
             return new Complex($new_r, $new_i);
         } else {
             throw new Exception\IncorrectTypeException('Argument must be real or complex number');
