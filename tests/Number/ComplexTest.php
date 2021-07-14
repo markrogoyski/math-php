@@ -384,11 +384,11 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $expected = new Complex($r₂, $i₂);
 
         // When
-        $polar_form = $c->exp();
+        $exp = $c->exp();
 
         // Then
-        $this->assertEqualsWithDelta($expected->r, $polar_form->r, 0.00001);
-        $this->assertEqualsWithDelta($expected->i, $polar_form->i, 0.00001);
+        $this->assertEqualsWithDelta($expected->r, $exp->r, 0.00001);
+        $this->assertEqualsWithDelta($expected->i, $exp->i, 0.00001);
     }
 
     /**
