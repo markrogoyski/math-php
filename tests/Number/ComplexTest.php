@@ -836,6 +836,11 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
                 0,
                 ['r' => 1, 'i' => 0],
             ],
+            [
+                ['r' => 0, 'i' => 0],
+                0,
+                ['r' => 1, 'i' => 0],
+            ],
         ];
     }
 
@@ -878,6 +883,11 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 ['r' => 1, 'i' => 2],
+                ['r' => 0, 'i' => 0],
+                ['r' => 1, 'i' => 0],
+            ],
+            [
+                ['r' => 0, 'i' => 0],
                 ['r' => 0, 'i' => 0],
                 ['r' => 1, 'i' => 0],
             ],
