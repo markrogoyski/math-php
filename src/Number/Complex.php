@@ -396,7 +396,7 @@ class Complex implements ObjectArithmetic
         } elseif ($c instanceof Complex) {
             $r = $this->abs();
             $θ = $this->arg();
-            $real = $r ** $c->r;
+            $real = $r ** $c->r * exp(-1 * $θ * $c->i);
             $inner = $c->i * log($r) + $c->r * $θ;
             $new_r = $real * \cos($inner);
             $new_i = $real * \sin($inner);
