@@ -1,5 +1,11 @@
 # MathPHP Change Log
 
+## v2.3.0 - 2021-07-14
+
+### New Features
+* Matrix SVD (Singular Value Decomposition)
+* Polynomial companion matrix
+
 ## v2.2.0 - 2021-07-11
 
 ### New Features
