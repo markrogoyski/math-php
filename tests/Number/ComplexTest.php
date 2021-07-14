@@ -802,7 +802,7 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test         pow of complex numbers raised to a number returns the expected complex number
-     * @dataProvider dataProviderForPow
+     * @dataProvider dataProviderForPowNumber
      * @param        array   $complex1
      * @param        number  $number
      * @param        array   $expected
@@ -823,7 +823,7 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
     /**
      * https://www.wolframalpha.com/input/?i=%281%2B2*i%29%5E%283%2B4*i%29
      */
-    public function dataProviderForPow(): array
+    public function dataProviderForPowNumber(): array
     {
         return [
             [
