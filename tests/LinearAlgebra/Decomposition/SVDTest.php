@@ -28,7 +28,7 @@ class SVDTest extends \PHPUnit\Framework\TestCase
         $expected_S = MatrixFactory::createNumeric($expected['S']);
 
         // When
-        $svd = $A->SVD();
+        $svd = $A->svd();
 
         // And
         $U = $svd->U;
@@ -294,7 +294,7 @@ class SVDTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::createNumeric($A);
 
         // When
-        $svd = $A->SVD();
+        $svd = $A->svd();
 
         // And
         $U = $svd->U;
@@ -343,7 +343,7 @@ class SVDTest extends \PHPUnit\Framework\TestCase
         $A = MatrixFactory::createNumeric($A);
 
         // When
-        $svd = $A->SVD();
+        $svd = $A->svd();
 
         // Then
         $this->assertTrue($svd->getU()->isOrthogonal());
@@ -362,7 +362,7 @@ class SVDTest extends \PHPUnit\Framework\TestCase
             [1, 2, 1],
             [-1, 1, 2],
         ]);
-        $svd = $A->SVD();
+        $svd = $A->svd();
 
         // When
         $S = $svd->S;
@@ -394,7 +394,7 @@ class SVDTest extends \PHPUnit\Framework\TestCase
             [1, 2, 1],
             [-1, 1, 2],
         ]);
-        $svd = $A->SVD();
+        $svd = $A->svd();
 
         // Then
         $this->expectException(Exception\MathException::class);

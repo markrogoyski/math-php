@@ -518,7 +518,7 @@ $Q  = $QR->Q;  // orthogonal matrix
 $R  = $QR->R;  // upper triangular matrix
 
 // SVD (Singular Value Decomposition)
-$SVD = $A->SVD();
+$SVD = $A->svd();
 $U   = $A->U;  // m x m orthogonal matrix
 $V   = $A->V;  // n x n orthogonal matrix
 $S   = $A->S;  // m x n diagonal matrix of singular values

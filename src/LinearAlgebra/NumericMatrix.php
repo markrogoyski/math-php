@@ -2783,7 +2783,7 @@ class NumericMatrix extends Matrix
      *
      * @throws Exception\MathException
      */
-    public function SVD(): Decomposition\SVD
+    public function svd(): Decomposition\SVD
     {
         if (!$this->catalog->hasSVD()) {
             $this->catalog->addSVD(Decomposition\SVD::decompose($this));
