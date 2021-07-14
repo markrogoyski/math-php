@@ -405,7 +405,7 @@ class Complex implements ObjectArithmetic
             throw new Exception\IncorrectTypeException('Argument must be real or complex number');
         }
     }
-    
+
     /**************************************************************************
      * COMPARISON FUNCTIONS
      **************************************************************************/
