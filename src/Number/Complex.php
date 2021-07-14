@@ -254,6 +254,20 @@ class Complex implements ObjectArithmetic
         return new Complex($r * \cos($θ), $r * \sin($θ));
     }
 
+    /**
+     * Complex Exponentiation
+     * https://en.wikipedia.org/wiki/Complex_number#Exponential_function
+     *
+     * eˣ⁺ⁱʸ = eˣ*cos(y) + i*eˣ*sin(y)
+     *
+     * @return Complex
+     */
+    public function exp(): Complex
+    {
+        $r = \exp($this->r) * \cos($this->i);
+        $i = \exp($this->r) * \sin($this->i);
+        return new Complex($r, $i);
+    }
     /**************************************************************************
      * BINARY FUNCTIONS
      **************************************************************************/

@@ -370,6 +370,41 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         exp returns the expected complex number
+     * @dataProvider dataProviderForExp
+     * @param        number $r₁
+     * @param        number $i₁
+     * @param        number $r₂
+     * @param        number $i₂
+     */
+    public function testExp($r₁, $i₁, $r₂, $i₂)
+    {
+        // Given
+        $c        = new Complex($r₁, $i₁);
+        $expected = new Complex($r₂, $i₂);
+
+        // When
+        $exp = $c->exp();
+
+        // Then
+        $this->assertEqualsWithDelta($expected->r, $exp->r, 0.00001);
+        $this->assertEqualsWithDelta($expected->i, $exp->i, 0.00001);
+    }
+
+    /**
+     * Test data created from wolfram alpha: example: https://www.wolframalpha.com/input/?i=e%5E%281%2B2*i%29
+     * @return array
+     */
+    public function dataProviderForExp(): array
+    {
+        return [
+            [0, \pi(), -1, 0],
+            [1, 2, -1.13120438375681363843125525551079471062886799582652575021772191, 2.47172667200481892761693089355166453273619036924100818420075883],
+            [5, 0, \exp(5), 0],
+        ];
+    }
+
+    /**
      * @test         add of two complex numbers returns the expected complex number
      * @dataProvider dataProviderForAdd
      * @param        array  $complex1
