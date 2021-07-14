@@ -834,7 +834,7 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
-    
+
     /**
      * @test         inverse returns the expected complex number
      * @dataProvider dataProviderForInverse
