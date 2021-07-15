@@ -772,7 +772,7 @@ $√c        = $complex->sqrt();    // positive square root
 [$z₁, $z₂] = $complex->roots();
 $c⁻¹       = $complex->inverse();
 $−c        = $complex->negate();
-$polar     = $complex->polarForm();
+[$r, $θ]   = $complex->polarForm();
 
 // Binary functions
 $c＋c = $complex->add($complex);
