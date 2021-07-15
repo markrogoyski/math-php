@@ -244,14 +244,14 @@ class Complex implements ObjectArithmetic
      *  r = |z|
      *  θ = arg(z) (in radians)
      *
-     * @return Complex
+     * @return number[]
      */
-    public function polarForm(): Complex
+    public function polarForm(): array
     {
         $r = $this->abs();
         $θ = $this->arg();
 
-        return new Complex($r * \cos($θ), $r * \sin($θ));
+        return [$r, $θ];
     }
 
     /**
@@ -404,6 +404,8 @@ class Complex implements ObjectArithmetic
             $new_r = $real * \cos($inner);
             $new_i = $real * \sin($inner);
             return new Complex($new_r, $new_i);
+
+
         }
 
         throw new Exception\IncorrectTypeException('Argument must be real or complex number');

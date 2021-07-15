@@ -330,23 +330,22 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         polarForm returns the expected complex number
      * @dataProvider dataProviderForPolarForm
-     * @param        number $r₁
-     * @param        number $i₁
-     * @param        number $r₂
-     * @param        number $i₂
+     * @param        number $r
+     * @param        number $i
+     * @param        number $expectedR
+     * @param        number $expectedθ
      */
-    public function testPolarForm($r₁, $i₁, $r₂, $i₂)
+    public function testPolarForm($r, $i, $expectedR, $expectedθ)
     {
         // Given
-        $c        = new Complex($r₁, $i₁);
-        $expected = new Complex($r₂, $i₂);
+        $c = new Complex($r, $i);
 
         // When
-        $polar_form = $c->polarForm();
+        [$polarR, $polarθ] = $c->polarForm();
 
         // Then
-        $this->assertEqualsWithDelta($expected->r, $polar_form->r, 0.00001);
-        $this->assertEqualsWithDelta($expected->i, $polar_form->i, 0.00001);
+        $this->assertEqualsWithDelta($expectedR, $polarR, 0.00001);
+        $this->assertEqualsWithDelta($expectedθ, $polarθ, 0.00001);
     }
 
     /**
@@ -356,16 +355,16 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForPolarForm(): array
     {
         return [
-            [5, 2, 5.3851648071 * \cos(0.3805063771), 5.3851648071 *  \sin(0.3805063771)],
-            [49.90, 25.42, 56.0016642610 * \cos(0.4711542561), 56.0016642610 *  \sin(0.4711542561)],
-            [-1, -1, 1.4142135624 * \cos(-2.3561944902), 1.41421 *  \sin(-2.3561944902)],
-            [1, 0, 1 * \cos(0), 1 *  \sin(0)],
-            [0, 1, 1 * \cos(1.5707963268), 1 *  \sin(1.5707963268)],
+            [5, 2, 5.385164807134504, 0.3805063771123649],
+            [49.90, 25.42, 56.00166426098424, 0.4711542560514266],
+            [-1, -1, 1.4142135623730951, -2.356194490192345],
+            [1, 0, 1, 0],
+            [0, 1, 1, 1.5707963267948966],
             [0, 0, 0, 0],
-            [\M_PI, 2, 3.7241917782 * \cos(0.5669115049), 3.7241917782 *  \sin(0.5669115049)],
-            [8, 9, 12.0415945788 * \cos(0.8441539861), 12.0415945788 *  \sin(0.8441539861)],
-            [814, -54, 815.7891884550 * \cos(-0.0662420059), 815.7891884550 *  \sin(-0.0662420059)],
-            [-5, -3, 5.8309518948 * \cos(-2.6011731533), 5.8309518948 *  \sin(-2.6011731533)],
+            [\M_PI, 2, 3.724191778237173, 0.5669115049410094],
+            [8, 9, 12.041594578792296, 0.844153986113171],
+            [814, -54, 815.7891884549587, -0.06624200592698481],
+            [-5, -3, 5.830951894845301, -2.601173153319209],
         ];
     }
 
