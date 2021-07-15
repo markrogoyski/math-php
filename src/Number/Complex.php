@@ -393,7 +393,7 @@ class Complex implements ObjectArithmetic
     {
         if (\is_numeric($c)) {
             $tmp = new Complex(0, $c * $this->arg());
-            return $tmp->exp()->multiply($this->abs() ** $c);            throw new Exce
+            return $tmp->exp()->multiply($this->abs() ** $c);
         }
 
         if ($c instanceof Complex) {
