@@ -861,12 +861,14 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $result = $c1->pow($c2);
 
         // Then
-        $this->assertEquals($expected['r'], $result->r);
-        $this->assertEquals($expected['i'], $result->i);
+        $this->assertEqualsWithDelta($expected['r'], $result->r, 0.00000001);
+        $this->assertEqualsWithDelta($expected['i'], $result->i, 0.00000001);
     }
 
     /**
      * https://www.wolframalpha.com/input/?i=%281%2B2*i%29%5E%283%2B4*i%29
+     * R: complex(real=1, imaginary=2)**complex(real=3, imaginary=4)
+     * Python: complex(1,2)**complex(3,4)
      */
     public function dataProviderForPow(): array
     {
@@ -890,8 +892,64 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
                 ['r' => 0, 'i' => 0],
                 ['r' => 0, 'i' => 0],
                 ['r' => 1, 'i' => 0],
+                ['r' => 2, 'i' => 2],
+                ['r' => -2, 'i' => -2],
+                ['r' => -0.5251869237872764, 'i' => 0.2928344540350973],
+            ],
+            [
+                ['r' => -2, 'i' => -2],
+                ['r' => -2, 'i' => -2],
+                ['r' => -9.807565e-04, 'i' => 5.468516e-04],
+            ],
+            [
+                ['r' => 83, 'i' => 24],
+                ['r' => 4, 'i' => 6],
+                ['r' => -9503538.518957876, 'i' => 3956277.4270916637],
+            ],
+            [
+                ['r' => 2, 'i' => 3],
+                ['r' => 4, 'i' => 5],
+                ['r' => -0.7530458367485596, 'i' => -0.9864287886477445],
+            ],
+            [
+                ['r' => -2, 'i' => 3],
+                ['r' => 4, 'i' => 5],
+                ['r' => -0.0027390773950467934, 'i' => 0.0021275418620241996],
+            ],
+            [
+                ['r' => 2, 'i' => -3],
+                ['r' => 4, 'i' => 5],
+                ['r' => -18175.48769862527, 'i' => 14117.567839250678],
+            ],
+            [
+                ['r' => 2, 'i' => 3],
+                ['r' => -4, 'i' => 5],
+                ['r' => -3.4315770545555685e-05, 'i' => 2.6654317433786663e-05],
+            ],
+            [
+                ['r' => 2, 'i' => 3],
+                ['r' => 4, 'i' => -5],
+                ['r' => -18175.48769862527, 'i' => -14117.567839250678],
             ],
         ];
+    }
+
+    /**
+     * @test pow IncorrectTypeException
+     */
+    public function testComplexPowTypeError()
+    {
+        // Given
+        $c = new Complex(1, 2);
+
+        // And
+        $nonNumber = 'KaPoW!';
+
+        // Then
+        $this->expectException(Exception\IncorrectTypeException::class);
+
+        // When
+        $c->pow($nonNumber);
     }
 
     /**

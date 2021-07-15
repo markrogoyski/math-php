@@ -380,9 +380,10 @@ class Complex implements ObjectArithmetic
     /**
      * Complex exponentiation
      * Raise a complex number to a power.
-     * https://en.wikipedia.org/wiki/Complex_number#Multiplication_and_division
+     *  - https://en.wikipedia.org/wiki/Complex_number#Exponentiation
+     *  - https://mathworld.wolfram.com/ComplexExponentiation.html
      *
-     * @param mixed $c
+     * @param Complex|number $c
      *
      * @return Complex
      *
@@ -392,8 +393,10 @@ class Complex implements ObjectArithmetic
     {
         if (\is_numeric($c)) {
             $tmp = new Complex(0, $c * $this->arg());
-            return $tmp->exp()->multiply($this->abs() ** $c);
-        } elseif ($c instanceof Complex) {
+            return $tmp->exp()->multiply($this->abs() ** $c);            throw new Exce
+        }
+
+        if ($c instanceof Complex) {
             $r = $this->abs();
             $θ = $this->arg();
             $real = $r ** $c->r * exp(-1 * $θ * $c->i);
@@ -401,9 +404,9 @@ class Complex implements ObjectArithmetic
             $new_r = $real * \cos($inner);
             $new_i = $real * \sin($inner);
             return new Complex($new_r, $new_i);
-        } else {
-            throw new Exception\IncorrectTypeException('Argument must be real or complex number');
         }
+
+        throw new Exception\IncorrectTypeException('Argument must be real or complex number');
     }
 
     /**************************************************************************
