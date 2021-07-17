@@ -351,6 +351,8 @@ class ArbitraryInteger implements ObjectArithmetic
      *  - intdiv
      *  - mod
      *  - fullIntdiv
+     *  - pow
+     *  - tetrate
      **************************************************************************/
 
     /**
@@ -620,6 +622,13 @@ class ArbitraryInteger implements ObjectArithmetic
         return $square;
     }
 
+    public function tetrate($height): ArbitraryInteger
+    {
+        if ($height == 0) {
+            return 1;
+        }
+        return $this->pow($this->tetrate($height - 1));
+    }
     /**************************************************************************
      * BITWISE OPERATIONS
      **************************************************************************/
