@@ -627,11 +627,29 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function tetrate($height): ArbitraryInteger
     {
-        if ($height == 0) {
-            return 1;
+        $height = self::create($height);
+        if ($height->equals(0)) {
+            return new static(1);
         }
-        return $this->pow($this->tetrate($height - 1));
+        return $this->pow($this->tetrate($height->subtract(1)));
     }
+
+    public function hyperoperation($n, $b): ArbitraryInteger
+    {
+        $b = self::create($b);
+        switch ($n) {
+            case 0:
+                return new ArbitraryInteger($b + 1);
+            break;
+    case 1:
+        echo "i equals 1";
+        break;
+    case 2:
+        echo "i equals 2";
+        break;
+}
+    }
+
     /**************************************************************************
      * BITWISE OPERATIONS
      **************************************************************************/
