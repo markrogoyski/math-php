@@ -382,9 +382,11 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
 
         // When
         $sum = $int1->add($int2);
+        $sum2 = $int1->hyperoperation(1, $int2);
 
         // Then
         $this->assertEquals($expected, (string) $sum);
+        $this->assertEquals($expected, (string) $sum2);
     }
 
     public function dataProviderForTestAddition(): array
