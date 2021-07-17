@@ -634,20 +634,31 @@ class ArbitraryInteger implements ObjectArithmetic
         return $this->pow($this->tetrate($height->subtract(1)));
     }
 
+    /**
+     * Hyperoperation
+     * https://en.wikipedia.org/wiki/Hyperoperation
+     *
+     * @param int|string|ArbitraryInteger $n
+     * @param int|string|ArbitraryInteger $b
+     *
+     * @return ArbitraryInteger
+     */
     public function hyperoperation($n, $b): ArbitraryInteger
     {
         $b = self::create($b);
+        $n = self::create($n);
         switch ($n) {
             case 0:
-                return new ArbitraryInteger($b + 1);
-            break;
-    case 1:
-        echo "i equals 1";
-        break;
-    case 2:
-        echo "i equals 2";
-        break;
-}
+                return $b->add(1);
+            case 1:
+                return $this->add($b);
+            case 2:
+                return $this->multiply($b);
+            case 3:
+                return $this->pow($b);
+            default:
+                return $this->hyperoperation($n->minus(1), $this->hyperoperation($n, $b->minus(1)))
+        }
     }
 
     /**************************************************************************
