@@ -657,7 +657,7 @@ class ArbitraryInteger implements ObjectArithmetic
             case 3:
                 return $this->pow($b);
             default:
-                return $this->hyperoperation($n->minus(1), $this->hyperoperation($n, $b->minus(1)))
+                return $this->hyperoperation($n->minus(1), $this->hyperoperation($n, $b->minus(1)));
         }
     }
 
