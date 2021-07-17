@@ -622,6 +622,9 @@ class ArbitraryInteger implements ObjectArithmetic
         return $square;
     }
 
+    /**
+     * Tetration
+     */
     public function tetrate($height): ArbitraryInteger
     {
         if ($height == 0) {
