@@ -654,6 +654,18 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    public function testTetrate()
+    {
+        // Given
+        $int = new ArbitraryInteger(3);
+
+        // When
+        $tetration = $int->tetrate(3);
+
+        // Then
+        $this->assertEquals('7625597484987', (string) $tetration);
+    }
+
     /**
      * @test         abs() returns the proper result
      * @dataProvider dataProviderForAbs
