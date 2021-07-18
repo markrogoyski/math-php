@@ -457,10 +457,12 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         $int2 = new ArbitraryInteger($int2);
 
         // When
-        $sum = $int1->multiply($int2);
+        $product  = $int1->multiply($int2);
+        $product2 = $int1->hyperoperation(2, $int2);
 
         // Then
-        $this->assertEquals($expected, (string) $sum);
+        $this->assertEquals($expected, (string) $product);
+        $this->assertEquals($expected, (string) $product2);
     }
 
     public function dataProviderForTestMultiplication(): array
