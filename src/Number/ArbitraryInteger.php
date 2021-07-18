@@ -647,11 +647,11 @@ class ArbitraryInteger implements ObjectArithmetic
     {
         $b = self::create($b);
         $n = self::create($n);
-        switch ($n) {
-            case 0:
-                return $b->add(1);
-            case 1:
-                return $this->add($b);
+        if ($n->equals(0)) {
+            return $b->add(1);
+        }
+        if ($n->equals(1)) {
+            return $this->add($b);
             case 2:
                 return $this->multiply($b);
             case 3:
