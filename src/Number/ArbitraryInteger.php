@@ -662,7 +662,17 @@ class ArbitraryInteger implements ObjectArithmetic
         if ($b->equals(0)) {
             return new static(1);
         }
-        return $this->hyperoperation($n->subtract(1), $this->hyperoperation($n, $b->subtract(1)));
+        // Excessive recursion Leads to segmentation faults.
+        // This while loop will prevent large values of $b causing segfault.
+        $count = new self(1);
+        $result = $this;
+        while ($count->lessThan($b))
+            $result = $this->hyperoperation($n->subtract(1), $result);
+            $count = count->add(1);
+        }
+        return $result;
+        // recursive alternative
+        // return $this->hyperoperation($n->subtract(1), $this->hyperoperation($n, $b->subtract(1)));
     }
 
     /**************************************************************************
