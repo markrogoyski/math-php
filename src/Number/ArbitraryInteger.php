@@ -668,7 +668,7 @@ class ArbitraryInteger implements ObjectArithmetic
         $result = $this;
         while ($count->lessThan($b))
             $result = $this->hyperoperation($n->subtract(1), $result);
-            $count = count->add(1);
+            $count = $count->add(1);
         }
         return $result;
         // recursive alternative
