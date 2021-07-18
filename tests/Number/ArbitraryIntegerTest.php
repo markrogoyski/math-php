@@ -687,34 +687,65 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         abs() returns the proper result
-     * @dataProvider dataProviderForAbs
+     * @test         tetrate() returns the proper result
+     * @dataProvider dataProviderForTetrate
      * @param        mixed $int
      * @param        string $expected
      * @throws       \Exception
      */
-    public function testAbs($int, string $expected)
+    public function testTetrate(int $int, int $exponent, string $expected)
     {
         // Given
         $int = new ArbitraryInteger($int);
 
         // When
-        $abs = $int->abs();
+        $tetration  = $int->tetrate($exponent);
+        $tetration2 = $int->hyperoperation(4, $exponent);
 
         // Then
-        $this->assertEquals($expected, (string) $abs);
+        $this->assertEquals($expected, (string) $tetration);
+        $this->assertEquals($expected, (string) $tetration2);
     }
 
-    public function dataProviderForAbs(): array
+    public function dataProviderForTetrate(): array
     {
         return [
-            [0, '0'],
-            [1, '1'],
-            [-1, '1'],
-            ['-12345678910', '12345678910'],
-            ['12345678910', '12345678910'],
-            ['-798273948792837498273948289', '798273948792837498273948289'],
-            ['798273948792837498273948289', '798273948792837498273948289'],
+            [3, 3, '7625597484987'],
+        ];
+    }
+
+    /**
+     * @test         hyperoperation() returns the proper result
+     * @dataProvider dataProviderForHyperoperation
+     * @param        mixed $int
+     * @param        mixed $n
+     * @param        mixed $b
+     * @param        string $expected
+     * @throws       \Exception
+     */
+    public function testHyperoperation($int, $n, $b, string $expected)
+    {
+        // Given
+        $int = new ArbitraryInteger($int);
+
+        // When
+        $result = $int->hyperoperation($n, $b);
+
+        // Then
+        $this->assertEquals($expected, (string) $result);
+    }
+
+    public function dataProviderForHyperoperation(): array
+    {
+        return [
+            'increment'       => [0, '0', '7273737', '7273738'],
+            'b_plus_zero'     => [0, '1', '6378383737883', '6378383737883'],
+            'b_times_zero'    => [0, 2, '7373747474747', '0'],
+            'zero_power_zero' => [0, '3', '0', '1'],
+            'zero_power_b'    => [0, '3', '12345678910', '0'],
+            'b_is_even'       => [0, '16367', '77288', '1'],
+            'b_is_odd'        => [0, '7273', '79399', '0'],
+            'a_is_one'        => [1, '7273', '268953', '1'],
         ];
     }
 
