@@ -658,16 +658,32 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testTetrate()
+    /**
+     * @test         tetrate() returns the proper result
+     * @dataProvider dataProviderForTetrate
+     * @param        mixed $int
+     * @param        string $expected
+     * @throws       \Exception
+     */
+    public function testTetrate(int $int, int $exponent, string $expected)
     {
         // Given
-        $int = new ArbitraryInteger(3);
+        $int = new ArbitraryInteger($int);
 
         // When
-        $tetration = $int->tetrate(3);
+        $tetration  = $int->tetrate($exponent);
+        $tetration2 = $int->hyperoperation(4, $exponent);
 
         // Then
-        $this->assertEquals('7625597484987', (string) $tetration);
+        $this->assertEquals($expected, (string) $tetration);
+        $this->assertEquals($expected, (string) $tetration2);
+    }
+
+     public function dataProviderForTetrate(): array
+    {
+        return [
+            [3, 3, '7625597484987'],
+        ];
     }
 
     /**
