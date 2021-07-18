@@ -655,11 +655,11 @@ class ArbitraryInteger implements ObjectArithmetic
         }
         if ($n->equals(2)) {
             return $this->multiply($b);
+        }
         if ($n->equals(3)) {
             return $this->pow($b);
-            default:
-                return $this->hyperoperation($n->minus(1), $this->hyperoperation($n, $b->minus(1)));
         }
+        return $this->hyperoperation($n->minus(1), $this->hyperoperation($n, $b->minus(1)));
     }
 
     /**************************************************************************
