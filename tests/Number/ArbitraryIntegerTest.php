@@ -747,9 +747,9 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             'b_times_zero'    => [0, 2, '7373747474747', '0'],
             'zero_power_zero' => [0, '3', '0', '1'],
             'zero_power_b'    => [0, '3', '12345678910', '0'],
-            'b_is_even'       => [0, '16367', '77288', '1'],
-            'b_is_odd'        => [0, '7273', '79399', '0'],
-            'a_is_one'        => [1, '7273', '268953', '1'],
+            'b_is_even'       => [0, '67', '77288', '1'],
+            'b_is_odd'        => [0, '73', '79399', '0'],
+            'a_is_one'        => [1, '73', '268953', '1'],
         ];
     }
 
