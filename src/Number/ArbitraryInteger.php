@@ -666,7 +666,7 @@ class ArbitraryInteger implements ObjectArithmetic
         // This while loop will prevent large values of $b causing segfault.
         $count = new self(1);
         $result = $this;
-        while ($count->lessThan($b))
+        while ($count->lessThan($b)) {
             $result = $this->hyperoperation($n->subtract(1), $result);
             $count = $count->add(1);
         }
