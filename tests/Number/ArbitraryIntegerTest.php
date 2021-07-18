@@ -679,7 +679,7 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, (string) $tetration2);
     }
 
-     public function dataProviderForTetrate(): array
+    public function dataProviderForTetrate(): array
     {
         return [
             [3, 3, '7625597484987'],
