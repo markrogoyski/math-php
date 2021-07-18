@@ -659,7 +659,10 @@ class ArbitraryInteger implements ObjectArithmetic
         if ($n->equals(3)) {
             return $this->pow($b);
         }
-        return $this->hyperoperation($n->minus(1), $this->hyperoperation($n, $b->minus(1)));
+        if ($b->equals(0)) {
+            return new static(1);
+        }
+        return $this->hyperoperation($n->subtract(1), $this->hyperoperation($n, $b->subtract(1)));
     }
 
     /**************************************************************************
