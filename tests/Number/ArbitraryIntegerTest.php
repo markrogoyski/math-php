@@ -687,30 +687,34 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         tetrate() returns the proper result
-     * @dataProvider dataProviderForTetrate
+     * @test         abs() returns the proper result
+     * @dataProvider dataProviderForAbs
      * @param        mixed $int
      * @param        string $expected
      * @throws       \Exception
      */
-    public function testTetrate(int $int, int $exponent, string $expected)
+    public function testAbs($int, string $expected)
     {
         // Given
         $int = new ArbitraryInteger($int);
 
         // When
-        $tetration  = $int->tetrate($exponent);
-        $tetration2 = $int->hyperoperation(4, $exponent);
+        $abs = $int->abs();
 
         // Then
-        $this->assertEquals($expected, (string) $tetration);
-        $this->assertEquals($expected, (string) $tetration2);
+        $this->assertEquals($expected, (string) $abs);
     }
 
-    public function dataProviderForTetrate(): array
+    public function dataProviderForAbs(): array
     {
         return [
-            [3, 3, '7625597484987'],
+            [0, '0'],
+            [1, '1'],
+            [-1, '1'],
+            ['-12345678910', '12345678910'],
+            ['12345678910', '12345678910'],
+            ['-798273948792837498273948289', '798273948792837498273948289'],
+            ['798273948792837498273948289', '798273948792837498273948289'],
         ];
     }
 
