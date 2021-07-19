@@ -603,6 +603,9 @@ class ArbitraryInteger implements ObjectArithmetic
     public function pow($exp): ArbitraryInteger
     {
         $exp = self::create($exp);
+        if (!($this->equals(1) || $this->equals(-1)) && $exp->lessThan(0)) {
+            throw new Exception\BadParameterException('Negative exponents rarely produce integer results.');
+        }
         if ($exp->equals(0)) {
             return new static(1);
         }
@@ -611,7 +614,7 @@ class ArbitraryInteger implements ObjectArithmetic
         }
 
         [$int, $mod] = $exp->fullIntdiv(2);
-        $square           = $this->multiply($this)->pow($int);
+        $square      = $this->multiply($this)->pow($int);
 
         if ($mod->equals(1)) {
             return $square->multiply($this);

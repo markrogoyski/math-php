@@ -529,6 +529,8 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             ['2134567896543378631213', 2, '1067283948271689315606', '1'],
             ['2134567896543378631213', 100, '21345678965433786312', '13'],
             ['301', 300, '1', '1'],
+            ['-1', 2, '-1', '1'],
+            ['-3', 2, '-2', '1'],
         ];
     }
 
@@ -1088,5 +1090,21 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
 
         // When
         $int = $number->add($class);
+    }
+
+    /**
+     * @test   pow throws an exception when exponent is negative and int is not 1 or -1.
+     * @throws \Exception
+     */
+    public function testPowException()
+    {
+        // Given
+        $int = new ArbitraryInteger(2);
+
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
+        $pow = $int->pow(-2);
     }
 }
