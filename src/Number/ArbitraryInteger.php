@@ -536,6 +536,22 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function fullIntdiv($divisor): array
     {
+        $negative_result = false;
+        $divisor = self::create($divisor);
+        if (!$divisor->isPositive()) {
+            $negative_result = true;
+            $divisor = $divisor->negate();
+        }
+        if (!$this->isPositive()) {
+            $negative_result = !$negative_result;
+            [$int, $mod] = $this->abs()->fullIntdiv($divisor);
+            if ($negative_result) {
+                $int = $int->negate()->subtract(1);
+                $mod = $mod->negate()->add($divisor);
+                return [$int, $mod];
+            }
+            return [$int, $mod];
+        }
         if ($this->lessThan($divisor)) {
             return [new ArbitraryInteger(0), $this];
         }
@@ -543,7 +559,6 @@ class ArbitraryInteger implements ObjectArithmetic
         // If the divisor is less than Int_max / 256 then
         // the native php intdiv and mod functions can be used.
         $safe_bytes = new ArbitraryInteger(\intdiv(\PHP_INT_MAX, 256));
-        $divisor    = self::create($divisor);
 
         if ($divisor->lessThan($safe_bytes)) {
             $divisor  = $divisor->toInt();
@@ -585,7 +600,11 @@ class ArbitraryInteger implements ObjectArithmetic
                 $int = $int->leftShift(8)->add($new_int);
             }
         }
-
+        if ($negative_result) {
+            $int = $int->negate()->subtract(1);
+            $mod = $mod->negate()->add($divisor);
+            return [$int, $mod];
+        }
         return [$int, $mod];
     }
 
@@ -606,10 +625,10 @@ class ArbitraryInteger implements ObjectArithmetic
         if (!($this->equals(1) || $this->equals(-1)) && $exp->lessThan(0)) {
             throw new Exception\BadParameterException('Negative exponents rarely produce integer results.');
         }
-        if ($exp->equals(0)) {
+        if ($exp->equals(0) || $this->equals(1)) {
             return new static(1);
         }
-        if ($exp->equals(1)) {
+        if ($exp->abs()->equals(1)) {
             return $this;
         }
 
