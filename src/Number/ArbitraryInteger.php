@@ -543,11 +543,11 @@ class ArbitraryInteger implements ObjectArithmetic
             $divisor = $divisor->negate();
         }
         if (!$this->isPositive()) {
-            $negative_result = !$negative_result;
             [$int, $mod] = $this->abs()->fullIntdiv($divisor);
+            $int = $int->negate()->subtract(1);
+            $mod = $mod->negate()->add($divisor);
             if ($negative_result) {
-                $int = $int->negate()->subtract(1);
-                $mod = $mod->negate()->add($divisor);
+                $int = $int->negate();
                 return [$int, $mod];
             }
             return [$int, $mod];
@@ -601,8 +601,7 @@ class ArbitraryInteger implements ObjectArithmetic
             }
         }
         if ($negative_result) {
-            $int = $int->negate()->subtract(1);
-            $mod = $mod->negate()->add($divisor);
+            $int = $int->negate();
             return [$int, $mod];
         }
         return [$int, $mod];
