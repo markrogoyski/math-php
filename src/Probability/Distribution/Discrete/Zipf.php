@@ -16,7 +16,7 @@ class Zipf extends Discrete
      * Distribution parameter bounds limits
      * s ∈ [0,∞)
      * N ∈ [1,∞)
-     * @var array
+     * @var string[]
      */
     const PARAMETER_LIMITS = [
         's' => '[0,∞)',
@@ -27,7 +27,7 @@ class Zipf extends Discrete
      * Distribution support bounds limits
      * Rank
      * k ∈ [1,∞)
-     * @var array
+     * @var string[]
      */
     const SUPPORT_LIMITS = [
         'k' => '[1,∞)',
