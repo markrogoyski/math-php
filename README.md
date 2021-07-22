@@ -1796,13 +1796,18 @@ use MathPHP\Sequence\NonInteger;
 $n = 4; // Number of elements in the sequence
 
 // Harmonic sequence
-$harmonic_sequence = NonInteger::harmonic($n);
+$harmonic = NonInteger::harmonic($n);
 // [1, 3/2, 11/6, 25/12] - Indexed from 1
 
+// Generalized harmonic sequence
+$m           = 2;  // exponent
+$generalized = NonInteger::generalizedHarmonic($n, $m);
+// [1, 5 / 4, 49 / 36, 205 / 144] - Indexed from 1
+
 // Hyperharmonic sequence
-$p = 2;
-$hyperharmonic_sequence = NonInteger::hyperharmonic($n, $p);
-// [1, 5/4, 49/36, 205/144] - Indexed from 1
+$r             = 2;  // depth of recursion
+$hyperharmonic = NonInteger::hyperharmonic($n, $r);
+// [1, 5/2, 26/6, 77/12] - Indexed from 1
 ```
 
 ### Set Theory
