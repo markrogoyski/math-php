@@ -27,7 +27,7 @@ class NonInteger
      *
      * @param int $n the length of the sequence to calculate
      *
-     * @return array
+     * @return float[]
      */
     public static function harmonic(int $n): array
     {
@@ -46,7 +46,7 @@ class NonInteger
      * @param int   $n the length of the sequence to calculate
      * @param float $m the exponent
      *
-     * @return array
+     * @return float[]
      */
     public static function generalizedHarmonic(int $n, float $m): array
     {
@@ -74,11 +74,11 @@ class NonInteger
      *
      * https://en.wikipedia.org/wiki/Hyperharmonic_number
      *
-     * @param int $n the length of the sequence to calculate
-     * @param int $r the depth of recursion
-     * @param int $rational return results as a Rational object
+     * @param int  $n the length of the sequence to calculate
+     * @param int  $r the depth of recursion
+     * @param bool $rational return results as a Rational object
      *
-     * @return array
+     * @return float[]|Rational[]
      */
     public static function hyperharmonic(int $n, int $r, $rational = false): array
     {
@@ -95,6 +95,7 @@ class NonInteger
                 $sequence[$k] = new Rational(0, 1, $k);
             }
         } else {
+            /** @var Rational[] $array */
             $array = self::hyperharmonic($n, $r - 1, true);
             $∑     = Rational::createZeroValue();
             for ($k = 1; $k <= $n; $k++) {
