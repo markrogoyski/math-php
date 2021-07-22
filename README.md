@@ -1536,6 +1536,16 @@ $cdf     = $uniform->cdf($k);
 $μ       = $uniform->mean();
 $median  = $uniform->median();
 $σ²      = $uniform->variance();
+
+// Zipf distribution
+$k    = 2;   // rank
+$s    = 3;   // exponent
+$N    = 10;  // number of elements
+$zipf = new Discrete\Zipf($s, $N);
+$pmf  = $zipf->pmf($k);
+$cdf  = $zipf->cdf($k);
+$μ    = $zipf->mean();
+$mode = $zipf->mode();
 ```
 
 ### Probability - Multivariate Distributions

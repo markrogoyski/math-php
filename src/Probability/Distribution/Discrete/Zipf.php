@@ -33,7 +33,7 @@ class Zipf extends Discrete
         'k' => '[1,∞)',
     ];
 
-    /** @var number Characterizing exponenet */
+    /** @var number Characterizing exponent */
     protected $s;
 
     /** @var int Number of elements */
