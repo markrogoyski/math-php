@@ -109,4 +109,21 @@ class NonIntegerTest extends \PHPUnit\Framework\TestCase
         // When
         NonInteger::hyperharmonic(10, $r);
     }
+
+    /**
+     * @test hyperharmonic arithmetic operations exceed the bounds of the max integer precision
+     *       and produce a controlled MathException rather than a TypeError.
+     */
+    public function testHyperharmonicSequenceTypeError()
+    {
+        // Given
+        $n = 10000;
+        $r = 10000;
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        NonInteger::hyperharmonic($n, $r);
+    }
 }

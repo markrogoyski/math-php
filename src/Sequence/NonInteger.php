@@ -90,19 +90,24 @@ class NonInteger
         }
         $sequence = [];
 
-        if ($r == 0) {
-            for ($k = 1; $k <= $n; $k++) {
-                $sequence[$k] = new Rational(0, 1, $k);
+        try {
+            if ($r == 0) {
+                for ($k = 1; $k <= $n; $k++) {
+                    $sequence[$k] = new Rational(0, 1, $k);
+                }
+            } else {
+                /** @var Rational[] $array */
+                $array = self::hyperharmonic($n, $r - 1, true);
+                $∑     = Rational::createZeroValue();
+                for ($k = 1; $k <= $n; $k++) {
+                    $∑ = $∑->add($array[$k]);
+                    $sequence[$k] = $∑;
+                }
             }
-        } else {
-            /** @var Rational[] $array */
-            $array = self::hyperharmonic($n, $r - 1, true);
-            $∑     = Rational::createZeroValue();
-            for ($k = 1; $k <= $n; $k++) {
-                $∑ = $∑->add($array[$k]);
-                $sequence[$k] = $∑;
-            }
+        } catch (\TypeError $e) {
+            throw new Exception\OutOfBoundsException('Numbers too large to maintain integer precision', -1, $e);
         }
+
         if ($rational == true) {
             return $sequence;
         }
