@@ -3,6 +3,7 @@
 namespace MathPHP\Tests\Number;
 
 use MathPHP\Number\ArbitraryInteger;
+use MathPHP\Number\Rational;
 use MathPHP\Exception;
 
 class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
@@ -662,6 +663,34 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+/**
+     * @test         pow() return Rational
+     * @dataProvider dataProviderForPowRational
+     * @param        int $int
+     * @param        int $exponent
+     * @param        string $expected
+     * @throws       \Exception
+     */
+    public function testPowRational(int $int, int $exponent, int $denominator)
+    {
+        // Given
+        $int      =  new ArbitraryInteger($int);
+        $rational =  new Rational(0, 1, $denominator);
+
+        // When
+        $pow = $int->pow($exponent);
+
+        // Then
+        $this->assertSame((string) $rational, (string) $pow);
+    }
+
+    public function dataProviderForPowRational(): array
+    {
+        return [
+            [3, -3, 27],
+        ];
+    }
+
     /**
      * @test         abs() returns the proper result
      * @dataProvider dataProviderForAbs
@@ -1097,18 +1126,18 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test   pow throws an exception when exponent is negative and int is not 1 or -1.
+     * @test   pow throws an exception when exponent is negative and int is large.
      * @throws \Exception
      */
     public function testPowException()
     {
         // Given
-        $int = new ArbitraryInteger(2);
+        $int = new ArbitraryInteger(\PHP_INT_MAX);
 
         // Then
-        $this->expectException(Exception\BadParameterException::class);
+        $this->expectException(Exception\OutOfBoundsException::class);
 
         // When
-        $pow = $int->pow(-2);
+        $pow = $int->add(1)->pow(-1);
     }
 }

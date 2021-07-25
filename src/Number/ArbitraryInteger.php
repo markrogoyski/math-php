@@ -4,6 +4,7 @@ namespace MathPHP\Number;
 
 use MathPHP\Exception;
 use MathPHP\Functions\BaseEncoderDecoder;
+use MathPHP\Number\Rational;
 
 /**
  * Arbitrary Length Integer
@@ -618,11 +619,15 @@ class ArbitraryInteger implements ObjectArithmetic
      * @throws Exception\BadParameterException
      * @throws Exception\IncorrectTypeException
      */
-    public function pow($exp): ArbitraryInteger
+    public function pow($exp): ObjectArithmetic
     {
         $exp = self::create($exp);
         if (!($this->equals(1) || $this->equals(-1)) && $exp->lessThan(0)) {
-            throw new Exception\BadParameterException('Negative exponents rarely produce integer results.');
+            $tmp = $this->pow($exp->negate());
+            if ($tmp->lessThan(\PHP_INT_MAX) && $tmp->greaterThan(\PHP_INT_MIN)) {
+                return new Rational(0, 1, $tmp->toInt());
+            }
+            throw new Exception\OutOfBoundsException('Integer is too large to be expressed as a Rational object.');
         }
         if ($exp->equals(0) || $this->equals(1)) {
             return new static(1);
