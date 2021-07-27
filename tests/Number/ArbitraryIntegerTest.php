@@ -597,15 +597,14 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test         pow()
      * @dataProvider dataProviderForPow
-     * @param        int $int
-     * @param        int $exponent
+     * @param        int    $int
+     * @param        int    $exponent
      * @param        string $expected
-     * @throws       \Exception
      */
     public function testPow(int $int, int $exponent, string $expected)
     {
         // Given
-        $int =  new ArbitraryInteger($int);
+        $int = new ArbitraryInteger($int);
 
         // When
         $pow = $int->pow($exponent);
@@ -663,31 +662,36 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-/**
+    /**
      * @test         pow() return Rational
      * @dataProvider dataProviderForPowRational
-     * @param        int $int
-     * @param        int $exponent
-     * @param        string $expected
-     * @throws       \Exception
+     * @param        int      $int
+     * @param        int      $exponent
+     * @param        Rational $expected
      */
-    public function testPowRational(int $int, int $exponent, int $denominator)
+    public function testPowRational(int $int, int $exponent, Rational $expected)
     {
         // Given
-        $int      =  new ArbitraryInteger($int);
-        $rational =  new Rational(0, 1, $denominator);
+        $int = new ArbitraryInteger($int);
 
         // When
         $pow = $int->pow($exponent);
 
         // Then
-        $this->assertSame((string) $rational, (string) $pow);
+        $this->assertEquals($expected, $pow);
+        $this->assertSame((string) $expected, (string) $pow);
     }
 
     public function dataProviderForPowRational(): array
     {
         return [
-            [3, -3, 27],
+            [2, -1, new Rational(0, 1, 2)],
+            [2, -2, new Rational(0, 1, 4)],
+            [3, -3, new Rational(0, 1, 27)],
+            [-2, -1, new Rational(0, -1, 2)],
+            [-2, -2, new Rational(0, 1, 4)],
+            [-2, -3, new Rational(0, -1, 8)],
+            [-2, -4, new Rational(0, 1, 16)],
         ];
     }
 
