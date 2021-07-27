@@ -4,6 +4,7 @@ namespace MathPHP\Number;
 
 use MathPHP\Exception;
 use MathPHP\Functions\BaseEncoderDecoder;
+use MathPHP\Number\Rational;
 
 /**
  * Arbitrary Length Integer
@@ -536,6 +537,22 @@ class ArbitraryInteger implements ObjectArithmetic
      */
     public function fullIntdiv($divisor): array
     {
+        $negative_result = false;
+        $divisor = self::create($divisor);
+        if (!$divisor->isPositive()) {
+            $negative_result = true;
+            $divisor = $divisor->negate();
+        }
+        if (!$this->isPositive()) {
+            [$int, $mod] = $this->abs()->fullIntdiv($divisor);
+            $int = $int->negate()->subtract(1);
+            $mod = $mod->negate()->add($divisor);
+            if ($negative_result) {
+                $int = $int->negate();
+                return [$int, $mod];
+            }
+            return [$int, $mod];
+        }
         if ($this->lessThan($divisor)) {
             return [new ArbitraryInteger(0), $this];
         }
@@ -543,7 +560,6 @@ class ArbitraryInteger implements ObjectArithmetic
         // If the divisor is less than Int_max / 256 then
         // the native php intdiv and mod functions can be used.
         $safe_bytes = new ArbitraryInteger(\intdiv(\PHP_INT_MAX, 256));
-        $divisor    = self::create($divisor);
 
         if ($divisor->lessThan($safe_bytes)) {
             $divisor  = $divisor->toInt();
@@ -585,7 +601,10 @@ class ArbitraryInteger implements ObjectArithmetic
                 $int = $int->leftShift(8)->add($new_int);
             }
         }
-
+        if ($negative_result) {
+            $int = $int->negate();
+            return [$int, $mod];
+        }
         return [$int, $mod];
     }
 
@@ -600,18 +619,25 @@ class ArbitraryInteger implements ObjectArithmetic
      * @throws Exception\BadParameterException
      * @throws Exception\IncorrectTypeException
      */
-    public function pow($exp): ArbitraryInteger
+    public function pow($exp): ObjectArithmetic
     {
         $exp = self::create($exp);
-        if ($exp->equals(0)) {
+        if (!($this->equals(1) || $this->equals(-1)) && $exp->lessThan(0)) {
+            $tmp = $this->pow($exp->negate());
+            if ($tmp->lessThan(\PHP_INT_MAX) && $tmp->greaterThan(\PHP_INT_MIN)) {
+                return new Rational(0, 1, $tmp->toInt());
+            }
+            throw new Exception\OutOfBoundsException('Integer is too large to be expressed as a Rational object.');
+        }
+        if ($exp->equals(0) || $this->equals(1)) {
             return new static(1);
         }
-        if ($exp->equals(1)) {
+        if ($exp->abs()->equals(1)) {
             return $this;
         }
 
         [$int, $mod] = $exp->fullIntdiv(2);
-        $square           = $this->multiply($this)->pow($int);
+        $square      = $this->multiply($this)->pow($int);
 
         if ($mod->equals(1)) {
             return $square->multiply($this);

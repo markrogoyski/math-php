@@ -3,6 +3,7 @@
 namespace MathPHP\Tests\Number;
 
 use MathPHP\Number\ArbitraryInteger;
+use MathPHP\Number\Rational;
 use MathPHP\Exception;
 
 class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
@@ -529,6 +530,12 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
             ['2134567896543378631213', 2, '1067283948271689315606', '1'],
             ['2134567896543378631213', 100, '21345678965433786312', '13'],
             ['301', 300, '1', '1'],
+            ['-1', 2, '-1', '1'],
+            ['-3', 2, '-2', '1'],
+            ['3', -2, '-1', '1'],
+            ['-12', -5, '3', '3'],
+            ['12', -5, '-2', '2'],
+            ['-12', 5, '-3', '3'],
         ];
     }
 
@@ -612,6 +619,8 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
         return [
             [1, 0, '1'],
             [1, 1, '1'],
+            [1, -1, '1'],
+            [-1, -1, '-1'],
             [1, 2, '1'],
             [2, 0, '1'],
             [2, 1, '2'],
@@ -651,6 +660,34 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
                 151,
                 '2854495385411919762116571938898990272765493248',
             ],
+        ];
+    }
+
+/**
+     * @test         pow() return Rational
+     * @dataProvider dataProviderForPowRational
+     * @param        int $int
+     * @param        int $exponent
+     * @param        string $expected
+     * @throws       \Exception
+     */
+    public function testPowRational(int $int, int $exponent, int $denominator)
+    {
+        // Given
+        $int      =  new ArbitraryInteger($int);
+        $rational =  new Rational(0, 1, $denominator);
+
+        // When
+        $pow = $int->pow($exponent);
+
+        // Then
+        $this->assertSame((string) $rational, (string) $pow);
+    }
+
+    public function dataProviderForPowRational(): array
+    {
+        return [
+            [3, -3, 27],
         ];
     }
 
@@ -1086,5 +1123,21 @@ class ArbitraryIntegerTest extends \PHPUnit\Framework\TestCase
 
         // When
         $int = $number->add($class);
+    }
+
+    /**
+     * @test   pow throws an exception when exponent is negative and int is large.
+     * @throws \Exception
+     */
+    public function testPowException()
+    {
+        // Given
+        $int = new ArbitraryInteger(\PHP_INT_MAX);
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $pow = $int->add(1)->pow(-1);
     }
 }
