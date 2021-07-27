@@ -4,7 +4,6 @@ namespace MathPHP\Number;
 
 use MathPHP\Exception;
 use MathPHP\Functions\BaseEncoderDecoder;
-use MathPHP\Number\Rational;
 
 /**
  * Arbitrary Length Integer
@@ -148,7 +147,7 @@ class ArbitraryInteger implements ObjectArithmetic
      * @param string $value
      * @param bool   $positive
      */
-    protected function setVariables(string $value, bool $positive)
+    protected function setVariables(string $value, bool $positive): void
     {
         $value = \ltrim($value, \chr(0));
         if ($value == '') {
@@ -286,7 +285,7 @@ class ArbitraryInteger implements ObjectArithmetic
 
         // √0 = 0 edge case
         if ($this->equals(0)) {
-            return new static(0);
+            return new ArbitraryInteger(0);
         }
 
         $length = \strlen($this->base256);
@@ -530,7 +529,7 @@ class ArbitraryInteger implements ObjectArithmetic
      *
      * @param int|string|ArbitraryInteger $divisor
      *
-     * @return array (int, mod)
+     * @return array<ArbitraryInteger> (int, mod)
      *
      * @throws Exception\BadParameterException
      * @throws Exception\IncorrectTypeException
@@ -614,7 +613,7 @@ class ArbitraryInteger implements ObjectArithmetic
      *
      * @param int|string|ArbitraryInteger $exp
      *
-     * @return ArbitraryInteger
+     * @return ArbitraryInteger|Rational
      *
      * @throws Exception\BadParameterException
      * @throws Exception\IncorrectTypeException
@@ -623,6 +622,7 @@ class ArbitraryInteger implements ObjectArithmetic
     {
         $exp = self::create($exp);
         if (!($this->equals(1) || $this->equals(-1)) && $exp->lessThan(0)) {
+            /** @var ArbitraryInteger $tmp */
             $tmp = $this->pow($exp->negate());
             if ($tmp->lessThan(\PHP_INT_MAX) && $tmp->greaterThan(\PHP_INT_MIN)) {
                 return new Rational(0, 1, $tmp->toInt());
@@ -630,7 +630,7 @@ class ArbitraryInteger implements ObjectArithmetic
             throw new Exception\OutOfBoundsException('Integer is too large to be expressed as a Rational object.');
         }
         if ($exp->equals(0) || $this->equals(1)) {
-            return new static(1);
+            return new ArbitraryInteger(1);
         }
         if ($exp->abs()->equals(1)) {
             return $this;
