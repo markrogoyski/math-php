@@ -1,5 +1,22 @@
 # MathPHP Change Log
 
+## v2.4.0 - 2021-07-27
+
+### New Features
+* Complex Exponential (`exp`)
+* Complex Exponentiation (`pow`)
+* Zipf's Law Discrete Distribution
+* Generalized harmonic non-integer sequence
+
+### Improvements
+* Fixed Complex `polarForm` to compute the right values
+* Fixed `hyperharnomic` non-integer sequence. Previously was computing the wrong thing
+* Fixed how `ArbitraryInterger` handles `pow` of negative exponents
+
+### Backwards Incompatible Changes
+* Complex `polarForm` now returns an array rather than a Complex number, as the Complex return was incorrect
+* Interface to `hyperharmonic` non-integer sequence changed due to previous implementation being incorrect
+
 ## v2.3.0 - 2021-07-14
 
 ### New Features
