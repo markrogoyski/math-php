@@ -67,7 +67,7 @@ class StudentT extends Continuous
 
         // New Code From R
         $DBL_EPSILON = 2.220446049250313e-16;  // Need to verify
-        $tnew = -1 * self::bd0($ν / 2, ($ν + 1) / 2) + self::stirlerr(($ν + 1) / 2) - self::stirlerr($ν / 2);
+        $tnew = -1 * self::npD0($ν / 2, ($ν + 1) / 2) + self::stirlerr(($ν + 1) / 2) - self::stirlerr($ν / 2);
         $x2n = $t**2 / $ν; // in  [0, Inf]
         $ax = 0;
         $lrg_x2n = $x2n > (1 / $DBL_EPSILON);
@@ -81,7 +81,7 @@ class StudentT extends Continuous
             $u = $ν * $l_x2n;
         } else {
             $l_x2n = log1p($x2n) / 2;
-            $u = -1* self::bd0($ν / 2, ($ν + $t**2) / 2) + $t**2 / 2;
+            $u = -1* self::npD0($ν / 2, ($ν + $t**2) / 2) + $t**2 / 2;
         }
 
         $I_sqrt = $lrg_x2n ? sqrt($ν) / $ax : exp(-$l_x2n);
@@ -212,18 +212,25 @@ class StudentT extends Continuous
     }
 
     /**
+     * Saddle-point Expansion Deviance
      *
-     * Evaluates the "deviance part"
-     * bd0(x,M) :=  M * D0(x/M) = M*[ x/M * log(x/M) + 1 - (x/M) ] =
-     *     =  x * log(x/M) + M - x
-     * where M = E[X] = n*p (or = lambda), for x, M > 0
+     * Calculate the quantity
+     *                                 ∞
+     *                                ____
+     *                 (x-np)²        \    v²ʲ⁺¹
+     * np * D₀(x/np) = ------  + 2*x * >  -------
+     *                 (x+np)         /    2*j+1
+     * where:                         ____  
+     *                                j=1
+     * D₀(ε) = ε * log(ε) + 1 - ε
      *
-     * in a manner that should be stable (with small relative error)
-     * for all x and M=np. In particular for x/np close to 1, direct
-     * evaluation fails, and evaluation is based on the Taylor series
-     * of log((1+v)/(1-v)) with v = (x-M)/(x+M) = (x-np)/(x+np).
+     * and:    (x-np)
+     *     v = ------
+     *         (x+np)
+     *
+     * Source: https://www.r-project.org/doc/reports/CLoader-dbinom-2002.pdf
      */
-    private static function bd0(float $x, float $np)
+    private static function npD0(float $x, float $np)
     {
         $DBL_MIN = 2.23e-308; // Check This
         if (abs($x - $np) < 0.1 * ($x + $np)) {
@@ -232,12 +239,12 @@ class StudentT extends Continuous
             if (abs($s) < $DBL_MIN) {
                 return $s;
             }
-            $ej = 2 * $x * $v;
-            $v *= $v;
+            $Σj = 2 * $x * $v;
+            $v² = $v * $v;
             for ($j = 1; $j < 1000; $j++) {
-                $ej *= $v;
+                $Σj *= $v²;
                 $stemp = $s;
-                $s += $ej / (($j * 2) + 1);
+                $s += $Σj / (($j * 2) + 1);
                 if ($s == $stemp) {
                     return $s;
                 }
