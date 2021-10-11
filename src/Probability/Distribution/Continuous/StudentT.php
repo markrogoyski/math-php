@@ -67,21 +67,21 @@ class StudentT extends Continuous
 
         // New Code From R
         $DBL_EPSILON = 2.220446049250313e-16;  // Need to verify
-        $tnew = -1 * self::bd0($ν / 2,($ν + 1) / 2) + self::stirlerr(($ν + 1) / 2) - self::stirlerr($ν / 2);
-	    $x2n = $t**2 / $ν; // in  [0, Inf]
-	    $ax = 0;
+        $tnew = -1 * self::bd0($ν / 2, ($ν + 1) / 2) + self::stirlerr(($ν + 1) / 2) - self::stirlerr($ν / 2);
+        $x2n = $t**2 / $ν; // in  [0, Inf]
+        $ax = 0;
         $lrg_x2n = $x2n > (1 / $DBL_EPSILON);
         if ($lrg_x2n) {
             // large x**2/n :
-	        $ax = abs($t);
-	        $l_x2n = log($ax) - log($ν) / 2;
-	        $u = $ν * $l_x2n;
+            $ax = abs($t);
+            $l_x2n = log($ax) - log($ν) / 2;
+            $u = $ν * $l_x2n;
         } else if ($x2n > 0.2) {
-	        $l_x2n = log(1 + $x2n) / 2;
-	        $u = $ν * $l_x2n;
+            $l_x2n = log(1 + $x2n) / 2;
+            $u = $ν * $l_x2n;
         } else {
-	        $l_x2n = log1p($x2n) / 2;
-	        $u = -1* self::bd0($ν / 2, ($ν + $t**2) / 2) + $t**2 / 2;
+            $l_x2n = log1p($x2n) / 2;
+            $u = -1* self::bd0($ν / 2, ($ν + $t**2) / 2) + $t**2 / 2;
         }
 
         $I_sqrt = $lrg_x2n ? sqrt($ν) / $ax : exp(-$l_x2n);
@@ -216,7 +216,7 @@ class StudentT extends Continuous
      * Evaluates the "deviance part"
      * bd0(x,M) :=  M * D0(x/M) = M*[ x/M * log(x/M) + 1 - (x/M) ] =
      *     =  x * log(x/M) + M - x
-     * where M = E[X] = n*p (or = lambda), for	  x, M > 0
+     * where M = E[X] = n*p (or = lambda), for x, M > 0
      *
      * in a manner that should be stable (with small relative error)
      * for all x and M=np. In particular for x/np close to 1, direct
@@ -229,7 +229,7 @@ class StudentT extends Continuous
         if (abs($x - $np) < 0.1 * ($x + $np)) {
             $v = ($x - $np) / ($x + $np);
             $s = ($x - $np) * $v;
-            if(abs($s) < $DBL_MIN) {
+            if (abs($s) < $DBL_MIN) {
                 return $s;
             }
             $ej = 2 * $x * $v;
@@ -254,7 +254,7 @@ class StudentT extends Continuous
      *      For other n < 15, uses lgamma directly (don't use this to
      *        write lgamma!)
      */
-    private static function stirlerr (float $n)
+    private static function stirlerr(float $n)
     {
         $S0 = 0.083333333333333333333;        // 1/12
         $S1 = 0.00277777777777777777778;      // 1/360
@@ -319,7 +319,7 @@ class StudentT extends Continuous
         return ($S0-($S1-($S2-($S3-$S4/$nn)/$nn)/$nn)/$nn)/$n;
     }
 
-    static function lgammafn($x)
+    private static function lgammafn($x)
     {
         return log(Special::gamma($x));
     }
