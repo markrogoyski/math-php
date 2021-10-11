@@ -298,11 +298,11 @@ class StudentT extends Continuous
 
         if ($n <= 15.0) {
             $nn = $n + $n;
-            if ($nn == (int)$nn) {
-                return $sferr_halves[$nn];
-            }
-            $M_LN_SQRT_2PI = log(sqrt(2 * \pi()));
-            return self::lgammafn($n + 1) - ($n + 0.5) * log($n) + $n - $M_LN_SQRT_2PI;
+            //if ($nn == (int)$nn) {
+            return $sferr_halves[$nn];
+            //}
+            //$M_LN_SQRT_2PI = log(sqrt(2 * \pi()));
+            //return self::lgammafn($n + 1) - ($n + 0.5) * log($n) + $n - $M_LN_SQRT_2PI;
         }
 
         $nn = $n * $n;
@@ -317,10 +317,5 @@ class StudentT extends Continuous
         }
         /* 15 < n <= 35 : */
         return ($S0-($S1-($S2-($S3-$S4/$nn)/$nn)/$nn)/$nn)/$n;
-    }
-
-    private static function lgammafn($x)
-    {
-        return log(Special::gamma($x));
     }
 }
