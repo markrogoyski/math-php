@@ -70,7 +70,7 @@ class StudentT extends Continuous
         $tnew = -1 * self::bd0($ν / 2,($ν + 1) / 2) + self::stirlerr(($ν + 1) / 2) - self::stirlerr($ν / 2);
 	    $x2n = $t^2 / $ν; // in  [0, Inf]
 	    $ax = 0;
-        $lrg_x2n = $x2n > 1 / $DBL_EPSILON;
+        $lrg_x2n = $x2n > (1 / $DBL_EPSILON);
         if ($lrg_x2n) {
             // large x^2/n :
 	        $ax = abs($t);
