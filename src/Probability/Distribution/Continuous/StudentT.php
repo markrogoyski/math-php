@@ -255,11 +255,16 @@ class StudentT extends Continuous
     }
 
     /**
-     *Computes the log of the error term in Stirling's formula.
-     *      For n > 15, uses the series 1/12n - 1/360n^3 + ...
-     *      For n <=15, integers or half-integers, uses stored values.
-     *      For other n < 15, uses lgamma directly (don't use this to
-     *        write lgamma!)
+     * The log of the error term in the Stirling-De Moivre factorial series
+     *
+     * log(n!) = .5*log(2πn) + n*log(n) - n + δ(n)
+     * Where δ(n) is the log of the error.
+     *
+     * For n <=15, integers or half-integers, uses stored values.
+     *
+     * @param float $n
+     *
+     * @return float log of the error
      */
     private static function stirlerr(float $n)
     {
