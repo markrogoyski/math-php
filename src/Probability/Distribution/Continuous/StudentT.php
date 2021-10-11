@@ -67,7 +67,7 @@ class StudentT extends Continuous
 
         // New Code From R
         $DBL_EPSILON = 2.220446049250313e-16;  // Need to verify
-        $t_new = -1 * self::bd0($ν / 2,($ν + 1) / 2) + self::stirlerr(($ν + 1) / 2) - self::stirlerr($ν / 2);
+        $tnew = -1 * self::bd0($ν / 2,($ν + 1) / 2) + self::stirlerr(($ν + 1) / 2) - self::stirlerr($ν / 2);
 	    $x2n = $t^2 / $ν; // in  [0, Inf]
 	    $ax = 0;
         $lrg_x2n = $x2n > 1 / $DBL_EPSILON;
@@ -78,7 +78,7 @@ class StudentT extends Continuous
 	        $u = $ν * $l_x2n;
         } else if ($x2n > 0.2) {
 	        $l_x2n = log(1 + $x2n) / 2;
-	        $u = $ν * l_x2n;
+	        $u = $ν * $l_x2n;
         } else {
 	        $l_x2n = log($x2n + 1) / 2;
 	        $u = -1* self::bd0($ν / 2, ($ν + $t^2) / 2) + $t^2 / 2;
