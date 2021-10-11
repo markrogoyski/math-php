@@ -220,7 +220,7 @@ class StudentT extends Continuous
      *                 (x-np)²        \    v²ʲ⁺¹
      * np * D₀(x/np) = ------  + 2*x * >  -------
      *                 (x+np)         /    2*j+1
-     * where:                         ____  
+     * where:                         ____
      *                                j=1
      * D₀(ε) = ε * log(ε) + 1 - ε
      *
