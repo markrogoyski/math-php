@@ -65,16 +65,27 @@ class StudentT extends Continuous
         $ν = $this->ν;
         $π = \M_PI;
 
-        // Numerator
-        $Γ⟮⟮ν＋1⟯∕2⟯ = Special::gamma(($ν + 1) / 2);
-        $⟮1＋t²∕ν⟯ = 1 + ($t ** 2 / $ν);
-        $−⟮ν＋1⟯∕2 = -($ν + 1) / 2;
+        // New Code From R
+        $DBL_EPSILON = 2.220446049250313e-16;  // Need to verify
+        $t_new = -1 * self::bd0($ν / 2,($ν + 1) / 2) + self::stirlerr(($ν + 1) / 2) - self::stirlerr($ν / 2);
+	    $x2n = $t^2 / $ν; // in  [0, Inf]
+	    $ax = 0;
+        $lrg_x2n = $x2n > 1 / $DBL_EPSILON;
+        if ($lrg_x2n) {
+            // large x^2/n :
+	        $ax = abs($t);
+	        $l_x2n = log($ax) - log($ν) / 2;
+	        $u = $ν * $l_x2n;
+        } else if ($x2n > 0.2) {
+	        $l_x2n = log(1 + $x2n) / 2;
+	        $u = $ν * l_x2n;
+        } else {
+	        $l_x2n = log($x2n + 1) / 2;
+	        $u = -1* self::bd0($ν / 2, ($ν + $t^2) / 2) + $t^2 / 2;
+        }
 
-        // Denominator
-        $√⟮νπ⟯  = \sqrt($ν * $π);
-        $Γ⟮ν∕2⟯ = Special::gamma($ν / 2);
-
-        return ($Γ⟮⟮ν＋1⟯∕2⟯ * $⟮1＋t²∕ν⟯ ** $−⟮ν＋1⟯∕2) / ($√⟮νπ⟯ * $Γ⟮ν∕2⟯);
+        $I_sqrt = $lrg_x2n ? sqrt($ν) / $ax : exp(-$l_x2n);
+        return exp($tnew - $u) * 1 / sqrt(2 * $π) * $I_sqrt;
     }
 
     /**
@@ -198,5 +209,118 @@ class StudentT extends Continuous
         }
 
         return \NAN;
+    }
+
+    /**
+     *
+     * Evaluates the "deviance part"
+     * bd0(x,M) :=  M * D0(x/M) = M*[ x/M * log(x/M) + 1 - (x/M) ] =
+     *     =  x * log(x/M) + M - x
+     * where M = E[X] = n*p (or = lambda), for	  x, M > 0
+     *
+     * in a manner that should be stable (with small relative error)
+     * for all x and M=np. In particular for x/np close to 1, direct
+     * evaluation fails, and evaluation is based on the Taylor series
+     * of log((1+v)/(1-v)) with v = (x-M)/(x+M) = (x-np)/(x+np).
+     */
+    static function bd0(float $x, float $np)
+    {
+        $DBL_MIN = 2.23e-308; // Check This
+        if (abs($x - $np) < 0.1 * ($x + $np)) {
+	        $v = ($x - $np) / ($x + $np);
+	        $s = ($x - $np) * $v;
+	        if(abs($s) < $DBL_MIN) {
+                return $s;
+            }
+	        $ej = 2 * $x * $v;
+	        $v *= $v;
+	        for ($j = 1; $j < 1000; $j++) {
+	            $ej *= $v;
+	            $stemp = $s;
+	            $s += $ej / (($j *= 2) + 1); // Does $j get doubled here?
+	            if ($s == $stemp) {
+                    return $s;
+	            }
+	       }
+	       //MATHLIB_WARNING4("bd0(%g, %g): T.series failed to converge in 1000 it.; s=%g, ej/(2j+1)=%g\n", x, np, s, ej/((1000<<1)+1));
+        }
+        return ($x * log($x / $np) + $np - $x);
+    }
+
+    /**
+     *Computes the log of the error term in Stirling's formula.
+     *      For n > 15, uses the series 1/12n - 1/360n^3 + ...
+     *      For n <=15, integers or half-integers, uses stored values.
+     *      For other n < 15, uses lgamma directly (don't use this to
+     *        write lgamma!)
+     */
+    static function stirlerr (float $n)
+    {
+        $S0 = 0.083333333333333333333;        // 1/12
+        $S1 = 0.00277777777777777777778;      // 1/360
+        $S2 = 0.00079365079365079365079365;   // 1/1260
+        $S3 = 0.000595238095238095238095238;  // 1/1680
+        $S4 = 0.0008417508417508417508417508; // 1/1188
+
+        $sferr_halves = [
+	        0.0, /* n=0 - wrong, place holder only */
+	        0.1534264097200273452913848,  /* 0.5 */
+	        0.0810614667953272582196702,  /* 1.0 */
+	        0.0548141210519176538961390,  /* 1.5 */
+	        0.0413406959554092940938221,  /* 2.0 */
+	        0.03316287351993628748511048, /* 2.5 */
+	        0.02767792568499833914878929, /* 3.0 */
+	        0.02374616365629749597132920, /* 3.5 */
+	        0.02079067210376509311152277, /* 4.0 */
+	        0.01848845053267318523077934, /* 4.5 */
+            0.01664469118982119216319487, /* 5.0 */
+	        0.01513497322191737887351255, /* 5.5 */
+	        0.01387612882307074799874573, /* 6.0 */
+	        0.01281046524292022692424986, /* 6.5 */
+	        0.01189670994589177009505572, /* 7.0 */
+	        0.01110455975820691732662991, /* 7.5 */
+	        0.010411265261972096497478567, /* 8.0 */
+	        0.009799416126158803298389475, /* 8.5 */
+	        0.009255462182712732917728637, /* 9.0 */
+	        0.008768700134139385462952823, /* 9.5 */
+	        0.008330563433362871256469318, /* 10.0 */
+	        0.007934114564314020547248100, /* 10.5 */
+	        0.007573675487951840794972024, /* 11.0 */
+	        0.007244554301320383179543912, /* 11.5 */
+	        0.006942840107209529865664152, /* 12.0 */
+	        0.006665247032707682442354394, /* 12.5 */
+	        0.006408994188004207068439631, /* 13.0 */
+	        0.006171712263039457647532867, /* 13.5 */
+	        0.005951370112758847735624416, /* 14.0 */
+	        0.005746216513010115682023589, /* 14.5 */
+	        0.005554733551962801371038690, /* 15.0 */
+        ];
+
+        if ($n <= 15.0) {
+	        $nn = $n + $n;
+	        if ($nn == (int)$nn) {
+                return $sferr_halves[$nn];
+            }
+            $M_LN_SQRT_2PI = log(sqrt(2 * \pi()));
+	        return self::lgammafn($n + 1) - ($n + 0.5) * log($n) + $n - $M_LN_SQRT_2PI;
+        }
+
+        $nn = $n * $n;
+        if ($n > 500) {
+            return ($S0 - $S1 / $nn) / $n;
+        }
+        if ($n > 80) {
+            return ($S0 - ($S1 - $S2 / $nn) / $nn) / $n;
+        }
+        if ($n > 35) {
+            return ($S0 - ($S1 - ($S2 - $S3/$nn)/$nn)/$nn)/$n;
+        }
+        /* 15 < n <= 35 : */
+        return ($S0-($S1-($S2-($S3-$S4/$nn)/$nn)/$nn)/$nn)/$n;
+    }
+
+    static function lgammafn($x)
+    {
+        return log(Special::gamma($x));
     }
 }
