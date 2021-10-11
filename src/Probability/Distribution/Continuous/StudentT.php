@@ -76,7 +76,7 @@ class StudentT extends Continuous
             $ax = abs($t);
             $l_x2n = log($ax) - log($ν) / 2;
             $u = $ν * $l_x2n;
-        } else if ($x2n > 0.2) {
+        } elseif ($x2n > 0.2) {
             $l_x2n = log(1 + $x2n) / 2;
             $u = $ν * $l_x2n;
         } else {
