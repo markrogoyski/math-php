@@ -439,7 +439,7 @@ class Special
         return 1 / ($x * 12);
     }
 
-    private static chebyshev_eval($x, $a, int $n)
+    private static function chebyshev_eval($x, $a, int $n)
     {
         if ($n < 1 || $n > 1000) {
             return (float) 'NaN';
