@@ -376,7 +376,7 @@ class Special
             return \INF;
         }
         if (is_infinity($q)) { /* q == +Inf */
-            return \-INF;
+            return -\INF;
         }
 
         if ($p >= 10) {
