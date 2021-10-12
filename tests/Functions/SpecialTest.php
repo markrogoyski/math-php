@@ -266,6 +266,35 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         logGamma returns the expected value
+     * @dataProvider dataProviderForLogGamma
+     * @param        $z
+     * @param        $Γ
+     * @throws       \Exception
+     */
+    public function testLogGamma($z, $Γ)
+    {
+        // When
+        $log_gamma = Special::logGamma($z);
+
+        // Then
+        $this->assertEqualsWithDelta($Γ, $log_gamma, 0.001);
+    }
+
+     public function dataProviderForLogGamma(): array
+    {
+        return [
+            [ 1, 0 ],
+            [ 1.0, 0 ],
+            [ 2, 0 ],
+            [ 3, 0.6931472 ],
+            [ 100, 359.1342],
+            [ 0, \INF ],
+        ];
+    }
+
+
+    /**
      * @test         beta returns the expected value
      * @dataProvider dataProviderForBeta
      * @param        float $x
