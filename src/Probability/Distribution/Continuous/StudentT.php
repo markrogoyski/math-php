@@ -107,9 +107,7 @@ class StudentT extends Continuous
     public function cdf(float $t): float
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
-        $ν = $this->$ν;
-        if (n <= 0.0) ML_WARN_return_NAN;
-
+        $ν = $this->ν;
         if($t === \INF) {
             return ($t < 0) ? 0: 1;
         }
