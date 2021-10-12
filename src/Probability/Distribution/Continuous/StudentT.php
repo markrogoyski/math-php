@@ -115,11 +115,11 @@ class StudentT extends Continuous
             $pnorm = new StandardNormal();
             return $pnorm->cdf($t);
         }
-        if (n > 4e5) { /*-- Fixme(?): test should depend on `n' AND `x' ! */
+        if ($ν > 4e5) { /*-- Fixme(?): test should depend on `n' AND `x' ! */
 	        /* Approx. from	 Abramowitz & Stegun 26.7.8 (p.949) */
             $val = 1 / 4 / $ν;
             $pnorm = new StandardNormal();
-            return $pnorm($x*(1 - $val)/sqrt(1. + $x*$x*2*$val));
+            return $pnorm->cdf($t*(1 - $val)/sqrt(1 + $t*$t*2*$val));
         }
         $nx = 1 + ($t / $ν) * $t;
         if($nx > 1e100) { /* <==>  x*x > 1e100 * n  */
