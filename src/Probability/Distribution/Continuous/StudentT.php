@@ -53,6 +53,12 @@ class StudentT extends Continuous
      *  √νπ Γ |  -  |
      *         \ 2 /
      *
+     * Rearranging the equation above and using Stirling approximation
+     * along with the saddlepoint expansion gives the following form:
+     *
+     * T = eᵗ⁻ᵘ * 1/√𝜏 * 1/√(1+x²/ν)
+     * Where t = npD₀(-ν/2, (ν+1)/2) + δ((ν+1)/2) - δ(ν/2)
+     * and u = ν/2 * log(1+x2⁄ν) = -npD₀(ν/2, (ν+x²)/2) + x²/2
      *
      * @param float $t t score
      *
