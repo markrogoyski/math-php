@@ -423,9 +423,9 @@ class Special
          * xbig = 2 ^ 26.5
          * xmax = DBL_MAX / 48 =  2^1020 / 3
          */
-        $nalgm = 5
-        $xbig  = 94906265.62425156
-        $xmax  = 3.745194030963158e306
+        $nalgm = 5;
+        $xbig  = 94906265.62425156;
+        $xmax  = 3.745194030963158e306;
 
         if ($x < 10)
             return (float) 'NaN'; 
