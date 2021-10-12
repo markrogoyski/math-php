@@ -130,8 +130,12 @@ class StudentT extends Continuous
             $beta2 = new Beta($ν / 2, 0.5);
             $val = ($ν > $t * $t) ? $beta1->cdf($t * $t / ($ν + $t * $t)): $beta2->cdf(1 / $nx);
         }
+        $lower_tail = true;
+        if($t <= 0) {
+            $lower_tail = false;
+	}
         $val /= 2;
-        return 0.5 - ($val) + 0.5; //1 - p
+        return  $lower_tail ? (0.5 - ($val) + 0.5) : ($val); /* 1 - p */
     }
 
     /**
