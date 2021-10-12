@@ -377,7 +377,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
      */
     public function testLogBeta($x, $y, float $log_beta)
     {
-        $this->assertEqualsWithDelta($log_beta, Special::logBeta($x, $y), '', 0.001);
+        $this->assertEqualsWithDelta($log_beta, Special::logBeta($x, $y), 0.001);
     }
 
     public function dataProviderForLogBeta(): array
