@@ -273,7 +273,7 @@ class Special
 
         if(is_nan($x)) return $x;
 
-        if ($x <= 0 && $x == (int) $x)) {
+        if ($x <= 0 && $x == (int) $x) {
             // Negative integer argument
 	        // No warning: this is the best answer; was  ML_WARNING(ME_RANGE, "lgamma");
             return \INF;    // +Inf, since lgamma(x) = log|gamma(x)|
