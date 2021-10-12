@@ -281,7 +281,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta($Γ, $log_gamma, 0.001);
     }
 
-     public function dataProviderForLogGamma(): array
+    public function dataProviderForLogGamma(): array
     {
         return [
             [ 1, 0 ],
@@ -292,7 +292,6 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [ 0, \INF ],
         ];
     }
-
 
     /**
      * @test         beta returns the expected value
@@ -394,7 +393,8 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [.9, .1, 2.319089],
             [20, 20, -27.95199],
         ];
-    } 
+    }
+
     /**
      * @test         multivariateBeta returns the expected value
      * @dataProvider dataProviderForBeta
