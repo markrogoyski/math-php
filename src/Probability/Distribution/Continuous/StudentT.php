@@ -109,13 +109,18 @@ class StudentT extends Continuous
         Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
         $ν = $this->ν;
         if($t === \INF) {
-            return ($t < 0) ? 0: 1;
+            return ($t < 0) ? 0 : 1;
         }
         if($ν === \INF) {
             $pnorm = new StandardNormal();
             return $pnorm->cdf($t);
         }
-
+        if (n > 4e5) { /*-- Fixme(?): test should depend on `n' AND `x' ! */
+	        /* Approx. from	 Abramowitz & Stegun 26.7.8 (p.949) */
+            $val = 1 / 4 / $ν;
+            $pnorm = new StandardNormal();
+            return $pnorm($x*(1 - $val)/sqrt(1. + $x*$x*2*$val));
+        }
         $nx = 1 + ($t / $ν) * $t;
         if($nx > 1e100) { /* <==>  x*x > 1e100 * n  */
             $lval = -0.5 * $ν *(2*log(abs($t)) - log($ν)) - Special::logBeta(0.5 * $ν, 0.5) - log(0.5 * $ν);
