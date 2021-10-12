@@ -263,6 +263,51 @@ class Special
         return $√2π * $ℯ⁻ⁿ * $√1／n * $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ;
     }
 
+    public static function logGamma($x)
+    {
+        // For IEEE double precision DBL_EPSILON = 2^-52 = 2.220446049250313e-16 :
+        // xmax  = DBL_MAX / log(DBL_MAX) = 2^1024 / (1024 * log(2)) = 2^1014 / log(2)
+        // dxrel = sqrt(DBL_EPSILON) = 2^-26 = 5^26 * 1e-26 (is *exact* below !)
+        $xmax  = 2.5327372760800758e+305;
+        $dxrel = 1.490116119384765625e-8;
+
+        if(is_nan($x)) return $x;
+
+        if ($x <= 0 && $x == (int) $x)) {
+            // Negative integer argument
+	        // No warning: this is the best answer; was  ML_WARNING(ME_RANGE, "lgamma");
+            return \INF;    // +Inf, since lgamma(x) = log|gamma(x)|
+        }
+
+        $y = abs($x);
+
+        if ($y < 1e-306) {
+            return -log($y); // denormalized range, R change
+        }
+        if ($y <= 10) {
+            return log(abs(self::gamma($x)));
+        }
+        // ELSE  y = |x| > 10
+
+        if ($y > $xmax) {
+            // No warning: +Inf is the best answer
+            return \INF;
+        }
+
+        if ($x > 0) { /* i.e. y = x > 10 */
+            if(x > 1e17) {
+                return(x*(log(x) - 1.));
+            }
+            if(x > 4934720.) {
+                return(M_LN_SQRT_2PI + (x - 0.5) * log(x) - x);
+            }
+	        return M_LN_SQRT_2PI + (x - 0.5) * log(x) - x + self::logGammaCorr($x);
+        }
+        $sinpiy = abs(sin(pi() * $y));
+        $ans = M_LN_SQRT_PId2 + ($x - 0.5) * log($y) - $x - log($sinpiy) - self::logGammaCorr($y);
+        return $ans;
+    }
+
     /**
      * Beta function
      *
@@ -304,6 +349,116 @@ class Special
     public static function β(float $x, float $y): float
     {
         return self::beta($x, $y);
+    }
+
+    /**
+     * The log of the beta function
+     */
+    public static function logbeta($a, $b)
+    {
+        $p = $a;
+        $q = $a;
+        if($b < $p) {
+            $p = $b;/* := min(a,b) */
+        }
+        if($b > $q) {
+            $q = $b;/* := max(a,b) */
+        }
+
+        // Both arguments must be >= 0
+        if ($p < 0) {
+            // Throw an Exception
+        }
+        if ($p == 0) {
+            return \INF;
+        }
+        if ($q == \INF)) { /* q == +Inf */
+            return -\INF;
+        }
+
+        if ($p >= 10) {
+            // p and q are big.
+            $corr = self::logGammaCorr($p) + self::logGammaCorr($q) - self::logGammaCorr($p + $q);
+            $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2)/2
+            return log($q) * -0.5 + $M_LN_SQRT_2PI + $corr + ($p - 0.5) * log($p / ($p + $q)) + $q * log1p(-$p / ($p + $q));
+        }
+        if ($q >= 10) {
+            // p is small, but q is big.
+            $corr = self::logGammaCorr($q) - self::logGammaCorr($p + $q);
+            return self::logGamma($p) + $corr + $p - $p * log($p + $q) + ($q - 0.5) * log1p(-$p / ($p + $q));
+        }
+        // p and q are small: p <= q < 10. */
+        if ($p < 1e-306) {
+            return self::logGamma($p) + (self::logGamma($q) - self::logGamma($p+$q));
+        }
+        return log(self::beta($p, $q));
+    }
+
+    /**
+     * Compute the log gamma correction factor for x >= 10 so that
+     * log(gamma(x)) = .5*log(2*pi) + (x-.5)*log(x) -x + lgammacor(x)
+     */
+    public static function logGammaCorr($x)
+    {
+        $algmcs = [
+            +.1666389480451863247205729650822e+0,
+            -.1384948176067563840732986059135e-4,
+            +.9810825646924729426157171547487e-8,
+            -.1809129475572494194263306266719e-10,
+            +.6221098041892605227126015543416e-13,
+            -.3399615005417721944303330599666e-15,
+            +.2683181998482698748957538846666e-17,
+            -.2868042435334643284144622399999e-19,
+            +.3962837061046434803679306666666e-21,
+            -.6831888753985766870111999999999e-23,
+            +.1429227355942498147573333333333e-24,
+            -.3547598158101070547199999999999e-26,
+            +.1025680058010470912000000000000e-27,
+            -.3401102254316748799999999999999e-29,
+            +.1276642195630062933333333333333e-30,
+        ];
+
+        /**
+         * For IEEE double precision DBL_EPSILON = 2^-52 = 2.220446049250313e-16 :
+         * xbig = 2 ^ 26.5
+         * xmax = DBL_MAX / 48 =  2^1020 / 3
+         */
+        $nalgm = 5
+        $xbig  = 94906265.62425156
+        $xmax  = 3.745194030963158e306
+
+        if ($x < 10)
+            return (float) 'NaN'; 
+        else if ($x >= $xmax) {
+            // ML_WARNING(ME_UNDERFLOW, "lgammacor");
+            // allow to underflow below
+        } elseif ($x < $xbig) {
+            $tmp = 10 / $x;
+            return self::chebyshev_eval($tmp * $tmp * 2 - 1, $algmcs, $nalgm) / $x;
+        }
+        return 1 / ($x * 12);
+    }
+
+    private static chebyshev_eval($x, $a, int $n)
+    {
+        if ($n < 1 || $n > 1000) {
+            return (float) 'NaN';
+            // ML_WARN_return_NAN;
+        }
+        if ($x < -1.1 || x > 1.1) {
+            return (float) 'NaN';
+            // ML_WARN_return_NAN;
+        }
+        $twox = $x * 2;
+        $b2 = 0;
+        $b1 = 0;
+        $b0 = 0;
+        for ($i = 1; $i <= $n; $i++) {
+            $b2 = $b1;
+            $b1 = $b0;
+            $b0 = $twox * $b1 - $b2 + $a[$n - $i];
+        }
+        return ($b0 - $b2) * 0.5;
     }
 
     /**
