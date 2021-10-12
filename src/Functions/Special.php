@@ -271,11 +271,12 @@ class Special
         $xmax  = 2.5327372760800758e+305;
         $dxrel = 1.490116119384765625e-8;
 
-        if(is_nan($x)) return $x;
-
+        if (is_nan($x)) {
+            return $x;
+        }
         if ($x <= 0 && $x == (int) $x) {
             // Negative integer argument
-	        // No warning: this is the best answer; was  ML_WARNING(ME_RANGE, "lgamma");
+            // No warning: this is the best answer; was ML_WARNING(ME_RANGE, "lgamma");
             return \INF;    // +Inf, since lgamma(x) = log|gamma(x)|
         }
 
@@ -295,12 +296,12 @@ class Special
         }
 
         if ($x > 0) { /* i.e. y = x > 10 */
-            if($x > 1e17) {
+            if ($x > 1e17) {
                 return($x*(log($x) - 1));
             }
             $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2)/2;
             $M_LN_SQRT_PId2 = 0.225791352644727432363097614947;        // log(sqrt(pi/2))
-            if($x > 4934720.) {
+            if ($x > 4934720.) {
                 return($M_LN_SQRT_2PI + ($x - 0.5) * log($x) - $x);
             }
             return $M_LN_SQRT_2PI + ($x - 0.5) * log($x) - $x + self::logGammaCorr($x);
@@ -360,10 +361,10 @@ class Special
     {
         $p = $a;
         $q = $a;
-        if($b < $p) {
+        if ($b < $p) {
             $p = $b;/* := min(a,b) */
         }
-        if($b > $q) {
+        if ($b > $q) {
             $q = $b;/* := max(a,b) */
         }
 
@@ -429,9 +430,10 @@ class Special
         $xbig  = 94906265.62425156;
         $xmax  = 3.745194030963158e306;
 
-        if ($x < 10)
-            return (float) 'NaN'; 
-        else if ($x >= $xmax) {
+        if ($x < 10) {
+            return (float) 'NaN';
+        }
+        if ($x >= $xmax) {
             // ML_WARNING(ME_UNDERFLOW, "lgammacor");
             // allow to underflow below
         } elseif ($x < $xbig) {
