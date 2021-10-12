@@ -111,38 +111,24 @@ class StudentT extends Continuous
         if (n <= 0.0) ML_WARN_return_NAN;
 
         if($t === \INF) {
-	    return ($t < 0) ? 0: 1;
+            return ($t < 0) ? 0: 1;
         }
         if($ν === \INF) {
             $pnorm = new StandardNormal();
             return $pnorm->cdf($t);
         }
-#ifdef R_version_le_260
-  //  if (n > 4e5) { /*-- Fixme(?): test should depend on `n' AND `x' ! */
-	/* Approx. from	 Abramowitz & Stegun 26.7.8 (p.949) */
-//	val = 1./(4.*n);
-//	return pnorm(x*(1. - val)/sqrt(1. + x*x*2.*val), 0.0, 1.0,
-//		     lower_tail, log_p);
- //   }
-#endif
 
         $nx = 1 + ($t / $ν) * $t;
-    /* FIXME: This test is probably losing rather than gaining precision,
-     * now that pbeta(*, log_p = TRUE) is much better.
-     * Note however that a version of this test *is* needed for x*x > D_MAX */
         if($nx > 1e100) { /* <==>  x*x > 1e100 * n  */
-	/* Danger of underflow. So use Abramowitz & Stegun 26.5.4
-	   pbeta(z, a, b) ~ z^a(1-z)^b / aB(a,b) ~ z^a / aB(a,b),
-	   with z = 1/nx,  a = n/2,  b= 1/2 :
-	*/
-            $lval = -0.5 * $ν *(2*log(abs($t)) - log($ν)) - lbeta(0.5 * $ν, 0.5) - log(0.5 * $ν);
+            $lval = -0.5 * $ν *(2*log(abs($t)) - log($ν)) - Special::logBeta(0.5 * $ν, 0.5) - log(0.5 * $ν);
             $val = exp($lval);
         } else {
-            $val = ($ν > $t * $t) ? pbeta($t * $t / ($ν + $t * $t), 0.5, $ν / 2): pbeta(1 / $nx, $n / 2, 0.5);
+		    $beta1 = new Beta(.5, $ν / 2);
+			$beta2 = new Beta($n / 2, 0.5);
+            $val = ($ν > $t * $t) ? $beta1->pdf($t * $t / ($ν + $t * $t)): $beta2->pdf(1 / $nx);
         }
-        
-	$val /= 2;
-	return R_D_Cval($val);
+        $val /= 2;
+        return 0.5 - ($p) + 0.5 //1 - p;
     }
 
     /**
