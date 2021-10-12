@@ -447,7 +447,7 @@ class Special
             return (float) 'NaN';
             // ML_WARN_return_NAN;
         }
-        if ($x < -1.1 || x > 1.1) {
+        if ($x < -1.1 || $x > 1.1) {
             return (float) 'NaN';
             // ML_WARN_return_NAN;
         }
