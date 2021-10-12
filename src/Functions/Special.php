@@ -299,7 +299,7 @@ class Special
                 return($x*(log($x) - 1));
             }
             $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2)/2;
-            $M_LN_SQRT_PId2 = 0.225791352644727432363097614947        // log(sqrt(pi/2))
+            $M_LN_SQRT_PId2 = 0.225791352644727432363097614947;        // log(sqrt(pi/2))
             if(x > 4934720.) {
                 return($M_LN_SQRT_2PI + ($x - 0.5) * log($x) - $x);
             }
