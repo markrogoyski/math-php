@@ -379,7 +379,7 @@ class Special
         if ($p >= 10) {
             // p and q are big.
             $corr = self::logGammaCorr($p) + self::logGammaCorr($q) - self::logGammaCorr($p + $q);
-            $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2)/2
+            $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2)/2;
             return log($q) * -0.5 + $M_LN_SQRT_2PI + $corr + ($p - 0.5) * log($p / ($p + $q)) + $q * log1p(-$p / ($p + $q));
         }
         if ($q >= 10) {
