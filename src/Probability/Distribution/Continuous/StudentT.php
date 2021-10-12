@@ -121,8 +121,8 @@ class StudentT extends Continuous
             $lval = -0.5 * $ν *(2*log(abs($t)) - log($ν)) - Special::logBeta(0.5 * $ν, 0.5) - log(0.5 * $ν);
             $val = exp($lval);
         } else {
-		    $beta1 = new Beta(.5, $ν / 2);
-			$beta2 = new Beta($n / 2, 0.5);
+            $beta1 = new Beta(.5, $ν / 2);
+            $beta2 = new Beta($ν / 2, 0.5);
             $val = ($ν > $t * $t) ? $beta1->pdf($t * $t / ($ν + $t * $t)): $beta2->pdf(1 / $nx);
         }
         $val /= 2;
