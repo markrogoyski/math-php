@@ -307,7 +307,7 @@ class Special
         }
         $M_LN_SQRT_PId2 = 0.225791352644727432363097614947;        // log(sqrt(pi/2))
         $sinpiy = abs(sin(pi() * $y));
-        $ans = M_LN_SQRT_PId2 + ($x - 0.5) * log($y) - $x - log($sinpiy) - self::logGammaCorr($y);
+        $ans = $M_LN_SQRT_PId2 + ($x - 0.5) * log($y) - $x - log($sinpiy) - self::logGammaCorr($y);
         return $ans;
     }
 
@@ -370,13 +370,13 @@ class Special
 
         // Both arguments must be >= 0
         if ($p < 0) {
-            // Throw an Exception
+            throw new \Exception;
         }
         if ($p == 0) {
             return \INF;
         }
-        if ($q == \INF) { /* q == +Inf */
-            return -\INF;
+        if (is_infinity($q)) { /* q == +Inf */
+            return \-INF;
         }
 
         if ($p >= 10) {
