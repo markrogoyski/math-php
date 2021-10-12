@@ -344,6 +344,29 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @testCase     logBeta returns the expected value
+     * @dataProvider dataProviderForLogBeta
+     */
+    public function testLogBeta($x, $y, float $beta)
+    {
+        $this->assertEquals($log_beta, Special::logBeta($x, $y), '', 0.001);
+    }
+
+    public function dataProviderForLogBeta(): array
+    {
+        return [
+            [1.5, 0, \INF],
+            [0, 1.5, \INF],
+            [0, 0, \INF],
+            [1, 1, 0],
+            [1, 2, -0.6931472],
+            [2, 1, -0.6931472],
+            [2, 2, -1.791759],
+            [.9, .1, 2.319089],
+            [20, 20, -27.95199],
+        ];
+    } 
+    /**
      * @test         multivariateBeta returns the expected value
      * @dataProvider dataProviderForBeta
      * @param        float $x
