@@ -108,21 +108,21 @@ class StudentT extends Continuous
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
         $ν = $this->ν;
-        if($t === \INF) {
+        if ($t === \INF) {
             return ($t < 0) ? 0 : 1;
         }
-        if($ν === \INF) {
+        if ($ν === \INF) {
             $pnorm = new StandardNormal();
             return $pnorm->cdf($t);
         }
         if ($ν > 4e5) { /*-- Fixme(?): test should depend on `n' AND `x' ! */
-	        /* Approx. from	 Abramowitz & Stegun 26.7.8 (p.949) */
+            /* Approx. from Abramowitz & Stegun 26.7.8 (p.949) */
             $val = 1 / 4 / $ν;
             $pnorm = new StandardNormal();
             return $pnorm->cdf($t*(1 - $val)/sqrt(1 + $t*$t*2*$val));
         }
         $nx = 1 + ($t / $ν) * $t;
-        if($nx > 1e100) { /* <==>  x*x > 1e100 * n  */
+        if ($nx > 1e100) { /* <==>  x*x > 1e100 * n  */
             $lval = -0.5 * $ν *(2*log(abs($t)) - log($ν)) - Special::logBeta(0.5 * $ν, 0.5) - log(0.5 * $ν);
             $val = exp($lval);
         } else {
@@ -131,9 +131,9 @@ class StudentT extends Continuous
             $val = ($ν > $t * $t) ? .5 - $beta1->cdf($t * $t / ($ν + $t * $t)) + .5 : $beta2->cdf(1 / $nx);
         }
         $lower_tail = true;
-        if($t <= 0) {
+        if ($t <= 0) {
             $lower_tail = false;
-	}
+        }
         $val /= 2;
         return  $lower_tail ? (0.5 - ($val) + 0.5) : ($val); /* 1 - p */
     }
