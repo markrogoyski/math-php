@@ -372,7 +372,7 @@ class Special
         if ($p == 0) {
             return \INF;
         }
-        if ($q == \INF)) { /* q == +Inf */
+        if ($q == \INF) { /* q == +Inf */
             return -\INF;
         }
 
