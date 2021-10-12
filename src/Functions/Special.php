@@ -370,7 +370,7 @@ class Special
 
         // Both arguments must be >= 0
         if ($p < 0) {
-            throw new \Exception;
+            throw new \Exception();
         }
         if ($p == 0) {
             return \INF;
