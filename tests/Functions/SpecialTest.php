@@ -278,7 +278,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $log_gamma = Special::logGamma($z);
 
         // Then
-        $this->assertEqualsWithDelta($Γ, $log_gamma, 0.001);
+        $this->assertEqualsWithDelta($Γ, $log_gamma, $Γ * 0.00001);
     }
 
     public function dataProviderForLogGamma(): array
@@ -290,7 +290,26 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [ 3, 0.6931472 ],
             [ 100, 359.1342],
             [ 0, \INF ],
+            [ 5E-307, 705.2842],
+            [ 2.6E305, \INF],
+            [ 2E17, 7.767419e+18],
+            [ 4934770, 71118994],
+            [ .9, 0.06637624],
         ];
+    }
+
+    /**
+     * @test         logGamma returns NaN appropriately
+     *
+     * @throws       \Exception
+     */
+    public function testLogGammaNan()
+    {
+        // When
+        $nan = Special::logGamma(acos(1.01));
+
+        // Then
+        $this->assertNan($nan);
     }
 
     /**

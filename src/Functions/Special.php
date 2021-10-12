@@ -263,7 +263,7 @@ class Special
         return $√2π * $ℯ⁻ⁿ * $√1／n * $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ;
     }
 
-    public static function logGamma($x)
+    public static function logGamma(float $x)
     {
         // For IEEE double precision DBL_EPSILON = 2^-52 = 2.220446049250313e-16 :
         // xmax  = DBL_MAX / log(DBL_MAX) = 2^1024 / (1024 * log(2)) = 2^1014 / log(2)
@@ -300,12 +300,12 @@ class Special
                 return($x*(log($x) - 1));
             }
             $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2)/2;
-            $M_LN_SQRT_PId2 = 0.225791352644727432363097614947;        // log(sqrt(pi/2))
             if ($x > 4934720.) {
                 return($M_LN_SQRT_2PI + ($x - 0.5) * log($x) - $x);
             }
             return $M_LN_SQRT_2PI + ($x - 0.5) * log($x) - $x + self::logGammaCorr($x);
         }
+        $M_LN_SQRT_PId2 = 0.225791352644727432363097614947;        // log(sqrt(pi/2))
         $sinpiy = abs(sin(pi() * $y));
         $ans = M_LN_SQRT_PId2 + ($x - 0.5) * log($y) - $x - log($sinpiy) - self::logGammaCorr($y);
         return $ans;
