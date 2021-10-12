@@ -126,7 +126,7 @@ class StudentT extends Continuous
             $val = ($ν > $t * $t) ? $beta1->pdf($t * $t / ($ν + $t * $t)): $beta2->pdf(1 / $nx);
         }
         $val /= 2;
-        return 0.5 - ($p) + 0.5; //1 - p
+        return 0.5 - ($val) + 0.5; //1 - p
     }
 
     /**
