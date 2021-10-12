@@ -347,7 +347,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
      * @testCase     logBeta returns the expected value
      * @dataProvider dataProviderForLogBeta
      */
-    public function testLogBeta($x, $y, float $beta)
+    public function testLogBeta($x, $y, float $log_beta)
     {
         $this->assertEquals($log_beta, Special::logBeta($x, $y), '', 0.001);
     }
