@@ -128,7 +128,7 @@ class StudentT extends Continuous
         } else {
             $beta1 = new Beta(.5, $ν / 2);
             $beta2 = new Beta($ν / 2, 0.5);
-            $val = ($ν > $t * $t) ? $beta1->pdf($t * $t / ($ν + $t * $t)): $beta2->pdf(1 / $nx);
+            $val = ($ν > $t * $t) ? $beta1->cdf($t * $t / ($ν + $t * $t)): $beta2->cdf(1 / $nx);
         }
         $val /= 2;
         return 0.5 - ($val) + 0.5; //1 - p
