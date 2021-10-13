@@ -108,18 +108,18 @@ class StudentT extends Continuous
     {
         Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
         $ν = $this->ν;
-        if ($t === \INF) {
+        if (is_infinite($t)) {
             return ($t < 0) ? 0 : 1;
         }
-        if ($ν === \INF) {
-            $pnorm = new StandardNormal();
-            return $pnorm->cdf($t);
+        if (is_infinite($ν)) {
+            $norm = new StandardNormal();
+            return $norm->cdf($t);
         }
         if ($ν > 4e5) { /*-- Fixme(?): test should depend on `n' AND `x' ! */
             /* Approx. from Abramowitz & Stegun 26.7.8 (p.949) */
             $val = 1 / 4 / $ν;
-            $pnorm = new StandardNormal();
-            return $pnorm->cdf($t*(1 - $val)/sqrt(1 + $t*$t*2*$val));
+            $norm = new StandardNormal();
+            return $norm->cdf($t*(1 - $val)/sqrt(1 + $t*$t*2*$val));
         }
         $nx = 1 + ($t / $ν) * $t;
         if ($nx > 1e100) { /* <==>  x*x > 1e100 * n  */
