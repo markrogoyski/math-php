@@ -278,7 +278,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $log_gamma = Special::logGamma($z);
 
         // Then
-        $this->assertEqualsWithDelta($Γ, $log_gamma, $Γ * 0.00001);
+        $this->assertEqualsWithDelta($Γ, $log_gamma, abs($Γ) * 0.00001);
     }
 
     public function dataProviderForLogGamma(): array
