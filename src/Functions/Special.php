@@ -61,7 +61,7 @@ class Special
      *
      * @throws Exception\OutOfBoundsException
      */
-    public static function gamma(float $n): float
+    public static function gammaClassic(float $n): float
     {
         // Basic integer/factorial cases
         if ($n == 0) {
@@ -263,6 +263,249 @@ class Special
         return $√2π * $ℯ⁻ⁿ * $√1／n * $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ;
     }
 
+    /**
+     * The log of the error term in the Stirling-De Moivre factorial series
+     *
+     * log(n!) = .5*log(2πn) + n*log(n) - n + δ(n)
+     * Where δ(n) is the log of the error.
+     *
+     * For n <=15, integers or half-integers, uses stored values.
+     *
+     * @param float $n
+     *
+     * @return float log of the error
+     */
+    public static function stirlingError(float $n)
+    {
+        $S0 = 0.083333333333333333333;        // 1/12
+        $S1 = 0.00277777777777777777778;      // 1/360
+        $S2 = 0.00079365079365079365079365;   // 1/1260
+        $S3 = 0.000595238095238095238095238;  // 1/1680
+        $S4 = 0.0008417508417508417508417508; // 1/1188
+
+        $sferr_halves = [
+            0.0, /* n=0 - wrong, place holder only */
+            0.1534264097200273452913848,  /* 0.5 */
+            0.0810614667953272582196702,  /* 1.0 */
+            0.0548141210519176538961390,  /* 1.5 */
+            0.0413406959554092940938221,  /* 2.0 */
+            0.03316287351993628748511048, /* 2.5 */
+            0.02767792568499833914878929, /* 3.0 */
+            0.02374616365629749597132920, /* 3.5 */
+            0.02079067210376509311152277, /* 4.0 */
+            0.01848845053267318523077934, /* 4.5 */
+            0.01664469118982119216319487, /* 5.0 */
+            0.01513497322191737887351255, /* 5.5 */
+            0.01387612882307074799874573, /* 6.0 */
+            0.01281046524292022692424986, /* 6.5 */
+            0.01189670994589177009505572, /* 7.0 */
+            0.01110455975820691732662991, /* 7.5 */
+            0.010411265261972096497478567, /* 8.0 */
+            0.009799416126158803298389475, /* 8.5 */
+            0.009255462182712732917728637, /* 9.0 */
+            0.008768700134139385462952823, /* 9.5 */
+            0.008330563433362871256469318, /* 10.0 */
+            0.007934114564314020547248100, /* 10.5 */
+            0.007573675487951840794972024, /* 11.0 */
+            0.007244554301320383179543912, /* 11.5 */
+            0.006942840107209529865664152, /* 12.0 */
+            0.006665247032707682442354394, /* 12.5 */
+            0.006408994188004207068439631, /* 13.0 */
+            0.006171712263039457647532867, /* 13.5 */
+            0.005951370112758847735624416, /* 14.0 */
+            0.005746216513010115682023589, /* 14.5 */
+            0.005554733551962801371038690, /* 15.0 */
+        ];
+
+        if ($n <= 15.0) {
+            $nn = $n + $n;
+            if ($nn == (int)$nn) {
+                return $sferr_halves[$nn];
+            }
+            $M_LN_SQRT_2PI = \log(\sqrt(2 * \pi()));
+            return self::logGamma($n + 1) - ($n + 0.5) * \log($n) + $n - $M_LN_SQRT_2PI;
+        }
+
+        $nn = $n * $n;
+        if ($n > 500) {
+            return ($S0 - $S1 / $nn) / $n;
+        }
+        if ($n > 80) {
+            return ($S0 - ($S1 - $S2 / $nn) / $nn) / $n;
+        }
+        if ($n > 35) {
+            return ($S0 - ($S1 - ($S2 - $S3/$nn)/$nn)/$nn)/$n;
+        }
+        /* 15 < n <= 35 : */
+        return ($S0-($S1-($S2-($S3-$S4/$nn)/$nn)/$nn)/$nn)/$n;
+    }
+
+    public static function gamma(float $x)
+    {
+        $gamcs = [
+            +.8571195590989331421920062399942e-2,
+            +.4415381324841006757191315771652e-2,
+            +.5685043681599363378632664588789e-1,
+            -.4219835396418560501012500186624e-2,
+            +.1326808181212460220584006796352e-2,
+            -.1893024529798880432523947023886e-3,
+            +.3606925327441245256578082217225e-4,
+            -.6056761904460864218485548290365e-5,
+            +.1055829546302283344731823509093e-5,
+            -.1811967365542384048291855891166e-6,
+            +.3117724964715322277790254593169e-7,
+            -.5354219639019687140874081024347e-8,
+            +.9193275519859588946887786825940e-9,
+            -.1577941280288339761767423273953e-9,
+            +.2707980622934954543266540433089e-10,
+            -.4646818653825730144081661058933e-11,
+            +.7973350192007419656460767175359e-12,
+            -.1368078209830916025799499172309e-12,
+            +.2347319486563800657233471771688e-13,
+            -.4027432614949066932766570534699e-14,
+            +.6910051747372100912138336975257e-15,
+            -.1185584500221992907052387126192e-15,
+            +.2034148542496373955201026051932e-16,
+            -.3490054341717405849274012949108e-17,
+            +.5987993856485305567135051066026e-18,
+            -.1027378057872228074490069778431e-18,
+            +.1762702816060529824942759660748e-19,
+            -.3024320653735306260958772112042e-20,
+            +.5188914660218397839717833550506e-21,
+            -.8902770842456576692449251601066e-22,
+            +.1527474068493342602274596891306e-22,
+            -.2620731256187362900257328332799e-23,
+            +.4496464047830538670331046570666e-24,
+            -.7714712731336877911703901525333e-25,
+            +.1323635453126044036486572714666e-25,
+            -.2270999412942928816702313813333e-26,
+            +.3896418998003991449320816639999e-27,
+            -.6685198115125953327792127999999e-28,
+            +.1146998663140024384347613866666e-28,
+            -.1967938586345134677295103999999e-29,
+            +.3376448816585338090334890666666e-30,
+            -.5793070335782135784625493333333e-31
+        ];
+
+        /* For IEEE double precision DBL_EPSILON = 2^-52 = 2.220446049250313e-16 :
+         * (xmin, xmax) are non-trivial, see ./gammalims.c
+         * xsml = exp(.01)*DBL_MIN
+         * dxrel = sqrt(DBL_EPSILON) = 2 ^ -26
+         */
+        $ngam = 22;
+        $xmin = -170.5674972726612;
+        $xmax = 171.61447887182298;
+        $xsml = 2.2474362225598545e-308;
+        $dxrel = 1.490116119384765696e-8;
+
+        if (\is_nan($x)) {
+            return new Exception\NanException();
+        }
+
+        /* If the argument is exactly zero or a negative integer
+         * then return NaN. */
+        if ($x == 0 || ($x < 0 && $x == \round($x))) {
+            //ML_WARNING(ME_DOMAIN, "gammafn");
+            return \INF;
+            // R returns Nan!
+            return new Exception\NanException();
+        }
+
+        $y = abs($x);
+
+        if ($y <= 10) {
+            /* Compute gamma(x) for -10 <= x <= 10
+             * Reduce the interval and find gamma(1 + y) for 0 <= y < 1
+             * first of all.
+             */
+
+            $n = (int) $x;
+            if ($x < 0) {
+                --$n;
+            }
+            $y = $x - $n; // n = floor(x) ==> y in [ 0, 1 )
+            --$n;
+            $value = self::chebyshev_eval($y * 2 - 1, $gamcs, $ngam) + .9375;
+            if ($n == 0) {
+                return $value;/* x = 1.dddd = 1+y */
+            }
+            if ($n < 0) {
+                /* compute gamma(x) for -10 <= x < 1 */
+
+                /* exact 0 or "-n" checked already above */
+
+                /* The answer is less than half precision */
+                /* because x too near a negative integer. */
+                if ($x < -0.5 && abs($x - (int)($x - 0.5) / $x) < $dxrel) {
+                    // ML_WARNING(ME_PRECISION, "gammafn");
+                }
+
+                /* The argument is so close to 0 that the result would overflow. */
+                if ($y < $xsml) {
+                    // ML_WARNING(ME_RANGE, "gammafn");
+                    if ($x > 0) {
+                        return \INF;
+                    } else {
+                        return -\INF;
+                    }
+                }
+
+                $n = -$n;
+
+                for ($i = 0; $i < $n; $i++) {
+                    $value /= ($x + $i);
+                }
+                return $value;
+            }
+            /* gamma(x) for 2 <= x <= 10 */
+
+            for ($i = 1; $i <= $n; $i++) {
+                $value *= ($y + $i);
+            }
+            return $value;
+        }
+        // gamma(x) for y = |x| > 10.
+
+        if ($x > $xmax) {
+            // Overflow
+            // No warning: +Inf is the best answer
+            return \INF;
+        }
+
+        if ($x < $xmin) {
+            // Underflow
+            // No warning: 0 is the best answer
+            return 0;
+        }
+
+        if ($y <= 50 && $y == (int) $y) { /* compute (n - 1)! */
+            $value = 1.;
+            for ($i = 2; $i < $y; $i++) {
+                $value *= $i;
+            }
+        } else { /* normal case */
+            $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2)/2;
+            $value = \exp(($y - 0.5) * \log($y) - $y + $M_LN_SQRT_2PI + ((2*$y == (int)2*$y)? self::stirlingError($y) : self::logGammaCorr($y)));
+        }
+        if ($x > 0) {
+            return $value;
+        }
+        if (abs(($x - (int)($x - 0.5))/$x) < $dxrel) {
+            /* The answer is less than half precision because */
+            /* the argument is too near a negative integer. */
+
+            // ML_WARNING(ME_PRECISION, "gammafn");
+        }
+
+        $sinpiy = \sin(\pi() * $y);
+        if ($sinpiy == 0) {
+            // Negative integer arg - overflow
+            // ML_WARNING(ME_RANGE, "gammafn");
+            return \INF;
+        }
+        return -\M_PI / ($y * $sinpiy * $value);
+    }
+
     public static function logGamma(float $x)
     {
         // For IEEE double precision DBL_EPSILON = 2^-52 = 2.220446049250313e-16 :
@@ -327,7 +570,7 @@ class Special
      *
      * @throws Exception\OutOfBoundsException
      */
-    public static function beta(float $x, float $y): float
+    public static function betaClassic(float $x, float $y): float
     {
         if ($x == 0 || $y == 0) {
             return \INF;
@@ -352,6 +595,45 @@ class Special
     public static function β(float $x, float $y): float
     {
         return self::beta($x, $y);
+    }
+
+    public static function beta(float $a, float $b): float
+    {
+        $xmin = -170.5674972726612;
+        $xmax = 171.61447887182298;
+        $lnsml = -708.39641853226412;
+
+        /* NaNs propagated correctly */
+        if (\is_nan($a) || \is_nan($b)) {
+            throw new Exception\NanException();
+        }
+        if ($a < 0 || $b < 0) {
+            throw new Exception\OutOfBoundsException();
+        }
+        if ($a == 0 || $b == 0) {
+            return \INF;
+        }
+        if (\is_infinite($a) || \is_infinite($b)) {
+            return 0;
+        }
+        if ($a + $b < $xmax) {/* ~= 171.61 for IEEE */
+            // return gammafn(a) * gammafn(b) / gammafn(a+b);
+            /* All the terms are positive, and all can be large for large
+               or small arguments.  They are never much less than one.
+               gammafn(x) can still overflow for x ~ 1e-308,
+               but the result would too.
+            */
+            return (1 / self::gamma($a + $b)) * self::gamma($a) * self::gamma($b);
+        }
+        $val = self::logBeta($a, $b);
+        // underflow to 0 is not harmful per se;  exp(-999) also gives no warning
+
+        if ($val < $lnsml) {
+            /* a and/or b so big that beta underflows */
+            //ML_WARNING(ME_UNDERFLOW, "beta");
+            /* return ML_UNDERFLOW; pointless giving incorrect value */
+        }
+        return \exp($val);
     }
 
     /**
@@ -486,15 +768,22 @@ class Special
                 return \INF;
             }
         }
+        $xmax = 171.61447887182298;
+        $∑α = \array_sum($αs);
+        if ($∑α < $xmax) {// ~= 171.61 for IEEE
+            $Γ⟮∑α⟯ = self::Γ($∑α);
+            $∏= 1 / $Γ⟮∑α⟯;
+            foreach ($αs as $α) {
+                $∏ *= self::Γ($α);
+            }
 
-        $∏Γ⟮α⟯ = 1;
-        foreach ($αs as $α) {
-            $∏Γ⟮α⟯ *= self::Γ($α);
+            return $∏;
         }
-
-        $Γ⟮∑α⟯ = self::Γ(\array_sum($αs));
-
-        return $∏Γ⟮α⟯ / $Γ⟮∑α⟯;
+        $∑ = -self::logGamma($∑α);
+        foreach ($αs as $α) {
+            $∑ += self::logGamma($α);
+        }
+        return \exp($∑);
     }
 
     /**

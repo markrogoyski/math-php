@@ -134,16 +134,16 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForGammaLargeValues
      * @param        $z
      * @param        $Γ
-     * @param        float $ε
+     * @param        float $ε - relative error
      * @throws       \Exception
      */
-    public function testGammaLargeValues($z, $Γ, float $ε)
+    public function testGammaLargeValues($z, $Γ, float $ε = 1E-10)
     {
         // When
         $gamma = Special::gamma($z);
 
         // Then
-        $this->assertEqualsWithDelta($Γ, $gamma, $ε);
+        $this->assertEqualsWithDelta($Γ, $gamma, $Γ * $ε);
     }
 
     /**
@@ -153,13 +153,13 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForGammaLargeValues(): array
     {
         return [
-            [15, 87178291200, 0.000001],
-            [20, 121645100408832000, 0.000001],
-            [50, 6.082818640342675608723E+62, 1e50],
-            [100, 9.33262154439441526817E+155, 1e140],
-            [100.6, 1.477347552911177316693E+157, 1e145],
-            [171, 7.257415615307998967397E+306, 1e295],
-            [200, 3.943289336823952517762E+372, 1e360],
+            [15, 87178291200],
+            [20, 121645100408832000],
+            [50, 6.082818640342675608723E+62],
+            [100, 9.33262154439441526817E+155],
+            [100.6, 1.477347552911177316693E+157],
+            [171, 7.257415615307998967397E+306],
+            [200, 3.943289336823952517762E+372],
         ];
     }
 
@@ -389,6 +389,8 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [9, 3, 0.002020202],
             [10, 10, 1.082509e-06],
             [20, 20, 7.254445e-13],
+            // Issue #429
+            [1.5, 170.5, 0.0003971962],
         ];
     }
 
@@ -891,6 +893,9 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [1, 0.2, 3.5, 1],
             [0.5, 1.4, 3.1, 0.8148904036225296],
             [0.4, 2.2, 3.1, 0.49339638807619446],
+            // Issue #429
+            [0.0041461509490402, 0.5, 170.5, 0.7657225092554765],
+            [0.0041461509490402, 1.5, 170.5, 0.29887797299850866],
         ];
     }
 
