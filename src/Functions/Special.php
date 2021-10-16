@@ -570,16 +570,13 @@ class Special
      *
      * @throws Exception\OutOfBoundsException
      */
-    public static function betaClassic(float $x, float $y): float
+    private static function betaBasic(float $x, float $y): float
     {
-        if ($x == 0 || $y == 0) {
-            return \INF;
-        }
-
-        $Γ⟮x⟯Γ⟮y⟯   = self::gamma($x) * self::gamma($y);
+        $Γ⟮x⟯  = self::gamma($x);
+        $Γ⟮y⟯  = self::gamma($y);
         $Γ⟮x ＋ y⟯ = self::gamma($x + $y);
 
-        return $Γ⟮x⟯Γ⟮y⟯ / $Γ⟮x ＋ y⟯;
+        return 1 / $Γ⟮x ＋ y⟯ * $Γ⟮x⟯ * $Γ⟮y⟯;
     }
 
     /**
@@ -597,13 +594,27 @@ class Special
         return self::beta($x, $y);
     }
 
+    /**
+     * Beta function
+     *
+     * https://en.wikipedia.org/wiki/Beta_function
+     *
+     * Selects the best beta algorithm for the provided
+     * values
+     *
+     * @param  float $a
+     * @param  float $b
+     *
+     * @return float
+     *
+     * @throws Exception\OutOfBoundsException
+     */
     public static function beta(float $a, float $b): float
     {
         $xmin = -170.5674972726612;
         $xmax = 171.61447887182298;
         $lnsml = -708.39641853226412;
 
-        /* NaNs propagated correctly */
         if (\is_nan($a) || \is_nan($b)) {
             throw new Exception\NanException();
         }
@@ -623,24 +634,35 @@ class Special
                gammafn(x) can still overflow for x ~ 1e-308,
                but the result would too.
             */
-            return (1 / self::gamma($a + $b)) * self::gamma($a) * self::gamma($b);
+            return self::betaBasic($a, $b);
         }
         $val = self::logBeta($a, $b);
         // underflow to 0 is not harmful per se;  exp(-999) also gives no warning
 
-        if ($val < $lnsml) {
+        // if ($val < $lnsml) {
             /* a and/or b so big that beta underflows */
             //ML_WARNING(ME_UNDERFLOW, "beta");
             /* return ML_UNDERFLOW; pointless giving incorrect value */
-        }
+        // }
         return \exp($val);
     }
 
     /**
      * The log of the beta function
+     *
+     * @param  float $a
+     * @param  float $b
+     *
+     * @return float
+     *
+     * @throws Exception\OutOfBoundsException
+     * * @throws Exception\NanException
      */
     public static function logbeta($a, $b)
     {
+        if (\is_nan($a) || \is_nan($b)) {
+            throw new Exception\NanException();
+        }
         $p = $a;
         $q = $a;
         if ($b < $p) {
@@ -652,12 +674,12 @@ class Special
 
         // Both arguments must be >= 0
         if ($p < 0) {
-            throw new \Exception();
+            throw new \Exception\OutOfBoundsException();
         }
         if ($p == 0) {
             return \INF;
         }
-        if (\is_infinite($q)) { /* q == +Inf */
+        if (\is_infinite($q)) {
             return -\INF;
         }
 
@@ -665,18 +687,18 @@ class Special
             // p and q are big.
             $corr = self::logGammaCorr($p) + self::logGammaCorr($q) - self::logGammaCorr($p + $q);
             $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2)/2;
-            return log($q) * -0.5 + $M_LN_SQRT_2PI + $corr + ($p - 0.5) * log($p / ($p + $q)) + $q * log1p(-$p / ($p + $q));
+            return \log($q) * -0.5 + $M_LN_SQRT_2PI + $corr + ($p - 0.5) * \log($p / ($p + $q)) + $q * \log1p(-$p / ($p + $q));
         }
         if ($q >= 10) {
             // p is small, but q is big.
             $corr = self::logGammaCorr($q) - self::logGammaCorr($p + $q);
-            return self::logGamma($p) + $corr + $p - $p * log($p + $q) + ($q - 0.5) * log1p(-$p / ($p + $q));
+            return self::logGamma($p) + $corr + $p - $p * \log($p + $q) + ($q - 0.5) * \log1p(-$p / ($p + $q));
         }
         // p and q are small: p <= q < 10. */
         if ($p < 1e-306) {
             return self::logGamma($p) + (self::logGamma($q) - self::logGamma($p+$q));
         }
-        return log(self::beta($p, $q));
+        return \log(self::beta($p, $q));
     }
 
     /**
