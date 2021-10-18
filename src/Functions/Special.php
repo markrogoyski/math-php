@@ -40,67 +40,6 @@ class Special
     }
 
     /**
-     * Gamma function
-     * https://en.wikipedia.org/wiki/Gamma_function
-     * https://en.wikipedia.org/wiki/Particular_values_of_the_Gamma_function
-     *
-     * For postive integers:
-     *  Γ(n) = (n - 1)!
-     *
-     * For half integers:
-     *
-     *             _   (2n)!
-     * Γ(½ + n) = √π  -------
-     *                 4ⁿ n!
-     *
-     * For real numbers: use Lanczos approximation
-     *
-     * @param float $n
-     *
-     * @return float
-     *
-     * @throws Exception\OutOfBoundsException
-     */
-    public static function gammaClassic(float $n): float
-    {
-        // Basic integer/factorial cases
-        if ($n == 0) {
-            return \INF;
-        }
-        // Negative integer, or negative int as a float (Ex: from beta(-0.1, -0.9) since it will call Γ(x + y))
-        if ((\abs($n - \round($n)) < 0.00001) && $n < 0) {
-            return -\INF;
-        }
-        // Positive integer, or positive int as a float (Ex: from beta(0.1, 0.9) since it will call Γ(x + y))
-        if ((\abs($n - \round($n)) < 0.00001) && $n > 0) {
-            return Combinatorics::factorial((int) \round($n) - 1);
-        }
-
-        // Half integer cases (determine if int + 0.5)
-        if ((\round($n * 2) / 2 / $n) == 1) {
-            // Compute parts of equation
-            $π     = \M_PI;
-            $x     = (int) \round($n - 0.5, 0);
-            $√π    = \sqrt($π);
-            if ($x == 0) {
-                return $√π;
-            }
-            $⟮2n−1⟯‼︎ = Combinatorics::doubleFactorial(2 * $x - 1);
-
-            /**
-             * Put it all together
-             *  _  (2n-1)!!
-             * √π ---------
-             *       2ⁿ
-             */
-            return $√π * ($⟮2n−1⟯‼︎ / 2 ** $x);
-        }
-
-        // Generic real number case
-        return self::gammaLanczos($n);
-    }
-
-    /**
      * Gamma function convenience method
      *
      * @param float $n
@@ -340,6 +279,29 @@ class Special
         return ($S0-($S1-($S2-($S3-$S4/$nn)/$nn)/$nn)/$nn)/$n;
     }
 
+    /**
+     * Gamma function
+     * https://en.wikipedia.org/wiki/Gamma_function
+     * https://en.wikipedia.org/wiki/Particular_values_of_the_Gamma_function
+     *
+     * For postive integers:
+     *  Γ(n) = (n - 1)!
+     *
+     * For half integers:
+     *
+     *             _   (2n)!
+     * Γ(½ + n) = √π  -------
+     *                 4ⁿ n!
+     *
+     * For real numbers: use Lanczos approximation
+     *
+     * @param float $n
+     *
+     * @return float
+     *
+     * @throws Exception\OutOfBoundsException
+     * @throws Exception\NanException
+     */
     public static function gamma(float $x)
     {
         $gamcs = [
@@ -399,16 +361,13 @@ class Special
         $dxrel = 1.490116119384765696e-8;
 
         if (\is_nan($x)) {
-            return new Exception\NanException();
+            throw new Exception\NanException();
         }
 
-        /* If the argument is exactly zero or a negative integer
-         * then return NaN. */
+        // If the argument is exactly zero or a negative integer
+        // function is undefined.
         if ($x == 0 || ($x < 0 && $x == \round($x))) {
-            //ML_WARNING(ME_DOMAIN, "gammafn");
-            return \INF;
-            // R returns Nan!
-            return new Exception\NanException();
+            throw new Exception\NanException();
         }
 
         $y = abs($x);
@@ -514,8 +473,8 @@ class Special
         $xmax  = 2.5327372760800758e+305;
         $dxrel = 1.490116119384765625e-8;
 
-        if (is_nan($x)) {
-            return $x;
+        if (\is_nan($x)) {
+            throw new Exception\NanException();
         }
         if ($x <= 0 && $x == (int) $x) {
             // Negative integer argument

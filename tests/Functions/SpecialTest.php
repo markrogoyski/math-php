@@ -111,10 +111,6 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [2.5, 1.32934038817913702047],
             [5.324, 39.54287866273389258523],
             [10.2, 570499.02784103598123],
-            [0, \INF],
-            [0.0, \INF],
-            [-1, -\INF],
-            [-2, -\INF],
             [-0.1, -10.686287021193193549],
             [-0.4, -3.72298062203204275599],
             [-1.1, 9.7148063829029032263],
@@ -124,8 +120,36 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [-1.999, 500.4623],
             [-1.9999, 5000.461],
             [-1.99999, 50000.4614015337837734],
-            [-2.0, -\INF],
-            //[1E-207, 1E207],  errors
+            [1E-207, 1E207],
+            [2E-308, \INF],
+            [-2E-309, -\INF],
+        ];
+    }
+
+    /**
+     * @test gamma throws an NanException if gamma is undefined.
+     * @dataProvider dataProviderUndefinedGamma
+     */
+    public function testGammaExceptionUndefined($x)
+    {
+        // Given
+        // $x provided
+
+        // Then
+        $this->expectException(Exception\NanException::class);
+
+        // When
+        Special::gamma($x);
+    }
+
+    public function dataProviderUndefinedGamma()
+    {
+        return [
+            [0],
+            [0.0],
+            [-1],
+            [-2],
+            [-2.0]
         ];
     }
 
@@ -301,17 +325,20 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         logGamma returns NaN appropriately
+     * @test         logGamma returns NaNException appropriately
      *
      * @throws       \Exception
      */
     public function testLogGammaNan()
     {
-        // When
-        $nan = Special::logGamma(acos(1.01));
+        // Given
+        $nan = acos(1.01);
 
         // Then
-        $this->assertNan($nan);
+        $this->expectException(Exception\NanException::class);
+
+        // When
+        $nan = Special::logGamma($nan);
     }
 
     /**
