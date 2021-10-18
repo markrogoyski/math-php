@@ -706,15 +706,17 @@ class Special
         return 1 / ($x * 12);
     }
 
-    private static function chebyshev_eval($x, $a, int $n)
+    /**
+     * Evaluate a Chebyshev Series with the Clenshaw Algorithm
+     * https://en.wikipedia.org/wiki/Clenshaw_algorithm#Special_case_for_Chebyshev_series
+     */
+    private static function chebyshev_eval(float $x, array $a, int $n)
     {
         if ($n < 1 || $n > 1000) {
-            return (float) 'NaN';
-            // ML_WARN_return_NAN;
+            // Exception?
         }
         if ($x < -1.1 || $x > 1.1) {
-            return (float) 'NaN';
-            // ML_WARN_return_NAN;
+            // Out Of Bounds?
         }
         $twox = $x * 2;
         $b2 = 0;
