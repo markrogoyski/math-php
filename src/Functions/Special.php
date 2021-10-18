@@ -461,7 +461,7 @@ class Special
             // $sinpi is zero for integers, which should have
             // already been evaluated and returned. This
             // code is probably unreachable.
-            throw new Exception\NanException;
+            throw new Exception\NanException();
         }
         return -\M_PI / ($y * $sinpiy * $value);
     }
