@@ -123,6 +123,9 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [1E-207, 1E207],
             [2E-308, \INF],
             [-2E-309, -\INF],
+            [-172.25, 0],
+            [-168.0000000000001, -3.482118E-290],
+            [-167.9999999999999, 3.482118E-290],
         ];
     }
 
@@ -341,6 +344,23 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $nan = Special::logGamma($nan);
     }
 
+     /**
+     * @test         Gamma returns NaNException appropriately
+     *
+     * @throws       \Exception
+     */
+    public function testGammaNan()
+    {
+        // Given
+        $nan = acos(1.01);
+
+        // Then
+        $this->expectException(Exception\NanException::class);
+
+        // When
+        $nan = Special::gamma($nan);
+    }
+
     /**
      * @test         beta returns the expected value
      * @dataProvider dataProviderForBeta
@@ -416,6 +436,8 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [9, 3, 0.002020202],
             [10, 10, 1.082509e-06],
             [20, 20, 7.254445e-13],
+            [\INF, 2, 0],
+            [2, \INF, 0],
             // Issue #429
             [1.5, 170.5, 0.0003971962],
         ];
@@ -444,8 +466,59 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [20, 20, -27.95199],
             [1, \INF, -\INF],
             [1, 11, -2.397895],
-            //[5E-207, 5, 705.2842], errors
+            [5E-307, 5, 705.2842],
         ];
+    }
+
+    /**
+     * @test         Beta returns NaNException appropriately
+     *
+     * @throws       \Exception
+     */
+    public function testBetaNan()
+    {
+        // Given
+        $nan = acos(1.01);
+
+        // Then
+        $this->expectException(Exception\NanException::class);
+
+        // When
+        $nan = Special::beta($nan, 2);
+    }
+
+    /**
+     * @test         logBeta returns NaNException appropriately
+     *
+     * @throws       \Exception
+     */
+    public function testLogBetaNan()
+    {
+        // Given
+        $nan = acos(1.01);
+
+        // Then
+        $this->expectException(Exception\NanException::class);
+
+        // When
+        $nan = Special::logBeta($nan, 2);
+    }
+
+    /**
+     * @test         Parameters must be greater than 0
+     *
+     * @throws       \Exception
+     */
+    public function testLogBetaOutOfBounds()
+    {
+        // Given
+        $p = -1;
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $nan = Special::logBeta($p, 2);
     }
 
     /**
