@@ -458,9 +458,10 @@ class Special
 
         $sinpiy = \sin(\pi() * $y);
         if ($sinpiy == 0) {
-            // Negative integer arg - overflow
-            // ML_WARNING(ME_RANGE, "gammafn");
-            return \INF;
+            // $sinpi is zero for integers, which should have
+            // already been evaluated and returned. This
+            // code is probably unreachable.
+            throw new Exception\NanException;
         }
         return -\M_PI / ($y * $sinpiy * $value);
     }
@@ -694,7 +695,7 @@ class Special
         $xmax  = 3.745194030963158e306;
 
         if ($x < 10) {
-            return (float) 'NaN';
+            throw new Exception\OutOfBoundsException();
         }
         if ($x >= $xmax) {
             // ML_WARNING(ME_UNDERFLOW, "lgammacor");
