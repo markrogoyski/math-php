@@ -484,7 +484,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\NanException::class);
 
         // When
-        $nan = Special::beta($nan, 2);
+        $beta = Special::beta($nan, 2);
     }
 
     /**
@@ -501,7 +501,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\NanException::class);
 
         // When
-        $nan = Special::logBeta($nan, 2);
+        $lbeta = Special::logBeta($nan, 2);
     }
 
     /**
@@ -518,7 +518,41 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\OutOfBoundsException::class);
 
         // When
-        $nan = Special::logBeta($p, 2);
+        $lbeta = Special::logBeta($p, 2);
+    }
+
+    /**
+     * @test         Parameters must be greater than 0
+     *
+     * @throws       \Exception
+     */
+    public function testBetaOutOfBounds()
+    {
+        // Given
+        $p = -1;
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $beta = Special::beta($p, 2);
+    }
+
+    /**
+     * @test         Parameter must be greater than 10
+     *
+     * @throws       \Exception
+     */
+    public function testLogGammaCorrOutOfBounds()
+    {
+        // Given
+        $x = 1;
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $correction = Special::logGammaCorr($x);
     }
 
     /**
