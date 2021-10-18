@@ -467,6 +467,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [1, \INF, -\INF],
             [1, 11, -2.397895],
             [5E-307, 5, 705.2842],
+            [94907000, 11, -186.9481],
         ];
     }
 
