@@ -751,6 +751,9 @@ class Special
         }
         $xmax = 171.61447887182298;
         $∑α = \array_sum($αs);
+        if ($∑α == \INF) {
+            return 0;
+        }
         if ($∑α < $xmax) {// ~= 171.61 for IEEE
             $Γ⟮∑α⟯ = self::Γ($∑α);
             $∏= 1 / $Γ⟮∑α⟯;
