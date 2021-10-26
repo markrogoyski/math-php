@@ -111,10 +111,6 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [2.5, 1.32934038817913702047],
             [5.324, 39.54287866273389258523],
             [10.2, 570499.02784103598123],
-            [0, \INF],
-            [0.0, \INF],
-            [-1, -\INF],
-            [-2, -\INF],
             [-0.1, -10.686287021193193549],
             [-0.4, -3.72298062203204275599],
             [-1.1, 9.7148063829029032263],
@@ -124,7 +120,39 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [-1.999, 500.4623],
             [-1.9999, 5000.461],
             [-1.99999, 50000.4614015337837734],
-            [-2.0, -\INF],
+            [1E-207, 1E207],
+            [2E-308, \INF],
+            [-2E-309, -\INF],
+            [-172.25, 0],
+            [-168.0000000000001, -3.482118E-290],
+            [-167.9999999999999, 3.482118E-290],
+        ];
+    }
+
+    /**
+     * @test gamma throws an NanException if gamma is undefined.
+     * @dataProvider dataProviderUndefinedGamma
+     */
+    public function testGammaExceptionUndefined($x)
+    {
+        // Given
+        // $x provided
+
+        // Then
+        $this->expectException(Exception\NanException::class);
+
+        // When
+        Special::gamma($x);
+    }
+
+    public function dataProviderUndefinedGamma()
+    {
+        return [
+            [0],
+            [0.0],
+            [-1],
+            [-2],
+            [-2.0]
         ];
     }
 
@@ -133,16 +161,16 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForGammaLargeValues
      * @param        $z
      * @param        $Γ
-     * @param        float $ε
+     * @param        float $ε - relative error
      * @throws       \Exception
      */
-    public function testGammaLargeValues($z, $Γ, float $ε)
+    public function testGammaLargeValues($z, $Γ, float $ε = 1E-10)
     {
         // When
         $gamma = Special::gamma($z);
 
         // Then
-        $this->assertEqualsWithDelta($Γ, $gamma, $ε);
+        $this->assertEqualsWithDelta($Γ, $gamma, $Γ * $ε);
     }
 
     /**
@@ -152,13 +180,13 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForGammaLargeValues(): array
     {
         return [
-            [15, 87178291200, 0.000001],
-            [20, 121645100408832000, 0.000001],
-            [50, 6.082818640342675608723E+62, 1e50],
-            [100, 9.33262154439441526817E+155, 1e140],
-            [100.6, 1.477347552911177316693E+157, 1e145],
-            [171, 7.257415615307998967397E+306, 1e295],
-            [200, 3.943289336823952517762E+372, 1e360],
+            [15, 87178291200],
+            [20, 121645100408832000],
+            [50, 6.082818640342675608723E+62],
+            [100, 9.33262154439441526817E+155],
+            [100.6, 1.477347552911177316693E+157],
+            [171, 7.257415615307998967397E+306],
+            [200, 3.943289336823952517762E+372],
         ];
     }
 
@@ -266,6 +294,74 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         logGamma returns the expected value
+     * @dataProvider dataProviderForLogGamma
+     * @param        $z
+     * @param        $Γ
+     * @throws       \Exception
+     */
+    public function testLogGamma($z, $Γ)
+    {
+        // When
+        $log_gamma = Special::logGamma($z);
+
+        // Then
+        $this->assertEqualsWithDelta($Γ, $log_gamma, abs($Γ) * 0.00001);
+    }
+
+    public function dataProviderForLogGamma(): array
+    {
+        return [
+            [ 1, 0 ],
+            [ 1.0, 0 ],
+            [ 2, 0 ],
+            [ 3, 0.6931472 ],
+            [ 100, 359.1342],
+            [ 0, \INF ],
+            [ 5E-307, 705.2842],
+            [ 2.6E305, \INF],
+            [ 2E17, 7.767419e+18],
+            [ 4934770, 71118994],
+            [ -.9, 2.358073],
+            [ -11.2, -16.31644474],
+        ];
+    }
+
+    /**
+     * @test         logGamma returns NaNException appropriately
+     *
+     * @throws       \Exception
+     */
+    public function testLogGammaNan()
+    {
+        // Given
+        $nan = acos(1.01);
+
+        // Then
+        $this->expectException(Exception\NanException::class);
+
+        // When
+        $nan = Special::logGamma($nan);
+    }
+
+     /**
+     * @test         Gamma returns NaNException appropriately
+     *
+     * @throws       \Exception
+     */
+    public function testGammaNan()
+    {
+        // Given
+        $nan = acos(1.01);
+
+        // Then
+        $this->expectException(Exception\NanException::class);
+
+        // When
+        $nan = Special::gamma($nan);
+    }
+
+    /**
      * @test         beta returns the expected value
      * @dataProvider dataProviderForBeta
      * @param        float $x
@@ -340,7 +436,124 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [9, 3, 0.002020202],
             [10, 10, 1.082509e-06],
             [20, 20, 7.254445e-13],
+            [\INF, 2, 0],
+            [2, \INF, 0],
+            // Issue #429
+            [1.5, 170.5, 0.0003971962],
         ];
+    }
+
+    /**
+     * @testCase     logBeta returns the expected value
+     * @dataProvider dataProviderForLogBeta
+     */
+    public function testLogBeta($x, $y, float $log_beta)
+    {
+        $this->assertEqualsWithDelta($log_beta, Special::logBeta($x, $y), 0.001);
+    }
+
+    public function dataProviderForLogBeta(): array
+    {
+        return [
+            [1.5, 0, \INF],
+            [0, 1.5, \INF],
+            [0, 0, \INF],
+            [1, 1, 0],
+            [1, 2, -0.6931472],
+            [2, 1, -0.6931472],
+            [2, 2, -1.791759],
+            [.9, .1, 2.319089],
+            [20, 20, -27.95199],
+            [1, \INF, -\INF],
+            [1, 11, -2.397895],
+            [5E-307, 5, 705.2842],
+            [94907000, 11, -186.9481],
+        ];
+    }
+
+    /**
+     * @test         Beta returns NaNException appropriately
+     *
+     * @throws       \Exception
+     */
+    public function testBetaNan()
+    {
+        // Given
+        $nan = acos(1.01);
+
+        // Then
+        $this->expectException(Exception\NanException::class);
+
+        // When
+        $beta = Special::beta($nan, 2);
+    }
+
+    /**
+     * @test         logBeta returns NaNException appropriately
+     *
+     * @throws       \Exception
+     */
+    public function testLogBetaNan()
+    {
+        // Given
+        $nan = acos(1.01);
+
+        // Then
+        $this->expectException(Exception\NanException::class);
+
+        // When
+        $lbeta = Special::logBeta($nan, 2);
+    }
+
+    /**
+     * @test         Parameters must be greater than 0
+     *
+     * @throws       \Exception
+     */
+    public function testLogBetaOutOfBounds()
+    {
+        // Given
+        $p = -1;
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $lbeta = Special::logBeta($p, 2);
+    }
+
+    /**
+     * @test         Parameters must be greater than 0
+     *
+     * @throws       \Exception
+     */
+    public function testBetaOutOfBounds()
+    {
+        // Given
+        $p = -1;
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $beta = Special::beta($p, 2);
+    }
+
+    /**
+     * @test         Parameter must be greater than 10
+     *
+     * @throws       \Exception
+     */
+    public function testLogGammaCorrOutOfBounds()
+    {
+        // Given
+        $x = 1;
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $correction = Special::logGammaCorr($x);
     }
 
     /**
@@ -815,6 +1028,9 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [1, 0.2, 3.5, 1],
             [0.5, 1.4, 3.1, 0.8148904036225296],
             [0.4, 2.2, 3.1, 0.49339638807619446],
+            // Issue #429
+            [0.0041461509490402, 0.5, 170.5, 0.7657225092554765],
+            [0.0041461509490402, 1.5, 170.5, 0.29887797299850866],
         ];
     }
 
