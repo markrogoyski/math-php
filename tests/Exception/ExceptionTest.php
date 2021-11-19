@@ -91,6 +91,18 @@ class ExceptionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test NanException
+     */
+    public function testNanException()
+    {
+        // Given
+        $e = new Exception\NanException('message');
+
+        // Then
+        $this->assertInstanceOf(Exception\MathException::class, $e);
+    }
+
+    /**
      * @test OutOfBoundsException
      */
     public function testOutOfBoundsException()

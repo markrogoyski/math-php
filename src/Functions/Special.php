@@ -208,75 +208,80 @@ class Special
      * log(n!) = .5*log(2πn) + n*log(n) - n + δ(n)
      * Where δ(n) is the log of the error.
      *
-     * For n <=15, integers or half-integers, uses stored values.
+     * For n ≤ 15, integers or half-integers, uses stored values.
+     *
+     * The implementation is heavily inspired by the R language's C implementation of stirlerr.
+     * It can be considered a reimplementation in PHP.
+     * R Project for Statistical Computing: https://www.r-project.org/
+     * R Source: https://svn.r-project.org/R/
      *
      * @param float $n
      *
      * @return float log of the error
      */
-    public static function stirlingError(float $n)
+    public static function stirlingError(float $n): float
     {
-        $S0 = 0.083333333333333333333;        // 1/12
-        $S1 = 0.00277777777777777777778;      // 1/360
-        $S2 = 0.00079365079365079365079365;   // 1/1260
-        $S3 = 0.000595238095238095238095238;  // 1/1680
-        $S4 = 0.0008417508417508417508417508; // 1/1188
+        static $S0 = 0.083333333333333333333;        // 1/12
+        static $S1 = 0.00277777777777777777778;      // 1/360
+        static $S2 = 0.00079365079365079365079365;   // 1/1260
+        static $S3 = 0.000595238095238095238095238;  // 1/1680
+        static $S4 = 0.0008417508417508417508417508; // 1/1188
 
-        $sferr_halves = [
-            0.0, /* n=0 - wrong, place holder only */
-            0.1534264097200273452913848,  /* 0.5 */
-            0.0810614667953272582196702,  /* 1.0 */
-            0.0548141210519176538961390,  /* 1.5 */
-            0.0413406959554092940938221,  /* 2.0 */
-            0.03316287351993628748511048, /* 2.5 */
-            0.02767792568499833914878929, /* 3.0 */
-            0.02374616365629749597132920, /* 3.5 */
-            0.02079067210376509311152277, /* 4.0 */
-            0.01848845053267318523077934, /* 4.5 */
-            0.01664469118982119216319487, /* 5.0 */
-            0.01513497322191737887351255, /* 5.5 */
-            0.01387612882307074799874573, /* 6.0 */
-            0.01281046524292022692424986, /* 6.5 */
-            0.01189670994589177009505572, /* 7.0 */
-            0.01110455975820691732662991, /* 7.5 */
-            0.010411265261972096497478567, /* 8.0 */
-            0.009799416126158803298389475, /* 8.5 */
-            0.009255462182712732917728637, /* 9.0 */
-            0.008768700134139385462952823, /* 9.5 */
-            0.008330563433362871256469318, /* 10.0 */
-            0.007934114564314020547248100, /* 10.5 */
-            0.007573675487951840794972024, /* 11.0 */
-            0.007244554301320383179543912, /* 11.5 */
-            0.006942840107209529865664152, /* 12.0 */
-            0.006665247032707682442354394, /* 12.5 */
-            0.006408994188004207068439631, /* 13.0 */
-            0.006171712263039457647532867, /* 13.5 */
-            0.005951370112758847735624416, /* 14.0 */
-            0.005746216513010115682023589, /* 14.5 */
-            0.005554733551962801371038690, /* 15.0 */
+        static $sferr_halves = [
+            0.0,                           // n = 0  wrong, placeholder only
+            0.1534264097200273452913848,   // 0.5
+            0.0810614667953272582196702,   // 1.0
+            0.0548141210519176538961390,   // 1.5
+            0.0413406959554092940938221,   // 2.0
+            0.03316287351993628748511048,  // 2.5
+            0.02767792568499833914878929,  // 3.0
+            0.02374616365629749597132920,  // 3.5
+            0.02079067210376509311152277,  // 4.0
+            0.01848845053267318523077934,  // 4.5
+            0.01664469118982119216319487,  // 5.0
+            0.01513497322191737887351255,  // 5.5
+            0.01387612882307074799874573,  // 6.0
+            0.01281046524292022692424986,  // 6.5
+            0.01189670994589177009505572,  // 7.0
+            0.01110455975820691732662991,  // 7.5
+            0.010411265261972096497478567, // 8.0
+            0.009799416126158803298389475, // 8.5
+            0.009255462182712732917728637, // 9.0
+            0.008768700134139385462952823, // 9.5
+            0.008330563433362871256469318, // 10.0
+            0.007934114564314020547248100, // 10.5
+            0.007573675487951840794972024, // 11.0
+            0.007244554301320383179543912, // 11.5
+            0.006942840107209529865664152, // 12.0
+            0.006665247032707682442354394, // 12.5
+            0.006408994188004207068439631, // 13.0
+            0.006171712263039457647532867, // 13.5
+            0.005951370112758847735624416, // 14.0
+            0.005746216513010115682023589, // 14.5
+            0.005554733551962801371038690, // 15.0
         ];
 
         if ($n <= 15.0) {
             $nn = $n + $n;
-            if ($nn == (int)$nn) {
+            if ($nn == (int) $nn) {
                 return $sferr_halves[$nn];
             }
-            $M_LN_SQRT_2PI = \log(\sqrt(2 * \pi()));
+            $M_LN_SQRT_2PI = \log(\sqrt(2 * \M_PI));
             return self::logGamma($n + 1) - ($n + 0.5) * \log($n) + $n - $M_LN_SQRT_2PI;
         }
 
-        $nn = $n * $n;
+        $n² = $n * $n;
         if ($n > 500) {
-            return ($S0 - $S1 / $nn) / $n;
+            return ($S0 - $S1 / $n²) / $n;
         }
         if ($n > 80) {
-            return ($S0 - ($S1 - $S2 / $nn) / $nn) / $n;
+            return ($S0 - ($S1 - $S2 / $n²) / $n²) / $n;
         }
         if ($n > 35) {
-            return ($S0 - ($S1 - ($S2 - $S3/$nn)/$nn)/$nn)/$n;
+            return ($S0 - ($S1 - ($S2 - $S3/$n²) / $n²) / $n²) / $n;
         }
-        /* 15 < n <= 35 : */
-        return ($S0-($S1-($S2-($S3-$S4/$nn)/$nn)/$nn)/$nn)/$n;
+        // 15 < n ≤ 35
+        return ($S0 - ($S1 - ($S2 - ($S3 - $S4/$n²) / $n²) / $n²) / $n²) / $n;
     }
 
     /**
@@ -284,7 +289,7 @@ class Special
      * https://en.wikipedia.org/wiki/Gamma_function
      * https://en.wikipedia.org/wiki/Particular_values_of_the_Gamma_function
      *
-     * For postive integers:
+     * For positive integers:
      *  Γ(n) = (n - 1)!
      *
      * For half integers:
@@ -295,7 +300,17 @@ class Special
      *
      * For real numbers: use Lanczos approximation
      *
-     * @param float $n
+     * Implementation notes:
+     * The original MathPHP implementation was based on the textbook mathematical formula, but this led to numerical
+     * issues with very large numbers. Last version with this implementation was v2.4.0.
+     *
+     * The current implementation is heavily inspired by the R language's C implementation of gammafn, which itself is
+     * a translation of a Fortran subroutine by W. Fullerton of Los Alamos Scientific Laboratory.
+     * It can be considered a reimplementation in PHP.
+     * R Project for Statistical Computing: https://www.r-project.org/
+     * R Source: https://svn.r-project.org/R/
+     *
+     * @param float $x
      *
      * @return float
      *
@@ -304,7 +319,7 @@ class Special
      */
     public static function gamma(float $x)
     {
-        $gamcs = [
+        static $gamcs = [
             +.8571195590989331421920062399942e-2,
             +.4415381324841006757191315771652e-2,
             +.5685043681599363378632664588789e-1,
@@ -349,59 +364,42 @@ class Special
             -.5793070335782135784625493333333e-31
         ];
 
-        /* For IEEE double precision DBL_EPSILON = 2^-52 = 2.220446049250313e-16 :
-         * (xmin, xmax) are non-trivial, see ./gammalims.c
-         * xsml = exp(.01)*DBL_MIN
-         * dxrel = sqrt(DBL_EPSILON) = 2 ^ -26
-         */
-        $ngam = 22;
-        $xmin = -170.5674972726612;
-        $xmax = 171.61447887182298;
-        $xsml = 2.2474362225598545e-308;
-        $dxrel = 1.490116119384765696e-8;
+        static $ngam  = 22;
+        static $xmin  = -170.5674972726612;
+        static $xmax  = 171.61447887182298;
+        static $xsml  = 2.2474362225598545e-308;
+        static $dxrel = 1.490116119384765696e-8;
 
         if (\is_nan($x)) {
             throw new Exception\NanException();
         }
 
-        // If the argument is exactly zero or a negative integer
-        // function is undefined.
+        // Undefined (NAN) if x ≤ 0
         if ($x == 0 || ($x < 0 && $x == \round($x))) {
             throw new Exception\NanException();
         }
 
         $y = abs($x);
 
+        // Compute gamma for -10 ≤ x ≤ 10
         if ($y <= 10) {
-            /* Compute gamma(x) for -10 <= x <= 10
-             * Reduce the interval and find gamma(1 + y) for 0 <= y < 1
-             * first of all.
-             */
-
+            // First reduce the interval and find gamma(1 + y) for 0 ≤ y < 1
             $n = (int) $x;
             if ($x < 0) {
                 --$n;
             }
-            $y = $x - $n; // n = floor(x) ==> y in [ 0, 1 )
+            $y = $x - $n; // n = floor(x) ==> y in [0, 1)
             --$n;
             $value = self::chebyshev_eval($y * 2 - 1, $gamcs, $ngam) + .9375;
             if ($n == 0) {
-                return $value;/* x = 1.dddd = 1+y */
+                return $value; // x = 1.dddd = 1+y
             }
+
+            // Compute gamma(x) for -10 ≤ x < 1
+            // Exactly 0 or -n was checked above already
             if ($n < 0) {
-                /* compute gamma(x) for -10 <= x < 1 */
-
-                /* exact 0 or "-n" checked already above */
-
-                /* The answer is less than half precision */
-                /* because x too near a negative integer. */
-                if ($x < -0.5 && abs($x - (int)($x - 0.5) / $x) < $dxrel) {
-                    // ML_WARNING(ME_PRECISION, "gammafn");
-                }
-
-                /* The argument is so close to 0 that the result would overflow. */
+                // The argument is so close to 0 that the result would overflow.
                 if ($y < $xsml) {
-                    // ML_WARNING(ME_RANGE, "gammafn");
                     if ($x > 0) {
                         return \INF;
                     } else {
@@ -410,14 +408,13 @@ class Special
                 }
 
                 $n = -$n;
-
                 for ($i = 0; $i < $n; $i++) {
                     $value /= ($x + $i);
                 }
                 return $value;
             }
-            /* gamma(x) for 2 <= x <= 10 */
 
+            // gamma(x) for 2 ≤ x ≤ 10
             for ($i = 1; $i <= $n; $i++) {
                 $value *= ($y + $i);
             }
@@ -425,93 +422,154 @@ class Special
         }
         // gamma(x) for y = |x| > 10.
 
+        // Overflow (INF is the best answer)
         if ($x > $xmax) {
-            // Overflow
-            // No warning: +Inf is the best answer
             return \INF;
         }
 
+        // Underflow (0 is the best answer)
         if ($x < $xmin) {
-            // Underflow
-            // No warning: 0 is the best answer
             return 0;
         }
 
-        if ($y <= 50 && $y == (int) $y) { /* compute (n - 1)! */
-            $value = 1.;
-            for ($i = 2; $i < $y; $i++) {
-                $value *= $i;
-            }
-        } else { /* normal case */
-            $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2)/2;
+        if ($y <= 50 && $y == (int) $y) {
+            $value = Combinatorics::factorial((int) $y - 1);
+        } else { // Normal case
+            $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2) / 2;
             $value = \exp(($y - 0.5) * \log($y) - $y + $M_LN_SQRT_2PI + ((2*$y == (int)2*$y)? self::stirlingError($y) : self::logGammaCorr($y)));
         }
+
         if ($x > 0) {
             return $value;
         }
-        if (abs(($x - (int)($x - 0.5))/$x) < $dxrel) {
-            /* The answer is less than half precision because */
-            /* the argument is too near a negative integer. */
 
-            // ML_WARNING(ME_PRECISION, "gammafn");
+        // The answer is less than half precision because the argument is too near a negative integer.
+        if (abs(($x - (int)($x - 0.5))/$x) < $dxrel) {
+            // Just move on.
         }
 
         $sinpiy = \sin(\pi() * $y);
         if ($sinpiy == 0) {
-            // $sinpi is zero for integers, which should have
-            // already been evaluated and returned. This
-            // code is probably unreachable.
+            // sinpi is zero for integers, which should have already been evaluated and returned. This code is probably unreachable.
             throw new Exception\NanException();
         }
+
         return -\M_PI / ($y * $sinpiy * $value);
     }
 
+    /**
+     * Log Gamma
+     *
+     * The implementation is heavily inspired by the R language's C implementation of lgammafn, which itself is
+     * a translation of a Fortran subroutine by W. Fullerton of Los Alamos Scientific Laboratory.
+     * It can be considered a reimplementation in PHP.
+     * R Project for Statistical Computing: https://www.r-project.org/
+     * R Source: https://svn.r-project.org/R/
+     *
+     * @param float $x
+     *
+     * @return float|int
+     *
+     * @throws Exception\NanException
+     * @throws Exception\OutOfBoundsException
+     */
     public static function logGamma(float $x)
     {
-        // For IEEE double precision DBL_EPSILON = 2^-52 = 2.220446049250313e-16 :
-        // xmax  = DBL_MAX / log(DBL_MAX) = 2^1024 / (1024 * log(2)) = 2^1014 / log(2)
-        // dxrel = sqrt(DBL_EPSILON) = 2^-26 = 5^26 * 1e-26 (is *exact* below !)
-        $xmax  = 2.5327372760800758e+305;
-        $dxrel = 1.490116119384765625e-8;
+        static $xmax = 2.5327372760800758e+305;
 
         if (\is_nan($x)) {
             throw new Exception\NanException();
         }
+
+        // Negative integer argument
         if ($x <= 0 && $x == (int) $x) {
-            // Negative integer argument
-            // No warning: this is the best answer; was ML_WARNING(ME_RANGE, "lgamma");
-            return \INF;    // +Inf, since lgamma(x) = log|gamma(x)|
+            return \INF; // INF is the best answer
         }
 
-        $y = abs($x);
+        $y = \abs($x);
 
         if ($y < 1e-306) {
-            return -log($y); // denormalized range, R change
+            return -\log($y); // Denormalized range
         }
         if ($y <= 10) {
-            return log(abs(self::gamma($x)));
+            return \log(abs(self::gamma($x)));
         }
-        // ELSE  y = |x| > 10
+
+        // From this point, y = |x| > 10
 
         if ($y > $xmax) {
-            // No warning: +Inf is the best answer
-            return \INF;
+            return \INF; // INF is the best answer
         }
 
-        if ($x > 0) { /* i.e. y = x > 10 */
+        // y = x > 10
+        if ($x > 0) {
             if ($x > 1e17) {
-                return($x*(log($x) - 1));
+                return $x * (\log($x) - 1);
             }
-            $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2)/2;
-            if ($x > 4934720.) {
-                return($M_LN_SQRT_2PI + ($x - 0.5) * log($x) - $x);
+            $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2) / 2;
+            if ($x > 4934720) {
+                return($M_LN_SQRT_2PI + ($x - 0.5) * \log($x) - $x);
             }
-            return $M_LN_SQRT_2PI + ($x - 0.5) * log($x) - $x + self::logGammaCorr($x);
+            return $M_LN_SQRT_2PI + ($x - 0.5) * \log($x) - $x + self::logGammaCorr($x);
         }
-        $M_LN_SQRT_PId2 = 0.225791352644727432363097614947;        // log(sqrt(pi/2))
-        $sinpiy = abs(sin(pi() * $y));
-        $ans = $M_LN_SQRT_PId2 + ($x - 0.5) * log($y) - $x - log($sinpiy) - self::logGammaCorr($y);
-        return $ans;
+
+        $M_LN_SQRT_PId2 = 0.225791352644727432363097614947; // log(sqrt(pi/2))
+        $sinpiy = \abs(sin(\M_PI * $y));
+        return $M_LN_SQRT_PId2 + ($x - 0.5) * \log($y) - $x - \log($sinpiy) - self::logGammaCorr($y);
+    }
+
+    /**
+     * Beta function convenience method
+     *
+     * @param  float $x
+     * @param  float $y
+     *
+     * @return float
+     *
+     * @throws Exception\OutOfBoundsException
+     */
+    public static function β(float $x, float $y): float
+    {
+        return self::beta($x, $y);
+    }
+
+    /**
+     * Beta function
+     *
+     * https://en.wikipedia.org/wiki/Beta_function
+     *
+     * Selects the best beta algorithm for the provided values
+     *
+     * @param  float $a
+     * @param  float $b
+     *
+     * @return float
+     *
+     * @throws Exception\OutOfBoundsException
+     */
+    public static function beta(float $a, float $b): float
+    {
+        static $xmax = 171.61447887182298;
+
+        if (\is_nan($a) || \is_nan($b)) {
+            throw new Exception\NanException();
+        }
+        if ($a < 0 || $b < 0) {
+            throw new Exception\OutOfBoundsException();
+        }
+        if ($a == 0 || $b == 0) {
+            return \INF;
+        }
+        if (\is_infinite($a) || \is_infinite($b)) {
+            return 0;
+        }
+
+        if ($a + $b < $xmax) {
+            return self::betaBasic($a, $b);
+        }
+
+        $val = self::logBeta($a, $b);
+        return \exp($val);
     }
 
     /**
@@ -540,96 +598,35 @@ class Special
     }
 
     /**
-     * Beta function convenience method
-     *
-     * @param  float $x
-     * @param  float $y
-     *
-     * @return float
-     *
-     * @throws Exception\OutOfBoundsException
-     */
-    public static function β(float $x, float $y): float
-    {
-        return self::beta($x, $y);
-    }
-
-    /**
-     * Beta function
-     *
-     * https://en.wikipedia.org/wiki/Beta_function
-     *
-     * Selects the best beta algorithm for the provided
-     * values
-     *
-     * @param  float $a
-     * @param  float $b
-     *
-     * @return float
-     *
-     * @throws Exception\OutOfBoundsException
-     */
-    public static function beta(float $a, float $b): float
-    {
-        $xmin = -170.5674972726612;
-        $xmax = 171.61447887182298;
-        $lnsml = -708.39641853226412;
-
-        if (\is_nan($a) || \is_nan($b)) {
-            throw new Exception\NanException();
-        }
-        if ($a < 0 || $b < 0) {
-            throw new Exception\OutOfBoundsException();
-        }
-        if ($a == 0 || $b == 0) {
-            return \INF;
-        }
-        if (\is_infinite($a) || \is_infinite($b)) {
-            return 0;
-        }
-        if ($a + $b < $xmax) {/* ~= 171.61 for IEEE */
-            // return gammafn(a) * gammafn(b) / gammafn(a+b);
-            /* All the terms are positive, and all can be large for large
-               or small arguments.  They are never much less than one.
-               gammafn(x) can still overflow for x ~ 1e-308,
-               but the result would too.
-            */
-            return self::betaBasic($a, $b);
-        }
-        $val = self::logBeta($a, $b);
-        // underflow to 0 is not harmful per se;  exp(-999) also gives no warning
-
-        // if ($val < $lnsml) {
-            /* a and/or b so big that beta underflows */
-            //ML_WARNING(ME_UNDERFLOW, "beta");
-            /* return ML_UNDERFLOW; pointless giving incorrect value */
-        // }
-        return \exp($val);
-    }
-
-    /**
      * The log of the beta function
      *
+     * The implementation is heavily inspired by the R language's C implementation of lbeta, which itself is
+     * a translation of a Fortran subroutine by W. Fullerton of Los Alamos Scientific Laboratory.
+     * It can be considered a reimplementation in PHP.
+     * R Project for Statistical Computing: https://www.r-project.org/
+     * R Source: https://svn.r-project.org/R/
+     *
      * @param  float $a
      * @param  float $b
      *
      * @return float
      *
      * @throws Exception\OutOfBoundsException
-     * * @throws Exception\NanException
+     * @throws Exception\NanException
      */
-    public static function logbeta($a, $b)
+    public static function logbeta(float $a, float $b): float
     {
         if (\is_nan($a) || \is_nan($b)) {
             throw new Exception\NanException();
         }
+
         $p = $a;
         $q = $a;
         if ($b < $p) {
-            $p = $b;/* := min(a,b) */
+            $p = $b;  // min(a,b)
         }
         if ($b > $q) {
-            $q = $b;/* := max(a,b) */
+            $q = $b;  // max(a,b)
         }
 
         // Both arguments must be >= 0
@@ -646,7 +643,7 @@ class Special
         if ($p >= 10) {
             // p and q are big.
             $corr = self::logGammaCorr($p) + self::logGammaCorr($q) - self::logGammaCorr($p + $q);
-            $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2)/2;
+            $M_LN_SQRT_2PI = (\M_LNPI + \M_LN2) / 2;
             return \log($q) * -0.5 + $M_LN_SQRT_2PI + $corr + ($p - 0.5) * \log($p / ($p + $q)) + $q * \log1p(-$p / ($p + $q));
         }
         if ($q >= 10) {
@@ -662,12 +659,24 @@ class Special
     }
 
     /**
+     * Log gamma correction
+     * =
      * Compute the log gamma correction factor for x >= 10 so that
      * log(gamma(x)) = .5*log(2*pi) + (x-.5)*log(x) -x + lgammacor(x)
+     *
+     * The implementation is heavily inspired by the R language's C implementation of lgammacor, which itself is
+     * a translation of a Fortran subroutine by W. Fullerton of Los Alamos Scientific Laboratory.
+     * It can be considered a reimplementation in PHP.
+     * R Project for Statistical Computing: https://www.r-project.org/
+     * R Source: https://svn.r-project.org/R/
+     *
+     * @param float $x
+     *
+     * @return float
      */
-    public static function logGammaCorr($x)
+    public static function logGammaCorr(float $x): float
     {
-        $algmcs = [
+        static $algmcs = [
             +.1666389480451863247205729650822e+0,
             -.1384948176067563840732986059135e-4,
             +.9810825646924729426157171547487e-8,
@@ -690,15 +699,14 @@ class Special
          * xbig = 2 ^ 26.5
          * xmax = DBL_MAX / 48 =  2^1020 / 3
          */
-        $nalgm = 5;
-        $xbig  = 94906265.62425156;
-        $xmax  = 3.745194030963158e306;
+        static $nalgm = 5;
+        static $xbig  = 94906265.62425156;
+        static $xmax  = 3.745194030963158e306;
 
         if ($x < 10) {
             throw new Exception\OutOfBoundsException();
         }
         if ($x >= $xmax) {
-            // ML_WARNING(ME_UNDERFLOW, "lgammacor");
             // allow to underflow below
         } elseif ($x < $xbig) {
             $tmp = 10 / $x;
@@ -710,8 +718,18 @@ class Special
     /**
      * Evaluate a Chebyshev Series with the Clenshaw Algorithm
      * https://en.wikipedia.org/wiki/Clenshaw_algorithm#Special_case_for_Chebyshev_series
+     *
+     * The implementation is inspired by the R language's C implementation of chebyshev_eval, which itself is
+     * a translation of a Fortran subroutine by W. Fullerton of Los Alamos Scientific Laboratory.
+     * It can be considered a reimplementation in PHP.
+     *
+     * @param float   $x
+     * @param float[] $a
+     * @param int     $n
+     *
+     * @return float
      */
-    private static function chebyshev_eval(float $x, array $a, int $n)
+    private static function chebyshev_eval(float $x, array $a, int $n): float
     {
         if ($n < 1 || $n > 1000) {
             // Exception?
@@ -719,6 +737,7 @@ class Special
         if ($x < -1.1 || $x > 1.1) {
             // Out Of Bounds?
         }
+
         $twox = $x * 2;
         $b2 = 0;
         $b1 = 0;
@@ -1309,7 +1328,7 @@ class Special
      *
      * @param  float[] $𝐳
      *
-     * @return array
+     * @return float[]
      */
     public static function softmax(array $𝐳): array
     {
