@@ -102,7 +102,7 @@ class Special
         }
 
         // p coefficients: g = 7, n = 9
-        $p = [
+        static $p = [
             0.99999999999980993227684700473478,
             676.520368121885098567009190444019,
             -1259.13921672240287047156078755283,
@@ -113,8 +113,8 @@ class Special
             9.984369578019570859563e-6,
             1.50563273514931155834e-7,
         ];
-        $g = 7;
-        $π = \M_PI;
+        static $g = 7;
+        static $π = \M_PI;
 
         /**
          * Use reflection formula when z < 0.5
@@ -210,6 +210,9 @@ class Special
      *
      * For n ≤ 15, integers or half-integers, uses stored values.
      *
+     * For n = 0: infinity
+     * For n < 0: NAN
+     *
      * The implementation is heavily inspired by the R language's C implementation of stirlerr.
      * It can be considered a reimplementation in PHP.
      * R Project for Statistical Computing: https://www.r-project.org/
@@ -218,9 +221,15 @@ class Special
      * @param float $n
      *
      * @return float log of the error
+     *
+     * @throws Exception\NanException
      */
     public static function stirlingError(float $n): float
     {
+        if ($n < 0) {
+            throw new Exception\NanException("stirlingError NAN for n < 0: given $n");
+        }
+
         static $S0 = 0.083333333333333333333;        // 1/12
         static $S1 = 0.00277777777777777777778;      // 1/360
         static $S2 = 0.00079365079365079365079365;   // 1/1260
@@ -228,7 +237,7 @@ class Special
         static $S4 = 0.0008417508417508417508417508; // 1/1188
 
         static $sferr_halves = [
-            0.0,                           // n = 0  wrong, placeholder only
+            \INF,                          // 0
             0.1534264097200273452913848,   // 0.5
             0.0810614667953272582196702,   // 1.0
             0.0548141210519176538961390,   // 1.5
@@ -371,15 +380,15 @@ class Special
         static $dxrel = 1.490116119384765696e-8;
 
         if (\is_nan($x)) {
-            throw new Exception\NanException();
+            throw new Exception\NanException("gamma cannot compute x when NAN");
         }
 
         // Undefined (NAN) if x ≤ 0
         if ($x == 0 || ($x < 0 && $x == \round($x))) {
-            throw new Exception\NanException();
+            throw new Exception\NanException("gamma undefined for x of $x");
         }
 
-        $y = abs($x);
+        $y = \abs($x);
 
         // Compute gamma for -10 ≤ x ≤ 10
         if ($y <= 10) {
@@ -390,7 +399,7 @@ class Special
             }
             $y = $x - $n; // n = floor(x) ==> y in [0, 1)
             --$n;
-            $value = self::chebyshev_eval($y * 2 - 1, $gamcs, $ngam) + .9375;
+            $value = self::chebyshevEval($y * 2 - 1, $gamcs, $ngam) + .9375;
             if ($n == 0) {
                 return $value; // x = 1.dddd = 1+y
             }
@@ -400,11 +409,7 @@ class Special
             if ($n < 0) {
                 // The argument is so close to 0 that the result would overflow.
                 if ($y < $xsml) {
-                    if ($x > 0) {
-                        return \INF;
-                    } else {
-                        return -\INF;
-                    }
+                    return \INF;
                 }
 
                 $n = -$n;
@@ -444,16 +449,11 @@ class Special
         }
 
         // The answer is less than half precision because the argument is too near a negative integer.
-        if (abs(($x - (int)($x - 0.5))/$x) < $dxrel) {
+        if (\abs(($x - (int)($x - 0.5)) / $x) < $dxrel) {
             // Just move on.
         }
 
-        $sinpiy = \sin(\pi() * $y);
-        if ($sinpiy == 0) {
-            // sinpi is zero for integers, which should have already been evaluated and returned. This code is probably unreachable.
-            throw new Exception\NanException();
-        }
-
+        $sinpiy = \sin(\M_PI * $y);
         return -\M_PI / ($y * $sinpiy * $value);
     }
 
@@ -478,7 +478,7 @@ class Special
         static $xmax = 2.5327372760800758e+305;
 
         if (\is_nan($x)) {
-            throw new Exception\NanException();
+            throw new Exception\NanException("Cannot compute logGamma when x is NAN");
         }
 
         // Negative integer argument
@@ -546,16 +546,17 @@ class Special
      * @return float
      *
      * @throws Exception\OutOfBoundsException
+     * @throws Exception\NanException
      */
     public static function beta(float $a, float $b): float
     {
         static $xmax = 171.61447887182298;
 
         if (\is_nan($a) || \is_nan($b)) {
-            throw new Exception\NanException();
+            throw new Exception\NanException("Cannot compute beta when a or b is NAN: got a:$a, b:$b");
         }
         if ($a < 0 || $b < 0) {
-            throw new Exception\OutOfBoundsException();
+            throw new Exception\OutOfBoundsException("a and b must be non-negative for beta: got a:$a, b:$b");
         }
         if ($a == 0 || $b == 0) {
             return \INF;
@@ -614,10 +615,10 @@ class Special
      * @throws Exception\OutOfBoundsException
      * @throws Exception\NanException
      */
-    public static function logbeta(float $a, float $b): float
+    public static function logBeta(float $a, float $b): float
     {
         if (\is_nan($a) || \is_nan($b)) {
-            throw new Exception\NanException();
+            throw new Exception\NanException("Cannot compute logBeta if a or b is NAN: got a:$a, b:$b");
         }
 
         $p = $a;
@@ -631,7 +632,7 @@ class Special
 
         // Both arguments must be >= 0
         if ($p < 0) {
-            throw new Exception\OutOfBoundsException();
+            throw new Exception\OutOfBoundsException("p must be non-negative at this point of logBeta calculation: got $p");
         }
         if ($p == 0) {
             return \INF;
@@ -660,7 +661,7 @@ class Special
 
     /**
      * Log gamma correction
-     * =
+     *
      * Compute the log gamma correction factor for x >= 10 so that
      * log(gamma(x)) = .5*log(2*pi) + (x-.5)*log(x) -x + lgammacor(x)
      *
@@ -704,13 +705,13 @@ class Special
         static $xmax  = 3.745194030963158e306;
 
         if ($x < 10) {
-            throw new Exception\OutOfBoundsException();
+            throw new Exception\OutOfBoundsException("x cannot be < 10: got $x");
         }
         if ($x >= $xmax) {
             // allow to underflow below
         } elseif ($x < $xbig) {
             $tmp = 10 / $x;
-            return self::chebyshev_eval($tmp * $tmp * 2 - 1, $algmcs, $nalgm) / $x;
+            return self::chebyshevEval($tmp * $tmp * 2 - 1, $algmcs, $nalgm) / $x;
         }
         return 1 / ($x * 12);
     }
@@ -728,24 +729,25 @@ class Special
      * @param int     $n
      *
      * @return float
+     *
+     * @throws Exception\OutOfBoundsException
      */
-    private static function chebyshev_eval(float $x, array $a, int $n): float
+    private static function chebyshevEval(float $x, array $a, int $n): float
     {
         if ($n < 1 || $n > 1000) {
-            // Exception?
+            throw new Exception\OutOfBoundsException("n cannot be < 1 or > 1000: got $n");
         }
         if ($x < -1.1 || $x > 1.1) {
-            // Out Of Bounds?
+            throw new Exception\OutOfBoundsException("x cannot be < -1.1 or greater than 1.1: got $x");
         }
 
-        $twox = $x * 2;
-        $b2 = 0;
-        $b1 = 0;
-        $b0 = 0;
+        $２x = $x * 2;
+        [$b0, $b1, $b2] = [0, 0, 0];
+
         for ($i = 1; $i <= $n; $i++) {
             $b2 = $b1;
             $b1 = $b0;
-            $b0 = $twox * $b1 - $b2 + $a[$n - $i];
+            $b0 = $２x * $b1 - $b2 + $a[$n - $i];
         }
         return ($b0 - $b2) * 0.5;
     }
@@ -771,12 +773,14 @@ class Special
                 return \INF;
             }
         }
-        $xmax = 171.61447887182298;
+
+        static $xmax = 171.61447887182298;
+
         $∑α = \array_sum($αs);
         if ($∑α == \INF) {
             return 0;
         }
-        if ($∑α < $xmax) {// ~= 171.61 for IEEE
+        if ($∑α < $xmax) {  // ~= 171.61 for IEEE
             $Γ⟮∑α⟯ = self::Γ($∑α);
             $∏= 1 / $Γ⟮∑α⟯;
             foreach ($αs as $α) {
@@ -785,6 +789,7 @@ class Special
 
             return $∏;
         }
+
         $∑ = -self::logGamma($∑α);
         foreach ($αs as $α) {
             $∑ += self::logGamma($α);
@@ -959,7 +964,6 @@ class Special
         if ($s == 0) {
             return \NAN;
         }
-
 
         if ($s == 1) {
             return 1 - \exp(-1 * $x);

@@ -135,9 +135,6 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
      */
     public function testGammaExceptionUndefined($x)
     {
-        // Given
-        // $x provided
-
         // Then
         $this->expectException(Exception\NanException::class);
 
@@ -152,7 +149,11 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [0.0],
             [-1],
             [-2],
-            [-2.0]
+            [-2.0],
+            [-3],
+            [-4],
+            [-10],
+            [-20],
         ];
     }
 
@@ -1293,6 +1294,149 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
                 [1, 2, 3, 6],
                 [0.00626879, 0.01704033, 0.04632042, 0.93037047],
             ],
+        ];
+    }
+
+    /**
+     * @test         chebyshevEval bounds condition error on n
+     * @dataProvider dataProviderForChebyshevEvalNOutOfBounds
+     * @param        int $n
+     */
+    public function testChebyshevEvalNOutOfBounds(int $n)
+    {
+        // Given
+        $x = 1;
+        $a = [2, 3];
+
+        // And
+        $chebyshevEval = new \ReflectionMethod(Special::Class, 'chebyshevEval');
+        $chebyshevEval->setAccessible(true);
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $chebyshevEval->invokeArgs(null, [$x, $a, $n]);
+    }
+
+    public function dataProviderForChebyshevEvalNOutOfBounds(): array
+    {
+        return [
+            [-2],
+            [1001],
+        ];
+    }
+
+    /**
+     * @test         chebyshevEval bounds condition error on x
+     * @dataProvider dataProviderForChebyshevEvalXOutOfBounds
+     * @param        float $x
+     */
+    public function testChebyshevEvalXOutOfBounds(float $x): void
+    {
+        // Given
+        $n = 5;
+        $a = [2, 3];
+
+        // And
+        $chebyshevEval = new \ReflectionMethod(Special::Class, 'chebyshevEval');
+        $chebyshevEval->setAccessible(true);
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        $chebyshevEval->invokeArgs(null, [$x, $a, $n]);
+    }
+
+    public function dataProviderForChebyshevEvalXOutOfBounds(): array
+    {
+        return [
+            [-1.2],
+            [1.2],
+        ];
+    }
+
+    /**
+     * @test         stirlingError
+     * @dataProvider dataProviderForSterlingError
+     * @param        float $n
+     * @param        float $expected
+     */
+    public function testStirlingError(float $n, float $expected): void
+    {
+        // When
+        $stirlingError = Special::stirlingError($n);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $stirlingError, 0.000001);
+    }
+
+    /**
+     * Test data produces with R library DPQmpfr: stirlerrM(n)
+     * @return array
+     */
+    public function dataProviderForSterlingError(): array
+    {
+        return [
+            [0.5, 0.1534264],
+            [1, 0.08106147],
+            [1.5, 0.05481412],
+            [2, 0.0413407],
+            [5, 0.01664469],
+            [5.5, 0.01513497],
+            [14, 0.00595137],
+            [14.5, 0.005746217],
+            [15, 0.005554734],
+
+            [0.1, 0.5127401],
+            [0.2, 0.3222939],
+            [0.9, 0.08958191],
+            [1.1, 0.07400292],
+            [5.3, 0.0157048],
+            [14.7, 0.005668061],
+
+            [15.5, 0.005375599],
+            [20, 0.00416632],
+            [22.4, 0.003719991],
+        ];
+    }
+
+    /**
+     * @test stirlingError infinity at 0
+     */
+    public function testStirlingErrorInfinity(): void
+    {
+        // Given
+        $n = 0;
+
+        // When
+        $stirlingError = Special::stirlingError($n);
+
+        // Then
+        $this->assertInfinite($stirlingError);
+    }
+
+    /**
+     * @test         stirlingError NAN for negative values
+     * @dataProvider dataProviderForSterlingErrorNan
+     * @param        float $n
+     */
+    public function testStirlingErrorNan(float $n): void
+    {
+        // Then
+        $this->expectException(Exception\NanException::class);
+
+        // When
+        $stirlingError = Special::stirlingError($n);
+    }
+
+    public function dataProviderForSterlingErrorNan(): array
+    {
+        return [
+            [-0.1],
+            [-1],
+            [-10],
         ];
     }
 }
