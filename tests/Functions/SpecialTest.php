@@ -310,28 +310,43 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
         $this->assertEqualsWithDelta($Γ, $log_gamma, abs($Γ) * 0.00001);
     }
 
+    /**
+     * Test data produced with R function lgamma(x)
+     * @return array
+     */
     public function dataProviderForLogGamma(): array
     {
         return [
-            [ 1, 0 ],
-            [ 1.0, 0 ],
-            [ 2, 0 ],
-            [ 3, 0.6931472 ],
-            [ 100, 359.1342],
-            [ 0, \INF ],
-            [ 5E-307, 705.2842],
-            [ 2.6E305, \INF],
-            [ 2E17, 7.767419e+18],
-            [ 4934770, 71118994],
-            [ -.9, 2.358073],
-            [ -11.2, -16.31644474],
+            [-2, \INF],
+            [-1.9, 1.716219],
+            [-1.5, 0.860047],
+            [-1, \INF],
+            [-0.1, 2.368961],
+            [0, \INF],
+            [0.1, 2.252713],
+            [0.5, 0.5723649],
+            [1, 0],
+            [1.0, 0],
+            [2, 0],
+            [2.1, 0.04543774],
+            [2.5, 0.2846829],
+            [3, 0.6931472],
+            [10, 12.80183],
+            [100, 359.1342],
+            [1000, 5905.22],
+            [10000, 82099.72],
+            [100000, 1051288],
+            [5E-307, 705.2842],
+            [2.6E305, \INF],
+            [2E17, 7.767419e+18],
+            [4934770, 71118994],
+            [-.9, 2.358073],
+            [-11.2, -16.31644474],
         ];
     }
 
     /**
-     * @test         logGamma returns NaNException appropriately
-     *
-     * @throws       \Exception
+     * @test logGamma returns NaNException appropriately
      */
     public function testLogGammaNan()
     {
@@ -346,14 +361,12 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
      /**
-     * @test         Gamma returns NaNException appropriately
-     *
-     * @throws       \Exception
+     * @test gamma returns NaNException appropriately
      */
     public function testGammaNan()
     {
         // Given
-        $nan = acos(1.01);
+        $nan = \NAN;
 
         // Then
         $this->expectException(Exception\NanException::class);
@@ -439,8 +452,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
             [20, 20, 7.254445e-13],
             [\INF, 2, 0],
             [2, \INF, 0],
-            // Issue #429
-            [1.5, 170.5, 0.0003971962],
+            [1.5, 170.5, 0.0003971962],  // Issue #429
         ];
     }
 
@@ -473,14 +485,12 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         Beta returns NaNException appropriately
-     *
-     * @throws       \Exception
+     * @test beta returns NaNException appropriately
      */
     public function testBetaNan()
     {
         // Given
-        $nan = acos(1.01);
+        $nan = \NAN;
 
         // Then
         $this->expectException(Exception\NanException::class);
@@ -490,14 +500,12 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         logBeta returns NaNException appropriately
-     *
-     * @throws       \Exception
+     * @test logBeta returns NaNException appropriately
      */
     public function testLogBetaNan()
     {
         // Given
-        $nan = acos(1.01);
+        $nan = \NAN;
 
         // Then
         $this->expectException(Exception\NanException::class);
@@ -507,9 +515,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         Parameters must be greater than 0
-     *
-     * @throws       \Exception
+     * @test logBeta parameters must be greater than 0
      */
     public function testLogBetaOutOfBounds()
     {
@@ -524,9 +530,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         Parameters must be greater than 0
-     *
-     * @throws       \Exception
+     * @test beta parameters must be greater than 0
      */
     public function testBetaOutOfBounds()
     {
@@ -541,9 +545,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         Parameter must be greater than 10
-     *
-     * @throws       \Exception
+     * @test logGammaCorr parameter must be greater than 10
      */
     public function testLogGammaCorrOutOfBounds()
     {
