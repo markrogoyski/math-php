@@ -165,6 +165,31 @@ class StudentTTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test Github issue 429 - pdf - produced incorrect value of 0
+     *
+     * R Reference:
+     *  > library(stats)
+     *  > v <- 341
+     *  > t <- 0
+     *  > dt(t, v)
+     *  [1] 0.3986499
+     */
+    public function testBugIssue429StudentTPdf()
+    {
+        // Given
+        $v = 341;
+        $studentT = new StudentT($v);
+
+        // When
+        $t = 0;
+        $pdf = $studentT->pdf($t);
+
+        // Then
+        $expected = 0.3986499;
+        $this->assertEqualsWithDelta($expected, $pdf, 0.001);
+    }
+
+    /**
      * @test         cdf
      * @dataProvider dataProviderForCdf
      * @param        float $t
