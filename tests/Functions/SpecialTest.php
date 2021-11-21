@@ -1068,6 +1068,32 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test Github Issue 393 Bug - regularizedIncompleteBeta
+     * Reference expected values:
+     *   Python scipy.special.betainc(a, b, x)
+     *     >>> scipy.special.betainc(274.40782656165, 0.5, 0.99993441100298)
+     *     0.8495884744315958
+     *   Online calculator https://keisan.casio.com/exec/system/1180573396
+     *     0.8495884744316587246283
+     */
+    public function testIssue393BugInRegularizedIncompleteBeta()
+    {
+        // Given
+        $x = 0.99993441100298;
+        $a = 274.40782656165;
+        $b = 0.5;
+
+        // And
+        $expected = 0.8495884744315958;
+
+        // When
+        $betainc = Special::regularizedIncompleteBeta($x, $a, $b);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $betainc, 0.00001);
+    }
+
+    /**
      * @test         incompleteBeta returns the expected value
      * @dataProvider dataProviderForIncompleteBeta
      * @param        float $x
