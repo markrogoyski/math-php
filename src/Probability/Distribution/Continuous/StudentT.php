@@ -60,6 +60,10 @@ class StudentT extends Continuous
      * Where t = npD₀(-ν/2, (ν+1)/2) + δ((ν+1)/2) - δ(ν/2)
      * and u = ν/2 * log(1+x2⁄ν) = -npD₀(ν/2, (ν+x²)/2) + x²/2
      *
+     * The implementation is heavily inspired by the R language's C implementation of dt.
+     * R Project for Statistical Computing: https://www.r-project.org/
+     * R Source: https://svn.r-project.org/R/
+     *
      * @param float $t t score
      *
      * @return float
@@ -69,28 +73,30 @@ class StudentT extends Continuous
         Support::checkLimits(self::SUPPORT_LIMITS, ['t' => $t]);
 
         $ν = $this->ν;
-        $π = \M_PI;
 
-        // New Code From R
-        $DBL_EPSILON = 2.220446049250313e-16;  // Need to verify
-        $tnew = -1 * self::npD0($ν / 2, ($ν + 1) / 2) + Special::stirlingError(($ν + 1) / 2) - Special::stirlingError($ν / 2);
-        $x2n = $t**2 / $ν; // in  [0, Inf]
-        $ax = 0;
+        static $π = \M_PI;
+        static $DBL_EPSILON = 2.220446049250313e-16;
+
+        $tnew    = -1 * self::npD0($ν / 2, ($ν + 1) / 2) + Special::stirlingError(($ν + 1) / 2) - Special::stirlingError($ν / 2);
+        $x2n     = $t**2 / $ν;  // in  [0, Inf]
+        $ax      = 0;
         $lrg_x2n = $x2n > (1 / $DBL_EPSILON);
-        if ($lrg_x2n) {
-            // large x**2/n :
-            $ax = \abs($t);
+
+        if ($lrg_x2n) { // large x**2/n
+            $ax    = \abs($t);
             $l_x2n = \log($ax) - \log($ν) / 2;
-            $u = $ν * $l_x2n;
+            $u     = $ν * $l_x2n;
         } elseif ($x2n > 0.2) {
             $l_x2n = \log(1 + $x2n) / 2;
-            $u = $ν * $l_x2n;
+            $u     = $ν * $l_x2n;
         } else {
             $l_x2n = \log1p($x2n) / 2;
             $u = -1* self::npD0($ν / 2, ($ν + $t**2) / 2) + $t**2 / 2;
         }
 
-        $I_sqrt = $lrg_x2n ? \sqrt($ν) / $ax : \exp(-$l_x2n);
+        $I_sqrt = $lrg_x2n
+            ? \sqrt($ν) / $ax
+            : \exp(-$l_x2n);
         return \exp($tnew - $u) * 1 / \sqrt(2 * $π) * $I_sqrt;
     }
 
@@ -105,6 +111,10 @@ class StudentT extends Continuous
      *               t² + ν
      *
      *        Iₓ₍t₎(ν/2, ½) is the regularized incomplete beta function
+     *
+     * The implementation is heavily inspired by the R language's C implementation of pt.
+     * R Project for Statistical Computing: https://www.r-project.org/
+     * R Source: https://svn.r-project.org/R/
      *
      * @param float $t t score
      *
@@ -121,14 +131,16 @@ class StudentT extends Continuous
             $norm = new StandardNormal();
             return $norm->cdf($t);
         }
-        if ($ν > 4e5) { /*-- Fixme(?): test should depend on `n' AND `x' ! */
-            /* Approx. from Abramowitz & Stegun 26.7.8 (p.949) */
-            $val = 1 / 4 / $ν;
+
+        if ($ν > 4e5) {
+            // Approx. from Abramowitz & Stegun 26.7.8 (p.949)
+            $val  = 1 / 4 / $ν;
             $norm = new StandardNormal();
             return $norm->cdf($t*(1 - $val)/sqrt(1 + $t*$t*2*$val));
         }
+
         $nx = 1 + ($t / $ν) * $t;
-        if ($nx > 1e100) { /* <==>  x*x > 1e100 * n  */
+        if ($nx > 1e100) {  // <==>  x*x > 1e100 * n
             $lval = -0.5 * $ν *(2* \log(\abs($t)) - \log($ν)) - Special::logBeta(0.5 * $ν, 0.5) - \log(0.5 * $ν);
             $val = \exp($lval);
         } else {
@@ -136,12 +148,12 @@ class StudentT extends Continuous
             $beta2 = new Beta($ν / 2, 0.5);
             $val = ($ν > $t * $t) ? .5 - $beta1->cdf($t * $t / ($ν + $t * $t)) + .5 : $beta2->cdf(1 / $nx);
         }
-        $lower_tail = true;
-        if ($t <= 0) {
-            $lower_tail = false;
-        }
+
+        $lowerTail = $t > 0;
         $val /= 2;
-        return  $lower_tail ? (0.5 - ($val) + 0.5) : ($val); /* 1 - p */
+        return $lowerTail
+            ? (0.5 - ($val) + 0.5)
+            : ($val);  // 1 - p
     }
 
     /**
@@ -247,14 +259,20 @@ class StudentT extends Continuous
      *         (x+np)
      *
      * Source: https://www.r-project.org/doc/reports/CLoader-dbinom-2002.pdf
+     *
+     * @param float $x
+     * @param float $np
+     *
+     * @return float
      */
-    private static function npD0(float $x, float $np)
+    private static function npD0(float $x, float $np): float
     {
-        $DBL_MIN = 2.23e-308; // Check This
-        if (abs($x - $np) < 0.1 * ($x + $np)) {
+        static $DBL_MIN = 2.23e-308;
+
+        if (\abs($x - $np) < 0.1 * ($x + $np)) {
             $v = ($x - $np) / ($x + $np);
             $s = ($x - $np) * $v;
-            if (abs($s) < $DBL_MIN) {
+            if (\abs($s) < $DBL_MIN) {
                 return $s;
             }
             $Σj = 2 * $x * $v;
@@ -267,8 +285,8 @@ class StudentT extends Continuous
                     return $s;
                 }
             }
-            //MATHLIB_WARNING4("bd0(%g, %g): T.series failed to converge in 1000 it.; s=%g, ej/(2j+1)=%g\n", x, np, s, ej/((1000<<1)+1));
         }
-        return ($x * log($x / $np) + $np - $x);
+
+        return ($x * \log($x / $np) + $np - $x);
     }
 }
