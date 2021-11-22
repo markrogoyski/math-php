@@ -1,5 +1,22 @@
 # MathPHP Change Log
 
+## v2.5.0 - 2021-11-21
+
+### New Features
+* Special function `logbeta`
+* Special function `logGamma`
+* Special function `logGammaCorr`
+* Special function `stirlingError`
+
+### Improvements
+* Improvements in StudentT continuous distribution
+* Improvements in special function `gamma`
+* Improvements in special function `beta`
+
+### Bug Fixes
+* Issue 393 (regularizedIncompleteBeta NAN)
+* Issue 429 (Linear regression CI division by zero)
+
 ## v2.4.0 - 2021-07-27
 
 ### New Features
