@@ -328,9 +328,11 @@ use MathPHP\Functions\Special;
 
 // Gamma function Γ(z)
 $z = 4;
-$Γ = Special::gamma($z);          // Uses gamma definition for integers and half integers; uses Lanczos approximation for real numbers
+$Γ = Special::gamma($z);
 $Γ = Special::gammaLanczos($z);   // Lanczos approximation
 $Γ = Special::gammaStirling($z);  // Stirling approximation
+$l = Special::logGamma($z);
+$c = Special::logGammaCorr($z);   // Log gamma correction
 
 // Incomplete gamma functions - γ(s,t), Γ(s,x), P(s,x)
 [$x, $s] = [1, 2];
@@ -340,7 +342,8 @@ $P = Special::regularizedLowerIncompleteGamma($x, $s);
 
 // Beta function
 [$x, $y] = [1, 2];
-$β = Special::beta($x, $y);
+$β  = Special::beta($x, $y);
+$lβ = Special::logBeta($x, $y);
 
 // Incomplete beta functions
 [$x, $a, $b] = [0.4, 2, 3];
@@ -381,6 +384,9 @@ $sigmoid = Special::sigmoid($t);
 // Softmax function
 $𝐳    = [1, 2, 3, 4, 1, 2, 3];
 $σ⟮𝐳⟯ⱼ = Special::softmax($𝐳);
+
+// Log of the error term in the Stirling-De Moivre factorial series
+$err = Special::stirlingError($n);
 ```
 
 ### Information Theory - Entropy
