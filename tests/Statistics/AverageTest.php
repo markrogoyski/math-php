@@ -593,29 +593,61 @@ class AverageTest extends \PHPUnit\Framework\TestCase
      * @test         truncatedMean
      * @dataProvider dataProviderForTruncatedMean
      * @param        array $numbers
-     * @param        float $trim_percent
+     * @param        int   $trim_percent
      * @param        float $expectedMean
      * @throws       \Exception
      */
-    public function testTruncatedMean(array $numbers, float $trim_percent, float $expectedMean)
+    public function testTruncatedMean(array $numbers, int $trim_percent, float $expectedMean)
     {
         // When
         $mean = Average::truncatedMean($numbers, $trim_percent);
 
         // Then
-        $this->assertEqualsWithDelta($expectedMean, $mean, 0.01);
+        $this->assertEqualsWithDelta($expectedMean, $mean, 0.00001);
     }
 
     /**
+     * Test data generated with R: mean(nums, trim=0.05)
      * @return array [numbers, trim_percent, mean]
      */
     public function dataProviderForTruncatedMean(): array
     {
         return [
-            [ [ 92, 19, 101, 58, 1053, 91, 26, 78, 10, 13, -40, 101, 86, 85, 15, 89, 89, 28, -5, 41 ], 5, 56.5 ],
-            [ [ 4,3,6,8,4,2,4,8,12,53,23,12,21 ], 5, 12.31 ],
-            [ [ 8, 3, 7, 1, 3, 9 ], 20, 5.25 ],
-            [ [ 8, 3, 7, 1, 3, 9 ], 0, 5.16666667 ],
+            [[92, 19, 101, 58, 1053, 91, 26, 78, 10, 13, -40, 101, 86, 85, 15, 89, 89, 28, -5, 41], 0, 101.5],
+            [[92, 19, 101, 58, 1053, 91, 26, 78, 10, 13, -40, 101, 86, 85, 15, 89, 89, 28, -5, 41], 5, 56.5],
+            [[92, 19, 101, 58, 1053, 91, 26, 78, 10, 13, -40, 101, 86, 85, 15, 89, 89, 28, -5, 41], 15, 57.85714],
+            [[92, 19, 101, 58, 1053, 91, 26, 78, 10, 13, -40, 101, 86, 85, 15, 89, 89, 28, -5, 41], 40, 65.5],
+            [[92, 19, 101, 58, 1053, 91, 26, 78, 10, 13, -40, 101, 86, 85, 15, 89, 89, 28, -5, 41], 50, 68],
+            [[4,3,6,8,4,2,4,8,12,53,23,12,21], 0, 12.30769],
+            [[4,3,6,8,4,2,4,8,12,53,23,12,21], 5, 12.30769],
+            [[4,3,6,8,4,2,4,8,12,53,23,12,21], 10, 9.545455],
+            [[4,3,6,8,4,2,4,8,12,53,23,12,21], 20, 8.777778],
+            [[4,3,6,8,4,2,4,8,12,53,23,12,21], 25, 7.714286],
+            [[4,3,6,8,4,2,4,8,12,53,23,12,21], 30, 7.714286],
+            [[4,3,6,8,4,2,4,8,12,53,23,12,21], 35, 7.6],
+            [[4,3,6,8,4,2,4,8,12,53,23,12,21], 40, 7.333333],
+            [[4,3,6,8,4,2,4,8,12,53,23,12,21], 45, 7.333333],
+            [[4,3,6,8,4,2,4,8,12,53,23,12,21], 50, 8],
+            [[8, 3, 7, 1, 3, 9], 0, 5.16666667],
+            [[8, 3, 7, 1, 3, 9], 20, 5.25],
+            [[8, 3, 7, 1, 3, 9], 50, 5],
+            [[6,4,2,4,3,7,6,33,77,22,3,5,6,5,0,2,3,4,6], 25, 4.727273],
+            [[6,4,2,4,3,7,6,33,77,22,3,5,6,5,0,2,3,4,6], 50, 5],
+            [[2, 3, 4, 5, 1, 9, 6, 7, 10, 8], 1, 5.5],
+            [[2, 3, 4, 5, 1, 9, 6, 7, 10, 8], 10, 5.5],
+            [[2, 3, 4, 5, 1, 9, 6, 7, 10, 8], 40, 5.5],
+            [[2, 3, 4, 5, 1, 9, 6, 7, 10, 8], 50, 5.5],
+            [[3, 5, 6, 7, 6, 5, 6, 4, 2, 1, 0, 9, 8, 2, 4, 16, 4, 3, 3, 2, 12], 1, 5.142857],
+            [[3, 5, 6, 7, 6, 5, 6, 4, 2, 1, 0, 9, 8, 2, 4, 16, 4, 3, 3, 2, 12], 1, 5.142857],
+            [[3, 5, 6, 7, 6, 5, 6, 4, 2, 1, 0, 9, 8, 2, 4, 16, 4, 3, 3, 2, 12], 10, 4.647059],
+            [[3, 5, 6, 7, 6, 5, 6, 4, 2, 1, 0, 9, 8, 2, 4, 16, 4, 3, 3, 2, 12], 20, 4.461538],
+            [[3, 5, 6, 7, 6, 5, 6, 4, 2, 1, 0, 9, 8, 2, 4, 16, 4, 3, 3, 2, 12], 25, 4.454545],
+            [[3, 5, 6, 7, 6, 5, 6, 4, 2, 1, 0, 9, 8, 2, 4, 16, 4, 3, 3, 2, 12], 40, 4.4],
+            [[3, 5, 6, 7, 6, 5, 6, 4, 2, 1, 0, 9, 8, 2, 4, 16, 4, 3, 3, 2, 12], 50, 4],
+            [[1, 2, 3], 50, 2],
+            [[1, 2, 3, 4], 50, 2.5],
+            [[1, 2, 3, 4, 5], 50, 3],
+            [[1, 2, 3, 4, 5, 6], 50, 3.5],
         ];
     }
 
@@ -644,7 +676,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $numbers      = [1, 2, 3];
-        $trim_percent = -4;
+        $trim_percent = -1;
 
         // Then
         $this->expectException(Exception\OutOfBoundsException::class);
@@ -654,20 +686,31 @@ class AverageTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test truncatedMean trim percent greater than 99
-     * @throws   \Exception
+     * @test         truncatedMean trim percent greater than 50
+     * @dataProvider dataProviderForTruncatedMeanGreaterThan50TrimPercent
+     * @param        int $trim_percent
      */
-    public function testTruncatedMeanExceptionGreaterThan99TrimPercent()
+    public function testTruncatedMeanExceptionGreaterThan50TrimPercent(int $trim_percent)
     {
         // Given
-        $numbers      = [1, 2, 3];
-        $trim_percent = 100;
+        $numbers = [1, 2, 3, 6, 5, 4, 7];
 
         // Then
         $this->expectException(Exception\OutOfBoundsException::class);
 
         // When
-        Average::truncatedMean([1, 2, 3], 100);
+        Average::truncatedMean([1, 2, 3], $trim_percent);
+    }
+
+    public function dataProviderForTruncatedMeanGreaterThan50TrimPercent(): array
+    {
+        return [
+            [51],
+            [75],
+            [99],
+            [100],
+            [101],
+        ];
     }
 
     /**

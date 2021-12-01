@@ -2022,7 +2022,7 @@ $interquartile_mean  = Average::iqm($numbers);               // same as interqua
 $cubic_mean          = Average::cubicMean($numbers);
 
 // Truncated mean (trimmed mean)
-$trim_percent   = 25;
+$trim_percent   = 25;  // 25 percent of observations trimmed from each end of distribution
 $truncated_mean = Average::truncatedMean($numbers, $trim_percent);
 
 // Generalized mean (power mean)

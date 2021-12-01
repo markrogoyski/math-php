@@ -480,21 +480,21 @@ class Average
      * This number of points to be discarded is given as a percentage of the total number of points.
      * https://en.wikipedia.org/wiki/Truncated_mean
      *
-     * Trim count = floor( (trim percent / 100) * sample size )
+     * Trim count = floor((trim percent / 100) * sample size)
      *
      * For example: [8, 3, 7, 1, 3, 9] with a trim of 20%
      * First sort the list: [1, 3, 3, 7, 8, 9]
      * Sample size = 6
-     * Then determine trim count: floot(20/100 * 6 ) = 1
+     * Then determine trim count: floor(20/100 * 6) = 1
      * Trim the list by removing 1 from each end: [3, 3, 7, 8]
      * Finally, find the mean: 5.2
      *
      * @param float[] $numbers
-     * @param int     $trim_percent Percent between 0-99
+     * @param int     $trim_percent Percent between 0-50 indicating percent of observations trimmed from each end of distribution
      *
      * @return float
      *
-     * @throws Exception\OutOfBoundsException if trim percent is not between 0 and 99
+     * @throws Exception\OutOfBoundsException if trim percent is not between 0 and 50
      * @throws Exception\BadDataException if the input array of numbers is empty
      */
     public static function truncatedMean(array $numbers, int $trim_percent): float
@@ -502,14 +502,18 @@ class Average
         if (empty($numbers)) {
             throw new Exception\BadDataException('Cannot find the truncated mean of an empty list of numbers');
         }
-        if ($trim_percent < 0 || $trim_percent > 99) {
-            throw new Exception\OutOfBoundsException('Trim percent must be between 0 and 99.');
+        if ($trim_percent < 0 || $trim_percent > 50) {
+            throw new Exception\OutOfBoundsException('Trim percent must be between 0 and 50.');
         }
 
         $n          = \count($numbers);
         $trim_count = \floor($n * ($trim_percent / 100));
 
         \sort($numbers);
+        if ($trim_percent == 50) {
+            return self::median($numbers);
+        }
+
         for ($i = 1; $i <= $trim_count; $i++) {
             \array_shift($numbers);
             \array_pop($numbers);
