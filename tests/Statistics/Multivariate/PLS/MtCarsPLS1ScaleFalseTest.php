@@ -82,6 +82,6 @@ class MtCarsPLS1ScaleFalseTest extends \PHPUnit\Framework\TestCase
         $B = self::$pls->getCoefficients()->getMatrix();
 
         // Then
-        $this->assertEquals($expected, $B, '', .00001);
+        $this->assertEqualsWithDelta($expected, $B, .00001);
     }
 }

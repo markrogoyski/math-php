@@ -1270,7 +1270,7 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
         $poly = new Polynomial($poly);
 
         $companion = $poly->companionMatrix();
-        $this->assertEquals($expected_matrix, $companion->getMatrix(), '', .0000001);
+        $this->assertEqualsWithDelta($expected_matrix, $companion->getMatrix(), .0000001);
     }
 
     /**
