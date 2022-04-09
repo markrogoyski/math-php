@@ -1,6 +1,6 @@
 # MathPHP Change Log
 
-## 2.6.0 - TBD
+## v2.6.0 - 2022-04-TBD
 
 ### Improvements
 * `Average::truncatedMean` behavior at 50% trim made consistent
