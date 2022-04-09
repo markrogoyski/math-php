@@ -7,7 +7,6 @@ use MathPHP\Exception;
 
 class StandardNormalTableTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * @test         z score
      * @dataProvider dataProviderForZScores

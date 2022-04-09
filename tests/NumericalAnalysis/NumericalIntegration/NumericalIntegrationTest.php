@@ -7,7 +7,6 @@ use MathPHP\Exception;
 
 class NumericalIntegrationTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * @test   The input $source is neither a callback or a set of arrays
      * @throws Exception\BadDataException

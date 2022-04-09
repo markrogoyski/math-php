@@ -8,5 +8,4 @@ namespace MathPHP\Probability\Distribution\Discrete;
  */
 class Pascal extends NegativeBinomial
 {
-
 }

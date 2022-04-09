@@ -7,7 +7,6 @@ use MathPHP\Exception;
 
 class MultiTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * @test         add two arrays
      * @dataProvider dataProviderForAddTwoArrays
