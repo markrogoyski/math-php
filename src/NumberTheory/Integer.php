@@ -142,7 +142,7 @@ class Integer
             $J *= 1 - 1 / $prime ** $k;
         }
 
-        return $J;
+        return (int) $J;
     }
 
     /**

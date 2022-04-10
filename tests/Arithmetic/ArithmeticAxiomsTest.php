@@ -116,7 +116,7 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
             [12345, 67890],
             [405, 3],
             [0, 34434],
-            [398792873, 20598729038],
+            [398792873, 2059872903],
         ];
     }
 

@@ -270,7 +270,7 @@ class Distribution
         \sort($values);
         $plot = array();
         foreach ($values as $value) {
-            $stem = $value / 10;
+            $stem = intdiv($value, 10);
             $leaf = $value % 10;
             if (!isset($plot[$stem])) {
                 $plot[$stem] = array();
