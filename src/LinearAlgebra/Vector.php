@@ -759,6 +759,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * @param mixed $i
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($i)
     {
         return $this->A[$i];
@@ -769,7 +770,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * @param mixed $value
      * @throws Exception\VectorException
      */
-    public function offsetSet($i, $value)
+    public function offsetSet($i, $value): void
     {
         throw new Exception\VectorException('Vector class does not allow setting values');
     }
@@ -778,7 +779,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * @param mixed $i
      * @throws Exception\VectorException
      */
-    public function offsetUnset($i)
+    public function offsetUnset($i): void
     {
         throw new Exception\VectorException('Vector class does not allow unsetting values');
     }
@@ -804,11 +805,13 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
         $this->i = 0;
     }
 
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->A[$this->i];
     }
 
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->i;

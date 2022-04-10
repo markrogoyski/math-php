@@ -16,7 +16,7 @@ class ArrayIteratorFixture implements \Iterator
         $this->i      = 0;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->i = 0;
     }
@@ -24,6 +24,7 @@ class ArrayIteratorFixture implements \Iterator
     /**
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->values[$this->i];
@@ -37,7 +38,7 @@ class ArrayIteratorFixture implements \Iterator
         return $this->i;
     }
 
-    public function next()
+    public function next(): void
     {
         ++$this->i;
     }

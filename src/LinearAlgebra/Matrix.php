@@ -955,6 +955,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * @param mixed $i
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($i)
     {
         return $this->A[$i];
@@ -965,7 +966,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * @param  mixed $value
      * @throws Exception\MatrixException
      */
-    public function offsetSet($i, $value)
+    public function offsetSet($i, $value): void
     {
         throw new Exception\MatrixException('Matrix class does not allow setting values');
     }
@@ -974,7 +975,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * @param  mixed $i
      * @throws Exception\MatrixException
      */
-    public function offsetUnset($i)
+    public function offsetUnset($i): void
     {
         throw new Exception\MatrixException('Matrix class does not allow unsetting values');
     }
@@ -985,7 +986,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->A;
     }

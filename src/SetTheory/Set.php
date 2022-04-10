@@ -649,7 +649,7 @@ class Set implements \Countable, \Iterator
     /**
      * Rewind (Iterator interface)
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->iterator_keys     = \array_keys($this->A);
         $this->iterator_position = \array_shift($this->iterator_keys);
@@ -668,6 +668,7 @@ class Set implements \Countable, \Iterator
     /**
      * Current (Iterator interface)
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->A[$this->iterator_position];
@@ -676,6 +677,7 @@ class Set implements \Countable, \Iterator
     /**
      * Key (Iterator interface)
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->iterator_position;
@@ -684,7 +686,7 @@ class Set implements \Countable, \Iterator
     /**
      * Next (Iterator interface)
      */
-    public function next()
+    public function next(): void
     {
         $this->iterator_position = \array_shift($this->iterator_keys);
     }
