@@ -1,9 +1,10 @@
 # MathPHP Change Log
 
-## v2.6.0 - 2022-04-TBD
+## v2.6.0 - 2022-04-10
 
 ### Improvements
 * `Average::truncatedMean` behavior at 50% trim made consistent
+* PHP 8.1 compatibility improvements
 
 ### Backwards Incompatible Changes
 # `Average::truncatedMean` throws exception if trim percent greater than 50% rather than error or unpredictable results.
