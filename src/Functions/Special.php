@@ -1056,78 +1056,6 @@ class Special
     /**
      * Regularized incomplete beta function - Iₓ(a, b)
      *
-     * A continuous fraction is used to evaluate I
-     *
-     *                      /      α₁       \
-     *              xᵃyᵇ   |  -------------- |
-     * Iₓ(a, b) = -------- |    β₁ +   α₂    |
-     *             B(a,b)  |         ------  |
-     *                      \        β₂ + … /
-     *
-     *                 (a + m - 1) * (a + b + m -1) * m * (b - m) * x²
-     * α₁ = 1, αm+1 = -------------------------------------------------
-     *                                (a + 2m - 1)²
-     *
-     *             m * (b - m) * x      (a + m) * (a - (a + b) * x + 1 + m * (2 - x))
-     * βm+1 = m + ------------------ + -----------------------------------------------
-     *              a + 2 * m - 1                      a + 2 * m + 1
-     *
-     * This algorithm is valid when both a and b are greater than 1
-     *
-     * @param int   $m the number of α and β parameters to calculate
-     * @param float $x Upper limit of the integration 0 ≦ x ≦ 1
-     * @param float $a Shape parameter a > 1
-     * @param float $b Shape parameter b > 1
-     *
-     * @return float
-     *
-     * @throws Exception\BadDataException
-     * @throws Exception\BadParameterException
-     * @throws Exception\OutOfBoundsException
-     */
-    private static function iBetaCF(int $m, float $x, float $a, float $b): float
-    {
-        $limits = [
-        'x'  => '[0, 1]',
-        'a'  => '(1,∞)',
-        'b'  => '(1,∞)',
-        ];
-        Support::checkLimits($limits, ['x' => $x, 'a' => $a, 'b' => $b]);
-
-        $beta     = self::beta($a, $b);
-        $constant = $x ** $a * (1 - $x) ** $b / $beta;
-
-        $α_array = [];
-        $β_array = [];
-
-        for ($i = 0; $i < $m; $i++) {
-            if ($i == 0) {
-                $α = 1;
-            } else {
-                $α = ($a + $i - 1) * ($a + $b + $i - 1) * $i * ($b - $i) * $x ** 2 / ($a + 2 * $i - 1) ** 2;
-            }
-            $β₁        = $i + $i * ($b - $i) * $x / ($a + 2 * $i - 1);
-            $β₂        = ($a + $i) * ($a - ($a + $b) * $x + 1 + $i * (2 - $x)) / ($a + 2 * $i + 1);
-            $β         = $β₁ + $β₂;
-            $α_array[] = $α;
-            $β_array[] = $β;
-        }
-
-        $fraction_array = [];
-        for ($i = $m - 1; $i >= 0; $i--) {
-            if ($i == $m - 1) {
-                $fraction_array[$i] = $α_array[$i] / $β_array[$i];
-            } else {
-                $fraction_array[$i] = $α_array[$i] / ($β_array[$i] + $fraction_array[$i + 1]);
-            }
-        }
-
-        return $constant * $fraction_array[0];
-    }
-
-    /**
-     * Regularized incomplete beta function - Iₓ(a, b)
-     *
      * https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function
      *
      * This function looks at the values of x, a, and b, and determines which algorithm is best to calculate
@@ -1135,6 +1063,7 @@ class Special
      *
      * http://www.boost.org/doc/libs/1_35_0/libs/math/doc/sf_and_dist/html/math_toolkit/special/sf_beta/ibeta_function.html
      * https://github.com/boostorg/math/blob/develop/include/boost/math/special_functions/beta.hpp
+     * https://github.com/codeplea/incbeta
      *
      * @param float $x Upper limit of the integration 0 ≦ x ≦ 1
      * @param float $a Shape parameter a > 0
@@ -1144,6 +1073,8 @@ class Special
      *
      * @throws Exception\BadDataException
      * @throws Exception\BadParameterException
+     * @throws Exception\FunctionFailedToConvergeException
+     * @throws Exception\NanException
      * @throws Exception\OutOfBoundsException
      */
     public static function regularizedIncompleteBeta(float $x, float $a, float $b): float
@@ -1167,39 +1098,56 @@ class Special
             return $x ** $a;
         }
 
-        if ($x > .9 || $b > $a && $x > .5) {
-            $y = 1 - $x;
-            return 1 - self::regularizedIncompleteBeta($y, $b, $a);
+        if ($x > ($a + 1)/($a + $b + 2)) {
+            return 1 - self::regularizedIncompleteBeta((1 - $x), $b, $a);
         }
-        if ($a > 1 && $b > 1) {
-            // Tolerance on evaluating the continued fraction.
-            $tol = .000000000000001;
-            $dif = $tol + 1; // Initialize
 
-            // We will calculate the continuous fraction with a minimum depth of 10.
-            $m = 10;  // Counter
-            $I = 0;
-            do {
-                $I_new = self::iBetaCF($m, $x, $a, $b);
-                if ($m > 10) {
-                    $dif = \abs(($I - $I_new) / $I_new);
-                }
-                $I = $I_new;
+        // There are several different ways to calculate the incomplete beta function
+        // (https://dlmf.nist.gov/8.17). This follows the continued fraction form,
+        // which consists of a term followed by a converging series of fractions.
+        // Lentz's Algorithm is used to solve the continued fraction.
+
+        $first_term = \exp(log($x) * $a + \log(1.0 - $x) * $b - (self::logGamma($a) + self::logGamma($b) - self::logGamma($a + $b))) / $a;
+
+        // PHP 7.2.0 offers PHP_FLOAT_EPSILON, but 1.0e-30 is used in Lewis Van Winkle's
+        // reference implementation to prevent division-by-zero errors, so we use the same here.
+        $ε = 1.0e-30;
+
+        // These starting values are changed from the reference implementation at
+        // https://github.com/codeplea/incbeta to precalculate $i = 0 and avoid the
+        // extra conditional expression inside the loop.
+        $d = 1.0;
+        $c = 2.0;
+        $f = $c * $d;
+
+        $m = 0;
+        for ($i = 1; $i <= 200; $i++) {
+
+            if ($i % 2 === 0) {
+                // Even term.
                 $m++;
-            } while ($dif > $tol);
-            return $I;
-        } else {
-            if ($a <= 1) {
-                // We shift a up by one, to the region that the continuous fraction works best.
-                $offset = $x ** $a * (1 - $x) ** $b / $a / self::beta($a, $b);
-                return self::regularizedIncompleteBeta($x, $a + 1, $b) + $offset;
-            } else { // $b <= 1
-                // We shift b up by one, to the region that the continuous fraction works best.
-                $offset = $x ** $a * (1 - $x) ** $b / $b / self::beta($a, $b);
-                return self::regularizedIncompleteBeta($x, $a, $b + 1) - $offset;
+                $numerator = ($m * ($b - $m) * $x) / (($a + 2.0 * $m - 1.0) * ($a + 2.0 * $m));
+            }
+            else {
+                // Odd term.
+                $numerator = -(($a + $m) * ($a + $b + $m) * $x) / (($a + 2.0 * $m) * ($a + 2.0 * $m + 1));
+            }
+
+            // Lentz's Algorithm.
+            $d = 1.0 + $numerator * $d;
+            $d = 1.0 / (\abs($d) < $ε ? $ε : $d);
+            $c = 1.0 + $numerator / (\abs($c) < $ε ? $ε : $c);
+            $f *= $c * $d;
+
+            if (\abs(1.0 - $c * $d) < 1.0e-8) {
+                return $first_term * ($f - 1.0);
             }
         }
+
+        // Series did not converge.
+        throw new Exception\FunctionFailedToConvergeException(sprintf('Continuous fraction series is not converging for x = %f, a = %f, b = %f', $x, $a, $b));
     }
+
 
     /**
      * Generalized Hypergeometric Function
