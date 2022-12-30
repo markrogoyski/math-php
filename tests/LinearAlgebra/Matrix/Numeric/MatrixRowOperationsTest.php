@@ -512,6 +512,28 @@ class MatrixRowOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test   rowAddVector test vector is not a zero-vector
+     * @throws \Exception
+     */
+    public function testRowAddVectorExceptionZeroVector()
+    {
+        // Given
+        $A = MatrixFactory::createNumeric([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $b = new Vector([0,0,0]);
+
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
+        $A->rowAddVector($b, 0);
+    }
+
+    /**
      * @test         rowSubtract
      * @dataProvider dataProviderForRowSubtract
      * @param        array $A
