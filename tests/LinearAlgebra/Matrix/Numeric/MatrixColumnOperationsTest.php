@@ -362,4 +362,26 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
         // When
         $A->columnAddVector($b, 0);
     }
+
+    /**
+     * @test   columnAddVector test Vector->count() === matrix->m
+     * @throws \Exception
+     */
+    public function testColumnAddVectorExceptionLengthMismatch()
+    {
+        // Given
+        $A = MatrixFactory::createNumeric([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $b = new Vector([1,2,3,4]);
+
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
+        $A->columnAddVector($b, 1);
+    }
 }
