@@ -490,6 +490,28 @@ class MatrixRowOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test   rowAddVector test row m exists
+     * @throws \Exception
+     */
+    public function testRowAddVectorExceptionRowExists()
+    {
+        // Given
+        $A = MatrixFactory::createNumeric([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $b = new Vector([1,2,3]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $A->rowAddVector($b, 4);
+    }
+
+    /**
      * @test         rowSubtract
      * @dataProvider dataProviderForRowSubtract
      * @param        array $A
