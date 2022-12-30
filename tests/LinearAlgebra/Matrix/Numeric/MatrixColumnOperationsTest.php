@@ -367,7 +367,7 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
      * @test   columnAddVector test Vector->count() === matrix->m
      * @throws \Exception
      */
-    public function testColumnAddVectorExceptionLengthMismatch()
+    public function testColumnAddVectorExceptionElementMismatch()
     {
         // Given
         $A = MatrixFactory::createNumeric([

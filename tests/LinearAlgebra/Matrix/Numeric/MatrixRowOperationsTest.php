@@ -534,6 +534,28 @@ class MatrixRowOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test   rowAddVector test vector->count() === matrix m
+     * @throws \Exception
+     */
+    public function testRowAddVectorExceptionElementMismatch()
+    {
+        // Given
+        $A = MatrixFactory::createNumeric([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $b = new Vector([1,2,3,4]);
+
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
+        $A->rowAddVector($b, 1);
+    }
+
+    /**
      * @test         rowSubtract
      * @dataProvider dataProviderForRowSubtract
      * @param        array $A
