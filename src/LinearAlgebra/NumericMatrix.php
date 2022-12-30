@@ -2503,16 +2503,13 @@ class NumericMatrix extends Matrix
      * @return NumericMatrix
      *
      * @throws Exception\MatrixException if row to add does not exist
-     * @throws Exception\BadParameterException if the vector is 0-length (±ε) or has a different # of components to the # of columns
+     * @throws Exception\BadParameterException if the vector has a different # of components to the # of columns
      * @throws Exception\IncorrectTypeException
      */
     public function rowAddVector(Vector $v, int $mᵢ): NumericMatrix
     {
         if ($mᵢ < 0 || $mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to add does not exist');
-        }
-        if (Support::isEqual((float) $v->length(), 0, $this->ε)) {
-            throw new Exception\BadParameterException('Cannot add a 0-length vector');
         }
         if ($v->count() !== $this->m) {
             throw new Exception\BadParameterException('Vector is not the same length as matrix columns');
@@ -2662,16 +2659,13 @@ class NumericMatrix extends Matrix
      * @return NumericMatrix
      *
      * @throws Exception\MatrixException if column to add does not exist
-     * @throws Exception\BadParameterException if the vector is 0-length (±ε) or has a different # of components to the # of rows
+     * @throws Exception\BadParameterException if the vector has a different # of components to the # of rows
      * @throws Exception\IncorrectTypeException
      */
     public function columnAddVector(Vector $v, int $nᵢ): NumericMatrix
     {
         if ($nᵢ < 0 || $nᵢ >= $this->n) {
             throw new Exception\MatrixException('Column to add does not exist');
-        }
-        if (Support::isEqual((float) $v->length(), 0, $this->ε)) {
-            throw new Exception\BadParameterException('Cannot add a 0-length vector');
         }
         if ($v->count() !== $this->m) {
             throw new Exception\BadParameterException('Vector is not the same length as matrix rows');
