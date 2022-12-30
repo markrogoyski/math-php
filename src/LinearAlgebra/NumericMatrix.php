@@ -2366,6 +2366,7 @@ class NumericMatrix extends Matrix
      *  - rowDivide
      *  - rowAdd
      *  - rowAddScalar
+     *  - rowAddVector
      *  - rowSubtract
      *  - rowSubtractScalar
      **************************************************************************/
@@ -2488,6 +2489,40 @@ class NumericMatrix extends Matrix
 
         for ($j = 0; $j < $n; $j++) {
             $R[$mᵢ][$j] += $k;
+        }
+
+        return MatrixFactory::createNumeric($R, $this->ε);
+    }
+
+    /**
+     * Add components of vector v to row mᵢ
+     *
+     * @param Vector $v Vector to add to row mᵢ
+     * @param int    $mᵢ Row to add vector $v to
+     *
+     * @return NumericMatrix
+     *
+     * @throws Exception\MatrixException if row to add does not exist
+     * @throws Exception\BadParameterException if the vector is 0-length (±ε) or has a different # of components to the # of columns
+     * @throws Exception\IncorrectTypeException
+     */
+    public function rowAddVector(Vector $v, int $mᵢ): NumericMatrix
+    {
+        if ($mᵢ < 0 || $mᵢ >= $this->m) {
+            throw new Exception\MatrixException('Row to add does not exist');
+        }
+        if (Support::isEqual((float) $v->length(), 0, $this->ε)) {
+            throw new Exception\BadParameterException('Cannot add a 0-length vector');
+        }
+        if ($v->count() !== $this->m) {
+            throw new Exception\BadParameterException('Vector is not the same length as matrix columns');
+        }
+
+        $n = $this->n;
+        $R = $this->A;
+
+        for ($j = 0; $j < $n; $j++) {
+            $R[$mᵢ][$j] += $v[$j];
         }
 
         return MatrixFactory::createNumeric($R, $this->ε);
