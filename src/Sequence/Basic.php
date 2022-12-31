@@ -68,9 +68,9 @@ class Basic
      *  Sequence:    2,     6,     18,    54
      *  Array index: 0      1      2      3
      *
-     * @param  int    $n How many numbers in the sequence
-     * @param  number $a Scalar value
-     * @param  number $r Common ratio
+     * @param  int       $n How many numbers in the sequence
+     * @param  int|float $a Scalar value
+     * @param  int|float $r Common ratio
      *
      * @return array Indexed from 0 (indexes are powers of common ratio)
      *

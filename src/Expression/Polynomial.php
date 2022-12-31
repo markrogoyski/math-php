@@ -173,7 +173,7 @@ class Polynomial implements ObjectArithmetic
      *          echo $polynomial(4);
      *          // prints -13
      *
-     * @param number $x₀ The value at which we are evaluating our polynomial
+     * @param int|float $x₀ The value at which we are evaluating our polynomial
      *
      * @return float The result of our polynomial evaluated at $x₀
      */

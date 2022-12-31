@@ -57,7 +57,7 @@ class FivePointFormula extends NumericalDifferentiation
      *                                (point) contains precisely two numbers, an x and y.
      *                                Example array: [[1,2], [2,3], [3,4], [4,5], [5,6]].
      *                                Example callback: function($x) {return $x**2;}
-     * @param number         ...$args The arguments of our callback function: start,
+     * @param int|float      ...$args The arguments of our callback function: start,
      *                                end, and n. Example: approximate($number, $source, 0, 8, 5).
      *                                If $source is a set of points, do not input any
      *                               $args. Example: approximate($source).

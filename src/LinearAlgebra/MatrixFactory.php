@@ -14,8 +14,8 @@ class MatrixFactory
     /**
      * Factory method
      *
-     * @param  number[][] $A 2-dimensional array of Matrix data
-     * @param float|null $ε Optional error tolerance
+     * @param int[][]|float[][]|Complex[][]|object[][] $A 2-dimensional array of Matrix data
+     * @param float|null                               $ε Optional error tolerance
      *
      * @return Matrix
      *
@@ -46,8 +46,8 @@ class MatrixFactory
     }
 
     /**
-     * @param number[][] $A
-     * @param float|null $ε Optional error tolerance
+     * @param int[][]|float[][] $A
+     * @param float|null        $ε Optional error tolerance
      *
      * @return NumericMatrix
      *

@@ -42,8 +42,8 @@ class Zipf extends Discrete
     /**
      * Constructor
      *
-     * @param number $s exponent
-     * @param int $N elements
+     * @param int|float $s exponent
+     * @param int       $N elements
      */
     public function __construct($s, int $N)
     {

@@ -39,8 +39,8 @@ class Complex implements ObjectArithmetic
     /**
      * Constructor
      *
-     * @param number $r Real part
-     * @param number $i Imaginary part
+     * @param int|float $r Real part
+     * @param int|float $i Imaginary part
      */
     public function __construct($r, $i)
     {
@@ -383,7 +383,7 @@ class Complex implements ObjectArithmetic
      *  - https://en.wikipedia.org/wiki/Complex_number#Exponentiation
      *  - https://mathworld.wolfram.com/ComplexExponentiation.html
      *
-     * @param Complex|number $c
+     * @param Complex|int|float $c
      *
      * @return Complex
      *

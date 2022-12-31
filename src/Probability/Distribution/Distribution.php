@@ -12,7 +12,7 @@ abstract class Distribution
     /**
      * Constructor
      *
-     * @param number ...$params
+     * @param int|float ...$params
      */
     public function __construct(...$params)
     {

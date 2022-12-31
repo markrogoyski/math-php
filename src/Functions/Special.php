@@ -898,7 +898,7 @@ class Special
      * Complementary error function (erfc)
      * erfc(x) ≡ 1 - erf(x)
      *
-     * @param  number $x
+     * @param  int|float $x
      *
      * @return float
      */

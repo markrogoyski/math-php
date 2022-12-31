@@ -21,12 +21,12 @@ class SecantMethod
      * the average change between our initial approximations and moving our
      * approximations closer to the root.
      *
-     * @param callable $function f(x) callback function
-     * @param number   $p₀       First initial approximation
-     * @param number   $p₁       Second initial approximation
-     * @param number   $tol      Tolerance; How close to the actual solution we would like.
+     * @param callable  $function f(x) callback function
+     * @param int|float $p₀       First initial approximation
+     * @param int|float $p₁       Second initial approximation
+     * @param int|float $tol      Tolerance; How close to the actual solution we would like.
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\OutOfBoundsException if $tol (the tolerance) is negative
      * @throws Exception\BadDataException if $p₀ = $p₁

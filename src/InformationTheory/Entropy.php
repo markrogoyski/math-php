@@ -236,8 +236,8 @@ class Entropy
      *
      * H is in shannons, or bits.
      *
-     * @param  array  $p probability distribution
-     * @param  number $α order α
+     * @param  array     $p probability distribution
+     * @param  int|float $α order α
      *
      * @return float
      *

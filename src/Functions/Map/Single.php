@@ -12,8 +12,8 @@ class Single
     /**
      * Map addition
      *
-     * @param  array $xs
-     * @param  number $k Number to add to each element
+     * @param  array     $xs
+     * @param  int|float $k Number to add to each element
      *
      * @return array
      */
@@ -30,8 +30,8 @@ class Single
     /**
      * Map subtract
      *
-     * @param  array $xs
-     * @param  number $k Number to subtract from each element
+     * @param  array     $xs
+     * @param  int|float $k Number to subtract from each element
      *
      * @return array
      */
@@ -48,8 +48,8 @@ class Single
     /**
      * Map multiply
      *
-     * @param  array $xs
-     * @param  number $k Number to multiply to each element
+     * @param  array     $xs
+     * @param  int|float $k Number to multiply to each element
      *
      * @return array
      */
@@ -66,8 +66,8 @@ class Single
     /**
      * Map Divide
      *
-     * @param  array $xs
-     * @param  number $k Number to divide each element by
+     * @param  array     $xs
+     * @param  int|float $k Number to divide each element by
      *
      * @return array
      */
@@ -148,8 +148,8 @@ class Single
     /**
      * Map raise to a power
      *
-     * @param  array  $xs
-     * @param  number $n
+     * @param  array     $xs
+     * @param  int|float $n
      *
      * @return array
      */
@@ -202,8 +202,8 @@ class Single
      * Each element in array is compared against the value,
      * and the min of each is returned.
      *
-     * @param  array  $xs
-     * @param  number $value
+     * @param  array     $xs
+     * @param  int|float $value
      *
      * @return array
      */
@@ -222,8 +222,8 @@ class Single
      * Each element in the array is compared against the value,
      * and the max of each is returned.
      *
-     * @param  array  $xs
-     * @param  number $value
+     * @param  array     $xs
+     * @param  int|float $value
      *
      * @return array
      */

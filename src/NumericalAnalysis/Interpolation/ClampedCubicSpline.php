@@ -42,7 +42,7 @@ class ClampedCubicSpline extends Interpolation
      *                           (point) contains precisely three numbers: x, y, and y'
      *                           Example array: [[1,2,1], [2,3,0], [3,4,2]].
      *                           Example callback: function($x) {return $x**2;}
-     * @param number ...$args   (Optional) An additional callback: our first derivative,
+     * @param int|float ...$args (Optional) An additional callback: our first derivative,
      *                           and arguments of our callback functions: start,
      *                           end, and n.
      *                           Example: approximate($source, $derivative, 0, 8, 5).

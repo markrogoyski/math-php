@@ -30,10 +30,10 @@ class Quaternion implements ObjectArithmetic
     const EPSILON = 1e-6;
 
     /**
-     * @param number $r Real part
-     * @param number $i Imaginary part
-     * @param number $j Imaginary part
-     * @param number $k Imaginary part
+     * @param int|float $r Real part
+     * @param int|float $i Imaginary part
+     * @param int|float $j Imaginary part
+     * @param int|float $k Imaginary part
      */
     public function __construct($r, $i, $j, $k)
     {

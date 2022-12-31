@@ -12,7 +12,7 @@ class Validation
     /**
      * Throw an exception if the tolerance is negative.
      *
-     * @param number $tol Tolerance; How close to the actual solution we would like.
+     * @param int|float $tol Tolerance; How close to the actual solution we would like.
      *
      * @throws Exception\OutOfBoundsException if $tol (the tolerance) is negative
      */
@@ -26,8 +26,8 @@ class Validation
     /**
      * Verify that the start and end of of an interval are distinct numbers.
      *
-     * @param number $a The start of the interval
-     * @param number $b The end of the interval
+     * @param int|float $a The start of the interval
+     * @param int|float $b The end of the interval
      *
      * @throws Exception\BadDataException if $a = $b
      */

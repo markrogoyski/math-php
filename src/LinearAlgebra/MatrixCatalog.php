@@ -297,7 +297,7 @@ class MatrixCatalog
     // DETERMINANT
 
     /**
-     * @param number $det
+     * @param int|float $det
      */
     public function addDeterminant($det): void
     {

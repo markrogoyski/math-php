@@ -427,7 +427,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * Scalar multiplication (scale)
      * kA = [k * a₁, k * a₂, k * a₃ ...]
      *
-     * @param number $k Scale factor
+     * @param int|float $k Scale factor
      *
      * @return Vector
      */
@@ -440,7 +440,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * Scalar divide
      * kA = [k / a₁, k / a₂, k / a₃ ...]
      *
-     * @param number $k Scale factor
+     * @param int|float $k Scale factor
      *
      * @return Vector
      */
@@ -692,9 +692,9 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * |x|p = (∑|xᵢ|ᵖ)¹/ᵖ
      *
-     * @param number $p
+     * @param int|float $p
      *
-     * @return number
+     * @return int|float
      */
     public function pNorm($p)
     {

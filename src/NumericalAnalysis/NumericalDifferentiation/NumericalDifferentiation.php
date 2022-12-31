@@ -69,10 +69,10 @@ abstract class NumericalDifferentiation
      * Evaluate our callback function at n evenly spaced points on the interval
      * between start and end
      *
-     * @param  callable $function f(x) callback function
-     * @param  number   $start    the start of the interval
-     * @param  number   $end      the end of the interval
-     * @param  number   $n        the number of function evaluations
+     * @param  callable  $function f(x) callback function
+     * @param  int|float $start    the start of the interval
+     * @param  int|float $end      the end of the interval
+     * @param  int|float $n        the number of function evaluations
      *
      * @return array[]
      */
@@ -164,8 +164,8 @@ abstract class NumericalDifferentiation
     /**
      * Ensures that our target is the x-component of one of the points we supply
      *
-     * @param  number $target The value at which we are approximating the derivative
-     * @param  array  $sorted Points sorted by (increasing) x-component
+     * @param  int|float $target The value at which we are approximating the derivative
+     * @param  array     $sorted Points sorted by (increasing) x-component
      *
      * @throws Exception\BadDataException if $target is not contained in the array of our x-components
      */

@@ -28,10 +28,10 @@ class FixedPointIteration
      *
      * @param callable $function g(x) callback function, obtained by rewriting
      *                           f(x) = 0 as g(x) = x
-     * @param number   $a        The start of the interval which contains a root
-     * @param number   $b        The end of the interval which contains a root
-     * @param number   $p        The initial guess of our root, in [$a, $b]
-     * @param number   $tol      Tolerance; How close to the actual solution we would like.
+     * @param int|float $a        The start of the interval which contains a root
+     * @param int|float $b        The end of the interval which contains a root
+     * @param int|float $p        The initial guess of our root, in [$a, $b]
+     * @param int|float $tol      Tolerance; How close to the actual solution we would like.
 
      * @return number
      *
@@ -58,10 +58,10 @@ class FixedPointIteration
      * an interval, so we throw an Exception. If $a > $b, we simply reverse them
      * as if the user input $b = $a and $a = $b so the new $a < $b.
      *
-     * @param number   $a        The start of the interval which contains a root
-     * @param number   $b        The end of the interval which contains a root
-     * @param number   $p        The initial guess of our root
-     * @param number   $tol      Tolerance; How close to the actual solution we would like.
+     * @param int|float $a        The start of the interval which contains a root
+     * @param int|float $b        The end of the interval which contains a root
+     * @param int|float $p        The initial guess of our root
+     * @param int|float $tol      Tolerance; How close to the actual solution we would like.
      *
      * @throws Exception\OutOfBoundsException if $tol (the tolerance) is negative
      * @throws Exception\BadDataException if $a = $b
