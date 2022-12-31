@@ -2495,10 +2495,10 @@ class NumericMatrix extends Matrix
     }
 
     /**
-     * Add components of vector v to row mᵢ
+     * Add components of vector V to row mᵢ
      *
-     * @param Vector $V  Vector to add to row mᵢ
      * @param int    $mᵢ Row to add vector $v to
+     * @param Vector $V  Vector to add to row mᵢ
      *
      * @return NumericMatrix
      *
@@ -2506,7 +2506,7 @@ class NumericMatrix extends Matrix
      * @throws Exception\BadParameterException if the vector has a different # of components to the # of columns
      * @throws Exception\IncorrectTypeException
      */
-    public function rowAddVector(Vector $V, int $mᵢ): NumericMatrix
+    public function rowAddVector(int $mᵢ, Vector $V): NumericMatrix
     {
         if ($mᵢ < 0 || $mᵢ >= $this->m) {
             throw new Exception\MatrixException("Row to add to ($mᵢ) does not exist");
@@ -2651,10 +2651,10 @@ class NumericMatrix extends Matrix
     }
 
     /**
-     * Add components of vector v to column nᵢ
+     * Add components of vector V to column nᵢ
      *
-     * @param Vector $V  Vector to add to column nᵢ
      * @param int    $nᵢ Column to add vector $v to
+     * @param Vector $V  Vector to add to column nᵢ
      *
      * @return NumericMatrix
      *
@@ -2662,7 +2662,7 @@ class NumericMatrix extends Matrix
      * @throws Exception\BadParameterException if the vector has a different # of components to the # of rows
      * @throws Exception\IncorrectTypeException
      */
-    public function columnAddVector(Vector $V, int $nᵢ): NumericMatrix
+    public function columnAddVector(int $nᵢ, Vector $V): NumericMatrix
     {
         if ($nᵢ < 0 || $nᵢ >= $this->n) {
             throw new Exception\MatrixException("Column to add to ($nᵢ) does not exist");

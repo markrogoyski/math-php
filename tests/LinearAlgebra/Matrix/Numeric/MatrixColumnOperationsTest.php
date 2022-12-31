@@ -256,7 +256,7 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
         $expectedMatrix = MatrixFactory::create($expectedMatrix);
 
         // When
-        $R = $A->columnAddVector($V, $nᵢ);
+        $R = $A->columnAddVector($nᵢ, $V);
 
         // Then
         $this->assertEquals($expectedMatrix, $R);
@@ -392,7 +392,7 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\MatrixException::class);
 
         // When
-        $A->columnAddVector($b, 4);
+        $A->columnAddVector(4, $b);
     }
 
     /**
@@ -414,6 +414,6 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadParameterException::class);
 
         // When
-        $A->columnAddVector($b, 1);
+        $A->columnAddVector(1, $b);
     }
 }
