@@ -1,5 +1,12 @@
 # MathPHP Change Log
 
+## v2.7.0 - 2022-12-31
+
+### Improvements
+* Improved algorithm for `regularizedIncompleteBeta`: Addresses issue 458
+* Issue 456: Improved PHPDoc blocks: Changed "number" to "int|float"
+* Added PHP 8.2 for CI test target
+
 ## v2.6.0 - 2022-04-10
 
 ### Improvements
