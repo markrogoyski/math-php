@@ -26,7 +26,7 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
         $R = $A->columnMultiply($nᵢ, $k);
 
         // Then
-        $this->assertEquals($expectedMatrix, $R);
+        $this->assertEqualsWithDelta($expectedMatrix, $R, 0.00001);
     }
 
     /**

@@ -42,7 +42,7 @@ class GivensMatrixTest extends \PHPUnit\Framework\TestCase
         $G = MatrixFactory::givens($m, $n, $angle, $size);
 
         // Then
-        $this->assertEquals($expected, $G->getMatrix());
+        $this->assertEqualsWithDelta($expected, $G->getMatrix(), 0.00001);
     }
 
     /**

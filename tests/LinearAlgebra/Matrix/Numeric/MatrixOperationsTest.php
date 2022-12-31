@@ -1070,8 +1070,8 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $adj⟮A⟯ = $A->adjugate();
 
         // Then
-        $this->assertEquals($expected, $adj⟮A⟯);
-        $this->assertEquals($expected->getMatrix(), $adj⟮A⟯->getMatrix());
+        $this->assertEqualsWithDelta($expected, $adj⟮A⟯, 0.00001);
+        $this->assertEqualsWithDelta($expected->getMatrix(), $adj⟮A⟯->getMatrix(), 0.00001);
     }
 
     public function dataProviderForAdjugate(): array
