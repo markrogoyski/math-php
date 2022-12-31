@@ -777,7 +777,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $meanDeviation = $A->meanDeviation('columns');
 
         // Then
-        $this->assertEquals($B, $meanDeviation);
+        $this->assertEqualsWithDelta($B, $meanDeviation, 0.00001);
     }
 
     public function dataProviderForMeanDeviationColumnsAsVariables(): array
