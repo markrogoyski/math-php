@@ -1252,7 +1252,7 @@ class SpecialTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertEqualsWithDelta($expected, $σ⟮𝐳⟯ⱼ, 0.00001);
-        $this->assertEquals(1, \array_sum($σ⟮𝐳⟯ⱼ), 0.00001);
+        $this->assertEqualsWithDelta(1, \array_sum($σ⟮𝐳⟯ⱼ), 0.00001);
     }
 
     public function dataProviderForSoftmax(): array
