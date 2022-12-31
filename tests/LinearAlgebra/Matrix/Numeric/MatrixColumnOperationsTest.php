@@ -244,19 +244,19 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
      * @dataProvider dataProviderForColumnAddVector
      * @param        array $A
      * @param        int   $nᵢ
-     * @param        array $v
+     * @param        array $vector
      * @param        array $expectedMatrix
      * @throws      \Exception
      */
-    public function testColumnAddVector(array $A, int $nᵢ, array $v, array $expectedMatrix)
+    public function testColumnAddVector(array $A, int $nᵢ, array $vector, array $expectedMatrix)
     {
         // Given
         $A = MatrixFactory::createNumeric($A);
-        $v = new Vector($v);
-        $expectedMatrix = MatrixFactory::createNumeric($expectedMatrix);
+        $V = new Vector($vector);
+        $expectedMatrix = MatrixFactory::create($expectedMatrix);
 
         // When
-        $R = $A->columnAddVector($v, $nᵢ);
+        $R = $A->columnAddVector($V, $nᵢ);
 
         // Then
         $this->assertEquals($expectedMatrix, $R);
@@ -268,6 +268,60 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForColumnAddVector(): array
     {
         return [
+            [
+                [
+                    [1],
+                ], 0, [2],
+                [
+                    [3],
+                ]
+            ],
+            [
+                [
+                    [1],
+                    [2],
+                ], 0, [2, 5],
+                [
+                    [3],
+                    [7],
+                ]
+            ],
+            [
+                [
+                    [1, 2],
+                ], 0, [2],
+                [
+                    [3, 2],
+                ]
+            ],
+            [
+                [
+                    [1, 2],
+                ], 1, [2],
+                [
+                    [1, 4],
+                ]
+            ],
+            [
+                [
+                    [1, 2],
+                    [3, 4],
+                ], 0, [2, 5],
+                [
+                    [3, 2],
+                    [8, 4],
+                ]
+            ],
+            [
+                [
+                    [1, 2],
+                    [3, 4],
+                ], 1, [2, 5],
+                [
+                    [1, 4],
+                    [3, 9],
+                ]
+            ],
             [
                 [
                     [1, 2, 3],

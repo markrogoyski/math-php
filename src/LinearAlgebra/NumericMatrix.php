@@ -2511,7 +2511,7 @@ class NumericMatrix extends Matrix
         if ($mᵢ < 0 || $mᵢ >= $this->m) {
             throw new Exception\MatrixException('Row to add does not exist');
         }
-        if ($v->count() !== $this->m) {
+        if ($v->count() !== $this->n) {
             throw new Exception\BadParameterException('Vector is not the same length as matrix columns');
         }
 

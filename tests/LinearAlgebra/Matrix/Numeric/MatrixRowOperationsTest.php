@@ -411,22 +411,22 @@ class MatrixRowOperationsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test         rowAddVector
-     * @dataProvider dataProviderForrowAddVector
+     * @dataProvider dataProviderForRowAddVector
      * @param        array $A
      * @param        int   $mᵢ
-     * @param        array $v
+     * @param        array $vector
      * @param        array $expectedMatrix
      * @throws      \Exception
      */
-    public function testRowAddVector(array $A, int $mᵢ, array $v, array $expectedMatrix)
+    public function testRowAddVector(array $A, int $mᵢ, array $vector, array $expectedMatrix)
     {
         // Given
         $A = MatrixFactory::createNumeric($A);
-        $v = new Vector($v);
-        $expectedMatrix = MatrixFactory::createNumeric($expectedMatrix);
+        $V = new Vector($vector);
+        $expectedMatrix = MatrixFactory::create($expectedMatrix);
 
         // When
-        $R = $A->rowAddVector($v, $mᵢ);
+        $R = $A->rowAddVector($V, $mᵢ);
 
         // Then
         $this->assertEquals($expectedMatrix, $R);
@@ -438,6 +438,62 @@ class MatrixRowOperationsTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForRowAddVector(): array
     {
         return [
+            [
+                [
+                    [1],
+                ], 0, [2],
+                [
+                    [3],
+                ]
+            ],
+            [
+                [
+                    [1, 2],
+                ], 0, [2, 5],
+                [
+                    [3, 7],
+                ]
+            ],
+            [
+                [
+                    [1],
+                    [2],
+                ], 0, [2],
+                [
+                    [3],
+                    [2],
+                ]
+            ],
+            [
+                [
+                    [1],
+                    [2],
+                ], 1, [2],
+                [
+                    [1],
+                    [4],
+                ]
+            ],
+            [
+                [
+                    [1, 2],
+                    [4, 5],
+                ], 0, [2, 4],
+                [
+                    [3, 6],
+                    [4, 5],
+                ]
+            ],
+            [
+                [
+                    [1, 2],
+                    [4, 5],
+                ], 1, [2, 4],
+                [
+                    [1, 2],
+                    [6, 9],
+                ]
+            ],
             [
                 [
                     [1, 2, 3],
