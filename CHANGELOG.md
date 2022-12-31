@@ -1,5 +1,13 @@
 # MathPHP Change Log
 
+## v2.8.0 - TBD
+
+### New Features
+* Matrix `rowAddVector`
+* Matrix `columnAddVector`
+
+### Improvements
+
 ## v2.7.0 - 2022-12-31
 
 ### Improvements
