@@ -4,6 +4,7 @@ namespace MathPHP\Tests\LinearAlgebra\Matrix\Numeric;
 
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Exception;
+use MathPHP\LinearAlgebra\Vector;
 
 class MatrixRowOperationsTest extends \PHPUnit\Framework\TestCase
 {
@@ -406,6 +407,130 @@ class MatrixRowOperationsTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $A->rowAddScalar(4, 5);
+    }
+
+    /**
+     * @test         rowAddVector
+     * @dataProvider dataProviderForrowAddVector
+     * @param        array $A
+     * @param        int   $mᵢ
+     * @param        array $v
+     * @param        array $expectedMatrix
+     * @throws      \Exception
+     */
+    public function testRowAddVector(array $A, int $mᵢ, array $v, array $expectedMatrix)
+    {
+        // Given
+        $A = MatrixFactory::createNumeric($A);
+        $v = new Vector($v);
+        $expectedMatrix = MatrixFactory::createNumeric($expectedMatrix);
+
+        // When
+        $R = $A->rowAddVector($v, $mᵢ);
+
+        // Then
+        $this->assertEquals($expectedMatrix, $R);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForRowAddVector(): array
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, [1,2,3],
+                [
+                    [2, 4, 6],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 2, [6,9,12],
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [9, 13, 17],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 2, [4,8,12],
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [7, 12, 17],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 1, [2.2,3.3,4.4],
+                [
+                    [1, 2, 3],
+                    [4.2, 6.3, 8.4],
+                    [3, 4, 5],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @test   rowAddVector test row m exists
+     * @throws \Exception
+     */
+    public function testRowAddVectorExceptionRowExists()
+    {
+        // Given
+        $A = MatrixFactory::createNumeric([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $b = new Vector([1,2,3]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $A->rowAddVector($b, 4);
+    }
+
+    /**
+     * @test   rowAddVector test vector->count() === matrix m
+     * @throws \Exception
+     */
+    public function testRowAddVectorExceptionElementMismatch()
+    {
+        // Given
+        $A = MatrixFactory::createNumeric([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        $b = new Vector([1,2,3,4]);
+
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
+        $A->rowAddVector($b, 1);
     }
 
     /**

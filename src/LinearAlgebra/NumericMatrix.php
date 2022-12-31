@@ -2366,6 +2366,7 @@ class NumericMatrix extends Matrix
      *  - rowDivide
      *  - rowAdd
      *  - rowAddScalar
+     *  - rowAddVector
      *  - rowSubtract
      *  - rowSubtractScalar
      **************************************************************************/
@@ -2494,6 +2495,37 @@ class NumericMatrix extends Matrix
     }
 
     /**
+     * Add components of vector v to row mᵢ
+     *
+     * @param Vector $v Vector to add to row mᵢ
+     * @param int    $mᵢ Row to add vector $v to
+     *
+     * @return NumericMatrix
+     *
+     * @throws Exception\MatrixException if row to add does not exist
+     * @throws Exception\BadParameterException if the vector has a different # of components to the # of columns
+     * @throws Exception\IncorrectTypeException
+     */
+    public function rowAddVector(Vector $v, int $mᵢ): NumericMatrix
+    {
+        if ($mᵢ < 0 || $mᵢ >= $this->m) {
+            throw new Exception\MatrixException('Row to add does not exist');
+        }
+        if ($v->count() !== $this->m) {
+            throw new Exception\BadParameterException('Vector is not the same length as matrix columns');
+        }
+
+        $n = $this->n;
+        $R = $this->A;
+
+        for ($j = 0; $j < $n; $j++) {
+            $R[$mᵢ][$j] += $v[$j];
+        }
+
+        return MatrixFactory::createNumeric($R, $this->ε);
+    }
+
+    /**
      * Subtract k times row mᵢ to row mⱼ
      *
      * @param int   $mᵢ Row to multiply * k to be subtracted to row mⱼ
@@ -2554,6 +2586,7 @@ class NumericMatrix extends Matrix
      * COLUMN OPERATIONS - Return a Matrix
      *  - columnMultiply
      *  - columnAdd
+     *  - columnAddVector
      **************************************************************************/
 
     /**
@@ -2612,6 +2645,37 @@ class NumericMatrix extends Matrix
 
         for ($i = 0; $i < $m; $i++) {
             $R[$i][$nⱼ] += $R[$i][$nᵢ] * $k;
+        }
+
+        return MatrixFactory::createNumeric($R, $this->ε);
+    }
+
+    /**
+     * Add components of vector v to column nᵢ
+     *
+     * @param Vector $v Vector to add to column nᵢ
+     * @param int    $nᵢ Column to add vector $v to
+     *
+     * @return NumericMatrix
+     *
+     * @throws Exception\MatrixException if column to add does not exist
+     * @throws Exception\BadParameterException if the vector has a different # of components to the # of rows
+     * @throws Exception\IncorrectTypeException
+     */
+    public function columnAddVector(Vector $v, int $nᵢ): NumericMatrix
+    {
+        if ($nᵢ < 0 || $nᵢ >= $this->n) {
+            throw new Exception\MatrixException('Column to add does not exist');
+        }
+        if ($v->count() !== $this->m) {
+            throw new Exception\BadParameterException('Vector is not the same length as matrix rows');
+        }
+
+        $m = $this->m;
+        $R = $this->A;
+
+        for ($i = 0; $i < $m; $i++) {
+            $R[$i][$nᵢ] += $v[$i];
         }
 
         return MatrixFactory::createNumeric($R, $this->ε);
