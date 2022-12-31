@@ -1061,9 +1061,16 @@ class Special
      * This function looks at the values of x, a, and b, and determines which algorithm is best to calculate
      * the value of Iₓ(a, b)
      *
-     * http://www.boost.org/doc/libs/1_35_0/libs/math/doc/sf_and_dist/html/math_toolkit/special/sf_beta/ibeta_function.html
-     * https://github.com/boostorg/math/blob/develop/include/boost/math/special_functions/beta.hpp
-     * https://github.com/codeplea/incbeta
+     * There are several ways to calculate the incomplete beta function (See: https://dlmf.nist.gov/8.17).
+     * This follows the continued fraction form, which consists of a term followed by a converging series of fractions.
+     * Lentz's Algorithm is used to solve the continued fraction.
+     *
+     * The implementation of the continued fraction using Lentz's Algorithm is heavily inspired by Lewis Van Winkle's
+     * reference implementation in C: https://github.com/codeplea/incbeta
+     *
+     * Other implementations used as references in the past:
+     *  http://www.boost.org/doc/libs/1_35_0/libs/math/doc/sf_and_dist/html/math_toolkit/special/sf_beta/ibeta_function.html
+     *  https://github.com/boostorg/math/blob/develop/include/boost/math/special_functions/beta.hpp
      *
      * @param float $x Upper limit of the integration 0 ≦ x ≦ 1
      * @param float $a Shape parameter a > 0
@@ -1102,19 +1109,15 @@ class Special
             return 1 - self::regularizedIncompleteBeta((1 - $x), $b, $a);
         }
 
-        // There are several different ways to calculate the incomplete beta function
-        // (https://dlmf.nist.gov/8.17). This follows the continued fraction form,
-        // which consists of a term followed by a converging series of fractions.
-        // Lentz's Algorithm is used to solve the continued fraction.
+        // Continued fraction using Lentz's Algorithm.
 
-        $first_term = \exp(log($x) * $a + \log(1.0 - $x) * $b - (self::logGamma($a) + self::logGamma($b) - self::logGamma($a + $b))) / $a;
+        $first_term = \exp(\log($x) * $a + \log(1.0 - $x) * $b - (self::logGamma($a) + self::logGamma($b) - self::logGamma($a + $b))) / $a;
 
         // PHP 7.2.0 offers PHP_FLOAT_EPSILON, but 1.0e-30 is used in Lewis Van Winkle's
         // reference implementation to prevent division-by-zero errors, so we use the same here.
         $ε = 1.0e-30;
 
-        // These starting values are changed from the reference implementation at
-        // https://github.com/codeplea/incbeta to precalculate $i = 0 and avoid the
+        // These starting values are changed from the reference implementation to precalculate $i = 0 and avoid the
         // extra conditional expression inside the loop.
         $d = 1.0;
         $c = 2.0;
@@ -1123,15 +1126,15 @@ class Special
         $m = 0;
         for ($i = 1; $i <= 200; $i++) {
             if ($i % 2 === 0) {
-                // Even term.
+                // Even term
                 $m++;
                 $numerator = ($m * ($b - $m) * $x) / (($a + 2.0 * $m - 1.0) * ($a + 2.0 * $m));
             } else {
-                // Odd term.
+                // Odd term
                 $numerator = -(($a + $m) * ($a + $b + $m) * $x) / (($a + 2.0 * $m) * ($a + 2.0 * $m + 1));
             }
 
-            // Lentz's Algorithm.
+            // Lentz's Algorithm
             $d = 1.0 + $numerator * $d;
             $d = 1.0 / (\abs($d) < $ε ? $ε : $d);
             $c = 1.0 + $numerator / (\abs($c) < $ε ? $ε : $c);
