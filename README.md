@@ -444,16 +444,20 @@ $Aᵢⱼ = $A[2][2];
 // Row operations
 [$mᵢ, $mⱼ, $k] = [1, 2, 5];
 $R = $A->rowInterchange($mᵢ, $mⱼ);
-$R = $A->rowMultiply($mᵢ, $k);     // Multiply row mᵢ by k
-$R = $A->rowAdd($mᵢ, $mⱼ, $k);     // Add k * row mᵢ to row mⱼ
-$R = $A->rowExclude($mᵢ);          // Exclude row $mᵢ
+$R = $A->rowExclude($mᵢ);             // Exclude row $mᵢ
+$R = $A->rowMultiply($mᵢ, $k);        // Multiply row mᵢ by k
+$R = $A->rowDivide($mᵢ, $k);          // Divide row mᵢ by k
+$R = $A->rowAdd($mᵢ, $mⱼ, $k);        // Add k * row mᵢ to row mⱼ
+$R = $A->rowAddScalar($mᵢ, $k);       // Add k to each item of row mᵢ
+$R = $A->rowSubtract($mᵢ, $mⱼ, $k);   // Subtract k * row mᵢ from row mⱼ
+$R = $A->rowSubtractScalar($mᵢ, $k);  // Subtract k from each item of row mᵢ
 
 // Column operations
 [$nᵢ, $nⱼ, $k] = [1, 2, 5];
 $R = $A->columnInterchange($nᵢ, $nⱼ);
+$R = $A->columnExclude($nᵢ);          // Exclude column $nᵢ
 $R = $A->columnMultiply($nᵢ, $k);     // Multiply column nᵢ by k
 $R = $A->columnAdd($nᵢ, $nⱼ, $k);     // Add k * column nᵢ to column nⱼ
-$R = $A->columnExclude($nᵢ);          // Exclude column $nᵢ
 
 // Matrix augmentations - return a new Matrix
 $⟮A∣B⟯ = $A->augment($B);        // Augment on the right - standard augmentation
