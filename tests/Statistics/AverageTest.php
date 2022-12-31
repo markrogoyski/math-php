@@ -909,7 +909,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $mean = Average::lehmerMean($numbers, $p);
 
         // Then
-        $this->assertEquals(Average::geometricMean($numbers), $mean);
+        $this->assertEqualsWithDelta(Average::geometricMean($numbers), $mean, 0.00001);
     }
 
     /**
@@ -1422,7 +1422,7 @@ class AverageTest extends \PHPUnit\Framework\TestCase
         $H = Average::heronianMean($A, $B);
 
         // Then
-        $this->assertEquals($expected, $H);
+        $this->assertEqualsWithDelta($expected, $H, 0.00001);
     }
 
     /**

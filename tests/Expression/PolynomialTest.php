@@ -1033,7 +1033,7 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
         $roots = $polynomialA->roots();
 
         // Then
-        $this->assertEquals($expected_roots, $roots);
+        $this->assertEqualsWithDelta($expected_roots, $roots, 0.00001);
     }
 
     /**

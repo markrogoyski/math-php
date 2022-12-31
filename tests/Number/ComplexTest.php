@@ -677,8 +677,8 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $result = $c1->divide($c2);
 
         // Then
-        $this->assertEquals($expected['r'], $result->r);
-        $this->assertEquals($expected['i'], $result->i);
+        $this->assertEqualsWithDelta($expected['r'], $result->r, 0.00001);
+        $this->assertEqualsWithDelta($expected['i'], $result->i, 0.00001);
     }
 
     public function dataProviderForDivide(): array
@@ -816,8 +816,8 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $result = $c1->pow($number);
 
         // Then
-        $this->assertEquals($expected['r'], $result->r);
-        $this->assertEquals($expected['i'], $result->i);
+        $this->assertEqualsWithDelta($expected['r'], $result->r, 0.00001);
+        $this->assertEqualsWithDelta($expected['i'], $result->i, 0.00001);
     }
 
     /**
@@ -971,8 +971,8 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $inverse = $c->inverse();
 
         // Then
-        $this->assertEquals($expected_r, $inverse->r);
-        $this->assertEquals($expected_i, $inverse->i);
+        $this->assertEqualsWithDelta($expected_r, $inverse->r, 0.00001);
+        $this->assertEqualsWithDelta($expected_i, $inverse->i, 0.00001);
     }
 
     public function dataProviderForInverse(): array

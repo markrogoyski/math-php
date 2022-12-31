@@ -32,7 +32,7 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
         // Given
         $sortedPoints = [[0, 1], [1, 4], [2, 13], [3, 34], [4, 73]];
         $expected     = 84;
-        $tol          = 0;
+        $tol          = 0.00001;
 
         // When
         $x = BoolesRule::approximate($sortedPoints);
@@ -66,7 +66,7 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
         // Given
         $nonSortedPoints = [[0, 1], [3, 34], [2, 13], [1, 4], [4, 73]];
         $expected        = 84;
-        $tol             = 0;
+        $tol             = 0.00001;
 
         // When
         $x = BoolesRule::approximate($nonSortedPoints);
@@ -105,7 +105,7 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
         $end      = 4;
         $n        = 5;
         $expected = 84;
-        $tol      = 0;
+        $tol      = 0.00001;
 
         // When
         $x = BoolesRule::approximate($func, $start, $end, $n);
@@ -142,7 +142,7 @@ class BoolesRuleTest extends \PHPUnit\Framework\TestCase
         $end        = 4;
         $n          = 5;
         $expected   = 84;
-        $tol        = 0;
+        $tol        = 0.00001;
 
         // When
         $x = BoolesRule::approximate($polynomial, $start, $end, $n);
