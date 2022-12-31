@@ -449,6 +449,7 @@ $R = $A->rowMultiply($mᵢ, $k);        // Multiply row mᵢ by k
 $R = $A->rowDivide($mᵢ, $k);          // Divide row mᵢ by k
 $R = $A->rowAdd($mᵢ, $mⱼ, $k);        // Add k * row mᵢ to row mⱼ
 $R = $A->rowAddScalar($mᵢ, $k);       // Add k to each item of row mᵢ
+$R = $A->rowAddVector($mᵢ, $V);       // Add Vector V to row mᵢ
 $R = $A->rowSubtract($mᵢ, $mⱼ, $k);   // Subtract k * row mᵢ from row mⱼ
 $R = $A->rowSubtractScalar($mᵢ, $k);  // Subtract k from each item of row mᵢ
 
@@ -458,6 +459,7 @@ $R = $A->columnInterchange($nᵢ, $nⱼ);
 $R = $A->columnExclude($nᵢ);          // Exclude column $nᵢ
 $R = $A->columnMultiply($nᵢ, $k);     // Multiply column nᵢ by k
 $R = $A->columnAdd($nᵢ, $nⱼ, $k);     // Add k * column nᵢ to column nⱼ
+$R = $A->columnAddVector($nᵢ, $V);    // Add Vector V to column nᵢ
 
 // Matrix augmentations - return a new Matrix
 $⟮A∣B⟯ = $A->augment($B);        // Augment on the right - standard augmentation
