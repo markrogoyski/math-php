@@ -217,7 +217,7 @@ class BernoulliTest extends \PHPUnit\Framework\TestCase
         $variance = $bernoulli->variance();
 
         // Then
-        $this->assertEquals($σ², $variance);
+        $this->assertEqualsWithDelta($σ², $variance, 0.00001);
     }
 
     /**

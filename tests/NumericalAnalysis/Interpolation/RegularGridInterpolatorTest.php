@@ -26,7 +26,7 @@ class RegularGridInterpolatorTest extends \PHPUnit\Framework\TestCase
         $evaluated = $p($point);
 
         // Then
-        $this->assertEquals($expected, $evaluated);
+        $this->assertEqualsWithDelta($expected, $evaluated, 0.00001);
     }
 
     /**

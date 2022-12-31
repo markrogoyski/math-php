@@ -308,13 +308,13 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
         $SST = $anova['ANOVA']['total']['SS'];
         $SSB = $anova['ANOVA']['treatment']['SS'];
         $SSW = $anova['ANOVA']['error']['SS'];
-        $this->assertEquals($SST, $SSB + $SSW);
+        $this->assertEqualsWithDelta($SST, $SSB + $SSW, 0.00001);
 
         // And dfT = dfB + dfW
         $dfT = $anova['ANOVA']['total']['df'];
         $dfB = $anova['ANOVA']['treatment']['df'];
         $dfW = $anova['ANOVA']['error']['df'];
-        $this->assertEquals($dfT, $dfB + $dfW);
+        $this->assertEqualsWithDelta($dfT, $dfB + $dfW, 0.00001);
     }
 
     /**
@@ -359,13 +359,13 @@ class ANOVATest extends \PHPUnit\Framework\TestCase
         $SST = $anova['ANOVA']['total']['SS'];
         $SSB = $anova['ANOVA']['treatment']['SS'];
         $SSW = $anova['ANOVA']['error']['SS'];
-        $this->assertEquals($SST, $SSB + $SSW);
+        $this->assertEqualsWithDelta($SST, $SSB + $SSW, 0.00001);
 
         // And dfT = dfB + dfW
         $dfT = $anova['ANOVA']['total']['df'];
         $dfB = $anova['ANOVA']['treatment']['df'];
         $dfW = $anova['ANOVA']['error']['df'];
-        $this->assertEquals($dfT, $dfB + $dfW);
+        $this->assertEqualsWithDelta($dfT, $dfB + $dfW, 0.00001);
     }
 
     /**

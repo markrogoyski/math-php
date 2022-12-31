@@ -494,10 +494,10 @@ class QuaternionTest extends \PHPUnit\Framework\TestCase
         $result = $q1->divide($q2);
 
         // Then
-        $this->assertEquals($expected['r'], $result->r);
-        $this->assertEquals($expected['i'], $result->i);
-        $this->assertEquals($expected['j'], $result->j);
-        $this->assertEquals($expected['k'], $result->k);
+        $this->assertEqualsWithDelta($expected['r'], $result->r, 0.00001);
+        $this->assertEqualsWithDelta($expected['i'], $result->i, 0.00001);
+        $this->assertEqualsWithDelta($expected['j'], $result->j, 0.00001);
+        $this->assertEqualsWithDelta($expected['k'], $result->k, 0.00001);
     }
 
     public function dataProviderForDivide(): array

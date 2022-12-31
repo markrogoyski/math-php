@@ -32,7 +32,7 @@ class CholeskyTest extends \PHPUnit\Framework\TestCase
 
         // And LLᵀ = A
         $LLᵀ = $L->multiply($Lᵀ);
-        $this->assertEquals($A->getMatrix(), $LLᵀ->getMatrix());
+        $this->assertEqualsWithDelta($A->getMatrix(), $LLᵀ->getMatrix(), 0.00001);
     }
 
     /**

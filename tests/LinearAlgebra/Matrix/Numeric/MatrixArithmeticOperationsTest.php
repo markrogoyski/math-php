@@ -421,7 +421,7 @@ class MatrixArithmeticOperationsTest extends \PHPUnit\Framework\TestCase
         $R = $A->multiply($B);
 
         // Then
-        $this->assertEquals($expected, $R);
+        $this->assertEqualsWithDelta($expected, $R, 0.00001);
         $this->assertTrue($R->isEqual($expected));
     }
 

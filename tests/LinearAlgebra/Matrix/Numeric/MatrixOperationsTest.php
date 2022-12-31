@@ -777,7 +777,7 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $meanDeviation = $A->meanDeviation('columns');
 
         // Then
-        $this->assertEquals($B, $meanDeviation);
+        $this->assertEqualsWithDelta($B, $meanDeviation, 0.00001);
     }
 
     public function dataProviderForMeanDeviationColumnsAsVariables(): array
@@ -1070,8 +1070,8 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
         $adj⟮A⟯ = $A->adjugate();
 
         // Then
-        $this->assertEquals($expected, $adj⟮A⟯);
-        $this->assertEquals($expected->getMatrix(), $adj⟮A⟯->getMatrix());
+        $this->assertEqualsWithDelta($expected, $adj⟮A⟯, 0.00001);
+        $this->assertEqualsWithDelta($expected->getMatrix(), $adj⟮A⟯->getMatrix(), 0.00001);
     }
 
     public function dataProviderForAdjugate(): array

@@ -301,8 +301,8 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         $kA = $A->scalarMultiply($k);
 
         // Then
-        $this->assertEquals($R, $kA);
-        $this->assertEquals($R->getVector(), $kA->getVector());
+        $this->assertEqualsWithDelta($R, $kA, 0.00001);
+        $this->assertEqualsWithDelta($R->getVector(), $kA->getVector(), 0.00001);
     }
 
     public function dataProviderForScalarMultiply(): array
@@ -817,8 +817,8 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         $projₐb   = $A->projection($B);
 
         // Then
-        $this->assertEquals($expected, $projₐb);
-        $this->assertEquals($expected->getVector(), $projₐb->getVector());
+        $this->assertEqualsWithDelta($expected, $projₐb, 0.00001);
+        $this->assertEqualsWithDelta($expected->getVector(), $projₐb->getVector(), 0.00001);
     }
 
     public function dataProviderForProjection(): array
@@ -882,8 +882,8 @@ class VectorOperationsTest extends \PHPUnit\Framework\TestCase
         $perpₐb = $A->perp($B);
 
         // Then
-        $this->assertEquals($expected, $perpₐb);
-        $this->assertEquals($expected->getVector(), $perpₐb->getVector());
+        $this->assertEqualsWithDelta($expected, $perpₐb, 0.00001);
+        $this->assertEqualsWithDelta($expected->getVector(), $perpₐb->getVector(), 0.00001);
     }
 
     public function dataProviderForPerp(): array

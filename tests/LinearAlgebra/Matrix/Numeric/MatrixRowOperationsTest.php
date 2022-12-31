@@ -26,7 +26,7 @@ class MatrixRowOperationsTest extends \PHPUnit\Framework\TestCase
         $R = $A->rowMultiply($mᵢ, $k);
 
         // Then
-        $this->assertEquals($expectedMatrix, $R);
+        $this->assertEqualsWithDelta($expectedMatrix, $R, 0.00001);
     }
 
     /**
@@ -137,7 +137,7 @@ class MatrixRowOperationsTest extends \PHPUnit\Framework\TestCase
         $R = $A->rowDivide($mᵢ, $k);
 
         // Then
-        $this->assertEquals($expectedMatrix, $R);
+        $this->assertEqualsWithDelta($expectedMatrix, $R, 0.00001);
     }
 
     /**
@@ -428,7 +428,7 @@ class MatrixRowOperationsTest extends \PHPUnit\Framework\TestCase
         $R = $A->rowSubtract($mᵢ, $mⱼ, $k);
 
         // Then
-        $this->assertEquals($expectedMatrix, $R);
+        $this->assertEqualsWithDelta($expectedMatrix, $R, 0.00001);
     }
 
     /**
@@ -527,7 +527,7 @@ class MatrixRowOperationsTest extends \PHPUnit\Framework\TestCase
         $R = $A->rowSubtractScalar($mᵢ, $k);
 
         // Then
-        $this->assertEquals($expectedMatrix, $R);
+        $this->assertEqualsWithDelta($expectedMatrix, $R, 0.00001);
     }
 
     /**

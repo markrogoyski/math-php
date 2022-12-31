@@ -652,9 +652,9 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $I    = MatrixFactory::identity($A->getN());
 
         // Then
-        $this->assertEquals($I->getMatrix(), $AA⁻¹->getMatrix());
-        $this->assertEquals($I->getMatrix(), $A⁻¹A->getMatrix());
-        $this->assertEquals($AA⁻¹->getMatrix(), $A⁻¹A->getMatrix());
+        $this->assertEqualsWithDelta($I->getMatrix(), $AA⁻¹->getMatrix(), 0.00001);
+        $this->assertEqualsWithDelta($I->getMatrix(), $A⁻¹A->getMatrix(), 0.00001);
+        $this->assertEqualsWithDelta($AA⁻¹->getMatrix(), $A⁻¹A->getMatrix(), 0.00001);
     }
 
     /**
@@ -674,7 +674,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $⟮A⁻¹⟯⁻¹ = $A->inverse()->inverse();
 
         // Then
-        $this->assertEquals($A->getMatrix(), $⟮A⁻¹⟯⁻¹->getMatrix());
+        $this->assertEqualsWithDelta($A->getMatrix(), $⟮A⁻¹⟯⁻¹->getMatrix(), 0.00001);
     }
 
     /**
@@ -804,7 +804,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $B⁻¹A⁻¹ = $B⁻¹->multiply($A⁻¹);
 
         // Then
-        $this->assertEquals($⟮AB⟯⁻¹->getMatrix(), $B⁻¹A⁻¹->getMatrix());
+        $this->assertEqualsWithDelta($⟮AB⟯⁻¹->getMatrix(), $B⁻¹A⁻¹->getMatrix(), 0.00001);
     }
 
     /**
@@ -973,7 +973,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $⟮Aᵀ⟯⁻¹ = $A->transpose()->inverse();
 
         // Then
-        $this->assertEquals($⟮A⁻¹⟯ᵀ->getMatrix(), $⟮Aᵀ⟯⁻¹->getMatrix());
+        $this->assertEqualsWithDelta($⟮A⁻¹⟯ᵀ->getMatrix(), $⟮Aᵀ⟯⁻¹->getMatrix(), 0.00001);
     }
 
     /**
@@ -1167,7 +1167,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         // Then PA = LU;
         $PA = $P->multiply($A);
         $LU = $L->multiply($U);
-        $this->assertEquals($PA->getMatrix(), $LU->getMatrix());
+        $this->assertEqualsWithDelta($PA->getMatrix(), $LU->getMatrix(), 0.00001);
     }
 
     /**
@@ -1190,7 +1190,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // Then A = P⁻¹LU
         $P⁻¹LU = $P->inverse()->multiply($L)->multiply($U);
-        $this->assertEquals($A->getMatrix(), $P⁻¹LU->getMatrix());
+        $this->assertEqualsWithDelta($A->getMatrix(), $P⁻¹LU->getMatrix(), 0.00001);
     }
 
     /**
@@ -1250,9 +1250,9 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $U⁻¹L⁻¹ = $U⁻¹->multiply($L⁻¹);
 
         // Then (PA)⁻¹ = (LU)⁻¹ = U⁻¹L⁻¹
-        $this->assertEquals($⟮PA⟯⁻¹->getMatrix(), $⟮LU⟯⁻¹->getMatrix());
-        $this->assertEquals($⟮LU⟯⁻¹->getMatrix(), $U⁻¹L⁻¹->getMatrix());
-        $this->assertEquals($⟮PA⟯⁻¹->getMatrix(), $U⁻¹L⁻¹->getMatrix());
+        $this->assertEqualsWithDelta($⟮PA⟯⁻¹->getMatrix(), $⟮LU⟯⁻¹->getMatrix(), 0.00001);
+        $this->assertEqualsWithDelta($⟮LU⟯⁻¹->getMatrix(), $U⁻¹L⁻¹->getMatrix(), 0.00001);
+        $this->assertEqualsWithDelta($⟮PA⟯⁻¹->getMatrix(), $U⁻¹L⁻¹->getMatrix(), 0.00001);
     }
 
     /**
@@ -1631,8 +1631,8 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $I     = MatrixFactory::identity($A->getM());
 
         // Then
-        $this->assertEquals($I, $A⁻¹Aᵀ);
-        $this->assertEquals($I->getMatrix(), $A⁻¹Aᵀ->getMatrix());
+        $this->assertEqualsWithDelta($I, $A⁻¹Aᵀ, 0.00001);
+        $this->assertEqualsWithDelta($I->getMatrix(), $A⁻¹Aᵀ->getMatrix(), 0.00001);
     }
 
     /**
@@ -2012,7 +2012,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $⟮A⊗B⟯⁻¹  = $A->kroneckerProduct($B)->inverse();
 
         // Then
-        $this->assertEquals($A⁻¹⊗B⁻¹->getMatrix(), $⟮A⊗B⟯⁻¹->getMatrix());
+        $this->assertEqualsWithDelta($A⁻¹⊗B⁻¹->getMatrix(), $⟮A⊗B⟯⁻¹->getMatrix(), 0.00001);
     }
 
     /**
@@ -3082,7 +3082,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $LLᵀ = $L->multiply($Lᵀ);
 
         // Then
-        $this->assertEquals($A->getMatrix(), $LLᵀ->getMatrix());
+        $this->assertEqualsWithDelta($A->getMatrix(), $LLᵀ->getMatrix(), 0.00001);
     }
 
     /**
@@ -3514,7 +3514,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $AAᵀ = $A->multiply($Aᵀ);
 
         // Then
-        $this->assertEquals($I->getMatrix(), $AAᵀ->getMatrix());
+        $this->assertEqualsWithDelta($I->getMatrix(), $AAᵀ->getMatrix(), 0.00001);
     }
 
     /**
@@ -3534,7 +3534,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $AᵀA = $Aᵀ->multiply($A);
 
         // Then
-        $this->assertEquals($I->getMatrix(), $AᵀA->getMatrix());
+        $this->assertEqualsWithDelta($I->getMatrix(), $AᵀA->getMatrix(), 0.00001);
     }
 
     /**
@@ -3553,7 +3553,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $A⁻¹ = $A->inverse();
 
         // Then
-        $this->assertEquals($A⁻¹->getMatrix(), $Aᵀ->getMatrix());
+        $this->assertEqualsWithDelta($A⁻¹->getMatrix(), $Aᵀ->getMatrix(), 0.00001);
     }
 
     /**
@@ -3571,7 +3571,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $det⟮A⟯ = $A->det();
 
         // Then
-        $this->assertEquals(1, \abs($det⟮A⟯));
+        $this->assertEqualsWithDelta(1, \abs($det⟮A⟯), 0.000001);
     }
 
     /**

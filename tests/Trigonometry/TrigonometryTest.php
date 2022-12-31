@@ -18,7 +18,7 @@ class TrigonometryTest extends \PHPUnit\Framework\TestCase
         $unitCircle = Trigonometry::unitCircle($points);
 
         // Then
-        $this->assertEquals($expected, $unitCircle);
+        $this->assertEqualsWithDelta($expected, $unitCircle, 0.00000001);
     }
 
     /**

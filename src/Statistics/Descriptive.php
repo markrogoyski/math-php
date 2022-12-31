@@ -381,6 +381,7 @@ class Descriptive
      *
      * This rule is employed by the TI-83 calculator boxplot and "1-Var Stats" functions.
      * This is the most basic method that is commonly taught in math textbooks.
+     * It is "method 1" from Wikipedia.
      *
      * @param float[] $numbers
      *
@@ -451,7 +452,7 @@ class Descriptive
      *    The upper quartile value is the median of the upper half of the data.
      *
      * The values found by this method are also known as "Tukey's hinges".
-     * This is the method that the programming language R uses by default.
+     * This is the "method 2" from Wikipedia.
      *
      * @param float[] $numbers
      *

@@ -735,8 +735,8 @@ class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
         $projᵇA＋perpᵇA = $projᵇA->add($perpᵇA);
 
         // Then
-        $this->assertEquals($A, $projᵇA＋perpᵇA);
-        $this->assertEquals($A->getVector(), $projᵇA＋perpᵇA->getVector());
+        $this->assertEqualsWithDelta($A, $projᵇA＋perpᵇA, 0.00001);
+        $this->assertEqualsWithDelta($A->getVector(), $projᵇA＋perpᵇA->getVector(), 0.00001);
     }
 
     /**
@@ -756,7 +756,7 @@ class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
         $│perpᵇA│² = ($A->perp($B)->length()) ** 2;
 
         // Then
-        $this->assertEquals($│A│², $│projᵇA│² + $│perpᵇA│²);
+        $this->assertEqualsWithDelta($│A│², $│projᵇA│² + $│perpᵇA│², 0.00001);
     }
 
     /**
@@ -777,7 +777,7 @@ class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
         $projᵇA⋅perpᵇA = $projᵇA->dotProduct($perpᵇA);
 
         // Then
-        $this->assertEquals(0, $projᵇA⋅perpᵇA);
+        $this->assertEqualsWithDelta(0, $projᵇA⋅perpᵇA, 0.00001);
     }
 
     /**
@@ -801,7 +801,7 @@ class VectorAxiomsTest extends \PHPUnit\Framework\TestCase
         $│perpᵇA│       = $perpᵇA->length();
 
         // Then
-        $this->assertEquals($projᵇA⊥⋅perpᵇA, $│projᵇA│ * $│perpᵇA│);
+        $this->assertEqualsWithDelta($projᵇA⊥⋅perpᵇA, $│projᵇA│ * $│perpᵇA│, 0.00001);
     }
 
     public function dataProviderForProjPerp(): array

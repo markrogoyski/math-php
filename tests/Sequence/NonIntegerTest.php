@@ -19,7 +19,7 @@ class NonIntegerTest extends \PHPUnit\Framework\TestCase
         $harmonicSequence = NonInteger::harmonic($n);
 
         // Then
-        $this->assertEquals($expectedSequence, $harmonicSequence);
+        $this->assertEqualsWithDelta($expectedSequence, $harmonicSequence, 0.00001);
     }
 
     /**
@@ -48,7 +48,7 @@ class NonIntegerTest extends \PHPUnit\Framework\TestCase
         $harmonicSequence = NonInteger::generalizedHarmonic($n, $p);
 
         // Then
-        $this->assertEquals($expectedSequence, $harmonicSequence);
+        $this->assertEqualsWithDelta($expectedSequence, $harmonicSequence, 0.00001);
     }
 
     /**

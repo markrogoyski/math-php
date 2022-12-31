@@ -122,7 +122,7 @@ class MatrixVectorOperationsTest extends \PHPUnit\Framework\TestCase
         $R = $A->rowSums();
 
         // Then
-        $this->assertEquals($expected, $R);
+        $this->assertEqualsWithDelta($expected, $R, 0.00001);
     }
 
     /**
@@ -189,7 +189,7 @@ class MatrixVectorOperationsTest extends \PHPUnit\Framework\TestCase
         $R = $A->rowMeans();
 
         // Then
-        $this->assertEquals($expected, $R);
+        $this->assertEqualsWithDelta($expected, $R, 0.00001);
     }
 
     /**

@@ -31,7 +31,7 @@ class SimpsonsThreeEighthsRuleTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $points   = [[0, 1], [1, 4], [2, 9], [3, 16]];
-        $tol      = 0;
+        $tol      = 0.00001;
         $expected = 21;
 
         // When
@@ -65,7 +65,7 @@ class SimpsonsThreeEighthsRuleTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $points   = [[2, 9], [3, 16], [0, 1], [1, 4]];
-        $tol      = 0;
+        $tol      = 0.00001;
         $expected = 21;
 
         // When
@@ -104,7 +104,7 @@ class SimpsonsThreeEighthsRuleTest extends \PHPUnit\Framework\TestCase
         $start    = 0;
         $end      = 3;
         $n        = 4;
-        $tol      = 0;
+        $tol      = 0.00001;
         $expected = 21;
 
         // When
@@ -141,7 +141,7 @@ class SimpsonsThreeEighthsRuleTest extends \PHPUnit\Framework\TestCase
         $start      = 0;
         $end        = 3;
         $n          = 4;
-        $tol        = 0;
+        $tol        = 0.00001;
         $expected   = 21;
 
         // When
