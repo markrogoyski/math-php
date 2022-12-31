@@ -1122,13 +1122,11 @@ class Special
 
         $m = 0;
         for ($i = 1; $i <= 200; $i++) {
-
             if ($i % 2 === 0) {
                 // Even term.
                 $m++;
                 $numerator = ($m * ($b - $m) * $x) / (($a + 2.0 * $m - 1.0) * ($a + 2.0 * $m));
-            }
-            else {
+            } else {
                 // Odd term.
                 $numerator = -(($a + $m) * ($a + $b + $m) * $x) / (($a + 2.0 * $m) * ($a + 2.0 * $m + 1));
             }
