@@ -676,4 +676,22 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         // When
         Significance::chiSquaredTest($observed, $expected);
     }
+
+    /**
+     * @test Issue 458 regression test - Division-by-zero error in t-test
+     * https://github.com/markrogoyski/math-php/issues/458
+     */
+    public function testIssue458(): void {
+        // Given
+        $values = [];
+        for ($i=0; $i < 95; $i++) {$values[] = 1;}
+        for ($i=0; $i < 5; $i++) {$values[] = 0.5;}
+        for ($i=0; $i < 12; $i++) {$values[] = 0;}
+
+        // When
+        $tTest = Significance::tTest($values, 0.569);
+
+        // Then t-test completed without division-by-zero error
+        $this->expectNotToPerformAssertions();
+    }
 }
