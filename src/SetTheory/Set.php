@@ -377,6 +377,7 @@ class Set implements \Countable, \Iterator
      * SET OPERATIONS ON OTHER SETS
      *  - Union
      *  - Intersection
+     *  - Partial intersection
      *  - Difference
      *  - Symmetric difference
      **************************************************************************/
@@ -432,7 +433,21 @@ class Set implements \Countable, \Iterator
     }
 
     /**
-     * TODO add
+     * Produces a new set of the M-partial intersection of this set and another given sets.
+     *
+     * Definition:
+     *
+     * An M-partial intersection (for M > 0) of N sets is a set elements in which
+     * are contained in at least M initial sets.
+     *
+     * Properties:
+     *
+     * - 1-partial intersection is equivalent to the union of these sets.
+     * - 2-partial intersection is equivalent to the difference of the union and the symmetric difference of these sets.
+     * - N-partial intersection is equivalent to the common (complete) intersection of these sets.
+     * - For any M > N M-partial intersection always equals to the empty set.
+     *
+     * @see https://github.com/Smoren/partial-intersection-php for the explanation and the examples.
      *
      * @param int $m Min intersection count
      * @param Set ...$Bs One or more sets
