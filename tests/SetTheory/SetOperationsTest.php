@@ -1528,12 +1528,12 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
      * @test
      * @dataProvider dataProviderForIntersectPartial
      */
-    public function testIntersectPartial(array $A, array $B, int $m, array $Amp∩B, Set $R)
+    public function testIntersectPartial(array $A, array $B, int $m, array $mpA∩B, Set $R)
     {
         // Given
         $setA               = new Set($A);
         $setB               = new Set($B);
-        $expected           = new Set($Amp∩B);
+        $expected           = new Set($mpA∩B);
 
         // When
         $intersection       = $setA->intersectPartial($m, $setB);
@@ -1542,11 +1542,11 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
         // Then
         $this->assertEquals($R, $intersection);
         $this->assertEquals($expected, $intersection);
-        $this->assertEquals(count($Amp∩B), count($intersection));
-        foreach ($Amp∩B as $member) {
+        $this->assertEquals(count($mpA∩B), count($intersection));
+        foreach ($mpA∩B as $member) {
             $this->assertArrayHasKey("$member", $intersection_array);
         }
-        foreach ($Amp∩B as $_ => $value) {
+        foreach ($mpA∩B as $_ => $value) {
             if ($value instanceof Set) {
                 $this->assertEquals($value, $intersection_array["$value"]);
             } else {
@@ -1872,6 +1872,110 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
                 [1, 2, 3, 'a', 'b', $setOneTwo],
                 [1, 'a', 'k', -2, '2.4', 3.5, $setOneTwo],
                 3,
+                [],
+                new Set(),
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider dataProviderForIntersectPartialMultipleSets
+     */
+    public function testIntersectPartialMultipleSets(array $A, array $B, array $C, int $m, array $mpA∩B∩C, Set $R)
+    {
+        // Given
+        $setA               = new Set($A);
+        $setB               = new Set($B);
+        $setC               = new Set($C);
+        $expected           = new Set($mpA∩B∩C);
+
+        // When
+        $intersection       = $setA->intersectPartial($m, $setB, $setC);
+        $intersection_array = $intersection->asArray();
+
+        // Then
+        $this->assertEquals($R, $intersection);
+        $this->assertEquals($expected, $intersection);
+        $this->assertEquals(count($mpA∩B∩C), count($intersection));
+        foreach ($mpA∩B∩C as $member) {
+            $this->assertArrayHasKey("$member", $intersection_array);
+        }
+        foreach ($mpA∩B∩C as $_ => $value) {
+            if ($value instanceof Set) {
+                $this->assertEquals($value, $intersection_array["$value"]);
+            } else {
+                $this->assertContains($value, $intersection_array);
+            }
+        }
+    }
+
+    public function dataProviderForIntersectPartialMultipleSets(): array
+    {
+        $setOneTwo = new Set([1, 2]);
+
+        return [
+            [
+                [1, 2, 3, 4],
+                [2, 3, 4, 5],
+                [3, 4, 5, 6],
+                1,
+                [1, 2, 3, 4, 5, 6],
+                new Set([1, 2, 3, 4, 5, 6]),
+            ],
+            [
+                [1, 2, 3, 4],
+                [2, 3, 4, 5],
+                [3, 4, 5, 6],
+                2,
+                [2, 3, 4, 5],
+                new Set([2, 3, 4, 5]),
+            ],
+            [
+                [1, 2, 3, 4],
+                [2, 3, 4, 5],
+                [3, 4, 5, 6],
+                3,
+                [3, 4],
+                new Set([3, 4]),
+            ],
+            [
+                [1, 2, 3, 4],
+                [2, 3, 4, 5],
+                [3, 4, 5, 6],
+                4,
+                [],
+                new Set([]),
+            ],
+            [
+                [1, 2, 3, 4, $setOneTwo],
+                [2, 3, 4, 5, $setOneTwo],
+                [3, 4, 5, 6, $setOneTwo],
+                1,
+                [1, 2, 3, 4, 5, 6, $setOneTwo],
+                new Set([1, 2, 3, 4, 5, 6, $setOneTwo]),
+            ],
+            [
+                [1, 2, 3, 4, $setOneTwo],
+                [2, 3, 4, 5, $setOneTwo],
+                [3, 4, 5, 6, $setOneTwo],
+                2,
+                [2, 3, 4, 5, $setOneTwo],
+                new Set([2, 3, 4, 5, $setOneTwo]),
+            ],
+            [
+                [1, 2, 3, 4, $setOneTwo],
+                [2, 3, 4, 5, $setOneTwo],
+                [3, 4, 5, 6, $setOneTwo],
+                3,
+                [3, 4, $setOneTwo],
+                new Set([3, 4, $setOneTwo]),
+            ],
+            [
+                [1, 2, 3, 4, $setOneTwo],
+                [2, 3, 4, 5, $setOneTwo],
+                [3, 4, 5, 6, $setOneTwo],
+                4,
                 [],
                 new Set(),
             ],
