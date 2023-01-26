@@ -1526,6 +1526,360 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
+     * @dataProvider dataProviderForIntersectPartial
+     */
+    public function testIntersectPartial(array $A, array $B, int $m, array $Amp∩B, Set $R)
+    {
+        // Given
+        $setA               = new Set($A);
+        $setB               = new Set($B);
+        $expected           = new Set($Amp∩B);
+
+        // When
+        $intersection       = $setA->intersectPartial($m, $setB);
+        $intersection_array = $intersection->asArray();
+
+        // Then
+        $this->assertEquals($R, $intersection);
+        $this->assertEquals($expected, $intersection);
+        $this->assertEquals(count($Amp∩B), count($intersection));
+        foreach ($Amp∩B as $member) {
+            $this->assertArrayHasKey("$member", $intersection_array);
+        }
+        foreach ($Amp∩B as $_ => $value) {
+            if ($value instanceof Set) {
+                $this->assertEquals($value, $intersection_array["$value"]);
+            } else {
+                $this->assertContains($value, $intersection_array);
+            }
+        }
+    }
+
+    public function dataProviderForIntersectPartial(): array
+    {
+        $setOneTwo = new Set([1, 2]);
+
+        return [
+            [
+                [],
+                [],
+                1,
+                [],
+                new Set(),
+            ],
+            [
+                [],
+                [],
+                2,
+                [],
+                new Set(),
+            ],
+            [
+                [],
+                [],
+                3,
+                [],
+                new Set(),
+            ],
+            [
+                [1],
+                [],
+                1,
+                [1],
+                new Set([1]),
+            ],
+            [
+                [1],
+                [],
+                2,
+                [],
+                new Set(),
+            ],
+            [
+                [1],
+                [],
+                3,
+                [],
+                new Set(),
+            ],
+            [
+                [],
+                [1],
+                1,
+                [1],
+                new Set([1]),
+            ],
+            [
+                [],
+                [1],
+                2,
+                [],
+                new Set(),
+            ],
+            [
+                [],
+                [1],
+                3,
+                [],
+                new Set(),
+            ],
+            [
+                [1],
+                [1],
+                1,
+                [1],
+                new Set([1]),
+            ],
+            [
+                [1],
+                [1],
+                2,
+                [1],
+                new Set([1]),
+            ],
+            [
+                [1],
+                [1],
+                3,
+                [],
+                new Set(),
+            ],
+            [
+                [1],
+                [2],
+                1,
+                [1, 2],
+                new Set([1, 2]),
+            ],
+            [
+                [1],
+                [2],
+                2,
+                [],
+                new Set([]),
+            ],
+            [
+                [1],
+                [2],
+                3,
+                [],
+                new Set([]),
+            ],
+            [
+                [2],
+                [1],
+                1,
+                [1, 2],
+                new Set([1, 2]),
+            ],
+            [
+                [2],
+                [1],
+                2,
+                [],
+                new Set([]),
+            ],
+            [
+                [2],
+                [1],
+                3,
+                [],
+                new Set([]),
+            ],
+            [
+                [2],
+                [2],
+                1,
+                [2],
+                new Set([2]),
+            ],
+            [
+                [2],
+                [2],
+                2,
+                [2],
+                new Set([2]),
+            ],
+            [
+                [2],
+                [2],
+                3,
+                [],
+                new Set(),
+            ],
+            [
+                [1, 2],
+                [1, 2],
+                1,
+                [1, 2],
+                new Set([1, 2]),
+            ],
+            [
+                [1, 2],
+                [1, 2],
+                2,
+                [1, 2],
+                new Set([1, 2]),
+            ],
+            [
+                [1, 2],
+                [1, 2],
+                3,
+                [],
+                new Set(),
+            ],
+            [
+                [1, 2],
+                [2, 1],
+                1,
+                [1, 2],
+                new Set([1, 2]),
+            ],
+            [
+                [1, 2],
+                [2, 1],
+                2,
+                [1, 2],
+                new Set([1, 2]),
+            ],
+            [
+                [1, 2],
+                [2, 1],
+                3,
+                [],
+                new Set(),
+            ],
+            [
+                [1, 2, 3, 'a', 'b'],
+                [1, 'a', 'k'],
+                1,
+                [1, 2, 3, 'a', 'b', 'k'],
+                new Set([1, 2, 3, 'a', 'b', 'k']),
+            ],
+            [
+                [1, 2, 3, 'a', 'b'],
+                [1, 'a', 'k'],
+                2,
+                [1, 'a'],
+                new Set([1, 'a']),
+            ],
+            [
+                [1, 2, 3, 'a', 'b'],
+                [1, 'a', 'k'],
+                3,
+                [],
+                new Set(),
+            ],
+            [
+                [1, 2, 3, 'a', 'b', new Set([1, 2])],
+                [1, 'a', 'k'],
+                1,
+                [1, 2, 3, 'a', 'b', 'k', $setOneTwo],
+                new Set([1, 2, 3, 'a', 'b', 'k', $setOneTwo]),
+            ],
+            [
+                [1, 2, 3, 'a', 'b', new Set([1, 2])],
+                [1, 'a', 'k'],
+                2,
+                [1, 'a'],
+                new Set([1, 'a']),
+            ],
+            [
+                [1, 2, 3, 'a', 'b', new Set([1, 2])],
+                [1, 'a', 'k'],
+                3,
+                [],
+                new Set(),
+            ],
+            [
+                [1, 2, 3, 'a', 'b'],
+                [1, 'a', 'k', new Set([1, 2])],
+                1,
+                [1, 2, 3, 'a', 'b', 'k', $setOneTwo],
+                new Set([1, 2, 3, 'a', 'b', 'k', $setOneTwo]),
+            ],
+            [
+                [1, 2, 3, 'a', 'b'],
+                [1, 'a', 'k', new Set([1, 2])],
+                2,
+                [1, 'a'],
+                new Set([1, 'a']),
+            ],
+            [
+                [1, 2, 3, 'a', 'b'],
+                [1, 'a', 'k', new Set([1, 2])],
+                3,
+                [],
+                new Set(),
+            ],
+            [
+                [1, 2, 3, 'a', 'b', $setOneTwo],
+                [1, 'a', 'k', $setOneTwo],
+                1,
+                [1, 2, 3, 'a', 'b', 'k', $setOneTwo],
+                new Set([1, 2, 3, 'a', 'b', 'k', $setOneTwo]),
+            ],
+            [
+                [1, 2, 3, 'a', 'b', $setOneTwo],
+                [1, 'a', 'k', $setOneTwo],
+                2,
+                [1, 'a', $setOneTwo],
+                new Set([1, 'a', $setOneTwo]),
+            ],
+            [
+                [1, 2, 3, 'a', 'b', $setOneTwo],
+                [1, 'a', 'k', $setOneTwo],
+                3,
+                [],
+                new Set(),
+            ],
+            [
+                [1, 2, 3, 'a', 'b', new Set()],
+                [1, 'a', 'k', $setOneTwo],
+                1,
+                [1, 2, 3, 'a', 'b', 'k', new Set(), $setOneTwo],
+                new Set([1, 2, 3, 'a', 'b', 'k', new Set(), $setOneTwo]),
+            ],
+            [
+                [1, 2, 3, 'a', 'b', new Set()],
+                [1, 'a', 'k', $setOneTwo],
+                2,
+                [1, 'a'],
+                new Set([1, 'a']),
+            ],
+            [
+                [1, 2, 3, 'a', 'b', new Set()],
+                [1, 'a', 'k', $setOneTwo],
+                3,
+                [],
+                new Set(),
+            ],
+            [
+                [1, 2, 3, 'a', 'b', $setOneTwo],
+                [1, 'a', 'k', 3.5, -2, '2.4', $setOneTwo],
+                1,
+                [-2, 1, 2, 3, 3.5, '2.4', 'a', 'b', 'k', $setOneTwo],
+                new Set([-2, 1, 2, 3, 3.5, '2.4', 'a', 'b', 'k', $setOneTwo]),
+            ],
+            [
+                [1, 2, 3, 'a', 'b', $setOneTwo],
+                [1, 'a', 'k', -2, '2.4', 3.5, $setOneTwo],
+                2,
+                [1, 'a', $setOneTwo],
+                new Set([1, 'a', $setOneTwo]),
+            ],
+            [
+                [1, 2, 3, 'a', 'b', $setOneTwo],
+                [1, 'a', 'k', -2, '2.4', 3.5, $setOneTwo],
+                3,
+                [],
+                new Set(),
+            ],
+        ];
+    }
+
+    /**
+     * @test
      * @dataProvider dataProviderForDifference
      */
     public function testDifference(array $A, array $B, array $diff, Set $R)

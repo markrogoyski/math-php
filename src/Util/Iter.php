@@ -33,7 +33,7 @@ class Iter
      *
      * @return \Iterator|\IteratorIterator|\ArrayIterator
      */
-    private static function makeIterator(iterable $iterable): \Iterator
+    public static function makeIterator(iterable $iterable): \Iterator
     {
         switch (true) {
             case $iterable instanceof \Iterator:
