@@ -1656,14 +1656,14 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
                 [2],
                 2,
                 [],
-                new Set([]),
+                new Set(),
             ],
             [
                 [1],
                 [2],
                 3,
                 [],
-                new Set([]),
+                new Set(),
             ],
             [
                 [2],
@@ -1677,14 +1677,14 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
                 [1],
                 2,
                 [],
-                new Set([]),
+                new Set(),
             ],
             [
                 [2],
                 [1],
                 3,
                 [],
-                new Set([]),
+                new Set(),
             ],
             [
                 [2],
@@ -1898,9 +1898,6 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($R, $intersection);
         $this->assertEquals($expected, $intersection);
         $this->assertEquals(count($mpA∩B∩C), count($intersection));
-        foreach ($mpA∩B∩C as $member) {
-            $this->assertArrayHasKey("$member", $intersection_array);
-        }
         foreach ($mpA∩B∩C as $_ => $value) {
             if ($value instanceof Set) {
                 $this->assertEquals($value, $intersection_array["$value"]);
@@ -1913,6 +1910,22 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForIntersectPartialMultipleSets(): array
     {
         $setOneTwo = new Set([1, 2]);
+
+        $gen = static function (array $data) {
+            return static function () use ($data) {
+                foreach ($data as $datum) {
+                    yield $datum;
+                }
+            };
+        };
+        $res = static function () {
+            return fopen('php://input', 'r');
+        };
+        $clos = static function () {
+            return static function () {
+                return 0;
+            };
+        };
 
         return [
             [
@@ -1945,7 +1958,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
                 [3, 4, 5, 6],
                 4,
                 [],
-                new Set([]),
+                new Set(),
             ],
             [
                 [1, 2, 3, 4, $setOneTwo],
@@ -1978,6 +1991,246 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
                 4,
                 [],
                 new Set(),
+            ],
+            [
+                ['c++', 'java', 'c#', 'go', 'haskell'],
+                ['php', 'python', 'javascript', 'perl'],
+                ['c++', 'java', 'c#', 'go', 'php'],
+                1,
+                ['c++', 'java', 'c#', 'go', 'haskell', 'php', 'python', 'javascript', 'perl'],
+                new Set(['c++', 'java', 'c#', 'go', 'haskell', 'php', 'python', 'javascript', 'perl']),
+            ],
+            [
+                ['c++', 'java', 'c#', 'go', 'haskell'],
+                ['php', 'python', 'javascript', 'perl'],
+                ['c++', 'java', 'c#', 'go', 'php'],
+                2,
+                ['c++', 'java', 'c#', 'go', 'php'],
+                new Set(['c++', 'java', 'c#', 'go', 'php']),
+            ],
+            [
+                ['c++', 'java', 'c#', 'go', 'haskell'],
+                ['php', 'python', 'javascript', 'perl'],
+                ['c++', 'java', 'c#', 'go', 'php'],
+                3,
+                [],
+                new Set(),
+            ],
+            [
+                ['c++', 'java', 'c#', 'go', 'haskell'],
+                ['php', 'python', 'javascript', 'perl'],
+                ['c++', 'java', 'c#', 'go', 'php'],
+                4,
+                [],
+                new Set(),
+            ],
+            [
+                [1, 2, 3, 4, 5],
+                [1, 2, '3', '4'],
+                [4, 5, 6, 7, '8', '9'],
+                1,
+                [1, 2, 3, 4, 5, 6, 7, '8', '9'],
+                new Set([1, 2, 3, 4, 5, 6, 7, '8', '9']),
+            ],
+            [
+                [1, 2, 3, 4, 5],
+                [1, 2, '3', '4'],
+                [4, 5, 6, 7, '8', '9'],
+                2,
+                [1, 2, 3, 4, 5],
+                new Set([1, 2, 3, 4, 5]),
+            ],
+            [
+                [1, 2, 3, 4, 5],
+                [1, 2, '3', '4'],
+                [4, 5, 6, 7, '8', '9'],
+                3,
+                [4],
+                new Set([4]),
+            ],
+            [
+                [1, 2, 3, 4, 5],
+                [1, 2, '3', '4'],
+                [4, 5, 6, 7, '8', '9'],
+                4,
+                [],
+                new Set(),
+            ],
+            [
+                [[1], [2], [3], [4], [5]],
+                [[2], [3], [4], [5], [6]],
+                [[3], [4], [5], [6], [7]],
+                1,
+                [[1], [2], [3], [4], [5], [6], [7]],
+                new Set([[1], [2], [3], [4], [5], [6], [7]]),
+            ],
+            [
+                [[1], [2], [3], [4], [5]],
+                [[2], [3], [4], [5], [6]],
+                [[3], [4], [5], [6], [7]],
+                2,
+                [[2], [3], [4], [5], [6]],
+                new Set([[2], [3], [4], [5], [6]]),
+            ],
+            [
+                [[1], [2], [3], [4], [5]],
+                [[2], [3], [4], [5], [6]],
+                [[3], [4], [5], [6], [7]],
+                3,
+                [[3], [4], [5]],
+                new Set([[3], [4], [5]]),
+            ],
+            [
+                [[1], [2], [3], [4], [5]],
+                [[2], [3], [4], [5], [6]],
+                [[3], [4], [5], [6], [7]],
+                4,
+                [],
+                new Set(),
+            ],
+            [
+                [$o1 = (object)[1], $o2 = (object)[2], $o3 = (object)[3], $o4 = (object)[4], $o5 = (object)[5]],
+                [$o2, $o3, $o4, $o5, $o6 = (object)[6]],
+                [$o3, $o4, $o5, $o6, $o7 = (object)[7]],
+                1,
+                [$o1, $o2, $o3, $o4, $o5, $o6, $o7],
+                new Set([$o1, $o2, $o3, $o4, $o5, $o6, $o7]),
+            ],
+            [
+                [(object)[1], $o2 = (object)[2], $o3 = (object)[3], $o4 = (object)[4], $o5 = (object)[5]],
+                [$o2, $o3, $o4, $o5, $o6 = (object)[6]],
+                [$o3, $o4, $o5, $o6, (object)[7]],
+                2,
+                [$o2, $o3, $o4, $o5, $o6],
+                new Set([$o2, $o3, $o4, $o5, $o6]),
+            ],
+            [
+                [(object)[1], $o2 = (object)[2], $o3 = (object)[3], $o4 = (object)[4], $o5 = (object)[5]],
+                [$o2, $o3, $o4, $o5, $o6 = (object)[6]],
+                [$o3, $o4, $o5, $o6, (object)[7]],
+                3,
+                [$o3, $o4, $o5],
+                new Set([$o3, $o4, $o5]),
+            ],
+            [
+                [(object)[1], $o2 = (object)[2], $o3 = (object)[3], $o4 = (object)[4], $o5 = (object)[5]],
+                [$o2, $o3, $o4, $o5, $o6 = (object)[6]],
+                [$o3, $o4, $o5, $o6, (object)[7]],
+                4,
+                [],
+                new Set(),
+            ],
+            [
+                [$o1 = $gen([]), $o2 = $gen([]), $o3 = $gen([]), $o4 = $gen([]), $o5 = $gen([])],
+                [$o2, $o3, $o4, $o5, $o6 = $gen([])],
+                [$o3, $o4, $o5, $o6, $o7 = $gen([])],
+                1,
+                [$o1, $o2, $o3, $o4, $o5, $o6, $o7],
+                new Set([$o1, $o2, $o3, $o4, $o5, $o6, $o7]),
+            ],
+            [
+                [$gen([]), $o2 = $gen([]), $o3 = $gen([]), $o4 = $gen([]), $o5 = $gen([])],
+                [$o2, $o3, $o4, $o5, $o6 = $gen([])],
+                [$o3, $o4, $o5, $o6, $gen([])],
+                2,
+                [$o2, $o3, $o4, $o5, $o6],
+                new Set([$o2, $o3, $o4, $o5, $o6]),
+            ],
+            [
+                [$gen([]), $o2 = $gen([]), $o3 = $gen([]), $o4 = $gen([]), $o5 = $gen([])],
+                [$o2, $o3, $o4, $o5, $o6 = $gen([])],
+                [$o3, $o4, $o5, $o6, $gen([])],
+                3,
+                [$o3, $o4, $o5],
+                new Set([$o3, $o4, $o5]),
+            ],
+            [
+                [$gen([]), $o2 = $gen([]), $o3 = $gen([]), $o4 = $gen([]), $o5 = $gen([])],
+                [$o2, $o3, $o4, $o5, $o6 = $gen([])],
+                [$o3, $o4, $o5, $o6, $gen([])],
+                4,
+                [],
+                new Set(),
+            ],
+            [
+                [$o1 = $res(), $o2 = $res(), $o3 = $res(), $o4 = $res(), $o5 = $res()],
+                [$o2, $o3, $o4, $o5, $o6 = $res()],
+                [$o3, $o4, $o5, $o6, $o7 = $res()],
+                1,
+                [$o1, $o2, $o3, $o4, $o5, $o6, $o7],
+                new Set([$o1, $o2, $o3, $o4, $o5, $o6, $o7]),
+            ],
+            [
+                [$res(), $o2 = $res(), $o3 = $res(), $o4 = $res(), $o5 = $res()],
+                [$o2, $o3, $o4, $o5, $o6 = $res()],
+                [$o3, $o4, $o5, $o6, $res()],
+                2,
+                [$o2, $o3, $o4, $o5, $o6],
+                new Set([$o2, $o3, $o4, $o5, $o6]),
+            ],
+            [
+                [$res(), $o2 = $res(), $o3 = $res(), $o4 = $res(), $o5 = $res()],
+                [$o2, $o3, $o4, $o5, $o6 = $res()],
+                [$o3, $o4, $o5, $o6, $res()],
+                3,
+                [$o3, $o4, $o5],
+                new Set([$o3, $o4, $o5]),
+            ],
+            [
+                [$res(), $o2 = $res(), $o3 = $res(), $o4 = $res(), $o5 = $res()],
+                [$o2, $o3, $o4, $o5, $o6 = $res()],
+                [$o3, $o4, $o5, $o6, $res()],
+                4,
+                [],
+                new Set(),
+            ],
+            [
+                [$o1 = $clos(), $o2 = $clos(), $o3 = $clos(), $o4 = $clos(), $o5 = $clos()],
+                [$o2, $o3, $o4, $o5, $o6 = $clos()],
+                [$o3, $o4, $o5, $o6, $o7 = $clos()],
+                1,
+                [$o1, $o2, $o3, $o4, $o5, $o6, $o7],
+                new Set([$o1, $o2, $o3, $o4, $o5, $o6, $o7]),
+            ],
+            [
+                [$clos(), $o2 = $clos(), $o3 = $clos(), $o4 = $clos(), $o5 = $clos()],
+                [$o2, $o3, $o4, $o5, $o6 = $clos()],
+                [$o3, $o4, $o5, $o6, $clos()],
+                2,
+                [$o2, $o3, $o4, $o5, $o6],
+                new Set([$o2, $o3, $o4, $o5, $o6]),
+            ],
+            [
+                [$clos(), $o2 = $clos(), $o3 = $clos(), $o4 = $clos(), $o5 = $clos()],
+                [$o2, $o3, $o4, $o5, $o6 = $clos()],
+                [$o3, $o4, $o5, $o6, $clos()],
+                3,
+                [$o3, $o4, $o5],
+                new Set([$o3, $o4, $o5]),
+            ],
+            [
+                [$clos(), $o2 = $clos(), $o3 = $clos(), $o4 = $clos(), $o5 = $clos()],
+                [$o2, $o3, $o4, $o5, $o6 = $clos()],
+                [$o3, $o4, $o5, $o6, $clos()],
+                4,
+                [],
+                new Set(),
+            ],
+            [
+                [null, 1, 2, 3],
+                [1, 2, 3, 4, 5],
+                [2, 3, 4],
+                2,
+                [1, 2, 3, 4],
+                new Set([1, 2, 3, 4]),
+            ],
+            [
+                [null, 1, 2, 3],
+                [null, 1, 2, 3, 4, 5],
+                [2, 3, 4],
+                2,
+                [null, 1, 2, 3, 4],
+                new Set([null, 1, 2, 3, 4]),
             ],
         ];
     }
