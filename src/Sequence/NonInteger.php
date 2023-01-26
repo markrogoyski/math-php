@@ -104,7 +104,7 @@ class NonInteger
                     $sequence[$k] = $∑;
                 }
             }
-        } catch (\TypeError $e) {
+        } catch (\TypeError|\Error $e) {
             throw new Exception\OutOfBoundsException('Numbers too large to maintain integer precision', -1, $e);
         }
 
