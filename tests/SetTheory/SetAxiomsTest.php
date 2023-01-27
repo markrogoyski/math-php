@@ -1327,13 +1327,13 @@ class SetAxiomsTest extends \PHPUnit\Framework\TestCase
      * For any M > N M-partial intersection always equals to the empty set.
      *
      * @test
-     * @dataProvider dataProviderForNPartialIntersectionIsEmptySetWhenMMoreThanN
+     * @dataProvider dataProviderForMPartialIntersectionIsEmptySetWhenMMoreThanN
      * @param int $m
      * @param Set $s
      * @param Set ...$others
      * @return void
      */
-    public function testNPartialIntersectionIsEmptySetWhenMMoreThanN(int $m, Set $s, Set ...$others)
+    public function testMPartialIntersectionIsEmptySetWhenMMoreThanN(int $m, Set $s, Set ...$others)
     {
         // Given
         $emptySet = new Set();
@@ -1347,7 +1347,7 @@ class SetAxiomsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($emptySet, $partialIntersection);
     }
 
-    public function dataProviderForNPartialIntersectionIsEmptySetWhenMMoreThanN(): array
+    public function dataProviderForMPartialIntersectionIsEmptySetWhenMMoreThanN(): array
     {
         return [
             [
