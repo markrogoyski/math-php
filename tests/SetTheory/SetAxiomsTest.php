@@ -744,9 +744,17 @@ class SetAxiomsTest extends \PHPUnit\Framework\TestCase
         // Given
         $allSets = $sets;
         $s = array_shift($sets);
+        $totalElementsCount = array_reduce($allSets, static function (int $carry, Set $set) {
+            return $carry + count($set);
+        }, 0);
+        $partialIntersection = $s->intersectPartial($m, ...$sets);
 
         // When
-        $partialIntersection = $s->intersectPartial($m, ...$sets);
+        if ($totalElementsCount === 0) {
+            // Then
+            // Assert than for any M and N M-partial intersection of N empty sets is an empty set.
+            $this->assertCount(0, $partialIntersection);
+        }
 
         // Then
         foreach ($partialIntersection as $value) {
@@ -777,11 +785,34 @@ class SetAxiomsTest extends \PHPUnit\Framework\TestCase
         return [
             [
                 1,
+                new Set(),
+            ],
+            [
+                2,
+                new Set(),
+            ],
+            [
+                1,
                 new Set([1]),
             ],
             [
                 2,
                 new Set([1]),
+            ],
+            [
+                1,
+                new Set(),
+                new Set(),
+            ],
+            [
+                2,
+                new Set(),
+                new Set(),
+            ],
+            [
+                3,
+                new Set(),
+                new Set(),
             ],
             [
                 1,
@@ -847,6 +878,30 @@ class SetAxiomsTest extends \PHPUnit\Framework\TestCase
                 3,
                 new Set([1, 2, 3, 4, 5]),
                 new Set([6, 7, 8, 9, 10]),
+            ],
+            [
+                1,
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                2,
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                3,
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                4,
+                new Set(),
+                new Set(),
+                new Set(),
             ],
             [
                 1,
@@ -919,6 +974,41 @@ class SetAxiomsTest extends \PHPUnit\Framework\TestCase
                 new Set([1, 2, 3]),
                 new Set([2, 3, 4, 5]),
                 new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                1,
+                new Set(),
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                2,
+                new Set(),
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                3,
+                new Set(),
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                4,
+                new Set(),
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                5,
+                new Set(),
+                new Set(),
+                new Set(),
+                new Set(),
             ],
             [
                 1,
