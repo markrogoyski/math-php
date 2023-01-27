@@ -728,4 +728,74 @@ class SetAxiomsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(\pow(2, $n), count($P⟮S⟯));
         $this->assertEquals(\pow(2, $n), count($P⟮S⟯->asArray()));
     }
+
+    /**
+     * @test
+     * @dataProvider dataProviderForOnePartialIntersectionIsUnion
+     * @param Set $s
+     * @param Set ...$others
+     * @return void
+     */
+    public function testOnePartialIntersectionIsUnion(Set $s, Set ...$others)
+    {
+        // Given
+        $union = $s->union(...$others);
+        $onePartialIntersection = $s->intersectPartial(1, ...$others);
+
+        // Then
+        $this->assertEquals($union, $onePartialIntersection);
+    }
+
+    public function dataProviderForOnePartialIntersectionIsUnion(): array
+    {
+        return [
+            [
+                new Set(),
+                new Set(),
+            ],
+            [
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                new Set([1]),
+                new Set(),
+            ],
+            [
+                new Set(),
+                new Set([1]),
+            ],
+            [
+                new Set([1]),
+                new Set([1]),
+            ],
+            [
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+            ],
+            [
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set(),
+            ],
+            [
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set([3, 4, 5, 6, 7, 8]),
+            ],
+        ];
+    }
 }
