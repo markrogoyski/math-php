@@ -22,6 +22,12 @@ abstract class NumericalDifferentiation
     /** @var int Index of y */
     protected const Y = 1;
 
+    /**
+     * @param float $target
+     * @param callable|array<array{number, number}> $source
+     * @param number ...$args
+     * @return mixed
+     */
     abstract public static function differentiate(float $target, $source, ...$args);
 
     /**
@@ -35,10 +41,10 @@ abstract class NumericalDifferentiation
      * @todo  Add method to verify input arguments are valid.
      *        Verify $start and $end are numbers, $end > $start, and $points is an integer > 1
      *
-     * @param  callable|array<array{int|float, int|float}> $source
+     * @param  callable|array<array{number, number}> $source
      *         The source of our approximation. Should be either
      *         a callback function or a set of arrays.
-     * @param  array{int|float, int|float, int|float} $args
+     * @param  array<int|float> $args
      *         The arguments of our callback function: start,
      *         end, and n. Example: [0, 8, 5]. If $source is a
      *         set of arrays, $args will default to [].
@@ -49,6 +55,7 @@ abstract class NumericalDifferentiation
     public static function getPoints($source, array $args = []): array
     {
         // Guard clause - source must be callable or array of points
+        // @phpstan-ignore-next-line
         if (!(\is_callable($source) || \is_array($source))) {
             throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
@@ -104,7 +111,7 @@ abstract class NumericalDifferentiation
      * @throws Exception\BadDataException if any point does not contain two numbers
      * @throws Exception\BadDataException if two points share the same first number (x-component)
      */
-    public static function validate(array $points, int $degree)
+    public static function validate(array $points, int $degree): void
     {
         if (\count($points) != $degree) {
             throw new Exception\BadDataException("You need to have $degree sets of coordinates (arrays) for this technique");
@@ -112,6 +119,7 @@ abstract class NumericalDifferentiation
 
         $x_coordinates = [];
         foreach ($points as $point) {
+            // @phpstan-ignore-next-line
             if (\count($point) !== 2) {
                 throw new Exception\BadDataException('Each array needs to have have precisely two numbers, an x- and y-component');
             }
@@ -149,8 +157,10 @@ abstract class NumericalDifferentiation
      *
      * @throws Exception\BadDataException if the spacing between any two points is not equal
      *         to the average spacing between every point
+     *
+     * FIXME: maybe rename to checkIsSpacingConstant?
      */
-    public static function isSpacingConstant(array $sorted)
+    public static function isSpacingConstant(array $sorted): void
     {
         $x       = self::X;
         $length  = \count($sorted);
@@ -170,8 +180,10 @@ abstract class NumericalDifferentiation
      * @param  array<array{int|float, int|float}> $sorted Points sorted by (increasing) x-component
      *
      * @throws Exception\BadDataException if $target is not contained in the array of our x-components
+     *
+     * FIXME: maybe rename to checkIsTargetInPoints?
      */
-    public static function isTargetInPoints($target, array $sorted)
+    public static function isTargetInPoints($target, array $sorted): void
     {
         $xComponents = \array_map(
             function (array $point) {
