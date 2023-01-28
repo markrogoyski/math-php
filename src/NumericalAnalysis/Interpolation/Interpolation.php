@@ -119,9 +119,9 @@ abstract class Interpolation
      * Sorts our coordinates (arrays) by their x-component (first number) such
      * that consecutive coordinates have an increasing x-component.
      *
-     * @param  array<array{int|float, int|float}> $points
+     * @param  array<array<int|float>> $points
      *
-     * @return array<array{int|float, int|float}>
+     * @return array<array<int|float>>
      */
     protected static function sort(array $points): array
     {
