@@ -191,7 +191,11 @@ class Average
      * @param float[] $numbers
      * @param float   $value
      *
-     * @return array
+     * @return array{
+     *     lower: array<float>,
+     *     upper: array<float>,
+     *     equal: int,
+     * }
      */
     private static function splitAtValue(array $numbers, float $value): array
     {
@@ -717,11 +721,11 @@ class Average
      *
      * Each weighted average = ∑(weighted values) / ∑(weights)
      *
-     * @param  array  $numbers
-     * @param  int    $n       n-point moving average
-     * @param  array  $weights Weights for each n points
+     * @param  array<number>  $numbers
+     * @param  int            $n       n-point moving average
+     * @param  array<number>  $weights Weights for each n points
      *
-     * @return array of averages
+     * @return array<float> of averages
      *
      * @throws Exception\BadDataException if number of weights is not equal to number of n-points
      */
@@ -753,10 +757,10 @@ class Average
      *   where
      *    α: coefficient that represents the degree of weighting decrease, a constant smoothing factor between 0 and 1.
      *
-     * @param array  $numbers
-     * @param int    $n       Length of the EPA
+     * @param array<number>  $numbers
+     * @param int            $n       Length of the EPA
      *
-     * @return array of exponential moving averages
+     * @return array<float> of exponential moving averages
      */
     public static function exponentialMovingAverage(array $numbers, int $n): array
     {
@@ -917,8 +921,18 @@ class Average
      *
      * @param array $numbers
      *
-     * @return array [ mean, median, mode, geometric_mean, harmonic_mean,
-     *                 contraharmonic_mean, quadratic_mean, trimean, iqm, cubic_mean ]
+     * @return array{
+     *     mean:                    float,
+     *     median:                  float,
+     *     mode:                    float[],
+     *     geometric_mean:          float,
+     *     harmonic_mean:           float,
+     *     contraharmonic_mean:     float,
+     *     quadratic_mean:          float,
+     *     trimean:                 float,
+     *     iqm:                     float,
+     *     cubic_mean:              float,
+     * }
      *
      * @throws Exception\BadDataException
      * @throws Exception\OutOfBoundsException

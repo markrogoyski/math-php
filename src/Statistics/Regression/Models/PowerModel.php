@@ -32,7 +32,10 @@ trait PowerModel
      *
      * @param array<int, float> $params
      *
-     * @return array<string, float> [ a => number, b => number ]
+     * @return array{
+     *     a: float,
+     *     b: float,
+     * }
      */
     public function getModelParameters(array $params): array
     {

@@ -36,7 +36,7 @@ class Basic
      * @param int $d  Difference between the elements of the sequence
      * @param int $a₁ Starting number for the sequence
      *
-     * @return array Indexed from 1
+     * @return array<int, int> Indexed from 1
      */
     public static function arithmeticProgression(int $n, int $d, int $a₁): array
     {
@@ -72,7 +72,7 @@ class Basic
      * @param  int|float $a Scalar value
      * @param  int|float $r Common ratio
      *
-     * @return array Indexed from 0 (indexes are powers of common ratio)
+     * @return array<int|float> Indexed from 0 (indexes are powers of common ratio)
      *
      * @throws Exception\BadParameterException
      */
@@ -108,7 +108,7 @@ class Basic
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 0 (indexes are the base number which is raised to the power of 2)
+     * @return array<int> Indexed from 0 (indexes are the base number which is raised to the power of 2)
      */
     public static function squareNumber(int $n): array
     {
@@ -138,7 +138,7 @@ class Basic
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 0 (indexes are the base number which is raised to the power of 3)
+     * @return array<int> Indexed from 0 (indexes are the base number which is raised to the power of 3)
      */
     public static function cubicNumber(int $n): array
     {
@@ -168,7 +168,7 @@ class Basic
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 0 (indexes are the power 2 is raised to)
+     * @return array<int> Indexed from 0 (indexes are the power 2 is raised to)
      */
     public static function powersOfTwo(int $n): array
     {
@@ -196,7 +196,7 @@ class Basic
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 0 (indexes are the power 10 is raised to)
+     * @return array<int> Indexed from 0 (indexes are the power 10 is raised to)
      */
     public static function powersOfTen(int $n): array
     {
@@ -224,7 +224,7 @@ class Basic
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 0 (indexes are the n!)
+     * @return array<int> Indexed from 0 (indexes are the n!)
      */
     public static function factorial(int $n): array
     {
@@ -256,7 +256,7 @@ class Basic
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 0 (indexes are the n in the digitSum(n))
+     * @return array<int> Indexed from 0 (indexes are the n in the digitSum(n))
      */
     public static function digitSum(int $n): array
     {
@@ -284,7 +284,7 @@ class Basic
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 0 (indexes are the n in the digitSum(n))
+     * @return array<int> Indexed from 0 (indexes are the n in the digitSum(n))
      */
     public static function digitalRoot(int $n): array
     {

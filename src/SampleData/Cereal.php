@@ -191,7 +191,7 @@ class Cereal
     }
 
     /**
-     * @return array
+     * @return array<string, float>
      */
     public function getScaledCenter(): array
     {
@@ -199,7 +199,7 @@ class Cereal
     }
 
     /**
-     * @return array
+     * @return array<string, float>
      */
     public function getScaledScale(): array
     {

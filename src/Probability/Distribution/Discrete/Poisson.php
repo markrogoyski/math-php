@@ -123,13 +123,13 @@ class Poisson extends Discrete
      *
      * mode = ⌈λ - 1⌉, ⌊λ⌋
      *
-     * @return array
+     * @return array{int, int}
      */
     public function mode(): array
     {
         return [
-            \ceil($this->λ - 1),
-            \floor($this->λ),
+            (int)\ceil($this->λ - 1),
+            (int)\floor($this->λ),
         ];
     }
 

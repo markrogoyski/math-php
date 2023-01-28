@@ -114,7 +114,7 @@ class RowEchelonForm extends NumericMatrix
      *
      * @param NumericMatrix $A
      *
-     * @return array - matrix in row echelon form and number of row swaps
+     * @return array{array<array<number>>, int} - matrix in row echelon form and number of row swaps
      *
      * @throws Exception\SingularMatrixException if the matrix is singular
      */
@@ -179,7 +179,7 @@ class RowEchelonForm extends NumericMatrix
      *
      * @param NumericMatrix $A
      *
-     * @return array - matrix in row echelon form and number of row swaps
+     * @return array{array<array<number>>, int} - matrix in row echelon form and number of row swaps
      *
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException

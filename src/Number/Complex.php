@@ -192,7 +192,7 @@ class Complex implements ObjectArithmetic
      *           √         2
      *
      *
-     * @return array Complex[] (two roots)
+     * @return array{Complex, Complex} (two roots)
      */
     public function roots(): array
     {

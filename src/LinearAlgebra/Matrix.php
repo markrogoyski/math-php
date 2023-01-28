@@ -162,7 +162,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * http://mathworld.wolfram.com/Superdiagonal.html
      *
-     * @return array
+     * @return array<number>
      */
     public function getSuperdiagonalElements(): array
     {
@@ -605,7 +605,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param callable $func
      *
-     * @return array|array[] Depends on the function
+     * @return array<number>|array<array<number>> Depends on the function
      */
     public function mapRows(callable $func): array
     {

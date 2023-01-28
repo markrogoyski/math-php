@@ -3,6 +3,7 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
+use MathPHP\Exception\MatrixException;
 use MathPHP\Functions\Map\Single;
 use MathPHP\Functions\Special;
 
@@ -190,9 +191,11 @@ class Eigenvector
     /**
      * Find the zero columns
      *
-     * @param  NumericMatrix $M
+     * @param NumericMatrix $M
      *
-     * @return array
+     * @return array<int>
+     *
+     * @throws MatrixException
      */
     private static function findZeroColumns(NumericMatrix $M): array
     {

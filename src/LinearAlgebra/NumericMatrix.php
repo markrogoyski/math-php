@@ -3012,7 +3012,7 @@ class NumericMatrix extends Matrix
      *
      * @param string $method Algorithm used to compute the eigenvalues
      *
-     * @return array of eigenvalues
+     * @return array<number> of eigenvalues
      *
      * @throws Exception\MatrixException if method is not a valid eigenvalue method
      * @throws Exception\MathException
@@ -3103,7 +3103,7 @@ class NumericMatrix extends Matrix
      *     [3, 4, 5, 6]
      *   [ε] => 1.0E-11
      *
-     * @return array
+     * @return array{matrix: string, data: string, ε: float}
      */
     public function __debugInfo(): array
     {

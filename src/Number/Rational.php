@@ -4,6 +4,7 @@ namespace MathPHP\Number;
 
 use MathPHP\Algebra;
 use MathPHP\Exception;
+use MathPHP\Exception\BadDataException;
 use MathPHP\Functions\Special;
 
 /**
@@ -459,7 +460,9 @@ class Rational implements ObjectArithmetic
      * @param int $n numerator
      * @param int $d denominator
      *
-     * @return array
+     * @return array{int, int, int}
+     *
+     * @throws BadDataException
      */
     private function normalize(int $w, int $n, int $d): array
     {
@@ -493,6 +496,6 @@ class Rational implements ObjectArithmetic
         if ($n == 0) {
             $d = 1;
         }
-        return [$w, $n, $d];
+        return [$w, (int)$n, (int)$d];
     }
 }

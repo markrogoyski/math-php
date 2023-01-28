@@ -501,7 +501,13 @@ class Correlation
      * @param  array $Y values for random variable Y
      * @param  bool $population Optional flag if all samples of a population are present
      *
-     * @return array [cov, r, R2, tau, rho]
+     * @return array{
+     *     cov: float,
+     *     r:   float,
+     *     R2:  float,
+     *     tau: float,
+     *     rho: float,
+     * }
      *
      * @throws Exception\BadDataException
      * @throws Exception\OutOfBoundsException
@@ -532,7 +538,7 @@ class Correlation
      *                          will be one larger because the first point and last will be repeated
      *                          to ease display.
      *
-     * @return array paired x and y points on an ellipse aligned with the data provided
+     * @return array<array<number>> paired x and y points on an ellipse aligned with the data provided
      *
      * @throws Exception\BadDataException
      * @throws Exception\BadParameterException

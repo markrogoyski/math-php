@@ -177,7 +177,7 @@ class RegularGridInterpolator
      *
      * @param float[] $xi 1-dimensional array ( search point = [x,y,z ....] )
      *
-     * @return array[] (indices in grid for search point, normDistances for search point)
+     * @return array{int[], float[]} (indices in grid for search point, normDistances for search point)
      */
     private function findIndices($xi): array
     {
@@ -209,10 +209,10 @@ class RegularGridInterpolator
     /**
      * Dynamically accessing multidimensional array value.
      *
-     * @param array $data
-     * @param array $keys
+     * @param array<mixed> $data
+     * @param array<int|string> $keys
      *
-     * @return array|mixed
+     * @return array<mixed>|mixed
      */
     private function flatCall(array $data, array $keys)
     {
@@ -230,7 +230,7 @@ class RegularGridInterpolator
      *
      * @param mixed ...$args ...$iterables[, $repeat]
 *
-     * @return \Generator
+     * @return \Generator<array<mixed>>
      */
     private function product(...$args): \Generator
     {

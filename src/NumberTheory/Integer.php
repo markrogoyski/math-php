@@ -324,7 +324,7 @@ class Integer
      *
      * @param  int $n
      *
-     * @return array [m, k]
+     * @return array{0?: int, 1?: int} [m, k]
      */
     public static function perfectPower(int $n): array
     {

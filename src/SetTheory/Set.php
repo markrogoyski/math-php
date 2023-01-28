@@ -79,14 +79,14 @@ class Set implements \Countable, \Iterator
      * Set as a hash.
      * Keys are a representation of the members of the set.
      * Values are the values/objects themselves.
-     * @var array
+     * @var array<mixed>
      */
     protected $A = [];
 
     /**
      * Constructor - Initialize set members
      *
-     * @param array $members
+     * @param array<mixed> $members
      */
     public function __construct(array $members = [])
     {
@@ -104,7 +104,7 @@ class Set implements \Countable, \Iterator
     /**
      * Get the set as an array
      *
-     * @return array (values are the set members)
+     * @return array<mixed> (values are the set members)
      */
     public function asArray(): array
     {

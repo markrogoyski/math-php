@@ -513,7 +513,11 @@ class RandomVariable
      * @param float  $σ standard deviation
      * @param string $cl confidence level (Ex: 95, 99, 99.5, 99.9, etc.)
      *
-     * @return array [ ci, lower_bound, upper_bound ]
+     * @return array{
+     *     ci: float|null,
+     *     lower_bound: float|null,
+     *     upper_bound: float|null,
+     * }
      *
      * @throws Exception\BadDataException
      */

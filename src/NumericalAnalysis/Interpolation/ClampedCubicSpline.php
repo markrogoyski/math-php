@@ -155,11 +155,12 @@ class ClampedCubicSpline extends Interpolation
      *
      * @param callable|array   $source The source of our approximation. Should be either
      *                         a callback function or a set of arrays.
-     * @param  array   $args   The arguments of our callback function: derivative,
+     * @param array<int|float> $args The arguments of our callback function: derivative,
      *                         start, end, and n. Example: [$derivative, 0, 8, 5].
      *                         If $source is a set of arrays, $args will default to [].
      *
-     * @return array
+     * @return array<array{int|float, int|float}>
+     *
      * @throws Exception\BadDataException if $source is not callable or a set of arrays
      */
     public static function getSplinePoints($source, array $args = []): array
@@ -194,7 +195,7 @@ class ClampedCubicSpline extends Interpolation
      * @param  float    $end        the end of the interval
      * @param  int      $n          the number of function evaluations
      *
-     * @return array
+     * @return array<array{int|float, int|float}>
      */
     protected static function functionToSplinePoints(callable $function, callable $derivative, float $start, float $end, int $n): array
     {
@@ -216,8 +217,8 @@ class ClampedCubicSpline extends Interpolation
      * has precisely three numbers, and that no two points share the same first number
      * (x-component)
      *
-     * @param  array $points Array of arrays (points)
-     * @param  int   $degree The minimum number of input arrays
+     * @param  array<array{int|float, int|float}> $points Array of arrays (points)
+     * @param  int                                $degree The minimum number of input arrays
      *
      * @throws Exception\BadDataException if there are less than two points
      * @throws Exception\BadDataException if any point does not contain three numbers

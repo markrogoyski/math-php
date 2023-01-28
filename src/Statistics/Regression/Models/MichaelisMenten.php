@@ -41,7 +41,7 @@ trait MichaelisMenten
      *
      * @param array<int, float> $params
      *
-     * @return array<string, float> [ V => number, K => number ]
+     * @return array{V: float, K: float} [ V => number, K => number ]
      */
     public function getModelParameters(array $params): array
     {

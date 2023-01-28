@@ -385,7 +385,14 @@ class Descriptive
      *
      * @param float[] $numbers
      *
-     * @return array (0%, Q1, Q2, Q3, 100%, IQR)
+     * @return array{
+     *     "0%":    float,
+     *     "Q1":    float,
+     *     "Q2":    float,
+     *     "Q3":    float,
+     *     "100%":  float,
+     *     "IQR":   float,
+     * }
      *
      * @throws Exception\BadDataException if the input array of numbers is empty
      */
@@ -456,7 +463,14 @@ class Descriptive
      *
      * @param float[] $numbers
      *
-     * @return array (0%, Q1, Q2, Q3, 100%, IQR)
+     * @return array{
+     *     "0%":    float,
+     *     "Q1":    float,
+     *     "Q2":    float,
+     *     "Q3":    float,
+     *     "100%":  float,
+     *     "IQR":   float,
+     * )
      *
      * @throws Exception\BadDataException if the input array of numbers is empty
      */
@@ -649,8 +663,30 @@ class Descriptive
      * @param bool    $population : true means all possible observations of the system are present;
      *                           false means a sample is used.
      *
-     * @return array [n, mean, median, mode, range, midrange, variance, sd, CV, mean_mad,
-     *                median_mad, quartiles, skewness, kurtosis, sem, ci_95, ci_99]
+     * @return array{
+     *     n:           int,
+     *     min:         float,
+     *     max:         float,
+     *     mean:        float,
+     *     median:      float,
+     *     mode:        float[],
+     *     range:       float,
+     *     midrange:    float,
+     *     variance:    float,
+     *     sd:          float,
+     *     cv:          float,
+     *     mean_mad:    float,
+     *     median_mad:  float,
+     *     quartiles:   float[],
+     *     midhinge:    float,
+     *     skewness:    float|null,
+     *     ses:         float|null,
+     *     kurtosis:    float|null,
+     *     sek:         float|null,
+     *     sem:         float,
+     *     ci_95:       array{ci: float|null, lower_bound: float|null, upper_bound: float|null},
+     *     ci_99:       array{ci: float|null, lower_bound: float|null, upper_bound: float|null},
+     * }
      *
      * @throws Exception\OutOfBoundsException
      * @throws Exception\BadDataException
@@ -703,9 +739,15 @@ class Descriptive
      *
      * https://en.wikipedia.org/wiki/Five-number_summary
      *
-     * @param  array  $numbers
+     * @param  array<number>  $numbers
      *
-     * @return array [min, Q1, median, Q3, max]
+     * @return array{
+     *     min:     float,
+     *     Q1:      float,
+     *     median:  float,
+     *     Q3:      float,
+     *     max:     float,
+     * }
      *
      * @throws Exception\BadDataException
      */

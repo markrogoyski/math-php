@@ -97,9 +97,9 @@ class ANOVA
      * F = MSB / MSW
      * P = F distribution CDF above F with degrees of freedom dfB and dfW
      *
-     * @param  array[] ...$samples Samples to analyze (at least 3 or more samples)
+     * @param  array<float> ...$samples Samples to analyze (at least 3 or more samples)
      *
-     * @return array [
+     * @return array<string, mixed> [
      *                 ANOVA => [
      *                   treatment => [SS, df, MS, F, P],
      *                   error     => [SS, df, MS],
@@ -338,7 +338,7 @@ class ANOVA
      *   Factor A₁ |  4, 6, 8  |  6, 6, 9  | ⋯
      *   Factor A₂ |  4, 8, 9  | 7, 10, 13 | ⋯
      *      ⋮           ⋮           ⋮         ⋮
-     * @param  array[] ...$data Samples to analyze [
+     * @param  array<float[]> ...$data Samples to analyze [
      *               // Factor A₁
      *               [
      *                   [4, 6, 8] // Factor B₁
@@ -354,7 +354,7 @@ class ANOVA
      *               ...
      *         ]
      *
-     * @return array [
+     * @return array<string, mixed> [
      *                 ANOVA => [
      *                   factorA  => [SS, df, MS, F, P],
      *                   factorB  => [SS, df, MS, F, P],

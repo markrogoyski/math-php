@@ -33,7 +33,7 @@ trait LinearModel
      *
      * @param array<int, float> $params
      *
-     * @return array<string, float> [ m => number, b => number ]
+     * @return array{m: float, b: float} [ m => number, b => number ]
      */
     public function getModelParameters(array $params): array
     {

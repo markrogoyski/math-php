@@ -14,7 +14,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     /** @var int Number of elements */
     private $n;
 
-    /** @var array of numbers */
+    /** @var array<number> of numbers */
     private $A;
 
     /** @var int Iterator position */
@@ -50,7 +50,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     /**
      * Get matrix
      *
-     * @return array
+     * @return array<number>
      */
     public function getVector(): array
     {
@@ -789,7 +789,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      **************************************************************************/
 
     /**
-     * @return array
+     * @return array<number>
      */
     public function jsonSerialize(): array
     {

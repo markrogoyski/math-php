@@ -527,7 +527,10 @@ class Significance
      * @param  array<float>  $observed
      * @param  array<float>  $expected
      *
-     * @return array{'chi-square': float, 'p': float} [chi-square, p]
+     * @return array{
+     *     "chi-square": float,
+     *     "p": float,
+     * } [chi-square, p]
      *
      * @throws Exception\BadDataException if count of observed does not equal count of expected
      */

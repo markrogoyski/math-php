@@ -156,7 +156,14 @@ class Circular
      *
      * @param array $angles
      *
-     * @return array [ n, mean, resultant_length, mean_resultant_length, variance, sd]
+     * @return array{
+     *     n:                       int,
+     *     mean:                    float,
+     *     resultant_length:        float,
+     *     mean_resultant_length:   float,
+     *     variance:                float,
+     *     sd:                      float,
+     * }
      */
     public static function describe(array $angles): array
     {
