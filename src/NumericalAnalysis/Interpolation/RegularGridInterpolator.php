@@ -53,16 +53,16 @@ class RegularGridInterpolator
     /** @var string Interpolation method (linear or nearest) */
     private $method;
 
-    /** @var array[] Points defining the regular grid in n dimensions */
+    /** @var array<array<number>> Points defining the regular grid in n dimensions */
     private $grid;
 
-    /** @var array Data on the regular grid in n dimensions */
+    /** @var array<mixed> Data on the regular grid in n dimensions */
     private $values;
 
     /**
-     * @param array  $points Points defining the regular grid in n dimensions
-     * @param array  $values Data on the regular grid in n dimensions
-     * @param string $method (optional - default: linear) Interpolation method (linear or nearest)
+     * @param array<array<number>>  $points Points defining the regular grid in n dimensions
+     * @param array<mixed>          $values Data on the regular grid in n dimensions
+     * @param string                $method (optional - default: linear) Interpolation method (linear or nearest)
      *
      * @throws Exception\BadDataException the points and value dimensions do not align, or if an unknown method is used
      */

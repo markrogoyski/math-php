@@ -14,7 +14,7 @@ class Geometric extends Discrete
     /**
      * Distribution parameter bounds limits
      * p ∈ (0,1]
-     * @var array
+     * @var array{"p": string}
      */
     public const PARAMETER_LIMITS = [
         'p' => '(0,1]',
@@ -23,7 +23,7 @@ class Geometric extends Discrete
     /**
      * Distribution parameter bounds limits
      * k ∈ [1,∞)
-     * @var array
+     * @var array{"k": string}
      */
     public const SUPPORT_LIMITS = [
         'k' => '[1,∞)',

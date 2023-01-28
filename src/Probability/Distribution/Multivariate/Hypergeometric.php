@@ -16,7 +16,7 @@ class Hypergeometric
     /**
      * Distribution parameter bounds limits
      * Kᵢ ∈ [1,∞)
-     * @var array
+     * @var array{K: string}
      */
     public const PARAMETER_LIMITS = [
         'K' => '[1,∞)',
@@ -25,17 +25,17 @@ class Hypergeometric
     /**
      * Distribution parameter bounds limits
      * kᵢ ∈ [0,Kᵢ]
-     * @var array
+     * @var array<string, array<string>>
      */
     protected $supportLimits = [];
 
-    /** @var array */
+    /** @var array<number> */
     protected $quantities;
 
     /**
      * Multivariate Hypergeometric constructor
      *
-     * @param   array $quantities
+     * @param   array<number> $quantities
      *
      * @throws Exception\BadDataException if the quantities are not positive integers.
      */
@@ -57,7 +57,7 @@ class Hypergeometric
     /**
      * Probability mass function
      *
-     * @param  array $picks
+     * @param  array<number> $picks
      *
      * @return float
      *

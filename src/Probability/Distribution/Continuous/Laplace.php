@@ -10,7 +10,7 @@ class Laplace extends Continuous
      * Distribution parameter bounds limits
      * μ ∈ (-∞,∞)
      * b ∈ (0,∞)
-     * @var array
+     * @var array{"μ": string, "b": string}
      */
     public const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
@@ -20,7 +20,7 @@ class Laplace extends Continuous
     /**
      * Distribution support bounds limits
      * x ∈ (-∞,∞)
-     * @var array
+     * @var array{x: string}
      */
     public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',

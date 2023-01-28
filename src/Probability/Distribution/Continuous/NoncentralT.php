@@ -16,7 +16,7 @@ class NoncentralT extends Continuous
      * Distribution parameter bounds limits
      * ν ∈ (0,∞)
      * μ ∈ (-∞,∞)
-     * @var array
+     * @var array{"ν": string, "μ": string}
      */
     public const PARAMETER_LIMITS = [
         'ν' => '(0,∞)',
@@ -26,7 +26,7 @@ class NoncentralT extends Continuous
     /**
      * Distribution support bounds limits
      * x ∈ (-∞,∞)
-     * @var array
+     * @var array{x: string}
      */
     public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',

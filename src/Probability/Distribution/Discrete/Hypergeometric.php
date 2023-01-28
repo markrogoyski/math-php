@@ -19,7 +19,7 @@ class Hypergeometric extends Discrete
      * K ∈ [0,N]
      * n ∈ [0,N]
      * k ∈ [\max(0, n + K - N),min(n, K)]
-     * @var array
+     * @var array{"N": string, "K": string, "n": string}
      */
     public const PARAMETER_LIMITS = [
         'N' => '[0,∞)',
@@ -27,7 +27,7 @@ class Hypergeometric extends Discrete
         'n' => '[0,∞]', // Dynamically checked in constructor
     ];
 
-    /** @var array */
+    /** @var array<string, string> */
     protected $support_limit;
 
     /** @var int */

@@ -14,7 +14,7 @@ class Pareto extends Continuous
      * Distribution parameter bounds limits
      * a ∈ (0,∞)
      * b ∈ (0,∞)
-     * @var array
+     * @var array{"a": string, "b": string}
      */
     public const PARAMETER_LIMITS = [
         'a' => '(0,∞)',
@@ -24,7 +24,7 @@ class Pareto extends Continuous
     /**
      * Distribution support bounds limits
      * x ∈ (0,∞)
-     * @var array
+     * @var array{"x": string, "a": string, "b": string}
      */
     public const SUPPORT_LIMITS = [
         'x' => '(0,∞)',

@@ -20,7 +20,7 @@ class Categorical extends Discrete
     private $k;
 
     /**
-     * @var array
+     * @var array<int|string, number>
      * Probability of each category
      * If associative array, category names are keys.
      * Otherwise, category names are array indexes.
@@ -30,8 +30,8 @@ class Categorical extends Discrete
     /**
      * Distribution constructor
      *
-     * @param  int   $k             number of categories
-     * @param  array $probabilities of each category - If associative array, category names are keys.
+     * @param  int                       $k             number of categories
+     * @param  array<int|string, number> $probabilities of each category - If associative array, category names are keys.
      *                                                 Otherwise, category names are array indexes.
      *
      * @throws Exception\BadParameterException if k does not indicate at least one category
@@ -108,7 +108,7 @@ class Categorical extends Discrete
      *
      * @param  string $name
      *
-     * @return int|array
+     * @return int|array<mixed>
      *
      * @throws Exception\BadDataException if $name is not a valid parameter
      */

@@ -14,7 +14,7 @@ use MathPHP\LinearAlgebra\NumericMatrix;
  */
 class Normal
 {
-    /** @var array location */
+    /** @var array<number> location */
     protected $μ;
 
     /** @var NumericMatrix covariance matrix */
@@ -23,7 +23,7 @@ class Normal
     /**
      * Constructor
      *
-     * @param array         $μ ∈ Rᵏ   location
+     * @param array<number> $μ ∈ Rᵏ   location
      * @param NumericMatrix $∑ ∈ Rᵏˣᵏ covariance matrix
      *
      * @throws Exception\BadDataException if the covariance matrix does not have the same number of rows and columns as number of elements in μ

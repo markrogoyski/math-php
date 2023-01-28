@@ -12,13 +12,13 @@ use MathPHP\Exception;
  */
 class Multinomial
 {
-    /** @var array */
+    /** @var array<number> */
     protected $probabilities;
 
     /**
      * Multinomial constructor
      *
-     * @param   array $probabilities
+     * @param array<number> $probabilities
      *
      * @throws Exception\BadDataException if the probabilities do not add up to 1
      */
@@ -41,7 +41,7 @@ class Multinomial
      *
      * n = number of trials (sum of the frequencies) = x₁ + x₂ + ⋯ xk
      *
-     * @param  array $frequencies
+     * @param  array<int> $frequencies
      *
      * @return float
      *

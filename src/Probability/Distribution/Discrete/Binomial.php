@@ -17,7 +17,7 @@ class Binomial extends Discrete
      * Distribution parameter bounds limits
      * n ∈ [0,∞)
      * p ∈ [0,1]
-     * @var array
+     * @var array{"n": string, "p": string}
      */
     public const PARAMETER_LIMITS = [
         'n' => '[0,∞)',
@@ -27,7 +27,7 @@ class Binomial extends Discrete
     /**
      * Distribution support bounds limits
      * r ∈ [0,∞)
-     * @var array
+     * @var array{"r": string}
      */
     public const SUPPORT_LIMITS = [
         'r' => '[0,∞)',

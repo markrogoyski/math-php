@@ -14,7 +14,7 @@ class Logistic extends Continuous
      * Distribution parameter bounds limits
      * μ ∈ (-∞,∞)
      * s ∈ (0,∞)
-     * @var array
+     * @var array{"μ": string, "s": string}
      */
     public const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
@@ -24,7 +24,7 @@ class Logistic extends Continuous
     /**
      * Distribution support bounds limits
      * x ∈ (-∞,∞)
-     * @var array
+     * @var array{x: string}
      */
     public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',

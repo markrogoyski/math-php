@@ -33,7 +33,7 @@ class StandardNormal
      * Contains positive and negative Z scores.
      * Negative z-score - value is to the left of the mean.
      * Positive z-score - value is to the right of the mean.
-     * @var array
+     * @var array<numeric, array<int<0, 9>, float>>
      */
     public const Z_SCORES = [
     '-3.4' => [ 9 => 0.0002, 8 => 0.0003, 7 => 0.0003, 6 => 0.0003, 5 => 0.0003, 4 => 0.0003, 3 => 0.0003, 2 => 0.0003, 1 => 0.0003, 0 => 0.0003 ],
@@ -126,7 +126,7 @@ class StandardNormal
      * Z scores for confidence intervals
      * Key: confidence level %
      * Value: Z score
-     * @var array
+     * @var array<numeric, float>
      */
     private const Z_SCORES_FOR_CONFIDENCE_INTERVALS = [
         50     => 0.67449,

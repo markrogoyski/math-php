@@ -14,7 +14,7 @@ class ChiSquared extends Continuous
     /**
      * Distribution parameter bounds limits
      * k ∈ [1,∞)
-     * @var array
+     * @var array{"k": string}
      */
     public const PARAMETER_LIMITS = [
         'k' => '[1,∞)',
@@ -23,7 +23,7 @@ class ChiSquared extends Continuous
     /**
      * Distribution support bounds limits
      * x ∈ [0,∞)
-     * @var array
+     * @var array{x: string}
      */
     public const SUPPORT_LIMITS = [
         'x' => '[0,∞)',

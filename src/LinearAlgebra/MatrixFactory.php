@@ -17,7 +17,7 @@ class MatrixFactory
      * @param int[][]|float[][]|Complex[][]|object[][] $A 2-dimensional array of Matrix data
      * @param float|null                               $ε Optional error tolerance
      *
-     * @return Matrix
+     * @return Matrix|NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
