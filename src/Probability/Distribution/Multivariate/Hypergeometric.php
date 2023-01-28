@@ -81,6 +81,7 @@ class Hypergeometric
         $total   = \array_sum($this->quantities);
 
         $product = \array_product(\array_map(
+            // @phpstan-ignore-next-line (Parameter #1 $callback of function array_map expects (callable(float|int, float|int): mixed)|null, Closure(int, int): float given.)
             function (int $quantity, int $pick) {
                 return Combinatorics::combinations($quantity, $pick);
             },
@@ -88,6 +89,6 @@ class Hypergeometric
             $picks
         ));
 
-        return $product / Combinatorics::combinations($total, $n);
+        return $product / Combinatorics::combinations((int)$total, (int)$n);
     }
 }

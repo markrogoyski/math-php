@@ -66,7 +66,7 @@ class Categorical extends Discrete
      *
      * pmf = p(x = i) = pᵢ
      *
-     * @param  mixed $x category name/number
+     * @param  string|number $x category name/number
      *
      * @return float
      *

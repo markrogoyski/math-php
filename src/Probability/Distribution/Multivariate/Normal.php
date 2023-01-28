@@ -78,6 +78,7 @@ class Normal
 
         $Δ       = Map\Multi::subtract($X, $μ);
         $⟮x − μ⟯  = new Vector($Δ);
+        /** @var NumericMatrix $⟮x − μ⟯ᵀ */
         $⟮x − μ⟯ᵀ = MatrixFactory::createFromRowVector($Δ);
         $∑⁻¹     = $∑->inverse();
 

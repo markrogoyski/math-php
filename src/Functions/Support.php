@@ -30,7 +30,7 @@ class Support
      * @throws Exception\OutOfBoundsException if any parameter is outside the defined limits
      * @throws Exception\BadDataException if an unknown bounds character is used
      */
-    public static function checkLimits(array $limits, array $params)
+    public static function checkLimits(array $limits, array $params): bool
     {
         // All parameters should have limit bounds defined
         $undefined_limits = \array_diff_key($params, $limits);

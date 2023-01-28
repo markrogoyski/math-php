@@ -25,7 +25,7 @@ class Normal extends Continuous
     /**
      * Distribution support bounds limits
      * x ∈ (-∞,∞)
-     * @var array{x: string}
+     * @var array<string, string>
      */
     public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',
