@@ -6,6 +6,9 @@ use MathPHP\Exception;
 use MathPHP\Number\Complex;
 use MathPHP\Number\ObjectArithmetic;
 
+/**
+ * @extends Matrix<Complex>
+ */
 class ComplexMatrix extends ObjectMatrix
 {
     /** @var Complex[][] Matrix array of arrays */

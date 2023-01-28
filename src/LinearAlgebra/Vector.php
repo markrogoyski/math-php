@@ -8,6 +8,9 @@ use MathPHP\Statistics\Distance;
 
 /**
  * 1 x n Vector
+ *
+ * @implements \Iterator<number>
+ * @implements \ArrayAccess<int, number>
  */
 class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
 {
@@ -146,7 +149,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     /**
      * Sum of all elements
      *
-     * @return number
+     * @return float|int
      */
     public function sum()
     {
@@ -190,7 +193,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @param Vector $B
      *
-     * @return number
+     * @return float|int
      *
      * @throws Exception\VectorException
      */
@@ -214,7 +217,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @param Vector $B
      *
-     * @return number
+     * @return float|int
      */
     public function innerProduct(Vector $B)
     {
@@ -229,7 +232,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @param Vector $B
      *
-     * @return number
+     * @return float|int
      *
      * @throws Exception\VectorException
      */
@@ -660,7 +663,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * |x|₁ = ∑|xᵢ|
      *
-     * @return number
+     * @return float|int
      */
     public function l1Norm()
     {
@@ -677,7 +680,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *         ______
      * |x|₂ = √∑|xᵢ|²
      *
-     * @return number
+     * @return float
      */
     public function l2Norm()
     {
@@ -757,7 +760,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
 
     /**
      * @param mixed $i
-     * @return mixed
+     * @return number
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($i)
@@ -766,8 +769,8 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * @param mixed $i
-     * @param mixed $value
+     * @param int $i
+     * @param number $value
      * @throws Exception\VectorException
      */
     public function offsetSet($i, $value): void
@@ -776,7 +779,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * @param mixed $i
+     * @param int $i
      * @throws Exception\VectorException
      */
     public function offsetUnset($i): void
@@ -805,18 +808,27 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
         $this->i = 0;
     }
 
+    /**
+     * @return number
+     */
     #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->A[$this->i];
     }
 
+    /**
+     * @return int
+     */
     #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->i;
     }
 
+    /**
+     * @return void
+     */
     public function next(): void
     {
         ++$this->i;

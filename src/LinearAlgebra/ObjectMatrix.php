@@ -12,6 +12,8 @@ use MathPHP\Number\ObjectArithmetic;
  * The ObjectMatrix extends Matrix functions to a matrix of objects.
  * The object must implement the MatrixArithmetic interface to prove
  * compatibility. It extends the SquareMatrix in order to use Matrix::minor().
+ *
+ * @extends Matrix<ObjectArithmetic>
  */
 class ObjectMatrix extends Matrix implements ObjectArithmetic
 {

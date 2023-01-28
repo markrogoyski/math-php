@@ -6,6 +6,9 @@ use MathPHP\Exception;
 
 /**
  * m x n Matrix
+ *
+ * @template T
+ * @implements \ArrayAccess<int, array<int, T>>
  */
 abstract class Matrix implements \ArrayAccess, \JsonSerializable
 {
@@ -15,7 +18,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var int Number of columns */
     protected $n;
 
-    /** @var array<array<number>> Matrix array of arrays */
+    /** @var array<array<T>> Matrix array of arrays */
     protected $A;
 
     /** @var MatrixCatalog */
@@ -52,7 +55,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
 
     /**
      * Get matrix
-     * @return array<array<number>> of arrays
+     * @return array<array<T>> of arrays
      */
     public function getMatrix(): array
     {
@@ -80,8 +83,8 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Get single row from the matrix
      *
-     * @param  int    $i row index (from 0 to m - 1)
-     * @return array<number>
+     * @param  int      $i row index (from 0 to m - 1)
+     * @return array<T>
      *
      * @throws Exception\MatrixException if row i does not exist
      */
@@ -97,8 +100,8 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Get single column from the matrix
      *
-     * @param  int   $j column index (from 0 to n - 1)
-     * @return array<number>
+     * @param  int      $j column index (from 0 to n - 1)
+     * @return array<T>
      *
      * @throws Exception\MatrixException if column j does not exist
      */
@@ -116,7 +119,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param  int    $i row index
      * @param  int    $j column index
-     * @return number
+     * @return T
      *
      * @throws Exception\MatrixException if row i or column j does not exist
      */
@@ -140,7 +143,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * getDiagonalElements($A) = [1, 5, 9]
      *
-     * @return array<number>
+     * @return array<T>
      */
     public function getDiagonalElements(): array
     {
@@ -162,7 +165,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * http://mathworld.wolfram.com/Superdiagonal.html
      *
-     * @return array<number>
+     * @return array<T>
      */
     public function getSuperdiagonalElements(): array
     {
@@ -185,7 +188,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * http://mathworld.wolfram.com/Subdiagonal.html
      *
-     * @return array<number>
+     * @return array<T>
      */
     public function getSubdiagonalElements(): array
     {
@@ -605,7 +608,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param callable $func
      *
-     * @return array<number>|array<array<number>> Depends on the function
+     * @return array<T>|array<array<T>> Depends on the function
      */
     public function mapRows(callable $func): array
     {
@@ -915,7 +918,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * @param int $mᵢ Row to exclude
      * @param int $nⱼ Column to exclude
      *
-     * @return number
+     * @return T
      *
      * @throws Exception\MatrixException if matrix is not square
      * @throws Exception\MatrixException if row to exclude for minor does not exist
@@ -943,7 +946,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      **************************************************************************/
 
     /**
-     * @param mixed $i
+     * @param int $i
      * @return bool
      */
     public function offsetExists($i): bool
@@ -952,8 +955,8 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * @param mixed $i
-     * @return mixed
+     * @param int $i
+     * @return array<T>
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($i)
@@ -962,8 +965,8 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * @param  mixed $i
-     * @param  mixed $value
+     * @param  int $i
+     * @param  array<T> $value
      * @throws Exception\MatrixException
      */
     public function offsetSet($i, $value): void
@@ -972,7 +975,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * @param  mixed $i
+     * @param  int $i
      * @throws Exception\MatrixException
      */
     public function offsetUnset($i): void
@@ -984,7 +987,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * JsonSerializable INTERFACE
      **************************************************************************/
     /**
-     * @return array<array<number>>
+     * @return array<array<T>>
      */
     public function jsonSerialize(): array
     {

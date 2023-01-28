@@ -123,7 +123,7 @@ class MatrixFactory
      *
      * @param int[]|float[]|Complex[]|object[] $A m × 1 vector representing the matrix
      *
-     * @return Matrix
+     * @return Matrix|NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
      */
     public static function createFromColumnVector(array $A): Matrix
     {
@@ -149,7 +149,7 @@ class MatrixFactory
      *
      * @param int[]|float[]|Complex[]|object[] $A 1 × n vector representing the matrix
      *
-     * @return Matrix
+     * @return Matrix|NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
      */
     public static function createFromRowVector(array $A): Matrix
     {
@@ -166,7 +166,7 @@ class MatrixFactory
     /**
      * Factory method
      *
-     * @param  int[][]|float[][]|Complex[][]|object[][] $A 2-dimensional array of Matrix data
+     * @param  callable[][] $A 2-dimensional array of Matrix data
      *
      * @return FunctionMatrix
      */

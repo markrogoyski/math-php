@@ -9,6 +9,8 @@ use MathPHP\LinearAlgebra\Reduction;
 
 /**
  * m x n Matrix
+ *
+ * @extends Matrix<number>
  */
 class NumericMatrix extends Matrix
 {

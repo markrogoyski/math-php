@@ -57,6 +57,7 @@ trait WeightedLeastSquares
     {
         // y = Xa
         $X = MatrixFactory::vandermonde($xs, $order + 1);
+        /** @var NumericMatrix $y */
         $y = MatrixFactory::createFromColumnVector($ys);
         $W = MatrixFactory::diagonal($ws);
 

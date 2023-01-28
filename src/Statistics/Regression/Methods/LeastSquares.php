@@ -118,11 +118,11 @@ trait LeastSquares
 
         // y = Xa
         $X = $this->createDesignMatrix($xs);
+        /** @var NumericMatrix $y */
         $y = MatrixFactory::createFromColumnVector($ys);
 
         // a = (XᵀX)⁻¹Xᵀy
         $Xᵀ           = $X->transpose();
-        // @phpstan-ignore-next-line (Call to an undefined method MathPHP\LinearAlgebra\Matrix::multiply().)
         $this->⟮XᵀX⟯⁻¹ = $Xᵀ->multiply($X)->inverse();
         $temp_matrix  = $this->⟮XᵀX⟯⁻¹->multiply($Xᵀ);
         $this->reg_P  = $X->multiply($temp_matrix);
