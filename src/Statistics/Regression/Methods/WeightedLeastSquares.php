@@ -44,9 +44,9 @@ trait WeightedLeastSquares
      *        _     __
      *       (x)² - x²
      *
-     * @param  array $ys y values
-     * @param  array $xs x values
-     * @param  array $ws weight values
+     * @param  array<float> $ys y values
+     * @param  array<float> $xs x values
+     * @param  array<float> $ws weight values
      * @param  int   $order
      *
      * @return NumericMatrix [[m], [b]]
@@ -62,6 +62,7 @@ trait WeightedLeastSquares
 
         // a = (XᵀWX)⁻¹XᵀWy
         $Xᵀ       = $X->transpose();
+        // @phpstan-ignore-next-line (Call to an undefined method MathPHP\LinearAlgebra\Matrix::multiply())
         $beta_hat = $Xᵀ->multiply($W)
                        ->multiply($X)
                        ->inverse()

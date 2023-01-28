@@ -24,7 +24,7 @@ trait MichaelisMenten
      * y = (V * X) / (K + X)
      *
      * @param float $x
-     * @param array $params
+     * @param array<int, float> $params
      *
      * @return float y evaluated
      */
@@ -39,9 +39,9 @@ trait MichaelisMenten
     /**
      * Get regression parameters (V and K)
      *
-     * @param array $params
+     * @param array<int, float> $params
      *
-     * @return array [ V => number, K => number ]
+     * @return array<string, float> [ V => number, K => number ]
      */
     public function getModelParameters(array $params): array
     {
@@ -54,7 +54,7 @@ trait MichaelisMenten
     /**
      * Get regression equation (y = V * X / (K + X))
      *
-     * @param array $params
+     * @param array<int, float> $params
      *
      * @return string
      */

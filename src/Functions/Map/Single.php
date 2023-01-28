@@ -166,9 +166,9 @@ class Single
     /**
      * Map square root
      *
-     * @param  array  $xs
+     * @param  array<float>  $xs
      *
-     * @return array
+     * @return array<float>
      */
     public static function sqrt(array $xs): array
     {

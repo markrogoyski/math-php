@@ -15,7 +15,7 @@ trait LinearModel
      * y = mx + b
      *
      * @param float $x
-     * @param array $params
+     * @param array<int, float> $params
      *
      * @return float y evaluated
      */
@@ -31,9 +31,9 @@ trait LinearModel
      * m = slope
      * b = y intercept
      *
-     * @param array $params
+     * @param array<int, float> $params
      *
-     * @return array [ m => number, b => number ]
+     * @return array<string, float> [ m => number, b => number ]
      */
     public function getModelParameters(array $params): array
     {
@@ -46,7 +46,7 @@ trait LinearModel
     /**
      * Get regression equation (y = mx + b)
      *
-     * @param array $params
+     * @param array<int, float> $params
      *
      * @return string
      */

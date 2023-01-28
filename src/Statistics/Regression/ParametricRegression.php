@@ -6,6 +6,7 @@ abstract class ParametricRegression extends Regression
 {
     /**
      * An array of model parameters
+     * @var array<int, float>
      */
     protected $parameters;
 
@@ -13,7 +14,7 @@ abstract class ParametricRegression extends Regression
      * Have the parent separate the points into xs and ys.
      * Calculate the regression parameters
      *
-     * @param float[][] $points
+     * @param array<array{float, float}> $points
      */
     public function __construct(array $points)
     {
@@ -46,14 +47,24 @@ abstract class ParametricRegression extends Regression
      * Get the parameters
      * Uses the model's getModelParameters method.
      *
-     * @return array
+     * @return array<string, float>
      */
     public function getParameters(): array
     {
         return $this->getModelParameters($this->parameters);
     }
 
+    /**
+     * @param array<int, float> $parameters
+     *
+     * @return string
+     */
     abstract public function getModelEquation(array $parameters): string;
 
+    /**
+     * @param array<int, float> $parameters
+     *
+     * @return array<string, float>
+     */
     abstract public function getModelParameters(array $parameters): array;
 }

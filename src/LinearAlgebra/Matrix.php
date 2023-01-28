@@ -15,7 +15,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var int Number of columns */
     protected $n;
 
-    /** @var array[] Matrix array of arrays */
+    /** @var array<array<number>> Matrix array of arrays */
     protected $A;
 
     /** @var MatrixCatalog */
@@ -52,7 +52,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
 
     /**
      * Get matrix
-     * @return array[] of arrays
+     * @return array<array<number>> of arrays
      */
     public function getMatrix(): array
     {
@@ -81,7 +81,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * Get single row from the matrix
      *
      * @param  int    $i row index (from 0 to m - 1)
-     * @return array
+     * @return array<number>
      *
      * @throws Exception\MatrixException if row i does not exist
      */
@@ -98,7 +98,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * Get single column from the matrix
      *
      * @param  int   $j column index (from 0 to n - 1)
-     * @return array
+     * @return array<number>
      *
      * @throws Exception\MatrixException if column j does not exist
      */
@@ -140,7 +140,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * getDiagonalElements($A) = [1, 5, 9]
      *
-     * @return array
+     * @return array<number>
      */
     public function getDiagonalElements(): array
     {
@@ -185,7 +185,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * http://mathworld.wolfram.com/Subdiagonal.html
      *
-     * @return array
+     * @return array<number>
      */
     public function getSubdiagonalElements(): array
     {
@@ -984,7 +984,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * JsonSerializable INTERFACE
      **************************************************************************/
     /**
-     * @return array
+     * @return array<array<number>>
      */
     public function jsonSerialize(): array
     {

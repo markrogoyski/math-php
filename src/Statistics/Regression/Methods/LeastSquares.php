@@ -2,6 +2,9 @@
 
 namespace MathPHP\Statistics\Regression\Methods;
 
+use MathPHP\Exception\BadDataException;
+use MathPHP\Exception\BadParameterException;
+use MathPHP\Exception\IncorrectTypeException;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Statistics\RandomVariable;
 use MathPHP\Functions\Map\Single;
@@ -17,7 +20,7 @@ trait LeastSquares
      * Regression ys
      * Since the actual xs may be translated for regression, we need to keep these
      * handy for regression statistics.
-     * @var array
+     * @var array<float>
      */
     private $reg_ys;
 
@@ -25,14 +28,14 @@ trait LeastSquares
      * Regression xs
      * Since the actual xs may be translated for regression, we need to keep these
      * handy for regression statistics.
-     * @var array
+     * @var array<float>
      */
     private $reg_xs;
 
     /**
      * Regression Yhat
      * The Yhat for the regression xs.
-     * @var array
+     * @var array<float>
      */
     private $reg_Yhat;
 
@@ -92,8 +95,8 @@ trait LeastSquares
      *        _     __
      *       (x)² - x²
      *
-     * @param  array $ys y values
-     * @param  array $xs x values
+     * @param  array<float> $ys y values
+     * @param  array<float> $xs x values
      * @param  int   $order The order of the polynomial. 1 = linear, 2 = x², etc
      * @param  int   $fit_constant '1' if we are fitting a constant to the regression.
      *
@@ -119,6 +122,7 @@ trait LeastSquares
 
         // a = (XᵀX)⁻¹Xᵀy
         $Xᵀ           = $X->transpose();
+        // @phpstan-ignore-next-line (Call to an undefined method MathPHP\LinearAlgebra\Matrix::multiply().)
         $this->⟮XᵀX⟯⁻¹ = $Xᵀ->multiply($X)->inverse();
         $temp_matrix  = $this->⟮XᵀX⟯⁻¹->multiply($Xᵀ);
         $this->reg_P  = $X->multiply($temp_matrix);
@@ -149,6 +153,7 @@ trait LeastSquares
             $xs = [$xs];
         }
 
+        /** @var array<float> $xs */
         $X = MatrixFactory::vandermonde($xs, $this->p + 1);
         if ($this->fit_constant == 0) {
             $X = $X->columnExclude(0);
@@ -183,7 +188,7 @@ trait LeastSquares
      * which is the i-th diagonal element of the project matrix H,
      * where H = X⟮XᵀX⟯⁻¹Xᵀ where X is the design matrix.
      *
-     * @return array
+     * @return array<number>
      */
     public function leverages(): array
     {
@@ -370,7 +375,7 @@ trait LeastSquares
      * se(b) = /  ----
      *        √    n
      *
-     * @return array [m => se(m), b => se(b)]
+     * @return array{m: float, b: float} [m => se(m), b => se(b)]
      *
      * @throws Exception\BadParameterException
      * @throws Exception\IncorrectTypeException
@@ -414,7 +419,9 @@ trait LeastSquares
      * or in matrix form
      * e = (I - H)y
      *
-     * @return array
+     * @return array<float>
+     *
+     * @throws BadDataException
      */
     public function residuals(): array
     {
@@ -436,7 +443,9 @@ trait LeastSquares
      *   where s ≡ (n - p)⁻¹eᵀ  (mean square residuals)
      *         e is the mean square error of the residual model
      *
-     * @return array
+     * @return array<float>
+     *
+     * @throws BadDataException
      */
     public function cooksD(): array
     {
@@ -497,7 +506,9 @@ trait LeastSquares
      * DFFITS = s₍ᵢ₎  / ------
      *               √  1 - hᵢ
      *
-     * @return array
+     * @return array<float>
+     *
+     * @throws BadDataException
      */
     public function dffits(): array
     {
@@ -549,6 +560,8 @@ trait LeastSquares
      * √［（n∑x² − ⟮∑x⟯²）（n∑y² − ⟮∑y⟯²）］
      *
      * @return float
+     *
+     * @throws BadDataException
      */
     public function correlationCoefficient(): float
     {
@@ -560,6 +573,8 @@ trait LeastSquares
      * Convenience wrapper for correlationCoefficient
      *
      * @return float
+     *
+     * @throws BadDataException
      */
     public function r(): float
     {
@@ -575,6 +590,8 @@ trait LeastSquares
      * https://en.wikipedia.org/wiki/Coefficient_of_determination
      *
      * @return float
+     *
+     * @throws BadDataException
      */
     public function coefficientOfDetermination(): float
     {
@@ -586,6 +603,8 @@ trait LeastSquares
      * Convenience wrapper for coefficientOfDetermination
      *
      * @return float
+     *
+     * @throws BadDataException
      */
     public function r2(): float
     {
@@ -603,7 +622,10 @@ trait LeastSquares
      *    β     = regression parameter (coefficient)
      *    se(β) = standard error of the regression parameter (coefficient)
      *
-     * @return  array [m => t, b => t]
+     * @return array{m: float, b: float} [m => t, b => t]
+     *
+     * @throws BadParameterException
+     * @throws IncorrectTypeException
      */
     public function tValues(): array
     {
@@ -628,7 +650,10 @@ trait LeastSquares
      *
      *  alpha = 1 if the regression includes a constant term
      *
-     * @return array [m => p, b => p]
+     * @return array{m: float, b: float} [m => p, b => p]
+     *
+     * @throws BadParameterException
+     * @throws IncorrectTypeException
      */
     public function tProbability(): array
     {
@@ -659,6 +684,8 @@ trait LeastSquares
      *    SSₑ = sum of squares of residuals
      *
      * @return float
+     *
+     * @throws BadDataException
      */
     public function fStatistic(): float
     {
@@ -679,6 +706,8 @@ trait LeastSquares
      *    ν  = degrees of freedom
      *
      * @return float
+     *
+     * @throws BadDataException
      */
     public function fProbability(): float
     {

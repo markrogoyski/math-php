@@ -42,9 +42,9 @@ class Multi
      *
      * [x₁ - y₁, x₂ - y₂, ... ]
      *
-     * @param array ...$arrays Two or more arrays of numbers
+     * @param array<float> ...$arrays Two or more arrays of numbers
      *
-     * @return array
+     * @return array<float>
      *
      * @throws Exception\BadDataException
      */

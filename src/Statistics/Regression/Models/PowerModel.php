@@ -15,7 +15,7 @@ trait PowerModel
     * y = axᵇ
     *
     * @param float $x
-    * @param array $params
+    * @param array<int, float> $params
     *
     * @return float y evaluated
     */
@@ -30,9 +30,9 @@ trait PowerModel
     /**
      * Get regression parameters (a and b)
      *
-     * @param array $params
+     * @param array<int, float> $params
      *
-     * @return array [ a => number, b => number ]
+     * @return array<string, float> [ a => number, b => number ]
      */
     public function getModelParameters(array $params): array
     {
@@ -45,7 +45,7 @@ trait PowerModel
     /**
      * Get regression equation (y = axᵇ) in format y = ax^b
      *
-     * @param array $params
+     * @param array<int, float> $params
      *
      * @return string
      */

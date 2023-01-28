@@ -30,7 +30,11 @@ class Significance
      * @param float $H₀ Null hypothesis (μ Population mean)
      * @param float $σ  SD of population (Standard error of the mean)
      *
-     * @return array [
+     * @return array{
+     *   z: float,
+     *   p1: float,
+     *   p2: float,
+     * } [
      *   z  => z score
      *   p1 => one-tailed p value (left or right tail depends on how Hₐ differs from H₀)
      *   p2 => two-tailed p value
@@ -59,7 +63,11 @@ class Significance
      * @param float $H₀ Null hypothesis (μ Population mean)
      * @param float $σ  SD of population (Standard error of the mean)
      *
-     * @return array [
+     * @return array{
+     *   z: float,
+     *   p1: float,
+     *   p2: float,
+     * } [
      *   z  => z score
      *   p1 => one-tailed p value (left or right tail depends on how Hₐ differs from H₀)
      *   p2 => two-tailed p value
@@ -123,7 +131,11 @@ class Significance
      * @param float $σ₂ Standard deviation of sample mean 2
      * @param float $Δ  (Optional) hypothesized difference between the population means (0 if testing for equal means)
      *
-     * @return array [
+     * @return array{
+     *   z: float,
+     *   p1: float,
+     *   p2: float,
+     * } [
      *   z  => z score
      *   p1 => one-tailed p value
      *   p2 => two-tailed p value
@@ -174,10 +186,26 @@ class Significance
      * t-test - one sample or two sample tests
      * https://en.wikipedia.org/wiki/Student%27s_t-test
      *
-     * @param array $a sample set 1
-     * @param float|array $b population mean for one sample t test; sample set 2 for two sample t-test
+     * @param array<float> $a sample set 1
+     * @param float|array<float> $b population mean for one sample t test; sample set 2 for two sample t-test
      *
-     * @return array
+     * @return array{
+     *   t: float,
+     *   df: float,
+     *   p1: float,
+     *   p2: float,
+     *   mean: float,
+     *   sd: float,
+     * }|array{
+     *   t: float,
+     *   df: float,
+     *   p1: float,
+     *   p2: float,
+     *   mean1: float,
+     *   mean2: float,
+     *   sd1: float,
+     *   sd2: float,
+     * }
      *
      * @throws Exception\BadParameterException
      * @throws Exception\OutOfBoundsException
@@ -191,6 +219,7 @@ class Significance
             return self::tTestTwoSample($a, $b);
         }
 
+        // @phpstan-ignore-next-line (Unreachable statement - code above always terminates.)
         throw new Exception\BadParameterException('Second parameter must be numeric for one-sample t-test, or an array for two-sample t-test');
     }
 
@@ -207,10 +236,17 @@ class Significance
      *    = CDF above if right tailed
      * p2 = CDF outside
      *
-     * @param array $a Sample set
+     * @param array<float> $a Sample set
      * @param float $H₀ Null hypothesis (μ₀ Population mean)
      *
-     * @return array [
+     * @return array{
+     *   t: float,
+     *   df: float,
+     *   p1: float,
+     *   p2: float,
+     *   mean: float,
+     *   sd: float,
+     * } [
      *   t    => t score
      *   df   => degrees of freedom
      *   p1   => one-tailed p value (left or right tail depends on how Hₐ differs from H₀)
@@ -248,7 +284,14 @@ class Significance
      * @param int    $n  Sample size
      * @param float $H₀ Null hypothesis (μ₀ Population mean)
      *
-     * @return array [
+     * @return array{
+     *   t: float,
+     *   df: int,
+     *   p1: float,
+     *   p2: float,
+     *   mean: float,
+     *   sd: float,
+     * } [
      *   t    => t score
      *   df   => degrees of freedom
      *   p1   => one-tailed p value (left or right tail depends on how Hₐ differs from H₀)
@@ -318,10 +361,19 @@ class Significance
      * p1 = CDF above
      * p2 = CDF outside
      *
-     * @param array $x₁ sample set 1
-     * @param array $x₂ sample set 2
+     * @param array<float> $x₁ sample set 1
+     * @param array<float> $x₂ sample set 2
      *
-     * @return array [
+     * @return array{
+     *   t: float,
+     *   df: float,
+     *   p1: float,
+     *   p2: float,
+     *   mean1: float,
+     *   mean2: float,
+     *   sd1: float,
+     *   sd2: float,
+     * } [
      *   t     => t score
      *   df    => degrees of freedom
      *   p1    => one-tailed p value
@@ -389,7 +441,16 @@ class Significance
      * @param float $σ₁ Standard deviation of sample mean 1
      * @param float $σ₂ Standard deviation of sample mean 2
      *
-     * @return array [
+     * @return array{
+     *   t: float,
+     *   df: float,
+     *   p1: float,
+     *   p2: float,
+     *   mean1: float,
+     *   mean2: float,
+     *   sd1: float,
+     *   sd2: float,
+     * } [
      *   t     => t score
      *   df    => degrees of freedom
      *   p1    => one-tailed p value
@@ -463,10 +524,10 @@ class Significance
      *
      * p = χ² distribution CDF(χ², k)
      *
-     * @param  array  $observed
-     * @param  array  $expected
+     * @param  array<float>  $observed
+     * @param  array<float>  $expected
      *
-     * @return array [chi-square, p]
+     * @return array{'chi-square': float, 'p': float} [chi-square, p]
      *
      * @throws Exception\BadDataException if count of observed does not equal count of expected
      */
