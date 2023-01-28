@@ -3,6 +3,11 @@
 namespace MathPHP\LinearAlgebra\Decomposition;
 
 use MathPHP\Exception;
+use MathPHP\Exception\BadDataException;
+use MathPHP\Exception\DivisionByZeroException;
+use MathPHP\Exception\IncorrectTypeException;
+use MathPHP\Exception\MathException;
+use MathPHP\Exception\MatrixException;
 use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Vector;
@@ -221,11 +226,11 @@ class LU extends Decomposition
      *
      * @return Vector x
      *
-     * @throws Exception\IncorrectTypeException if b is not a Vector or array
-     * @throws Exception\MatrixException
-     * @throws Exception\VectorException
-     * @throws Exception\OutOfBoundsException
-     * @throws Exception\BadParameterException
+     * @throws BadDataException
+     * @throws DivisionByZeroException
+     * @throws IncorrectTypeException if b is not a Vector or array
+     * @throws MathException
+     * @throws MatrixException
      */
     public function solve($b): Vector
     {

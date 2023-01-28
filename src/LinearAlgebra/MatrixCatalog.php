@@ -45,7 +45,7 @@ class MatrixCatalog
     // TRANSPOSE
 
     /**
-     * @param Matrix $Aᵀ
+     * @param NumericMatrix $Aᵀ
      */
     public function addTranspose(Matrix $Aᵀ): void
     {
@@ -61,7 +61,7 @@ class MatrixCatalog
     }
 
     /**
-     * @return Matrix
+     * @return NumericMatrix
      */
     public function getTranspose(): Matrix
     {
@@ -71,7 +71,7 @@ class MatrixCatalog
     // INVERSE
 
     /**
-     * @param Matrix $A⁻¹
+     * @param NumericMatrix $A⁻¹
      */
     public function addInverse(Matrix $A⁻¹): void
     {
@@ -87,7 +87,7 @@ class MatrixCatalog
     }
 
     /**
-     * @return Matrix
+     * @return NumericMatrix
      */
     public function getInverse(): Matrix
     {

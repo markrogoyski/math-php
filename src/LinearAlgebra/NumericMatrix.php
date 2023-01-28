@@ -54,7 +54,7 @@ class NumericMatrix extends Matrix
      *
      * @throws Exception\BadDataException
      */
-    protected function validateMatrixDimensions()
+    protected function validateMatrixDimensions(): void
     {
         foreach ($this->A as $i => $row) {
             if (\count($row) !== $this->n) {
@@ -1266,6 +1266,7 @@ class NumericMatrix extends Matrix
      */
     public function multiply($B): NumericMatrix
     {
+        // @phpstan-ignore-next-line
         if ((!$B instanceof NumericMatrix) && (!$B instanceof Vector)) {
             throw new Exception\IncorrectTypeException('Can only do matrix multiplication with a Matrix or Vector');
         }
@@ -1280,6 +1281,7 @@ class NumericMatrix extends Matrix
         $Bᵀ = $B->transpose()->getMatrix();
 
         foreach ($this->A as $i => $Aʳᵒʷ⟦i⟧) {
+            /** @var array<number> $R */
             $R[$i] = \array_fill(0, $B->n, 0);
             foreach ($Bᵀ as $j => $Bᶜᵒˡ⟦j⟧) {
                 foreach ($Aʳᵒʷ⟦i⟧ as $k => $A⟦i⟧⟦k⟧) {
@@ -1442,6 +1444,7 @@ class NumericMatrix extends Matrix
         // Augment each aᵢ₁ to aᵢn block
         $matrices = [];
         foreach ($arrays as $row) {
+            /** @var NumericMatrix $initial_matrix */
             $initial_matrix = \array_shift($row);
             $matrices[] = \array_reduce(
                 $row,
@@ -1453,6 +1456,7 @@ class NumericMatrix extends Matrix
         }
 
         // Augment below each row block a₁ to am
+        /** @var NumericMatrix $initial_matrix */
         $initial_matrix = \array_shift($matrices);
         $A⊗B            = \array_reduce(
             $matrices,
@@ -2191,6 +2195,7 @@ class NumericMatrix extends Matrix
     public function det()
     {
         if ($this->catalog->hasDeterminant()) {
+            /** @var number */
             return $this->catalog->getDeterminant();
         }
 
@@ -2199,6 +2204,8 @@ class NumericMatrix extends Matrix
         }
 
         $m = $this->m;
+
+        /** @var NumericMatrix $R */
         $R = MatrixFactory::create($this->A);
 
         /*
@@ -2885,8 +2892,8 @@ class NumericMatrix extends Matrix
      * Otherwise, it is more efficient to decompose and then solve.
      * Use LU Decomposition and solve Ax = b.
      *
-     * @param Vector|array $b solution to Ax = b
-     * @param string       $method (optional) Force a specific solve method - defaults to DEFAULT where various methods are tried
+     * @param Vector|array<number> $b solution to Ax = b
+     * @param string               $method (optional) Force a specific solve method - defaults to DEFAULT where various methods are tried
      *
      * @return Vector x
      *
@@ -2899,6 +2906,7 @@ class NumericMatrix extends Matrix
     public function solve($b, string $method = self::DEFAULT): Vector
     {
         // Input must be a Vector or array.
+        // @phpstan-ignore-next-line
         if (!($b instanceof Vector || \is_array($b))) {
             throw new Exception\IncorrectTypeException('b in Ax = b must be a Vector or array');
         }
@@ -3085,6 +3093,7 @@ class NumericMatrix extends Matrix
      */
     public function __toString(): string
     {
+        // @phpstan-ignore-next-line
         return \trim(\array_reduce(\array_map(
             function ($mᵢ) {
                 return '[' . \implode(', ', $mᵢ) . ']';
