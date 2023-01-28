@@ -2,6 +2,8 @@
 
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Number\ObjectArithmetic;
+
 class MatrixCatalog
 {
     /** @var NumericMatrix transpose */
@@ -31,7 +33,7 @@ class MatrixCatalog
     /** @var Decomposition\SVD */
     private $SVD;
 
-    /** @var float determinant */
+    /** @var int|float|ObjectArithmetic determinant */
     private $det;
 
     /**************************************************************************
@@ -297,7 +299,7 @@ class MatrixCatalog
     // DETERMINANT
 
     /**
-     * @param int|float $det
+     * @param int|float|ObjectArithmetic $det
      */
     public function addDeterminant($det): void
     {
@@ -313,7 +315,7 @@ class MatrixCatalog
     }
 
     /**
-     * @return number
+     * @return int|float|ObjectArithmetic
      */
     public function getDeterminant()
     {

@@ -482,7 +482,7 @@ class Rational implements ObjectArithmetic
         }
         $gcd = 0;
         while ($gcd != 1 && $n !== 0) {
-            $gcd = \abs(Algebra::gcd($n, $d));
+            $gcd = \abs(Algebra::gcd((int)$n, (int)$d));
             $n /= $gcd;
             $d /= $gcd;
         }

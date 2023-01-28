@@ -170,7 +170,9 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     /**
      * Max of all the elements
      *
-     * @return number
+     * @return number|false
+     *
+     * FIXME: maybe null instead of false?
      */
     public function max()
     {
@@ -180,7 +182,9 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     /**
      * Min of all the elements
      *
-     * @return number
+     * @return number|false
+     *
+     * FIXME: maybe null instead of false?
      */
     public function min()
     {
@@ -279,7 +283,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @param Vector $B
      *
-     * @return float|int
+     * @return float
      *
      * @throws Exception\BadDataException
      */
@@ -295,7 +299,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @param Vector $B
      *
-     * @return float|int The euclidean distance between the vectors
+     * @return float The euclidean distance between the vectors
      *
      * @throws Exception\BadDataException
      */
@@ -313,7 +317,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * @param Vector $B
      * @param int    $p
      *
-     * @return float|int
+     * @return float
      *
      * @throws Exception\BadDataException
      */
@@ -484,6 +488,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
             }
         }
 
+        /** @var NumericMatrix */
         return MatrixFactory::create($R);
     }
 
@@ -709,7 +714,9 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * |x|∞ = max |x|
      *
-     * @return number
+     * @return number|false
+     *
+     * FIXME: maybe null instead of false?
      */
     public function maxNorm()
     {

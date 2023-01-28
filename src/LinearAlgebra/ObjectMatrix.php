@@ -52,10 +52,11 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
      * @throws Exception\IncorrectTypeException if The class does not implement the ObjectArithmetic interface
      * @throws Exception\MathException
      */
-    protected function validateMatrixData()
+    protected function validateMatrixData(): void
     {
         if ($this->A[0][0] instanceof ObjectArithmetic) {
             $this->object_type = \get_class($this->A[0][0]);
+            // @phpstan-ignore-next-line
         } else {
             throw new Exception\IncorrectTypeException("The object must implement the interface.");
         }
@@ -101,7 +102,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
     /**
      * Is this matrix equal to some other matrix?
      *
-     * @param Matrix $B
+     * @param Matrix<ObjectArithmetic> $B
      *
      * @return bool
      */
@@ -128,10 +129,12 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
     /**
      * Check that the matrices are the same size and of the same type
      *
+     * @param Matrix<mixed> $B
+     *
      * @throws Exception\MatrixException if matrices have a different number of rows or columns
      * @throws Exception\IncorrectTypeException if the two matricies are not the same class
      */
-    private function checkEqualSizes(Matrix $B)
+    private function checkEqualSizes(Matrix $B): void
     {
         if ($B->getM() !== $this->m || $B->getN() !== $this->n) {
             throw new Exception\MatrixException('Matrices are different sizes');
@@ -151,6 +154,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
 
     /**
      * {@inheritDoc}
+     * @return Matrix<ObjectArithmetic>
      */
     public function add($B): Matrix
     {
@@ -169,6 +173,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
 
     /**
      * {@inheritDoc}
+     * @return Matrix<ObjectArithmetic>
      */
     public function subtract($B): Matrix
     {
@@ -187,6 +192,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
 
     /**
      * {@inheritDoc}
+     * @return Matrix<ObjectArithmetic>
      */
     public function multiply($B): Matrix
     {
@@ -204,7 +210,9 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
         $R = [];
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
+                /** @var array<ObjectArithmetic> $VA */
                 $VA        = $this->getRow($i);
+                /** @var array<ObjectArithmetic> $VB */
                 $VB        = $B->getColumn($j);
                 $R[$i][$j] = \array_reduce(
                     \array_map(
@@ -231,7 +239,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
      *
      * @param  float $λ
      *
-     * @return Matrix
+     * @return Matrix<ObjectArithmetic>
      *
      * @throws Exception\BadParameterException if λ is not a number
      * @throws Exception\IncorrectTypeException
@@ -295,6 +303,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
     public function det()
     {
         if ($this->catalog->hasDeterminant()) {
+            /** @var ObjectArithmetic */
             return $this->catalog->getDeterminant();
         }
 
@@ -303,6 +312,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
         }
 
         $m = $this->m;
+        /** @var ObjectMatrix $R */
         $R = MatrixFactory::create($this->A);
 
         /*
@@ -341,7 +351,12 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
 
 
     /**
-     * {@inheritDoc}
+     * @param int $mᵢ
+     * @param int $nⱼ
+     *
+     * @return ObjectArithmetic
+     *
+     * FIXME: maybe add return type to the method definition?
      */
     public function cofactor(int $mᵢ, int $nⱼ)
     {

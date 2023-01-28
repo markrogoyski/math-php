@@ -106,7 +106,7 @@ class Integer
      */
     public static function radical(int $n): int
     {
-        return \array_product(\array_unique(self::primeFactorization($n)));
+        return (int)\array_product(\array_unique(self::primeFactorization($n)));
     }
 
     /**
@@ -324,7 +324,7 @@ class Integer
      *
      * @param  int $n
      *
-     * @return array{0?: int, 1?: int} [m, k]
+     * @return array{0?: int|float, 1?: int|float} [m, k]
      */
     public static function perfectPower(int $n): array
     {
@@ -479,7 +479,7 @@ class Integer
             $product *= $sum;
         }
 
-        return $product;
+        return (int)$product;
     }
 
     /**

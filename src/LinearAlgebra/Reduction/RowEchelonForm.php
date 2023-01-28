@@ -24,8 +24,8 @@ class RowEchelonForm extends NumericMatrix
 
     /**
      * RowEchelonForm constructor
-     * @param array<number> $A
-     * @param int           $swaps Number of row swaps when computing REF
+     * @param array<array<number>> $A
+     * @param int                  $swaps Number of row swaps when computing REF
      *
      * @throws Exception\BadDataException
      */
