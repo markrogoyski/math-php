@@ -94,14 +94,14 @@ abstract class NumericalIntegration
      * has precisely two numbers, and that no two points share the same first number
      * (x-component)
      *
-     * @param  array $points Array of arrays (points)
-     * @param  int   $degree The minimum number of input arrays
+     * @param  array<mixed> $points Array of arrays (points)
+     * @param  int          $degree The minimum number of input arrays
      *
      * @throws Exception\BadDataException if there are less than two points
      * @throws Exception\BadDataException if any point does not contain two numbers
      * @throws Exception\BadDataException if two points share the same first number (x-component)
      */
-    public static function validate(array $points, int $degree = 2)
+    public static function validate(array $points, int $degree = 2): void
     {
         if (\count($points) < $degree) {
             throw new Exception\BadDataException("You need to have at least $degree sets of coordinates (arrays) for this technique");

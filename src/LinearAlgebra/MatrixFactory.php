@@ -82,7 +82,7 @@ class MatrixFactory
      *   R = [2  2 8 4]
      *       [1 13 1 5]
      *
-     * @param  Vector[] $A array of Vectors
+     * @param Vector[]   $A array of Vectors
      * @param float|null $ε Optional error tolerance
      *
      * @return Matrix
@@ -121,7 +121,7 @@ class MatrixFactory
      *     [⋮ ]
      *     [xm]
      *
-     * @param array $A m × 1 vector representing the matrix
+     * @param int[]|float[]|Complex[]|object[] $A m × 1 vector representing the matrix
      *
      * @return Matrix
      */
@@ -147,7 +147,7 @@ class MatrixFactory
      *
      * x = [x₁ x₂ ⋯ xn]
      *
-     * @param array $A 1 × n vector representing the matrix
+     * @param int[]|float[]|Complex[]|object[] $A 1 × n vector representing the matrix
      *
      * @return Matrix
      */
@@ -166,7 +166,7 @@ class MatrixFactory
     /**
      * Factory method
      *
-     * @param  array[] $A 2-dimensional array of Matrix data
+     * @param  int[][]|float[][]|Complex[][]|object[][] $A 2-dimensional array of Matrix data
      *
      * @return FunctionMatrix
      */
@@ -205,7 +205,7 @@ class MatrixFactory
      *  A = [0 1 0]
      *      [0 0 1]
      *
-     * @param int   $n size of matrix
+     * @param  int $n size of matrix
      *
      * @return NumericSquareMatrix
      *
@@ -443,7 +443,7 @@ class MatrixFactory
      * A = [0 2 0]
      *     [0 0 3]
      *
-     * @param array $D elements of the diagonal
+     * @param array<number> $D elements of the diagonal
      *
      * @return NumericDiagonalMatrix
      *
@@ -510,7 +510,7 @@ class MatrixFactory
     /**
      * Create the Vandermonde Matrix from a simple array.
      *
-     * @param array $M (α₁, α₂, α₃ ⋯ αm)
+     * @param array<number> $M (α₁, α₂, α₃ ⋯ αm)
      * @param int   $n
      *
      * @return NumericMatrix
@@ -602,7 +602,7 @@ class MatrixFactory
     /**
      * Check input parameters
      *
-     * @param  array    $A
+     * @param  array<mixed> $A
      *
      * @throws Exception\BadDataException if array data not provided for matrix creation
      * @throws Exception\MatrixException if any row has a different column count
@@ -626,7 +626,7 @@ class MatrixFactory
     /**
      * Determine what type of matrix to create
      *
-     * @param  array[] $A 2-dimensional array of Matrix data
+     * @param  array<array<mixed>> $A 2-dimensional array of Matrix data
      *
      * @return string indicating what matrix type to create
      */

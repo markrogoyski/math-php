@@ -14,7 +14,7 @@ class NumericSquareMatrix extends NumericMatrix
     /**
      * Constructor
      *
-     * @param array $A
+     * @param array<array<number>> $A
      *
      * @throws Exception\MathException
      */

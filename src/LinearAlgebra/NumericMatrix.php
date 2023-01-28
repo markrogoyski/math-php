@@ -32,7 +32,7 @@ class NumericMatrix extends Matrix
     /**
      * Constructor
      *
-     * @param array[] $A of arrays $A m x n matrix
+     * @param array<array<number>> $A of arrays $A m x n matrix
      *
      * @throws Exception\BadDataException if any rows have a different column count
      */

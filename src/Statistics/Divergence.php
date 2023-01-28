@@ -35,8 +35,8 @@ class Divergence
      *
      *
      *
-     * @param  array  $p distribution p
-     * @param  array  $q distribution q
+     * @param  array<number> $p distribution p
+     * @param  array<number> $q distribution q
      *
      * @return float difference between distributions
      *
