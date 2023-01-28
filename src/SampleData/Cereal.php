@@ -124,10 +124,11 @@ class Cereal
      * Raw data with each observation labeled
      * ['B1' => ['X1126.0' => 0.002682755, 'X1134.0' => 0.003370673, 'X1142.0' => 0.004085942, ... ]]
      *
-     * @return number[]
+     * @return array<string, array<string, number>>
      */
     public function getLabeledXData(): array
     {
+        /** @var array<string, array<string, number>> */
         return \array_map(
             function (array $data) {
                 return \array_combine(self::X_LABELS, $data);
@@ -151,10 +152,11 @@ class Cereal
      * Raw data with each observation labeled
      * ['B1' => ['Heating value' => 18373, 'C' => 41.61500, 'H' => 6.565000, ... ]]
      *
-     * @return number[]
+     * @return array<string, array<string, number>>
      */
     public function getLabeledYData(): array
     {
+        /** @var array<string, array<string, number>> */
         return \array_map(
             function (array $data) {
                 return \array_combine(self::Y_LABELS, $data);
@@ -178,10 +180,11 @@ class Cereal
      * Raw data with each observation labeled
      * ['B1' => ['Heating value' => -0.1005049, 'C' => 0.6265746, 'H' => -1.1716630, ... ]]
      *
-     * @return number[]
+     * @return array<string, array<string, float>>
      */
     public function getLabeledYscData(): array
     {
+        /** @var array<string, array<string, float>> */
         return \array_map(
             function (array $data) {
                 return \array_combine(self::YSC_LABELS, $data);

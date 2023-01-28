@@ -67,10 +67,11 @@ class MtCars
      * Raw data with each observation labeled
      * ['Car Model' => ['mpg' => 21, 'cyl' => 6, 'disp' => 160, ... ]]
      *
-     * @return number[]
+     * @return array<string, array<string, number>>
      */
     public function getLabeledData(): array
     {
+        /** @var array<string, array<string, number>> */
         return \array_map(
             function (array $data) {
                 return \array_combine(self::LABELS, $data);
@@ -82,7 +83,7 @@ class MtCars
     /**
      * Car model names
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getModels(): array
     {
@@ -95,10 +96,11 @@ class MtCars
      *
      * @param string $model
      *
-     * @return number[]
+     * @return array<string, number>
      */
     public function getModelData(string $model): array
     {
+        /** @var array<string, number> */
         return \array_combine(self::LABELS, self::DATA[$model]);
     }
 
@@ -106,10 +108,11 @@ class MtCars
      * Miles per gallon observations for all models
      * ['Mazda RX4' => 21, 'Honda civic' => 30.4, ... ]
      *
-     * @return number[]
+     * @return array<string, number>
      */
     public function getMpg(): array
     {
+        /** @var array<string, number> */
         return \array_combine($this->getModels(), \array_column(self::DATA, 0));
     }
 

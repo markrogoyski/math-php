@@ -96,7 +96,7 @@ class ToothGrowth
      * Raw data with each observation labeled
      * [['len' => 4.2, 'supp' => 'VC', 'dose' => 0.5], ... ]
      *
-     * @return number[]
+     * @return array<array<string, float|string>>
      */
     public function getLabeledData(): array
     {
@@ -125,6 +125,10 @@ class ToothGrowth
      */
     public function getSupp(): array
     {
+        /**
+         * FIXME: looks like a mistake: column_key = 0 instead of 1?
+         * @phpstan-ignore-next-line
+         */
         return \array_column(self::DATA, 0);
     }
 
@@ -135,6 +139,9 @@ class ToothGrowth
      */
     public function getDose(): array
     {
+        /**
+         * FIXME: looks like a mistake: column_key = 0 instead of 2?
+         */
         return \array_column(self::DATA, 0);
     }
 }
