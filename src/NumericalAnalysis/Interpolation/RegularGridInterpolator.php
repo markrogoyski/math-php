@@ -169,6 +169,7 @@ class RegularGridInterpolator
                 : $i + 1;
         }
 
+        /** @var float|int */
         return $this->flatCall($this->values, $idxRes);
     }
 
@@ -218,6 +219,7 @@ class RegularGridInterpolator
     {
         $current = $data;
         foreach ($keys as $key) {
+            // @phpstan-ignore-next-line
             $current = $current[$key];
         }
 
@@ -230,11 +232,13 @@ class RegularGridInterpolator
      *
      * @param mixed ...$args ...$iterables[, $repeat]
 *
-     * @return \Generator<array<mixed>>
+     * @return \Generator<array<int|string>>
      */
     private function product(...$args): \Generator
     {
+        /** @var int $repeat */
         $repeat = \array_pop($args);
+        // @phpstan-ignore-next-line
         $pools  = \array_merge(...\array_fill(0, $repeat, $args));
         $result = [[]];
 
