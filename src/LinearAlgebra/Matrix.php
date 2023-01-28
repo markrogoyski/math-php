@@ -21,7 +21,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var array<array<T>> Matrix array of arrays */
     protected $A;
 
-    /** @var MatrixCatalog */
+    /** @var MatrixCatalog<T> */
     protected $catalog;
 
     /** @var float|null Error/zero tolerance */
@@ -508,6 +508,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     public function transpose(): Matrix
     {
         if ($this->catalog->hasTranspose()) {
+            /** @var static */
             return $this->catalog->getTranspose();
         }
 
@@ -516,7 +517,9 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $Aᵀ[$i] = $this->getColumn($i);
         }
 
+        // @phpstan-ignore-next-line
         $this->catalog->addTranspose(MatrixFactory::create($Aᵀ, $this->ε));
+        /** @var static */
         return $this->catalog->getTranspose();
     }
 
@@ -556,6 +559,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
+        /** @var static */
         return MatrixFactory::create($A, $this->ε);
     }
 
@@ -563,9 +567,9 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * Insert
      * Insert a smaller matrix within a larger matrix starting at a specified position
      *
-     * @param Matrix $small the smaller matrix to embed
-     * @param int    $m     Starting row
-     * @param int    $n     Starting column
+     * @param Matrix<T> $small the smaller matrix to embed
+     * @param int       $m     Starting row
+     * @param int       $n     Starting column
      *
      * @return static
      *
@@ -586,6 +590,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
                 $new_array[$i + $m][$j + $n] = $small[$i][$j];
             }
         }
+        /** @var static */
         return MatrixFactory::create($new_array, $this->ε);
     }
 
@@ -616,6 +621,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
+        /** @var static */
         return MatrixFactory::create($R, $this->ε);
     }
 
@@ -693,6 +699,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
+        /** @var static */
         return MatrixFactory::create($R, $this->ε);
     }
 
@@ -722,6 +729,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$i] = $this->A[$i];
         }
 
+        /** @var static */
         return MatrixFactory::create(\array_values($R), $this->ε);
     }
 
@@ -770,6 +778,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
+        /** @var static */
         return MatrixFactory::create($R, $this->ε);
     }
 
@@ -807,6 +816,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$i] = \array_values($R[$i]);
         }
 
+        /** @var static */
         return MatrixFactory::create($R, $this->ε);
     }
 
@@ -909,6 +919,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
+        /** @var static */
         return MatrixFactory::create($R, $this->ε);
     }
 
@@ -954,7 +965,10 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             throw new Exception\MatrixException('Column to exclude for minor does not exist');
         }
 
-        return $this->minorMatrix($mᵢ, $nⱼ)->det();
+        /** @var ObjectMatrix|NumericMatrix $minorMatrix */
+        $minorMatrix = $this->minorMatrix($mᵢ, $nⱼ);
+        /** @var T */
+        return $minorMatrix->det();
     }
 
     /**************************************************************************

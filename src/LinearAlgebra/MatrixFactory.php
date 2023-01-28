@@ -9,16 +9,18 @@ use MathPHP\Number\ObjectArithmetic;
 /**
  * Matrix factory to create matrices of all types.
  * Use factory instead of instantiating individual Matrix classes.
+ *
+ * @template T = int[][]|float[][]|Complex[][]|object[][]
  */
 class MatrixFactory
 {
     /**
      * Factory method
      *
-     * @param int[][]|float[][]|Complex[][]|object[][] $A 2-dimensional array of Matrix data
-     * @param float|null                               $ε Optional error tolerance
+     * @param T[][]      $A 2-dimensional array of Matrix data
+     * @param float|null $ε Optional error tolerance
      *
-     * @return NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
+     * @return Matrix<T>|NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
@@ -126,14 +128,13 @@ class MatrixFactory
      *     [⋮ ]
      *     [xm]
      *
-     * @param int[]|float[]|Complex[]|object[] $A m × 1 vector representing the matrix
+     * @param T[] $A m × 1 vector representing the matrix
      *
-     * @return NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
+     * @return Matrix<T>|NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
      */
     public static function createFromColumnVector(array $A): Matrix
     {
         foreach ($A as $item) {
-            // @phpstan-ignore-next-line
             if (\is_array($item)) {
                 throw new Exception\BadDataException('Column vector data must be a one-dimensional array');
             }
@@ -153,14 +154,13 @@ class MatrixFactory
      *
      * x = [x₁ x₂ ⋯ xn]
      *
-     * @param int[]|float[]|Complex[]|object[] $A 1 × n vector representing the matrix
+     * @param T[] $A 1 × n vector representing the matrix
      *
-     * @return NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
+     * @return Matrix<T>|NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
      */
     public static function createFromRowVector(array $A): Matrix
     {
         foreach ($A as $item) {
-            // @phpstan-ignore-next-line
             if (\is_array($item)) {
                 throw new Exception\BadDataException('Row vector data must be a one-dimensional array');
             }

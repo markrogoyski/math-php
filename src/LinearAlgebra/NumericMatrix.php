@@ -1533,6 +1533,7 @@ class NumericMatrix extends Matrix
     public function inverse(): NumericMatrix
     {
         if ($this->catalog->hasInverse()) {
+            /** @var NumericMatrix */
             return $this->catalog->getInverse();
         }
 
@@ -2933,7 +2934,9 @@ class NumericMatrix extends Matrix
             default:
                 // If inverse is already calculated, solve: x = A⁻¹b
                 if ($this->catalog->hasInverse()) {
-                    return new Vector($this->catalog->getInverse()->multiply($b)->getColumn(0));
+                    /** @var NumericMatrix $inverse */
+                    $inverse = $this->catalog->getInverse();
+                    return new Vector($inverse->multiply($b)->getColumn(0));
                 }
 
                 // If 2x2, just compute the inverse and solve: x = A⁻¹b

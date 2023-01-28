@@ -4,12 +4,15 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Number\ObjectArithmetic;
 
+/**
+ * @template T
+ */
 class MatrixCatalog
 {
-    /** @var NumericMatrix transpose */
+    /** @var Matrix<T> transpose */
     private $Aᵀ;
 
-    /** @var NumericMatrix inverse */
+    /** @var Matrix<T> inverse */
     private $A⁻¹;
 
     /** @var Reduction\RowEchelonForm */
@@ -45,7 +48,7 @@ class MatrixCatalog
     // TRANSPOSE
 
     /**
-     * @param NumericMatrix $Aᵀ
+     * @param Matrix<T> $Aᵀ
      */
     public function addTranspose(Matrix $Aᵀ): void
     {
@@ -62,7 +65,7 @@ class MatrixCatalog
     }
 
     /**
-     * @return NumericMatrix
+     * @return Matrix<T>
      */
     public function getTranspose(): Matrix
     {
@@ -72,7 +75,7 @@ class MatrixCatalog
     // INVERSE
 
     /**
-     * @param NumericMatrix $A⁻¹
+     * @param Matrix<T> $A⁻¹
      */
     public function addInverse(Matrix $A⁻¹): void
     {
@@ -89,7 +92,7 @@ class MatrixCatalog
     }
 
     /**
-     * @return NumericMatrix
+     * @return Matrix<T>
      */
     public function getInverse(): Matrix
     {
