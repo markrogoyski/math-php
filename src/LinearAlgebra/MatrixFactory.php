@@ -4,6 +4,7 @@ namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
 use MathPHP\Number\Complex;
+use MathPHP\Number\ObjectArithmetic;
 
 /**
  * Matrix factory to create matrices of all types.
@@ -17,7 +18,7 @@ class MatrixFactory
      * @param int[][]|float[][]|Complex[][]|object[][] $A 2-dimensional array of Matrix data
      * @param float|null                               $ε Optional error tolerance
      *
-     * @return Matrix|NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
+     * @return NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
@@ -33,12 +34,16 @@ class MatrixFactory
         switch ($matrix_type) {
             case 'numeric':
             case 'numeric_square':
+                /** @var array<array<number>> $A */
                 return self::createNumeric($A, $ε);
             case 'complex':
+                /** @var array<array<Complex>> $A */
                 return new ComplexMatrix($A);
             case 'object':
+                /** @var array<array<ObjectArithmetic>> $A */
                 return new ObjectMatrix($A);
             case 'object_square':
+                /** @var array<array<ObjectArithmetic>> $A */
                 return new ObjectSquareMatrix($A);
         }
 
@@ -85,7 +90,7 @@ class MatrixFactory
      * @param Vector[]   $A array of Vectors
      * @param float|null $ε Optional error tolerance
      *
-     * @return Matrix
+     * @return NumericMatrix
      *
      * @throws Exception\MatrixException if the Vectors are not all the same length
      * @throws Exception\IncorrectTypeException
@@ -123,11 +128,12 @@ class MatrixFactory
      *
      * @param int[]|float[]|Complex[]|object[] $A m × 1 vector representing the matrix
      *
-     * @return Matrix|NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
+     * @return NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
      */
     public static function createFromColumnVector(array $A): Matrix
     {
         foreach ($A as $item) {
+            // @phpstan-ignore-next-line
             if (\is_array($item)) {
                 throw new Exception\BadDataException('Column vector data must be a one-dimensional array');
             }
@@ -149,11 +155,12 @@ class MatrixFactory
      *
      * @param int[]|float[]|Complex[]|object[] $A 1 × n vector representing the matrix
      *
-     * @return Matrix|NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
+     * @return NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
      */
     public static function createFromRowVector(array $A): Matrix
     {
         foreach ($A as $item) {
+            // @phpstan-ignore-next-line
             if (\is_array($item)) {
                 throw new Exception\BadDataException('Row vector data must be a one-dimensional array');
             }
@@ -294,6 +301,7 @@ class MatrixFactory
         $bottom_row = \array_pop($I);
         \array_unshift($I, $bottom_row);
 
+        /** @var array<array<number>> $I */
         return new NumericSquareMatrix($I);
     }
 
@@ -303,7 +311,7 @@ class MatrixFactory
      *
      * @param  int $n
      *
-     * @return Matrix
+     * @return NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException

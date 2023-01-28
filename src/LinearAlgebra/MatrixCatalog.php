@@ -57,6 +57,7 @@ class MatrixCatalog
      */
     public function hasTranspose(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->Aᵀ);
     }
 
@@ -83,6 +84,7 @@ class MatrixCatalog
      */
     public function hasInverse(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->A⁻¹);
     }
 
@@ -115,6 +117,7 @@ class MatrixCatalog
      */
     public function hasRowEchelonForm(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->REF);
     }
 
@@ -141,6 +144,7 @@ class MatrixCatalog
      */
     public function hasReducedRowEchelonForm(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->RREF);
     }
 
@@ -177,6 +181,7 @@ class MatrixCatalog
      */
     public function hasLuDecomposition(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->LU);
     }
 
@@ -203,6 +208,7 @@ class MatrixCatalog
      */
     public function hasQrDecomposition(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->QR);
     }
 
@@ -229,6 +235,7 @@ class MatrixCatalog
      */
     public function hasCholeskyDecomposition(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->cholesky);
     }
 
@@ -255,6 +262,7 @@ class MatrixCatalog
      */
     public function hasCroutDecomposition(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->crout);
     }
 
@@ -271,7 +279,7 @@ class MatrixCatalog
     /**
      * @param Decomposition\SVD $SVD
      */
-    public function addSVD(Decomposition\SVD $SVD)
+    public function addSVD(Decomposition\SVD $SVD): void
     {
         $this->SVD = $SVD;
     }
@@ -279,8 +287,9 @@ class MatrixCatalog
     /**
      * @return bool
      */
-    public function hasSVD()
+    public function hasSVD(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->SVD);
     }
 
@@ -311,6 +320,7 @@ class MatrixCatalog
      */
     public function hasDeterminant(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->det);
     }
 

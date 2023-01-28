@@ -154,7 +154,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
 
     /**
      * {@inheritDoc}
-     * @return Matrix<ObjectArithmetic>
+     * @return ObjectMatrix
      */
     public function add($B): Matrix
     {
@@ -168,12 +168,13 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
                 $R[$i][$j] = $this->A[$i][$j]->add($B[$i][$j]);
             }
         }
+        /** @var ObjectMatrix */
         return MatrixFactory::create($R);
     }
 
     /**
      * {@inheritDoc}
-     * @return Matrix<ObjectArithmetic>
+     * @return ObjectMatrix
      */
     public function subtract($B): Matrix
     {
@@ -187,12 +188,13 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
                 $R[$i][$j] = $this->A[$i][$j]->subtract($B[$i][$j]);
             }
         }
+        /** @var ObjectMatrix */
         return MatrixFactory::create($R);
     }
 
     /**
      * {@inheritDoc}
-     * @return Matrix<ObjectArithmetic>
+     * @return ObjectMatrix
      */
     public function multiply($B): Matrix
     {
@@ -230,6 +232,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
                 );
             }
         }
+        /** @var ObjectMatrix */
         return MatrixFactory::create($R);
     }
 
@@ -239,7 +242,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
      *
      * @param  float $λ
      *
-     * @return Matrix<ObjectArithmetic>
+     * @return ObjectMatrix
      *
      * @throws Exception\BadParameterException if λ is not a number
      * @throws Exception\IncorrectTypeException
@@ -254,6 +257,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
             }
         }
 
+        /** @var ObjectMatrix */
         return MatrixFactory::create($R);
     }
 

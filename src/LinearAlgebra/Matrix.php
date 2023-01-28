@@ -221,6 +221,10 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
         $vectors = [];
 
         for ($j = 0; $j < $n; $j++) {
+            /**
+             * FIXME: maybe define vector as a generic class of T type?
+             * @phpstan-ignore-next-line
+             */
             $vectors[] = new Vector(\array_column($this->A, $j));
         }
 
@@ -245,6 +249,10 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     {
         return \array_map(
             function (array $row) {
+                /**
+                 * FIXME: maybe define vector as a generic class of T type?
+                 * @phpstan-ignore-next-line
+                 */
                 return new Vector($row);
             },
             $this->A
@@ -259,7 +267,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Is this matrix the same size and type as some other matrix?
      *
-     * @param Matrix $B
+     * @param Matrix<T> $B
      *
      * @return bool
      */
@@ -320,7 +328,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * (A|B) = [2, 3, 4 | 5]
      *         [3, 4, 5 | 6]
      *
-     * @param  Matrix $B Matrix columns to add to matrix A
+     * @param  Matrix<T> $B Matrix columns to add to matrix A
      *
      * @return static
      *
@@ -345,6 +353,8 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $⟮A∣B⟯[$i] = \array_merge($A[$i], $B[$i]);
         }
 
+        /** @var array<array<float|int|object>> $⟮A∣B⟯ */
+        /** @var static */
         return MatrixFactory::create($⟮A∣B⟯, $this->ε);
     }
 
@@ -364,7 +374,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * (A|B) = [5 | 2, 3, 4]
      *         [6 | 3, 4, 5]
      *
-     * @param  Matrix $B Matrix columns to add to matrix A
+     * @param  Matrix<T> $B Matrix columns to add to matrix A
      *
      * @return static
      *
@@ -389,6 +399,8 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $⟮B∣A⟯[$i] = \array_merge($B[$i], $A[$i]);
         }
 
+        /** @var array<array<float|int|object>> $⟮B∣A⟯ */
+        /** @var static */
         return MatrixFactory::create($⟮B∣A⟯, $this->ε);
     }
 
@@ -407,7 +419,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *         [3, 4, 5]
      *         [4, 5, 6]
      *
-     * @param  Matrix $B Matrix rows to add to matrix A
+     * @param  Matrix<T> $B Matrix rows to add to matrix A
      *
      * @return static
      *
@@ -423,8 +435,10 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
         }
 
+        /** @var array<array<float|int|object>> $⟮A∣B⟯ */
         $⟮A∣B⟯ = \array_merge($this->A, $B->getMatrix());
 
+        /** @var static */
         return MatrixFactory::create($⟮A∣B⟯, $this->ε);
     }
 
@@ -443,7 +457,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * (A_B) = [2, 3, 4]
      *         [3, 4, 5]
      *
-     * @param  Matrix $B Matrix rows to add to matrix A
+     * @param  Matrix<T> $B Matrix rows to add to matrix A
      *
      * @return static
      *
@@ -461,8 +475,10 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
         }
 
+        /** @var array<array<float|int|object>> $⟮A∣B⟯ */
         $⟮A∣B⟯ = \array_merge($B->getMatrix(), $this->A);
 
+        /** @var static */
         return MatrixFactory::create($⟮A∣B⟯, $this->ε);
     }
 

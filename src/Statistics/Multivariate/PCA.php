@@ -244,6 +244,7 @@ class PCA
             // Get the first $i+1 columns of the loading matrix
             $P  = $this->EVec->submatrix(0, 0, $vars - 1, $i);
             $P′ = $P->transpose();
+            /** @var NumericMatrix $Qᵢ */
             $Qᵢ = MatrixFactory::create([$X->multiply($I->subtract($P->multiply($P′)))->multiply($X′)->getDiagonalElements()])->transpose();
             $Q  = $Q->augment($Qᵢ);
         }
@@ -289,6 +290,7 @@ class PCA
             $P    = $this->EVec->submatrix(0, 0, $vars - 1, $i);
             $P′   = $P->transpose();
             $Λⱼ⁻¹ = MatrixFactory::diagonal(\array_slice($this->EVal->getVector(), 0, $i + 1))->inverse();
+            /** @var NumericMatrix $Tᵢ² */
             $Tᵢ²  = MatrixFactory::create([$X->multiply($P)->multiply($Λⱼ⁻¹)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
             $T²   = $T²->augment($Tᵢ²);
         }
