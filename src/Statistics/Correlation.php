@@ -504,7 +504,7 @@ class Correlation
      * @return array{
      *     cov: float,
      *     r:   float,
-     *     R2:  float,
+     *     r2:  float,
      *     tau: float,
      *     rho: float,
      * }

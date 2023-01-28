@@ -76,7 +76,9 @@ class Search
         }
 
         // Standard case: Find max and return index
-        return self::baseArgMax($values);
+        /** @var int $result */
+        $result = self::baseArgMax($values);
+        return $result;
     }
 
     /**
@@ -110,7 +112,9 @@ class Search
             throw new Exception\BadDataException('Array of all NANs has no nanArgMax');
         }
 
-        return self::baseArgMax($valuesWithoutNans);
+        /** @var int $result */
+        $result = self::baseArgMax($valuesWithoutNans);
+        return $result;
     }
 
     /**
@@ -121,9 +125,9 @@ class Search
      *
      * @param float[]|int[] $values
      *
-     * @return int Index of the first occurrence of the maximum value
+     * @return int|null Index of the first occurrence of the maximum value
      */
-    private static function baseArgMax(array $values): int
+    private static function baseArgMax(array $values): ?int
     {
         $max = \max($values);
         foreach ($values as $i => $v) {
@@ -131,6 +135,8 @@ class Search
                 return $i;
             }
         }
+
+        return null;
     }
 
     /**
@@ -170,7 +176,10 @@ class Search
         }
 
         // Standard case: Find max and return index
-        return self::baseArgMin($values);
+
+        /** @var int $result */
+        $result = self::baseArgMin($values);
+        return $result;
     }
 
     /**
@@ -204,7 +213,9 @@ class Search
             throw new Exception\BadDataException('Array of all NANs has no nanArgMax');
         }
 
-        return self::baseArgMin($valuesWithoutNans);
+        /** @var int $result */
+        $result = self::baseArgMin($valuesWithoutNans);
+        return $result;
     }
 
     /**
@@ -215,9 +226,9 @@ class Search
      *
      * @param float[]|int[] $values
      *
-     * @return int Index of the first occurrence of the minimum value
+     * @return int|null Index of the first occurrence of the minimum value
      */
-    private static function baseArgMin(array $values): int
+    private static function baseArgMin(array $values): ?int
     {
         $max = \min($values);
         foreach ($values as $i => $v) {
@@ -225,6 +236,8 @@ class Search
                 return $i;
             }
         }
+
+        return null;
     }
 
     /**

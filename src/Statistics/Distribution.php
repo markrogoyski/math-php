@@ -166,6 +166,7 @@ class Distribution
                 : $i + 1;
         }
 
+        /** @var array<string, int<1, max>> $ranking⟮X⟯ */
         $ranking⟮X⟯ = \array_combine(\array_map('\strval', $Xs), $ranking⟮X⟯);
 
         // Map ranks to values in order they were originally input
@@ -201,6 +202,8 @@ class Distribution
                 : $i + 1;
         }
         \sort($ranking⟮X⟯);
+
+        /** @var array<string, int<0, max>> $ranking⟮X⟯ */
         $ranking⟮X⟯ = \array_combine(\array_map('\strval', $Xs), $ranking⟮X⟯);
 
         // Map ranks to values in order they were originally input
@@ -291,7 +294,7 @@ class Distribution
         // Optionally print the stem and leaf plot
         if ($print === true) {
             $length = \max(\array_map(function ($stem) {
-                return \strlen($stem);
+                return \strlen((string)$stem);
             }, \array_keys($plot)));
             foreach ($plot as $stem => $leaves) {
                 \printf("%{$length}d | %s\n", $stem, \implode(' ', $leaves));

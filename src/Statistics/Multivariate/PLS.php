@@ -282,7 +282,7 @@ class PLS
      * Column Standard Deviations
      * Create a Vector with the standard deviations of each column of the supplied matrix
      *
-     * @param Matrix $M - A Matrix of which to calculate the standard deviations.
+     * @param NumericMatrix $M - A Matrix of which to calculate the standard deviations.
      *
      * @return Vector
      */

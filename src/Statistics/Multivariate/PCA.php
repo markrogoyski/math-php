@@ -117,7 +117,9 @@ class PCA
         $ones_column = MatrixFactory::one($X->getM(), 1);
 
         // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
-        $center_matrix = $ones_column->multiply(MatrixFactory::create([$this->center->getVector()]));
+        /** @var NumericMatrix $mult */
+        $mult = MatrixFactory::create([$this->center->getVector()]);
+        $center_matrix = $ones_column->multiply($mult);
         $scale_matrix  = MatrixFactory::diagonal($this->scale->getVector())->inverse();
 
         // scaled data: ($X - μ) / σ
@@ -235,6 +237,7 @@ class PCA
         // Initial element with initialization of result matrix
         $P  = $this->EVec->submatrix(0, 0, $vars - 1, 0);  // Get the first column of the loading matrix
         $P′ = $P->transpose();
+        /** @var NumericMatrix $Q */
         $Q  = MatrixFactory::create([$X->multiply($I->subtract($P->multiply($P′)))->multiply($X′)->getDiagonalElements()])->transpose();
 
         for ($i = 1; $i < $vars; $i++) {
@@ -278,6 +281,7 @@ class PCA
         $P    = $this->EVec->submatrix(0, 0, $vars - 1, 0); // // Get the first column of the loading matrix
         $P′   = $P->transpose();
         $Λⱼ⁻¹ = MatrixFactory::diagonal(\array_slice($this->EVal->getVector(), 0, 0 + 1))->inverse();
+        /** @var NumericMatrix $T² */
         $T²   = MatrixFactory::create([$X->multiply($P)->multiply($Λⱼ⁻¹)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
 
         for ($i = 1; $i < $this->data->getN(); $i++) {

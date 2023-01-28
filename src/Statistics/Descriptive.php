@@ -417,8 +417,8 @@ class Descriptive
         $length = \count($numbers);
 
         if ($length % 2 == 0) {
-            $lower_half = \array_slice($numbers, 0, $length / 2);
-            $upper_half = \array_slice($numbers, $length / 2);
+            $lower_half = \array_slice($numbers, 0, (int)($length / 2));
+            $upper_half = \array_slice($numbers, (int)($length / 2));
         } else {
             $lower_half = \array_slice($numbers, 0, \intdiv($length, 2));
             $upper_half = \array_slice($numbers, \intdiv($length, 2) + 1);
@@ -470,7 +470,7 @@ class Descriptive
      *     "Q3":    float,
      *     "100%":  float,
      *     "IQR":   float,
-     * )
+     * }
      *
      * @throws Exception\BadDataException if the input array of numbers is empty
      */
@@ -484,8 +484,8 @@ class Descriptive
         $length = \count($numbers);
 
         if ($length % 2 == 0) {
-            $lower_half = \array_slice($numbers, 0, $length / 2);
-            $upper_half = \array_slice($numbers, $length / 2);
+            $lower_half = \array_slice($numbers, 0, (int)($length / 2));
+            $upper_half = \array_slice($numbers, (int)($length / 2));
         } else {
             $lower_half = \array_slice($numbers, 0, \intdiv($length, 2));
             $upper_half = \array_slice($numbers, \intdiv($length, 2) + 1);
@@ -664,9 +664,9 @@ class Descriptive
      *                           false means a sample is used.
      *
      * @return array{
-     *     n:           int,
-     *     min:         float,
-     *     max:         float,
+     *     n:           int<0, max>,
+     *     min:         float|false,
+     *     max:         float|false,
      *     mean:        float,
      *     median:      float,
      *     mode:        float[],
@@ -742,11 +742,11 @@ class Descriptive
      * @param  array<number>  $numbers
      *
      * @return array{
-     *     min:     float,
+     *     min:     float|int|false,
      *     Q1:      float,
      *     median:  float,
      *     Q3:      float,
-     *     max:     float,
+     *     max:     float|int|false,
      * }
      *
      * @throws Exception\BadDataException

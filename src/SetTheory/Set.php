@@ -72,6 +72,9 @@ namespace MathPHP\SetTheory;
  * already is a member of the set. When accessing the actual set member, you
  * will always get back the original one added, whether it was a Set object or
  * a string.
+ *
+ * @implements \Iterator<mixed>
+ * @phpstan-consistent-constructor
  */
 class Set implements \Countable, \Iterator
 {
@@ -147,6 +150,10 @@ class Set implements \Countable, \Iterator
      */
     public function isMember($x): bool
     {
+        /**
+         * FIXME: $this->getKey() may return null, int|string required.
+         * @phpstan-ignore-next-line
+         */
         return \array_key_exists($this->getKey($x), $this->A);
     }
 
@@ -160,6 +167,10 @@ class Set implements \Countable, \Iterator
      */
     public function isNotMember($x): bool
     {
+        /**
+         * FIXME: $this->getKey() may return null, int|string required.
+         * @phpstan-ignore-next-line
+         */
         return !\array_key_exists($this->getKey($x), $this->A);
     }
 
