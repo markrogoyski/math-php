@@ -636,7 +636,7 @@ class Set implements \Countable, \Iterator
 
     /**
      * Iterator interface array to iterate over
-     * @var array
+     * @var array<mixed>
      */
     protected $iterator_keys;
 

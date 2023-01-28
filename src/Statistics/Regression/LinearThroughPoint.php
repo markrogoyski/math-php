@@ -42,8 +42,8 @@ class LinearThroughPoint extends ParametricRegression
      *
      * This procedure is most frequently used with $force = [0,0], the origin.
      *
-     * @param array $points
-     * @param array $force Point to force regression line through (default: origin)
+     * @param array<array{float, float}> $points
+     * @param array{float, float} $force Point to force regression line through (default: origin)
      */
     public function __construct(array $points, array $force = [0,0])
     {
