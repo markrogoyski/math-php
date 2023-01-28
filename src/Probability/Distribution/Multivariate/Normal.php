@@ -56,7 +56,7 @@ class Normal
      * μ is a real k-dimensinoal column vector of means
      * │∑│ ≡ det(∑)
      *
-     * @param array  $X ∈ Rᵏ   k-dimensional random vector
+     * @param array<number>  $X ∈ Rᵏ   k-dimensional random vector
      *
      * @return float density
      *

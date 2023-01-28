@@ -459,7 +459,7 @@ class Average
      * x cubic = ³/  -  ∑ xᵢ³
      *           √   n ⁱ⁼¹
      *
-     * @param array $numbers
+     * @param array<float> $numbers
      *
      * @return float
      *
@@ -919,7 +919,7 @@ class Average
      * Get a report of all the averages over a list of numbers
      * Includes mean, median mode, geometric mean, harmonic mean, quardratic mean
      *
-     * @param array $numbers
+     * @param array<float> $numbers
      *
      * @return array{
      *     mean:                    float,

@@ -379,7 +379,7 @@ class RandomVariable
      * Is the kurtosis negative? (Platykurtic)
      * Indicates a flat distribution.
      *
-     * @param array $X list of numbers (random variable X)
+     * @param array<float> $X list of numbers (random variable X)
      * @param string $type (optional) determines the kurtsosis algorithm used (POPULATION_KURTOSIS (default), SAMPLE_KURTOSIS)
      *
      * @return bool true if platykurtic
@@ -395,7 +395,7 @@ class RandomVariable
      * Is the kurtosis postive? (Leptokurtic)
      * Indicates a peaked distribution.
      *
-     * @param array $X list of numbers (random variable X)
+     * @param array<float> $X list of numbers (random variable X)
      * @param string $type (optional) determines the kurtsosis algorithm used (POPULATION_KURTOSIS (default), SAMPLE_KURTOSIS)
      *
      * @return bool true if leptokurtic
@@ -411,7 +411,7 @@ class RandomVariable
      * Is the kurtosis zero? (Mesokurtic)
      * Indicates a normal distribution.
      *
-     * @param array $X list of numbers (random variable X)
+     * @param array<float> $X list of numbers (random variable X)
      * @param string $type (optional) determines the kurtsosis algorithm used (POPULATION_KURTOSIS (default), SAMPLE_KURTOSIS)
      *
      * @return bool true if mesokurtic
@@ -483,7 +483,7 @@ class RandomVariable
     /**
      * SEM - Convenience method for standard error of the mean
      *
-     * @param array $X list of numbers (random variable X)
+     * @param array<float> $X list of numbers (random variable X)
      *
      * @return float
      *

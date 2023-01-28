@@ -23,7 +23,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     /**
      * Constructor
      *
-     * @param array $A 1 x n vector
+     * @param array<number> $A 1 x n vector
      *
      * @throws Exception\BadDataException if the Vector is empty
      */

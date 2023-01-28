@@ -49,8 +49,8 @@ class Distance
      * BC(p,q) = ∑ √(p(x) q(x))
      *          x∈X
      *
-     * @param array $p distribution p
-     * @param array $q distribution q
+     * @param array<number> $p distribution p
+     * @param array<number> $q distribution q
      *
      * @return float distance between distributions
      *
@@ -84,8 +84,8 @@ class Distance
      * H(P,Q) = -- √ ∑ (√pᵢ - √qᵢ)²
      *          √2
      *
-     * @param array $p distribution p
-     * @param array $q distribution q
+     * @param array<number> $p distribution p
+     * @param array<number> $q distribution q
      *
      * @return float difference between distributions
      *
@@ -146,8 +146,8 @@ class Distance
      *
      * D(P‖Q) = Kullback-Leibler divergence
      *
-     * @param array $p distribution p
-     * @param array $q distribution q
+     * @param array<number> $p distribution p
+     * @param array<number> $q distribution q
      *
      * @return float
      *
@@ -373,8 +373,8 @@ class Distance
      *  -----------
      *  ∑｜uᵢ + vᵢ｜
      *
-     * @param array $u
-     * @param array $v
+     * @param array<float> $u
+     * @param array<float> $v
      *
      * @return float
      */
@@ -423,8 +423,8 @@ class Distance
      * d(p,q) = ∑ --------------
      *            ｜pᵢ｜ + ｜qᵢ｜
      *
-     * @param array $p
-     * @param array $q
+     * @param array<float> $p
+     * @param array<float> $q
      *
      * @return float
      */

@@ -86,7 +86,7 @@ class RegularGridInterpolator
     /**
      * Count dimensions of a multi-dimensional array
      *
-     * @param  array $array
+     * @param  array<mixed> $array
      *
      * @return int
      */
@@ -104,7 +104,7 @@ class RegularGridInterpolator
     /**
      * Interpolation of the grid at some coordinates
      *
-     * @param  array $xi n-dimensional array containing the coordinates to sample the gridded data at
+     * @param  array<float> $xi n-dimensional array containing the coordinates to sample the gridded data at
      *
      * @return float
      *
@@ -126,8 +126,8 @@ class RegularGridInterpolator
     }
 
     /**
-     * @param array $indices
-     * @param array $normDistances
+     * @param array<int> $indices
+     * @param array<number> $normDistances
      *
      * @return float|int
      */
@@ -155,8 +155,8 @@ class RegularGridInterpolator
     }
 
     /**
-     * @param array $indices
-     * @param array $normDistances
+     * @param array<int> $indices
+     * @param array<number> $normDistances
      *
      * @return float|int
      */

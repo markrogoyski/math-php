@@ -35,8 +35,8 @@ class Correlation
      * The population covariance is defined in terms of the sample means x, y
      * https://en.wikipedia.org/wiki/Covariance
      *
-     * @param array $X values for random variable X
-     * @param array $Y values for random variable Y
+     * @param array<float> $X values for random variable X
+     * @param array<float> $Y values for random variable Y
      * @param bool $population Optional flag for population or sample covariance
      *
      * @return float
@@ -63,8 +63,8 @@ class Correlation
      * cov(X, Y) = σxy = -----------------
      *                           N
      *
-     * @param array $X values for random variable X
-     * @param array $Y values for random variable Y
+     * @param array<float> $X values for random variable X
+     * @param array<float> $Y values for random variable Y
      *
      * @return float
      *
@@ -103,8 +103,8 @@ class Correlation
      * cov(X, Y) = Sxy = ---------------
      *                         n - 1
      *
-     * @param array $X values for random variable X
-     * @param array $Y values for random variable Y
+     * @param array<float> $X values for random variable X
+     * @param array<float> $Y values for random variable Y
      *
      * @return float
      *
@@ -139,9 +139,9 @@ class Correlation
      * cov(X, Y, w) = sxyw = --------------------
      *                              ∑wᵢ
      *
-     * @param array $X values for random variable X
-     * @param array $Y values for random variable Y
-     * @param array $w values for weights
+     * @param array<float> $X values for random variable X
+     * @param array<float> $Y values for random variable Y
+     * @param array<float> $w values for weights
      *
      * @return float
      *
@@ -176,8 +176,8 @@ class Correlation
      *
      * Convenience method for population and sample correlationCoefficient
      *
-     * @param array $X values for random variable X
-     * @param array $Y values for random variable Y
+     * @param array<float> $X values for random variable X
+     * @param array<float> $Y values for random variable Y
      * @param bool $population Optional flag for population or sample covariance
      *
      * @return float
@@ -214,8 +214,8 @@ class Correlation
      *  σx is the population standard deviation of X
      *  σy is the population standard deviation of Y
      *
-     * @param array $X values for random variable X
-     * @param array $Y values for random variable Y
+     * @param array<float> $X values for random variable X
+     * @param array<float> $Y values for random variable Y
      *
      * @return float
      *
@@ -253,8 +253,8 @@ class Correlation
      *  σx is the sample standard deviation of X
      *  σy is the sample standard deviation of Y
      *
-     * @param array $X values for random variable X
-     * @param array $Y values for random variable Y
+     * @param array<float> $X values for random variable X
+     * @param array<float> $Y values for random variable Y
      *
      * @return float
      *
@@ -274,8 +274,8 @@ class Correlation
      * R² - coefficient of determination
      * Convenience wrapper for coefficientOfDetermination
      *
-     * @param array $X values for random variable X
-     * @param array $Y values for random variable Y
+     * @param array<float> $X values for random variable X
+     * @param array<float> $Y values for random variable Y
      * @param bool $popluation
      *
      * @return float
@@ -296,8 +296,8 @@ class Correlation
      * Range of 0 - 1. Close to 1 means the regression line is a good fit
      * https://en.wikipedia.org/wiki/Coefficient_of_determination
      *
-     * @param array $X values for random variable X
-     * @param array $Y values for random variable Y
+     * @param array<float> $X values for random variable X
+     * @param array<float> $Y values for random variable Y
      * @param bool $popluation
      *
      * @return float
@@ -331,9 +331,9 @@ class Correlation
      *  sxw is the weighted variance of X
      *  syw is the weighted variance of Y
      *
-     * @param array $X values for random variable X
-     * @param array $Y values for random variable Y
-     * @param array $w values for weights
+     * @param array<float> $X values for random variable X
+     * @param array<float> $Y values for random variable Y
+     * @param array<float> $w values for weights
      *
      * @return float
      *
@@ -378,8 +378,8 @@ class Correlation
      *     X₀: number of pairs tied only on the X variable
      *     Y₀: number of pairs tied only on the Y variable
      *
-     * @param array $X values for random variable X
-     * @param array $Y values for random variable Y
+     * @param array<mixed> $X values for random variable X
+     * @param array<mixed> $Y values for random variable Y
      *
      * @todo Implement with algorithm faster than O(n²)
      *
@@ -471,8 +471,8 @@ class Correlation
      *    cov(rgᵪ, rgᵧ): covariance of the rank variables
      *    σᵣᵪ and σᵣᵧ:   standard deviations of the rank variables
      *
-     * @param array $X values for random variable X
-     * @param array $Y values for random variable Y
+     * @param array<mixed> $X values for random variable X
+     * @param array<mixed> $Y values for random variable Y
      *
      * @return float
      *
@@ -531,8 +531,8 @@ class Correlation
      * The function will return $num_points pairs of X,Y data
      * http://stackoverflow.com/questions/3417028/ellipse-around-the-data-in-matlab
      *
-     * @param array $X an array of independent data
-     * @param array $Y an array of dependent data
+     * @param array<float> $X an array of independent data
+     * @param array<float> $Y an array of dependent data
      * @param float $z the number of standard deviations to encompass
      * @param int $num_points the number of points to include around the ellipse. The actual array
      *                          will be one larger because the first point and last will be repeated

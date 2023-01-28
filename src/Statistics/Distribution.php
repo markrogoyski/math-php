@@ -259,7 +259,7 @@ class Distribution
      *   9 |
      *  10 | 6
      *
-     * @param array $values
+     * @param array<int> $values
      * @param bool  $print  Optional setting to print the distribution
      *
      * @return array<int, array<int>> keys are the stems, values are the leaves

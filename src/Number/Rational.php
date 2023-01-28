@@ -137,8 +137,8 @@ class Rational implements ObjectArithmetic
     /**
      * Convert a character to an alternate script (super or subscript)
      *
-     * @param int   $i     number to convert
-     * @param array $chars conversion character map
+     * @param int                $i     number to convert
+     * @param array<int, string> $chars conversion character map
      *
      * @return string
      */

@@ -190,7 +190,7 @@ class Set implements \Countable, \Iterator
      * Add an array of elements to the set
      * Does nothing if element already exists in the set.
      *
-     * @param array $members
+     * @param array<mixed> $members
      *
      * @return Set (this set)
      */
@@ -222,7 +222,7 @@ class Set implements \Countable, \Iterator
      * Remove elements from the set
      * Does nothing if the element does not exist in the set.
      *
-     * @param  array $x
+     * @param  array<mixed> $x
      *
      * @return Set (this set)
      */
