@@ -37,7 +37,7 @@ class Eigenvalue
      *
      * @throws Exception\BadDataException if the matrix is not square
      */
-    private static function checkMatrix(NumericMatrix $A)
+    private static function checkMatrix(NumericMatrix $A): void
     {
         if (!$A->isSquare()) {
             throw new Exception\BadDataException('Matrix must be square');
@@ -82,6 +82,8 @@ class Eigenvalue
                 $B_array[$i][$j] = new Polynomial([$A[$i][$j]], 'λ');
             }
         }
+
+        /** @var ObjectSquareMatrix $B */
         $B = MatrixFactory::create($B_array);
 
         // Create a diagonal Matrix of lambda (Iλ)
@@ -106,10 +108,16 @@ class Eigenvalue
         $det = $⟮B − λ⟯->det();
 
         // Calculate the roots of the determinant.
+        /** @var array<number> $eigenvalues */
         $eigenvalues = $det->roots();
         \usort($eigenvalues, function ($a, $b) {
+            /**
+             * @var number $a
+             * @var number $b
+             */
             return \abs($b) <=> \abs($a);
         });
+
         return $eigenvalues;
     }
 
@@ -244,6 +252,7 @@ class Eigenvalue
             for ($i = 0; $i < \count($newb); $i++) {
                 $newb[$i][0] = $newb[1][0] + \rand() / 10;
             }
+            /** @var NumericMatrix $b */
             $b    = MatrixFactory::create($newb);
             $b    = $b->scalarDivide($b->frobeniusNorm());  // Scale to a unit vector
             $newμ = 0;

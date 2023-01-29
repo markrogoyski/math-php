@@ -66,6 +66,8 @@ class FunctionMatrix
                 $R[$i][$j] = $func($params);
             }
         }
+
+        /** @var NumericMatrix */
         return MatrixFactory::create($R);
     }
 }

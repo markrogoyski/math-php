@@ -102,6 +102,7 @@ class LU extends Decomposition
         $n = $A->getN();
 
         // Initialize L as diagonal ones matrix, and U as zero matrix
+        // @phpstan-ignore-next-line
         $L = MatrixFactory::diagonal(\array_fill(0, $n, 1))->getMatrix();
         $U = MatrixFactory::zero($n, $n)->getMatrix();
 
@@ -130,7 +131,7 @@ class LU extends Decomposition
             }
         }
 
-        // Create LU decomposition
+        // Create LU decomposition @phpstan-ignore-next-line
         return new LU(MatrixFactory::create($L), MatrixFactory::create($U), $P);
     }
 
@@ -222,7 +223,7 @@ class LU extends Decomposition
      *   xᵢ = --- | yᵢ - ∑ Uᵢⱼxⱼ |
      *        Uᵢᵢ  \   ʲ⁼ⁱ⁺¹     /
      *
-     * @param Vector|array $b solution to Ax = b
+     * @param Vector|array<number> $b solution to Ax = b
      *
      * @return Vector x
      *
@@ -234,7 +235,7 @@ class LU extends Decomposition
      */
     public function solve($b): Vector
     {
-        // Input must be a Vector or array.
+        // Input must be a Vector or array. @phpstan-ignore-next-line
         if (!($b instanceof Vector || \is_array($b))) {
             throw new Exception\IncorrectTypeException('b in Ax = b must be a Vector or array');
         }

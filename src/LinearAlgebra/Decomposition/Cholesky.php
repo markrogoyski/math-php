@@ -95,6 +95,7 @@ class Cholesky extends Decomposition
             }
         }
 
+        /** @var NumericMatrix $L */
         $L  = MatrixFactory::create($L);
         $Lᵀ = $L->transpose();
 

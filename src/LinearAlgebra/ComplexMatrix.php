@@ -6,9 +6,6 @@ use MathPHP\Exception;
 use MathPHP\Number\Complex;
 use MathPHP\Number\ObjectArithmetic;
 
-/**
- * @extends Matrix<Complex>
- */
 class ComplexMatrix extends ObjectMatrix
 {
     /** @var Complex[][] Matrix array of arrays */
@@ -24,9 +21,11 @@ class ComplexMatrix extends ObjectMatrix
     /**
      * Validate the matrix is entirely complex
      *
+     * @param array<array<object>> $A
+     *
      * @throws Exception\IncorrectTypeException if all elements are not complex
      */
-    protected function validateComplexData(array $A)
+    protected function validateComplexData(array $A): void
     {
         foreach ($A as $i => $row) {
             foreach ($row as $object) {
@@ -40,7 +39,7 @@ class ComplexMatrix extends ObjectMatrix
     /**
      * Zero value: [[0 + 0i]]
      *
-     * @return ComplexMatrix
+     * @return ObjectMatrix
      */
     public static function createZeroValue(): ObjectArithmetic
     {

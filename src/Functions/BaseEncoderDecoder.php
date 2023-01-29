@@ -10,15 +10,6 @@ use MathPHP\Number\ArbitraryInteger;
  */
 class BaseEncoderDecoder
 {
-    /** string alphabet of base 64 numbers */
-    private const RFC3548_BASE64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-
-    /** string alphabet of file safe base 64 numbers */
-    private const RFC3548_BASE64_FILE_SAFE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
-
-    /** string alphabet of base 32 numbers */
-    private const RFC3548_BASE32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-
     /**
      * Get the default alphabet for a given number base
      *
