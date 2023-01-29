@@ -56,7 +56,7 @@ class Polynomial implements ObjectArithmetic
     /** @var int */
     private $degree;
 
-    /** @var array<numeric> */
+    /** @var array<number> */
     private $coefficients;
 
     /** @var string */
@@ -71,7 +71,7 @@ class Polynomial implements ObjectArithmetic
      * When a polynomial is instantiated, set the coefficients and degree of
      * that polynomial as its object parameters.
      *
-     * @param array<numeric> $coefficients An array of coefficients in decreasing powers
+     * @param array<number> $coefficients An array of coefficients in decreasing powers
      *                            Example: new Polynomial([1, 2, 3]) will create
      *                            a polynomial that looks like x² + 2x + 3.
      * @param string $variable
@@ -215,11 +215,13 @@ class Polynomial implements ObjectArithmetic
         if ($input instanceof Polynomial) {
             return $input;
         } elseif (\is_numeric($input)) {
+            /** @var number $input */
             return new Polynomial([$input]);
         } else {
             throw new Exception\IncorrectTypeException('Input must be a Polynomial or a number');
         }
     }
+
     /**
      * Getter method for the degree of a polynomial
      *
@@ -233,7 +235,7 @@ class Polynomial implements ObjectArithmetic
     /**
      * Getter method for the coefficients of a polynomial
      *
-     * @return array<numeric> The coefficients array of a polynomial object
+     * @return array<number> The coefficients array of a polynomial object
      */
     public function getCoefficients(): array
     {

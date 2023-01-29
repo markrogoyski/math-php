@@ -506,9 +506,13 @@ class Algebra
 
             // $z₁ will always be a real number, so select it.
             $m             = $cubic_roots[0];
+            // @phpstan-ignore-next-line (because $m is real)
             $roots1        = self::quadratic(1, \sqrt(2 * $m), $p / 2 + $m - $q / 2 / \sqrt(2 * $m), $return_complex);
+            // @phpstan-ignore-next-line (because $m is real)
             $roots2        = self::quadratic(1, -1 * \sqrt(2 * $m), $p / 2 + $m + $q / 2 / \sqrt(2 * $m), $return_complex);
+            // @phpstan-ignore-next-line (because $m is real)
             $discriminant1 = self::discriminant(1, \sqrt(2 * $m), $p / 2 + $m - $q / 2 / \sqrt(2 * $m));
+            // @phpstan-ignore-next-line (because $m is real)
             $discriminant2 = self::discriminant(1, -1 * \sqrt(2 * $m), $p / 2 + $m + $q / 2 / \sqrt(2 * $m));
 
             // sort the real roots first.
@@ -527,6 +531,10 @@ class Algebra
 
         // The roots for this polynomial are the roots of the depressed polynomial minus a₃/4.
         if (!$return_complex) {
+            /**
+             * FIXME: are the roots real? Single::subtract() works with real numbers only.
+             * @phpstan-ignore-next-line
+             */
             return Single::subtract($depressed_quartic_roots, $a₃ / 4);
         }
 
