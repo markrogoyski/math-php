@@ -7,6 +7,9 @@
 * Matrix `columnAddVector`
 
 ### Improvements
+* Better error handling and exception message in `Sequence\NonIntenger::hyperharmonic`
+
+### Improvements
 
 ## v2.7.0 - 2022-12-31
 

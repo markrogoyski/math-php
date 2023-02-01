@@ -106,10 +106,8 @@ class NonInteger
                     $sequence[$k] = $∑;
                 }
             }
-        } catch (\TypeError $e) {
-            throw new Exception\OutOfBoundsException('Numbers too large to maintain integer precision', -1, $e);
-        } catch (\Error $e) {
-            throw new Exception\OutOfBoundsException("Recursion depth level error: {$e->getMessage()}", -2, $e);
+        } catch (\TypeError|\Error $e) {
+            throw new Exception\OutOfBoundsException("Numbers too large to maintain integer precision for hyperharmonic, or recursion depth level exceeded (n:$n, r:$r): " . $e->getMessage(), -1, $e);
         }
 
         if ($rational == true) {
