@@ -102,8 +102,9 @@ class LU extends Decomposition
         $n = $A->getN();
 
         // Initialize L as diagonal ones matrix, and U as zero matrix
-        // @phpstan-ignore-next-line
-        $L = MatrixFactory::diagonal(\array_fill(0, $n, 1))->getMatrix();
+        /** @var array<int> $fill */
+        $fill = \array_fill(0, $n, 1);
+        $L = MatrixFactory::diagonal($fill)->getMatrix();
         $U = MatrixFactory::zero($n, $n)->getMatrix();
 
         // Create permutation matrix P and pivoted PA
