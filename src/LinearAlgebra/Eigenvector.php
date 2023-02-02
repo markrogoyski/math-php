@@ -108,8 +108,10 @@ class Eigenvector
                     $number_to_force  = $number_of_solutions - $vectors_found;
                     $forced_variables = [];
                     $n                = $rref->getN();
-                    // The solution vector is a column vector. @phpstan-ignore-next-line
-                    $solution = new Vector(\array_fill(0, $n - $number_to_force, 0));
+                    // The solution vector is a column vector.
+                    /** @var array<int> $fill */
+                    $fill = \array_fill(0, $n - $number_to_force, 0);
+                    $solution = new Vector($fill);
                     $matrix   = $rref;
                     for ($i = 0; $i < $n && \count($forced_variables) < $number_to_force; $i++) {
                         // Make sure that removing column $i does not leave behind a row of zeros

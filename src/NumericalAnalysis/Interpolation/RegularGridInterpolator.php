@@ -231,17 +231,19 @@ class RegularGridInterpolator
      * Output is lexicographic ordered
      *
      * @param mixed ...$args ...$iterables[, $repeat]
-*
+     *
      * @return \Generator<array<int|string>>
      */
     private function product(...$args): \Generator
     {
         /** @var int $repeat */
         $repeat = \array_pop($args);
-        // @phpstan-ignore-next-line
-        $pools  = \array_merge(...\array_fill(0, $repeat, $args));
+        /** @var array<array<mixed>> $fill */
+        $fill = \array_fill(0, $repeat, $args);
+        $pools  = \array_merge(...$fill);
         $result = [[]];
 
+        /** @var array<int|string> $pool */
         foreach ($pools as $pool) {
             $result_inner = [];
             foreach ($result as $x) {
