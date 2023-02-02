@@ -78,10 +78,12 @@ class PLS
             $this->Xscale = self::columnStdevs($X);
             $this->Yscale = self::columnStdevs($Y);
         } else {
-            // @phpstan-ignore-next-line (Parameter #1 $A of class MathPHP\LinearAlgebra\Vector constructor expects array<float|int>, array<int, int>|false given.)
-            $this->Xscale = new Vector(array_fill(0, $X->getN(), 1));
-            // @phpstan-ignore-next-line (Parameter #1 $A of class MathPHP\LinearAlgebra\Vector constructor expects array<float|int>, array<int, int>|false given.)
-            $this->Yscale = new Vector(array_fill(0, $Y->getN(), 1));
+            /** @var array<int> $xFill */
+            $xFill = array_fill(0, $X->getN(), 1);
+            $this->Xscale = new Vector($xFill);
+            /** @var array<int> $yFill */
+            $yFill = array_fill(0, $Y->getN(), 1);
+            $this->Yscale = new Vector($yFill);
         }
 
         $E = $this->standardizeData($X, $this->Xcenter, $this->Xscale);
