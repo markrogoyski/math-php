@@ -43,9 +43,6 @@ jobs:
       - name: PHP Lint
         run: ./vendor/bin/parallel-lint src tests
 
-      - name: Static analysis
-        run: ./vendor/bin/phpstan analyze --level max src/
-
       - name: Unit tests
         run: |
           mkdir -p build/logs
@@ -57,3 +54,6 @@ jobs:
 
       - name: PHP Code Sniffer
         run: ./vendor/bin/phpcs --ignore=vendor --standard=tests/coding_standard.xml -s .
+
+      - name: Static analysis
+        run: ./vendor/bin/phpstan analyze --level max src/
