@@ -86,6 +86,9 @@ jobs:
       - name: PHP Lint
         run: ./vendor/bin/parallel-lint src tests
 
+      - name: Static analysis
+        run: ./vendor/bin/phpstan analyze --level max src/
+
       - name: Unit tests
         run: |
           mkdir -p build/logs
