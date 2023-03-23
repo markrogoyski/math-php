@@ -1600,6 +1600,65 @@ class NumericMatrix extends Matrix
     }
 
     /**
+     * Moore-Penrose inverse, A⁺
+     * Used for non-square or singular matrices
+     * 
+     * Uses the SVD method of construction
+     * Given SVD of A = USVᵀ
+     * A⁺ = VS⁻¹Uᵀ
+     * 
+     * @return NumericMatrix A⁺
+     */
+    public function pseudoInverse(): NumericMatrix
+    {
+        if ($this->catalog->hasPseudoInverse()) {
+            return $this->catalog->getPseudoInverse();
+        }
+        
+        $SVD = $this->svd();
+
+        $U = $SVD->U;
+        $S = $SVD->S;
+        $V = $SVD->V; // already transposed
+        $D = $SVD->D;
+
+        // Manually construct the inverse of S (in case it's singular)
+        $D⁻¹ = [];
+
+        foreach ($D->getVector() as $element)
+        {
+            $D⁻¹[] = abs($element) < 0.0001 ? 0 : 1 / $element;
+        }
+
+        $m = $S->getM();
+        $n = $S->getN();
+
+        $s = MatrixFactory::zero($m, $n)->transpose()->getMatrix();
+
+        for ($i = 0; $i < $n; $i++)
+        {
+            for ($j = 0; $j < $m; $j++)
+            {
+                if ($i === $j) {
+                    $s[$i][$j] = array_shift($D⁻¹);
+                } else {
+                    $s[$i][$j] = 0;
+                }
+            }
+        }
+
+        $S⁻¹ = MatrixFactory::createNumeric($s);
+
+        $Uᵀ  = $U->transpose();
+
+        $A⁺ = $V->multiply($S⁻¹)->multiply($Uᵀ);
+
+        $this->catalog->addPseudoInverse($A⁺);
+
+        return $A⁺;
+    }
+
+    /**
      * Cofactor matrix
      * A matrix where each element is a cofactor.
      *
