@@ -15,6 +15,9 @@ class MatrixCatalog
     /** @var Matrix<T> inverse */
     private $A⁻¹;
 
+    /** @var NumericMatrix pseudoInverse */
+    private $A⁺;
+
     /** @var Reduction\RowEchelonForm */
     private $REF;
 
@@ -43,6 +46,7 @@ class MatrixCatalog
      * DERIVED MATRICES
      *  - transpose
      *  - inverse
+     *  - pseudo-inverse
      **************************************************************************/
 
     // TRANSPOSE
@@ -97,6 +101,32 @@ class MatrixCatalog
     public function getInverse(): Matrix
     {
         return $this->A⁻¹;
+    }
+
+    // PSEUDO-INVERSE
+
+    /**
+     * @param Matrix $A⁺
+     */
+    public function addPseudoInverse(Matrix $A⁺): void
+    {
+        $this->A⁺ = $A⁺;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPseudoInverse(): bool
+    {
+        return isset($this->A⁺);
+    }
+
+    /**
+     * @return Matrix
+     */
+    public function getPseudoInverse(): Matrix
+    {
+        return $this->A⁺;
     }
 
     /**************************************************************************
