@@ -368,6 +368,84 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Should return the inverse when the matrix is square, so reuse the inverse test dataset 
+     * 
+     * @test         pseudoInverse
+     * @dataProvider dataProviderForInverse
+     * @dataProvider dataProviderForPseudoInverse
+     * @param        array $A
+     * @param        array $A⁺
+     * @throws       \Exception
+     */
+    public function testPseudoInverse(array $A, array $A⁺)
+    {
+        // Given
+        $A  = MatrixFactory::createNumeric($A);
+        $A⁺ = MatrixFactory::createNumeric($A⁺);
+
+        // When
+        $pseudo      = $A->pseudoInverse();
+        $pseudoAgain = $A->pseudoInverse();
+
+        // Then
+        $this->assertEqualsWithDelta($A⁺, $pseudo, 0.001); // Test calculation
+        $this->assertEqualsWithDelta($A⁺, $pseudoAgain, 0.001); // Test class attribute
+    }
+    
+    /**
+     * @return array
+     */
+    public function dataProviderForPseudoInverse(): array
+    {
+        return [
+            [
+                [
+                    [0, 0, 0, 1,0, 0],
+                    [0, 1,0, 0, 1,0],
+                    [0, 0, 1,0, 0, 1],
+                    [0, 0, 0, 0, 0, 0],
+                    [0, 0, -40, 0, 0, -160],
+                    [0, 40, 0, 0, 160, 0]
+                ],
+                [
+                    [0, 0, 0, 0, 0, 0],
+                    [0, 4/3, 0, 0, 0, -1/120],
+                    [0, 0, 4/3, 0, 1/120, 0],
+                    [1, 0, 0, 0, 0, 0],
+                    [0, -1/3, 0, 0, 0, 1/120],
+                    [0, 0, -1/3, 0, -1/120, 0]
+                ]
+            ],
+            [
+                [
+                    [0, 1, 0, 0],
+                    [1, 0, 0, 0],
+                    [0, 0, 1, 0],
+                ],
+                [
+                    [0, 1, 0],
+                    [1, 0, 0],
+                    [0, 0, 1],
+                    [0, 0, 0],
+                ],
+            ],
+            [
+                [
+                    [0, 1, 0, 0],
+                    [1, 1, 0, 0],
+                    [0, 0, 1, 0],
+                ],
+                [
+                    [-1, 1, 0],
+                    [1, 0, 0],
+                    [0, 0, 1],
+                    [0, 0, 0],
+                ],
+            ],
+        ];
+    }
+
+    /**
      * @test         cofactor
      * @dataProvider dataProviderForCofactor
      */
