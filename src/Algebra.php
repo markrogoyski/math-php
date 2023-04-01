@@ -48,7 +48,7 @@ class Algebra
      * @param  int $a
      * @param  int $b
      *
-     * @return array{float, float, float} [gcd, a', b']
+     * @return array{int, int, int} [gcd, a', b']
      */
     public static function extendedGcd(int $a, int $b): array
     {

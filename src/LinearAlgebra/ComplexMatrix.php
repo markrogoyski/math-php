@@ -39,11 +39,11 @@ class ComplexMatrix extends ObjectMatrix
     /**
      * Zero value: [[0 + 0i]]
      *
-     * @return ObjectMatrix
+     * @return ComplexMatrix
      */
     public static function createZeroValue(): ObjectArithmetic
     {
-        return new ObjectMatrix([[new Complex(0, 0)]]);
+        return new ComplexMatrix([[new Complex(0, 0)]]);
     }
 
     /**

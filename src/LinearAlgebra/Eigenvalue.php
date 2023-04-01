@@ -111,10 +111,7 @@ class Eigenvalue
         /** @var array<number> $eigenvalues */
         $eigenvalues = $det->roots();
         \usort($eigenvalues, function ($a, $b) {
-            /**
-             * @var number $a
-             * @var number $b
-             */
+            /** @var number $a */ /** @var number $b */
             return \abs($b) <=> \abs($a);
         });
 
