@@ -142,7 +142,7 @@ class PLS
         // @phpstan-ignore-next-line
         $this->W = $W;
 
-        // Calculate R (or W*)
+        // Calculate R (or W*) @phpstan-ignore-next-line
         $R = $this->W->multiply($this->P->transpose()->multiply($this->W)->inverse());
         $this->B = $R->multiply($this->C->transpose());
     }
