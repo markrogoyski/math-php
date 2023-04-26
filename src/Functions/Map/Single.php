@@ -12,10 +12,10 @@ class Single
     /**
      * Map addition
      *
-     * @param  array     $xs
-     * @param  int|float $k Number to add to each element
+     * @param  array<number> $xs
+     * @param  int|float     $k Number to add to each element
      *
-     * @return array
+     * @return array<int|float>
      */
     public static function add(array $xs, $k): array
     {
@@ -30,10 +30,10 @@ class Single
     /**
      * Map subtract
      *
-     * @param  array     $xs
-     * @param  int|float $k Number to subtract from each element
+     * @param  array<number> $xs
+     * @param  int|float     $k Number to subtract from each element
      *
-     * @return array
+     * @return array<int|float>
      */
     public static function subtract(array $xs, $k): array
     {
@@ -48,10 +48,10 @@ class Single
     /**
      * Map multiply
      *
-     * @param  array     $xs
-     * @param  int|float $k Number to multiply to each element
+     * @param  array<number> $xs
+     * @param  int|float     $k Number to multiply to each element
      *
-     * @return array
+     * @return array<int|float>
      */
     public static function multiply(array $xs, $k): array
     {
@@ -66,10 +66,10 @@ class Single
     /**
      * Map Divide
      *
-     * @param  array     $xs
-     * @param  int|float $k Number to divide each element by
+     * @param  array<number> $xs
+     * @param  int|float     $k Number to divide each element by
      *
-     * @return array
+     * @return array<float>
      */
     public static function divide(array $xs, $k): array
     {
@@ -84,9 +84,9 @@ class Single
     /**
      * Map square
      *
-     * @param  array  $xs
+     * @param  array<number>  $xs
      *
-     * @return array
+     * @return array<int|float>
      */
     public static function square(array $xs): array
     {
@@ -101,9 +101,9 @@ class Single
     /**
      * Map cube
      *
-     * @param  array  $xs
+     * @param  array<number>  $xs
      *
-     * @return array
+     * @return array<int|float>
      */
     public static function cube(array $xs): array
     {
@@ -119,9 +119,9 @@ class Single
      * Map reciprocal
      * x := 1/x
      *
-     * @param  array  $xs
+     * @param  array<number>  $xs
      *
-     * @return array
+     * @return array<float>
      *
      * @throws Exception\BadDataException if 0 is one of the numbers
      */
@@ -148,10 +148,10 @@ class Single
     /**
      * Map raise to a power
      *
-     * @param  array     $xs
-     * @param  int|float $n
+     * @param  array<number> $xs
+     * @param  int|float     $n
      *
-     * @return array
+     * @return array<int|float>
      */
     public static function pow(array $xs, $n): array
     {
@@ -166,9 +166,9 @@ class Single
     /**
      * Map square root
      *
-     * @param  array  $xs
+     * @param  array<number> $xs
      *
-     * @return array
+     * @return array<float>
      */
     public static function sqrt(array $xs): array
     {
@@ -183,9 +183,9 @@ class Single
     /**
      * Map absolute value
      *
-     * @param  array $xs
+     * @param  array<number> $xs
      *
-     * @return array
+     * @return array<int|float>
      */
     public static function abs(array $xs): array
     {
@@ -202,10 +202,10 @@ class Single
      * Each element in array is compared against the value,
      * and the min of each is returned.
      *
-     * @param  array     $xs
-     * @param  int|float $value
+     * @param  array<number> $xs
+     * @param  int|float     $value
      *
-     * @return array
+     * @return array<number>
      */
     public static function min(array $xs, $value): array
     {
@@ -222,10 +222,10 @@ class Single
      * Each element in the array is compared against the value,
      * and the max of each is returned.
      *
-     * @param  array     $xs
-     * @param  int|float $value
+     * @param  array<number> $xs
+     * @param  int|float     $value
      *
-     * @return array
+     * @return array<number>
      */
     public static function max(array $xs, $value): array
     {

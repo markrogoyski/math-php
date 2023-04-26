@@ -2,6 +2,8 @@
 
 namespace MathPHP;
 
+use MathPHP\Exception\BadParameterException;
+
 class Arithmetic
 {
     /**
@@ -49,13 +51,15 @@ class Arithmetic
      * @param float $x
      *
      * @return int
+     *
+     * @throws BadParameterException
      */
     public static function isqrt(float $x): int
     {
         if ($x < 0) {
             throw new Exception\BadParameterException("x must be non-negative for isqrt - got $x");
         }
-        return \floor(\sqrt($x));
+        return (int)\floor(\sqrt($x));
     }
 
     /**
@@ -174,6 +178,6 @@ class Arithmetic
             return $a;
         }
 
-        return $a - $n * \floor($a / $n);
+        return (int)($a - $n * \floor($a / $n));
     }
 }

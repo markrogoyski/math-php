@@ -9,6 +9,7 @@ use MathPHP\Functions\Map;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\NumericSquareMatrix;
 use MathPHP\LinearAlgebra\Vector;
+use MathPHP\Number\Complex;
 use MathPHP\Number\ObjectArithmetic;
 
 /**
@@ -55,14 +56,14 @@ class Polynomial implements ObjectArithmetic
     /** @var int */
     private $degree;
 
-    /** @var array */
+    /** @var array<number> */
     private $coefficients;
 
     /** @var string */
     private $variable;
 
     /**
-     * @var array Unicode characters for exponents
+     * @var array<string> Unicode characters for exponents
      */
     private const SYMBOLS = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹'];
 
@@ -70,7 +71,7 @@ class Polynomial implements ObjectArithmetic
      * When a polynomial is instantiated, set the coefficients and degree of
      * that polynomial as its object parameters.
      *
-     * @param array  $coefficients An array of coefficients in decreasing powers
+     * @param array<number> $coefficients An array of coefficients in decreasing powers
      *                            Example: new Polynomial([1, 2, 3]) will create
      *                            a polynomial that looks like x² + 2x + 3.
      * @param string $variable
@@ -214,11 +215,13 @@ class Polynomial implements ObjectArithmetic
         if ($input instanceof Polynomial) {
             return $input;
         } elseif (\is_numeric($input)) {
+            /** @var number $input */
             return new Polynomial([$input]);
         } else {
             throw new Exception\IncorrectTypeException('Input must be a Polynomial or a number');
         }
     }
+
     /**
      * Getter method for the degree of a polynomial
      *
@@ -232,7 +235,7 @@ class Polynomial implements ObjectArithmetic
     /**
      * Getter method for the coefficients of a polynomial
      *
-     * @return array The coefficients array of a polynomial object
+     * @return array<number> The coefficients array of a polynomial object
      */
     public function getCoefficients(): array
     {
@@ -254,7 +257,7 @@ class Polynomial implements ObjectArithmetic
      *
      * @param string $variable The new dependent variable of a polynomial object
      */
-    public function setVariable(string $variable)
+    public function setVariable(string $variable): void
     {
         $this->variable = $variable;
     }
@@ -386,6 +389,7 @@ class Polynomial implements ObjectArithmetic
         $coefficientsB = \array_reverse($polynomial->coefficients);
 
         // Start with an array of coefficients that all equal 0
+        /** @var array<int> $productCoefficients */
         $productCoefficients = \array_fill(0, $productDegree + 1, 0);
 
         // Iterate through the product of terms component-wise
@@ -422,23 +426,27 @@ class Polynomial implements ObjectArithmetic
      *
      * Closed form solutions only exist if the degree is less than 5
      *
-     * @return array of roots
+     * @return array<numeric|Complex|null> of roots
      *
      * @throws Exception\IncorrectTypeException
      */
     public function roots(): array
     {
+        $floatCoefficients = array_map(static function ($coefficient) {
+            return (float)$coefficient;
+        }, $this->coefficients);
+
         switch ($this->degree) {
             case 0:
                 return [null];
             case 1:
-                return [Algebra::linear(...$this->coefficients)];
+                return [Algebra::linear(...$floatCoefficients)];
             case 2:
-                return Algebra::quadratic(...$this->coefficients);
+                return Algebra::quadratic(...$floatCoefficients);
             case 3:
-                return Algebra::cubic(...$this->coefficients);
+                return Algebra::cubic(...$floatCoefficients);
             case 4:
-                return Algebra::quartic(...$this->coefficients);
+                return Algebra::quartic(...$floatCoefficients);
             default:
                 return [\NAN];
         }

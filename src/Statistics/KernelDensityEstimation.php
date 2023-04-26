@@ -18,7 +18,7 @@ use MathPHP\Probability\Distribution\Continuous;
  */
 class KernelDensityEstimation
 {
-    /** @var array Data used for the esimtation */
+    /** @var array<float> Data used for the esimtation */
     protected $data;
 
     /** @var int number of data points */
@@ -41,7 +41,7 @@ class KernelDensityEstimation
     /**
      * Constructor
      *
-     * @param array $data data used for the estimation
+     * @param array<float> $data data used for the estimation
      * @param float|null $h the bandwidth
      * @param callable|string|null $kernel a function used to generate the KDE
      *

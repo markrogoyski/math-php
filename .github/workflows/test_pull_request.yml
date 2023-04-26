@@ -52,6 +52,9 @@ jobs:
       - name: PHP Code Sniffer
         run: ./vendor/bin/phpcs --ignore=vendor --standard=tests/coding_standard.xml -s .
 
+      - name: Static analysis
+        run: ./vendor/bin/phpstan analyze --level max src/
+
   code-coverage:
     name: Code coverage
     runs-on: ubuntu-latest

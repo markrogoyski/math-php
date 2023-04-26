@@ -14,7 +14,7 @@ class Cauchy extends Continuous
      * Distribution parameter bounds limits
      * x₀ ∈ (-∞,∞)
      * γ  ∈ (0,∞)
-     * @var array
+     * @var array{"x₀": string, "γ": string}
      */
     public const PARAMETER_LIMITS = [
         'x₀' => '(-∞,∞)',
@@ -24,7 +24,7 @@ class Cauchy extends Continuous
     /**
      * Distribution support bounds limits
      * x  ∈ (-∞,∞)
-     * @var array
+     * @var array{x: string}
      */
     public const SUPPORT_LIMITS = [
         'x'  => '(-∞,∞)',

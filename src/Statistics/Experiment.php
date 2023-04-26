@@ -58,7 +58,12 @@ class Experiment
      * @param  int   $c Non-exposed and event present
      * @param  int   $d Non-exposed and event absent
      *
-     * @return array [ RR, ci_lower_bound, ci_upper_bound, p ]
+     * @return array{
+     *     RR:              float,
+     *     ci_lower_bound:  float,
+     *     ci_upper_bound:  float,
+     *     p:               float,
+     * }
      */
     public static function riskRatio(int $a, int $b, int $c, int $d): array
     {
@@ -120,7 +125,12 @@ class Experiment
      * @param  int   $c Non-exposed and event present
      * @param  int   $d Non-exposed and event absent
      *
-     * @return array [ OR, ci_lower_bound, ci_upper_bound, p ]
+     * @return array{
+     *     OR:              float,
+     *     ci_lower_bound:  float,
+     *     ci_upper_bound:  float,
+     *     p:               float,
+     * }
      */
     public static function oddsRatio(int $a, int $b, int $c, int $d): array
     {
@@ -171,7 +181,10 @@ class Experiment
      * @param  int   $c Non-exposed and event present
      * @param  int   $d Non-exposed and event absent
      *
-     * @return array [ LL+, LL- ]
+     * @return array{
+     *     "LL+": float,
+     *     "LL-": float,
+     * }
      */
     public static function likelihoodRatio(int $a, int $b, int $c, int $d): array
     {
@@ -205,7 +218,10 @@ class Experiment
      * @param  float $sensitivity
      * @param  float $specificity
      *
-     * @return array [ LL+, LL- ]
+     * @return array{
+     *     "LL+": float,
+     *     "LL-": float,
+     * }
      *
      * @throws Exception\OutOfBoundsException if sensitivity or specificity are > 1.0
      */

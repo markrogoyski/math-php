@@ -16,7 +16,7 @@ class Hypergeometric
     /**
      * Distribution parameter bounds limits
      * Kᵢ ∈ [1,∞)
-     * @var array
+     * @var array{K: string}
      */
     public const PARAMETER_LIMITS = [
         'K' => '[1,∞)',
@@ -25,17 +25,17 @@ class Hypergeometric
     /**
      * Distribution parameter bounds limits
      * kᵢ ∈ [0,Kᵢ]
-     * @var array
+     * @var array<string, array<string>>
      */
     protected $supportLimits = [];
 
-    /** @var array */
+    /** @var array<number> */
     protected $quantities;
 
     /**
      * Multivariate Hypergeometric constructor
      *
-     * @param   array $quantities
+     * @param   array<number> $quantities
      *
      * @throws Exception\BadDataException if the quantities are not positive integers.
      */
@@ -57,7 +57,7 @@ class Hypergeometric
     /**
      * Probability mass function
      *
-     * @param  array $picks
+     * @param  array<number> $picks
      *
      * @return float
      *
@@ -81,6 +81,7 @@ class Hypergeometric
         $total   = \array_sum($this->quantities);
 
         $product = \array_product(\array_map(
+            // @phpstan-ignore-next-line (Parameter #1 $callback of function array_map expects (callable(float|int, float|int): mixed)|null, Closure(int, int): float given.)
             function (int $quantity, int $pick) {
                 return Combinatorics::combinations($quantity, $pick);
             },
@@ -88,6 +89,6 @@ class Hypergeometric
             $picks
         ));
 
-        return $product / Combinatorics::combinations($total, $n);
+        return $product / Combinatorics::combinations((int)$total, (int)$n);
     }
 }

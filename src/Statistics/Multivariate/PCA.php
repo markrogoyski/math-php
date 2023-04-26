@@ -117,7 +117,9 @@ class PCA
         $ones_column = MatrixFactory::one($X->getM(), 1);
 
         // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
-        $center_matrix = $ones_column->multiply(MatrixFactory::create([$this->center->getVector()]));
+        /** @var NumericMatrix $mult */
+        $mult = MatrixFactory::create([$this->center->getVector()]);
+        $center_matrix = $ones_column->multiply($mult);
         $scale_matrix  = MatrixFactory::diagonal($this->scale->getVector())->inverse();
 
         // scaled data: ($X - μ) / σ
@@ -235,12 +237,14 @@ class PCA
         // Initial element with initialization of result matrix
         $P  = $this->EVec->submatrix(0, 0, $vars - 1, 0);  // Get the first column of the loading matrix
         $P′ = $P->transpose();
+        /** @var NumericMatrix $Q */
         $Q  = MatrixFactory::create([$X->multiply($I->subtract($P->multiply($P′)))->multiply($X′)->getDiagonalElements()])->transpose();
 
         for ($i = 1; $i < $vars; $i++) {
             // Get the first $i+1 columns of the loading matrix
             $P  = $this->EVec->submatrix(0, 0, $vars - 1, $i);
             $P′ = $P->transpose();
+            /** @var NumericMatrix $Qᵢ */
             $Qᵢ = MatrixFactory::create([$X->multiply($I->subtract($P->multiply($P′)))->multiply($X′)->getDiagonalElements()])->transpose();
             $Q  = $Q->augment($Qᵢ);
         }
@@ -278,6 +282,7 @@ class PCA
         $P    = $this->EVec->submatrix(0, 0, $vars - 1, 0); // // Get the first column of the loading matrix
         $P′   = $P->transpose();
         $Λⱼ⁻¹ = MatrixFactory::diagonal(\array_slice($this->EVal->getVector(), 0, 0 + 1))->inverse();
+        /** @var NumericMatrix $T² */
         $T²   = MatrixFactory::create([$X->multiply($P)->multiply($Λⱼ⁻¹)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
 
         for ($i = 1; $i < $this->data->getN(); $i++) {
@@ -285,6 +290,7 @@ class PCA
             $P    = $this->EVec->submatrix(0, 0, $vars - 1, $i);
             $P′   = $P->transpose();
             $Λⱼ⁻¹ = MatrixFactory::diagonal(\array_slice($this->EVal->getVector(), 0, $i + 1))->inverse();
+            /** @var NumericMatrix $Tᵢ² */
             $Tᵢ²  = MatrixFactory::create([$X->multiply($P)->multiply($Λⱼ⁻¹)->multiply($P′)->multiply($X′)->getDiagonalElements()])->transpose();
             $T²   = $T²->augment($Tᵢ²);
         }

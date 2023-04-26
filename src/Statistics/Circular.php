@@ -17,7 +17,7 @@ class Circular
      * _
      * α = atan2(∑sin αⱼ, ∑cos αⱼ)
      *
-     * @param  array $angles
+     * @param  array<float> $angles
      *
      * @return float mean direction of circular data
      */
@@ -49,7 +49,7 @@ class Circular
      * R² = S² + C²
      * R  = √(S² + C²)
      *
-     * @param  array $angles
+     * @param  array<float> $angles
      *
      * @return float
      */
@@ -93,7 +93,7 @@ class Circular
      *      _
      * ρ  = R
      *
-     * @param  array $angles
+     * @param  array<float> $angles
      *
      * @return float
      */
@@ -115,7 +115,7 @@ class Circular
      * Var(θ) = 1 - R
      * Var(θ) = 1 - ρ
      *
-     * @param  array $angles
+     * @param  array<float> $angles
      *
      * @return float
      */
@@ -138,7 +138,7 @@ class Circular
      *       _
      * Where R = ρ = mean resultant length
      *
-     * @param  array $angles
+     * @param  array<float> $angles
      *
      * @return float
      */
@@ -154,9 +154,16 @@ class Circular
      * Get a report of all the descriptive circular statistics over a list of angles
      * Includes mean, resultant length, mean resultant length, variance, standard deviation.
      *
-     * @param array $angles
+     * @param array<float> $angles
      *
-     * @return array [ n, mean, resultant_length, mean_resultant_length, variance, sd]
+     * @return array{
+     *     n:                       int,
+     *     mean:                    float,
+     *     resultant_length:        float,
+     *     mean_resultant_length:   float,
+     *     variance:                float,
+     *     sd:                      float,
+     * }
      */
     public static function describe(array $angles): array
     {

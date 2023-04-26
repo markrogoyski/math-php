@@ -16,7 +16,7 @@ class Dirichlet
     /**
      * Distribution parameter bounds limits
      * α ∈ (0,∞)
-     * @var array
+     * @var array{"α": string}
      */
     public const PARAMETER_LIMITS = [
         'α' => '(0,∞)',
@@ -25,7 +25,7 @@ class Dirichlet
     /**
      * Distribution parameter bounds limits
      * x ∈ (0,1)
-     * @var array
+     * @var array{x: string}
      */
     public const SUPPORT_LIMITS = [
         'x' => '(0,1)',

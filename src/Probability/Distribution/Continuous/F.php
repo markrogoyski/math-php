@@ -15,7 +15,7 @@ class F extends Continuous
      * Distribution parameter bounds limits
      * d₁ ∈ (0,∞)
      * d₂ ∈ (0,∞)
-     * @var array
+     * @var array{"d₁": string, "d₂": string}
      */
     public const PARAMETER_LIMITS = [
         'd₁' => '(0,∞)',
@@ -25,7 +25,7 @@ class F extends Continuous
     /**
      * Distribution Support bounds limits
      * x  ∈ [0,∞)
-     * @var array
+     * @var array{x: string}
      */
     public const SUPPORT_LIMITS = [
         'x'  => '[0,∞)',

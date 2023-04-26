@@ -28,7 +28,7 @@ interface ContinuousDistribution
     /**
      * Mean average
      *
-     * @return mixed
+     * @return number
      */
     public function mean();
 }

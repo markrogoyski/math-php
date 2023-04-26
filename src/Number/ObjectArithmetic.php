@@ -13,7 +13,7 @@ interface ObjectArithmetic
      */
     public function add($object_or_scalar);
 
-    /*
+    /**
      * Subtract one objects from another
      *
      * @param mixed $object_or_scalar the value to be subtracted
@@ -22,7 +22,7 @@ interface ObjectArithmetic
      */
     public function subtract($object_or_scalar);
 
-    /*
+    /**
      * Multiply two objects together
      *
      * @param mixed $object_or_scalar value to be multiplied

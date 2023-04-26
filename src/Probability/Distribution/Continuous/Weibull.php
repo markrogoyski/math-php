@@ -11,7 +11,7 @@ class Weibull extends Continuous
      * Distribution parameter bounds limits
      * λ ∈ (0,∞)
      * k ∈ (0,∞)
-     * @var array
+     * @var array{"k": string, "λ": string}
      */
     public const PARAMETER_LIMITS = [
         'k' => '(0,∞)',
@@ -21,7 +21,7 @@ class Weibull extends Continuous
     /**
      * Distribution support bounds limits
      * x ∈ [0,∞)
-     * @var array
+     * @var array{x: string}
      */
     public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',

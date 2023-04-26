@@ -2,8 +2,6 @@
 
 namespace MathPHP\Probability\Distribution\Continuous;
 
-use MathPHP\Functions\Support;
-
 /**
  * Standard normal distribution
  * The simplest case of a normal distribution.
@@ -27,7 +25,7 @@ class StandardNormal extends Normal
      * Distribution parameter bounds limits
      * μ ∈ [0,0]
      * σ ∈ [1,1]
-     * @var array
+     * @var array{"μ": string, "σ": string}
      */
     public const PARAMETER_LIMITS = [
         'μ' => '[-0,0]',
@@ -37,7 +35,7 @@ class StandardNormal extends Normal
     /**
      * Distribution support bounds limits
      * z ∈ (-∞,∞)
-     * @var array
+     * @var array{z: string}
      */
     public const SUPPORT_LIMITS = [
         'z' => '(-∞,∞)',

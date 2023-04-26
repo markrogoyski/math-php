@@ -2,12 +2,17 @@
 
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Number\ObjectArithmetic;
+
+/**
+ * @template T
+ */
 class MatrixCatalog
 {
-    /** @var NumericMatrix transpose */
+    /** @var Matrix<T> transpose */
     private $Aᵀ;
 
-    /** @var NumericMatrix inverse */
+    /** @var Matrix<T> inverse */
     private $A⁻¹;
 
     /** @var Reduction\RowEchelonForm */
@@ -31,7 +36,7 @@ class MatrixCatalog
     /** @var Decomposition\SVD */
     private $SVD;
 
-    /** @var float determinant */
+    /** @var int|float|ObjectArithmetic determinant */
     private $det;
 
     /**************************************************************************
@@ -43,7 +48,7 @@ class MatrixCatalog
     // TRANSPOSE
 
     /**
-     * @param Matrix $Aᵀ
+     * @param Matrix<T> $Aᵀ
      */
     public function addTranspose(Matrix $Aᵀ): void
     {
@@ -55,11 +60,12 @@ class MatrixCatalog
      */
     public function hasTranspose(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->Aᵀ);
     }
 
     /**
-     * @return Matrix
+     * @return Matrix<T>
      */
     public function getTranspose(): Matrix
     {
@@ -69,7 +75,7 @@ class MatrixCatalog
     // INVERSE
 
     /**
-     * @param Matrix $A⁻¹
+     * @param Matrix<T> $A⁻¹
      */
     public function addInverse(Matrix $A⁻¹): void
     {
@@ -81,11 +87,12 @@ class MatrixCatalog
      */
     public function hasInverse(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->A⁻¹);
     }
 
     /**
-     * @return Matrix
+     * @return Matrix<T>
      */
     public function getInverse(): Matrix
     {
@@ -113,6 +120,7 @@ class MatrixCatalog
      */
     public function hasRowEchelonForm(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->REF);
     }
 
@@ -139,6 +147,7 @@ class MatrixCatalog
      */
     public function hasReducedRowEchelonForm(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->RREF);
     }
 
@@ -175,6 +184,7 @@ class MatrixCatalog
      */
     public function hasLuDecomposition(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->LU);
     }
 
@@ -201,6 +211,7 @@ class MatrixCatalog
      */
     public function hasQrDecomposition(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->QR);
     }
 
@@ -227,6 +238,7 @@ class MatrixCatalog
      */
     public function hasCholeskyDecomposition(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->cholesky);
     }
 
@@ -253,6 +265,7 @@ class MatrixCatalog
      */
     public function hasCroutDecomposition(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->crout);
     }
 
@@ -269,7 +282,7 @@ class MatrixCatalog
     /**
      * @param Decomposition\SVD $SVD
      */
-    public function addSVD(Decomposition\SVD $SVD)
+    public function addSVD(Decomposition\SVD $SVD): void
     {
         $this->SVD = $SVD;
     }
@@ -277,8 +290,9 @@ class MatrixCatalog
     /**
      * @return bool
      */
-    public function hasSVD()
+    public function hasSVD(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->SVD);
     }
 
@@ -297,7 +311,7 @@ class MatrixCatalog
     // DETERMINANT
 
     /**
-     * @param int|float $det
+     * @param int|float|ObjectArithmetic $det
      */
     public function addDeterminant($det): void
     {
@@ -309,11 +323,12 @@ class MatrixCatalog
      */
     public function hasDeterminant(): bool
     {
+        // @phpstan-ignore-next-line
         return isset($this->det);
     }
 
     /**
-     * @return number
+     * @return int|float|ObjectArithmetic
      */
     public function getDeterminant()
     {

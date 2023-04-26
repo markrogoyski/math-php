@@ -14,9 +14,9 @@ class Multi
      *
      * [x₁ + y₁, x₂ + y₂, ... ]
      *
-     * @param array ...$arrays Two or more arrays of numbers
+     * @param array<number> ...$arrays Two or more arrays of numbers
      *
-     * @return array
+     * @return array<number>
      *
      * @throws Exception\BadDataException
      */
@@ -42,9 +42,9 @@ class Multi
      *
      * [x₁ - y₁, x₂ - y₂, ... ]
      *
-     * @param array ...$arrays Two or more arrays of numbers
+     * @param array<number> ...$arrays Two or more arrays of numbers
      *
-     * @return array
+     * @return array<number>
      *
      * @throws Exception\BadDataException
      */
@@ -75,9 +75,9 @@ class Multi
      *
      * [x₁ * y₁, x₂ * y₂, ... ]
      *
-     * @param array ...$arrays Two or more arrays of numbers
+     * @param array<number> ...$arrays Two or more arrays of numbers
      *
-     * @return array
+     * @return array<number>
      *
      * @throws Exception\BadDataException
      */
@@ -103,9 +103,9 @@ class Multi
      *
      * [x₁ / y₁, x₂ / y₂, ... ]
      *
-     * @param array ...$arrays Two or more arrays of numbers
+     * @param array<number> ...$arrays Two or more arrays of numbers
      *
-     * @return array
+     * @return array<float>
      *
      * @throws Exception\BadDataException
      */
@@ -136,9 +136,9 @@ class Multi
      *
      * [max(x₁, y₁), max(x₂, y₂), ... ]
      *
-     * @param array ...$arrays Two or more arrays of numbers
+     * @param array<number> ...$arrays Two or more arrays of numbers
      *
-     * @return array
+     * @return array<number>
      *
      * @throws Exception\BadDataException
      */
@@ -169,9 +169,9 @@ class Multi
      *
      * [max(x₁, y₁), max(x₂, y₂), ... ]
      *
-     * @param array ...$arrays Two or more arrays of numbers
+     * @param array<number> ...$arrays Two or more arrays of numbers
      *
-     * @return array
+     * @return array<number>
      *
      * @throws Exception\BadDataException
      */
@@ -204,7 +204,7 @@ class Multi
     /**
      * Check that two or more arrays are all the same length
      *
-     * @param  array[] $arrays
+     * @param  array<array<mixed>> $arrays
      *
      * @return bool
      *

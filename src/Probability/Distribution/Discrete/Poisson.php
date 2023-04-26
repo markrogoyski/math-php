@@ -18,7 +18,7 @@ class Poisson extends Discrete
     /**
      * Distribution parameter bounds limits
      * λ ∈ [0,1]
-     * @var array
+     * @var array{"λ": string}
      */
     public const PARAMETER_LIMITS = [
         'λ' => '(0,∞)',
@@ -27,7 +27,7 @@ class Poisson extends Discrete
     /**
      * Distribution support bounds limits
      * k ∈ [0,∞)
-     * @var array
+     * @var array{"k": string}
      */
     public const SUPPORT_LIMITS = [
         'k' => '[0,∞)',
@@ -123,13 +123,13 @@ class Poisson extends Discrete
      *
      * mode = ⌈λ - 1⌉, ⌊λ⌋
      *
-     * @return array
+     * @return array{int, int}
      */
     public function mode(): array
     {
         return [
-            \ceil($this->λ - 1),
-            \floor($this->λ),
+            (int)\ceil($this->λ - 1),
+            (int)\floor($this->λ),
         ];
     }
 

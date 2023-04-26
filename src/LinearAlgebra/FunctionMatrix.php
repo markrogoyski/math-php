@@ -12,11 +12,11 @@ class FunctionMatrix
     /** @var int Number of columns */
     protected $n;
 
-    /** @var array[] Matrix array of arrays */
+    /** @var array<array<callable>> Matrix array of arrays */
     protected $A;
 
     /**
-     * @param array[] $A of arrays $A m x n matrix
+     * @param array<array<callable>> $A of arrays $A m x n matrix
      *
      * @throws Exception\BadDataException if any rows have a different column count
      */
@@ -34,7 +34,7 @@ class FunctionMatrix
      *
      * @throws Exception\BadDataException
      */
-    protected function validateMatrixDimensions()
+    protected function validateMatrixDimensions(): void
     {
         foreach ($this->A as $i => $row) {
             if (\count($row) !== $this->n) {
@@ -46,7 +46,7 @@ class FunctionMatrix
     /**
      * Evaluate
      *
-     * @param array $params
+     * @param array<string, mixed> $params
      *
      * @return NumericMatrix
      *
@@ -66,6 +66,8 @@ class FunctionMatrix
                 $R[$i][$j] = $func($params);
             }
         }
+
+        /** @var NumericMatrix */
         return MatrixFactory::create($R);
     }
 }

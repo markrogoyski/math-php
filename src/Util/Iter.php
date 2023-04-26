@@ -2,8 +2,6 @@
 
 namespace MathPHP\Util;
 
-use MathPHP\Exception;
-
 /**
  * @internal
  */
@@ -14,7 +12,7 @@ class Iter
      * Similar to Python's zip function
      * @internal
      *
-     * @param iterable ...$iterables
+     * @param iterable<mixed> ...$iterables
      *
      * @return \MultipleIterator
      */
@@ -29,7 +27,7 @@ class Iter
     }
 
     /**
-     * @param iterable $iterable
+     * @param iterable<mixed> $iterable
      *
      * @return \Iterator|\IteratorIterator|\ArrayIterator
      */

@@ -48,7 +48,7 @@ class Algebra
      * @param  int $a
      * @param  int $b
      *
-     * @return array [gcd, a', b']
+     * @return array{int, int, int} [gcd, a', b']
      */
     public static function extendedGcd(int $a, int $b): array
     {
@@ -120,7 +120,7 @@ class Algebra
      * - push on the product of each set
      *
      * @param  int $x
-     * @return array of factors
+     * @return array<float> of factors
      *
      * @throws Exception\OutOfBoundsException if n is < 1
      */
@@ -236,10 +236,11 @@ class Algebra
      * @param  float $c constant coefficient
      * @param  bool  $return_complex Whether to return complex numbers or NANs if imaginary roots
      *
-     * @return float[]|Complex[]  [x₁, x₂]           roots of the equation, or
-     *                            [NAN, NAN]         if discriminant is negative, or
-     *                            [Complex, Complex] if discriminant is negative and complex option is on or
-     *                            [x]                if a = 0 and formula isn't quadratics
+     * @return array{0: float|Complex, 1?: float|Complex}
+     *      [x₁, x₂]           roots of the equation, or
+     *      [NAN, NAN]         if discriminant is negative, or
+     *      [Complex, Complex] if discriminant is negative and complex option is on or
+     *      [x]                if a = 0 and formula isn't quadratics
      *
      * @throws Exception\IncorrectTypeException
      */
@@ -366,8 +367,9 @@ class Algebra
      * @param  float $a₀ constant coefficient
      * @param  bool  $return_complex whether to return complex numbers
      *
-     * @return float[]|Complex[] array of roots (three real roots, or one real root and two NANs because complex numbers not yet supported)
-     *                           (If $a₃ = 0, then only two roots of quadratic equation)
+     * @return array{0: float|Complex, 1?: float|Complex, 2?: float|Complex}
+     *      array of roots (three real roots, or one real root and two NANs because complex numbers not yet supported)
+     *      (If $a₃ = 0, then only two roots of quadratic equation)
      *
      * @throws Exception\IncorrectTypeException
      */
@@ -473,6 +475,7 @@ class Algebra
 
             // Sort so any complex roots are at the end of the array.
             \rsort($quadratic_roots);
+            /** @var array{float, float} $quadratic_roots */
             $z₊ = $quadratic_roots[0];
             $z₋ = $quadratic_roots[1];
             if (!$return_complex) {
@@ -482,8 +485,10 @@ class Algebra
             $Cz₊ = new Complex($z₊, 0);
             $Cz₋ = new Complex($z₋, 0);
             $z₁  = $z₊ < 0 ? $Cz₊->sqrt()  : \sqrt($z₊);
+            // @phpstan-ignore-next-line
             $z₂  = $z₊ < 0 ? $z₁->negate() : $z₁ * -1;
             $z₃  = $z₋ < 0 ? $Cz₋->sqrt()  : \sqrt($z₋);
+            // @phpstan-ignore-next-line
             $z₄  = $z₋ < 0 ? $z₃->negate() : $z₃ * -1;
 
             return [$z₁, $z₂, $z₃, $z₄];
@@ -501,9 +506,13 @@ class Algebra
 
             // $z₁ will always be a real number, so select it.
             $m             = $cubic_roots[0];
+            // @phpstan-ignore-next-line (because $m is real)
             $roots1        = self::quadratic(1, \sqrt(2 * $m), $p / 2 + $m - $q / 2 / \sqrt(2 * $m), $return_complex);
+            // @phpstan-ignore-next-line (because $m is real)
             $roots2        = self::quadratic(1, -1 * \sqrt(2 * $m), $p / 2 + $m + $q / 2 / \sqrt(2 * $m), $return_complex);
+            // @phpstan-ignore-next-line (because $m is real)
             $discriminant1 = self::discriminant(1, \sqrt(2 * $m), $p / 2 + $m - $q / 2 / \sqrt(2 * $m));
+            // @phpstan-ignore-next-line (because $m is real)
             $discriminant2 = self::discriminant(1, -1 * \sqrt(2 * $m), $p / 2 + $m + $q / 2 / \sqrt(2 * $m));
 
             // sort the real roots first.
@@ -522,6 +531,10 @@ class Algebra
 
         // The roots for this polynomial are the roots of the depressed polynomial minus a₃/4.
         if (!$return_complex) {
+            /**
+             * FIXME: are the roots real? Single::subtract() works with real numbers only.
+             * @phpstan-ignore-next-line
+             */
             return Single::subtract($depressed_quartic_roots, $a₃ / 4);
         }
 

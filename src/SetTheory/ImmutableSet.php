@@ -37,7 +37,7 @@ class ImmutableSet extends Set
     /**
      * Cannot add members to an immutable set
      *
-     * @param array $x
+     * @param array<mixed> $x
      *
      * @return Set (this set unchanged)
      */
@@ -61,7 +61,7 @@ class ImmutableSet extends Set
     /**
      * Cannot remove members of an immutable set
      *
-     * @param  array $x
+     * @param  array<mixed> $x
      *
      * @return Set (this set unchanged)
      */

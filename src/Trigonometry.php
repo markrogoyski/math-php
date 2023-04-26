@@ -16,7 +16,7 @@ class Trigonometry
      *
      * @param int $points number of points
      *
-     * @return array
+     * @return array<array{float, float}>
      */
     public static function unitCircle(int $points = 11): array
     {

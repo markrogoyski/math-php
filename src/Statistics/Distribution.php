@@ -17,9 +17,9 @@ class Distribution
      * The values of the input array will be the keys of the result array.
      * The count of the values will be the value of the result array for that key.
      *
-     * @param array $values Ex: ( A, A, A, B, B, C )
+     * @param array<scalar> $values Ex: ( A, A, A, B, B, C )
      *
-     * @return array frequency distribution Ex: ( A => 3, B => 2, C => 1 )
+     * @return array<scalar, int> frequency distribution Ex: ( A => 3, B => 2, C => 1 )
      */
     public static function frequency(array $values): array
     {
@@ -43,9 +43,9 @@ class Distribution
      * The values of the input array will be the keys of the result array.
      * The relative frequency of the values will be the value of the result array for that key.
      *
-     * @param array $values Ex: ( A, A, A, A, A, A, B, B, B, C )
+     * @param array<scalar> $values Ex: ( A, A, A, A, A, A, B, B, B, C )
      *
-     * @return array relative frequency distribution Ex: ( A => 0.6, B => 0.3, C => 0.1 )
+     * @return array<scalar, float> relative frequency distribution Ex: ( A => 0.6, B => 0.3, C => 0.1 )
      */
     public static function relativeFrequency(array $values): array
     {
@@ -63,9 +63,9 @@ class Distribution
      * The values of the input array will be the keys of the result array.
      * The cumulative frequency of the values will be the value of the result array for that key.
      *
-     * @param array $values Ex: ( A, A, A, A, A, A, B, B, B, C )
+     * @param array<scalar> $values Ex: ( A, A, A, A, A, A, B, B, B, C )
      *
-     * @return array cumulative frequency distribution Ex: ( A => 6, B => 9, C => 10 )
+     * @return array<scalar, int> cumulative frequency distribution Ex: ( A => 6, B => 9, C => 10 )
      */
     public static function cumulativeFrequency(array $values): array
     {
@@ -87,9 +87,9 @@ class Distribution
      * The values of the input array will be the keys of the result array.
      * The cumulative frequency of the values will be the value of the result array for that key.
      *
-     * @param array $values Ex: ( A, A, A, A, A, A, B, B, B, C )
+     * @param array<scalar> $values Ex: ( A, A, A, A, A, A, B, B, B, C )
      *
-     * @return array cumulative relative frequency distribution Ex: ( A => 0.6, B => 0.9, C => 1 )
+     * @return array<scalar, float> cumulative relative frequency distribution Ex: ( A => 0.6, B => 0.9, C => 1 )
      */
     public static function cumulativeRelativeFrequency(array $values): array
     {
@@ -109,9 +109,9 @@ class Distribution
      *
      * Similar to R: rank(values, ties.method='average')
      *
-     * @param array $values to be ranked
+     * @param array<mixed> $values to be ranked
      *
-     * @return array Rankings of the data in the same order the values were input
+     * @return array<float> Rankings of the data in the same order the values were input
      */
     public static function fractionalRanking(array $values): array
     {
@@ -148,9 +148,9 @@ class Distribution
      *
      * Similar to R: rank(values, ties.method='min')
      *
-     * @param array $values to be ranked
+     * @param array<mixed> $values to be ranked
      *
-     * @return array Rankings of the data in the same order the values were input
+     * @return array<int> Rankings of the data in the same order the values were input
      */
     public static function standardCompetitionRanking(array $values): array
     {
@@ -166,6 +166,7 @@ class Distribution
                 : $i + 1;
         }
 
+        /** @var array<string, int<1, max>> $ranking⟮X⟯ */
         $ranking⟮X⟯ = \array_combine(\array_map('\strval', $Xs), $ranking⟮X⟯);
 
         // Map ranks to values in order they were originally input
@@ -183,9 +184,9 @@ class Distribution
      *
      * Similar to R: rank(values, ties.method='max')
      *
-     * @param array $values to be ranked
+     * @param array<mixed> $values to be ranked
      *
-     * @return array Rankings of the data in the same order the values were input
+     * @return array<int> Rankings of the data in the same order the values were input
      */
     public static function modifiedCompetitionRanking(array $values): array
     {
@@ -201,6 +202,8 @@ class Distribution
                 : $i + 1;
         }
         \sort($ranking⟮X⟯);
+
+        /** @var array<string, int<0, max>> $ranking⟮X⟯ */
         $ranking⟮X⟯ = \array_combine(\array_map('\strval', $Xs), $ranking⟮X⟯);
 
         // Map ranks to values in order they were originally input
@@ -218,9 +221,9 @@ class Distribution
      *
      * Similar to R: rank(values, ties.method='first')
      *
-     * @param array $values to be ranked
+     * @param array<mixed> $values to be ranked
      *
-     * @return array Rankings of the data in the same order the values were input
+     * @return array<int> Rankings of the data in the same order the values were input
      */
     public static function ordinalRanking(array $values): array
     {
@@ -259,10 +262,10 @@ class Distribution
      *   9 |
      *  10 | 6
      *
-     * @param array $values
+     * @param array<int> $values
      * @param bool  $print  Optional setting to print the distribution
      *
-     * @return array keys are the stems, values are the leaves
+     * @return array<int, array<int>> keys are the stems, values are the leaves
      */
     public static function stemAndLeafPlot(array $values, bool $print = false): array
     {
@@ -291,7 +294,7 @@ class Distribution
         // Optionally print the stem and leaf plot
         if ($print === true) {
             $length = \max(\array_map(function ($stem) {
-                return \strlen($stem);
+                return \strlen((string)$stem);
             }, \array_keys($plot)));
             foreach ($plot as $stem => $leaves) {
                 \printf("%{$length}d | %s\n", $stem, \implode(' ', $leaves));

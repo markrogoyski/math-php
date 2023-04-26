@@ -82,10 +82,11 @@ class People
      * Raw data with each observation labeled
      * ['Lars' => ['height' => 198, 'weight' => 92, 'hairLength' => -1, ... ]]
      *
-     * @return int[][]
+     * @return array<string, array<string, int>>
      */
     public function getLabeledData(): array
     {
+        /** @var array<string, array<string, int>> */
         return \array_map(
             function (array $data) {
                 return \array_combine(self::LABELS, $data);
@@ -111,105 +112,119 @@ class People
      * @param string $name
      *
      * @return int[]
+     * @return array<string, int>
      */
     public function getPersonData(string $name): array
     {
+        /** @var array<string, int> */
         return \array_combine(self::LABELS, self::DATA[$name]);
     }
 
     /**
-     * @return int[]
+     * @return array<string, int>
      */
     public function getHeight(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getNames(), \array_column(self::DATA, 0));
     }
 
     /**
-     * @return int[]
+     * @return array<string, int>
      */
     public function getWeight(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getNames(), \array_column(self::DATA, 1));
     }
 
     /**
-     * @return int[]
+     * @return array<string, int>
      */
     public function getHairLength(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getNames(), \array_column(self::DATA, 2));
     }
 
     /**
-     * @return int[]
+     * @return array<string, int>
      */
     public function getShowSize(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getNames(), \array_column(self::DATA, 3));
     }
 
     /**
-     * @return number[]
+     * @return array<string, int>
      */
     public function getAge(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getNames(), \array_column(self::DATA, 4));
     }
 
     /**
-     * @return int[]
+     * @return array<string, int>
      */
     public function getIncome(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getNames(), \array_column(self::DATA, 5));
     }
 
     /**
-     * @return int[]
+     * @return array<string, int>
      */
     public function getBeer(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getNames(), \array_column(self::DATA, 6));
     }
 
     /**
-     * @return int[]
+     * @return array<string, int>
      */
     public function getWine(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getNames(), \array_column(self::DATA, 7));
     }
 
     /**
-     * @return int[]
+     * @return array<string, int>
      */
     public function getSex(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getNames(), \array_column(self::DATA, 8));
     }
 
     /**
-     * @return int[]
+     * @return array<string, int>
      */
     public function getSwim(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getNames(), \array_column(self::DATA, 9));
     }
 
     /**
-     * @return int[]
+     * @return array<string, int>
      */
     public function getRegion(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getNames(), \array_column(self::DATA, 10));
     }
 
     /**
-     * @return int[]
+     * @return array<string, int>
      */
     public function getIq(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getNames(), \array_column(self::DATA, 11));
     }
 }

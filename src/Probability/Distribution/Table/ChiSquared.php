@@ -30,7 +30,7 @@ class ChiSquared
      *     df => [p => χ², p => χ², ...],
      *     ...
      * ]
-     * @var array
+     * @var array<int<1, 1000>, array<numeric|string, float>>
      */
     public const CHI_SQUARED_SCORES = [
         1    => ['0.995' => 0.0000393, '0.975' => 0.000982, '0.200' => 1.642,    '0.100' => 2.706,    '0.050' => 3.841,    '0.025' => 5.024,    '0.020' => 5.412,    '0.010' => 6.635,    '0.005' => 7.879,    '0.002' => 9.550,    '0.001' => 10.828],
@@ -312,6 +312,7 @@ class ChiSquared
      */
     public static function getChiSquareValue(int $df, float $p): float
     {
+        // @phpstan-ignore-next-line (Offset numeric-string on array<literal-string&non-falsy-string, float> in isset() does not exist.)
         if (isset(self::CHI_SQUARED_SCORES[$df][\sprintf('%1.3f', $p)])) {
             return self::CHI_SQUARED_SCORES[$df][\sprintf('%1.3f', $p)];
         }

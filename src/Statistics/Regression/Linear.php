@@ -31,30 +31,6 @@ class Linear extends ParametricRegression
     use Models\LinearModel;
 
     /**
-     * Average of x
-     * @var number
-     */
-    private $xbar;
-
-    /**
-     * Average of y
-     * @var number
-     */
-    private $ybar;
-
-    /**
-     * Sum of squared deviations of x
-     * @var number
-     */
-    private $SSx;
-
-    /**
-     * Sum of squares residuals
-     * @var number
-     */
-    private $SSres;
-
-    /**
      * Calculates the regression parameters.
      *
      * @throws Exception\BadDataException

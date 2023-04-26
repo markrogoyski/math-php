@@ -74,7 +74,7 @@ class BisectionMethod
      * @throws Exception\BadDataException if $a = $b
      * @throws Exception\BadDataException if f($a) and f($b) share the same sign
      */
-    private static function validate(callable $function, $a, $b, $tol)
+    private static function validate(callable $function, $a, $b, $tol): void
     {
         Validation::tolerance($tol);
         Validation::interval($a, $b);

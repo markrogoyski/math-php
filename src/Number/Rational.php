@@ -4,6 +4,7 @@ namespace MathPHP\Number;
 
 use MathPHP\Algebra;
 use MathPHP\Exception;
+use MathPHP\Exception\BadDataException;
 use MathPHP\Functions\Special;
 
 /**
@@ -136,8 +137,8 @@ class Rational implements ObjectArithmetic
     /**
      * Convert a character to an alternate script (super or subscript)
      *
-     * @param int   $i     number to convert
-     * @param array $chars conversion character map
+     * @param int                $i     number to convert
+     * @param array<int, string> $chars conversion character map
      *
      * @return string
      */
@@ -459,7 +460,9 @@ class Rational implements ObjectArithmetic
      * @param int $n numerator
      * @param int $d denominator
      *
-     * @return array
+     * @return array{int, int, int}
+     *
+     * @throws BadDataException
      */
     private function normalize(int $w, int $n, int $d): array
     {
@@ -479,7 +482,7 @@ class Rational implements ObjectArithmetic
         }
         $gcd = 0;
         while ($gcd != 1 && $n !== 0) {
-            $gcd = \abs(Algebra::gcd($n, $d));
+            $gcd = \abs(Algebra::gcd((int)$n, (int)$d));
             $n /= $gcd;
             $d /= $gcd;
         }
@@ -493,6 +496,6 @@ class Rational implements ObjectArithmetic
         if ($n == 0) {
             $d = 1;
         }
-        return [$w, $n, $d];
+        return [$w, (int)$n, (int)$d];
     }
 }

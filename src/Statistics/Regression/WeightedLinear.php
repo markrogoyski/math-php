@@ -24,13 +24,13 @@ class WeightedLinear extends ParametricRegression
 
     /**
      * Array of weights
-     * @var array
+     * @var array<float>
      */
     private $ws;
 
     /**
-     * @param array $points
-     * @param array $ws     Weights
+     * @param array<array{float, float}> $points
+     * @param array<float> $ws     Weights
      */
     public function __construct(array $points, array $ws)
     {

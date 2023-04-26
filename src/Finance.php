@@ -2,6 +2,8 @@
 
 namespace MathPHP;
 
+use MathPHP\Exception\OutOfBoundsException;
+
 /**
   * General references on financial functions and formulas:
   * - Open Document Format for Office Applications (OpenDocument) Version 1.2 Part 2:
@@ -449,7 +451,7 @@ class Finance
      *  npv(0.03, [-1000, 100, 500, 300, 700, 700])
      *
      * @param  float $rate
-     * @param  array $values
+     * @param  array<float> $values
      *
      * @return float
      */
@@ -519,13 +521,15 @@ class Finance
      *  irr([-100, 50, 40, 30])
      *
      * Solves for NPV=0 using Newton's Method.
-     * @todo: Use eigenvalues to find the roots of a characteristic polynomial.
-     * This will allow finding all solutions and eliminate the need of the initial_guess.
-     *
-     * @param  array $values
-     * @param  float $initial_guess
+     * @param array<float> $values
+     * @param float $initial_guess
      *
      * @return float
+     *
+     * @throws OutOfBoundsException
+     *
+     * @todo: Use eigenvalues to find the roots of a characteristic polynomial.
+     * This will allow finding all solutions and eliminate the need of the initial_guess.
      */
     public static function irr(array $values, float $initial_guess = 0.1): float
     {
@@ -551,7 +555,7 @@ class Finance
      *
      * Based off of Better: https://github.com/better/irr
      *
-     * @param  array $values
+     * @param  array<float> $values
      *
      * @return float
      */
@@ -606,7 +610,7 @@ class Finance
      * with returns of $50, $40, and $30 reinvested at 10%:
      *  mirr([-100, 50, 40, 30], 0.05, 0.10)
      *
-     * @param  array $values
+     * @param  array<float> $values
      * @param  float $finance_rate
      * @param  float $reinvestment_rate
      *
@@ -674,7 +678,7 @@ class Finance
      * of $100, $200, $300, $400, $500, and a discount rate of 0.10:
      *  payback([-1000, 100, 200, 300, 400, 500], 0.1)
      *
-     * @param  array $values
+     * @param  array<float> $values
      * @param  float $rate
      *
      * @return float
@@ -740,7 +744,7 @@ class Finance
      * returns of $50, $50, $50 with a 10% discount rate:
      *  profitabilityIndex([-100, 50, 50, 50], 0.10)
      *
-     * @param  array $values
+     * @param  array<float> $values
      * @param  float $rate
      *
      * @return float

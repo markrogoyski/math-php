@@ -13,7 +13,7 @@ class Exponential extends Continuous
     /**
      * Distribution parameter bounds limits
      * λ ∈ (0,∞)
-     * @var array
+     * @var array{"λ": string}
      */
     public const PARAMETER_LIMITS = [
         'λ' => '(0,∞)',
@@ -22,7 +22,7 @@ class Exponential extends Continuous
     /**
      * Distribution support bounds limits
      * x ∈ [0,∞)
-     * @var array
+     * @var array{x: string}
      */
     public const SUPPORT_LIMITS = [
         'x' => '[0,∞)',

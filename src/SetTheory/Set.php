@@ -72,6 +72,9 @@ namespace MathPHP\SetTheory;
  * already is a member of the set. When accessing the actual set member, you
  * will always get back the original one added, whether it was a Set object or
  * a string.
+ *
+ * @implements \Iterator<mixed>
+ * @phpstan-consistent-constructor
  */
 class Set implements \Countable, \Iterator
 {
@@ -79,14 +82,14 @@ class Set implements \Countable, \Iterator
      * Set as a hash.
      * Keys are a representation of the members of the set.
      * Values are the values/objects themselves.
-     * @var array
+     * @var array<mixed>
      */
     protected $A = [];
 
     /**
      * Constructor - Initialize set members
      *
-     * @param array $members
+     * @param array<mixed> $members
      */
     public function __construct(array $members = [])
     {
@@ -104,7 +107,7 @@ class Set implements \Countable, \Iterator
     /**
      * Get the set as an array
      *
-     * @return array (values are the set members)
+     * @return array<mixed> (values are the set members)
      */
     public function asArray(): array
     {
@@ -147,6 +150,10 @@ class Set implements \Countable, \Iterator
      */
     public function isMember($x): bool
     {
+        /**
+         * FIXME: $this->getKey() may return null, int|string required.
+         * @phpstan-ignore-next-line
+         */
         return \array_key_exists($this->getKey($x), $this->A);
     }
 
@@ -160,6 +167,10 @@ class Set implements \Countable, \Iterator
      */
     public function isNotMember($x): bool
     {
+        /**
+         * FIXME: $this->getKey() may return null, int|string required.
+         * @phpstan-ignore-next-line
+         */
         return !\array_key_exists($this->getKey($x), $this->A);
     }
 
@@ -190,7 +201,7 @@ class Set implements \Countable, \Iterator
      * Add an array of elements to the set
      * Does nothing if element already exists in the set.
      *
-     * @param array $members
+     * @param array<mixed> $members
      *
      * @return Set (this set)
      */
@@ -222,7 +233,7 @@ class Set implements \Countable, \Iterator
      * Remove elements from the set
      * Does nothing if the element does not exist in the set.
      *
-     * @param  array $x
+     * @param  array<mixed> $x
      *
      * @return Set (this set)
      */
@@ -636,7 +647,7 @@ class Set implements \Countable, \Iterator
 
     /**
      * Iterator interface array to iterate over
-     * @var array
+     * @var array<mixed>
      */
     protected $iterator_keys;
 

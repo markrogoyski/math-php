@@ -37,20 +37,23 @@ class ClampedCubicSpline extends Interpolation
     /**
      * Interpolate
      *
-     * @param callable|array $source The source of our approximation. Should be either
-     *                           a callback function or a set of arrays. Each array
-     *                           (point) contains precisely three numbers: x, y, and y'
-     *                           Example array: [[1,2,1], [2,3,0], [3,4,2]].
-     *                           Example callback: function($x) {return $x**2;}
-     * @param int|float ...$args (Optional) An additional callback: our first derivative,
-     *                           and arguments of our callback functions: start,
-     *                           end, and n.
-     *                           Example: approximate($source, $derivative, 0, 8, 5).
-     *                           If $source is a set of points, do not input any
-     *                           $args. Example: approximate($source).
+     * @param callable|array<array{number, number, number}> $source
+     *      The source of our approximation. Should be either
+     *      a callback function or a set of arrays. Each array
+     *      (point) contains precisely three numbers: x, y, and y'
+     *      Example array: [[1,2,1], [2,3,0], [3,4,2]].
+     *      Example callback: function($x) {return $x**2;}
+     * @param mixed ...$args
+     *      (Optional) An additional callback: our first derivative,
+     *      and arguments of our callback functions: start,
+     *      end, and n.
+     *      Example: approximate($source, $derivative, 0, 8, 5).
+     *      If $source is a set of points, do not input any
+     *      $args. Example: approximate($source).
      *
-     * @return Piecewise         The interpolating (piecewise) polynomial, as an
-     *                           instance of Piecewise.
+     * @return Piecewise
+     *      The interpolating (piecewise) polynomial, as an
+     *      instance of Piecewise.
      *
      * @throws Exception\BadDataException
      */
@@ -153,18 +156,22 @@ class ClampedCubicSpline extends Interpolation
      * @todo  Add method to verify input arguments are valid.
      *        Verify $start and $end are numbers, $end > $start, and $points is an integer > 1
      *
-     * @param callable|array   $source The source of our approximation. Should be either
-     *                         a callback function or a set of arrays.
-     * @param  array   $args   The arguments of our callback function: derivative,
-     *                         start, end, and n. Example: [$derivative, 0, 8, 5].
-     *                         If $source is a set of arrays, $args will default to [].
+     * @param callable|array<array<number>> $source
+     *      The source of our approximation. Should be either
+     *      a callback function or a set of arrays.
+     * @param array{callable, number, number, number}|array<mixed> $args
+     *      The arguments of our callback function: derivative,
+     *      start, end, and n. Example: [$derivative, 0, 8, 5].
+     *      If $source is a set of arrays, $args will default to [].
      *
-     * @return array
+     * @return array<array{number, number, number}>
+     *
      * @throws Exception\BadDataException if $source is not callable or a set of arrays
      */
     public static function getSplinePoints($source, array $args = []): array
     {
         // Guard clause - source must be callable or array of points
+        // @phpstan-ignore-next-line
         if (!(\is_callable($source) || \is_array($source))) {
             throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
@@ -176,10 +183,11 @@ class ClampedCubicSpline extends Interpolation
 
         // Construct points from callable function
         $function   = $source;
+        /** @var callable $derivative */
         $derivative = $args[0];
-        $start      = $args[1];
-        $end        = $args[2];
-        $n          = $args[3];
+        $start      = floatval($args[1]);
+        $end        = floatval($args[2]);
+        $n          = intval($args[3]);
 
         return self::functionToSplinePoints($function, $derivative, $start, $end, $n);
     }
@@ -194,7 +202,7 @@ class ClampedCubicSpline extends Interpolation
      * @param  float    $end        the end of the interval
      * @param  int      $n          the number of function evaluations
      *
-     * @return array
+     * @return array<array{number, number, number}>
      */
     protected static function functionToSplinePoints(callable $function, callable $derivative, float $start, float $end, int $n): array
     {
@@ -216,14 +224,14 @@ class ClampedCubicSpline extends Interpolation
      * has precisely three numbers, and that no two points share the same first number
      * (x-component)
      *
-     * @param  array $points Array of arrays (points)
-     * @param  int   $degree The minimum number of input arrays
+     * @param  array<array{number, number, number}> $points Array of arrays (points)
+     * @param  int                          $degree The minimum number of input arrays
      *
      * @throws Exception\BadDataException if there are less than two points
      * @throws Exception\BadDataException if any point does not contain three numbers
      * @throws Exception\BadDataException if two points share the same first number (x-component)
      */
-    public static function validateSpline(array $points, int $degree = 2)
+    public static function validateSpline(array $points, int $degree = 2): void
     {
         if (\count($points) < $degree) {
             throw new Exception\BadDataException('You need to have at least $degree sets of coordinates (arrays) for this technique');
@@ -231,6 +239,7 @@ class ClampedCubicSpline extends Interpolation
 
         $x_coordinates = [];
         foreach ($points as $point) {
+            // @phpstan-ignore-next-line
             if (\count($point) !== 3) {
                 throw new Exception\BadDataException('Each array needs to have have precisely three numbers, representing x, y, and y-prime');
             }

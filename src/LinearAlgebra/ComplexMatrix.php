@@ -21,9 +21,11 @@ class ComplexMatrix extends ObjectMatrix
     /**
      * Validate the matrix is entirely complex
      *
+     * @param array<array<object>> $A
+     *
      * @throws Exception\IncorrectTypeException if all elements are not complex
      */
-    protected function validateComplexData(array $A)
+    protected function validateComplexData(array $A): void
     {
         foreach ($A as $i => $row) {
             foreach ($row as $object) {
@@ -41,7 +43,7 @@ class ComplexMatrix extends ObjectMatrix
      */
     public static function createZeroValue(): ObjectArithmetic
     {
-        return new ObjectMatrix([[new Complex(0, 0)]]);
+        return new ComplexMatrix([[new Complex(0, 0)]]);
     }
 
     /**

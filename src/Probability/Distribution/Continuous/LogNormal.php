@@ -11,7 +11,7 @@ class LogNormal extends Continuous
      * Distribution parameter bounds limits
      * μ ∈ (-∞,∞)
      * σ ∈ (0,∞)
-     * @var array
+     * @var array{"μ": string, "σ": string}
      */
     public const PARAMETER_LIMITS = [
         'μ' => '(-∞,∞)',
@@ -21,7 +21,7 @@ class LogNormal extends Continuous
     /**
      * Distribution support bounds limits
      * x ∈ (0,∞)
-     * @var array
+     * @var array{x: string}
      */
     public const SUPPORT_LIMITS = [
         'x' => '(0,∞)',

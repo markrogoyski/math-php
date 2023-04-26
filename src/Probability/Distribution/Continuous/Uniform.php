@@ -10,7 +10,7 @@ class Uniform extends Continuous
      * Distribution parameter bounds limits
      * a ∈ (-∞,∞)
      * b ∈ (-∞,∞)
-     * @var array
+     * @var array{"a": string, "b": string}
      */
     public const PARAMETER_LIMITS = [
         'a' => '(-∞,∞)',
@@ -20,7 +20,7 @@ class Uniform extends Continuous
     /**
      * Distribution support bounds limits
      * x ∈ (-∞,∞)
-     * @var array
+     * @var array{"x": string}
      */
     public const SUPPORT_LIMITS = [
         'x' => '(-∞,∞)',

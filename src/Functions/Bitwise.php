@@ -40,7 +40,7 @@ class Bitwise
      * @param int $a
      * @param int $b
      *
-     * @return array
+     * @return array{overflow: bool, value: int|float}
      *         'overflow' is true if the result is larger than the bits in an int
      *         'value' is the result of the addition ignoring any overflow.
      */

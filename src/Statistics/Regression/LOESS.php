@@ -36,15 +36,15 @@ class LOESS extends NonParametricRegression
     protected $number_of_points;
 
     /**
-     * @param array $points [ [x, y], [x, y], ... ]
-     * @param float $α      Smoothness parameter (bandwidth)
-     *                       Determines how much of the data is used to fit each local polynomial
-     *                       ((λ + 1) / n, 1]
-     * @param int    $λ      Order of the polynomial to fit
+     * @param array<array{float, float}> $points [ [x, y], [x, y], ... ]
+     * @param float                      $α      Smoothness parameter (bandwidth)
+     *                                           Determines how much of the data is used to fit each local polynomial
+     *                                           ((λ + 1) / n, 1]
+     * @param int                        $λ      Order of the polynomial to fit
      *
      * @throws Exception\OutOfBoundsException if α is ≤ λ + 1 or > 1
      */
-    public function __construct($points, float $α, int $λ)
+    public function __construct(array $points, float $α, int $λ)
     {
         $this->α = $α;
         $this->λ = $λ;

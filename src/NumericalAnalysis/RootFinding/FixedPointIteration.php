@@ -67,7 +67,7 @@ class FixedPointIteration
      * @throws Exception\BadDataException if $a = $b
      * @throws Exception\OutOfBoundsException if either $p > $a or $p < $b return false
      */
-    private static function validate($a, $b, $p, $tol)
+    private static function validate($a, $b, $p, $tol): void
     {
         Validation::tolerance($tol);
         Validation::interval($a, $b);

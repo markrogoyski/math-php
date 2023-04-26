@@ -22,6 +22,11 @@ abstract class NumericalIntegration
     /** @var int Index of y */
     protected const Y = 1;
 
+    /**
+     * @param callable|array<array{number, number}> $source
+     * @param number ...$args
+     * @return number
+     */
     abstract public static function approximate($source, ...$args);
 
     /**
@@ -35,19 +40,22 @@ abstract class NumericalIntegration
      * @todo  Add method to verify input arguments are valid.
      *        Verify $start and $end are numbers, $end > $start, and $points is an integer > 1
      *
-     * @param  callable|array  $source The source of our approximation. Should be either
-     *                                 a callback function or a set of arrays.
-     * @param  array           $args   The arguments of our callback function: start,
-     *                                 end, and n. Example: [0, 8, 5]. If $source is a
-     *                                 set of arrays, $args will default to [].
+     * @param  callable|array<array{number, number}> $source
+     *      The source of our approximation. Should be either
+     *      a callback function or a set of arrays.
+     * @param  array<int|float> $args
+     *      The arguments of our callback function: start,
+     *      end, and n. Example: [0, 8, 5]. If $source is a
+     *      set of arrays, $args will default to [].
      *
-     * @return array
+     * @return array<array{int|float, int|float}>
      *
      * @throws Exception\BadDataException if $source is not callable or a set of arrays
      */
     public static function getPoints($source, array $args = []): array
     {
         // Guard clause - source must be callable or array of points
+        // @phpstan-ignore-next-line
         if (!(\is_callable($source) || \is_array($source))) {
             throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
@@ -61,7 +69,7 @@ abstract class NumericalIntegration
         $function = $source;
         $start    = $args[0];
         $end      = $args[1];
-        $n        = $args[2];
+        $n        = (int)$args[2];
 
         return self::functionToPoints($function, $start, $end, $n);
     }
@@ -74,7 +82,7 @@ abstract class NumericalIntegration
      * @param  float    $end      the end of the interval
      * @param  int      $n        the number of function evaluations
      *
-     * @return array
+     * @return array<array{int|float, int|float}>
      */
     protected static function functionToPoints(callable $function, float $start, float $end, int $n): array
     {
@@ -94,14 +102,14 @@ abstract class NumericalIntegration
      * has precisely two numbers, and that no two points share the same first number
      * (x-component)
      *
-     * @param  array $points Array of arrays (points)
-     * @param  int   $degree The minimum number of input arrays
+     * @param  array<array{number, number}> $points Array of arrays (points)
+     * @param  int                          $degree The minimum number of input arrays
      *
      * @throws Exception\BadDataException if there are less than two points
      * @throws Exception\BadDataException if any point does not contain two numbers
      * @throws Exception\BadDataException if two points share the same first number (x-component)
      */
-    public static function validate(array $points, int $degree = 2)
+    public static function validate(array $points, int $degree = 2): void
     {
         if (\count($points) < $degree) {
             throw new Exception\BadDataException("You need to have at least $degree sets of coordinates (arrays) for this technique");
@@ -109,6 +117,7 @@ abstract class NumericalIntegration
 
         $x_coordinates = [];
         foreach ($points as $point) {
+            // @phpstan-ignore-next-line
             if (\count($point) !== 2) {
                 throw new Exception\BadDataException('Each array needs to have have precisely two numbers, an x- and y-component');
             }
@@ -125,9 +134,9 @@ abstract class NumericalIntegration
      * Sorts our coordinates (arrays) by their x-component (first number) such
      * that consecutive coordinates have an increasing x-component.
      *
-     * @param  array[] $points
+     * @param  array<array{int|float, int|float}> $points
      *
-     * @return array[]
+     * @return array<array{int|float, int|float}>
      */
     protected static function sort(array $points): array
     {

@@ -41,7 +41,7 @@ class Advanced
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 0
+     * @return array<int> Indexed from 0
      */
     public static function fibonacci(int $n): array
     {
@@ -89,7 +89,7 @@ class Advanced
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 0
+     * @return array<int> Indexed from 0
      */
     public static function lucasNumber(int $n): array
     {
@@ -136,7 +136,7 @@ class Advanced
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 0
+     * @return array<int> Indexed from 0
      */
     public static function pellNumber(int $n): array
     {
@@ -183,7 +183,7 @@ class Advanced
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 1
+     * @return array<float> Indexed from 1
      */
     public static function triangularNumber(int $n): array
     {
@@ -217,7 +217,7 @@ class Advanced
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 1
+     * @return array<float> Indexed from 1
      */
     public static function pentagonalNumber(int $n): array
     {
@@ -251,7 +251,7 @@ class Advanced
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 1
+     * @return array<float> Indexed from 1
      */
     public static function hexagonalNumber(int $n): array
     {
@@ -286,7 +286,7 @@ class Advanced
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array Indexed from 1
+     * @return array<float> Indexed from 1
      */
     public static function heptagonalNumber(int $n): array
     {
@@ -331,7 +331,7 @@ class Advanced
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array of strings indexed from 1
+     * @return array<string> of strings indexed from 1
      */
     public static function lookAndSay(int $n): array
     {
@@ -395,7 +395,7 @@ class Advanced
      *
      * @param int $n How many numbers in the sequence
      *
-     * @return array
+     * @return array<float>
      */
     public static function lazyCaterers(int $n): array
     {
@@ -431,7 +431,7 @@ class Advanced
      *
      * @param int $n How many numbers in the sequence
      *
-     * @return array
+     * @return array<float>
      */
     public static function magicSquares(int $n): array
     {
@@ -448,6 +448,11 @@ class Advanced
         return $M;
     }
 
+    /**
+     * FIXME: big numbers are float, so accuracy is lost.
+     * php > var_dump(191561942608236107294793378084303638130997321548169216);
+     * float(1.9156194260824E+53)
+     */
     private const PERFECT_NUMBERS = [
         6, 28, 496, 8128, 33550336, 8589869056, 137438691328, 2305843008139952128, 2658455991569831744654692615953842176, 191561942608236107294793378084303638130997321548169216
     ];
@@ -463,7 +468,7 @@ class Advanced
      *
      * @param  int $n
      *
-     * @return array
+     * @return array<int>
      *
      * @throws OutOfBoundsException
      */
@@ -474,6 +479,10 @@ class Advanced
         }
 
         if ($n <= 10) {
+            /**
+             * @phpstan-ignore-next-line
+             * FIXME: Advanced::perfectNumbers() should return array<int> but returns array<int, float|int>.
+             */
             return \array_slice(self::PERFECT_NUMBERS, 0, $n);
         }
 
@@ -495,7 +504,7 @@ class Advanced
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array
+     * @return array<int>
      */
     public static function perfectPowers(int $n): array
     {
@@ -530,7 +539,7 @@ class Advanced
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array
+     * @return array<int>
      */
     public static function notPerfectPowers(int $n): array
     {
@@ -574,7 +583,7 @@ class Advanced
      *
      * @param  int   $n Prime numbers up to this n
      *
-     * @return array
+     * @return array<int>
      */
     public static function primesUpTo(int $n): array
     {

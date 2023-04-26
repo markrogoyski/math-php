@@ -118,5 +118,8 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
         return $this->inverse(\random_int(0, \PHP_INT_MAX) / \PHP_INT_MAX);
     }
 
+    /**
+     * @return number
+     */
     abstract public function median();
 }

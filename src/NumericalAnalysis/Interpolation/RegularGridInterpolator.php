@@ -53,16 +53,16 @@ class RegularGridInterpolator
     /** @var string Interpolation method (linear or nearest) */
     private $method;
 
-    /** @var array[] Points defining the regular grid in n dimensions */
+    /** @var array<array<number>> Points defining the regular grid in n dimensions */
     private $grid;
 
-    /** @var array Data on the regular grid in n dimensions */
+    /** @var array<mixed> Data on the regular grid in n dimensions */
     private $values;
 
     /**
-     * @param array  $points Points defining the regular grid in n dimensions
-     * @param array  $values Data on the regular grid in n dimensions
-     * @param string $method (optional - default: linear) Interpolation method (linear or nearest)
+     * @param array<array<number>>  $points Points defining the regular grid in n dimensions
+     * @param array<mixed>          $values Data on the regular grid in n dimensions
+     * @param string                $method (optional - default: linear) Interpolation method (linear or nearest)
      *
      * @throws Exception\BadDataException the points and value dimensions do not align, or if an unknown method is used
      */
@@ -86,7 +86,7 @@ class RegularGridInterpolator
     /**
      * Count dimensions of a multi-dimensional array
      *
-     * @param  array $array
+     * @param  array<mixed> $array
      *
      * @return int
      */
@@ -104,7 +104,7 @@ class RegularGridInterpolator
     /**
      * Interpolation of the grid at some coordinates
      *
-     * @param  array $xi n-dimensional array containing the coordinates to sample the gridded data at
+     * @param  array<float> $xi n-dimensional array containing the coordinates to sample the gridded data at
      *
      * @return float
      *
@@ -126,8 +126,8 @@ class RegularGridInterpolator
     }
 
     /**
-     * @param array $indices
-     * @param array $normDistances
+     * @param array<int> $indices
+     * @param array<number> $normDistances
      *
      * @return float|int
      */
@@ -155,8 +155,8 @@ class RegularGridInterpolator
     }
 
     /**
-     * @param array $indices
-     * @param array $normDistances
+     * @param array<int> $indices
+     * @param array<number> $normDistances
      *
      * @return float|int
      */
@@ -169,6 +169,7 @@ class RegularGridInterpolator
                 : $i + 1;
         }
 
+        /** @var float|int */
         return $this->flatCall($this->values, $idxRes);
     }
 
@@ -177,7 +178,7 @@ class RegularGridInterpolator
      *
      * @param float[] $xi 1-dimensional array ( search point = [x,y,z ....] )
      *
-     * @return array[] (indices in grid for search point, normDistances for search point)
+     * @return array{int[], float[]} (indices in grid for search point, normDistances for search point)
      */
     private function findIndices($xi): array
     {
@@ -209,15 +210,16 @@ class RegularGridInterpolator
     /**
      * Dynamically accessing multidimensional array value.
      *
-     * @param array $data
-     * @param array $keys
+     * @param array<mixed> $data
+     * @param array<int|string> $keys
      *
-     * @return array|mixed
+     * @return array<mixed>|mixed
      */
     private function flatCall(array $data, array $keys)
     {
         $current = $data;
         foreach ($keys as $key) {
+            // @phpstan-ignore-next-line
             $current = $current[$key];
         }
 
@@ -229,15 +231,19 @@ class RegularGridInterpolator
      * Output is lexicographic ordered
      *
      * @param mixed ...$args ...$iterables[, $repeat]
-*
-     * @return \Generator
+     *
+     * @return \Generator<array<int|string>>
      */
     private function product(...$args): \Generator
     {
+        /** @var int $repeat */
         $repeat = \array_pop($args);
-        $pools  = \array_merge(...\array_fill(0, $repeat, $args));
+        /** @var array<array<mixed>> $fill */
+        $fill = \array_fill(0, $repeat, $args);
+        $pools  = \array_merge(...$fill);
         $result = [[]];
 
+        /** @var array<int|string> $pool */
         foreach ($pools as $pool) {
             $result_inner = [];
             foreach ($result as $x) {

@@ -14,7 +14,7 @@ use MathPHP\LinearAlgebra\NumericMatrix;
  */
 class Normal
 {
-    /** @var array location */
+    /** @var array<number> location */
     protected $μ;
 
     /** @var NumericMatrix covariance matrix */
@@ -23,7 +23,7 @@ class Normal
     /**
      * Constructor
      *
-     * @param array         $μ ∈ Rᵏ   location
+     * @param array<number> $μ ∈ Rᵏ   location
      * @param NumericMatrix $∑ ∈ Rᵏˣᵏ covariance matrix
      *
      * @throws Exception\BadDataException if the covariance matrix does not have the same number of rows and columns as number of elements in μ
@@ -56,7 +56,7 @@ class Normal
      * μ is a real k-dimensinoal column vector of means
      * │∑│ ≡ det(∑)
      *
-     * @param array  $X ∈ Rᵏ   k-dimensional random vector
+     * @param array<number>  $X ∈ Rᵏ   k-dimensional random vector
      *
      * @return float density
      *
@@ -78,6 +78,7 @@ class Normal
 
         $Δ       = Map\Multi::subtract($X, $μ);
         $⟮x − μ⟯  = new Vector($Δ);
+        /** @var NumericMatrix $⟮x − μ⟯ᵀ */
         $⟮x − μ⟯ᵀ = MatrixFactory::createFromRowVector($Δ);
         $∑⁻¹     = $∑->inverse();
 

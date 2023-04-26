@@ -187,10 +187,11 @@ class Iris
      * Raw data with each observation labeled
      * [['sepalLength' => 5.11, 'sepalWidth' => 3.5, 'petalLength' => 1.4, 'petalWidth' => 0.2, 'species' => 'setosa'], ... ]
      *
-     * @return number[]
+     * @return array<array<string, number>>
      */
     public function getLabeledData(): array
     {
+        /** @var array<array<string, number>> */
         return \array_map(
             function (array $data) {
                 return \array_combine(self::LABELS, $data);

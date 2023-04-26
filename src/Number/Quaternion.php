@@ -37,6 +37,7 @@ class Quaternion implements ObjectArithmetic
      */
     public function __construct($r, $i, $j, $k)
     {
+        // @phpstan-ignore-next-line
         if (!\is_numeric($r) || !\is_numeric($i) || !\is_numeric($j) || !\is_numeric($k)) {
             throw new Exception\BadDataException('Values must be real numbers.');
         }
@@ -317,6 +318,9 @@ class Quaternion implements ObjectArithmetic
     /**
      * Stringify an additional part of the quaternion
      *
+     * @param number $q
+     * @param string $unit
+     * @param string $string
      * @return string
      */
     private static function stringifyNumberPart($q, string $unit = '', string $string = ''): string

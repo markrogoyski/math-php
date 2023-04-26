@@ -6,6 +6,9 @@ use MathPHP\Exception;
 
 /**
  * m x n Matrix
+ *
+ * @template T
+ * @implements \ArrayAccess<int, array<int, T>>
  */
 abstract class Matrix implements \ArrayAccess, \JsonSerializable
 {
@@ -15,10 +18,10 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /** @var int Number of columns */
     protected $n;
 
-    /** @var array[] Matrix array of arrays */
+    /** @var array<array<T>> Matrix array of arrays */
     protected $A;
 
-    /** @var MatrixCatalog */
+    /** @var MatrixCatalog<T> */
     protected $catalog;
 
     /** @var float|null Error/zero tolerance */
@@ -52,7 +55,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
 
     /**
      * Get matrix
-     * @return array[] of arrays
+     * @return array<array<T>> of arrays
      */
     public function getMatrix(): array
     {
@@ -80,8 +83,8 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Get single row from the matrix
      *
-     * @param  int    $i row index (from 0 to m - 1)
-     * @return array
+     * @param  int      $i row index (from 0 to m - 1)
+     * @return array<T>
      *
      * @throws Exception\MatrixException if row i does not exist
      */
@@ -97,8 +100,8 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Get single column from the matrix
      *
-     * @param  int   $j column index (from 0 to n - 1)
-     * @return array
+     * @param  int      $j column index (from 0 to n - 1)
+     * @return array<T>
      *
      * @throws Exception\MatrixException if column j does not exist
      */
@@ -116,7 +119,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param  int    $i row index
      * @param  int    $j column index
-     * @return number
+     * @return T
      *
      * @throws Exception\MatrixException if row i or column j does not exist
      */
@@ -140,7 +143,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * getDiagonalElements($A) = [1, 5, 9]
      *
-     * @return array
+     * @return array<T>
      */
     public function getDiagonalElements(): array
     {
@@ -162,7 +165,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * http://mathworld.wolfram.com/Superdiagonal.html
      *
-     * @return array
+     * @return array<T>
      */
     public function getSuperdiagonalElements(): array
     {
@@ -185,7 +188,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * http://mathworld.wolfram.com/Subdiagonal.html
      *
-     * @return array
+     * @return array<T>
      */
     public function getSubdiagonalElements(): array
     {
@@ -218,6 +221,10 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
         $vectors = [];
 
         for ($j = 0; $j < $n; $j++) {
+            /**
+             * FIXME: maybe define vector as a generic class of T type?
+             * @phpstan-ignore-next-line
+             */
             $vectors[] = new Vector(\array_column($this->A, $j));
         }
 
@@ -242,6 +249,10 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     {
         return \array_map(
             function (array $row) {
+                /**
+                 * FIXME: maybe define vector as a generic class of T type?
+                 * @phpstan-ignore-next-line
+                 */
                 return new Vector($row);
             },
             $this->A
@@ -256,7 +267,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     /**
      * Is this matrix the same size and type as some other matrix?
      *
-     * @param Matrix $B
+     * @param Matrix<T> $B
      *
      * @return bool
      */
@@ -317,9 +328,9 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * (A|B) = [2, 3, 4 | 5]
      *         [3, 4, 5 | 6]
      *
-     * @param  Matrix $B Matrix columns to add to matrix A
+     * @param  Matrix<T> $B Matrix columns to add to matrix A
      *
-     * @return Matrix
+     * @return static
      *
      * @throws Exception\MatrixException if matrices do not have the same number of rows
      * @throws Exception\IncorrectTypeException
@@ -342,6 +353,8 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $⟮A∣B⟯[$i] = \array_merge($A[$i], $B[$i]);
         }
 
+        /** @var array<array<float|int|object>> $⟮A∣B⟯ */
+        /** @var static */
         return MatrixFactory::create($⟮A∣B⟯, $this->ε);
     }
 
@@ -361,9 +374,9 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * (A|B) = [5 | 2, 3, 4]
      *         [6 | 3, 4, 5]
      *
-     * @param  Matrix $B Matrix columns to add to matrix A
+     * @param  Matrix<T> $B Matrix columns to add to matrix A
      *
-     * @return Matrix
+     * @return static
      *
      * @throws Exception\MatrixException if matrices do not have the same number of rows
      * @throws Exception\IncorrectTypeException
@@ -386,6 +399,8 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $⟮B∣A⟯[$i] = \array_merge($B[$i], $A[$i]);
         }
 
+        /** @var array<array<float|int|object>> $⟮B∣A⟯ */
+        /** @var static */
         return MatrixFactory::create($⟮B∣A⟯, $this->ε);
     }
 
@@ -404,9 +419,9 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *         [3, 4, 5]
      *         [4, 5, 6]
      *
-     * @param  Matrix $B Matrix rows to add to matrix A
+     * @param  Matrix<T> $B Matrix rows to add to matrix A
      *
-     * @return Matrix
+     * @return static
      *
      * @throws Exception\MatrixException if matrices do not have the same number of columns
      * @throws Exception\IncorrectTypeException
@@ -420,8 +435,10 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
         }
 
+        /** @var array<array<float|int|object>> $⟮A∣B⟯ */
         $⟮A∣B⟯ = \array_merge($this->A, $B->getMatrix());
 
+        /** @var static */
         return MatrixFactory::create($⟮A∣B⟯, $this->ε);
     }
 
@@ -440,9 +457,9 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * (A_B) = [2, 3, 4]
      *         [3, 4, 5]
      *
-     * @param  Matrix $B Matrix rows to add to matrix A
+     * @param  Matrix<T> $B Matrix rows to add to matrix A
      *
-     * @return Matrix
+     * @return static
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException
@@ -458,8 +475,10 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             throw new Exception\MatrixException('Matrices to augment do not have the same number of columns');
         }
 
+        /** @var array<array<float|int|object>> $⟮A∣B⟯ */
         $⟮A∣B⟯ = \array_merge($B->getMatrix(), $this->A);
 
+        /** @var static */
         return MatrixFactory::create($⟮A∣B⟯, $this->ε);
     }
 
@@ -481,7 +500,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * If A is an m × n matrix then Aᵀ is an n × m matrix.
      * https://en.wikipedia.org/wiki/Transpose
      *
-     * @return Matrix
+     * @return static
      *
      * @throws Exception\MatrixException
      * @throws Exception\IncorrectTypeException
@@ -489,6 +508,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     public function transpose(): Matrix
     {
         if ($this->catalog->hasTranspose()) {
+            /** @var static */
             return $this->catalog->getTranspose();
         }
 
@@ -497,7 +517,9 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $Aᵀ[$i] = $this->getColumn($i);
         }
 
+        // @phpstan-ignore-next-line
         $this->catalog->addTranspose(MatrixFactory::create($Aᵀ, $this->ε));
+        /** @var static */
         return $this->catalog->getTranspose();
     }
 
@@ -511,7 +533,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * @param int $m₂ Ending row
      * @param int $n₂ Ending column
      *
-     * @return Matrix
+     * @return static
      *
      * @throws Exception\MatrixException
      */
@@ -537,6 +559,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
+        /** @var static */
         return MatrixFactory::create($A, $this->ε);
     }
 
@@ -544,11 +567,11 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * Insert
      * Insert a smaller matrix within a larger matrix starting at a specified position
      *
-     * @param Matrix $small the smaller matrix to embed
-     * @param int    $m     Starting row
-     * @param int    $n     Starting column
+     * @param Matrix<T> $small the smaller matrix to embed
+     * @param int       $m     Starting row
+     * @param int       $n     Starting column
      *
-     * @return Matrix
+     * @return static
      *
      * @throws Exception\MatrixException
      */
@@ -567,6 +590,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
                 $new_array[$i + $m][$j + $n] = $small[$i][$j];
             }
         }
+        /** @var static */
         return MatrixFactory::create($new_array, $this->ε);
     }
 
@@ -581,7 +605,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param  callable $func takes a matrix item as input
      *
-     * @return Matrix
+     * @return static
      *
      * @throws Exception\IncorrectTypeException
      */
@@ -597,6 +621,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
+        /** @var static */
         return MatrixFactory::create($R, $this->ε);
     }
 
@@ -605,7 +630,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param callable $func
      *
-     * @return array|array[] Depends on the function
+     * @return array<T>|array<array<T>> Depends on the function
      */
     public function mapRows(callable $func): array
     {
@@ -647,7 +672,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * @param int $mᵢ Row to swap into row position mⱼ
      * @param int $mⱼ Row to swap into row position mᵢ
      *
-     * @return Matrix with rows mᵢ and mⱼ interchanged
+     * @return static with rows mᵢ and mⱼ interchanged
      *
      * @throws Exception\MatrixException if row to interchange does not exist
      * @throws Exception\IncorrectTypeException
@@ -674,6 +699,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
+        /** @var static */
         return MatrixFactory::create($R, $this->ε);
     }
 
@@ -682,7 +708,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param int $mᵢ Row to exclude
      *
-     * @return Matrix with row mᵢ excluded
+     * @return static with row mᵢ excluded
      *
      * @throws Exception\MatrixException if row to exclude does not exist
      * @throws Exception\IncorrectTypeException
@@ -703,6 +729,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$i] = $this->A[$i];
         }
 
+        /** @var static */
         return MatrixFactory::create(\array_values($R), $this->ε);
     }
 
@@ -721,7 +748,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * @param int $nᵢ Column to swap into column position nⱼ
      * @param int $nⱼ Column to swap into column position nᵢ
      *
-     * @return Matrix with columns nᵢ and nⱼ interchanged
+     * @return static with columns nᵢ and nⱼ interchanged
      *
      * @throws Exception\MatrixException if column to interchange does not exist
      * @throws Exception\IncorrectTypeException
@@ -751,6 +778,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
+        /** @var static */
         return MatrixFactory::create($R, $this->ε);
     }
 
@@ -759,7 +787,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param int $nᵢ Column to exclude
      *
-     * @return Matrix with column nᵢ excluded
+     * @return static with column nᵢ excluded
      *
      * @throws Exception\MatrixException if column to exclude does not exist
      * @throws Exception\IncorrectTypeException
@@ -788,6 +816,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             $R[$i] = \array_values($R[$i]);
         }
 
+        /** @var static */
         return MatrixFactory::create($R, $this->ε);
     }
 
@@ -805,7 +834,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * https://en.wikipedia.org/wiki/Conjugate_transpose
      *
-     * @return Matrix
+     * @return static
      */
     public function conjugateTranspose(): Matrix
     {
@@ -820,7 +849,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * @param int $mᵢ Row to exclude
      * @param int $nⱼ Column to exclude
      *
-     * @return Matrix with row mᵢ and column nⱼ removed
+     * @return static with row mᵢ and column nⱼ removed
      *
      * @throws Exception\MatrixException if matrix is not square
      * @throws Exception\MatrixException if row to exclude for minor matrix does not exist
@@ -864,7 +893,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      *
      * @param  int $k Order of the leading principal minor
      *
-     * @return Matrix
+     * @return static
      *
      * @throws Exception\OutOfBoundsException if k ≤ 0
      * @throws Exception\OutOfBoundsException if k > n
@@ -890,6 +919,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             }
         }
 
+        /** @var static */
         return MatrixFactory::create($R, $this->ε);
     }
 
@@ -915,7 +945,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * @param int $mᵢ Row to exclude
      * @param int $nⱼ Column to exclude
      *
-     * @return number
+     * @return T
      *
      * @throws Exception\MatrixException if matrix is not square
      * @throws Exception\MatrixException if row to exclude for minor does not exist
@@ -935,7 +965,10 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
             throw new Exception\MatrixException('Column to exclude for minor does not exist');
         }
 
-        return $this->minorMatrix($mᵢ, $nⱼ)->det();
+        /** @var ObjectMatrix|NumericMatrix $minorMatrix */
+        $minorMatrix = $this->minorMatrix($mᵢ, $nⱼ);
+        /** @var T */
+        return $minorMatrix->det();
     }
 
     /**************************************************************************
@@ -943,7 +976,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      **************************************************************************/
 
     /**
-     * @param mixed $i
+     * @param int $i
      * @return bool
      */
     public function offsetExists($i): bool
@@ -952,8 +985,8 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * @param mixed $i
-     * @return mixed
+     * @param int $i
+     * @return array<T>
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($i)
@@ -962,8 +995,8 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * @param  mixed $i
-     * @param  mixed $value
+     * @param  int $i
+     * @param  array<T> $value
      * @throws Exception\MatrixException
      */
     public function offsetSet($i, $value): void
@@ -972,7 +1005,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * @param  mixed $i
+     * @param  int $i
      * @throws Exception\MatrixException
      */
     public function offsetUnset($i): void
@@ -984,7 +1017,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
      * JsonSerializable INTERFACE
      **************************************************************************/
     /**
-     * @return array
+     * @return array<array<T>>
      */
     public function jsonSerialize(): array
     {

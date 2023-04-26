@@ -27,18 +27,21 @@ class NevillesMethod extends Interpolation
     /**
      * Interpolate
      *
-     * @param float          $target  The point at which we are interpolation
-     * @param callable|array $source  The source of our approximation. Should be either
-     *                                a callback function or a set of arrays. Each array
-     *                                (point) contains precisely two numbers, an x and y.
-     *                                Example array: [[1,2], [2,3], [3,4]].
-     *                                Example callback: function($x) {return $x**2;}
-     * @param float[]        ...$args The arguments of our callback function: start,
-     *                                end, and n. Example: approximate($source, 0, 8, 5).
-     *                                If $source is a set of points, do not input any
-     *                                $args. Example: approximate($source).
+     * @param float          $target
+     *      The point at which we are interpolation
+     * @param callable|array<array{number, number}> $source
+     *      The source of our approximation. Should be either
+     *      a callback function or a set of arrays. Each array
+     *      (point) contains precisely two numbers, an x and y.
+     *      Example array: [[1,2], [2,3], [3,4]].
+     *      Example callback: function($x) {return $x**2;}
+     * @param float ...$args
+     *      The arguments of our callback function: start,
+     *      end, and n. Example: approximate($source, 0, 8, 5).
+     *      If $source is a set of points, do not input any
+     *      $args. Example: approximate($source).
      *
-     * @return float                  The interpolated value at our target
+     * @return float The interpolated value at our target
      *
      * @throws Exception\BadDataException
      * @throws Exception\IncorrectTypeException

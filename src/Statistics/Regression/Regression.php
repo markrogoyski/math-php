@@ -9,19 +9,19 @@ abstract class Regression
 {
     /**
      * Array of x and y points: [ [x, y], [x, y], ... ]
-     * @var array
+     * @var array<array{float, float}>
      */
     protected $points;
 
     /**
      * X values of the original points
-     * @var array
+     * @var array<float>
      */
     protected $xs;
 
     /**
      * Y values of the original points
-     * @var array
+     * @var array<float>
      */
     protected $ys;
 
@@ -34,7 +34,7 @@ abstract class Regression
     /**
      * Constructor - Prepares the data arrays for regression analysis
      *
-     * @param array $points [ [x, y], [x, y], ... ]
+     * @param array<array{float, float}> $points [ [x, y], [x, y], ... ]
      */
     public function __construct(array $points)
     {
@@ -64,7 +64,7 @@ abstract class Regression
     /**
      * Get points
      *
-     * @return array
+     * @return array<array{float, float}>
      */
     public function getPoints(): array
     {
@@ -74,7 +74,7 @@ abstract class Regression
     /**
      * Get Xs (x values of each point)
      *
-     * @return array of x values
+     * @return array<float> of x values
      */
     public function getXs(): array
     {
@@ -84,7 +84,7 @@ abstract class Regression
     /**
      * Get Ys (y values of each point)
      *
-     * @return array of y values
+     * @return array<float> of y values
      */
     public function getYs(): array
     {
@@ -105,7 +105,7 @@ abstract class Regression
      * Ŷ (yhat)
      * A list of the predicted values of Y given the regression.
      *
-     * @return array
+     * @return array<float>
      */
     public function yHat(): array
     {

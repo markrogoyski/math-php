@@ -83,7 +83,9 @@ class Crout extends Decomposition
             }
         }
 
+        /** @var NumericMatrix $L */
         $L = MatrixFactory::create($L);
+        /** @var NumericMatrix $U */
         $U = MatrixFactory::create($U);
 
         return new Crout($L, $U);

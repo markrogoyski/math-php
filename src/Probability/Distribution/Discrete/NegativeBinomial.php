@@ -16,7 +16,7 @@ class NegativeBinomial extends Discrete
      * Distribution parameter bounds limits
      * r ∈ [0,∞)
      * p ∈ [0,1]
-     * @var array
+     * @var array{"r": string, "p": string}
      */
     public const PARAMETER_LIMITS = [
         'r' => '[0,∞)',
@@ -26,7 +26,7 @@ class NegativeBinomial extends Discrete
     /**
      * Distribution support bounds limits
      * x ∈ [0,∞)
-     * @var array
+     * @var array{"x": string}
      */
     public const SUPPORT_LIMITS = [
         'x' => '[0,∞)',

@@ -85,12 +85,13 @@ class UsArrests
      * Raw data with each observation labeled
      * ['Alabama' => ['murder' => 13.2, 'assault' => 236, 'urbanPop' => 58, 'rape' => 21.2], ... ]
      *
-     * @return number[][]
+     * @return array<string, array<string, number>>
      */
     public function getLabeledData(): array
     {
         return \array_map(
             function (array $data) {
+                /** @var array<string, number> */
                 return \array_combine(self::LABELS, $data);
             },
             self::DATA
@@ -117,6 +118,7 @@ class UsArrests
      */
     public function getStateData(string $state): array
     {
+        /** @var array<string, number> */
         return \array_combine(self::LABELS, self::DATA[$state]);
     }
 
@@ -124,10 +126,11 @@ class UsArrests
      * Murder observations for all states
      * ['Alabama' => 13.2, 'Alaska' => 10.1, ... ]
      *
-     * @return number[]
+     * @return array<string, float>
      */
     public function getMurder(): array
     {
+        /** @var array<string, float> */
         return \array_combine($this->getStates(), \array_column(self::DATA, 0));
     }
 
@@ -135,10 +138,11 @@ class UsArrests
      * Assault observations for all states
      * ['Alabama' => 236, 'Alaska' => 263, ... ]
      *
-     * @return number[]
+     * @return array<string, int>
      */
     public function getAssault(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getStates(), \array_column(self::DATA, 1));
     }
 
@@ -146,10 +150,11 @@ class UsArrests
      * UrbanPop observations for all states
      * ['Alabama' => 58, 'Alaska' => 48, ... ]
      *
-     * @return number[]
+     * @return array<string, int>
      */
     public function getUrbanPop(): array
     {
+        /** @var array<string, int> */
         return \array_combine($this->getStates(), \array_column(self::DATA, 2));
     }
 
@@ -157,10 +162,11 @@ class UsArrests
      * Rape observations for all states
      * ['Alabama' => 21.2, 'Alaska' => 44.5, ... ]
      *
-     * @return number[]
+     * @return array<string, float>
      */
     public function getRape(): array
     {
+        /** @var array<string, float> */
         return \array_combine($this->getStates(), \array_column(self::DATA, 3));
     }
 }

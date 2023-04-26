@@ -14,7 +14,7 @@ class StudentT extends Continuous
     /**
      * Distribution parameter bounds limits
      * ν ∈ (0,∞)
-     * @var array
+     * @var array{"ν": string}
      */
     public const PARAMETER_LIMITS = [
         'ν' => '(0,∞)',
@@ -23,7 +23,7 @@ class StudentT extends Continuous
     /**
      * Distribution support bounds limits
      * t ∈ (-∞,∞)
-     * @var array
+     * @var array{"t": string}
      */
     public const SUPPORT_LIMITS = [
         't' => '(-∞,∞)',

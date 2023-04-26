@@ -3,6 +3,11 @@
 namespace MathPHP\LinearAlgebra\Decomposition;
 
 use MathPHP\Exception;
+use MathPHP\Exception\BadDataException;
+use MathPHP\Exception\DivisionByZeroException;
+use MathPHP\Exception\IncorrectTypeException;
+use MathPHP\Exception\MathException;
+use MathPHP\Exception\MatrixException;
 use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Vector;
@@ -97,7 +102,9 @@ class LU extends Decomposition
         $n = $A->getN();
 
         // Initialize L as diagonal ones matrix, and U as zero matrix
-        $L = MatrixFactory::diagonal(\array_fill(0, $n, 1))->getMatrix();
+        /** @var array<int> $fill */
+        $fill = \array_fill(0, $n, 1);
+        $L = MatrixFactory::diagonal($fill)->getMatrix();
         $U = MatrixFactory::zero($n, $n)->getMatrix();
 
         // Create permutation matrix P and pivoted PA
@@ -125,7 +132,7 @@ class LU extends Decomposition
             }
         }
 
-        // Create LU decomposition
+        // Create LU decomposition @phpstan-ignore-next-line
         return new LU(MatrixFactory::create($L), MatrixFactory::create($U), $P);
     }
 
@@ -217,19 +224,19 @@ class LU extends Decomposition
      *   xᵢ = --- | yᵢ - ∑ Uᵢⱼxⱼ |
      *        Uᵢᵢ  \   ʲ⁼ⁱ⁺¹     /
      *
-     * @param Vector|array $b solution to Ax = b
+     * @param Vector|array<number> $b solution to Ax = b
      *
      * @return Vector x
      *
-     * @throws Exception\IncorrectTypeException if b is not a Vector or array
-     * @throws Exception\MatrixException
-     * @throws Exception\VectorException
-     * @throws Exception\OutOfBoundsException
-     * @throws Exception\BadParameterException
+     * @throws BadDataException
+     * @throws DivisionByZeroException
+     * @throws IncorrectTypeException if b is not a Vector or array
+     * @throws MathException
+     * @throws MatrixException
      */
     public function solve($b): Vector
     {
-        // Input must be a Vector or array.
+        // Input must be a Vector or array. @phpstan-ignore-next-line
         if (!($b instanceof Vector || \is_array($b))) {
             throw new Exception\IncorrectTypeException('b in Ax = b must be a Vector or array');
         }

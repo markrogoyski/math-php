@@ -65,10 +65,11 @@ class PlantGrowth
      * Raw data with each observation labeled
      * [['weight' => 4.17, 'group' => 'ctrl'], ['weight' => 5.58, 'group' => 'ctrl'], ... ]
      *
-     * @return number[]
+     * @return array<int, array<string, number>>
      */
     public function getLabeledData(): array
     {
+        /** @var array<int, array<string, number>> */
         return \array_map(
             function (array $data) {
                 return \array_combine(self::LABELS, $data);
@@ -94,6 +95,10 @@ class PlantGrowth
      */
     public function getGroup(): array
     {
+        /**
+         * FIXME: looks like a mistake: column_key = 0 instead of 1?
+         * @phpstan-ignore-next-line
+         */
         return \array_column(self::DATA, 0);
     }
 }
