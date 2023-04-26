@@ -131,10 +131,15 @@ class PLS
             $W = \is_null($W) ? $w : $W->augment($w);
         }
 
+        // @phpstan-ignore-next-line
         $this->C = $C;
+        // @phpstan-ignore-next-line
         $this->P = $P;
+        // @phpstan-ignore-next-line
         $this->T = $T;
+        // @phpstan-ignore-next-line
         $this->U = $U;
+        // @phpstan-ignore-next-line
         $this->W = $W;
 
         // Calculate R (or W*)
