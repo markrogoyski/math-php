@@ -76,9 +76,7 @@ class Search
         }
 
         // Standard case: Find max and return index
-        /** @var int $result */
-        $result = self::baseArgMax($values);
-        return $result;
+        return self::baseArgMax($values);
     }
 
     /**
@@ -112,9 +110,7 @@ class Search
             throw new Exception\BadDataException('Array of all NANs has no nanArgMax');
         }
 
-        /** @var int $result */
-        $result = self::baseArgMax($valuesWithoutNans);
-        return $result;
+        return self::baseArgMax($valuesWithoutNans);
     }
 
     /**
@@ -125,9 +121,11 @@ class Search
      *
      * @param float[]|int[] $values
      *
-     * @return int|null Index of the first occurrence of the maximum value
+     * @return int Index of the first occurrence of the maximum value
+     *
+     * @throws \LogicException if the array of values is empty - should never happen
      */
-    private static function baseArgMax(array $values): ?int
+    private static function baseArgMax(array $values): int
     {
         $max = \max($values);
         foreach ($values as $i => $v) {
@@ -136,7 +134,7 @@ class Search
             }
         }
 
-        return null;
+        throw new \LogicException('argMax values is empty--should not happen');
     }
 
     /**
@@ -176,10 +174,7 @@ class Search
         }
 
         // Standard case: Find max and return index
-
-        /** @var int $result */
-        $result = self::baseArgMin($values);
-        return $result;
+        return self::baseArgMin($values);
     }
 
     /**
@@ -213,9 +208,7 @@ class Search
             throw new Exception\BadDataException('Array of all NANs has no nanArgMax');
         }
 
-        /** @var int $result */
-        $result = self::baseArgMin($valuesWithoutNans);
-        return $result;
+        return self::baseArgMin($valuesWithoutNans);
     }
 
     /**
@@ -226,9 +219,11 @@ class Search
      *
      * @param float[]|int[] $values
      *
-     * @return int|null Index of the first occurrence of the minimum value
+     * @return int Index of the first occurrence of the minimum value
+     *
+     * @throws \LogicException if the array of values is empty - should never happen
      */
-    private static function baseArgMin(array $values): ?int
+    private static function baseArgMin(array $values): int
     {
         $max = \min($values);
         foreach ($values as $i => $v) {
@@ -237,7 +232,7 @@ class Search
             }
         }
 
-        return null;
+        throw new \LogicException('argMin values is empty--should not happen');
     }
 
     /**
