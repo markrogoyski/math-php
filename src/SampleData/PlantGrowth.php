@@ -95,10 +95,6 @@ class PlantGrowth
      */
     public function getGroup(): array
     {
-        /**
-         * FIXME: looks like a mistake: column_key = 0 instead of 1?
-         * @phpstan-ignore-next-line
-         */
-        return \array_column(self::DATA, 0);
+        return \array_column(self::DATA, 1);
     }
 }

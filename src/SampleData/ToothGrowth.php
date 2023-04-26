@@ -125,11 +125,7 @@ class ToothGrowth
      */
     public function getSupp(): array
     {
-        /**
-         * FIXME: looks like a mistake: column_key = 0 instead of 1?
-         * @phpstan-ignore-next-line
-         */
-        return \array_column(self::DATA, 0);
+        return \array_column(self::DATA, 1);
     }
 
     /**
@@ -139,9 +135,6 @@ class ToothGrowth
      */
     public function getDose(): array
     {
-        /**
-         * FIXME: looks like a mistake: column_key = 0 instead of 2?
-         */
-        return \array_column(self::DATA, 0);
+        return \array_column(self::DATA, 2);
     }
 }
