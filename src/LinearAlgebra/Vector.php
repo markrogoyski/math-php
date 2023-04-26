@@ -172,7 +172,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @return number|false
      *
-     * FIXME: maybe null instead of false?
+     * Note: Remove false from return value after PHP 8.0
      */
     public function max()
     {
@@ -184,7 +184,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @return number|false
      *
-     * FIXME: maybe null instead of false?
+     * Note: Remove false from return value after PHP 8.0
      */
     public function min()
     {
@@ -716,7 +716,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @return number|false
      *
-     * FIXME: maybe null instead of false?
+     * Note: Remove false from return value after PHP 8.0
      */
     public function maxNorm()
     {

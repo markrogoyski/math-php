@@ -359,10 +359,8 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
      * @param int $nⱼ
      *
      * @return ObjectArithmetic
-     *
-     * FIXME: maybe add return type to the method definition?
      */
-    public function cofactor(int $mᵢ, int $nⱼ)
+    public function cofactor(int $mᵢ, int $nⱼ): ObjectArithmetic
     {
         /** @var ObjectArithmetic $Mᵢⱼ */
         $Mᵢⱼ    = $this->minor($mᵢ, $nⱼ);

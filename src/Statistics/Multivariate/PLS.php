@@ -52,14 +52,12 @@ class PLS
     /**
      * @param NumericMatrix $X each row is a sample, each column is a variable
      * @param NumericMatrix $Y each row is a sample, each column is a variable
-     * @param int    $ncomp number of components to use in the model
-     * @param bool   $scale standardize each column?
+     * @param int           $ncomp number of components to use in the model
+     * @param bool          $scale standardize each column?
      *
      * @throws Exception\BadDataException if any rows have a different column count
-     *
-     * FIXME: cannot use Matrix, only NumericMatrix (because of using `columnMeans()` function).
      */
-    public function __construct(Matrix $X, Matrix $Y, int $ncomp, bool $scale = false)
+    public function __construct(NumericMatrix $X, NumericMatrix $Y, int $ncomp, bool $scale = false)
     {
         // Check that X and Y have the same amount of data.
         if ($X->getM() !== $Y->getM()) {
