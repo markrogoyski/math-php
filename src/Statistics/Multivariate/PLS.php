@@ -4,14 +4,9 @@ namespace MathPHP\Statistics\Multivariate;
 
 use MathPHP\Exception;
 use MathPHP\Exception\BadDataException;
-use MathPHP\Exception\IncorrectTypeException;
-use MathPHP\Exception\MathException;
-use MathPHP\Exception\MatrixException;
-use MathPHP\Exception\OutOfBoundsException;
 use MathPHP\LinearAlgebra\Matrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\NumericMatrix;
-use MathPHP\LinearAlgebra\ObjectMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Statistics\Descriptive;
 
@@ -89,6 +84,12 @@ class PLS
         $E = $this->standardizeData($X, $this->Xcenter, $this->Xscale);
         $F = $this->standardizeData($Y, $this->Ycenter, $this->Yscale);
 
+        $C = null;
+        $P = null;
+        $T = null;
+        $U = null;
+        $W = null;
+
         $tol = 1E-8;
         for ($i = 0; $i < $ncomp; $i++) {
             $iterations = 0;
@@ -100,7 +101,7 @@ class PLS
             while (!$end) {
                 ++$iterations;
 
-                // $w is a unit vector
+                /** @var NumericMatrix $w is a unit vector */
                 $w = $E->transpose()->multiply($u);
                 $w = $w->scalarDivide($w->frobeniusNorm());
 
@@ -125,17 +126,18 @@ class PLS
             $F = $F->subtract($t->multiply($c->transpose())->scalarMultiply($d));
 
             // Add each of these columns to the overall matrices
-            // @phpstan-ignore-next-line (Call to function is_null() with MathPHP\LinearAlgebra\NumericMatrix will always evaluate to false.)
-            $this->C = is_null($this->C) ? $c : $this->C->augment($c);
-            // @phpstan-ignore-next-line (Call to function is_null() with MathPHP\LinearAlgebra\NumericMatrix will always evaluate to false.)
-            $this->P = is_null($this->P) ? $p : $this->P->augment($p);
-            // @phpstan-ignore-next-line (Call to function is_null() with MathPHP\LinearAlgebra\NumericMatrix will always evaluate to false.)
-            $this->T = is_null($this->T) ? $t : $this->T->augment($t);
-            // @phpstan-ignore-next-line (Call to function is_null() with MathPHP\LinearAlgebra\NumericMatrix will always evaluate to false.)
-            $this->U = is_null($this->U) ? $u : $this->U->augment($u);
-            // @phpstan-ignore-next-line (Call to function is_null() with MathPHP\LinearAlgebra\NumericMatrix will always evaluate to false.)
-            $this->W = is_null($this->W) ? $w : $this->W->augment($w);
+            $C = \is_null($C) ? $c : $C->augment($c);
+            $P = \is_null($P) ? $p : $P->augment($p);
+            $T = \is_null($T) ? $t : $T->augment($t);
+            $U = \is_null($U) ? $u : $U->augment($u);
+            $W = \is_null($W) ? $w : $W->augment($w);
         }
+
+        $this->C = $C;
+        $this->P = $P;
+        $this->T = $T;
+        $this->U = $U;
+        $this->W = $W;
 
         // Calculate R (or W*)
         $R = $this->W->multiply($this->P->transpose()->multiply($this->W)->inverse());
@@ -267,7 +269,7 @@ class PLS
      *
      * @throws Exception\MathException
      */
-    private function standardizeData(Matrix $new_data, Vector $center, Vector $scale): Matrix
+    private function standardizeData(NumericMatrix $new_data, Vector $center, Vector $scale): NumericMatrix
     {
         // Create a matrix the same dimensions as $new_data, each element is the average of that column in the original data.
         $ones_column = MatrixFactory::one($new_data->getM(), 1);
