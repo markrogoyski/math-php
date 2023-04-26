@@ -448,11 +448,6 @@ class Advanced
         return $M;
     }
 
-    /**
-     * FIXME: big numbers are float, so accuracy is lost.
-     * php > var_dump(191561942608236107294793378084303638130997321548169216);
-     * float(1.9156194260824E+53)
-     */
     private const PERFECT_NUMBERS = [
         6, 28, 496, 8128, 33550336, 8589869056, 137438691328, 2305843008139952128, 2658455991569831744654692615953842176, 191561942608236107294793378084303638130997321548169216
     ];
@@ -468,7 +463,7 @@ class Advanced
      *
      * @param  int $n
      *
-     * @return array<int>
+     * @return array<int|float> May return float due to integer precision limitations of large numbers
      *
      * @throws OutOfBoundsException
      */
@@ -479,10 +474,6 @@ class Advanced
         }
 
         if ($n <= 10) {
-            /**
-             * @phpstan-ignore-next-line
-             * FIXME: Advanced::perfectNumbers() should return array<int> but returns array<int, float|int>.
-             */
             return \array_slice(self::PERFECT_NUMBERS, 0, $n);
         }
 
