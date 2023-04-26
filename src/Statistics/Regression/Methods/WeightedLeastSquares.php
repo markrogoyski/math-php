@@ -62,8 +62,8 @@ trait WeightedLeastSquares
         $W = MatrixFactory::diagonal($ws);
 
         // a = (XᵀWX)⁻¹XᵀWy
+        /** @var NumericMatrix $Xᵀ */
         $Xᵀ       = $X->transpose();
-        // @phpstan-ignore-next-line (Call to an undefined method MathPHP\LinearAlgebra\Matrix::multiply())
         $beta_hat = $Xᵀ->multiply($W)
                        ->multiply($X)
                        ->inverse()
