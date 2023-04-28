@@ -211,6 +211,20 @@ class SVDTest extends \PHPUnit\Framework\TestCase
                     ],
                 ],
             ],
+            [
+                [
+                    [0,1,0,0],
+                    [1,0,0,0],
+                    [0,0,1,0]
+                ],
+                [
+                    'S' => [
+                        [1,0,0,0],
+                        [0,1,0,0],
+                        [0,0,1,0]
+                    ]
+                ]
+            ],
             // Idempotent
             [
                 [
