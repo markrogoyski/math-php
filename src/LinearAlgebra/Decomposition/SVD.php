@@ -130,6 +130,16 @@ class SVD extends Decomposition
             $S = $signature->multiply($S);
         }
 
+        // Check the elements are in descending order
+        if (!self::isDiagonalDescending($S)) {
+            $P = self::sortDiagonal($S);
+            /** @var NumericMatrix */
+            $Pᵀ = $P->transpose();
+
+            $S = $Pᵀ->multiply($S)->multiply($P);
+            $U = $P->multiply($U)->multiply($Pᵀ);
+        }
+
         return new SVD($U, $S, $V);
     }
 
@@ -250,6 +260,56 @@ class SVD extends Decomposition
         }
 
         return $index;
+    }
+
+    /**
+     * Returns a permutation matrix that sorts its diagonal values in descending order
+     * 
+     * @param NumericMatrix $S singular matrix
+     * 
+     * @return NumericMatrix a permutation matrix such that PᵀSP is diagonal
+     */
+    private static function sortDiagonal(NumericMatrix $S): NumericMatrix
+    {
+        // Get diagonal, pad it by columns, and sort it
+        $diagonal = $S->getDiagonalElements();
+        
+        // Pad
+        $padLength = $S->getN() - count($diagonal);
+
+        $diagonal = array_merge($diagonal, array_fill(0, $padLength, 0)); // Pick 0 because the numbers should all be positive
+
+        // arsort preserves the indices
+        arsort($diagonal, SORT_NUMERIC);
+
+        // ... so we can create a position map from the keys
+        $map = array_keys($diagonal);
+
+        $P = MatrixFactory::identity($S->getM())->asVectors();
+
+        uksort($P, function ($left, $right) use ($map) {
+            $leftPos = $map[$left];
+            $rightPos = $map[$right];
+
+            return $leftPos >= $rightPos;
+        });
+
+        return MatrixFactory::createFromVectors($P);
+    }
+
+    /**
+     * Checks if the elements of a diagonal matrix are in descending order
+     * 
+     * @param NumericMatrix $S the matrix to check
+     * 
+     * @return bool
+     */
+    private static function isDiagonalDescending(NumericMatrix $S): bool
+    {
+        $diagonal = $S->getDiagonalElements();
+        $sorted = array_values($diagonal); rsort($sorted, SORT_NUMERIC);
+
+        return $diagonal === $sorted;
     }
 
     /**
