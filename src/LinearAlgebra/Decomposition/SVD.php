@@ -111,10 +111,15 @@ class SVD extends Decomposition
 
         // If S is non-diagonal, try permuting S to be diagonal
         if (!$S->isRectangularDiagonal()) {
-            $P = self::diagonalizeColumnar($S);
-
-            $S = $S->multiply($P);            // Permute columns of S
-            $V = $P->inverse()->multiply($V); // Permute corresponding rows of V
+            ['sort'=>$sort, 'P'=>$P] = self::diagonalize($S);
+            // Depending on the value of $sort, we either permute the rows or columns of $S 
+            if ($sort === 'm') {
+                $S = $P->multiply($S);            // Permute rows of S
+                $U = $U->multiply($P->inverse()); // Permute corresponding columns of U
+            } elseif ($sort === 'n') {
+                $S = $S->multiply($P);            // Permute columns of S
+                $V = $P->inverse()->multiply($V); // Permute corresponding rows of V
+            }
         }
 
         $diag = $S->getDiagonalElements();
@@ -148,26 +153,45 @@ class SVD extends Decomposition
      * 
      * @param NumericMatrix $S the matrix to diagonalize
      * 
-     * @return NumericMatrix a matrix, P, that will diagonalize S (by shuffling cols)
+     * @return array{'sort': string, 'P': NumericMatrix} a matrix, P, that will diagonalize S. Multiplication order defined by sort
+     * If 'm', then pre-multiply
+     * If 'n', then post-multiply
      */
-    private static function diagonalizeColumnar(NumericMatrix $S): NumericMatrix
+    private static function diagonalize(NumericMatrix $S): array
     {
         if ($S->isRectangularDiagonal()) {
             return MatrixFactory::identity($S->getN());
         }
 
+        $sort = '';
+        $vecMethod = '';
+        $max = 0;
+        $min = 0;
+
+        if ($S->getM() >= $S->getN()) {
+            $sort = 'm'; // rows
+            $vecMethod = 'asRowVectors';
+            $max = $S->getM();
+            $min = $S->getN();
+        } else {
+            $sort = 'n'; // columns
+            $vecMethod = 'asVectors';
+            $max = $S->getN();
+            $min = $S->getM();
+        }
+
         // Create an identity matrix to store permutations in
-        $P = MatrixFactory::identity($S->getN())->asVectors();
+        $P = MatrixFactory::identity($max)->{$vecMethod}();
 
         // Push all zero-columns to the right
-        $cols = $S->asVectors();
+        $vectors = $S->{$vecMethod}();
 
         $zeroCols = [];
 
-        foreach ($cols as $i => $colVector)
+        foreach ($vectors as $i => $vector)
         {
             // Each column should contain 1 non-zero element
-            $isZero = Arithmetic::almostEqual((float) $colVector->l2Norm(), 0);
+            $isZero = Arithmetic::almostEqual((float) $vector->l2Norm(), 0);
 
             $zeroCols[$i] = $isZero ? 0 : 1;
         }
@@ -184,16 +208,15 @@ class SVD extends Decomposition
         });
 
         // Only check the columns that contain diagonal entries
-        $rowBound = $S->getM() - 1;
-        $colBound = count($S->getDiagonalElements()) - 1;
-        $cols = $S->submatrix(0,0, $rowBound, $colBound)->asVectors();
+        $vectors = $S->submatrix(0,0, $min-1, $min-1)->{$vecMethod}();
 
         $nonDiagonalValues = [];
 
-        foreach ($cols as $i => $colVector)
+        /** @var Vector */
+        foreach ($vectors as $i => $vector)
         {
             // Each column should contain 1 non-zero element
-            $j = self::isStandardBasisVector($colVector);
+            $j = self::isStandardBasisVector($vector);
 
             if ($j === false) {
                 throw new MatrixException("S Matrix in SVD is not orthogonal:\n" . (string) $S);
@@ -202,17 +225,17 @@ class SVD extends Decomposition
             if ($i === $j) {
                 continue;
             } else {
-                $nonDiagonalValues[$i] = ['value' => $colVector[$j], 'row' => $j];
+                $nonDiagonalValues[$i] = ['value' => $vector[$j], 'j' => $j];
             }
         }
 
         // Now create a sort order
-        $order = range(0, $S->getN() - 1);
+        $order = range(0, $min - 1);
 
-        foreach ($nonDiagonalValues as $col => $elem)
+        foreach ($nonDiagonalValues as $i => $elem)
         {
-            $row = $elem['row'];
-            $order[$row] = $col;
+            $entry = $elem['j'];
+            $order[$entry] = $i;
         }
 
         $map = array_flip($order);
@@ -220,14 +243,20 @@ class SVD extends Decomposition
         // Need to make column ($i of $nonDiagonalValues) = row ($j)
         // order = [1=>2, 2=>1, 3=>3]
         uksort($P, function ($left, $right) use ($map) {
-            $leftPos = $map[$left];
-            $rightPos = $map[$right];
+            $leftPos = isset($map[$left]) ? $map[$left] : INF; // sorts in ascending order, so just use inf
+            $rightPos = isset($map[$right]) ? $map[$right] : INF;
 
-            return $leftPos >= $rightPos;
+            return $leftPos <=> $rightPos;
         });
 
-        // fromVectors treats the array as column vectors, so the matrix needs to be transposed
-        return MatrixFactory::createFromVectors($P);
+        $P = MatrixFactory::createFromVectors($P);
+        
+        // fromVectors treats the array as column vectors, so the matrix might need to be transposed
+        if ($sort === 'm') {
+            $P = $P->transpose();
+        }
+
+        return ['sort'=>$sort, 'P' => $P];
     }
 
     /**
