@@ -2,7 +2,9 @@
 
 namespace MathPHP\LinearAlgebra\Decomposition;
 
+use MathPHP\Arithmetic;
 use MathPHP\Exception;
+use MathPHP\Exception\MatrixException;
 use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\LinearAlgebra\Vector;
@@ -107,6 +109,14 @@ class SVD extends Decomposition
         // A rectangular diagonal matrix
         $S = $U->transpose()->multiply($M)->multiply($V);
 
+        // If S is non-diagonal, try permuting S to be diagonal
+        if (!$S->isRectangularDiagonal()) {
+            $P = self::diagonalizeColumnar($S);
+
+            $S = $S->multiply($P);            // Permute columns of S
+            $V = $P->inverse()->multiply($V); // Permute corresponding rows of V
+        }
+
         $diag = $S->getDiagonalElements();
 
         // If there is a negative singular value, we need to adjust the signs of columns in U
@@ -121,6 +131,125 @@ class SVD extends Decomposition
         }
 
         return new SVD($U, $S, $V);
+    }
+
+    /**
+     * Returns a permutation matrix, P, such that the product of SP is diagonal
+     * 
+     * @param NumericMatrix $S the matrix to diagonalize
+     * 
+     * @return NumericMatrix a matrix, P, that will diagonalize S (by shuffling cols)
+     */
+    private static function diagonalizeColumnar(NumericMatrix $S): NumericMatrix
+    {
+        if ($S->isRectangularDiagonal()) {
+            return MatrixFactory::identity($S->getN());
+        }
+
+        // Create an identity matrix to store permutations in
+        $P = MatrixFactory::identity($S->getN())->asVectors();
+
+        // Push all zero-columns to the right
+        $cols = $S->asVectors();
+
+        $zeroCols = [];
+
+        foreach ($cols as $i => $colVector)
+        {
+            // Each column should contain 1 non-zero element
+            $isZero = Arithmetic::almostEqual((float) $colVector->l2Norm(), 0);
+
+            $zeroCols[$i] = $isZero ? 0 : 1;
+        }
+
+        arsort($zeroCols, SORT_NUMERIC);
+
+        $zeroMap = array_keys($zeroCols);
+
+        uksort($P, function ($left, $right) use ($zeroMap) {
+            $leftPos = $zeroMap[$left];
+            $rightPos = $zeroMap[$right];
+
+            return $leftPos >= $rightPos;
+        });
+
+        // Only check the columns that contain diagonal entries
+        $rowBound = $S->getM() - 1;
+        $colBound = count($S->getDiagonalElements()) - 1;
+        $cols = $S->submatrix(0,0, $rowBound, $colBound)->asVectors();
+
+        $nonDiagonalValues = [];
+
+        foreach ($cols as $i => $colVector)
+        {
+            // Each column should contain 1 non-zero element
+            $j = self::isStandardBasisVector($colVector);
+
+            if ($j === false) {
+                throw new MatrixException("S Matrix in SVD is not orthogonal:\n" . (string) $S);
+            }
+
+            if ($i === $j) {
+                continue;
+            } else {
+                $nonDiagonalValues[$i] = ['value' => $colVector[$j], 'row' => $j];
+            }
+        }
+
+        // Now create a sort order
+        $order = range(0, $S->getN() - 1);
+
+        foreach ($nonDiagonalValues as $col => $elem)
+        {
+            $row = $elem['row'];
+            $order[$row] = $col;
+        }
+
+        $map = array_flip($order);
+
+        // Need to make column ($i of $nonDiagonalValues) = row ($j)
+        // order = [1=>2, 2=>1, 3=>3]
+        uksort($P, function ($left, $right) use ($map) {
+            $leftPos = $map[$left];
+            $rightPos = $map[$right];
+
+            return $leftPos >= $rightPos;
+        });
+
+        // fromVectors treats the array as column vectors, so the matrix needs to be transposed
+        return MatrixFactory::createFromVectors($P);
+    }
+
+    /**
+     * Checks that a vector has a single non-zero entry
+     * 
+     * @param Vector $v
+     * 
+     * @return int|false The index of the non-zero entry or false if either:
+     *      1. There are multiple non-zero entries
+     *      2. The vector is a zero vector 
+     */
+    private static function isStandardBasisVector(Vector $v): int|false
+    {
+        if ($v->l2Norm() === 0) {
+            return false;
+        }
+
+        // Vectors don't have negative indices
+        $index = -1;
+    
+        foreach ($v->getVector() as $i => $component)
+        {
+            if (!Arithmetic::almostEqual($component, 0)) {
+                if ($index === -1) {
+                    $index = $i;
+                } else { // If we already found a non-zero component, then return false
+                    return false;
+                }
+            }
+        }
+
+        return $index;
     }
 
     /**
