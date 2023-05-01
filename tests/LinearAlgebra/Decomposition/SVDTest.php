@@ -211,6 +211,7 @@ class SVDTest extends \PHPUnit\Framework\TestCase
                     ],
                 ],
             ],
+            // Test SVD columnar sort
             [
                 [
                     [0,1,0,0],
@@ -222,6 +223,23 @@ class SVDTest extends \PHPUnit\Framework\TestCase
                         [1,0,0,0],
                         [0,1,0,0],
                         [0,0,1,0]
+                    ]
+                ]
+            ],
+            // Test SVD tabular sort
+            [
+                [
+                    [0, 1, 0],
+                    [1, 0, 0],
+                    [0, 0, 1],
+                    [0, 0, 0],
+                ],
+                [
+                    'S' => [
+                        [1, 0, 0],
+                        [0, 1, 0],
+                        [0, 0, 1],
+                        [0, 0, 0]
                     ]
                 ]
             ],
