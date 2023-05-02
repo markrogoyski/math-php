@@ -144,6 +144,7 @@ class PLS
 
         // Calculate R (or W*) @phpstan-ignore-next-line
         $R = $this->W->multiply($this->P->transpose()->multiply($this->W)->inverse());
+        // @phpstan-ignore-next-line
         $this->B = $R->multiply($this->C->transpose());
     }
 
