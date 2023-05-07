@@ -531,10 +531,7 @@ class Algebra
 
         // The roots for this polynomial are the roots of the depressed polynomial minus a₃/4.
         if (!$return_complex) {
-            /**
-             * FIXME: are the roots real? Single::subtract() works with real numbers only.
-             * @phpstan-ignore-next-line
-             */
+            // @phpstan-ignore-next-line (Single::subtract() works with real numbers only, must be real roots)
             return Single::subtract($depressed_quartic_roots, $a₃ / 4);
         }
 
