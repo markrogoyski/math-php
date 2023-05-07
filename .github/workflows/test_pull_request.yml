@@ -53,7 +53,9 @@ jobs:
         run: ./vendor/bin/phpcs --ignore=vendor --standard=tests/coding_standard.xml -s .
 
       - name: Static analysis
-        run: ./vendor/bin/phpstan analyze --level max src/
+        run: |
+          ./vendor/bin/phpstan --version
+          ./vendor/bin/phpstan analyze --level max src/
 
   code-coverage:
     name: Code coverage
