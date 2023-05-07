@@ -1,6 +1,6 @@
 # MathPHP Change Log
 
-## v2.8.0 - TBD
+## v2.8.0 - 2023-05-07
 
 ### New Features
 * Matrix `rowAddVector`
