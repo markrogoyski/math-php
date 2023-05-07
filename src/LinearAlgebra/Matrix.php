@@ -221,10 +221,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
         $vectors = [];
 
         for ($j = 0; $j < $n; $j++) {
-            /**
-             * FIXME: maybe define vector as a generic class of T type?
-             * @phpstan-ignore-next-line
-             */
+            // @phpstan-ignore-next-line (Vector expects numbers, Matrix may be generic T)
             $vectors[] = new Vector(\array_column($this->A, $j));
         }
 
@@ -249,10 +246,7 @@ abstract class Matrix implements \ArrayAccess, \JsonSerializable
     {
         return \array_map(
             function (array $row) {
-                /**
-                 * FIXME: maybe define vector as a generic class of T type?
-                 * @phpstan-ignore-next-line
-                 */
+                // @phpstan-ignore-next-line (Vector expects numbers, Matrix may be generic T)
                 return new Vector($row);
             },
             $this->A
