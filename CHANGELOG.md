@@ -8,6 +8,7 @@
 
 ### Improvements
 * Better error handling and exception message in `Sequence\NonIntenger::hyperharmonic`
+* Internal code improvements to conform to static analysis checks
 
 ### Improvements
 
