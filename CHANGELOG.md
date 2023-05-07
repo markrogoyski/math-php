@@ -10,7 +10,10 @@
 * Better error handling and exception message in `Sequence\NonIntenger::hyperharmonic`
 * Internal code improvements to conform to static analysis checks
 
-### Improvements
+### Backwards Incompatible Changes
+* Helper method names changed (public abstract methods but not part of published interface)
+  * `NumericalDifferentiation::isTargetInPoints` changed to `assertTargetInPoints`
+  * `NumericalDifferentiation::isSpacingConstant` changed to `assertSpacingConstant`
 
 ## v2.7.0 - 2022-12-31
 

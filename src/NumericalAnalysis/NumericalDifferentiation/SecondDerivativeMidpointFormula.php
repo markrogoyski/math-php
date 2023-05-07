@@ -69,7 +69,7 @@ class SecondDerivativeMidpointFormula extends NumericalDifferentiation
         // sure our target is contained in an interval supplied by our $source
         self::validate($points, $degree = 3);
         $sorted = self::sort($points);
-        self::isSpacingConstant($sorted);
+        self::assertSpacingConstant($sorted);
 
         // Descriptive constants
         $x = self::X;

@@ -88,7 +88,7 @@ class NumericalDifferentiationTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadDataException::class);
 
         // When
-        NumericalDifferentiation::isSpacingConstant($sortedPoints);
+        NumericalDifferentiation::assertSpacingConstant($sortedPoints);
     }
 
     /**
@@ -105,6 +105,6 @@ class NumericalDifferentiationTest extends \PHPUnit\Framework\TestCase
         $this->expectException(Exception\BadDataException::class);
 
         // When
-        NumericalDifferentiation::isTargetInPoints($target, $sortedPoints);
+        NumericalDifferentiation::assertTargetInPoints($target, $sortedPoints);
     }
 }

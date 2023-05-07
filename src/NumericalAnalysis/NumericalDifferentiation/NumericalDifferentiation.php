@@ -157,10 +157,8 @@ abstract class NumericalDifferentiation
      *
      * @throws Exception\BadDataException if the spacing between any two points is not equal
      *         to the average spacing between every point
-     *
-     * FIXME: maybe rename to checkIsSpacingConstant?
      */
-    public static function isSpacingConstant(array $sorted): void
+    public static function assertSpacingConstant(array $sorted): void
     {
         $x       = self::X;
         $length  = \count($sorted);
@@ -180,10 +178,8 @@ abstract class NumericalDifferentiation
      * @param  array<array{int|float, int|float}> $sorted Points sorted by (increasing) x-component
      *
      * @throws Exception\BadDataException if $target is not contained in the array of our x-components
-     *
-     * FIXME: maybe rename to checkIsTargetInPoints?
      */
-    public static function isTargetInPoints($target, array $sorted): void
+    public static function assertTargetInPoints($target, array $sorted): void
     {
         $xComponents = \array_map(
             function (array $point) {

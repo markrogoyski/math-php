@@ -80,8 +80,8 @@ class ThreePointFormula extends NumericalDifferentiation
         // sure our target is contained in an interval supplied by our $source
         self::validate($points, $degree = 3);
         $sorted = self::sort($points);
-        self::isSpacingConstant($sorted);
-        self::isTargetInPoints($target, $sorted);
+        self::assertSpacingConstant($sorted);
+        self::assertTargetInPoints($target, $sorted);
 
         // Descriptive constants
         $x = self::X;
