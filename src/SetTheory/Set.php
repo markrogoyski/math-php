@@ -150,10 +150,7 @@ class Set implements \Countable, \Iterator
      */
     public function isMember($x): bool
     {
-        /**
-         * FIXME: $this->getKey() may return null, int|string required.
-         * @phpstan-ignore-next-line
-         */
+        // @phpstan-ignore-next-line ($this->getKey() may return null, int|string required)
         return \array_key_exists($this->getKey($x), $this->A);
     }
 
@@ -167,10 +164,7 @@ class Set implements \Countable, \Iterator
      */
     public function isNotMember($x): bool
     {
-        /**
-         * FIXME: $this->getKey() may return null, int|string required.
-         * @phpstan-ignore-next-line
-         */
+        // @phpstan-ignore-next-line ($this->getKey() may return null, int|string required)
         return !\array_key_exists($this->getKey($x), $this->A);
     }
 
