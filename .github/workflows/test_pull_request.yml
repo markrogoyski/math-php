@@ -50,7 +50,9 @@ jobs:
           ./vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=LinearAlgebra
 
       - name: PHP Code Sniffer
-        run: ./vendor/bin/phpcs --ignore=vendor --standard=tests/coding_standard.xml -s .
+        run: |
+          ./vendor/bin/phpcs --version
+          ./vendor/bin/phpcs --ignore=vendor --standard=tests/coding_standard.xml -s .
 
       - name: Static analysis
         run: |
