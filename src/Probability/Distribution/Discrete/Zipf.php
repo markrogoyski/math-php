@@ -33,7 +33,7 @@ class Zipf extends Discrete
         'k' => '[1,∞)',
     ];
 
-    /** @var number Characterizing exponent */
+    /** @var int|float Characterizing exponent */
     protected $s;
 
     /** @var int Number of elements */
@@ -59,7 +59,7 @@ class Zipf extends Discrete
      *
      * @param int $k
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\OutOfBoundsException if k is > N
      */
@@ -86,7 +86,7 @@ class Zipf extends Discrete
      *
      * @param int $k
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\OutOfBoundsException if k is > N
      */
@@ -112,7 +112,7 @@ class Zipf extends Discrete
      * μ = ---------
      *        Hₙ,ₛ
      *
-     * @return number
+     * @return int|float
      */
     public function mean()
     {
@@ -131,7 +131,7 @@ class Zipf extends Discrete
      *
      * μ = 1
      *
-     * @return number
+     * @return int|float
      */
     public function mode()
     {

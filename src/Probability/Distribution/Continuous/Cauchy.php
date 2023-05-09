@@ -30,10 +30,10 @@ class Cauchy extends Continuous
         'x'  => '(-∞,∞)',
     ];
 
-    /** @var number Location Parameter */
+    /** @var int|float Location Parameter */
     protected $x₀;
 
-    /** @var number Scale Parameter */
+    /** @var int|float Scale Parameter */
     protected $γ;
 
     /**

@@ -12,13 +12,13 @@ use MathPHP\Exception;
  */
 class Multinomial
 {
-    /** @var array<number> */
+    /** @var array<int|float> */
     protected $probabilities;
 
     /**
      * Multinomial constructor
      *
-     * @param array<number> $probabilities
+     * @param array<int|float> $probabilities
      *
      * @throws Exception\BadDataException if the probabilities do not add up to 1
      */

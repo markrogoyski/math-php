@@ -29,13 +29,13 @@ class Hypergeometric
      */
     protected $supportLimits = [];
 
-    /** @var array<number> */
+    /** @var array<int|float> */
     protected $quantities;
 
     /**
      * Multivariate Hypergeometric constructor
      *
-     * @param   array<number> $quantities
+     * @param   array<int|float> $quantities
      *
      * @throws Exception\BadDataException if the quantities are not positive integers.
      */
@@ -57,7 +57,7 @@ class Hypergeometric
     /**
      * Probability mass function
      *
-     * @param  array<number> $picks
+     * @param  array<int|float> $picks
      *
      * @return float
      *

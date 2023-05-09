@@ -120,7 +120,7 @@ class StandardNormal
         }
         /**
          * @var string $z
-         * @var numeric $＋0．0x
+         * @var int|float $＋0．0x
          */
         [$z, $＋0．0x] = [ $matches[1], $matches[2] ];
         return self::Z_SCORES[$z][$＋0．0x];

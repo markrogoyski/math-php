@@ -154,7 +154,7 @@ class MatrixFactory
      *
      * x = [x₁ x₂ ⋯ xn]
      *
-     * @param T[] $A 1 × n vector representing the matrix
+     * @param T[]|int[]|float[] $A 1 × n vector representing the matrix
      *
      * @return Matrix<T>|NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
      */
