@@ -739,7 +739,7 @@ class Descriptive
      *
      * https://en.wikipedia.org/wiki/Five-number_summary
      *
-     * @param  array<number>  $numbers
+     * @param  array<int|float>  $numbers
      *
      * @return array{
      *     min:     float|int|false,

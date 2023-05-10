@@ -35,8 +35,8 @@ class Divergence
      *
      *
      *
-     * @param  array<number> $p distribution p
-     * @param  array<number> $q distribution q
+     * @param  array<int|float> $p distribution p
+     * @param  array<int|float> $q distribution q
      *
      * @return float difference between distributions
      *
@@ -99,8 +99,8 @@ class Divergence
      *
      *       D(P‖Q) = Kullback-Leibler divergence
      *
-     * @param array<number> $p distribution p
-     * @param array<number> $q distribution q
+     * @param array<int|float> $p distribution p
+     * @param array<int|float> $q distribution q
      *
      * @return float difference between distributions
      *
