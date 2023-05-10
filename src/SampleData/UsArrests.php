@@ -74,7 +74,7 @@ class UsArrests
      * Raw data without labels
      * [[13.2, 236, 58, 21.2], [10.0, 263, 48, 44.5], ... ]
      *
-     * @return number[][]
+     * @return int[][]|float[][]
      */
     public function getData(): array
     {
@@ -85,13 +85,13 @@ class UsArrests
      * Raw data with each observation labeled
      * ['Alabama' => ['murder' => 13.2, 'assault' => 236, 'urbanPop' => 58, 'rape' => 21.2], ... ]
      *
-     * @return array<string, array<string, number>>
+     * @return array<string, array<string, int|float>>
      */
     public function getLabeledData(): array
     {
         return \array_map(
             function (array $data) {
-                /** @var array<string, number> */
+                /** @var array<string, int|float> */
                 return \array_combine(self::LABELS, $data);
             },
             self::DATA
@@ -99,7 +99,7 @@ class UsArrests
     }
 
     /**
-     * State names names
+     * State names
      *
      * @return string[]
      */
@@ -114,11 +114,11 @@ class UsArrests
      *
      * @param string $state
      *
-     * @return number[]
+     * @return int[]|float[]
      */
     public function getStateData(string $state): array
     {
-        /** @var array<string, number> */
+        /** @var array<string, int|float> */
         return \array_combine(self::LABELS, self::DATA[$state]);
     }
 

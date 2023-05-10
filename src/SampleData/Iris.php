@@ -187,11 +187,11 @@ class Iris
      * Raw data with each observation labeled
      * [['sepalLength' => 5.11, 'sepalWidth' => 3.5, 'petalLength' => 1.4, 'petalWidth' => 0.2, 'species' => 'setosa'], ... ]
      *
-     * @return array<array<string, number>>
+     * @return array<array<string, float>>
      */
     public function getLabeledData(): array
     {
-        /** @var array<array<string, number>> */
+        /** @var array<array<string, float>> */
         return \array_map(
             function (array $data) {
                 return \array_combine(self::LABELS, $data);
@@ -203,7 +203,7 @@ class Iris
     /**
      * Sepal length observations
      *
-     * @return number[]
+     * @return float[]
      */
     public function getSepalLength(): array
     {
@@ -213,7 +213,7 @@ class Iris
     /**
      * Sepal width observations
      *
-     * @return number[]
+     * @return float[]
      */
     public function getSepalWidth(): array
     {
@@ -223,7 +223,7 @@ class Iris
     /**
      * Petal length observations
      *
-     * @return number[]
+     * @return float[]
      */
     public function getPetalLength(): array
     {
@@ -233,7 +233,7 @@ class Iris
     /**
      * Petal width observations
      *
-     * @return number[]
+     * @return float[]
      */
     public function getPetalWidth(): array
     {

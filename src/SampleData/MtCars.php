@@ -56,7 +56,7 @@ class MtCars
      * Raw data without labels
      * [[21, 6, 160, ... ], [30.4, 4, 71.1, ... ], ... ]
      *
-     * @return number[][]
+     * @return int[][]|float[][]
      */
     public function getData(): array
     {
@@ -67,11 +67,11 @@ class MtCars
      * Raw data with each observation labeled
      * ['Car Model' => ['mpg' => 21, 'cyl' => 6, 'disp' => 160, ... ]]
      *
-     * @return array<string, array<string, number>>
+     * @return array<string, array<string, int|float>>
      */
     public function getLabeledData(): array
     {
-        /** @var array<string, array<string, number>> */
+        /** @var array<string, array<string, int|float>> */
         return \array_map(
             function (array $data) {
                 return \array_combine(self::LABELS, $data);
@@ -96,11 +96,11 @@ class MtCars
      *
      * @param string $model
      *
-     * @return array<string, number>
+     * @return array<string, int|float>
      */
     public function getModelData(string $model): array
     {
-        /** @var array<string, number> */
+        /** @var array<string, int|float> */
         return \array_combine(self::LABELS, self::DATA[$model]);
     }
 
@@ -108,11 +108,11 @@ class MtCars
      * Miles per gallon observations for all models
      * ['Mazda RX4' => 21, 'Honda civic' => 30.4, ... ]
      *
-     * @return array<string, number>
+     * @return array<string, int|float>
      */
     public function getMpg(): array
     {
-        /** @var array<string, number> */
+        /** @var array<string, int|float> */
         return \array_combine($this->getModels(), \array_column(self::DATA, 0));
     }
 
@@ -120,7 +120,7 @@ class MtCars
      * Number of cylinders observations for all models
      * ['Mazda RX4' => 6, 'Honda civic' => 4, ... ]
      *
-     * @return number[]
+     * @return int[]
      */
     public function getCyl(): array
     {
@@ -131,7 +131,7 @@ class MtCars
      * Displacement (cubic inches) observations for all models
      * ['Mazda RX4' => 160, 'Honda civic' => 75.7, ... ]
      *
-     * @return number[]
+     * @return int[]|float[]
      */
     public function getDisp(): array
     {
@@ -142,7 +142,7 @@ class MtCars
      * Gross horsepower observations for all models
      * ['Mazda RX4' => 110, 'Honda civic' => 52, ... ]
      *
-     * @return number[]
+     * @return int[]
      */
     public function getHp(): array
     {
@@ -153,7 +153,7 @@ class MtCars
      * Rear axle ratio observations for all models
      * ['Mazda RX4' => 3.9, 'Honda civic' => 4.93, ... ]
      *
-     * @return number[]
+     * @return float[]
      */
     public function getDrat(): array
     {
@@ -164,7 +164,7 @@ class MtCars
      * Weight (1,000 pounds) observations for all models
      * ['Mazda RX4' => 2.62, 'Honda civic' => 1.615, ... ]
      *
-     * @return number[]
+     * @return float[]
      */
     public function getWt(): array
     {
@@ -175,7 +175,7 @@ class MtCars
      * Quarter-mile time observations for all models
      * ['Mazda RX4' => 16.46, 'Honda civic' => 18.52, ... ]
      *
-     * @return number[]
+     * @return float[]
      */
     public function getQsec(): array
     {
@@ -186,7 +186,7 @@ class MtCars
      * V/S observations for all models
      * ['Mazda RX4' => 0, 'Honda civic' => 1, ... ]
      *
-     * @return number[]
+     * @return int[]
      */
     public function getVs(): array
     {
@@ -197,7 +197,7 @@ class MtCars
      * Transmission (automatic: 0, manual: 1) observations for all models
      * ['Mazda RX4' => 1, 'Honda civic' => 1, ... ]
      *
-     * @return number[]
+     * @return int[]
      */
     public function getAm(): array
     {
@@ -208,7 +208,7 @@ class MtCars
      * Number of forward gears observations for all models
      * ['Mazda RX4' => 4, 'Honda civic' => 4, ... ]
      *
-     * @return number[]
+     * @return int[]
      */
     public function getGear(): array
     {
@@ -219,7 +219,7 @@ class MtCars
      * Number of carburetors observations for all models
      * ['Mazda RX4' => 4, 'Honda civic' => 2, ... ]
      *
-     * @return number[]
+     * @return int[]
      */
     public function getCarb(): array
     {
