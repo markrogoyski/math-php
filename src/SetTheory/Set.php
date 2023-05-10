@@ -265,7 +265,7 @@ class Set implements \Countable, \Iterator
         } elseif (\is_array($x)) {
             return 'Array(' . serialize($x) . ')';
         } elseif (\is_resource($x)) {
-            return 'Resource(' . \strval($x) . ')';
+            return 'Resource(' . $x . ')';
         }
 
         return null;
