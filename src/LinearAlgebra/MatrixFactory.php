@@ -10,14 +10,14 @@ use MathPHP\Number\ObjectArithmetic;
  * Matrix factory to create matrices of all types.
  * Use factory instead of instantiating individual Matrix classes.
  *
- * @template T = int[][]|float[][]|Complex[][]|object[][]
+ * template T = int[][]|float[][]|Complex[][]|object[][]
  */
 class MatrixFactory
 {
     /**
      * Factory method
      *
-     * @psalm-template T = int|float|Complex|object
+     * @template T = int|float|Complex|object
      *
      * @param T[][]      $A 2-dimensional array of Matrix data
      * @param float|null $ε Optional error tolerance
@@ -130,7 +130,7 @@ class MatrixFactory
      *     [⋮ ]
      *     [xm]
      *
-     * @psalm-template T = int|float|Complex|object
+     * @template T = int|float|Complex|object
      *
      * @param T[] $A m × 1 vector representing the matrix
      *
@@ -158,7 +158,9 @@ class MatrixFactory
      *
      * x = [x₁ x₂ ⋯ xn]
      *
-     * @param T[]|int[]|float[] $A 1 × n vector representing the matrix
+     * @template T = int|float|Complex|object
+     *
+     * @param T[] $A 1 × n vector representing the matrix
      *
      * @return Matrix<T>|NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
      */
@@ -614,7 +616,9 @@ class MatrixFactory
     /**
      * Check input parameters
      *
-     * @param  array<mixed> $A
+     * @template T = int|float|Complex|object
+     *
+     * @param  array<array<T>> $A
      *
      * @throws Exception\BadDataException if array data not provided for matrix creation
      * @throws Exception\MatrixException if any row has a different column count
