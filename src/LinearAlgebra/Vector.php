@@ -9,15 +9,15 @@ use MathPHP\Statistics\Distance;
 /**
  * 1 x n Vector
  *
- * @implements \Iterator<number>
- * @implements \ArrayAccess<int, number>
+ * @implements \Iterator<int|float>
+ * @implements \ArrayAccess<int, int|float>
  */
 class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
 {
     /** @var int Number of elements */
     private $n;
 
-    /** @var array<number> of numbers */
+    /** @var array<int|float> of numbers */
     private $A;
 
     /** @var int Iterator position */
@@ -53,7 +53,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     /**
      * Get matrix
      *
-     * @return array<number>
+     * @return array<int|float>
      */
     public function getVector(): array
     {
@@ -75,7 +75,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * @param  int $i index
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\VectorException
      */
@@ -160,7 +160,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      * Vector length (magnitude)
      * Same as l2-norm
      *
-     * @return number
+     * @return int|float
      */
     public function length()
     {
@@ -170,7 +170,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     /**
      * Max of all the elements
      *
-     * @return number|false
+     * @return int|float|false
      *
      * Note: Remove false from return value after PHP 8.0
      */
@@ -182,7 +182,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     /**
      * Min of all the elements
      *
-     * @return number|false
+     * @return int|float|false
      *
      * Note: Remove false from return value after PHP 8.0
      */
@@ -714,7 +714,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      *
      * |x|∞ = max |x|
      *
-     * @return number|false
+     * @return int|float|false
      *
      * Note: Remove false from return value after PHP 8.0
      */
@@ -767,7 +767,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
 
     /**
      * @param mixed $i
-     * @return number
+     * @return int|float
      */
     #[\ReturnTypeWillChange]
     public function offsetGet($i)
@@ -777,7 +777,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
 
     /**
      * @param int $i
-     * @param number $value
+     * @param int|float $value
      * @throws Exception\VectorException
      */
     public function offsetSet($i, $value): void
@@ -799,7 +799,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
      **************************************************************************/
 
     /**
-     * @return array<number>
+     * @return array<int|float>
      */
     public function jsonSerialize(): array
     {
@@ -816,7 +816,7 @@ class Vector implements \Countable, \Iterator, \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * @return number
+     * @return int|float
      */
     #[\ReturnTypeWillChange]
     public function current()

@@ -17,6 +17,8 @@ class MatrixFactory
     /**
      * Factory method
      *
+     * @psalm-template T = int|float|Complex|object
+     *
      * @param T[][]      $A 2-dimensional array of Matrix data
      * @param float|null $ε Optional error tolerance
      *
@@ -36,7 +38,7 @@ class MatrixFactory
         switch ($matrix_type) {
             case 'numeric':
             case 'numeric_square':
-                /** @var array<array<number>> $A */
+                /** @var array<array<int|float>> $A */
                 return self::createNumeric($A, $ε);
             case 'complex':
                 /** @var array<array<Complex>> $A */
@@ -127,6 +129,8 @@ class MatrixFactory
      * x = [x₂]
      *     [⋮ ]
      *     [xm]
+     *
+     * @psalm-template T = int|float|Complex|object
      *
      * @param T[] $A m × 1 vector representing the matrix
      *
@@ -301,7 +305,7 @@ class MatrixFactory
         $bottom_row = \array_pop($I);
         \array_unshift($I, $bottom_row);
 
-        /** @var array<array<number>> $I */
+        /** @var array<array<int|float>> $I */
         return new NumericSquareMatrix($I);
     }
 
@@ -451,7 +455,7 @@ class MatrixFactory
      * A = [0 2 0]
      *     [0 0 3]
      *
-     * @param array<number> $D elements of the diagonal
+     * @param array<int|float> $D elements of the diagonal
      *
      * @return NumericDiagonalMatrix
      *
@@ -518,7 +522,7 @@ class MatrixFactory
     /**
      * Create the Vandermonde Matrix from a simple array.
      *
-     * @param array<number> $M (α₁, α₂, α₃ ⋯ αm)
+     * @param array<int|float> $M (α₁, α₂, α₃ ⋯ αm)
      * @param int   $n
      *
      * @return NumericMatrix

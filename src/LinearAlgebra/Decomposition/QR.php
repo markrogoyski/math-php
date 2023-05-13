@@ -120,7 +120,7 @@ class QR extends Decomposition
      *  - R⁻¹R = I, so we get x = R⁻¹Qᵀb
      * Solve x = R⁻¹Qᵀb
      *
-     * @param Vector|array<number> $b solution to Ax = b
+     * @param Vector|array<int|float> $b solution to Ax = b
      *
      * @return Vector x
      *

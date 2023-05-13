@@ -29,7 +29,7 @@ class ReducedRowEchelonForm extends NumericMatrix
     /**
      * ReducedRowEchelonForm constructor
      *
-     * @param array<array<number>> $A
+     * @param array<array<int|float>> $A
      *
      * @throws Exception\BadDataException
      */

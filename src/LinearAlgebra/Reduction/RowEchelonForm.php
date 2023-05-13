@@ -24,8 +24,8 @@ class RowEchelonForm extends NumericMatrix
 
     /**
      * RowEchelonForm constructor
-     * @param array<array<number>> $A
-     * @param int                  $swaps Number of row swaps when computing REF
+     * @param array<array<int|float>> $A
+     * @param int                     $swaps Number of row swaps when computing REF
      *
      * @throws Exception\BadDataException
      */
@@ -114,7 +114,7 @@ class RowEchelonForm extends NumericMatrix
      *
      * @param NumericMatrix $A
      *
-     * @return array{array<array<number>>, int} - matrix in row echelon form and number of row swaps
+     * @return array{array<array<int|float>>, int} - matrix in row echelon form and number of row swaps
      *
      * @throws Exception\SingularMatrixException if the matrix is singular
      */
@@ -179,7 +179,7 @@ class RowEchelonForm extends NumericMatrix
      *
      * @param NumericMatrix $A
      *
-     * @return array{array<array<number>>, int} - matrix in row echelon form and number of row swaps
+     * @return array{array<array<int|float>>, int} - matrix in row echelon form and number of row swaps
      *
      * @throws Exception\IncorrectTypeException
      * @throws Exception\MatrixException

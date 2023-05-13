@@ -34,7 +34,7 @@ class NumericMatrix extends Matrix
     /**
      * Constructor
      *
-     * @param array<array<number>> $A of arrays $A m x n matrix
+     * @param array<array<int|float>> $A of arrays $A m x n matrix
      *
      * @throws Exception\BadDataException if any rows have a different column count
      */
@@ -1281,7 +1281,7 @@ class NumericMatrix extends Matrix
         $Bᵀ = $B->transpose()->getMatrix();
 
         foreach ($this->A as $i => $Aʳᵒʷ⟦i⟧) {
-            /** @var array<number> $R */
+            /** @var array<int|float> $R */
             $R[$i] = \array_fill(0, $B->n, 0);
             foreach ($Bᵀ as $j => $Bᶜᵒˡ⟦j⟧) {
                 foreach ($Aʳᵒʷ⟦i⟧ as $k => $A⟦i⟧⟦k⟧) {
@@ -2196,7 +2196,7 @@ class NumericMatrix extends Matrix
     public function det()
     {
         if ($this->catalog->hasDeterminant()) {
-            /** @var number */
+            /** @var int|float */
             return $this->catalog->getDeterminant();
         }
 
@@ -2893,8 +2893,8 @@ class NumericMatrix extends Matrix
      * Otherwise, it is more efficient to decompose and then solve.
      * Use LU Decomposition and solve Ax = b.
      *
-     * @param Vector|array<number> $b solution to Ax = b
-     * @param string               $method (optional) Force a specific solve method - defaults to DEFAULT where various methods are tried
+     * @param Vector|array<int|float> $b solution to Ax = b
+     * @param string                  $method (optional) Force a specific solve method - defaults to DEFAULT where various methods are tried
      *
      * @return Vector x
      *
@@ -3025,7 +3025,7 @@ class NumericMatrix extends Matrix
      *
      * @param string $method Algorithm used to compute the eigenvalues
      *
-     * @return array<number> of eigenvalues
+     * @return array<int|float> of eigenvalues
      *
      * @throws Exception\MatrixException if method is not a valid eigenvalue method
      * @throws Exception\MathException

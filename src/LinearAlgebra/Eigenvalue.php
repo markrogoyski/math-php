@@ -108,10 +108,10 @@ class Eigenvalue
         $det = $⟮B − λ⟯->det();
 
         // Calculate the roots of the determinant.
-        /** @var array<number> $eigenvalues */
+        /** @var array<int|float> $eigenvalues */
         $eigenvalues = $det->roots();
         \usort($eigenvalues, function ($a, $b) {
-            /** @var number $a */ /** @var number $b */
+            /** @var int|float $a */ /** @var int|float $b */
             return \abs($b) <=> \abs($a);
         });
 

@@ -224,7 +224,7 @@ class LU extends Decomposition
      *   xᵢ = --- | yᵢ - ∑ Uᵢⱼxⱼ |
      *        Uᵢᵢ  \   ʲ⁼ⁱ⁺¹     /
      *
-     * @param Vector|array<number> $b solution to Ax = b
+     * @param Vector|array<int|float> $b solution to Ax = b
      *
      * @return Vector x
      *
