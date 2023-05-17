@@ -95,6 +95,7 @@ class Algebra
      * @param  int $b
      *
      * @return int
+     * @psalm-suppress InvalidReturnType (Change to intdiv for PHP 8.0)
      */
     public static function lcm(int $a, int $b): int
     {
@@ -103,7 +104,7 @@ class Algebra
             return 0;
         }
 
-        return \intdiv(\abs($a * $b), Algebra::gcd($a, $b));
+        return \abs($a * $b) / Algebra::gcd($a, $b);
     }
 
     /**
