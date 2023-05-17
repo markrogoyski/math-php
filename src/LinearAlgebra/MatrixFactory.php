@@ -628,15 +628,17 @@ class MatrixFactory
         if (empty($A)) {
             throw new Exception\BadDataException('Array data not provided for Matrix creation');
         }
+        if (!isset($A[0]) || !\is_array($A[0])) {
+            throw new Exception\BadDataException('Array of array data not provided for Matrix creation');
+        }
 
-        if (isset($A[0]) && \is_array($A[0])) {
-            $column_count = \count($A[0]);
-            foreach ($A as $i => $row) {
-                if (\count($row) !== $column_count) {
-                    throw new Exception\MatrixException("Row $i has a different column count: " . \count($row) . "; was expecting $column_count.");
-                }
+        $column_count = \count($A[0]);
+        foreach ($A as $i => $row) {
+            if (\count($row) !== $column_count) {
+                throw new Exception\MatrixException("Row $i has a different column count: " . \count($row) . "; was expecting $column_count.");
             }
         }
+
     }
 
     /**

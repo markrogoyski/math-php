@@ -180,8 +180,8 @@ class Quaternion implements ObjectArithmetic
      */
     public function add($q): Quaternion
     {
-        if (!is_numeric($q) && ! $q instanceof Quaternion) {
-            throw new Exception\IncorrectTypeException('Argument must be real or quaternion' . print_r($q, true));
+        if (!\is_numeric($q) && ! $q instanceof Quaternion) {
+            throw new Exception\IncorrectTypeException('Argument must be real or quaternion' . \print_r($q, true));
         }
         if (\is_numeric($q)) {
             $r = $this->r + $q;
