@@ -37,7 +37,7 @@ class ClampedCubicSpline extends Interpolation
     /**
      * Interpolate
      *
-     * @param callable|array<array{number, number, number}> $source
+     * @param callable|array<array{int|float, int|float, int|float}> $source
      *      The source of our approximation. Should be either
      *      a callback function or a set of arrays. Each array
      *      (point) contains precisely three numbers: x, y, and y'
@@ -156,15 +156,15 @@ class ClampedCubicSpline extends Interpolation
      * @todo  Add method to verify input arguments are valid.
      *        Verify $start and $end are numbers, $end > $start, and $points is an integer > 1
      *
-     * @param callable|array<array<number>> $source
+     * @param callable|array<array<int|float>> $source
      *      The source of our approximation. Should be either
      *      a callback function or a set of arrays.
-     * @param array{callable, number, number, number}|array<mixed> $args
+     * @param array{callable, int|float, int|float, int|float}|array<mixed> $args
      *      The arguments of our callback function: derivative,
      *      start, end, and n. Example: [$derivative, 0, 8, 5].
      *      If $source is a set of arrays, $args will default to [].
      *
-     * @return array<array{number, number, number}>
+     * @return array<array{int|float, int|float, int|float}>
      *
      * @throws Exception\BadDataException if $source is not callable or a set of arrays
      */
@@ -202,7 +202,7 @@ class ClampedCubicSpline extends Interpolation
      * @param  float    $end        the end of the interval
      * @param  int      $n          the number of function evaluations
      *
-     * @return array<array{number, number, number}>
+     * @return array<array{int|float, int|float, int|float}>
      */
     protected static function functionToSplinePoints(callable $function, callable $derivative, float $start, float $end, int $n): array
     {
@@ -224,7 +224,7 @@ class ClampedCubicSpline extends Interpolation
      * has precisely three numbers, and that no two points share the same first number
      * (x-component)
      *
-     * @param  array<array{number, number, number}> $points Array of arrays (points)
+     * @param  array<array{int|float, int|float, int|float}> $points Array of arrays (points)
      * @param  int                          $degree The minimum number of input arrays
      *
      * @throws Exception\BadDataException if there are less than two points
