@@ -10,7 +10,7 @@ use MathPHP\LinearAlgebra\Reduction;
 /**
  * m x n Matrix
  *
- * @extends Matrix<number>
+ * @extends Matrix<int|float>
  */
 class NumericMatrix extends Matrix
 {
@@ -1281,7 +1281,6 @@ class NumericMatrix extends Matrix
         $Bᵀ = $B->transpose()->getMatrix();
 
         foreach ($this->A as $i => $Aʳᵒʷ⟦i⟧) {
-            /** @var array<int|float> $R */
             $R[$i] = \array_fill(0, $B->n, 0);
             foreach ($Bᵀ as $j => $Bᶜᵒˡ⟦j⟧) {
                 foreach ($Aʳᵒʷ⟦i⟧ as $k => $A⟦i⟧⟦k⟧) {
@@ -2053,7 +2052,7 @@ class NumericMatrix extends Matrix
      *
      * tr(A) = a₁₁ + a₂₂ + ... ann
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\MatrixException if the matrix is not a square matrix
      */
@@ -2077,7 +2076,7 @@ class NumericMatrix extends Matrix
      * 1-norm (‖A‖₁)
      * Maximum absolute column sum of the matrix
      *
-     * @return number
+     * @return int|float
      */
     public function oneNorm()
     {
@@ -2102,7 +2101,7 @@ class NumericMatrix extends Matrix
      * ‖A‖F = √ Σ   Σ  |aᵢⱼ|²
      *         ᵢ₌₁ ᵢ₌₁
      *
-     * @return number
+     * @return int|float
      */
     public function frobeniusNorm()
     {
@@ -2123,7 +2122,7 @@ class NumericMatrix extends Matrix
      * Infinity norm (‖A‖∞)
      * Maximum absolute row sum of the matrix
      *
-     * @return number
+     * @return int|float
      */
     public function infinityNorm()
     {
@@ -2141,7 +2140,7 @@ class NumericMatrix extends Matrix
      * Max norm (‖A‖max)
      * Elementwise max
      *
-     * @return number
+     * @return int|float
      */
     public function maxNorm()
     {
@@ -2187,7 +2186,7 @@ class NumericMatrix extends Matrix
      *   │ref(A)│ = determinant of the row echelon form of A
      *   ⁿ        = number of row swaps when computing REF
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\MatrixException if matrix is not square
      * @throws Exception\IncorrectTypeException
@@ -2316,7 +2315,7 @@ class NumericMatrix extends Matrix
      * @param int $mᵢ Row to exclude
      * @param int $nⱼ Column to exclude
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\MatrixException if matrix is not square
      * @throws Exception\MatrixException if row to exclude for cofactor does not exist

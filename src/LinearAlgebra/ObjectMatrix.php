@@ -271,7 +271,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
     /**
      * {@inheritDoc}
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\MatrixException if the matrix is not a square matrix
      */
