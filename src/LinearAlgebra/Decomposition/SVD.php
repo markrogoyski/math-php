@@ -216,7 +216,7 @@ class SVD extends Decomposition
         foreach ($vectors as $i => $vector)
         {
             // Each column should contain 1 non-zero element
-            $j = self::isStandardBasisVector($vector);
+            $j = self::getStandardBasisIndex($vector);
 
             if ($j === -1) {
                 throw new MatrixException("S Matrix in SVD is not orthogonal:\n" . (string) $S);
@@ -260,7 +260,7 @@ class SVD extends Decomposition
     }
 
     /**
-     * Checks that a vector has a single non-zero entry
+     * Checks that a vector has a single non-zero entry and returns its index
      * 
      * @param Vector $v
      * 
@@ -268,7 +268,7 @@ class SVD extends Decomposition
      *      1. There are multiple non-zero entries
      *      2. The vector is a zero vector 
      */
-    private static function isStandardBasisVector(Vector $v): int
+    private static function getStandardBasisIndex(Vector $v): int
     {
         if ($v->l2Norm() === 0) {
             return false;
@@ -282,7 +282,7 @@ class SVD extends Decomposition
             if (!Arithmetic::almostEqual($component, 0)) {
                 if ($index === -1) {
                     $index = $i;
-                } else { // If we already found a non-zero component, then return false
+                } else { // If we already found a non-zero component, then return -1
                     return -1;
                 }
             }
