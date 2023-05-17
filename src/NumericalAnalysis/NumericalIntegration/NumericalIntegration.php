@@ -23,9 +23,9 @@ abstract class NumericalIntegration
     protected const Y = 1;
 
     /**
-     * @param callable|array<array{number, number}> $source
-     * @param number ...$args
-     * @return number
+     * @param callable|array<array{int|float, int|float}> $source
+     * @param int|float ...$args
+     * @return int|float
      */
     abstract public static function approximate($source, ...$args);
 
@@ -40,7 +40,7 @@ abstract class NumericalIntegration
      * @todo  Add method to verify input arguments are valid.
      *        Verify $start and $end are numbers, $end > $start, and $points is an integer > 1
      *
-     * @param  callable|array<array{number, number}> $source
+     * @param  callable|array<array{int|float, int|float}> $source
      *      The source of our approximation. Should be either
      *      a callback function or a set of arrays.
      * @param  array<int|float> $args
@@ -102,8 +102,8 @@ abstract class NumericalIntegration
      * has precisely two numbers, and that no two points share the same first number
      * (x-component)
      *
-     * @param  array<array{number, number}> $points Array of arrays (points)
-     * @param  int                          $degree The minimum number of input arrays
+     * @param  array<array{int|float, int|float}> $points Array of arrays (points)
+     * @param  int                                $degree The minimum number of input arrays
      *
      * @throws Exception\BadDataException if there are less than two points
      * @throws Exception\BadDataException if any point does not contain two numbers

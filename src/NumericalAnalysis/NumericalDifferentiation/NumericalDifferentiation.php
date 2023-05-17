@@ -24,8 +24,8 @@ abstract class NumericalDifferentiation
 
     /**
      * @param float $target
-     * @param callable|array<array{number, number}> $source
-     * @param number ...$args
+     * @param callable|array<array{int|float, int|float}> $source
+     * @param int|float ...$args
      * @return mixed
      */
     abstract public static function differentiate(float $target, $source, ...$args);
@@ -41,7 +41,7 @@ abstract class NumericalDifferentiation
      * @todo  Add method to verify input arguments are valid.
      *        Verify $start and $end are numbers, $end > $start, and $points is an integer > 1
      *
-     * @param  callable|array<array{number, number}> $source
+     * @param  callable|array<array{int|float, int|float}> $source
      *         The source of our approximation. Should be either
      *         a callback function or a set of arrays.
      * @param  array<int|float> $args

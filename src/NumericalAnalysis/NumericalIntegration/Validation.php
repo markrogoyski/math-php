@@ -14,7 +14,7 @@ class Validation
      * Ensures that the length of each subinterval is equal, or equivalently,
      * that the spacing between each point is equal
      *
-     * @param  array<int, array<int, number>> $sorted Points sorted by (increasing) x-component
+     * @param  array<int, array<int, int|float>> $sorted Points sorted by (increasing) x-component
      *
      * @throws Exception\BadDataException if the spacing between any two points is not equal to the average spacing between every point
      */
