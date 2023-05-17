@@ -638,7 +638,6 @@ class MatrixFactory
                 throw new Exception\MatrixException("Row $i has a different column count: " . \count($row) . "; was expecting $column_count.");
             }
         }
-
     }
 
     /**
