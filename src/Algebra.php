@@ -103,7 +103,7 @@ class Algebra
             return 0;
         }
 
-        return \abs($a * $b) / Algebra::gcd($a, $b);
+        return \intdiv(\abs($a * $b), Algebra::gcd($a, $b));
     }
 
     /**
@@ -236,7 +236,7 @@ class Algebra
      * @param  float $c constant coefficient
      * @param  bool  $return_complex Whether to return complex numbers or NANs if imaginary roots
      *
-     * @return array{0: float|Complex, 1?: float|Complex}
+     * @return float[]|Complex[]
      *      [x₁, x₂]           roots of the equation, or
      *      [NAN, NAN]         if discriminant is negative, or
      *      [Complex, Complex] if discriminant is negative and complex option is on or
@@ -367,7 +367,7 @@ class Algebra
      * @param  float $a₀ constant coefficient
      * @param  bool  $return_complex whether to return complex numbers
      *
-     * @return array{0: float|Complex, 1?: float|Complex, 2?: float|Complex}
+     * @return float[]|Complex[]
      *      array of roots (three real roots, or one real root and two NANs because complex numbers not yet supported)
      *      (If $a₃ = 0, then only two roots of quadratic equation)
      *
@@ -531,7 +531,10 @@ class Algebra
 
         // The roots for this polynomial are the roots of the depressed polynomial minus a₃/4.
         if (!$return_complex) {
-            // @phpstan-ignore-next-line (Single::subtract() works with real numbers only, must be real roots)
+            /**
+             * @phpstan-ignore-next-line (Single::subtract() works with real numbers only, must be real roots)
+             * @psalm-suppress InvalidArgument
+             */
             return Single::subtract($depressed_quartic_roots, $a₃ / 4);
         }
 
