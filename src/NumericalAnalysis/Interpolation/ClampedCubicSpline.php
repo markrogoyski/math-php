@@ -43,7 +43,7 @@ class ClampedCubicSpline extends Interpolation
      *      (point) contains precisely three numbers: x, y, and y'
      *      Example array: [[1,2,1], [2,3,0], [3,4,2]].
      *      Example callback: function($x) {return $x**2;}
-     * @param mixed ...$args
+     * @param callable|int|float ...$args
      *      (Optional) An additional callback: our first derivative,
      *      and arguments of our callback functions: start,
      *      end, and n.
@@ -168,7 +168,7 @@ class ClampedCubicSpline extends Interpolation
      *
      * @throws Exception\BadDataException if $source is not callable or a set of arrays
      */
-    public static function getSplinePoints($source, array $args = []): array
+    public static function getSplinePoints($source, array $args): array
     {
         // Guard clause - source must be callable or array of points
         if (!(\is_callable($source) || \is_array($source))) {

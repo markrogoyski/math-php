@@ -109,7 +109,7 @@ class Distribution
      *
      * Similar to R: rank(values, ties.method='average')
      *
-     * @param array<mixed> $values to be ranked
+     * @param array<scalar> $values to be ranked
      *
      * @return array<float> Rankings of the data in the same order the values were input
      */
@@ -148,7 +148,7 @@ class Distribution
      *
      * Similar to R: rank(values, ties.method='min')
      *
-     * @param array<mixed> $values to be ranked
+     * @param array<scalar> $values to be ranked
      *
      * @return array<int> Rankings of the data in the same order the values were input
      */
@@ -184,7 +184,7 @@ class Distribution
      *
      * Similar to R: rank(values, ties.method='max')
      *
-     * @param array<mixed> $values to be ranked
+     * @param array<scalar> $values to be ranked
      *
      * @return array<int> Rankings of the data in the same order the values were input
      */
@@ -221,7 +221,7 @@ class Distribution
      *
      * Similar to R: rank(values, ties.method='first')
      *
-     * @param array<mixed> $values to be ranked
+     * @param array<scalar> $values to be ranked
      *
      * @return array<int> Rankings of the data in the same order the values were input
      */
