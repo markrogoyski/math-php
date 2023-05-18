@@ -12,7 +12,7 @@ style :
 	vendor/bin/phpcs --standard=tests/coding_standard.xml --ignore=vendor -s .
 
 phpstan :
-	vendor/bin/phpstan analyze --level max src/
+	vendor/bin/phpstan analyze -c tests/phpstan.neon
 
 phpmd :
 	vendor/bin/phpmd src/ ansi cleancode,codesize,design,unusedcode,naming

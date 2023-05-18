@@ -61,7 +61,7 @@ jobs:
       - name: Static analysis
         run: |
           ./vendor/bin/phpstan --version
-          ./vendor/bin/phpstan analyze --level max src/
+          ./vendor/bin/phpstan analyze -c tests/phpstan.neon
 
   code-coverage:
     name: Code coverage
