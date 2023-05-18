@@ -7,7 +7,7 @@ on:
       - master
 
 jobs:
-  test-and-static-analysis:
+  test-and-lint:
     name: Test and Static Analysis
     runs-on: ubuntu-latest
     strategy:
@@ -56,6 +56,34 @@ jobs:
         run: |
           ./vendor/bin/phpcs --version
           ./vendor/bin/phpcs --ignore=vendor --standard=tests/coding_standard.xml -s .
+
+  static-analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['7.4']
+
+    steps:
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+          tools: composer:v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Run Composer
+        run: composer install --no-interaction
 
       - name: Static analysis
         run: |
