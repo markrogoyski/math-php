@@ -471,8 +471,8 @@ class Correlation
      *    cov(rgᵪ, rgᵧ): covariance of the rank variables
      *    σᵣᵪ and σᵣᵧ:   standard deviations of the rank variables
      *
-     * @param array<mixed> $X values for random variable X
-     * @param array<mixed> $Y values for random variable Y
+     * @param array<int|float> $X values for random variable X
+     * @param array<int|float> $Y values for random variable Y
      *
      * @return float
      *
