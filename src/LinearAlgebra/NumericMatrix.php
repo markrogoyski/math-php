@@ -1266,7 +1266,6 @@ class NumericMatrix extends Matrix
      */
     public function multiply($B): NumericMatrix
     {
-        // @phpstan-ignore-next-line
         if ((!$B instanceof NumericMatrix) && (!$B instanceof Vector)) {
             throw new Exception\IncorrectTypeException('Can only do matrix multiplication with a Matrix or Vector');
         }
@@ -2906,7 +2905,6 @@ class NumericMatrix extends Matrix
     public function solve($b, string $method = self::DEFAULT): Vector
     {
         // Input must be a Vector or array.
-        // @phpstan-ignore-next-line
         if (!($b instanceof Vector || \is_array($b))) {
             throw new Exception\IncorrectTypeException('b in Ax = b must be a Vector or array');
         }

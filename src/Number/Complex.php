@@ -406,7 +406,6 @@ class Complex implements ObjectArithmetic
             return new Complex($new_r, $new_i);
         }
 
-        // @phpstan-ignore-next-line
         throw new Exception\IncorrectTypeException('Argument must be real or complex number');
     }
 

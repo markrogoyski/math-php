@@ -159,7 +159,7 @@ class ClampedCubicSpline extends Interpolation
      * @param callable|array<array<int|float>> $source
      *      The source of our approximation. Should be either
      *      a callback function or a set of arrays.
-     * @param array{callable, int|float, int|float, int|float}|array<mixed> $args
+     * @param array{callable, int|float, int|float, int|float} $args
      *      The arguments of our callback function: derivative,
      *      start, end, and n. Example: [$derivative, 0, 8, 5].
      *      If $source is a set of arrays, $args will default to [].
@@ -171,7 +171,6 @@ class ClampedCubicSpline extends Interpolation
     public static function getSplinePoints($source, array $args = []): array
     {
         // Guard clause - source must be callable or array of points
-        // @phpstan-ignore-next-line
         if (!(\is_callable($source) || \is_array($source))) {
             throw new Exception\BadDataException('Input source is incorrect. You need to input either a callback function or a set of arrays');
         }
@@ -239,7 +238,6 @@ class ClampedCubicSpline extends Interpolation
 
         $x_coordinates = [];
         foreach ($points as $point) {
-            // @phpstan-ignore-next-line
             if (\count($point) !== 3) {
                 throw new Exception\BadDataException('Each array needs to have have precisely three numbers, representing x, y, and y-prime');
             }

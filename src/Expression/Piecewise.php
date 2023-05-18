@@ -71,7 +71,6 @@ class Piecewise
             $lastB     = $b ?? -\INF;
             $lastBOpen = $bOpen ?? false;
 
-            // @phpstan-ignore-next-line (Strict comparison using !== between 2 and 2 will always evaluate to false.)
             if (\count(\array_filter($interval, '\is_numeric')) !== 2) {
                 throw new Exception\BadDataException('Each interval must contain two numbers.');
             }

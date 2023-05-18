@@ -219,7 +219,6 @@ class Significance
             return self::tTestTwoSample($a, $b);
         }
 
-        // @phpstan-ignore-next-line (Unreachable statement - code above always terminates.)
         throw new Exception\BadParameterException('Second parameter must be numeric for one-sample t-test, or an array for two-sample t-test');
     }
 
